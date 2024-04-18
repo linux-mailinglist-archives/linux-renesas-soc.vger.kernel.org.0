@@ -1,117 +1,169 @@
-Return-Path: <linux-renesas-soc+bounces-4708-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4709-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE3D98A9BA8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 15:52:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 048DC8A9C45
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 16:07:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DDDAD1C22F3E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 13:52:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 27BC61C217F0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 14:07:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F3621635DF;
-	Thu, 18 Apr 2024 13:52:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="RmxsbDgx"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FADF165FB7;
+	Thu, 18 Apr 2024 14:07:36 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652C26A8CA;
-	Thu, 18 Apr 2024 13:52:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA49E163A9B;
+	Thu, 18 Apr 2024 14:07:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713448356; cv=none; b=ZKjOrqTuJE/EF5vU2s7jauO22adZTTuNkzOviX7mgjlL7eXpUSWhAmth2wdN77XYEhWcOr+rBJr8j6Pckr0lc/qaqWrkxxW+mhTFeyCc1pIambwZoWf+U4jdIfDwHirru5c5D+gaTsQl0QIJ7xXHBqLIkwFdlGaz3zma6i0ST/U=
+	t=1713449256; cv=none; b=p981Rkktih034qIpQ1uhXMPPxOEjneOlPQgiwobNIk2pe+5YXlWZmBq8B+HTOIX7AYmcv+Vtngw/zln4Od91QKz1hv1DnY+atgZat7P0HNLecn7D6VTFAY9SDIoPQucyd9jBW0oraagKUl7PIDTe8CkDXlUncvFnOWyUPrVO89A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713448356; c=relaxed/simple;
-	bh=DFMBpvLg9bEM08JQ9ob6upTO1i+WiZqw2n6cDonSo4w=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=hkLPK5vSU7Qq1oCMXrswgANtXkRoEOkivWE8HPXRsi8HmUIENYbZi/bAkLl+XpSaD9NKBGffq3D9MXtSnB707scAflPYNu8JMHnNsAncAttM2XpQ5VrCdaN97XoLuq2DqfnQihtwFjdVbGTR+Yqit+dLkiTuxM8LXs7nX/l8D+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=RmxsbDgx; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C2C281BF209;
-	Thu, 18 Apr 2024 13:52:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1713448351;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8wUOi164P3lAmjE1ClSdezuP19LGck9A7BJ4c8R2rWo=;
-	b=RmxsbDgxhNpNQOPoFlayXDpwdP+tytqkGF2OJI6z52D3jvdH0BINaMaSOJABYa6/o6WxeC
-	ghog+bvm/6xdvqTf7B+xQM1u8PJB3QGicA2yN5ueeF17yS8iO+LMOt3yX/95A/69vx0wFU
-	cWHL5OJ6Vcw7APt18HuFE96l5gziHKoup8zj+aF3KookZJxRSzPjCOjoJAU1e0WxFzVysT
-	v/WQR3MUr8UJwvigXjjQu2WXU9bhHEg4YS9NtOcNTo94oqfGuwGimoaaP5yb6TJK1bx/Ff
-	aiZo6SsBfRs+qKWkz/kuZH1VCi7XUvW5NuGt7bGVzPZKfEQBmV9RD8UVbJaq/w==
-Date: Thu, 18 Apr 2024 15:53:07 +0200 (CEST)
-From: Romain Gantois <romain.gantois@bootlin.com>
-To: Serge Semin <fancer.lancer@gmail.com>
-cc: Romain Gantois <romain.gantois@bootlin.com>, 
-    "David S. Miller" <davem@davemloft.net>, 
-    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-    Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
-    Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-    Conor Dooley <conor+dt@kernel.org>, 
-    Geert Uytterhoeven <geert+renesas@glider.be>, 
-    Magnus Damm <magnus.damm@gmail.com>, 
-    Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-    Jose Abreu <joabreu@synopsys.com>, 
-    Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-    Russell King <linux@armlinux.org.uk>, 
-    =?ISO-8859-15?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>, 
-    Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
-    devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    linux-renesas-soc@vger.kernel.org, 
-    linux-stm32@st-md-mailman.stormreply.com, 
-    linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH net-next v3 4/5] net: stmmac: add support for RZ/N1
- GMAC
-In-Reply-To: <eqfta73ost45nbzz3aoa2tw5tasg3geehf4fgphu4teq5yfvar@ngif2e6j5j2k>
-Message-ID: <c99b452b-be35-3a67-1c87-042dbc5fce49@bootlin.com>
-References: <20240415-rzn1-gmac1-v3-0-ab12f2c4401d@bootlin.com> <20240415-rzn1-gmac1-v3-4-ab12f2c4401d@bootlin.com> <xp34tp5cjmdshefxjczltz2prqtiikagfspf4lobznzypvsyah@ihpmwfynwzhh> <232e3b0c-ca55-2da0-1c9f-47520a1bcfbd@bootlin.com>
- <eqfta73ost45nbzz3aoa2tw5tasg3geehf4fgphu4teq5yfvar@ngif2e6j5j2k>
+	s=arc-20240116; t=1713449256; c=relaxed/simple;
+	bh=FJF+jvoxE49NJphdMwIbdaNcFtOd2M9yRXYXL1Nazuo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=m84bjTkpU3vCfSw6TvVDYnwTCgLwU5TfEbPyvln6RiHzGZ/1ehJ2Q5nIdpZBIp+Jur9vgbIl8KbpBiREUb+p7dK9HXgazD7pIhRc5FJjh5Km1tlLYwzhlJgISHHNqPRhmjdveVfk9Ju5h/JX99t8l+WQ72JybW3z3YdhZ51FobI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6150670d372so8218647b3.1;
+        Thu, 18 Apr 2024 07:07:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713449248; x=1714054048;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=n9GRpmL+xi3CtBGop9v1/wYQ7wRylluWVZ65rgWaWfA=;
+        b=ViUB4DxnOmVgomgE3eBkZCNO9+rT+rCzY7e0eXR/HOzpwB8FAnwdP1CsVgB3tsdjvJ
+         bFvuklvHEXCTKRp2o1KIGFMM6kWaZnPuTNC/Y5a78cqyYQpv38abmyb1VwELnhhr8jya
+         ucYFCfW/iEN8zEmV+mAucoq1fJqXxb6TtuzXrJUQ9HVklyqwFdc/LHDz2YqRnC0orDun
+         IqLz8/aIJ6PqvzLfX5FBelhuHLCilotS0rPj6UjO5Q5eTmdT1owfKe9bugbRilZJ2RWH
+         6PDQRq/gp94HAxH9nfN9VEOZv15Isiwdw+mPXUMWFSpuRaF+g7Fmfy5Fbd6L30kS5TrP
+         5BVg==
+X-Forwarded-Encrypted: i=1; AJvYcCUXOvhkDc0KO84B4gQBGWr8f7DmzGMXQ/dgLG0DluS5NmggegTcD4BtiR78Fnm6EZbtN6RDFX2/jm2VvbvWXyzNPgDYmNe7d4uez7DZ9tGb54436Ygz3sIzklogpBc5JObYRu8Mkszxyf2+TtfWCYFbR7our+pjo3D8zqvs8jtDyy3Qr4OewOP24weX
+X-Gm-Message-State: AOJu0YxdEIglbNs3fui2q6rgYYX+VyFZHSz4HohLQPKnrMFt0hHfvxTF
+	TscRegja0cQ+yyv3hWZvkkFQCEynH6mXSmqfL73ZFdKXeWwbqqP/OGnWfxli
+X-Google-Smtp-Source: AGHT+IETZ9A5bwkSPR1uvldqDj2rqv7jLERHpIyVNrkIstnYrsKiSrT8hidyQDh8GzL/sKnPl3gWbA==
+X-Received: by 2002:a05:690c:690b:b0:615:1e99:bd6e with SMTP id if11-20020a05690c690b00b006151e99bd6emr3153185ywb.35.1713449248528;
+        Thu, 18 Apr 2024 07:07:28 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id i84-20020a0ddf57000000b00617cd7bd3a9sm339944ywe.109.2024.04.18.07.07.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Apr 2024 07:07:28 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-de45e5c3c84so968023276.1;
+        Thu, 18 Apr 2024 07:07:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU+n+qCl/ULOpw+jq/x/rAdjV37Utq4YF45D7aTUXnHQxZ4EXxYA0EENS/e7LkxtBlQV7jUfiq85jExp+F4+44GUa9YolTh6ftezv55A9H04vj4e5vSWrcFIjh/ZxRQ9q0KNpAOX/bdgvsF9InYvep8KhmqKreMnE+QjG6lgtkRk6YZ6RHX89kO+k9y
+X-Received: by 2002:a25:b115:0:b0:de4:5ec1:9ba2 with SMTP id
+ g21-20020a25b115000000b00de45ec19ba2mr2913597ybj.27.1713449247038; Thu, 18
+ Apr 2024 07:07:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-GND-Sasl: romain.gantois@bootlin.com
+References: <20240320104230.446400-1-claudiu.beznea.uj@bp.renesas.com> <20240320104230.446400-3-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20240320104230.446400-3-claudiu.beznea.uj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 18 Apr 2024 16:07:14 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXescaJ-V0iuXsxo=X-7RYTBR1W5+EXZCw_2VPHEFGzdA@mail.gmail.com>
+Message-ID: <CAMuHMdXescaJ-V0iuXsxo=X-7RYTBR1W5+EXZCw_2VPHEFGzdA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] pinctrl: renesas: rzg2l: Configure the interrupt
+ type on resume
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: linus.walleij@linaro.org, tglx@linutronix.de, biju.das.jz@bp.renesas.com, 
+	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 18 Apr 2024, Serge Semin wrote:
+Hi Claudiu,
 
-> On Thu, Apr 18, 2024 at 01:57:47PM +0200, Romain Gantois wrote:
-> > Hi Serge,
-> > 
-> > On Tue, 16 Apr 2024, Serge Semin wrote:
-> > 
-> > > > +static int rzn1_dwmac_pcs_init(struct stmmac_priv *priv,
-> > > 
-> > > > +			       struct mac_device_info *hw)
-> > > 
-> > > AFAICS hw is unused, and the mac_device_info instance is reached via
-> > > the priv pointer. What about dropping the unused argument then?
-> > 
-> 
-> > Unfortunately, this is an implementation of the pcs_init() callback, which is 
-> > also used by socfpga (see patch 4/6 in this series). The socfpga implementations 
-> > use the hw parameter for both pcs_init() and pcs_exit() so I can't remove it.
-> 
-> I had that patch content in mind when was writing my comment. There is
-> no point in passing the hw-pointer there either because you already
-> have the stmmac_priv pointer. There is stmmac_priv::hw field which you
-> can use instead in the same way as you do in this patch. Here is the
-> respective change for your SoCFPGA patch:
-> 
+On Wed, Mar 20, 2024 at 11:43=E2=80=AFAM Claudiu <claudiu.beznea@tuxon.dev>=
+ wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>
+> Commit dce0919c83c3 ("irqchip/renesas-rzg2l: Do not set TIEN and TINT
+> source at the same time") removed the setup of TINT from
+> rzg2l_irqc_irq_enable(). To address the spourious interrupt issue the set=
+up
+> of TINT has been moved in rzg2l_tint_set_edge() though
+> rzg2l_disable_tint_and_set_tint_source(). With this, the interrupts are
+> not properly re-configured after a suspend-to-RAM cycle. To address
+> this issue and avoid spurious interrupts while resumming set the
+> interrupt type before enabling it.
+>
+> Fixes: dce0919c83c3 ("irqchip/renesas-rzg2l: Do not set TIEN and TINT sou=
+rce at the same time")
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-You're right, I'll remove the parameter.
+Thanks for your patch!
 
-Thanks,
+> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> @@ -2045,7 +2045,9 @@ static void rzg2l_gpio_irq_restore(struct rzg2l_pin=
+ctrl *pctrl)
+>
+>         for (unsigned int i =3D 0; i < RZG2L_TINT_MAX_INTERRUPT; i++) {
+>                 struct irq_data *data;
+> +               unsigned long flags;
+>                 unsigned int virq;
+> +               int ret;
+>
+>                 if (!pctrl->hwirq[i])
+>                         continue;
+> @@ -2063,17 +2065,17 @@ static void rzg2l_gpio_irq_restore(struct rzg2l_p=
+inctrl *pctrl)
+>                         continue;
+>                 }
+>
+> -               if (!irqd_irq_disabled(data)) {
+> -                       unsigned long flags;
+> -
+> -                       /*
+> -                        * This has to be atomically executed to protect =
+against a concurrent
+> -                        * interrupt.
+> -                        */
+> -                       raw_spin_lock_irqsave(&pctrl->lock.rlock, flags);
+> +               /*
+> +                * This has to be atomically executed to protect against =
+a concurrent
+> +                * interrupt.
+> +                */
+> +               raw_spin_lock_irqsave(&pctrl->lock.rlock, flags);
+> +               ret =3D rzg2l_gpio_irq_set_type(data, irqd_get_trigger_ty=
+pe(data));
+> +               if (ret)
+> +                       dev_crit(pctrl->dev, "Failed to set IRQ type for =
+virq=3D%u\n", virq);
+> +               else if (!irqd_irq_disabled(data))
+>                         rzg2l_gpio_irq_enable(data);
+> -                       raw_spin_unlock_irqrestore(&pctrl->lock.rlock, fl=
+ags);
+> -               }
+> +               raw_spin_unlock_irqrestore(&pctrl->lock.rlock, flags);
+>         }
+>  }
 
--- 
-Romain Gantois, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+LGTM, but I'd rather move the dev_crit() outside (i.e. after) the
+critical section.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
