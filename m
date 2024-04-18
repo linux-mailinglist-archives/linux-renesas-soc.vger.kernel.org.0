@@ -1,147 +1,167 @@
-Return-Path: <linux-renesas-soc+bounces-4706-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4707-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF6958A9A92
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 14:59:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B26E68A9B3C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 15:26:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E0A321C21287
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 12:59:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E3CE01C2284F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 13:26:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2CA11411E4;
-	Thu, 18 Apr 2024 12:57:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B85415D5AE;
+	Thu, 18 Apr 2024 13:26:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VX7SseTS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dqQA7eu1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F15165FB4;
-	Thu, 18 Apr 2024 12:57:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D006415FA94;
+	Thu, 18 Apr 2024 13:26:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713445070; cv=none; b=oi4fdO5WmLf9SO4iHq5yO/yfSoTHOOe/ZSJEPVGuznRdiDSUUDpbERIdj/evudCjUxA4qSWfJsamsMqyURH90XGHf915igtRJ19aHoO7f+n4arP+uI+mjVqlTp+PJ2AtAWXXuK6svTedWDBzyZpgEVil1Dc/5QAeMNzRijTAwOU=
+	t=1713446776; cv=none; b=JOo04ZgO/we1hOV3m2dmvEW3BzqDVRfWbXHaiVv9nW4D1fQHQUkYi34+IuswbuWC5M0Ugvdn1lU/7Gc8qG02BMX1fQ31GckUK/YKj3LiqzYnBvM+vtOZfJuKPyi/hpv8m6pq1H+q0ZZhhRriY17pp8Eakx5QATgPlbheoeT5NV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713445070; c=relaxed/simple;
-	bh=mq0LVEhgLrutQcuF19JR7w3laIzCRdDcXlTvXzp+kR8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kCczj1KGN0CZD5Xr5Di+HgSSwPHc6o8ZYmjTwAPum89MeJJ4kdkU1IJzoSqH7pgiOrL426ylVvjjhy+HqnzmjbYL/ANPkjR9t4+N8kez9J7oML5CSzX7u9TKgyn6eesnHbMHkF42db1XDvaYlaHGuc70737IHEflp+v5X1K4sf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VX7SseTS; arc=none smtp.client-ip=209.85.208.178
+	s=arc-20240116; t=1713446776; c=relaxed/simple;
+	bh=W8loeJgPBjnjnkzn24m+LbcwcKGo+/TYQDyUzZ/j8q0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kdV+ZpyWPsSL39h5XXz1UyVxiVTanUZr8l2I0UCUdAIB7hdoxbGb5+IcsSnivO5dy+jJ8RLghyT3Amm2Q8R31WVflXBXBTrL/e+wtmp9RRMPwL8bJfy7haQlxvVO7uUgAS7sR7WTlxJAE2pdp5zFfBzFxtbKmlvOhNMa6KodDh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dqQA7eu1; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2da0f8f7b24so9948741fa.1;
-        Thu, 18 Apr 2024 05:57:48 -0700 (PDT)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-418c2bf2f55so6267125e9.2;
+        Thu, 18 Apr 2024 06:26:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713445067; x=1714049867; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=H7TvlJDHh6PM8Lai+72isa4pBtCMtiwvjV7L+/XlE4U=;
-        b=VX7SseTSyaorQla78jmVqGvTMcrIOP9x4/fUZGjX+cwsRV2ZqVveFXYM0ufThK/PvQ
-         W2ck8Lx3KSVk8IZju/2XUH3E55UL+W3ui1keDu1xcMIw3PxYtedXBicYwVkujnei5mx2
-         yaRPQseRLy4J1qbn/6mcM3vRozqEqEXhcYeKV9VtZxihF1OMgAv9GzqfhgYN3FpXCkU/
-         8EfH4l2HQvmOIy0AcKedgwMGmELCJbpnXu32g1Uarz7NJiWFFH+HNSNW1sXnIK5XM7X6
-         PriS8U4FRITTDFkMpi7EN/ZceESsCNpB3Wr23gsUbpegWJIhv1112iGpjBxg4Fxd4BzW
-         Ge7w==
+        d=gmail.com; s=20230601; t=1713446773; x=1714051573; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lAjezbYFk4kRuwBAyZVCH+a9cPM1rylHv2qjz+E2Bv8=;
+        b=dqQA7eu1t6NUDnFvDRM/uT6RukUzyUVJ6ZwiaWrzJ6c/YiBiVE5gylPyyTN4SHY4Jd
+         KkZi+N1QLyNirA75Iw7Xy4ORDaa31mPyQV39F4pJZ2lX6gKLh1K880EV6JVftJVh0Gb6
+         aJo7g/uDUUzzZDxcfIqCTli/EK+QWYvj2wLS7rfsplu5OdkzsZs9jkshimvIyXXhCAp3
+         9bJ7pgRqzuvLCm+7UiMXH/8bTEzRttZ0xtW7yUPqoRTL24FTEKST45oPg9WsIJD0DZUE
+         G8wIAlmvHHQrFdyDLa6BRLUnn2V90HtWuZPNRql21gZDjuxAsSoToB6l9MuJCv7+GmLv
+         kBVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713445067; x=1714049867;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H7TvlJDHh6PM8Lai+72isa4pBtCMtiwvjV7L+/XlE4U=;
-        b=p1eEfi9DTFqs/u7iBa0sGVkHeh0vAOtx4OgmQ9hZyVXgrvhkm9dydCIX6t8IQV/p5+
-         lAHgUbbwGMO7CXCTFKC0Go3hCLwdHMhAIklfFKoIkgIOZbDYKz0Tk029rGyEdOcWEz43
-         ELAEXHXcWq6+JoPv7Umk+CG+tm4PebIH0Cazx/wdebYelCsrH96rotChM6GKG4O5R67y
-         iPAMDqm33oZiaIadXPsNZ+jj80wwH/WlZZYNIWq/NSw1R0i0zrNMusegYzKhFXvCHQNY
-         9owkO9/DmdXfsIKaPfMa8fUFaIS96zsVqYaHccMfUUDT4wVGOkrsBhqPry7PrOoBp6we
-         jo2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXYDnvHB3pc9CU1qKKFK4kkY1sC2lYlqI2rQbVuBo435GGuyRs4dH546nvIE0uzlMn6JPkNXHVm32K4QHgqLfBD9Bk00GAJg0z4jaKHqviNCmJJ6FKK13ihkV2oAZpVZ7vptlNlbaEDMI+y0MgKKWhHk78/YTSndxaakTh8WtC1ReG/kDh9P8gw1j97u0WAaoPQKR2x2FXE/DRj9g7JJvHAA+3I
-X-Gm-Message-State: AOJu0YxHIvJQ0XPwlI+v1D1GvRFLA5KS2jyaGRn/s6ldg6Hikde0SEpe
-	jUs+3gQo8a3sCT2qqPLtYxbaO0bE5HMRd4PcBrYLaJ4eq7+UCSUU
-X-Google-Smtp-Source: AGHT+IHfKLq2UzaMXO/4uNIuhb8wjwhcxG7kZvjOwkPLDKwcLA+nxELTBqKKXudYnYTNlpQpw0rHVQ==
-X-Received: by 2002:a2e:9f17:0:b0:2d7:1a35:d580 with SMTP id u23-20020a2e9f17000000b002d71a35d580mr683715ljk.15.1713445067067;
-        Thu, 18 Apr 2024 05:57:47 -0700 (PDT)
-Received: from mobilestation.baikal.int (srv1.baikalchip.ru. [87.245.175.227])
-        by smtp.gmail.com with ESMTPSA id f23-20020a2eb5b7000000b002d88804b368sm190667ljn.43.2024.04.18.05.57.46
+        d=1e100.net; s=20230601; t=1713446773; x=1714051573;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lAjezbYFk4kRuwBAyZVCH+a9cPM1rylHv2qjz+E2Bv8=;
+        b=U0MNd15k5+U3TOuzJDXY+ua0vUJ6phPbjgEUZ7hbv/Z7BNsz8w9HZgdyD72zyBNJO8
+         cUQVpmO7yyp8JXzyAc3SjPjlOl/W6ajvettzWkXMeiuFZDTSG16lwrnJBDym/oqfSSWF
+         j2byJoYuPaCPWXtsfv6JykRggYfkMX6jZjAZoRSAuYj06GErj+Po4DuLV+lDFZcom3i/
+         BLaXQje5B4J/LOBGagqmLtK+0y9Y03e0K/hghFs0s2+BO+aPZyHNomecokivXGCgmSc4
+         LaaoORymL0ySuXxvq6Ku7UewbhbUZgkRxrcST3vLpsOjx12xa5EPe2Ljnj4iCTv+PxsX
+         w9UA==
+X-Forwarded-Encrypted: i=1; AJvYcCUYE8zaoQw65T88IGPBnZtqrocRy74iUxKkN+0Pt60YAAMQ08/NUrq2ukabfucSUwd1/HMLOP5M7N73gKbVLE9TsY9OHmlRb75TmueRgyXtFYI=
+X-Gm-Message-State: AOJu0Yy4OWuPpRkdAJblbqu3NuCmbTQKaXNAosMrAGUSXk/c6YNqL91L
+	NDKRrfBq295QhcKqmFum79zwxYxRtK2rO6YtpOJ/Dht5kEr4uaUZ
+X-Google-Smtp-Source: AGHT+IHxYO+QfxTRPoNL7RDTcNFo5mTVb9cQ2OcGI4ZiHygN0wUQzL0DbxYZeODNTK6uvRDv7tT/Lw==
+X-Received: by 2002:a05:6000:927:b0:341:bfe2:4509 with SMTP id cx7-20020a056000092700b00341bfe24509mr1511694wrb.42.1713446772752;
+        Thu, 18 Apr 2024 06:26:12 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
+        by smtp.gmail.com with ESMTPSA id t15-20020adfeb8f000000b00349ff2e0345sm1853396wrn.70.2024.04.18.06.26.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Apr 2024 05:57:46 -0700 (PDT)
-Date: Thu, 18 Apr 2024 15:57:44 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
-To: Romain Gantois <romain.gantois@bootlin.com>
-Cc: "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	=?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	netdev@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH net-next v3 4/5] net: stmmac: add support for RZ/N1 GMAC
-Message-ID: <eqfta73ost45nbzz3aoa2tw5tasg3geehf4fgphu4teq5yfvar@ngif2e6j5j2k>
-References: <20240415-rzn1-gmac1-v3-0-ab12f2c4401d@bootlin.com>
- <20240415-rzn1-gmac1-v3-4-ab12f2c4401d@bootlin.com>
- <xp34tp5cjmdshefxjczltz2prqtiikagfspf4lobznzypvsyah@ihpmwfynwzhh>
- <232e3b0c-ca55-2da0-1c9f-47520a1bcfbd@bootlin.com>
+        Thu, 18 Apr 2024 06:26:12 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [RFC PATCH] reset: Add devm_reset_control_deassert helper
+Date: Thu, 18 Apr 2024 14:26:02 +0100
+Message-Id: <20240418132602.509313-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <232e3b0c-ca55-2da0-1c9f-47520a1bcfbd@bootlin.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 18, 2024 at 01:57:47PM +0200, Romain Gantois wrote:
-> Hi Serge,
-> 
-> On Tue, 16 Apr 2024, Serge Semin wrote:
-> 
-> > > +static int rzn1_dwmac_pcs_init(struct stmmac_priv *priv,
-> > 
-> > > +			       struct mac_device_info *hw)
-> > 
-> > AFAICS hw is unused, and the mac_device_info instance is reached via
-> > the priv pointer. What about dropping the unused argument then?
-> 
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-> Unfortunately, this is an implementation of the pcs_init() callback, which is 
-> also used by socfpga (see patch 4/6 in this series). The socfpga implementations 
-> use the hw parameter for both pcs_init() and pcs_exit() so I can't remove it.
+A typical code pattern for reset_control_deassert() call is to call it in
+the _probe function and to call reset_control_assert() both from _probe
+error path and from _remove function.
 
-I had that patch content in mind when was writing my comment. There is
-no point in passing the hw-pointer there either because you already
-have the stmmac_priv pointer. There is stmmac_priv::hw field which you
-can use instead in the same way as you do in this patch. Here is the
-respective change for your SoCFPGA patch:
+Add helper function to replace this bolierplate piece of code. Calling
+devm_reset_control_deassert() removes the need for calling
+reset_control_assert() both in the probe()'s error path and in the
+remove() function.
 
-+static int socfpga_dwmac_pcs_init(struct stmmac_priv *priv,
-+				  struct mac_device_info *hw)
+Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ drivers/reset/core.c  | 22 ++++++++++++++++++++++
+ include/linux/reset.h |  6 ++++++
+ 2 files changed, 28 insertions(+)
+
+diff --git a/drivers/reset/core.c b/drivers/reset/core.c
+index dba74e857be6..a2a6eff8e599 100644
+--- a/drivers/reset/core.c
++++ b/drivers/reset/core.c
+@@ -592,6 +592,28 @@ int reset_control_deassert(struct reset_control *rstc)
+ }
+ EXPORT_SYMBOL_GPL(reset_control_deassert);
+ 
++static void reset_control_assert_action(void *rstc)
 +{
-...
++	reset_control_assert(rstc);
++}
 +
-+	priv->hw->phylink_pcs = pcs;
++/**
++ * devm_reset_control_deassert - devres-enabled version of reset_control_deassert()
++ * @dev: device that requests the reset control
++ * @rstc: reset controller
++ */
++int devm_reset_control_deassert(struct device *dev, struct reset_control *rstc)
++{
++	int ret;
++
++	ret = reset_control_deassert(rstc);
++	if (ret)
++		return ret;
++
++	return devm_add_action_or_reset(dev, reset_control_assert_action, rstc);
++}
++EXPORT_SYMBOL_GPL(devm_reset_control_deassert);
++
+ /**
+  * reset_control_bulk_deassert - deasserts the reset lines in reverse order
+  * @num_rstcs: number of entries in rstcs array
+diff --git a/include/linux/reset.h b/include/linux/reset.h
+index 514ddf003efc..e41e752ba098 100644
+--- a/include/linux/reset.h
++++ b/include/linux/reset.h
+@@ -31,6 +31,7 @@ int reset_control_reset(struct reset_control *rstc);
+ int reset_control_rearm(struct reset_control *rstc);
+ int reset_control_assert(struct reset_control *rstc);
+ int reset_control_deassert(struct reset_control *rstc);
++int devm_reset_control_deassert(struct device *dev, struct reset_control *rstc);
+ int reset_control_status(struct reset_control *rstc);
+ int reset_control_acquire(struct reset_control *rstc);
+ void reset_control_release(struct reset_control *rstc);
+@@ -91,6 +92,11 @@ static inline int reset_control_deassert(struct reset_control *rstc)
+ 	return 0;
+ }
+ 
++static inline int devm_reset_control_deassert(struct device *dev, struct reset_control *rstc)
++{
 +	return 0;
 +}
 +
-+static void socfpga_dwmac_pcs_exit(struct stmmac_priv *priv,
-+				   struct mac_device_info *hw)
-+{
-+	if (priv->hw->phylink_pcs)
-+		lynx_pcs_destroy(priv->hw->phylink_pcs);
-+}
+ static inline int reset_control_status(struct reset_control *rstc)
+ {
+ 	return 0;
+-- 
+2.34.1
 
--Serge(y)
-
-> 
-> Thanks,
-> 
-> -- 
-> Romain Gantois, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
 
