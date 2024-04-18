@@ -1,118 +1,109 @@
-Return-Path: <linux-renesas-soc+bounces-4700-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4701-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9CC88A9643
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 11:35:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDCD88A9669
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 11:41:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 78CAB1F230AC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 09:35:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 98D701F22D8F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 09:41:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9605515ADB0;
-	Thu, 18 Apr 2024 09:34:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F12115B121;
+	Thu, 18 Apr 2024 09:41:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2757C15991E;
-	Thu, 18 Apr 2024 09:34:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C6715B109;
+	Thu, 18 Apr 2024 09:41:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713432894; cv=none; b=ktA716Oc2gY3B8x2y1qcfl6ysN3wXmVNPc2XR3ePp5r/4ySg8vgggQYDsnZxdt7INWsWyw/njsRbta6ofHecOlNP170bmMkWH9IGs8Xljg69xsdetBmzi8wgb14IiKtApWHTQXptJXAWWDSR52yLw0IR6yiDz5+T4sHW2db/mIs=
+	t=1713433269; cv=none; b=Cu7mzS2CoN5cTlidR7aa6BNiEIEMipFIuYcmKxYteYaMLSyPgGkNlXRXw1kQIIbEUZfAaKdn7qXVb0bIJPWiOmcpQrBr+FJsUMVS/xSsCGr/HcaMoL8acylkCCJ4iRbW72e06y7/5W6n/OOVDPhdFzPIrMNRUmvFtnREmo2tm5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713432894; c=relaxed/simple;
-	bh=nW+RxFXIJffeGeLp2lJlID7nfuAFbwLIQajDYRcl63M=;
+	s=arc-20240116; t=1713433269; c=relaxed/simple;
+	bh=X7mmMSW7WStS5uGM2nHr9Jyj4I7qxPWCtETwdZg8xmQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JE4Rs09C+7vHIntIM5JC1Iq2HgT8Bk9nCkgOZhwKuocwbfMW8xvZU5bPNu0xbFPkGmhRjWG5vqP6phnZYiAKyhos0mGlh6ThcRYZXBVU0lndq14FckP+CGjb3CcQxGY15j8T4YEyCpi2ZwIfVpGJROdgBh0cnlArEbJifG+Efxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.182
+	 To:Cc:Content-Type; b=pu4+REh1C+/6B94XAGypToVLun34asbth/z2vesmCkOaOd2c97m6E6DVRqQxRqQuZmZ1oZGo6TnswHrnn7dTYvYUGQoRN0saoXlfERlW7DBxKbBto2Pc6y3lruBJKMF1G3BaahCfrdnue3+S9okQVm5DJiliUFEQBE81SdqsF5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-de45e5c3c84so679959276.1;
-        Thu, 18 Apr 2024 02:34:52 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-61acfd3fd3fso6439747b3.1;
+        Thu, 18 Apr 2024 02:41:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713432891; x=1714037691;
+        d=1e100.net; s=20230601; t=1713433265; x=1714038065;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WKeCkhXcVcL+wVa8viqGB7N6ji7Cb4daNtIF2XPG4H4=;
-        b=FA48MAdH7wnST+tq4dLDFZYLcY5POpPLvWf7qyJYN4RYeCCpnEn3JQIQ0xvjaHTVfa
-         hDgO+3caGzfoJmRuBLXKLd5sSo7wgWX3t+13UpB2QuVUo4minUcE/X1j/YGp+vfTnHem
-         YBf4Ewl/ygyRCG1Gc4ET7qJ9eQFVqVMVFesQGAn4djhQoDYCwQWP6vhd3vh8bS78srSW
-         hRWSwE8z6L9dmFiDJnznA2box0VpjC+8WOjxCzfkJ4LowypMG6eHO6GaZjtkPHdOGiTR
-         KAFXBLvHYo063I8K14lmnEtlhMjrxJ1mndVel5EU7P0byLtjvvoYKXTDZcr/sP17eAe/
-         F7jA==
-X-Forwarded-Encrypted: i=1; AJvYcCWqyMQz3zAjk3WRAP2k71kIlZucCWvJVvivN4BzsN03kJwX7DGV8NLaYYbjZxTFfD01DzuXtgnyUyd74SFI46TXwVx7s+nTKCVvGZPf5YwsrL/oRHIC3aDwn+2+HMXnfZn3yRBNbVgQUPTCmQ==
-X-Gm-Message-State: AOJu0YzxwfrHeXMgoz+PVrkpA6VpCDmaq7U0feWEIOt1/bd1je6dnEAI
-	a6AtR3QXfv3sTmlQF6bNMJ/mRDrLJl8nCXYpmz4c/1+wZ+VAx7spV8U4XX5r13k=
-X-Google-Smtp-Source: AGHT+IFxRaFPuY9HLM/8tGNXpNmDu0F3p5RhnPh2S8RnJeRncUZlE4dbBNV5Rm3VOkNFxOZvaCximg==
-X-Received: by 2002:a05:6902:510:b0:dcf:3580:8bc3 with SMTP id x16-20020a056902051000b00dcf35808bc3mr1899719ybs.23.1713432891231;
-        Thu, 18 Apr 2024 02:34:51 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id ck13-20020a05690218cd00b00de45d421915sm278065ybb.46.2024.04.18.02.34.48
+        bh=kkbR5FG9nHCaDQQ83/fhCPl692MGBzI0gOcU1PXseUQ=;
+        b=nYXdEE43IhQ0T+43wzBAEjMNSxggzS7nmbjKVjEZ8k3uLBOM2epVN+oyVrvTxwBt1j
+         B+VqflqEHyT0KOwQ4hAUiLtzHGCyIQn5mNOpN1MSkdBkiVWayQdVD+hDCFEMhhWRV/0t
+         95GMfTXCQ3HiN1HfQCQb5R6ou8hF48glPwufu5IuH8lR0gwua51vC0psPCoas3aLAQPw
+         oZnBuRgtoZYMcmTGqrZLuYEp5KAtfKQU3juJ60CeEp4qmDux5LhsdnugLtIwBVSDYGT4
+         UWLjFtvyMsKPQkKm86r9hq4PB98YyYFG1aNYQMqWmd1+4GD9Srn1hQ9OM9lE2hGfGmdO
+         UTnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXVEAasNiKcb72O6m7MlG4OJj/TCkcsEAji4RtPrI6Bvvl44ycy7DgC6v2aiT6wiXn8wl+JBJzMPqPAYHuXBSlxbbWMHDVgdbzSol3TCJZOkTUB/+x/cnCmiSmhbFK75YNcw0tDBLXR8c1WcKpMiuKd2xsRra4u/QTxo7Sxc4KVAPq6RwBFS6i1NUpH6jAwdidnll9r0cVXSk9KKKL8KdUUqUxB
+X-Gm-Message-State: AOJu0YxNeX/5VX/+rsBOuA/3H/csqzCQizu5hq94Pc/WwFshO+Ra4eHh
+	sP03UFHxZcJPmDeU99cyujtyqst3Ij0OgggNxWTbnBQTACGzQkraT5DPXE1DtiI=
+X-Google-Smtp-Source: AGHT+IEn54X5uiU3BE/DsxoFMqWcHS+NO5BYsT3yK2uQg5vWljAHSopORNAwPm2fiBzKzrL40NJJ4Q==
+X-Received: by 2002:a05:690c:6082:b0:60a:6ad0:6c72 with SMTP id hg2-20020a05690c608200b0060a6ad06c72mr2230224ywb.36.1713433265624;
+        Thu, 18 Apr 2024 02:41:05 -0700 (PDT)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
+        by smtp.gmail.com with ESMTPSA id g125-20020a0ddd83000000b0061b06ae1d09sm261308ywe.29.2024.04.18.02.41.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Apr 2024 02:34:50 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-617d25b2bc4so6022547b3.2;
-        Thu, 18 Apr 2024 02:34:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVpFP7dqWgHq5am4WDBBIFATQDmQ1VMW/F+/AT/7zK6qSODPOswb+JKgOhFhw1C1mgJ51CDkstYQCtymhS+rrxLG1ql03JaO+bV395aWwChqPCh20uFkNcPgov0O4mqWylRnpxJPQ4A8MBeCw==
-X-Received: by 2002:a05:690c:62c4:b0:615:9a1:602b with SMTP id
- hn4-20020a05690c62c400b0061509a1602bmr1978617ywb.44.1713432888026; Thu, 18
- Apr 2024 02:34:48 -0700 (PDT)
+        Thu, 18 Apr 2024 02:41:04 -0700 (PDT)
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-de45385a1b4so749987276.3;
+        Thu, 18 Apr 2024 02:41:04 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVwYCQt7oozfMLbG4YCH4/ioBH2L9rZZwTwfs7cZgBWfVcRKB36P6MjENpsPUP9aGxaudpftg/CX6Xrt/qARjs+nTwIun9sZZWlf4Pw3jnRD2gKOQZGWlL2eUU1QN1EbGpjGpGHtFyXd6SeHW/YpXPYqoOnXaHW+Ux1NzYyVCyXaIlhyOPdi3Mqn+IU8YXxdj8iIAT2HQSwoMLBhP2EmPvrBB0V
+X-Received: by 2002:a25:4a46:0:b0:de0:de85:e388 with SMTP id
+ x67-20020a254a46000000b00de0de85e388mr1985378yba.24.1713433264294; Thu, 18
+ Apr 2024 02:41:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240327133013.3982199-1-niklas.soderlund+renesas@ragnatech.se> <20240327133013.3982199-3-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20240327133013.3982199-3-niklas.soderlund+renesas@ragnatech.se>
+References: <20240415-rzn1-gmac1-v3-0-ab12f2c4401d@bootlin.com> <20240415-rzn1-gmac1-v3-1-ab12f2c4401d@bootlin.com>
+In-Reply-To: <20240415-rzn1-gmac1-v3-1-ab12f2c4401d@bootlin.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 18 Apr 2024 11:34:36 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUJJXrd0++ep6RBikBCrBqh0oQvVV9_diR=VuDiEVmUzg@mail.gmail.com>
-Message-ID: <CAMuHMdUJJXrd0++ep6RBikBCrBqh0oQvVV9_diR=VuDiEVmUzg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] thermal: rcar_gen3: Update temperature
- approximation calculation
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, linux-pm@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
+Date: Thu, 18 Apr 2024 11:40:52 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUZJf=mL4bNik6ausMi9jOb9DegwX4ovLjdVLmnf7Sobg@mail.gmail.com>
+Message-ID: <CAMuHMdUZJf=mL4bNik6ausMi9jOb9DegwX4ovLjdVLmnf7Sobg@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 1/5] dt-bindings: net: renesas,rzn1-gmac:
+ Document RZ/N1 GMAC support
+To: Romain Gantois <romain.gantois@bootlin.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	=?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 27, 2024 at 2:30=E2=80=AFPM Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> The initial driver used a formula to approximate the temperature and
-> register values reversed engineered from an out-of-tree BSP driver. This
-> was needed as the datasheet at the time did not contain any information
-> on how to do this. Later Gen3 (Rev 2.30) and Gen4 (all) now contains
-> this information.
+On Mon, Apr 15, 2024 at 11:18=E2=80=AFAM Romain Gantois
+<romain.gantois@bootlin.com> wrote:
+> From: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
 >
-> Update the approximation formula to use the datasheet's information
-> instead of the reversed-engineered one.
+> The RZ/N1 series of MPUs feature up to two Gigabit Ethernet controllers.
+> These controllers are based on Synopsys IPs. They can be connected to
+> RZ/N1 RGMII/RMII converters.
 >
-> On an idle M3-N without fused calibration values for PTAT and THCODE the
-> old formula reports,
+> Add a binding that describes these GMAC devices.
 >
->     zone0: 52000
->     zone1: 53000
->     zone2: 52500
->
-> While the new formula under the same circumstances reports,
->
->     zone0: 52500
->     zone1: 54000
->     zone2: 54000
->
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
-> ---
-> * Changes since v1
-> - Fix spelling in commit message and code comments.
-> - Improve calculation per Geert's suggestion of calculating directly in
->   decidegrees. This allowed squashing patch 3/3/ in v1 into patch 2/2 in
->   v2.
+> Signed-off-by: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
+> [rgantois: commit log]
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
 
+LGTM, so
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
