@@ -1,58 +1,57 @@
-Return-Path: <linux-renesas-soc+bounces-4718-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4719-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B638AA212
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 20:32:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98AAC8AA21B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 20:35:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 71347282342
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 18:32:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4DBDA1F217AE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 18:35:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97CBF15DBA2;
-	Thu, 18 Apr 2024 18:32:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8D3316C438;
+	Thu, 18 Apr 2024 18:35:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D0hbyUyr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h3ijDpKv"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F88D4F8A3;
-	Thu, 18 Apr 2024 18:32:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F7133D62;
+	Thu, 18 Apr 2024 18:35:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713465131; cv=none; b=LOr1ci1UU9eJp8nYvKOdH1y8vmmkJoIkjf72ODbU5s8VyV8EdZd3vTXYEqgyh2hZiZBKZY95Adx4CQsaMsHi0hqpP07tyVMEgRJDOstn4SSfqZ7eM8qz1zg7oKR74ZvpGDc2R9c6Bnk2gGmvu0h8YSv6tz+aqLGBXR01mOoIaUk=
+	t=1713465349; cv=none; b=bCV0SHw8RlAztifAAUPLhozCJOltmt8CKCKiWuzOWbFVQ36M/taOjGKGhw7KoFYpTsUrSL2HfKhEcGi6FIiSzrcepVdbSz9On1fjb45bNh7ygqVMb3fTT/veghrGgxGW5ljAfWNo284YGjzBZDHrmj7R8SpWZsVhbrJgv/ShVGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713465131; c=relaxed/simple;
-	bh=7sczPp8/SmE/hE0h09WAHN4ww6pQIJKKLQzot8pmz1g=;
+	s=arc-20240116; t=1713465349; c=relaxed/simple;
+	bh=KV8JSooMa4OX5xetB7ccSt0dadeQ9ph7gDSPTOEbIr8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=anrC0Ws1DB1p025qYn1rRU9/OVI/zBAoKU5zkg+CJOOKDmO0ZPhrBEiOsvfQYOrNWqSMV0ypTpFiD99sZw5IbK6RO7g0SZL/BviXGOirFD5HLrsmsd/glTqabu000e/W9pGQJ+9Awghl4+pvm/6Nlbjye5iRp4iIyVJd37dv3rM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D0hbyUyr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A252C113CC;
-	Thu, 18 Apr 2024 18:32:09 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=o3vwMK2av81E06kad6thoPQgJ9dJumW2P6daIu18aG1PRPRDsoeehww2Lkgy6f8Z9d3xyxS5/7pSCsZVEvG0b/C7h6hIru/T/FY6uQ7LxfTS6gnRGEFZvLure1YB+2SAOmFsYg4t58Dc8KEiy2GpBNJCmsyqx0CH0Dy75hC4znE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h3ijDpKv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C2FAC113CC;
+	Thu, 18 Apr 2024 18:35:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713465131;
-	bh=7sczPp8/SmE/hE0h09WAHN4ww6pQIJKKLQzot8pmz1g=;
+	s=k20201202; t=1713465349;
+	bh=KV8JSooMa4OX5xetB7ccSt0dadeQ9ph7gDSPTOEbIr8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=D0hbyUyruW91HfTrk/OeOt++hOlJ1MdUe1Ja1sVyu41OqD3EMdJFL8dvcUBJ/t6yJ
-	 ektpOJOmK3gjLn3SI/PVsCvnHz444bI6bdM5eCht3lIGboP1N8sTa+OUMViWTYBwBG
-	 vYkGLpvb/psvLzxOGwBFUr/tQnCcC1/VLics6GKtMjt+aB0KVsmmuEZK43lR6PaCYh
-	 wpRtSfsRjCO3yyXilD9qcN1HZ1gAnkT2mlxKHO4hcewXTO5Tcgom0Zu9PClxdHk/2K
-	 0QANbg5ASzm2MjEpiZ/WZeHbuR4sb1/G30OP+k+LxQxVuXxGCIXOI3+1awOY4DoRa+
-	 qJKmHl0E7+ETw==
-Date: Thu, 18 Apr 2024 19:32:07 +0100
+	b=h3ijDpKvaNZHUWrm63Hqtr+tleaf0dH/AKVB7YM8gMVIkLHlxUtwlGaTTosKy0CSE
+	 Ugn89EnNrYV8eS6vpwy+AQQE9MEkcr2uUop6UeZ+qxAof+1Dj25QHfRToCzeGmGeMz
+	 6eAB6bTguYXOxsKalXfJa8/xoKF88dr+DCQ5nNNQmtRqr2XVIfYCxufuDkefZQwhbS
+	 essau1LCs7WVQe5XZaZknyA9eJMsFW9eCCUlBAW8WKTqqeRriz+9qstUF1q2rvT94d
+	 vCebvmnrTd6Bq41ZytM6ZNTLsvfJqVCvLRWy6VHZKcL0F1kZvcjS4yeaJzSg1Wbthz
+	 UvgLOHreTx2ig==
+Date: Thu, 18 Apr 2024 19:35:45 +0100
 From: Simon Horman <horms@kernel.org>
 To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Arnd Bergmann <arnd@arndb.de>
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Subject: Re: [net-next] net: ethernet: rtsn: Add support for Renesas
  Ethernet-TSN
-Message-ID: <20240418183207.GL3975545@kernel.org>
+Message-ID: <20240418183545.GN3975545@kernel.org>
 References: <20240414135937.1139611-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -65,8 +64,6 @@ Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 In-Reply-To: <20240414135937.1139611-1-niklas.soderlund+renesas@ragnatech.se>
 
-+ Arnd
-
 On Sun, Apr 14, 2024 at 03:59:37PM +0200, Niklas Söderlund wrote:
 > Add initial support for Renesas Ethernet-TSN End-station device of R-Car
 > V4H. The Ethernet End-station can connect to an Ethernet network using a
@@ -77,74 +74,49 @@ On Sun, Apr 14, 2024 at 03:59:37PM +0200, Niklas Söderlund wrote:
 
 ...
 
-> diff --git a/drivers/net/ethernet/renesas/Kconfig b/drivers/net/ethernet/renesas/Kconfig
-> index b03fae7a0f72..ea4aca5f406f 100644
-> --- a/drivers/net/ethernet/renesas/Kconfig
-> +++ b/drivers/net/ethernet/renesas/Kconfig
-> @@ -58,4 +58,15 @@ config RENESAS_GEN4_PTP
->  	help
->  	  Renesas R-Car Gen4 gPTP device driver.
->  
-> +config RTSN
-> +	tristate "Renesas Ethernet-TSN support"
-> +	depends on ARCH_RENESAS || COMPILE_TEST
-
-Hi Niklas,
-
-I think that the use of __iowbm() means that this will not
-compile for many architectures: grep indicates it
-is only defined for arm, arm64, and arc.
-
-Perhaps COMPILE_TEST should be qualified somehow?
-
-> +	depends on PTP_1588_CLOCK
-> +	select CRC32
-> +	select MII
-> +	select PHYLIB
-> +	select RENESAS_GEN4_PTP
-> +	help
-> +	  Renesas Ethernet-TSN device driver.
-> +
->  endif # NET_VENDOR_RENESAS
-
-...
-
-> diff --git a/drivers/net/ethernet/renesas/rtsn.c b/drivers/net/ethernet/renesas/rtsn.c
->
-
-...
-
-> +static int rtsn_poll(struct napi_struct *napi, int budget)
+> +static int rtsn_mii_register(struct rtsn_private *priv)
 > +{
-> +	struct rtsn_private *priv;
-> +	struct net_device *ndev;
-> +	unsigned long flags;
-> +	int quota = budget;
+> +	struct platform_device *pdev = priv->pdev;
+> +	struct device *dev = &pdev->dev;
+> +	struct device_node *mdio_node;
+> +	struct mii_bus *mii;
+> +	int ret;
 > +
-> +	ndev = napi->dev;
-> +	priv = netdev_priv(ndev);
+> +	mii = mdiobus_alloc();
+> +	if (!mii)
+> +		return -ENOMEM;
 > +
-> +	/* Processing RX Descriptor Ring */
-> +	if (rtsn_rx(ndev, &quota))
-> +		goto out;
+> +	mdio_node = of_get_child_by_name(dev->of_node, "mdio");
+> +	if (!mdio_node) {
+> +		ret = -ENODEV;
+> +		goto out_free_bus;
+> +	};
+
+nit: the ';' is not needed on the line above.
+
+Flagged by Coccinelle.
+
 > +
-> +	/* Processing TX Descriptor Ring */
-> +	spin_lock_irqsave(&priv->lock, flags);
-> +	rtsn_tx_free(ndev, true);
-> +	netif_wake_subqueue(ndev, 0);
-> +	spin_unlock_irqrestore(&priv->lock, flags);
+> +	mii->name = "rtsn_mii";
+> +	sprintf(mii->id, "%s-%x", pdev->name, pdev->id);
+> +	mii->priv = priv;
+> +	mii->read = rtsn_mii_read;
+> +	mii->write = rtsn_mii_write;
+> +	mii->read_c45 = rtsn_mii_read_c45;
+> +	mii->write_c45 = rtsn_mii_write_c45;
+> +	mii->parent = dev;
 > +
-> +	napi_complete(napi);
+> +	ret = of_mdiobus_register(mii, mdio_node);
+> +	of_node_put(mdio_node);
+> +	if (ret)
+> +		goto out_free_bus;
 > +
-> +	/* Re-enable TX/RX interrupts */
-> +	spin_lock_irqsave(&priv->lock, flags);
-> +	rtsn_ctrl_data_irq(priv, true);
-> +	__iowmb();
-> +	spin_unlock_irqrestore(&priv->lock, flags);
-> +out:
-> +	return budget - quota;
+> +	priv->mii = mii;
+> +
+> +	return 0;
+> +
+> +out_free_bus:
+> +	mdiobus_free(mii);
+> +	return ret;
 > +}
-
-...
-
 
