@@ -1,102 +1,103 @@
-Return-Path: <linux-renesas-soc+bounces-4703-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4704-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 329488A96DE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 12:00:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 614758A9876
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 13:24:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 632F31C2106E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 10:00:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8629A1C21152
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 11:24:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADEA615B54A;
-	Thu, 18 Apr 2024 10:00:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A59915E5BC;
+	Thu, 18 Apr 2024 11:24:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pgaKqiNc"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="RjKcP8eC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DCEA15AAB2;
-	Thu, 18 Apr 2024 10:00:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A7B15AD99;
+	Thu, 18 Apr 2024 11:24:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713434431; cv=none; b=sQwRNf5oiC8hA9Cq6J85fTK3BAzgX1BGiRFzztBgIBANadHtwgDHxtiqbAYNQDAUFV/5RYl4a4U/uMYjRKC7eGkvphU/9l/3PtnCBsOf1yYWwMSGc9ByHBIaX1EpaCeHrJvXmjNLFw78P+YJjRaWnWS2O7VlCNL1KwLCiD/ANa8=
+	t=1713439466; cv=none; b=jQ2COdTfludtGTXmb+WKDw15GVVN6C6qAq+C9qB9+KpC2kgHOjbGTVsFujQ2L7twxmcizLmwkugvgDjh1JSeMIrwVKoOdx8NN0b6I8FIM9nD5M7Qg1bGGoVAPBCy2FtczAncmHH76PfWOtyxr0G2OMk0Ol2r0KS4s6XQng03qHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713434431; c=relaxed/simple;
-	bh=VZ8PSIQDBZok+yillN9+DRYAlL6mgmiVxKVpDWlsKh4=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=d7qfn/BGgf/5LY7hR6df/5rvRwpfd6viAaSe/rGY7FoGVH7CKMETT5ZgeyiaR7mkvmyQ6sQCTK7cp+uvoUjMgPnqGW0/yHoSmuQkDyNLHrtRDqVXB+yJ85KhWwY9WyXlOyQvJ2UIbYV7AZDEAZGTvMa9wc9rjPgiD9IekKM6r60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pgaKqiNc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6261DC2BD11;
-	Thu, 18 Apr 2024 10:00:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713434430;
-	bh=VZ8PSIQDBZok+yillN9+DRYAlL6mgmiVxKVpDWlsKh4=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=pgaKqiNcAG7IEKmoE5YEi+tenjJE2ph2OUf5hpzmDgS55MHyINo4EV1np3TllCwZa
-	 CGGFuinqg6K4Af/oq7PI77a/uHPi2N4ypylANDrSaaxLneNmpmYlNy8n3yb7EqkfFq
-	 eXvBYBtzMs/xiBsn75S5YpJhTeq3BoIpz7xBOG016iXGOghsJkHTuUzTlPferwGvQP
-	 SI6GoB2yB1Y6ios9ZBiWX2ke2a/fzqbu6VkU0NS/cXrVajTOt5uru/+Y2L0Ue6MrsY
-	 gWcXLL5V1/+HZYYBARXAdYQg+UAnDeBLws7sUOPtDWbD5FlBQVL43jUHR7xaWbDZo4
-	 Kt7I+L/52yP7A==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4E266C43618;
-	Thu, 18 Apr 2024 10:00:30 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1713439466; c=relaxed/simple;
+	bh=oc066vT+D/F5ovmoh/FG9gPN0vrcXHwurKJtRWRajb8=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=ukdsEfvl81jJCoHEHSnMzeXEDIRl71Axd9Ft/DUutNdmtVyZbow2n0UCK5C2pfysWzJqCbty+P9R4AUYQtWlNrwVv1dnI3sAlUq3JPqPks9zxOks4KqeyJWr8QEet4vYe20AQGrFUrVcp1FjZlLAqZE9peBSKH3ey7+LBt6XGck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=RjKcP8eC; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D7D8AE0003;
+	Thu, 18 Apr 2024 11:24:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1713439460;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jMOGVNbuITYt7dy+1dT/3leK/5M9H8PcreUPt+p35qI=;
+	b=RjKcP8eCCvgTt8VGT8VoIlKf0Qq6wN1vbHBN65pxwLkuoNSCCRK9HMIckOEc7Pmk3kxTN0
+	Y14XTy+U0naNbBritHYr/5MoYDZj9oZm7AB5GSvTo4z9DTD0SiPxe0GwgxNzIW9eV9RVM/
+	LVS7FDjuhPyJyN2nvTk0SeXijjt7oVx4KDFMlSHrErHJ+5+n9mLvPfgmI05Jphqx8MXe/n
+	3HOKNshqS/DM6R0bDDbngk/eKBeSl9EvMysy9TeEGAVbxEVcf3IGTUaBJ8VQeJY27rfz8K
+	1oy9fzsN+qb+Glkaf/Na1dKUANBKFagdcw8XuoHhc0ZnI08f25vTEMLXOwy2+w==
+Date: Thu, 18 Apr 2024 13:24:56 +0200 (CEST)
+From: Romain Gantois <romain.gantois@bootlin.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+cc: Romain Gantois <romain.gantois@bootlin.com>, 
+    "David S. Miller" <davem@davemloft.net>, 
+    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+    Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+    Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+    Conor Dooley <conor+dt@kernel.org>, 
+    Geert Uytterhoeven <geert+renesas@glider.be>, 
+    Magnus Damm <magnus.damm@gmail.com>, 
+    Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+    Jose Abreu <joabreu@synopsys.com>, 
+    Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+    Russell King <linux@armlinux.org.uk>, 
+    =?ISO-8859-15?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>, 
+    Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
+    devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+    linux-renesas-soc@vger.kernel.org, 
+    linux-stm32@st-md-mailman.stormreply.com, 
+    linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH net-next v3 5/5] ARM: dts: r9a06g032: describe GMAC1
+In-Reply-To: <CAMuHMdVWEMSR6vKSPdXRbf5_dqBWsM+Z2PV46DBmwHAoBNv_5w@mail.gmail.com>
+Message-ID: <57f94b4a-75e2-32ad-506f-954c13498cd8@bootlin.com>
+References: <20240415-rzn1-gmac1-v3-0-ab12f2c4401d@bootlin.com> <20240415-rzn1-gmac1-v3-5-ab12f2c4401d@bootlin.com> <CAMuHMdVWEMSR6vKSPdXRbf5_dqBWsM+Z2PV46DBmwHAoBNv_5w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [net PATCH v3 0/4] ravb Ethernet driver bugfixes
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <171343443031.11236.5934225163473526469.git-patchwork-notify@kernel.org>
-Date: Thu, 18 Apr 2024 10:00:30 +0000
-References: <20240416120254.2620-1-paul.barker.ct@bp.renesas.com>
-In-Reply-To: <20240416120254.2620-1-paul.barker.ct@bp.renesas.com>
-To: Paul Barker <paul.barker.ct@bp.renesas.com>
-Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, niklas.soderlund+renesas@ragnatech.se,
- geert+renesas@glider.be, claudiu.beznea.uj@bp.renesas.com,
- biju.das.jz@bp.renesas.com, yuehaibing@huawei.com, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset=US-ASCII
+X-GND-Sasl: romain.gantois@bootlin.com
 
-Hello:
+Hi Geert,
 
-This series was applied to netdev/net.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
+On Thu, 18 Apr 2024, Geert Uytterhoeven wrote:
 
-On Tue, 16 Apr 2024 13:02:50 +0100 you wrote:
-> These patches fix bugs found during recent work on the ravb driver.
+> > +               gmac1: ethernet@44000000 {
+> > +                       compatible = "renesas,r9a06g032-gmac", "renesas,rzn1-gmac", "snps,dwmac";
+> > +                       reg = <0x44000000 0x2000>;
+> > +                       interrupt-parent = <&gic>;
 > 
-> Patches 1 & 2 affect the R-Car code paths so have been tested on an
-> R-Car M3N Salvator-XS board - this is the only R-Car board I currently
-> have access to.
-> 
-> Patches 2, 3 & 4 affect the GbEth code paths so have been tested on
-> RZ/G2L and RZ/G2UL SMARC EVK boards.
-> 
-> [...]
+> The surrounding "soc" node already specifies the interrupt parent,
+> so there is no need to repeat that. I could fix that while applying
+> to renesas-devel for v6.10, but it looks like there will be a v4 for
+> the rest of the series anyway?
 
-Here is the summary with links:
-  - [net,v3,1/4] net: ravb: Count packets instead of descriptors in R-Car RX path
-    https://git.kernel.org/netdev/net/c/def52db470df
-  - [net,v3,2/4] net: ravb: Allow RX loop to move past DMA mapping errors
-    https://git.kernel.org/netdev/net/c/a892493a3434
-  - [net,v3,3/4] net: ravb: Fix GbEth jumbo packet RX checksum handling
-    https://git.kernel.org/netdev/net/c/c7c449502b51
-  - [net,v3,4/4] net: ravb: Fix RX byte accounting for jumbo packets
-    https://git.kernel.org/netdev/net/c/2e36c9fbc476
+Indeed there will be a v4 so I'll fix it.
 
-You are awesome, thank you!
+Thanks,
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Romain Gantois, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
