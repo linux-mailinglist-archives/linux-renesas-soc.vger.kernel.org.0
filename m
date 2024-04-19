@@ -1,122 +1,122 @@
-Return-Path: <linux-renesas-soc+bounces-4736-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4737-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 190478AAE22
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Apr 2024 14:11:16 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3999D8AAE62
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Apr 2024 14:26:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 791F1B20C05
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Apr 2024 12:11:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 66E2A1C20D2C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Apr 2024 12:26:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5896783A06;
-	Fri, 19 Apr 2024 12:11:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69F2F85629;
+	Fri, 19 Apr 2024 12:26:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="lpPvgOfD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from cantor.telenet-ops.be (cantor.telenet-ops.be [195.130.132.48])
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B65582D99
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Apr 2024 12:11:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9369C53E02
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Apr 2024 12:26:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713528670; cv=none; b=JLjvxZqY3OGVVn8c7XZiJHUGcYYpTyjIMJ2Ca5D83ZMMW+xcMnWw8lt1aD98zNGTZB5cS01R6d+XAfaRWx7GHL3gLCciJFuBX++IHRdOiuJCqnTDFJne7kOaNga3YcyV0ZiZ87nIRhu+diLE8AHQEl9DaxZNBxDLPfCcvuNMYkQ=
+	t=1713529601; cv=none; b=tb97hAvoIMhoiSftWDK1U//f1fv3hSM944RR+jjJqXHUSDw1YzwQA2urFSp8t+r19f5EPfETsNGCBzdmrl87ru/K9uLBaRxfZPhV99PkO/yII1xhMO8yR2sOiD4bSqwEUZSCCU4S9IJTfaY6XEd3OHb3F/IGbHspEBbi9IMmmM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713528670; c=relaxed/simple;
-	bh=JToH9NULfUko0XqYlifG/5ok/9HfOCWw5OwOWxPDx+s=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=eKeQr5l3htlsOwf0UlP27PlGTm5NsvIjQGCtGc2GlFbMtrF17Tvh6YcyLvIS9wfh4nSYcyO7vJikl8VfVnEfDBxNjgJyUJlqXw8PMKK0T8DFWv+ZYf0xtgx6RrIPvAPvhEOTzmyLOP2+pbgOUv2ATV3ikmFK4DHgW6Ib4YzBDp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-	by cantor.telenet-ops.be (Postfix) with ESMTPS id 4VLYQD5NnDz4wwcp
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Apr 2024 14:11:00 +0200 (CEST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:76d0:2bff:fec8:549])
-	by xavier.telenet-ops.be with bizsmtp
-	id D0At2C0080SSLxL010Atki; Fri, 19 Apr 2024 14:10:53 +0200
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rxn4J-00DJLy-NU;
-	Fri, 19 Apr 2024 14:10:53 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rxn4v-00GI82-9O;
-	Fri, 19 Apr 2024 14:10:53 +0200
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Magnus Damm <magnus.damm@gmail.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 2/2] arm64: dts: renesas: r8a779h0: Link IOMMU consumers
-Date: Fri, 19 Apr 2024 14:10:52 +0200
-Message-Id: <d22ff0526263937ddfa214cdc3ec116a359cbb27.1713526951.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1713526951.git.geert+renesas@glider.be>
-References: <cover.1713526951.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1713529601; c=relaxed/simple;
+	bh=TeW4qw7vbT2LX5GCx7OjnX4WrpDLpChTlCr7yfRUFts=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ujx+NFn1Rused1iv6/14j7HoNYxTw/5LBqqCGLjouEuqXtPGlisVaEeDQKcdu8WBiC5HUExIdOB/grt+lKjuSrW3E/i6nQ1V6PtFSDuP7/PcKTIMgQgOJk7wPcW/NkuI326scXGkYmWyX4UF5RoKJuN7Y6a1TNXWu8EPmD/t2dk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=lpPvgOfD; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=o18F
+	JoawbbRV81A3waZvBdihVS+B7jnHxNsnRh8o3uA=; b=lpPvgOfDW0UcD3tt91Hl
+	iEy+IO9wgFy1GCmXmUaml+Yrps8Yc164fEMEqKsy+PnlqhimAfJmso1L/WpGSnYh
+	iJitu50jw50eSTFzCAsHSn9k/cTp4eB8GoanRHmJ8ft31oDLFTi9IcFqgYF2p+vP
+	LbajEGsOv0neegLY7iHLtiBszR6/VYO1OTA5KdlJG53qqruZ3S9aXlgWVVPgqXek
+	pq32DPpcgO+vL1Zr1X5pxd8P7EDCUHt2k20ekEARMgo9RjvHJ/8eoNh46JiZQTnZ
+	LAV4C5GqeLms66LFSOE5takOKGOkB+O+Y1pXGPM6vpRdV/6hvfnCWgWQuSQ/QrVN
+	9A==
+Received: (qmail 3427272 invoked from network); 19 Apr 2024 14:26:26 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Apr 2024 14:26:26 +0200
+X-UD-Smtp-Session: l3s3148p1@qpJIMnIWZIRehhrd
+Date: Fri, 19 Apr 2024 14:26:24 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: Modeling the register bit as a voltage regulator for SDHI/eMMC
+Message-ID: <20240419122624.2n64uuu2oo3pgrpy@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <CA+V-a8tO_nks1gZ7xsQC3Dr+A6CA4qAbSpZDMHYUzK7j04cNyA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="d2nyjqb6gl5zjquf"
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8tO_nks1gZ7xsQC3Dr+A6CA4qAbSpZDMHYUzK7j04cNyA@mail.gmail.com>
 
-Link all IOMMU consumers to the corresponding IPMMU instances.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- arch/arm64/boot/dts/renesas/r8a779h0.dtsi | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+--d2nyjqb6gl5zjquf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-index f4a97e72fcde8fb3..6d791024cabe1b94 100644
---- a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-@@ -673,6 +673,7 @@ avb0: ethernet@e6800000 {
- 			phy-mode = "rgmii";
- 			rx-internal-delay-ps = <0>;
- 			tx-internal-delay-ps = <0>;
-+			iommus = <&ipmmu_hc 0>;
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 			status = "disabled";
-@@ -971,6 +972,14 @@ dmac1: dma-controller@e7350000 {
- 			resets = <&cpg 709>;
- 			#dma-cells = <1>;
- 			dma-channels = <16>;
-+			iommus = <&ipmmu_ds0 0>, <&ipmmu_ds0 1>,
-+				 <&ipmmu_ds0 2>, <&ipmmu_ds0 3>,
-+				 <&ipmmu_ds0 4>, <&ipmmu_ds0 5>,
-+				 <&ipmmu_ds0 6>, <&ipmmu_ds0 7>,
-+				 <&ipmmu_ds0 8>, <&ipmmu_ds0 9>,
-+				 <&ipmmu_ds0 10>, <&ipmmu_ds0 11>,
-+				 <&ipmmu_ds0 12>, <&ipmmu_ds0 13>,
-+				 <&ipmmu_ds0 14>, <&ipmmu_ds0 15>;
- 		};
- 
- 		dmac2: dma-controller@e7351000 {
-@@ -996,6 +1005,10 @@ dmac2: dma-controller@e7351000 {
- 			resets = <&cpg 710>;
- 			#dma-cells = <1>;
- 			dma-channels = <8>;
-+			iommus = <&ipmmu_ds0 16>, <&ipmmu_ds0 17>,
-+				 <&ipmmu_ds0 18>, <&ipmmu_ds0 19>,
-+				 <&ipmmu_ds0 20>, <&ipmmu_ds0 21>,
-+				 <&ipmmu_ds0 22>, <&ipmmu_ds0 23>;
- 		};
- 
- 		mmc0: mmc@ee140000 {
-@@ -1009,6 +1022,7 @@ mmc0: mmc@ee140000 {
- 			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
- 			resets = <&cpg 706>;
- 			max-frequency = <200000000>;
-+			iommus = <&ipmmu_ds0 32>;
- 			status = "disabled";
- 		};
- 
--- 
-2.34.1
+Hi Prabhakar,
 
+> So instead of a GPIO pin acting as regulator this SDmIOVS can be used
+> to toggle 0/1 which will control the pmic to allow us for switching
+> between 1.8V and 3.3V.
+
+Does the PMIC have a Linux driver? If so, then SDmIOVS would be really a
+GPIO telling the PMIC what to do? If not...
+
+> There is a similar instance of regulator driver [1] which is
+> controlled via register bit write, but in our case the SD_STATUS
+> register is part of the SDHI IP block itself.
+
+... I could imagine that the SDHI driver itself exposes a regulator
+driver. Just without a <reg>-property. The compatible will induce which
+register and bit to use.
+
+Happy hacking,
+
+   Wolfram
+
+
+--d2nyjqb6gl5zjquf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmYiYuwACgkQFA3kzBSg
+Kbb+wA/+PCy//6/tVlNSb7tnfGqr+1gwbOP8sJp56uyO/ybdpQSFy/DaDGRGPt6c
+PlUwkyTrS/St/eBMP1U/KLXEdpYwTx5gDBHHcWY/d1RXxJsd0rwiTSi/4GA1NDTJ
+75+jq9pOapkUsQujjE90c2EI5Dgx6IIatjwpTLwgmnalztK4Xxqf4JcU5CZ6jG/K
+KN5BdQ1thg11ACm66vEbvO0LUvYOGIxkVSsqSsyXGoYDkdmEWLRW/Jr/JzHZYBkr
+Duwp2lCmrsjXWgDX1+7K5vV7MqR4dGIrb7YQfPctx5AA+K7rK7ucr+rbctlZIRAs
+yqxGVCGtBqeWhOPcJZNtd2bxhjUWMmHpmOQ18hQUKaR+zFkCU6Cn8414/RR9VE8J
+foPb9sI5CXGJTWWmYC9oiXsZcaX9QTWGs7A0/x8GWSCHeamB4bAh5iCQJo+pXDXn
+jRXLe37rapNg0mVzp5GFnxS/ll84exLh6QYom1/ai7FZgijoT9lkuN2rjkXPYIzw
+6fzC+ZC7UF/X9C4Z6w6wjqCG0iFYGZq2TutaRuSyTvZepoJZOG2Uxa8m15l6Dtxa
+jRFINF4fPTlREYun0Ff3UPepJz7aMlth4r34qvw5HK7Usq/JrYfAOYjfnkrYqVD+
+zWsZFdYA6/7jRd8BJo+jPfNmI+BeczGfTY+ZVitKXyRS0yNq/lk=
+=Jxxf
+-----END PGP SIGNATURE-----
+
+--d2nyjqb6gl5zjquf--
 
