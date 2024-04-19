@@ -1,39 +1,40 @@
-Return-Path: <linux-renesas-soc+bounces-4743-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4744-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EC9B8AB5D8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Apr 2024 22:04:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10FD48AB5FA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Apr 2024 22:26:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B4BFB282DEE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Apr 2024 20:04:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3C52A1C20E12
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Apr 2024 20:26:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68BCB13C9A9;
-	Fri, 19 Apr 2024 20:04:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1A0413CAB4;
+	Fri, 19 Apr 2024 20:26:18 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C4664F;
-	Fri, 19 Apr 2024 20:04:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA6D137C5A;
+	Fri, 19 Apr 2024 20:26:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713557052; cv=none; b=i8dzbL0w5GT+k0zfJqkYhd2KEJ6fBWooVa1t0D2GdBqy5HVGKHs4lK+HqH9JWpyNubSW3Alon3yvtEpB1RCNw9nnJNZwasglnGppFdg7TYkUuf3YrpjjHMd18hQv8x9DI/5S3Veh/mrMgX3SQJEga29fsQL6+1EFrHpURdPiIoM=
+	t=1713558378; cv=none; b=BMW+XNrO8oab4m/FmIoCTOQYbsIszj30hMaE3N7szEBhZ6NxnOZA2+jOSOf0maCTlYwpRDDOfrpeiexx1aRxGB23gWHZjjzNtrdRaB23NV5CcaxHw5KRYI0q7pv43+ZBWTGh6DGhf2SUtqwkI0ZSd64a+x9uWB/GWsENxCHYzXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713557052; c=relaxed/simple;
-	bh=bsb0pjSgW6p7yJQGVT/QL4oxCfiTFKHKZH7qTYMV7TY=;
+	s=arc-20240116; t=1713558378; c=relaxed/simple;
+	bh=tvsdpL1EtpDQPfPCU5AtidQHVL1qB+Gvt0nWGI4JnGY=;
 	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=Fh6YCUTghn1M0/GrIxhADWZhz+cHGSmd1fz53rI99p61D0N9Nt2/s8RXbTuKjlHmdKSo7Gkfd1j/AzI2IWROX2Jj5mPnvnCN7D4U60M0Wb0haOLWZ40pZjfarW8knErMq2411AW3qedo2GD4z55Cw6CuNIkLldHnjakKIDuq1zc=
+	 In-Reply-To:Content-Type; b=eTvWySyF7h6AQiKyQjTZX/j4PXZTHk+yjhsHnIn9mDPBVSGEmol1VWSSh5j3LZcbB3C01stRWlqnPIVqbSwh2Zj9EvLRi98fpMbuoD2gFY0g3YwMRSnppxxOrsqyCGLHQsYsBGANLsMuWon4LNzsn+Hd2hjetXQiSbTKg+AERZw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
 Received: from [192.168.1.105] (178.176.73.253) by msexch01.omp.ru
  (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Fri, 19 Apr
- 2024 23:03:52 +0300
-Subject: Re: [net-next RFC v3 4/7] net: ravb: Refactor GbEth RX code path
+ 2024 23:26:06 +0300
+Subject: Re: [net-next RFC v3 5/7] net: ravb: Enable SW IRQ Coalescing for
+ GbEth
 To: Paul Barker <paul.barker.ct@bp.renesas.com>, "David S. Miller"
 	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
 	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
@@ -41,11 +42,11 @@ CC: =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
 	Geert Uytterhoeven <geert+renesas@glider.be>, <netdev@vger.kernel.org>,
 	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
 References: <20240415094804.8016-1-paul.barker.ct@bp.renesas.com>
- <20240415094804.8016-5-paul.barker.ct@bp.renesas.com>
+ <20240415094804.8016-6-paul.barker.ct@bp.renesas.com>
 From: Sergey Shtylyov <s.shtylyov@omp.ru>
 Organization: Open Mobile Platform
-Message-ID: <897c3e16-7ded-bdea-08c7-14bf497bfc05@omp.ru>
-Date: Fri, 19 Apr 2024 23:03:52 +0300
+Message-ID: <fb0912c7-46d1-e5eb-5329-ddfe16495b8a@omp.ru>
+Date: Fri, 19 Apr 2024 23:26:05 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 Precedence: bulk
@@ -54,7 +55,7 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240415094804.8016-5-paul.barker.ct@bp.renesas.com>
+In-Reply-To: <20240415094804.8016-6-paul.barker.ct@bp.renesas.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -62,7 +63,7 @@ X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
  (10.188.4.12)
 X-KSE-ServerInfo: msexch01.omp.ru, 9
 X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 04/19/2024 19:43:40
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 04/19/2024 20:13:24
 X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
 X-KSE-AntiSpam-Method: none
 X-KSE-AntiSpam-Rate: 59
@@ -78,7 +79,7 @@ X-KSE-AntiSpam-Info: {SMTP from is not routable}
 X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.73.253 in (user)
  b.barracudacentral.org}
 X-KSE-AntiSpam-Info:
-	omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2
+	127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
 X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.73.253
 X-KSE-AntiSpam-Info: {DNS response errors}
 X-KSE-AntiSpam-Info: Rate: 59
@@ -89,7 +90,7 @@ X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
 X-KSE-Antiphishing-Info: Clean
 X-KSE-Antiphishing-ScanningType: Heuristic
 X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 04/19/2024 19:47:00
+X-KSE-Antiphishing-Bases: 04/19/2024 20:17:00
 X-KSE-Antivirus-Interceptor-Info: scan successful
 X-KSE-Antivirus-Info: Clean, bases: 4/19/2024 5:31:00 PM
 X-KSE-Attachment-Filter-Triggered-Rules: Clean
@@ -98,76 +99,43 @@ X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
 On 4/15/24 12:48 PM, Paul Barker wrote:
 
-> We can reduce code duplication in ravb_rx_gbeth() and add comments to
-> make the code flow easier to understand.
+> Software IRQ Coalescing is required to improve network stack performance
+> in the RZ/G2L SoC family and the RZ/G3S SoC, i.e. the SoCs which use the
+> GbEth IP.
+> 
+> This patch gives the following improvements during testing with iperf3:
+> 
+>   * RZ/G2L:
+>     * TCP RX: same bandwidth with -6% CPU load (76% -> 71%)
+>     * UDP RX: same bandwidth with -10% CPU load (99% -> 89%)
+> 
+>   * RZ/G2UL:
+>     * UDP RX: +4200% bandwidth (1.23Mbps -> 53Mbps)
+> 
+>   * RZ/G3S:
+>     * UDP RX: +425% bandwidth (1.23Mbps -> 6.46Mbps)
+> 
+> The improvement of UDP RX bandwidth for the single core SoCs (RZ/G2UL &
+> RZ/G3S) is particularly critical.
 > 
 > Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
-> ---
->  drivers/net/ethernet/renesas/ravb_main.c | 70 ++++++++++++------------
->  1 file changed, 35 insertions(+), 35 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index baa01bd81f2d..12618171f6d5 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -818,47 +818,47 @@ static int ravb_rx_gbeth(struct net_device *ndev, int budget, int q)
->  				stats->rx_missed_errors++;
->  		} else {
->  			die_dt = desc->die_dt & 0xF0;
-> -			switch (die_dt) {
-> -			case DT_FSINGLE:
-> -				skb = ravb_get_skb_gbeth(ndev, entry, desc);
-> +			skb = ravb_get_skb_gbeth(ndev, entry, desc);
-> +			if (die_dt == DT_FSINGLE || die_dt == DT_FSTART) {
 
-   No, please keep using *switch* statement here...
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
-> +				/* Start of packet:
-> +				 * Set initial data length.
-> +				 */
->  				skb_put(skb, desc_len);
-> +
-> +				/* Save this SKB if the packet spans multiple
-> +				 * descriptors.
-> +				 */
-> +				if (die_dt == DT_FSTART)
-> +					priv->rx_1st_skb = skb;
+[...]
 
-   Hm, looks like we can do that under *case* DT_FSTART: and do
-a fallthru to *case* DT_FSINGLE: after that...
+> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+> index 71de2a7aa27c..9c6392ade2f1 100644
+> --- a/drivers/net/ethernet/renesas/ravb.h
+> +++ b/drivers/net/ethernet/renesas/ravb.h
+> @@ -1054,6 +1054,7 @@ struct ravb_hw_info {
+>  	u32 rx_max_desc_use;
+>  	u32 rx_desc_size;
+>  	unsigned aligned_tx: 1;
+> +	unsigned needs_irq_coalesce:1;	/* Needs software IRQ coalescing */
 
-> +			} else {
-> +				/* Continuing a packet:
-> +				 * Move data into the saved SKB.
-> +				 */
-> +				skb_copy_to_linear_data_offset(priv->rx_1st_skb,
-> +							       priv->rx_1st_skb->len,
-> +							       skb->data,
-> +							       desc_len);
-> +				skb_put(priv->rx_1st_skb, desc_len);
-> +				dev_kfree_skb(skb);
-> +
-> +				/* Set skb to point at the whole packet so that
-> +				 * we only need one code path for finishing a
-> +				 * packet.
-> +				 */
-> +				skb = priv->rx_1st_skb;
-> +			}
-> +
-> +			if (die_dt == DT_FSINGLE || die_dt == DT_FEND) {
+   Perhaps something shorter, like coalesce_irqs?
 
-   Again, keep using *switch*, please...
-
-> +				/* Finishing a packet:
-> +				 * Determine protocol & checksum, hand off to
-> +				 * NAPI and update our stats.
-> +				 */
->  				skb->protocol = eth_type_trans(skb, ndev);
->  				if (ndev->features & NETIF_F_RXCSUM)
->  					ravb_rx_csum_gbeth(skb);
-> +				stats->rx_bytes += skb->len;
->  				napi_gro_receive(&priv->napi[q], skb);
->  				rx_packets++;
 [...]
 
 MBR, Sergey
