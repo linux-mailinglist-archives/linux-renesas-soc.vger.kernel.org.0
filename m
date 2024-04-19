@@ -1,156 +1,110 @@
-Return-Path: <linux-renesas-soc+bounces-4728-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4729-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF8948AA974
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Apr 2024 09:45:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB0D8AA987
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Apr 2024 09:52:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CF1FC1C217AC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Apr 2024 07:45:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A34FF1F21CCE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Apr 2024 07:52:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1543C482C7;
-	Fri, 19 Apr 2024 07:44:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F3AC46452;
+	Fri, 19 Apr 2024 07:52:26 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C474DA0D;
-	Fri, 19 Apr 2024 07:44:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD2FC39FC1;
+	Fri, 19 Apr 2024 07:52:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713512684; cv=none; b=RXgetMEnUycgV7/LXlB+4dAFD9ivWd6hn8H/n6jr4FaQzyroc7ssN6JZrlf92agp5Q8zczCUe5tCquSxCAxU6nL3xSAf7Ur0neLYARrbWd+xbeVc4BDAoySrvlh+E5V525O2Y1SymVxS4/UtYqnXtPqx07oARydm5kziuhVSOao=
+	t=1713513146; cv=none; b=advq88IyFE7ZLDpBBiioN0HdZ3WJYKhRg2IU5RLxKaoOXMwwijwjQICvZr63x63AISfdqUC56o5VnToGVTqPC3mFDi3Nip8kKN+6PXkEHLTmynNQ0yzKcjrqPotBA4Ei4IKZMmA3wxTHPZ+AoiNoePHEdwU+wlJB3lcsw6SvQvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713512684; c=relaxed/simple;
-	bh=2GGt86edY2lm8kr2PVjmA1G4gvSGUPMlBXuQK8dCo7g=;
+	s=arc-20240116; t=1713513146; c=relaxed/simple;
+	bh=C6lmziyxUI1u/f3T9IScmFqFqlDnWuHEZJ/CoqIPKLM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DgrmmLgDpr5d0VGmaIorW54LsensP3F64fYsoEME33kfPGBF/H0LXKA5QlZRMDI7M8ZQuiQWVxHuQb42CInLjYMYI/t+qoIYSFLJKSsRY6AQKjId1raxZ78pQMo6unVl/zwfLWJScbrLOMYyj8V7MZqqQmaxYwwM1rqV5ob4KEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.178
+	 To:Cc:Content-Type; b=l/t6PP4Ri+SzqEVjQdG9EQB4DHv3qvmGZngn1TUQ43zB3F07XEcf3/n0mYDehBWkf3OMpRm4l+Dk5ALc1rz59yjInQlE28xgUmUNWVDBFuQVjjRVorZrxbB8vTI3E7HP40tw5Hs7PknZn09v47W2/u/XAK3Ky+kunIUkO2JZLJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-61ad5f2c231so19951167b3.2;
-        Fri, 19 Apr 2024 00:44:41 -0700 (PDT)
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-dc6dcd9124bso1772155276.1;
+        Fri, 19 Apr 2024 00:52:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713512679; x=1714117479;
+        d=1e100.net; s=20230601; t=1713513143; x=1714117943;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Y9aGfGVkclitK9fGaCPJLToKLvFSDmM3YASsQou3aVI=;
-        b=mkQQ47yKPp1CvnDxrJHF31YvvnomRBLoH03LMc3CH2bQlGnk3Z37lcNmaj61SonHZa
-         ZtZSn7TP2cBZbZb51fhqd9lZqAJdH62iG/I8wx99H++7Ky7b2QZSLgCqe8bbzocnBtxy
-         WuMJdYteh2oLXO6j4IWIj1eOZJiBdAL7UmLu/kY3frTBJ/UF115aVDRBgujs3aK40P//
-         X/J6q+tXopcaXzkP3b1gp7aI/IdaSqkZHmFblycQRXRv8/vLqUrfKhcsuaRVUZq1WuYQ
-         YJpf5ke63ySNELFBGIhphEa1IZRFkhakVTpx2ODtvFQ4T9b4nrmzZRGdlUcUMaixc/GU
-         s7LQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU4oVkPyBA6/D6OrpJ+axOpMvVBY6GW+j2BC3hDbYJbn/TQOMhflTLtbUmPko+2u5IDv4t6dB0a01hXzj2B82ZIeLgHVWxPe86KS1bHpn/XLKMa8X6z/Rvio3miF4D13AeHfGO9I/HN88UJ13uFUPqjlq3WWBya2Ryyr8TLcoDTE1wU/EOP+lG4gTch
-X-Gm-Message-State: AOJu0YxKT2sH1GB6Wck+fuBCIIPNeQxApcqwmOBgN4yX5TB0zycerup0
-	FGJ4ROZeQZR8H3hNgKw9pJvPF1UvFeYXzvT+AsJzeDswd/SHfNMzJvO8OCsg
-X-Google-Smtp-Source: AGHT+IHtQIQI7on1rrTyVCHfOJzKCHqK1v7A/S6siyBrX4swfn+bLUPU3t2jO3JZLezcrDjYj1qiAw==
-X-Received: by 2002:a05:690c:620c:b0:618:8b98:f274 with SMTP id hl12-20020a05690c620c00b006188b98f274mr1449346ywb.45.1713512679087;
-        Fri, 19 Apr 2024 00:44:39 -0700 (PDT)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id l12-20020a81ad4c000000b00617be0a2bf2sm680714ywk.72.2024.04.19.00.44.37
+        bh=Ls5rSBCoF7f0JNFwNazATV5qYNLhrhhntLXb+o+5pX8=;
+        b=Ebz6LyqsS48YOXQuPGytd6WMqwI/dIg0J2XTM1jD4oyw+XnEG7nAy3PcnLLuUpaAV8
+         3rpijoN29XMF7zdgbiECrs4MBWWq6P5/A8inVxNgsZPvnI6HWzbxSie9Yhi2Ho5i9myo
+         W0+0ENWVFP9N27lBSkBQfrh9m6HyKKoSzNUYEJBpnYM5a//vJaHMAKeYtv9rNhr9ncov
+         I1WlZb41egdHpS1PiJ6mFeKpnJF06QKtuUOZ9rM4qVB7W145W22UMrFwxxZS7QEWtrYG
+         o638NrqX52g0y7scNQMwS18Zp3dc5wucWFeqOUl9EDIIhuauDwU6Yub98QmFS9LCl+b0
+         onTw==
+X-Forwarded-Encrypted: i=1; AJvYcCW3dGMhSPvpvTdLr2oERHLRlE4PG4CyQLm8/ajhfz+QYMn9Cawu5gl9SZQUECsgfCf3P5AbrIBAU1tIUtzmuzJfBrNtcc8Feck22GgWkh1bCjJr77Aew3lgyQ7Gfh9rRs1OS1CRX2ZvTj6hzeVZE1IfFxtDmDIff1QZKmxcz2GcGMI6L6ncssY4N+aW
+X-Gm-Message-State: AOJu0YxvlMvy2UyZCDEtQYVEh+blcXnp7Etd9Mxxq482GwS37AuwSuB/
+	6UkpBQAMAr8vLlJ+0OF+2Izo8LckXjlsyfQX/qSIULp1tb9sBt/u+GIO4WAW
+X-Google-Smtp-Source: AGHT+IHtQsA43ifEA07hW7LIUiEb3FKXiqqvkHK/ujPx4JB9bTTzHhjYthgIe0Fny/lnk2WcRLiaxw==
+X-Received: by 2002:a25:ad88:0:b0:dc8:5e26:f501 with SMTP id z8-20020a25ad88000000b00dc85e26f501mr1045663ybi.61.1713513143360;
+        Fri, 19 Apr 2024 00:52:23 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
+        by smtp.gmail.com with ESMTPSA id u16-20020a05690201d000b00dcc45635f27sm708124ybh.18.2024.04.19.00.52.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Apr 2024 00:44:38 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-de47485532cso1377542276.3;
-        Fri, 19 Apr 2024 00:44:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUGVrHYv8K1qsV5u8NDZJamRFMRQWWAI92xHLIDwTAWIHs/k81fEh8Z0azUEPOXDTaZZAhyML1Ux+zJMKW4vLpGkw6O/ITXZ0iqSAJA31CfOSY9g7Qe1bj22KdNXLGBZxgv9d8gmvgqQ5GKzOzrR1BtYH18TbA4xWhm/O3LJfrDTfKKxGQMId5zx+KF
-X-Received: by 2002:a05:6902:218d:b0:dc6:bcb3:5d8e with SMTP id
- dl13-20020a056902218d00b00dc6bcb35d8emr1436727ybb.20.1713512677738; Fri, 19
- Apr 2024 00:44:37 -0700 (PDT)
+        Fri, 19 Apr 2024 00:52:23 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dc6dcd9124bso1772144276.1;
+        Fri, 19 Apr 2024 00:52:23 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVqhzI4Ijk+F/geUz0IHIMyGOigo8sl+A6tWIQurKllvja8E5Gz4KPuO07RCVh0UU2N06fznZqSh7OMKsM9pX4TYfFUctzUnBUbT4U+4U3OWAV0SFosuCltFQHw/cbV0QgOrSem5SQKtxbrhto5NywjuG0OykjW8hCev9/JsqZtVcr+3vfPWGUnzCWN
+X-Received: by 2002:a25:8209:0:b0:ddd:7456:d203 with SMTP id
+ q9-20020a258209000000b00ddd7456d203mr1152202ybk.41.1713513142996; Fri, 19 Apr
+ 2024 00:52:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240403203503.634465-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240403203503.634465-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdW7kiSYm8n8CfMs9zKaN+PhVt+=16nx=ttLk6Ur_jOa-g@mail.gmail.com> <CA+V-a8t6B3pGjrciDNRzdpGQp-8cGW0JXV9k0udpku3GVA0ckA@mail.gmail.com>
-In-Reply-To: <CA+V-a8t6B3pGjrciDNRzdpGQp-8cGW0JXV9k0udpku3GVA0ckA@mail.gmail.com>
+References: <20240419063822.3467424-1-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20240419063822.3467424-1-claudiu.beznea.uj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 19 Apr 2024 09:44:25 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWCHD+AuP9v2fBygDv-fJqP4RZ=Gtp3PX9b1K-GX1+XQg@mail.gmail.com>
-Message-ID: <CAMuHMdWCHD+AuP9v2fBygDv-fJqP4RZ=Gtp3PX9b1K-GX1+XQg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] irqchip/renesas-rzg2l: Add support for RZ/Five SoC
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date: Fri, 19 Apr 2024 09:52:11 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUp3PWJPKDRetyVNW42dGwAes0SY+gJJakAkvbFqab=Dg@mail.gmail.com>
+Message-ID: <CAMuHMdUp3PWJPKDRetyVNW42dGwAes0SY+gJJakAkvbFqab=Dg@mail.gmail.com>
+Subject: Re: [PATCH v4] pinctrl: renesas: rzg2l: Configure the interrupt type
+ on resume
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: linus.walleij@linaro.org, biju.das.jz@bp.renesas.com, tglx@linutronix.de, 
+	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Prabhakar,
-
-On Fri, Apr 19, 2024 at 9:15=E2=80=AFAM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Thu, Apr 18, 2024 at 4:11=E2=80=AFPM Geert Uytterhoeven <geert@linux-m=
-68k.org> wrote:
-> > On Wed, Apr 3, 2024 at 10:36=E2=80=AFPM Prabhakar <prabhakar.csengg@gma=
-il.com> wrote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > The IX45 block has additional mask registers (NMSK/IMSK/TMSK) as comp=
-ared
-> > > to the RZ/G2L (family) SoC.
-> > >
-> > > Introduce masking/unmasking support for IRQ and TINT interrupts in IR=
-QC
-> > > controller driver. Two new registers, IMSK and TMSK, are defined to
-> > > handle masking on RZ/Five SoC. The implementation utilizes a new data
-> > > structure, `struct rzg2l_irqc_data`, to determine mask support for a
-> > > specific controller instance.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
+On Fri, Apr 19, 2024 at 8:38=E2=80=AFAM Claudiu <claudiu.beznea@tuxon.dev> =
+wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >
-> > > ---
-> > > v1->v2
-> > > - Added IRQCHIP_MATCH() for RZ/Five
-> > > - Retaining a copy of OF data in priv
-> > > - Rebased the changes
-> >
-> > Thanks for the update!
-> >
-> > > --- a/drivers/irqchip/irq-renesas-rzg2l.c
-> > > +++ b/drivers/irqchip/irq-renesas-rzg2l.c
-> > > @@ -66,15 +68,25 @@ struct rzg2l_irqc_reg_cache {
-> > >         u32     titsr[2];
-> > >  };
-> > >
-> > > +/**
-> > > + * struct rzg2l_irqc_of_data - OF data structure
-> > > + * @mask_supported: Indicates if mask registers are available
-> > > + */
-> > > +struct rzg2l_irqc_of_data {
-> > > +       bool    mask_supported;
-> > > +};
-> > > +
-> > >  /**
-> > >   * struct rzg2l_irqc_priv - IRQ controller private data structure
-> > >   * @base:      Controller's base address
-> > > + * @data:      OF data pointer
-> > >   * @fwspec:    IRQ firmware specific data
-> > >   * @lock:      Lock to serialize access to hardware registers
-> > >   * @cache:     Registers cache for suspend/resume
-> > >   */
-> > >  static struct rzg2l_irqc_priv {
-> > >         void __iomem                    *base;
-> > > +       const struct rzg2l_irqc_of_data *data;
-> >
-> > That's not a copy, but a pointer.
-> >
-> Oops, should that be OK or shall I create a copy instead?
+> Commit dce0919c83c3 ("irqchip/renesas-rzg2l: Do not set TIEN and TINT
+> source at the same time") removed the setup of TINT from
+> rzg2l_irqc_irq_enable(). To address the spourious interrupt issue the set=
+up
+> of TINT has been moved in rzg2l_tint_set_edge() though
+> rzg2l_disable_tint_and_set_tint_source(). With this, the interrupts are
+> not properly re-configured after a suspend-to-RAM cycle. To address
+> this issue and avoid spurious interrupts while resumming set the
+> interrupt type before enabling it.
+>
+> Fixes: dce0919c83c3 ("irqchip/renesas-rzg2l: Do not set TIEN and TINT sou=
+rce at the same time")
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> ---
+>
+> Changes in v4:
+> - moved dev_crit() out of critical section
 
-If you would use a copy, all SoC-specific rzg2l_irqc_of_data structures
-could become __initconst.
-
-However, depending on how far you want to go with the irq_chip
-separation, you may no longer need this field anyway.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-pinctrl-fixes for v6.9.
 
 Gr{oetje,eeting}s,
 
