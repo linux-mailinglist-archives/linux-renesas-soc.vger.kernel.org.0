@@ -1,272 +1,154 @@
-Return-Path: <linux-renesas-soc+bounces-4747-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4748-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45C7F8ABBC4
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Apr 2024 15:33:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77B8A8ABF51
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Apr 2024 15:46:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6A9E11C2061A
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Apr 2024 13:33:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ED8C22819F9
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Apr 2024 13:46:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 100D71C6AD;
-	Sat, 20 Apr 2024 13:33:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C90CA156C2;
+	Sun, 21 Apr 2024 13:46:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T0q/IT2P"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qqL0lMLH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93D62DF43
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 20 Apr 2024 13:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8560CA64;
+	Sun, 21 Apr 2024 13:46:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713620017; cv=none; b=MBLihfPOxhERtuvCNqGBs9+U3NHgSnml2c9CmQMQ1JtrF2l8C9UsTfmftRvOsRUkpZzIOZH2yjLmt5s5cAPreLP5oqHQGM2MTQ6C0xdK8iKJwyUxwcY20rcyvU9Pa/S2jz4hV9RlcERlBajPJVnZdvD7o4cUM+KAeDHuSMSo2kk=
+	t=1713707201; cv=none; b=k1cM8wfMdDDw3P071aYZb6vBIP0g5JlqvjEt8yjYVvHrPMzDvQ+f40P8o6vTiNwLeblIaYWGnUb6ZgS39wM1DC5HTKdWI7OAB1FzqmiWDSAfmMcdjHlDBJdaM2hWayJZ3s37Drss0geDfJMCvdvz18+gBUbfhyHuHhi/uwfHcE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713620017; c=relaxed/simple;
-	bh=aVVGOgMk5Nei36Wcs6IqLpLe+WdOKKz3z4Ru0FdTEe4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=OjmZj/r7JB0JJOX1tMqE9DqbzUlmHZMxLakU+PU4Ki7qnSpQf+gq1xcbkjhXrRy2YSd71WQ53ZCb7+PL1IKnWsih3mqGRppyWlODBNKedL35ynn5fX8LVb9MSWhEgSDbPhGLUNhQm/VsDPN94PrV8BqO2eirW6FC55vMyTVO/ik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T0q/IT2P; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713620014; x=1745156014;
-  h=date:from:to:cc:subject:message-id;
-  bh=aVVGOgMk5Nei36Wcs6IqLpLe+WdOKKz3z4Ru0FdTEe4=;
-  b=T0q/IT2P8BQ10Q1V3mIBpmMU09w6FbB4CBx+SmiN1DUBnI9E6DXC6Iav
-   Xr5cXWRzqUpP24p5Fj7injKPYYkAsKLZSJXT0X7VVMy9C84GHcNC0rCIp
-   DRg6SynsJOqLRQA8INaJgOTZDDFSKpqQLHGoAFnSEbAbSHw/gppmmrvn6
-   iTrhzaf0H97aT+8holfxyb/fYjCVUB8UXqwJq8NPU0C4QOZnrM8DVcLBd
-   FWPWz1ktMZHM42sbx8erT2lpSSOPWLKpMkkTeAwH5HDmrHToDIgP4fffV
-   u5dMbKq6fGuYRIoxkC1DQ1tYro0IWZPzpTxJDKovgoe50nFl0PKr9NgzV
-   A==;
-X-CSE-ConnectionGUID: L6tlRMcNTSKeE8jttEtN9w==
-X-CSE-MsgGUID: 5+5FdMvqQQ2Gz1EYYPnF9g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11050"; a="9326543"
-X-IronPort-AV: E=Sophos;i="6.07,216,1708416000"; 
-   d="scan'208";a="9326543"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2024 06:33:34 -0700
-X-CSE-ConnectionGUID: MpIrekYAQX+gBzUgbO90tA==
-X-CSE-MsgGUID: s68ulKdPT4qEXCB99zO3jw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,216,1708416000"; 
-   d="scan'208";a="23652243"
-Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 20 Apr 2024 06:33:32 -0700
-Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ryAqQ-000B6u-1Y;
-	Sat, 20 Apr 2024 13:33:30 +0000
-Date: Sat, 20 Apr 2024 21:32:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:topic/v4m-gray-hawk-single-v3] BUILD
- SUCCESS 91d0dccc7a15704ad8d28f7579aee086843acff8
-Message-ID: <202404202132.nA9L2Y8a-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1713707201; c=relaxed/simple;
+	bh=ElWicUkggdeUnrR8dCJlVFr39q2mm/1nM4trwaLFtLo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A/XtKHHwqPlVOTN0D0QCRTk7CSOW7RViJtI/u8sZfi2yK15fxwE2b/2Qh/SgNYhUTrIhfdkFt/7OICT3wsRuBUnrHGCSgqOr8DmmMdNFXXZOhSjSC/x5Q9Vfd+EYW/nv2Jklz4oHPZVIBF4zmDbsawJzuvkSArvemhVzul0YBbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qqL0lMLH; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 095CF674;
+	Sun, 21 Apr 2024 15:45:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1713707148;
+	bh=ElWicUkggdeUnrR8dCJlVFr39q2mm/1nM4trwaLFtLo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qqL0lMLHL0EoK0mWdAnpPCZOdZz3Lh3z30+iT4SUYE+GI0L7BDfxmpT3IypXL7mDQ
+	 13xbc0H1PEUubTHmPeLl3lpDmll8ksti4Wbttbyo2DMFbb0FN1XugTwFfi5LWavry+
+	 0l1m5SIEi04r/3m0xAyV4Fw7og5u+UD2VMLyc8hY=
+Date: Sun, 21 Apr 2024 16:46:30 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	linux-media@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] media: platform: rzg2l-cru: rzg2l-video: Move
+ request_irq() to rzg2l_cru_video_register()
+Message-ID: <20240421134630.GA29222@pendragon.ideasonboard.com>
+References: <20240219180544.526537-1-biju.das.jz@bp.renesas.com>
+ <CAMuHMdWO7n4oBr=U-DK2aa+S68kLX=VuzpuYDeA8KymzdnggNg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdWO7n4oBr=U-DK2aa+S68kLX=VuzpuYDeA8KymzdnggNg@mail.gmail.com>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/v4m-gray-hawk-single-v3
-branch HEAD: 91d0dccc7a15704ad8d28f7579aee086843acff8  arm64: dts: renesas: r8a779h0: Link IOMMU consumers
+On Thu, Apr 18, 2024 at 11:06:27AM +0200, Geert Uytterhoeven wrote:
+> Hi Biju,
+> 
+> On Mon, Feb 19, 2024 at 7:05 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Move request_irq() to rzg2l_cru_video_register(), in order to avoid
+> > requesting IRQ during device start which happens frequently.
+> >
+> > Suggested-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> 
+> Thanks for your patch!
+> 
+> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> 
+> > @@ -1011,6 +1000,7 @@ void rzg2l_cru_video_unregister(struct rzg2l_cru_dev *cru)
+> >  {
+> >         media_device_unregister(&cru->mdev);
+> >         video_unregister_device(&cru->vdev);
+> > +       free_irq(cru->image_conv_irq, cru);
+> >  }
+> >
+> >  int rzg2l_cru_video_register(struct rzg2l_cru_dev *cru)
+> > @@ -1018,6 +1008,13 @@ int rzg2l_cru_video_register(struct rzg2l_cru_dev *cru)
+> >         struct video_device *vdev = &cru->vdev;
+> >         int ret;
+> >
+> > +       ret = request_irq(cru->image_conv_irq, rzg2l_cru_irq,
+> > +                         IRQF_SHARED, KBUILD_MODNAME, cru);
+> > +       if (ret) {
+> > +               dev_err(cru->dev, "failed to request irq\n");
+> > +               return ret;
+> > +       }
+> > +
+> >         if (video_is_registered(&cru->vdev)) {
+> 
+> How can this happen? Perhaps rzg2l_cru_video_register() can be called
+> multiple times through the rzg2l_cru_group_notify_complete() notifier?
 
-elapsed time: 1452m
+The notifier completion handler shouldn't be called multiple times, no.
+There's however a possibility (I think) that a subdev could disappear of
+the device is unbound from its driver. If the device is later rebound,
+the notifier completion handler could be called again.
 
-configs tested: 179
-configs skipped: 4
+The issue is that rzg2l_cru_video_unregister() is called from .remove().
+I think a better fix would be to request the IRQ at probe time (or did
+we discuss that previously and concluded it could cause issues ?). I
+would also argue that the video devices should be registered at probe
+time, not in the notifier completion handler.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                            alldefconfig   gcc  
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                          axs103_defconfig   gcc  
-arc                                 defconfig   gcc  
-arc                        nsim_700_defconfig   gcc  
-arc                   randconfig-001-20240420   gcc  
-arc                   randconfig-002-20240420   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm                            dove_defconfig   gcc  
-arm                           omap1_defconfig   gcc  
-arm                   randconfig-001-20240420   gcc  
-arm                   randconfig-002-20240420   gcc  
-arm                   randconfig-003-20240420   clang
-arm                   randconfig-004-20240420   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   clang
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240420   clang
-arm64                 randconfig-002-20240420   clang
-arm64                 randconfig-003-20240420   gcc  
-arm64                 randconfig-004-20240420   clang
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240420   gcc  
-csky                  randconfig-002-20240420   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20240420   clang
-hexagon               randconfig-002-20240420   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20240419   clang
-i386         buildonly-randconfig-002-20240419   gcc  
-i386         buildonly-randconfig-002-20240420   clang
-i386         buildonly-randconfig-003-20240419   gcc  
-i386         buildonly-randconfig-004-20240419   gcc  
-i386         buildonly-randconfig-005-20240419   gcc  
-i386         buildonly-randconfig-006-20240419   gcc  
-i386                                defconfig   clang
-i386                  randconfig-001-20240420   clang
-i386                  randconfig-002-20240419   clang
-i386                  randconfig-003-20240419   clang
-i386                  randconfig-004-20240419   gcc  
-i386                  randconfig-005-20240419   clang
-i386                  randconfig-005-20240420   clang
-i386                  randconfig-006-20240419   clang
-i386                  randconfig-011-20240419   gcc  
-i386                  randconfig-011-20240420   clang
-i386                  randconfig-012-20240419   clang
-i386                  randconfig-012-20240420   clang
-i386                  randconfig-013-20240419   gcc  
-i386                  randconfig-013-20240420   clang
-i386                  randconfig-014-20240419   clang
-i386                  randconfig-014-20240420   clang
-i386                  randconfig-015-20240419   gcc  
-i386                  randconfig-015-20240420   clang
-i386                  randconfig-016-20240419   clang
-i386                  randconfig-016-20240420   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch                 loongson3_defconfig   gcc  
-loongarch             randconfig-001-20240420   gcc  
-loongarch             randconfig-002-20240420   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                         apollo_defconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                        m5272c3_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                         cobalt_defconfig   gcc  
-mips                           ip28_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240420   gcc  
-nios2                 randconfig-002-20240420   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20240420   gcc  
-parisc                randconfig-002-20240420   gcc  
-parisc64                            defconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                    amigaone_defconfig   gcc  
-powerpc                    klondike_defconfig   gcc  
-powerpc                      ppc64e_defconfig   gcc  
-powerpc                      ppc6xx_defconfig   gcc  
-powerpc               randconfig-001-20240420   gcc  
-powerpc               randconfig-002-20240420   clang
-powerpc               randconfig-003-20240420   clang
-powerpc                      walnut_defconfig   gcc  
-powerpc64             randconfig-001-20240420   clang
-powerpc64             randconfig-002-20240420   gcc  
-powerpc64             randconfig-003-20240420   gcc  
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-riscv                 randconfig-001-20240420   clang
-riscv                 randconfig-002-20240420   gcc  
-s390                             allmodconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-s390                  randconfig-001-20240420   clang
-s390                  randconfig-002-20240420   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                          polaris_defconfig   gcc  
-sh                    randconfig-001-20240420   gcc  
-sh                    randconfig-002-20240420   gcc  
-sh                           se7750_defconfig   gcc  
-sh                        sh7757lcr_defconfig   gcc  
-sh                              ul2_defconfig   gcc  
-sparc                            alldefconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                       sparc32_defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240420   gcc  
-sparc64               randconfig-002-20240420   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20240420   clang
-um                    randconfig-002-20240420   gcc  
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-002-20240420   clang
-x86_64       buildonly-randconfig-005-20240420   clang
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20240420   clang
-x86_64                randconfig-002-20240420   clang
-x86_64                randconfig-004-20240420   clang
-x86_64                randconfig-005-20240420   clang
-x86_64                randconfig-015-20240420   clang
-x86_64                randconfig-076-20240420   clang
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
-xtensa                randconfig-001-20240420   gcc  
-xtensa                randconfig-002-20240420   gcc  
+> If that is true, the request_irq() should be moved after this block,
+> just before the call to video_register_device() below.
+> 
+> >                 struct media_entity *entity;
+> >
+> > @@ -1032,14 +1029,18 @@ int rzg2l_cru_video_register(struct rzg2l_cru_dev *cru)
+> >         ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
+> >         if (ret) {
+> >                 dev_err(cru->dev, "Failed to register video device\n");
+> > -               return ret;
+> > +               goto err_request_irq;
+> >         }
+> >
+> >         ret = media_device_register(&cru->mdev);
+> > -       if (ret) {
+> > -               video_unregister_device(&cru->vdev);
+> > -               return ret;
+> > -       }
+> > +       if (ret)
+> > +               goto err_video_unregister;
+> >
+> >         return 0;
+> > +
+> > +err_video_unregister:
+> > +       video_unregister_device(&cru->vdev);
+> > +err_request_irq:
+> > +       free_irq(cru->image_conv_irq, cru);
+> > +       return ret;
+> >  }
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+
+Laurent Pinchart
 
