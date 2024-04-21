@@ -1,215 +1,299 @@
-Return-Path: <linux-renesas-soc+bounces-4749-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4750-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10C808ABF9B
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Apr 2024 16:30:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 823AC8ABFEF
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Apr 2024 17:49:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BB99B28182A
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Apr 2024 14:30:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9D4A11C20A04
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Apr 2024 15:49:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F19AC17727;
-	Sun, 21 Apr 2024 14:30:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="ntDuyRbr";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GUZV0HxH"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2E001B27D;
+	Sun, 21 Apr 2024 15:49:44 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from flow7-smtp.messagingengine.com (flow7-smtp.messagingengine.com [103.168.172.142])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2413610A3C;
-	Sun, 21 Apr 2024 14:30:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.142
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1175018044;
+	Sun, 21 Apr 2024 15:49:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713709843; cv=none; b=OrthzLDsO2KVzg1NAq+O6RGd5pidQVRlkkAPP6IMuO7xlt2hF94JCBaOAEk1oBGqN37+wkuxrhtYanTeznl0Puoedm0bxoZEq2t9xpVt9aAMz2hCUZ401ktU4vaLwBZSsFGuQtJWWtB7g8SgZROun8mClmTy/AXx+OjMvuYPSFg=
+	t=1713714584; cv=none; b=IRu5o0XoGtzmgrKu8BUQSReyqB0anqLjvzO9tu09yLEkdaJaS32cb2uJoRnmgFneajDqiFGhRhXXm1v494/AWcE0XMccCWnrV+aAMinsbvMMa5IOJPLJevTSz0gVO3pytM6FjBQjCLsCIk/1N9ZpzyeVGpAi4OPRoW17AR5be24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713709843; c=relaxed/simple;
-	bh=6pgmqVhvaDwTjNjoQVRC6d7sA995GUDWPi+koXA5cG8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dRWCen59vd1KGmVtz9VibtuSSlGp0sRsQs96eyMq3bmkJZCkRtYibf4n/c2yZZyW+g3ndI96pQnthsgcyBlEevbVVeyRmzeqfoC/ZOUdkZ/VnLQjV5BF91ot0bfEH0aqhoTZxYdHRIaiww6qn7f6WjTVCf546Esm4xs7Bvu/O3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=ntDuyRbr; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GUZV0HxH; arc=none smtp.client-ip=103.168.172.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailflow.nyi.internal (Postfix) with ESMTP id F105A20039D;
-	Sun, 21 Apr 2024 10:30:37 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Sun, 21 Apr 2024 10:30:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1713709837;
-	 x=1713713437; bh=M8dfM/MUHqAfWqBOSFi1b3udgfbI61/t7DVgkqGM8h8=; b=
-	ntDuyRbrK7nfSJ9DfAGjFrN2S503gY5/wKou+LRaqgKKU41C7iVKxYLE/4k3JUrG
-	8bGm9pFArEeqEyMgmqnjlBCBGdof7PgNCNRz+hAKXPX4ytOne8FvxvK+qRBpX/uy
-	L+4JUNnsVtzPX+7gsF+WRkMwXI2kJArTqOJtCp0F714Vbqb+y0FL/lylA/E30fz0
-	X9TW89Iny+Kr2RoC0/Rv6voHIWFmeFmTChTHptAV7v7WzjNvyz2btTkxX2wO/On6
-	qAxbv+jFak4GEU9EmkiH59XIrWQXbY4qdykRX8NT6DORlnGOOK0+yKLqxlqJn3t5
-	WCgqy/OLFV3kdwu5J8MS1g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1713709837; x=
-	1713713437; bh=M8dfM/MUHqAfWqBOSFi1b3udgfbI61/t7DVgkqGM8h8=; b=G
-	UZV0HxHIijpZBcf6pfceJwPmyIK1m4rfZBTB9T2DawAU1qEC0nQqEjjUqLptph/J
-	g5j6MuvrTRhfj5onP19ge64USd+icPiWQEh8IekH1MpkvLvV8upluJwQiLfM6tPo
-	f2zhiSOuwOzpsEkCnUdJfq6JCr+i2KGYm/ysZtgHk9aRiiUwQkvjncFveyEfFJwM
-	VQ/TfiRPqVDYdnM91hHBD2Jcc89y3FEKAaAgFkII07et/dnzibi8h9KmW5V++6Is
-	GT0ZU2oN9kY02xjjVNvY81WdT1eGAHbTMsTqvzvIvYG5WlwEINCfeCI9YNWKUQ1P
-	EaX+ugFKFb2szfJuRqcZA==
-X-ME-Sender: <xms:DCMlZs-2DcsEDNKc1kkLpxnOXzsiGNTTv3BrEUMFXNzv13Swh4twFQ>
-    <xme:DCMlZkvs3hfnpivqD9nNQVRn5VIUY-Yz8Mc0Hou0f0i4IVywaGGlJ_9csKA8L3PrY
-    A-rVQGGvaFArnLYxPg>
-X-ME-Received: <xmr:DCMlZiBWukiO3POMx6__nzq8XGlLWxlnRp-W_Tvqh9keUXi7fMJDtmMTRoninvxp8UdIhmHq3EvP9TdytmUaWAifZufakl0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudekjedgkedtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
-    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrgh
-    hnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeef
-    heetheekkeegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtne
-    curfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgr
-    ghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:DCMlZsfXGstyhglVuSfJEOqErwyQUCBHYq5080VoI2_uI7QTTWYSsA>
-    <xmx:DCMlZhNuAlJrkqp4Ne9Sq_0Ze9Q61GO4VPftxfQBsAUwZBcfBit6OA>
-    <xmx:DCMlZmmMWI6nK2BfZhC_N9zFEIXWYtqRCBY9ne_t48WT0yJ5XQvXFg>
-    <xmx:DCMlZjuwQxt9yFVKFuN64nQr3pYqgL0sUjMT2Va19CsIZ_sCWLSLzw>
-    <xmx:DSMlZkcf2PEXGSIvxrnaLVzsx6y7oFyFMOZma8CeoZlxvOStFzzeRrEU>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 21 Apr 2024 10:30:36 -0400 (EDT)
-Date: Sun, 21 Apr 2024 16:30:33 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	linux-media@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] media: platform: rzg2l-cru: rzg2l-video: Move
- request_irq() to rzg2l_cru_video_register()
-Message-ID: <20240421143033.GA1105869@ragnatech.se>
-References: <20240219180544.526537-1-biju.das.jz@bp.renesas.com>
- <CAMuHMdWO7n4oBr=U-DK2aa+S68kLX=VuzpuYDeA8KymzdnggNg@mail.gmail.com>
- <20240421134630.GA29222@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1713714584; c=relaxed/simple;
+	bh=24WFs+X3sJEnTrjtAmAB0Gs4PLr+xIJa+qZJSCUe6Eg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DHHEA1+qv0nbnmHvWEcsUxgtR66Z4AcR0XcvB9MPqUWHAr966nI9zv0mqyiDTGP27UTBuo1WDMXLqk18zcrh8ahx2jOdYFBa6I8m/QKw9afNQrRJxMlBuS5R91TLlX4eTRfHS/8g2zhCT4bBTvKoPIPvOXoty74VqDPhTDtvF8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.07,218,1708354800"; 
+   d="asc'?scan'208";a="202133613"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 22 Apr 2024 00:49:34 +0900
+Received: from [10.226.92.17] (unknown [10.226.92.17])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 3D8854001960;
+	Mon, 22 Apr 2024 00:49:30 +0900 (JST)
+Message-ID: <bcddc226-7cbf-4994-94fe-eb70331f2bfa@bp.renesas.com>
+Date: Sun, 21 Apr 2024 16:49:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240421134630.GA29222@pendragon.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [net-next RFC v3 4/7] net: ravb: Refactor GbEth RX code path
+To: Sergey Shtylyov <s.shtylyov@omp.ru>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, netdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240415094804.8016-1-paul.barker.ct@bp.renesas.com>
+ <20240415094804.8016-5-paul.barker.ct@bp.renesas.com>
+ <897c3e16-7ded-bdea-08c7-14bf497bfc05@omp.ru>
+Content-Language: en-GB
+From: Paul Barker <paul.barker.ct@bp.renesas.com>
+Organization: Renesas Electronics Corporation
+In-Reply-To: <897c3e16-7ded-bdea-08c7-14bf497bfc05@omp.ru>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------xg9Mcdri72G3bjA0s0wRnWGN"
 
-Hello,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------xg9Mcdri72G3bjA0s0wRnWGN
+Content-Type: multipart/mixed; boundary="------------CLwMRD7GafHdis9yIYWe50yh";
+ protected-headers="v1"
+From: Paul Barker <paul.barker.ct@bp.renesas.com>
+To: Sergey Shtylyov <s.shtylyov@omp.ru>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, netdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-ID: <bcddc226-7cbf-4994-94fe-eb70331f2bfa@bp.renesas.com>
+Subject: Re: [net-next RFC v3 4/7] net: ravb: Refactor GbEth RX code path
+References: <20240415094804.8016-1-paul.barker.ct@bp.renesas.com>
+ <20240415094804.8016-5-paul.barker.ct@bp.renesas.com>
+ <897c3e16-7ded-bdea-08c7-14bf497bfc05@omp.ru>
+In-Reply-To: <897c3e16-7ded-bdea-08c7-14bf497bfc05@omp.ru>
 
-On 2024-04-21 16:46:30 +0300, Laurent Pinchart wrote:
-> On Thu, Apr 18, 2024 at 11:06:27AM +0200, Geert Uytterhoeven wrote:
-> > Hi Biju,
-> > 
-> > On Mon, Feb 19, 2024 at 7:05 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > > Move request_irq() to rzg2l_cru_video_register(), in order to avoid
-> > > requesting IRQ during device start which happens frequently.
-> > >
-> > > Suggested-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > 
-> > Thanks for your patch!
-> > 
-> > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > 
-> > > @@ -1011,6 +1000,7 @@ void rzg2l_cru_video_unregister(struct rzg2l_cru_dev *cru)
-> > >  {
-> > >         media_device_unregister(&cru->mdev);
-> > >         video_unregister_device(&cru->vdev);
-> > > +       free_irq(cru->image_conv_irq, cru);
-> > >  }
-> > >
-> > >  int rzg2l_cru_video_register(struct rzg2l_cru_dev *cru)
-> > > @@ -1018,6 +1008,13 @@ int rzg2l_cru_video_register(struct rzg2l_cru_dev *cru)
-> > >         struct video_device *vdev = &cru->vdev;
-> > >         int ret;
-> > >
-> > > +       ret = request_irq(cru->image_conv_irq, rzg2l_cru_irq,
-> > > +                         IRQF_SHARED, KBUILD_MODNAME, cru);
-> > > +       if (ret) {
-> > > +               dev_err(cru->dev, "failed to request irq\n");
-> > > +               return ret;
-> > > +       }
-> > > +
-> > >         if (video_is_registered(&cru->vdev)) {
-> > 
-> > How can this happen? Perhaps rzg2l_cru_video_register() can be called
-> > multiple times through the rzg2l_cru_group_notify_complete() notifier?
-> 
-> The notifier completion handler shouldn't be called multiple times, no.
-> There's however a possibility (I think) that a subdev could disappear of
-> the device is unbound from its driver. If the device is later rebound,
-> the notifier completion handler could be called again.
-> 
-> The issue is that rzg2l_cru_video_unregister() is called from .remove().
-> I think a better fix would be to request the IRQ at probe time (or did
-> we discuss that previously and concluded it could cause issues ?). I
-> would also argue that the video devices should be registered at probe
-> time, not in the notifier completion handler.
+--------------CLwMRD7GafHdis9yIYWe50yh
+Content-Type: multipart/mixed; boundary="------------jUX5ulVGtLBX1k006EERRKd4"
 
-FWIW, I intend to have another go at moving video device registration to 
-probe time for VIN once the current cleanup-patches on the list are 
-processed. Last time I tired a few years ago it was rejected with the 
-reason video devices should be register when all subdevices are 
-available.
+--------------jUX5ulVGtLBX1k006EERRKd4
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Now days other drivers upstream register video devices at probe time so 
-I hope this is now (finally) OK.
+On 19/04/2024 21:03, Sergey Shtylyov wrote:
+> On 4/15/24 12:48 PM, Paul Barker wrote:
+>=20
+>> We can reduce code duplication in ravb_rx_gbeth() and add comments to
+>> make the code flow easier to understand.
+>>
+>> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+>> ---
+>>  drivers/net/ethernet/renesas/ravb_main.c | 70 ++++++++++++-----------=
+-
+>>  1 file changed, 35 insertions(+), 35 deletions(-)
+>>
+>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/et=
+hernet/renesas/ravb_main.c
+>> index baa01bd81f2d..12618171f6d5 100644
+>> --- a/drivers/net/ethernet/renesas/ravb_main.c
+>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+>> @@ -818,47 +818,47 @@ static int ravb_rx_gbeth(struct net_device *ndev=
+, int budget, int q)
+>>  				stats->rx_missed_errors++;
+>>  		} else {
+>>  			die_dt =3D desc->die_dt & 0xF0;
+>> -			switch (die_dt) {
+>> -			case DT_FSINGLE:
+>> -				skb =3D ravb_get_skb_gbeth(ndev, entry, desc);
+>> +			skb =3D ravb_get_skb_gbeth(ndev, entry, desc);
+>> +			if (die_dt =3D=3D DT_FSINGLE || die_dt =3D=3D DT_FSTART) {
+>=20
+>    No, please keep using *switch* statement here...
 
-> 
-> > If that is true, the request_irq() should be moved after this block,
-> > just before the call to video_register_device() below.
-> > 
-> > >                 struct media_entity *entity;
-> > >
-> > > @@ -1032,14 +1029,18 @@ int rzg2l_cru_video_register(struct rzg2l_cru_dev *cru)
-> > >         ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
-> > >         if (ret) {
-> > >                 dev_err(cru->dev, "Failed to register video device\n");
-> > > -               return ret;
-> > > +               goto err_request_irq;
-> > >         }
-> > >
-> > >         ret = media_device_register(&cru->mdev);
-> > > -       if (ret) {
-> > > -               video_unregister_device(&cru->vdev);
-> > > -               return ret;
-> > > -       }
-> > > +       if (ret)
-> > > +               goto err_video_unregister;
-> > >
-> > >         return 0;
-> > > +
-> > > +err_video_unregister:
-> > > +       video_unregister_device(&cru->vdev);
-> > > +err_request_irq:
-> > > +       free_irq(cru->image_conv_irq, cru);
-> > > +       return ret;
-> > >  }
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
+That's a shame - I much prefer this version with reduced code
+duplication, especially when we add page pool support. Duplication with
+subtle differences leads to bugs, see [1] for an example.
 
--- 
-Kind Regards,
-Niklas Söderlund
+[1]: https://lore.kernel.org/all/20240416120254.2620-4-paul.barker.ct@bp.=
+renesas.com/
+
+An alternative would be to drop this refactor patch, then when we add
+page pool support we instead use separate functions to avoid code
+duplication. At the end of the series, the switch would then look
+something like this:
+
+	switch (die_dt) {
+	case DT_FSINGLE:
+		skb =3D ravb_rx_build_skb(ndev, q, rx_buff, desc_len);
+		if (!skb)
+			break;
+		ravb_rx_finish_skb(ndev, q, skb);
+		rx_packets++;
+		break;
+	case DT_FSTART:
+		priv->rx_1st_skb =3D ravb_rx_build_skb(ndev, q, rx_buff, desc_len);
+		break;
+	case DT_FMID:
+		ravb_rx_add_frag(ndev, q, rx_buff, desc_len);
+		break;
+	case DT_FEND:
+		if (ravb_rx_add_frag(ndev, q, rx_buff, desc_len))
+			break;
+		ravb_rx_finish_skb(ndev, q, priv->rx_1st_skb);
+		rx_packets++;
+		priv->rx_1st_skb =3D NULL;
+	}
+
+Would you prefer that approach?
+
+>=20
+>> +				/* Start of packet:
+>> +				 * Set initial data length.
+>> +				 */
+>>  				skb_put(skb, desc_len);
+>> +
+>> +				/* Save this SKB if the packet spans multiple
+>> +				 * descriptors.
+>> +				 */
+>> +				if (die_dt =3D=3D DT_FSTART)
+>> +					priv->rx_1st_skb =3D skb;
+>=20
+>    Hm, looks like we can do that under *case* DT_FSTART: and do
+> a fallthru to *case* DT_FSINGLE: after that...
+
+A fallthrough would just have to be removed again when page pool support
+is added in a later patch in this series, since we will need to call
+napi_build_skb() before the skb is valid.
+
+>=20
+>> +			} else {
+>> +				/* Continuing a packet:
+>> +				 * Move data into the saved SKB.
+>> +				 */
+>> +				skb_copy_to_linear_data_offset(priv->rx_1st_skb,
+>> +							       priv->rx_1st_skb->len,
+>> +							       skb->data,
+>> +							       desc_len);
+>> +				skb_put(priv->rx_1st_skb, desc_len);
+>> +				dev_kfree_skb(skb);
+>> +
+>> +				/* Set skb to point at the whole packet so that
+>> +				 * we only need one code path for finishing a
+>> +				 * packet.
+>> +				 */
+>> +				skb =3D priv->rx_1st_skb;
+>> +			}
+>> +
+>> +			if (die_dt =3D=3D DT_FSINGLE || die_dt =3D=3D DT_FEND) {
+>=20
+>    Again, keep using *switch*, please...
+>=20
+>> +				/* Finishing a packet:
+>> +				 * Determine protocol & checksum, hand off to
+>> +				 * NAPI and update our stats.
+>> +				 */
+>>  				skb->protocol =3D eth_type_trans(skb, ndev);
+>>  				if (ndev->features & NETIF_F_RXCSUM)
+>>  					ravb_rx_csum_gbeth(skb);
+>> +				stats->rx_bytes +=3D skb->len;
+>>  				napi_gro_receive(&priv->napi[q], skb);
+>>  				rx_packets++;
+> [...]
+>=20
+> MBR, Sergey
+
+Thanks,
+
+--=20
+Paul Barker
+--------------jUX5ulVGtLBX1k006EERRKd4
+Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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3D
+=3DsIIN
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------jUX5ulVGtLBX1k006EERRKd4--
+
+--------------CLwMRD7GafHdis9yIYWe50yh--
+
+--------------xg9Mcdri72G3bjA0s0wRnWGN
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZiU1iQUDAAAAAAAKCRDbaV4Vf/JGvTlw
+AQDnB3KfNdwO0lfg0Wjfr8CyCnsYeU29PwI2i+uC1EkArQD/cd8yye5Erq8Vg9UrCX5yeI0lKjWo
+JeOmFYWWE+73jQ8=
+=sNrl
+-----END PGP SIGNATURE-----
+
+--------------xg9Mcdri72G3bjA0s0wRnWGN--
 
