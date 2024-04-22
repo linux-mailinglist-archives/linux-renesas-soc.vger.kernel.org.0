@@ -1,125 +1,188 @@
-Return-Path: <linux-renesas-soc+bounces-4766-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4767-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E0A48ACB24
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Apr 2024 12:46:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E0BF8ACB4B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Apr 2024 12:54:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 14E1C1F20F9B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Apr 2024 10:46:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9B8341F213F5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Apr 2024 10:54:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C703146A63;
-	Mon, 22 Apr 2024 10:44:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 727401465AA;
+	Mon, 22 Apr 2024 10:54:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="m9CpuyAd"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="m5YXdNGM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E23E1465BD
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Apr 2024 10:44:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398DD146006
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Apr 2024 10:54:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713782691; cv=none; b=imV2YvwbArSkWv8soG35HeIXpUvEf39n3AEbMFpsjyAiSV2E6jjDUQcjBPMzRN//dpw3Ik5Zimv497Y3tyPWhHRbKyzWrohw8aOy+lW4YLlU5DqaVyOilsvacPqYT9d4pmVU6hn6omytaRneFrgzbzIGw3M5Ui6FxWLn7QLWfvY=
+	t=1713783244; cv=none; b=F2sf43uuG5Ui2lLxsD0W36Z4FJmHt6I4tTxOiuc44Dy5aRDzKmsEGzj93pNB8l6/7LtZzOkTNbBENb/crsqd02viQ8j1EoB2XCAzOruHcpNG1EWpQDmjkKc4ke2ySYEaVlKtt6KSGE3nA8SRZP8bWk1PgVW4BsdJQ448lqw8z+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713782691; c=relaxed/simple;
-	bh=bzcewTEZp8Wbd6KSaSgbrbH+qvbZxzp23uj9WiUjdUw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jrNUhTdeQD2d8HdvrPjKXVkOM7RQtCb9+p2QhYDXLWTlTUCxouC5gX2W41xIO6BKxyqA6B9cs/1iuzkdbsISXAI8TscYSQbKUP8C5PrMJcYjoy7enHGUNr80teaeqb8x5MMnsU+isoybc/XwSsFpp9t2r/qhuqL3Iek04mDFto8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=m9CpuyAd; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-344047ac7e4so3062581f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Apr 2024 03:44:49 -0700 (PDT)
+	s=arc-20240116; t=1713783244; c=relaxed/simple;
+	bh=qE5Vwmtp9Qv3JNLaDibUL1/hbZOmTstWoD1DhaLuYLI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fH3tHx0A1kdR6osJ9lwLFMudrccSWuf9a7XK6Lc3K9M+Pk5s5lT0SgrduclUvmHuJK+qjkf9EKS7k6pDNYCznRoBOKn+CJiZ/ZQfanR2+tpTe9VAmhAkkfj9t/OxsZwfZOTXfG4sZIFHN9wX8ns7YhXipnDD6pwV4fl4DH4DRfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=m5YXdNGM; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-343f62d8124so3447606f8f.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Apr 2024 03:54:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713782688; x=1714387488; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wR97KP7K22vcCUiLNn0X4KfDnNwelS8JUEnq9UX2UNk=;
-        b=m9CpuyAdmtDXEQV035cywFXV5WJmesQilOXrkjzBZmTJHssq+aOYgtu19zy8X+uVfJ
-         f1Wi6YKaP+aSgMSmeORYODqY08dcXSaRf3TNxBzDYQQsyLQMzdRJIuhNKccNmIVaEgrY
-         EVD++Co14+VZzs+9yQdsvwiIg5qgBADxvhbklx6DtKP3fqEcG56HyWZ6a2mw3S6BU2oi
-         Rjd2WU6IyGe5OxWS9UrqQ3Su0QtuCAllP4gkXM2DZAT5BnOksBJ0v2pENzySrVeKMsFX
-         +xod4kFoLOFOPIxiUn1hQp0n4GSuF01N1hTjqsfVFJ4KCqSXNjPOAjlOe7B1TvGkwpw+
-         4wow==
+        d=tuxon.dev; s=google; t=1713783239; x=1714388039; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kyXgtdlSsX9JbCqrqT1KpAPo69/BzSus4iMQG/5X7PE=;
+        b=m5YXdNGM8jOgkhQiDFF/wFnN3bFfOxHqz+15kBreooLUytilfyoAzjd79KONgFkzux
+         dHW9EybhBm1v14ECaydUF2WareSnWNbRZZn3nST/ZLDJwv7SSAQqd2kw0ueCXU0O3ctZ
+         7n4Ev6kJkh5IG3oLpF73AJaLQHehZBGZId8Yzfg7HxAtxOVOhrVC8VDBp1qkQqcTmgyd
+         PAi4p2TqmREgM2UwFbT0uXu0ikcw9TYI0ttmpnuPeZuM12/cSB8Clfyq/OX73X3phhRe
+         a/BlKZ8UbZoPo8/CGFm6pzqWd+XkjM0tAGakeKWEBVoCJ1PCsurp0PPJAZ4mc/6JglZT
+         hSBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713782688; x=1714387488;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wR97KP7K22vcCUiLNn0X4KfDnNwelS8JUEnq9UX2UNk=;
-        b=vKsEJGiW6ORfuAcD9jYXZBV+Uo1cGkO2/LBdyNk93szqwb8e/+7DsoetbvOorK/B6n
-         eQZKbfWKhkUrD5bvg8CH5gSnsZ9I+scC9VmatoBsAhxtiIzqRHu6Zfe5w/gbnerZpJ9l
-         kvEQAI17kYp2KNuIsFYD2EJbjcO5fPGZttZPHwn6xTmni+2TxUC4KEiQnoYGs3cDO50m
-         DFK4ARfuCmWoYk3TudlACcV6r6rffsygaX6SHUXZwWrlsVtcTG9AVIe51NkxW3LeCrT7
-         FzUW9o9NgfqhqT+mP0OkKJLgNVY4TVTkXg2diq5+NLZehuwjobz0N7LOpO9aZc4aZF2P
-         p3Ng==
-X-Forwarded-Encrypted: i=1; AJvYcCWBYkhTAbSjx/1Pk8y0eyoAnx4LAfr4UHYAkmxJt9IXQzUSu0YgUjnoWtbXlDwhBMSl8mAWxd+8UL82fusyk/qqs3LGoUhgTHoNkhtHF5/0+gY=
-X-Gm-Message-State: AOJu0Yx9H0pplcS8g4a+sHZWP5qTIWmjbE+7btrX/32ZahAWc7kcgU3n
-	X+ttNgLBh4FLWSHRF8LCtRVd3IfHP51lo8s46xKmp/K+M1jIxArQPCGpv6nm67w=
-X-Google-Smtp-Source: AGHT+IHEVYgt9vgZzUvOGj9DvGZzF9NFHN00yyy4hZi+7IPr9wmffeRfEUo3Gjiacp8SiOwFg51jtg==
-X-Received: by 2002:adf:ec0a:0:b0:34a:eb4e:2633 with SMTP id x10-20020adfec0a000000b0034aeb4e2633mr2464786wrn.10.1713782687876;
-        Mon, 22 Apr 2024 03:44:47 -0700 (PDT)
-Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
-        by smtp.googlemail.com with ESMTPSA id g30-20020adfa49e000000b00343f662327bsm11845256wrb.77.2024.04.22.03.44.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Apr 2024 03:44:47 -0700 (PDT)
-Message-ID: <5020e895-2810-4895-9f1f-9e15f7cec357@linaro.org>
-Date: Mon, 22 Apr 2024 12:44:46 +0200
+        d=1e100.net; s=20230601; t=1713783239; x=1714388039;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kyXgtdlSsX9JbCqrqT1KpAPo69/BzSus4iMQG/5X7PE=;
+        b=odExoqalbhvL1eSIdRLi+u85ExOrydflc6Vi2YClOZXYzSgkcKB9yeojMC1aroP7Hc
+         jCtKqK5Gd4jk+6bzcjYwnxIfWc3WfRBn8tltyuaOfeAI8D3FJ4oFRndSMnMEN8toB8H0
+         JmIAmkjedght1BNgay/vVejMZqYLCQvLXjv8iKW4v3CT7JC96PzgHosu6R4ne0BqyqcB
+         1gDmx233spAuReNxCDOlXkZ6cajc1WUw2SThvZNVNfBIX4inQRJULijYBaMcJqWHxmq2
+         MDkwA/BJbHnjwXiuMY/tkOPSpGxhH317U4F7P9RRaRTX88u/fQDL6wX2hGZri8UV2DsJ
+         SlZQ==
+X-Gm-Message-State: AOJu0YyXyqdO72gUk9sA2Eyhuc92BeV+3aAwgEaVdF4NlKvELdkZMbFY
+	LhpzRV5sQzJ99YOkPBPX81Mmd3ubLSREvKDXXof3yTxf+bPo5C85UImazgFD2z7SjUiWq8Q66iK
+	XHxg=
+X-Google-Smtp-Source: AGHT+IE2HFhfOY3a7coK7WBeBu9s0c6ROdImq1nPtwwG99XgO1IXvZsqHnwGsmXXQujjgOBA5sQxiQ==
+X-Received: by 2002:a5d:56ce:0:b0:349:8ba8:e26d with SMTP id m14-20020a5d56ce000000b003498ba8e26dmr6552380wrw.13.1713783239258;
+        Mon, 22 Apr 2024 03:53:59 -0700 (PDT)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.53])
+        by smtp.gmail.com with ESMTPSA id v13-20020a05600c444d00b0041a3f700ccesm4321037wmn.40.2024.04.22.03.53.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Apr 2024 03:53:58 -0700 (PDT)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: geert+renesas@glider.be,
+	mturquette@baylibre.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	magnus.damm@gmail.com,
+	ulf.hansson@linaro.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	claudiu.beznea@tuxon.dev,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v4 0/8] clk: renesas: rzg2l: Add support for power domains
+Date: Mon, 22 Apr 2024 13:53:47 +0300
+Message-Id: <20240422105355.1622177-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] thermal: rcar_gen3: Use temperature approximation
- from datasheet
-Content-Language: en-US
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- Lukasz Luba <lukasz.luba@arm.com>, linux-pm@vger.kernel.org
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- linux-renesas-soc@vger.kernel.org
-References: <20240327133013.3982199-1-niklas.soderlund+renesas@ragnatech.se>
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <20240327133013.3982199-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 27/03/2024 14:30, Niklas Söderlund wrote:
-> Hello,
-> 
-> When the driver was first added the temperature approximation was
-> reversed engineered from an out-of-tree driver as the datasheets of the
-> time did not contain this information. Recent datasheets, both Gen3 and
-> Gen4, now contains this information.
-> 
-> This series changes the temperature approximation formula to match
-> what's described in the datasheets. It has been tested on both Gen3 and
-> Gen4 with minimal changes in temperatures reported.
-> 
-> Patch 1 is a cleanup making the scope of a constant more clear. Patch
-> 2 is the real work changing the approximation formula.
-> 
-> Compared to v1 patch 3/3 have been squashed intro v2 patch 2/2. This is
-> due to a suggestion from Geert where the precision in approximation
-> could be increased while removing the need for the changed done in v1
-> 3/3, thanks Geert!
-> 
-> See individual patches for detailed changelog.
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Applied, thanks
+Hi,
+
+Series adds support for power domains on rzg2l driver.
+
+RZ/G2L kind of devices support a functionality called MSTOP (module
+stop/standby). According to hardware manual the module could be switch
+to standby after its clocks are disabled. The reverse order of operation
+should be done when enabling a module (get the module out of standby,
+enable its clocks etc).
+
+In [1] the MSTOP settings were implemented by adding code in driver
+to attach the MSTOP state to the IP clocks. But it has been proposed
+to implement it as power domain. The result is this series.
+
+The DT bindings were updated with power domain IDs (plain integers
+that matches the DT with driver data structures). The current DT
+bindings were updated with module IDs for the modules listed in tables
+with name "Registers for Module Standby Mode" (see HW manual) exception
+being RZ/G3S where, due to the power down functionality, the DDR,
+TZCDDR, OTFDE_DDR were also added.
+
+Domain IDs were added to all SoC specific bindings.
+
+Thank you,
+Claudiu Beznea 
+
+Changes in v4:
+- dropped the pwrdn functionality until it is better understanded
+- dropped patch "clk: renesas: rzg2l-cpg: Add suspend/resume
+  support for power domains" from v3; this will be replaced
+  by propertly calling device_set_wakup_path() in serial console
+  driver
+- instantiated the watchdog domain in r8a08g045 clock driver; this
+  allow applying r9a08g045 clock patch w/o affecting watchdog and later,
+  after all good with watchdog patches series at [2], only patch
+  "arm64: dts: renesas: r9a08g045: Update #power-domain-cells = <1>"
+  will need to be applied
+
+Changes in v3:
+- collected tags
+- dinamically detect if a SCIF is serial console and populate
+  pd->suspend_check
+- dropped patch 09/10 from v2
+
+Changes in v2:
+- addressed review comments
+- dropped:
+    - dt-bindings: clock: r9a09g011-cpg: Add always-on power domain IDs
+    - clk: renesas: r9a07g043: Add initial support for power domains
+    - clk: renesas: r9a07g044: Add initial support for power domains
+    - clk: renesas: r9a09g011: Add initial support for power domains
+    - clk: renesas: r9a09g011: Add initial support for power domains
+    - arm64: dts: renesas: r9a07g043: Update #power-domain-cells = <1>
+    - arm64: dts: renesas: r9a07g044: Update #power-domain-cells = <1>
+    - arm64: dts: renesas: r9a07g054: Update #power-domain-cells = <1>
+    - arm64: dts: renesas: r9a09g011: Update #power-domain-cells = <1>
+  as suggested in the review process
+- dropped "arm64: dts: renesas: rzg3s-smarc-som: Guard the ethernet IRQ
+  GPIOs with proper flags" patch as it was integrated
+- added suspend to RAM support
+- collected tag
+
+[1] https://lore.kernel.org/all/20231120070024.4079344-4-claudiu.beznea.uj@bp.renesas.com/
+[2] https://lore.kernel.org/all/20240410134044.2138310-1-claudiu.beznea.uj@bp.renesas.com/
+
+Claudiu Beznea (8):
+  dt-bindings: clock: r9a07g043-cpg: Add power domain IDs
+  dt-bindings: clock: r9a07g044-cpg: Add power domain IDs
+  dt-bindings: clock: r9a07g054-cpg: Add power domain IDs
+  dt-bindings: clock: r9a08g045-cpg: Add power domain IDs
+  dt-bindings: clock: renesas,rzg2l-cpg: Update #power-domain-cells =
+    <1> for RZ/G3S
+  clk: renesas: rzg2l: Extend power domain support
+  clk: renesas: r9a08g045: Add support for power domains
+  arm64: dts: renesas: r9a08g045: Update #power-domain-cells = <1>
+
+ .../bindings/clock/renesas,rzg2l-cpg.yaml     |  18 +-
+ arch/arm64/boot/dts/renesas/r9a08g045.dtsi    |  20 +-
+ drivers/clk/renesas/r9a08g045-cpg.c           |  41 ++++
+ drivers/clk/renesas/rzg2l-cpg.c               | 199 ++++++++++++++++--
+ drivers/clk/renesas/rzg2l-cpg.h               |  67 ++++++
+ include/dt-bindings/clock/r9a07g043-cpg.h     |  52 +++++
+ include/dt-bindings/clock/r9a07g044-cpg.h     |  58 +++++
+ include/dt-bindings/clock/r9a07g054-cpg.h     |  58 +++++
+ include/dt-bindings/clock/r9a08g045-cpg.h     |  70 ++++++
+ 9 files changed, 558 insertions(+), 25 deletions(-)
 
 -- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+2.39.2
 
 
