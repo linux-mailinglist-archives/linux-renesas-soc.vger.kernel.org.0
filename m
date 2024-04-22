@@ -1,111 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-4785-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4786-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5D9D8AD2DA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Apr 2024 18:58:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 087748AD2F9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Apr 2024 19:02:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 22D2AB23AE8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Apr 2024 16:58:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8C16F1F21B88
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Apr 2024 17:02:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15482153824;
-	Mon, 22 Apr 2024 16:58:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3345B153825;
+	Mon, 22 Apr 2024 17:00:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nVIUgDmM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D58171DDE9;
-	Mon, 22 Apr 2024 16:58:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B2D152197;
+	Mon, 22 Apr 2024 17:00:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713805119; cv=none; b=YZWI0b9DAyunRLUl6YEQ0v5Aw1QQBYqMwiII8YmJhEHSz7uSHqn8oC8IXD6de+ox1/xujrRrSvreUQ+7nhFdCJ0BzInhqZaHrH1QwmI2jynbtoXY8zlAM1DL17Ck++DKvLnZyjf0Gji1YrGDNANBGrOG2Vj59yq6oeMsI3Glgoo=
+	t=1713805216; cv=none; b=lx7CYKzgSmOXwGK8tOAUxSI8vzQ8TBem4+53+zNGFGCoCJGoonhXSCkkBsS8GysGkk/j34kdoojgdAlpkP5ZtocVNwK65FHPkAJlRCj9ApKkW89ICLHv/750uOwNHwz5Ivbqts+G5lV7yHMGBV7AGdUXfYP5F6tBf9k4h2d8ORA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713805119; c=relaxed/simple;
-	bh=2MM87vb1RriR8f7HL8tf1uYoQdwU6zKEoIT1IrsLPvo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Rq8bxpPHk2/cla+Zt23rk60G+ZhezAT540njzDjfzpMSjCOiGj956slqoIkZVh8M6xZouIkaECOssZjns8b2mO1+V7+1Yu0TtO8DkRDMPlpxyNMLaBcj8DWzVNw27ow1ISmnwWmpztBv7jDGXHStEKsQZ0EqPwiwvJ1UQwOzBn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-de45e5c3c68so5000526276.0;
-        Mon, 22 Apr 2024 09:58:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713805115; x=1714409915;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bXJbCXLErVWaJBLn0gFAgxou+WnOajhqe1V1IAmICA4=;
-        b=W3QfRIKDvC4EaODIGE2M5ULOnuaDoIAut1kJ7Iy8uyU2s4/VeLzluarABaI2sXWYX5
-         9BFprf0ik9PDFuHLHHxNTMtRh36/7MqeySRDVTS393M4kt/NZluzUoJA9gZ1dUDeEFaY
-         /A0uFii24qmGebPX75lZJvp2Imcwbv3F2KNb8tK+ZeE/60m41AaqrUXCphhYzV1fCnTy
-         nIFHDajph2Bf9HEAKndhvVexpJw9Ne2+KjuZP6A1MQ7UQVKQALoaMRx8gFYWrlXf+Kr0
-         b/CoJgeXdqGDYK7jgY/o9p4sAMA5+zDnQ7XY/DGdlEtsi5Eu6FDfeVE07CJe2wvWOg6z
-         mOoA==
-X-Forwarded-Encrypted: i=1; AJvYcCW0EuFbDUC6frF9jSjMaQjwPGyvHqDhjgQ33g5mVspolBSeNZa/J8I8W5FSZqV+1Y3V7KcA4pzVtGlbX8McI6tGF9uH7UQn3EvhjUCr7W5RJrGPzj1wUVphnBTUj8SbymgTh4WsqVuu8CCntUvPp0KiMq1yluCa1bBdK0m0DDKYEPnf5hPsEzNUddR10qI=
-X-Gm-Message-State: AOJu0YyuHFnGT5echqwJIA2qEfT0XMYoO7yzloRqQCT+QGUgcZ3fkx9P
-	7kQWntFgMFVU7TOec9DZWBxn35tuYPHqI7UpYAhRc2lfAyRuQvP2h3pIzrIU
-X-Google-Smtp-Source: AGHT+IEVSiqwfgzLYa3jXG1W9lHYUc/Gt3hNKRLN+rKTFRSjy/yMtSAheFb9y5lO47W8eDl0AsnMVA==
-X-Received: by 2002:a25:b21b:0:b0:dc6:bbbd:d4f4 with SMTP id i27-20020a25b21b000000b00dc6bbbdd4f4mr10636291ybj.33.1713805114799;
-        Mon, 22 Apr 2024 09:58:34 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id l5-20020a056902072500b00de4f779bb2dsm1204462ybt.6.2024.04.22.09.58.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Apr 2024 09:58:34 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dbed0710c74so4097831276.1;
-        Mon, 22 Apr 2024 09:58:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUcqOAkNu8gnGeKdnGPqWQOLBhc119bZ08GmYIoaxLJQhmLWq1Mlx2OyTABA6WgboHCArH/IV4R0Vi5Hn4J9u1m5wJlZXxirezLS1g7ycxnyv+lQPgxk+XU6ur7J/IKN6iVPA7svORwHuo2zLsh6SnK0gxpTmnHwWHBPhKetlo2QxkzMXMlLlEzYG08eFM=
-X-Received: by 2002:a25:292:0:b0:de3:cce6:5dce with SMTP id
- 140-20020a250292000000b00de3cce65dcemr11262187ybc.36.1713805113975; Mon, 22
- Apr 2024 09:58:33 -0700 (PDT)
+	s=arc-20240116; t=1713805216; c=relaxed/simple;
+	bh=xAOKVOl8L9bgXPssCvU9ysQILCCCOchkHGoJuRkb7/k=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=mRPyZ/4xPWV70iEGOSjdlsEjWlu1+FPv9LvjgdOyUppe/3ylNmtt1pDtGCBx89bdzsw8K1qZ2QLOzKuqhcoRlodZ8o+SNdvt3Q7lKw9Z+9IMF1IE4ctsjZOUrPXyVKe3KOxUmkWCzzaIuDqRiRL/GaNeKf8JpwnherocrEwFpD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nVIUgDmM; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713805214; x=1745341214;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=xAOKVOl8L9bgXPssCvU9ysQILCCCOchkHGoJuRkb7/k=;
+  b=nVIUgDmMWgH/10eZ0/kkZr4/Cxgg0cB+X7YR+R2dWPEl7vnZ92LpXSL1
+   +eq+Hg64a7c2w6HLp+/he31PLxkC7SnD7KJ25UDbtLl2TMAQfcBIE/EOW
+   5U5NeyZYiZmsKYZZFBiK/zk997ffoRsD52KHsfI5+m1BeXMK9rZe+ns10
+   i+YqtDx3REuNZI3soD+n9YGWeD8ZLyQZ+mXVVT9Z9z851qKFcDS1d4e/F
+   YSmDwwbKuoIxrb89Iw+eRnn5zQq/KXyIH8JYdVHAiqPtW2BVR+Z/5eCa1
+   TFjR7I8t6gh9GRZYaFy0affCZmiGJyrL1soXjhcQBC3PL8YwJVWIZfZuS
+   Q==;
+X-CSE-ConnectionGUID: ID55QCg5Q2Gsgg/NxT1cng==
+X-CSE-MsgGUID: tWFRuV3/TWClPHb2z12Tsg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="20502405"
+X-IronPort-AV: E=Sophos;i="6.07,221,1708416000"; 
+   d="scan'208";a="20502405"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 10:00:13 -0700
+X-CSE-ConnectionGUID: W0R16tSASjShcIHwqgyPlg==
+X-CSE-MsgGUID: OW6KzNTESxqrC5nGq+YBPg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,221,1708416000"; 
+   d="scan'208";a="23953716"
+Received: from ralbanes-mobl.ger.corp.intel.com (HELO localhost) ([10.252.63.128])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 10:00:10 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Arnd Bergmann <arnd@arndb.de>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 00/11] drm: Restore helper usability
+In-Reply-To: <af6e26d1-1402-4ed2-a650-b58eae77273e@app.fastmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1713780345.git.geert+renesas@glider.be>
+ <87il09ty4u.fsf@intel.com>
+ <ff4f9e8f-0825-4421-adf9-e3914b108da7@app.fastmail.com>
+ <875xw9ttl6.fsf@intel.com>
+ <af6e26d1-1402-4ed2-a650-b58eae77273e@app.fastmail.com>
+Date: Mon, 22 Apr 2024 20:00:07 +0300
+Message-ID: <87wmops57s.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1713780345.git.geert+renesas@glider.be> <87il09ty4u.fsf@intel.com>
- <ff4f9e8f-0825-4421-adf9-e3914b108da7@app.fastmail.com> <875xw9ttl6.fsf@intel.com>
- <af6e26d1-1402-4ed2-a650-b58eae77273e@app.fastmail.com>
-In-Reply-To: <af6e26d1-1402-4ed2-a650-b58eae77273e@app.fastmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 22 Apr 2024 18:58:21 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXCL-gbKr6mUBPWONtRjz=X0vZQgiS=02WXXSFf67yBww@mail.gmail.com>
-Message-ID: <CAMuHMdXCL-gbKr6mUBPWONtRjz=X0vZQgiS=02WXXSFf67yBww@mail.gmail.com>
-Subject: Re: [PATCH 00/11] drm: Restore helper usability
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	linux-kbuild <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Hi Arnd,
-
-CC kbuild
-
-On Mon, Apr 22, 2024 at 3:55=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
-:
+On Mon, 22 Apr 2024, "Arnd Bergmann" <arnd@arndb.de> wrote:
 > On Mon, Apr 22, 2024, at 15:28, Jani Nikula wrote:
-> > On Mon, 22 Apr 2024, "Arnd Bergmann" <arnd@arndb.de> wrote:
-> >> 2. Using "select" on user visible symbols that have dependencies
-> >>    is a common source for bugs, and this is is a problem in
-> >>    drivers/gpu/drm more than elsewhere in the kernel, as these
-> >>    drivers traditionally select entire subsystems or drivers
-> >>    (I2C, VIRTIO, INPUT, ACPI_WMI, BACKLIGHT_CLASS_DEVICE,
-> >>    POWER_SUPPLY, SND_PCM, INTERCONNECT, ...). This regularly
-> >>    leads to circular dependencies and we should fix all of them.
-> >
-> > What annoys me is that the fixes tend to fall in two categories:
-> >
-> > - Play catch with selecting the dependencies of the selected
-> >   symbols. "depends on" handles this recursively, while select does
-> >   not.
+>> On Mon, 22 Apr 2024, "Arnd Bergmann" <arnd@arndb.de> wrote:
+>>> On Mon, Apr 22, 2024, at 13:50, Jani Nikula wrote:
+>>>
+>>>> I still disagree with this, because fundamentally the source symbol
+>>>> really should not have to care about the dependencies of the target
+>>>> symbol.
+>>>
+>>> Sorry you missed the IRC discussion on #armlinux, we should have
+>>> included you as well since you applied the original patch.
+>>>
+>>> I think the reason for this revert is a bit more nuanced than
+>>> just the usability problem. Sorry if I'm dragging this out too
+>>> much, but I want to be sure that two points come across:
+>>>
+>>> 1. There is a semantic problem that is mostly subjective, but
+>>>    with the naming as "helper", I generally expect it as a hidden
+>>>    symbol that gets selected by its users, while calling same module
+>>>    "feature" would be something that is user-enabled and that
+>>>    other modules depend on. Both ways are commonly used in the
+>>>    kernel and are not mistakes on their own.
+>>
+>> Fair enough. I believe for (optional) "feature" the common pattern would
+>> then be depends on FEATURE || FEATURE=n.
+>>
+>>> 2. Using "select" on user visible symbols that have dependencies
+>>>    is a common source for bugs, and this is is a problem in
+>>>    drivers/gpu/drm more than elsewhere in the kernel, as these
+>>>    drivers traditionally select entire subsystems or drivers
+>>>    (I2C, VIRTIO, INPUT, ACPI_WMI, BACKLIGHT_CLASS_DEVICE,
+>>>    POWER_SUPPLY, SND_PCM, INTERCONNECT, ...). This regularly
+>>>    leads to circular dependencies and we should fix all of them.
+>>
+>> What annoys me is that the fixes tend to fall in two categories:
+>>
+>> - Play catch with selecting the dependencies of the selected
+>>   symbols. "depends on" handles this recursively, while select does
+>>   not.
 >
 > I'm not sure where this misunderstanding comes from, as you
 > seem to be repeating the same incorrect assumption about
@@ -137,38 +154,108 @@ On Mon, Apr 22, 2024 at 3:55=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
 >        tristate "This driver is broken if I2C is disabled"
 >        select HELPER_B
 
-So the DRIVER section should gain a "depends on I2C" statement.
+This case is really what I was referring to, although I was sloppy with
+words there. I understand that select does work recursively for selects.
 
-Yamada-san: would it be difficult to modify Kconfig to ignore symbols
-like DRIVER that select other symbols with unmet dependencies?
-Currently it already warns about that.
-
-Handling this implicitly (instead of the current explict "depends
-on") would have the disadvantage though: a user who is not aware of
-the implicit dependency may wonder why DRIVER is invisible in his
-config interface.
-
->
-> >   There is no end to this, it just goes on and on, as the
-> >   dependencies of the selected symbols change over time. Often the
-> >   selects require unintuitive if patterns that are about the
-> >   implementation details of the symbol being selected.
+>>   There is no end to this, it just goes on and on, as the
+>>   dependencies of the selected symbols change over time. Often the
+>>   selects require unintuitive if patterns that are about the
+>>   implementation details of the symbol being selected.
 >
 > Agreed, that is the problem I frequently face with drivers/gpu/drm,
 > and most of the time it can only be solved by rewriting the whole
 > system to not select user-visible symbol at all.
+>
+> Using 'depends on' by itself is unfortunately not enough to
+> avoid /all/ the problems. See e.g. today's failure
+>
+> config DRM_DISPLAY_HELPER
+>        tristate "DRM Display Helpers"
+>        default y
+>
+> config DRM_DISPLAY_DP_HELPER
+>        bool "DRM DisplayPort Helpers"
+>        depends on DRM_DISPLAY_HELPER
+>
+> config DRM_PANEL_LG_SW43408
+>        tristate "LG SW43408 panel"
+>        depends on DRM_DISPLAY_DP_HELPER
+>
+> This version is still broken for DRM_DISPLAY_HELPER=m,
+> DRM_DISPLAY_DP_HELPER=m, DRM_PANEL_LG_SW43408=y because
+> the dependency on the bool symbol is not enough to
+> ensure that DRM_DISPLAY_HELPER is also built-in, so you
+> still need explicit dependencies on both
+> DRM_DISPLAY_HELPER and DRM_DISPLAY_DP_HELPER in the users.
+>
+> This can be solved by making DRM_DISPLAY_DP_HELPER a
+> tristate symbol and adjusting the #ifdef checks and
+> Makefile logic accordingly, which is exactly what you'd
+> need to do to make it work with 'select' as well.
 
-Gr{oetje,eeting}s,
+So bool is kind of problematic for depends on and select even when it's
+not really used for describing builtin vs. no, but rather yes vs. no?
 
-                        Geert
+>> - Brush the invalid configs under the rug by using IS_REACHABLE(),
+>>   switching from a loud link time failure to a silent runtime
+>>   failure. (I regularly reject patches adding IS_REACHABLE() to i915,
+>>   because from my pov e.g. i915=y backlight=m is an invalid
+>>   configuration that the user shouldn't have to debug at runtime. But I
+>>   can't express that in kconfig while everyone selects backlight.)
+>
+> Thanks a lot for rejecting the IS_REACHABLE() patches, it is
+> indeed the worst way to handle those (I know, as I introduced
+> IS_REACHABLE() only to replace open-coded versions of the same,
+> not to have it as a feature or to use it in new code).
+>
+>> If you have other ideas how these should be fixed, I'm all ears.
+>>
+>>>    The display helpers however don't have this problem because
+>>>    they do not have any dependencies outside of drivers/gpu/
+>>
+>> Fair enough, though I think they still suffer from some of them having
+>> dependencies. (Wasn't this how the original patches and the debate all
+>> got started?)
+>
+> I believe that Maxime said on IRC that he only did the patches
+> originally because he expected problems with them based on his
+> understanding on how Kconfig works. I'm not aware of any
+> particular problem here.
+>
+> Let me know if you see a problem with any of the symbols that
+> Geert has proposed for reverting, and I'll try to find a solution.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+I think there will still be some things that select and some other
+things that depends on DRM_DISPLAY_HELPER, for example. Usually that's a
+recipe for kconfig failures down the line. (Is it ever a good idea?)
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+For example, after this series, we'll (again) have:
+
+config DRM_DISPLAY_DP_AUX_CEC
+	bool "Enable DisplayPort CEC-Tunneling-over-AUX HDMI support"
+	depends on DRM && DRM_DISPLAY_HELPER
+	select DRM_DISPLAY_DP_HELPER
+	select CEC_CORE
+
+Should we now also drop the help from DRM_DISPLAY_HELPER, and select it
+everywhere, including here, and in DRM_DISPLAY_HDCP_HELPER and
+DRM_DISPLAY_HDMI_HELPER?
+
+> In my randconfig test environment, I have several patches that
+> I sent in the past to clean up the ACPI_VIDEO, I2C, BACKLIGHT and
+> LED dependencies to stop using 'select' as I could not otherwise
+> get nouveau, i915 and xe to build reliably, but that means I
+> may be missing some of the other problems.
+
+Yeah, these seem to be the really problematic ones. I admit I may have
+been misguided in insisting the same approach to the helpers that should
+be used here; at least the helpers should be easier to fix without
+selecting the target symbol dependencies in the source symbols.
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel
 
