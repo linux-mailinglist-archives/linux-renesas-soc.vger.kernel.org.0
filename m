@@ -1,49 +1,64 @@
-Return-Path: <linux-renesas-soc+bounces-4753-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4765-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A64488AC6C7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Apr 2024 10:21:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCD198ACB16
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Apr 2024 12:45:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5BC6E1F216B8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Apr 2024 08:21:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 68754281D47
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Apr 2024 10:45:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD105502B4;
-	Mon, 22 Apr 2024 08:20:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WLoWmC7X"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19167146006;
+	Mon, 22 Apr 2024 10:40:58 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from riemann.telenet-ops.be (riemann.telenet-ops.be [195.130.137.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 994BE50246
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Apr 2024 08:20:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6465110A20
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Apr 2024 10:40:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713774047; cv=none; b=k6duTLhVUPIbK40d3VVigo/3l/iB9I/QySFyf/5vrsodwt0xutNPTgxXoxwg5gylI07SagLjFavHIjFwppnrRM4bpJzuQ0sBcSPyTgBuEHrqj2Ks2HQKwY+sGQF6LLupSzHj3UZ2rlgVC9Haw/ACk41a5emV7HUE+bcRxMPFNXQ=
+	t=1713782458; cv=none; b=Dp6IyYkiggGlda/00sceA7Ys2z6kILEvy2bdIPCkJbTktUjvA2qWQgrVYMO3s09xHeVENlu6BW63A2o+HevHbZWsuojvBxeYjb9iXRFM2CqHOGgOjqADd9c9gOhxwO52JI1aJvx/gsizbQ36hlHckSWEANfpx0jbjV+saYq+iLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713774047; c=relaxed/simple;
-	bh=dZFn+1dEDGdLOYAQ8w3UtozsZkQt3gyZt5JPBG3mr5c=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=DGXKMHZja2OWwWlQNGqJ5YmqLmH/8t+x38895yt1UkV5AjSpHZtQ2Mc1ARZXDkNMxmaWZOTJfj9MoS9uwvIJtNMUffzg/vZk2Dny18XtE9jlYD3Cg8TMujk+FJy9wsz9j8X7et9K6nPPz4nNBkkz81mcbhzy3odNzktqB2BG444=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WLoWmC7X; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 28F43C113CC
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Apr 2024 08:20:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713774047;
-	bh=dZFn+1dEDGdLOYAQ8w3UtozsZkQt3gyZt5JPBG3mr5c=;
-	h=Subject:From:Date:To:From;
-	b=WLoWmC7XTKncAEMayGFHC2hZOPQV6nSl5MQKsqjgFixm6GnPDbvKjYv6NRJBD8CmD
-	 d9bvtBwA5L0AuFdbw2xUZv7XkzNbHUedhWiYF8iN5zXROw3OEwOJFgg0QWTyXz2gEo
-	 TWvG7BEbDYvCelsR2fruTDjAOfiPGYESwSQDXRAj96lhsCkKSgcOoY9APbKWz/D287
-	 p5TK3rAstFdY60mUlvuJbdnc9Bh3K8+7KsZozuPbLx0PCq+E74yjMfmR+DwbP2M7ob
-	 cPFbDwsyHV3hUw7tiHuVQG7f6NirPJ+XXk6YpEvI6lTXO8Qd8OB56K0LqJXbZRdOa5
-	 CY+EoyUi8mniw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 1C565C4339F
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Apr 2024 08:20:47 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1713782458; c=relaxed/simple;
+	bh=1CXNvotAMQnIGPSbHcaV7HaPO7twZYw/r9xyNVOHBdE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=f6R956ErWHcp6YuX+Hlny1FCSU37xB9LvfYxGsklvYi+n+Suc9cg9vVODPnSGJzTG1AGJZli1mGXu3SmyuPeU8XYCGTNrRMr1kFCWyM2An8eRZ5LS7kaUxhjjGsqZXfibE8FUzMIubrCBeb5Q+rVX9or8LTTwlAfkwUAKWZCJMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+	by riemann.telenet-ops.be (Postfix) with ESMTPS id 4VNM3J2MZsz4x1PM
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Apr 2024 12:30:52 +0200 (CEST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:76d0:2bff:fec8:549])
+	by michel.telenet-ops.be with bizsmtp
+	id EAWj2C00B0SSLxL06AWjTr; Mon, 22 Apr 2024 12:30:45 +0200
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1ryqw1-001cvn-4S;
+	Mon, 22 Apr 2024 12:30:43 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1ryqwd-005i3S-3e;
+	Mon, 22 Apr 2024 12:30:43 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Arnd Bergmann <arnd@arndb.de>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 00/11] drm: Restore helper usability
+Date: Mon, 22 Apr 2024 12:30:28 +0200
+Message-Id: <cover.1713780345.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -51,49 +66,81 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From: patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: 
- <171377404704.21182.5760306475414159398.git-patchwork-summary@kernel.org>
-Date: Mon, 22 Apr 2024 08:20:47 +0000
-To: linux-renesas-soc@vger.kernel.org
 
-Hello:
+	Hi all,
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+As discussed on IRC with Maxime and Arnd, this series reverts the
+conversion of select to depends for various DRM helpers in series
+"[PATCH v3 00/13] drm/display: Convert helpers Kconfig symbols to
+depends on"[1], and various fixes for it.  This conversion introduced a
+big usability issue when configuring a kernel and enabling DRM drivers
+that use DRM helper code: as drivers now depend on helpers, the user
+needs to know which helpers to enable, before the driver he is
+interested even becomes visible.  The user should not need to know that,
+and drivers should select the helpers they need.
 
-Series: ravb Ethernet driver bugfixes
-  Submitter: Paul Barker <paul.barker.ct@bp.renesas.com>
-  Committer: Paolo Abeni <pabeni@redhat.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=845023
-  Lore link: https://lore.kernel.org/r/20240416120254.2620-1-paul.barker.ct@bp.renesas.com
-    Patches: [net,v3,1/4] net: ravb: Count packets instead of descriptors in R-Car RX path
-             [net,v3,2/4] net: ravb: Allow RX loop to move past DMA mapping errors
-             [net,v3,3/4] net: ravb: Fix GbEth jumbo packet RX checksum handling
-             [net,v3,4/4] net: ravb: Fix RX byte accounting for jumbo packets
+Hence revert back to what we had before, where drivers selected the
+helpers (and any of their dependencies, if they can be met) they need.
+In general, when a symbol selects another symbol, it should just make
+sure the dependencies of the target symbol are met, which may mean
+adding dependencies to the source symbol.
 
-Patch: arm64: dts: renesas: rzg3s-smarc-som: Enable eMMC by default
-  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=845410
-  Lore link: https://lore.kernel.org/r/20240417112003.428348-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+Thanks for applying!
 
-Series: Add IAX45 support for RZ/Five SoC
-  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=841218
-  Lore link: https://lore.kernel.org/r/20240403203503.634465-1-prabhakar.mahadev-lad.rj@bp.renesas.com
-    Patches: [v2,1/5] dt-bindings: interrupt-controller: renesas,rzg2l-irqc: Document RZ/Five SoC
-             [v2,3/5] riscv: dts: renesas: r9a07g043f: Add IRQC node to RZ/Five SoC DTSI
-             [v2,4/5] arm64: dts: renesas: r9a07g043: Move interrupt-parent property to common DTSI
-             [v2,5/5] riscv: dts: renesas: rzfive-smarc-som: Drop deleting interrupt properties from ETH0/1 nodes
+[1] https://lore.kernel.org/r/20240327-kms-kconfig-helpers-v3-0-eafee11b84b3@kernel.org/
 
+Geert Uytterhoeven (11):
+  Revert "drm: fix DRM_DISPLAY_DP_HELPER dependencies, part 2"
+  Revert "drm/display: Select DRM_KMS_HELPER for DP helpers"
+  Revert "drm/bridge: dw-hdmi: Make DRM_DW_HDMI selectable"
+  Revert "drm: fix DRM_DISPLAY_DP_HELPER dependencies"
+  Revert "drm: Switch DRM_DISPLAY_HDMI_HELPER to depends on"
+  Revert "drm: Switch DRM_DISPLAY_HDCP_HELPER to depends on"
+  Revert "drm: Switch DRM_DISPLAY_DP_HELPER to depends on"
+  Revert "drm: Switch DRM_DISPLAY_DP_AUX_BUS to depends on"
+  Revert "drm: Switch DRM_DISPLAY_HELPER to depends on"
+  Revert "drm: Make drivers depends on DRM_DW_HDMI"
+  Revert "drm/display: Make all helpers visible and switch to depends
+    on"
 
-Total patches: 9
+ drivers/gpu/drm/Kconfig                 |  8 +++----
+ drivers/gpu/drm/amd/amdgpu/Kconfig      | 12 ++++------
+ drivers/gpu/drm/bridge/Kconfig          | 28 +++++++++++-----------
+ drivers/gpu/drm/bridge/analogix/Kconfig | 18 +++++++-------
+ drivers/gpu/drm/bridge/cadence/Kconfig  |  8 +++----
+ drivers/gpu/drm/bridge/imx/Kconfig      |  4 ++--
+ drivers/gpu/drm/bridge/synopsys/Kconfig |  6 ++---
+ drivers/gpu/drm/display/Kconfig         | 32 ++++++++++---------------
+ drivers/gpu/drm/exynos/Kconfig          |  4 ++--
+ drivers/gpu/drm/i915/Kconfig            |  8 +++----
+ drivers/gpu/drm/imx/ipuv3/Kconfig       |  5 ++--
+ drivers/gpu/drm/ingenic/Kconfig         |  2 +-
+ drivers/gpu/drm/mediatek/Kconfig        |  6 ++---
+ drivers/gpu/drm/meson/Kconfig           |  2 +-
+ drivers/gpu/drm/msm/Kconfig             |  8 +++----
+ drivers/gpu/drm/nouveau/Kconfig         | 10 ++++----
+ drivers/gpu/drm/panel/Kconfig           | 32 ++++++++++++-------------
+ drivers/gpu/drm/radeon/Kconfig          |  8 +++----
+ drivers/gpu/drm/renesas/rcar-du/Kconfig |  2 +-
+ drivers/gpu/drm/rockchip/Kconfig        | 10 ++++----
+ drivers/gpu/drm/sun4i/Kconfig           |  2 +-
+ drivers/gpu/drm/tegra/Kconfig           |  8 +++----
+ drivers/gpu/drm/vc4/Kconfig             | 10 ++++----
+ drivers/gpu/drm/xe/Kconfig              | 13 ++++------
+ drivers/gpu/drm/xlnx/Kconfig            |  8 +++----
+ 25 files changed, 116 insertions(+), 138 deletions(-)
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+2.34.1
 
+Gr{oetje,eeting}s,
 
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
