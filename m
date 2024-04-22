@@ -1,159 +1,171 @@
-Return-Path: <linux-renesas-soc+bounces-4778-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4779-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34FEB8ACCC1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Apr 2024 14:30:46 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1C2B8ACE2F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Apr 2024 15:28:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E3106283167
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Apr 2024 12:30:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 16EE4B217A2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Apr 2024 13:28:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6FFB1DFF7;
-	Mon, 22 Apr 2024 12:30:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E9CD14F13F;
+	Mon, 22 Apr 2024 13:28:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="L7klJsWN";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="W6VpGQiw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QJZ8GXlQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from wfout4-smtp.messagingengine.com (wfout4-smtp.messagingengine.com [64.147.123.147])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429641E485;
-	Mon, 22 Apr 2024 12:30:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 125F914F13D;
+	Mon, 22 Apr 2024 13:28:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713789042; cv=none; b=pakidO12nxNKbcZmdzFMwEbbaAuHO7ADEZd4OBAxciRV+w12UloaZymvsRKJrWZOxs4laoJJgVR6CyvItQ/f2AT0rada5li0Z2WCRMoO0ZnbTloBFONemCe2CQ/rYGy9tg33Fk2HesDmEWjwAOBJQNrZC9AXqZfndZLGJ8Pxv/w=
+	t=1713792510; cv=none; b=rMZJ7IGCMFq4RBxM4PhbV2DeVRKIYzPE+9KblX11D7A9UydPeMrG7AmvDmTHQ+SfvpJrNKqnwOkv3bMivwdRW44UIK2QCLuUBPhNrSKKDgJIPArPJFSrUxzhS8rNgvxgjRqfFSk63gMeYBEUkGwBoZCqmWFinFSmzKNHYVrOgYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713789042; c=relaxed/simple;
-	bh=sD2ON1CQL6WsL62It2B98FvxtE3K8xXYq2rJQ4OJEEc=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=K2CajCm1WlQNV3Wvch/In9xmEpmK40wH5sAXB/7ZHtDb0vgXBs2gM9mN+4ZoizzNlyS8fbzeE3aadJCMpU/hAVlR2aHIo4ipxSK0d/95SMA4FuEBiDVgmqHPCMAXT3YsdTVMfXT0ISmNuvFjgDWspSqxWyqQAGB+tluLznNfsKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=L7klJsWN; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=W6VpGQiw; arc=none smtp.client-ip=64.147.123.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.west.internal (Postfix) with ESMTP id 971321C00144;
-	Mon, 22 Apr 2024 08:30:39 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Mon, 22 Apr 2024 08:30:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1713789039; x=1713875439; bh=8ugVFk+Zkc
-	D//rYYfTG6/QQI1nngqkt6LSHTwxmvrd0=; b=L7klJsWNtidH6l7sSU7XBax2QE
-	kssLsGQ9VOkRGD3D33MwEvbCJszjBEcdxhvvjvzd2NQ8Gkuskuv9Ykg91djjRZ/E
-	Ha4PSfm6AlUoWRwlDjubByrDZ3W7jXhlI+hgwCeswy1Rg24Tttc9k74ZyhkGeXO9
-	V19PeC3E/76Oh18YtdtCoyW8Q38CMsTUvKkU/oddWrEJD/ejyUvLUicLZ/mTukBg
-	+xQllc490tqb/44vzn5wlZKVY85aH1+QHg/xetyjhR1BuDDGb2oYlZRLJZsNuAn8
-	ZL9AY8OkefLcNHiF+GdEvON1jf7LvLj1ryVwtcn2uOpWulh56uKvVEBsbn6w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1713789039; x=1713875439; bh=8ugVFk+ZkcD//rYYfTG6/QQI1nng
-	qkt6LSHTwxmvrd0=; b=W6VpGQiwUHgeYJhs+GX+FE50swdWYFDJ+eNVUu4aCAQC
-	gPGTkpQd0EXQEe7O/pDeBcxmDVIGvrQ8oeMw5SjrZrWyVgMm56MzSVgdbCJwa7VB
-	uoU0krJfz2aKfYziqx5nuNZBUjhdJkt63sZQIg17ss5LRzyOXqYQcdldCZX9h8a6
-	mDcHOpYPt6HGjaoXQ6PdXI6bhJT10isoK+yoIpxVgu22anAegQI4LKCI1zHs4ayB
-	VkXn3xH3E314DkQknMEgkmSyJEYbxrrsEJc79h4mobA90ZWAXbhv1RA+RC4PKHHT
-	xSF5rOhxjSV2MNCN4hFzyOnHqfyCF/ZOV3HN8RfS1g==
-X-ME-Sender: <xms:blgmZiu6wzzdWf6Cw_85Jc8apalXn-VGVRG3P5gFEl3R0azkRI5EXA>
-    <xme:blgmZncCM-rwzHpqmNjDUgPp8jpwwMXOINXRYVCaAc-5Vv0xsh3QhLAdApe_j4TZa
-    0Vdd09z1KArycLy8A8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudekledgheegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:blgmZtxOA_tTKIAXeCjaZ1fsn6kkBzugtKiH0FX-uTChmguCYo_ycQ>
-    <xmx:blgmZtOn9ZjOUqYQMgm8syoZ1c__8uq8P7SAngoLEXU_Q2vVB82tBw>
-    <xmx:blgmZi_LJ8KfUAhrxlOJRcsK6AgSHNKQs06CpsJDAJIA4C6Me56oPw>
-    <xmx:blgmZlVZuP27eRUG-F9S0vRVERD9umVaIGtMk_RfYslp6aD5-g4IOQ>
-    <xmx:b1gmZlZjYApXpdzk0A4sDQjQHQIPFW88OdWKezOWI2T1oW3D4M_7z0ns>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id B204BB6008F; Mon, 22 Apr 2024 08:30:38 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-379-gabd37849b7-fm-20240408.001-gabd37849
+	s=arc-20240116; t=1713792510; c=relaxed/simple;
+	bh=8WYLYLq9GXgoOMMHpu8Y0v31BXd06Q6aFr4b9wop27I=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=FZQ6s8EPCTvp0hf6HrpjY+d4KZZs2zgwWDca+M3bjsb6LbRSxPpzMSGd0IGH2xwenQ//G829M7PWcDJo/FNmn2GvKuknJgq57pzw6SngSwUCFbnrQ0Udeh2HHbYP0B1iu5weExjDLnTEFrQDq3u1HT1QcHu28CMyfh6jt31ybIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QJZ8GXlQ; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713792509; x=1745328509;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=8WYLYLq9GXgoOMMHpu8Y0v31BXd06Q6aFr4b9wop27I=;
+  b=QJZ8GXlQezLmPH74phytkgU1dkok3jhYKUePYXPTjzK+0qB4No+sPqFK
+   WSZAmCboVNcLDCOT0TSZmgLJvuytqT/u1pq5hp4+MbFOYG5QrTm6cwXyX
+   eVrzzq1z0B67xN18stCOWoq4CR4aOl0wSzTGcK/QV7DWDXet7EvxRhnMJ
+   7ZhDU6Y5u+tI8FAiRZvxdxqnhktgz8mYZbnY2TCoy3UTVsKTwl8HIWZCL
+   Rxh/qyqpsYRyO3DsecHpLBaImLBsyLOS9DFP7286wvfEa56+bYJZ2e6Pq
+   QHrLnC5zNsgGRXAiPz2mko6Vi0OyqF3aw1G7IYTuC+QrEH3jzx0ZNq7My
+   Q==;
+X-CSE-ConnectionGUID: XTosl/NcQ6uwmZ5ofIqjkQ==
+X-CSE-MsgGUID: DL7mwxnOSi2vulcOBpEjQA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="9550257"
+X-IronPort-AV: E=Sophos;i="6.07,220,1708416000"; 
+   d="scan'208";a="9550257"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 06:28:28 -0700
+X-CSE-ConnectionGUID: 4ZoJ6RI7Tme9DTelmP6I4w==
+X-CSE-MsgGUID: kqN+eb1RQ2uGQEPn3YSErQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,220,1708416000"; 
+   d="scan'208";a="24622441"
+Received: from ralbanes-mobl.ger.corp.intel.com (HELO localhost) ([10.252.63.128])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 06:28:24 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Arnd Bergmann <arnd@arndb.de>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 00/11] drm: Restore helper usability
+In-Reply-To: <ff4f9e8f-0825-4421-adf9-e3914b108da7@app.fastmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1713780345.git.geert+renesas@glider.be>
+ <87il09ty4u.fsf@intel.com>
+ <ff4f9e8f-0825-4421-adf9-e3914b108da7@app.fastmail.com>
+Date: Mon, 22 Apr 2024 16:28:21 +0300
+Message-ID: <875xw9ttl6.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <ff4f9e8f-0825-4421-adf9-e3914b108da7@app.fastmail.com>
-In-Reply-To: <87il09ty4u.fsf@intel.com>
-References: <cover.1713780345.git.geert+renesas@glider.be>
- <87il09ty4u.fsf@intel.com>
-Date: Mon, 22 Apr 2024 14:30:18 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Jani Nikula" <jani.nikula@linux.intel.com>,
- "Geert Uytterhoeven" <geert+renesas@glider.be>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "Dave Airlie" <airlied@gmail.com>,
- "Daniel Vetter" <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 00/11] drm: Restore helper usability
 Content-Type: text/plain
 
-On Mon, Apr 22, 2024, at 13:50, Jani Nikula wrote:
-> On Mon, 22 Apr 2024, Geert Uytterhoeven <geert+renesas@glider.be> wrote:
->> 	Hi all,
->>
->> As discussed on IRC with Maxime and Arnd, this series reverts the
->> conversion of select to depends for various DRM helpers in series
->> "[PATCH v3 00/13] drm/display: Convert helpers Kconfig symbols to
->> depends on"[1], and various fixes for it.  This conversion introduced a
->> big usability issue when configuring a kernel and enabling DRM drivers
->> that use DRM helper code: as drivers now depend on helpers, the user
->> needs to know which helpers to enable, before the driver he is
->> interested even becomes visible.  The user should not need to know that,
->> and drivers should select the helpers they need.
->>
->> Hence revert back to what we had before, where drivers selected the
->> helpers (and any of their dependencies, if they can be met) they need.
->> In general, when a symbol selects another symbol, it should just make
->> sure the dependencies of the target symbol are met, which may mean
->> adding dependencies to the source symbol.
+On Mon, 22 Apr 2024, "Arnd Bergmann" <arnd@arndb.de> wrote:
+> On Mon, Apr 22, 2024, at 13:50, Jani Nikula wrote:
+>> On Mon, 22 Apr 2024, Geert Uytterhoeven <geert+renesas@glider.be> wrote:
+>>> 	Hi all,
+>>>
+>>> As discussed on IRC with Maxime and Arnd, this series reverts the
+>>> conversion of select to depends for various DRM helpers in series
+>>> "[PATCH v3 00/13] drm/display: Convert helpers Kconfig symbols to
+>>> depends on"[1], and various fixes for it.  This conversion introduced a
+>>> big usability issue when configuring a kernel and enabling DRM drivers
+>>> that use DRM helper code: as drivers now depend on helpers, the user
+>>> needs to know which helpers to enable, before the driver he is
+>>> interested even becomes visible.  The user should not need to know that,
+>>> and drivers should select the helpers they need.
+>>>
+>>> Hence revert back to what we had before, where drivers selected the
+>>> helpers (and any of their dependencies, if they can be met) they need.
+>>> In general, when a symbol selects another symbol, it should just make
+>>> sure the dependencies of the target symbol are met, which may mean
+>>> adding dependencies to the source symbol.
+>
+> Thanks for doing this.
+>
+> Acked-by: Arnd Bergmann <arnd@arndb.de>
+>
+>> I still disagree with this, because fundamentally the source symbol
+>> really should not have to care about the dependencies of the target
+>> symbol.
+>
+> Sorry you missed the IRC discussion on #armlinux, we should have
+> included you as well since you applied the original patch.
+>
+> I think the reason for this revert is a bit more nuanced than
+> just the usability problem. Sorry if I'm dragging this out too
+> much, but I want to be sure that two points come across:
+>
+> 1. There is a semantic problem that is mostly subjective, but
+>    with the naming as "helper", I generally expect it as a hidden
+>    symbol that gets selected by its users, while calling same module
+>    "feature" would be something that is user-enabled and that
+>    other modules depend on. Both ways are commonly used in the
+>    kernel and are not mistakes on their own.
 
-Thanks for doing this.
+Fair enough. I believe for (optional) "feature" the common pattern would
+then be depends on FEATURE || FEATURE=n.
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+> 2. Using "select" on user visible symbols that have dependencies
+>    is a common source for bugs, and this is is a problem in
+>    drivers/gpu/drm more than elsewhere in the kernel, as these
+>    drivers traditionally select entire subsystems or drivers
+>    (I2C, VIRTIO, INPUT, ACPI_WMI, BACKLIGHT_CLASS_DEVICE,
+>    POWER_SUPPLY, SND_PCM, INTERCONNECT, ...). This regularly
+>    leads to circular dependencies and we should fix all of them.
 
-> I still disagree with this, because fundamentally the source symbol
-> really should not have to care about the dependencies of the target
-> symbol.
+What annoys me is that the fixes tend to fall in two categories:
 
-Sorry you missed the IRC discussion on #armlinux, we should have
-included you as well since you applied the original patch.
+- Play catch with selecting the dependencies of the selected
+  symbols. "depends on" handles this recursively, while select does
+  not. There is no end to this, it just goes on and on, as the
+  dependencies of the selected symbols change over time. Often the
+  selects require unintuitive if patterns that are about the
+  implementation details of the symbol being selected.
 
-I think the reason for this revert is a bit more nuanced than
-just the usability problem. Sorry if I'm dragging this out too
-much, but I want to be sure that two points come across:
+- Brush the invalid configs under the rug by using IS_REACHABLE(),
+  switching from a loud link time failure to a silent runtime
+  failure. (I regularly reject patches adding IS_REACHABLE() to i915,
+  because from my pov e.g. i915=y backlight=m is an invalid
+  configuration that the user shouldn't have to debug at runtime. But I
+  can't express that in kconfig while everyone selects backlight.)
 
-1. There is a semantic problem that is mostly subjective, but
-   with the naming as "helper", I generally expect it as a hidden
-   symbol that gets selected by its users, while calling same module
-   "feature" would be something that is user-enabled and that
-   other modules depend on. Both ways are commonly used in the
-   kernel and are not mistakes on their own.
+If you have other ideas how these should be fixed, I'm all ears.
 
-2. Using "select" on user visible symbols that have dependencies
-   is a common source for bugs, and this is is a problem in
-   drivers/gpu/drm more than elsewhere in the kernel, as these
-   drivers traditionally select entire subsystems or drivers
-   (I2C, VIRTIO, INPUT, ACPI_WMI, BACKLIGHT_CLASS_DEVICE,
-   POWER_SUPPLY, SND_PCM, INTERCONNECT, ...). This regularly
-   leads to circular dependencies and we should fix all of them.
-   The display helpers however don't have this problem because
-   they do not have any dependencies outside of drivers/gpu/
+>    The display helpers however don't have this problem because
+>    they do not have any dependencies outside of drivers/gpu/
 
-        Arnd
+Fair enough, though I think they still suffer from some of them having
+dependencies. (Wasn't this how the original patches and the debate all
+got started?)
+
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel
 
