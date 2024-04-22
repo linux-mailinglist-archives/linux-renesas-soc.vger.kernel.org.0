@@ -1,248 +1,150 @@
-Return-Path: <linux-renesas-soc+bounces-4782-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4783-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44F8B8ACED4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Apr 2024 15:55:26 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93A6A8ACF23
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Apr 2024 16:17:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EDC12281167
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Apr 2024 13:55:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0C86BB231ED
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Apr 2024 14:17:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0254814F9EB;
-	Mon, 22 Apr 2024 13:55:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75FAB15099E;
+	Mon, 22 Apr 2024 14:17:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="WRbIBn01";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="I0eKgKrD"
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="1iY15uy5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from wfout5-smtp.messagingengine.com (wfout5-smtp.messagingengine.com [64.147.123.148])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67DE8746E;
-	Mon, 22 Apr 2024 13:55:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F370B22625
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Apr 2024 14:17:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713794117; cv=none; b=S2+TjAXwY1VktP9xP870oWsOAnP34mj5ncEj9A8R1Gt/gEs6TTew16spLuKKM5hniZRkzRH7Ow1vh04tTtEf4FzRxY8GBRWv7ho316ISMlhBdjr6gVdV0uFRIvRfufB6EXafRACloa2g6H8v7kZJ5bEm0r9jhRmnZm2sBg6ODi4=
+	t=1713795456; cv=none; b=JmDm7OaMxvQEZK5dfuRC91pyTVCLVJSjR0Z4vokgtmuL0q+TuOMe+Hcqmu8l5f/HPifGeCpQyy078kv62wdnJSdvzovJ3zK/KDVDLeF6UwVth3SHeQy3Qk94xSc2KimEXdcXHr2IVN/fGo9EGdgvqa3/sVS0IapOLkSK1dgroEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713794117; c=relaxed/simple;
-	bh=irpm+XTWC7lpray6M1vu8lG2iOt8Ck81X/W0w85ewx4=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=N13PE0ba4NlgMB3PJoDsyqb4OmyfjocYqxz4OChbMhLiuQdo0XV+yE6hNxoyJONxEZn3CyK8R8yd4Pmothkobtg9TKReBdT+DOuJ9fpRMCZpTthRPZ19jyIZyKgrRo6MJgGQdIfaJLypKm/3OV6hp5pwHXMmULUrGW3b75OuVA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=WRbIBn01; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=I0eKgKrD; arc=none smtp.client-ip=64.147.123.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.west.internal (Postfix) with ESMTP id 5D7F41C00146;
-	Mon, 22 Apr 2024 09:55:12 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Mon, 22 Apr 2024 09:55:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1713794111; x=1713880511; bh=dP7QCkFa2V
-	pxgbo7VoSL0Ax5/oZR8Zm98IoSxqALypA=; b=WRbIBn01+ZTKiwdI+kbkFZYLlv
-	DbnR+igCrIB7pg54qU3/sgTfBzX+NzVL6avdBv6bphUJoNdjj7jOpOZpxxKERIq7
-	g57eE3+jVN7sEvdXClIGbthIhtfYsoFAkawL8ABBdvlZcS1Hz3kS4yzsCDVYPOEI
-	fanwNiqQKn2110G2Crq+hitaUYyhBm4ssTbX11RpWo/BHMfpjJsIneKgikBN1GF1
-	bBxlHEb8Y6Kn7aGlDSY0b2iIyTVb9LHLBAsgt6SlbA7bUZV6zZ5W6v2IEERRYo0m
-	W33EzoFqYC1otRExYN+GNZxQ/A1QKp+WzM5DthIRLqJARgMjEPbzxEFsE2Ug==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1713794111; x=1713880511; bh=dP7QCkFa2Vpxgbo7VoSL0Ax5/oZR
-	8Zm98IoSxqALypA=; b=I0eKgKrDC+E6gWxO9Me5fy3ATo2uFYlCdYRqCeoQwYws
-	xUc9dl6JIznVsG15WXqt0I0nNvOQxQTT28LGv0jHohdbeZTIOvEY5ggcYfus7x5g
-	vkYsN3cr9LyBlOcoCpTRNm3AY/cUal3W5RxWUHvsNDsUtLroudk9wQNG19f/pIJE
-	Pl7ypDFzQCpjO+CNd95GC8LR0trRoUAo+SrI+R/qMmskTQdmRvP6k4UqbfwwZPwo
-	9w2ig/DwiHEo+HXlCb/WP3+KRQF9i9sNcihRDBWJpX+ZQv6stxNgxkowxbZpLnBK
-	+1kOpLGgZmgYV1016rjkgVhwJFoVFcRLf2Oxka0fDA==
-X-ME-Sender: <xms:P2wmZiTuiP3S70d73RwJIoMICgdm4i2Ny2KzRLnUuzBApE4U8UZXrA>
-    <xme:P2wmZnzZZwI5pA6NtoUHHJCPtcXjFBprwaCbQuHliF2ft4M_SU8LyXPM08-s1pKlk
-    pf39IiyjQHFk77eZS4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudekledgjeduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:P2wmZv1ZTVFKUSoQkTre2JiKFEekZNnItFIGuVO3knRED9JUFc6P-w>
-    <xmx:P2wmZuAK6LxqZ6Y5xdvMrYZBoPWohQBIbcZssMc0-kSlatRSZAWoRw>
-    <xmx:P2wmZrilVWsz7DLaux6VO4KX5RyIaMbD3gJw3mMd8F9Mc82K9ucgkQ>
-    <xmx:P2wmZqp74Xz4FQAnYl0B0SqA783ctvB8DfSQTvXDr8NYLq6VDDdwRQ>
-    <xmx:P2wmZqOjldHJblvtYtnnBYvnJTLvlm4ouUbZe5jP52ax7Wfv4bfp1HnE>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id E1310B60092; Mon, 22 Apr 2024 09:55:10 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-386-g4cb8e397f9-fm-20240415.001-g4cb8e397
+	s=arc-20240116; t=1713795456; c=relaxed/simple;
+	bh=eAtqZ84jlznpa0WrR6QnMPggL51pSW0LBtN8lhTIeQQ=;
+	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=jr6/N7cCODwhfhR4qIL9hUn0zwqZqMBiWZ8tOaU6g0oAOPtqk/wXlO7ubrJv3CSgDmHZdmeqpxtRneD0flFGNrRxZjeEbzy5DBfhb/hbgme4jMigBOAMXkpBzkhqsuTYt8CuDaBHYJlh4v2Jlv3+EhLkq8eTY2SCD3FC3fAW6z8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=1iY15uy5; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-5f415fd71f8so3314606a12.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Apr 2024 07:17:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1713795454; x=1714400254; darn=vger.kernel.org;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=fStPXTicZdRFJO8wVPI2ZLlZdjogeCQaJeei1qh3qAI=;
+        b=1iY15uy5lBZX2Cooz7ThUu9y8q72wxtLVuHqkVprLjST2MDTbm6A4tWWFMU1HnCt1G
+         8WscbH66NrW7wbpVXPpZMX7HU7NnGf1Qkujp9GZMk9/ZQUchg6eh8SrqJHuPo159ssAX
+         4wxeZ+/TSAIUhRRXxfdPe0EThdyuc2kciK2V24EG8Fak9T0an2JuyLPVGpHtb/4X3A2c
+         2MZwL9qmS5F0uUXRX7MFXQrc224mujtsBs7B/ddSTFK2XF3nSDWkx7cGHm5pnaZG2dm0
+         jxrrixuqL8f9ZCPXg85c8EsMir2BImREsbiTDiGO7oNdJZqFpD7txzzkn0oXJtLnR0pO
+         85oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713795454; x=1714400254;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fStPXTicZdRFJO8wVPI2ZLlZdjogeCQaJeei1qh3qAI=;
+        b=TxzH2xwATS3IwWOCdRujg9Bb9FCotkIRxQd7nNrlEI5fNBq9RcviyYjjwUvFzMWbLg
+         1WGFS3Yh15ox53alZIClSMb7TFMIzdj0mng/2nfnCLu5dHB99+h6yA2FRb2F6eReX4nt
+         w5MYOMg5UWjbK7QGiDK5QVGk305RGpifV8f1QQlCRCiJJr22xCc+fHKEOC7u3qKr7HW8
+         2QFZOhQ+611+qj7zlFaTZerz8XX+ZxUmvYlcDyPUAb2Varmw8FPCwcV0p+MFWJ8dFBPP
+         YPco7U8cMplroZm65k52Ni5EgtNsHYH2bkI+zotduPoftFOlb6XxHrBWM/AMVioqQReb
+         DQoQ==
+X-Gm-Message-State: AOJu0YxZu/VqXS8SWyyiG4caP0V1aPh+4N3uSJWTERzaPCpoNq/AQHwh
+	AD9JGi7fASPyQet6XcFN8U4rSCndy2NSyLFDWgIl5GMrTfFdb1z6t0b6B1dvX+4Lwlnm9No719r
+	/
+X-Google-Smtp-Source: AGHT+IHQyz7PqzYnCLRtxL18bRja4OBztC5eRTt3ignwFXsO5N3L+LxZsfjg4LaECWtKL17higDtvg==
+X-Received: by 2002:a17:90a:c390:b0:2ac:24ed:c930 with SMTP id h16-20020a17090ac39000b002ac24edc930mr8477860pjt.35.1713795453824;
+        Mon, 22 Apr 2024 07:17:33 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id nr20-20020a17090b241400b002a81d898f0asm9659195pjb.5.2024.04.22.07.17.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Apr 2024 07:17:33 -0700 (PDT)
+Message-ID: <6626717d.170a0220.cddcb.f7e0@mx.google.com>
+Date: Mon, 22 Apr 2024 07:17:33 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <af6e26d1-1402-4ed2-a650-b58eae77273e@app.fastmail.com>
-In-Reply-To: <875xw9ttl6.fsf@intel.com>
-References: <cover.1713780345.git.geert+renesas@glider.be>
- <87il09ty4u.fsf@intel.com>
- <ff4f9e8f-0825-4421-adf9-e3914b108da7@app.fastmail.com>
- <875xw9ttl6.fsf@intel.com>
-Date: Mon, 22 Apr 2024 15:54:50 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Jani Nikula" <jani.nikula@linux.intel.com>,
- "Geert Uytterhoeven" <geert+renesas@glider.be>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "Dave Airlie" <airlied@gmail.com>,
- "Daniel Vetter" <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 00/11] drm: Restore helper usability
-Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: next
+X-Kernelci-Tree: renesas
+X-Kernelci-Kernel: renesas-next-2024-04-22-v6.9-rc1
+X-Kernelci-Report-Type: test
+Subject: renesas/next baseline-nfs: 24 runs,
+ 1 regressions (renesas-next-2024-04-22-v6.9-rc1)
+To: linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From: "kernelci.org bot" <bot@kernelci.org>
 
-On Mon, Apr 22, 2024, at 15:28, Jani Nikula wrote:
-> On Mon, 22 Apr 2024, "Arnd Bergmann" <arnd@arndb.de> wrote:
->> On Mon, Apr 22, 2024, at 13:50, Jani Nikula wrote:
->>
->>> I still disagree with this, because fundamentally the source symbol
->>> really should not have to care about the dependencies of the target
->>> symbol.
->>
->> Sorry you missed the IRC discussion on #armlinux, we should have
->> included you as well since you applied the original patch.
->>
->> I think the reason for this revert is a bit more nuanced than
->> just the usability problem. Sorry if I'm dragging this out too
->> much, but I want to be sure that two points come across:
->>
->> 1. There is a semantic problem that is mostly subjective, but
->>    with the naming as "helper", I generally expect it as a hidden
->>    symbol that gets selected by its users, while calling same module
->>    "feature" would be something that is user-enabled and that
->>    other modules depend on. Both ways are commonly used in the
->>    kernel and are not mistakes on their own.
->
-> Fair enough. I believe for (optional) "feature" the common pattern would
-> then be depends on FEATURE || FEATURE=n.
->
->> 2. Using "select" on user visible symbols that have dependencies
->>    is a common source for bugs, and this is is a problem in
->>    drivers/gpu/drm more than elsewhere in the kernel, as these
->>    drivers traditionally select entire subsystems or drivers
->>    (I2C, VIRTIO, INPUT, ACPI_WMI, BACKLIGHT_CLASS_DEVICE,
->>    POWER_SUPPLY, SND_PCM, INTERCONNECT, ...). This regularly
->>    leads to circular dependencies and we should fix all of them.
->
-> What annoys me is that the fixes tend to fall in two categories:
->
-> - Play catch with selecting the dependencies of the selected
->   symbols. "depends on" handles this recursively, while select does
->   not.
+renesas/next baseline-nfs: 24 runs, 1 regressions (renesas-next-2024-04-22-=
+v6.9-rc1)
 
-I'm not sure where this misunderstanding comes from, as you
-seem to be repeating the same incorrect assumption about
-how select works that Maxime wrote in his changelog. To clarify,
-this works exactly as one would expect:
+Regressions Summary
+-------------------
 
-config HELPER_A
-       tristate
+platform              | arch  | lab         | compiler | defconfig | regres=
+sions
+----------------------+-------+-------------+----------+-----------+-------=
+-----
+kontron-kbox-a-230-ls | arm64 | lab-kontron | gcc-10   | defconfig | 1     =
+     =
 
-config HELPER_B
-       tristate
-       select HELPER_A
 
-config DRIVER
-       tristate "Turn on the driver and the helpers it uses"
-       select HELPER_B # this recursively selects HELPER_A
+  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
+s-next-2024-04-22-v6.9-rc1/plan/baseline-nfs/
 
-Whereas this one is broken:
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   next
+  Describe: renesas-next-2024-04-22-v6.9-rc1
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      9ac9686acef835b00b38ca81c59d48cff33bccdd =
 
-config FEATURE_A
-       tristate "user visible if I2C is enabled"
-       depends on I2C
 
-config HELPER_B
-       tristate # hidden
-       select FEATURE_A
 
-config DRIVER
-       tristate "This driver is broken if I2C is disabled"
-       select HELPER_B
+Test Regressions
+---------------- =
 
->   There is no end to this, it just goes on and on, as the
->   dependencies of the selected symbols change over time. Often the
->   selects require unintuitive if patterns that are about the
->   implementation details of the symbol being selected.
 
-Agreed, that is the problem I frequently face with drivers/gpu/drm,
-and most of the time it can only be solved by rewriting the whole
-system to not select user-visible symbol at all.
 
-Using 'depends on' by itself is unfortunately not enough to
-avoid /all/ the problems. See e.g. today's failure
+platform              | arch  | lab         | compiler | defconfig | regres=
+sions
+----------------------+-------+-------------+----------+-----------+-------=
+-----
+kontron-kbox-a-230-ls | arm64 | lab-kontron | gcc-10   | defconfig | 1     =
+     =
 
-config DRM_DISPLAY_HELPER
-       tristate "DRM Display Helpers"
-       default y
 
-config DRM_DISPLAY_DP_HELPER
-       bool "DRM DisplayPort Helpers"
-       depends on DRM_DISPLAY_HELPER
+  Details:     https://kernelci.org/test/plan/id/6626414b0dc1148ac14c435d
 
-config DRM_PANEL_LG_SW43408
-       tristate "LG SW43408 panel"
-       depends on DRM_DISPLAY_DP_HELPER
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2024=
+-04-22-v6.9-rc1/arm64/defconfig/gcc-10/lab-kontron/baseline-nfs-kontron-kbo=
+x-a-230-ls.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2024=
+-04-22-v6.9-rc1/arm64/defconfig/gcc-10/lab-kontron/baseline-nfs-kontron-kbo=
+x-a-230-ls.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm/20=
+240313.0/arm64/initrd.cpio.gz =
 
-This version is still broken for DRM_DISPLAY_HELPER=m,
-DRM_DISPLAY_DP_HELPER=m, DRM_PANEL_LG_SW43408=y because
-the dependency on the bool symbol is not enough to
-ensure that DRM_DISPLAY_HELPER is also built-in, so you
-still need explicit dependencies on both
-DRM_DISPLAY_HELPER and DRM_DISPLAY_DP_HELPER in the users.
 
-This can be solved by making DRM_DISPLAY_DP_HELPER a
-tristate symbol and adjusting the #ifdef checks and
-Makefile logic accordingly, which is exactly what you'd
-need to do to make it work with 'select' as well.
 
-> - Brush the invalid configs under the rug by using IS_REACHABLE(),
->   switching from a loud link time failure to a silent runtime
->   failure. (I regularly reject patches adding IS_REACHABLE() to i915,
->   because from my pov e.g. i915=y backlight=m is an invalid
->   configuration that the user shouldn't have to debug at runtime. But I
->   can't express that in kconfig while everyone selects backlight.)
+  * baseline-nfs.login: https://kernelci.org/test/case/id/6626414b0dc1148ac=
+14c435e
+        failing since 91 days (last pass: renesas-next-2023-11-28-v6.7-rc1,=
+ first fail: renesas-next-2024-01-22-v6.8-rc1) =
 
-Thanks a lot for rejecting the IS_REACHABLE() patches, it is
-indeed the worst way to handle those (I know, as I introduced
-IS_REACHABLE() only to replace open-coded versions of the same,
-not to have it as a feature or to use it in new code).
-
-> If you have other ideas how these should be fixed, I'm all ears.
->
->>    The display helpers however don't have this problem because
->>    they do not have any dependencies outside of drivers/gpu/
->
-> Fair enough, though I think they still suffer from some of them having
-> dependencies. (Wasn't this how the original patches and the debate all
-> got started?)
-
-I believe that Maxime said on IRC that he only did the patches
-originally because he expected problems with them based on his
-understanding on how Kconfig works. I'm not aware of any
-particular problem here.
-
-Let me know if you see a problem with any of the symbols that
-Geert has proposed for reverting, and I'll try to find a solution.
-In my randconfig test environment, I have several patches that
-I sent in the past to clean up the ACPI_VIDEO, I2C, BACKLIGHT and
-LED dependencies to stop using 'select' as I could not otherwise
-get nouveau, i915 and xe to build reliably, but that means I
-may be missing some of the other problems.
-
-     Arnd
+ =20
 
