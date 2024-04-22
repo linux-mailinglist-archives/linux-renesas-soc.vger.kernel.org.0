@@ -1,145 +1,120 @@
-Return-Path: <linux-renesas-soc+bounces-4804-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4805-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 919FA8AD6A8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Apr 2024 23:32:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BF6C8AD85F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Apr 2024 01:02:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 09BBC1F21995
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Apr 2024 21:32:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B6BC3281501
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Apr 2024 23:02:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB06045034;
-	Mon, 22 Apr 2024 21:30:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A22916D9A1;
+	Mon, 22 Apr 2024 22:50:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H8FeMuID"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vCF+NLMw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9093F8F1;
-	Mon, 22 Apr 2024 21:30:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E361F43AB6;
+	Mon, 22 Apr 2024 22:50:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713821440; cv=none; b=NjnXhUigLCTtIJIZSHsTD5Af2gOMwrNMSbtCCo8WXi6Bq+si585PAApbmMGt8/FsYxGJwakGqoyzLVhCZ0xP498fgTgnZKPUCqcAuBWiXqXvB5geTvRJkOrghSziWvn4kcGJjWq+iQSODFPU8vOI/+OFnXV0Okfrhl7EEVZQgmg=
+	t=1713826258; cv=none; b=dB6hpxCgOVaqrVtqDJGzPgeQlJ9SyxiK5ccfyNKCDPWUMN+vOd4VF0Ni8XBmuOzJL6Ek7EQWMeeSw2Twq8I73L4QEvoWw+262A1um66uTCSTb+ie6KUKwUh8Y1rvnk8PvX6K/iHUniW8ZMxxcdZkForLhwzbEECbE4MXqfUuLB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713821440; c=relaxed/simple;
-	bh=OKGocTs3wvb3i/LU9C4kKygbgIvS929FJW/CU8uyACQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=IfxwWS4baNIXnNHrSuHONJ+4D608/ndHOvCoESCQl+NFuzAW9Kh6PbLxeVILHoQyuVdStNFJA9gTSRtVs7UH4gUDIhRr4WMuxyTXm8kiZUMo0TA4umTfSQcwVdgk91aikVRJZLiEJ+yxTU0kfdesa+iQpJNifAfqhnDlUGMZxaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H8FeMuID; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-343d1003106so4140392f8f.1;
-        Mon, 22 Apr 2024 14:30:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713821437; x=1714426237; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6uD6c0ErLUmH66mx7g4ZxASc8upF0vA5uwn6xXQa6Dg=;
-        b=H8FeMuIDprjoX0i9JDD2fIC3Bw+drttPqK2R9GOdKk3+u7TleAXTWf4u6Vmbl3aoGZ
-         WeBbcaWvKbYdP5c2oWRaeu6S89HI9EUm+TUf6SJ8NsA2vl7rNpCl/IBasad6wKbXrEQk
-         fdk2OCSG+42EOx5CCV2JwjRFdBnQQk4GyuynN8BOwGJN+OuvCUZqdPh+dyHLjRTEMd1v
-         aXV9DJWP4d/b4LrW9UVqWMWRuMx8bl/CowMOkmR5pWLjbfWkVMMUMjSv/iralX8zdIaB
-         jNi94QyLljHASiLZ3csuwv9l7wiQZLpOC2hb9RH6TZMa09dhidrZaZ6blauVabUNea2D
-         aZnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713821437; x=1714426237;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6uD6c0ErLUmH66mx7g4ZxASc8upF0vA5uwn6xXQa6Dg=;
-        b=IlMG8TuGbtESt9z1Kl4F50rz5eqz2HOtMsZq7wNzZYh1hvoslr1gSHvFqILuLG1ZTW
-         MIrWDfYHQr993wu7dvekOndB4rAIoWYH/UYq8M/850XFbVjcPHGm+1TpNkVenZFMNpSa
-         g+IKVvs5d6YYEHt7NJdyrkLbufFZR7+B0ftwW1PLmVGc/kppNoo2dqaLQ3t66k/Bg4Wl
-         zeeWfub73kdIj3WHXjLWNrh1Pkb/8tFeFcuk+bcUwDmJT9Szg1gnJPkWWo1z6zpTuf51
-         HnCkpjOO/Z4uETRkYnJs1sTR/ljzRWF+88v9L8LhnCv8Map3qnAbEGdfIfEF1OF8Idlo
-         KdvA==
-X-Forwarded-Encrypted: i=1; AJvYcCXTAJQhYxnZPqg0DK60JIf5XQUQlyGRLfjh0ApUZp7W3uR2frep76W6RPz8oJHenzKrbbwM10Lfdw2Ke7i2N9SvLh9daDplGBjEPDNirriyUdc06RKzjMW156j7chCawkgDhraQWq1MBDjJEJebnj3vqyTXRIvcLiFZqwzCFnvXC+Qw4r0ecPOvL9c=
-X-Gm-Message-State: AOJu0YzDA618zS5C9U1d51q3OBHe2JpENJMNxKaSWfN37XMh3rdKG5k6
-	qRV9v1WIa88uwGU5y1GWRoE0f4Sv5ty1tsHRUSYX6ZA1SfgODEaC
-X-Google-Smtp-Source: AGHT+IGVGJkxPueKpI6ONkATXh7YUVlSjFK9KdIYsor40QaumM6HoubFuig4IeeFRxpth0CK7JdN5A==
-X-Received: by 2002:adf:f9c7:0:b0:349:d779:3d60 with SMTP id w7-20020adff9c7000000b00349d7793d60mr9568432wrr.57.1713821437219;
-        Mon, 22 Apr 2024 14:30:37 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2500:a01:ab0d:124:447c:bf37])
-        by smtp.gmail.com with ESMTPSA id n4-20020a5d4844000000b00349f098f4a6sm12886793wrs.53.2024.04.22.14.30.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Apr 2024 14:30:36 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-mmc@vger.kernel.org
-Cc: devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 6/6] arm64: dts: renesas: r9a08g045: Update fallback string for SDHI nodes
-Date: Mon, 22 Apr 2024 22:30:06 +0100
-Message-Id: <20240422213006.505576-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240422213006.505576-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20240422213006.505576-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1713826258; c=relaxed/simple;
+	bh=jKtuLpcmCSteOW9hC0hYxP5slIdPuPj5+s2We5UpC3I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k8KSsdazWM/SEgeWImV+8s6pM5Jd+LqDpj0pf8O6n47q9qo8sO9xQ2gDHkiXgDRNUTD5e5kilkzsZLiLSQm6XpdlyfFRcyqw8lHvVDN5fikEZgLR1ZPcWdDgZyG7dzBAYaiEV003Uqonn4wEcjbqxPEAXzYbhxewiVIawoHQmJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vCF+NLMw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB710C113CC;
+	Mon, 22 Apr 2024 22:50:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713826257;
+	bh=jKtuLpcmCSteOW9hC0hYxP5slIdPuPj5+s2We5UpC3I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vCF+NLMwZE0DEUXq5CB6o75k/6Y41ZWq9YGcVm/jZ/leIl5/YxWDQJ6ARz6hpMeuO
+	 JHRXYrw04QC6/JVId2G6QpkMS2LDZAuX3hhfCqMdnKf6PQcfAoTTtXCXCjMp8rkYwH
+	 maVxoErtDVjKNEteAfM60Txj3mOBVybQzoirR5wqOPPnUJJauENH120UUPj1OmH6FB
+	 TN7XKHb8CecQYCJ7T+raxCxakM53ZKjbt3thyz9WanoFK1Qvc5fZrv8/ga5nXPC90m
+	 PVFEGS2u04tVkrZrbCVo2ndjHEJYO6uKpqz53ECZLwzf1unEhYWGwikLmkcHEUK1es
+	 htT3PxdNwz7fw==
+Date: Tue, 23 Apr 2024 00:50:53 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 00/18] i2c: remove printout on handled timeouts
+Message-ID: <3ptifixggno4as73pqwldh6cjkqwbygfz6hnr2zhfehi6e4fjo@g3x2nghl5esa>
+References: <20240410112418.6400-20-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240410112418.6400-20-wsa+renesas@sang-engineering.com>
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi Wolfram,
 
-Use 'renesas,rzg2l-sdhi' as a fallback string for SDHI nodes, where
-hs400_disabled and fixed_addr_mode quirks are applied.
+On Wed, Apr 10, 2024 at 01:24:14PM +0200, Wolfram Sang wrote:
+> While working on another cleanup series, I stumbled over the fact that
+> some drivers print an error on I2C or SMBus related timeouts. This is
+> wrong because it may be an expected state. The client driver on top
+> knows this, so let's keep error handling on this level and remove the
+> prinouts from controller drivers.
+> 
+> Looking forward to comments,
+> 
+>    Wolfram
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/r9a08g045.dtsi | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Applyed everything but patch 6 in i2c/i2c-host on
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-index f5f3f4f4c8d6..2162c247d6de 100644
---- a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-@@ -182,7 +182,7 @@ irqc: interrupt-controller@11050000 {
- 		};
- 
- 		sdhi0: mmc@11c00000  {
--			compatible = "renesas,sdhi-r9a08g045", "renesas,rcar-gen3-sdhi";
-+			compatible = "renesas,sdhi-r9a08g045", "renesas,rzg2l-sdhi";
- 			reg = <0x0 0x11c00000 0 0x10000>;
- 			interrupts = <GIC_SPI 88 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 89 IRQ_TYPE_LEVEL_HIGH>;
-@@ -197,7 +197,7 @@ sdhi0: mmc@11c00000  {
- 		};
- 
- 		sdhi1: mmc@11c10000 {
--			compatible = "renesas,sdhi-r9a08g045", "renesas,rcar-gen3-sdhi";
-+			compatible = "renesas,sdhi-r9a08g045", "renesas,rzg2l-sdhi";
- 			reg = <0x0 0x11c10000 0 0x10000>;
- 			interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 91 IRQ_TYPE_LEVEL_HIGH>;
-@@ -212,7 +212,7 @@ sdhi1: mmc@11c10000 {
- 		};
- 
- 		sdhi2: mmc@11c20000 {
--			compatible = "renesas,sdhi-r9a08g045", "renesas,rcar-gen3-sdhi";
-+			compatible = "renesas,sdhi-r9a08g045", "renesas,rzg2l-sdhi";
- 			reg = <0x0 0x11c20000 0 0x10000>;
- 			interrupts = <GIC_SPI 92 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 93 IRQ_TYPE_LEVEL_HIGH>;
--- 
-2.34.1
+git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git
 
+Thank you,
+Andi
+
+Patches applied
+===============
+[01/18] i2c: at91-master: remove printout on handled timeouts
+        commit: 74cce8ed33aeac91f397d642901c94520e574f8b
+[02/18] i2c: bcm-iproc: remove printout on handled timeouts
+        commit: 9f98914320f3e332487042aa73bbbfacc1dc9896
+[03/18] i2c: bcm2835: remove printout on handled timeouts
+        commit: ab17612ffb60bf07e4268448e022576d42833bf7
+[04/18] i2c: cadence: remove printout on handled timeouts
+        commit: 7aaff22d3e939c5187512188d7e27eb5e93ae41e
+[05/18] i2c: davinci: remove printout on handled timeouts
+        commit: dc72daa5cdf1c6ffebaef0c6df1f4cdeb15cadd6
+[07/18] i2c: img-scb: remove printout on handled timeouts
+        commit: 3e720ba5e30d6dd1b22e0f8a23f1697d438092b8
+[08/18] i2c: ismt: remove printout on handled timeouts
+        commit: 800a297370161bda70a34cb00eb0fa2f0345b75f
+[09/18] i2c: nomadik: remove printout on handled timeouts
+        commit: 26fbd3025cbce49cb3dd71f3a10239f69546b3c2
+[10/18] i2c: omap: remove printout on handled timeouts
+        commit: d3f24197d8125b2bf75162ec5cc270fd68f894f4
+[11/18] i2c: qcom-geni: remove printout on handled timeouts
+        commit: 4677d9f5c98f1c2825de142de5df08621ea340b3
+[12/18] i2c: qup: remove printout on handled timeouts
+        commit: e28ec7512496848e8a340889c512a0167949dc8f
+[13/18] i2c: rk3x: remove printout on handled timeouts
+        commit: 1cf7a7b3c944f727f34453a132b8899685e32f81
+[14/18] i2c: sh_mobile: remove printout on handled timeouts
+        commit: 31fb960bf8a424c47a5bf4568685e058c9d6f24d
+[15/18] i2c: st: remove printout on handled timeouts
+        commit: bff862e67260f779b2188e4b39c1a9f9989532ee
+[16/18] i2c: tegra: remove printout on handled timeouts
+        commit: 5ea641d9ea5ee1b3536f8b75e658e3bf2c2a548e
+[17/18] i2c: uniphier-f: remove printout on handled timeouts
+        commit: c31bc8e162890cda38d045e73ff0004119ab28e7
+[18/18] i2c: uniphier: remove printout on handled timeouts
+        commit: 507a2da9539cdb839a1a2e57bfcca644bcfe0f03
 
