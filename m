@@ -1,78 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-4811-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4812-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FF8C8ADDD6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Apr 2024 08:53:49 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B656D8ADDEC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Apr 2024 08:57:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 022D6B23DFC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Apr 2024 06:53:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 20BA9B2132F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Apr 2024 06:57:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 486A424B28;
-	Tue, 23 Apr 2024 06:53:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B06A0286A6;
+	Tue, 23 Apr 2024 06:57:46 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0045B249F9;
-	Tue, 23 Apr 2024 06:53:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D107D1CA80;
+	Tue, 23 Apr 2024 06:57:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713855223; cv=none; b=eeIfvWQGHB+pTjMQtwLrpgFfEpnS08D3wnDFNuAhCAyW3sCGeX0matmpUnuvs2pauKdHJGFfs4LifdAd+t92V787r6NUYUBCPPEw/mThGuuzacs8a76/Sizu8XyPW7Z8kjUy/BXJXC2ZjfD2DHmSDW4IYIKW392sNS6Vlz2wPwA=
+	t=1713855466; cv=none; b=Qa/Zlbn3Y85n4jax2aZOFjZFM8bn/SOJE3mIuUJZ+R1g4t3x+7phOel4o5QIaCarfPa6p0uZPdS2L3bx0tt5R5KuUZZzzu8YhDKC3m0A/24t8xjRgol96y+WXaUj2CRa7dtA1ESw0EJ4uyj06a/03w1GRlK7hi4zfS+eWa4em0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713855223; c=relaxed/simple;
-	bh=IB24hhNHiq4eNMRwbY1E5hsdm8NutUn6FXOFJZvk3L8=;
+	s=arc-20240116; t=1713855466; c=relaxed/simple;
+	bh=LssMOavxOmE2/ouHQ7KrjjhNqxQKAnSdcKC0JD5kFAM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=t6jAeLisc52Ny9UtEOR2okJ3fThcNlZiYRMEEugsOBkEGhb2dnEARmOHclJ/+cBkrnVl5vw3L7R82Ari+kaeuJ2xxs14GCoOY896ixiQnf5e6ge3j+iATo1S4ped/hz4rq3JqNWkkXAPLWN7Fyf2B68LNrl9LOTsiu4ZpbrcNR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.180
+	 To:Cc:Content-Type; b=d4RSL0FAVkE7Hb4YPeZe/t+Vd8WA3XI7FEgHYOrH8AMIxmFghPTzMo1YCGgmjOWX807a6P6hbVOQwvDVEpn7uqXexE0AT7gh37iO7ltHZDOHABqSB2Q+oYcxF1wPD6Gc+lFC9vxfByKQcjEu0vNv+uyax8N9SUywxHcQcXMyG9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-618769020bcso56418407b3.3;
-        Mon, 22 Apr 2024 23:53:40 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-61500da846fso34759367b3.1;
+        Mon, 22 Apr 2024 23:57:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713855219; x=1714460019;
+        d=1e100.net; s=20230601; t=1713855462; x=1714460262;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GZ5EfW638x7TAtbwsyP2lwTKAYW7PkFolA3XCuVWREc=;
-        b=IvMzRmXSIdSDLTVJ+n7W/QxI4QP9Q025RpcKNt56t7Qww15baq/vtG8Gfyg+w107Oq
-         IwdSjaUgau87l/MTkeNEkVZSk7sKCht5EhIcwhdkXZXE71m32YI9S/UYyMgQ1Y950XTn
-         +tA/jo6BHGUuZaVtXnlzPzmwIxsVy0zlbC7Ob6j/9SrQjqaARvryWLCrWfVVQwLhzkgV
-         curBSQJIS3Ve/nVlKk6WtEgiSf48spAtMCYsY+kemNgtBSZPsL4L4hoR9mya/0yGv9+A
-         YteRgTdJfg7hvLy+Dp55AjqsEiAcr6CHmoc/aTB4pWKeInIRYb5O6GURLQeDu6xaM/7j
-         SUww==
-X-Forwarded-Encrypted: i=1; AJvYcCUFYk3tWuEiSI92V/TvS7o1Gj5YJPE0fJzgOZVJL3oh8XnR29RkV1TYNSynj82Wo2imKRFjXHhxFtcNmb+hQkAYyZRptiPYTLpXA6yCPmd1BdDaFe0k0PNsYf3Z4ZBtdCFUXJkFiX3TSUURMe/MiUl4rrmgnKiYc/1L8NuQF+AMIP7nPcEq72RQf/NExZV12U0IUFBqiLD+4pIOOvO0ODxP7ckVBR82
-X-Gm-Message-State: AOJu0Yw8gKZBmftpmiVxqz2PUMfKOSrfPxUrjbC4wSkqpIy7oU7466+4
-	aK6cqFQe6mZjd8fojUNCVAxmRIgObhbSaJMoa7RsYvo8gxcfrkj0Tsu4FIvN
-X-Google-Smtp-Source: AGHT+IGkf3p2iiW4ym9N8Q8DrtNkh9ztcDWLWg4vulScBDZxc1haKwbM82xVYBtYWDCrDwMpbavDVg==
-X-Received: by 2002:a05:690c:368e:b0:61b:111b:f0ba with SMTP id fu14-20020a05690c368e00b0061b111bf0bamr13390440ywb.36.1713855219218;
-        Mon, 22 Apr 2024 23:53:39 -0700 (PDT)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
-        by smtp.gmail.com with ESMTPSA id w63-20020a0dd442000000b0061ab76e5f4dsm2371068ywd.114.2024.04.22.23.53.38
+        bh=gmGwEjb3VUlU6FaE4sf9HrO/c3aKdMdHAhJEceIRjIY=;
+        b=pfbxfJEhYmW+m6aFtbhKVFi6brF1DsiDPzSH/L6RfVVvVsGbAoFqezjUkCRUiZ30u7
+         cCaRGY4RB0cvNdzY/w2aBd5R8YI54+5m8HpovqwIcwucOuyv8j0uuo+7fz5M3yOIbHA6
+         XXoxYD7ul3PocpLK5NgIH+j5aYwHTSe+2cZwQUgkIouxcAZ8hiVeGjs85UUSjm78tOx8
+         3sgWWXkroY/ZsKCtXhw0vrGd0zaV5rw/xore2ce8vL+I+Uia9FgM3Szj6pCPWAJjHzKO
+         o3r4uSlLqVooeFYedOWNWGZx+OXDV53K8lW4ov985m5HUUIrOwK/TaLZe/7neuvoaN9Z
+         ddaw==
+X-Forwarded-Encrypted: i=1; AJvYcCVThz5rc5UcPP8vtO2NiKMKg2U+9trCrriIfL4Yx370PofMtkJxAM0N/9ATlerlZyhs59R8ZilgjVGf4QAb2k/duq/DWqbvnWzKAdKfygKBSzECYKSLs2BFVutpmfXuTZScRGbSb3FRJPN2NrxsjIhTIFQyLuNhQNTHRo5fwDRXfayd1hDJqYDpxHHoPCTsGRXWRdY/Om0iyRH+fwk418biNbhEvQ5z
+X-Gm-Message-State: AOJu0YxQ68h300XM58y1iNyAhmY2jyU8rDTjLCAwR9v2ugJvbSUCH0wv
+	EBDuhWgkQby8JA4BvamkOwtwp+jgUa2Cn3a3qy5inbaeLCqDCOXvw9veJueM
+X-Google-Smtp-Source: AGHT+IErJTiVW1tBScEbyrU1/QKU7zfVQGJkSPUep/3L9KnwXenN/q3ytKLOID28LEVpPDAb7/b5Uw==
+X-Received: by 2002:a05:690c:74c7:b0:61b:3484:316b with SMTP id jw7-20020a05690c74c700b0061b3484316bmr13889711ywb.14.1713855462324;
+        Mon, 22 Apr 2024 23:57:42 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id id8-20020a05690c680800b0061adccb38ecsm2348515ywb.10.2024.04.22.23.57.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Apr 2024 23:53:39 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-de46da8ced2so5166250276.0;
-        Mon, 22 Apr 2024 23:53:38 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUJVX44UvwDtG737QpkBuk7zq8yOMUzA64maDhrzUFn4MdRa5OZ2AEtfZ6/8iBZRmd9+BRQqOQJfgw8IrZEepEiZtcDfNOfC3qslabAwQYPCA6xvE2R7kvuwAj9LGoKduZlsnfRe1/+Ig0sOcBCvsc61aCqUaVY1wWHV8wBKYodGcFNQe0IN+9wM4cn63Ddma/qZiBz3OqE5BaUD5DfUNxvZowzfYzW
-X-Received: by 2002:a25:f904:0:b0:dd0:c866:ec3a with SMTP id
- q4-20020a25f904000000b00dd0c866ec3amr1697417ybe.22.1713855218760; Mon, 22 Apr
- 2024 23:53:38 -0700 (PDT)
+        Mon, 22 Apr 2024 23:57:41 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-de469a634fbso5367994276.2;
+        Mon, 22 Apr 2024 23:57:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVwDstAsZnNik87vKm/+fcDTftV5IGEgIY3buSs2oQ9S+be3NAwKpKOt0rU10cT0z+2u64CY2aTw9XYBixtNraX71cLzpc1PqGrbANb3JJibR2fhjHaRTU1ae4N83UMT5qawQx4UWqZLF8yf1QGDL7ffmwmHiyTYGfEAKR6cD6yeC66ZR2T2U+LJWTDI5OWwO16Za+uV1rT3hNsBH9z2qgi7nkxnMkZ
+X-Received: by 2002:a05:6902:1146:b0:dd1:491e:bf0 with SMTP id
+ p6-20020a056902114600b00dd1491e0bf0mr12408517ybu.60.1713855461484; Mon, 22
+ Apr 2024 23:57:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240422213006.505576-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240422213006.505576-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20240422213006.505576-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240422213006.505576-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20240422213006.505576-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 23 Apr 2024 08:53:26 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUmSp1JTADtnsTqExssP1h1pQSLDeMd5NkC=uSXC+javA@mail.gmail.com>
-Message-ID: <CAMuHMdUmSp1JTADtnsTqExssP1h1pQSLDeMd5NkC=uSXC+javA@mail.gmail.com>
-Subject: Re: [PATCH 3/6] mmc: renesas_sdhi: Add compatible string for RZ/G2L
- family, RZ/G3S, and RZ/V2M SoCs
+Date: Tue, 23 Apr 2024 08:57:29 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW3YQMUOe9pP6TLjWTTkS-UNmzz21eqgW0nMQ4SUkwxGA@mail.gmail.com>
+Message-ID: <CAMuHMdW3YQMUOe9pP6TLjWTTkS-UNmzz21eqgW0nMQ4SUkwxGA@mail.gmail.com>
+Subject: Re: [PATCH 0/6] Update compat strings for SD/MMC nodes on RZ/{G2L
+ (family), G3S, V2M} SoCs
 To: Prabhakar <prabhakar.csengg@gmail.com>
 Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -90,81 +90,33 @@ Hi Prabhakar,
 On Mon, Apr 22, 2024 at 11:30=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.=
 com> wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
 > - RZ/G2UL and RZ/Five ("r9a07g043")
 > - RZ/G2L(C) ("r9a07g044")
 > - RZ/V2L ("r9a07g054")
 > - RZ/G3S ("r9a08g045")
 > - RZ/V2M ("r9a09g011")
 >
-> The above SoCs have HS400 disabled and use fixed address mode. Add a
-> generic compatible 'renesas,rzg2l-sdhi' fallback string for these SoCs,
-> where fixed_addr_mode and hs400_disabled quirks are applied.
+> The SD/MMC Interface in the above listed SoCs is not identical to that of
+> R-Car Gen3. These SoCs have HS400 disabled and use fixed address mode.
+> Therefore, we need to apply fixed_addr_mode and hs400_disabled quirks.
+> 'renesas,rzg2l-sdhi' is introduced as a generic compatible string for the
+> above SoCs where fixed_addr_mode and hs400_disabled quirks will be applie=
+d.
 
-Thanks for your patch!
->
-> Note, 'renesas,sdhi-r9a09g011' is dropped as we will be using
-> 'renesas,rzg2l-sdhi' as a fallback string for RZ/V2M SoC.
+Thanks for your series!
 
-Doesn't that break backwards compatibility with existing DTBs?
+> Lad Prabhakar (6):
+>   dt-bindings: mmc: renesas,sdhi: Drop 'items' keyword
+>   dt-bindings: mmc: renesas,sdhi: Document RZ/G2L family compatibility
+>   mmc: renesas_sdhi: Add compatible string for RZ/G2L family, RZ/G3S,
+>     and RZ/V2M SoCs
+>   arm64: dts: renesas: r9a09g011: Update fallback string for SDHI nodes
+>   arm64: dts: renesas: rzg2l-family: Update fallback string for SDHI
+>     nodes
+>   arm64: dts: renesas: r9a08g045: Update fallback string for SDHI nodes
 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  drivers/mmc/host/renesas_sdhi_internal_dmac.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c b/drivers/mmc/=
-host/renesas_sdhi_internal_dmac.c
-> index 53d34c3eddce..1828c37e0198 100644
-> --- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-> +++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-> @@ -210,7 +210,7 @@ static const struct renesas_sdhi_quirks sdhi_quirks_r=
-8a77990 =3D {
->         .manual_tap_correction =3D true,
->  };
->
-> -static const struct renesas_sdhi_quirks sdhi_quirks_r9a09g011 =3D {
-> +static const struct renesas_sdhi_quirks sdhi_quirks_rzg2l =3D {
->         .fixed_addr_mode =3D true,
->         .hs400_disabled =3D true,
->  };
-> @@ -255,9 +255,9 @@ static const struct renesas_sdhi_of_data_with_quirks =
-of_r8a77990_compatible =3D {
->         .quirks =3D &sdhi_quirks_r8a77990,
->  };
->
-> -static const struct renesas_sdhi_of_data_with_quirks of_r9a09g011_compat=
-ible =3D {
-> +static const struct renesas_sdhi_of_data_with_quirks of_rzg2l_compatible=
- =3D {
->         .of_data =3D &of_data_rcar_gen3,
-> -       .quirks =3D &sdhi_quirks_r9a09g011,
-> +       .quirks =3D &sdhi_quirks_rzg2l,
->  };
->
->  static const struct renesas_sdhi_of_data_with_quirks of_rcar_gen3_compat=
-ible =3D {
-> @@ -283,7 +283,7 @@ static const struct of_device_id renesas_sdhi_interna=
-l_dmac_of_match[] =3D {
->         { .compatible =3D "renesas,sdhi-r8a77970", .data =3D &of_r8a77970=
-_compatible, },
->         { .compatible =3D "renesas,sdhi-r8a77990", .data =3D &of_r8a77990=
-_compatible, },
->         { .compatible =3D "renesas,sdhi-r8a77995", .data =3D &of_rcar_gen=
-3_nohs400_compatible, },
-> -       { .compatible =3D "renesas,sdhi-r9a09g011", .data =3D &of_r9a09g0=
-11_compatible, },
-
-Hence I think the above line should be kept, but changed to point
-to &of_rzg2l_compatible.
-
-> +       { .compatible =3D "renesas,rzg2l-sdhi", .data =3D &of_rzg2l_compa=
-tible, },
->         { .compatible =3D "renesas,rcar-gen3-sdhi", .data =3D &of_rcar_ge=
-n3_compatible, },
->         { .compatible =3D "renesas,rcar-gen4-sdhi", .data =3D &of_rcar_ge=
-n3_compatible, },
->         {},
+The DTS patches have a hard dependency on the driver changes, right?
+So they cannot be applied in parallel.
 
 Gr{oetje,eeting}s,
 
