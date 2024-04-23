@@ -1,72 +1,72 @@
-Return-Path: <linux-renesas-soc+bounces-4847-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4848-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AF218AF7CA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Apr 2024 22:10:51 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69EC88AF7CB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Apr 2024 22:11:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 786D21C2245B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Apr 2024 20:10:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1E2AA288AF7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Apr 2024 20:11:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22FCF1422D6;
-	Tue, 23 Apr 2024 20:10:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFCC91422D6;
+	Tue, 23 Apr 2024 20:11:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T0/PbBKs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fWdoJm0Z"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E9271422D4
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Apr 2024 20:10:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 167FE1422D4
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Apr 2024 20:11:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713903048; cv=none; b=tj/zUnEDUThL6tHFwnCGiTJFXVgPgun7De46LHPqu4mID1uPVMBIVEzXynjwRBxQMgJfQl6iC0NrCmbAZxILFdoUipagt8K5l+32qpa4fPAU5msjEj8SfhMvDi6Zy1s/D5NuFzAPUSgafkpAUM0kTB9EkZDSLLkKFQg5wCUC7Qw=
+	t=1713903106; cv=none; b=T0rqTFtJlubplw/JlH/BfbLs80FJMJryGKNIMAO4rYPxQ/xiJQDqYHKppLkRJL5pj3rtNkp2w8ZgwUDKZTnbWeGnjpNevcpjnD2vHAKWykv9n2VhgvGdHq9xsN7yAA5WHHIKsG29fXmnMtfgnDk54cP+Nu+Zy5LzWWnX/XJrhok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713903048; c=relaxed/simple;
-	bh=DpLjuJeGn0bzhON4FIwlJmkJssCzVmckY3m2WpcQzpc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=PsXu1wyj+05vgYu8s0RnFQMLA88rcj8I/wMWNvXloufNXgCwu4mMEdIitmw0j96UubxqqZX95SLByCyvVlhtcup5CaZkd05mDyTRfk/glJTqo5Ah/rOOzAViZ+TYKuYCJP8RAgv9KETz1Jsi+KsJTUBjM+kNLbmUehIhKBjWBMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T0/PbBKs; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1713903106; c=relaxed/simple;
+	bh=rqu0YrLpQIpoBAYqnx660/MPbregV9Umv+DiOxvRTxw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=oa0b+9tGMThgUWBYgjM6qj/TAGXY8MYLdqqhDx86CnbAovjF7xlIB9Vk/O9Be8JeM16MK/YUcQWoEqjUUKQLJVUGyJ6SVWspYrFnYFlSsgrHFwCUtkwbd3rP9b0FRrpMHXWbfQldFpRGIhNPCRFqD+afOED0ssGTG0pukZuGxag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fWdoJm0Z; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713903046; x=1745439046;
+  t=1713903105; x=1745439105;
   h=date:from:to:cc:subject:message-id;
-  bh=DpLjuJeGn0bzhON4FIwlJmkJssCzVmckY3m2WpcQzpc=;
-  b=T0/PbBKsT19OBjPSY8aHk6JFSyY0UuiO/PZQsvoDP15okukJeKOTjRWf
-   8HTqiBjZY48vLlkmMZF5BbV/6rqyFdwiD/PV5jFQy3NsRXKwdcaqf04Qe
-   aSPqPBZQjRlddj/yiAxbhBYbKyzV6LbZGKEQnyj1D1T3eC5gidzF/xZ01
-   1QFRX2n2ukUhgqwaK2wF/syT4gosV9o9PT51+xk/6mFbffohAe/20Y5rm
-   59Pa6au9DgaAkSfb2yAwI/pi7e1aUI4MipO7cwu/cjKdGGXRzmYdaGQgH
-   fAOfYGaoqTQY7BtlQEpYsxVqdyJC3EeRKcttFPw79FqA049ClQ2nPNMPq
+  bh=rqu0YrLpQIpoBAYqnx660/MPbregV9Umv+DiOxvRTxw=;
+  b=fWdoJm0ZUr9EqsArKcDyFY2iv8kWdcJQnHoivXST9IUGD86/u+Z2Nemf
+   4hWXTQv0OV1fD3prJDoJy6Fk+7DR2aA5o4x5PIHZ9UtxpV84DzaWX8HRt
+   cq+7IcAuPUE+XB+8N0DSTVlPTRZ23i/4D9WeA2B+gn1Mdm3QOZgDyuFOs
+   K499ZcijHlg2M0JA/CfJcScSAy/2sTtOIVLF4Cl9XUvWQuIVrTRqdd5Du
+   TkvwvNEC3QFrCmphIIYrxq5zG1XCOEMFeEA/x9iLLduf/6Sq7+h1bKS4E
+   DRNAwBnxyqWPRyPHYQYOwodtq6s5p21L7Er2dvJHYw+v4Frc1TvYBuxdj
    w==;
-X-CSE-ConnectionGUID: SMNYmpv+S3Gj4QAkpM+dXw==
-X-CSE-MsgGUID: FJiICX6JTEi++To2PJM8vw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="20057045"
+X-CSE-ConnectionGUID: 7Wt2IZy4QVOssThYHSELfw==
+X-CSE-MsgGUID: x53ITkx2S5GF6y/O3rTJwA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="10050623"
 X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="20057045"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 13:10:45 -0700
-X-CSE-ConnectionGUID: 9muiFrO2Q9KF5kzI5lCJxg==
-X-CSE-MsgGUID: ViwleMLMRR+Ik7EVWuRNQQ==
+   d="scan'208";a="10050623"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 13:11:44 -0700
+X-CSE-ConnectionGUID: 6KxL//SuQWGg1uWMm04hcQ==
+X-CSE-MsgGUID: cP+ljDeCT3i7VFuQcPCY9w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="55448167"
+   d="scan'208";a="28963287"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 23 Apr 2024 13:10:44 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 23 Apr 2024 13:11:43 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rzMTR-0000UQ-07;
-	Tue, 23 Apr 2024 20:10:41 +0000
-Date: Wed, 24 Apr 2024 04:10:27 +0800
+	id 1rzMUP-0000Ua-0B;
+	Tue, 23 Apr 2024 20:11:41 +0000
+Date: Wed, 24 Apr 2024 04:10:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-clk] BUILD SUCCESS
- 44019387fce230beda35b83da3a2c9fc5787704e
-Message-ID: <202404240424.rBzINIyo-lkp@intel.com>
+Subject: [geert-renesas-drivers:renesas-pinctrl] BUILD SUCCESS
+ 21fc4d195922f6b29233d2d22e9631cada7db259
+Message-ID: <202404240441.1ESctzdY-lkp@intel.com>
 User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -74,8 +74,8 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk
-branch HEAD: 44019387fce230beda35b83da3a2c9fc5787704e  clk: renesas: r9a07g043: Add clock and reset entry for PLIC
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl
+branch HEAD: 21fc4d195922f6b29233d2d22e9631cada7db259  pinctrl: renesas: r8a779h0: Add INTC-EX pins, groups, and function
 
 elapsed time: 725m
 
