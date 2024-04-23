@@ -1,160 +1,102 @@
-Return-Path: <linux-renesas-soc+bounces-4821-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4822-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 311648AE3DF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Apr 2024 13:27:38 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07B098AE5DD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Apr 2024 14:19:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 935BD1F24161
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Apr 2024 11:27:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B8277286974
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Apr 2024 12:19:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7D527E59F;
-	Tue, 23 Apr 2024 11:27:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IP1JvZTZ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE6037E107;
+	Tue, 23 Apr 2024 12:19:37 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 318167E573;
-	Tue, 23 Apr 2024 11:27:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC87D7BB0C
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Apr 2024 12:19:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713871649; cv=none; b=GVa6QjWFANBBuAZ0uhvRGtcYHiP5DAPT8spWIctkD7Mf992u8elYwijWuvfJON3tdjuNFzczGZf4051d0bMgSuE9tvKEX3M/Kg5eVBW9tFChumX2NHbBOm1iLtWRWytJ2dBLjk9vstTRICMkl/XqpZ32A+PwrYbY/1PdnoLDNGU=
+	t=1713874777; cv=none; b=oMOOSCLTD/nusbNkb80kVIbsGuzv94sfDfQfTcN31r0Fp9UvBWvTwRPBlDEL1SqkHIFh/5rrxgnUMjrZRH1TQZt+H2WVMJkt1emIyPzms9JRgSQviDvZ+jPdGV4U+y4ZCTDCVs9igB/A+44hyArzgqUkFM/h7h2aKH7G+CO45zY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713871649; c=relaxed/simple;
-	bh=RXjI0rE/2Bz7aU5n8VbUuaFd1Y6UY+NP4eppUyr6WG4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZVBuwtE05S5mjp9QQNiYCJO8OogG86be8+h7AmpszreD5CtPfrPReiehwPlSS75EkBMQ5kmW+N7JwFyxvmt2y6PAA9diTufMKG1nGcHysUvJfdeOgmzJIBf8A084uJp0PK76T4S18aZCFPMhLspOPMnRomGOSX3IWejbn6uBr0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IP1JvZTZ; arc=none smtp.client-ip=209.85.221.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-4dcbf770c24so2865355e0c.1;
-        Tue, 23 Apr 2024 04:27:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713871647; x=1714476447; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9fXVEYwcrN6pIHZeASeinQCONCWFuoO/BqgRK0XIVrE=;
-        b=IP1JvZTZ6OF58FNjIL6W8KGA4hXNX24CiPLUwHUBlKqf1LbqB6B6ygqeJfCO7J2cwK
-         JpdWstI3V6T0MoRgvWTjoLrvCISspAmaU2BSJ4VyXBG0d72uBjEpd11LCRWJrDp3v/LA
-         k8GQRpTU7nHvkBwjkVVMv0mvACLRcW7jzeilopE6LmVteCMUI3pmfH+LskLRbg0fZ52h
-         X35ncqUmGMs7z0eLMmHgB+TV+lMfT8J/+ID8wwaNlA4VCz6PtpGgXsio28YiGg5haycg
-         2eEyGGu6g3RWTTwri5ib5jpv9baGXn8DZtLM/4lEHVDIrutzrYqcBY+E+94vbeK3ia4X
-         iLcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713871647; x=1714476447;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9fXVEYwcrN6pIHZeASeinQCONCWFuoO/BqgRK0XIVrE=;
-        b=v1l2eHXLVjNNNb/9xZq9ZyFwqyTKjHY4rGOgGoOnSlQPu0YSXIYrFvLDA7i6jJ6c5W
-         zzOtwZw+TApJ5wPiVXBcEv5Tk3ACwCnKSGJow7pVR+lTwiUxt1zaOoOk/jGGcY1rQNTg
-         pWRn39HmBBXlTQmS/WqKcUG/1sOmEkywrzCgqU66XB9H/puzEOqWGUSev+RV0FkeZlXO
-         cFJjXWmqVYM+pfibaxNBht2tTdv6dCIDGQqbTDziljcHnJ96jwFcJFabnrag9T3lKnfZ
-         t3IDhGKin3FThmK1gRSmjXG6lsV268JYU5Gp7EZCxH2FZCp9+dByH5fqR5Wg4w31T8/X
-         mDWg==
-X-Forwarded-Encrypted: i=1; AJvYcCUrbADHlgO+0DTaXwaKiVYM0eoTltav8uvJA1vRwCyi/7+lSoJFhL7NBzFiA+vTH9s9bga+MFFMV/60uqpDJacvsD1o7pJO29b64z+KmKvnvVfyf8wX5UAifl3zKC8jOn9kRgZzL3hWmuTdqmbusBB0J8LMGlk4TJPsBKYYDhs4RlXLG3F+M24J2eZ8oyR/M65SMR2mNDISLLIFyyODQTq/IzDYc8u/
-X-Gm-Message-State: AOJu0YxVg7MGN8pJu+W3iU5am3CR5GSIuWLHzk6bo+CFUJWQF7z4Tec4
-	3s70jzTOasvVX2/5/U7QQaacCb3HEO2HjYMwptFcHRXOuAOWlBL2RiQ7r+v93mcNvF+iRiDSJcQ
-	TXUxmyEmLODUQjzCFN77I2ZPuDMc=
-X-Google-Smtp-Source: AGHT+IEJ3YDW07lTxjloRNMEO4SRdGN1iz21J8b16q//J8FH3OjnhcGXWzQ5yHk0Wb/3+b0zKw3Ipv4gFZb+3y7JY90=
-X-Received: by 2002:a05:6122:410a:b0:4da:ae51:b755 with SMTP id
- ce10-20020a056122410a00b004daae51b755mr4960853vkb.3.1713871646754; Tue, 23
- Apr 2024 04:27:26 -0700 (PDT)
+	s=arc-20240116; t=1713874777; c=relaxed/simple;
+	bh=6jEH/pAi1in6+A/unwwPBc/ZKH5MjiTYdiouHLTnAQg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Excnd48T18/ycqprqrf18KcWLgo+GO6prfrI7YrYojrhdj2mHYixWOylZkmuQ9/3azl7PSO5qreuTuNDjTG82BnJJuf222h3fhLtDEMLmP93KLdQydie9Ei9r7G1wMRHw/nPBYhhYZwBiVah1ckAlEOu5gcsoFaibcpBbascGH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:76d0:2bff:fec8:549])
+	by baptiste.telenet-ops.be with bizsmtp
+	id EcKT2C00A0SSLxL01cKThf; Tue, 23 Apr 2024 14:19:28 +0200
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1rzF6m-0040uE-97;
+	Tue, 23 Apr 2024 14:19:27 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1rzF7P-0072z3-AJ;
+	Tue, 23 Apr 2024 14:19:27 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] ASoC: dt-bindings: renesas: Fix R-Car Gen4 SoC-specific compatibles
+Date: Tue, 23 Apr 2024 14:19:26 +0200
+Message-Id: <b3a6cf12c46b23a501b0d54c6892b969e2a55145.1713874657.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240422213006.505576-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240422213006.505576-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <2b422e9f-bd80-4c57-a3e1-8b463b25c834@kernel.org> <CA+V-a8s1xDT7sGMpz_n45v9QzhpWUdJv9eXmUJoxPaJ69MiY7A@mail.gmail.com>
- <4c6d6957-3813-46d3-88de-ee64241bbe6f@kernel.org>
-In-Reply-To: <4c6d6957-3813-46d3-88de-ee64241bbe6f@kernel.org>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 23 Apr 2024 12:26:50 +0100
-Message-ID: <CA+V-a8s2pahd23jhkYdxJ_j8SxADaYf4QxOwO1_3jmCr9MzuFw@mail.gmail.com>
-Subject: Re: [PATCH 1/6] dt-bindings: mmc: renesas,sdhi: Drop 'items' keyword
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 23, 2024 at 10:59=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.o=
-rg> wrote:
->
-> On 23/04/2024 09:21, Lad, Prabhakar wrote:
-> > Hi Krzysztof,
-> >
-> > Thank you for the review.
-> >
-> > On Tue, Apr 23, 2024 at 7:29=E2=80=AFAM Krzysztof Kozlowski <krzk@kerne=
-l.org> wrote:
-> >>
-> >> On 22/04/2024 23:30, Prabhakar wrote:
-> >>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >>>
-> >>> Drop 'items' keyword from compatible list which have single const val=
-ue.
-> >>>
-> >>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
->
-> >>> ---
-> >>>  .../devicetree/bindings/mmc/renesas,sdhi.yaml  | 18 ++++++----------=
---
-> >>>  1 file changed, 6 insertions(+), 12 deletions(-)
-> >>>
-> >>> diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml =
-b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> >>> index 29f2400247eb..90c8b1b727a8 100644
-> >>> --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> >>> +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> >>> @@ -12,16 +12,11 @@ maintainers:
-> >>>  properties:
-> >>>    compatible:
-> >>>      oneOf:
-> >>> -      - items:
-> >>> -          - const: renesas,sdhi-sh73a0  # R-Mobile APE6
-> >>> -      - items:
-> >>> -          - const: renesas,sdhi-r7s72100 # RZ/A1H
-> >>> -      - items:
-> >>> -          - const: renesas,sdhi-r7s9210 # SH-Mobile AG5
-> >>> -      - items:
-> >>> -          - const: renesas,sdhi-r8a73a4 # R-Mobile APE6
-> >>> -      - items:
-> >>> -          - const: renesas,sdhi-r8a7740 # R-Mobile A1
-> >>> +      - const: renesas,sdhi-sh73a0  # R-Mobile APE6
-> >>> +      - const: renesas,sdhi-r7s72100 # RZ/A1H
-> >>> +      - const: renesas,sdhi-r7s9210 # SH-Mobile AG5
-> >>> +      - const: renesas,sdhi-r8a73a4 # R-Mobile APE6
-> >>> +      - const: renesas,sdhi-r8a7740 # R-Mobile A1
-> >>
-> >> That's just an enum.
-> >>
-> > Are you suggesting to group them into a single enum instead...?
->
-> Yes. That's preferred form, easier to read, because it clearly documents
-> that binding enumerates.
->
-Agreed.
+make dtbs_check:
 
-> But just in case you start changing all const to enums: don't. Comment
-> is for this patch, since you already want to touch these things.
->
-Indeed.
+    arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dtb: sound@ec5a0000: compatible: 'oneOf' conditional failed, one must be fixed:
+	    ['renesas,rcar_sound-r8a779g0', 'renesas,rcar_sound-gen4'] is too short
+	    ...
+	    'renesas,rcar_sound-r8a779h0' was expected
 
-Cheers,
-Prabhakar
+The list of SoC-specific compatible values for R-Car Gen4 SoCs is
+mutually-exclusive, just like for other R-Car SoC generations, so it
+should use an enum.
+
+Fixes: d6e792ed7dd022a1 ("ASoC: dt-bindings: renesas: add R8A779H0 V4M")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ Documentation/devicetree/bindings/sound/renesas,rsnd.yaml | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
+index b3da278cf141c373..07ec6247d9defc41 100644
+--- a/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
++++ b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
+@@ -48,8 +48,9 @@ properties:
+           - const: renesas,rcar_sound-gen3
+       # for Gen4 SoC
+       - items:
+-          - const: renesas,rcar_sound-r8a779g0  # R-Car V4H
+-          - const: renesas,rcar_sound-r8a779h0  # R-Car V4M
++          - enum:
++              - renesas,rcar_sound-r8a779g0  # R-Car V4H
++              - renesas,rcar_sound-r8a779h0  # R-Car V4M
+           - const: renesas,rcar_sound-gen4
+       # for Generic
+       - enum:
+-- 
+2.34.1
+
 
