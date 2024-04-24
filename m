@@ -1,185 +1,102 @@
-Return-Path: <linux-renesas-soc+bounces-4892-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4893-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CCAD8B0D74
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 16:59:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D36A8B0DE3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 17:18:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DD372B27DA7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 14:59:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AFB7CB29E02
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 15:18:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C731F15EFB8;
-	Wed, 24 Apr 2024 14:59:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA74915EFAD;
+	Wed, 24 Apr 2024 15:18:27 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BE715ECFE;
-	Wed, 24 Apr 2024 14:59:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C5115ECC1;
+	Wed, 24 Apr 2024 15:18:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713970752; cv=none; b=NN5mE0TbbDHoVga6PO7AAteyrWVgvM1rSWHH8zzueasQZMUy+JCLI0dnIhFtq4WEnQz1i2J568W4lOiOMVQFXQGFIS86+IPRsIdKpPP7XD3iJcAXVwE2LlUptBcnLkLT5Af/hkmBMWPCN+imFU9lJsF5104zOTTx8c4W7V6K5Ho=
+	t=1713971907; cv=none; b=ACY69O0t2SM9/jVnHJf3Fswoff+8TiMylEMxumIAemf6ut5hVBBeHEzOW2PZGhIxMa/SuZl03Q60S69DpxuE/Yp30qQmOtjcOGk2DT5TMZzPJq20D7uMIpc0x6BhRxXMuK3DIwOdOeXBjIuyXeJ9gtGMsq5q8wexA29k4y5CaUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713970752; c=relaxed/simple;
-	bh=uSb9cMV+CSOhuQNCt8c3D/PhsmzG3Zww/AzIWuo08aw=;
+	s=arc-20240116; t=1713971907; c=relaxed/simple;
+	bh=bnhphAm6zhNDVzfxC/1dDfXSqIf3i0rLm86SRDsEyJQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ssQsCXWhGPsoSy4SZ1PVtaB25MUvM4fOkQIzu3dX9sRgO+5dyEj3Ic1XnC0SR7LP1EEzwQZIgBYvZHWc/m6aREFHePJspy4Bj0GrZj2Otv0AIWUgJXuHHFPLMe0nVERp50IZdvZKYjVircVMUWjw90w9B+l4ueVz7enNYf0D92Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.180
+	 To:Cc:Content-Type; b=Q7jFAANvHfqpkRan/FcJfHq+8YTUgBPnSykYVKV6XH0/0NMvjkDONGwK2gGsMSaL8COkehJOQHdNpE+Nn/yDPrOlgkCCc9vg9pyqC301r1T+ddevJTEgM/YQWmJ3YwdEhtjp6DtrUPviNfBRunul6Ki0MzVMh1Dio6dDr9pjhYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-de56d4bb72bso989617276.2;
-        Wed, 24 Apr 2024 07:59:10 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-61500da846fso47756047b3.1;
+        Wed, 24 Apr 2024 08:18:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713970749; x=1714575549;
+        d=1e100.net; s=20230601; t=1713971904; x=1714576704;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wIf2hqRKb6fguvBX5EywVk6EIn67HUMm2ITgNqqkffU=;
-        b=qjH7pQh4SVBszFxaO2ieNlswy+eoslRTMKNfC8Qf+8PSLwgOv4gKZCiiRyQMu8WhC5
-         MmBBlGRgqCk04YuBL3viEwQ+Wf+occ4vrTH4RtMWvG1wwM2hS6t/1r1IkETvxPo2jyig
-         vP0MgEn3fCSiKMcVgfVUOrirrsR+oBFmF/kMWFeni6gBv61TsdVdTgx5StLK4f5WXbyi
-         0jU5qaFd76dd3aqGXo80nyJtEhHUpkuVbSw4fvrcM7Cnkw1xJykdhB606y2V8xFVIQrG
-         abNzl4vPmKtXHHM4dES/H9PYv9J3adRxCzmL1NqtAUoGo4xTZqAaHisKYdmd9ltxppYY
-         ML+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW13+0p6LgKlAJs1RSfpmVOT0fuYkIWJBFBCKwPgpBwkxHDb+sWwB5PrxiCiXT82KldHRGhvF6wg59uZb9+5fe9lNn9TRlVyqM9qGo/FeCwWObGv4bElDwZLXWo3zp/K5WV421+/j1p4kM4XUB3mxhb7+P7b/x+HjUQdOGGnEmXbrioHKhTvRs7IfXK
-X-Gm-Message-State: AOJu0YyoXxOlGuZw88TZ3sCJR0AlAJHunFDemqR6sWdvjAUc216Z1l8S
-	vwoFJsdQA+oOLkqKTFDBzgriHR7ABGUZArCeKO/0Y0db/8q6L25Sa9kEU5X9QTk=
-X-Google-Smtp-Source: AGHT+IFA7hn3gbLzKjvVzfieMSB4O1yl8pPmJU6jEM59PIo2e8+29U4xB6Qo41X3UxDqClvx41r+3A==
-X-Received: by 2002:a25:9007:0:b0:dc8:5e26:f501 with SMTP id s7-20020a259007000000b00dc85e26f501mr2666664ybl.61.1713970748657;
-        Wed, 24 Apr 2024 07:59:08 -0700 (PDT)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
-        by smtp.gmail.com with ESMTPSA id x12-20020a25b90c000000b00dce0a67ac8bsm3120641ybj.23.2024.04.24.07.59.08
+        bh=o82wBBP7bxXXggrt8LbGr/5/eA1GfirSCOilCtZtYrw=;
+        b=PiS8KFIFfEZRIQcmpWZwDEnZl3RMqvkoFvWHBwDLy02axcLAZ/E2H9WrTIhi01aGb2
+         imYR8Ji2ek25juIH1JIBaigxQzssqf0qXYlhD7WUo320oYYf2P7AUCtD7UKwp5X9wf6G
+         cbGPpXUlwexqBYTFCZGy/7ZvbMSDA8tXAtc4eu/Yg8F2HxA3fkVPBsxMr9vaHQp8GDGP
+         xMu4KwMMLK30CrPaTkjClur6kBK1vVeYJ9+1XqMC4JyMEeAHTU1WHVMd/IQWm4MkUTmL
+         kn1cmhQOr/kHOdMVU7pmndYCAoG60e/jwFLUTfzvNi4nUlAU/+yfbAofoCjb7p+BArGh
+         Me9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUVNiE82wVZEJrXdSnf54pirlnI0xqEiETBQo/+8fr7xhnxjdpRHBrm7RG+1DGPfUqny2Q9RzJEtufZ6AkMowRGRxS/g1F2PfPNvABiO+w7N25J2jojJXI3JZr5V+Ig6QsGY2NwIJ8uKOO7qLvc
+X-Gm-Message-State: AOJu0YxLikOkn0omdDQ+LrJSeGwdhWXUVizbPzy/cjhk/n7zRSgccYOe
+	sQr73NUQ+SMoORVbG29iSD+ePR1r/3L466mpmL2x0hRMFGXrXdVn6AbNW5UeJfA=
+X-Google-Smtp-Source: AGHT+IFvhPRkXFnfwFQ/khPnMIZx6JVRCqGrrSrJ/H17pNDnDAdYH/6KsmjoO/mZvMkP7qSuNNfM2Q==
+X-Received: by 2002:a05:690c:74c6:b0:609:bfdf:8a32 with SMTP id jw6-20020a05690c74c600b00609bfdf8a32mr3062320ywb.44.1713971904197;
+        Wed, 24 Apr 2024 08:18:24 -0700 (PDT)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
+        by smtp.gmail.com with ESMTPSA id n3-20020a81bd43000000b0061b221afbe1sm2858701ywk.105.2024.04.24.08.18.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Apr 2024 07:59:08 -0700 (PDT)
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-de47485532cso6933669276.3;
-        Wed, 24 Apr 2024 07:59:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVqNyVW/hko/sbx3bPvEOHI8cR8kudg2iNpNHp7i9jH+0W1dQTfkoBGy8IY2c1IvPMGnxgNqiRvqviOvXe+u1lRvUHxQYQVdxcvgb1JPuHaqp566joW/K3cs2UrC1bn6DrtxYjEHLJVuVUqEHqfF+iJEX5sdVVBM0uNjsqTMu3vVQhEWr+JqNEIJy1b
-X-Received: by 2002:a25:7903:0:b0:de5:5037:8861 with SMTP id
- u3-20020a257903000000b00de550378861mr2891333ybc.48.1713970748109; Wed, 24 Apr
- 2024 07:59:08 -0700 (PDT)
+        Wed, 24 Apr 2024 08:18:24 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6153d85053aso56125077b3.0;
+        Wed, 24 Apr 2024 08:18:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUKe0suIdBpdD2fxIINbU1UF9t+23TtRQVFiBTCkj/dV9P2djJLhiJ04MOoVhWgJzbzWMpH7PnWmqPux+pwtFv0ijbUHMea0pJmtuf54ztUWwu1W1zaTBRhDDNvuRmxP086yhwcZWvs9j/8xqly
+X-Received: by 2002:a25:c78e:0:b0:de1:dcc:2a8b with SMTP id
+ w136-20020a25c78e000000b00de10dcc2a8bmr2947467ybe.59.1713971903735; Wed, 24
+ Apr 2024 08:18:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240422205053.496095-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240422205053.496095-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20240422205053.496095-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240413141806.300989-1-niklas.soderlund+renesas@ragnatech.se> <20240413141806.300989-2-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20240413141806.300989-2-niklas.soderlund+renesas@ragnatech.se>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 24 Apr 2024 16:58:54 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXx46TORh7fCNBwbddSLLGFmV_haQ1q+Y=n4GkzheDzaA@mail.gmail.com>
-Message-ID: <CAMuHMdXx46TORh7fCNBwbddSLLGFmV_haQ1q+Y=n4GkzheDzaA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] irqchip/renesas-rzg2l: Add support for RZ/Five SoC
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date: Wed, 24 Apr 2024 17:18:11 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXQTkYxF4X5wocZ83PM-6GtjYx2MGuEw-gjnFJatAA2fw@mail.gmail.com>
+Message-ID: <CAMuHMdXQTkYxF4X5wocZ83PM-6GtjYx2MGuEw-gjnFJatAA2fw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] arm64: dts: renesas: r8a779g0: Use MDIO node for
+ all AVB devices
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Prabhakar,
-
-On Mon, Apr 22, 2024 at 10:51=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.=
-com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Sat, Apr 13, 2024 at 4:19=E2=80=AFPM Niklas S=C3=B6derlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> Switch from defining the PHY inside the AVB node itself and create a
+> dedicated MDIO node for AVB0, the only AVB describing a PHY. This is
+> needed as adding PHYs to AVB1 and AVB2 will require setting MDIO bus
+> parapets and thus requires a dedicated node.
 >
-> The IX45 block on the RZ/Five SoC has additional mask registers
-> (NMSK/IMSK/TMSK) compared to the RZ/G2L (family) SoC.
->
-> A new rzfive_irqc_chip irq_chip is introduced for RZ/Five, where function
-> pointers for irq_(un)mask and irq_(dis/en)able handle the (un)masking
-> of the interrupts. The irq_chip pointer is now passed as an init callback
-> and stored in the priv pointer to differentiate between RZ/G2L and RZ/Fiv=
-e.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
+se>
 > ---
-> v2->v3
-> - Added RZ/Five specific irqchip instead of polluting the functions
-> - Fixed review comments pointed by Biju and Geert
-> - Updated commit message
-> - moved locking respective read/write functions
+> * Changes since v2
+> - New in v2.
 
-Thanks for the update!
-
-> --- a/drivers/irqchip/irq-renesas-rzg2l.c
-> +++ b/drivers/irqchip/irq-renesas-rzg2l.c
-> @@ -138,6 +142,113 @@ static void rzg2l_irqc_eoi(struct irq_data *d)
->         irq_chip_eoi_parent(d);
->  }
->
-> +static void rzfive_irqc_mask_irq_interrupt(struct rzg2l_irqc_priv *priv,
-> +                                          unsigned int hwirq)
-> +{
-> +       u32 bit =3D BIT(hwirq - IRQC_IRQ_START);
-> +
-> +       raw_spin_lock(&priv->lock);
-
-I think you best move the locking to the callers that really need it...
-
-> +       writel_relaxed(readl_relaxed(priv->base + IMSK) | bit, priv->base=
- + IMSK);
-> +       raw_spin_unlock(&priv->lock);
-> +}
-
-> +static void rzfive_tint_irq_endisable(struct irq_data *d, bool enable)
-> +{
-> +       struct rzg2l_irqc_priv *priv =3D irq_data_to_priv(d);
-> +       unsigned int hwirq =3D irqd_to_hwirq(d);
-> +
-> +       if (hwirq >=3D IRQC_TINT_START && hwirq < IRQC_NUM_IRQ) {
-> +               u32 offset =3D hwirq - IRQC_TINT_START;
-> +               u32 tssr_offset =3D TSSR_OFFSET(offset);
-> +               u8 tssr_index =3D TSSR_INDEX(offset);
-> +               u32 reg;
-> +
-> +               if (enable)
-> +                       rzfive_irqc_unmask_tint_interrupt(priv, hwirq);
-> +               else
-> +                       rzfive_irqc_mask_tint_interrupt(priv, hwirq);
-
-... else you will do a lock/unlock here, followed by another one below.
-
-> +               raw_spin_lock(&priv->lock);
-> +               reg =3D readl_relaxed(priv->base + TSSR(tssr_index));
-> +               if (enable)
-> +                       reg |=3D TIEN << TSSEL_SHIFT(tssr_offset);
-> +               else
-> +                       reg &=3D ~(TIEN << TSSEL_SHIFT(tssr_offset));
-> +               writel_relaxed(reg, priv->base + TSSR(tssr_index));
-> +               raw_spin_unlock(&priv->lock);
-> +       } else {
-> +               if (enable)
-> +                       rzfive_irqc_unmask_irq_interrupt(priv, hwirq);
-> +               else
-> +                       rzfive_irqc_mask_irq_interrupt(priv, hwirq);
-> +       }
-> +}
-
-> @@ -401,7 +529,8 @@ static int rzg2l_irqc_parse_interrupts(struct rzg2l_i=
-rqc_priv *priv,
->         return 0;
->  }
->
-> -static int rzg2l_irqc_init(struct device_node *node, struct device_node =
-*parent)
-> +static int rzg2l_irqc_init_helper(struct device_node *node, struct devic=
-e_node *parent,
-
-rzg2l_irqc_common_init()?
-
-> +                                 const struct irq_chip *irq_chip)
->  {
->         struct irq_domain *irq_domain, *parent_domain;
->         struct platform_device *pdev;
-
-The rest LGTM, so
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+As this has a hard dependency on commit 2c60c4c008d4b05b ("ravb: Add
+support for an optional MDIO mode") in net-next, this is postponed
+to v6.11.
 
 Gr{oetje,eeting}s,
 
