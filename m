@@ -1,152 +1,185 @@
-Return-Path: <linux-renesas-soc+bounces-4869-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4870-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 912878B06B9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 11:58:52 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5968F8B074D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 12:26:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2EB981F244B0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 09:58:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7D52E1C2306E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 10:26:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B80A1591F7;
-	Wed, 24 Apr 2024 09:57:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12E061598F0;
+	Wed, 24 Apr 2024 10:26:39 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD55B158DAE
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Apr 2024 09:57:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9411159579
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Apr 2024 10:26:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713952641; cv=none; b=laSXz0w8pTEwtEeBG50edufEJlfWGeyZxTtfaBSG5fKabzM4CWzkdLqifuSirLSve7UkmgB5P5CyuEVLC4d/ZsoPTDRwYxCuD+VHvVEFgi1pXH8fyVJ5ByMbeVTOTFp8a7qnJ1WjgR8tqGmhVuUjkuMWlUQN5aaFHtrs+jf5UgI=
+	t=1713954399; cv=none; b=BCs5YZQEBWumbfREw21omcZJ6cop+H2rVHEgJYMJkgJFdsz9ejqWHpszyCT6dYJ7JgBqkaNNCykMQ4O53ZHbVZSiVpMEKSsHHJscG/W2sYgSugKTmP4yztRqVKWUsvNf4rfIxrf/wbmmY+/DGf+ToQ7EOi34PpfMUy3OoV/YS7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713952641; c=relaxed/simple;
-	bh=xBoMnS/U24Xmk+b98yC9/zx3BSPWnx/BrNAsIXF14Jk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EJJi7e1OZLTvUUJPha+jxDeZrEtmLgXjwOUPBeusJnjtelN27OT969hy8/IqQxmqAjIfIa47hEaLjn4+fCWyu66d/6tVA+TKIMiJgie4SQUK3cl4TSvA7sqwc3KS8Zdp58MDeVyeic+4EVFJm71OAPX8qh2WgP9jdjCABqlr9ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.173
+	s=arc-20240116; t=1713954399; c=relaxed/simple;
+	bh=dG+revxQzK/A7VOH2CsUT2VQD1d/Iq8wWNut+VMBstc=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=MmVeak8saIKaWODbHQtqNESTcOG/tVvFBmkRKUI+kltQrsrCltMkkcA5J6AXUp4///yExrRJ9r11CePDBS6hLPLZ81NSsmBjHxr8RMAVkU581PlfHl5tdIIcvW+OD9rtjy8J3Z89a5R+isBvrrZHVyHasYNpiD7rpJR16aJvUUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6164d7a02d2so77134557b3.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Apr 2024 02:57:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713952638; x=1714557438;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KQU26/ov+2ttmtKzftOZXP11jQDNo9zi+sDhRhwQgfA=;
-        b=LPDGLS+lnUlMcwL9UnYnXNrjd5WykOAb2usV7hxYm/YzFmFw2uRndpp9qSRLJ2ITBQ
-         8ICamgkX0CfFbgtoxrd0nuU+z4KUvnPWvMiH9NQNGiYQW7HkA9t+J5potR8Tglx39cfG
-         iUfn7hGGcPo5GKaFCGNRibdXi1N1+vipenrGX26NzFBKH38AemaZS8RXSL66irlHLxfR
-         lkxv5/3qufKFixHHRgQ1GMOWZw44ByVvOBZ0aqGTPBaXxC4mx/i1+c5XHMDtsBD3J7b0
-         rjhEQE1z+sT/HuzuAGCbFePYHYD2ftb7OA6g9ueceCvqdYtDG/w94+2sHIVpEMwdqRCl
-         gjZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUXLEATmgPdf/AsVgHQDMmUigU78OGw1ecY6nv8ksrTH2ubHELly7q1cMGqrWAtbK9OnDoi85iwQgWRlXoeH5YNzQ9sdD8Y/6TUMmTpdFhOLm8=
-X-Gm-Message-State: AOJu0YxtHfF2dx90GtZfNjFC/mMV/lSTvx7Rk4dS0fO8Kbw82qMieFp9
-	o9Mg+eMqGjVHhhXRRZhq4S70ZufoWZFQBIz0JU8A3omqPwNxlTuO6n7Pic0M
-X-Google-Smtp-Source: AGHT+IEnas8oZpOGIIapHuebudacqgTUgQXrlNkeRUqTojTteGQZD8wKCVD90iCSsIN9M5Gs3fGOOQ==
-X-Received: by 2002:a05:6902:566:b0:dc7:43aa:5c0b with SMTP id a6-20020a056902056600b00dc743aa5c0bmr1998630ybt.21.1713952637732;
-        Wed, 24 Apr 2024 02:57:17 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id v69-20020a25c548000000b00dcf27be1d1bsm3103342ybe.28.2024.04.24.02.57.17
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Apr 2024 02:57:17 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-617ddc988f5so69831557b3.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Apr 2024 02:57:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUM0PDITFMnhTEg+aCAheQjxpmRshrCV0CLmFShvFP/H5+0/e2M0GNxJCjNH8nRFQ60FI3CIkGfh5S3ToXFxSa+SCu68Wvjgx7IiEwrSzxcqys=
-X-Received: by 2002:a25:c1c4:0:b0:dbd:1dfd:8b8 with SMTP id
- r187-20020a25c1c4000000b00dbd1dfd08b8mr2152897ybf.24.1713952636969; Wed, 24
- Apr 2024 02:57:16 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:76d0:2bff:fec8:549])
+	by albert.telenet-ops.be with bizsmtp
+	id EyST2C0070SSLxL06ySTPi; Wed, 24 Apr 2024 12:26:28 +0200
+Received: from geert (helo=localhost)
+	by ramsan.of.borg with local-esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1rzZpa-0066TE-WE;
+	Wed, 24 Apr 2024 12:26:27 +0200
+Date: Wed, 24 Apr 2024 12:26:26 +0200 (CEST)
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Ming Lei <ming.lei@redhat.com>
+cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org, 
+    janpieter.sollie@edpnet.be, Christoph Hellwig <hch@lst.de>, 
+    Mike Snitzer <snitzer@kernel.org>, dm-devel@lists.linux.dev, 
+    Song Liu <song@kernel.org>, linux-raid@vger.kernel.org, 
+    linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] block: allow device to have both virt_boundary_mask and
+ max segment size
+In-Reply-To: <20240407131931.4055231-1-ming.lei@redhat.com>
+Message-ID: <7e38b67c-9372-a42d-41eb-abdce33d3372@linux-m68k.org>
+References: <20240407131931.4055231-1-ming.lei@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ee6c9e16-9f29-450e-81da-4a8dceaa8fc7@de.bosch.com> <6fcp525uab7fggrkoftpz5bjrvvpza735wnp5djzuab3hk5zte@vgk43d4ijbww>
-In-Reply-To: <6fcp525uab7fggrkoftpz5bjrvvpza735wnp5djzuab3hk5zte@vgk43d4ijbww>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 24 Apr 2024 11:57:05 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVH9LnDHtfhCYNKPPUTSp1rRG_fX70zxsF1qWUiZrPs=Q@mail.gmail.com>
-Message-ID: <CAMuHMdVH9LnDHtfhCYNKPPUTSp1rRG_fX70zxsF1qWUiZrPs=Q@mail.gmail.com>
-Subject: Re: tty: serial: sh-sci: hrtimer not properly canceled on chan_rx invalidation?
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Dirk Behme <dirk.behme@de.bosch.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 
-Hi Wolfram,
+ 	Hi Ming,
 
-On Tue, Apr 16, 2024 at 1:49=E2=80=AFPM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> > Analyzing this we found that in sci_dma_rx_timer_fn() s->chan_rx is NUL=
-L.
+On Sun, 7 Apr 2024, Ming Lei wrote:
+> When one stacking device is over one device with virt_boundary_mask and
+> another one with max segment size, the stacking device have both limits
+> set. This way is allowed before d690cb8ae14b ("block: add an API to
+> atomically update queue limits").
 >
-> Again, good catch. Thank you! Here is the outcome of my first debugging
-> session...
+> Relax the limit so that we won't break such kind of stacking setting.
 >
-> > Is there any chance that there is a race condition where the timer func=
-tion
-> > sci_dma_rx_timer_fn() is called while s->chan_rx is invalidated, alread=
-y.
-> > E.g. via sci_dma_rx_chan_invalidate()/sci_dma_rx_release()? Or anything
-> > else?
->
-> Only 'sci_dma_rx_chan_invalidate' clears s->chan_rx. I think these paths
-> involving 'sci_dma_rx_chan_invalidate' are OK:
->
-> sci_dma_rx_chan_invalidate <- sci_dma_rx_release <- sci_free_dma ...
->
-> A) <- sci_startup (no issue because interrupts could not be requested
->                    and RX DMA is started in an interrupt)
->
-> B) <- sci_shutdown (no issue because 'hrtimer_cancel' has been called
->                     before freeing DMA)
->
-> This path also seems ok:
->
-> sci_dma_rx_chan_invalidate <- sci_dma_rx_submit (error path)
->   <- sci_rx_interrupt (no issue because timer is started after
->                        'sci_dma_rx_submit')
->
-> This path looks problematic:
->
-> sci_dma_rx_chan_invalidate <- sci_dma_rx_complete (error path)
->
-> The timer is started before DMA is set up. In the unlikely event of the
-> DMA setup failing, s->chan_rx will be cleared while the timer has
-> already been started. This is in deed a very rare condition.
+> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=218687
+> Reported-by: janpieter.sollie@edpnet.be
+> Fixes: d690cb8ae14b ("block: add an API to atomically update queue limits")
+> Link: https://lore.kernel.org/linux-block/ZfGl8HzUpiOxCLm3@fedora/
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Mike Snitzer <snitzer@kernel.org>
+> Cc: dm-devel@lists.linux.dev
+> Cc: Song Liu <song@kernel.org>
+> Cc: linux-raid@vger.kernel.org
+> Signed-off-by: Ming Lei <ming.lei@redhat.com>
 
-Or when the previous (still running) timer expires...
+Thanks for your patch, which is now commit b561ea56a26415bf ("block:
+allow device to have both virt_boundary_mask and max segment size") in
+v6.9-rc4.
 
-> The problem is that I cannot trigger the code patch so far. It is easy
-> to force 'sci_dma_rx_complete' to bail out but, so far, I couldn't get
-> it called.
+With CONFIG_DMA_API_DEBUG_SG=y and IOMMU support enabled, this causes a
+warning on R-Car Gen3/Gen4 platforms:
 
-Note that DMA is disabled for the serial console, cfr. the check for
-uart_console() in sci_request_dma().  For testing, you can just remove
-that check.
+     DMA-API: renesas_sdhi_internal_dmac ee160000.mmc: mapping sg segment longer than device claims to support [len=86016] [max=65536]
+     WARNING: CPU: 1 PID: 281 at kernel/dma/debug.c:1178 debug_dma_map_sg+0x2ac/0x330
+     Modules linked in:
+     CPU: 1 PID: 281 Comm: systemd-udevd Tainted: G        W          6.9.0-rc2-ebisu-00012-gb561ea56a264 #596
+     Hardware name: Renesas Ebisu board based on r8a77990 (DT)
+     pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+     pc : debug_dma_map_sg+0x2ac/0x330
+     lr : debug_dma_map_sg+0x2ac/0x330
+     sp : ffffffc083643470
+     x29: ffffffc083643470 x28: 0000000000000080 x27: 0000000000010000
+     x26: 0000000000000000 x25: 0000000000000001 x24: ffffffc0810afc30
+     x23: ffffffffffffffff x22: ffffffc080c8366f x21: ffffff8008849f80
+     x20: ffffff800cd24000 x19: ffffff80099a2810 x18: 0000000000000000
+     x17: ffffff800801a000 x16: ffffffc080453f00 x15: ffffffc0836430f0
+     x14: ffffffc08099fb50 x13: 0000000000000007 x12: 0000000000000000
+     x11: 0000000000000202 x10: ffffffc0810d99d0 x9 : ffffffc081189bb0
+     x8 : ffffffc083643178 x7 : ffffffc083643180 x6 : 00000000ffffdfff
+     x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000000
+     x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffffff800ebad280
+     Call trace:
+      debug_dma_map_sg+0x2ac/0x330
+      __dma_map_sg_attrs+0xcc/0xd0
+      dma_map_sg_attrs+0xc/0x1c
+      renesas_sdhi_internal_dmac_map+0x64/0x94
+      renesas_sdhi_internal_dmac_pre_req+0x20/0x2c
+      mmc_blk_mq_issue_rq+0x62c/0x6c8
+      mmc_mq_queue_rq+0x194/0x218
+      blk_mq_dispatch_rq_list+0x36c/0x4d4
+      __blk_mq_sched_dispatch_requests+0x344/0x4e0
+      blk_mq_sched_dispatch_requests+0x28/0x5c
+      blk_mq_run_hw_queue+0x1a4/0x218
+      blk_mq_flush_plug_list+0x2fc/0x4a0
+      __blk_flush_plug+0x70/0x134
+      blk_finish_plug+0x24/0x34
+      read_pages+0x60/0x158
+      page_cache_ra_unbounded+0x98/0x184
+      do_page_cache_ra+0x44/0x50
+      force_page_cache_ra+0x98/0x9c
+      page_cache_sync_ra+0x30/0x54
+      filemap_get_pages+0xfc/0x4f8
+      filemap_read+0xe8/0x2b8
+      blkdev_read_iter+0x12c/0x144
+      vfs_read+0x104/0x150
+      ksys_read+0x6c/0xd4
+      __arm64_sys_read+0x14/0x1c
+      invoke_syscall+0x70/0xf4
+      el0_svc_common.constprop.0+0xb0/0xcc
+      do_el0_svc+0x1c/0x24
+      el0_svc+0x34/0x8c
+      el0t_64_sync_handler+0x88/0x124
+      el0t_64_sync+0x150/0x154
+     irq event stamp: 0
+     hardirqs last  enabled at (0): [<0000000000000000>] 0x0
+     hardirqs last disabled at (0): [<ffffffc08007efa4>] copy_process+0x6ac/0x18d4
+     softirqs last  enabled at (0): [<ffffffc08007efa4>] copy_process+0x6ac/0x18d4
+     softirqs last disabled at (0): [<0000000000000000>] 0x0
 
-Also, plain text typing (on the serial console, or on a getty running
-on a secondary port) does not trigger a DMA RX transfer.  Pasting
-a block of text larger than the FIFO size to the terminal should
-trigger DMA RX.
+Reverting this commit, or disabling IOMMU support fixes the issue.
+
+> --- a/block/blk-settings.c
+> +++ b/block/blk-settings.c
+> @@ -182,17 +182,13 @@ static int blk_validate_limits(struct queue_limits *lim)
+> 		return -EINVAL;
+>
+> 	/*
+> -	 * Devices that require a virtual boundary do not support scatter/gather
+> -	 * I/O natively, but instead require a descriptor list entry for each
+> -	 * page (which might not be identical to the Linux PAGE_SIZE).  Because
+> -	 * of that they are not limited by our notion of "segment size".
+> +	 * Stacking device may have both virtual boundary and max segment
+> +	 * size limit, so allow this setting now, and long-term the two
+> +	 * might need to move out of stacking limits since we have immutable
+> +	 * bvec and lower layer bio splitting is supposed to handle the two
+> +	 * correctly.
+> 	 */
+> -	if (lim->virt_boundary_mask) {
+> -		if (WARN_ON_ONCE(lim->max_segment_size &&
+> -				 lim->max_segment_size != UINT_MAX))
+> -			return -EINVAL;
+> -		lim->max_segment_size = UINT_MAX;
+> -	} else {
+> +	if (!lim->virt_boundary_mask) {
+> 		/*
+> 		 * The maximum segment size has an odd historic 64k default that
+> 		 * drivers probably should override.  Just like the I/O size we
 
 Gr{oetje,eeting}s,
 
-                        Geert
+ 						Geert
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+ 							    -- Linus Torvalds
 
