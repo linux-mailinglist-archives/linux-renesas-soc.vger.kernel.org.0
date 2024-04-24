@@ -1,106 +1,142 @@
-Return-Path: <linux-renesas-soc+bounces-4884-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4885-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E79628B0BD6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 16:02:48 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59DEB8B0C0C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 16:10:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A3EE4286FD9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 14:02:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8F9D2B212B7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 14:10:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A10315E210;
-	Wed, 24 Apr 2024 14:02:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aPgv5GFM"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3092F15E1E6;
+	Wed, 24 Apr 2024 14:10:16 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D73E15D5A9;
-	Wed, 24 Apr 2024 14:02:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3603215B996;
+	Wed, 24 Apr 2024 14:10:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713967347; cv=none; b=ZHYiDdcXk6jrbV5v5oz07TcWIrMOkaU+tyO3pWX4ZL/owd4PwkvhlF5iIZBxsQ/yVKOm5HGpf8HJBQ98Yu34kgtWbHcTEccUcgS5A+gmM/eOUeutJSiiEW/hWL56kqKo5MEKNKPqsznWSqPaJwZVLh7qdDJHKX8mejsUDIjHh4w=
+	t=1713967816; cv=none; b=gY55RXd1Dr8zYJhyCtK8okBcMiVITpkxeFkkWrW22+rjQOn+SbhxpPUscp9lOKyo0QmtS9J4KyqEiI4zfBzSYL3hDXT+oOT5jccRQ0DqNvUwvo+wJMpnIAZfBEUwfKjQYusTOOeZNtUnzE44Y9Szxq719NL99etzY2yDAMF8000=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713967347; c=relaxed/simple;
-	bh=J/W8G6AHYtkJeU6pLXpJpuJehmlnpDVucXxX4M9+OAM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=imd2GBHRn2sdXLMUfgPVxpANER3+Aw+TUnrWojsObjKyjCh1z3VuyYEujGDnTL9ryxF08DVioqd//Dd1x2X8SYBTA32Z1JsnStZpX2OY6rqtYcxY5CVVCTs5UDhX30TXLUaItz/CCyqPBjwkz1DlGpQd93jNhR/pTi1O/24hp5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aPgv5GFM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 733D7C2BD10;
-	Wed, 24 Apr 2024 14:02:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713967347;
-	bh=J/W8G6AHYtkJeU6pLXpJpuJehmlnpDVucXxX4M9+OAM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=aPgv5GFM3MBU/uHSthEl00TQLnlV9LDi19rpNBqoL6qdJTk5uaIcvYVcDzjDj+t11
-	 EFNu/YdwHp5nSiE51L/YmcD2ASYYjhqnKXjrTBafhuOw5XG4uePUOo5tnd/Iw1CFkB
-	 zroCbcaem2v7xhOVGoQRgxm6NeXu6/cK6mH6mGWbisN/gBemS1+CNq1lzTbbAxshIr
-	 xa2cGIqLlwynuZfTTFHFs92EWC6Uxlg+x+4dhOFRDN0SOA/Ln7BzjqzoSpSul+pKA5
-	 u+/qy6WNCSsTeaCDQOmbQc2Mg5xwGHJgV1l7tdyG29BIV46yAQOYMuI7YpeXXYRo/2
-	 KVphWvlTMOXVg==
-From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org
-In-Reply-To: <b3a6cf12c46b23a501b0d54c6892b969e2a55145.1713874657.git.geert+renesas@glider.be>
-References: <b3a6cf12c46b23a501b0d54c6892b969e2a55145.1713874657.git.geert+renesas@glider.be>
-Subject: Re: [PATCH] ASoC: dt-bindings: renesas: Fix R-Car Gen4
- SoC-specific compatibles
-Message-Id: <171396734270.1799261.6189828462792087587.b4-ty@kernel.org>
-Date: Wed, 24 Apr 2024 23:02:22 +0900
+	s=arc-20240116; t=1713967816; c=relaxed/simple;
+	bh=Y1w31Rvu7zBBDZYiN3Jt/FzqaSd5eiNVxkPtDrQGkuw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=j45/JTXkndJlMf7bZor4DrNTeD73P0heQ7GZ6IsmnXotgJ6Slh/pWczKIgfwhjb33A2RN4DpU6QayvLsMgz33HrGL98zMYLoJEZ1KSzlEFV96a2bFbUsytFaYqMYtDlJW9fsa6TzB9AdDTPDgp2m4A/WroIoKxxxbHoeqm+xFlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-618769020bcso74340767b3.3;
+        Wed, 24 Apr 2024 07:10:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713967811; x=1714572611;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=79YnAJzLJZsMvO3vMIQ39gqtdUV3uOsjN0bO7lVXx38=;
+        b=bk9zC0YTFdhSHsgBCO9mu9NJsGRiKW6ve6k+CaeP0XxDOkjMyjeWk53rtJxXRMjarj
+         YZ1HR8cGALt9E2DECAmlJsFIDfRhy2kVTck+9ha8fy6iUw4432KWb34XP5k1/nrKdcAY
+         bnDgY7hU0SosG1V2gWYQ9ayNKUNt/mglRIc1utt0zIS6A+qLfC7qmwA09u4yjgpabZND
+         dtISjLVPa4wtMIWDGPMfLdWxmbQdCqQccDnuaJPsMBRCFJOW2EamSftM3S3NmisvnL5w
+         o/gFWvhBdcdVCUPtQpyxctRhHNgDliqb+nE+9/RcoimxmCkWK5RfmXhTZxvF6jv+0Ajc
+         CCLg==
+X-Forwarded-Encrypted: i=1; AJvYcCWWV+vQ1lTPPVWZfhXj9aQRfn5n+tvePAU2qI8uJGYs21D2fxbt3tqhV5qi4epm+MSqx0kxnHBZsxuPG4U+afKqc+oiHUmH/i7nfJ5auWO+nL5tTiE6c/ikRa9HaORw2bHTO6YWjK1EI54MXt0hcuDa+1hsDBSsJnVWhMRZ/JwiAiEqOEkDPTgty2yEtDWg229ea3KKm+e+c5GNgRXSVsG2ZcBBM593vWzK0gVdugBzPQv9MiQNykh9g6871msJtxw=
+X-Gm-Message-State: AOJu0YwsKONd8tyiLADEwHnzzUMlUvuk4Lp+RKmrnVwa1bEZbYqCfp2r
+	4NAx0nsfupaX87SRJHMtjwsCmG3Ur2jIdAVCoLpDb2tbTuXpdp1tST5t3DB4HU8=
+X-Google-Smtp-Source: AGHT+IFWinzHs9h6qxtyF2O3jVZq90sj0NBcIEE35Tmtd8wkjFUiebXvanqDn8L0m2k4qg71zliT8A==
+X-Received: by 2002:a05:690c:6383:b0:618:8b98:f274 with SMTP id hp3-20020a05690c638300b006188b98f274mr2675124ywb.45.1713967811550;
+        Wed, 24 Apr 2024 07:10:11 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id i126-20020a0dc684000000b006158165c606sm3034546ywd.136.2024.04.24.07.10.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Apr 2024 07:10:11 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dc6dcd9124bso6484214276.1;
+        Wed, 24 Apr 2024 07:10:11 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUqqws/wsi2+Fxc+gN2AoBIoIUTfQHxPONIyZognaqInZQefmcu89XA3eJ5RwzrKAaG9n55iVRcxHT4jdocvlvWPMWyXrJysda9EuY5oxepSp6Cnzxcq9jEG29lfJzhXTQXTSkSgPNP4cbKnPB/FwvckwDNm+ZHqtzcoaMok2taoJBJ4kAqN1KLRMSuNANOHBV+PgXl1t656QfjDzjaEbtqIBvJHNFM9+2Y2TGU4NtfHj5lFDmuv6jzR9hrlevHnJ0=
+X-Received: by 2002:a5b:c4c:0:b0:dcd:3a37:bdb1 with SMTP id
+ d12-20020a5b0c4c000000b00dcd3a37bdb1mr2648998ybr.44.1713967811000; Wed, 24
+ Apr 2024 07:10:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev
+References: <20240422105355.1622177-1-claudiu.beznea.uj@bp.renesas.com> <20240422105355.1622177-7-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20240422105355.1622177-7-claudiu.beznea.uj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 24 Apr 2024 16:09:58 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXvcRRmCSFB9tM81CjsgyhJ=48WShpqw0cxT7aA=EYNGw@mail.gmail.com>
+Message-ID: <CAMuHMdXvcRRmCSFB9tM81CjsgyhJ=48WShpqw0cxT7aA=EYNGw@mail.gmail.com>
+Subject: Re: [PATCH v4 6/8] clk: renesas: rzg2l: Extend power domain support
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: mturquette@baylibre.com, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, magnus.damm@gmail.com, ulf.hansson@linaro.org, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 23 Apr 2024 14:19:26 +0200, Geert Uytterhoeven wrote:
-> make dtbs_check:
-> 
->     arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dtb: sound@ec5a0000: compatible: 'oneOf' conditional failed, one must be fixed:
-> 	    ['renesas,rcar_sound-r8a779g0', 'renesas,rcar_sound-gen4'] is too short
-> 	    ...
-> 	    'renesas,rcar_sound-r8a779h0' was expected
-> 
-> [...]
+On Mon, Apr 22, 2024 at 12:54=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev>=
+ wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>
+> RZ/{G2L, V2L, G3S}-based CPG versions have support for saving extra
+> power when clocks are disabled by activating module standby. This is done
+> through MSTOP-specific registers that are part of CPG. Each individual
+> module has one or more bits associated with one MSTOP register (see table
+> "Registers for Module Standby Mode" from HW manuals). Hardware manual
+> associates modules' clocks with one or more MSTOP bits. There are 3
+> mappings available (identified by researching RZ/G2L, RZ/G3S, RZ/V2L HW
+> manuals):
+>
+> case 1: N clocks mapped to N MSTOP bits (with N=3D{0, ..., X})
+> case 2: N clocks mapped to 1 MSTOP bit  (with N=3D{0, ..., X})
+> case 3: N clocks mapped to M MSTOP bits (with N=3D{0, ..., X}, M=3D{0, ..=
+., Y})
+>
+> Case 3 has been currently identified on RZ/V2L for the VCPL4 module.
+>
+> To cover all three cases, the individual platform drivers will provide to
+> clock driver MSTOP register offset and associated bits in this register
+> as a bitmask and the clock driver will apply this bitmask to proper
+> MSTOP register.
+>
+> The MSTOP was implemented through power domains. Platform-specific clock
+> drivers will register an array of type
+> struct rzg2l_cpg_pm_domain_init_data, which will be used to instantiate
+> properly the power domains.
+>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> ---
+>
+> Changes in v2:
 
-Applied to
+s/v2/v4/
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> - dropped the pwrdn functionality until it is better understanded;
+>   at the same time kept the code ready for pwrd being added by keeping
+>   struct rzg2l_cpg_pm_domain_conf, DEF_REG_CONF(); please let me know
+>   if you prefer otherwise
+> - @Geert, @Ulf: I dropped your previous Rb tags due to dropping pwrdn
 
-Thanks!
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-[1/1] ASoC: dt-bindings: renesas: Fix R-Car Gen4 SoC-specific compatibles
-      commit: 466c8c46b4ba763435b2a787b7824d9f0fd3e76e
+Gr{oetje,eeting}s,
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+                        Geert
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
