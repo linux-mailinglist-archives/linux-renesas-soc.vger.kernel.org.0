@@ -1,74 +1,74 @@
-Return-Path: <linux-renesas-soc+bounces-4871-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4872-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F40AB8B0824
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 13:13:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD8728B082C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 13:14:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 071CDB2260E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 11:13:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 02E8DB20B83
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 11:14:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A54915959F;
-	Wed, 24 Apr 2024 11:13:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE6FB15991C;
+	Wed, 24 Apr 2024 11:14:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="U4bC0ILa"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="jJSeSyGt"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22B91598E7
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Apr 2024 11:13:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B1DF15991A
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Apr 2024 11:14:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713957193; cv=none; b=dbxy5RD3Du3V+/pdY07IXZ3i+0IhtsXk5CmvDbgicsevAEIM3vOguJZBk8IeIg165SSi2UNDULFPZOcdYxVnH2HruVfysNE95M3x6KsZZNpulZHV3LfgsxTHm6RRTEYCLX1yT8J+rZcSuafIbnTafPc82BwBsFTcYtgs38+JtW8=
+	t=1713957274; cv=none; b=HzOHh/HZ712/jz6KrvWsi1TUvdNkuiDCkYMvksLvNgkEacprR5DM1qQn3sAKXGi95juNHo73fXm2tL7i3WEl/A+7FHLJMEGE5BZJD8fjWSwnFBLcvbOrIZW04RJ5Tf1KbbW0JCEJ7zDwrh1+d4WZ0d48pPCSoc/HEz5TQSe9hRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713957193; c=relaxed/simple;
-	bh=WMNSKI3RtoRqbQieeq7QOrGvMyFJTgjOPtgzlmdiq2U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RgJYNvRptyAZSY9p3CuIpJqvw0k1n4YCcD25HG+WtETYoUo+rx2AZem/q2UWzFlheUvYmPvDS3A7PxtcgBXeJWV6OB1QSSSowtZFv7XQSfURAFIkQZtYwwahT5GWKxziow3u4jKhH3smU3AK86Z6hIrFMe+QhKBFlBfbLswzwwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=U4bC0ILa; arc=none smtp.client-ip=209.85.128.54
+	s=arc-20240116; t=1713957274; c=relaxed/simple;
+	bh=nk2KxyugWmWO8/K8ORBnXEGAjgPl9wDphXRsl20uXOQ=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=rEIzwMt0niU+cZWELT2HUFDI2qfHjV1RLgsczhOPHpDezHozYU12rr7pL2f8k+jfYqLouPst37JmpoDqef82wN73VWkGh/mz6X/dtb7GPWrZfl1XGsbHok++g8ONt8BOq1Z5dVTqn9qeAg0cwIBUBUDfshjEdXGBs7JE8cXtDkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=jJSeSyGt; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-41b21ed19f6so515015e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Apr 2024 04:13:10 -0700 (PDT)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-41a1d88723bso26470175e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Apr 2024 04:14:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1713957189; x=1714561989; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        d=tuxon.dev; s=google; t=1713957271; x=1714562071; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=tuS/MeSVaQGd2vfiEhoiZ2JN9TmDlUJ9YDiQAbZPceA=;
-        b=U4bC0ILaFmJVdvpndPiJW3U8Sdg4mc8qmsgR9PcDJbbxXgfYhRdPLfwshaMkCpn3OX
-         s5t6nZCh04hIhOePyXrvPrQinuBElzpyj9ltXAEBbo0kA7qF1bjm2Wrimo7vboKzT9W1
-         rr382YvCm9Fdv/UGBEgFHvr7Q8u+oBXVhUOPFGxprKTJp34yDMK586p9qSH89WghgPK9
-         XCUUFc4r3rfnsdpb3QIlHZBWcHBi2luVsjijKMD/wEp4mNmY9IYrNG778fkkb+o4a2Hn
-         x9/084IGRitRkNtnSrwbpL9eCBWudOUDhFPvKgQWDbWx1OYSWdq0TguTGH3M0E1L+Gbd
-         Pfgg==
+        bh=ltMWs5vRKAEZzTN8eLbo/CaiCpuGi0nU3bBtsdiJYBQ=;
+        b=jJSeSyGto/V63YNQxxp1O1Sicn5ccWfxg9JlcETBsHlQgd/DP/RcTQojKKZCPre6Oq
+         DlPQJbdE59ej/nNcyH0zZfurNTi2yFC/p+TcOtxRIk7s8HQSrvl9lfXaS44uJNINVAwI
+         gybfrQa4+luWEpUQudP79/aL0gVBB+pba3ekWLLo1bw78B7aSnI9dRajgmqoQOQFZc7N
+         95H9cQvbYTXXMEXsdYAV2rwXJ1OZbQyTOzgq0W0Ij8fK5o9zSmmu8IRVS0IoPYcj7EtJ
+         AVygLHLQENMY67CyXrFQ7PYHSnNSYdK0T90qV9mLDl/oWHJrkwfWoZTXV8rIeE/mg4wI
+         kcJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713957189; x=1714561989;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        d=1e100.net; s=20230601; t=1713957271; x=1714562071;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tuS/MeSVaQGd2vfiEhoiZ2JN9TmDlUJ9YDiQAbZPceA=;
-        b=vt6v7x1HwEaC682T6zqiTlF9Nj3iLrKfbS6CdWRqYDMF/zuAgudLRkcngKZdgbo3xD
-         ccsWiLbg5l09DVUv4V+65IpNkwujQSf45MkbSl8z08CeeB1vWkFnzhS2zN6fROFc5rNM
-         kP3fIZTOVqLuYrK/wXZNAxQ7c1sLCc2zNuB/HvFIK8T0C5qEXTaW3FA8NjFhghlFyejX
-         DOgaAt7LOBHXNtDe2TNeuO0M97kGI/DVEC8+GORhnWP1LW1hkNv2rrH5gwnRP04QXIoA
-         5DCAXTpfb4rGSlOv3q59aNvH4G2ZSqYXqXg4uGQBkG0ZolDv2eiVcCjBOwNVYIDYbGH2
-         wsCA==
-X-Forwarded-Encrypted: i=1; AJvYcCXs+0AkriIxiUsBiJUpcuOkjcHh7z7J8Ysp+p8WHlKJDmV+n7O6vMDl+wmGfYBrk1ZaB/55P0PIbT+Jm4x6/4yPT68b8uvirBm6DtNDiI/o37g=
-X-Gm-Message-State: AOJu0YwkzZq9bopyqxOqw/t00baS3lRat3SFGOo9t8hdbAWZ6+A/CC75
-	1Vet4dXStdAfJAbIGOZdmJVvG35vAVWbD1Ia7vLHtYZzLoK00EiDIb95+cRMKvI=
-X-Google-Smtp-Source: AGHT+IEsmRMTrmnRs0/q7vNtTTmh6ZDQCCPSXskQm7UUfKPKy/cw9giZEGu9KlhLOwDJB4WZDflq1g==
-X-Received: by 2002:a05:600c:1d0e:b0:41a:c592:64ff with SMTP id l14-20020a05600c1d0e00b0041ac59264ffmr1508645wms.35.1713957188961;
-        Wed, 24 Apr 2024 04:13:08 -0700 (PDT)
+        bh=ltMWs5vRKAEZzTN8eLbo/CaiCpuGi0nU3bBtsdiJYBQ=;
+        b=KA2IV0Kv4y2VGMnUG4UlPFOBV5BFdkoxYsmXkZ8mn9pjJ8/YVaNc6EJU0+/9axi40f
+         oafyQs2U9xtzhUDXn+aet2ZYvekanO/cMMAEskKWkHg+FoJ4JCo5xYPHnHJQYStGaELt
+         PXX2RcFpAIlfUlKrDb/F6xzom7U9cv2DMI0m84aJsvP3CNa0md96N3cRKbIXXb+wv3ae
+         dhQbbIEEyKQs+uWRdOvDI9SIorksgQz1AuQhqXji7orQ4lhmQi+Cxn9AIdz9O5uS/ZxP
+         S+/zEwRekfM+DcT2eakGQefcDPYCXbXgRzUn3leO4Sms10iNx/khHCqKSd5N++BhbEvY
+         +Vuw==
+X-Forwarded-Encrypted: i=1; AJvYcCVVr9kPi6wW6L+c0KHY/4EuZDacaGkoZvKjY6XOSgUpqmABl8Vfz434NCdxUt2wa/tl4KDgsX/rCzbDs0V0iz8w0T7QBbEo0JD85O3h0m2nqpI=
+X-Gm-Message-State: AOJu0Yxlcz3iIzWIp+cC4lU0IJdfBCrlofOkScvDcEWX5cOOLMTF4DIZ
+	Ogft31WQHfMJFTGENgbFuoH3fYWnAIV10XVpLsREBrYVcUSx+TDhLwj048Ka3Uk=
+X-Google-Smtp-Source: AGHT+IE/C0L+29QYZm0cbbUKjIoMbxv529O5ACPPWiOR4dDxxX8aZYQdv6fXmf0X8Hy7WdajhXYuLg==
+X-Received: by 2002:a05:600c:4f0d:b0:41a:14f9:dcee with SMTP id l13-20020a05600c4f0d00b0041a14f9dceemr1659996wmq.21.1713957271320;
+        Wed, 24 Apr 2024 04:14:31 -0700 (PDT)
 Received: from [192.168.50.4] ([82.78.167.53])
-        by smtp.gmail.com with ESMTPSA id o12-20020a05600c4fcc00b00418a6d62ad0sm27290070wmq.34.2024.04.24.04.13.07
+        by smtp.gmail.com with ESMTPSA id o12-20020a05600c4fcc00b00418a6d62ad0sm27290070wmq.34.2024.04.24.04.14.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Apr 2024 04:13:08 -0700 (PDT)
-Message-ID: <ea74f0f9-2081-4ca5-af11-4974625f22ed@tuxon.dev>
-Date: Wed, 24 Apr 2024 14:13:06 +0300
+        Wed, 24 Apr 2024 04:14:30 -0700 (PDT)
+Message-ID: <2d674a18-006f-4182-bc85-bcfa50615495@tuxon.dev>
+Date: Wed, 24 Apr 2024 14:14:29 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -76,106 +76,165 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] net: ravb: Fix registered interrupt names
+Subject: Re: [PATCH RESEND v8 09/10] watchdog: rzg2l_wdt: Power on the PM
+ domain in rzg2l_wdt_restart()
 Content-Language: en-US
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- Sergey Shtylyov <s.shtylyov@omp.ru>,
- Paul Barker <paul.barker.ct@bp.renesas.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- "David S . Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>
-Cc: netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <cde67b68adf115b3cf0b44c32334ae00b2fbb321.1713944647.git.geert+renesas@glider.be>
 From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <cde67b68adf115b3cf0b44c32334ae00b2fbb321.1713944647.git.geert+renesas@glider.be>
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: wim@linux-watchdog.org, linux@roeck-us.net, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, p.zabel@pengutronix.de,
+ geert+renesas@glider.be, magnus.damm@gmail.com, biju.das.jz@bp.renesas.com,
+ linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20240410134044.2138310-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240410134044.2138310-10-claudiu.beznea.uj@bp.renesas.com>
+ <CAPDyKFqq+gMDHx_-g-j9rO3nBDcXRSoXRjJK9D51=VaQ5XaGvw@mail.gmail.com>
+ <af9c6747-120e-48c1-8c04-9594c9b49666@tuxon.dev>
+In-Reply-To: <af9c6747-120e-48c1-8c04-9594c9b49666@tuxon.dev>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi, Geert,
+Hi, Ulf,
 
-On 24.04.2024 10:45, Geert Uytterhoeven wrote:
-> As interrupts are now requested from ravb_probe(), before calling
-> register_netdev(), ndev->name still contains the template "eth%d",
-> leading to funny names in /proc/interrupts.  E.g. on R-Car E3:
+On 12.04.2024 17:02, claudiu beznea wrote:
+> Hi, Ulf,
 > 
-> 	89:  0      0  GICv2  93 Level  eth%d:ch22:multi
-> 	90:  0      3  GICv2  95 Level  eth%d:ch24:emac
-> 	91:  0  23484  GICv2  71 Level  eth%d:ch0:rx_be
-> 	92:  0      0  GICv2  72 Level  eth%d:ch1:rx_nc
-> 	93:  0  13735  GICv2  89 Level  eth%d:ch18:tx_be
-> 	94:  0      0  GICv2  90 Level  eth%d:ch19:tx_nc
+> On 12.04.2024 14:14, Ulf Hansson wrote:
+>> On Wed, 10 Apr 2024 at 16:19, Claudiu <claudiu.beznea@tuxon.dev> wrote:
+>>>
+>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>
+>>> The rzg2l_wdt_restart() is called from atomic context. Calling
+>>> pm_runtime_{get_sync, resume_and_get}() or any other runtime PM resume
+>>> APIs is not an option as it may lead to issues as described in commit
+>>> e4cf89596c1f ("watchdog: rzg2l_wdt: Fix 'BUG: Invalid wait context'")
+>>> that removed the pm_runtime_get_sync() and used directly the
+>>> clk_prepare_enable() APIs.
+>>>
+>>> Starting with RZ/G3S the watchdog could be part of its own software
+>>> controlled power domain (see the initial implementation in Link section).
+>>> In case the watchdog is not used the power domain is off and accessing
+>>> watchdog registers leads to aborts.
+>>>
+>>> To solve this the patch powers on the power domain using
+>>> dev_pm_genpd_resume() API before enabling its clock. This is not
+>>> sleeping or taking any other locks as the power domain will not be
+>>> registered with GENPD_FLAG_IRQ_SAFE flags.
+>>>
+>>> Link: https://lore.kernel.org/all/20240208124300.2740313-1-claudiu.beznea.uj@bp.renesas.com
+>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>> ---
+>>>
+>>> Changes in v8:
+>>> - none, this patch is new
+>>>
+>>>  drivers/watchdog/rzg2l_wdt.c | 12 ++++++++++++
+>>>  1 file changed, 12 insertions(+)
+>>>
+>>> diff --git a/drivers/watchdog/rzg2l_wdt.c b/drivers/watchdog/rzg2l_wdt.c
+>>> index c8c20cfb97a3..98e5e9914a5d 100644
+>>> --- a/drivers/watchdog/rzg2l_wdt.c
+>>> +++ b/drivers/watchdog/rzg2l_wdt.c
+>>> @@ -12,6 +12,7 @@
+>>>  #include <linux/module.h>
+>>>  #include <linux/of.h>
+>>>  #include <linux/platform_device.h>
+>>> +#include <linux/pm_domain.h>
+>>>  #include <linux/pm_runtime.h>
+>>>  #include <linux/reset.h>
+>>>  #include <linux/units.h>
+>>> @@ -164,6 +165,17 @@ static int rzg2l_wdt_restart(struct watchdog_device *wdev,
+>>>         struct rzg2l_wdt_priv *priv = watchdog_get_drvdata(wdev);
+>>>         int ret;
+>>>
+>>> +       /*
+>>> +        * The device may be part of a power domain that is currently
+>>> +        * powered off. We need to power it up before accessing registers.
+>>> +        * We don't undo the dev_pm_genpd_resume() as the device need to
+>>> +        * be up for the reboot to happen. Also, as we are in atomic context
+>>> +        * here there is no need to increment PM runtime usage counter
+>>> +        * (to make sure pm_runtime_active() doesn't return wrong code).
+>>> +        */
+>>> +       if (!pm_runtime_active(wdev->parent))
+>>> +               dev_pm_genpd_resume(wdev->parent);
+>>> +
+>>
+>> I doubt this is the correct solution, but I may be wrong. Unless this
+>> is invoked at the syscore stage?
+> 
+> On my case I see it invoked from kernel_restart(). As of my code reading,
 
-I failed to notice it, sorry about that.
+With the above explanations, do you consider calling dev_pm_genpd_resume()
+here is still wrong?
 
-> 
-> Worse, on platforms with multiple RAVB instances (e.g. R-Car V4H), all
-> interrupts have similar names.
-> 
-> Fix this by using the device name instead, like is done in several other
-> drivers:
-> 
-> 	89:  0      0  GICv2  93 Level  e6800000.ethernet:ch22:multi
-> 	90:  0      1  GICv2  95 Level  e6800000.ethernet:ch24:emac
-> 	91:  0  28578  GICv2  71 Level  e6800000.ethernet:ch0:rx_be
-> 	92:  0      0  GICv2  72 Level  e6800000.ethernet:ch1:rx_nc
-> 	93:  0  14044  GICv2  89 Level  e6800000.ethernet:ch18:tx_be
-> 	94:  0      0  GICv2  90 Level  e6800000.ethernet:ch19:tx_nc
-> 
-> Rename the local variable dev_name, as it shadows the dev_name()
-> function, and pre-initialize it, to simplify the code.
-> 
-> Fixes: 32f012b8c01ca9fd ("net: ravb: Move getting/requesting IRQs in the probe() method")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Do you have any suggestions I could try?
 
-Thank you for taking care of it.
+Thank you,
+Claudiu Beznea
 
-Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com> # on RZ/G3S
-
-
-> ---
->  drivers/net/ethernet/renesas/ravb_main.c | 11 +++++------
->  1 file changed, 5 insertions(+), 6 deletions(-)
+> at that point only one CPU is active with IRQs disabled (done in
+> machine_restart()). Below is the stack trace decoded on next-20240410 with
+> this series
+> (https://lore.kernel.org/all/20240410134044.2138310-1-claudiu.beznea.uj@bp.renesas.com/)
+> on top and the one from here (adding power domain support):
+> https://lore.kernel.org/all/20240410122657.2051132-1-claudiu.beznea.uj@bp.renesas.com/
 > 
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index b621ddd4539cf517..384ddad65aaf641a 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -2729,19 +2729,18 @@ static int ravb_setup_irq(struct ravb_private *priv, const char *irq_name,
->  	struct platform_device *pdev = priv->pdev;
->  	struct net_device *ndev = priv->ndev;
->  	struct device *dev = &pdev->dev;
-> -	const char *dev_name;
-> +	const char *devname = dev_name(dev);
->  	unsigned long flags;
->  	int error, irq_num;
->  
->  	if (irq_name) {
-> -		dev_name = devm_kasprintf(dev, GFP_KERNEL, "%s:%s", ndev->name, ch);
-> -		if (!dev_name)
-> +		devname = devm_kasprintf(dev, GFP_KERNEL, "%s:%s", devname, ch);
-> +		if (!devname)
->  			return -ENOMEM;
->  
->  		irq_num = platform_get_irq_byname(pdev, irq_name);
->  		flags = 0;
->  	} else {
-> -		dev_name = ndev->name;
->  		irq_num = platform_get_irq(pdev, 0);
->  		flags = IRQF_SHARED;
->  	}
-> @@ -2751,9 +2750,9 @@ static int ravb_setup_irq(struct ravb_private *priv, const char *irq_name,
->  	if (irq)
->  		*irq = irq_num;
->  
-> -	error = devm_request_irq(dev, irq_num, handler, flags, dev_name, ndev);
-> +	error = devm_request_irq(dev, irq_num, handler, flags, devname, ndev);
->  	if (error)
-> -		netdev_err(ndev, "cannot request IRQ %s\n", dev_name);
-> +		netdev_err(ndev, "cannot request IRQ %s\n", devname);
->  
->  	return error;
->  }
+> Hardware name: Renesas SMARC EVK version 2 based on r9a08g045s33 (DT)
+> Call trace:
+> dump_backtrace (arch/arm64/kernel/stacktrace.c:319)
+> show_stack (arch/arm64/kernel/stacktrace.c:326)
+> dump_stack_lvl (lib/dump_stack.c:117)
+> dump_stack (lib/dump_stack.c:124)
+> rzg2l_wdt_restart (drivers/watchdog/rzg2l_wdt.c:180)
+> watchdog_restart_notifier (drivers/watchdog/watchdog_core.c:188)
+> atomic_notifier_call_chain (kernel/notifier.c:98 kernel/notifier.c:231)
+> do_kernel_restart (kernel/reboot.c:236)
+> machine_restart (arch/arm64/kernel/process.c:145)
+> kernel_restart (kernel/reboot.c:287)
+> __do_sys_reboot (kernel/reboot.c:755)
+> __arm64_sys_reboot (kernel/reboot.c:715)
+> invoke_syscall (arch/arm64/include/asm/current.h:19
+> arch/arm64/kernel/syscall.c:53)
+> el0_svc_common.constprop.0 (include/linux/thread_info.h:127
+> arch/arm64/kernel/syscall.c:141)
+> do_el0_svc (arch/arm64/kernel/syscall.c:153)
+> el0_svc (arch/arm64/include/asm/irqflags.h:56
+> arch/arm64/include/asm/irqflags.h:77 arch/arm64/kernel/entry-common.c:165
+> arch/arm64/kernel/entry-common.c:178 arch/arm64/kernel/entry-common.c:713)
+> el0t_64_sync_handler (arch/arm64/kernel/entry-common.c:731)
+> el0t_64_sync (arch/arm64/kernel/entry.S:598)
+> 
+> The watchdog restart handler is added in restart_handler_list and this list
+> is invoked though do_kernel_restart(). As of my code investigation the
+> restart_handler_list is invoked only though do_kernel_restart() and only
+> though the stack trace above.
+> 
+> Thank you,
+> Claudiu Beznea
+> 
+>>
+>>>         clk_prepare_enable(priv->pclk);
+>>>         clk_prepare_enable(priv->osc_clk);
+>>>
+>>> --
+>>> 2.39.2
+>>>
+>>>
+>>
+>> Can you redirectly me to the complete series, so I can have a better
+>> overview of the problem?
+> 
+> This is the series that adds power domain support for RZ/G3S SoC:
+> https://lore.kernel.org/all/20240410122657.2051132-1-claudiu.beznea.uj@bp.renesas.com/
+> 
+> This is the series that adds watchdog support for RZ/G3S SoC:
+> https://lore.kernel.org/all/20240410134044.2138310-1-claudiu.beznea.uj@bp.renesas.com/
+> 
+> Thank you for your review,
+> Claudiu Beznea
+> 
+>>
+>> Kind regards
+>> Uffe
 
