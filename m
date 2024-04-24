@@ -1,78 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-4893-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4894-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D36A8B0DE3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 17:18:34 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F6648B0DE9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 17:19:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AFB7CB29E02
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 15:18:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3ADC1B2A151
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 15:19:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA74915EFAD;
-	Wed, 24 Apr 2024 15:18:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDD2C15F3F8;
+	Wed, 24 Apr 2024 15:19:22 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C5115ECC1;
-	Wed, 24 Apr 2024 15:18:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C7F1422AF;
+	Wed, 24 Apr 2024 15:19:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713971907; cv=none; b=ACY69O0t2SM9/jVnHJf3Fswoff+8TiMylEMxumIAemf6ut5hVBBeHEzOW2PZGhIxMa/SuZl03Q60S69DpxuE/Yp30qQmOtjcOGk2DT5TMZzPJq20D7uMIpc0x6BhRxXMuK3DIwOdOeXBjIuyXeJ9gtGMsq5q8wexA29k4y5CaUY=
+	t=1713971962; cv=none; b=aa2RS73haIixOAQFFi8LjyAmlU0ajcc+Mw/I1z8VB08HNHN/HkfN9gJiPRk1Dyik/X90b27xI3Vz1Zs7reEKsnbfEJv/8mZmKDkCHGf34m94V5WUD8v3WmcVdDrC/Bys9TH/oN+OV3+SM9QOj+Fm965g4Qc1NOPqdaJ+tflqc90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713971907; c=relaxed/simple;
-	bh=bnhphAm6zhNDVzfxC/1dDfXSqIf3i0rLm86SRDsEyJQ=;
+	s=arc-20240116; t=1713971962; c=relaxed/simple;
+	bh=2oZpNai29bx+8QMO4yPKW1gMex7Fhk0AdKCBLjoF1e0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Q7jFAANvHfqpkRan/FcJfHq+8YTUgBPnSykYVKV6XH0/0NMvjkDONGwK2gGsMSaL8COkehJOQHdNpE+Nn/yDPrOlgkCCc9vg9pyqC301r1T+ddevJTEgM/YQWmJ3YwdEhtjp6DtrUPviNfBRunul6Ki0MzVMh1Dio6dDr9pjhYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.173
+	 To:Cc:Content-Type; b=HeO43eewj2tlY7h6TCXcvrhaJEoLBQWfztvaUGcNOrnlYS21bRjd//WslsrOitHc4pz79K8VzYhnx87u5lB0dyEoJcpbLuAYVoxFvEgYDMpg1wWVuAc0YqQhe/qHhJ0dkg9K+nQ32w6bul/YfWJCg5TedTu+h7PgThLATGhgpzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-61500da846fso47756047b3.1;
-        Wed, 24 Apr 2024 08:18:25 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-61b3be24dd9so320327b3.0;
+        Wed, 24 Apr 2024 08:19:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713971904; x=1714576704;
+        d=1e100.net; s=20230601; t=1713971958; x=1714576758;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=o82wBBP7bxXXggrt8LbGr/5/eA1GfirSCOilCtZtYrw=;
-        b=PiS8KFIFfEZRIQcmpWZwDEnZl3RMqvkoFvWHBwDLy02axcLAZ/E2H9WrTIhi01aGb2
-         imYR8Ji2ek25juIH1JIBaigxQzssqf0qXYlhD7WUo320oYYf2P7AUCtD7UKwp5X9wf6G
-         cbGPpXUlwexqBYTFCZGy/7ZvbMSDA8tXAtc4eu/Yg8F2HxA3fkVPBsxMr9vaHQp8GDGP
-         xMu4KwMMLK30CrPaTkjClur6kBK1vVeYJ9+1XqMC4JyMEeAHTU1WHVMd/IQWm4MkUTmL
-         kn1cmhQOr/kHOdMVU7pmndYCAoG60e/jwFLUTfzvNi4nUlAU/+yfbAofoCjb7p+BArGh
-         Me9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUVNiE82wVZEJrXdSnf54pirlnI0xqEiETBQo/+8fr7xhnxjdpRHBrm7RG+1DGPfUqny2Q9RzJEtufZ6AkMowRGRxS/g1F2PfPNvABiO+w7N25J2jojJXI3JZr5V+Ig6QsGY2NwIJ8uKOO7qLvc
-X-Gm-Message-State: AOJu0YxLikOkn0omdDQ+LrJSeGwdhWXUVizbPzy/cjhk/n7zRSgccYOe
-	sQr73NUQ+SMoORVbG29iSD+ePR1r/3L466mpmL2x0hRMFGXrXdVn6AbNW5UeJfA=
-X-Google-Smtp-Source: AGHT+IFvhPRkXFnfwFQ/khPnMIZx6JVRCqGrrSrJ/H17pNDnDAdYH/6KsmjoO/mZvMkP7qSuNNfM2Q==
-X-Received: by 2002:a05:690c:74c6:b0:609:bfdf:8a32 with SMTP id jw6-20020a05690c74c600b00609bfdf8a32mr3062320ywb.44.1713971904197;
-        Wed, 24 Apr 2024 08:18:24 -0700 (PDT)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id n3-20020a81bd43000000b0061b221afbe1sm2858701ywk.105.2024.04.24.08.18.24
+        bh=wyh1Hyvn/TLoCfInGqJPghsQQIhHw5jYpI5zNaU/bd8=;
+        b=oAXIHs+9L6rBIfm04TP35/c0UMd/vGwT4W74/Z6ucNinQjd0Smzog/XHWkY2lbQg6S
+         1TlySQOp8Z7iYBKQ0jfmPQwIzAuOnKJlgVBJqxqa4KGtdq6ddeved6AZHShvyofQF9z2
+         bsblG/I/z/56K+gCwXwpmUQ3D37+sb96VnDGZS5HlVoEt64ZUtuFPBoEoWF/uo6yablk
+         DMfvPtMd4EoKm705stVlQB5G1Jyx+s6SIPyzcnuRLgkOEa/fdoBPdmrfXh5JIXvulMrb
+         fSG/fBi0dnDnDukuR71umurIsDPSFVJHa+fvumjSmE39Sc5Xpz6uIFmICxCWr5JayuJa
+         kyfw==
+X-Forwarded-Encrypted: i=1; AJvYcCUOW4aoyIvV9u4dX5H0z/k2dad0oQelZLOFCPNQKsClhYLitG9PhecwyYHLNE+p23WCw9+PL6ImcObAXCUabquu0svcbo1xyPiytSAg3+5INEyjV/bELk4yzJElI+uZkl/VTFud1D7OBrEH+t+Q
+X-Gm-Message-State: AOJu0Yx5AzwH+ug+MdRckHX3+foeS4KxbmT2ltjHbo3MCH9ZnkJP+zOo
+	8Hp5zQj3E+m4ahHf3237vUqXiCrbjKbjAwqBrCmpvENtQjNe+GU3FLMpp/qwv2k=
+X-Google-Smtp-Source: AGHT+IGGTaGZ7dRMC2igad0HxOcOjm/lepZpHacHMN5S7oHfIh8c9zAlGDsJpymM7PyeBRf833/38A==
+X-Received: by 2002:a0d:d0c2:0:b0:618:498f:9dbe with SMTP id s185-20020a0dd0c2000000b00618498f9dbemr5259462ywd.10.1713971958269;
+        Wed, 24 Apr 2024 08:19:18 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id g125-20020a0ddd83000000b0061b06ae1d09sm3045155ywe.29.2024.04.24.08.19.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Apr 2024 08:18:24 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6153d85053aso56125077b3.0;
-        Wed, 24 Apr 2024 08:18:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUKe0suIdBpdD2fxIINbU1UF9t+23TtRQVFiBTCkj/dV9P2djJLhiJ04MOoVhWgJzbzWMpH7PnWmqPux+pwtFv0ijbUHMea0pJmtuf54ztUWwu1W1zaTBRhDDNvuRmxP086yhwcZWvs9j/8xqly
-X-Received: by 2002:a25:c78e:0:b0:de1:dcc:2a8b with SMTP id
- w136-20020a25c78e000000b00de10dcc2a8bmr2947467ybe.59.1713971903735; Wed, 24
- Apr 2024 08:18:23 -0700 (PDT)
+        Wed, 24 Apr 2024 08:19:18 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-dc25e12cc63so985815276.0;
+        Wed, 24 Apr 2024 08:19:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWTnUFnrHfEX38mSLRrYiilveyQHqO8VqQI+5TTh0+Es9bblAerQ/V6cgt47+QJ3CEgk2nj0VRe5FP1ebER+9vV9cYG7BwyIjmDnAU09lMshGH39lJmlH4Xwots0P1Ttkr9aVZ+yNBwycJ4PgwF
+X-Received: by 2002:a25:8485:0:b0:dc6:16b7:7d6f with SMTP id
+ v5-20020a258485000000b00dc616b77d6fmr2278810ybk.10.1713971957755; Wed, 24 Apr
+ 2024 08:19:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240413141806.300989-1-niklas.soderlund+renesas@ragnatech.se> <20240413141806.300989-2-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20240413141806.300989-2-niklas.soderlund+renesas@ragnatech.se>
+References: <20240413141806.300989-1-niklas.soderlund+renesas@ragnatech.se> <20240413141806.300989-3-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20240413141806.300989-3-niklas.soderlund+renesas@ragnatech.se>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 24 Apr 2024 17:18:11 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXQTkYxF4X5wocZ83PM-6GtjYx2MGuEw-gjnFJatAA2fw@mail.gmail.com>
-Message-ID: <CAMuHMdXQTkYxF4X5wocZ83PM-6GtjYx2MGuEw-gjnFJatAA2fw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] arm64: dts: renesas: r8a779g0: Use MDIO node for
- all AVB devices
+Date: Wed, 24 Apr 2024 17:19:06 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUm=V14y_hbKh6jwGtPHxH3ANc2tdFvzV3CsaQgUuLVNw@mail.gmail.com>
+Message-ID: <CAMuHMdUm=V14y_hbKh6jwGtPHxH3ANc2tdFvzV3CsaQgUuLVNw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] arm64: dts: renesas: white-hawk: ethernet:
+ Describe AVB1 and AVB2
 To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 Cc: Rob Herring <robh+dt@kernel.org>, 
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -82,21 +82,23 @@ Content-Transfer-Encoding: quoted-printable
 
 On Sat, Apr 13, 2024 at 4:19=E2=80=AFPM Niklas S=C3=B6derlund
 <niklas.soderlund+renesas@ragnatech.se> wrote:
-> Switch from defining the PHY inside the AVB node itself and create a
-> dedicated MDIO node for AVB0, the only AVB describing a PHY. This is
-> needed as adding PHYs to AVB1 and AVB2 will require setting MDIO bus
-> parapets and thus requires a dedicated node.
+> Describe the two Marvell 88Q2110/QFN40 PHYs available on the R-Car V4H
+> White Hawk RAVB/Ethernet(1000Base-T1) sub-board. The two PHYs are wired
+> up on the board by default, there is no need to move any resistors which
+> are needed to access other PHYs available on this sub-board.
 >
 > Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
 se>
 > ---
 > * Changes since v2
-> - New in v2.
+> - Fix spelling in commit message.
+> - Add pinconf for link pin for both AVBs.
+> - Rename the phy node to make it clear which AVB it relates too.
+> - Add aliases for ethernet1 and ethernet2 so U-Boot can set MAC
+>   addresses.
+> - Rebase to reflect updated of filename for white-hawk-ethernet.dtsi.
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-As this has a hard dependency on commit 2c60c4c008d4b05b ("ravb: Add
-support for an optional MDIO mode") in net-next, this is postponed
-to v6.11.
 
 Gr{oetje,eeting}s,
 
