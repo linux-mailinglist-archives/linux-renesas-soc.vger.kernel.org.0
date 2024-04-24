@@ -1,240 +1,291 @@
-Return-Path: <linux-renesas-soc+bounces-4872-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4873-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD8728B082C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 13:14:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FB6E8B08E5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 14:06:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 02E8DB20B83
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 11:14:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CEEE5281339
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 12:06:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE6FB15991C;
-	Wed, 24 Apr 2024 11:14:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B949B15AAA3;
+	Wed, 24 Apr 2024 12:06:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="jJSeSyGt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cPZb/zUi"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B1DF15991A
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Apr 2024 11:14:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9ED15AD85
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Apr 2024 12:06:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713957274; cv=none; b=HzOHh/HZ712/jz6KrvWsi1TUvdNkuiDCkYMvksLvNgkEacprR5DM1qQn3sAKXGi95juNHo73fXm2tL7i3WEl/A+7FHLJMEGE5BZJD8fjWSwnFBLcvbOrIZW04RJ5Tf1KbbW0JCEJ7zDwrh1+d4WZ0d48pPCSoc/HEz5TQSe9hRk=
+	t=1713960375; cv=none; b=Oocz+3Bcpnbw5qfQxE2Tfve9tTe+o89tyZsifKNn+JcsC2AqpJVFOCP6wDbhv77MKNKt1EO6me+v2goFMut2EgblQkPjSXgGPt6g4H62xTqROBGfy2f9NJ4EKugDhl0zySdShBSvNhryIJGtJZEQEjKbVeYBcPiWEQ6wGEymeGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713957274; c=relaxed/simple;
-	bh=nk2KxyugWmWO8/K8ORBnXEGAjgPl9wDphXRsl20uXOQ=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=rEIzwMt0niU+cZWELT2HUFDI2qfHjV1RLgsczhOPHpDezHozYU12rr7pL2f8k+jfYqLouPst37JmpoDqef82wN73VWkGh/mz6X/dtb7GPWrZfl1XGsbHok++g8ONt8BOq1Z5dVTqn9qeAg0cwIBUBUDfshjEdXGBs7JE8cXtDkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=jJSeSyGt; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-41a1d88723bso26470175e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Apr 2024 04:14:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1713957271; x=1714562071; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ltMWs5vRKAEZzTN8eLbo/CaiCpuGi0nU3bBtsdiJYBQ=;
-        b=jJSeSyGto/V63YNQxxp1O1Sicn5ccWfxg9JlcETBsHlQgd/DP/RcTQojKKZCPre6Oq
-         DlPQJbdE59ej/nNcyH0zZfurNTi2yFC/p+TcOtxRIk7s8HQSrvl9lfXaS44uJNINVAwI
-         gybfrQa4+luWEpUQudP79/aL0gVBB+pba3ekWLLo1bw78B7aSnI9dRajgmqoQOQFZc7N
-         95H9cQvbYTXXMEXsdYAV2rwXJ1OZbQyTOzgq0W0Ij8fK5o9zSmmu8IRVS0IoPYcj7EtJ
-         AVygLHLQENMY67CyXrFQ7PYHSnNSYdK0T90qV9mLDl/oWHJrkwfWoZTXV8rIeE/mg4wI
-         kcJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713957271; x=1714562071;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ltMWs5vRKAEZzTN8eLbo/CaiCpuGi0nU3bBtsdiJYBQ=;
-        b=KA2IV0Kv4y2VGMnUG4UlPFOBV5BFdkoxYsmXkZ8mn9pjJ8/YVaNc6EJU0+/9axi40f
-         oafyQs2U9xtzhUDXn+aet2ZYvekanO/cMMAEskKWkHg+FoJ4JCo5xYPHnHJQYStGaELt
-         PXX2RcFpAIlfUlKrDb/F6xzom7U9cv2DMI0m84aJsvP3CNa0md96N3cRKbIXXb+wv3ae
-         dhQbbIEEyKQs+uWRdOvDI9SIorksgQz1AuQhqXji7orQ4lhmQi+Cxn9AIdz9O5uS/ZxP
-         S+/zEwRekfM+DcT2eakGQefcDPYCXbXgRzUn3leO4Sms10iNx/khHCqKSd5N++BhbEvY
-         +Vuw==
-X-Forwarded-Encrypted: i=1; AJvYcCVVr9kPi6wW6L+c0KHY/4EuZDacaGkoZvKjY6XOSgUpqmABl8Vfz434NCdxUt2wa/tl4KDgsX/rCzbDs0V0iz8w0T7QBbEo0JD85O3h0m2nqpI=
-X-Gm-Message-State: AOJu0Yxlcz3iIzWIp+cC4lU0IJdfBCrlofOkScvDcEWX5cOOLMTF4DIZ
-	Ogft31WQHfMJFTGENgbFuoH3fYWnAIV10XVpLsREBrYVcUSx+TDhLwj048Ka3Uk=
-X-Google-Smtp-Source: AGHT+IE/C0L+29QYZm0cbbUKjIoMbxv529O5ACPPWiOR4dDxxX8aZYQdv6fXmf0X8Hy7WdajhXYuLg==
-X-Received: by 2002:a05:600c:4f0d:b0:41a:14f9:dcee with SMTP id l13-20020a05600c4f0d00b0041a14f9dceemr1659996wmq.21.1713957271320;
-        Wed, 24 Apr 2024 04:14:31 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.53])
-        by smtp.gmail.com with ESMTPSA id o12-20020a05600c4fcc00b00418a6d62ad0sm27290070wmq.34.2024.04.24.04.14.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Apr 2024 04:14:30 -0700 (PDT)
-Message-ID: <2d674a18-006f-4182-bc85-bcfa50615495@tuxon.dev>
-Date: Wed, 24 Apr 2024 14:14:29 +0300
+	s=arc-20240116; t=1713960375; c=relaxed/simple;
+	bh=h2hN9HF2TrgIQq9trtN20ha4eG0rr2FA6xJkkzSt+BA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mQak+4E8iP5P1TWzm4wpeybRyzyXIxkpU5CfrGWf965Xvui3kNXcqN4Vk1sfCuXCZ+MPPRJqRfF5kFUbgwpUCG6p2Gk9LsOqVLnQPulch8GK8N74sDGTWdOCTxHxXgQQUukKHhAkkFOH4PbH006KWqXstoJk9g53rTCn+tXR5d8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cPZb/zUi; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713960373; x=1745496373;
+  h=date:from:to:cc:subject:message-id;
+  bh=h2hN9HF2TrgIQq9trtN20ha4eG0rr2FA6xJkkzSt+BA=;
+  b=cPZb/zUitDG7voj7LCLM0qvHsDGm9O/ktwy1ztZ+7Z/9wo8Jhdk0inzk
+   DKOaS+MUcGcx+ODl5mULFKNsiFIt2bhPSaC7WFQYRs1pOqtlxpYRYYHIn
+   dnmi3BGYjpNacCzWe0RojUI7KqWdnSbb4v4ag6b2snJ+CHkQYH3AkARqJ
+   c5WAipiAHZ7YucUQVJlBqXSnG7QncpL+dV/a89lSoXDa1MgMne1K3+yq5
+   85pOGVHdx5LH9yLCThAJSCQFJR19yCpBIRJSj4x6FmmZmDf1mjYFwn1An
+   RKl4drcUsduDEvdBjbKZ6F9RriYEcVVqOPlSXCQsX3w0+SCQOH4viVgy5
+   A==;
+X-CSE-ConnectionGUID: QF+KwNOeT2iZwlIVd7zufg==
+X-CSE-MsgGUID: xs/9PvD1SYKtdTeK8Z6xng==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="12520922"
+X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
+   d="scan'208";a="12520922"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 05:06:12 -0700
+X-CSE-ConnectionGUID: gu1IFLvIR7i6Wm8r8BbHfg==
+X-CSE-MsgGUID: O7sqZ5FoS4qZ6t6ueFUznw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
+   d="scan'208";a="24734870"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 24 Apr 2024 05:06:10 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rzbO4-0001C4-2L;
+	Wed, 24 Apr 2024 12:06:08 +0000
+Date: Wed, 24 Apr 2024 20:05:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:topic/renesas-overlays-v6.7-rc1]
+ BUILD SUCCESS d6cc2246241d24b7285100efe43f767ca6346eb9
+Message-ID: <202404242016.3PN2cihi-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v8 09/10] watchdog: rzg2l_wdt: Power on the PM
- domain in rzg2l_wdt_restart()
-Content-Language: en-US
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: wim@linux-watchdog.org, linux@roeck-us.net, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, p.zabel@pengutronix.de,
- geert+renesas@glider.be, magnus.damm@gmail.com, biju.das.jz@bp.renesas.com,
- linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240410134044.2138310-1-claudiu.beznea.uj@bp.renesas.com>
- <20240410134044.2138310-10-claudiu.beznea.uj@bp.renesas.com>
- <CAPDyKFqq+gMDHx_-g-j9rO3nBDcXRSoXRjJK9D51=VaQ5XaGvw@mail.gmail.com>
- <af9c6747-120e-48c1-8c04-9594c9b49666@tuxon.dev>
-In-Reply-To: <af9c6747-120e-48c1-8c04-9594c9b49666@tuxon.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-Hi, Ulf,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/renesas-overlays-v6.7-rc1
+branch HEAD: d6cc2246241d24b7285100efe43f767ca6346eb9  arm64: dts: renesas: white-hawk-cpu: Add overlay for CP97/98
 
-On 12.04.2024 17:02, claudiu beznea wrote:
-> Hi, Ulf,
-> 
-> On 12.04.2024 14:14, Ulf Hansson wrote:
->> On Wed, 10 Apr 2024 at 16:19, Claudiu <claudiu.beznea@tuxon.dev> wrote:
->>>
->>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>
->>> The rzg2l_wdt_restart() is called from atomic context. Calling
->>> pm_runtime_{get_sync, resume_and_get}() or any other runtime PM resume
->>> APIs is not an option as it may lead to issues as described in commit
->>> e4cf89596c1f ("watchdog: rzg2l_wdt: Fix 'BUG: Invalid wait context'")
->>> that removed the pm_runtime_get_sync() and used directly the
->>> clk_prepare_enable() APIs.
->>>
->>> Starting with RZ/G3S the watchdog could be part of its own software
->>> controlled power domain (see the initial implementation in Link section).
->>> In case the watchdog is not used the power domain is off and accessing
->>> watchdog registers leads to aborts.
->>>
->>> To solve this the patch powers on the power domain using
->>> dev_pm_genpd_resume() API before enabling its clock. This is not
->>> sleeping or taking any other locks as the power domain will not be
->>> registered with GENPD_FLAG_IRQ_SAFE flags.
->>>
->>> Link: https://lore.kernel.org/all/20240208124300.2740313-1-claudiu.beznea.uj@bp.renesas.com
->>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>> ---
->>>
->>> Changes in v8:
->>> - none, this patch is new
->>>
->>>  drivers/watchdog/rzg2l_wdt.c | 12 ++++++++++++
->>>  1 file changed, 12 insertions(+)
->>>
->>> diff --git a/drivers/watchdog/rzg2l_wdt.c b/drivers/watchdog/rzg2l_wdt.c
->>> index c8c20cfb97a3..98e5e9914a5d 100644
->>> --- a/drivers/watchdog/rzg2l_wdt.c
->>> +++ b/drivers/watchdog/rzg2l_wdt.c
->>> @@ -12,6 +12,7 @@
->>>  #include <linux/module.h>
->>>  #include <linux/of.h>
->>>  #include <linux/platform_device.h>
->>> +#include <linux/pm_domain.h>
->>>  #include <linux/pm_runtime.h>
->>>  #include <linux/reset.h>
->>>  #include <linux/units.h>
->>> @@ -164,6 +165,17 @@ static int rzg2l_wdt_restart(struct watchdog_device *wdev,
->>>         struct rzg2l_wdt_priv *priv = watchdog_get_drvdata(wdev);
->>>         int ret;
->>>
->>> +       /*
->>> +        * The device may be part of a power domain that is currently
->>> +        * powered off. We need to power it up before accessing registers.
->>> +        * We don't undo the dev_pm_genpd_resume() as the device need to
->>> +        * be up for the reboot to happen. Also, as we are in atomic context
->>> +        * here there is no need to increment PM runtime usage counter
->>> +        * (to make sure pm_runtime_active() doesn't return wrong code).
->>> +        */
->>> +       if (!pm_runtime_active(wdev->parent))
->>> +               dev_pm_genpd_resume(wdev->parent);
->>> +
->>
->> I doubt this is the correct solution, but I may be wrong. Unless this
->> is invoked at the syscore stage?
-> 
-> On my case I see it invoked from kernel_restart(). As of my code reading,
+elapsed time: 1169m
 
-With the above explanations, do you consider calling dev_pm_genpd_resume()
-here is still wrong?
+configs tested: 198
+configs skipped: 2
 
-Do you have any suggestions I could try?
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Thank you,
-Claudiu Beznea
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                     nsimosci_hs_defconfig   gcc  
+arc                 nsimosci_hs_smp_defconfig   gcc  
+arc                   randconfig-001-20240424   gcc  
+arc                   randconfig-002-20240424   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                       multi_v4t_defconfig   clang
+arm                       netwinder_defconfig   gcc  
+arm                          pxa3xx_defconfig   clang
+arm                   randconfig-001-20240424   gcc  
+arm                   randconfig-002-20240424   gcc  
+arm                   randconfig-003-20240424   gcc  
+arm                   randconfig-004-20240424   clang
+arm                         socfpga_defconfig   gcc  
+arm                    vt8500_v6_v7_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240424   clang
+arm64                 randconfig-002-20240424   gcc  
+arm64                 randconfig-003-20240424   gcc  
+arm64                 randconfig-004-20240424   clang
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240424   gcc  
+csky                  randconfig-002-20240424   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240424   clang
+hexagon               randconfig-002-20240424   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240424   gcc  
+i386         buildonly-randconfig-002-20240424   gcc  
+i386         buildonly-randconfig-003-20240424   gcc  
+i386         buildonly-randconfig-004-20240424   gcc  
+i386         buildonly-randconfig-005-20240424   gcc  
+i386         buildonly-randconfig-006-20240424   gcc  
+i386                                defconfig   clang
+i386                  randconfig-001-20240424   gcc  
+i386                  randconfig-002-20240424   gcc  
+i386                  randconfig-003-20240424   gcc  
+i386                  randconfig-004-20240424   clang
+i386                  randconfig-005-20240424   gcc  
+i386                  randconfig-006-20240424   gcc  
+i386                  randconfig-011-20240424   clang
+i386                  randconfig-012-20240424   gcc  
+i386                  randconfig-013-20240424   clang
+i386                  randconfig-014-20240424   clang
+i386                  randconfig-015-20240424   clang
+i386                  randconfig-016-20240424   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240424   gcc  
+loongarch             randconfig-002-20240424   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                          amiga_defconfig   gcc  
+m68k                       bvme6000_defconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                        m5272c3_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                           ip27_defconfig   gcc  
+mips                           ip28_defconfig   gcc  
+mips                     loongson1b_defconfig   clang
+mips                           rs90_defconfig   gcc  
+mips                         rt305x_defconfig   clang
+mips                           xway_defconfig   clang
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240424   gcc  
+nios2                 randconfig-002-20240424   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+openrisc                  or1klitex_defconfig   gcc  
+openrisc                       virt_defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240424   gcc  
+parisc                randconfig-002-20240424   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                      bamboo_defconfig   clang
+powerpc                   microwatt_defconfig   gcc  
+powerpc                 mpc8315_rdb_defconfig   clang
+powerpc               mpc834x_itxgp_defconfig   clang
+powerpc                  mpc885_ads_defconfig   clang
+powerpc                     rainier_defconfig   gcc  
+powerpc               randconfig-001-20240424   clang
+powerpc               randconfig-002-20240424   gcc  
+powerpc               randconfig-003-20240424   gcc  
+powerpc                    sam440ep_defconfig   gcc  
+powerpc64             randconfig-001-20240424   gcc  
+powerpc64             randconfig-002-20240424   gcc  
+powerpc64             randconfig-003-20240424   gcc  
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+riscv                    nommu_k210_defconfig   clang
+riscv                 randconfig-001-20240424   gcc  
+riscv                 randconfig-002-20240424   clang
+riscv                          rv32_defconfig   clang
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                          debug_defconfig   gcc  
+s390                                defconfig   clang
+s390                  randconfig-001-20240424   gcc  
+s390                  randconfig-002-20240424   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                        edosk7705_defconfig   gcc  
+sh                               j2_defconfig   gcc  
+sh                    randconfig-001-20240424   gcc  
+sh                    randconfig-002-20240424   gcc  
+sh                   rts7751r2dplus_defconfig   gcc  
+sh                           sh2007_defconfig   gcc  
+sh                          urquell_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240424   gcc  
+sparc64               randconfig-002-20240424   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240424   gcc  
+um                    randconfig-002-20240424   clang
+um                           x86_64_defconfig   clang
+x86_64                           alldefconfig   gcc  
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240424   clang
+x86_64       buildonly-randconfig-002-20240424   clang
+x86_64       buildonly-randconfig-003-20240424   gcc  
+x86_64       buildonly-randconfig-004-20240424   gcc  
+x86_64       buildonly-randconfig-005-20240424   gcc  
+x86_64       buildonly-randconfig-006-20240424   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240424   clang
+x86_64                randconfig-002-20240424   clang
+x86_64                randconfig-003-20240424   gcc  
+x86_64                randconfig-004-20240424   gcc  
+x86_64                randconfig-005-20240424   clang
+x86_64                randconfig-006-20240424   clang
+x86_64                randconfig-011-20240424   clang
+x86_64                randconfig-012-20240424   gcc  
+x86_64                randconfig-013-20240424   gcc  
+x86_64                randconfig-014-20240424   gcc  
+x86_64                randconfig-015-20240424   clang
+x86_64                randconfig-016-20240424   gcc  
+x86_64                randconfig-071-20240424   clang
+x86_64                randconfig-072-20240424   clang
+x86_64                randconfig-073-20240424   gcc  
+x86_64                randconfig-074-20240424   clang
+x86_64                randconfig-075-20240424   gcc  
+x86_64                randconfig-076-20240424   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20240424   gcc  
+xtensa                randconfig-002-20240424   gcc  
+xtensa                    smp_lx200_defconfig   gcc  
 
-> at that point only one CPU is active with IRQs disabled (done in
-> machine_restart()). Below is the stack trace decoded on next-20240410 with
-> this series
-> (https://lore.kernel.org/all/20240410134044.2138310-1-claudiu.beznea.uj@bp.renesas.com/)
-> on top and the one from here (adding power domain support):
-> https://lore.kernel.org/all/20240410122657.2051132-1-claudiu.beznea.uj@bp.renesas.com/
-> 
-> Hardware name: Renesas SMARC EVK version 2 based on r9a08g045s33 (DT)
-> Call trace:
-> dump_backtrace (arch/arm64/kernel/stacktrace.c:319)
-> show_stack (arch/arm64/kernel/stacktrace.c:326)
-> dump_stack_lvl (lib/dump_stack.c:117)
-> dump_stack (lib/dump_stack.c:124)
-> rzg2l_wdt_restart (drivers/watchdog/rzg2l_wdt.c:180)
-> watchdog_restart_notifier (drivers/watchdog/watchdog_core.c:188)
-> atomic_notifier_call_chain (kernel/notifier.c:98 kernel/notifier.c:231)
-> do_kernel_restart (kernel/reboot.c:236)
-> machine_restart (arch/arm64/kernel/process.c:145)
-> kernel_restart (kernel/reboot.c:287)
-> __do_sys_reboot (kernel/reboot.c:755)
-> __arm64_sys_reboot (kernel/reboot.c:715)
-> invoke_syscall (arch/arm64/include/asm/current.h:19
-> arch/arm64/kernel/syscall.c:53)
-> el0_svc_common.constprop.0 (include/linux/thread_info.h:127
-> arch/arm64/kernel/syscall.c:141)
-> do_el0_svc (arch/arm64/kernel/syscall.c:153)
-> el0_svc (arch/arm64/include/asm/irqflags.h:56
-> arch/arm64/include/asm/irqflags.h:77 arch/arm64/kernel/entry-common.c:165
-> arch/arm64/kernel/entry-common.c:178 arch/arm64/kernel/entry-common.c:713)
-> el0t_64_sync_handler (arch/arm64/kernel/entry-common.c:731)
-> el0t_64_sync (arch/arm64/kernel/entry.S:598)
-> 
-> The watchdog restart handler is added in restart_handler_list and this list
-> is invoked though do_kernel_restart(). As of my code investigation the
-> restart_handler_list is invoked only though do_kernel_restart() and only
-> though the stack trace above.
-> 
-> Thank you,
-> Claudiu Beznea
-> 
->>
->>>         clk_prepare_enable(priv->pclk);
->>>         clk_prepare_enable(priv->osc_clk);
->>>
->>> --
->>> 2.39.2
->>>
->>>
->>
->> Can you redirectly me to the complete series, so I can have a better
->> overview of the problem?
-> 
-> This is the series that adds power domain support for RZ/G3S SoC:
-> https://lore.kernel.org/all/20240410122657.2051132-1-claudiu.beznea.uj@bp.renesas.com/
-> 
-> This is the series that adds watchdog support for RZ/G3S SoC:
-> https://lore.kernel.org/all/20240410134044.2138310-1-claudiu.beznea.uj@bp.renesas.com/
-> 
-> Thank you for your review,
-> Claudiu Beznea
-> 
->>
->> Kind regards
->> Uffe
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
