@@ -1,185 +1,181 @@
-Return-Path: <linux-renesas-soc+bounces-4870-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4871-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5968F8B074D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 12:26:58 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F40AB8B0824
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 13:13:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7D52E1C2306E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 10:26:57 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 071CDB2260E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 11:13:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12E061598F0;
-	Wed, 24 Apr 2024 10:26:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A54915959F;
+	Wed, 24 Apr 2024 11:13:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="U4bC0ILa"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9411159579
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Apr 2024 10:26:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22B91598E7
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Apr 2024 11:13:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713954399; cv=none; b=BCs5YZQEBWumbfREw21omcZJ6cop+H2rVHEgJYMJkgJFdsz9ejqWHpszyCT6dYJ7JgBqkaNNCykMQ4O53ZHbVZSiVpMEKSsHHJscG/W2sYgSugKTmP4yztRqVKWUsvNf4rfIxrf/wbmmY+/DGf+ToQ7EOi34PpfMUy3OoV/YS7Y=
+	t=1713957193; cv=none; b=dbxy5RD3Du3V+/pdY07IXZ3i+0IhtsXk5CmvDbgicsevAEIM3vOguJZBk8IeIg165SSi2UNDULFPZOcdYxVnH2HruVfysNE95M3x6KsZZNpulZHV3LfgsxTHm6RRTEYCLX1yT8J+rZcSuafIbnTafPc82BwBsFTcYtgs38+JtW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713954399; c=relaxed/simple;
-	bh=dG+revxQzK/A7VOH2CsUT2VQD1d/Iq8wWNut+VMBstc=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=MmVeak8saIKaWODbHQtqNESTcOG/tVvFBmkRKUI+kltQrsrCltMkkcA5J6AXUp4///yExrRJ9r11CePDBS6hLPLZ81NSsmBjHxr8RMAVkU581PlfHl5tdIIcvW+OD9rtjy8J3Z89a5R+isBvrrZHVyHasYNpiD7rpJR16aJvUUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:76d0:2bff:fec8:549])
-	by albert.telenet-ops.be with bizsmtp
-	id EyST2C0070SSLxL06ySTPi; Wed, 24 Apr 2024 12:26:28 +0200
-Received: from geert (helo=localhost)
-	by ramsan.of.borg with local-esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rzZpa-0066TE-WE;
-	Wed, 24 Apr 2024 12:26:27 +0200
-Date: Wed, 24 Apr 2024 12:26:26 +0200 (CEST)
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-To: Ming Lei <ming.lei@redhat.com>
-cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org, 
-    janpieter.sollie@edpnet.be, Christoph Hellwig <hch@lst.de>, 
-    Mike Snitzer <snitzer@kernel.org>, dm-devel@lists.linux.dev, 
-    Song Liu <song@kernel.org>, linux-raid@vger.kernel.org, 
-    linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] block: allow device to have both virt_boundary_mask and
- max segment size
-In-Reply-To: <20240407131931.4055231-1-ming.lei@redhat.com>
-Message-ID: <7e38b67c-9372-a42d-41eb-abdce33d3372@linux-m68k.org>
-References: <20240407131931.4055231-1-ming.lei@redhat.com>
+	s=arc-20240116; t=1713957193; c=relaxed/simple;
+	bh=WMNSKI3RtoRqbQieeq7QOrGvMyFJTgjOPtgzlmdiq2U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RgJYNvRptyAZSY9p3CuIpJqvw0k1n4YCcD25HG+WtETYoUo+rx2AZem/q2UWzFlheUvYmPvDS3A7PxtcgBXeJWV6OB1QSSSowtZFv7XQSfURAFIkQZtYwwahT5GWKxziow3u4jKhH3smU3AK86Z6hIrFMe+QhKBFlBfbLswzwwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=U4bC0ILa; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-41b21ed19f6so515015e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Apr 2024 04:13:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1713957189; x=1714561989; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tuS/MeSVaQGd2vfiEhoiZ2JN9TmDlUJ9YDiQAbZPceA=;
+        b=U4bC0ILaFmJVdvpndPiJW3U8Sdg4mc8qmsgR9PcDJbbxXgfYhRdPLfwshaMkCpn3OX
+         s5t6nZCh04hIhOePyXrvPrQinuBElzpyj9ltXAEBbo0kA7qF1bjm2Wrimo7vboKzT9W1
+         rr382YvCm9Fdv/UGBEgFHvr7Q8u+oBXVhUOPFGxprKTJp34yDMK586p9qSH89WghgPK9
+         XCUUFc4r3rfnsdpb3QIlHZBWcHBi2luVsjijKMD/wEp4mNmY9IYrNG778fkkb+o4a2Hn
+         x9/084IGRitRkNtnSrwbpL9eCBWudOUDhFPvKgQWDbWx1OYSWdq0TguTGH3M0E1L+Gbd
+         Pfgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713957189; x=1714561989;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tuS/MeSVaQGd2vfiEhoiZ2JN9TmDlUJ9YDiQAbZPceA=;
+        b=vt6v7x1HwEaC682T6zqiTlF9Nj3iLrKfbS6CdWRqYDMF/zuAgudLRkcngKZdgbo3xD
+         ccsWiLbg5l09DVUv4V+65IpNkwujQSf45MkbSl8z08CeeB1vWkFnzhS2zN6fROFc5rNM
+         kP3fIZTOVqLuYrK/wXZNAxQ7c1sLCc2zNuB/HvFIK8T0C5qEXTaW3FA8NjFhghlFyejX
+         DOgaAt7LOBHXNtDe2TNeuO0M97kGI/DVEC8+GORhnWP1LW1hkNv2rrH5gwnRP04QXIoA
+         5DCAXTpfb4rGSlOv3q59aNvH4G2ZSqYXqXg4uGQBkG0ZolDv2eiVcCjBOwNVYIDYbGH2
+         wsCA==
+X-Forwarded-Encrypted: i=1; AJvYcCXs+0AkriIxiUsBiJUpcuOkjcHh7z7J8Ysp+p8WHlKJDmV+n7O6vMDl+wmGfYBrk1ZaB/55P0PIbT+Jm4x6/4yPT68b8uvirBm6DtNDiI/o37g=
+X-Gm-Message-State: AOJu0YwkzZq9bopyqxOqw/t00baS3lRat3SFGOo9t8hdbAWZ6+A/CC75
+	1Vet4dXStdAfJAbIGOZdmJVvG35vAVWbD1Ia7vLHtYZzLoK00EiDIb95+cRMKvI=
+X-Google-Smtp-Source: AGHT+IEsmRMTrmnRs0/q7vNtTTmh6ZDQCCPSXskQm7UUfKPKy/cw9giZEGu9KlhLOwDJB4WZDflq1g==
+X-Received: by 2002:a05:600c:1d0e:b0:41a:c592:64ff with SMTP id l14-20020a05600c1d0e00b0041ac59264ffmr1508645wms.35.1713957188961;
+        Wed, 24 Apr 2024 04:13:08 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.53])
+        by smtp.gmail.com with ESMTPSA id o12-20020a05600c4fcc00b00418a6d62ad0sm27290070wmq.34.2024.04.24.04.13.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Apr 2024 04:13:08 -0700 (PDT)
+Message-ID: <ea74f0f9-2081-4ca5-af11-4974625f22ed@tuxon.dev>
+Date: Wed, 24 Apr 2024 14:13:06 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] net: ravb: Fix registered interrupt names
+Content-Language: en-US
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+ Sergey Shtylyov <s.shtylyov@omp.ru>,
+ Paul Barker <paul.barker.ct@bp.renesas.com>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ "David S . Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>
+Cc: netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <cde67b68adf115b3cf0b44c32334ae00b2fbb321.1713944647.git.geert+renesas@glider.be>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <cde67b68adf115b3cf0b44c32334ae00b2fbb321.1713944647.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
- 	Hi Ming,
+Hi, Geert,
 
-On Sun, 7 Apr 2024, Ming Lei wrote:
-> When one stacking device is over one device with virt_boundary_mask and
-> another one with max segment size, the stacking device have both limits
-> set. This way is allowed before d690cb8ae14b ("block: add an API to
-> atomically update queue limits").
->
-> Relax the limit so that we won't break such kind of stacking setting.
->
-> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=218687
-> Reported-by: janpieter.sollie@edpnet.be
-> Fixes: d690cb8ae14b ("block: add an API to atomically update queue limits")
-> Link: https://lore.kernel.org/linux-block/ZfGl8HzUpiOxCLm3@fedora/
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: Mike Snitzer <snitzer@kernel.org>
-> Cc: dm-devel@lists.linux.dev
-> Cc: Song Liu <song@kernel.org>
-> Cc: linux-raid@vger.kernel.org
-> Signed-off-by: Ming Lei <ming.lei@redhat.com>
+On 24.04.2024 10:45, Geert Uytterhoeven wrote:
+> As interrupts are now requested from ravb_probe(), before calling
+> register_netdev(), ndev->name still contains the template "eth%d",
+> leading to funny names in /proc/interrupts.  E.g. on R-Car E3:
+> 
+> 	89:  0      0  GICv2  93 Level  eth%d:ch22:multi
+> 	90:  0      3  GICv2  95 Level  eth%d:ch24:emac
+> 	91:  0  23484  GICv2  71 Level  eth%d:ch0:rx_be
+> 	92:  0      0  GICv2  72 Level  eth%d:ch1:rx_nc
+> 	93:  0  13735  GICv2  89 Level  eth%d:ch18:tx_be
+> 	94:  0      0  GICv2  90 Level  eth%d:ch19:tx_nc
 
-Thanks for your patch, which is now commit b561ea56a26415bf ("block:
-allow device to have both virt_boundary_mask and max segment size") in
-v6.9-rc4.
+I failed to notice it, sorry about that.
 
-With CONFIG_DMA_API_DEBUG_SG=y and IOMMU support enabled, this causes a
-warning on R-Car Gen3/Gen4 platforms:
+> 
+> Worse, on platforms with multiple RAVB instances (e.g. R-Car V4H), all
+> interrupts have similar names.
+> 
+> Fix this by using the device name instead, like is done in several other
+> drivers:
+> 
+> 	89:  0      0  GICv2  93 Level  e6800000.ethernet:ch22:multi
+> 	90:  0      1  GICv2  95 Level  e6800000.ethernet:ch24:emac
+> 	91:  0  28578  GICv2  71 Level  e6800000.ethernet:ch0:rx_be
+> 	92:  0      0  GICv2  72 Level  e6800000.ethernet:ch1:rx_nc
+> 	93:  0  14044  GICv2  89 Level  e6800000.ethernet:ch18:tx_be
+> 	94:  0      0  GICv2  90 Level  e6800000.ethernet:ch19:tx_nc
+> 
+> Rename the local variable dev_name, as it shadows the dev_name()
+> function, and pre-initialize it, to simplify the code.
+> 
+> Fixes: 32f012b8c01ca9fd ("net: ravb: Move getting/requesting IRQs in the probe() method")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-     DMA-API: renesas_sdhi_internal_dmac ee160000.mmc: mapping sg segment longer than device claims to support [len=86016] [max=65536]
-     WARNING: CPU: 1 PID: 281 at kernel/dma/debug.c:1178 debug_dma_map_sg+0x2ac/0x330
-     Modules linked in:
-     CPU: 1 PID: 281 Comm: systemd-udevd Tainted: G        W          6.9.0-rc2-ebisu-00012-gb561ea56a264 #596
-     Hardware name: Renesas Ebisu board based on r8a77990 (DT)
-     pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-     pc : debug_dma_map_sg+0x2ac/0x330
-     lr : debug_dma_map_sg+0x2ac/0x330
-     sp : ffffffc083643470
-     x29: ffffffc083643470 x28: 0000000000000080 x27: 0000000000010000
-     x26: 0000000000000000 x25: 0000000000000001 x24: ffffffc0810afc30
-     x23: ffffffffffffffff x22: ffffffc080c8366f x21: ffffff8008849f80
-     x20: ffffff800cd24000 x19: ffffff80099a2810 x18: 0000000000000000
-     x17: ffffff800801a000 x16: ffffffc080453f00 x15: ffffffc0836430f0
-     x14: ffffffc08099fb50 x13: 0000000000000007 x12: 0000000000000000
-     x11: 0000000000000202 x10: ffffffc0810d99d0 x9 : ffffffc081189bb0
-     x8 : ffffffc083643178 x7 : ffffffc083643180 x6 : 00000000ffffdfff
-     x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000000
-     x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffffff800ebad280
-     Call trace:
-      debug_dma_map_sg+0x2ac/0x330
-      __dma_map_sg_attrs+0xcc/0xd0
-      dma_map_sg_attrs+0xc/0x1c
-      renesas_sdhi_internal_dmac_map+0x64/0x94
-      renesas_sdhi_internal_dmac_pre_req+0x20/0x2c
-      mmc_blk_mq_issue_rq+0x62c/0x6c8
-      mmc_mq_queue_rq+0x194/0x218
-      blk_mq_dispatch_rq_list+0x36c/0x4d4
-      __blk_mq_sched_dispatch_requests+0x344/0x4e0
-      blk_mq_sched_dispatch_requests+0x28/0x5c
-      blk_mq_run_hw_queue+0x1a4/0x218
-      blk_mq_flush_plug_list+0x2fc/0x4a0
-      __blk_flush_plug+0x70/0x134
-      blk_finish_plug+0x24/0x34
-      read_pages+0x60/0x158
-      page_cache_ra_unbounded+0x98/0x184
-      do_page_cache_ra+0x44/0x50
-      force_page_cache_ra+0x98/0x9c
-      page_cache_sync_ra+0x30/0x54
-      filemap_get_pages+0xfc/0x4f8
-      filemap_read+0xe8/0x2b8
-      blkdev_read_iter+0x12c/0x144
-      vfs_read+0x104/0x150
-      ksys_read+0x6c/0xd4
-      __arm64_sys_read+0x14/0x1c
-      invoke_syscall+0x70/0xf4
-      el0_svc_common.constprop.0+0xb0/0xcc
-      do_el0_svc+0x1c/0x24
-      el0_svc+0x34/0x8c
-      el0t_64_sync_handler+0x88/0x124
-      el0t_64_sync+0x150/0x154
-     irq event stamp: 0
-     hardirqs last  enabled at (0): [<0000000000000000>] 0x0
-     hardirqs last disabled at (0): [<ffffffc08007efa4>] copy_process+0x6ac/0x18d4
-     softirqs last  enabled at (0): [<ffffffc08007efa4>] copy_process+0x6ac/0x18d4
-     softirqs last disabled at (0): [<0000000000000000>] 0x0
+Thank you for taking care of it.
 
-Reverting this commit, or disabling IOMMU support fixes the issue.
+Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com> # on RZ/G3S
 
-> --- a/block/blk-settings.c
-> +++ b/block/blk-settings.c
-> @@ -182,17 +182,13 @@ static int blk_validate_limits(struct queue_limits *lim)
-> 		return -EINVAL;
->
-> 	/*
-> -	 * Devices that require a virtual boundary do not support scatter/gather
-> -	 * I/O natively, but instead require a descriptor list entry for each
-> -	 * page (which might not be identical to the Linux PAGE_SIZE).  Because
-> -	 * of that they are not limited by our notion of "segment size".
-> +	 * Stacking device may have both virtual boundary and max segment
-> +	 * size limit, so allow this setting now, and long-term the two
-> +	 * might need to move out of stacking limits since we have immutable
-> +	 * bvec and lower layer bio splitting is supposed to handle the two
-> +	 * correctly.
-> 	 */
-> -	if (lim->virt_boundary_mask) {
-> -		if (WARN_ON_ONCE(lim->max_segment_size &&
-> -				 lim->max_segment_size != UINT_MAX))
-> -			return -EINVAL;
-> -		lim->max_segment_size = UINT_MAX;
-> -	} else {
-> +	if (!lim->virt_boundary_mask) {
-> 		/*
-> 		 * The maximum segment size has an odd historic 64k default that
-> 		 * drivers probably should override.  Just like the I/O size we
 
-Gr{oetje,eeting}s,
-
- 						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
- 							    -- Linus Torvalds
+> ---
+>  drivers/net/ethernet/renesas/ravb_main.c | 11 +++++------
+>  1 file changed, 5 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index b621ddd4539cf517..384ddad65aaf641a 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -2729,19 +2729,18 @@ static int ravb_setup_irq(struct ravb_private *priv, const char *irq_name,
+>  	struct platform_device *pdev = priv->pdev;
+>  	struct net_device *ndev = priv->ndev;
+>  	struct device *dev = &pdev->dev;
+> -	const char *dev_name;
+> +	const char *devname = dev_name(dev);
+>  	unsigned long flags;
+>  	int error, irq_num;
+>  
+>  	if (irq_name) {
+> -		dev_name = devm_kasprintf(dev, GFP_KERNEL, "%s:%s", ndev->name, ch);
+> -		if (!dev_name)
+> +		devname = devm_kasprintf(dev, GFP_KERNEL, "%s:%s", devname, ch);
+> +		if (!devname)
+>  			return -ENOMEM;
+>  
+>  		irq_num = platform_get_irq_byname(pdev, irq_name);
+>  		flags = 0;
+>  	} else {
+> -		dev_name = ndev->name;
+>  		irq_num = platform_get_irq(pdev, 0);
+>  		flags = IRQF_SHARED;
+>  	}
+> @@ -2751,9 +2750,9 @@ static int ravb_setup_irq(struct ravb_private *priv, const char *irq_name,
+>  	if (irq)
+>  		*irq = irq_num;
+>  
+> -	error = devm_request_irq(dev, irq_num, handler, flags, dev_name, ndev);
+> +	error = devm_request_irq(dev, irq_num, handler, flags, devname, ndev);
+>  	if (error)
+> -		netdev_err(ndev, "cannot request IRQ %s\n", dev_name);
+> +		netdev_err(ndev, "cannot request IRQ %s\n", devname);
+>  
+>  	return error;
+>  }
 
