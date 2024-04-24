@@ -1,130 +1,140 @@
-Return-Path: <linux-renesas-soc+bounces-4862-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4864-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FB5F8B0570
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 11:07:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 671648B0587
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 11:10:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 96ECEB2763D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 09:07:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 073291F24F5F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 09:10:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8158159900;
-	Wed, 24 Apr 2024 09:05:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="hFMZ9DJ3"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FFCE158A24;
+	Wed, 24 Apr 2024 09:10:44 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CF2D158D90;
-	Wed, 24 Apr 2024 09:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6BE1158867;
+	Wed, 24 Apr 2024 09:10:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713949558; cv=none; b=KYr46g9wAzNmMOnc28Ph50IEgd6RYsBcW881vrI8HFAoRIcb9CBwyunKmM0QxqoQCiMarUBQrQffiu6IVsVR74qgihn23eGZT/ap+DdMzOc6EyM0Z4NjGRQHpz2AQuDpf07jv0iehpxlcFDl5/rl3kEYOKg45bj485w+eDlW2Tk=
+	t=1713949844; cv=none; b=dqBNXQyHoQLwhzmfVQ+iV1jmi4eGgCepMjjTwE8Vi42kAxT6GnTUnN/qE3IxCwTl/uI4SjioYcS6M4VJ35ZLOpDZr+2mDSz3qg2fi8aDHA7vHWrTGxzKJ7+HPK1XzDFRUtQwn/4YbzTRFaS6cRD1JI8MtODJAJn3N8paeBz0UDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713949558; c=relaxed/simple;
-	bh=oecI1I5F8ploSJtFJdVODKUb+t2YKq7ntuJtu7bZFnU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MLBj0PvvjjKiyHbHXdszUFWZAB/0ft9Nec4ebGK9HO0Cn70QsC+lVHdrz4yY234+hw6xmyx9Uk7X8tYG+2X179H6za3EGKMUjMLlgbIx+SIYq9j4ZzwVGB+jh38GWrN7qEpT6AExAovdwHdKJNYsKgcPd5v0Jmyo+7pShqUebws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=hFMZ9DJ3; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4701720014;
-	Wed, 24 Apr 2024 09:05:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1713949551;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NzNqKTpVWMnrcgcJVGgyUqBdfYphefuKpHkJ0PXLDgQ=;
-	b=hFMZ9DJ380NRh+LxCs/eAs/MyW3K01JfQsT/RZ/v5EhraNlMnRUV0FupHUbex7pFCCxTj0
-	qn91YkqwDRhZx6VUbYONmo5UjAWNA7E+WGMk1aiOzbNjooubti+U+SxpydDrBmMcv62LFy
-	BudIXE6UzYgKaproP2PjRfMHmd3a5DsKsE9vXIDZHIvILsxL9NN+3t4QzTLI/oPjDThQxa
-	vLY612YbUoVVNzSZRLECK8fbGEf3dfDEhDlAZqhVtqhWmcgoC8UpAM7PJEoNB5iqkIozDm
-	qi+svxxgk6UeydLcPwMPqZDJziuHkCCMY/7S49GsSrM36fdtwH6+Kf8Ps6GcgQ==
-From: Romain Gantois <romain.gantois@bootlin.com>
-Date: Wed, 24 Apr 2024 11:06:23 +0200
-Subject: [PATCH net-next v4 5/5] ARM: dts: r9a06g032: describe GMAC1
+	s=arc-20240116; t=1713949844; c=relaxed/simple;
+	bh=TEF0qjz9ZofKGHwyDHgAwC9obwz1u3kw3L6ZMSub7H4=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=GAhGjCUomq12e9X2uJUoRMP7oO7naPpGY4Fb3iDWEHiMDQY9Jpdyjgd3OLucig4iZuS4nLIYm+iJgmDrj7IxhP7i+xk2NKbNNyoW899m+wOZlr7OV7HfZ+P0AVJhX6TwTPg7v6xa6BinMKqMckt7rwJOik+3OtUYQ8rFtBwvkDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.105] (178.176.73.108) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Wed, 24 Apr
+ 2024 12:10:24 +0300
+Subject: Re: [PATCH] net: ravb: Fix registered interrupt names
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>, Paul Barker
+	<paul.barker.ct@bp.renesas.com>, =?UTF-8?Q?Niklas_S=c3=b6derlund?=
+	<niklas.soderlund+renesas@ragnatech.se>, "David S . Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
+References: <cde67b68adf115b3cf0b44c32334ae00b2fbb321.1713944647.git.geert+renesas@glider.be>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <81d556da-8aa4-cf92-d8a6-5d8b147ab9a2@omp.ru>
+Date: Wed, 24 Apr 2024 12:10:23 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+In-Reply-To: <cde67b68adf115b3cf0b44c32334ae00b2fbb321.1713944647.git.geert+renesas@glider.be>
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240424-rzn1-gmac1-v4-5-852a5f2ce0c0@bootlin.com>
-References: <20240424-rzn1-gmac1-v4-0-852a5f2ce0c0@bootlin.com>
-In-Reply-To: <20240424-rzn1-gmac1-v4-0-852a5f2ce0c0@bootlin.com>
-To: "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Jose Abreu <joabreu@synopsys.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Russell King <linux@armlinux.org.uk>, 
- =?utf-8?q?Cl=C3=A9ment_L=C3=A9ger?= <clement.leger@bootlin.com>, 
- Serge Semin <fancer.lancer@gmail.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
- linux-arm-kernel@lists.infradead.org, 
- Romain Gantois <romain.gantois@bootlin.com>
-X-Mailer: b4 0.13.0
-X-GND-Sasl: romain.gantois@bootlin.com
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 04/24/2024 08:48:14
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 184894 [Apr 24 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.4
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 18 0.3.18
+ b9d6ada76958f07c6a68617a7ac8df800bc4166c
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.73.108 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info:
+	127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1;178.176.73.108:7.1.2
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.73.108
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 04/24/2024 08:52:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 4/24/2024 7:13:00 AM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-From: Clément Léger <clement.leger@bootlin.com>
+On 4/24/24 10:45 AM, Geert Uytterhoeven wrote:
 
-The r9a06g032 SoC of the RZ/N1 family features two GMAC devices named
-GMAC1/2, that are based on Synopsys cores. GMAC1 is connected to a
-RGMII/RMII converter that is already described in this device tree.
+> As interrupts are now requested from ravb_probe(), before calling
+> register_netdev(), ndev->name still contains the template "eth%d",
+> leading to funny names in /proc/interrupts.  E.g. on R-Car E3:
+> 
+> 	89:  0      0  GICv2  93 Level  eth%d:ch22:multi
+> 	90:  0      3  GICv2  95 Level  eth%d:ch24:emac
+> 	91:  0  23484  GICv2  71 Level  eth%d:ch0:rx_be
+> 	92:  0      0  GICv2  72 Level  eth%d:ch1:rx_nc
+> 	93:  0  13735  GICv2  89 Level  eth%d:ch18:tx_be
+> 	94:  0      0  GICv2  90 Level  eth%d:ch19:tx_nc
+> 
+> Worse, on platforms with multiple RAVB instances (e.g. R-Car V4H), all
+> interrupts have similar names.
+> 
+> Fix this by using the device name instead, like is done in several other
+> drivers:
+> 
+> 	89:  0      0  GICv2  93 Level  e6800000.ethernet:ch22:multi
+> 	90:  0      1  GICv2  95 Level  e6800000.ethernet:ch24:emac
+> 	91:  0  28578  GICv2  71 Level  e6800000.ethernet:ch0:rx_be
+> 	92:  0      0  GICv2  72 Level  e6800000.ethernet:ch1:rx_nc
+> 	93:  0  14044  GICv2  89 Level  e6800000.ethernet:ch18:tx_be
+> 	94:  0      0  GICv2  90 Level  e6800000.ethernet:ch19:tx_nc
 
-Signed-off-by: Clément Léger <clement.leger@bootlin.com>
-[rgantois: commit log]
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
----
- arch/arm/boot/dts/renesas/r9a06g032.dtsi | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+   Ugh! Sorry about missing this one...
 
-diff --git a/arch/arm/boot/dts/renesas/r9a06g032.dtsi b/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-index fa63e1afc4ef4..57c730f43442e 100644
---- a/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-+++ b/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-@@ -316,6 +316,24 @@ dma1: dma-controller@40105000 {
- 			data-width = <8>;
- 		};
- 
-+		gmac1: ethernet@44000000 {
-+			compatible = "renesas,r9a06g032-gmac", "renesas,rzn1-gmac", "snps,dwmac";
-+			reg = <0x44000000 0x2000>;
-+			interrupts = <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 35 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "macirq", "eth_wake_irq", "eth_lpi";
-+			clocks = <&sysctrl R9A06G032_HCLK_GMAC0>;
-+			clock-names = "stmmaceth";
-+			power-domains = <&sysctrl>;
-+			snps,multicast-filter-bins = <256>;
-+			snps,perfect-filter-entries = <128>;
-+			tx-fifo-depth = <2048>;
-+			rx-fifo-depth = <4096>;
-+			pcs-handle = <&mii_conv1>;
-+			status = "disabled";
-+		};
-+
- 		gmac2: ethernet@44002000 {
- 			compatible = "renesas,r9a06g032-gmac", "renesas,rzn1-gmac", "snps,dwmac";
- 			reg = <0x44002000 0x2000>;
+> Rename the local variable dev_name, as it shadows the dev_name()
+> function, and pre-initialize it, to simplify the code.
 
--- 
-2.44.0
+   Why not call it just name instead?
 
+> Fixes: 32f012b8c01ca9fd ("net: ravb: Move getting/requesting IRQs in the probe() method")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+
+[...]
+
+MBR, Sergey
 
