@@ -1,99 +1,184 @@
-Return-Path: <linux-renesas-soc+bounces-4891-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4892-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6093D8B0CD5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 16:41:52 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CCAD8B0D74
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 16:59:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 75A871C2423E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 14:41:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DD372B27DA7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 14:59:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2726415ECCE;
-	Wed, 24 Apr 2024 14:41:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C731F15EFB8;
+	Wed, 24 Apr 2024 14:59:12 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 508BF15ECC9;
-	Wed, 24 Apr 2024 14:41:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BE715ECFE;
+	Wed, 24 Apr 2024 14:59:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713969696; cv=none; b=j3xjXG9PxUo6PfkVsJX5J0BjBRXICHTl2INWb/jGEA4PvTU7bMGkgjsa2RLvJnRN426EDIW3Mxrjj43GIVyeMjI5fMDapv04E/GxNZZPR7tDZtsnz/zyDV1NsB9b9n/p05LWFBA/dCCee4H1Ut8Ueda0ZfPQp/zG2EhWeEsoSXE=
+	t=1713970752; cv=none; b=NN5mE0TbbDHoVga6PO7AAteyrWVgvM1rSWHH8zzueasQZMUy+JCLI0dnIhFtq4WEnQz1i2J568W4lOiOMVQFXQGFIS86+IPRsIdKpPP7XD3iJcAXVwE2LlUptBcnLkLT5Af/hkmBMWPCN+imFU9lJsF5104zOTTx8c4W7V6K5Ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713969696; c=relaxed/simple;
-	bh=/P16XX5iWdneekJXphwtShIEaCyHH6GK3VIZXrRz/bw=;
+	s=arc-20240116; t=1713970752; c=relaxed/simple;
+	bh=uSb9cMV+CSOhuQNCt8c3D/PhsmzG3Zww/AzIWuo08aw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aSj1QMqQBR91TJlZns5Pcszj4QPjyjRKH68WRC80guVUmfZddbuEAAhS7CySC3onnLiWeMLlJ/01q+GkilmdBW3YIj7GQF0ibtgAap8SEK27UX4fY3KtQphG4ROCj4J5TivAGJllOdkjLrsQCrOzFzEWbOwbfwdNH6/tO+E+hsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.173
+	 To:Cc:Content-Type; b=ssQsCXWhGPsoSy4SZ1PVtaB25MUvM4fOkQIzu3dX9sRgO+5dyEj3Ic1XnC0SR7LP1EEzwQZIgBYvZHWc/m6aREFHePJspy4Bj0GrZj2Otv0AIWUgJXuHHFPLMe0nVERp50IZdvZKYjVircVMUWjw90w9B+l4ueVz7enNYf0D92Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-61b3be24dd9so8693367b3.0;
-        Wed, 24 Apr 2024 07:41:34 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-de56d4bb72bso989617276.2;
+        Wed, 24 Apr 2024 07:59:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713969693; x=1714574493;
+        d=1e100.net; s=20230601; t=1713970749; x=1714575549;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1n3iR6ddwYoKM5lE0EM8akCCCwsZIPBSCjAQL1WN9kE=;
-        b=DIW+1RE6mmSIZPwSzsYSvloS+X2JkRCcCiky0dkap+JqLMetFDxp6Sjj6ESzU/VZT9
-         vXe2M48l4wy5aw2IM0Dzc92GWzPDONW5Y+9Qv+krzvH6H5oKsD2qaIpRsTCZwdS/lzqa
-         AgU7vHkCOem3iuad8F+tHLGkmWGYz2mXPYExlSb4wen5uudUV2rIbhr/ZWxjShpEPFiX
-         fvih7cbZxLMr7ioBd9uKLnXJAAd/AiLPRG36yIMiFIVUAlU0WF6FEVnz2eHoBZyMoJ0E
-         2Y8KL18d2Wc8EfbztVVDRjeXOxA6cACHHgBdmTQI6OZkVtuYqXxwuRSKB5rXyXNj+03D
-         8dvg==
-X-Forwarded-Encrypted: i=1; AJvYcCVk2MI8u4fYRvA36Neq8sbO0GvfLxNWDEvVsHSq6eaNH+kg5XtKRZh5Pj7XgUvUS5J1NlA78sRYmKJZgRQjuFLeS2aEiZDZd1NkgAy8E+jeKINLWDihUYwaRr9SRi4qXItSdGovbEit8GLYkuig+rew6h/wwSufx9BSYdvng+t+vgeW8gB/mVDhdW/APNODSbc1f2Aq4eoGF5zWAlMremL/YuXcpehJ
-X-Gm-Message-State: AOJu0YwIYz02u8FAuNbir/rlz54zr4EYm6n2uzpQenJcJnli9EdQIgDl
-	iSScuqaanwohWnc64J4I4MMY23/+Zhr8WSMr82AypDieJYZqWnykgPaB9cFm7PA=
-X-Google-Smtp-Source: AGHT+IHGGKd5kIRjh6WFFLHFKXcg8ExfG/SYZ2hRGsoBmUB6oqWtGDD3y5X1J6OeN49cHnaOmsEdMQ==
-X-Received: by 2002:a05:690c:3382:b0:618:5c6e:9291 with SMTP id fl2-20020a05690c338200b006185c6e9291mr2222823ywb.17.1713969692903;
-        Wed, 24 Apr 2024 07:41:32 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id i134-20020a816d8c000000b0061b09824e52sm1235915ywc.7.2024.04.24.07.41.32
+        bh=wIf2hqRKb6fguvBX5EywVk6EIn67HUMm2ITgNqqkffU=;
+        b=qjH7pQh4SVBszFxaO2ieNlswy+eoslRTMKNfC8Qf+8PSLwgOv4gKZCiiRyQMu8WhC5
+         MmBBlGRgqCk04YuBL3viEwQ+Wf+occ4vrTH4RtMWvG1wwM2hS6t/1r1IkETvxPo2jyig
+         vP0MgEn3fCSiKMcVgfVUOrirrsR+oBFmF/kMWFeni6gBv61TsdVdTgx5StLK4f5WXbyi
+         0jU5qaFd76dd3aqGXo80nyJtEhHUpkuVbSw4fvrcM7Cnkw1xJykdhB606y2V8xFVIQrG
+         abNzl4vPmKtXHHM4dES/H9PYv9J3adRxCzmL1NqtAUoGo4xTZqAaHisKYdmd9ltxppYY
+         ML+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW13+0p6LgKlAJs1RSfpmVOT0fuYkIWJBFBCKwPgpBwkxHDb+sWwB5PrxiCiXT82KldHRGhvF6wg59uZb9+5fe9lNn9TRlVyqM9qGo/FeCwWObGv4bElDwZLXWo3zp/K5WV421+/j1p4kM4XUB3mxhb7+P7b/x+HjUQdOGGnEmXbrioHKhTvRs7IfXK
+X-Gm-Message-State: AOJu0YyoXxOlGuZw88TZ3sCJR0AlAJHunFDemqR6sWdvjAUc216Z1l8S
+	vwoFJsdQA+oOLkqKTFDBzgriHR7ABGUZArCeKO/0Y0db/8q6L25Sa9kEU5X9QTk=
+X-Google-Smtp-Source: AGHT+IFA7hn3gbLzKjvVzfieMSB4O1yl8pPmJU6jEM59PIo2e8+29U4xB6Qo41X3UxDqClvx41r+3A==
+X-Received: by 2002:a25:9007:0:b0:dc8:5e26:f501 with SMTP id s7-20020a259007000000b00dc85e26f501mr2666664ybl.61.1713970748657;
+        Wed, 24 Apr 2024 07:59:08 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
+        by smtp.gmail.com with ESMTPSA id x12-20020a25b90c000000b00dce0a67ac8bsm3120641ybj.23.2024.04.24.07.59.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Apr 2024 07:41:32 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dc25e12cc63so939185276.0;
-        Wed, 24 Apr 2024 07:41:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUrKz5LgCfKagErZPD3MGAqZ8UffhmZ6XaTDMgqIHoLoH+iwaPuiTqpIp9xdfniry/P9Boj3NaKa80qtQp5a0ccCTHDRa9ZTRcZYOYDVZD/9GucBvkx5h3K8Agbqdr+r9RW4QyFxULmyZU28MAe1e7X33EDPjxBJe+Ox/2Wtdy2CmpgNWU+FejSXjzYOaP6nCZShct/t/fm271YoBVb0v19fd02ROVR
-X-Received: by 2002:a25:2f8e:0:b0:de5:5e85:6fc7 with SMTP id
- v136-20020a252f8e000000b00de55e856fc7mr3217864ybv.9.1713969692429; Wed, 24
- Apr 2024 07:41:32 -0700 (PDT)
+        Wed, 24 Apr 2024 07:59:08 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-de47485532cso6933669276.3;
+        Wed, 24 Apr 2024 07:59:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVqNyVW/hko/sbx3bPvEOHI8cR8kudg2iNpNHp7i9jH+0W1dQTfkoBGy8IY2c1IvPMGnxgNqiRvqviOvXe+u1lRvUHxQYQVdxcvgb1JPuHaqp566joW/K3cs2UrC1bn6DrtxYjEHLJVuVUqEHqfF+iJEX5sdVVBM0uNjsqTMu3vVQhEWr+JqNEIJy1b
+X-Received: by 2002:a25:7903:0:b0:de5:5037:8861 with SMTP id
+ u3-20020a257903000000b00de550378861mr2891333ybc.48.1713970748109; Wed, 24 Apr
+ 2024 07:59:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240422213006.505576-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240422213006.505576-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20240422213006.505576-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240422205053.496095-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240422205053.496095-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20240422205053.496095-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 24 Apr 2024 16:41:20 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV6qy_L7EVYw73iA0hNmZS+mMPSOQPdfhiT2xJ3F9gaFw@mail.gmail.com>
-Message-ID: <CAMuHMdV6qy_L7EVYw73iA0hNmZS+mMPSOQPdfhiT2xJ3F9gaFw@mail.gmail.com>
-Subject: Re: [PATCH 6/6] arm64: dts: renesas: r9a08g045: Update fallback
- string for SDHI nodes
+Date: Wed, 24 Apr 2024 16:58:54 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXx46TORh7fCNBwbddSLLGFmV_haQ1q+Y=n4GkzheDzaA@mail.gmail.com>
+Message-ID: <CAMuHMdXx46TORh7fCNBwbddSLLGFmV_haQ1q+Y=n4GkzheDzaA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] irqchip/renesas-rzg2l: Add support for RZ/Five SoC
 To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>, 
+Cc: Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
 	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 22, 2024 at 11:30=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.=
+Hi Prabhakar,
+
+On Mon, Apr 22, 2024 at 10:51=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.=
 com> wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Use 'renesas,rzg2l-sdhi' as a fallback string for SDHI nodes, where
-> hs400_disabled and fixed_addr_mode quirks are applied.
+> The IX45 block on the RZ/Five SoC has additional mask registers
+> (NMSK/IMSK/TMSK) compared to the RZ/G2L (family) SoC.
+>
+> A new rzfive_irqc_chip irq_chip is introduced for RZ/Five, where function
+> pointers for irq_(un)mask and irq_(dis/en)able handle the (un)masking
+> of the interrupts. The irq_chip pointer is now passed as an init callback
+> and stored in the priv pointer to differentiate between RZ/G2L and RZ/Fiv=
+e.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v2->v3
+> - Added RZ/Five specific irqchip instead of polluting the functions
+> - Fixed review comments pointed by Biju and Geert
+> - Updated commit message
+> - moved locking respective read/write functions
 
+Thanks for the update!
+
+> --- a/drivers/irqchip/irq-renesas-rzg2l.c
+> +++ b/drivers/irqchip/irq-renesas-rzg2l.c
+> @@ -138,6 +142,113 @@ static void rzg2l_irqc_eoi(struct irq_data *d)
+>         irq_chip_eoi_parent(d);
+>  }
+>
+> +static void rzfive_irqc_mask_irq_interrupt(struct rzg2l_irqc_priv *priv,
+> +                                          unsigned int hwirq)
+> +{
+> +       u32 bit =3D BIT(hwirq - IRQC_IRQ_START);
+> +
+> +       raw_spin_lock(&priv->lock);
+
+I think you best move the locking to the callers that really need it...
+
+> +       writel_relaxed(readl_relaxed(priv->base + IMSK) | bit, priv->base=
+ + IMSK);
+> +       raw_spin_unlock(&priv->lock);
+> +}
+
+> +static void rzfive_tint_irq_endisable(struct irq_data *d, bool enable)
+> +{
+> +       struct rzg2l_irqc_priv *priv =3D irq_data_to_priv(d);
+> +       unsigned int hwirq =3D irqd_to_hwirq(d);
+> +
+> +       if (hwirq >=3D IRQC_TINT_START && hwirq < IRQC_NUM_IRQ) {
+> +               u32 offset =3D hwirq - IRQC_TINT_START;
+> +               u32 tssr_offset =3D TSSR_OFFSET(offset);
+> +               u8 tssr_index =3D TSSR_INDEX(offset);
+> +               u32 reg;
+> +
+> +               if (enable)
+> +                       rzfive_irqc_unmask_tint_interrupt(priv, hwirq);
+> +               else
+> +                       rzfive_irqc_mask_tint_interrupt(priv, hwirq);
+
+... else you will do a lock/unlock here, followed by another one below.
+
+> +               raw_spin_lock(&priv->lock);
+> +               reg =3D readl_relaxed(priv->base + TSSR(tssr_index));
+> +               if (enable)
+> +                       reg |=3D TIEN << TSSEL_SHIFT(tssr_offset);
+> +               else
+> +                       reg &=3D ~(TIEN << TSSEL_SHIFT(tssr_offset));
+> +               writel_relaxed(reg, priv->base + TSSR(tssr_index));
+> +               raw_spin_unlock(&priv->lock);
+> +       } else {
+> +               if (enable)
+> +                       rzfive_irqc_unmask_irq_interrupt(priv, hwirq);
+> +               else
+> +                       rzfive_irqc_mask_irq_interrupt(priv, hwirq);
+> +       }
+> +}
+
+> @@ -401,7 +529,8 @@ static int rzg2l_irqc_parse_interrupts(struct rzg2l_i=
+rqc_priv *priv,
+>         return 0;
+>  }
+>
+> -static int rzg2l_irqc_init(struct device_node *node, struct device_node =
+*parent)
+> +static int rzg2l_irqc_init_helper(struct device_node *node, struct devic=
+e_node *parent,
+
+rzg2l_irqc_common_init()?
+
+> +                                 const struct irq_chip *irq_chip)
+>  {
+>         struct irq_domain *irq_domain, *parent_domain;
+>         struct platform_device *pdev;
+
+The rest LGTM, so
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
