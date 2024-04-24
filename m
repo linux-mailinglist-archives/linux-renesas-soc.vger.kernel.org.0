@@ -1,119 +1,106 @@
-Return-Path: <linux-renesas-soc+bounces-4883-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4884-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 401598B0ACC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 15:24:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E79628B0BD6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 16:02:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 645F71C20D8E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 13:24:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A3EE4286FD9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 14:02:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30F5015B973;
-	Wed, 24 Apr 2024 13:24:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A10315E210;
+	Wed, 24 Apr 2024 14:02:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aPgv5GFM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8641C15B57E;
-	Wed, 24 Apr 2024 13:24:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D73E15D5A9;
+	Wed, 24 Apr 2024 14:02:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713965093; cv=none; b=Gt3d9qHyi48L6wSLmp5ZJg8yXFwE1/RTet3dLTMU60HUXcDW9DqY46220b0afe8pgxVptquRNWvqJ2rCho+9K1mFvye5oYM55qxTeaWWJPxIfEPNHKBuTeFGMNbloEVCSrg4bN+6qclfa/FYETAaX3tJMfsfWPe4+XKOLaLD0U4=
+	t=1713967347; cv=none; b=ZHYiDdcXk6jrbV5v5oz07TcWIrMOkaU+tyO3pWX4ZL/owd4PwkvhlF5iIZBxsQ/yVKOm5HGpf8HJBQ98Yu34kgtWbHcTEccUcgS5A+gmM/eOUeutJSiiEW/hWL56kqKo5MEKNKPqsznWSqPaJwZVLh7qdDJHKX8mejsUDIjHh4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713965093; c=relaxed/simple;
-	bh=8nSpm7d+EszE3CIUChwqBFG5Zc2nEDoIt/NW+sy6Ky8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ETX0Ih8q3DYuutbiWmAyU9ZoAJSxEMirVfolF4dH7SG98krUEUoO8g26NkwpAKumE9YphT9f+mOX64bUUBdQXeVZTkWnCvYsyZP4TL+JY236EKyTti0UjXm+i8utTi2ppQbZJ0d1ccZHsCpTNI3w/2ToWERwyKVQmaFvLaYAT1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-617cd7bd929so71735667b3.3;
-        Wed, 24 Apr 2024 06:24:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713965090; x=1714569890;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=51puU55Boep6afXIofcFUmMmV+ZDqAsVB5VCzE6Soos=;
-        b=gVh2Q19QZxkE3Rv46f+eGxshgQByeYmfk9we4yh1aDVf/tnKwPgjbP1WQQtEz5yDcW
-         7/y3eV29GN3JsEsR1vZBV0KuuNbsicj0aSl6B7+FMsgm7WZPFdLq97HecCF6jaOtr8DD
-         tPBgMf1SGr0ILoJUh2sZcUAdVjareuVvWoOFCaC8Hceu0Ayew9covjixGzmy3fqPmhxT
-         cGrUrz2tqbjHrAYEZwRXrpFwYilDoe+Gz6xwCVgK5qyBaZjLYWFuUzLHB1oB+AamOtXw
-         ioqJhhKoiU/QcXggoLIHK6rZU5XO1Qfhq32NhGwxTYqIyXNXWTErumPk/aep3pNux4ew
-         tZng==
-X-Forwarded-Encrypted: i=1; AJvYcCVn6qBQyknDR8KmZFWub72L/8zxRb4qjXVCBdFbLwTrOWyy3vyBD6UomTM3769pm515RpemBFDEiLlhwg9VeEw73rhuu/YQoiU51Bb3ZPPvps4V7rOM4vV7rRx45BVzbuoplK3ktQ4ByAhJp4qBLt3fRqc5Wq8nj7BvCfNkViDsV1ij0vaSkKKB1Qtb
-X-Gm-Message-State: AOJu0Yz/clEqJM/Pgetd9evGl/F/SqSH7e7WKMQ9fqiwo8TNNpmlOezM
-	YrWwZO0JhMiMp+JU++dGafOPxJ/P0hXnxY5SyvCBfCt2Pay5xxhM+Haj/zG9
-X-Google-Smtp-Source: AGHT+IGg+QUbIiGMOqaoITdcCaCCEQE4L980zRDOVEEGiMJIAAQ8PPAUcXL/EDLKZJ3hoIK87LDBMQ==
-X-Received: by 2002:a05:690c:f12:b0:61b:3304:ce04 with SMTP id dc18-20020a05690c0f1200b0061b3304ce04mr3137328ywb.34.1713965090336;
-        Wed, 24 Apr 2024 06:24:50 -0700 (PDT)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id x135-20020a0dd58d000000b006186a9d32b0sm3010003ywd.43.2024.04.24.06.24.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Apr 2024 06:24:50 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-de4665b4969so7032902276.2;
-        Wed, 24 Apr 2024 06:24:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUqDxsUjzBl5NDYfu2VvC2j4DizMU8s/S69QkJI0Az0jwYvLtQg0uoC/Byi7OQUOd6xQP+8cNkIhP6TYItxKv87rhI7EBCE8OicaeDxJi+sDtqtdD5LXX6Ufuq6dGVfoz0yJMcdh/dfdRcMjjXB9xld1ADT9sLwoyI2AXGFBD2rRMxiGOIRStPCaEBj
-X-Received: by 2002:a25:295:0:b0:de5:4bb4:25b9 with SMTP id
- 143-20020a250295000000b00de54bb425b9mr2790709ybc.12.1713965089779; Wed, 24
- Apr 2024 06:24:49 -0700 (PDT)
+	s=arc-20240116; t=1713967347; c=relaxed/simple;
+	bh=J/W8G6AHYtkJeU6pLXpJpuJehmlnpDVucXxX4M9+OAM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=imd2GBHRn2sdXLMUfgPVxpANER3+Aw+TUnrWojsObjKyjCh1z3VuyYEujGDnTL9ryxF08DVioqd//Dd1x2X8SYBTA32Z1JsnStZpX2OY6rqtYcxY5CVVCTs5UDhX30TXLUaItz/CCyqPBjwkz1DlGpQd93jNhR/pTi1O/24hp5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aPgv5GFM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 733D7C2BD10;
+	Wed, 24 Apr 2024 14:02:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713967347;
+	bh=J/W8G6AHYtkJeU6pLXpJpuJehmlnpDVucXxX4M9+OAM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=aPgv5GFM3MBU/uHSthEl00TQLnlV9LDi19rpNBqoL6qdJTk5uaIcvYVcDzjDj+t11
+	 EFNu/YdwHp5nSiE51L/YmcD2ASYYjhqnKXjrTBafhuOw5XG4uePUOo5tnd/Iw1CFkB
+	 zroCbcaem2v7xhOVGoQRgxm6NeXu6/cK6mH6mGWbisN/gBemS1+CNq1lzTbbAxshIr
+	 xa2cGIqLlwynuZfTTFHFs92EWC6Uxlg+x+4dhOFRDN0SOA/Ln7BzjqzoSpSul+pKA5
+	 u+/qy6WNCSsTeaCDQOmbQc2Mg5xwGHJgV1l7tdyG29BIV46yAQOYMuI7YpeXXYRo/2
+	 KVphWvlTMOXVg==
+From: Mark Brown <broonie@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org
+In-Reply-To: <b3a6cf12c46b23a501b0d54c6892b969e2a55145.1713874657.git.geert+renesas@glider.be>
+References: <b3a6cf12c46b23a501b0d54c6892b969e2a55145.1713874657.git.geert+renesas@glider.be>
+Subject: Re: [PATCH] ASoC: dt-bindings: renesas: Fix R-Car Gen4
+ SoC-specific compatibles
+Message-Id: <171396734270.1799261.6189828462792087587.b4-ty@kernel.org>
+Date: Wed, 24 Apr 2024 23:02:22 +0900
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240417114132.6605-1-paul.barker.ct@bp.renesas.com> <CAMuHMdWq2y0ELZpj38TZLequjB_=5_1VQe-1XCBjTLmW86xjog@mail.gmail.com>
-In-Reply-To: <CAMuHMdWq2y0ELZpj38TZLequjB_=5_1VQe-1XCBjTLmW86xjog@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 24 Apr 2024 15:24:38 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXRwCZeuR9mBcHX4APo43u9F=BhsW9g6vJqk_9UNVhuLA@mail.gmail.com>
-Message-ID: <CAMuHMdXRwCZeuR9mBcHX4APo43u9F=BhsW9g6vJqk_9UNVhuLA@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: renesas: rzg2l: Limit 2.5V power supply to
- Ethernet interfaces
-To: Paul Barker <paul.barker.ct@bp.renesas.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev
 
-On Wed, Apr 24, 2024 at 3:24=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
-> On Wed, Apr 17, 2024 at 1:41=E2=80=AFPM Paul Barker
-> <paul.barker.ct@bp.renesas.com> wrote:
-> > The RZ/G3S SoC supports configurable supply voltages for several of its
-> > I/O interfaces. All of these interfaces support both 1.8V and 3.3V
-> > supplies, but only the Ethernet and XSPI interfaces support a 2.5V
-> > supply.
-> >
-> > Voltage selection for the XSPI interface is not yet supported, so this
-> > leaves only the Ethernet interfaces currently supporting selection of a
-> > 2.5V supply. So we need to return an error if there is an attempt to
-> > select a 2.5V supply for any non-Ethernet interface.
-> >
-> > Fixes: 51996952b8b5 ("pinctrl: renesas: rzg2l: Add support to select po=
-wer source for Ethernet pins")
-> > Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-clk for v6.10.
+On Tue, 23 Apr 2024 14:19:26 +0200, Geert Uytterhoeven wrote:
+> make dtbs_check:
+> 
+>     arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dtb: sound@ec5a0000: compatible: 'oneOf' conditional failed, one must be fixed:
+> 	    ['renesas,rcar_sound-r8a779g0', 'renesas,rcar_sound-gen4'] is too short
+> 	    ...
+> 	    'renesas,rcar_sound-r8a779h0' was expected
+> 
+> [...]
 
-renesas-pinctrl, of course ;-)
+Applied to
 
-Gr{oetje,eeting}s,
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-                        Geert
+Thanks!
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+[1/1] ASoC: dt-bindings: renesas: Fix R-Car Gen4 SoC-specific compatibles
+      commit: 466c8c46b4ba763435b2a787b7824d9f0fd3e76e
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
 
