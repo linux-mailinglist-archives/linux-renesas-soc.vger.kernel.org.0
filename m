@@ -1,165 +1,142 @@
-Return-Path: <linux-renesas-soc+bounces-4853-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4854-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3C508B0135
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 07:42:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2A9F8B036D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 09:45:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C4BD31C226FB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 05:42:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1E366281B78
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Apr 2024 07:45:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 994D9156864;
-	Wed, 24 Apr 2024 05:42:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="teMtBQW4"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 718611534E0;
+	Wed, 24 Apr 2024 07:45:34 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [195.130.137.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6709613CFAD;
-	Wed, 24 Apr 2024 05:42:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED56157E79
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Apr 2024 07:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713937372; cv=none; b=qnb0P1C1VJgJzzqns8rtJIlprurlkKKGGIlShpWI6UHBQRrfnlxU6/XZetNa+cWhhLIEJrXOfzmsUxxW/uGXaUJ4tEgZItVOz2mno+0w3W/PN0TI48yYYvoZAy2N9O16e/s+9ic9wj3Cg+iGGAtt/up6rG/kE0fcqvbE8G5Z5Yo=
+	t=1713944734; cv=none; b=Yjh432qiS5vmAGCTJ8k0Aporg6NglZRIY7w2VyD7ZTV0CcZDtrwlPpeV4KFTbluHihJiqfoJ1fF6vJ+5glxAeibIzQmJAMjoZ82J05e9LdiZIk0Y96tULj5BMztUJg78x5NsnmYIyiRzppIDi1bYaS8S+OaY7aq6dGza68a4eKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713937372; c=relaxed/simple;
-	bh=cROuNLbeki5Gd9BgCdNRN+Wlj5pUWw5rtrCSyV3YY6E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q4H9Uy31RPd6sStIwCkx1KjFqcAkwP3v7fDNYoyHLUJFkwYREZGZcWJOnnri3B+Y9RdYin7uag60m8CnM1U6rIC2dn+Nz+wc0zxdlHc8kIVN68vPNMTIAmxiGgSjN/DogZT+Bq6GLNwJMNDrKbMEYxr0mECtSHAisYKs0yTXS1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=teMtBQW4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1808BC2BD11;
-	Wed, 24 Apr 2024 05:42:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713937371;
-	bh=cROuNLbeki5Gd9BgCdNRN+Wlj5pUWw5rtrCSyV3YY6E=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=teMtBQW4kd5WLbV5Fdi/aI72LaRFrp+461u8eT36iUd1pwmgNBX90KxrEcNjK9404
-	 jbZBB+8muf/801f1IW+CoXY4JjEvYA4hFlaVifokOrt370JJ6xD1Y/n8Hj7xuSxTxD
-	 Sts3RciR4DQ22bWya07lOgfXR7+y0SuO0WhJrXRnqbsu4cYXgY37ZxH4tPO+QADSPl
-	 Wy5dZCanMBBU+fD0ZRfP8HUta6AxytSIvvdCXO1o5gVCJEMmK5jBeVpCOkZbNhrYYF
-	 tmmx4DRIB/Xwcba8p28nUI4mPXOCzywK3/g+Zg4eXpTjRJpEJvaJbk1lQRTq3LhUy9
-	 dTkuXNb3ImWMg==
-Message-ID: <7a3d4b8a-e89e-499e-92b7-9f63fbc84011@kernel.org>
-Date: Wed, 24 Apr 2024 07:42:44 +0200
+	s=arc-20240116; t=1713944734; c=relaxed/simple;
+	bh=ssEEaHJeH/+FXd54tyEFn55ATdJwDE9WT446KlnZ0QA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KivlN/GYrTGORyGue37VwEiVsfA4GOdWkr2nKTvVXxaGDvNF2pveGeZs3PbZRJ2tzaDv84nxjxHSYV76QnIujllCPY4LnzIYmHOf/IapLpXOAN/gGj+QIBkRlKnJZhujcqvJm8gTbmBYeKdYDjDdescdycmZqvDpP+BPeznFlxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:76d0:2bff:fec8:549])
+	by laurent.telenet-ops.be with bizsmtp
+	id EvlN2C0080SSLxL01vlNdh; Wed, 24 Apr 2024 09:45:24 +0200
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1rzXJ4-005m6Q-3E;
+	Wed, 24 Apr 2024 09:45:22 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1rzXJi-00ACdE-4y;
+	Wed, 24 Apr 2024 09:45:22 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Paul Barker <paul.barker.ct@bp.renesas.com>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>
+Cc: netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] net: ravb: Fix registered interrupt names
+Date: Wed, 24 Apr 2024 09:45:21 +0200
+Message-Id: <cde67b68adf115b3cf0b44c32334ae00b2fbb321.1713944647.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] dt-bindings: mmc: renesas,sdhi: Group single const
- value items into an enum list
-To: Prabhakar <prabhakar.csengg@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-mmc@vger.kernel.org
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20240423182428.704159-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240423182428.704159-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240423182428.704159-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 23/04/2024 20:24, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> Group single const value items into an enum list.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v1->v2
-> - Updated commit message
-> - Grouped single const value items into an enum list. 
-> ---
->  .../devicetree/bindings/mmc/renesas,sdhi.yaml  | 18 +++++++-----------
->  1 file changed, 7 insertions(+), 11 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> index 29f2400247eb..2bf90095742b 100644
-> --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> @@ -13,15 +13,13 @@ properties:
->    compatible:
->      oneOf:
->        - items:
-> -          - const: renesas,sdhi-sh73a0  # R-Mobile APE6
-> -      - items:
-> -          - const: renesas,sdhi-r7s72100 # RZ/A1H
-> -      - items:
-> -          - const: renesas,sdhi-r7s9210 # SH-Mobile AG5
-> -      - items:
-> -          - const: renesas,sdhi-r8a73a4 # R-Mobile APE6
-> -      - items:
-> -          - const: renesas,sdhi-r8a7740 # R-Mobile A1
-> +          - enum:
+As interrupts are now requested from ravb_probe(), before calling
+register_netdev(), ndev->name still contains the template "eth%d",
+leading to funny names in /proc/interrupts.  E.g. on R-Car E3:
 
-You wanted to drop the items, but I still see it here.
+	89:  0      0  GICv2  93 Level  eth%d:ch22:multi
+	90:  0      3  GICv2  95 Level  eth%d:ch24:emac
+	91:  0  23484  GICv2  71 Level  eth%d:ch0:rx_be
+	92:  0      0  GICv2  72 Level  eth%d:ch1:rx_nc
+	93:  0  13735  GICv2  89 Level  eth%d:ch18:tx_be
+	94:  0      0  GICv2  90 Level  eth%d:ch19:tx_nc
 
-> +              - renesas,sdhi-sh73a0  # R-Mobile APE6
-> +              - renesas,sdhi-r7s72100 # RZ/A1H
-> +              - renesas,sdhi-r7s9210 # SH-Mobile AG5
-> +              - renesas,sdhi-r8a73a4 # R-Mobile APE6
-> +              - renesas,sdhi-r8a7740 # R-Mobile A1
-> +              - renesas,sdhi-mmc-r8a77470 # RZ/G1C
+Worse, on platforms with multiple RAVB instances (e.g. R-Car V4H), all
+interrupts have similar names.
 
-Keep list alphabetically ordered.
+Fix this by using the device name instead, like is done in several other
+drivers:
 
+	89:  0      0  GICv2  93 Level  e6800000.ethernet:ch22:multi
+	90:  0      1  GICv2  95 Level  e6800000.ethernet:ch24:emac
+	91:  0  28578  GICv2  71 Level  e6800000.ethernet:ch0:rx_be
+	92:  0      0  GICv2  72 Level  e6800000.ethernet:ch1:rx_nc
+	93:  0  14044  GICv2  89 Level  e6800000.ethernet:ch18:tx_be
+	94:  0      0  GICv2  90 Level  e6800000.ethernet:ch19:tx_nc
 
+Rename the local variable dev_name, as it shadows the dev_name()
+function, and pre-initialize it, to simplify the code.
 
-Best regards,
-Krzysztof
+Fixes: 32f012b8c01ca9fd ("net: ravb: Move getting/requesting IRQs in the probe() method")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ drivers/net/ethernet/renesas/ravb_main.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+index b621ddd4539cf517..384ddad65aaf641a 100644
+--- a/drivers/net/ethernet/renesas/ravb_main.c
++++ b/drivers/net/ethernet/renesas/ravb_main.c
+@@ -2729,19 +2729,18 @@ static int ravb_setup_irq(struct ravb_private *priv, const char *irq_name,
+ 	struct platform_device *pdev = priv->pdev;
+ 	struct net_device *ndev = priv->ndev;
+ 	struct device *dev = &pdev->dev;
+-	const char *dev_name;
++	const char *devname = dev_name(dev);
+ 	unsigned long flags;
+ 	int error, irq_num;
+ 
+ 	if (irq_name) {
+-		dev_name = devm_kasprintf(dev, GFP_KERNEL, "%s:%s", ndev->name, ch);
+-		if (!dev_name)
++		devname = devm_kasprintf(dev, GFP_KERNEL, "%s:%s", devname, ch);
++		if (!devname)
+ 			return -ENOMEM;
+ 
+ 		irq_num = platform_get_irq_byname(pdev, irq_name);
+ 		flags = 0;
+ 	} else {
+-		dev_name = ndev->name;
+ 		irq_num = platform_get_irq(pdev, 0);
+ 		flags = IRQF_SHARED;
+ 	}
+@@ -2751,9 +2750,9 @@ static int ravb_setup_irq(struct ravb_private *priv, const char *irq_name,
+ 	if (irq)
+ 		*irq = irq_num;
+ 
+-	error = devm_request_irq(dev, irq_num, handler, flags, dev_name, ndev);
++	error = devm_request_irq(dev, irq_num, handler, flags, devname, ndev);
+ 	if (error)
+-		netdev_err(ndev, "cannot request IRQ %s\n", dev_name);
++		netdev_err(ndev, "cannot request IRQ %s\n", devname);
+ 
+ 	return error;
+ }
+-- 
+2.34.1
 
 
