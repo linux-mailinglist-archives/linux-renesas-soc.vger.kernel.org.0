@@ -1,145 +1,167 @@
-Return-Path: <linux-renesas-soc+bounces-4913-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4914-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B3278B26C3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Apr 2024 18:45:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 702738B274F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Apr 2024 19:12:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 697CE1C2125A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Apr 2024 16:45:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 933E11C2339C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Apr 2024 17:12:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7293314AD02;
-	Thu, 25 Apr 2024 16:45:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XthInoz8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E3D214EC4B;
+	Thu, 25 Apr 2024 17:11:34 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F06614D29C
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Apr 2024 16:45:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A607E14EC44;
+	Thu, 25 Apr 2024 17:11:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714063538; cv=none; b=q0KOKdvUYg/DcBaNz2G5Y+xHJV/TcAsahMwylbRFjKDJ2mRoYnTomjx5RNeBzyCeWiFWTTxIxtjNuqsk/IjuQj4d3DQiTtzlPCdE046iyYt3x8o4eML6R2h4O/h1WoRN+GaFxkIfyQ5kcPhr5z0oTGb1emnqZyfFbBU1nxaCGiQ=
+	t=1714065094; cv=none; b=iR/+peHALLnuMQLbV+CRGZuhdTXy8i0+pENWclcGLXpqLVmI1sJ2Rzj5YVhodH/e/0z/1EL607Kv093qKrkIwOt6XAjW6Qz81nQarduJ4p+koCQVOvzZrG3AK2BhpQfMh8cZhYOI3rBu84z9EtQvarowY/gpwvznWMh69ZPPURQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714063538; c=relaxed/simple;
-	bh=Amc/VhCaPuRfNE4c/UsFD95U+kTr2gWqvp2bPp82p24=;
+	s=arc-20240116; t=1714065094; c=relaxed/simple;
+	bh=/ZZJ5dz0J/wesEssyoep7KtF9+Y3JDVVqC4thZF7R1w=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=inM2mQhBvl0+9hNU/YVjk3WOATujft2/9+GcJ2X48lNuopqfEPC9/xz/ymvwEtfuFlvfA3HtUkUAO0Oa3poSVppXkQidvyn0t1R38+h96QoeK81F77hSrNyJXi0rLFRTAKekGLLoXU5Qn1aBNE48svuoghJT5UQ1Xl83FuHtIj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XthInoz8; arc=none smtp.client-ip=209.85.219.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-de54cb87998so1325327276.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Apr 2024 09:45:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1714063534; x=1714668334; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eWQqHUbAAiSySnIsemSx25Y73dqsXlz6lqamDtL75KQ=;
-        b=XthInoz889q19LIYnd4dxHxjC10noyEEpacYxXANDNN8IDP5XeQXBOtc65TCU7iY9C
-         ZFOdnN9B5DejP/TG0tddktvVu7n9LlH+yFRdVgQBLRcErJF6YaI0HGu5Hyb1hNuQ7Z2W
-         zyZHNFFLmYZH+kKRw2NvM6mfnPh4HZF0CRgpoPKlyIc/96vPx/wKcxHdrhxkwVai5X57
-         8XAmABXiGn+yK2oLWmsr1cWTlYVngSOKUkZll41jNiQRJFxtd2Nj6FZo5k/NA6Eo3sRa
-         LII7x5cyW0/5XOb94tM3OWqlC156LUHRKoUZDUbXRQvkRkYacPFUL4l6hEefmDw4m41V
-         eupQ==
+	 To:Cc:Content-Type; b=P9KhRP3/kYv4SZEiVNHNAN1n4P0iweRVz/4vtuT/ZWLV9FvFi2AIKZCsOACeMm840ojHctuEyrDZ9Bve3xhIFhIV8AcP3WxYNjDZs3hqewThLlwWLx1TdH+juuqKLgmkoYMwnWGERNkR9kZT91yqU4UUSo500isSmaCFigthwGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-6164d7a02d2so14789947b3.3;
+        Thu, 25 Apr 2024 10:11:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714063534; x=1714668334;
+        d=1e100.net; s=20230601; t=1714065090; x=1714669890;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eWQqHUbAAiSySnIsemSx25Y73dqsXlz6lqamDtL75KQ=;
-        b=JZ2mxxGicEXtkyxFE/54U/KLOJ4f46AhhfrOk0OWFwxRBWdSOYCWgUmWEYlaHkd5ar
-         uEzHKSFVootFvvJeIRNeIvzJ26VxzqEbUAGX6GrQKhRe/U5LuWAJx3RfbHiOjx8P3K/q
-         MkNf4PZ15H/TCCYM9MJq8Ox7/bpDGdlc0rmGVDMDukV2OiOPdM6ZK0GwiQAe/yaekTLe
-         d1+4sgK547FlM/tVmn1LuFlY7IUzq+6s8h6SVXMLXIyVgXY6GQNp4Z4PnENHIV+I+6xq
-         HS7608KQ/zHItXiCb6Jd9QAJf2h1Tle6aoK4+G9qyQkEDUKeCEcy9wo30LqRw2gyLLYV
-         hc4w==
-X-Forwarded-Encrypted: i=1; AJvYcCVQ3uyUobJcikqlpplDFRHn20RxLkJS3OO4YHxq/psScn67amp7yXREk2gmIuA4HkZA5LEvXvWoGu6YBDBN8xZRsZINhYbSfAuXlcFKhq8k9o8=
-X-Gm-Message-State: AOJu0YxR9pDoSMBMjcvx/zYLsb3kawbept6gBshsVh9PpBz76FjLbQXQ
-	rsVT1gTwIdp5qPARxaFiuFedH0ZeUc1ckcS8tSuKezdSk6X5O1LfREZ2jvG6f9L7iOFBoYuUyRM
-	plhfK+BR1+dtYltuNyWC5Q9IuXeqaDzO1BUibnA==
-X-Google-Smtp-Source: AGHT+IE6E0yGMivLHEIzi4cVQrlqrcgIk/WXjie4Wzsi6F0u2PMmSvmweB2JnuzBk12npMsW/6HfizfFtt+TW3hNbCM=
-X-Received: by 2002:a25:fc11:0:b0:de5:5706:b955 with SMTP id
- v17-20020a25fc11000000b00de55706b955mr243062ybd.4.1714063534487; Thu, 25 Apr
- 2024 09:45:34 -0700 (PDT)
+        bh=MgCSDQ05EYWH1Axl0jxdSLHbjqm9MhNQY8JA68iKsT8=;
+        b=vZfCb1E1KvTaTJBNpfFsIbn8yZjKQ9fpQwHbuYbWG03c3Da8auyjLwvF+DeEXmt1NF
+         fwF/joYRFZK+cfQCABsuqcEoZS2D8Kx9JGUbELmDVDn6GEcwek25sfwx9EkVEa1weo9a
+         6m1u2M5OnYJLbre+zrXnqNkuD1sl2GBDe5b0umnReKhNxHqPBxJLprLaJmITjes14aLj
+         cONgl2NBbzXkHGgaD7kGF7Ol410MNfFw79NDIr+mwVOBUHQoPOqzPYuETYzmWENfUOwp
+         Yha5MQpeqExG8zEkffl0q3QQBQv9u6gTKzDfBbyTBxe2GR7DXwNHmmops4zV5HUuPccU
+         rLpA==
+X-Forwarded-Encrypted: i=1; AJvYcCVN/NpnPwIBILLKoRjo/S4V2qSJHPZ6lbjFNDXhaSkVbWFOhYMMWHvmF27QGNDj54ynXbnlxPzqrapcNNmD+B9oVipe7kZRpMMnjoijvNLXFjDqdM7kgrrgI0tTJ9b9FQD1EKZJizbyZiWnREVREQYtukyzjhZT7k94Yy1RtzRfyl6M4Ejalvh3aJ8+gczjcrbMkdYDh1wkmIzInBNuEFuXdM6DPjL/
+X-Gm-Message-State: AOJu0Yxgi/SY338vpDDJtph5VmjAtXp8k05lV3hx2fC6dAPb+qoGyh3v
+	j4rmzdxI112KXYD8CxN7pA0r29yCofU+5ijy9OLiNXBgXsA957WeqMi8wGZ9
+X-Google-Smtp-Source: AGHT+IHdxhRM1FFGt0DaDC1sce6bEtzJWJgDD5SD8xZszeeKNNi+i8n6mbRvwniGWU8gTJpCNWR6XA==
+X-Received: by 2002:a25:81d1:0:b0:de5:568a:9a9 with SMTP id n17-20020a2581d1000000b00de5568a09a9mr282456ybm.38.1714065090145;
+        Thu, 25 Apr 2024 10:11:30 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id m3-20020a252603000000b00de55b3bde0csm1406672ybm.42.2024.04.25.10.11.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Apr 2024 10:11:29 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-de596c078c2so776318276.0;
+        Thu, 25 Apr 2024 10:11:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXi/CcJ3eOYoEbXwLX+WRdAN6dikI6wcOriubgLKu/U0F9LCcf5p/SVDmLksuwkK2fnsA/o1lXtFktFjTTxRMk7vMdXFQsIxjHjxY+YRz4Msb7xj9rn6dF3jUJYj0JCHBbOkMLhh5HVWIdcV/6nlv7gs7v1EHEAwry9kZv8Ng3YbEzJuFfi2MVB3/EtlVicyqN1/SluP9p881l/78fqMIyfwObRcula
+X-Received: by 2002:a25:c70a:0:b0:de5:852f:6afe with SMTP id
+ w10-20020a25c70a000000b00de5852f6afemr297083ybe.30.1714065089010; Thu, 25 Apr
+ 2024 10:11:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240422105355.1622177-1-claudiu.beznea.uj@bp.renesas.com> <CAMuHMdXHhsdOgTiDdqMwAMvb-m_VBqOcTRPURx_upc2AtmBTfA@mail.gmail.com>
-In-Reply-To: <CAMuHMdXHhsdOgTiDdqMwAMvb-m_VBqOcTRPURx_upc2AtmBTfA@mail.gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Thu, 25 Apr 2024 18:44:58 +0200
-Message-ID: <CAPDyKFrhPjuOR5iC+zy+SCJv5yoWU0fX8FfDbt9nrM6VRCjmNw@mail.gmail.com>
-Subject: Re: [PATCH v4 0/8] clk: renesas: rzg2l: Add support for power domains
-To: Geert Uytterhoeven <geert@linux-m68k.org>, Claudiu <claudiu.beznea@tuxon.dev>
-Cc: mturquette@baylibre.com, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, magnus.damm@gmail.com, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20240423182428.704159-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240423182428.704159-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <7a3d4b8a-e89e-499e-92b7-9f63fbc84011@kernel.org> <CA+V-a8uz0OrsM1AxqtpeHB0f1+F6aEqHGp_t3_OPhh0ZqJ26HQ@mail.gmail.com>
+In-Reply-To: <CA+V-a8uz0OrsM1AxqtpeHB0f1+F6aEqHGp_t3_OPhh0ZqJ26HQ@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 25 Apr 2024 19:11:16 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV=CTUQNm6OZN0Ck-nXKme8vZ2Ld2rDxHfQZkP2VdnNeQ@mail.gmail.com>
+Message-ID: <CAMuHMdV=CTUQNm6OZN0Ck-nXKme8vZ2Ld2rDxHfQZkP2VdnNeQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] dt-bindings: mmc: renesas,sdhi: Group single const
+ value items into an enum list
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 24 Apr 2024 at 16:34, Geert Uytterhoeven <geert@linux-m68k.org> wro=
-te:
->
-> Hi Ulf,
->
-> On Mon, Apr 22, 2024 at 12:54=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.de=
-v> wrote:
-> > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >
-> > Series adds support for power domains on rzg2l driver.
-> >
-> > RZ/G2L kind of devices support a functionality called MSTOP (module
-> > stop/standby). According to hardware manual the module could be switch
-> > to standby after its clocks are disabled. The reverse order of operatio=
-n
-> > should be done when enabling a module (get the module out of standby,
-> > enable its clocks etc).
-> >
-> > In [1] the MSTOP settings were implemented by adding code in driver
-> > to attach the MSTOP state to the IP clocks. But it has been proposed
-> > to implement it as power domain. The result is this series.
-> >
-> > The DT bindings were updated with power domain IDs (plain integers
-> > that matches the DT with driver data structures). The current DT
-> > bindings were updated with module IDs for the modules listed in tables
-> > with name "Registers for Module Standby Mode" (see HW manual) exception
-> > being RZ/G3S where, due to the power down functionality, the DDR,
-> > TZCDDR, OTFDE_DDR were also added.
-> >
-> > Domain IDs were added to all SoC specific bindings.
-> >
-> > Thank you,
-> > Claudiu Beznea
-> >
-> > Changes in v4:
-> > - dropped the pwrdn functionality until it is better understanded
-> > - dropped patch "clk: renesas: rzg2l-cpg: Add suspend/resume
-> >   support for power domains" from v3; this will be replaced
-> >   by propertly calling device_set_wakup_path() in serial console
-> >   driver
-> > - instantiated the watchdog domain in r8a08g045 clock driver; this
-> >   allow applying r9a08g045 clock patch w/o affecting watchdog and later=
-,
-> >   after all good with watchdog patches series at [2], only patch
-> >   "arm64: dts: renesas: r9a08g045: Update #power-domain-cells =3D <1>"
-> >   will need to be applied
->
-> Are you happy with this series?  I would like to queue patches 1-7 in
-> renesas-clk for v6.10 (i.e. this week).
+Hi Prabhakar,
 
-Yes, the series looks good to me! For the series, feel free to add:
+On Thu, Apr 25, 2024 at 5:44=E2=80=AFPM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> On Wed, Apr 24, 2024 at 6:42=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.=
+org> wrote:
+> > On 23/04/2024 20:24, Prabhakar wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > Group single const value items into an enum list.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
+>
+> > > ---
+> > > v1->v2
+> > > - Updated commit message
+> > > - Grouped single const value items into an enum list.
+> > > ---
+> > >  .../devicetree/bindings/mmc/renesas,sdhi.yaml  | 18 +++++++---------=
+--
+> > >  1 file changed, 7 insertions(+), 11 deletions(-)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml =
+b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> > > index 29f2400247eb..2bf90095742b 100644
+> > > --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> > > +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> > > @@ -13,15 +13,13 @@ properties:
+> > >    compatible:
+> > >      oneOf:
+> > >        - items:
+> > > -          - const: renesas,sdhi-sh73a0  # R-Mobile APE6
+> > > -      - items:
+> > > -          - const: renesas,sdhi-r7s72100 # RZ/A1H
+> > > -      - items:
+> > > -          - const: renesas,sdhi-r7s9210 # SH-Mobile AG5
+> > > -      - items:
+> > > -          - const: renesas,sdhi-r8a73a4 # R-Mobile APE6
+> > > -      - items:
+> > > -          - const: renesas,sdhi-r8a7740 # R-Mobile A1
+> > > +          - enum:
+> >
+> > You wanted to drop the items, but I still see it here.
+> >
+> Ah, I missed that.
+>
+> > > +              - renesas,sdhi-sh73a0  # R-Mobile APE6
+> > > +              - renesas,sdhi-r7s72100 # RZ/A1H
+> > > +              - renesas,sdhi-r7s9210 # SH-Mobile AG5
+> > > +              - renesas,sdhi-r8a73a4 # R-Mobile APE6
+> > > +              - renesas,sdhi-r8a7740 # R-Mobile A1
+> > > +              - renesas,sdhi-mmc-r8a77470 # RZ/G1C
+> >
+> > Keep list alphabetically ordered.
+> >
+> This list is sorted based on SoC, I will sort it  alphabetically.
+>
+> Geert is that OK with you?
 
-Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+Usually we sort alphabetically by compatible value.
 
-Kind regards
-Uffe
+(FTR, sh73a0 is sometimes called r8a73a0).
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
