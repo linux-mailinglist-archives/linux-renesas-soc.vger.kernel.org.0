@@ -1,79 +1,97 @@
-Return-Path: <linux-renesas-soc+bounces-4910-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4911-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B90FE8B23B2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Apr 2024 16:16:47 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92DF28B2562
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Apr 2024 17:40:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D67DEB203C9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Apr 2024 14:16:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 48BAA1F24D5B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Apr 2024 15:40:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59930149E08;
-	Thu, 25 Apr 2024 14:16:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9308E14C5B8;
+	Thu, 25 Apr 2024 15:40:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vEDNtr9S"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YmjYbmUB"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F7F1149C67;
-	Thu, 25 Apr 2024 14:16:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B2BC14C5A1;
+	Thu, 25 Apr 2024 15:40:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714054599; cv=none; b=VPUJrEi7YLYokKfisocck+QN17Fl9XYdDSA/1+ukTRaNtEdGbd49X70+rPL37GsF4KlBSZpuKfCS0aU/J7NabTgXZzXZguVfMyzhJeulFCuZXZoDdHyO8+xS8hvR3rYXG6/kR15yXGyaxLt4d7w3eyC6HR5tvwn614rE9BqjK5w=
+	t=1714059630; cv=none; b=b3guUU/aKKK9Gu+z4kRGidjRHoweW5dDw0OSAMDNDNyu03IToKATmbL3C4on+7dIK32KyO9OGP5TkjRHkxXnf7itJ7gKR7C7EWXn2Ld8OWU8a9eZAv34C9Fv7UU7Iviszmkh+kT8aMR+vK/LIZuwTStjPjdaGf+EH8CT3FGGc4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714054599; c=relaxed/simple;
-	bh=n+3q8cF6PNdO/izVSLJhs7im/d7HTf56k6kw7GXeHwQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fmUYNFJNOwtErDn405i3gB6MQ8S4qkbP1EqNI9gSenSyqA9TrYy79gFyrMMJRRpO6HTtsoLjGP+JtpJxEibau/qrnKdGtHvRl70Uf5WtP5SLhltKw0FYm9JAZ3fG/ibmrfmssoQiGWdpQgc5RqtwFifDRXkme+IU9npuJ2GVewA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vEDNtr9S; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E63CC113CC;
-	Thu, 25 Apr 2024 14:16:38 +0000 (UTC)
+	s=arc-20240116; t=1714059630; c=relaxed/simple;
+	bh=1EY6MgbTtDW/Fx+kD6yV6cKSy9yW23CtaOOoAnzw5T4=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=MrQzOvSdpLsc13kfCpzDAaIVLiQ4dzjLytIlp5qMlAma5FCbCs6hzg7Jazrnf7XqmBL8kjKCFeuHq/bVtyPKZ8C7Tjuh8wwtCEij1iGVmjpgWZSyasKad5sTV4mZEasZrTuCd1J4YBGbOARER/gurE1ZVjmhqr8kfSJOolapQ4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YmjYbmUB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 265ADC4AF0B;
+	Thu, 25 Apr 2024 15:40:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714054599;
-	bh=n+3q8cF6PNdO/izVSLJhs7im/d7HTf56k6kw7GXeHwQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=vEDNtr9S4/yVnJbJa+Jo8abru/GOebq/97NK9qGhWHrAJUzIzoW8iWKD2tjF5Wm1m
-	 RbOPoLb/Z5olaj2Dgb9YCJRASuHxTJ3ypF2c+/Nv723pSYzeulc+bg7ILfkc5fgUOo
-	 a83FG8/UBWt8Q6xcMf/QtTns2y0mQdjB1ExRak/W+v9RDRhbXfSv8Y6JIjy+bFFtAE
-	 WzCcoBKEVrF2F5qn5AlNQaGTzmnT7V5Avtr9O7AkeIErcjhmpZfgvSSf0vKrUelqUW
-	 HRTLRAy/WrFNBB14cDw7L2eL/JhkOdzY2/chhsPXkiNjUUAI2rpxb0HH5Ejvz2pLyE
-	 db1m7Mo9g0v/A==
-Date: Thu, 25 Apr 2024 07:16:37 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Claudiu Beznea
- <claudiu.beznea.uj@bp.renesas.com>, Sergey Shtylyov <s.shtylyov@omp.ru>,
- Paul Barker <paul.barker.ct@bp.renesas.com>, Niklas =?UTF-8?B?U8O2ZGVy?=
- =?UTF-8?B?bHVuZA==?= <niklas.soderlund+renesas@ragnatech.se>, "David S .
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
- Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] net: ravb: Fix registered interrupt names
-Message-ID: <20240425071637.5fe0199d@kernel.org>
-In-Reply-To: <1f131230-56a5-4547-bc77-c508e61e8a55@lunn.ch>
-References: <cde67b68adf115b3cf0b44c32334ae00b2fbb321.1713944647.git.geert+renesas@glider.be>
-	<1f131230-56a5-4547-bc77-c508e61e8a55@lunn.ch>
+	s=k20201202; t=1714059630;
+	bh=1EY6MgbTtDW/Fx+kD6yV6cKSy9yW23CtaOOoAnzw5T4=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=YmjYbmUBC5jl434lpLCStAf0rh8Q1E8wh/EMuH3y4bCNq/FlVKRdOOTOgZYfjXx1r
+	 5p7a0VmjuKe3y9X2FxI6KBUKn56TLQxAlkEh+Lj65eWy4GVEcdC/86YASToyTV5DX2
+	 2wx+w+8bf8JECoJGkxkDTLeApIZ/xKomK/lLz7NIImVh5QhzA8BvNQOE8hIKN5t3gC
+	 A/E14bu2NHPXZDALc+nw1w8wB12uDtcEeaop5qQ25WUqJu9yeUdhFKir6V/EUEa63N
+	 QIKSL/SzoEkJV/biRHRMEgI2zHXmw0b4VPWxtbidaQyY0Xem4pcIAITIJGWh+Gtt/m
+	 NnetRUXbhpAVQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 0EF90CF21C4;
+	Thu, 25 Apr 2024 15:40:30 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] net: ravb: Fix registered interrupt names
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <171405963005.10966.1749832467271464576.git-patchwork-notify@kernel.org>
+Date: Thu, 25 Apr 2024 15:40:30 +0000
+References: <cde67b68adf115b3cf0b44c32334ae00b2fbb321.1713944647.git.geert+renesas@glider.be>
+In-Reply-To: <cde67b68adf115b3cf0b44c32334ae00b2fbb321.1713944647.git.geert+renesas@glider.be>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: claudiu.beznea.uj@bp.renesas.com, s.shtylyov@omp.ru,
+ paul.barker.ct@bp.renesas.com, niklas.soderlund+renesas@ragnatech.se,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 
-On Thu, 25 Apr 2024 00:45:35 +0200 Andrew Lunn wrote:
-> > Rename the local variable dev_name, as it shadows the dev_name()
-> > function, and pre-initialize it, to simplify the code.  
+Hello:
+
+This patch was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Wed, 24 Apr 2024 09:45:21 +0200 you wrote:
+> As interrupts are now requested from ravb_probe(), before calling
+> register_netdev(), ndev->name still contains the template "eth%d",
+> leading to funny names in /proc/interrupts.  E.g. on R-Car E3:
 > 
-> Another option is to call dev_alloc_name() soon after alloc_netdev(),
-> to give the device its name earlier than register_netdev().
+> 	89:  0      0  GICv2  93 Level  eth%d:ch22:multi
+> 	90:  0      3  GICv2  95 Level  eth%d:ch24:emac
+> 	91:  0  23484  GICv2  71 Level  eth%d:ch0:rx_be
+> 	92:  0      0  GICv2  72 Level  eth%d:ch1:rx_nc
+> 	93:  0  13735  GICv2  89 Level  eth%d:ch18:tx_be
+> 	94:  0      0  GICv2  90 Level  eth%d:ch19:tx_nc
+> 
+> [...]
 
-Maybe we shouldn't be advertising that option too broadly. One has to
-hold rtnl for that to work. Mostly old and staging drivers seem to do
-this. Name are not stable. If other identifiers are available, that's
-a better option, IMHO.
+Here is the summary with links:
+  - net: ravb: Fix registered interrupt names
+    https://git.kernel.org/netdev/net/c/0c81ea5a8e23
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
 
