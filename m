@@ -1,137 +1,205 @@
-Return-Path: <linux-renesas-soc+bounces-4905-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4906-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 660A88B1E1E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Apr 2024 11:35:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 725FD8B1E6B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Apr 2024 11:50:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 079301F21D7F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Apr 2024 09:35:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 038951F240E3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Apr 2024 09:50:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9622984E0C;
-	Thu, 25 Apr 2024 09:34:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 939108593D;
+	Thu, 25 Apr 2024 09:49:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ysu7+YgJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YcOLyJdQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6FF5126F06;
-	Thu, 25 Apr 2024 09:34:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 021B57FBA3;
+	Thu, 25 Apr 2024 09:49:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714037692; cv=none; b=KOspLiokMDzkFsIuvrBS63QUD3vdIseAmHoSqKzHV3s3kToYn4LcpYtcnZCN4hHfSSW4qGGxXJrTzHTd6G3y5Op5nsX3/HHMg/httsP6vk9rU3BWiaP/ilFEVncED6ofpx7/Nuf2W3zOiiJWns3duMBWbp773iApZMVrMY/izlw=
+	t=1714038597; cv=none; b=RS3pQ3w3FGCZTwYINwc0eq9Q7Zzc5gtZ2wxaQzRuMkQMFCb+PPxG9dsuC7prrv6ObyZ2oNHKPwx04dWDkRpoyb1tdxuPJcDgX0U3weVQ+8Q1KHc8EH39WIWcws3eXPpr495NiXPqkZbm203EoAAhwFAbXzttVDogvYB8XrvulH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714037692; c=relaxed/simple;
-	bh=O9wfJFdvuefwvtqzySphBgFrqWueWAbN+WGq++1wxKs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PJraLjgeO38MakcvBW0HRu8v3m+s5/78oVGNFtMXVophmGgNpwMroBkTfnuYOR75oxHlDluXOeAPS71pnNpFENa9oA+Q2hJjW6zR6KkNxzQYEXs2zUIRt3H34uj90OmNeXmE3SBl6IxGGvskvDWK7OIQyh5dpMCUWk45skm54/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ysu7+YgJ; arc=none smtp.client-ip=209.85.167.48
+	s=arc-20240116; t=1714038597; c=relaxed/simple;
+	bh=5tSa+XdwxUr52EMnOTzzY6vvsf0op3MWmklMQ6k9rJk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FJfN3+pKlcwRmnL9moPRwgQBSoi+Ry9/bz2gJn8DNEmaQwkCatIFGcqQWP5FT19di2vwv/uI5KeJputhoXoBX8eLz88paxHfYuegD9V1sdsFlvs+FF1L3IgLmo1WdguP4saUDO6v1dIsLR7uMtqyZEGAVUzpCS5BIx1PjHdORJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YcOLyJdQ; arc=none smtp.client-ip=209.85.221.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-516ef30b16eso839775e87.3;
-        Thu, 25 Apr 2024 02:34:50 -0700 (PDT)
+Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-4dabbd69c71so279221e0c.1;
+        Thu, 25 Apr 2024 02:49:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714037689; x=1714642489; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vnD0omPzrWfWLdKhFymv2hUrXX8nXsK7L5p1vlVD4ng=;
-        b=Ysu7+YgJyheznGL9VA9kHXwMAOpGXa3zUkvNEH55VPpP6iV4kdR2ozMKoIE2Q8dpj2
-         BydR+9FQTj6k7+3Qfsf9Slz4Tlgv2XwX8X2sd+JMywMGlx16pzLnnraolmTkj+Jt7rLe
-         632SP9rK8u7XkqwVlc8oyjiczoqTrQt/9xxQzkn5S2c0zAuApHsSyChY7qjyLrOSGjEG
-         r0LR7g7YI5JYxi6ImX2HkHGrg1YbeFi48UZlvhPVoTGAHTFmx2+UTCrsXWKat2G2uWAl
-         VEi4ViFG86qKhjDO5PzgvX8LCqcsmUz1TgDQx1O6HOjcRwwU4kjxhRROepcq7X2sb29N
-         ZDPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714037689; x=1714642489;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1714038595; x=1714643395; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vnD0omPzrWfWLdKhFymv2hUrXX8nXsK7L5p1vlVD4ng=;
-        b=mBNjehkGZ9wv8d+RzA3NVCnCOa4BCVzwbVZ5pF+SJ/cnpcaOqLASbMUwjx9iz3CH4A
-         nEOt1/immuW0GPVlBPXxnoiJPiismrlfTW4aKVo7fx2/oZG0ZRif3bhVxRi0vUpSTsyB
-         1UFJObJTdPeG/NGobbXgRUz5UWVNdUTkfgvPXRQdp43QsdcjYWdZC95SQQI2/XTJuNpO
-         KCefW8VATr6PGeshHAlmDu+cagqkJhrx5LFHkdEJ0A2yPuMFc2qCS473YYRlFr350+Zv
-         dRjqsS8frtY/4P7z1IsAP+JegR/AjVBFIFfAI10nxpa2VZk4xfc515XDTA5n7lfBQJA6
-         n0RQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXOi5kVMhIOi7w5b3UGozehaBMcHF0FnVUGYD2qh6ilL0JNRTevd5UaLVwJsjZy7e1WAKIQGPkv1SxtMyII2T0i7GSym72u+SHuvBhxkDEToao4Rul0liVQ4aOPHQDZps5sXC1vKEqJhOmkWRuiXhnZevE3QVMOEI5fnc2hnkGRPFdjphlszFxvDxVaBqbiPLd2PkOb3epbnTBjbrGt25o6/OqK
-X-Gm-Message-State: AOJu0YzIO0n3Lx5HW2aWKT2bRBIhXUl6b4koHbqaEjrsxzf+ATrlpNeA
-	Yb/kEumS+CvFrVWCTCdQf7kSlD8+yuVWURE8Mii6GCUV1nErvOKT
-X-Google-Smtp-Source: AGHT+IHYgtPbcyGjxp9azAySSkNvUGJnVnuEhRmauc3oUtMj9W3wY74hlU+ZsIlNOYoIINrtLKKkoA==
-X-Received: by 2002:ac2:598f:0:b0:516:d0e3:9275 with SMTP id w15-20020ac2598f000000b00516d0e39275mr3345368lfn.11.1714037688538;
-        Thu, 25 Apr 2024 02:34:48 -0700 (PDT)
-Received: from mobilestation ([178.176.56.174])
-        by smtp.gmail.com with ESMTPSA id fc21-20020a056512139500b0051b0703a923sm1545727lfb.131.2024.04.25.02.34.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Apr 2024 02:34:48 -0700 (PDT)
-Date: Thu, 25 Apr 2024 12:34:45 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
-To: Romain Gantois <romain.gantois@bootlin.com>
-Cc: "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	=?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	netdev@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, 
-	Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH net-next v4 2/5] net: stmmac: introduce pcs_init/pcs_exit
- stmmac operations
-Message-ID: <a2ste62mw6nxfnaptv4gossylrrahplyh3e3bwsy7ayoohpts7@hdfrjctclbbm>
-References: <20240424-rzn1-gmac1-v4-0-852a5f2ce0c0@bootlin.com>
- <20240424-rzn1-gmac1-v4-2-852a5f2ce0c0@bootlin.com>
- <qf637dtkakxbumefbei3qrhbpyxgerjwn72ixp5xh6mc6yjbda@6z6tm6hk7fki>
- <27279f1a-e718-a8cf-ecfc-40f45bf6c500@bootlin.com>
+        bh=ErPvQkF/vljb/tkpyDkrkIQkzNQ5+ZowyjVhUrEcQ1c=;
+        b=YcOLyJdQKJPhl83QoyxyUB700s43e3TojFlO+wZUsds55SJ5SbODVDKFMatgLEJN/P
+         cXcOzQBPsiw49kfmcob2cc7vXINn/VEnNc3zP4rp/JUJ9XHyFOyvFczt8/qfnPQFFFt9
+         hf83cJYnwGQSlw6VJfmMJAuKSLTQT/FfAMV271CmyhNKV9STXwDDVt3Cr/LPmzhReNCz
+         pbOgtDmq8ohFKmhz6VzzDkoXKoCD/IwR0d9CHuCS4U2roIiNOGmbSqf+wn6UxWlNuvP3
+         DR9wQ7JGzIsH4WUScux171JWWhRoZA3CmG0CtdIhgklairXSPBJ3vgxBjBJ1mnPZzqlV
+         HwlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714038595; x=1714643395;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ErPvQkF/vljb/tkpyDkrkIQkzNQ5+ZowyjVhUrEcQ1c=;
+        b=ltcLU5+cLgZGpsxg2ap+zmXOgkaPbHKSl5s1ptsWy0sVAKbCBC1LIw22EeUpgLkNqq
+         /qgJxUAgEc+fdbqYFJUM0NxtF4SXs6z8mEG2WJQHEo2RkOpxxDwKzvVfwJMgTXj0gT1M
+         WKKNmu3wjZZS+D1GD9pmV6O/8nWkUXXkV227W0RB2EAW53dbSwOGICJe1CKHMRkfMNhW
+         hzDJjM+Rc/xcGVTLUir3EbCW1GnSPUNhn2Am5cWYl01Lg/i90l/NZNaBi0nduxG63YD4
+         ualwb/bGSUeLJN3TGCXons8StGleRKiwJxpOiZI5m3RuNVbC37rKPKdrYl9RbSBYaF9z
+         bJKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVrXkcXoXZaEq/niOCIsz09HD2pqQ0+Tt4WdTbK/GWcQQEOdYbU84Vpq76Dxf89EmssnFoExjDxGGCy6WgrCgfBuFKRAkhsXCnQazXYLWBpFLIt6fC/ZbBiHF73vrlbWGIkDhWugXYs8miYvzelUVipRoaPdHxxxF4JEKoaZv1/q+Qylm+sqpNkKgw/c9fl3f95sTfy5RrbEblUflp2Y9wFU2fgv/X6yA==
+X-Gm-Message-State: AOJu0YzhoSQASw45KH6WRukkcWpnl625FIk5Hcb/smCXDx9bQTxQe6S9
+	pXHycNTvHyM00bKClJjSaAbLO3w4aZ5nhz7lPU5qMun/0E+SFCZf+KgkWDWJqUVPC57tHHBIT9p
+	YeqKLOFiyWPWBb2dLyQPmwn9lxO7GCIGDLFk=
+X-Google-Smtp-Source: AGHT+IHmM5kDrFVI8C6I07r53yrfEvNBU/EG602s+W8jo02QwdWvmMuOWGNCILCK/W+ekuHnEWNUypLit3y7lZIy7B8=
+X-Received: by 2002:a05:6122:17a3:b0:4ca:80c5:753d with SMTP id
+ o35-20020a05612217a300b004ca80c5753dmr6203687vkf.4.1714038593423; Thu, 25 Apr
+ 2024 02:49:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <27279f1a-e718-a8cf-ecfc-40f45bf6c500@bootlin.com>
+References: <20240423175900.702640-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240423175900.702640-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdV+oVFNUJse0th_PXKhtsUzXa7Mk7ozq5cKZoYX12AMRw@mail.gmail.com>
+In-Reply-To: <CAMuHMdV+oVFNUJse0th_PXKhtsUzXa7Mk7ozq5cKZoYX12AMRw@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 25 Apr 2024 10:49:26 +0100
+Message-ID: <CA+V-a8t=fAmMRsxwkXX7KBV=jdSVZ-twpN-yQp1Eb7M+X5T-ng@mail.gmail.com>
+Subject: Re: [PATCH v2 02/13] dt-bindings: pinctrl: renesas: Document
+ RZ/V2H(P) SoC
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 24, 2024 at 06:33:30PM +0200, Romain Gantois wrote:
-> Hi Serge,
-> 
-> On Wed, 24 Apr 2024, Serge Semin wrote:
-> 
-> > Once again. There is a ready-to-use stmmac_xpcs_setup() method. Which
-> > is currently intended for the XPCS setups. Let's collect all the
-> > PCS-related stuff in a single place there. That will make code cleaner
-> > and easier to read. This was discussed on v3:
-> > 
-> > https://lore.kernel.org/netdev/42chuecdt7dpgm6fcrtt2crifvv5hflmtnmdrw5fvk3r7pwjgu@hlcv56dbeosf/
-> > 
-> > You agreed to do that, but just ignored in result. I'll repeat what I
-> > said in v3:
-> 
-> Yeah sorry I took a quick look at your merged patches and thought that 
-> stmmac_xpcs_setup() had been repurposed in the meantime, but it seems like I was 
-> just confused about that.
-> 
-> > It doesn't look as that much hard thing to do, but will cause having a
-> > better readable code by providing a single coherent function for all
-> > PCS'es.
-> 
-> Sure, I'll get to it in v5.
+Hi Geert,
 
-Awesome! Thanks.
+Thank you for the review.
 
--Serge(y)
+On Wed, Apr 24, 2024 at 10:06=E2=80=AFAM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> Thanks for your patch!
+>
+> On Tue, Apr 23, 2024 at 7:59=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail=
+.com> wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Add documentation for the pin controller found on the Renesas RZ/V2H(P)
+> > (R9A09G057) SoC. The RZ/V2H PFC varies slightly compared to the RZ/G2L
+> > family:
+> > - Additional bits need to be set during pinmuxing.
+> > - The GPIO pin count is different.
+> >
+> > Hence, a SoC-specific compatible string, 'renesas,r9a09g057-pinctrl', i=
+s
+> > added for the RZ/V2H(P) SoC.
+> >
+> > Also, add the 'renesas,output-impedance' property. The drive strength
+> > setting on RZ/V2H(P) depends on the different power rails coming out fr=
+om
+> > the PMIC (connected via I2C). These power rails (required for drive
+> > strength) can be 1.2V, 1.8V, or 3.3V.
+> >
+> > Pins are grouped into 4 groups:
+> >
+> > Group 1: Impedance
+> > - 150/75/38/25 ohms (at 3.3V)
+> > - 130/65/33/22 ohms (at 1.8V)
+> >
+> > Group 2: Impedance
+> > - 50/40/33/25 ohms (at 1.8V)
+> >
+> > Group 3: Impedance
+> > - 150/75/37.5/25 ohms (at 3.3V)
+> > - 130/65/33/22 ohms (at 1.8V)
+> >
+> > Group 4: Impedance
+> > - 110/55/30/20 ohms (at 1.8V)
+> > - 150/75/38/25 ohms (at 1.2V)
+> >
+> > The 'renesas,output-impedance' property, as documented, can be
+> > [0, 1, 2, 3], indicating x1/x2/x3/x4 drive strength.
+>
+> The documentation says "x1/x2/x4/x6" for all but Group 4 (P20/P21).
+> Still, the actual values don't seem to match the magnification factors...
+>
+> > As power rail information may not be available very early in the boot
+> > process, the 'renesas,output-impedance' property is added instead of
+> > reusing the 'output-impedance-ohms' property.
+> >
+> > Also, allow bias-disable, bias-pull-down and bias-pull-up properties
+> > as these can be used to configure the pins.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> > --- a/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.y=
+aml
+> > +++ b/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.y=
+aml
+> > @@ -111,6 +116,18 @@ additionalProperties:
+> >          output-high: true
+> >          output-low: true
+> >          line-name: true
+> > +        bias-disable: true
+> > +        bias-pull-down: true
+> > +        bias-pull-up: true
+> > +        renesas,output-impedance:
+> > +          description: |
+> > +            Output impedance for pins on RZ/V2H(P) SoC.
+> > +            0: Corresponds to x1
+> > +            1: Corresponds to x2
+> > +            2: Corresponds to x3
+> > +            3: Corresponds to x4
+>
+> Hence I'd drop the multiplication factors, and just say the meaning
+> of the value is pin-dependent?
+>
+Agreed, I will update the description "Output impedance for pins on
+RZ/V2H(P) SoC. 0/1/2/3 corresponds to register bit values that can be
+set in PFC_IOLH_mn register which adjusts the drive strength value and
+is pin-dependent"
 
-> 
-> Thanks,
-> 
-> -- 
-> Romain Gantois, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+Cheers,
+Prabhakar
+
+> > +          $ref: /schemas/types.yaml#/definitions/uint32
+> > +          enum: [0, 1, 2, 3]
+> >
+> >      - type: object
+> >        additionalProperties:
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
 
