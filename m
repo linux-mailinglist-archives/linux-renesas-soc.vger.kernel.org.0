@@ -1,169 +1,308 @@
-Return-Path: <linux-renesas-soc+bounces-4907-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4908-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD8938B2064
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Apr 2024 13:37:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 249A78B2089
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Apr 2024 13:41:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9B90828924A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Apr 2024 11:37:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CEE37286652
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Apr 2024 11:41:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A23C12AADD;
-	Thu, 25 Apr 2024 11:37:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D615012AAF3;
+	Thu, 25 Apr 2024 11:40:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C3xRNVP/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZJhVCzex"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04EBE86249;
-	Thu, 25 Apr 2024 11:37:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C48D8528D;
+	Thu, 25 Apr 2024 11:40:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714045070; cv=none; b=oDieSTBEgUp9g1Uc6rdDwIplJxFp68uFYLlyMTeZA5x9lp2IAXw3uamVCuyshagpgDDISpedIwOappMucl1oeBHfDzIvy7ZJsoh6yBEKZhSOYwoShmuvsNxpmx/rA4skM1Zxw9Rv3OoQM1tH5jmpGjcqFDzYcCt7TE497kHVBeA=
+	t=1714045229; cv=none; b=DLR4uVpFd90ROtkj5KzwKQl763n6nexXeKXjBIT6r6yw3s6lTcfhAF8x9TDUqrWzfECaz2DcaBE/GSaOANChJFobdB+M7TkP7bk9VknqSvnDQR1Ohxsm4iV7vbO0JresTAtdt02wKwwrlpqrowOy0x6B/XzfBOUA+2ikpeepPwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714045070; c=relaxed/simple;
-	bh=32c1Ug+ZtHLnXowIWJ/Q8UIpv0RKY8tJAG01+szUd/8=;
+	s=arc-20240116; t=1714045229; c=relaxed/simple;
+	bh=P2bBCQSt7jxNjqJbsUjBZaYMNZKXq0ftcL7j1Mc1Msk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=H2GeWja6yUsBRmbV5TlNnz0brEr8c7uocy6FyL3rNHFkkNfzUreZCWxJdi+RtOntjv5bf6bQ8mo7rc+DxNzoWNBBKiEqiIoqjh4a+Q9RdO2FNQNnQ7vnvdHf+hDE+dazGWDuRJQ9cFyY7bU//lTDz9ebECI4CTti+nEU/ANhmco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C3xRNVP/; arc=none smtp.client-ip=209.85.221.171
+	 To:Cc:Content-Type; b=oIwpomjWYUCchb5vGTixS2W+f6GCM+I0C1xd3zMI1cQ7iJK0Bj0YtZNXSkyw6Ise1vb3rZhiJKhgcEfiYUSu+ja/S4iy0MelDHNtzsIEp0m7QpiV+ujxecm0RABMAx16ex0C9lVfM/BRg0hodHiad6ec0U0GH1rU37V2baJEFkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZJhVCzex; arc=none smtp.client-ip=209.85.221.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-4daa91c0344so350944e0c.3;
-        Thu, 25 Apr 2024 04:37:48 -0700 (PDT)
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-4db27d21a22so309413e0c.3;
+        Thu, 25 Apr 2024 04:40:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714045068; x=1714649868; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1714045227; x=1714650027; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gWXr5Wia3Z8TV2tiEQbqh2eOKm38jeE1M6pg57aIG9Y=;
-        b=C3xRNVP/xVUi3gdPZaUrQnSi5bd2gC/90LHNtu2a9dv3aBBPT5TsfnYzxSFlbqLsi+
-         Vmiglls2TMGnpcRcVDoVFCA2Ueqjyl8ehR5bgfgfKTo9aw6TVZ86Ewbo+FHDKI9RwiUf
-         2pE6kAtgvL1t1LR+clkiykXc2I8Y4bmDrLcLl18cFMN3x7gVzWwsuQgGJY0lsyQdPWBB
-         hH/4SJx67GqZoq/ozl31dKBkxSoV05VGHa3mbCg+E9lUk0ecM1eWMvDRy8hT2Cr3gVKs
-         GwWWYOczTUpVBGZRTgAqdM1NvVv70lYNvFQHGmXZ9HhSP1gjKzbRFBNIZUOgZUb5Mo9W
-         czrQ==
+        bh=+2j3MigI8NH+d9tQkVlNYjGUfIdSi+E3EDQqvgjTKO4=;
+        b=ZJhVCzex4IZfvqX2kzS4mrEYWIGaB4nyNtfwFsje0GKIgrKGjBT0kiLc10yfNTfvw2
+         ohza30tyIlT2ICHjY95dbs38/R9pLPsOiRPORfZ8xca50sWC2/X38XHagCqT3cFHJ1IR
+         bkTDP5IMuLyP5qMU5P1nYg2HTT+KeCO7h0vfRn8Yq7zH7kqhF2sPk0L9oTg4+6PjkYRX
+         t2wxQhJ7mty2VEMyhtHilFj3np1pwrMqLBas3m8eL8drppRgdYmGDjE4ghVhrTry1QXl
+         1e+UB9ul6iOsZLI2BHj2B5+TS1JDqcrWbZFgdG5f6NF72i6d0WOOtF43KqoDw/wdyBij
+         3BPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714045068; x=1714649868;
+        d=1e100.net; s=20230601; t=1714045227; x=1714650027;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gWXr5Wia3Z8TV2tiEQbqh2eOKm38jeE1M6pg57aIG9Y=;
-        b=rKjSuDY2VUn0B2yWpxmHMluhgP7HragpA9QLDvbzPIjmBxOCbuUPR9iAJ6Y/5aGisT
-         E5MULwDrg+SBYEsvTrHD42ySgxz/Ve6havSA5mgjGPQuNYdXkaR23kANW9MBqLHumTuj
-         HX6TkzwgqEdtdfek6IpfbIp3XBQxc63pMC6wuHHFoVOZEhkI3chhT34x1Otv4ocjnsJW
-         iRFzgKGxMMtJLFJpoX8NCDYxWC54+d3ENXc9bCblFVaN2MVuWJS+LUZ10Ipab4QI1LqJ
-         KqqFM9ln4LepOE8wNn4Me/7neMjtEYsLMnSGuoleBiWFS/C/MqmIge/trkxU43F4oF6t
-         MT8w==
-X-Forwarded-Encrypted: i=1; AJvYcCWHfmopfWI/14bPCMbJ00xFlHE4RGi9kbFnshn27I4+tsL7EPP7/8SW6pZRQxi83CrH9QkJbgb6cd6pp4D9WZ/YOgcLFtKzCGdQHsn4ygHJYIiZMRU1H94J+6+Br6Hdv/cE6ok3QopD05Oq1NUzV7GIfrK8FpGwHDwg2krxLx4ifxzEpvakGF26wJl6
-X-Gm-Message-State: AOJu0YyeHtKdbhmnA6G32+Wm9JXQ5ad0fAGAewcYhUgXQqkFAQZ3UXIm
-	LadyA/4OQLnJMRIxV3CuMMuuuyodozqhMf+5iEXt5d1X1F+Mx9rS+itxTNjsQM9YiUI9+NoVQCA
-	FgXyUBLKquZYp+hwrj9tPKgjYaTFRB54B
-X-Google-Smtp-Source: AGHT+IGC0V6p9miFLGnPouqI4b05r2mYNKxuSITGIKjFEOdOjUuwlxU66rhg7qqF2u6FXkqaoi40mcGY57PrMZotNQw=
-X-Received: by 2002:a05:6122:3c44:b0:4d3:43f8:8541 with SMTP id
- fv4-20020a0561223c4400b004d343f88541mr6563673vkb.1.1714045067835; Thu, 25 Apr
- 2024 04:37:47 -0700 (PDT)
+        bh=+2j3MigI8NH+d9tQkVlNYjGUfIdSi+E3EDQqvgjTKO4=;
+        b=YcqomU2QudKFLPm66okUI1ghQ89o6CrRIfTy0qidhBq77DaJzS2oe+JJtNrgOGHtfk
+         9GjNK7Mu2DuxkOr9Ker2v2GwcL1Yk1oeD1GeIrjtPrG9KUpNsKVrZwyCxf95bD+rFKEO
+         XGOG+YVyi9nBwd+yAXfq6hUzTQslJy6F5/OEzD9IE0CdSXB668UnyRzhONJDMrplq2oA
+         5muvDfEpWAoNZ37iUeyAhqu7BD4MNJZOuy8Qt21Or6mLk2nf32g4lgskTSaZhei6wdqd
+         qVsFsNyCa6K4ZwJkecuYMgou3a/NbR2qewLTbkvE3pg7B7oXOG/0HHQx1fWbQWVx/4d8
+         wWJg==
+X-Forwarded-Encrypted: i=1; AJvYcCUumNXfGJkSfBE+rHL/n0GOM4fGjTk73lAc9uDiYVCR5ebKbagxj445iZZQg1GB9ptRX0Bpa4pTqPWQHBYwr1lkbddVahQMkU4eIuch2TUt1sFAR8X+meEJ9jOAlHgtPbxLBINu9KodLY47kONGnYb5JJvcvIH51/TebnL23GCQZmBaiF85LqifquKAbxeuwYfI3WALzUfgm6LeO67zU0MJuEMDj1aXSA==
+X-Gm-Message-State: AOJu0YwWqBJOTwVXrsb9fAOIWbRlLSoj/BNnaC0duC9IFl2RIgnE62WZ
+	a1rVgNv1S3N/OyNj6rTtaNS2A5Uy8m68AnGqIgVw1V6vIaOtyuIPoJX87h40dqiyAj+JwB+qS6T
+	Zyt9M5mXc8HuqhLRSrUeFCSZZMcs=
+X-Google-Smtp-Source: AGHT+IHH+ElMXgp262UJLi2quqWfhPISWmMGS1bNCcZPUrybLQLRCO3bDBycNVluIG56q7wZ7IqSOIETxhbJbn1ZFpw=
+X-Received: by 2002:a05:6122:1da7:b0:4d3:4aad:1b9c with SMTP id
+ gg39-20020a0561221da700b004d34aad1b9cmr6810330vkb.0.1714045226911; Thu, 25
+ Apr 2024 04:40:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240422205053.496095-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240422205053.496095-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXx46TORh7fCNBwbddSLLGFmV_haQ1q+Y=n4GkzheDzaA@mail.gmail.com>
-In-Reply-To: <CAMuHMdXx46TORh7fCNBwbddSLLGFmV_haQ1q+Y=n4GkzheDzaA@mail.gmail.com>
+References: <20240423175900.702640-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240423175900.702640-7-prabhakar.mahadev-lad.rj@bp.renesas.com> <TY3PR01MB113461F28EA97F494D831267C86112@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB113461F28EA97F494D831267C86112@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 25 Apr 2024 12:37:20 +0100
-Message-ID: <CA+V-a8sJTp3EhHHM_26sNdZKVwmOGx35G3hDvb7y33L5+w4JEA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] irqchip/renesas-rzg2l: Add support for RZ/Five SoC
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date: Thu, 25 Apr 2024 12:40:00 +0100
+Message-ID: <CA+V-a8sxu0eqSY1CsftHjU5mUmLAhKfApNpwEc3o=BjT23h_AQ@mail.gmail.com>
+Subject: Re: [PATCH v2 06/13] pinctrl: renesas: pinctrl-rzg2l: Add function
+ pointers for locking/unlocking the PFC register
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Linus Walleij <linus.walleij@linaro.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
+Hi Biju,
 
 Thank you for the review.
 
-On Wed, Apr 24, 2024 at 3:59=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
+On Tue, Apr 23, 2024 at 7:12=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
 >
 > Hi Prabhakar,
 >
-> On Mon, Apr 22, 2024 at 10:51=E2=80=AFPM Prabhakar <prabhakar.csengg@gmai=
-l.com> wrote:
+> Thanks for the patch.
+>
+> > -----Original Message-----
+> > From: Prabhakar <prabhakar.csengg@gmail.com>
+> > Sent: Tuesday, April 23, 2024 6:59 PM
+> > Subject: [PATCH v2 06/13] pinctrl: renesas: pinctrl-rzg2l: Add function=
+ pointers for
+> > locking/unlocking the PFC register
+> >
 > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > The IX45 block on the RZ/Five SoC has additional mask registers
-> > (NMSK/IMSK/TMSK) compared to the RZ/G2L (family) SoC.
+> > On the RZ/G2L SoC, the PFCWE bit controls writing to PFC registers.
+> > However, on the RZ/V2H(P) SoC, the PFCWE (REGWE_A on RZ/V2H) bit contro=
+ls writing to both PFC and
+> > PMC registers. Additionally, BIT(7) B0WI is undocumented for the PWPR r=
+egister on RZ/V2H(P) SoC. To
+> > accommodate these differences across SoC variants, introduce the set_pf=
+c_mode() and
+> > pm_set_pfc() function pointers.
 > >
-> > A new rzfive_irqc_chip irq_chip is introduced for RZ/Five, where functi=
-on
-> > pointers for irq_(un)mask and irq_(dis/en)able handle the (un)masking
-> > of the interrupts. The irq_chip pointer is now passed as an init callba=
-ck
-> > and stored in the priv pointer to differentiate between RZ/G2L and RZ/F=
-ive.
+> > Note, in rzg2l_pinctrl_set_pfc_mode() the pwpr_pfc_unlock() call is now=
+ called before PMC
+> > read/write and pwpr_pfc_lock() call is now called after PMC read/write =
+this is to keep changes
+> > minimal for RZ/V2H(P).
 > >
 > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > > ---
-> > v2->v3
-> > - Added RZ/Five specific irqchip instead of polluting the functions
-> > - Fixed review comments pointed by Biju and Geert
-> > - Updated commit message
-> > - moved locking respective read/write functions
->
-> Thanks for the update!
->
-> > --- a/drivers/irqchip/irq-renesas-rzg2l.c
-> > +++ b/drivers/irqchip/irq-renesas-rzg2l.c
-> > @@ -138,6 +142,113 @@ static void rzg2l_irqc_eoi(struct irq_data *d)
-> >         irq_chip_eoi_parent(d);
+> > RFC->v2
+> > - Introduced function pointer for (un)lock
+> > ---
+> >  drivers/pinctrl/renesas/pinctrl-rzg2l.c | 51 ++++++++++++++++---------
+> >  1 file changed, 34 insertions(+), 17 deletions(-)
+> >
+> > diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/=
+renesas/pinctrl-rzg2l.c
+> > index bec4685b4681..0840fda7ca69 100644
+> > --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> > +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> > @@ -246,6 +246,8 @@ struct rzg2l_variable_pin_cfg {
+> >       u64 pin:3;
+> >  };
+> >
+> > +struct rzg2l_pinctrl;
+> > +
+> >  struct rzg2l_pinctrl_data {
+> >       const char * const *port_pins;
+> >       const u64 *port_pin_configs;
+> > @@ -256,6 +258,8 @@ struct rzg2l_pinctrl_data {
+> >       const struct rzg2l_hwcfg *hwcfg;
+> >       const struct rzg2l_variable_pin_cfg *variable_pin_cfg;
+> >       unsigned int n_variable_pin_cfg;
+> > +     void (*pwpr_pfc_unlock)(struct rzg2l_pinctrl *pctrl);
+> > +     void (*pwpr_pfc_lock)(struct rzg2l_pinctrl *pctrl);
+> >  };
+> >
+> >  /**
+> > @@ -462,7 +466,6 @@ static const struct rzg2l_variable_pin_cfg r9a07g04=
+3f_variable_pin_cfg[] =3D
+> > {  static void rzg2l_pinctrl_set_pfc_mode(struct rzg2l_pinctrl *pctrl,
+> >                                      u8 pin, u8 off, u8 func)
+> >  {
+> > -     const struct rzg2l_register_offsets *regs =3D &pctrl->data->hwcfg=
+->regs;
+> >       unsigned long flags;
+> >       u32 reg;
+> >
+> > @@ -473,27 +476,23 @@ static void rzg2l_pinctrl_set_pfc_mode(struct rzg=
+2l_pinctrl *pctrl,
+> >       reg &=3D ~(PM_MASK << (pin * 2));
+> >       writew(reg, pctrl->base + PM(off));
+> >
+> > +     pctrl->data->pwpr_pfc_unlock(pctrl);
+> > +
+> >       /* Temporarily switch to GPIO mode with PMC register */
+> >       reg =3D readb(pctrl->base + PMC(off));
+> >       writeb(reg & ~BIT(pin), pctrl->base + PMC(off));
+> >
+> > -     /* Set the PWPR register to allow PFC register to write */
+> > -     writel(0x0, pctrl->base + regs->pwpr);          /* B0WI=3D0, PFCW=
+E=3D0 */
+> > -     writel(PWPR_PFCWE, pctrl->base + regs->pwpr);   /* B0WI=3D0, PFCW=
+E=3D1 */
+> > -
+> >       /* Select Pin function mode with PFC register */
+> >       reg =3D readl(pctrl->base + PFC(off));
+> >       reg &=3D ~(PFC_MASK << (pin * 4));
+> >       writel(reg | (func << (pin * 4)), pctrl->base + PFC(off));
+> >
+> > -     /* Set the PWPR register to be write-protected */
+> > -     writel(0x0, pctrl->base + regs->pwpr);          /* B0WI=3D0, PFCW=
+E=3D0 */
+> > -     writel(PWPR_B0WI, pctrl->base + regs->pwpr);    /* B0WI=3D1, PFCW=
+E=3D0 */
+> > -
+> >       /* Switch to Peripheral pin function with PMC register */
+> >       reg =3D readb(pctrl->base + PMC(off));
+> >       writeb(reg | BIT(pin), pctrl->base + PMC(off));
+> >
+> > +     pctrl->data->pwpr_pfc_lock(pctrl);
+> > +
+> >       spin_unlock_irqrestore(&pctrl->lock, flags);  };
+> >
+> > @@ -2519,12 +2518,8 @@ static void rzg2l_pinctrl_pm_setup_dedicated_reg=
+s(struct rzg2l_pinctrl
+> > *pctrl, b  static void rzg2l_pinctrl_pm_setup_pfc(struct rzg2l_pinctrl =
+*pctrl)  {
+> >       u32 nports =3D pctrl->data->n_port_pins / RZG2L_PINS_PER_PORT;
+> > -     const struct rzg2l_hwcfg *hwcfg =3D pctrl->data->hwcfg;
+> > -     const struct rzg2l_register_offsets *regs =3D &hwcfg->regs;
+> >
+> > -     /* Set the PWPR register to allow PFC register to write. */
+> > -     writel(0x0, pctrl->base + regs->pwpr);          /* B0WI=3D0, PFCW=
+E=3D0 */
+> > -     writel(PWPR_PFCWE, pctrl->base + regs->pwpr);   /* B0WI=3D0, PFCW=
+E=3D1 */
+> > +     pctrl->data->pwpr_pfc_unlock(pctrl);
+> >
+> >       /* Restore port registers. */
+> >       for (u32 port =3D 0; port < nports; port++) { @@ -2567,9 +2562,7 =
+@@ static void
+> > rzg2l_pinctrl_pm_setup_pfc(struct rzg2l_pinctrl *pctrl)
+> >               }
+> >       }
+> >
+> > -     /* Set the PWPR register to be write-protected. */
+> > -     writel(0x0, pctrl->base + regs->pwpr);          /* B0WI=3D0, PFCW=
+E=3D0 */
+> > -     writel(PWPR_B0WI, pctrl->base + regs->pwpr);    /* B0WI=3D1, PFCW=
+E=3D0 */
+> > +     pctrl->data->pwpr_pfc_lock(pctrl);
 > >  }
 > >
-> > +static void rzfive_irqc_mask_irq_interrupt(struct rzg2l_irqc_priv *pri=
-v,
-> > +                                          unsigned int hwirq)
-> > +{
-> > +       u32 bit =3D BIT(hwirq - IRQC_IRQ_START);
+> >  static int rzg2l_pinctrl_suspend_noirq(struct device *dev) @@ -2631,6 =
++2624,24 @@ static int
+> > rzg2l_pinctrl_resume_noirq(struct device *dev)
+> >       return 0;
+> >  }
+> >
+> > +static void rzg2l_pwpr_pfc_unlock(struct rzg2l_pinctrl *pctrl) {
+> > +     const struct rzg2l_register_offsets *regs =3D &pctrl->data->hwcfg=
+->regs;
 > > +
-> > +       raw_spin_lock(&priv->lock);
->
-> I think you best move the locking to the callers that really need it...
->
-Ok, will do.
-
-> > +       writel_relaxed(readl_relaxed(priv->base + IMSK) | bit, priv->ba=
-se + IMSK);
-> > +       raw_spin_unlock(&priv->lock);
+> > +     /* Set the PWPR register to allow PFC register to write */
+> > +     writel(0x0, pctrl->base + regs->pwpr);          /* B0WI=3D0, PFCW=
+E=3D0 */
+> > +     writel(PWPR_PFCWE, pctrl->base + regs->pwpr);   /* B0WI=3D0, PFCW=
+E=3D1 */
 > > +}
->
-> > +static void rzfive_tint_irq_endisable(struct irq_data *d, bool enable)
-> > +{
-> > +       struct rzg2l_irqc_priv *priv =3D irq_data_to_priv(d);
-> > +       unsigned int hwirq =3D irqd_to_hwirq(d);
 > > +
-> > +       if (hwirq >=3D IRQC_TINT_START && hwirq < IRQC_NUM_IRQ) {
-> > +               u32 offset =3D hwirq - IRQC_TINT_START;
-> > +               u32 tssr_offset =3D TSSR_OFFSET(offset);
-> > +               u8 tssr_index =3D TSSR_INDEX(offset);
-> > +               u32 reg;
+> > +static void rzg2l_pwpr_pfc_lock(struct rzg2l_pinctrl *pctrl) {
+> > +     const struct rzg2l_register_offsets *regs =3D &pctrl->data->hwcfg=
+->regs;
 > > +
-> > +               if (enable)
-> > +                       rzfive_irqc_unmask_tint_interrupt(priv, hwirq);
-> > +               else
-> > +                       rzfive_irqc_mask_tint_interrupt(priv, hwirq);
+> > +     /* Set the PWPR register to be write-protected */
+> > +     writel(0x0, pctrl->base + regs->pwpr);          /* B0WI=3D0, PFCW=
+E=3D0 */
+> > +     writel(PWPR_B0WI, pctrl->base + regs->pwpr);    /* B0WI=3D1, PFCW=
+E=3D0 */
+> > +}
+> > +
+> >  static const struct rzg2l_hwcfg rzg2l_hwcfg =3D {
+> >       .regs =3D {
+> >               .pwpr =3D 0x3014,
+> > @@ -2688,6 +2699,8 @@ static struct rzg2l_pinctrl_data r9a07g043_data =
+=3D {
+> >       .variable_pin_cfg =3D r9a07g043f_variable_pin_cfg,
+> >       .n_variable_pin_cfg =3D ARRAY_SIZE(r9a07g043f_variable_pin_cfg),
+> >  #endif
+> > +     .pwpr_pfc_unlock =3D &rzg2l_pwpr_pfc_unlock,
+> > +     .pwpr_pfc_lock =3D &rzg2l_pwpr_pfc_lock,
+> >  };
+> >
+> >  static struct rzg2l_pinctrl_data r9a07g044_data =3D { @@ -2699,6 +2712=
+,8 @@ static struct
+> > rzg2l_pinctrl_data r9a07g044_data =3D {
+> >       .n_dedicated_pins =3D ARRAY_SIZE(rzg2l_dedicated_pins.common) +
+> >               ARRAY_SIZE(rzg2l_dedicated_pins.rzg2l_pins),
+> >       .hwcfg =3D &rzg2l_hwcfg,
+> > +     .pwpr_pfc_unlock =3D &rzg2l_pwpr_pfc_unlock,
+> > +     .pwpr_pfc_lock =3D &rzg2l_pwpr_pfc_lock,
+> >  };
+> >
+> >  static struct rzg2l_pinctrl_data r9a08g045_data =3D { @@ -2709,6 +2724=
+,8 @@ static struct
+> > rzg2l_pinctrl_data r9a08g045_data =3D {
+> >       .n_port_pins =3D ARRAY_SIZE(r9a08g045_gpio_configs) * RZG2L_PINS_=
+PER_PORT,
+> >       .n_dedicated_pins =3D ARRAY_SIZE(rzg3s_dedicated_pins),
+> >       .hwcfg =3D &rzg3s_hwcfg,
+> > +     .pwpr_pfc_unlock =3D &rzg2l_pwpr_pfc_unlock,
+> > +     .pwpr_pfc_lock =3D &rzg2l_pwpr_pfc_lock,
 >
-> ... else you will do a lock/unlock here, followed by another one below.
+> Some memory can be saved by avoiding duplication of data by using
+> a single pointer for structure containing function pointers??
 >
-and move the above code into the lock below.
+> struct rzg2l_pinctrl_fns {
+>         void (*pwpr_pfc_unlock)(struct rzg2l_pinctrl *pctrl);
+>         void (*pwpr_pfc_lock)(struct rzg2l_pinctrl *pctrl);
+> }
+>
+Ok makes sense, I will do that in the next version.
 
 Cheers,
 Prabhakar
