@@ -1,129 +1,110 @@
-Return-Path: <linux-renesas-soc+bounces-4919-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4920-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B6508B30AF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Apr 2024 08:44:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 891988B314D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Apr 2024 09:28:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6C5451C21150
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Apr 2024 06:44:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3E20F1F22C6D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Apr 2024 07:28:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3A6013A869;
-	Fri, 26 Apr 2024 06:44:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 643BA13BC36;
+	Fri, 26 Apr 2024 07:28:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="hNBveKLM"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h09wgEO5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A55E7139D01
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Apr 2024 06:44:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E8C13AD20;
+	Fri, 26 Apr 2024 07:28:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714113870; cv=none; b=LjX1JcI6x8HNwvuAlbv27tJihxwkby6VGDFERloTPSMrzL6E1LXC1IxaAiJQMLSoQBpiL1P7wPB3b7wJkfbC8Y5AEYzbWEDHjzHFvpy/0NTejiAgEl8e3v/hNbTwHit9r2JX2AFiSsir6YBv3RNCQhm7aEK616mfm2r/EAif/G4=
+	t=1714116527; cv=none; b=W0TFeEJ8JbD7mP5KdE9B8t6lsspTnJQ4Woz1a9vX+Hg9TIO/NYX5gaiw5JOuXdm8USwVHDsevLaTyTbgfSoMVbCXccGUt/R0nfprxTL6rwXkMZouB/HV2kDjbvbA5LFRdREYc1qXwsBCrayE5Nd93mdeRRXBjVnOsJh2c0o9Cgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714113870; c=relaxed/simple;
-	bh=aCF9YJ/3AVcp7Uo4nJ5GWEg/vMZeJEHnYrSYZ1gdY0s=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qf659LzoSo3SwYF7K2I3wkUeTCwoA5MqY5FykIFvexdOs7hILXIChXcoOFY+iLD5hXGmoljRA5utyV4QKDtpeeHa1gW5Fv95lJO1p7+5AY31KKccY9Xsn9QBYuKykFcgeLLAgXB/6eTZXYKkvVAY+9mRYYEOXmJ7+Gr7Y9TWQqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=hNBveKLM; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=HMLrUoCgVuOtf+
-	mCDqUTfN9K6VIrEPm+iJ7p/Jm5Smw=; b=hNBveKLMvWmdd10rWkWc9ObrARjlmo
-	qeTnQzbnWKvNvTBUJRp239X1uzAlM0Yg+hw8dC6dxP9TwmFg+N51EFrSGvnY8AB2
-	wn5oWy3t443NX8SlGbPxan04lqvef/0Ip+gtLXC/n9VxMSHLveLDmhId8Bw+oKq0
-	ppXKdqCEDk4lRyG6o8EsIShHN2EB2BlcmDpxAzqWw/qnn56Jgnmg93iH96qsf2a0
-	InRggodGaQ7aenH5KunSdsZVtRLG4pGSIRaDSA+8lKtIABPn75il3GR2WJfiIltG
-	tBNdu1Kn/wsk4zpYb5U4m5r0ii4AETKZ6y3aFKJNA9inB5o1N7aHLKuA==
-Received: (qmail 1204080 invoked from network); 26 Apr 2024 08:44:26 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 26 Apr 2024 08:44:26 +0200
-X-UD-Smtp-Session: l3s3148p1@TPgdPPoWSMIujnvp
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Baruch Siach <baruch@tkos.co.il>,
-	linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] i2c: smbus: fix NULL function pointer dereference
-Date: Fri, 26 Apr 2024 08:44:08 +0200
-Message-Id: <20240426064408.7372-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1714116527; c=relaxed/simple;
+	bh=hMaa9mJBlVjfoxXwH3hpkBbgPedgrK1uBwW7hRR6b7U=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=sp14+jZsPGA0r0pBRjt1l0isp3hFc0ZmZZD1+Ni4+wIcUqDYFxJV7K/0aHV4D1QHbyo31Riev3XlG/Xi5MwXVMqm9/yYTREmqzhMrUFEoqvxtT/ohB8ZHJpjXroQkPlHjLeVbB4SJqZwlYCfBoPrRjFNv1StWPOTkS68Xv9+b9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h09wgEO5; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2dd041acff1so20731311fa.1;
+        Fri, 26 Apr 2024 00:28:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714116523; x=1714721323; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bQN8/UbBy3MmM39EDkYS+s0OQ1C/BvZXG41UzO/WguE=;
+        b=h09wgEO5B8Lnm2Vz7UhwXvLjgO+BYIsf9kypUbtDsaUpEHIRLwOxFJrOebVNmA68E4
+         yySsOfwNNbOr32SK1SZkh9RQnQ+nDirEjVVH5opu826jzwzVeWYxsmXfrpy+Pdekef8A
+         xE5JZ804FIgUM+JDHiMvD1q2VB5vYSDwU7MXVXhl4b+6f+kdE+mXV9e3anZs+hnk5CAE
+         LVtfdc80UeLVC3/gS/6pP/ai/WHL1Ov8Sus8HTx1hVrTXzj+c9VK+yQvkgjGHFBbscHd
+         Vmwo49dr/BRmHYzsTtxNxvCMvtuTxt6bTxYqW6894D4rB+IEvlGqFtuHfDJ38jkgP2P9
+         7Yvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714116523; x=1714721323;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bQN8/UbBy3MmM39EDkYS+s0OQ1C/BvZXG41UzO/WguE=;
+        b=GCWAg0g8NIhpk2blxhUjBaGLPnP7C/VEacIjwJIToorR3jnOAF7iWDAGD4Oy/m5AiN
+         z/GFaZWRUPqLzPApxlRhxr+wmcYTmmbhjikHLaZnjWAW7xynIWx1sU6Buka5Vl1S/IVU
+         8uhSq+SPXhdNtIT3LJn0KTeKVfl8vGC4ZkkwZ0pza2kM15vqDz07Sp5p/GLVHcUadFhb
+         IT/EiGM/e5rsS4eVkl160ZYjAJzE8OEV8z6WCpt/nK65XsaQnhpyeogJJMH2i+ykEjbP
+         LE+R6ea5IF2ru3LwVyaSjhKgPxIeHJJMezX0LGUEZmb9tWvZWRiWS5ABAXj0aDkKM3SO
+         qgTw==
+X-Forwarded-Encrypted: i=1; AJvYcCUXqFtiAWPAYGhtejVRuZauU5u+9ty6R2KccY/uAhZxZtNkj4uDdl4q1lg4nOZJHgIf1WCkDk2MGJFx2DokjShe+7T/UWucUX8rF2SsuS7gavfwciLqyCjLhgIsnBp5e/D0YKy/JC5dYAaG9T1IrzUDpgrg7hBttZ74cHZCPZBo8/H+sKOebmJlf64=
+X-Gm-Message-State: AOJu0YxqxySzKnNyKZ+Lt6MKW0pMGpg/caKmW7UeH5lCKzuDSRgLAv8S
+	/4MA0zQJdiY0XkTGth1wQzy7UjKQp/bEJgS4mrOijTW9xpMArZenMaeK/g==
+X-Google-Smtp-Source: AGHT+IGXonUFOPFh5I2gbId12buogfqlKNkXzpuocg1v+uin6zNh1oqwp54qZtY7Dkp8fhr6cmMG9g==
+X-Received: by 2002:a05:6512:340d:b0:519:796a:26d2 with SMTP id i13-20020a056512340d00b00519796a26d2mr1195502lfr.35.1714116522573;
+        Fri, 26 Apr 2024 00:28:42 -0700 (PDT)
+Received: from [192.168.1.105] ([178.176.74.23])
+        by smtp.gmail.com with ESMTPSA id c7-20020a197607000000b00516c51b3e29sm3061211lff.143.2024.04.26.00.28.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Apr 2024 00:28:42 -0700 (PDT)
+Subject: Re: [PATCH] i2c: smbus: fix NULL function pointer dereference
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ linux-renesas-soc@vger.kernel.org
+Cc: Baruch Siach <baruch@tkos.co.il>, linux-i2c@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240426064408.7372-1-wsa+renesas@sang-engineering.com>
+From: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <e46f56f4-f28f-4fb6-4249-554059f9fc2f@gmail.com>
+Date: Fri, 26 Apr 2024 10:28:40 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240426064408.7372-1-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Brauch reported an OOPS when using the designware controller as target
-only. Target-only modes break the assumption of one transfer function
-always being available. Fix this by always checking the pointer in
-__i2c_transfer.
+On 4/26/24 9:44 AM, Wolfram Sang wrote:
 
-Reported-by: Baruch Siach <baruch@tkos.co.il>
-Closes: https://lore.kernel.org/r/4269631780e5ba789cf1ae391eec1b959def7d99.1712761976.git.baruch@tkos.co.il
-Fixes: 4b1acc43331d ("i2c: core changes for slave support")
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/i2c/i2c-core-base.c  | 12 ++++++------
- drivers/i2c/i2c-core-smbus.c |  2 +-
- 2 files changed, 7 insertions(+), 7 deletions(-)
+> Brauch reported an OOPS when using the designware controller as target
 
-diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-index ff5c486a1dbb..db0d1ac82910 100644
---- a/drivers/i2c/i2c-core-base.c
-+++ b/drivers/i2c/i2c-core-base.c
-@@ -2200,13 +2200,18 @@ static int i2c_check_for_quirks(struct i2c_adapter *adap, struct i2c_msg *msgs,
-  * Returns negative errno, else the number of messages executed.
-  *
-  * Adapter lock must be held when calling this function. No debug logging
-- * takes place. adap->algo->master_xfer existence isn't checked.
-+ * takes place.
-  */
- int __i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
- {
- 	unsigned long orig_jiffies;
- 	int ret, try;
- 
-+	if (!adap->algo->master_xfer) {
-+		dev_dbg(&adap->dev, "I2C level transfers not supported\n");
-+		return -EOPNOTSUPP;
-+	}
-+
- 	if (WARN_ON(!msgs || num < 1))
- 		return -EINVAL;
- 
-@@ -2273,11 +2278,6 @@ int i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
- {
- 	int ret;
- 
--	if (!adap->algo->master_xfer) {
--		dev_dbg(&adap->dev, "I2C level transfers not supported\n");
--		return -EOPNOTSUPP;
--	}
--
- 	/* REVISIT the fault reporting model here is weak:
- 	 *
- 	 *  - When we get an error after receiving N bytes from a slave,
-diff --git a/drivers/i2c/i2c-core-smbus.c b/drivers/i2c/i2c-core-smbus.c
-index e3b96fc53b5c..a942c5306a4e 100644
---- a/drivers/i2c/i2c-core-smbus.c
-+++ b/drivers/i2c/i2c-core-smbus.c
-@@ -596,7 +596,7 @@ s32 __i2c_smbus_xfer(struct i2c_adapter *adapter, u16 addr,
- 				break;
- 		}
- 
--		if (res != -EOPNOTSUPP || !adapter->algo->master_xfer)
-+		if (res != -EOPNOTSUPP)
- 			goto trace;
- 		/*
- 		 * Fall back to i2c_smbus_xfer_emulated if the adapter doesn't
--- 
-2.39.2
+   He's Baruch... :-)
 
+> only. Target-only modes break the assumption of one transfer function
+> always being available. Fix this by always checking the pointer in
+> __i2c_transfer.
+> 
+> Reported-by: Baruch Siach <baruch@tkos.co.il>
+> Closes: https://lore.kernel.org/r/4269631780e5ba789cf1ae391eec1b959def7d99.1712761976.git.baruch@tkos.co.il
+> Fixes: 4b1acc43331d ("i2c: core changes for slave support")
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+[...]
+
+MBR, Sergey
 
