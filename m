@@ -1,122 +1,161 @@
-Return-Path: <linux-renesas-soc+bounces-4952-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4953-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C7B08B6ED2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2024 11:53:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C2A38B6FC5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2024 12:40:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3DDD81F24148
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2024 09:53:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6D82D1C218B8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2024 10:40:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68BB312838C;
-	Tue, 30 Apr 2024 09:53:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1991D12C465;
+	Tue, 30 Apr 2024 10:40:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="P4oUqNvM"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="a5ZptZ0u"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 881331272AB
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Apr 2024 09:53:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE3C12BF32;
+	Tue, 30 Apr 2024 10:40:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714470817; cv=none; b=CTYxM0d3HYDofxYaR8BNV7p7B3q/F1t5bjJzcYkwx8q24j7yeVD14Jy/lFFXGlbvpwrzaK3jzaaleaFAalYwrSCmevKv5H+sk5hEU1rn1KpiBiHsweBQvScXAvwrOOtKwIrISvcsarlEX9obX3btyU6iK8Gbn/b1//c3hzT/xQ8=
+	t=1714473616; cv=none; b=Zti/Fl17kOm4ooiTc+g2LJOqjATdqRBXXCCfcAdnIuJdT7Ytc/2pUTPziABjNSB9t4rGTz9tOWYG63uYR6E83SlqHTZZZfVXOyGhMY74RKBjnhCRHzx81ryC5DcoUbdVsjbvmgkT2sOeS1bETtwWfqP4r4bjw7b7VdGVxoG7TMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714470817; c=relaxed/simple;
-	bh=GXKfWFFF7RQoHWKkPZ06vCZuiUcnMAH+8TtHuYpvnOI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kQrjwH67uMmAZeHjm7Fa4ejMoZXxEydPcxZMy51Ss9g/oMwT6h/0vePag4c66xNv57jEoxit9G9CJo+TXyO0mzrmC+Gl8NrXwl98aVkfbCDl4zucY71crc6qpUud153Xgm3OghAkbYPiBpIOhF67zAzPOjwGUd/lZxR3WCDOLrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=P4oUqNvM; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=GXKf
-	WFFF7RQoHWKkPZ06vCZuiUcnMAH+8TtHuYpvnOI=; b=P4oUqNvMQ/CpzA4VWElE
-	p/bnhQaBQfV6FxSDtv/BAYmCbH2U8sz8HnECLyqs/K247dOIZYf8dsDCFRMPbExD
-	soztpszv25qeW0y3j5dIQSp8wpn9erRu6Ci8i0jioYOZ88LwJE4jjho82JEZm/31
-	MWo1dwrCzDVL7fYgzQ+m5ffh6ATDaKvAaFznGzSDnZtmG3MJSVnDBRRzMy9C0p0b
-	Gu8Hyck/1gRvuPsRgrXcfduOo6vCcfKBCxwzT0ELRQt2vA3aL89Vz6G86FS84VlB
-	pKpEFxg3pCPmOSvUQ6semuGGiPcOfzDK1KOypQqcg30ga9TfizNwGGnARG1TO1jg
-	zw==
-Received: (qmail 2585368 invoked from network); 30 Apr 2024 11:53:32 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Apr 2024 11:53:32 +0200
-X-UD-Smtp-Session: l3s3148p1@9gK/V00XzJBehhrb
-Date: Tue, 30 Apr 2024 11:53:32 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: ulf.hansson@linaro.org, linux-mmc@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, Hien Huynh <hien.huynh.px@renesas.com>
-Subject: Re: [PATCH v3] mmc: renesas_sdhi: Set the SDBUF after reset
-Message-ID: <rekyp45sxw7xtwj7jz3kgnfskroc7z5txbmvmyk4tbw3djqhcn@qyulszizfvc3>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Claudiu <claudiu.beznea@tuxon.dev>, ulf.hansson@linaro.org, linux-mmc@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, Hien Huynh <hien.huynh.px@renesas.com>
-References: <20240430093724.2692232-1-claudiu.beznea.uj@bp.renesas.com>
+	s=arc-20240116; t=1714473616; c=relaxed/simple;
+	bh=/tjdMjeXTC6skYdAimQvb5/mQePmJSTxRmr9SH0xgpc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RE0Mqefg5uovDTh2DdhDxJhNWnyVUirABwMUai5gpoduVyhZ0Tqj9JbsU8xVB/w13jlpc5xcnWx6Jx4Lmt0dFgv5+QmtT/wjsodW6bLuPoCrXxsqZqIDM7mcRCnVxiCeJbhlJagqz83o2zNQjv/pw8cNuqxdzjt7Fioecvb4JCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=a5ZptZ0u; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from localhost.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 13CAD4AB;
+	Tue, 30 Apr 2024 12:39:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1714473555;
+	bh=/tjdMjeXTC6skYdAimQvb5/mQePmJSTxRmr9SH0xgpc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=a5ZptZ0uvqgH6wAf61MvpY7RzRufv4pcUMzDMoFGH8qqY9GHQzWU4iUedY6dqKzAE
+	 I7E2+BzA++ElTcEY8SM/sMdDT27Q3ZlW87K7LrDiN02M9OdesInxZRzruyQ6+RNaGl
+	 EDVaj4I4P9PZe2IuIvaOFrM1QOe6898iiriGKqbM=
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 00/19] media: renesas: rcar-csi2: Support multiple streams
+Date: Tue, 30 Apr 2024 12:39:36 +0200
+Message-ID: <20240430103956.60190-1-jacopo.mondi@ideasonboard.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jparjn2ysbxorccu"
-Content-Disposition: inline
-In-Reply-To: <20240430093724.2692232-1-claudiu.beznea.uj@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
+
+Hello this series implements multi-stream support for R-Car CSI-2 and the
+two CSI-2 devices that are available on Renesas dev-boards which are mainline
+supported (the ADV748x HDMI decoder and the MAX9286 GMSL deserializer).
+
+The net gain in feature is:
+- ADV748x: Select on which MIPI CSI-2 VC to send the stream on
+- MAX9286: Paves the way for run-time selection of active links
+
+Both features are realized by controlling the devices routing tables.
+The max9286 routing support is not implemented, but these patches are needed
+in order to maintain the current version compatible with R-Car CSI-2.
+
+The R-Car CSI-2 driver needs to be updated in order to support multiplexed
+transmitters, in particular:
+
+- Use LINK_FREQ to compute the lane bandwidth
+- Support subdev_active state
+- Configure DT and VC handling by using the remote's frame_desc
+
+A separate fix for VIN sits at the top of the series to re-enable YUYV capture
+operations.
+
+The series needs to activate streams in v4l2-subdev to work correctly:
+
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -32,7 +32,7 @@
+  * 'v4l2_subdev_enable_streams_api' to 1 below.
+  */
+
+-static bool v4l2_subdev_enable_streams_api;
++static bool v4l2_subdev_enable_streams_api = 1;
+ #endif
 
 
---jparjn2ysbxorccu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Test scripts, based on vin-tests are available at:
+https://git.uk.ideasonboard.com/jmondi/vin-tests
 
-On Tue, Apr 30, 2024 at 12:37:24PM +0300, Claudiu wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->=20
-> For development purpose, renesas_sdhi_probe() could be called w/
-> dma_ops =3D NULL to force the usage of PIO mode. In this case the
-> renesas_sdhi_enable_dma() will not be called before transferring data.
->=20
-> If renesas_sdhi_enable_dma() is not called, renesas_sdhi_clk_enable()
-> call from renesas_sdhi_probe() will configure SDBUF by calling the
-> renesas_sdhi_sdbuf_width() function, but then SDBUF will be reset in
-> tmio_mmc_host_probe() when calling tmio_mmc_reset() though host->reset().
-> If SDBUF is zero the data transfer will not work in PIO mode for RZ/G3S.
->=20
-> To fix this call again the renesas_sdhi_sdbuf_width(host, 16) in
-> renesas_sdhi_reset(). The call of renesas_sdhi_sdbuf_width() was not
-> removed from renesas_sdhi_clk_enable() as the host->reset() is optional.
->=20
-> Co-developed-by: Hien Huynh <hien.huynh.px@renesas.com>
-> Signed-off-by: Hien Huynh <hien.huynh.px@renesas.com>
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+A note for Sakari: patch
+"media: max9286: Implement support for LINK_FREQ"
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Could actually use your new
+"media: v4l: Support passing sub-device argument to v4l2_get_link_freq()"
 
+I kept it as it is for this version waiting for your patch to get in.
 
---jparjn2ysbxorccu
-Content-Type: application/pgp-signature; name="signature.asc"
+A note for Niklas:
+I think this series paves the way to actually moving the control of which
+VC goes to which VIN using a routing table instead of using link enablement.
 
------BEGIN PGP SIGNATURE-----
+Currently the setup is as it follows: routing within R-Car CSI-2 is fixed, sink
+stream 0/X goes to source stream X+1/0 and each source pad represents a VC.
+Which VC gets sent to which VIN is controlled by link enablement.
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmYwv5cACgkQFA3kzBSg
-KbafUxAAsJ3wQuqSl+GQrbsQ7yA7ZNfWhXATEOMhQ0RtTH8zsooQ9MsSs1tsqqwp
-Ygi38r8GGo28LkvKV+YjxwA/jBnW02S5hbGajwYsiWuAOVbXtsneFJZ4ea79sQYP
-qazKz1Te386vHpPhfKs1d0qTBaaZp1XsD+1P4xd6Y1jak5o7iDca08LlpR0xt3+s
-b/F5Gy6GVoM69GWRrertb7evWyiiKc0G+QW+8/eXjixe3DUvu81M1f1vxvF7NKR0
-GjMYi/VUQJ5ypYBdyUPd94af3+3Z/URbM6886ugSpHOvj7PTs59zG36ddQ5yLJN0
-EZlUoofQZ8b0vYpVEm/JcXXG1BH8EOkaffdj5y67HtrQzj7/Jm68waMaTlQKQ+xO
-hMOdhX7lwYlWGVBFrpYX8UzUofwKnqJlk3w4XG37qTy1ZwH/AfdHHHWm5rdtGPFP
-IuEFZC0XUGX2aW4XgcKe5UcEGz2bCuqSvmOfUUg1oN553BasKfGIqRnR9innNb76
-uxEtrhmjFcQz9ZrBJACgHL0vo5/6NXNZyxx+mwjXWftXLpmmgAr5e6r2x+wGU0o3
-4Fi9DlvpJC0N5yjyN3uvI1OhqjD8zh+QyOzHuhWP372es13IpGqYfohxyYrm69Qf
-alt+AeYq15lanBxcPbhXGY/CgkqHQjQVGF4M75Dmn+tepwkcpIc=
-=vsZz
------END PGP SIGNATURE-----
+A more natural way of handling this would be to make the routing table
+within CSI-2 configurable and have media-links immutable between the CSI-2
+source pad. A CSI-2 source pad would then represent a 'channel' between
+CSI-2 and VIN and not the VC which is sent on it.
 
---jparjn2ysbxorccu--
+This setup would better represent the current implementation, with VIN's VCSEL
+fixed channel routing and with the CSI-2 routing table controlling which VC gets
+sent on which channel. What do you think ?
+
+Jacopo Mondi (19):
+  media: adv748x: Add support for active state
+  media: adv748x: Add flags to adv748x_subdev_init()
+  media: adv748x: Use V4L2 streams
+  media: adv748x: Propagate format to opposite stream
+  media: adv748x: Implement set_routing()
+  media: adv748x: Use routes to configure VC
+  media: adv748x: Implement .get_frame_desc()
+  media: max9286: Add support for subdev active state
+  media: max9286: Fix enum_mbus_code
+  media: max9286: Use frame interval from subdev state
+  media: max9286: Use V4L2 Streams
+  media: max9286: Implement .get_frame_desc()
+  media: max9286: Implement support for LINK_FREQ
+  media: max9286: Implement .get_mbus_config()
+  media: rcar-csi2: Add support for multiplexed streams
+  media: rcar-csi2: Support multiplexed transmitters
+  media: rcar-csi2: Store format in the subdev state
+  media: rcar-csi2: Implement set_routing
+  media: rcar-vin: Fix YUYV8_1X16 handling for CSI-2
+
+ drivers/media/i2c/adv748x/adv748x-afe.c       |   2 +-
+ drivers/media/i2c/adv748x/adv748x-core.c      |  12 +-
+ drivers/media/i2c/adv748x/adv748x-csi2.c      | 251 +++++++---
+ drivers/media/i2c/adv748x/adv748x-hdmi.c      |   2 +-
+ drivers/media/i2c/adv748x/adv748x.h           |   4 +-
+ drivers/media/i2c/max9286.c                   | 457 ++++++++++++------
+ drivers/media/platform/renesas/rcar-csi2.c    | 442 ++++++++++++-----
+ .../platform/renesas/rcar-vin/rcar-dma.c      |  16 +-
+ 8 files changed, 834 insertions(+), 352 deletions(-)
+
+--
+2.44.0
+
 
