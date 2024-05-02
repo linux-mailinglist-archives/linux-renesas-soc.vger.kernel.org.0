@@ -1,182 +1,601 @@
-Return-Path: <linux-renesas-soc+bounces-5039-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5040-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 351B38B9E06
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2024 18:02:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D8958B9E12
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2024 18:02:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AE8AF1F210D7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2024 16:02:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2F6BF1C23618
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2024 16:02:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DEDE15CD67;
-	Thu,  2 May 2024 16:02:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C6AA15E1F2;
+	Thu,  2 May 2024 16:02:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CgHcTmTr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ul3r1jd2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A049315B97B;
-	Thu,  2 May 2024 16:01:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03BB415AAB8;
+	Thu,  2 May 2024 16:02:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714665721; cv=none; b=JO+tCJUPxHIxWT3bqZnIXOItKcEZmepldAHp/L1KhIY/7eHVYEUyU08X/1T2PTMuVYuyR73gJ8zKMdLZ66ev9L2OmO5Ylq/R7Sk7mSVWoDA9HDVwEVHotREG0Bxa38p9jyR4adYOFXxS80dJOLym5CpobjlPo+jVWkM2xgLqf2U=
+	t=1714665742; cv=none; b=HBRu5wfIFYXHoSam9CU+3YTyKFYtxerOTZGUjq2CngF3tPDGBSIb55lyBbFUEXbnMf+EPzAwE0DKAqW0qvtBHExGCzlDKPP+YYhSF9UpeaRj4HyJdOSRIke03F1y5onAhBJD3wTp5X1YNvvCoAwuunr1Z9jDcPSfAdC5NxlhozY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714665721; c=relaxed/simple;
-	bh=ObIQatXLy+J9dMb/aQHo04fdKZEbIx2wJbwo8cGX7+4=;
+	s=arc-20240116; t=1714665742; c=relaxed/simple;
+	bh=ev7mc20lWUMUIosgZeG3aGc56E+eLpNmk0BooYVv7Hs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h5A/KIw31/QZbwxgILwb7bMePa/lzJ329RIhyuc4avH4nrHklW2jTIRvHxQubgPmXRFozVswFIPMHinWvB0GDx5vbbipfqzGB4GKDURXAqfhP07SSigDjLhj54I7YNCY8sDl2y2nEEnq7IB5DnZRqGESORVC9u8GsomMGfxcJP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CgHcTmTr; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714665720; x=1746201720;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ObIQatXLy+J9dMb/aQHo04fdKZEbIx2wJbwo8cGX7+4=;
-  b=CgHcTmTrbc5c7qQEHcEwcfWaU4iG3NBU7mI91RVxb/t37thaEo4AiRig
-   /Sptg7/cJGrvCdfNO3D/IAQde7e7i7425vqtyE9TnRy8IrPGeceLgm69G
-   P8u5+gORmkV2a9xnM1OcVqaswQVylAgO/+n0pY5SeBVE0nlfkZwBbip9u
-   MzFkLvieSYfYMr8i1jBLW8DCA64kfRg6YIhnDVZsKamTQNqLgretr9Kd9
-   7E9ZJCKNP+YQNsbMYDvZeDJ5mWhA6tLCbKGV1Jhuuh59LBXUj+9Gy/sZX
-   L82dR5LxLelkFODpnL6YiNbm7Vm2WaE+nTufWbSIBS50WgPkeXZt8Cd4g
-   A==;
-X-CSE-ConnectionGUID: c80ohLDmSsWTPBh4KZT6Nw==
-X-CSE-MsgGUID: ELkn2uIhQu2RZNjPkkupZQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="14249275"
-X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
-   d="scan'208";a="14249275"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 09:01:58 -0700
-X-CSE-ConnectionGUID: DwJEOuh6RxCXX9j4YfsK9w==
-X-CSE-MsgGUID: JXeJGl7FR16JncEZC10HRA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
-   d="scan'208";a="31831298"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 09:01:48 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 1C4E111FA94;
-	Thu,  2 May 2024 19:01:45 +0300 (EEST)
-Date: Thu, 2 May 2024 16:01:45 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Julien Massot <julien.massot@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Yong Zhi <yong.zhi@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
-	Dan Scally <djrscally@gmail.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Eugen Hristev <eugen.hristev@collabora.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=VzH+kIOssYBgIS/g7FTh5Z+29CqmHSM04jSjMmVep1gwXwsoRB5einpY4hntoS1quqrx1pbLxhuP90iWgVtjnKnQ3ETb5+rZQsyEV9Xh90tj+fI8UFW9IzI2alU92fZF7949mvqBzoLPW++FSRusFOkgJtf75GLItEfSvQwuu4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ul3r1jd2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 472D4C113CC;
+	Thu,  2 May 2024 16:02:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714665741;
+	bh=ev7mc20lWUMUIosgZeG3aGc56E+eLpNmk0BooYVv7Hs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ul3r1jd2mrPVrS7kJ0eA4oCXt81kZ/bQgCYCrADu4PcSM/+Z1B6fHAYovmH7W/gyG
+	 E5FuvPNt1cAIkJStGSswJuh3yUb0ERZ6U2iWVSNDoo8Yo6gRKXNmA/Is/w6cIBSHCD
+	 C6E2BkevcfOjlCBrYN0KY3QiFnCU5RsLSVcYHyS+dZH+0hfzQCLQidiFQYEhu2Frpc
+	 le/IP+UqSM66Q+wU0yytPPEfPoeGbzF5qlrrLVrU+ry26uWls/AZxF1/8k5u6bB61D
+	 /tbcqRbwlvjGO38iAtCzvV4lP8QHjXBFhxfOqQO/dW4tNQPeAsXdv+1Iw2DKzgXYKU
+	 p5GbLQISVVD5A==
+Date: Thu, 2 May 2024 17:02:06 +0100
+From: Lee Jones <lee@kernel.org>
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: linux-sh@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Robert Foss <rfoss@kernel.org>,
-	Todor Tomov <todor.too@gmail.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Yong Deng <yong.deng@magewell.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Benoit Parrot <bparrot@ti.com>, Jai Luthra <j-luthra@ti.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Michal Simek <michal.simek@amd.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 0/2] Introduce v4l2_async_nf_unregister_cleanup
-Message-ID: <ZjO46Uo_tVcRTdA0@kekkonen.localdomain>
-References: <20240502-master-v1-0-8bd109c6a3ba@collabora.com>
- <20240502155626.GD15807@pendragon.ideasonboard.com>
+	Jiri Slaby <jirislaby@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Helge Deller <deller@gmx.de>,
+	Heiko Stuebner <heiko.stuebner@cherry.de>,
+	Shawn Guo <shawnguo@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+	Chris Morgan <macromorgan@hotmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>, David Rientjes <rientjes@google.com>,
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+	Vlastimil Babka <vbabka@suse.cz>, Baoquan He <bhe@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Kefeng Wang <wangkefeng.wang@huawei.com>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Guo Ren <guoren@kernel.org>, Azeem Shaikh <azeemshaikh38@gmail.com>,
+	Max Filippov <jcmvbkbc@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+	Jacky Huang <ychuang3@nuvoton.com>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Manikanta Guntupalli <manikanta.guntupalli@amd.com>,
+	Anup Patel <apatel@ventanamicro.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Sam Ravnborg <sam@ravnborg.org>,
+	Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	linux-ide@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
+	linux-fbdev@vger.kernel.org
+Subject: Re: [RESEND v7 24/37] mfd: sm501: Convert platform_data to OF
+ property
+Message-ID: <20240502160206.GV5338@google.com>
+References: <cover.1712207606.git.ysato@users.sourceforge.jp>
+ <814758bd6df0d66dca52a2c207405e0049445c80.1712207606.git.ysato@users.sourceforge.jp>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240502155626.GD15807@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <814758bd6df0d66dca52a2c207405e0049445c80.1712207606.git.ysato@users.sourceforge.jp>
 
-Hi Laurent,
+On Thu, 04 Apr 2024, Yoshinori Sato wrote:
 
-On Thu, May 02, 2024 at 06:56:26PM +0300, Laurent Pinchart wrote:
-> Hi Julien,
+> Various parameters of SM501 can be set using platform_data,
+> so parameters cannot be passed in the DeviceTree target.
+> Expands the parameters set in platform_data so that they can be
+> specified using DeviceTree properties.
 > 
-> On Thu, May 02, 2024 at 05:22:20PM +0200, Julien Massot wrote:
-> > Many drivers has
-> >   v4l2_async_nf_unregister(&notifier);
-> >   v4l2_async_nf_cleanup(&notifier);
-> > 
-> > Introduce a helper function to call both functions in one line.
-> 
-> Does this really go in the right direction ? For other objects (video
-> devices, media devices, ...), the unregistration should be done at
-> .remove() time, and the cleanup at .release() time (the operation called
-> when the last reference to the object is released). This is needed to
-> ensure proper lifetime management of the objects, and avoid a
-> use-after-free for objects that can be reached from userspace.
-> 
-> It could be argued that the notifier isn't exposed to userspace, but can
-> we guarantee that no driver will have a need to access the notifier in a
-> code path triggered by a userspace operation ? I think it would be safer
-> to adopt the same split for the nofifier unregistration and cleanup. In
-> my opinion using the same rule across different APIs also make it easier
-> for driver authors and for reviewers to get it right.
-> 
-> As shown by your series, lots of drivers call v4l2_async_nf_cleanup()
-> and .remove() time instead of .release(). That's because most drivers
-> get lifetime management wrong and don't even implement .release().
-> That's something Sakari is addressing with ongoing work. This patch
-> series seems to go in the opposite direction.
+> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+> ---
+>  drivers/mfd/sm501.c           | 315 ++++++++++++++++++++++++++++++++++
+>  drivers/video/fbdev/sm501fb.c | 106 ++++++++++++
+>  2 files changed, 421 insertions(+)
 
-This still avoids the driver authors feeling they need to implement wrapper
-functions for v4l2_async_nf_{unregister,cleanup}. I'd be in favour merging
-this.
+I don't know exactly what this is, but I do know that I don't like it.
 
-I don't see this getting in the way of adding use counts as the code will
-need to be changed in any case.
+If you manage to get it through another maintainer, more power to you,
+but it is not suitable for MFD.
+
+> diff --git a/drivers/mfd/sm501.c b/drivers/mfd/sm501.c
+> index b3592982a83b..98a69e254f5f 100644
+> --- a/drivers/mfd/sm501.c
+> +++ b/drivers/mfd/sm501.c
+> @@ -82,6 +82,16 @@ struct sm501_devdata {
+>  	unsigned int			 rev;
+>  };
+>  
+> +struct sm501_config_props_uint {
+> +	char *name;
+> +	u32 shift;
+> +};
+> +
+> +struct sm501_config_props_flag {
+> +	char *clr_name;
+> +	char *set_name;
+> +	u32 bit;
+> +};
+>  
+>  #define MHZ (1000 * 1000)
+>  
+> @@ -1370,6 +1380,305 @@ static int sm501_init_dev(struct sm501_devdata *sm)
+>  	return 0;
+>  }
+>  
+> +static const struct sm501_config_props_uint misc_timing[] = {
+> +	{"delay",    0},
+> +	{"-",        3},
+> +	{"divider",  4},
+> +	{"-",        6},
+> +	{"sm0",      8},
+> +	{"-",       12},
+> +	{"sm1",     16},
+> +	{"-",       20},
+> +	{"xc",      24},
+> +	{"-",       26},
+> +	{"ex",      28},
+> +	{NULL,      32},
+> +};
+> +
+> +static const struct sm501_config_props_flag misc_timing_flag[] = {
+> +	{"usb-host-normal",          "usb-host-simulation",    3},
+> +	{"no-acpi-control",          "acpi-control",           6},
+> +	{"pll-debug-input",          "pll-debug-output",       7},
+> +	{"sdram-clock-mode0-288mhz", "sdram-clock-mode0-div", 12},
+> +	{"sdram-clock-mode1-288mhz", "sdram-clock-mode1-div", 20},
+> +	{"usb-over-current-detect-disable",
+> +	 "usb-over-current-detect-enable",  23},
+> +	{},
+> +};
+> +
+> +static const struct sm501_config_props_uint misc_control[] = {
+> +	{"hold",     18},
+> +	{"refresh",  21},
+> +	{"-",        23},
+> +	{"usbclk",   28},
+> +	{"pad",      30},
+> +	{NULL,       32},
+> +};
+> +
+> +static const struct sm501_config_props_flag misc_control_flag[] = {
+> +	{"vr-mmio-30mb",            "vr-mmio-62mb",             4},
+> +	{"usb-port-master",         "usb-port-slave",           9},
+> +	{"burst-length-8",          "burst-length-1",          10},
+> +	{"usb-slave-cpu",           "usb-slave-8051",          11},
+> +	{"dac-power-enable",        "dac-power-disable",       12},
+> +	{"pll-clock-count-disable", "pll-clock-count-enable",  15},
+> +	{"interrupt-normal",        "interrupt-invarted",      16},
+> +	{"sh-ready-low",            "sh-ready-high",           17},
+> +	{"xtal-freq-24mhz",         "xtal-freq-12mhz",         24},
+> +	{"panel-data-18bit",        "panel-dtat-24bit",        25},
+> +	{"latch-address-disable",   "latch-address-enable",    26},
+> +	{"uart1",                   "ssp1",                    27},
+> +	{},
+> +};
+> +
+> +/* Read configuration values */
+> +static void sm501_of_read_config(struct device *dev, struct device_node *np,
+> +				 const char *prefix,
+> +				 const struct sm501_config_props_uint *props,
+> +				 const struct sm501_config_props_flag *props_flag,
+> +				 struct sm501_reg_init *ret)
+> +{
+> +	struct device_node *child;
+> +	char *name;
+> +	u32 shift;
+> +	u32 width;
+> +	u32 mask;
+> +	u32 val;
+> +
+> +	ret->mask = ~0;
+> +	ret->set = 0;
+> +
+> +	child = of_get_child_by_name(np, prefix);
+> +	if (!child)
+> +		return;
+> +
+> +	while (props->name) {
+> +		name = props->name;
+> +		shift = props->shift;
+> +		props++;
+> +
+> +		if (name[0] == '-' ||
+> +		    of_property_read_u32(child, name, &val))
+> +			continue;
+> +
+> +		width = props->shift - shift;
+> +		mask = (1 << width) - 1;
+> +		if (mask < val) {
+> +			dev_warn(dev, "%s invalid value %d", name, val);
+> +			continue;
+> +		}
+> +		mask = ~(mask << shift);
+> +		ret->mask &= mask;
+> +		ret->set |= val << shift;
+> +	}
+> +	while (props_flag->clr_name) {
+> +		val = ~0;
+> +		if (of_property_read_bool(child, props_flag->clr_name))
+> +			val = 0;
+> +		else if (of_property_read_bool(child, props_flag->set_name))
+> +			val = 1;
+> +		if (val != ~0) {
+> +			val <<= (props_flag->bit & 31);
+> +			mask = 1 << (props_flag->bit & 31);
+> +			ret->mask &= ~mask;
+> +			ret->set |= val;
+> +		}
+> +		props_flag++;
+> +	}
+> +}
+> +
+> +/* Read GPIO control */
+> +/*
+> + * DT example.
+> + * gpio-pin-control {
+> + *   pin@0 {
+> + *	 gpio-port;
+> + *   };
+> + *   pin@1 {
+> + *	 function;
+> + *   };
+> + * };
+> + */
+> +static void sm501_of_read_gpio(struct device *dev, struct device_node *np,
+> +			       struct sm501_reg_init *hi, struct sm501_reg_init *low)
+> +{
+> +	struct device_node *gpio_group, *pin;
+> +	const char *prop_mode;
+> +	unsigned int pin_no;
+> +	int mode;
+> +	u64 mask;
+> +	u64 set;
+> +
+> +	mask = ~0;
+> +	set = 0;
+> +	gpio_group = of_get_child_by_name(np, "gpio-pin-control");
+> +	if (gpio_group) {
+> +		for_each_child_of_node(gpio_group, pin) {
+> +			mode = -1;
+> +			if (sscanf(pin->full_name, "pin@%u", &pin_no) == 1) {
+> +				if (of_property_read_bool(pin, "gpio-port"))
+> +					mode = 0;
+> +				else if (of_property_read_bool(pin, "function"))
+> +					mode = 1;
+> +			}
+> +			/* GPIO0 - 47 and 55 -63 */
+> +			if (mode < 0 ||
+> +			    (pin_no >= 64 || (pin_no >= 48 && pin_no <= 54))) {
+> +				dev_warn(dev,
+> +					 "%s mode %s is invalid.", pin->name, prop_mode);
+> +			} else {
+> +				mask &= ~(1 << pin_no);
+> +				set |= mode << pin_no;
+> +			}
+> +		}
+> +	}
+> +	hi->set = set >> 32;
+> +	low->set = set & 0xffffffff;
+> +	hi->mask = mask >> 32;
+> +	low->mask = mask & 0xffffffff;
+> +}
+> +
+> +static inline int read_i2c_prop(struct device *dev, struct device_node *child,
+> +				const char *name, u32 *val)
+> +{
+> +	if (of_property_read_u32(child, name, val)) {
+> +		dev_warn(dev, "%s/%s not found. skip it.", of_node_full_name(child), name);
+> +		return -ENOENT;
+> +	}
+> +	return 0;
+> +}
+> +
+> +/* Read GPIO I2C configuration */
+> +/*
+> + * DT example.
+> + * gpio-i2c {
+> + *    i2c@0 {
+> + *	sda = <gpio-pin>;
+> + *	scl = <gpio-pin>;
+> + *	delay = <delay>;
+> + *	timeout = <timeout>;
+> + *    };
+> + *    i2c@1 {
+> + *      :
+> + *    };
+> + *    :
+> + * };
+> + */
+> +static int sm501_parse_dt_gpio_i2c(struct device *dev, struct sm501_platdata *plat,
+> +				   struct device_node *np)
+> +{
+> +	struct device_node *i2c_group, *child;
+> +	unsigned int i;
+> +	u32 i2c_nr;
+> +	int err;
+> +
+> +	i2c_group = of_get_child_by_name(np, "gpio-i2c");
+> +	if (!i2c_group)
+> +		return 0;
+> +
+> +	i2c_nr = of_get_child_count(i2c_group);
+> +	plat->gpio_i2c = devm_kzalloc(dev, sizeof(*plat->gpio_i2c) * i2c_nr,
+> +				      GFP_KERNEL);
+> +	if (!plat->gpio_i2c)
+> +		return -ENOMEM;
+> +
+> +	plat->gpio_i2c_nr = i2c_nr;
+> +	i = 0;
+> +	for_each_child_of_node(i2c_group, child) {
+> +		u32 bus;
+> +
+> +		if (sscanf(child->full_name, "i2c@%u", &bus) != 1) {
+> +			dev_warn(dev, "Unknown address %s\n", child->name);
+> +			continue;
+> +		}
+> +
+> +		err = 0;
+> +		plat->gpio_i2c[i].bus_num = bus;
+> +		err += read_i2c_prop(dev, child, "sda", &plat->gpio_i2c[i].pin_sda);
+> +		err += read_i2c_prop(dev, child, "scl", &plat->gpio_i2c[i].pin_scl);
+> +		err += read_i2c_prop(dev, child, "delay", &plat->gpio_i2c[i].udelay);
+> +		err += read_i2c_prop(dev, child, "timeout", &plat->gpio_i2c[i].timeout);
+> +		if (err == 0)
+> +			i++;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +/* Read device functions */
+> +static u32 sm501_read_devices(struct device *dev, struct device_node *np)
+> +{
+> +	static const char * const funcname[] = {
+> +		"usb-host", "usb-slave", "ssp0", "ssp1",
+> +		"uart0", "uart1", "fbaccel", "ac97",
+> +		"i2s", "gpio",
+> +	};
+> +	struct property *prop;
+> +	unsigned int i;
+> +	const char *s;
+> +	u32 ret = 0;
+> +
+> +	of_property_for_each_string(np, "smi,devices", prop, s) {
+> +		for (i = 0; i < ARRAY_SIZE(funcname); i++) {
+> +			if (strcmp(s, funcname[i]) == 0) {
+> +				ret |= 1 << i;
+> +				goto next;
+> +			}
+> +		}
+> +		dev_warn(dev, "Unknown device function '%s'", s);
+> +next:
+> +	}
+> +	if (!ret)
+> +		dev_warn(dev, "devices not defined. disable all functions.");
+> +	return ret;
+> +}
+> +
+> +/* Build platform_data from OF property */
+> +struct plat_dt {
+> +	struct sm501_platdata plat;
+> +	struct sm501_initdata init;
+> +};
+> +
+> +static int sm501_parse_dt(struct sm501_devdata *sm, struct device_node *np)
+> +{
+> +	struct sm501_platdata *plat;
+> +	struct plat_dt *dt_p;
+> +	u32 word;
+> +	int ret;
+> +
+> +	dt_p = devm_kzalloc(sm->dev, sizeof(*dt_p), GFP_KERNEL);
+> +	if (!dt_p)
+> +		return -ENOMEM;
+> +
+> +	plat = &dt_p->plat;
+> +	plat->init = &dt_p->init;
+> +
+> +	plat->init->devices = sm501_read_devices(sm->dev, np);
+> +	/* mclk and m1xclk are not u32, so convert between them using intermediate variables. */
+> +	of_property_read_u32(np, "smi,mclk", &word);
+> +	plat->init->mclk = word;
+> +	of_property_read_u32(np, "smi,m1xclk", &word);
+> +	plat->init->m1xclk = word;
+> +
+> +	sm501_of_read_config(sm->dev, np, "misc-timing",
+> +			     misc_timing, misc_timing_flag,
+> +			     &plat->init->misc_timing);
+> +	sm501_of_read_config(sm->dev, np, "misc-control",
+> +			     misc_control, misc_control_flag,
+> +			     &plat->init->misc_control);
+> +	sm501_of_read_gpio(sm->dev, np,
+> +			   &plat->init->gpio_high, &plat->init->gpio_low);
+> +
+> +	if (IS_ENABLED(CONFIG_MFD_SM501_GPIO) &&
+> +	    (plat->init->devices & SM501_USE_GPIO)) {
+> +		ret = sm501_parse_dt_gpio_i2c(sm->dev, plat, np);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +	sm->platdata = plat;
+> +	return 0;
+> +}
+> +
+>  static int sm501_plat_probe(struct platform_device *dev)
+>  {
+>  	struct sm501_devdata *sm;
+> @@ -1406,6 +1715,12 @@ static int sm501_plat_probe(struct platform_device *dev)
+>  		goto err_res;
+>  	}
+>  
+> +	if (IS_ENABLED(CONFIG_OF) && dev->dev.of_node) {
+> +		ret = sm501_parse_dt(sm, dev->dev.of_node);
+> +		if (ret)
+> +			goto err_res;
+> +	}
+> +
+>  	platform_set_drvdata(dev, sm);
+>  
+>  	sm->regs = ioremap(sm->io_res->start, resource_size(sm->io_res));
+> diff --git a/drivers/video/fbdev/sm501fb.c b/drivers/video/fbdev/sm501fb.c
+> index d6fdc1737cd2..5de00f2570aa 100644
+> --- a/drivers/video/fbdev/sm501fb.c
+> +++ b/drivers/video/fbdev/sm501fb.c
+> @@ -1932,6 +1932,106 @@ static int sm501fb_start_one(struct sm501fb_info *info,
+>  	return 0;
+>  }
+>  
+> +#if defined(CONFIG_OF)
+> +static u32 read_display_flags(struct device_node *np)
+> +{
+> +	static const char * const name[] = {
+> +		"use-init-done", "disable-at-exit", "use-hwcursor", "use-hwaccel",
+> +		"panel-no-fpen", "panel-no-vbiasen", "panel-inv-fpen", "panel-inv-vbiasen",
+> +	};
+> +
+> +	struct property *prop;
+> +	unsigned int i;
+> +	const char *s;
+> +	u32 ret = 0;
+> +
+> +	of_property_for_each_string(np, "smi,flags", prop, s) {
+> +		for (i = 0; i < ARRAY_SIZE(name); i++) {
+> +			if (strcmp(s, name[i]) == 0) {
+> +				ret |= 1 << i;
+> +				break;
+> +			}
+> +		}
+> +	}
+> +	return ret;
+> +}
+> +
+> +/* parse CRT / panel configuration */
+> +static struct sm501_platdata_fbsub *dt_fbsub(struct device *dev,
+> +					     struct device_node *np,
+> +					     const char *name)
+> +{
+> +	struct sm501_platdata_fbsub *fbsub = NULL;
+> +	struct fb_videomode *def_mode = NULL;
+> +	struct device_node *child;
+> +	const void *p_edid;
+> +	u32 flags = 0;
+> +	u32 bpp = 0;
+> +	int len;
+> +
+> +	child = of_get_child_by_name(np, name);
+> +	if (child == NULL)
+> +		return NULL;
+> +
+> +	p_edid = of_get_property(child, "edid", &len);
+> +	if (p_edid && len == EDID_LENGTH) {
+> +		struct fb_monspecs *specs;
+> +		u8 *edid;
+> +
+> +		edid = kmemdup(p_edid, EDID_LENGTH, GFP_KERNEL);
+> +		if (edid) {
+> +			specs = kzalloc(sizeof(*specs), GFP_KERNEL);
+> +			if (specs) {
+> +				fb_edid_to_monspecs(edid, specs);
+> +				def_mode = specs->modedb;
+> +			}
+> +		}
+> +		kfree(edid);
+> +	}
+> +
+> +	of_property_read_u32(child, "bpp", &bpp);
+> +
+> +	/* If flags property is obtained, fbsub is returned. */
+> +	flags = read_display_flags(child);
+> +	if (flags) {
+> +		fbsub = devm_kzalloc(dev, sizeof(*fbsub), GFP_KERNEL);
+> +		if (fbsub) {
+> +			fbsub->def_mode = def_mode;
+> +			fbsub->def_bpp = bpp;
+> +			fbsub->flags = flags;
+> +		}
+> +	}
+> +	return fbsub;
+> +}
+> +
+> +/* Build platform_data from OF property */
+> +static struct sm501_platdata_fb *pdata_from_dt(struct device *dev, struct device_node *np)
+> +{
+> +	enum sm501_fb_routing fb_route = SM501_FB_OWN;
+> +	struct sm501_platdata_fb *pdata = NULL;
+> +	struct sm501_platdata_fbsub *fb_crt;
+> +	struct sm501_platdata_fbsub *fb_pnl;
+> +	unsigned int flags = 0;
+> +
+> +	if (of_property_read_bool(np, "route-crt-panel"))
+> +		fb_route = SM501_FB_CRT_PANEL;
+> +	if (of_property_read_bool(np, "swap-fb-endian"))
+> +		flags = SM501_FBPD_SWAP_FB_ENDIAN;
+> +	fb_crt = dt_fbsub(dev, np, "crt");
+> +	fb_pnl = dt_fbsub(dev, np, "panel");
+> +	if (fb_crt || fb_pnl) {
+> +		pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
+> +		if (pdata) {
+> +			pdata->fb_route = fb_route;
+> +			pdata->flags = flags;
+> +			pdata->fb_crt = fb_crt;
+> +			pdata->fb_pnl = fb_pnl;
+> +		}
+> +	}
+> +	return pdata;
+> +}
+> +#endif
+> +
+>  static int sm501fb_probe(struct platform_device *pdev)
+>  {
+>  	struct sm501fb_info *info;
+> @@ -1974,6 +2074,12 @@ static int sm501fb_probe(struct platform_device *pdev)
+>  				if (info->edid_data)
+>  					found = 1;
+>  			}
+> +			/* Get platform data compatible configuration */
+> +			if (!found) {
+> +				info->pdata = pdata_from_dt(dev, np);
+> +				if (info->pdata)
+> +					found = 1;
+> +			}
+>  		}
+>  #endif
+>  		if (!found) {
+> -- 
+> 2.39.2
+> 
 
 -- 
-Regards,
-
-Sakari Ailus
+Lee Jones [李琼斯]
 
