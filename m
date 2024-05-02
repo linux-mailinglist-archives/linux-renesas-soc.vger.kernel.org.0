@@ -1,151 +1,206 @@
-Return-Path: <linux-renesas-soc+bounces-5056-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5057-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3D3A8BA02C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2024 20:17:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 937138BA03D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2024 20:23:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D64CBB23591
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2024 18:17:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 51F56281E06
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2024 18:23:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 154E6173326;
-	Thu,  2 May 2024 18:17:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A17BA173333;
+	Thu,  2 May 2024 18:23:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="EUyD36SC"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HyLv59p9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF10416FF3F
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 May 2024 18:17:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A159F16F90C;
+	Thu,  2 May 2024 18:23:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714673862; cv=none; b=EsZ/oYnrsnLB4TJlnNIN8sRoBuIc1VODz8DbtPfIZd6F+1Lx7d0AP9YPtxBLxYdWpd/SYxpFULdqZIenbcSixTMJAbLQ0edEIgdE9NikRMivlZ25IBgNgTieT2h6eBRjdcUhhOKxrwyU9V86vWggkAhUUyfx2rj0Mp/6MPBEC2s=
+	t=1714674199; cv=none; b=WRKwAEViOoqyca+3W4eu/IZVK6HoBsSD87Pgg9AZzhL0PE5qE+yeTHN2tZR7Kek5dpC+UZqQD5QnUeGU1/XlpSYC3+7O7TofB82U+WBFAlRSm/tHUy4QcubGUgxsV+vvs3A2B7mbZwPcKlnC9wIJ3asC0iornyzRS75J9aewylg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714673862; c=relaxed/simple;
-	bh=KhdkdyVLO1m1Lp33vPRYarXehHaipcBx459m/LvdYGM=;
+	s=arc-20240116; t=1714674199; c=relaxed/simple;
+	bh=UqnKdnKW1IMvFcK4jgRjsuh6eHg86N4kiwqUWDozBp8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fCEfWikWYSI9o6qG97Y6blovDJJuEHFmHtVLviA/R0ABIvxOXXo0ByqV3nG66Fi+mBSOVnFLSwJjFFl+hni0LZNrbFOZN5UfxvQoFFn+F/off7qK3L3Vu1+wFl5++PMU6orKBeQ+v5BEojdE2PA3zfuEm/6wEWcGvvGZSeyUiIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=EUyD36SC; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=ra8p
-	SWsauUgo3TWihYTMQJ5qhlBnHKFupkcSfPmlHL4=; b=EUyD36SC3T6b7DHFxdIV
-	zbkesz6FiHj7eeUDDY+1h4GwM52KL4aaJGReqseJfcBjmxQCw3ga8NAYSeS2heIK
-	/6gpZ3XTLDTIJUfJq3bPFrZD8qcltWPNM3fNaZeGLL9c27EKhdA+pVQgKBEyqQxH
-	4T9PhEHJrfdYE8ga8SYW4Br3jSAQQzPJ/ZgBb5KbBSp/X4deTO6bqHuRwO++pnlG
-	ajN3Ctinf5EZmBuu/G2h30SFZjLH2A0ss0gWF6jrOxjJx9jwTagXAWQWNIZYpNq8
-	j26xX0U8LYwujzJtpb/nqDf5INtFZzDehkQlhs0x5nfD7gCJ+VW2vFrv+Bp8/Mru
-	7Q==
-Received: (qmail 3332279 invoked from network); 2 May 2024 20:17:37 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 2 May 2024 20:17:37 +0200
-X-UD-Smtp-Session: l3s3148p1@BLgvnnwXNKlehhrT
-Date: Thu, 2 May 2024 20:17:37 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-renesas-soc@vger.kernel.org, Dirk Behme <dirk.behme@de.bosch.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Aleksandar Mitev <amitev@visteon.com>, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org
-Subject: Re: [RFC PATCH 2/2] serial: sh-sci: always cancel hrtimer when DMA
- RX is invalidated
-Message-ID: <20240502181737.b5vvghnwzievvlgj@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-renesas-soc@vger.kernel.org,
-	Dirk Behme <dirk.behme@de.bosch.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Aleksandar Mitev <amitev@visteon.com>, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org
-References: <20240416123545.7098-4-wsa+renesas@sang-engineering.com>
- <20240416123545.7098-6-wsa+renesas@sang-engineering.com>
- <CAMuHMdUEvft0B9WdfZ936ccomZW4Qea8MVNSj-Q-Dyn8EKSUdA@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=oOVxWfRwp0/XZ5dCOaxcb8d9t3+ZR99BlWh6Ax810SWkC3KlO3G1LWhAm1Tjw6GEC7Oaj7+TEg4jU3oj8kDBAhWHAg+r/cQHTTBu0zf8es2z5dgaNDJ55DATwlYW/r6CJElZyzEYjzDQhG5DItA8RvxIlHfOVlKj/O5tyEv9QU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HyLv59p9; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3D31B63B;
+	Thu,  2 May 2024 20:22:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1714674138;
+	bh=UqnKdnKW1IMvFcK4jgRjsuh6eHg86N4kiwqUWDozBp8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HyLv59p9nMZVrgyAViiyENTezsEaWzYkltajX1VyauWQZL3VC3LvyR+YR2WHvr1lU
+	 GHAHvqNYEWY1DqWDrTov4u+TZ/zhEhSHantOyXWhyNsYXwub5DnsNUg4bVWXHVFEMk
+	 mChL3Q3RprWrkCXOZO0GyueiOB/bRtT1BoZsvPjc=
+Date: Thu, 2 May 2024 21:23:09 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 10/19] media: max9286: Use frame interval from subdev
+ state
+Message-ID: <20240502182309.GQ15807@pendragon.ideasonboard.com>
+References: <20240430103956.60190-1-jacopo.mondi@ideasonboard.com>
+ <20240430103956.60190-11-jacopo.mondi@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="h6vetrfs6rdknizx"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdUEvft0B9WdfZ936ccomZW4Qea8MVNSj-Q-Dyn8EKSUdA@mail.gmail.com>
+In-Reply-To: <20240430103956.60190-11-jacopo.mondi@ideasonboard.com>
 
+Hi Jacopo,
 
---h6vetrfs6rdknizx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Thank you for the patch.
 
-Hi Geert,
+On Tue, Apr 30, 2024 at 12:39:46PM +0200, Jacopo Mondi wrote:
+> Use the frame interval stored in the subdev state instead of storing
+> a copy in the driver private structure.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> ---
+>  drivers/media/i2c/max9286.c | 52 ++++++++-----------------------------
+>  1 file changed, 11 insertions(+), 41 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index 575d8ac8efa1..ae1b73fde832 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -197,8 +197,6 @@ struct max9286_priv {
+>  	struct v4l2_ctrl *pixelrate_ctrl;
+>  	unsigned int pixelrate;
+>  
+> -	struct v4l2_fract interval;
+> -
+>  	unsigned int nsources;
+>  	unsigned int source_mask;
+>  	unsigned int route_mask;
+> @@ -571,11 +569,14 @@ static void max9286_set_video_format(struct max9286_priv *priv,
+>  		      MAX9286_INVVS | MAX9286_HVSRC_D14);
+>  }
+>  
+> -static void max9286_set_fsync_period(struct max9286_priv *priv)
+> +static void max9286_set_fsync_period(struct max9286_priv *priv,
+> +				     struct v4l2_subdev_state *state)
+>  {
+> +	struct v4l2_fract *interval;
+>  	u32 fsync;
+>  
+> -	if (!priv->interval.numerator || !priv->interval.denominator) {
+> +	interval = v4l2_subdev_state_get_interval(state, MAX9286_SRC_PAD);
+> +	if (!interval->numerator || !interval->denominator) {
+>  		/*
+>  		 * Special case, a null interval enables automatic FRAMESYNC
+>  		 * mode. FRAMESYNC is taken from the slowest link.
+> @@ -591,8 +592,8 @@ static void max9286_set_fsync_period(struct max9286_priv *priv)
+>  	 * The FRAMESYNC generator is configured with a period expressed as a
+>  	 * number of PCLK periods.
+>  	 */
+> -	fsync = div_u64((u64)priv->pixelrate * priv->interval.numerator,
+> -			priv->interval.denominator);
+> +	fsync = div_u64((u64)priv->pixelrate * interval->numerator,
+> +			interval->denominator);
+>  
+>  	dev_dbg(&priv->client->dev, "fsync period %u (pclk %u)\n", fsync,
+>  		priv->pixelrate);
+> @@ -802,7 +803,7 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
+>  		format = v4l2_subdev_state_get_format(state, source_idx);
+>  
+>  		max9286_set_video_format(priv, format);
+> -		max9286_set_fsync_period(priv);
+> +		max9286_set_fsync_period(priv, state);
+>  
+>  		/*
+>  		 * The frame sync between cameras is transmitted across the
+> @@ -871,44 +872,14 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
+>  	return ret;
+>  }
+>  
+> -static int max9286_get_frame_interval(struct v4l2_subdev *sd,
+> -				      struct v4l2_subdev_state *sd_state,
+> -				      struct v4l2_subdev_frame_interval *interval)
+> -{
+> -	struct max9286_priv *priv = sd_to_max9286(sd);
+> -
+> -	/*
+> -	 * FIXME: Implement support for V4L2_SUBDEV_FORMAT_TRY, using the V4L2
+> -	 * subdev active state API.
+> -	 */
+> -	if (interval->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+> -		return -EINVAL;
+> -
+> -	if (interval->pad != MAX9286_SRC_PAD)
+> -		return -EINVAL;
 
-good news, I was able to trigger the DMA rx code path. I dunno what I
-did wrong last time. I started from scratch again and it worked easily
-by dd-ing random data to the second non-console debug port.
+You will now return a value for the sink pads. Is that fine ?
 
-> I do think you need to cancel the timer: even when not restarting
-> the timer in sci_dma_rx_complete() due to a DMA failure, the previous
-> timer may still be running, and will cause a NULL pointer dereference
-> on s->chan_rx on timer expiry.
+> -
+> -	interval->interval = priv->interval;
+> -
+> -	return 0;
+> -}
+> -
+>  static int max9286_set_frame_interval(struct v4l2_subdev *sd,
+> -				      struct v4l2_subdev_state *sd_state,
+> +				      struct v4l2_subdev_state *state,
+>  				      struct v4l2_subdev_frame_interval *interval)
+>  {
+> -	struct max9286_priv *priv = sd_to_max9286(sd);
+> -
+> -	/*
+> -	 * FIXME: Implement support for V4L2_SUBDEV_FORMAT_TRY, using the V4L2
+> -	 * subdev active state API.
+> -	 */
+> -	if (interval->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+> -		return -EINVAL;
+> -
+>  	if (interval->pad != MAX9286_SRC_PAD)
+>  		return -EINVAL;
+>  
+> -	priv->interval = interval->interval;
+> +	*v4l2_subdev_state_get_interval(state, interval->pad) = interval->interval;
+>  
+>  	return 0;
+>  }
+> @@ -966,7 +937,7 @@ static const struct v4l2_subdev_pad_ops max9286_pad_ops = {
+>  	.enum_mbus_code = max9286_enum_mbus_code,
+>  	.get_fmt	= v4l2_subdev_get_fmt,
+>  	.set_fmt	= max9286_set_fmt,
+> -	.get_frame_interval = max9286_get_frame_interval,
+> +	.get_frame_interval = v4l2_subdev_get_frame_interval,
 
-Taking locking into account, I think this patch is bogus. If we run into
-this NULL-pointer, we have a locking problem and cancelling the timer in
-sci_dma_rx_chan_invalidate() is not going to fix the underlying locking
-problem. sci_dma_rx_chan_invalidate() does not only clear the pointer
-but also the cookie_rx-array. sci_dma_rx_timer_fn() bails out via
-sci_dma_rx_find_active() if that array is cleared. It does so before
-accessing the chan_rx-pointer. So, it looks to me that should work once
-all calls to sci_dma_rx_chan_invalidate() are protected. And there is
-one path where this is not true, namely via sci_dma_rx_release() during
-shutdown. This is why I asked Dirk if the system was about to shutdown.
-Currently, I don't see any other problematic code path.
+In otder to do so, you need to initialize the interval in the
+.init_state() operation.
 
-> > -#ifdef CONFIG_SERIAL_SH_SCI_DMA
-> > -       if (s->chan_rx_saved) {
-> > -               dev_dbg(port->dev, "%s(%d) deleting rx_timer\n", __func__,
-> > -                       port->line);
-> > -               hrtimer_cancel(&s->rx_timer);
-> > -       }
-> > -#endif
+>  	.set_frame_interval = max9286_set_frame_interval,
+>  };
+>  
+> @@ -1148,7 +1119,6 @@ static int max9286_setup(struct max9286_priv *priv)
+>  	max9286_write(priv, 0x69, (0xf & ~priv->route_mask));
+>  
+>  	max9286_set_video_format(priv, &max9286_default_format);
+> -	max9286_set_fsync_period(priv);
+>  
+>  	cfg = max9286_read(priv, 0x1c);
+>  	if (cfg < 0)
 
-Also, this chunk needs to stay. I suggested in patch 1 to cancel the
-timer on successful dma_rx_complete, so the timer only runs when a DMA
-is in progress. Then, of course, we need to cancel it in shutdown.
+-- 
+Regards,
 
-I hope I am not seeing "no wood for the trees" by now. I am not
-convinced that I actually found Dirk's race condition yet...
-
-All the best,
-
-   Wolfram
-
-
---h6vetrfs6rdknizx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmYz2L0ACgkQFA3kzBSg
-KbbZQRAAsQIP51T8nRbMyG0IcszboQuFisobiJLZh/Bshh57hC/j3aIacLk8kpBm
-V3rR1WRUgfMdFlRxxoo3W1kYFZC0O8JXQvM5+5J3VAfvD3+7ukEbmYvBe/6brMf+
-Ji4p9kow5Q6mCaB7aQLmwkFf8NDtbThYX2/jSKug4MPE9ta4KK49XecNfnJHNeD4
-imOH3XWX65wb4qNomiDagbmM8FHeVWq7hNh0ERrlkHWXZQNSO0gRHEUj19FNgLmX
-ctDJNJNZQEe1y6UapsukFQyycJXvOn2WIRbDdqk1ysew8Vol/wF4s9XRbCnT4HDc
-Ga851NbnAP7ke19XRs3PT65PAFVjobknnNFi1Bm0zlCGnS3gcMX+/wJ1yQbU3zot
-mqeLYxzZU/VKzA48dni/pHT2SGTUb9OZOZCTq2LjwnPkEhwFKmZgWzXqixewFqpI
-MhYh41dViiUvPVgVDYgB63Zu3TyAlE0j9L6zGTK9cxrfLiwidObp4N4SchNtf6G2
-UsibHNx4Px3QiCOw17EbWzqTsr35xkOiB1elw+Uzq5Yk6REFgpjx1yy1SrF3XkiW
-1ZbgFr9hHPqWVol8Wb/NGj6vflSqGyDYBbxchfZD6s2Y2LfFopxnsybB3m+SCVV1
-5GfdQrHI6MVQOt+HfpWJaJ1lVgj/ztN7zYkqrCBy+9AgF7u8oUc=
-=PYh5
------END PGP SIGNATURE-----
-
---h6vetrfs6rdknizx--
+Laurent Pinchart
 
