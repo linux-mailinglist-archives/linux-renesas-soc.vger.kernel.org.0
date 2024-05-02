@@ -1,109 +1,179 @@
-Return-Path: <linux-renesas-soc+bounces-5048-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5049-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 386818B9FAF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2024 19:43:18 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC7BB8B9FC9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2024 19:50:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 68B391C20B68
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2024 17:43:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 22C971C21C01
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2024 17:50:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEA5F16FF47;
-	Thu,  2 May 2024 17:43:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F4D0171063;
+	Thu,  2 May 2024 17:50:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="hJNP/kF9"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="eBeyF8X5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD1516FF3E
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 May 2024 17:43:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9666816D4FC;
+	Thu,  2 May 2024 17:50:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714671793; cv=none; b=FrscHSJ065of5/vyWHjpVDnqE7Ff2vuv2Ko/0EK8gZR0J/o7yY9S49difji1CgK1jUtzc2frAL9kAbsmALpOWTnywBN1sn8Aif80OX1wY1YYZ7q+kLGAuWoQbUUCo8cWYxbzB0Pdo7IePbphQaFsGgTJF2uRl/MsgdVNRubRjLM=
+	t=1714672210; cv=none; b=iqT7N7aa+hBsCxQySKPBOovADfzULeUY4dw/o3x2Pio4ahhBcmYcx+95G/3fzR0qSRO3kErTT7ZkZmN/Oxl0CaFmoJO6ar9mB5SO55A3bySkImwPFuamkFyswW7eRLhj3Xnm9ZAZtj2Q/OU+DS6qZO3qwTkPa8mRFJ7vwGejbOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714671793; c=relaxed/simple;
-	bh=Y5ekIZwPfHQZZ4zAd1mbempq7CrzxXibwR0O5Re0qNk=;
+	s=arc-20240116; t=1714672210; c=relaxed/simple;
+	bh=9LJQmtV+oE4txYT+4TMGYz846c/C4765U9W5VoCZMuU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OANyAqgBm0vqZakWE/9G5E8uYZitTkN2shf7pXcMD8qMfDtQtjwQE5H6wkwa8voViHCI6etbeTY9uz+13B+qBDxlEb3tAt+fRaT5bvcTa0RJUwt21GmXA6wlKR0VzmPZLyDwZUX0tMSCdfYa4b5uwkT4/8B1miRkpLXt55TaB9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=hJNP/kF9; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=Y5ek
-	IZwPfHQZZ4zAd1mbempq7CrzxXibwR0O5Re0qNk=; b=hJNP/kF9066QRVxBntrp
-	XBX1uwuVAsRaXvyqFMMzfwgxsQSmi0zvlbr575Y/JL7/obTBCHLuJBP65M+wGqrR
-	nNPZbeGd6lIoAUCVnFchesMHy6cks+scr6Wzy1m0MDAa9eiqELEG0hrjflsIQYSZ
-	AU4jbniV1vwUvS8RwwyjEC+ugw/1Izc6UCQjoojNbjZAfiOZfgyPMAEI9LKmxfg9
-	PpmIaCLMRQ8dZTmjENLhgVc2R7EvewXXiH5sQO8+KfzHo6PFa1B+mc8VGwAufVua
-	Sht7Z0ftF1W0har40HaR7pvEsPsko2XpsDhwqvy2Rho93XhUWeGZXSnSjGiwa8MF
-	Qw==
-Received: (qmail 3324393 invoked from network); 2 May 2024 19:42:58 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 2 May 2024 19:42:58 +0200
-X-UD-Smtp-Session: l3s3148p1@dLpEInwX9q5ehhrT
-Date: Thu, 2 May 2024 19:42:57 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Dirk Behme <dirk.behme@de.bosch.com>
-Cc: Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: tty: serial: sh-sci: hrtimer not properly canceled on chan_rx
- invalidation?
-Message-ID: <20240502174257.gfmk7al3qkv7jiyj@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Dirk Behme <dirk.behme@de.bosch.com>,
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-References: <ee6c9e16-9f29-450e-81da-4a8dceaa8fc7@de.bosch.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=UaUph5YV3hkXdakB2Dk7GZHuBfEFzGex+S2ws9g4/meTfaL2iqZ8q12GruBucQFs09SYJZcQGu/mUV/RyqrOfm+bgCK+LjAVwv+hWKEoap1RcyHLNZB942F8WDKRghPiJG7h5toiWX78INeWSS1NWsCINyqK5eLXf/ZB5tQFRfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=eBeyF8X5; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C7525552;
+	Thu,  2 May 2024 19:49:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1714672149;
+	bh=9LJQmtV+oE4txYT+4TMGYz846c/C4765U9W5VoCZMuU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eBeyF8X50AK4EB4S+teinQvNxaYIUa+53reiEPSoYuUytjUyFvuVg2numSgXZPxNP
+	 PE4Wu16JRZmG4OwJKBzzhWTxswf13FKpyn5uD6FxdnXb20vVKVe/bUf722uvgo9qUk
+	 1JYE7UR9OzsaCwJQdUkkzEV6SUgV9b9r39Q0Wc50=
+Date: Thu, 2 May 2024 20:49:59 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 05/19] media: adv748x: Implement set_routing()
+Message-ID: <20240502174959.GK15807@pendragon.ideasonboard.com>
+References: <20240430103956.60190-1-jacopo.mondi@ideasonboard.com>
+ <20240430103956.60190-6-jacopo.mondi@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jyhn2ybajmt3qznt"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ee6c9e16-9f29-450e-81da-4a8dceaa8fc7@de.bosch.com>
+In-Reply-To: <20240430103956.60190-6-jacopo.mondi@ideasonboard.com>
 
+Hi Jacopo,
 
---jyhn2ybajmt3qznt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Thank you for the patch.
 
-Dirk,
+On Tue, Apr 30, 2024 at 12:39:41PM +0200, Jacopo Mondi wrote:
+> Implement the set_routing() pad operation to control the MIPI CSI-2
+> Virtual Channel on which the video stream is sent on according to
+> the active route source stream number.
 
-> using drivers/tty/serial/sh-sci.c (on 4.14.x Renesas BSP) what is quite
-> similar to [1] we got [2].
+While 01/19 needs to implement .init_state(), you should only initialize
+formats there. The routing initialization of 03/19 should be moved to
+this patch.
 
-Do you know if the system was about to shutdown/reboot? Taking locking
-into account, I only see a race condition when shutting down. Perhaps it
-is this one already or I still haven't found it yet.
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> ---
+>  drivers/media/i2c/adv748x/adv748x-csi2.c | 43 +++++++++++++++++++++++-
+>  1 file changed, 42 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
+> index ace4e1d904d9..7fa72340e66e 100644
+> --- a/drivers/media/i2c/adv748x/adv748x-csi2.c
+> +++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
+> @@ -57,6 +57,38 @@ static int adv748x_csi2_register_link(struct adv748x_csi2 *tx,
+>  	return 0;
+>  }
+>  
+> +static int adv748x_csi2_apply_routing(struct v4l2_subdev *sd,
+> +				      struct v4l2_subdev_state *state,
+> +				      struct v4l2_subdev_krouting *routing)
+> +{
+> +	struct v4l2_subdev_route *route;
+> +	int ret;
+> +
+> +	/* Only one route at the time can be active. */
 
+s/the time/a time/
 
---jyhn2ybajmt3qznt
-Content-Type: application/pgp-signature; name="signature.asc"
+> +	if (routing->num_routes > 1)
+> +		return -EINVAL;
 
------BEGIN PGP SIGNATURE-----
+You should adjust routes instead of returning -EINVAL.
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmYz0KEACgkQFA3kzBSg
-KbYCiA//SGZmniAt3ke2soM3ewrMGc0+W0jB7+D875ZL3JhkgvSkwIzqvYmBSmkJ
-qMIyUbDJuhf5JRhPPCDrhSkcS/9OJi/7a34ZDdt7/jw0YDItXhoeB+wP4nz8XBm4
-sFCMEwnKzf2jPJ1gSfxsiPxonPK7WFuvRuujxSf8qAHEFIzmXKy7UW4tcxYMU36A
-xQWOnSZQ5aA1rhN1+Am7UgW83eiIjLjP5sci52Oyf3p0okurM1lQvmoJtgG6slbK
-FvcCt0raPUo/FPmFjfJeCifyPUkjFWbCFIGzJbjwymAcE5OYvTYo/LNYa2h1lH1S
-5b74xg/NdN9mdfWOF0SyYUu8HPwFG15uUJar/JCf+hbObHCYHdQtMraD6XL7d/Lu
-EHa/XpduY/SLh7Z9YA25tAHbQb+6cXLX/ZThxEeaYwpKik83KobNQ9PHijMX7xS8
-mgt3t1RKlDEujFn3fA4cXttA1A+2frXXF2LwdYRson+y6LFhaMwd4bdzA8iG9nGF
-2070PnUytcbR41TCvUUIHlcBiTI9uTeXY+cJBVl+fuC+RWwK0PhQsNAN50y09c1u
-uwtXOKhwyQSgHHuhNOGarz4hIlDRJqVEtbMEdzX5Iu/cYmMTmT8/yDx3KSJXS9yP
-CpTaTBa3Dql2cAiTQF2L1Ssw+IAaeKlce/O6OGb2JZeV2T/I9wo=
-=T5wc
------END PGP SIGNATURE-----
+> +
+> +	/*
+> +	 * Validate the route: sink pad and sink stream shall be 0 and only
+> +	 * 4 source streams are supported (one for each supported MIPI CSI-2
+> +	 * channel).
 
---jyhn2ybajmt3qznt--
+s/channel/virtual channel/
+
+> +	 */
+> +	route = &routing->routes[0];
+> +
+> +	if (route->sink_pad != ADV748X_CSI2_SINK || route->sink_stream)
+> +		return -EINVAL;
+> +	if (route->source_pad != ADV748X_CSI2_SOURCE ||
+> +	    route->source_stream > 4)
+> +		return -EINVAL;
+
+Adjust instead of returning an error. The pad checks can be dropped, as
+the core ensures sink_pad and source_pad reference a valid sink and
+source pad respectively.
+
+I'm not sure the source stream check is right either. I understand
+you'll use that to select a virtual channel, but the routing API isn't
+meant to let userspace configure virtual channel numbers explicitly.
+
+> +
+> +	ret = v4l2_subdev_routing_validate(sd, routing,
+> +					   V4L2_SUBDEV_ROUTING_ONLY_1_TO_1);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return v4l2_subdev_set_routing(sd, state, routing);
+> +}
+> +
+>  /* -----------------------------------------------------------------------------
+>   * v4l2_subdev_internal_ops
+>   */
+> @@ -79,7 +111,7 @@ static int adv748x_csi2_init_state(struct v4l2_subdev *sd,
+>  		.routes = routes,
+>  	};
+>  
+> -	return v4l2_subdev_set_routing(sd, state, &routing);
+> +	return adv748x_csi2_apply_routing(sd, state, &routing);
+>  }
+>  
+>  /*
+> @@ -200,10 +232,19 @@ static int adv748x_csi2_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad
+>  	return 0;
+>  }
+>  
+> +static int adv748x_csi2_set_routing(struct v4l2_subdev *sd,
+> +				    struct v4l2_subdev_state *state,
+> +				    enum v4l2_subdev_format_whence which,
+> +				    struct v4l2_subdev_krouting *routing)
+> +{
+> +	return adv748x_csi2_apply_routing(sd, state, routing);
+> +}
+> +
+>  static const struct v4l2_subdev_pad_ops adv748x_csi2_pad_ops = {
+>  	.get_fmt = v4l2_subdev_get_fmt,
+>  	.set_fmt = adv748x_csi2_set_format,
+>  	.get_mbus_config = adv748x_csi2_get_mbus_config,
+> +	.set_routing = adv748x_csi2_set_routing,
+>  };
+>  
+>  /* -----------------------------------------------------------------------------
+
+-- 
+Regards,
+
+Laurent Pinchart
 
