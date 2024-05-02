@@ -1,217 +1,129 @@
-Return-Path: <linux-renesas-soc+bounces-5052-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5053-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 116BA8B9FDE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2024 19:57:31 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C88A38B9FF7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2024 20:02:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BF3E22822DD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2024 17:57:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 35B71B22605
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2024 18:02:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53AD8171065;
-	Thu,  2 May 2024 17:57:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BA6D171664;
+	Thu,  2 May 2024 18:01:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UfEDyEHl"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="L7u2MDey"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0E216FF44;
-	Thu,  2 May 2024 17:57:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824A8171668
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  2 May 2024 18:01:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714672648; cv=none; b=trBNLDCX2kemakblJPAP0SqrAs70OASC7h3ufxdWd7+3Z7pyeAj97OR8ivNfO93WBH6OklLc4wpbvtMwyRb4aT6iGVp3Y/y1PJ4t373i1YJarEM96mFRiML0QOqTW9j+5ba9jNpiw+JhbYc/8FqcgRoIkzVHVlCms8Jhvh5yKuQ=
+	t=1714672917; cv=none; b=RtoWrVJourFY6pq4nA6RMYoaRub3UzGugBq2YSjUT6sq1YV1LhTFmN6a8n/exiDwDGw9wNPITFUP7hiMi14UA04tqlMyj8sNi+waAPHGhZlMOgLjIG47RpIplVpynnnq9sTc4dBOdw/0LarqeUU6DhGfwFp6dbAeUz2YGPJo9ZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714672648; c=relaxed/simple;
-	bh=emeteYJ2lPGIRo0wB2dKC+t1TfNv7uwH6zsKNxALwxM=;
+	s=arc-20240116; t=1714672917; c=relaxed/simple;
+	bh=DAkYBXQJBlpsNF/cl0LhpQ554Vz5rmbPd7g3ktFfzqg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t+wHiZM5F63sqqqcOd7Qb3gxhaDOBQH/R8YpwQyrk5IlcI30Rp1pGApMq9nnA+qHqRMS1ndpCJpmmxg3wi22oOOfGa3X0b+G1GjSh9dNKksh5sG7L+WwAvREx9EHH+ZGxrOObj/H7u8G5ibzaIQZh7TUp4+bd3QDCy6MCP6/f+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UfEDyEHl; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6FBB5552;
-	Thu,  2 May 2024 19:56:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1714672587;
-	bh=emeteYJ2lPGIRo0wB2dKC+t1TfNv7uwH6zsKNxALwxM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UfEDyEHlf0fgipfgy1TCGbuk7sQoWe0WzzyPqdUG1um8amoz/iHxWNLQp6KmRjPb9
-	 fpoJg99tOXas9fmLxdvDp09xR0M9C3W2rZxc7kRWIQAoJ18dT4arYpd5X6/lGCyOXH
-	 PiLU/5mn063uwAFafE1IFrsCnBg3bDN9/83QuYJM=
-Date: Thu, 2 May 2024 20:57:17 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 07/19] media: adv748x: Implement .get_frame_desc()
-Message-ID: <20240502175717.GN15807@pendragon.ideasonboard.com>
-References: <20240430103956.60190-1-jacopo.mondi@ideasonboard.com>
- <20240430103956.60190-8-jacopo.mondi@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=PTb7Fkn/o2ckkFRsu7CYtzVq7pmN+hCMDhSTLSYF02idguTUcWl1IfFiQ6pNnYfHXGXtJ2HCD53bW3yAsojRdZUwmoM3lCQi5LOZUocq4sPSdnJZMtFysY6E/tffm3U1IX67g4lHBk6Zg91SGdCx8vbZjPgV0S1SBSSB8ilk6Uo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=L7u2MDey; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=DAkY
+	BXQJBlpsNF/cl0LhpQ554Vz5rmbPd7g3ktFfzqg=; b=L7u2MDey/d4F/lQ7UABU
+	Z/M6vmijg7t+e+DEuCECZapnyPou4ovwXIhWAT0JM3JY7KwVvTdwympoZLsdyIWp
+	qDhDthErgimKMhw3t3fzGgHm33jDUUwjsm3H5V++cdq+N7SRYmmwc7B/yaZJ6JLB
+	Ho3q2OHEGD7QoDyw+Q0KP1wo+KLI1jIEhwaPn1tUFwR3Xbe9s+Dnm6iJGMee3D4p
+	HzwHsu+onP+7LerXS9ho7953JHaBmgPgETbKH6geWWvkOVediD/L8UlKulMRI9vK
+	AG30A8O3kpqU0+bDjwcw+BgZ2dvhCUiqc3+GpP3i1jUkUe5Q6NjSLMVl2DbEJsIZ
+	4A==
+Received: (qmail 3328518 invoked from network); 2 May 2024 20:01:51 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 2 May 2024 20:01:51 +0200
+X-UD-Smtp-Session: l3s3148p1@aBfBZXwXBu1ehhrT
+Date: Thu, 2 May 2024 20:01:50 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Dirk Behme <dirk.behme@de.bosch.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org
+Subject: Re: [RFC PATCH 1/2] serial: sh-sci: start hrtimer after setting up
+ DMA
+Message-ID: <20240502180150.r3pb2izsjlpqzszz@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Dirk Behme <dirk.behme@de.bosch.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org
+References: <20240416123545.7098-4-wsa+renesas@sang-engineering.com>
+ <20240416123545.7098-5-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="js57najwoohyptm3"
 Content-Disposition: inline
-In-Reply-To: <20240430103956.60190-8-jacopo.mondi@ideasonboard.com>
+In-Reply-To: <20240416123545.7098-5-wsa+renesas@sang-engineering.com>
 
-Hi Jacopo,
 
-Thank you for the patch.
+--js57najwoohyptm3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Apr 30, 2024 at 12:39:43PM +0200, Jacopo Mondi wrote:
-> Implement the get_frame_desc subdev pad operation.
-> 
-> Implement the get_frame_desc pad operation to allow retrieving the
-> stream configuration of the adv748x csi2 subdevice.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> ---
->  drivers/media/i2c/adv748x/adv748x-csi2.c | 86 ++++++++++++++++++++++++
->  1 file changed, 86 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> index a7bfed393ff0..497586aff6b2 100644
-> --- a/drivers/media/i2c/adv748x/adv748x-csi2.c
-> +++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> @@ -8,12 +8,51 @@
->  #include <linux/module.h>
->  #include <linux/mutex.h>
->  
-> +#include <media/mipi-csi2.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-device.h>
->  #include <media/v4l2-ioctl.h>
->  
->  #include "adv748x.h"
->  
-> +struct adv748x_csi2_format_info {
-> +	u8 dt;
-> +	u8 bpp;
-> +};
-> +
-> +static int adv748x_csi2_get_format_info(struct adv748x_csi2 *tx, u32 mbus_code,
-> +					struct adv748x_csi2_format_info *fmt)
-> +{
-> +	switch (mbus_code) {
-> +	case MEDIA_BUS_FMT_YUYV8_1X16:
-> +		fmt->dt = MIPI_CSI2_DT_YUV422_8B;
-> +		fmt->bpp = 16;
-> +		break;
-> +	case MEDIA_BUS_FMT_YUYV10_1X20:
-> +		fmt->dt = MIPI_CSI2_DT_YUV422_10B;
-> +		fmt->bpp = 20;
-> +		break;
-> +	case MEDIA_BUS_FMT_RGB565_1X16:
-> +		fmt->dt = MIPI_CSI2_DT_RGB565;
-> +		fmt->bpp = 16;
-> +		break;
-> +	case MEDIA_BUS_FMT_RGB666_1X18:
-> +		fmt->dt = MIPI_CSI2_DT_RGB666;
-> +		fmt->bpp = 18;
-> +		break;
-> +	case MEDIA_BUS_FMT_RGB888_1X24:
-> +		fmt->dt = MIPI_CSI2_DT_RGB888;
-> +		fmt->bpp = 24;
-> +		break;
-> +	default:
-> +		dev_dbg(tx->state->dev,
-> +			"Unsupported media bus code: %u\n", mbus_code);
-> +		return -EINVAL;
+On Tue, Apr 16, 2024 at 02:35:47PM +0200, Wolfram Sang wrote:
+> In the RX DMA completion handler, the hrtimer was restarted before DMA
+> was set up. If DMA failed, for some reason, it would clean up and the
+> hrtimer would run into a NULL-pointer. Restart the timer after DMA was
+> successfully set up.
 
-That should never happen, right ?
+Further investigations, please review:
 
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static int adv748x_csi2_set_virtual_channel(struct adv748x_csi2 *tx,
->  					    unsigned int vc)
->  {
-> @@ -258,11 +297,58 @@ static int adv748x_csi2_set_routing(struct v4l2_subdev *sd,
->  	return adv748x_csi2_apply_routing(sd, state, routing);
->  }
->  
-> +static int adv748x_csi2_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
-> +				       struct v4l2_mbus_frame_desc *fd)
-> +{
-> +	struct adv748x_csi2 *tx = adv748x_sd_to_csi2(sd);
-> +	struct adv748x_csi2_format_info info = {};
+Originally, I thought this was the race condition Dirk encountered. But
+I didn't take locking into account. sci_dma_rx_timer_fn() is protected
+by the uart_port_lock. sci_dma_rx_complete() is also protected by the
+uart_port_lock. So, the position of restarting the hrtimer should not
+matter.
 
-Why do you need to initialize the structure to 0 ?
+However, I still think it is good coding practice (and easier to
+understand) if we cancel the hrtimer at the begin of
+sci_dma_rx_complete() and reenable it only if setting DMA was
+successful. Because that basically means the timer only runs when DMA
+was scheduled and has not finished yet.
 
-> +	struct v4l2_mbus_frame_desc_entry *entry;
-> +	struct v4l2_subdev_route *route;
-> +	struct v4l2_subdev_state *state;
-> +	struct v4l2_mbus_framefmt *fmt;
-> +	int ret = -EINVAL;
-> +
-> +	if (pad != ADV748X_CSI2_SOURCE)
-> +		return -EINVAL;
-> +
-> +	state = v4l2_subdev_lock_and_get_active_state(sd);
-> +
-> +	/* A single route is available. */
-> +	route = &state->routing.routes[0];
-> +	fmt = v4l2_subdev_state_get_format(state, pad, route->source_stream);
-> +	if (!fmt)
-> +		goto err_unlock;
+There is some unnecessary unlock/lock in the error handling of
+sci_dma_rx_complete(). I'll simplify this by moving the dev_err
+downwards.
 
-Can this happen ?
 
-> +
-> +	ret = adv748x_csi2_get_format_info(tx, fmt->code, &info);
-> +	if (ret)
-> +		goto err_unlock;
-> +
-> +	memset(fd, 0, sizeof(*fd));
+--js57najwoohyptm3
+Content-Type: application/pgp-signature; name="signature.asc"
 
-This is done by the caller.
+-----BEGIN PGP SIGNATURE-----
 
-> +
-> +	/* A single stream is available. */
-> +	fd->num_entries = 1;
-> +	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
-> +
-> +	entry = &fd->entry[0];
-> +	entry->stream = 0;
-> +	entry->flags = V4L2_MBUS_FRAME_DESC_FL_LEN_MAX;
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmYz1Q4ACgkQFA3kzBSg
+KbZm0w//eZ5cZq4DX8pPTTvVIVuT9AjpiB59BUYA79fhrfvqyyCVCBp723SSdNJT
+7O+8oUCVy+jpkDb0CTCFYy2ejvEwDVBoq5TMgRREpGw04MnBzSvYmogeLhdKdqro
+JCTuIdoU4K3OzXZsbqLi98ZQwpZmXaxNPF4Hjq3hQN+atJu9cmIgQq/2jbNptx7e
+Cq9ow1Jowp1RngMR9i0CVypjwwz4FsPk2u8j9jhrv1+Jnj68ThkoTePx0wof2ky0
+kYS6uNd+7P5MWVcLuFRCXAcPNNAxm4VgIRdd2qNJZ7G1v49uDwJ5IKlDlem5i3XQ
+WpyXOx0RizXXxlDbho+eQi6WgaafJ9q8KgcqE5iIBkp4gPp6oZ+2sd0bTUT2Xu97
+deDVQPoh1oiyY9T3reM50dRZ43zp/Yrt6Q8WC+zK7V6mNfuWQ6upN4umbOXPObCH
+t3Si8GOtMEox8fhg96hbbw3qNDPMv85Vr11dGGXmwOc6VY7WA61B299blH82gacT
+tPaa1oYuo7cm4yGc3ErqrwEs8a7rplctQNiE9YkTfIfhmysXiSjN4QwB6spxq3Ps
+09Rgews6i6y+Lzez1/CTn7xEvXWKoPoYNFOYr/wnkE81dOqcTvFT3ca3mUFLBtNv
+i0y/k12/IuQGweQn2G0lx5A4ahvtrGIKAzW28dHeJoVj7T6wq3c=
+=4p+v
+-----END PGP SIGNATURE-----
 
-This is meant for streams that carry variable-length data. You cand drop
-and, and leave the .length field unset.
-
-> +	entry->length = fmt->width * fmt->height * info.bpp / 8;
-> +	entry->pixelcode = fmt->code;
-> +	entry->bus.csi2.vc = route->source_stream;
-> +	entry->bus.csi2.dt = info.dt;
-> +
-> +err_unlock:
-> +	v4l2_subdev_unlock_state(state);
-> +
-> +	return ret;
-> +}
-> +
->  static const struct v4l2_subdev_pad_ops adv748x_csi2_pad_ops = {
->  	.get_fmt = v4l2_subdev_get_fmt,
->  	.set_fmt = adv748x_csi2_set_format,
->  	.get_mbus_config = adv748x_csi2_get_mbus_config,
->  	.set_routing = adv748x_csi2_set_routing,
-> +	.get_frame_desc = adv748x_csi2_get_frame_desc,
->  };
->  
->  /* -----------------------------------------------------------------------------
-
--- 
-Regards,
-
-Laurent Pinchart
+--js57najwoohyptm3--
 
