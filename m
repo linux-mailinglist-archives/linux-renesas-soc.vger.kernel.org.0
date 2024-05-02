@@ -1,171 +1,184 @@
-Return-Path: <linux-renesas-soc+bounces-5034-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5035-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 326968B9C54
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2024 16:33:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 539AA8B9D4C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2024 17:24:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 55DB41C216DE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2024 14:33:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 01F5728A35C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2024 15:24:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37BAA15351F;
-	Thu,  2 May 2024 14:33:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04E2615B14D;
+	Thu,  2 May 2024 15:24:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="htIczQVc";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="jGFHVDhp"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="1F3t/Ktg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from wfhigh4-smtp.messagingengine.com (wfhigh4-smtp.messagingengine.com [64.147.123.155])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C93153509;
-	Thu,  2 May 2024 14:33:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 645421552EE;
+	Thu,  2 May 2024 15:24:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714660414; cv=none; b=LDB5FU0wRp3XwvCOMGMQgSCBbZ4s9fJar0sbnbxuI5WnATIEliu0dJc/1WImMgXtFXtVuLWVKRY//gZ7KYQShXKeF+hTg5IE9IrBEKuyyVHHKMucFq+3BWjCUO5iPQQMTeOLOCx3z3lsxGGGvVJlsRnC/uW1WxI7b9klCOFbK2w=
+	t=1714663445; cv=none; b=TAjJSmdPw8CQxtEOQFkHxWfCljDSoSiq/ph5JY5F8AO/Wh3AgFSBjGfigDhCKatFA4n6YpVh3bPw6lbsEolRIOhYWuzcKxO54wRCpT+0LGIwu7faMYZwwEMX3bqzXCax8TLqu+jDTOemdmMZx32l8d4HQEixyA5poFWufdBvYbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714660414; c=relaxed/simple;
-	bh=kpt2UNWXmHgKiEQSyx27i29MsFz4YK1Ft8/K41tpNG4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c2/x5bshQG8424Rc3GZl4hdnOk5K771sQ2fHhiSqiEKe+eY1U6Eke+MBu4j/cGjpdDDrlF/PP50V1qiba8ZeDgr2NjtUB8Kw9CBmoSPYOoNIyF1yVV6GDShe6n9zEhMavuSKKA23Y/QZvNVQVYhRUtp53nQCKiYfDrw1HUIWBqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=htIczQVc; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=jGFHVDhp; arc=none smtp.client-ip=64.147.123.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfhigh.west.internal (Postfix) with ESMTP id 396E718000FD;
-	Thu,  2 May 2024 10:33:30 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Thu, 02 May 2024 10:33:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1714660409;
-	 x=1714746809; bh=7bdOaRp6Mqe6jKUXKLoauEa86u4mckyB8Y2VcyWH4a8=; b=
-	htIczQVcFNLzjiYxa/YP/pUTC1CvqKg1RncrJROnr3qqRpwmy7zQ7U52jNmKpYDp
-	qIbSwoGFqwzJ5JdSKjuOtbMRfCjw0GByKmdz2WDNJSa0AfkYpIxmRZ3hyUmifb7A
-	08EQafU1jwp7QjgEO9fKvsPvpazI0duFaNJfyEyVCwFQINkB13lPvk4tUrZJKNtA
-	Xh3c/AIr8ZH0OE7WyrwlMzvgXBwXiDWjSZxR/CNj6gPI+WB0XEk8vk4Uw+7FESgC
-	oLdqPY8eocU8tZwgLT4RFv59iu5C8vEB5Z8O/NlaCo+vYMFsfy2H2pWDZSLYAOqO
-	fzAf+qwq+Joul5WiVpSUrQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1714660409; x=
-	1714746809; bh=7bdOaRp6Mqe6jKUXKLoauEa86u4mckyB8Y2VcyWH4a8=; b=j
-	GFHVDhp1k+SPkHZf6Xf89PYmDFyjfA7JRhfKkPxduoE+NmiCUowGV6QiiVFbdaZ4
-	PrNi1ej/K6a8BhJBZRgbRFP61NFsReu/Ylo9b4dprslG6rcfc5RhP4Tm8reoO7W7
-	QijRH1CAg2uf2F0VALnKRupSETiqI/33/A7BlwIRNsnaPc7moXxcwTdQDcCAxUZf
-	yKbKnc658e4xNLVkho2i7n6x7omtAsifA0HIFSw+G71sdKBEGaY5e0f5TPb2GGXF
-	We30R1eDmE6pbktvyV9cxfW9+67dw6nmcK+PBu/X59jXoDGnIexQv+De4insftOh
-	NXm2zoLRRmudfUB/11lTQ==
-X-ME-Sender: <xms:OaQzZp9z-_Pn9NDkx-LYn7-ICZFRKNGW8RE2wsl6g5OlKkAb4sW7cA>
-    <xme:OaQzZtswe4wDlCzTMQr297poJFJGaA6Jdwfo0WpVUOXkZvUvU_j5a1QN_qcX0vwf9
-    UjoMSMDhMzn77EQAFk>
-X-ME-Received: <xmr:OaQzZnDnnGkdpur5XifbipbZpCOh0wTLUn94yE8QPLE4IbgTYXMR1-HWXU45Y7byZOJDWQjWtXx7Nu99VvdcrMvoUUEya-Y>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvddukedgjeekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
-    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnh
-    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeefhfellefh
-    ffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvdelieenucevlhhushhtvg
-    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggv
-    rhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:OaQzZteW4K9pH7GHcTi2k1bjxsVwl-Z2rezjdtAb_SW4ImGT48Vvtw>
-    <xmx:OaQzZuMnnWZzzELhB9SW7bvxYdPOPotu8ahKkE6UaOJoXRQ_3zK4cQ>
-    <xmx:OaQzZvmJ6gIxyYiB3kc2FSu6sjbsmIaiBOCR46RizOMPIOwcJZqYCg>
-    <xmx:OaQzZosG_IcytC6pkfqPVFkdiUPx6CpATYnSR3IIl-j2Yzo_abD3ng>
-    <xmx:OaQzZtenTteYNMvmwbMcCMzrUurjyJsLYnkRnMn5DBL5aXMljHqc3KjL>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 2 May 2024 10:33:28 -0400 (EDT)
-Date: Thu, 2 May 2024 16:33:26 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 19/19] media: rcar-vin: Fix YUYV8_1X16 handling for CSI-2
-Message-ID: <20240502143326.GD3927860@ragnatech.se>
-References: <20240430103956.60190-1-jacopo.mondi@ideasonboard.com>
- <20240430103956.60190-20-jacopo.mondi@ideasonboard.com>
+	s=arc-20240116; t=1714663445; c=relaxed/simple;
+	bh=FMM3UnDTD2ByyP54LzZrE/Xw0svJa2P8ocjjbGkC5tQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=IOpN2BkL6SXumnvR5VIs4qZBFmC87F/jPelrJtXpU0mz4QVVVxb0MLyeG3F7FnaOc2Gr+oUipX1LpEMngjdgFTf0efswlF5faqOUaXJHQ20+8L8MxxAr1JQAZJGyQmyzLzBzKxU1vfZ9zoOyNOUr1Mj+iiWvwPOa8HD89lZAZpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=1F3t/Ktg; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1714663441;
+	bh=FMM3UnDTD2ByyP54LzZrE/Xw0svJa2P8ocjjbGkC5tQ=;
+	h=From:Subject:Date:To:Cc:From;
+	b=1F3t/KtgV/3O9jHY4rDBPoqhFXyGhrx/P+SuFnKtrChJD4vL3dDMJuR9lGl3WDNZ+
+	 3EMc1sBEJhIkXVe0NDhNOYtShppc+aC2Lnv2fg/bDa5nJL8KVwMIud9UsFfT3/G9tA
+	 rmzgWBRetUvyukCLhc4fk1SWdRhHGyFAqjnrlygrrJucGimBH/dPh8O3rSWIRDicGS
+	 ndFwKOAjAAAF0SMjaI8n1d/p28PnRRiDrUneRZA/T9MFeunvmh5PYJQbNLA2CKnHht
+	 sstAzJ1ImRhhWHbHHkBYNTDGVtf8SCs61U6zgASibtszi697ta4syUIwqniy/LC/Ph
+	 O3CNWTGM3qOdQ==
+Received: from apertis.home (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: jmassot)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id DA9A4378148F;
+	Thu,  2 May 2024 15:23:57 +0000 (UTC)
+From: Julien Massot <julien.massot@collabora.com>
+Subject: [PATCH 0/2] Introduce v4l2_async_nf_unregister_cleanup
+Date: Thu, 02 May 2024 17:22:20 +0200
+Message-Id: <20240502-master-v1-0-8bd109c6a3ba@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240430103956.60190-20-jacopo.mondi@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKyvM2YC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDUwMj3dzE4pLUIl3TlNTUVENj4ySTNFMloOKCotS0zAqwQdGxtbUARbQ
+ EZVgAAAA=
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Jacopo Mondi <jacopo+renesas@jmondi.org>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+ Sylvain Petinot <sylvain.petinot@foss.st.com>, 
+ Yong Zhi <yong.zhi@intel.com>, Bingbu Cao <bingbu.cao@intel.com>, 
+ Dan Scally <djrscally@gmail.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
+ Eugen Hristev <eugen.hristev@collabora.com>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Maxime Ripard <mripard@kernel.org>, Rui Miguel Silva <rmfrfs@gmail.com>, 
+ Martin Kepplinger <martink@posteo.de>, Purism Kernel Team <kernel@puri.sm>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Robert Foss <rfoss@kernel.org>, 
+ Todor Tomov <todor.too@gmail.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+ Dafna Hirschfeld <dafna@fastmail.com>, Heiko Stuebner <heiko@sntech.de>, 
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, 
+ Hugues Fruchet <hugues.fruchet@foss.st.com>, 
+ Alain Volmat <alain.volmat@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Yong Deng <yong.deng@magewell.com>, 
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
+ Benoit Parrot <bparrot@ti.com>, Jai Luthra <j-luthra@ti.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Michal Simek <michal.simek@amd.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Sowjanya Komatineni <skomatineni@nvidia.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, 
+ linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+ linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org, 
+ Julien Massot <julien.massot@collabora.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+X-Mailer: b4 0.13.0
 
-Hi Jacopo,
+Many drivers has
+  v4l2_async_nf_unregister(&notifier);
+  v4l2_async_nf_cleanup(&notifier);
 
-Same for this patch, can't we fix this issue independent from the 
-streams work?
+Introduce a helper function to call both functions in one line.
 
-On 2024-04-30 12:39:55 +0200, Jacopo Mondi wrote:
-> The YUYV8_1X16 and UYVY8_1X16 formats are treated as 'ITU-R
-> BT.601/BT.1358 16-bit YCbCr-422 input' (YUV16 - 0x5) in the R-Car VIN
-> driver and are thus disallowed when capturing frames from the R-Car
-> CSI-2 interface according to the hardware manual.
-> 
-> As the 1X16 format variants are meant to be used with serial busses they
-> have to be treated as 'YCbCr-422 8-bit data input' (0x1) when capturing
-> from CSI-2, which is a valid setting for CSI-2.
-> 
-> Commit 78b3f9d75a62 ("media: rcar-vin: Add check that input interface
-> and format are valid") disallowed capturing YUV16 when using the CSI-2
-> interface. Fix this by using YUV8_BT601 for YCbCr422 when CSI-2 is in
-> use.
-> 
-> Fixes: 78b3f9d75a62 ("media: rcar-vin: Add check that input interface and format are valid")
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> ---
->  .../media/platform/renesas/rcar-vin/rcar-dma.c   | 16 +++++++++++++---
->  1 file changed, 13 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> index e2c40abc6d3d..21d5b2815e86 100644
-> --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> @@ -742,12 +742,22 @@ static int rvin_setup(struct rvin_dev *vin)
->  	 */
->  	switch (vin->mbus_code) {
->  	case MEDIA_BUS_FMT_YUYV8_1X16:
-> -		/* BT.601/BT.1358 16bit YCbCr422 */
-> -		vnmc |= VNMC_INF_YUV16;
-> +		if (vin->is_csi)
-> +			/* YCbCr422 8-bit */
-> +			vnmc |= VNMC_INF_YUV8_BT601;
-> +		else
-> +			/* BT.601/BT.1358 16bit YCbCr422 */
-> +			vnmc |= VNMC_INF_YUV16;
->  		input_is_yuv = true;
->  		break;
->  	case MEDIA_BUS_FMT_UYVY8_1X16:
-> -		vnmc |= VNMC_INF_YUV16 | VNMC_YCAL;
-> +		if (vin->is_csi)
-> +			/* YCbCr422 8-bit */
-> +			vnmc |= VNMC_INF_YUV8_BT601;
-> +		else
-> +			/* BT.601/BT.1358 16bit YCbCr422 */
-> +			vnmc |= VNMC_INF_YUV16;
-> +		vnmc |= VNMC_YCAL;
->  		input_is_yuv = true;
->  		break;
->  	case MEDIA_BUS_FMT_UYVY8_2X8:
-> -- 
-> 2.44.0
-> 
+---
+Julien Massot (2):
+      media: v4l: async: Add v4l2_async_nf_unregister_cleanup
+      media: convert all drivers to use v4l2_async_nf_unregister_cleanup
 
+ drivers/media/i2c/ds90ub913.c                           | 10 ++--------
+ drivers/media/i2c/ds90ub953.c                           | 10 ++--------
+ drivers/media/i2c/ds90ub960.c                           | 10 ++--------
+ drivers/media/i2c/max9286.c                             |  3 +--
+ drivers/media/i2c/st-mipid02.c                          |  6 ++----
+ drivers/media/i2c/tc358746.c                            |  3 +--
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c                |  6 ++----
+ drivers/media/pci/intel/ipu6/ipu6-isys.c                |  8 +-------
+ drivers/media/pci/intel/ivsc/mei_csi.c                  |  6 ++----
+ drivers/media/platform/atmel/atmel-isi.c                |  3 +--
+ drivers/media/platform/cadence/cdns-csi2rx.c            |  6 ++----
+ drivers/media/platform/intel/pxa_camera.c               |  3 +--
+ drivers/media/platform/marvell/mcam-core.c              |  6 ++----
+ drivers/media/platform/microchip/microchip-csi2dc.c     |  3 +--
+ drivers/media/platform/microchip/microchip-isc-base.c   |  6 ++----
+ drivers/media/platform/nxp/imx-mipi-csis.c              |  6 ++----
+ drivers/media/platform/nxp/imx7-media-csi.c             |  3 +--
+ drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c     |  3 +--
+ drivers/media/platform/nxp/imx8mq-mipi-csi2.c           |  6 ++----
+ drivers/media/platform/qcom/camss/camss.c               |  3 +--
+ drivers/media/platform/renesas/rcar-csi2.c              |  6 ++----
+ drivers/media/platform/renesas/rcar-isp.c               |  6 ++----
+ drivers/media/platform/renesas/rcar-vin/rcar-core.c     |  9 +++------
+ drivers/media/platform/renesas/rcar_drif.c              |  3 +--
+ drivers/media/platform/renesas/renesas-ceu.c            |  4 +---
+ drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c   |  3 +--
+ drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c   |  6 ++----
+ drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c     |  3 +--
+ drivers/media/platform/samsung/exynos4-is/media-dev.c   |  3 +--
+ drivers/media/platform/st/stm32/stm32-dcmi.c            |  3 +--
+ .../media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c  |  3 +--
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c      |  3 +--
+ .../media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c   |  3 +--
+ .../platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c    |  3 +--
+ .../sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c   |  3 +--
+ drivers/media/platform/ti/am437x/am437x-vpfe.c          |  3 +--
+ drivers/media/platform/ti/cal/cal.c                     |  8 +-------
+ drivers/media/platform/ti/davinci/vpif_capture.c        |  3 +--
+ drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 10 ++--------
+ drivers/media/platform/ti/omap3isp/isp.c                |  3 +--
+ drivers/media/platform/video-mux.c                      |  3 +--
+ drivers/media/platform/xilinx/xilinx-vipp.c             |  3 +--
+ drivers/staging/media/deprecated/atmel/atmel-isc-base.c |  6 ++----
+ drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c  |  3 +--
+ drivers/staging/media/tegra-video/vi.c                  |  3 +--
+ include/media/v4l2-async.h                              | 17 +++++++++++++++++
+ 46 files changed, 80 insertions(+), 153 deletions(-)
+---
+base-commit: 843a9f4a7a85988f2f3af98adf21797c2fd05ab1
+change-id: 20240502-master-5deee133b4f5
+
+Best regards,
 -- 
-Kind Regards,
-Niklas Söderlund
+Julien Massot <julien.massot@collabora.com>
+
 
