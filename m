@@ -1,72 +1,72 @@
-Return-Path: <linux-renesas-soc+bounces-5067-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5068-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CAA48BA34A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 May 2024 00:34:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5286E8BA35B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 May 2024 00:35:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EE5771F21760
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2024 22:34:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D2DF01F21CEC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2024 22:35:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6C194CB55;
-	Thu,  2 May 2024 22:33:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEF161BC2F;
+	Thu,  2 May 2024 22:35:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KRfn4VTs"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fs5tHHeh"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1C72C1A5;
-	Thu,  2 May 2024 22:33:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 071341B947;
+	Thu,  2 May 2024 22:35:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714689230; cv=none; b=aBRI48WsGZvkmKKbF0LvC3ivsYTg8kM1QOwUGfDq9Tp4y3Cwk+34rGB/NseD/HAN8ELlMcZWTn6hgCmszvC2nZklo3t6Ja9ui0MLRGyLcLXl6Z7dB1RL6POxG8JM0xX4/9i/pqw8GZMi4dkrWZruGkq0DsK2wNrzoR6tSpJn99Y=
+	t=1714689331; cv=none; b=mdRs31SGAfjYFD9l/wI9fzbZSRThTivjdLmzvPeD8+9XU79Fb2iWRv4nHATp6k4v7fZe7Y31jlS+tc7aTS8l8gOqnvGHViEb98mn3eC5b9KjtCp8C48aZQ3dk3L5lEB/KOeHu9GS2KDPYOYVQivfXYPCDmSbTDfg4J1PyrcIHRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714689230; c=relaxed/simple;
-	bh=Un8DsDqzrcHTNchH+A46k/QnEWFZlX9cICUVd/GwMe4=;
+	s=arc-20240116; t=1714689331; c=relaxed/simple;
+	bh=nbBfbJyWw1EHyOJzEU6DhxA0SfnHoP9Tqo8l76+1JoQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WTV1skRFI/VgQP/n+X0xDAX04ndtPnDT6elHPMGtjizFyjkEtagxC2TbHxXHfzBoVYSAIYCO9prsV/oepFosVTowGt//Ilec4xMCBcDp6PbxcXQXy44Ky8SXc/UjiXJR+i4RkNSsNQ9ZY9XJFy1uroAlCSPUdjT42PRyBXqjEcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KRfn4VTs; arc=none smtp.client-ip=209.85.167.48
+	 Content-Type:Content-Disposition:In-Reply-To; b=hnS8ZJkJukvj+yvQ8oV/I6GYvL8/t/flFAukNxmaiS7BjFymgMa5ZbKvD6bzfXcdlD/r2wF+Vcdsgi0bSPIct3IQSAxDQdXJI40xmWqXXbIW7UNfjmgRyjNj68gRq8MmykYe8kCZH83EqghLg3n8fyfBXWGLAN70ACct+3vJSS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fs5tHHeh; arc=none smtp.client-ip=209.85.208.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-51f174e316eso1492043e87.0;
-        Thu, 02 May 2024 15:33:48 -0700 (PDT)
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2e1fa824504so14676021fa.0;
+        Thu, 02 May 2024 15:35:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714689227; x=1715294027; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1714689328; x=1715294128; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OuymcIiJPiemZlanqz0KZDKUioJ+R0OZ4+MGq8AhvEg=;
-        b=KRfn4VTsHPB45VOMZIVR1+JVg6aM2/EbXf5WUL8TvHNNTD6N0xfwGmvl/FF+rhuU13
-         AZ1BUFO85qyniai1+jlaPu4U7So54cy17+N0FpDJKcKARh6Bkx7TiHFiS94rizi8TQjX
-         4jFqntMw5KKq0X8HZnEa/OFiCGYbFTSGYm6lt+SGqtM8E0xEMo+MnnYiEonS3Qx5NhKp
-         DQOLEUZYR8Qr44TYRmZIiL3vSMFyme/WVmhZVRBJBZcmNk0cMpyy7/PPaaTZobgshYMr
-         Hw3o6MXV8H3R7lULoH+sb1chS4w1eKDneXIoYnFdTi9WDQA7A+cZqNsy3kZqoBLFE7LQ
-         0sxQ==
+        bh=DvheITl3IOmOnUb9pD5ukdBgjTFDZhV45ZiqqHS1lC8=;
+        b=fs5tHHehKgb4pFPhqrYY8pMa8GMKCF8TeeN48DsCpMyTKaEYXZLXABX7hCFhyr+TxR
+         ell+GlNDcBurTgpdo69GhQNDLTHz1ocWzwcQ2gVO4Jk4kz/fnyLNaUOjQjziEg3kp58g
+         wzrAJGgD85VgzAwMRNFUvAZRNlQ5BnGIndjLFQMtId3YO4dD5WQ0ax1HI4r5V+gb53U7
+         Mvt/cSxx4YgiHCPWbechynIZucJIjRHAHS1wcvTvNEA/ly6fCBLLENZKMTY7KGG8rlfd
+         dYMQc5Zm735I8NIeBoE5IflSYiVGu0GBGPl871FlYrKAeymdHtF6eJIHIh22XxDlTonn
+         TX9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714689227; x=1715294027;
+        d=1e100.net; s=20230601; t=1714689328; x=1715294128;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OuymcIiJPiemZlanqz0KZDKUioJ+R0OZ4+MGq8AhvEg=;
-        b=dl5Ars9uGmmwd6MB44e3+x/urKdu58SQdqrHMYowcsv27590m91rnuaXfyHwj4+KBi
-         WRZkvQMGXX8ClbvVUhfsvuX7mlTVkhuLEpseMSw1hdR3tD6804/CjoFxLbDU6t7MDeiE
-         FNqTM2TJ4RbRwQd+pFbb4MHSd/4eZHn0rG1utOLpGUvohjQRz6hG+PSGN+aDSuV6Kxvb
-         K6mywzapittwTHJXOF6X5aZw4leYSNX2/t1DglJNQTBu6ewwAZWR82ANqZO/ptQ+PkP0
-         VvECkFBkr0Yur+AMsc9nLLKqE8RSNACDHHbPuQXmae5hma1AOMhugfgLgYm5xHIKXxIw
-         O+Ew==
-X-Forwarded-Encrypted: i=1; AJvYcCU9wKzCo1928ctX8YrWCVvMvhcyU8PznmnprTnr6XYCwcj2LE795uXwSGoH+G2bamjF0Qv4z3kB4+IpPKT3J7275oMwxp4DNm+SPu/WJnzUr8XBN2vyCu/s83DUEwCyDR/VD3wS4YSufBbrLYGjWiUMrcLP1O30bCrPbJAHrATYKrUuOohno8qEx2u0x5J5Gv2n/nr3GKVYJgYNkmJsUoW9pFIl
-X-Gm-Message-State: AOJu0Yz8CmQIXTbBN6KwMFoUg3A8kNnG+vdf9pBnvHapswEjtcs2qFCH
-	qi9c4HOhEqWWFxb6NeLZUVgttXqv7d3iNc/BD75mcLC2901JZJLH
-X-Google-Smtp-Source: AGHT+IGbFfFzXlP47A82vaBo8QSPa7wJ1Xkts6SMGSKXY0Bak5fwBUFDwrThIgMWZJyGR0yaLaiBOQ==
-X-Received: by 2002:ac2:4d97:0:b0:519:2c84:2405 with SMTP id g23-20020ac24d97000000b005192c842405mr643387lfe.44.1714689226346;
-        Thu, 02 May 2024 15:33:46 -0700 (PDT)
+        bh=DvheITl3IOmOnUb9pD5ukdBgjTFDZhV45ZiqqHS1lC8=;
+        b=w21MtxCvaTVFHdJrCx7twiyEp2uH4+FyorgKwpxW77sEpM+3Nvabc9Z8cz+GIWvEwU
+         QKlup8FsKmOrJQcHnda4pwglEwFYpBojQId8OR9qkERdrEjiv8T1e8WPTQt+CxZbWOq9
+         Ge4SAQsnlyU3qcPkH0VwnhaqApHpL6OrNRF/Cilhx4MdSXvxgh0MeesxVjhOlV7I861F
+         3DY5YdUdoG+bEv8xuJtJavHL8J6T9hhscna/aMnEK1F440ebvFFFf9KUwpfTiXUFlGTT
+         UCJaBl+DIVGJupPPZp3IV5iAQAzFszxL1DDsZ6r4hhvKq3tWVH88Talc42jQE4VayfrG
+         kyDw==
+X-Forwarded-Encrypted: i=1; AJvYcCX/QwqjV1G9mrczbELKCDiBsLHh6C6gKoAoR2xEEGvUJjxPsE5qmcH4Wz/ThVKGeyuIhGNAFQdps6pfq3VaksS6GEW49iqONRUqhasBZu6DjWRo4BwQxgZMGgoZg9S3BiuP22xPMGcMOGF+HOggHvIQ8w1JiNHsf75CsMF83W9jyejG8Qm+2+elNi+jSrU7N2+83honeeHVWYcqLC2zTnMjMXZz
+X-Gm-Message-State: AOJu0YwN2j7lSspBQlgBlkLIYFB6TVaTWPpC7QRxcyXk+OCrWEInlXxm
+	H6e/U9Cm/I/U+GPjMIGRVpc9ekHad6aoI07lpjrZ8em3VM2TO9iD
+X-Google-Smtp-Source: AGHT+IE+RRNfYrBA3kuTddhvlt5WggN/PhqusvrPB/Y3CSAEVYjC9nt3P4uZkm4BFPRlh+f+nPyCNQ==
+X-Received: by 2002:a05:6512:4886:b0:51f:6132:2803 with SMTP id eq6-20020a056512488600b0051f61322803mr604261lfb.17.1714689327994;
+        Thu, 02 May 2024 15:35:27 -0700 (PDT)
 Received: from mobilestation ([95.79.182.53])
-        by smtp.gmail.com with ESMTPSA id y13-20020a19914d000000b0051b59171ba9sm327335lfj.96.2024.05.02.15.33.45
+        by smtp.gmail.com with ESMTPSA id bi5-20020a0565120e8500b0051cb300265dsm320741lfb.109.2024.05.02.15.35.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 May 2024 15:33:45 -0700 (PDT)
-Date: Fri, 3 May 2024 01:33:43 +0300
+        Thu, 02 May 2024 15:35:27 -0700 (PDT)
+Date: Fri, 3 May 2024 01:35:25 +0300
 From: Serge Semin <fancer.lancer@gmail.com>
 To: Romain Gantois <romain.gantois@bootlin.com>
 Cc: "David S. Miller" <davem@davemloft.net>, 
@@ -79,12 +79,13 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	=?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
 	netdev@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH net-next v5 2/7] net: stmmac: Add dedicated XPCS cleanup
- method
-Message-ID: <4wdcmcb2yxneynxtppestl6cp25z5xge3hfv7o47bxwpafn4cg@mtvc3ls2cxij>
+	linux-arm-kernel@lists.infradead.org, "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, 
+	Maxime Chevallier <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH net-next v5 4/7] net: stmmac: introduce pcs_init/pcs_exit
+ stmmac operations
+Message-ID: <jdqitzxy7lymkn2mizkvvycttxb4prxhevoqhwsatikceja5ph@sor2bnlaopre>
 References: <20240430-rzn1-gmac1-v5-0-62f65a84f418@bootlin.com>
- <20240430-rzn1-gmac1-v5-2-62f65a84f418@bootlin.com>
+ <20240430-rzn1-gmac1-v5-4-62f65a84f418@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -93,117 +94,69 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240430-rzn1-gmac1-v5-2-62f65a84f418@bootlin.com>
+In-Reply-To: <20240430-rzn1-gmac1-v5-4-62f65a84f418@bootlin.com>
 
-Hi Romain
-
-On Tue, Apr 30, 2024 at 09:29:42AM +0200, Romain Gantois wrote:
-> From: Serge Semin <fancer.lancer@gmail.com>
+On Tue, Apr 30, 2024 at 09:29:44AM +0200, Romain Gantois wrote:
+> From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
 > 
-> Currently the XPCS handler destruction is performed in the
-> stmmac_mdio_unregister() method. It doesn't look good because the handler
-> isn't originally created in the corresponding protagonist
-> stmmac_mdio_unregister(), but in the stmmac_xpcs_setup() function. In
-> order to have more coherent MDIO and XPCS setup/cleanup procedures,
-> let's move the DW XPCS destruction to the dedicated stmmac_pcs_clean()
-> method.
+> Introduce a mechanism whereby platforms can create their PCS instances
+> prior to the network device being published to userspace, but after
+> some of the core stmmac initialisation has been completed. This means
+> that the data structures that platforms need will be available.
 > 
-> This method will also be used to cleanup PCS hardware using the
-> pcs_exit() callback that will be introduced to stmmac in a subsequent
-> patch.
-> 
-> Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> Reviewed-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
 > Co-developed-by: Romain Gantois <romain.gantois@bootlin.com>
 > Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
-> ---
->  drivers/net/ethernet/stmicro/stmmac/stmmac.h      |  1 +
->  drivers/net/ethernet/stmicro/stmmac/stmmac_main.c |  6 +++++-
->  drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c | 12 +++++++++---
->  3 files changed, 15 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac.h b/drivers/net/ethernet/stmicro/stmmac/stmmac.h
-> index dddcaa9220cc3..7e0d727ed795b 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac.h
-> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac.h
-> @@ -361,6 +361,7 @@ int stmmac_mdio_unregister(struct net_device *ndev);
->  int stmmac_mdio_register(struct net_device *ndev);
->  int stmmac_mdio_reset(struct mii_bus *mii);
->  int stmmac_xpcs_setup(struct mii_bus *mii);
-> +void stmmac_pcs_clean(struct stmmac_priv *priv);
->  void stmmac_set_ethtool_ops(struct net_device *netdev);
->  
->  int stmmac_init_tstamp_counter(struct stmmac_priv *priv, u32 systime_flags);
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> index 59bf83904b62d..2a55c5d07f6b8 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> @@ -7789,8 +7789,9 @@ int stmmac_dvr_probe(struct device *device,
->  
->  error_netdev_register:
->  	phylink_destroy(priv->phylink);
-> -error_xpcs_setup:
->  error_phy_setup:
-> +	stmmac_pcs_clean(priv);
-> +error_xpcs_setup:
->  	if (priv->hw->pcs != STMMAC_PCS_TBI &&
->  	    priv->hw->pcs != STMMAC_PCS_RTBI)
->  		stmmac_mdio_unregister(ndev);
-> @@ -7832,6 +7833,9 @@ void stmmac_dvr_remove(struct device *dev)
->  	if (priv->plat->stmmac_rst)
->  		reset_control_assert(priv->plat->stmmac_rst);
->  	reset_control_assert(priv->plat->stmmac_ahb_rst);
-> +
-> +	stmmac_pcs_clean(priv);
-> +
->  	if (priv->hw->pcs != STMMAC_PCS_TBI &&
->  	    priv->hw->pcs != STMMAC_PCS_RTBI)
->  		stmmac_mdio_unregister(ndev);
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
-> index 0542cfd1817e6..508bd39cbe2b3 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
-> @@ -523,6 +523,15 @@ int stmmac_xpcs_setup(struct mii_bus *bus)
->  	return 0;
->  }
->  
 
-> +void stmmac_pcs_clean(struct stmmac_priv *priv)
-
-Ideally it would have been great to have the entire driver fixed to
-accept the stmmac_priv pointer as the functions argument. But this
-would be too tiresome. Anyway seeing the PCS-setup protagonist method
-has the net_device pointer passed I would implement the same prototype
-for the antagonist even though it would require an additional local
-variable. That will make the MDIO and PCS local interface-functions
-looking alike and as if unified. That is the reason of why I made
-stmmac_xpcs_clean() accepting the net_device pointer. 
-
-Alternatively both stmmac_pcs_setup() and stmmac_pcs_clean() could be
-converted to just accepting a pointer to the stmmac_priv instance.
+Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
 
 -Serge(y)
 
-> +{
-> +	if (!priv->hw->xpcs)
-> +		return;
-> +
-> +	xpcs_destroy(priv->hw->xpcs);
-> +	priv->hw->xpcs = NULL;
-> +}
-> +
->  /**
->   * stmmac_mdio_register
->   * @ndev: net device structure
-> @@ -679,9 +688,6 @@ int stmmac_mdio_unregister(struct net_device *ndev)
->  	if (!priv->mii)
->  		return 0;
+> ---
+>  drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c | 8 +++++++-
+>  include/linux/stmmac.h                            | 2 ++
+>  2 files changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
+> index af8ad9768da10..1c788caea0cfb 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
+> @@ -505,7 +505,10 @@ int stmmac_pcs_setup(struct net_device *ndev)
+>  	priv = netdev_priv(ndev);
+>  	mode = priv->plat->phy_interface;
 >  
-> -	if (priv->hw->xpcs)
-> -		xpcs_destroy(priv->hw->xpcs);
-> -
->  	mdiobus_unregister(priv->mii);
->  	priv->mii->priv = NULL;
->  	mdiobus_free(priv->mii);
+> -	if (priv->plat->mdio_bus_data && priv->plat->mdio_bus_data->has_xpcs) {
+> +	if (priv->plat->pcs_init) {
+> +		ret = priv->plat->pcs_init(priv);
+> +	} else if (priv->plat->mdio_bus_data &&
+> +		   priv->plat->mdio_bus_data->has_xpcs) {
+>  		/* Try to probe the XPCS by scanning all addresses */
+>  		for (addr = 0; addr < PHY_MAX_ADDR; addr++) {
+>  			xpcs = xpcs_create_mdiodev(priv->mii, addr, mode);
+> @@ -531,6 +534,9 @@ int stmmac_pcs_setup(struct net_device *ndev)
+>  
+>  void stmmac_pcs_clean(struct stmmac_priv *priv)
+>  {
+> +	if (priv->plat->pcs_exit)
+> +		priv->plat->pcs_exit(priv);
+> +
+>  	if (!priv->hw->xpcs)
+>  		return;
+>  
+> diff --git a/include/linux/stmmac.h b/include/linux/stmmac.h
+> index dfa1828cd756a..4a24a246c617d 100644
+> --- a/include/linux/stmmac.h
+> +++ b/include/linux/stmmac.h
+> @@ -285,6 +285,8 @@ struct plat_stmmacenet_data {
+>  	int (*crosststamp)(ktime_t *device, struct system_counterval_t *system,
+>  			   void *ctx);
+>  	void (*dump_debug_regs)(void *priv);
+> +	int (*pcs_init)(struct stmmac_priv *priv);
+> +	void (*pcs_exit)(struct stmmac_priv *priv);
+>  	void *bsp_priv;
+>  	struct clk *stmmac_clk;
+>  	struct clk *pclk;
 > 
 > -- 
 > 2.44.0
