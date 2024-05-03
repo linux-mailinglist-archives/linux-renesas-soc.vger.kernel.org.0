@@ -1,195 +1,139 @@
-Return-Path: <linux-renesas-soc+bounces-5083-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5084-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 833968BA8D1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 May 2024 10:32:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A1E08BA8EA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 May 2024 10:40:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F00481F22B7C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 May 2024 08:32:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E3DEA1F21191
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 May 2024 08:40:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 005EA14BF85;
-	Fri,  3 May 2024 08:32:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3513F14A097;
+	Fri,  3 May 2024 08:40:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GHX3BIFW"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DC2q8hZ/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A3C614A0BB;
-	Fri,  3 May 2024 08:32:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755B213C820
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  3 May 2024 08:40:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714725126; cv=none; b=YOGYvYRYvfrLUWpU/sc6koSjLWcxkj5hWOfbDlsUVtz2DJk/g8phL30Pu5U9hZsdklhDU3LL/WgLg/XYbjPJggTkaXjkC5NFUdxPAFUw7r27CgDIit38j6x0V6GbhDkMfbsQ+GBeSkjFJBu1D2tsWSDd54yrfIPUaqil7wf/eFI=
+	t=1714725602; cv=none; b=TJANUBYma+lLPh6fCPOtO8zmQGvmlBfel265fTFNfPIZtKF6AaZdkqIVnxjoBXvxR/7sAKFNJosVSXKSI3NKnh0pyWwAC++ohB3ku0DQqh3QNw3IL4qRgEbyfABMWTM/TsiSesv+jooBetEnIMs3ghqwHsWBp5AM9N3onJW7qSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714725126; c=relaxed/simple;
-	bh=iQSJ5mndX9iYn2iN+0acCnBl//hkPBe1Qf2rBowlyN4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mPOvao/c0RODpp24Bf6Swn/FFG+hAiidUDG5SD8D8RCHBVYL99AGo2Kkbbidx5L/r1OuO39jfjUvj6Kq/3U2R9Oh7PEQ2Dxk808C0z2aXkpiGsLiUJPQtEE0Iws7HTRaxup52sgvsSej36YRiaeDNQ8Ryab5CTRbFvHOmPkDUZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GHX3BIFW; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 378DC593;
-	Fri,  3 May 2024 10:31:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1714725065;
-	bh=iQSJ5mndX9iYn2iN+0acCnBl//hkPBe1Qf2rBowlyN4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GHX3BIFWD+3TfASJvv8jhmy+w5twd0cFInsXs1wklLDGG7s1oWLWC9oueC4d0O9Ob
-	 kP4RyMl/uBOMj7XoOKHVRMBNxlS8Jjk8P/wwmis6r00WZlPqBwo69b5Gy9uQL4EnF3
-	 Tbk/H7KjHQy8N+dlJEZCMDSwDndNVA5gScqOXChg=
-Date: Fri, 3 May 2024 11:31:56 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 03/19] media: adv748x: Use V4L2 streams
-Message-ID: <20240503083156.GP4959@pendragon.ideasonboard.com>
-References: <20240430103956.60190-1-jacopo.mondi@ideasonboard.com>
- <20240430103956.60190-4-jacopo.mondi@ideasonboard.com>
- <20240502174051.GI15807@pendragon.ideasonboard.com>
- <zn6rpirerkwdfuoeasduiupjiv43fawecj73tqquudya5mndxm@wgdwjjwcs6kj>
+	s=arc-20240116; t=1714725602; c=relaxed/simple;
+	bh=6cqDU6nyC9QVmMog1BprNjYhQIvdazHuL/+8ud4VoTY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=urYETYFU2DDcsYpn2bTP4HE0SD15z+mMRCXz21zNTuTxi3mmhTotUzuf2LXmnbaDy4BHsvMPCKqavAzjO+rwQ4pIq/pYfLHY/bYMmLfp7GSFeqr9MYimTCQd+gaJJQc+i0/0jCVHz3cqroR6ROIdpw3thhfDvijtMT4murEU0zk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DC2q8hZ/; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-51aa6a8e49aso10875029e87.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 03 May 2024 01:40:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1714725599; x=1715330399; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xd2nsty2WG6SHHF8+nkpeQv9fDcTG+0JYjbHe+PLVZg=;
+        b=DC2q8hZ/ASRjwd1kEpdWbaje5M7aJvCYlmtaIXCJfYKl8F9sPrlL7j7lE5S2WFKETM
+         /FNg3lyC9b9CdIwTA4+OElvrBELNuldLre/zk/8sybAaUS5OKURNuHpcBtNoanJy/oxH
+         dnyEgJ8Z0cAfkJ98N3tSfQWFE0iCJcqInbduMRJP2V3KXt1i8n8KOXNBc/fqnmN/t8D8
+         slWzuNqNGRzLTi5LUgyJ6leKkPREjbZkBQfgXMwkXbgK2d4oIWWVD1RIxbekEvqYRAFU
+         SMiDPqRBY0tlmdc0M68EkM13K/W7+loRWlztKIe3HxnKDFnISWLYjOmha+FYpSRPWhu5
+         02XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714725599; x=1715330399;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xd2nsty2WG6SHHF8+nkpeQv9fDcTG+0JYjbHe+PLVZg=;
+        b=Bgmexve2eSn/3I7fw5IUHsOdqmTZSF24t4xJvnVvopfRAHI5B/xBmAiuI/miM72vBm
+         LORBdJpSFTCxtihtXzzS7cD3mHOkMUtm0HdOZ7zh//++0MoqE+YWff49sWIRNeuxAtWQ
+         toGFhEYDy/BLPqCH8xEZ0kitPiSYQjrcSCAd/ly0nVuBcKJjkFMBZill31O868qdJZIq
+         u0vQag7eVSQzQTcIP6yUrn97bO6Ka8OizlbHTeUia56NgQfTd1In+H4KAHkAaH7PY2n5
+         PXf7P5TnUazmp1TOGCCZbO2VoAOIAJSFNFXQzJ2UKfsj90ZBEOlQM8Kajwz4L3B7T2m1
+         of2A==
+X-Forwarded-Encrypted: i=1; AJvYcCX82vfnZMbC9CPbo+ftPntTep6J5RcntUx84kWvBUKWKZ8jHTM6XTeq3+ZmkdYle7IFc0JhjBjl0AqYe1AtDv2K7l7UBS+Zt0nqivIJriEEhaY=
+X-Gm-Message-State: AOJu0YxslgDoD2SbN6/yAx0QEsRu1/dkEbUKP4rSfckOGul11pTNivSW
+	icWrn+0tXRDkRiIi61H1COtIAzGqAr0XMX/7ei0qh5kLrxAcIf3uRfe6UplWKuk=
+X-Google-Smtp-Source: AGHT+IF4QKcb/sXAo8+X01dOQnrnNqk2SSFq/L9I8igfxBKKMdF/CsCxYt2AjVAF4ukP/fC/AnH4MA==
+X-Received: by 2002:ac2:58d9:0:b0:51d:bbb:7a4e with SMTP id u25-20020ac258d9000000b0051d0bbb7a4emr1341798lfo.24.1714725598711;
+        Fri, 03 May 2024 01:39:58 -0700 (PDT)
+Received: from [192.168.1.119] ([37.251.223.213])
+        by smtp.gmail.com with ESMTPSA id j3-20020a05600c1c0300b004186f979543sm8674790wms.33.2024.05.03.01.39.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 May 2024 01:39:53 -0700 (PDT)
+Message-ID: <7f5e3ab6-515c-4943-8678-03232fd9aed5@linaro.org>
+Date: Fri, 3 May 2024 09:39:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <zn6rpirerkwdfuoeasduiupjiv43fawecj73tqquudya5mndxm@wgdwjjwcs6kj>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dt-bindings: mfd: Use full path to other schemas
+To: Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com
+References: <20240503072116.12430-1-krzysztof.kozlowski@linaro.org>
+ <a2886f72-210e-41a1-aae0-c079a4d11396@linaro.org>
+ <0af10387-ddfb-47b0-b59e-eeba1644be1c@kernel.org>
+ <20240503082444.GJ1227636@google.com>
+ <72f94454-867f-4a6c-90c8-134db2ce150e@kernel.org>
+Content-Language: en-US
+From: Tudor Ambarus <tudor.ambarus@linaro.org>
+In-Reply-To: <72f94454-867f-4a6c-90c8-134db2ce150e@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Jacopo,
 
-On Fri, May 03, 2024 at 09:59:55AM +0200, Jacopo Mondi wrote:
-> On Thu, May 02, 2024 at 08:40:51PM GMT, Laurent Pinchart wrote:
-> > On Tue, Apr 30, 2024 at 12:39:39PM +0200, Jacopo Mondi wrote:
-> > > Initialize the CSI-2 subdevice with the V4L2_SUBDEV_FL_STREAMS flag
-> > > and initialize a simple routing table by implementing the .init_state()
-> > > operation.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > > ---
-> > >  drivers/media/i2c/adv748x/adv748x-csi2.c | 28 ++++++++++++++++++++++--
-> > >  1 file changed, 26 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> > > index 60bf1dc0f58b..d929db7e8ef2 100644
-> > > --- a/drivers/media/i2c/adv748x/adv748x-csi2.c
-> > > +++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> > > @@ -59,7 +59,30 @@ static int adv748x_csi2_register_link(struct adv748x_csi2 *tx,
-> > >
-> > >  /* -----------------------------------------------------------------------------
-> > >   * v4l2_subdev_internal_ops
-> > > - *
-> > > + */
-> > > +
-> > > +static int adv748x_csi2_init_state(struct v4l2_subdev *sd,
-> > > +				   struct v4l2_subdev_state *state)
-> > > +{
-> > > +	struct v4l2_subdev_route routes[] = {
-> > > +		{
-> > > +			.sink_pad = ADV748X_CSI2_SINK,
-> > > +			.sink_stream = 0,
-> > > +			.source_pad = ADV748X_CSI2_SOURCE,
-> > > +			.source_stream = 0,
-> > > +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
-> > > +		},
-> > > +	};
-> > > +
-> > > +	struct v4l2_subdev_krouting routing = {
-> > > +		.num_routes = ARRAY_SIZE(routes),
-> > > +		.routes = routes,
-> > > +	};
-> > > +
-> > > +	return v4l2_subdev_set_routing(sd, state, &routing);
-> >
-> > You need to initialize formats too.
-> >
+
+On 5/3/24 09:31, Krzysztof Kozlowski wrote:
+> On 03/05/2024 10:24, Lee Jones wrote:
+>> On Fri, 03 May 2024, Krzysztof Kozlowski wrote:
+>>
+>>> On 03/05/2024 10:08, Tudor Ambarus wrote:
+>>>>
+>>>>
+>>>> On 5/3/24 08:21, Krzysztof Kozlowski wrote:
+>>>>>  .../bindings/mfd/samsung,s2mpa01.yaml         |  2 +-
+>>>>>  .../bindings/mfd/samsung,s2mps11.yaml         | 12 ++---
+>>>>>  .../bindings/mfd/samsung,s5m8767.yaml         |  4 +-
+>>>>
+>>>> Reviewed-by: Tudor Ambarus <tudor.ambarus@linaro.org>
+>>>
+>>> So this should be Ack. You cannot review part of the patch ("I have
+>>> carried out a technical review of this patch...").
+>>> https://elixir.bootlin.com/linux/v6.8-rc5/source/Documentation/process/submitting-patches.rst
+>>
+>> Reviewed-by is totally appropriate here.
 > 
-> The adv748x driver handles formats very poorly, doesn't implement
-> enum_mbus_codes and does not allow userspace to change the format
-> (while at the same time it doesn't check that the format is the
-> expected one in set_format()).
+> Submitting patches is clear on that:
+> "A Reviewed-by tag is a statement of opinion that the patch is an"
+> Not "the patch or part of patch"
 > 
-> This is from a freshly booted renesas-drivers/main
+> And ack:
+> " It is a record that the acker has at least reviewed the patch ....
+> Acked-by: does not necessarily indicate acknowledgement of the entire
+> patch."
 > 
-> - entity 30: adv748x 4-0070 txa (2 pads, 3 links, 0 routes)
->              type V4L2 subdev subtype Unknown flags 0
->              device node name /dev/v4l-subdev5
->         pad0: Sink
->                 [stream:0 fmt:unknown/0x0]
->                 <- "adv748x 4-0070 afe":8 []
->                 <- "adv748x 4-0070 hdmi":1 [ENABLED]
->         pad1: Source
->                 [stream:0 fmt:unknown/0x0]
->                 -> "rcar_csi2 feaa0000.csi2":0 [ENABLED,IMMUTABLE]
-> 
-> It would probably be better to handle the formats properly and the
-> introduce streams or use the introduction of streams to also fix the
-> format handling ?
+> So no, reviewing part of the patch means you Ack it. Especially that in
+> git log the Rb tag will suggest entire patch was reviewed, while it was
+> not true. Review of 80% of patch did not happen.
 
-As Niklas pointed out in the review of some patches, fixing issues
-first, and moving to the active subdev state, would be better done
-before adding streams in my opinion. At least if those fixes are not too
-difficult without streams.
+Thanks, Krzysztof, I'll keep in mind next time. I now confirm I went
+through all the substitutions and they look good to me. R-b now applies
+to all the changes.
 
-For this specific patch, the addition of the .init_state() operation
-should be squashed with 01/19, without routing, and routing should be
-added on top.
-
-> > > +}
-> > > +
-> > > +/*
-> > >   * We use the internal registered operation to be able to ensure that our
-> > >   * incremental subdevices (not connected in the forward path) can be registered
-> > >   * against the resulting video path and media device.
-> > > @@ -109,6 +132,7 @@ static int adv748x_csi2_registered(struct v4l2_subdev *sd)
-> > >  }
-> > >
-> > >  static const struct v4l2_subdev_internal_ops adv748x_csi2_internal_ops = {
-> > > +	.init_state = adv748x_csi2_init_state,
-> >
-> > The .init_state() operation needs to be provided along with the call to
-> > v4l2_subdev_init_finalize() in patch 01/19.
-> 
-> I'll squash, however even if it might be a requirement for having a
-> fully working implementation, not having init_state() will not lead to
-> any crash and maybe smaller incremental patches are easier to handle.
-> 
-> 	if (sd->internal_ops && sd->internal_ops->init_state) {
-> 		/*
-> 		 * There can be no race at this point, but we lock the state
-> 		 * anyway to satisfy lockdep checks.
-> 		 */
-> 		v4l2_subdev_lock_state(state);
-> 		ret = sd->internal_ops->init_state(sd, state);
-> 		v4l2_subdev_unlock_state(state);
-
-I think it's a mistake in the core to not require .init_state() for
-subdevs using the active state. Tomi, what do you think ?
-
-> > >  	.registered = adv748x_csi2_registered,
-> > >  };
-> > >
-> > > @@ -245,7 +269,7 @@ int adv748x_csi2_init(struct adv748x_state *state, struct adv748x_csi2 *tx)
-> > >  		return 0;
-> > >
-> > >  	adv748x_subdev_init(&tx->sd, state, &adv748x_csi2_ops,
-> > > -			    MEDIA_ENT_F_VID_IF_BRIDGE, 0,
-> > > +			    MEDIA_ENT_F_VID_IF_BRIDGE, V4L2_SUBDEV_FL_STREAMS,
-> > >  			    is_txa(tx) ? "txa" : "txb");
-> > >
-> > >  	/* Register internal ops for incremental subdev registration */
-
--- 
-Regards,
-
-Laurent Pinchart
+ta
 
