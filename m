@@ -1,74 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-5078-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5079-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04BCF8BA855
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 May 2024 10:09:06 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C8B08BA88B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 May 2024 10:18:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 924D81F2234C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 May 2024 08:09:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E7E51C2225A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 May 2024 08:18:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C9D2148853;
-	Fri,  3 May 2024 08:08:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B836149C57;
+	Fri,  3 May 2024 08:18:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PkMRn9rF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vRIRHXjO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A490219EB
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  3 May 2024 08:08:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6F4148313;
+	Fri,  3 May 2024 08:18:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714723737; cv=none; b=l4t3Kx2qKdki5hEfNOzr9ih3QYbaRKBFKwjICJS4IxY+z/iGkjwNTr6+0gthnnJmhv0PFdG1vWX+aSU89hcZ8b7xf8GQ2/IfuEqccwN0Z/9ctm0H16+jO1yKmppPJg1T/aeuHjhnrNcvgAujDEn5qRlKHetmwOBOSMidkUOolOQ=
+	t=1714724291; cv=none; b=iPUhN0TensBtp6xMYiuMFILstRN+7a64EOCs3aJFCe2bXrA8EhtlSXk92fGQ45Jwo4CeywU2PyhaT7YsDVjJrOZlUdGI4H4MnhqXDKDcxlLlbDwh7KRbGgAOBsH8IKm0hvQlb34AhQjdf78Wx62B0jskJdJvrbqTmaOT+mTI0a8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714723737; c=relaxed/simple;
-	bh=7qQTzG9i8KLzJJyyK6v5uKKev+BF4EWHDk9zrcLv0m8=;
+	s=arc-20240116; t=1714724291; c=relaxed/simple;
+	bh=4F9sw++1QQYTExBMq1aDYGDvUH59ApuIY9MJtwjoA+4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Ay7RvBGMV2EjEvPhS0RQpVhKsnJ3N2SPssxwTBRvmFr8ZliSaOp92rUCTh4rHyQrKs5g0cN7tlcup7L6xKWteGgwQ0RuN+qJKiUBoxZPpjDSsPAnta0tGE1m2JCW6Ey18PtHI4hljQTnY+Ht5VozF4QcUUIjLHk1xhz9oKW8rKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PkMRn9rF; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2e0b2ddc5d1so58745531fa.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 03 May 2024 01:08:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1714723732; x=1715328532; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=9F32g4MjpRz2uIAU44wJHuksonJ+RwP1zeSV74QN6B0=;
-        b=PkMRn9rF+tpXpYn2yYPeTlN0KUIZGIQerhBQQ33P+TJOAxT0Iey/nbhLiJ6dmD2DdH
-         JViZ+tIzWlzUkxV3gkjIGVh1ayzYy2usZPN8CDj3tJUFa3iU44BP0ukqhvT8/9FwMvK7
-         psMKjDC/GPRq53BEEHQxGpaFP7CC/oKmrCY/q4Plf4Aod+YQexyZnvwEzb+675PPozvb
-         EirNhLy6p6BOJv3n1B1JFKY7lx4/vd7Ea5i6BofxOGQi2NQ+KvdYb9YGvqGgmA66P3qB
-         cfxg2oZq5TXSf1mgjbchm7NSgy1zrRp7WLrtsa9lgVPbyLX+msvh0bb+vnEXp0puWc/H
-         NMjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714723732; x=1715328532;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9F32g4MjpRz2uIAU44wJHuksonJ+RwP1zeSV74QN6B0=;
-        b=r3JiyXbh9Jh7Vp2xgHg40SydHyq0PX8ns6Hw7Kio4Khix1TdyRdGGzydDk71FH3JVH
-         90Go3U5eBqG7uJB4jPpfliZiE+cTrGIb63bod0/BX6/DGukU/Hu1cFTTXq1A5eQ2gj2G
-         ds4nhALLvMSVSZmw7Kd9p9EOCwfWMrqxvpEZog+viReaO6Jf5QqiuGmrvnV7BSa4DCH2
-         qwrCyqfF9mm9FAUxeNaS1aoRx18uu7w9ZM29Qd1gsPJvtEteYnMOmck/bzceBLZFanC5
-         1xgQsjWVOFGz8tixvpw1zme3YcUgMXaHFhptAbNGIqnoP1Hx/OeVWM2oXSlAwi4WSUxO
-         020g==
-X-Forwarded-Encrypted: i=1; AJvYcCUgQ4ftiDtW0ZwwSn8fQr6KDFjJM3FXi+KzbP2W04XW2Cu07V/WOOuTCErtPBRR5iRgkKTtXdJcVUe60BiS2P7cXxZLC0Qk3kn3eU3Xlb3eEIM=
-X-Gm-Message-State: AOJu0YybLw8WrX4g/GbNbX98pqbKIBNmTUCgRCoTD9ezrnTNmz9xBJ86
-	35jfrWwJZpLgHrjNshTh7IJPZLG8uaG5oAwf2/rfS2ca1wBLXHnCzSlUCSN+TxE=
-X-Google-Smtp-Source: AGHT+IEyVSxtgBjxgwR445qD/sr1uxqCDskSMlyg7yV9YjhIzBtojmFjs//+3uZsQR/8QqR1GYTL8Q==
-X-Received: by 2002:a2e:b0d5:0:b0:2dd:7712:efcf with SMTP id g21-20020a2eb0d5000000b002dd7712efcfmr1255172ljl.10.1714723732369;
-        Fri, 03 May 2024 01:08:52 -0700 (PDT)
-Received: from [192.168.1.119] ([37.251.223.213])
-        by smtp.gmail.com with ESMTPSA id v18-20020a05600c445200b0041bf21a62bcsm8456940wmn.1.2024.05.03.01.08.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 May 2024 01:08:51 -0700 (PDT)
-Message-ID: <a2886f72-210e-41a1-aae0-c079a4d11396@linaro.org>
-Date: Fri, 3 May 2024 09:08:49 +0100
+	 In-Reply-To:Content-Type; b=DeKkNwqSBVJbr3gVbDZD5NNBnOYhocFGpV7hGn2nfjDYgeXToTcqEQCgS7umz+/J/5cfW5vjmU25au0cpprH4vK563JZKhseSkInZButAXEy47EPEJ9T4YDotqq2lqs5gzjwso5AeSCnEflJXFUhHTQ0cOnVPci9kk9xHAbMe/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vRIRHXjO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6E3BC116B1;
+	Fri,  3 May 2024 08:18:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714724291;
+	bh=4F9sw++1QQYTExBMq1aDYGDvUH59ApuIY9MJtwjoA+4=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=vRIRHXjOYpGV9b30bPydYY6zY5T9AGPGY34dR8Y5FuNH23w71ABIhWEUTc+EyRaej
+	 S8a5hiR9yb5UrRBUuYt9wrnnWv6pMthqf5Ls0hgv1wan0M8CsrEZRuiqarRmSOnkN7
+	 jdYoyKBcV0GoY7yJdRmixARy1dZa2Jyg3yLI9pUooFbgNNZH56jxhrknKLDaubYDd/
+	 txJIw/5ZXpeOi8/wtl5j5xH3A1xC4gv2zW8QVL4Qd/SJt2WJDmXz69hymP0Mb09lu8
+	 7zy2vtSzI7UkNYjFPDla3a8r+zc/iVOYDKpfxf2wlqEc5ki6+DplZm44W5KzlanLHq
+	 aZWgIwVdL7aEw==
+Message-ID: <0af10387-ddfb-47b0-b59e-eeba1644be1c@kernel.org>
+Date: Fri, 3 May 2024 10:18:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -77,7 +51,8 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] dt-bindings: mfd: Use full path to other schemas
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+To: Tudor Ambarus <tudor.ambarus@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, devicetree@vger.kernel.org,
@@ -86,18 +61,71 @@ To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com
 References: <20240503072116.12430-1-krzysztof.kozlowski@linaro.org>
+ <a2886f72-210e-41a1-aae0-c079a4d11396@linaro.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Tudor Ambarus <tudor.ambarus@linaro.org>
-In-Reply-To: <20240503072116.12430-1-krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
+ QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
+ gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
+ /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
+ iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
+ VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
+ 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
+ xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
+ eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
+ AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
+ MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
+ Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
+ ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
+ vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
+ oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
+ lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
+ t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
+ uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
+ 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
+ 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
+In-Reply-To: <a2886f72-210e-41a1-aae0-c079a4d11396@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+On 03/05/2024 10:08, Tudor Ambarus wrote:
+> 
+> 
+> On 5/3/24 08:21, Krzysztof Kozlowski wrote:
+>>  .../bindings/mfd/samsung,s2mpa01.yaml         |  2 +-
+>>  .../bindings/mfd/samsung,s2mps11.yaml         | 12 ++---
+>>  .../bindings/mfd/samsung,s5m8767.yaml         |  4 +-
+> 
+> Reviewed-by: Tudor Ambarus <tudor.ambarus@linaro.org>
 
+So this should be Ack. You cannot review part of the patch ("I have
+carried out a technical review of this patch...").
+https://elixir.bootlin.com/linux/v6.8-rc5/source/Documentation/process/submitting-patches.rst
 
-On 5/3/24 08:21, Krzysztof Kozlowski wrote:
->  .../bindings/mfd/samsung,s2mpa01.yaml         |  2 +-
->  .../bindings/mfd/samsung,s2mps11.yaml         | 12 ++---
->  .../bindings/mfd/samsung,s5m8767.yaml         |  4 +-
+Best regards,
+Krzysztof
 
-Reviewed-by: Tudor Ambarus <tudor.ambarus@linaro.org>
 
