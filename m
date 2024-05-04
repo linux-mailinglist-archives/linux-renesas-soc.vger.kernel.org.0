@@ -1,189 +1,123 @@
-Return-Path: <linux-renesas-soc+bounces-5130-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5131-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 727E28BBC5C
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 May 2024 16:19:03 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A34D98BBDFB
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 May 2024 22:13:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E05DE1F21E95
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 May 2024 14:19:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 55958B215A7
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 May 2024 20:13:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 095F13AC0C;
-	Sat,  4 May 2024 14:18:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7ADC84A32;
+	Sat,  4 May 2024 20:13:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oc2a49Dv"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Xrdf6BVX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39BAC39FEB;
-	Sat,  4 May 2024 14:18:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD3941C6C
+	for <linux-renesas-soc@vger.kernel.org>; Sat,  4 May 2024 20:13:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714832338; cv=none; b=DwvMrb0lWSJkgOlL1RnhKZF/fdBScvuuh7LxUzcFmfcwnddLZ4XFQ7tN29gR7CzUVxLVtsyFp6M+9DIDpXL20jfMyihHfmOH5T5WEmHbtekS6rtlZleDxOm9fqt2gC5p/hYxo644Sr4a8HPQZpKNvb/+6ykvDQJNaxG5Qpw3xW8=
+	t=1714853622; cv=none; b=s+O3RItGiM+R4JvqSCgmbZMpTW26KOsMd4HIqYFCVQHjBFDgPoY80YY/nEEkGtyOGgo+ZeRr8ZF4aEl/stXdHOoIYlgVSPsnz/p8WRyU09AaibE6KjaWZyGu2dKU+5VU0PeRNvhLozSlS14bNxkJHQM2TkvDOXWiEh0TEoDEREw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714832338; c=relaxed/simple;
-	bh=w6bn/4no8NMVEJqPP561BcxXipVz/9y/dItL/1UBPSY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=szivVnzZ6f1pzVAPUv2OItJDKGjGHxGtanoKnuNlV/auFSkWQvJj72/Bg9lif6tJAp/Ll13MWSQaw2MLaZMEdTH6bgWhO+lSBMZpSXB7LHBD5C0Px9vuC/03iI+tjCRkyWgxttUjXdhFrEkGOBv65xNnyFQlxCPd1HFGFZ+uOXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oc2a49Dv; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 85A2D33D;
-	Sat,  4 May 2024 16:17:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1714832273;
-	bh=w6bn/4no8NMVEJqPP561BcxXipVz/9y/dItL/1UBPSY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oc2a49DvYCMivQW8QKuerCPDE3NB3M4O9gQMO9h7ew1S3EyQGPeuVqDZMxOQ0Rhx8
-	 noPhHVWfaI4WgcUwRiPdTUdxX6QxUwk259ygX79+BNPafprI95tRigE5Hftkcr53OA
-	 fLFvCGMtvo6Bbhyh2FDfgLBjJcV+gwxbyscJXnXg=
-Date: Sat, 4 May 2024 17:18:45 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Julien Massot <julien.massot@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Yong Zhi <yong.zhi@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
-	Dan Scally <djrscally@gmail.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Eugen Hristev <eugen.hristev@collabora.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Maxime Ripard <mripard@kernel.org>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Robert Foss <rfoss@kernel.org>,
-	Todor Tomov <todor.too@gmail.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Yong Deng <yong.deng@magewell.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Benoit Parrot <bparrot@ti.com>, Jai Luthra <j-luthra@ti.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Michal Simek <michal.simek@amd.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 0/2] Introduce v4l2_async_nf_unregister_cleanup
-Message-ID: <20240504141845.GC24548@pendragon.ideasonboard.com>
-References: <20240502-master-v1-0-8bd109c6a3ba@collabora.com>
- <20240502155626.GD15807@pendragon.ideasonboard.com>
- <ZjO46Uo_tVcRTdA0@kekkonen.localdomain>
- <20240502160830.GB11443@pendragon.ideasonboard.com>
- <ZjO-JDBdHXVLbz5H@kekkonen.localdomain>
+	s=arc-20240116; t=1714853622; c=relaxed/simple;
+	bh=LUDZ/VUIBbdsUHpqLxJicBX6dWvX8voEizKKL+5iruI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qaXprfX32YwTtcAVFkMz356c7a0yN/GOvyMeCNE4yuPA/xqkxEmfVgW2LVNBOwL507o0WbjJRXaQW73NU7Nunw7/JPk5zbU+zbaTmmtcZP50SpYK/QA+4ElyeRh1iN94Eek+rAldqVReh0mfJf1S4YRZIL1tri7Bdu2Shu08sPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Xrdf6BVX; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-41bab13ca81so7544495e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 04 May 2024 13:13:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1714853619; x=1715458419; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tnVqSFLnUjSHiScDDBoE8Tjfux2uPMYvpSxKtV4mCpw=;
+        b=Xrdf6BVXl0rX8wj0u98I9Yn4CngcXsDGbaqv/WfClh2C7sU7G/HTTo8GG7edFNpzvu
+         j9A5ct6Gbzjox0KA2ur5k6A85mktxPwBg/MrvxBpEAHS///btUF9OSajnxv5rfsJf+rJ
+         mDnYT/VsnCnIwb7Gc1fW1Lfblcq0jluM3wcV6oBa7j+c554y806uqIf2T1W0wuhz1/LK
+         XNo9HHh0t6l6MXUapfnLlhJKyDpuz2jTR/vQkAiKaeTK3eUys524+F/hdhXydWVl7ibt
+         Ezdqh0TbJYV+Z5JXF53ljAQJEfGoIr/Nt92uoYgAdb9Xbn5ZBPRFq9aCTuVXTZ5A0of1
+         CtkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714853619; x=1715458419;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tnVqSFLnUjSHiScDDBoE8Tjfux2uPMYvpSxKtV4mCpw=;
+        b=iuPam54TxL/kJ5tlDhGDduM0uETXKfl3ijrCXu7nQM0o7E87/7kWGHYP1FTu6kdhfA
+         6LCtG6ckTFVoZY9YqSe6FQ6yYpazoCnYz/bST9vU6a4NSBx3ThNsAeYgsDop7jsAkmJn
+         IUTwqkCiUg2WpKzmLBl07zxa12ueoYzEwaWIM+9JZzSvhunobWCyfJpYy2oFelDNKeNS
+         PFqGqPgZpiHi7SLhq93MCIxdYBPuSKHnlCcN5gm0XC34walDA55oLttdIHgxBvtBFAiY
+         g/PSjEAe18fcwh1Sf0kwjJpjVe72VKmF4IydO0e9DCFEZ+DmPhnxEuNog8ZFMjsc6+tO
+         fYvw==
+X-Gm-Message-State: AOJu0YzqVCnI+mMU5GzOBEx2r8wvIqY+uqgYf58SEDpaZoFWsS90GO1Y
+	Xd4ZGzwFE77Mrdt/jYPyfgGXvXzpFZd6t5Lh/ITp5Z5XdcnaLTFaHt0Vn8K8YRK8Uw74Q204Z8m
+	5
+X-Google-Smtp-Source: AGHT+IHdlnlKSKG6VVSvWZ1mfGci9qad6mMJVQGGGn5ssoCOO0WYu+6Egb4HGIWGh3f5h+WUIGe/uw==
+X-Received: by 2002:a05:600c:4e8c:b0:41c:23f3:65fa with SMTP id f12-20020a05600c4e8c00b0041c23f365famr6036806wmq.28.1714853619062;
+        Sat, 04 May 2024 13:13:39 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id v15-20020a05600c444f00b0041be78ae1f0sm10375090wmn.2.2024.05.04.13.13.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 May 2024 13:13:38 -0700 (PDT)
+Date: Sat, 4 May 2024 23:13:34 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: laurent.pinchart+renesas@ideasonboard.com
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [bug report] [media] v4l: vsp1: Add histogram support
+Message-ID: <164d74ff-312c-468f-be64-afa7182cd2f4@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZjO-JDBdHXVLbz5H@kekkonen.localdomain>
 
-On Thu, May 02, 2024 at 04:24:04PM +0000, Sakari Ailus wrote:
-> On Thu, May 02, 2024 at 07:08:30PM +0300, Laurent Pinchart wrote:
-> > On Thu, May 02, 2024 at 04:01:45PM +0000, Sakari Ailus wrote:
-> > > On Thu, May 02, 2024 at 06:56:26PM +0300, Laurent Pinchart wrote:
-> > > > On Thu, May 02, 2024 at 05:22:20PM +0200, Julien Massot wrote:
-> > > > > Many drivers has
-> > > > >   v4l2_async_nf_unregister(&notifier);
-> > > > >   v4l2_async_nf_cleanup(&notifier);
-> > > > > 
-> > > > > Introduce a helper function to call both functions in one line.
-> > > > 
-> > > > Does this really go in the right direction ? For other objects (video
-> > > > devices, media devices, ...), the unregistration should be done at
-> > > > .remove() time, and the cleanup at .release() time (the operation called
-> > > > when the last reference to the object is released). This is needed to
-> > > > ensure proper lifetime management of the objects, and avoid a
-> > > > use-after-free for objects that can be reached from userspace.
-> > > > 
-> > > > It could be argued that the notifier isn't exposed to userspace, but can
-> > > > we guarantee that no driver will have a need to access the notifier in a
-> > > > code path triggered by a userspace operation ? I think it would be safer
-> > > > to adopt the same split for the nofifier unregistration and cleanup. In
-> > > > my opinion using the same rule across different APIs also make it easier
-> > > > for driver authors and for reviewers to get it right.
-> > > > 
-> > > > As shown by your series, lots of drivers call v4l2_async_nf_cleanup()
-> > > > and .remove() time instead of .release(). That's because most drivers
-> > > > get lifetime management wrong and don't even implement .release().
-> > > > That's something Sakari is addressing with ongoing work. This patch
-> > > > series seems to go in the opposite direction.
-> > > 
-> > > This still avoids the driver authors feeling they need to implement wrapper
-> > > functions for v4l2_async_nf_{unregister,cleanup}. I'd be in favour merging
-> > > this.
-> > > 
-> > > I don't see this getting in the way of adding use counts as the code will
-> > > need to be changed in any case.
-> > 
-> > Fixing the lifetime issues would essentially revert 2/2 and move the
-> > v4l2_async_nf_cleanup() call to .remove(). I don't think providing a
-> > helper that forces the cleanup at .remove() time is a good idea, it
-> > gives a false sense of doing things right to drivers. This is the same
-> > reason why devm_kzalloc() is so harmful, it gave the wrong message, and
-> > created (or participated in) all those lifetime issues.
-> 
-> I still prefer having devm_*alloc() functions than having the drivers open
-> coding the same -- with the same result. The frameworks won't enable doing
-> this right at the moment and I don't think drivers (or us!) should be
-> penalised for that.
+Hello Laurent Pinchart,
 
-I don't really see where the penalty is. What's the urgency to switch
-from calling v4l2_async_nf_unregister() and v4l2_async_nf_cleanup() to a
-helper that we know goes in the wrong direction ?
+Commit 99362e32332b ("[media] v4l: vsp1: Add histogram support") from
+Sep 7, 2016 (linux-next), leads to the following Smatch static
+checker warning:
 
-> The driver authors will only change what they do, with
-> these patches or without, when told so. But we don't really have an
-> alternative today.
+	drivers/media/platform/renesas/vsp1/vsp1_histo.c:153 histo_stop_streaming()
+	warn: mixing irqsave and irq
 
-There's already a .release() callback that can be used, and some drivers
-use it.
+drivers/media/platform/renesas/vsp1/vsp1_histo.c
+    139 static void histo_stop_streaming(struct vb2_queue *vq)
+    140 {
+    141         struct vsp1_histogram *histo = vb2_get_drv_priv(vq);
+    142         struct vsp1_histogram_buffer *buffer;
+    143         unsigned long flags;
+    144 
+    145         spin_lock_irqsave(&histo->irqlock, flags);
 
-> A similar situation exists with clk_unprepare() and clk_disable().
+_irqsave() means that perhaps the caller already has IRQs disabled.
 
--- 
-Regards,
+    146 
+    147         /* Remove all buffers from the IRQ queue. */
+    148         list_for_each_entry(buffer, &histo->irqqueue, queue)
+    149                 vb2_buffer_done(&buffer->buf.vb2_buf, VB2_BUF_STATE_ERROR);
+    150         INIT_LIST_HEAD(&histo->irqqueue);
+    151 
+    152         /* Wait for the buffer being read out (if any) to complete. */
+--> 153         wait_event_lock_irq(histo->wait_queue, !histo->readout, histo->irqlock);
+                               ^^^^
+This briefly enables IRQs
 
-Laurent Pinchart
+    154 
+    155         spin_unlock_irqrestore(&histo->irqlock, flags);
+                           ^^^^^^^^^^^
+This resets it back to what we want.
+
+    156 }
+
+regards,
+dan carpenter
 
