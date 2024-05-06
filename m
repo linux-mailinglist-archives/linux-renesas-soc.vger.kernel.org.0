@@ -1,131 +1,210 @@
-Return-Path: <linux-renesas-soc+bounces-5174-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5175-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CFAE8BD1AA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 May 2024 17:41:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAD978BD1B3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 May 2024 17:45:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 52A93B21B9C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 May 2024 15:41:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C4F06B229F0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 May 2024 15:45:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D205F1553BC;
-	Mon,  6 May 2024 15:41:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0757915538A;
+	Mon,  6 May 2024 15:45:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="R5tsKIYp";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="FlKmFDYO"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="aNWHc6i2";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fuk/2CSB"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from wfout7-smtp.messagingengine.com (wfout7-smtp.messagingengine.com [64.147.123.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0721F2F2C;
-	Mon,  6 May 2024 15:41:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3C268002A;
+	Mon,  6 May 2024 15:45:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715010074; cv=none; b=saOqjIrfElvDZ+UZdvn2W9FI/2ognUwJXlsDKsle7b89JfnliTxUbUZEQqfEaIA961tq2S23HwxAcOSzvUYOyHQKwNJpNT97x5awF5xH98M6oAMnS6tOzg/eNyKyrfGjHwQ33YuWAse1/NUoEFYyGdzDUJ9q8BJGIYhPFe6PngA=
+	t=1715010307; cv=none; b=u6bUUeV79yVVo47cW6p7H7caWwIrt92YtHsrV6ZB7wNXnZIgaCgKzG1v7aTxuO2iGPb3bm9IP64JjVgDXZin0jxgGgIyDzeGDQqe2BB9sUhHoAd0j4D6Tis8hP8qecMT6QN8fD3mvVn0jrkwEF4Y/OMRi3C+KsZMMRnmz51Cdnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715010074; c=relaxed/simple;
-	bh=jI6SxOagfPNkn94GUtgsL+r4GdG+O/p6tWlm3rf/lSE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=foygHNcdICs0IFjlyJ4z5QRIkYGkrox9yXg5Vafk9FgB7d3uAry6GjUghtGJXbowy1R2Ex2ilDCCAaE0QB7fD6doIHqb2mvmLgj7EzAoA3i6S7giVpEA5XaZCUNPTPNHiUsHaUtDfEebMmBRp3dioyK/qp5MVr2nSDZKFMOsq7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=R5tsKIYp; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=FlKmFDYO; arc=none smtp.client-ip=64.147.123.150
+	s=arc-20240116; t=1715010307; c=relaxed/simple;
+	bh=CzO86Ecjjq43vk9vd/lZbqzy6KgX5xn92z/ZND0YmQQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e6iEDxffgbGohdyLQkNELOCpJ/BtVdkT+3YobOYc7oEjZIy+e/lcB3//2/slqS53qj03n/5qy5z5gHZaO+bfrqrGihor0zXz8oVLUOY5vDEyHP7QNWo7mBKVY48ZLDSn4dOYmK0Re9XcS6QjdGq175kT8MJo4SmCooOWebitMEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=aNWHc6i2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fuk/2CSB; arc=none smtp.client-ip=64.147.123.150
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailfout.west.internal (Postfix) with ESMTP id BEB451C0017F;
-	Mon,  6 May 2024 11:41:11 -0400 (EDT)
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
+	by mailfout.west.internal (Postfix) with ESMTP id A8DC11C00182;
+	Mon,  6 May 2024 11:45:04 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Mon, 06 May 2024 11:41:12 -0400
+  by compute7.internal (MEProxy); Mon, 06 May 2024 11:45:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1715010071;
-	 x=1715096471; bh=AnaIrqFtCLoxaszuMPc1kk1SeqBriwcNO4quGAr4XLw=; b=
-	R5tsKIYp5YkOb3bIFjsE0vfu6knQkvcTQAOJvSMQS6Q/aHXj+tVOXCrU3Z7TeFve
-	2mhEZKZMNz94QjaB77FmbIpkblcXesvcnb3EiErXelOio/ijEQyxEQ0R33jheYYV
-	RIX/7D/FIsuI6RuLKCE87XFa06W7KW1VPD/L/fkFSxELIxKotCJsPU57medMZj4B
-	AfNRvdASWccSOD7AlG6Ks1JD54QQmKQwgQdyjru5xBYcJ8ADJ5HVhgZ9XrlcFblP
-	dBS1ggm5E+MEMQ8NQKo4ybjGpgGqTvpZpWgEDgSEOqXV1WyrQVWhRN7DgocgSKL/
-	qaaxMrAtaweJkYA6HvOzvg==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1715010304;
+	 x=1715096704; bh=6/OULYBvCLTct6dB/vSEFPlG1h1yzseKryz3nrqKAEU=; b=
+	aNWHc6i2o8lt2Vqu7b4aa1gSHbWLv4TJH8hktER/yRcXog7ErZxVeQ9oJhP82iuq
+	zivATm4KLydwSmUlV5cLH1xjlBDxCfYXXZ1NXBhxhbjEyhs+TwSShBco5Rp3zIdz
+	9vUMUYFXJX0zLp4dSMvxPHEV2hvQk3M/sUDP+4LZpppC6QZ4hM568RKEnHgksuIr
+	Wi/ZdygzaNddivMOIklflSaCdyHmrV5DIR8am20M4CIWgYJV0CB1dLSv9tMaCN+d
+	n0LUMRT9oj19jEic5tDAnIGa+a9Sr+aNWnpXMA5zTIvyqWTPGVsZtHzTNLZ6gx6G
+	5+BsEAp8BGJihSzOViNB/w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1715010071; x=
-	1715096471; bh=AnaIrqFtCLoxaszuMPc1kk1SeqBriwcNO4quGAr4XLw=; b=F
-	lKmFDYO2AKnXy555/IQUxmm3AoRbAcQlhhc8DCfnlUoD+m9Jw/uX1WibcrluDQtp
-	uYlTIE8sHTwGRkGmhLnD2nNamdd4N3g9PNh/mVNZS0zb13OhWmJGb3acyqjaJJTR
-	adBt6DrMryofh0n6xYO3kHc1tjj44l53B/oTH35oK1u1iFnphnOQlF9SCGvR6Ysc
-	RDxVywtHotSIUoW5i1CVpXI8EDzrLA6uFtiww64L6DKSVsVI6FmSAHOsq51yq2Du
-	lA10rytnGKb9+liosqox2jUBFa2PhRg9BNRCWNTzbhcMf7GdnVQuGXLsA5z6gbrx
-	0/kWre4/uAxwK0+UyQTgQ==
-X-ME-Sender: <xms:F_o4Zp_h6qxFL3R3M-m-W7fHha38NDrPUkn68qYTe5o3fA9-bZFbWw>
-    <xme:F_o4ZtsGQc_r2qPH734f3fdByXsI0gqyPhz76FN5NF5sg8jSPCZxiPhbWHQbQ-qmb
-    1_mSDIm4ux5EvW5z_M>
-X-ME-Received: <xmr:F_o4ZnAFHd49uHGxF-qMT7_M8VSMlbv2pbrVlmKRBxvDhanNJU4iM-TveOuEJ-HIoi6gVevG-esxDHpbl_MNGG91vCHG-PZNtIGB>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvddviedgledvucetufdoteggodetrfdotf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1715010304; x=
+	1715096704; bh=6/OULYBvCLTct6dB/vSEFPlG1h1yzseKryz3nrqKAEU=; b=f
+	uk/2CSBbUjgHMOjZ1ji1w3bgasBy8jbbxhrXltm1wRxK0vZ93Tq0QXAodoMqkhfv
+	GXYH2qyEwn2Ijj+P9qPXz3tEgxxEhyR/D0p/hKmIFQW0kNM2c4pE6TPphTAGvulD
+	VxXjA4fhrEDxwBm5rydZda2ZYrV71HLzwiKX4tJd6Ui1Vom//G0grPHICpj0W01p
+	Tq4a3FS0rZZOEY9jCb8RPpsxNxEX1KbO2otzPkLXfB87AhqHz0eArIIYVYvDAtVA
+	Ewr4wXOxejFkrLggBfgrUqhLO1+GntZqp6G9YIcUp1o36/GFx+Kq/CFuCN5xObC0
+	0fXMLKc0Em1I+cU2OFrhg==
+X-ME-Sender: <xms:APs4ZpllqnB4_4EFICWXAGCqUQzMPJz-l-cxILch6C6NjetFMof8BQ>
+    <xme:APs4Zk3U1q5iKuuTeL_NEt4XjTceA2ypQ9vvOEkfSgRyK_6GDFPdQjvlhIZDU8zLo
+    9PuPa41t93rwURCL0E>
+X-ME-Received: <xmr:APs4ZvrqkegR9X49yPQ30LHq8qbhgxWtGmvJbGMBx7pGTqNZ4cA8rRt0-vFFsMh-AFQmRH1CgZKGu6ChHFrFjCmXvQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvddviedgleegucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhk
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
     lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnh
-    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehiefgueev
-    uedtfefhheegkeevtdelueeukeevfeduhefhhfejfffggeffleefgeenucevlhhushhtvg
+    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeefhfellefh
+    ffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvdelieenucevlhhushhtvg
     hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggv
     rhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:F_o4ZtdcYQ1uvT6p3voRKOmoPc2XjZvf9i6cyIJSmq1mbXUdFCz8PA>
-    <xmx:F_o4ZuN1VXDCgTnOepOw-5sdOv577l0euKpq83zSxf5JC-OKlBB5JQ>
-    <xmx:F_o4Zvm_d6Q8CJS0rRBfSBbFDP6l41uL6iqoK-RtxMlmZNpvdsvkzw>
-    <xmx:F_o4ZosEoPfUrMZJwyx-kfnMrT_3tSyEqJRwgZP6y_rF-ZnqBuoNnw>
-    <xmx:F_o4Zvgp2E0LaRY1HL68mmdXht8zWMoCh5efEZZ3Uu-vklQ6d84yptUN>
+X-ME-Proxy: <xmx:APs4ZpkUmc6vbY-sBRfM-rPwI4nRm9HebvC-onFBM9wulEnTGUuGSA>
+    <xmx:APs4Zn3__mYmQZMpgP1w5FAZSmS_BdIC7NWB_YNg9I_VSRR7zPgdZQ>
+    <xmx:APs4ZouyP2IYg7HeBJm--NJ4ceOiEQ1uDcgqe6lXHj_0R0pWNBPHWA>
+    <xmx:APs4ZrV4SaSUbDogcuzUgldaVtNb3XP1zzVP24e9NeCskSZlsWotyA>
+    <xmx:APs4ZskLgheHuUDitQdHObB2ORJ1N_Jjb_k-otBMI6i4lzLYNP1ywi6Q>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 6 May 2024 11:41:10 -0400 (EDT)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Lukasz Luba <lukasz.luba@arm.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-pm@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 2/2] thermal: renesas: rcar: Add dependency on OF
-Date: Mon,  6 May 2024 17:40:11 +0200
-Message-ID: <20240506154011.344324-3-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.45.0
-In-Reply-To: <20240506154011.344324-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20240506154011.344324-1-niklas.soderlund+renesas@ragnatech.se>
+ 6 May 2024 11:45:03 -0400 (EDT)
+Date: Mon, 6 May 2024 17:45:02 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 01/11] media: rcar-vin: Fix YUYV8_1X16 handling for CSI-2
+Message-ID: <20240506154502.GA345614@ragnatech.se>
+References: <20240503155127.105235-1-jacopo.mondi@ideasonboard.com>
+ <20240503155127.105235-2-jacopo.mondi@ideasonboard.com>
+ <20240505205043.GA25518@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240505205043.GA25518@pendragon.ideasonboard.com>
 
-The R-Car thermal driver depends on OF, describe this.
+Hello,
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/thermal/renesas/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+On 2024-05-05 23:50:43 +0300, Laurent Pinchart wrote:
+> Hi Jacopo,
+> 
+> Thank you for the patch.
+> 
+> On Fri, May 03, 2024 at 05:51:16PM +0200, Jacopo Mondi wrote:
+> > The YUYV8_1X16 and UYVY8_1X16 formats are treated as 'ITU-R
+> > BT.601/BT.1358 16-bit YCbCr-422 input' (YUV16 - 0x5) in the R-Car VIN
+> > driver and are thus disallowed when capturing frames from the R-Car
+> > CSI-2 interface according to the hardware manual.
+> > 
+> > As the 1X16 format variants are meant to be used with serial busses they
+> > have to be treated as 'YCbCr-422 8-bit data input' (0x1) when capturing
+> > from CSI-2, which is a valid setting for CSI-2.
+> > 
+> > Commit 78b3f9d75a62 ("media: rcar-vin: Add check that input interface
+> > and format are valid") disallowed capturing YUV16 when using the CSI-2
+> > interface. Fix this by using YUV8_BT601 for YCbCr422 when CSI-2 is in
+> > use.
+> > 
+> > Fixes: 78b3f9d75a62 ("media: rcar-vin: Add check that input interface and format are valid")
+> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > ---
+> >  .../media/platform/renesas/rcar-vin/rcar-dma.c   | 16 +++++++++++++---
+> >  1 file changed, 13 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> > index e2c40abc6d3d..21d5b2815e86 100644
+> > --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> > @@ -742,12 +742,22 @@ static int rvin_setup(struct rvin_dev *vin)
+> >  	 */
+> >  	switch (vin->mbus_code) {
+> >  	case MEDIA_BUS_FMT_YUYV8_1X16:
+> > -		/* BT.601/BT.1358 16bit YCbCr422 */
+> > -		vnmc |= VNMC_INF_YUV16;
+> > +		if (vin->is_csi)
+> > +			/* YCbCr422 8-bit */
+> > +			vnmc |= VNMC_INF_YUV8_BT601;
+> > +		else
+> > +			/* BT.601/BT.1358 16bit YCbCr422 */
+> > +			vnmc |= VNMC_INF_YUV16;
+> >  		input_is_yuv = true;
+> >  		break;
+> >  	case MEDIA_BUS_FMT_UYVY8_1X16:
+> > -		vnmc |= VNMC_INF_YUV16 | VNMC_YCAL;
+> > +		if (vin->is_csi)
+> > +			/* YCbCr422 8-bit */
+> > +			vnmc |= VNMC_INF_YUV8_BT601;
+> > +		else
+> > +			/* BT.601/BT.1358 16bit YCbCr422 */
+> > +			vnmc |= VNMC_INF_YUV16;
+> > +		vnmc |= VNMC_YCAL;
+> 
+> You could also write
+> 
+> 	case MEDIA_BUS_FMT_UYVY8_1X16:
+> 		vnmc |= VNMC_YCAL;
+> 		fallthrough;
+> 	case MEDIA_BUS_FMT_YUYV8_1X16:
+> 		if (vin->is_csi)
+> 			/* YCbCr422 8-bit */
+> 			vnmc |= VNMC_INF_YUV8_BT601;
+> 		else
+> 			/* BT.601/BT.1358 16bit YCbCr422 */
+> 			vnmc |= VNMC_INF_YUV16;
+> 		input_is_yuv = true;
+> 		break;
+> 
+> Up to you.
 
-diff --git a/drivers/thermal/renesas/Kconfig b/drivers/thermal/renesas/Kconfig
-index 1be65a03d290..dcf5fc5ae08e 100644
---- a/drivers/thermal/renesas/Kconfig
-+++ b/drivers/thermal/renesas/Kconfig
-@@ -4,6 +4,7 @@ config RCAR_THERMAL
- 	tristate "Renesas R-Car thermal driver"
- 	depends on ARCH_RENESAS || COMPILE_TEST
- 	depends on HAS_IOMEM
-+	depends on OF
- 	help
- 	  Enable this to plug the R-Car thermal sensor driver into the Linux
- 	  thermal framework.
+I prefers Jacopo's version. This function should likely be reworked in 
+the future to be separate Gen2/Gen3/Gen4 versions so we can remove all 
+these ugly checks as not all formats are supported on all hardware 
+generations.
+
+I think that work would be easier if we keep the current ugly and dumb 
+structure of these switches.
+
+> 
+> On a side note, CSI-2 isn't supposed to support
+> MEDIA_BUS_FMT_YUYV8_1X16. The native format is MEDIA_BUS_FMT_UYVY8_1X16.
+> I wonder if we should trim down the list of supported formats. That's a
+> candidate for another patch though.
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> 
+> >  		input_is_yuv = true;
+> >  		break;
+> >  	case MEDIA_BUS_FMT_UYVY8_2X8:
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+
 -- 
-2.45.0
-
+Kind Regards,
+Niklas Söderlund
 
