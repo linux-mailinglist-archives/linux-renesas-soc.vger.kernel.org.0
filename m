@@ -1,59 +1,59 @@
-Return-Path: <linux-renesas-soc+bounces-5194-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5195-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69C438BD5DE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 May 2024 21:54:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6F1A8BD600
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 May 2024 22:01:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EEB581F2252A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 May 2024 19:54:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7B08E1F216E0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 May 2024 20:01:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B57B15ADA4;
-	Mon,  6 May 2024 19:54:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01BBE15ADBE;
+	Mon,  6 May 2024 20:01:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="Dq/N96ON"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="6Xh3px8h"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8CADDC7;
-	Mon,  6 May 2024 19:54:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A6B156F46;
+	Mon,  6 May 2024 20:01:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715025252; cv=none; b=pLMieRuhWVrDNhzUPtSsKN3uei0KCcqdqdRpUUOH7DO0f/bgw4jcVYFYcVJI98zuakuhe9fSGgYQSKTft7+ADHV83/0q0MDZuZWgwCtm/y5ks/0Y+ZJeB9TG9sGr/6im1cf/PpQPu3qF8J+0ljygW3lAru6S0U0JUnIHn6q4ZY8=
+	t=1715025662; cv=none; b=l2cRgmW9vDQ+LHFLdmccYTk+Pii4ta9PZWOFVKIX4fkusOGFrhBo4U7SCDkYkt0hEQNjtMrUEwmZH3QeJUvbynYKD4CJTZivyPVlJHiDbm4OTZMMZvnvQ1D3fCgX/OpEjtzdFFPNKOVhBWhWxHtFuEAm9UxmbrulWXs4WetwQL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715025252; c=relaxed/simple;
-	bh=CZ6zTwWmgdAYTUZMUKTM9DmLIxjNnLXAUHTo0f3Lkn0=;
+	s=arc-20240116; t=1715025662; c=relaxed/simple;
+	bh=aUpeEBLTUmXEVh5GDMu1oxWha4/2yFgxd2vn3MAXSyU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hOVFIZ6CFOUw3Dd6tBlkFOVliJrutMMbVNMo7b4+2DUOI93Sll5m5y7+88eg1NY/5NkLaC5lp634xMkpXplc6M4YfWszdTSE43WEZ00T3DSRQfgDP8bKFdV7UZA4a6RxpFXRi2UO/w4qwA4jPWU0gAPcN9cClQHu+Bz/8K7p9xw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=Dq/N96ON; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yr7dDvg8lKDKp0bnZCgl199R5BNag18s4j/XNR7eMSh8lUxkheiDH6v8Od4IWj1yuDTMl6Ckaz8UE1YMmJPyd/U31KPi5k/Jwcg8OZG6wmKJ8zjo8Wuivjjz6qDV/UlqDbBtWPROOqQU20MLPpalkUVZRC5g7+Pwguzqx82cTIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=6Xh3px8h; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=AelF1gqCOH4YchdWMBnkwBkyYAZ2G5E2YoUL/GTtTRg=; b=Dq
-	/N96ONiAiqHxMrNx4h3lcbSMzaSZevMfSQee+P5NJhk8edM0mZBWClYN04kg04vfecIIsryGXgJ+e
-	R+jcO9PiWx6PdyK82BGiQ5YHVMAITKic6aynudOQH+j+J8oSoXaqGtynJJg2DRbqdoK7LhJwTzQne
-	y3L0ZIj9sxCnCcQ=;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=GAysR8dKRX6QTtp7WFrS61A+RI8BaKzpDO3W65hTKcs=; b=6Xh3px8hHPPxvZ45u1TQv3eWQI
+	R3yq/H+XLqO6TBapXS0EQ0F7l8Zu+uhw/Us0SnChBAD7ofqvUyg2w4YqKTHmJqvYALg4AXVqL57TG
+	yh/uRn2KOs4FDoJjQqi8qrXvulb+IeDkafistwRJQ+UEIxqgkO5n7rZ8GwxfN7lw3P8g=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1s44PO-00EnKj-5H; Mon, 06 May 2024 21:53:58 +0200
-Date: Mon, 6 May 2024 21:53:58 +0200
+	id 1s44Vy-00EnMa-SK; Mon, 06 May 2024 22:00:46 +0200
+Date: Mon, 6 May 2024 22:00:46 +0200
 From: Andrew Lunn <andrew@lunn.ch>
 To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Subject: Re: [net-next] net: ethernet: rtsn: Add support for Renesas
  Ethernet-TSN
-Message-ID: <0b686943-51de-49c9-afef-04db18b8fdbc@lunn.ch>
+Message-ID: <2fc4d494-4ec0-48a8-988c-68f31c4f691e@lunn.ch>
 References: <20240414135937.1139611-1-niklas.soderlund+renesas@ragnatech.se>
  <5fd25c58-b421-4ec0-8b4f-24f86f054a44@lunn.ch>
  <20240503102006.GI3927860@ragnatech.se>
@@ -61,61 +61,37 @@ References: <20240414135937.1139611-1-niklas.soderlund+renesas@ragnatech.se>
  <20240503133033.GJ3927860@ragnatech.se>
  <d5f6f31a-6ecc-48a9-a2ca-9d22fc6acb21@lunn.ch>
  <20240506140533.GD720810@ragnatech.se>
+ <CAMuHMdXm1by7P3LV22v5fQyVo1dNOzjaB=1dcqwP7qM+MqOhtA@mail.gmail.com>
+ <20240506182615.GG720810@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240506140533.GD720810@ragnatech.se>
+In-Reply-To: <20240506182615.GG720810@ragnatech.se>
 
-On Mon, May 06, 2024 at 04:05:33PM +0200, Niklas Söderlund wrote:
-> Hi Andrew,
-> 
-> Thanks for this explanation, it helps understand what's going on.
-> 
-> On 2024-05-06 03:51:45 +0200, Andrew Lunn wrote:
-> 
-> > What PHY is this? Does it have C22 registers? Can it be identified via
-> > C22 registers 2 and 3?
-> 
-> The PHY in question is mv88q2110 (drivers/net/phy/marvell-88q2xxx.c), 
-> unfortunately I do not have a datasheet for it so I can't tell you much 
-> about it.
+> Note that this driver differs a bit from RAVB for which [2] targets. The 
+> RAVB driver creates the MDIO bus at probe time, this drivers creates and 
+> destroys the MDIO bus in sync with the interface state using ndo_open 
+> and ndo_stop.
 
-The mv88q2110 declares itself as 0x002b0b20.
+That is not a good idea. It is better to create the MDIO bus at probe
+time. There are a few reasons for this.
 
-> 
-> <snip>
-> 
-> > 
-> > So i would drop the compatible. See if C22 is sufficient to get the
-> > correct driver loaded.
-> 
-> - Remove C45 compatible; Remove C45 read/write in driver
-> 
->   The PHY is identified as "Generic PHY", and the correct PHY driver is 
->   not used. I can't test more than that as the generic PHY driver do not 
->   implement some quirks I need to get the link up.
+1) It takes while for the machinary to load the PHY driver, when it is
+a module. If it does not get time to do that, you end up with the
+generic PHY driver, even though there is a specific PHY driver, which
+becomes usable a little later in time. But your network is dead
+because the generic PHY drive is not sufficient.
 
-What ID does it return in registers 2 and 3? Anything like 0x002b0b20?
-If there is some usable value there, we can probably extend the driver
-to accept that ID as well.
+2) It is possible that creating the MDIO bus fails with
+EPROBE_DEFER. If this happens at ndo_open(), there is nothing you can
+do about it, other than return the error to user space. If it happens
+during probe, the driver core will handle it, and try to probe the
+driver again sometime later.
 
-Another option it to use a compatible conforming to:
-
-      - pattern: "^ethernet-phy-id[a-f0-9]{4}\\.[a-f0-9]{4}$"
-
-ethernet-phy-id002b.0b20
-
-That will bypass reading ID registers for the ID, and just use the ID
-in the compatible. However, it would be better to read them from the
-PHY.
-
-	Andrew
-
-
+       Andrew
 
