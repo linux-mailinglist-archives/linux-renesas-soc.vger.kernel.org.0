@@ -1,58 +1,104 @@
-Return-Path: <linux-renesas-soc+bounces-5166-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5167-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39C728BCEDC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 May 2024 15:21:43 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C1648BCFA7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 May 2024 16:05:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 80188B21BE9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 May 2024 13:21:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7CC351C2387A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 May 2024 14:05:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EEF074BF8;
-	Mon,  6 May 2024 13:21:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F10AC8175E;
+	Mon,  6 May 2024 14:05:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dL2t7WIp"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="fp9mKMuN";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="X9VhyV+K"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from wfout6-smtp.messagingengine.com (wfout6-smtp.messagingengine.com [64.147.123.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7E5FBF0;
-	Mon,  6 May 2024 13:21:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B824215A5;
+	Mon,  6 May 2024 14:05:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715001697; cv=none; b=VJLJrE7j19G/jGnTe6/3COAnZy9Ou5axaAn6R54kMDol6OcV3poBOSy5K7H48W+5hP1vE+51Wl2Y/o4EffeV7PY81m6i5ziMFO9To5arqcypik2op7zvWgi6rrg1mjGjpegipR7NzVbWjVHCUH1IjuJK9eGiK4wVMuwO09EA/6E=
+	t=1715004341; cv=none; b=NHfCGPqHjSqWObdwpWdKPkubKreJQap33Av6nl9m5EAYilNspZU3HnMTiKk3AkUgbFyF0PRsflh+mZZRXWLYUuUUiD0zSLxUC5u8/bJ7/tk8AHr18EVWXIuaAemt1ZL1JovrS+VHQunMq1WxG98G0uJdQkemlEyIEgIIJJyMl50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715001697; c=relaxed/simple;
-	bh=NvXRF6I6+zv57QlmCKIyd5rDTKcg+GJ1rhcW13v8WnY=;
+	s=arc-20240116; t=1715004341; c=relaxed/simple;
+	bh=kJvurmAd4Huzk7xJLL+fdoKaaexCaT28q6J9IH5vbUY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F7s6Z5KKswCmY+k+4Zd17zyZ4PX5/RhYygGbHA+bHRpeOzYUgO3RkKWD0rBMGmn7SeEaBYuTni6wKXWh5qxfedtvFM+uZ6DVU9vNcMQvKsG+cy9lttR7V7jbs3uz2LLzXNxG4mrZxZBmATbktzcqXdKdEW0JLgR+/KdVa9EAer0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=dL2t7WIp; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:cc1e:e404:491f:e6ea])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5F983C55;
-	Mon,  6 May 2024 15:21:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1715001691;
-	bh=NvXRF6I6+zv57QlmCKIyd5rDTKcg+GJ1rhcW13v8WnY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dL2t7WIpZoXcEiJ7/BqvZAxdAOy7z2ML6npQQiDkbimTttDDjDq3AAuSb5h9uE+wZ
-	 qWVqoADDgk8XO6wscm2su15/HhVaq1ELWdlWP7A2iHXJ/2WsF3Pq1Zdkoi1JrT8sJ2
-	 EmMndBGvSNd8liuf3C6hnGDG1dOJZtT0aGswGbD4=
-Date: Mon, 6 May 2024 15:21:30 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 07/11] media: adv748x-csi2: Validate the image format
-Message-ID: <xcvfc2rphz52r6vyexlmjdqwmsudlu4urx2ngn3g55hmsh44yf@nw4rwfresuy7>
-References: <20240503155127.105235-1-jacopo.mondi@ideasonboard.com>
- <20240503155127.105235-8-jacopo.mondi@ideasonboard.com>
- <20240506113730.GA1017753@ragnatech.se>
+	 Content-Type:Content-Disposition:In-Reply-To; b=k63C1EL9fKVjk61Hh0MZ0wRsJ5R7bQXbbH+EynHltbgKNc19iBFlQBwkqVOacJ4AUMeTkhyaKBX0GwXorZcD4t4jh3oAdnv83ag3w828yXToedOiHORsRc7BGPwS3FE18MH0+LObbOl0+hsVZW6id834JybmiuD3wikQgRRspIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=fp9mKMuN; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=X9VhyV+K; arc=none smtp.client-ip=64.147.123.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailfout.west.internal (Postfix) with ESMTP id 2831D1C0017D;
+	Mon,  6 May 2024 10:05:37 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Mon, 06 May 2024 10:05:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1715004336;
+	 x=1715090736; bh=5m5LZqjJlr1xGKll64ocIdbEm6uTXlrNkLO3vlro68Y=; b=
+	fp9mKMuN93Sc0IuPN8x7Yb6mF8aRMErIV9HymDtHmNUVDgBsBhXC4QBQvcYTOL4u
+	cY8actE6R4jd2+OTAr4/OycBLIN+08cGaZa16XUoOsYQnA4VCDlHsCXiRt2P4c0P
+	O1IpCPijtJ0Iu/SdhI9pRDEkSuGEHJV/yFVfHKmxAQlOyctitfwTd1o9TSz3QNut
+	e/z1xGXMLTZisuwhX0VE1xUiQtDRgufsyjnTxmXAa1N2Oo83Zy9dTMTEoPRYKXNK
+	pWCuRVhRPpidJY00UZPuXq+1J61P3YOU7atAL1sz32SEcWhRohXXb4tpQzri7UF5
+	PtXKJx0s9+GOLCzevmgpVA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1715004336; x=
+	1715090736; bh=5m5LZqjJlr1xGKll64ocIdbEm6uTXlrNkLO3vlro68Y=; b=X
+	9VhyV+KrfZcfqEgHUFjX4gjOzW3SBJPV8NUkQbknlTFklcIkCTJFG78cexMtk44F
+	DmocTDXbCK3YsiDEVhz0GZRmt1Y1WsEy3+MExVNypDtJ2ZS652BJm7o0zNvo5cGb
+	+hJ05tW8Q8mQZV3jAAjEVpmgQxtXpxDM7DNktJ+yQUp3cR4DWcV+fqKuV3UWQUAV
+	nla5ZwIHKBqY9Tnn2W/BYb0TShM8nkRU2Vr/KmMEEoRxNG4QQtrcLtpAN3LM07Cq
+	8ZEYxlCn0UrvVfFC+LIHgMKpBCLKhMijjZOiSDvWfpAj5AMsr3cUeYC15DFfz+Sk
+	30qHx6mRhhsJnow2JTlsw==
+X-ME-Sender: <xms:r-M4Zt6-Z9mX3wMOHE3DiTpWXLPFQq7c7LMGz411J9Dzj8xzG38vcw>
+    <xme:r-M4Zq7URYc5NtYX7coGypvjnim9F74sFQuXLmEj1pA4G_cagqk-tSQy45kZMiZFh
+    CkXwSeCtH79DLwmHNo>
+X-ME-Received: <xmr:r-M4Zkc6mEE1tm1Z6UsfO6bVLKMwpoOBPBHM-eck0ERI9pr-ATVHv67ftb96XApu-Gd_lkFvVi-2Vd8IolJYGfefny5A4Nc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvddviedgjedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
+    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnh
+    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeefhfellefh
+    ffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvdelieenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggv
+    rhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:r-M4ZmIGhEL3HfghWvgAYCRm3bMISo4f9g51N5Cte23dastfxWQxMg>
+    <xmx:r-M4ZhKIjgo10dTCS9MtF1d45sq-vBjDFnF4ggGU8vJ8acrPBxLr4w>
+    <xmx:r-M4Zvy3bhp1TtCL073bEaJaWOZq0q-J9JhEd3X7grh9QQP1FFzMrg>
+    <xmx:r-M4ZtJPXlFXXBe4sDx_PNjI8nAR89tsl-wwjfB1IJWjsRMvGs_zXQ>
+    <xmx:sOM4Zo9C9heV7vBH3ibK2guf23iZrjdTVfC1jXsU5484lHVMVCMYBpun>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 6 May 2024 10:05:35 -0400 (EDT)
+Date: Mon, 6 May 2024 16:05:33 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [net-next] net: ethernet: rtsn: Add support for Renesas
+ Ethernet-TSN
+Message-ID: <20240506140533.GD720810@ragnatech.se>
+References: <20240414135937.1139611-1-niklas.soderlund+renesas@ragnatech.se>
+ <5fd25c58-b421-4ec0-8b4f-24f86f054a44@lunn.ch>
+ <20240503102006.GI3927860@ragnatech.se>
+ <e3ce12b0-fb5d-49d7-a529-9ea7392b80ca@lunn.ch>
+ <20240503133033.GJ3927860@ragnatech.se>
+ <d5f6f31a-6ecc-48a9-a2ca-9d22fc6acb21@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -62,115 +108,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240506113730.GA1017753@ragnatech.se>
+In-Reply-To: <d5f6f31a-6ecc-48a9-a2ca-9d22fc6acb21@lunn.ch>
 
-Hi Niklas
+Hi Andrew,
 
-On Mon, May 06, 2024 at 01:37:30PM GMT, Niklas Söderlund wrote:
-> Hi Jacopo,
->
-> Thanks for your work.
->
-> On 2024-05-03 17:51:22 +0200, Jacopo Mondi wrote:
-> > The adv748x-csi2 driver configures the CSI-2 transmitter to
-> > automatically infer the image stream format from the connected
-> > frontend (HDMI or AFE).
-> >
-> > Setting a new format on the subdevice hence does not actually control
-> > the CSI-2 output format, but it's only there for the purpose of
-> > pipeline validation.
-> >
-> > However, there is currently no validation that the supplied media bus
-> > code is valid and supported by the device.
-> >
-> > With the introduction of enum_mbus_codes a list of supported format is
-> > now available, use it to validate that the supplied format is correct
-> > and use the default YUYV8 one if that's not the case.
->
-> With the update tests for the change in patch 4 I hit multiple issues
-> with this patch for CVBS capture.
->
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > ---
-> >  drivers/media/i2c/adv748x/adv748x-csi2.c | 27 +++++++++++++++++++++++-
-> >  1 file changed, 26 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> > index 219417b319a6..1aae6467ca62 100644
-> > --- a/drivers/media/i2c/adv748x/adv748x-csi2.c
-> > +++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> > @@ -215,6 +215,23 @@ static int adv748x_csi2_get_format(struct v4l2_subdev *sd,
-> >  	return 0;
-> >  }
-> >
-> > +static int adv748x_csi2_is_fmt_supported(struct adv748x_csi2 *tx,
-> > +					 unsigned int code)
-> > +{
-> > +	const unsigned int *codes = is_txa(tx) ?
-> > +				    adv748x_csi2_txa_fmts :
-> > +				    adv748x_csi2_txb_fmts;
-> > +	size_t num_fmts = is_txa(tx) ? ARRAY_SIZE(adv748x_csi2_txa_fmts)
-> > +				     : ARRAY_SIZE(adv748x_csi2_txb_fmts);
-> > +
-> > +	for (unsigned int i = 0; i < num_fmts; i++) {
-> > +		if (codes[i] == code)
-> > +			return 0;
-> > +	}
-> > +
-> > +	return -EINVAL;
-> > +}
-> > +
-> >  static int adv748x_csi2_set_format(struct v4l2_subdev *sd,
-> >  				   struct v4l2_subdev_state *sd_state,
-> >  				   struct v4l2_subdev_format *sdformat)
-> > @@ -222,7 +239,15 @@ static int adv748x_csi2_set_format(struct v4l2_subdev *sd,
-> >  	struct adv748x_csi2 *tx = adv748x_sd_to_csi2(sd);
-> >  	struct adv748x_state *state = tx->state;
-> >  	struct v4l2_mbus_framefmt *mbusformat;
-> > -	int ret = 0;
-> > +	int ret;
-> > +
-> > +	/*
-> > +	 * Make sure the format is supported, if not default it to
-> > +	 * YUYV8 as it's supported by both TXes.
-> > +	 */
-> > +	ret = adv748x_csi2_is_fmt_supported(tx, sdformat->format.code);
-> > +	if (ret)
-> > +		sdformat->format.code = MEDIA_BUS_FMT_YUYV8_1X16;
->
-> If adv748x_csi2_is_fmt_supported() returns non-zero you default to
-> MEDIA_BUS_FMT_YUYV8_1X16, which is fine. But the non-zero return code is
-> propagated at the end of this function and to user-space falling the
-> IOCTL.
+Thanks for this explanation, it helps understand what's going on.
 
-Ouch, I think in my tests the error message got ignored
+On 2024-05-06 03:51:45 +0200, Andrew Lunn wrote:
 
->
-> Fixing that I hit another issue that kind of shows we need this format
-> validation ;-)
->
-> The TXB entity only supports MEDIA_BUS_FMT_YUYV8_1X16 formats, the AFE
-> entity only outputs MEDIA_BUS_FMT_UYVY8_2X8... So with format validation
-> in place it becomes impossible to connect AFE to TXB and breaking CBVS
-> capture on Gen3. As a hack I added MEDIA_BUS_FMT_UYVY8_2X8 support to
-> TXB and I can again capture CVBS with patch 1-8 applied.
+> What PHY is this? Does it have C22 registers? Can it be identified via
+> C22 registers 2 and 3?
 
-Thanks for testing analog capture, I don't have a setup to easily do
-so.
+The PHY in question is mv88q2110 (drivers/net/phy/marvell-88q2xxx.c), 
+unfortunately I do not have a datasheet for it so I can't tell you much 
+about it.
 
-Should we make the AFE front-end produce 1X16 instead ? The format is
-only used between the AFE and TXs after all, changing it shouldn't
-have any implication on the interoperability with other devices.
->
-> >
-> >  	mbusformat = adv748x_csi2_get_pad_format(sd, sd_state, sdformat->pad,
-> >  						 sdformat->which);
-> > --
-> > 2.44.0
-> >
->
-> --
-> Kind Regards,
-> Niklas Söderlund
+<snip>
+
+> 
+> So i would drop the compatible. See if C22 is sufficient to get the
+> correct driver loaded.
+
+- Remove C45 compatible; Remove C45 read/write in driver
+
+  The PHY is identified as "Generic PHY", and the correct PHY driver is 
+  not used. I can't test more than that as the generic PHY driver do not 
+  implement some quirks I need to get the link up.
+
+- Remove C45 compatible; Keep C45 read/write in driver
+
+  The correct PHY driver is used and everything works.
+
+- Keep C45 compatible; Remove C45 read/write in driver
+
+  As described earlier in this thread, the MAC driver can't connect to 
+  the PHY as the call-chain described earlier fails.
+
+How would you suggest I move forward here? Shall I keep the C45 over C22 
+read/write in the driver or can I do something else more clever?
+
+-- 
+Kind Regards,
+Niklas Söderlund
 
