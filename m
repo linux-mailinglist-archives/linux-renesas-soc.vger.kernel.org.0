@@ -1,188 +1,192 @@
-Return-Path: <linux-renesas-soc+bounces-5209-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5210-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEA2F8BE4D1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 May 2024 15:54:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1ACE8BE6FD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 May 2024 17:09:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6208728C459
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 May 2024 13:54:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A74A82824E9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 May 2024 15:09:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46ACC15E205;
-	Tue,  7 May 2024 13:52:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jzavlGvx"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D35AD16193C;
+	Tue,  7 May 2024 15:08:49 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CD8E15E1E6;
-	Tue,  7 May 2024 13:52:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA280161338;
+	Tue,  7 May 2024 15:08:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715089929; cv=none; b=CzsIASrA1Q7TEq/ZEx1PioFyLJgWR7/e77NudfxTKd8zmmH3B0Vr7uH1Xa4sfFirUEc3ldEJkkB/8CYzzVWZnM0efYw2rAH1pHlKBl7H//ZKZnB7vMt95ug66/Da72brwraLqidftR1aQ+vlZdEWV2i0aXPvutkifiIumqDbiXc=
+	t=1715094529; cv=none; b=PHEP1RdO2ztJLqf8SNZ2Z1OwSVDOl8KUPANFhhEfE0HsJy7TW3qRnf+5i51yEuc2dMXwsaqGUWribXp0V9F8CCqoFITj2GPuhwfaO2YCGh01/HQH4L6rcEfvp4bxEDe2/1Obuh5LoDg2wo9OyFcW+I1PQTocSwkwP+hiWOA33Ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715089929; c=relaxed/simple;
-	bh=1viqNXMtyS8ANOoHlnhSLYHsZNS1uTC/6gJNg0lRhBY=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=CEs4yW4XwUnCEYZJjSh6YoFWc/G3fyTeHJMTmglnLBInwZcy4ufHpEnk8Zen/IMgyIi7h6/rIyQ4BKeHTzSNWqsvXV0EhWO1wwTM6enQFTa7Rgn5wKF7DtwQSFAgfbuneEFkZHxduY1JYnyuAgm25w3o9Zd64wByyNkuGr2GzvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jzavlGvx; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C494C1153;
-	Tue,  7 May 2024 15:52:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1715089922;
-	bh=1viqNXMtyS8ANOoHlnhSLYHsZNS1uTC/6gJNg0lRhBY=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=jzavlGvx4lh1DiBGck4sP2l6Dl3jQl2f20ewoIx8jtVaNFhhD/qYEl8sSXIGYprqg
-	 lN65xlh4Iufamd1eii+xNsHD+jVqGZSy7FA2f7nDarzg8jeY63JU+Cl6EJmZPl2fS7
-	 Lo+7JRg3jqvh+D5woQAsh6WWsKOt18JqAL+RYN6E=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1715094529; c=relaxed/simple;
+	bh=WJx05AdhqH/Yl0neVY65uOiOs7cbbo6THRsoqaHvmjY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Brc26FK/hvWqt2ANWZ0U9Qdiqnzg0Nq0GFztifqYHmLOc4C0op0Yy4xVTze7ZWkzQ/2YhVbuc8QtSVV0vtuhCzAzpIvgwjCeHhJRxT/ps5EkYZXsf1w2Qg/C8tymBxALRRPiXkpWDU2K0hA4VZbz2P2yGQXKt5hgPnymDpv6190=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-5acf5c1a2f5so1912044eaf.0;
+        Tue, 07 May 2024 08:08:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715094526; x=1715699326;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SjPNY+YN3AvsteCp9o4WA9jTEFYIMLWbrrEz2tsoKMc=;
+        b=hTEaQejw5ybID1/18QakMwo8uyBchqKvmdLgUCbdHgzCz/5ZL0aAJPDJ/vMPbvd0Ux
+         ruBTASjPChjEbC/6CeGrh26PKxq/bfu/7CdERHPNIalg0vBsE8y20VJe3+xtVZBSlVjC
+         wZbWthSAUqyIKfu0jwtN7yBtew2cKXoyP8+9qQTnmxq88sOpiHTZmshaPkeu+0FXSfhu
+         b5ylJGvCbIIPXjBi3P4Q6WXo7o1nFitvZJW8l3G6yqvDf+YoFf8ZUiFfRljl8VA5wy0J
+         XC7L6cBkrylnEmtgo2Qf6mzzK9ztw6L4/xjMf5QMSszmmsxpkV9oUSKHVzKbNA4OWtKr
+         bEvA==
+X-Forwarded-Encrypted: i=1; AJvYcCWY2yh58e60WunGZ+cbkPyPQMeINQkm05OpWJKZXNz62Jx/xm2xkuUz/md2zJK2EC4nalWgertRM5j3cSwcSj4sHL2knEqT9v+ldzit75MMkhqumR40XMl5Wf8yczRrWsk9BoMmN/GqqyahZa0To2A=
+X-Gm-Message-State: AOJu0YxASaE+iEPdy8RWpy10l0j9CY9upvweprrmkOedQupsaF0OUJ3s
+	LFz7+ETBBpV2P5RkIXrBosO78tIQ8JVUq/tx1X3Jx2cuozuJx+DAT6dyEzIh
+X-Google-Smtp-Source: AGHT+IFrONYFfsmw/Rp6uGtitJR9BYULwjKYiXOUu9TjQd4ZFLv4R4KGRnnnpuJ+7RCeCfHy6i5Snw==
+X-Received: by 2002:a4a:dc4:0:b0:5ae:fe80:7dd3 with SMTP id 187-20020a4a0dc4000000b005aefe807dd3mr12823690oob.7.1715094526186;
+        Tue, 07 May 2024 08:08:46 -0700 (PDT)
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com. [209.85.167.177])
+        by smtp.gmail.com with ESMTPSA id dy11-20020a0568202d0b00b005a46d5bd558sm2438589oob.45.2024.05.07.08.08.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 May 2024 08:08:46 -0700 (PDT)
+Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3c97dab75bbso369376b6e.0;
+        Tue, 07 May 2024 08:08:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWerrzkVk1BboDW8cQu8TZoXqcUCfYp0SCMYiAuKZMvH0EUgdPwKMoDMBolOcBJ+wyGTsZkToPxefbJzthaQIUM8OwPpF773pRiAVAY2k0EQN3tvgPE8md5rlmtSDwweLDOaiEsYajz+N2dKZb8hGU=
+X-Received: by 2002:a05:6808:118c:b0:3c9:63c5:502b with SMTP id
+ j12-20020a056808118c00b003c963c5502bmr9830227oil.30.1715094525810; Tue, 07
+ May 2024 08:08:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20240325110036.1564-1-jszhang@kernel.org>
+In-Reply-To: <20240325110036.1564-1-jszhang@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 7 May 2024 17:08:15 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUckNuraENvsiQ_QHmzNQeT_-9_jZvKZr5LuiFEJVFnmQ@mail.gmail.com>
+Message-ID: <CAMuHMdUckNuraENvsiQ_QHmzNQeT_-9_jZvKZr5LuiFEJVFnmQ@mail.gmail.com>
+Subject: Re: [PATCH v3 RESEND] riscv: mm: still create swiotlb buffer for
+ kmalloc() bouncing if required
+To: Jisheng Zhang <jszhang@kernel.org>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, linux-riscv@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Alexandre Ghiti <alexghiti@rivosinc.com>, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20240505174544.18359-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20240505174544.18359-1-laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH] media: renesas: vsp1: Fix _irqsave and _irq mix
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, linux-renesas-soc@vger.kernel.org
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, linux-media@vger.kernel.org
-Date: Tue, 07 May 2024 14:52:02 +0100
-Message-ID: <171508992219.1857112.13838063056229211868@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
 
-Quoting Laurent Pinchart (2024-05-05 18:45:44)
-> The histogram support mixes _irqsave and _irq, causing the following
-> smatch warning:
->=20
->      drivers/media/platform/renesas/vsp1/vsp1_histo.c:153 histo_stop_stre=
-aming()
->      warn: mixing irqsave and irq
->=20
-> The histo_stop_streaming() calls spin_lock_irqsave() followed by
-> wait_event_lock_irq(). The former hints that interrupts may be disabled
-> by the caller, while the latter reenables interrupts unconditionally.
-> This doesn't cause any real bug, as the function is always called with
-> interrupts enabled, but the pattern is still in correct.
->=20
-> Fix the problem by using spin_lock_irq() instead of spin_lock_irqsave()
-> in histo_stop_streaming(). While at it, switch to spin_lock_irq() and
-> spin_lock() as appropriate elsewhere.
+Hi Jisheng,
 
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-> Fixes: 99362e32332b ("[media] v4l: vsp1: Add histogram support")
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Closes: https://lore.kernel.org/linux-renesas-soc/164d74ff-312c-468f-be64=
--afa7182cd2f4@moroto.mountain/
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
-m>
-> ---
->  .../media/platform/renesas/vsp1/vsp1_histo.c  | 20 ++++++++-----------
->  1 file changed, 8 insertions(+), 12 deletions(-)
->=20
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_histo.c b/drivers/m=
-edia/platform/renesas/vsp1/vsp1_histo.c
-> index 71155282ca11..cd1c8778662e 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_histo.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
-> @@ -36,9 +36,8 @@ struct vsp1_histogram_buffer *
->  vsp1_histogram_buffer_get(struct vsp1_histogram *histo)
->  {
->         struct vsp1_histogram_buffer *buf =3D NULL;
-> -       unsigned long flags;
-> =20
-> -       spin_lock_irqsave(&histo->irqlock, flags);
-> +       spin_lock(&histo->irqlock);
-> =20
->         if (list_empty(&histo->irqqueue))
->                 goto done;
-> @@ -49,7 +48,7 @@ vsp1_histogram_buffer_get(struct vsp1_histogram *histo)
->         histo->readout =3D true;
-> =20
->  done:
-> -       spin_unlock_irqrestore(&histo->irqlock, flags);
-> +       spin_unlock(&histo->irqlock);
->         return buf;
->  }
-> =20
-> @@ -58,7 +57,6 @@ void vsp1_histogram_buffer_complete(struct vsp1_histogr=
-am *histo,
->                                     size_t size)
->  {
->         struct vsp1_pipeline *pipe =3D histo->entity.pipe;
-> -       unsigned long flags;
-> =20
->         /*
->          * The pipeline pointer is guaranteed to be valid as this functio=
-n is
-> @@ -70,10 +68,10 @@ void vsp1_histogram_buffer_complete(struct vsp1_histo=
-gram *histo,
->         vb2_set_plane_payload(&buf->buf.vb2_buf, 0, size);
->         vb2_buffer_done(&buf->buf.vb2_buf, VB2_BUF_STATE_DONE);
-> =20
-> -       spin_lock_irqsave(&histo->irqlock, flags);
-> +       spin_lock(&histo->irqlock);
->         histo->readout =3D false;
->         wake_up(&histo->wait_queue);
-> -       spin_unlock_irqrestore(&histo->irqlock, flags);
-> +       spin_unlock(&histo->irqlock);
->  }
-> =20
->  /* ---------------------------------------------------------------------=
---------
-> @@ -124,11 +122,10 @@ static void histo_buffer_queue(struct vb2_buffer *v=
-b)
->         struct vb2_v4l2_buffer *vbuf =3D to_vb2_v4l2_buffer(vb);
->         struct vsp1_histogram *histo =3D vb2_get_drv_priv(vb->vb2_queue);
->         struct vsp1_histogram_buffer *buf =3D to_vsp1_histogram_buffer(vb=
-uf);
-> -       unsigned long flags;
-> =20
-> -       spin_lock_irqsave(&histo->irqlock, flags);
-> +       spin_lock_irq(&histo->irqlock);
->         list_add_tail(&buf->queue, &histo->irqqueue);
-> -       spin_unlock_irqrestore(&histo->irqlock, flags);
-> +       spin_unlock_irq(&histo->irqlock);
->  }
-> =20
->  static int histo_start_streaming(struct vb2_queue *vq, unsigned int coun=
-t)
-> @@ -140,9 +137,8 @@ static void histo_stop_streaming(struct vb2_queue *vq)
->  {
->         struct vsp1_histogram *histo =3D vb2_get_drv_priv(vq);
->         struct vsp1_histogram_buffer *buffer;
-> -       unsigned long flags;
-> =20
-> -       spin_lock_irqsave(&histo->irqlock, flags);
-> +       spin_lock_irq(&histo->irqlock);
-> =20
->         /* Remove all buffers from the IRQ queue. */
->         list_for_each_entry(buffer, &histo->irqqueue, queue)
-> @@ -152,7 +148,7 @@ static void histo_stop_streaming(struct vb2_queue *vq)
->         /* Wait for the buffer being read out (if any) to complete. */
->         wait_event_lock_irq(histo->wait_queue, !histo->readout, histo->ir=
-qlock);
-> =20
-> -       spin_unlock_irqrestore(&histo->irqlock, flags);
-> +       spin_unlock_irq(&histo->irqlock);
->  }
-> =20
->  static const struct vb2_ops histo_video_queue_qops =3D {
->=20
-> base-commit: e695668af8523b059127dfa8b261c76e7c9cde10
-> --=20
-> Regards,
->=20
-> Laurent Pinchart
+On Mon, Mar 25, 2024 at 12:15=E2=80=AFPM Jisheng Zhang <jszhang@kernel.org>=
+ wrote:
+> After commit f51f7a0fc2f4 ("riscv: enable DMA_BOUNCE_UNALIGNED_KMALLOC
+> for !dma_coherent"), for non-coherent platforms with less than 4GB
+> memory, we rely on users to pass "swiotlb=3Dmmnn,force" kernel parameters
+> to enable DMA bouncing for unaligned kmalloc() buffers. Now let's go
+> further: If no bouncing needed for ZONE_DMA, let kernel automatically
+> allocate 1MB swiotlb buffer per 1GB of RAM for kmalloc() bouncing on
+> non-coherent platforms, so that no need to pass "swiotlb=3Dmmnn,force"
+> any more.
 >
+> The math of "1MB swiotlb buffer per 1GB of RAM for kmalloc() bouncing"
+> is taken from arm64. Users can still force smaller swiotlb buffer by
+> passing "swiotlb=3Dmmnn".
+>
+> Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+> Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+
+Thanks for your patch, which is now commit fc7a50eed9860d4b ("riscv:
+mm: still create swiotlb buffer for kmalloc() bouncing if required")
+in riscv/for-next (next-20240429 and later).
+
+On RZ/Five, which has 1 GiB of RAM, i.e. a bit less for free use:
+
+     Inode-cache hash table entries: 65536 (order: 7, 524288 bytes, linear)
+     Built 1 zonelists, mobility grouping on.  Total pages: 225792
+     mem auto-init: stack:off, heap alloc:off, heap free:off
+    +software IO TLB: SWIOTLB bounce buffer size adjusted to 0MB
+                                                             ^^^
+    +software IO TLB: area num 1.
+    +software IO TLB: mapped [mem 0x000000007ef56000-0x000000007f056000] (1=
+MB)
+                                                                         ^^=
+^
+     Virtual kernel memory layout:
+
+I was a bit intrigued by the "0MB".  However, that seems to be correct:
+
+     mem_init: memblock_phys_mem_size() =3D 939524096
+     mem_init: size =3D 917504
+     mem_init: swiotlb_size_or_default() =3D 67108864
+
+and it must be rounded up to 1 MB later.
+
+Apparently arm64 has the same discrepancy, which I never really noticed
+before (and I have no arm64 platforms with 1 GiB RAM or less):
+
+     mem_init: memblock_phys_mem_size() =3D 2013265920
+     mem_init: size =3D 1966080
+     mem_init: swiotlb_size_or_default() =3D 67108864
+     software IO TLB: SWIOTLB bounce buffer size adjusted to 1MB
+                                                             ^^^
+     software IO TLB: area num 2.
+     software IO TLB: mapped [mem 0x00000000b9400000-0x00000000b9600000] (2=
+MB)
+                                                                         ^^=
+^
+
+> --- a/arch/riscv/mm/init.c
+> +++ b/arch/riscv/mm/init.c
+> @@ -161,11 +161,25 @@ static void print_vm_layout(void) { }
+>
+>  void __init mem_init(void)
+>  {
+> +       bool swiotlb =3D max_pfn > PFN_DOWN(dma32_phys_limit);
+>  #ifdef CONFIG_FLATMEM
+>         BUG_ON(!mem_map);
+>  #endif /* CONFIG_FLATMEM */
+>
+> -       swiotlb_init(max_pfn > PFN_DOWN(dma32_phys_limit), SWIOTLB_VERBOS=
+E);
+> +       if (IS_ENABLED(CONFIG_DMA_BOUNCE_UNALIGNED_KMALLOC) && !swiotlb &=
+&
+> +           dma_cache_alignment !=3D 1) {
+> +               /*
+> +                * If no bouncing needed for ZONE_DMA, allocate 1MB swiot=
+lb
+> +                * buffer per 1GB of RAM for kmalloc() bouncing on
+> +                * non-coherent platforms.
+> +                */
+> +               unsigned long size =3D
+> +                       DIV_ROUND_UP(memblock_phys_mem_size(), 1024);
+> +               swiotlb_adjust_size(min(swiotlb_size_or_default(), size))=
+;
+> +               swiotlb =3D true;
+> +       }
+> +
+> +       swiotlb_init(swiotlb, SWIOTLB_VERBOSE);
+>         memblock_free_all();
+>
+>         print_vm_layout();
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
