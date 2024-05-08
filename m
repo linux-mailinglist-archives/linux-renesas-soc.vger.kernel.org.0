@@ -1,34 +1,34 @@
-Return-Path: <linux-renesas-soc+bounces-5219-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5220-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE6A8BF3DA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 May 2024 02:52:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B938B8BF3DF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 May 2024 02:55:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5175F1F24D86
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 May 2024 00:52:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E78ED1C236C5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 May 2024 00:55:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A212622;
-	Wed,  8 May 2024 00:52:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE437637;
+	Wed,  8 May 2024 00:55:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="hoCn9aqo"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="1gI1okya"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2368621;
-	Wed,  8 May 2024 00:52:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB78399;
+	Wed,  8 May 2024 00:55:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715129551; cv=none; b=jg1YnfVyars937N2tWbicZFkL8w3Y2TJ2L366IGq+ioxD0KLtzzoVfm88Vh0y+lI5jM9S/05GBtCDn4zpUTNy/QYlpJ5OpLETBcbAizpv9GTUlAC8GeyWqcVGUFhdupfUNNC+NKQ5rJsLwuqMTftBTgXs/mMFCrOweMnRIFtZLg=
+	t=1715129755; cv=none; b=FuiwWk7HT6dgKis6KqR0WMU4syaJRZXNyF+0vOfnwZ3LOCbSw04cxZpoqPUzrEgZCXdDZFZEOjqF9hDucb7iUi6FHp8rP6lLW5ZeqgMPGVhwkfMH7iKZdJZ0GRHmZIKiA56ij0LnIFR/wBuIsEGFgJvt6fc9QKE1QELZoXD+1TA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715129551; c=relaxed/simple;
-	bh=sB4/qry+pSodw3Z8qdjDOAT+IY/uNcQ8+nikFMiTH/k=;
+	s=arc-20240116; t=1715129755; c=relaxed/simple;
+	bh=pBHHYSsmzy00dc1fni0zriJfLcMDz0mkgyUoJiDXets=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kYPGznwtGKuoBHgZE3QA0srSZI4kUwRkxzJjmW6Ul5olw2r8a9VjUI3/F4vizvxmg6Tu2SmyWL7gjeVNtO0HoKChD2n83DCSpjRmKrV1ZcwfqbstdwJrTa8AxfV99W/Lx+7Kk2/FUEYqjqCr5/GjVYQtd6tDHMElf9S1FTCJYWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=hoCn9aqo; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=vDks4h4VvK171oLd/l1ufiGr2WByrLzJDUDVUTakCPfuTJcXXetxi5VWZrJyJflTUvG6fKeY9pO2oqdaFG1NJUyjt8BFRlksvu1upufj+6As7Rb5hEvoUOCkup45M0o8o76LbzwMtY+a8c31KjNXNItbwsXwpmSrqzzCWFV5acs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=1gI1okya; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=RnwzN1zFiKJ6Mo+l9B22ekjNNfXtVqYT9pVfZnBjIcw=; b=hoCn9aqoXBt+6g6FY71YGYuK7V
-	ZF1F6NsbzCvsj3Ai7iLJ2T3BkulFkuatwlcdn0w7Bhc66ofNIFVsTMyvAwoas69IUXuJSa5ZOfoSC
-	Y0VtFYC6HX+H8p9jfLZi4nxeZqC3F6kRPTyBtXdvNYIhFbQQkSsHa8OOXA2KAWhnknck=;
+	bh=YVZjE1+5CXpPIzEnIp9i8JTcErwf0y2crJAt76oMoMw=; b=1gI1okyaXB3lOrPYFHieKd7cDl
+	KoluifXyxyNlaZV71IP5SRgrQsGP4Jr8qRBPzFmsWRyUY1ZypxJHlN6bilT9KlzgTob0FLboD8R+v
+	eyd1damuWzdi0phnBTIIV7bIV/OLY1+OiKGnnYUTel53+rA8f9ycgvZFwO0/F97OSUxM=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1s4VXf-00Eu4O-0V; Wed, 08 May 2024 02:52:19 +0200
-Date: Wed, 8 May 2024 02:52:18 +0200
+	id 1s4Vay-00Eu5G-4D; Wed, 08 May 2024 02:55:44 +0200
+Date: Wed, 8 May 2024 02:55:44 +0200
 From: Andrew Lunn <andrew@lunn.ch>
 To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
@@ -52,7 +52,7 @@ Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Subject: Re: [net-next,v2] net: ethernet: rtsn: Add support for Renesas
  Ethernet-TSN
-Message-ID: <25f23887-061f-4ce6-a424-e5bf269cf8b5@lunn.ch>
+Message-ID: <4970fd77-504c-4fb3-9c47-e4185d03e74a@lunn.ch>
 References: <20240507201839.1763338-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -66,25 +66,28 @@ In-Reply-To: <20240507201839.1763338-1-niklas.soderlund+renesas@ragnatech.se>
 
 > +static int rtsn_probe(struct platform_device *pdev)
 > +{
-> +	struct rtsn_private *priv;
-> +	struct net_device *ndev;
-> +	struct resource *res;
-> +	int ret;
+
+
+> +	pm_runtime_enable(&pdev->dev);
+> +	pm_runtime_get_sync(&pdev->dev);
+
+
+> +static int rtsn_remove(struct platform_device *pdev)
+> +{
+> +	struct rtsn_private *priv = platform_get_drvdata(pdev);
 > +
-> +	ndev = alloc_etherdev_mqs(sizeof(struct rtsn_private), TX_NUM_CHAINS,
+> +	unregister_netdev(priv->ndev);
+> +	rtsn_mdio_free(priv);
+> +	rcar_gen4_ptp_unregister(priv->ptp_priv);
+> +	rtsn_change_mode(priv, OCR_OPC_DISABLE);
+> +	netif_napi_del(&priv->napi);
+> +
+> +	pm_runtime_put_sync(&pdev->dev);
+> +	pm_runtime_disable(&pdev->dev);
 
-...
-
-> +	ether_setup(ndev);
-
-struct net_device *alloc_etherdev_mqs(int sizeof_priv, unsigned int txqs,
-				      unsigned int rxqs)
-{
-	return alloc_netdev_mqs(sizeof_priv, "eth%d", NET_NAME_ENUM,
-				ether_setup, txqs, rxqs);
-}
-
-Notice the ether_setup here? I think you end up calling it twice.
+These appear to be the only two places you do any pm_ stuff. So it
+seems pointless. Maybe delete this for the moment, and come back later
+to add proper runtime power management?
 
        Andrew
 
