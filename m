@@ -1,214 +1,97 @@
-Return-Path: <linux-renesas-soc+bounces-5240-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5241-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D87848C0600
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 May 2024 23:03:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 045408C066A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 May 2024 23:41:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 080BA1C2114A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 May 2024 21:03:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ADD891F22A49
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 May 2024 21:41:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BD93131748;
-	Wed,  8 May 2024 21:02:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 494691327F3;
+	Wed,  8 May 2024 21:40:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Uy3aoBW9"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lsz0/nHU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F2D130A58;
-	Wed,  8 May 2024 21:02:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E88613175F;
+	Wed,  8 May 2024 21:40:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715202179; cv=none; b=K/hJoDh0kL1VW3lr7p5YEJKy9WydoFsCvOxU6cvFIoRQJsymHGPGH4cdbP7tvRLWlzbA81i5YqODIgCIlWzUK9Nd66JeyCfzNGI/e6nny2Dx+jy4zx2GD8ihVw2QDsBxW7ZRRlj7vRFw0/CTp9TOyFE2SgUL8ieR2GCn584jHEY=
+	t=1715204458; cv=none; b=bFui7pBRZiqzad2scEWlHO0GIHiU+pGsleIrtg3WzdhFTGZqyBdQnLwwqU3XR2vUN0dV0GJdTe0uiymd9ARj0hdmETe+OdL4vKqnJtCKeqPWGbr7uNkd9DdpnBKd/OQfWavHnvSE3T54bYs+z4dED0w78KtHhEfW+UKzZoS94mA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715202179; c=relaxed/simple;
-	bh=7rRTIapHt6sGqrwX4oB+GqHFUHj6eUfnAVCac5/PhDo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p096r9u9W14+JXbfbK7pzHl5rehpCVZWlSEu1AXQvtSd/+G+wm+ZsmAdyzdb2GsxIBPSi3M2D5zuCzcD9mTTUYDKnvdvx3zSmjRz4HDfOvXJyXQBSYA/de+UGXAzJEDFNdjc3dPo0eXHW2IH3DKQp1FIWB12/8B/AU63/UMnZcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Uy3aoBW9; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1715204458; c=relaxed/simple;
+	bh=sKGmOtVcUTdHHHyght00SZYPiUDaOQWYdoTQwpgcyyg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gk/6dh1CjzAJvpFlPkZNsOamdekQgIdDt3vIO9L16GPHVcBKtuTnSvkkLSmGOksYvHMSu2D2AqG+xB3UF+0Ne+PLKvpQ0h3o2roInaxQ1m7guGCNNGwMJZAL9E4WrHJNtXTQgAxknMSHMJyXFnntGICzXSOiD2zGoGkVtZUIrGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lsz0/nHU; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0C3E716D4;
-	Wed,  8 May 2024 23:02:50 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3452716D4;
+	Wed,  8 May 2024 23:40:51 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1715202171;
-	bh=7rRTIapHt6sGqrwX4oB+GqHFUHj6eUfnAVCac5/PhDo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Uy3aoBW91sH8N54AwJDqdsYGSM+Ed4zvBTC1xtihs6TC36RqQgEX05xqD69sw1Nnk
-	 RUaVPOb/iHZQ48EcYHFTly7KWs2nWBvDmZvJJpThb+hDbXJXztdWzVYAYO8uWJ54iY
-	 BVW9ALL3OVq/jqq5rHBncIHdS2817aXG4qa1Smzo=
-Date: Thu, 9 May 2024 00:02:45 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	s=mail; t=1715204451;
+	bh=sKGmOtVcUTdHHHyght00SZYPiUDaOQWYdoTQwpgcyyg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=lsz0/nHUncOxIpC2IejWW9n8yIBAo7kjYj8/+8Xdgulg3KUt29Gv6coeUwpnboovS
+	 kzln6X1JucIsAY+sj7OuEuW+P37MbHgU2MTlaF8tTTfHHssmmoPTAuA+p3VDArffzi
+	 jM4zrwi2JYVgiCOMNSkNvWow8qjRq1eJro0DxBVA=
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@iki.fi>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Dafna Hirschfeld <dafna@fastmail.com>,
 	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v3 1/2] media: v4l2-subdev: Provide const-aware subdev
- state accessors
-Message-ID: <20240508210245.GA13978@pendragon.ideasonboard.com>
-References: <20240507161907.27747-1-laurent.pinchart+renesas@ideasonboard.com>
- <20240507161907.27747-2-laurent.pinchart+renesas@ideasonboard.com>
- <ZjvIGDaAAGK0WJo1@valkosipuli.retiisi.eu>
+Subject: [PATCH v4 0/3] media: v4l2-subdev: Support const-awareness in state accessors
+Date: Thu,  9 May 2024 00:40:42 +0300
+Message-ID: <20240508214045.24716-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.43.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZjvIGDaAAGK0WJo1@valkosipuli.retiisi.eu>
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 08, 2024 at 06:44:40PM +0000, Sakari Ailus wrote:
-> Hi Laurent,
-> 
-> Thanks for the update.
-> 
-> This is starting to look very nice. A few comments below...
+This small patch series comes from a mild annoyance I experienced during
+a recent patch review, where I wanted to ask for a pointer to a
+v4l2_subdev_state used to access the state in a read-only fashion to be
+made const. This wasn't possible as the state accessors functions take a
+non-const state pointer, in order to return pointers to mutable formats
+and selection rectangles.
 
-Thanks :-)
+Patch 1/3 first fixes a small documentation mistake. Patch 2/3 improves
+the state accessors to support const states, in the same wait as the
+recently introduced container_of_const() macro. The internal macro name
+has been subject to a bit of bikeshedding already, so I think we're
+reaching a final version. Patch 3/3 then shows how this can be used in
+one driver.
 
-> On Tue, May 07, 2024 at 07:19:06PM +0300, Laurent Pinchart wrote:
-> > It would be useful to mark instances of v4l2_subdev_state structures as
-> > const when code needs to access them read-only. This isn't currently
-> > possible, as the v4l2_subdev_state_get_*() accessor functions take a
-> > non-const pointer to the state.
-> > 
-> > Use _Generic() to provide two different versions of the accessors, for
-> > const and non-const states respectively. The former returns a const
-> > pointer to the requested format, rectangle or interval, implementing
-> > const-correctness. The latter returns a non-const pointer, preserving
-> > the current behaviour for drivers.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > ---
-> > Changes since v2:
-> > 
-> > - Specify types explicitly in _Generic() expression
-> > - Fix cast of value to const pointer
-> > 
-> > Changes since v1:
-> > 
-> > - Wrap the accessors with _Generic() using a single macro instead of
-> >   adding a _Generic() statement in each of them.
-> > ---
-> >  include/media/v4l2-subdev.h | 40 +++++++++++++++++++++++++------------
-> >  1 file changed, 27 insertions(+), 13 deletions(-)
-> > 
-> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > index e30c463d90e5..cd3e9e2ebe4d 100644
-> > --- a/include/media/v4l2-subdev.h
-> > +++ b/include/media/v4l2-subdev.h
-> > @@ -1326,6 +1326,16 @@ void v4l2_subdev_cleanup(struct v4l2_subdev *sd);
-> >  #define __v4l2_subdev_state_gen_call(NAME, _1, ARG, ...)	\
-> >  	__v4l2_subdev_state_get_ ## NAME ## ARG
-> >  
-> > +/*
-> > + * A macro to constify the return value of the state accessors when the state
-> > + * parameter is const.
-> > + */
-> > +#define __v4l2_subdev_state_constify_call(state, value)				\
-> 
-> This function just changes the return value constness. How about calling it
-> e.g. __v4l2_subdev_state_constify_ret instead?
+Compared to v3, patch 1/3 is new, and patch 2/3 renames the new macro
+and updates documentation.
 
-Fine with me.
+Laurent Pinchart (3):
+  media: v4l2-subdev: Fix v4l2_subdev_state_get_format() documentation
+  media: v4l2-subdev: Provide const-aware subdev state accessors
+  media: rkisp1: Mark subdev state pointers as const
 
-> Either way,
-> 
-> Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> 
-> > +	_Generic(state,								\
-> > +		const struct v4l2_subdev_state *: (const typeof(*(value)) *)(value), \
-> > +		struct v4l2_subdev_state *: (value)				\
-> > +	)
-> > +
-> >  /**
-> >   * v4l2_subdev_state_get_format() - Get pointer to a stream format
-> >   * @state: subdevice state
-> > @@ -1340,16 +1350,17 @@ void v4l2_subdev_cleanup(struct v4l2_subdev *sd);
-> >   */
-> >  /*
-> >   * Wrap v4l2_subdev_state_get_format(), allowing the function to be called with
-> > - * two or three arguments. The purpose of the __v4l2_subdev_state_get_format()
-> > + * two or three arguments. The purpose of the __v4l2_subdev_state_gen_call()
-> >   * macro below is to come up with the name of the function or macro to call,
-> >   * using the last two arguments (_stream and _pad). The selected function or
-> >   * macro is then called using the arguments specified by the caller. A similar
-> >   * arrangement is used for v4l2_subdev_state_crop() and
-> >   * v4l2_subdev_state_compose() below.
-> 
-> These function names are missing _get after the prefix.
-> 
-> Could you also add the interval function here, too?
-> 
-> The would fit well for a separate patch.
+ .../platform/rockchip/rkisp1/rkisp1-isp.c     |  8 +--
+ .../platform/rockchip/rkisp1/rkisp1-resizer.c |  8 +--
+ include/media/v4l2-subdev.h                   | 50 +++++++++++++------
+ 3 files changed, 42 insertions(+), 24 deletions(-)
 
-I'll drop the change above and will fix the whole paragraph in a
-separate patch.
 
-> >   */
-> > -#define v4l2_subdev_state_get_format(state, pad, ...)			\
-> > -	__v4l2_subdev_state_gen_call(format, ##__VA_ARGS__, , _pad)	\
-> > -		(state, pad, ##__VA_ARGS__)
-> > +#define v4l2_subdev_state_get_format(state, pad, ...)				\
-> > +	__v4l2_subdev_state_constify_call(state,				\
-> > +		__v4l2_subdev_state_gen_call(format, ##__VA_ARGS__, , _pad)	\
-> > +			((struct v4l2_subdev_state *)state, pad, ##__VA_ARGS__))
-> >  #define __v4l2_subdev_state_get_format_pad(state, pad)	\
-> >  	__v4l2_subdev_state_get_format(state, pad, 0)
-> >  struct v4l2_mbus_framefmt *
-> > @@ -1368,9 +1379,10 @@ __v4l2_subdev_state_get_format(struct v4l2_subdev_state *state,
-> >   * For stream-unaware drivers the crop rectangle for the corresponding pad is
-> >   * returned. If the pad does not exist, NULL is returned.
-> >   */
-> > -#define v4l2_subdev_state_get_crop(state, pad, ...)			\
-> > -	__v4l2_subdev_state_gen_call(crop, ##__VA_ARGS__, , _pad)	\
-> > -		(state, pad, ##__VA_ARGS__)
-> > +#define v4l2_subdev_state_get_crop(state, pad, ...)				\
-> > +	__v4l2_subdev_state_constify_call(state,				\
-> > +		__v4l2_subdev_state_gen_call(crop, ##__VA_ARGS__, , _pad)	\
-> > +			((struct v4l2_subdev_state *)state, pad, ##__VA_ARGS__))
-> >  #define __v4l2_subdev_state_get_crop_pad(state, pad)	\
-> >  	__v4l2_subdev_state_get_crop(state, pad, 0)
-> >  struct v4l2_rect *
-> > @@ -1389,9 +1401,10 @@ __v4l2_subdev_state_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
-> >   * For stream-unaware drivers the compose rectangle for the corresponding pad is
-> >   * returned. If the pad does not exist, NULL is returned.
-> >   */
-> > -#define v4l2_subdev_state_get_compose(state, pad, ...)			\
-> > -	__v4l2_subdev_state_gen_call(compose, ##__VA_ARGS__, , _pad)	\
-> > -		(state, pad, ##__VA_ARGS__)
-> > +#define v4l2_subdev_state_get_compose(state, pad, ...)				\
-> > +	__v4l2_subdev_state_constify_call(state,				\
-> > +		__v4l2_subdev_state_gen_call(compose, ##__VA_ARGS__, , _pad)	\
-> > +			((struct v4l2_subdev_state *)state, pad, ##__VA_ARGS__))
-> >  #define __v4l2_subdev_state_get_compose_pad(state, pad)	\
-> >  	__v4l2_subdev_state_get_compose(state, pad, 0)
-> >  struct v4l2_rect *
-> > @@ -1410,9 +1423,10 @@ __v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state,
-> >   * For stream-unaware drivers the frame interval for the corresponding pad is
-> >   * returned. If the pad does not exist, NULL is returned.
-> >   */
-> > -#define v4l2_subdev_state_get_interval(state, pad, ...)			\
-> > -	__v4l2_subdev_state_gen_call(interval, ##__VA_ARGS__, , _pad)	\
-> > -		(state, pad, ##__VA_ARGS__)
-> > +#define v4l2_subdev_state_get_interval(state, pad, ...)				\
-> > +	__v4l2_subdev_state_constify_call(state,				\
-> > +		__v4l2_subdev_state_gen_call(interval, ##__VA_ARGS__, , _pad)	\
-> > +			((struct v4l2_subdev_state *)state, pad, ##__VA_ARGS__))
-> >  #define __v4l2_subdev_state_get_interval_pad(state, pad)	\
-> >  	__v4l2_subdev_state_get_interval(state, pad, 0)
-> >  struct v4l2_fract *
-
+base-commit: e695668af8523b059127dfa8b261c76e7c9cde10
 -- 
 Regards,
 
 Laurent Pinchart
+
 
