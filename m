@@ -1,62 +1,58 @@
-Return-Path: <linux-renesas-soc+bounces-5257-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5258-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D4EB8C1029
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 May 2024 15:12:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4915C8C1092
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 May 2024 15:44:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 98E851F22D50
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 May 2024 13:12:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6C8E31C21A37
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 May 2024 13:44:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62DE513C3FA;
-	Thu,  9 May 2024 13:12:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFFA8158D6D;
+	Thu,  9 May 2024 13:44:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pXJ/9+dd"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AUAJ67o4"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1AD36E60E;
-	Thu,  9 May 2024 13:11:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6C115B12A;
+	Thu,  9 May 2024 13:44:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715260321; cv=none; b=AhOUQSZr/V0MZWwe0CVyE+xcVt4rVjPDTjL8+oeYy8EVLfyNRENef8SvvxpKbQaBUB1eQg7wK/NMNRqzMFVy7R8nB+dJAzSs2t6296aOf3BxPPOzacbnOuE0fG6CD9EHxfGsDKcvw3kDW2BFRbP6AphaAiTsHOwnSmEl6qEK3uM=
+	t=1715262248; cv=none; b=PdrtDrj7hAHuGT7QaM0b/+XZ17GXH5vyeTsS3j7xpbFRp1JF+V/lf0RmMKcjciP7XJ4f6vE6O9EVZGjGCooQNfZVfkuQ2lSBQVH6X08c1q36GqqkodgFiqd9iJOfQMYwfQYLh3P+wsFETGL8zCDFvc9rxyYG1kpZUpaXr9kFsJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715260321; c=relaxed/simple;
-	bh=/Qf/mWz+XXKW+lRjNx0M2dtOW6zFa+kGKme1+eNWgvo=;
+	s=arc-20240116; t=1715262248; c=relaxed/simple;
+	bh=Mjokrgg/UIv00zAPfdFTgzK5gB6F8fZQaw15dNMQajc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sCjoQqi7cmh6H1pqinC5Gn4iv0Tw6W5Udho56aA6mfy8NtcoMcFY1fSxXlxNaSJrU8JTVMHDEahHxh+Z2EUfVbQ41qfVwdnuHkVoOdkcDVcCJB9WbgwTdOalu8VFq4HvgQZF4gZ1i6hUzfypXxhk5d3o5HHOKjSeHQghJcwpy2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pXJ/9+dd; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=pC3l5qwZvGZeLjk3QNK5nMdR+dmxNFWHnnF+Z94f5E4QEsXLJz12ER2hsZuYAE5qRLItmdniHEQINRW5XXK0QKJk36sIZ+pmTM1SwZh+l2Seo1K/+aoJFvFguXpg5IV5oy3COkesbe3CF79LA+NedOX196xZg1vuyhgYISmsPjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AUAJ67o4; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F22C12320;
-	Thu,  9 May 2024 15:11:53 +0200 (CEST)
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DFCA32320;
+	Thu,  9 May 2024 15:44:01 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1715260314;
-	bh=/Qf/mWz+XXKW+lRjNx0M2dtOW6zFa+kGKme1+eNWgvo=;
+	s=mail; t=1715262242;
+	bh=Mjokrgg/UIv00zAPfdFTgzK5gB6F8fZQaw15dNMQajc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pXJ/9+ddUTg8fVznnGsBLwp99o2SsqGRp6FhKxW8R9TmhB55NWPrlS3UCKFrzhG0Z
-	 /G1Uv2hONeDi758QtbxmRicCyWsLltF3+fmcyPV3/ICTh2XwkjwYdj66os+/5kmo4t
-	 FKDJxi+cHMxqkrQ3ggtaqaBE498moLS1Yb6Jz8Do=
-Date: Thu, 9 May 2024 16:11:48 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo@jmondi.org>
-Cc: Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	tomi.valkeinen@ideasonboard.com, sakari.ailus@linux.intel.com,
-	niklas.soderlund@ragnatech.se, kieran.bingham@ideasonboard.com,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	b=AUAJ67o4e0DsbL2BtQNAbn2zkRkjKRgyT+MR1Qk7JJhh6gkc7yH5qxjkT/HdQJ2wI
+	 hM2S5Us3LjkTcbR7dU3LQyLKygXcwwhzlESsHzgoqw785dN31dbk0s+fCUpQC2OKJl
+	 cqIey/RiUY305IFDZHfjBzvnPJ2WgU4AJMQPWHnQ=
+Date: Thu, 9 May 2024 15:44:02 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
 	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 5/6] media: max9286: Move format to subdev state
-Message-ID: <20240509131148.GA21069@pendragon.ideasonboard.com>
-References: <20211216174746.147233-1-jacopo+renesas@jmondi.org>
- <20211216174746.147233-6-jacopo+renesas@jmondi.org>
- <Ybv4mnk/x3kBX74k@pendragon.ideasonboard.com>
- <Ybv/c/yDOCj563XB@pendragon.ideasonboard.com>
- <20211217141128.jfwgymso2admkfv5@uno.localdomain>
+Subject: Re: [PATCH v2 05/11] media: adv748x-csi2: Implement enum_mbus_codes
+Message-ID: <kr5uw6s2ornpovbdtdrosrx4relwpldf4ee7gfy24cuxl55alw@f2i4itou6iiv>
+References: <20240506164941.110389-1-jacopo.mondi@ideasonboard.com>
+ <20240506164941.110389-6-jacopo.mondi@ideasonboard.com>
+ <20240509124249.GB17123@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -65,186 +61,178 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20211217141128.jfwgymso2admkfv5@uno.localdomain>
+In-Reply-To: <20240509124249.GB17123@pendragon.ideasonboard.com>
 
-Hi Jacopo,
+Hi Laurent
 
-On Fri, Dec 17, 2021 at 03:11:28PM +0100, Jacopo Mondi wrote:
-> On Fri, Dec 17, 2021 at 05:09:39AM +0200, Laurent Pinchart wrote:
-> > On Fri, Dec 17, 2021 at 04:40:26AM +0200, Laurent Pinchart wrote:
-> > > On Thu, Dec 16, 2021 at 06:47:45PM +0100, Jacopo Mondi wrote:
-> > > > Move format handling to the v4l2_subdev state and store it per
-> > > > (pad, stream) combination.
-> > > >
-> > > > Now that the image format is stored in the subdev state, it can be
-> > > > accessed through v4l2_subdev_get_fmt() instead of open-coding it.
-> > >
-> > > It could still be good to move this to the beginning of the series, in
-> > > order to merge the patch with 01/38 to 06/38 from the muxed streams
-> > > series (which will be submitted standalone in a v11).
-> > >
-> > > This patch looks good to me otherwise.
-> > >
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+On Thu, May 09, 2024 at 03:42:49PM GMT, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> Thank you for the patch.
+>
+> On Mon, May 06, 2024 at 06:49:33PM +0200, Jacopo Mondi wrote:
+> > Define a list of supported mbus codes for the TXA and TXB CSI-2
+> > transmitters and implement the enum_mbus_code operation.
 > >
-> > Not quite yet actually :-)
+> > The TXB transmitter only support YUV422 while the TXA one supports
+> > multiple formats as reported by the chip's manual in section 9.7.
 > >
-> > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > > ---
-> > > >  drivers/media/i2c/max9286.c | 86 ++++++++++++-------------------------
-> > > >  1 file changed, 27 insertions(+), 59 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> > > > index 5d728fa23f01..aa7cb7c10fc0 100644
-> > > > --- a/drivers/media/i2c/max9286.c
-> > > > +++ b/drivers/media/i2c/max9286.c
-> > > > @@ -174,8 +174,6 @@ struct max9286_priv {
-> > > >  	struct v4l2_ctrl_handler ctrls;
-> > > >  	struct v4l2_ctrl *pixelrate;
-> > > >
-> > > > -	struct v4l2_mbus_framefmt fmt[MAX9286_N_SINKS];
-> > > > -
-> > > >  	/* Protects controls and fmt structures */
-> > > >  	struct mutex mutex;
-> > > >
-> > > > @@ -828,28 +826,17 @@ static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
-> > > >  	return 0;
-> > > >  }
-> > > >
-> > > > -static struct v4l2_mbus_framefmt *
-> > > > -max9286_get_pad_format(struct max9286_priv *priv,
-> > > > -		       struct v4l2_subdev_state *sd_state,
-> > > > -		       unsigned int pad, u32 which)
-> > > > -{
-> > > > -	switch (which) {
-> > > > -	case V4L2_SUBDEV_FORMAT_TRY:
-> > > > -		return v4l2_subdev_get_try_format(&priv->sd, sd_state, pad);
-> > > > -	case V4L2_SUBDEV_FORMAT_ACTIVE:
-> > > > -		return &priv->fmt[pad];
-> > > > -	default:
-> > > > -		return NULL;
-> > > > -	}
-> > > > -}
-> > > > -
-> > > >  static int max9286_set_fmt(struct v4l2_subdev *sd,
-> > > > -			   struct v4l2_subdev_state *sd_state,
-> > > > +			   struct v4l2_subdev_state *state,
-> > > >  			   struct v4l2_subdev_format *format)
-> > > >  {
-> > > > -	struct max9286_priv *priv = sd_to_max9286(sd);
-> > > > -	struct v4l2_mbus_framefmt *cfg_fmt;
-> > > > +	struct v4l2_mbus_framefmt *fmt;
-> > > > +	int ret = 0;
-> > > >
-> > > > +	/*
-> > > > +	 * Refuse to set format on the multiplexed source pad.
-> > > > +	 * Format is propagated from sinks streams to source streams.
-> > > > +	 */
-> > > >  	if (format->pad == MAX9286_SRC_PAD)
-> > > >  		return -EINVAL;
+> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > ---
+> >  drivers/media/i2c/adv748x/adv748x-csi2.c | 35 ++++++++++++++++++++++++
+> >  1 file changed, 35 insertions(+)
 > >
-> > We should return v4l2_subdev_get_fmt() now.
-> 
-> I might have missed the reason.
-> 
-> The current documentation says
-> 
-> EINVAL
-> The struct v4l2_subdev_format pad references a non-existing pad,
-> 
-> Should this be changd to "non-existing or invalid pad" ?
+> > diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
+> > index 5b265b722394..4fd6d3a681d5 100644
+> > --- a/drivers/media/i2c/adv748x/adv748x-csi2.c
+> > +++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
+> > @@ -14,6 +14,18 @@
+> >
+> >  #include "adv748x.h"
+> >
+> > +static const unsigned int adv748x_csi2_txa_fmts[] = {
+> > +	MEDIA_BUS_FMT_UYVY8_1X16,
+> > +	MEDIA_BUS_FMT_UYVY10_1X20,
+> > +	MEDIA_BUS_FMT_RGB565_1X16,
+> > +	MEDIA_BUS_FMT_RGB666_1X18,
+> > +	MEDIA_BUS_FMT_RGB888_1X24,
+> > +};
+> > +
+> > +static const unsigned int adv748x_csi2_txb_fmts[] = {
+> > +	MEDIA_BUS_FMT_UYVY8_1X16,
+> > +};
+> > +
+> >  int adv748x_csi2_set_virtual_channel(struct adv748x_csi2 *tx, unsigned int vc)
+> >  {
+> >  	return tx_write(tx, ADV748X_CSI_VC_REF, vc << ADV748X_CSI_VC_REF_SHIFT);
+> > @@ -139,6 +151,28 @@ static const struct v4l2_subdev_video_ops adv748x_csi2_video_ops = {
+> >   * But we must support setting the pad formats for format propagation.
+> >   */
+> >
+> > +static int adv748x_csi2_enum_mbus_code(struct v4l2_subdev *sd,
+> > +				       struct v4l2_subdev_state *sd_state,
+> > +				       struct v4l2_subdev_mbus_code_enum *code)
+> > +{
+> > +	struct adv748x_csi2 *tx = adv748x_sd_to_csi2(sd);
+> > +	const unsigned int *codes = is_txa(tx) ?
+> > +				    adv748x_csi2_txa_fmts :
+> > +				    adv748x_csi2_txb_fmts;
+> > +	size_t num_fmts = is_txa(tx) ? ARRAY_SIZE(adv748x_csi2_txa_fmts)
+> > +				     : ARRAY_SIZE(adv748x_csi2_txb_fmts);
+> > +
+> > +	if (code->pad != ADV748X_CSI2_SOURCE)
+> > +		return -EINVAL;
+>
+> Any reason to not support enumeration of formats on the sink pad ?
+>
+> it modify the format between the sink and source pads ? If not, I think
+> this function should be implemented as
+>
+> 	if (code->pad == ADV748X_CSI2_SINK) {
+> 		if (code->index >= num_fmts)
+> 			return -EINVAL;
+>
+> 		code->code = codes[code->index];
 
-I don't think so. Setting the format is meant to be valid on any pad,
-even pads that have a fixed format. "Non-existing" seems enough to me.
-What would you envision "invalid pad" to cover ?
+I don't think this is correct. The formats I have listed in
+adv748x_csi2_txa_fmts and adv748x_csi2_txb_fmts are the CSI-2 output
+formats, not the ones accepted on the sink side of the CSI-2 TX
 
-> > > >
-> > > > @@ -865,44 +852,28 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
-> > > >  		break;
-> > > >  	}
-> > > >
-> > > > -	cfg_fmt = max9286_get_pad_format(priv, sd_state, format->pad,
-> > > > -					 format->which);
-> > > > -	if (!cfg_fmt)
-> > > > -		return -EINVAL;
-> > > > -
-> > > > -	mutex_lock(&priv->mutex);
-> > > > -	*cfg_fmt = format->format;
-> > > > -	mutex_unlock(&priv->mutex);
-> > > > -
-> > > > -	return 0;
-> > > > -}
-> > > > -
-> > > > -static int max9286_get_fmt(struct v4l2_subdev *sd,
-> > > > -			   struct v4l2_subdev_state *sd_state,
-> > > > -			   struct v4l2_subdev_format *format)
-> > > > -{
-> > > > -	struct max9286_priv *priv = sd_to_max9286(sd);
-> > > > -	struct v4l2_mbus_framefmt *cfg_fmt;
-> > > > -	unsigned int pad = format->pad;
-> > > > -
-> > > > -	/*
-> > > > -	 * Multiplexed Stream Support: Support link validation by returning the
-> > > > -	 * format of the first bound link. All links must have the same format,
-> > > > -	 * as we do not support mixing and matching of cameras connected to the
-> > > > -	 * max9286.
-> > > > -	 */
-> > > > -	if (pad == MAX9286_SRC_PAD)
-> > > > -		pad = __ffs(priv->bound_sources);
-> > > > +	v4l2_subdev_lock_state(state);
-> > > > +	fmt = v4l2_state_get_stream_format(state, format->pad,
-> > > > +					   format->stream);
-> > > > +	if (!fmt) {
-> > > > +		ret = -EINVAL;
-> > > > +		goto out;
-> > > > +	}
-> > > > +	*fmt = format->format;
-> > > >
-> > > > -	cfg_fmt = max9286_get_pad_format(priv, sd_state, pad, format->which);
-> > > > -	if (!cfg_fmt)
-> > > > -		return -EINVAL;
-> > > > +	/* Propagate format to the other end of the route. */
-> > > > +	fmt = v4l2_subdev_state_get_opposite_stream_format(state, format->pad,
-> > > > +							   format->stream);
-> > > > +	if (!fmt) {
-> > > > +		ret = -EINVAL;
-> > > > +		goto out;
-> > > > +	}
-> > > > +	*fmt = format->format;
-> > > >
-> > > > -	mutex_lock(&priv->mutex);
-> > > > -	format->format = *cfg_fmt;
-> > > > -	mutex_unlock(&priv->mutex);
-> > > > +out:
-> > > > +	v4l2_subdev_unlock_state(state);
-> > > >
-> > > > -	return 0;
-> > > > +	return ret;
-> > > >  }
-> > > >
-> > > >  static int max9286_routing_validate(struct max9286_priv *priv,
-> > > > @@ -1052,7 +1023,7 @@ static const struct v4l2_subdev_video_ops max9286_video_ops = {
-> > > >  static const struct v4l2_subdev_pad_ops max9286_pad_ops = {
-> > > >  	.init_cfg	= max9286_init_cfg,
-> > > >  	.enum_mbus_code = max9286_enum_mbus_code,
-> > > > -	.get_fmt	= max9286_get_fmt,
-> > > > +	.get_fmt	= v4l2_subdev_get_fmt,
-> > > >  	.set_fmt	= max9286_set_fmt,
-> > > >  	.set_routing	= max9286_set_routing,
-> > > >  };
-> > > > @@ -1092,9 +1063,6 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
-> > > >
-> > > >  	/* Configure V4L2 for the MAX9286 itself */
-> > > >
-> > > > -	for (i = 0; i < MAX9286_N_SINKS; i++)
-> > > > -		priv->fmt[i] = max9286_default_format;
-> > > > -
-> > > >  	v4l2_i2c_subdev_init(&priv->sd, priv->client, &max9286_subdev_ops);
-> > > >  	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-> > > >  			  V4L2_SUBDEV_FL_MULTIPLEXED;
+The CSI-2 TX sink pads connects to either the HDMI or AFE subdevices.
+The media link represents the internal processing pipeline between the
+two frontends and the TXes. The formats accepted on the TX sinks are
+then the formats that can be produced by the HDMI/Analog sources the
+adv748x is connected to ?
 
--- 
-Regards,
+> 	} else {
+> 		const struct v4l2_msbu_framefmt *fmt;
+>
+> 		if (code->index > 0)
+> 			return -EINVAL;
+>
+> 		/*
+> 		 * The device doesn't modify formats, the same media bus code is
 
-Laurent Pinchart
+At the same time the device seems capable of performing format
+conversion, but the driver configures it in pass-through mode.
+
+Now, given this configuration, it seems that whatever format is
+produced by the HDMI/Analog front-end is reproduced on the CSI-2 Tx
+source side. However the two frontends only list
+
+static int adv748x_hdmi_enum_mbus_code(struct v4l2_subdev *sd,
+				  struct v4l2_subdev_state *sd_state,
+				  struct v4l2_subdev_mbus_code_enum *code)
+{
+	if (code->index != 0)
+		return -EINVAL;
+
+	code->code = MEDIA_BUS_FMT_RGB888_1X24;
+
+	return 0;
+}
+
+
+static int adv748x_afe_enum_mbus_code(struct v4l2_subdev *sd,
+				      struct v4l2_subdev_state *sd_state,
+				      struct v4l2_subdev_mbus_code_enum *code)
+{
+	if (code->index != 0)
+		return -EINVAL;
+
+	code->code = MEDIA_BUS_FMT_UYVY8_2X8;
+
+	return 0;
+}
+
+While I presume many more formats would be possible.
+
+In facts (for analog):
+The video standards supported by the video processor include PAL B/PAL
+D/PAL I/PAL G/PAL H, PAL 60, PAL M, PAL N, PAL Nc, NTSC M/NTSC J, NTSC
+4.43, and SECAM B/SECAM D/SECAM G/SECAM K/SECAM L. The ADV748x can
+automatically detect the input video standard and process it
+accordingly.
+
+I presume the HDMI standard support more formats than just RGB888 ?
+
+So, as I was not sure on how to handle this, and enumerating formats
+on the sink pads (which represent an internal bus connection) was of
+little value, I decided to only allow format enumeration on the CSI-2
+source pads, as the supported formats are well described by the chip
+manual.
+
+What do you think ?
+
+> 		 * used on the sink and source.
+> 		 */
+> 		fmt = v4l2_subdev_state_get_format(sd_state, ADV748X_CSI2_SINK);
+> 		code->code = fmt->code;
+> 	}
+>
+> > +
+> > +	if (code->index >= num_fmts)
+> > +		return -EINVAL;
+> > +
+> > +	code->code = codes[code->index];
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static struct v4l2_mbus_framefmt *
+> >  adv748x_csi2_get_pad_format(struct v4l2_subdev *sd,
+> >  			    struct v4l2_subdev_state *sd_state,
+> > @@ -228,6 +262,7 @@ static int adv748x_csi2_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad
+> >  }
+> >
+> >  static const struct v4l2_subdev_pad_ops adv748x_csi2_pad_ops = {
+> > +	.enum_mbus_code = adv748x_csi2_enum_mbus_code,
+> >  	.get_fmt = adv748x_csi2_get_format,
+> >  	.set_fmt = adv748x_csi2_set_format,
+> >  	.get_mbus_config = adv748x_csi2_get_mbus_config,
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
