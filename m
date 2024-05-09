@@ -1,58 +1,100 @@
-Return-Path: <linux-renesas-soc+bounces-5281-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5282-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 854788C17F5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 May 2024 22:52:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 481B48C1809
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 May 2024 23:04:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 25F871F21A2D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 May 2024 20:52:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F356D282BF4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 May 2024 21:04:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A037E84A4F;
-	Thu,  9 May 2024 20:51:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3053282876;
+	Thu,  9 May 2024 21:03:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="l7+kZshC"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="GZckGMdB";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Qn5E3+aw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from fhigh1-smtp.messagingengine.com (fhigh1-smtp.messagingengine.com [103.168.172.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0013853A7;
-	Thu,  9 May 2024 20:51:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C414F811E0;
+	Thu,  9 May 2024 21:03:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715287902; cv=none; b=WU5AgjLnHsfeyQL1s6/ly4778/lkfTJMluTsjyDUVL/Z10s7q8JlV9CO3euG1K4H2ikJ2Ji6JgJ4BeDBUoxlDC4p5pZ8/k9Ai0zxKh8loP4BMDTgtB8LKrg15ZU1pGqyLudJJ7KhKhDqCkvqBluYb8OHJc9ITy8qlyq5XS5irT8=
+	t=1715288633; cv=none; b=QsOqfzyx8puCMOpx9DnMxn9mfjexXI37j1fQ8O7Jmd78FOtVHYOmJ4JMD1c/ILXPOxykIldi0/5Do5K+/cLFQmx6done1lJIc2+zRFdoMV2Cdl7KTm4mU0VXmhFjXfEQS1pXrU/8udWEK6k5abhIIk5HjUwxOrE7lQaMYtHoolg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715287902; c=relaxed/simple;
-	bh=brmS5eA2lD06qOEDIGoxgpLO/ESC2PwB78prXCz8emE=;
+	s=arc-20240116; t=1715288633; c=relaxed/simple;
+	bh=cBUjEC97NNum/CdBlIv8ddY8Iqg+Dlss/Nfq5ZhVmiQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LdXZAoR1llvx5Nr9rEkRgXqDvstOAliiZkzxjbqiCU8wViSi9UIBpSj9QuJofH3Tivd29gF+Svy2yrwJbLC9e1aTs1NQH2EiVJWZYb2td3Nk8BCzT55DShA2QQbGpKUnE5H3R2UvqJruVSlR8NEDwgrXovhXcAIZjMM48l8rGVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=l7+kZshC; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6CF153D5;
-	Thu,  9 May 2024 22:51:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1715287895;
-	bh=brmS5eA2lD06qOEDIGoxgpLO/ESC2PwB78prXCz8emE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=l7+kZshC61eqp4m8+VTRMtk8Su8jwKsAe9ZAB3jawtCVDT6GIK1RkHiyKSd2OYDbi
-	 8bIYsNyOUfAWwgocR195jmjSlA2eHfoIeaayeFqhpQkdNJGd8Vvut76O9TnrwvrAKl
-	 BHp8Z/Y/Vxo42HVgqptE3wcEVMV2dlZQAT5m/ue4=
-Date: Thu, 9 May 2024 23:51:29 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 00/11] media: renesas: rcar-csi2: Use the subdev
- active state
-Message-ID: <20240509205129.GD6407@pendragon.ideasonboard.com>
-References: <20240509161403.111789-1-jacopo.mondi@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=pleUQS8S+OAYasFK7a8LmSyHM8NPhuEq8HhT3brgNMEG51Os07tGhwjqVE2chw2x9BYeIaU3wsm/alqYtJZGJlTfYDegyAnl1DONCDamx3L0XkY0bFpt8OAKF9cWrz8fZUHVRq1qJTlW//dy+Ud9fRvIphI9WQ+ZzlyVaMFrR4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=GZckGMdB; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Qn5E3+aw; arc=none smtp.client-ip=103.168.172.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id AAD4E11400F9;
+	Thu,  9 May 2024 17:03:47 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Thu, 09 May 2024 17:03:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1715288627;
+	 x=1715375027; bh=IObcRXAc8dxQy05t17XIxEvRZ4Nef1rkLN6LLD4K/TE=; b=
+	GZckGMdBYQp2kZYhaCVGSHh+pD1Ts0VsfpT7BeY9oycyTq2xIvAOY1L/wTGfOxa+
+	sGkgZWxEJz7kP1E7Mk61D7JqEjpSp6gDl84egl9pcIj4aSFrzNF7yaeJZcEn4P5v
+	eE/RPodf3mUPjVNjESJKREOO0qwNLiEz8Ecam0JsbXgcjuCCyrhwk0xK4evb8eVZ
+	1dwggiJtxj2E9OkfGvKwHDyZtUVJyQ+mcvqMujMnenigtKNDzXKtGbjfU6M8NlPY
+	elCqLbWK9ds3iqCgq3y4YQYaHSdtH0lIl1qPyBsLX8d+AO8g4Q3+YakepmXh6Flr
+	uuLY+VXOQU1VWjb8GB5pEg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1715288627; x=
+	1715375027; bh=IObcRXAc8dxQy05t17XIxEvRZ4Nef1rkLN6LLD4K/TE=; b=Q
+	n5E3+awQeiZq5lijoLbTy/Bdh6aTMvIxcqH9m1Z6eT0IIXd/EHeMIpqUP+LwzMPS
+	v6W6OpnCtSTqIq8JhxVWuepHcV55DyWBWLxmVwvku5FJhJ2gCtKizbr+UzfW6aTv
+	n0st4hhy2ezOW4n4LSKnRFMIbZlKApakNIIYucZhsphG1wSaaw7sGQUbRtzhs8sJ
+	eD+lv+GMPPimvITWzqKE9EGi5KTdV8rG8V4iQUPvyD5xbJMVE5/P/O/a8w8kfqdl
+	WAGcSgNGCZQ4W4yrcNNn+rLUyZG3mJszNCIIyAylgqofS9s/b+pMs6ASb58qdPuW
+	gbSoCIb8tAqu2P97Sp0NQ==
+X-ME-Sender: <xms:Mzo9Zm0qCrLUUGDHqIGfsf5luk7hHkQI87evSK9AQQpGoS7BXtBkMw>
+    <xme:Mzo9ZpEa5NrBRX6BEmEg_yyRAXnEBc50yk4xNEdGf0JwLr19mlURVON7wIvNeEXO-
+    6kuNlZll7zkezUQdUQ>
+X-ME-Received: <xmr:Mzo9Zu7tCVbPLilu_Jo8aoMuotD11lVsmw4nQJC0iOHwWErlGg9nvwKfn86X151W2ZkkX_1zG34Z-9Zar0D3z2v9u3tuoAQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdefvddgudehfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhi
+    khhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvg
+    hnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepfefhleel
+    hfffjefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftddvleeinecuvehluhhsth
+    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohgu
+    vghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
+X-ME-Proxy: <xmx:Mzo9Zn2OSY6KhiaseN3JktZ_bIT9Sxu3ejynsJ-T8ayd_YaIjH3FvQ>
+    <xmx:Mzo9ZpG91ajMKy5HoQsnVBdKQg3fS7k_3Ajqig2Mw4x00GYbnlp2dw>
+    <xmx:Mzo9Zg-Z5OtHl4K-OFsWAkFbJBrHUIwWG-GkByq_Xm4X_oQC0QEJeA>
+    <xmx:Mzo9Zuk2SmBC6inn-WXG8YjNmlY8gb_TwsNs4fysd2jdmH1hgHuGRQ>
+    <xmx:Mzo9ZvYt6DNBnncRoNC8-OE6p-W9R4LrLLpPhrb6tAX2GPVAftpcwpJq>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 9 May 2024 17:03:46 -0400 (EDT)
+Date: Thu, 9 May 2024 23:03:44 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [net-next,v4] net: ethernet: rtsn: Add support for Renesas
+ Ethernet-TSN
+Message-ID: <20240509210344.GL1385281@ragnatech.se>
+References: <20240509095217.3274671-1-niklas.soderlund+renesas@ragnatech.se>
+ <0d7b04a6-9f5b-41c7-bd52-890521019f8d@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -61,67 +103,62 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240509161403.111789-1-jacopo.mondi@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0d7b04a6-9f5b-41c7-bd52-890521019f8d@lunn.ch>
 
-Hello,
+On 2024-05-09 22:25:27 +0200, Andrew Lunn wrote:
+> > +static void rtsn_set_delay_mode(struct rtsn_private *priv)
+> > +{
+> > +	struct device_node *np = priv->ndev->dev.parent->of_node;
+> > +	u32 delay;
+> > +	u32 val;
+> > +
+> > +	val = 0;
+> > +
+> > +	/* The MAC is capable of applying a delay on both Rx and Tx. Each
+> > +	 * delay can either be on or off, there is no way to set its length.
+> > +	 *
+> > +	 * The exact delay applied depends on electric characteristics of the
+> > +	 * board. The datasheet describes a typical Rx delay of 1800 ps and a
+> > +	 * typical Tx delay of 2000 ps.
+> > +	 *
+> > +	 * There are boards where the RTSN device is used together with PHYs
+> > +	 * who do not support a large enough internal delays to function. These
+> > +	 * boards depends on the MAC applying these inexact delays.
+> > +	 */
+> > +
+> > +	/* If the phy-mode is rgmii or rgmii-rxid apply Rx delay on the MAC */
+> > +	if (priv->iface == PHY_INTERFACE_MODE_RGMII_ID ||
+> > +	    priv->iface == PHY_INTERFACE_MODE_RGMII_RXID)
+> > +		if (!of_property_read_u32(np, "rx-internal-delay-ps", &delay))
+> > +			if (delay)
+> > +				val |= GPOUT_RDM;
+> > +
+> > +	/* If the phy-mode is rgmii or rgmii-txid apply Tx delay on the MAC */
+> > +	if (priv->iface == PHY_INTERFACE_MODE_RGMII_ID ||
+> > +	    priv->iface == PHY_INTERFACE_MODE_RGMII_TXID)
+> > +		if (!of_property_read_u32(np, "tx-internal-delay-ps", &delay))
+> > +			if (delay)
+> > +				val |= GPOUT_TDM;
+> 
+> Much better, but still not correct. rx-internal-delay-ps and
+> tx-internal-delay-ps is meant for fine tuning the delays, generally in
+> steps of a few 10ps. It is applied unconditionally, since it is just a
+> fine tune.
+> 
+> You hardware does not support fine tuning, just 1800/2000ps. So it
+> makes no sense to use these DT properties. Just enable GPOUT_RDM or
+> GPOUT_TDM as appropriate for PHY_INTERFACE_MODE_*.
 
-On Thu, May 09, 2024 at 06:13:50PM +0200, Jacopo Mondi wrote:
-> v2->v3:
-> - rcar-csi2: Collect v2.2 of [4/11]
-> - adv748x: enum_mbus_code: reduce the number of formats to the ones supported
->   by the HDMI and Analog front ends;
-> - adv748x: enum_mbus_code: enumerate all formats on sink pad; enumerate the
->   active format on the source pad
-> - max9286: Apply the format to all pads to enforce all links to have the same
->   format
-> - max9286: Remove max9286_set_fsync_period() from setup
-> 
-> v2->v1:
->   - Remove "media: adv748x-csi2: Initialize subdev format"
->   - Add "media: adv748x-afe: Use 1X16 media bus code"
->   - Tested with CVBS
->   - address comments from Laurent and Niklas
-> 
-> A branch is available at
-> https://git.kernel.org/pub/scm/linux/kernel/git/jmondi/linux.git/
-> jmondi/renesas-drivers-2024-04-23-v6.9-rc5/multistream-prep
-> 
-> As a follow-up to the recently sent
-> "media: renesas: rcar-csi2: Support multiple streams" series, this smaller
-> version collects some fixes and implement usage of the subdev active state
-> to simplify the R-Car CSI-2, ADV748x and MAX9286 drivers implementations.
-> 
-> Tested with GMSL on Eagle V3M
-> Tested with HDMI on Salvator-X
-> Tested with CVBS on Salvator-X
-> Boot tested on WhiteHawk V4H
+I will address this and send a new version. Thanks for checking this.
 
-Niklas, would you be able to runtime-test this on V4H ? The series is
-otherwise ready to be merged in my opinion.
-
-> Jacopo Mondi (11):
->   media: rcar-vin: Fix YUYV8_1X16 handling for CSI-2
->   media: rcar-csi2: Disable runtime_pm in probe error
->   media: rcar-csi2: Cleanup subdevice in remove()
->   media: rcar-csi2: Use the subdev active state
->   media: adv748x-csi2: Implement enum_mbus_codes
->   media: adv748x-csi2: Validate the image format
->   media: adv748x-csi2: Use the subdev active state
->   media: adv748x-afe: Use 1X16 media bus code
->   media: max9286: Fix enum_mbus_code
->   media: max9286: Use the subdev active state
->   media: max9286: Use frame interval from subdev state
 > 
->  drivers/media/i2c/adv748x/adv748x-afe.c       |   4 +-
->  drivers/media/i2c/adv748x/adv748x-csi2.c      | 145 +++++++++-----
->  drivers/media/i2c/adv748x/adv748x.h           |   1 -
->  drivers/media/i2c/max9286.c                   | 182 +++++++-----------
->  drivers/media/platform/renesas/rcar-csi2.c    | 155 +++++++++------
->  .../platform/renesas/rcar-vin/rcar-dma.c      |  16 +-
->  6 files changed, 271 insertions(+), 232 deletions(-)
+>     Andrew
+> 
+> ---
+> pw-bot: cr
 
 -- 
-Regards,
-
-Laurent Pinchart
+Kind Regards,
+Niklas Söderlund
 
