@@ -1,115 +1,114 @@
-Return-Path: <linux-renesas-soc+bounces-5277-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5278-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE9348C1744
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 May 2024 22:26:52 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 304608C177F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 May 2024 22:29:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8E5FC1F21F74
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 May 2024 20:26:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 614831C21974
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 May 2024 20:29:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF52712C467;
-	Thu,  9 May 2024 20:04:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26E8A1292EB;
+	Thu,  9 May 2024 20:25:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jNf+Cg/Q"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="fBVLEic+"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F3C616F8E9;
-	Thu,  9 May 2024 20:04:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1721292C9;
+	Thu,  9 May 2024 20:25:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715285062; cv=none; b=UYPf+IUOPEAT9x8LcoxzSKcV3IcXTSzMwKxZVnmUL91rZjO7l/7a8kriCHKwdFzkog6bG/7Ccdh42EUu2wrFL0NkafmeH4jTuBtR4cm4jpwbt9M+OjEX/5vShEmYoqOh100d8bOMr0VeFLdjEplEJKIfXv6+KMrbNiGTzRnuMWE=
+	t=1715286342; cv=none; b=CFLhcWOr/LTun8zdE880hmffjX76pxSBQcWg7SwoWptldfAvXR/MJ7KNkiwTmwu/CdrM5L+0LFsd+k4ibRLDWbKkdwDKW6fqQ8TJda7Iv3NQ4sxgNf2KBwSe11vwVZBeUF/WlUjPnyF6SmLQTQrpdg/qSDRPd9WSEhoCjBoUk8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715285062; c=relaxed/simple;
-	bh=e7lkbL17JFBkXnmrsWxmCdGFxL1hWtBjFhCz2AmDR8U=;
+	s=arc-20240116; t=1715286342; c=relaxed/simple;
+	bh=q66twQ3ZQmwtVpgyjIoW4gH5J6u56rokCV4I/WTlC5c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ODSQ21enj0tDnv1TeGth0RT5tkxOUuINHQPqqyAEFhBj+UIjbobCmHzhK5vCbtOdEaqhDGpYyqxDvrpOZZ3qiS7Efpvls7b9LHMks/hH4MDgN50KqAdcq7xwIW8GDJdT4CSYzoGJunfdM03JHstURD3Qm0Tms4zMISw4HSFbEek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jNf+Cg/Q; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A1CC2904;
-	Thu,  9 May 2024 22:04:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1715285055;
-	bh=e7lkbL17JFBkXnmrsWxmCdGFxL1hWtBjFhCz2AmDR8U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jNf+Cg/QI9vnCYnFZVb+7XiY/uPBpcyzb1T0SpPUgQM2TRuGcedv6kjwryE2ina5S
-	 BMuL/er0UhAn/4bFUpCX1hdj3B4yk1YKgIXkfTkKTtK9yo7yW9MCfZe25UQj7HduwB
-	 DrhhW2D1gqLxejn0hKudNIXYZehq9d0E1VdXabwo=
-Date: Thu, 9 May 2024 23:04:10 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v4 1/3] media: v4l2-subdev: Fix
- v4l2_subdev_state_get_format() documentation
-Message-ID: <20240509200410.GA6407@pendragon.ideasonboard.com>
-References: <20240508214045.24716-1-laurent.pinchart+renesas@ideasonboard.com>
- <20240508214045.24716-2-laurent.pinchart+renesas@ideasonboard.com>
- <Zj0WFQo0cHReRCcU@valkosipuli.retiisi.eu>
+	 Content-Type:Content-Disposition:In-Reply-To; b=mXpdwdqLSIFA2yalIIeTCDOzl3dWHeG6QYmgIGfQgJ0xxdjUkTwlH5mh2kqSxLaH3mSWa0hZY87Mg9yHMgV3/jk5PzMviU8qwCrjfM7jVHqj1WzQtl/4UjLblVcevIjvQhi54Gg4NNzGiVvLSrmgoK8E5LlzXjA4wF/kRpR7k4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=fBVLEic+; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=Jnctv+naZw8viulJjjf7C4sXmPGQ+5Xig0IuuCkqOcE=; b=fBVLEic+AzSZjKrQP3uozvo3XB
+	IqYVXmNydqYmDm8nY5Ht/2GJvNZQKsAPx4JbFcXdIojYV14pNU/ngQP3GblPknnPNJyuSBZluTRNJ
+	mswfgBveCRi2ZiJgAQHEf+TK7I7UAwZeEawd0mTblGRzvnRQf3f8E8Nv1KbMdSpW0mQQ=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1s5AKV-00F4w0-5f; Thu, 09 May 2024 22:25:27 +0200
+Date: Thu, 9 May 2024 22:25:27 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [net-next,v4] net: ethernet: rtsn: Add support for Renesas
+ Ethernet-TSN
+Message-ID: <0d7b04a6-9f5b-41c7-bd52-890521019f8d@lunn.ch>
+References: <20240509095217.3274671-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zj0WFQo0cHReRCcU@valkosipuli.retiisi.eu>
+In-Reply-To: <20240509095217.3274671-1-niklas.soderlund+renesas@ragnatech.se>
 
-On Thu, May 09, 2024 at 06:29:41PM +0000, Sakari Ailus wrote:
-> On Thu, May 09, 2024 at 12:40:43AM +0300, Laurent Pinchart wrote:
-> > The documentation of the v4l2_subdev_state_get_format() macro
-> > incorrectly references __v4l2_subdev_state_get_format() instead of
-> > __v4l2_subdev_state_gen_call(). Fix it, and also update the list of
-> > similar macros to add the missing v4l2_subdev_state_get_interval().
-> > 
-> > Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > ---
-> >  include/media/v4l2-subdev.h | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > index e30c463d90e5..b25b6e97ecbd 100644
-> > --- a/include/media/v4l2-subdev.h
-> > +++ b/include/media/v4l2-subdev.h
-> > @@ -1340,12 +1340,12 @@ void v4l2_subdev_cleanup(struct v4l2_subdev *sd);
-> >   */
-> >  /*
-> >   * Wrap v4l2_subdev_state_get_format(), allowing the function to be called with
-> > - * two or three arguments. The purpose of the __v4l2_subdev_state_get_format()
-> > + * two or three arguments. The purpose of the __v4l2_subdev_state_gen_call()
-> >   * macro below is to come up with the name of the function or macro to call,
-> 
-> You could drop "below" here, too: the macro definition is above the text.
+> +static void rtsn_set_delay_mode(struct rtsn_private *priv)
+> +{
+> +	struct device_node *np = priv->ndev->dev.parent->of_node;
+> +	u32 delay;
+> +	u32 val;
+> +
+> +	val = 0;
+> +
+> +	/* The MAC is capable of applying a delay on both Rx and Tx. Each
+> +	 * delay can either be on or off, there is no way to set its length.
+> +	 *
+> +	 * The exact delay applied depends on electric characteristics of the
+> +	 * board. The datasheet describes a typical Rx delay of 1800 ps and a
+> +	 * typical Tx delay of 2000 ps.
+> +	 *
+> +	 * There are boards where the RTSN device is used together with PHYs
+> +	 * who do not support a large enough internal delays to function. These
+> +	 * boards depends on the MAC applying these inexact delays.
+> +	 */
+> +
+> +	/* If the phy-mode is rgmii or rgmii-rxid apply Rx delay on the MAC */
+> +	if (priv->iface == PHY_INTERFACE_MODE_RGMII_ID ||
+> +	    priv->iface == PHY_INTERFACE_MODE_RGMII_RXID)
+> +		if (!of_property_read_u32(np, "rx-internal-delay-ps", &delay))
+> +			if (delay)
+> +				val |= GPOUT_RDM;
+> +
+> +	/* If the phy-mode is rgmii or rgmii-txid apply Tx delay on the MAC */
+> +	if (priv->iface == PHY_INTERFACE_MODE_RGMII_ID ||
+> +	    priv->iface == PHY_INTERFACE_MODE_RGMII_TXID)
+> +		if (!of_property_read_u32(np, "tx-internal-delay-ps", &delay))
+> +			if (delay)
+> +				val |= GPOUT_TDM;
 
-I think "below" here refers to "usage below". I'll drop it nonetheless.
+Much better, but still not correct. rx-internal-delay-ps and
+tx-internal-delay-ps is meant for fine tuning the delays, generally in
+steps of a few 10ps. It is applied unconditionally, since it is just a
+fine tune.
 
-> Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+You hardware does not support fine tuning, just 1800/2000ps. So it
+makes no sense to use these DT properties. Just enable GPOUT_RDM or
+GPOUT_TDM as appropriate for PHY_INTERFACE_MODE_*.
 
-Thanks.
+    Andrew
 
-> >   * using the last two arguments (_stream and _pad). The selected function or
-> >   * macro is then called using the arguments specified by the caller. A similar
-> > - * arrangement is used for v4l2_subdev_state_crop() and
-> > - * v4l2_subdev_state_compose() below.
-> > + * arrangement is used for v4l2_subdev_state_crop(), v4l2_subdev_state_compose()
-> > + * and v4l2_subdev_state_get_interval() below.
-> >   */
-> >  #define v4l2_subdev_state_get_format(state, pad, ...)			\
-> >  	__v4l2_subdev_state_gen_call(format, ##__VA_ARGS__, , _pad)	\
-
--- 
-Regards,
-
-Laurent Pinchart
+---
+pw-bot: cr
 
