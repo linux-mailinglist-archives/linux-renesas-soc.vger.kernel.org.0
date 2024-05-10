@@ -1,54 +1,54 @@
-Return-Path: <linux-renesas-soc+bounces-5305-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5299-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2FE48C1F32
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 May 2024 09:39:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D398C1F18
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 May 2024 09:37:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AFEB6281C7D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 May 2024 07:39:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6CED31C20EA2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 May 2024 07:37:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B7C916C443;
-	Fri, 10 May 2024 07:37:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0240C15EFCB;
+	Fri, 10 May 2024 07:37:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="GFDmGkT1"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jGW2gCmV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52FB016079D;
-	Fri, 10 May 2024 07:37:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CC3015ECDF;
+	Fri, 10 May 2024 07:37:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715326665; cv=none; b=MktR+AtN8LDI9mtEBdyk8P5Sg5w54DBKT+5kKjjfaY+gPZT2ktJEpQ8x1ON7W+5JM+oEEAOC7skT2Ykei31dlHAJmRElzdfBR982L1gXTp+nr6kJQ3TXnA5/5qbyW1yOEDOJA7VA/K++W2D3ISGKNqtZfU4u3Ih6RPzQIxqMOt8=
+	t=1715326661; cv=none; b=llHSH73SReM8kAqzJUoWRidXE/IB2LivCzpK2evrC3PeZ1JTxhOpR5m1ueOFQ56MDLcen6bGNFcTybk7m0CL+siAT82Dd2SIuCNIctSTKlDODHEKzXMNX2cMesW1OZI05n7/3O8ngwe2moWPLWzHF3Jq+HiqbshKjFyDrOxcvu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715326665; c=relaxed/simple;
-	bh=LrzkcTg0ziAo1281NHtial15InJnlwTYePwWReG4hx4=;
+	s=arc-20240116; t=1715326661; c=relaxed/simple;
+	bh=WfbHQ9J7Vj6Au6Wu1gSPNi7Hq04hHOwQv7EbexUSc80=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qoFou1YnEzotngvKOg3NLvNzPy6t2sRLi/q5inMYnMvkej4rVWJdDVyGMBLtP99z0ZW6hzoaGDe22RgOByF8Pa/ncYk41OK/Ic9dUwdCm0orzWWFZYgakGZz7fYvtRc3ucoEiPvfP7AkChCsUzwLdedVgQEIgIEteGZDKCJeSn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=GFDmGkT1; arc=none smtp.client-ip=217.70.183.193
+	 In-Reply-To:To:Cc; b=BZDNkhUyfHQrnt2GlxfsWdnvdb4VdyCk37LvoxnrAnyb79WvGz7MemhoJsJWXY568fhiElXGi7bXG3g3Ewp8KZ6WUDtluso+laHy9VEUCWhtrjs1AMPcCLp0QQxBixqbuKtXxXfPeSEF2OO6TSizpM04ZGqZ9vLJTlhrqYaEr+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jGW2gCmV; arc=none smtp.client-ip=217.70.183.193
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2788C240005;
-	Fri, 10 May 2024 07:37:35 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 66B1824000B;
+	Fri, 10 May 2024 07:37:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1715326656;
+	t=1715326657;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=s6lX9CFr+i5aMsyivdRLP1OBs4c+aSnEvczm3xZsmeE=;
-	b=GFDmGkT1j2bOE1KvvqCzhvy0d8K7ntQAg/UGwL8XK8uZqmuMfayeWbpBT7C/5IZwoIBZn/
-	vwk3b7vXDCiBmBqBmzjVzBNGWsu2auIWzIhn4bi1jLYjCMXfFjqWIkMkUgciPuiAXszhvw
-	puy/6KA3H/wyS/jdQgdoF1BRQ+Pb02yvZWlD/z0lWOfWFd0XkwmH/nQ8ieZlAzfwszgQ+w
-	HZtBl7eNNe7Wmb5tAywqBaicPXkeXYKazQwq7x1o2xGJugptB/E9AQl/B3HCDXKLRKU1TP
-	VS+Z+mSoHMa9MRlBMe+D2QNLW2mDZfe7g0BenGV2QhyHKKN0WFuAXvOzSkIqFQ==
+	bh=V7+0uNrudWCYDEwJNq5iDZw6vcb4ldKLdBbxspu2IAY=;
+	b=jGW2gCmV3ThXUnNrfZF0SfU1rOsvJSUbMg2BP6DK1fPpjjOr6KPlwCHrtRcDvIIh4bjoCS
+	E6B9fGmUCGPiE3Dy+d2oxjTmrEO24EzT7E16hGClCCdpldDlV1mqClmr6Pa1+IgPts0ecy
+	Ja9K9+/jnE96gMptFEhfEy7poRbq8L0pbZaLXQ7WMCYEd6hApaRZBRWpXRGqtQ51UzNJfh
+	eecuzk2KUPy5YxDcQNOSXydHfxl4yVTAyJoo2eaSuE0LZzMTBtATHCb4nMQLPLk6O3wE4v
+	OIwfV1u6TlrbvgMZMKklh6BNUasCrfvvxRrVoCbfP4iR2HsiA9SAEQCCPM2eQA==
 From: Romain Gantois <romain.gantois@bootlin.com>
-Date: Fri, 10 May 2024 09:38:11 +0200
-Subject: [PATCH net-next v6 4/7] net: stmmac: introduce pcs_init/pcs_exit
- stmmac operations
+Date: Fri, 10 May 2024 09:38:12 +0200
+Subject: [PATCH net-next v6 5/7] net: stmmac: dwmac-socfpga: use
+ pcs_init/pcs_exit
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -57,7 +57,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240510-rzn1-gmac1-v6-4-b63942be334c@bootlin.com>
+Message-Id: <20240510-rzn1-gmac1-v6-5-b63942be334c@bootlin.com>
 References: <20240510-rzn1-gmac1-v6-0-b63942be334c@bootlin.com>
 In-Reply-To: <20240510-rzn1-gmac1-v6-0-b63942be334c@bootlin.com>
 To: "David S. Miller" <davem@davemloft.net>, 
@@ -85,60 +85,168 @@ X-GND-Sasl: romain.gantois@bootlin.com
 
 From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
 
-Introduce a mechanism whereby platforms can create their PCS instances
-prior to the network device being published to userspace, but after
-some of the core stmmac initialisation has been completed. This means
-that the data structures that platforms need will be available.
+Use the newly introduced pcs_init() and pcs_exit() operations to
+create and destroy the PCS instance at a more appropriate moment during
+the driver lifecycle, thereby avoiding publishing a network device to
+userspace that has not yet finished its PCS initialisation.
+
+There are other similar issues with this driver which remain
+unaddressed, but these are out of scope for this patch.
 
 Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 Reviewed-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
-Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
-Co-developed-by: Romain Gantois <romain.gantois@bootlin.com>
+[rgantois: removed second parameters of new callbacks]
 Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
 ---
- drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c | 8 +++++++-
- include/linux/stmmac.h                            | 2 ++
- 2 files changed, 9 insertions(+), 1 deletion(-)
+ .../net/ethernet/stmicro/stmmac/dwmac-socfpga.c    | 107 ++++++++++-----------
+ 1 file changed, 53 insertions(+), 54 deletions(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
-index 778d79cdb2e6d..f562c563aab55 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
-@@ -505,7 +505,10 @@ int stmmac_pcs_setup(struct net_device *ndev)
- 	priv = netdev_priv(ndev);
- 	mode = priv->plat->phy_interface;
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c
+index 12b4a80ea3aa1..b3d45f9dfb556 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c
+@@ -379,6 +379,56 @@ static int socfpga_gen10_set_phy_mode(struct socfpga_dwmac *dwmac)
+ 	return 0;
+ }
  
--	if (priv->plat->mdio_bus_data && priv->plat->mdio_bus_data->has_xpcs) {
-+	if (priv->plat->pcs_init) {
-+		ret = priv->plat->pcs_init(priv);
-+	} else if (priv->plat->mdio_bus_data &&
-+		   priv->plat->mdio_bus_data->has_xpcs) {
- 		/* Try to probe the XPCS by scanning all addresses */
- 		for (addr = 0; addr < PHY_MAX_ADDR; addr++) {
- 			xpcs = xpcs_create_mdiodev(priv->mii, addr, mode);
-@@ -533,6 +536,9 @@ void stmmac_pcs_clean(struct net_device *ndev)
- {
- 	struct stmmac_priv *priv = netdev_priv(ndev);
- 
-+	if (priv->plat->pcs_exit)
-+		priv->plat->pcs_exit(priv);
++static int socfpga_dwmac_pcs_init(struct stmmac_priv *priv)
++{
++	struct socfpga_dwmac *dwmac = priv->plat->bsp_priv;
++	struct regmap_config pcs_regmap_cfg = {
++		.reg_bits = 16,
++		.val_bits = 16,
++		.reg_shift = REGMAP_UPSHIFT(1),
++	};
++	struct mdio_regmap_config mrc;
++	struct regmap *pcs_regmap;
++	struct phylink_pcs *pcs;
++	struct mii_bus *pcs_bus;
 +
- 	if (!priv->hw->xpcs)
- 		return;
++	if (!dwmac->tse_pcs_base)
++		return 0;
++
++	pcs_regmap = devm_regmap_init_mmio(priv->device, dwmac->tse_pcs_base,
++					   &pcs_regmap_cfg);
++	if (IS_ERR(pcs_regmap))
++		return PTR_ERR(pcs_regmap);
++
++	memset(&mrc, 0, sizeof(mrc));
++	mrc.regmap = pcs_regmap;
++	mrc.parent = priv->device;
++	mrc.valid_addr = 0x0;
++	mrc.autoscan = false;
++
++	/* Can't use ndev->name here because it will not have been initialised,
++	 * and in any case, the user can rename network interfaces at runtime.
++	 */
++	snprintf(mrc.name, MII_BUS_ID_SIZE, "%s-pcs-mii",
++		 dev_name(priv->device));
++	pcs_bus = devm_mdio_regmap_register(priv->device, &mrc);
++	if (IS_ERR(pcs_bus))
++		return PTR_ERR(pcs_bus);
++
++	pcs = lynx_pcs_create_mdiodev(pcs_bus, 0);
++	if (IS_ERR(pcs))
++		return PTR_ERR(pcs);
++
++	priv->hw->phylink_pcs = pcs;
++	return 0;
++}
++
++static void socfpga_dwmac_pcs_exit(struct stmmac_priv *priv)
++{
++	if (priv->hw->phylink_pcs)
++		lynx_pcs_destroy(priv->hw->phylink_pcs);
++}
++
+ static int socfpga_dwmac_probe(struct platform_device *pdev)
+ {
+ 	struct plat_stmmacenet_data *plat_dat;
+@@ -426,6 +476,8 @@ static int socfpga_dwmac_probe(struct platform_device *pdev)
+ 	dwmac->ops = ops;
+ 	plat_dat->bsp_priv = dwmac;
+ 	plat_dat->fix_mac_speed = socfpga_dwmac_fix_mac_speed;
++	plat_dat->pcs_init = socfpga_dwmac_pcs_init;
++	plat_dat->pcs_exit = socfpga_dwmac_pcs_exit;
  
-diff --git a/include/linux/stmmac.h b/include/linux/stmmac.h
-index dfa1828cd756a..4a24a246c617d 100644
---- a/include/linux/stmmac.h
-+++ b/include/linux/stmmac.h
-@@ -285,6 +285,8 @@ struct plat_stmmacenet_data {
- 	int (*crosststamp)(ktime_t *device, struct system_counterval_t *system,
- 			   void *ctx);
- 	void (*dump_debug_regs)(void *priv);
-+	int (*pcs_init)(struct stmmac_priv *priv);
-+	void (*pcs_exit)(struct stmmac_priv *priv);
- 	void *bsp_priv;
- 	struct clk *stmmac_clk;
- 	struct clk *pclk;
+ 	ret = stmmac_dvr_probe(&pdev->dev, plat_dat, &stmmac_res);
+ 	if (ret)
+@@ -444,48 +496,6 @@ static int socfpga_dwmac_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto err_dvr_remove;
+ 
+-	/* Create a regmap for the PCS so that it can be used by the PCS driver,
+-	 * if we have such a PCS
+-	 */
+-	if (dwmac->tse_pcs_base) {
+-		struct regmap_config pcs_regmap_cfg;
+-		struct mdio_regmap_config mrc;
+-		struct regmap *pcs_regmap;
+-		struct mii_bus *pcs_bus;
+-
+-		memset(&pcs_regmap_cfg, 0, sizeof(pcs_regmap_cfg));
+-		memset(&mrc, 0, sizeof(mrc));
+-
+-		pcs_regmap_cfg.reg_bits = 16;
+-		pcs_regmap_cfg.val_bits = 16;
+-		pcs_regmap_cfg.reg_shift = REGMAP_UPSHIFT(1);
+-
+-		pcs_regmap = devm_regmap_init_mmio(&pdev->dev, dwmac->tse_pcs_base,
+-						   &pcs_regmap_cfg);
+-		if (IS_ERR(pcs_regmap)) {
+-			ret = PTR_ERR(pcs_regmap);
+-			goto err_dvr_remove;
+-		}
+-
+-		mrc.regmap = pcs_regmap;
+-		mrc.parent = &pdev->dev;
+-		mrc.valid_addr = 0x0;
+-		mrc.autoscan = false;
+-
+-		snprintf(mrc.name, MII_BUS_ID_SIZE, "%s-pcs-mii", ndev->name);
+-		pcs_bus = devm_mdio_regmap_register(&pdev->dev, &mrc);
+-		if (IS_ERR(pcs_bus)) {
+-			ret = PTR_ERR(pcs_bus);
+-			goto err_dvr_remove;
+-		}
+-
+-		stpriv->hw->phylink_pcs = lynx_pcs_create_mdiodev(pcs_bus, 0);
+-		if (IS_ERR(stpriv->hw->phylink_pcs)) {
+-			ret = PTR_ERR(stpriv->hw->phylink_pcs);
+-			goto err_dvr_remove;
+-		}
+-	}
+-
+ 	return 0;
+ 
+ err_dvr_remove:
+@@ -494,17 +504,6 @@ static int socfpga_dwmac_probe(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-static void socfpga_dwmac_remove(struct platform_device *pdev)
+-{
+-	struct net_device *ndev = platform_get_drvdata(pdev);
+-	struct stmmac_priv *priv = netdev_priv(ndev);
+-	struct phylink_pcs *pcs = priv->hw->phylink_pcs;
+-
+-	stmmac_pltfr_remove(pdev);
+-
+-	lynx_pcs_destroy(pcs);
+-}
+-
+ #ifdef CONFIG_PM_SLEEP
+ static int socfpga_dwmac_resume(struct device *dev)
+ {
+@@ -576,7 +575,7 @@ MODULE_DEVICE_TABLE(of, socfpga_dwmac_match);
+ 
+ static struct platform_driver socfpga_dwmac_driver = {
+ 	.probe  = socfpga_dwmac_probe,
+-	.remove_new = socfpga_dwmac_remove,
++	.remove_new = stmmac_pltfr_remove,
+ 	.driver = {
+ 		.name           = "socfpga-dwmac",
+ 		.pm		= &socfpga_dwmac_pm_ops,
 
 -- 
 2.44.0
