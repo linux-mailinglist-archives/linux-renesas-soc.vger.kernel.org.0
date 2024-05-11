@@ -1,124 +1,154 @@
-Return-Path: <linux-renesas-soc+bounces-5322-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5323-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2E888C3314
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 May 2024 20:11:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B9048C34C4
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 12 May 2024 01:55:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D44271C20A4C
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 May 2024 18:11:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C98F5281E1B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 May 2024 23:55:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7512C1CAA5;
-	Sat, 11 May 2024 18:11:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 546D243AB3;
+	Sat, 11 May 2024 23:55:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e2jdkaZb"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="aLxPLrwV";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Eph8/G8I"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 424EB1CA8A;
-	Sat, 11 May 2024 18:11:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8539225DD;
+	Sat, 11 May 2024 23:55:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715451090; cv=none; b=tQc3zcdJ/QvddwJrhgF5vJFuASuqT/m5qtRdofq5IwYWlwP4RgZGJSF17U0Ism+/AXtTeyVC3gomMJCFlwsGLp6NP8BCSfWBucQdZLBgZPI1hnVbwQ8+CNT0dVXLs46DmxdsuSfghPwTjz4X4D/HsRFLAVgTpLMjUU+c4Ou8k5Y=
+	t=1715471746; cv=none; b=Bj7YdA3gjwi/NotSqo9iwKvGP3cCpcqp9BdPe+5LTZxxlCRjpahQvfZe5iDXTU95oyeGnvngxiakptG6aFJq0dHudwEkDYK5gYUy1Rna5hIcHazYRpE2o5kz8+u2y9r/IesNw9llX/ggaToOZvnhIaTB7d6OvXLPXhRelep7oHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715451090; c=relaxed/simple;
-	bh=+t8uRZp6FGvXN+V4ScRGLv+eJyrrubY4gibWN6mdiHI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fmp2vJKyLsxf3420WNjsLvJl0gW1eIeIFZbEy3bS89ah3Jz6uKfGsRbFMoKLEQ8m/5EVfWUu72Cp73KLAXBgm7DbifaLtKoKXmpq1qbvq9JBYx3veVla4t8EXURxaQWcGf0MeEcJhhhGYXq2Shj5AYj7NA779JePC+R20XqB0C4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e2jdkaZb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CD5DC2BBFC;
-	Sat, 11 May 2024 18:11:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715451089;
-	bh=+t8uRZp6FGvXN+V4ScRGLv+eJyrrubY4gibWN6mdiHI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e2jdkaZbC/mdPAuuX1eCHbhGEu4F1appnZLT1q4rOQrw8hs/5sppQXOV2zRweyBYM
-	 JTRs/m6M7JXBsqp66uNQmSheaAZglqcUtJ3KTp+CYxoJdYVdL8mkPlW0T9h3sdNZd/
-	 NMAoMhuFa/s8NWyrGFlr48VOgPI0J7tCsvDWvHG2Z4+mJITYr+8ino8G7uaoGs94dq
-	 4IQKjoJsADnxbivm5h7bvNIelFTpLU0gvAMQXaZVDsCvKI+jM49sYKr3VuamE5KHNX
-	 TdHySYjtKa8IrqdiexAKN418X1uM8P+d4U6H6DtqFXH+Skitspy7NC7OV4gLXyj7w0
-	 zsmqfQV10pQgQ==
-Date: Sat, 11 May 2024 19:11:19 +0100
-From: Simon Horman <horms@kernel.org>
-To: Romain Gantois <romain.gantois@bootlin.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	s=arc-20240116; t=1715471746; c=relaxed/simple;
+	bh=rVO5lZJEhHhvxcpoHjnXpZHEHvnrU5HiTLXlrFJGgWs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PnyXWl+TZNvuFTHFCTQ/3xV3H6oDMJxbkFfMj/RxEOqA4bgXLVI47HML7brb7sCQenxVVXYrTKW/u1RUgX5IpwRBpo+CYuDM0d/lfhXyK/y7MwDu1E9inavkZkF3QKPZQ4Jvk9BwI+BOGO7BCsnDnk5i2Xm8Pmf5oKTerqkTQNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=aLxPLrwV; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Eph8/G8I; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4VcN135T0Fz9skx;
+	Sun, 12 May 2024 01:55:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1715471735;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=cXNaVFdnA5HjJO8L+nWGjE0a4+KNH79u4It+UoUubC0=;
+	b=aLxPLrwVOz6aDQmqbBBvLrNkEbk73rf/9HhfaWtQpiiUs2K3AO+NpnKe+9soVxLfLGbCX5
+	O69tvvvgPmE3ikdZo5cwSoSGMDnres+LUHzSt6OYUwDZi/N1NKw3uiFTdFJQXinDZQ3P6+
+	B9EJIhMvp5f/hyLpI8/sQ2YPKCkm+MjdQGG/c9CTEFae79cmI1I4lekDM32hOmbMsqBBTn
+	oha3iisOeBftDOtYU1Tfs5YOSMSvMWtEWHc9Yx89s+4eMnDBsBB+RBJNjwH+U4Qj0JsKvk
+	cI2LvmN4N6ufjQQsz83ZQUanrzVOEH2uecKQXCpRKBwCA9XR5GGFVOX69GOvuQ==
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1715471733;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=cXNaVFdnA5HjJO8L+nWGjE0a4+KNH79u4It+UoUubC0=;
+	b=Eph8/G8ILNWfW9gAbEyAntnNplts8iFHPIj4zSEdVhPrQQUTiF+ZbcLF1q/WoGeN/OLWuh
+	Th7TK3s2hKZZ6vK970c27PFRTyn68MseGuEyz0Y8J9MZgAgLTfx5aP8PnGrrQMFUan4x4n
+	IR8Qf+o4vBaF7uuSMlwwWY7c3jQp1XM49wS9FY6J0DphiK0cFQ6flzSw+JBkXO755cWNtv
+	W/bT7gUmPIVwjpKJbw8/4bfxbqyXnjDmTxX1eMiIK0CDjafsh8/qoPyllmqLb64eyPbKIZ
+	4ZAPCJeXidEks2N/WFavzLST2iFWryBdajL0Cow6lDeVeG28WQ3HC/fDCUy7vA==
+To: linux-pci@vger.kernel.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
 	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	=?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
-	Serge Semin <fancer.lancer@gmail.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH net-next v6 4/7] net: stmmac: introduce pcs_init/pcs_exit
- stmmac operations
-Message-ID: <20240511181119.GU2347895@kernel.org>
-References: <20240510-rzn1-gmac1-v6-0-b63942be334c@bootlin.com>
- <20240510-rzn1-gmac1-v6-4-b63942be334c@bootlin.com>
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] PCI: rcar: Demote WARN() to dev_warn_ratelimited() in rcar_pcie_wakeup()
+Date: Sun, 12 May 2024 01:54:50 +0200
+Message-ID: <20240511235513.77301-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240510-rzn1-gmac1-v6-4-b63942be334c@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: z1jyy4rkdkn68gw39fy76cs6sdywyxw6
+X-MBO-RS-ID: 843f82a5d73b027546a
+X-Rspamd-Queue-Id: 4VcN135T0Fz9skx
 
-On Fri, May 10, 2024 at 09:38:11AM +0200, Romain Gantois wrote:
-> From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-> 
-> Introduce a mechanism whereby platforms can create their PCS instances
-> prior to the network device being published to userspace, but after
-> some of the core stmmac initialisation has been completed. This means
-> that the data structures that platforms need will be available.
-> 
-> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> Reviewed-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
-> Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
-> Co-developed-by: Romain Gantois <romain.gantois@bootlin.com>
-> Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
-> ---
->  drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c | 8 +++++++-
->  include/linux/stmmac.h                            | 2 ++
->  2 files changed, 9 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
-> index 778d79cdb2e6d..f562c563aab55 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
-> @@ -505,7 +505,10 @@ int stmmac_pcs_setup(struct net_device *ndev)
->  	priv = netdev_priv(ndev);
->  	mode = priv->plat->phy_interface;
->  
-> -	if (priv->plat->mdio_bus_data && priv->plat->mdio_bus_data->has_xpcs) {
-> +	if (priv->plat->pcs_init) {
-> +		ret = priv->plat->pcs_init(priv);
-> +	} else if (priv->plat->mdio_bus_data &&
-> +		   priv->plat->mdio_bus_data->has_xpcs) {
->  		/* Try to probe the XPCS by scanning all addresses */
->  		for (addr = 0; addr < PHY_MAX_ADDR; addr++) {
->  			xpcs = xpcs_create_mdiodev(priv->mii, addr, mode);
+Avoid large backtrace, it is sufficient to warn the user that there has
+been a link problem. Either the link has failed and the system is in need
+of maintenance, or the link continues to work and user has been informed.
+The message from the warning can be looked up in the sources.
 
-I am unsure if this can occur, but if priv->plat->pcs_init returns 0 then
-xpcs will be used while uninitialised towards the end of this function.
+This makes an actual link issue less verbose.
 
-Flagged by Smatch.
+First of all, this controller has a limitation in that the controller
+driver has to assist the hardware with transition to L1 link state by
+writing L1IATN to PMCTRL register, the L1 and L0 link state switching
+is not fully automatic on this controller.
 
-...
+In case of an ASMedia ASM1062 PCIe SATA controller which does not support
+ASPM, on entry to suspend or during platform pm_test, the SATA controller
+enters D3hot state and the link enters L1 state. If the SATA controller
+wakes up before rcar_pcie_wakeup() was called and returns to D0, the link
+returns to L0 before the controller driver even started its transition to
+L1 link state. At this point, the SATA controller did send an PM_ENTER_L1
+DLLP to the PCIe controller and the PCIe controller received it, and the
+PCIe controller did set PMSR PMEL1RX bit.
+
+Once rcar_pcie_wakeup() is called, if the link is already back in L0 state
+and PMEL1RX bit is set, the controller driver has no way to determine if
+it should perform the link transition to L1 state, or treat the link as if
+it is in L0 state. Currently the driver attempts to perform the transition
+to L1 link state unconditionally, which in this specific case fails with a
+PMSR L1FAEG poll timeout, however the link still works as it is already
+back in L0 state.
+
+Reduce this warning verbosity. In case the link is really broken, the
+rcar_pcie_config_access() would fail, otherwise it will succeed and any
+system with this controller and ASM1062 can suspend without generating
+a backtrace.
+
+Fixes: 84b576146294 ("PCI: rcar: Finish transition to L1 state in rcar_pcie_config_access()")
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: "Krzysztof Wilczyński" <kw@linux.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: linux-pci@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+ drivers/pci/controller/pcie-rcar-host.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
+index 996077ab7cfdb..c01efc6ea64f6 100644
+--- a/drivers/pci/controller/pcie-rcar-host.c
++++ b/drivers/pci/controller/pcie-rcar-host.c
+@@ -78,7 +78,11 @@ static int rcar_pcie_wakeup(struct device *pcie_dev, void __iomem *pcie_base)
+ 		writel(L1IATN, pcie_base + PMCTLR);
+ 		ret = readl_poll_timeout_atomic(pcie_base + PMSR, val,
+ 						val & L1FAEG, 10, 1000);
+-		WARN(ret, "Timeout waiting for L1 link state, ret=%d\n", ret);
++		if (ret) {
++			dev_warn_ratelimited(pcie_dev,
++					     "Timeout waiting for L1 link state, ret=%d\n",
++					     ret);
++		}
+ 		writel(L1FAEG | PMEL1RX, pcie_base + PMSR);
+ 	}
+ 
+-- 
+2.43.0
+
 
