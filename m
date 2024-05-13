@@ -1,54 +1,54 @@
-Return-Path: <linux-renesas-soc+bounces-5325-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5326-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99E638C3BE8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 May 2024 09:24:57 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF5B38C3BEE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 May 2024 09:25:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 53FA5280C38
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 May 2024 07:24:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 23B6AB20BD2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 May 2024 07:25:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DA73146D48;
-	Mon, 13 May 2024 07:24:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A004146D6B;
+	Mon, 13 May 2024 07:24:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="K0v7bOAk"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="fHiaML0U"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB85146A76;
-	Mon, 13 May 2024 07:24:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94711146A78;
+	Mon, 13 May 2024 07:24:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715585083; cv=none; b=pkj1krswnoGUS3lmGfYEJXwPpWtHjNVtcJ4Sy2fwdO0dFLA7l51xK9PotgteucdqUz8bs0+DNSOdUxmKrwVNuXeMFWBHx4XVH9OSriVs79TRPQImmb74iUCYmjH4qAJ/TpOHI8d0KbXX9rB5AxDekOoy/QBSmajwX66KpiPXBN8=
+	t=1715585084; cv=none; b=SnVnIJ7nrui6bFp2N5Wp2cLwlTMXOJXfVyBr3d21tVWEoc0o87kGSii5+WIo8tnIhdXW+R6hUKBKFd/SbXr/Ut4KyJ0H31S3U+dBerTW9w5qwaFx9sdtUiek/HEKW9QNd5Oa0IhrwnrENBTQodF9uSPklyM6/1TLNFj8RjV9PU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715585083; c=relaxed/simple;
-	bh=8ENOqewMW99QWcS2EvbxlHeThnWJBf0dwQB/ui5W9gg=;
+	s=arc-20240116; t=1715585084; c=relaxed/simple;
+	bh=i2nT1vC9UiHNTpAL0/8VtMxDNwiYwrfdrcJ1yq5t0RM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=g/RvoDBx5AIEo6fm+8adqMl+D6Fx4+npx7RGqBBRbqERtfxj8SSOX0G7uqpMZr9LfptqEpZ8X7cmJTBP5IsO9I4k5tahzh7REMV4Y50EMDBFgtPxMKaUpDS2euji9K3AouEZRDaj+WQi599aDGsMPK0fl9eflpQV2vMPqqxcyEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=K0v7bOAk; arc=none smtp.client-ip=217.70.183.200
+	 In-Reply-To:To:Cc; b=sRowG+q3H2l0I9I8k93XrzKreT5kxPlh9XB8yv+txKVgoKcIIFipGRK+rin/pNOJIsbphI3mLBiBj2vEV4OGUOKxhxTmdshCtOq+MZrFSTH8MPNZdOOesKV6qUxHNYR+ICLv/dsfsXwRF5PKLT6PGNsWHYqswvpbOzKMgiJNIAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=fHiaML0U; arc=none smtp.client-ip=217.70.183.200
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9000220005;
-	Mon, 13 May 2024 07:24:38 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D06062000A;
+	Mon, 13 May 2024 07:24:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1715585079;
+	t=1715585081;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eXa4EdnQqRxUOEPvkBPgsUUIstZOOeI7Xe83F05iy1I=;
-	b=K0v7bOAkyqUdiR1TrpLCyAb1b0CaCjfLagtr3Q3aw897Lw8gveJ2uKHP9NbNcHuSwkecpJ
-	xwtJmR+SXTIOpT2pxqPOtTpoE3EqVeD4bf9VO1s8bt9ykJSCoIwdKXwe3OOg28gwHd/nxi
-	BBA9ULxqFBx4vk/0JyESXxGVEooE/2Bwev9Tb4z3RVlO9O+TxfcwB++7B2XEOd+UEDsQLA
-	y4/g0qkTSWqdjAPYkm8of+BmLq5f/HmG61ILwCVLNZMWY8BM15SEIjewcNtWADmle7YDBd
-	wLr0IloSd4ThT3zQjULgJD+TK31PIkGkRLEFBFsYArW0RV0yuehEOei3W+SzrQ==
+	bh=ufbIpBwYhCBLt0HwFL9PphnclS/treiNgHpb10AIWSk=;
+	b=fHiaML0UpztueGdjpw77aS1UcuSr/NLec1MSt2rL3WkK6zKJ15qgY4SMDW2mpnxeWmLgDG
+	H4gKhbdu2qMV5wf7e89/tIHRhjg1K82oqEizp9jU43uin3/MUijF6pdLNyD4Hiz+rdpWCq
+	FaqqJoNN6+VlSBtVsKxGY0qR2lPwQUBIiO9gr0vKZWjbO+6X9oi4Enockm5qlFXtWuNBeN
+	CYGFkd5vLSoDrazfHbAChqKQejbBLIU8EtWQim3git6mCvP9fNoUnKw9pU8CmsjnfuTtUG
+	1cBJgIfaRnXpTwFT6NW+x+OpmRE3JU6ukSotgFW9F3g+62eHZ5nei8Syf6HwOA==
 From: Romain Gantois <romain.gantois@bootlin.com>
-Date: Mon, 13 May 2024 09:25:12 +0200
-Subject: [PATCH net-next v7 1/7] dt-bindings: net: renesas,rzn1-gmac:
- Document RZ/N1 GMAC support
+Date: Mon, 13 May 2024 09:25:13 +0200
+Subject: [PATCH net-next v7 2/7] net: stmmac: Add dedicated XPCS cleanup
+ method
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -56,8 +56,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240513-rzn1-gmac1-v7-1-6acf58b5440d@bootlin.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240513-rzn1-gmac1-v7-2-6acf58b5440d@bootlin.com>
 References: <20240513-rzn1-gmac1-v7-0-6acf58b5440d@bootlin.com>
 In-Reply-To: <20240513-rzn1-gmac1-v7-0-6acf58b5440d@bootlin.com>
 To: "David S. Miller" <davem@davemloft.net>, 
@@ -77,99 +77,104 @@ Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
  linux-arm-kernel@lists.infradead.org, 
- Romain Gantois <romain.gantois@bootlin.com>
+ Romain Gantois <romain.gantois@bootlin.com>, 
+ "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
 X-Mailer: b4 0.13.0
 X-GND-Sasl: romain.gantois@bootlin.com
 
-From: Clément Léger <clement.leger@bootlin.com>
+From: Serge Semin <fancer.lancer@gmail.com>
 
-The RZ/N1 series of MPUs feature up to two Gigabit Ethernet controllers.
-These controllers are based on Synopsys IPs. They can be connected to
-RZ/N1 RGMII/RMII converters.
+Currently the XPCS handler destruction is performed in the
+stmmac_mdio_unregister() method. It doesn't look good because the handler
+isn't originally created in the corresponding protagonist
+stmmac_mdio_unregister(), but in the stmmac_xpcs_setup() function. In
+order to have more coherent MDIO and XPCS setup/cleanup procedures,
+let's move the DW XPCS destruction to the dedicated stmmac_pcs_clean()
+method.
 
-Add a binding that describes these GMAC devices.
+This method will also be used to cleanup PCS hardware using the
+pcs_exit() callback that will be introduced to stmmac in a subsequent
+patch.
 
-Signed-off-by: Clément Léger <clement.leger@bootlin.com>
-[rgantois: commit log]
-Reviewed-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
+Co-developed-by: Romain Gantois <romain.gantois@bootlin.com>
 Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
+Reviewed-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 ---
- .../devicetree/bindings/net/renesas,rzn1-gmac.yaml | 66 ++++++++++++++++++++++
- 1 file changed, 66 insertions(+)
+ drivers/net/ethernet/stmicro/stmmac/stmmac.h      |  1 +
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c |  6 +++++-
+ drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c | 14 +++++++++++---
+ 3 files changed, 17 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml b/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml
-new file mode 100644
-index 0000000000000..d9a8d586e260c
---- /dev/null
-+++ b/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml
-@@ -0,0 +1,66 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/net/renesas,rzn1-gmac.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac.h b/drivers/net/ethernet/stmicro/stmmac/stmmac.h
+index dddcaa9220cc3..badfe686a5702 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac.h
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac.h
+@@ -361,6 +361,7 @@ int stmmac_mdio_unregister(struct net_device *ndev);
+ int stmmac_mdio_register(struct net_device *ndev);
+ int stmmac_mdio_reset(struct mii_bus *mii);
+ int stmmac_xpcs_setup(struct mii_bus *mii);
++void stmmac_pcs_clean(struct net_device *ndev);
+ void stmmac_set_ethtool_ops(struct net_device *netdev);
+ 
+ int stmmac_init_tstamp_counter(struct stmmac_priv *priv, u32 systime_flags);
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+index 3d828904db0d3..0ac99c132733d 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+@@ -7789,8 +7789,9 @@ int stmmac_dvr_probe(struct device *device,
+ 
+ error_netdev_register:
+ 	phylink_destroy(priv->phylink);
+-error_xpcs_setup:
+ error_phy_setup:
++	stmmac_pcs_clean(ndev);
++error_xpcs_setup:
+ 	if (priv->hw->pcs != STMMAC_PCS_TBI &&
+ 	    priv->hw->pcs != STMMAC_PCS_RTBI)
+ 		stmmac_mdio_unregister(ndev);
+@@ -7832,6 +7833,9 @@ void stmmac_dvr_remove(struct device *dev)
+ 	if (priv->plat->stmmac_rst)
+ 		reset_control_assert(priv->plat->stmmac_rst);
+ 	reset_control_assert(priv->plat->stmmac_ahb_rst);
 +
-+title: Renesas GMAC
++	stmmac_pcs_clean(ndev);
 +
-+maintainers:
-+  - Romain Gantois <romain.gantois@bootlin.com>
+ 	if (priv->hw->pcs != STMMAC_PCS_TBI &&
+ 	    priv->hw->pcs != STMMAC_PCS_RTBI)
+ 		stmmac_mdio_unregister(ndev);
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
+index 0542cfd1817e6..73ba9901a4439 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
+@@ -523,6 +523,17 @@ int stmmac_xpcs_setup(struct mii_bus *bus)
+ 	return 0;
+ }
+ 
++void stmmac_pcs_clean(struct net_device *ndev)
++{
++	struct stmmac_priv *priv = netdev_priv(ndev);
 +
-+select:
-+  properties:
-+    compatible:
-+      contains:
-+        enum:
-+          - renesas,r9a06g032-gmac
-+          - renesas,rzn1-gmac
-+  required:
-+    - compatible
++	if (!priv->hw->xpcs)
++		return;
 +
-+allOf:
-+  - $ref: snps,dwmac.yaml#
++	xpcs_destroy(priv->hw->xpcs);
++	priv->hw->xpcs = NULL;
++}
 +
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - renesas,r9a06g032-gmac
-+      - const: renesas,rzn1-gmac
-+      - const: snps,dwmac
-+
-+  pcs-handle:
-+    description:
-+      phandle pointing to a PCS sub-node compatible with
-+      renesas,rzn1-miic.yaml#
-+
-+required:
-+  - compatible
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/r9a06g032-sysctrl.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    ethernet@44000000 {
-+      compatible = "renesas,r9a06g032-gmac", "renesas,rzn1-gmac", "snps,dwmac";
-+      reg = <0x44000000 0x2000>;
-+      interrupts = <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>,
-+                   <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>,
-+                   <GIC_SPI 35 IRQ_TYPE_LEVEL_HIGH>;
-+      interrupt-names = "macirq", "eth_wake_irq", "eth_lpi";
-+      clock-names = "stmmaceth";
-+      clocks = <&sysctrl R9A06G032_HCLK_GMAC0>;
-+      power-domains = <&sysctrl>;
-+      snps,multicast-filter-bins = <256>;
-+      snps,perfect-filter-entries = <128>;
-+      tx-fifo-depth = <2048>;
-+      rx-fifo-depth = <4096>;
-+      pcs-handle = <&mii_conv1>;
-+      phy-mode = "mii";
-+    };
-+
-+...
+ /**
+  * stmmac_mdio_register
+  * @ndev: net device structure
+@@ -679,9 +690,6 @@ int stmmac_mdio_unregister(struct net_device *ndev)
+ 	if (!priv->mii)
+ 		return 0;
+ 
+-	if (priv->hw->xpcs)
+-		xpcs_destroy(priv->hw->xpcs);
+-
+ 	mdiobus_unregister(priv->mii);
+ 	priv->mii->priv = NULL;
+ 	mdiobus_free(priv->mii);
 
 -- 
 2.44.0
