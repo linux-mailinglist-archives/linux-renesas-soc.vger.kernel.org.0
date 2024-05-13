@@ -1,154 +1,174 @@
-Return-Path: <linux-renesas-soc+bounces-5323-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5324-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B9048C34C4
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 12 May 2024 01:55:52 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 059B18C3BE6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 May 2024 09:24:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C98F5281E1B
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 May 2024 23:55:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6F0C7B20B88
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 May 2024 07:24:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 546D243AB3;
-	Sat, 11 May 2024 23:55:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE551146A84;
+	Mon, 13 May 2024 07:24:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="aLxPLrwV";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Eph8/G8I"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="WeTqcEJH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8539225DD;
-	Sat, 11 May 2024 23:55:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EDF9146A67;
+	Mon, 13 May 2024 07:24:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715471746; cv=none; b=Bj7YdA3gjwi/NotSqo9iwKvGP3cCpcqp9BdPe+5LTZxxlCRjpahQvfZe5iDXTU95oyeGnvngxiakptG6aFJq0dHudwEkDYK5gYUy1Rna5hIcHazYRpE2o5kz8+u2y9r/IesNw9llX/ggaToOZvnhIaTB7d6OvXLPXhRelep7oHk=
+	t=1715585082; cv=none; b=Yp/vPfFlgRq5PC0iBRS+7gMBb6U6X0TKYmGnpMOracFwKBSGeSUd3ISUZR/BdEetJcZW09HUs19SO2y7lCIPiVfnD1Ei/DBIgQMgPcokGgPFzeJwC2p3elyp0EKY7Aa5lL420WIMPe5S7i9po3iVZOiCZhmmlzj5RUWCJ8kYz+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715471746; c=relaxed/simple;
-	bh=rVO5lZJEhHhvxcpoHjnXpZHEHvnrU5HiTLXlrFJGgWs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PnyXWl+TZNvuFTHFCTQ/3xV3H6oDMJxbkFfMj/RxEOqA4bgXLVI47HML7brb7sCQenxVVXYrTKW/u1RUgX5IpwRBpo+CYuDM0d/lfhXyK/y7MwDu1E9inavkZkF3QKPZQ4Jvk9BwI+BOGO7BCsnDnk5i2Xm8Pmf5oKTerqkTQNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=aLxPLrwV; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Eph8/G8I; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4VcN135T0Fz9skx;
-	Sun, 12 May 2024 01:55:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1715471735;
+	s=arc-20240116; t=1715585082; c=relaxed/simple;
+	bh=ZXFdIBiRjDdx2nViooKJFY3balQZn5nQtmUZaVwuiOE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=A7FeNwDKnjbSnKZrcCa0NQ43qAlW1GRGAh5+L2Tap9vFeZ7VI55JQYczIUYgliAIvoZAIDIfKsWWpO0Us4c9J23pIp6Od8rsuQAprwZ9fE9rjTAb9mpjfm9iGHr41jU2fN9eVsQv5WoSKozbg3qwDgtP/R1cgNUQQ0+XEJ2giKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=WeTqcEJH; arc=none smtp.client-ip=217.70.183.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 788902000E;
+	Mon, 13 May 2024 07:24:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1715585078;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=cXNaVFdnA5HjJO8L+nWGjE0a4+KNH79u4It+UoUubC0=;
-	b=aLxPLrwVOz6aDQmqbBBvLrNkEbk73rf/9HhfaWtQpiiUs2K3AO+NpnKe+9soVxLfLGbCX5
-	O69tvvvgPmE3ikdZo5cwSoSGMDnres+LUHzSt6OYUwDZi/N1NKw3uiFTdFJQXinDZQ3P6+
-	B9EJIhMvp5f/hyLpI8/sQ2YPKCkm+MjdQGG/c9CTEFae79cmI1I4lekDM32hOmbMsqBBTn
-	oha3iisOeBftDOtYU1Tfs5YOSMSvMWtEWHc9Yx89s+4eMnDBsBB+RBJNjwH+U4Qj0JsKvk
-	cI2LvmN4N6ufjQQsz83ZQUanrzVOEH2uecKQXCpRKBwCA9XR5GGFVOX69GOvuQ==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1715471733;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=cXNaVFdnA5HjJO8L+nWGjE0a4+KNH79u4It+UoUubC0=;
-	b=Eph8/G8ILNWfW9gAbEyAntnNplts8iFHPIj4zSEdVhPrQQUTiF+ZbcLF1q/WoGeN/OLWuh
-	Th7TK3s2hKZZ6vK970c27PFRTyn68MseGuEyz0Y8J9MZgAgLTfx5aP8PnGrrQMFUan4x4n
-	IR8Qf+o4vBaF7uuSMlwwWY7c3jQp1XM49wS9FY6J0DphiK0cFQ6flzSw+JBkXO755cWNtv
-	W/bT7gUmPIVwjpKJbw8/4bfxbqyXnjDmTxX1eMiIK0CDjafsh8/qoPyllmqLb64eyPbKIZ
-	4ZAPCJeXidEks2N/WFavzLST2iFWryBdajL0Cow6lDeVeG28WQ3HC/fDCUy7vA==
-To: linux-pci@vger.kernel.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] PCI: rcar: Demote WARN() to dev_warn_ratelimited() in rcar_pcie_wakeup()
-Date: Sun, 12 May 2024 01:54:50 +0200
-Message-ID: <20240511235513.77301-1-marek.vasut+renesas@mailbox.org>
+	bh=l7briKDXZUlZ4ihbmAD3jDG5eaCQTlrkO60KlQj+9HM=;
+	b=WeTqcEJHjwKOo8R4WSwTL75V2yKbee+HmaMtjc9Qrbdypb4OlgWPrQ2L1tphQFmJfaDuY4
+	U77LGD5+uZpbOWD5LEYbJ+7ohVE8oHiT2P9GDdXDsO70PSw6uBsXnevw6UC8Kmol64/tfy
+	QBMj2bJ1nRLOTe/251p6SuJN5o8+VHKOlT6qqQtYgU8O2VZANhet2BTl4uOWuk6qbwxJa0
+	R8E0GzqYGJSNIaYsocVF/apwxDeVFQNN6kEIXrGL5P4jcMeSFyvOk5qnct9ESux7jGLWiE
+	JrzsKTT3RCXirlekxdV4s9kHjMRVERA64vlBDxedHvnwqqM96Nk1O8LY46gf9Q==
+From: Romain Gantois <romain.gantois@bootlin.com>
+Subject: [PATCH net-next v7 0/7] net: stmmac: Add support for RZN1 GMAC
+ devices
+Date: Mon, 13 May 2024 09:25:11 +0200
+Message-Id: <20240513-rzn1-gmac1-v7-0-6acf58b5440d@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: z1jyy4rkdkn68gw39fy76cs6sdywyxw6
-X-MBO-RS-ID: 843f82a5d73b027546a
-X-Rspamd-Queue-Id: 4VcN135T0Fz9skx
+X-B4-Tracking: v=1; b=H4sIAFjAQWYC/23QQW7DIBAF0KtErEsFw4Chq96jygLwkCA1UNmWl
+ TTy3Yu8qV13Ofp6/0vzZCMNmUb2dnqygeY85lra0b2cWLz6ciGe+3YzEIACBfDhu0h+ufkoubE
+ 6Jts51QtiDXwNlPJ9LftghSZe6D6xc0uueZzq8FhXZrnm/xXOkguuA0EA67C38T3UOn3m8hrrb
+ S2aYYvdDkPDnYsedYIUO3fEaoOl3mHVsA8SEkREIfsjxg0G3GFs2GrwbTiSiOKI9QYrscO6YQP
+ JaG8xobRHbH6xlntsGg5GOYRASuGfhy3L8gMDbkTA4QEAAA==
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Jose Abreu <joabreu@synopsys.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, 
+ =?utf-8?q?Cl=C3=A9ment_L=C3=A9ger?= <clement.leger@bootlin.com>, 
+ Serge Semin <fancer.lancer@gmail.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, 
+ Romain Gantois <romain.gantois@bootlin.com>, 
+ "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, 
+ Maxime Chevallier <maxime.chevallier@bootlin.com>
+X-Mailer: b4 0.13.0
+X-GND-Sasl: romain.gantois@bootlin.com
 
-Avoid large backtrace, it is sufficient to warn the user that there has
-been a link problem. Either the link has failed and the system is in need
-of maintenance, or the link continues to work and user has been informed.
-The message from the warning can be looked up in the sources.
+Hello everyone,
 
-This makes an actual link issue less verbose.
+This is version seven of my series that adds support for a Gigabit Ethernet
+controller featured in the Renesas r9a06g032 SoC, of the RZ/N1 family. This
+GMAC device is based on a Synopsys IP and is compatible with the stmmac driver.
 
-First of all, this controller has a limitation in that the controller
-driver has to assist the hardware with transition to L1 link state by
-writing L1IATN to PMCTRL register, the L1 and L0 link state switching
-is not fully automatic on this controller.
+My former colleague Clément Léger originally sent a series for this driver,
+but an issue in bringing up the PCS clock had blocked the upstreaming
+process. This issue has since been resolved by the following series:
 
-In case of an ASMedia ASM1062 PCIe SATA controller which does not support
-ASPM, on entry to suspend or during platform pm_test, the SATA controller
-enters D3hot state and the link enters L1 state. If the SATA controller
-wakes up before rcar_pcie_wakeup() was called and returns to D0, the link
-returns to L0 before the controller driver even started its transition to
-L1 link state. At this point, the SATA controller did send an PM_ENTER_L1
-DLLP to the PCIe controller and the PCIe controller received it, and the
-PCIe controller did set PMSR PMEL1RX bit.
+https://lore.kernel.org/all/20240326-rxc_bugfix-v6-0-24a74e5c761f@bootlin.com/
 
-Once rcar_pcie_wakeup() is called, if the link is already back in L0 state
-and PMEL1RX bit is set, the controller driver has no way to determine if
-it should perform the link transition to L1 state, or treat the link as if
-it is in L0 state. Currently the driver attempts to perform the transition
-to L1 link state unconditionally, which in this specific case fails with a
-PMSR L1FAEG poll timeout, however the link still works as it is already
-back in L0 state.
+This series consists of a devicetree binding describing the RZN1 GMAC
+controller IP, a node for the GMAC1 device in the r9a06g032 SoC device
+tree, and the GMAC driver itself which is a glue layer in stmmac.
 
-Reduce this warning verbosity. In case the link is really broken, the
-rcar_pcie_config_access() would fail, otherwise it will succeed and any
-system with this controller and ASM1062 can suspend without generating
-a backtrace.
+There are also two patches by Russell that improve pcs initialization handling
+in stmmac.
 
-Fixes: 84b576146294 ("PCI: rcar: Finish transition to L1 state in rcar_pcie_config_access()")
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Best Regards,
+
+Romain Gantois
+
 ---
-Cc: "Krzysztof Wilczyński" <kw@linux.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: linux-pci@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
----
- drivers/pci/controller/pcie-rcar-host.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Changes in v7:
+- Fixed potential uninitialized use in stmmac_pcs_setup()
+- Link to v6: https://lore.kernel.org/r/20240510-rzn1-gmac1-v6-0-b63942be334c@bootlin.com
 
-diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
-index 996077ab7cfdb..c01efc6ea64f6 100644
---- a/drivers/pci/controller/pcie-rcar-host.c
-+++ b/drivers/pci/controller/pcie-rcar-host.c
-@@ -78,7 +78,11 @@ static int rcar_pcie_wakeup(struct device *pcie_dev, void __iomem *pcie_base)
- 		writel(L1IATN, pcie_base + PMCTLR);
- 		ret = readl_poll_timeout_atomic(pcie_base + PMSR, val,
- 						val & L1FAEG, 10, 1000);
--		WARN(ret, "Timeout waiting for L1 link state, ret=%d\n", ret);
-+		if (ret) {
-+			dev_warn_ratelimited(pcie_dev,
-+					     "Timeout waiting for L1 link state, ret=%d\n",
-+					     ret);
-+		}
- 		writel(L1FAEG | PMEL1RX, pcie_base + PMSR);
- 	}
- 
+Changes in v6:
+- Changed stmmac_pcs_clean() prototype to match stmmac_pcs_setup()
+- Link to v5: https://lore.kernel.org/r/20240430-rzn1-gmac1-v5-0-62f65a84f418@bootlin.com
+
+Changes in v5:
+- Refactored the stmmac_xpcs_setup() function to group together XPCS and PCS
+  setup logic.
+- Added a stmmac_pcs_clean() function as a counterpart to stmmac_pcs_setup()
+- Link to v4: https://lore.kernel.org/r/20240424-rzn1-gmac1-v4-0-852a5f2ce0c0@bootlin.com
+
+Changes in v4:
+- Removed the second parameters of the new pcs_init/exit() callbacks
+- Removed unnecessary interrupt-parent reference in gmac1 device node
+- Link to v3: https://lore.kernel.org/r/20240415-rzn1-gmac1-v3-0-ab12f2c4401d@bootlin.com
+
+Changes in v3:
+- Fixed a typo in the socfpga patch
+- Link to v2: https://lore.kernel.org/r/20240409-rzn1-gmac1-v2-0-79ca45f2fc79@bootlin.com
+
+Changes in v2:
+- Add pcs_init/exit callbacks in stmmac to solve race condition
+- Use pcs_init/exit callbacks in dwmac_socfpga glue layer
+- Miscellaneous device tree binding corrections
+- Link to v1: https://lore.kernel.org/r/20240402-rzn1-gmac1-v1-0-5be2b2894d8c@bootlin.com
+
+---
+Clément Léger (3):
+      dt-bindings: net: renesas,rzn1-gmac: Document RZ/N1 GMAC support
+      net: stmmac: add support for RZ/N1 GMAC
+      ARM: dts: r9a06g032: describe GMAC1
+
+Russell King (Oracle) (2):
+      net: stmmac: introduce pcs_init/pcs_exit stmmac operations
+      net: stmmac: dwmac-socfpga: use pcs_init/pcs_exit
+
+Serge Semin (2):
+      net: stmmac: Add dedicated XPCS cleanup method
+      net: stmmac: Make stmmac_xpcs_setup() generic to all PCS devices
+
+ .../devicetree/bindings/net/renesas,rzn1-gmac.yaml |  66 +++++++++++++
+ MAINTAINERS                                        |   6 ++
+ arch/arm/boot/dts/renesas/r9a06g032.dtsi           |  18 ++++
+ drivers/net/ethernet/stmicro/stmmac/Kconfig        |  12 +++
+ drivers/net/ethernet/stmicro/stmmac/Makefile       |   1 +
+ drivers/net/ethernet/stmicro/stmmac/dwmac-rzn1.c   |  86 +++++++++++++++++
+ .../net/ethernet/stmicro/stmmac/dwmac-socfpga.c    | 107 ++++++++++-----------
+ drivers/net/ethernet/stmicro/stmmac/stmmac.h       |   3 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c  |  14 +--
+ drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c  |  52 +++++++---
+ include/linux/stmmac.h                             |   2 +
+ 11 files changed, 290 insertions(+), 77 deletions(-)
+---
+base-commit: cddd2dc6390b90e62cec2768424d1d90f6d04161
+change-id: 20240402-rzn1-gmac1-685cf8793d0e
+
+Best regards,
 -- 
-2.43.0
+Romain Gantois <romain.gantois@bootlin.com>
 
 
