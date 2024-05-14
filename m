@@ -1,70 +1,64 @@
-Return-Path: <linux-renesas-soc+bounces-5355-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5356-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 086A28C4D19
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 May 2024 09:33:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D1B58C4D77
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 May 2024 10:07:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B2858280FF6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 May 2024 07:33:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 515BE280E40
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 May 2024 08:07:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC6ED13ACC;
-	Tue, 14 May 2024 07:33:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EZ9NXeBp"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FBF117BD2;
+	Tue, 14 May 2024 08:07:19 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438EB18046
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 14 May 2024 07:33:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916F417996;
+	Tue, 14 May 2024 08:07:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715671997; cv=none; b=Cml3cJoIZ8UBWQBy07Nhy1F9IauEVlhKVu6McdN+JxgLvHcZnXUMOtioX2o5NgKSr0mi9w5gVRUfE7iHpIkxn5rlAYLekwWj0hNnTvZplk0nZueeuZMLOgqYxm+r+VNc8ANxnzE/QMnWmf51ckShSiuPOMOXcicO5cSA4KFIDUY=
+	t=1715674038; cv=none; b=hU2FRyLRnxZKkiLov9y/zS6ulLg4MU21gwRrwGh9w2OBKoezjLS2eCI0Dalu3V8/fJe+2A/F/l+5iT89jXfCHrYllzzQYCfxaiUhH16QpTojXBCDol1XtrrJbwygX4iGVShz5kyPi3dTs+o8wWfRGp8uzeyGQkGw/FSZrNyCb+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715671997; c=relaxed/simple;
-	bh=C4wW5aa4W2kv01Iu3rTlOfBD8ed5XWvkaDVuJNLIYTA=;
+	s=arc-20240116; t=1715674038; c=relaxed/simple;
+	bh=toj7avCrdtDP66sy+w2xPyKX8oobvvymnd+3vjyORlc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SW3XTBeaLGcBYrFB+8NChO/tGonpiH9tKJtkL5pZCHjXWJUVgRqgdiE3t6JGS4DU3Tp4+W9yi+LxdMjbZ8LdBh0oS9/TSZK4XbHrYLtjkwwZoycVRAayFTBWn1fKxpDVoSIr7udIJL7n5HskGtgUpUhCHWgn+22RRB8To2izySI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EZ9NXeBp; arc=none smtp.client-ip=209.85.128.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-620314aa1d7so55616017b3.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 May 2024 00:33:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1715671995; x=1716276795; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C4wW5aa4W2kv01Iu3rTlOfBD8ed5XWvkaDVuJNLIYTA=;
-        b=EZ9NXeBpXX/RyKsy7q+DqYaewifa6YWACXAbV4ePJBzHX4rT86pwMqnd9h6Fp1HYAD
-         2oXHAIG3tw/GucaWG8TUgO9on8fd/2ZM8v0xtSRMT+jPFykjCfsNXfw6mpdv5oMrPrXC
-         8NFDmwLAjvEEGhJNSbM/fIXqj0r62zJvHz7HUGlcfMNDI12TwHT5Wfvdp0jUMylXm52b
-         RwDWzuvVWRCHTWHUIOhaTfMxPSTTu/tNbWEHFjTmyOW1OlKllhrTO7nE/h0m1AUWzLOB
-         WsW9UsN7RhSwK8kjwl/idGkKywDgTm+mMpI2leZ9IBrfJbEFy4GN7uu8wr4AZ+ain4ap
-         JTYg==
+	 To:Cc:Content-Type; b=lLn8jUm/ThhrMH/0cvUl/XwG/bigkmUavSS00ZbkfFOVPN2We+O7C+aQa9zyE5SLkQhpMHjl0Ew2FRC0Bz1RMhOhVzI0IsblVINKNJUBz5liWYSc4kj00fDIgsiNXYxwUhoSSUZyRje3ur6AGVHo5zgaZGz4f6xXFDT+Vp3e09k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-61e04fcf813so59817737b3.3;
+        Tue, 14 May 2024 01:07:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715671995; x=1716276795;
+        d=1e100.net; s=20230601; t=1715674035; x=1716278835;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=C4wW5aa4W2kv01Iu3rTlOfBD8ed5XWvkaDVuJNLIYTA=;
-        b=hd0i0gsYP6z2bnw1bKtCG8AV1aUp3SZylRflWOq2vu+yp3LGOxoC36VfXEjmOH8Rhu
-         BhC+sBeeAYY7p83s9qb+M+IIuZI8PVlo5wYzr5jxAPkKw1bmtBAHliHS1OHooOf4/VSh
-         sO8iqT+kRV8YrcfVU9G9fXwAXROSEUgavz1rkgVx50KlqS9a56srvLtH0UFQpZYXkwDj
-         GZZ8ngw0Z13vVARYAwY0VcobNde+AnaE9Z8joVvZlF25n8geTgrSfP0w9NdoQqxIH0lV
-         UXlqaC5eVEO3xZmOsQOcrbM+E7SLcFzBg0p9rEUkuivCvpNiYOXfwYM19Kq6bbiepmEt
-         zdjg==
-X-Forwarded-Encrypted: i=1; AJvYcCXcgg7sGkbs/qqEVn/pq9xXbE9EYJuTcfLjp6KVPknwNVQoViO9ZI9ppUqZAhmu2wtLKKXigiTTV/UnvDn7uzSMmAYYVqJJmqxnYPuITDvNSj8=
-X-Gm-Message-State: AOJu0YxWdKPBPTEyh9lz3UsP8E6qrkLZXfJlE09gWaQL3PBa715jx61J
-	xjw5RSTiZ9GF0231A3jQPe7/UemQAtLnTxv28oj3YQMAGS8Gd/tpffgirdmyeBW8QLwc3WOTgxP
-	U57Azb4o3UycVlgar+VpYm+JVimuO86z3A53ZHQ==
-X-Google-Smtp-Source: AGHT+IEj9rSUWA94F6VFaCC7a26gta7P6jlgI2cpDV7q9j/kgYnlADA3j4AJ721URmKt02c8jgw6oM4ErSC0l+EyUGQ=
-X-Received: by 2002:a0d:cbd1:0:b0:61b:3356:d28c with SMTP id
- 00721157ae682-622aff92355mr116464607b3.2.1715671995199; Tue, 14 May 2024
- 00:33:15 -0700 (PDT)
+        bh=mAZGt+1Rc/qtuBUqNnzX2rBGCR5XoalBEqWaRtcOihM=;
+        b=Iw4IaWQY1QwhFqN+npKwJG6R2WAEeKh/7wlU8M1zhh6zgPMYBbGCExna4NVD4azTm2
+         fwcKDtUEXl0HqHUAhJeYa56jbl8Ilr5hqhzJYdBJjOjOz4lS1VjwVwcVWPKFryULM3kd
+         8EkeI7m4Lk1AGR11inXpvAGG2ZLOByZ85HGaedoH5h7CT+fEz1AvRpuzDCUXcSFa8b4X
+         y5Ak4b5GtpLe3RTb69FxGFVCg4KPNLKvBqJUe4VHHsIHAX3YJED/QRakA3lOgyKiJJ8L
+         m9Ou9u2uyIoC4qZdxiQQM6Ljg+ANlTB8RcvxEm1tMSLL//+bx4CBSgEa0jQrKNJXO7Xd
+         jwHw==
+X-Forwarded-Encrypted: i=1; AJvYcCWj8vv9qRX44nJZ2fw4LRrvwF7M5pA0HhNQZZs4ZXqrKbTJxhqfZA4nC8gYayDLDDir9fGS+NP/4OXL1s1hGDSONAEGWDp3jTz9SxLyUpFtn81jHfE/T32IBQoJNe7yv83Gdq/E1s9PMXbL928bfmVHdxuqXpnjQed79nk5S02RUCLrIDnwAZAPRNfrGXL12cqnWB4xTmEJcV4SPVASQAihITB6Sqm7XYOsO8ehDWCSoA1lOslXnQio+kJksQP+X+tPIBOpXw5wdglkIA==
+X-Gm-Message-State: AOJu0YxnaZVK0299AffwWYdOxj9UBafosFEXrkv9FjLhrpn4BqXDLNJZ
+	eLfR1wQin7f+hCBJkxKEEquE+W685McUel/HjrKsxLUx3LVs82v9w1eXnELn
+X-Google-Smtp-Source: AGHT+IGxjxDOYrEBfWACS3xb4tBhGmMofLxxMuAzFLCqhT/U50fNTCZGyD79+TBrcCbgSwQTnN+5tw==
+X-Received: by 2002:a25:7909:0:b0:dd0:c866:ec3a with SMTP id 3f1490d57ef6-dee4f344357mr9991216276.22.1715674035592;
+        Tue, 14 May 2024 01:07:15 -0700 (PDT)
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com. [209.85.222.175])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6a15f194c3asm50576136d6.69.2024.05.14.01.07.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 May 2024 01:07:15 -0700 (PDT)
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-792b8d31702so339701585a.3;
+        Tue, 14 May 2024 01:07:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVf5DFfZPLOyhchVtkqQQEau6PvVJvWpWfK6MH7evdfLUxtEBMaJRn/MqBWZHm2IsKsPS5UpziVP+gAUJaHPZsAk9yLBg/5ORozWICwSjP96i136aq9D+mQhjaGpFuF4QgVFjGI7ZjzqF7FHzRuv3L3ICCvatIPMMHvJLxmM6fHMnT+HDRF1J0D70RyBrXRq/g+btRfPctdwxEeMpwijhD9oqPUUcAvcE5CKahhBTpOvOhE6IBaA5zWmK6e8Ex35u1CEl7jnnKLVxALfQ==
+X-Received: by 2002:a05:690c:fd0:b0:611:7132:e6ba with SMTP id
+ 00721157ae682-622b0147778mr138786587b3.40.1715674014345; Tue, 14 May 2024
+ 01:06:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -73,13 +67,15 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20240504-pinctrl-cleanup-v2-0-26c5f2dc1181@nxp.com>
  <20240504-pinctrl-cleanup-v2-7-26c5f2dc1181@nxp.com> <CAMuHMdUD=1rpns_mLF2rMM-x5EnOK7TExaJxoJVkbXjVz1H8uQ@mail.gmail.com>
- <CACRpkdaUecnwvHFdtGkuM80SObvXpXZkWGYoUMgnNHcvObYF0g@mail.gmail.com> <CAMuHMdWCD+k8=iX8+tcK76DU_m9quR8BV+K68K73SygJzCz5VA@mail.gmail.com>
-In-Reply-To: <CAMuHMdWCD+k8=iX8+tcK76DU_m9quR8BV+K68K73SygJzCz5VA@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 14 May 2024 09:33:03 +0200
-Message-ID: <CACRpkdYS8=cHT=7tGbzWZ73jbLhjqdpssbaHH-qREe=bcHYe2A@mail.gmail.com>
+ <CACRpkdaUecnwvHFdtGkuM80SObvXpXZkWGYoUMgnNHcvObYF0g@mail.gmail.com>
+ <CAMuHMdWCD+k8=iX8+tcK76DU_m9quR8BV+K68K73SygJzCz5VA@mail.gmail.com> <CACRpkdYS8=cHT=7tGbzWZ73jbLhjqdpssbaHH-qREe=bcHYe2A@mail.gmail.com>
+In-Reply-To: <CACRpkdYS8=cHT=7tGbzWZ73jbLhjqdpssbaHH-qREe=bcHYe2A@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 14 May 2024 10:06:42 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUucOu-c7tbeBBCMaoouFcUnJi0aRU--pc2Gk9QWNrANg@mail.gmail.com>
+Message-ID: <CAMuHMdUucOu-c7tbeBBCMaoouFcUnJi0aRU--pc2Gk9QWNrANg@mail.gmail.com>
 Subject: Re: [PATCH v2 07/20] pinctrl: renesas: Use scope based of_node_put() cleanups
-To: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Linus Walleij <linus.walleij@linaro.org>
 Cc: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
 	Jonathan Hunter <jonathanh@nvidia.com>, Dvorkin Dmitry <dvorkin@tibbo.com>, Wells Lu <wellslutw@gmail.com>, 
 	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
@@ -112,24 +108,39 @@ Cc: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, Thierry Reding <thierry.reding@gmai
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 14, 2024 at 8:36=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
-
-> > Does this go into the Renesas patch stack?
+On Tue, May 14, 2024 at 9:33=E2=80=AFAM Linus Walleij <linus.walleij@linaro=
+.org> wrote:
+> On Tue, May 14, 2024 at 8:36=E2=80=AFAM Geert Uytterhoeven <geert@linux-m=
+68k.org> wrote:
+> > > Does this go into the Renesas patch stack?
+> > > I think the patch stands fine without the rest of the series.
 > >
-> > I think the patch stands fine without the rest of the series.
+> > Sure, I can do that.
 >
-> Sure, I can do that.
+> Please apply it!
 
-Please apply it!
+OK, will queue in renesas-pinctrl for v6.11.
 
-> From your positive response to v1, I thought that perhaps you just
-> wanted to take the full series yourself?
+> > From your positive response to v1, I thought that perhaps you just
+> > wanted to take the full series yourself?
+>
+> Sorry, I always prefer submaintainers to pick their stuff, they
+> know what they are doing and they can test the entire patch
+> stack properly.
 
-Sorry, I always prefer submaintainers to pick their stuff, they
-know what they are doing and they can test the entire patch
-stack properly.
+OK, will (try to ;-) remember...
 
-Yours,
-Linus Walleij
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
