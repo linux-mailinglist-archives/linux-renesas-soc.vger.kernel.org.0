@@ -1,120 +1,94 @@
-Return-Path: <linux-renesas-soc+bounces-5368-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5369-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1BBD8C6368
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2024 11:09:12 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F0478C638E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2024 11:19:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C4BFD1C210BE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2024 09:09:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 44553283386
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2024 09:19:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F6FE56B79;
-	Wed, 15 May 2024 09:09:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF19B57C94;
+	Wed, 15 May 2024 09:19:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="U1bF4n+h"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="XWtoHPNG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B026E54BFE
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 May 2024 09:09:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6C056458
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 15 May 2024 09:19:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715764148; cv=none; b=UlTlBKvu8oiCHerDXuirFUpv+2YRE9tcDbVQkUOT1G3JVguDKcBCVQiFs2k48WWojdwR34DzheKApvfHo/oarJeYqa4ZQQUoG3Xyxk/7v0UscHuePHb8pNv3upqXi5qgD9bBG2/pLA18BGl3upzSheI9VgOEpNyXH1fGB5d3RFM=
+	t=1715764781; cv=none; b=UmCfMrUFJpkvDgSKAoYeyE1tcxQyG+edByD95dV5ktSOwtgxvbucxwyNTh0+noeGcUVocAh+J+B7t/vedYWAzx7OglAcqeAJmnDCN8TAuQaWtuBksSeRLIKNK24NocjGCeqGU9PPT9aEUt1Yb2ljMEma8CF4lgv10tTvdaAMz4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715764148; c=relaxed/simple;
-	bh=zv16F37AidPawEoWnbMIbBxeozEKI5aIumtzE/9F23o=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FRTaiycdz4l/pwZ2Zzfz6MuJpZkbCLcjjm/Fabt/jy0zJbwROyebNoSEwVrpqVtfUAe6Q9a2pZ5Y20ObO6soGx9OBuqettZH6FJTg6zKVljAdRiTAvQcod/YUsInG09I81D41LYqaJ51w5S4c9EWc5Fou0XTSRTLsMsS1SMOiyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=U1bF4n+h; arc=none smtp.client-ip=194.117.254.33
+	s=arc-20240116; t=1715764781; c=relaxed/simple;
+	bh=uX8BUzmK5U3cwljazqcPFn6RkNaxnnh9XxgKvcc6bYA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JFifR1QksRehZI8NR/NLkwbXekX829MmtyloKj0t+rIEKvHbox65ZrNcP+SqL7dUogyUyMIrl8S11UhqRwKPf0adTtfdGP7L1G0WPFw+Rq1zw2wb6pjv7fMLa0i6+5CLrryFpJ1AoPrK9pkQRKb1otiuvr34Z6L0zcQL65n/OUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=XWtoHPNG; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=zv16
-	F37AidPawEoWnbMIbBxeozEKI5aIumtzE/9F23o=; b=U1bF4n+hlIJBMCFyOODj
-	IY2TWisQSeNdd0EdnxLokEMVhX2Kg7bYRSr2RXFwlOX5wH6oyyWbcxD09ELke30I
-	M3BLXTKqLf589e0JAbolgDLpoPJXfKP1HVcZ0fxbh3rcH1Zm34IBReB+dRMbatjD
-	o4bZVgFFAR4Tt8/VKuQMM+/0Bvn8wPuoUnQN+//o+uziyTeXw6LY7tZWBirUBH7U
-	iv7cBHeYsVUvxy84m3Yi40hoKww/Fna+FcxQEmbETM/GYTvO5vtU8j4mdIM8n+Qi
-	MxphY01fqU7+Tj4Aawkar094fEmLAkPw9EDWtLVfGAPZ18uzS3Edkwrcu7HheBz+
-	hQ==
-Received: (qmail 2771315 invoked from network); 15 May 2024 11:09:04 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 May 2024 11:09:04 +0200
-X-UD-Smtp-Session: l3s3148p1@NhdVeHoYcMZehhtP
-Date: Wed, 15 May 2024 11:09:04 +0200
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=o6nLSpjPhkFpWl
+	lNtTkezbyP18elJVZ7cSCVBUWvsW8=; b=XWtoHPNG95uGkQjfATj9qZZy5dowEQ
+	OO8nDkcJYq+fREH/Qjq6NQgB+kDZC7wh7PZUd4diVL0hCQB6zcJpUQvI0CB86z3y
+	OamqN5PnQOlkGv/AiZWeJqJjZAw8QTTpl7w9NaZvBwzJap6DqDptXNIoyLAz98cr
+	2X4YPDg4Lix6oe52Di0kAh3uMhLTn2c4Gn6wo2FsW0D4ez6rMKhvP4hssvvzaQ2B
+	qaUZfVWeeSk+ktdaJeQm7nJSgrmYCGv82hSEJ6whgfLgIXCTBviSsuvmhxVE/w6q
+	vsO2w65iu683rhQtE5s3RH61jm/wXimZGZaupyvrpTO1p2O/fvu+iH3g==
+Received: (qmail 2774208 invoked from network); 15 May 2024 11:19:37 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 May 2024 11:19:37 +0200
+X-UD-Smtp-Session: l3s3148p1@8JYMnnoYIOlehhtP
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Manivannan Sadhasivam <mani@kernel.org>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, "lpieralisi@kernel.org" <lpieralisi@kernel.org>, 
-	"kw@linux.com" <kw@linux.com>, "robh@kernel.org" <robh@kernel.org>, 
-	"bhelgaas@google.com" <bhelgaas@google.com>, 
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, 
-	"jingoohan1@gmail.com" <jingoohan1@gmail.com>, "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>, 
-	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v7 6/7] PCI: rcar-gen4: Add support for r8a779g0
-Message-ID: <ttyjo2w5bkjbmlrw6oxwuyfshxi5ohwhudj5oexhecqorqnt3t@umjxxcj6iu4k>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
-	"lpieralisi@kernel.org" <lpieralisi@kernel.org>, "kw@linux.com" <kw@linux.com>, 
-	"robh@kernel.org" <robh@kernel.org>, "bhelgaas@google.com" <bhelgaas@google.com>, 
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, 
-	"jingoohan1@gmail.com" <jingoohan1@gmail.com>, "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>, 
-	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-References: <20240415081135.3814373-1-yoshihiro.shimoda.uh@renesas.com>
- <20240415081135.3814373-7-yoshihiro.shimoda.uh@renesas.com>
- <20240511080257.GF6672@thinkpad>
- <TYCPR01MB110409C8FC92A7C466627E0A2D8E32@TYCPR01MB11040.jpnprd01.prod.outlook.com>
- <20240515075954.GB4488@thinkpad>
- <l62l4ksr2rkxxi7kwatd3pfwmwv4ytfumhwkthjsurgla2prno@felahg5h5g7o>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] arm64: dts: renesas: gray-hawk-single: add aliases for I2C busses
+Date: Wed, 15 May 2024 11:18:51 +0200
+Message-ID: <20240515091925.24353-2-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="nljzks2p6utui7p4"
-Content-Disposition: inline
-In-Reply-To: <l62l4ksr2rkxxi7kwatd3pfwmwv4ytfumhwkthjsurgla2prno@felahg5h5g7o>
+Content-Transfer-Encoding: 8bit
 
+They are numbered like this in the schematics, so keep the names in
+Linux the same.
 
---nljzks2p6utui7p4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
+ arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-> No, the user has to buy the SoC and will get the firmware with the
-> documentation. Renesas is not allowed to distribute the firmware to
-> non-users of the SoC. So, linux-firmware cannot be used, sadly. We all
-> wish it would be different.
+diff --git a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
+index cfbe8c8680cd..2b9a19bb1c5d 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
++++ b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
+@@ -17,6 +17,10 @@ / {
+ 	compatible = "renesas,gray-hawk-single", "renesas,r8a779h0";
+ 
+ 	aliases {
++		i2c0 = &i2c0;
++		i2c1 = &i2c1;
++		i2c2 = &i2c2;
++		i2c3 = &i2c3;
+ 		serial0 = &hscif0;
+ 		serial1 = &hscif2;
+ 		ethernet0 = &avb0;
+-- 
+2.43.0
 
-I am not a lawyer and all this. But this is how I, as a contractor
-working for Renesas, understand the situation.
-
-
---nljzks2p6utui7p4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZEe68ACgkQFA3kzBSg
-KbYjhw//fCcWz0aJmWDSQyDmeYSVa3c6JvQZB3tXFPn5fNUpPUohNGrUIpov2oaK
-YccbjSDyhXfrC8w9sE6Mbs731k3UU/y+Hc+W1QP6qvALxZLHNVd9tx48Mpy6oLbu
-/3kieqGVcRoD0MNb4cFJEehjg1XcD77otRfV34L3HvPGZzaJ4Hjv4CAGNgJe+x/d
-z6/FwL9NC+5rRXWvSV3OsXfiR0oMurhx+/QCPupIvtfWsQQpp2QhZ0wpqscBshFu
-CW4pmHJDZcC8o4hgKsg/7HvxzqTr6wlCTud+5QZxSLJKrzAsIznFw5vkzjWXWbLm
-Y/xb6thL/Ospf3RcTx9SpNsiQz0cAg6vYu1uTVY5XxEnuUldVrIeLskwVkLkEAxJ
-d/tjH9OToZPLi0zlXN73Bpn7EvY2HJw9Zmu1gKOGZh8vCi48jcLCKJy5+F6Ohflk
-Z1mbW9dp398aYZt+ox0w7bWYOm4XXL8JJ6btPGKI/5Wo+h9chHuHAumjH6trU83D
-LhxYxMERY3ikAlcb6NbCg7rYjNCX4HBTtvjjgdscQ8jN0ZES2TGMfOm5KLv8iEHC
-OK4cUNXiT/rePsAqZQHmSpgSeEG372GBy05swuZ91CX7YwK3iN0OYEN773yQnsY1
-MH4sVZf0yWBGSCNR20pCIRryv8ZosKkbKTRzj8Ndxpkcrf+dbRE=
-=p4IJ
------END PGP SIGNATURE-----
-
---nljzks2p6utui7p4--
 
