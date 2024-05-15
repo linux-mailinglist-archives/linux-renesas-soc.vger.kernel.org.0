@@ -1,152 +1,105 @@
-Return-Path: <linux-renesas-soc+bounces-5371-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5372-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 481628C69E8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2024 17:44:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9501A8C6A8B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2024 18:26:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C6FA8B2260F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2024 15:44:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2F713B20EF9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2024 16:26:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15AEF156221;
-	Wed, 15 May 2024 15:44:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86D8E15625D;
+	Wed, 15 May 2024 16:26:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gnAKmxkT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tWIXxFWq"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E063E155A4F;
-	Wed, 15 May 2024 15:44:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3D813EFE5;
+	Wed, 15 May 2024 16:26:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715787845; cv=none; b=AVvXx12K4ZAf8qP+iNhWuAGZKU20cnqzss+udY0zo0fpjNXgQ2A0DDIpXEUMU2sUPbu2bYynNZfjkEPOKXzjpPyu0V6V2CrHtVrY79DYAncVUv9oN1zrSWyeJIaheTfoTeBn5K3R7K8/qAouVq14nKKK+Rt61h1Xj9Cmei83qT0=
+	t=1715790368; cv=none; b=XcGAEklhiwXE/Q2+R4VeAMtIgFAZZsbmD6HPIKGLXq9sDM6Dc4H9GyzdEvsYPa+JKdUTJm38YZjvxCwO2B7AMo2mLhGSqAujySUQ6jE2O4exu+UPssv9YREUzwuNTMlRd8CUDk8fEpWvzezllview2cXh/S/5S2L2jxXIaavjNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715787845; c=relaxed/simple;
-	bh=VyPLhSs86jn7k0Wyf379x2auUMCzO4Vjfb/ZY9fCbio=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R5WNNnyjYs3uL9KC61TxvQvh1rBF1hAnfvc0Bsr5AmAvykgKyMsb045bl7PhFatXzMYw4E6OC92CrXLVc93VyzTcpSTrrwRkY/9Nf4aoIzeV+8YPvnwT3NJGn32pIZndBUJdr9s9P76POnsjgFprUrTDjc0QCZEHCOQsB/Zdg/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gnAKmxkT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78F4BC4AF07;
-	Wed, 15 May 2024 15:44:04 +0000 (UTC)
+	s=arc-20240116; t=1715790368; c=relaxed/simple;
+	bh=/QLd5pElGb+brw7GOeOIfpCMWq2XW/fJcLnL4LqLKPw=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UYRIh2XVY49q4YE4cstFCGh62qJnnLzTWFrCsI0kvpsj8jxaziBfTJ4rxOhmeFB1qSDezAKIg55nexu0dhg8NMBsMCOkZRosS2QSfZiX4PaE+zR/+6h6MItg0Z27Vis2IYZHQBZTqShYU/vVINBZ+wbfzaUxnH/pGr/KV6Iz0hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tWIXxFWq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB0AAC116B1;
+	Wed, 15 May 2024 16:26:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715787844;
-	bh=VyPLhSs86jn7k0Wyf379x2auUMCzO4Vjfb/ZY9fCbio=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=gnAKmxkTzT6ldywcJZfubR1DUiTiM0NOxYrwJhzFxh05H8QOY4OdGrKEIqlIHMqCd
-	 /LVt74c1vJnNflQwm2ucYNp5XbVhBA6gmODeNqHQ7jzuDCab+6DIs5xHJnXgmGOT6c
-	 YqGndBsR6mlpXiv02X91dy91QLK/luP7FYKBnlDMeYHcr8qPjGndMKN8DC3Dso6EFH
-	 lL+/CRVG2BZM8zLpsUF+XdZzyf/djL+l+Ix2ISoeYDNS/SwKR6GsV7mD9HMyIAtWWd
-	 4yvOfQed58rvMsn3CX12ytlOj2oImA/p4p4p8R3yh64dCUMRT+6aWvvFlWtWoUg0wS
-	 52FA/P7HUkp6w==
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2e0933d3b5fso104596471fa.2;
-        Wed, 15 May 2024 08:44:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVzffVV3smpeS7k5Dm+BeTu50AZ1P+JiGd+CcDEuWMnCacn/LQ5CgRT3iPWDF2VzZfUla0qOOuWBspQWBJwrrd5BtXun5i8TzyOX0hb/OZ37zREqevO40e8WX3duxlVUrg/+BzZHbMX05RWEoXYzm0=
-X-Gm-Message-State: AOJu0YzFxwFC/KedqSDgoQnyzL0VOhDYjti2PdzmOzEXyXiG+Sk0f2Rl
-	B8Vi5t9K6tUK0rAOk99BrGJvoDHOh6sFbkmW4soEd5JvJMW5KPcnJF49hZDjB0s58tGXj1we/qj
-	Yv4SZm67rh+zjTJWexAJ4I+UVnRI=
-X-Google-Smtp-Source: AGHT+IEG9Pi5RYQYmU94hJvMF0ljnnODEoOc6w+NP4apBt7czmZrR81mPLVgEe5NETinznGzePpXC2WPrvtBqgmsblE=
-X-Received: by 2002:a05:651c:23c:b0:2e0:e470:882f with SMTP id
- 38308e7fff4ca-2e51ff5ffebmr112422491fa.28.1715787842865; Wed, 15 May 2024
- 08:44:02 -0700 (PDT)
+	s=k20201202; t=1715790367;
+	bh=/QLd5pElGb+brw7GOeOIfpCMWq2XW/fJcLnL4LqLKPw=;
+	h=Date:From:To:Subject:References:In-Reply-To:From;
+	b=tWIXxFWqe023uzxYSpP2M5OJUGckwP0jQFy+9hVbYUnYBrcjAssiG2uwzjWJRVsAX
+	 reoYlgTu8kYwmowmJjfTEm/9EkL+XbKp71uI0X1402K/DrJLhb9r4t19DJkEqP4kNH
+	 VYL6ov26m57s3p2kWELK6gUPwxkPpWUme62Zq6FYmzJb7VpVW8SVd3D/YAtFZLz7hs
+	 xqbmPgADiMhEL81p0GPGfCXFHdyA7EMkf/zMTtI1+lu/M25cQjOc05Izxa+OnGOoHW
+	 YRVvMLVF3Ia8GdTGvIzadbI9qjFa9PIGe0w2O+099/b6F65bX/1SYd8pFexLHhmhLy
+	 pUt6KikYWp2xQ==
+Date: Wed, 15 May 2024 18:26:01 +0200
+From: Niklas Cassel <cassel@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	"lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+	"kw@linux.com" <kw@linux.com>, "robh@kernel.org" <robh@kernel.org>,
+	"bhelgaas@google.com" <bhelgaas@google.com>,
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+	"marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
+	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v7 6/7] PCI: rcar-gen4: Add support for r8a779g0
+Message-ID: <ZkTiGWxJK4tbOF5y@ryzen.lan>
+References: <20240415081135.3814373-1-yoshihiro.shimoda.uh@renesas.com>
+ <20240415081135.3814373-7-yoshihiro.shimoda.uh@renesas.com>
+ <20240511080257.GF6672@thinkpad>
+ <TYCPR01MB110409C8FC92A7C466627E0A2D8E32@TYCPR01MB11040.jpnprd01.prod.outlook.com>
+ <20240515075954.GB4488@thinkpad>
+ <l62l4ksr2rkxxi7kwatd3pfwmwv4ytfumhwkthjsurgla2prno@felahg5h5g7o>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <200d273a83906a68a1c4a9298c415980737be811.1715781469.git.geert+renesas@glider.be>
-In-Reply-To: <200d273a83906a68a1c4a9298c415980737be811.1715781469.git.geert+renesas@glider.be>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Wed, 15 May 2024 17:43:51 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXEzmUFmYyHiT5h1ZT8v+nWiP_0_MMdtT0y8vsTC-drjNQ@mail.gmail.com>
-Message-ID: <CAMj1kXEzmUFmYyHiT5h1ZT8v+nWiP_0_MMdtT0y8vsTC-drjNQ@mail.gmail.com>
-Subject: Re: [PATCH] ARM: Fix userspace enter on LPAE with CC_OPTIMIZE_FOR_SIZE=y
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Russell King <linux@armlinux.org.uk>, Linus Walleij <linus.walleij@linaro.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Kees Cook <keescook@chromium.org>, 
-	Russell King <rmk+kernel@armlinux.org.uk>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Stefan Wahren <wahrenst@gmx.net>, linux-arm-kernel@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <l62l4ksr2rkxxi7kwatd3pfwmwv4ytfumhwkthjsurgla2prno@felahg5h5g7o>
 
-On Wed, 15 May 2024 at 16:02, Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
-> Booting an LPAE-enabled kernel built with CONFIG_CC_OPTIMIZE_FOR_SIZE=y
-> fails when starting userspace:
->
->     Kernel panic - not syncing: Attempted to kill init! exitcode=0x00000004
->     CPU: 1 PID: 1 Comm: init Tainted: G        W        N 6.9.0-rc1-koelsch-00004-g7af5b901e847 #1930
->     Hardware name: Generic R-Car Gen2 (Flattened Device Tree)
->     Call trace:
->      unwind_backtrace from show_stack+0x10/0x14
->      show_stack from dump_stack_lvl+0x78/0xa8
->      dump_stack_lvl from panic+0x118/0x398
->      panic from do_exit+0x1ec/0x938
->      do_exit from sys_exit_group+0x0/0x10
->     ---[ end Kernel panic - not syncing: Attempted to kill init!  exitcode=0x00000004 ]---
->
-> Add the missing memory clobber to cpu_set_ttbcr(), as suggested by
-> Russell King.
->
-> Force inlining of uaccess_save_and_enable(), as suggested by Ard
-> Biesheuvel.
->
-> The latter fixes booting on Koelsch.
->
-> Fixes: 7af5b901e84743c6 ("ARM: 9358/2: Implement PAN for LPAE by TTBR0 page table walks disablement")
-> Closes: https://lore.kernel.org/r/CAMuHMdWTAJcZ9BReWNhpmsgkOzQxLNb5OhNYxzxv6D5TSh2fwQ@mail.gmail.com/
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Wed, May 15, 2024 at 10:59:39AM +0200, Wolfram Sang wrote:
+> 
+> > > This is because that Renesas is not able to distribute the firmware freely.
+> > > 
+> > 
+> > Seriously? Are you saying that the user has to sign NDA to get this firmware?
+> 
+> No, the user has to buy the SoC and will get the firmware with the
+> documentation. Renesas is not allowed to distribute the firmware to
+> non-users of the SoC. So, linux-firmware cannot be used, sadly. We all
+> wish it would be different.
 
-This works around what appears to be a compiler bug (see my reply to
-the other thread), and this change (the __always_inline in particular)
-seems to work around it, so
+If Renesas could bother to spend the effort to be legally allowed to
+include the firmware in linux-firmware, do we want to spend the effort
+to maintain the support for this PCIe controller in mainline?
 
-Acked-by: Ard Biesheuvel <ardb@kernel.org>
+Is there even an example of a device driver that *requires* firmware
+that is not in linux-firmware?
+
+(I know of some device drivers that does not have firmware in
+linux-firmware, but in that case the firmware is *optional*,
+so the device driver still works even without loading an updated
+firmware. For this patch series, the driver seems to error out if
+request_firmware fails.)
 
 
-> ---
-> Feel free to fold into the original commit.
->
-> Apparently the "From: Catalin Marinas <catalin.marinas@arm.com>" in
-> https://lore.kernel.org/r/20240312-arm32-lpae-pan-v3-4-532647afcd38@linaro.org
-> is not reflected in commit 7af5b901e84743c6?
-> ---
->  arch/arm/include/asm/proc-fns.h | 2 +-
->  arch/arm/include/asm/uaccess.h  | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/arch/arm/include/asm/proc-fns.h b/arch/arm/include/asm/proc-fns.h
-> index 9b3105a2a5e0691e..b4986a23d8528a50 100644
-> --- a/arch/arm/include/asm/proc-fns.h
-> +++ b/arch/arm/include/asm/proc-fns.h
-> @@ -187,7 +187,7 @@ static inline unsigned int cpu_get_ttbcr(void)
->
->  static inline void cpu_set_ttbcr(unsigned int ttbcr)
->  {
-> -       asm("mcr p15, 0, %0, c2, c0, 2" : : "r" (ttbcr));
-> +       asm volatile("mcr p15, 0, %0, c2, c0, 2" : : "r" (ttbcr) : "memory");
->  }
->
->  #else  /*!CONFIG_MMU */
-> diff --git a/arch/arm/include/asm/uaccess.h b/arch/arm/include/asm/uaccess.h
-> index 25d21d7d6e3efee0..6c9c16d767cfd5df 100644
-> --- a/arch/arm/include/asm/uaccess.h
-> +++ b/arch/arm/include/asm/uaccess.h
-> @@ -47,7 +47,7 @@ static __always_inline void uaccess_restore(unsigned int flags)
->
->  #elif defined(CONFIG_CPU_TTBR0_PAN)
->
-> -static inline unsigned int uaccess_save_and_enable(void)
-> +static __always_inline unsigned int uaccess_save_and_enable(void)
->  {
->         unsigned int old_ttbcr = cpu_get_ttbcr();
->
-> --
-> 2.34.1
->
+Kind regards,
+Niklas
 
