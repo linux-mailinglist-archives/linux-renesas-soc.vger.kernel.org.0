@@ -1,117 +1,98 @@
-Return-Path: <linux-renesas-soc+bounces-5379-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5380-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F6818C73BE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 May 2024 11:26:53 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CD478C76AB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 May 2024 14:41:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 59DA5281343
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 May 2024 09:26:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 349041F212AC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 May 2024 12:41:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E214142E74;
-	Thu, 16 May 2024 09:26:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A869145FE8;
+	Thu, 16 May 2024 12:41:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="sJMIatAA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="epxHKuqW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C60352576F;
-	Thu, 16 May 2024 09:26:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC75145A17;
+	Thu, 16 May 2024 12:41:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715851608; cv=none; b=Gk405DRppphgU+TIVA6pMlCn0i6tGAuSXdtQzk8QRReJNbGNbK82VNZC3Ld6cB8N88O/3jg8CrhqjNDIBFPmIlJc+zHloj8pbKGq0nMKA53b7jBwe24FGBvZUbn9bGMnmeHczG7h+5OAfYrZSP6z8wBb+UuSvYA56UIO8B273QI=
+	t=1715863302; cv=none; b=Zn64GQkfQsiRdyMcTdAIjVUZryIwFS5xfPvDtOxCv5349U+FOFLGaXudi6ye8RsvgFjmHQYZ/bx4D9xQRKkseN/ykB3LZAcRI0I6Qfj1S9mUSSO3H6bPHTpkr0eecfdu/hUzdc0dmyjJiR8rArXr+BqS2S9ouwjFu+GYLvahESs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715851608; c=relaxed/simple;
-	bh=nb7YbQ/1b8v3jtmh71hREfxGGshguRO4vNSooGhXfBI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MO3xO3kIhBvAGV+K0sRDMMm21txNiG6Zbx7DOP0fU9nmJDzKSPjEUZ+jkhQg1lwNyJmWs04wfdzcDyL7ywE0ZtLeQGuVjlMXsLzhjL6C0uT6W9y5H7NJ7XxFnEihG0G/B45G4V0HlTtqrUau87PlpUoPDH2qtxN2P22JMJqmDgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=sJMIatAA; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=iwpgZMChDlDGQdY1FB4R79GudyxC2zX+GHB1AHWt+x0=; b=sJMIatAA6Q8YnBM8RwJOXcawHi
-	Oa84a1T/KY4GRYolF2EfyYijV9SpHEV0JXnnptXTzDfZGDEbdhb0NQKCwlz4IMVrTa+zHKmZeDCTo
-	uInjU7fVgoyL1kEvqLxuHBO2W8QtLa6cFjO1sCw7HNvSRD7O5R3DrDZqzkjW6fCzE0VJcr1ESzPll
-	Kvp+t7jQZ5cM80S9u6sqbsWtJwBzRMk+pPrT6yea14hNKYqxy2aUyhwxiuL1+vjKS35w2YGMvMruI
-	pxjldPHD65Aa5A3UB3U7H6QF6y0vMks2CmxBpAzT/2SchUu8DUJRcWjq3ZXmplCuAVl73jr+lkG5b
-	04LbZfHA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:37340)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1s7XNb-0004e6-1E;
-	Thu, 16 May 2024 10:26:27 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1s7XNZ-0000Vh-Q7; Thu, 16 May 2024 10:26:25 +0100
-Date: Thu, 16 May 2024 10:26:25 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Kees Cook <keescook@chromium.org>, Ard Biesheuvel <ardb@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Stefan Wahren <wahrenst@gmx.net>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ARM: Fix userspace enter on LPAE with
- CC_OPTIMIZE_FOR_SIZE=y
-Message-ID: <ZkXRQexBTBe5psTB@shell.armlinux.org.uk>
-References: <200d273a83906a68a1c4a9298c415980737be811.1715781469.git.geert+renesas@glider.be>
- <8ef97b5d-2053-4051-b2da-6c2887c7b394@broadcom.com>
+	s=arc-20240116; t=1715863302; c=relaxed/simple;
+	bh=B+xVjOfvO94VsbpW3WnBIH1v8CNe36Qt198iHyCObg4=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TK8w5u81QEG4v6YT+f8onpP2I94rmfrq4Hd4ubExRKX0OFS6INmdeaxAAPmOJo5hDNImIgR1yEUxu57LmxyF5VDmxaSYNl3eKtShqtAHmZ2mUhzMKjl01rCZ8fQvrCL2Mfs0PodIACy8xQ6UNMezOfcrnXrW2U1Z3w3Fmruhow4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=epxHKuqW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA4FBC113CC;
+	Thu, 16 May 2024 12:41:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715863301;
+	bh=B+xVjOfvO94VsbpW3WnBIH1v8CNe36Qt198iHyCObg4=;
+	h=Date:From:To:Subject:References:In-Reply-To:From;
+	b=epxHKuqWvTO0oeNAsYBi87u8aTHJ+pCRL32DaJeL0OKyCEFDkVT3qGJTGKaxRJ+5s
+	 xBji9nIwG7RgW8gYOaqdQt73UaIJnHfijquChdg7sbWrK3u9ZoEgW+u1G3q2HRtQ6x
+	 kH0rheCUF6RCXG6ZqedAHTMR+NgxQSu6MmCCUtMW8E+y59fmTX4IfZxaPvYyID4Fn+
+	 2lQI+hGNXqHimyFnNnHmGAcwe1vnd8oRsq5wNnzgXuU1wQ+5r+MaARvfsZnysAidTn
+	 6CFnEGlMced0YpnVFaGcBx4AANyCk0SlKFCPmYcv+SPK78GygrG3cYKkirKFsVRIwD
+	 EWW9OGaa27kxQ==
+Date: Thu, 16 May 2024 14:41:35 +0200
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	"lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+	"kw@linux.com" <kw@linux.com>, "robh@kernel.org" <robh@kernel.org>,
+	"bhelgaas@google.com" <bhelgaas@google.com>,
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+	"marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
+	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v7 6/7] PCI: rcar-gen4: Add support for r8a779g0
+Message-ID: <20240516124135.GA11261@thinkpad>
+References: <20240415081135.3814373-1-yoshihiro.shimoda.uh@renesas.com>
+ <20240415081135.3814373-7-yoshihiro.shimoda.uh@renesas.com>
+ <20240511080257.GF6672@thinkpad>
+ <TYCPR01MB110409C8FC92A7C466627E0A2D8E32@TYCPR01MB11040.jpnprd01.prod.outlook.com>
+ <20240515075954.GB4488@thinkpad>
+ <l62l4ksr2rkxxi7kwatd3pfwmwv4ytfumhwkthjsurgla2prno@felahg5h5g7o>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <8ef97b5d-2053-4051-b2da-6c2887c7b394@broadcom.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <l62l4ksr2rkxxi7kwatd3pfwmwv4ytfumhwkthjsurgla2prno@felahg5h5g7o>
 
-On Wed, May 15, 2024 at 12:46:38PM -0700, Florian Fainelli wrote:
-> On 5/15/24 07:02, Geert Uytterhoeven wrote:
-> > Booting an LPAE-enabled kernel built with CONFIG_CC_OPTIMIZE_FOR_SIZE=y
-> > fails when starting userspace:
-> > 
-> >      Kernel panic - not syncing: Attempted to kill init! exitcode=0x00000004
-> >      CPU: 1 PID: 1 Comm: init Tainted: G        W        N 6.9.0-rc1-koelsch-00004-g7af5b901e847 #1930
-> >      Hardware name: Generic R-Car Gen2 (Flattened Device Tree)
-> >      Call trace:
-> >       unwind_backtrace from show_stack+0x10/0x14
-> >       show_stack from dump_stack_lvl+0x78/0xa8
-> >       dump_stack_lvl from panic+0x118/0x398
-> >       panic from do_exit+0x1ec/0x938
-> >       do_exit from sys_exit_group+0x0/0x10
-> >      ---[ end Kernel panic - not syncing: Attempted to kill init!  exitcode=0x00000004 ]---
-> > 
-> > Add the missing memory clobber to cpu_set_ttbcr(), as suggested by
-> > Russell King.
-> > 
-> > Force inlining of uaccess_save_and_enable(), as suggested by Ard
-> > Biesheuvel.
-> > 
-> > The latter fixes booting on Koelsch.
-> > 
-> > Fixes: 7af5b901e84743c6 ("ARM: 9358/2: Implement PAN for LPAE by TTBR0 page table walks disablement")
-> > Closes: https://lore.kernel.org/r/CAMuHMdWTAJcZ9BReWNhpmsgkOzQxLNb5OhNYxzxv6D5TSh2fwQ@mail.gmail.com/
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Wed, May 15, 2024 at 10:59:39AM +0200, Wolfram Sang wrote:
 > 
-> Tested-by: Florian Fainelli <florian.fainelli@broadcom.com>
+> > > This is because that Renesas is not able to distribute the firmware freely.
+> > > 
+> > 
+> > Seriously? Are you saying that the user has to sign NDA to get this firmware?
+> 
+> No, the user has to buy the SoC and will get the firmware with the
+> documentation. Renesas is not allowed to distribute the firmware to
+> non-users of the SoC. So, linux-firmware cannot be used, sadly. We all
+> wish it would be different.
+> 
 
-This should be in linux-next now, if not by tomorrow - it was pushed
-out yesterday.
+Okay. I think this could be _one_ of the exceptions we have in the kernel, but
+I'll leave it up to Lorenzo/Krzysztof (PCIe controller maintainers) to make a
+call.
+
+- Mani
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+மணிவண்ணன் சதாசிவம்
 
