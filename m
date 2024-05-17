@@ -1,110 +1,109 @@
-Return-Path: <linux-renesas-soc+bounces-5395-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5396-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B1C98C8935
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 May 2024 17:19:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41EE68C8954
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 May 2024 17:28:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A0A6E1F249F9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 May 2024 15:19:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ECDF51F24C83
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 May 2024 15:28:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22BC612C7E1;
-	Fri, 17 May 2024 15:18:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="FJESDPlY"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A7D041C66;
+	Fri, 17 May 2024 15:28:02 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549F512D201
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 17 May 2024 15:18:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764E012D743
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 17 May 2024 15:28:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715959125; cv=none; b=lr7yJodKwXaI+fiW4Gf5k46Vv7BXUZZKE9IT2aYv0W/xDFdfdrx9cxH9hPwt6VP2z8Se2P4xeZkdot/QgagpWgZn1CDYpPCkaRMdDY6n4nb86LH6DeKZtptAZ9RNn4b7ecYmyuyGbJi88CNKJaGWJhvninwEsu6FFhnOcCF9hIA=
+	t=1715959682; cv=none; b=bQkZG5HpH6fljXj/CxQNpgD33HZq0I/XffHcjPG0RqV3BX+p4UJ5LmEvhePNBrcbKNvYenyUKPqq3zjolOA6858lRTADmHhmyFW8Z/3fLJaO902ekhR0FI1eU2qLvwHLZGDBRA/FXR61JG5PBRRTm09tIL3KgjymXmghAWb2BHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715959125; c=relaxed/simple;
-	bh=i7phWkthwIF/ZdNaZR82d5fiTaYr0kEwGwEeAJbEAho=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PlD9o3sG19ivZTs0F4kdpfPzhXF7VCEIoNYE0x5mUjodEqmBqHXiDnamfX7yAKv8VGAmSfPiYQBpnEsSOXgV2ry02A/nonxNUb+FKAvwEb4+E6EzrVPLfF1SXPxecEI6VvA2aImT82Dp2/Gpw3h/kQNevy73mYIOLop3XHVieV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=FJESDPlY; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=G5EH
-	md2Tx1KsWrg0RZajljlVAsNIwv4fGXJdBf9hV48=; b=FJESDPlYmOd3U9fn4ihh
-	PRa9/ly75+F9+6Xlvgk29GrXFJS8E6W7Cy4FAc0fiCK3C36FBcDzwKGZJXx0WuG1
-	7vF/gbZa59EwZQ3ZCvMzLtmQSvQgG92Ogf8UEzkYsPHdQ8ZuGsHIXxzAkhTiW8po
-	AsFcRob/SeZ9wp/81eo3RBSjjIQ8eypJrdElwk4mgo0KaQAtbLZTaL6/XXTF3B+2
-	ST4Eg10RzGatPNTUaAbglnmT1Dgq2vWeyIU40Xsvs/Lr87vvxy0IMmKTqj0a/DyQ
-	zCt8sEcyYFMFXhukhJXxfbrf3hxC970v7GfrnDHiZB3pzMdBlgfGWTf4FeIuKDuS
-	Lw==
-Received: (qmail 3535469 invoked from network); 17 May 2024 17:18:41 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 May 2024 17:18:41 +0200
-X-UD-Smtp-Session: l3s3148p1@gonb3acY4o9ehhtP
-Date: Fri, 17 May 2024 17:18:40 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH/RFC 0/4] *arm64: Add CAN-FD support for R-Car V4M and
- Gray Hawk Single
-Message-ID: <r74ymblr7f7ruwjzo3dfnr5y7xu3z3nf3e4esadicixdiexxf3@ycwbwxdskzzc>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, linux-renesas-soc@vger.kernel.org
-References: <cover.1715956819.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1715959682; c=relaxed/simple;
+	bh=+ZFM8XSfR8KmOQ/EqBhZd+YHj95+cxY0mvlyf9E9bHQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=f6Sene4N9KLvs6MC1fV/w+dvGpS0M7fwpe0q4EDJMEeNp1aOfGir8NBf7Dw1y8LhrGIfkZ+V+IXY9onXBfjp1RECdcglKI+lR0VBbCxyimSfDZJY082X0i70xhC320Z3rP9TKWKq7OZ4F+2nRgGE6H2Mvfam6G8PtT11Bb835mQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-620314aa1d7so3029327b3.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 May 2024 08:28:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715959679; x=1716564479;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UB7ztqTyN4hCrX1jLwzsBEC0qA/pMR1N/Rzp4Wf7DhA=;
+        b=Aw9tT1kTaUvs2JbSLvSuPxKksZ7D52AB2Gpp6UgQgEKFTqLiKU6Em4Pd4YqJX+ckm7
+         vddg3hknh9rODPT379h+vD+UqQjz7spURwliC8oH90Fd/jjM4c6Ur1mi1Sbi4nELcZp2
+         0tqfs543dUeXtx+lBkpgIBXbOz8+Qn9kmZhhDrEBwBcjLSTLQITcarCoOLjNTkN5Ois+
+         DwG0er5I8EivdEQPpiZhXvhueHdwIkfBJiGzCMWL3Xzymgz5LR1qfwwXgqnqMWqB5NqO
+         eW6lrKg+FZoJEUAPNsQEC9gxId5g4J917gcD5or4KPvTQ/EvvOoEKl+OK/58m1ralnUE
+         WOhQ==
+X-Gm-Message-State: AOJu0YzEuLfDEyOiAhmpsq2ea1SrqCurCxYNKBjgeLCC4E7wunAe85TE
+	nVyfKJo7uhGKncXAl2MR3Ey5wPWRCvgpmm3qLlYhwQnRoX5zBXPF/3kvzAu9
+X-Google-Smtp-Source: AGHT+IEgU21pTBHUL7C81N2JbwVSqASguBmjknpsEm0W+HMEWMNn/IVnHDIu+mSKNudfW2UYsgIinw==
+X-Received: by 2002:a81:4e06:0:b0:61a:b7c8:ea05 with SMTP id 00721157ae682-622b001ec63mr236007207b3.35.1715959679078;
+        Fri, 17 May 2024 08:27:59 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6209e272f0csm39388367b3.64.2024.05.17.08.27.58
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 May 2024 08:27:58 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-620390308e5so2721037b3.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 May 2024 08:27:58 -0700 (PDT)
+X-Received: by 2002:a5b:a11:0:b0:deb:3cce:b158 with SMTP id
+ 3f1490d57ef6-dee4f3801e0mr20086937276.59.1715959678432; Fri, 17 May 2024
+ 08:27:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ma3igmnyldzwptvv"
-Content-Disposition: inline
-In-Reply-To: <cover.1715956819.git.geert+renesas@glider.be>
+References: <cover.1715956819.git.geert+renesas@glider.be> <r74ymblr7f7ruwjzo3dfnr5y7xu3z3nf3e4esadicixdiexxf3@ycwbwxdskzzc>
+In-Reply-To: <r74ymblr7f7ruwjzo3dfnr5y7xu3z3nf3e4esadicixdiexxf3@ycwbwxdskzzc>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 17 May 2024 17:27:46 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVBWDtfa81bOnbPneDEc=n4hC8wbM=EeXNddPHU8rd0ZQ@mail.gmail.com>
+Message-ID: <CAMuHMdVBWDtfa81bOnbPneDEc=n4hC8wbM=EeXNddPHU8rd0ZQ@mail.gmail.com>
+Subject: Re: [PATCH/RFC 0/4] *arm64: Add CAN-FD support for R-Car V4M and Gray
+ Hawk Single
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Wolfram,
 
---ma3igmnyldzwptvv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Fri, May 17, 2024 at 5:18=E2=80=AFPM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> > The CAN-FD module on R-Car V4M is very similar to the one on R-Car V4H,
+> > but differ in some hardware parameters, as reflected by the Parameter
+> > Status Information part of the Global IP Version Register.  However,
+> > none of this parameterization should have any impact on the driver, as
+> > the driver does not access any register that is impacted by the
+> > parameterization (except for the number of channels).
+>
+> Does the BSP work?
 
-Hi Geert,
+I haven't tried the BSP in-se (it does not support Gray Hawk Single),
+but a forward port of rcar_canfd from the BSP exhibits the same behavior.
 
-> The CAN-FD module on R-Car V4M is very similar to the one on R-Car V4H,
-> but differ in some hardware parameters, as reflected by the Parameter
-> Status Information part of the Global IP Version Register.  However,
-> none of this parameterization should have any impact on the driver, as
-> the driver does not access any register that is impacted by the
-> parameterization (except for the number of channels).
+Gr{oetje,eeting}s,
 
-Does the BSP work?
+                        Geert
 
-Happy hacking,
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-   Wolfram
-
-
---ma3igmnyldzwptvv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZHdUwACgkQFA3kzBSg
-Kbb4Tg//QMO/uKc9+aKSuEpcQSaZzBUPspX3oTkYKvjwL1AZWuiKTMzfyBI7TJTv
-gPzPV3TYpnTS7tPkvQMDnjYMfwRZLdFeADPuEvTh4VbaNzNHpJCT0aId4BXXMRl7
-ajxu81ig0p+lVl/80PN0vVjwNhEX6KmmvXKhY3J2khChnS+ftSRfXUb3PRFYbZwJ
-3LybYkjEmoEJy6boflyU1QAwBspFG3LqEgTL0Qgdkl/3ZvO6FFjTcqvmKl0yxreQ
-KqNjrwbRq+e45d44esflqd7p/qoNPM7K5qkdviP9Nol+Yj2x6xg44cbp6wLCdLkR
-2PVl/uEXwci0JM/rZgIUAu2XakAT4gsZuTkYfERsyyUnM+aYXiL9q2JDF12XLv0D
-dsAw0x1oabkY3I+CTnk5tdq1M5bDjK9PBgFRQw/Gvf+gB2PnuzerNc1hW5QZHkP+
-ygDmVyHZFN/47Tjd143GGb9krElq5FoZ+KaEiu1WnkuI1gw3WBRJlmjuVT5vZ772
-6xq9qNbxkxpnVefPHL6mohohizPALcv23Evnpjs9ORL/ZZ81F0lgThqKw2bUTnAu
-aq+nBtG8s7UgwoP7Re56/Ppsp8OHDirYJI3AUXP42yltE0D8PTfYF8UJhAoK5W0g
-wm6r4kppkuA26If6/TPcoUvFh/svUCewM49JzivPKTB20c7yyZg=
-=wDW0
------END PGP SIGNATURE-----
-
---ma3igmnyldzwptvv--
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
