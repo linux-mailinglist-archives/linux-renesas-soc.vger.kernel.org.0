@@ -1,112 +1,70 @@
-Return-Path: <linux-renesas-soc+bounces-5387-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5388-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FAEF8C84FA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 May 2024 12:41:37 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD9188C85AA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 May 2024 13:27:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E00A71F23083
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 May 2024 10:41:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 97E62287448
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 May 2024 11:27:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E641D39AF0;
-	Fri, 17 May 2024 10:41:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 563B33D56D;
+	Fri, 17 May 2024 11:27:38 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77E093BBD6;
-	Fri, 17 May 2024 10:41:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEBDD3C489;
+	Fri, 17 May 2024 11:27:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715942491; cv=none; b=ITlZ6vHYSXsJGkkKRvn4ArNZuwzkJ+8Y59DNhOO7Qkf840PagJYR1jHFG8Ee18loQMoPUIlXXGh9BoOP83C2KLE9UsTI9HG7xwlLTbPzoFfo7eMbC2quGgh2+of1a7kZmjoqu7JX8Rh2G4ZhUOTXuHPPda7b3oKDCx0+Wq1h/6E=
+	t=1715945258; cv=none; b=QfTQrvS3B4NC8IMYvMnXsjnPzISklBpKA88YobIKGi5GxycR/TU+OfhUN0P82/HVaBtQNCe7qmerTDOtHIXH1KezZDFoX67JEhB0dDNGZZbj0uBJt0vNiJsYeOy0yvtOc4JctFJxmsD7xt5jkCd6OjR0lljB40ZO81J61WAH8ZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715942491; c=relaxed/simple;
-	bh=k3G9L96yDt5S3vX+qLFsoaeZaw/80iveTPwMckiRdjU=;
+	s=arc-20240116; t=1715945258; c=relaxed/simple;
+	bh=607rlmrokgIRlxHBXmc+PYlNv3Rhu+Wg+J+WezFtGPo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IRGW5nSAJ/XEIsyIWzxhdPsubOaJyHhczXh+BJQRaCmFbmRkpGVPzkOuQemg56YtLqiNwXYZGuT3Xzwh9n8PptGEATCrlDigCScKU9uZwodflUo2GY5lLTxrySDsLg4xocXzR1b+VPjTitBX1f/JuDJ9OQJmJ9xhoPCV0P2eOyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.51
+	 Content-Type:Content-Disposition:In-Reply-To; b=OvF7NGbbUQ7WIyGeJihE0hO7Z2D5cLNxMw79EfTL6gH9c1GY/lcElGTXpeyYHMvJlv7yM9kl7rVUbFAhcIjPZiOnWc1nk6T0ftfTLNM3FFnMa/Jf56kpMwVXE5Xi3IHTvu6isyweUIDxBVGNcFInq7szmYcRgY11WHv9c0OXgAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-5b2733389f9so662135eaf.1;
-        Fri, 17 May 2024 03:41:30 -0700 (PDT)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1ecd3867556so5511705ad.0;
+        Fri, 17 May 2024 04:27:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715942489; x=1716547289;
+        d=1e100.net; s=20230601; t=1715945256; x=1716550056;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8ep6WjZ/XECenrwVHNZ6CdFGyjtlB5or+xofNQVT1ak=;
-        b=PzWYfdf83hT2gBixdJijrHJgZUu0NL9U4wppwYHCmIOf5ajCjRj/uRtoAwu/CxeZPS
-         xfxHWLoiXz7qDtFcuV1xPOgduXLjRS8ci1njhTIn43M3l+UoDlzBsqFp9wyA2qda+uHP
-         69J6tf92Zi3LDRQ8IGEOEt4+ZFVuDjQG6lDSy6z2j76HvZNp0j9qondWaQUJGtYJ4LGU
-         y92Lc+jyQLO+RB1bvzFxDEMwARLcOi0GjqWduG3UfuF3JQzeZOQFt2dMFP/kV/HfbnR5
-         yZo3id1I6IwQOg3gVTxlznqDolqv2ubjKWqQeXR0nIE5yPIQmGVBT2R4Axvy7hOSQ+I4
-         tmVw==
-X-Forwarded-Encrypted: i=1; AJvYcCW1T5Jzzi5YWeDpa9AzrJn0UoNm3ltKj+OFo81AGoIkY1mPuC0bZLsOCD2H5YIdVxA+G07zl0q0ivPAkKEQO2GgblP7mIn7MfStxt1R36VK/xUOBD2E3g8SI8V96B4+tifkI8F6EKnzDP0qJJiGf7B2coX80YL/r0f/+pbsaMg0M4JFafkxWHz0BXtgDH9TidhCrWVoZN7W/VM7R0jNuvlVXOHikxadvWQaOqypo+27h1Ko6kL46NgJGDi69bSBn+YmZubvEw==
-X-Gm-Message-State: AOJu0YzJn/pyqDE9JfprPMbEAzv6Tt5i6XpTSVqWdcDhx0Q2fWrKkrkS
-	2rkmdAGuPyGxjXIddfsmapxmgw5tm8Kj5YcRsqbZ9cFFY8bpeIbw
-X-Google-Smtp-Source: AGHT+IHryVBDZpZ02HKgPHTEO7zKqNKHDK8Mg2XTift9Qc3NF8SYMoDnU3GekdswLqk1/o4nC69OcQ==
-X-Received: by 2002:a05:6358:c005:b0:18a:78c2:7ccf with SMTP id e5c5f4694b2df-193bb628645mr2477851655d.13.1715942489450;
-        Fri, 17 May 2024 03:41:29 -0700 (PDT)
+        bh=PNbDqqCZmMiycWkhsVWXK1N4GybBuEHzc7K4hpEAXZE=;
+        b=lu0zew1QSrxj59yklUNjjNvMhMIFpCEzMAu9mQtK8IpV517Zow/c/OrKWUdhF/V94n
+         JnPJVOzOYnD6bijm9ZbfkjmBrVieEJa5h0qr0T+LMfzqSynV3SPdAmSiPTgkLB7I/KvQ
+         xucS8Bg1yzKdNV8LpgoTPSaXMLBy1uPHdgIwrkdViHU7KpJfinATHaZg1R0MrNvqkmaF
+         +SzCTPc75WUjnc2caPsmDLkauGQm+Q3Yuq3DAUosrIL7P2C8UiFjThEhCnXDSUoPAmSi
+         JH5nd38RgEYChNGAudvHbn4vQl2j8wrCHPHSp3xzwbehr78JO6I9L1rb1KOdDAYEFWiV
+         FgkA==
+X-Forwarded-Encrypted: i=1; AJvYcCWI2z3dJI9mAXFFWJy0ZdcKT/ZirJR8GsQifDji+Re4krJSd/m4rudwpAq5jz3Wct0l1ZKhi/TmXWfvlqxQe+NBubYV3VWWQk3dxjMHJk67UZk=
+X-Gm-Message-State: AOJu0YwBHyn1NfpHUoTZnwOA8K8fwoxM3RHDHEIaAohK8t38f7q017zV
+	aeu1XU/Jm0IjGh1DfdYkva1VaiJTGwSAAr5Q9nH1HPoOwvd5PnbI
+X-Google-Smtp-Source: AGHT+IGxROLxzh+/1RI/kwpleAp3jL3W+yiAQVOPsPoUJ+1G+M7qN5cYT6t1bW1mWzHq+9nmGBW/vA==
+X-Received: by 2002:a17:902:e80b:b0:1eb:5323:c320 with SMTP id d9443c01a7336-1ef4406046fmr292403865ad.56.1715945256065;
+        Fri, 17 May 2024 04:27:36 -0700 (PDT)
 Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-658764fda40sm3257811a12.5.2024.05.17.03.41.28
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0bada3efsm155625185ad.114.2024.05.17.04.27.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 May 2024 03:41:28 -0700 (PDT)
-Date: Fri, 17 May 2024 19:41:25 +0900
+        Fri, 17 May 2024 04:27:35 -0700 (PDT)
+Date: Fri, 17 May 2024 20:27:34 +0900
 From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
 	Lorenzo Pieralisi <lpieralisi@kernel.org>,
 	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Jim Quinlan <jim2101024@gmail.com>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	Will Deacon <will@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Srikanth Thokala <srikanth.thokala@intel.com>,
-	Ryder Lee <ryder.lee@mediatek.com>,
-	Jianjun Wang <jianjun.wang@mediatek.com>,
-	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
 	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Heiko Stuebner <heiko@sntech.de>, Jingoo Han <jingoohan1@gmail.com>,
-	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Mark Kettenis <kettenis@openbsd.org>,
-	Tom Joseph <tjoseph@cadence.com>,
-	Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Thippeswamy Havalige <thippeswamy.havalige@amd.com>,
-	linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v3 1/4] dt-bindings: PCI: cdns,cdns-pcie-host: drop
- redundant msi-parent and pci-bus.yaml
-Message-ID: <20240517104125.GJ202520@rocinante>
-References: <20240413151617.35630-1-krzysztof.kozlowski@linaro.org>
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] PCI: rcar: Demote WARN() to dev_warn_ratelimited() in
+ rcar_pcie_wakeup()
+Message-ID: <20240517112734.GX202520@rocinante>
+References: <20240511235513.77301-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -115,24 +73,48 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240413151617.35630-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20240511235513.77301-1-marek.vasut+renesas@mailbox.org>
 
 Hello,
 
-> The binding reference common cdns-pcie-host.yaml, which already defines
-> msi-parent and has a reference to pci-bus.yaml schema.  Drop redundant
-> pieces here to make it a bit smaller.
+> Avoid large backtrace, it is sufficient to warn the user that there has
+> been a link problem. Either the link has failed and the system is in need
+> of maintenance, or the link continues to work and user has been informed.
+> The message from the warning can be looked up in the sources.
+> 
+> This makes an actual link issue less verbose.
+> 
+> First of all, this controller has a limitation in that the controller
+> driver has to assist the hardware with transition to L1 link state by
+> writing L1IATN to PMCTRL register, the L1 and L0 link state switching
+> is not fully automatic on this controller.
+> 
+> In case of an ASMedia ASM1062 PCIe SATA controller which does not support
+> ASPM, on entry to suspend or during platform pm_test, the SATA controller
+> enters D3hot state and the link enters L1 state. If the SATA controller
+> wakes up before rcar_pcie_wakeup() was called and returns to D0, the link
+> returns to L0 before the controller driver even started its transition to
+> L1 link state. At this point, the SATA controller did send an PM_ENTER_L1
+> DLLP to the PCIe controller and the PCIe controller received it, and the
+> PCIe controller did set PMSR PMEL1RX bit.
+> 
+> Once rcar_pcie_wakeup() is called, if the link is already back in L0 state
+> and PMEL1RX bit is set, the controller driver has no way to determine if
+> it should perform the link transition to L1 state, or treat the link as if
+> it is in L0 state. Currently the driver attempts to perform the transition
+> to L1 link state unconditionally, which in this specific case fails with a
+> PMSR L1FAEG poll timeout, however the link still works as it is already
+> back in L0 state.
+> 
+> Reduce this warning verbosity. In case the link is really broken, the
+> rcar_pcie_config_access() would fail, otherwise it will succeed and any
+> system with this controller and ASM1062 can suspend without generating
+> a backtrace.
 
-Applied to dt-bindings, thank you!
+Applied to controller/rcar, thank you!
 
-[01/04] dt-bindings: PCI: cdns,cdns-pcie-host: Drop redundant msi-parent and pci-bus.yaml
-        https://git.kernel.org/pci/pci/c/51ef0538d4e1
-[02/04] dt-bindings: PCI: mediatek,mt7621: Add missing child node reg
-        https://git.kernel.org/pci/pci/c/36fbed38549c
-[03/04] dt-bindings: PCI: host-bridges: Switch from deprecated pci-bus.yaml
-        https://git.kernel.org/pci/pci/c/5db62b7d3c37
-[04/04] dt-bindings: PCI: mediatek,mt7621-pcie: Switch from deprecated pci-bus.yaml
-        https://git.kernel.org/pci/pci/c/d3fa4be9033b
+[1/1] PCI: rcar: Demote WARN() to dev_warn_ratelimited() in rcar_pcie_wakeup()
+      https://git.kernel.org/pci/pci/c/a37647d5639b
 
 	Krzysztof
 
