@@ -1,54 +1,58 @@
-Return-Path: <linux-renesas-soc+bounces-5390-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5395-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C4628C88E1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 May 2024 17:00:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B1C98C8935
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 May 2024 17:19:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 80247B24C8B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 May 2024 15:00:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A0A6E1F249F9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 May 2024 15:19:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C63256A347;
-	Fri, 17 May 2024 14:57:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22BC612C7E1;
+	Fri, 17 May 2024 15:18:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="FJESDPlY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECC8E6A039
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 17 May 2024 14:57:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549F512D201
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 17 May 2024 15:18:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715957850; cv=none; b=qxrJvLNQQAc4bnfcVzmeV6/H7WIq22lT3x2WXvoHihOJ7i44g1hGlSOZSVZ7McQGWHvwY5DpwmW3+l6igm/KT0umhBr/IWL41zYUjh05jcDjOvjBPqSBShhBgM0Mqxpb11zJbKExNeDPf9e4o88N1BToz4s6tPUNqYqF+311cKI=
+	t=1715959125; cv=none; b=lr7yJodKwXaI+fiW4Gf5k46Vv7BXUZZKE9IT2aYv0W/xDFdfdrx9cxH9hPwt6VP2z8Se2P4xeZkdot/QgagpWgZn1CDYpPCkaRMdDY6n4nb86LH6DeKZtptAZ9RNn4b7ecYmyuyGbJi88CNKJaGWJhvninwEsu6FFhnOcCF9hIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715957850; c=relaxed/simple;
-	bh=ry/+zh6uwEiR0ySTkyMz7QdC4jqfSug6fEkCCJhP1yw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=tLvsyz4FRJMvH+icyipC7owlYcmxRBBv795lJ0fl3NOCqB1LLSYxYnfu+R7EdVsVb92NSurmMwJKzCcYo0UsG0wX7E/82Ofe4gSPhrWftnMgV8fefPaCV+M1mVTKr0A9iRUUpGbsF8tIORnTuaa9OI/37QlIPmuyjoRu6V5YBcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:9706:8977:9494:a7c7])
-	by andre.telenet-ops.be with bizsmtp
-	id QExK2C00R0bc1Xv01ExKm7; Fri, 17 May 2024 16:57:19 +0200
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1s7z0U-00BDnI-FT;
-	Fri, 17 May 2024 16:57:19 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1s7z1L-00C63T-HE;
-	Fri, 17 May 2024 16:57:19 +0200
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH/RFC 4/4] arm64: dts: renesas: gray-hawk-single: Add CAN-FD support
-Date: Fri, 17 May 2024 16:57:16 +0200
-Message-Id: <2fe3c8e38b566de09e49056c62fa954ed306a497.1715956819.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1715956819.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1715959125; c=relaxed/simple;
+	bh=i7phWkthwIF/ZdNaZR82d5fiTaYr0kEwGwEeAJbEAho=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PlD9o3sG19ivZTs0F4kdpfPzhXF7VCEIoNYE0x5mUjodEqmBqHXiDnamfX7yAKv8VGAmSfPiYQBpnEsSOXgV2ry02A/nonxNUb+FKAvwEb4+E6EzrVPLfF1SXPxecEI6VvA2aImT82Dp2/Gpw3h/kQNevy73mYIOLop3XHVieV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=FJESDPlY; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=G5EH
+	md2Tx1KsWrg0RZajljlVAsNIwv4fGXJdBf9hV48=; b=FJESDPlYmOd3U9fn4ihh
+	PRa9/ly75+F9+6Xlvgk29GrXFJS8E6W7Cy4FAc0fiCK3C36FBcDzwKGZJXx0WuG1
+	7vF/gbZa59EwZQ3ZCvMzLtmQSvQgG92Ogf8UEzkYsPHdQ8ZuGsHIXxzAkhTiW8po
+	AsFcRob/SeZ9wp/81eo3RBSjjIQ8eypJrdElwk4mgo0KaQAtbLZTaL6/XXTF3B+2
+	ST4Eg10RzGatPNTUaAbglnmT1Dgq2vWeyIU40Xsvs/Lr87vvxy0IMmKTqj0a/DyQ
+	zCt8sEcyYFMFXhukhJXxfbrf3hxC970v7GfrnDHiZB3pzMdBlgfGWTf4FeIuKDuS
+	Lw==
+Received: (qmail 3535469 invoked from network); 17 May 2024 17:18:41 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 May 2024 17:18:41 +0200
+X-UD-Smtp-Session: l3s3148p1@gonb3acY4o9ehhtP
+Date: Fri, 17 May 2024 17:18:40 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH/RFC 0/4] *arm64: Add CAN-FD support for R-Car V4M and
+ Gray Hawk Single
+Message-ID: <r74ymblr7f7ruwjzo3dfnr5y7xu3z3nf3e4esadicixdiexxf3@ycwbwxdskzzc>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, linux-renesas-soc@vger.kernel.org
 References: <cover.1715956819.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -56,94 +60,51 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ma3igmnyldzwptvv"
+Content-Disposition: inline
+In-Reply-To: <cover.1715956819.git.geert+renesas@glider.be>
 
-Enable CAN-FD channels 0 and 1 on the Gray Hawk Single development
-board:
-  - Channel 0 uses an NXP TJR1443AT CAN transceiver, which must be
-    enabled through a GPIO,
-  - Channel 1 uses a Microchip MCP2558FD-H/SN CAN transceiver, which
-    does not need explicit description.
 
-Inspired by a patch for Gray Hawk in the BSP by Duy Nguyen.
+--ma3igmnyldzwptvv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Changes compared to the BSP:
-  - Add can_clk,
-  - Add missing can_transceiver0,
-  - Keep channels 2 and 3 disabled,
-  - Preserve sort order.
----
- .../dts/renesas/r8a779h0-gray-hawk-single.dts | 40 +++++++++++++++++++
- 1 file changed, 40 insertions(+)
+Hi Geert,
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-index cfbe8c8680cd8947..294ed2d5a17cbfd5 100644
---- a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-@@ -22,6 +22,13 @@ aliases {
- 		ethernet0 = &avb0;
- 	};
- 
-+	can_transceiver0: can-phy0 {
-+		compatible = "nxp,tjr1443";
-+		#phy-cells = <0>;
-+		enable-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;
-+		max-bitrate = <5000000>;
-+	};
-+
- 	chosen {
- 		bootargs = "ignore_loglevel rw root=/dev/nfs ip=on";
- 		stdout-path = "serial0:921600n8";
-@@ -75,6 +82,24 @@ phy0: ethernet-phy@0 {
- 	};
- };
- 
-+&can_clk {
-+	clock-frequency = <40000000>;
-+};
-+
-+&canfd {
-+	pinctrl-0 = <&canfd0_pins>, <&canfd1_pins>, <&can_clk_pins>;
-+	status = "okay";
-+
-+	channel0 {
-+		status = "okay";
-+		phys = <&can_transceiver0>;
-+	};
-+
-+	channel1 {
-+		status = "okay";
-+	};
-+};
-+
- &extal_clk {
- 	clock-frequency = <16666666>;
- };
-@@ -174,6 +199,21 @@ pins_mii {
- 		};
- 	};
- 
-+	can_clk_pins: can-clk {
-+		groups = "can_clk";
-+		function = "can_clk";
-+	};
-+
-+	canfd0_pins: canfd0 {
-+		groups = "canfd0_data";
-+		function = "canfd0";
-+	};
-+
-+	canfd1_pins: canfd1 {
-+		groups = "canfd1_data";
-+		function = "canfd1";
-+	};
-+
- 	hscif0_pins: hscif0 {
- 		groups = "hscif0_data", "hscif0_ctrl";
- 		function = "hscif0";
--- 
-2.34.1
+> The CAN-FD module on R-Car V4M is very similar to the one on R-Car V4H,
+> but differ in some hardware parameters, as reflected by the Parameter
+> Status Information part of the Global IP Version Register.  However,
+> none of this parameterization should have any impact on the driver, as
+> the driver does not access any register that is impacted by the
+> parameterization (except for the number of channels).
 
+Does the BSP work?
+
+Happy hacking,
+
+   Wolfram
+
+
+--ma3igmnyldzwptvv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZHdUwACgkQFA3kzBSg
+Kbb4Tg//QMO/uKc9+aKSuEpcQSaZzBUPspX3oTkYKvjwL1AZWuiKTMzfyBI7TJTv
+gPzPV3TYpnTS7tPkvQMDnjYMfwRZLdFeADPuEvTh4VbaNzNHpJCT0aId4BXXMRl7
+ajxu81ig0p+lVl/80PN0vVjwNhEX6KmmvXKhY3J2khChnS+ftSRfXUb3PRFYbZwJ
+3LybYkjEmoEJy6boflyU1QAwBspFG3LqEgTL0Qgdkl/3ZvO6FFjTcqvmKl0yxreQ
+KqNjrwbRq+e45d44esflqd7p/qoNPM7K5qkdviP9Nol+Yj2x6xg44cbp6wLCdLkR
+2PVl/uEXwci0JM/rZgIUAu2XakAT4gsZuTkYfERsyyUnM+aYXiL9q2JDF12XLv0D
+dsAw0x1oabkY3I+CTnk5tdq1M5bDjK9PBgFRQw/Gvf+gB2PnuzerNc1hW5QZHkP+
+ygDmVyHZFN/47Tjd143GGb9krElq5FoZ+KaEiu1WnkuI1gw3WBRJlmjuVT5vZ772
+6xq9qNbxkxpnVefPHL6mohohizPALcv23Evnpjs9ORL/ZZ81F0lgThqKw2bUTnAu
+aq+nBtG8s7UgwoP7Re56/Ppsp8OHDirYJI3AUXP42yltE0D8PTfYF8UJhAoK5W0g
+wm6r4kppkuA26If6/TPcoUvFh/svUCewM49JzivPKTB20c7yyZg=
+=wDW0
+-----END PGP SIGNATURE-----
+
+--ma3igmnyldzwptvv--
 
