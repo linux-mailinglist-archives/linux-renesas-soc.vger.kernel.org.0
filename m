@@ -1,288 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-5413-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5414-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2D868C9CB7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 May 2024 13:55:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 819FD8C9DE5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 May 2024 15:11:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6A60D281327
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 May 2024 11:55:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 38CB8284B56
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 May 2024 13:11:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF6591B960;
-	Mon, 20 May 2024 11:55:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="JnxtWrNn"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 469E3135A71;
+	Mon, 20 May 2024 13:11:29 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC53252F92
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 20 May 2024 11:55:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp [153.127.30.23])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32032A2D;
+	Mon, 20 May 2024 13:11:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=153.127.30.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716206130; cv=none; b=Ba1MvTtowxt/V3Y1dDx6Q7OdjTv7E1ibc63vQj1NpXmemQ2kPIldx9UuaJPeauEhv26Tj/d4WPiiSBoIlAPGzd6V4PGLv39ZYvut0qSe8rMKWlyR3XOw0HNWbXNT04mAlsUhpCdYq6PRsKt3LnZuJrPbqMI3ME/dn02PFLeLn80=
+	t=1716210689; cv=none; b=Hr8SipDM7Vh7HJDDEMqorTDIO2Y48HgvT6hxCGV66pyb4cFGGRD8funkpcfKUGBfElo473lwC2bS6UtQ20EwE6YaJ4AUc/CdIbFiTF3XTtj5JQQ2K82UT1sycA9UJrcTJei0kfLD4DKB9tsu95LOfEVPdge6tqIEfVMYqtxhBhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716206130; c=relaxed/simple;
-	bh=kEoGgqB0rzX9HUVUIPEKmyOuoLj4yGARQKNBWGYuBtw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fFiYxqReIu13NRrFyhC7GFFN0xrOuO3jebqTeMjgp7L4k+KCS7IGLBoOQxXDjbpp5Qf1hNo8yEXbOfDoTaoE2vYRH5wS4h0AS2X4yJ+JQyrnfwblOvemB5U8iv8xPXkDWiziXBkCJAgv1ZunwXN2IsAR0m4wkXaerWLsziIATN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=JnxtWrNn; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-354c5b7fafaso1000572f8f.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 May 2024 04:55:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1716206127; x=1716810927; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=J52kMpMDHoKvOAndzN0rC/vV/Kub3GsExDvSDouYLys=;
-        b=JnxtWrNn/i+nS87br6CxiUNNov5H1ZeYDfntBGPoelIRMrqOGKC9e+sfZ4bNf9Uuer
-         nzsxA8+ZFEBvFZEbBCt22/Jj5y4N4qs2cJmuyIugpiLJizbVUtqIi9S2wKlwP4IXAgeO
-         yy0jUKxtJoahWzDC6CdEQBVD7pLvVcXD8rLZ0f8I6jeT5Ur8fya3ykB6Sbl+HKTUZI/s
-         C1AAr3KehqEQNz2RrC21FTvLNu3u0tNb1uBzP4T8iONuA/YdQaWqd1K3Xwim/AUMN4Zn
-         MBvh7O1NIJzsKHAX1vI6fJbwMDP2FRckNuCvN9dOLYvy4h8F8w+as59N02tLlYvnQ4B0
-         BLJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716206127; x=1716810927;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=J52kMpMDHoKvOAndzN0rC/vV/Kub3GsExDvSDouYLys=;
-        b=vc/DIA8lgqCZmc8IFG+3AzLm8w67vQPKpWEb+tAt68CzMWOMFIuADZos4ADcd2Pb8b
-         rFeWP1cxz4DFeZRJMtMBQnQD4HrHzvJQEEiKnhdQpq0SVvfYf+XEnSd76hEvveMYjt2x
-         cZVRdaQSDkQmdS++ueah5nxdfwYDcW+sqdSolOFmt3CXw1G78f/YoDsdzrCF4stJNIJt
-         cddCMZVBgSJFhTrxP4xI9+WPuHqJdCR04muu/n0ZTULXIyQSwJqcYtRj35hL2xHwJA8L
-         6BN+8oJqUxhVv3IU0e6GQ81A0cARaL1O5IjuWrhdsg2GKa1iKLDhCbqVWpCsiCZGzLim
-         OsOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXiYIcY9XGaL+R5C2pVraP5gw/fhL9YXsfWa/m7bDhO7gXZBGPEXBJbdsfv+dPGta7v55MJazzokpqWKdAUEBPEvALREdO2RhUwl/CZqYNtnLU=
-X-Gm-Message-State: AOJu0Yy/kutLwSWMu+90IvPXHnEHGv8eVQK/+n8WIPwITrYOZflNgRB2
-	6D4pDi5tumUZNt2YMI422M3HjPG/hgFeXWJlZ4Pn2Mhb8ZGHlIo0REC9WyPrfbw=
-X-Google-Smtp-Source: AGHT+IFlvSqANMGIFrY7ueIY75b5WZsPp07glKW9CXJYkzLlO1bcGTsSAd5RIIjQcSQBq4MnYIRKvQ==
-X-Received: by 2002:adf:c7cb:0:b0:351:b7fa:ccbf with SMTP id ffacd0b85a97d-351b7facde5mr23107427f8f.61.1716206126884;
-        Mon, 20 May 2024 04:55:26 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.22])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3502bbbca98sm29018734f8f.112.2024.05.20.04.55.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 May 2024 04:55:26 -0700 (PDT)
-Message-ID: <559ad243-b43b-471a-99a4-2f42e0930a64@tuxon.dev>
-Date: Mon, 20 May 2024 14:55:24 +0300
+	s=arc-20240116; t=1716210689; c=relaxed/simple;
+	bh=a9Beq8MfnmXvgVrRFuX5+jQqyI2S3FJbw4QgKto9ElA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RYGxZmAiWdbSCI1SrWJsI89ERH3yfNPPyBQZ4VU06WKRPFgykhURjPiX+BTveRCb/42h42NPG5FNocAGSqDJMo3VHp9G6DtHZVmZJMQaBdwvj4AJo5ecv6DToGTYtJ87xde6M2z1XQAgdcxE9J+Ovr8pkFRw6DLBlrsBNFK/FSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=users.sourceforge.jp; spf=fail smtp.mailfrom=users.sourceforge.jp; arc=none smtp.client-ip=153.127.30.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=users.sourceforge.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=users.sourceforge.jp
+Received: from SIOS1075.ysato.ml (ZM005235.ppp.dion.ne.jp [222.8.5.235])
+	by sakura.ysato.name (Postfix) with ESMTPSA id 770791C00F9;
+	Mon, 20 May 2024 22:06:04 +0900 (JST)
+Date: Mon, 20 May 2024 22:06:03 +0900
+Message-ID: <87fruc8wg4.wl-ysato@users.sourceforge.jp>
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
+To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: linux-sh@vger.kernel.org,	Damien Le Moal <dlemoal@kernel.org>,	Niklas
+ Cassel <cassel@kernel.org>,	Rob Herring <robh@kernel.org>,	Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>,	Conor Dooley
+ <conor+dt@kernel.org>,	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,	Stephen Boyd
+ <sboyd@kernel.org>,	David Airlie <airlied@gmail.com>,	Daniel Vetter
+ <daniel@ffwll.ch>,	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,	Thomas Zimmermann
+ <tzimmermann@suse.de>,	Thomas Gleixner <tglx@linutronix.de>,	Bjorn Helgaas
+ <bhelgaas@google.com>,	Lorenzo Pieralisi <lpieralisi@kernel.org>,	Krzysztof
+ =?ISO-8859-2?Q?Wilczy=F1ski?= <kw@linux.com>,	Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,	Jiri Slaby <jirislaby@kernel.org>,	Magnus
+ Damm <magnus.damm@gmail.com>,	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Rich Felker <dalias@libc.org>,	Lee Jones <lee@kernel.org>,	Helge Deller
+ <deller@gmx.de>,	Heiko Stuebner <heiko.stuebner@cherry.de>,	Shawn Guo
+ <shawnguo@kernel.org>,	Sebastian Reichel <sre@kernel.org>,	Chris Morgan
+ <macromorgan@hotmail.com>,	Linus Walleij <linus.walleij@linaro.org>,	Arnd
+ Bergmann <arnd@arndb.de>,	David Rientjes <rientjes@google.com>,	Hyeonggon
+ Yoo <42.hyeyoo@gmail.com>,	Vlastimil Babka <vbabka@suse.cz>,	Baoquan He
+ <bhe@redhat.com>,	Andrew Morton <akpm@linux-foundation.org>,	Guenter Roeck
+ <linux@roeck-us.net>,	Kefeng Wang <wangkefeng.wang@huawei.com>,	Stephen
+ Rothwell <sfr@canb.auug.org.au>,	Javier Martinez Canillas
+ <javierm@redhat.com>,	Guo Ren <guoren@kernel.org>,	Azeem Shaikh
+ <azeemshaikh38@gmail.com>,	Max Filippov <jcmvbkbc@gmail.com>,	Jonathan
+ Corbet <corbet@lwn.net>,	Jacky Huang <ychuang3@nuvoton.com>,	Herve Codina
+ <herve.codina@bootlin.com>,	Manikanta Guntupalli
+ <manikanta.guntupalli@amd.com>,	Anup Patel <apatel@ventanamicro.com>,	Biju
+ Das <biju.das.jz@bp.renesas.com>,	Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=
+ <u.kleine-koenig@pengutronix.de>,	Sam Ravnborg <sam@ravnborg.org>,	Sergey
+ Shtylyov <s.shtylyov@omp.ru>,	Laurent Pinchart
+ <laurent.pinchart+renesas@ideasonboard.com>,	linux-ide@vger.kernel.org,
+	devicetree@vger.kernel.org,	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,	linux-clk@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,	linux-pci@vger.kernel.org,
+	linux-serial@vger.kernel.org,	linux-fbdev@vger.kernel.org
+Subject: Re: [RESEND v7 00/37] Device Tree support for SH7751 based board
+In-Reply-To: <455e40c03314294f9c2e64480aa69f8261a3f2d5.camel@physik.fu-berlin.de>
+References: <cover.1712205900.git.ysato@users.sourceforge.jp>
+	<455e40c03314294f9c2e64480aa69f8261a3f2d5.camel@physik.fu-berlin.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v8 09/10] watchdog: rzg2l_wdt: Power on the PM
- domain in rzg2l_wdt_restart()
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: wim@linux-watchdog.org, linux@roeck-us.net, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, p.zabel@pengutronix.de,
- geert+renesas@glider.be, magnus.damm@gmail.com, biju.das.jz@bp.renesas.com,
- linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240410134044.2138310-1-claudiu.beznea.uj@bp.renesas.com>
- <20240410134044.2138310-10-claudiu.beznea.uj@bp.renesas.com>
- <CAPDyKFqq+gMDHx_-g-j9rO3nBDcXRSoXRjJK9D51=VaQ5XaGvw@mail.gmail.com>
- <af9c6747-120e-48c1-8c04-9594c9b49666@tuxon.dev>
- <2d674a18-006f-4182-bc85-bcfa50615495@tuxon.dev>
- <CAPDyKFp+8VnxDfhDzvP1KWCN_oRHrVMCru9BXO_55GkF=gHUBA@mail.gmail.com>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <CAPDyKFp+8VnxDfhDzvP1KWCN_oRHrVMCru9BXO_55GkF=gHUBA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 
-Hi, Ulf,
-
-On 29.04.2024 17:19, Ulf Hansson wrote:
-> On Wed, 24 Apr 2024 at 13:14, claudiu beznea <claudiu.beznea@tuxon.dev> wrote:
->>
->> Hi, Ulf,
->>
->> On 12.04.2024 17:02, claudiu beznea wrote:
->>> Hi, Ulf,
->>>
->>> On 12.04.2024 14:14, Ulf Hansson wrote:
->>>> On Wed, 10 Apr 2024 at 16:19, Claudiu <claudiu.beznea@tuxon.dev> wrote:
->>>>>
->>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>>
->>>>> The rzg2l_wdt_restart() is called from atomic context. Calling
->>>>> pm_runtime_{get_sync, resume_and_get}() or any other runtime PM resume
->>>>> APIs is not an option as it may lead to issues as described in commit
->>>>> e4cf89596c1f ("watchdog: rzg2l_wdt: Fix 'BUG: Invalid wait context'")
->>>>> that removed the pm_runtime_get_sync() and used directly the
->>>>> clk_prepare_enable() APIs.
->>>>>
->>>>> Starting with RZ/G3S the watchdog could be part of its own software
->>>>> controlled power domain (see the initial implementation in Link section).
->>>>> In case the watchdog is not used the power domain is off and accessing
->>>>> watchdog registers leads to aborts.
->>>>>
->>>>> To solve this the patch powers on the power domain using
->>>>> dev_pm_genpd_resume() API before enabling its clock. This is not
->>>>> sleeping or taking any other locks as the power domain will not be
->>>>> registered with GENPD_FLAG_IRQ_SAFE flags.
->>>>>
->>>>> Link: https://lore.kernel.org/all/20240208124300.2740313-1-claudiu.beznea.uj@bp.renesas.com
->>>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>> ---
->>>>>
->>>>> Changes in v8:
->>>>> - none, this patch is new
->>>>>
->>>>>  drivers/watchdog/rzg2l_wdt.c | 12 ++++++++++++
->>>>>  1 file changed, 12 insertions(+)
->>>>>
->>>>> diff --git a/drivers/watchdog/rzg2l_wdt.c b/drivers/watchdog/rzg2l_wdt.c
->>>>> index c8c20cfb97a3..98e5e9914a5d 100644
->>>>> --- a/drivers/watchdog/rzg2l_wdt.c
->>>>> +++ b/drivers/watchdog/rzg2l_wdt.c
->>>>> @@ -12,6 +12,7 @@
->>>>>  #include <linux/module.h>
->>>>>  #include <linux/of.h>
->>>>>  #include <linux/platform_device.h>
->>>>> +#include <linux/pm_domain.h>
->>>>>  #include <linux/pm_runtime.h>
->>>>>  #include <linux/reset.h>
->>>>>  #include <linux/units.h>
->>>>> @@ -164,6 +165,17 @@ static int rzg2l_wdt_restart(struct watchdog_device *wdev,
->>>>>         struct rzg2l_wdt_priv *priv = watchdog_get_drvdata(wdev);
->>>>>         int ret;
->>>>>
->>>>> +       /*
->>>>> +        * The device may be part of a power domain that is currently
->>>>> +        * powered off. We need to power it up before accessing registers.
->>>>> +        * We don't undo the dev_pm_genpd_resume() as the device need to
->>>>> +        * be up for the reboot to happen. Also, as we are in atomic context
->>>>> +        * here there is no need to increment PM runtime usage counter
->>>>> +        * (to make sure pm_runtime_active() doesn't return wrong code).
->>>>> +        */
->>>>> +       if (!pm_runtime_active(wdev->parent))
->>>>> +               dev_pm_genpd_resume(wdev->parent);
->>>>> +
->>>>
->>>> I doubt this is the correct solution, but I may be wrong. Unless this
->>>> is invoked at the syscore stage?
->>>
->>> On my case I see it invoked from kernel_restart(). As of my code reading,
->>
->> With the above explanations, do you consider calling dev_pm_genpd_resume()
->> here is still wrong?
+On Sat, 18 May 2024 18:08:30 +0900,
+John Paul Adrian Glaubitz wrote:
 > 
-> Yes. At least, those genpd functions were not added to cope for cases like this.
-
-Sorry to bother you, do you have some suggestions on this topic?
-
-On my side I did some investigation to see how else it could be implemented
-but I don't have much clue how to go forward.
-
-Would you prefer to have a separate API to deal with domain power on in
-this scenario? Maybe one that should run only in the reboot context?
-
-Would you consider only updating the description of  dev_pm_genpd_resume()
-and genpd_sync_power_on() to specify that it could run in a reboot context?
-
-Would you consider updating the genpd_switch_state() to take into system
-reboot state and do locking based on that, too?
-
-
+> Hi Yoshinori,
 > 
-> Moreover, you still need to find another solution as
-> clk_prepare_enable() can't be called in this path.
+> On Thu, 2024-04-04 at 14:14 +0900, Yoshinori Sato wrote:
+> > Sorry. previus mail is thread broken.
+> > 
+> > This is an updated version of something I wrote about 7 years ago.
+> > Minimum support for R2D-plus and LANDISK.
+> > I think R2D-1 will work if you add AX88796 to dts.
+> > And board-specific functions and SCI's SPI functions are not supported.
+> > 
+> > You can get it working with qemu found here.
+> > https://gitlab.com/yoshinori.sato/qemu/-/tree/landisk
+> > 
+> > v7 changes.
+> > - sh/kernel/setup.c: fix kernel parameter handling.
+> > - clk-sh7750.c: cleanup.
+> > - sh_tmu.c: cleanup.
+> > - irq-renesas-sh7751.c: IPR definition move to code.
+> > - irq-renesas-sh7751irl.c: update register definition.
+> > - pci-sh7751.c: Register initialization fix. 
+> > - sm501 and sm501fb: Re-design Device Tree properties.
+> 
+> Could you push your v7 version to your Gitlab [1] repository so I can fetch
+> it from there?
 
-The clock driver doesn't implement clk_ops::prepare in all
-micro-architectures that this watchdog driver is used. This may be the
-reason the clk_prepare_enable() was used on this path from the beginning.
+updated it.
+I'll be posting v8 soon.
 
-Even though, a simple solution I have in mind for this is to keep the clk
-prepared all the time.
+> Thanks,
+> Adrian
+> 
+> > [1] https://gitlab.com/yoshinori.sato/linux
+> 
+> -- 
+>  .''`.  John Paul Adrian Glaubitz
+> : :' :  Debian Developer
+> `. `'   Physicist
+>   `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+> 
 
-Thank you,
-Claudiu Beznea
-
-> 
->>
->> Do you have any suggestions I could try?
-> 
-> Not at the moment, but I will try to circle back to this topic more
-> thinking next week, when I have some more time.
-> 
->>
->> Thank you,
->> Claudiu Beznea
-> 
-> Kind regards
-> Uffe
-> 
->>
->>> at that point only one CPU is active with IRQs disabled (done in
->>> machine_restart()). Below is the stack trace decoded on next-20240410 with
->>> this series
->>> (https://lore.kernel.org/all/20240410134044.2138310-1-claudiu.beznea.uj@bp.renesas.com/)
->>> on top and the one from here (adding power domain support):
->>> https://lore.kernel.org/all/20240410122657.2051132-1-claudiu.beznea.uj@bp.renesas.com/
->>>
->>> Hardware name: Renesas SMARC EVK version 2 based on r9a08g045s33 (DT)
->>> Call trace:
->>> dump_backtrace (arch/arm64/kernel/stacktrace.c:319)
->>> show_stack (arch/arm64/kernel/stacktrace.c:326)
->>> dump_stack_lvl (lib/dump_stack.c:117)
->>> dump_stack (lib/dump_stack.c:124)
->>> rzg2l_wdt_restart (drivers/watchdog/rzg2l_wdt.c:180)
->>> watchdog_restart_notifier (drivers/watchdog/watchdog_core.c:188)
->>> atomic_notifier_call_chain (kernel/notifier.c:98 kernel/notifier.c:231)
->>> do_kernel_restart (kernel/reboot.c:236)
->>> machine_restart (arch/arm64/kernel/process.c:145)
->>> kernel_restart (kernel/reboot.c:287)
->>> __do_sys_reboot (kernel/reboot.c:755)
->>> __arm64_sys_reboot (kernel/reboot.c:715)
->>> invoke_syscall (arch/arm64/include/asm/current.h:19
->>> arch/arm64/kernel/syscall.c:53)
->>> el0_svc_common.constprop.0 (include/linux/thread_info.h:127
->>> arch/arm64/kernel/syscall.c:141)
->>> do_el0_svc (arch/arm64/kernel/syscall.c:153)
->>> el0_svc (arch/arm64/include/asm/irqflags.h:56
->>> arch/arm64/include/asm/irqflags.h:77 arch/arm64/kernel/entry-common.c:165
->>> arch/arm64/kernel/entry-common.c:178 arch/arm64/kernel/entry-common.c:713)
->>> el0t_64_sync_handler (arch/arm64/kernel/entry-common.c:731)
->>> el0t_64_sync (arch/arm64/kernel/entry.S:598)
->>>
->>> The watchdog restart handler is added in restart_handler_list and this list
->>> is invoked though do_kernel_restart(). As of my code investigation the
->>> restart_handler_list is invoked only though do_kernel_restart() and only
->>> though the stack trace above.
->>>
->>> Thank you,
->>> Claudiu Beznea
->>>
->>>>
->>>>>         clk_prepare_enable(priv->pclk);
->>>>>         clk_prepare_enable(priv->osc_clk);
->>>>>
->>>>> --
->>>>> 2.39.2
->>>>>
->>>>>
->>>>
->>>> Can you redirectly me to the complete series, so I can have a better
->>>> overview of the problem?
->>>
->>> This is the series that adds power domain support for RZ/G3S SoC:
->>> https://lore.kernel.org/all/20240410122657.2051132-1-claudiu.beznea.uj@bp.renesas.com/
->>>
->>> This is the series that adds watchdog support for RZ/G3S SoC:
->>> https://lore.kernel.org/all/20240410134044.2138310-1-claudiu.beznea.uj@bp.renesas.com/
->>>
->>> Thank you for your review,
->>> Claudiu Beznea
->>>
->>>>
->>>> Kind regards
->>>> Uffe
+-- 
+Yosinori Sato
 
