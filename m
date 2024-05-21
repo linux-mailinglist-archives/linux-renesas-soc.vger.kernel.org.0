@@ -1,67 +1,71 @@
-Return-Path: <linux-renesas-soc+bounces-5422-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5423-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 016E48CB051
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 May 2024 16:23:09 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3ED18CB0FE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 May 2024 17:08:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A89C21F243CF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 May 2024 14:23:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2FD4FB23CD8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 May 2024 15:08:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A5D112FF69;
-	Tue, 21 May 2024 14:23:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFB23143C6A;
+	Tue, 21 May 2024 15:08:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FDsC2F5o";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="hluSej/x"
+	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="xH3OScQO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2539212EBEE;
-	Tue, 21 May 2024 14:23:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B647C143C5B
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 21 May 2024 15:08:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716301386; cv=none; b=cTOomSXBAy9i6QTqMi97YcunQ+Vl3d6KwN3k/i+iuHA4HTePGbDWIarJtXft98TZ86xdORPFbA7c1ZkbST1+JTK2DS1l8I8c86mmXy9VD+yQqrHX9PSTUrGdTCpHqe8MHZQR79Ps1whtBGt8lQnXkSt36tfS5CisEC2Dy15rk4A=
+	t=1716304102; cv=none; b=iuGUmb5jXX0aN3gEiO1DmxX9/sVuOBBrz1r/WP7y0CjrkMcb78IaRsIBJwXvL9H/N7vJq3n/psdTQRaNmMNmAEO3QG2Gwxto7/0AxZ70qAM6aRHDt1OHxZ4BAPk8lDBXuLOcqBdekMKLdbTPlkJcss96CwM+ein5/ohxPs1HUH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716301386; c=relaxed/simple;
-	bh=PC2VzjdE9pOS7qDKBe4Km1hSRdFZqxdUgECUk1pKFzo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Slx3ZNLTnyFCODrjcTDQIHXE3YXudue5N2aXNcmyFVyPBXU/xxc/n4+SzqID1TiUnlo34mPDt/hihfJ441ETdkO7pkV+V3uauA49b/cJJfVv23NWqPZehCP1l2s/rhsT1QImIBCUjUk3mQ1xiKfSHBG4rkdvwAU9ROO2/kBRd6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FDsC2F5o; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=hluSej/x; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Date: Tue, 21 May 2024 16:22:59 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1716301381;
+	s=arc-20240116; t=1716304102; c=relaxed/simple;
+	bh=XbwB6Y1ncfxvFcAluUNDlB2Uk3g7I/vYkgRiL0JeCwE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=k99rVDKDI1g0E6j+whbxgdHauLUg6SGr9+eKZahVoF2ofHsr9X1ddLnJhjlyMDxkHIVKRLR31u0XgNhvgiIZ6YBz3mxLI8vpIVOsIMrmHLmIdbPYPlpoRWpvvkwzMjFOA2N5AVeLCvkMK+EsAIU3dS5iUR64e0dveJMUwknqA20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=xH3OScQO; arc=none smtp.client-ip=91.218.175.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
+X-Envelope-To: geert+renesas@glider.be
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
+	t=1716304095;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4UKsg7qQvlG77Y7q+ZHUhtxz8eupkMhNXaXZZpb8kN8=;
-	b=FDsC2F5oI6AuYvrT9NOQp/6JLwEshM6R1b/Hody5w598azHds13+S7na12ycfSGFLSg1p3
-	XLR7t8H985ILRAq87I33A1J3NyfKipFvCnztSSrLJRkPnNnMUt65N/hBC56TTGKOKaomcW
-	uDXaAC4/0/Q1yTimdqFT4sdFgY45+xhLx2aiTNGWh2kc3Fwt0WYAepRVUDvB3H58d1iLzp
-	w3TRabN2I8PXEbh7Mau4MFDiGpJZpEUmDD1wTTgPePKAYo91ZgCoJvyFbXuaAjrCWl0E9/
-	OE+B3aeXzd0b/7p2+kOllTT2bO2xYtdYeIdZYXOGeJe6nLPkc/BX6gj5pxxEWQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1716301381;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4UKsg7qQvlG77Y7q+ZHUhtxz8eupkMhNXaXZZpb8kN8=;
-	b=hluSej/xipmQweXuZ8G5wzxwRmRlDLhkaQQUVK20vJyruBc4o0BFGgNvckm/+SFKp8u+Cf
-	yRErcUTmNtFg8ADQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: geert+renesas@glider.be, linus.walleij@linaro.org,
-	didi.debian@cknow.org, efault@gmx.de,
-	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rt-users@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH] pinctrl: renesas: rzg2l: use
- spin_{lock,unlock}_irq{save,restore}
-Message-ID: <20240521142259.Pm56N8P-@linutronix.de>
+	bh=7huwlz6e+OJTDpkqE9pk3NgcFlZcNZLJZwH9Yh0gUb0=;
+	b=xH3OScQOnERJ0m65qBvqlVgCWgjvFXfSPRX1tZVYhS73pVeKCe043+2s8cYuhBQIA7AVXM
+	2LKEXv8lS07ur8cWPXYtgXNjqyaur6UFfvPjPKKWwbAQ2lFORVO2oKe1/DKRnF89Ny7C2g
+	DLoFNBCOI7PbEko0S1Be85GtbqruXPfFLaBQD3IIyBBmHjw3UcLRlv6QxuB6xqbOUDWBam
+	bZg0NakLT9kpXwbJis/GG9hoeewT9LW5FHXnPthD98tDo3FNbY5P4cidd8qLoFX+8uuzIf
+	Gf2L2auEfCSxijy2eXPKmXTp/UeHYzEMtTryLrqmHSBcaRES5m6URWYoe+j9Ag==
+X-Envelope-To: linus.walleij@linaro.org
+X-Envelope-To: efault@gmx.de
+X-Envelope-To: claudiu.beznea@tuxon.dev
+X-Envelope-To: linux-renesas-soc@vger.kernel.org
+X-Envelope-To: linux-gpio@vger.kernel.org
+X-Envelope-To: linux-kernel@vger.kernel.org
+X-Envelope-To: claudiu.beznea@tuxon.dev
+X-Envelope-To: linux-rt-users@vger.kernel.org
+X-Envelope-To: claudiu.beznea.uj@bp.renesas.com
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Diederik de Haas <didi.debian@cknow.org>
+To: geert+renesas@glider.be, linus.walleij@linaro.org, efault@gmx.de,
+ Claudiu <claudiu.beznea@tuxon.dev>
+Cc: linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, claudiu.beznea@tuxon.dev,
+ linux-rt-users@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject:
+ Re: [PATCH] pinctrl: renesas: rzg2l: use spin_{lock,unlock}_irq{save,restore}
+Date: Tue, 21 May 2024 17:08:04 +0200
+Message-ID: <1909974.d4bNfQZPDi@bagend>
+Organization: Connecting Knowledge
+In-Reply-To: <20240520072033.228049-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20240520072033.228049-1-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -69,11 +73,21 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240520072033.228049-1-claudiu.beznea.uj@bp.renesas.com>
+Content-Type: multipart/signed; boundary="nextPart5820949.HBZXY12uQI";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
+X-Migadu-Flow: FLOW_OUT
 
-On 2024-05-20 10:20:33 [+0300], Claudiu wrote:
+--nextPart5820949.HBZXY12uQI
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
+From: Diederik de Haas <didi.debian@cknow.org>
+Date: Tue, 21 May 2024 17:08:04 +0200
+Message-ID: <1909974.d4bNfQZPDi@bagend>
+Organization: Connecting Knowledge
+References: <20240520072033.228049-1-claudiu.beznea.uj@bp.renesas.com>
+MIME-Version: 1.0
+
+On Monday, 20 May 2024 09:20:33 CEST Claudiu wrote:
 > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 > 
 > On PREEMPT_RT kernels the spinlock_t maps to an rtmutex. Using
@@ -81,13 +95,53 @@ On 2024-05-20 10:20:33 [+0300], Claudiu wrote:
 > &pctrl->lock.rlock breaks the PREEMPT_RT builds. To fix this use
 > spin_lock_irqsave()/spin_unlock_irqrestore() on &pctrl->lock.
 > 
-> Fixes: e1fd1f9f457b ("pinctrl: renesas: rzg2l: Configure the interrupt type on resume")
-
-02cd2d3be1c31 ("pinctrl: renesas: rzg2l: Configure the interrupt type on resume")
-
-> Reported-by: Diederik de Haas <didi.debian@cknow.org>
+> Fixes: e1fd1f9f457b ("pinctrl: renesas: rzg2l: Configure the interrupt type
+> on resume") Reported-by: Diederik de Haas <didi.debian@cknow.org>
 > Closes: https://lore.kernel.org/all/131999629.KQPSlr0Zke@bagend
 > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> ---
+>  drivers/pinctrl/renesas/pinctrl-rzg2l.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> b/drivers/pinctrl/renesas/pinctrl-rzg2l.c index 20425afc6b33..78f947a8e26e
+> 100644
+> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> @@ -2069,11 +2069,11 @@ static void rzg2l_gpio_irq_restore(struct
+> rzg2l_pinctrl *pctrl) * This has to be atomically executed to protect
+> against a concurrent * interrupt.
+>  		 */
+> -		raw_spin_lock_irqsave(&pctrl->lock.rlock, flags);
+> +		spin_lock_irqsave(&pctrl->lock, flags);
+>  		ret = rzg2l_gpio_irq_set_type(data, 
+irqd_get_trigger_type(data));
+>  		if (!ret && !irqd_irq_disabled(data))
+>  			rzg2l_gpio_irq_enable(data);
+> -		raw_spin_unlock_irqrestore(&pctrl->lock.rlock, flags);
+> +		spin_unlock_irqrestore(&pctrl->lock, flags);
+> 
+>  		if (ret)
+>  			dev_crit(pctrl->dev, "Failed to set IRQ type 
+for virq=%u\n", virq);
 
-Sebastian
+Now the build succeeds on both amd64 and arm64.
+Thanks!
+--nextPart5820949.HBZXY12uQI
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZky41AAKCRDXblvOeH7b
+bv6EAP0YuCZoGdztw1jivJ1yX2r7Z1UJqSpTOJGtwl10KZCmmAD8D6BkuzDB3RCH
+yIhCrbJaTvdW+PJeKOqh6hG2Mb85nw0=
+=x0p+
+-----END PGP SIGNATURE-----
+
+--nextPart5820949.HBZXY12uQI--
+
+
+
 
