@@ -1,84 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-5427-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5428-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFBD48CBAD1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 May 2024 07:54:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93B988CBD1E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 May 2024 10:39:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5E6721F222E6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 May 2024 05:54:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 08EE7282796
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 May 2024 08:39:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7127E770E4;
-	Wed, 22 May 2024 05:54:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46F9A7F7FD;
+	Wed, 22 May 2024 08:39:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="YHETBpWS"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="f8FsAwll"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E4096BB33
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 May 2024 05:54:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB3C97E782
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 May 2024 08:39:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716357293; cv=none; b=pZojxZpu3pEkz99HhGk07bEQiGkB9VgC/B3BTRonD2NzUhllPhkft1unv+5kn34bNhfwO5jFtrWgn0hvqgEC8EU1unC7hn4bBaa12ZejASYJiyMvUv+szpOW3kXVAvAMlnrrmj1/nwwWe2tFre6Z2XdvlHSkkWhSsy8tnfZi2wA=
+	t=1716367150; cv=none; b=A0gnOMi/S8WVWjXzNtd3ofoiIFSLhaMFmJKcnstdjKJwr9tRG+Y+LQAcMTOc9qfdYj9tj+w9R8FNTw15gfCEx9KkYtfDN8t3DjpESjOfpcYsIVFq6LDJM8L5sGvaRHisT7AMrM6pldd2q6Qvd1eNfTHwGSY76KhVhHdlWRjoFyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716357293; c=relaxed/simple;
-	bh=7EZzhmNV67X8aCMBM+0ECzyFQGItKr3UmrDu29BtlxA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CHewrDbYmPclE5HY04Zsr7ssybr27s1dJkb1Fxi675l3mPSq3BaZ7k8NI9X6vtTCCD7yfLeGS469u4IYn4zpab5lkDcfFO4JAMBLxhh637KlZrIXvlY6WAMwXsR3Yfacb+k+OwaavyeLB9AyG1gRb/cb9DhLKcVF3ovpXJny7OU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=YHETBpWS; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4202dd90dcfso4222695e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 May 2024 22:54:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1716357289; x=1716962089; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z5Ef9nBQSYhDomv1/1h6E+yKGEz7b/E/OzEO4/4KPwI=;
-        b=YHETBpWS7/gxQbw6ZtDpDUGixy90tEwVHeJne2FoBStxH08BNtqKHDAPgHFlA6COtn
-         ejpnJdJUABMyUJubUW0I3y03Eom4itRAXDzV42alNrLH2VDuwQtJhV2RxdbZN/OQLsQI
-         ZpeTKHRgq3whnTLjEKe52yFqcPba/nRQ574IdMtsYD0w2KBecD6ZlE7+9aVH8t+VbNPk
-         Pjw8TgXyvUa+XElMsmNR0d67NxbyLK39j3+UohineizaIkY7tcFAOK4oXiB5MwEhORdB
-         1FfIUB2IoXdXozeOvj3ekTmixAv3/vX2IszGwfYp3EJKluDMQ1nNk0LM+fP1iUd/MieE
-         TNoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716357289; x=1716962089;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Z5Ef9nBQSYhDomv1/1h6E+yKGEz7b/E/OzEO4/4KPwI=;
-        b=As3add4Pi43eSJxwREOB2W4pd+dA89l69IFWxd225peOTsC9j9DHD1M++OI/Gj1zBv
-         mDf8ct5IDiADWKC5C3yONjU+55nrflQoxhU+AYNx1QsTwiFQQpsOBbRCD0ebCFphFvei
-         CE0TKOqOLxzcb4XK2WORfCEPI8GG9jcH1/FYIlxKuImfXNTcbiwfWjS5KQjEHs82uDkw
-         Yag9TIzETkSOE7rh123yvZAzxcYRBgQXVS6IyDDZNRCuasK0Dy2r6ZNJNDt4ilnpO0TD
-         7rMpiG9srkvsdVnPsF/rP/zESBWcIu8/oDjklzJ9q8M2VYsBK16NgTIVibzRbmDAq45O
-         xRkA==
-X-Gm-Message-State: AOJu0Yx+KDye96bactwo9Cskdkrt7HVa3jypBZPYROpr2mtp+Y6MhwnV
-	w66/iZ/jLKc9tKrk9wHvParQNN2uKYobbq3x9cehHHSq3odwC2mGB3U1Xh1/v5s=
-X-Google-Smtp-Source: AGHT+IE1oVCwdvNgx4NOCy9IfBYjOPPqLJm+kp/C3JyYqhQINpS7WEkTXmfiinPack4CkKVQR5SYeQ==
-X-Received: by 2002:a05:600c:1c95:b0:41f:e87b:45c2 with SMTP id 5b1f17b1804b1-420fd225b5amr8749115e9.0.1716357289538;
-        Tue, 21 May 2024 22:54:49 -0700 (PDT)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.161])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41fccce9431sm475726705e9.28.2024.05.21.22.54.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 May 2024 22:54:49 -0700 (PDT)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: geert+renesas@glider.be,
-	linus.walleij@linaro.org,
-	didi.debian@cknow.org,
-	efault@gmx.de
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	claudiu.beznea@tuxon.dev,
-	linux-rt-users@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v2] pinctrl: renesas: rzg2l: Use spin_{lock,unlock}_irq{save,restore}
-Date: Wed, 22 May 2024 08:54:21 +0300
-Message-Id: <20240522055421.2842689-1-claudiu.beznea.uj@bp.renesas.com>
+	s=arc-20240116; t=1716367150; c=relaxed/simple;
+	bh=qTmJPEAfjcIFSs6KpQoShXrrxCehuedAas+YJzieai4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=m3FRJB7mIVwyjzEpwVFPa/cAdXWAkRRlKSlPppO2Vem9B0V6jAKyUC4qHHEYf92Ph/f7XYQtcyJww4XQfHPYrFVHB8QqOmAFJOzn3idOoIQoejV+rfwUTA6yi7MW452XyUrk4o5YRvnSaB4gxj+ZlIDSIs/cm4C/GbmI5w9BlOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=f8FsAwll; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=qVHvG27pLONLMH
+	a1UvYpmlv58sgPWsAaCFuVRWq3EO8=; b=f8FsAwllsYFmoqNA7vWctlNe7AuGFl
+	tJH5JuSUCu5Wbwf8GksztG3Ep9pEwpIy29E9MECw8nuq7AxROt5zdbZ6+Gzhvq+B
+	UeY6exUooKiwWHdwbg/y4RMpfmz/MyhJWWEEWDxSvLFefOOfkO6Ni4hWLNSqqiJX
+	t082N4dF9U+PcobDkIG7x4SWMOWEfckU/Z2C3IK2zVIm30o/W8nya/XldJP5tyDk
+	8O9LsdyzCkIj76tvIpVHzitDwiMk5cg7exhsgg6ZRRxaumP89B24kpsZGmHRY6rF
+	WTbsKz/XBpKTSytzqaFABo6e4Kfl7xNDUuZ/jglz9fuwjYsSrC3YVInQ==
+Received: (qmail 635703 invoked from network); 22 May 2024 10:39:00 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 May 2024 10:39:00 +0200
+X-UD-Smtp-Session: l3s3148p1@ptyv3QYZQusujntm
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Eric Sandeen <sandeen@redhat.com>,
+	David Howells <dhowells@redhat.com>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] debugfs: ignore auto and noauto options if given
+Date: Wed, 22 May 2024 10:38:51 +0200
+Message-Id: <20240522083851.37668-1-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -88,44 +64,56 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+The 'noauto' and 'auto' options were missed when migrating to the new
+mount API. As a result, users with these in their fstab mount options
+are now unable to mount debugfs filesystems, as they'll receive an
+"Unknown parameter" error.
 
-On PREEMPT_RT kernels the spinlock_t maps to an rtmutex. Using
-raw_spin_lock_irqsave()/raw_spin_unlock_irqrestore() on
-&pctrl->lock.rlock breaks the PREEMPT_RT builds. To fix this use
-spin_lock_irqsave()/spin_unlock_irqrestore() on &pctrl->lock.
+This restores the old behaviour of ignoring noauto and auto if they're
+given.
 
-Fixes: 02cd2d3be1c3 ("pinctrl: renesas: rzg2l: Configure the interrupt type on resume")
-Reported-by: Diederik de Haas <didi.debian@cknow.org>
-Closes: https://lore.kernel.org/all/131999629.KQPSlr0Zke@bagend
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Fixes: a20971c18752 ("vfs: Convert debugfs to use the new mount API")
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
 
-Changes in v2:
-- use proper commit id in "Fixes" section
-- s/use/Use in patch title
+With current top-of-tree, debugfs remained empty on my boards triggering
+the message "debugfs: Unknown parameter 'auto'". I applied a similar fix
+which CIFS got and largely reused the commit message from 19d51588125f
+("cifs: ignore auto and noauto options if given").
 
- drivers/pinctrl/renesas/pinctrl-rzg2l.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Given the comment in debugfs_parse_param(), I am not sure if this patch
+is a complete fix or if there are more options to be ignored. This patch
+makes it work for me(tm), however.
 
-diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-index 20425afc6b33..78f947a8e26e 100644
---- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-@@ -2069,11 +2069,11 @@ static void rzg2l_gpio_irq_restore(struct rzg2l_pinctrl *pctrl)
- 		 * This has to be atomically executed to protect against a concurrent
- 		 * interrupt.
- 		 */
--		raw_spin_lock_irqsave(&pctrl->lock.rlock, flags);
-+		spin_lock_irqsave(&pctrl->lock, flags);
- 		ret = rzg2l_gpio_irq_set_type(data, irqd_get_trigger_type(data));
- 		if (!ret && !irqd_irq_disabled(data))
- 			rzg2l_gpio_irq_enable(data);
--		raw_spin_unlock_irqrestore(&pctrl->lock.rlock, flags);
-+		spin_unlock_irqrestore(&pctrl->lock, flags);
+From my light research, tracefs (which was converted to new mount API
+together with debugfs) doesn't need the same fixing. But I am not
+super-sure about that.
+
+Looking forward to comments.
+
+
+ fs/debugfs/inode.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/fs/debugfs/inode.c b/fs/debugfs/inode.c
+index dc51df0b118d..915f0b618486 100644
+--- a/fs/debugfs/inode.c
++++ b/fs/debugfs/inode.c
+@@ -89,12 +89,14 @@ enum {
+ 	Opt_uid,
+ 	Opt_gid,
+ 	Opt_mode,
++	Opt_ignore,
+ };
  
- 		if (ret)
- 			dev_crit(pctrl->dev, "Failed to set IRQ type for virq=%u\n", virq);
+ static const struct fs_parameter_spec debugfs_param_specs[] = {
+ 	fsparam_u32	("gid",		Opt_gid),
+ 	fsparam_u32oct	("mode",	Opt_mode),
+ 	fsparam_u32	("uid",		Opt_uid),
++	fsparam_flag_no	("auto",	Opt_ignore),
+ 	{}
+ };
+ 
 -- 
 2.39.2
 
