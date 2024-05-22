@@ -1,120 +1,106 @@
-Return-Path: <linux-renesas-soc+bounces-5428-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5429-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93B988CBD1E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 May 2024 10:39:17 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C50058CBD8A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 May 2024 11:13:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 08EE7282796
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 May 2024 08:39:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EA0411C21921
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 May 2024 09:13:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46F9A7F7FD;
-	Wed, 22 May 2024 08:39:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="f8FsAwll"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE4AA80023;
+	Wed, 22 May 2024 09:13:16 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB3C97E782
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 May 2024 08:39:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 962FD7D408;
+	Wed, 22 May 2024 09:13:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716367150; cv=none; b=A0gnOMi/S8WVWjXzNtd3ofoiIFSLhaMFmJKcnstdjKJwr9tRG+Y+LQAcMTOc9qfdYj9tj+w9R8FNTw15gfCEx9KkYtfDN8t3DjpESjOfpcYsIVFq6LDJM8L5sGvaRHisT7AMrM6pldd2q6Qvd1eNfTHwGSY76KhVhHdlWRjoFyQ=
+	t=1716369196; cv=none; b=pv9QVTbBOX389DOR+9ROGacvdNC/ytBF2WtQiWQDI7UHhTysGC4YZjWHa7uXha8V8vKhYziXPq59y4kgWT+jSAjkbP+KZuI3kYYFxEsAG6cVjISeTsWfoE85UhkyoSiBsIWrAkbmXj7TJU3Gc1VD2rP0KOhEgg623KPRv+r6yNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716367150; c=relaxed/simple;
-	bh=qTmJPEAfjcIFSs6KpQoShXrrxCehuedAas+YJzieai4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=m3FRJB7mIVwyjzEpwVFPa/cAdXWAkRRlKSlPppO2Vem9B0V6jAKyUC4qHHEYf92Ph/f7XYQtcyJww4XQfHPYrFVHB8QqOmAFJOzn3idOoIQoejV+rfwUTA6yi7MW452XyUrk4o5YRvnSaB4gxj+ZlIDSIs/cm4C/GbmI5w9BlOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=f8FsAwll; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=qVHvG27pLONLMH
-	a1UvYpmlv58sgPWsAaCFuVRWq3EO8=; b=f8FsAwllsYFmoqNA7vWctlNe7AuGFl
-	tJH5JuSUCu5Wbwf8GksztG3Ep9pEwpIy29E9MECw8nuq7AxROt5zdbZ6+Gzhvq+B
-	UeY6exUooKiwWHdwbg/y4RMpfmz/MyhJWWEEWDxSvLFefOOfkO6Ni4hWLNSqqiJX
-	t082N4dF9U+PcobDkIG7x4SWMOWEfckU/Z2C3IK2zVIm30o/W8nya/XldJP5tyDk
-	8O9LsdyzCkIj76tvIpVHzitDwiMk5cg7exhsgg6ZRRxaumP89B24kpsZGmHRY6rF
-	WTbsKz/XBpKTSytzqaFABo6e4Kfl7xNDUuZ/jglz9fuwjYsSrC3YVInQ==
-Received: (qmail 635703 invoked from network); 22 May 2024 10:39:00 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 May 2024 10:39:00 +0200
-X-UD-Smtp-Session: l3s3148p1@ptyv3QYZQusujntm
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Eric Sandeen <sandeen@redhat.com>,
-	David Howells <dhowells@redhat.com>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] debugfs: ignore auto and noauto options if given
-Date: Wed, 22 May 2024 10:38:51 +0200
-Message-Id: <20240522083851.37668-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1716369196; c=relaxed/simple;
+	bh=NpDkl4C/aLxNfziyVKJNZYBrRPMqBmz2L19eYuqK2zs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NbZ39XfVr/6oc4pAizJeepLwXnzhleQB4yM6Wk4ULicJHiFn9gwrm6BKw3soaQyf/+uvgrl4BFoGmYVJLQ3iILSCyerHFbmoRlMrP5dfbxZlvUrQqN3BAio2J3RJT/5OlEabNeowyO5KyR4ZD4JIrnQ92Qizs13TYp0GeJjqNgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-df4dce67becso816130276.2;
+        Wed, 22 May 2024 02:13:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716369193; x=1716973993;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=y+vSIey2mm84TJxOyNrO7CZJLSbx18JBAUyIQbFjOoc=;
+        b=dhdkJ33+Auh8UvyMV0a3SgIs0hkQxJ5G/TX1V1LpafK80ZBQoe8vYvWVzCWDA5JbG6
+         W1s0B7Co3aLooOzHknvzDkc+Tcbyadk1s5A2v+nDLEa6FdnDjl7NyytTqq9Cth8tcPLR
+         gE4hIpBFPzmLOtMKlXS10V246haxl09z119VTPjY/Tc9u7WaoCuwCtcuVWVHsAL8MDRh
+         Wp1vPyjYUHMYbxiOfZDCZOv5RsYRTD4k+U+5V+KJvGMrxwAZflRoayAqovo6rosEYuLo
+         TGnuDkcDiE2OE96kHmLeJoitzWO3NV3RDvsEOmndcOUzIDZIJQ3OdCB7t964TiBL2xTQ
+         qgBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXE+tg6md5Oweb/+RyH12lauI03bGISSeLmFt52ZlbFXq+fHyq976Wls0HKJjYjHoD04hPbw8qtvEuRgP76f4uUUYhoSA4bD255pXu5xq5ZYNx4Q7B+MfQ/FgoC2o/1KfS1k4Cy4EK3QA==
+X-Gm-Message-State: AOJu0Yyl+waAn5+YdtOK9xZricYUrOOG0A4wpi++SXR/3Wp0xhf0gdIw
+	tW2oQf8evlIJpiPm7tjhxjdqUKv0tSjuD5yygog/60lbYxT64bZIfM+2SW1a
+X-Google-Smtp-Source: AGHT+IH/FR2r405wasBLoYUxpNArUb57kZyAqOMcRsQa+uNXkZ+5JqLa0AWdtDCpXEuA+266We/8sg==
+X-Received: by 2002:a25:8002:0:b0:de5:4ab8:317f with SMTP id 3f1490d57ef6-df4e0bc89d0mr1521203276.20.1716369192973;
+        Wed, 22 May 2024 02:13:12 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-df443e64338sm2812577276.32.2024.05.22.02.13.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 May 2024 02:13:12 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-6203f553e5fso45753247b3.1;
+        Wed, 22 May 2024 02:13:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXuUburJZEu64jD0O6VG1rpU5Me9N6oh4sWpAzCAdcIbhlGjIe+GGdSmYDHd35zZP2eBx7e2Qm94cJDcjXlamXC6tpgqhmJZaBaPCWn4UrH8kGgE68mQdkCuUgyXhFiTAydj7nQn8caNg==
+X-Received: by 2002:a05:690c:f88:b0:615:ecc:91c0 with SMTP id
+ 00721157ae682-627e465c79dmr17494947b3.20.1716369192153; Wed, 22 May 2024
+ 02:13:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240515091925.24353-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20240515091925.24353-2-wsa+renesas@sang-engineering.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 22 May 2024 11:13:00 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWPBp+5zmech9hJbAvmhi5O38z-hTW1oBQjbf5Uw_jqsQ@mail.gmail.com>
+Message-ID: <CAMuHMdWPBp+5zmech9hJbAvmhi5O38z-hTW1oBQjbf5Uw_jqsQ@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: gray-hawk-single: add aliases for
+ I2C busses
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The 'noauto' and 'auto' options were missed when migrating to the new
-mount API. As a result, users with these in their fstab mount options
-are now unable to mount debugfs filesystems, as they'll receive an
-"Unknown parameter" error.
+On Wed, May 15, 2024 at 11:19=E2=80=AFAM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> They are numbered like this in the schematics, so keep the names in
+> Linux the same.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-This restores the old behaviour of ignoring noauto and auto if they're
-given.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.11.
 
-Fixes: a20971c18752 ("vfs: Convert debugfs to use the new mount API")
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+Gr{oetje,eeting}s,
 
-With current top-of-tree, debugfs remained empty on my boards triggering
-the message "debugfs: Unknown parameter 'auto'". I applied a similar fix
-which CIFS got and largely reused the commit message from 19d51588125f
-("cifs: ignore auto and noauto options if given").
+                        Geert
 
-Given the comment in debugfs_parse_param(), I am not sure if this patch
-is a complete fix or if there are more options to be ignored. This patch
-makes it work for me(tm), however.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-From my light research, tracefs (which was converted to new mount API
-together with debugfs) doesn't need the same fixing. But I am not
-super-sure about that.
-
-Looking forward to comments.
-
-
- fs/debugfs/inode.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/fs/debugfs/inode.c b/fs/debugfs/inode.c
-index dc51df0b118d..915f0b618486 100644
---- a/fs/debugfs/inode.c
-+++ b/fs/debugfs/inode.c
-@@ -89,12 +89,14 @@ enum {
- 	Opt_uid,
- 	Opt_gid,
- 	Opt_mode,
-+	Opt_ignore,
- };
- 
- static const struct fs_parameter_spec debugfs_param_specs[] = {
- 	fsparam_u32	("gid",		Opt_gid),
- 	fsparam_u32oct	("mode",	Opt_mode),
- 	fsparam_u32	("uid",		Opt_uid),
-+	fsparam_flag_no	("auto",	Opt_ignore),
- 	{}
- };
- 
--- 
-2.39.2
-
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
