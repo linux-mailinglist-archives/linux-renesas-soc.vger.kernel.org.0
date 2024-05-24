@@ -1,72 +1,72 @@
-Return-Path: <linux-renesas-soc+bounces-5461-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5462-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 849AB8CE256
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 May 2024 10:29:29 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FBB28CE25B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 May 2024 10:29:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 343CE2830A0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 May 2024 08:29:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D8705B218FF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 May 2024 08:29:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCDA6129A72;
-	Fri, 24 May 2024 08:29:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6422129A6B;
+	Fri, 24 May 2024 08:29:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bcf7eL3m"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vp2PQl1N"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F0E3129A6B;
-	Fri, 24 May 2024 08:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C3D1292D0;
+	Fri, 24 May 2024 08:29:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716539356; cv=none; b=Jl8s7sWVPQG09FAZUWwGNyTatTCPQDyhQN2qoIKxO3DSCyjl0LSpauDmzw7G+cIfLxTlBtbp/gCdZk7y1HhJcaieNLiOq9cdLIpAI2SzkHUmIon0R7yAI1m+yBDBMKhVPqMIEJlMnNaDmB0gIkCJTACEz/wJxILr0sBH5dYIgQM=
+	t=1716539362; cv=none; b=hvoWmo8lTGhW6vPSIVRgthXWTd1wfskApodEX6xVogD25nLKhRQ2pRVUl/E/QAjLiUK0xSnJWccKLceJDWNilFwMsvO9opHg54Fcnrj2YP0jSHLum0tcT9KKrmbFu3MQtLaxQ3VKjSJH9e2WVX/acMej4CEsLbnC7phi1bfL2gI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716539356; c=relaxed/simple;
-	bh=Syu87wNYqOpjqLrHs86OT8Konj4WWmjdPyrSSiezLo8=;
+	s=arc-20240116; t=1716539362; c=relaxed/simple;
+	bh=/D4HEqzX5IY92/epGEabGZJ3SoCqduS19FCU7Q+oND8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=DOUkcY6F3RvjzHVXrY7l+M4ybEagbzjLpEJeqWP3btX2X7BFUEn4sYBoN02dreRJ+rw0uAbfFbIsAl9RKFJRyHFpI0JJEXNHgBKrBTasm2LgKAFSkPAaGyDrjXC/PydZArWZAi14gaJMOpojYR0aSm5r4h0wEkdO0uPENfK2qwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bcf7eL3m; arc=none smtp.client-ip=209.85.214.170
+	 MIME-Version; b=eDmr+YhCDJGB5c6R9EVJFWY1XPQK0FJz+9G2r8S+sV6qDiujPQD6mFPRACVxP0AL68en3Ru1kXTbMXctP9QtMEoXWOU3vnKRFXFqL7GWqKzChnGtV9nYME8M0DIkEGIzAyi+HSGEMBidqBj51HyFH1Vz+flw5wwx50xtGO6YDhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vp2PQl1N; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1f32b1b5429so17279835ad.2;
-        Fri, 24 May 2024 01:29:15 -0700 (PDT)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1f32b1b5429so17280215ad.2;
+        Fri, 24 May 2024 01:29:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716539354; x=1717144154; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1716539359; x=1717144159; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PYtd+WaaaxSNWNbp7C0zKrikX/14iQi067rnRw0S8DU=;
-        b=Bcf7eL3myQJkYqtkfmu+4/Ld7DtkjBYxET1nXmjp5N0aiiGSOk+L7fnW9IOt3ZThMN
-         Bkh6Cg3j3X99ebcQpXgZ2wO4xVmzz7TDNsmUwiCN2YwbVeBrUcKr9blXrJv/HdUC4/Zw
-         z0PK/mcKMEK6k31Eqo1NMSF+HGVQXI4GiW0cURczZE1zdMy1TT7WvCTvCx5XEwFMMyi6
-         rYjqZd5m6IR+4Xeb0ujLdyODxuXLOua/OmiJoT5L6AHmx8v0sypmmhOsu1LmZjK4U0wT
-         Pu6sPmPwBtiGFshWrW2ABMGbBnzTmvCfYPtDHbhOxDZfGIz0i88SkTGccy5r1bfsRbkN
-         mU7Q==
+        bh=wBooOs6I6sAX8IQWZ04uC6q0osTHYQ0E8Quoz+eHYeo=;
+        b=Vp2PQl1NWRZ0/a7aiHzF2NlqA+n8lS4mPd1kGn3ubqeKyWxLXXbW+HkSbfl7+e9tz9
+         moN9HBWX9YQlPJGrUGapSAXJAU5c6xKS3FnnDx5lDhmCK4yJXYsfs3+gWBXHgsyPF+kD
+         mU8lSjwvtR+3IQNJuc9zqr4qyP2bPeWWJATRcOhe9UeWWjZB5dAAa3OaFodmFtv6SmU9
+         B3+XKPSKNnzWpsdsHRbtxgIPgazvIsUDSediaJTBkf8B5DGk5mP0fmDUyi7aoN5Aq/Zt
+         R88Ky3iPyaLJfkuyc2wO71/anoQQ8maI4EQjKBUZH6VxSIfpYHNbD2B453g6dIasOPFy
+         rC5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716539354; x=1717144154;
+        d=1e100.net; s=20230601; t=1716539359; x=1717144159;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PYtd+WaaaxSNWNbp7C0zKrikX/14iQi067rnRw0S8DU=;
-        b=sIy/38oXpuF+vDKIzb0Pbmp2mXeseL1Nbb/Skt9bmMO8cGnyRrncekMZ7Mpx6cFvqd
-         KnSZD1o4pYE8UK38BAeXkIpJJ1pXWcID/+7TXEooR+N7E5fhjuDo/eEl/ST1ce5pGOq8
-         sw15/48jmuZEyekGYKA9AGMAjMC4JWjNEqdt0brvTFuzMn7GNgFoSRwKDsfWZiFKEE7B
-         RJj8yqOJbefJIXYujMPd8iWAXuuXf6b1VpqhMzPcYAE8n8cz3stduVt82YB6+FCqeO+C
-         vtpTsX20QukDZpW7OtdzoOThwvoO0asKt4nWezZdU+p62vTNvXe/kASwvGlAQWmq9iOO
-         WaXg==
-X-Forwarded-Encrypted: i=1; AJvYcCXK3ro74SCg6liB6DdqI4dEzaCmFEyr4Lh2RdUHegYiDYs52mN28+aFxERYnf/cVnFVGJroJPjcOCAhWbFf3ZBKOFG3TTZ13NxltMU8xVB/V+OJleus+/6rmsgVJY3yhizo63kJgknp5trhw2M5Q8ZmvmA3OmDlqBoeyW87BvvEIiwHmw==
-X-Gm-Message-State: AOJu0Yx9eigGipCkUCv3Vh6amjAKN6LpDeov3D+zZj7mn8Rldez6i+oo
-	sQ8tCUYBqZoBdaJQpXnaZUf1F8vThGOmhHSBu9q/algklHubPf/T
-X-Google-Smtp-Source: AGHT+IF+8CyXTiXdRmeOk5XTpQsrV0UpJpnqzH892lPxiVxY49FVhQ2viReqo2MlDn+hAHGhIJiGmw==
-X-Received: by 2002:a17:902:e5d1:b0:1e2:81c1:b35e with SMTP id d9443c01a7336-1f4497dfedbmr19475755ad.54.1716539354510;
-        Fri, 24 May 2024 01:29:14 -0700 (PDT)
+        bh=wBooOs6I6sAX8IQWZ04uC6q0osTHYQ0E8Quoz+eHYeo=;
+        b=lOHe2J2NvwkPpxc/55NxFJEpP7twvUs6QeS2gLBkNnDSdh4Jpe8MWBWoiA62iFye9B
+         mq2qqqG23pU1grj9vlmlQaYxG2SjJvLxd/LlnGWSV5Rlno7sIYs8R4KOJoyiw8gkV3fz
+         INh1DTBRxUg4jew6K/ix199hKJ9uEvS2Ug5SwMXcwxCARA1bxXLVMrXPOw8RFHtDJPcO
+         7DhZXdyVO4CdtMXwDs2A1z4rnsAnlqW2NAWixsHWVteOACz7Xhx3ZE45vQLEPhuyPOj4
+         USawjs0BD72p1C7O63+Bb8PggOjGBIdMWkphEX2VVzE6ngLbgfuOeUb0BrmykLVzI9cR
+         +F8A==
+X-Forwarded-Encrypted: i=1; AJvYcCWfpBtQfj6Ks5SeeKaCl+fwA85yOoMiL164FUj4jNI85dRvHWgk+WKNzO/ka532Phrtj8xsVPvVSNXqIZREXwQ+dPWoDxDAgjmj11zxO+JC7IvvsuwpDLLeJ4CC+tFOC2Jpf+7k+1fO6zI1Lu3rUmjH/WQ83usxW22VoykqwJoPPHSn8w==
+X-Gm-Message-State: AOJu0YyXH2x0j6/+Y9HfzbXUO82cl2tbHNaTWJ7AqLNedrx0JsWeWEtD
+	Wj55ufShImtSoqjTnz0BLDLXh4w1448GDT/o/SffRux5I2edc/lL
+X-Google-Smtp-Source: AGHT+IHPhia5nvvr08GP9M7mrpheFJGJ5p5m56/axIUI6WA+UsjaZ0ytZWTUlz1JD3dCSpizISx8CQ==
+X-Received: by 2002:a17:902:e5cf:b0:1f2:f6ec:9a40 with SMTP id d9443c01a7336-1f4497df95dmr24252265ad.44.1716539359290;
+        Fri, 24 May 2024 01:29:19 -0700 (PDT)
 Received: from prasmi.. ([2401:4900:1c07:bfcd:61e0:7fa9:84b8:25fd])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c9c6ea3sm8420325ad.277.2024.05.24.01.29.10
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c9c6ea3sm8420325ad.277.2024.05.24.01.29.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 May 2024 01:29:14 -0700 (PDT)
+        Fri, 24 May 2024 01:29:18 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -84,9 +84,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Prabhakar <prabhakar.csengg@gmail.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 1/4] dt-bindings: clock: renesas: Document RZ/V2H(P) SoC CPG driver
-Date: Fri, 24 May 2024 09:27:57 +0100
-Message-Id: <20240524082800.333991-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 2/4] dt-bindings: clock: Add R9A09G057 CPG Clock and Reset Definitions
+Date: Fri, 24 May 2024 09:27:58 +0100
+Message-Id: <20240524082800.333991-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240524082800.333991-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20240524082800.333991-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -100,105 +100,667 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Document the device tree bindings of the Renesas RZ/V2H(P) SoC
-Clock Pulse Generator (CPG).
-
-CPG block handles the below operations:
-- Handles the generation and control of clock signals for the IP modules
-- The generation and control of resets
-- Control over booting
-- Low power consumption and the power supply domains
+Define RZ/V2H(P) (R9A09G057) Clock Pulse Generator module clock outputs
+(CPG_CLK_ON* registers), and reset definitions (CPG_RST_* registers)
+in Section 4.4.2 and 4.4.3 ("List of Clock/Reset Signals") of the RZ/V2H(P)
+Hardware User's Manual (Rev.1.01, Feb. 2024).
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- .../bindings/clock/renesas,rzv2h-cpg.yaml     | 78 +++++++++++++++++++
- 1 file changed, 78 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/clock/renesas,rzv2h-cpg.yaml
+ include/dt-bindings/clock/r9a09g057-cpg.h | 644 ++++++++++++++++++++++
+ 1 file changed, 644 insertions(+)
+ create mode 100644 include/dt-bindings/clock/r9a09g057-cpg.h
 
-diff --git a/Documentation/devicetree/bindings/clock/renesas,rzv2h-cpg.yaml b/Documentation/devicetree/bindings/clock/renesas,rzv2h-cpg.yaml
+diff --git a/include/dt-bindings/clock/r9a09g057-cpg.h b/include/dt-bindings/clock/r9a09g057-cpg.h
 new file mode 100644
-index 000000000000..baa0f2a5b6f9
+index 000000000000..01b9eadcf031
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/clock/renesas,rzv2h-cpg.yaml
-@@ -0,0 +1,78 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/clock/renesas,rzv2h-cpg.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/include/dt-bindings/clock/r9a09g057-cpg.h
+@@ -0,0 +1,644 @@
++/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++ *
++ * Copyright (C) 2024 Renesas Electronics Corp.
++ */
++#ifndef __DT_BINDINGS_CLOCK_R9A09G057_CPG_H__
++#define __DT_BINDINGS_CLOCK_R9A09G057_CPG_H__
 +
-+title: Renesas RZ/V2H(P) Clock Pulse Generator (CPG)
++#include <dt-bindings/clock/renesas-cpg-mssr.h>
 +
-+maintainers:
-+  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
++/* Clock list */
++#define R9A09G057_SYS_0_PCLK				0
++#define R9A09G057_DMAC_0_ACLK				1
++#define R9A09G057_DMAC_1_ACLK				2
++#define R9A09G057_DMAC_2_ACLK				3
++#define R9A09G057_DMAC_3_ACLK				4
++#define R9A09G057_DMAC_4_ACLK				5
++#define R9A09G057_ICU_0_PCLK_I				6
++#define R9A09G057_CRC_0_CLK_CRC				7
++#define R9A09G057_CA55_0_CORE_CLK0			8
++#define R9A09G057_CA55_0_CORE_CLK1			9
++#define R9A09G057_CA55_0_CORE_CLK2			10
++#define R9A09G057_CA55_0_CORE_CLK3			11
++#define R9A09G057_CA55_0_SCLK				12
++#define R9A09G057_CA55_0_PCLK				13
++#define R9A09G057_CA55_0_ATCLK				14
++#define R9A09G057_CA55_0_GICCLK				15
++#define R9A09G057_CA55_0_PERIPHCLK			16
++#define R9A09G057_CA55_0_ACLK				17
++#define R9A09G057_CA55_0_TSCLK				18
++#define R9A09G057_CR8_0_CLK				19
++#define R9A09G057_CR8_0_PERIPHCLK			20
++#define R9A09G057_CR8_0_ACLK				21
++#define R9A09G057_CR8_0_ATCLK0				22
++#define R9A09G057_CR8_0_TSCLK				23
++#define R9A09G057_CR8_0_DBGCLK				24
++#define R9A09G057_CM33_CLK0				25
++#define R9A09G057_CM33_CLK1				26
++#define R9A09G057_GIC_0_GICCLK				27
++#define R9A09G057_SRAM_0_ACLK				28
++#define R9A09G057_SRAM_1_ACLK				29
++#define R9A09G057_SRAM_2_ACLK				30
++#define R9A09G057_SRAM_3_ACLK				31
++#define R9A09G057_SRAM_4_ACLK				32
++#define R9A09G057_SRAM_5_ACLK				33
++#define R9A09G057_SRAM_6_ACLK				34
++#define R9A09G057_SRAM_7_ACLK				35
++#define R9A09G057_SRAM_8_ACLK				36
++#define R9A09G057_SRAM_9_ACLK				37
++#define R9A09G057_SRAM_10_ACLK				38
++#define R9A09G057_SRAM_11_ACLK				39
++#define R9A09G057_BTROM_0_ACLK				40
++#define R9A09G057_CST_0_CS_CLK				41
++#define R9A09G057_CST_0_TS_CLK				42
++#define R9A09G057_CST_0_APB_SB_CLK			43
++#define R9A09G057_CST_0_APB_CA55_CLK			44
++#define R9A09G057_CST_0_APB_CR8_CLK			45
++#define R9A09G057_CST_0_APB_CM33_CLK			46
++#define R9A09G057_CST_0_AHB_CM33_CLK			47
++#define R9A09G057_CST_0_AHB_ATH_CLK			48
++#define R9A09G057_CST_0_ATB_CA55_CLK			49
++#define R9A09G057_CST_0_ATB_CR8_CLK			50
++#define R9A09G057_CST_0_ATB_CM33_CLK			51
++#define R9A09G057_CST_0_ATB_CST_CLK			52
++#define R9A09G057_CST_0_SWCLKTCK			53
++#define R9A09G057_CST_0_AXI_ETR_CLK			54
++#define R9A09G057_CST_0_AXI_SB_CLK			55
++#define R9A09G057_SYC_0_CNT_CLK				56
++#define R9A09G057_MHU_0_PCLK				57
++#define R9A09G057_GPT_0_PCLK_SFR			58
++#define R9A09G057_GPT_0_CLKS_GPT			59
++#define R9A09G057_GPT_1_PCLK_SFR			60
++#define R9A09G057_GPT_1_CLKS_GPT			61
++#define R9A09G057_POEGA_0_PCLK				62
++#define R9A09G057_POEGB_0_PCLK				63
++#define R9A09G057_POEGC_0_PCLK				64
++#define R9A09G057_POEGD_0_PCLK				65
++#define R9A09G057_POEGA_1_PCLK				66
++#define R9A09G057_POEGB_1_PCLK				67
++#define R9A09G057_POEGC_1_PCLK				68
++#define R9A09G057_POEGD_1_PCLK				69
++#define R9A09G057_CMTW_0_CLKM				70
++#define R9A09G057_CMTW_1_CLKM				71
++#define R9A09G057_CMTW_2_CLKM				72
++#define R9A09G057_CMTW_3_CLKM				73
++#define R9A09G057_CMTW_4_CLKM				74
++#define R9A09G057_CMTW_5_CLKM				75
++#define R9A09G057_CMTW_6_CLKM				76
++#define R9A09G057_CMTW_7_CLKM				77
++#define R9A09G057_GTM_0_PCLK				78
++#define R9A09G057_GTM_1_PCLK				79
++#define R9A09G057_GTM_2_PCLK				80
++#define R9A09G057_GTM_3_PCLK				81
++#define R9A09G057_GTM_4_PCLK				82
++#define R9A09G057_GTM_5_PCLK				83
++#define R9A09G057_GTM_6_PCLK				84
++#define R9A09G057_GTM_7_PCLK				85
++#define R9A09G057_WDT_0_CLKP				86
++#define R9A09G057_WDT_0_CLK_LOCO			87
++#define R9A09G057_WDT_1_CLKP				88
++#define R9A09G057_WDT_1_CLK_LOCO			89
++#define R9A09G057_WDT_2_CLKP				90
++#define R9A09G057_WDT_2_CLK_LOCO			91
++#define R9A09G057_WDT_3_CLKP				92
++#define R9A09G057_WDT_3_CLK_LOCO			93
++#define R9A09G057_RTC_0_CLK_RTC				94
++#define R9A09G057_RSPI_0_PCLK				95
++#define R9A09G057_RSPI_0_PCLK_SFR			96
++#define R9A09G057_RSPI_0_TCLK				97
++#define R9A09G057_RSPI_1_PCLK				98
++#define R9A09G057_RSPI_1_PCLK_SFR			99
++#define R9A09G057_RSPI_1_TCLK				100
++#define R9A09G057_RSPI_2_PCLK				101
++#define R9A09G057_RSPI_2_PCLK_SFR			102
++#define R9A09G057_RSPI_2_TCLK				103
++#define R9A09G057_RSCI_0_PCLK				104
++#define R9A09G057_RSCI_0_PCLK_SFR			105
++#define R9A09G057_RSCI_0_TCLK				106
++#define R9A09G057_RSCI_0_PS_PS3_N			107
++#define R9A09G057_RSCI_0_PS_PS2_N			108
++#define R9A09G057_RSCI_0_PS_PS1_N			109
++#define R9A09G057_RSCI_1_PCLK				110
++#define R9A09G057_RSCI_1_PCLK_SFR			111
++#define R9A09G057_RSCI_1_TCLK				112
++#define R9A09G057_RSCI_1_PS_PS3_N			113
++#define R9A09G057_RSCI_1_PS_PS2_N			114
++#define R9A09G057_RSCI_1_PS_PS1_N			115
++#define R9A09G057_RSCI_2_PCLK				116
++#define R9A09G057_RSCI_2_PCLK_SFR			117
++#define R9A09G057_RSCI_2_TCLK				118
++#define R9A09G057_RSCI_2_PS_PS3_N			119
++#define R9A09G057_RSCI_2_PS_PS2_N			120
++#define R9A09G057_RSCI_2_PS_PS1_N			121
++#define R9A09G057_RSCI_3_PCLK				122
++#define R9A09G057_RSCI_3_PCLK_SFR			123
++#define R9A09G057_RSCI_3_TCLK				124
++#define R9A09G057_RSCI_3_PS_PS3_N			125
++#define R9A09G057_RSCI_3_PS_PS2_N			126
++#define R9A09G057_RSCI_3_PS_PS1_N			127
++#define R9A09G057_RSCI_4_PCLK				128
++#define R9A09G057_RSCI_4_PCLK_SFR			129
++#define R9A09G057_RSCI_4_TCLK				130
++#define R9A09G057_RSCI_4_PS_PS3_N			131
++#define R9A09G057_RSCI_4_PS_PS2_N			132
++#define R9A09G057_RSCI_4_PS_PS1_N			133
++#define R9A09G057_RSCI_5_PCLK				134
++#define R9A09G057_RSCI_5_PCLK_SFR			135
++#define R9A09G057_RSCI_5_TCLK				136
++#define R9A09G057_RSCI_5_PS_PS3_N			137
++#define R9A09G057_RSCI_5_PS_PS2_N			138
++#define R9A09G057_RSCI_5_PS_PS1_N			139
++#define R9A09G057_RSCI_6_PCLK				140
++#define R9A09G057_RSCI_6_PCLK_SFR			141
++#define R9A09G057_RSCI_6_TCLK				142
++#define R9A09G057_RSCI_6_PS_PS3_N			143
++#define R9A09G057_RSCI_6_PS_PS2_N			144
++#define R9A09G057_RSCI_6_PS_PS1_N			145
++#define R9A09G057_RSCI_7_PCLK				146
++#define R9A09G057_RSCI_7_PCLK_SFR			147
++#define R9A09G057_RSCI_7_TCLK				148
++#define R9A09G057_RSCI_7_PS_PS3_N			149
++#define R9A09G057_RSCI_7_PS_PS2_N			150
++#define R9A09G057_RSCI_7_PS_PS1_N			151
++#define R9A09G057_RSCI_8_PCLK				152
++#define R9A09G057_RSCI_8_PCLK_SFR			153
++#define R9A09G057_RSCI_8_TCLK				154
++#define R9A09G057_RSCI_8_PS_PS3_N			155
++#define R9A09G057_RSCI_8_PS_PS2_N			156
++#define R9A09G057_RSCI_8_PS_PS1_N			157
++#define R9A09G057_RSCI_9_PCLK				158
++#define R9A09G057_RSCI_9_PCLK_SFR			159
++#define R9A09G057_RSCI_9_TCLK				160
++#define R9A09G057_RSCI_9_PS_PS3_N			161
++#define R9A09G057_RSCI_9_PS_PS2_N			162
++#define R9A09G057_RSCI_9_PS_PS1_N			163
++#define R9A09G057_SCIF_0_CLK_PCK			164
++#define R9A09G057_I3C_0_PCLKRW				165
++#define R9A09G057_I3C_0_PCLK				166
++#define R9A09G057_I3C_0_TCLK				167
++#define R9A09G057_RIIC_8_CKM				168
++#define R9A09G057_RIIC_0_CKM				169
++#define R9A09G057_RIIC_1_CKM				170
++#define R9A09G057_RIIC_2_CKM				171
++#define R9A09G057_RIIC_3_CKM				172
++#define R9A09G057_RIIC_4_CKM				173
++#define R9A09G057_RIIC_5_CKM				174
++#define R9A09G057_RIIC_6_CKM				175
++#define R9A09G057_RIIC_7_CKM				176
++#define R9A09G057_CANFD_0_PCLK				177
++#define R9A09G057_CANFD_0_CLK_RAM			178
++#define R9A09G057_CANFD_0_CLKC				179
++#define R9A09G057_SPI_HCLK				180
++#define R9A09G057_SPI_ACLK				181
++#define R9A09G057_SPI_CLK_SPI				182
++#define R9A09G057_SPI_CLK_SPIX2				183
++#define R9A09G057_IOTOP_0_SHCLK				184
++#define R9A09G057_SDHI_0_IMCLK				185
++#define R9A09G057_SDHI_0_IMCLK2				186
++#define R9A09G057_SDHI_0_CLK_HS				187
++#define R9A09G057_SDHI_0_ACLK				188
++#define R9A09G057_SDHI_1_IMCLK				189
++#define R9A09G057_SDHI_1_IMCLK2				190
++#define R9A09G057_SDHI_1_CLK_HS				191
++#define R9A09G057_SDHI_1_ACLK				192
++#define R9A09G057_SDHI_2_IMCLK				193
++#define R9A09G057_SDHI_2_IMCLK2				194
++#define R9A09G057_SDHI_2_CLK_HS				195
++#define R9A09G057_SDHI_2_ACLK				196
++#define R9A09G057_USB30_CLK_RESERVED0			197
++#define R9A09G057_USB30_CLK_RESERVED1			198
++#define R9A09G057_USB30_CLK_RESERVED2			199
++#define R9A09G057_USB30_CLK_RESERVED3			200
++#define R9A09G057_USB31_CLK_RESERVED0			201
++#define R9A09G057_USB31_CLK_RESERVED1			202
++#define R9A09G057_USB31_CLK_RESERVED2			203
++#define R9A09G057_USB31_CLK_RESERVED3			204
++#define R9A09G057_USB20_CLK_RESERVED0			205
++#define R9A09G057_USB21_CLK_RESERVED0			206
++#define R9A09G057_USB20_USB21_CLK_RESERVED0		207
++#define R9A09G057_USB20_CLK_RESERVED1			208
++#define R9A09G057_USB21_CLK_RESERVED1			209
++#define R9A09G057_USB20_CLK_RESERVED2			210
++#define R9A09G057_USB21_CLK_RESERVED2			211
++#define R9A09G057_GBETH0_CLK_RESERVED0			212
++#define R9A09G057_GBETH0_CLK_RESERVED1			213
++#define R9A09G057_GBETH0_CLK_RESERVED2			214
++#define R9A09G057_GBETH0_CLK_RESERVED3			215
++#define R9A09G057_GBETH0_CLK_RESERVED4			216
++#define R9A09G057_GBETH0_CLK_RESERVED5			217
++#define R9A09G057_GBETH0_CLK_RESERVED6			218
++#define R9A09G057_GBETH1_CLK_RESERVED0			219
++#define R9A09G057_GBETH1_CLK_RESERVED1			220
++#define R9A09G057_GBETH1_CLK_RESERVED2			221
++#define R9A09G057_GBETH1_CLK_RESERVED3			222
++#define R9A09G057_GBETH1_CLK_RESERVED4			223
++#define R9A09G057_GBETH1_CLK_RESERVED5			224
++#define R9A09G057_GBETH1_CLK_RESERVED6			225
++#define R9A09G057_PCIE_0_ACLK				226
++#define R9A09G057_PCIE_0_CLK_PMU			227
++#define R9A09G057_DDR0_CLK_RESERVED0			228
++#define R9A09G057_DDR0_CLK_RESERVED1			229
++#define R9A09G057_DDR0_CLK_RESERVED2			230
++#define R9A09G057_DDR0_CLK_RESERVED3			231
++#define R9A09G057_DDR0_CLK_RESERVED4			232
++#define R9A09G057_DDR0_CLK_RESERVED5			233
++#define R9A09G057_DDR0_CLK_RESERVED6			234
++#define R9A09G057_DDR1_CLK_RESERVED0			235
++#define R9A09G057_DDR1_CLK_RESERVED1			236
++#define R9A09G057_DDR1_CLK_RESERVED2			237
++#define R9A09G057_DDR1_CLK_RESERVED3			238
++#define R9A09G057_DDR1_CLK_RESERVED4			239
++#define R9A09G057_DDR1_CLK_RESERVED5			240
++#define R9A09G057_DDR1_CLK_RESERVED6			241
++#define R9A09G057_CRU_0_ACLK				242
++#define R9A09G057_CRU_0_VCLK				243
++#define R9A09G057_CRU_0_PCLK				244
++#define R9A09G057_CRU_1_ACLK				245
++#define R9A09G057_CRU_1_VCLK				246
++#define R9A09G057_CRU_1_PCLK				247
++#define R9A09G057_CRU_2_ACLK				248
++#define R9A09G057_CRU_2_VCLK				249
++#define R9A09G057_CRU_2_PCLK				250
++#define R9A09G057_CRU_3_ACLK				251
++#define R9A09G057_CRU_3_VCLK				252
++#define R9A09G057_CRU_3_PCLK				253
++#define R9A09G057_ISP_CLK_RESERVED0			254
++#define R9A09G057_ISP_CLK_RESERVED1			255
++#define R9A09G057_ISP_CLK_RESERVED2			256
++#define R9A09G057_ISP_CLK_RESERVED3			257
++#define R9A09G057_ISU_0_ACLK				258
++#define R9A09G057_ISU_0_PCLK				259
++#define R9A09G057_DSI_0_PCLK				260
++#define R9A09G057_DSI_0_ACLK				261
++#define R9A09G057_DSI_0_VCLK1				262
++#define R9A09G057_DSI_0_LPCLK				263
++#define R9A09G057_DSI_0_PLLREFCLK			264
++#define R9A09G057_LCDC_0_CLK_A				265
++#define R9A09G057_LCDC_0_CLK_P				266
++#define R9A09G057_LCDC_0_CLK_D				267
++#define R9A09G057_GPU_0_CLK				268
++#define R9A09G057_GPU_0_AXI_CLK				269
++#define R9A09G057_GPU_0_ACE_CLK				270
++#define R9A09G057_VCD_0_ACLK				271
++#define R9A09G057_VCD_0_PCLK				272
++#define R9A09G057_SSIF_0_CLK				273
++#define R9A09G057_SCU_0_CLK				274
++#define R9A09G057_SCU_0_CLKX2				275
++#define R9A09G057_DMACPP_0_CLK				276
++#define R9A09G057_ADG_0_CLKS1				277
++#define R9A09G057_ADG_0_CLK_195M			278
++#define R9A09G057_ADG_0_AUDIO_CLKA			279
++#define R9A09G057_ADG_0_AUDIO_CLKB			280
++#define R9A09G057_ADG_0_AUDIO_CLKC			281
++#define R9A09G057_SPDIF_0_CLKP				282
++#define R9A09G057_SPDIF_1_CLKP				283
++#define R9A09G057_SPDIF_2_CLKP				284
++#define R9A09G057_PDM_0_PCLK				285
++#define R9A09G057_PDM_0_PCLK_SFR			286
++#define R9A09G057_PDM_0_CCLK				287
++#define R9A09G057_PDM_1_PCLK				288
++#define R9A09G057_PDM_1_PCLK_SFR			289
++#define R9A09G057_PDM_1_CCLK				290
++#define R9A09G057_ADC_0_PCLK				291
++#define R9A09G057_ADC_0_ADCLK				292
++#define R9A09G057_TSU_0_PCLK				293
++#define R9A09G057_TSU_1_PCLK				294
++#define R9A09G057_OTPC_0_CLKP1D				295
++#define R9A09G057_OTPC_0_PCLK				296
++#define R9A09G057_OTPC_0_SCLK				297
++#define R9A09G057_DRP_0_DCLKIN				298
++#define R9A09G057_DRP_0_ACLK				299
++#define R9A09G057_DRP_0_INITCLK				300
++#define R9A09G057_DRPAI_0_DCLKIN			301
++#define R9A09G057_DRPAI_0_ACLK				302
++#define R9A09G057_DRPAI_0_INITCLK			303
++#define R9A09G057_DRPAI_0_MCLK				304
++#define R9A09G057_RCPU_AXI_CLK200DG_RCP			305
++#define R9A09G057_RCPU_AXI_CLK400DG_ACP			306
++#define R9A09G057_RCPU_AXI_CLK200CF			307
++#define R9A09G057_RCPU_AXI_CLK100CF			308
++#define R9A09G057_RCPU_AXI_CLK50CF			309
++#define R9A09G057_MCPU_AXI_CLK200CG_MCP			310
++#define R9A09G057_MCPU_AXI_CLK100CF_MCP			311
++#define R9A09G057_MCPU_AXI_CLK100CG_MCP			312
++#define R9A09G057_MCPU_AXI_CLK50CG_ADC			313
++#define R9A09G057_MCPU_AXI_CLK50CF_MCP			314
++#define R9A09G057_MCPU_AXI_CLK24			315
++#define R9A09G057_ACPU_AXI_CLK400DG_ACP			316
++#define R9A09G057_ACPU_AXI_CLK200DG_ACP			317
++#define R9A09G057_ACPU_AXI_CLK400DG_DRP			318
++#define R9A09G057_ACPU_AXI_CLK200CG_MCP			319
++#define R9A09G057_ACPU_AXI_CLK200DF			320
++#define R9A09G057_ACPU_AXI_CLK200CF			321
++#define R9A09G057_ACPU_AXI_CLK100DG_ACP			322
++#define R9A09G057_ACPU_AXI_CLK100DF			323
++#define R9A09G057_ACPU_AXI_CLK100CF			324
++#define R9A09G057_ACPU_AXI_CLK24			325
++#define R9A09G057_ACPU_PERI_DDR_AXI_CLK100DG_ACP	326
++#define R9A09G057_VIDEO0_AXI_CLK400DG_ACP		327
++#define R9A09G057_VIDEO0_AXI_CLK400DG_DRP		328
++#define R9A09G057_VIDEO0_AXI_CLK630DG_ISP		329
++#define R9A09G057_ACPU_PERI_VIDEO0_AXI_CLK400DG_ACP	330
++#define R9A09G057_ACPU_PERI_VIDEO0_AXI_CLK100DF		331
++#define R9A09G057_VIDEO1_AXI_CLK400DG_ACP		332
++#define R9A09G057_VIDEO1_AXI_CLK100DG_ACP		333
++#define R9A09G057_VIDEO1_AXI_CLK400DG_DRP		334
++#define R9A09G057_VIDEO1_AXI_CLK400DF			335
++#define R9A09G057_VIDEO1_AXI_CLK630DG_ISU		336
++#define R9A09G057_ACPU_PERI_VIDEO1_AXI_CLK100DG_ACP	337
++#define R9A09G057_ACPU_PERI_VIDEO1_AXI_CLK200DF		338
++#define R9A09G057_ACPU_PERI_VIDEO1_AXI_CLK100DF		339
++#define R9A09G057_DRP_AXI_CLK400DG_DRP			340
++#define R9A09G057_ACPU_PERI_DRP0_AXI_CLK400DG_DRP	341
++#define R9A09G057_ACPU_PERI_DRP1_AXI_CLK400DG_DRP	342
++#define R9A09G057_COM_AXI_CLK400DG_ACP			343
++#define R9A09G057_COM_AXI_CLK200DG_ACP			344
++#define R9A09G057_COM_AXI_CLK400DG_DRP			345
++#define R9A09G057_COM_AXI_CLK200DF			346
++#define R9A09G057_ACPU_PERI_COM0_AXI_CLK400DG_ACP	347
++#define R9A09G057_ACPU_PERI_COM0_AXI_CLK200DG_ACP	348
++#define R9A09G057_ACPU_PERI_COM0_AXI_CLK200DF		349
++#define R9A09G057_ACPU_PERI_COM1_AXI_CLK200DG_ACP	350
++#define R9A09G057_ACPU_PERI_COM1_AXI_CLK200DF		351
++#define R9A09G057_TZCDDR_0_CLK100DG_ACP_PCLK0		352
++#define R9A09G057_TZCDDR_0_CLK100DG_ACP_PCLK1		353
++#define R9A09G057_TZCDDR_0_CLK400DG_ACP_ACLK0		354
++#define R9A09G057_TZCDDR_0_CLK400DG_ACP_ACLK1		355
++#define R9A09G057_TZCDDR_0_CLK400DG_ACP_ACLK2		356
++#define R9A09G057_TZCDDR_0_CLK400DG_ACP_ACLK3		357
++#define R9A09G057_TZCDDR_0_CLK400DG_ACP_ACLK4		358
++#define R9A09G057_TZCDDR_1_CLK100DG_ACP_PCLK0		359
++#define R9A09G057_TZCDDR_1_CLK100DG_ACP_PCLK1		360
++#define R9A09G057_TZCDDR_1_CLK400DG_ACP_ACLK0		361
++#define R9A09G057_TZCDDR_1_CLK400DG_ACP_ACLK1		362
++#define R9A09G057_TZCDDR_1_CLK400DG_ACP_ACLK2		363
++#define R9A09G057_TZCDDR_1_CLK400DG_ACP_ACLK3		364
++#define R9A09G057_TZCDDR_1_CLK400DG_ACP_ACLK4		365
 +
-+description: |
-+  On Renesas RZ/V2H(P) SoC's, the CPG (Clock Pulse Generator) handles the generation
-+  and control of clock signals for the IP modules, the generation and control of resets,
-+  and control over booting, low power consumption and the power supply domains.
++/* Resets list */
++#define R9A09G057_SYS_0_PRESETN				0
++#define R9A09G057_DMAC_0_ARESETN			1
++#define R9A09G057_DMAC_1_ARESETN			2
++#define R9A09G057_DMAC_2_ARESETN			3
++#define R9A09G057_DMAC_3_ARESETN			4
++#define R9A09G057_DMAC_4_ARESETN			5
++#define R9A09G057_ICU_0_PRESETN_I			6
++#define R9A09G057_CRC_0_RST				7
++#define R9A09G057_CA55_RESET0				8
++#define R9A09G057_CA55_RESET1				9
++#define R9A09G057_CA55_RESET2				10
++#define R9A09G057_CA55_RESET3				11
++#define R9A09G057_CA55_RESET4				12
++#define R9A09G057_CA55_RESET5				13
++#define R9A09G057_CA55_RESET6				14
++#define R9A09G057_CA55_RESET7				15
++#define R9A09G057_CA55_RESET8				16
++#define R9A09G057_CA55_RESET9				17
++#define R9A09G057_CA55_RESET10				18
++#define R9A09G057_CA55_RESET11				19
++#define R9A09G057_CA55_RESET12				20
++#define R9A09G057_CA55_RESET13				21
++#define R9A09G057_CA55_RESET14				22
++#define R9A09G057_CA55_RESET15				23
++#define R9A09G057_CA55_RESET16				24
++#define R9A09G057_CR8_0_NCPURESET1			25
++#define R9A09G057_CR8_0_NCPURESET0			26
++#define R9A09G057_CR8_0_NPERIPHRESET			27
++#define R9A09G057_CR8_0_NSCURESET			28
++#define R9A09G057_CR8_0_NWDRESET1			29
++#define R9A09G057_CR8_0_NWDRESET0			30
++#define R9A09G057_CR8_0_NDBGRESET1			31
++#define R9A09G057_CR8_0_NDBGRESET0			32
++#define R9A09G057_CR8_0_NCTRESET			33
++#define R9A09G057_CR8_0_NETM0RESET			34
++#define R9A09G057_CR8_0_NETM1RESET			35
++#define R9A09G057_CR8_0_NTSRESET			36
++#define R9A09G057_CR8_0_NMISCRESET			37
++#define R9A09G057_CM33_RESET0				38
++#define R9A09G057_CM33_RESET1				39
++#define R9A09G057_CM33_RESET2				40
++#define R9A09G057_GIC_0_GICRESET_N			41
++#define R9A09G057_GIC_0_DBG_GICRESET_N			42
++#define R9A09G057_SRAM_0_ARESETN			43
++#define R9A09G057_SRAM_1_ARESETN			44
++#define R9A09G057_SRAM_2_ARESETN			45
++#define R9A09G057_SRAM_3_ARESETN			46
++#define R9A09G057_SRAM_4_ARESETN			47
++#define R9A09G057_SRAM_5_ARESETN			48
++#define R9A09G057_SRAM_6_ARESETN			49
++#define R9A09G057_SRAM_7_ARESETN			50
++#define R9A09G057_SRAM_8_ARESETN			51
++#define R9A09G057_SRAM_9_ARESETN			52
++#define R9A09G057_SRAM_10_ARESETN			53
++#define R9A09G057_SRAM_11_ARESETN			54
++#define R9A09G057_BTROM_0_ARESETN			55
++#define R9A09G057_CST_0_CS_RESETN			56
++#define R9A09G057_CST_0_TS_RESETN			57
++#define R9A09G057_CST_0_APB_SB_RESETN			58
++#define R9A09G057_CST_0_APB_CA55_RESETN			59
++#define R9A09G057_CST_0_APB_CM33_RESETN			60
++#define R9A09G057_CST_0_APB_CR8_RESETN			61
++#define R9A09G057_CST_0_AHB_CM33_RESETN			62
++#define R9A09G057_CST_0_AHB_ATH_RESETN			63
++#define R9A09G057_CST_0_ATB_CA55_RESETN			64
++#define R9A09G057_CST_0_ATB_CM33_RESETN			65
++#define R9A09G057_CST_0_ATB_CR8_RESETN			66
++#define R9A09G057_CST_0_ATB_CST_RESETN			67
++#define R9A09G057_CST_0_AXI_SB_RESETN			68
++#define R9A09G057_CST_0_AXI_ETR_RESETN			69
++#define R9A09G057_CST_0_NTRST				70
++#define R9A09G057_CST_0_NPOTRST				71
++#define R9A09G057_SYC_0_RESETN				72
++#define R9A09G057_MHU_0_PRESETN				73
++#define R9A09G057_AXI_TZCDDR_0_PRESET0N			74
++#define R9A09G057_AXI_TZCDDR_0_PRESET1N			75
++#define R9A09G057_AXI_TZCDDR_0_ARESET0N			76
++#define R9A09G057_AXI_TZCDDR_0_ARESET1N			77
++#define R9A09G057_AXI_TZCDDR_0_ARESET2N			78
++#define R9A09G057_AXI_TZCDDR_0_ARESET3N			79
++#define R9A09G057_AXI_TZCDDR_0_ARESET4N			80
++#define R9A09G057_AXI_TZCDDR_1_PRESET0N			81
++#define R9A09G057_AXI_TZCDDR_1_PRESET1N			82
++#define R9A09G057_AXI_TZCDDR_1_ARESET0N			83
++#define R9A09G057_AXI_TZCDDR_1_ARESET1N			84
++#define R9A09G057_AXI_TZCDDR_1_ARESET2N			85
++#define R9A09G057_AXI_TZCDDR_1_ARESET3N			86
++#define R9A09G057_AXI_TZCDDR_1_ARESET4N			87
++#define R9A09G057_ACPU_AXI_RESETN			88
++#define R9A09G057_ACPU_PERI_DDR_AXI_RESETN		89
++#define R9A09G057_MCPU_AXI_RESETN			90
++#define R9A09G057_RCPU_AXI_RESETN			91
++#define R9A09G057_VIDEO0_AXI_RESETN			92
++#define R9A09G057_ACPU_PERI_VIDEO0_AXI_RESETN		93
++#define R9A09G057_VIDEO1_AXI_RESETN			94
++#define R9A09G057_ACPU_PERI_VIDEO1_AXI_RESETN		95
++#define R9A09G057_DRP_AXI_RESETN			96
++#define R9A09G057_ACPU_PERI_DRP0_AXI_RESETN		97
++#define R9A09G057_ACPU_PERI_DRP1_AXI_RESETN		98
++#define R9A09G057_COM_AXI_RESETN			99
++#define R9A09G057_ACPU_PERI_COM0_AXI_RESETN		100
++#define R9A09G057_ACPU_PERI_COM1_AXI_RESETN		101
++#define R9A09G057_GPT_0_RST_P_REG			102
++#define R9A09G057_GPT_0_RST_S_REG			103
++#define R9A09G057_GPT_1_RST_P_REG			104
++#define R9A09G057_GPT_1_RST_S_REG			105
++#define R9A09G057_POEGA_0_RST				106
++#define R9A09G057_POEGB_0_RST				107
++#define R9A09G057_POEGC_0_RST				108
++#define R9A09G057_POEGD_0_RST				109
++#define R9A09G057_POEGA_1_RST				110
++#define R9A09G057_POEGB_1_RST				111
++#define R9A09G057_POEGC_1_RST				112
++#define R9A09G057_POEGD_1_RST				113
++#define R9A09G057_CMTW_0_RST_M				114
++#define R9A09G057_CMTW_1_RST_M				115
++#define R9A09G057_CMTW_2_RST_M				116
++#define R9A09G057_CMTW_3_RST_M				117
++#define R9A09G057_CMTW_4_RST_M				118
++#define R9A09G057_CMTW_5_RST_M				119
++#define R9A09G057_CMTW_6_RST_M				120
++#define R9A09G057_CMTW_7_RST_M				121
++#define R9A09G057_GTM_0_PRESETZ				122
++#define R9A09G057_GTM_1_PRESETZ				123
++#define R9A09G057_GTM_2_PRESETZ				124
++#define R9A09G057_GTM_3_PRESETZ				125
++#define R9A09G057_GTM_4_PRESETZ				126
++#define R9A09G057_GTM_5_PRESETZ				127
++#define R9A09G057_GTM_6_PRESETZ				128
++#define R9A09G057_GTM_7_PRESETZ				129
++#define R9A09G057_WDT_0_RESET				130
++#define R9A09G057_WDT_1_RESET				131
++#define R9A09G057_WDT_2_RESET				132
++#define R9A09G057_WDT_3_RESET				133
++#define R9A09G057_RTC_0_RST_RTC				134
++#define R9A09G057_RTC_0_RST_RTC_V			135
++#define R9A09G057_RSPI_0_PRESETN			136
++#define R9A09G057_RSPI_0_TRESETN			137
++#define R9A09G057_RSPI_1_PRESETN			138
++#define R9A09G057_RSPI_1_TRESETN			139
++#define R9A09G057_RSPI_2_PRESETN			140
++#define R9A09G057_RSPI_2_TRESETN			141
++#define R9A09G057_RSCI_0_PRESETN			142
++#define R9A09G057_RSCI_0_TRESETN			143
++#define R9A09G057_RSCI_1_PRESETN			144
++#define R9A09G057_RSCI_1_TRESETN			145
++#define R9A09G057_RSCI_2_PRESETN			146
++#define R9A09G057_RSCI_2_TRESETN			147
++#define R9A09G057_RSCI_3_PRESETN			148
++#define R9A09G057_RSCI_3_TRESETN			149
++#define R9A09G057_RSCI_4_PRESETN			150
++#define R9A09G057_RSCI_4_TRESETN			151
++#define R9A09G057_RSCI_5_PRESETN			152
++#define R9A09G057_RSCI_5_TRESETN			153
++#define R9A09G057_RSCI_6_PRESETN			154
++#define R9A09G057_RSCI_6_TRESETN			155
++#define R9A09G057_RSCI_7_PRESETN			156
++#define R9A09G057_RSCI_7_TRESETN			157
++#define R9A09G057_RSCI_8_PRESETN			158
++#define R9A09G057_RSCI_8_TRESETN			159
++#define R9A09G057_RSCI_9_PRESETN			160
++#define R9A09G057_RSCI_9_TRESETN			161
++#define R9A09G057_SCIF_0_RST_SYSTEM_N			162
++#define R9A09G057_I3C_0_PRESETN				163
++#define R9A09G057_I3C_0_TRESETN				164
++#define R9A09G057_RIIC_8_MRST				165
++#define R9A09G057_RIIC_0_MRST				166
++#define R9A09G057_RIIC_1_MRST				167
++#define R9A09G057_RIIC_2_MRST				168
++#define R9A09G057_RIIC_3_MRST				169
++#define R9A09G057_RIIC_4_MRST				170
++#define R9A09G057_RIIC_5_MRST				171
++#define R9A09G057_RIIC_6_MRST				172
++#define R9A09G057_RIIC_7_MRST				173
++#define R9A09G057_CANFD_0_RSTP_N			174
++#define R9A09G057_CANFD_0_RSTC_N			175
++#define R9A09G057_SPI_HRESETN				176
++#define R9A09G057_SPI_ARESETN				177
++#define R9A09G057_IOTOP_0_RESETN			178
++#define R9A09G057_IOTOP_0_ERROR_RESETN			179
++#define R9A09G057_SDHI_0_IXRST				180
++#define R9A09G057_SDHI_1_IXRST				181
++#define R9A09G057_SDHI_2_IXRST				182
++#define R9A09G057_USB30_RST_RESERVED0			183
++#define R9A09G057_USB31_RST_RESERVED0			184
++#define R9A09G057_USB20_RST_RESERVED0			185
++#define R9A09G057_USB21_RST_RESERVED0			186
++#define R9A09G057_USB20_USB21_RST_RESERVED0		187
++#define R9A09G057_USB20_USB21_RST_RESERVED1		188
++#define R9A09G057_GBETH0_RST_RESERVED0			189
++#define R9A09G057_GBETH1_RST_RESERVED0			190
++#define R9A09G057_PCIE_0_ARESETN			191
++#define R9A09G057_DDR0_RST_RESERVED0			192
++#define R9A09G057_DDR0_RST_RESERVED1			193
++#define R9A09G057_DDR0_RST_RESERVED2			194
++#define R9A09G057_DDR0_RST_RESERVED3			195
++#define R9A09G057_DDR0_RST_RESERVED4			196
++#define R9A09G057_DDR0_RST_RESERVED5			197
++#define R9A09G057_DDR0_RST_RESERVED6			198
++#define R9A09G057_DDR0_RST_RESERVED7			199
++#define R9A09G057_DDR0_RST_RESERVED8			200
++#define R9A09G057_DDR0_RST_RESERVED9			201
++#define R9A09G057_DDR1_RST_RESERVED0			202
++#define R9A09G057_DDR1_RST_RESERVED1			203
++#define R9A09G057_DDR1_RST_RESERVED2			204
++#define R9A09G057_DDR1_RST_RESERVED3			205
++#define R9A09G057_DDR1_RST_RESERVED4			206
++#define R9A09G057_DDR1_RST_RESERVED5			207
++#define R9A09G057_DDR1_RST_RESERVED6			208
++#define R9A09G057_DDR1_RST_RESERVED7			209
++#define R9A09G057_DDR1_RST_RESERVED8			210
++#define R9A09G057_DDR1_RST_RESERVED9			211
++#define R9A09G057_CRU_0_PRESETN				212
++#define R9A09G057_CRU_0_ARESETN				213
++#define R9A09G057_CRU_0_S_RESETN			214
++#define R9A09G057_CRU_1_PRESETN				215
++#define R9A09G057_CRU_1_ARESETN				216
++#define R9A09G057_CRU_1_S_RESETN			217
++#define R9A09G057_CRU_2_PRESETN				218
++#define R9A09G057_CRU_2_ARESETN				219
++#define R9A09G057_CRU_2_S_RESETN			220
++#define R9A09G057_CRU_3_PRESETN				221
++#define R9A09G057_CRU_3_ARESETN				222
++#define R9A09G057_CRU_3_S_RESETN			223
++#define R9A09G057_ISP_RST_RESERVED0			224
++#define R9A09G057_ISP_RST_RESERVED1			225
++#define R9A09G057_ISP_RST_RESERVED2			226
++#define R9A09G057_ISP_RST_RESERVED3			227
++#define R9A09G057_ISU_0_ARESETN				228
++#define R9A09G057_ISU_0_PRESETN				229
++#define R9A09G057_DSI_0_PRESETN				230
++#define R9A09G057_DSI_0_ARESETN				231
++#define R9A09G057_LCDC_0_RESET_N			232
++#define R9A09G057_GPU_0_RESETN				233
++#define R9A09G057_GPU_0_AXI_RESETN			234
++#define R9A09G057_GPU_0_ACE_RESETN			235
++#define R9A09G057_VCD_0_RESETN				236
++#define R9A09G057_SSIF_0_ASYNC_RESET_SSI		237
++#define R9A09G057_SSIF_0_SYNC_RESET_SSI0		238
++#define R9A09G057_SSIF_0_SYNC_RESET_SSI1		239
++#define R9A09G057_SSIF_0_SYNC_RESET_SSI2		240
++#define R9A09G057_SSIF_0_SYNC_RESET_SSI3		241
++#define R9A09G057_SSIF_0_SYNC_RESET_SSI4		242
++#define R9A09G057_SSIF_0_SYNC_RESET_SSI5		243
++#define R9A09G057_SSIF_0_SYNC_RESET_SSI6		244
++#define R9A09G057_SSIF_0_SYNC_RESET_SSI7		245
++#define R9A09G057_SSIF_0_SYNC_RESET_SSI8		246
++#define R9A09G057_SSIF_0_SYNC_RESET_SSI9		247
++#define R9A09G057_DMACPP_0_ARST				248
++#define R9A09G057_SCU_0_RESET_SRU			249
++#define R9A09G057_ADG_0_RST_RESET_ADG			250
++#define R9A09G057_SPDIF_0_RST				251
++#define R9A09G057_SPDIF_1_RST				252
++#define R9A09G057_SPDIF_2_RST				253
++#define R9A09G057_PDM_0_PRESETN				254
++#define R9A09G057_PDM_0_CRESETN				255
++#define R9A09G057_PDM_1_PRESETN				256
++#define R9A09G057_PDM_1_CRESETN				257
++#define R9A09G057_ADC_0_ADRST_N				258
++#define R9A09G057_TSU_0_PRESETN				259
++#define R9A09G057_TSU_1_PRESETN				260
++#define R9A09G057_OTPC_0_RESET_N			261
++#define R9A09G057_DRP_0_ARESETN				262
++#define R9A09G057_DRPAI_0_ARESETN			263
 +
-+properties:
-+  compatible:
-+    const: renesas,r9a09g057-cpg
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  clock-names:
-+    description:
-+      Clock source to CPG can be either from external clock input (EXCLK) or
-+      crystal oscillator (XIN/XOUT).
-+    const: extal
-+
-+  '#clock-cells':
-+    description: |
-+      - For CPG core clocks, the two clock specifier cells must be "CPG_CORE"
-+        and a core clock reference, as defined in
-+        <dt-bindings/clock/r9a09g057-cpg.h>,
-+      - For module clocks, the two clock specifier cells must be "CPG_MOD" and
-+        a module number, as defined in <dt-bindings/clock/r9a09g057-cpg.h>.
-+    const: 2
-+
-+  '#power-domain-cells':
-+    description:
-+      SoC devices that are part of the CPG/Module Standby Mode Clock Domain and
-+      can be power-managed through Module Standby should refer to the CPG device
-+      node in their "power-domains" property, as documented by the generic PM
-+      Domain bindings in Documentation/devicetree/bindings/power/power-domain.yaml.
-+      The power domain specifiers defined in <dt-bindings/clock/r9a09g057-cpg.h> could
-+      be used to reference individual CPG power domains.
-+
-+  '#reset-cells':
-+    description:
-+      The single reset specifier cell must be the module number, as defined in
-+      <dt-bindings/clock/r9a09g057-cpg.h>.
-+    const: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - '#clock-cells'
-+  - '#power-domain-cells'
-+  - '#reset-cells'
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    cpg: clock-controller@10420000 {
-+            compatible = "renesas,r9a09g057-cpg";
-+            reg = <0x10420000 0x10000>;
-+            clocks = <&extal_clk>;
-+            clock-names = "extal";
-+            #clock-cells = <2>;
-+            #power-domain-cells = <0>;
-+            #reset-cells = <1>;
-+    };
++#endif /* __DT_BINDINGS_CLOCK_R9A09G057_CPG_H__ */
 -- 
 2.34.1
 
