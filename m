@@ -1,128 +1,108 @@
-Return-Path: <linux-renesas-soc+bounces-5474-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5475-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AE7C8CE3E0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 May 2024 11:49:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7059A8CE4C1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 May 2024 13:13:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7BDAE1C21B14
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 May 2024 09:49:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2BC502822AF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 May 2024 11:13:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DA0385C46;
-	Fri, 24 May 2024 09:47:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1967B83CD7;
+	Fri, 24 May 2024 11:13:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="TuJw6RaM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B89885C43;
-	Fri, 24 May 2024 09:47:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDAC38562E
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 24 May 2024 11:13:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716544047; cv=none; b=LxDsbfP+x/sazp5hOxkIOWayD0EDLA8kikKjm4yzhcTlOxNxVyrnPUl4YbDqPgSITRp2nTX7RlzpXWl7GJ72nO40fAGwVgVZ5lwr9DcubEyH+VL5hXD9KXrXzBvqLSq5TxyNKV93/GPnwEjgWp+BSpApBm0n/ZWbr9Zt/WEiQ4g=
+	t=1716549232; cv=none; b=glDEm97uajb0cqE2NIwADlu3LeG1Ske7JhMrM8neUOeQzk/KWbwa/TV9cUFmoFhN781xp40rIxUEEI0DDgCf1lTMdUk9syQOnM2Rn/eCgDDJjs6BYO3mfRb2vgAz+ae6M0jvfWoY5xvpJiu8qsW3SfTZ2qkC5yXK6ns1oteUvOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716544047; c=relaxed/simple;
-	bh=Fs0QcavU4AhMW5fvMh3QVxyj8Xo9/QNHu+yqJeDCf+8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=NuXGKs07/msMQx9J9M0eby1qozu6cJD/wUdIAtYdOpXwxyJVft4Z0ArO31fz1D8O0JrT4kNCB8tO2DbfolpcliR4hXp0mXgMGfBBKXSzB738R7Yu1j7X6FRRYPBzpp3jZxW+bFA/82NQXAusnh+xbyRP3Dez3rwgM788TwAp9ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.08,185,1712588400"; 
-   d="scan'208";a="205579852"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 24 May 2024 18:47:25 +0900
-Received: from renesas-deb12.cephei.uk (unknown [10.226.93.196])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 3F9BC400720C;
-	Fri, 24 May 2024 18:47:20 +0900 (JST)
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>
-Cc: Paul Barker <paul.barker.ct@bp.renesas.com>,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 9/9] arm64: dts: renesas: rzg2ul: Set Ethernet PVDD to 1.8V
-Date: Fri, 24 May 2024 10:46:03 +0100
-Message-Id: <20240524094603.988-10-paul.barker.ct@bp.renesas.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240524094603.988-1-paul.barker.ct@bp.renesas.com>
-References: <20240524094603.988-1-paul.barker.ct@bp.renesas.com>
+	s=arc-20240116; t=1716549232; c=relaxed/simple;
+	bh=uRHPOAW4twcNvRagnKbWGowu7JAlmQy4Tci7gY4Rnv0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UHRDDIVzMRaK8vb7n0JcOX3un+5y8WzErBZj9N0gu37oS04u0931gHj8m81Td5Bnn2qpg0Lm3Pt9wiBjcY/2M9ak1h+JOCd9G+MdgB+TjGG2Oe59HCqZmgk2OqvRC6LvlUDeMY1+E5EM6aHlA1En3QkSXGqqZ0FffFbssRL9Usk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=TuJw6RaM; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=uRHP
+	OAW4twcNvRagnKbWGowu7JAlmQy4Tci7gY4Rnv0=; b=TuJw6RaMEQzvTwtjhshc
+	a0v6OFGjZQvppAdA8LYRjp9f2GRugeN9dUc8kIZy09mKqha6mNWeoF/bLTEzSC5V
+	lVqeJTHKU2FEHEV82ppb2E+wne8m8iCW/gvg5YSahuLTxuLNqOk4vUyOhnHOt0Yp
+	Fwo1sdeGJO9r1cYu+qIaUjdMcdrTf+9ynfVy07tLrNjf+4F7H92Hpi/vz1aYZ0eM
+	05dPFghRZtZyXVNLRvfGWpZy70Dp6YqcN1opaeIGlStYkcD9vFcs/xqx1j+6CTNa
+	UxU6RiB135S+D9786fxx8+GQgrZWWsJemXFyOfT3SPdYGOtNgwowkLv1P3lDTIqK
+	Fg==
+Received: (qmail 1422112 invoked from network); 24 May 2024 13:13:41 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 24 May 2024 13:13:41 +0200
+X-UD-Smtp-Session: l3s3148p1@RuJ8QjEZfJm57tsi
+Date: Fri, 24 May 2024 13:13:39 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-renesas-soc@vger.kernel.org, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [PATCH v2] arm64: defconfig: Enable Renesas R-Car Gen4 PCIe
+ controller
+Message-ID: <mdztslnrrybhm7ugdwq3xkmdtvgibn7rkpjbzhavwqywactx2t@27wcl7eslmqp>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, linux-renesas-soc@vger.kernel.org, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+References: <20240523203431.6423-1-wsa+renesas@sang-engineering.com>
+ <CAMuHMdUfdHBMZ7WkUqN9JzcvXkPtLygL684_Qbaudb5+GvtMJw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="dahagqt3zh37vrjr"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdUfdHBMZ7WkUqN9JzcvXkPtLygL684_Qbaudb5+GvtMJw@mail.gmail.com>
 
-On the RZ/G2UL & RZ/Five SMARC SOMs, the RGMII interface between the SoC
-and the Ethernet PHY operates at 1.8V.
 
-The power supply for this interface may be correctly configured in
-u-boot, but the kernel should not be relying on this. Now that the
-RZ/G2L pinctrl driver supports configuring the Ethernet power supply
-voltage, we can simply specify the desired voltage in the device tree.
+--dahagqt3zh37vrjr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
----
- .../boot/dts/renesas/rzg2ul-smarc-som.dtsi     | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-index 417f49090b15..79443fb3f581 100644
---- a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-@@ -144,6 +144,7 @@ adc_pins: adc {
- 	eth0_pins: eth0 {
- 		txc {
- 			pinmux = <RZG2L_PORT_PINMUX(1, 0, 1)>; /* ET0_TXC */
-+			power-source = <1800>;
- 			output-enable;
- 		};
- 
-@@ -161,14 +162,19 @@ mux {
- 				 <RZG2L_PORT_PINMUX(3, 2, 1)>, /* ET0_RXD0 */
- 				 <RZG2L_PORT_PINMUX(3, 3, 1)>, /* ET0_RXD1 */
- 				 <RZG2L_PORT_PINMUX(4, 0, 1)>, /* ET0_RXD2 */
--				 <RZG2L_PORT_PINMUX(4, 1, 1)>, /* ET0_RXD3 */
--				 <RZG2L_PORT_PINMUX(5, 1, 7)>; /* IRQ2 */
-+				 <RZG2L_PORT_PINMUX(4, 1, 1)>; /* ET0_RXD3 */
-+			power-source = <1800>;
-+		};
-+
-+		irq {
-+			pinmux = <RZG2L_PORT_PINMUX(5, 1, 7)>; /* IRQ2 */
- 		};
- 	};
- 
- 	eth1_pins: eth1 {
- 		txc {
- 			pinmux = <RZG2L_PORT_PINMUX(7, 0, 1)>; /* ET1_TXC */
-+			power-source = <1800>;
- 			output-enable;
- 		};
- 
-@@ -186,8 +192,12 @@ mux {
- 				 <RZG2L_PORT_PINMUX(9, 1, 1)>, /* ET1_RXD0 */
- 				 <RZG2L_PORT_PINMUX(9, 2, 1)>, /* ET1_RXD1 */
- 				 <RZG2L_PORT_PINMUX(9, 3, 1)>, /* ET1_RXD2 */
--				 <RZG2L_PORT_PINMUX(10, 0, 1)>, /* ET1_RXD3 */
--				 <RZG2L_PORT_PINMUX(18, 5, 1)>; /* IRQ7 */
-+				 <RZG2L_PORT_PINMUX(10, 0, 1)>; /* ET1_RXD3 */
-+			power-source = <1800>;
-+		};
-+
-+		irq {
-+			pinmux = <RZG2L_PORT_PINMUX(18, 5, 1)>; /* IRQ7 */
- 		};
- 	};
- 
--- 
-2.39.2
+> And you changed CONFIG_PCIE_RCAR_GEN4_* from m to y??
 
+Stupid me, sorry for the noise!
+
+> All of these should be modular.
+> If you agree, I can fix that while applying.
+
+For sure, I agree.
+
+
+--dahagqt3zh37vrjr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZQdl8ACgkQFA3kzBSg
+KbbZbBAAlvql0NPFk5dfkWpgt8/BPowkhfXFIDduRUwgcS2gp0dnl+Hl1mm3s7UM
+p2wv0bbRwjzlNZOv17d1+omqeS4VkO18Jg150GmcA3AgFcAiwOsGwF9dfmAm7Aut
+Z763uKqXX8k//8DdGeuaahD/sdh/MiKH11uBmCp+HN1xYgxxdGnDisVTvU9dCIK+
+ySr3YdTWz6l/QOGJT5pK8nzJv6SYGUEpDZvFQyozdW3Sddb0aV5e0eMTKefaSf2T
+SKAG64kaPLGoZeP+HxyYKQgRw2JENELIw1O280XunY7uvqb3BDXRTCK9qnzjNQb/
+9sji8nU+vmIkJFrRdrm4Oug8aMuofyrWWI/CbI1cFuzR2mwK6hK+SPZnYWgeA8Tw
+3ysjNg1bN4Z4tzWPpipjbeSQgCSld0JfhXA582j3GbBG9+dEwQiD9ovWAvoI/ao5
+2Xkuxx4SAxLpAMTuiha4p0dH9jOMQTJp3es7oUSO1B2ud/cGoB2+QMnrQhU62MrI
+DGA9O2Z3UKnF5xB+yADqheEKqGha7HRvMS8D6BvVc7fgAdUvQ9Kx7j5yvOAvJxTq
+QFuQKq2mdLL38wAv4UqCafELxJhMrmm2Wh0F+oVPdzJ0f+PQ+9BMLaQ2eRfvl2d5
+xI/ZaYeHL/RDh0WkFc6+IJJ66At6+VmaEBn2oBuwGZ2TiYqfcNk=
+=6Oab
+-----END PGP SIGNATURE-----
+
+--dahagqt3zh37vrjr--
 
