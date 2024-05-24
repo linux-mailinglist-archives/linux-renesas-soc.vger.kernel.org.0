@@ -1,108 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-5475-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5476-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7059A8CE4C1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 May 2024 13:13:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 818B28CE66E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 May 2024 15:55:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2BC502822AF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 May 2024 11:13:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3BB402820C8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 May 2024 13:55:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1967B83CD7;
-	Fri, 24 May 2024 11:13:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AD2212BF35;
+	Fri, 24 May 2024 13:55:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="TuJw6RaM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UekWVpFU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDAC38562E
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 24 May 2024 11:13:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C0CF8624B;
+	Fri, 24 May 2024 13:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716549232; cv=none; b=glDEm97uajb0cqE2NIwADlu3LeG1Ske7JhMrM8neUOeQzk/KWbwa/TV9cUFmoFhN781xp40rIxUEEI0DDgCf1lTMdUk9syQOnM2Rn/eCgDDJjs6BYO3mfRb2vgAz+ae6M0jvfWoY5xvpJiu8qsW3SfTZ2qkC5yXK6ns1oteUvOk=
+	t=1716558916; cv=none; b=EwI5dShjQIiCnMYjfom8pNwDz3UG0CuSMUPJpbAkAyIjN5T6dK+yBs/psv+iEicHMyEFxkZ5ovRi7T1cDqwUkQ9K++ztNft3wvrheh4jIbctlLjuHo7E7Ruah4DL9mpj3UEWGlUPJz15tqI+jEv7qqBN6LFF37ZN3siYefjeSW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716549232; c=relaxed/simple;
-	bh=uRHPOAW4twcNvRagnKbWGowu7JAlmQy4Tci7gY4Rnv0=;
+	s=arc-20240116; t=1716558916; c=relaxed/simple;
+	bh=0qKlbT0Sn7O74uZtM5dWU/MMQ2oUn8jK5z/BM5idXoo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UHRDDIVzMRaK8vb7n0JcOX3un+5y8WzErBZj9N0gu37oS04u0931gHj8m81Td5Bnn2qpg0Lm3Pt9wiBjcY/2M9ak1h+JOCd9G+MdgB+TjGG2Oe59HCqZmgk2OqvRC6LvlUDeMY1+E5EM6aHlA1En3QkSXGqqZ0FffFbssRL9Usk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=TuJw6RaM; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=uRHP
-	OAW4twcNvRagnKbWGowu7JAlmQy4Tci7gY4Rnv0=; b=TuJw6RaMEQzvTwtjhshc
-	a0v6OFGjZQvppAdA8LYRjp9f2GRugeN9dUc8kIZy09mKqha6mNWeoF/bLTEzSC5V
-	lVqeJTHKU2FEHEV82ppb2E+wne8m8iCW/gvg5YSahuLTxuLNqOk4vUyOhnHOt0Yp
-	Fwo1sdeGJO9r1cYu+qIaUjdMcdrTf+9ynfVy07tLrNjf+4F7H92Hpi/vz1aYZ0eM
-	05dPFghRZtZyXVNLRvfGWpZy70Dp6YqcN1opaeIGlStYkcD9vFcs/xqx1j+6CTNa
-	UxU6RiB135S+D9786fxx8+GQgrZWWsJemXFyOfT3SPdYGOtNgwowkLv1P3lDTIqK
-	Fg==
-Received: (qmail 1422112 invoked from network); 24 May 2024 13:13:41 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 24 May 2024 13:13:41 +0200
-X-UD-Smtp-Session: l3s3148p1@RuJ8QjEZfJm57tsi
-Date: Fri, 24 May 2024 13:13:39 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-renesas-soc@vger.kernel.org, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: Re: [PATCH v2] arm64: defconfig: Enable Renesas R-Car Gen4 PCIe
- controller
-Message-ID: <mdztslnrrybhm7ugdwq3xkmdtvgibn7rkpjbzhavwqywactx2t@27wcl7eslmqp>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, linux-renesas-soc@vger.kernel.org, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-References: <20240523203431.6423-1-wsa+renesas@sang-engineering.com>
- <CAMuHMdUfdHBMZ7WkUqN9JzcvXkPtLygL684_Qbaudb5+GvtMJw@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=XEIhSxRu2fIUoJEbjD9Y38B6Hyxx26zzpOIKLDHKoVt9osvh5ialp8BtD7bP/UKf/FeL3aoyCUotOrK7P4z2yh9GOLXl/Gp3N5tc6y3wsRUcqldgJaeSb3q7mFr1Srjb1m+jRUq6HciWJKsoByNxMbOHkEm8NdY7ZckCXJQkBt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UekWVpFU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FCADC2BBFC;
+	Fri, 24 May 2024 13:55:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716558915;
+	bh=0qKlbT0Sn7O74uZtM5dWU/MMQ2oUn8jK5z/BM5idXoo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UekWVpFUw3upX1JQ1MZv9Onlexv40qPeMFBZnwqf83OSThzcSZNNldlCTtINstVMf
+	 F/Jr5xkWyAtA/slMrsm9dFRe0zL5zsmi4Y9ZVuohSudfBa7nzp/gK6pm9Q+4R6EP8o
+	 U1k94vuHk/wWnAEPyYZ2sOeUVjJcrToUqHmWSH6S/bKADQIj9Cd8G7ncZ/7F+aIVW2
+	 EapRj0dUu2nQbNk0lnUz0z3J9TPVPOO6Oyp/LiBgDQoQwA3+9sEnzs3MdHSx/d/cIX
+	 Qq4BYgkPdsQf8mTSGmJ+YbbNK9NdsWDdvT8BKCV6Afe6bPlM/OVcEDvOkx+4BfMvYJ
+	 Yy4FSS6Sp2YTw==
+Date: Fri, 24 May 2024 15:55:10 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Eric Sandeen <sandeen@redhat.com>
+Cc: linux-renesas-soc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	David Howells <dhowells@redhat.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] debugfs: ignore auto and noauto options if given
+Message-ID: <20240524-glasfaser-gerede-fdff887f8ae2@brauner>
+References: <20240522083851.37668-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="dahagqt3zh37vrjr"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdUfdHBMZ7WkUqN9JzcvXkPtLygL684_Qbaudb5+GvtMJw@mail.gmail.com>
+In-Reply-To: <20240522083851.37668-1-wsa+renesas@sang-engineering.com>
+
+On Wed, May 22, 2024 at 10:38:51AM +0200, Wolfram Sang wrote:
+> The 'noauto' and 'auto' options were missed when migrating to the new
+> mount API. As a result, users with these in their fstab mount options
+> are now unable to mount debugfs filesystems, as they'll receive an
+> "Unknown parameter" error.
+> 
+> This restores the old behaviour of ignoring noauto and auto if they're
+> given.
+> 
+> Fixes: a20971c18752 ("vfs: Convert debugfs to use the new mount API")
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+> 
+> With current top-of-tree, debugfs remained empty on my boards triggering
+> the message "debugfs: Unknown parameter 'auto'". I applied a similar fix
+> which CIFS got and largely reused the commit message from 19d51588125f
+> ("cifs: ignore auto and noauto options if given").
+> 
+> Given the comment in debugfs_parse_param(), I am not sure if this patch
+> is a complete fix or if there are more options to be ignored. This patch
+> makes it work for me(tm), however.
+> 
+> From my light research, tracefs (which was converted to new mount API
+> together with debugfs) doesn't need the same fixing. But I am not
+> super-sure about that.
+
+Afaict, the "auto" option has either never existent or it was removed before
+the new mount api conversion time ago for debugfs. In any case, the root of the
+issue is that we used to ignore unknown mount options in the old mount api so
+you could pass anything that you would've wanted in there:
+
+/*
+ * We might like to report bad mount options here;
+ * but traditionally debugfs has ignored all mount options
+ */
+
+So there's two ways to fix this:
+
+(1) We continue ignoring mount options completely when they're coming
+    from the new mount api.
+(2) We continue ignoring mount options toto caelo.
+
+The advantage of (1) is that we gain the liberty to report errors to
+users on unknown mount options in the future but it will break on
+mount(8) from util-linux that relies on the new mount api by default. So
+I think what we need is (2) so something like:
+
+diff --git a/fs/debugfs/inode.c b/fs/debugfs/inode.c
+index dc51df0b118d..713b6f76e75d 100644
+--- a/fs/debugfs/inode.c
++++ b/fs/debugfs/inode.c
+@@ -107,8 +107,16 @@ static int debugfs_parse_param(struct fs_context *fc, struct fs_parameter *param
+        int opt;
+
+        opt = fs_parse(fc, debugfs_param_specs, param, &result);
+-       if (opt < 0)
++       if (opt < 0) {
++               /*
++                * We might like to report bad mount options here; but
++                * traditionally debugfs has ignored all mount options
++                */
++               if (opt == -ENOPARAM)
++                       return 0;
++
+                return opt;
++       }
+
+        switch (opt) {
+        case Opt_uid:
 
 
---dahagqt3zh37vrjr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-
-> And you changed CONFIG_PCIE_RCAR_GEN4_* from m to y??
-
-Stupid me, sorry for the noise!
-
-> All of these should be modular.
-> If you agree, I can fix that while applying.
-
-For sure, I agree.
-
-
---dahagqt3zh37vrjr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZQdl8ACgkQFA3kzBSg
-KbbZbBAAlvql0NPFk5dfkWpgt8/BPowkhfXFIDduRUwgcS2gp0dnl+Hl1mm3s7UM
-p2wv0bbRwjzlNZOv17d1+omqeS4VkO18Jg150GmcA3AgFcAiwOsGwF9dfmAm7Aut
-Z763uKqXX8k//8DdGeuaahD/sdh/MiKH11uBmCp+HN1xYgxxdGnDisVTvU9dCIK+
-ySr3YdTWz6l/QOGJT5pK8nzJv6SYGUEpDZvFQyozdW3Sddb0aV5e0eMTKefaSf2T
-SKAG64kaPLGoZeP+HxyYKQgRw2JENELIw1O280XunY7uvqb3BDXRTCK9qnzjNQb/
-9sji8nU+vmIkJFrRdrm4Oug8aMuofyrWWI/CbI1cFuzR2mwK6hK+SPZnYWgeA8Tw
-3ysjNg1bN4Z4tzWPpipjbeSQgCSld0JfhXA582j3GbBG9+dEwQiD9ovWAvoI/ao5
-2Xkuxx4SAxLpAMTuiha4p0dH9jOMQTJp3es7oUSO1B2ud/cGoB2+QMnrQhU62MrI
-DGA9O2Z3UKnF5xB+yADqheEKqGha7HRvMS8D6BvVc7fgAdUvQ9Kx7j5yvOAvJxTq
-QFuQKq2mdLL38wAv4UqCafELxJhMrmm2Wh0F+oVPdzJ0f+PQ+9BMLaQ2eRfvl2d5
-xI/ZaYeHL/RDh0WkFc6+IJJ66At6+VmaEBn2oBuwGZ2TiYqfcNk=
-=6Oab
------END PGP SIGNATURE-----
-
---dahagqt3zh37vrjr--
+Does that fix it for you?
 
