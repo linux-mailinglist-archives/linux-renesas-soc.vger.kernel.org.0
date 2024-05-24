@@ -1,99 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-5458-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5459-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 799A38CDB9A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 May 2024 22:51:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69B128CE1DB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 May 2024 09:55:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 05BB3B22AA9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 May 2024 20:51:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 249A6280EE1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 May 2024 07:55:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4617185656;
-	Thu, 23 May 2024 20:51:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="lOeET0Oh"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC75682D9E;
+	Fri, 24 May 2024 07:55:53 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52ABF8528D
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 May 2024 20:50:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0588D82892
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 24 May 2024 07:55:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716497460; cv=none; b=M6F+qQtIOcKaDUAxjCveprK39MzUyTs7YKGBySpmxBK4w356H0qOQqp0Ke12RRv1OvEDVbjuz55dGH/bD9Mhg1tKenHgDj8ch/FnrJ8JaQwK53GvJwFIPY1BfvYwRJPn6B3mi6BXSmoqzhd2qmLt4CLE/5Whq/9Q+cPALB3gxec=
+	t=1716537353; cv=none; b=WmDAYfF/0qAecXWafCc1PwEPdVqyU0igZH27btQe0xvMPMaNS57dnf/p6xipotvtAlNScEIu9tGWKo7yvo/Lxc0MIGMm4eeNUKMyh1vd4aeKmMTYd1vbW/+C2IaUHjIzLElk0vvE0mDIdvRkToNiVTSsGqArZbJKz7erdZ2NeiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716497460; c=relaxed/simple;
-	bh=Lb7aQv/jCWZEkjo/MBRTjEpGHLpyfik4U6GSsO8cnxY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=q84Vz8aUyIwOQrR9icLqPcaWHIrT6wctWnZ90Ur8SjEBxTZOtYZ1AgTt9H6gPoK84e/r2PonuSb/Wwukp79rl6mL6t5+TDIPOqtszH9HgbZvea9t5xGDZPlaSbYn762H9lzgTACpyCWBwvQIYCxtwbwS//I0YVPNKBrlUB08Uh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=lOeET0Oh; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=lsSnHUVHE78hNDPEyLUdkJNnaHPK8GUk22hXh6E4MTw=; b=lOeET0
-	OhqFVZF7jNi7fVZLzqMM2E3wBXNhTbvdyPWjjid3CSAKs6P5gcBeuypYqxslEOTQ
-	a66xfFVdGi4umNkCVnFQhphIPBFWGOC7buSfB5u/ObxVQd+GIWXSdks4Inw8XU2z
-	iXChVkgjzhWtlRIiwE9Tpe81cff3WqjcLzW8A1s91ZGv6OZ13PpGlegqq7DWd7j+
-	sD6CqAU1kxmr/hwYkdmOYDIHcsaaEZXtRhJJDDWDUJ/t7urrOy/irauiIUmAeXLw
-	jJgoLt5XYb3Q0TgmO33Zpkknf9lTPjaNUW4zMgAsP41NCzU/BlMDCM+CnETc2hlS
-	tdMwxmqiQG4d4Sew==
-Received: (qmail 1241594 invoked from network); 23 May 2024 22:50:55 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 May 2024 22:50:55 +0200
-X-UD-Smtp-Session: l3s3148p1@tEMZNSUZQLQujntm
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] arm64: dts: renesas: s4sk: add aliases for I2C busses
-Date: Thu, 23 May 2024 22:50:40 +0200
-Message-Id: <20240523205041.7356-4-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240523205041.7356-1-wsa+renesas@sang-engineering.com>
-References: <20240523205041.7356-1-wsa+renesas@sang-engineering.com>
+	s=arc-20240116; t=1716537353; c=relaxed/simple;
+	bh=ZuZ86FhL0CbN9dv2dRkk/VDsxiGg+cVUX2bWWZLxiQI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gz0btBYkuyFGMER42dL8Pgx32WCEdU0jmp+2GezIb9Ug0Rv2V53jTufzh1kYaAQ7frSrbulaz5pZj8MFdscb95nqil8rW4GuDlMJazFaRU8MJbulIB+hVk2QYj1cKGQUt93iXYVaDpw2vNlU7/Ky2K94S5EyXzBBI90vbizkWZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-622f5a0badcso77417377b3.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 May 2024 00:55:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716537350; x=1717142150;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DbgPMJzO0iw5wOWyB2co7zQ8Wgo7bQukXg4UCYIc/FU=;
+        b=NokcFh+Ztu3ZEf0bniI0xHwk8DOxOgjc3em6oG+rhal1NKyA/CnC9EkWCLo+8WHF9j
+         RLqnAUxZIA5Y9mIfoPPWBL+9P4dK+yrsXi9SwpsMwPfkDi0qpJmdBtksBSpfur9BvJwf
+         L9HKvuoAOKHpB0c8Qa8wbkMOaHznAzhcmESNBncB0RI+bgS26+BQYf7HxILiQm3cTQ1/
+         OjDxMUhdKuYwNM9sseZVs2nUREMZ3SdmYrMaksNpQQd8P0id9FCjlSw8f2PjlwWqLQQV
+         F9xGJTpf418DOJrL3kS4InAupTm5kH/uoUZ0JXPxYF5sNmBoG1FNvuOcxL59AL9C4odL
+         Oqqw==
+X-Gm-Message-State: AOJu0YwhcyYqdaw58WCbI439ou+GPjueFg7IV1J38nblSLY4+XorJUrv
+	uYG9N0Ln3KgYuoTIAjqk3qqfl19S43q6iNsL/dAaMuWrJN1L/HVuFi2/X9J0
+X-Google-Smtp-Source: AGHT+IEVObGDmr2L18VSfVlB0Ilkc6oB3FIlfZlQgL0orsbu4uELBGO0vEwZ6mCXZacO23dXKEZd5w==
+X-Received: by 2002:a81:451b:0:b0:615:10f8:124a with SMTP id 00721157ae682-62a08dcf4d4mr13983037b3.29.1716537350408;
+        Fri, 24 May 2024 00:55:50 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-62a0a534dfbsm1705037b3.121.2024.05.24.00.55.50
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 May 2024 00:55:50 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-df7607785e9so1331658276.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 May 2024 00:55:50 -0700 (PDT)
+X-Received: by 2002:a25:ad96:0:b0:df4:dd95:cc87 with SMTP id
+ 3f1490d57ef6-df77215545emr1494324276.10.1716537350017; Fri, 24 May 2024
+ 00:55:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240523203431.6423-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20240523203431.6423-1-wsa+renesas@sang-engineering.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 24 May 2024 09:55:37 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUfdHBMZ7WkUqN9JzcvXkPtLygL684_Qbaudb5+GvtMJw@mail.gmail.com>
+Message-ID: <CAMuHMdUfdHBMZ7WkUqN9JzcvXkPtLygL684_Qbaudb5+GvtMJw@mail.gmail.com>
+Subject: Re: [PATCH v2] arm64: defconfig: Enable Renesas R-Car Gen4 PCIe controller
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-They are numbered like this in the schematics, so keep the names in
-Linux the same.
+Hi Wolfram,
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts | 6 ++++++
- 1 file changed, 6 insertions(+)
+On Thu, May 23, 2024 at 10:34=E2=80=AFPM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> Enable both modes, host and endpoint. Also, enable EDMA for performance
+> gain for the endpoint mode.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts b/arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts
-index bc65a7b4d999..fa910b85859e 100644
---- a/arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts
-@@ -14,6 +14,12 @@ / {
- 	compatible = "renesas,s4sk", "renesas,r8a779f4", "renesas,r8a779f0";
- 
- 	aliases {
-+		i2c0 = &i2c0;
-+		i2c1 = &i2c1;
-+		i2c2 = &i2c2;
-+		i2c3 = &i2c3;
-+		i2c4 = &i2c4;
-+		i2c5 = &i2c5;
- 		serial0 = &hscif0;
- 		serial1 = &hscif1;
- 		ethernet0 = &rswitch;
--- 
-2.39.2
+Thanks for the update!
+> ---
+>
+> Change since v1: added EDMA
 
+And you changed CONFIG_PCIE_RCAR_GEN4_* from m to y??
+
+> --- a/arch/arm64/configs/defconfig
+> +++ b/arch/arm64/configs/defconfig
+> @@ -233,6 +233,8 @@ CONFIG_PCIE_HISI_STB=3Dy
+>  CONFIG_PCIE_ARMADA_8K=3Dy
+>  CONFIG_PCIE_TEGRA194_HOST=3Dm
+>  CONFIG_PCIE_QCOM=3Dy
+> +CONFIG_PCIE_RCAR_GEN4_HOST=3Dy
+> +CONFIG_PCIE_RCAR_GEN4_EP=3Dy
+>  CONFIG_PCIE_ROCKCHIP_DW_HOST=3Dy
+>  CONFIG_PCIE_VISCONTI_HOST=3Dy
+>  CONFIG_PCIE_LAYERSCAPE_GEN4=3Dy
+> @@ -1215,6 +1217,7 @@ CONFIG_QCOM_BAM_DMA=3Dy
+>  CONFIG_QCOM_GPI_DMA=3Dm
+>  CONFIG_QCOM_HIDMA_MGMT=3Dy
+>  CONFIG_QCOM_HIDMA=3Dy
+> +CONFIG_DW_EDMA=3Dy
+>  CONFIG_RCAR_DMAC=3Dy
+>  CONFIG_RENESAS_USB_DMAC=3Dm
+>  CONFIG_RZ_DMAC=3Dy
+
+All of these should be modular.
+If you agree, I can fix that while applying.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
