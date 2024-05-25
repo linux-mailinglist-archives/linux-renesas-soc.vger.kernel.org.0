@@ -1,223 +1,204 @@
-Return-Path: <linux-renesas-soc+bounces-5478-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5479-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA5F8CEFEA
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 May 2024 17:50:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2524E8CF1D9
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 26 May 2024 00:08:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E32928171C
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 May 2024 15:50:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C035A28134E
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 May 2024 22:08:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4034B5821A;
-	Sat, 25 May 2024 15:50:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01EDD127E2A;
+	Sat, 25 May 2024 22:07:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QTzyfmWB"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="K8T19hoD";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZGnGFUur"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from wfout5-smtp.messagingengine.com (wfout5-smtp.messagingengine.com [64.147.123.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BFD01877;
-	Sat, 25 May 2024 15:50:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A288F138E;
+	Sat, 25 May 2024 22:07:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716652225; cv=none; b=ojHzVmbVuodR1npw+89Opss2oKfNz9CFqTjUeeVubT6lJibaWJrxjWV36Z1gcP1MW1RmvwZ7o01jGQ3iLhbuU59Yw35JbdZidcnu/yafDqmsTnee2bk2wmn+GIEZ3siCJM5NjVjrlgbkPNQIuGvg0kPMaxxTI2GW0pwwfoZjPo4=
+	t=1716674877; cv=none; b=FtLOpJ33RY2vanESV9DvpRnn+Nuq6kV74dpV47pBIkKRdS2I6hUAe4T6Ts5PEzqSNEguFeQBx0r2C2Ug0WvlkARIu3WKTGZZa8zwrRonhd3pj/txx3Q1cke+Ny/aqQXz9FEazO7TLE+VQaUsTbdGpgXJa+BjoU430e3JkziLErs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716652225; c=relaxed/simple;
-	bh=vEFLHVjNtQlgF5brmdGsKTnFnwRA9guZrFAtVbbZVcM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FqvvDPs0e/o32SdC6CGtrQQNKRPi5OFYs9L7/k++1IxDraqBuZTnL9vZ3IokJtCVt9u3P/9PX9HR66jXHTK+F46rgHxVTrq4C32q7ac9fQSzQIXNBojkwLXR0ykS8Quebzj1XuosA0j4dmWvJ4VZB731i9vDYwCeS3H5jywnzlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QTzyfmWB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79266C2BD11;
-	Sat, 25 May 2024 15:50:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716652224;
-	bh=vEFLHVjNtQlgF5brmdGsKTnFnwRA9guZrFAtVbbZVcM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QTzyfmWBMdY17vX/jDE7j0qh0ahmwEg7XjmbIdNxPJBaPYAxnuaOm2kutm8DNhOEq
-	 IgrR6hQChy6k4M3B2v9OYp/7BmUAszrTYFSsX/b6e0G6sKxIy012I7usOlfQex5QFl
-	 z2hTwFJq3D2P43Qu+aAaoDRm3uZVdBKN6FnAMdzIXVFlELfCTpv7FM/X7sxAkyhP0d
-	 VlI56sJc6aLtLDpmhmYpHu3vECznM3oOlh46CSmH2kkEGJR4AzEiYaEo6t8zaFpbzt
-	 jFEou3RLL81bc31bBDvK7ZXPjr7lOlPS2TdpMUGB1a/uVJsnFqUW/2jrP+cIXmHOFk
-	 EseoNK09Xi7+Q==
-Date: Sat, 25 May 2024 16:50:19 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 1/4] dt-bindings: clock: renesas: Document RZ/V2H(P) SoC
- CPG driver
-Message-ID: <20240525-filling-revolving-307de19dd4c5@spud>
-References: <20240524082800.333991-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240524082800.333991-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1716674877; c=relaxed/simple;
+	bh=D++cyd23myqJmAvGTVFI5XlB7Y32eLoQevngNsZ/Qu0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nVzzJdMQtOrKWToBVkXPbDV0eTFVZeq3QfWT5wdW5j9NSNx1md1NsBjj4TgrynsPsmgjHyO6Ruix3sPJBKtZbDo0L6m88bZR04Gm5QKXSI3O5ahW0MqE9PyHdtwlevbzUHRNsqPSmvEeX/PM81Sm65+XUr2fh7W776O+Oqo9Afk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=K8T19hoD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ZGnGFUur; arc=none smtp.client-ip=64.147.123.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailfout.west.internal (Postfix) with ESMTP id 259A61C000AE;
+	Sat, 25 May 2024 18:07:52 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Sat, 25 May 2024 18:07:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1716674871; x=1716761271; bh=gh
+	vJEjFN1pc4+Ka4C90JficqAuhjmM6V8ECjsNb52P4=; b=K8T19hoDmCNRbsOdpF
+	lBJOgaErXxjYVUqNKMnOD7pggWVSDl+FWCsnrIdWVJbygKp3Fb6lTOdeBYj++Z64
+	qkEmC+h3/MK1oumUm8TjvIVsLL1uCdOODgFfgLLp18kzDGb0cJTryyAiMXumLi7h
+	5CsO3J+X5W+EBvwuoA3nRuphepvK59ihzcrYcQBH9TC7p2A9iQVTfNFx6iyY5SeQ
+	evBX4I5ync0bfaqGUn8/VpQKGNg8GTKWYQD+3bk2I9BtraTNHfc89LFzDJhOvEFr
+	+bO2Gs1U4ISHcAhkit1tb7630FcVqhKdb6aoJLv6WzZCnnAjdoDDzWIdW94DcUZ5
+	VE+w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1716674871; x=1716761271; bh=ghvJEjFN1pc4+
+	Ka4C90JficqAuhjmM6V8ECjsNb52P4=; b=ZGnGFUurDu8QpmqRe68BI9VrGbytC
+	VQxH/Tx61NTinFc4jfqo1i3jk6lt8/vTmhFr71zCdphBvruw+bvgamMZZPjQnjM3
+	9wk+iC3TiwCPm6bDkMFpkSoQ6i4QQU0oPGDJZVQpGzFF9xusDCRpcG+SCEWD68/3
+	5gkiBKPpxzj5pQmvprgG2atqnwuVyAkb2uIoJgzzi5i85BN6Cqa73ch/4trG/cg4
+	XD0ZlEpbgku/PVgurZcMEvzSHMu2XxM1MvOvrAbBdKnkD+x5MIq2ygSgkN4Wyc4H
+	mfA+eXCltQvllTLAshFpggKXGjBqnUPY3wMbhWcTwYwFYlhfu8P1oxgwA==
+X-ME-Sender: <xms:N2FSZkAay4maTb88EMH-_aiC0vfsWZd3bvT0TXZeWdr69A6b4E7Clg>
+    <xme:N2FSZmjJBSCH5JHp4xjJLfuOV8l9qfbvrdQg4P-GYS9rTYQQTmaw7kjIGtDlxWFnB
+    GC111zCOA4lZsa5Bcs>
+X-ME-Received: <xmr:N2FSZnmJqqgD2lBKnr00ZlhiWeax86lfVILp0c3HjT65wkFkzHJmjQ53-YKostWObOoB5PWT-sv6YfyLKVt8Aab6eF29JYE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdejuddgtdehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkgggtugfgsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
+    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrg
+    htvggthhdrshgvqeenucggtffrrghtthgvrhhnpeegfeegieefueeggfetteekudejfeej
+    fedtvefgkeegheeggefgueffueejieekheenucffohhmrghinhephhhusghsphhothhush
+    gvrhgtohhnthgvnhhtqdhnrgdurdhnvghtnecuvehluhhsthgvrhfuihiivgeptdenucfr
+    rghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnh
+    grthgvtghhrdhsvg
+X-ME-Proxy: <xmx:N2FSZqyqjvbdAjjK4uGDxcTh0-ingrmfNleMOvtKs7NBLKkm7hNYvQ>
+    <xmx:N2FSZpT36OIaHqGUFj28Yl-aVM3CUDja-73fefSODnk2Kg1cPUQyvA>
+    <xmx:N2FSZlb-9gCwt8RhGNIeoqPzEXfZRYzq3VZVWKSBWaPKAZOtG-2D_g>
+    <xmx:N2FSZiQgkc_oGL2V23Zt_01LxjE4CBlNacxU141vVA0ptO8ocz6ArA>
+    <xmx:N2FSZm_Ok6r0hZ-Pfj2ioZLImoW7k1APr0gnMCU06nloZlb81TQjB2Oq>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 25 May 2024 18:07:50 -0400 (EDT)
+Date: Sun, 26 May 2024 00:07:47 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [RFC] dt-bindings: media: video-interfaces: How to describe physical
+ lanes for CSI-2 C-PHY
+Message-ID: <20240525220747.GD1900917@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="YrfRGz1H/vfng7dJ"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240524082800.333991-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
 
+Hello,
 
---YrfRGz1H/vfng7dJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I'm trying to figure out how to best describe the ordering of the three 
+physical copper (?) lanes that make up a logical lane in MIPI CSI-2 
+C-PHY. As far as I can tell there is no generic binding for this yet.
 
-On Fri, May 24, 2024 at 09:27:57AM +0100, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->=20
-> Document the device tree bindings of the Renesas RZ/V2H(P) SoC
-> Clock Pulse Generator (CPG).
->=20
-> CPG block handles the below operations:
-> - Handles the generation and control of clock signals for the IP modules
-> - The generation and control of resets
-> - Control over booting
-> - Low power consumption and the power supply domains
->=20
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  .../bindings/clock/renesas,rzv2h-cpg.yaml     | 78 +++++++++++++++++++
->  1 file changed, 78 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/clock/renesas,rzv2h=
--cpg.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/clock/renesas,rzv2h-cpg.ya=
-ml b/Documentation/devicetree/bindings/clock/renesas,rzv2h-cpg.yaml
-> new file mode 100644
-> index 000000000000..baa0f2a5b6f9
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/clock/renesas,rzv2h-cpg.yaml
-> @@ -0,0 +1,78 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/clock/renesas,rzv2h-cpg.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas RZ/V2H(P) Clock Pulse Generator (CPG)
-> +
-> +maintainers:
-> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> +
-> +description: |
-> +  On Renesas RZ/V2H(P) SoC's, the CPG (Clock Pulse Generator) handles th=
-e generation
-> +  and control of clock signals for the IP modules, the generation and co=
-ntrol of resets,
-> +  and control over booting, low power consumption and the power supply d=
-omains.
-> +
-> +properties:
-> +  compatible:
-> +    const: renesas,r9a09g057-cpg
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    description:
-> +      Clock source to CPG can be either from external clock input (EXCLK=
-) or
-> +      crystal oscillator (XIN/XOUT).
+Background:
 
-I think this description should be in clocks, not clock names.
+A logical lane in the MIPI CSI-2 C-PHY specification is created from 
+three physical lanes on the SoC. The three physical lanes are commonly 
+referred to as lane A, B and C.
 
-> +    const: extal
-> +
-> +  '#clock-cells':
-> +    description: |
-> +      - For CPG core clocks, the two clock specifier cells must be "CPG_=
-CORE"
-> +        and a core clock reference, as defined in
-> +        <dt-bindings/clock/r9a09g057-cpg.h>,
-> +      - For module clocks, the two clock specifier cells must be "CPG_MO=
-D" and
-> +        a module number, as defined in <dt-bindings/clock/r9a09g057-cpg.=
-h>.
+One or more logical lanes can be used to create a CSI-2 C-PHY bus. These 
+logical lanes are commonly referred to in numerical incremental order.
 
-Can you please explain the difference and why it matters? Why isn't the
-unique number for a given clock sufficient?
+I don't have access to the MIPI CSI-2 C-PHY specification as that is 
+available to MIPI members only. But I found these slides which I think 
+can help illustrate the setup.
 
-Thanks,
-Conor.
+https://2384176.fs1.hubspotusercontent-na1.net/hubfs/2384176/MIPI-C-PHY-Introduction-From-Basic-to-Implementation.pdf
 
-> +    const: 2
-> +
-> +  '#power-domain-cells':
-> +    description:
-> +      SoC devices that are part of the CPG/Module Standby Mode Clock Dom=
-ain and
-> +      can be power-managed through Module Standby should refer to the CP=
-G device
-> +      node in their "power-domains" property, as documented by the gener=
-ic PM
-> +      Domain bindings in Documentation/devicetree/bindings/power/power-d=
-omain.yaml.
-> +      The power domain specifiers defined in <dt-bindings/clock/r9a09g05=
-7-cpg.h> could
-> +      be used to reference individual CPG power domains.
-> +
-> +  '#reset-cells':
-> +    description:
-> +      The single reset specifier cell must be the module number, as defi=
-ned in
-> +      <dt-bindings/clock/r9a09g057-cpg.h>.
-> +    const: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - '#clock-cells'
-> +  - '#power-domain-cells'
-> +  - '#reset-cells'
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    cpg: clock-controller@10420000 {
-> +            compatible =3D "renesas,r9a09g057-cpg";
-> +            reg =3D <0x10420000 0x10000>;
-> +            clocks =3D <&extal_clk>;
-> +            clock-names =3D "extal";
-> +            #clock-cells =3D <2>;
-> +            #power-domain-cells =3D <0>;
-> +            #reset-cells =3D <1>;
-> +    };
-> --=20
-> 2.34.1
->=20
+Problem:
 
---YrfRGz1H/vfng7dJ
-Content-Type: application/pgp-signature; name="signature.asc"
+There is generic DT properties in video-interfaces.yaml to describe the 
+logical lanes, 'data-lanes'. This property is used to describe how many 
+logical lanes exists, and the order which they are connected. The order 
+is important as logical lanes might be swapped between sender and 
+receiver, and the sender and/or receiver can correct for this using 
+software configuration.
 
------BEGIN PGP SIGNATURE-----
+There are however no generic DT property in video-interfaces.yaml to 
+describe the order of the A, B and C physical lanes that make up a 
+logical lane. But just as the logical lanes these can be swapped between 
+sender and receiver, and the device on either end of the link needs to
+correct for this with software configuration.
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZlIIuwAKCRB4tDGHoIJi
-0n4GAQD921aZa5FY8XO8s+yulU416c2y8te4wVBJ03h/gT9KGQD+ICZ0JYB74irE
-Twf060MsdzypmYOhBIigNoztmynchAA=
-=OxST
------END PGP SIGNATURE-----
+For MIPI CSI-2 D-PHY lanes the same problem exists but is made simpler 
+as each logical lane in D-PHY mode is made up of a differential pair of 
+only two physical lanes. And the generic property 'lane-polarities' is
+used to describe if the P and N physical lanes have been swapped.
 
---YrfRGz1H/vfng7dJ--
+  lane-polarities:
+    $ref: /schemas/types.yaml#/definitions/uint32-array
+    minItems: 1
+    maxItems: 9
+    items:
+      enum: [ 0, 1 ]
+    description:
+      An array of polarities of the lanes starting from the clock lane and
+      followed by the data lanes in the same order as in data-lanes. Valid
+      values are 0 (normal) and 1 (inverted). The length of the array should be
+      the combined length of data-lanes and clock-lanes properties. If the
+      lane-polarities property is omitted, the value must be interpreted as 0
+      (normal). This property is valid for serial busses only.
+
+How to best do something similar for the three physical lanes used for 
+C-PHY which can be configured as either ABC, CBA, ACB, CAB, BAC or BCA?
+
+Any solutions I can think of feels wrong, but for different reasons.
+
+1. We could add a new generic property to fulfill the 'lane-polarities' 
+   function for C-PHY, 'lane-polarities-mipi-cphy'. That would only be 
+   valid for C-PHY buses.
+
+   The structure would be the same as for lane-polarities but the items 
+   enum would allow a value from 0-5 for each entry in the array. And we 
+   could define mappings in dt-bindings/media/video-interfaces.h to 
+   allow names in DTS, MEDIA_BUS_CSI2_CPHY_{ABC,CBA,ACB,CAB,BAC,BCA}?
+
+   This feels wrong as we already have 'lane-polarities' and it is used 
+   for CSI-2 D-PHY configurations already.
+
+2. We could extend the 'lane-polarities' property to accept values 0-5 
+   and in video-interfaces.yaml describe that values other than 0 and 1 
+   are only valid for CSI-2 C-PHY buses. We could still define the 
+   descriptive names in video-interfaces.h.
+
+   This feels wrong as we would lose the ability to validate DTS files 
+   for D-PHY configurations only contain values 0 or 1.
+
+3. We could use vendor specific properties to deal with C-PHY lane 
+   polarities.
+
+   This just feels wrong as this is not a vendor specific issue.
+
+Maybe I'm overlooking a better solution? Any feedback on this problem 
+would be appreciated.
+
+My current feeling for the least bad option is number 2 as it aligns how 
+CSI-2 C-PHY and D-PHY are described. Unless a better idea comes along, 
+or I'm educated on why this is a bad idea I will create a patch for this 
+and see how it works out.
+
+-- 
+Kind Regards,
+Niklas Söderlund
 
