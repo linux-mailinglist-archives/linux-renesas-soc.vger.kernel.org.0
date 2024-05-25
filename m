@@ -1,136 +1,105 @@
-Return-Path: <linux-renesas-soc+bounces-5476-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5477-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 818B28CE66E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 May 2024 15:55:21 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54EED8CEFE3
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 May 2024 17:44:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3BB402820C8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 May 2024 13:55:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 81BDC1C20B9B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 May 2024 15:44:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AD2212BF35;
-	Fri, 24 May 2024 13:55:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 878CD84047;
+	Sat, 25 May 2024 15:44:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UekWVpFU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qegSTkEa"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C0CF8624B;
-	Fri, 24 May 2024 13:55:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DDEC29CE5;
+	Sat, 25 May 2024 15:44:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716558916; cv=none; b=EwI5dShjQIiCnMYjfom8pNwDz3UG0CuSMUPJpbAkAyIjN5T6dK+yBs/psv+iEicHMyEFxkZ5ovRi7T1cDqwUkQ9K++ztNft3wvrheh4jIbctlLjuHo7E7Ruah4DL9mpj3UEWGlUPJz15tqI+jEv7qqBN6LFF37ZN3siYefjeSW8=
+	t=1716651854; cv=none; b=vF31GLzwEgdHrjMDKytCryrLu4T/oOCZYqhJ5I1OG0JYHB8B/Kbgx6Y0WLzRaRLA54hp1KRQaTX3ODEKITan5oalCye1yxS2sYU503Gek20xNUX1Ngw8QVWxF09fN5HaP1hjXSR51piQi46NQ1BLoHYPDjnD6Sam0aI5guzAzDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716558916; c=relaxed/simple;
-	bh=0qKlbT0Sn7O74uZtM5dWU/MMQ2oUn8jK5z/BM5idXoo=;
+	s=arc-20240116; t=1716651854; c=relaxed/simple;
+	bh=cuVshlMXsAqf34jvzFJQofX9XkszRt+S7vCOc6cWEvo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XEIhSxRu2fIUoJEbjD9Y38B6Hyxx26zzpOIKLDHKoVt9osvh5ialp8BtD7bP/UKf/FeL3aoyCUotOrK7P4z2yh9GOLXl/Gp3N5tc6y3wsRUcqldgJaeSb3q7mFr1Srjb1m+jRUq6HciWJKsoByNxMbOHkEm8NdY7ZckCXJQkBt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UekWVpFU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FCADC2BBFC;
-	Fri, 24 May 2024 13:55:13 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=gK0T8EXfl/gnyJAkH9W80K4eIAcUFxTOpiHtCli/72vmcdXlExGq7qCx4Wt4PdKzMYl4QWsNQtOB0P/STasn9iWJzORUMTN7qSOEwmZkW79feKMPHSDX9O2wkVd0PBsh20a32Wj1VSEG7U3/qydziH7iq1/uC1W4tcm41aog51Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qegSTkEa; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5D57C2BD11;
+	Sat, 25 May 2024 15:44:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716558915;
-	bh=0qKlbT0Sn7O74uZtM5dWU/MMQ2oUn8jK5z/BM5idXoo=;
+	s=k20201202; t=1716651853;
+	bh=cuVshlMXsAqf34jvzFJQofX9XkszRt+S7vCOc6cWEvo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UekWVpFUw3upX1JQ1MZv9Onlexv40qPeMFBZnwqf83OSThzcSZNNldlCTtINstVMf
-	 F/Jr5xkWyAtA/slMrsm9dFRe0zL5zsmi4Y9ZVuohSudfBa7nzp/gK6pm9Q+4R6EP8o
-	 U1k94vuHk/wWnAEPyYZ2sOeUVjJcrToUqHmWSH6S/bKADQIj9Cd8G7ncZ/7F+aIVW2
-	 EapRj0dUu2nQbNk0lnUz0z3J9TPVPOO6Oyp/LiBgDQoQwA3+9sEnzs3MdHSx/d/cIX
-	 Qq4BYgkPdsQf8mTSGmJ+YbbNK9NdsWDdvT8BKCV6Afe6bPlM/OVcEDvOkx+4BfMvYJ
-	 Yy4FSS6Sp2YTw==
-Date: Fri, 24 May 2024 15:55:10 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Eric Sandeen <sandeen@redhat.com>
-Cc: linux-renesas-soc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	David Howells <dhowells@redhat.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] debugfs: ignore auto and noauto options if given
-Message-ID: <20240524-glasfaser-gerede-fdff887f8ae2@brauner>
-References: <20240522083851.37668-1-wsa+renesas@sang-engineering.com>
+	b=qegSTkEaYyj5Iw2zEaZ9R98WysFMah833NfA8+dLuZMp9aielw+HHfkAFELMzFki+
+	 vR5E1vAn6jM28lIVBJ/kQclswVnYd5n9AIwboJhjtlgeNuBDNaJ4z4GmwIULz6Qz0I
+	 Pvow9wunh13dP06rNLM861QGmdSmstBwNfKf9ZrTPx8WTXbFijwqcJnxw2uIbTo1wV
+	 2xdCcL3hfffK/z6Ez+51sxGEqem7LqAT7MCtWOVYJ6+SgmNuv6FnFZX8+sx5OtOUN8
+	 PleYnjf3el0pLK/7DdeuxRmYEeOUbUCZF/kPQUjsPhYSoslpHdSPQzVSDTDtC5x40d
+	 CUuHyp6LwW+Kw==
+Date: Sat, 25 May 2024 16:44:08 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 2/4] dt-bindings: clock: Add R9A09G057 CPG Clock and
+ Reset Definitions
+Message-ID: <20240525-unsealed-paramount-804c82fe14ae@spud>
+References: <20240524082800.333991-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240524082800.333991-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="gSz3PYicA2lVa/gN"
 Content-Disposition: inline
-In-Reply-To: <20240522083851.37668-1-wsa+renesas@sang-engineering.com>
-
-On Wed, May 22, 2024 at 10:38:51AM +0200, Wolfram Sang wrote:
-> The 'noauto' and 'auto' options were missed when migrating to the new
-> mount API. As a result, users with these in their fstab mount options
-> are now unable to mount debugfs filesystems, as they'll receive an
-> "Unknown parameter" error.
-> 
-> This restores the old behaviour of ignoring noauto and auto if they're
-> given.
-> 
-> Fixes: a20971c18752 ("vfs: Convert debugfs to use the new mount API")
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
-> 
-> With current top-of-tree, debugfs remained empty on my boards triggering
-> the message "debugfs: Unknown parameter 'auto'". I applied a similar fix
-> which CIFS got and largely reused the commit message from 19d51588125f
-> ("cifs: ignore auto and noauto options if given").
-> 
-> Given the comment in debugfs_parse_param(), I am not sure if this patch
-> is a complete fix or if there are more options to be ignored. This patch
-> makes it work for me(tm), however.
-> 
-> From my light research, tracefs (which was converted to new mount API
-> together with debugfs) doesn't need the same fixing. But I am not
-> super-sure about that.
-
-Afaict, the "auto" option has either never existent or it was removed before
-the new mount api conversion time ago for debugfs. In any case, the root of the
-issue is that we used to ignore unknown mount options in the old mount api so
-you could pass anything that you would've wanted in there:
-
-/*
- * We might like to report bad mount options here;
- * but traditionally debugfs has ignored all mount options
- */
-
-So there's two ways to fix this:
-
-(1) We continue ignoring mount options completely when they're coming
-    from the new mount api.
-(2) We continue ignoring mount options toto caelo.
-
-The advantage of (1) is that we gain the liberty to report errors to
-users on unknown mount options in the future but it will break on
-mount(8) from util-linux that relies on the new mount api by default. So
-I think what we need is (2) so something like:
-
-diff --git a/fs/debugfs/inode.c b/fs/debugfs/inode.c
-index dc51df0b118d..713b6f76e75d 100644
---- a/fs/debugfs/inode.c
-+++ b/fs/debugfs/inode.c
-@@ -107,8 +107,16 @@ static int debugfs_parse_param(struct fs_context *fc, struct fs_parameter *param
-        int opt;
-
-        opt = fs_parse(fc, debugfs_param_specs, param, &result);
--       if (opt < 0)
-+       if (opt < 0) {
-+               /*
-+                * We might like to report bad mount options here; but
-+                * traditionally debugfs has ignored all mount options
-+                */
-+               if (opt == -ENOPARAM)
-+                       return 0;
-+
-                return opt;
-+       }
-
-        switch (opt) {
-        case Opt_uid:
+In-Reply-To: <20240524082800.333991-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 
-Does that fix it for you?
+--gSz3PYicA2lVa/gN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, May 24, 2024 at 09:27:58AM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>=20
+> Define RZ/V2H(P) (R9A09G057) Clock Pulse Generator module clock outputs
+> (CPG_CLK_ON* registers), and reset definitions (CPG_RST_* registers)
+> in Section 4.4.2 and 4.4.3 ("List of Clock/Reset Signals") of the RZ/V2H(=
+P)
+> Hardware User's Manual (Rev.1.01, Feb. 2024).
+>=20
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+
+--gSz3PYicA2lVa/gN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZlIHSAAKCRB4tDGHoIJi
+0vjaAP4kcVgCEXvHhpIDA8LFpZvhIfTiy+I5jRdZrrMCzYuSuQEAt9m3z6xph+aU
+peJk2KDLBfhrCUYmt8Qz1T6+VWYC1Ak=
+=dDEg
+-----END PGP SIGNATURE-----
+
+--gSz3PYicA2lVa/gN--
 
