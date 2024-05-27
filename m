@@ -1,118 +1,152 @@
-Return-Path: <linux-renesas-soc+bounces-5489-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5490-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B1138CFD46
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 11:41:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 221368CFDD9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 12:07:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 14E2AB227CF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 09:41:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4DB7A1C214AF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 10:07:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C35F13A87E;
-	Mon, 27 May 2024 09:39:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8509213B585;
+	Mon, 27 May 2024 10:06:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Rh2ndBRu"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA6E213A89E;
-	Mon, 27 May 2024 09:39:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99E713AA5F
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 27 May 2024 10:06:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716802781; cv=none; b=ohAQ1gAjftwt653gAQmOtXCWOGt5zaRUlgtnKFQNxQ69pr13Wx7+foJcoWatWetvAWqkRSP9DYvYTPg7DcAKafdKFxzQ15x10PsGpRY/gsMqXjUc94dNFmXPHU9hnP3zBuUQ3ysPHyMg0OHCaN57rrv9JQgxXYC0gldTNLCF5pY=
+	t=1716804391; cv=none; b=T/uPoi1Y9TSCkAFXlJ1h7e3dq2qh/SKLFNuKsD9d9R1N2gZLEp93jZwhYf/siwIhT/ZYd6XwDB0o7/EEerk8Lt+MBxFEtgMeEfZHGeyG/TWmENHUhJQlIOf4PAVBQ6hIXWkCt6ecShXAdQ0tQ8Qjc6IZEg0PuYNA3BABi44kAGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716802781; c=relaxed/simple;
-	bh=dx+hN+wmsJTwtBfOQ42M7kIfPQOsGL7NwwOe8NY7hNI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iDRKCb9+i15z+TRrHwZtqGBVWOuJs+0Rh5YpPOll+p9VkjYGn9d4rmeq41fma4svg6G/BVi4kLVVkBhLUah51jGRDufTgTL/ijuEk9V3PHA2b3vuooPg/xwso6ri7SwMUNCfxkFyjSp5aJp+JxGGUx7XnUZpM50e7kwS4q3bpkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-62a14a73627so25474737b3.2;
-        Mon, 27 May 2024 02:39:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716802778; x=1717407578;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cs7oGWkvAyFJE8iOCwgBBHVZVN7XGrEi9s1+j6aNNq8=;
-        b=I3grRimC+HXDHAsrT+VzWm0xbn+fAktWNr6PbBS9dqbY7iCWSx9WdS1RzzfmRW9Alr
-         05qBhrCPO9ozbFA3NaLpp1LZJE/N8GNqmiu8R/x4oYY3g7VycALPlGg/kBLThEAzRa9z
-         FWNtO2OibMZfy3Bezib4BXJeYCjljaYeMc4c6PnYi9GUAWWKeMW5Nxe4lrg40+dPXt5h
-         0yD+3tPI18FhcjENN8cfkRaOaxZf4wffMmnggIWR5FXc/GSfLbS04blceH8k9+W5cKDk
-         6tE1c8TQKcdmvRNnf8oO0w0TSxkbvNlHRhSRiIz0c7Bf8HJQ3L3H+EsRQ6HWYKHk3kjs
-         CCCw==
-X-Forwarded-Encrypted: i=1; AJvYcCVSHIuqF7sxXQaW/jAe+e1jJre3uv4GI0WUag/41aQf6CnxqBEuZtlPr5b1CxJMam4KQnc1ZZfhafekmOhYSl8Vob9iC3XXlDfsPHHnlRHMQzeYWj3vaTq/VgSc8J9YC7JQBzl0yigXI5omf4SubRp3II8v3vIMh3m+5aK+7bks1lAjfmcosfD6Y4bCOU64CaV7OA/E5sNxfMrnZSShSIt00i8E
-X-Gm-Message-State: AOJu0Ywldlu6JZxJTkxFZMvXnVKbNVob9/jdafVFmNTswXo5cOGEIbgj
-	ghP93d4ZpgGEggNTvNnu+RBk3N3Zs3+te1XI4zIFLuCopwshBDIO3WLHT336
-X-Google-Smtp-Source: AGHT+IG2/TpKChXsuvqybcRJVUPrmpak18nT0ShQi4aDZXyUx2IzP20WJt+hzESLxcLXMOY6rszPRA==
-X-Received: by 2002:a81:9182:0:b0:617:cb98:f9b2 with SMTP id 00721157ae682-62a08f2cae4mr85149047b3.43.1716802777784;
-        Mon, 27 May 2024 02:39:37 -0700 (PDT)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-62a0a551098sm15952597b3.128.2024.05.27.02.39.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 May 2024 02:39:37 -0700 (PDT)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-62a14a73627so25474357b3.2;
-        Mon, 27 May 2024 02:39:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXMH8HYVdlJ2qq7g0HMCxAiwvFXro6fSFmjZugnvkKPJL7oVhj0EpaB+yf3Jo5g3kiwP//Y+lpt/vhG1VjeAlIxolaIovcrrITsVLZpb+wzVmj5b/cgEIbBJkNE9HnRsPJxJnvk6v8MwoRbD5WghMdrxRbJHuMeFnb+XR4GDldMWIIFRpewtjUl7+XgZEmDax/VS3GZO6tpybxmAWuUt31xRsPw
-X-Received: by 2002:a25:9348:0:b0:df4:d5d2:b524 with SMTP id
- 3f1490d57ef6-df772184a6cmr8464467276.14.1716802777293; Mon, 27 May 2024
- 02:39:37 -0700 (PDT)
+	s=arc-20240116; t=1716804391; c=relaxed/simple;
+	bh=Kr4l0x8PNw4zSltcIYoL7UZLHPCeyGC4FnJ3t4A/OAM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iYZlao4Flls8BpyiK/YqdbRP0vgpufmZ2Dc7DoYnsTb996ATWIKqkcuyKeQFaBRaS0TPe/YJaHWcyRv/qJMpKibEz/cmREiqP4B6NOBoMK/cNKGPXEKNavFgi4//mLIjfW1hkoBH8uKUdOXmene2QuEowWoIqCPxLrabeTLALhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Rh2ndBRu; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=0t+T
+	7WHX4la5LMrFE6PjVGCaYFT0TyBcOR1BCAmjNmg=; b=Rh2ndBRu/UYt67O8euVq
+	I7mDDOnIbKTIiLnGjO5pr+HfBMP+h0HL53Rh972C+BQ0PLkM2HMYRhO46crrR0Bv
+	pOPhFS55VMJeD+jzg4YWwbT2xT5KDcqqdWncTlNlbUl0TFis8TcJ+PmgSE7HPWgd
+	4vlVW4abPpJyH45xpvX4e88xpsWq7i/U/kCEAOxmMUNw73caWvD389YsO5wZwmns
+	NJmel8JE+ZJVww+Yp9d2xaqsHA+MQNwldBawEhLgGlojsyKsGrxw8j0k+WDR5K5i
+	9s+mbx2Ouxdroh6X7h1u3Ge1PZrktmHlUmOrULheQ/GoerhEtFykfwigFy2CKAOY
+	4w==
+Received: (qmail 2284887 invoked from network); 27 May 2024 12:06:19 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 27 May 2024 12:06:19 +0200
+X-UD-Smtp-Session: l3s3148p1@XEQoq2wZvLoujntm
+Date: Mon, 27 May 2024 12:06:18 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Eric Sandeen <sandeen@redhat.com>, linux-renesas-soc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	David Howells <dhowells@redhat.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] debugfs: ignore auto and noauto options if given
+Message-ID: <20240527100618.np2wqiw5mz7as3vk@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Eric Sandeen <sandeen@redhat.com>,
+	linux-renesas-soc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	David Howells <dhowells@redhat.com>, linux-kernel@vger.kernel.org
+References: <20240522083851.37668-1-wsa+renesas@sang-engineering.com>
+ <20240524-glasfaser-gerede-fdff887f8ae2@brauner>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240513-rzn1-gmac1-v7-0-6acf58b5440d@bootlin.com> <20240513-rzn1-gmac1-v7-7-6acf58b5440d@bootlin.com>
-In-Reply-To: <20240513-rzn1-gmac1-v7-7-6acf58b5440d@bootlin.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 27 May 2024 11:39:24 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWC=mF0xVwALAT6OsZMn821V-vz6G94HLVsEDvXWRpngQ@mail.gmail.com>
-Message-ID: <CAMuHMdWC=mF0xVwALAT6OsZMn821V-vz6G94HLVsEDvXWRpngQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v7 7/7] ARM: dts: r9a06g032: describe GMAC1
-To: Romain Gantois <romain.gantois@bootlin.com>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Jose Abreu <joabreu@synopsys.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Russell King <linux@armlinux.org.uk>, =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>, 
-	Serge Semin <fancer.lancer@gmail.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	netdev@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hqjbo2nzioraqstx"
+Content-Disposition: inline
+In-Reply-To: <20240524-glasfaser-gerede-fdff887f8ae2@brauner>
+
+
+--hqjbo2nzioraqstx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 13, 2024 at 9:24=E2=80=AFAM Romain Gantois
-<romain.gantois@bootlin.com> wrote:
-> From: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
->
-> The r9a06g032 SoC of the RZ/N1 family features two GMAC devices named
-> GMAC1/2, that are based on Synopsys cores. GMAC1 is connected to a
-> RGMII/RMII converter that is already described in this device tree.
->
-> Signed-off-by: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
-> [rgantois: commit log]
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
+Hi Christian,
 
-Thanks, will queue in renesas-devel for v6.11.
+> Afaict, the "auto" option has either never existent or it was removed bef=
+ore
+> the new mount api conversion time ago for debugfs.
 
-Gr{oetje,eeting}s,
+Frankly, I have no idea why I put this 'auto' in my fstab ages ago. But
+it seems, I am not the only one[1].
 
-                        Geert
+[1] https://www.ibm.com/docs/en/linux-on-systems?topic=3Dassumptions-debugfs
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+> diff --git a/fs/debugfs/inode.c b/fs/debugfs/inode.c
+> index dc51df0b118d..713b6f76e75d 100644
+> --- a/fs/debugfs/inode.c
+> +++ b/fs/debugfs/inode.c
+> @@ -107,8 +107,16 @@ static int debugfs_parse_param(struct fs_context *fc=
+, struct fs_parameter *param
+>         int opt;
+>=20
+>         opt =3D fs_parse(fc, debugfs_param_specs, param, &result);
+> -       if (opt < 0)
+> +       if (opt < 0) {
+> +               /*
+> +                * We might like to report bad mount options here; but
+> +                * traditionally debugfs has ignored all mount options
+> +                */
+> +               if (opt =3D=3D -ENOPARAM)
+> +                       return 0;
+> +
+>                 return opt;
+> +       }
+>=20
+>         switch (opt) {
+>         case Opt_uid:
+>=20
+>=20
+> Does that fix it for you?
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Yes, it does, thank you.
+
+Reported-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+Happy hacking,
+
+   Wolfram
+
+
+--hqjbo2nzioraqstx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZUWxYACgkQFA3kzBSg
+KbYn7BAAgjXXfe6438wgV+D2SvJ7lziQ32oC2AKs/kiVtJYHQ6vmj9M5fCgIfuNG
+5kSvB/KAwYsMIZrEtYmAWJRJAlpUz4PQHxCEGCgD4QktsUTZW8I+7Y4uwI33D+Sf
+BbkGsv2sDvTV+LfVp7VSmQRuMHUkJaSYkpDLEpI2I5NRL99KnqplLSuxJi7VtAoJ
+sVw4AFj48H3Ea1L78YW7CGUUVE2j9s98NQzKHyBHl4ZALfIvJAvfpJn5LgMOhHEU
+C5w0MzKnIh1iUovzqnTVJVok7LpPrVE3pk7KkScGl/0XkKn3AEdegjk4ydf1+9TI
+2i5EKQdFyRv1WqsN3HYuRRyaZOhu1HobWpQcBeJ6yZht/OawnopjiQe8CvkJF23p
+Dndc97Mc3inp6U03l9gq4zhjMqVzhQQnPp78HXTLUVppxDlfHeMAkxtz0PC/7vQ3
+jM4nysaIwvYPItDjVFNyvGMUhdnPb0lKM1gGl5IVnVu7qhsSR5Myx0qwr8XJ6sRV
+sSggapJDx0Otpt/M1Rdav3jdHUJvBXAnYTCfOe+x2T2eQLizBp+BY+u6oSbAqpbs
+5G34N/rVjerSlrgEqVgK5RRsXu8xxdKdyMxNhKJltAz8oMYOvwuWTKq5NeaCauLf
+KOIyxgdi5MP49mjs2CVvnuqoH60dPU0QyPLPJUtwWRhNKn2/Y7s=
+=GJ16
+-----END PGP SIGNATURE-----
+
+--hqjbo2nzioraqstx--
 
