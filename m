@@ -1,147 +1,151 @@
-Return-Path: <linux-renesas-soc+bounces-5483-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5484-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7084F8CFCA0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 11:18:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38A678CFCA6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 11:19:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 102B51F22A75
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 09:18:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E95D9281A5D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 09:19:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92846138493;
-	Mon, 27 May 2024 09:18:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECC6A139CF7;
+	Mon, 27 May 2024 09:19:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="c6A9Vi+m";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RjUdz2qn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh6-smtp.messagingengine.com (fhigh6-smtp.messagingengine.com [103.168.172.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F8B8BF0;
-	Mon, 27 May 2024 09:18:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD5B8BF0;
+	Mon, 27 May 2024 09:19:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716801497; cv=none; b=Fnk4+rHD39MBEGzJ3VyWnZtfEbkGqtsaB/lnpT+2uFe3Ii3f21IEgnfgZltUkC3vfmal5EmFiaqYjtOu8RT3DnGBq8nLEhsoHWVTyWeMolje2UFODEVaibI46oe+4kqbwuecoqEYFj7wAxvrhLqLIrdT2BchrBo3NmpzQBjS0v8=
+	t=1716801584; cv=none; b=bz5it7Uf1mdq8/o3erNAebdcx6uQKlPcc/qGR2zQLx/b7LNaHNm4mA3g7R+yZxIzYYgJiDjofnM5FODl74kuBnR2gFo7ITguxhEIUECaoMYsiR91ac8c6C0JiWRWf2VnQIxIWQFpzDyb3mIce9FbNmUScM+AUpbB4ID2aMj+Ms0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716801497; c=relaxed/simple;
-	bh=06ov8LDF6C94yAWPdz3byY1cC7MZjQLNnXADs1Y3168=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jCY14G/zfR6Eh+d05QmMMJ8x4jaowWgJ4XwSu9Do3bP2EYGMHu7+fOBPHAUlTo6fv8A0k9q9CvGybaLMwJ8mM2KmwL23Bw3ePsQ1qRWRNkZVDSmNVy8SSsObZWjto1kG5AKqjBxxMcKeB/GjRVoS8fSGXumyBO4ahCP6lCSB6SM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-62a0809c805so31949007b3.0;
-        Mon, 27 May 2024 02:18:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716801494; x=1717406294;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=T1bOMQpnCot1Q27PtbLkLD5PwnyVT+SP5xzT/2JZo+w=;
-        b=mawjDWl1xV1jPbO4ia8tEPVTF+Har/s6m5YjRrR4HrB9bP3mUKI8cdca+7m+Wgog13
-         9IrvUSLvNxqTcd9PuUiufV9t+4JOQS6woGyPhyVG0uVjft1CJ+AcW/R64IhXEM3+r/OI
-         vN7xhHuEwnS3X8CYl1Nv7S87T6M96eEY2q1/fNlnAFJdTfYiLWL9p2+c3C2JTz+XjZlO
-         Pxw3LsdWGrVkfElo3CGSUhO49lE6+JAKNLSa7uU2jAMjoOwY+mUcBHOHPST82RmJ31Th
-         NfBtM5yZwidfLDJJkNrOuwsyxlsDj/KAozi2AXaaHmW5B8Hy3s2TzsM1m6jWi42ltScB
-         rdvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWXql4lpZ8/HnTn4OMGeOcel9oPzFyKLStu38DP97PCtMSLmaExd/XIFr32oN/cMgrcsFs86fP7YQAemPWtSR2mKVwNwQ40zFz2fnPTW3eyKRd6poj9sRwuSfPf16f3HNCwUMViFrkFZTCjk1TIObZSCYTveOPGx3ejrV7NXT8rOPiieb0IK0wtex1535ePW+2L63tgKxl1XMmeJinGVJ1+YoOkszxg
-X-Gm-Message-State: AOJu0YwzQ1RmBxEQlDdV4c3tgNx9X2/hTEGPa2nvGS5fFzx5wasSsZrs
-	TW/AMFJ5GeSssiCWtwDFp+S9t38sg7fsdeU3x3aHcdD+WTcODtiT7nSspoWy
-X-Google-Smtp-Source: AGHT+IE9Lj3+8RNO8Lg1zFGWdi6XIwXNIUZWezZlbPLmFzYS+nnUL9IP9IDsYFEeXfITyQhpF4Cpqw==
-X-Received: by 2002:a81:6c04:0:b0:61b:df5:7876 with SMTP id 00721157ae682-62a08d7443amr81201407b3.6.1716801494081;
-        Mon, 27 May 2024 02:18:14 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-62a0a56c17csm15751687b3.131.2024.05.27.02.18.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 May 2024 02:18:12 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-df4e503983fso5168391276.2;
-        Mon, 27 May 2024 02:18:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXciuFRHdC5fTuENBxKqtuVlm+RKosNzV0B+hc4MWzsvZg0EqU8NPUtrBINsAB9G6ya7vp6oHgKx4X8dqjZNR8HKye8VkOXzcvG5Rq2ufS8D3RG+rlCrhe5FAZzwrMaLdikhJuKHucqizf0+8TkKJ/qwnFyUmZrjKvQ00V4H2JXRd4O5UmKPCvfGFrMUBiXhQ0y166n6xSRZTCmqljkHh9/tIXNCrT3
-X-Received: by 2002:a05:6902:528:b0:de6:4ff:3164 with SMTP id
- 3f1490d57ef6-df7721ad3dbmr8878974276.36.1716801492684; Mon, 27 May 2024
- 02:18:12 -0700 (PDT)
+	s=arc-20240116; t=1716801584; c=relaxed/simple;
+	bh=f/ZO/5SheuJ39tBbAq0V9Icin85f9j7EK3xhw6RHGOk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P9WRJB4Ex0c+HZMB/eo4ZB5hIqp9Hk81WP2cN8c5iBbN6DyAN3ufa/TLNE9tFDNbqilS2vI/mLrzbQztugGv5ZRP5/IMJo0s3xzhH5zoHuIdT+uTjWydP8yuM9yBA9Jqh8aChWMzKS2hk7Zwwbopb49AvIUq5loIeOkIUN97SfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=c6A9Vi+m; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RjUdz2qn; arc=none smtp.client-ip=103.168.172.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id 1E5B611400AC;
+	Mon, 27 May 2024 05:19:40 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Mon, 27 May 2024 05:19:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1716801580;
+	 x=1716887980; bh=RsvTN0MTkk+SPrmFN4sVD6AmnEFU2PQA8SihEAjv5yw=; b=
+	c6A9Vi+mt7Ogtl+5BO0uGjahRsK/DZj/gL9pbmlDgXo5OD6IN07tW1poD83++Kcf
+	vaEn8yVKj3RYBX7yGOmie7+YaTbSbYLFOxXE88OhJjqhKgD/e6ieHNDU8ELPay2X
+	spCAyRxuCBqWdyYmlSJEuHUgu4gj5xG+qA3GP5IlmL+Yn0MfJJnXD6My2frlF5NT
+	dLPX3oojh7VZQc/oOe/XL4dUs6Uga4fMFuORFnzdowA3vBk8qyZohBLDp07s+pve
+	p/RGXzGw5pKrrCTiZVOOx/aeQDH1TUWZkAVsCsPanzVJkj+PDlVAww78u8CyTog8
+	enbJER7S51Rqf+jIdruh2g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1716801580; x=
+	1716887980; bh=RsvTN0MTkk+SPrmFN4sVD6AmnEFU2PQA8SihEAjv5yw=; b=R
+	jUdz2qn8Abxh83QmoFliGkUzfqE+ACdOF+dmhFfUzuSpvyDbgG7jNwBIow2JrMGs
+	DJXDiuhCXMBd0M082+ku4JOOWkL35eTDBwdB9ua+tehLgU6XqwUoH/2SGDWMOY9I
+	LIuzdNgtB0b2qGNgKBf+WsqP+HjOb0QvmDrhoRmaQHES6RPfedcL0RqXiZ5mAmos
+	vYcqizsAFp3VVEbLNEGwnXacFnjUjnnalEx//ZpZ2TUwmTK+awQGrAMGSzKl1rR0
+	FVyAW+1ZyelPmmYsNyha0i61emaxcR/quN5jVLCaeyOW1YVdUryoz2dKfZDrvyEJ
+	aqxurort2PweneDJ9u9Lw==
+X-ME-Sender: <xms:K1BUZkun3sKFiSEgcecTF9Wv6b7BwJ1iwgass-PBqpMjLqK1XVOFXw>
+    <xme:K1BUZhe5NI5D7JH7eCHUQjAtG95U0g74qxz-DFxJI--GBVkFoMIc61m8vQIlxakO6
+    1XDnEgHFrQbo5_UC6I>
+X-ME-Received: <xmr:K1BUZvzQUXXwNt_Mmw-HwYvRjZSwJekMuuJ5meBsW9Pj5nYeyeDSGlOhdJhQJuwrcrQhagG84RGVHjj8_IrVanb17qaIGjs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdejgedgudefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
+    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrgh
+    hnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeeuveeiieehkeehheekfeehheel
+    hedvveethfejteefkedvhfeluefhgfdvfedujeenucffohhmrghinhepmhhiphhirdhorh
+    hgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhi
+    khhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvg
+X-ME-Proxy: <xmx:K1BUZnPPy-rjfDNqAS-jzWw6J6SkU3JEosX8GYwwZ-I5wTBi37osmw>
+    <xmx:K1BUZk9qcEnTtnUz5tqgqZPVhDqlU1as6yJCClmP1ZIizboSkeei_w>
+    <xmx:K1BUZvXZGkiwCJlwh-3KTSupfjl2fvQTULGRfXvKHKR8qx59K03MlA>
+    <xmx:K1BUZtd8uqkNuH8CFObh1rjw1eDx_X4rQG04ZqI8PnfCdCEQ-u-Ilg>
+    <xmx:LFBUZvayj3IQN80RHL12xCQkKVun9kOYZrBn-17436BTKkDEjjXfgrEd>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 May 2024 05:19:39 -0400 (EDT)
+Date: Mon, 27 May 2024 11:19:38 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [RFC] dt-bindings: media: video-interfaces: How to describe
+ physical lanes for CSI-2 C-PHY
+Message-ID: <20240527091938.GH1900917@fsdn.se>
+References: <20240525220747.GD1900917@ragnatech.se>
+ <ZlQoJtxXBqrwI8_U@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240524082800.333991-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240524082800.333991-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20240524082800.333991-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 27 May 2024 11:18:00 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWzZP2d6kRw1oTkMYgzS46J68gR_bg14==HCvVpkp0sJA@mail.gmail.com>
-Message-ID: <CAMuHMdWzZP2d6kRw1oTkMYgzS46J68gR_bg14==HCvVpkp0sJA@mail.gmail.com>
-Subject: Re: [PATCH 2/4] dt-bindings: clock: Add R9A09G057 CPG Clock and Reset Definitions
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZlQoJtxXBqrwI8_U@kekkonen.localdomain>
 
-Hi Prabhakar,
+Hej Sakari,
 
-On Fri, May 24, 2024 at 10:29=E2=80=AFAM Prabhakar <prabhakar.csengg@gmail.=
-com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Define RZ/V2H(P) (R9A09G057) Clock Pulse Generator module clock outputs
-> (CPG_CLK_ON* registers), and reset definitions (CPG_RST_* registers)
-> in Section 4.4.2 and 4.4.3 ("List of Clock/Reset Signals") of the RZ/V2H(=
-P)
-> Hardware User's Manual (Rev.1.01, Feb. 2024).
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On 2024-05-27 06:28:54 +0000, Sakari Ailus wrote:
+> Hejssan Niklas,
+> 
+> On Sun, May 26, 2024 at 12:07:47AM +0200, Niklas Söderlund wrote:
+> > 1. We could add a new generic property to fulfill the 'lane-polarities' 
+> >    function for C-PHY, 'lane-polarities-mipi-cphy'. That would only be 
+> >    valid for C-PHY buses.
+> > 
+> >    The structure would be the same as for lane-polarities but the items 
+> >    enum would allow a value from 0-5 for each entry in the array. And we 
+> >    could define mappings in dt-bindings/media/video-interfaces.h to 
+> >    allow names in DTS, MEDIA_BUS_CSI2_CPHY_{ABC,CBA,ACB,CAB,BAC,BCA}?
+> > 
+> >    This feels wrong as we already have 'lane-polarities' and it is used 
+> >    for CSI-2 D-PHY configurations already.
+> 
+> Could you add a property for this called "line-orders" with matching data
+> line order in MIPI DisCo for Imaging specification
+> <URL:https://www.mipi.org/specifications/mipi-disco-imaging>?
 
-Thanks for your patch!
+Thanks for this document! I looked for the C-PHY specification when 
+trying to figure this out. But as that is not public I gave up on trying 
+to use MIPI as a resource to work on MIPI stuff ;-)
 
-> --- /dev/null
-> +++ b/include/dt-bindings/clock/r9a09g057-cpg.h
-> @@ -0,0 +1,644 @@
-> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> + *
-> + * Copyright (C) 2024 Renesas Electronics Corp.
-> + */
-> +#ifndef __DT_BINDINGS_CLOCK_R9A09G057_CPG_H__
-> +#define __DT_BINDINGS_CLOCK_R9A09G057_CPG_H__
-> +
-> +#include <dt-bindings/clock/renesas-cpg-mssr.h>
-> +
-> +/* Clock list */
+Your suggestion for a line-orders property with the values described in 
+the port properties section of is a good way forward, thanks!
 
-No distinction between Core and Module clocks?
+> 
+> The polarity isn't a right term here as it's not a differential pair as on
+> D-PHY.
+> 
+> -- 
+> Hälsningar,
+> 
+> Sakari Ailus
 
-> +#define R9A09G057_SYS_0_PCLK                           0
-> +#define R9A09G057_DMAC_0_ACLK                          1
-> +#define R9A09G057_DMAC_1_ACLK                          2
-> +#define R9A09G057_DMAC_2_ACLK                          3
-
-[...]
-
-> +/* Resets list */
-
-[...]
-
-No power domain specifiers, as mentioned in PATCH 1/4?
-
-> +
-> +#endif /* __DT_BINDINGS_CLOCK_R9A09G057_CPG_H__ */
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+Kind Regards,
+Niklas Söderlund
 
