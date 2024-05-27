@@ -1,126 +1,117 @@
-Return-Path: <linux-renesas-soc+bounces-5499-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5500-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 402DE8D00D3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 15:02:31 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EDF38D0111
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 15:16:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 585CF1C2096B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 13:02:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BC97EB26715
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 13:16:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A96215EFAA;
-	Mon, 27 May 2024 12:57:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BEFC15E5BE;
+	Mon, 27 May 2024 13:16:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xZjSW3Kv"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="0+XyQeen";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Ugh1+jwi"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wfout6-smtp.messagingengine.com (wfout6-smtp.messagingengine.com [64.147.123.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E43815ECE2
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 27 May 2024 12:57:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2743D381C2;
+	Mon, 27 May 2024 13:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716814668; cv=none; b=AeSK3/SIzgpJLiVLRkKQ0WlU8nvSIs0WKIWXOME5aYQBX9mGNbh4xdHRNJPnyyevIUKnexcU5fv3/XqV1zt1CDokPCj1x18d9JEkffD9Zu+5b+eFEMdWnePg3JBW62GecWJG4UAWr3hUeQDB/fw/Qn/vt1LHMH1xbp4DqdFVve4=
+	t=1716815786; cv=none; b=hs8XKRb7UpiP5O/5UFo2wgkmkWrOBld9A9rY2dur8IeP3SYPDsuN0/xJXhrkQUG6snYCuccOELlAI4skv7Nwre4Jv3OBJubuaYEhIVz6yKeo/uVyfhUckJgp56LWcIAtCY0CS/KRohDF+NByBru+H3+OeLfHk48HjRuI42xWABs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716814668; c=relaxed/simple;
-	bh=rNZ98tycbIm8gHCECF6fFAUqvVWA7Py4cjGRVlBtUzM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hnKTHRcqnOpyWOWRV9n/Re1Xk2lMf3QofkMTf8caYoBS/U8f0nLDcLfEmlAygSAb9F2cYu7eRNWbefnBuHUAxdQbPie5AAmhoTf/RHlNTPwV7T6WlQgeZUfWflpUvQ/lOBqj40wuNYfkKCNSZ/czSkjkgz9q8yHaY3fNStCrJHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xZjSW3Kv; arc=none smtp.client-ip=209.85.219.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-df771b6cc9cso3529290276.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 May 2024 05:57:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716814666; x=1717419466; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rNZ98tycbIm8gHCECF6fFAUqvVWA7Py4cjGRVlBtUzM=;
-        b=xZjSW3Kvib9bA2fuiZguOMj/iBQcVxTBNd4+MePuDiOWiLp/1cjpsIk0SX/FqpWHiM
-         Pbsw80Fp0uSo2+qs0Yz8u65ZOUCrczWDUMpRUTZkANI60DYInk+z/cQbjU0hcxXZ3HnG
-         Ut1+gUns56/8o4E4S4kw2dlqfZJo3Bvd/7XXJItZCy+w3B/9BftGY+pjKpyv0OhyJHWP
-         uPbMOPzMK1ZC1pE9Vcg8T5Ptzh1qbAeBSOFxjjzXr+MlGnEGDeMOuOI5uiPZDzbYYnmR
-         4eaImTMk0JpJdOZpRYlS1qILympE3IqjPRj5LuELPRgkR62y8uanQIw3P15V7bSJ/MVE
-         U6Sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716814666; x=1717419466;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rNZ98tycbIm8gHCECF6fFAUqvVWA7Py4cjGRVlBtUzM=;
-        b=LSKRMZhBkr6a5FYxA2/nEaBoPOdLIsdEeSbf9EgmurojhUesIAQi0oE5gmKLUVYUyO
-         NEgGqJ9h7MMUhCRTagVuTXrx6fsnJcUXrUhQXxn14g0ah2px2cyBrp0tn/p7N6KaloVi
-         K+3PAtJ38nin6Q87C2zsLGm+wPmuWC7JoczWhle+dnev8BneaY4Q2cw3ykI3YP9YJSVj
-         lFnIw/v2rEhqH0TY440tOK0WS3CXX+/oF/Z12rd2ce3e8K1BmSU8+LGszA360GnVBVFc
-         cx88B6pz1CegzCPgsBnBdN4a2WEQaI3HQWAGBoAVR1WpLKsKygdHcP+mpD8kUJEMNBm7
-         4Jmg==
-X-Forwarded-Encrypted: i=1; AJvYcCUsAxvrNlVmiscJHFqEUQ2KQa/RukKIJqE5b2ih7I/rWT3B6k7UHTGgi4vT9D7TITLYY4QZHxmhPj1Cu2TKuyRs9ecW+tGtN8MolX1NtK78y1U=
-X-Gm-Message-State: AOJu0YxLYiFgQZx1aighsU5I4zMDCRPp+1ewoZEZ3iqfOBcNqR8jVgX1
-	PRHSed4p6+RLV1RncnqHfQVZgN/BaxqqBKVoWLNozg4768GwgKwTad8LRNItikfcaRkR/3L2kjB
-	WLPBvFSqJ2kOPSfEcguE6w529ITM/OuOHsLPvEg==
-X-Google-Smtp-Source: AGHT+IGPHGbdeDgQwNEq4mWXFwTqV0k8iDBOK2TyTZ4utk5viKokv4dr91DnLp+C01zzJZrl1Jzg3NthvUqaC/NhrDk=
-X-Received: by 2002:a05:6902:70a:b0:df7:9946:b32c with SMTP id
- 3f1490d57ef6-df79946bc95mr6983978276.29.1716814666366; Mon, 27 May 2024
- 05:57:46 -0700 (PDT)
+	s=arc-20240116; t=1716815786; c=relaxed/simple;
+	bh=R/OneJziyYEIPs2WbvG47t24NVUNI9+W8f9IhIIzpto=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=B33dJFkUU2gg7iR7f3W6Fsd629vZ3k4ES4caoyUtmrezWqnXtACqMwd5nDlfI7kPKCrJjiGKhG7F3mFHHu3v4LYgctDv2EmJ0P210Vsb7WtcvIZ6WLyopiDPRJUxv7/rAvrq8D2qe/Bdqf/ZP4P/gr0cu2hRqjv8UPvqOHK6JP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=0+XyQeen; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Ugh1+jwi; arc=none smtp.client-ip=64.147.123.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailfout.west.internal (Postfix) with ESMTP id D56461C000EC;
+	Mon, 27 May 2024 09:16:20 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Mon, 27 May 2024 09:16:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1716815780; x=1716902180; bh=zy
+	wvxfbcTGD1V7RbHCN8+6z15ThneUF2w4QaMxRcq4A=; b=0+XyQeeniLJZJUJVs0
+	qr9lAZ7GHAH26BWEuJqkW1XmgCvzg2iJEWLt3w4qCvO2A1roSp89VSiIpkcr+2G/
+	XuQDn93jpGkyKa8brI7cMXY2eyeRBodUSEjUSs30IS5RrvAzK+Bflmtb4Dxh4xbQ
+	1Rj6sb6jkJSHrie7+HKDSroEA92msIbcXTTBywKyqOTG5duBDKWlBpyBhX737Za9
+	ICE8uOVoQw3lna4eIwgQauanGnyBpc+RrKMCfb0GqiW/c1GalhVQ5paPRzClbIzj
+	gGqAVsppXOFFdjzdKc6MtZvr5kXxiyEnpovEUhRl2v6lymn909jMU8jm4X8EKiDz
+	4/Ug==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1716815780; x=1716902180; bh=zywvxfbcTGD1V
+	7RbHCN8+6z15ThneUF2w4QaMxRcq4A=; b=Ugh1+jwiH6UbdRJ3CRtvjRE0ToXk3
+	4yCTNG0DtJplmO7rAxFGPsdtpHxYQhsSnsY0tz98u3xZEVv+qoF+kV2nXBtUhE6J
+	s+3hr2/OsguR8FNzofdEqby9NYGbP1wzkTwg/mEkVqO1UyslmYSmuRd9FmHB4Pa0
+	rJwjbyAJqI0NxOH0q7GdWbWPAZDs49LNfH+9t08/nnVgjYiwCIiNEtLnQA+Xkib3
+	OrdwDyDlhFEcWnVD4osXB2tqC9050xYhj9zlt1PMsxVYwNgnqj2SMmyILnqnRQoP
+	SaY4V7CbHbxwuF8PUifkNRmHZKw6sXvJIOY1wgfupB3e3NhIatnfMP+wQ==
+X-ME-Sender: <xms:pIdUZhVNfhr6ClskRWSBCH6eBvG6bb08GnvlTmmE7D8lEdaqsTaLlQ>
+    <xme:pIdUZhnMWU4qgtrJxRwQMGDTAfm9m7gddtIpbcD2kb94E9K2UVhfXH2mc7Cov4Cof
+    Phcr6iMGyGQ5n2BKBQ>
+X-ME-Received: <xmr:pIdUZta0Btbd3pElDbhqwnn0190xvCShBSHJopXmVWdXT2_zWyE_gf5aBd8JuwcLuxzosgIwSNUXQT0yfly2yx6um9wkBkQ7_Dem>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdejgedgieduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffogggtgfesthekre
+    dtredtjeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghs
+    rdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecugg
+    ftrfgrthhtvghrnhepheduleetteekgffffedufeeuvdejiedvkefhveeifeegffehledt
+    vdevhfefteegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepnhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgv
+    tghhrdhsvg
+X-ME-Proxy: <xmx:pIdUZkWvfrVnvd_jFQ5B-GNerzEM23LuXCyLT9k45dpDNcESGlPLdg>
+    <xmx:pIdUZrliSL7nGgTuKNhPnOpNCyRJ4h5RWvcJnT6cEisIdIsug9adeg>
+    <xmx:pIdUZhfb9v4pzamNDODpJ_gWCZIu4hNgaBj_w_FYDjn5RxZ7HVUi4A>
+    <xmx:pIdUZlGEw7WC1EViHf-LfPFL7LqgEW4gjEa3pGnva0OcVlhhYg80Kw>
+    <xmx:pIdUZkDsCKEoNOiq8frWa7OOWSJZrp2w_JGrOR-651EeKvqsDUsv7Li->
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 May 2024 09:16:19 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 0/3] clk: renesas: r8a779h0: Add clocks for video capture
+Date: Mon, 27 May 2024 15:15:38 +0200
+Message-ID: <20240527131541.1676525-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240504-pinctrl-cleanup-v2-0-26c5f2dc1181@nxp.com> <20240504-pinctrl-cleanup-v2-8-26c5f2dc1181@nxp.com>
-In-Reply-To: <20240504-pinctrl-cleanup-v2-8-26c5f2dc1181@nxp.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 27 May 2024 14:57:35 +0200
-Message-ID: <CACRpkdbt0kE6VP3O+63U1rmJ_JKRvWENCnETT4f+mvNMMphLeA@mail.gmail.com>
-Subject: Re: [PATCH v2 08/20] pinctrl: st: Use scope based of_node_put() cleanups
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Dvorkin Dmitry <dvorkin@tibbo.com>, Wells Lu <wellslutw@gmail.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Emil Renner Berthing <kernel@esmil.dk>, Jianlong Huang <jianlong.huang@starfivetech.com>, 
-	Hal Feng <hal.feng@starfivetech.com>, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Viresh Kumar <vireshk@kernel.org>, Shiraz Hashim <shiraz.linux.kernel@gmail.com>, soc@kernel.org, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Patrice Chotard <patrice.chotard@foss.st.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Damien Le Moal <dlemoal@kernel.org>, Ludovic Desroches <ludovic.desroches@microchip.com>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Dong Aisheng <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Chester Lin <chester62515@gmail.com>, 
-	Matthias Brugger <mbrugger@suse.com>, Ghennadi Procopciuc <ghennadi.procopciuc@oss.nxp.com>, 
-	Sean Wang <sean.wang@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
-	Joel Stanley <joel@jms.id.au>, Dan Carpenter <dan.carpenter@linaro.org>, 
-	Tony Lindgren <tony@atomide.com>, Stephen Warren <swarren@wwwdotorg.org>, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	imx@lists.linux.dev, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
-	Peng Fan <peng.fan@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat, May 4, 2024 at 3:14=E2=80=AFPM Peng Fan (OSS) <peng.fan@oss.nxp.com=
-> wrote:
+Hi Geert,
 
-> From: Peng Fan <peng.fan@nxp.com>
->
-> Use scope based of_node_put() cleanup to simplify code.
->
-> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+These small patches adds the module clocks needed to capture video on 
+V4M.
 
-Patch applied.
+Niklas Söderlund (3):
+  clk: renesas: r8a779h0: Add VIN clocks
+  clk: renesas: r8a779h0: Add ISPCS clocks
+  clk: renesas: r8a779h0: Add CSI-2 clocks
 
-Yours,
-Linus Walleij
+ drivers/clk/renesas/r8a779h0-cpg-mssr.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+-- 
+2.45.1
+
 
