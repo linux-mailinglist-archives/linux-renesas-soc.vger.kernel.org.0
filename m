@@ -1,151 +1,109 @@
-Return-Path: <linux-renesas-soc+bounces-5484-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5485-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38A678CFCA6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 11:19:55 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A9678CFCAF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 11:22:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E95D9281A5D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 09:19:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1A067B20DEE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 09:22:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECC6A139CF7;
-	Mon, 27 May 2024 09:19:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="c6A9Vi+m";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RjUdz2qn"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F366139CFC;
+	Mon, 27 May 2024 09:22:17 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh6-smtp.messagingengine.com (fhigh6-smtp.messagingengine.com [103.168.172.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD5B8BF0;
-	Mon, 27 May 2024 09:19:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D848BF0
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 27 May 2024 09:22:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716801584; cv=none; b=bz5it7Uf1mdq8/o3erNAebdcx6uQKlPcc/qGR2zQLx/b7LNaHNm4mA3g7R+yZxIzYYgJiDjofnM5FODl74kuBnR2gFo7ITguxhEIUECaoMYsiR91ac8c6C0JiWRWf2VnQIxIWQFpzDyb3mIce9FbNmUScM+AUpbB4ID2aMj+Ms0=
+	t=1716801737; cv=none; b=Ro5HnB4N5ct3YAuVTmqL7ZCU1Ftwn1DIdnE9+wdyCKtbCr1sOrI4W+VpD2jLbJ4Pf5RVi/VVCu2qMmzmQd+x2Glw+jt0eX2AZDHh1hgT4UlgV0XkxtsLqMglMxCwn/dJdDgNTP615u+BU9DFZz5PLTPwizRXA4vfak3ZadI3kGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716801584; c=relaxed/simple;
-	bh=f/ZO/5SheuJ39tBbAq0V9Icin85f9j7EK3xhw6RHGOk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P9WRJB4Ex0c+HZMB/eo4ZB5hIqp9Hk81WP2cN8c5iBbN6DyAN3ufa/TLNE9tFDNbqilS2vI/mLrzbQztugGv5ZRP5/IMJo0s3xzhH5zoHuIdT+uTjWydP8yuM9yBA9Jqh8aChWMzKS2hk7Zwwbopb49AvIUq5loIeOkIUN97SfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=c6A9Vi+m; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RjUdz2qn; arc=none smtp.client-ip=103.168.172.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id 1E5B611400AC;
-	Mon, 27 May 2024 05:19:40 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Mon, 27 May 2024 05:19:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1716801580;
-	 x=1716887980; bh=RsvTN0MTkk+SPrmFN4sVD6AmnEFU2PQA8SihEAjv5yw=; b=
-	c6A9Vi+mt7Ogtl+5BO0uGjahRsK/DZj/gL9pbmlDgXo5OD6IN07tW1poD83++Kcf
-	vaEn8yVKj3RYBX7yGOmie7+YaTbSbYLFOxXE88OhJjqhKgD/e6ieHNDU8ELPay2X
-	spCAyRxuCBqWdyYmlSJEuHUgu4gj5xG+qA3GP5IlmL+Yn0MfJJnXD6My2frlF5NT
-	dLPX3oojh7VZQc/oOe/XL4dUs6Uga4fMFuORFnzdowA3vBk8qyZohBLDp07s+pve
-	p/RGXzGw5pKrrCTiZVOOx/aeQDH1TUWZkAVsCsPanzVJkj+PDlVAww78u8CyTog8
-	enbJER7S51Rqf+jIdruh2g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1716801580; x=
-	1716887980; bh=RsvTN0MTkk+SPrmFN4sVD6AmnEFU2PQA8SihEAjv5yw=; b=R
-	jUdz2qn8Abxh83QmoFliGkUzfqE+ACdOF+dmhFfUzuSpvyDbgG7jNwBIow2JrMGs
-	DJXDiuhCXMBd0M082+ku4JOOWkL35eTDBwdB9ua+tehLgU6XqwUoH/2SGDWMOY9I
-	LIuzdNgtB0b2qGNgKBf+WsqP+HjOb0QvmDrhoRmaQHES6RPfedcL0RqXiZ5mAmos
-	vYcqizsAFp3VVEbLNEGwnXacFnjUjnnalEx//ZpZ2TUwmTK+awQGrAMGSzKl1rR0
-	FVyAW+1ZyelPmmYsNyha0i61emaxcR/quN5jVLCaeyOW1YVdUryoz2dKfZDrvyEJ
-	aqxurort2PweneDJ9u9Lw==
-X-ME-Sender: <xms:K1BUZkun3sKFiSEgcecTF9Wv6b7BwJ1iwgass-PBqpMjLqK1XVOFXw>
-    <xme:K1BUZhe5NI5D7JH7eCHUQjAtG95U0g74qxz-DFxJI--GBVkFoMIc61m8vQIlxakO6
-    1XDnEgHFrQbo5_UC6I>
-X-ME-Received: <xmr:K1BUZvzQUXXwNt_Mmw-HwYvRjZSwJekMuuJ5meBsW9Pj5nYeyeDSGlOhdJhQJuwrcrQhagG84RGVHjj8_IrVanb17qaIGjs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdejgedgudefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
-    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrgh
-    hnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeeuveeiieehkeehheekfeehheel
-    hedvveethfejteefkedvhfeluefhgfdvfedujeenucffohhmrghinhepmhhiphhirdhorh
-    hgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhi
-    khhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvg
-X-ME-Proxy: <xmx:K1BUZnPPy-rjfDNqAS-jzWw6J6SkU3JEosX8GYwwZ-I5wTBi37osmw>
-    <xmx:K1BUZk9qcEnTtnUz5tqgqZPVhDqlU1as6yJCClmP1ZIizboSkeei_w>
-    <xmx:K1BUZvXZGkiwCJlwh-3KTSupfjl2fvQTULGRfXvKHKR8qx59K03MlA>
-    <xmx:K1BUZtd8uqkNuH8CFObh1rjw1eDx_X4rQG04ZqI8PnfCdCEQ-u-Ilg>
-    <xmx:LFBUZvayj3IQN80RHL12xCQkKVun9kOYZrBn-17436BTKkDEjjXfgrEd>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 May 2024 05:19:39 -0400 (EDT)
-Date: Mon, 27 May 2024 11:19:38 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [RFC] dt-bindings: media: video-interfaces: How to describe
- physical lanes for CSI-2 C-PHY
-Message-ID: <20240527091938.GH1900917@fsdn.se>
-References: <20240525220747.GD1900917@ragnatech.se>
- <ZlQoJtxXBqrwI8_U@kekkonen.localdomain>
+	s=arc-20240116; t=1716801737; c=relaxed/simple;
+	bh=PfSN4R6+1LGQCc7csCXNbDSvsE6U8OIyF9fYkAumiro=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=Gk5qdZ5dlzhaNemwql4kV9P7iqaTWsSj/pHnSiXjaUOQiEQOj+LyJ8VrWBBBpUTG2hlGje2L9xWUmtt2pEA4ycQ8PnU+iRKCKf2XihyVSsNMZQgQqaIdlm7TxlxsNuKFGxMq5Sl1tRQsfF5/VubyZy7okZLuag9uSGI1sa3WKbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-62a2424ecb8so8639077b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 May 2024 02:22:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716801734; x=1717406534;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FoZIGZXDswlPrEe3jIPfQH/fSW2rIKNEqI9osWtK4mE=;
+        b=Ba2BStbEk3V2CuosFZt8boqOsWmZ3E6aJWKHNfIXivwWfxqf/yt6Ke98PcuHXTGHVe
+         0qwtNyLVU79Fmt1pnweeMOk5iqs9nWx3Q7BlY8oQqoV/ctLoDQjZ6aBH2YeC+dRr+knu
+         wgaVa/QHdUUdidkG+GlfNXQVjTzVvj/7JrpMXZHef3PpokZ/f/uS7JSMDh4wILewfqYF
+         AsDrdlJf34xJRx2Tkb1VuuTQmv7SfYQy21yaWrqgnfcxst9rwJNlyDt5t+Msabtlkdsb
+         2Fu3yXfsjjfsDQvGf9MuPf7E5ra+NQWMuEg8CnvGWF/Y+CiEJ5OrQWICV0DECLf9wDIX
+         yPLA==
+X-Forwarded-Encrypted: i=1; AJvYcCV3qcgolIzjxndnR27duGjA/ebSbACmDLPft0aGjZcPFL2g28+Es9oz9VzgnW4gLC5PM0M1h740G+U3v/JjlEiIunuSOWLR5OFm/ZahOivqjgg=
+X-Gm-Message-State: AOJu0YyaPw20qUdzCZfvct7T3Zd5Y8kPqf7ztKqkzUEREvtmkh3P9yZn
+	bsfwVuv2l/PPID7Rd5GdjAmkQXh+27LqgYWKUSDMiYRrDjHQvb7PH/pf4VN7
+X-Google-Smtp-Source: AGHT+IE619FRdcNSbP4jaDizxOm/IfWAbt1HeYIAax7klsKZYc0haFagx3xQn7xZTEJaaNkNqAz48g==
+X-Received: by 2002:a0d:dbc2:0:b0:618:1dab:2f0f with SMTP id 00721157ae682-62a08d59be1mr84945697b3.2.1716801733929;
+        Mon, 27 May 2024 02:22:13 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-62a0a4204f0sm15723627b3.57.2024.05.27.02.22.13
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 May 2024 02:22:13 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-62a2424ecb8so8638847b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 May 2024 02:22:13 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV3LMh8mGm6VwM+3U1SmzXShyiFNCm0MqhV9+YXezQaxq1uKdU3SUeujek+bq/ZwrEuyG04b4QTzEB6Xv2d1/VDDUzH+uB2EG3yXvM2JsdcA7g=
+X-Received: by 2002:a25:d38c:0:b0:df4:e088:d012 with SMTP id
+ 3f1490d57ef6-df77218e610mr8794613276.17.1716801733103; Mon, 27 May 2024
+ 02:22:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZlQoJtxXBqrwI8_U@kekkonen.localdomain>
+References: <20240523203431.6423-1-wsa+renesas@sang-engineering.com>
+ <CAMuHMdUfdHBMZ7WkUqN9JzcvXkPtLygL684_Qbaudb5+GvtMJw@mail.gmail.com> <mdztslnrrybhm7ugdwq3xkmdtvgibn7rkpjbzhavwqywactx2t@27wcl7eslmqp>
+In-Reply-To: <mdztslnrrybhm7ugdwq3xkmdtvgibn7rkpjbzhavwqywactx2t@27wcl7eslmqp>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 27 May 2024 11:22:01 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWQ=6AOZPB6HK57sheV5eTbsyqDk05ZCXvWVi0n-R7O4A@mail.gmail.com>
+Message-ID: <CAMuHMdWQ=6AOZPB6HK57sheV5eTbsyqDk05ZCXvWVi0n-R7O4A@mail.gmail.com>
+Subject: Re: [PATCH v2] arm64: defconfig: Enable Renesas R-Car Gen4 PCIe controller
+To: Geert Uytterhoeven <geert@linux-m68k.org>, linux-renesas-soc@vger.kernel.org, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hej Sakari,
+On Fri, May 24, 2024 at 1:13=E2=80=AFPM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> > And you changed CONFIG_PCIE_RCAR_GEN4_* from m to y??
+>
+> Stupid me, sorry for the noise!
+>
+> > All of these should be modular.
+> > If you agree, I can fix that while applying.
+>
+> For sure, I agree.
 
-On 2024-05-27 06:28:54 +0000, Sakari Ailus wrote:
-> Hejssan Niklas,
-> 
-> On Sun, May 26, 2024 at 12:07:47AM +0200, Niklas Söderlund wrote:
-> > 1. We could add a new generic property to fulfill the 'lane-polarities' 
-> >    function for C-PHY, 'lane-polarities-mipi-cphy'. That would only be 
-> >    valid for C-PHY buses.
-> > 
-> >    The structure would be the same as for lane-polarities but the items 
-> >    enum would allow a value from 0-5 for each entry in the array. And we 
-> >    could define mappings in dt-bindings/media/video-interfaces.h to 
-> >    allow names in DTS, MEDIA_BUS_CSI2_CPHY_{ABC,CBA,ACB,CAB,BAC,BCA}?
-> > 
-> >    This feels wrong as we already have 'lane-polarities' and it is used 
-> >    for CSI-2 D-PHY configurations already.
-> 
-> Could you add a property for this called "line-orders" with matching data
-> line order in MIPI DisCo for Imaging specification
-> <URL:https://www.mipi.org/specifications/mipi-disco-imaging>?
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.11, with s/=3Dy/=3Dm/.
 
-Thanks for this document! I looked for the C-PHY specification when 
-trying to figure this out. But as that is not public I gave up on trying 
-to use MIPI as a resource to work on MIPI stuff ;-)
+Gr{oetje,eeting}s,
 
-Your suggestion for a line-orders property with the values described in 
-the port properties section of is a good way forward, thanks!
+                        Geert
 
-> 
-> The polarity isn't a right term here as it's not a differential pair as on
-> D-PHY.
-> 
-> -- 
-> Hälsningar,
-> 
-> Sakari Ailus
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
--- 
-Kind Regards,
-Niklas Söderlund
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
