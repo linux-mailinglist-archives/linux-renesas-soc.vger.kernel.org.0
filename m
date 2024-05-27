@@ -1,99 +1,96 @@
-Return-Path: <linux-renesas-soc+bounces-5517-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5518-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A4D18D020E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 15:44:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D63E8D0206
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 15:42:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2D1E5B29334
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 13:36:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 17050B26745
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 13:38:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B4D815FA92;
-	Mon, 27 May 2024 13:32:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 230D916C6B6;
+	Mon, 27 May 2024 13:34:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="YqWvDbyN";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Mco0WyHH"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="G+MjiFHP";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="CdYdGbyd"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from wfout6-smtp.messagingengine.com (wfout6-smtp.messagingengine.com [64.147.123.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F5FC15FA80;
-	Mon, 27 May 2024 13:32:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE8D916C6A5;
+	Mon, 27 May 2024 13:34:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716816773; cv=none; b=c5b5+QmRVo/07hzLf98+YsffIDSZVPd7YXPN37wnyiU/plhLD6ccAmf0QYiXjWQ5SrDuHj/TaqSyTeX61zlBdOqXo0iPGNPiRFJuIakG9pvLXHEGIv03O4hujGRAoAbXJrKWX0/G532Lnl541aUKZDHEqtKmxeYkzRs5brSV0G4=
+	t=1716816865; cv=none; b=UnSTk6Zy8/O/y8aJOz01f1rqYAnfgmhp3kPYzDIlhYePxNkoTgBdK71R/2tHif5a6QBIF7wQms/K1Y3Glix9N6sOdZqrduk0oY7fz5WO0dIO068ZKTQe1vceEcLH9S+USx1RuOflWgrFoTSmPSMavC8Sd8pDJL6VWlajNMixLmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716816773; c=relaxed/simple;
-	bh=PAW9mgmspKJQEZ+qZqVy1177rq/cNKXbamFC4i0f608=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QD/8mAHpG7QgrRF04FH/3nYpzkhCiMgH4CRsYO6AjLXLPcP9JhtUP6NeMO+helvkOZb53WH819NBxy8++1kc+DD//wG/zGdJCZnZ3JEM+5ssWcl/3IMKnd0tR7YfMV5xoFlrGTwFgi1GauyZVz4srU9zKtDdYbZL5OQkJCg3Oz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=YqWvDbyN; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Mco0WyHH; arc=none smtp.client-ip=64.147.123.149
+	s=arc-20240116; t=1716816865; c=relaxed/simple;
+	bh=d+v41JcbajrjvSh/0PWN39VYtQ8YDsJdOOHPujagmso=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mLGXaRrc+Eua3jSifwgDPIvAWs+N4Mj45mZAgG8OJBiUxYICDe+epxRBuC/GdTibFuYtDSQAo05pkvu6v0DK1Ct4hF6JGzQYueMXho2EJ4lkJTXUsNUN84DFcRHLrLDwfwYJ7nSPaatTI27Ic9e2HrVSL+0aVE15EnQjJ+z0NDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=G+MjiFHP; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=CdYdGbyd; arc=none smtp.client-ip=64.147.123.149
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailfout.west.internal (Postfix) with ESMTP id B6F741C000B1;
-	Mon, 27 May 2024 09:32:50 -0400 (EDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailfout.west.internal (Postfix) with ESMTP id EEF241C000EC;
+	Mon, 27 May 2024 09:34:21 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Mon, 27 May 2024 09:32:51 -0400
+  by compute6.internal (MEProxy); Mon, 27 May 2024 09:34:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1716816770;
-	 x=1716903170; bh=bjohrM42H1IeIdHkoL8B4sKVf6G7m3eMMzNI/4iea9Y=; b=
-	YqWvDbyN4zgxT20xP6kBTJP2zAvo3e7ewoTVQqbtt5vfHTs9jDCuPBuXjzG9mrLm
-	jKoS0W1GGszb3ZAtpayEblyUnf5kbKvQfDaUDi+TswBXE5I26huvExAw35SanDEx
-	3He+GuhL2xfmZVQTBYWUyBHKH4Mx85cDfqqCMDUDA01OhbTQF+3le0kjp9p90lbl
-	fLWd6eHv3WnIr6BVtQSzJx+47gZyLk0llKUL7L83DhA2hWTfB6ZUh6rkSPNFLFga
-	yLX4N0u77CbmT/ow1bEnEOOQYmg1bqsT5smh6t3OlxZRB7NZFuEZuhTjs4zfREjU
-	2y6ITixFaKM2vtFgf4Xx5Q==
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1716816861; x=1716903261; bh=nh
+	ZVIFUNaoYwBoLE4NfSC2jv1TkPZZzgfD9ip6TlWJs=; b=G+MjiFHP7kFd42uKOh
+	fNrRGT6NyupbOwxPGl06VqzEVF2NyoOSSQ4gVFrNcoWVHaV+985gxN3JjvYDV2vy
+	GK1CRucq4J1OpWg61cbjpaJk00e+i2h9BqFWbyyNX7iwhQxVPAnvzxRUj222zKyS
+	cdPxtOmR4540BLoggdAUmNnlRFt+1JRYQoRnp62RR5MFaoND9I5t3ARwDnFSqbhi
+	qnFD23v1Gc96Fogt4KpHgsmTL1w/aMfiOLtpPHkbxjmOb3qL0KzayeZD4kNBl3+v
+	rOwFyHd9OkcLWr/WhzL5kfzQkQn3UZSXxoFT5J8u1bKbYJnVTZhTsrLDmRN2Bn9G
+	eo8w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1716816770; x=
-	1716903170; bh=bjohrM42H1IeIdHkoL8B4sKVf6G7m3eMMzNI/4iea9Y=; b=M
-	co0WyHH/kqkBDuiWE0y/W6UxlWZCep15SVioT07t5NTE56oUqumznhoLVxIJxRWs
-	VRq7Y7LyCwnmJB7NkKFtaOGmKuN5n16nuzT5qmB7q3u0hcEJp3ITbkb/XoWXyQED
-	aRmaHZPjk/ds7CRJx+8UDofVjW4q/rqSQTzRNJxqs1pTyu/VA5dU6igi2HhyxQ8B
-	N9I3uxGGZyymYa+kfXiMNc8f4LRFW946sUmBJkp7ktsP8TG9qvFq6B8eDZZLh40l
-	uv1dnv+RwtVYZdvXnXaJ4CQBD7YlqAYMpRtnyeH5A0O/Hj73Z9t1CmFCTXxOURZa
-	xzuBmKi7/SQj+iFJbXO2Q==
-X-ME-Sender: <xms:gotUZiX7S7BonvNmQ94hTsz9ewwKGltstklc9PSW5_gHBa0xbGx4qg>
-    <xme:gotUZulIDzixZqJR2Mkhk6iReg6VDl5o0JU-trdmsCYlmYfFpckqmVRW3Mp8RjEZI
-    nj5ucAbZOCka7VPmf8>
-X-ME-Received: <xmr:gotUZma5L9bU2jA2Wkk2WLZJnBs7wAXVGU1-id7isGtxT92RQkcnSKYnm-sjvhTLFKgefCFW52E4iqmUyLnNcfkjkIvbOAf8rm9n>
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1716816861; x=1716903261; bh=nhZVIFUNaoYwB
+	oLE4NfSC2jv1TkPZZzgfD9ip6TlWJs=; b=CdYdGbydK1W+8D9+Y4ZFSO/WQXHQ+
+	H4sSKRLFWLg7jQ4TARHBeAuw5sK5u1lJm4AepSAXWeYdWVJccH8Q9C4STCHbNB03
+	H1/rJ0gKLSBTKOmx2e3VlGn0/ulVwgTPCe31nAC2Rr690JW6wFn4xLaYuylBhP4F
+	wGWcATOA/xdVKFTJAuvzLWsW7aufEQ6sBzviFmoDHjF+DiYVVMJmirkl6ePi7fjQ
+	7TBauRtm+iWAXf6xeiRnQWM1B5Mo/Z65PM9TY3PGDlzFIGLANO5lau1hYXND8pNd
+	rXizSFwGpdTW2v/bgpXUR0HWxGL6jnIDjF66X4gVV3qbkFVYcHHQkvwyQ==
+X-ME-Sender: <xms:3YtUZnrHch-pMhobOhcT48UW55sopT5mn60if9ZqGQNZeFBIBQcTqw>
+    <xme:3YtUZhqnhHsX2fMrle-mxMN9Uq2UH8tuiMnAKa6FSAVwdDbLMvtsuRFyPThoYhCMS
+    xGDOtW_w_RWsayOwqU>
+X-ME-Received: <xmr:3YtUZkPa9FRA49DkvACHYfUUzFzQqf0LYO7QiktUr0sjtbtz8dnOH1E8Pb844VDMwMkCHKOjzGSQiFwvR4rpi9tuIpjIm0gyB1nZ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdejgedgieegucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhk
-    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnh
-    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehiefgueev
-    uedtfefhheegkeevtdelueeukeevfeduhefhhfejfffggeffleefgeenucevlhhushhtvg
-    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggv
-    rhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:gotUZpUAz7WeBTurBucoUYIdntvAgsS17ohfTPEpfuNkoT10fEFP5g>
-    <xmx:gotUZsnhSF_XU4Dg_HHyXsZuKduncAYAZtqTM2cgEKRgB2WwFrGBMg>
-    <xmx:gotUZudUFQEzSbbuA89mgCLB9C8cLHH0bFgIWoXiOjtJ3nsM6izsfA>
-    <xmx:gotUZuFB7qmQE0wfSkp9IApQuogApnsQpWyS8VxUZA-ubB_ZkQJBbA>
-    <xmx:gotUZrudR6-jJ8abKwKQO-_4x9nDACpNp2jiv3pHoP8qx1i1hqp8ZrOB>
+    cujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgr
+    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
+    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehudelteetkefg
+    ffefudefuedvjeeivdekhfevieefgeffheeltddvvefhfeetgeenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
+    uhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:3YtUZq6MAL3aqphNFwvJLZCijXmI8yVTglQ6L-MN1RhxWTfkD4kL3w>
+    <xmx:3YtUZm7-S8h5AciHaLVHj4IfmA8p0V0lDpQOf8DqjWd97ZIo9UqaDw>
+    <xmx:3YtUZijFQAEjAV3xoSDVtKzCe845Q4pspsgOk2fCrHELig-5-lyTmw>
+    <xmx:3YtUZo5zM52dssLeXGXtfFdIwCKywpHwkdetz0URpzjq5kO7D_Oydw>
+    <xmx:3YtUZjv_aLBdGFcYWh-k-HvVyOx_OhmfZ6H_QNMgKZbZSnxRNImH5pEj>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 May 2024 09:32:49 -0400 (EDT)
+ 27 May 2024 09:34:20 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-media@vger.kernel.org
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
 Cc: linux-renesas-soc@vger.kernel.org,
 	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 7/7] media: rcar-csi2: Add support for R-Car V4M
-Date: Mon, 27 May 2024 15:32:21 +0200
-Message-ID: <20240527133221.1688830-8-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] media: staging: max96712: Add support for MAX96724
+Date: Mon, 27 May 2024 15:34:10 +0200
+Message-ID: <20240527133410.1690169-1-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240527133221.1688830-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20240527133221.1688830-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -103,364 +100,124 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The V4M is the second Gen4 device that is enabled in the rcar-csi2
-driver. There is much overlap with the already supported V4H device. The
-registers that where new on Gen4 and where added with the V4H prefix are
-retained and only new registers unique to the V4M are added with the new
-V4M prefix. This follows the style for when V4H was added which had an
-overlap with Gen3 registers.
+The MAX96724 is almost identical to the MAX96712 and can be supported by
+the same driver, add support for it.
 
-The V4M CSI-2 receiver supports D-PHY mode only, either in 1-, 2- or
-4-lane configuration. The datasheets do not document lane swapping and
-is left out for now.
+For the staging driver which only supports patter generation the big
+difference is that the datasheet (rev 4) for MAX96724 do not describe
+the DEBUG_EXTRA register, which is at offset 0x0009 on MAX96712. It's
+not clear if this register is removed or moved to a different offset.
+What is known is writing to register 0x0009 have no effect on MAX96724.
 
-While the V4M only supports D-PHY the configuration for it is added in
-such a way that it can be reused for V4H which supports both C-PHY and
-D-PHY. No known SoC exists to test the D-PHY configuration on V4H so
-it's not wired-up.
+This makes it impossible to increase the test pattern clock frequency
+from 25 MHz to 75Mhz on MAX96724. To be able to get a stable test
+pattern the DPLL frequency have to be increase instead to compensate for
+this. The frequency selected is found by experimentation as the MAX96724
+datasheet is much sparser then what's available for MAX96712.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- drivers/media/platform/renesas/rcar-csi2.c | 291 +++++++++++++++++++++
- 1 file changed, 291 insertions(+)
+ drivers/staging/media/max96712/max96712.c | 26 ++++++++++++++++++-----
+ 1 file changed, 21 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
-index 46c4f20cce88..83e0c5b25030 100644
---- a/drivers/media/platform/renesas/rcar-csi2.c
-+++ b/drivers/media/platform/renesas/rcar-csi2.c
-@@ -247,6 +247,25 @@ static const struct rcsi2_cphy_setting cphy_setting_table_r8a779g0[] = {
- 	{ /* sentinel */ },
- };
+diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
+index ea67bcf69c9d..69a0a6a16cf9 100644
+--- a/drivers/staging/media/max96712/max96712.c
++++ b/drivers/staging/media/max96712/max96712.c
+@@ -17,8 +17,10 @@
+ #include <media/v4l2-subdev.h>
  
-+/* V4M registers */
-+#define V4M_OVR1_REG					0x0848
-+#define V4M_OVR1_FORCERXMODE_3				BIT(12)
-+#define V4M_OVR1_FORCERXMODE_2				BIT(11)
-+#define V4M_OVR1_FORCERXMODE_1				BIT(10)
-+#define V4M_OVR1_FORCERXMODE_0				BIT(9)
-+
-+#define V4M_FRXM_REG					0x2004
-+#define V4M_FRXM_FORCERXMODE_3				BIT(3)
-+#define V4M_FRXM_FORCERXMODE_2				BIT(2)
-+#define V4M_FRXM_FORCERXMODE_1				BIT(1)
-+#define V4M_FRXM_FORCERXMODE_0				BIT(0)
-+
-+#define V4M_PHYPLL_REG					0x02050
-+#define V4M_CSI0CLKFCPR_REG				0x02054
-+#define V4M_PHTW_REG					0x02060
-+#define V4M_PHTR_REG					0x02064
-+#define V4M_PHTC_REG					0x02068
-+
- struct phtw_value {
- 	u8 data;
- 	u8 code;
-@@ -255,6 +274,7 @@ struct phtw_value {
- struct rcsi2_mbps_info {
- 	u16 mbps;
- 	u8 reg;
-+	u16 osc_freq; /* V4M */
- };
+ #define MAX96712_ID 0x20
++#define MAX96724_ID 0xA7
  
- static const struct rcsi2_mbps_info phtw_mbps_v3u[] = {
-@@ -506,6 +526,73 @@ static const struct rcsi2_mbps_info hsfreqrange_m3w[] = {
- 	{ /* sentinel */ },
- };
+ #define MAX96712_DPLL_FREQ 1000
++#define MAX96724_DPLL_FREQ 1200
  
-+static const struct rcsi2_mbps_info hsfreqrange_v4m[] = {
-+	{ .mbps =   80, .reg = 0x00, .osc_freq = 0x01a9 },
-+	{ .mbps =   90, .reg = 0x10, .osc_freq = 0x01a9 },
-+	{ .mbps =  100, .reg = 0x20, .osc_freq = 0x01a9 },
-+	{ .mbps =  110, .reg = 0x30, .osc_freq = 0x01a9 },
-+	{ .mbps =  120, .reg = 0x01, .osc_freq = 0x01a9 },
-+	{ .mbps =  130, .reg = 0x11, .osc_freq = 0x01a9 },
-+	{ .mbps =  140, .reg = 0x21, .osc_freq = 0x01a9 },
-+	{ .mbps =  150, .reg = 0x31, .osc_freq = 0x01a9 },
-+	{ .mbps =  160, .reg = 0x02, .osc_freq = 0x01a9 },
-+	{ .mbps =  170, .reg = 0x12, .osc_freq = 0x01a9 },
-+	{ .mbps =  180, .reg = 0x22, .osc_freq = 0x01a9 },
-+	{ .mbps =  190, .reg = 0x32, .osc_freq = 0x01a9 },
-+	{ .mbps =  205, .reg = 0x03, .osc_freq = 0x01a9 },
-+	{ .mbps =  220, .reg = 0x13, .osc_freq = 0x01a9 },
-+	{ .mbps =  235, .reg = 0x23, .osc_freq = 0x01a9 },
-+	{ .mbps =  250, .reg = 0x33, .osc_freq = 0x01a9 },
-+	{ .mbps =  275, .reg = 0x04, .osc_freq = 0x01a9 },
-+	{ .mbps =  300, .reg = 0x14, .osc_freq = 0x01a9 },
-+	{ .mbps =  325, .reg = 0x25, .osc_freq = 0x01a9 },
-+	{ .mbps =  350, .reg = 0x35, .osc_freq = 0x01a9 },
-+	{ .mbps =  400, .reg = 0x05, .osc_freq = 0x01a9 },
-+	{ .mbps =  450, .reg = 0x16, .osc_freq = 0x01a9 },
-+	{ .mbps =  500, .reg = 0x26, .osc_freq = 0x01a9 },
-+	{ .mbps =  550, .reg = 0x37, .osc_freq = 0x01a9 },
-+	{ .mbps =  600, .reg = 0x07, .osc_freq = 0x01a9 },
-+	{ .mbps =  650, .reg = 0x18, .osc_freq = 0x01a9 },
-+	{ .mbps =  700, .reg = 0x28, .osc_freq = 0x01a9 },
-+	{ .mbps =  750, .reg = 0x39, .osc_freq = 0x01a9 },
-+	{ .mbps =  800, .reg = 0x09, .osc_freq = 0x01a9 },
-+	{ .mbps =  850, .reg = 0x19, .osc_freq = 0x01a9 },
-+	{ .mbps =  900, .reg = 0x29, .osc_freq = 0x01a9 },
-+	{ .mbps =  950, .reg = 0x3a, .osc_freq = 0x01a9 },
-+	{ .mbps = 1000, .reg = 0x0a, .osc_freq = 0x01a9 },
-+	{ .mbps = 1050, .reg = 0x1a, .osc_freq = 0x01a9 },
-+	{ .mbps = 1100, .reg = 0x2a, .osc_freq = 0x01a9 },
-+	{ .mbps = 1150, .reg = 0x3b, .osc_freq = 0x01a9 },
-+	{ .mbps = 1200, .reg = 0x0b, .osc_freq = 0x01a9 },
-+	{ .mbps = 1250, .reg = 0x1b, .osc_freq = 0x01a9 },
-+	{ .mbps = 1300, .reg = 0x2b, .osc_freq = 0x01a9 },
-+	{ .mbps = 1350, .reg = 0x3c, .osc_freq = 0x01a9 },
-+	{ .mbps = 1400, .reg = 0x0c, .osc_freq = 0x01a9 },
-+	{ .mbps = 1450, .reg = 0x1c, .osc_freq = 0x01a9 },
-+	{ .mbps = 1500, .reg = 0x2c, .osc_freq = 0x01a9 },
-+	{ .mbps = 1550, .reg = 0x3d, .osc_freq = 0x0108 },
-+	{ .mbps = 1600, .reg = 0x0d, .osc_freq = 0x0110 },
-+	{ .mbps = 1650, .reg = 0x1d, .osc_freq = 0x0119 },
-+	{ .mbps = 1700, .reg = 0x2e, .osc_freq = 0x0121 },
-+	{ .mbps = 1750, .reg = 0x3e, .osc_freq = 0x012a },
-+	{ .mbps = 1800, .reg = 0x0e, .osc_freq = 0x0132 },
-+	{ .mbps = 1850, .reg = 0x1e, .osc_freq = 0x013b },
-+	{ .mbps = 1900, .reg = 0x2f, .osc_freq = 0x0143 },
-+	{ .mbps = 1950, .reg = 0x3f, .osc_freq = 0x014c },
-+	{ .mbps = 2000, .reg = 0x0f, .osc_freq = 0x0154 },
-+	{ .mbps = 2050, .reg = 0x40, .osc_freq = 0x015d },
-+	{ .mbps = 2100, .reg = 0x41, .osc_freq = 0x0165 },
-+	{ .mbps = 2150, .reg = 0x42, .osc_freq = 0x016e },
-+	{ .mbps = 2200, .reg = 0x43, .osc_freq = 0x0176 },
-+	{ .mbps = 2250, .reg = 0x44, .osc_freq = 0x017f },
-+	{ .mbps = 2300, .reg = 0x45, .osc_freq = 0x0187 },
-+	{ .mbps = 2350, .reg = 0x46, .osc_freq = 0x0190 },
-+	{ .mbps = 2400, .reg = 0x47, .osc_freq = 0x0198 },
-+	{ .mbps = 2450, .reg = 0x48, .osc_freq = 0x01a1 },
-+	{ .mbps = 2500, .reg = 0x49, .osc_freq = 0x01a9 },
-+	{ /* sentinel */ },
-+};
-+
- /* PHY ESC Error Monitor */
- #define PHEERM_REG			0x74
+ enum max96712_pattern {
+ 	MAX96712_PATTERN_CHECKERBOARD = 0,
+@@ -31,6 +33,7 @@ struct max96712_priv {
+ 	struct gpio_desc *gpiod_pwdn;
  
-@@ -1178,6 +1265,192 @@ static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv)
- 	return 0;
- }
+ 	bool cphy;
++	bool max96724;
+ 	struct v4l2_mbus_config_mipi_csi2 mipi;
  
-+static int rcsi2_d_phy_setting_v4m(struct rcar_csi2 *priv, int data_rate)
-+{
-+	unsigned int timeout;
-+	int ret;
-+
-+	static const struct phtw_value step1[] = {
-+		{ .data = 0x00, .code = 0x00 },
-+		{ .data = 0x00, .code = 0x1e },
-+	};
-+
-+	/* Shutdown and reset PHY. */
-+	rcsi2_write(priv, V4H_DPHY_RSTZ_REG, BIT(0));
-+	rcsi2_write(priv, V4H_PHY_SHUTDOWNZ_REG, BIT(0));
-+
-+	/* Start internal calibration (POR). */
-+	ret = rcsi2_phtw_write_array(priv, step1, ARRAY_SIZE(step1));
-+	if (ret)
-+		return ret;
-+
-+	/* Wait for POR to complete. */
-+	for (timeout = 10; timeout > 0; timeout--) {
-+		if ((rcsi2_read(priv, V4M_PHTR_REG) & 0xf0000) == 0x70000)
-+			break;
-+		usleep_range(1000, 2000);
-+	}
-+
-+	if (!timeout) {
-+		dev_err(priv->dev, "D-PHY calibration failed\n");
-+		return -ETIMEDOUT;
-+	}
-+
-+	return 0;
-+}
-+
-+static int rcsi2_set_osc_freq(struct rcar_csi2 *priv, unsigned int mbps)
-+{
-+	const struct rcsi2_mbps_info *info;
-+	struct phtw_value steps[] = {
-+		{ .data = 0x00, .code = 0x00 },
-+		{ .code = 0xe2 }, /* Data filled in below. */
-+		{ .code = 0xe3 }, /* Data filled in below. */
-+		{ .data = 0x01, .code = 0xe4 },
-+	};
-+
-+	info = rcsi2_mbps_to_info(priv, priv->info->hsfreqrange, mbps);
-+	if (!info)
-+		return -ERANGE;
-+
-+	/* Fill in data for command. */
-+	steps[1].data = (info->osc_freq & 0x00ff) >> 0;
-+	steps[2].data = (info->osc_freq & 0x0f00) >> 8;
-+
-+	return rcsi2_phtw_write_array(priv, steps, ARRAY_SIZE(steps));
-+}
-+
-+static int rcsi2_init_common_v4m(struct rcar_csi2 *priv, unsigned int mbps)
-+{
-+	int ret;
-+
-+	static const struct phtw_value step1[] = {
-+		{ .data = 0x00, .code = 0x00 },
-+		{ .data = 0x3c, .code = 0x08 },
-+	};
-+
-+	static const struct phtw_value step2[] = {
-+		{ .data = 0x00, .code = 0x00 },
-+		{ .data = 0x80, .code = 0xe0 },
-+		{ .data = 0x01, .code = 0xe1 },
-+		{ .data = 0x06, .code = 0x00 },
-+		{ .data = 0x0f, .code = 0x11 },
-+		{ .data = 0x08, .code = 0x00 },
-+		{ .data = 0x0f, .code = 0x11 },
-+		{ .data = 0x0a, .code = 0x00 },
-+		{ .data = 0x0f, .code = 0x11 },
-+		{ .data = 0x0c, .code = 0x00 },
-+		{ .data = 0x0f, .code = 0x11 },
-+		{ .data = 0x01, .code = 0x00 },
-+		{ .data = 0x31, .code = 0xaa },
-+		{ .data = 0x05, .code = 0x00 },
-+		{ .data = 0x05, .code = 0x09 },
-+		{ .data = 0x07, .code = 0x00 },
-+		{ .data = 0x05, .code = 0x09 },
-+		{ .data = 0x09, .code = 0x00 },
-+		{ .data = 0x05, .code = 0x09 },
-+		{ .data = 0x0b, .code = 0x00 },
-+		{ .data = 0x05, .code = 0x09 },
-+	};
-+
-+	if (priv->info->hsfreqrange) {
-+		ret = rcsi2_set_phypll(priv, mbps);
-+		if (ret)
-+			return ret;
-+
-+		ret = rcsi2_set_osc_freq(priv, mbps);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	if (mbps <= 1500) {
-+		ret = rcsi2_phtw_write_array(priv, step1, ARRAY_SIZE(step1));
-+		if (ret)
-+			return ret;
-+	}
-+
-+	if (priv->info->csi0clkfreqrange)
-+		rcsi2_write(priv, V4M_CSI0CLKFCPR_REG,
-+			    CSI0CLKFREQRANGE(priv->info->csi0clkfreqrange));
-+
-+	rcsi2_write(priv, V4H_PHY_EN_REG, V4H_PHY_EN_ENABLE_CLK |
-+		    V4H_PHY_EN_ENABLE_0 | V4H_PHY_EN_ENABLE_1 |
-+		    V4H_PHY_EN_ENABLE_2 | V4H_PHY_EN_ENABLE_3);
-+
-+	if (mbps > 1500) {
-+		ret = rcsi2_phtw_write_array(priv, step2, ARRAY_SIZE(step2));
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return ret;
-+}
-+
-+static int rcsi2_start_receiver_v4m(struct rcar_csi2 *priv)
-+{
-+	const struct rcar_csi2_format *format;
-+	unsigned int lanes;
-+	int mbps;
-+	int ret;
-+
-+	/* Calculate parameters */
-+	format = rcsi2_code_to_fmt(priv->mf.code);
-+	if (!format)
-+		return -EINVAL;
-+
-+	ret = rcsi2_get_active_lanes(priv, &lanes);
-+	if (ret)
-+		return ret;
-+
-+	mbps = rcsi2_calc_mbps(priv, format->bpp, lanes);
-+	if (mbps < 0)
-+		return mbps;
-+
-+	/* Reset LINK and PHY */
-+	rcsi2_write(priv, V4H_CSI2_RESETN_REG, 0);
-+	rcsi2_write(priv, V4H_DPHY_RSTZ_REG, 0);
-+	rcsi2_write(priv, V4H_PHY_SHUTDOWNZ_REG, 0);
-+	rcsi2_write(priv, V4M_PHTC_REG, PHTC_TESTCLR);
-+
-+	/* PHY static setting */
-+	rcsi2_write(priv, V4H_PHY_EN_REG, V4H_PHY_EN_ENABLE_CLK);
-+	rcsi2_write(priv, V4H_FLDC_REG, 0);
-+	rcsi2_write(priv, V4H_FLDD_REG, 0);
-+	rcsi2_write(priv, V4H_IDIC_REG, 0);
-+	rcsi2_write(priv, V4H_PHY_MODE_REG, V4H_PHY_MODE_DPHY);
-+	rcsi2_write(priv, V4H_N_LANES_REG, lanes - 1);
-+
-+	rcsi2_write(priv, V4M_FRXM_REG,
-+		    V4M_FRXM_FORCERXMODE_0 | V4M_FRXM_FORCERXMODE_1 |
-+		    V4M_FRXM_FORCERXMODE_2 | V4M_FRXM_FORCERXMODE_3);
-+	rcsi2_write(priv, V4M_OVR1_REG,
-+		    V4M_OVR1_FORCERXMODE_0 | V4M_OVR1_FORCERXMODE_1 |
-+		    V4M_OVR1_FORCERXMODE_2 | V4M_OVR1_FORCERXMODE_3);
-+
-+	/* Reset CSI2 */
-+	rcsi2_write(priv, V4M_PHTC_REG, 0);
-+	rcsi2_write(priv, V4H_CSI2_RESETN_REG, BIT(0));
-+
-+	/* Common settings */
-+	ret = rcsi2_init_common_v4m(priv, mbps);
-+	if (ret)
-+		return ret;
-+
-+	/* D-PHY settings */
-+	ret = rcsi2_d_phy_setting_v4m(priv, mbps);
-+	if (ret)
-+		return ret;
-+
-+	rcsi2_wait_phy_start_v4h(priv, V4H_ST_PHYST_ST_STOPSTATE_0 |
-+				 V4H_ST_PHYST_ST_STOPSTATE_1 |
-+				 V4H_ST_PHYST_ST_STOPSTATE_2 |
-+				 V4H_ST_PHYST_ST_STOPSTATE_3);
-+
-+	rcsi2_write(priv, V4M_FRXM_REG, 0);
-+
-+	return 0;
-+}
-+
- static int rcsi2_start(struct rcar_csi2 *priv)
+ 	struct v4l2_subdev sd;
+@@ -120,6 +123,7 @@ static void max96712_mipi_enable(struct max96712_priv *priv, bool enable)
+ 
+ static void max96712_mipi_configure(struct max96712_priv *priv)
  {
- 	int ret;
-@@ -1806,6 +2079,20 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a779g0 = {
- 	.support_cphy = true,
- };
++	unsigned int dpll_freq;
+ 	unsigned int i;
+ 	u8 phy5 = 0;
  
-+static const struct rcsi2_register_layout rcsi2_registers_v4m = {
-+	.phtw = V4M_PHTW_REG,
-+	.phypll = V4M_PHYPLL_REG,
-+};
-+
-+static const struct rcar_csi2_info rcar_csi2_info_r8a779h0 = {
-+	.regs = &rcsi2_registers_v4m,
-+	.start_receiver = rcsi2_start_receiver_v4m,
-+	.hsfreqrange = hsfreqrange_v4m,
-+	.csi0clkfreqrange = 0x0c,
-+	.use_isp = true,
-+	.support_dphy = true,
-+};
-+
- static const struct of_device_id rcar_csi2_of_table[] = {
- 	{
- 		.compatible = "renesas,r8a774a1-csi2",
-@@ -1859,6 +2146,10 @@ static const struct of_device_id rcar_csi2_of_table[] = {
- 		.compatible = "renesas,r8a779g0-csi2",
- 		.data = &rcar_csi2_info_r8a779g0,
- 	},
-+	{
-+		.compatible = "renesas,r8a779h0-csi2",
-+		.data = &rcar_csi2_info_r8a779h0,
-+	},
+@@ -152,10 +156,11 @@ static void max96712_mipi_configure(struct max96712_priv *priv)
+ 	max96712_write(priv, 0x8a5, phy5);
+ 
+ 	/* Set link frequency for PHY0 and PHY1. */
++	dpll_freq = priv->max96724 ? MAX96724_DPLL_FREQ : MAX96712_DPLL_FREQ;
+ 	max96712_update_bits(priv, 0x415, 0x3f,
+-			     ((MAX96712_DPLL_FREQ / 100) & 0x1f) | BIT(5));
++			     ((dpll_freq / 100) & 0x1f) | BIT(5));
+ 	max96712_update_bits(priv, 0x418, 0x3f,
+-			     ((MAX96712_DPLL_FREQ / 100) & 0x1f) | BIT(5));
++			     ((dpll_freq / 100) & 0x1f) | BIT(5));
+ 
+ 	/* Enable PHY0 and PHY1 */
+ 	max96712_update_bits(priv, 0x8a2, 0xf0, 0x30);
+@@ -181,7 +186,8 @@ static void max96712_pattern_enable(struct max96712_priv *priv, bool enable)
+ 	}
+ 
+ 	/* PCLK 75MHz. */
+-	max96712_write(priv, 0x0009, 0x01);
++	if (!priv->max96724)
++		max96712_write(priv, 0x0009, 0x01);
+ 
+ 	/* Configure Video Timing Generator for 1920x1080 @ 30 fps. */
+ 	max96712_write_bulk_value(priv, 0x1052, 0, 3);
+@@ -290,6 +296,7 @@ static const struct v4l2_ctrl_ops max96712_ctrl_ops = {
+ 
+ static int max96712_v4l2_register(struct max96712_priv *priv)
+ {
++	unsigned int dpll_freq;
+ 	long pixel_rate;
+ 	int ret;
+ 
+@@ -303,7 +310,8 @@ static int max96712_v4l2_register(struct max96712_priv *priv)
+ 	 * TODO: Once V4L2_CID_LINK_FREQ is changed from a menu control to an
+ 	 * INT64 control it should be used here instead of V4L2_CID_PIXEL_RATE.
+ 	 */
+-	pixel_rate = MAX96712_DPLL_FREQ / priv->mipi.num_data_lanes * 1000000;
++	dpll_freq = priv->max96724 ? MAX96724_DPLL_FREQ : MAX96712_DPLL_FREQ;
++	pixel_rate = dpll_freq / priv->mipi.num_data_lanes * 1000000;
+ 	v4l2_ctrl_new_std(&priv->ctrl_handler, NULL, V4L2_CID_PIXEL_RATE,
+ 			  pixel_rate, pixel_rate, 1, pixel_rate);
+ 
+@@ -419,8 +427,15 @@ static int max96712_probe(struct i2c_client *client)
+ 	if (priv->gpiod_pwdn)
+ 		usleep_range(4000, 5000);
+ 
+-	if (max96712_read(priv, 0x4a) != MAX96712_ID)
++	switch (max96712_read(priv, 0x4a)) {
++	case MAX96712_ID:
++		break;
++	case MAX96724_ID:
++		priv->max96724 = true;
++		break;
++	default:
+ 		return -ENODEV;
++	}
+ 
+ 	max96712_reset(priv);
+ 
+@@ -444,6 +459,7 @@ static void max96712_remove(struct i2c_client *client)
+ 
+ static const struct of_device_id max96712_of_table[] = {
+ 	{ .compatible = "maxim,max96712" },
++	{ .compatible = "maxim,max96724" },
  	{ /* sentinel */ },
  };
- MODULE_DEVICE_TABLE(of, rcar_csi2_of_table);
+ MODULE_DEVICE_TABLE(of, max96712_of_table);
 -- 
 2.45.1
 
