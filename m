@@ -1,75 +1,75 @@
-Return-Path: <linux-renesas-soc+bounces-5535-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5536-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBA298D0A2A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 20:49:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74CF58D0A2C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 20:55:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4C812B214D0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 18:49:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2C499281AD7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 18:55:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3292D15F321;
-	Mon, 27 May 2024 18:49:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3ED1515FA75;
+	Mon, 27 May 2024 18:55:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="S4Qu7Un0"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="o4V5v3v0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FBFA26AD7
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 27 May 2024 18:49:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 871D715EFC1
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 27 May 2024 18:55:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716835758; cv=none; b=TrLWIS0wjg8Rrsw9HAlFTgRuUehN+GblYqjJSe90pxI2D5ts1APkYhtpUZ2x+mil+HpfKEqkJFMgfyZtrj8UEPKE6YpoJOP8nLSMo/wsQlcJGbqTs6YCwMEzPkuTGB1SuBU0rDDYHXIZU3yGw1MPdhJu0rufuuRWa1IP9+mt2VA=
+	t=1716836150; cv=none; b=M4NzSlZxzug7QXWCQw7ozsHFm1nT6DV8nGuMU91bs1YwrksjgT2DKE5z8HiXsAzX1xvGNJt4Gf0OcGZjPWM7VUvcaJuOA57yD3nn3kSpfGveLo7sRA1dw6DYDQE0lAoZ7GO4/aj3140qtMmvHgALKCcJL5/wXwSu1XPxcnnLqDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716835758; c=relaxed/simple;
-	bh=gwVP2M//MG4bms+JvzyCg+FfQnJxMd1Ltz9Smse1a6M=;
+	s=arc-20240116; t=1716836150; c=relaxed/simple;
+	bh=VLHsvwOg3TDx/WeKQnVMYH059GaVmHPIqcpyY8TScYM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aLrXxTi2R8laSvNuXyHCV5+eRuf+U5KqYu2TXlqipqD1A8DcFdAdAleUtSMKKIt4W5jTUhgHNvO4Wntv+0PiBCtK3SHCo7eVfEtELYn7X3qD2lGJPu3LOqlrYub8zt4bNfTvCfWFZKCg+hfFo6tfliLRVRXHWhqVIRlt1MMR/60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=S4Qu7Un0; arc=none smtp.client-ip=209.85.208.51
+	 In-Reply-To:Content-Type; b=JTkPrDt49QgJZrrRs7eMuq/xCf3QUO0rC+QZsytA2q0DWGImsBEDLR7ghtbZfh+coLQ49f2xwPHD6QxIOBGTVkX7DAjJEJnycbsHutQ/cXexsdsfl0FIgbCj3qCl78AlILkJ6qk/f6Q4+JPGEj49VTMZ6e2lvCybP4js9Vz9c0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=o4V5v3v0; arc=none smtp.client-ip=209.85.218.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-57857e0f45dso27347a12.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 May 2024 11:49:16 -0700 (PDT)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a62614b9ae1so10491166b.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 May 2024 11:55:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716835755; x=1717440555; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1716836147; x=1717440947; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=CcizzYKeeso2p0kSglxAbM4cy54HHw7GeUK6cIuDglA=;
-        b=S4Qu7Un08kmN8nZ9dUABxly12OFPrU03QyCK61FVUArqnpSvK0mdpynHIRVBi0tuW8
-         rSaYIg4XYERw4V7YTawlZRtTjbER7c9JAQafjlhdWMpy9QIGRcoZkfQzq3RISZaDk+MI
-         JAyboL1TaZU9XLNtElbGxe4wmMwZNC3xIoJzOj//TQ0+3dnydcjKIzaOr44pudQLU6LM
-         lfZDeJrQ51374R0XZDYBpq7ELtCUez1WHiRipwdk+ULeBCwaWiW/f/MQhlja9AN8//yF
-         YzS7WwzG28aVjR1w13N0gPT91938A60GQtPi3rj0VWKzeVW6QCLqHsatd2fOlIIaraVN
-         wyJg==
+        bh=ef9PEVFIZsixq3ZpG3jm6CuEgR8uaMP/CKdoII9sZmo=;
+        b=o4V5v3v0uzKEPPBGxKUy4M8+laG5xR8eC3UxDMpwf0GprpIPVo+bQNTKrIgRZsSCh4
+         YJa1coXXKx1PVesVawDnfCFfdYogNkCatendVPn1DJQtK1M+ytDUPTm2sQP4WPCA2t4g
+         AgBx1f7uqF32yMlADgM2i2wzBMkbJzLfAML1FFXM0kReqsIg2IzyruH0UNWMqm6WqxTs
+         1Wjm8p1DR/XmORKxa/+VfGrF9rlZBiZ8LXBd5bK8quUI1wT53GHoCKt8J+4BV+cx2GKh
+         4Y/shWAFDbHnFWhQwminyT2CF0qUQai/2SwKmYurQQXpDWogh06tm3n/DS3o7oHDkpvB
+         oh+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716835755; x=1717440555;
+        d=1e100.net; s=20230601; t=1716836147; x=1717440947;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CcizzYKeeso2p0kSglxAbM4cy54HHw7GeUK6cIuDglA=;
-        b=FG93ZsQqQ9AnZifA8N680h9BRMEzDtYHu2s4Fnsa7CxWMrRW9iO/e2LWOa90AKcQ49
-         a7SKxX0ywq+s5QtsLDA/0EksxKVWh27BUlgary8INRC1+Lk6cNnfh/bRW6GdLU2aq+jy
-         ay1DzhmuLXnSdaSmb4mBJpU1XWpRsNqV6saWwa2XNT+oSDmRXQuvQ6rDKZJ2KVuAkdaS
-         hPbhMgai9FdIKcoxI1m429fImDsPGh3n3gdnB2/gHHCCJof9SJLsW1A6jDjYyBdCPasy
-         mgUjj2JHnzFqcesVaMVjk/1sGRTo4LwyFGBO9qUj50ugUfRuOE/lYnX7khKNHyjEtGFG
-         bC7w==
-X-Forwarded-Encrypted: i=1; AJvYcCU91ZgneSCDXd1wIoR5e5QFfifmWGyWu8ut+qIbRHmqe6zD8X3oXNfnQXUT9l7fA9/ljcK1CmnwFhzFQ4FJCNDS6i52uuCCM6t3YN8JUDEJXVI=
-X-Gm-Message-State: AOJu0YytifnYo+8rTixMY/g9Ml243Shhatu4G53PkORZ3/3977hp76gO
-	RuVLUO2vqD/+eFAlHd4tu5Ss9tQ7xxVMoDUDOEIM1iqJuWTi8vQqe9U9E6HF2aY=
-X-Google-Smtp-Source: AGHT+IExgbBcHZIiZqZrJ8vf/QrYobR7iw0HIQIvUwT+DaB3FEZOMjzwV3i6e9HhZnyGM6W+SzbXxA==
-X-Received: by 2002:a17:906:7f84:b0:a59:cd46:fe89 with SMTP id a640c23a62f3a-a6264f15e40mr673618066b.59.1716835754378;
-        Mon, 27 May 2024 11:49:14 -0700 (PDT)
+        bh=ef9PEVFIZsixq3ZpG3jm6CuEgR8uaMP/CKdoII9sZmo=;
+        b=O/SkYSth/tNBINLCXOHhrt+WK7V0Ie7YUc/QHYzZfu9ENZED0AHg2kxkZD188S1epO
+         yRGOgflQVTIRRtv6OS591KbGXIiBi0bqXSgXjDQ3KuWx+TqudU/wOM2ID5+m/Fan5JOO
+         SKXFHYq/gEDyGwL5rvkJRFhlPuOL+ar4g18A2GQSd5i783U6lArrsQODrSIKEIECNHfX
+         ayLan2fR04HFvYQXahKsotuUNijL86vMouRA4z0Uu61EsDRrQjYYWm6wIB7lqgoZ/iTR
+         FJvMBwe4fJ01eduIo11vAnP6TVvCazRH0TIWAkxvCgiiYWH6e+VTHjkM4GkU9nYzb2Gd
+         R7+A==
+X-Forwarded-Encrypted: i=1; AJvYcCVZnL+Ji3VOKPtVIRDG3Mld9dr+dOkJ90uw3lagm4QTKZt08BXPp7sSk8+Wp8Xi4T2IoelVBsosP9DzRsyQulZQZa+ms7o5lL9ZmkUuEI+6oKA=
+X-Gm-Message-State: AOJu0Yy3FfiTUj4KWTPk+yhVzWeOgwW3iqy9Ck9WNGr13AulDTxMX5xo
+	fhQ3fZFozovd+yeyEOONKzeGDDVGd+k4OBJTFDHMZkYcGHxkRNwDtnQRiw8CS3M=
+X-Google-Smtp-Source: AGHT+IF0X8Mx/+XatizVhklLRpGpOrq4VEojtbh2UtW1543Ne+ChMninQI/tTOIuHDV7M99PqC2oiw==
+X-Received: by 2002:a17:906:c214:b0:a5a:8b8c:6203 with SMTP id a640c23a62f3a-a62646d7f32mr659233166b.45.1716836146860;
+        Mon, 27 May 2024 11:55:46 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.206.169])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cda48e6sm515104466b.203.2024.05.27.11.49.13
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cc8a742sm515168766b.153.2024.05.27.11.55.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 May 2024 11:49:13 -0700 (PDT)
-Message-ID: <f587b37f-dc10-4a9a-8987-0a26c4417d94@linaro.org>
-Date: Mon, 27 May 2024 20:49:12 +0200
+        Mon, 27 May 2024 11:55:46 -0700 (PDT)
+Message-ID: <686a4786-90d9-41c3-b17b-cf24168e3fae@linaro.org>
+Date: Mon, 27 May 2024 20:55:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -77,17 +77,16 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings: media: renesas,vin: Add binding for V4M
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>, Conor Dooley <conor@kernel.org>
+Subject: Re: [PATCH] dt-bindings: media: renesas,csi2: Add binding for V4M
+To: Conor Dooley <conor@kernel.org>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
  <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>,
  Geert Uytterhoeven <geert+renesas@glider.be>, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20240527131849.1678877-1-niklas.soderlund+renesas@ragnatech.se>
- <20240527-replica-mace-2306a85ad5d7@spud>
- <20240527180312.GA226593@ragnatech.se>
+References: <20240527132046.1680595-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240527-sip-retention-43e2a16a7a41@spud>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -134,40 +133,40 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240527180312.GA226593@ragnatech.se>
+In-Reply-To: <20240527-sip-retention-43e2a16a7a41@spud>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 27/05/2024 20:03, Niklas Söderlund wrote:
-> Hi Conor,
-> 
-> Thanks for your feedback.
-> 
-> On 2024-05-27 17:37:21 +0100, Conor Dooley wrote:
->> On Mon, May 27, 2024 at 03:18:49PM +0200, Niklas Söderlund wrote:
->>> Document support for the VIN module in the Renesas V4M (r8a779h0) SoC.
+On 27/05/2024 18:35, Conor Dooley wrote:
+> On Mon, May 27, 2024 at 03:20:46PM +0200, Niklas Söderlund wrote:
+>> Document support for the CSI-2 module in the Renesas V4M (r8a779h0) SoC.
 >>
->> Which is different from the other devices how?
+>> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > 
-> Compared to the other Gen4 SoC supported it only supports D-PHY. I will 
-> add this to next version, thanks for spotting it.
-> 
->> Should be with the driver:
->> https://lore.kernel.org/all/20240527132429.1683547-1-niklas.soderlund+renesas@ragnatech.se/
-> 
-> As I mentioned in the other thread about the ISPCS bindings, I 
-> intentionally posted the bindings separately to allow parallel 
-> upstreaming of driver and DT users.
-> 
-> Is it really a bad idea to do it this way? For other work I have done 
-> that involves more complex DT changes then adding a compatible, such as 
-> adding a new device or adding more properties to cover more features 
-> only available in a later version of a device. I always post the DT 
-> parts first as this can spur discussions about the design and only after 
-> they are agreed upon do I post the driver parts that make use of them.
+> Another one not in a series, this should be with:
+> https://lore.kernel.org/all/20240527133221.1688830-8-niklas.soderlund+renesas@ragnatech.se/
 
-Binding goes via driver subsystem, so how exactly do you achieve
-parallelism here comparing to expected way of submitting (driver+binding)?
+Niklas,
+
+So you send three or four separate one-patch-sets for single compatible,
+without any links or hints about driver submission which apparently goes
+in parallel with impression of undocumented compatibles.
+
+That's not the way.
+
+First, if you insist on sending this separate for whatever reason, this
+should have been ONE PATCHSET with cover letter (explanation + links to
+users). There are no links: neither here, nor in driver submission.
+
+Second, bindings GO WITH DRIVERS, so sending drivers without bindings is
+posting undocumented compatibles. I would reject such patches to my
+subsystem, because checkpatch would complain that you have undocumented
+bindings.
+
+Please resend entire series together - drivers or bindings. For every
+separate submission, e.g. DTS separate from the binding which is quite
+expected for media, network and USB, please always link to the binding.
+
 
 Best regards,
 Krzysztof
