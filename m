@@ -1,110 +1,98 @@
-Return-Path: <linux-renesas-soc+bounces-5491-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5492-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0959F8CFE01
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 12:23:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A19468CFEFE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 13:30:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ADA822838AA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 10:23:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DA8191C214D0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 11:30:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B176A13AD1C;
-	Mon, 27 May 2024 10:23:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5961D155391;
+	Mon, 27 May 2024 11:30:36 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3EB1327E5;
-	Mon, 27 May 2024 10:23:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 217A4155348;
+	Mon, 27 May 2024 11:30:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716805411; cv=none; b=BtnC8otiZANOyz3zBq0h3QcNMSfKdWNeq6yG1xrmX+qfTYTzEIx1BgtXyeNwgbm6v4v6+buby0AMgWLoCnn8EhGzNSb+vKuagmbu+me11v5RzyeHOqH8amYj5v8wJabiQH/yyynH69s0Im5EIaWbdy8+lJ57JirWQpdTgXcrLIA=
+	t=1716809436; cv=none; b=YtF1X5DLrt+XsB/qnGDAA1BOfhAjFi/Gwi3NK0Tfc8lIkOeKCnMHdCALu6gBa9KVeVX+3KU+YNtMk4OOkVtF75vo42keUp0lQ9jfyvvwoip1Ks2sINphQgbSRkbqKtguMvPo7suOaOHvJZj3YBkiYj12926v+B1Xq5bfRiouEVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716805411; c=relaxed/simple;
-	bh=HT+8XGk7gp+WO4jR2xVV72O1raU8oPSotBFeVbxt5wQ=;
+	s=arc-20240116; t=1716809436; c=relaxed/simple;
+	bh=16iXFS88whnui9qMHOQgXVFdWQrnLZLjSObK8KQkcXE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=sPGPMRozVWVGA3F3FZb+p6gDnRL4/Jat9DLWgfazsDTe7mndBKQc7OWqt5N2xJQfx77lEjE+Swg2On0z8OgqdOmATSwE+7XB4UMbegP8YrxcKiN902woLk1p2YOSNdxyEJlcdUX4skwTvxDSj8l3/mMXR2/rjvjNf2vrZAN7MTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.177
+	 To:Cc:Content-Type; b=b9g7Fqr3S6FqFZxJsSCMANWoEebwp9IQ4onLVoKYbQ0Mlv+j4x3XQGdPMZJ90Dhu5AWP9mzF+DuB1rqUe2iWT75oERy5vHJmXzpt6Cv2YvGnF0ZtZADU07EYt/MeSu2suRIrVQFT4gKyUzYYGwdbhGIAA9T3vOFc+bvIe7s0EhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-62a0c011d53so28692547b3.0;
-        Mon, 27 May 2024 03:23:30 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-627ebbe7720so50502847b3.0;
+        Mon, 27 May 2024 04:30:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716805409; x=1717410209;
-        h=content-transfer-encoding:to:subject:message-id:date:from
+        d=1e100.net; s=20230601; t=1716809432; x=1717414232;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ofcOTpIvyE0qoQ1kR9BZTZeMOiB3j2MO3T05Qzwj5eU=;
-        b=T5a8cRaA5OsWbzAAS87BqlBBXNhbpWN+XLvwvyaeANBBU571PKDP1PdrZGYn6G120r
-         GH+xCe4WwiUR4MYi/XT+5n5StfqGZ21uy0EsiZrwo7SrvPJtA/xBcDcKx6xc91NVocDk
-         bkO5sqsfBg1T6PQI7yiXcW9ndu6oCHqYkY6vJY2fWPMqbfHvkYa9y5rQI32KQl2Jgdcq
-         GPIly46IV+eUxFcWXjja/QIercH1MSPAlOSjA8PQf7N1giBlCy5cazWeiNwKveawhTCh
-         eSq7ehc0+22kNsdx5vLIopLJkUyCYBJnmkGohEuccnoTtoXz+m3SbrSxT2CZnHiHxpx1
-         vJKg==
-X-Forwarded-Encrypted: i=1; AJvYcCUGGt6Ha64oyf0pGle7McBnOUomsqEWug2FZ3tZfvI72zzZnizOqYe6F2BrG7XJIHVHJfXb7aRf1CiAjZsx3EaukYTwW5NtWE9dK1DULJSHee0Ks4WGqDr4K2gA81XhqpUvuP+HMr0/UWdWExYVmH9BYADqtBArlVY0o8mewXo78wFOY1s7XVgJ/3hooCv3
-X-Gm-Message-State: AOJu0YywabICD99ifOQqt9zODAXyK8Sy8ekIdVR+fUaI/JxNODuSzO5/
-	hYNS/v8XLhoq8BuhrdGELj8d+xmMMXynpcFPCsU1dABoEn6qM4iC1ulGkMpb
-X-Google-Smtp-Source: AGHT+IH22e+WKp/1lpX9zbwb280IILBJAZPsxuHZDQjEUG6Sh9gZDfnJftXOweyxD2l9zgU5vmLAog==
-X-Received: by 2002:a25:aa71:0:b0:df1:ce97:159b with SMTP id 3f1490d57ef6-df77218dfd2mr11642763276.14.1716805408587;
-        Mon, 27 May 2024 03:23:28 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-df77474363fsm571270276.59.2024.05.27.03.23.28
+        bh=oVfLVpCcCQoMqZrJ1THjjBW2mAx6rj6ZwJAwjlWTK7k=;
+        b=Xq58FoB3y2osttfxuCrDDrVJqH7olmDxMZb5NEx5ysGkzgCLg3xZvWwBalDDJsOu+i
+         JlsA3acCsJFGzW9rTDwcNiNw9vORVdIHCV31ebw93rIvv1rKnBRVtZsbMOQOSFMrq5d5
+         2hP3pbR9EkXJn6Sm3cs3r4Sd1GgFUS7NNvrSP7JFWdxjugAaeNUa5zFBDQnCwy+Seu/P
+         u5ffxblaORMgP1t/YyzX8mphjUm1mLSbLwGv26hn+w9D+h1O43ULveG0KbLwPdSC564u
+         Zzt5eUEEvW/YlUyaRSkfXGRz251BvIX2bVyQMt6aVG4lJVL5k0b9KSdZveblmPcAsBjZ
+         qFwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU9vDJdWEQuzq1zHM7y+85jjfpMjbn+lTSaN+rNoHoqk8qiZIF0lFbBgAF8wZFUgqFlOj4aJ9fp6l+PdIr8mReBiclelbiBPc0vaRSQFJa3lAkthFRt9+Hpex8GlOzSiapDZkZac7CQJBrgsCtH
+X-Gm-Message-State: AOJu0YyB193rNqlOah3NWhqBuPO+O+kpxUkiRoP73MrmpQDL8yA0DsGd
+	q2i7FaWzpQ6cNTg3vLf0uQ9PmgmEZ6ARFSX7wpedQcMQFjBtH9T1cWbjyl7m
+X-Google-Smtp-Source: AGHT+IF3Jf2AT9xDhz7JyH4hrIGfFe/5naeeO9OeT3+xjbOqk/yboEH2jxj57QnOsjOlFm/zero4nw==
+X-Received: by 2002:a81:4e52:0:b0:609:ff2d:1814 with SMTP id 00721157ae682-62a08ec3618mr84093967b3.37.1716809432304;
+        Mon, 27 May 2024 04:30:32 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-62a0a56c171sm15879637b3.141.2024.05.27.04.30.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 May 2024 03:23:28 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-df771b6cc9cso3380439276.3;
-        Mon, 27 May 2024 03:23:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXBnEKd99Cb5+l7mqUV62YZqS2R0znN0IhQUdTjk9TDuI5RF+LUpDx8fL1xOJJ/2eH95XZuLhoPOyiH7buQ4JqCpEDMSeNlXGauzYL+BlcAZLHIJtGKxt1RKgmSGP3L+Bp8/XWl0PkAkcEb5jzEmGSP3eF5aM+MmJJRUR/mCLzzsLCBI7quD2gxwGD3E36S
-X-Received: by 2002:a25:d393:0:b0:df4:dcb6:75bd with SMTP id
- 3f1490d57ef6-df772160dd4mr10206351276.9.1716805407062; Mon, 27 May 2024
- 03:23:27 -0700 (PDT)
+        Mon, 27 May 2024 04:30:32 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-df771db8b24so3003016276.3;
+        Mon, 27 May 2024 04:30:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVkyFm1tbdiBgn8wk12r98JZmonsg3sm8cskbcjcXjYBvmdJH3QWtWGoTr3SwQL6b1HvaVafCyJRa5Sk0vyPscCCl4eon13P3a0dmrd+9Tm/YWTZUVq4bkw6kyJp14bHBBi+X9fuc6PQNLBe7aO
+X-Received: by 2002:a25:d090:0:b0:df7:a75c:28e0 with SMTP id
+ 3f1490d57ef6-df7a75c2e99mr2723780276.36.1716809431757; Mon, 27 May 2024
+ 04:30:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240522083851.37668-1-wsa+renesas@sang-engineering.com>
- <20240524-glasfaser-gerede-fdff887f8ae2@brauner> <20240527100618.np2wqiw5mz7as3vk@ninjato>
-In-Reply-To: <20240527100618.np2wqiw5mz7as3vk@ninjato>
+References: <20240413141806.300989-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20240413141806.300989-1-niklas.soderlund+renesas@ragnatech.se>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 27 May 2024 12:23:14 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW1kmLfT9NcQo3xhG0CzyNepmS39avw=SuyERHXc57xhw@mail.gmail.com>
-Message-ID: <CAMuHMdW1kmLfT9NcQo3xhG0CzyNepmS39avw=SuyERHXc57xhw@mail.gmail.com>
-Subject: Re: [PATCH] debugfs: ignore auto and noauto options if given
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Christian Brauner <brauner@kernel.org>, Eric Sandeen <sandeen@redhat.com>, 
-	linux-renesas-soc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	David Howells <dhowells@redhat.com>, linux-kernel@vger.kernel.org
+Date: Mon, 27 May 2024 13:30:19 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWRiCkYZzy0NG+3o1px2CQdtrmpUDGdLL8XcFzV67oL0g@mail.gmail.com>
+Message-ID: <CAMuHMdWRiCkYZzy0NG+3o1px2CQdtrmpUDGdLL8XcFzV67oL0g@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] arm64: dts: renesas: white-hawk: Add AVB1 and AVB2
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Wolfram,
-
-On Mon, May 27, 2024 at 12:08=E2=80=AFPM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> > Afaict, the "auto" option has either never existent or it was removed b=
-efore
-> > the new mount api conversion time ago for debugfs.
+On Sat, Apr 13, 2024 at 4:19=E2=80=AFPM Niklas S=C3=B6derlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> This small series describes the AVB1 and AVB2 found on White-Hawk.
 >
-> Frankly, I have no idea why I put this 'auto' in my fstab ages ago. But
-> it seems, I am not the only one[1].
+> Patch 1/2 prepares the AVB base nodes for r8a779g0 to use a dedicated
+> MDIO node and switches to use this for AVB0, which is the only node who
+> currently describes a PHY. The driver and binding change needed to use a
+> MDIO node are merged in net-next already.
+>
+> Patch 2/2 add the description for AVB1 and AVB2 found on the Ethernet
+> sub-board.
 
-fstab(5):
-
-       defaults
-           use default options: rw, suid, dev, exec, auto, nouser, and asyn=
-c.
-
-       noauto
-           do not mount when mount -a is given (e.g., at boot time)
-
-So I assume "auto" is still passed when using "defaults"?
-
-However, nowadays (since +10y?), debugfs etc. tend to no longer be
-put in /etc/fstab, but be mounted automatically by some initscript.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.11.
 
 Gr{oetje,eeting}s,
 
