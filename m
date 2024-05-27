@@ -1,114 +1,196 @@
-Return-Path: <linux-renesas-soc+bounces-5480-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5481-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B59268CF914
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 08:29:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E91858CFB21
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 10:18:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E78371C20ACA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 06:29:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 17F101C208B2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2024 08:18:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D00510979;
-	Mon, 27 May 2024 06:29:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2ECA3B298;
+	Mon, 27 May 2024 08:18:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rqzk1GdZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aNPSsqAM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99E912E3F7;
-	Mon, 27 May 2024 06:28:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F1642030B
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 27 May 2024 08:18:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716791341; cv=none; b=qvk1Goc+mOCkeyAqpBuePGWfhg/uzlDQUDu427uh8VVqKy61q1VPZFn8US+IKtHUnchtv61+6BjnqZZs3MNynErve9cAz5vperMpEB3fprUhc5mUfQuP4noWAnyNPf5M3RcrWyIAhWzzT6+KGEfHA4WJ1Gzz4vH5d3JxkzU85CI=
+	t=1716797932; cv=none; b=OKmLTNkqv9K3/hKA9Oj7JFHUd0CJqhSs5plpjxxH61NvPHCAgipwWxEnVaA9jRo2hn1zmjRwwaD2hB9pepj9q7Ce2v225H/im3e2oImYMz40B4gKze2zgNlIb2+WqCV2o8ANpT3trMP160lTFZlvG6oykHzbdXgdZYHn7VChc0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716791341; c=relaxed/simple;
-	bh=pinZAqIq0fek5EBdAQ53Yyws1XvkSCwWytUCnfhXbw4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WPBEMLoUQWiKAv7HY+lV+PmD33czFwEtvonxA1ZOKsCKhFOY3oBJoKumyp83ZVtUrLohhRLzoeYCVDxmAyBbqz4agp1oQFSlqtkGU4WpdwjsOqH24JwG89tDRnyGOYwI+ZBwtittaJkJZTiMMbyB1YRU0eakZHTH6Aqo//d5N10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rqzk1GdZ; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716791339; x=1748327339;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=pinZAqIq0fek5EBdAQ53Yyws1XvkSCwWytUCnfhXbw4=;
-  b=Rqzk1GdZdcdzPJ4xPzF0bdPXSPNzAhY8d9nBJ2KjxAZPgPxpi56JqHwI
-   CwkFZozNU2HzFRT8OzOZSQznJqwCwUF+BsdTx+AWH+zARRIyosQaKERfy
-   bbCdCnbqJrDNOLUGL7Pfi9kV7/0mbL/z6R7zNTiAfgHIg9eviAizXsbq+
-   rZ8Q/h1xy6hess5Hu026o1RbEsKUazR0febIEu75KnLGN3ldsGMDBRzZJ
-   WjD3PpASgGurOBgV7UM3nlC7I1vkNL5WpbNTUpdUS9vcoLCLuu9Sxt1YS
-   IvFGMsDbs+lKEkXOIvHS5XCOTdCU5Lan4yp5iNdTbDPDRhWZx0ODFWr8g
-   A==;
-X-CSE-ConnectionGUID: 4IV8gIHKQCKYLxiBDXxNgQ==
-X-CSE-MsgGUID: pPUE2zJAQKG0sPb3jGLF5g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11084"; a="12932518"
-X-IronPort-AV: E=Sophos;i="6.08,191,1712646000"; 
-   d="scan'208";a="12932518"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2024 23:28:59 -0700
-X-CSE-ConnectionGUID: kh05NKg+R7mVbEOl6ZyXpg==
-X-CSE-MsgGUID: 1bwzVecxT7S5GsW9QSnxIQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,191,1712646000"; 
-   d="scan'208";a="34728862"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2024 23:28:57 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 47D0511FB89;
-	Mon, 27 May 2024 09:28:54 +0300 (EEST)
-Date: Mon, 27 May 2024 06:28:54 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [RFC] dt-bindings: media: video-interfaces: How to describe
- physical lanes for CSI-2 C-PHY
-Message-ID: <ZlQoJtxXBqrwI8_U@kekkonen.localdomain>
-References: <20240525220747.GD1900917@ragnatech.se>
+	s=arc-20240116; t=1716797932; c=relaxed/simple;
+	bh=WVFEWzpjN9/0Ea+/rgyBNYUOJpEBtzoK0v1aIM047wE=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=aug7MkxeJlbhICwIqApnd/TecsDMTr1wT8WlqTzK/9mUoZhyCufj3pjVILdyNBFQpOrkurIC72m3cw7vyHGZjfC9P6ZBcNqAIinhD9zcYr72YUFhHrjw8rBV+xNxafQipUnDT8y0cwaZ3PNk+hx5hzQ7bIVB3QQRcPWvTdRqQPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aNPSsqAM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 26E5DC2BBFC
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 27 May 2024 08:18:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716797932;
+	bh=WVFEWzpjN9/0Ea+/rgyBNYUOJpEBtzoK0v1aIM047wE=;
+	h=Subject:From:Date:To:From;
+	b=aNPSsqAMz+GVDtPN5CL+XMf6efVSwbVnpqrqk6cglI7BPA2oY8hU2GOvhdfXsWEHx
+	 rNFBVzR4dp26FyF61VW7OZfMNRWa/qd7hpyI1iHV6BMdG515uO2wjIaBYagOZfZzDg
+	 xdvxmf5wY0XVBsi5INhpPoiZ9CvsH1Rj5QE89Eck18kVUaLBQq1q8HPnoDGvz04uBd
+	 UnVYwE0H0pA8pkDxkdlsBaUbxoSR5yITFrVixMHFlZxXJe7/mKexG2xGSXyxD+po0O
+	 a7DOtseekfJm/Nwz8YLsTNBrj4vEyfMSi/kTefRpJ7x8Ga8SNaTELJkx+wv1E+2EwY
+	 P+33Pg2NDpFyw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 1541CCF21F8
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 27 May 2024 08:18:52 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240525220747.GD1900917@ragnatech.se>
+Subject: Patchwork summary for: linux-renesas-soc
+From: patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: 
+ <171679793203.18134.11425943111309203721.git-patchwork-summary@kernel.org>
+Date: Mon, 27 May 2024 08:18:52 +0000
+To: linux-renesas-soc@vger.kernel.org
 
-Hejssan Niklas,
+Hello:
 
-On Sun, May 26, 2024 at 12:07:47AM +0200, Niklas Sˆderlund wrote:
-> 1. We could add a new generic property to fulfill the 'lane-polarities' 
->    function for C-PHY, 'lane-polarities-mipi-cphy'. That would only be 
->    valid for C-PHY buses.
-> 
->    The structure would be the same as for lane-polarities but the items 
->    enum would allow a value from 0-5 for each entry in the array. And we 
->    could define mappings in dt-bindings/media/video-interfaces.h to 
->    allow names in DTS, MEDIA_BUS_CSI2_CPHY_{ABC,CBA,ACB,CAB,BAC,BCA}?
-> 
->    This feels wrong as we already have 'lane-polarities' and it is used 
->    for CSI-2 D-PHY configurations already.
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-Could you add a property for this called "line-orders" with matching data
-line order in MIPI DisCo for Imaging specification
-<URL:https://www.mipi.org/specifications/mipi-disco-imaging>?
+Series: drm: Restore helper usability
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Maxime Ripard <mripard@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=846620
+  Lore link: https://lore.kernel.org/r/cover.1713780345.git.geert+renesas@glider.be
+    Patches: [01/11] Revert "drm: fix DRM_DISPLAY_DP_HELPER dependencies, part 2"
+             [02/11] Revert "drm/display: Select DRM_KMS_HELPER for DP helpers"
+             [03/11] Revert "drm/bridge: dw-hdmi: Make DRM_DW_HDMI selectable"
+             [04/11] Revert "drm: fix DRM_DISPLAY_DP_HELPER dependencies"
+             [05/11] Revert "drm: Switch DRM_DISPLAY_HDMI_HELPER to depends on"
+             [06/11] Revert "drm: Switch DRM_DISPLAY_HDCP_HELPER to depends on"
+             [07/11] Revert "drm: Switch DRM_DISPLAY_DP_HELPER to depends on"
+             [08/11] Revert "drm: Switch DRM_DISPLAY_DP_AUX_BUS to depends on"
+             [09/11] Revert "drm: Switch DRM_DISPLAY_HELPER to depends on"
+             [11/11] Revert "drm/display: Make all helpers visible and switch to depends on"
 
-The polarity isn't a right term here as it's not a differential pair as on
-D-PHY.
+Patch: pinctrl: renesas: pinctrl-rzg2l: Remove extra space in function parameter
+  Submitter: Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=829995
+  Lore link: https://lore.kernel.org/r/20240226192530.141945-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+
+Patch: dt-bindings: serial: renesas,scif: Document r8a779h0 bindings
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=834557
+  Lore link: https://lore.kernel.org/r/49b854603c2c3ed6b2edd441f1d55160e0453b70.1709741175.git.geert+renesas@glider.be
+
+Series: [v3,1/4] dt-bindings: PCI: cdns,cdns-pcie-host: drop redundant msi-parent and pci-bus.yaml
+  Submitter: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+  Committer: Krzysztof Wilczy≈Ñski <kwilczynski@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=844271
+  Lore link: https://lore.kernel.org/r/20240413151617.35630-1-krzysztof.kozlowski@linaro.org
+    Patches: [v3,1/4] dt-bindings: PCI: cdns,cdns-pcie-host: drop redundant msi-parent and pci-bus.yaml
+             [v3,2/4] dt-bindings: PCI: mediatek,mt7621: add missing child node reg
+             [v3,3/4] dt-bindings: PCI: host-bridges: switch from deprecated pci-bus.yaml
+             [v3,4/4] dt-bindings: PCI: mediatek,mt7621-pcie: switch from deprecated pci-bus.yaml
+
+Patch: i2c: remove printout on handled timeouts
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Andi Shyti <andi.shyti@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=843199
+  Lore link: https://lore.kernel.org/r/20240410112418.6400-20-wsa+renesas@sang-engineering.com
+
+Patch: drm: tilcdc: don't use devm_pinctrl_get_select_default() in probe
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=786523
+  Lore link: https://lore.kernel.org/r/20230922073714.6164-1-wsa+renesas@sang-engineering.com
+
+Patch: pinctrl: renesas: rzg2l: Limit 2.5V power supply to Ethernet interfaces
+  Submitter: Paul Barker <paul.barker.ct@bp.renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=845412
+  Lore link: https://lore.kernel.org/r/20240417114132.6605-1-paul.barker.ct@bp.renesas.com
+
+Patch: media: i2c: max9271: Add header include guards to max9271.h
+  Submitter: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+  Committer: Mauro Carvalho Chehab <mchehab@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=602287
+  Lore link: https://lore.kernel.org/r/20220102224803.27463-1-laurent.pinchart+renesas@ideasonboard.com
+
+Patch: [GIT,PULL] Renesas DTS updates for v6.10 (take two)
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Arnd Bergmann <arnd@arndb.de>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=848113
+  Lore link: https://lore.kernel.org/r/cover.1714116737.git.geert+renesas@glider.be
+
+Patch: media: i2c: rdacm20: Fix indentation in comment
+  Submitter: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+  Committer: Mauro Carvalho Chehab <mchehab@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=602226
+  Lore link: https://lore.kernel.org/r/20220101173540.9090-1-laurent.pinchart+renesas@ideasonboard.com
+
+Series: Renesas SoC updates for v6.10
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=843991
+  Lore link: https://lore.kernel.org/r/cover.1712915528.git.geert+renesas@glider.be
+    Patches: [GIT,PULL,1/4] Renesas ARM defconfig updates for v6.10
+             [GIT,PULL,2/4] Renesas driver updates for v6.10
+             [GIT,PULL,3/4] Renesas DT binding updates for v6.10
+             [GIT,PULL,4/4] Renesas DTS updates for v6.10
+
+Series: pinctrl: renesas: r8a779h0: Add INTC-EX support
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=845118
+  Lore link: https://lore.kernel.org/r/cover.1713282028.git.geert+renesas@glider.be
+    Patches: [1/2] pinctrl: renesas: r8a779h0: Fix IRQ suffixes
+             [2/2] pinctrl: renesas: r8a779h0: Add INTC-EX pins, groups, and function
+
+Series: Convert Tasklets to BH Workqueues
+  Submitter: Allen Pais <apais@linux.microsoft.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=838943
+  Lore link: https://lore.kernel.org/r/20240327160314.9982-1-apais@linux.microsoft.com
+    Patches: [1/9] hyperv: Convert from tasklet to BH workqueue
+             [5/9] mailbox: Convert from tasklet to BH workqueue
+
+Patch: [net-next] net: dsa: rzn1_a5psw: provide own phylink MAC operations
+  Submitter: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+  Committer: Jakub Kicinski <kuba@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=844999
+  Lore link: https://lore.kernel.org/r/E1rwfuJ-00753D-6d@rmk-PC.armlinux.org.uk
+
+Patch: media: rcar-vin: work around -Wenum-compare-conditional warning
+  Submitter: Arnd Bergmann <arnd@kernel.org>
+  Committer: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=837370
+  Lore link: https://lore.kernel.org/r/20240322133353.908957-1-arnd@kernel.org
+
+Patch: clk: renesas: r9a07g043: Add clock and reset entry for PLIC
+  Submitter: Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=841208
+  Lore link: https://lore.kernel.org/r/20240403200952.633084-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+
+Patch: dt-bindings: mfd: Use full path to other schemas
+  Submitter: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+  Committer: Lee Jones <lee@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=850147
+  Lore link: https://lore.kernel.org/r/20240503072116.12430-1-krzysztof.kozlowski@linaro.org
+
+
+Total patches: 34
 
 -- 
-H‰lsningar,
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Sakari Ailus
+
 
