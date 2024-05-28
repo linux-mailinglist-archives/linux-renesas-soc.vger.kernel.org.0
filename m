@@ -1,132 +1,119 @@
-Return-Path: <linux-renesas-soc+bounces-5556-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5557-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF5198D21E2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2024 18:47:36 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4498E8D22A1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2024 19:41:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 98CE028667E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2024 16:47:35 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D9586B23805
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2024 17:41:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11D03172BD8;
-	Tue, 28 May 2024 16:47:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A595137719;
+	Tue, 28 May 2024 17:41:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AVXGb2LU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD571DA4C;
-	Tue, 28 May 2024 16:47:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DDAA328A0;
+	Tue, 28 May 2024 17:41:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716914854; cv=none; b=AJ6k6o30bLBuFV69AZ1zaiks1NfudmzIt//TqGW11OZDmJhSfHuNJ/hJpU9WIBovR49YhR8XAnt8hKArMnSHtDP1TLAXu+1XEDLX4HKk99MysG5f/Ytv4hv6r+cCXdXXZzXd9M11DqZDXvfB03m10K5vooQL9HdbwfTSj5EFbps=
+	t=1716918101; cv=none; b=al9YZgv/+sAW4sQ3+ufbOnpT8Bg8sILseLj3iAY1OYAb06NsSYyFWQL17WRlYBDNUIf2sLDgsM1XmVsaWI1UCJYLE2loJ31Tgl52nlMD1rya6z1c0mG5w0asCS0I0oKe2CNd0gMhBDMiSi+i3P02sil2ijGShjqu0/5b3LSy4CI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716914854; c=relaxed/simple;
-	bh=eJm+vTHiJ203ALe26R4OEnK0aj/nRJRzqy/wm+frgt0=;
-	h=Subject:From:To:CC:References:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=qTgzVjDkmHGyoiVGwYOmJgxr1gLAj0XeK+WGkfyrVmP68ofGJ9W1AtyrVGMhEjLziQAwbnwjJeikzn+3UaQyoyS69PeiJtJK5v6FnWm5ROr1a/BcFX0ixN/DieeA51rd0omHRdq1BfqX2LMoruwYbzeLSqqeFQl2gsIsw8NKLVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.1.105] (178.176.78.2) by msexch01.omp.ru (10.188.4.12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Tue, 28 May
- 2024 19:47:21 +0300
-Subject: Re: [net-next PATCH v4 2/7] net: ravb: Consider busypolling status
- when re-enabling interrupts
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-To: Paul Barker <paul.barker.ct@bp.renesas.com>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	=?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-CC: Biju Das <biju.das.jz@bp.renesas.com>, Claudiu Beznea
-	<claudiu.beznea.uj@bp.renesas.com>, Yoshihiro Shimoda
-	<yoshihiro.shimoda.uh@renesas.com>, <netdev@vger.kernel.org>,
-	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20240528150339.6791-1-paul.barker.ct@bp.renesas.com>
- <20240528150339.6791-3-paul.barker.ct@bp.renesas.com>
- <669d3b51-d068-8816-37d1-dab2ffadb250@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <6bf07bb1-76c5-db5b-423b-a4c94bdf1ee3@omp.ru>
-Date: Tue, 28 May 2024 19:47:20 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	s=arc-20240116; t=1716918101; c=relaxed/simple;
+	bh=Y7NsUJEDenpBaq8JlXL3XeBFXZcbz3Zkrbq2F9QJ/B8=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=disvQ3gpZ3UZwzzvsN7OMe6N1RnxvWzOkcIsLbRuizn24gXZL+Pd1q7+CiwXk2WIjJsZ/XMUY9Jd5MmCA7qyjHycUlrQHMde5wzvo1zLzUR+w2CJAIwURLeWlU39oixntXIWYDVZhafKQjk4Op+uu8APMh/TwPDzA+obbXzstTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AVXGb2LU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D85C7C4AF0D;
+	Tue, 28 May 2024 17:41:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716918101;
+	bh=Y7NsUJEDenpBaq8JlXL3XeBFXZcbz3Zkrbq2F9QJ/B8=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=AVXGb2LU1c8RUQJSYhiUpaYhV6hBexbThgNSLiR1ZZpLCtk1sV9CgdgnS0xqbRg3c
+	 T/ct7ps9BfpGd1jCixMGkNXItFbEBDtBxhl9bgF1TOHW0uH2P3mVCEE5feP7h1Yp5B
+	 2CKFcDLIttkioxVlCKEojffFCJc0nZxR8GUfStu4ZLEVwXz+tG+GM0L9mylIrtahok
+	 Y6nv/1x8T7dr9mbp2cs5FNmA8kepdQzQCY4o2acxP7Q5Obw6TTDZXiv2E0gj86fMlf
+	 aSA3fCa3/ezdPcES9msD2lmlnVGAONs8jRrySpy7aYaiRKK4I2BjU/3y9D7R1JyGTS
+	 pMdDVALvR/jOQ==
+Date: Tue, 28 May 2024 12:41:39 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <669d3b51-d068-8816-37d1-dab2ffadb250@omp.ru>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 05/28/2024 16:29:31
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 185551 [May 28 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.0.4
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 20 0.3.20
- 743589a8af6ec90b529f2124c2bbfc3ce1d2f20f
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_arrow_text}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.78.2 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.78.2 in (user) dbl.spamhaus.org}
-X-KSE-AntiSpam-Info:
-	127.0.0.199:7.1.2;omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.78.2
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 05/28/2024 16:33:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 5/28/2024 12:09:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, devicetree@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org
+In-Reply-To: <20240527134129.1695450-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20240527134129.1695450-1-niklas.soderlund+renesas@ragnatech.se>
+Message-Id: <171691793216.1180592.3679496322433886659.robh@kernel.org>
+Subject: Re: [PATCH 0/3] arm64: dts: renesas: gray-hawk: Add video capture
+ pipeline
 
-On 5/28/24 7:44 PM, Sergey Shtylyov wrote:
 
->> Make use of the busypolling status returned from NAPI complete to decide
+On Mon, 27 May 2024 15:41:26 +0200, Niklas Söderlund wrote:
+> Hello Geert,
 > 
->    My spellchecker/translator trip over "busypolling" -- consider using
-> "busy-polling"?
->    And did you actually mean napi_complete_done()?
-
-   Ah, napi_complete() also returns a result... maybe this should be reworded
-as "NAPI completion"?
-
->> if interrupts shall be re-enabled or not. This is useful to reduce the
->> interrupt overhead.
->>
->> While at it switch to using napi_complete_done() as it take into account
+> This series adds support for video capture on V4M.
 > 
->    Takes.
+> I only have schematics for the gray-hawk single board but I opted to
+> keep the structure from white-hawk and create a dedicated DTSI file for
+> the CSI-2 and DSI sub-board.
 > 
->> the work done when providing the busypolling status.
+> Patch 1 adds the IP nodes for VIN, ISPCS and CSI-2. While patch 2 and 3
+> creates and wires up the sub-board to the two MAX96724 CSI-2
+> transmitters.
 > 
->    Again, "busy-polling"?
->  
->> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+> Niklas Söderlund (3):
+>   arm64: dts: renesas: r8a779h0: Add video capture nodes
+>   arm64: dts: renesas: gray-hawk: Create separate CSI/DSI sub-board
+>   arm64: dts: renesas: gray-hawk-csi-dsi: Add and connect MAX96724
+> 
+>  .../boot/dts/renesas/gray-hawk-csi-dsi.dtsi   | 201 ++++++
+>  .../dts/renesas/r8a779h0-gray-hawk-single.dts |   8 +-
+>  arch/arm64/boot/dts/renesas/r8a779h0.dtsi     | 666 ++++++++++++++++++
+>  3 files changed, 868 insertions(+), 7 deletions(-)
+>  create mode 100644 arch/arm64/boot/dts/renesas/gray-hawk-csi-dsi.dtsi
+> 
+> --
+> 2.45.1
+> 
+> 
 
-[...]
 
-MBR, Sergey
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
+
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+New warnings running 'make CHECK_DTBS=y renesas/r8a779h0-gray-hawk-single.dtb' for 20240527134129.1695450-1-niklas.soderlund+renesas@ragnatech.se:
+
+arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: /soc/i2c@e6508000/gmsl-deserializer@4e: failed to match any schema with compatible: ['maxim,max96724']
+arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: /soc/i2c@e6508000/gmsl-deserializer@4f: failed to match any schema with compatible: ['maxim,max96724']
+
+
+
+
+
 
