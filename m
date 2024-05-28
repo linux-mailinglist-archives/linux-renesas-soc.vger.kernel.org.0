@@ -1,80 +1,55 @@
-Return-Path: <linux-renesas-soc+bounces-5541-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5542-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADF428D1547
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2024 09:23:39 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CA878D15C5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2024 10:04:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 474C3B22F34
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2024 07:23:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 02E58282C11
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2024 08:04:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C55D073164;
-	Tue, 28 May 2024 07:23:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AF93139D11;
+	Tue, 28 May 2024 08:04:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="a6jNkMtg"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="tDnjsbrU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 196AB7316E
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 28 May 2024 07:23:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6D078676;
+	Tue, 28 May 2024 08:04:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716881011; cv=none; b=FdlG2Z6cD42cC6UCNN2UtqEgDDIP+A98SuMSrMKbai2Jp46kIkGh9sNshFo73j/ybqZGoRbW1uXHfrq48rQOGtai+o3WRZX4n8pEv21Jz8f0NO72EpoyA2jdAkXxQ0EREr17rrbcHuHxHrL0ND/jjPmUWsRAyc+943T0t9lbA6E=
+	t=1716883488; cv=none; b=nZaXn03aaeIdxmlpRgMowPKI2jN5TMrA74k4amI1Ddp2c1oWOI4S+lh0jnjJJxX/G0ygk4A40k3d6P5mmUk16zRiSGii6gwEZC2SNlrO/nYOnAvxxoA0Fqz/1Fc+PUqWCvIqk8OC7zg1pIdVTsjzTGPhWGlmPhPMEsVUpPQJSak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716881011; c=relaxed/simple;
-	bh=ex7MGfodL/GBXVmhpmlHovCwgtkUXZvLvjdEPwjakHA=;
+	s=arc-20240116; t=1716883488; c=relaxed/simple;
+	bh=jGnnV0FLE1BrjAgUOW5YIKAOxWaHCUeGAngP7Y+0Q54=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=thpdiTFTEuYDgSXZ33lBHLlDtCKmZNBtIAJuKDbAmvaCtYow1PW0o1oElZule7IVXKy6stqascw2/L+yBTXUoBUcwN27tRTbKz1qdAj3JmmPs+e+nzidJXeTAs9+nWBJPJnm9uR/ePEPJTBTusu4dDkx/z7r9hzYjkOHT4lfIMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=a6jNkMtg; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1716881009;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VIKabPGyTRiuw7RJzrHvb3kyiYNdSlXoTWM2TmzKlL4=;
-	b=a6jNkMtgK7NeLxvNr1xBOfr3MzdxYmyF3voBJ16jxSmAmsjS9+Fgo/nCtkqN2oVuzU5nJv
-	f/F7ZEDeBzGOiJRWB7OvXfdz4DWjob0zQ4Zl1u+9O1MIxvhRylkA4DMgXdDTARy/ZDfraE
-	l5gihXr3iELOgpE10w7w7Vg5S/jH7cE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-551-AFrScHPUNVuNz0GFPJSVxA-1; Tue, 28 May 2024 03:23:27 -0400
-X-MC-Unique: AFrScHPUNVuNz0GFPJSVxA-1
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3564bb7b352so274665f8f.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 May 2024 00:23:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716881006; x=1717485806;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VIKabPGyTRiuw7RJzrHvb3kyiYNdSlXoTWM2TmzKlL4=;
-        b=P+3SkpsruRQd48KWAUQzf+/O+A3dETMlG53x0XEnMggdzHUGJUeX8nTfvHaVvc2Iw8
-         ftgiuOakHMLL7Du2YVQXS3kOlNUcsXJg//BaVYhKvYX7LYQb2b5S1WO+gCRBqDhX/cnE
-         7Njrv+vQEm4z7yyfLTs5eNunF2c3SVz6UH2NgjX+jQb3Y5ZvrFwlEgraAdjhjET5RrBZ
-         GfViwXWMGRlF2G784qoGj/N00JJzPsBscUZxBFzXKQGICJWV9I27XCaYLJmSgRI1gfeX
-         blMvC7GpVIZIiGcY/Sq7XGP4XKZDOqdseXG23AreCF8y4fHdOFSSKKzWHpWrw8KkIwCW
-         eXQw==
-X-Forwarded-Encrypted: i=1; AJvYcCXTYR4yZtH3XbzpGBc3kZdvyq6eBt7SNkvnpHi4KMFhpWeGCJn2enwPcyk+LSXebYY4Bg+Wod05E73SNepv1KM7z5FTNorcTRsyoSPcNQhRaQI=
-X-Gm-Message-State: AOJu0YyRzqbmlyqnSe503+Az0sAARcTsr1+7qF+HTE9CjNumKy+JrGHn
-	iEIXu307HZjDwuaycPSPQMWmcMlBWmwsvdLiALlxwC4bui0bDH0mVdkZTu/EP0eJzTrJ34lclfR
-	PUn4NoO4N2suLfEWel0WGNGB/QIto3tYpWNirfl4yrG/Jw+UaUk3Hbtb7eAkj3OsBSkJe
-X-Received: by 2002:a5d:6aca:0:b0:354:fa6e:7ae2 with SMTP id ffacd0b85a97d-3552219cfa0mr6921537f8f.36.1716881006339;
-        Tue, 28 May 2024 00:23:26 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFPOdJrgdiOdMG05jUeF5M+1HEpNSRnZCKxZ19O3et6QfkQ3lRcWUM/ROnB5RsVv06HhEQfGg==
-X-Received: by 2002:a5d:6aca:0:b0:354:fa6e:7ae2 with SMTP id ffacd0b85a97d-3552219cfa0mr6921516f8f.36.1716881005889;
-        Tue, 28 May 2024 00:23:25 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:2ceb:e04a:af9c:bc9b? ([2a01:e0a:c:37e0:2ceb:e04a:af9c:bc9b])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-359b3675c6csm3846786f8f.71.2024.05.28.00.23.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 May 2024 00:23:25 -0700 (PDT)
-Message-ID: <ad904183-3070-4c24-b28a-53d477813785@redhat.com>
-Date: Tue, 28 May 2024 09:23:24 +0200
+	 In-Reply-To:Content-Type; b=YZ8beEexvk40s36Sbamd3zoLnw2TcWki8HyLW4eXFqxe4J2JM4hg/XH42l9Dsf1a2Mn83y+7ytzNfnVJIY0ZzmIozNZVmtvrTmvQkmhDcuKfgvj14JzvxDfDX2BU+bpkn0HLYUIHbhAoia7ky8hgNEaTVV77rWQ/Xe8bSmdMlDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=tDnjsbrU; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1716883479;
+	bh=jGnnV0FLE1BrjAgUOW5YIKAOxWaHCUeGAngP7Y+0Q54=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=tDnjsbrU5Y8ZDuPJ42S9f+ovjR//4qEGGgvP8OYGnvGuyc9qg4bZ11qKnJEvg9vHl
+	 lN37Kmnarw46UfH+owPamclo0BnAz5lIJeeVoshfFHUdAWsO4wppp/35wdqA9/fWCJ
+	 a9d4td4Eq4ugeXsazURqhu3c6l0B5bZq169nuK98Sm6Oi+Ks7UPta8an1eXCA/05ND
+	 rCzZNmyMuJTbkufTufgHKyk2o7MP42/G0gGhPLckogDhl8ltq6DJ9t3mW/jc6dwceb
+	 bYtlqBcE1prtb2GM3QAvgx7zRyQEpyCmTjfaTVpTUnRlForxoREqFbdUQnpe6thDNI
+	 Cs+xlNsFtST0g==
+Received: from [100.74.67.65] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: jmassot)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id EB5BC378020A;
+	Tue, 28 May 2024 08:04:38 +0000 (UTC)
+Message-ID: <4f3ea360-f17f-4a91-bbdc-08caebb977a7@collabora.com>
+Date: Tue, 28 May 2024 10:04:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -82,73 +57,181 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: renesas: rcar-du: Add drm_panic support for non-vsp
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-References: <b633568d2e3f405b21debdd60854fe39780254d6.1716816897.git.geert+renesas@glider.be>
-Content-Language: en-US, fr
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <b633568d2e3f405b21debdd60854fe39780254d6.1716816897.git.geert+renesas@glider.be>
+Subject: Re: [PATCH] media: staging: max96712: Add support for MAX96724
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Cc: linux-renesas-soc@vger.kernel.org
+References: <20240527133410.1690169-1-niklas.soderlund+renesas@ragnatech.se>
+Content-Language: en-US
+From: Julien Massot <julien.massot@collabora.com>
+In-Reply-To: <20240527133410.1690169-1-niklas.soderlund+renesas@ragnatech.se>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Hi Niklas,
 
-On 27/05/2024 15:35, Geert Uytterhoeven wrote:
-> Add support for the drm_panic module for DU variants not using the
-> VSP-compositor, to display a message on the screen when a kernel panic
-> occurs.
-
-Thanks for your patch, I'm pleased that you find drm_panic useful.
-
-That looks good to me.
-
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+On 5/27/24 3:34 PM, Niklas Söderlund wrote:
+> The MAX96724 is almost identical to the MAX96712 and can be supported by
+> the same driver, add support for it.
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> For the staging driver which only supports patter generation the big
+> difference is that the datasheet (rev 4) for MAX96724 do not describe
+> the DEBUG_EXTRA register, which is at offset 0x0009 on MAX96712. It's
+> not clear if this register is removed or moved to a different offset.
+> What is known is writing to register 0x0009 have no effect on MAX96724.
+> 
+> This makes it impossible to increase the test pattern clock frequency
+> from 25 MHz to 75Mhz on MAX96724. To be able to get a stable test
+> pattern the DPLL frequency have to be increase instead to compensate for
+> this. The frequency selected is found by experimentation as the MAX96724
+> datasheet is much sparser then what's available for MAX96712.
+
+There is a specific User Guide for this chip[1] (under NDA) which 
+describes the test pattern
+clock frequency.
+
+| Debug Extra 0x9 [1:0] | PATGEN_CLK_SRC (0x1dc [7]) | PCLK Frequency |
+|                       |       Pipe 0               |                |
+|-----------------------|----------------------------|----------------|
+| 00                    | x                          | 25  MHz        |
+| 01                    | x                          | 75  MHz        |
+| 1x                    | 0                          | 150 MHz        |
+| 1x                    | 1 (default)                | 375 MHz        |
+
+
+PATGEN_CLK_SRC
+Pipe 0 0x1dc
+Pipe 1 0x1fc
+Pipe 2 0x21c
+Pipe 3 0x23c
+
+
+The document also mention that "This internal Pclk is NOT related to the 
+MIPI CSI
+port clock rate" so increasing the dpll should not increase the pattern 
+generation
+clock.
+
+Perhaps increasing the DPLL allows to transmit more data on the CSI port 
+because the pattern
+generator is running at a higher clock rate than what we expect.
+
+Best regards,
+Julien
+
+[1]: GMSL2_Customers_MAX96724 User Guide (rev2)
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > ---
-> Tested on Koelsch (R-Car M2-W).
+>   drivers/staging/media/max96712/max96712.c | 26 ++++++++++++++++++-----
+>   1 file changed, 21 insertions(+), 5 deletions(-)
 > 
-> Support for DU variants using the VSP-compositor is more convoluted,
-> and left to the DU experts.
-> ---
->   drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.c | 14 ++++++++++++--
->   1 file changed, 12 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.c
-> index e445fac8e0b46c21..c546ab0805d656f6 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.c
-> @@ -680,6 +680,12 @@ static const struct drm_plane_helper_funcs rcar_du_plane_helper_funcs = {
->   	.atomic_update = rcar_du_plane_atomic_update,
->   };
+> diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
+> index ea67bcf69c9d..69a0a6a16cf9 100644
+> --- a/drivers/staging/media/max96712/max96712.c
+> +++ b/drivers/staging/media/max96712/max96712.c
+> @@ -17,8 +17,10 @@
+>   #include <media/v4l2-subdev.h>
 >   
-> +static const struct drm_plane_helper_funcs rcar_du_primary_plane_helper_funcs = {
-> +	.atomic_check = rcar_du_plane_atomic_check,
-> +	.atomic_update = rcar_du_plane_atomic_update,
-> +	.get_scanout_buffer = drm_fb_dma_get_scanout_buffer,
-> +};
-> +
->   static struct drm_plane_state *
->   rcar_du_plane_atomic_duplicate_state(struct drm_plane *plane)
+>   #define MAX96712_ID 0x20
+> +#define MAX96724_ID 0xA7
+>   
+>   #define MAX96712_DPLL_FREQ 1000
+> +#define MAX96724_DPLL_FREQ 1200
+>   
+>   enum max96712_pattern {
+>   	MAX96712_PATTERN_CHECKERBOARD = 0,
+> @@ -31,6 +33,7 @@ struct max96712_priv {
+>   	struct gpio_desc *gpiod_pwdn;
+>   
+>   	bool cphy;
+> +	bool max96724;
+>   	struct v4l2_mbus_config_mipi_csi2 mipi;
+>   
+>   	struct v4l2_subdev sd;
+> @@ -120,6 +123,7 @@ static void max96712_mipi_enable(struct max96712_priv *priv, bool enable)
+>   
+>   static void max96712_mipi_configure(struct max96712_priv *priv)
 >   {
-> @@ -812,8 +818,12 @@ int rcar_du_planes_init(struct rcar_du_group *rgrp)
->   		if (ret < 0)
->   			return ret;
+> +	unsigned int dpll_freq;
+>   	unsigned int i;
+>   	u8 phy5 = 0;
 >   
-> -		drm_plane_helper_add(&plane->plane,
-> -				     &rcar_du_plane_helper_funcs);
-> +		if (type == DRM_PLANE_TYPE_PRIMARY)
-> +			drm_plane_helper_add(&plane->plane,
-> +					     &rcar_du_primary_plane_helper_funcs);
-> +		else
-> +			drm_plane_helper_add(&plane->plane,
-> +					     &rcar_du_plane_helper_funcs);
+> @@ -152,10 +156,11 @@ static void max96712_mipi_configure(struct max96712_priv *priv)
+>   	max96712_write(priv, 0x8a5, phy5);
 >   
->   		drm_plane_create_alpha_property(&plane->plane);
+>   	/* Set link frequency for PHY0 and PHY1. */
+> +	dpll_freq = priv->max96724 ? MAX96724_DPLL_FREQ : MAX96712_DPLL_FREQ;
+>   	max96712_update_bits(priv, 0x415, 0x3f,
+> -			     ((MAX96712_DPLL_FREQ / 100) & 0x1f) | BIT(5));
+> +			     ((dpll_freq / 100) & 0x1f) | BIT(5));
+>   	max96712_update_bits(priv, 0x418, 0x3f,
+> -			     ((MAX96712_DPLL_FREQ / 100) & 0x1f) | BIT(5));
+> +			     ((dpll_freq / 100) & 0x1f) | BIT(5));
 >   
+>   	/* Enable PHY0 and PHY1 */
+>   	max96712_update_bits(priv, 0x8a2, 0xf0, 0x30);
+> @@ -181,7 +186,8 @@ static void max96712_pattern_enable(struct max96712_priv *priv, bool enable)
+>   	}
+>   
+>   	/* PCLK 75MHz. */
+> -	max96712_write(priv, 0x0009, 0x01);
+> +	if (!priv->max96724)
+> +		max96712_write(priv, 0x0009, 0x01);
+>   
+>   	/* Configure Video Timing Generator for 1920x1080 @ 30 fps. */
+>   	max96712_write_bulk_value(priv, 0x1052, 0, 3);
+> @@ -290,6 +296,7 @@ static const struct v4l2_ctrl_ops max96712_ctrl_ops = {
+>   
+>   static int max96712_v4l2_register(struct max96712_priv *priv)
+>   {
+> +	unsigned int dpll_freq;
+>   	long pixel_rate;
+>   	int ret;
+>   
+> @@ -303,7 +310,8 @@ static int max96712_v4l2_register(struct max96712_priv *priv)
+>   	 * TODO: Once V4L2_CID_LINK_FREQ is changed from a menu control to an
+>   	 * INT64 control it should be used here instead of V4L2_CID_PIXEL_RATE.
+>   	 */
+> -	pixel_rate = MAX96712_DPLL_FREQ / priv->mipi.num_data_lanes * 1000000;
+> +	dpll_freq = priv->max96724 ? MAX96724_DPLL_FREQ : MAX96712_DPLL_FREQ;
+> +	pixel_rate = dpll_freq / priv->mipi.num_data_lanes * 1000000;
+>   	v4l2_ctrl_new_std(&priv->ctrl_handler, NULL, V4L2_CID_PIXEL_RATE,
+>   			  pixel_rate, pixel_rate, 1, pixel_rate);
+>   
+> @@ -419,8 +427,15 @@ static int max96712_probe(struct i2c_client *client)
+>   	if (priv->gpiod_pwdn)
+>   		usleep_range(4000, 5000);
+>   
+> -	if (max96712_read(priv, 0x4a) != MAX96712_ID)
+> +	switch (max96712_read(priv, 0x4a)) {
+> +	case MAX96712_ID:
+> +		break;
+> +	case MAX96724_ID:
+> +		priv->max96724 = true;
+> +		break;
+> +	default:
+>   		return -ENODEV;
+> +	}
+>   
+>   	max96712_reset(priv);
+>   
+> @@ -444,6 +459,7 @@ static void max96712_remove(struct i2c_client *client)
+>   
+>   static const struct of_device_id max96712_of_table[] = {
+>   	{ .compatible = "maxim,max96712" },
+> +	{ .compatible = "maxim,max96724" },
+>   	{ /* sentinel */ },
+>   };
+>   MODULE_DEVICE_TABLE(of, max96712_of_table);
 
+-- 
+Julien Massot
+Senior Software Engineer
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
+Registered in England & Wales, no. 5513718
 
