@@ -1,132 +1,118 @@
-Return-Path: <linux-renesas-soc+bounces-5565-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5566-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D7988D2581
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2024 22:09:55 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6530B8D2685
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2024 22:50:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3A4FCB217F1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2024 20:08:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 028A9B2B084
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2024 20:50:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86BA217839A;
-	Tue, 28 May 2024 20:08:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gK8Rcx5R"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CEF745024;
+	Tue, 28 May 2024 20:50:36 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EBF210A3E;
-	Tue, 28 May 2024 20:08:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E94A1C6A5;
+	Tue, 28 May 2024 20:50:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716926920; cv=none; b=gIAnjIMVgPqCY/B7/65vCVaLubLguN9M0RGz13ffyQ2g/MaDv5m+iToULnmZbRtjxnT9gjVhha8fnz3H2v7gp8LpNDH3RqhqwLpqEWu1LmyvhR7zz8pOD4IUh+UoosobS0z4a6IGbW2Ed6NKG/mJmpo5ryY05kRV+tndeQjgdIY=
+	t=1716929436; cv=none; b=dlzNNq5zfNnUB8Lw3KZyFsz4QQn9rolxyRV5mxwQhGzFz5L/wiM3DbitQ69N9+XUGsHybWoPap2nqd0heQaVimEZj7rimrW4XeyAok/3q2XrNJt7alFOSsPDZX0tsOqP4hvOXc6kS0R4cxIIg5rr+x06q6qj4sqEUg29YNrKtgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716926920; c=relaxed/simple;
-	bh=3iCdfDLl99/CGt5OYXsgO2nuQJGe/AEnLEcBIQLsQrM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iAu7iUXNvEFI+jSuYWNZFisCmndtkUwxUfktxbe6QhB6+DILzADFQ8zVf87ZtRESZCSu7QV/IbqKMG8Um/o2sSzl8bi7Gueb1FdOFWihT+yT7qjmprQMPwYrCPFSihLX1WIxXlc/gB2xpPgkGY0CI0vnuYRMPvw6DrQE7SaSe0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gK8Rcx5R; arc=none smtp.client-ip=209.85.222.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-804e25cdd65so396564241.0;
-        Tue, 28 May 2024 13:08:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716926918; x=1717531718; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GWan09o2cS7AEXz0ZLVPwTi2FL7CeMGhj9lxWBPJhdM=;
-        b=gK8Rcx5RSlKMr7Y7jvKLTn7CRt/5LKp5TYmlhDmJE5cuSzn/V0E8cBGU5xZ4tn15oa
-         L0K/6jURBFQm0L5rz2Z+is7QdOemgdLZh+sexKXgSVEQn7iJMlQfFvNAzzIANcq6BB79
-         aNFQExGY8ELPbEahMBJrLG3skHx+VpFcGEeZXbadrsqryWBk7F3AJ2oEwjpjeyKuOHCf
-         OCnX9S9R5GHz8UhgyzgWlfFB3PBcExXZirsG6sBqFjaKTNcGOeIOMYYTORCwlz8/u7/O
-         fY8c4Bp0f91Vres7dn0lFTd8CFw/dOgTbnZEnsokOFJn4S3wqw7ahCBwQh7OsM/sMQDk
-         CkYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716926918; x=1717531718;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GWan09o2cS7AEXz0ZLVPwTi2FL7CeMGhj9lxWBPJhdM=;
-        b=Bc+UjcerZYyqvHt3MgBn7q+XCleVyBO1bW2eCx+XdBU8rWTyPPp9HJalZQRk4jjl2P
-         MestvGm7/kS9BIs27eWVofKIZgvKKn1AKBI/xsAiuJnelFiy3fRpgb22BJ8T4LSzzE+0
-         xjMPs4CFlmkMglliB4zrMFkNd1qkIKBf7BXWcHoNJO/HO6efjCrnz9a9t/bIHdYPoZ99
-         4DLodIMXCzmL1z8KAspMatEgfwPh5nEcKunZp+F2L0e/lAm9NSiOG6FU2UnDRhucwzzw
-         S5gaV3flPxNqbnakZvexTw4X3S1C6oWlpjJBUU3D0SRixOOYjMz8rTW2AeAdl+iMXr2p
-         lRdw==
-X-Forwarded-Encrypted: i=1; AJvYcCXXWOD/8yyFqTGj/J+HOE2Mj/md6Yxu+Mt6eHTqKoISW6oST6kJAk//rQsWvg0PDB2Lb0QT8XqH2nI9YP1BJQ3evwjR+IwM8xgPioLXvCpEfhMmtS0nC123y7KdvkgcPq6K4YS4hwmCEXcdqI0Bx9yXLDgXtC1d5bZMF3peqHachFRS1Au8lr0h6b6NEEsSG1FdlLiNKKjTitVXxEwTOwJzwTF5HXWTNA==
-X-Gm-Message-State: AOJu0YyH8JOYncgEjWibpEpHmv4dEoh6XgJBBa1/rHnYr67isJXTifhE
-	QID5sBaMZatbn4CYupYDGQtSlTUabe7/RqlaPX8yVX2Jhsf1JVhK4WAngW2G3WQrMg0Je414Pyf
-	emdVM6vfn+hTMvmfKqbjXtwyO8FM=
-X-Google-Smtp-Source: AGHT+IFfJJ5HFZzJyQa9/CEYfyE8LWkzb4Q/29Ke4jwKfXtLTA98EbWRSp4pH5wT6KLVanMlHazgb/V1ONa8yBqFufU=
-X-Received: by 2002:a05:6122:2015:b0:4e4:e998:bf7f with SMTP id
- 71dfb90a1353d-4e4f02d5449mr13996969e0c.11.1716926917774; Tue, 28 May 2024
- 13:08:37 -0700 (PDT)
+	s=arc-20240116; t=1716929436; c=relaxed/simple;
+	bh=C2TO8Qx3rZMZBxfN+j6VufMLMOzKG4ce2Xdl91MmJsg=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=L/DZeOxh0crW0SoobzoYBbf8VQLulwkk/YNdq28bMj2kX7kaU3S/6M+N2IYOVl/FKhLu0HSSQqXRfRyGu0FdFs7w0gIk0i+OzIFskeyUVNCG8C07rjWPkwb4na6gtBnitL16ZkFPiBwAK0f2HunMINQXYuBm97n5wG0GBks0t34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.105] (178.176.78.2) by msexch01.omp.ru (10.188.4.12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Tue, 28 May
+ 2024 23:50:21 +0300
+Subject: Re: [net-next PATCH v4 3/7] net: ravb: Refactor RX ring refill
+To: Paul Barker <paul.barker.ct@bp.renesas.com>, "David S. Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	=?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+CC: Biju Das <biju.das.jz@bp.renesas.com>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>, Yoshihiro Shimoda
+	<yoshihiro.shimoda.uh@renesas.com>, <netdev@vger.kernel.org>,
+	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20240528150339.6791-1-paul.barker.ct@bp.renesas.com>
+ <20240528150339.6791-4-paul.barker.ct@bp.renesas.com>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <883d4e03-4686-e4dd-01c4-b1f71b661d86@omp.ru>
+Date: Tue, 28 May 2024 23:50:20 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240423175900.702640-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240423175900.702640-13-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXA8hnV6NTSNdYQNvuBsK5Os9CDgE64xLN3R0wAAmtJgA@mail.gmail.com>
-In-Reply-To: <CAMuHMdXA8hnV6NTSNdYQNvuBsK5Os9CDgE64xLN3R0wAAmtJgA@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 28 May 2024 21:07:27 +0100
-Message-ID: <CA+V-a8t_6xm100n=t-u38-NAE3dOK5F6cp9Y=gZV6JcxT_+8mQ@mail.gmail.com>
-Subject: Re: [PATCH v2 12/13] pinctrl: renesas: pinctrl-rzg2l: Add support for
- custom parameters
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240528150339.6791-4-paul.barker.ct@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 05/28/2024 20:41:33
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 185560 [May 28 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.4
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 20 0.3.20
+ 743589a8af6ec90b529f2124c2bbfc3ce1d2f20f
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.78.2 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.78.2 in (user) dbl.spamhaus.org}
+X-KSE-AntiSpam-Info:
+	omp.ru:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.78.2
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 05/28/2024 20:46:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 5/28/2024 6:54:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-Hi Geert,
+On 5/28/24 6:03 PM, Paul Barker wrote:
 
-Thank you for the review.
+> To reduce code duplication, we add a new RX ring refill function which
+> can handle both the initial RX ring population (which was split between
+> ravb_ring_init() and ravb_ring_format()) and the RX ring refill after
+> polling (in ravb_rx()).
+> 
+> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
 
-On Wed, May 22, 2024 at 2:21=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Tue, Apr 23, 2024 at 7:59=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail=
-.com> wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > In preparation for passing custom params for RZ/V2H(P) SoC assign the
-> > custom params that is being passed via struct rzg2l_pinctrl_data.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > RFC->v2
-> > - No change
->
-> Thanks for your patch!
->
-> > --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> > +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> > @@ -262,6 +262,9 @@ struct rzg2l_pinctrl_data {
-> >         const struct rzg2l_hwcfg *hwcfg;
-> >         const struct rzg2l_variable_pin_cfg *variable_pin_cfg;
-> >         unsigned int n_variable_pin_cfg;
-> > +       unsigned int num_custom_params;
-> > +       const struct pinconf_generic_params *custom_params;
-> > +       const struct pin_config_item *custom_conf_items;
->
-> Perhaps this should be protected by #ifdef CONFIG_DEBUG_FS, too?
->
-Agreed, I'll protect custom_conf_items by #ifdef CONFIG_DEBUG_FS.
+   Looks sane...
 
-Cheers,
-Prabhakar
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+
+[...]
+
+MBR, Sergey
 
