@@ -1,129 +1,151 @@
-Return-Path: <linux-renesas-soc+bounces-5539-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5540-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 079E68D14BC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2024 08:54:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A8EA8D153D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2024 09:21:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 387691C22214
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2024 06:54:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EA0F61F23014
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2024 07:21:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72AAD6D1C8;
-	Tue, 28 May 2024 06:54:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B69D71742;
+	Tue, 28 May 2024 07:21:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OTXHHnHY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1882C1BDD3;
-	Tue, 28 May 2024 06:54:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1BD64F201
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 28 May 2024 07:21:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716879250; cv=none; b=abRv5SyHqRulq/YaMvPqoAQE6I+IijujwPTyC2GtrUclnVu+xb9X0cb4WCw2JhRwaY+mrpa8SwD4L3wVH/lW5AZM2eExwEfzYJ11Sh80KqViFUH81QeYqh2YkT9fXdNM6zBKRsYAgjXozxGLH5O5x/mkBPKNY9jNHYLPpgi4fGM=
+	t=1716880870; cv=none; b=agMqq8m6qTlAcgUQKTpQ0hE1gMz4DPWxBUTRsVrHfG7UHZhHYndigH6J3IPuWvK/S38X5pV2Ow/at3HTV32iCfwS3AnQDx6+eqieA7eiA9y+D6aMwSnIaGjBwhW0cfhjGc8jUtooNOF1P7PKxpDQ76Z+JnxG/kEzKKgQRBQ5aj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716879250; c=relaxed/simple;
-	bh=SzVilEVlopjimZcTl5SpiQZbjNdlo6aENfulUH4JlSw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oKlQQcnezd0nH3rKDDHySLUZPnymOTL8a4XoEPAvpsbP/d73ieJ3QdTvSW5EmFglK9V0nrR9xFnIYGsnEArcLny5ELzIJBAeJcawdmHeK8aUUKvsibIHxxfclrkaAyV+BWVFZKOK9/NzYsO8QwONQAKjSTJmpL37CJ61H7+QcBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-627e3368394so4781467b3.2;
-        Mon, 27 May 2024 23:54:07 -0700 (PDT)
+	s=arc-20240116; t=1716880870; c=relaxed/simple;
+	bh=xpTiGzpL/s3/GL2Ko5iYWbO8kgb/4HRwMe2CBSuXU2o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=s3301rfLrl9gMLULZzo65ZXSQf/aaURIkoIQTQCRBeMCBq/fDKuZzDX9hgsSCCS6zB+ycvZaamwLUDlnBBMeGEqpz1swqA1PGY5somxd3r5ZzkhBSK4mvyxdNMGWcWBG097incPUr8gfkONj9f0SdVaNFkyJ2tOsM+6f06ZDYdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OTXHHnHY; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1716880867;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f6Fk/w+D1tGkwzU6hq3XlU1/wNjVdws7JU17k3ts/bw=;
+	b=OTXHHnHYqek42STouq19QZ5mnHJoeUgYussLOPrx0MfJg9812WHOM2/W78FYkdBDDx1pon
+	DhjPUG0Ba9vzZvOGGS3/ybFiJMtz7hw/OnZxjCt+EWNO3XeD7sYZf2DEEIl0uVdFPcDmlt
+	OY8mfnfj5Zp+ob/h0DWxp/wMnNfdVzQ=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-169-N42oWuScNoyPVU5pVviLew-1; Tue, 28 May 2024 03:21:05 -0400
+X-MC-Unique: N42oWuScNoyPVU5pVviLew-1
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-354f28306dfso401502f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 May 2024 00:21:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716879247; x=1717484047;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YXOxMy0/e1CGrNfUXa6fnwwGM2T0WrBuwcAdvF4sSso=;
-        b=klln3aBn+TZ2yO8AQmupRSgbAHMtDAScxcTuke1PNhKWrfbOHZgNUUEGhJ0dZ9+86d
-         iXOCEBCPNXJUEvhjALOtCQgVIqurf3b0q7nOAnl8fLRAjB6xfFfRdHc+ebcGPhz8GIyQ
-         pgu8oKznIUXQ8v/6GL0MySxtb/jDsXvgi3QdhcmXWLMTB5/Dv7ikhBZR4NkKpArg5WoE
-         0OFYQMazI2TFgtuIuhScsLME2xGK+mthMm6whXgLCdcWYUFUNQ3lXE17uw5Pjt9ZWPB5
-         If9haM1I8RpNoYMlvqf+ih38pPvZuOsag2lexNJXeP0JlV9SWaPbD2llk2ken8M8EBSG
-         ZlXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUPoaTiXDw2ywn3VrfW7Ef/KKeAz6+IgHtZFl8bQ1dXS+/VNwekm3u0odaHEL40dMDp1OrK4LzUqZXo0e2FjqnV3AxgRCXrO5uc6vs8dzotspCALEWhiY4A+b0XLeDK5kzDZITksnfDDiEe9jjTXQ==
-X-Gm-Message-State: AOJu0YyFmRqM06FOqPNRpxtbn7NVBj5TjDftxhtpmx/SSKx58YWZL8DS
-	o/r6WgfPthTbIQEEMBi6uKwdKIT8pkufhXanvIZqYp1M2GmsmZOIJqGlafU1
-X-Google-Smtp-Source: AGHT+IF/5/DiAgh5pJeF7J984kizZI1T5MUiaxlUhhuMzTP8ZxQBiJnBS7Up79c3DxGluYpAh6aFEA==
-X-Received: by 2002:a81:431c:0:b0:627:972f:babe with SMTP id 00721157ae682-62a08eeddb6mr111100647b3.50.1716879245921;
-        Mon, 27 May 2024 23:54:05 -0700 (PDT)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-62a0a3f76e4sm19370157b3.51.2024.05.27.23.54.05
+        d=1e100.net; s=20230601; t=1716880862; x=1717485662;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=f6Fk/w+D1tGkwzU6hq3XlU1/wNjVdws7JU17k3ts/bw=;
+        b=C5rXVIZrMBIkBXf0lZJa4vfFf6LxVE8Yta+ivaiL3Up7ws8V6IlmJOpkz/Cb6t1xa7
+         LbGfDLssSjBQw5htA3TDTx2IGp5BArZBxOyeKikLIT1dyivMbq7YhpQMGPJoT6XOq/ot
+         3k8b/TYExeeY/z7UKgBuICqgrdKXiUZhjVLUwOdVR49461bIz2GgZHLuvhKaZ8likbD0
+         E4007C1PifiiQEgeBt5fHNqkgSepgGmKWMc6cmoP8UQ1bsvAQLwiYF3icPNPegS+OY6v
+         RSYqdtgsdKTYd4YXNyyb1rQUpqqPTJnQaodc/fAxozl9HHvKyEW3EoMW2r1EBaIU2VCt
+         ASxg==
+X-Forwarded-Encrypted: i=1; AJvYcCVNcmK3asNbH1xTn27EKNuUmbuTAGeZImOKr64qYQzTMoNox6k8LGGZQuOKMRao+7i8UMI7qAI6xqPbuuo6PQbarigWzie969jB3a+YJAobNwQ=
+X-Gm-Message-State: AOJu0YypUinY9uplYkk8/fCACbLNt+0rvXNqcY4uuAeUQgp1nFwVd/th
+	KjMiWLpI5BA8Ypf7/hSoQpoRoZnrGpN9uAVq4TrRl5myhiFrKF9JQIRH3high+0US43kWv49xjY
+	MVYKcG1nOWGRfDSIuGzPbdXIO/aJUYpJ9ZMp8Akk/KPU+T1N4fZUmTXfF8WIqL0R+NDml
+X-Received: by 2002:a5d:6686:0:b0:354:e72f:d5d7 with SMTP id ffacd0b85a97d-35526c39ef7mr7616970f8f.24.1716880862118;
+        Tue, 28 May 2024 00:21:02 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEAcFtbj8Pi786V1gkPPqQhO4i/h4C8C1moc48ObgIFjeKzqSqXk5xrqkQRh1KWGrYjtJ+C3A==
+X-Received: by 2002:a5d:6686:0:b0:354:e72f:d5d7 with SMTP id ffacd0b85a97d-35526c39ef7mr7616953f8f.24.1716880861737;
+        Tue, 28 May 2024 00:21:01 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:2ceb:e04a:af9c:bc9b? ([2a01:e0a:c:37e0:2ceb:e04a:af9c:bc9b])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3557a1c931csm10850874f8f.79.2024.05.28.00.21.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 May 2024 23:54:05 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-627efad69b4so4422217b3.3;
-        Mon, 27 May 2024 23:54:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWLxl6P+/Zh8fj9aMeF/RGnsKTJ6qR0lnSfNloJQ4nTXODnGJ2Ff2bslJvH0eVC3vZ/wdyHdpRVwsBidvepz8s5rTyPGMVLMVWyVX0mhkHm1u9qmqJtX4Xi9mRSCIqsdnS/R4Bb+gAmFWBCBSYQ9A==
-X-Received: by 2002:a25:aaa3:0:b0:df4:d461:62c8 with SMTP id
- 3f1490d57ef6-df7721e83femr10448198276.30.1716879245448; Mon, 27 May 2024
- 23:54:05 -0700 (PDT)
+        Tue, 28 May 2024 00:21:01 -0700 (PDT)
+Message-ID: <ead7f060-b6c3-40e7-b00a-b347669d7551@redhat.com>
+Date: Tue, 28 May 2024 09:21:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240527132429.1683547-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20240527132429.1683547-1-niklas.soderlund+renesas@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 28 May 2024 08:53:52 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVqan1-0VmHTrbWRzxU05xNFgsi36+YZc_hjByfb8tLEA@mail.gmail.com>
-Message-ID: <CAMuHMdVqan1-0VmHTrbWRzxU05xNFgsi36+YZc_hjByfb8tLEA@mail.gmail.com>
-Subject: Re: [PATCH] media: rcar-vin: Add support for R-Car V4M
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm: renesas: shmobile: Add drm_panic support
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+References: <292638fde9aef8b00e984245f43dc02a818cf322.1716816827.git.geert+renesas@glider.be>
+Content-Language: en-US, fr
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <292638fde9aef8b00e984245f43dc02a818cf322.1716816827.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Niklas,
 
-On Mon, May 27, 2024 at 3:24=E2=80=AFPM Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> Add support for R-Car V4M. The V4M uses the ISP Channel Selector as its
-> only possible video input source. Even tho V4M is not a Gen3 board the
-> VIN interface is very close to the one found on the V3U, for this reason
-> mark it as a Gen3 model internally.
->
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
 
-Thanks for your patch!
+On 27/05/2024 15:34, Geert Uytterhoeven wrote:
+> Add support for the drm_panic module, which displays a message on
+> the screen when a kernel panic occurs.
 
-> --- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-> @@ -1292,6 +1292,15 @@ static const struct rvin_info rcar_info_r8a779g0 =
-=3D {
->         .max_height =3D 4096,
->  };
->
-> +static const struct rvin_info rcar_info_r8a779h0 =3D {
-> +       .model =3D RCAR_GEN3,
-> +       .use_mc =3D true,
-> +       .use_isp =3D true,
-> +       .nv12 =3D true,
-> +       .max_width =3D 4096,
-> +       .max_height =3D 4096,
+Thanks for your patch, I'm pleased that you find drm_panic useful.
+
+That looks good to me.
+
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Tested on Armadillo-800-EVA.
+> ---
+>   drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c | 14 +++++++++++++-
+>   1 file changed, 13 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+> index 07ad17d24294d5e6..9d166ab2af8bd231 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+> @@ -273,6 +273,13 @@ static const struct drm_plane_helper_funcs shmob_drm_plane_helper_funcs = {
+>   	.atomic_disable = shmob_drm_plane_atomic_disable,
+>   };
+>   
+> +static const struct drm_plane_helper_funcs shmob_drm_primary_plane_helper_funcs = {
+> +	.atomic_check = shmob_drm_plane_atomic_check,
+> +	.atomic_update = shmob_drm_plane_atomic_update,
+> +	.atomic_disable = shmob_drm_plane_atomic_disable,
+> +	.get_scanout_buffer = drm_fb_dma_get_scanout_buffer,
 > +};
+> +
+>   static const struct drm_plane_funcs shmob_drm_plane_funcs = {
+>   	.update_plane = drm_atomic_helper_update_plane,
+>   	.disable_plane = drm_atomic_helper_disable_plane,
+> @@ -310,7 +317,12 @@ struct drm_plane *shmob_drm_plane_create(struct shmob_drm_device *sdev,
+>   
+>   	splane->index = index;
+>   
+> -	drm_plane_helper_add(&splane->base, &shmob_drm_plane_helper_funcs);
+> +	if (type == DRM_PLANE_TYPE_PRIMARY)
+> +		drm_plane_helper_add(&splane->base,
+> +				     &shmob_drm_primary_plane_helper_funcs);
+> +	else
+> +		drm_plane_helper_add(&splane->base,
+> +				     &shmob_drm_plane_helper_funcs);
+>   
+>   	return &splane->base;
+>   }
 
-Unless I misread, this structure is identical to the existing rcar_info_r8a=
-779a0
-and rcar_info_r8a779g0 structures? Perhaps deduplicate and rename
-to rcar_info_gen4?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
