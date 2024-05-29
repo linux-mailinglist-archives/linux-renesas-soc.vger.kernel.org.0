@@ -1,41 +1,41 @@
-Return-Path: <linux-renesas-soc+bounces-5674-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5675-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 962688D3EC4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 21:07:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 401238D3EC9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 21:09:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B94281C234D1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 19:07:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BE4EF1F226E0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 19:09:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63190187332;
-	Wed, 29 May 2024 19:07:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1370A1C0DFB;
+	Wed, 29 May 2024 19:09:16 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6581F15D5B9;
-	Wed, 29 May 2024 19:07:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BD121C2A3;
+	Wed, 29 May 2024 19:09:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717009638; cv=none; b=TH5F2z13e6PvUKt+lwom/8V6n/m+XferaPvbt4C1ivAXOf/NatK6zMptysj/v6HOjmpc7tYQT/R/0wsZkK3/wQ9rvNGgFipvGGwxs6DOF7YbuH6Ys0sxH+KX5vutt6gRaMugFCKOa6dMoK1UyIon7KKbhrGYAQ5KlybJBM1crFU=
+	t=1717009756; cv=none; b=tJiqjrrKuA7d+jFdyA85EedBs5mN+FH/DzYa+EkwPsAvszkcEJjreC3+mgHM5f9GBCcUOw4fTlMcatdbJQ6d6KKS0LzMT4YN7yyl2fQk5pSMJVIEBqrxjDEtWHv4mnIO1D7gYH/GqArufIbrZbJTIEsp+Xb+sYxrans0dctCeDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717009638; c=relaxed/simple;
-	bh=Qytmr2YvfQ/qY3YWT/0L1Uy9ZuBpQAMzrpnojoMsW/0=;
+	s=arc-20240116; t=1717009756; c=relaxed/simple;
+	bh=NKk7QITeNqd+9Lg6Pk03o5vwZNM8PfsSvAh3rT/A0ag=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NSzhu90sIGiBtceTT4G0FpJ5b2fT5/Y/Q4uNOBz9VI9+rC2mt8pyGNU+8y65VtgF/HRrSFLIP/bxMXpuA/soDRqmILfudGgT3K5SpqZTil2YFBvitK4xsZ7ggRPMMsU8Dhk32pvfVHKHYfPfp9dNQ1eK/Msceq2GFiqRctyFhAk=
+	 In-Reply-To:Content-Type; b=fh/+UkXH4hIh/FAFz90Pq0BBL2331x+6rYejt7VcG4RK5Uqmnna2GbquhkNpaZiw0hwrmEAQBMK3imgXrwNFkKVutDRSs7ySuBbZJ7sAFpSJUgwb6k2kpyMnc2abLyJa5veMpdRt9VSE5IQK1KNV6WYkwG60PQvXorYOANtwiUI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 X-IronPort-AV: E=Sophos;i="6.08,199,1712588400"; 
-   d="asc'?scan'208";a="206075008"
+   d="asc'?scan'208";a="206075296"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 30 May 2024 04:07:08 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 30 May 2024 04:09:12 +0900
 Received: from [10.226.93.49] (unknown [10.226.93.49])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id D12414053049;
-	Thu, 30 May 2024 04:07:04 +0900 (JST)
-Message-ID: <908c525b-10e2-464f-ad66-df431d48ca03@bp.renesas.com>
-Date: Wed, 29 May 2024 20:07:03 +0100
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 3B6FF40538B4;
+	Thu, 30 May 2024 04:09:07 +0900 (JST)
+Message-ID: <3706ce73-6457-479c-ae4c-745ab73ec932@bp.renesas.com>
+Date: Wed, 29 May 2024 20:09:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -43,7 +43,9 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [net-next PATCH v4 4/7] net: ravb: Refactor GbEth RX code path
+Subject: Re: [net-next PATCH v4 2/7] net: ravb: Consider busypolling status
+ when re-enabling interrupts
+Content-Language: en-GB
 To: Sergey Shtylyov <s.shtylyov@omp.ru>, "David S. Miller"
  <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
  Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
@@ -54,19 +56,19 @@ Cc: Biju Das <biju.das.jz@bp.renesas.com>,
  netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20240528150339.6791-1-paul.barker.ct@bp.renesas.com>
- <20240528150339.6791-5-paul.barker.ct@bp.renesas.com>
- <611a49b8-ecdb-6b91-9d3e-262bf3851f5b@omp.ru>
-Content-Language: en-GB
+ <20240528150339.6791-3-paul.barker.ct@bp.renesas.com>
+ <669d3b51-d068-8816-37d1-dab2ffadb250@omp.ru>
+ <6bf07bb1-76c5-db5b-423b-a4c94bdf1ee3@omp.ru>
 From: Paul Barker <paul.barker.ct@bp.renesas.com>
 Organization: Renesas Electronics Corporation
-In-Reply-To: <611a49b8-ecdb-6b91-9d3e-262bf3851f5b@omp.ru>
+In-Reply-To: <6bf07bb1-76c5-db5b-423b-a4c94bdf1ee3@omp.ru>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------C8mPhhR8DTavd0CC0GFD7zjU"
+ boundary="------------WlFbdLFF3mEPJ2XyMODkyhQe"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------C8mPhhR8DTavd0CC0GFD7zjU
-Content-Type: multipart/mixed; boundary="------------xLeH70qHWrOAPZVfLI6prThM";
+--------------WlFbdLFF3mEPJ2XyMODkyhQe
+Content-Type: multipart/mixed; boundary="------------eugYhdfpn0zaSLZ4VGraFMGu";
  protected-headers="v1"
 From: Paul Barker <paul.barker.ct@bp.renesas.com>
 To: Sergey Shtylyov <s.shtylyov@omp.ru>, "David S. Miller"
@@ -78,142 +80,60 @@ Cc: Biju Das <biju.das.jz@bp.renesas.com>,
  Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
  netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Message-ID: <908c525b-10e2-464f-ad66-df431d48ca03@bp.renesas.com>
-Subject: Re: [net-next PATCH v4 4/7] net: ravb: Refactor GbEth RX code path
+Message-ID: <3706ce73-6457-479c-ae4c-745ab73ec932@bp.renesas.com>
+Subject: Re: [net-next PATCH v4 2/7] net: ravb: Consider busypolling status
+ when re-enabling interrupts
 References: <20240528150339.6791-1-paul.barker.ct@bp.renesas.com>
- <20240528150339.6791-5-paul.barker.ct@bp.renesas.com>
- <611a49b8-ecdb-6b91-9d3e-262bf3851f5b@omp.ru>
-In-Reply-To: <611a49b8-ecdb-6b91-9d3e-262bf3851f5b@omp.ru>
+ <20240528150339.6791-3-paul.barker.ct@bp.renesas.com>
+ <669d3b51-d068-8816-37d1-dab2ffadb250@omp.ru>
+ <6bf07bb1-76c5-db5b-423b-a4c94bdf1ee3@omp.ru>
+In-Reply-To: <6bf07bb1-76c5-db5b-423b-a4c94bdf1ee3@omp.ru>
 
---------------xLeH70qHWrOAPZVfLI6prThM
-Content-Type: multipart/mixed; boundary="------------0kxZWuAYyR1S94PSEHUjvWKm"
+--------------eugYhdfpn0zaSLZ4VGraFMGu
+Content-Type: multipart/mixed; boundary="------------SF4GhwB5mLNyi4OFK05RV8X2"
 
---------------0kxZWuAYyR1S94PSEHUjvWKm
+--------------SF4GhwB5mLNyi4OFK05RV8X2
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On 29/05/2024 19:30, Sergey Shtylyov wrote:
-> On 5/28/24 6:03 PM, Paul Barker wrote:
+On 28/05/2024 17:47, Sergey Shtylyov wrote:
+> On 5/28/24 7:44 PM, Sergey Shtylyov wrote:
 >=20
->> We can reduce code duplication in ravb_rx_gbeth().
+>>> Make use of the busypolling status returned from NAPI complete to dec=
+ide
 >>
->> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
-> [...]
+>>    My spellchecker/translator trip over "busypolling" -- consider usin=
+g
+>> "busy-polling"?
+>>    And did you actually mean napi_complete_done()?
 >=20
->> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/et=
-hernet/renesas/ravb_main.c
->> index 7df7d2e93a3a..c9c5cc641589 100644
->> --- a/drivers/net/ethernet/renesas/ravb_main.c
->> +++ b/drivers/net/ethernet/renesas/ravb_main.c
->> @@ -817,47 +817,54 @@ static int ravb_rx_gbeth(struct net_device *ndev=
-, int budget, int q)
->>  				stats->rx_missed_errors++;
->>  		} else {
->>  			die_dt =3D desc->die_dt & 0xF0;
->> +			skb =3D ravb_get_skb_gbeth(ndev, entry, desc);
->>  			switch (die_dt) {
+>    Ah, napi_complete() also returns a result... maybe this should be re=
+worded
+> as "NAPI completion"?
 >=20
->    Why not do instead (as I've asked you alraedy):
->=20
-> 			case DT_FSTART:
-> 				priv->rx_1st_skb =3D skb;
-> 				fallthrough;
-
-I've avoided that change to keep patch 7/7 simpler (as we have to move
-the assignment of skb later in that patch). I can change this if you
-want though.
-
->=20
->>  			case DT_FSINGLE:
->> -				skb =3D ravb_get_skb_gbeth(ndev, entry, desc);
->=20
->=20
->> +			case DT_FSTART:
->> +				/* Start of packet:
->> +				 * Set initial data length.
->> +				 */
->=20
->    Please consider turning that block comment into one-liner...
-
-Ack.
-
->=20
->>  				skb_put(skb, desc_len);
->> +
->> +				/* Save this SKB if the packet spans multiple
->> +				 * descriptors.
->> +				 */
->=20
->    This one too...
->    (The current line length limit is 100 columns.)
-
-Ack. I'll re-flow some other lines with a 100 col limit as well - I'm
-immediately thinking of the skb_copy_to_linear_data_offset call below.
-
->=20
->> +				if (die_dt =3D=3D DT_FSTART)
->> +					priv->rx_1st_skb =3D skb;
->=20
->    This needs to be done under *case* DT_FSTART above instead...
-
-See above comment. We can do this under DT_FSTART in this patch if you
-want, but this if condition will then come back in a revised patch 7/7.
-
->=20
->> +				break;
->> +
->> +			case DT_FMID:
->> +			case DT_FEND:
->> +				/* Continuing a packet:
->> +				 * Move data into the saved SKB.
->> +				 */
->> +				skb_copy_to_linear_data_offset(priv->rx_1st_skb,
->> +							       priv->rx_1st_skb->len,
->> +							       skb->data,
->> +							       desc_len);
->> +				skb_put(priv->rx_1st_skb, desc_len);
->> +				dev_kfree_skb(skb);
->> +
->> +				/* Set skb to point at the whole packet so that
->=20
->    Please call it consistently, either SKB or skb (I prefer this one).
-
-Ack.
-
->=20
->> +				 * we only need one code path for finishing a
->> +				 * packet.
->> +				 */
->> +				skb =3D priv->rx_1st_skb;
->> +			}
->> +
->> +			switch (die_dt) {
->> +			case DT_FSINGLE:
->> +			case DT_FEND:
->> +				/* Finishing a packet:
->> +				 * Determine protocol & checksum, hand off to
->> +				 * NAPI and update our stats.
->> +				 */
->>  				skb->protocol =3D eth_type_trans(skb, ndev);
->>  				if (ndev->features & NETIF_F_RXCSUM)
->>  					ravb_rx_csum_gbeth(skb);
->> +				stats->rx_bytes +=3D skb->len;
->>  				napi_gro_receive(&priv->napi[q], skb);
->>  				rx_packets++;
->=20
->    Otherwise, this is very good patch! Sorry for letting in the duplcat=
+>>> if interrupts shall be re-enabled or not. This is useful to reduce th=
 e
-> code earlier! :-)
->=20
-> [...]
->=20
-> MBR, Sergey
+>>> interrupt overhead.
+>>>
+>>> While at it switch to using napi_complete_done() as it take into acco=
+unt
+>>
+>>    Takes.
+>>
+>>> the work done when providing the busypolling status.
+>>
+>>    Again, "busy-polling"?
 
-Thanks for the review!
+Ack to all of the above.
+
+I used the commit message suggested by Niklas here. I'll revise it a
+little for v5...
+
+Thanks,
 
 --=20
 Paul Barker
---------------0kxZWuAYyR1S94PSEHUjvWKm
+--------------SF4GhwB5mLNyi4OFK05RV8X2
 Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
 Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
 Content-Description: OpenPGP public key
@@ -277,22 +197,22 @@ ZyZGVsEsOuGCLkekUMF/5dwOhEDXrY42VR/ZxdDTY99dznQkwTt4o7FOmkY=3D
 =3DsIIN
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------0kxZWuAYyR1S94PSEHUjvWKm--
+--------------SF4GhwB5mLNyi4OFK05RV8X2--
 
---------------xLeH70qHWrOAPZVfLI6prThM--
+--------------eugYhdfpn0zaSLZ4VGraFMGu--
 
---------------C8mPhhR8DTavd0CC0GFD7zjU
+--------------WlFbdLFF3mEPJ2XyMODkyhQe
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZld81wUDAAAAAAAKCRDbaV4Vf/JGvSB2
-AQDsl88612pVTH7Q4DmISnf/IKZNF78DGn0tZh/a3swrBQD+K1AW57Vs4xI+FJOtQuWBnROxY80/
-weNzOauijYS1dQU=
-=7b6L
+wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZld9UgUDAAAAAAAKCRDbaV4Vf/JGvQJi
+AP9lqjZmJFttN+8UH/mSiHmAwizwcFJ2NGgCn8aemoO4oAEAjx77IX6rIzp+YCpicLU/D0XpYJNe
+bvZl5sCcIIgI1QU=
+=Lt+M
 -----END PGP SIGNATURE-----
 
---------------C8mPhhR8DTavd0CC0GFD7zjU--
+--------------WlFbdLFF3mEPJ2XyMODkyhQe--
 
