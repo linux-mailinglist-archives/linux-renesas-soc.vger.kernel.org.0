@@ -1,162 +1,139 @@
-Return-Path: <linux-renesas-soc+bounces-5641-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5642-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C1A58D33BD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 11:55:30 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF21C8D34CB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 12:44:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 838E2B21AD4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 09:55:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 61E9C1F252F2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 10:44:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB37416A360;
-	Wed, 29 May 2024 09:55:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 050E517DE09;
+	Wed, 29 May 2024 10:44:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ty0013VC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="np0pjepo"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684CC16729D
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 May 2024 09:55:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A720117B4FD;
+	Wed, 29 May 2024 10:44:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716976523; cv=none; b=i4rEBy7otK2F1qbCmZ9OE7noNYhHR7ud5SRKcqTPlIofSvM/akiQ5Hn2CKJYU9griBh7ANXU/qQ+0erzfVAJ72PqV6gp0fW/IejxsrlQVEwFN2Ccyn8RxwXFP1VgyA05od5UeV08O0KHskERzIiAnH3YWd0ivbIYwK1z2jQolr0=
+	t=1716979475; cv=none; b=dg/etXkMioJ1G2wvihSQX2DiDk2nSqPrJxJI+VoSZvg8/KvkFig50ODURGgXrzmLvjp/U3ZsmS8Jx7IOd9ZgXZkyQm8rnfSUKomdGi43FAg/PK7+yv8Ae1aoT/UnKaC++sLW1diSQDiPpkDJ7k7X0UaAVC3cPT1IbIPF+41qsE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716976523; c=relaxed/simple;
-	bh=CZddNhTG4PTX5QH2SWfe7je4knivXIh/sL6zBPQ2VfI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vnch2CASZgHdfTlI9+8TAsPwuzEW+Y0THjA5GE3HRHYezGTSXVMZ/usTu7yy2JKvxxlwUqz/fw9mlKyvPKtuXNOaibsNHkHkHaZzc5VEjqV0KhETMx+sABsmW5XI5zc9BjP2e02grYEOykT9bpkavdCiDWtiqC2pfWLOPdgEXCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ty0013VC; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 496D24AB;
-	Wed, 29 May 2024 11:55:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1716976516;
-	bh=CZddNhTG4PTX5QH2SWfe7je4knivXIh/sL6zBPQ2VfI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ty0013VCEBILlUifURaaerifEgaWGl5TESGJtCqzkcBuMmxYVJPz7/DVHo7vksgx9
-	 Hc1lWmu79LfEPS1uyhespcZ3scRbsPKMopc0RLU8pF5BDbIdKEvbpg1JcPwTH0lU/l
-	 p6qHKcZloYcWjUBFY/6WhQpkqKF0qY+oTxFZHI2Q=
-Date: Wed, 29 May 2024 12:55:06 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Jocelyn Falempe <jfalempe@redhat.com>,
-	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] drm: renesas: shmobile: Add drm_panic support
-Message-ID: <20240529095506.GC19014@pendragon.ideasonboard.com>
-References: <292638fde9aef8b00e984245f43dc02a818cf322.1716816827.git.geert+renesas@glider.be>
- <20240529010320.GI1436@pendragon.ideasonboard.com>
- <u5aijnvotestpgjynawcx7oxsp2lncnsda5w4jfzeovvdlfcyt@5fxnyfbk4ocb>
- <20240529091018.GK1436@pendragon.ideasonboard.com>
- <zyd7e55dfonmacewfscac5sdrypx5rsjwvkt7umhbnjltd3rz4@wabvqnsrlatl>
+	s=arc-20240116; t=1716979475; c=relaxed/simple;
+	bh=w2NUtcqQzhKZrCNj5AHZJLY6Ii4aW3hyDn3AwcSEkNk=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=QpXft65zK9FVAyRXvZsnMSi0BgygIxz2T1KGpbEnAd7qaW0No0ykDDeOA6ic6PCRRXCimwQmY+Ro3vXTke6X5QFNTCiY80edWdYu1NnTbajBynSm64hLeQiwUhyounAfSZCfF9n2Sl86vjjwViN8R9ygvoBEnM7em7wsN3lysnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=np0pjepo; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07607C32781;
+	Wed, 29 May 2024 10:44:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716979475;
+	bh=w2NUtcqQzhKZrCNj5AHZJLY6Ii4aW3hyDn3AwcSEkNk=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=np0pjepoSGg+tfmnkzQQQpy493Qf1VV2AL6xy/dHgphxXVYYYXe0eAHbGZmRs0wN+
+	 R1pG03TKfT13mCgnEfGR0W9D+abVpRhZNwJ/ebD3x6wMuoW4xNDqXVVVOgv04v4Ly8
+	 g6Gm7sxj+ao6znk0JoniHcRG9K6XWfNe8N6ri85nFajDUxVb1Y30g9c6M6tJlCPm5n
+	 bvLn2Dol8agheHA5c/GhNvm+F7X73Rwh5BXpHONBEWMzM4HZ2Qm8xa0Iz9AfAlOady
+	 y/vvIn/OGYic0xYR3CpV/3e0ZCgkKK+oxOoqxGtjD4Q7WsKdTrBkuEhg2TZHzLiR/z
+	 OAqoUUfGI46gA==
+Date: Wed, 29 May 2024 05:44:34 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <zyd7e55dfonmacewfscac5sdrypx5rsjwvkt7umhbnjltd3rz4@wabvqnsrlatl>
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+ Anup Patel <apatel@ventanamicro.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, Guo Ren <guoren@kernel.org>, 
+ Kefeng Wang <wangkefeng.wang@huawei.com>, 
+ Maxime Ripard <mripard@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Max Filippov <jcmvbkbc@gmail.com>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, linux-renesas-soc@vger.kernel.org, 
+ Herve Codina <herve.codina@bootlin.com>, 
+ Bjorn Helgaas <bhelgaas@google.com>, Rich Felker <dalias@libc.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ linux-clk@vger.kernel.org, Jacky Huang <ychuang3@nuvoton.com>, 
+ devicetree@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Masahiro Yamada <masahiroy@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ Hugo Villeneuve <hvilleneuve@dimonoff.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ linux-fbdev@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>, 
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
+ Stephen Boyd <sboyd@kernel.org>, Azeem Shaikh <azeemshaikh38@gmail.com>, 
+ Jiri Slaby <jirislaby@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
+ Arnd Bergmann <arnd@arndb.de>, 
+ Javier Martinez Canillas <javierm@redhat.com>, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+ Daniel Lezcano <daniel.lezcano@linaro.org>, 
+ Heiko Stuebner <heiko.stuebner@cherry.de>, linux-serial@vger.kernel.org, 
+ Guenter Roeck <linux@roeck-us.net>, linux-ide@vger.kernel.org, 
+ Thomas Gleixner <tglx@linutronix.de>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-sh@vger.kernel.org, 
+ Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Chris Morgan <macromorgan@hotmail.com>, linux-pci@vger.kernel.org, 
+ David Airlie <airlied@gmail.com>, Damien Le Moal <dlemoal@kernel.org>, 
+ Niklas Cassel <cassel@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+ Baoquan He <bhe@redhat.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Helge Deller <deller@gmx.de>
+In-Reply-To: <2fb214e148e74fb0acc202543dca8dd8a170a6e6.1716965617.git.ysato@users.sourceforge.jp>
+References: <cover.1716965617.git.ysato@users.sourceforge.jp>
+ <2fb214e148e74fb0acc202543dca8dd8a170a6e6.1716965617.git.ysato@users.sourceforge.jp>
+Message-Id: <171697947326.1106773.218175911484134371.robh@kernel.org>
+Subject: Re: [DO NOT MERGE v8 22/36] dt-bindings: display: smi,sm501: SMI
+ SM501 binding json-schema
 
-On Wed, May 29, 2024 at 12:25:56PM +0300, Dmitry Baryshkov wrote:
-> On Wed, May 29, 2024 at 12:10:18PM +0300, Laurent Pinchart wrote:
-> > Hi Dmitry,
-> > 
-> > On Wed, May 29, 2024 at 11:27:02AM +0300, Dmitry Baryshkov wrote:
-> > > On Wed, May 29, 2024 at 04:03:20AM +0300, Laurent Pinchart wrote:
-> > > > On Mon, May 27, 2024 at 03:34:48PM +0200, Geert Uytterhoeven wrote:
-> > > > > Add support for the drm_panic module, which displays a message on
-> > > > > the screen when a kernel panic occurs.
-> > > > > 
-> > > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > > ---
-> > > > > Tested on Armadillo-800-EVA.
-> > > > > ---
-> > > > >  drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c | 14 +++++++++++++-
-> > > > >  1 file changed, 13 insertions(+), 1 deletion(-)
-> > > > > 
-> > > > > diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-> > > > > index 07ad17d24294d5e6..9d166ab2af8bd231 100644
-> > > > > --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-> > > > > +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-> > > > > @@ -273,6 +273,13 @@ static const struct drm_plane_helper_funcs shmob_drm_plane_helper_funcs = {
-> > > > >  	.atomic_disable = shmob_drm_plane_atomic_disable,
-> > > > >  };
-> > > > >  
-> > > > > +static const struct drm_plane_helper_funcs shmob_drm_primary_plane_helper_funcs = {
-> > > > > +	.atomic_check = shmob_drm_plane_atomic_check,
-> > > > > +	.atomic_update = shmob_drm_plane_atomic_update,
-> > > > > +	.atomic_disable = shmob_drm_plane_atomic_disable,
-> > > > > +	.get_scanout_buffer = drm_fb_dma_get_scanout_buffer,
-> > > > > +};
-> > > > > +
-> > > > >  static const struct drm_plane_funcs shmob_drm_plane_funcs = {
-> > > > >  	.update_plane = drm_atomic_helper_update_plane,
-> > > > >  	.disable_plane = drm_atomic_helper_disable_plane,
-> > > > > @@ -310,7 +317,12 @@ struct drm_plane *shmob_drm_plane_create(struct shmob_drm_device *sdev,
-> > > > >  
-> > > > >  	splane->index = index;
-> > > > >  
-> > > > > -	drm_plane_helper_add(&splane->base, &shmob_drm_plane_helper_funcs);
-> > > > > +	if (type == DRM_PLANE_TYPE_PRIMARY)
-> > > > > +		drm_plane_helper_add(&splane->base,
-> > > > > +				     &shmob_drm_primary_plane_helper_funcs);
-> > > > > +	else
-> > > > > +		drm_plane_helper_add(&splane->base,
-> > > > > +				     &shmob_drm_plane_helper_funcs);
-> > > > 
-> > > > It's not very nice to have to provide different operations for the
-> > > > primary and overlay planes. The documentation of
-> > > > drm_fb_dma_get_scanout_buffer() states
-> > > > 
-> > > >  * @plane: DRM primary plane
-> > > > 
-> > > > If the intent is that only primary planes will be used to display the
-> > > > panic message, shouldn't drm_panic_register() skip overlay planes ? It
-> > > > would simplify drivers.
-> > > 
-> > > What about the drivers where all the planes are actually universal?
-> > > In such a case the planes registered as primary can easily get replaced
-> > > by 'overlay' planes.
-> > 
-> > Good point.
-> > 
-> > Another option, if we wanted to avoid duplicating the drm_plane_funcs,
-> > would be to add a field to drm_plane to indicate whether the plane is
-> > suitable for drm_panic.
+
+On Wed, 29 May 2024 17:01:08 +0900, Yoshinori Sato wrote:
+> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+> ---
+>  .../bindings/display/smi,sm501.yaml           | 443 ++++++++++++++++++
+>  1 file changed, 443 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/smi,sm501.yaml
 > 
-> ... or maybe let the driver decide. For the fully-universal-plane
-> devices we probably want to select the planes which cover the largest
-> part of the CRTC.
 
-Are there devices where certain planes can only cover a subset of the
-CRTC (apart from planes meant for cursors) ?
+My bot found errors running 'make dt_binding_check' on your patch:
 
-I think that what would matter the most in the end is selecting the
-plane that is on top of the stack, and that doesn't seem to be addressed
-by the drm_panic infrastructure. This is getting out of scope for this
-patch though :-)
+yamllint warnings/errors:
 
-> > I don't think this patch should be blocked just for this reason, but I'm
-> > a bit bothered by duplicating the ops structure to indicate drm_panic
-> > support.
-> > 
-> > > > >  
-> > > > >  	return &splane->base;
-> > > > >  }
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/smi,sm501.yaml: crt: Missing additionalProperties/unevaluatedProperties constraint
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/smi,sm501.yaml: panel: Missing additionalProperties/unevaluatedProperties constraint
 
--- 
-Regards,
+doc reference errors (make refcheckdocs):
 
-Laurent Pinchart
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/2fb214e148e74fb0acc202543dca8dd8a170a6e6.1716965617.git.ysato@users.sourceforge.jp
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
 
