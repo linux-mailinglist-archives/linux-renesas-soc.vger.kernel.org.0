@@ -1,107 +1,183 @@
-Return-Path: <linux-renesas-soc+bounces-5667-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5669-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBD9E8D3BC5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 18:05:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 783EA8D3C3F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 18:25:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 889671F255F5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 16:05:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 34CE0287B0E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 16:25:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B14E242044;
-	Wed, 29 May 2024 16:05:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C265184118;
+	Wed, 29 May 2024 16:25:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ns2ZIr6V"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D03C181CE4
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 May 2024 16:05:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44141836DA;
+	Wed, 29 May 2024 16:25:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716998730; cv=none; b=bq3VBvjinY3pEnW4jCwwWN4kvCkIYgYLd2d5YFpHg0adqEZiKZhT0mO+wlL+hiO0NQ3WahzZVs8f5onGqoV3z+gNd/ty98L0iBiskxKdLrEo/tNQxemylW94+hgBeazC4sMY4QG7jfnf0fCs2uPsY+ePu4Iizf0d7EL4OKWAX3Q=
+	t=1716999934; cv=none; b=DyF1RvSsLXtZwRvtjzWb4vn8raCKXpd+KoKrD1ZIoUzcLrVjeujIAI0tbBD8w91iBJRQAREjLkIeKluSmlEuw9to8pXE5Bn8pHfIsttw2eN7IpuJazX40UIvs2yE2h8wQhmmolmZXsrWfprfBmeuYQrGbZN2BxUtMAPc9lhzOOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716998730; c=relaxed/simple;
-	bh=lQdLyxvrY+gJA4FQZSMyR6szKZsVsMCqtd8DJvljK6s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QGd3MUoBDfHi4fmht9mqDQAutEaAKQ4uBP4ct7H7YCGo7TkSuK1Dd6STaLNnrD64iig1iFBuOdsarYO+0EDB/uqakMh5lcwx/u+TsRwu2fX2UiOv5L9I3oiGA05Q2BGlRPmQAtkhbTeSuFrTDGfcXYDCkPTpp81dk+9UZv5E6To=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-dfa48f505a3so895332276.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 May 2024 09:05:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716998727; x=1717603527;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JBiErLw77NyXnElw2zqmkEvpoaUUyz9Wx+o+cLFJDlI=;
-        b=blaAODetmWAepkjSOlw8TFHDK6KNbORbUghshxcyfmFO2ccsZIvszXT9FcBSoDGcNv
-         XnQqTPGb7elG687lBM3BnS+MdiUfHCZez9fStMvMuhwQWmwIaoZttBr6R+LhDyB/FkuB
-         rDeXiGIn35pJTyP2EkH9gbSp7sQ3gaNzwVrjrDLQnkX7TTC5fCrpODJQ98KBQfFMG7YW
-         WumYvgbK3BfLeH5zqpQ9annckun/4BiiUCXENCDqWC3Vl5h6BqGApOD/9Mzby9NdKwhu
-         xrnMLpsTmcV6lCUsn+OB0ww2TtDnouVT1H6h06OSkZ0JZr+nCWINJBhaow9bcpL9C/mX
-         CBDg==
-X-Forwarded-Encrypted: i=1; AJvYcCUfQqCGU72ObdSo9yW6VXuVwKZdTrXbSSvTfOI31YtuykIaMMwcYdw60yezEFQw0xQ4/G0+VwsL/sOrfQ3kcxnSHZq12x1r0tbj0BL4qfZjP8Q=
-X-Gm-Message-State: AOJu0YxP/YA7wb8LdLnpd3UyGMLxiloqnophxw6almrLVCauIPy+hBv0
-	eV2ZCugjR9xSO6xngeS+WK5nRvt73UrO6rOTsbcjflm/pOUy2L6YRZA9clxA
-X-Google-Smtp-Source: AGHT+IHPc1GfN9sIaic7wTHEu7iW4gecja/iRHZcdgG2GHX5NtZnPW25XTIS50ruJvjUJAlBtqMw0A==
-X-Received: by 2002:a25:9281:0:b0:dfa:4e06:4c78 with SMTP id 3f1490d57ef6-dfa4e0653a1mr1902648276.39.1716998727553;
-        Wed, 29 May 2024 09:05:27 -0700 (PDT)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-dfa57a23c64sm23957276.28.2024.05.29.09.05.07
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 May 2024 09:05:07 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-df4f05e5901so2378011276.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 May 2024 09:05:07 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXH/Rmv32QXz1tUdYROzNfOQZfw0H3E2WuCUA8cWR3j7UMvnnGW1yLmTE0vjRCqxhLSxXxpukAiEpMzWiNaqie4sJcNtQJSsNVcjC06GKhDRwg=
-X-Received: by 2002:a25:55c6:0:b0:df4:d65e:f519 with SMTP id
- 3f1490d57ef6-df77225d661mr14838110276.59.1716998707051; Wed, 29 May 2024
- 09:05:07 -0700 (PDT)
+	s=arc-20240116; t=1716999934; c=relaxed/simple;
+	bh=XWTvgOpa/ROLa55P7YiVGDQAHxuXZkHUHPhWeWr2A8M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hurRMpza75ysobGAbTsou1ieVHn/j7FD/qTr7BZUNgYtb51X/vqdefAS7j3y4uV0VUDri8n7jiyqDkXWBeNvuPuxzNnWVD4uX7a10cRJzdAZkv4DZn7poJ3bcK+HsEWqP/nnxEY5V1s1M/jC9niLqedETXizUX6AzkHY6+KvmIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ns2ZIr6V; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B79A2C116B1;
+	Wed, 29 May 2024 16:25:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716999933;
+	bh=XWTvgOpa/ROLa55P7YiVGDQAHxuXZkHUHPhWeWr2A8M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ns2ZIr6VvO8DHPaypxlYrKfLH9G+32HhMEMwz/5JSbWg0D6qa4LfRSxhqKONCYa0R
+	 El5E2QewPGDcyBtgrGO4tkwMqTN+3Jkp4f7g57lV1+0mb/SSgaRIoCQ0TsIOuUugUv
+	 ee7i9V20WwHOmybWFY2JFqFiSMTAyw+jyguINTU0H+RDKDomlq1x0YEdX6wZy8B4I6
+	 U/brKIm/WxSoAKYHXNsoKaALvFcMjVN4mVCG5tfctZ17jIFlgw/Yf0EGjkDtN0V9I+
+	 9uwDykhAK3o4VunkJZ0BSmHGUaZSSqaHLNkYzJ96Vojh+b/yogx4ZSvfnX4gpTEa5j
+	 rxXvfmWYGvmqA==
+Date: Wed, 29 May 2024 17:25:19 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: linux-sh@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Lee Jones <lee@kernel.org>, Helge Deller <deller@gmx.de>,
+	Heiko Stuebner <heiko.stuebner@cherry.de>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Chris Morgan <macromorgan@hotmail.com>,
+	Sebastian Reichel <sre@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Masahiro Yamada <masahiroy@kernel.org>, Baoquan He <bhe@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Kefeng Wang <wangkefeng.wang@huawei.com>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Azeem Shaikh <azeemshaikh38@gmail.com>, Guo Ren <guoren@kernel.org>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Anup Patel <apatel@ventanamicro.com>,
+	Jacky Huang <ychuang3@nuvoton.com>,
+	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Sam Ravnborg <sam@ravnborg.org>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	linux-ide@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
+	linux-fbdev@vger.kernel.org
+Subject: Re: [DO NOT MERGE v8 26/36] dt-bindings: ata: ata-generic: Add new
+ targets
+Message-ID: <20240529-arise-small-f3277feee4e4@spud>
+References: <cover.1716965617.git.ysato@users.sourceforge.jp>
+ <8ff46a90c7be5eea45984f60b9b0db99219c82e6.1716965617.git.ysato@users.sourceforge.jp>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1716997002.git.geert+renesas@glider.be> <009bf9f476fa444d98de22330bde565f0ab8b2d2.1716997002.git.geert+renesas@glider.be>
-In-Reply-To: <009bf9f476fa444d98de22330bde565f0ab8b2d2.1716997002.git.geert+renesas@glider.be>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 29 May 2024 18:04:55 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXm2MRz-kSjJM=bPWgKOcsFDbbXmEtR8eLskagH1w1b0A@mail.gmail.com>
-Message-ID: <CAMuHMdXm2MRz-kSjJM=bPWgKOcsFDbbXmEtR8eLskagH1w1b0A@mail.gmail.com>
-Subject: Re: [PATCH/LOCAL 2/3] arm64: renesas: defconfig: Enable Marvell
- 88Q2XXX PHY support
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Magnus Damm <magnus.damm@gmail.com>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="EwaFJRsUcMIAwW3R"
+Content-Disposition: inline
+In-Reply-To: <8ff46a90c7be5eea45984f60b9b0db99219c82e6.1716965617.git.ysato@users.sourceforge.jp>
+
+
+--EwaFJRsUcMIAwW3R
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 29, 2024 at 5:42=E2=80=AFPM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-> Enable support for Marvell 88Q2XXX 100/1000BASE-T1 Automotive Ethernet
-> PHYs, as found on the Falcon and White-Hawk development boards.
+Hey,
 
-Actually Falcon does not need this in upstream yet, but Spider and
-S4SK do, so I will s/Falcon/Spider, S4 Starter Kit,/ while applying.
+On Wed, May 29, 2024 at 05:01:12PM +0900, Yoshinori Sato wrote:
+> Added new ata-generic target.
+> - iodata,usl-5p-ata
+> - renesas,rts7751r2d-ata
+>=20
+> Each boards have simple IDE Interface. Use ATA generic driver.
+>=20
+> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 
-Gr{oetje,eeting}s,
+Why do you keep dropping tags? Damien and I acked this back in v6 and
+Krzysztof reminded you in v7:
+https://lore.kernel.org/all/06fdb2cf7927681acf3099b826390ef75ba321af.170478=
+8539.git.ysato@users.sourceforge.jp/
+https://lore.kernel.org/all/53f85cc2e124d1c2e7394458b73293d797817d6d.171220=
+7606.git.ysato@users.sourceforge.jp/
 
-                        Geert
+Dropping the tags just leads to wasted time re-reviewing patches that
+already got approved. I don't see any valid reason to drop them on a
+trivial patch like this :/ Please check back to previous revisions and
+make sure that you picked up applicable tags.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Thanks,
+Conor.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> ---
+>  Documentation/devicetree/bindings/ata/ata-generic.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/ata/ata-generic.yaml b/Doc=
+umentation/devicetree/bindings/ata/ata-generic.yaml
+> index 0697927f3d7e..1025b3b351d0 100644
+> --- a/Documentation/devicetree/bindings/ata/ata-generic.yaml
+> +++ b/Documentation/devicetree/bindings/ata/ata-generic.yaml
+> @@ -18,6 +18,8 @@ properties:
+>        - enum:
+>            - arm,vexpress-cf
+>            - fsl,mpc8349emitx-pata
+> +          - iodata,usl-5p-ata
+> +          - renesas,rts7751r2d-ata
+>        - const: ata-generic
+> =20
+>    reg:
+> --=20
+> 2.39.2
+>=20
+
+--EwaFJRsUcMIAwW3R
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZldW7wAKCRB4tDGHoIJi
+0rICAP9V1iNf3aedUZq4py3MAFbhxEMXF2XlH0Il+KuD+J/ZuAD9Eti+5ySYfFAX
+cxCmNqYe51qJCuNdyoXp6/hLh6B1JwY=
+=l0ak
+-----END PGP SIGNATURE-----
+
+--EwaFJRsUcMIAwW3R--
 
