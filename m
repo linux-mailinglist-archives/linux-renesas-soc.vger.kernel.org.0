@@ -1,115 +1,107 @@
-Return-Path: <linux-renesas-soc+bounces-5668-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5667-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E75DB8D3BDC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 18:07:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBD9E8D3BC5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 18:05:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 23B621C248A0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 16:07:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 889671F255F5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 16:05:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57045181CF8;
-	Wed, 29 May 2024 16:06:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="eHBxF7Fo"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B14E242044;
+	Wed, 29 May 2024 16:05:30 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 192D314291E
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 May 2024 16:06:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D03C181CE4
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 May 2024 16:05:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716998807; cv=none; b=srTk4o0UnrbF+9CJEYUg0f2bofFyMoPLpZjJbGr6p8jMli6D/1jZp8z6Yov9l0KBzlpL7iGuAKXCvTFrEAzH+d17samdN+mRe85KrXula2BQAn3ISCLq5t0dcRtKHuj3NsDpK6haQvvKRLqKFCkgJXRPSeJ4rW/qgXmJtwSvQkg=
+	t=1716998730; cv=none; b=bq3VBvjinY3pEnW4jCwwWN4kvCkIYgYLd2d5YFpHg0adqEZiKZhT0mO+wlL+hiO0NQ3WahzZVs8f5onGqoV3z+gNd/ty98L0iBiskxKdLrEo/tNQxemylW94+hgBeazC4sMY4QG7jfnf0fCs2uPsY+ePu4Iizf0d7EL4OKWAX3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716998807; c=relaxed/simple;
-	bh=fDnly2tUhRuwmNSrfSy+Wd07EpJqc4K96zVcqbux54U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jxR7M6AoAPnOKAHH2LmxHgPIVl3AQmSLPVkp6D4HoGcHSGMuDuYembjkPloKI6bUP8DNCYSR2l8gSNzDMo/JQE1MvWD3B4UucJ4dfOxussLTdYL51HfN285YwOtSHArrTOIFL9lavU0CBcKtd/ZI9OdoBJxrh1wEQ1i+cnd47BE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=eHBxF7Fo; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Envelope-To: geert+renesas@glider.be
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1716998802;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D0B0orRSVXeRsISQcfG64605/nqIQ5aF+rELBmkvuJc=;
-	b=eHBxF7FoYnQeIJdXyrbp9wXAwXze6wqtzgUmOrfal4uvv7S2DWwITXkGQbLw5p+PWGLsWu
-	mLj7UsNfX2ozuBS5aWD1eHvxtq6EtsZORZozhm3JFO/JKgK2yQgdmjvIv6LS8KG0vHUKLs
-	+aWnDv3fsTqCMA82Crl7Y6Vb+4FsXA8=
-X-Envelope-To: laurent.pinchart@ideasonboard.com
-X-Envelope-To: maarten.lankhorst@linux.intel.com
-X-Envelope-To: mripard@kernel.org
-X-Envelope-To: tzimmermann@suse.de
-X-Envelope-To: airlied@gmail.com
-X-Envelope-To: daniel@ffwll.ch
-X-Envelope-To: dri-devel@lists.freedesktop.org
-X-Envelope-To: linux-renesas-soc@vger.kernel.org
-X-Envelope-To: dianders@chromium.org
-Message-ID: <170bf071-fc33-4892-bf65-b52eddd796b0@linux.dev>
-Date: Thu, 30 May 2024 00:03:59 +0800
+	s=arc-20240116; t=1716998730; c=relaxed/simple;
+	bh=lQdLyxvrY+gJA4FQZSMyR6szKZsVsMCqtd8DJvljK6s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QGd3MUoBDfHi4fmht9mqDQAutEaAKQ4uBP4ct7H7YCGo7TkSuK1Dd6STaLNnrD64iig1iFBuOdsarYO+0EDB/uqakMh5lcwx/u+TsRwu2fX2UiOv5L9I3oiGA05Q2BGlRPmQAtkhbTeSuFrTDGfcXYDCkPTpp81dk+9UZv5E6To=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-dfa48f505a3so895332276.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 May 2024 09:05:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716998727; x=1717603527;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JBiErLw77NyXnElw2zqmkEvpoaUUyz9Wx+o+cLFJDlI=;
+        b=blaAODetmWAepkjSOlw8TFHDK6KNbORbUghshxcyfmFO2ccsZIvszXT9FcBSoDGcNv
+         XnQqTPGb7elG687lBM3BnS+MdiUfHCZez9fStMvMuhwQWmwIaoZttBr6R+LhDyB/FkuB
+         rDeXiGIn35pJTyP2EkH9gbSp7sQ3gaNzwVrjrDLQnkX7TTC5fCrpODJQ98KBQfFMG7YW
+         WumYvgbK3BfLeH5zqpQ9annckun/4BiiUCXENCDqWC3Vl5h6BqGApOD/9Mzby9NdKwhu
+         xrnMLpsTmcV6lCUsn+OB0ww2TtDnouVT1H6h06OSkZ0JZr+nCWINJBhaow9bcpL9C/mX
+         CBDg==
+X-Forwarded-Encrypted: i=1; AJvYcCUfQqCGU72ObdSo9yW6VXuVwKZdTrXbSSvTfOI31YtuykIaMMwcYdw60yezEFQw0xQ4/G0+VwsL/sOrfQ3kcxnSHZq12x1r0tbj0BL4qfZjP8Q=
+X-Gm-Message-State: AOJu0YxP/YA7wb8LdLnpd3UyGMLxiloqnophxw6almrLVCauIPy+hBv0
+	eV2ZCugjR9xSO6xngeS+WK5nRvt73UrO6rOTsbcjflm/pOUy2L6YRZA9clxA
+X-Google-Smtp-Source: AGHT+IHPc1GfN9sIaic7wTHEu7iW4gecja/iRHZcdgG2GHX5NtZnPW25XTIS50ruJvjUJAlBtqMw0A==
+X-Received: by 2002:a25:9281:0:b0:dfa:4e06:4c78 with SMTP id 3f1490d57ef6-dfa4e0653a1mr1902648276.39.1716998727553;
+        Wed, 29 May 2024 09:05:27 -0700 (PDT)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-dfa57a23c64sm23957276.28.2024.05.29.09.05.07
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 May 2024 09:05:07 -0700 (PDT)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-df4f05e5901so2378011276.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 May 2024 09:05:07 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXH/Rmv32QXz1tUdYROzNfOQZfw0H3E2WuCUA8cWR3j7UMvnnGW1yLmTE0vjRCqxhLSxXxpukAiEpMzWiNaqie4sJcNtQJSsNVcjC06GKhDRwg=
+X-Received: by 2002:a25:55c6:0:b0:df4:d65e:f519 with SMTP id
+ 3f1490d57ef6-df77225d661mr14838110276.59.1716998707051; Wed, 29 May 2024
+ 09:05:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [resend,v2] drm: renesas: shmobile: Call
- drm_helper_force_disable_all() at shutdown time
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>
-References: <6ae804c7163b4d933dbcf940b8dbd5f4c961f037.1716984934.git.geert+renesas@glider.be>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <6ae804c7163b4d933dbcf940b8dbd5f4c961f037.1716984934.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+References: <cover.1716997002.git.geert+renesas@glider.be> <009bf9f476fa444d98de22330bde565f0ab8b2d2.1716997002.git.geert+renesas@glider.be>
+In-Reply-To: <009bf9f476fa444d98de22330bde565f0ab8b2d2.1716997002.git.geert+renesas@glider.be>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 29 May 2024 18:04:55 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXm2MRz-kSjJM=bPWgKOcsFDbbXmEtR8eLskagH1w1b0A@mail.gmail.com>
+Message-ID: <CAMuHMdXm2MRz-kSjJM=bPWgKOcsFDbbXmEtR8eLskagH1w1b0A@mail.gmail.com>
+Subject: Re: [PATCH/LOCAL 2/3] arm64: renesas: defconfig: Enable Marvell
+ 88Q2XXX PHY support
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Magnus Damm <magnus.damm@gmail.com>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Wed, May 29, 2024 at 5:42=E2=80=AFPM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+> Enable support for Marvell 88Q2XXX 100/1000BASE-T1 Automotive Ethernet
+> PHYs, as found on the Falcon and White-Hawk development boards.
 
+Actually Falcon does not need this in upstream yet, but Spider and
+S4SK do, so I will s/Falcon/Spider, S4 Starter Kit,/ while applying.
 
-On 2024/5/29 20:16, Geert Uytterhoeven wrote:
-> From: Douglas Anderson <dianders@chromium.org>
->
-> Based on grepping through the source code, this driver appears to be
-> missing a call to drm_atomic_helper_shutdown() at system shutdown time.
-> This is important because drm_helper_force_disable_all() will cause
-> panels to get disabled cleanly which may be important for their power
-> sequencing.  Future changes will remove any custom powering off in
-> individual panel drivers so the DRM drivers need to start getting this
-> right.
->
-> The fact that we should call drm_atomic_helper_shutdown() in the case of
-> OS shutdown comes straight out of the kernel doc "driver instance
-> overview" in drm_drv.c.
+Gr{oetje,eeting}s,
 
+                        Geert
 
-True, looks safer.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-
-> Suggested-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> Link: https://lore.kernel.org/r/20230901164111.RFT.15.Iaf638a1d4c8b3c307a6192efabb4cbb06b195f15@changeid
-> [geert: s/drm_helper_force_disable_all/drm_atomic_helper_shutdown/]
-> [geert: shmob_drm_remove() already calls drm_atomic_helper_shutdown]
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Reviewed-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-
-Best regards,
-Sui
-
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
