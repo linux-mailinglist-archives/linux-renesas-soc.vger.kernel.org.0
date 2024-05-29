@@ -1,47 +1,47 @@
-Return-Path: <linux-renesas-soc+bounces-5676-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5677-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CEEA8D3F33
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 21:56:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF4308D3F35
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 21:56:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 932D0B23A22
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 19:56:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6ED0F1F25D6C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 19:56:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEC601C6883;
-	Wed, 29 May 2024 19:56:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BCB71C233F;
+	Wed, 29 May 2024 19:56:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="noGkcr5h"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IEp5jvRb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 940711C2339;
-	Wed, 29 May 2024 19:56:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FCE615B0EB;
+	Wed, 29 May 2024 19:56:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717012570; cv=none; b=ew90ObUUMOuyipPTgG+sSWK2dmv8IxBXGJnG6ZvihxYGZSomvcgQ9Jq6XZvoDZbHvRtzKO5Ifrw792Mn+65gl96wVNlazv4QfWZOKm03jIjiMJr59kBZmcVhXgDuOabtQGGFCEuBlHO3T6ib/HYSg2Q8BdJiHNC1kSiZtnZxOzs=
+	t=1717012598; cv=none; b=EK7VkyGMH9VQbCeN0M+l7wP5Q66jr+PN35oiTsxSM0Go4m3KedTM/a90DYpcFAQXKfNrESttgZzSvxRBdmHwtQ1KPa+B8GD9o17Wzxqz5Ggu7rT6fT0dJTrlfigisYGGi9VedPm2scaYqa6CI0ItVM2aSMbBPNXABybFKrkn3L8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717012570; c=relaxed/simple;
-	bh=TBklheaPOVSZbia8qZxB0VNyWBs0CAJRg+n/yZzg/ZY=;
+	s=arc-20240116; t=1717012598; c=relaxed/simple;
+	bh=HXebE+uT07ix5cHeKB9Q/BIZhdYV52dqNDGCEf3QumY=;
 	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
-	 Subject:From:Cc:To:Date; b=RgR3T+/CVEqvFRx9JaURachK5aZowB2kEqAI8xNtWm+7Nt8J684wDGRDo564FONVcVYoRPCTa5YqcyUdX67PdLE05/rBCadCFmuTIVgL9FJVqnImyNTW8vcYrE+n6jEIwkbaovF9pHitgQ4x/CiWIoVltem3kJD53aaNJvshDfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=noGkcr5h; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09A8BC113CC;
-	Wed, 29 May 2024 19:56:09 +0000 (UTC)
+	 Subject:From:Cc:To:Date; b=ELgiTYE690ebrltaf3Nh1NsrhLY1O3rjBOz5SJ2/VbQ5mFAqBOUQio1nhjyOZSsmqiovuXgzb0hyEwidEO+JgxYmgUUtRf4PU4WOYgKNV5aV3aBEycKPdzPnvvpCbQFo3lwTeiljw1NZDWstu0QZbDN0EmSXwP/SfyTyLnEaweA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IEp5jvRb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D3C3C113CC;
+	Wed, 29 May 2024 19:56:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717012570;
-	bh=TBklheaPOVSZbia8qZxB0VNyWBs0CAJRg+n/yZzg/ZY=;
+	s=k20201202; t=1717012598;
+	bh=HXebE+uT07ix5cHeKB9Q/BIZhdYV52dqNDGCEf3QumY=;
 	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=noGkcr5hN4wDQz28tlzVzx00cMEJdSilyR6Spv9eSDHNzUO3dFU9tmRNlp34aZIX7
-	 R0GVjymgCTfFqZGhTRDug+TW73N9jxD8sFQg1/WYFbXbu3Fxr5DLZpf6qcdx7zZN8p
-	 J+iqjNtOevuI//mE25WKPuEQy5ZlrxTEmGfS9K1+azTtl/LTgJezrdsnW2gpa3xreI
-	 mIsJpcW1aIjb7p4oGKOfp6gfP5YOofHbSWnkYgQdqQU/JThJY5ThbJ/rkFQTTF6+Bb
-	 VnuRGhb4eFaRlv2Z/ALoq7l7hY4Z8Z8uyqIrba+KCOlfZbrooyamG0ZsdBtbjJfIen
-	 d6Rj/DcZkLFkw==
-Message-ID: <20f4f283b9f842f3868363a3f078b2a4.sboyd@kernel.org>
+	b=IEp5jvRbWU3vYXDWPIvPCdvg3mueZJ7g7Y61zqU++xNB0iXbardV4S+sXQ1eZtQzw
+	 fUq4y7ljpKhJEW8YD4phkmTVK29rmRUc9WL7nZR9Gkf9XEBCVlUxoNPYVf2t4oOiD7
+	 I96KoFQ8n6myzgQ1Lulp9fK1YfVXU5/NspZCK0QxiCeiyfFFE5k6J9XYyW+U2G4yP4
+	 1XdfE+ivvOvftncJi8QJa5PIkNjm63kk0KEGDdfCqxS4Blw0OI8mtpagVUm9p7D0tK
+	 SHGUVtEhrVIqdZYYjuVvgyTPD7rkTaC1pTQPx9iX9RZE+MypU7cDzzkejcgVMkQwBD
+	 gaSRAEPIWkhzg==
+Message-ID: <ad2db69fe8bd07d44a842db08617e754.sboyd@kernel.org>
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -50,23 +50,22 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <9073a6bfb7791e492156331fa8a0ea87a7c7cef6.1716975021.git.geert+renesas@glider.be>
-References: <cover.1716975021.git.geert+renesas@glider.be> <9073a6bfb7791e492156331fa8a0ea87a7c7cef6.1716975021.git.geert+renesas@glider.be>
-Subject: Re: [PATCH 2/3] clk: renesas: cpg-lib: Use DEFINE_SPINLOCK() for global spinlock
+In-Reply-To: <8da2c908f00043f05f7e26e3c26400aea0cfe8bc.1716975021.git.geert+renesas@glider.be>
+References: <cover.1716975021.git.geert+renesas@glider.be> <8da2c908f00043f05f7e26e3c26400aea0cfe8bc.1716975021.git.geert+renesas@glider.be>
+Subject: Re: [PATCH 3/3] clk: renesas: rcar-gen2: Use DEFINE_SPINLOCK() for static spinlock
 From: Stephen Boyd <sboyd@kernel.org>
 Cc: Ye Bin <yebin10@huawei.com>, linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>
 To: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>
-Date: Wed, 29 May 2024 12:56:07 -0700
+Date: Wed, 29 May 2024 12:56:36 -0700
 User-Agent: alot/0.10
 
-Quoting Geert Uytterhoeven (2024-05-29 02:35:09)
-> A global spinlock can be initialized automatically with
+Quoting Geert Uytterhoeven (2024-05-29 02:35:10)
+> A static spinlock can be initialized automatically with
 > DEFINE_SPINLOCK() rather than explicitly calling spin_lock_init().
 >=20
 > Suggested-by: Ye Bin <yebin10@huawei.com>
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
 
-Shouldn't this be first so that the previous patch can use the
-initialized spinlock?
+Reviewed-by: Stephen Boyd <sboyd@kernel.org>
 
