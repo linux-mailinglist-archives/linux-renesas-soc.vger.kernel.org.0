@@ -1,151 +1,146 @@
-Return-Path: <linux-renesas-soc+bounces-5619-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5620-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBB648D3273
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 11:01:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29BED8D329F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 11:11:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 90AD6284061
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 09:01:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 590F31C2334B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 09:11:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63B50167D92;
-	Wed, 29 May 2024 09:01:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31796169AD8;
+	Wed, 29 May 2024 09:10:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MudG43KL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9424D1E888;
-	Wed, 29 May 2024 09:01:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90494169AD7
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 May 2024 09:10:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716973306; cv=none; b=L+bIaX74EHXMfDEUygE5TJ3qpbwhXIm2ns6//TxhKdrmK7edXpOUBc4qxVQ/xGD/InjLRWCAnhCYTKtbqOVVnscMKYuq9qXIMOZirvQmbLCqkIImOlbpuIZ8I9NamWCUFQJ/Mxix00wUpsk+axw7inpp2PeAlof76gF2ABqFNqI=
+	t=1716973834; cv=none; b=VgB75zYcL6AI15Cpm8N1nnAP2jnUup+gEYv9546zUvUGKGWopr9X6n6KB8VAseQGf+R/Gc2z/APNPFOrG3Q8fmCW8DFjHF70pSZCNbuBtv1lu2RY8ZHzQHD1yPBBmUpbxCB8LiAOiyPR1QE/QEiPgUWIgyhgvlDkP49EWa/Q8XY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716973306; c=relaxed/simple;
-	bh=wq6Q5U9qIc0wVfPUvIazA+e9F1mn1D2Z4oXYmue4Ipo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KM6B451ZKUZH12aLtfj0s6gDwSbWe5nKMXy75lNgvj9E9ezK1TGsLJ4Tm/9WlZwcY5/xEXRo3ZTSBlnQquT9C707dtNY4sxv0iNn8tFBjNtSfKWH1u5GJjIq46x0IlgcEbMB87YBjcumIwayMW+bA0nzRXcydgcWx+lYBfpI8Ek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-df771db8b24so1737163276.3;
-        Wed, 29 May 2024 02:01:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716973302; x=1717578102;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KnYuIo1n1oD5QX7J07WFDaga5vIEVHxJRsHJ8yWO98A=;
-        b=srzF4XauBhGx3v9W7ihZ874tqY6/cY4tnfPyu6DPkjlLREC+oH1zgGhXZ8H72kbGqE
-         JYujLxLlQUjcNDcHRVXe0A9a4lDWolEdf9ZDKBdQy+l6RZam0yK6yaBbBzeI0T6PexqY
-         ECUfQVMqhwrgAU5hv0SqQlOFau+23lHyY9DtykMopNCEbLKzS0+XfMtyB/diY9mkMaO+
-         kJFkYxWro1klBxmJ+888Qkm20FdvQFMMnjbi/3duVgiWEgnANy0AABcJlurBFq7KOiLJ
-         KRBNtnLUfTQpCKlIECbSd2Yx+kKN38U0QF1RWWXQvrSwEoN4ZStRM2d0OAKuyzRJiUYo
-         GsaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXleI+4HMS3egI2rz/THTxvP56VqQjeM16D2VvTLD/gNxhg7VCbOgeQaLk1S87toZgPjlgWzxj1ZqBpDue5f6DDqtp0beDRJdBUHYqD0R4QL4Hl5Af+In/iHwv2Va7sxW/esqZoerfe5OCml8mhiMhLUeZ8JlaP/+cLD3Nnmwmca14t8cYemXGnWxb4ZGrlowtF5Vr8V1sdqZ3oCgASIqPveeXxtueqUiUDvOiKLEnYDe68EAvbNd3reu2mF2Yj/C26nrQ=
-X-Gm-Message-State: AOJu0YyfGRAOX6+bnwMDu/JUZOurEgUCOiWHI2Ppvl3MxsmShq2r+9PT
-	hjFZKHuX6T33Eo2y7l+Ei//lWAJ31sAdvd8gkxoAY64CCNdQIe8RpBwLBlm2n/8=
-X-Google-Smtp-Source: AGHT+IG1N3AmKZnNB7pxmFQEEWkmIBZaiEFCGdmbClIb8hwogzic7RLgZvMcDvl83mbqJR2oUGmFoQ==
-X-Received: by 2002:a25:8c03:0:b0:de6:1494:f144 with SMTP id 3f1490d57ef6-df7721a7766mr13396377276.28.1716973297477;
-        Wed, 29 May 2024 02:01:37 -0700 (PDT)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-dfa482bd39fsm173285276.37.2024.05.29.02.01.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 May 2024 02:01:37 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-62a2424ecb8so16712377b3.1;
-        Wed, 29 May 2024 02:01:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUit2zCbakmG6A0AbA5CeRTuIYODupvJG1rU96PoCvZ5fukmm28XZzsQxcpl2etweQZrkOv7k8vO+GSZJhc1oYh/5+NPLloj+dRlbYkOZA4oX2rmLUFXmqkqAfVnsLEO4JFYhhWMU1cfZsByICDLHiaMzCuHE0vQOu59MGvGJbJ3+GLqqTnIXnRnD01xxtA50btf8fwXs2GyBD/P8ca7vkCYQWJVxLiNI7gKHqnZEtR6fbaMXCfRCL+iNqYzDHsSOsNdRc=
-X-Received: by 2002:a25:b202:0:b0:dfa:4ce2:3315 with SMTP id
- 3f1490d57ef6-dfa4ce234f0mr828856276.38.1716973296714; Wed, 29 May 2024
- 02:01:36 -0700 (PDT)
+	s=arc-20240116; t=1716973834; c=relaxed/simple;
+	bh=IEUi73jCmIHopcI+PIslSxJcfOa39sAY/95W5YG3we8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ax6UUuCzTstPIN6j7otEcHePnSEGvOw15o3WgDydXGp5CRrFSEj6eTTQhusi1OvX1Ngtw2uPGWI2bSB/hcJfj9xqZP8Fhlb7BY7qX5GSqAahiFjneVvDknJxsbebbLjYHEtTRd2Gvyd0rk2+aB41D2L182Q2E9OUyIceot9FhHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MudG43KL; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EDFD59CA;
+	Wed, 29 May 2024 11:10:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1716973827;
+	bh=IEUi73jCmIHopcI+PIslSxJcfOa39sAY/95W5YG3we8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MudG43KLzRTZLbdMpqyA/KlvCsX3uMrEIF0Oph6sEcVNXQG+y6s0kACHcUi1rNPPT
+	 jucqC5nxy7F1k0w+IA6CPMz4pfd2QKZ0LVl7b6SQ6w6r1zS3xvAxESxluz0NewFFQJ
+	 L3FtvU6SJj8LA7/F/uvQYtb7oZRxb/+6ZRLJU7sI=
+Date: Wed, 29 May 2024 12:10:18 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Jocelyn Falempe <jfalempe@redhat.com>,
+	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] drm: renesas: shmobile: Add drm_panic support
+Message-ID: <20240529091018.GK1436@pendragon.ideasonboard.com>
+References: <292638fde9aef8b00e984245f43dc02a818cf322.1716816827.git.geert+renesas@glider.be>
+ <20240529010320.GI1436@pendragon.ideasonboard.com>
+ <u5aijnvotestpgjynawcx7oxsp2lncnsda5w4jfzeovvdlfcyt@5fxnyfbk4ocb>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1716811405.git.geert+renesas@glider.be> <efd9397662ff743f95298ca6aad4efdfa0ba1962.1716811405.git.geert+renesas@glider.be>
-In-Reply-To: <efd9397662ff743f95298ca6aad4efdfa0ba1962.1716811405.git.geert+renesas@glider.be>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 29 May 2024 11:01:25 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUxXQca5MzP9fGjVoUWbOvSekwRp_+HMTT618yD8wc=tw@mail.gmail.com>
-Message-ID: <CAMuHMdUxXQca5MzP9fGjVoUWbOvSekwRp_+HMTT618yD8wc=tw@mail.gmail.com>
-Subject: Re: [PATCH/RFC 1/3] earlycon: Export clock and PM Domain info from FDT
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jiri Slaby <jirislaby@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Peng Fan <peng.fan@nxp.com>, linux-pm@vger.kernel.org, linux-serial@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <u5aijnvotestpgjynawcx7oxsp2lncnsda5w4jfzeovvdlfcyt@5fxnyfbk4ocb>
 
-On Mon, May 27, 2024 at 2:41=E2=80=AFPM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-> Earlycon relies on the serial port to be initialized by the firmware
-> and/or bootloader.  Linux is not aware of any hardware dependencies that
-> must be met to keep the port working, and thus cannot guarantee they
-> stay met, until the full serial driver takes over.
->
-> E.g. all unused clocks and unused PM Domains are disabled in a late
-> initcall.  As this happens after the full serial driver has taken over,
-> the serial port's clock and/or PM Domain are no longer deemed unused,
-> and this is typically not a problem.
->
-> However, if the serial port's clock or PM Domain is shared with another
-> device, and that other device is runtime-suspended before the full
-> serial driver has probed, the serial port's clock and/or PM Domain will
-> be disabled inadvertently.  Any subsequent serial console output will
-> cause a crash or system lock-up.
->
-> Provide a mechanism to let the clock and/or PM Domain subsystem or
-> drivers handle this, by exporting the clock and PM Domain dependencies
-> for the serial port, as available in the system's device tree.
-> Note that as this is done during early boot-up, the device_node
-> structure pointing to the earlycon console is not yet created, so this
-> has to resort to raw property data.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Hi Dmitry,
 
-> --- a/include/linux/serial_core.h
-> +++ b/include/linux/serial_core.h
-> @@ -954,6 +954,16 @@ static const bool earlycon_acpi_spcr_enable EARLYCON=
-_USED_OR_UNUSED;
->  static inline int setup_earlycon(char *buf) { return 0; }
->  #endif
->
-> +#ifdef CONFIG_OF_EARLY_FLATTREE
+On Wed, May 29, 2024 at 11:27:02AM +0300, Dmitry Baryshkov wrote:
+> On Wed, May 29, 2024 at 04:03:20AM +0300, Laurent Pinchart wrote:
+> > On Mon, May 27, 2024 at 03:34:48PM +0200, Geert Uytterhoeven wrote:
+> > > Add support for the drm_panic module, which displays a message on
+> > > the screen when a kernel panic occurs.
+> > > 
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > ---
+> > > Tested on Armadillo-800-EVA.
+> > > ---
+> > >  drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c | 14 +++++++++++++-
+> > >  1 file changed, 13 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+> > > index 07ad17d24294d5e6..9d166ab2af8bd231 100644
+> > > --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+> > > +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+> > > @@ -273,6 +273,13 @@ static const struct drm_plane_helper_funcs shmob_drm_plane_helper_funcs = {
+> > >  	.atomic_disable = shmob_drm_plane_atomic_disable,
+> > >  };
+> > >  
+> > > +static const struct drm_plane_helper_funcs shmob_drm_primary_plane_helper_funcs = {
+> > > +	.atomic_check = shmob_drm_plane_atomic_check,
+> > > +	.atomic_update = shmob_drm_plane_atomic_update,
+> > > +	.atomic_disable = shmob_drm_plane_atomic_disable,
+> > > +	.get_scanout_buffer = drm_fb_dma_get_scanout_buffer,
+> > > +};
+> > > +
+> > >  static const struct drm_plane_funcs shmob_drm_plane_funcs = {
+> > >  	.update_plane = drm_atomic_helper_update_plane,
+> > >  	.disable_plane = drm_atomic_helper_disable_plane,
+> > > @@ -310,7 +317,12 @@ struct drm_plane *shmob_drm_plane_create(struct shmob_drm_device *sdev,
+> > >  
+> > >  	splane->index = index;
+> > >  
+> > > -	drm_plane_helper_add(&splane->base, &shmob_drm_plane_helper_funcs);
+> > > +	if (type == DRM_PLANE_TYPE_PRIMARY)
+> > > +		drm_plane_helper_add(&splane->base,
+> > > +				     &shmob_drm_primary_plane_helper_funcs);
+> > > +	else
+> > > +		drm_plane_helper_add(&splane->base,
+> > > +				     &shmob_drm_plane_helper_funcs);
+> > 
+> > It's not very nice to have to provide different operations for the
+> > primary and overlay planes. The documentation of
+> > drm_fb_dma_get_scanout_buffer() states
+> > 
+> >  * @plane: DRM primary plane
+> > 
+> > If the intent is that only primary planes will be used to display the
+> > panic message, shouldn't drm_panic_register() skip overlay planes ? It
+> > would simplify drivers.
+> 
+> What about the drivers where all the planes are actually universal?
+> In such a case the planes registered as primary can easily get replaced
+> by 'overlay' planes.
 
-This should include a check  for CONFIG_SERIAL_EARLYCON.
+Good point.
 
-> +extern const __be32 *earlycon_clocks, *earlycon_power_domains;
-> +extern int earlycon_clocks_ncells, earlycon_power_domains_ncells;
-> +#else
-> +#define earlycon_clocks                        NULL
-> +#define earlycon_clocks_ncells         0
-> +#define earlycon_power_domains         NULL
-> +#define earlycon_power_domains_ncells  0
-> +#endif
-> +
->  /* Variant of uart_console_registered() when the console_list_lock is he=
-ld. */
->  static inline bool uart_console_registered_locked(struct uart_port *port=
-)
->  {
+Another option, if we wanted to avoid duplicating the drm_plane_funcs,
+would be to add a field to drm_plane to indicate whether the plane is
+suitable for drm_panic.
 
-Gr{oetje,eeting}s,
+I don't think this patch should be blocked just for this reason, but I'm
+a bit bothered by duplicating the ops structure to indicate drm_panic
+support.
 
-                        Geert
+> > >  
+> > >  	return &splane->base;
+> > >  }
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+-- 
+Regards,
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Laurent Pinchart
 
