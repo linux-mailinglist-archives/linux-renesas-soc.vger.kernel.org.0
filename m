@@ -1,306 +1,151 @@
-Return-Path: <linux-renesas-soc+bounces-5680-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5681-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0D2F8D3FE4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 22:53:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E0278D4016
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 23:10:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B23FC1C21B6C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 20:53:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F18591F23B65
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 21:10:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B11671C8FD9;
-	Wed, 29 May 2024 20:52:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F2EB1C8FC2;
+	Wed, 29 May 2024 21:10:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QWSteaDg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D6C1C8FC3;
-	Wed, 29 May 2024 20:52:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A7F1C8FA3;
+	Wed, 29 May 2024 21:10:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717015965; cv=none; b=H3e6HtjzSYZ2QjujaLDDzw+Q1wBNhB8RdHW+q+xpLIJ6QyWxn5+1FqxHCY1euva6FhUhVfvdLcd/H4UHvnlD6pykJaBIeM3vcOFqTb6vZxBofOSf9oEyMghR7vmrQiTCJBkuQEbocDECAEcJ9MGQSfIZNd3h2SGpHiEMJoGnLgk=
+	t=1717017036; cv=none; b=urSPS9qMNfQXsC4A8kEDoDw9gVxyXqln9oVTPvWY4SYo9H/mcBuDegojDOM5L+pyDvBVQPiWOGOcqq4oF5PuTWY08FneT9wRnc8+FgSn38VyMolWklI6F6iCLuHD6rMKX/fxml1zb7c77wSfZIbo88u7US1GiqNPh+YLUmR5dvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717015965; c=relaxed/simple;
-	bh=XrL17gMzC899ukvGXP1nNVuCb5iGiNqOEboHSMDscGw=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=Eqjankd5cqMOdXMgH0zLgPoSbMbzKeUtmAya4TdnLyU0RRyU6HrR+N/p6tsHzNVME0+rOOGoefMYzzZdSrSWau04dqPDYQUl6Gmp85DdMMMugbgt6hw9sMp54eUbf5omH1CgkV2ON2wW+eMoF+QfU1q57LJ+qBHm2sTMnAWrHj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.1.105] (178.176.72.107) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Wed, 29 May
- 2024 23:52:31 +0300
-Subject: Re: [net-next PATCH v4 7/7] net: ravb: Allocate RX buffers via page
- pool
-To: Paul Barker <paul.barker.ct@bp.renesas.com>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	=?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-CC: Biju Das <biju.das.jz@bp.renesas.com>, Claudiu Beznea
-	<claudiu.beznea.uj@bp.renesas.com>, Yoshihiro Shimoda
-	<yoshihiro.shimoda.uh@renesas.com>, <netdev@vger.kernel.org>,
-	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20240528150339.6791-1-paul.barker.ct@bp.renesas.com>
- <20240528150339.6791-8-paul.barker.ct@bp.renesas.com>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <eefce0af-2771-a56c-753d-85fe991fdf31@omp.ru>
-Date: Wed, 29 May 2024 23:52:30 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	s=arc-20240116; t=1717017036; c=relaxed/simple;
+	bh=TExKMv+4EbRU2xpWl+6GrHNg8ZxwE5ZYEj2H6DGcaR8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jDvEu1ORy93dcq+IDWzyRztDjX+TMoOq8ZleBNu+6+uf5tnEhYe8VgTH86InREFO6CS00nLMpUCiXqLO4GjZDX+hxncs0oFC8o/Hz9/BMv0BQXQk1mK9aG6iaNhdpUE8Iywzbdy2oTrszDwl39jlfmbyP1VBtDr6oyejlVYOt8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QWSteaDg; arc=none smtp.client-ip=209.85.221.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-4eaef863a08so65167e0c.1;
+        Wed, 29 May 2024 14:10:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717017033; x=1717621833; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TeBhPfv3doSS7LHW7mFEHvT4SBZTyVzMD92UNoRgcAQ=;
+        b=QWSteaDge+gQWr85WPnZw+lNF+JMkGp2Xrcna3hgpxMpew8UHwirLj+AH+jNsW3P6g
+         A0KY+wDV9UihhCknFduXtF4ACo67Sga4zS3GfnQLVvsV2b/SaBjuCv5YcUxJsuUalI6s
+         EXKEr8FJKnr/SWzvXsZPlk/GvIcp40+895F4HOfR9StJg9lJ+SOV4ZBUllaPP7gnOQi/
+         70WWFAaiHr8hD8JkT67/atSaec+jdTSQmqcOPK1fK9ozUVJKAEg1ZmKepLP8m6NBMyGW
+         sQP8To7sVJwJmupQFlMG3h4jgSjQHOERssovu9jZENY9VNIEE1qKwJ3dtiU7VfqIhne+
+         TqPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717017033; x=1717621833;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TeBhPfv3doSS7LHW7mFEHvT4SBZTyVzMD92UNoRgcAQ=;
+        b=T7RmyzB0WgCijf2OCl3SPKH3ndwr7g9WzwrdW3LKGbWg3ubwHjFPIlhRrTnIRWkGax
+         sfuNT99EdVKiwZiIZvI+C3yCTF+zBRLqbp6KCVbWwpjaavYW4/QxKYkDgYCe/Q8rFqq+
+         dn/U5AOxHZ0MkNPvFu2MxwEWBsYj+8jYUAKBJQwhdo1FlW6ats/5WhnOsUm+HrC+69nU
+         Tf/BOWfLmQukcQffYqzDt2Y4NuFwHwWl6+w4v86q5Zc42L0UVUcrqF/fztk3iQblocMr
+         6Ikd3RKSs8eNiKowrMgOFpeWH2Q+DhQGKtIjTByS3FV/aYp/c/NkKIrg9n6httO51fvN
+         6avg==
+X-Forwarded-Encrypted: i=1; AJvYcCVqhbwyy9cAu9B4OFibVoKDpYG5239kSlAPxgwipI4xOyOV6ScNQov8G7ZOTKZauZ/m1zrRAmdBTJKB4wd8XhLCWH2TE9qPcaf2z3cS0l/YVFU08Weta9vTuoTYKjnGH1SH3k2Nn/rch/jMstnYwwGSwD7fat4xc6CFjv7YwF4HlEKyXTbL0rpVihkFfqRfP4zgIhqO5e24m6EkCQA2BbAOFwmbsm2M
+X-Gm-Message-State: AOJu0YzWHBdWSoPcZFc9mTtwhTIY7cgW06jbsAwx+4u4fpk3Pg1DDlfu
+	zwjwazZ4I2hBTO4MpmWHLlCjHhFLqG6sLVxcERBtGuOg4Q5VjTrn/hSVsYoEUNWoXieB+SZUKjY
+	v/hnYg64KY7tCbymJlwU/I9GhxRqJ+LzYOiY=
+X-Google-Smtp-Source: AGHT+IG3W0S3Z2Qe9a0+buJwHRoZAUEH7EgzRGQidkKafkzDX/o4tZaGyxUyz+m2abkLCU1Mb4Kwbf8Ewf5XjrfBUVY=
+X-Received: by 2002:a05:6122:91a:b0:4e4:e98a:7b02 with SMTP id
+ 71dfb90a1353d-4eaf2186157mr318895e0c.4.1717017033385; Wed, 29 May 2024
+ 14:10:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240528150339.6791-8-paul.barker.ct@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 05/29/2024 20:36:54
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 185600 [May 29 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.0.4
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 20 0.3.20
- 743589a8af6ec90b529f2124c2bbfc3ce1d2f20f
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.72.107 in (user)
- dbl.spamhaus.org}
-X-KSE-AntiSpam-Info:
-	omp.ru:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.72.107
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 05/29/2024 20:41:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 5/29/2024 5:02:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+References: <20240524082800.333991-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240524082800.333991-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWzZP2d6kRw1oTkMYgzS46J68gR_bg14==HCvVpkp0sJA@mail.gmail.com>
+In-Reply-To: <CAMuHMdWzZP2d6kRw1oTkMYgzS46J68gR_bg14==HCvVpkp0sJA@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Wed, 29 May 2024 22:09:14 +0100
+Message-ID: <CA+V-a8uxwiof-hLPRpYCnDkVs8tj+-+v8GQLSSkMFUP13cuoXQ@mail.gmail.com>
+Subject: Re: [PATCH 2/4] dt-bindings: clock: Add R9A09G057 CPG Clock and Reset Definitions
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 5/28/24 6:03 PM, Paul Barker wrote:
+Hi Geert,
 
-> This patch makes multiple changes that can't be separated:
-> 
->   1) Allocate plain RX buffers via a page pool instead of allocating
->      SKBs, then use build_skb() when a packet is received.
->   2) For GbEth IP, reduce the RX buffer size to 2kB.
->   3) For GbEth IP, merge packets which span more than one RX descriptor
->      as SKB fragments instead of copying data.
-> 
-> Implementing (1) without (2) would require the use of an order-1 page
-> pool (instead of an order-0 page pool split into page fragments) for
-> GbEth.
-> 
-> Implementing (2) without (3) would leave us no space to re-assemble
-> packets which span more than one RX descriptor.
-> 
-> Implementing (3) without (1) would not be possible as the network stack
-> expects to use put_page() or page_pool_put_page() to free SKB fragments
-> after an SKB is consumed.
-> 
-> RX checksum offload support is adjusted to handle both linear and
-> nonlinear (fragmented) packets.
-> 
-> This patch gives the following improvements during testing with iperf3.
-> 
->   * RZ/G2L:
->     * TCP RX: same bandwidth at -43% CPU load (70% -> 40%)
->     * UDP RX: same bandwidth at -17% CPU load (88% -> 74%)
-> 
->   * RZ/G2UL:
->     * TCP RX: +30% bandwidth (726Mbps -> 941Mbps)
->     * UDP RX: +417% bandwidth (108Mbps -> 558Mbps)
-> 
->   * RZ/G3S:
->     * TCP RX: +64% bandwidth (562Mbps -> 920Mbps)
->     * UDP RX: +420% bandwidth (90Mbps -> 468Mbps)
-> 
->   * RZ/Five:
->     * TCP RX: +217% bandwidth (145Mbps -> 459Mbps)
->     * UDP RX: +470% bandwidth (20Mbps -> 114Mbps)
-> 
-> There is no significant impact on bandwidth or CPU load in testing on
-> RZ/G2H or R-Car M3N.
-> 
-> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
-> ---
-> Changes v3->v4:
->   * Used a separate page pool for each RX queue.
->   * Passed struct ravb_rx_desc to ravb_alloc_rx_buffer() so that we can
->     simplify the calling function.
->   * Explained the calculation of rx_desc->ds_cc.
->   * Added handling of nonlinear SKBs in ravb_rx_csum_gbeth().
-> 
->  drivers/net/ethernet/renesas/ravb.h      |  10 +-
->  drivers/net/ethernet/renesas/ravb_main.c | 230 ++++++++++++++---------
->  2 files changed, 146 insertions(+), 94 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-> index 6a7aa7dd17e6..f2091a17fcf7 100644
-> --- a/drivers/net/ethernet/renesas/ravb.h
-> +++ b/drivers/net/ethernet/renesas/ravb.h
-[...]> @@ -1094,7 +1099,8 @@ struct ravb_private {
->  	struct ravb_tx_desc *tx_ring[NUM_TX_QUEUE];
->  	void *tx_align[NUM_TX_QUEUE];
->  	struct sk_buff *rx_1st_skb;
-> -	struct sk_buff **rx_skb[NUM_RX_QUEUE];
-> +	struct page_pool *rx_pool[NUM_RX_QUEUE];
+Thank you for the review.
 
-   Don't we need #include <net/page_pool/types.h>
+On Mon, May 27, 2024 at 10:18=E2=80=AFAM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Fri, May 24, 2024 at 10:29=E2=80=AFAM Prabhakar <prabhakar.csengg@gmai=
+l.com> wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Define RZ/V2H(P) (R9A09G057) Clock Pulse Generator module clock outputs
+> > (CPG_CLK_ON* registers), and reset definitions (CPG_RST_* registers)
+> > in Section 4.4.2 and 4.4.3 ("List of Clock/Reset Signals") of the RZ/V2=
+H(P)
+> > Hardware User's Manual (Rev.1.01, Feb. 2024).
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Thanks for your patch!
+>
+> > --- /dev/null
+> > +++ b/include/dt-bindings/clock/r9a09g057-cpg.h
+> > @@ -0,0 +1,644 @@
+> > +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > + *
+> > + * Copyright (C) 2024 Renesas Electronics Corp.
+> > + */
+> > +#ifndef __DT_BINDINGS_CLOCK_R9A09G057_CPG_H__
+> > +#define __DT_BINDINGS_CLOCK_R9A09G057_CPG_H__
+> > +
+> > +#include <dt-bindings/clock/renesas-cpg-mssr.h>
+> > +
+> > +/* Clock list */
+>
+> No distinction between Core and Module clocks?
+>
+I was in two minds here. Would you prefer clocks with no CGC support
+to be listed as core clocks?
 
-[...]
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index dd92f074881a..bb7f7d44be6e 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-[...]
-> @@ -317,35 +289,56 @@ static void ravb_ring_free(struct net_device *ndev, int q)
->  	priv->tx_skb[q] = NULL;
->  }
->  
-> +static int
-> +ravb_alloc_rx_buffer(struct net_device *ndev, int q, u32 entry, gfp_t gfp_mask,
-> +		     struct ravb_rx_desc *rx_desc)
-> +{
-> +	struct ravb_private *priv = netdev_priv(ndev);
-> +	const struct ravb_hw_info *info = priv->info;
-> +	struct ravb_rx_buffer *rx_buff = &priv->rx_buffers[q][entry];
-> +	dma_addr_t dma_addr;
-> +	unsigned int size;
-> +
-> +	size = info->rx_buffer_size;
-> +	rx_buff->page = page_pool_alloc(priv->rx_pool[q], &rx_buff->offset, &size,
-> +					gfp_mask);
-> +	if (unlikely(!rx_buff->page)) {
-> +		/* We just set the data size to 0 for a failed mapping
-> +		 * which should prevent DMA from happening...
-> +		 */
-> +		rx_desc->ds_cc = cpu_to_le16(0);
-> +		return -ENOMEM;
-> +	}
-> +
-> +	dma_addr = page_pool_get_dma_addr(rx_buff->page) + rx_buff->offset;
-> +	dma_sync_single_for_device(ndev->dev.parent, dma_addr,
-> +				   info->rx_buffer_size, DMA_FROM_DEVICE);
+> > +#define R9A09G057_SYS_0_PCLK                           0
+> > +#define R9A09G057_DMAC_0_ACLK                          1
+> > +#define R9A09G057_DMAC_1_ACLK                          2
+> > +#define R9A09G057_DMAC_2_ACLK                          3
+>
+> [...]
+>
+> > +/* Resets list */
+>
+> [...]
+>
+> No power domain specifiers, as mentioned in PATCH 1/4?
+>
+OK, I'll add the power domains in this patch.
 
-   Do we really need this call?
-
-> +	rx_desc->dptr = cpu_to_le32(dma_addr);
-> +
-> +	/* The end of the RX buffer is used to store skb shared data, so we need
-> +	 * to ensure that the hardware leaves enough space for this.
-> +	 */
-> +	rx_desc->ds_cc = cpu_to_le16(info->rx_buffer_size
-> +				     - SKB_DATA_ALIGN(sizeof(struct skb_shared_info))
-
-   Please leave the - operator on the previous line...
-
-> +				     - ETH_FCS_LEN + sizeof(__sum16));
-
-   Here as well...
-
-> +	return 0;
-> +}
-> +
->  static u32
->  ravb_rx_ring_refill(struct net_device *ndev, int q, u32 count, gfp_t gfp_mask)
->  {
->  	struct ravb_private *priv = netdev_priv(ndev);
-> -	const struct ravb_hw_info *info = priv->info;
->  	struct ravb_rx_desc *rx_desc;
-> -	dma_addr_t dma_addr;
->  	u32 i, entry;
->  
->  	for (i = 0; i < count; i++) {
->  		entry = (priv->dirty_rx[q] + i) % priv->num_rx_ring[q];
->  		rx_desc = ravb_rx_get_desc(priv, q, entry);
-> -		rx_desc->ds_cc = cpu_to_le16(info->rx_max_desc_use);
->  
-> -		if (!priv->rx_skb[q][entry]) {
-> -			priv->rx_skb[q][entry] = ravb_alloc_skb(ndev, info, gfp_mask);
-> -			if (!priv->rx_skb[q][entry])
-> +		if (!priv->rx_buffers[q][entry].page) {
-> +			if (unlikely(ravb_alloc_rx_buffer(ndev, q, entry,
-
-   Well, IIRC Greg KH is against using unlikely() unless you have actually
-instrumented the code and this gives an improvement... have you? :-)
-
-[...]
-> @@ -727,12 +739,22 @@ static void ravb_rx_csum_gbeth(struct sk_buff *skb)
->  	if (unlikely(skb->len < sizeof(__sum16) * 2))
->  		return;
->  
-> -	hw_csum = skb_tail_pointer(skb) - sizeof(__sum16);
-> +	if (skb_is_nonlinear(skb)) {
-> +		last_frag = &shinfo->frags[shinfo->nr_frags - 1];
-> +		hw_csum = skb_frag_address(last_frag) + skb_frag_size(last_frag) - sizeof(__sum16);
-> +	} else {
-> +		hw_csum = skb_tail_pointer(skb) - sizeof(__sum16);
-> +	}
-
-   We can do the subtraction only once here...
-
-[...]
-> @@ -816,14 +824,26 @@ static int ravb_rx_gbeth(struct net_device *ndev, int budget, int q)
->  			if (desc_status & MSC_CEEF)
->  				stats->rx_missed_errors++;
->  		} else {
-> +			struct ravb_rx_buffer *rx_buff = &priv->rx_buffers[q][entry];
-> +			void *rx_addr = page_address(rx_buff->page) + rx_buff->offset;
-
-   Need an empty line here...
-
->  			die_dt = desc->die_dt & 0xF0;
-> -			skb = ravb_get_skb_gbeth(ndev, entry, desc);
-> +			dma_sync_single_for_cpu(ndev->dev.parent, le32_to_cpu(desc->dptr),
-> +						desc_len, DMA_FROM_DEVICE);
-> +
->  			switch (die_dt) {
->  			case DT_FSINGLE:
->  			case DT_FSTART:
->  				/* Start of packet:
-> -				 * Set initial data length.
-> +				 * Prepare an SKB and add initial data.
-
-   I'd prefer calling it skb in the comments...
-
-[...]
-> @@ -865,7 +894,16 @@ static int ravb_rx_gbeth(struct net_device *ndev, int budget, int q)
->  				stats->rx_bytes += skb->len;
->  				napi_gro_receive(&priv->napi[q], skb);
->  				rx_packets++;
-> +
-> +				/* Clear rx_1st_skb so that it will only be
-> +				 * non-NULL when valid.
-> +				 */
-> +				if (die_dt == DT_FEND)
-> +					priv->rx_1st_skb = NULL;
-
-   Hm, can't we do this under *case* DT_FEND above?
-
-[...]
-
-MBR, Sergey
+Cheers,
+Prabhakar
 
