@@ -1,60 +1,55 @@
-Return-Path: <linux-renesas-soc+bounces-5621-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5625-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B2CF8D32A3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 11:12:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED2A48D32CC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 11:19:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 56E10283434
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 09:12:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AA663284162
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2024 09:19:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F836169360;
-	Wed, 29 May 2024 09:12:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0DC715B10C;
+	Wed, 29 May 2024 09:19:18 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B76516A374
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 May 2024 09:12:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E80A15B0F5
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 May 2024 09:19:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716973948; cv=none; b=lNDVriSaEDZqLTBLruF4uQoYa5IlEwszJgdpY00plRObOkvP7bPo8sJgib1svzXbYkRKoG+BOtQMIMaJgDM+GMXCre6RoSVlbYiGM1NgpdB7Sko3Uc7hucKG1bm5z4fRWryJopoCgD/ZsMatbRm5GjMXII0Wb9/t/2nD2pDUMU0=
+	t=1716974358; cv=none; b=Avi3ZB3nGcm4SSqOpuFnsv56ErX/mIJ1t9lk1TXidWdLMzC6i3hOtP081xud91ZdihiJyKzT4FoeG6XBplFEjHX9hvo2T3+jS0VSTeyA8C5dg5pE34Ply2js05JWwH/U+nqbKbd6hiphHA8HA2nSM4L7APxMMGOW7MQ6wljAgh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716973948; c=relaxed/simple;
-	bh=6DRVo83b+DRVEiT4o5Gr1b8cmp/ONQYcfrCg5VurbFY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=fFgoi/QhasOf7FZWcgOg8ACSgHN3n1fwbI0B1Cj1CdsGost7YecMV5FgTzdqD5MZGMxymEv5lLW8ZpZRAonzTG5k1W5EuNzmurvV1oOubEGB0qjfdn4W67g4oNiDBdEm8dWG48+kScldLpOfpgRZgcVd9nr2RwFjsxCZqzDfW7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
+	s=arc-20240116; t=1716974358; c=relaxed/simple;
+	bh=+z7rlan5bSlBL10kfqykn34Zfbvs9qry8TjuxUsU1GA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=F+eWf62We1TDJyQIcbUgRCZ6HWrRK7+oGYQHEX01c9eJMYi7Pb+MbWzXljqhxvceeRFr991m3UzoUaYbDMFsMKDPNM3TrkOadpSWbRToQnONnGg50nHfvQpUfExaXUCU68LO1sTGshQqWQndQoD6tRIqEK5jMOF8H2AmYh/5blY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:1b01:1838:131c:4de4])
-	by andre.telenet-ops.be with bizsmtp
-	id UxCJ2C0033VPV9V01xCJnm; Wed, 29 May 2024 11:12:18 +0200
+	by baptiste.telenet-ops.be with bizsmtp
+	id UxKE2C0083VPV9V01xKE1m; Wed, 29 May 2024 11:19:14 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1sCFL5-00GF9b-FS;
-	Wed, 29 May 2024 11:12:17 +0200
+	id 1sCFRn-00GG1d-RH;
+	Wed, 29 May 2024 11:19:14 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1sCFM1-008w8h-SP;
-	Wed, 29 May 2024 11:12:17 +0200
+	id 1sCFSk-008wDp-6T;
+	Wed, 29 May 2024 11:19:14 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Marc Kleine-Budde <mkl@pengutronix.de>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-can@vger.kernel.org,
+To: Ulf Hansson <ulf.hansson@linaro.org>,
+	Lina Iyer <lina.iyer@linaro.org>
+Cc: linux-pm@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	netdev@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 3/3] can: rcar_canfd: Remove superfluous parentheses in address calculations
-Date: Wed, 29 May 2024 11:12:15 +0200
-Message-Id: <b5aee80895fa029070fd37d1d837cf1c0ecb52dc.1716973640.git.geert+renesas@glider.be>
+Subject: [PATCH] pmdomain: core: Use genpd_is_irq_safe() helper
+Date: Wed, 29 May 2024 11:19:12 +0200
+Message-Id: <3cd8131b4f1284bdffa23a2b6a9a1e92fd17973e.1716973951.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1716973640.git.geert+renesas@glider.be>
-References: <cover.1716973640.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -63,70 +58,27 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There is no need to wrap simple variables or multiplications inside
-parentheses.
+Use the genpd_is_irq_safe() helper instead of open-coding the same
+operation.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/net/can/rcar/rcar_canfd.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/pmdomain/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
-index c2c1c47bcc7a166c..c919668bbe7a5541 100644
---- a/drivers/net/can/rcar/rcar_canfd.c
-+++ b/drivers/net/can/rcar/rcar_canfd.c
-@@ -627,28 +627,28 @@ static inline void rcar_canfd_update(u32 mask, u32 val, u32 __iomem *reg)
+diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
+index 1eae7b2317897f0b..01cf17789621a04f 100644
+--- a/drivers/pmdomain/core.c
++++ b/drivers/pmdomain/core.c
+@@ -2082,7 +2082,7 @@ static void genpd_free_data(struct generic_pm_domain *genpd)
  
- static inline u32 rcar_canfd_read(void __iomem *base, u32 offset)
+ static void genpd_lock_init(struct generic_pm_domain *genpd)
  {
--	return readl(base + (offset));
-+	return readl(base + offset);
- }
- 
- static inline void rcar_canfd_write(void __iomem *base, u32 offset, u32 val)
- {
--	writel(val, base + (offset));
-+	writel(val, base + offset);
- }
- 
- static void rcar_canfd_set_bit(void __iomem *base, u32 reg, u32 val)
- {
--	rcar_canfd_update(val, val, base + (reg));
-+	rcar_canfd_update(val, val, base + reg);
- }
- 
- static void rcar_canfd_clear_bit(void __iomem *base, u32 reg, u32 val)
- {
--	rcar_canfd_update(val, 0, base + (reg));
-+	rcar_canfd_update(val, 0, base + reg);
- }
- 
- static void rcar_canfd_update_bit(void __iomem *base, u32 reg,
- 				  u32 mask, u32 val)
- {
--	rcar_canfd_update(mask, val, base + (reg));
-+	rcar_canfd_update(mask, val, base + reg);
- }
- 
- static void rcar_canfd_get_data(struct rcar_canfd_channel *priv,
-@@ -659,7 +659,7 @@ static void rcar_canfd_get_data(struct rcar_canfd_channel *priv,
- 	lwords = DIV_ROUND_UP(cf->len, sizeof(u32));
- 	for (i = 0; i < lwords; i++)
- 		*((u32 *)cf->data + i) =
--			rcar_canfd_read(priv->base, off + (i * sizeof(u32)));
-+			rcar_canfd_read(priv->base, off + i * sizeof(u32));
- }
- 
- static void rcar_canfd_put_data(struct rcar_canfd_channel *priv,
-@@ -669,7 +669,7 @@ static void rcar_canfd_put_data(struct rcar_canfd_channel *priv,
- 
- 	lwords = DIV_ROUND_UP(cf->len, sizeof(u32));
- 	for (i = 0; i < lwords; i++)
--		rcar_canfd_write(priv->base, off + (i * sizeof(u32)),
-+		rcar_canfd_write(priv->base, off + i * sizeof(u32),
- 				 *((u32 *)cf->data + i));
- }
- 
+-	if (genpd->flags & GENPD_FLAG_IRQ_SAFE) {
++	if (genpd_is_irq_safe(genpd)) {
+ 		spin_lock_init(&genpd->slock);
+ 		genpd->lock_ops = &genpd_spin_ops;
+ 	} else {
 -- 
 2.34.1
 
