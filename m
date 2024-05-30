@@ -1,74 +1,80 @@
-Return-Path: <linux-renesas-soc+bounces-5687-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5688-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F38B8D4669
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 May 2024 09:49:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 125928D46DA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 May 2024 10:16:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AB71F1C2103A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 May 2024 07:49:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3567B1C20C67
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 May 2024 08:16:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98D5A142E8B;
-	Thu, 30 May 2024 07:48:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69AA81482F6;
+	Thu, 30 May 2024 08:16:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="mXFr9zQz"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aNwEijX0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B065A947E
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 30 May 2024 07:48:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B986717753
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 30 May 2024 08:16:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717055326; cv=none; b=SCEdWUSO8fO01y1jPzXWIAqVGmPDvo/IRDDPYUD17DVnBpiqv6Ii0YbQ3hjomrq+HgMVVfPuvFVJdytdGCDsv4RTs6Gxajb93bPQ3cv0eWc+EUHKx/KQP0SCJJvwDlkYCtIJCynu5D3ClXwsKaP9r78qo5Sy5iMW/V/CCLzG4EI=
+	t=1717056978; cv=none; b=nu1XeHq46eysii7FUzuTlsNBmvZxAuqC56UqmbeeGAfq3mP3gwiZA359SnbIC9cO/7aijUg2tNTYU0i7DaFY40X4zFf4KKM5MXSMZrfHFk18xCwWoGPB7+iYRoXTL+bIOen0YK8sOav2Qu572IN4HW3afEDH4EOfp8TBwiH1VIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717055326; c=relaxed/simple;
-	bh=WUopOfGXgTPLOpthZYvse5p/tqQTnvAJv7+FdqfK54M=;
+	s=arc-20240116; t=1717056978; c=relaxed/simple;
+	bh=X8g0Q3CTaOMt21uNUeLBD3wVmMtGlOOS7LmIByWpwiE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EfHhNdIEkfuWc2kzOhhPKm2Dy0GtGDn9wmRMtcP2Ub2nfT8ojGJvEGeNaPmlPLOyEnuwSVpQYRnHTKYOHOggV9c3TBa5AQ2JYDL4ryFO3pskynR7n1JArNp7Dqo6uwyHRCxQSXs1OE6nhJ/TNzPpcTABXPlNb8nMiBZ4RKpRppI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=mXFr9zQz; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-57a196134d1so391048a12.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 May 2024 00:48:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1717055322; x=1717660122; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cf2qIpLDeZcLL2J3hXdH1LJF5JZXb9FIa3/ZwN9zeWQ=;
-        b=mXFr9zQzRnJv0W3uh2NtrJZkdlBX3PzqDng5L09p/WAh6QlZ3u2sebgLMeCCj5gnlo
-         T5l5dnn/HcFL9H2Qqng0O2CXbQ020krEfVsHI7YfiwtMZH6bp7RbhvEPH1fehFEBS8wD
-         rYSWnDY4DhkR7XzKl2Q4Mh8ASqAfAaP+nOx6uhxInqFOk/wYUCVrJPy9vimlo9QCf8Qs
-         BKcEy19FoZTUGCMhkMNvo2CFzQhqwGg8R7RnLrl7N6r6Je/V3/vHi+nTLoYNXP4MNvjy
-         XiJNZQdveIYQlOigs3IQSKmAjyC2zeJQbmeqR+uhokG6j49cPbuGZ+C9r3nV0XPUlPYS
-         wQ3Q==
+	 In-Reply-To:Content-Type; b=TgLSwYE9a2/4UcG9XsbzAgm66rdawZzL8k9BWuv4pg5szZfJhkR+YNtw39C+GM0J5SxqNhUlupusSmPKKKfbcF9zGLvhqhbj+5tCpU7N1+J9Da4bC8BIGTSUYkwl7kvnD3uZDGy+v0aQgwhv2mEfXyFvWaeh1aJhsqKwpRuoY3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aNwEijX0; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1717056975;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4vOO2zUgoUpebiF0jkqV2Z5E5GhV9cME85XnjwVlc5U=;
+	b=aNwEijX0mDmDPGJtu6nnrqVO3YOPXZmx3w82pRYqg+NXqKFO0IGQ6jrM0ezfp/aRknGqfv
+	gRRqP+0xga0w9MPyCT28St2LePUS2E9jlktVgJ+xpsVUIMviNbYaoKKOCktn4gCeUJl0Ak
+	2Q8qDcs9evSeWJ4nfVqG0hrOXVhFkEQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-279-B1j6B-hOMvqZEC0uAc1hNg-1; Thu, 30 May 2024 04:16:12 -0400
+X-MC-Unique: B1j6B-hOMvqZEC0uAc1hNg-1
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-42113d7adafso6290265e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 May 2024 01:16:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717055322; x=1717660122;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1717056971; x=1717661771;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cf2qIpLDeZcLL2J3hXdH1LJF5JZXb9FIa3/ZwN9zeWQ=;
-        b=MJwjxP2yKq/msWfANj9wv+KH+B4euRY70jlN6dCz79Qm0zLXn+hpqezVjta9Kgi1Ay
-         nZAubyBz2Z2iaApKp9UFJtHG4WaUTjovPoE+CYQRQxCVAIzDFOl8Ww1M7ssGN2sjKKsN
-         Wxwuz3+HMvGP61zc9lBrzSCXgaRkYDgRpR93Zd7Xt07YDaPJwYR6aHXzrOjDd5Fvtbu3
-         XAIDB4re2xqtt/VHJ/IIUoQG0DYDg+Jn5N/Prv0p+QpPFkvD3FYOPhl0N35zk218dXPw
-         6X9l/ExiClXnSoGdqkbLvBWMmt2E//1AR8CB0baq9H798UCweXsmRcEZjRjGOHT88tfh
-         gzUw==
-X-Forwarded-Encrypted: i=1; AJvYcCVwaP9oJSe9gY30+t06FqPG5NvwjyCPG90ti6DrHIPqpz6niSKXkFbuFP1Qp1duRqJ+aI5b0rdQJKaAYd6rG3XJmF4ttX6WL1P09J6w1svUWuo=
-X-Gm-Message-State: AOJu0YwMz/PLEF9GPOx83FLvNCqKPq9+whKEdPPzRBPQlY+Oy9z7VmMS
-	22MjqSBlvIDXXMI8kLLsqLgJO9DBatRfmbE3QQ5gV9cJTpAKbb+Z4dMMZuHpsfw=
-X-Google-Smtp-Source: AGHT+IFIeanpx5enxM2FTVYmjkv113mgaIe8FHzjBzKNk+0WMcY8HVdoc+0Tq0Oi2QHF4QvHRs4aOg==
-X-Received: by 2002:a50:d4d7:0:b0:578:656b:d287 with SMTP id 4fb4d7f45d1cf-57a177b369fmr651380a12.17.1717055321817;
-        Thu, 30 May 2024 00:48:41 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.124])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5785b2c4d97sm9061915a12.56.2024.05.30.00.48.40
+        bh=4vOO2zUgoUpebiF0jkqV2Z5E5GhV9cME85XnjwVlc5U=;
+        b=WleuwQ5MloTtcWMXFd+YrY7BpQmZlTUW7i4OtXnObHHXa8kJjv0PD4x3usgkgiuWoY
+         4aLYoLSU91pFsEnCxNiqk65FML0FtPcYPN+oWqgUC/Ev75tV32EaYXMtJAm3T+icJAAK
+         3CaXFtXhIMqQ43qLo8BAsqnylh+AwYlt3bfnmS/hYwE3S+6atIntzm062xcIy58TnTNZ
+         3zudmd5CdwAmvcONO0dFHepHGti3pLkufKgbtXZwWcrPvqRH3Qml5b+0AQq3fm4wSSD9
+         sHKD3+l1qyhPlG0aeZGwlTRNnODYpBKWPrG7Fzf5u6TXQFllVbOHEJ9JzsxIAFNz9ZjW
+         nkpw==
+X-Forwarded-Encrypted: i=1; AJvYcCV6JVPsZjXVF5u0XS797TVPGPVK0jOntf1NVhNXNVrOUER4vtskGgTG0uh9Qekc3QfQ5IMJmpYMCFRC0DlDos2unR4yNzf57o2kLEfVkJm5dcM=
+X-Gm-Message-State: AOJu0YyzjtRrqwPU3dc7opBqAbpHx3R68FSLiJNziS+0gJmnhiBjhkRY
+	FHEQ24W3J50Lgbb503p1aeHgb48wJ8nkFkcvkuPvZ+eRFC39pPLAB2QkJxLuvT8RYeMnert++Hl
+	4c+FDNfdL+6FhJYVNj6fkNk1EO3Skg9lQJXpyP8AfT9KKbExp6+2HwRncdh1BNq6lste+
+X-Received: by 2002:a05:600c:3555:b0:41b:edf4:4071 with SMTP id 5b1f17b1804b1-42127928149mr17474255e9.35.1717056971196;
+        Thu, 30 May 2024 01:16:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEAr8v5wJMUdSt135qGEBduUrrTWYk6Wh2xc/V4SzrdIQg7Mb450fAmFs3OhYx7PxE9yWAuYg==
+X-Received: by 2002:a05:600c:3555:b0:41b:edf4:4071 with SMTP id 5b1f17b1804b1-42127928149mr17474045e9.35.1717056970775;
+        Thu, 30 May 2024 01:16:10 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:2ceb:e04a:af9c:bc9b? ([2a01:e0a:c:37e0:2ceb:e04a:af9c:bc9b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42127056cc2sm17697845e9.2.2024.05.30.01.16.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 May 2024 00:48:41 -0700 (PDT)
-Message-ID: <862d7d16-367b-492e-b7be-e2fe71b904c2@tuxon.dev>
-Date: Thu, 30 May 2024 10:48:39 +0300
+        Thu, 30 May 2024 01:16:10 -0700 (PDT)
+Message-ID: <e1cc6c86-d042-400c-b995-a8b78f62dbdd@redhat.com>
+Date: Thu, 30 May 2024 10:16:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -76,197 +82,156 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 10/13] pinctrl: renesas: pinctrl-rzg2l: Add support to
- set pulling up/down the pins
-Content-Language: en-US
-To: Prabhakar <prabhakar.csengg@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
- linux-renesas-soc@vger.kernel.org
-Cc: linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20240423175900.702640-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240423175900.702640-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20240423175900.702640-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH] drm: renesas: shmobile: Add drm_panic support
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+References: <292638fde9aef8b00e984245f43dc02a818cf322.1716816827.git.geert+renesas@glider.be>
+ <20240529010320.GI1436@pendragon.ideasonboard.com>
+ <u5aijnvotestpgjynawcx7oxsp2lncnsda5w4jfzeovvdlfcyt@5fxnyfbk4ocb>
+ <20240529091018.GK1436@pendragon.ideasonboard.com>
+ <zyd7e55dfonmacewfscac5sdrypx5rsjwvkt7umhbnjltd3rz4@wabvqnsrlatl>
+ <20240529095506.GC19014@pendragon.ideasonboard.com>
+ <ikryifdxh5hfbjl6c4yinyy52f2pr4pm4g4564jq4cob7ics2p@wa37stxn3sqm>
+ <20240529133309.GO1436@pendragon.ideasonboard.com>
+Content-Language: en-US, fr
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20240529133309.GO1436@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi, Prabhakar,
 
-On 23.04.2024 20:58, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+On 29/05/2024 15:33, Laurent Pinchart wrote:
+> On Wed, May 29, 2024 at 04:28:44PM +0300, Dmitry Baryshkov wrote:
+>> On Wed, May 29, 2024 at 12:55:06PM +0300, Laurent Pinchart wrote:
+>>> On Wed, May 29, 2024 at 12:25:56PM +0300, Dmitry Baryshkov wrote:
+>>>> On Wed, May 29, 2024 at 12:10:18PM +0300, Laurent Pinchart wrote:
+>>>>> Hi Dmitry,
+>>>>>
+>>>>> On Wed, May 29, 2024 at 11:27:02AM +0300, Dmitry Baryshkov wrote:
+>>>>>> On Wed, May 29, 2024 at 04:03:20AM +0300, Laurent Pinchart wrote:
+>>>>>>> On Mon, May 27, 2024 at 03:34:48PM +0200, Geert Uytterhoeven wrote:
+>>>>>>>> Add support for the drm_panic module, which displays a message on
+>>>>>>>> the screen when a kernel panic occurs.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>>>>>>>> ---
+>>>>>>>> Tested on Armadillo-800-EVA.
+>>>>>>>> ---
+>>>>>>>>   drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c | 14 +++++++++++++-
+>>>>>>>>   1 file changed, 13 insertions(+), 1 deletion(-)
+>>>>>>>>
+>>>>>>>> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+>>>>>>>> index 07ad17d24294d5e6..9d166ab2af8bd231 100644
+>>>>>>>> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+>>>>>>>> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+>>>>>>>> @@ -273,6 +273,13 @@ static const struct drm_plane_helper_funcs shmob_drm_plane_helper_funcs = {
+>>>>>>>>   	.atomic_disable = shmob_drm_plane_atomic_disable,
+>>>>>>>>   };
+>>>>>>>>   
+>>>>>>>> +static const struct drm_plane_helper_funcs shmob_drm_primary_plane_helper_funcs = {
+>>>>>>>> +	.atomic_check = shmob_drm_plane_atomic_check,
+>>>>>>>> +	.atomic_update = shmob_drm_plane_atomic_update,
+>>>>>>>> +	.atomic_disable = shmob_drm_plane_atomic_disable,
+>>>>>>>> +	.get_scanout_buffer = drm_fb_dma_get_scanout_buffer,
+>>>>>>>> +};
+>>>>>>>> +
+>>>>>>>>   static const struct drm_plane_funcs shmob_drm_plane_funcs = {
+>>>>>>>>   	.update_plane = drm_atomic_helper_update_plane,
+>>>>>>>>   	.disable_plane = drm_atomic_helper_disable_plane,
+>>>>>>>> @@ -310,7 +317,12 @@ struct drm_plane *shmob_drm_plane_create(struct shmob_drm_device *sdev,
+>>>>>>>>   
+>>>>>>>>   	splane->index = index;
+>>>>>>>>   
+>>>>>>>> -	drm_plane_helper_add(&splane->base, &shmob_drm_plane_helper_funcs);
+>>>>>>>> +	if (type == DRM_PLANE_TYPE_PRIMARY)
+>>>>>>>> +		drm_plane_helper_add(&splane->base,
+>>>>>>>> +				     &shmob_drm_primary_plane_helper_funcs);
+>>>>>>>> +	else
+>>>>>>>> +		drm_plane_helper_add(&splane->base,
+>>>>>>>> +				     &shmob_drm_plane_helper_funcs);
+>>>>>>>
+>>>>>>> It's not very nice to have to provide different operations for the
+>>>>>>> primary and overlay planes. The documentation of
+>>>>>>> drm_fb_dma_get_scanout_buffer() states
+>>>>>>>
+>>>>>>>   * @plane: DRM primary plane
+>>>>>>>
+>>>>>>> If the intent is that only primary planes will be used to display the
+>>>>>>> panic message, shouldn't drm_panic_register() skip overlay planes ? It
+>>>>>>> would simplify drivers.
+>>>>>>
+>>>>>> What about the drivers where all the planes are actually universal?
+>>>>>> In such a case the planes registered as primary can easily get replaced
+>>>>>> by 'overlay' planes.
+>>>>>
+>>>>> Good point.
+>>>>>
+>>>>> Another option, if we wanted to avoid duplicating the drm_plane_funcs,
+>>>>> would be to add a field to drm_plane to indicate whether the plane is
+>>>>> suitable for drm_panic.
+>>>>
+>>>> ... or maybe let the driver decide. For the fully-universal-plane
+>>>> devices we probably want to select the planes which cover the largest
+>>>> part of the CRTC.
+>>>
+>>> Are there devices where certain planes can only cover a subset of the
+>>> CRTC (apart from planes meant for cursors) ?
+>>
+>> On contemporary MSM devices any plane can cover any part of the screen,
+>> including not having a plane that covers the full screen at all.
 > 
-> Add support to configure bias-disable, bias-pull-up and bias-pull-down
-> properties of the pin.
+> Ah, you meant picking the plane that is currently covering most of the
+> screen. I thought you were talking about devices where some planes were
+> restricted by the hardware to a subset of the CRTC.
 > 
-> Two new function pointers get_bias_param() and get_bias_val() are
-> introduced as the values in PUPD register differ when compared to
-> RZ/G2L family and RZ/V2H(P) SoC,
+> I agree it would make sense to take both plane position and z-pos, as
+> well as visibility and other related parameters, to pick the plane that
+> is the most visible. Ideally this should be handled in drm_panic, not
+> duplicated in drivers.
+
+I'm not sure that drm_panic can figure out reliably on which plane it 
+needs to draw. I think the driver has more information to take the right 
+decision.
+Also if you prefer, you can add the get_scanout_buffer() callback for 
+all planes (to use the same helper fops), and then filter out in the 
+callback for planes that are not suitable. I just find it cleaner to not 
+register planes that the driver knows they will never be suitable (like 
+cursor planes).
+
+static void shmob_atomic_helper_get_scanout_buffer(struct drm_plane 
+*plane, struct drm_scanout_buffer *sb))
+{
+	if (plane->type == DRM_PLANE_TYPE_PRIMARY)
+		return drm_fb_dma_get_scanout_buffer(plane, sb);
+	return -EOPNOTSUPP;
+}
+
+.get_scanout_buffer = shmob_atomic_helper_get_scanout_buffer,
+
+
+-- 
+
+Jocelyn
+
 > 
-> Value | RZ/G2L        | RZ/V2H
-> ---------------------------------
-> 00b:  | Bias Disabled | Pull up/down disabled
-> 01b:  | Pull-up       | Pull up/down disabled
-> 10b:  | Pull-down     | Pull-down
-> 11b:  | Prohibited    | Pull-up
+>>> I think that what would matter the most in the end is selecting the
+>>> plane that is on top of the stack, and that doesn't seem to be addressed
+>>> by the drm_panic infrastructure. This is getting out of scope for this
+>>> patch though :-)
+>>>
+>>>>> I don't think this patch should be blocked just for this reason, but I'm
+>>>>> a bit bothered by duplicating the ops structure to indicate drm_panic
+>>>>> support.
+>>>>>
+>>>>>>>>   
+>>>>>>>>   	return &splane->base;
+>>>>>>>>   }
 > 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> RFC->v2
-> - New patch
-> ---
->  drivers/pinctrl/renesas/pinctrl-rzg2l.c | 73 +++++++++++++++++++++++++
->  1 file changed, 73 insertions(+)
-> 
-> diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> index 102fa75c71d3..c144bf43522b 100644
-> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> @@ -122,6 +122,7 @@
->  #define IOLH(off)		(0x1000 + (off) * 8)
->  #define SR(off)			(0x1400 + (off) * 8)
->  #define IEN(off)		(0x1800 + (off) * 8)
-> +#define PUPD(off)		(0x1C00 + (off) * 8)
->  #define ISEL(off)		(0x2C00 + (off) * 8)
->  #define SD_CH(off, ch)		((off) + (ch) * 4)
->  #define ETH_POC(off, ch)	((off) + (ch) * 4)
-> @@ -140,6 +141,7 @@
->  #define IEN_MASK		0x01
->  #define IOLH_MASK		0x03
->  #define SR_MASK			0x01
-> +#define PUPD_MASK		0x03
->  
->  #define PM_INPUT		0x1
->  #define PM_OUTPUT		0x2
-> @@ -265,6 +267,8 @@ struct rzg2l_pinctrl_data {
->  	void (*pmc_writeb)(struct rzg2l_pinctrl *pctrl, u8 val, void __iomem *addr);
->  	u32 (*read_oen)(struct rzg2l_pinctrl *pctrl, u32 caps, u32 offset, u8 pin);
->  	int (*write_oen)(struct rzg2l_pinctrl *pctrl, u32 caps, u32 offset, u8 pin, u8 oen);
-> +	int (*get_bias_param)(u8 val);
-> +	int (*get_bias_val)(enum pin_config_param param);
->  };
->  
->  /**
-> @@ -1081,6 +1085,38 @@ static int rzg2l_write_oen(struct rzg2l_pinctrl *pctrl, u32 caps, u32 offset, u8
->  	return 0;
->  }
->  
-> +static int rzg2l_get_bias_param(u8 val)
-> +{
-> +	switch (val) {
-> +	case 0:
-> +		return PIN_CONFIG_BIAS_DISABLE;
-> +	case 1:
-> +		return PIN_CONFIG_BIAS_PULL_UP;
-> +	case 2:
-> +		return PIN_CONFIG_BIAS_PULL_DOWN;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return -EINVAL;
-> +}
-> +
-> +static int rzg2l_get_bias_val(enum pin_config_param param)
-> +{
-> +	switch (param) {
-> +	case PIN_CONFIG_BIAS_DISABLE:
-> +		return 0;
-> +	case PIN_CONFIG_BIAS_PULL_UP:
-> +		return 1;
-> +	case PIN_CONFIG_BIAS_PULL_DOWN:
-> +		return 2;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return -EINVAL;
-> +}
-> +
->  static int rzg2l_pinctrl_pinconf_get(struct pinctrl_dev *pctldev,
->  				     unsigned int _pin,
->  				     unsigned long *config)
-> @@ -1139,6 +1175,25 @@ static int rzg2l_pinctrl_pinconf_get(struct pinctrl_dev *pctldev,
->  		arg = rzg2l_read_pin_config(pctrl, SR(off), bit, SR_MASK);
->  		break;
->  
-> +	case PIN_CONFIG_BIAS_DISABLE:
-> +	case PIN_CONFIG_BIAS_PULL_UP:
-> +	case PIN_CONFIG_BIAS_PULL_DOWN: {
 
-Block { } can be removed here.
-
-> +		if (!(cfg & PIN_CFG_PUPD))
-> +			return -EINVAL;
-> +
-> +		ret = pctrl->data->get_bias_param(rzg2l_read_pin_config(pctrl,
-> +									PUPD(off),
-> +									bit, PUPD_MASK));
-> +		if (ret < 0)
-> +			return ret;
-> +
-> +		if (ret != param)
-> +			return -EINVAL;
-
-Can this happen? Otherwise it can be removed.
-
-> +		/* for PIN_CONFIG_BIAS_PULL_UP/DOWN when enabled we just return 1 */
-
-What about bias disable? I haven't checked in detail, is it OK to do
-arg = 1 here?
-
-> +		arg = 1;
-> +		break;
-> +	}
-> +
->  	case PIN_CONFIG_DRIVE_STRENGTH: {
->  		unsigned int index;
->  
-> @@ -1254,6 +1309,20 @@ static int rzg2l_pinctrl_pinconf_set(struct pinctrl_dev *pctldev,
->  			rzg2l_rmw_pin_config(pctrl, SR(off), bit, SR_MASK, arg);
->  			break;
->  
-> +		case PIN_CONFIG_BIAS_DISABLE:
-> +		case PIN_CONFIG_BIAS_PULL_UP:
-> +		case PIN_CONFIG_BIAS_PULL_DOWN: {
-
-Block { } can be removed in this case.
-
-> +			if (!(cfg & PIN_CFG_PUPD))
-> +				return -EINVAL;
-> +
-> +			ret = pctrl->data->get_bias_val(param);
-> +			if (ret < 0)
-> +				return ret;
-> +
-> +			rzg2l_rmw_pin_config(pctrl, PUPD(off), bit, PUPD_MASK, ret);
-> +			break;
-> +		}
-> +
->  		case PIN_CONFIG_DRIVE_STRENGTH:
->  			arg = pinconf_to_config_argument(_configs[i]);
->  
-> @@ -2746,6 +2815,8 @@ static struct rzg2l_pinctrl_data r9a07g044_data = {
->  	.pmc_writeb = &rzg2l_pmc_writeb,
->  	.read_oen = &rzg2l_read_oen,
->  	.write_oen = &rzg2l_write_oen,
-> +	.get_bias_param = &rzg2l_get_bias_param,
-> +	.get_bias_val = &rzg2l_get_bias_val,
->  };
->  
->  static struct rzg2l_pinctrl_data r9a08g045_data = {
-> @@ -2761,6 +2832,8 @@ static struct rzg2l_pinctrl_data r9a08g045_data = {
->  	.pmc_writeb = &rzg2l_pmc_writeb,
->  	.read_oen = &rzg2l_read_oen,
->  	.write_oen = &rzg2l_write_oen,
-> +	.get_bias_param = &rzg2l_get_bias_param,
-> +	.get_bias_val = &rzg2l_get_bias_val,
->  };
->  
->  static const struct of_device_id rzg2l_pinctrl_of_table[] = {
 
