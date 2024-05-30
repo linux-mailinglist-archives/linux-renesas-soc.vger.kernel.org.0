@@ -1,134 +1,110 @@
-Return-Path: <linux-renesas-soc+bounces-5707-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5708-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E4598D4B24
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 May 2024 13:57:34 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF3908D4BF0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 May 2024 14:48:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C7A801F23E93
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 May 2024 11:57:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 196B4B21275
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 May 2024 12:48:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F27F817FAC6;
-	Thu, 30 May 2024 11:57:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C154D132121;
+	Thu, 30 May 2024 12:48:11 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71CF17D364;
-	Thu, 30 May 2024 11:57:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DADBA1E515;
+	Thu, 30 May 2024 12:48:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717070250; cv=none; b=Yehkx8tQezj/5Rt49byjvMaSV8LiGSfosZaOEeIQry9CUSm7GDHvLG3RCrP9lG8b7dUGzSepAq27hZ5uYoiIzqSWQPQS/usOxp75i/vC+NxQPgCd/BWjKMgWFsz/cYitW53fRURuqgGyqiWYoeRxjs0PmJ3KnupbN0SwIJePpaA=
+	t=1717073291; cv=none; b=MQmrE3+3o5CoZiNXqIPVCKeYtsK/A2QIQ1r+6vIgXHLxZUs8fvCilwR+EEKUDVJH3gKH++1iB4kCjIdvGynR20IcuxW1GhutTr9DddNUnaYGGrsbDxKJW8ZbhpigiBqC3CaGgl24tvNM/DxiatDgP/NGLhA44w/w0j1dZpmM7m8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717070250; c=relaxed/simple;
-	bh=ox6f2Bib795DIR4D9OYeOchPTQ0ajdXcI1Ql4e0zKA8=;
+	s=arc-20240116; t=1717073291; c=relaxed/simple;
+	bh=8Tpa2UifMKplXpTbrMd4Foz89z0hWoO5ZMVosaocsac=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ha3295g3aQZqCw929znedUyYS3H2HvEWGJVjx62Qym/MxJwBf10ohpNB3g3chU2lQt2cXrJ1gkUnChqQM7iqFqI7Ds6SlV0hyU5R0+VVrq2T+eOfCXygH1z70708n+g/F/ZSzwXoigmw5xqkx9zO9YCX8r1RTsOxm3kEJWwSFSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.173
+	 To:Cc:Content-Type; b=amEQFJSib7W+cAaxbWAFZBWA/Ojen/xCKJoVmpca/XVlPDBjKN5UqYaoaTGRtksVXZ+Y4vf9HqyAVacAnEXdzOj7v/VIQ5oUHH2o2Pnujs5/dBD6J1kLK9yOtcQ23FYc3mms5bAc4zoPboQ8z6nOleob52jrbyeypv4z0e7zDXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dfa5b9274feso861935276.2;
-        Thu, 30 May 2024 04:57:28 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-628c1f09f5cso7284477b3.1;
+        Thu, 30 May 2024 05:48:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717070247; x=1717675047;
+        d=1e100.net; s=20230601; t=1717073288; x=1717678088;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UjHdVTNPfpZSE5mw/0S4dwLQIRvAN8JureryKLiLrHw=;
-        b=iMUN4Qe/rDHT03ecx2Xmccze4e2c/8jZS8jFbvzbrvoDRAPe7S2t0c64qX+VGnTB+W
-         falddhJ81cmMFfZj6wVWAGX2s8o8zy+JpuX9hRq6DsIQ4UnYqvHnGTj+2d3vF2po9+CT
-         xLS/zVLNawExEiI3295iDb8YzfN61qTGHle0h95meUIsqzsJKD8c4OorlD7fXMfSL3+9
-         NlRRBr5UU6ittCEN3u+bAUfk97HYYhhQnsacNw4LLmTFOQdPcDRtTqP/gBazHfAU9cyL
-         liAgyEJCLGenHuAZKegMHpnsQz9bxpc5K9gDJTbsGUVNmZCZ0FFfsg4QVOZOrOC04mFv
-         sWwA==
-X-Forwarded-Encrypted: i=1; AJvYcCXtbyrB/luAXkeQmssT9gsYKsdlDa37lTOz5Jm3KnBvGN/qs9LCgCNawGwW1sm/Dj4qeTvMl5Ltw+fbswZt0KTJSpqQYQcUnlgXTdTJ24zA4tRInp1jKM2ST9FlZx5VdA4n8T46CDAZXPFG85+Kp0Ivy++oqRp64UfA2/8jbjN259FIXPm5LLhaWY0pZjO5Tv9Bg4lI3giVxHIOJtZ8wOSQAElXxI9SvnGKfbZEKsNBeURfil/Z1zPaKswvTeuyiyx6jvqEa9U97xMKtg==
-X-Gm-Message-State: AOJu0Ywy0LE9Hyz74HWgiRjAfSoYGJ0Oig4xqgJVUhzN517NJV9ixVOw
-	/c0r7J588VrhdiHlRuIttGIrmTvybo6K+oe6mGf5uuaUo4QvT+WsbrrXJj1G
-X-Google-Smtp-Source: AGHT+IHbMZqQOUAX0wpSZOpCsDEy5+/wimXfVioRFqT5E5NDFtRjHUfODqZjvcGeUY7FprwKgPyYmw==
-X-Received: by 2002:a25:fb05:0:b0:dfa:5a2f:9e56 with SMTP id 3f1490d57ef6-dfa5a5c1b26mr2125913276.6.1717070246747;
-        Thu, 30 May 2024 04:57:26 -0700 (PDT)
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com. [209.85.222.172])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-794abd32207sm548900685a.112.2024.05.30.04.57.26
+        bh=9bjFTQ5FA0ZUbYPMdPEv9X789dR7gzTPPFD376qEwI0=;
+        b=Hllr2KNgDhRg3HYkmPNBr2qenZSZ+as5hlSB3JV7SUyld95dLCRZA526dVRhJ/1HBL
+         xphXNTpqDB0qBLFk0gcxa4YgkGeFiY3jYSKWZm0lw+SegYLG9k9xzcJw8f92u9EcfSqV
+         yS7YDvZYJnx5jibsMpEik4BQLVxwNRQ9ClbDKow5w2grjkWwxYYIF0GY21BePn6uJh+v
+         MWobtzzD6KKv/1o9jk2gk29wsf89pDtMWh852mPGME+RiqzQ2FyzoucnuLT+7RGspNDG
+         29vUb9HOwbldo3AW2ZfIJTz3WMOXv9QMTGQgweHhHwwq9Z72ixSRoKWoXMV52SwM4fue
+         01wg==
+X-Forwarded-Encrypted: i=1; AJvYcCVWzyiR8InXS+iqKulYToIfOm8XMBcLHzS2XuvgfYD/K30r1lMSkyF3q1zMWsnWhPkRw4IpfUu+hWwvDfFyMdu5FhFKzqs1tpkYgRCPe4cVy3CEaQk8IM5bOD47C+KCS2uX5Kay539QejtAdqLVgJRX7gYVsq+jViAWJidhsD17fYzOVjwmlY/kaT9tPPaPHl70C7v7bGjM2mlvhBcLzhJ01pq7Gpeqlw==
+X-Gm-Message-State: AOJu0Yxq69WzvEfPA11GH5OHs+eOL2kp2NAqlJCk2KNluxhZPCek4tka
+	K3fWYm8HLEupFRxlWoT+ik4/RpgInguJWaqsEwaTei9cZGTTBerT478ekx8T
+X-Google-Smtp-Source: AGHT+IEoB0l42AYow5tt9IPmrAizPvxsL5NMzau0vtSu5rLDi9410qmliT7bRKUfw+M5+AyYwhlQqw==
+X-Received: by 2002:a0d:e650:0:b0:627:74ee:931b with SMTP id 00721157ae682-62c6bbc8b42mr27447877b3.6.1717073288384;
+        Thu, 30 May 2024 05:48:08 -0700 (PDT)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-62a0a3bf74esm28034217b3.37.2024.05.30.05.48.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 May 2024 04:57:26 -0700 (PDT)
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-7930504b2e2so40784185a.3;
-        Thu, 30 May 2024 04:57:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVKbTCd8R8RrhMKXYN32KfpzxK053W8HG11pdTwWUGBnKSoYIbLqLqJrSxQ4k19agMx4n7oKWoHgqY+35mW4gLKl6O1Y+54i6W68MPIfPcugNu1bZ5d2z00Wp+MnXJAtbwxqvCUnZCxuKQ/HaI1dqZQ9VmLDXa5L5H+GlnxiPx9gnU+/wvmLIP6jJoOKisncj1SB/Wsw1zBEAHUaVaQxDY+adJ+iJvDPJWsiKZbpXRwZ7DPLMv+ZAEL6m77xz7zRK5TkNaFFoChs1C3GA==
-X-Received: by 2002:a25:6842:0:b0:dfa:48f3:2253 with SMTP id
- 3f1490d57ef6-dfa5a619bd3mr2110161276.32.1717070226150; Thu, 30 May 2024
- 04:57:06 -0700 (PDT)
+        Thu, 30 May 2024 05:48:08 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-62c6dc63880so5931127b3.2;
+        Thu, 30 May 2024 05:48:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUx8giaVFolIdWrAVGpAgJpL+vZJex/RFFoIEG9+set5TpCxzQ4+4ooGids48KQ0/UhC+BsB1z7dKfqL4eiN7Pugt4nJGPyHJFY+7KzTCYNlm0yG1FNTKJVM037GgJ+IQhs6VC6jePRQKISsJR39s0xVWT94GdzXmUq2/+pE3QeU5etBYUCQtfWzZs1sOqgifccaxiOey1RBbT9Kniq10S6nd200yd4jw==
+X-Received: by 2002:a5b:d0e:0:b0:de6:1a66:3e4d with SMTP id
+ 3f1490d57ef6-dfa5a7cd26amr2691878276.59.1717073287803; Thu, 30 May 2024
+ 05:48:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240504-pinctrl-cleanup-v2-0-26c5f2dc1181@nxp.com>
-In-Reply-To: <20240504-pinctrl-cleanup-v2-0-26c5f2dc1181@nxp.com>
+References: <20240524094603.988-1-paul.barker.ct@bp.renesas.com> <20240524094603.988-2-paul.barker.ct@bp.renesas.com>
+In-Reply-To: <20240524094603.988-2-paul.barker.ct@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 30 May 2024 13:56:54 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVprgpjDP6PDn7appofJv8Tv30nRA4+7n4sR8n6n4qy+g@mail.gmail.com>
-Message-ID: <CAMuHMdVprgpjDP6PDn7appofJv8Tv30nRA4+7n4sR8n6n4qy+g@mail.gmail.com>
-Subject: Re: [PATCH v2 00/20] pinctrl: Use scope based of_node_put() cleanups
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Dvorkin Dmitry <dvorkin@tibbo.com>, Wells Lu <wellslutw@gmail.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Emil Renner Berthing <kernel@esmil.dk>, Jianlong Huang <jianlong.huang@starfivetech.com>, 
-	Hal Feng <hal.feng@starfivetech.com>, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Viresh Kumar <vireshk@kernel.org>, Shiraz Hashim <shiraz.linux.kernel@gmail.com>, soc@kernel.org, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Patrice Chotard <patrice.chotard@foss.st.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Damien Le Moal <dlemoal@kernel.org>, Ludovic Desroches <ludovic.desroches@microchip.com>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Dong Aisheng <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Chester Lin <chester62515@gmail.com>, 
-	Matthias Brugger <mbrugger@suse.com>, Ghennadi Procopciuc <ghennadi.procopciuc@oss.nxp.com>, 
-	Sean Wang <sean.wang@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
-	Joel Stanley <joel@jms.id.au>, Dan Carpenter <dan.carpenter@linaro.org>, 
-	Tony Lindgren <tony@atomide.com>, Stephen Warren <swarren@wwwdotorg.org>, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	imx@lists.linux.dev, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
-	Peng Fan <peng.fan@nxp.com>, 
-	Emil Renner Berthing <emil.renner.berthing@canonical.com>
+Date: Thu, 30 May 2024 14:47:55 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUkmMGU=S_6B=h+TLH3E=M0BhVCJn03axGsq_FPOKiDJQ@mail.gmail.com>
+Message-ID: <CAMuHMdUkmMGU=S_6B=h+TLH3E=M0BhVCJn03axGsq_FPOKiDJQ@mail.gmail.com>
+Subject: Re: [PATCH 1/9] pinctrl: renesas: rzg2l: Fix variable names in OEN functions
+To: Paul Barker <paul.barker.ct@bp.renesas.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	"Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Peng,
+Hi Paul,
 
-On Sat, May 4, 2024 at 3:12=E2=80=AFPM Peng Fan (OSS) <peng.fan@oss.nxp.com=
-> wrote:
-> Use scope based of_node_put() to simplify code. It reduces the chance
-> of forgetting of_node_put(), and also simplifies error handling path.
-> I not able to test the changes on all the hardwares, so driver owners,
-> please help review when you have time.
+On Fri, May 24, 2024 at 11:46=E2=80=AFAM Paul Barker
+<paul.barker.ct@bp.renesas.com> wrote:
+> The variable naming in the various OEN functions has been confusing. We
+> were passing the _pin variable from rzg2l_pinctrl_pinconf_get() and
+> rzg2l_pinctrl_pinconf_set() as the offset argument to rzg2l_read_oen()
+> and rzg2l_write_oen(), when this is not a register offset.
 >
-> This patchset was inspired from Dan's comments on pinctrl-scmi-imx.c,
-> thanks.
+> What we actually need here is the port index, so that we can compare
+> this to oen_max_port.
 >
-> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> We can also clean up rzg2l_pin_to_oen_bit(), removing an unnecessary
+> branch and clarifying the variable naming.
+>
+> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
 
-Andy's question about code generation on a related patch made me
-wonder, too.
+I think this makes sense.
+It will impact Prabhakar's RZ/V2H series, which demultiplexes
+these for RZ/V2H vs. RZ/G2L (G3S).
 
-On arm32, a conversion to for_each_child_of_node_scoped() seems to
-cost ca. 48 bytes of additional code, regardless of whether there were
-explicit cleanups before or not.
-
-I checked "pinctrl: renesas: Use scope based of_node_put() cleanups",
-and all but the conversions in *_dt_node_to_map() cost 48 bytes each.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
