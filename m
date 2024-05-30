@@ -1,165 +1,263 @@
-Return-Path: <linux-renesas-soc+bounces-5701-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5702-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 095C98D490D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 May 2024 12:00:27 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C628D4969
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 May 2024 12:16:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3AF801C213A0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 May 2024 10:00:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B1181B21456
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 May 2024 10:16:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C59FB15B96B;
-	Thu, 30 May 2024 10:00:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3ABF01761BD;
+	Thu, 30 May 2024 10:16:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B9em8k9x"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IgX/da3Y"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 392626F2FB;
-	Thu, 30 May 2024 10:00:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4E56F2E9;
+	Thu, 30 May 2024 10:16:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717063221; cv=none; b=XRHNmyr2f9/cIcxxwK5xekWKtPHKTWJGKUAdFBHaKSD9VXkWMhblVL8zgaey8i92slv/WgYJPfuxhU7j/ZIMjKap5LrZO/QGO7Ixr6efhyesI4UWGdITJnW/QBdayFW7WPQ275xuAColcnhdzXi4XXXUUG4GQSUw76yHFTpxRO0=
+	t=1717064189; cv=none; b=BsAQ9P51rRDuyvRPduJcUnOUrYG7Soi2f7WHJqVKCWgJ8W0q507bzHFYrfS05gvUUL5OHteW3Arn7+jLK2tf5FYK0cPvUu00YNeM1zKLS6JE0dgC63ivHcAECWSV3km83x0EkT2pd7eRafHFSp1Upqs58mKXKEF7dnrbam4H1J0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717063221; c=relaxed/simple;
-	bh=wzG3/oKSlCu97jSI7tiR1af+kcAssbvebzFAiTXOfN0=;
+	s=arc-20240116; t=1717064189; c=relaxed/simple;
+	bh=kOki+MSeYe6E86EINaVSzPfnje4NTbdLxmTtFcpGBUQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=d2/OepSNPKXim30Jo0WILBfy85/4bKALTTiEU1tTlwZx05AKWJllD0SdqtRu82kRUMPCfljpcbEGPVf0kNBRSw0On0dVKz/emoxYQ8Z6pNDXtGo2AdVpaKRZFkynVPGu+M5sRH1gZ4kQJi1ImMCHTJISs1PMpJyVhSxv0cEEgyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B9em8k9x; arc=none smtp.client-ip=209.85.221.169
+	 To:Cc:Content-Type; b=NtEWs7tCQQa8LraztL95qrH7ARo1LdDCbootNMa3I2yKEuqU5yfaxglny91zwIXTmZd4WiLXQw6KuhppEpHDRGH8KP62ljS7+JGXV4C83JA/g+BUwOAmrhi6o3ax9Ec3lszpjPJyzSQEY3t2EMRaK4RhYkA5yb7mt7k3WP0ZXto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IgX/da3Y; arc=none smtp.client-ip=209.85.222.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-4eaf633e879so117206e0c.3;
-        Thu, 30 May 2024 03:00:19 -0700 (PDT)
+Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-80ac8c7caddso262058241.2;
+        Thu, 30 May 2024 03:16:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717063219; x=1717668019; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1717064186; x=1717668986; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QZk2m4t/wZBrewLqNHs/q5cnCydB/XmJjrbH3KZsxkU=;
-        b=B9em8k9x7t3ydFRLs/HwevWakKk8S+S8RSo50LEskbfDzIoCtjikI1BUIE5VGwyaU5
-         C4Vt09Wt2/MxuQ0hyvtEwJQxXaFdxbwVz/XPi2Tmu/MXH0bW8hbmDDuutPxh9hzz356K
-         8wcI2sN9SW16ejXrSyZmKMN2hPk0EdiR+owfNr77AdqRYHkwJPHdjz6+JX+v6lZjfedZ
-         seZ/ElUGo2Q9GfImj/oAs1Ufaz17anLxJ54JyWVbwWiZM+kR8vTTcaNd72b1TMkiGxjQ
-         AwA8uVzQBWeFjCopomLVPNGzZCll2AMfb8asnZuqeKc2eZhS9XWQK3+b6It79Endmexf
-         P0Dw==
+        bh=JsVhoPFXTzuro6hgsrIOL1tsF092n2kCE0avYqh6/k0=;
+        b=IgX/da3Ysrf3VwyPPupceVO88ZZiH1eeJ0myq3sBbdAk3W2hb1R2MqpMuT7gpc/iFG
+         hHsFlXsHvwMdfqO90DLkQG9e/oA3nq3tmdVp95/s4XyyroMiDAMJ//RQjMmYDHHSAQm0
+         Pd2ynpDl8IZJ/w8hrvhmwNE0a3fBLmRxxtVv6oqbM6YS/pRXUHLcBTY5Wkfskh8/Y6Jf
+         IWLn+7+fuuEUYba6FkcPAfheOHnUJEXkj1/Ex1JQ4fd5jSLH5q3nbRDLzTqO6gvyumWO
+         6ZpaRwT+J949ujxSONwuH7RlsFdMbNjuHaP1MckSpoSQwldYxDopHImNQumGar99lfBT
+         +X1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717063219; x=1717668019;
+        d=1e100.net; s=20230601; t=1717064186; x=1717668986;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QZk2m4t/wZBrewLqNHs/q5cnCydB/XmJjrbH3KZsxkU=;
-        b=W5oUUoUQ5aVexr7Sm+aNn9W68Igs5Sw/TiHheV1NDWsJIHqtwruJV+R9ixkepj0ASd
-         QoVYpOieWj9rCVzzBfSxUoGtiOXmHycfOIIYVsDYWbTZUF4ZD8INWR/i9eyxYYAvkmpt
-         G1YmFwf0C4A7cGCAYgM3W/lDaggJ3ovsMv0xZ9gNGJN6bi+6Xx0ismINpAXimCkc2Kp8
-         GDzknWIEEIoC8evG8RpB5ajzBlos3WBeXPNWlY7b2Tf8ipUebHT/3UCbT+KcT60kt2FK
-         aMXu9I0KvsDAdabKj6KNxNPbtrnIZqKFjue+BGqCdCKkfedRLxaZqPFveqMHhRbkD/i4
-         XvNg==
-X-Forwarded-Encrypted: i=1; AJvYcCXruHuFBHRcC5CRLaV3Pt6iFVTOm+5hRGsFlWgeGaQ9zeT0+RmGT/N1/MKi1a6M+9Wx02cOJ3Qy15rVUJDxPOq8XAzkxSzD1yZbht7fgaskAtQKxrfRn3D5YWQvhXs4pXAIh6DCnmcCoPRhm7V522Iyd5QhZhmKXDHnQVGAa/J/EmUhX06YVYugG+DSenxqpqp/GxPNvLJgRKq870CT1lYkFjJ1XIpS
-X-Gm-Message-State: AOJu0YxQ3Nsa/AF40igsczWYpSCRQLRl2JsbEvXoLj4gsw1HMOQkNfBT
-	+9Q1ywzO4tF+AHgT2PyN6vUXc49ux1k1npAag17kz4oItQDw6W7XW5bwN81rgWgsW/D5H5LUEbU
-	38XoTbe1BvwKufZIacoN2IZjn+nY=
-X-Google-Smtp-Source: AGHT+IEglIeefJXeLU08NkierhfvMwoJJ0E7IBSSdcCrVBdCPfR/6hJiuJNEUjJWXhADteWxcwZvskB2FK25p5Br2iE=
-X-Received: by 2002:a05:6122:319c:b0:4c9:a9c9:4b3b with SMTP id
- 71dfb90a1353d-4eaf21bdbcemr1889915e0c.9.1717063219050; Thu, 30 May 2024
- 03:00:19 -0700 (PDT)
+        bh=JsVhoPFXTzuro6hgsrIOL1tsF092n2kCE0avYqh6/k0=;
+        b=dsYh2qTVl8mv1OmnsW1KBfHVykHeLwxqFAWAp1/3VCYAxxo7g0X8MXpI2pBsICmBf4
+         x0zlLlFCmJGa7FRZA7YPrIlUOjcsoVeXAtxSvW49D8wp6UPRzgxgClauM5mZOKxo/XVK
+         1FeUNPTSilwhq4x8xNVAFmZqT7qZwWEbY2pkmnxipj192vYjxmMDGO72AhSfd9htsMrF
+         ZnpFqalBuUaFe3k8JdhB+uzSv+M3nfYXuPg5GJRxeUQUHNNV1Z79sHYXaFYKqs6ytj4c
+         SU1xPYrXI07ao0GlyiE2uHXuLd0wrGhPrecABXX9E1P+ZhZodcR+Sy82Z6YR40ls90L/
+         dFrA==
+X-Forwarded-Encrypted: i=1; AJvYcCVOu8h3PtZ8Gab8wgYewDQgnhgzfdkruYLp48nAXdj/rQc7OiLeNgbG3Sdod0UnaP+Nx04J8YVN28LNGP3kax4ZZKaKOKe6uRUlxuc7+SmBgJGvUpspfbPdRCk6srCapO3QYI+4BbOiQPtmoyHDuXMQ3Z2jL+TVvDBrRJIu6MmY5aohHzm0YfjGrzR5x7Vo/89h4NS5pqTbLSji7KWRdXTRxDNn133HKA==
+X-Gm-Message-State: AOJu0YxefUTIJhEJoa6AB/P8HhHU/9HNla6b1DslovulTIYS8/trLBhJ
+	bDGGcHpKQ0uRQYEsCQNjFCv0treuYEEufnJGyV52Kc5UeFP1434l5L52aQUbD50xqEePLjd7GdI
+	8LNPKvzwYv3xOM1tslFSYgjB2C44=
+X-Google-Smtp-Source: AGHT+IG9KX6x4/jzfz9rTi/NIb2LNpMBSsFpJBMWPOPEehtOuOhQS2WlLCLLrQXKl3msOhmUXDYLIhRl4HFwwqQjhz0=
+X-Received: by 2002:a05:6122:2a4a:b0:4ea:edfb:8da6 with SMTP id
+ 71dfb90a1353d-4eaf23f3095mr1803595e0c.10.1717064184788; Thu, 30 May 2024
+ 03:16:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240524082800.333991-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240524082800.333991-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdWzZP2d6kRw1oTkMYgzS46J68gR_bg14==HCvVpkp0sJA@mail.gmail.com>
- <CA+V-a8uxwiof-hLPRpYCnDkVs8tj+-+v8GQLSSkMFUP13cuoXQ@mail.gmail.com> <CAMuHMdWEKCB3XdwQeK_MOUm3wyrhLtVXE+96vAVLv2iurmGbJQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdWEKCB3XdwQeK_MOUm3wyrhLtVXE+96vAVLv2iurmGbJQ@mail.gmail.com>
+References: <20240423175900.702640-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240423175900.702640-11-prabhakar.mahadev-lad.rj@bp.renesas.com> <862d7d16-367b-492e-b7be-e2fe71b904c2@tuxon.dev>
+In-Reply-To: <862d7d16-367b-492e-b7be-e2fe71b904c2@tuxon.dev>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 30 May 2024 10:58:59 +0100
-Message-ID: <CA+V-a8s3J8PzmA9DqoazdAoC2WRdBASvWTr35FFzfKnJ7yWayA@mail.gmail.com>
-Subject: Re: [PATCH 2/4] dt-bindings: clock: Add R9A09G057 CPG Clock and Reset Definitions
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+Date: Thu, 30 May 2024 11:15:05 +0100
+Message-ID: <CA+V-a8uUUoLOacFfh80JKNY+zTU+p50zZoK=x7GkFWJ962dcCA@mail.gmail.com>
+Subject: Re: [PATCH v2 10/13] pinctrl: renesas: pinctrl-rzg2l: Add support to
+ set pulling up/down the pins
+To: claudiu beznea <claudiu.beznea@tuxon.dev>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Linus Walleij <linus.walleij@linaro.org>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
+Hi Claudiu,
 
-On Thu, May 30, 2024 at 8:12=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Wed, May 29, 2024 at 11:10=E2=80=AFPM Lad, Prabhakar
-> <prabhakar.csengg@gmail.com> wrote:
-> > On Mon, May 27, 2024 at 10:18=E2=80=AFAM Geert Uytterhoeven
-> > <geert@linux-m68k.org> wrote:
-> > > On Fri, May 24, 2024 at 10:29=E2=80=AFAM Prabhakar <prabhakar.csengg@=
-gmail.com> wrote:
-> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > >
-> > > > Define RZ/V2H(P) (R9A09G057) Clock Pulse Generator module clock out=
-puts
-> > > > (CPG_CLK_ON* registers), and reset definitions (CPG_RST_* registers=
-)
-> > > > in Section 4.4.2 and 4.4.3 ("List of Clock/Reset Signals") of the R=
-Z/V2H(P)
-> > > > Hardware User's Manual (Rev.1.01, Feb. 2024).
-> > > >
-> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.c=
-om>
-> > >
-> > > > --- /dev/null
-> > > > +++ b/include/dt-bindings/clock/r9a09g057-cpg.h
-> > > > @@ -0,0 +1,644 @@
-> > > > +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > + *
-> > > > + * Copyright (C) 2024 Renesas Electronics Corp.
-> > > > + */
-> > > > +#ifndef __DT_BINDINGS_CLOCK_R9A09G057_CPG_H__
-> > > > +#define __DT_BINDINGS_CLOCK_R9A09G057_CPG_H__
-> > > > +
-> > > > +#include <dt-bindings/clock/renesas-cpg-mssr.h>
-> > > > +
-> > > > +/* Clock list */
-> > >
-> > > No distinction between Core and Module clocks?
-> > >
-> > I was in two minds here. Would you prefer clocks with no CGC support
-> > to be listed as core clocks?
->
-> What's CGC support? (Obviously I need some more reading before
-> I can tackle the rest of this series :-)
->
-I meant the clocks which cannot be controlled by the CPG_CLKON_m
-register. Shall I add them as CORE clocks?
+Thank you for the review.
 
-> My comments are due to the bindings saying:
+On Thu, May 30, 2024 at 8:48=E2=80=AFAM claudiu beznea <claudiu.beznea@tuxo=
+n.dev> wrote:
 >
->   '#clock-cells':
->     description: |
->       - For CPG core clocks, the two clock specifier cells must be "CPG_C=
-ORE"
->         and a core clock reference, as defined in
->         <dt-bindings/clock/r9a09g057-cpg.h>,
->       - For module clocks, the two clock specifier cells must be "CPG_MOD=
-" and
->         a module number, as defined in <dt-bindings/clock/r9a09g057-cpg.h=
->.
->     const: 2
+> Hi, Prabhakar,
 >
-> while the header file does not make it obvious whether a clock needs
-> CPG_CORE or CPG_MOD.
+> On 23.04.2024 20:58, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Add support to configure bias-disable, bias-pull-up and bias-pull-down
+> > properties of the pin.
+> >
+> > Two new function pointers get_bias_param() and get_bias_val() are
+> > introduced as the values in PUPD register differ when compared to
+> > RZ/G2L family and RZ/V2H(P) SoC,
+> >
+> > Value | RZ/G2L        | RZ/V2H
+> > ---------------------------------
+> > 00b:  | Bias Disabled | Pull up/down disabled
+> > 01b:  | Pull-up       | Pull up/down disabled
+> > 10b:  | Pull-down     | Pull-down
+> > 11b:  | Prohibited    | Pull-up
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > RFC->v2
+> > - New patch
+> > ---
+> >  drivers/pinctrl/renesas/pinctrl-rzg2l.c | 73 +++++++++++++++++++++++++
+> >  1 file changed, 73 insertions(+)
+> >
+> > diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/=
+renesas/pinctrl-rzg2l.c
+> > index 102fa75c71d3..c144bf43522b 100644
+> > --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> > +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> > @@ -122,6 +122,7 @@
+> >  #define IOLH(off)            (0x1000 + (off) * 8)
+> >  #define SR(off)                      (0x1400 + (off) * 8)
+> >  #define IEN(off)             (0x1800 + (off) * 8)
+> > +#define PUPD(off)            (0x1C00 + (off) * 8)
+> >  #define ISEL(off)            (0x2C00 + (off) * 8)
+> >  #define SD_CH(off, ch)               ((off) + (ch) * 4)
+> >  #define ETH_POC(off, ch)     ((off) + (ch) * 4)
+> > @@ -140,6 +141,7 @@
+> >  #define IEN_MASK             0x01
+> >  #define IOLH_MASK            0x03
+> >  #define SR_MASK                      0x01
+> > +#define PUPD_MASK            0x03
+> >
+> >  #define PM_INPUT             0x1
+> >  #define PM_OUTPUT            0x2
+> > @@ -265,6 +267,8 @@ struct rzg2l_pinctrl_data {
+> >       void (*pmc_writeb)(struct rzg2l_pinctrl *pctrl, u8 val, void __io=
+mem *addr);
+> >       u32 (*read_oen)(struct rzg2l_pinctrl *pctrl, u32 caps, u32 offset=
+, u8 pin);
+> >       int (*write_oen)(struct rzg2l_pinctrl *pctrl, u32 caps, u32 offse=
+t, u8 pin, u8 oen);
+> > +     int (*get_bias_param)(u8 val);
+> > +     int (*get_bias_val)(enum pin_config_param param);
+> >  };
+> >
+> >  /**
+> > @@ -1081,6 +1085,38 @@ static int rzg2l_write_oen(struct rzg2l_pinctrl =
+*pctrl, u32 caps, u32 offset, u8
+> >       return 0;
+> >  }
+> >
+> > +static int rzg2l_get_bias_param(u8 val)
+> > +{
+> > +     switch (val) {
+> > +     case 0:
+> > +             return PIN_CONFIG_BIAS_DISABLE;
+> > +     case 1:
+> > +             return PIN_CONFIG_BIAS_PULL_UP;
+> > +     case 2:
+> > +             return PIN_CONFIG_BIAS_PULL_DOWN;
+> > +     default:
+> > +             break;
+> > +     }
+> > +
+> > +     return -EINVAL;
+> > +}
+> > +
+> > +static int rzg2l_get_bias_val(enum pin_config_param param)
+> > +{
+> > +     switch (param) {
+> > +     case PIN_CONFIG_BIAS_DISABLE:
+> > +             return 0;
+> > +     case PIN_CONFIG_BIAS_PULL_UP:
+> > +             return 1;
+> > +     case PIN_CONFIG_BIAS_PULL_DOWN:
+> > +             return 2;
+> > +     default:
+> > +             break;
+> > +     }
+> > +
+> > +     return -EINVAL;
+> > +}
+> > +
+> >  static int rzg2l_pinctrl_pinconf_get(struct pinctrl_dev *pctldev,
+> >                                    unsigned int _pin,
+> >                                    unsigned long *config)
+> > @@ -1139,6 +1175,25 @@ static int rzg2l_pinctrl_pinconf_get(struct pinc=
+trl_dev *pctldev,
+> >               arg =3D rzg2l_read_pin_config(pctrl, SR(off), bit, SR_MAS=
+K);
+> >               break;
+> >
+> > +     case PIN_CONFIG_BIAS_DISABLE:
+> > +     case PIN_CONFIG_BIAS_PULL_UP:
+> > +     case PIN_CONFIG_BIAS_PULL_DOWN: {
 >
-I was intending to drop the CPG_CORE description in the next version.
+> Block { } can be removed here.
+>
+Agreed, I will drop it.
+
+> > +             if (!(cfg & PIN_CFG_PUPD))
+> > +                     return -EINVAL;
+> > +
+> > +             ret =3D pctrl->data->get_bias_param(rzg2l_read_pin_config=
+(pctrl,
+> > +                                                                     P=
+UPD(off),
+> > +                                                                     b=
+it, PUPD_MASK));
+> > +             if (ret < 0)
+> > +                     return ret;
+> > +
+> > +             if (ret !=3D param)
+> > +                     return -EINVAL;
+>
+> Can this happen? Otherwise it can be removed.
+>
+> > +             /* for PIN_CONFIG_BIAS_PULL_UP/DOWN when enabled we just =
+return 1 */
+>
+> What about bias disable? I haven't checked in detail, is it OK to do
+> arg =3D 1 here?
+>
+For BIAS_DISABLE config there isn't any argument, hence the above
+comment mentions only for UP/DOWN. Passing arg =3D 1 for BIAS_DISABLE
+has no effect.
+
+> > +             arg =3D 1;
+> > +             break;
+> > +     }
+> > +
+> >       case PIN_CONFIG_DRIVE_STRENGTH: {
+> >               unsigned int index;
+> >
+> > @@ -1254,6 +1309,20 @@ static int rzg2l_pinctrl_pinconf_set(struct pinc=
+trl_dev *pctldev,
+> >                       rzg2l_rmw_pin_config(pctrl, SR(off), bit, SR_MASK=
+, arg);
+> >                       break;
+> >
+> > +             case PIN_CONFIG_BIAS_DISABLE:
+> > +             case PIN_CONFIG_BIAS_PULL_UP:
+> > +             case PIN_CONFIG_BIAS_PULL_DOWN: {
+>
+> Block { } can be removed in this case.
+>
+Agreed, I will drop it.
 
 Cheers,
 Prabhakar
