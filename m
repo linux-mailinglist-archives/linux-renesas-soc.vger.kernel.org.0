@@ -1,113 +1,249 @@
-Return-Path: <linux-renesas-soc+bounces-5710-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5711-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6961D8D4C53
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 May 2024 15:13:51 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 130BC8D4C8D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 May 2024 15:25:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9B1C51C216FB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 May 2024 13:13:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BC1DA284577
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 May 2024 13:25:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D72118306C;
-	Thu, 30 May 2024 13:13:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A272183085;
+	Thu, 30 May 2024 13:25:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TNJTr5I1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5rQzeFmB";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="evRYP/yB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4V9RjjSf"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5750017C9ED;
-	Thu, 30 May 2024 13:13:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 185F11C2A8;
+	Thu, 30 May 2024 13:25:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717074826; cv=none; b=sjOACGyaD61LkIlbDzPv8tc/79V2tu7yvhzshaxwart4iDEq8fdBHa7o8Doa66OC8UtQ1mabx9DqackLGquuetXAwCBsZDQvoTjqGiZQEsbU3EHTjR1h0DSZFhP+JxkqJyIu/Qyo0ElbYrXa0MQBKf2R6mJHYWH8QE3WOIiOdYQ=
+	t=1717075507; cv=none; b=cRVcEG0DWTqR90X+RDTvL2PBqejxqI+j1O9VIa9n8D1oOVJxqx++dGHs+ljFdbO0zCS9JIK32vDpQ9StRgTtwUzhReUqonuGS4c12ooWi7ztXgnzs5N7Vmd5oVt+wRNve4u6R8nOkvLh5/JfQWb/r+RZJzgHDbDDCGWDTeW8ih0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717074826; c=relaxed/simple;
-	bh=J0TnULNmCjGi0W3Tfv4zobeVNCY/UF/0qmAcf1XUOY4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PoHMJlDy65ZbhDYkzQ5dGeOKnQEsup58LQ1dHeeGCl88EWr72qqOMT19fx13RZDCckVJcW2N7MlUHcul+s7b9WdNAKvfvzMCuf2OE9l/O4+6R97N1vug8zOVr7kYKWEB3gVAONEG5BWQD9dSlgAHhaXRk0g/GKLMJNKP0ahs7Hg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-62c6dc63880so6221437b3.2;
-        Thu, 30 May 2024 06:13:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717074823; x=1717679623;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lsessgsG3LDyhnHOJmtjAcMau6j+AdsxfuHG+J8Bk10=;
-        b=PuetMktEzuZmdKZhfz5YOikc8mKpeK5+ycV0foGOF6E99A1LbbMFd5tZdP4IEBLY5x
-         fYRcemwXIOZbI/+r2naYlpa3ZBpggfFUNA5nHbJit14K+cShCVEWwFWzQ8uApQC4jcLG
-         AyXDVtQrrjNG9zqoR4uV2XFGqlCUoVYGbwuPOs/r0FCZ1AZuGyumn5uWwFWGCBySJrQb
-         rDzaoSXIsjVJ1RUvrxBnp1CmrJkE3NZvCOkKh4AwgxmJCdJbuLXc9pCNykvvsYA9J/Mh
-         +UEB6XNygIWyEWfoTCnEJ5Yez4isqswYq+TuSz4uvD5vpw4GHuojwjzf7vOERBZ24ENT
-         TXNA==
-X-Forwarded-Encrypted: i=1; AJvYcCUxVZqLTFlg2oLlJEJfNWnigS2Grfs6v19vlKZDanCatiQz9RsZHNjZzXHARdsf2mU5Hw8U5weTGq3eToFUCE6FFEovDG1Pj+DsuqqUdbsw1dCpB9punIGXnfytdPhwTCXHe0PxJzHyQsJuvg9Lu59lZkCl4iwLN1Pm2kvwlGIb/3LqswfRvRKJduwxpuhaYjFBC9ZE5/0A0KXWrGPm8D5utBh+fMLEIA==
-X-Gm-Message-State: AOJu0YzUMiYw46TK+ziTR0sdPdiQD2nCG6o02ITqykfRdiXAgiF1VQ5U
-	kIa43AqStwyHBxHuQeOEWV+Ofmu7VtCsFCQ1fsS+U4OPU5mp/IkLlSfoKY6q
-X-Google-Smtp-Source: AGHT+IFrqEpCXksjtGYB37b3rAABx4zaoHtQW3MsmUG8KDmNRgy8R2iw7EmFQjRAJ4TKRkZE2HGKxw==
-X-Received: by 2002:a81:b1c9:0:b0:61d:fd3e:8e8f with SMTP id 00721157ae682-62c6bc1252fmr26955707b3.25.1717074822789;
-        Thu, 30 May 2024 06:13:42 -0700 (PDT)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-62a0a56e0b3sm27642687b3.132.2024.05.30.06.13.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 May 2024 06:13:42 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-dfa59545e0fso836965276.0;
-        Thu, 30 May 2024 06:13:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUmW3MDY+b7fzrcu0k9YlnlDjfvyVENpWmbjntusPN5mt1ldpowAXK9fYH0CcD1YNYwTusjKI+CnkTV5HuOBWV0j6yHwqTh+cK0zUq8NPu3zR5+9yqfU0BsZvTRYJsNSP+bZo6L5s/YX5PJ5YPUgUnai6OeJpyvj5xmG+MdVcPp8vIODmAQm1wp97pX/esyrWFbPzms3SC/nzlhnKYnH83nces9NgXA2w==
-X-Received: by 2002:a5b:d0e:0:b0:de6:1a66:3e4d with SMTP id
- 3f1490d57ef6-dfa5a7cd26amr2767861276.59.1717074821376; Thu, 30 May 2024
- 06:13:41 -0700 (PDT)
+	s=arc-20240116; t=1717075507; c=relaxed/simple;
+	bh=CTNp3tSmoZu517100oC9N7M79WsRcBjopPTx2HtKEXM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=AKfZhyL/JKwC/tvU3/Y6VvCEiI2S+R95JqSBSHJxrTAIGGwyx4XzH5uFJotertqVZSLynlxSm4uDfLnPWNhf6Rs5YphYbLX1RmGYav2QvkZymk6ulaYObIV0U5KnayZQk2B2hH5E/AQ9vI4cCdCWaqrSd65xdDNIFtoaQJutcAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TNJTr5I1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5rQzeFmB; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=evRYP/yB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4V9RjjSf; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CED7B33876;
+	Thu, 30 May 2024 13:25:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1717075503; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/fTnH1k9PCe7lPHHa/LlxqVdBbmwOs57Vq5J6smfmlM=;
+	b=TNJTr5I1t+cnIehLm2KgzziHKQPwH5vTSXmK33XrrgB/+8EaIyGUhr8//iLCeNWPqrrGJ6
+	w+eytJ1mgt51hTeI/OAnLh7UEmnZbKbMc6DHkrss9bXVLhKKZKjgZMnXJ4WlvnU6EPDYIX
+	Ohf5t0FJwfE/RaJGyCt0y2H6CHxYPOQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1717075503;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/fTnH1k9PCe7lPHHa/LlxqVdBbmwOs57Vq5J6smfmlM=;
+	b=5rQzeFmBSWr15givsFXgqUzwF3ZzFjZbtftuarFvHsENz+CPkeZ2SkYcojsKFe/mNO4g+1
+	rwwmUyirkftzeyAQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="evRYP/yB";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=4V9RjjSf
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1717075501; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/fTnH1k9PCe7lPHHa/LlxqVdBbmwOs57Vq5J6smfmlM=;
+	b=evRYP/yBCgDxIgKu9Ci+mIiBD1yl4baeB8Hl8zYyDKQYs233xess4LS9eZu5OluldW5xJC
+	j5//fDIDonU4cQ+MO1y2C0o8OTnaqEWR1nJ/s3VKXg9Ordk6+KzdzJ5D/L15yuX7UizRbX
+	JN7VabjMw9avMuTYzscWuow2eSVRAmg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1717075501;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/fTnH1k9PCe7lPHHa/LlxqVdBbmwOs57Vq5J6smfmlM=;
+	b=4V9RjjSfyyeR5QrFeTMzS4dq+FJHVbbFL2E95ay6EB+eUN6bz2GoatzZM5rxLXjeX8+dyT
+	TlQ3jjBMca800fAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DE5F813A83;
+	Thu, 30 May 2024 13:25:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id D5STLyx+WGaEVgAAD6G6ig
+	(envelope-from <jdelvare@suse.de>); Thu, 30 May 2024 13:25:00 +0000
+Message-ID: <1e626d93f4220cc348300bbc61089de32300122d.camel@suse.de>
+Subject: Re: [PATCH] i2c: smbus: fix NULL function pointer dereference
+From: Jean Delvare <jdelvare@suse.de>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	linux-renesas-soc@vger.kernel.org
+Cc: Baruch Siach <baruch@tkos.co.il>, linux-i2c@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Peter Rosin <peda@axentia.se>
+Date: Thu, 30 May 2024 15:24:58 +0200
+In-Reply-To: <20240426064408.7372-1-wsa+renesas@sang-engineering.com>
+References: <20240426064408.7372-1-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240524094603.988-1-paul.barker.ct@bp.renesas.com> <20240524094603.988-4-paul.barker.ct@bp.renesas.com>
-In-Reply-To: <20240524094603.988-4-paul.barker.ct@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 30 May 2024 15:13:29 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXhag176AuWj5YvNjttniPGa_PhnTmkFPWT+o_F4uxMuA@mail.gmail.com>
-Message-ID: <CAMuHMdXhag176AuWj5YvNjttniPGa_PhnTmkFPWT+o_F4uxMuA@mail.gmail.com>
-Subject: Re: [PATCH 3/9] pinctrl: renesas: rzg2l: Support output enable on RZ/G2L
-To: Paul Barker <paul.barker.ct@bp.renesas.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	TAGGED_RCPT(0.00)[renesas];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sang-engineering.com:email,suse.de:dkim,tkos.co.il:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: CED7B33876
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
 
-On Fri, May 24, 2024 at 11:46=E2=80=AFAM Paul Barker
-<paul.barker.ct@bp.renesas.com> wrote:
-> On the RZ/G2L SoC family, the direction of the Ethernet TXC/TX_CLK
-> signal is selectable to support an Ethernet PHY operating in either MII
-> or RGMII mode. By default, the signal is configured as an input and MII
-> mode is supported. The ETH_MODE register can be modified to configure
-> this signal as an output to support RGMII mode.
->
-> As this signal is by default an input, and can optionally be switched to
-> an output, it maps neatly onto an `output-enable` property in the device
-> tree.
->
-> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+Hi Wolfram, Baruch, Peter,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Fri, 2024-04-26 at 08:44 +0200, Wolfram Sang wrote:
+> Brauch reported an OOPS when using the designware controller as target
+> only. Target-only modes break the assumption of one transfer function
+> always being available. Fix this by always checking the pointer in
+> __i2c_transfer.
 
-Gr{oetje,eeting}s,
+I was asked to backport this fix to our oldest kernel branches, so I
+looked into it and I have comments and a question.
 
-                        Geert
+> Reported-by: Baruch Siach <baruch@tkos.co.il>
+> Closes: https://lore.kernel.org/r/4269631780e5ba789cf1ae391eec1b959def7d99.1712761976.git.baruch@tkos.co.il
+> Fixes: 4b1acc43331d ("i2c: core changes for slave support")
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+I have a hard time establishing a formal link between the reported bug
+and the commit listed above. I do understand that it wouldn't make
+sense to register an i2c_adapter with neither .master_xfer nor
+.smbus_xfer set before .reg_slave was added to struct i2c_algorithm,
+but there were no checks in i2c-core preventing it from happening.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+It was also possible for any (broken) device driver to call
+__i2c_transfer() without first checking if plain I2C transfers were
+actually supported by the i2c_adapter. I would argue that such an issue
+should have been fixed at the device driver level by checking for the
+I2C_FUNC_I2C functionality flag before calling __i2c_transfer(). That's
+a theoretical issue though as I'm not aware of any device driver having
+this issue.
+
+The call stack in Baruch's report shows that the real issue is with
+i2c_smbus_xfer_emulated() being called with the i2c bus lock already
+held, and thus having to call __i2c_transfer() instead of
+i2c_transfer(). This code path did not exist before commit 63453b59e411
+("i2c: smbus: add unlocked __i2c_smbus_xfer variant"), which was added
+in kernel v4.19. Therefore I claim that CVE-2024-35984 only affects
+kernel v4.19 and newer. Do we agree on that?
+
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>  drivers/i2c/i2c-core-base.c  | 12 ++++++------
+>  drivers/i2c/i2c-core-smbus.c |  2 +-
+>  2 files changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
+> index ff5c486a1dbb..db0d1ac82910 100644
+> --- a/drivers/i2c/i2c-core-base.c
+> +++ b/drivers/i2c/i2c-core-base.c
+> @@ -2200,13 +2200,18 @@ static int i2c_check_for_quirks(struct i2c_adapter *adap, struct i2c_msg *msgs,
+>   * Returns negative errno, else the number of messages executed.
+>   *
+>   * Adapter lock must be held when calling this function. No debug logging
+> - * takes place. adap->algo->master_xfer existence isn't checked.
+> + * takes place.
+>   */
+>  int __i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
+>  {
+>         unsigned long orig_jiffies;
+>         int ret, try;
+>  
+> +       if (!adap->algo->master_xfer) {
+> +               dev_dbg(&adap->dev, "I2C level transfers not supported\n");
+> +               return -EOPNOTSUPP;
+> +       }
+> +
+
+Not related specifically to this commit, as it is only moving a check
+which already existed before, but this looks inefficient to me.
+
+We end up performing the check with every I2C-level transfer, while the
+availability of such support can almost always be checked once and for
+all in the I2C device driver (i2c-dev and i2c_smbus_xfer_emulated being
+the exceptions).
+
+I see two ways for us to reach this check:
+* __i2c_transfer() or i2c_transfer() gets called directly by a device
+driver. This driver should have checked for the I2C_FUNC_I2C
+functionality flag before calling either function. If they did not,
+it's a driver bug, which should be fixed in the driver in question.
+Note that i2c-dev currently lacks this check, I think it should be
+added.
+* __i2c_transfer() gets called by i2c_smbus_xfer_emulated(). We should
+add a check for I2C_FUNC_I2C in __i2c_smbus_xfer() before calling this
+function. This is more or less what Baruch proposed initially, and I
+think it would have been a more efficient fix.
+
+And if you are concerned about functionality flags not being set
+properly (specifically I2C_FUNC_I2C being set while .master_xfer isn't
+set [1]) then we should add a consistency check at i2c_adapter
+registration time, so again it's done once and for all and we don't
+have to check again and again at transfer time.
+
+Or is this optimization not worth it?
+
+[1] BTW, looking at the only two in-tree slave-only I2C adapter
+drivers, i2c-at91-slave and i2c-designware-slave, both are setting
+functionality flags other than I2C_FUNC_SLAVE. Unless I don't
+understand how the slave functionality works, this is a bug. I'll
+prepare and post patches later today.
+
+
+-- 
+Jean Delvare
+SUSE L3 Support
 
