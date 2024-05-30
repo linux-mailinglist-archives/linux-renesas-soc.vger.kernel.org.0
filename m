@@ -1,102 +1,127 @@
-Return-Path: <linux-renesas-soc+bounces-5713-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5714-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B3578D4CF0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 May 2024 15:40:54 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0877C8D4CF8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 May 2024 15:44:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DC15A2827E9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 May 2024 13:40:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 90E351F22F32
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 May 2024 13:44:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CFF517CA10;
-	Thu, 30 May 2024 13:40:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36F7917D37E;
+	Thu, 30 May 2024 13:44:14 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8B1B17C200;
-	Thu, 30 May 2024 13:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808D117C9F7;
+	Thu, 30 May 2024 13:44:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717076450; cv=none; b=M6LUKk288jLu0Tc7e7i6Lz2u7PcqrYGavUCN/vhh3AId28zhgm+/nSAmVZpymbsCUw0eexP3LfXqea7d6aTkG60YLUzpaIg6XTCew6EDFLVXB8rsS9HNCeT2oyWYZKokBIzVxDysLbxMCvH5D+X4eFXAdvKSSBpj3Q+TaRHZySo=
+	t=1717076654; cv=none; b=j0Hg8iI145m8mDaU4Xo9OrUVgGGYk/r0EPSI+YaNi47r+kY0elsqfdVWz5dpEuGAbd4QIABkXEeByF+6B1HpvZ5aFT7RArLmWIOVUjSQTncNF8J8PAIFwUJiYeRHp6unKWdgCWm6Je7Gn2R8NBqaZNWYBLNecXVnmxn8EydVjYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717076450; c=relaxed/simple;
-	bh=lIlSzIWS5g2c9h1l/ma0n9X4Gfu2m+/T7kpjxSo5BXA=;
+	s=arc-20240116; t=1717076654; c=relaxed/simple;
+	bh=WAQ94FAkmmst5XBLICAuOBXkPx+QebudViPIoZrjHDk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=okLpfuw8SMbUzqXyr+6fm6hXScKc1Olzms61JkdEyeUgahmxPEszaIp0y3CWjWzMsd8U2bUvAKRV9JWTYVlxni92fZIeeqX/51uQ8FO1mGCf9be+wRaJ9t8jlyIhwfk5AvHutNDTJjsE8WwBehCms2bqBgyQtJ7pB5kG72ZpHdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.182
+	 To:Cc:Content-Type; b=b379SvXzsc/415G59T5g63cdh03TTGUoG6a8xNJjo0f7gwK7ctODPilKGRe/kBDck0zALwUj2xN98BY9URT3SI0YGs65DHa+aKjuWoi0XdQas8JZGY9UjSJQ1X3A9dTCMG7Vv6pFaxCYh7wfXCZPeSDkg7+PjCAL68X6zOJHT1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-62c5fd61d2bso9348017b3.3;
-        Thu, 30 May 2024 06:40:48 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-62a0873c6e4so8403807b3.3;
+        Thu, 30 May 2024 06:44:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717076447; x=1717681247;
+        d=1e100.net; s=20230601; t=1717076650; x=1717681450;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yJ3f9+fUvgkfKQ2kx2UNWzarW6FXRaKbEJ3+LcKge+U=;
-        b=qzT6aWEL0JdhT6ILSAGlwOI4ec46kVp3by8HRBe6zDW+hzX4zyVH7p9rN3Y3GOQla5
-         N5u/9PtQ63DbyP6H0idsTcnmDLRf9R4sSJtWJAWPuMBv+KLGzzW2pWhIglZyB8cigwtt
-         IJlPBy7TwkGgDOJWpm/13gNqzjxU8Lfgeus69+aL6Wbems/2gbUCeg5xKhE5F+KV02rV
-         w/L6SOgYHlubaa+wrMCmYCtZuu0VLJKjYDcFqvsypJHCRFJLdcf6yU4sj9k6gb+JTX6+
-         DQt1Xl018NshY8E2sdD1tNo3Rt1kS3+1Gr2RFgkX6KBLnkmBVDzhhD8mxN2DoFTx05Ti
-         FO5w==
-X-Forwarded-Encrypted: i=1; AJvYcCX/lnuqMsn1chpkfE1VOxjgcZEzh8lD9olhM1JgjUytp8tW1xhLfkEP8nWjmW9oqSJeEyQvjNF1TlBMcb5UU8CkLrbTOk6qyrP7ZoLDznvn+j8Lqbf8KDn5+33UZMWMqCHrphk3H/tQEJyCjCYk0CilicHaPF3yUb3A8DyFmAph9P3IiHtBb7ZTUlfFPYoO+Daf3yLswkwyrCCeRvFQF+CC1+186O5sOg==
-X-Gm-Message-State: AOJu0YzR35wFNEjFC8ahAzyYhJ87M272SX1VeZG7ZxbkfARTdCc7G2Yl
-	kBhzqA6AGUY2GizPbYcyM9/rdVJkaMdjQjkGiup5brCnSJgFwnhQty9yo89w
-X-Google-Smtp-Source: AGHT+IEBb+XMp90PbUvwx7Dx5ZpFDUvPTdcOZ8kmjQZcL6HUm5sl7Sd9cFCinRNSV0/RoC7qm8A9eg==
-X-Received: by 2002:a0d:c047:0:b0:61b:3304:b702 with SMTP id 00721157ae682-62c6bbceadfmr19685677b3.5.1717076447043;
-        Thu, 30 May 2024 06:40:47 -0700 (PDT)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-62a0a3f056esm27910387b3.50.2024.05.30.06.40.46
+        bh=tCmfn7QmN2YKSjQZBi6juMoZ0F7gpnZynmpI9+bTokI=;
+        b=CkCDUuJtIg5q3J7j93G1V2yc+kDtytPStm5orfk9PfgyGu5+l338CBtRwjuUEhtd6W
+         zV0ztHD0GkZXOIc3D+sWGrr6dix1SLTjzl7jsZD4pcZo0NwSvy6g/58Z21SZ3q4kTs6f
+         3wILNIkCDefdzE4uHq+vSublEq53DGCvC6ebtC4NIFmw5nAjlVQQ+Dm1J58TOtH09e2x
+         lrFzfg4UbZxIRktQZERESd1vj+LoQR7Yav7bXN9MtrgDR33zufr4ZBCDY5u77crv1YiX
+         Bu+X+SfMXMgjjrzlwVmoxL8p1cpE4tXt+OKBMhWNUBtiGwRIgq2OVQJ+tgqW6IA1+E97
+         vwTA==
+X-Forwarded-Encrypted: i=1; AJvYcCXTIUbsQCLKoGVUWfOkfqR9aVHs62ZnyPmdQRtP5zSMRkHfzghJkfH8lDGGNGGSIwbxlOqrgKdUj4d5Wuf0LIPSPZ0Ef9+s102V0LSNgodTDbbMrh98ODGTrZOz9H3ULaigYz+y7ZGpAQXkn5Ocl8Y2WVoa4bSdzOl6HP1UYShWXAQRmM5Q60HMEKMK42PpwynLGbUEdLzOCf4ZwvGty0Eoilih7ntC
+X-Gm-Message-State: AOJu0Yyb7IewndNT5yvppWlt1UOJ+MqeLL81MM0IPiNcBIWAokQdzWEM
+	ABbd9yTPP99w3l3JoOZhj5nwz84tUsG/lmeffwv0mWdbeG0evPczDPaI3vy9
+X-Google-Smtp-Source: AGHT+IEyNBEzUGHmLljO3yP2xLsPffWKWyvzySlz6S8yeefOCiRCUBNulQlH9Hg2keYjmNnGHIQu1Q==
+X-Received: by 2002:a81:4327:0:b0:622:f785:5499 with SMTP id 00721157ae682-62c6bcc59damr25507207b3.37.1717076649734;
+        Thu, 30 May 2024 06:44:09 -0700 (PDT)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-62a0a56a5c3sm27797017b3.137.2024.05.30.06.44.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 May 2024 06:40:46 -0700 (PDT)
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-df4dda88ce9so667518276.3;
-        Thu, 30 May 2024 06:40:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWdhVFquytfzdc6g4T63qzTrmxcZQEfsMMcpiVtl+a91k3he3hF/H+Uk+gJZL6vifceS8nvTpfE5o97xhmLVbGy+22vuqvbuzMW0knF7bdI4Vn5NOVraYa4MbkusyYzKX7hKcJc807R5W/57XSdS4QNaIXrxIwhK8DUI9BH4T4VXCOFS+fBMGbmJOEOeMj0Tlenamch7pVvB4vGcXte+6wknTqFGg849A==
-X-Received: by 2002:a25:bf91:0:b0:df2:43dd:f7a3 with SMTP id
- 3f1490d57ef6-dfa5a7ce1f4mr2347623276.58.1717076446347; Thu, 30 May 2024
- 06:40:46 -0700 (PDT)
+        Thu, 30 May 2024 06:44:09 -0700 (PDT)
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-dfa59545e0fso878973276.0;
+        Thu, 30 May 2024 06:44:09 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVFq2BEtDUup3xKrj2hh7SqXMv05OV/0ioMCy+1Yh/Nopzlo9mJCec1MEUyvu+v+ZGm4ju/IQ3A8zKkD0x58i+Y49h/2FJPBNGA58LvpDkV8jxvhJmAastH32Y+XG3vj4UslaoPLhBICF+4KklYoSjKBeELoGkJx32U9Zr/IHrVk7fLM79a0kxkyXGHzGCn4reRqnZyltnu2+YfM70HD7QODLb1LAS/
+X-Received: by 2002:a25:d8d6:0:b0:df7:9bf8:a5c7 with SMTP id
+ 3f1490d57ef6-dfa5a7ce112mr3001630276.57.1717076648680; Thu, 30 May 2024
+ 06:44:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240524094603.988-1-paul.barker.ct@bp.renesas.com> <20240524094603.988-5-paul.barker.ct@bp.renesas.com>
-In-Reply-To: <20240524094603.988-5-paul.barker.ct@bp.renesas.com>
+References: <20240422213006.505576-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdW3YQMUOe9pP6TLjWTTkS-UNmzz21eqgW0nMQ4SUkwxGA@mail.gmail.com>
+In-Reply-To: <CAMuHMdW3YQMUOe9pP6TLjWTTkS-UNmzz21eqgW0nMQ4SUkwxGA@mail.gmail.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 30 May 2024 15:40:34 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVFayjKtnJpkH5iFy_UT4uXCh48-9zJOJkiyu5pT7vcBA@mail.gmail.com>
-Message-ID: <CAMuHMdVFayjKtnJpkH5iFy_UT4uXCh48-9zJOJkiyu5pT7vcBA@mail.gmail.com>
-Subject: Re: [PATCH 4/9] arm64: dts: renesas: rzg2l: Enable Ethernet TXC output
-To: Paul Barker <paul.barker.ct@bp.renesas.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+Date: Thu, 30 May 2024 15:43:55 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWEL2PJZ=wKse2V2KyBW=XEt3FFY19y4UD5k4tQNjOJtg@mail.gmail.com>
+Message-ID: <CAMuHMdWEL2PJZ=wKse2V2KyBW=XEt3FFY19y4UD5k4tQNjOJtg@mail.gmail.com>
+Subject: Re: [PATCH 0/6] Update compat strings for SD/MMC nodes on RZ/{G2L
+ (family), G3S, V2M} SoCs
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+	Magnus Damm <magnus.damm@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Paul,
-
-On Fri, May 24, 2024 at 11:47=E2=80=AFAM Paul Barker
-<paul.barker.ct@bp.renesas.com> wrote:
-> Configure ET0_TXC and ET1_TXC as outputs on the Renesas RZ/[GV]2L SMARC
-> SoMs, as per RGMII specification.
+On Tue, Apr 23, 2024 at 8:57=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+> On Mon, Apr 22, 2024 at 11:30=E2=80=AFPM Prabhakar <prabhakar.csengg@gmai=
+l.com> wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > - RZ/G2UL and RZ/Five ("r9a07g043")
+> > - RZ/G2L(C) ("r9a07g044")
+> > - RZ/V2L ("r9a07g054")
+> > - RZ/G3S ("r9a08g045")
+> > - RZ/V2M ("r9a09g011")
+> >
+> > The SD/MMC Interface in the above listed SoCs is not identical to that =
+of
+> > R-Car Gen3. These SoCs have HS400 disabled and use fixed address mode.
+> > Therefore, we need to apply fixed_addr_mode and hs400_disabled quirks.
+> > 'renesas,rzg2l-sdhi' is introduced as a generic compatible string for t=
+he
+> > above SoCs where fixed_addr_mode and hs400_disabled quirks will be appl=
+ied.
 >
-> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+> Thanks for your series!
+>
+> > Lad Prabhakar (6):
+> >   dt-bindings: mmc: renesas,sdhi: Drop 'items' keyword
+> >   dt-bindings: mmc: renesas,sdhi: Document RZ/G2L family compatibility
+> >   mmc: renesas_sdhi: Add compatible string for RZ/G2L family, RZ/G3S,
+> >     and RZ/V2M SoCs
+> >   arm64: dts: renesas: r9a09g011: Update fallback string for SDHI nodes
+> >   arm64: dts: renesas: rzg2l-family: Update fallback string for SDHI
+> >     nodes
+> >   arm64: dts: renesas: r9a08g045: Update fallback string for SDHI nodes
+>
+> The DTS patches have a hard dependency on the driver changes, right?
+> So they cannot be applied in parallel.
 
-Yep, TXC is MAC-to-PHY for RGMII, but PHY-to-MAC for MII.
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-I believe this has a hard dependency on the driver patches, as a
-failure to configure pin settings will cause the device to fail to probe?
-Hence to avoid regressions, this has to wait one cycle...
+As this dependency is not i v6.10-rc1, I will queue the DTS patches
+in renesas-devel for v6.11.
 
 Gr{oetje,eeting}s,
 
