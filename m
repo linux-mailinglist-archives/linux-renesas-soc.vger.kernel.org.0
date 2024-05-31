@@ -1,157 +1,173 @@
-Return-Path: <linux-renesas-soc+bounces-5749-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5750-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBF968D5B10
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 May 2024 09:00:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AE858D5B36
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 May 2024 09:07:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0887EB25A7E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 May 2024 07:00:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A7E74289DFB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 May 2024 07:07:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B50C13D539;
-	Fri, 31 May 2024 06:58:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="UyFKYK5L"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 420C781204;
+	Fri, 31 May 2024 07:07:07 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99B9E13213B
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 31 May 2024 06:58:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D27A18756E;
+	Fri, 31 May 2024 07:07:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717138687; cv=none; b=At9gM9Mxtt25a4FkysyEylUJwxJ0qwKuLNDLkDITfbj5jeGufhZBXaGhko86kdd5IXZUWr5OMeCyhWFqMKusasZGkFdz3VzlSl3jr5wuEeKlJ+/1IDeorbobY6VJmxKRk0BztvYxp1MRVGBUksoyP/exgc1aSzlkqdKSCREyahY=
+	t=1717139227; cv=none; b=mb4KrZfbwK5o8YGGdVx4+e4R3j6FarTcNFRZ1gPMAViKHNLhoUotfnJuMDSVAXknoXk6pbnxq/m2x0+uJxALIhqCcWbD+ZlvHSfYgr6pL7xutzqzf6Agyt+nyFdAmccb62wYktN8KKSO3OhHOiso6uGlu2gHSU4pi7WGWsRmd2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717138687; c=relaxed/simple;
-	bh=SgoDvQnygahdoutjIc9prfX+wgUSyYSEJoNImCfQ4pA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=m6ThUxE7T7mL49/Iu+AJlY/UOSLU0nFX+JnMhRjxM7EmniLzl6XJaXRtgD6wVnqH+LJlz1uGvHkRShQ9rZ0vO600zaROzo++WpvM1xArvIti2PCD2Bhr/xwhZGB1jpxSpLAst84NQ0YCA3lfl6puFu1h2KdJDOPMuBI/WuH2bxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=UyFKYK5L; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-52b8b638437so165951e87.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 May 2024 23:58:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1717138684; x=1717743484; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tBS+l7TGaeAomOSQfJ8g88idIPgPbvW2eMoPLMjgw2I=;
-        b=UyFKYK5LOmpVMu8JVYeh+pp3z3D+b/RcvYc0MAp+fD5bxFv4iqe/1YZRhW0619FfU2
-         Ty7QwWyc+rw8siiHmWsW06p8O6PFH7WONwwcaYHKUerndmPiIQqGloNQtqaAFGl0LDBe
-         lSUT2WXCPL/IKQWYdWUF92DJGsJ5w66rifGFPNBgp4HOECmTnmTUWXnv6+X5k8HN/s8L
-         PSnWjR6Tdu980CKl4+ZjP3UkyvUHQvvKL36VcfWELHTkKVOC6p95ME6ADMCARZTsQdp2
-         41Zx34V1YJ7rs2goT2zkg5uQ47aHMKp7ii0ULmMi83MsTPXPRRXBDO6LStNrMAq/iiGm
-         3bHQ==
+	s=arc-20240116; t=1717139227; c=relaxed/simple;
+	bh=GwpopD7I++CEt2GXRSjw+x35z0xYtVzunPiCuEMRxwU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=p76JIb5FUdEObREHs3fETjRgjdA0z9CFLRNkUjCPb8iDlpBUIWyHY3Vadvj0gBaXLYMFmwpiIMr0k5dTMVvP9csTdI0fVK6hawWs3h0jECnv2JjXuFeKljKWNGID1MCBH51Ot7ugKPSXJD2HQ4oS1bY05tCnxTKr8Wm/e9s0Zs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-7e25bf84b58so68104939f.0;
+        Fri, 31 May 2024 00:07:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717138684; x=1717743484;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1717139224; x=1717744024;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tBS+l7TGaeAomOSQfJ8g88idIPgPbvW2eMoPLMjgw2I=;
-        b=ngkPfgHISPUK2jsX2HoyrnaP1dG0zKHsK6KI92rBxbWsQPB0xIVSN0QoC3tZ4TcPRO
-         UnSG0WVL6K6zBl3eNnUEdSS5bSrc/HwrX5mCY2dFsvzPWzCIUaKpfVwwpvYR/pt/ftlN
-         Mp0R3yzkRu8fn++VxkEurGyOc2eWZ+C/9mK17ibaXnDzQvp4f677TpwyQyOWwHxApcqF
-         MVe1vd6e9m/OvBpLZ8sOqG2RtD39Qbl5AycrcfCDrGmAzwbJemk64l0VhZKusfJosre9
-         Q4to9V3xGeDhj0paNHq1LmNm42QPVpuETSGDUcGsn63U3nzXwO7S9rHA1b1vILaJtZMd
-         g9jg==
-X-Forwarded-Encrypted: i=1; AJvYcCWZfVJzW70ShCTh6utcw6ov8nLjQQxW9pz/KYK+U/2JZ4wF1UeXdBKS9ibMJAlXy9gSANwbsFAAsPw9r8eTn4ii7t4kbmfdURf/vIQV3eWvR4k=
-X-Gm-Message-State: AOJu0YyTXfupp/JU4pV7FuVG6iKvh6jeYuJk6sDqtX26UYMjON68VMyD
-	o1L2VIgl1bUFBNWEQBjTPpa86bxLCZnc86tfhaqoxqS+xkI9fLfeKQ4VOvQwfRE=
-X-Google-Smtp-Source: AGHT+IEcyG1M6riI17p2bccika8+2c8x0/U5C5XU7YCTkfFMFXVNfVGbi2NX2FHHz6cClYrhqai0ag==
-X-Received: by 2002:ac2:4853:0:b0:52b:8877:30f2 with SMTP id 2adb3069b0e04-52b8980aca3mr441625e87.59.1717138683718;
-        Thu, 30 May 2024 23:58:03 -0700 (PDT)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.157])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a67e73fc1a5sm54205566b.53.2024.05.30.23.58.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 May 2024 23:58:03 -0700 (PDT)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: wim@linux-watchdog.org,
-	linux@roeck-us.net,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	p.zabel@pengutronix.de,
-	geert+renesas@glider.be,
-	magnus.damm@gmail.com
-Cc: biju.das.jz@bp.renesas.com,
-	linux-watchdog@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	claudiu.beznea.uj@bp.renesas.com,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v9 9/9] dt-bindings: watchdog: renesas,wdt: Document RZ/G3S support
-Date: Fri, 31 May 2024 09:57:23 +0300
-Message-Id: <20240531065723.1085423-10-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240531065723.1085423-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20240531065723.1085423-1-claudiu.beznea.uj@bp.renesas.com>
+        bh=ayp9OTJcx8xBTEOWGr76ffez+fesdX+4XqGBVIDxEaQ=;
+        b=PTgJ2WUYwotIbe7ewO0uKtKm39embI28Yli7rwZIku6v2tPFHbAzI8gkML9UHd5yCP
+         eYGYw9Pj4tDiGJw0DNPBN0boAPZIQkwSupHtu2mdbUpqxr4mjFFudrS228R/97A05NZx
+         iGL6HJfZNf6L2rxWZ/mRmcQgoAHUtxoRibYSPToqEd+yP7eAgUI9RWwNMK1Z4WVnFLwH
+         Y8i5VLXnOHvIUlZxAukjqn2p0mc4y3V6uP4wCb2VCkXZo1iuV3/Wr093DTx9Z3ZBxQmp
+         jUsAMLBiazolBOzr+IsPWrKShwIuKUyzRLGnZZIBcikPZ8yHsYTjh2ks+vmaoLrodiHx
+         Ta+g==
+X-Forwarded-Encrypted: i=1; AJvYcCVtf4rxAtHNtJW8haKIfJ9rRvoUc+/LOU16ZHr79YDNicvvlRuU+zfk6k8z13MXPdETx23UgwQWfRssLTan80OKJo3SHfug45V4CdzgiFU6epW/iAjjoYzZtfcyOT9QzEDJPpMBp2CzRk6lvZCzmBb3a4eKm1QY/ZPTaKtugscf9UtIbprFvZ5qOUe/BjtQSfwSEzB+dmwKVxmrka5TSQOD+IOVnljFzn2/q5DUCP9+j6cZtQQA5jaP/QVL3QstGDJxsTyhsKlmYb2wLg==
+X-Gm-Message-State: AOJu0YysvB5Xr32d2jpNV00CYkUtUbCT2pMwrV9pZLv/qNZYjmN23ZCu
+	uhqfO4/oa1UPONyjlYQ5DylTnMbVJ3w2pfsAZ+HUTNyLvLDGxkXVz/EiSOor
+X-Google-Smtp-Source: AGHT+IGij+kYqVFs41UcqZH//8OOscUL4EID/HB5qa0s/CMrcPSab4QvqdFAaAQ/JQ/o9dKBUPpRKQ==
+X-Received: by 2002:a05:6602:2b89:b0:7ea:ffac:b7b7 with SMTP id ca18e2360f4ac-7eafff24acdmr151093439f.17.1717139223772;
+        Fri, 31 May 2024 00:07:03 -0700 (PDT)
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com. [209.85.166.46])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4b48764e4c3sm339234173.20.2024.05.31.00.07.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 31 May 2024 00:07:03 -0700 (PDT)
+Received: by mail-io1-f46.google.com with SMTP id ca18e2360f4ac-7e9515b0ea9so72651239f.1;
+        Fri, 31 May 2024 00:07:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCViA+WKIEd/uOdLhHp5T4VvObySH0GYNjbL43LPxBJYBcYuzOwiQ7Uxlq+I6A3KUZe68H76zfsnzbRFbKC0y8zZMSLsFLHwg2PpR7zfEPyE/DQ1h1+AiB8GrVrIayHu3Ckop2nHsKVUTGEoqkaOOtQAK6cgW0DXYK3Jt05g/aNhLPV6WCZ95895gf4Vlibp/XxNEH2kGQrwQLBOVCoh0z2q0RqAHbKmWjNE94OTVGVpRL0CkFBfv0EC8VaNSiMZ4kZDTGpdBI27tOIwkg==
+X-Received: by 2002:a25:5f46:0:b0:df4:f149:1fc7 with SMTP id
+ 3f1490d57ef6-dfa73dc4a2dmr974775276.58.1717139203004; Fri, 31 May 2024
+ 00:06:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240504-pinctrl-cleanup-v2-0-26c5f2dc1181@nxp.com>
+ <CAMuHMdVprgpjDP6PDn7appofJv8Tv30nRA4+7n4sR8n6n4qy+g@mail.gmail.com> <DU0PR04MB9417FF2632A278BF6605AE1F88FC2@DU0PR04MB9417.eurprd04.prod.outlook.com>
+In-Reply-To: <DU0PR04MB9417FF2632A278BF6605AE1F88FC2@DU0PR04MB9417.eurprd04.prod.outlook.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 31 May 2024 09:06:30 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW01HtY7d+L=44czH_dqV6bresLeF=SRqyn9p=jk3MTAw@mail.gmail.com>
+Message-ID: <CAMuHMdW01HtY7d+L=44czH_dqV6bresLeF=SRqyn9p=jk3MTAw@mail.gmail.com>
+Subject: Re: [PATCH v2 00/20] pinctrl: Use scope based of_node_put() cleanups
+To: Peng Fan <peng.fan@nxp.com>
+Cc: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Dvorkin Dmitry <dvorkin@tibbo.com>, Wells Lu <wellslutw@gmail.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Emil Renner Berthing <kernel@esmil.dk>, Jianlong Huang <jianlong.huang@starfivetech.com>, 
+	Hal Feng <hal.feng@starfivetech.com>, Orson Zhai <orsonzhai@gmail.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Viresh Kumar <vireshk@kernel.org>, Shiraz Hashim <shiraz.linux.kernel@gmail.com>, 
+	"soc@kernel.org" <soc@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Sylwester Nawrocki <s.nawrocki@samsung.com>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Patrice Chotard <patrice.chotard@foss.st.com>, 
+	Heiko Stuebner <heiko@sntech.de>, Damien Le Moal <dlemoal@kernel.org>, 
+	Ludovic Desroches <ludovic.desroches@microchip.com>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Aisheng Dong <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Chester Lin <chester62515@gmail.com>, 
+	Matthias Brugger <mbrugger@suse.com>, 
+	"Ghennadi Procopciuc (OSS)" <ghennadi.procopciuc@oss.nxp.com>, Sean Wang <sean.wang@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+	Joel Stanley <joel@jms.id.au>, Dan Carpenter <dan.carpenter@linaro.org>, 
+	Tony Lindgren <tony@atomide.com>, Stephen Warren <swarren@wwwdotorg.org>, 
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>, 
+	"linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	"linux-rockchip@lists.infradead.org" <linux-rockchip@lists.infradead.org>, 
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, 
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, 
+	"imx@lists.linux.dev" <imx@lists.linux.dev>, 
+	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, 
+	"openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, 
+	Emil Renner Berthing <emil.renner.berthing@canonical.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Hi Peng,
 
-Document the support for the watchdog IP available on RZ/G3S SoC. The
-watchdog IP available on RZ/G3S SoC is identical to the one found on
-RZ/G2L SoC.
+On Fri, May 31, 2024 at 5:07=E2=80=AFAM Peng Fan <peng.fan@nxp.com> wrote:
+> > Subject: Re: [PATCH v2 00/20] pinctrl: Use scope based of_node_put()
+> > cleanups
+> > On Sat, May 4, 2024 at 3:12=E2=80=AFPM Peng Fan (OSS) <peng.fan@oss.nxp=
+.com>
+> > wrote:
+> > > Use scope based of_node_put() to simplify code. It reduces the chance
+> > > of forgetting of_node_put(), and also simplifies error handling path.
+> > > I not able to test the changes on all the hardwares, so driver owners=
+,
+> > > please help review when you have time.
+> > >
+> > > This patchset was inspired from Dan's comments on pinctrl-scmi-imx.c,
+> > > thanks.
+> > >
+> > > Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> >
+> > Andy's question about code generation on a related patch made me wonder=
+,
+> > too.
+> >
+> > On arm32, a conversion to for_each_child_of_node_scoped() seems to cost=
+ ca.
+> > 48 bytes of additional code, regardless of whether there were explicit
+> > cleanups before or not.
+> >
+> > I checked "pinctrl: renesas: Use scope based of_node_put() cleanups", a=
+nd all
+> > but the conversions in *_dt_node_to_map() cost 48 bytes each.
+>
+> I am not sure this is an issue or else. What would you suggest me to do?
+> If you think extra 48bytes consumption is not good here, feel free to dro=
+p the
+> patch.
 
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
----
+I suggest doing nothing about this.  I just wanted people to be aware
+of the impact.  I guess it's just part of the slow but steady increase
+of kernel size (ca. 20-30 KiB/release)... ;-)
 
-Changes in v9:
-- collected Guenter's Rb tag
+Gr{oetje,eeting}s,
 
-Changes in v8:
-- none
+                        Geert
 
-Changes in v7:
-- none
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-Changes in v6:
-- none
-
-Changes in v5:
-- none
-
-Changes in v4:
-- none
-
-Changes in v3:
-- re-arranged the tags as my b4 am/shazam placed previously the
-  Ab, Rb tags before the author's Sob
-
-Changes in v2:
-- collected tags
-- s/G2UL/G2L in patch description
-
- Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-index ffb17add491a..eba454d1680f 100644
---- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-+++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-@@ -29,6 +29,7 @@ properties:
-               - renesas,r9a07g043-wdt    # RZ/G2UL and RZ/Five
-               - renesas,r9a07g044-wdt    # RZ/G2{L,LC}
-               - renesas,r9a07g054-wdt    # RZ/V2L
-+              - renesas,r9a08g045-wdt    # RZ/G3S
-           - const: renesas,rzg2l-wdt
- 
-       - items:
--- 
-2.39.2
-
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
