@@ -1,247 +1,212 @@
-Return-Path: <linux-renesas-soc+bounces-5754-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5755-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43DB68D5EFA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 May 2024 11:57:12 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24D118D681F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 May 2024 19:26:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6754D1C21C44
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 May 2024 09:57:11 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 87023B20BAD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 May 2024 17:26:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA30A1420D0;
-	Fri, 31 May 2024 09:57:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hu5bMmVB"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6244176ABA;
+	Fri, 31 May 2024 17:25:58 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D3CF1CD35;
-	Fri, 31 May 2024 09:57:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C7355E4C;
+	Fri, 31 May 2024 17:25:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717149425; cv=none; b=G3XdTga2krT/U3hOn7davQ/wxbcVaccYs1RIR6zOWy/ymL1O18Uxk2TnmpfKewfBaXHgCVy6YGkBnowmQg99yLuNZdQvRU0Fph2w6xYo/pYgjNns2IQUEB3btyerL+v/4VCirNJQiQ6aZcQu34S2YtjEacbmSYGTZXKlYIyLGww=
+	t=1717176358; cv=none; b=ta8FjahfJ/VsiEH16ivs/PJ8gwfEBfAlfUiumfbNOr7E0+JZr6JH0K8WZGxqQGCb0NiJZfqjNqSEzu7oXlqLSMyBQSeg3uRHuSasoso/+MUnFCGtQKGxmR9w7vLOB2hrEroAKQKZvZduhlwl9n+ut4NpKft+rE/7wtORa78Etb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717149425; c=relaxed/simple;
-	bh=pG1FuJNpg4iD5VvuUxyaJG1TPUBzdsFzeembK8i33cE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QSooPByyUkRjkWzBjLh9BoUUR0xWLdDPQmL7VUmXupIGXM6npxUaaZ4ppyNso7km0sJopNLEs4TVdEg5IgahXYmSWpUKq5934p0e6xDaSUltaW92PinNGwqv020vsZa3iIBGASytf3rySiuJNqEWwmCnncAqwLZ6wB96oRCi8RE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hu5bMmVB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65A56C116B1;
-	Fri, 31 May 2024 09:56:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717149424;
-	bh=pG1FuJNpg4iD5VvuUxyaJG1TPUBzdsFzeembK8i33cE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hu5bMmVBc986akPDt9Ge9tIAY28LTFO3zwiOt/Joe+hTEGWcqkK1uspvfXfUgXXxe
-	 37xIAg+mkLYdlb3Hs9WdiXpCF1VeQrUhl78CihP1szlXYNSBa15MdkJ/xVV25GxxSe
-	 GoFHLTigYu0YGr12LUzpQPJDP6vTnVpL49ILbXi3zxAMPLAoxFNkYdK1EVTmNJFn7f
-	 CA1vM3tFKh3BQ8+a2Mrj8F6+o+ltODCoNMa/d4HHrTNiLP+FE/f+tft+dne1biNKt8
-	 EM2SBRlBln82aT4Aeemi64mL4//CHv+Iem7UQVhtCKN9l9VGh3B5qbmCfUa1q0Ty4h
-	 r2ZCGXufem1Qw==
-Date: Fri, 31 May 2024 10:56:50 +0100
-From: Lee Jones <lee@kernel.org>
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: linux-sh@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Rich Felker <dalias@libc.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Helge Deller <deller@gmx.de>,
-	Heiko Stuebner <heiko.stuebner@cherry.de>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Chris Morgan <macromorgan@hotmail.com>,
-	Sebastian Reichel <sre@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Masahiro Yamada <masahiroy@kernel.org>, Baoquan He <bhe@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Kefeng Wang <wangkefeng.wang@huawei.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	Azeem Shaikh <azeemshaikh38@gmail.com>, Guo Ren <guoren@kernel.org>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Anup Patel <apatel@ventanamicro.com>,
-	Jacky Huang <ychuang3@nuvoton.com>,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	linux-ide@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
-	linux-fbdev@vger.kernel.org
-Subject: Re: [DO NOT MERGE v8 23/36] mfd: sm501: Convert platform_data to OF
- property
-Message-ID: <20240531095650.GD8682@google.com>
-References: <cover.1716965617.git.ysato@users.sourceforge.jp>
- <c139d3a42c61d978296aa2e513de073c643e4fbe.1716965617.git.ysato@users.sourceforge.jp>
+	s=arc-20240116; t=1717176358; c=relaxed/simple;
+	bh=ZWgpS0W3Gu1vL+QPpeRCpIdJcGFrwbbUpa/7iI5oy58=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=UrMObpx+EolmuH+c44FvirMTm2b+/RTcFaXnwOnk8NXQRXCCXbaUXQ9UwLcrqqJKQFAt8I/6WWNeulWp/+15A45FVu8611kyPQ/m/cv2/9HOoS9gyxf81xcDULaO2iib6vM/4SJxEsDlDIe7ehIzq49uqdKMtJc8B5bubQQM1Gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.105] (178.176.78.69) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Fri, 31 May
+ 2024 20:25:33 +0300
+Subject: Re: [net-next PATCH v4 7/7] net: ravb: Allocate RX buffers via page
+ pool
+To: Paul Barker <paul.barker.ct@bp.renesas.com>, "David S. Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	=?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+CC: Biju Das <biju.das.jz@bp.renesas.com>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>, Yoshihiro Shimoda
+	<yoshihiro.shimoda.uh@renesas.com>, <netdev@vger.kernel.org>,
+	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20240528150339.6791-1-paul.barker.ct@bp.renesas.com>
+ <20240528150339.6791-8-paul.barker.ct@bp.renesas.com>
+ <eefce0af-2771-a56c-753d-85fe991fdf31@omp.ru>
+ <e7cf9dd8-9c67-476b-a892-b8dbe9312c4c@bp.renesas.com>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <a59baa2d-0f00-18b9-bdea-0206b7a93f52@omp.ru>
+Date: Fri, 31 May 2024 20:25:33 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c139d3a42c61d978296aa2e513de073c643e4fbe.1716965617.git.ysato@users.sourceforge.jp>
+In-Reply-To: <e7cf9dd8-9c67-476b-a892-b8dbe9312c4c@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 05/31/2024 17:10:09
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 185664 [May 31 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.4
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 20 0.3.20
+ 743589a8af6ec90b529f2124c2bbfc3ce1d2f20f
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.78.69 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info:
+	omp.ru:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.78.69
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 05/31/2024 17:14:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 5/31/2024 12:02:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-On Wed, 29 May 2024, Yoshinori Sato wrote:
+On 5/30/24 12:21 PM, Paul Barker wrote:
+[...]
 
-> Various parameters of SM501 can be set using platform_data,
-> so parameters cannot be passed in the DeviceTree target.
-> Expands the parameters set in platform_data so that they can be
-> specified using DeviceTree properties.
+>>> This patch makes multiple changes that can't be separated:
+>>>
+>>>   1) Allocate plain RX buffers via a page pool instead of allocating
+>>>      SKBs, then use build_skb() when a packet is received.
+>>>   2) For GbEth IP, reduce the RX buffer size to 2kB.
+>>>   3) For GbEth IP, merge packets which span more than one RX descriptor
+>>>      as SKB fragments instead of copying data.
+>>>
+>>> Implementing (1) without (2) would require the use of an order-1 page
+>>> pool (instead of an order-0 page pool split into page fragments) for
+>>> GbEth.
+>>>
+>>> Implementing (2) without (3) would leave us no space to re-assemble
+>>> packets which span more than one RX descriptor.
+>>>
+>>> Implementing (3) without (1) would not be possible as the network stack
+>>> expects to use put_page() or page_pool_put_page() to free SKB fragments
+>>> after an SKB is consumed.
+>>>
+>>> RX checksum offload support is adjusted to handle both linear and
+>>> nonlinear (fragmented) packets.
+>>>
+>>> This patch gives the following improvements during testing with iperf3.
+>>>
+>>>   * RZ/G2L:
+>>>     * TCP RX: same bandwidth at -43% CPU load (70% -> 40%)
+>>>     * UDP RX: same bandwidth at -17% CPU load (88% -> 74%)
+>>>
+>>>   * RZ/G2UL:
+>>>     * TCP RX: +30% bandwidth (726Mbps -> 941Mbps)
+>>>     * UDP RX: +417% bandwidth (108Mbps -> 558Mbps)
+>>>
+>>>   * RZ/G3S:
+>>>     * TCP RX: +64% bandwidth (562Mbps -> 920Mbps)
+>>>     * UDP RX: +420% bandwidth (90Mbps -> 468Mbps)
+>>>
+>>>   * RZ/Five:
+>>>     * TCP RX: +217% bandwidth (145Mbps -> 459Mbps)
+>>>     * UDP RX: +470% bandwidth (20Mbps -> 114Mbps)
+>>>
+>>> There is no significant impact on bandwidth or CPU load in testing on
+>>> RZ/G2H or R-Car M3N.
+>>>
+>>> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+[...]
+
+>>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+>>> index dd92f074881a..bb7f7d44be6e 100644
+>>> --- a/drivers/net/ethernet/renesas/ravb_main.c
+>>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+[...]
+>>> +	return 0;
+>>> +}
+>>> +
+>>>  static u32
+>>>  ravb_rx_ring_refill(struct net_device *ndev, int q, u32 count, gfp_t gfp_mask)
+>>>  {
+>>>  	struct ravb_private *priv = netdev_priv(ndev);
+>>> -	const struct ravb_hw_info *info = priv->info;
+>>>  	struct ravb_rx_desc *rx_desc;
+>>> -	dma_addr_t dma_addr;
+>>>  	u32 i, entry;
+>>>  
+>>>  	for (i = 0; i < count; i++) {
+>>>  		entry = (priv->dirty_rx[q] + i) % priv->num_rx_ring[q];
+>>>  		rx_desc = ravb_rx_get_desc(priv, q, entry);
+>>> -		rx_desc->ds_cc = cpu_to_le16(info->rx_max_desc_use);
+>>>  
+>>> -		if (!priv->rx_skb[q][entry]) {
+>>> -			priv->rx_skb[q][entry] = ravb_alloc_skb(ndev, info, gfp_mask);
+>>> -			if (!priv->rx_skb[q][entry])
+>>> +		if (!priv->rx_buffers[q][entry].page) {
+>>> +			if (unlikely(ravb_alloc_rx_buffer(ndev, q, entry,
+>>
+>>    Well, IIRC Greg KH is against using unlikely() unless you have actually
+>> instrumented the code and this gives an improvement... have you? :-)
 > 
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-> ---
->  drivers/mfd/sm501.c           | 238 ++++++++++++++++++++++++++++++++++
->  drivers/video/fbdev/sm501fb.c |  87 +++++++++++++
->  2 files changed, 325 insertions(+)
+> My understanding was that we should use unlikely() for error checking in
+> hot code paths where we want the "good" path to be optimised. I can drop
+> this if I'm wrong though.
+
+   OK, keep it... :-)
+
+[...]
+>>> @@ -865,7 +894,16 @@ static int ravb_rx_gbeth(struct net_device *ndev, int budget, int q)
+>>>  				stats->rx_bytes += skb->len;
+>>>  				napi_gro_receive(&priv->napi[q], skb);
+>>>  				rx_packets++;
+>>> +
+>>> +				/* Clear rx_1st_skb so that it will only be
+>>> +				 * non-NULL when valid.
+>>> +				 */
+>>> +				if (die_dt == DT_FEND)
+>>> +					priv->rx_1st_skb = NULL;
+>>
+>>    Hm, can't we do this under *case* DT_FEND above?
 > 
-> diff --git a/drivers/mfd/sm501.c b/drivers/mfd/sm501.c
-> index b3592982a83b..d373aded0c3b 100644
-> --- a/drivers/mfd/sm501.c
-> +++ b/drivers/mfd/sm501.c
-> @@ -20,6 +20,7 @@
->  #include <linux/gpio/driver.h>
->  #include <linux/gpio/machine.h>
->  #include <linux/slab.h>
-> +#include <linux/clk.h>
->  
->  #include <linux/sm501.h>
->  #include <linux/sm501-regs.h>
-> @@ -82,6 +83,16 @@ struct sm501_devdata {
->  	unsigned int			 rev;
->  };
->  
-> +struct sm501_config_props_uint {
-> +	char *name;
-> +	u32 shift;
-> +};
-> +
-> +struct sm501_config_props_flag {
-> +	char *clr_name;
-> +	char *set_name;
-> +	u32 bit;
-> +};
->  
->  #define MHZ (1000 * 1000)
->  
-> @@ -1370,6 +1381,227 @@ static int sm501_init_dev(struct sm501_devdata *sm)
->  	return 0;
->  }
->  
-> +#define FIELD_WIDTH 4
-> +struct dt_values {
-> +	char *name;
-> +	unsigned int offset;
-> +	unsigned int width;
-> +	char *val[(1 << FIELD_WIDTH) + 1];
-> +};
-> +
-> +#define fld(_name, _offset, _width, ...)	\
-> +	{ \
-> +		.name = _name, \
-> +		.offset = _offset, \
-> +		.width = _width,	\
-> +		.val = { __VA_ARGS__, NULL},	\
-> +	}
-> +
-> +static const struct dt_values misc_timing[] = {
-> +	fld("ex", 28, 4,
-> +	    "none", "16", "32", "48", "64", "80", "96", "112",
-> +	    "128", "144", "160", "176", "192", "208", "224", "240"),
-> +	fld("xc", 24, 2, "internal-pll", "hclk", "gpio30"),
-> +	fld("us", 23, 1, "disable", "enable"),
-> +	fld("ssm1", 20, 1, "288", "divider"),
-> +	fld("sm1", 16, 4,
-> +	    "1", "2", "4", "8", "16", "32", "64", "128",
-> +	    "3", "6", "12", "24", "48", "96", "192", "384"),
-> +	fld("ssm0", 12, 1, "288", "divider"),
-> +	fld("sm0", 8, 4,
-> +	    "1", "2", "4", "8", "16", "32", "64", "128",
-> +	    "3", "6", "12", "24", "48", "96", "192", "384"),
-> +	fld("deb", 7, 1, "input-reference", "output"),
-> +	fld("a", 6, 1, "no-acpi", "acpi"),
-> +	fld("divider", 4, 2, "336", "288", "240", "192"),
-> +	fld("u", 3, 1, "normal", "simulation"),
-> +	fld("delay", 0, 3, "none", "0.5", "1.0", "1.5", "2.0", "2.5"),
-> +	{ .name = NULL },
-> +};
-> +
-> +static const struct dt_values misc_control[] = {
-> +	fld("pad", 30, 2, "24", "12", "8"),
-> +	fld("usbclk", 28, 2, "xtal", "96", "48"),
-> +	fld("ssp", 27, 1, "uart1", "ssp1"),
-> +	fld("lat", 26, 1, "disable", "enable"),
-> +	fld("fp", 25, 1, "18", "24"),
-> +	fld("freq", 24, 1, "24", "12"),
-> +	fld("refresh", 21, 2, "8", "16", "32", "64"),
-> +	fld("hold", 18, 3, "fifo-empty", "8", "16", "24", "32"),
-> +	fld("sh", 17, 1, "active-low", "active-high"),
-> +	fld("ii", 16, 1, "normal", "inverted"),
-> +	fld("pll", 15, 1, "disable", "enable"),
-> +	fld("gap", 13, 2, "0"),
-> +	fld("dac", 12, 1, "enable", "disable"),
-> +	fld("mc", 11, 1, "cpu", "8051"),
-> +	fld("bl", 10, 8, "1"),
-> +	fld("usb", 9, 1, "master", "slave"),
-> +	fld("vr", 4, 1, "0x1e00000", "0x3e00000"),
-> +	{ .name = NULL },
-> +};
+> It makes more logical sense to me to do this as the last step, but I
+> guess it's a little more optimal to do it earlier. I'll move it.
 
-I've been avoiding this set for a while now!
+   Looking at it once more, we can't... unless I'm missing s/th. :-)
 
-I appreciate the amount of work that you've put into this, but this is a
-bit of a disaster.  It's a hell of lot of over-complex infrastructure
-just to pull out some values from DT.
+> Thanks,
 
-Forgive me if I have this wrong, but it looks like you're defining
-various structs then populating static versions with hard-coded offsets
-into DT arrays!  Then you have a bunch of hoop-jumpy functions to
-firstly parse the offset-structs, then conduct look-ups to pull the
-final value which in turn gets shifted into an encoded variable ready
-for to write out to the registers.  Bonkers.
-
-What does 'timing' even mean in this context?  Clocks?
-
-What other devices require this kind of handling?  Why is this device so
-different from all other supported devices to date?  Instead of
-attempting to shoehorn this into a 20 year old driver, why not reshape
-it to bring it into alignment with how we do things today?
-
-E.g. handle all clocking from the clock driver, all display settings
-(including timing?) from the display driver, etc.
-
--- 
-Lee Jones [李琼斯]
+MBR, Sergey
 
