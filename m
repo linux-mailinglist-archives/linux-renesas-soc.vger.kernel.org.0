@@ -1,332 +1,218 @@
-Return-Path: <linux-renesas-soc+bounces-5761-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5762-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A95588D6F4D
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  1 Jun 2024 12:13:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E15F68D743A
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  2 Jun 2024 10:03:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6EEB6B22170
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  1 Jun 2024 10:13:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4EE0AB21130
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  2 Jun 2024 08:03:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 611B77E766;
-	Sat,  1 Jun 2024 10:13:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q+bgHmRq"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55E3217721;
+	Sun,  2 Jun 2024 08:03:17 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33C192773C;
-	Sat,  1 Jun 2024 10:13:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A86AD59;
+	Sun,  2 Jun 2024 08:03:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717236786; cv=none; b=bmEUxJLyDblu4KMIp6MJ3Lt4ad9YPMqktyXGAFi31sMnlUmkBpZqftDQF9iBUArWjxfsjq9EdT6DSGhZBFKYo9uA6Z8NJWOr7sGyIpTA448eqmzr9NKc3FawT1+3xPdtRZZCIprrSggA+C3OXt+/ieAt06dVHmtUdQ2JaZaOwvk=
+	t=1717315397; cv=none; b=YkWnFFU7lbRv4sFws2P/azxqh+uFO8RehjISr6JUcIvPgqYH2FHSDxJMucDiNu2hOhqX8SrUZkgDxRqNWQFsz+AxK0v9DGk41tvwv9Iy4S53dbP6Q1Fb4Ksec9OqMPPPHu/fY4sMNPkHLoFpkBStoeUpMGUYIv21i90S0XJXwXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717236786; c=relaxed/simple;
-	bh=y8LFDIhCtkCTRkCYcSsuv/OeLC7SceD2Woukxe9WDvg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nnZ7nnt22/UaIDPZQtlw+wbGleA/14kv7tfkkbrDtETqWZ2F49i/SCIT3nENJx17owEuVo+ocZK7Kyvd8VgZEp2/0rPKwRL/4Otlp3+D7XuXbmf1A+SwXocIPZKQ9gQj4FsWwp0UmcGi0diXR667ZWUF8jQF93sRWt1VNbqA8BY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q+bgHmRq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D739FC116B1;
-	Sat,  1 Jun 2024 10:13:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717236785;
-	bh=y8LFDIhCtkCTRkCYcSsuv/OeLC7SceD2Woukxe9WDvg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=q+bgHmRqpK9secEMpGmkvUrAp8EqcPx4c7pTF9sEEkxOD5FTLr6CZx49dg8bSvUJE
-	 IoGiMJ40rE1aLu3K6Mhfux0r/dfddJEHBWQwyLwQQr4toHEEzWCaYsgEvjtamm75on
-	 vIgt26c8bvBI/4WTSvtr06IOJJw4ny6Jh5minCb05lmcaEK+H0drCmbXKRg8i8Jj6q
-	 GSS5ER1rFKQt3WoOcAtLT4ubaenvt5P9kRcTkCyzv9N28g3Y/c/+gp9ib5V9K0ApAl
-	 KuCIjtoq3Eipcx1NgPa9eDoKwZACUI1pxHYbGwKiXtXjSvN0xMrKfn+dhXiI8El3mb
-	 Fh1E1PI4oVSXA==
-Date: Sat, 1 Jun 2024 11:13:00 +0100
-From: Simon Horman <horms@kernel.org>
-To: Paul Barker <paul.barker.ct@bp.renesas.com>
-Cc: Sergey Shtylyov <s.shtylyov@omp.ru>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [net-next PATCH v4 7/7] net: ravb: Allocate RX buffers via page
- pool
-Message-ID: <20240601101300.GA491852@kernel.org>
-References: <20240528150339.6791-1-paul.barker.ct@bp.renesas.com>
- <20240528150339.6791-8-paul.barker.ct@bp.renesas.com>
+	s=arc-20240116; t=1717315397; c=relaxed/simple;
+	bh=yKPK/NtDfn6mI3z0T1fVgXyIK3NlZ3bRAmi1lDAYxMc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lZoMxen4m8C/bSrJbbmcvP6xdLK6WyQ1DoxwGwrly9UguxyjzxffapzjOJUaZWschR431pGsPSSg1YJTPQ4l1UiGd47Ov5lao2b2/PeTtOyw2FU8tE+khsnwRruJZbWX2P55LSgMbcHGsx75A+mP6fM0K1HLkhY99p74voTrknc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-702555eb23bso781763b3a.1;
+        Sun, 02 Jun 2024 01:03:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717315395; x=1717920195;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zKGTqymitwuSSvE//rhOmRtXD7moCcqza47DyUX/qKE=;
+        b=DGEsSqtvL3kXWRBG1TZaMkRM/1Wh9WJK2mMr/R0743rvhn6S8qXYdGD/Cfnz5vhQNV
+         oZj5jm/uqgit64RD7pz5UsKL3GDy0z+tBEwPEG8n7yxxU1ij/iL4eVhNCvMIKYGULV9s
+         VjKNG6jwO6AYJsCcq2PCECdiSXRleMEnbUnRuC2zqoGiJMtrhhSkJm3pTZEWZ1KsW2uJ
+         KiBi0CpRqkaF/Wwc7hO8ncqMHCqH0D6Lre892Lv1uIrQ61IabjXFYVckq4FbSRBp+SY9
+         VH+REhkqDEIuQMErvhUWS8ZMP0/N+tO86sNPpvwWrlgpLFUTNwbge8f0cbM7qquMnXaj
+         wY5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWBwFGuPX9mFB+5C+Vubnl3OKhOLGpXdqhMDWA9UQoVB9m/FmnxyX7kTePENGhPKFjcllP5MVPMQM3Q7uo+a8l1cKmD9V8adRywv8hKgcwtolZuozdTtzXkftsLqC47fRdDB4UeMsqhFe78utJXuc5NGL2UhJcev0dSgv72EC9V4KmgnP4=
+X-Gm-Message-State: AOJu0YwtBcrIIVHrUPFsTaIR4Gxg/45KUdsyuwmzFSHychdfoi6XmlKl
+	yqeL6XPkPpEgCIFYt5MUQpOpmfS8Z1MEgpdMQm6KT0MnWVJSwoITk5om7rGVMrVzclj5mCAIN0K
+	frtmBopx48/9DXYrxEvLJc29bDd/0i0i7
+X-Google-Smtp-Source: AGHT+IG9Z+v5sGePu/ouFexS/nYiKkKVnIjYOHr62JDsq7X5tw/5cjo8g/k8r/yrJTmJAz8F1XwzxLO/JVJWbbs3GTM=
+X-Received: by 2002:a05:6a20:914d:b0:1a9:a32d:17cc with SMTP id
+ adf61e73a8af0-1b26f141cf0mr6508132637.18.1717315394490; Sun, 02 Jun 2024
+ 01:03:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240528150339.6791-8-paul.barker.ct@bp.renesas.com>
+References: <cover.1716973640.git.geert+renesas@glider.be> <2cf38c10b83c8e5c04d68b17a930b6d9dbf66f40.1716973640.git.geert+renesas@glider.be>
+In-Reply-To: <2cf38c10b83c8e5c04d68b17a930b6d9dbf66f40.1716973640.git.geert+renesas@glider.be>
+From: Vincent MAILHOL <mailhol.vincent@wanadoo.fr>
+Date: Sun, 2 Jun 2024 17:03:02 +0900
+Message-ID: <CAMZ6RqKZdo1Mk=tY-vqCm0YYr_Qk8m53+LHXqeM+1LL=S=+RqQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] can: rcar_canfd: Simplify clock handling
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	linux-can@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	netdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, May 28, 2024 at 04:03:39PM +0100, Paul Barker wrote:
-> This patch makes multiple changes that can't be separated:
-> 
->   1) Allocate plain RX buffers via a page pool instead of allocating
->      SKBs, then use build_skb() when a packet is received.
->   2) For GbEth IP, reduce the RX buffer size to 2kB.
->   3) For GbEth IP, merge packets which span more than one RX descriptor
->      as SKB fragments instead of copying data.
-> 
-> Implementing (1) without (2) would require the use of an order-1 page
-> pool (instead of an order-0 page pool split into page fragments) for
-> GbEth.
-> 
-> Implementing (2) without (3) would leave us no space to re-assemble
-> packets which span more than one RX descriptor.
-> 
-> Implementing (3) without (1) would not be possible as the network stack
-> expects to use put_page() or page_pool_put_page() to free SKB fragments
-> after an SKB is consumed.
-> 
-> RX checksum offload support is adjusted to handle both linear and
-> nonlinear (fragmented) packets.
-> 
-> This patch gives the following improvements during testing with iperf3.
-> 
->   * RZ/G2L:
->     * TCP RX: same bandwidth at -43% CPU load (70% -> 40%)
->     * UDP RX: same bandwidth at -17% CPU load (88% -> 74%)
-> 
->   * RZ/G2UL:
->     * TCP RX: +30% bandwidth (726Mbps -> 941Mbps)
->     * UDP RX: +417% bandwidth (108Mbps -> 558Mbps)
-> 
->   * RZ/G3S:
->     * TCP RX: +64% bandwidth (562Mbps -> 920Mbps)
->     * UDP RX: +420% bandwidth (90Mbps -> 468Mbps)
-> 
->   * RZ/Five:
->     * TCP RX: +217% bandwidth (145Mbps -> 459Mbps)
->     * UDP RX: +470% bandwidth (20Mbps -> 114Mbps)
-> 
-> There is no significant impact on bandwidth or CPU load in testing on
-> RZ/G2H or R-Car M3N.
-> 
-> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+On Wed. 29 May 2024 at 18:12, Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+> The main CAN clock is either the internal CANFD clock, or the external
+> CAN clock.  Hence replace the two-valued enum by a simple boolean flag.
+> Consolidate all CANFD clock handling inside a single branch.
 
-Hi Paul,
+For what it is worth, your patch also saves up to 8 bytes in struct
+rcar_canfd_global (depends on the architecture).
 
-Some minor feedback from my side.
+Before:
 
-...
+  $ pahole drivers/net/can/rcar/rcar_canfd.o -C rcar_canfd_global
+  struct rcar_canfd_global {
+      struct rcar_canfd_channel * ch[8];               /*     0    64 */
+      /* --- cacheline 1 boundary (64 bytes) --- */
+      void *                     base;                 /*    64     8 */
+      struct platform_device *   pdev;                 /*    72     8 */
+      struct clk *               clkp;                 /*    80     8 */
+      struct clk *               can_clk;              /*    88     8 */
+      enum rcar_canfd_fcanclk    fcan;                 /*    96     4 */
 
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+      /* XXX 4 bytes hole, try to pack */
 
-...
+      long unsigned int          channels_mask;        /*   104     8 */
+      bool                       fdmode;               /*   112     1 */
 
-> @@ -298,13 +269,14 @@ static void ravb_ring_free(struct net_device *ndev, int q)
->  		priv->tx_ring[q] = NULL;
->  	}
->  
-> -	/* Free RX skb ringbuffer */
-> -	if (priv->rx_skb[q]) {
-> -		for (i = 0; i < priv->num_rx_ring[q]; i++)
-> -			dev_kfree_skb(priv->rx_skb[q][i]);
-> +	/* Free RX buffers */
-> +	for (i = 0; i < priv->num_rx_ring[q]; i++) {
-> +		if (priv->rx_buffers[q][i].page)
-> +			page_pool_put_page(priv->rx_pool[q], priv->rx_buffers[q][i].page, 0, true);
+      /* XXX 7 bytes hole, try to pack */
 
-nit: Networking still prefers code to be 80 columns wide or less.
-     It looks like that can be trivially achieved here.
+      struct reset_control *     rstc1;                /*   120     8 */
+      /* --- cacheline 2 boundary (128 bytes) --- */
+      struct reset_control *     rstc2;                /*   128     8 */
+      const struct rcar_canfd_hw_info  * info;         /*   136     8 */
 
-     Flagged by checkpatch.pl --max-line-length=80
+      /* size: 144, cachelines: 3, members: 11 */
+      /* sum members: 133, holes: 2, sum holes: 11 */
+      /* last cacheline: 16 bytes */
+  };
 
->  	}
-> -	kfree(priv->rx_skb[q]);
-> -	priv->rx_skb[q] = NULL;
-> +	kfree(priv->rx_buffers[q]);
-> +	priv->rx_buffers[q] = NULL;
-> +	page_pool_destroy(priv->rx_pool[q]);
->  
->  	/* Free aligned TX buffers */
->  	kfree(priv->tx_align[q]);
-> @@ -317,35 +289,56 @@ static void ravb_ring_free(struct net_device *ndev, int q)
->  	priv->tx_skb[q] = NULL;
->  }
->  
-> +static int
-> +ravb_alloc_rx_buffer(struct net_device *ndev, int q, u32 entry, gfp_t gfp_mask,
-> +		     struct ravb_rx_desc *rx_desc)
-> +{
-> +	struct ravb_private *priv = netdev_priv(ndev);
-> +	const struct ravb_hw_info *info = priv->info;
-> +	struct ravb_rx_buffer *rx_buff = &priv->rx_buffers[q][entry];
-> +	dma_addr_t dma_addr;
-> +	unsigned int size;
+After:
 
-nit: I would appreciate it if some consideration could be given to
-     moving this driver towards rather than away from reverse xmas
-     tree - longest line to shortest - for local variable declarations.
+  $ pahole drivers/net/can/rcar/rcar_canfd.o -C rcar_canfd_global
+  struct rcar_canfd_global {
+      struct rcar_canfd_channel * ch[8];               /*     0    64 */
+      /* --- cacheline 1 boundary (64 bytes) --- */
+      void *                     base;                 /*    64     8 */
+      struct platform_device *   pdev;                 /*    72     8 */
+      struct clk *               clkp;                 /*    80     8 */
+      struct clk *               can_clk;              /*    88     8 */
+      long unsigned int          channels_mask;        /*    96     8 */
+      bool                       extclk;               /*   104     1 */
+      bool                       fdmode;               /*   105     1 */
 
-     I'm not suggesting a clean-up patch. Rather, that in cases
-     like this where new code is added, and also in cases where
-     code is modified, reverse xmas tree is preferred.
+      /* XXX 6 bytes hole, try to pack */
 
-     Here I would suggest separating the assinment of rx_buf from
-     it's declaration (completely untested!):
+      struct reset_control *     rstc1;                /*   112     8 */
+      struct reset_control *     rstc2;                /*   120     8 */
+      /* --- cacheline 2 boundary (128 bytes) --- */
+      const struct rcar_canfd_hw_info  * info;         /*   128     8 */
 
-	struct ravb_private *priv = netdev_priv(ndev);
-	const struct ravb_hw_info *info = priv->info;
-	struct ravb_rx_buffer *rx_buff;
-	dma_addr_t dma_addr;
-	unsigned int size;
+      /* size: 136, cachelines: 3, members: 11 */
+      /* sum members: 130, holes: 1, sum holes: 6 */
+      /* last cacheline: 8 bytes */
+  };
 
-	rx_buff = &priv->rx_buffers[q][entry];
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/net/can/rcar/rcar_canfd.c | 24 +++++++-----------------
+>  1 file changed, 7 insertions(+), 17 deletions(-)
+>
+> diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
+> index b828427187353d6f..474840b58e8f13f1 100644
+> --- a/drivers/net/can/rcar/rcar_canfd.c
+> +++ b/drivers/net/can/rcar/rcar_canfd.c
+> @@ -508,12 +508,6 @@
+>   */
+>  #define RCANFD_CFFIFO_IDX              0
+>
+> -/* fCAN clock select register settings */
+> -enum rcar_canfd_fcanclk {
+> -       RCANFD_CANFDCLK = 0,            /* CANFD clock */
+> -       RCANFD_EXTCLK,                  /* Externally input clock */
+> -};
+> -
+>  struct rcar_canfd_global;
+>
+>  struct rcar_canfd_hw_info {
+> @@ -545,8 +539,8 @@ struct rcar_canfd_global {
+>         struct platform_device *pdev;   /* Respective platform device */
+>         struct clk *clkp;               /* Peripheral clock */
+>         struct clk *can_clk;            /* fCAN clock */
+> -       enum rcar_canfd_fcanclk fcan;   /* CANFD or Ext clock */
+>         unsigned long channels_mask;    /* Enabled channels mask */
+> +       bool extclk;                    /* CANFD or Ext clock */
+>         bool fdmode;                    /* CAN FD or Classical CAN only mode */
 
-     Edward Cree's xmastree tool can be helpful here:
-     https://github.com/ecree-solarflare/xmastree
+Notwithstanding comment: you may consider to replace those two booleans by a:
 
-> +
-> +	size = info->rx_buffer_size;
-> +	rx_buff->page = page_pool_alloc(priv->rx_pool[q], &rx_buff->offset, &size,
-> +					gfp_mask);
-> +	if (unlikely(!rx_buff->page)) {
-> +		/* We just set the data size to 0 for a failed mapping
-> +		 * which should prevent DMA from happening...
-> +		 */
-> +		rx_desc->ds_cc = cpu_to_le16(0);
-> +		return -ENOMEM;
-> +	}
-> +
-> +	dma_addr = page_pool_get_dma_addr(rx_buff->page) + rx_buff->offset;
-> +	dma_sync_single_for_device(ndev->dev.parent, dma_addr,
-> +				   info->rx_buffer_size, DMA_FROM_DEVICE);
-> +	rx_desc->dptr = cpu_to_le32(dma_addr);
-> +
-> +	/* The end of the RX buffer is used to store skb shared data, so we need
-> +	 * to ensure that the hardware leaves enough space for this.
-> +	 */
-> +	rx_desc->ds_cc = cpu_to_le16(info->rx_buffer_size
-> +				     - SKB_DATA_ALIGN(sizeof(struct skb_shared_info))
-> +				     - ETH_FCS_LEN + sizeof(__sum16));
-> +	return 0;
-> +}
+          unsigned int flags;
 
-...
+This way, no more fields would be needed in the future if more quirks are added.
 
-> @@ -816,14 +824,26 @@ static int ravb_rx_gbeth(struct net_device *ndev, int budget, int q)
->  			if (desc_status & MSC_CEEF)
->  				stats->rx_missed_errors++;
->  		} else {
-> +			struct ravb_rx_buffer *rx_buff = &priv->rx_buffers[q][entry];
-> +			void *rx_addr = page_address(rx_buff->page) + rx_buff->offset;
->  			die_dt = desc->die_dt & 0xF0;
-> -			skb = ravb_get_skb_gbeth(ndev, entry, desc);
-> +			dma_sync_single_for_cpu(ndev->dev.parent, le32_to_cpu(desc->dptr),
-> +						desc_len, DMA_FROM_DEVICE);
-> +
->  			switch (die_dt) {
->  			case DT_FSINGLE:
->  			case DT_FSTART:
->  				/* Start of packet:
-> -				 * Set initial data length.
-> +				 * Prepare an SKB and add initial data.
->  				 */
-> +				skb = napi_build_skb(rx_addr, info->rx_buffer_size);
-> +				if (unlikely(!skb)) {
-> +					stats->rx_errors++;
-> +					page_pool_put_page(priv->rx_pool[q],
-> +							   rx_buff->page, 0, true);
-
-Here skb is NULL.
-
-> +					break;
-> +				}
-> +				skb_mark_for_recycle(skb);
->  				skb_put(skb, desc_len);
->  
->  				/* Save this SKB if the packet spans multiple
-> @@ -836,14 +856,23 @@ static int ravb_rx_gbeth(struct net_device *ndev, int budget, int q)
->  			case DT_FMID:
->  			case DT_FEND:
->  				/* Continuing a packet:
-> -				 * Move data into the saved SKB.
-> +				 * Add this buffer as an RX frag.
->  				 */
-> -				skb_copy_to_linear_data_offset(priv->rx_1st_skb,
-> -							       priv->rx_1st_skb->len,
-> -							       skb->data,
-> -							       desc_len);
-> -				skb_put(priv->rx_1st_skb, desc_len);
-> -				dev_kfree_skb(skb);
-> +
-> +				/* rx_1st_skb will be NULL if napi_build_skb()
-> +				 * failed for the first descriptor of a
-> +				 * multi-descriptor packet.
-> +				 */
-> +				if (unlikely(!priv->rx_1st_skb)) {
-> +					stats->rx_errors++;
-> +					page_pool_put_page(priv->rx_pool[q],
-> +							   rx_buff->page, 0, true);
-
-And here skb seems to be uninitialised.
-
-> +					break;
-> +				}
-> +				skb_add_rx_frag(priv->rx_1st_skb,
-> +						skb_shinfo(priv->rx_1st_skb)->nr_frags,
-> +						rx_buff->page, rx_buff->offset,
-> +						desc_len, info->rx_buffer_size);
->  
->  				/* Set skb to point at the whole packet so that
->  				 * we only need one code path for finishing a
-
-The code between the hunk above and the hunk below is:
-
-				/* Set skb to point at the whole packet so that
-				 * we only need one code path for finishing a
-				 * packet.
-				 */
-				skb = priv->rx_1st_skb;
-			}
-			switch (die_dt) {
-			case DT_FSINGLE:
-			case DT_FEND:
-				/* Finishing a packet:
-				 * Determine protocol & checksum, hand off to
-				 * NAPI and update our stats.
-				 */
-				skb->protocol = eth_type_trans(skb, ndev);
-				if (ndev->features & NETIF_F_RXCSUM)
-					ravb_rx_csum_gbeth(skb);
-				stats->rx_bytes += skb->len;
-				napi_gro_receive(&priv->napi[q], skb);
-				rx_packets++;
-
-It seems that the inter-hunk code above may dereference skb when it is NULL
-or uninitialised.
-
-Flagged by Smatch.
-
-> @@ -865,7 +894,16 @@ static int ravb_rx_gbeth(struct net_device *ndev, int budget, int q)
->  				stats->rx_bytes += skb->len;
->  				napi_gro_receive(&priv->napi[q], skb);
->  				rx_packets++;
-> +
-> +				/* Clear rx_1st_skb so that it will only be
-> +				 * non-NULL when valid.
-> +				 */
-> +				if (die_dt == DT_FEND)
-> +					priv->rx_1st_skb = NULL;
->  			}
-> +
-> +			/* Mark this RX buffer as consumed. */
-> +			rx_buff->page = NULL;
->  		}
->  	}
->  
-
-...
+>         struct reset_control *rstc1;
+>         struct reset_control *rstc2;
+> @@ -777,7 +771,7 @@ static void rcar_canfd_configure_controller(struct rcar_canfd_global *gpriv)
+>                 cfg |= RCANFD_GCFG_CMPOC;
+>
+>         /* Set External Clock if selected */
+> -       if (gpriv->fcan != RCANFD_CANFDCLK)
+> +       if (gpriv->extclk)
+>                 cfg |= RCANFD_GCFG_DCS;
+>
+>         rcar_canfd_set_bit(gpriv->base, RCANFD_GCFG, cfg);
+> @@ -1941,16 +1935,12 @@ static int rcar_canfd_probe(struct platform_device *pdev)
+>                         return dev_err_probe(dev, PTR_ERR(gpriv->can_clk),
+>                                              "cannot get canfd clock\n");
+>
+> -               gpriv->fcan = RCANFD_CANFDCLK;
+> -
+> +               /* CANFD clock may be further divided within the IP */
+> +               fcan_freq = clk_get_rate(gpriv->can_clk) / info->postdiv;
+>         } else {
+> -               gpriv->fcan = RCANFD_EXTCLK;
+> +               fcan_freq = clk_get_rate(gpriv->can_clk);
+> +               gpriv->extclk = true;
+>         }
+> -       fcan_freq = clk_get_rate(gpriv->can_clk);
+> -
+> -       if (gpriv->fcan == RCANFD_CANFDCLK)
+> -               /* CANFD clock is further divided by (1/2) within the IP */
+> -               fcan_freq /= info->postdiv;
+>
+>         addr = devm_platform_ioremap_resource(pdev, 0);
+>         if (IS_ERR(addr)) {
+> @@ -2060,7 +2050,7 @@ static int rcar_canfd_probe(struct platform_device *pdev)
+>
+>         platform_set_drvdata(pdev, gpriv);
+>         dev_info(dev, "global operational state (clk %d, fdmode %d)\n",
+> -                gpriv->fcan, gpriv->fdmode);
+> +                gpriv->extclk, gpriv->fdmode);
+>         return 0;
+>
+>  fail_channel:
+> --
+> 2.34.1
+>
+>
 
