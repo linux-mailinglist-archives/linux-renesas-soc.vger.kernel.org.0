@@ -1,109 +1,152 @@
-Return-Path: <linux-renesas-soc+bounces-5770-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5771-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3471B8D800E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jun 2024 12:33:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E7CF8D8084
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jun 2024 13:05:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 664C71C237DA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jun 2024 10:33:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 093192846C5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jun 2024 11:05:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6623824AA;
-	Mon,  3 Jun 2024 10:33:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0A8F7E0FC;
+	Mon,  3 Jun 2024 11:04:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Ut4t6zjf"
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="Z9lTOE2u"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0745A5821A
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Jun 2024 10:33:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2915783CC8
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Jun 2024 11:04:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717410801; cv=none; b=KePLYzot9DY84v/sHb9M4dTpLvN6P4C3V3rNnWjbSsiRp0mjC655o5rQDl517jqydpeHKPPyyWJ4Cjq6Njby169GnLU6m+ImEou4v1gIYVQEpzvCttp8dWYbaYMIQI4Fo73Ql1ntQxv0gwV2JyapI+AWohLyHv6ZYj4YIRi1UBw=
+	t=1717412690; cv=none; b=L9yGUW0J62mg86bJ3UKdgCBVdic0id+ZBJT30egP/ZZf+BEGDSTdwE1f+RGnA3fm+QthxZ1yojiHPPNwEDzJE2NlUX/GVlZhefWICrFM5EMrI16hEVMeqKvIyh79CfsJrK0e1oRD6lDH0bBTu9yLqe1PCfb3E9FcXq/BSHU470o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717410801; c=relaxed/simple;
-	bh=dlRXRsmbEo+3qiZfYfdttteDZKqG4Od02eHxicX2vYU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xf3qxAEzVL5oYFL56WKxr58P3etpXgHIlJJLG+PWLZa0qSZ+t8VeKU3kHMqMfIbOZT5Oj5TSSiH6DYfdzkUN30xnQm5iLFxeZ6mryQionFS92dDhJoQTE2bjWVYSzEhI+r347owszGqunCZrwiTQC2K44qB+rPNvM5lV8lIXJmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Ut4t6zjf; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=dlRX
-	RsmbEo+3qiZfYfdttteDZKqG4Od02eHxicX2vYU=; b=Ut4t6zjfab63+G5YnB3P
-	LLnflgtfA9jEA8vcIo9mtl9L/6yUge9KoDfIzFhSiFd9vwLayYO1gUvzmHSQgMKr
-	u/M6xCFdgG/xz6N89Hay9rTSV5PnHoLpbnl8fpRVhFRJapCMdglEPx5pMgZtFb9m
-	RXCFZ1TBeUFsU4YQcgRH+sYyjTrPET8TXozU4La8/P52SwSk2hTeiuTH6Y/m6Hku
-	YR6VU+4ayX3mAPJ5oOJ281iTz1487YnMFUR5Ix2WO7+kevslDkEOu4t5S6wQI6SP
-	2QCMr38pfwLXnyBh++HgZPOhdoFgAiocB0o+blv9NcSEdlkBosmvq7gCcByXCCwH
-	SQ==
-Received: (qmail 1921677 invoked from network); 3 Jun 2024 12:33:18 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Jun 2024 12:33:18 +0200
-X-UD-Smtp-Session: l3s3148p1@3qqJ3PkZ3O0gAwDPXzLGAH1eNELjOc3g
-Date: Mon, 3 Jun 2024 12:33:17 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>, 
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>, linux-can@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	netdev@vger.kernel.org
-Subject: Re: [PATCH 3/3] can: rcar_canfd: Remove superfluous parentheses in
- address calculations
-Message-ID: <hvx7ae65p5a3zqifhoskkqq2jo3olwairlarx5atugpr6f7rbe@mpygss4dpzxu>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Marc Kleine-Budde <mkl@pengutronix.de>, 
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>, linux-can@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	netdev@vger.kernel.org
-References: <cover.1716973640.git.geert+renesas@glider.be>
- <b5aee80895fa029070fd37d1d837cf1c0ecb52dc.1716973640.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1717412690; c=relaxed/simple;
+	bh=TWxRmdekRbNEhcI0VIO8ML1AR9lY7YJ2Yylul7HV6OA=;
+	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=mgeUsMUorxEsBToHOh7hhAgJukRB9sND/p6096E+keTJSJnUf7mjA0oj4LuRSqlK9zxWJ3Hp72g/EZEx/JaToj6ExklADyjBfErHUgBgxT2yL4WEwu7MMEMiFYryT6HTuvE3GM51UVvN5Y0UfgicBk0pKhdp212r6x33VzYohdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=Z9lTOE2u; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-70249c5fb36so2115511b3a.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 03 Jun 2024 04:04:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1717412688; x=1718017488; darn=vger.kernel.org;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=4AXgS7gIdCfoYRjudpoTTUJ7ji93vDOR8+Q0YSNcslI=;
+        b=Z9lTOE2uA+zUrBTUgKqZGHWX8ZN/WROjFV0emfNedA1Lfn/eqZBYprnmQN5/V3ayO1
+         wZSLHGa3iUSjk++s2C0icaWv+CsQ8Vg4tnXSdHHYI33XW5KKLFQB+EaUNHucbGRL2Q8g
+         wt169oETBje9UFf214tteqnKOMnBdA/g1VeeVx0uujjqq2LFLk52Q8saaKg0iUYOj+0D
+         pK+vSsEYCn51zmWKejbiBUrHadEEvubiXFx4JbKm4RPTscBlhcNR0hMDezlw6Qr6lqo8
+         y6fkKI/TcWKOIenQhM3JLVqSPOaXSwNJ/SN8xWS3nZeqAC/GYlbA04058qV9zG3AbIqm
+         PNgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717412688; x=1718017488;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4AXgS7gIdCfoYRjudpoTTUJ7ji93vDOR8+Q0YSNcslI=;
+        b=ArX4wKjoenc4rRXX+s94LfFDvJHsFsdLvSpswMJlSKPljyIb4UYwYZ0TGkEDF3ff4W
+         5XnhrWuRStlJP4ttQHk+W4r23h2ODEHiLYXWUyQvdIjnG2gcHcvTNMiRKuHuHLfnS5fP
+         8BZK39GOpUkxadgz3vORzj1qBiykChD0TxSXpDc6IYwaD78oprPGBqPyCwf3W9YDJdSo
+         l5PoYFeRPha2snU4LMo7nn7vIvQ+8/YBAjA3JNmlZlpvUpGs3/022uGTukwpzUg+OdwF
+         x84rFGOqPaUR2e6nZBziwhLKh3n9X6XLlsENJiVV7OmDbZ9UepViqQxBTaYB52D+vW77
+         vksg==
+X-Gm-Message-State: AOJu0YwBdHoZEC4HLKXgLN7IDbq0BC4rcoJ4XtdfK6Gkx5RvlXK/ppYo
+	tWqHtvj3mmnjbeVOt+8262ehSz7T/ANEet9tg8qLJENvUOxwycroVrase2b/RZ7vZgpYV9nFJWP
+	l
+X-Google-Smtp-Source: AGHT+IH8EVFByIn9VRRYOfU6aTXzVUDcgqU7nRFFbpOsV2XVhmhz5bVA2cSOD4uW+6/QKf6b0WykZA==
+X-Received: by 2002:a17:902:ce85:b0:1f6:7d0c:e932 with SMTP id d9443c01a7336-1f67d0d148bmr24995715ad.34.1717412687837;
+        Mon, 03 Jun 2024 04:04:47 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f63241d315sm62075685ad.293.2024.06.03.04.04.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Jun 2024 04:04:47 -0700 (PDT)
+Message-ID: <665da34f.170a0220.39edcf.ee9d@mx.google.com>
+Date: Mon, 03 Jun 2024 04:04:47 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="p6qktic2hincfwcq"
-Content-Disposition: inline
-In-Reply-To: <b5aee80895fa029070fd37d1d837cf1c0ecb52dc.1716973640.git.geert+renesas@glider.be>
-
-
---p6qktic2hincfwcq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: renesas-next-2024-06-03-v6.10-rc1
+X-Kernelci-Report-Type: test
+X-Kernelci-Branch: next
+X-Kernelci-Tree: renesas
+Subject: renesas/next igt-gpu-panfrost: 1 runs,
+ 1 regressions (renesas-next-2024-06-03-v6.10-rc1)
+To: linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From: "kernelci.org bot" <bot@kernelci.org>
 
-On Wed, May 29, 2024 at 11:12:15AM +0200, Geert Uytterhoeven wrote:
-> There is no need to wrap simple variables or multiplications inside
-> parentheses.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+renesas/next igt-gpu-panfrost: 1 runs, 1 regressions (renesas-next-2024-06-=
+03-v6.10-rc1)
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Regressions Summary
+-------------------
+
+platform      | arch  | lab         | compiler | defconfig | regressions
+--------------+-------+-------------+----------+-----------+------------
+rk3399-roc-pc | arm64 | lab-broonie | gcc-10   | defconfig | 1          =
 
 
---p6qktic2hincfwcq
-Content-Type: application/pgp-signature; name="signature.asc"
+  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
+s-next-2024-06-03-v6.10-rc1/plan/igt-gpu-panfrost/
 
------BEGIN PGP SIGNATURE-----
+  Test:     igt-gpu-panfrost
+  Tree:     renesas
+  Branch:   next
+  Describe: renesas-next-2024-06-03-v6.10-rc1
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      f86b864474e417c53c64c4b33ca4e1192aea03a3
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZdm+0ACgkQFA3kzBSg
-Kba3LA//ZqwYVFUTAYjbS8w5UHicvZp1au701fV24seVIOM/AJFxJqJWteZKVIEO
-EcpVTYtiU62xOqHnjvPDgengvtxcy0/Pmr0GY1+Cl6vHM2bCvC/9ioSrYwPyEvBk
-F/xGfn+9NdiCo43djfC30Q7KlqFHg9JO0Pz2IoiCkJalFY0inYMP8sEvcxw8h1FS
-lNic8+bP0YRGgc61RW+f+L3jg93Fy0FO29Tr4t9XnAjwhQcvd6Jop87y6eh+l3ap
-9elRN317Sq7GgnQfIjlBttX4xaNQbQyHM2nELcKw42Znbr26YOlswEmUJKoUDGSQ
-cjzcR598706oeoRtNTuqT6k5cOj/UjoMbhAieawmlZuOr0zorQn3R1m0UwoRiKV1
-4D8j/gRbsDYkGgIWhPLEKQhTouaW0SIr5elowqH01B/IePNujhkWQZ/InHNliYHq
-vae7Yjs8LloEJpY7LfXelpZeixT752S54oAcZoh56r/KsPCu1RXziBypILZraQlT
-XNfnNyMCh2tLAIknrAatg7NhhOAX+r4cacQIMTqlV4nEnGFXPbACGtRaN+Rwq4od
-5CuYwe4JSRDBeCXc++XiYRFy3NT3XFYkT5sKQvRuqeCB0QBiPYile+/0//CnmC7y
-AVkxmJGIw5Ub9v7rvZvKVci15pvF8cNbTv/KV4i8sQHGa652hQ8=
-=s4IV
------END PGP SIGNATURE-----
+  Test suite revisions:
+    drm
+      URL:  git://anongit.freedesktop.org/mesa/drm
+      SHA:  c8f327ce9cb504a6c2185487d576be3d5254556a
+    igt-gpu-tools
+      URL:  https://gitlab.freedesktop.org/drm/igt-gpu-tools.git
+      SHA:  a44ebfe43edc96acab22a19b6a8850eef9202eea =
 
---p6qktic2hincfwcq--
+
+
+Test Regressions
+---------------- =
+
+
+
+platform      | arch  | lab         | compiler | defconfig | regressions
+--------------+-------+-------------+----------+-----------+------------
+rk3399-roc-pc | arm64 | lab-broonie | gcc-10   | defconfig | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/665d9a29ceab212fc47e70d4
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2024=
+-06-03-v6.10-rc1/arm64/defconfig/gcc-10/lab-broonie/igt-gpu-panfrost-rk3399=
+-roc-pc.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2024=
+-06-03-v6.10-rc1/arm64/defconfig/gcc-10/lab-broonie/igt-gpu-panfrost-rk3399=
+-roc-pc.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm-ig=
+t/20240313.0/arm64/rootfs.cpio.gz =
+
+
+
+  * igt-gpu-panfrost.login: https://kernelci.org/test/case/id/665d9a29ceab2=
+12fc47e70d5
+        failing since 117 days (last pass: renesas-next-2024-01-31-v6.8-rc1=
+, first fail: renesas-next-2024-02-06-v6.8-rc1) =
+
+ =20
 
