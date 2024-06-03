@@ -1,105 +1,61 @@
-Return-Path: <linux-renesas-soc+bounces-5788-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5789-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC45E8D86B1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jun 2024 17:55:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 605128D86C0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jun 2024 17:58:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4A2B4B24541
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jun 2024 15:55:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1B06E283554
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jun 2024 15:58:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EA50132811;
-	Mon,  3 Jun 2024 15:55:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CBA313213E;
+	Mon,  3 Jun 2024 15:58:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TW4lU+On"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NnE7AxB4"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFFC7131736;
-	Mon,  3 Jun 2024 15:55:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ABCD1E525;
+	Mon,  3 Jun 2024 15:58:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717430112; cv=none; b=OGACf7maD/fXtTj/O/9U8i4572FHHRLHqn0GG1a1A2QLIfrpHpoBhNJK8rVxu3RBP+hmRI1UCjqLWgBZToZ/nxlVM89TsjRkdTPPo9AFlTQhhP4I3pAp7Oi/Wtmw8JDUtqm3aIT8jJdiy9CJK/ihFE3xQhCRB4r1U3eiNkL/F6o=
+	t=1717430330; cv=none; b=ZvS90qS9V+4aUhxNtYQEqPg+PE6rFgs7gu+liRi8lU7BI3NrxxNxJBEX+rLfyhz91rq92vEm0Uf5hNfnY6EfbWfZ0LcoKQIlEMCiXnJb1I2w8FGPPAZB3AdGaDaMsCx0k+pzWaXlXYWA5kSIog06E28/qVuuXw0rhNdlrdzMYsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717430112; c=relaxed/simple;
-	bh=ReQXmTcvg08RqCaBOPd0ceRbHCmA79vsnPwpqNQ/OWs=;
+	s=arc-20240116; t=1717430330; c=relaxed/simple;
+	bh=jr5KtcQkjBceRa2Ci2HL75FOws1f+xvpDE3Fj2u3hG4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dJ998Exgzww4610rs8iJERsllNiZvrxaW+r0ng3PYB18v7gDZcXsT3nc0vRVY/60NISsEiG0mGl2Nom08Xb+Tn1z9vGGPDHBxd0HQtoFBocSdunw0in3p8+YPnKQvdI1r/MHv+NVzg4MVi1qTb6uTVJy8j2u6XbI+qBfwel+Sng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TW4lU+On; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6ACBC2BD10;
-	Mon,  3 Jun 2024 15:55:10 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=HhcBwcV4m+jmkocrJz3lzZZbzErxYHClhDABRSBu4PSb/eFrBbHsImK5MNAi/wsmSqVleq5E+0TIpAq6U0pm1kUYuFIg0019DcEgZ094JtDzUo0FQiVO80WnEfJN1EqxbZUaEQncAxBoisKu0+9fZCvy75sOLdovDUrxDKf9Ox4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NnE7AxB4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CF9BC2BD10;
+	Mon,  3 Jun 2024 15:58:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717430111;
-	bh=ReQXmTcvg08RqCaBOPd0ceRbHCmA79vsnPwpqNQ/OWs=;
+	s=k20201202; t=1717430329;
+	bh=jr5KtcQkjBceRa2Ci2HL75FOws1f+xvpDE3Fj2u3hG4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TW4lU+OnMLar1IkIptx6eovxmB4sv5QKfLrew2PGPPZ+6BD0EIZZZmfgPtlTXcJtA
-	 UbSb4lL4Kh4+KTQIRL4yL2m+v4o9lEQ5iHqLr68Ko3fxznlnn+qHpDi3MYmyxEhi4Z
-	 UFVf3ZGpzDBYi/mI+pDoizSK2aUiFzrF2XrTNLOWkNp2Yc02tBrOe3E7wrHs4joDzs
-	 Wsre3VN1F+4IQsCowKmGcRC3ke3K+kQrU2by149l+IwTvXMiNfyPwvM5Y+GExAKKFT
-	 xAL+dlm6hLv7BQAjEN/qVtl1hWLWqoc9J7cNH1urPkOPIW/mFGU1ZZyakOjZIlYU31
-	 miadAsHe6IvzQ==
-Date: Mon, 3 Jun 2024 10:55:08 -0500
+	b=NnE7AxB4O2JNJKnAW8Njm+7GaoNEIHTH1wmKepsGp1wiIoK0gyEfBTizpq8gN9VaG
+	 aTFA79SEQDDGzD6oLeh9i+znquudhE4nVp438GlWcNGpOqUSa+EIHhSvYZL/6Hhx/4
+	 DdWFkShVC8JD7yvqQ5leTxr7JLjlwWDL5R2qp8IMzWWm1Hj6NS9o7HapY+u0rksG7W
+	 mvJkXm98AAvkzo5yXRgYOi0/riRuy5EWV6taBeFrEJG6TRQPtqMl/A51aZS9sVDF23
+	 mAvl9/1opM9sndUJnrbkJt3qnJDS1+j7krJJvd0DRxSx0QFr6YoZfZHpHpr6J3VtZY
+	 husY7cOS8z0bw==
+Date: Mon, 3 Jun 2024 10:58:47 -0500
 From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Sebastian Reichel <sre@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Rich Felker <dalias@libc.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	linux-renesas-soc@vger.kernel.org,
-	Kefeng Wang <wangkefeng.wang@huawei.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Bjorn Helgaas <bhelgaas@google.com>, linux-fbdev@vger.kernel.org,
-	Chris Morgan <macromorgan@hotmail.com>,
-	Jiri Slaby <jirislaby@kernel.org>, Baoquan He <bhe@redhat.com>,
-	Helge Deller <deller@gmx.de>, David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-gpio@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>,
+	linux-kernel@vger.kernel.org,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-kernel@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Guo Ren <guoren@kernel.org>, linux-pci@vger.kernel.org,
-	Anup Patel <apatel@ventanamicro.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Jacky Huang <ychuang3@nuvoton.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	Azeem Shaikh <azeemshaikh38@gmail.com>,
-	Niklas Cassel <cassel@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Max Filippov <jcmvbkbc@gmail.com>, linux-ide@vger.kernel.org,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Stephen Boyd <sboyd@kernel.org>, linux-serial@vger.kernel.org,
-	Sergey Shtylyov <s.shtylyov@omp.ru>, devicetree@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Guenter Roeck <linux@roeck-us.net>, linux-sh@vger.kernel.org,
-	Heiko Stuebner <heiko.stuebner@cherry.de>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
-	Lee Jones <lee@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-clk@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
-	Damien Le Moal <dlemoal@kernel.org>
-Subject: Re: [DO NOT MERGE v8 21/36] dt-bindings: serial: renesas,scif: Add
- scif-sh7751.
-Message-ID: <171743010672.507323.12704296584097795619.robh@kernel.org>
-References: <cover.1716965617.git.ysato@users.sourceforge.jp>
- <76fffb1383820a701e0c787dcb3a25da52f6e8b7.1716965617.git.ysato@users.sourceforge.jp>
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [PATCH v2 1/8] dt-bindings: fuse: Document R-Car E-FUSE / PFC
+Message-ID: <171743032508.512428.16482464723039405455.robh@kernel.org>
+References: <cover.1716974502.git.geert+renesas@glider.be>
+ <03e43e97941df238ef1a618852aecd7be68adbb0.1716974502.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -108,19 +64,24 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <76fffb1383820a701e0c787dcb3a25da52f6e8b7.1716965617.git.ysato@users.sourceforge.jp>
+In-Reply-To: <03e43e97941df238ef1a618852aecd7be68adbb0.1716974502.git.geert+renesas@glider.be>
 
 
-On Wed, 29 May 2024 17:01:07 +0900, Yoshinori Sato wrote:
-> Add Renesas SH7751 SCIF.
+On Wed, 29 May 2024 11:29:30 +0200, Geert Uytterhoeven wrote:
+> Document support for E-FUSE non-volatile memory accessible through PFC
+> on R-Car V3U and S4-8.
 > 
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 > ---
->  Documentation/devicetree/bindings/serial/renesas,scif.yaml | 1 +
->  1 file changed, 1 insertion(+)
+> v2:
+>   - Add Reviewed-by.
+> ---
+>  .../bindings/fuse/renesas,rcar-efuse.yaml     | 55 +++++++++++++++++++
+>  1 file changed, 55 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/fuse/renesas,rcar-efuse.yaml
 > 
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
 
