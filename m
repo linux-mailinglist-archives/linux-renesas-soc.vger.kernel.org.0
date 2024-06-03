@@ -1,116 +1,189 @@
-Return-Path: <linux-renesas-soc+bounces-5793-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5794-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0353A8D8A82
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jun 2024 21:52:17 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01E068D8B09
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jun 2024 22:46:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 97C8C1F26001
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jun 2024 19:52:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 634FEB2354B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jun 2024 20:46:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 642D413A878;
-	Mon,  3 Jun 2024 19:52:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="PA53yrNX"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 648AA57C8D;
+	Mon,  3 Jun 2024 20:46:14 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B3F8137748
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Jun 2024 19:52:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C32B651;
+	Mon,  3 Jun 2024 20:46:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717444334; cv=none; b=eO3b30e/8Zh/QK9d4Nw2weSvjM/QIC5vnFUYPBk4Hm61gaInS/GXI84WijiBy0mDmTUR6iHIQaaVHLgLFNtGGFqEzC6cBuF+7LSNwwbd9CQXsTEf00odfbuliBP6F7kf8Lln7kT8p9k6jTgph/w4SS/PE5ICudAwDKlyyjk/l04=
+	t=1717447574; cv=none; b=Bp8k6QPsb1D1sUWELzrEcxSWOcu9mQ1JxQa2zQgcjfAP/u9tlbMQfiXR81KQmryhojTnmliWq0yNxWKnoGfES61noUS7z/dyLzh0I2/XjIfvxNQU8AaN7uqpeirDmtavW44I1CS45T/OLtxz8S9EKB0gz0QZ25iArJSTN/yw8Sk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717444334; c=relaxed/simple;
-	bh=ycipNAyZv8lr2sKL8eIKshyoPFGMPBYVwhKD907X/n0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MHSN0C7rNMGqDyKIovDEhFphOelseUE9589TFXKqNEbpp8OJJD5oHt5hkhFkLkpyP7Vg6IYzq3GyON7rTsnNvw0mrrku3hLZ1P6T9GcJtJIrune/EvwRBVYktOKpFQV3ogDKaHSnFWgpU5H5Bl0Ju2bg14aM1Ww7vqreYJtHOv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=PA53yrNX; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=ycip
-	NAyZv8lr2sKL8eIKshyoPFGMPBYVwhKD907X/n0=; b=PA53yrNXqMk2P8wnc/yj
-	klnm/zcqtv71pnkyA8u8tI+1iVJ0zb1yk4IMt+Pb6csg71t2khz0qX7vFSQxXVsM
-	/d3gxm3EBf9oGP7n2vvJetrQp2+8W3QR5MsgRymzFunSXCqfalLNGvCb9b91bRS4
-	B62Lpjv0+NQ5lMLQwmzylf5WuYxtjupj8J/uRyDneJ3920uLL5xI1hK7QFx/M7s9
-	MCJmQh8PQMBG7Onj05y52D4+E712/XVtZnKjNDNXChVHXoHYk64iNr4Y7bCV+7k0
-	0tg0TYtPRNgOAiEBESttVWLY24t+IlgJHRgZ40xt8Txgx5WAwuV3x43PuGFkWyAR
-	3Q==
-Received: (qmail 2061899 invoked from network); 3 Jun 2024 21:52:07 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Jun 2024 21:52:07 +0200
-X-UD-Smtp-Session: l3s3148p1@IlQQqwEa/OVehhtB
-Date: Mon, 3 Jun 2024 21:52:07 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Eric Sandeen <sandeen@redhat.com>
-Cc: Christian Brauner <brauner@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	David Howells <dhowells@redhat.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] debugfs: ignore auto and noauto options if given
-Message-ID: <clozc33lz7y4audw2nkgvuehqjbpurqr2ematmjs4vgxvnct3l@4wxkkmhjke54>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Eric Sandeen <sandeen@redhat.com>, Christian Brauner <brauner@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	David Howells <dhowells@redhat.com>, linux-kernel@vger.kernel.org
-References: <20240522083851.37668-1-wsa+renesas@sang-engineering.com>
- <20240524-glasfaser-gerede-fdff887f8ae2@brauner>
- <20240527100618.np2wqiw5mz7as3vk@ninjato>
- <20240527-pittoresk-kneipen-652000baed56@brauner>
- <nr46caxz7tgxo6q6t2puoj36onat65pt7fcgsvjikyaid5x2lt@gnw5rkhq2p5r>
- <20240603-holzschnitt-abwaschen-2f5261637ca8@brauner>
- <7e8f8a6c-0f8e-4237-9048-a504c8174363@redhat.com>
+	s=arc-20240116; t=1717447574; c=relaxed/simple;
+	bh=R2QkOlhuMFFxiF5tENr/6ZI22OVqBhT81sSAayPR0k8=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=e1ZLvQtS2gtADCItfXNu5m1/nZO7m4EQk/zRMQz1T2BhL4S17T6cLindZpLTYcZbpTvNckISBKLM3Lh95g58V7SSxdkW4UgF9jd7ZLLKEMExEiQP6pV6paqVIcyz0tlSiuT4XVwB1qowZMDbRUCq/c37v1IQEKHDuQveaPDCOPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.105] (178.176.75.167) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Mon, 3 Jun
+ 2024 23:45:52 +0300
+Subject: Re: [net-next PATCH v4 7/7] net: ravb: Allocate RX buffers via page
+ pool
+To: Paul Barker <paul.barker.ct@bp.renesas.com>, Simon Horman
+	<horms@kernel.org>
+CC: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, =?UTF-8?Q?Niklas_S=c3=b6derlund?=
+	<niklas.soderlund+renesas@ragnatech.se>, Biju Das
+	<biju.das.jz@bp.renesas.com>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>, Yoshihiro Shimoda
+	<yoshihiro.shimoda.uh@renesas.com>, <netdev@vger.kernel.org>,
+	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20240528150339.6791-1-paul.barker.ct@bp.renesas.com>
+ <20240528150339.6791-8-paul.barker.ct@bp.renesas.com>
+ <20240601101300.GA491852@kernel.org>
+ <6165a9a3-15ec-4a40-901a-17c2be64daf1@bp.renesas.com>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <d0c47784-ec5f-eabf-8fe9-9405093accf8@omp.ru>
+Date: Mon, 3 Jun 2024 23:45:51 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="uv5iqsmng6shuhb3"
-Content-Disposition: inline
-In-Reply-To: <7e8f8a6c-0f8e-4237-9048-a504c8174363@redhat.com>
+In-Reply-To: <6165a9a3-15ec-4a40-901a-17c2be64daf1@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 06/03/2024 20:26:14
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 185692 [Jun 03 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.4
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 20 0.3.20
+ 743589a8af6ec90b529f2124c2bbfc3ce1d2f20f
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.75.167 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.75.167 in (user)
+ dbl.spamhaus.org}
+X-KSE-AntiSpam-Info:
+	lore.kernel.org:7.1.1;www.kernel.org:7.1.1;omp.ru:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.75.167
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 06/03/2024 20:31:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 6/3/2024 5:58:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
+On 6/3/24 11:02 AM, Paul Barker wrote:
+[...]
+>>> This patch makes multiple changes that can't be separated:
+>>>
+>>>   1) Allocate plain RX buffers via a page pool instead of allocating
+>>>      SKBs, then use build_skb() when a packet is received.
+>>>   2) For GbEth IP, reduce the RX buffer size to 2kB.
+>>>   3) For GbEth IP, merge packets which span more than one RX descriptor
+>>>      as SKB fragments instead of copying data.
+>>>
+>>> Implementing (1) without (2) would require the use of an order-1 page
+>>> pool (instead of an order-0 page pool split into page fragments) for
+>>> GbEth.
+>>>
+>>> Implementing (2) without (3) would leave us no space to re-assemble
+>>> packets which span more than one RX descriptor.
+>>>
+>>> Implementing (3) without (1) would not be possible as the network stack
+>>> expects to use put_page() or page_pool_put_page() to free SKB fragments
+>>> after an SKB is consumed.
+>>>
+>>> RX checksum offload support is adjusted to handle both linear and
+>>> nonlinear (fragmented) packets.
+>>>
+>>> This patch gives the following improvements during testing with iperf3.
+>>>
+>>>   * RZ/G2L:
+>>>     * TCP RX: same bandwidth at -43% CPU load (70% -> 40%)
+>>>     * UDP RX: same bandwidth at -17% CPU load (88% -> 74%)
+>>>
+>>>   * RZ/G2UL:
+>>>     * TCP RX: +30% bandwidth (726Mbps -> 941Mbps)
+>>>     * UDP RX: +417% bandwidth (108Mbps -> 558Mbps)
+>>>
+>>>   * RZ/G3S:
+>>>     * TCP RX: +64% bandwidth (562Mbps -> 920Mbps)
+>>>     * UDP RX: +420% bandwidth (90Mbps -> 468Mbps)
+>>>
+>>>   * RZ/Five:
+>>>     * TCP RX: +217% bandwidth (145Mbps -> 459Mbps)
+>>>     * UDP RX: +470% bandwidth (20Mbps -> 114Mbps)
+>>>
+>>> There is no significant impact on bandwidth or CPU load in testing on
+>>> RZ/G2H or R-Car M3N.
+>>>
+>>> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
 
---uv5iqsmng6shuhb3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+[...]
 
+>>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+[...]
+>>> @@ -298,13 +269,14 @@ static void ravb_ring_free(struct net_device *ndev, int q)
+>>>  		priv->tx_ring[q] = NULL;
+>>>  	}
+>>>  
+>>> -	/* Free RX skb ringbuffer */
+>>> -	if (priv->rx_skb[q]) {
+>>> -		for (i = 0; i < priv->num_rx_ring[q]; i++)
+>>> -			dev_kfree_skb(priv->rx_skb[q][i]);
+>>> +	/* Free RX buffers */
+>>> +	for (i = 0; i < priv->num_rx_ring[q]; i++) {
+>>> +		if (priv->rx_buffers[q][i].page)
+>>> +			page_pool_put_page(priv->rx_pool[q], priv->rx_buffers[q][i].page, 0, true);
+>>
+>> nit: Networking still prefers code to be 80 columns wide or less.
+>>      It looks like that can be trivially achieved here.
+>>
+>>      Flagged by checkpatch.pl --max-line-length=80
+> 
+> Sergey has asked me to wrap to 100 cols [1]. I can only find a reference
+> to 80 in the docs though [2], so I guess you may be right.
+> 
+> [1]: https://lore.kernel.org/all/611a49b8-ecdb-6b91-9d3e-262bf3851f5b@omp.ru/
+> [2]: https://www.kernel.org/doc/html/latest/process/coding-style.html
 
-> See my other reply, are you sure we should make this change? From a
-> "keep the old behavior" POV maybe so, but this looks to me like a
-> bug in busybox, passing fstab hint "options" like "auto" as actual mount
-> options being the root cause of the problem. debugfs isn't uniquely
-> affected by this behavior.
+   Note that I (mostly) meant the comments...
 
-For the record, I plan to fix busybox. However, there are still a lot of
-old versions around...
+[...]
 
-
---uv5iqsmng6shuhb3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZeHuMACgkQFA3kzBSg
-KbZBARAAo4+DwSklHeObgKZ3QYHcKwh3O9XQefTdCw0cmV/UXijzCw8OKj5pwQN7
-Jx1vU/YMnODQ1WO2+HhAC7DpTLFXhctfzqqNxLbww05x4UH7rH74mTaLOIyHQ/ad
-THTfAKC8Ig5H437eQpikKsQC3fUW0lgCjqaYbTP1JLQu5Eohyl67JenjCRf04O0S
-vAko8vvPOjc/pgst970csJQrrCvIgQS/uFlXDZjxjWSK8Yz2tUzRNPH+1OKvoqNB
-XYf4Q/78IhTjv8iktMkQDNfshLxi9dFDKqwWaIicInyldsjIZGwB9+gygrJUkF+m
-wcuNAHobiF5OGE4Acco9LREKp/LXS9AyGhUwq8ZZFy7dEiQKA4tu5QVheMWpAyAb
-f5x5w2FM8kx2cHbivNGKvB0EjZ4JOVZP+nwa34FOjrpIuaT3W4cPNyhOMpICLFZi
-XKtjmGFwM/y06O6rjz5ys7AwLWB0IOqkCWpythVKl2wrp1fYg4ckFGQ9j2fAg4Gq
-Q8W4pZulKbqhew1OIXSUynwsiTaplxUkASq/Umh06YyT7FwMbbuNljT71Acia4Ue
-FPD6a1Vp6G8ZiiLvKZLrNoW9GxJDuRE213hEdFHjcz0faxW89KIIgrRJpxXXTO4O
-+YExcbUUiXSAYAhnNVu1De2k458U5K+z00tBA++k2OO60yR9lYs=
-=wj9/
------END PGP SIGNATURE-----
-
---uv5iqsmng6shuhb3--
+MBR, Sergey
 
