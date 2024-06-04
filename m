@@ -1,38 +1,39 @@
-Return-Path: <linux-renesas-soc+bounces-5803-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5804-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31EBF8FABEC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 09:29:10 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0157B8FABEF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 09:29:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 63A8C1C20FB5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 07:29:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AAB49282587
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 07:29:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FCF91411F2;
-	Tue,  4 Jun 2024 07:28:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E046F1420BE;
+	Tue,  4 Jun 2024 07:28:51 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F1EA1386AB;
-	Tue,  4 Jun 2024 07:28:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BCE3137C5A;
+	Tue,  4 Jun 2024 07:28:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717486124; cv=none; b=L+END8LtpQnw2AMrucHOnigqrzEG8XsnbnZJ5adr05ReczyGNHI7rzd3n9RuzJ7RH3H56EscoAdMVwHFAQXxzoGvEMcdpE7WVNa62+4uNqAg5f0RwjPOIzt2kF3Jln96AzG5orkhtPuTfUJgG5mEEaB9s85fFohqsQxZB8zp1uE=
+	t=1717486131; cv=none; b=O5jKIPqokCPixUqu0NUKHDixEfN5/cxeNJQv45rooCjk30chQejOO+EeYA7QshPtroDhkLuX7d8tloVMR9q1AECX42u4khY3uaihxtTBf8UG/9gmW5I6Sf7cTPgT2WiLXiyuxdZQvA7EA2IH3kO2oz9xGPzZbLAanAoMU8MbT7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717486124; c=relaxed/simple;
-	bh=EzXG3Wk/+YnJH1XCoD1FE88jqfD7gfRvekuE4Vyo4ZQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UZypvnDb8HjU8U0MAb7QkEBaTxx4yaxd+CHjoHAWCRDEJrgxbl7jiB24vUWRMc8nAQgmya/ZK4rznfQgAxFhEA27J6QKBpEetvAOr/uyTUkTCzToIXHGnFLMDbHV3s/E1ktSpJN07AQNXVQ2pLciu5A0jJ7zcuCxjDlwn2kd8cA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+	s=arc-20240116; t=1717486131; c=relaxed/simple;
+	bh=cbgZ+pq+U2matu3Zc7+gDYS3VKVi1lfiwdDgZsp8wOM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=pRHZsKjSc9Eb4G2pKXiZ0EZNKgvENaIpgrEDk8K4kTFSXF2o74/7L/W8RPsmMrUexm5wlB9V4WYySrLOjf5f4K+NfjKzxI/1qsQU6kFGFIdgQWpZ/M+KxM6iSFIts2XRkaRrz1422htH+RGtt8gev0e8sYKMmIAij8Mb6PU+cYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 X-IronPort-AV: E=Sophos;i="6.08,213,1712588400"; 
-   d="scan'208";a="210610413"
+   d="scan'208";a="206651303"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 04 Jun 2024 16:28:39 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 04 Jun 2024 16:28:44 +0900
 Received: from renesas-deb12.mshome.net (unknown [10.226.92.239])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id B0A0D41FBB3D;
-	Tue,  4 Jun 2024 16:28:34 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1E1C741FBB3D;
+	Tue,  4 Jun 2024 16:28:39 +0900 (JST)
 From: Paul Barker <paul.barker.ct@bp.renesas.com>
 To: Sergey Shtylyov <s.shtylyov@omp.ru>,
 	"David S. Miller" <davem@davemloft.net>,
@@ -48,10 +49,12 @@ Cc: Paul Barker <paul.barker.ct@bp.renesas.com>,
 	netdev@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [net-next PATCH v5 0/7] Improve GbEth performance on Renesas RZ/G2L and related SoCs
-Date: Tue,  4 Jun 2024 08:28:18 +0100
-Message-Id: <20240604072825.7490-1-paul.barker.ct@bp.renesas.com>
+Subject: [net-next PATCH v5 1/7] net: ravb: Simplify poll & receive functions
+Date: Tue,  4 Jun 2024 08:28:19 +0100
+Message-Id: <20240604072825.7490-2-paul.barker.ct@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240604072825.7490-1-paul.barker.ct@bp.renesas.com>
+References: <20240604072825.7490-1-paul.barker.ct@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -60,127 +63,142 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series aims to improve performance of the GbEth IP in the Renesas
-RZ/G2L SoC family and the RZ/G3S SoC, which use the ravb driver. Along
-the way, we do some refactoring and ensure that napi_complete_done() is
-used in accordance with the NAPI documentation for both GbEth and R-Car
-code paths.
+We don't need to pass the work budget to ravb_rx() by reference, it's
+cleaner to pass this by value and return the amount of work done. This
+allows us to simplify the ravb_poll() function and use the common
+`work_done` variable name seen in other network drivers for consistency
+and ease of understanding.
 
-Much of the performance improvement comes from enabling SW IRQ
-Coalescing for all SoCs using the GbEth IP, and NAPI Threaded mode for
-single core SoCs using the GbEth IP. These can be enabled/disabled at
-runtime via sysfs, but our goal is to set sensible defaults which get
-good performance on the affected SoCs.
+This is a pure refactor and should not affect behaviour.
 
-The rest of the performance improvement comes from using a page pool to
-allocate RX buffers, and reducing the allocation size from >8kB to 2kB.
-
-The overall performance impact of this patch series seen in testing with
-iperf3 is as follows (see patches 5-7 for more detailed results):
-  * RZ/G2L:
-    * TCP TX: +1.8% bandwidth
-    * TCP RX: +1% bandwidth at 47% less CPU load
-    * UDP RX: +1% bandwidth at 26% less CPU load
-
-  * RZ/G2UL:
-    * TCP TX: +37% bandwidth
-    * TCP RX: +43% bandwidth
-    * UDP TX: -8% bandwidth
-    * UDP RX: +32500% bandwidth (!)
-
-  * RZ/G3S:
-    * TCP TX: +25% bandwidth
-    * TCP RX: +76% bandwidth
-    * UDP TX: -9% bandwidth
-    * UDP RX: +37900% bandwidth (!)
-
-  * RZ/Five:
-    * TCP TX: +18% bandwidth
-    * TCP RX: +212% bandwidth
-    * UDP TX: +2% bandwidth
-    * UDP RX: +inf bandwidth (test no longer crashes)
-
-There is no significant impact on bandwidth or CPU load in testing on
-RZ/G2H or R-Car M3N.
-
-Fixing the crash in UDP RX testing for RZ/Five is a cumulative effect of
-patches 1, 2, 5 & 6 so this is very difficult to break out as a bugfix
-for backporting.
-
+Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+---
 Changes v4->v5:
-  * Added Sergey's Reviewed-by tags.
-  * Improved the commit message for patch 2/7.
-  * Re-wrapped to 80 cols, except where this would significantly impact
-    readability.
-  * Use lower case `skb` consistently in comments.
-  * Included <net/page_pool/types.h> in ravb.h.
-  * Moved rx_buffer_size so it is in the same place in ravb_hw_info as
-    rx_max_desc_use was previously.
-  * Used reverse xmas tree ordering in variable declarations.
-  * Split lines after binary operators, instead of before.
-  * Factor subtraction of sizeof(__sum16) out of the if condition in
-    ravb_rx_csum_gbeth().
-  * Add blank lines after variable declarations where needed.
-  * Used goto instead of break to handle napi_build_skb() failure in
-    ravb_rx_gbeth(). Break was incorrectly scoped to the surrounding
-    switch statement, when it's the outer loop we really want to break
-    out of.
-  * Used continue instead of break to handle NULL priv->rx_1st_skb in
-    ravb_rx_gbeth() as we may still be able to process further
-    descriptors.
-  * Unconditionally set priv->rx_1st_skb = NULL after processing a
-    packet in ravb_rx_gbeth(). We don't need to check die_dt as this
-    will be a no-op for single descriptor packets.
-  * Moved napi_build_skb() call after dma_sync_single_for_cpu() in
-    ravb_rx_rcar() to align the order of operations with ravb_rx_gbeth()
-    and ensure the data is sync'd before it is accessed.
-  * Moved zeroing of rx_buff->page to the end of packet processing in
-    ravb_rx_rcar() to align the order of operations with
-    ravb_rx_gbeth().
+  * Added Sergey's Reviewed-by tag.
 
 Changes v3->v4:
-  * Dependency patches have merged so this is no longer an RFC.
-  * Fixed update of stats->rx_packets.
-  * Simplified refactoring following feedback from Niklas and Sergey.
-  * Renamed needs_irq_coalesce -> coalesce_irqs.
-  * Used a separate page pool for each RX queue.
-  * Passed struct ravb_rx_desc to ravb_alloc_rx_buffer() so that we can
-    simplify the calling function.
-  * Explained the calculation of rx_desc->ds_cc.
-  * Added handling of nonlinear SKBs in ravb_rx_csum_gbeth().
-  * Used Niklas' suggested commit message for patch 2/7.
-  * Added Sergey's Reviewed-by tags to patches 5/7 and 6/7.
+  * Fixed update of stats->rx_packets in ravb_rx_gbeth() and
+    ravb_rx_rcar().
 
-Changes v2->v3:
-  * Incorporated feedback on RFC v2 from Sergey.
-  * Split out bugfixes and rebased. This changed the order of what was
-    the first 5 patches of v2 and things look a little different so I've
-    not picked up Reviewed-by tags from v2.
-  * Further refactoring and tidy up of RX ring refill and
-    ravb_rx_gbeth().
-  * Switched to using a page pool to allocate RX buffers.
-  * Re-tested and provided updated performance figures.
+ drivers/net/ethernet/renesas/ravb.h      |  2 +-
+ drivers/net/ethernet/renesas/ravb_main.c | 27 +++++++++++-------------
+ 2 files changed, 13 insertions(+), 16 deletions(-)
 
-Changes v1->v2:
-  * Marked as RFC as the series depends on unmerged patches.
-  * Refactored R-Car code paths as well as GbEth code paths.
-  * Updated references to the patches this series depends on.
-
-Paul Barker (7):
-  net: ravb: Simplify poll & receive functions
-  net: ravb: Align poll function with NAPI docs
-  net: ravb: Refactor RX ring refill
-  net: ravb: Refactor GbEth RX code path
-  net: ravb: Enable SW IRQ Coalescing for GbEth
-  net: ravb: Use NAPI threaded mode on 1-core CPUs with GbEth IP
-  net: ravb: Allocate RX buffers via page pool
-
- drivers/net/ethernet/renesas/ravb.h      |  14 +-
- drivers/net/ethernet/renesas/ravb_main.c | 479 ++++++++++++-----------
- 2 files changed, 271 insertions(+), 222 deletions(-)
-
-
-base-commit: b5c089880723b2c18531c40e445235bd646a51d1
+diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+index b48935ec7e28..71de2a7aa27c 100644
+--- a/drivers/net/ethernet/renesas/ravb.h
++++ b/drivers/net/ethernet/renesas/ravb.h
+@@ -1039,7 +1039,7 @@ struct ravb_ptp {
+ };
+ 
+ struct ravb_hw_info {
+-	bool (*receive)(struct net_device *ndev, int *quota, int q);
++	int (*receive)(struct net_device *ndev, int budget, int q);
+ 	void (*set_rate)(struct net_device *ndev);
+ 	int (*set_feature)(struct net_device *ndev, netdev_features_t features);
+ 	int (*dmac_init)(struct net_device *ndev);
+diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+index 4d100283c30f..193ad05383a8 100644
+--- a/drivers/net/ethernet/renesas/ravb_main.c
++++ b/drivers/net/ethernet/renesas/ravb_main.c
+@@ -759,7 +759,7 @@ static struct sk_buff *ravb_get_skb_gbeth(struct net_device *ndev, int entry,
+ }
+ 
+ /* Packet receive function for Gigabit Ethernet */
+-static bool ravb_rx_gbeth(struct net_device *ndev, int *quota, int q)
++static int ravb_rx_gbeth(struct net_device *ndev, int budget, int q)
+ {
+ 	struct ravb_private *priv = netdev_priv(ndev);
+ 	const struct ravb_hw_info *info = priv->info;
+@@ -781,7 +781,7 @@ static bool ravb_rx_gbeth(struct net_device *ndev, int *quota, int q)
+ 	for (i = 0; i < limit; i++, priv->cur_rx[q]++) {
+ 		entry = priv->cur_rx[q] % priv->num_rx_ring[q];
+ 		desc = &priv->rx_ring[q].desc[entry];
+-		if (rx_packets == *quota || desc->die_dt == DT_FEMPTY)
++		if (rx_packets == budget || desc->die_dt == DT_FEMPTY)
+ 			break;
+ 
+ 		/* Descriptor type must be checked before all other reads */
+@@ -882,12 +882,11 @@ static bool ravb_rx_gbeth(struct net_device *ndev, int *quota, int q)
+ 	}
+ 
+ 	stats->rx_packets += rx_packets;
+-	*quota -= rx_packets;
+-	return *quota == 0;
++	return rx_packets;
+ }
+ 
+ /* Packet receive function for Ethernet AVB */
+-static bool ravb_rx_rcar(struct net_device *ndev, int *quota, int q)
++static int ravb_rx_rcar(struct net_device *ndev, int budget, int q)
+ {
+ 	struct ravb_private *priv = netdev_priv(ndev);
+ 	const struct ravb_hw_info *info = priv->info;
+@@ -906,7 +905,7 @@ static bool ravb_rx_rcar(struct net_device *ndev, int *quota, int q)
+ 	for (i = 0; i < limit; i++, priv->cur_rx[q]++) {
+ 		entry = priv->cur_rx[q] % priv->num_rx_ring[q];
+ 		desc = &priv->rx_ring[q].ex_desc[entry];
+-		if (rx_packets == *quota || desc->die_dt == DT_FEMPTY)
++		if (rx_packets == budget || desc->die_dt == DT_FEMPTY)
+ 			break;
+ 
+ 		/* Descriptor type must be checked before all other reads */
+@@ -992,17 +991,16 @@ static bool ravb_rx_rcar(struct net_device *ndev, int *quota, int q)
+ 	}
+ 
+ 	stats->rx_packets += rx_packets;
+-	*quota -= rx_packets;
+-	return *quota == 0;
++	return rx_packets;
+ }
+ 
+ /* Packet receive function for Ethernet AVB */
+-static bool ravb_rx(struct net_device *ndev, int *quota, int q)
++static int ravb_rx(struct net_device *ndev, int budget, int q)
+ {
+ 	struct ravb_private *priv = netdev_priv(ndev);
+ 	const struct ravb_hw_info *info = priv->info;
+ 
+-	return info->receive(ndev, quota, q);
++	return info->receive(ndev, budget, q);
+ }
+ 
+ static void ravb_rcv_snd_disable(struct net_device *ndev)
+@@ -1319,13 +1317,12 @@ static int ravb_poll(struct napi_struct *napi, int budget)
+ 	unsigned long flags;
+ 	int q = napi - priv->napi;
+ 	int mask = BIT(q);
+-	int quota = budget;
+-	bool unmask;
++	int work_done;
+ 
+ 	/* Processing RX Descriptor Ring */
+ 	/* Clear RX interrupt */
+ 	ravb_write(ndev, ~(mask | RIS0_RESERVED), RIS0);
+-	unmask = !ravb_rx(ndev, &quota, q);
++	work_done = ravb_rx(ndev, budget, q);
+ 
+ 	/* Processing TX Descriptor Ring */
+ 	spin_lock_irqsave(&priv->lock, flags);
+@@ -1344,7 +1341,7 @@ static int ravb_poll(struct napi_struct *napi, int budget)
+ 	if (priv->rx_fifo_errors != ndev->stats.rx_fifo_errors)
+ 		ndev->stats.rx_fifo_errors = priv->rx_fifo_errors;
+ 
+-	if (!unmask)
++	if (work_done == budget)
+ 		goto out;
+ 
+ 	napi_complete(napi);
+@@ -1361,7 +1358,7 @@ static int ravb_poll(struct napi_struct *napi, int budget)
+ 	spin_unlock_irqrestore(&priv->lock, flags);
+ 
+ out:
+-	return budget - quota;
++	return work_done;
+ }
+ 
+ static void ravb_set_duplex_gbeth(struct net_device *ndev)
 -- 
 2.39.2
 
