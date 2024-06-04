@@ -1,115 +1,126 @@
-Return-Path: <linux-renesas-soc+bounces-5819-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5820-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48ED28FAF38
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 11:47:37 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AB4C8FB1CA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 14:06:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 01F82284A92
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 09:47:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C5CED2823EA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 12:06:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E0C3144315;
-	Tue,  4 Jun 2024 09:47:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2361F145B0F;
+	Tue,  4 Jun 2024 12:06:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YrTrUOSc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3BB143759;
-	Tue,  4 Jun 2024 09:47:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4B913C8FE;
+	Tue,  4 Jun 2024 12:06:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717494454; cv=none; b=MsVXPAMtjPah8XtKU5E4gkZfudMMekdYFfx8Y+XCFht8Gggqo7U2MNI/91GCCY4UU0hvmiQ3tOQByiVTBbwUhwjzweX/Rq0DN4Mp0X3mFqAklubjA0NEi30ilK900q33ehYJ8l/jR8bYOo4+3BhmCsyVQkl7uPxtNkRFmKr48EA=
+	t=1717502808; cv=none; b=XL0f5Cy1wyRilMfIbIXw6Gx6KYZhhricQmgWGR1nPen/HyDaexQ+PEvZWgzR7L7i4ZR4eG8OyKLCcWg8FS4gL/rwy2N5VXGIbVOyp86RIsrq2zcmUtlvW9uOQbCQ+z70EntOZP++rPzqy7O/G4K+DTDMnclkMrTqdqHq1V0xi0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717494454; c=relaxed/simple;
-	bh=OEufR6/8faseQMJx5Ixiz7s3gGBu3POWhXuFO12hUeU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DTrvjmBp3ncKYy1NqCU/mrcH548FRkJYvFEWWBLn10EIjiND9Us6uzVRpvFO5lJaUypaPnCG7AD9I9rp5QFmCiU0jWsnmsDQJuUvYCRq0AFIuozgNNvG6vqUDvgRt0CXbTnczI7NTWnGj0MUqsZPSjpeuNCA0PZNTzvStASLNX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-62a145e0bb2so52226667b3.0;
-        Tue, 04 Jun 2024 02:47:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717494451; x=1718099251;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=q+oKHPrJgjbF/4q/2kBiakgUjEI+vsefZYNEk/XcXYA=;
-        b=b0iSrGdmk60iTOgwgDE/Vnq4NVEpXIofqobsy1k0PDHgdnoyuIt/lFkyBIZZkHmB3j
-         G9oi4+aiFti/nnHqInxSETg0X4DmVm1j8d3nr0gw0RJ7Rv6RDObeZ6kj549u0JJ7WUQn
-         c4ROhmNiPYAbtVbEKlz54KhTPB11K/rg2Z9TyW0uj6XE4mSqkGlqrYUyGwfTZJP/y6qR
-         OOnoERtOiZBKvr29cEP0tQIqV4bKBUJ5YlZGh+PRw6D4yuYaKZydbJbgr/Gawy2INYi7
-         4ogcGZViuiMu2VKHssfBjGO8BDdWlwIEVyu/O1bFzp6guSylA9mpb2mK8hJoIjpWUTax
-         6UzA==
-X-Forwarded-Encrypted: i=1; AJvYcCWZ58YbsArxst4gKDiqIE87F6LghAwid0IM0AFEs5RNIFdf0XGRfDv2sFUfs/wr79QlbiXvK5kXue/Ky0zrm1U7ls9CSiQ8BKEuuZ4u5ulqoygeXHlrKSRUSKO1Z0XJXbJ3I56U8k4Nsm/xxOCU
-X-Gm-Message-State: AOJu0YyGRAnaFOv47uYsMmPN+JgnjhMiqL2Od4nW/pmtG6LlMsh3rDD8
-	6PJr+Lbo7yuPr+NDe4IHWCxfyZS927cUuEnufLJVyfE/+qRd9cCu0Z4WkoWz
-X-Google-Smtp-Source: AGHT+IGJVoa92ZV0lUVPbQSCUT2ZZ4DRmWVQCq4GnEHb9fhnn/8Hjl4q1DL+zdI9fYiHBWpEU4XCrA==
-X-Received: by 2002:a81:ae51:0:b0:627:ee15:a92d with SMTP id 00721157ae682-62c796c35e7mr124843377b3.19.1717494451014;
-        Tue, 04 Jun 2024 02:47:31 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-62c765e6d83sm18033317b3.46.2024.06.04.02.47.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Jun 2024 02:47:30 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dfa72c9d426so4186439276.3;
-        Tue, 04 Jun 2024 02:47:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCX10PPXdzip6kr9KULJ642b4vK/wDLX9KA1/X5//EM+E9HsSdnzmY1ndPjsc9GIrpGuQJ703S/da0HGy+vM+LA3WGBcNUERltiV2OeRYO9BohKTfxrsWHcugnhgQVjuG4DKRF7qPjnSC2epOxMF
-X-Received: by 2002:a25:bfc9:0:b0:dfa:ac81:38eb with SMTP id
- 3f1490d57ef6-dfaac813b3dmr3745757276.27.1717494450714; Tue, 04 Jun 2024
- 02:47:30 -0700 (PDT)
+	s=arc-20240116; t=1717502808; c=relaxed/simple;
+	bh=hTef1Kd2x1vlByypJaJA7O2Ekfbjp5Lq97ZRfku+bII=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FsJQZErOK0i7KpztgyGpOHyZJVqvoNBiyJjMD0qaXGschSHqJ56RQM9iU6Z68tGVCgb+3OsFbHN3eiGAzt4qa6TYpxH0vV8LJKH4fyfFHv8fXGLlZMWxIwptqHWffkpQ48w61zI2YpGlYqGD9v6luIvbprjKWrj7Z7wGbQYJD/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YrTrUOSc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91C2DC2BBFC;
+	Tue,  4 Jun 2024 12:06:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1717502807;
+	bh=hTef1Kd2x1vlByypJaJA7O2Ekfbjp5Lq97ZRfku+bII=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YrTrUOScv3Jx/Qd+5d8wYw2YATtNevRjrWSAoXH7rbuT3w2ZkOq+SGGXFTsc8OL14
+	 aokUfUCUxOhDFeMFhJYs86/TDaeCYiCmjyqWvpy2NRXVz6XM+uFaWJAvo6GhqOikGB
+	 JUpUgeeq2ZTgKin6tPw4tUsRcYJxmog0snd19n6I=
+Date: Tue, 4 Jun 2024 14:03:02 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>, Jiri Slaby <jirislaby@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-serial@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v4 0/5] Add SCIF support for Renesas RZ/V2H(P) SoC
+Message-ID: <2024060426-radiance-reappear-c77a@gregkh>
+References: <20240322144355.878930-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CA+V-a8vQr2jxrW+C5VTcmEHmDgNp6S8=3KcAT1SzcKusFaP7Gw@mail.gmail.com>
+ <2024052955-phrase-portion-8d1f@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240527134129.1695450-1-niklas.soderlund+renesas@ragnatech.se> <20240527134129.1695450-4-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20240527134129.1695450-4-niklas.soderlund+renesas@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 4 Jun 2024 11:47:18 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVVhTk-BOL0z19LF5YbOcQK5ZkwarwwEZaArWnZgEkszQ@mail.gmail.com>
-Message-ID: <CAMuHMdVVhTk-BOL0z19LF5YbOcQK5ZkwarwwEZaArWnZgEkszQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] arm64: dts: renesas: gray-hawk-csi-dsi: Add and
- connect MAX96724
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2024052955-phrase-portion-8d1f@gregkh>
 
-Hi Niklas,
+On Wed, May 29, 2024 at 09:42:50AM +0200, Greg Kroah-Hartman wrote:
+> On Wed, May 29, 2024 at 07:15:23AM +0100, Lad, Prabhakar wrote:
+> > Hi Greg,
+> > 
+> > On Fri, Mar 22, 2024 at 2:45 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> > >
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > Hi All,
+> > >
+> > > This patch series updates DT binding doc and scif driver to add support
+> > > for the Renesas RZ/V2H(P) SoC. RZ/V2H(P) SoC supports one channel SCIF
+> > > interface.
+> > >
+> > > v3->v4
+> > > - patch 2/4 reverted back to version 2
+> > > - new patch 3/5 added
+> > > - Added new reg type for RZ/V2H
+> > >
+> > > v2->v3
+> > > - Included DT validation patches
+> > > - Added a new compat string for RZ/V2H(P) SoC
+> > > - Added driver changes for RZ/V2H(P) SoC
+> > > - Listed interrupts and interrupt-names for every SoC in if check
+> > >
+> > > Cheers,
+> > > Prabhakar
+> > >
+> > > Lad Prabhakar (5):
+> > >   dt-bindings: serial: renesas,scif: Move ref for serial.yaml at the end
+> > >   dt-bindings: serial: renesas,scif: Validate 'interrupts' and
+> > >     'interrupt-names'
+> > >   dt-bindings: serial: renesas,scif: Make 'interrupt-names' property as
+> > >     required
+> > >   dt-bindings: serial: Add documentation for Renesas RZ/V2H(P)
+> > >     (R9A09G057) SCIF support
+> > >   serial: sh-sci: Add support for RZ/V2H(P) SoC
+> > >
+> > Gentle ping.
+> 
+> It is only 3 days since the merge window ended, please be patient for
+> maintainers to catch up with their pending review queue.  Especially for
+> non-bugfixes like these that will be included in the 6.11-rc1 release,
+> there is not any rush here for anyone just yet.
+> 
+> For example, my todo queue currently has 1458 emails to process in it,
+> this thread is somewhere in the middle.
+> 
+> In the meantime, please help review other pending patches for the
+> subsystem to help enable your patches to move toward the top of the
+> queue.
 
-Thanks for your patch!
+And this patch series does not even apply, so how could it be accepted?
 
-On Mon, May 27, 2024 at 3:41=E2=80=AFPM Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> The sub-board contains two MAX96724 connected to the main-board using
-> I2C and CSI-2, record the connections. Also enable all nodes (VIN, CSI-2
+Please fix and resend with the proper reviews added.
 
-There are no CSI-DSI sub-board and main board on Gray Hawk Single.
-
-> and ISP) that are part of the downstream video capture pipeline.
->
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
-
-For the functionality:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+greg k-h
 
