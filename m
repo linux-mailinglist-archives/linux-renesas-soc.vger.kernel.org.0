@@ -1,203 +1,178 @@
-Return-Path: <linux-renesas-soc+bounces-5817-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5818-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6F1D8FADFA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 10:50:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 373758FAE97
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 11:19:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4663E1F25F5B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 08:50:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 591D61C21842
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 09:19:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88F3D140384;
-	Tue,  4 Jun 2024 08:50:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3814143860;
+	Tue,  4 Jun 2024 09:19:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="FJ6agKLZ"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="OmdB2KY5";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OUbuC0Fn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+Received: from fout7-smtp.messagingengine.com (fout7-smtp.messagingengine.com [103.168.172.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5F3142E66
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Jun 2024 08:50:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD241411F2;
+	Tue,  4 Jun 2024 09:19:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717491037; cv=none; b=gS0CMYOTkXC1wcTjFBGGS29rhA8pCUJqtkNblHs5WBS6tngF62XYiM/TmO0/iGc3HS1juKXcF12CLq3mRSAZHMyXkXyd+i9fYfl7nOKHDS+QSaERaVS1xuwSY20PU+1/5Z8uTBxhrQSX0akIF8A48uEapfL5Q+ZGC8h/HG+bxKs=
+	t=1717492753; cv=none; b=gN+a/ScJnMrJQ3R+hpUgsyH1UgrWV8wR8i/PzXdQQSRlCrrHPGrNd5aERwTbeTcNlVYy605jbiWHU4GyeLJ0ZfT7BPgnqzRaAKfWAlgtZr7RNtydxLawoTeSN6dnWA/NOEkttNBdYsMIqt2ZPIWgEXG3j3kiBFubEn0aI3xMSLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717491037; c=relaxed/simple;
-	bh=/82jAxl1bZX5xtR/X9gizbSQ2/4wMrIRGo3/dkUnlT0=;
+	s=arc-20240116; t=1717492753; c=relaxed/simple;
+	bh=1dtSDC6IVRyLJXaLa0p1D17Sv3InX1VPmrBpgtN1a5k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t0c1YIVYoQ85DGAfEMGuOd2j40/jFKYptG5hMnvptMdpvDv2fPG8CKMyawUQpKDvxL7I3FHU1XSSgVz5N4/7pr0e4PbHCtUv+0rOx3wQVGgdHl7r0N7YlxrM1u9mrYvJTktp6RlcDsoUenngHuhFW0ICcl9JVgLz2zMUAB6G2UQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=FJ6agKLZ; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=cSegD0LncPhYwWpQIpdUp4SezoAbuuzPO07q0QU2HWu2bbZUNr1DxPj0zozyS3t7bstldEXBHaOIxwgUoR7/LBEpomqdnHp4MrbLRpS9c/R9YNT1yyqxHAliYpyOGXCSMnaxz/DMw1uTp4Qpr+INO+SRk9iS68Jn5kI6Ep5Iko0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=OmdB2KY5; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OUbuC0Fn; arc=none smtp.client-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 932911380130;
+	Tue,  4 Jun 2024 05:19:08 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Tue, 04 Jun 2024 05:19:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1717492748;
+	 x=1717579148; bh=yzBOJSCnFXilIXLVMSmUj0oGiiczp/E3l4ZVzl2SFRU=; b=
+	OmdB2KY5l0PMb5CrgmWIYaIsOCciPmZ4DZzY142x4S33JUIMUohqvKCtmXr+fs8G
+	qy6GlYGRgbGcozl0PnDFyPdWwW36z+USHwq4eDi+yluz7rA+AZRkXN6Qx/WCMj95
+	yFUOvC67r3a0i+maeJznkAXt2KHXU+Ou0VeT4jEnVODVGR3geKlWgzgsDfH49y0G
+	LYi7i9LgIJ3THwnGCz5TaD3RKjTEwESsoUGQ4tlTyYPRgnQ5ngxtH5ZQ3ssP0Wdb
+	owPcXU8hi1n5TFdcRW2KSoZ7KLJExo+qc5SbWUSX8EWPemqo0KRKyCbG5a/FJ581
+	ygWbodgRs1Ed5nbq+O4w8w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=9m0u
-	dGVcBfGslrF6YCgHx585x/QcfuEfa9X406f+ogE=; b=FJ6agKLZJSbSFnGfeZay
-	qwhVAeYvizTy72wVpjvbp6NKJQuYQvoAiah/GQNrLsR7KlZpWQcRlX/RZiA/79pz
-	A+Dwj7VS6SgV82Gb9w80ZhNEmQzUMKXZea7bG2iO9zcbRJU6xq7sRzbDKbSOKT1t
-	TCjbKOAnc6MFqSjlzFuKWESadlK7fGS3BD9XdpwKHk6NF8Ug9qm/DmJdOaL/3c8y
-	UDBQ/R50KXnN5mc8nsKC+1HXz4Q5Rm7PgTuLukTVZTRzvG0fneFZjv6MSxsfOjSe
-	7WONQm+LJ7ON0bI3JbSOVFzsQ8visq03LhDzRRrouI/7XbUEcXYW8rALk8WWYiAS
-	RA==
-Received: (qmail 2254511 invoked from network); 4 Jun 2024 10:50:30 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Jun 2024 10:50:30 +0200
-X-UD-Smtp-Session: l3s3148p1@psbEigwakq0gAwDPXzLGAH1eNELjOc3g
-Date: Tue, 4 Jun 2024 10:50:30 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Jean Delvare <jdelvare@suse.de>
-Cc: linux-renesas-soc@vger.kernel.org, Baruch Siach <baruch@tkos.co.il>, 
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, Peter Rosin <peda@axentia.se>
-Subject: Re: [PATCH] i2c: smbus: fix NULL function pointer dereference
-Message-ID: <b2tnimag62ty6wndyjsy7u5fay6y52zn47vvifw6rh5abeqzpu@pqyyczutxcwu>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Jean Delvare <jdelvare@suse.de>, linux-renesas-soc@vger.kernel.org, 
-	Baruch Siach <baruch@tkos.co.il>, linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Peter Rosin <peda@axentia.se>
-References: <20240426064408.7372-1-wsa+renesas@sang-engineering.com>
- <1e626d93f4220cc348300bbc61089de32300122d.camel@suse.de>
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1717492748; x=
+	1717579148; bh=yzBOJSCnFXilIXLVMSmUj0oGiiczp/E3l4ZVzl2SFRU=; b=O
+	UbuC0FnU6jOOVXmzrKbUg5E0J/WNtu9T5efPlO25/9Pj+tZfIj1SoOyGbaELVxt8
+	ao6zbuAqZp0NDlkYv+FwF+ClSxPZn4IKpiF6D5VbWWz9IE1K92c7OiraP8TYqL65
+	+HRt3uQt3Y+b4/XEppjoxri6vkVFpniK6l17v6GAeAxSTRvS5Z6qavs690u+90CR
+	3i9garlrMqTl8eDNPfSe46ErtAmH4jI/oEZW8R/soGcmJMQU+Sf1hwiICsJ6QcXo
+	dHUsail33CFmJ+OPRDpBUTPPQADAl7q4TmXeG/Sng8MeA7u4fcv5rkQs03tdq0zk
+	7gMI2tSVxuxgI8ZdkwB+Q==
+X-ME-Sender: <xms:DNxeZpoKGEX6RJnxMxP5QC4R-3AdNeJtvNdJHK6I-xqPfiyvbzEgsw>
+    <xme:DNxeZrr7sJ4UmUmWNI6SSs-sRqNsaU89_M-8dxyOhbMZGKjfJgu7Y0uJDUnBq9Hxp
+    UuPf3ajsd1Z9EgN2sI>
+X-ME-Received: <xmr:DNxeZmOiXObEYJkL-Q5TrHxforzpI5_lo9cxvQXiz3ZKl-oWhgP4Bp9dhLZRdIx2vlG3qsUZvhUCpDpCyeF3hoXTvnfh50A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdelgedgudduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
+    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnh
+    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeefhfellefh
+    ffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvdelieenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggv
+    rhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:DNxeZk6CfSHFVDLb0MFLDaR2QPwBdaAFm2hY5Sf46SX7PsLfsCFFFw>
+    <xmx:DNxeZo5TrgVXQlDbr-OZl6v34Asl1xQ6saqWanj4vBiVFlr3upECww>
+    <xmx:DNxeZsjDGbYX_kmt_W41V9pc8U-nU92KTwHqArx5_JXH3XlukOMXrg>
+    <xmx:DNxeZq6d2w3Yn4yPSE9UuzvcDStf8zRRWA5p_yWDINBKdvTbP8T08g>
+    <xmx:DNxeZpHST-SpIbM3zAS_oYtk6nKj1uw2zKL6oyhU5q5R0z9Qhk8dr_HP>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 4 Jun 2024 05:19:07 -0400 (EDT)
+Date: Tue, 4 Jun 2024 11:18:59 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: media: renesas,isp: Add binding for V4M
+Message-ID: <20240604091859.GD710180@ragnatech.se>
+References: <20240527131945.1679661-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdWRwRq-CzT5v1h6W31q_0RR4UvTpJAVVS73vrEbrxFmBg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ksynbm66oyue3y2r"
-Content-Disposition: inline
-In-Reply-To: <1e626d93f4220cc348300bbc61089de32300122d.camel@suse.de>
-
-
---ksynbm66oyue3y2r
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdWRwRq-CzT5v1h6W31q_0RR4UvTpJAVVS73vrEbrxFmBg@mail.gmail.com>
 
-Hi Jean,
+Hi Geert,
 
-> I have a hard time establishing a formal link between the reported bug
-> and the commit listed above. I do understand that it wouldn't make
-> sense to register an i2c_adapter with neither .master_xfer nor
-> .smbus_xfer set before .reg_slave was added to struct i2c_algorithm,
-> but there were no checks in i2c-core preventing it from happening.
+Thanks for your review.
 
-Well, yes, correct.
+On 2024-06-04 09:38:04 +0200, Geert Uytterhoeven wrote:
+> Hi Niklas,
+> 
+> On Mon, May 27, 2024 at 3:20 PM Niklas Söderlund
+> <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > Document support for the ISP module in the Renesas V4M (r8a779h0) SoC.
+> >
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> 
+> Thanks for your patch!
+> 
+> > --- a/Documentation/devicetree/bindings/media/renesas,isp.yaml
+> > +++ b/Documentation/devicetree/bindings/media/renesas,isp.yaml
+> > @@ -22,6 +22,7 @@ properties:
+> >        - enum:
+> >            - renesas,r8a779a0-isp # V3U
+> >            - renesas,r8a779g0-isp # V4H
+> > +          - renesas,r8a779h0-isp # V4M
+> >    reg:
+> >      maxItems: 1
+> 
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> BTW, this binding only describes a single register block, while the
+> ISP seems to have two: CS and CORE (the second one is optional, as it
+> does not exist for the second instance of R-Car V4M)?
 
-> It was also possible for any (broken) device driver to call
-> __i2c_transfer() without first checking if plain I2C transfers were
-> actually supported by the i2c_adapter. I would argue that such an issue
-> should have been fixed at the device driver level by checking for the
-> I2C_FUNC_I2C functionality flag before calling __i2c_transfer(). That's
-> a theoretical issue though as I'm not aware of any device driver having
-> this issue.
+Yes. The R-Car ISP have two different functions, CSI-2 Channel Selection 
+(CS) and a more traditional ISP block to do cool stuff to image data 
+(core).  We only have documentation for the CS, and only that which is 
+needed to setup CSI-2 reception and forward data to a capture engine 
+(VIN), so this is all the rcar-isp driver deals with.
 
-In theory, checking against I2C_FUNC_I2C should happen. In practice,
-most I2C drivers do not do this. Being picky here could results in bad
-user experience because of OOPS. If we really want to enforce checking
-I2C_FUNC_I2C, then we should have this safety net while we convert all
-users. No, actually, I think we always should have some safety nets.
+For the interested, difference between generations,
 
-> The call stack in Baruch's report shows that the real issue is with
-> i2c_smbus_xfer_emulated() being called with the i2c bus lock already
-> held, and thus having to call __i2c_transfer() instead of
-> i2c_transfer(). This code path did not exist before commit 63453b59e411
-> ("i2c: smbus: add unlocked __i2c_smbus_xfer variant"), which was added
-> in kernel v4.19. Therefore I claim that CVE-2024-35984 only affects
-> kernel v4.19 and newer. Do we agree on that?
+On Gen3 the capture pipeline is $source -> rcar-csi2 -> rcar-vin. The 
+CSI-2 channel selection is done from registers on the VIN master 
+instances but effect other VIN instances, this is one reason the 
+rcar-vin driver is so ugly as each VIN instance is not self contained.  
+While the CSI-2 VC/DT filtering is done in the rcar-csi2 driver.
 
-(There is a CVE for it??) For Baruch's case, this is true. But there are
-__i2c_transfer users all over the tree, they are all potentially
-vulnerable, or?
+On Gen4 the capture pipeline is $source -> rcar-csi2 -> rcar-isp -> 
+rcar-vin. And both the channel selection and VC/DT filtering is done in 
+the rcar-isp. IMHO this is slightly better design then on Gen3 but 
+created yet another ugliness in the pipeline as now Gen{1,2}, Gen3 and 
+Gen4 are all supported by the same set of drivers but the same function 
+is served by different IP blocks depending on which generation, this 
+makes for somewhat ugly driver code.
 
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!adap->algo->master_xfer=
-) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0dev_dbg(&adap->dev, "I2C level transfers not supported=
-\n");
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0return -EOPNOTSUPP;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
-> > +
->=20
-> Not related specifically to this commit, as it is only moving a check
-> which already existed before, but this looks inefficient to me.
->=20
-> We end up performing the check with every I2C-level transfer, while the
-> availability of such support can almost always be checked once and for
-> all in the I2C device driver (i2c-dev and i2c_smbus_xfer_emulated being
-> the exceptions).
->=20
-> I see two ways for us to reach this check:
-> * __i2c_transfer() or i2c_transfer() gets called directly by a device
-> driver. This driver should have checked for the I2C_FUNC_I2C
-> functionality flag before calling either function. If they did not,
-> it's a driver bug, which should be fixed in the driver in question.
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> -- 
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
 
-I see the performance penalty, yet I prefer handling the buggy driver
-gracefully because kicking off I2C transfers is not a hot path. Maybe we
-could turn the dev_dbg into something louder to make people aware that
-there is a bug?
-
-> Note that i2c-dev currently lacks this check, I think it should be
-> added.
-
-True, it should be a role-model of a good citizen :)
-
-> * __i2c_transfer() gets called by i2c_smbus_xfer_emulated(). We should
-> add a check for I2C_FUNC_I2C in __i2c_smbus_xfer() before calling this
-> function. This is more or less what Baruch proposed initially, and I
-> think it would have been a more efficient fix.
-
-As I said above, more efficient but not thorough. One driver not
-checking I2C_FUNC_I2C and boom...
-
-> And if you are concerned about functionality flags not being set
-> properly (specifically I2C_FUNC_I2C being set while .master_xfer isn't
-> set [1]) then we should add a consistency check at i2c_adapter
-> registration time, so again it's done once and for all and we don't
-> have to check again and again at transfer time.
-
-I think this check is worth to have. It is not complete because drivers
-may still not check the flag, but it is one step to be more robust.
-
-> Or is this optimization not worth it?
-
-I think so. It is one pointer check against a kernel oopsing somewhere
-somewhen.
-
-> [1] BTW, looking at the only two in-tree slave-only I2C adapter
-> drivers, i2c-at91-slave and i2c-designware-slave, both are setting
-> functionality flags other than I2C_FUNC_SLAVE. Unless I don't
-> understand how the slave functionality works, this is a bug. I'll
-> prepare and post patches later today.
-
-Thanks for doing that!
-
-Happy hacking,
-
-   Wolfram
-
-
---ksynbm66oyue3y2r
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZe1VEACgkQFA3kzBSg
-KbYpeQ//dIw4KlFvx97wH/kz2omtgShRsM4PBlclKbm20ZkoYdTr1F5Rya2uE3tm
-+xEF83Pg/m3t64S2PVpLIhfQmN0u3z7/+hcPH6CpXE0hGpLoO41JHPELd5p9FYB2
-LS300jBoSgcLryw8IAFjR3YQA/UaSeXk5OHKyAZgJPJTdY+aDFCFbJnJnAl2hyEs
-pEirJeX0Ajqp7B01YcCeD5AeImMQQalBV2zHYlKfmmCTN4w9NQj969igBi0O6gSA
-XcLxno7rqOamgSmdcouxEI7e1uSWdnIReAyw8nGKfZ9bzYKJUa8C9cBfJ7JJ6XGt
-Rb3Y8INN6rJZv9V4oi+5xzNCEYaiyYDgALMp0OfMG664isMzaVMT7DqTo8S8Qw7H
-4MMDmSQJTYIKoh2XpKABL8USm3SDKEglAoSN+RD0wEuEOu5BGDKMQqlOIukQwfqf
-ssQuLVklbLrtMgNsxJibDBdMYJnOYfBYoNljVaRs9MIf0oypT6zO7Px7wv2sYyGo
-HpUcbFmovXAlmqwljNACIqAYms9Kw4P/istl//wd+yr6MI5Qkx0IftQiC6/bqf5e
-mdYbqOuXNbwnVLd8nGMVRMYUMxTU+LeC1clNWAXzBhlgAqFo2gQmZMgsEll3X0Jq
-g2qHB8KoF8KlqulH7WBm7SRL2zmbCaV5xqN0BSozutvjqs0kJgY=
-=eDfQ
------END PGP SIGNATURE-----
-
---ksynbm66oyue3y2r--
+-- 
+Kind Regards,
+Niklas Söderlund
 
