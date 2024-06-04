@@ -1,235 +1,195 @@
-Return-Path: <linux-renesas-soc+bounces-5822-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5823-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 853738FB6AC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 17:11:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB64B8FB785
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 17:36:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 34DDB282545
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 15:11:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 842B72817B6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 15:36:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A373313CFAB;
-	Tue,  4 Jun 2024 15:11:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74E4F13C827;
+	Tue,  4 Jun 2024 15:36:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1UKubv5G";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zicZU98k";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1UKubv5G";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zicZU98k"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HQxOU+l8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9445F4C91;
-	Tue,  4 Jun 2024 15:11:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4543615E83;
+	Tue,  4 Jun 2024 15:36:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717513887; cv=none; b=upJMUWp2FM4xi3vsp969L4gXhuvlc+cE42loq1xXrVgdTnyfqpkjYkp/pqIzWAxlU26zxgOuP49B/m7v3jcJUvOmYDb8AOQqVMqdAesMcDNQDSWTnVXpR9FVN9mWqqMjMVvzL/Q8Wg2RYNjIbue0AzLmXzMDk08kDNNtoGSzUnU=
+	t=1717515375; cv=none; b=HwRZjQRWDEaEhpqMaQrUf0ABBVBgE4QAYRBqRE/rYaXVy1FaG2D+RyWiL+wwrd7MuNeVg1JuHuxHNn+o6GYy9uwOTnAH6FIL79/FDKyUD+knNNRcntV5Rsi17Ai9EWF/lI6X9mSv9l+oxEo6qkJjG12lG5dwV3E+lZJJromiMRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717513887; c=relaxed/simple;
-	bh=QEz05DuTsIvHAwj2T7TyXVgPHATwBc4k25U6wzxI1fM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HKKLjOeoDSus3BevKeH1JES+pHa9mSsgsm04vFxcz509TSAdZcP/t49maLr8LGNr8fi2dGYR29VPFR6fuRbHGwlcuTYG7ue6hfkpun0pf9x+mWOUe/9opwyK4tFRmyr7Tr/gOe4Ag5PP1wizAklaRoKnfTTQICQ0Q65vDRKmA7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1UKubv5G; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zicZU98k; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1UKubv5G; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zicZU98k; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 94E541F803;
-	Tue,  4 Jun 2024 15:11:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1717513882; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=suG/UwcmICtQXRCel+rkvU09OoVD7nEthrbtfU0L2LU=;
-	b=1UKubv5G1QmsZNeH6WNzmwGBJahPo70aYyMUqME4cgTkgvCyQed03TyvzaQzfjGOb4Ti0O
-	Mq8XnTUSkv2H+S7scAQjFJb4h1yrTNJFZuJsjLtXDQp/xaa0V8w7gdstOpQxE1HOW8EqRY
-	Jo0KbjxEYi+IxlPUyzZncF5DZdF7cZA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1717513882;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=suG/UwcmICtQXRCel+rkvU09OoVD7nEthrbtfU0L2LU=;
-	b=zicZU98kiHvP2nllYoLgmyLu5LG4Gwm5U+32RLTv2B2BhdFuzRNZZWZLEQUpBSu58b3/hm
-	DYYqSDFgU2SOKdAw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=1UKubv5G;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zicZU98k
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1717513882; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=suG/UwcmICtQXRCel+rkvU09OoVD7nEthrbtfU0L2LU=;
-	b=1UKubv5G1QmsZNeH6WNzmwGBJahPo70aYyMUqME4cgTkgvCyQed03TyvzaQzfjGOb4Ti0O
-	Mq8XnTUSkv2H+S7scAQjFJb4h1yrTNJFZuJsjLtXDQp/xaa0V8w7gdstOpQxE1HOW8EqRY
-	Jo0KbjxEYi+IxlPUyzZncF5DZdF7cZA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1717513882;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=suG/UwcmICtQXRCel+rkvU09OoVD7nEthrbtfU0L2LU=;
-	b=zicZU98kiHvP2nllYoLgmyLu5LG4Gwm5U+32RLTv2B2BhdFuzRNZZWZLEQUpBSu58b3/hm
-	DYYqSDFgU2SOKdAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7499413ABC;
-	Tue,  4 Jun 2024 15:11:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GQ6uFZQuX2YIIAAAD6G6ig
-	(envelope-from <jdelvare@suse.de>); Tue, 04 Jun 2024 15:11:16 +0000
-Date: Tue, 4 Jun 2024 17:11:13 +0200
-From: Jean Delvare <jdelvare@suse.de>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, Baruch Siach <baruch@tkos.co.il>,
- linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, Peter Rosin
- <peda@axentia.se>
-Subject: Re: [PATCH] i2c: smbus: fix NULL function pointer dereference
-Message-ID: <20240604171113.232628f9@endymion.delvare>
-In-Reply-To: <b2tnimag62ty6wndyjsy7u5fay6y52zn47vvifw6rh5abeqzpu@pqyyczutxcwu>
-References: <20240426064408.7372-1-wsa+renesas@sang-engineering.com>
-	<1e626d93f4220cc348300bbc61089de32300122d.camel@suse.de>
-	<b2tnimag62ty6wndyjsy7u5fay6y52zn47vvifw6rh5abeqzpu@pqyyczutxcwu>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-suse-linux-gnu)
+	s=arc-20240116; t=1717515375; c=relaxed/simple;
+	bh=4rMfVnXDULUZCwBnw5F1W1y6pVj9F8WIuK0q0yEsV8s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P4O/OIj6Ug7ndKhIxo+rB4P8bX25sxYcWtRCl8o9y1LOm0bY/Usmwbg3aoEe4VvMnK06yTpZrIaoJsYe1P+VcsMjMBIMciwnB1rNEVSsSZelOmk176HVwpG1KjbFgqwwpgGCQHnZ17RYkWUSWt7BM9srQM1C7nvlhxRCi2zQyVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HQxOU+l8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80A13C2BBFC;
+	Tue,  4 Jun 2024 15:36:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717515374;
+	bh=4rMfVnXDULUZCwBnw5F1W1y6pVj9F8WIuK0q0yEsV8s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HQxOU+l8yAScZCmZLUyMFk7yaYYMb8CHKKLgXoYs4N3ZNX9ILogCN/Z11xyXc7JDx
+	 P0sV1E+2P4uExY6RV66r7CbU1Ypo82FJ/x8bS3Sjbgy0mK4qbqfclALzmUBc+hWwx8
+	 uhltP3d+tNOZixOn0XOe8NDobpnCXQ4GsFk8I4Bo/aEbOJLJuQVuEVdJ5aKu+iTmsm
+	 DP+sMRuQtc7SVQIL9ZKDEEg6FVTTwwMyQU15mv17LbYnjiqY23JqT3ttapieGLf2dT
+	 PYcq3KaNQ2FHYscEX9suzjSLgKSBu3w3/YK75r0H5PF2GUXcEAKIPKs42bKTrhwGRA
+	 KP8wXGs3z9qMg==
+Date: Tue, 4 Jun 2024 10:36:12 -0500
+From: Rob Herring <robh@kernel.org>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Paul Barker <paul.barker.ct@bp.renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v3 01/15] dt-bindings: pinctrl: renesas: Document
+ RZ/V2H(P) SoC
+Message-ID: <20240604153612.GA839371-robh@kernel.org>
+References: <20240530173857.164073-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240530173857.164073-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 94E541F803
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TAGGED_RCPT(0.00)[renesas];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240530173857.164073-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hi Wolfram,
-
-Thanks for your answer.
-
-On Tue, 4 Jun 2024 10:50:30 +0200, Wolfram Sang wrote:
-> Hi Jean,
+On Thu, May 30, 2024 at 06:38:43PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> > I have a hard time establishing a formal link between the reported bug
-> > and the commit listed above. I do understand that it wouldn't make
-> > sense to register an i2c_adapter with neither .master_xfer nor
-> > .smbus_xfer set before .reg_slave was added to struct i2c_algorithm,
-> > but there were no checks in i2c-core preventing it from happening.  
+> Add documentation for the pin controller found on the Renesas RZ/V2H(P)
+> (R9A09G057) SoC. The RZ/V2H PFC varies slightly compared to the RZ/G2L
+> family:
+> - Additional bits need to be set during pinmuxing.
+> - The GPIO pin count is different.
 > 
-> Well, yes, correct.
+> Hence, a SoC-specific compatible string, 'renesas,r9a09g057-pinctrl', is
+> added for the RZ/V2H(P) SoC.
 > 
-> > It was also possible for any (broken) device driver to call
-> > __i2c_transfer() without first checking if plain I2C transfers were
-> > actually supported by the i2c_adapter. I would argue that such an issue
-> > should have been fixed at the device driver level by checking for the
-> > I2C_FUNC_I2C functionality flag before calling __i2c_transfer(). That's
-> > a theoretical issue though as I'm not aware of any device driver having
-> > this issue.  
+> Also, add the 'renesas,output-impedance' property. The drive strength
+> setting on RZ/V2H(P) depends on the different power rails coming out from
+> the PMIC (connected via I2C). These power rails (required for drive
+> strength) can be 1.2V, 1.8V, or 3.3V.
 > 
-> In theory, checking against I2C_FUNC_I2C should happen. In practice,
-> most I2C drivers do not do this. Being picky here could results in bad
-> user experience because of OOPS. If we really want to enforce checking
-> I2C_FUNC_I2C, then we should have this safety net while we convert all
-> users. No, actually, I think we always should have some safety nets.
-
-Point taken, makes sense.
-
-Note that we still want I2C_FUNC_I2C to be set properly, because it
-allows device drivers to optimize transfers (the at24 driver is a prime
-example of that) or even just to bind to the I2C bus (for device
-drivers which properly check for it).
-
-> > The call stack in Baruch's report shows that the real issue is with
-> > i2c_smbus_xfer_emulated() being called with the i2c bus lock already
-> > held, and thus having to call __i2c_transfer() instead of
-> > i2c_transfer(). This code path did not exist before commit 63453b59e411
-> > ("i2c: smbus: add unlocked __i2c_smbus_xfer variant"), which was added
-> > in kernel v4.19. Therefore I claim that CVE-2024-35984 only affects
-> > kernel v4.19 and newer. Do we agree on that?  
+> Pins are grouped into 4 groups:
 > 
-> (There is a CVE for it??) For Baruch's case, this is true. But there are
-> __i2c_transfer users all over the tree, they are all potentially
-> vulnerable, or?
+> Group 1: Impedance
+> - 150/75/38/25 ohms (at 3.3V)
+> - 130/65/33/22 ohms (at 1.8V)
+> 
+> Group 2: Impedance
+> - 50/40/33/25 ohms (at 1.8V)
+> 
+> Group 3: Impedance
+> - 150/75/37.5/25 ohms (at 3.3V)
+> - 130/65/33/22 ohms (at 1.8V)
+> 
+> Group 4: Impedance
+> - 110/55/30/20 ohms (at 1.8V)
+> - 150/75/38/25 ohms (at 1.2V)
+> 
+> The 'renesas,output-impedance' property, as documented, can be
+> [0, 1, 2, 3], these correspond to register bit values that can
+> be set in the PFC_IOLH_mn register, which adjusts the drive
+> strength value and is pin-dependent.
+> 
+> As power rail information may not be available very early in the boot
+> process, the 'renesas,output-impedance' property is added instead of
+> reusing the 'output-impedance-ohms' property.
+> 
+> Also, allow bias-disable, bias-pull-down and bias-pull-up properties
+> as these can be used to configure the pins.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v2->v3
+> - Updated description for renesas,output-impedance property
+> - Updated commit description
+> 
+> RFC->v2
+> - Renamed renesas-rzv2h,output-impedance -> renesas,output-impedance
+> - Updated values for renesas,output-impedance
+> - Added bias properties
+> ---
+>  .../pinctrl/renesas,rzg2l-pinctrl.yaml        | 23 +++++++++++++++----
+>  1 file changed, 19 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
+> index 881e992adca3..957b9f7e7de5 100644
+> --- a/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
+> +++ b/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
+> @@ -26,6 +26,7 @@ properties:
+>                - renesas,r9a07g043-pinctrl # RZ/G2UL{Type-1,Type-2} and RZ/Five
+>                - renesas,r9a07g044-pinctrl # RZ/G2{L,LC}
+>                - renesas,r9a08g045-pinctrl # RZ/G3S
+> +              - renesas,r9a09g057-pinctrl # RZ/V2H(P)
+>  
+>        - items:
+>            - enum:
+> @@ -66,10 +67,14 @@ properties:
+>      maxItems: 1
+>  
+>    resets:
+> -    items:
+> -      - description: GPIO_RSTN signal
+> -      - description: GPIO_PORT_RESETN signal
+> -      - description: GPIO_SPARE_RESETN signal
+> +    oneOf:
+> +      - items:
+> +          - description: GPIO_RSTN signal
+> +          - description: GPIO_PORT_RESETN signal
+> +          - description: GPIO_SPARE_RESETN signal
+> +      - items:
+> +          - description: PFC main reset
+> +          - description: Reset for the control register related to WDTUDFCA and WDTUDFFCM pins
 
-Yes there are many, but I think we shall differentiate between 2 cases:
-* Missing check in a specific kernel device driver. These are unlikely
-  to be a problem in practice because (1) these devices are typically
-  instantiated explicitly, and such explicit code or device tree
-  description would not exist in the first place if said device was not
-  compatible with said I2C bus, and (2) if such an incompatibility was
-  really present then it would have been spotted and fixed very
-  quickly. Arbitrary binding through sysfs attributes is still possible
-  but would definitely require root access and evil intentions (at
-  which point we are screwed no matter what). I'm honestly not worried
-  about this scenario.
-* The issue being triggered from user-space through i2c-dev, which is
-  what Baruch reported. The user doing that can target any arbitrary
-  I2C bus and thus cause the oops by accident or even on purpose. For
-  me this is what CVE-2024-35984 is about. What limits the attack
-  surface here is that slave-only I2C buses are rare and you typically
-  need to be root to use i2c-dev. But this is still a serious issue.
+You need a conditional schema for ensuring the length is 2 for RZ/V2H 
+and 3 otherwise.
 
-Also note that the first case could happen ever since __i2c_transfer()
-was introduced (kernel v3.6, commit b37d2a3a75cb) and is not limited to
-slave-only adapters, as any SMBus-only i2c_adapter would also be
-vulnerable.
+>  
+>  additionalProperties:
+>    anyOf:
+> @@ -111,6 +116,16 @@ additionalProperties:
+>          output-high: true
+>          output-low: true
+>          line-name: true
+> +        bias-disable: true
+> +        bias-pull-down: true
+> +        bias-pull-up: true
+> +        renesas,output-impedance:
+> +          description: |
 
-So the "Fixes:" tag in commit 91811a31b68d is incorrect for both
-scenarios.
+Don't need '|'.
 
-> (...)
-> I see the performance penalty, yet I prefer handling the buggy driver
-> gracefully because kicking off I2C transfers is not a hot path. Maybe we
-> could turn the dev_dbg into something louder to make people aware that
-> there is a bug?
+> +            Output impedance for pins on the RZ/V2H(P) SoC. Values 0, 1, 2, and 3
 
-My previous message initially had a suggestion in that direction ;-)
-but I first wanted your opinion on the check itself. dev_dbg() is
-definitely not appropriate for a condition which should never happen
-and implies there's a bug somewhere else. A WARN_ON_ONCE would probably
-be better, so that the bug gets spotted and fixed quickly.
+Don't repeat values in free form text.
 
--- 
-Jean Delvare
-SUSE L3 Support
+> +            correspond to register bit values that can be set in the PFC_IOLH_mn
+> +            register, which adjusts the drive strength value and is pin-dependent.
+> +          $ref: /schemas/types.yaml#/definitions/uint32
+> +          enum: [0, 1, 2, 3]
+>  
+>      - type: object
+>        additionalProperties:
+> -- 
+> 2.34.1
+> 
 
