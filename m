@@ -1,72 +1,72 @@
-Return-Path: <linux-renesas-soc+bounces-5830-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5831-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20D598FB9DE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 19:06:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDB478FB9E4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 19:06:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 43ECA1C22063
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 17:06:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 851CD2847AD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 17:06:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4C5C14A099;
-	Tue,  4 Jun 2024 17:05:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16DB314A4C9;
+	Tue,  4 Jun 2024 17:05:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QANRQWjR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jMl83VNI"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13812149DE3;
-	Tue,  4 Jun 2024 17:05:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6006C13CFA3;
+	Tue,  4 Jun 2024 17:05:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717520747; cv=none; b=Hzs/UxONWusyqWb5Ea3W72KlH+0rxTkzC4Fr4K4IjTYgCjmk+2k02dmxnZJNuR6vQUEqw6D83WuTdC50ZGmzSmaCBUNiinc3c9XF+Vux0TZHcPDKAaUv3noFWgLPDQLzQ9PUB0170yWoTuQkX1Rp01khDc2+r7eroPERMeX5//Y=
+	t=1717520749; cv=none; b=IbmLAROZrlsrdHgepZs3IlUNAgh/Y5g3Svc4d3mSzR72XSJVTDoMhQlmGrEaXNrokh+KLvQcBp/oXeuNGRa3tom8om7ykwnUy33P7smW3G/SqjH7/pVVGdpdGnl7g2hpzFXkY/w+VVNhLsAyjNUh87ktf6B3HHyfUaF1OlVzA7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717520747; c=relaxed/simple;
-	bh=d+2x9cGMo78aTqkczPA9yowgeFOlc6t4grq1Dv/ZbPk=;
+	s=arc-20240116; t=1717520749; c=relaxed/simple;
+	bh=J9/dO4DLvkrkDukD/1y3jtSYWitJIJkWj03S3ytOCQc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=RininzOPEyh69v/Z9pvhCCfpmmCvvugAtGZEzuTPMlRerpG872PF3iUPPsdroqXOsiJWH69g5vqKe+fAkVzSFBCC/kNBKc5sazQXEb9oteAQAs308Wc9mwzn/j1atYWZr4VX3eiTWDqX83wvwdgpEB8o5I+Wlt0IzAsozjw6F8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QANRQWjR; arc=none smtp.client-ip=209.85.221.44
+	 MIME-Version; b=Xk6PbivGEwvYQNiKN4I0/fOw+kaYR+34e7ZC+Hp/hNvicQiqaSrDoVB2ASbh48IbocBp9Im9Fma91Vj/wW+/XrLsGW2iXsbLjHeEKnPZ5vyprb88mehuOTdbxmPxn/HAljYI3EnJdn3lb/HUhGPHXRk4O5xAZiCd8pIbPSzbyb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jMl83VNI; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-354f3f6c3b1so1203267f8f.2;
-        Tue, 04 Jun 2024 10:05:45 -0700 (PDT)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-42120fc8cbfso45445405e9.2;
+        Tue, 04 Jun 2024 10:05:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717520744; x=1718125544; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1717520746; x=1718125546; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dgsAqME3hxSzwVXOIFIzJzM6T7MjbgDUONVzfuz1YfY=;
-        b=QANRQWjRXbQy47iGgRnXvUdNxhSMo3q88qMEMLKnuV8IdRPta+/tOvav0kZ/PpSton
-         ct2PhJTcGHj20AVtVQFbT6WVXB0ndngZ3G1hmHSBm0/kDXBXBe/FOR5h37BvdahxWuLw
-         t2Gh6+ELX/OFu+VsZMBhV2t04DfHO8kfoz2x3nl2QxGCt3TLmEnRk9ZUVUyIyhNAMMxD
-         ivPZieSB6xFevYf0oGf28vqXznHUfpUEwjwFbAzyG11fullqMlIfzhXmjzZeSzJnCzTn
-         qJzsTI52vZPy5x7pguu0Fcf9vEx6myJB43pn6H6xhYGmlC0sJfN38Y4grtWU6tObivn6
-         VXlQ==
+        bh=9sDI0tJ8DppyAzU+rIXjqFiVbixtM5M79SwvnNdus/w=;
+        b=jMl83VNIjSS0rzbvFvQYon87wkIM6UY8ZmZ+6BQ4Ebt7pV9QUbSdrp+gslov+gbWIY
+         /q04ki6FXgfgeGHeoMigp6Z5g4ZHHrvmBH2i9ttsCL2DV1nQ8ETN5UmzQfneCKGr/HmB
+         Tuo6KWL3cED0wBeyLfig91wLusUbzN8wNIAPx7KW1Wnk32BBQBrtaZq0amptwbxAYhWv
+         j1aTfCpOVZwrp/ZHLKlNTR8wCJeJynPmCM/AXX9w1KGVCmS6HTpqMKiZlkwEIFzX5Yh0
+         2M3sEgOjHxKOmHqz2QF97h/ytKssMeFREnazeMtkOKhzEzKbQGpf1Du8l4RQqJxxqHiV
+         bWdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717520744; x=1718125544;
+        d=1e100.net; s=20230601; t=1717520746; x=1718125546;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dgsAqME3hxSzwVXOIFIzJzM6T7MjbgDUONVzfuz1YfY=;
-        b=hcvhUVbpgzCybJqtOlgupk3hEjRUnVchJ/QP9lCaaeT0uJa43TnzBpXz37qry+dVMo
-         SNyaaXitSMyC5RR8nWRR6FJuJQmBv0vEJr4LfCoa/kidgde79tIli2+VUfAOVGuAdNzW
-         9a4aJrr9Av2Vm/7opqUCB8UcNkvyc+GxXb2Lri1FW/mJ6dxE5So1cbTHACPcklpjO7Wl
-         tjQNjaFNMveJD7BNjRoKjUD+jdlhfibKL7zpHn3QpDfL19PoF8JU32U7SN660kl/jv40
-         tTwIeX9kX2H2kkqz/z04qn8nWX/xvItx3Sz5FwgHLjno2fHIZf/lZjIbHGuVZMY0KBUI
-         oRAA==
-X-Forwarded-Encrypted: i=1; AJvYcCXfK0bJOQohiDPGDMAHrT97/f5AgzPVvE02vzJ941D5+Gyye1mUjTFCKSmspxdMUEwWbxD+x2MUX5Cn5LlEwx7TyeNzNcraFyRDRXBsPxHUOcV6ZeH5cH90ycJV2mqi7UtypcpgUHHYUOhxhuGurayZFnU+dzM1xYc2twBJSIITDhY2UmTR5PNksT9B1UG3XjudxJfWc1jqCF+OyQnfoZ5I5rk1Dqr4WLxJ
-X-Gm-Message-State: AOJu0Yw9L12syJXH/npwKefq5Rgm0/yNSM1uMTFnr2N9etGP5fQ8a2ar
-	qur5Fk5GLmtSVBkYsNdwxfA89pYNYI1XgONMDHHfN+ZkuX7SLI3z
-X-Google-Smtp-Source: AGHT+IEbyb8T4SxgcrrXFB3ksM+RBgj3AP2GOI0NxiXB6/dMujAECXAm6qQYkv2eN7AImaEh32Qojw==
-X-Received: by 2002:a05:6000:a84:b0:354:fb1d:694e with SMTP id ffacd0b85a97d-35e8ef09959mr17262f8f.29.1717520744175;
-        Tue, 04 Jun 2024 10:05:44 -0700 (PDT)
+        bh=9sDI0tJ8DppyAzU+rIXjqFiVbixtM5M79SwvnNdus/w=;
+        b=TX0nyeM7d1gbmWGzrVFg5rOsrVolXOA/7+iD5RIM/DhBrlF3JxlRiHo+Zv/hT0QI+8
+         WzBrH0MZFSAPCDiJ0IXbbh2ZIBy/NysiJ8MaV0+X3jNsloXol0VwBT+F7nRbIdygeUqQ
+         hSMP5GMCeD6KG/bd+lBqsZZIW7M0nha9PisxW7Y7iFqK+JNJ9re6gXVPyv/4XjMzj794
+         uvQacXjnbXAUdlBlJytldHl+vCZ1r7UHXguc5Fkcutkc5GEP3og2ZIcyieWkSXF87HZL
+         eGLHZkP5Aw1oNftuRFrQXvmuWKV4vXOJOx1WnI2DB0OGN/T3KpzgQwMTWjcGPDWUJWx3
+         UTxw==
+X-Forwarded-Encrypted: i=1; AJvYcCXLu6z1LzbSHyiIq9t1VPEpO8o9uskJ+zVtDkCqEXhZ2HH3W2/a3PHC+xAaJF+wkV5h22m1Rc7t+wTlZElQrldciuELBGLkzv0jad0C3R6SpQpClMXEJwJ35WJlE1BvCvwMxSVhO8X989Q6D27t4w3sjLlbYv9BaMJQuGTB1+WqEClSQw8m1FBjjYH61Mn2U34OLQHN9/NcU7VM95azp3hQhK1YON3DWieW
+X-Gm-Message-State: AOJu0Yyt0glSOFoCOVzWpJHtdLulYnM3qI+zTAS0qdE6EbRoDRjg8EIL
+	weklE3PeE2ZkAid1bngo4i0eM5sgph7Yel0Y2e9dx/lQQnreutGi
+X-Google-Smtp-Source: AGHT+IGzvIZ7p0w249rrtOHCe8cN8FNjczXSU+jc26QrXG9ZEUWD1szVUIWpGeXmkGcgZyb3mZq+gw==
+X-Received: by 2002:a05:600c:4695:b0:421:3464:dc7a with SMTP id 5b1f17b1804b1-4215635875bmr1539525e9.39.1717520745333;
+        Tue, 04 Jun 2024 10:05:45 -0700 (PDT)
 Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35dd04c0f2asm12244077f8f.3.2024.06.04.10.05.42
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35dd04c0f2asm12244077f8f.3.2024.06.04.10.05.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jun 2024 10:05:43 -0700 (PDT)
+        Tue, 04 Jun 2024 10:05:44 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -84,9 +84,9 @@ Cc: Rob Herring <robh@kernel.org>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v5 2/5] dt-bindings: serial: renesas,scif: Validate 'interrupts' and 'interrupt-names'
-Date: Tue,  4 Jun 2024 18:05:10 +0100
-Message-Id: <20240604170513.522631-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v5 3/5] dt-bindings: serial: renesas,scif: Make 'interrupt-names' property as required
+Date: Tue,  4 Jun 2024 18:05:11 +0100
+Message-Id: <20240604170513.522631-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240604170513.522631-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20240604170513.522631-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -100,128 +100,38 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-This commit adds support to validate the 'interrupts' and 'interrupt-names'
-properties for every supported SoC. This ensures proper handling and
-configuration of interrupt-related properties across supported platforms.
+As all the SoCs having multiple interrupts have 'interrupt-names' property
+in their respective DTSIs, make 'interrupt-names' property as required
+so that we can validate them using dtbs_check.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 ---
 v4->v5
-- Included RB tag from Geert and Conor
+- Included Ack from Conor
+- Included RB tag from Geert
 
 v3->v4
-- Reverted back to v2 version of the patch.
-- Used suggestion from Krzysztof for interrupts
-- Restored RB tag from Geert
-
-v2->v3
-- Listed interrupts and interrupt-names for every SoC in if check
+- New patch
 ---
- .../bindings/serial/renesas,scif.yaml         | 73 ++++++++++++++-----
- 1 file changed, 55 insertions(+), 18 deletions(-)
+ Documentation/devicetree/bindings/serial/renesas,scif.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/serial/renesas,scif.yaml b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-index 54f885f720f0..a750676064cf 100644
+index a750676064cf..fcead2150874 100644
 --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
 +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-@@ -87,11 +87,6 @@ properties:
-     oneOf:
-       - items:
-           - description: A combined interrupt
--      - items:
--          - description: Error interrupt
--          - description: Receive buffer full interrupt
--          - description: Transmit buffer empty interrupt
--          - description: Break interrupt
-       - items:
-           - description: Error interrupt
-           - description: Receive buffer full interrupt
-@@ -99,21 +94,17 @@ properties:
-           - description: Break interrupt
-           - description: Data Ready interrupt
-           - description: Transmit End interrupt
-+        minItems: 4
+@@ -180,6 +180,9 @@ allOf:
+           maxItems: 1
  
-   interrupt-names:
--    oneOf:
--      - items:
--          - const: eri
--          - const: rxi
--          - const: txi
--          - const: bri
--      - items:
--          - const: eri
--          - const: rxi
--          - const: txi
--          - const: bri
--          - const: dri
--          - const: tei
-+    minItems: 4
-+    items:
-+      - const: eri
-+      - const: rxi
-+      - const: txi
-+      - const: bri
-+      - const: dri
-+      - const: tei
+         interrupt-names: false
++    else:
++      required:
++        - interrupt-names
  
-   clocks:
-     minItems: 1
-@@ -174,6 +165,52 @@ allOf:
-       required:
-         - resets
- 
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,rcar-gen1-scif
-+              - renesas,rcar-gen2-scif
-+              - renesas,rcar-gen3-scif
-+              - renesas,rcar-gen4-scif
-+    then:
-+      properties:
-+        interrupts:
-+          maxItems: 1
-+
-+        interrupt-names: false
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,scif-r7s72100
-+    then:
-+      properties:
-+        interrupts:
-+          minItems: 4
-+          maxItems: 4
-+
-+        interrupt-names:
-+          maxItems: 4
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,scif-r7s9210
-+              - renesas,scif-r9a07g044
-+    then:
-+      properties:
-+        interrupts:
-+          minItems: 6
-+
-+        interrupt-names:
-+          minItems: 6
-+
- unevaluatedProperties: false
- 
- examples:
+   - if:
+       properties:
 -- 
 2.34.1
 
