@@ -1,77 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-5824-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5825-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1CD88FB7E8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 17:50:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BABB8FB7FF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 17:52:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1FF831F21B74
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 15:50:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 402B81C242DB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 15:52:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95AE51487FE;
-	Tue,  4 Jun 2024 15:47:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFC6C14658E;
+	Tue,  4 Jun 2024 15:50:05 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E18B1487CC;
-	Tue,  4 Jun 2024 15:47:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9705B946C;
+	Tue,  4 Jun 2024 15:50:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717516025; cv=none; b=Rg7sJomWwscGqTx5j5LtTa/SHRJqYWonIVL51QlE/Hs0I/tT518weGkxBQflzGie+f6LEIltcxC4bFaCeiH0dT5ADv/cLWYmF61AoOYn6ZqQQUO/xsJKnK3bWJ9D0A7Xc4ZatN/lIPsHGpYP68+ScojgxrEvaMqT7GrWKv9QxRw=
+	t=1717516205; cv=none; b=fwyaWSBWkdb5AwCG1G5QwSu91j9h8kpzA6DLh4zaOHGWBncPkAcTzZgprA050/o1xvZenHELDD2kjBxcJqR0qCs2J/UYVf7RlJGdbGSXe7hs0EDzBguFJBzDtzyfHK9OjjeWl8qRElPIxRKJgmi40NguFMP7D9lIjXvRJMoUVOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717516025; c=relaxed/simple;
-	bh=z2sfDyZiRCznFZZfHqgUfC2pvUChPIsKP4NCw4mRGSk=;
+	s=arc-20240116; t=1717516205; c=relaxed/simple;
+	bh=H7+KBIj+XhYX0G3IfUFHqSGj8MwKV6m8R2fUal8uXJg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Zk8y+TqfdcKgt25Ayprh+TojKUh62dyOwd/7+R/8a5Gm5mUb9xlllLW/6iiBXCP/Oea/pf3au+tC4KN6Vvvsn/iEPqINZRPV+OsixtmZgPadOXDtlnCcr3UKNfvXcFcBTC867/ePpKUU2VJB9ZA2Ufg0SBS6x13KK6JtYVbG6sU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.173
+	 To:Cc:Content-Type; b=tvJzJCzyX95MSadzRp3grrJZR0bH4+JFdXmkb1eSB8Kg8JEsNQR6I/FgHdUZAqYYhd+iDS5p6rE1/Mu1EbxG8PQXj/4xoFG5jYY84SAssnjYut/iq8D6n2d5Cc7TEz726ekivz1nZ3CILpWfebTxuU8D6FpoyhVomlTt/JhucZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-62a0827316eso44861007b3.1;
-        Tue, 04 Jun 2024 08:47:02 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-62a145e0bb2so56137007b3.0;
+        Tue, 04 Jun 2024 08:50:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717516022; x=1718120822;
+        d=1e100.net; s=20230601; t=1717516202; x=1718121002;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XykWmvMVGXDGknRmrx6u5uZa8kB/wreyKKJg4nQZDhQ=;
-        b=k1334kURnGlo06Bme5QO2LXu8/X0MjqQwp/Yi9XT6qh6eYY/acSy9w5K1/3nmDyR+E
-         OI6wCf/TV3vQqUFlN5ZCuBBBjT8N44PTZx8678krfVrRh8zjbHO3TmC35LP/Tw6Ki35f
-         gaq5a4QEeOrzE2ZejljTAquuY7cqgwkBh22HC8FUDHK1JUkEYn2LtpPOivQcRheZcoNi
-         WObtA32hRynoi8SWZ2PXWw76SdQAWmkIUoWfHirrC6M2QEGErE/fZ0CerDvKuO/i4N81
-         IeX5v/zoNcuxysFttlmdo0n2shqjnGp712ITI+HCmtNy7huddUERkd/FdjyF2cZPru3f
-         BmJw==
-X-Forwarded-Encrypted: i=1; AJvYcCXiadLC50zjbJDOz3MhYW9cHkR16YPNY53watpUb5V36254HaIpmtlCjr/8YSgRizaj+fX2TQ0qZoS8Lf8VOW+qFU4vwKsgj0qwZ38PL9nHTnJHGJ0KFA4+doFYwuUiQgA5/l9oU4b7it56qkNdk2bxpy3NAfHADcLyCKNEAMSuQvoXOrwQ5t99I4RA1DnJLTYUkJqdm90iQzO6r0o00yAztWZTZFAs
-X-Gm-Message-State: AOJu0YwrhB/IorBOhS1BPhHGqFB77beohXlKNxCHjRlBKiSdVJ/NbzZj
-	0wxjaXJ+ntLwaSLNCU5ALk7BAnJdHkUZz4d8kQXoCGgBkludvE2EJBR5exo5
-X-Google-Smtp-Source: AGHT+IEINCehKQMZTXmcAx5qlnP+s09xyFmj4p7ENeE5bwZ3oeKWK37cB9CfMhQ+sEHOL2DLHjmP7g==
-X-Received: by 2002:a0d:cc4a:0:b0:61a:da7e:1f66 with SMTP id 00721157ae682-62c79666aefmr131080707b3.2.1717516021587;
-        Tue, 04 Jun 2024 08:47:01 -0700 (PDT)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-62c765b8bc8sm18504847b3.18.2024.06.04.08.47.01
+        bh=jdl8ZvZjrswfXtiaYupkzfGxYwNns5foQkdy/ZL8qPo=;
+        b=wYmhmGyGGWLq/08/gzR88hN5vIX3yc0dZeh/7xQ7oYOByUsUX9kbmsj7g1Tlm+J1kz
+         vnBKAnCGp4MrUCsuURXioZ7CUGF+ojcwaOuTgqG+SudP4f7fdOGwRm7zlprQGMgySfzf
+         v6yIX1mfikQTe2k6VU7PM+WsFzE/r8qVJIdLKLOoh3an7jW5D98X36DWYUtGmb92Ve4A
+         np/HLmnqYKxLHvquZfbBRtxVNxGeUzwcGi6I6CnhtRncQ59Q3wavSTZk9nMnbXiXg9Eq
+         L51h/f9xkWVMLfj2hDv+2Yoxl72KDDi8twC/wu2k2MCrTQ6hHGuzxULQvp9kNbN0Wqhl
+         b+JQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVVCygffeyO6x3p7bO5RVtv/FQ0yXTR49d0SOWQO86YRfsAmpvfjoCMsEadSEFhawmUxdp31+T4ofz+on1ybetiVfuPfh0H7MVkpn7OAPh7N3+mwi6cy12ss3t87S5swtyouz7duASfkntWZAnu2yOdI+N5C/TY39DmZDzF+KTPAdrIunCDGtAJ30zbruYFGgd4TMookiuJvsauSlHZKUp0WdOxAFLC
+X-Gm-Message-State: AOJu0YzWUWeE+kIHgU/2oUnDsw6q4V9nsrtQbYfMDkFhcnCQ4DLWIHKt
+	WDIv9ASGRu7JazSrFvpI5WOs1ebUvnjol2qxjFjNCrvTYuOK62TZga7JF8+N
+X-Google-Smtp-Source: AGHT+IFCgbSmnuaH8FTde07Q4cJUUU9SXFffH8ErkByzRf0oazsc+zwvRaDkMe4pQnOVTk0qG/CpxA==
+X-Received: by 2002:a0d:c3c4:0:b0:61b:69f:4c24 with SMTP id 00721157ae682-62c796c3d61mr129326827b3.20.1717516201571;
+        Tue, 04 Jun 2024 08:50:01 -0700 (PDT)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-62c766b42b3sm18788207b3.111.2024.06.04.08.50.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Jun 2024 08:47:01 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dfa6e0add60so4855589276.3;
-        Tue, 04 Jun 2024 08:47:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV7I74DeOulb56n7o9bTpheYMmggexvlAbeQgK8LKd8Pfpa4RnsTRcMDK5tpWHqBSn2DmyelqjPXMdUAc71jRfn5SA5SDpsr2XqG7i2Sp5+4hzBdnbQfxZwLN+vaxEck1S04gBiIC4unSo8Ckve4M0olFaFThmFllTaSgnZHvsiuspgiELXX9yNqtKhamBAY9dbjGncFU51+ib2duy0hwi6U9uoqhIQ
-X-Received: by 2002:a25:ad03:0:b0:df4:a607:2429 with SMTP id
- 3f1490d57ef6-dfa73d90ac6mr12970872276.45.1717516021094; Tue, 04 Jun 2024
- 08:47:01 -0700 (PDT)
+        Tue, 04 Jun 2024 08:50:01 -0700 (PDT)
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-dfa72c9d426so4642166276.3;
+        Tue, 04 Jun 2024 08:50:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUL8XHXNeK2j1xUeCJRtS3mY7ARhyo6C99yw8V+WJUFhLvXt2dOIKj+bxMs8QcbElG5N/ASsZI/YvLWuP3zb2IwE5RAv3OV7Lv+ZNF3s/vAYJIN1TEnffG215iN0OYqciIdjYUCfR5AJ5Bnj59qu9T6Ep+HYy5sStym2L1hYXfQMh/nIHgRWxhwaLAzmSiiVtm9fYDPbOLQw1fzM9e6KFXUycfN1LPC
+X-Received: by 2002:a25:c794:0:b0:df7:c087:579b with SMTP id
+ 3f1490d57ef6-dfa73ddb7famr12853703276.58.1717516200826; Tue, 04 Jun 2024
+ 08:50:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240524082800.333991-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240524082800.333991-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20240524082800.333991-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240524082800.333991-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240524082800.333991-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20240524082800.333991-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 4 Jun 2024 17:46:48 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU7+O-+v=2V83AjQmTWyGy_a-AHgU_nPMDHnVUtYt89iQ@mail.gmail.com>
-Message-ID: <CAMuHMdU7+O-+v=2V83AjQmTWyGy_a-AHgU_nPMDHnVUtYt89iQ@mail.gmail.com>
-Subject: Re: [PATCH 2/4] dt-bindings: clock: Add R9A09G057 CPG Clock and Reset Definitions
+Date: Tue, 4 Jun 2024 17:49:49 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWzrEKFHauJ=6UnsufJjDO3LfJ45eJXx1V72AmVzvsjyw@mail.gmail.com>
+Message-ID: <CAMuHMdWzrEKFHauJ=6UnsufJjDO3LfJ45eJXx1V72AmVzvsjyw@mail.gmail.com>
+Subject: Re: [PATCH 1/4] dt-bindings: clock: renesas: Document RZ/V2H(P) SoC
+ CPG driver
 To: Prabhakar <prabhakar.csengg@gmail.com>
 Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -87,286 +88,155 @@ Hi Prabhakar,
 
 Thanks for your patch!
 
+Please drop "driver" from the one-line summary.
+
 On Fri, May 24, 2024 at 10:29=E2=80=AFAM Prabhakar <prabhakar.csengg@gmail.=
 com> wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Define RZ/V2H(P) (R9A09G057) Clock Pulse Generator module clock outputs
-> (CPG_CLK_ON* registers), and reset definitions (CPG_RST_* registers)
-> in Section 4.4.2 and 4.4.3 ("List of Clock/Reset Signals") of the RZ/V2H(=
-P)
-> Hardware User's Manual (Rev.1.01, Feb. 2024).
+> Document the device tree bindings of the Renesas RZ/V2H(P) SoC
 
-Hmm, I must have a slightly different Rev. 1.01 ;-)
+s/of/for/
 
+> Clock Pulse Generator (CPG).
+>
+> CPG block handles the below operations:
+> - Handles the generation and control of clock signals for the IP modules
+
+Please drop "Handles the"
+
+> - The generation and control of resets
+
+Please drop "The".
+
+> - Control over booting
+> - Low power consumption and the power supply domains
+
+Please drop "the".
+
+>
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 > --- /dev/null
-> +++ b/include/dt-bindings/clock/r9a09g057-cpg.h
-
-For new binding headers, please include the vendor prefix, i.e.
-"include/dt-bindings/clock/renesas,r9a09g057-cpg.h".
-
-> @@ -0,0 +1,644 @@
-> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> + *
-> + * Copyright (C) 2024 Renesas Electronics Corp.
-> + */
-> +#ifndef __DT_BINDINGS_CLOCK_R9A09G057_CPG_H__
-> +#define __DT_BINDINGS_CLOCK_R9A09G057_CPG_H__
+> +++ b/Documentation/devicetree/bindings/clock/renesas,rzv2h-cpg.yaml
+> @@ -0,0 +1,78 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/clock/renesas,rzv2h-cpg.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +#include <dt-bindings/clock/renesas-cpg-mssr.h>
+> +title: Renesas RZ/V2H(P) Clock Pulse Generator (CPG)
 > +
-> +/* Clock list */
+> +maintainers:
+> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> +
+> +description: |
+> +  On Renesas RZ/V2H(P) SoC's, the CPG (Clock Pulse Generator) handles th=
+e generation
 
-[...]
+SoCs
 
-> +#define R9A09G057_USB30_CLK_RESERVED0                  197
-> +#define R9A09G057_USB30_CLK_RESERVED1                  198
-> +#define R9A09G057_USB30_CLK_RESERVED2                  199
-> +#define R9A09G057_USB30_CLK_RESERVED3                  200
+> +  and control of clock signals for the IP modules, the generation and co=
+ntrol of resets,
+> +  and control over booting, low power consumption and the power supply d=
+omains.
 
-R9A09G057_USB3_0_ACLK
-R9A09G057_USB3_0_PCLK_USBTST
-R9A09G057_USB3_0_REF_ALT_CLK_p
-R9A09G057_USB3_0_CLKCORE
+Please drop "the".
 
-> +#define R9A09G057_USB31_CLK_RESERVED0                  201
-> +#define R9A09G057_USB31_CLK_RESERVED1                  202
-> +#define R9A09G057_USB31_CLK_RESERVED2                  203
-> +#define R9A09G057_USB31_CLK_RESERVED3                  204
+> +
+> +properties:
+> +  compatible:
+> +    const: renesas,r9a09g057-cpg
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    description:
+> +      Clock source to CPG can be either from external clock input (EXCLK=
+) or
+> +      crystal oscillator (XIN/XOUT).
+> +    const: extal
 
-R9A09G057_USB3_0_ACLK
-R9A09G057_USB3_0_PCLK_USBTST
-R9A09G057_USB3_0_REF_ALT_CLK_p
-R9A09G057_USB3_0_CLKCORE
+According to Figure 4.4-1 ("CPG Functional Block Diagram"), there are 3
+(RTC, audio, main).
 
-> +#define R9A09G057_USB20_CLK_RESERVED0                  205
+> +
+> +  '#clock-cells':
+> +    description: |
+> +      - For CPG core clocks, the two clock specifier cells must be "CPG_=
+CORE"
+> +        and a core clock reference, as defined in
+> +        <dt-bindings/clock/r9a09g057-cpg.h>,
+> +      - For module clocks, the two clock specifier cells must be "CPG_MO=
+D" and
+> +        a module number, as defined in <dt-bindings/clock/r9a09g057-cpg.=
+h>.
+> +    const: 2
 
-R9A09G057_USB2_0_U2H0_HCLK
+I understand this will be changed to 1, the clock number?
 
-> +#define R9A09G057_USB21_CLK_RESERVED0                  206
+> +  '#power-domain-cells':
+> +    description:
+> +      SoC devices that are part of the CPG/Module Standby Mode Clock Dom=
+ain and
+> +      can be power-managed through Module Standby should refer to the CP=
+G device
+> +      node in their "power-domains" property, as documented by the gener=
+ic PM
+> +      Domain bindings in Documentation/devicetree/bindings/power/power-d=
+omain.yaml.
+> +      The power domain specifiers defined in <dt-bindings/clock/r9a09g05=
+7-cpg.h> could
+> +      be used to reference individual CPG power domains.
 
-R9A09G057_USB2_0_U2H1_HCLK
+The latter suggests "const: 1".
+But the example below uses zero, as does the code?
 
-> +#define R9A09G057_USB20_USB21_CLK_RESERVED0            207
+> +
+> +  '#reset-cells':
+> +    description:
+> +      The single reset specifier cell must be the module number, as defi=
+ned in
 
-R9A09G057_USB2_0_U2P_EXR_CPUCLK
+reset number (or index).
 
-> +#define R9A09G057_USB20_CLK_RESERVED1                  208
-
-R9A09G057_USB2_0_PCLK_USBTST0
-
-> +#define R9A09G057_USB21_CLK_RESERVED1                  209
-
-R9A09G057_USB2_0_PCLK_USBTST1
-
-> +#define R9A09G057_USB20_CLK_RESERVED2                  210
-
-R9A09G057_USB2_0_CLKCORE0
-
-> +#define R9A09G057_USB21_CLK_RESERVED2                  211
-
-R9A09G057_USB2_0_CLKCORE1
-
-> +#define R9A09G057_GBETH0_CLK_RESERVED0                 212
-> +#define R9A09G057_GBETH0_CLK_RESERVED1                 213
-> +#define R9A09G057_GBETH0_CLK_RESERVED2                 214
-> +#define R9A09G057_GBETH0_CLK_RESERVED3                 215
-> +#define R9A09G057_GBETH0_CLK_RESERVED4                 216
-> +#define R9A09G057_GBETH0_CLK_RESERVED5                 217
-> +#define R9A09G057_GBETH0_CLK_RESERVED6                 218
-
-R9A09G057_GBETH_0_CLK_TX_I
-R9A09G057_GBETH_0_CLK_RX_I
-R9A09G057_GBETH_0_CLK_TX_180_I
-R9A09G057_GBETH_0_CLK_RX_180_I
-R9A09G057_GBETH_0_CLK_PTP_REF_I
-R9A09G057_GBETH_0_ACLK_CSR_I
-R9A09G057_GBETH_0_ACLK_I
-
-> +#define R9A09G057_GBETH1_CLK_RESERVED0                 219
-> +#define R9A09G057_GBETH1_CLK_RESERVED1                 220
-> +#define R9A09G057_GBETH1_CLK_RESERVED2                 221
-> +#define R9A09G057_GBETH1_CLK_RESERVED3                 222
-> +#define R9A09G057_GBETH1_CLK_RESERVED4                 223
-> +#define R9A09G057_GBETH1_CLK_RESERVED5                 224
-> +#define R9A09G057_GBETH1_CLK_RESERVED6                 225
-
-R9A09G057_GBETH_1_CLK_TX_I
-R9A09G057_GBETH_1_CLK_RX_I
-R9A09G057_GBETH_1_CLK_TX_180_I
-R9A09G057_GBETH_1_CLK_RX_180_I
-R9A09G057_GBETH_1_CLK_PTP_REF_I
-R9A09G057_GBETH_1_ACLK_CSR_I
-R9A09G057_GBETH_1_ACLK_I
-
-> +#define R9A09G057_PCIE_0_ACLK                          226
-> +#define R9A09G057_PCIE_0_CLK_PMU                       227
-> +#define R9A09G057_DDR0_CLK_RESERVED0                   228
-> +#define R9A09G057_DDR0_CLK_RESERVED1                   229
-> +#define R9A09G057_DDR0_CLK_RESERVED2                   230
-> +#define R9A09G057_DDR0_CLK_RESERVED3                   231
-> +#define R9A09G057_DDR0_CLK_RESERVED4                   232
-> +#define R9A09G057_DDR0_CLK_RESERVED5                   233
-> +#define R9A09G057_DDR0_CLK_RESERVED6                   234
-
-R9A09G057_DDR_0_DFICLK
-R9A09G057_DDR_0_AXI0_ACLK
-R9A09G057_DDR_0_AXI1_ACLK
-R9A09G057_DDR_0_AXI2_ACLK
-R9A09G057_DDR_0_AXI3_ACLK
-R9A09G057_DDR_0_AXI4_ACLK
-R9A09G057_DDR_0_PCLK
-
-> +#define R9A09G057_DDR1_CLK_RESERVED0                   235
-> +#define R9A09G057_DDR1_CLK_RESERVED1                   236
-> +#define R9A09G057_DDR1_CLK_RESERVED2                   237
-> +#define R9A09G057_DDR1_CLK_RESERVED3                   238
-> +#define R9A09G057_DDR1_CLK_RESERVED4                   239
-> +#define R9A09G057_DDR1_CLK_RESERVED5                   240
-> +#define R9A09G057_DDR1_CLK_RESERVED6                   241
-
-R9A09G057_DDR_1_DFICLK
-R9A09G057_DDR_1_AXI0_ACLK
-R9A09G057_DDR_1_AXI1_ACLK
-R9A09G057_DDR_1_AXI2_ACLK
-R9A09G057_DDR_1_AXI3_ACLK
-R9A09G057_DDR_1_AXI4_ACLK
-R9A09G057_DDR_1_PCLK
-
-> +#define R9A09G057_CRU_0_ACLK                           242
-> +#define R9A09G057_CRU_0_VCLK                           243
-> +#define R9A09G057_CRU_0_PCLK                           244
-> +#define R9A09G057_CRU_1_ACLK                           245
-> +#define R9A09G057_CRU_1_VCLK                           246
-> +#define R9A09G057_CRU_1_PCLK                           247
-> +#define R9A09G057_CRU_2_ACLK                           248
-> +#define R9A09G057_CRU_2_VCLK                           249
-> +#define R9A09G057_CRU_2_PCLK                           250
-> +#define R9A09G057_CRU_3_ACLK                           251
-> +#define R9A09G057_CRU_3_VCLK                           252
-> +#define R9A09G057_CRU_3_PCLK                           253
-> +#define R9A09G057_ISP_CLK_RESERVED0                    254
-> +#define R9A09G057_ISP_CLK_RESERVED1                    255
-> +#define R9A09G057_ISP_CLK_RESERVED2                    256
-> +#define R9A09G057_ISP_CLK_RESERVED3                    257
-
-R9A09G057_ISP_0_REG_ACLK
-R9A09G057_ISP_0_PCLK
-R9A09G057_ISP_0_VIN_ACLK
-R9A09G057_ISP_0_ISP_SCLK
-
-[...]
-
-> +/* Resets list */
-
-[...]
-
-> +#define R9A09G057_USB30_RST_RESERVED0                  183
-
-R9A09G057_USB3_0_ARESETN
-
-> +#define R9A09G057_USB31_RST_RESERVED0                  184
-
-R9A09G057_USB3_1_ARESETN
-
-> +#define R9A09G057_USB20_RST_RESERVED0                  185
-
-R9A09G057_USB2_0_U2H0_HRESETN
-
-> +#define R9A09G057_USB21_RST_RESERVED0                  186
-
-R9A09G057_USB2_0_U2H1_HRESETN
-
-> +#define R9A09G057_USB20_USB21_RST_RESERVED0            187
-
-R9A09G057_USB2_0_U2P_EXL_SYSRST
-
-> +#define R9A09G057_USB20_USB21_RST_RESERVED1            188
-
-R9A09G057_USB2_0_PRESETN
-
-> +#define R9A09G057_GBETH0_RST_RESERVED0                 189
-
-R9A09G057_GBETH_0_ARESETN_I
-
-> +#define R9A09G057_GBETH1_RST_RESERVED0                 190
-
-R9A09G057_GBETH_1_ARESETN_I
-
-> +#define R9A09G057_PCIE_0_ARESETN                       191
-> +#define R9A09G057_DDR0_RST_RESERVED0                   192
-> +#define R9A09G057_DDR0_RST_RESERVED1                   193
-> +#define R9A09G057_DDR0_RST_RESERVED2                   194
-> +#define R9A09G057_DDR0_RST_RESERVED3                   195
-> +#define R9A09G057_DDR0_RST_RESERVED4                   196
-> +#define R9A09G057_DDR0_RST_RESERVED5                   197
-> +#define R9A09G057_DDR0_RST_RESERVED6                   198
-> +#define R9A09G057_DDR0_RST_RESERVED7                   199
-> +#define R9A09G057_DDR0_RST_RESERVED8                   200
-> +#define R9A09G057_DDR0_RST_RESERVED9                   201
-
-R9A09G057_DDR_0_RST_N
-R9A09G057_DDR_0_MC_PRESETN
-R9A09G057_DDR_0_AXI0_ARESETN
-R9A09G057_DDR_0_AXI1_ARESETN
-R9A09G057_DDR_0_AXI2_ARESETN
-R9A09G057_DDR_0_AXI3_ARESETN
-R9A09G057_DDR_0_AXI4_ARESETN
-R9A09G057_DDR_0_PHY_PRESETN
-R9A09G057_DDR_0_RESET
-R9A09G057_DDR_0_PWROKIN
-
-> +#define R9A09G057_DDR1_RST_RESERVED0                   202
-> +#define R9A09G057_DDR1_RST_RESERVED1                   203
-> +#define R9A09G057_DDR1_RST_RESERVED2                   204
-> +#define R9A09G057_DDR1_RST_RESERVED3                   205
-> +#define R9A09G057_DDR1_RST_RESERVED4                   206
-> +#define R9A09G057_DDR1_RST_RESERVED5                   207
-> +#define R9A09G057_DDR1_RST_RESERVED6                   208
-> +#define R9A09G057_DDR1_RST_RESERVED7                   209
-> +#define R9A09G057_DDR1_RST_RESERVED8                   210
-> +#define R9A09G057_DDR1_RST_RESERVED9                   211
-
-R9A09G057_DDR_1_RST_N
-R9A09G057_DDR_1_MC_PRESETN
-R9A09G057_DDR_1_AXI0_ARESETN
-R9A09G057_DDR_1_AXI1_ARESETN
-R9A09G057_DDR_1_AXI2_ARESETN
-R9A09G057_DDR_1_AXI3_ARESETN
-R9A09G057_DDR_1_AXI4_ARESETN
-R9A09G057_DDR_1_PHY_PRESETN
-R9A09G057_DDR_1_RESET
-R9A09G057_DDR_1_PWROKIN
-
-> +#define R9A09G057_CRU_0_PRESETN                                212
-> +#define R9A09G057_CRU_0_ARESETN                                213
-> +#define R9A09G057_CRU_0_S_RESETN                       214
-> +#define R9A09G057_CRU_1_PRESETN                                215
-> +#define R9A09G057_CRU_1_ARESETN                                216
-> +#define R9A09G057_CRU_1_S_RESETN                       217
-> +#define R9A09G057_CRU_2_PRESETN                                218
-> +#define R9A09G057_CRU_2_ARESETN                                219
-> +#define R9A09G057_CRU_2_S_RESETN                       220
-> +#define R9A09G057_CRU_3_PRESETN                                221
-> +#define R9A09G057_CRU_3_ARESETN                                222
-> +#define R9A09G057_CRU_3_S_RESETN                       223
-> +#define R9A09G057_ISP_RST_RESERVED0                    224
-> +#define R9A09G057_ISP_RST_RESERVED1                    225
-> +#define R9A09G057_ISP_RST_RESERVED2                    226
-> +#define R9A09G057_ISP_RST_RESERVED3                    227
-
-R9A09G057_ISP_0_VIN_ARESETN
-R9A09G057_ISP_0_REG_ARESETN
-R9A09G057_ISP_0_ISP_SRESETN
-R9A09G057_ISP_0_PRESETN
+> +      <dt-bindings/clock/r9a09g057-cpg.h>.
+> +    const: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - '#clock-cells'
+> +  - '#power-domain-cells'
+> +  - '#reset-cells'
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    cpg: clock-controller@10420000 {
+> +            compatible =3D "renesas,r9a09g057-cpg";
+> +            reg =3D <0x10420000 0x10000>;
+> +            clocks =3D <&extal_clk>;
+> +            clock-names =3D "extal";
+> +            #clock-cells =3D <2>;
+> +            #power-domain-cells =3D <0>;
+> +            #reset-cells =3D <1>;
+> +    };
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---=20
+
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
 .org
 
