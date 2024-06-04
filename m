@@ -1,167 +1,235 @@
-Return-Path: <linux-renesas-soc+bounces-5821-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5822-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48C838FB445
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 15:49:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 853738FB6AC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 17:11:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 997FEB26362
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 13:43:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 34DDB282545
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 15:11:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61B1E14831D;
-	Tue,  4 Jun 2024 13:42:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A373313CFAB;
+	Tue,  4 Jun 2024 15:11:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YwwA667s"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1UKubv5G";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zicZU98k";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1UKubv5G";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zicZU98k"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3BFB144D23;
-	Tue,  4 Jun 2024 13:42:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9445F4C91;
+	Tue,  4 Jun 2024 15:11:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717508541; cv=none; b=SRtayE3kLDlMmtoF0ZoBuUK0a+CxgJr9ZNmbQHaxG8m9iOeOFHRJ4U6BlQTFKzqAm4dQZjRjHe+jcqlbfDY0WatKBHVJnYSQYdEERdzAth3VxYJU9yIGeTLqykrGAE65q521koCA87Okd3RsTtiXaFFFTV0EYWey/EovXvNyn9c=
+	t=1717513887; cv=none; b=upJMUWp2FM4xi3vsp969L4gXhuvlc+cE42loq1xXrVgdTnyfqpkjYkp/pqIzWAxlU26zxgOuP49B/m7v3jcJUvOmYDb8AOQqVMqdAesMcDNQDSWTnVXpR9FVN9mWqqMjMVvzL/Q8Wg2RYNjIbue0AzLmXzMDk08kDNNtoGSzUnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717508541; c=relaxed/simple;
-	bh=JzvpitEF6afef78A6BqMKn7sGkEtB3biXCt3XCWqeog=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tTyMmsMenKeUuMHZ8R3QnyQ35KpVK7m5faYaXjwAUw78MWaEyU/V9dtm1Hbcnjz6wDn9pITWTVfFh5KnkiZVoVCOyr4Q8xj9Eaincw7WEoFybU/yLfPuw7QuybdEpf6QFNVMzRO1rv9Vw8ylkP1qXOSrsVbhYAJxi7ghlWYPGiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YwwA667s; arc=none smtp.client-ip=209.85.221.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-4eb0f868f2aso1029548e0c.3;
-        Tue, 04 Jun 2024 06:42:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717508539; x=1718113339; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I/wDaAVsUoMEE2XkQjQGVHqiZEip+VWTpwMBzDDOubw=;
-        b=YwwA667sY8kcgKRArClihxuwUyj+kPxpXb40LQpzrhsAn3+I5K/p6hKggyjWdS8Vrz
-         2BvufJEiHteSRBWyBCxu5LGQdorahH0ojz5o+OIIhInu2L4A2Md3mYd7+w9qC6EYNDRs
-         zaOVcYeFodLg75svb4vPddg8oyho2CV+gAAp1uT1CnOWykuFkceGWhc0z6U2xO98sBjT
-         BV3nUB9lRfMr0X1jYTDugD7V4h5Xgo8B36pAkicqgYDRw6yF/llso2dINjCoMUaHuRBD
-         mvj7dhfa01EvhGOXnyIISPnO3wGVL5QUeyKLBbJW6ZfV0LmnnkMv7BNjRjPzPH46Hslr
-         gVSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717508539; x=1718113339;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I/wDaAVsUoMEE2XkQjQGVHqiZEip+VWTpwMBzDDOubw=;
-        b=leNLlxvDEXmpfYIzuExDcqmMdIy0k57W7t8JAfwikNTMGXBq6O0S/rggAKknGX3Oo0
-         v2qbM+xHlxKKqI4VyX6gpDifAMXa0807LIehgew/xbcCCwtTvafIH5xp/3eYZBeQCuNE
-         zjtMB3cEUrdKN+n6H2Ji5wLdSXS1y3CklT6fcNJvYose3K6nl7N0CvqGFSnmOP3uxaus
-         7a/8vhmOuC0BX6EJ2HocZFUr/5jefgdHdxVhhCuqPxyry5qn7yRSQPmIo3Kv/s8eEs45
-         RdLVg1grs6ziqQanaRN6JlDEsqTfMOZWtMjdVxbcrYP9JEQdV+BdLlhAwnQY0WmHGYsN
-         IB2A==
-X-Forwarded-Encrypted: i=1; AJvYcCUtpcpWyjr/jPmgu/w27PzbIKZUmIv/pLyIjox0S3Cf4jasVRMPEUxNUp8yn3zkalBb78iIzRCNJtKC7u29NeYaSl9QSChooWM1Ufz590H90aDeWBmMCnXdsXNztmybsrGD99K8q0X/hcL9MzOut3zFiyRrrBVbdfaBeImsQRcB7IWB9oZ7g7V9KFwdGvFkTW6U9gnSlh7AlpoUgcPkgcTUC0+Zs9p8gdL1
-X-Gm-Message-State: AOJu0YxDfGnkGohIuBAJ+pse2YH/aCdDefq3iBVDxTFlNcD2IljiBmcI
-	xCcFpGbOEKgbQByR/lnPy9dI5nhl7vK+NQNqoKO4tj9q8nt1TiFdLv8Udq/pF/Z1ZKQUevWYDrQ
-	067PXmaTSnEiSTPlFEWWdFTV3X3A=
-X-Google-Smtp-Source: AGHT+IHgpZyV5AZDRDVpQ9136VhNSmZNg2lCdWNHz35AYccw+Xew1tUvamXCslfWnHhTU0ar0AqXutM9VZt8VyRop7A=
-X-Received: by 2002:a05:6122:4685:b0:4e9:7e39:cc9f with SMTP id
- 71dfb90a1353d-4eb02eec147mr13378784e0c.11.1717508536659; Tue, 04 Jun 2024
- 06:42:16 -0700 (PDT)
+	s=arc-20240116; t=1717513887; c=relaxed/simple;
+	bh=QEz05DuTsIvHAwj2T7TyXVgPHATwBc4k25U6wzxI1fM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HKKLjOeoDSus3BevKeH1JES+pHa9mSsgsm04vFxcz509TSAdZcP/t49maLr8LGNr8fi2dGYR29VPFR6fuRbHGwlcuTYG7ue6hfkpun0pf9x+mWOUe/9opwyK4tFRmyr7Tr/gOe4Ag5PP1wizAklaRoKnfTTQICQ0Q65vDRKmA7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1UKubv5G; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zicZU98k; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1UKubv5G; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zicZU98k; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 94E541F803;
+	Tue,  4 Jun 2024 15:11:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1717513882; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=suG/UwcmICtQXRCel+rkvU09OoVD7nEthrbtfU0L2LU=;
+	b=1UKubv5G1QmsZNeH6WNzmwGBJahPo70aYyMUqME4cgTkgvCyQed03TyvzaQzfjGOb4Ti0O
+	Mq8XnTUSkv2H+S7scAQjFJb4h1yrTNJFZuJsjLtXDQp/xaa0V8w7gdstOpQxE1HOW8EqRY
+	Jo0KbjxEYi+IxlPUyzZncF5DZdF7cZA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1717513882;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=suG/UwcmICtQXRCel+rkvU09OoVD7nEthrbtfU0L2LU=;
+	b=zicZU98kiHvP2nllYoLgmyLu5LG4Gwm5U+32RLTv2B2BhdFuzRNZZWZLEQUpBSu58b3/hm
+	DYYqSDFgU2SOKdAw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=1UKubv5G;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zicZU98k
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1717513882; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=suG/UwcmICtQXRCel+rkvU09OoVD7nEthrbtfU0L2LU=;
+	b=1UKubv5G1QmsZNeH6WNzmwGBJahPo70aYyMUqME4cgTkgvCyQed03TyvzaQzfjGOb4Ti0O
+	Mq8XnTUSkv2H+S7scAQjFJb4h1yrTNJFZuJsjLtXDQp/xaa0V8w7gdstOpQxE1HOW8EqRY
+	Jo0KbjxEYi+IxlPUyzZncF5DZdF7cZA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1717513882;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=suG/UwcmICtQXRCel+rkvU09OoVD7nEthrbtfU0L2LU=;
+	b=zicZU98kiHvP2nllYoLgmyLu5LG4Gwm5U+32RLTv2B2BhdFuzRNZZWZLEQUpBSu58b3/hm
+	DYYqSDFgU2SOKdAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7499413ABC;
+	Tue,  4 Jun 2024 15:11:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id GQ6uFZQuX2YIIAAAD6G6ig
+	(envelope-from <jdelvare@suse.de>); Tue, 04 Jun 2024 15:11:16 +0000
+Date: Tue, 4 Jun 2024 17:11:13 +0200
+From: Jean Delvare <jdelvare@suse.de>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, Baruch Siach <baruch@tkos.co.il>,
+ linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, Peter Rosin
+ <peda@axentia.se>
+Subject: Re: [PATCH] i2c: smbus: fix NULL function pointer dereference
+Message-ID: <20240604171113.232628f9@endymion.delvare>
+In-Reply-To: <b2tnimag62ty6wndyjsy7u5fay6y52zn47vvifw6rh5abeqzpu@pqyyczutxcwu>
+References: <20240426064408.7372-1-wsa+renesas@sang-engineering.com>
+	<1e626d93f4220cc348300bbc61089de32300122d.camel@suse.de>
+	<b2tnimag62ty6wndyjsy7u5fay6y52zn47vvifw6rh5abeqzpu@pqyyczutxcwu>
+Organization: SUSE Linux
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240322144355.878930-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CA+V-a8vQr2jxrW+C5VTcmEHmDgNp6S8=3KcAT1SzcKusFaP7Gw@mail.gmail.com>
- <2024052955-phrase-portion-8d1f@gregkh> <2024060426-radiance-reappear-c77a@gregkh>
-In-Reply-To: <2024060426-radiance-reappear-c77a@gregkh>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 4 Jun 2024 14:41:49 +0100
-Message-ID: <CA+V-a8sJ2o3HckW_YdwAraihXuDtnsqguHd8msKFe12BhCCy=g@mail.gmail.com>
-Subject: Re: [PATCH v4 0/5] Add SCIF support for Renesas RZ/V2H(P) SoC
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Conor Dooley <conor+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
-	Jiri Slaby <jirislaby@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-serial@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 94E541F803
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TAGGED_RCPT(0.00)[renesas];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
 
-Hi Greg,
+Hi Wolfram,
 
-On Tue, Jun 4, 2024 at 1:06=E2=80=AFPM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Wed, May 29, 2024 at 09:42:50AM +0200, Greg Kroah-Hartman wrote:
-> > On Wed, May 29, 2024 at 07:15:23AM +0100, Lad, Prabhakar wrote:
-> > > Hi Greg,
-> > >
-> > > On Fri, Mar 22, 2024 at 2:45=E2=80=AFPM Prabhakar <prabhakar.csengg@g=
-mail.com> wrote:
-> > > >
-> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > >
-> > > > Hi All,
-> > > >
-> > > > This patch series updates DT binding doc and scif driver to add sup=
-port
-> > > > for the Renesas RZ/V2H(P) SoC. RZ/V2H(P) SoC supports one channel S=
-CIF
-> > > > interface.
-> > > >
-> > > > v3->v4
-> > > > - patch 2/4 reverted back to version 2
-> > > > - new patch 3/5 added
-> > > > - Added new reg type for RZ/V2H
-> > > >
-> > > > v2->v3
-> > > > - Included DT validation patches
-> > > > - Added a new compat string for RZ/V2H(P) SoC
-> > > > - Added driver changes for RZ/V2H(P) SoC
-> > > > - Listed interrupts and interrupt-names for every SoC in if check
-> > > >
-> > > > Cheers,
-> > > > Prabhakar
-> > > >
-> > > > Lad Prabhakar (5):
-> > > >   dt-bindings: serial: renesas,scif: Move ref for serial.yaml at th=
-e end
-> > > >   dt-bindings: serial: renesas,scif: Validate 'interrupts' and
-> > > >     'interrupt-names'
-> > > >   dt-bindings: serial: renesas,scif: Make 'interrupt-names' propert=
-y as
-> > > >     required
-> > > >   dt-bindings: serial: Add documentation for Renesas RZ/V2H(P)
-> > > >     (R9A09G057) SCIF support
-> > > >   serial: sh-sci: Add support for RZ/V2H(P) SoC
-> > > >
-> > > Gentle ping.
-> >
-> > It is only 3 days since the merge window ended, please be patient for
-> > maintainers to catch up with their pending review queue.  Especially fo=
-r
-> > non-bugfixes like these that will be included in the 6.11-rc1 release,
-> > there is not any rush here for anyone just yet.
-> >
-> > For example, my todo queue currently has 1458 emails to process in it,
-> > this thread is somewhere in the middle.
-> >
-> > In the meantime, please help review other pending patches for the
-> > subsystem to help enable your patches to move toward the top of the
-> > queue.
->
-> And this patch series does not even apply, so how could it be accepted?
->
-Oops I'll rebase the changes now.
+Thanks for your answer.
 
-> Please fix and resend with the proper reviews added.
->
-Sure will do.
+On Tue, 4 Jun 2024 10:50:30 +0200, Wolfram Sang wrote:
+> Hi Jean,
+> 
+> > I have a hard time establishing a formal link between the reported bug
+> > and the commit listed above. I do understand that it wouldn't make
+> > sense to register an i2c_adapter with neither .master_xfer nor
+> > .smbus_xfer set before .reg_slave was added to struct i2c_algorithm,
+> > but there were no checks in i2c-core preventing it from happening.  
+> 
+> Well, yes, correct.
+> 
+> > It was also possible for any (broken) device driver to call
+> > __i2c_transfer() without first checking if plain I2C transfers were
+> > actually supported by the i2c_adapter. I would argue that such an issue
+> > should have been fixed at the device driver level by checking for the
+> > I2C_FUNC_I2C functionality flag before calling __i2c_transfer(). That's
+> > a theoretical issue though as I'm not aware of any device driver having
+> > this issue.  
+> 
+> In theory, checking against I2C_FUNC_I2C should happen. In practice,
+> most I2C drivers do not do this. Being picky here could results in bad
+> user experience because of OOPS. If we really want to enforce checking
+> I2C_FUNC_I2C, then we should have this safety net while we convert all
+> users. No, actually, I think we always should have some safety nets.
 
-Cheers,
-Prabhakar
+Point taken, makes sense.
+
+Note that we still want I2C_FUNC_I2C to be set properly, because it
+allows device drivers to optimize transfers (the at24 driver is a prime
+example of that) or even just to bind to the I2C bus (for device
+drivers which properly check for it).
+
+> > The call stack in Baruch's report shows that the real issue is with
+> > i2c_smbus_xfer_emulated() being called with the i2c bus lock already
+> > held, and thus having to call __i2c_transfer() instead of
+> > i2c_transfer(). This code path did not exist before commit 63453b59e411
+> > ("i2c: smbus: add unlocked __i2c_smbus_xfer variant"), which was added
+> > in kernel v4.19. Therefore I claim that CVE-2024-35984 only affects
+> > kernel v4.19 and newer. Do we agree on that?  
+> 
+> (There is a CVE for it??) For Baruch's case, this is true. But there are
+> __i2c_transfer users all over the tree, they are all potentially
+> vulnerable, or?
+
+Yes there are many, but I think we shall differentiate between 2 cases:
+* Missing check in a specific kernel device driver. These are unlikely
+  to be a problem in practice because (1) these devices are typically
+  instantiated explicitly, and such explicit code or device tree
+  description would not exist in the first place if said device was not
+  compatible with said I2C bus, and (2) if such an incompatibility was
+  really present then it would have been spotted and fixed very
+  quickly. Arbitrary binding through sysfs attributes is still possible
+  but would definitely require root access and evil intentions (at
+  which point we are screwed no matter what). I'm honestly not worried
+  about this scenario.
+* The issue being triggered from user-space through i2c-dev, which is
+  what Baruch reported. The user doing that can target any arbitrary
+  I2C bus and thus cause the oops by accident or even on purpose. For
+  me this is what CVE-2024-35984 is about. What limits the attack
+  surface here is that slave-only I2C buses are rare and you typically
+  need to be root to use i2c-dev. But this is still a serious issue.
+
+Also note that the first case could happen ever since __i2c_transfer()
+was introduced (kernel v3.6, commit b37d2a3a75cb) and is not limited to
+slave-only adapters, as any SMBus-only i2c_adapter would also be
+vulnerable.
+
+So the "Fixes:" tag in commit 91811a31b68d is incorrect for both
+scenarios.
+
+> (...)
+> I see the performance penalty, yet I prefer handling the buggy driver
+> gracefully because kicking off I2C transfers is not a hot path. Maybe we
+> could turn the dev_dbg into something louder to make people aware that
+> there is a bug?
+
+My previous message initially had a suggestion in that direction ;-)
+but I first wanted your opinion on the check itself. dev_dbg() is
+definitely not appropriate for a condition which should never happen
+and implies there's a bug somewhere else. A WARN_ON_ONCE would probably
+be better, so that the bug gets spotted and fixed quickly.
+
+-- 
+Jean Delvare
+SUSE L3 Support
 
