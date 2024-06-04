@@ -1,70 +1,72 @@
-Return-Path: <linux-renesas-soc+bounces-5835-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5836-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA9D58FBA9E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 19:37:21 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCFA48FBAB8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 19:43:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6550F28A595
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 17:37:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1C0F8B2B576
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 17:37:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9512F149E03;
-	Tue,  4 Jun 2024 17:37:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFE7114A0A2;
+	Tue,  4 Jun 2024 17:37:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HBNMImIT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OE5z2INF"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E60C8146D6E;
-	Tue,  4 Jun 2024 17:37:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144EC5F860;
+	Tue,  4 Jun 2024 17:37:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717522638; cv=none; b=b5k4ezGwEoUJS+tvdfXfM52ruYUNYeRh94MIWegxkEqcs3PUjhWQcmy0VAHV6x4cWM4YYcQivAw954JMdTkJ0d9vmYMsYW+NPzZHcHRkSjS6sbdIzPtq2vp0wOcfDwBsNN3P3KmgK9iMDSfFFIdJQTaREc4q617Kk7PIgYBBdhs=
+	t=1717522639; cv=none; b=vBSBsaN6+aP/0aWtPcASQNwZh3jf1lp0zbwuUvk6+YjoB+angU2jDL0kW52Q+NHrYnysZIZgw6DajqCaEcLjuX/kwwj1+SjTgzwSGHITspg6uWOTO4APtsiMzmzypzYQjrzAXZ4lTyxrHmNF70S8ishKcqOAzM7JfAubERLa88s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717522638; c=relaxed/simple;
-	bh=BZTgjf9ANpfltpQEv+7jHdj3nf3ioxC2QbCC+Li3LfU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=usoTdfcI0cAuLOBl4bpwd82csubwLRcJ0eXUE741Qa+CvBkdN7t4MSmbCW/m28e4+n5Q/cJ/QqwXk27j0J6fJUiNJffQGVGw8wd6Qks/2MsLfetjHjAZlq9hOxG2f7dS02IBK0VBZnX0kxurDAVTms1LZg8j2Yui3EH0HNAEYDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HBNMImIT; arc=none smtp.client-ip=209.85.128.46
+	s=arc-20240116; t=1717522639; c=relaxed/simple;
+	bh=09624Uvl4RmQCINwToZEhRJYPakiiQvYLm0KFzqnoLE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=uaZ7mOrPsbLe2Vn9nfLOjE5A7cQ6IFeg/zDzMe2UanJLdewipx1dpm7ZeqOVCQmOhxWcsy+MPSY0F+SgcLFZseIeU6MRi9xVNNXhuhrUXjbDIVtxNQLq3N2BY6NOTqbo37elmyQPKQsutVG5JrAbBGsujUWDJRFt/B6ihyAnmYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OE5z2INF; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-421392b8156so13055535e9.3;
-        Tue, 04 Jun 2024 10:37:16 -0700 (PDT)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-42155143cb0so5652215e9.2;
+        Tue, 04 Jun 2024 10:37:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717522635; x=1718127435; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kU5ARIlzxtuGFM6tyPtbUIy34Lxr4+NyXU7rtkdO4mE=;
-        b=HBNMImIT+mqDkbbTw+umv3cyKdPA6l9mEQx4KveES2Dc+TxexNXuT43aBbL+TajxVq
-         5IAYmTBn2rGuqopLLCHBY7RIm1E5yOkwWpRTTXFTyyIIAhYef4/yDAk73tOi1BVR+U9A
-         IikbId3eMRyMR3TrzHFXQJK0npMXOkXeAJK/Zfm5La6A8z6mhc7iRH829e+TGaUVX7i3
-         JagNj3vAfhPSVa3LlL6iLpz7ShKNiopwtOfnYB4jhZ0NYx77OfVbozYnoTFJHGQkXjmD
-         pF/yw3RwJ/I4rzkHXPCVdDibC7kBlK4ERGTswytUtjhSaw/ZuylYiMy1QKoqJ9QSRjpl
-         INPg==
+        d=gmail.com; s=20230601; t=1717522636; x=1718127436; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2jAQz1OzNuVRV4MMQBkIujhUPrDPoUbZI6wfidAz600=;
+        b=OE5z2INFDpDlEwv3xAcKEcE1js7BRyoh4MGV3qr4N/u0YEnmuulYHRK5HtsgFgVm6d
+         I3ATcGnywE36ckqyJ0DqFIfs5NRdMj67/yQkiZ95tX00Yd5osuL/B4f/QeY5+K89j/9z
+         vacf/wgSNoJcMyxW4UIh3m697HNy2WlsLtRJPEnvt1/b/apGxqZV9Z39G56t09Wylg5S
+         pPuzvRsxJ3a9aYaH1SB7ua/BNz/sDMtoiQavwXmg62MVAGSRXqz8RGpR5N15xFl2P8mE
+         pwdQmXFO++LjzlHKkRurdoa2qwcVX4tFHBtgR4suaZiyLh1eQbjNt1FeojWlsRNTANV9
+         8Wgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717522635; x=1718127435;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kU5ARIlzxtuGFM6tyPtbUIy34Lxr4+NyXU7rtkdO4mE=;
-        b=gO+ua/QuNbIM0yGTnGc30rMeV5VMnWNzRECcstwC/oNUH8+5OlxR4Qw5gawcBfOFpN
-         yLYSBWxm3wY0EJIdWrlnJC6O0brKJey9VzREym4cTD48cnQFfCr+hTL3LJ6AwaWv4uoI
-         Q+Gm2Vfxg0tuo8PPiLzJH9hiqUeb6ELPY8GAQ0AMuoMs0px/qnx9rTAEBkzNwLZpbeND
-         aBXUajea5RTqMp9oDnXSXdRcFme30fiqTOh2mKbK988bvB9yfYHM6fpGFC8d5mWyO6nA
-         4XpH2YLH24r4uZ47Myo/F5jN5i3z2dmKJDSkz16b5HW4GXPfG0yLN6FyBf2Y0CgxlqzZ
-         R72Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVffQZehLzTpr1UZyn3u32GwFzYP86ItA2H7y/ljX6BRbjiMmJjCj0lw30ysUbPL3IC+7FH9DBnr8PLMdQoYs8p2BKm3DaiHdFNuD7T0Rx9qmQdXjngCLk8bgX6CGybcLKgGQjG2Q4KvSHYy3LZ
-X-Gm-Message-State: AOJu0YwRQuWyChcfQXQKQ5024ZvRQRmhPZE7Tei8rzWxmzOdvT9U5hHa
-	tdrzL7u/maAxCpDfuhmDXup67vG0x+IWOGTdwRf6GA/oS1PKoqWY
-X-Google-Smtp-Source: AGHT+IFSx5eQvMo/7LYEQWdiAZpTYDMya4eK9zX8FJ33ZNqsYuWWrs195TjjCiAfnrRLHRRE5uGY6g==
-X-Received: by 2002:a05:600c:154a:b0:421:2b3e:3a22 with SMTP id 5b1f17b1804b1-421562cce3dmr2749115e9.14.1717522635105;
-        Tue, 04 Jun 2024 10:37:15 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1717522636; x=1718127436;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2jAQz1OzNuVRV4MMQBkIujhUPrDPoUbZI6wfidAz600=;
+        b=J7nQR24+36+D9G7JUF9n3rfRtkC6r2dHtQarLXrP5YXKk30F87RPOUKoq0Ji1Ib2w7
+         H1X3dGllhDu24vlgAo+y58GAqVGWzn9JlROkm7YH7kE16TtDiuFk1WrmSaBD7WP7Kd+J
+         gZZkPwraecEeiumelWDZroFz82qxAq0+gDqNzIBjyCM6+MMylmlUYSZSTM/Q6MMXRNg6
+         UD+3kZW7IOl4ULkmAD5+1GvBFSGa9bHD7jT/3nsF5Yq9etAKlPQ/1TzjYHtNIUTowmAK
+         1XJMLMmEnuDpreztYvu7/sHjry0pClTIVSoO9Kk0pbXFk21Vmo6ctizrSZhGv8SZHkT5
+         tKGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV4aMZeoc5uIkSBfChf5obwAC2GCwTg868ePKWT3Nl4XruoOYWEs0xxFMft2szl4fBq6ZcKYcjdtZMflxtZ5JrBbDTfBpPHVsp8DWbB4dTi+A4TcsA+cywiLvaAwe/7T2X1gyxBBa1eVaVl9VHv
+X-Gm-Message-State: AOJu0YxJ7xiiAjS2nnV5C3nnCMgBwFcYQ89ChSDy8pA8lqTFAoUkPQ+5
+	dj2Ynbldcwak6N/dKCx4I8vwZML8GQWNPlqsF2TXII4N3XcgTA1O
+X-Google-Smtp-Source: AGHT+IHB1tn7ck8JPoGD530Qb9woIIz7zTI/7EqwQtLtT9qBSg0rq9BLfZX/k7nHm8//up6dmU8xIQ==
+X-Received: by 2002:a05:600c:19c6:b0:421:1717:2cf0 with SMTP id 5b1f17b1804b1-421562df8e7mr3129345e9.24.1717522636317;
+        Tue, 04 Jun 2024 10:37:16 -0700 (PDT)
 Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4213c6629bdsm87844085e9.8.2024.06.04.10.37.14
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4213c6629bdsm87844085e9.8.2024.06.04.10.37.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jun 2024 10:37:14 -0700 (PDT)
+        Tue, 04 Jun 2024 10:37:15 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -78,11 +80,14 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Prabhakar <prabhakar.csengg@gmail.com>,
 	Biju Das <biju.das.jz@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v5 0/2] Add IAX45 support for RZ/Five SoC
-Date: Tue,  4 Jun 2024 18:37:08 +0100
-Message-Id: <20240604173710.534132-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v5 1/2] dt-bindings: interrupt-controller: renesas,rzg2l-irqc: Document RZ/Five SoC
+Date: Tue,  4 Jun 2024 18:37:09 +0100
+Message-Id: <20240604173710.534132-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240604173710.534132-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240604173710.534132-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -93,56 +98,63 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hi All,
+Document RZ/Five (R9A07G043F) IRQC bindings. The IRQC block on the RZ/Five
+SoC is almost identical to the one found on the RZ/G2L SoC, with the only
+difference being that it has additional mask control registers for
+NMI/IRQ/TINT.
 
-The IAX45 block on RZ/Five SoC is almost identical to the IRQC bock found
-on the RZ/G2L family of SoCs.
+Hence new compatible string "renesas,r9a07g043f-irqc" is added for RZ/Five
+SoC.
 
-IAX45 performs various interrupt controls including synchronization for the
-external interrupts of NMI, IRQ, and GPIOINT and the interrupts of the
-built-in peripheral interrupts output by each module. And it notifies the
-interrupt to the PLIC.
-- Select 32 TINT from 82 GPIOINT.
-- Integration of bus error interrupts from system bus.
-- Integration of ECC error interrupts from On-chip RAM.
-- Indicate interrupt status. (NMI, IRQ, TINT, integrated bus error
-  interrupt and integrated ECC error interrupt)
-- Setting of interrupt detection method. (NMI, IRQ and TINT)
-- All interrupts are masked by INTMASK.
-- Mask function for NMI, IRQ and TINT
-
-This patch series adds support for IAX45 in the IRQC driver and enables
-this on RZ/Five SoC.
-
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
 v4->v5
-- Reversed the operation in rzfive_irqc_irq_disable().
+- No change
 
 v3->v4
-- Renamed rzg2l_irqc_init_helper -> rzg2l_irqc_common_init
-- Moved the locks into callers for (un)mask and (en/dis)able functions
-- Collected RB tag from Geert for patch#2
+- No change
 
 v2->v3
-- DTS/I patches dropped from the series as they have been merged into
-  renesas-soc tree
-- Just using a const from compat string instead of having it in a items
-- Added RZ/Five specific irqchip
+- Dropped items for rz/five
+- Collected the RB tags
 
-v2: https://patchwork.kernel.org/project/linux-renesas-soc/cover/20240403203503.634465-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
-v1: https://patchwork.kernel.org/project/linux-renesas-soc/cover/20240129151618.90922-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+v1->v2
+- Dropped the checks for interrupts as its already handled
+- Added SoC specific compat string
+---
+ .../renesas,rzg2l-irqc.yaml                     | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
-Cheers,
-Prabhakar
-
-Lad Prabhakar (2):
-  dt-bindings: interrupt-controller: renesas,rzg2l-irqc: Document
-    RZ/Five SoC
-  irqchip/renesas-rzg2l: Add support for RZ/Five SoC
-
- .../renesas,rzg2l-irqc.yaml                   |  17 +-
- drivers/irqchip/irq-renesas-rzg2l.c           | 148 +++++++++++++++++-
- 2 files changed, 155 insertions(+), 10 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml b/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
+index daef4ee06f4e..44b6ae5fc802 100644
+--- a/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
++++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
+@@ -21,13 +21,16 @@ description: |
+ 
+ properties:
+   compatible:
+-    items:
+-      - enum:
+-          - renesas,r9a07g043u-irqc   # RZ/G2UL
+-          - renesas,r9a07g044-irqc    # RZ/G2{L,LC}
+-          - renesas,r9a07g054-irqc    # RZ/V2L
+-          - renesas,r9a08g045-irqc    # RZ/G3S
+-      - const: renesas,rzg2l-irqc
++    oneOf:
++      - items:
++          - enum:
++              - renesas,r9a07g043u-irqc    # RZ/G2UL
++              - renesas,r9a07g044-irqc     # RZ/G2{L,LC}
++              - renesas,r9a07g054-irqc     # RZ/V2L
++              - renesas,r9a08g045-irqc     # RZ/G3S
++          - const: renesas,rzg2l-irqc
++
++      - const: renesas,r9a07g043f-irqc     # RZ/Five
+ 
+   '#interrupt-cells':
+     description: The first cell should contain a macro RZG2L_{NMI,IRQX} included in the
 -- 
 2.34.1
 
