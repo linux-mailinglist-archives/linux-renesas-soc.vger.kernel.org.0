@@ -1,121 +1,203 @@
-Return-Path: <linux-renesas-soc+bounces-5816-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5817-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C7358FAD31
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 10:12:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F1D8FADFA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 10:50:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AD5041C20E77
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 08:12:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4663E1F25F5B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 08:50:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDEC314039E;
-	Tue,  4 Jun 2024 08:12:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88F3D140384;
+	Tue,  4 Jun 2024 08:50:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="FJ6agKLZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB50446CF;
-	Tue,  4 Jun 2024 08:12:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5F3142E66
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Jun 2024 08:50:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717488751; cv=none; b=hPZzjhGgXVdfVkf9LCR0Naceky2bueOxQ3NwR3g4oJFUP2+hOil5LH/vG3R8skIBn3B8/TgigH49KEp7b/gup+uD37IHQ9JgLKT1oTM1OMR2mRB+mRdFsJoXx+ovNuc0Uk24XbGyMwhJAbF7GwmrV9ZTMhKf/nlfXrDL6UMMXGs=
+	t=1717491037; cv=none; b=gS0CMYOTkXC1wcTjFBGGS29rhA8pCUJqtkNblHs5WBS6tngF62XYiM/TmO0/iGc3HS1juKXcF12CLq3mRSAZHMyXkXyd+i9fYfl7nOKHDS+QSaERaVS1xuwSY20PU+1/5Z8uTBxhrQSX0akIF8A48uEapfL5Q+ZGC8h/HG+bxKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717488751; c=relaxed/simple;
-	bh=Vlzyo+dun9ALebmPQUWJoy3j/sPrEQ780Rywr3nZCq0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=udCc4/Rk6BqHpdcMUKWvzBKjPOop5OP1Ki5LfKMNkjV0uxEOVFSySmZPllvHTnO8na5XjKhswH+o4rK7yAwz4u4UHdfPA//fLHrnCxJ+DrDLR7HluuXvJWX57QNwrrjZMx0nEGKQLoJpihCe+IxBq3H6RwVZBGMiPulAi9c04pU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-627ebbefd85so56826757b3.3;
-        Tue, 04 Jun 2024 01:12:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717488748; x=1718093548;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=O18JQKexo1Og7/jDsATFfZQreYQ9bP8A25k5O7t0AtA=;
-        b=WNC5AcJw0H+uKAVi79UahaRiiZdIe57ONRqf0lM9LwWFazfOFLDJe/XR7oedB/x7jq
-         XhRebanYXdF5dzll0GIGaQiVYY0pKmwfAOjr+RXBBrqE/ijePsIcYlwkv/pPBway0rsu
-         IhN+of7I9wdtolZDzc4sxYCCo6YHxIsVILsDj6/lE9nEfUlIY7JdROzmOcaKPFNnmpN3
-         ptC9f1p5+VzRKS3Yn9Jfumx2TLevoLTq6kvjSkYQsUtpOq9zAYXyHe20U46K/ZhKNNpv
-         1PlsCb52TTD3kVA5+5bKvXYR9rANnvMA2dm2SnbxizPpdYUP0vUvivXOvOotAsm1eIvw
-         tztw==
-X-Forwarded-Encrypted: i=1; AJvYcCXs/vlLDkXnX/fWZoHWXpvGA6gyFFXXUJjnoD0RP0izaldIuJm8K5cPZh6nNconFXyXqM+vzpVxZWdk6iC5GAa5KoJWNfMe0VHc5Deqj9Kiz+CwAePUjv9Tm9CRCAuqED21wbEhRQsMOGzBqMkV
-X-Gm-Message-State: AOJu0Ywgw4fAp6OzY5EcHTT+mIN7Pn9907wusXSSaU87c6BOhNzIQh5D
-	CIn1sDvYlIULF9HuwRrQLOWKbZT1gJeafR79rWziJtsAFgtNm/Y03gSh3GY3
-X-Google-Smtp-Source: AGHT+IFFij6lOkbHdNuQVQd9K8K6a+Bl5t4GOG7+Ut9aUAvr9v0Z++4pZ3qfNBSVdZPGCZSbRjXWCg==
-X-Received: by 2002:a81:a00e:0:b0:62a:530:3cd4 with SMTP id 00721157ae682-62c797ef999mr112604677b3.33.1717488748147;
-        Tue, 04 Jun 2024 01:12:28 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-62c765e7719sm17461227b3.43.2024.06.04.01.12.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Jun 2024 01:12:27 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-dfa72c9d426so4105993276.3;
-        Tue, 04 Jun 2024 01:12:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXzf+fniQHIH+5bapgYTzjvVA15bDtRR5mUGTKUyZeAKvQajKGODsAI2+omOUQnXlDR+aQJFCcm+v/jpqM7x3dbjkDTMXwV/NixuMKhd810Er6phe65i+9kFBMZA16YoUoqag3aBtXu3ti+yvpM
-X-Received: by 2002:a25:c45:0:b0:de4:634c:b2fb with SMTP id
- 3f1490d57ef6-dfa73c46412mr10239709276.35.1717488747296; Tue, 04 Jun 2024
- 01:12:27 -0700 (PDT)
+	s=arc-20240116; t=1717491037; c=relaxed/simple;
+	bh=/82jAxl1bZX5xtR/X9gizbSQ2/4wMrIRGo3/dkUnlT0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t0c1YIVYoQ85DGAfEMGuOd2j40/jFKYptG5hMnvptMdpvDv2fPG8CKMyawUQpKDvxL7I3FHU1XSSgVz5N4/7pr0e4PbHCtUv+0rOx3wQVGgdHl7r0N7YlxrM1u9mrYvJTktp6RlcDsoUenngHuhFW0ICcl9JVgLz2zMUAB6G2UQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=FJ6agKLZ; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=9m0u
+	dGVcBfGslrF6YCgHx585x/QcfuEfa9X406f+ogE=; b=FJ6agKLZJSbSFnGfeZay
+	qwhVAeYvizTy72wVpjvbp6NKJQuYQvoAiah/GQNrLsR7KlZpWQcRlX/RZiA/79pz
+	A+Dwj7VS6SgV82Gb9w80ZhNEmQzUMKXZea7bG2iO9zcbRJU6xq7sRzbDKbSOKT1t
+	TCjbKOAnc6MFqSjlzFuKWESadlK7fGS3BD9XdpwKHk6NF8Ug9qm/DmJdOaL/3c8y
+	UDBQ/R50KXnN5mc8nsKC+1HXz4Q5Rm7PgTuLukTVZTRzvG0fneFZjv6MSxsfOjSe
+	7WONQm+LJ7ON0bI3JbSOVFzsQ8visq03LhDzRRrouI/7XbUEcXYW8rALk8WWYiAS
+	RA==
+Received: (qmail 2254511 invoked from network); 4 Jun 2024 10:50:30 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Jun 2024 10:50:30 +0200
+X-UD-Smtp-Session: l3s3148p1@psbEigwakq0gAwDPXzLGAH1eNELjOc3g
+Date: Tue, 4 Jun 2024 10:50:30 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Jean Delvare <jdelvare@suse.de>
+Cc: linux-renesas-soc@vger.kernel.org, Baruch Siach <baruch@tkos.co.il>, 
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, Peter Rosin <peda@axentia.se>
+Subject: Re: [PATCH] i2c: smbus: fix NULL function pointer dereference
+Message-ID: <b2tnimag62ty6wndyjsy7u5fay6y52zn47vvifw6rh5abeqzpu@pqyyczutxcwu>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Jean Delvare <jdelvare@suse.de>, linux-renesas-soc@vger.kernel.org, 
+	Baruch Siach <baruch@tkos.co.il>, linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Peter Rosin <peda@axentia.se>
+References: <20240426064408.7372-1-wsa+renesas@sang-engineering.com>
+ <1e626d93f4220cc348300bbc61089de32300122d.camel@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240527134129.1695450-1-niklas.soderlund+renesas@ragnatech.se> <20240527134129.1695450-2-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20240527134129.1695450-2-niklas.soderlund+renesas@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 4 Jun 2024 10:12:15 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVqZgKfawPEkhDLvrv_uWKhyQ1eYzSAX7xe8y3zu4BMtA@mail.gmail.com>
-Message-ID: <CAMuHMdVqZgKfawPEkhDLvrv_uWKhyQ1eYzSAX7xe8y3zu4BMtA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] arm64: dts: renesas: r8a779h0: Add video capture nodes
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ksynbm66oyue3y2r"
+Content-Disposition: inline
+In-Reply-To: <1e626d93f4220cc348300bbc61089de32300122d.camel@suse.de>
+
+
+--ksynbm66oyue3y2r
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Niklas,
+Hi Jean,
 
-Thanks for your patch!
+> I have a hard time establishing a formal link between the reported bug
+> and the commit listed above. I do understand that it wouldn't make
+> sense to register an i2c_adapter with neither .master_xfer nor
+> .smbus_xfer set before .reg_slave was added to struct i2c_algorithm,
+> but there were no checks in i2c-core preventing it from happening.
 
-On Mon, May 27, 2024 at 3:41=E2=80=AFPM Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> Add the VIN, CSI-2 and CSISP related nodes found on V4M.
->
-> One thing to note is that both CSISP0 and CSISP1 are in the same power
-> domain, this is different from other Gen4 boards (V4H). The reason for
+Well, yes, correct.
 
-s/boards/SoCs/
+> It was also possible for any (broken) device driver to call
+> __i2c_transfer() without first checking if plain I2C transfers were
+> actually supported by the i2c_adapter. I would argue that such an issue
+> should have been fixed at the device driver level by checking for the
+> I2C_FUNC_I2C functionality flag before calling __i2c_transfer(). That's
+> a theoretical issue though as I'm not aware of any device driver having
+> this issue.
 
-> this is that the V4M only have one ISP core which is connected to CSISP0
+In theory, checking against I2C_FUNC_I2C should happen. In practice,
+most I2C drivers do not do this. Being picky here could results in bad
+user experience because of OOPS. If we really want to enforce checking
+I2C_FUNC_I2C, then we should have this safety net while we convert all
+users. No, actually, I think we always should have some safety nets.
 
-has
+> The call stack in Baruch's report shows that the real issue is with
+> i2c_smbus_xfer_emulated() being called with the i2c bus lock already
+> held, and thus having to call __i2c_transfer() instead of
+> i2c_transfer(). This code path did not exist before commit 63453b59e411
+> ("i2c: smbus: add unlocked __i2c_smbus_xfer variant"), which was added
+> in kernel v4.19. Therefore I claim that CVE-2024-35984 only affects
+> kernel v4.19 and newer. Do we agree on that?
 
-> while V4H have two ISP cores, one connected to each CSISP.
->
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
+(There is a CVE for it??) For Baruch's case, this is true. But there are
+__i2c_transfer users all over the tree, they are all potentially
+vulnerable, or?
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.11.
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!adap->algo->master_xfer=
+) {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0dev_dbg(&adap->dev, "I2C level transfers not supported=
+\n");
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0return -EOPNOTSUPP;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
+> > +
+>=20
+> Not related specifically to this commit, as it is only moving a check
+> which already existed before, but this looks inefficient to me.
+>=20
+> We end up performing the check with every I2C-level transfer, while the
+> availability of such support can almost always be checked once and for
+> all in the I2C device driver (i2c-dev and i2c_smbus_xfer_emulated being
+> the exceptions).
+>=20
+> I see two ways for us to reach this check:
+> * __i2c_transfer() or i2c_transfer() gets called directly by a device
+> driver. This driver should have checked for the I2C_FUNC_I2C
+> functionality flag before calling either function. If they did not,
+> it's a driver bug, which should be fixed in the driver in question.
 
-Gr{oetje,eeting}s,
+I see the performance penalty, yet I prefer handling the buggy driver
+gracefully because kicking off I2C transfers is not a hot path. Maybe we
+could turn the dev_dbg into something louder to make people aware that
+there is a bug?
 
-                        Geert
+> Note that i2c-dev currently lacks this check, I think it should be
+> added.
+
+True, it should be a role-model of a good citizen :)
+
+> * __i2c_transfer() gets called by i2c_smbus_xfer_emulated(). We should
+> add a check for I2C_FUNC_I2C in __i2c_smbus_xfer() before calling this
+> function. This is more or less what Baruch proposed initially, and I
+> think it would have been a more efficient fix.
+
+As I said above, more efficient but not thorough. One driver not
+checking I2C_FUNC_I2C and boom...
+
+> And if you are concerned about functionality flags not being set
+> properly (specifically I2C_FUNC_I2C being set while .master_xfer isn't
+> set [1]) then we should add a consistency check at i2c_adapter
+> registration time, so again it's done once and for all and we don't
+> have to check again and again at transfer time.
+
+I think this check is worth to have. It is not complete because drivers
+may still not check the flag, but it is one step to be more robust.
+
+> Or is this optimization not worth it?
+
+I think so. It is one pointer check against a kernel oopsing somewhere
+somewhen.
+
+> [1] BTW, looking at the only two in-tree slave-only I2C adapter
+> drivers, i2c-at91-slave and i2c-designware-slave, both are setting
+> functionality flags other than I2C_FUNC_SLAVE. Unless I don't
+> understand how the slave functionality works, this is a bug. I'll
+> prepare and post patches later today.
+
+Thanks for doing that!
+
+Happy hacking,
+
+   Wolfram
 
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+--ksynbm66oyue3y2r
+Content-Type: application/pgp-signature; name="signature.asc"
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZe1VEACgkQFA3kzBSg
+KbYpeQ//dIw4KlFvx97wH/kz2omtgShRsM4PBlclKbm20ZkoYdTr1F5Rya2uE3tm
++xEF83Pg/m3t64S2PVpLIhfQmN0u3z7/+hcPH6CpXE0hGpLoO41JHPELd5p9FYB2
+LS300jBoSgcLryw8IAFjR3YQA/UaSeXk5OHKyAZgJPJTdY+aDFCFbJnJnAl2hyEs
+pEirJeX0Ajqp7B01YcCeD5AeImMQQalBV2zHYlKfmmCTN4w9NQj969igBi0O6gSA
+XcLxno7rqOamgSmdcouxEI7e1uSWdnIReAyw8nGKfZ9bzYKJUa8C9cBfJ7JJ6XGt
+Rb3Y8INN6rJZv9V4oi+5xzNCEYaiyYDgALMp0OfMG664isMzaVMT7DqTo8S8Qw7H
+4MMDmSQJTYIKoh2XpKABL8USm3SDKEglAoSN+RD0wEuEOu5BGDKMQqlOIukQwfqf
+ssQuLVklbLrtMgNsxJibDBdMYJnOYfBYoNljVaRs9MIf0oypT6zO7Px7wv2sYyGo
+HpUcbFmovXAlmqwljNACIqAYms9Kw4P/istl//wd+yr6MI5Qkx0IftQiC6/bqf5e
+mdYbqOuXNbwnVLd8nGMVRMYUMxTU+LeC1clNWAXzBhlgAqFo2gQmZMgsEll3X0Jq
+g2qHB8KoF8KlqulH7WBm7SRL2zmbCaV5xqN0BSozutvjqs0kJgY=
+=eDfQ
+-----END PGP SIGNATURE-----
+
+--ksynbm66oyue3y2r--
 
