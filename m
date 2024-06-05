@@ -1,148 +1,118 @@
-Return-Path: <linux-renesas-soc+bounces-5855-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5856-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63A068FC82D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 11:43:57 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A46328FC875
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 11:58:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F00B51F26046
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 09:43:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 06E7AB2204E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 09:58:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 906C418FDB6;
-	Wed,  5 Jun 2024 09:42:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CC9E18FDCB;
+	Wed,  5 Jun 2024 09:58:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Pg2ZQQSu"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F0518FC95;
-	Wed,  5 Jun 2024 09:42:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCF4F19006E
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Jun 2024 09:58:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717580575; cv=none; b=kgg55ZrqZOoWWDte8tnweJ7U8vIqNgdLMkgnu/oPTMC4p6ZYea673YfNZg/JOLwSoBh9njglIBxJRb2/XhdEgaezyRmWE97dnz7E+eth/0hMY7U9v1CtrBL3+qRsJ1Y/rcdrTT7M2y+y5o6VULuIFcOz+3mXEZei1+pKskdYL5U=
+	t=1717581489; cv=none; b=KQHN/HuRI3cPzEsPj1hebUwLNlF4ujs4My1GoZvWpojepgUDRynMfgEUHGyeDal4nUcnXsfQ/FYba/+8bv/etfLp0RgHyhEM0pmFKNlCod5gGdD0d/ytaMZL82dFYUGRp+dSpHgp7WD0TDKixt1ckP/JN52BUo+A+zf3SHPR/jA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717580575; c=relaxed/simple;
-	bh=bpuw88h7/ULwUncE97Dy+1F31l30KUzHngnfz7u0Tpc=;
+	s=arc-20240116; t=1717581489; c=relaxed/simple;
+	bh=Tt2tgNpkn2du7bsn/n2t2j3ArXn3CGab9XDkz5yvA9A=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FQ36QZrDxWU65HwDywFQ5IQjiCZMU5740Bw2Ox1R9WdurUFy6+/249Dq1yJ00CLH+EYFV0bsEJ4kVZ/DGW6HWTQ6Ll5m8z3sImVHU4CEU8z99xswybOC81x4K6aGMHV4XNdgnaYZL0Pud7qxONGh9KNmhJaBxWza2mvhAr3aiGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-dfa8427f22dso4837950276.0;
-        Wed, 05 Jun 2024 02:42:53 -0700 (PDT)
+	 To:Cc:Content-Type; b=WYJk5bKMkW6ULiNNOdH41v1cCZvNejTNmtIiOuhFApsO0tlssw/cs6SsSAyopUc58ZZ82Cx8kXFsKUpJT2W5GgmqUNNi1Yuv+Zt7dz1C6JLiUL90o96+Imol1/Aeq0WcKkhKOrR5nK+6kILPnwiWumpRtiFvIaAV3mwDIYQVLvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Pg2ZQQSu; arc=none smtp.client-ip=209.85.219.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-df771959b5bso6417424276.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Jun 2024 02:58:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1717581487; x=1718186287; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=r+9F1BCoR5KjTer6dWZ2JEeUxzIQo5D1fqe1jFxzvAI=;
+        b=Pg2ZQQSuycMcnB8D01ksAVgStixy+YthwF147zECK4WXB8CJc2oCjy6MWXD46IYCOk
+         Z3+Zxd+Eg2+houXco8J63wZbDoLdzl4etzZU3dLtjfJ/c7Enku+JrFFT4WQEFOiIGVh7
+         L736I0NE9N5W5iCupffZ99LNAMdrp4+q5Fy6AoNFByF4DoqXL5N1RaBhygMtcHsd9SnC
+         DaTFEnGqGUl0BzpdFhuUQ+BkNsoVly+H3lDBpI/QxHiTL1CBTv4rEkTe8YVaXRWgaLS9
+         NBhOm0EUO8p6LZYprnEf4HuE5ZneGi5bJCPb1hyCfyI6ey7QOV3hSkLIwPynkWrHSmbV
+         bqgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717580572; x=1718185372;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ftRQbH4WicPUfKz854Xb+Om1FETcdEVVljV/Kl9PKnI=;
-        b=jYuP8QDvKvsL1D+fA8KXM4RKotM7Z6uBMljnpu0kHRtTBnaT+oOjYuest54w/BzcS2
-         jKG4xMsMSr30qDb3tjbT2IAAagZz88PodUdCQkSbmU1F2x/ZoactMgJRDNDatp3KYR6H
-         h4mZWdKuGz/TlFQEWcuNmNJccuEdUvbt1s3PEZKqB9x39A3x7jmqpApmA4qMqT03S6JU
-         ZLi1KPGLw32tPXYTb8Va+rGfdKquphLhGJhq0pwnzTkCLsQBJpPTAbPvO7OCHJoSQCSi
-         O4WlOLZM4G2x7XW13idBjD4TSJerpkuCasSaHg6Ir40SzSu+32NnrzcFDB+QHy8pgpvF
-         9BlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVNgrCVXKndsGZtG1LizbHoazfV9wcecKtZ3SPR7QhrJA/DsipjA84bNq1BJONaNCbh/aGqRYn8gH3/yVqMQUHo+J0DV9qfuz8cr2KAvqw1NjadWpjQ2Ownk6YcHHEMzf+zEafuf7oPwRStq4F30gMAbLqbEq3ZN0rtDu1zvJAPRQmVRKIr724zc/T3dKZ1phfnJ+NiJFoOYJUiDVOhDglDrtxq90S7
-X-Gm-Message-State: AOJu0YwFkyu/+SemEtYaTqh6b9EQADVORIFH1l+Dl/Na1UBOdVFT4NIu
-	ysfHP2vVc+eE11LcbbogFJ8W4qRcSyIvzBVpBD9y8SwFATWbDpStEcUjxO2q
-X-Google-Smtp-Source: AGHT+IEEpcP0qTLSOLsIdmNVvxBgot+xPcQQOBEurRGYHFnjsCOq1BVn98z6tEw/K0QEMwvSlVlUTg==
-X-Received: by 2002:a25:902:0:b0:dfa:6c81:acd0 with SMTP id 3f1490d57ef6-dfacad25f21mr1814224276.60.1717580572063;
-        Wed, 05 Jun 2024 02:42:52 -0700 (PDT)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-dfa76af2e49sm2448613276.23.2024.06.05.02.42.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Jun 2024 02:42:51 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dfa5b9274feso7170589276.2;
-        Wed, 05 Jun 2024 02:42:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUKpeev8nQQeuuirugjBNac6bAsnnLMOH1KPz7xfd1Jdgo/0AFH6Qllf2PUNeqdQxkPNs+6C+o8SD8bUqxjZr1k2dlU5i2+fBa5Ly5fWm8PzQxb8xX+ugmx9goIw6SrdnBkzBQCfsm/dqQAHWVcuxcnQCLL3AmtRFljMXodaiDqbGlLvW/E38NXtIgnpv+erdcyKRsRK+pKH9thkEyDEDAT/nvZkDji
-X-Received: by 2002:a25:ac09:0:b0:df4:eb0b:8fc with SMTP id
- 3f1490d57ef6-dfacacff985mr2036937276.43.1717580571709; Wed, 05 Jun 2024
- 02:42:51 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1717581487; x=1718186287;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=r+9F1BCoR5KjTer6dWZ2JEeUxzIQo5D1fqe1jFxzvAI=;
+        b=BNdJ3wGdx/cIQmIvIMQjD8FS9hTpGCJpgfAqFCMcDC9sj7BDqXFbZSx45JZSTR1rbO
+         Kxxru+zonwgRV2HoJ2OcYrF66t8mqvSP/XZAssme97Y9HRYDCadPtT7ZluqyEr3l4+P4
+         5/3OZzxV1ttr22ohwrraKV3ZEm81tBFUSznEOD8nrGL1eSFMs4IflqqH8+sUh5Mh8seD
+         YCm0m9eplZ0TcvRwfL2rdK8fzrVzoiVh/DnGoXcBFNSKdD2hViL+ElTsnl3Jf4m+bl43
+         /9moG24VE0Dqko3pZff1jps5xqQE9rXlaZE3Ua1KCdfOBcygSXL8/8zq/j2tQ7EyZwZz
+         tnow==
+X-Forwarded-Encrypted: i=1; AJvYcCVY7nJ6oaYR8irmVLnOtj7S66DFSZbOEHb4CYHTk4NPmr2NqFDT2ggpgRy4Ckc07VaDjWdnvlnLw4sMcMC3HnesR7fL2NAWsfy+91it/29cc7A=
+X-Gm-Message-State: AOJu0YyXhSsFf/Hd9xpb3QOpuuzHzLtiDHTQrd1ysenkVXNLNEQTmbPZ
+	N5UDMFzHprwn+b2NiLo2p74zUNQYeAO4J5FNYEVto/uuimM0N7NS/zQaaZ/dI//AcROxxHjvbS5
+	ku3rawKnqqZPTzL95dKJEgCyvtmseK8iWNbrmayJrAJiLAzgf
+X-Google-Smtp-Source: AGHT+IE16F2JSKPh/JoHkBR3fjToIQEuSas1q7YcIfL6CuxcxUsrv2g6I96PRBF563ZyDJHB85oUxFS990MWpkQ8Y8k=
+X-Received: by 2002:a25:868d:0:b0:dfa:c66c:e2e with SMTP id
+ 3f1490d57ef6-dfacab2c785mr1891853276.5.1717581486811; Wed, 05 Jun 2024
+ 02:58:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240524082800.333991-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240524082800.333991-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWzrEKFHauJ=6UnsufJjDO3LfJ45eJXx1V72AmVzvsjyw@mail.gmail.com>
-In-Reply-To: <CAMuHMdWzrEKFHauJ=6UnsufJjDO3LfJ45eJXx1V72AmVzvsjyw@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 5 Jun 2024 11:42:32 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXdFM2u5TjRQZCSiigC=uBk1kz6aW6hYTy5Wa=PCgX7yQ@mail.gmail.com>
-Message-ID: <CAMuHMdXdFM2u5TjRQZCSiigC=uBk1kz6aW6hYTy5Wa=PCgX7yQ@mail.gmail.com>
-Subject: Re: [PATCH 1/4] dt-bindings: clock: renesas: Document RZ/V2H(P) SoC
- CPG driver
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <3cd8131b4f1284bdffa23a2b6a9a1e92fd17973e.1716973951.git.geert+renesas@glider.be>
+In-Reply-To: <3cd8131b4f1284bdffa23a2b6a9a1e92fd17973e.1716973951.git.geert+renesas@glider.be>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Wed, 5 Jun 2024 11:57:30 +0200
+Message-ID: <CAPDyKFq+gJXrR6xTWzzoDgkwrgg9XL7+ugDA=zjS1pEr5-xATg@mail.gmail.com>
+Subject: Re: [PATCH] pmdomain: core: Use genpd_is_irq_safe() helper
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Lina Iyer <lina.iyer@linaro.org>, linux-pm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Prabhakar,
-
-On Tue, Jun 4, 2024 at 5:49=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
-.org> wrote:
-> On Fri, May 24, 2024 at 10:29=E2=80=AFAM Prabhakar <prabhakar.csengg@gmai=
-l.com> wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Document the device tree bindings of the Renesas RZ/V2H(P) SoC
-> > Clock Pulse Generator (CPG).
-> >
-> > CPG block handles the below operations:
-> > - Handles the generation and control of clock signals for the IP module=
-s
-> > - The generation and control of resets
-> > - Control over booting
-> > - Low power consumption and the power supply domains
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Wed, 29 May 2024 at 11:19, Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 >
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/clock/renesas,rzv2h-cpg.yaml
-> > +
-> > +  '#clock-cells':
-> > +    description: |
-> > +      - For CPG core clocks, the two clock specifier cells must be "CP=
-G_CORE"
-> > +        and a core clock reference, as defined in
-> > +        <dt-bindings/clock/r9a09g057-cpg.h>,
-> > +      - For module clocks, the two clock specifier cells must be "CPG_=
-MOD" and
-> > +        a module number, as defined in <dt-bindings/clock/r9a09g057-cp=
-g.h>.
-> > +    const: 2
+> Use the genpd_is_irq_safe() helper instead of open-coding the same
+> operation.
 >
-> I understand this will be changed to 1, the clock number?
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-We typically come up with our own definitions in header files if there
-are no suitable module numbers listed in the hardware documentation.
+Applied for next, thanks!
 
-For RZ/V2H, you could use a combination (e.g. concatenation) of the
-column (register) and row (bit) numbers from Tables 4.4-14-19
-("Specifications of the CPG_CLKON_m Registers") and Tables 4.4-22-25
-("Specifications of the CPG_RST_m Registers") as the clock resp. reset
-number, like is done on R-Car Gen2+ SoCs (see MOD_CLK_PACK() for
-conversion from sparse to packed module numbers).
+Kind regards
+Uffe
 
-Gr{oetje,eeting}s,
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> ---
+>  drivers/pmdomain/core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
+> index 1eae7b2317897f0b..01cf17789621a04f 100644
+> --- a/drivers/pmdomain/core.c
+> +++ b/drivers/pmdomain/core.c
+> @@ -2082,7 +2082,7 @@ static void genpd_free_data(struct generic_pm_domain *genpd)
+>
+>  static void genpd_lock_init(struct generic_pm_domain *genpd)
+>  {
+> -       if (genpd->flags & GENPD_FLAG_IRQ_SAFE) {
+> +       if (genpd_is_irq_safe(genpd)) {
+>                 spin_lock_init(&genpd->slock);
+>                 genpd->lock_ops = &genpd_spin_ops;
+>         } else {
+> --
+> 2.34.1
+>
 
