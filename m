@@ -1,122 +1,167 @@
-Return-Path: <linux-renesas-soc+bounces-5878-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5879-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0AD08FD1B7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 17:33:33 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 971618FD1CC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 17:38:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 75A8F1C22A15
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 15:33:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2C82FB2AB5C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 15:37:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4D083FB9F;
-	Wed,  5 Jun 2024 15:33:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1854C14D447;
+	Wed,  5 Jun 2024 15:37:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZY76XVen"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iINa8Zxs"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A6F27450;
-	Wed,  5 Jun 2024 15:33:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5830F14B968;
+	Wed,  5 Jun 2024 15:37:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717601611; cv=none; b=n5cZ8uAXV6MJlP+leHsBqYtfNi575e8cWP8n3VrWlGikRHd00r49dbdaq1ORnc4hy86XG9BC7MBtrW9r4mtVSibwnIoJS6utfaBB7Ykpl72Q4CfdWLq58F9GIwon9ivByNbbcCTs7jSPyZc+5fSA3SCold3y8PHUmLy9jCO/U98=
+	t=1717601837; cv=none; b=ffElDPG+bl3rvPrP5DulIAWQNaDrsh2ubuKq9e7kgPM+TtkbRFlaolCyX1/xf/pC6Tyk8VDQtUJD9x1Ss6Rty8KzgA6pz47/lWPu6ktXYISdtmBEI9kTXOsP7tSSfxTGSWLnsSnv2BWGbUwcCbm0ZhnLqkV9f3bYE4ODyphTric=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717601611; c=relaxed/simple;
-	bh=4lLUXsn97faWP7+i+36tE5boR7rNlTYyLIxuiFPVPbU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gQlPaxoJsyZqNweiDnRr9Z8NgHnszewDLep8moc4G81b7VvGlD8xCTuIcX2/MJDsLKC28vYRkAR6mtgiyK3eUT7gS0FPvoqKv9bGi0+11dPRLiqtgrnpf7vVYS0X4eyr/lTQ4E/X4ir2LzIRvLnnbFYsjdUGq1iJQgEM1vAtW3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZY76XVen; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F03B7C2BD11;
-	Wed,  5 Jun 2024 15:33:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717601611;
-	bh=4lLUXsn97faWP7+i+36tE5boR7rNlTYyLIxuiFPVPbU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZY76XVeneC2Z77c/01GHO8HLsz0kEw385P1BgievhO6xmP/qtnxze1wkQlv8UDCIY
-	 ShcZuqBij1k3Qox7WU9j5MA4mO+Myx9uXO3vZedaPWUlNLpRyHgurTXiB73OLFcjtA
-	 Aq3uVgnoayqmN/9Wr7Dw5bu+w9mOb3FLRLWPk/19aV0xVjnz5AV+iv7tK2iLn/7tLT
-	 AmnHJ05T4whYMhyuECaKBr52Ex7KLr03RHJdftlGfpryqkNGV8bd0hL7hvZ/l3gII5
-	 PHDN1iV1fQcNXGWDKDhRecNGcw5w85woaE/nP1q/TYZ+Jo2R2go2uj6MQ5zw9FGQ5k
-	 tX+0J21Ezk/GA==
-Date: Wed, 5 Jun 2024 17:33:26 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Eric Sandeen <sandeen@redhat.com>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	linux-renesas-soc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	David Howells <dhowells@redhat.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] debugfs: ignore auto and noauto options if given
-Message-ID: <20240605-miterleben-empfunden-ee9efeded6d3@brauner>
-References: <20240522083851.37668-1-wsa+renesas@sang-engineering.com>
- <20240524-glasfaser-gerede-fdff887f8ae2@brauner>
- <20240527100618.np2wqiw5mz7as3vk@ninjato>
- <20240527-pittoresk-kneipen-652000baed56@brauner>
- <nr46caxz7tgxo6q6t2puoj36onat65pt7fcgsvjikyaid5x2lt@gnw5rkhq2p5r>
- <20240603-holzschnitt-abwaschen-2f5261637ca8@brauner>
- <7e8f8a6c-0f8e-4237-9048-a504c8174363@redhat.com>
- <20240603-turnen-wagen-685f86730633@brauner>
- <934aaad0-4c41-43d4-9ba2-bd15513b9527@redhat.com>
+	s=arc-20240116; t=1717601837; c=relaxed/simple;
+	bh=W8loeJgPBjnjnkzn24m+LbcwcKGo+/TYQDyUzZ/j8q0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=g+6FZnTM28/CI5pPK2d3Mntdt8dtxBQFDznSbiXoe5G5czrqBbdR9AL+++OAk5ALxrmVxBW59sZw2zL1GmnU7CC/0k2TYcjpMlP4v8actFhLipkMgKnGIr2XB0cfYOuIkV3HzzspyCQn1+YhZ3jBmgwZZfp99tsKuvkdv/ul8J4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iINa8Zxs; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-421392b8156so23281135e9.3;
+        Wed, 05 Jun 2024 08:37:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717601834; x=1718206634; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lAjezbYFk4kRuwBAyZVCH+a9cPM1rylHv2qjz+E2Bv8=;
+        b=iINa8Zxsrck0MG2QiqgCWmkTiZz1BGJLNqCdwa6d6AsmOqiA/+mmAfMtnqpTylpQLz
+         VLjK2+reVklx27nCT4873chZZXsWy3dsy3gi1UZa9owJuNFLy/76DUnuTsSCT0BCeGy0
+         slQGeFnxnLr7neYB2h1LsfPEhMw0Cd2El9toEDk15wpPpZ0tiyRvSq+lBBHUgcxlT84g
+         i5zbOD7UbgZTlCfiqzw9K5A0NDj3gAzYn1BObqLzWIrp/TC3WJT5cOZpEx8IM41BDbZ9
+         0O2yEbTi5cVVKjNZkVpDXv6M/eWSlmsqZCeMst2fzKe+nSIgiQnmCmKoP5Di69bGIrw+
+         5dDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717601834; x=1718206634;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lAjezbYFk4kRuwBAyZVCH+a9cPM1rylHv2qjz+E2Bv8=;
+        b=FKziftfzZ9HGmmnfQOq7WyCMseMxV9NEGK5jBlVVUKDwjByYJzN7mKqoMH1VHy2JIT
+         LGAv4YenwqwJsolOPmcVzWwGtw0nexqJUKh+bj4STTv7bFj1hlxuro5NGSTHaPck8xot
+         l4DPw0nYrs1TIB2/PzfAtOZ5uQh++1F9YYHf6uQtxmcAvMztwEw6mFTWYZyq/ujmYQmQ
+         InV7xrOcrVwAhDWYhijdvn4X4CXXxD8cpk1umQufpdTHsAmRGsPEA5ltMY4K3Tj6/88v
+         GrH+zG94xkkuvxcgW7V/pSMqPiqj4lZQBzcuI797e7x7GnkzOkSXIJDjRhARWRLaf9wD
+         Uwag==
+X-Forwarded-Encrypted: i=1; AJvYcCWVG2YDPxjhj3k/sLEMOkR10xn95o4pB75PivUip/fOlEpq+Os9CCu5zTHt8ABf+bkOOpyPBu2LcnaqaeXnbVeTUwg2YHN1yFYWoDvEYGsDS5s=
+X-Gm-Message-State: AOJu0YwGZKIP9Lus8OxspPNSGW/5u7SNQi31MIFBALjVkJs9wvY9Y7ay
+	ajBpi/BWP+H+322AIqcO1Iln87ovzjWAGJCjXLjkmLlK1xGEZr2n
+X-Google-Smtp-Source: AGHT+IGB+Rwwao76RXcektdyMHLa2vpeLrOu5clOBZtUdExzKvl3zDenxBafFf61pEtfzUiDObaYxg==
+X-Received: by 2002:a05:600c:3589:b0:418:3eb7:e8c6 with SMTP id 5b1f17b1804b1-421562c24f0mr23479115e9.5.1717601833369;
+        Wed, 05 Jun 2024 08:37:13 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-421580a94edsm26433685e9.0.2024.06.05.08.37.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Jun 2024 08:37:12 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [RESEND RFC PATCH] reset: Add devm_reset_control_deassert helper
+Date: Wed,  5 Jun 2024 16:37:08 +0100
+Message-Id: <20240605153708.613610-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <934aaad0-4c41-43d4-9ba2-bd15513b9527@redhat.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 03, 2024 at 10:13:43AM -0500, Eric Sandeen wrote:
-> On 6/3/24 9:33 AM, Christian Brauner wrote:
-> > On Mon, Jun 03, 2024 at 09:17:10AM -0500, Eric Sandeen wrote:
-> >> On 6/3/24 8:31 AM, Christian Brauner wrote:
-> >>> On Mon, Jun 03, 2024 at 09:24:50AM +0200, Wolfram Sang wrote:
-> >>>>
-> >>>>>>> Does that fix it for you?
-> >>>>>>
-> >>>>>> Yes, it does, thank you.
-> >>>>>>
-> >>>>>> Reported-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> >>>>>> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> >>>>>
-> >>>>> Thanks, applied. Should be fixed by end of the week.
-> >>>>
-> >>>> It is in -next but not in rc2. rc3 then?
-> >>>
-> >>> Yes, it wasn't ready when I sent the fixes for -rc2 as I just put it in
-> >>> that day.
-> >>>
-> >>
-> >> See my other reply, are you sure we should make this change? From a
-> >> "keep the old behavior" POV maybe so, but this looks to me like a
-> >> bug in busybox, passing fstab hint "options" like "auto" as actual mount
-> >> options being the root cause of the problem. debugfs isn't uniquely
-> >> affected by this behavior.
-> >>
-> >> I'm not dead set against the change, just wanted to point this out.
-> > 
-> > Hm, it seems I forgot your other mail, sorry.
-> 
-> No worries!
-> 
-> > So the issue is that we're breaking existing userspace and it doesn't
-> > seem like a situation where we can just ignore broken userspace. If
-> > busybox has been doing that for a long time we might just have to
-> > accommodate their brokenness. Thoughts?
-> 
-> Yep, I can totally see that POV.
-> 
-> It's just that surely every other strict-parsing filesystem is also
-> broken in this same way, so coding around the busybox bug only in debugfs
-> seems a little strange. (Surely we won't change every filesystem to accept
-> unknown options just for busybox's benefit.)
-> 
-> IOWS: why do we accomodate busybox brokenness only for debugfs, given that
-> "auto" can be used in fstab for any filesystem?
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-I suspect that not that most filesystems aren't mounted from fstab which
-is why we've never saw reports.
+A typical code pattern for reset_control_deassert() call is to call it in
+the _probe function and to call reset_control_assert() both from _probe
+error path and from _remove function.
+
+Add helper function to replace this bolierplate piece of code. Calling
+devm_reset_control_deassert() removes the need for calling
+reset_control_assert() both in the probe()'s error path and in the
+remove() function.
+
+Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ drivers/reset/core.c  | 22 ++++++++++++++++++++++
+ include/linux/reset.h |  6 ++++++
+ 2 files changed, 28 insertions(+)
+
+diff --git a/drivers/reset/core.c b/drivers/reset/core.c
+index dba74e857be6..a2a6eff8e599 100644
+--- a/drivers/reset/core.c
++++ b/drivers/reset/core.c
+@@ -592,6 +592,28 @@ int reset_control_deassert(struct reset_control *rstc)
+ }
+ EXPORT_SYMBOL_GPL(reset_control_deassert);
+ 
++static void reset_control_assert_action(void *rstc)
++{
++	reset_control_assert(rstc);
++}
++
++/**
++ * devm_reset_control_deassert - devres-enabled version of reset_control_deassert()
++ * @dev: device that requests the reset control
++ * @rstc: reset controller
++ */
++int devm_reset_control_deassert(struct device *dev, struct reset_control *rstc)
++{
++	int ret;
++
++	ret = reset_control_deassert(rstc);
++	if (ret)
++		return ret;
++
++	return devm_add_action_or_reset(dev, reset_control_assert_action, rstc);
++}
++EXPORT_SYMBOL_GPL(devm_reset_control_deassert);
++
+ /**
+  * reset_control_bulk_deassert - deasserts the reset lines in reverse order
+  * @num_rstcs: number of entries in rstcs array
+diff --git a/include/linux/reset.h b/include/linux/reset.h
+index 514ddf003efc..e41e752ba098 100644
+--- a/include/linux/reset.h
++++ b/include/linux/reset.h
+@@ -31,6 +31,7 @@ int reset_control_reset(struct reset_control *rstc);
+ int reset_control_rearm(struct reset_control *rstc);
+ int reset_control_assert(struct reset_control *rstc);
+ int reset_control_deassert(struct reset_control *rstc);
++int devm_reset_control_deassert(struct device *dev, struct reset_control *rstc);
+ int reset_control_status(struct reset_control *rstc);
+ int reset_control_acquire(struct reset_control *rstc);
+ void reset_control_release(struct reset_control *rstc);
+@@ -91,6 +92,11 @@ static inline int reset_control_deassert(struct reset_control *rstc)
+ 	return 0;
+ }
+ 
++static inline int devm_reset_control_deassert(struct device *dev, struct reset_control *rstc)
++{
++	return 0;
++}
++
+ static inline int reset_control_status(struct reset_control *rstc)
+ {
+ 	return 0;
+-- 
+2.34.1
+
 
