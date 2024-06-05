@@ -1,162 +1,201 @@
-Return-Path: <linux-renesas-soc+bounces-5852-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5853-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 112408FC78F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 11:21:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 015278FC804
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 11:39:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 234841C23148
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 09:21:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0DC081C21B7D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 09:39:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21A0818FC7C;
-	Wed,  5 Jun 2024 09:21:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCF89193066;
+	Wed,  5 Jun 2024 09:34:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NdNp5wTv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UoIs5Twn";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NdNp5wTv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UoIs5Twn"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dHiEOcww"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3974718FC68;
-	Wed,  5 Jun 2024 09:21:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D7C190044
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Jun 2024 09:34:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717579264; cv=none; b=irv8HDx42oRL6PTcFiuGjWPsv/Uzk/9r8v5/KF07/al1J01Ll5+0hx3mXxRSjoa5Tqg6kWDJRIaowXL+mmDQ58m9ZuhIrAmm4LaoRZwYlopm7qpJS+WG8HpTD/otRAyH0LFW7YD9EJvOex0PHfD58prHpmVVQBiycjYrQ1IV0b0=
+	t=1717580092; cv=none; b=F4LcI3p+vD1imHt5V/Q0Dvmx02SEP3r55UsKuO3Y64lzg1EEqVX0k+7b0Tie3GK6PEQmUQEoRDxqQtwE5A/fQpYqmvfvemDIntHsAjVd3rA4h/FoBrAIhkJFjKAIHZc3Hcs4wN0XrhgkCsh8cpcm+nhxu8CKQstmuDGUNb/rFPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717579264; c=relaxed/simple;
-	bh=3dD+DPEZQhGugyGqo62gS2c3dIvl2v9D29Io6wzlEXI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gWBytm5tM+idpApoje2zKgA9/P3qnbkhRoqEC3stf6QC5I//sIz5OXU0HQVIH2k6gx4Ylxi24VLcApb2ctfc7NuPOEtUxjxYbqWOyUm7m5L74XZ6D5B+3EWOvWNSWM9qHZCBK2rphRTJNusU2tV8QGSr1P0ondJpoSHrGuR4DtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NdNp5wTv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UoIs5Twn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NdNp5wTv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UoIs5Twn; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 53B802198F;
-	Wed,  5 Jun 2024 09:21:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1717579260; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qrADoXy+bcW3CggAAUu4f0wqlTejDtKqOk7V6ynGtGg=;
-	b=NdNp5wTvjmYo4GDz1XcffVPTefSwoc/I9XnU4D1sHIdrZaG4UAQnAD7aZFJW9jyNs+Necm
-	TcRpA0T1bdhbNODqXXSqMkTP5V6wsvWxgL1xo4sgotxtOc3vwOUandMiAG8cijcoDSX7nK
-	5IKy2odNKN/Vo71NnRCp7FPDGa9p/1c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1717579260;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qrADoXy+bcW3CggAAUu4f0wqlTejDtKqOk7V6ynGtGg=;
-	b=UoIs5TwnzhUAAgIB1TPCf44vHd8ZvAyfQleTlW2+PvxOureEpLao51Qjf95q0PAz72yY7q
-	f+3tC2aTxYmzvIDQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1717579260; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qrADoXy+bcW3CggAAUu4f0wqlTejDtKqOk7V6ynGtGg=;
-	b=NdNp5wTvjmYo4GDz1XcffVPTefSwoc/I9XnU4D1sHIdrZaG4UAQnAD7aZFJW9jyNs+Necm
-	TcRpA0T1bdhbNODqXXSqMkTP5V6wsvWxgL1xo4sgotxtOc3vwOUandMiAG8cijcoDSX7nK
-	5IKy2odNKN/Vo71NnRCp7FPDGa9p/1c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1717579260;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qrADoXy+bcW3CggAAUu4f0wqlTejDtKqOk7V6ynGtGg=;
-	b=UoIs5TwnzhUAAgIB1TPCf44vHd8ZvAyfQleTlW2+PvxOureEpLao51Qjf95q0PAz72yY7q
-	f+3tC2aTxYmzvIDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 64DF113AA1;
-	Wed,  5 Jun 2024 09:20:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id hk3VEfstYGYbSQAAD6G6ig
-	(envelope-from <jdelvare@suse.de>); Wed, 05 Jun 2024 09:20:59 +0000
-Date: Wed, 5 Jun 2024 11:20:55 +0200
-From: Jean Delvare <jdelvare@suse.de>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, Baruch Siach <baruch@tkos.co.il>,
- linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, Peter Rosin
- <peda@axentia.se>
-Subject: Re: [PATCH] i2c: smbus: fix NULL function pointer dereference
-Message-ID: <20240605112055.7f057e46@endymion.delvare>
-In-Reply-To: <bk6rgqfcn5op5iuojoisogvtrp24ldblgkq4g62ffr4z7wnzug@xlp3ce5bx7bs>
-References: <20240426064408.7372-1-wsa+renesas@sang-engineering.com>
-	<1e626d93f4220cc348300bbc61089de32300122d.camel@suse.de>
-	<b2tnimag62ty6wndyjsy7u5fay6y52zn47vvifw6rh5abeqzpu@pqyyczutxcwu>
-	<20240604171113.232628f9@endymion.delvare>
-	<bk6rgqfcn5op5iuojoisogvtrp24ldblgkq4g62ffr4z7wnzug@xlp3ce5bx7bs>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-suse-linux-gnu)
+	s=arc-20240116; t=1717580092; c=relaxed/simple;
+	bh=VyMzcl86epfd+4JJGD/brazuobQXR4TW+Im54cfRqwo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=A1ApY4LFVPEha0jNr8oWVU87/K65XvuobbSDwUrUdHBFdpQTU8cWvo7ZAwWi9WxNpM62z7bJsegdjZFhsCgB8mzwTz6uMYmvq1ywPOdQrYKXj6/iYXdASut8pBqUi8gWhkJ/PxxNdmZK86m0bA6HBx0aPEYHYAhGgLZT2rnq0nI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dHiEOcww; arc=none smtp.client-ip=209.85.219.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-df771b6cf71so2141318276.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Jun 2024 02:34:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1717580090; x=1718184890; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=30NObruWx5GMlzINttF9ReWXSPJzl5BeuLrf410WPvU=;
+        b=dHiEOcwwuTLPAfYeOBtsVP/FZJxtxu1GtHzC46rdRec8WsXNQ+14+jYF+g6J3PUFwk
+         AnWuu9pMSnqSNg5SV31NNHk0JZqDDvtgyZKc6AyEgoh1ii4sGTkY/Akdt/86Vz6oXrU1
+         nYEqKXiAkP55s1P2Me3xjTMOsa8Xw2jzuK6I3FtZLcN9Rd3WqjUMDBhsxKo+D4TqEeQn
+         /87PrKq8oPGrixS9WbfIGLGjtmTAkN3MlmPC3zWyIU8wb88rY+W6Sd+87fFaQ1zvrgbu
+         l0CFQmQeyw3EDvMbuAIcukPnw0tc6wX7ZTWjlxBbuH1eA3/KiVpM9OQaqsBUv0wgGpuS
+         XXXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717580090; x=1718184890;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=30NObruWx5GMlzINttF9ReWXSPJzl5BeuLrf410WPvU=;
+        b=lcEY+sLYkeBrgT3jCtUSdvZgdqbLTaL6g2uuKgsFxGXiH2McGk/xGl+1kuL5dNLf/K
+         lU3kzXncxtmF5yWCFfRsy80iP+XN690yCd8hQzYZ8YtxeGSu6JdgAzZ3y5cRlHrI++b3
+         BqtGMo6rVqCebikrNNiX9fad0rAs2sBpn83Bh4emkBYwB3Xpfqp94USvWmJI1jGMcPwj
+         tVl4gyR3piZmp3gyKYm12KhcXqYFNRKYa6vg/b2EVVxVZ1LzdGsWuYuRtcWidzVo1S4e
+         An3PxQCUkXjpRIy4JsvWT2xVDbQ5HFRxyOriiOfqq0PA/9x+w4k7ihB1zkhzPj2lAZ25
+         X6Wg==
+X-Forwarded-Encrypted: i=1; AJvYcCUOAsFwpxf58nTRxgXGhQWwVvLLWbyVByq7Vq4WlU8SUXL+AlICD04OaseCoRUZB4CPKU2JXKVOe4k6pcucYdGJGBZFV1ZPN7SEO6PGKlCLNFI=
+X-Gm-Message-State: AOJu0Yzu5AzDYvvQqgdWiH2VgQKGq1K8/TODbG+xV94nbgc1ZwCd48fX
+	59hYoSrdABZpaRNCbXmVP1XDSGW9UJpiw9pdT4up1/EggoxwkEnFzGJ+Au5DmhmY8wWPmDZYP1U
+	azCc+F1EQNNC7xVYqdCLGUY+rOUMkKA08or4ppA==
+X-Google-Smtp-Source: AGHT+IENn27TkQR5CPy5b+3mp3LqBCxwf+D6LxicigJ400S8hL5xvE513TM1EYAaeZPC26ci4uwXc/peFjpCSi2lwcg=
+X-Received: by 2002:a05:6902:230f:b0:df7:97d4:b790 with SMTP id
+ 3f1490d57ef6-dfaca9bd66cmr2065639276.18.1717580089668; Wed, 05 Jun 2024
+ 02:34:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Flag: NO
-X-Spam-Score: -2.72
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.72 / 50.00];
-	BAYES_HAM(-2.92)[99.65%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_RCPT(0.00)[renesas];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+References: <cover.1716811405.git.geert+renesas@glider.be>
+In-Reply-To: <cover.1716811405.git.geert+renesas@glider.be>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Wed, 5 Jun 2024 11:34:13 +0200
+Message-ID: <CAPDyKFpa4LZF3eN7x-NT+b9=dKB3Oe6RY8RAyetdRBSR1-LQoQ@mail.gmail.com>
+Subject: Re: [PATCH/RFC 0/3] pmdomain: renesas: rmobile-sysc: Remove serial
+ console handling
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Saravana Kannan <saravanak@google.com>, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+	Peng Fan <peng.fan@nxp.com>, linux-pm@vger.kernel.org, linux-serial@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Wolfram,
++ Tomi
 
-On Tue, 4 Jun 2024 22:08:41 +0200, Wolfram Sang wrote:
-> > > gracefully because kicking off I2C transfers is not a hot path. Maybe we
-> > > could turn the dev_dbg into something louder to make people aware that
-> > > there is a bug?  
-> > 
-> > My previous message initially had a suggestion in that direction ;-)
-> > but I first wanted your opinion on the check itself. dev_dbg() is
-> > definitely not appropriate for a condition which should never happen
-> > and implies there's a bug somewhere else. A WARN_ON_ONCE would probably
-> > be better, so that the bug gets spotted and fixed quickly.  
-> 
-> So, are you okay with keeping the check where it is now and turning the
-> dev_dbg into WARN_ON_ONCE? I am.
+On Mon, 27 May 2024 at 14:41, Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+>         Hi all,
+>
+> Since commit a47cf07f60dcb02d ("serial: core: Call
+> device_set_awake_path() for console port"), the serial driver properly
+> handles the case where the serial console is part of the awake path, and
+> it looked like we could start removing special serial console handling
+> from PM Domain drivers like the R-Mobile SYSC PM Domain driver.
+> Unfortunately the devil is in the details, as usual...
+>
+> Earlycon relies on the serial port to be initialized by the firmware
+> and/or bootloader.  Linux is not aware of any hardware dependencies that
+> must be met to keep the port working, and thus cannot guarantee they
+> stay met, until the full serial driver takes over.
+>
+> E.g. all unused clocks and unused PM Domains are disabled in a late
+> initcall.  As this happens after the full serial driver has taken over,
+> the serial port's clock and/or PM Domain are no longer deemed unused,
+> and this is typically not a problem.
+>
+> However, if the serial port's clock or PM Domain is shared with another
+> device, and that other device is runtime-suspended before the full
+> serial driver has probed, the serial port's clock and/or PM Domain will
+> be disabled inadvertently.  Any subsequent serial console output will
+> cause a crash or system lock-up.  E.g. on R/SH-Mobile SoCs, the serial
+> ports share their PM Domain with several other I/O devices.  After the
+> use of pwm (Armadillo-800-EVA) or i2c (KZM-A9-GT) during early boot,
+> before the full serial driver takes over, the PM Domain containing the
+> early serial port is powered down, causing a lock-up when booted with
+> "earlycon".
 
-Yes I am.
+Hi Geert,
 
-Thanks,
--- 
-Jean Delvare
-SUSE L3 Support
+Thanks for the detailed description of the problem! As pointed out in
+regards to another similar recent patch [1], this is indeed a generic
+problem, not limited to the serial console handling.
+
+At Linaro Connect a few weeks ago I followed up with Saravana from the
+earlier discussions at LPC last fall. We now have a generic solution
+for genpd drafted on plain paper, based on fw_devlink and the
+->sync_state() callback. I am currently working on the genpd series,
+while Saravana will re-spin the series (can't find the link to the
+last version) for the clock framework. Ideally, we want these things
+to work in a very similar way.
+
+That said, allow me to post the series for genpd in a week or two to
+see if it can solve your problem too, for the serial console.
+
+Kind regards
+Uffe
+
+[1]
+https://lore.kernel.org/linux-arm-kernel/CAPDyKFqShuq98qV5nSPzSqwLLUZ7LxLvp1eihGRBkU4qUKdWwQ@mail.gmail.com/
+
+>
+> This RFC patch series aims to provide a mechanism for handling this, and
+> to fix it for the PM Domain case:
+>   1. The first patch provides a mechanism to let the clock and/or PM
+>      Domain subsystem or drivers handle this, by exporting the clock and
+>      PM Domain dependencies for the serial port, as available in the
+>      system's device tree,
+>   2. The second patch introduces a new flag to handle a PM domain that
+>      must be kept powered-on during early boot, and by setting this flag
+>      if the PM Domain contains the serial console (originally I handled
+>      this inside rmobile-sysc, but it turned out to be easy to
+>      generalize this to other platforms in the core PM Domain code).
+>   3. The third patch removes the no longer needed special console
+>      handling from the R-Mobile SYSC PM Domain driver.
+>
+> I did not fix the similar clock issue, as it is more complex (there can
+> be multiple clocks, and each clock provider can have its own value of
+> #clock-cells), and I do not need it for Renesas ARM platforms.
+
+I will defer to Sarvana here, but ideally his series for the clock
+framework should solve this case too.
+
+>
+> This has been tested on the APE6-EVM, Armadillo-800-EVA, and KZM-A9-GT
+> development boards, with and without earlycon, including s2ram with and
+> without no_console_suspend.
+>
+> Notes:
+>   - This should not be needed on RZ/G3S, where each serial port device
+>     has its own PM Domain,
+>   - drivers/clk/imx/clk.c and drivers/pmdomain/imx/scu-pd.c have special
+>     handling for the of_stdout device, but is probably not affected, as
+>     each serial port seems to share its PM Domain only with the serial
+>     port's clock controller.
+>
+> Thanks for your comments!
+>
+> Geert Uytterhoeven (3):
+>   earlycon: Export clock and PM Domain info from FDT
+>   pmdomain: core: Avoid earlycon power-down
+>   pmdomain: renesas: rmobile-sysc: Remove serial console handling
+>
+>  drivers/pmdomain/core.c                 | 24 ++++++++++++++++--
+>  drivers/pmdomain/renesas/rmobile-sysc.c | 33 +------------------------
+>  drivers/tty/serial/earlycon.c           | 14 ++++++++++-
+>  include/linux/pm_domain.h               |  4 +++
+>  include/linux/serial_core.h             | 10 ++++++++
+>  5 files changed, 50 insertions(+), 35 deletions(-)
+>
+> --
+
+Kind regards
+Uffe
 
