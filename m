@@ -1,124 +1,151 @@
-Return-Path: <linux-renesas-soc+bounces-5840-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5841-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5E568FBD7F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 22:47:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 197DD8FC41B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 09:06:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 77448B24273
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2024 20:47:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A13A22870EA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 07:06:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4DAF14B090;
-	Tue,  4 Jun 2024 20:47:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD9A2169381;
+	Wed,  5 Jun 2024 07:06:05 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E190214A627;
-	Tue,  4 Jun 2024 20:47:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9275190490;
+	Wed,  5 Jun 2024 07:06:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717534065; cv=none; b=MQiv/CZ9Rb4orR7ei7AwaBPfgwmPnIbOclxvo+ceEaWYT2SAu6nc4vcqedpCHZGQBMXSCdjwtshsBRjkAnKUQacLRyBRRE7a9VegyFB7DYpKe73iXC5Ud3F+fRB3OSHJ0sgCniCOMEnoXiHoRizvU3Dy7FrTFeeFnSkcKJX7Akg=
+	t=1717571165; cv=none; b=YL0BaVK/Q8nMTXrN6HCOKPVvhUOiup+Ty1NxQ2PaqNNgl3YxyfrB9IiRzznVAotyw4j+7X3JnqTJw865rX1xLQpwARDNcWTcZ5OontRzlppqCM8+At+rJl9c5g5stdAvrahl9pibiYcOhXWFaSZnPja0Xm9DdsPKBhGf0SslohA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717534065; c=relaxed/simple;
-	bh=T8ArkHAWEsoLdQdAfF8cZxmF56dM4QXiFunMu84Sspg=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=l2GHEJVlPDgvQ6w9gbaEp2IO4BsDPR7buYafYEjbYQrVdk/+K74ep2i/wI5jc59qkfJcEzQyI1rLnBGKfAxSrkNEKXaXow6eoEKJvmCy5UNS6WGCwqypepdiH6fT1CFwFYG2xyxZkeHKVa+CvEGijznqz2nTiCLNJMpcO7DkZ5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.1.105] (178.176.78.182) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Tue, 4 Jun
- 2024 23:47:26 +0300
-Subject: Re: [net-next PATCH v5 2/7] net: ravb: Align poll function with NAPI
- docs
-To: Paul Barker <paul.barker.ct@bp.renesas.com>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	=?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Simon Horman <horms@kernel.org>
-CC: Biju Das <biju.das.jz@bp.renesas.com>, Claudiu Beznea
-	<claudiu.beznea.uj@bp.renesas.com>, Yoshihiro Shimoda
-	<yoshihiro.shimoda.uh@renesas.com>, <netdev@vger.kernel.org>,
-	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20240604072825.7490-1-paul.barker.ct@bp.renesas.com>
- <20240604072825.7490-3-paul.barker.ct@bp.renesas.com>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <4958f946-3c95-9280-9da8-3670a3187cc5@omp.ru>
-Date: Tue, 4 Jun 2024 23:47:26 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	s=arc-20240116; t=1717571165; c=relaxed/simple;
+	bh=3P3Z51rM5sKotlnemHyjU9DNykQ+aGDBrA2dU1YKqDE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qRVJHf1k1seJPogzmdtZSTVxMAhrBTrVfMd+dl9qBftFEHlKwAlAGJYOCS7YNQYamgqpO/QzH9KtES/cVKyLdaK7wYiCN+/aBcOIHgxmPUCeucH4dSR3PMKLywC8rEHl1Ei3nmq53tLnCtHTlFHf62I4O1h5E9NbyUjoha2g5aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dfa7797e897so5234079276.2;
+        Wed, 05 Jun 2024 00:06:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717571162; x=1718175962;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+dVbe12Y5x6YayWqHWzVXsec7wdwRPrKL/OhcN1TqKU=;
+        b=bz+vlxkH3AF+TzleYIRbaGLSQLhFmAm1YJxTYPRJx6t/MlwqPLwf0kzsMtJINjORyq
+         19wxa6eGcnZGiR97R5lsxhD2j8RYRhklWCEIlmh5adIKl0kbXhjZbgpYkgMGB5rtYbcV
+         JXO5EalkIorE+FUvsCdgaRHR77DzDSnHaO35iEkjbCIY+N/SJmwFokW+StULLOgt+SKQ
+         Z/R7lfDRo3s0+1dnq9NQCY3Mwf7mAlwX9MaoViCgVVFq9QkwkHpWiNDvc6NeYunDk9fg
+         46qsmzwzCEpmDQCfrcTECESgRNIwmBiOuxfBHrRRq18Cvuh1CHK7nXxa6gjs2rDx6/AJ
+         gZzA==
+X-Forwarded-Encrypted: i=1; AJvYcCX0Q6mdBHSzrRYTwuM9UksnTNGRBr5CEDKMbOp025z17g21YYDIy9KlLGPWW5S/+gsxyn93W+GOqAzg0RibbsO7ntK7NX46jxwJmBFRzKXbNV0oJHkyS648yc1/frl4qUoRdP376JfkYpbXPv2ZBNeNu3rBDb2z+MX19Menkf2C5Fa8pnROWeMME8SojSab0VfEh1J2vndOhcrmSYOqewb7WmqA5OKW
+X-Gm-Message-State: AOJu0Yy6txdqmq09UN/deqeyBy52ZzG4rlUS7k6B8e70mYUKnNh0urmU
+	PVaWu5haXWn/FGT+9PVtGKw3rYQnUHhXyrfCjkj7gn2D5gFH3KtCmzh/SiUO
+X-Google-Smtp-Source: AGHT+IF+4K4GiD9FLrZDcO1EK7onQlPCjwzUpFPd/3a2hDmvd+glyho7/c9js2SholDtsaq9tedh5w==
+X-Received: by 2002:a25:abae:0:b0:dfa:b351:bea5 with SMTP id 3f1490d57ef6-dfaca9b937fmr1687957276.21.1717571162201;
+        Wed, 05 Jun 2024 00:06:02 -0700 (PDT)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-dfa6f11f7cdsm2459988276.46.2024.06.05.00.06.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Jun 2024 00:06:01 -0700 (PDT)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dfa7faffa3aso4937853276.0;
+        Wed, 05 Jun 2024 00:06:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWUkDMrfIMU/Q2R/g9xHfrRAc0s6e/EPOTrow6/z5RnvA33C1FnA2bNV5AW/1ElnfPq3FtVQ/u9RaOAsk9nko69tliXp+55+GJmcezdKxnHlwVIeY9GbB/rJ9olCZqr8CjMv/O36ZqUGQL+6bfYyLGBX9IG7HHHpHvRr4Ufo0uEbWoVrHdSVOIyjlOUXnE8QeHKh77kL0nx5KwcKbnHrFfg6fzU5X3k
+X-Received: by 2002:a25:b8a:0:b0:dfa:49bc:6415 with SMTP id
+ 3f1490d57ef6-dfacac439b1mr1592412276.52.1717571161019; Wed, 05 Jun 2024
+ 00:06:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240604072825.7490-3-paul.barker.ct@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 06/04/2024 20:26:27
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 185716 [Jun 04 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.0.4
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 20 0.3.20
- 743589a8af6ec90b529f2124c2bbfc3ce1d2f20f
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.78.182 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.78.182 in (user)
- dbl.spamhaus.org}
-X-KSE-AntiSpam-Info:
-	178.176.78.182:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1;127.0.0.199:7.1.2
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.78.182
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 06/04/2024 20:29:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 6/4/2024 4:23:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+References: <20240524082800.333991-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240524082800.333991-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20240524082800.333991-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 5 Jun 2024 09:05:48 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXk+u0J9GQrGHa_yMgBtkrhCNtGXdWmfsmVt3UskNMMug@mail.gmail.com>
+Message-ID: <CAMuHMdXk+u0J9GQrGHa_yMgBtkrhCNtGXdWmfsmVt3UskNMMug@mail.gmail.com>
+Subject: Re: [PATCH 4/4] clk: renesas: Add RZ/V2H(P) CPG helper driver
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/4/24 10:28 AM, Paul Barker wrote:
+Hii Prabhakar,
 
-> Align ravb_poll() with the documentation in
-> `Documentation/networking/kapi.rst` and
-> `Documentation/networking/napi.rst`.
-> 
-> The documentation says that we should prefer napi_complete_done() over
-> napi_complete(), and using the former allows us to properly support busy
-> polling. We should ensure that napi_complete_done() is only called if
-> the work budget has not been exhausted, and we should only re-arm
-> interrupts if it returns true.
-> 
-> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+Thanks for your patch!
 
-[...]
+On Fri, May 24, 2024 at 10:29=E2=80=AFAM Prabhakar <prabhakar.csengg@gmail.=
+com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Add RZ/V2H(P) CPG helper driver.
 
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+Drop "helper"?
 
-MBR, Sergey
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+> --- /dev/null
+> +++ b/drivers/clk/renesas/r9a09g057-cpg.c
+> @@ -0,0 +1,112 @@
+
+> +static int pll_clk1_offset[] =3D { -EINVAL, -EINVAL, -EINVAL, 0x64, -EIN=
+VAL,
+> +                              -EINVAL, 0xC4, -EINVAL, -EINVAL, 0x124, 0x=
+144 };
+> +static int pll_clk2_offset[] =3D { -EINVAL, -EINVAL, -EINVAL, 0x68, -EIN=
+VAL,
+> +                              -EINVAL, 0xC8, -EINVAL, -EINVAL, 0x128, 0x=
+148 };
+
+const (both)
+
+Both arrays are very similar: all valid values differ by an offset of 4.
+If that is universal, perhaps the second one can be dropped, and
+the offset can be handled by the user?
+
+> +static struct rzv2h_mod_clk r9a09g057_mod_clks[] =3D {
+
+const
+
+> +       DEF_MOD("scif_0_clk_pck",               R9A09G057_SCIF_0_CLK_PCK,=
+ CLK_PLLCM33_DIV16,
+> +                                               0x620, 15, 0x810, 15),
+> +};
+> +
+> +static struct rzv2h_reset r9a09g057_resets[] =3D {
+
+const
+
+> +       DEF_RST(R9A09G057_SCIF_0_RST_SYSTEM_N,          0x924,  5, 0xA10,=
+ 6),
+> +};
+
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
