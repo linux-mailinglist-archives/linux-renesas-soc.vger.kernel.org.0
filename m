@@ -1,91 +1,90 @@
-Return-Path: <linux-renesas-soc+bounces-5856-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5857-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A46328FC875
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 11:58:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE3578FC878
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 11:58:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 06E7AB2204E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 09:58:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 805A61F22467
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 09:58:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CC9E18FDCB;
-	Wed,  5 Jun 2024 09:58:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7AA8191463;
+	Wed,  5 Jun 2024 09:58:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Pg2ZQQSu"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hUIOFJOi"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCF4F19006E
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Jun 2024 09:58:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 223F319006D
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Jun 2024 09:58:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717581489; cv=none; b=KQHN/HuRI3cPzEsPj1hebUwLNlF4ujs4My1GoZvWpojepgUDRynMfgEUHGyeDal4nUcnXsfQ/FYba/+8bv/etfLp0RgHyhEM0pmFKNlCod5gGdD0d/ytaMZL82dFYUGRp+dSpHgp7WD0TDKixt1ckP/JN52BUo+A+zf3SHPR/jA=
+	t=1717581492; cv=none; b=u7shjZaZYYQD8383yV/je8tT3aiFJ1lz7pVZ6uN0ffLQLOZusJOIfYBTzY7LMZsJ5rnUCG5a9hP+V3n285hy6oQRehMzjn0IJT18h7nw6AltcLceOvRpxRf1/JjOeCb5Q5P9Udt1dNJj5UztLV9nQAusECP/7ZtJaEolmTm58Dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717581489; c=relaxed/simple;
-	bh=Tt2tgNpkn2du7bsn/n2t2j3ArXn3CGab9XDkz5yvA9A=;
+	s=arc-20240116; t=1717581492; c=relaxed/simple;
+	bh=ePzuztDHuPKdvkP4ehh0GuJ62NObmegiChh5yskLNR0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WYJk5bKMkW6ULiNNOdH41v1cCZvNejTNmtIiOuhFApsO0tlssw/cs6SsSAyopUc58ZZ82Cx8kXFsKUpJT2W5GgmqUNNi1Yuv+Zt7dz1C6JLiUL90o96+Imol1/Aeq0WcKkhKOrR5nK+6kILPnwiWumpRtiFvIaAV3mwDIYQVLvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Pg2ZQQSu; arc=none smtp.client-ip=209.85.219.182
+	 To:Cc:Content-Type; b=QMUQYhAIFZbG7Rob2DyvtIAbBgMGhg+BFzWnw+2bMbTx9NM7MwAYOIcRo1wmS2DL+TJDMC/1ruUaWn/UH/qjggdIsyJP2bx6ZEr+dMHsUmxfYaYepAEdxhzUgU064PKBiqiS635fKoK1VikggU5QOxVFcnRZh+9UpNonWIm3P8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hUIOFJOi; arc=none smtp.client-ip=209.85.219.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-df771959b5bso6417424276.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Jun 2024 02:58:07 -0700 (PDT)
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-dfa67a3e702so2012194276.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Jun 2024 02:58:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1717581487; x=1718186287; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1717581490; x=1718186290; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=r+9F1BCoR5KjTer6dWZ2JEeUxzIQo5D1fqe1jFxzvAI=;
-        b=Pg2ZQQSuycMcnB8D01ksAVgStixy+YthwF147zECK4WXB8CJc2oCjy6MWXD46IYCOk
-         Z3+Zxd+Eg2+houXco8J63wZbDoLdzl4etzZU3dLtjfJ/c7Enku+JrFFT4WQEFOiIGVh7
-         L736I0NE9N5W5iCupffZ99LNAMdrp4+q5Fy6AoNFByF4DoqXL5N1RaBhygMtcHsd9SnC
-         DaTFEnGqGUl0BzpdFhuUQ+BkNsoVly+H3lDBpI/QxHiTL1CBTv4rEkTe8YVaXRWgaLS9
-         NBhOm0EUO8p6LZYprnEf4HuE5ZneGi5bJCPb1hyCfyI6ey7QOV3hSkLIwPynkWrHSmbV
-         bqgA==
+        bh=JOTtqsSBiMIYPcr3wcJusAL3wMa2P2FRkcm2fHRtXEo=;
+        b=hUIOFJOi0CMLjRCmjFvSo7qlAwO2z2sCC9iNjWI0Dgmz1AwBzbTLKCvVr2lDfAhsBl
+         PLocZ0xpPjLXWENyldODlNNcizLJSEmaehb3NFTc49ycRBxMTnCQksn7XQbu5ZBrZgUa
+         n8Ptcf4bp/rc175uWLaAX9yRPCD9g1dDYFbNXAKJCuj9TQaV58+6yh9pFoDU4AlxrGMY
+         7tkpH3mXBBo1VSRETvcKa8whQGlkMkwGz/BQ+x5UrHznGQPr/hZJa+gx1btAPn4Kiz/p
+         HqW9PDUgVXlreJXQzGYUV/iGLdGzhyDcFRV6zXEd3uYVFGc/h/iDCnM/chhyoeWhgEbF
+         LDcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717581487; x=1718186287;
+        d=1e100.net; s=20230601; t=1717581490; x=1718186290;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=r+9F1BCoR5KjTer6dWZ2JEeUxzIQo5D1fqe1jFxzvAI=;
-        b=BNdJ3wGdx/cIQmIvIMQjD8FS9hTpGCJpgfAqFCMcDC9sj7BDqXFbZSx45JZSTR1rbO
-         Kxxru+zonwgRV2HoJ2OcYrF66t8mqvSP/XZAssme97Y9HRYDCadPtT7ZluqyEr3l4+P4
-         5/3OZzxV1ttr22ohwrraKV3ZEm81tBFUSznEOD8nrGL1eSFMs4IflqqH8+sUh5Mh8seD
-         YCm0m9eplZ0TcvRwfL2rdK8fzrVzoiVh/DnGoXcBFNSKdD2hViL+ElTsnl3Jf4m+bl43
-         /9moG24VE0Dqko3pZff1jps5xqQE9rXlaZE3Ua1KCdfOBcygSXL8/8zq/j2tQ7EyZwZz
-         tnow==
-X-Forwarded-Encrypted: i=1; AJvYcCVY7nJ6oaYR8irmVLnOtj7S66DFSZbOEHb4CYHTk4NPmr2NqFDT2ggpgRy4Ckc07VaDjWdnvlnLw4sMcMC3HnesR7fL2NAWsfy+91it/29cc7A=
-X-Gm-Message-State: AOJu0YyXhSsFf/Hd9xpb3QOpuuzHzLtiDHTQrd1ysenkVXNLNEQTmbPZ
-	N5UDMFzHprwn+b2NiLo2p74zUNQYeAO4J5FNYEVto/uuimM0N7NS/zQaaZ/dI//AcROxxHjvbS5
-	ku3rawKnqqZPTzL95dKJEgCyvtmseK8iWNbrmayJrAJiLAzgf
-X-Google-Smtp-Source: AGHT+IE16F2JSKPh/JoHkBR3fjToIQEuSas1q7YcIfL6CuxcxUsrv2g6I96PRBF563ZyDJHB85oUxFS990MWpkQ8Y8k=
-X-Received: by 2002:a25:868d:0:b0:dfa:c66c:e2e with SMTP id
- 3f1490d57ef6-dfacab2c785mr1891853276.5.1717581486811; Wed, 05 Jun 2024
- 02:58:06 -0700 (PDT)
+        bh=JOTtqsSBiMIYPcr3wcJusAL3wMa2P2FRkcm2fHRtXEo=;
+        b=GSLwxeU/XVvGESZP8VDnwgxiVyAHtQ8EdpJFp7IGSpiYUx9ZQl6gpGy7FxvQcDRwdO
+         9oR17BRhgugjbTFVGIZK8fHHDqWkIhqzWO8xqnRW6KyCLI7zCvTIxBU+J2uKNhlfjGa7
+         XlNl0yHi7Xl6paSvB6CmCRpQq4tGqRaheAxmY7LxY7jaeWwkFf93VSm7iW4j89WtHamW
+         kjKCoH5MJMJtEDTtvhHccMxsCGyRbd4+UjGwk8ZgnpWEADSRPGmfCxbqPHw41CSnTZx9
+         XUQ2YhRRSjzP87qe98pq5gaYRJ1w/ZRMeY7+Dy8TeWV6bqXHMuUG6Nl37SwR2IhfpYh8
+         emDg==
+X-Forwarded-Encrypted: i=1; AJvYcCXpzlti1x/lTxe4P8lrOJz6zXtmEmBV4D/uFJPDn0xpGiwvAl1xMcyfRCALbQ0kQHw1KR5iTvVnRaQwlQ6/hVqIsyLQ0TGqO/mnZp+0oIy9qC4=
+X-Gm-Message-State: AOJu0YxMVkCUBSnMsS/HYQUYSzXeyGL/jHrpnRzFL1Skzdziwl4M1o2P
+	YIwhhFfD1jqeqMlHE3qE/nGFCttKJQwL22jaJdTtwgTlngJPH1/eK+sh/c5fMJ82JfaLY5gFZba
+	gF9J6r1GCUGb18RVGok0ztUw9J1FwucqbMUyoXltY6wkRatpg
+X-Google-Smtp-Source: AGHT+IHRkg9B5HwstkE85qpKuFZl7TMZct4Uz+cqPwEHmF1AtbLy/FQO0xsmRh4wo7NP687Dp7JaVKDWB0sxuNSDtGI=
+X-Received: by 2002:a25:abc3:0:b0:dfa:c847:a2f with SMTP id
+ 3f1490d57ef6-dfaca9eaa81mr2133038276.30.1717581489957; Wed, 05 Jun 2024
+ 02:58:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <3cd8131b4f1284bdffa23a2b6a9a1e92fd17973e.1716973951.git.geert+renesas@glider.be>
-In-Reply-To: <3cd8131b4f1284bdffa23a2b6a9a1e92fd17973e.1716973951.git.geert+renesas@glider.be>
+References: <5e684d7b236904e5f79324a5e5357c2930f7402d.1716974368.git.geert+renesas@glider.be>
+In-Reply-To: <5e684d7b236904e5f79324a5e5357c2930f7402d.1716974368.git.geert+renesas@glider.be>
 From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 5 Jun 2024 11:57:30 +0200
-Message-ID: <CAPDyKFq+gJXrR6xTWzzoDgkwrgg9XL7+ugDA=zjS1pEr5-xATg@mail.gmail.com>
-Subject: Re: [PATCH] pmdomain: core: Use genpd_is_irq_safe() helper
+Date: Wed, 5 Jun 2024 11:57:34 +0200
+Message-ID: <CAPDyKFqaOgW9hE6O2dtde64PaW0VWKKDztv70aDKNA7fvGWNZg@mail.gmail.com>
+Subject: Re: [PATCH] pmdomain: renesas: rmobile-sysc: Use for_each_child_of_node_scoped()
 To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Lina Iyer <lina.iyer@linaro.org>, linux-pm@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
+Cc: linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 29 May 2024 at 11:19, Geert Uytterhoeven
+On Wed, 29 May 2024 at 11:20, Geert Uytterhoeven
 <geert+renesas@glider.be> wrote:
 >
-> Use the genpd_is_irq_safe() helper instead of open-coding the same
-> operation.
+> Use the scoped variant of for_each_child_of_node() to simplify cleanup
+> handling.
 >
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
@@ -96,22 +95,36 @@ Uffe
 
 
 > ---
->  drivers/pmdomain/core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/pmdomain/renesas/rmobile-sysc.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
 >
-> diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
-> index 1eae7b2317897f0b..01cf17789621a04f 100644
-> --- a/drivers/pmdomain/core.c
-> +++ b/drivers/pmdomain/core.c
-> @@ -2082,7 +2082,7 @@ static void genpd_free_data(struct generic_pm_domain *genpd)
->
->  static void genpd_lock_init(struct generic_pm_domain *genpd)
+> diff --git a/drivers/pmdomain/renesas/rmobile-sysc.c b/drivers/pmdomain/renesas/rmobile-sysc.c
+> index cc1f6f8b7a746850..5a1d2da465fb2c6f 100644
+> --- a/drivers/pmdomain/renesas/rmobile-sysc.c
+> +++ b/drivers/pmdomain/renesas/rmobile-sysc.c
+> @@ -237,9 +237,7 @@ static int __init rmobile_add_pm_domains(void __iomem *base,
+>                                          struct device_node *parent,
+>                                          struct generic_pm_domain *genpd_parent)
 >  {
-> -       if (genpd->flags & GENPD_FLAG_IRQ_SAFE) {
-> +       if (genpd_is_irq_safe(genpd)) {
->                 spin_lock_init(&genpd->slock);
->                 genpd->lock_ops = &genpd_spin_ops;
->         } else {
+> -       struct device_node *np;
+> -
+> -       for_each_child_of_node(parent, np) {
+> +       for_each_child_of_node_scoped(parent, np) {
+>                 struct rmobile_pm_domain *pd;
+>                 u32 idx = ~0;
+>
+> @@ -248,10 +246,8 @@ static int __init rmobile_add_pm_domains(void __iomem *base,
+>                 }
+>
+>                 pd = kzalloc(sizeof(*pd), GFP_KERNEL);
+> -               if (!pd) {
+> -                       of_node_put(np);
+> +               if (!pd)
+>                         return -ENOMEM;
+> -               }
+>
+>                 pd->genpd.name = np->name;
+>                 pd->base = base;
 > --
 > 2.34.1
 >
