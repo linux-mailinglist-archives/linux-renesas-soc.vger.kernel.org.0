@@ -1,222 +1,116 @@
-Return-Path: <linux-renesas-soc+bounces-5892-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5893-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E327E8FD45A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 19:50:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 743B98FD60A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 20:51:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E7ACE1C21182
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 17:50:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1300E2850C1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 18:51:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B656F13A86C;
-	Wed,  5 Jun 2024 17:50:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6067813B5B5;
+	Wed,  5 Jun 2024 18:51:15 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79F701BC3C;
-	Wed,  5 Jun 2024 17:50:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5985C22615;
+	Wed,  5 Jun 2024 18:51:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717609821; cv=none; b=i23oTPfWIiJWvb/9II/tcitCaEH8b/34PjtHsMUE0ozfydoGi/EV1CMtCNQQZEASeR1sJRjOyryZXtEqzjdf7sj1dXtbsEZ+c3ESaRO7cm2xpXIaTR+tLxaFTLeS2mUD1ojIb+ry7XDo4/hbgnwjGnIYgDJCyMukwtbJlVA9Cw8=
+	t=1717613475; cv=none; b=amd9CbUCSFqIb72Mp4ztgpZkcvQ0uC5KonPSPAI6QkflyESCeSj1f485t4v9a9hW4/VoHqQYswhjVDp3uO8XNr0wgfiCMGXsbcFN1fFCKBPkpr7IV1hDBJ4OEf2gSWdSthcQVeSh+3k2tCBAiXRyo3DdX9xSyCH9QaInYw8eq8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717609821; c=relaxed/simple;
-	bh=409yKYsTxuQti4t0ukVQUbd+Dy+NExBl3XWMgrBiFSQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jFxnkPXSebZCkUJX/5JIRIJ7tUPuuRQsmx7SOHOMdAJvlY9S822gfNqERe4pPiQMGmeatjK6Gl799N80CWNXO6lQpZEUaWmKDDt9eMwsBAd7LwU6XYR17q6ZF3n3zwFZM+7NaGjprkT1QKZnnwArOaMDHu6vW+1W2RtE6K8qgtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.08,217,1712588400"; 
-   d="scan'208";a="210798407"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 06 Jun 2024 02:50:17 +0900
-Received: from localhost.localdomain (unknown [10.226.92.154])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 60DFE4042F00;
-	Thu,  6 Jun 2024 02:50:13 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Rob Herring <robh@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	linux-media@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: [PATCH v2] media: platform: rzg2l-cru: rzg2l-video: Move request_irq() to probe()
-Date: Wed,  5 Jun 2024 18:50:10 +0100
-Message-Id: <20240605175010.405638-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1717613475; c=relaxed/simple;
+	bh=zx9Pn72XW+0OyeDmaj8nqxeP/1TM/BNsr82eIksOpv8=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=FGAzRPu3eHxSG0S/BTpwBdBNxr33EE18VTMti11s6J/aHwlu/pe4mBg2bhj9MXN6WIwf/n+nSM3k2bIZSWlcJlU6NzCU4Pw/F+P9YOYViG0SoGpScGA7WILiiC4an7JgtthUpZSPVo3S5qc5LZjLbxbHEKrPml3vLKDHtxUJP38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.105] (31.173.84.195) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Wed, 5 Jun
+ 2024 21:51:02 +0300
+Subject: Re: [net-next PATCH v5 4/7] net: ravb: Refactor GbEth RX code path
+To: Paul Barker <paul.barker.ct@bp.renesas.com>, "David S. Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	=?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Simon Horman <horms@kernel.org>
+CC: Biju Das <biju.das.jz@bp.renesas.com>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>, Yoshihiro Shimoda
+	<yoshihiro.shimoda.uh@renesas.com>, <netdev@vger.kernel.org>,
+	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20240604072825.7490-1-paul.barker.ct@bp.renesas.com>
+ <20240604072825.7490-5-paul.barker.ct@bp.renesas.com>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <9fc54591-532e-2dc0-6f83-52a5d4a6312e@omp.ru>
+Date: Wed, 5 Jun 2024 21:51:02 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240604072825.7490-5-paul.barker.ct@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 06/05/2024 18:28:34
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 185750 [Jun 05 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.4
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 20 0.3.20
+ 743589a8af6ec90b529f2124c2bbfc3ce1d2f20f
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.84.195 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.84.195 in (user)
+ dbl.spamhaus.org}
+X-KSE-AntiSpam-Info:
+	127.0.0.199:7.1.2;31.173.84.195:7.1.2;omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.84.195
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 06/05/2024 18:33:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 6/5/2024 4:42:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-Move request_irq() to probe(), in order to avoid requesting IRQ during
-device start which happens frequently. As this function is in probe(), it
-is better to replace it with its devm variant for managing the resource
-efficiently.
+On 6/4/24 10:28 AM, Paul Barker wrote:
 
-Suggested-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * Updated commit header and description.
- * Moved rzg2l_cru_irq from rzg2l-video.c->rzg2l-core.c and introduced
-   rzg2l_cru_process_irq() in video.c to process irq.
- * Dropped image_conv_irq from struct rzg2l_cru_dev
- * Replaced request_irq with its devm variant.
----
- .../platform/renesas/rzg2l-cru/rzg2l-core.c   | 20 +++++++++++++++----
- .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  5 +----
- .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 18 +++--------------
- 3 files changed, 20 insertions(+), 23 deletions(-)
+> We can reduce code duplication in ravb_rx_gbeth().
+> 
+> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
 
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-index 280efd2a8185..b80e5960b88b 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-@@ -239,10 +239,17 @@ static int rzg2l_cru_media_init(struct rzg2l_cru_dev *cru)
- 	return 0;
- }
- 
-+static irqreturn_t rzg2l_cru_irq(int irq, void *data)
-+{
-+	struct rzg2l_cru_dev *cru = data;
-+
-+	return IRQ_RETVAL(rzg2l_cru_process_irq(cru));
-+}
-+
- static int rzg2l_cru_probe(struct platform_device *pdev)
- {
- 	struct rzg2l_cru_dev *cru;
--	int ret;
-+	int irq, ret;
- 
- 	cru = devm_kzalloc(&pdev->dev, sizeof(*cru), GFP_KERNEL);
- 	if (!cru)
-@@ -270,9 +277,14 @@ static int rzg2l_cru_probe(struct platform_device *pdev)
- 	cru->dev = &pdev->dev;
- 	cru->info = of_device_get_match_data(&pdev->dev);
- 
--	cru->image_conv_irq = platform_get_irq(pdev, 0);
--	if (cru->image_conv_irq < 0)
--		return cru->image_conv_irq;
-+	irq = platform_get_irq(pdev, 0);
-+	if (irq < 0)
-+		return irq;
-+
-+	ret = devm_request_irq(&pdev->dev, irq, rzg2l_cru_irq, IRQF_SHARED,
-+			       KBUILD_MODNAME, cru);
-+	if (ret)
-+		return dev_err_probe(&pdev->dev, ret, "failed to request irq\n");
- 
- 	platform_set_drvdata(pdev, cru);
- 
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-index a5a99b004322..72405e632aca 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-@@ -68,8 +68,6 @@ struct rzg2l_cru_ip {
-  *
-  * @vclk:		CRU Main clock
-  *
-- * @image_conv_irq:	Holds image conversion interrupt number
-- *
-  * @vdev:		V4L2 video device associated with CRU
-  * @v4l2_dev:		V4L2 device
-  * @num_buf:		Holds the current number of buffers enabled
-@@ -105,8 +103,6 @@ struct rzg2l_cru_dev {
- 
- 	struct clk *vclk;
- 
--	int image_conv_irq;
--
- 	struct video_device vdev;
- 	struct v4l2_device v4l2_dev;
- 	u8 num_buf;
-@@ -141,6 +137,7 @@ void rzg2l_cru_dma_unregister(struct rzg2l_cru_dev *cru);
- 
- int rzg2l_cru_video_register(struct rzg2l_cru_dev *cru);
- void rzg2l_cru_video_unregister(struct rzg2l_cru_dev *cru);
-+unsigned int rzg2l_cru_process_irq(struct rzg2l_cru_dev *cru);
- 
- const struct v4l2_format_info *rzg2l_cru_format_from_pixel(u32 format);
- 
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-index b16b8af6e8f8..1512844fecb0 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-@@ -527,9 +527,8 @@ static void rzg2l_cru_stop_streaming(struct rzg2l_cru_dev *cru)
- 	rzg2l_cru_set_stream(cru, 0);
- }
- 
--static irqreturn_t rzg2l_cru_irq(int irq, void *data)
-+unsigned int rzg2l_cru_process_irq(struct rzg2l_cru_dev *cru)
- {
--	struct rzg2l_cru_dev *cru = data;
- 	unsigned int handled = 0;
- 	unsigned long flags;
- 	u32 irq_status;
-@@ -607,7 +606,7 @@ static irqreturn_t rzg2l_cru_irq(int irq, void *data)
- done:
- 	spin_unlock_irqrestore(&cru->qlock, flags);
- 
--	return IRQ_RETVAL(handled);
-+	return handled;
- }
- 
- static int rzg2l_cru_start_streaming_vq(struct vb2_queue *vq, unsigned int count)
-@@ -637,13 +636,6 @@ static int rzg2l_cru_start_streaming_vq(struct vb2_queue *vq, unsigned int count
- 		goto assert_aresetn;
- 	}
- 
--	ret = request_irq(cru->image_conv_irq, rzg2l_cru_irq,
--			  IRQF_SHARED, KBUILD_MODNAME, cru);
--	if (ret) {
--		dev_err(cru->dev, "failed to request irq\n");
--		goto assert_presetn;
--	}
--
- 	/* Allocate scratch buffer. */
- 	cru->scratch = dma_alloc_coherent(cru->dev, cru->format.sizeimage,
- 					  &cru->scratch_phys, GFP_KERNEL);
-@@ -651,7 +643,7 @@ static int rzg2l_cru_start_streaming_vq(struct vb2_queue *vq, unsigned int count
- 		return_unused_buffers(cru, VB2_BUF_STATE_QUEUED);
- 		dev_err(cru->dev, "Failed to allocate scratch buffer\n");
- 		ret = -ENOMEM;
--		goto free_image_conv_irq;
-+		goto assert_presetn;
- 	}
- 
- 	cru->sequence = 0;
-@@ -670,9 +662,6 @@ static int rzg2l_cru_start_streaming_vq(struct vb2_queue *vq, unsigned int count
- 	if (ret)
- 		dma_free_coherent(cru->dev, cru->format.sizeimage, cru->scratch,
- 				  cru->scratch_phys);
--free_image_conv_irq:
--	free_irq(cru->image_conv_irq, cru);
--
- assert_presetn:
- 	reset_control_assert(cru->presetn);
- 
-@@ -698,7 +687,6 @@ static void rzg2l_cru_stop_streaming_vq(struct vb2_queue *vq)
- 	dma_free_coherent(cru->dev, cru->format.sizeimage,
- 			  cru->scratch, cru->scratch_phys);
- 
--	free_irq(cru->image_conv_irq, cru);
- 	return_unused_buffers(cru, VB2_BUF_STATE_ERROR);
- 
- 	reset_control_assert(cru->presetn);
--- 
-2.25.1
 
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+
+[...]
+
+MBR, Sergey
 
