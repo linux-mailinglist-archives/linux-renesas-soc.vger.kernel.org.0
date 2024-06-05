@@ -1,134 +1,85 @@
-Return-Path: <linux-renesas-soc+bounces-5883-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5884-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 369B18FD1EC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 17:43:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75BC78FD22B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 17:57:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 58CBA1C23E04
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 15:43:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1478B281263
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 15:57:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94AFE13C66F;
-	Wed,  5 Jun 2024 15:43:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N+yKihqw"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92B9745005;
+	Wed,  5 Jun 2024 15:57:35 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1221319D8B5;
-	Wed,  5 Jun 2024 15:43:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F2B73B298
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Jun 2024 15:57:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717602211; cv=none; b=g6NLKwsSEh51TK1kFyso+cAUIz3npvQFaOnePDu9yFmlCBixLbds0R2ca+cQ+LTqk3X65+HpfYW01nDuLj3G3a6Yz0bPkM74uD824na0w6kPEKMuFaAeVmuic8bsOWmiMe6mxb1ynx6NsT5S0DxBXhHq03+zRS01kzlCsbCzPfc=
+	t=1717603055; cv=none; b=IPslEwXE1NGk8ztfcla4uK36Gf0whHluy0KWWsoBOZlaLXJe97CKBWXCUrvUq4rf2tk5HrBnq/W9XA5syc9uGOiIm84dd/qwF9NVHPbAGvk69J5+k8eNbN4t95u20KByAR9LBGrcgMlJh08WGxJFZt4rw2WrpJ/mKbZlpNh5EnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717602211; c=relaxed/simple;
-	bh=L9Xf6PXsxrK28lKVkxl+Fbpc9v74XyBLrtMzS4Zf/eU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ncsYJu2nqFvhy0OlicjgbUAeHwtnaywMJa9n3cdAITtu22LPNYlCKRjsIH0a77c5EY4+xiO1SptEnOeWNX8ZC7fylZXHxOZ6uGaPsSWTzLiqGUBrk+isNHvVGzKijI5gUvhop4+uT9iDAu8uVxjK4ZhzPd5He5feSh2tGo73Duo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N+yKihqw; arc=none smtp.client-ip=209.85.221.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-4eafded3c66so1253e0c.0;
-        Wed, 05 Jun 2024 08:43:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717602209; x=1718207009; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L9Xf6PXsxrK28lKVkxl+Fbpc9v74XyBLrtMzS4Zf/eU=;
-        b=N+yKihqw7vBYAZzJr76IeTZzyuPpA+ecvUsvlrDDDkP3rt1djEi9g1CXtf0kt516J8
-         uGCcaPKwH5zw6OerukWDDcAKzPCy+yLe5ljeaOlHX4GP6ugckdn5e3MrQWyyH8V+4Z6/
-         DH8d/M4BXmFqfkCupzFfahrQO18pHPQATKKrDLorXUVyvxJ5kluI6v22Q1W+auV+Tg8Z
-         36TUkV/BnrXbbReDdHFZ6kVVYQIuL9YumYN3eGlTvvt4pkXWodT2IKNok3/q845eEchx
-         KWWca1bG4cs63lEALWH4ScaYDHuPP/ZqBV12MBt6Jd47kKqJdT+RPuIYEzZYjXfuwGDI
-         3Paw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717602209; x=1718207009;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=L9Xf6PXsxrK28lKVkxl+Fbpc9v74XyBLrtMzS4Zf/eU=;
-        b=ncJjUZZsZasNWL48A022ZcEtN7mObNC1/lFwKkn/fMyJ0SCge60KtwLye3oPSCdQM1
-         KXuOPGfXYMH8L0ZX+iw/4QZe7cHSclMdsFcOWtsnpJhJynA0xpNPi73Z9haP9m9rXmpc
-         iPPZICBRngbxTEfHGk2NCh9cbmm07qyFhA8O+LEVLzX7K69nvJ/mxRGWAMywwfMzS0d8
-         4cpTB/AurP74GR+FO5HBM+uy05jADXnhebZw/ekMoAUPuLsD8EP+BTRkDpRP+HQwr+HI
-         nKA2bPcCd7cdJwzc+vINxjEgmOg7A3eZCsAkD2Ayg5KSRbSn3uhhwNRsyri+Kc591b7M
-         Mt4g==
-X-Forwarded-Encrypted: i=1; AJvYcCWtr1NcJgRsXteFn1gR9U5dCmhFqtqojIYmfcMfH1sCm9eYdMyQ2/eE21qmOFRoUb4M8IfBCj+OEETXusIkSjuNgdowEOG5MmPjNp9Di2GteJbE26Ksd9j/+PfHqRWLsYSUywdrgHGQ/kuO8v0f8K0h+VUp7zJ8uY4wqIx10VxtWM47uZnaRcm4ISWQLDNJtikeWuE47GB86g6K2HjVjN1MyjQmvcexaw==
-X-Gm-Message-State: AOJu0YzfABnnlo4A5QpcdCE3jMVTV4BJHUIqQBgdj7iGHWG+NDfvO0gd
-	yzI97sXsPlz/HqdteJ0MK4ChwCpvA7MsvGB4N9h6tvrtOCTMPZUcgP9xbfuDmrhWYn/Dng1YU0R
-	Hs+GnzjIYakP9RegtWa1Lu6+qfek=
-X-Google-Smtp-Source: AGHT+IFbKVGpxnWyLukW0L51CPBZAE2I91fvGI5gnu4wKwcHZDQJqT47u6gvVpFdG9lysjKyfMMpNCv7OK8tnXQewdk=
-X-Received: by 2002:a05:6122:2669:b0:4e4:ecf6:c7fa with SMTP id
- 71dfb90a1353d-4eb3a51434fmr2555298e0c.15.1717602207449; Wed, 05 Jun 2024
- 08:43:27 -0700 (PDT)
+	s=arc-20240116; t=1717603055; c=relaxed/simple;
+	bh=D3FJyp1NUydndWgS1GEZOOAcv0RD/h8Va87InHXawd0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KTiXq1jCCkZATs+YCNJC5qMCRCK1ZvRSB1HPZ42iqODhyYRmxMSFit0Oz/1hpFevhcO7vHsqofKphAmnTQaYlI+z7+UICHS4F9zhJhi10xz1BfYWUoiput0T1slVmsjny3EgpEZKc3digwXpowV3xjJii9N06F0OoZxQq7gW2EI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.08,217,1712588400"; 
+   d="scan'208";a="206833191"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 06 Jun 2024 00:57:32 +0900
+Received: from localhost.localdomain (unknown [10.226.92.154])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id C21944008C4F;
+	Thu,  6 Jun 2024 00:57:29 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] MAINTAINERS: Create entry for Renesas RZ/G2L TSU thermal drivers
+Date: Wed,  5 Jun 2024 16:57:26 +0100
+Message-Id: <20240605155726.264004-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240530173857.164073-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240530173857.164073-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdX2F=PzmPhPyGFs_kZZBuTYjBQ-n88pEqo3aQh4=-oHiA@mail.gmail.com>
-In-Reply-To: <CAMuHMdX2F=PzmPhPyGFs_kZZBuTYjBQ-n88pEqo3aQh4=-oHiA@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 5 Jun 2024 16:42:59 +0100
-Message-ID: <CA+V-a8t5SO-iGJA5CT8ZY_C0z8yYoiRiCNBEiBHLWuA5dDem5g@mail.gmail.com>
-Subject: Re: [PATCH v3 02/15] pinctrl: renesas: pinctrl-rzg2l: Rename B0WI to BOWI
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Paul Barker <paul.barker.ct@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Geert,
+Create entry for Renesas RZ/G2L TSU thermal drivers and add my self as a
+maintainer.
 
-Thank you for the review.
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ MAINTAINERS | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-On Wed, Jun 5, 2024 at 12:39=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Thu, May 30, 2024 at 7:41=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail=
-.com> wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Fix the typo B0WI -> BOWI to match with the RZ/G2L HW manual.
-> >
-> > Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > v2->v3
-> > - New patch
->
-> Thanks for your patch!
->
-> I had a deeper look, as the name "B0WI" (with zero) is also present
-> in drivers/pinctrl/renesas/pinctrl-rza2.c, and because Section 41.4.2
-> ("Operation for Peripheral Function") in the RZ/G2L Group Hardware
-> User's Manual does talk about the "B0WI" (with zero) bit.
->
-> Apparently Rev. 0.51 of the RZ/A2M Group Hardware User's Manual used
-> both variants. Later (Rev. 1.00) revisions replaced the O-based
-> variant by the zero-based variant. So it looks like "B0WI" (with
-> zero) is correct, and the RZ/G2L, RZ/V2L, RZ/G2UL, and RZ/Five HW
-> manuals should be fixed instead. The RZ/G3S manual already uses
-> the correct naming.
->
-Ok I'll drop this patch and create a request with the HW manual team
-to correct it.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 332f452645d6..6deeae42a3d9 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -19112,6 +19112,13 @@ F:	Documentation/devicetree/bindings/thermal/rcar-thermal.yaml
+ F:	drivers/thermal/renesas/rcar_gen3_thermal.c
+ F:	drivers/thermal/renesas/rcar_thermal.c
+ 
++RENESAS RZ/G2L TSU THERMAL DRIVERS
++M:	Biju Das <biju.das.jz@bp.renesas.com>
++L:	linux-renesas-soc@vger.kernel.org
++S:	Supported
++F:	Documentation/devicetree/bindings/thermal/rzg2l-thermal.yaml
++F:	drivers/thermal/renesas/rzg2l_thermal.c
++
+ RENESAS RIIC DRIVER
+ M:	Chris Brandt <chris.brandt@renesas.com>
+ L:	linux-renesas-soc@vger.kernel.org
+-- 
+2.25.1
 
-Cheers,
-Prabhakar
 
