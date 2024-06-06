@@ -1,151 +1,151 @@
-Return-Path: <linux-renesas-soc+bounces-5922-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5923-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 445338FE593
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2024 13:38:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 701C98FE5E7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2024 13:58:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A4187B210AE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2024 11:38:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4A41A1C24E20
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2024 11:57:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36D22178396;
-	Thu,  6 Jun 2024 11:38:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 817D719581F;
+	Thu,  6 Jun 2024 11:57:56 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1072414E2F1;
-	Thu,  6 Jun 2024 11:38:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C17C195967;
+	Thu,  6 Jun 2024 11:57:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717673921; cv=none; b=IJ2MjGU0/Gc7CaMcXHvlXn+rh2mQ/j9t/ociYEhVZgRytnsRhIBvB3isd/Dkz4vumFEpp9dabtaQPiVGAGKp4HF1UjN0/Ioh5PhDy2H1Bcxsuc+hhDG0C4QvI/1THZHi+BC5te/7pJBFIX47XAGpfmDOcDMZaD17aTbyVnK6tp0=
+	t=1717675076; cv=none; b=hdIUeBnAeWqflCyqg8yrtUbXs1pnRSJjq1k45u0WuX8KcsMLkviakuU5qvwrCjMpqc4zagTsuZMnIiqnKc2xiO4OWUcYoC3MaKHTpKcnme/ttTsHyySVv0EA7Or39Vzyp9nxUtAklvCAjnZMSj9VLn8OFbTbxTbjv3kQXxeZL7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717673921; c=relaxed/simple;
-	bh=3ObHWaRVR4jM8iyiq5AY3IthBtWgCZEvXy8aA7zeAv8=;
+	s=arc-20240116; t=1717675076; c=relaxed/simple;
+	bh=GOMW/FwNhUYau4q4SHpghUB5HgRQmmWpXYy8yblL6Mc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZcdGHQv+i6oZAzTw6W0JTW3v26qHKAtGtVFqh/oCErT+RZ4VVl0OdXaSFeFSuKeZWgp+A8wAaOF31IMo7jWrmVJZQaKRCyWrK/NqhhIqVCNZQXqqKIFFovmf3uvFU2zV3t34ZUw98pixYsinIWKgcYYQUsC6POSX+IfHYYlMq18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.176
+	 To:Cc:Content-Type; b=EpM3CKDiZOyZVnq74eMOuq5dV2wMADHTC+xUw4KIFbYivtXmW5xRvnxOpVdB1d3OYg5GOq2+ZjDE8H8vwl0BgzD4TTkG5zqT94BSjJ7dQQ+/HqfkWv5Z9F75m1W9irbtEpujTY1ZcZYMxLF3XOTs5V6Lp141ztVRSzJzBhaXDiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-62a145e0bb2so8233817b3.0;
-        Thu, 06 Jun 2024 04:38:38 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-62a08091c2bso8409767b3.0;
+        Thu, 06 Jun 2024 04:57:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717673918; x=1718278718;
+        d=1e100.net; s=20230601; t=1717675072; x=1718279872;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0KyiadWuwWcKVlPoXwg0zdSfOmhmr3naUVrDuQJaRpE=;
-        b=qzsHqNhoPf7EcWMlelYa6NA2tAW43SRxESQj3GX9ICAWcAVg0/oHB19Um65m2Ew3gR
-         fjYtlp6JoVjT0XMdBVLiGuUhenFCPAmrLv36bVnaFzdWJRLGJcxkzfoJlkEfuygyJ6nY
-         rw7A6GP4u6MrhlhwymkVU1L5DdBY6jHGQ8U2mIB37Zyi+RD+K3i5YNBDK1QLUmjmupeF
-         dAi8izb2diK6lR6j1c8EOeNkoLF63dNRE3dmZYsZCQ3oqC/G+KvL7fITVXXPQHneiia/
-         Csa/5+l0d7ErdoK694DaaDHfCx54qUccI158tzpOjdy4rBWtYN/v7mEKs63GkGwXKXnj
-         7kFw==
-X-Forwarded-Encrypted: i=1; AJvYcCV+UHzxr89HjAD7idLwJ36i4wBWTRap8lW0pB9WYL1oIgEBKq54MUdThh6yD/ti7opLxD3X+PBwJp4IlBlYYOj/vIhhOIauavY7If3tCJ9+dYVFFriXvgvOlrMTaq1f/geWZ3gBEAhSsbMtvfDS+zU/+x0YJDTAPNlwmv7NYMft1U4BCs8=
-X-Gm-Message-State: AOJu0Yznqu1Rm7q72caFDNarxCG+q7jyn/4yJG/lYClQGV6AaOkv9Stl
-	Wxf3inh9au5E9aoIUFiHFMI+D446tPQL3boidnESvhxuwJxP+CemzjxCBJvI
-X-Google-Smtp-Source: AGHT+IG3wRE5QNbXIO3+XBMPgUPELfAl2ioOHqZ02JSBi08nclpu68WvhZjuhosu7GRKn7rqIb4H9A==
-X-Received: by 2002:a0d:e0c7:0:b0:62c:c660:72af with SMTP id 00721157ae682-62cc6607301mr26426037b3.24.1717673917579;
-        Thu, 06 Jun 2024 04:38:37 -0700 (PDT)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-62ccaeaef45sm2116737b3.116.2024.06.06.04.38.37
+        bh=JW29ScnmlrzACbU2zNoMRoUdfE+x9Aisx6QLidUI4l4=;
+        b=SMbHAMMzj/KO8hfuiTCBE1yGHAB47n9mTb391CutuXHA86yHbPY/b9fZ0jlvNqfj+N
+         n8HwCqh+iY4ZUfyl/vgJp3DlL7VhxiyKz9D8/NXM93bVn4Swy4iYb6kL2sf+uswRTa/o
+         /tZk6d2aOgH91xTn37AAR1WsSKmNRnzwHz584L4ZdLBR04R6TuaZ/P1rlWT/f+yuvxtZ
+         gf9aLKG70CGmG8KTJz91WqKCK62uxAuxI3kzfRgMKKQHZDuYn9z81lR1CKaCd/HPZQCc
+         G+HBY4KdLCPxx+TCOEdvSKw5ZYgD+O5sIwPwIP5KEGcbP04ZkOxHwlpb3CBq7uDvH+81
+         o9Pw==
+X-Forwarded-Encrypted: i=1; AJvYcCVpMxd8Y0mVuypAoQFfiBrT1cW5+I1k3XjrzgOAN648eELNbsO0UV0ide6xBZwP00kf8RWVqKrCsDgwuK4QCOwVOhEAM/UP7moYfN4eZiWREiUvPlrJAGVLB9X51IC0CEfO3XcRFAOdTNVRLynJbv8oKG7jjW5PYMi5N4N01K+WZAhJzt92KYieRe00s1RgwwM/3XIZ1VKbdI7y07r3MB5H7hftSHqPSQ==
+X-Gm-Message-State: AOJu0Ywl5GJRq18gFchbchid1sND21WMJrHQtIaj4kHHvz/ciXSa1JV6
+	QB4Sm1w0a3jaFXn5xP1lOhtK0313y46k87zYix6ktw/WnnpZusWoe342a4Ca
+X-Google-Smtp-Source: AGHT+IGO9mA6vXfOFRblu46UTFef4m4DKibuGUgH9GSY1vpQnC2W/4LoFnRmTgYGB3XLGiFDNpy5xg==
+X-Received: by 2002:a81:ad04:0:b0:627:24d0:5037 with SMTP id 00721157ae682-62cbb310351mr54258387b3.0.1717675072115;
+        Thu, 06 Jun 2024 04:57:52 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-62ccacadca4sm2206077b3.18.2024.06.06.04.57.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Jun 2024 04:38:37 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-df771959b5bso913639276.1;
-        Thu, 06 Jun 2024 04:38:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCX9yWBBCwD/3a28d7BnSaqRSfbM6Rvs7O/cEZhTYZghwHTsQyReMIgeXhDgYx2/XuQU4C2MrblLuV/gWuYUUL+giEZetcfna15jlGrrLDdydzD9Z4wuiJ0wQz8YThwYI1dW5bBwrfxq8/LusdEly/pnmqMyURFKeq0YfYSLaS7QeWmL+Zc=
-X-Received: by 2002:a25:dfc5:0:b0:dfa:c607:1b6a with SMTP id
- 3f1490d57ef6-dfacac75c1amr4911584276.31.1717673917184; Thu, 06 Jun 2024
- 04:38:37 -0700 (PDT)
+        Thu, 06 Jun 2024 04:57:51 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dfa682a4025so980579276.2;
+        Thu, 06 Jun 2024 04:57:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVQ+Ev+Dh+oGOrZAosHwR+5gDEIXkzerjoINl5nb/M6B+bkkTKBII7AlCcF/h/PkyAp06mxs2E6QBPhovLD9O6BUVix8sBmoQQHv9IJLojhgS3/LTFnCqz0hBD9mOVBQ7riTj/yy4WDRNgyPTRys58+44oGQBwJsPIZfes+qIj+RgRqpmvvUYVjtIMaMMG0jp3URVtJqcdGMOh/qFlJYc8g1DNRoCmiQQ==
+X-Received: by 2002:a5b:64b:0:b0:dfa:7bcd:efc0 with SMTP id
+ 3f1490d57ef6-dfacacec42bmr5433758276.43.1717675071297; Thu, 06 Jun 2024
+ 04:57:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1716973640.git.geert+renesas@glider.be> <2cf38c10b83c8e5c04d68b17a930b6d9dbf66f40.1716973640.git.geert+renesas@glider.be>
- <CAMZ6RqKZdo1Mk=tY-vqCm0YYr_Qk8m53+LHXqeM+1LL=S=+RqQ@mail.gmail.com>
- <CAMuHMdXV9q2D=Mhfi7s4NBuvivxBap-k_pkm4pUseoUb3SLWqQ@mail.gmail.com> <CAMZ6RqK32+i69Rd3qDDNm4cgQa3+m3ikZTbpt5jCGrkNt76+vw@mail.gmail.com>
-In-Reply-To: <CAMZ6RqK32+i69Rd3qDDNm4cgQa3+m3ikZTbpt5jCGrkNt76+vw@mail.gmail.com>
+References: <20240606085133.632307-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20240606085133.632307-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 6 Jun 2024 13:38:24 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWCAU7VK97d3yOALpgg7S9+Aa3ZKwC3VVsivUev1iA+Ag@mail.gmail.com>
-Message-ID: <CAMuHMdWCAU7VK97d3yOALpgg7S9+Aa3ZKwC3VVsivUev1iA+Ag@mail.gmail.com>
-Subject: Re: [PATCH 1/3] can: rcar_canfd: Simplify clock handling
-To: Vincent MAILHOL <mailhol.vincent@wanadoo.fr>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	linux-can@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	netdev@vger.kernel.org
+Date: Thu, 6 Jun 2024 13:57:39 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXrR7ymDBvLywYF1YYf894gUTGsQkC+M-1+uxxAEoS+xA@mail.gmail.com>
+Message-ID: <CAMuHMdXrR7ymDBvLywYF1YYf894gUTGsQkC+M-1+uxxAEoS+xA@mail.gmail.com>
+Subject: Re: [PATCH v4] dt-bindings: pinctrl: renesas: Document RZ/V2H(P) SoC
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Vincent,
-
-On Thu, Jun 6, 2024 at 1:05=E2=80=AFPM Vincent MAILHOL
-<mailhol.vincent@wanadoo.fr> wrote:
-> On Thu. 6 June 2024 at 19:15, Geert Uytterhoeven <geert@linux-m68k.org> w=
-rote:
-> > On Sun, Jun 2, 2024 at 10:03=E2=80=AFAM Vincent MAILHOL
-> > <mailhol.vincent@wanadoo.fr> wrote:
-> > > On Wed. 29 May 2024 at 18:12, Geert Uytterhoeven
-> > > <geert+renesas@glider.be> wrote:
-> > > > The main CAN clock is either the internal CANFD clock, or the exter=
-nal
-> > > > CAN clock.  Hence replace the two-valued enum by a simple boolean f=
-lag.
-> > > > Consolidate all CANFD clock handling inside a single branch.
-> > >
-> > > For what it is worth, your patch also saves up to 8 bytes in struct
-> > > rcar_canfd_global (depends on the architecture).
-> >
-> > True.
-> >
-> > > > @@ -545,8 +539,8 @@ struct rcar_canfd_global {
-> > > >         struct platform_device *pdev;   /* Respective platform devi=
-ce */
-> > > >         struct clk *clkp;               /* Peripheral clock */
-> > > >         struct clk *can_clk;            /* fCAN clock */
-> > > > -       enum rcar_canfd_fcanclk fcan;   /* CANFD or Ext clock */
-> > > >         unsigned long channels_mask;    /* Enabled channels mask */
-> > > > +       bool extclk;                    /* CANFD or Ext clock */
-> > > >         bool fdmode;                    /* CAN FD or Classical CAN =
-only mode */
-> > >
-> > > Notwithstanding comment: you may consider to replace those two boolea=
-ns by a:
-> > >
-> > >           unsigned int flags;
-> > >
-> > > This way, no more fields would be needed in the future if more quirks=
- are added.
-> >
-> > Using "unsigned int flags" and BIT(x) flags would increase code size
-> > by 8 bytes (arm/arm64).
+On Thu, Jun 6, 2024 at 10:51=E2=80=AFAM Prabhakar <prabhakar.csengg@gmail.c=
+om> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> I am not sure where you derive your figure from, but looking at the pahol=
-e:
-
-pahole shows the size of data structures.
-
-> > Using "unsigned int foo:1" bitfields would increase code size by 16
-> > (arm) or 12 (arm64) bytes.
-> > So as long as we can fit more bools inside the hole, it is more
-> > efficient to do so...
+> Add documentation for the pin controller found on the Renesas RZ/V2H(P)
+> (R9A09G057) SoC. The RZ/V2H PFC varies slightly compared to the RZ/G2L
+> family:
+> - Additional bits need to be set during pinmuxing.
+> - The GPIO pin count is different.
 >
-> I do not get this either. Where did you get your 16 bytes from? If I do:
+> Hence, a SoC-specific compatible string, 'renesas,r9a09g057-pinctrl', is
+> added for the RZ/V2H(P) SoC.
+>
+> Also, add the 'renesas,output-impedance' property. The drive strength
+> setting on RZ/V2H(P) depends on the different power rails coming out from
+> the PMIC (connected via I2C). These power rails (required for drive
+> strength) can be 1.2V, 1.8V, or 3.3V.
+>
+> Pins are grouped into 4 groups:
+>
+> Group 1: Impedance
+> - 150/75/38/25 ohms (at 3.3V)
+> - 130/65/33/22 ohms (at 1.8V)
+>
+> Group 2: Impedance
+> - 50/40/33/25 ohms (at 1.8V)
+>
+> Group 3: Impedance
+> - 150/75/37.5/25 ohms (at 3.3V)
+> - 130/65/33/22 ohms (at 1.8V)
+>
+> Group 4: Impedance
+> - 110/55/30/20 ohms (at 1.8V)
+> - 150/75/38/25 ohms (at 1.2V)
+>
+> The 'renesas,output-impedance' property, as documented, can be
+> [0, 1, 2, 3], these correspond to register bit values that can
+> be set in the PFC_IOLH_mn register, which adjusts the drive
+> strength value and is pin-dependent.
+>
+> As power rail information may not be available very early in the boot
+> process, the 'renesas,output-impedance' property is added instead of
+> reusing the 'output-impedance-ohms' property.
+>
+> Also, allow bias-disable, bias-pull-down and bias-pull-up properties
+> as these can be used to configure the pins.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> Sending just the binding patch of series [0] as reset of the patches have
+> been Reviewed.
+>
+> [0] https://patchwork.kernel.org/project/linux-renesas-soc/cover/20240530=
+173857.164073-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+>
+> v3->v4
+> - Added a conditional schema for ensuring the reset length
+>   is 2 for RZ/V2H and 3 otherwise
+> - Updated description for renesas,output-impedance property
+> - Dropped '|'
 
-I also looked at code size[*]: while storing bits takes less space than
-storing bytes, processing bits may require more instructions than
-processing bytes (depending on the architecture).
-
-[*] size drivers/net/can/rcar/rcar_canfd.o
-
-> But just to reiter my previous message, these are notwithstanding
-> comments. I am fine if you keep the patch as-is ;)
-
-So I'd like to keep the patch as-is.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-pinctrl for v6.11.
 
 Gr{oetje,eeting}s,
 
