@@ -1,150 +1,148 @@
-Return-Path: <linux-renesas-soc+bounces-5894-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5895-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B718FD758
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 22:15:06 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDFC98FDB6E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2024 02:26:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DFE211C23214
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2024 20:15:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A19481C2332D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2024 00:26:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6B54158A27;
-	Wed,  5 Jun 2024 20:14:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7FB95256;
+	Thu,  6 Jun 2024 00:26:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LN2eheQr"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F140915747A;
-	Wed,  5 Jun 2024 20:14:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 864236FD0;
+	Thu,  6 Jun 2024 00:26:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717618498; cv=none; b=FvUfs7MIFRMzU2mc2VQ47nH9RT2kj5gqmPysUlVKo/mCLhC+J37qe/XO2bvZNWdd7O+huLxWc07QqaSWO9yxvj5TaakOnnK6b/JQ5NmQ70ZKnabNGhzr/dmY7Hodw5nUS2TrXTI3pAW1bUnxGRw1XwQ+cOdZnA5AvCldBBFRAgI=
+	t=1717633609; cv=none; b=bzivyi1sJz3ZTGG5fDYIF8rb+fcafy/K4X2L0VGYqUBYEl9vX7BuGeiy+Oyw5VzA1beQkExWFMqYcOzFIXu7FfsA/YEAo79bJDAC5tjIEEtPns7v8DJ3//LEKcLCu2gIxsTWdCqUQ3KYWsdVGzSOo3l5etB2xUJXDGvwdycpPSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717618498; c=relaxed/simple;
-	bh=czaT3riewmwV9YjIqTwjHN+Vw/gRYXlQLIGHV9vRW8U=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=MPag8igdFBcbqHtvzfz//fFMKDKM71M+QQsAPfxjqsq08v01uW5ABcrHg19EOPC2NIplMN/bXsg3oBsB2AL/jFMYcrZAFwaXFhCyE/eZCKkTrMzG5rm/FXaVOYjm6GFZRYRfghki+R9EDoAMvvn8K/lqEhEYBEOesrTIja/v1A4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.1.105] (31.173.84.195) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Wed, 5 Jun
- 2024 23:14:50 +0300
-Subject: Re: [net-next PATCH v5 7/7] net: ravb: Allocate RX buffers via page
- pool
-To: Paul Barker <paul.barker.ct@bp.renesas.com>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	=?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Simon Horman <horms@kernel.org>
-CC: Biju Das <biju.das.jz@bp.renesas.com>, Claudiu Beznea
-	<claudiu.beznea.uj@bp.renesas.com>, Yoshihiro Shimoda
-	<yoshihiro.shimoda.uh@renesas.com>, <netdev@vger.kernel.org>,
-	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20240604072825.7490-1-paul.barker.ct@bp.renesas.com>
- <20240604072825.7490-8-paul.barker.ct@bp.renesas.com>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <49755f09-66de-71f2-bf66-ccd0d94d3f04@omp.ru>
-Date: Wed, 5 Jun 2024 23:14:50 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	s=arc-20240116; t=1717633609; c=relaxed/simple;
+	bh=MM2QMsLe0ZgjuDnS73yE9zszh8M3oKt5xpWPRXHXlmA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OQnqfrTnqMD3D30bHG+bC+5R8tsaCuSc7QNRPRirOnhgLVAbRfFjENhHGid0O+VZanqMn25ExqNAHIEET0i3QOsJuFD22UlPZhCiTpqu9u0OMfs5l/+mGbSMz4+pSnUBDBi6Ypypsvr0e8gQBtHE57kKdBB59GSc2gtFLfYyISw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LN2eheQr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B69C8C2BD11;
+	Thu,  6 Jun 2024 00:26:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717633609;
+	bh=MM2QMsLe0ZgjuDnS73yE9zszh8M3oKt5xpWPRXHXlmA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LN2eheQrWpwtH/IqSC6KHJvOdTTmeEc3ZOyb68UIJETLdERLNTpkxSfytI/fI+gfY
+	 PAyNBZ6frbn/j0Dy1Bxmrxyp8JKWZof9Vw5Y9+KdY7LMxBgFA6ijG2LvAiZ1DlI9cE
+	 g42vtbuwRqYVhh2fXww+1nMBCYb3TFI28HDPqawaH/dMtLr9yotqPZvADWOrwFblcb
+	 pDO/M97IvRnBEFNQDfsEz1t9dH93Vnx56oCNyM0VXnKfMTGnK86fKLYhYjcJQ5IKfK
+	 4dXwo1628JeOHqAn4OvWThps3oxN+56OAImLj/0dVRPPJA3jl8WzLpp+GwW2VnjpT3
+	 5VmLiIKMzuUKQ==
+Date: Wed, 5 Jun 2024 18:26:46 -0600
+From: Rob Herring <robh@kernel.org>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-mmc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [RFC PATCH 3/4] dt-bindings: mmc: renesas,sdhi: Document
+ RZ/V2H(P) support
+Message-ID: <20240606002646.GA3509352-robh@kernel.org>
+References: <20240605074936.578687-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240605074936.578687-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240604072825.7490-8-paul.barker.ct@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 06/05/2024 19:37:21
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 0
-X-KSE-AntiSpam-Info: Lua profiles 185750 [Jun 05 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.0.4
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 20 0.3.20
- 743589a8af6ec90b529f2124c2bbfc3ce1d2f20f
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info:
-	d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;omp.ru:7.1.1;31.173.84.195:7.1.2
-X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.84.195
-X-KSE-AntiSpam-Info: Rate: 0
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 06/05/2024 19:41:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 6/5/2024 6:43:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240605074936.578687-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On 6/4/24 10:28 AM, Paul Barker wrote:
+On Wed, Jun 05, 2024 at 08:49:35AM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> The SD/MMC block on the RZ/V2H(P) ("R9A09G057") SoC is similar to that
+> of the R-Car Gen3, but it has some differences:
+> - HS400 is not supported.
+> - It supports the SD_IOVS bit to control the IO voltage level.
+> - It supports fixed address mode.
+> 
+> To accommodate these differences, a SoC-specific 'renesas,sdhi-r9a09g057'
+> compatible string is added.
+> 
+> A "vqmmc-r9a09g057-regulator" regulator object is added to handle the
+> voltage level switch of the SD/MMC pins.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  .../devicetree/bindings/mmc/renesas,sdhi.yaml | 20 ++++++++++++++++++-
+>  1 file changed, 19 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> index 3d0e61e59856..154f5767cf03 100644
+> --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> @@ -18,6 +18,7 @@ properties:
+>            - renesas,sdhi-r7s9210 # SH-Mobile AG5
+>            - renesas,sdhi-r8a73a4 # R-Mobile APE6
+>            - renesas,sdhi-r8a7740 # R-Mobile A1
+> +          - renesas,sdhi-r9a09g057 # RZ/V2H(P)
+>            - renesas,sdhi-sh73a0  # R-Mobile APE6
+>        - items:
+>            - enum:
+> @@ -118,7 +119,9 @@ allOf:
+>        properties:
+>          compatible:
+>            contains:
+> -            const: renesas,rzg2l-sdhi
+> +            enum:
+> +              - renesas,sdhi-r9a09g057
+> +              - renesas,rzg2l-sdhi
+>      then:
+>        properties:
+>          clocks:
+> @@ -204,6 +207,21 @@ allOf:
+>          sectioned off to be run by a separate second clock source to allow
+>          the main core clock to be turned off to save power.
+>  
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,sdhi-r9a09g057
+> +    then:
+> +      properties:
+> +        vqmmc-r9a09g057-regulator:
 
-> This patch makes multiple changes that can't be separated:
-> 
->   1) Allocate plain RX buffers via a page pool instead of allocating
->      SKBs, then use build_skb() when a packet is received.
->   2) For GbEth IP, reduce the RX buffer size to 2kB.
->   3) For GbEth IP, merge packets which span more than one RX descriptor
->      as SKB fragments instead of copying data.
-> 
-> Implementing (1) without (2) would require the use of an order-1 page
-> pool (instead of an order-0 page pool split into page fragments) for
-> GbEth.
-> 
-> Implementing (2) without (3) would leave us no space to re-assemble
-> packets which span more than one RX descriptor.
-> 
-> Implementing (3) without (1) would not be possible as the network stack
-> expects to use put_page() or page_pool_put_page() to free SKB fragments
-> after an SKB is consumed.
-> 
-> RX checksum offload support is adjusted to handle both linear and
-> nonlinear (fragmented) packets.
-> 
-> This patch gives the following improvements during testing with iperf3.
-> 
->   * RZ/G2L:
->     * TCP RX: same bandwidth at -43% CPU load (70% -> 40%)
->     * UDP RX: same bandwidth at -17% CPU load (88% -> 74%)
-> 
->   * RZ/G2UL:
->     * TCP RX: +30% bandwidth (726Mbps -> 941Mbps)
->     * UDP RX: +417% bandwidth (108Mbps -> 558Mbps)
-> 
->   * RZ/G3S:
->     * TCP RX: +64% bandwidth (562Mbps -> 920Mbps)
->     * UDP RX: +420% bandwidth (90Mbps -> 468Mbps)
-> 
->   * RZ/Five:
->     * TCP RX: +217% bandwidth (145Mbps -> 459Mbps)
->     * UDP RX: +470% bandwidth (20Mbps -> 114Mbps)
-> 
-> There is no significant impact on bandwidth or CPU load in testing on
-> RZ/G2H or R-Car M3N.
-> 
-> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+The node is already conditional on the compatible, so why the chip name? 
+Then it doesn't work when the 2nd chip needs this.
 
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
-[...]
-
-MBR, Sergey
+> +          type: object
+> +          description: VQMMC SD regulator
+> +          $ref: /schemas/regulator/regulator.yaml#
+> +          unevaluatedProperties: false
+> +      required:
+> +        - vqmmc-r9a09g057-regulator
+> +
+>  required:
+>    - compatible
+>    - reg
+> -- 
+> 2.34.1
+> 
 
