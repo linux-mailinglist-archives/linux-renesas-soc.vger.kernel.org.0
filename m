@@ -1,158 +1,163 @@
-Return-Path: <linux-renesas-soc+bounces-5921-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5922-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE9568FE58F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2024 13:37:43 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 445338FE593
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2024 13:38:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6C4CD28729C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2024 11:37:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A4187B210AE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2024 11:38:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D651F195815;
-	Thu,  6 Jun 2024 11:36:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F8M8ZF/+"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36D22178396;
+	Thu,  6 Jun 2024 11:38:41 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52C1419538A;
-	Thu,  6 Jun 2024 11:36:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1072414E2F1;
+	Thu,  6 Jun 2024 11:38:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717673805; cv=none; b=Taf5Cy6nuai75/yAZFkuOVQraG7rPpmPXoZN+Ti1XN4kDY60Lm9Zj9ASuwWpXEWhxyEhC52jRIGBWlnA/klSZ/6NgS5XIU6jDkg8TNC3QPmfQGqhlxFHl5dUb23ex8wy9//0eLfFKWXIGVqIH1+HxLkbpbn+y65AyIhnDAoIooU=
+	t=1717673921; cv=none; b=IJ2MjGU0/Gc7CaMcXHvlXn+rh2mQ/j9t/ociYEhVZgRytnsRhIBvB3isd/Dkz4vumFEpp9dabtaQPiVGAGKp4HF1UjN0/Ioh5PhDy2H1Bcxsuc+hhDG0C4QvI/1THZHi+BC5te/7pJBFIX47XAGpfmDOcDMZaD17aTbyVnK6tp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717673805; c=relaxed/simple;
-	bh=BNivUvo0MWg8WrpAftR8nWhdNcYuD+IaXADkEIdXQfY=;
+	s=arc-20240116; t=1717673921; c=relaxed/simple;
+	bh=3ObHWaRVR4jM8iyiq5AY3IthBtWgCZEvXy8aA7zeAv8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Dl3IHqoUfFAJhLpNV7LkhFC5TM9IwETVhABWDLt4ckrH4tW7T9vdtABW4Ax1VzA3lmZ2WQvDntRIeKHu8YVPdrFfE8Iqg5c1t5kK1z4wzrX5Q7ZECp8E+ICaJj0J3vlry4I52ltrzGKLTWfO5CK3AYd7kAxmeoPrI1jvBgGVPtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F8M8ZF/+; arc=none smtp.client-ip=209.85.221.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 To:Cc:Content-Type; b=ZcdGHQv+i6oZAzTw6W0JTW3v26qHKAtGtVFqh/oCErT+RZ4VVl0OdXaSFeFSuKeZWgp+A8wAaOF31IMo7jWrmVJZQaKRCyWrK/NqhhIqVCNZQXqqKIFFovmf3uvFU2zV3t34ZUw98pixYsinIWKgcYYQUsC6POSX+IfHYYlMq18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-4eb1d56fcadso311881e0c.1;
-        Thu, 06 Jun 2024 04:36:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717673803; x=1718278603; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yDJv2Oma+0BuzzGYTy4GUHcJcQy1lEY6HhimPzAvoR8=;
-        b=F8M8ZF/+5iH7ungUsj3eDRh/TCDwqUE47RVy7LOOrgxVz1SdwS499EQlJqa3rXEXDO
-         bNsPtwPx3gwMQrSCyvPoOMqjXrJ14yURYuWdmhoGsUsOw1/N8GQf2kUNMtx1/bqp3oT1
-         iaYWTM9ovTt/3WE3/l2+6aG9lH5n9DwUEpHIEwrnxiKv8gB82dcq+PYSMIDGcmtPGxRe
-         Cxf3Vo3SqPsIWSIleIlsnObJ0b0m7dxT0Bm+n5qq9PxOo1gfzZUE5LYSoZpqqsjxWfRy
-         lfOFy2ZAybAnNZAiVPegf2AVZ9WatyXqS8VGur1V/Ol6qd5ZsfRbE+P/pp4aL8+HwRFM
-         E3yQ==
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-62a145e0bb2so8233817b3.0;
+        Thu, 06 Jun 2024 04:38:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717673803; x=1718278603;
+        d=1e100.net; s=20230601; t=1717673918; x=1718278718;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yDJv2Oma+0BuzzGYTy4GUHcJcQy1lEY6HhimPzAvoR8=;
-        b=w9Twx86k/ClL1Mw/PGSeYT1NXS0MuFYWo6XKzsmsusAsN5wJjcWFtKVuIIO3X2yyW8
-         QXZ/myDg1bBLA4YqzHTEdCIR1+Kw4wZdCaoLK9EYZnjzwHmY4uul77lrKAjm3wPWLKx7
-         ZTFDVm4SWF+W11f7diwYeckfNRgPs0rAyF4sbdhupTvi0KSZ7/aZ0wRI5TTYeh/lcHf0
-         rI9mTLC9lvnOTR+bOLBnzMvqh1wPGRKXOLblmwMOlj7UsajmJT3EI5N/kNqVJQ9AX9L9
-         rUBdHcPmKe7CjJiLi3L0CYWaQ/LseodgFS4ka1BmP9geLADrJWft5/trj3dckm6GwOKa
-         j8NA==
-X-Forwarded-Encrypted: i=1; AJvYcCXaalyjDj4i4Imz6b/lTZyECG3mHrU1WIna7Ml5JKY2WlYmlw9nTAmiX13gRHO/DvGpm70vTljqoYafYTd6EygBqpgJg/BQHQtVO5knpSnx2NEHiWemaZZ8lcze6oOLv40oz2i/fMmkEFyt7nquqaddK7JlLo6na0HsQ30FrDGlijQU/kOLextYlnBU1gnrc7PknnGBg982cMTlb9J1JksfbwLhpoh3
-X-Gm-Message-State: AOJu0YwnUuHD08EYQ+29JEQx3yCn9qv3Tm4pzlMpaTdwm//DUOC3mPO/
-	Zt+XpGvcQAwYZSfPW9JTQTfFUe3fEe5BoCG4SrOFvCBbTs/nmVXUK0LswPITSjG/dWkmQkUQZ3a
-	4rR3wz2yavsBWsdcrdPLybXh2vuc=
-X-Google-Smtp-Source: AGHT+IGmX/vXqqcbJDok3bmZfA2zsm6PMj+/KTKNDG1N016exsq6IHYwqta73CQHrJyGXmANBw/XqOIOj3QU5fMKlrA=
-X-Received: by 2002:a05:6122:1787:b0:4d8:7b33:c624 with SMTP id
- 71dfb90a1353d-4eb3a282ceemr7193842e0c.0.1717673803069; Thu, 06 Jun 2024
- 04:36:43 -0700 (PDT)
+        bh=0KyiadWuwWcKVlPoXwg0zdSfOmhmr3naUVrDuQJaRpE=;
+        b=qzsHqNhoPf7EcWMlelYa6NA2tAW43SRxESQj3GX9ICAWcAVg0/oHB19Um65m2Ew3gR
+         fjYtlp6JoVjT0XMdBVLiGuUhenFCPAmrLv36bVnaFzdWJRLGJcxkzfoJlkEfuygyJ6nY
+         rw7A6GP4u6MrhlhwymkVU1L5DdBY6jHGQ8U2mIB37Zyi+RD+K3i5YNBDK1QLUmjmupeF
+         dAi8izb2diK6lR6j1c8EOeNkoLF63dNRE3dmZYsZCQ3oqC/G+KvL7fITVXXPQHneiia/
+         Csa/5+l0d7ErdoK694DaaDHfCx54qUccI158tzpOjdy4rBWtYN/v7mEKs63GkGwXKXnj
+         7kFw==
+X-Forwarded-Encrypted: i=1; AJvYcCV+UHzxr89HjAD7idLwJ36i4wBWTRap8lW0pB9WYL1oIgEBKq54MUdThh6yD/ti7opLxD3X+PBwJp4IlBlYYOj/vIhhOIauavY7If3tCJ9+dYVFFriXvgvOlrMTaq1f/geWZ3gBEAhSsbMtvfDS+zU/+x0YJDTAPNlwmv7NYMft1U4BCs8=
+X-Gm-Message-State: AOJu0Yznqu1Rm7q72caFDNarxCG+q7jyn/4yJG/lYClQGV6AaOkv9Stl
+	Wxf3inh9au5E9aoIUFiHFMI+D446tPQL3boidnESvhxuwJxP+CemzjxCBJvI
+X-Google-Smtp-Source: AGHT+IG3wRE5QNbXIO3+XBMPgUPELfAl2ioOHqZ02JSBi08nclpu68WvhZjuhosu7GRKn7rqIb4H9A==
+X-Received: by 2002:a0d:e0c7:0:b0:62c:c660:72af with SMTP id 00721157ae682-62cc6607301mr26426037b3.24.1717673917579;
+        Thu, 06 Jun 2024 04:38:37 -0700 (PDT)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-62ccaeaef45sm2116737b3.116.2024.06.06.04.38.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Jun 2024 04:38:37 -0700 (PDT)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-df771959b5bso913639276.1;
+        Thu, 06 Jun 2024 04:38:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX9yWBBCwD/3a28d7BnSaqRSfbM6Rvs7O/cEZhTYZghwHTsQyReMIgeXhDgYx2/XuQU4C2MrblLuV/gWuYUUL+giEZetcfna15jlGrrLDdydzD9Z4wuiJ0wQz8YThwYI1dW5bBwrfxq8/LusdEly/pnmqMyURFKeq0YfYSLaS7QeWmL+Zc=
+X-Received: by 2002:a25:dfc5:0:b0:dfa:c607:1b6a with SMTP id
+ 3f1490d57ef6-dfacac75c1amr4911584276.31.1717673917184; Thu, 06 Jun 2024
+ 04:38:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240524082800.333991-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240524082800.333991-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdWzrEKFHauJ=6UnsufJjDO3LfJ45eJXx1V72AmVzvsjyw@mail.gmail.com> <CAMuHMdXdFM2u5TjRQZCSiigC=uBk1kz6aW6hYTy5Wa=PCgX7yQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdXdFM2u5TjRQZCSiigC=uBk1kz6aW6hYTy5Wa=PCgX7yQ@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 6 Jun 2024 12:36:17 +0100
-Message-ID: <CA+V-a8sch-XTk2ByBztEQd3QDef4RbVt7k-k=GnJGd-XvAkAdg@mail.gmail.com>
-Subject: Re: [PATCH 1/4] dt-bindings: clock: renesas: Document RZ/V2H(P) SoC
- CPG driver
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <cover.1716973640.git.geert+renesas@glider.be> <2cf38c10b83c8e5c04d68b17a930b6d9dbf66f40.1716973640.git.geert+renesas@glider.be>
+ <CAMZ6RqKZdo1Mk=tY-vqCm0YYr_Qk8m53+LHXqeM+1LL=S=+RqQ@mail.gmail.com>
+ <CAMuHMdXV9q2D=Mhfi7s4NBuvivxBap-k_pkm4pUseoUb3SLWqQ@mail.gmail.com> <CAMZ6RqK32+i69Rd3qDDNm4cgQa3+m3ikZTbpt5jCGrkNt76+vw@mail.gmail.com>
+In-Reply-To: <CAMZ6RqK32+i69Rd3qDDNm4cgQa3+m3ikZTbpt5jCGrkNt76+vw@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 6 Jun 2024 13:38:24 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWCAU7VK97d3yOALpgg7S9+Aa3ZKwC3VVsivUev1iA+Ag@mail.gmail.com>
+Message-ID: <CAMuHMdWCAU7VK97d3yOALpgg7S9+Aa3ZKwC3VVsivUev1iA+Ag@mail.gmail.com>
+Subject: Re: [PATCH 1/3] can: rcar_canfd: Simplify clock handling
+To: Vincent MAILHOL <mailhol.vincent@wanadoo.fr>
+Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	linux-can@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	netdev@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
+Hi Vincent,
 
-Thank you for the review.
-
-On Wed, Jun 5, 2024 at 10:42=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Tue, Jun 4, 2024 at 5:49=E2=80=AFPM Geert Uytterhoeven <geert@linux-m6=
-8k.org> wrote:
-> > On Fri, May 24, 2024 at 10:29=E2=80=AFAM Prabhakar <prabhakar.csengg@gm=
-ail.com> wrote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Thu, Jun 6, 2024 at 1:05=E2=80=AFPM Vincent MAILHOL
+<mailhol.vincent@wanadoo.fr> wrote:
+> On Thu. 6 June 2024 at 19:15, Geert Uytterhoeven <geert@linux-m68k.org> w=
+rote:
+> > On Sun, Jun 2, 2024 at 10:03=E2=80=AFAM Vincent MAILHOL
+> > <mailhol.vincent@wanadoo.fr> wrote:
+> > > On Wed. 29 May 2024 at 18:12, Geert Uytterhoeven
+> > > <geert+renesas@glider.be> wrote:
+> > > > The main CAN clock is either the internal CANFD clock, or the exter=
+nal
+> > > > CAN clock.  Hence replace the two-valued enum by a simple boolean f=
+lag.
+> > > > Consolidate all CANFD clock handling inside a single branch.
 > > >
-> > > Document the device tree bindings of the Renesas RZ/V2H(P) SoC
-> > > Clock Pulse Generator (CPG).
-> > >
-> > > CPG block handles the below operations:
-> > > - Handles the generation and control of clock signals for the IP modu=
-les
-> > > - The generation and control of resets
-> > > - Control over booting
-> > > - Low power consumption and the power supply domains
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
->
+> > > For what it is worth, your patch also saves up to 8 bytes in struct
+> > > rcar_canfd_global (depends on the architecture).
 > >
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/clock/renesas,rzv2h-cpg.yaml
-> > > +
-> > > +  '#clock-cells':
-> > > +    description: |
-> > > +      - For CPG core clocks, the two clock specifier cells must be "=
-CPG_CORE"
-> > > +        and a core clock reference, as defined in
-> > > +        <dt-bindings/clock/r9a09g057-cpg.h>,
-> > > +      - For module clocks, the two clock specifier cells must be "CP=
-G_MOD" and
-> > > +        a module number, as defined in <dt-bindings/clock/r9a09g057-=
-cpg.h>.
-> > > +    const: 2
+> > True.
 > >
-> > I understand this will be changed to 1, the clock number?
+> > > > @@ -545,8 +539,8 @@ struct rcar_canfd_global {
+> > > >         struct platform_device *pdev;   /* Respective platform devi=
+ce */
+> > > >         struct clk *clkp;               /* Peripheral clock */
+> > > >         struct clk *can_clk;            /* fCAN clock */
+> > > > -       enum rcar_canfd_fcanclk fcan;   /* CANFD or Ext clock */
+> > > >         unsigned long channels_mask;    /* Enabled channels mask */
+> > > > +       bool extclk;                    /* CANFD or Ext clock */
+> > > >         bool fdmode;                    /* CAN FD or Classical CAN =
+only mode */
+> > >
+> > > Notwithstanding comment: you may consider to replace those two boolea=
+ns by a:
+> > >
+> > >           unsigned int flags;
+> > >
+> > > This way, no more fields would be needed in the future if more quirks=
+ are added.
+> >
+> > Using "unsigned int flags" and BIT(x) flags would increase code size
+> > by 8 bytes (arm/arm64).
 >
-> We typically come up with our own definitions in header files if there
-> are no suitable module numbers listed in the hardware documentation.
+> I am not sure where you derive your figure from, but looking at the pahol=
+e:
+
+pahole shows the size of data structures.
+
+> > Using "unsigned int foo:1" bitfields would increase code size by 16
+> > (arm) or 12 (arm64) bytes.
+> > So as long as we can fit more bools inside the hole, it is more
+> > efficient to do so...
 >
-Agreed.
+> I do not get this either. Where did you get your 16 bytes from? If I do:
 
-> For RZ/V2H, you could use a combination (e.g. concatenation) of the
-> column (register) and row (bit) numbers from Tables 4.4-14-19
-> ("Specifications of the CPG_CLKON_m Registers") and Tables 4.4-22-25
-> ("Specifications of the CPG_RST_m Registers") as the clock resp. reset
-> number, like is done on R-Car Gen2+ SoCs (see MOD_CLK_PACK() for
-> conversion from sparse to packed module numbers).
->
-Thanks for the pointer.
+I also looked at code size[*]: while storing bits takes less space than
+storing bytes, processing bits may require more instructions than
+processing bytes (depending on the architecture).
 
-I'll model as per your suggestion (this way we can avoid adding any
-macros for module clocks) and dont have to worry about reserved bits.
+[*] size drivers/net/can/rcar/rcar_canfd.o
 
-Cheers,
-Prabhakar
+> But just to reiter my previous message, these are notwithstanding
+> comments. I am fine if you keep the patch as-is ;)
+
+So I'd like to keep the patch as-is.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
