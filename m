@@ -1,118 +1,97 @@
-Return-Path: <linux-renesas-soc+bounces-5933-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5934-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 879808FF572
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2024 21:48:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA0698FF624
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2024 22:55:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C4310B24628
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2024 19:48:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 83FCD1C225AB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2024 20:55:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FFAD4CDEC;
-	Thu,  6 Jun 2024 19:48:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DAE113B583;
+	Thu,  6 Jun 2024 20:55:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aNuBtyDW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u4wTivRz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15344AEF6;
-	Thu,  6 Jun 2024 19:48:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EDFB139D1B;
+	Thu,  6 Jun 2024 20:55:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717703301; cv=none; b=DgUPAC23GFGQpYGLrNfPbTiwOXnhlnNuFRyInP5e1DRV3I4M2hr/pEOUU/MAjySW6pMVmz7AtkWrZad5iTNS2exfUztbwB15Ee8E8Fot8XVIfRttMJ/TS1ut/0rRZn6MyEarxPO/WXCvW5Gscbnk9gKBAO1XXcRk8s6tHCGd2ss=
+	t=1717707324; cv=none; b=DdIFstBF+PhXIRzhqk9oRsr9TXiATg86dZ5gqBjPxWsq0x1VVuQhdDCAR6St9uh3N4VY83vsiMBmLGeTASZFdt8z8xHzFpthEfRK2Rww8987CRmA6TZcat86AbEoiHHDWlKRG5KqgSKgsHd1EuqvE7DYS4/Sym2nRHQe9QY9R/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717703301; c=relaxed/simple;
-	bh=xPMHflPdbksHj5PGoMkKEru9ufl0KWX8adQp+i3GW0I=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eR6R347kCTsT4K2q+4SIIpTQxjTFJOyCd8fNROz6FmqVC5ZFHRjY6tZDzdEuejyLSk3XVuuOFRD9zyzyfiNa8ULv4r6sIyk4VAyox7rvly8FT19pTkx/xXEZhbG4tYVNmGqvcoEJWW79aP677vSd8KKhWV0D9kVenHRfW5XzXT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aNuBtyDW; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-52b936c958dso1675078e87.0;
-        Thu, 06 Jun 2024 12:48:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717703298; x=1718308098; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mNodoFmAbhZZRCDW0JBnKHX4e0v+tvTBYJa+POEfh54=;
-        b=aNuBtyDWnckl8sa3ROneBhSEDPZfTfFoEhI9lqG+jzrpJtPwjyapFRKJhcWkurjWLv
-         BPdLB+fPPv/raE9ZDi5O3INKYj3onUqhH6uJKoP2IfmDDiqVEcEx1xVdI3lxssmoO19V
-         YqRpjWarG4W/jylNmoLABtsLaPbH5UvNnDS+9N4413kd0z9bVUBGy74F2kcJ0wvsvAPZ
-         jhBI6OaOxmk50WIuIFu0WRsn3D/JVtc4OJPGq+EFeDewDcZHiSTc4FfR7OiEesANh/74
-         GjvWGElxQ2AO6BvJz/2Xhb1MJx6ZQSaGLHGQatpnMhIbUiVeF/P5ldG+AI+M0fThARR0
-         DhWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717703298; x=1718308098;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mNodoFmAbhZZRCDW0JBnKHX4e0v+tvTBYJa+POEfh54=;
-        b=e7SqEENqAJfekg88mFKeSNhbVihd4pWKcoRy6T//VMOoPuDol1gZ+DbvfpEnMAxIsc
-         ubZdPeKS7H8B32UZE5clxnWOqNOEHNwXrsq7Iq0Es1OtTnBKhrfd5GIOGf93ys/O27Fc
-         uMrbgXdEswEnQ7NK2rIEj9mx8d/E9AEHIs/hqX8Mc8cfArZdijpAOC3wk+FbGB2DGm8Z
-         9nJzJvveiD9JVvWb5rowpeHBGcPf2Nf5ZJU55OfUs0NxEiO8ySELOTeaPEdrq5EPHj3o
-         sWpplvViABhLtI8BvqD/6jKJ6DLddPTzTlOUEIyUTqzxfqpZtk0HaxRvGr4AWil9rUPa
-         jb2A==
-X-Forwarded-Encrypted: i=1; AJvYcCVpNWCuxISekQq8UpS2PZ8/4Tj/fcuNjmxJfx+T1oYJNnY14SRoGRp40W+v6Ddsg2QUgiySoDUWMu45QVFIZT8XLTimWS10aCirnue39hhyfCs=
-X-Gm-Message-State: AOJu0Yz9jsJm3Ge6PScxaoE7Yl0vmT9Y3bMbmZc6S0QjVYQJzEGlbGf0
-	kBNLPnpravcmdLz65viSGMkfvPg7lPsQUZABtOl1Tlvtpgmob1zB
-X-Google-Smtp-Source: AGHT+IHucfKP2uAyE3xKSwyzZCnbwLmqBsOht+E3ZPWPr1Ql2D6yHovj3IYG2MdH901lYz35BtTJJg==
-X-Received: by 2002:a05:6512:34d4:b0:52b:8843:b084 with SMTP id 2adb3069b0e04-52bb9fc95a6mr334590e87.47.1717703297800;
-        Thu, 06 Jun 2024 12:48:17 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42161147811sm17262735e9.18.2024.06.06.12.48.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jun 2024 12:48:17 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Thomas Gleixner <tglx@linutronix.de>
-Cc: linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] irqchip: renesas-rzg2l: Reorder function calls in rzg2l_irqc_irq_disable()
-Date: Thu,  6 Jun 2024 20:48:13 +0100
-Message-Id: <20240606194813.676823-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1717707324; c=relaxed/simple;
+	bh=TgOQgGUpNTBqd9y1OH101hAljlKLssmD0iAqE3VpFbs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W6AEDlUzsJkNnEmjhhzzAnhQG1wYt7oBV1DNVtxTF7pHFXMnL/2neN83KKgaYN/a1P1ju6IVPf1z28Ytco5eX/Tck/hLmG3jzFtKTK1cmUgrACbsjSFF5OoLv+9rz41saW8ZjRGaPv6qYVC//KE5eMpobg+rLBKUP1Dp3lSVXz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u4wTivRz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2DE7C2BD10;
+	Thu,  6 Jun 2024 20:55:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717707323;
+	bh=TgOQgGUpNTBqd9y1OH101hAljlKLssmD0iAqE3VpFbs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=u4wTivRzn9CfjvSU1lYGLq47Lgu/zBLmgij4j/j3lJblgbvN4h9i2USAE1MpF2kTS
+	 iKn7o+LUUBt0siXWWxj7O+pSaHdq5pthh9AODIx/l3S3v+XgcpUyVUzBTtTXCvkQQQ
+	 DP6NMIvZda5yCsanaSTsc/iv3VQTBXh3FfM4VQw1mLiCwoPRvzYkIeB3ULy8rktIH5
+	 bjZu3YtDN8pUHAGel2l98zBqPIOkx6ZaUiOiBWzkvfnTcU0HfP8fpH7zUBDaw6Mth8
+	 J0AKBLyq8tWoju2uItxG+NMbPjbzbw9c+6M6BsAKa3tn+Qs9ERAURLGyfTWMPGR/p5
+	 N1klVHdB+lFKQ==
+Date: Thu, 6 Jun 2024 14:55:22 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: linux-media@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Magnus Damm <magnus.damm@gmail.com>
+Subject: Re: [PATCH v3 RESEND 1/2] media: dt-bindings: renesas,rzg2l-csi2:
+ Document Renesas RZ/G2UL CSI-2 block
+Message-ID: <171770731936.3845029.16595074004713971401.robh@kernel.org>
+References: <20240605154115.263447-1-biju.das.jz@bp.renesas.com>
+ <20240605154115.263447-2-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240605154115.263447-2-biju.das.jz@bp.renesas.com>
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-The order of function calls in the disable operation should be the reverse
-of that in the enable operation. Thus, reorder the function calls to first
-disable the parent IRQ chip before disabling the TINT IRQ.
+On Wed, 05 Jun 2024 16:41:14 +0100, Biju Das wrote:
+> Document the CSI-2 block which is part of CRU found in Renesas RZ/G2UL
+> SoC.
+> 
+> The CSI-2 block on the RZ/G2UL SoC is identical to one found on the
+> RZ/G2L SoC.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v3->v3 resend:
+>  * No change, just rebase.
+> v2->v3:
+>  * Added Rb tag from Geert.
+> v1->v2:
+>  * Added Ack from Conor Dooley.
+>  * Dropped driver reference from commit description.
+> ---
+>  Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/irqchip/irq-renesas-rzg2l.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/irqchip/irq-renesas-rzg2l.c b/drivers/irqchip/irq-renesas-rzg2l.c
-index 861a0e5a3e97..693ff285ca2c 100644
---- a/drivers/irqchip/irq-renesas-rzg2l.c
-+++ b/drivers/irqchip/irq-renesas-rzg2l.c
-@@ -271,8 +271,8 @@ static void rzg2l_tint_irq_endisable(struct irq_data *d, bool enable)
- 
- static void rzg2l_irqc_irq_disable(struct irq_data *d)
- {
--	rzg2l_tint_irq_endisable(d, false);
- 	irq_chip_disable_parent(d);
-+	rzg2l_tint_irq_endisable(d, false);
- }
- 
- static void rzg2l_irqc_irq_enable(struct irq_data *d)
--- 
-2.34.1
+Applied, thanks!
 
 
