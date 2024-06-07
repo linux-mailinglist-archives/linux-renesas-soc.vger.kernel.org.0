@@ -1,199 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-5960-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5961-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0C269002FF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2024 14:06:55 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E272900307
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2024 14:09:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 79A2C1C21144
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2024 12:06:54 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9D010B216D0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2024 12:09:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9655419066B;
-	Fri,  7 Jun 2024 12:06:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="W/0Xpx48"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 414EC15A4A2;
+	Fri,  7 Jun 2024 12:09:03 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 149C418FC63
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  7 Jun 2024 12:06:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D45F1847;
+	Fri,  7 Jun 2024 12:09:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717762009; cv=none; b=FdAkmfaaCWvgNDQ80JMd4DAvAATFpRqo2OYbZklWBHyyZoo8dBnoK62ETGid3imMjwz3EWIBrzNW0lxvKHN4JzAb2FJe7D0HnDTfrEmDB8sXJcMncM3GnmrWuiz6S3nTU8t625mcl74X6hJuzgwP05UQlNeuTN6Ecr04imxjcpw=
+	t=1717762143; cv=none; b=fauqVXhRVEwh9lK9JDOyKLTPmvZd/Gj+s9mA0NadOCH4lIz/z+ru9HDCOA5EbgJPAR7gUnMamy6z/l/S3jDX+ndelWfWStawDykgkhmsAFGtEPQZ5DKAcn/bGjEo36tLebsima44XNPBid3uZBuasxvL6y/bp/13UyVl7tGSJA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717762009; c=relaxed/simple;
-	bh=Vjv8WjEHAUBLg+R73TC4iHSeKZUV9RKb7PxJ5B8Y/WI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jrKtXwfQqxesl4FzUGvSAAmAHYvdFgPpWbkwjU0h6YAdju/X+0UBwP0gCjkJwBJFj3vcvJ7F2VpB8p4ux4FOQsCsri8eeZCPTZ7v3qpJZa5tdHNkzE+sOOXyGWLrSby+p2mZcMmVqXAaGbkmhj2/HMO9bQs/AjN6YSgSSlq6wmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=W/0Xpx48; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1f612d7b0f5so13354425ad.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 07 Jun 2024 05:06:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1717762007; x=1718366807; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=k7NnO3DgcXmjQU2TFy5q5V0KcneMOGXb1GGo0qLmGSA=;
-        b=W/0Xpx48QPdOA6lzHNq6eJAcLVw/XqaO4t7XYOO80CfHRoZIXaELHlcA0X62XiRMj4
-         JfiTYGsPJcvlKzVp/GzS4j7WzGsBq2rG9qGf55HnDnMov2cr91mVmowaoKkSs+0/n5aP
-         nTbD6Bd0G2BbFCgGSnli2pwGZj/AMwH55b2y0S243jMnKMIZCX1pXUlWAXz0iya+C73L
-         IWjb9Cw0EoHqMlKqHBDmee5tHtQGXNzXb4HdCcuu4IdKGGV5ar9klygD6yFGrwkQU0pC
-         I38dE/v/ita5bq3ffMCF/mLmdR5IZRWHlSCK6iW42aQX2ZbWnIJrk367U1GSmpsT/OVZ
-         bvGg==
+	s=arc-20240116; t=1717762143; c=relaxed/simple;
+	bh=1PjxLGfcuLVYzl+oOzGlXer6PCoQoWHAf94zr4kKv2w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PTyWDrGVkV04e4q73e+2ftnMAq+liHqXXYdQFJYAskNLpDVqoyKXdsedey97kfyDWDnTwVQ+kS+O8a6YbIu+CXM5WZyogyyP4+NDzJZkqfveSNcJspOikxr5bQ6tMkXEvYwAnzdtSh3li5VXcfGKkrCCi/DNr2qFe4NtLesfjms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-62a087bc74bso20728657b3.2;
+        Fri, 07 Jun 2024 05:09:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717762007; x=1718366807;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=k7NnO3DgcXmjQU2TFy5q5V0KcneMOGXb1GGo0qLmGSA=;
-        b=lmvd5t3w4MK0bK69f/reV0rYI3Cs5zUPW4O7BJSFBxUUZeTrHhkkDsln1Sxz2WsqFU
-         vsZJIa9Q6A8VOE764esGpFUjkSt0WeJ7oIDFyfbTm8g9359ZjrpAtRHHKs+cnF1nESY0
-         xxixwT5muKB3zUlJO5CsjrB9oHqWaXzflGFGULGjZGvRy2PSEE7XlvrKExxFI8ngljun
-         bNVprDZUD7McaWHGnLzx/cS2lEthe/p7Eequ2MFnfEJKxC/eYZm+swcQnAU/Z6MkAn6n
-         9YwBwv0gcHyXwGcrOvlj8zJQwdHhiFAqWvATcqQXDdmZvkM886nenKKNZrOE7uieTsuV
-         d0Mw==
-X-Forwarded-Encrypted: i=1; AJvYcCV67efqAYh3vvWFrH12rWrUjAi+f2sVNxrMfiFXcSGDTKMfwz0xPnyAOOYWPwYEI6Al6z59PG8C7ZvK/V2/orERBoYq8wPy0zjFIcuTsXO8Ve0=
-X-Gm-Message-State: AOJu0YyS03BEs1PfaY8wWuUgua+vq6d+2pqxoz1kdEQwaaQWQW5oYe9x
-	u4w8S9wLECWrQ96tQM2huAtQC8hNIfPeIXEDe83g9cUHhcyks+QIlouAfVGfoQ==
-X-Google-Smtp-Source: AGHT+IHZn1FxYEr2n48jlTtRBDfIAQDg5hiBd+j5q8YaNLn1ULoVlYRkUzjPoDR891koRVR82SXEYA==
-X-Received: by 2002:a17:902:e84e:b0:1f6:7f8f:65ac with SMTP id d9443c01a7336-1f6b8f075b0mr80949715ad.26.1717762006991;
-        Fri, 07 Jun 2024 05:06:46 -0700 (PDT)
-Received: from thinkpad ([120.56.207.43])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6bd761ac8sm32756425ad.54.2024.06.07.05.06.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jun 2024 05:06:46 -0700 (PDT)
-Date: Fri, 7 Jun 2024 17:36:36 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Niklas Cassel <cassel@kernel.org>
-Cc: Vignesh Raghavendra <vigneshr@ti.com>,
-	Siddharth Vadapalli <s-vadapalli@ti.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Richard Zhu <hongxing.zhu@nxp.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Minghuan Lian <minghuan.Lian@nxp.com>,
-	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
-	Jesper Nilsson <jesper.nilsson@axis.com>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Srikanth Thokala <srikanth.thokala@intel.com>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	linux-omap@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-arm-kernel@axis.com, linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-	mhi@lists.linux.dev, Bjorn Helgaas <helgaas@kernel.org>
-Subject: Re: [PATCH 0/5] PCI: endpoint: Add EPC 'deinit' event and
- dw_pcie_ep_linkdown() API
-Message-ID: <20240607120636.GA4122@thinkpad>
-References: <20240606-pci-deinit-v1-0-4395534520dc@linaro.org>
- <ZmLTcNz0FxAWRYcd@ryzen.lan>
+        d=1e100.net; s=20230601; t=1717762140; x=1718366940;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oODmMA2OuqiB6/GDcDxIFR+jglicRt0MbUJPYnwfDl0=;
+        b=jzkXdhpJ5/eY5QR2s4FQxEAsvg++ZrKhjEYj5ddZrc8yD75c1HVyOC60y3s0nWBfGW
+         QNO08oizWTzesiIful5DUat9AJKb8rbchZ9JkoGJ5//9LVtlGOr1mSAAphMJh5TV8QaK
+         dS/XBVGuG+OFrgHEhY9lh6f2GmjGZYlze8UyCzvfJZqpJ5B/GKMsbjYHqhzPisahmarM
+         oAPVq85KpoIeegFK+2WwvM5GVlebM4j0U/i5VmakREre7OY3uwto4RoZrfOasu+c4B0S
+         1HBKZaVnXOFTZbzSk5ka2YG8NDpnb3KSWTEzhJYde1l+KIBVTTpYQr0oJWxY4iNCNg7h
+         qgpg==
+X-Forwarded-Encrypted: i=1; AJvYcCVCyWvNhskW0QGODm8GDQa6NJJPTREf3ZmCp3UEnwCJ3YE11zN1DUEIt7jjBWkl7qaAgR5SKYYxxStGW1wOMznVyrY6HHqRLL0I357zZBwyym4vwFBvtKp5viuKD8e248y5yCpF5pfg49bUlmvL
+X-Gm-Message-State: AOJu0Yx6fM+f4m+OZNXCSkWp4kCJyzh8i/P6p2RRjJp1H6XRfKCNBIuT
+	eD38quat1occfZQspH3kq4LvhDs+YJkQPXavx4m8KG11uKbIEnYcVFBnxhTb
+X-Google-Smtp-Source: AGHT+IGPC74QQ3MjZS4rP1unVEgg7ZjUXsvi/YGnGP3s/BOY86hXl6/VohApI6DBSXHLDi2fJWmytw==
+X-Received: by 2002:a81:5215:0:b0:610:e9b2:f84a with SMTP id 00721157ae682-62cd55f7346mr21364567b3.26.1717762139985;
+        Fri, 07 Jun 2024 05:08:59 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-62ccad1b121sm6407507b3.63.2024.06.07.05.08.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 07 Jun 2024 05:08:59 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-62a08092c4dso20859757b3.0;
+        Fri, 07 Jun 2024 05:08:59 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW9PhW8sDMbTiTCa4aA6FLI5WUlCcgcN4lfd/GDdmHLQUdk8V5WrufZVFnymbnePLYwDle7Ibxxqapy25IMuEGepmV9+EgBKR02oGOLxdnLzeMnYp8HTbqpRXfpRzHi4Yj17mNhpTVfeZrOLOZu
+X-Received: by 2002:a25:d38c:0:b0:dfa:599e:8b74 with SMTP id
+ 3f1490d57ef6-dfaf659531fmr2486092276.10.1717762139546; Fri, 07 Jun 2024
+ 05:08:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZmLTcNz0FxAWRYcd@ryzen.lan>
+References: <c0a28f466c42d5d59c7fadfa1fd05fd512d43b6f.1717060708.git.geert+renesas@glider.be>
+ <ZlhGYFM6iVlGjZk-@surfacebook.localdomain> <CAMuHMdU6V4Ooit7P5pqUFXOZawiZj7TjXY7t=KVk84xPZ0PR+A@mail.gmail.com>
+ <CAHp75Vd3ke3_bxwsxzSVzjnNW-6aYDTYHvZ-+B9nJtAJR1fX=g@mail.gmail.com> <7f4ef893-5ab6-4a9e-ad54-4b3587516bcf@moroto.mountain>
+In-Reply-To: <7f4ef893-5ab6-4a9e-ad54-4b3587516bcf@moroto.mountain>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 7 Jun 2024 14:08:47 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXp7aR6=Rvk3Fe_P3xqdavc9Bh7Df3dJfRWF1KUnOTJOw@mail.gmail.com>
+Message-ID: <CAMuHMdXp7aR6=Rvk3Fe_P3xqdavc9Bh7Df3dJfRWF1KUnOTJOw@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: renesas: rzn1: Use for_each_child_of_node_scoped()
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 07, 2024 at 11:31:28AM +0200, Niklas Cassel wrote:
-> On Thu, Jun 06, 2024 at 12:56:33PM +0530, Manivannan Sadhasivam wrote:
-> > Hi,
-> > 
-> > This series includes patches that were left over from previous series [1] for
-> > making the host reboot handling robust in endpoint framework.
-> > 
-> > When the above mentioned series got merged to pci/endpoint, we got a bug report
-> > from LKP bot [2] and due to that the offending patches were dropped.
-> > 
-> > This series addressed the issue reported by the bot by adding the stub APIs in
-> > include/pci/pci-epc.h and also removed the unused dwc wrapper as concluded in
-> > [3].
-> > 
-> > Testing
-> > =======
-> > 
-> > This series is tested on Qcom SM8450 based development board with 2 SM8450 SoCs
-> > connected over PCIe.
-> > 
-> > - Mani
-> > 
-> > [1] https://lore.kernel.org/linux-pci/20240430-pci-epf-rework-v4-0-22832d0d456f@linaro.org/
-> > [2] https://lore.kernel.org/linux-pci/202405130815.BwBrIepL-lkp@intel.com/
-> > [3] https://lore.kernel.org/linux-pci/20240529141614.GA3293@thinkpad/
-> > 
-> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > ---
-> > Manivannan Sadhasivam (5):
-> >       PCI: dwc: ep: Remove dw_pcie_ep_init_notify() wrapper
-> >       PCI: endpoint: Introduce 'epc_deinit' event and notify the EPF drivers
-> >       PCI: dwc: ep: Add a generic dw_pcie_ep_linkdown() API to handle Link Down event
-> >       PCI: qcom-ep: Use the generic dw_pcie_ep_linkdown() API to handle Link Down event
-> >       PCI: layerscape-ep: Use the generic dw_pcie_ep_linkdown() API to handle Link Down event
-> > 
-> >  drivers/pci/controller/dwc/pci-dra7xx.c           |   2 +-
-> >  drivers/pci/controller/dwc/pci-imx6.c             |   2 +-
-> >  drivers/pci/controller/dwc/pci-keystone.c         |   2 +-
-> >  drivers/pci/controller/dwc/pci-layerscape-ep.c    |   4 +-
-> >  drivers/pci/controller/dwc/pcie-artpec6.c         |   2 +-
-> >  drivers/pci/controller/dwc/pcie-designware-ep.c   | 116 +++++++++++++---------
-> >  drivers/pci/controller/dwc/pcie-designware-plat.c |   2 +-
-> >  drivers/pci/controller/dwc/pcie-designware.h      |  10 +-
-> >  drivers/pci/controller/dwc/pcie-keembay.c         |   2 +-
-> >  drivers/pci/controller/dwc/pcie-qcom-ep.c         |   5 +-
-> >  drivers/pci/controller/dwc/pcie-rcar-gen4.c       |   2 +-
-> >  drivers/pci/controller/dwc/pcie-tegra194.c        |   3 +-
-> >  drivers/pci/controller/dwc/pcie-uniphier-ep.c     |   2 +-
-> >  drivers/pci/endpoint/functions/pci-epf-mhi.c      |  19 ++++
-> >  drivers/pci/endpoint/functions/pci-epf-test.c     |  17 +++-
-> >  drivers/pci/endpoint/pci-epc-core.c               |  25 +++++
-> >  include/linux/pci-epc.h                           |  13 +++
-> >  include/linux/pci-epf.h                           |   2 +
-> >  18 files changed, 162 insertions(+), 68 deletions(-)
-> > ---
-> > base-commit: 7d96527bc16e46545739c6fe0ab6e4c915e9910e
-> > change-id: 20240606-pci-deinit-2e6cdf1bd69f
-> > 
-> > Best regards,
-> > -- 
-> > Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > 
-> 
-> Considering certain dependency patches have been merged to
-> pci/endpoint and other dependency patches have been merged to
-> pci/controller/dwc, perhaps it is best if you split this series:
-> 
-> Series 1 based on pci/endpoint: with patch 1/5 and 2/5.
-> Series 2 based on pci/controller/dwc: with patch 5/5.
-> 
+On Fri, May 31, 2024 at 10:01=E2=80=AFAM Dan Carpenter <dan.carpenter@linar=
+o.org> wrote:
+> On Thu, May 30, 2024 at 04:36:59PM +0300, Andy Shevchenko wrote:
+> > On Thu, May 30, 2024 at 2:52=E2=80=AFPM Geert Uytterhoeven <geert@linux=
+-m68k.org> wrote:
+> > > On Thu, May 30, 2024 at 11:26=E2=80=AFAM Andy Shevchenko
+> > > <andy.shevchenko@gmail.com> wrote:
+> > > > Thu, May 30, 2024 at 11:19:29AM +0200, Geert Uytterhoeven kirjoitti=
+:
+> > > > > Use the scoped variant of for_each_child_of_node() to simplify th=
+e code.
+> > > >
+> > > > I do not see the point of this patch. This makes code actually more
+> > > > complicated, and I'm not sure the code generation is the same and n=
+ot worse.
+> > >
+> > > On arm32, a conversion to for_each_child_of_node_scoped() seems to
+> > > cost ca. 48 bytes of additional code.
+> > >
+> > > BTW, the same is true for cases where the conversion does simplify
+> > > cleanup.
+> > >
+> > > I checked "pinctrl: renesas: Use scope based of_node_put() cleanups",
+> > > and all but the conversions in *_dt_node_to_map() cost 48 bytes each.
+> >
+> > Yeah. so for the cases where there are no returns from inside the loop
+> > I prefer not to use _scoped.
+>
+> Eventually _scoped() loops will become the norm.  Leaving some unscoped
+> loops will be a fun surprise for the first person to introduce a return
+> -EINVAL.
 
-Thanks Niklas! I didn't check the 'dwc' branch, so ended up posting patches 3/5
-and 4/5 again.
+Exactly. So I'm queuing this patch.
 
-Bjorn, if you are OK with this series, I can go ahead and apply patches 1/5 and
-2/5 to 'pci/endpoint' and bank on Krzysztof to handle 5/5.
+Gr{oetje,eeting}s,
 
-- Mani
+                        Geert
 
--- 
-மணிவண்ணன் சதாசிவம்
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
