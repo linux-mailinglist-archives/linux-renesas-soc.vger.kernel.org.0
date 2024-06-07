@@ -1,107 +1,187 @@
-Return-Path: <linux-renesas-soc+bounces-5965-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5967-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 479DB900AAF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2024 18:47:56 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4661900B48
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2024 19:30:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E671D289853
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2024 16:47:54 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 14286B22F89
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2024 17:30:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF410199EAD;
-	Fri,  7 Jun 2024 16:47:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 215E633C0;
+	Fri,  7 Jun 2024 17:30:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R8S0AVWr"
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="NU1ETMcz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87F97134B2;
-	Fri,  7 Jun 2024 16:47:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F5B419ADB6
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  7 Jun 2024 17:30:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717778872; cv=none; b=MBUWaXM0iuzcXIb+6Qh9aAC2UkpZx5NP0xBP/6STc8WACV3ImfoTcNCeXyRcYCR87kcUVZUmX3QmZnjwAmtbpOrF7sAYR8BVlDuI+yZ8vkpw+8QeeGdqluc4btLYr+R1QNHBUT7pMsBgE5WOKa2Ofls+qLW1r9QdSHTBynjrqEY=
+	t=1717781431; cv=none; b=K/8HAqS6NXUCreWKeQHy54irtduoY8kILNVzkZMnceJ7NMnqh1H9jSTe1T1PwKF8ki7k3PXxampkzj148g9eKRrN/QHlPuqtLGjg1vnrpWxOop/+nk4QDo0aE2lH4xOR9lPPt9aQnelNcZiLXB/n/+Z/MbJPX8fDRGJ66ALERA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717778872; c=relaxed/simple;
-	bh=svWhuSe6Hrl0eXx4SJrwTVnmUobplmwTGkLB4/Na6KM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RGNIWz7XSDMKxBB0QcEKEOaflsIA/ZY1z/KsOkMXF8kAF6qj8XNHHEliUdFehsta+QtosHN0iuBzfurzC6ybhdt6BtgTClkNwyOnIdp3RSwkeoKVMICpvKf0bR//Zyja7nUjmDX1ThT75TmGNlmVT0sfl1H7bVWC07Yd9wHshZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R8S0AVWr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9329AC2BBFC;
-	Fri,  7 Jun 2024 16:47:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717778872;
-	bh=svWhuSe6Hrl0eXx4SJrwTVnmUobplmwTGkLB4/Na6KM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=R8S0AVWrPFHSgXJJ739HJDnv2EMybJ5gls1mXjix5kVjAXtv+CV7OEuufsOhcMYzf
-	 vVHn3Lb6psLzQatma7AURo2AtX5Yp5BUzQJPfC6O/XHO0swL0Z1sz51MQZcJX++mmh
-	 bNXHTvmHS3ptIBgfXbpbPhlXfWJa2ymqdm7d+ZlFeJBo78HmS4ohqtmzMrMZzXoCrw
-	 IIhsR0YYoWV9i+qjqzy+qMyO+dsVtdPh6dd4YtMXVK8RTOZqRvt+F2joXXyHf273bV
-	 1mpqNVAWzCy2ujHms5AqPA2JHn9dFmSMI19P+YaEBuy+EumSUX6WzkncBj5SQt3LV4
-	 hcU41cEXkKkSQ==
-Date: Fri, 7 Jun 2024 17:47:48 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"biju.das.au" <biju.das.au@gmail.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: Re: [PATCH RFC v2 2/4] regulator: Add Renesas RZ/G2L USB VBUS
- regulator driver
-Message-ID: <ZmM5tL1SaO-mOEpd@finisterre.sirena.org.uk>
-References: <20240607113745.73934-1-biju.das.jz@bp.renesas.com>
- <20240607113745.73934-3-biju.das.jz@bp.renesas.com>
- <ZmMntvriR32aqI-m@finisterre.sirena.org.uk>
- <TY3PR01MB1134695C9D89C84EABF7B2E2E86FB2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	s=arc-20240116; t=1717781431; c=relaxed/simple;
+	bh=e0X5Eyhde88oE6YRIRzOwDCyDczP2gx5hlCs/9e8kAs=;
+	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=uNsbaRVEk+6ptksJWE6GL0dvS03LGkvJWbwdXY/v9FQDmrLUGXj1eFswPMySH2ZopeACVQim844+0k7WCm/hEP1frk0DRybkBc2+pLTwxg6p5j+sKIXpwj38G+DavnkIiS0JFqKKxmoUVxpPX/wh1S1ESZnMqKPJyf4YFlIy8Wk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=NU1ETMcz; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2c2ccff8f0aso494975a91.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 07 Jun 2024 10:30:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1717781428; x=1718386228; darn=vger.kernel.org;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=ekwIIMqecTEYIsIg+g5rDkObTtOV6wJcDQIAFhrAUik=;
+        b=NU1ETMcz/wxACCwzrgRXGaxlTJeGfF3M24iJdqwLZUTIlCRR+OHAA3FMPEydsYMAkE
+         5IO9dejObzU6OTnhLUo5WbCQVDTrsmR+uw6M5EO/64u6T33PweVuYQreS+cG6SMeTE2W
+         za7oK4/Bod4EedH7XqQfG+3am4ZCiGDvtCG6P7IHxNdGUfGjRHqFE1oA+xj4JgSdJyM5
+         et2h4m0tC/tuoSHXTAillI4IamxmEISZF4o4XI9/4eVojs3/6pucQo/3hZkt/+B0kTmD
+         rkLAs2ie6n0pIqBUpqiP1aQwrxli0odhyiJ89MDYXatVQPxhmH70eGjbTN2BWrxzsrkr
+         LIBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717781428; x=1718386228;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ekwIIMqecTEYIsIg+g5rDkObTtOV6wJcDQIAFhrAUik=;
+        b=XYZRTMaR979w30lDKlIaIaSup1W5sUyvEhDnmD0CJBwzcgO9onzvBEqF5Je1S5bLOL
+         BwV2Fp3+GpXKsxRpjR4kKM3I3h/62BQCk6FSv2lwF1VhCiutPGN7t0Y91cptUjyZZRt3
+         /VBVVBJ0KL/wOfaRD/MZzRIlN4fmoNGZ9zUMlCdWNgAJ1jzy66YyUyx8oe7s8x5wuvXi
+         osJe1L4BqPTqBfIKZrUIlsdKWrQQ2whQKPm88Qfehy+ThbiTPfScRNtDGp7QVJ4OWsqT
+         rw5VeDZMVmzDL6wO48b74FJUSyMpLjK+lorW9TqEBkh4Q3ASc4ymbZjfH37usvBrC9hE
+         q+gg==
+X-Gm-Message-State: AOJu0YyuJqwxeMpelAul8kUwqJkoQIO1ojYyMTtUTgZ0hCGIuSf4EiG9
+	aYojSsyj3mjf45qTcLR+XMTwIUVi8LmUA+3+NYmFLRy0d2LvtoMkJ4xYjZPfqanL7wIv+wdODJC
+	y
+X-Google-Smtp-Source: AGHT+IEKLyLjH8Qrvgd/Ibs8YeE52QNnawpDeNVnFEUtMetZEWxZ7ShMt3VoemfPQu0znxg4CAXpTg==
+X-Received: by 2002:a17:90b:b16:b0:2c2:a07c:f521 with SMTP id 98e67ed59e1d1-2c2bcc633damr3042497a91.39.1717781427536;
+        Fri, 07 Jun 2024 10:30:27 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c28066da1dsm5780352a91.20.2024.06.07.10.30.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Jun 2024 10:30:27 -0700 (PDT)
+Message-ID: <666343b3.170a0220.fa504.066d@mx.google.com>
+Date: Fri, 07 Jun 2024 10:30:27 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="JlAvTLCTi6tEcdAx"
-Content-Disposition: inline
-In-Reply-To: <TY3PR01MB1134695C9D89C84EABF7B2E2E86FB2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-X-Cookie: Your love life will be... interesting.
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: renesas-next-2024-06-07-v6.10-rc1
+X-Kernelci-Report-Type: test
+X-Kernelci-Branch: next
+X-Kernelci-Tree: renesas
+Subject: renesas/next baseline-nfs: 20 runs,
+ 2 regressions (renesas-next-2024-06-07-v6.10-rc1)
+To: linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From: "kernelci.org bot" <bot@kernelci.org>
+
+renesas/next baseline-nfs: 20 runs, 2 regressions (renesas-next-2024-06-07-=
+v6.10-rc1)
+
+Regressions Summary
+-------------------
+
+platform                     | arch  | lab         | compiler | defconfig |=
+ regressions
+-----------------------------+-------+-------------+----------+-----------+=
+------------
+imx8mp-verdin-nonwifi-dahlia | arm64 | lab-broonie | gcc-10   | defconfig |=
+ 1          =
+
+kontron-kbox-a-230-ls        | arm64 | lab-kontron | gcc-10   | defconfig |=
+ 1          =
 
 
---JlAvTLCTi6tEcdAx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
+s-next-2024-06-07-v6.10-rc1/plan/baseline-nfs/
 
-On Fri, Jun 07, 2024 at 04:20:10PM +0000, Biju Das wrote:
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   next
+  Describe: renesas-next-2024-06-07-v6.10-rc1
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      d1ef2e3bcb03040dfe57f59896a00a69a5eb4b54 =
 
-> Is there any atomic regulator API's I can make use of enabling it?? VBUS detection
-> happens in interrupt context.
 
-There are no atomic regulator APIs at all at the minute.
 
---JlAvTLCTi6tEcdAx
-Content-Type: application/pgp-signature; name="signature.asc"
+Test Regressions
+---------------- =
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZjObEACgkQJNaLcl1U
-h9BVzwf/XOiV6LYyk5220RvYSefkL8UfteoyuuG1vMIoPKlEjHvlhwmTZI/rX/lN
-8Ttekx1UYFlnJlApvc2oHJS97g53NQwpswHWEYzeU1TaAI7YflM+rIEqd5TQAIRV
-1en5LUdIzSK9KY2F5cwkWfiNA31wC+9+4lTNdT8BPiggzZgkezrYMJSt3FFoxzDC
-Es7pIv6HPKe+xorFwoktNn3yJ4nf+d7Bkzwm9xu6HwL+r3sDB/EoiUOp9trJ8y5A
-fJ0A1kdnIjWEOJXQQQdjjGzNgbi4rFT0NbFnkRgq3HnYHHtYPoE3zvY5h3m5TWDn
-pQGKcNZUsSFpmk4t7t/0yFlzyppWhw==
-=yMzJ
------END PGP SIGNATURE-----
 
---JlAvTLCTi6tEcdAx--
+platform                     | arch  | lab         | compiler | defconfig |=
+ regressions
+-----------------------------+-------+-------------+----------+-----------+=
+------------
+imx8mp-verdin-nonwifi-dahlia | arm64 | lab-broonie | gcc-10   | defconfig |=
+ 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/66633ce2ede686a9967e706d
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2024=
+-06-07-v6.10-rc1/arm64/defconfig/gcc-10/lab-broonie/baseline-nfs-imx8mp-ver=
+din-nonwifi-dahlia.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2024=
+-06-07-v6.10-rc1/arm64/defconfig/gcc-10/lab-broonie/baseline-nfs-imx8mp-ver=
+din-nonwifi-dahlia.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm/20=
+240313.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/66633ce2ede686a99=
+67e706e
+        failing since 9 days (last pass: renesas-next-2024-04-22-v6.9-rc1, =
+first fail: renesas-next-2024-05-28-v6.10-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab         | compiler | defconfig |=
+ regressions
+-----------------------------+-------+-------------+----------+-----------+=
+------------
+kontron-kbox-a-230-ls        | arm64 | lab-kontron | gcc-10   | defconfig |=
+ 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/666313e5e9e60bb2d27e7072
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2024=
+-06-07-v6.10-rc1/arm64/defconfig/gcc-10/lab-kontron/baseline-nfs-kontron-kb=
+ox-a-230-ls.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2024=
+-06-07-v6.10-rc1/arm64/defconfig/gcc-10/lab-kontron/baseline-nfs-kontron-kb=
+ox-a-230-ls.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm/20=
+240313.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/666313e5e9e60bb2d=
+27e7073
+        failing since 137 days (last pass: renesas-next-2023-11-28-v6.7-rc1=
+, first fail: renesas-next-2024-01-22-v6.8-rc1) =
+
+ =20
 
