@@ -1,81 +1,108 @@
-Return-Path: <linux-renesas-soc+bounces-5962-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5963-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A33B9003C3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2024 14:40:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EEC3900936
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2024 17:34:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CFE23B224F5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2024 12:40:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 958941C21B63
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2024 15:34:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA1AA187324;
-	Fri,  7 Jun 2024 12:40:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4193E19AA4F;
+	Fri,  7 Jun 2024 15:31:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XD8ynKQM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uNabSmtw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B63EA15DBC1
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  7 Jun 2024 12:40:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1805226288;
+	Fri,  7 Jun 2024 15:31:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717764029; cv=none; b=I/mOu+sHLcUzQ4EmcBbEiGi9o/mN7LdYLk/3Lb7MEZqRzAyZI8NWosaMdHKAr98PGkPkjFF01WcwZohwVv7dj0BjUGrkB9ZGbGf1agpYcedYf0w14zkh3v+LZXrJky9+zuS5ZVBgrg/kH9Jpnaw5BymoVxxDYWrBLHo09ycZAtY=
+	t=1717774266; cv=none; b=eiLpAPjrGa7M+GkwE4DFqFAmbNTvDtBahLB1BRyJ4zCo6LuPjBj/tDQyziYrR8KhA05X6mnwHooRRn9vKIhQH+G+dxPWbnRJyqk34yc+U6wvrRAatVNRPicQj6KAP7bEI3bBAYAtHKsZ9lLxh/sagmPC/ZvIwS/0V3ay+7WmNHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717764029; c=relaxed/simple;
-	bh=JaqJDhhlJ8mhQPHgY4U6n8TxzikLPMIsGqUgyiYRoaA=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=TuoIuSNEp8UOCAhej8Ot0LnijDwt+WF5IwMhITvDRgdJGMdBKWkW9d2+mUuh3txht9ulamnr/hg0Wd+Gbjl+66b12V149oaAZgZxEY6doVscWUnwWLUJ1b9nZBg0bl6R+k8fUByICSdZURtf/OvUDmZUMRAd+jXFI8v/9vDeN7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XD8ynKQM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4559EC2BBFC
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  7 Jun 2024 12:40:29 +0000 (UTC)
+	s=arc-20240116; t=1717774266; c=relaxed/simple;
+	bh=IIbPTH5Uj8/YQWGzpHSPL0ScEYzR8T8lKL992gm2TBE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jXRuLybeo7rSj/2m2q49YW1/so1VjeiSsLifcSCFZMyCcGm5BIwhhILX6iPBJDrdSMhdxwjMz3vIvmk0LO99z6QwS6hqv5UglijGK8Vnd1ogHr/Xe39xqzZATEZvLwtqAbIDRmTZ2hbF0sDk7o7l5K09sg7yOWE+0cH/myLoABY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uNabSmtw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18A2BC2BBFC;
+	Fri,  7 Jun 2024 15:31:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717764029;
-	bh=JaqJDhhlJ8mhQPHgY4U6n8TxzikLPMIsGqUgyiYRoaA=;
-	h=Subject:From:Date:To:From;
-	b=XD8ynKQMJEhnJ44kVL0EifT89pT/78/mDMiLM9QH9CxoX6i9AqwXQzxz8Iap5Nafr
-	 iHoy8die6yIaCt9+Or2BH3/EjstWfnTXfE5rFldZxi3wwWLBv7A6lc8/I4wzxpa+DT
-	 aPp0CNCO3JF4awn3vJFsAp+2n1OM1XQJf3jjrXuDqLgxMAzVAsUziUxQ/tDl5haoe6
-	 JdSE3epQl9YJmTlhTAbdIoKUtirzRXoOHZCdmYntexWjpy1+RMt+B9pT5LaMTCxEO+
-	 uHDxVC095Qgkj5yfj002p0dXR/cNmtBhgMrDIhM8TqDsxb5risQNkSniljYSjUkiwp
-	 lFQaYgTk49ELQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 33A75C43168
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  7 Jun 2024 12:40:29 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1717774265;
+	bh=IIbPTH5Uj8/YQWGzpHSPL0ScEYzR8T8lKL992gm2TBE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uNabSmtwgyweu5PxB/BpRJRcA9XYT1XRrttmfUcyO1g1y7Iey2E88tQLeq4gPyFN+
+	 nt07kdvRhSOQ5Bp2VBBOy5a5La7kuVJVt90LD5EVHqTOShZ8YnMrAMdl6c2lPImQLT
+	 SQFI+DyiOqJj0hzNgXeH52Qa6w4jm1HS96LfGNhHRbGnXr5cHKjM25e0OIFHBD3xTM
+	 be1P8Q0YqgsQZUyxG2cS8vdeh2xB9WxCi82xg9k4WTSk4jJqzj+pAgLNwCQmpV3jzl
+	 PGWhObv4UBdMVz3OgC/PNqjKO8tgzOJorHb9udy2d/250Zf4BP4VIvqtofgrQrU2uY
+	 HeOxAJF5w3C6g==
+Date: Fri, 7 Jun 2024 16:31:02 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	linux-renesas-soc@vger.kernel.org, linux-phy@lists.infradead.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>, devicetree@vger.kernel.org
+Subject: Re: [PATCH RFC v2 2/4] regulator: Add Renesas RZ/G2L USB VBUS
+ regulator driver
+Message-ID: <ZmMntvriR32aqI-m@finisterre.sirena.org.uk>
+References: <20240607113745.73934-1-biju.das.jz@bp.renesas.com>
+ <20240607113745.73934-3-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From: patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: 
- <171776402915.30665.11843318512348766022.git-patchwork-summary@kernel.org>
-Date: Fri, 07 Jun 2024 12:40:29 +0000
-To: linux-renesas-soc@vger.kernel.org
-
-Hello:
-
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
-
-Series: arm64: dts: renesas: gray-hawk: Add video capture pipeline
-  Submitter: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=856186
-  Lore link: https://lore.kernel.org/r/20240527134129.1695450-1-niklas.soderlund+renesas@ragnatech.se
-    Patches: [1/3] arm64: dts: renesas: r8a779h0: Add video capture nodes
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="udQ3zrK5ASc6H/+G"
+Content-Disposition: inline
+In-Reply-To: <20240607113745.73934-3-biju.das.jz@bp.renesas.com>
+X-Cookie: Your love life will be... interesting.
 
 
-Total patches: 1
+--udQ3zrK5ASc6H/+G
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+On Fri, Jun 07, 2024 at 12:37:43PM +0100, Biju Das wrote:
 
+> +static const unsigned int vbus_voltages[] = {
+> +	3300000, 0
+> +};
+> +
+> +static const struct regulator_ops rzg2l_usb_vbus_reg_ops = {
+> +	.list_voltage = regulator_list_voltage_table,
+> +};
 
+This is an enable control, not a voltage set control?
+
+--udQ3zrK5ASc6H/+G
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZjJ7UACgkQJNaLcl1U
+h9CssQf+JLOCnhzarGMUeGiWEeWYST/8aXioPhyPv1jeexOoc7SuLhV2fFLl8Wr8
+/MaeUNqFkt2gK/Mb8czUYdEbN/IS6v2jFRdzVYiepgWPZydv8V4Jxf5lJ2ztXHxq
+BdzhfN6+1VOSXqEyv4P+GRWiDeRrwtQu16DCsPCRA7Dh+cKRCRK9HMo215eZ5muG
+VisufBOJcop4wFuSF8uRsROh/uF3FPDR19eWyaFHlrBnBL2adq5Fmw6XezvxhHlT
+jT1xNrZSuZam7u5IZXVEqjagtSAamxPaCKbu1uoG4Rec4SWsq7xXtmC2G1iWokYi
+urhOQJOwIoUlyCDyoEzsKOSwns8sJA==
+=QQ++
+-----END PGP SIGNATURE-----
+
+--udQ3zrK5ASc6H/+G--
 
