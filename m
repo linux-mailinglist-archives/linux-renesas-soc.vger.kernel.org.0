@@ -1,130 +1,81 @@
-Return-Path: <linux-renesas-soc+bounces-5961-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5962-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E272900307
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2024 14:09:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A33B9003C3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2024 14:40:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9D010B216D0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2024 12:09:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CFE23B224F5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2024 12:40:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 414EC15A4A2;
-	Fri,  7 Jun 2024 12:09:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA1AA187324;
+	Fri,  7 Jun 2024 12:40:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XD8ynKQM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D45F1847;
-	Fri,  7 Jun 2024 12:09:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B63EA15DBC1
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  7 Jun 2024 12:40:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717762143; cv=none; b=fauqVXhRVEwh9lK9JDOyKLTPmvZd/Gj+s9mA0NadOCH4lIz/z+ru9HDCOA5EbgJPAR7gUnMamy6z/l/S3jDX+ndelWfWStawDykgkhmsAFGtEPQZ5DKAcn/bGjEo36tLebsima44XNPBid3uZBuasxvL6y/bp/13UyVl7tGSJA8=
+	t=1717764029; cv=none; b=I/mOu+sHLcUzQ4EmcBbEiGi9o/mN7LdYLk/3Lb7MEZqRzAyZI8NWosaMdHKAr98PGkPkjFF01WcwZohwVv7dj0BjUGrkB9ZGbGf1agpYcedYf0w14zkh3v+LZXrJky9+zuS5ZVBgrg/kH9Jpnaw5BymoVxxDYWrBLHo09ycZAtY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717762143; c=relaxed/simple;
-	bh=1PjxLGfcuLVYzl+oOzGlXer6PCoQoWHAf94zr4kKv2w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PTyWDrGVkV04e4q73e+2ftnMAq+liHqXXYdQFJYAskNLpDVqoyKXdsedey97kfyDWDnTwVQ+kS+O8a6YbIu+CXM5WZyogyyP4+NDzJZkqfveSNcJspOikxr5bQ6tMkXEvYwAnzdtSh3li5VXcfGKkrCCi/DNr2qFe4NtLesfjms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-62a087bc74bso20728657b3.2;
-        Fri, 07 Jun 2024 05:09:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717762140; x=1718366940;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oODmMA2OuqiB6/GDcDxIFR+jglicRt0MbUJPYnwfDl0=;
-        b=jzkXdhpJ5/eY5QR2s4FQxEAsvg++ZrKhjEYj5ddZrc8yD75c1HVyOC60y3s0nWBfGW
-         QNO08oizWTzesiIful5DUat9AJKb8rbchZ9JkoGJ5//9LVtlGOr1mSAAphMJh5TV8QaK
-         dS/XBVGuG+OFrgHEhY9lh6f2GmjGZYlze8UyCzvfJZqpJ5B/GKMsbjYHqhzPisahmarM
-         oAPVq85KpoIeegFK+2WwvM5GVlebM4j0U/i5VmakREre7OY3uwto4RoZrfOasu+c4B0S
-         1HBKZaVnXOFTZbzSk5ka2YG8NDpnb3KSWTEzhJYde1l+KIBVTTpYQr0oJWxY4iNCNg7h
-         qgpg==
-X-Forwarded-Encrypted: i=1; AJvYcCVCyWvNhskW0QGODm8GDQa6NJJPTREf3ZmCp3UEnwCJ3YE11zN1DUEIt7jjBWkl7qaAgR5SKYYxxStGW1wOMznVyrY6HHqRLL0I357zZBwyym4vwFBvtKp5viuKD8e248y5yCpF5pfg49bUlmvL
-X-Gm-Message-State: AOJu0Yx6fM+f4m+OZNXCSkWp4kCJyzh8i/P6p2RRjJp1H6XRfKCNBIuT
-	eD38quat1occfZQspH3kq4LvhDs+YJkQPXavx4m8KG11uKbIEnYcVFBnxhTb
-X-Google-Smtp-Source: AGHT+IGPC74QQ3MjZS4rP1unVEgg7ZjUXsvi/YGnGP3s/BOY86hXl6/VohApI6DBSXHLDi2fJWmytw==
-X-Received: by 2002:a81:5215:0:b0:610:e9b2:f84a with SMTP id 00721157ae682-62cd55f7346mr21364567b3.26.1717762139985;
-        Fri, 07 Jun 2024 05:08:59 -0700 (PDT)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-62ccad1b121sm6407507b3.63.2024.06.07.05.08.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Jun 2024 05:08:59 -0700 (PDT)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-62a08092c4dso20859757b3.0;
-        Fri, 07 Jun 2024 05:08:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW9PhW8sDMbTiTCa4aA6FLI5WUlCcgcN4lfd/GDdmHLQUdk8V5WrufZVFnymbnePLYwDle7Ibxxqapy25IMuEGepmV9+EgBKR02oGOLxdnLzeMnYp8HTbqpRXfpRzHi4Yj17mNhpTVfeZrOLOZu
-X-Received: by 2002:a25:d38c:0:b0:dfa:599e:8b74 with SMTP id
- 3f1490d57ef6-dfaf659531fmr2486092276.10.1717762139546; Fri, 07 Jun 2024
- 05:08:59 -0700 (PDT)
+	s=arc-20240116; t=1717764029; c=relaxed/simple;
+	bh=JaqJDhhlJ8mhQPHgY4U6n8TxzikLPMIsGqUgyiYRoaA=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=TuoIuSNEp8UOCAhej8Ot0LnijDwt+WF5IwMhITvDRgdJGMdBKWkW9d2+mUuh3txht9ulamnr/hg0Wd+Gbjl+66b12V149oaAZgZxEY6doVscWUnwWLUJ1b9nZBg0bl6R+k8fUByICSdZURtf/OvUDmZUMRAd+jXFI8v/9vDeN7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XD8ynKQM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4559EC2BBFC
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  7 Jun 2024 12:40:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717764029;
+	bh=JaqJDhhlJ8mhQPHgY4U6n8TxzikLPMIsGqUgyiYRoaA=;
+	h=Subject:From:Date:To:From;
+	b=XD8ynKQMJEhnJ44kVL0EifT89pT/78/mDMiLM9QH9CxoX6i9AqwXQzxz8Iap5Nafr
+	 iHoy8die6yIaCt9+Or2BH3/EjstWfnTXfE5rFldZxi3wwWLBv7A6lc8/I4wzxpa+DT
+	 aPp0CNCO3JF4awn3vJFsAp+2n1OM1XQJf3jjrXuDqLgxMAzVAsUziUxQ/tDl5haoe6
+	 JdSE3epQl9YJmTlhTAbdIoKUtirzRXoOHZCdmYntexWjpy1+RMt+B9pT5LaMTCxEO+
+	 uHDxVC095Qgkj5yfj002p0dXR/cNmtBhgMrDIhM8TqDsxb5risQNkSniljYSjUkiwp
+	 lFQaYgTk49ELQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 33A75C43168
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  7 Jun 2024 12:40:29 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <c0a28f466c42d5d59c7fadfa1fd05fd512d43b6f.1717060708.git.geert+renesas@glider.be>
- <ZlhGYFM6iVlGjZk-@surfacebook.localdomain> <CAMuHMdU6V4Ooit7P5pqUFXOZawiZj7TjXY7t=KVk84xPZ0PR+A@mail.gmail.com>
- <CAHp75Vd3ke3_bxwsxzSVzjnNW-6aYDTYHvZ-+B9nJtAJR1fX=g@mail.gmail.com> <7f4ef893-5ab6-4a9e-ad54-4b3587516bcf@moroto.mountain>
-In-Reply-To: <7f4ef893-5ab6-4a9e-ad54-4b3587516bcf@moroto.mountain>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 7 Jun 2024 14:08:47 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXp7aR6=Rvk3Fe_P3xqdavc9Bh7Df3dJfRWF1KUnOTJOw@mail.gmail.com>
-Message-ID: <CAMuHMdXp7aR6=Rvk3Fe_P3xqdavc9Bh7Df3dJfRWF1KUnOTJOw@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: renesas: rzn1: Use for_each_child_of_node_scoped()
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From: patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: 
+ <171776402915.30665.11843318512348766022.git-patchwork-summary@kernel.org>
+Date: Fri, 07 Jun 2024 12:40:29 +0000
+To: linux-renesas-soc@vger.kernel.org
 
-On Fri, May 31, 2024 at 10:01=E2=80=AFAM Dan Carpenter <dan.carpenter@linar=
-o.org> wrote:
-> On Thu, May 30, 2024 at 04:36:59PM +0300, Andy Shevchenko wrote:
-> > On Thu, May 30, 2024 at 2:52=E2=80=AFPM Geert Uytterhoeven <geert@linux=
--m68k.org> wrote:
-> > > On Thu, May 30, 2024 at 11:26=E2=80=AFAM Andy Shevchenko
-> > > <andy.shevchenko@gmail.com> wrote:
-> > > > Thu, May 30, 2024 at 11:19:29AM +0200, Geert Uytterhoeven kirjoitti=
-:
-> > > > > Use the scoped variant of for_each_child_of_node() to simplify th=
-e code.
-> > > >
-> > > > I do not see the point of this patch. This makes code actually more
-> > > > complicated, and I'm not sure the code generation is the same and n=
-ot worse.
-> > >
-> > > On arm32, a conversion to for_each_child_of_node_scoped() seems to
-> > > cost ca. 48 bytes of additional code.
-> > >
-> > > BTW, the same is true for cases where the conversion does simplify
-> > > cleanup.
-> > >
-> > > I checked "pinctrl: renesas: Use scope based of_node_put() cleanups",
-> > > and all but the conversions in *_dt_node_to_map() cost 48 bytes each.
-> >
-> > Yeah. so for the cases where there are no returns from inside the loop
-> > I prefer not to use _scoped.
->
-> Eventually _scoped() loops will become the norm.  Leaving some unscoped
-> loops will be a fun surprise for the first person to introduce a return
-> -EINVAL.
+Hello:
 
-Exactly. So I'm queuing this patch.
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-Gr{oetje,eeting}s,
+Series: arm64: dts: renesas: gray-hawk: Add video capture pipeline
+  Submitter: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=856186
+  Lore link: https://lore.kernel.org/r/20240527134129.1695450-1-niklas.soderlund+renesas@ragnatech.se
+    Patches: [1/3] arm64: dts: renesas: r8a779h0: Add video capture nodes
 
-                        Geert
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Total patches: 1
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
 
