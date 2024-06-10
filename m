@@ -1,100 +1,145 @@
-Return-Path: <linux-renesas-soc+bounces-6022-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6023-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E705902AEA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 23:51:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id F30E1902B3A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 00:01:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A2C561C20E76
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 21:51:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0B41E1C234A5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 22:01:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 466425473E;
-	Mon, 10 Jun 2024 21:51:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97C1214535A;
+	Mon, 10 Jun 2024 22:00:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QCjKh2VZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="huEybc9Y"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 227D31879
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Jun 2024 21:51:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0055337F;
+	Mon, 10 Jun 2024 22:00:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718056315; cv=none; b=Y0g+YuojKE+gwswlhhKI+yzFYxXpHz2dDMdr/qsCZQ0VzV0V1ISfVbwoz9EPk9KCjouRbILs10Hm8f919FIA1Al/NnmKXzeKzVWq9WLDr2eNlvMzv+O96i6/Vy2ngEEGRc8ZKejANIOt02SSGbkOGKV5mch4WTqrjBmqYIdLoXo=
+	t=1718056852; cv=none; b=eDsAjj4UwCI5H0Q72E7p5ilxFbAYEiUOtvopCjydDxxWlVKaE8KDdPvGlP1Noz5tiGFa3MrAgQGZzkUS/Xequ/Tkz5KRSSbDJaHQBBi2q4oVKCuYnDq0R7V6SNxfy6BmcXghVSMV87BoRUS1EOS6hvveMcgzB3vUblj6hGhqHNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718056315; c=relaxed/simple;
-	bh=gVSHYb8vrQlWBwKEUXzqXe8WoOplvTz9iQcPwjxIhiY=;
+	s=arc-20240116; t=1718056852; c=relaxed/simple;
+	bh=4hNrFc5LQ7zPOmlhF4e5T18BjWyq+GThHayn0/NaZ8I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LQ62zrefCFmyB1xo8aJH+uMHnmn59Yy6lbXM0UXgRqg70bXY2N7ADqxK1J3PGRstYk6qcgN7YJRj9M3bZ3toKYicOJ0IEayGTSDOpXMI6CcSPs4zAlG8xqfhEMW6FZLoz7JJtWMxe/cb0DvDNiEHVWJdPjew8Sq2ggaSrinAnh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QCjKh2VZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23CDDC2BBFC;
-	Mon, 10 Jun 2024 21:51:51 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=e2A3br9f0Q1kxS2i1Z36i6WRY4ROghP29UlGvHbT84Q8w6k4HNZPnMFmRbxEhfanmYu9P/GBZ3KBjS9oG1QdsYhdyR742hQ1MwnLLfZfbamazEei1AqPwQSbCpoG7AojgS5oROM1sEPeSbnO1lHsKlmUXp+ZxsYfAHiZIJUYb2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=huEybc9Y; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B717CC2BBFC;
+	Mon, 10 Jun 2024 22:00:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718056314;
-	bh=gVSHYb8vrQlWBwKEUXzqXe8WoOplvTz9iQcPwjxIhiY=;
+	s=k20201202; t=1718056852;
+	bh=4hNrFc5LQ7zPOmlhF4e5T18BjWyq+GThHayn0/NaZ8I=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QCjKh2VZAsKHO8M1Ww8Ut9JvxmW+sGcOeE+kUALsHcF5ZNfMilijPnxlMnkMSMQyl
-	 /VnzakbrA3Tg18QKrJ63g5INu7F4YqVF2W69ic9roUUEHYOIVUhCb6csneFkNGul0d
-	 tK+sTgW2tUefs912dboaJX/Vy6DvFrWduuR1RZSknm2lOwDg5Hp4+NE+u+wn8+9BBL
-	 c3Qt51PBNsEq8tfKELXT+Rj/iGzVcG5epO3bAJVVGqsufY+JwV3iMrZTLmPYzsNsB9
-	 vTXEnFACMItoaFqbmIWr0U6g5oZExpPUGfcdoYc4JQ3SON210kuuPXFKPfx6+WxIcl
-	 I6NT3ool8ANPQ==
-Date: Mon, 10 Jun 2024 22:51:38 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Tuomas Tynkkynen <ttynkkynen@nvidia.com>,
+	b=huEybc9YuEj0AZwnpmz5EXvHdpAREfdtqHkySmqqhzG3SNpEtBUesnoPIL6ndf4P1
+	 UNxE7hu5V0shaT0L8hhi+YeUmp2us+aHrr3XY/CTcTBc3j+TuA4QD5MDAkK9Q0p4i6
+	 Laij4U3VHDklXrUH8YhDxMzV2vbetKGgxts5PCtWsfxAiumelUv8f+tLnDp4Xydj8E
+	 G2c+p0kiKlssgBeLTXH0G/eFMG/1e7gm3Y2i+3Xsji4CQhdd9hjU3A2ruFzwZ8X/d4
+	 dpOpbN8xy+GXEGdlGVFEddOdZiLLzjoF8P5dcbLawM0H1pivb57o0et6/9woy7Noo4
+	 ADSX+cTDtdVcg==
+Date: Mon, 10 Jun 2024 16:00:50 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: devicetree@vger.kernel.org,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] regulator: core: Fix modpost error
- "regulator_get_regmap" undefined
-Message-ID: <Zmd1arKQ1bCRKAl8@finisterre.sirena.org.uk>
-References: <20240610195532.175942-1-biju.das.jz@bp.renesas.com>
+	linux-kernel@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH v4] dt-bindings: pinctrl: renesas: Document RZ/V2H(P) SoC
+Message-ID: <171805684854.3144242.13947017914816663654.robh@kernel.org>
+References: <20240606085133.632307-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tFsK59KXKVw6Npes"
-Content-Disposition: inline
-In-Reply-To: <20240610195532.175942-1-biju.das.jz@bp.renesas.com>
-X-Cookie: Your love life will be... interesting.
-
-
---tFsK59KXKVw6Npes
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240606085133.632307-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Mon, Jun 10, 2024 at 08:55:32PM +0100, Biju Das wrote:
-> Fix the modpost error "regulator_get_regmap" undefined by adding export
-> symbol.
->=20
-> Fixes: 04eca28cde52 ("regulator: Add helpers for low-level register acces=
-s")
 
-This is fixing the user, not the initial commit...
+On Thu, 06 Jun 2024 09:51:33 +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> Add documentation for the pin controller found on the Renesas RZ/V2H(P)
+> (R9A09G057) SoC. The RZ/V2H PFC varies slightly compared to the RZ/G2L
+> family:
+> - Additional bits need to be set during pinmuxing.
+> - The GPIO pin count is different.
+> 
+> Hence, a SoC-specific compatible string, 'renesas,r9a09g057-pinctrl', is
+> added for the RZ/V2H(P) SoC.
+> 
+> Also, add the 'renesas,output-impedance' property. The drive strength
+> setting on RZ/V2H(P) depends on the different power rails coming out from
+> the PMIC (connected via I2C). These power rails (required for drive
+> strength) can be 1.2V, 1.8V, or 3.3V.
+> 
+> Pins are grouped into 4 groups:
+> 
+> Group 1: Impedance
+> - 150/75/38/25 ohms (at 3.3V)
+> - 130/65/33/22 ohms (at 1.8V)
+> 
+> Group 2: Impedance
+> - 50/40/33/25 ohms (at 1.8V)
+> 
+> Group 3: Impedance
+> - 150/75/37.5/25 ohms (at 3.3V)
+> - 130/65/33/22 ohms (at 1.8V)
+> 
+> Group 4: Impedance
+> - 110/55/30/20 ohms (at 1.8V)
+> - 150/75/38/25 ohms (at 1.2V)
+> 
+> The 'renesas,output-impedance' property, as documented, can be
+> [0, 1, 2, 3], these correspond to register bit values that can
+> be set in the PFC_IOLH_mn register, which adjusts the drive
+> strength value and is pin-dependent.
+> 
+> As power rail information may not be available very early in the boot
+> process, the 'renesas,output-impedance' property is added instead of
+> reusing the 'output-impedance-ohms' property.
+> 
+> Also, allow bias-disable, bias-pull-down and bias-pull-up properties
+> as these can be used to configure the pins.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> Sending just the binding patch of series [0] as reset of the patches have
+> been Reviewed.
+> 
+> [0] https://patchwork.kernel.org/project/linux-renesas-soc/cover/20240530173857.164073-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+> 
+> v3->v4
+> - Added a conditional schema for ensuring the reset length
+>   is 2 for RZ/V2H and 3 otherwise
+> - Updated description for renesas,output-impedance property
+> - Dropped '|'
+> 
+> v2->v3
+> - Updated description for renesas,output-impedance property
+> - Updated commit description
+> 
+> RFC->v2
+> - Renamed renesas-rzv2h,output-impedance -> renesas,output-impedance
+> - Updated values for renesas,output-impedance
+> - Added bias properties
+> ---
+>  .../pinctrl/renesas,rzg2l-pinctrl.yaml        | 37 +++++++++++++++++--
+>  1 file changed, 33 insertions(+), 4 deletions(-)
+> 
 
---tFsK59KXKVw6Npes
-Content-Type: application/pgp-signature; name="signature.asc"
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZndWkACgkQJNaLcl1U
-h9CwYQf/TJsfIdPFb9PKOh6nxgB2SdnLWGggKoeF6WHKgB6P0/hGrOnPTwirIn9p
-eJwJwLVPWxgm91wJVVpON/MFIP8ZN658b18mw+BLs1m+cTmJO5HjigGjtElMbyYc
-bTmmFM5psrYg7RuwE3nbqC9E1OenffBINqse4ZTNkQpjbCn5h8MYcnh7hULPNfrs
-xRDRW5ke76INxsOqYA4llfbgrTAyXxy6RxI9unZjpsmzHIrdz9RBa0YRYXSPIf44
-lbdCSYzijNA8DtWeYuCowGC2AehAYWLu7p98NNMI8U5o9gKXi4KJOVfKDGvLybUY
-XczshYX1jlAbi7QQjpvRHz4y9ZdjkQ==
-=vRVl
------END PGP SIGNATURE-----
-
---tFsK59KXKVw6Npes--
 
