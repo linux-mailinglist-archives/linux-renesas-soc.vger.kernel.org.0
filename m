@@ -1,187 +1,126 @@
-Return-Path: <linux-renesas-soc+bounces-5989-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5990-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 391A7901B65
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 08:53:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F0A901BF1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 09:35:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8E667B21552
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 06:53:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 97DBC28300F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 07:35:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22DDB1BF2A;
-	Mon, 10 Jun 2024 06:53:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C09E426286;
+	Mon, 10 Jun 2024 07:35:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qPj5C8aw"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="SZGdlocX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C0B10A22
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Jun 2024 06:53:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DB86208B0
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Jun 2024 07:35:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718002417; cv=none; b=rzeXV3LB2Ti2VQGRpZ9tcBow8RF5czrjhObjuDeoBvzS7rMqGwAop6cZIa0prK5RRqUHKtjNReU2tsSwHmZUFRnByBPWnfPJZvGCn1OYWpxeEpEkvtectmKyygDz6YChnRgSI8AGLnrDhIrGf38RaYJlkk3vUjzO3GUFMzQwNjE=
+	t=1718004904; cv=none; b=XK0mOBLf7ajG+bSFOvYLypxAjRp9USw2Wu+iT0VwPFxWUjl7rJBWRCv8exUs9rfB64VqztFxE6jX8SiUG+YdILLb27KMeOV0r426cOQGaOplXMM0UZemg6oWrjCXR5w9dnvLWGu4gaPDYAK2vMyV9efsW+1uU+3SdZLPcHm5eBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718002417; c=relaxed/simple;
-	bh=mRZh5+OagwrYksdm05IvR/+1yNl8KYHz8Qj7URz+FVo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jtdkOQLJowssxO+wCYqPRwcUd8yd2J9oqbW/aoDmtCdovh5KT+R+wygvZgTHSCI6jVd8s0KySESfJH0FWhplyvtzqCZdgHfqnzR63W2LrLMj4NzTWiX+4TjOG49Yk9Rrq30nOIGEW8SxIqq7TzIMURtFSjYJntJy3WFTFU6uMnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qPj5C8aw; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2c2f8f73010so735734a91.1
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 09 Jun 2024 23:53:35 -0700 (PDT)
+	s=arc-20240116; t=1718004904; c=relaxed/simple;
+	bh=VliUnf1LC3h4+sX0On9wlPW+jzs8kc5Ixi7qA1fxruE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HSQFNuaLUMoPhGwlVbJSZaGWyUa65jdIkis/ub1W5xKji/A/Rg4nWfj6Ahtdu2ADmb8MNFea4hPBJ93Qs3GjLj8/jkLP8FKzFT57FLUwT6zr6j9mBwdMcYIbfCSVHeFc6fA2p9A53XH4GMoQJdi4QANNFYKo2fNk/5CmsalcrHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=SZGdlocX; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-42179dafd6bso9848435e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Jun 2024 00:35:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718002415; x=1718607215; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Q79+Rla3cX6Hmnq2eCF4cwSxfS8g2qeMA5niTT4AJrk=;
-        b=qPj5C8awILJqh3c/ngE7eXKXeYZ0SQOicLTFq5jZzuiL9aHGzEYvh25QB2h713dsMt
-         3c+MYas5fDMuGrH8mO4sx57ojueo6ftuPopnJa8wRmTz/AM8UYoXfiKFHSX5FXJbANil
-         FXb2sSUzmTcDjagabFJSpcd5Sf6WY1j3W5R9gjYUHCNy7BL30CnnEcV8NFyanyR2uSUr
-         s6qJy1tSl33o4XhZyubNBuquojl/ZVvDXJCp+1zIsYAwS8gjZi9sQv0ENu8wSMRglpwD
-         pPYl6Kd2rlSRWDZPNjBVzziIsusmJ9rwKqw4ylTnOAzRRRRUP7wdfPSva9Qt1AESroYZ
-         Mh4w==
+        d=tuxon.dev; s=google; t=1718004900; x=1718609700; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nFHT2mQiPwOe9xw3h0sZO/aY5iVIcTCAjYd6ForW6is=;
+        b=SZGdlocXOyAdK2HcpYRFrMYm4yYA9qWXRKeg9eV29kin8DLKdNRCUg2TbmtqTpgQWh
+         MVviTjHtxNm4vLdMJMvBM6f8HpiNmnZaX3/FFZrTP1IuUbBolrWrPLiD0t+iaRpaT166
+         9oVNMkA3aF0jqUb4sVV7PFDYvdKLZ+ZLZHdLmQ/o+Ae+YBobHagbNrZFEoNqHAGzfLmh
+         MwPEInBzECR0opH+kHCU3Wp9Fyz1pJ8H/ocDjwW98FjUohkAylP2cEE6zgWXB9U0nLYR
+         k1lR5uXDE6tA3UBtyihzs/mjhFDNMkTUcu3NKUp9KTJofZNT8aA1m4P9wFzDc/liC79p
+         hyUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718002415; x=1718607215;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1718004900; x=1718609700;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q79+Rla3cX6Hmnq2eCF4cwSxfS8g2qeMA5niTT4AJrk=;
-        b=d0En92W7Y/dU3uO0JtaaFfoi9F+RtL1WwtQg6xjhxersVe87O6ewbZ1eu7+mUZvZkd
-         1K+6nwkVuD3Ma7o9oB69UlkG2pdOIYko1mij/zTHGqKTqFty8rv7kNDREOV9xVQzAH17
-         h5O+4roVtGDqvEj5sGFmY3kW/nrzqTTtgw56MVR1HnpIqarB6zrJffQBOsgyBNRGhQWm
-         rZVqQrunbEy1SiqKmpS2ROKLCGqI/IjhITKb+DKERG0UfizlWLVcgm5hqNOkDoLTXyIU
-         0/iKiHSJpT1QtxRYjsojl/hGwJsXbHyS05CZGzGYzDYVPdbXPiDUlUATEOqYV4fqqVzy
-         RCGA==
-X-Forwarded-Encrypted: i=1; AJvYcCXZu5rhESO0Qe+VA1s2ayzjpXf8HyyTOz6SH+jvRmzPZNjTdubAr8SBdxZ/7l6T56PytZ6JS9NHE7Pz1QIcKK/AGf8jyN/B+YTCe6bFFtZUdH8=
-X-Gm-Message-State: AOJu0YykV2YNRHP4v41w3+TJlRpMRVGMB6fHkVyc23l0YU5vLQIJMATV
-	2IGwiNQqxn+L/qaTZOF6uBmV+MZu3eb4XkUUUVYtJ8s02lpCKnVJulggATFe4g==
-X-Google-Smtp-Source: AGHT+IGiQnfID/w2ovEqOtXmdaUmHolv4W8npj5rXP4hlu3K/zYS4n6pz5nKcO0YwT4Ao+fhHzZlGg==
-X-Received: by 2002:a17:90b:b12:b0:2c2:c3fb:b13c with SMTP id 98e67ed59e1d1-2c2c3fbb277mr5727406a91.44.1718002414578;
-        Sun, 09 Jun 2024 23:53:34 -0700 (PDT)
-Received: from thinkpad ([220.158.156.236])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c3094cfe3dsm1355898a91.15.2024.06.09.23.53.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Jun 2024 23:53:34 -0700 (PDT)
-Date: Mon, 10 Jun 2024 12:23:24 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Vignesh Raghavendra <vigneshr@ti.com>,
-	Siddharth Vadapalli <s-vadapalli@ti.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Richard Zhu <hongxing.zhu@nxp.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Minghuan Lian <minghuan.Lian@nxp.com>,
-	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
-	Jesper Nilsson <jesper.nilsson@axis.com>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Srikanth Thokala <srikanth.thokala@intel.com>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>
-Cc: linux-omap@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-arm-kernel@axis.com, linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-	mhi@lists.linux.dev, Niklas Cassel <cassel@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>
-Subject: Re: [PATCH 0/5] PCI: endpoint: Add EPC 'deinit' event and
- dw_pcie_ep_linkdown() API
-Message-ID: <20240610065324.GA7660@thinkpad>
-References: <20240606-pci-deinit-v1-0-4395534520dc@linaro.org>
+        bh=nFHT2mQiPwOe9xw3h0sZO/aY5iVIcTCAjYd6ForW6is=;
+        b=cLlatNCKWbABCD0HyKCyjaTbhm+MJdFHy5oGOUjkCyzWKV7jJiUVgxLhRORTZpVKNM
+         MEJrXlP/VhCyXR7h0kwJouM2eUCwycIHZV2/fHH9HwlZAY1aGsRT2xCV8LoYJnZ/Vwhc
+         7fZthAhn8XMg+DBooyK0ookkNTAqkZhE4Lmpa1x6XTYFAOJfqPn94YTrt75BZ+XOPOvH
+         OpEM50ksDVxNdaklpaFwrNGGh5XoGwTnBvQuTfAi5uCSoHVvRMggPvQeKLFWJw5D0KlO
+         qJ9wRowWXZfuxg175BYV25x6gcZj2gTVM2XqVlTq6Xj1VufL/GCI5D729WNMyQQzc4OB
+         96vw==
+X-Forwarded-Encrypted: i=1; AJvYcCVvyT9VgBX3onq2ZffHjigXdbOY+VP92Nes/NaWWFIJuUg95S62zmO038VZ2KtkPO9XQwgZmzRxBf6721BfamqC1/dwA0t5ICJ9SrhHf02YlWE=
+X-Gm-Message-State: AOJu0YyRHNvT6t6M3IoVr6/iak5PN8mQmBR77JoYOJvMPSQanOWGEMNg
+	LhBa9kNxF/Z27l3JdpWhrSvOkxdIuIApG+Ercop15CGBM1ew3YHxdvxA2wGewbE=
+X-Google-Smtp-Source: AGHT+IEo2JAEM8YQ5ACMdMdsTOq64tAsPg+t0zg39oLXt7yTkzc7WSJbbN+KIU+lY9quNUXLDIHq/g==
+X-Received: by 2002:a05:6000:178f:b0:35f:27dc:4d53 with SMTP id ffacd0b85a97d-35f27dc4dd5mr678509f8f.30.1718004900021;
+        Mon, 10 Jun 2024 00:35:00 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.189])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42158110dfesm168181575e9.19.2024.06.10.00.34.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Jun 2024 00:34:59 -0700 (PDT)
+Message-ID: <acf4e381-86d6-4cb8-a672-fcb680147c23@tuxon.dev>
+Date: Mon, 10 Jun 2024 10:34:58 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240606-pci-deinit-v1-0-4395534520dc@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] irqchip: renesas-rzg2l: Reorder function calls in
+ rzg2l_irqc_irq_disable()
+Content-Language: en-US
+To: Prabhakar <prabhakar.csengg@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Thomas Gleixner <tglx@linutronix.de>
+Cc: linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240606194813.676823-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <20240606194813.676823-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jun 06, 2024 at 12:56:33PM +0530, Manivannan Sadhasivam wrote:
-> Hi,
-> 
-> This series includes patches that were left over from previous series [1] for
-> making the host reboot handling robust in endpoint framework.
-> 
-> When the above mentioned series got merged to pci/endpoint, we got a bug report
-> from LKP bot [2] and due to that the offending patches were dropped.
-> 
-> This series addressed the issue reported by the bot by adding the stub APIs in
-> include/pci/pci-epc.h and also removed the unused dwc wrapper as concluded in
-> [3].
-> 
-> Testing
-> =======
-> 
-> This series is tested on Qcom SM8450 based development board with 2 SM8450 SoCs
-> connected over PCIe.
-> 
-> - Mani
-> 
 
-Applied patch 2/5 to pci/endpoint! Krzysztof, please apply patches 1/5 and 5/5
-to controller/dwc (patches 3/5 and 4/5 are already applied by you).
 
-- Mani
-
-> [1] https://lore.kernel.org/linux-pci/20240430-pci-epf-rework-v4-0-22832d0d456f@linaro.org/
-> [2] https://lore.kernel.org/linux-pci/202405130815.BwBrIepL-lkp@intel.com/
-> [3] https://lore.kernel.org/linux-pci/20240529141614.GA3293@thinkpad/
+On 06.06.2024 22:48, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> The order of function calls in the disable operation should be the reverse
+> of that in the enable operation. Thus, reorder the function calls to first
+> disable the parent IRQ chip before disabling the TINT IRQ.
+> 
+> Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com> # on RZ/G3S
+
 > ---
-> Manivannan Sadhasivam (5):
->       PCI: dwc: ep: Remove dw_pcie_ep_init_notify() wrapper
->       PCI: endpoint: Introduce 'epc_deinit' event and notify the EPF drivers
->       PCI: dwc: ep: Add a generic dw_pcie_ep_linkdown() API to handle Link Down event
->       PCI: qcom-ep: Use the generic dw_pcie_ep_linkdown() API to handle Link Down event
->       PCI: layerscape-ep: Use the generic dw_pcie_ep_linkdown() API to handle Link Down event
+>  drivers/irqchip/irq-renesas-rzg2l.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->  drivers/pci/controller/dwc/pci-dra7xx.c           |   2 +-
->  drivers/pci/controller/dwc/pci-imx6.c             |   2 +-
->  drivers/pci/controller/dwc/pci-keystone.c         |   2 +-
->  drivers/pci/controller/dwc/pci-layerscape-ep.c    |   4 +-
->  drivers/pci/controller/dwc/pcie-artpec6.c         |   2 +-
->  drivers/pci/controller/dwc/pcie-designware-ep.c   | 116 +++++++++++++---------
->  drivers/pci/controller/dwc/pcie-designware-plat.c |   2 +-
->  drivers/pci/controller/dwc/pcie-designware.h      |  10 +-
->  drivers/pci/controller/dwc/pcie-keembay.c         |   2 +-
->  drivers/pci/controller/dwc/pcie-qcom-ep.c         |   5 +-
->  drivers/pci/controller/dwc/pcie-rcar-gen4.c       |   2 +-
->  drivers/pci/controller/dwc/pcie-tegra194.c        |   3 +-
->  drivers/pci/controller/dwc/pcie-uniphier-ep.c     |   2 +-
->  drivers/pci/endpoint/functions/pci-epf-mhi.c      |  19 ++++
->  drivers/pci/endpoint/functions/pci-epf-test.c     |  17 +++-
->  drivers/pci/endpoint/pci-epc-core.c               |  25 +++++
->  include/linux/pci-epc.h                           |  13 +++
->  include/linux/pci-epf.h                           |   2 +
->  18 files changed, 162 insertions(+), 68 deletions(-)
-> ---
-> base-commit: 7d96527bc16e46545739c6fe0ab6e4c915e9910e
-> change-id: 20240606-pci-deinit-2e6cdf1bd69f
-> 
-> Best regards,
-> -- 
-> Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> 
-
--- 
-மணிவண்ணன் சதாசிவம்
+> diff --git a/drivers/irqchip/irq-renesas-rzg2l.c b/drivers/irqchip/irq-renesas-rzg2l.c
+> index 861a0e5a3e97..693ff285ca2c 100644
+> --- a/drivers/irqchip/irq-renesas-rzg2l.c
+> +++ b/drivers/irqchip/irq-renesas-rzg2l.c
+> @@ -271,8 +271,8 @@ static void rzg2l_tint_irq_endisable(struct irq_data *d, bool enable)
+>  
+>  static void rzg2l_irqc_irq_disable(struct irq_data *d)
+>  {
+> -	rzg2l_tint_irq_endisable(d, false);
+>  	irq_chip_disable_parent(d);
+> +	rzg2l_tint_irq_endisable(d, false);
+>  }
+>  
+>  static void rzg2l_irqc_irq_enable(struct irq_data *d)
 
