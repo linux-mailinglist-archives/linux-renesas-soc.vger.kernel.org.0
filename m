@@ -1,87 +1,144 @@
-Return-Path: <linux-renesas-soc+bounces-6020-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6021-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED7C6902A45
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 22:54:11 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCF8A902A9F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 23:32:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7102E28515E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 20:54:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8DFEC1F21A5B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 21:32:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D1094E1DD;
-	Mon, 10 Jun 2024 20:54:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBB6F6F306;
+	Mon, 10 Jun 2024 21:32:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iDBskrnh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TCn4DE7P"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310D84D8BE;
-	Mon, 10 Jun 2024 20:54:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7CE16F303;
+	Mon, 10 Jun 2024 21:32:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718052848; cv=none; b=RSBwqTtT2qTgb0VK0MpgPEGsOGE4S2joWo16BUwP3Uqs81WdT89NCUsgSeDU7UXBTPr1+AY3+JziHoDyB6VvHYMP7VNXzSXMtPJ99cIR9+WoUh1IvDVi2mCWLkjJvbeb6NZQP6bUQVDgBulGuD87pipTYs3Yk7MTKDa3Fmx61wg=
+	t=1718055153; cv=none; b=G5zAckwIWR2isANNwal93k1A3+6PwbFxFV15nBxOl2+J2ZVfkHj3bkuybfeBumaOEmmOTtEoB4QLH8V+8GeCLPnpiJ6Z1iJtIfCmXv+w0T+bfdmxWhWEla5/uvDeIpcmeDIi6TxQionm7x++eCyVINuZqSXjyae+9KeoIN/dlpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718052848; c=relaxed/simple;
-	bh=9DzOZmQjpktfQznnYQuj10wn3q7CxC2o+sBzzMxdbqE=;
+	s=arc-20240116; t=1718055153; c=relaxed/simple;
+	bh=vKDG0Hj2x02NzRvs1P4c8KxG47eguF+5FL0Qoh+qR2A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YGaMrpo7w7WVSnGS1UtZKo1+IFAkiAPPRMUOva4WFzY6wxc8sNocEJ5ms7QhgZUzBY7WAf1ntw7lC8nMo15U33qwSTxQCIy+UYyAa2AXPVWzJGwOOtVTAeoifG/3wDCcmRAS9XMtFjz+ac4w34jRx5hKoR4ij6OEXnMNU0X3vWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iDBskrnh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54A66C2BBFC;
-	Mon, 10 Jun 2024 20:54:07 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=uV2drmsdBC9UYly+O1oY2MDFWTr0Pw00iLgoND+FIMv8nMYYwksnIiXcJBsiZ7oz4IIPzIrrZWDqYY7tCejBUnTUmPvG2TKmhcbMZYYJ7KMUBA3Vkm2Fpz1fkIYYpjCEIf3NwQH71dv+mV/7Ds/Kz7NDWHDzpvz2W9GD0MeHQsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TCn4DE7P; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B703C2BBFC;
+	Mon, 10 Jun 2024 21:32:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718052847;
-	bh=9DzOZmQjpktfQznnYQuj10wn3q7CxC2o+sBzzMxdbqE=;
+	s=k20201202; t=1718055153;
+	bh=vKDG0Hj2x02NzRvs1P4c8KxG47eguF+5FL0Qoh+qR2A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iDBskrnhFNvqFwfXM+aa/ZowHHnTtWHKgQdxfjMhzaoPTl7TgAdKYw4+f73vHsep7
-	 kIWGn4yQD2icORVeX3VUc74+b+8LcbiI0BuwDEHHos2F2jNaPeF5MJsSkMQG2CxyGr
-	 zZ1IZEHwrF8qcY7tB7lu6snnvldy59u0yR/IvjNmccx6qoE8GIXhgLeGW0S5tzbOo6
-	 3Qcpj8mP6Id8yfA8ke8ac3OKoWlD0q9+AGhB051nWheRoAafDE4aCvZ9o7Tnopat9m
-	 6OdefXbsLDzWkAnISa5DraaAN9DrwbvxFsyGRRVm6r72sOIFN0adblBlXueo7XbDxZ
-	 YGQ1MTgbeho1g==
-Date: Mon, 10 Jun 2024 14:54:06 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	devicetree@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH v2] dt-bindings: timer: renesas,tmu: Make interrupt-names
- required
-Message-ID: <171805284387.3066238.15673238620541550531.robh@kernel.org>
-References: <65fdd0425be0cc1bae9e6f7996aceaa5ad34e510.1716985947.git.geert+renesas@glider.be>
+	b=TCn4DE7PNPTS2IAfFi5MwSVUmdQBiOhs2hiopg6LfVfS0blPdi+jqX0upo34jyU9j
+	 Wp5hInakTmnxnz/zdGz+A5L9jOtrxq2DGg40nQKl2eDc6eLrj/3jHdrHVKAgE2RJ6R
+	 e344X1aJrCC+y5uGdiJIm11o9UDYKpk+joaiIBqTfriCmcajZbWKQbxJI1RVgvdh+i
+	 nzodtzxe45gvVXBnvzSNtjVOSLneVqHO9iMcueOIr4oA7FKC39t3wpQm83ElkZOfDn
+	 pZfVdXZcqiRC2dJNpgechhei8g/axwSygwh88BZoI3DGQ1BTNx5hLAF2F9Q2XQ5RIW
+	 ldn96VSawyX1w==
+Date: Mon, 10 Jun 2024 22:32:29 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: media: renesas,vin: Add binding for
+ V4M
+Message-ID: <20240610-yoga-antler-e6447592de16@spud>
+References: <20240610113124.2396688-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240610113124.2396688-2-niklas.soderlund+renesas@ragnatech.se>
+ <20240610-screen-wolverine-78370c66d40f@spud>
+ <20240610165935.GA382677@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="rp2D1YW89B4IOca+"
 Content-Disposition: inline
-In-Reply-To: <65fdd0425be0cc1bae9e6f7996aceaa5ad34e510.1716985947.git.geert+renesas@glider.be>
+In-Reply-To: <20240610165935.GA382677@ragnatech.se>
 
 
-On Wed, 29 May 2024 14:32:32 +0200, Geert Uytterhoeven wrote:
-> Now all in-tree users have been updated with interrupt-names properties
-> according to commit 0076a37a426b6c85 ("dt-bindings: timer: renesas,tmu:
-> Document input capture interrupt"), make interrupt-names required.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
-> v2:
->   - Add Acked-by.
-> ---
->  Documentation/devicetree/bindings/timer/renesas,tmu.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
+--rp2D1YW89B4IOca+
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Applied, thanks!
+On Mon, Jun 10, 2024 at 06:59:35PM +0200, Niklas S=F6derlund wrote:
+> Hi Conor,
+>=20
+> Thanks for your feedback.
+>=20
+> On 2024-06-10 17:03:49 +0100, Conor Dooley wrote:
+> > On Mon, Jun 10, 2024 at 01:31:23PM +0200, Niklas S=F6derlund wrote:
+> > > Document support for the VIN module in the Renesas V4M (r8a779h0) SoC.
+> > >=20
+> > > Signed-off-by: Niklas S=F6derlund <niklas.soderlund+renesas@ragnatech=
+=2Ese>
+> > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > ---
+> > >  Documentation/devicetree/bindings/media/renesas,vin.yaml | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >=20
+> > > diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml=
+ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > > index 5539d0f8e74d..168cb02f8abe 100644
+> > > --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > > +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > > @@ -54,6 +54,7 @@ properties:
+> > >                - renesas,vin-r8a77995 # R-Car D3
+> > >                - renesas,vin-r8a779a0 # R-Car V3U
+> > >                - renesas,vin-r8a779g0 # R-Car V4H
+> > > +              - renesas,vin-r8a779h0 # R-Car V4M
+> >=20
+> > Your driver patch suggests that this is compatible with the g variant.
+>=20
+> Currently it is. But that not always be true, I tried to outline this in=
+=20
+> to cover letter.
 
+To be honest, I don't usually read cover letters when reviewing bindings.
+Information about why things are/are not compatible should be in a
+commit itself.
+
+>     The V4M capture pipeline is similar to the other Gen4 SoC supported
+>     upstream already V4H. Currently all futures supported for VIN on V4M =
+are
+>     also supported by V4H and the driver code can be shared. But as done =
+for
+>     other R-Car IP bindings a new dedicated binding for V4M is created.
+>     This have proved prudent in the past where quirks are found even with=
+in
+>     the same generation as more advance use-cases are enabled.
+
+I don't understand how this precludes using the g variant as a fallback
+compatible. I'm not suggesting that you don't add a specific one for the
+h variant.
+
+Thanks,
+Conor.
+
+--rp2D1YW89B4IOca+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZmdw7QAKCRB4tDGHoIJi
+0mF2AQDHZgiGMIhr2JtZTtPBM+AL2RVAYfqjFXSJ/epzN0s9XQD9GgrZHFSXIvTs
+CCLf1XlIfs4zoqQIgVW+IBDUeeUj/wg=
+=3rF3
+-----END PGP SIGNATURE-----
+
+--rp2D1YW89B4IOca+--
 
