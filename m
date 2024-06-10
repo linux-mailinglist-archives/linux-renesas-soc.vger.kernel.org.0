@@ -1,151 +1,107 @@
-Return-Path: <linux-renesas-soc+bounces-6016-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6017-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73D1B90275B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 18:59:50 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08C3B9027BD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 19:26:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 60C1D1C20FA1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 16:59:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B642AB23A42
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 17:26:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A29C139580;
-	Mon, 10 Jun 2024 16:59:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="VtLdEU80";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fh/K3p8g"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50490146D54;
+	Mon, 10 Jun 2024 17:25:36 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from wfhigh3-smtp.messagingengine.com (wfhigh3-smtp.messagingengine.com [64.147.123.154])
+Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D1C1EA6F;
-	Mon, 10 Jun 2024 16:59:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA58146A85;
+	Mon, 10 Jun 2024 17:25:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718038784; cv=none; b=gei8pGNCdt6+0F9g7kmLe8DMClykAGX2jpkiQuKmume4nszJfd+fPQy9J4/UIrl98IlNKAMs5n/M7M1cAkE3SkPzedDrjfDFUM1hv1z7i8rU4dQJeoRCKqLDU9UKYEGhufLbMJw/6cYgcnMO5rs+g/EM+O/Wv0Uq9CxjhFvCDS0=
+	t=1718040336; cv=none; b=bCPZf0B3UGos/lW7wpfQToJ189OCMOkkUoiVcsOwJiugbgjL6CF/2m1LnPuVW34ZH5j930Smkzlh0L3X/2hU/m9NBoogPx9eZAQX3jhUYHnJqWRT9P0BtTJHGkbEoHpbvB32KDiHZrUTWSQiP0bX9Y1iuon0/x1iuFPbBIW3vYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718038784; c=relaxed/simple;
-	bh=3huiau6qlrNkKfWaufi5V+jQlWTAO41JYjpXr98MUIo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JihWPom19Gm3YQQoRK2F/8OteLHCehww6bOE3M6spY9AduadhTT/Bs/GgSglkSSnmw9xENakieC1XIr8LJ8lX2Bw+Qls2ZcQCRCRHkzvAsVtO7SQH3KIQ0/9N8A5Z7UoF2B9xN0x2uZR1PwE+7EDBc/3fOpbjgHUx1zVsy/WVYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=VtLdEU80; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fh/K3p8g; arc=none smtp.client-ip=64.147.123.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailfhigh.west.internal (Postfix) with ESMTP id 8848418000EB;
-	Mon, 10 Jun 2024 12:59:39 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Mon, 10 Jun 2024 12:59:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1718038779;
-	 x=1718125179; bh=dm/RILVXdRiU7G2dzezG7xRb98q5YeytvFv4g2s+ROM=; b=
-	VtLdEU80NgLbeKybjMsLWfYo1R/oXrbTj3FncKvHJ7iOHZpMR54doPiAhbDwWKFu
-	aqAfJ0FRyuR0H1zGdpL2xZ6U6zL0YPharZayYAugpNorkMXeACz/7BJBrdm0l2OP
-	nXXVcZ+NxmGhAeOuWBhjjHS9zHnVhD4qraufH1YRkHCal/TPHn+cLB9e6bsgBex9
-	DEApONKQX1g7xan+8GUtNr1sIW9iBqoXQh6limzBcJ5xOVuZ6vvuB/Oc+X6uX1zE
-	ESrrXrXKm3LHG1jgWFhgpG/oeGqj4kAjPfsuUwEpwFlan14RU2fW3UHqQGTR8+YA
-	/Jl/MfcWaYH1ZnEBloWznQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1718038779; x=
-	1718125179; bh=dm/RILVXdRiU7G2dzezG7xRb98q5YeytvFv4g2s+ROM=; b=f
-	h/K3p8gmX/p8fSy8K7U9B5OyCosZPOHtXHR+RMpFrpZuOhc9EbCWbRiAJNqBZaM+
-	p7GNRFr9XGSCO+EMf/TJft9eE07U6qF8G04Cep/OvjA38MJ+ir0JBEFSyrFFGNgx
-	Rs1ZMY2XZUDx0E7/w44sdC7X+5D1kbnyiSrncqapT/rrxu5tQM4N3rxyJdshCTxY
-	nuHSrizRDMl1OEoSWmQHvEawrLWaUNdQynasuTs1RiXLWK+hspXHL481lOsrpfsO
-	lkt3Uc7RTOthkTFBU7UjTdm/MY4XfZnFajhHsvAKrrbElbC3x9vAMekJk6v3cqAR
-	+okDv4fDwdmVIe5AHc+RA==
-X-ME-Sender: <xms:-zBnZibLzWHtg4zkj8oYjpl6_9eOUnQ8nGXQa2HoOwfqqbShi2LYSQ>
-    <xme:-zBnZla_IQyKlP8iRu7uUyfCRyvEbg8NAMVWOgv6jNdYdz65kx7_3p4AuWRNUX9OF
-    OapWIARmfCeeJlRsrY>
-X-ME-Received: <xmr:-zBnZs8T7mpi1-3YfOsqPh92ssGGXqkRPEdHIgyJhwd2_cm2adpH8FVMxMbiaOZXW3OJme5whInPqH-Ih-TnQtWFt1CVvqM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfedutddguddtiecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhi
-    khhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvg
-    hnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepfefhleel
-    hfffjefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftddvleeinecuvehluhhsth
-    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohgu
-    vghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
-X-ME-Proxy: <xmx:-zBnZkrV4Xb-MQaeCA7T1H8xx-paPjmfihOG3zBnVXuhfcj-NAJQ6Q>
-    <xmx:-zBnZtoQRIzRU0ELbG7dbBlh3Gl5liJHBe33Ib-MvHMVWaI6G726Ow>
-    <xmx:-zBnZiSl_fWVbzL6Dl4hgEoZCQY7M4PcTlaOBljiH9xDQ3DsylDdaA>
-    <xmx:-zBnZto5K4dP_R1Jlp_L9R6TOzY9DQExRY8tfHFpjk9n018TtzDl2w>
-    <xmx:-zBnZo3cnnWpQYJ-BpL9wi--nyYe1joPFxwibIARPeb1p3dwViVGApOX>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 10 Jun 2024 12:59:38 -0400 (EDT)
-Date: Mon, 10 Jun 2024 18:59:35 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Conor Dooley <conor@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	s=arc-20240116; t=1718040336; c=relaxed/simple;
+	bh=/XC+mW55r7g3Z7DohPDOOzrNgrg2loXRTnDdHi23zho=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=NcMBpMxt/vfmUG8OVa2LmcjePNph6ErwCCSJAohgDSGYWgmmG3cyxKF1onnuY/YsNWBBFw4eJV4+rXDEPi+K31LqL5afq6qWvyFJ+NVJZSjC5diY0Cw2RPwaWOJe+nlufT2wqdQibZ8thDooWGa0xgo/hMGajKZA7Iux5olyZRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf02.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay09.hostedemail.com (Postfix) with ESMTP id 16FB080F13;
+	Mon, 10 Jun 2024 17:25:33 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf02.hostedemail.com (Postfix) with ESMTPA id BA94080012;
+	Mon, 10 Jun 2024 17:25:30 +0000 (UTC)
+Message-ID: <c4e6c55e3683d72e1688751ac07a242a7e008ab7.camel@perches.com>
+Subject: Re: [PATCH v2] checkpatch: really skip LONG_LINE_* when LONG_LINE
+ is ignored
+From: Joe Perches <joe@perches.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
 	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: media: renesas,vin: Add binding for
- V4M
-Message-ID: <20240610165935.GA382677@ragnatech.se>
-References: <20240610113124.2396688-1-niklas.soderlund+renesas@ragnatech.se>
- <20240610113124.2396688-2-niklas.soderlund+renesas@ragnatech.se>
- <20240610-screen-wolverine-78370c66d40f@spud>
+Cc: Andy Whitcroft <apw@canonical.com>, Dwaipayan Ray
+ <dwaipayanray1@gmail.com>,  Lukas Bulwahn <lukas.bulwahn@gmail.com>, Andrew
+ Morton <akpm@linux-foundation.org>,  linux-kernel@vger.kernel.org
+Date: Mon, 10 Jun 2024 10:25:29 -0700
+In-Reply-To: <20240610150420.2279-2-wsa+renesas@sang-engineering.com>
+References: <20240610150420.2279-2-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240610-screen-wolverine-78370c66d40f@spud>
+X-Stat-Signature: drztxps11me4qpxzsrmb7s95j9w4aotf
+X-Rspamd-Server: rspamout02
+X-Rspamd-Queue-Id: BA94080012
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1/3VhGBhzMP6rw5Kfw1qlZD69AsltsBAxU=
+X-HE-Tag: 1718040330-163830
+X-HE-Meta: U2FsdGVkX1/LMPDsLe0iwAc+RCZSEPnXlqEQhJQ52JeNPyL64hZ+hpR2jtQmMDSvHdRZN8PQ72PZ30tUWULgUnkqjVlut1x4yfQdcjp6yvyW6HGhCQipdSik4KFrxS1LZ22Onk3eNBa26LkcJ0vNrqH5ur2S4B13fEbTl+8Im46IBFXwcUWaeOnGMx0weecUPcD//Btzn+pDITBNowUUxXfefl14mbvb0YFbkDZBq2BMYCmasvI6Hgv0rSWGeQeYR/Uxhj2+6d9/cgYBDK56rVn+m/1eyp8Zt35Ip80ePrDrZ/ZUsLsiNntpcYkyE0TVhaQppzTeSxK4rSmMJ7tL7FBuFxzxd11Edy/bvcn76TAMixwkthBZRippoK3rvsWbP4Oj9XhhoNXHZuwgSbShkUAFKT2yDgXRLqgmvJmLKa+YJOzf/olWV+yvNM7zFO/u
 
-Hi Conor,
+On Mon, 2024-06-10 at 17:02 +0200, Wolfram Sang wrote:
+> For a printout to happen, all types must be set to "show". So, AND is nee=
+ded
+> for the flags, not OR, if we want to ignore something.
 
-Thanks for your feedback.
+Right.  One day I'll learn...
 
-On 2024-06-10 17:03:49 +0100, Conor Dooley wrote:
-> On Mon, Jun 10, 2024 at 01:31:23PM +0200, Niklas Söderlund wrote:
-> > Document support for the VIN module in the Renesas V4M (r8a779h0) SoC.
-> > 
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> >  Documentation/devicetree/bindings/media/renesas,vin.yaml | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > index 5539d0f8e74d..168cb02f8abe 100644
-> > --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > @@ -54,6 +54,7 @@ properties:
-> >                - renesas,vin-r8a77995 # R-Car D3
-> >                - renesas,vin-r8a779a0 # R-Car V3U
-> >                - renesas,vin-r8a779g0 # R-Car V4H
-> > +              - renesas,vin-r8a779h0 # R-Car V4M
-> 
-> Your driver patch suggests that this is compatible with the g variant.
+As the comment above the block shows:
 
-Currently it is. But that not always be true, I tried to outline this in 
-to cover letter.
+47e0c88b37a5c3 (Joe Perches        2015-06-25 15:02:57 -0700 3821) # if LON=
+G_LINE is ignored, the other 2 types are also ignored
 
-    The V4M capture pipeline is similar to the other Gen4 SoC supported
-    upstream already V4H. Currently all futures supported for VIN on V4M are
-    also supported by V4H and the driver code can be shared. But as done for
-    other R-Car IP bindings a new dedicated binding for V4M is created.
-    This have proved prudent in the past where quirks are found even within
-    the same generation as more advance use-cases are enabled.
+Acked-by: Joe Perches <joe@perches.com>
 
--- 
-Kind Regards,
-Niklas Söderlund
+>=20
+> Fixes: 47e0c88b37a5 ("checkpatch: categorize some long line length checks=
+")
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>=20
+> Change since v1:
+> * removed now unneeded pair of braces (Thanks, Geert!)
+> * reworded commit message
+>=20
+>  scripts/checkpatch.pl | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 2b812210b412..375749e0a174 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -3858,7 +3858,7 @@ sub process {
+>  			}
+> =20
+>  			if ($msg_type ne "" &&
+> -			    (show_type("LONG_LINE") || show_type($msg_type))) {
+> +			    show_type("LONG_LINE") && show_type($msg_type)) {
+>  				my $msg_level =3D \&WARN;
+>  				$msg_level =3D \&CHK if ($file);
+>  				&{$msg_level}($msg_type,
+
 
