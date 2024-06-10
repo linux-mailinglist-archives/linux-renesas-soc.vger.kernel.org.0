@@ -1,110 +1,137 @@
-Return-Path: <linux-renesas-soc+bounces-6014-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6015-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 059DC902642
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 18:04:06 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5F90902761
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 19:03:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2A5941C22B81
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 16:04:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 30D91B29EB4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 16:56:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E8871422B8;
-	Mon, 10 Jun 2024 16:03:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j8Q9EX5+"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 014E31E898;
+	Mon, 10 Jun 2024 16:48:55 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0CE312E1F1;
-	Mon, 10 Jun 2024 16:03:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DC1E1482F6
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Jun 2024 16:48:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718035433; cv=none; b=PU6YA49gqXK5RIU9rq6p4I0fda3cym5Kk23B+cNPAWDlaRa1atj4nW8WYgNE8MYn8iQrf3N52JAmQDiiuZYCv3moPN1yG4nKRNuPGVgLBA7/9K4SFICee8Kaoj4EzohGm+jzdIoNCWB9pVM8ydBFxjnLJHD1nSmYYbpoFrWjKJ0=
+	t=1718038134; cv=none; b=ujQnqH+BXod4whoeR9SWe/kiFmZIl/azWAGESlaGCnrPI1MN/IGjYRA6GmafBU2wH96Uy5tgY+Qb6jrmnvbUVBxC6MfI6ckDOZH23DMvfdwr6H453ADOorkFfO/7B+ojZDnNyO1qODhPjWxozmbjRy66mE/sAlMVibR56+C3ZJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718035433; c=relaxed/simple;
-	bh=RwF9HGM3v2JKmElGI/IpKM2vavADFeV3uIMUuQdu26c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q07qi59ffdAGyzWsnE+umAOeQUwetoeAFqbKYlnSzcXPjElULMbLXVC4uSgIrn0idj+JPVTpFTKR96y5pUtteZApTiDuUIZ5kfvVxkTB3c0Q9xuy9RZpci0qhbCYioS/Jxaz4RZs5Vm408fKRgTdIp6YtSlia0l5Phbf/kVzVsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j8Q9EX5+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E17BC2BBFC;
-	Mon, 10 Jun 2024 16:03:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718035433;
-	bh=RwF9HGM3v2JKmElGI/IpKM2vavADFeV3uIMUuQdu26c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=j8Q9EX5+QfFyJCpRn7bWKcWYhZ2ozI/RXD9E5XPU87ccZAafj699B+zdYmzmWBziV
-	 kyjcQz2D14y++caMYTVT3iDIJYH308qW2xr03tMf6Xf/6HOyfHwSalygea1rexJO/Q
-	 oIDmcX7m982/HX4yfz4cw56Go16Y+/X67D80NLa/f6eCcc+wca/VqbqTv3V0GKhlzL
-	 uYoI51TTtGPHOT3koTxy2dm01g5XROmIzsQ+VIVGpl3f2P5VSz0kMi8oVIbxL4p3LV
-	 lG0frsg/As6SHhQuVAZUTm20DWUhtEGpF5ypwKB4wr6kiSUhmwkGSrtyIgYN8R2jpz
-	 OlATPS7zbOvmg==
-Date: Mon, 10 Jun 2024 17:03:49 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	s=arc-20240116; t=1718038134; c=relaxed/simple;
+	bh=wDz9j2Hp7WS/VB5/jLmyYNaj1RdVo42/qs3oSWfZrU4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=t7/p/2O+kA9rNuZ7/DH+eMi/2qVuBtfD71fEm0ndl/zEpcK/GTiHB+xO0zXOtbmqTI/dlKs8Hj82HE9df6m3eJyEpd1z05BZ1K7hgYueWEhTpvtdpKsT2/aOfcNPkEfAUBSTidrb/kZHE/3wGIqzpABFJjVBHS6OBWgTffDeipU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.08,227,1712588400"; 
+   d="scan'208";a="211315762"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 11 Jun 2024 01:48:50 +0900
+Received: from localhost.localdomain (unknown [10.226.92.192])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id CED614012AFE;
+	Tue, 11 Jun 2024 01:48:48 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>,
 	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: media: renesas,vin: Add binding for
- V4M
-Message-ID: <20240610-screen-wolverine-78370c66d40f@spud>
-References: <20240610113124.2396688-1-niklas.soderlund+renesas@ragnatech.se>
- <20240610113124.2396688-2-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2] reset: rzg2l-usbphy-ctrl: Move reset controller registration
+Date: Mon, 10 Jun 2024 17:48:45 +0100
+Message-Id: <20240610164845.89666-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="UpOQ7ScyTPHogBDg"
-Content-Disposition: inline
-In-Reply-To: <20240610113124.2396688-2-niklas.soderlund+renesas@ragnatech.se>
+Content-Transfer-Encoding: 8bit
 
+As soon as the reset controller is registered, it could be used by a
+reset consumer. That means hardware setup to be done first and then the
+registration of the reset controller. So move the registration of reset
+controller at the end of probe().
 
---UpOQ7ScyTPHogBDg
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+While at it, fix the issue that the reset is not re-asserted in case
+devm_reset_controller_register() fails and also use goto statements to
+simplify the error path in probe().
 
-On Mon, Jun 10, 2024 at 01:31:23PM +0200, Niklas S=F6derlund wrote:
-> Document support for the VIN module in the Renesas V4M (r8a779h0) SoC.
->=20
-> Signed-off-by: Niklas S=F6derlund <niklas.soderlund+renesas@ragnatech.se>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  Documentation/devicetree/bindings/media/renesas,vin.yaml | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/D=
-ocumentation/devicetree/bindings/media/renesas,vin.yaml
-> index 5539d0f8e74d..168cb02f8abe 100644
-> --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> @@ -54,6 +54,7 @@ properties:
->                - renesas,vin-r8a77995 # R-Car D3
->                - renesas,vin-r8a779a0 # R-Car V3U
->                - renesas,vin-r8a779g0 # R-Car V4H
-> +              - renesas,vin-r8a779h0 # R-Car V4M
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+v1->v2:
+ * Updated commit header and description
+ * Moved reset controller registration at the end of the probe()
+ * Fixed the issue that the reset is not re-asserted in case
+   devm_reset_controller_register() fails
+ * Used goto statements to simplify the error path in probe().
+ * Restored the blank line before devm_reset_controller_register().
+---
+ drivers/reset/reset-rzg2l-usbphy-ctrl.c | 32 +++++++++++++++----------
+ 1 file changed, 19 insertions(+), 13 deletions(-)
 
-Your driver patch suggests that this is compatible with the g variant.
+diff --git a/drivers/reset/reset-rzg2l-usbphy-ctrl.c b/drivers/reset/reset-rzg2l-usbphy-ctrl.c
+index 8f6fbd978591..29b852a8ac5a 100644
+--- a/drivers/reset/reset-rzg2l-usbphy-ctrl.c
++++ b/drivers/reset/reset-rzg2l-usbphy-ctrl.c
+@@ -125,25 +125,14 @@ static int rzg2l_usbphy_ctrl_probe(struct platform_device *pdev)
+ 	if (error)
+ 		return error;
+ 
+-	priv->rcdev.ops = &rzg2l_usbphy_ctrl_reset_ops;
+-	priv->rcdev.of_reset_n_cells = 1;
+-	priv->rcdev.nr_resets = NUM_PORTS;
+-	priv->rcdev.of_node = dev->of_node;
+-	priv->rcdev.dev = dev;
+-
+-	error = devm_reset_controller_register(dev, &priv->rcdev);
+-	if (error)
+-		return error;
+-
+ 	spin_lock_init(&priv->lock);
+ 	dev_set_drvdata(dev, priv);
+ 
+ 	pm_runtime_enable(&pdev->dev);
+ 	error = pm_runtime_resume_and_get(&pdev->dev);
+ 	if (error < 0) {
+-		pm_runtime_disable(&pdev->dev);
+-		reset_control_assert(priv->rstc);
+-		return dev_err_probe(&pdev->dev, error, "pm_runtime_resume_and_get failed");
++		dev_err_probe(&pdev->dev, error, "pm_runtime_resume_and_get failed");
++		goto err_pm_disable_reset_deassert;
+ 	}
+ 
+ 	/* put pll and phy into reset state */
+@@ -153,7 +142,24 @@ static int rzg2l_usbphy_ctrl_probe(struct platform_device *pdev)
+ 	writel(val, priv->base + RESET);
+ 	spin_unlock_irqrestore(&priv->lock, flags);
+ 
++	priv->rcdev.ops = &rzg2l_usbphy_ctrl_reset_ops;
++	priv->rcdev.of_reset_n_cells = 1;
++	priv->rcdev.nr_resets = NUM_PORTS;
++	priv->rcdev.of_node = dev->of_node;
++	priv->rcdev.dev = dev;
++
++	error = devm_reset_controller_register(dev, &priv->rcdev);
++	if (error)
++		goto err_pm_runtime_put;
++
+ 	return 0;
++
++err_pm_runtime_put:
++	pm_runtime_put(&pdev->dev);
++err_pm_disable_reset_deassert:
++	pm_runtime_disable(&pdev->dev);
++	reset_control_assert(priv->rstc);
++	return error;
+ }
+ 
+ static void rzg2l_usbphy_ctrl_remove(struct platform_device *pdev)
+-- 
+2.25.1
 
---UpOQ7ScyTPHogBDg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZmcj5QAKCRB4tDGHoIJi
-0tFhAP9hVva+Qfu5znqYBjqL6eKNP0nBZMzhNm581qicnXKWfAEAgAHMIl3RsIOu
-RdQ/KcfmhQrIDCv2bH5uv5PwlCnpCAI=
-=/tCf
------END PGP SIGNATURE-----
-
---UpOQ7ScyTPHogBDg--
 
