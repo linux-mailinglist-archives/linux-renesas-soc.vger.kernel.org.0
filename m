@@ -1,155 +1,115 @@
-Return-Path: <linux-renesas-soc+bounces-5992-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-5994-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FF97902048
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 13:26:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A95B902056
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 13:27:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D9BCDB20C56
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 11:26:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 48EF01C21CBA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 11:27:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 337F174414;
-	Mon, 10 Jun 2024 11:26:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DB477FBBA;
+	Mon, 10 Jun 2024 11:27:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="livBFA0e"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D9AFC01
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Jun 2024 11:26:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571FC7BB19
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Jun 2024 11:27:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718018798; cv=none; b=Kj4zRb1W90vUHV+EOwe5cy2mBK8K/JWRGjHKvCoV4RXAFH1PYYp/sL4GXy/hS0qhfs0WdO3Ven3cJk8HGWz0UsE00fugASmXv0iBRuilpOktb6c0e8ZJ5NWKMj+4Hm4BAKqchDjnumsIR3zKkoKT3XkiilU/Q+bA1ijHvBc74fg=
+	t=1718018829; cv=none; b=Np69o/7PwNOeVr80UOJUy5agq7pFzTym6doGV/xc+ut4S8sC29cTfzX6upk+9caB7OPd9arAfEAJgeHS9JPGIeT9/+QnefsvCqq6Q+wKIgeHcnv1QCsiK7/mXEXHdJYUb9LQtGPqfm959lvjFnAH2i51cX0Dvl/I6duXCAZWlig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718018798; c=relaxed/simple;
-	bh=KDdpBnw8irO3M6ROZ1WWWN8Gv8lHbFDkeAfFhiWD2/g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KKTBAuvZ4VURA2ckzqUC3rw4rU8hxsxwjfO7mmPMnx6sTD4wvVAfiwkIdIWWZXmWUZWrzDBXpZKweUoCjLMJ3ogC2JkfFGEbzaSP/4hFK3rfa3dOmR7+xMoEkdjDs8prMOD2HWMpO+ZEN+nn3sna37i4xr/QQJSuqUz8rVYegjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-627ea4e0becso45440597b3.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Jun 2024 04:26:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718018794; x=1718623594;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9ac9vzbXIHwz+09h2MdzPEYDaHZXEgpOSgwmdM6bUs4=;
-        b=OZP+Hu3bg+SmanHAWmz2vavo8H0BDwyVIUCarKhSjGzd9DhQCjOwVpevJhhcF0pmdp
-         OZDFpdPcmaE3D+J5lYyHTyRm4tZlofiGnl1BIDR6TnA0mPs7c5NLxKAQ6do0ldfzGAuI
-         /pm1lFjnwhyJCx1hmEFdMkrxsajGs2z6bcaP99Jypr6vlyTdwgW7Pxg276SqAv2et+O0
-         bWTp9G99ir9l2VFyoWKZlO5BSc2eSDF735obRnhBTxNketgfVw5waJIfKReZ5td/MlQU
-         zufymDwsP0KZeGiqjoU2Q1/Zb9ykYtZBr2GgFp/yHHWndEP7fZxbO4SP46ZDCd7+fBMW
-         ypZg==
-X-Forwarded-Encrypted: i=1; AJvYcCVRybAyLl4KdH7N3Xw2Gb53AHzFeOX/4cdC01i9Bz3L2Zq8FBejNVO8sONSAjaaPKr8YQnPd3SMUFJaRy+sRLBcqP+tXaGkImWcj845YcRQwTY=
-X-Gm-Message-State: AOJu0Yzh7osWdQp4hc8K5F8N9wGQrdCs9pn2FAQ+1+bxwwGfdc3DUdNv
-	xVP8p6UUwaUGV2ZDA7FeBytRNwMXoABUlxOse3znjt6oFctiHnAhsqdyUZwu
-X-Google-Smtp-Source: AGHT+IHF+zeHRM/EF1h06ppn9yMbf+r2dl1KRHfbZExXDxsC10wa+x4ZxUtw/01+v8yMNWbS9SXJqw==
-X-Received: by 2002:a0d:c301:0:b0:62c:c641:f971 with SMTP id 00721157ae682-62cd556e071mr91464277b3.7.1718018794208;
-        Mon, 10 Jun 2024 04:26:34 -0700 (PDT)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-62d199ffdc6sm1169997b3.76.2024.06.10.04.26.33
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Jun 2024 04:26:34 -0700 (PDT)
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dfa4876a5bbso3961469276.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Jun 2024 04:26:33 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWpyKcN+T0Y1U7X7IUkOnAQG07rDEBoNLwUuVS8qB3qoj1qnANzHv4cqSC1vffmR+Sz01U5cODYSpytoGr+RzppHDmA/Wy5wbMoDAuhD5+4/NY=
-X-Received: by 2002:a25:ab68:0:b0:df4:db52:c909 with SMTP id
- 3f1490d57ef6-dfaf64ebd21mr8460218276.19.1718018793794; Mon, 10 Jun 2024
- 04:26:33 -0700 (PDT)
+	s=arc-20240116; t=1718018829; c=relaxed/simple;
+	bh=HQ5K2V7ImuQzgY0Z25LLWCsNKSjf75rCGsKc2Gobefw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n02e2JrmxwIU9HpTilPTQCUYP9iK3QZ1Ub0zh5DAiJlnPf4ZE5kM8Uo6twnFifXJA37XQRNFj1/BRclpr1st4dscsshQY1z/Ryc16DiFyH1HLv0jSSnLxDvzloXY1hoqjgShefYP8uHBV5zMkXZ9uKMe49/gtDvmeSazZKgK4eU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=livBFA0e; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=65Hs/UBIIEGh/K
+	jtF098khzUPg6uB3YzgN/ax7OfSBM=; b=livBFA0eYkDxlKayfRaD61UktqpDXR
+	pjujtn2ULSGBrP4rJVymie95LzRWDsN7AbrfhARj1ErAriTVqKGBiFW4zHuW/9UP
+	pwaC7ObVVchJdRrEUqGltkD3DEXWeOM49GSj31QaLrKL4AxJh4+7cFjA3qrOgad1
+	33nTwRTWT9o73FJncRWV72BE+4Yb/ic4God3IQZK2b2r2oVEa6lrM7XRWbWzNfD5
+	Agnd9PSqSl2ONNnvLLq0K/g+DTjtUUWZWTZdgJmAxSuZ3y4Nqe5vms1GINHUAfSN
+	dvaAjpM66z1hR4RP1KfAIU9NAYEl0KzW2VUH9jQ0+W7yE3XpywVbAA1Q==
+Received: (qmail 56150 invoked from network); 10 Jun 2024 13:27:01 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Jun 2024 13:27:01 +0200
+X-UD-Smtp-Session: l3s3148p1@LFySbYcaWuQgAwDPXymAAHMyzy0c7Kdl
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-doc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v9 0/1] gpio: add simple logic analyzer using polling
+Date: Mon, 10 Jun 2024 13:26:58 +0200
+Message-ID: <20240610112700.80819-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240609201622.87166-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20240609201622.87166-1-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 10 Jun 2024 13:26:21 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW-UCbiz6bEZmSVHy67PA_z0p7v4U=ROSpva7nZ+YqPsA@mail.gmail.com>
-Message-ID: <CAMuHMdW-UCbiz6bEZmSVHy67PA_z0p7v4U=ROSpva7nZ+YqPsA@mail.gmail.com>
-Subject: Re: [PATCH] reset: rzg2l-usbphy-ctrl: Move reset_deassert after devm_*()
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Biju,
+Here is the next version of the sloppy GPIO logic analyzer. Changes
+since v8 are mentioned in the patch itself. For those new to this
+sloppy GPIO logic analyzer, here is a small excerpt from a previous
+cover-letter with the links updated:
 
-Thanks for your patch!
+===
 
-On Sun, Jun 9, 2024 at 10:16=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
-> Move reset_control_deassert after devm_reset_controller_register() to
-> simplify the error path in probe().
+Here is the next update of the in-kernel logic analyzer based on GPIO
+polling with local irqs disabled. It has been tested locally and
+remotely. It provided satisfactory results. Besides the driver, there is
+also a script which isolates a CPU to achieve the best possible result.
+I am aware of the latency limitations. However, the intention is for
+debugging only, not mass production. Especially for remote debugging and
+to get a first impression, this has already been useful. Documentation
+is within the patch, to get a better idea what this is all about.
 
-Where's the simplification?
-Oh, this patch fixes the issue that the reset is not re-asserted in
-case devm_reset_controller_register() fails? Please say so.
+A branch is here:
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/gpio-logic-analyzer-v9
 
-> While at it, drop the blank line before devm_reset_controller_register().
+And an eLinux-wiki page with a picture of a result is here:
+https://elinux.org/Kernel_GPIO_Logic_analyzer
 
-I'd rather keep that blank line.
+I've used the analyzer in a few more scenarios and on multiple SoCs
+(Renesas R-Car H3 and M3-W) and was happy with the outcome. Looking
+forward to other tests and comments. From my side this is good to go.
 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  drivers/reset/reset-rzg2l-usbphy-ctrl.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/reset/reset-rzg2l-usbphy-ctrl.c b/drivers/reset/rese=
-t-rzg2l-usbphy-ctrl.c
-> index 8f6fbd978591..93c65a57686d 100644
-> --- a/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-> +++ b/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-> @@ -121,20 +121,19 @@ static int rzg2l_usbphy_ctrl_probe(struct platform_=
-device *pdev)
->                 return dev_err_probe(dev, PTR_ERR(priv->rstc),
->                                      "failed to get reset\n");
->
-> -       error =3D reset_control_deassert(priv->rstc);
-> -       if (error)
-> -               return error;
-> -
->         priv->rcdev.ops =3D &rzg2l_usbphy_ctrl_reset_ops;
->         priv->rcdev.of_reset_n_cells =3D 1;
->         priv->rcdev.nr_resets =3D NUM_PORTS;
->         priv->rcdev.of_node =3D dev->of_node;
->         priv->rcdev.dev =3D dev;
-> -
->         error =3D devm_reset_controller_register(dev, &priv->rcdev);
+===
 
-As soon as the reset controller is registered, it could be used by a
-reset consumer, right?  Unfortunately all hardware setup is only done
-after this registration, so I think the registration should be moved
-to the end of the function.
+Thanks and happy hacking,
 
->         if (error)
->                 return error;
->
-> +       error =3D reset_control_deassert(priv->rstc);
-> +       if (error)
-> +               return error;
-> +
->         spin_lock_init(&priv->lock);
->         dev_set_drvdata(dev, priv);
+   Wolfram
 
-Gr{oetje,eeting}s,
+Wolfram Sang (1):
+  gpio: add sloppy logic analyzer using polling
 
-                        Geert
+ .../dev-tools/gpio-sloppy-logic-analyzer.rst  |  93 +++++
+ Documentation/dev-tools/index.rst             |   1 +
+ drivers/gpio/Kconfig                          |  17 +
+ drivers/gpio/Makefile                         |   1 +
+ drivers/gpio/gpio-sloppy-logic-analyzer.c     | 340 ++++++++++++++++++
+ tools/gpio/gpio-sloppy-logic-analyzer.sh      | 246 +++++++++++++
+ 6 files changed, 698 insertions(+)
+ create mode 100644 Documentation/dev-tools/gpio-sloppy-logic-analyzer.rst
+ create mode 100644 drivers/gpio/gpio-sloppy-logic-analyzer.c
+ create mode 100755 tools/gpio/gpio-sloppy-logic-analyzer.sh
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+-- 
+2.43.0
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
