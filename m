@@ -1,137 +1,151 @@
-Return-Path: <linux-renesas-soc+bounces-6015-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6016-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5F90902761
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 19:03:17 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73D1B90275B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 18:59:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 30D91B29EB4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 16:56:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 60C1D1C20FA1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2024 16:59:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 014E31E898;
-	Mon, 10 Jun 2024 16:48:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A29C139580;
+	Mon, 10 Jun 2024 16:59:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="VtLdEU80";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fh/K3p8g"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DC1E1482F6
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Jun 2024 16:48:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from wfhigh3-smtp.messagingengine.com (wfhigh3-smtp.messagingengine.com [64.147.123.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D1C1EA6F;
+	Mon, 10 Jun 2024 16:59:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718038134; cv=none; b=ujQnqH+BXod4whoeR9SWe/kiFmZIl/azWAGESlaGCnrPI1MN/IGjYRA6GmafBU2wH96Uy5tgY+Qb6jrmnvbUVBxC6MfI6ckDOZH23DMvfdwr6H453ADOorkFfO/7B+ojZDnNyO1qODhPjWxozmbjRy66mE/sAlMVibR56+C3ZJk=
+	t=1718038784; cv=none; b=gei8pGNCdt6+0F9g7kmLe8DMClykAGX2jpkiQuKmume4nszJfd+fPQy9J4/UIrl98IlNKAMs5n/M7M1cAkE3SkPzedDrjfDFUM1hv1z7i8rU4dQJeoRCKqLDU9UKYEGhufLbMJw/6cYgcnMO5rs+g/EM+O/Wv0Uq9CxjhFvCDS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718038134; c=relaxed/simple;
-	bh=wDz9j2Hp7WS/VB5/jLmyYNaj1RdVo42/qs3oSWfZrU4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=t7/p/2O+kA9rNuZ7/DH+eMi/2qVuBtfD71fEm0ndl/zEpcK/GTiHB+xO0zXOtbmqTI/dlKs8Hj82HE9df6m3eJyEpd1z05BZ1K7hgYueWEhTpvtdpKsT2/aOfcNPkEfAUBSTidrb/kZHE/3wGIqzpABFJjVBHS6OBWgTffDeipU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.08,227,1712588400"; 
-   d="scan'208";a="211315762"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 11 Jun 2024 01:48:50 +0900
-Received: from localhost.localdomain (unknown [10.226.92.192])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id CED614012AFE;
-	Tue, 11 Jun 2024 01:48:48 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	s=arc-20240116; t=1718038784; c=relaxed/simple;
+	bh=3huiau6qlrNkKfWaufi5V+jQlWTAO41JYjpXr98MUIo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JihWPom19Gm3YQQoRK2F/8OteLHCehww6bOE3M6spY9AduadhTT/Bs/GgSglkSSnmw9xENakieC1XIr8LJ8lX2Bw+Qls2ZcQCRCRHkzvAsVtO7SQH3KIQ0/9N8A5Z7UoF2B9xN0x2uZR1PwE+7EDBc/3fOpbjgHUx1zVsy/WVYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=VtLdEU80; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fh/K3p8g; arc=none smtp.client-ip=64.147.123.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailfhigh.west.internal (Postfix) with ESMTP id 8848418000EB;
+	Mon, 10 Jun 2024 12:59:39 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Mon, 10 Jun 2024 12:59:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1718038779;
+	 x=1718125179; bh=dm/RILVXdRiU7G2dzezG7xRb98q5YeytvFv4g2s+ROM=; b=
+	VtLdEU80NgLbeKybjMsLWfYo1R/oXrbTj3FncKvHJ7iOHZpMR54doPiAhbDwWKFu
+	aqAfJ0FRyuR0H1zGdpL2xZ6U6zL0YPharZayYAugpNorkMXeACz/7BJBrdm0l2OP
+	nXXVcZ+NxmGhAeOuWBhjjHS9zHnVhD4qraufH1YRkHCal/TPHn+cLB9e6bsgBex9
+	DEApONKQX1g7xan+8GUtNr1sIW9iBqoXQh6limzBcJ5xOVuZ6vvuB/Oc+X6uX1zE
+	ESrrXrXKm3LHG1jgWFhgpG/oeGqj4kAjPfsuUwEpwFlan14RU2fW3UHqQGTR8+YA
+	/Jl/MfcWaYH1ZnEBloWznQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1718038779; x=
+	1718125179; bh=dm/RILVXdRiU7G2dzezG7xRb98q5YeytvFv4g2s+ROM=; b=f
+	h/K3p8gmX/p8fSy8K7U9B5OyCosZPOHtXHR+RMpFrpZuOhc9EbCWbRiAJNqBZaM+
+	p7GNRFr9XGSCO+EMf/TJft9eE07U6qF8G04Cep/OvjA38MJ+ir0JBEFSyrFFGNgx
+	Rs1ZMY2XZUDx0E7/w44sdC7X+5D1kbnyiSrncqapT/rrxu5tQM4N3rxyJdshCTxY
+	nuHSrizRDMl1OEoSWmQHvEawrLWaUNdQynasuTs1RiXLWK+hspXHL481lOsrpfsO
+	lkt3Uc7RTOthkTFBU7UjTdm/MY4XfZnFajhHsvAKrrbElbC3x9vAMekJk6v3cqAR
+	+okDv4fDwdmVIe5AHc+RA==
+X-ME-Sender: <xms:-zBnZibLzWHtg4zkj8oYjpl6_9eOUnQ8nGXQa2HoOwfqqbShi2LYSQ>
+    <xme:-zBnZla_IQyKlP8iRu7uUyfCRyvEbg8NAMVWOgv6jNdYdz65kx7_3p4AuWRNUX9OF
+    OapWIARmfCeeJlRsrY>
+X-ME-Received: <xmr:-zBnZs8T7mpi1-3YfOsqPh92ssGGXqkRPEdHIgyJhwd2_cm2adpH8FVMxMbiaOZXW3OJme5whInPqH-Ih-TnQtWFt1CVvqM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfedutddguddtiecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhi
+    khhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvg
+    hnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepfefhleel
+    hfffjefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftddvleeinecuvehluhhsth
+    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohgu
+    vghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
+X-ME-Proxy: <xmx:-zBnZkrV4Xb-MQaeCA7T1H8xx-paPjmfihOG3zBnVXuhfcj-NAJQ6Q>
+    <xmx:-zBnZtoQRIzRU0ELbG7dbBlh3Gl5liJHBe33Ib-MvHMVWaI6G726Ow>
+    <xmx:-zBnZiSl_fWVbzL6Dl4hgEoZCQY7M4PcTlaOBljiH9xDQ3DsylDdaA>
+    <xmx:-zBnZto5K4dP_R1Jlp_L9R6TOzY9DQExRY8tfHFpjk9n018TtzDl2w>
+    <xmx:-zBnZo3cnnWpQYJ-BpL9wi--nyYe1joPFxwibIARPeb1p3dwViVGApOX>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 10 Jun 2024 12:59:38 -0400 (EDT)
+Date: Mon, 10 Jun 2024 18:59:35 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Conor Dooley <conor@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2] reset: rzg2l-usbphy-ctrl: Move reset controller registration
-Date: Mon, 10 Jun 2024 17:48:45 +0100
-Message-Id: <20240610164845.89666-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+Subject: Re: [PATCH v2 1/2] dt-bindings: media: renesas,vin: Add binding for
+ V4M
+Message-ID: <20240610165935.GA382677@ragnatech.se>
+References: <20240610113124.2396688-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240610113124.2396688-2-niklas.soderlund+renesas@ragnatech.se>
+ <20240610-screen-wolverine-78370c66d40f@spud>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240610-screen-wolverine-78370c66d40f@spud>
 
-As soon as the reset controller is registered, it could be used by a
-reset consumer. That means hardware setup to be done first and then the
-registration of the reset controller. So move the registration of reset
-controller at the end of probe().
+Hi Conor,
 
-While at it, fix the issue that the reset is not re-asserted in case
-devm_reset_controller_register() fails and also use goto statements to
-simplify the error path in probe().
+Thanks for your feedback.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * Updated commit header and description
- * Moved reset controller registration at the end of the probe()
- * Fixed the issue that the reset is not re-asserted in case
-   devm_reset_controller_register() fails
- * Used goto statements to simplify the error path in probe().
- * Restored the blank line before devm_reset_controller_register().
----
- drivers/reset/reset-rzg2l-usbphy-ctrl.c | 32 +++++++++++++++----------
- 1 file changed, 19 insertions(+), 13 deletions(-)
+On 2024-06-10 17:03:49 +0100, Conor Dooley wrote:
+> On Mon, Jun 10, 2024 at 01:31:23PM +0200, Niklas Söderlund wrote:
+> > Document support for the VIN module in the Renesas V4M (r8a779h0) SoC.
+> > 
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> >  Documentation/devicetree/bindings/media/renesas,vin.yaml | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > index 5539d0f8e74d..168cb02f8abe 100644
+> > --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > @@ -54,6 +54,7 @@ properties:
+> >                - renesas,vin-r8a77995 # R-Car D3
+> >                - renesas,vin-r8a779a0 # R-Car V3U
+> >                - renesas,vin-r8a779g0 # R-Car V4H
+> > +              - renesas,vin-r8a779h0 # R-Car V4M
+> 
+> Your driver patch suggests that this is compatible with the g variant.
 
-diff --git a/drivers/reset/reset-rzg2l-usbphy-ctrl.c b/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-index 8f6fbd978591..29b852a8ac5a 100644
---- a/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-+++ b/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-@@ -125,25 +125,14 @@ static int rzg2l_usbphy_ctrl_probe(struct platform_device *pdev)
- 	if (error)
- 		return error;
- 
--	priv->rcdev.ops = &rzg2l_usbphy_ctrl_reset_ops;
--	priv->rcdev.of_reset_n_cells = 1;
--	priv->rcdev.nr_resets = NUM_PORTS;
--	priv->rcdev.of_node = dev->of_node;
--	priv->rcdev.dev = dev;
--
--	error = devm_reset_controller_register(dev, &priv->rcdev);
--	if (error)
--		return error;
--
- 	spin_lock_init(&priv->lock);
- 	dev_set_drvdata(dev, priv);
- 
- 	pm_runtime_enable(&pdev->dev);
- 	error = pm_runtime_resume_and_get(&pdev->dev);
- 	if (error < 0) {
--		pm_runtime_disable(&pdev->dev);
--		reset_control_assert(priv->rstc);
--		return dev_err_probe(&pdev->dev, error, "pm_runtime_resume_and_get failed");
-+		dev_err_probe(&pdev->dev, error, "pm_runtime_resume_and_get failed");
-+		goto err_pm_disable_reset_deassert;
- 	}
- 
- 	/* put pll and phy into reset state */
-@@ -153,7 +142,24 @@ static int rzg2l_usbphy_ctrl_probe(struct platform_device *pdev)
- 	writel(val, priv->base + RESET);
- 	spin_unlock_irqrestore(&priv->lock, flags);
- 
-+	priv->rcdev.ops = &rzg2l_usbphy_ctrl_reset_ops;
-+	priv->rcdev.of_reset_n_cells = 1;
-+	priv->rcdev.nr_resets = NUM_PORTS;
-+	priv->rcdev.of_node = dev->of_node;
-+	priv->rcdev.dev = dev;
-+
-+	error = devm_reset_controller_register(dev, &priv->rcdev);
-+	if (error)
-+		goto err_pm_runtime_put;
-+
- 	return 0;
-+
-+err_pm_runtime_put:
-+	pm_runtime_put(&pdev->dev);
-+err_pm_disable_reset_deassert:
-+	pm_runtime_disable(&pdev->dev);
-+	reset_control_assert(priv->rstc);
-+	return error;
- }
- 
- static void rzg2l_usbphy_ctrl_remove(struct platform_device *pdev)
+Currently it is. But that not always be true, I tried to outline this in 
+to cover letter.
+
+    The V4M capture pipeline is similar to the other Gen4 SoC supported
+    upstream already V4H. Currently all futures supported for VIN on V4M are
+    also supported by V4H and the driver code can be shared. But as done for
+    other R-Car IP bindings a new dedicated binding for V4M is created.
+    This have proved prudent in the past where quirks are found even within
+    the same generation as more advance use-cases are enabled.
+
 -- 
-2.25.1
-
+Kind Regards,
+Niklas Söderlund
 
