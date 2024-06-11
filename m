@@ -1,192 +1,223 @@
-Return-Path: <linux-renesas-soc+bounces-6036-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6037-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AB7090334B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 09:16:49 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78E2F90339A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 09:30:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D92BD1F286DA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 07:16:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D28C3B23413
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 07:30:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 262B116F8E6;
-	Tue, 11 Jun 2024 07:16:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89FB2172BAB;
+	Tue, 11 Jun 2024 07:30:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="a7Iy3FiU"
+	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="wPU4n/Gw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2040.outbound.protection.outlook.com [40.107.113.40])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4303726AF6
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Jun 2024 07:16:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.40
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718090171; cv=fail; b=II+npJIcjRbKWaihcCLBZAoPJL4JIXcGC9U0dKID2xdm3De25ffnPK/GINcjc5E4Ue3iaZ9vSRSJE9qZvxgHllJazs0lSXe4jE5mvz1A7uMHR8dEH+MP51pLzBi6dTs5+6vRbOvN6dVLE7p9JybchxMqxcXGU6y2TZUf7M4s0eo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718090171; c=relaxed/simple;
-	bh=6b0VV+3ySxqpYdzrSa3RkUnH0/0g9ahSvCwhmdCbMlk=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=qaZJR43VKBR9AfuS5hjdd5SLx/825hzK1F7av78Tiszjua2YzF7sCbH/Uu8t0vek2lmiGqrJkbi5+5gb59mPy6sMx6RkOQsdEl0Kj7uYFVHvWX2cbKTJZohc+Fv1QJf/0fhVndcPXWcGesVF8l8HKK7vXX6WpJmdhNVg/MXf1Ks=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=a7Iy3FiU; arc=fail smtp.client-ip=40.107.113.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CdaA5KIAAslYWk19wCDzIwz/QAzfA8GuHXlPIqyGH8WsOxxT0QOUmRee3Ja1XiTJAqPUWZBCRlUjYcZrC27smeQlj/shnPO+FESaKAisPAFb4340mMkHo77zt5BRUsJBl6p6YfYMcPxobpNlfrhYOF8xd+pzzKiUu7r2j/YRSyDhCPE2BA4mSz4771Uw3C3Cx/6Qh2R1fm4x2Mo/PBL+toM7WgL+02ZWpUQVT9hijuiRpf2vi1DzM2oEEtinio49wdcUJPDDF/yYlrDCn94PRqdUWbd5RfOjPchxAsQqNRTLvYkNM89T5Szszi5TLedtFcKDuOR8lwf42voj7QFXLg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6b0VV+3ySxqpYdzrSa3RkUnH0/0g9ahSvCwhmdCbMlk=;
- b=hUCKTitV4NTvQHw7MATx1etLHqVxSzrl/cceximleyBT5soU4rD5SULdJ6V3Vbz6n0BxBrDVVXzg54OvcG7GUQr4yzEH+kkVYYy1YFHNXVxeaP3iGGnWJin3SK1hDcezyXyuTVpoDl0cARAaP7poyX5XFZK1vyQaf1JWoxoqKNmTtY1BMnX/B/2XHA+TeGQHB08tDqZMfy4kFzHOtg2+Zgu9tsUthn/t4kwUXf/IrcmwPsl7Oe4NfbAxMa9v1CuebVHS5Hia9gMpTLBmIWASCKIg0RWbK0OQxAZtVxTffIv6ZV0cs/QGEggHPBLD4A79ztaoKFg6hheniolr7pbEOw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6b0VV+3ySxqpYdzrSa3RkUnH0/0g9ahSvCwhmdCbMlk=;
- b=a7Iy3FiUUPz81EHaVCp7JPjHbAUx5vaKja0eWbK9ZyxGcvmOl9yFAHDfx3WIXkvKb0MTTusjuqzzrMfbPoghyOkZyHmMDmswx2AT7dTwR0aH0peohQSwBVg9sMRzphXqS82kymB+XZOKPMKHrS/fAgXxbQ86MQB4upnpYzqCLt0=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TYWPR01MB8267.jpnprd01.prod.outlook.com (2603:1096:400:164::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.36; Tue, 11 Jun
- 2024 07:16:05 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%5]) with mapi id 15.20.7633.036; Tue, 11 Jun 2024
- 07:16:04 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Mark Brown <broonie@kernel.org>
-CC: Liam Girdwood <lgirdwood@gmail.com>, Tuomas Tynkkynen
-	<ttynkkynen@nvidia.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
-	<biju.das.au@gmail.com>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, kernel test robot <lkp@intel.com>
-Subject: RE: [PATCH] regulator: core: Fix modpost error "regulator_get_regmap"
- undefined
-Thread-Topic: [PATCH] regulator: core: Fix modpost error
- "regulator_get_regmap" undefined
-Thread-Index: AQHau3As65fo15huv0yKBcHtF5jJTbHBid0AgACcn7A=
-Date: Tue, 11 Jun 2024 07:16:04 +0000
-Message-ID:
- <TY3PR01MB11346CF22E95F31D3226C28D686C72@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20240610195532.175942-1-biju.das.jz@bp.renesas.com>
- <Zmd1arKQ1bCRKAl8@finisterre.sirena.org.uk>
-In-Reply-To: <Zmd1arKQ1bCRKAl8@finisterre.sirena.org.uk>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYWPR01MB8267:EE_
-x-ms-office365-filtering-correlation-id: 4e64bbae-45be-46c5-256e-08dc89e65b4c
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230031|1800799015|366007|376005|38070700009;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?SL5HKI7MASdu6UUWTGizkZCNBV1kqfs6xcR4caLv4SX+Qlp6Si+2rQ06i2aC?=
- =?us-ascii?Q?7HCnPoqWxHh074cdrgPSEcyxSN6ryyHl2vmJsUG+v9h+hZ0IhkKvvojpTIZe?=
- =?us-ascii?Q?QDEgqwva+xkTnNsEgYELceOOzM27DttAyS86bTUUw9SSY4/azXJqwhXLLz3U?=
- =?us-ascii?Q?S4Ms/QoYfGNnEy4zHXxera3138ZAI1i11iNdjBuKlkl3TcLova/jhLKmenS6?=
- =?us-ascii?Q?Y7VP0Oc11ZFDPUDlCWPEZMqucgcFek/QL1RjVGQxHblr67CmNfPbdrDlFMRI?=
- =?us-ascii?Q?DQI45SgSe+DiYHb8UV9jfXPMe7l6dF5rsM8YJFYxoFV99UfA//IQruEk5T06?=
- =?us-ascii?Q?CHuT3AKOC1N8Sxdyebh9A6ramszxJvOwt75ls4gY4XSWr23Sokfs0Fdlsx7E?=
- =?us-ascii?Q?EueufOoGybQoYQKrutdysbXQPfYGpsNPB1Blih8JCoVZ0b7wD+A4T9eh8jdh?=
- =?us-ascii?Q?MH4tiQsNkGUWSac7DrEXgzubELx7YRuAyT7dd8sFt5teRcQlhBIweKscmeM7?=
- =?us-ascii?Q?65cqHgMa97VP1dwqw0wxxhYqHMgtufrGaFdjScQaz9JJY4oivs5wAmjOIj/Y?=
- =?us-ascii?Q?CvvfNDcIJt8eEQ3/hk6mwkR4UiAn+5CumwgU1sMzhsdleP/t6xWic1SbIevv?=
- =?us-ascii?Q?CkXlZ/PcC20CTTZH9tqlos+NIaiG9ZFZw6lduQPhMx4t4fycaWNKCdrXMo+/?=
- =?us-ascii?Q?Gr11jmKixulIUc3i20JiF9Yj4sYvWb9oejteNUXIgDFy5ysgLAFn3dpWQevy?=
- =?us-ascii?Q?o4yx5okplAFiTkvaSbV1P4RiDFES+3rK39FihUu6oSgfILSYT1Wd2UkuaYbT?=
- =?us-ascii?Q?wuDs0jEv1toZPlNgKEfwu3thkRMMLZxszFfPf6yMGQw8s6JLk9MZpBnPaxlR?=
- =?us-ascii?Q?8wUtxi9A8JHzFD7J4si3G8oqcVdtya54yjjRtiL8Z3x5tJS0E0pm8t+JjNZP?=
- =?us-ascii?Q?Dk7Rt2c/YrNF6wJytONIasVohrw71WWm4hvaHxH8t+EAMpPmqgRc0br40OOH?=
- =?us-ascii?Q?xYMnk6ZNWtb+2Sz3LgTkpj8ygno1rGKEJlk9c4JZDcoQkesyeHUXyw0Z3DP4?=
- =?us-ascii?Q?cuJ9y6N84dVTEx3fXuNZ5lvqb7dnX17aAic5B/nhrQ6jEIZICtVTrQxBqidQ?=
- =?us-ascii?Q?Mvm5kJDElTxGtwmAVBV3Jep4QKxeHqjZI+9hXtGa16pqE6LAkFO7oMW9o/YH?=
- =?us-ascii?Q?himBqfbxLHq83V772VWrrCh5dAR2Gq8w+QvZUBlYp29XHIVYcC+yJlvj2YKZ?=
- =?us-ascii?Q?E7Dg24mQeq0kL4XIEY7C2UyyfwRU9TL+dZF4bF6BwPKLAVc6TbSgpoT4VjYq?=
- =?us-ascii?Q?c/lK4J61zq3q4zdlZOvsBo4HhSLg+mYmCihPceJs7etCziIhVa/gDQdLAQOv?=
- =?us-ascii?Q?IdbIZZ0=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(366007)(376005)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?ugzmVdp7FiLQ+QH1uFEjk8Shf7BfBRZBy7DEQcziylQDEQo4g1jM/D3H+Jof?=
- =?us-ascii?Q?0CaWKWojf3mhlu3SeKtuSbh03uoxib7nA01wmzQU8Ef0K7ta4el0mp9Gbwh3?=
- =?us-ascii?Q?CzN93SVow3pbAW0kfj+y2PsZAL6Dz2rv9EFVNSH1c5pm4aWpEvLVkMGwS0wI?=
- =?us-ascii?Q?ZxgdSgBxJLuVdsTDSLujvP520yt/sgo+yiYe4l37PYzr/mj00qusC8m5nVeB?=
- =?us-ascii?Q?hq2wZBc0DQEx64W7/deTRVNYI6NdP+ZGnFSaMKQCFGJA3g+i6zSZpI6AhUgV?=
- =?us-ascii?Q?5NWklCdd+vitQwXhrCexeRtRnBl584eoYCL4r2JjuOxHE+1K2l9KDOiajkqT?=
- =?us-ascii?Q?4VZV+P2L18wH0g/SjOhuHai02Fw4J0yR200hiYGmMmnUUf5fXM3B8GJuIcsu?=
- =?us-ascii?Q?HMZxFFRumMLE40g3Cvnta61u2Cc7Cwb1bMiFy70GWOlFw+l/F4viNPfkXQvu?=
- =?us-ascii?Q?+Ae5goD9vkey8BJGdPTlejw7bJqDs2m3umFyKKizcSoBFdP9t2k6a9zKftO8?=
- =?us-ascii?Q?mQ86uifYsWfu8ItZUDcdeKuKTJycL4eC/O9mwT/9Xxx/50U/lzsPZscL5534?=
- =?us-ascii?Q?tTUbM2n7HMfiY3MqmfWg9UryuSqORAxiH9P4O9oDvfonUBf/5DAcaakEBNrF?=
- =?us-ascii?Q?bf4PZJBsHNQgCJZvk9LF2s0PlFsh7J+XxPElYLR7JW5Ntsfm/+sqrMTJFzIl?=
- =?us-ascii?Q?0W9XSs/hkfzPtwCT0iBfs0sBzketsIbQQlKE4PRf7ZKsCSDBoAntWo7XkpXi?=
- =?us-ascii?Q?P9GnMvYf4ATyBKlmg5pvbKh2VlBVUa1nvh5qe8pp+Z5L3YJnuZn7oOJ1lfKd?=
- =?us-ascii?Q?toQ5E55S8S323XrOqLBlmMHOa+XbXMR0ClIf1O5GW9wRhAYHRNLvyFKBOcnR?=
- =?us-ascii?Q?3kXRzI6o1uUgUULuORQVtXzbP0tExnyp9vcpWNckv5V9bpLAodwVE8xjRcmR?=
- =?us-ascii?Q?pZzdtlg+thSPQV/O6BBuOEpgJ7LOFRNXo4g0o4ExyVu/FpeCS2hP1sDkB7FX?=
- =?us-ascii?Q?tOkfc9XTjBGuPhDvypJWqFzxGFYvbCpZMFg+KPYnEwPSmXp8StBDr3NlB5is?=
- =?us-ascii?Q?Dt9D4wIMTndtSNArmLD58iWjevNEwdqapSURXg1pdwaQo892DmSCvHNeL9RZ?=
- =?us-ascii?Q?nSCn4HaPO0DPbdbp2NaqVCmNnu8dj/JiPjl5NrsaJTm+oNL8Jcx/ntZPPhYp?=
- =?us-ascii?Q?mTOgYfM8UHpkY5oc5XmOVdPYbl5KMQ5A4ZngmaHTEczwInnBEqf+D1IvDBzq?=
- =?us-ascii?Q?J2QDdcDru2Yx0wrY577BgkyaCsrEmPV2RcSABTCIiN6ND1gfwl978oUfDwGn?=
- =?us-ascii?Q?PsQ1bnWN2M2tRx5FoIljDnc0KZHeKcC7HriJCz7o8lWSVriNt6CKEYYXuNd2?=
- =?us-ascii?Q?5XgsbqXPblRYcHz1ljFgi0ec26v+zzFu4y8BAHSz+iUKkv3N3IN5YMQpUJVw?=
- =?us-ascii?Q?RkKRAN0OFAoOTZCijNA09ZtqDWw3wyohe2bXhXxLkvPozSqjq8CECaYpUMit?=
- =?us-ascii?Q?rqlllX+veTPfAyCcNZznq8FdF58YsDmnljAomtUoPLB7v8qdHGiOKn7LKuVJ?=
- =?us-ascii?Q?43UyqRkhsGJ1S6H5YbvqtHqBR1iA3GuFHna8xVPraZjl5PdXXB3UJY2Sav0i?=
- =?us-ascii?Q?IQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D650172773;
+	Tue, 11 Jun 2024 07:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1718091009; cv=none; b=Ws6VtvibiL0xGt2bxMHuVjXOi/SkRq0hMQv3wpYiFwlbI2wB6a2dTOn23Zuvzb/5El0KkTswwv8Koks1+jmPHKdlQC3lpMXqEeVUy5uHSr5Hg2MCX/V6sAxsshcPpQ93OXD8yjlCkt4bzj2J8Li9zyd52etcD0hrM8YNqu/jY2M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1718091009; c=relaxed/simple;
+	bh=uf0SF1oNbuDXzEY9wmV/rDi/IXN4m+CWwdsB3yedEhM=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=JTVDJiavN2gA6gpkdeIc82GC7VljPOOGho7TNqWzUd/vUDvK+tmobVfStRP/wjOq5VBa79olH6SuVHDw1u6GBtrjGJpMyCSxN4YxPrxkFsQvsewQxHn5QkSieQEWddB7EYIfpQqFMeOen6UpodKaoK6uIzfFdjuFP0ip4STcNoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=wPU4n/Gw; arc=none smtp.client-ip=116.203.91.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4e64bbae-45be-46c5-256e-08dc89e65b4c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jun 2024 07:16:04.6351
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: FM4g1ELcuIoUlZ8swg5ZWcHOWsWU8laOkcWmZzEiHlvwG3Og6kBAZiVS9ubYA/4RoC6W/xPxIlIn/s1OWRKboYkuUNAIh8dntV8UB+1Lm+w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB8267
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+	t=1718091002;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vdaMoEnTDtvgD8I+Uno75VA5I/ban+WgDT8n3yc4lCA=;
+	b=wPU4n/Gw+9Saq9zhwbu7iND2gCs2KaWziMCtXASBaApTumAjl52W2/m181X+WtIL0C1tve
+	79mSNgKHdXGi4S+Mos7Zwgg1YDHEFWxkohdcFzEv2ETWWNmmRa2IF00d2AahEQN1Zq05TY
+	LJBVZM9YWqyzc0bdWEl8K2gX1/nHlI92ks8dxsv1RfY4IFlaTbReO8smj0qXFdzu06YbXR
+	0QsAhmD+7X1nCElNS/Thx2h59V0cJL1iSUyKT80SpnPZMWTNwkPcoZ4W008NWhWTC5G07b
+	QZ2vqrLrgiIj7HwrHy9/h9jZpaPWYRIZa8lfocGhj3NeYG00E/yhe1/17hpMOw==
+Date: Tue, 11 Jun 2024 09:29:59 +0200
+From: Dragan Simic <dsimic@manjaro.org>
+To: Jeff Johnson <quic_jjohnson@quicinc.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Wolfram Sang
+ <wsa+renesas@sang-engineering.com>, linux-mmc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] mmc: add missing MODULE_DESCRIPTION() macros
+In-Reply-To: <20240610-md-drivers-mmc-v1-1-c2a2593e4121@quicinc.com>
+References: <20240610-md-drivers-mmc-v1-1-c2a2593e4121@quicinc.com>
+Message-ID: <8f2e755bd711b566274119762b19505d@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 
-Hi Mark Brown,
+Hello Jeff,
 
-> -----Original Message-----
-> From: Mark Brown <broonie@kernel.org>
-> Sent: Monday, June 10, 2024 10:52 PM
-> Subject: Re: [PATCH] regulator: core: Fix modpost error "regulator_get_re=
-gmap" undefined
->=20
-> On Mon, Jun 10, 2024 at 08:55:32PM +0100, Biju Das wrote:
-> > Fix the modpost error "regulator_get_regmap" undefined by adding
-> > export symbol.
-> >
-> > Fixes: 04eca28cde52 ("regulator: Add helpers for low-level register
-> > access")
->=20
-> This is fixing the user, not the initial commit...
+Thanks for the patch.  Please see a few comments below.
 
-The user(clk/tegra/clk-dfll.c) may have builtin driver and
-did not face this issue. So fixes tag not relevant to that user as well.
+On 2024-06-10 16:17, Jeff Johnson wrote:
+> make allmodconfig && make W=1 C=1 reports:
+> WARNING: modpost: missing MODULE_DESCRIPTION() in 
+> drivers/mmc/host/of_mmc_spi.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in
+> drivers/mmc/host/tmio_mmc_core.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in
+> drivers/mmc/host/renesas_sdhi_core.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in 
+> drivers/mmc/core/mmc_core.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in
+> drivers/mmc/core/pwrseq_simple.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in
+> drivers/mmc/core/pwrseq_sd8787.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in 
+> drivers/mmc/core/pwrseq_emmc.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in 
+> drivers/mmc/core/sdio_uart.o
+> 
+> Add the missing invocations of the MODULE_DESCRIPTION() macro.
+> 
+> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+> ---
+> Corrections to these descriptions are welcomed. I'm not an expert in
+> this code so in most cases I've taken these descriptions directly from
+> code comments, Kconfig descriptions, or git logs.  History has shown
+> that in some cases these are originally wrong due to cut-n-paste
+> errors, and in other cases the drivers have evolved such that the
+> original information is no longer accurate.
+> ---
+>  drivers/mmc/core/core.c              | 1 +
+>  drivers/mmc/core/pwrseq_emmc.c       | 1 +
+>  drivers/mmc/core/pwrseq_sd8787.c     | 1 +
+>  drivers/mmc/core/pwrseq_simple.c     | 1 +
+>  drivers/mmc/core/sdio_uart.c         | 1 +
+>  drivers/mmc/host/of_mmc_spi.c        | 1 +
+>  drivers/mmc/host/renesas_sdhi_core.c | 1 +
+>  drivers/mmc/host/tmio_mmc_core.c     | 1 +
+>  8 files changed, 8 insertions(+)
+> 
+> diff --git a/drivers/mmc/core/core.c b/drivers/mmc/core/core.c
+> index a8c17b4cd737..d6c819dd68ed 100644
+> --- a/drivers/mmc/core/core.c
+> +++ b/drivers/mmc/core/core.c
+> @@ -2362,4 +2362,5 @@ static void __exit mmc_exit(void)
+>  subsys_initcall(mmc_init);
+>  module_exit(mmc_exit);
+> 
+> +MODULE_DESCRIPTION("MMC core driver");
+>  MODULE_LICENSE("GPL");
+> diff --git a/drivers/mmc/core/pwrseq_emmc.c 
+> b/drivers/mmc/core/pwrseq_emmc.c
+> index 3b6d69cefb4e..fff30330574f 100644
+> --- a/drivers/mmc/core/pwrseq_emmc.c
+> +++ b/drivers/mmc/core/pwrseq_emmc.c
+> @@ -115,4 +115,5 @@ static struct platform_driver 
+> mmc_pwrseq_emmc_driver = {
+>  };
+> 
+>  module_platform_driver(mmc_pwrseq_emmc_driver);
+> +MODULE_DESCRIPTION("HW reset support for eMMC");
 
-Will drop the fixes tag?? If we build clk-dfll as a module we will hit the =
-issue.
-But looks like this driver must be a builtin driver.
+"Hardware reset support for eMMC" would read a bit better.
 
-Cheers,
-Biju
+>  MODULE_LICENSE("GPL v2");
+> diff --git a/drivers/mmc/core/pwrseq_sd8787.c 
+> b/drivers/mmc/core/pwrseq_sd8787.c
+> index 0c5808fc3206..f24bbd68e251 100644
+> --- a/drivers/mmc/core/pwrseq_sd8787.c
+> +++ b/drivers/mmc/core/pwrseq_sd8787.c
+> @@ -130,4 +130,5 @@ static struct platform_driver 
+> mmc_pwrseq_sd8787_driver = {
+>  };
+> 
+>  module_platform_driver(mmc_pwrseq_sd8787_driver);
+> +MODULE_DESCRIPTION("Power sequence support for Marvell SD8787 BT + 
+> Wifi chip");
+>  MODULE_LICENSE("GPL v2");
+> diff --git a/drivers/mmc/core/pwrseq_simple.c 
+> b/drivers/mmc/core/pwrseq_simple.c
+> index df9588503ad0..97f6d69d9c80 100644
+> --- a/drivers/mmc/core/pwrseq_simple.c
+> +++ b/drivers/mmc/core/pwrseq_simple.c
+> @@ -159,4 +159,5 @@ static struct platform_driver 
+> mmc_pwrseq_simple_driver = {
+>  };
+> 
+>  module_platform_driver(mmc_pwrseq_simple_driver);
+> +MODULE_DESCRIPTION("Simple HW reset support for MMC");
+
+"Simple power sequence management for MMC" would be more accurate.
+
+>  MODULE_LICENSE("GPL v2");
+> diff --git a/drivers/mmc/core/sdio_uart.c 
+> b/drivers/mmc/core/sdio_uart.c
+> index 575ebbce378e..6b7471dba3bf 100644
+> --- a/drivers/mmc/core/sdio_uart.c
+> +++ b/drivers/mmc/core/sdio_uart.c
+> @@ -1162,4 +1162,5 @@ module_init(sdio_uart_init);
+>  module_exit(sdio_uart_exit);
+> 
+>  MODULE_AUTHOR("Nicolas Pitre");
+> +MODULE_DESCRIPTION("SDIO UART/GPS driver");
+>  MODULE_LICENSE("GPL");
+> diff --git a/drivers/mmc/host/of_mmc_spi.c 
+> b/drivers/mmc/host/of_mmc_spi.c
+> index bf54776fb26c..05939f30a5ae 100644
+> --- a/drivers/mmc/host/of_mmc_spi.c
+> +++ b/drivers/mmc/host/of_mmc_spi.c
+> @@ -19,6 +19,7 @@
+>  #include <linux/mmc/core.h>
+>  #include <linux/mmc/host.h>
+> 
+> +MODULE_DESCRIPTION("OpenFirmware bindings for the MMC-over-SPI 
+> driver");
+>  MODULE_LICENSE("GPL");
+> 
+>  struct of_mmc_spi {
+> diff --git a/drivers/mmc/host/renesas_sdhi_core.c
+> b/drivers/mmc/host/renesas_sdhi_core.c
+> index 12f4faaaf4ee..d62a4ed86775 100644
+> --- a/drivers/mmc/host/renesas_sdhi_core.c
+> +++ b/drivers/mmc/host/renesas_sdhi_core.c
+> @@ -1162,4 +1162,5 @@ void renesas_sdhi_remove(struct platform_device 
+> *pdev)
+>  }
+>  EXPORT_SYMBOL_GPL(renesas_sdhi_remove);
+> 
+> +MODULE_DESCRIPTION("Renesas SDHI driver");
+
+"Renesas SDHI core driver" would be a bit more accurate.
+
+>  MODULE_LICENSE("GPL v2");
+> diff --git a/drivers/mmc/host/tmio_mmc_core.c 
+> b/drivers/mmc/host/tmio_mmc_core.c
+> index 93e912afd3ae..c1a4ade5f949 100644
+> --- a/drivers/mmc/host/tmio_mmc_core.c
+> +++ b/drivers/mmc/host/tmio_mmc_core.c
+> @@ -1319,4 +1319,5 @@ int tmio_mmc_host_runtime_resume(struct device 
+> *dev)
+>  EXPORT_SYMBOL_GPL(tmio_mmc_host_runtime_resume);
+>  #endif
+> 
+> +MODULE_DESCRIPTION("TMIO MMC core driver");
+>  MODULE_LICENSE("GPL v2");
+> 
+> ---
+> base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
+> change-id: 20240610-md-drivers-mmc-cb5f273b5b33
 
