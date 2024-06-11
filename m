@@ -1,138 +1,117 @@
-Return-Path: <linux-renesas-soc+bounces-6085-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6086-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 720AA904579
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 22:04:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 324F39046BF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 00:06:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 136C0282972
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 20:04:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CC0CC281C49
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 22:06:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7F2E1420B8;
-	Tue, 11 Jun 2024 20:04:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F287154C00;
+	Tue, 11 Jun 2024 22:06:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="OhCWsTCx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a/NzRHHA"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473FF39AEB
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Jun 2024 20:04:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A4E3A8E4;
+	Tue, 11 Jun 2024 22:06:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718136244; cv=none; b=MJLyj1hUCRmW2K0V2W3EwdT3cos8PpIDVqdwAMtZpiMJbczB8pcumUHukY5jkeEyS++hzx/MKPEz0FrblQLxj335W1dQRK77oTVdlnCLOTQga+dFoDzTvAvo/DBWrhQQOPrSj01BX2i4WzbpxtDyfkcG2gxgNMKvC0+oLq43NmI=
+	t=1718143605; cv=none; b=dZ2H7wVx+7FMTggyFkL9Zpj4tWo2gy1Njvxi2Bwa4F77MjWCOVjNqtpGgT4PFhEff+7QzO0gemdqk7zKuH+4ObT+p+XWFiZjz7Lqx8yZNFzZZCRYByHN2hN0tOljyBGyM3nXe8W2QmLY3P0wxkZdopXisLZWBnbGqSQy21xBUtk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718136244; c=relaxed/simple;
-	bh=qRN2EUOQ2JcU8HCwMJeszwscoPyFg4yGd3WyI3IuH9k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SuPYNFaLnVApPGjEwJgKnlizUmNo1xiNGrzodng7NrKuzwKDFRH8GGMBir+Z6KYHeSKoCgbcAqQ+uFT9aN1WNAglicFYc2bfcvEO9njmw11qdT6Bwg7sQJknqCexJtfOp8xEHdXrMm5ZrfXns+c6yKBYK4mXJ/7XG7waiFbMbk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=OhCWsTCx; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-52c525257feso4544247e87.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Jun 2024 13:04:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1718136240; x=1718741040; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9n98poQy5aGF7ac0QxK3qC5mrpVCVT/V+RCk+zSOR6o=;
-        b=OhCWsTCxWTItqda0wsiH/epnV/xNs5zexgivvDBv9Qs/WidM0zcgFojvNru0T0DHvz
-         qumuvPpnStLBAnhpM6ANVNTj9Jvzxpa/axpj8RLnwF+Te5mC8/u6V29RyeYBWyKCShKN
-         2HkOaF6uG9/0MKuhN4cYSdvOI/UL4rBoZgSQ0ahS2FCc7zhM/I5T4mHDryOIr8f9PM8K
-         Bg/ILyGfUYyE+B6N1ju135d1zTFC6X569XfF2CqHWD1WDY7DC8erviRxQIJW5XCeZg9S
-         mRlCOv3UYGocT2FrCUHELBOV4h5ejacwrow8rilo4Kne/qjsdZ0vwCrTuP+2Gc3ufcsG
-         ylPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718136240; x=1718741040;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9n98poQy5aGF7ac0QxK3qC5mrpVCVT/V+RCk+zSOR6o=;
-        b=bpxwbuL34Wu5xf79B7PAX+11rKdLEwfxiyfOYk8yVGhlF4GeXo4dwpL3PMsg+7Gq9j
-         u80BXoerCddbYTDbSOZOwa4ZRbO7DpJ5l6zmuJTaJKSm/w67PcwiNCnriUs1NacDeVjh
-         /iXG50uP2JV7snO3uabdWzDgibpxswFRkFStEp7iP2GvRO7rNsnUUuRAmWlXHRgjzGzC
-         pcB/J8S8OxH9X/LGSGrUVd9G+MftriUA+iL5DigCRAKq/JfJxNvUh23LOW1IRE/dQL+W
-         O6gLqp2KQrpBzraYPwPSPw/MczJmIRLhJ9cfgQoG5m0nl/1sP/nvn8ktBPtN4CuDWE92
-         hY7Q==
-X-Gm-Message-State: AOJu0YxCeiwedivEX+DBUu1vYRozTkEvzqjDN1r4XujjNwm5GHCcG7yG
-	oTRWeNSjdoQYA7yMwK3oUsUXcKK0kq1sKuRqSI8+W7xjhsKuTwbIpT5O0Y+/O0wQzrp+6mnI4t7
-	fyOIq7ItS1QGvG+yFRf96iCit/rvcDXKjVP/IUg==
-X-Google-Smtp-Source: AGHT+IH/676DYtzrAxdlEhyttoUICnDM9pTxaR4uZAEP9AfETJc0j6gT8wiY7wLbTSTMXHgLlsaivegqk9f0xTZQfTY=
-X-Received: by 2002:ac2:5b50:0:b0:52b:c29e:4c50 with SMTP id
- 2adb3069b0e04-52bc29e4cadmr6508395e87.43.1718136240422; Tue, 11 Jun 2024
- 13:04:00 -0700 (PDT)
+	s=arc-20240116; t=1718143605; c=relaxed/simple;
+	bh=2z2T09bcbzfwexUZ5T7jD1TkbLjspNsoiYHpZ3OkpCI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=S3oQDUOGk9ZUWoUr6usYvNZjGQtGPO6sNTAj+Xg+jFLvMuzH6aXbihOC4v6Y+usGqpSbnLhYQv6s666tSpPXHa2dRrL6crJOu4M0CFgHbcOyKFnsh2KJj1URau+wzmv5Zweg4XoBnug4aF5r96qXPetcw4egG77mjcBDX7TPRpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a/NzRHHA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDC81C2BD10;
+	Tue, 11 Jun 2024 22:06:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718143604;
+	bh=2z2T09bcbzfwexUZ5T7jD1TkbLjspNsoiYHpZ3OkpCI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=a/NzRHHA81Kr/n5nwF8wLMmpSxDwQFBG1tf3wJl/ZX5qrZu3LoF/n38c1RQWAS3to
+	 9PF0iBa1/cYKwSVYTUUEyS/nclJFBX6lIO5eO0x1Az0PTI0ZwlAsdX/khbFtfebn6E
+	 YXiFVo4lds+SLiDkmm+nUPE/ZqefCzy2l8jaKYjZeHRpo24owJwxwC2tQwf1lgcI1s
+	 jSWMaN02nOnAzTwxwp8JNo1/Rsd/DRVvo/SgDh50CtfMf0VE9bi5/DnHDINTWd02UU
+	 HtDL2EuqVAPEfbwNIt35YzWTA4zlII6G6PiSRavH22Rynv/chO+GKlSJqnxKZZ2/Mp
+	 +OmyobALds0Jg==
+Date: Tue, 11 Jun 2024 17:06:40 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Vignesh Raghavendra <vigneshr@ti.com>,
+	Siddharth Vadapalli <s-vadapalli@ti.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Minghuan Lian <minghuan.Lian@nxp.com>,
+	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
+	Jesper Nilsson <jesper.nilsson@axis.com>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Srikanth Thokala <srikanth.thokala@intel.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	linux-omap@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+	linux-arm-kernel@axis.com, linux-arm-msm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+	mhi@lists.linux.dev, Niklas Cassel <cassel@kernel.org>
+Subject: Re: [PATCH 2/5] PCI: endpoint: Introduce 'epc_deinit' event and
+ notify the EPF drivers
+Message-ID: <20240611220640.GA1001976@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240610112700.80819-1-wsa+renesas@sang-engineering.com> <20240610112700.80819-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20240610112700.80819-2-wsa+renesas@sang-engineering.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Tue, 11 Jun 2024 22:03:49 +0200
-Message-ID: <CAMRc=MfZ11U+kAh1+K=DxtJ=QL+cY7Q_sBN4sQDF-RNgjpV0QA@mail.gmail.com>
-Subject: Re: [PATCH v9 1/1] gpio: add sloppy logic analyzer using polling
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Linus Walleij <linus.walleij@linaro.org>, Kent Gibson <warthog618@gmail.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240606-pci-deinit-v1-2-4395534520dc@linaro.org>
 
-On Mon, Jun 10, 2024 at 1:27=E2=80=AFPM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
-> This is a sloppy logic analyzer using GPIOs. It comes with a script to
-> isolate a CPU for polling. While this is definitely not a production
-> level analyzer, it can be a helpful first view when remote debugging.
-> Read the documentation for details.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
+On Thu, Jun 06, 2024 at 12:56:35PM +0530, Manivannan Sadhasivam wrote:
+> As like the 'epc_init' event, that is used to signal the EPF drivers about
+> the EPC initialization, let's introduce 'epc_deinit' event that is used to
+> signal EPC deinitialization.
+> 
+> The EPC deinitialization applies only when any sort of fundamental reset
+> is supported by the endpoint controller as per the PCIe spec.
+> 
+> Reference: PCIe Base spec v5.0, sections 4.2.4.9.1 and 6.6.1.
 
-I really dislike drivers being called in an ambiguous way like
-"simple" or - in this case "sloppy". I understand why it is - in fact
-- sloppy but can we call it anything else? Like
-"gpio-logic-analyzer.c"?
+PCIe r6.0, sec 4.2.5.9.1 and 6.6.1.
 
-> +Setup
-> +=3D=3D=3D=3D=3D
-> +
-> +Your kernel must have CONFIG_DEBUG_FS and CONFIG_CPUSETS enabled. Ideall=
-y, your
-> +runtime environment does not utilize cpusets otherwise, then isolation o=
-f a CPU
-> +core is easiest. If you do need cpusets, check that helper script for th=
-e
-> +sloppy logic analyzer does not interfere with your other settings.
-> +
-> +Tell the kernel which GPIOs are used as probes. For a Device Tree based =
-system,
-> +you need to use the following bindings. Because these bindings are only =
-for
-> +debugging, there is no official schema::
-> +
-> +    i2c-analyzer {
-> +            compatible =3D "gpio-sloppy-logic-analyzer";
-> +            probe-gpios =3D <&gpio6 21 GPIO_OPEN_DRAIN>, <&gpio6 4 GPIO_=
-OPEN_DRAIN>;
-> +            probe-names =3D "SCL", "SDA";
-> +    };
-> +
-> +Note that you must provide a name for every GPIO specified. Currently a
-> +maximum of 8 probes are supported. 32 are likely possible but are not
-> +implemented yet.
-> +
+(Not 4.2.4.9.1, which no longer exists in r6.x)
 
-What happens on non-DT systems? Can you still create an analyzer in a
-different way? Can I maybe interest you in configfs for the purpose of
-device configuration like what gpio-sim and the upcoming gpio-virtuser
-does?
-
-Bart
+> Currently, some EPC drivers like pcie-qcom-ep and pcie-tegra194 support
+> PERST# as the fundamental reset. So the 'deinit' event will be notified to
+> the EPF drivers when PERST# assert happens in the above mentioned EPC
+> drivers.
+> 
+> The EPF drivers, on receiving the event through the epc_deinit() callback
+> should reset the EPF state machine and also cleanup any configuration that
+> got affected by the fundamental reset like BAR, DMA etc...
+> 
+> This change also warrants skipping the cleanups in unbind() if already done
+> in epc_deinit().
+> 
+> Reviewed-by: Niklas Cassel <cassel@kernel.org>
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
