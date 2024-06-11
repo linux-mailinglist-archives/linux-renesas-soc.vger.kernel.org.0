@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-6033-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6034-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A457903323
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 08:59:47 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD89990332A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 09:02:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9A3B428A47C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 06:59:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5BAE51F27144
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 07:02:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03E74171E5F;
-	Tue, 11 Jun 2024 06:59:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2A6E171E61;
+	Tue, 11 Jun 2024 07:02:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AYfOlCiI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VYqjNd+C"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5AA8171672;
-	Tue, 11 Jun 2024 06:59:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2CCAB657;
+	Tue, 11 Jun 2024 07:02:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718089181; cv=none; b=pQbsVpuyLI0csZq6aSkxQsnU8g4BRuww7GXepS6ag2qtXZNx0sWCpRkOlrcMa5tdlOZPyNZe8CuuH5EGj7n1U8HzxgDdi0tQ+eMYIeY+SzKyXxQNlWA5hzK8tqhhNK1lcm9s08jaz5aBaHvBW790lrCeA4TgFaZv676NF96gTYQ=
+	t=1718089352; cv=none; b=rNzsrn05+N7qp2at+S6UivXsoNQ/wNoU0tXx5r5sNhP2y3+mNURkwgaBF16grynObWu6EDGqpogkZk76tvqH5igtDRU+HfFw1jwezeH9whlsuHE8yLIekey2OM6DhPvOc59TrfGo/x3xVLuEbT9XAAezwBdAqw4IDjXOBz8XIHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718089181; c=relaxed/simple;
-	bh=ieOwu/4E4GUsrrGVCKDF7Y9DKM0YIT0VeEJfE3M4Sck=;
+	s=arc-20240116; t=1718089352; c=relaxed/simple;
+	bh=aLoDwbt7IafobJGOE/3b1eLM3mDAudCQ5TjJiv/fgP0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cWeAiAKScyrjQttCZiTLQzWD30Yr87CJrgG3sdWjxJ2p0oFgLk/9ntmGpOAGVcz7p2XGrqe/nBVwpSZdrb+ssq/2Ecbh7Fqrj0odlVBBZsAtVhNRaPFG+xZ7e3CaNIPhFEfNI1QwR/eyCSBgd0/3o+bP72uKHxcfMHZvfjUzaIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AYfOlCiI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 150E2C2BD10;
-	Tue, 11 Jun 2024 06:59:36 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=RmO5f/+OAaCJtvLf9SRXBOKs7bRduTpkILwsHFTNuSsn3o6lWDokXbS18pC+EcwtnkiXSFf2dOe4p3WwcRUR9ePIx2j72f+xmj/A7Ls2rSV0e+PYY2RmNS7NYwTL8JW2yb9PeeTcagcp/ztpF4/fooEaTfepTMMZMV7yWP1eap0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VYqjNd+C; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A476C2BD10;
+	Tue, 11 Jun 2024 07:02:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718089181;
-	bh=ieOwu/4E4GUsrrGVCKDF7Y9DKM0YIT0VeEJfE3M4Sck=;
+	s=k20201202; t=1718089352;
+	bh=aLoDwbt7IafobJGOE/3b1eLM3mDAudCQ5TjJiv/fgP0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=AYfOlCiIjPfkiUmh0+ABpWHSvunkQ+ZnbtUCHVO5fVMZpAjW+WLCMGOl+NsNTieWB
-	 x1PxwAvGSu6/M5FqlIT/26L8N17PkLHnLkiaVzKvUdhiq2w8whFjwkkc32NB5QIQ81
-	 SmrVvhy+R6HsiHCCNargMpo2pu8nshfeVQ9TIPAIvt91SPPrLRAoKP0jZR1Tqo5lwB
-	 Rs1HbMw/XywPC4wDOJD08NZ/8bLdTG6w/gFe6m5x+1UPlfFdrlQaKYtGuzqciYQUok
-	 qOcyXWPSmFfSslyk56BQ9dQulKgcHaQHawqzsV7ocs4TxF8qstPs3HzKKLtWXBJrvP
-	 wMEWEPVCsDINg==
-Message-ID: <6b3fe242-3733-4f16-b727-494dc1d82002@kernel.org>
-Date: Tue, 11 Jun 2024 08:59:34 +0200
+	b=VYqjNd+CDxBS1fO0YDPXp+JLHxG9rk1O7Ksq9hPonSnpIre3I9MpDqfBMaWINmoYi
+	 0xfwvnnyPTgxU0QQa2DaRElPzYW+LA0mf0EAaj79ocaCFP5eeAwoxHUI0kEWxN+ns0
+	 ptFeqPu2+43om1eoTOY50z5dCRdUMBJtHodJsxpAaDgUkKXxFVIaWRHfrO5cQZKLyu
+	 uQKdskAtGexhrDP8uvldhaBTelTli9syzvq6YO9D/8KPSGA8cyvjbI2a5XQAN7T5G/
+	 igkakk/gVc6k6v+226t6t4mTwdBLwVxhJuNa2s+XjJHIw/mKOtiZ7c/sFkcWDBFF3L
+	 tmYC/u/wDhIfw==
+Message-ID: <34b21e6f-0896-4691-9b66-d06ef2f44905@kernel.org>
+Date: Tue, 11 Jun 2024 09:02:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,7 +50,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 2/4] dt-bindings: clock: Add R9A09G057 core clocks
+Subject: Re: [RFC PATCH v2 1/4] dt-bindings: clock: renesas: Document
+ RZ/V2H(P) SoC CPG
 To: Prabhakar <prabhakar.csengg@gmail.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
@@ -62,7 +63,7 @@ Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
  Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20240610233221.242749-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240610233221.242749-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240610233221.242749-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -108,30 +109,116 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240610233221.242749-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20240610233221.242749-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 11/06/2024 01:32, Prabhakar wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> Define RZ/V2H(P) (R9A09G057) Clock Pulse Generator core clocks.
+> Document the device tree bindings for the Renesas RZ/V2H(P) SoC
+> Clock Pulse Generator (CPG).
+> 
+> CPG block handles the below operations:
+> - Generation and control of clock signals for the IP modules
+> - Generation and control of resets
+> - Control over booting
+> - Low power consumption and power supply domains
 > 
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v1->v2
-> - Dropped the module clocks and just added the core clocks
-> 
-> Note the core clocks are the once which are listed as part
-> of section 4.4.2 which cannot be controlled by CLKON register.
-> ---
->  include/dt-bindings/clock/r9a09g057-cpg.h | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
->  create mode 100644 include/dt-bindings/clock/r9a09g057-cpg.h
 
-Missing vendor prefix.
+Since this is not a finished work (RFC), only limited review follows.
 
-This belongs to the binding patch, so squash it.
+
+> +$id: http://devicetree.org/schemas/clock/renesas,rzv2h-cpg.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RZ/V2H(P) Clock Pulse Generator (CPG)
+> +
+> +maintainers:
+> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> +
+> +description: |
+
+Do not need '|' unless you need to preserve formatting.
+
+> +  On Renesas RZ/V2H(P) SoCs, the CPG (Clock Pulse Generator) handles generation
+> +  and control of clock signals for the IP modules, generation and control of resets,
+> +  and control over booting, low power consumption and power supply domains.
+> +
+> +properties:
+> +  compatible:
+> +    const: renesas,r9a09g057-cpg
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    description:
+> +      Clock source to CPG on QEXTAL pin.
+> +    const: qextal
+> +
+> +  '#clock-cells':
+> +    description: |
+> +      - For CPG core clocks, the two clock specifier cells must be "CPG_CORE"
+> +        and a core clock reference, as defined in
+> +        <dt-bindings/clock/r9a09g057-cpg.h>,
+
+So second cell is not used?
+
+> +      - For module clocks, the two clock specifier cells must be "CPG_MOD" and
+> +        a module number.  The module number is calculated as the CLKON register
+> +        offset index multiplied by 16, plus the actual bit in the register
+> +        used to turn the CLK ON. For example, for CGC_GIC_0_GICCLK, the
+> +        calculation is (1 * 16 + 3) = 19.
+
+You should not have different values. Make it const: 1 and just use IDs.
+
+> +    const: 2
+> +
+> +  '#power-domain-cells':
+> +    description:
+> +      SoC devices that are part of the CPG/Module Standby Mode Clock Domain and
+> +      can be power-managed through Module Standby should refer to the CPG device
+> +      node in their "power-domains" property, as documented by the generic PM
+> +      Domain bindings in Documentation/devicetree/bindings/power/power-domain.yaml.
+
+Drop description, it's redundant.
+
+> +    const: 0
+> +
+> +  '#reset-cells':
+> +    description:
+> +      The single reset specifier cell must be the reset number. The reset number
+> +      is calculated as the reset register offset index multiplied by 16, plus the
+> +      actual bit in the register used to reset the specific IP block. For example,
+> +      for SYS_0_PRESETN, the calculation is (3 * 16 + 0) = 48.
+> +    const: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - '#clock-cells'
+> +  - '#power-domain-cells'
+> +  - '#reset-cells'
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    cpg: clock-controller@10420000 {
+
+Drop unused label.
+
+> +            compatible = "renesas,r9a09g057-cpg";
+
+Use 4 spaces for example indentation.
+> +    };
 
 Best regards,
 Krzysztof
