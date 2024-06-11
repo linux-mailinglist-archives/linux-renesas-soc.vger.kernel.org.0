@@ -1,156 +1,118 @@
-Return-Path: <linux-renesas-soc+bounces-6067-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6069-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E054903C21
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 14:45:39 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81D13903C34
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 14:51:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 917BB28483E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 12:45:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1F30EB22044
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 12:51:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBCD6178CCF;
-	Tue, 11 Jun 2024 12:45:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF97017C7AA;
+	Tue, 11 Jun 2024 12:51:10 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50A238DC0;
-	Tue, 11 Jun 2024 12:45:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61EC717C20C;
+	Tue, 11 Jun 2024 12:51:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718109935; cv=none; b=ZWkMLT2Y1TG8OFn3PAIyP2JxvFaYWakGp4XHccRBvfKxdpkr9b5aibqQtSdH8tRx8vWx1gvhT4ckjqwwND5obg3L+4VGVkhPJdfIAua3L8QAyJPI0Fs8mkI5o+oXTpbBWbSmQ/QRLLfxEMMrbLbI3mWA4VW7Sr+XQX6W2RqegFg=
+	t=1718110270; cv=none; b=fNIcOQmGTaXAIPKvRTfLs1szIjD4VJB8HEH2kPjx5uuunKRKSHFEFStysPGbOwAUKMDNgTkF1dzXltk0cmX6sG+bXuYvnBiSaPsFtLvJ1GTEHG4WLT+eTXIPzKgEs/t/YEh2Ve+f3W45c7VXyoYi3T4v2ZAqYtipspKaE8ltdk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718109935; c=relaxed/simple;
-	bh=nY8+G6+Wc+iKEOD8LIKa0F5xqH0+KD8ciWBL2bCrMIw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IpuMAQeI9gZUvZZkC9ovyCpYrWO8EZN2KjL3z7hxJ5PoFWnwaCabC1tGXd4hNQD/UC4njdguYpoVI1xah1mmj9yD2+/HjG2L2FUILUTXuIAbfeIec37h9K6FJGjYqSIGg/WO2nEQiDg4NPNzH136WrV9qmZ+IhT2KQlRwuY6xNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-dfb3ff45c06so1154303276.3;
-        Tue, 11 Jun 2024 05:45:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718109930; x=1718714730;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LA50fIPVA2O1q5A6lERTjC6jOEdlOMiNnypF6hx5p6s=;
-        b=YTOWC8DsqEjvA4YgO02pMEUt+TNjeDZPbhGRq2F5DJN6qz1x1t+wNd69uYd00YwbRE
-         0F100BW+6RW/mCbvlgqcJ0W/2XEw1V1ZZIb3vyv+6IsE5N3czc7xVsOxl/CMTkA0yNqH
-         dK+0yNrxONddK8C8tvOEYElpHTDkiX0B3Rch/F3ZlxYySLSJGndEJwd52EowZifRKUI7
-         orMvPA91GCAL6tWL/XS2hmeRnGGjcpgQZ+Emd9GcSo5qjYFIjjCe1AMoCmrjPqJGPsfq
-         W320Pd5gKYx2QWBXqodpxnPApRNWbT3uWe0G02S3pRFtEZXuV9TMhZf0K5zhluacuxcx
-         H3xQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWbdw4AHKzPp0OWazSWHKNuV4VSShYfOLsjm2NG6AQ/g6isqB2FQgNXHixETqaPl6hAHP4Po3l1uHR/uJuB5F360EaCecW91g5F2afAb6LKB30N0aeE4UUyciTnP0ss3W6BQyxH7gzw3gaFdeOosqg=
-X-Gm-Message-State: AOJu0YzzFyYBycmF3dFyxOcKigDtV3qwRoymKLPS1OxCWiWz2LZkVc4U
-	gNmkS6pXkrjkUfmy3jpf0Thm+V0vFiKHkLqhW4ZKNLuQlAOTTv1TfddVLCQ/
-X-Google-Smtp-Source: AGHT+IEaZi1qP8PiLgXfz3IwsNbouC/zw/oGMEkqXMbGzcSbS+tOupwYkTAfSrC9cre8t+5N/59xOw==
-X-Received: by 2002:a25:bfc8:0:b0:df4:d29a:6897 with SMTP id 3f1490d57ef6-dfaf65c55aemr11105864276.35.1718109929625;
-        Tue, 11 Jun 2024 05:45:29 -0700 (PDT)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-dfb0138fd2bsm1512911276.51.2024.06.11.05.45.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jun 2024 05:45:28 -0700 (PDT)
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dfb3ff45c06so1154178276.3;
-        Tue, 11 Jun 2024 05:45:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXPH8wW/2DKVkKayODXxO6QHartBiuUNLNIUxIBXW0u2rZuFHEcDZNggNTbSKxXkyp8lKkndgDfoVcnpOwlpt5iom6eNCQEVhE0FJZLuSGgnVgxKwRYVMlDFoIIbjf9JSMgX/0WO+leYQil8Gwj4sE=
-X-Received: by 2002:a25:744d:0:b0:dfa:528d:e8f4 with SMTP id
- 3f1490d57ef6-dfaf65c01c4mr11427597276.33.1718109927736; Tue, 11 Jun 2024
- 05:45:27 -0700 (PDT)
+	s=arc-20240116; t=1718110270; c=relaxed/simple;
+	bh=U/Ie7iZqgHKR8zcfnLGW1zlv0d/KYGgoe1QRnrRuN5w=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=cWsXmUQakq6rvG2EWbjn2suO0+rtEWwyrD/q6UIkp9TVD0VLd+ZBLEIBft5ELNrgvZH5fgjYbNw2+i6LOO6LfkT0Ru6QXgGa/mlGIN9biO1QmBHhCeiubz82B0G90oiIudOxI+aYvpD86C5jCZfRADe+vzr2y9G94yhR2W/YiUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+X-IronPort-AV: E=Sophos;i="6.08,230,1712588400"; 
+   d="scan'208";a="211455257"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 11 Jun 2024 21:51:05 +0900
+Received: from localhost.localdomain (unknown [10.166.13.99])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id BE3A740104EA;
+	Tue, 11 Jun 2024 21:51:05 +0900 (JST)
+From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To: lpieralisi@kernel.org,
+	kw@linux.com,
+	robh@kernel.org,
+	bhelgaas@google.com,
+	jingoohan1@gmail.com,
+	mani@kernel.org
+Cc: marek.vasut+renesas@gmail.com,
+	linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v9 0/5] PCI: rcar-gen4: Add R-Car V4H support
+Date: Tue, 11 Jun 2024 21:50:52 +0900
+Message-Id: <20240611125057.1232873-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240316023932.700685-1-liuyuntao12@huawei.com>
-In-Reply-To: <20240316023932.700685-1-liuyuntao12@huawei.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 11 Jun 2024 14:45:14 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWMAg59p+hzeLG9Uc3X55Vt9ccNy5BRoPX0RJbxrMOFLA@mail.gmail.com>
-Message-ID: <CAMuHMdWMAg59p+hzeLG9Uc3X55Vt9ccNy5BRoPX0RJbxrMOFLA@mail.gmail.com>
-Subject: Re: [PATCH-next v4] arm32: enable HAVE_LD_DEAD_CODE_DATA_ELIMINATION
-To: Yuntao Liu <liuyuntao12@huawei.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	arnd@arndb.de, ardb@kernel.org, linux@armlinux.org.uk, afd@ti.com, 
-	akpm@linux-foundation.org, kirill.shutemov@linux.intel.com, corbet@lwn.net, 
-	rppt@kernel.org, robh@kernel.org, tglx@linutronix.de, 
-	linus.walleij@linaro.org, maskray@google.com, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, Chris Brandt <Chris.Brandt@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Yuntao,
+The pcie-rcar-gen4 driver can reuse other R-Car Gen4 support like
+r8a779g0 (R-Car V4H) and r8a779h0 (R-Car V4M). However, some
+initializing settings differ between R-Car S4-8 (r8a779f0) and
+others. The R-Car S4-8 will be minority about the setting way. So,
+R-Car V4H will be majority and this is generic initialization way
+as "renesas,rcar-gen4-pcie{-ep}" compatible.
 
-On Sat, Mar 16, 2024 at 3:44=E2=80=AFAM Yuntao Liu <liuyuntao12@huawei.com>=
- wrote:
-> The current arm32 architecture does not yet support the
-> HAVE_LD_DEAD_CODE_DATA_ELIMINATION feature. arm32 is widely used in
-> embedded scenarios, and enabling this feature would be beneficial for
-> reducing the size of the kernel image.
->
-> In order to make this work, we keep the necessary tables by annotating
-> them with KEEP, also it requires further changes to linker script to KEEP
-> some tables and wildcard compiler generated sections into the right place=
-.
-> When using ld.lld for linking, KEEP is not recognized within the OVERLAY
-> command, and Ard proposed a concise method to solve this problem.
->
-> It boots normally with defconfig, vexpress_defconfig and tinyconfig.
->
-> The size comparison of zImage is as follows:
-> defconfig       vexpress_defconfig      tinyconfig
-> 5137712         5138024                 424192          no dce
-> 5032560         4997824                 298384          dce
-> 2.0%            2.7%                    29.7%           shrink
->
-> When using smaller config file, there is a significant reduction in the
-> size of the zImage.
->
-> We also tested this patch on a commercially available single-board
-> computer, and the comparison is as follows:
-> a15eb_config
-> 2161384         no dce
-> 2092240         dce
-> 3.2%            shrink
->
-> The zImage size has been reduced by approximately 3.2%, which is 70KB on
-> 2.1M.
->
-> Signed-off-by: Yuntao Liu <liuyuntao12@huawei.com>
-> Tested-by: Arnd Bergmann <arnd@arndb.de>
-> Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+About the firmware binary, please refer to the following patch
+descirption:
+  PCI: rcar-gen4: Add support for r8a779g0
 
-Thanks for your patch, which is now commit ed0f941022515ff4 ("ARM:
-9404/1: arm32: enable HAVE_LD_DEAD_CODE_DATA_ELIMINATION") in
-arm/for-next (next-20240611).
+For now, I tested both R-Car S4-8 and R-Car V4H on this driver.
+I'll support one more other SoC (R-Car V4M) in the future.
 
-I gave this a try on my custom configs for RSK+RZA1 (RZ/A1H)
-and RZA2MEVB (RZ/A2M).  According to bloat-o-meter, enabling
-HAVE_LD_DEAD_CODE_DATA_ELIMINATION reduced kernel size by almost
-500 KiB (-8.3%).  The figures reported in "Memory: ... available"
-were even more impressive: 1032 KiB more free memory than before.
+Changes from v8:
+https://lore.kernel.org/linux-pci/20240520074300.125969-1-yoshihiro.shimoda.uh@renesas.com/
+- Add Reviewed-by in the patch 3/5.
+- Revise commit description in the patch [2345]/5.
+- Some minor updates of the code in the patch 4/5.
 
-As these boards have only 32 resp. 64 MiB of RAM, and some products
-even use RZ/A1H with just the 10 MiB of on-chip SRAM, this is a good
-improvement to have!
-Thanks!
+Changes from v7:
+https://lore.kernel.org/linux-pci/20240415081135.3814373-1-yoshihiro.shimoda.uh@renesas.com/
+- Since the following patches are merged into pci.git / dt-bindings branch,
+  drop them from this patch series:
+   dt-bindings: PCI: rcar-gen4-pci-host: Add R-Car V4H compatible
+   dt-bindings: PCI: rcar-gen4-pci-ep: Add R-Car V4H compatible
+- Add Reviewed-by in the patch [25]/5.
+- Add a condition to avoid automated tools report in the patch 2/5.
+- Change the new function which adds an "enable" flag in the patch 3/5.
+  So, change the commit description and move some functions' places.
+- Revise the commit description and add firmware information in detail in
+  the patch 4/5.
+- Use the offset directly instead of definitions in the patch 4/5.
+- Add comments for some magical offsets/values in the patch 4/5.
+- Change error message when request_firmware() failed in the patch 4/5.
 
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Changes from v6:
+https://lore.kernel.org/linux-pci/20240410004832.3726922-1-yoshihiro.shimoda.uh@renesas.com/
+- Add Manivannan's Reviewed-by in patch [37]/7.
+- Rename a struct from "platdata" to "drvdata" in patch [4/7].
+- Revise the commit descriptions in patch [456]/7.
+- Rename some functions in patch 6/7.
+- Fix the return value of an error path in patch 6/7.
 
-Gr{oetje,eeting}s,
+Yoshihiro Shimoda (5):
+  PCI: dwc: Add PCIE_PORT_{FORCE,LANE_SKEW} macros
+  PCI: rcar-gen4: Add rcar_gen4_pcie_drvdata
+  PCI: rcar-gen4: Add .ltssm_control() for other SoC support
+  PCI: rcar-gen4: Add support for r8a779g0
+  misc: pci_endpoint_test: Document a policy about adding pci_device_id
 
-                        Geert
+ drivers/misc/pci_endpoint_test.c             |   4 +
+ drivers/pci/controller/dwc/pcie-designware.h |   6 +
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c  | 313 +++++++++++++++++--
+ 3 files changed, 289 insertions(+), 34 deletions(-)
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+-- 
+2.25.1
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
