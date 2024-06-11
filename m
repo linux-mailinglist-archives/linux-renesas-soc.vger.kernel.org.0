@@ -1,226 +1,171 @@
-Return-Path: <linux-renesas-soc+bounces-6034-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6035-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD89990332A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 09:02:37 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 110F890332F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 09:03:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5BAE51F27144
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 07:02:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5A154B25AC0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 07:03:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2A6E171E61;
-	Tue, 11 Jun 2024 07:02:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VYqjNd+C"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D91F3171E66;
+	Tue, 11 Jun 2024 07:03:52 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2CCAB657;
-	Tue, 11 Jun 2024 07:02:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A1AB657;
+	Tue, 11 Jun 2024 07:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718089352; cv=none; b=rNzsrn05+N7qp2at+S6UivXsoNQ/wNoU0tXx5r5sNhP2y3+mNURkwgaBF16grynObWu6EDGqpogkZk76tvqH5igtDRU+HfFw1jwezeH9whlsuHE8yLIekey2OM6DhPvOc59TrfGo/x3xVLuEbT9XAAezwBdAqw4IDjXOBz8XIHA=
+	t=1718089432; cv=none; b=aVXKTcGDDtUzgaHp8V2Qnm/kyWee/bvHAre3XNa8/SKu7JTSvH4ccnM2XApTiGvcWJj1o67bOhp4lH523jADlPQ5usGgpw6ipWqluLU/7Sr2ufBGyf7uWv+Tn5nsE5Wx2JqUGedS9jP0OMQnbj9O1o1kVqlEU9o9P6XrPO7mjTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718089352; c=relaxed/simple;
-	bh=aLoDwbt7IafobJGOE/3b1eLM3mDAudCQ5TjJiv/fgP0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RmO5f/+OAaCJtvLf9SRXBOKs7bRduTpkILwsHFTNuSsn3o6lWDokXbS18pC+EcwtnkiXSFf2dOe4p3WwcRUR9ePIx2j72f+xmj/A7Ls2rSV0e+PYY2RmNS7NYwTL8JW2yb9PeeTcagcp/ztpF4/fooEaTfepTMMZMV7yWP1eap0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VYqjNd+C; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A476C2BD10;
-	Tue, 11 Jun 2024 07:02:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718089352;
-	bh=aLoDwbt7IafobJGOE/3b1eLM3mDAudCQ5TjJiv/fgP0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=VYqjNd+CDxBS1fO0YDPXp+JLHxG9rk1O7Ksq9hPonSnpIre3I9MpDqfBMaWINmoYi
-	 0xfwvnnyPTgxU0QQa2DaRElPzYW+LA0mf0EAaj79ocaCFP5eeAwoxHUI0kEWxN+ns0
-	 ptFeqPu2+43om1eoTOY50z5dCRdUMBJtHodJsxpAaDgUkKXxFVIaWRHfrO5cQZKLyu
-	 uQKdskAtGexhrDP8uvldhaBTelTli9syzvq6YO9D/8KPSGA8cyvjbI2a5XQAN7T5G/
-	 igkakk/gVc6k6v+226t6t4mTwdBLwVxhJuNa2s+XjJHIw/mKOtiZ7c/sFkcWDBFF3L
-	 tmYC/u/wDhIfw==
-Message-ID: <34b21e6f-0896-4691-9b66-d06ef2f44905@kernel.org>
-Date: Tue, 11 Jun 2024 09:02:26 +0200
+	s=arc-20240116; t=1718089432; c=relaxed/simple;
+	bh=534zje78Vmh7/8/3gk/F5m97kl9O7VC9jDh6In6iEIY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Yv38+bayDLeCR5ES0fMM71inQadSP4TbC7rrR4zGFavWhPKmu+IKmRBPbqXzWiO999wcXTLjNICe/zN6Rd39+3f/WdrZkYYfwxGvxtZFHufs4BZklWR1kTYlc+5vWd00bkXGe6hZg7LrliVkBN/li21/saE9CoRwLrpz0kUD+tg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-62a080a171dso54666627b3.0;
+        Tue, 11 Jun 2024 00:03:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718089429; x=1718694229;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nW56XVygKDEJ/sK4L22c/J11/mN3vlpwHRil5rep5WE=;
+        b=m7bi3vptQyyCjYS5nWBljLnUO7Bf+oy1tyb2+MH2pCIjmcSlGfMIaItENvOa+5aEQ6
+         QnMB/1Vo0riEnNZOwy8HiovaHxVmFaN1GQ+BJk0ySUqQGkHQuLrVq/EaTU5QzzK3X9V9
+         zexTC9SvVmLIEdDEWuq21tvPuLZiNzzsIWtzYf/8rCW3J1q0k4KICgcmsY+EJ/0hK1Il
+         4ZJwm0ZXaphS2CNeH3if2HCKKJabWH+yFUPbIFRxo5oyUo/eiPDGfCMj5ln2S3+d2FMk
+         iU6h0c47yKONBuhFfU5Wl8/2oll6H5M7k9HGQbcJkKJrI/BBi1fHgv6kHmLga4ksAV7h
+         LAOg==
+X-Forwarded-Encrypted: i=1; AJvYcCUZ3kSEMe/qcU1vOZmJLvkBP6HEVWghj1lXTrw4ab3plknXqCJP9bXJojusvjRFzpWPgkk7nYxrlYVPuFL82X4ZZgZNhh1xjTDeOFx7Akgpf1FICPjFezIceXKbmMSP8rIjLGrM10//CIEyQvuUY8vUUEvRa0JtM1i6lf6OoCFYYp3bOto98I/4tbMGhSjn55TraKllQirq7JMWnP21x/U3lvSOeOLo
+X-Gm-Message-State: AOJu0Yzv8+PHoaYe512tUYilU2Gz5YctJWMJNthnA7WAbjbS+Aiit0Bt
+	jJywne7xsAefDjNJJWYWtKni0LdeYCp/sP2MVrdK+ZSPsL9iqZBRfzjlFhRb
+X-Google-Smtp-Source: AGHT+IE1tkhRYa3O+NdsAkcFq5KicoFmer6laI9NH7+JvINjkGXBxcHmtNVp17KMR4nlF5uuIlCGBw==
+X-Received: by 2002:a81:83c5:0:b0:61b:eb65:4a87 with SMTP id 00721157ae682-62cd56a9ff1mr106826837b3.48.1718089429020;
+        Tue, 11 Jun 2024 00:03:49 -0700 (PDT)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-62ccace6713sm19150267b3.38.2024.06.11.00.03.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Jun 2024 00:03:48 -0700 (PDT)
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-dfa6e0add60so5195533276.3;
+        Tue, 11 Jun 2024 00:03:48 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXWqG66kV/qOW5xF2vDPCdixhDamdmqJpvEekDhA5xqjQwz0G97bOv8Vof/uhFaYnjrq9iclvXRv8qhjHRWoeP630Lj/RpsCGj7MQfWGh3vncoO4pY0k7chk2w32Y1tuy7vGVbU8SYJmmpI7t2eUmemgefm49sDZn3otJqEl4DXUNGhn6w1hmbU41WG7na2yiowe7To56xmSLFYB4xhiPxPK0hluV8X
+X-Received: by 2002:a25:aa6d:0:b0:dc6:aebb:168e with SMTP id
+ 3f1490d57ef6-dfaf64bf568mr11147486276.26.1718089428640; Tue, 11 Jun 2024
+ 00:03:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 1/4] dt-bindings: clock: renesas: Document
- RZ/V2H(P) SoC CPG
-To: Prabhakar <prabhakar.csengg@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>
-Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20240610233221.242749-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240610233221.242749-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240610233221.242749-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240524082800.333991-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240524082800.333991-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdVPZgxsM1OsFt-+802mzajKR6CO8B9ofFzaThKsBAdGTQ@mail.gmail.com> <CA+V-a8tQr8gXxAfRcffP9Bz2dL66+NOYUacKx0nmZd=TTVA9FA@mail.gmail.com>
+In-Reply-To: <CA+V-a8tQr8gXxAfRcffP9Bz2dL66+NOYUacKx0nmZd=TTVA9FA@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 11 Jun 2024 09:03:37 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWY7SaL40oiFJ-wSA+x7NNZgE_0Wyj850QhbFz+yWwWTg@mail.gmail.com>
+Message-ID: <CAMuHMdWY7SaL40oiFJ-wSA+x7NNZgE_0Wyj850QhbFz+yWwWTg@mail.gmail.com>
+Subject: Re: [PATCH 3/4] clk: renesas: Add RZ/V2H CPG core wrapper driver
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 11/06/2024 01:32, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> Document the device tree bindings for the Renesas RZ/V2H(P) SoC
-> Clock Pulse Generator (CPG).
-> 
-> CPG block handles the below operations:
-> - Generation and control of clock signals for the IP modules
-> - Generation and control of resets
-> - Control over booting
-> - Low power consumption and power supply domains
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi Prabhakar,
 
-Since this is not a finished work (RFC), only limited review follows.
+On Tue, Jun 11, 2024 at 12:03=E2=80=AFAM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> On Tue, Jun 4, 2024 at 5:01=E2=80=AFPM Geert Uytterhoeven <geert@linux-m6=
+8k.org> wrote:
+> > On Fri, May 24, 2024 at 10:29=E2=80=AFAM Prabhakar <prabhakar.csengg@gm=
+ail.com> wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > Add CPG core helper wrapper driver for RZ/V2H SoC.
+> >
+> > What is a "core helper wrapper"? ;-)
+> >
+> As this file basically uses core API for clock and reset, I worded the
+> commit as such.
+>
+> > Looking at the structure, this looks like a family-specific clock drive=
+r?
+> Yes, as the CPG on RZ/V2H varies quite a bit compared to RZ/G2L I have
+> introduced a family-specific clock driver
+>
+> > Will there be more RZ/V2H-alike SoCs?
+> >
+> I'm not sure about it tbh!
 
+OK, I see we did the same when introducing RZ/G2L support.
 
-> +$id: http://devicetree.org/schemas/clock/renesas,rzv2h-cpg.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas RZ/V2H(P) Clock Pulse Generator (CPG)
-> +
-> +maintainers:
-> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> +
-> +description: |
+> > > --- /dev/null
+> > > +++ b/drivers/clk/renesas/rzv2h-cpg.h
 
-Do not need '|' unless you need to preserve formatting.
+> > > +/**
+> > > + * struct rzv2h_cpg_info - SoC-specific CPG Description
+> > > + *
+> > > + * @core_clks: Array of Core Clock definitions
+> > > + * @num_core_clks: Number of entries in core_clks[]
+> > > + * @num_total_core_clks: Total number of Core Clocks (exported + int=
+ernal)
+> > > + *
+> > > + * @mod_clks: Array of Module Clock definitions
+> > > + * @num_mod_clks: Number of entries in mod_clks[]
+> > > + * @num_hw_mod_clks: Number of Module Clocks supported by the hardwa=
+re
+> > > + *
+> > > + * @resets: Array of Module Reset definitions
+> > > + * @num_resets: Number of entries in resets[]
+> > > + *
+> > > + * @crit_mod_clks: Array with Module Clock IDs of critical clocks th=
+at
+> > > + *                 should not be disabled without a knowledgeable dr=
+iver
+> > > + * @num_crit_mod_clks: Number of entries in crit_mod_clks[]
+> > > + * @pll_get_clk1_offset: Function pointer to get PLL CLK1 offset
+> > > + * @pll_get_clk2_offset: Function pointer to get PLL CLK2 offset
+> > > + */
+> > > +struct rzv2h_cpg_info {
+> >
+> > > +       /* function pointers for PLL information */
+> > > +       int (*pll_get_clk1_offset)(int clk);
+> > > +       int (*pll_get_clk2_offset)(int clk);
+> >
+> > Why are these function pointers?
 
-> +  On Renesas RZ/V2H(P) SoCs, the CPG (Clock Pulse Generator) handles generation
-> +  and control of clock signals for the IP modules, generation and control of resets,
-> +  and control over booting, low power consumption and power supply domains.
-> +
-> +properties:
-> +  compatible:
-> +    const: renesas,r9a09g057-cpg
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    description:
-> +      Clock source to CPG on QEXTAL pin.
-> +    const: qextal
-> +
-> +  '#clock-cells':
-> +    description: |
-> +      - For CPG core clocks, the two clock specifier cells must be "CPG_CORE"
-> +        and a core clock reference, as defined in
-> +        <dt-bindings/clock/r9a09g057-cpg.h>,
+I meant "... and not pointer/len pairs?".
 
-So second cell is not used?
+> To get the offsets for PLL CLK1/2. But I plan to drop these and get
+> the offset from conf instead.
 
-> +      - For module clocks, the two clock specifier cells must be "CPG_MOD" and
-> +        a module number.  The module number is calculated as the CLKON register
-> +        offset index multiplied by 16, plus the actual bit in the register
-> +        used to turn the CLK ON. For example, for CGC_GIC_0_GICCLK, the
-> +        calculation is (1 * 16 + 3) = 19.
+OK
 
-You should not have different values. Make it const: 1 and just use IDs.
+Gr{oetje,eeting}s,
 
-> +    const: 2
-> +
-> +  '#power-domain-cells':
-> +    description:
-> +      SoC devices that are part of the CPG/Module Standby Mode Clock Domain and
-> +      can be power-managed through Module Standby should refer to the CPG device
-> +      node in their "power-domains" property, as documented by the generic PM
-> +      Domain bindings in Documentation/devicetree/bindings/power/power-domain.yaml.
+                        Geert
 
-Drop description, it's redundant.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-> +    const: 0
-> +
-> +  '#reset-cells':
-> +    description:
-> +      The single reset specifier cell must be the reset number. The reset number
-> +      is calculated as the reset register offset index multiplied by 16, plus the
-> +      actual bit in the register used to reset the specific IP block. For example,
-> +      for SYS_0_PRESETN, the calculation is (3 * 16 + 0) = 48.
-> +    const: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - '#clock-cells'
-> +  - '#power-domain-cells'
-> +  - '#reset-cells'
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    cpg: clock-controller@10420000 {
-
-Drop unused label.
-
-> +            compatible = "renesas,r9a09g057-cpg";
-
-Use 4 spaces for example indentation.
-> +    };
-
-Best regards,
-Krzysztof
-
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
