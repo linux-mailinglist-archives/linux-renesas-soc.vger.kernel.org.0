@@ -1,235 +1,143 @@
-Return-Path: <linux-renesas-soc+bounces-6042-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6043-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E82C90382B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 11:51:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86CBA903874
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 12:10:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 63AF9B23CE0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 09:51:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3AE5D1F262D3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 10:10:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C977B17624A;
-	Tue, 11 Jun 2024 09:51:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="CxsoHWHs"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AABF3178367;
+	Tue, 11 Jun 2024 10:10:40 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D2C219E7
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Jun 2024 09:51:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 903211779BD;
+	Tue, 11 Jun 2024 10:10:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718099486; cv=none; b=mzENxwqCtGgwlilICdw2Jz+OM10UeSvwMAul3R4AsCrZ/0PCXnx437Xa6ox02mTkNudz5kOm79ZXZtL3A4D4/3GCT9CHpjBeGyRJK7E39Xx10anmmaTz46QdJenXX7nt9QW3N+s46lP0cS7lOEmhhTecGAs3FvYpX6zy62hB1I0=
+	t=1718100640; cv=none; b=hvzGA2vMu6dHbFurK6qroNY625FTFQMrjejSEZzgY6lW+QV9R81lS1cUqbb2szef0pP+6tphKhn02W3dvPqajkeLNJkJ0qthrSwKLpTN+c/E7OsBIHU2DBLgJY3OBojevKYEBBITPyX/z8s/Bs4x6wmZvFGLiNBp8SBHfVYg5DQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718099486; c=relaxed/simple;
-	bh=M3sP57whPMEKglNBLqbJ/9YfpM3OYVMio9G5VSbZfCM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hzM88Kbq+TaKkQiqj7dFcraCvSUKxJDwM194KsmdSlPtVeGEfc1FU6XLyFMuxewhTrSrE9rhLQzHb+pd9IFuzwYrBjlQuNpv2Iw0c0PwXo1ioHNcCkirM97kH9upwQ3HDZeoMk6br9MyuE/MwJzC5eGOufLz7Qr5OCJpC4F1k7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=CxsoHWHs; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=0VI96GF2sRbXga
-	gYVUW48owhEm5vm0nVephK1lZYgUQ=; b=CxsoHWHsP3/5G3kCovWY7mLIE8p2+w
-	nBN7g0a8KUGdcAzSwyNbDtGVAraxJaUY3y0K6FXSw5ZTX+XMZf2JSWKg2IWU2GLG
-	muqwtXfrNMpT/2nvfAcEjTyDic2TumGwTreqLtSWpw/S1uP8F2b+eY4dKIlD9txw
-	DJ0oNKk3oCSjSB2DkxsnAL4ES1y+YciJ+EMPRiRRy8ChLnICWoMFWlNMaLv/Buy7
-	cqk8MFGQS4A2igNS/u1vWqszOdVKc4vSZ5tQ41mYPJZZwvXuGljQ2lkK0WnpRTKF
-	Jo/yIS0TyKquYC1h6QNBELRYCAOVVNdUIIrxr4hpECm25vN265wpVeuQ==
-Received: (qmail 380400 invoked from network); 11 Jun 2024 11:51:13 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Jun 2024 11:51:13 +0200
-X-UD-Smtp-Session: l3s3148p1@K8LFNJoaIJZehhrL
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: i2c: testunit: use proper reST
-Date: Tue, 11 Jun 2024 11:50:31 +0200
-Message-ID: <20240611095108.10639-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1718100640; c=relaxed/simple;
+	bh=COhyy0EMEiEvTWniS5hiWSCp2E7Ug8+52x27otSmrDg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=u33YKnL+ozQGqjWdaaUBX6l0yYXKPrhPRgvxKiIwZsqzNB/QyTbcCFsdd6MumFBmwu21FK+1U+bz8JgihDb7zsSxU2h+drr4mGalHm26zKN85HpCYKLJ4gdn1to1MyL8VLFp2iYhEaxDdZcPGDWrdT5cmKudcVatGF11tueE/90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-627ebbefd85so61307007b3.3;
+        Tue, 11 Jun 2024 03:10:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718100636; x=1718705436;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=amTzPoOSg3hV6pTO9i4P2UyxjrS5lC65KltuZVzauqM=;
+        b=p3mfh2IutjqL7EXgon3fhNdZ3fvwHRJehi5AxsPTxQD/PPnVNQOy/IsUlGDGyeMcVX
+         aeAyjl7+mfuS0afWjpYKZkfd3ZAPJvrww86M1Ys2OQpHNSDD7RQ1Ljp9YltIlUBioz1n
+         c4m6ZLwkkmsQxCIsigxI2uShs8GQPMwW/Atd5iMx/rTeXqwcgyk3dLmSRxSucy+Q9VDO
+         FcNcUkbCjKl4iJSZ/Di+cVDEg6iZs2AB7PvF4gQ9mSJLw2MDYQPc+eB8gIcxz9rgdXGj
+         oTX1qwroqo5BXj1h+QCiXAsuH1oUu4Ic2ApT0XVUL3OEgF6pMDVBQEaHK5nNPYts2htB
+         pozw==
+X-Forwarded-Encrypted: i=1; AJvYcCV73jX8AwMa0h+LH8PvZ2yz9ChQtlPg6wRhz+obWFdgt+ZjgdZ+nypbmuJsGML+keegxtsHRvMV5qOAEHedst5TxDT8YsKLzgacIRwf7NYalk9jdUgkHVuiPRoJG9cXDLwnaeTC4YAvrSN80o/U1+w+ktvAlF+WUXZta1bXwSi6NbbhXAPN9C5Z
+X-Gm-Message-State: AOJu0YyaTQr3/JbvGqKnJ3DuLu/8u2Mo4Fkn5wwla8cKzd8RGiz90aNz
+	SbLjjgtW99Zn9GjNvDffWhuFZr04GpEXa8W/tkVAzCQZekOdx3qC96qYu83H
+X-Google-Smtp-Source: AGHT+IFGoxepLYMC6lNL/EkwxN9iUSsrzhYCoCnHKV7J8PzWM9riZD0Pd4IQAxZ9/fu8QnOPKkWjUg==
+X-Received: by 2002:a25:ef45:0:b0:df7:695a:1cee with SMTP id 3f1490d57ef6-dfaf66d1473mr11950907276.50.1718100634925;
+        Tue, 11 Jun 2024 03:10:34 -0700 (PDT)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-dfae53aa989sm1989555276.43.2024.06.11.03.10.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Jun 2024 03:10:34 -0700 (PDT)
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-dfaff6bf125so3809266276.3;
+        Tue, 11 Jun 2024 03:10:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX4ADmnc7gPst0EFY5HQ6JsiZO/yZux180XzpypFQ36ea21kq+anFQATK4t0Pr6W+z17q+okbQkrV2Y5Dmu+AUryeLQZ7bC87gAFTPP+WfWa3Ms2v1JYzZn+k3eIm7ojgsVtTOPQa85lFp+8Y4Ku/cG5X91mSCn6EkMr9PvhcXEt/SvyZRnslB+
+X-Received: by 2002:a25:51ca:0:b0:dfb:b89:e04c with SMTP id
+ 3f1490d57ef6-dfb0b89e36emr9220195276.33.1718100634464; Tue, 11 Jun 2024
+ 03:10:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240520074300.125969-1-yoshihiro.shimoda.uh@renesas.com>
+ <20240520074300.125969-5-yoshihiro.shimoda.uh@renesas.com>
+ <20240608082455.GA3282@thinkpad> <TYCPR01MB11040691A48BD866E9F387D78D8C72@TYCPR01MB11040.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYCPR01MB11040691A48BD866E9F387D78D8C72@TYCPR01MB11040.jpnprd01.prod.outlook.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 11 Jun 2024 12:10:22 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXStQGDNP8c79Bc46kM7BMkbxi=2aVKnLrupWj9Ytn7Ug@mail.gmail.com>
+Message-ID: <CAMuHMdXStQGDNP8c79Bc46kM7BMkbxi=2aVKnLrupWj9Ytn7Ug@mail.gmail.com>
+Subject: Re: [PATCH v8 4/5] PCI: rcar-gen4: Add support for r8a779g0
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, "lpieralisi@kernel.org" <lpieralisi@kernel.org>, 
+	"kw@linux.com" <kw@linux.com>, "robh@kernel.org" <robh@kernel.org>, 
+	"bhelgaas@google.com" <bhelgaas@google.com>, 
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, 
+	"conor+dt@kernel.org" <conor+dt@kernel.org>, "jingoohan1@gmail.com" <jingoohan1@gmail.com>, 
+	"marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>, 
+	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This document is hardly readable when converted to HTML. Mark code
-sections as such and use tables to improve readability a lot. Some
-content has slightly been moved around, but no significant changes were
-made.
+On Tue, Jun 11, 2024 at 11:21=E2=80=AFAM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> > From: Manivannan Sadhasivam, Sent: Saturday, June 8, 2024 5:25 PM
+> > On Mon, May 20, 2024 at 04:42:59PM +0900, Yoshihiro Shimoda wrote:
+> > > +static void rcar_gen4_pcie_phy_reg_update_bits(struct rcar_gen4_pcie=
+ *rcar,
+> > > +                                          u32 offset, u32 mask, u32 =
+val)
+> > > +{
+> > > +   u32 tmp;
+> > > +
+> > > +   tmp =3D readl(rcar->phy_base + offset);
+> > > +   tmp &=3D ~mask;
+> > > +   tmp |=3D val;
+> >
+> > Use FIELD_* macros to avoid using the shift value.
+>
+> According to the bitfield.h,
+> ---
+> * FIELD_{GET,PREP} macros take as first parameter shifted mask
+>  * from which they extract the base mask and shift amount.
+>  * Mask must be a compilation time constant.
+> ---
+> So, since the mask is a variable here, we cannot use FIELD_* macros for t=
+his function.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+Indeed.
 
-This is a preparational patch before adding more features to the
-testunit.
+I tried introducing non-constant field_{prep,get}() helpers[1] in series
+[2], but there were some pushbacks.
 
- Documentation/i2c/slave-testunit-backend.rst | 122 +++++++++++++------
- 1 file changed, 82 insertions(+), 40 deletions(-)
+Feel free to up-vote ;-)
 
-diff --git a/Documentation/i2c/slave-testunit-backend.rst b/Documentation/i2c/slave-testunit-backend.rst
-index ecfc2abec32d..0df60c7c0be4 100644
---- a/Documentation/i2c/slave-testunit-backend.rst
-+++ b/Documentation/i2c/slave-testunit-backend.rst
-@@ -16,9 +16,9 @@ Note that this is a device for testing and debugging. It should not be enabled
- in a production build. And while there is some versioning and we try hard to
- keep backward compatibility, there is no stable ABI guaranteed!
- 
--Instantiating the device is regular. Example for bus 0, address 0x30:
-+Instantiating the device is regular. Example for bus 0, address 0x30::
- 
--# echo "slave-testunit 0x1030" > /sys/bus/i2c/devices/i2c-0/new_device
-+  # echo "slave-testunit 0x1030" > /sys/bus/i2c/devices/i2c-0/new_device
- 
- After that, you will have a write-only device listening. Reads will just return
- an 8-bit version number of the testunit. When writing, the device consists of 4
-@@ -26,14 +26,17 @@ an 8-bit version number of the testunit. When writing, the device consists of 4
- written to start a testcase, i.e. you usually write 4 bytes to the device. The
- registers are:
- 
--0x00 CMD   - which test to trigger
--0x01 DATAL - configuration byte 1 for the test
--0x02 DATAH - configuration byte 2 for the test
--0x03 DELAY - delay in n * 10ms until test is started
-+.. csv-table::
-+  :header: "Offset", "Name", "Description"
- 
--Using 'i2cset' from the i2c-tools package, the generic command looks like:
-+  0x00, CMD, which test to trigger
-+  0x01, DATAL, configuration byte 1 for the test
-+  0x02, DATAH, configuration byte 2 for the test
-+  0x03, DELAY, delay in n * 10ms until test is started
- 
--# i2cset -y <bus_num> <testunit_address> <CMD> <DATAL> <DATAH> <DELAY> i
-+Using 'i2cset' from the i2c-tools package, the generic command looks like::
-+
-+  # i2cset -y <bus_num> <testunit_address> <CMD> <DATAL> <DATAH> <DELAY> i
- 
- DELAY is a generic parameter which will delay the execution of the test in CMD.
- While a command is running (including the delay), new commands will not be
-@@ -45,44 +48,83 @@ result in the transfer not being acknowledged.
- Commands
- --------
- 
--0x00 NOOP (reserved for future use)
-+0x00 NOOP
-+~~~~~~~~~
-+
-+Reserved for future use.
-+
-+0x01 READ_BYTES
-+~~~~~~~~~~~~~~~
-+
-+.. list-table::
-+  :header-rows: 1
-+
-+  * - CMD
-+    - DATAL
-+    - DATAH
-+    - DELAY
-+
-+  * - 0x01
-+    - address to read data from (lower 7 bits, highest bit currently unused)
-+    - number of bytes to read
-+    - n * 10ms
-+
-+Also needs master mode. This is useful to test if your bus master driver is
-+handling multi-master correctly. You can trigger the testunit to read bytes
-+from another device on the bus. If the bus master under test also wants to
-+access the bus at the same time, the bus will be busy. Example to read 128
-+bytes from device 0x50 after 50ms of delay::
-+
-+  # i2cset -y 0 0x30 0x01 0x50 0x80 0x05 i
-+
-+0x02 SMBUS_HOST_NOTIFY
-+~~~~~~~~~~~~~~~~~~~~~~
-+
-+.. list-table::
-+  :header-rows: 1
-+
-+  * - CMD
-+    - DATAL
-+    - DATAH
-+    - DELAY
- 
--0x01 READ_BYTES (also needs master mode)
--   DATAL - address to read data from (lower 7 bits, highest bit currently unused)
--   DATAH - number of bytes to read
-+  * - 0x02
-+    - low byte of the status word to send
-+    - high byte of the status word to send
-+    - n * 10ms
- 
--This is useful to test if your bus master driver is handling multi-master
--correctly. You can trigger the testunit to read bytes from another device on
--the bus. If the bus master under test also wants to access the bus at the same
--time, the bus will be busy. Example to read 128 bytes from device 0x50 after
--50ms of delay:
-+Also needs master mode. This test will send an SMBUS_HOST_NOTIFY message to the
-+host. Note that the status word is currently ignored in the Linux Kernel.
-+Example to send a notification after 10ms::
- 
--# i2cset -y 0 0x30 0x01 0x50 0x80 0x05 i
-+  # i2cset -y 0 0x30 0x02 0x42 0x64 0x01 i
- 
--0x02 SMBUS_HOST_NOTIFY (also needs master mode)
--   DATAL - low byte of the status word to send
--   DATAH - high byte of the status word to send
-+0x03 SMBUS_BLOCK_PROC_CALL
-+~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--This test will send an SMBUS_HOST_NOTIFY message to the host. Note that the
--status word is currently ignored in the Linux Kernel. Example to send a
--notification after 10ms:
-+.. list-table::
-+  :header-rows: 1
- 
--# i2cset -y 0 0x30 0x02 0x42 0x64 0x01 i
-+  * - CMD
-+    - DATAL
-+    - DATAH
-+    - DELAY
- 
--0x03 SMBUS_BLOCK_PROC_CALL (partial command)
--   DATAL - must be '1', i.e. one further byte will be written
--   DATAH - number of bytes to be sent back
--   DELAY - not applicable, partial command!
-+  * - 0x03
-+    - must be '1', i.e. one further byte will be written
-+    - number of bytes to be sent back
-+    - leave out, partial command!
- 
--This test will respond to a block process call as defined by the SMBus
--specification. The one data byte written specifies how many bytes will be sent
--back in the following read transfer. Note that in this read transfer, the
--testunit will prefix the length of the bytes to follow. So, if your host bus
--driver emulates SMBus calls like the majority does, it needs to support the
--I2C_M_RECV_LEN flag of an i2c_msg. This is a good testcase for it. The returned
--data consists of the length first, and then of an array of bytes from length-1
--to 0. Here is an example which emulates i2c_smbus_block_process_call() using
--i2ctransfer (you need i2c-tools v4.2 or later):
-+Partial command. This test will respond to a block process call as defined by
-+the SMBus specification. The one data byte written specifies how many bytes
-+will be sent back in the following read transfer. Note that in this read
-+transfer, the testunit will prefix the length of the bytes to follow. So, if
-+your host bus driver emulates SMBus calls like the majority does, it needs to
-+support the I2C_M_RECV_LEN flag of an i2c_msg. This is a good testcase for it.
-+The returned data consists of the length first, and then of an array of bytes
-+from length-1 to 0. Here is an example which emulates
-+i2c_smbus_block_process_call() using i2ctransfer (you need i2c-tools v4.2 or
-+later)::
- 
--# i2ctransfer -y 0 w3@0x30 0x03 0x01 0x10 r?
--0x10 0x0f 0x0e 0x0d 0x0c 0x0b 0x0a 0x09 0x08 0x07 0x06 0x05 0x04 0x03 0x02 0x01 0x00
-+  # i2ctransfer -y 0 w3@0x30 0x03 0x01 0x10 r?
-+  0x10 0x0f 0x0e 0x0d 0x0c 0x0b 0x0a 0x09 0x08 0x07 0x06 0x05 0x04 0x03 0x02 0x01 0x00
--- 
-2.43.0
+[1] "[PATCH 01/17] bitfield: Add non-constant field_{prep,get}() helpers"
+https://lore.kernel.org/all/3a54a6703879d10f08cf0275a2a69297ebd2b1d4.163759=
+2133.git.geert+renesas@glider.be/
 
+[2] "[PATCH 00/17] Non-const bitfield helper conversions"
+https://lore.kernel.org/all/cover.1637592133.git.geert+renesas@glider.be/
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
