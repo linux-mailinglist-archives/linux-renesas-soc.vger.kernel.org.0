@@ -1,58 +1,62 @@
-Return-Path: <linux-renesas-soc+bounces-6050-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6051-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A49190399C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 13:05:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 058E090399E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 13:05:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 433561C212B6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 11:05:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9E9A9289343
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 11:05:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8371717B42D;
-	Tue, 11 Jun 2024 11:04:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4427F17B431;
+	Tue, 11 Jun 2024 11:04:30 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 520C3179957;
-	Tue, 11 Jun 2024 11:04:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05D09E57E;
+	Tue, 11 Jun 2024 11:04:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718103866; cv=none; b=F/pvZjc1l5rbdaiOI5kHYEupsvQbvc8YahVDOkh+D1MIwshd37cdIGXXy6ALO6BDpRy/SY4obB4WD4/7olHk4vhjo2cuMvcN0btaRaD2b43vwVgfYVWrKbtyJuIFC2C0OGW67uuYFwYyTfls/u8KODkZU6lodqrORAEcbxDO0WY=
+	t=1718103870; cv=none; b=r5iS8nszItDo3VGGhb/marrn+X+l5s4o0Cjwd72n3dbvzhFAaf4E/SkzcBjUhN7tqA+8gPbYpskNZE2EhNPcVhCITI3MhRyAsJxxwRCVreef0qbuf1MoDTgFueuZCe1DdM1AMG/WOpvM3jKAmCJuJhWuVnarvjcM0hF2zjL+6tQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718103866; c=relaxed/simple;
-	bh=7zo381zbusfk7uNioEqSKWWMc/iP0beX+wXFp1T4+EU=;
+	s=arc-20240116; t=1718103870; c=relaxed/simple;
+	bh=nTjyHcloqBVtat3BBDCLMHBQnJXJUHTsYTG0WZ7SHBk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=SY5tcOKMRV4bBCnJxk4YbLsBuU5RrDk5JpbbhsDG7PTweBtVH5vzLLgZQcdDOkiwB29nCptlk94UM0H7WhVlHvO7JPmgW3bogavOVYz3rAvmCkWGyy8GX+kYsMz/XHtyY6f3xKkv8npNyPZ/UIkFuixdItGTHc0ZhKJ2jF+DcsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+	 MIME-Version; b=U7h3LjdfqIgNt3aSByWBXlUCB2pIP0lslR+fJCEiHGPQtCVWLBuxqkucU99ejJpHZ71z3Pm8Xvpg2oPf5c6He27apKsmleOCIoA6w9Z6bbBnytmLYlgU5ct+RYoLgqCLMDb251/J7czHTcljS8LQpU/5dJTzLBXkPV8YkJLI6ic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 X-IronPort-AV: E=Sophos;i="6.08,229,1712588400"; 
-   d="scan'208";a="207488191"
+   d="scan'208";a="211446402"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 11 Jun 2024 20:04:20 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 11 Jun 2024 20:04:26 +0900
 Received: from localhost.localdomain (unknown [10.226.93.49])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 790A3400F953;
-	Tue, 11 Jun 2024 20:04:15 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id E78E240078D0;
+	Tue, 11 Jun 2024 20:04:20 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
 	Vinod Koul <vkoul@kernel.org>,
 	Kishon Vijay Abraham I <kishon@kernel.org>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <len.brown@intel.com>,
+	Pavel Machek <pavel@ucw.cz>,
+	linux-pm@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>,
 	devicetree@vger.kernel.org,
 	linux-phy@lists.infradead.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3 2/6] reset: renesas: Add USB VBUS regulator device as child
-Date: Tue, 11 Jun 2024 12:03:58 +0100
-Message-Id: <20240611110402.58104-3-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v3 3/6] regulator: core: Add helper for allow access to enable register
+Date: Tue, 11 Jun 2024 12:03:59 +0100
+Message-Id: <20240611110402.58104-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240611110402.58104-1-biju.das.jz@bp.renesas.com>
 References: <20240611110402.58104-1-biju.das.jz@bp.renesas.com>
@@ -64,114 +68,105 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-As per RZ/G2L HW manual, VBUS enable can be controlled by the VBOUT bit
-of the VBUS Control Register(VBENCTL) register in the USBPHY Control.
+Add a helper function that allow regulator consumers to allow low-level
+enable register access, in order to enable/disable regulator in atomic
+context.
 
-Expose this register as regmap and instantiate the USB VBUS regulator
-device, so that consumer can control the vbus using regulator API's
+The use-case for RZ/G2L SoC is to enable VBUS selection register based
+on vbus detection that happens in interrupt context.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
-v2->v3:
- * Updated commit description and header
- * Moved regulator device creation and instantiation at the end of probe().
-v1->v2:
- * Instantiated regulator driver 
+v3:
+ * New patch.
 ---
- drivers/reset/reset-rzg2l-usbphy-ctrl.c | 37 +++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ Documentation/power/regulator/consumer.rst |  5 ++++
+ drivers/regulator/core.c                   | 32 ++++++++++++++++++++++
+ include/linux/regulator/consumer.h         |  8 ++++++
+ 3 files changed, 45 insertions(+)
 
-diff --git a/drivers/reset/reset-rzg2l-usbphy-ctrl.c b/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-index 8f6fbd978591..c740b3b9599d 100644
---- a/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-+++ b/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-@@ -10,10 +10,12 @@
- #include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-+#include <linux/regmap.h>
- #include <linux/reset.h>
- #include <linux/reset-controller.h>
+diff --git a/Documentation/power/regulator/consumer.rst b/Documentation/power/regulator/consumer.rst
+index 85c2bf5ac07e..b5502f4ffe46 100644
+--- a/Documentation/power/regulator/consumer.rst
++++ b/Documentation/power/regulator/consumer.rst
+@@ -227,3 +227,8 @@ directly written to the voltage selector register, use::
  
- #define RESET			0x000
-+#define VBENCTL			0x03c
- 
- #define RESET_SEL_PLLRESET	BIT(12)
- #define RESET_PLLRESET		BIT(8)
-@@ -32,6 +34,7 @@ struct rzg2l_usbphy_ctrl_priv {
- 	struct reset_controller_dev rcdev;
- 	struct reset_control *rstc;
- 	void __iomem *base;
-+	struct platform_device *vdev;
- 
- 	spinlock_t lock;
- };
-@@ -100,10 +103,19 @@ static const struct reset_control_ops rzg2l_usbphy_ctrl_reset_ops = {
- 	.status = rzg2l_usbphy_ctrl_status,
- };
- 
-+static const struct regmap_config rzg2l_usb_regconf = {
-+	.reg_bits = 32,
-+	.val_bits = 32,
-+	.reg_stride = 4,
-+	.max_register = 1,
-+};
+ 	int regulator_list_hardware_vsel(struct regulator *regulator,
+ 					 unsigned selector);
 +
- static int rzg2l_usbphy_ctrl_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct rzg2l_usbphy_ctrl_priv *priv;
-+	struct platform_device *vdev;
-+	struct regmap *regmap;
- 	unsigned long flags;
- 	int error;
- 	u32 val;
-@@ -116,6 +128,10 @@ static int rzg2l_usbphy_ctrl_probe(struct platform_device *pdev)
- 	if (IS_ERR(priv->base))
- 		return PTR_ERR(priv->base);
- 
-+	regmap = devm_regmap_init_mmio(dev, priv->base + VBENCTL, &rzg2l_usb_regconf);
-+	if (IS_ERR(regmap))
-+		return PTR_ERR(regmap);
++To access the hardware register for enabling/disabling the regulator, use::
 +
- 	priv->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
- 	if (IS_ERR(priv->rstc))
- 		return dev_err_probe(dev, PTR_ERR(priv->rstc),
-@@ -153,13 +169,34 @@ static int rzg2l_usbphy_ctrl_probe(struct platform_device *pdev)
- 	writel(val, priv->base + RESET);
- 	spin_unlock_irqrestore(&priv->lock, flags);
++	int regulator_set_hardware_enable_register(struct regulator *regulator,
++						   bool enable);
+diff --git a/drivers/regulator/core.c b/drivers/regulator/core.c
+index 5794f4e9dd52..19df42868bbd 100644
+--- a/drivers/regulator/core.c
++++ b/drivers/regulator/core.c
+@@ -3407,6 +3407,38 @@ int regulator_list_hardware_vsel(struct regulator *regulator,
+ }
+ EXPORT_SYMBOL_GPL(regulator_list_hardware_vsel);
  
-+	vdev = platform_device_alloc("rzg2l-usb-vbus-regulator", pdev->id);
-+	if (!vdev) {
-+		error = -ENOMEM;
-+		goto err_pm_runtime_put;
++/**
++ * regulator_set_hardware_enable_register - set the HW enable register
++ * @regulator: regulator source
++ * @enable: true for enable, false for disable
++ *
++ * Request that the regulator be enabled/disabled with the regulator output at
++ * the predefined voltage or current value.
++ *
++ * On success 0 is returned, otherwise a negative errno is returned.
++ */
++int regulator_set_hardware_enable_register(struct regulator *regulator,
++					   bool enable)
++{
++	struct regulator_dev *rdev = regulator->rdev;
++	const struct regulator_ops *ops = rdev->desc->ops;
++	int ret = -EOPNOTSUPP;
++
++	if (!ops)
++		return ret;
++
++	if (enable) {
++		if (ops->enable == regulator_enable_regmap)
++			ret = ops->enable(rdev);
++	} else {
++		if (ops->disable == regulator_disable_regmap)
++			ret = rdev->desc->ops->disable(rdev);
 +	}
-+	vdev->dev.parent = dev;
-+	priv->vdev = vdev;
 +
-+	error = platform_device_add(vdev);
-+	if (error)
-+		goto err_device_put;
++	return ret;
++}
++EXPORT_SYMBOL_GPL(regulator_set_hardware_enable_register);
 +
- 	return 0;
-+
-+err_device_put:
-+	platform_device_put(vdev);
-+err_pm_runtime_put:
-+	pm_runtime_put(&pdev->dev);
-+	pm_runtime_disable(&pdev->dev);
-+	reset_control_assert(priv->rstc);
-+	return error;
+ /**
+  * regulator_get_linear_step - return the voltage step size between VSEL values
+  * @regulator: regulator source
+diff --git a/include/linux/regulator/consumer.h b/include/linux/regulator/consumer.h
+index e6f81fc1fb17..4aa5c57de052 100644
+--- a/include/linux/regulator/consumer.h
++++ b/include/linux/regulator/consumer.h
+@@ -250,6 +250,8 @@ int regulator_get_hardware_vsel_register(struct regulator *regulator,
+ 					 unsigned *vsel_mask);
+ int regulator_list_hardware_vsel(struct regulator *regulator,
+ 				 unsigned selector);
++int regulator_set_hardware_enable_register(struct regulator *regulator,
++					   bool enable);
+ 
+ /* regulator notifier block */
+ int regulator_register_notifier(struct regulator *regulator,
+@@ -571,6 +573,12 @@ static inline int regulator_list_hardware_vsel(struct regulator *regulator,
+ 	return -EOPNOTSUPP;
  }
  
- static void rzg2l_usbphy_ctrl_remove(struct platform_device *pdev)
++static inline int regulator_set_hardware_enable_register(struct regulator *regulator,
++							 bool enable)
++{
++	return -EOPNOTSUPP;
++}
++
+ static inline int regulator_register_notifier(struct regulator *regulator,
+ 			      struct notifier_block *nb)
  {
- 	struct rzg2l_usbphy_ctrl_priv *priv = dev_get_drvdata(&pdev->dev);
- 
-+	platform_device_unregister(priv->vdev);
- 	pm_runtime_put(&pdev->dev);
- 	pm_runtime_disable(&pdev->dev);
- 	reset_control_assert(priv->rstc);
 -- 
 2.25.1
 
