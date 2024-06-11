@@ -1,81 +1,76 @@
-Return-Path: <linux-renesas-soc+bounces-6086-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6087-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 324F39046BF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 00:06:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFAE590479D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 01:19:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CC0CC281C49
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 22:06:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B94901C2378F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2024 23:19:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F287154C00;
-	Tue, 11 Jun 2024 22:06:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 424421B28A;
+	Tue, 11 Jun 2024 23:19:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a/NzRHHA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b4XHzKb2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A4E3A8E4;
-	Tue, 11 Jun 2024 22:06:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2D415530F
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Jun 2024 23:19:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718143605; cv=none; b=dZ2H7wVx+7FMTggyFkL9Zpj4tWo2gy1Njvxi2Bwa4F77MjWCOVjNqtpGgT4PFhEff+7QzO0gemdqk7zKuH+4ObT+p+XWFiZjz7Lqx8yZNFzZZCRYByHN2hN0tOljyBGyM3nXe8W2QmLY3P0wxkZdopXisLZWBnbGqSQy21xBUtk=
+	t=1718147956; cv=none; b=p2ctn/MpWhVo9GO/o4E8L+EPBO3sRk+XrB4iGEqUY4p2E2TBNFS9YmNi5sT5yuz860vn0l2z18za5gOt5DVbVUO0IoM8cTPmK0jJiMI9X39fAAEt3o85j4QKCw6XJSC8NUK0UnIrLpsSVL44z2F+tqgECXMhvjV0uw4p7lkqxSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718143605; c=relaxed/simple;
-	bh=2z2T09bcbzfwexUZ5T7jD1TkbLjspNsoiYHpZ3OkpCI=;
+	s=arc-20240116; t=1718147956; c=relaxed/simple;
+	bh=GkeXF4bgIY/txdx/CgAXI3DSCOfLrfqAJQUk4YZUx7U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=S3oQDUOGk9ZUWoUr6usYvNZjGQtGPO6sNTAj+Xg+jFLvMuzH6aXbihOC4v6Y+usGqpSbnLhYQv6s666tSpPXHa2dRrL6crJOu4M0CFgHbcOyKFnsh2KJj1URau+wzmv5Zweg4XoBnug4aF5r96qXPetcw4egG77mjcBDX7TPRpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a/NzRHHA; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDC81C2BD10;
-	Tue, 11 Jun 2024 22:06:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718143604;
-	bh=2z2T09bcbzfwexUZ5T7jD1TkbLjspNsoiYHpZ3OkpCI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=a/NzRHHA81Kr/n5nwF8wLMmpSxDwQFBG1tf3wJl/ZX5qrZu3LoF/n38c1RQWAS3to
-	 9PF0iBa1/cYKwSVYTUUEyS/nclJFBX6lIO5eO0x1Az0PTI0ZwlAsdX/khbFtfebn6E
-	 YXiFVo4lds+SLiDkmm+nUPE/ZqefCzy2l8jaKYjZeHRpo24owJwxwC2tQwf1lgcI1s
-	 jSWMaN02nOnAzTwxwp8JNo1/Rsd/DRVvo/SgDh50CtfMf0VE9bi5/DnHDINTWd02UU
-	 HtDL2EuqVAPEfbwNIt35YzWTA4zlII6G6PiSRavH22Rynv/chO+GKlSJqnxKZZ2/Mp
-	 +OmyobALds0Jg==
-Date: Tue, 11 Jun 2024 17:06:40 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: Vignesh Raghavendra <vigneshr@ti.com>,
-	Siddharth Vadapalli <s-vadapalli@ti.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Richard Zhu <hongxing.zhu@nxp.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Minghuan Lian <minghuan.Lian@nxp.com>,
-	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
-	Jesper Nilsson <jesper.nilsson@axis.com>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Srikanth Thokala <srikanth.thokala@intel.com>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	linux-omap@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-arm-kernel@axis.com, linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-	mhi@lists.linux.dev, Niklas Cassel <cassel@kernel.org>
-Subject: Re: [PATCH 2/5] PCI: endpoint: Introduce 'epc_deinit' event and
- notify the EPF drivers
-Message-ID: <20240611220640.GA1001976@bhelgaas>
+	 Content-Disposition; b=QtEzdhw7QJ6mnHCLE1TTJgwze7Ld1CExjqwuilH/hprjJcQWRfcxC0EEPENwg11PbTVy//fV/osiSlBlJ3JmKioX7qvZR7NCyIX+Dq/lLIn76kGnDyI/6SUhSbSFZCMTg+lxbnDlZIcTRc3QDq7hLBioy/NTR2pfSY8LmLxKxS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b4XHzKb2; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718147954; x=1749683954;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GkeXF4bgIY/txdx/CgAXI3DSCOfLrfqAJQUk4YZUx7U=;
+  b=b4XHzKb2mo/Icsx92d6xeB/6DWEd6p0zaOMA1YHlt0uFr/x64yTiYqMR
+   vzjQLTQqzr2B93qxTZ/haMZSxo3uWEAtsYN8QxlQJ/WLqCj+gmC5Axv0G
+   dwx449CI/eNlXD/O5Y0F/wfHd5WKbSUbMtF/4FWTyfjxoeLCSYRBvmVVG
+   Iykz9hsqeEh+zwwrobGWoNVo3SuUagmDH0CiizpHHB73cZFla9YQ6AAnR
+   6CpR1JlBOZAXKADRfZ+Cv3uhF9Ag1tjdXolH5EUbg8sZDuvYINCovh4Yu
+   cZfnbTgweXYiQqpyeYvzjwLpWXcpNMQ4HG7cylMI+n/QGFq4fvb0IkjSk
+   Q==;
+X-CSE-ConnectionGUID: QPJCSXAcSc+0dD3wWroBPA==
+X-CSE-MsgGUID: bHGF5XxRRFuXxe2G9TteUg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="14613023"
+X-IronPort-AV: E=Sophos;i="6.08,231,1712646000"; 
+   d="scan'208";a="14613023"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 16:18:13 -0700
+X-CSE-ConnectionGUID: LJBJiDZjQoC/G1aRRNOTCg==
+X-CSE-MsgGUID: 0e4H7yf9S8SbhhGy3LkuMw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,231,1712646000"; 
+   d="scan'208";a="39488179"
+Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 11 Jun 2024 16:18:11 -0700
+Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sHAkj-0000zB-22;
+	Tue, 11 Jun 2024 23:18:09 +0000
+Date: Wed, 12 Jun 2024 07:17:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Wolfram Sang <wsa-dev@sang-engineering.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [geert-renesas-drivers:master 12/17]
+ drivers/gpio/gpio-sloppy-logic-analyzer.c:316:19: error: initialization of
+ 'void (*)(struct platform_device *)' from incompatible pointer type 'int
+ (*)(struct platform_device *)'
+Message-ID: <202406120736.5AEAsytB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -84,34 +79,42 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240606-pci-deinit-v1-2-4395534520dc@linaro.org>
 
-On Thu, Jun 06, 2024 at 12:56:35PM +0530, Manivannan Sadhasivam wrote:
-> As like the 'epc_init' event, that is used to signal the EPF drivers about
-> the EPC initialization, let's introduce 'epc_deinit' event that is used to
-> signal EPC deinitialization.
-> 
-> The EPC deinitialization applies only when any sort of fundamental reset
-> is supported by the endpoint controller as per the PCIe spec.
-> 
-> Reference: PCIe Base spec v5.0, sections 4.2.4.9.1 and 6.6.1.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+head:   fdbb3ef0d4aadf9a3374c2a892098be89e9a3abb
+commit: 7eead7ebd4fa6978d3b020b2615f0680a7e98c5e [12/17] gpio: add sloppy logic analyzer using polling
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240612/202406120736.5AEAsytB-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240612/202406120736.5AEAsytB-lkp@intel.com/reproduce)
 
-PCIe r6.0, sec 4.2.5.9.1 and 6.6.1.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406120736.5AEAsytB-lkp@intel.com/
 
-(Not 4.2.4.9.1, which no longer exists in r6.x)
+All errors (new ones prefixed by >>):
 
-> Currently, some EPC drivers like pcie-qcom-ep and pcie-tegra194 support
-> PERST# as the fundamental reset. So the 'deinit' event will be notified to
-> the EPF drivers when PERST# assert happens in the above mentioned EPC
-> drivers.
-> 
-> The EPF drivers, on receiving the event through the epc_deinit() callback
-> should reset the EPF state machine and also cleanup any configuration that
-> got affected by the fundamental reset like BAR, DMA etc...
-> 
-> This change also warrants skipping the cleanups in unbind() if already done
-> in epc_deinit().
-> 
-> Reviewed-by: Niklas Cassel <cassel@kernel.org>
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+>> drivers/gpio/gpio-sloppy-logic-analyzer.c:316:19: error: initialization of 'void (*)(struct platform_device *)' from incompatible pointer type 'int (*)(struct platform_device *)' [-Werror=incompatible-pointer-types]
+     316 |         .remove = gpio_la_poll_remove,
+         |                   ^~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpio-sloppy-logic-analyzer.c:316:19: note: (near initialization for 'gpio_la_poll_device_driver.<anonymous>.remove')
+   cc1: some warnings being treated as errors
+
+
+vim +316 drivers/gpio/gpio-sloppy-logic-analyzer.c
+
+   313	
+   314	static struct platform_driver gpio_la_poll_device_driver = {
+   315		.probe = gpio_la_poll_probe,
+ > 316		.remove = gpio_la_poll_remove,
+   317		.driver = {
+   318			.name = GPIO_LA_NAME,
+   319			.of_match_table = gpio_la_poll_of_match,
+   320		}
+   321	};
+   322	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
