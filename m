@@ -1,44 +1,45 @@
-Return-Path: <linux-renesas-soc+bounces-6105-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6107-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C01BB90546E
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6F7F90546F
 	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 15:57:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6015D1F264AA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 13:57:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D84A81C2479A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 13:57:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA99717E90D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CABFA17E8F2;
 	Wed, 12 Jun 2024 13:54:28 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [195.130.132.52])
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A23B17E8F2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803AC17E8F8
 	for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Jun 2024 13:54:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718200468; cv=none; b=K3JCEtDKEZHQzu6xa/8ogAQrR8cSOtTo7p9A2axNFzlIW2eTr0KeI+aZZSm9bFxz4V/2l024APU9XaqJTqcZHeaXH9o/T3nBtk/WnZE1jTw0DRa3gvrGGwtwWbqeunMpx2zYAb53P8dRH5EwyMgrbEMoTlkDpoAGemPQQX4gLmQ=
+	t=1718200468; cv=none; b=W5+47n1mr5kjyfGk3sZdM1JHu+3VjoH0Btp711+o9DWzQ2TL57fT2SdH6ZUp7uxxduaTEY/JC+fnxmL7gvUvweEITow+DMX0AOS56VUwrwkiO+0QAg+1Trkyzf/I3OQdEM4nkJ/gRI4UzQlv1CF25L5Lbz2FN4t0lZrfy9USXJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1718200468; c=relaxed/simple;
-	bh=QHtiiHlP+5Y6r48ThRNROuC9Vt7FVjxcOdyUmTsjd8k=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Zx9Xm9S8FTIFcozwEIdW+J19yvUQ4azp0gYpRgSmYC7ZOOji7HRnndG/rtEdqumc14nSYV61SdPZT65mNDk2HuSaVaHTRizhsHuYtUOgn1tqTSk95fvBCVzUTVakuIPLIawF6vwnlb0WfhC9Qt/G6uvlOL9Nqm7Kw/4nE50j7FQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.52
+	bh=M717r1WHlp0VNEIi6s7JQcx9lPU39omC2RuymmC7CWc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=MywKoNxoPUIZaUXz+5MbyPlHsKy3KzpCOySPOaReR0w71c+JYJpt/iUVQYEHRPytB3D/eL/hxkgadoZuoCL49nNJi53LXD1lcbNcYI50K7bncKdQH3vcdvliNeJ3a4iLyIgKv8swdU1iy4XFkP51x+z7wnkHGtvuQsxLPLDwBsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:170b:1b4a:247:a009])
-	by xavier.telenet-ops.be with bizsmtp
-	id aduH2C0053axqkY01duH19; Wed, 12 Jun 2024 15:54:18 +0200
+	by baptiste.telenet-ops.be with bizsmtp
+	id aduH2C0083axqkY01duHp4; Wed, 12 Jun 2024 15:54:18 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1sHOPX-008eJi-SD;
+	id 1sHOPX-008eJj-SD;
 	Wed, 12 Jun 2024 15:54:17 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1sHOQa-00EdFe-V0;
+	id 1sHOQa-00EdFh-W8;
 	Wed, 12 Jun 2024 15:54:16 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Jocelyn Falempe <jfalempe@redhat.com>,
@@ -52,10 +53,12 @@ Cc: Helge Deller <deller@gmx.de>,
 	linux-fbdev@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 0/3] drm/panic: Fixes and graphical logo
-Date: Wed, 12 Jun 2024 15:54:07 +0200
-Message-Id: <cover.1718199918.git.geert+renesas@glider.be>
+Subject: [PATCH 1/3] drm/panic: Fix off-by-one logo size checks
+Date: Wed, 12 Jun 2024 15:54:08 +0200
+Message-Id: <653cc7f0ab18c1eadd8128debedefa5174591c90.1718199918.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1718199918.git.geert+renesas@glider.be>
+References: <cover.1718199918.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -64,38 +67,29 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-	Hi all,
+Logos that are either just as wide or just as high as the display work
+fine.
 
-If drm/panic is enabled, a user-friendly message is shown on screen when
-a kernel panic occurs, together with an ASCII art penguin logo.
-Of course we can do better ;-)
-Hence this patch series extends drm/panic to draw the monochrome
-graphical boot logo, when available, preceded by the customary fix.
+Fixes: bf9fb17c6672868d ("drm/panic: Add a drm panic handler")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ drivers/gpu/drm/drm_panic.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This has been tested with rcar-du.
-
-Thanks for your comments!
-
-Geert Uytterhoeven (3):
-  drm/panic: Fix off-by-one logo size checks
-  drm/panic: Rename logo to logo_ascii
-  drm/panic: Add support for drawing a monochrome graphical logo
-
- drivers/gpu/drm/drm_panic.c | 81 +++++++++++++++++++++++++++++++++----
- drivers/video/logo/Kconfig  |  2 +
- 2 files changed, 75 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+index 7ece67086cecb79f..52d8a96b7dedff2c 100644
+--- a/drivers/gpu/drm/drm_panic.c
++++ b/drivers/gpu/drm/drm_panic.c
+@@ -444,7 +444,7 @@ static void draw_panic_static(struct drm_scanout_buffer *sb)
+ 		       bg_color, sb->format->cpp[0]);
+ 
+ 	if ((r_msg.x1 >= drm_rect_width(&r_logo) || r_msg.y1 >= drm_rect_height(&r_logo)) &&
+-	    drm_rect_width(&r_logo) < sb->width && drm_rect_height(&r_logo) < sb->height) {
++	    drm_rect_width(&r_logo) <= sb->width && drm_rect_height(&r_logo) <= sb->height) {
+ 		draw_txt_rectangle(sb, font, logo, logo_lines, false, &r_logo, fg_color, bg_color);
+ 	}
+ 	draw_txt_rectangle(sb, font, panic_msg, msg_lines, true, &r_msg, fg_color, bg_color);
 -- 
 2.34.1
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
 
