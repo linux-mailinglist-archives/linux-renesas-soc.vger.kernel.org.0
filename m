@@ -1,72 +1,65 @@
-Return-Path: <linux-renesas-soc+bounces-6113-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6114-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB237905765
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 17:50:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 155F1905816
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 18:06:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 45B08B211D8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 15:50:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 80B7028AEB0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 16:06:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C3D417FAC1;
-	Wed, 12 Jun 2024 15:50:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7A28181335;
+	Wed, 12 Jun 2024 16:03:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o5Y3MI/H"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="CQwRuXXG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31FD71EB2A;
-	Wed, 12 Jun 2024 15:50:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AE4918307C
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Jun 2024 16:03:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718207435; cv=none; b=XOHE2FnEBA/Y64Ezl26t45/hkMcLIlM4JN8tvAn/XA+gEWiiSB4GgFhRjrBkq+M7lzeEjS0D9JfYXIrcVmbp90QgjwmnppGn855EhrmVanW+tRNonJjK/ZcxLhQ7tsS2en+htIo4vtmOPQhfVBeU3nCblmSdq7FvEv4u8GqY5G8=
+	t=1718208209; cv=none; b=pzsWYbPpxQOqWzLg2/ZWTdL5usr+yBN1RKOsvlbafPF6sEAF/ltyLjdoJG+SsxaeomEZ4awbpMBMy/506Sq35/i7BF9XusUVYMUBAZg7dz512PTeCoFvLDx6qoUNRMlVrQHhghn1tTobUmobtiO8pY2UrsZmF2rLLjOFM0P48Fs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718207435; c=relaxed/simple;
-	bh=cKWhkSC1x8cZV8isG/jgbKgy/ctUabseIFqwF1XkN8w=;
+	s=arc-20240116; t=1718208209; c=relaxed/simple;
+	bh=332UBS0prHxkyUP4CYQFP5s8Gc011jBYVWz+9XPLa9c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fEJFpyhm9X+T4/mK/A38PRJY7CwPA5KQ8dcIOA8a77Df1Ze0FWOg91Tew4UdnlGUoPdRJ1X8R7zdUUGjjHj67gigByerxldREGRqI6wghxIKxRYldk6DWb22enid7HxMYVjGb03ogdMCmRmYCPMGkoulEpril5SauBU22KjDVUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o5Y3MI/H; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 411AAC116B1;
-	Wed, 12 Jun 2024 15:50:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718207434;
-	bh=cKWhkSC1x8cZV8isG/jgbKgy/ctUabseIFqwF1XkN8w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=o5Y3MI/HC7SzVrtHukUtWRDtUxhnHG8HARTOcOJiu2NtZA+/LoS+RnWQFs35D60zg
-	 KEUvBb49BscZODsl0eelcYB+Di1EN9ZwwEglhlYPhwmcJXxKl3UQO/mKp+5DMI/hPQ
-	 hVauIyHIg/irkZE92LiEutqknF/A3pbwxfdnT8w19cTYB6KZELFIRcV6+xy2ZykPO+
-	 /ur0JSfTto17hiKaYAT98XOf0ff/9FsdPUucMR8zfAgWojhyZYOJJeAzitSzAodaJW
-	 Nf7qI4c7Nhwj0JCi8eYatBXCRTI7tqgHCj1NL1NHuhOTJK+gtFUqKCokG2MTT9np+/
-	 LViHhlsErOKwA==
-Date: Wed, 12 Jun 2024 16:50:24 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"biju.das.au" <biju.das.au@gmail.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v3 3/6] regulator: core: Add helper for allow access to
- enable register
-Message-ID: <ZmnDwKUlXCWFJ8W0@finisterre.sirena.org.uk>
-References: <20240611110402.58104-1-biju.das.jz@bp.renesas.com>
- <20240611110402.58104-4-biju.das.jz@bp.renesas.com>
- <ZmhmWrvyQiCzzeYi@finisterre.sirena.org.uk>
- <TY3PR01MB11346B807820F681E7EEF7A6786C72@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=pCe5Po3SvntLI5qF05t5PCdNPXmWvTHXs9Rz4AklE9jeKXgWWPcXkxhckMEsD+oo5Il1/LqJnbMCj8SUz5jYUS1ZzPBAxVkFmrH8wIEmSxc27cCki/SPrzJ0SdhMxIaoWssMCByc1Ig81iKFyqW6XESF/jF0NK2aXzq1ZW/drKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=CQwRuXXG; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=B54B
+	e83JNs7nl+rMReElF3H5ROq4XTJOopa9NkI4U9s=; b=CQwRuXXGQsXzbkMKeRef
+	BiEfLsMYDRrCKtKab3BTsl82biB8MvTwjBnrYoiycs8RjW7gmPyvazaDPOcnl6U0
+	aFlBgPwJ1xdNtW0DCrCYwB9VuQz5miQRl2aRdNYdIPQCW6k+HTsi2GEnQGyTw5B5
+	6TfsnUgfV1AadDA872fkj+330NTsC/wGUOJsLEG1WhiUxkFlISXTM9glWndbUI/w
+	ZHfVmgx4NjSOY0mch35Z1s0NCXSTlfHqCWJIK9n/o2e6dg2bvDx4FGOJUdo1bARW
+	0pTR6G//LlAPF0ruOVOY6NCE1sJce3YmBDdpT/jCall9c8/I/iTvfrtJ9W3DlhPE
+	mQ==
+Received: (qmail 864170 invoked from network); 12 Jun 2024 18:03:22 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Jun 2024 18:03:22 +0200
+X-UD-Smtp-Session: l3s3148p1@fkR/hbMa7DNtKPIY
+Date: Wed, 12 Jun 2024 18:03:20 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: linux-renesas-soc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Linus Walleij <linus.walleij@linaro.org>, Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v9 1/1] gpio: add sloppy logic analyzer using polling
+Message-ID: <jvnvx7a4pn6evrp5ehfrt4qsiuprq6ogvrue2a3uupwtydmgcm@2rvat7ibvgb4>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-renesas-soc@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>, 
+	Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org
+References: <20240610112700.80819-1-wsa+renesas@sang-engineering.com>
+ <20240610112700.80819-2-wsa+renesas@sang-engineering.com>
+ <CAMRc=MfZ11U+kAh1+K=DxtJ=QL+cY7Q_sBN4sQDF-RNgjpV0QA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -74,56 +67,73 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cQUPfIPcfzsmHwJv"
+	protocol="application/pgp-signature"; boundary="pvtrej2bwhzfyplx"
 Content-Disposition: inline
-In-Reply-To: <TY3PR01MB11346B807820F681E7EEF7A6786C72@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-X-Cookie: Your love life will be... interesting.
+In-Reply-To: <CAMRc=MfZ11U+kAh1+K=DxtJ=QL+cY7Q_sBN4sQDF-RNgjpV0QA@mail.gmail.com>
 
 
---cQUPfIPcfzsmHwJv
+--pvtrej2bwhzfyplx
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 11, 2024 at 04:28:37PM +0000, Biju Das wrote:
+Hi Bart,
 
-> > So, it'll doubtless not be a surprise that I'm not thrilled with this - it's basically just
-> > punching a hole straight through all the locking and reference counting in a way that's just
-> > begging for abuse.  At the very least we should have a check for exclusive access in there.
+> I really dislike drivers being called in an ambiguous way like
+> "simple" or - in this case "sloppy". I understand why it is - in fact
+> - sloppy but can we call it anything else? Like
+> "gpio-logic-analyzer.c"?
 
-> Do you mean exclusive access by means of spinlock to avoid race between enable/disable()?
-> If that is the case
+Sure, we can if you prefer. I named it like this to make the limitations
+super-clear. And even with that in place, I still got a private email
+where someone wanted to build a 400MHz-RPi-based logic analyzer device
+with it. Which would not only have the latency problems, but also
+likely have a max sampling speed of whopping 400kHz.
 
-No, I mean regulator_get_exclusive(), this clearly can't work if there's
-more than one consumer.
+> > +Note that you must provide a name for every GPIO specified. Currently a
+> > +maximum of 8 probes are supported. 32 are likely possible but are not
+> > +implemented yet.
+> > +
+>=20
+> What happens on non-DT systems? Can you still create an analyzer in a
+> different way? Can I maybe interest you in configfs for the purpose of
+> device configuration like what gpio-sim and the upcoming gpio-virtuser
+> does?
 
-> > Also it's not sure about that name, if we were doing this it should be more describing the effect
+Frankly, I'd like to leave this to the person needing it. I've been
+working on this for way too long already and am not up to major changes
+anymore. Minor stuff, okay, I'll go one or two more rounds.
 
-> What about the name regulator_hardware_enable() to make it generic??
+The GPIO analyzer is a debug tool aimed for development boards in remote
+labs, and all boards I have access to use DT. Furthermore, debugfs is nice
+because it is clear there is no stable ABI. It has been useful as-is in
+the past. That's what I am offering. If that's not enough, no hard
+feelings, but someone else needs to continue then.
 
-Possibly.
+All the best,
 
-> > on the regulator rather than this happening to be done via a register write (this should also work
-> > for GPIOs...).
+   Wolfram
 
-> Do you mean to make it generic, so that it works for both regmap based enable/disable() as well as
-> gpio based enable()/disable()??
 
-That too, I was mainly thinking about the name here though.
-
---cQUPfIPcfzsmHwJv
+--pvtrej2bwhzfyplx
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZpw78ACgkQJNaLcl1U
-h9BgqAf/VRo1z8HnprjKJzamhqdpLugyr1xSf2Gw8i7hZJlRo+UcEZBJ0FA9qwY6
-n1bmhPT7OL1n3j+NI8eEoQVnIRlz4yucjUrwSgqIfl8bIFrMrxFKSS+/eV2J0CxD
-SzY4u6DqQF4jLgZ1TURMz3GyiCZaOeL0o7bYbPLo75uGAPD5n23gfw5b+0akgMaN
-kQ8s9Udu6fXsn3bUrbEKn7ekxv7cyRSvfJp2/GsNXMi3jfWwwS5bwhJSBrU0p2N7
-0Rv+9m3KzZoq0SKRrQEQTWKMTm9jpGnILdPhEv4bpFeikEjvGEKL3hMNu7HaHy+j
-M4S6xFkbfUygjcUPcJg+LQJ0s0rcgA==
-=Fwf/
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZpxsEACgkQFA3kzBSg
+Kbb5LhAAq7J+u9AU3h27i893hHfBUdMFaOWvXvYAUCE7Ihm1awM4jeRX7zVMZ2v/
+NbXFUj7xY4aM40fIEhcHfv4+eESY5ba72+3w8n8xkUgepmYCbzirZ2CetqgA4R6S
+y7bnz8Zb32bQAEPtLOeDc138+UOlI11LwYLk9aF5hdkRLGja0GVy8vXUb6N8Ioy9
+ChOdx3OSqnhdkUOWHemErPpFC5QbtOVkXusvpdhSh3ixT+CMIXBAINHBeFgax8Z3
+suaRT0jxA/F8utd3uGQZmW3BJTjpdJpPuzoRRD91TvfI4ZOTRmMSIJz+9nJlTfYw
+0MIiNgRdIyD4xSjTIzOj5R2aZi6RgeJeqeyc9ILYoVaLG4/SGcZ0/LfE5IrJ/9rO
+VqrPcndc5MgzNexkacS9jG+x0StUTD6FXpePN9xAJ8Mz9lvZU51kGo3KNNWFYmlV
+TVqdLu73GdsCdn2IddJJ6L0lqb2pn+obcX1Hpjb/pcIn76swDehemGGEScmV4J65
+pKRdc/5DrRf/jtlWVnU5Er+pKEL72nU7VyfQjfom62fQ5wRZVgyD6j0mp6jd63fZ
+h7JzLl2rbr0+JaGDn6eZLhjpvv5JFnb9uWnoL5CJSexICOYLJ8pbk89y6aZ5gxl2
+wm4SK454E0Hs5Lz2qWkn63OOWHCMg+7Mqu4MslSH9dHBT1i5e64=
+=PsWW
 -----END PGP SIGNATURE-----
 
---cQUPfIPcfzsmHwJv--
+--pvtrej2bwhzfyplx--
 
