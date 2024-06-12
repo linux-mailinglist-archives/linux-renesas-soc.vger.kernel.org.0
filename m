@@ -1,86 +1,179 @@
-Return-Path: <linux-renesas-soc+bounces-6100-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6101-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA78E904D3F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 09:57:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC2C7904FF7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 12:03:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 74DDF1F236E0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 07:57:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5ADC51F2115A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 10:03:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B889E16B736;
-	Wed, 12 Jun 2024 07:57:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6909A16DEDC;
+	Wed, 12 Jun 2024 10:03:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OfEZzYgi"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Lx2HAkYr"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F3A16C862
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Jun 2024 07:57:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DA816D9D8
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Jun 2024 10:03:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718179032; cv=none; b=Nh54Nr4+j1zEQ5DEDjxZa7yrf8y2B3SjYYf6nCTKl7CaWdT+HgiR4YE5YKHRaBMTSTeLFA4BTIQ8H6izNhBZ0mQvZ40yV5ubpliLLXi7IG8kJIJLnvzAtyHF//mS5+i2Dyjun2TlNlmvDOqCf2wvwClB66NiceL7O5hwIBpAliw=
+	t=1718186625; cv=none; b=Q7HfKfHUhg4t3kwHLkopUzWS+NnpOYkVZJA0PBLpgy9Dm5hejHvzv2Urh4wTO+fTAUW/rs3rtTfSD0TGvcFwZRKVPta7qyWFb7pq4xupM15JtJv/yQHPIhUzFnJUnaagT1vW+mt5X3dmY0Nqay5L7Xv5nue43wsAt0b1bYRN3sM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718179032; c=relaxed/simple;
-	bh=XTVQR2ac1MYwS0u7pZMkc65E4iu25EWS1Jezi/Yis9M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YK7jEStA+8+TwfIhmBIIK/DcYxCcUkkFsj2dEdT+gdqyuEYgvYo3rdPgAY4K9Jd5Wjrq618QcYPpfwtJKP+SQuGUogtkMCbkzaui+3vCd2Y9Dt53mPuix5fIFo6VTlsSkU70a2MlGhjc2x7xdiz0+c0T44c0uxDCtnfQjxu+OX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OfEZzYgi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BD37C3277B;
-	Wed, 12 Jun 2024 07:57:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718179032;
-	bh=XTVQR2ac1MYwS0u7pZMkc65E4iu25EWS1Jezi/Yis9M=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OfEZzYgiUcs4bCQ7UMjabqFtCV2bfe08l5NntE75U3iv6PWOwNe7n83BmeKNL42IF
-	 ING7PwvyamoidTtqZHSrlZl5Fz8gMISFnPZhSgGnz76PXOTUJ0qyLSGZW5gcAO9lSg
-	 XhQ+F89ISdvFZKux8dQ3Ga0A00xG5WmGBm3hwVcFgXLf+Qa1skICbR1ZGYoG8icTNi
-	 aTxPvVSGkjykcfimSXVSBw+1yElkDZj1dLMwp4ScMxgURsbc3lMMehei1segdzU2Dv
-	 YDZZbbBSG4PIe4Wrq8g/sEKijR3h//hrbhsAFemt8Bz9iPe6qIOKbzt0NCIcpstVRB
-	 6RMYA/9yt8u2g==
-From: Maxime Ripard <mripard@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Douglas Anderson <dianders@chromium.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	dri-devel@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org,
-	Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: Re: (subset) [PATCH v3] drm: renesas: shmobile: Call drm_atomic_helper_shutdown() at shutdown time
-Date: Wed, 12 Jun 2024 09:57:00 +0200
-Message-ID: <171817900322.766520.14073017611077959453.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <17c6a5a668e5975f871b77fb1fca6711a0799d9e.1718176895.git.geert+renesas@glider.be>
-References: <17c6a5a668e5975f871b77fb1fca6711a0799d9e.1718176895.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1718186625; c=relaxed/simple;
+	bh=+55Nvekl/FD1qqRLwZ3qbL7Jw6AMS+/quMVjAN//7LI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LVKw9IpAY70WG9N1ur8kQr45uWqzPQvznXOl2YWpEFtAm4KMnSeV+QPu4xKTZ+JoGfvhbP3tDMd+2UuJkm8w3Yp54LrqUnP5J5Do680tlVO66NTd8nPEbfI7fGxb9yqysffKTjKwF7GfGiSZC92ZXjzKdb5aecUqW47rsDldTQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Lx2HAkYr; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=ux2s
+	acGbdN9mSTkUplQzXMjSYbFp3+/ou8CtQwUKLbE=; b=Lx2HAkYrSnEfCoMjoCjQ
+	zQxmIuwqCwpMOZaX+ieXSmIgC+2XmUdSwWMLp2XTS+uBcxjKPE5xYtgsyXq8xTst
+	eSGGJhZ+5qSoPptJLhGUlrW0MUopqGP83hTDdOpEha+Qs11PGeOTHuGDrXOouuRt
+	3YtTe2RHcPXPysDAGcqpjLdvgKEc+De9j7VdWfWpZoCDRo2qmpN/aX7Va4iVNZoa
+	Fndvmsdtb15GHINoCmIPLkAuNkzn8nOPSPDwi8aNJF1EUfOdP1nPp4ja247Q7OVn
+	90ATZM+ji77oZETfPhkAbInCvPu+j7Og5cqLLoLBvBHI2eHfqJ5st37pQLCIAEpj
+	wA==
+Received: (qmail 757851 invoked from network); 12 Jun 2024 12:03:32 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Jun 2024 12:03:32 +0200
+X-UD-Smtp-Session: l3s3148p1@oUuyfq4aUDltKPDc
+Date: Wed, 12 Jun 2024 12:03:31 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: linux-renesas-soc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v9 1/1] gpio: add sloppy logic analyzer using polling
+Message-ID: <wdvnbt2vpobukz3s6pxkowoizvsxjeycnb3rmfsmfbx5zsgvrp@mog64h2ogftv>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Andy Shevchenko <andy.shevchenko@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
+References: <20240610112700.80819-1-wsa+renesas@sang-engineering.com>
+ <20240610112700.80819-2-wsa+renesas@sang-engineering.com>
+ <ZmcN6lJAGVxY3Ok2@surfacebook.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wj5fobjlv4oflgqg"
+Content-Disposition: inline
+In-Reply-To: <ZmcN6lJAGVxY3Ok2@surfacebook.localdomain>
 
-On Wed, 12 Jun 2024 09:23:13 +0200, Geert Uytterhoeven wrote:
-> Based on grepping through the source code, this driver appears to be
-> missing a call to drm_atomic_helper_shutdown() at system shutdown time.
-> This is important because drm_atomic_helper_shutdown() will cause
-> panels to get disabled cleanly which may be important for their power
-> sequencing.  Future changes will remove any custom powering off in
-> individual panel drivers so the DRM drivers need to start getting this
-> right.
-> 
-> [...]
 
-Applied to misc/kernel.git (drm-misc-fixes).
+--wj5fobjlv4oflgqg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks!
-Maxime
+Hi Andi,
+
+
+> > +#include <linux/delay.h>
+>=20
+> + device.h
+> + err.h
+
+OK about the includes.
+
+> > +	mutex_lock(&priv->blob_lock);
+>=20
+> guard() (from cleanup.h)?
+
+If you insist. I doesn't save an exit path, so I don't think this will
+improve readability of the code. But I don't mind...
+
+> > +static const struct file_operations fops_trigger =3D {
+> > +	.owner =3D THIS_MODULE,
+> > +	.open =3D trigger_open,
+> > +	.write =3D trigger_write,
+> > +	.llseek =3D no_llseek,
+> > +	.release =3D single_release,
+> > +};
+>=20
+> Wondering if you can use DEFINE_SHOW_STORE_ATTRIBUTE(), or if it makes se=
+nse.
+> It might be that it requires to use DEFINE_SHOW_ATTRIBUTE() for the sake =
+of
+> consistency, but I don't remember if there is a difference WRT debugfs us=
+age.
+
+Well, then we can just leave it for now and change it later, if desired.
+
+> > +	mutex_init(&priv->blob_lock);
+>=20
+> devm_mutex_init()
+
+OK.
+
+> > +		new_meta =3D devm_krealloc(dev, meta, meta_len + add_len, GFP_KERNEL=
+);
+>=20
+> Can it be rewritten to use devm_krealloc_array()?
+
+'meta' is not an array?
+
+> > +	dev_info(dev, "initialized");
+>=20
+> Do we need this? Existence of folder in debugfs is enough indication of
+> success, no?
+
+Since the script can now list instances easily, this can be argued.
+Still, I don't think this matters much for a debug-only device.
+
+> > +static const struct of_device_id gpio_la_poll_of_match[] =3D {
+> > +	{ .compatible =3D GPIO_LA_NAME, },
+>=20
+> Redundant inner comma.
+
+Yes.
+
+> > +late_initcall(gpio_la_poll_init);
+>=20
+> Why? Can we add a comment?
+
+Sure.
+
+> Btw, have you tried `shellcheck` against your script?
+
+We did this in one of the 8 previous iterations.
+
+All the best,
+
+   Wolfram
+
+
+--wj5fobjlv4oflgqg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZpcm8ACgkQFA3kzBSg
+KbZG+Q/8DO5hqL7b1XR0sD1SMJviOoyciDYILbF19jHtnENPh96Sexa7fj5HdsfE
+k8oyoeTUPX4LPLgFOTmr5SRHmiWjEb5s6oTgtNxJZqNFeFtglEK1QWUM5tANwQoy
+L4S7bTO8J91J3WwdNChdvDQkfSLbAVGUTBvbm4iZcDihOCtGdScZCm+hGF1LqTxK
+LE/2/8mwKfFymnGSbH/siPsb+CmtXMHuJNOhJlaI0KvNLIfHINkYJpBSPwMP3flV
+v/VIqwt39AIm+5TbTPazDcrOY4NciJ9nRIjLfqHxTSnIbCZaMUfqPK/CYgLWTmD4
+oFVvFZFP77yaVpPWjdkECDJJtfI9kkCMH+DgH7p6+6YoRhb2xDFWetS1JS25xJYR
+vFodZggVj0wEsjqPb2GiaZRM+A+D6GEtjNszeDj3zlCInV6luHTcRuJ4NoNDLVNZ
+XsFdHefQWoRv0/Kv5FY79tijNUNbGcwemt5d4wi4VFqfGZti5IFCbcb+/G+h18Hw
++EDb3KWhybHNENl3QPn0hYVCqDOAQrKInUcqVR0Ph0uYTzxMmfTLdk2wIX9I3+Li
+fF7tI/JGxDHXZaT8KiQtFv9PEXgYheqLt7EdzSkTBrbydR9rcLg5l1cSy5Np8F7u
+d+zalrnyfGKSxIxMGX16RQkMIya4Xd2R620+e64o6eTV7gV36O8=
+=EuJ1
+-----END PGP SIGNATURE-----
+
+--wj5fobjlv4oflgqg--
 
