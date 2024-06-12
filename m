@@ -1,139 +1,106 @@
-Return-Path: <linux-renesas-soc+bounces-6114-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6115-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 155F1905816
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 18:06:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E7C3905DFA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 23:48:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 80B7028AEB0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 16:06:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5C8531C2227B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 21:48:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7A28181335;
-	Wed, 12 Jun 2024 16:03:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC55D12CD96;
+	Wed, 12 Jun 2024 21:47:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="CQwRuXXG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O4MafCLQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AE4918307C
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Jun 2024 16:03:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A195212CD8C;
+	Wed, 12 Jun 2024 21:47:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718208209; cv=none; b=pzsWYbPpxQOqWzLg2/ZWTdL5usr+yBN1RKOsvlbafPF6sEAF/ltyLjdoJG+SsxaeomEZ4awbpMBMy/506Sq35/i7BF9XusUVYMUBAZg7dz512PTeCoFvLDx6qoUNRMlVrQHhghn1tTobUmobtiO8pY2UrsZmF2rLLjOFM0P48Fs=
+	t=1718228853; cv=none; b=RPmQBk4tCVgNlc6f8rnCk2V0mM3cOkn8T7zZa980Cz7sNh+VDwr3/zdLsBV2tXPhCsA6tcz4rN/VcTGcIZFhEPUOqnTxiHcNyZ0gkvrLrauXCg2mzOLc2+Qy2Eoci08hMvf/Na5ylJFEmRQyPMwxFfoTlovzovIX4qN4bF+FJTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718208209; c=relaxed/simple;
-	bh=332UBS0prHxkyUP4CYQFP5s8Gc011jBYVWz+9XPLa9c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pCe5Po3SvntLI5qF05t5PCdNPXmWvTHXs9Rz4AklE9jeKXgWWPcXkxhckMEsD+oo5Il1/LqJnbMCj8SUz5jYUS1ZzPBAxVkFmrH8wIEmSxc27cCki/SPrzJ0SdhMxIaoWssMCByc1Ig81iKFyqW6XESF/jF0NK2aXzq1ZW/drKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=CQwRuXXG; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=B54B
-	e83JNs7nl+rMReElF3H5ROq4XTJOopa9NkI4U9s=; b=CQwRuXXGQsXzbkMKeRef
-	BiEfLsMYDRrCKtKab3BTsl82biB8MvTwjBnrYoiycs8RjW7gmPyvazaDPOcnl6U0
-	aFlBgPwJ1xdNtW0DCrCYwB9VuQz5miQRl2aRdNYdIPQCW6k+HTsi2GEnQGyTw5B5
-	6TfsnUgfV1AadDA872fkj+330NTsC/wGUOJsLEG1WhiUxkFlISXTM9glWndbUI/w
-	ZHfVmgx4NjSOY0mch35Z1s0NCXSTlfHqCWJIK9n/o2e6dg2bvDx4FGOJUdo1bARW
-	0pTR6G//LlAPF0ruOVOY6NCE1sJce3YmBDdpT/jCall9c8/I/iTvfrtJ9W3DlhPE
-	mQ==
-Received: (qmail 864170 invoked from network); 12 Jun 2024 18:03:22 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Jun 2024 18:03:22 +0200
-X-UD-Smtp-Session: l3s3148p1@fkR/hbMa7DNtKPIY
-Date: Wed, 12 Jun 2024 18:03:20 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: linux-renesas-soc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Linus Walleij <linus.walleij@linaro.org>, Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v9 1/1] gpio: add sloppy logic analyzer using polling
-Message-ID: <jvnvx7a4pn6evrp5ehfrt4qsiuprq6ogvrue2a3uupwtydmgcm@2rvat7ibvgb4>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-renesas-soc@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>, 
-	Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org
-References: <20240610112700.80819-1-wsa+renesas@sang-engineering.com>
- <20240610112700.80819-2-wsa+renesas@sang-engineering.com>
- <CAMRc=MfZ11U+kAh1+K=DxtJ=QL+cY7Q_sBN4sQDF-RNgjpV0QA@mail.gmail.com>
+	s=arc-20240116; t=1718228853; c=relaxed/simple;
+	bh=4Dclw+XDECXOtLJQQNAyX1w756yS2jzixDMftX4w2UI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NV7D5U8G0z0zBdA6jBZqkavjwHYL+nysmWWl9iYVEBDZl3lZF5VFGFbae0glPkNaQOHlOLoh9RVRzJFO1Iyas0Owjp6vQeJUZlO3YrH3znIO3IUPhduaZVd3apppEX3iuUX6oMR93Zlesf8J92E70iIUjUAiIlBghWOtMAuz6ig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O4MafCLQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDEC1C4AF49;
+	Wed, 12 Jun 2024 21:47:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718228853;
+	bh=4Dclw+XDECXOtLJQQNAyX1w756yS2jzixDMftX4w2UI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=O4MafCLQwND1WuimG6H710qp1tMidgzfrEN0Sht8iW7iAP+eA03T5C5SJsY1HvZnE
+	 i/+3pycUg/t3dUniwtmzOx0mRFKO13X5kphagUzAnVz9BiYOo8tXP2uECfmKYcNtbT
+	 dmuR9inyca0oCfz/lF7tXWZBNXeO9T/LYmbCkHvjvNV6Fj+TkJsWqr55ght22jg9Dd
+	 0TcqisLR9SQtSvp5Uzlxa+mWWTKVIRy/TUN/dG421xxRKiUoJ9IifTaIQK+MPB0ba7
+	 aRKxi8d5uroRlOHMcfUPx0t0g7TVuNvrgoNxMLOrqle6EId1svMxjEVrepCOAhHrwV
+	 1X9HyG6JLIo6A==
+Date: Wed, 12 Jun 2024 14:47:32 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?=
+ <niklas.soderlund+renesas@ragnatech.se>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
+ <pabeni@redhat.com>, Andrew Lunn <andrew@lunn.ch>, netdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+Subject: Re: [net-next,v6] net: ethernet: rtsn: Add support for Renesas
+ Ethernet-TSN
+Message-ID: <20240612144732.137aae98@kernel.org>
+In-Reply-To: <20240612114526.GF382677@ragnatech.se>
+References: <20240610135935.2519155-1-niklas.soderlund+renesas@ragnatech.se>
+	<20240611195616.2e71c334@kernel.org>
+	<20240612114526.GF382677@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="pvtrej2bwhzfyplx"
-Content-Disposition: inline
-In-Reply-To: <CAMRc=MfZ11U+kAh1+K=DxtJ=QL+cY7Q_sBN4sQDF-RNgjpV0QA@mail.gmail.com>
-
-
---pvtrej2bwhzfyplx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi Bart,
-
-> I really dislike drivers being called in an ambiguous way like
-> "simple" or - in this case "sloppy". I understand why it is - in fact
-> - sloppy but can we call it anything else? Like
-> "gpio-logic-analyzer.c"?
-
-Sure, we can if you prefer. I named it like this to make the limitations
-super-clear. And even with that in place, I still got a private email
-where someone wanted to build a 400MHz-RPi-based logic analyzer device
-with it. Which would not only have the latency problems, but also
-likely have a max sampling speed of whopping 400kHz.
-
-> > +Note that you must provide a name for every GPIO specified. Currently a
-> > +maximum of 8 probes are supported. 32 are likely possible but are not
-> > +implemented yet.
-> > +
+On Wed, 12 Jun 2024 13:45:26 +0200 Niklas S=C3=B6derlund wrote:
+> On 2024-06-11 19:56:16 -0700, Jakub Kicinski wrote:
+> > > +	netdev_info(ndev, "MAC address %pM\n", ndev->dev_addr); =20
+> >=20
+> > That's fairly unusual, why print the MAC address to logs? =20
 >=20
-> What happens on non-DT systems? Can you still create an analyzer in a
-> different way? Can I maybe interest you in configfs for the purpose of
-> device configuration like what gpio-sim and the upcoming gpio-virtuser
-> does?
+> Renesas net drivers print the MAC address in probe,
+>=20
+> * RAVB
+>=20
+>     netdev_info(ndev, "Base address at %#x, %pM, IRQ %d.\n",
+>             (u32)ndev->base_addr, ndev->dev_addr, ndev->irq);
+>=20
+> * SH_ETH
+>=20
+>     netdev_info(ndev, "Base address at 0x%x, %pM, IRQ %d.\n",
+>             (u32)ndev->base_addr, ndev->dev_addr, ndev->irq);
+>=20
+> * RENESAS_ETHER_SWITCH
+>=20
+>     rswitch_for_each_enabled_port(priv, i)=20
+>     	netdev_info(priv->rdev[i]->ndev, "MAC address %pM\n",
+> 		priv->rdev[i]->ndev->dev_addr);
+>=20
+> I have no strong opinion on if this is good or bad, but I do think they=20
+> all shall behave the same. What do you think is the best way forward,=20
+> keep this behavior in this new RTSN driver or remove the print from the=20
+> old drivers?
 
-Frankly, I'd like to leave this to the person needing it. I've been
-working on this for way too long already and am not up to major changes
-anymore. Minor stuff, okay, I'll go one or two more rounds.
+I had a hunch this may be the case :) People invent local customs for
+this sort of "hello" messages in driver probe. Developers consider it
+useful because when you get logs from a user you can tell whether
+driver got probed or not immediately. But there's no agreed upon
+convention across networking drivers, and if we need to debug probing -
+the device driver core should be put to task to output more
+comprehensive information generically.
 
-The GPIO analyzer is a debug tool aimed for development boards in remote
-labs, and all boards I have access to use DT. Furthermore, debugfs is nice
-because it is clear there is no stable ABI. It has been useful as-is in
-the past. That's what I am offering. If that's not enough, no hard
-feelings, but someone else needs to continue then.
-
-All the best,
-
-   Wolfram
-
-
---pvtrej2bwhzfyplx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZpxsEACgkQFA3kzBSg
-Kbb5LhAAq7J+u9AU3h27i893hHfBUdMFaOWvXvYAUCE7Ihm1awM4jeRX7zVMZ2v/
-NbXFUj7xY4aM40fIEhcHfv4+eESY5ba72+3w8n8xkUgepmYCbzirZ2CetqgA4R6S
-y7bnz8Zb32bQAEPtLOeDc138+UOlI11LwYLk9aF5hdkRLGja0GVy8vXUb6N8Ioy9
-ChOdx3OSqnhdkUOWHemErPpFC5QbtOVkXusvpdhSh3ixT+CMIXBAINHBeFgax8Z3
-suaRT0jxA/F8utd3uGQZmW3BJTjpdJpPuzoRRD91TvfI4ZOTRmMSIJz+9nJlTfYw
-0MIiNgRdIyD4xSjTIzOj5R2aZi6RgeJeqeyc9ILYoVaLG4/SGcZ0/LfE5IrJ/9rO
-VqrPcndc5MgzNexkacS9jG+x0StUTD6FXpePN9xAJ8Mz9lvZU51kGo3KNNWFYmlV
-TVqdLu73GdsCdn2IddJJ6L0lqb2pn+obcX1Hpjb/pcIn76swDehemGGEScmV4J65
-pKRdc/5DrRf/jtlWVnU5Er+pKEL72nU7VyfQjfom62fQ5wRZVgyD6j0mp6jd63fZ
-h7JzLl2rbr0+JaGDn6eZLhjpvv5JFnb9uWnoL5CJSexICOYLJ8pbk89y6aZ5gxl2
-wm4SK454E0Hs5Lz2qWkn63OOWHCMg+7Mqu4MslSH9dHBT1i5e64=
-=PsWW
------END PGP SIGNATURE-----
-
---pvtrej2bwhzfyplx--
+Anyway, weak preference for removing the print, but no big deal.
 
