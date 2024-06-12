@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-6092-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6093-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9072E904BBF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 08:37:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DFDF904BC1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 08:38:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 34D651F243A6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 06:37:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1E3291F24881
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 06:38:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0512F16939E;
-	Wed, 12 Jun 2024 06:37:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 720F1169ACF;
+	Wed, 12 Jun 2024 06:38:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ahgXDcAE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D6Coigqm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEA37625;
-	Wed, 12 Jun 2024 06:37:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 488775FB8A;
+	Wed, 12 Jun 2024 06:38:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718174249; cv=none; b=Fu8r51Ha6SbJ6W+Tx9BwQ2gGkR7XTEItuT8eie4HTkVCPOLn2wnZgeZtvX1R+LPDjcUxFRqF3SQLViKH0Rp8Zkt4SNvfVdbZflgntdHfmtt+yytK4qHRkydeveBHQEPwhSjZ3TJUkroe8FvJpG/QUJeE+GhgSL06e5rJljQh5AU=
+	t=1718174313; cv=none; b=p2ip3tpRwPF3hvhmYBF83i6owtvV91jfmdbjORx/Rh6NcbvGBYBHaUk4YK+eX5VoOCYpVZvNxC+76zVntgGF8/1q/MSiidfAwHdTpk4U0ZxXGT0pbLGMj/lf+JiJnAx+58uUBk/n/1aSp1htTuhUYY+SNvhAkYHJrC0WjAkiE5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718174249; c=relaxed/simple;
-	bh=3bm+nr90zGabuVXSNZC2n6AZgUK2vfOQyDo6wXg0kH0=;
+	s=arc-20240116; t=1718174313; c=relaxed/simple;
+	bh=34mjcikk7JPKw9QBV3GR7LFyatNzP7D7uDjG/KcwrxQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q3EnGOgGKL4cGZ1hqM6YirVDrTM3B+ucEje5nZ9hekQcwyzOmohqRVqVf9seefzQ/Fx+zBvZ+wnGf4Rapx2zx9bwejHPmm+gcrlrL0VVCdGb7LKLDAcqguoOu+/K+dlKZPu889XQwoG8M8oySwQIO0n/n+PUgfoeSZOCK4YaYrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ahgXDcAE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4F53C4AF1A;
-	Wed, 12 Jun 2024 06:37:23 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=dciejeFDIBTxnkUwzdx19ufb7UYjPN79Opyjhcc0ox5qReLbeFHFJWyCCVxKBhMsafH4XqBs1P/QhtjrIkT60OEDtoLzjjqunDkuUJW1DHjEoEhG8juPuCAKNg916zeoy19X7O0UtdAcNNeaICS9duzZydcCqNsLXGIEmbGxh00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D6Coigqm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB353C32786;
+	Wed, 12 Jun 2024 06:38:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718174249;
-	bh=3bm+nr90zGabuVXSNZC2n6AZgUK2vfOQyDo6wXg0kH0=;
+	s=k20201202; t=1718174312;
+	bh=34mjcikk7JPKw9QBV3GR7LFyatNzP7D7uDjG/KcwrxQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ahgXDcAEvtHYYSGsTRDqfeGX+1COlh0xsK6t4XHWPyZyWjI1IoyNKlaiF6ab1S3M0
-	 h7Fixk+wWTFQUQM2vo/V1Jq3sbBfCAjfvCX3vvwzXZtNYKPYrjklKVhiGvlAvkhqzo
-	 8TrHi3ffBJryRX1cSHQYZxxS8ewr9bO00m1ZiJrW12oFxovUoMRFCU8rwDyj5nvtPC
-	 PDEErYNlSCZbVqQu1JusJRX7MrtBgESBA/WlFiTrHaE5WxbVrHPGSHDhxpfCERmSiC
-	 nO06rXhxCYwTHiQ1n/UJ/Ye5IcAlBQyFvrdbJysINMD12R9Z5OtZx3y6A+kAD2zHU4
-	 CGLf5UEKRlbaw==
-Message-ID: <3f2bb2e7-94e9-424c-895a-7d3d6e84d561@kernel.org>
-Date: Wed, 12 Jun 2024 08:37:21 +0200
+	b=D6CoigqmNf1VA5tzxnjG0/uv0VTVhSE1MAIPRM+DJPwAt9pkg6wuqcWqPzvCowjFz
+	 wY0NCAtpfstqEcRNfAt+KYy66qN3ada0zh7FopZuvReoXM2LNXlf2naE9xJT2cJzkU
+	 0Vzn0hrcU2eVHsW/V6IlzjJjc9mO+bJX30pGZ3nrfPY42ow26gvAE/qABXEWLcLPa/
+	 g+xozy5Zn4v5gpZiT8lWGYayCuapDOiaPa/Da2RI8yn++KvhScMHrhvICeFSlgJGjT
+	 7SWFrPb8C8keY9jKsb8lMS8CNmKlDKvgAXRWzXaqUf0AGWwjx4anoglK70QMoJzCJg
+	 L5EEWdGQKU5/g==
+Message-ID: <b4d04a73-22eb-44f3-af03-8f8686869c9e@kernel.org>
+Date: Wed, 12 Jun 2024 08:38:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,20 +50,19 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/6] dt-bindings: reset: renesas,rzg2l-usbphy-ctrl:
- Document USB VBUS regulator
-To: Biju Das <biju.das.jz@bp.renesas.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+Subject: Re: [PATCH v3 6/6] arm64: dts: renesas: rz-smarc: Replace fixed
+ regulator for USB VBUS
+To: Biju Das <biju.das.jz@bp.renesas.com>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org,
+ linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
  Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  Biju Das <biju.das.au@gmail.com>
 References: <20240611110402.58104-1-biju.das.jz@bp.renesas.com>
- <20240611110402.58104-2-biju.das.jz@bp.renesas.com>
+ <20240611110402.58104-7-biju.das.jz@bp.renesas.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -109,29 +108,20 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240611110402.58104-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20240611110402.58104-7-biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/06/2024 13:03, Biju Das wrote:
-> The VBUS enable can be controlled by the VBOUT bit of the VBUS control
-> register. This register is part of usbphy-ctrl IP.
-> 
-> Document the USB VBUS regulator object.
-> 
+On 11/06/2024 13:04, Biju Das wrote:
+>  &phyrst {
+>  	status = "okay";
+> +	usb0_vbus_otg: regulator-vbus {
+> +		regulator-name = "vbus";
+> +		regulator-min-microvolt = <5000000>;
+> +		regulator-max-microvolt = <5000000>;
 
-
->  
->  additionalProperties: false
->  
-> @@ -64,4 +71,9 @@ examples:
->          resets = <&cpg R9A07G044_USB_PRESETN>;
->          power-domains = <&cpg>;
->          #reset-cells = <1>;
-> +        regulator-vbus {
-> +          regulator-name = "vbus";
-
-Messed indentation. What is the indentation of the rest?
+These two voltages look unnecessary. You know the voltage of your LDO,
+don't you? It's fixed, cannot be anything else.
 
 Best regards,
 Krzysztof
