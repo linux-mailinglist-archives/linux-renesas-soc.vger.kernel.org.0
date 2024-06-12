@@ -1,136 +1,179 @@
-Return-Path: <linux-renesas-soc+bounces-6109-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6110-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F939905608
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 17:00:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02AB79056DB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 17:28:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ECA331F21944
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 15:00:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 633BBB23D7C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2024 15:28:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C37617F396;
-	Wed, 12 Jun 2024 14:59:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 224DE17F4EB;
+	Wed, 12 Jun 2024 15:27:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tPP5HYTw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B04ld/B5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CDBD17E908;
-	Wed, 12 Jun 2024 14:59:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1859217E442
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Jun 2024 15:27:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718204390; cv=none; b=r3zmAO3A7j8NswgI4ighBC9/Bpek6d1QsFEd9ZUUi/inC3yUk/qZz1043TFBlBOztwqyZZF+DQfQB4oD0LyJ7EChcSZADYmVZIaw1yT4/MROFUGukbA3QxhOFNjlnyPBJkRffHAETpXghoInp8arV2mmTqAQQg9GBcR3PtMLajw=
+	t=1718206079; cv=none; b=dqrn5i7IzWp9uzrHa9Ai2gxie1qQnoj5pfIGp8PaZdHCbZo4bQzcQOETUDHR/Y/WgMaFavyWcmqDklWQo3AX09eZTX8qtIDzyLESrSvDZ6mAa3hbnX1RoO7frLGMOq1oUhfXQfkPWC6wsdTYCslv2l81VM9iqx70od42Iy+dIYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718204390; c=relaxed/simple;
-	bh=xjUBwltqpAe6aYRnfriue1Gh2w11fmbRUGTxTQAXaYs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WY8nN6xezMkfFsQQhFjlnaQ94nqDJojco1hRTZjYrZfqKIYhhHHohwMdg4fcBVjFTrupoUoSIhp/fx3vT3Ujh9QH2r6UyyWYS9jmgS8FX2QejhuHOq/Vwz9vnwUhy3Ts84T88q5CDAWZyYHwdH3MTLMtb5dx8zWPV799A2LKf/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tPP5HYTw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91A70C4AF1A;
-	Wed, 12 Jun 2024 14:59:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718204389;
-	bh=xjUBwltqpAe6aYRnfriue1Gh2w11fmbRUGTxTQAXaYs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tPP5HYTwgbOgZecxq8aShvk9LnNbGElMzF2+hLVKYBiH0im11j6KEK+BXzjdF9XXA
-	 snF7aFCimfCsZmCl6+ialg8qrZpsKH2AD2/LnWQrcjmS+9Eh5Kph3FmiElC2KmXwAo
-	 H7ROI58qlZBRlVq2FJQRyhYvmx3LniZ3cS1Z3PO3/wpfPIjS7bNREgMH4HiL5NQYe1
-	 xsPWQr/Oe9u3oHRXRSpkW3JsEpL2Ic2amMftS5oiVft0H7s9MdycMUVhMj7M8TPCNN
-	 GvjGRtTk+bgWnkoE0MSWuqPERUFOS9wSm/dk/cck5Ju5mHAP9Kc7aThLydsiERXWm/
-	 YoMZI/lSV65qA==
-Date: Wed, 12 Jun 2024 20:29:33 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	"lpieralisi@kernel.org" <lpieralisi@kernel.org>,
-	"kw@linux.com" <kw@linux.com>, "robh@kernel.org" <robh@kernel.org>,
-	"bhelgaas@google.com" <bhelgaas@google.com>,
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-	"marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
-	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v8 4/5] PCI: rcar-gen4: Add support for r8a779g0
-Message-ID: <20240612145933.GC58302@thinkpad>
-References: <20240520074300.125969-1-yoshihiro.shimoda.uh@renesas.com>
- <20240520074300.125969-5-yoshihiro.shimoda.uh@renesas.com>
- <20240608082455.GA3282@thinkpad>
- <TYCPR01MB11040691A48BD866E9F387D78D8C72@TYCPR01MB11040.jpnprd01.prod.outlook.com>
- <CAMuHMdXStQGDNP8c79Bc46kM7BMkbxi=2aVKnLrupWj9Ytn7Ug@mail.gmail.com>
+	s=arc-20240116; t=1718206079; c=relaxed/simple;
+	bh=KoHspqTT+QXYhiHqZPyDqkeMUerGIgOLwqIBC1XOCSA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QLZZ7JJaLcLtdvVPx9tGoRGMHTRyAbDVPoUTN9gRmPp3Ks3/Jd1cXktSsVFN4rT/0vSZs4xoDu0nFx/n51UH9OiN1xs/5CHcBorTfqlEfxL8r46jGPkdJyw8O751/iTt0SeoYpwDOWCtFdnytlXeFZYSjTRNrQTA+W7ZNLfR2gA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B04ld/B5; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718206078; x=1749742078;
+  h=date:from:to:cc:subject:message-id;
+  bh=KoHspqTT+QXYhiHqZPyDqkeMUerGIgOLwqIBC1XOCSA=;
+  b=B04ld/B5f62Bq4Yuye1kzXibm9uYvlvUcy8YZLp9DJGk149ogo92hAiY
+   ylJSSTac2WwMWp/xEvwln8cxsoHuygfcKR5QwSDIIMc/Sht7rV0+JEyu1
+   OD8DmnBSsd18y8vL+EokL9HLy8HtU+T3fW8mtFF0oOpIB4kV1bziRBJgd
+   h+2a0MuUmhg6NaIO3MYA7d9x7Auhg+44pZujzDDZL//lu4kPRVOw9J58v
+   NjyHFR5DgjJSuG5VMdn/OlSnIJpL/wR+pM2J0Wjzvo0OOo1levnz1ER+f
+   YBFRRtNtEiEUiikq6DjfyEWEg1TI7NIGjLKSeeDYWcE3goYkLEaCb/vvr
+   Q==;
+X-CSE-ConnectionGUID: mBZ1U2llRvqaZFqvvYNjVg==
+X-CSE-MsgGUID: /QtIRvTFRV+T2S/vvJX31Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="25557065"
+X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; 
+   d="scan'208";a="25557065"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 08:27:57 -0700
+X-CSE-ConnectionGUID: Q531NLBLSkO8xW9VB1M+aA==
+X-CSE-MsgGUID: J+TGVI5uQ5SLCQQQoPGXCA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; 
+   d="scan'208";a="44385630"
+Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 12 Jun 2024 08:27:56 -0700
+Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sHPtB-0001eW-0l;
+	Wed, 12 Jun 2024 15:27:53 +0000
+Date: Wed, 12 Jun 2024 23:27:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:renesas-clk-for-v6.11] BUILD SUCCESS
+ f92d44a00bd559f411b2c70b677afbc7c4723019
+Message-ID: <202406122331.ex0i9xtR-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdXStQGDNP8c79Bc46kM7BMkbxi=2aVKnLrupWj9Ytn7Ug@mail.gmail.com>
 
-On Tue, Jun 11, 2024 at 12:10:22PM +0200, Geert Uytterhoeven wrote:
-> On Tue, Jun 11, 2024 at 11:21 AM Yoshihiro Shimoda
-> <yoshihiro.shimoda.uh@renesas.com> wrote:
-> > > From: Manivannan Sadhasivam, Sent: Saturday, June 8, 2024 5:25 PM
-> > > On Mon, May 20, 2024 at 04:42:59PM +0900, Yoshihiro Shimoda wrote:
-> > > > +static void rcar_gen4_pcie_phy_reg_update_bits(struct rcar_gen4_pcie *rcar,
-> > > > +                                          u32 offset, u32 mask, u32 val)
-> > > > +{
-> > > > +   u32 tmp;
-> > > > +
-> > > > +   tmp = readl(rcar->phy_base + offset);
-> > > > +   tmp &= ~mask;
-> > > > +   tmp |= val;
-> > >
-> > > Use FIELD_* macros to avoid using the shift value.
-> >
-> > According to the bitfield.h,
-> > ---
-> > * FIELD_{GET,PREP} macros take as first parameter shifted mask
-> >  * from which they extract the base mask and shift amount.
-> >  * Mask must be a compilation time constant.
-> > ---
-> > So, since the mask is a variable here, we cannot use FIELD_* macros for this function.
-> 
-> Indeed.
-> 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v6.11
+branch HEAD: f92d44a00bd559f411b2c70b677afbc7c4723019  clk: renesas: r8a779h0: Add VIN clocks
 
-I just can't keep the constant factor in mind for some reason.
+elapsed time: 1487m
 
-> I tried introducing non-constant field_{prep,get}() helpers[1] in series
-> [2], but there were some pushbacks.
-> 
-> Feel free to up-vote ;-)
-> 
+configs tested: 86
+configs skipped: 3
 
-For sure! This will be very useful, thanks.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-- Mani
-
-> [1] "[PATCH 01/17] bitfield: Add non-constant field_{prep,get}() helpers"
-> https://lore.kernel.org/all/3a54a6703879d10f08cf0275a2a69297ebd2b1d4.1637592133.git.geert+renesas@glider.be/
-> 
-> [2] "[PATCH 00/17] Non-const bitfield helper conversions"
-> https://lore.kernel.org/all/cover.1637592133.git.geert+renesas@glider.be/
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
-> 
+tested configs:
+alpha                             allnoconfig   gcc-13.2.0
+alpha                            allyesconfig   gcc-13.2.0
+alpha                               defconfig   gcc-13.2.0
+arc                               allnoconfig   gcc-13.2.0
+arc                                 defconfig   gcc-13.2.0
+arc                   randconfig-001-20240612   gcc-13.2.0
+arc                   randconfig-002-20240612   gcc-13.2.0
+arm                               allnoconfig   clang-19
+arm                                 defconfig   clang-14
+arm                   randconfig-001-20240612   gcc-13.2.0
+arm                   randconfig-002-20240612   gcc-13.2.0
+arm                   randconfig-003-20240612   clang-19
+arm                   randconfig-004-20240612   clang-14
+arm64                             allnoconfig   gcc-13.2.0
+arm64                               defconfig   gcc-13.2.0
+arm64                 randconfig-001-20240612   gcc-13.2.0
+arm64                 randconfig-002-20240612   gcc-13.2.0
+arm64                 randconfig-003-20240612   gcc-13.2.0
+arm64                 randconfig-004-20240612   clang-19
+csky                              allnoconfig   gcc-13.2.0
+csky                                defconfig   gcc-13.2.0
+csky                  randconfig-001-20240612   gcc-13.2.0
+csky                  randconfig-002-20240612   gcc-13.2.0
+hexagon                          allmodconfig   clang-19
+hexagon                           allnoconfig   clang-19
+hexagon                          allyesconfig   clang-19
+hexagon                             defconfig   clang-19
+hexagon               randconfig-001-20240612   clang-19
+hexagon               randconfig-002-20240612   clang-19
+loongarch                         allnoconfig   gcc-13.2.0
+loongarch                           defconfig   gcc-13.2.0
+loongarch             randconfig-001-20240612   gcc-13.2.0
+loongarch             randconfig-002-20240612   gcc-13.2.0
+m68k                              allnoconfig   gcc-13.2.0
+m68k                                defconfig   gcc-13.2.0
+microblaze                        allnoconfig   gcc-13.2.0
+microblaze                          defconfig   gcc-13.2.0
+mips                              allnoconfig   gcc-13.2.0
+nios2                             allnoconfig   gcc-13.2.0
+nios2                               defconfig   gcc-13.2.0
+nios2                 randconfig-001-20240612   gcc-13.2.0
+nios2                 randconfig-002-20240612   gcc-13.2.0
+openrisc                          allnoconfig   gcc-13.2.0
+openrisc                            defconfig   gcc-13.2.0
+parisc                            allnoconfig   gcc-13.2.0
+parisc                              defconfig   gcc-13.2.0
+parisc                randconfig-001-20240612   gcc-13.2.0
+parisc                randconfig-002-20240612   gcc-13.2.0
+parisc64                            defconfig   gcc-13.2.0
+powerpc                           allnoconfig   gcc-13.2.0
+powerpc               randconfig-001-20240612   gcc-13.2.0
+powerpc               randconfig-002-20240612   gcc-13.2.0
+powerpc               randconfig-003-20240612   clang-19
+powerpc64             randconfig-001-20240612   gcc-13.2.0
+powerpc64             randconfig-002-20240612   gcc-13.2.0
+powerpc64             randconfig-003-20240612   clang-14
+riscv                             allnoconfig   gcc-13.2.0
+riscv                               defconfig   clang-19
+riscv                 randconfig-001-20240612   gcc-13.2.0
+riscv                 randconfig-002-20240612   gcc-13.2.0
+s390                              allnoconfig   clang-19
+s390                             allyesconfig   gcc-13.2.0
+s390                                defconfig   clang-19
+s390                  randconfig-001-20240612   clang-19
+s390                  randconfig-002-20240612   clang-19
+sh                               allmodconfig   gcc-13.2.0
+sh                                allnoconfig   gcc-13.2.0
+sh                               allyesconfig   gcc-13.2.0
+sh                                  defconfig   gcc-13.2.0
+sh                    randconfig-001-20240612   gcc-13.2.0
+sh                    randconfig-002-20240612   gcc-13.2.0
+sparc                             allnoconfig   gcc-13.2.0
+sparc                               defconfig   gcc-13.2.0
+sparc64                             defconfig   gcc-13.2.0
+sparc64               randconfig-001-20240612   gcc-13.2.0
+sparc64               randconfig-002-20240612   gcc-13.2.0
+um                               allmodconfig   clang-19
+um                                allnoconfig   clang-17
+um                               allyesconfig   gcc-13
+um                                  defconfig   clang-19
+um                             i386_defconfig   gcc-13
+um                    randconfig-001-20240612   gcc-13
+um                    randconfig-002-20240612   clang-16
+um                           x86_64_defconfig   clang-15
+xtensa                            allnoconfig   gcc-13.2.0
+xtensa                randconfig-002-20240612   gcc-13.2.0
 
 -- 
-மணிவண்ணன் சதாசிவம்
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
