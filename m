@@ -1,41 +1,80 @@
-Return-Path: <linux-renesas-soc+bounces-6136-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6137-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15566906707
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 10:38:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C33FD906722
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 10:39:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8C967284D78
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 08:38:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 757FF1F21AD6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 08:39:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B27E14037C;
-	Thu, 13 Jun 2024 08:36:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F0E31304AA;
+	Thu, 13 Jun 2024 08:38:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Cy69vvtD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CD3413D523;
-	Thu, 13 Jun 2024 08:36:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6356F13E40E
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Jun 2024 08:38:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718267796; cv=none; b=XgqrWfWk/XX93h5daw2VrEPSJg9MTLgABEoNm/OxxpyWtcP0QqLFAafGCkJf+Tzl680GUPaGQBWcFF659gTIhJH3xTUrI/xQ8gWD828Ag0ZLuAJJTPOLc5bp5BA5S/zyfWU8uupR5VJ9Fn8VmkdWOSRvybRjoHRRBzziMhZhpiY=
+	t=1718267887; cv=none; b=CTm1BYoG9YWWBIRmotcIotr0fC53npFzgJg+U2fQBj6M7TdQs5SVx+/Mbm1gt1sVmlObnLklRU2FbaTcoGhfajbyhTJu+HZ/nxSlATUouiKxArrATqqPTihrQd3v+2PpUaqpLEdt0vIwveMUql3mYQMBfTM2DTSRo++rwgA+RZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718267796; c=relaxed/simple;
-	bh=a09l5h73FaDd7vlH/86BhnM3rl737CKNI/vH4xhurWc=;
+	s=arc-20240116; t=1718267887; c=relaxed/simple;
+	bh=gvBB4VRGIbrrUzQv9lGEtqrCa23mZiVTh4i9rOyOKiI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O3xYxf9gK6xC3N5Mpz4HeWQCx4Mq7mSpbPgx0IrKmY3bKrG+NpG9iEnvEgBHZaleLt1rz0AsoXeeJ1tb0awTiwCvkyPZb6dmfjPefIWBSIUmRgG2WjtjIZvK0SEiXPxvPDvV4a17DRKwn5MuWtS0Xu2ksJ4J4TigY0A4Ir2bycQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.08,234,1712588400"; 
-   d="asc'?scan'208";a="207767857"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 13 Jun 2024 17:36:22 +0900
-Received: from [10.226.93.204] (unknown [10.226.93.204])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 422B94203313;
-	Thu, 13 Jun 2024 17:36:00 +0900 (JST)
-Message-ID: <322e7317-61dc-4f1e-8706-7db6f5f7a030@bp.renesas.com>
-Date: Thu, 13 Jun 2024 09:36:00 +0100
+	 In-Reply-To:Content-Type; b=bPbIjTKFpA0ziViLmFVqhHhfoZGmNZyb/FI15xJK9r9rdLTuF+79ReoAjflz3pyZLR+UhXq8ndvU3EN3822r0ZK1aAZONQ7etHFypI0bfYMida8Qba9swEQwilwcoU77O1FLbh8WRnvyAv98J3aRonhRS+nciUy2XkUI/rx1pZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Cy69vvtD; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1718267884;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YdO1WJIrqIg61hN5vELUIZIHcL7hxfeUZFi824LjBqU=;
+	b=Cy69vvtD0izzHRHEwqCf+3ehGIxqtqNd8ZB3Rs9uCjfSMxZUKDK0RGYbPmXTvG+rbWKrD0
+	Zcl5TxMjDqlSvKNZ3++TJ5et0gwFEAA9q8mySbgOlK8Bmx+g1pt1yM65RNh78lWj0a8wGy
+	DNPHFrov7q9p9p7i5CJrPDk1FyAR3LI=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-625-in3_muGYOkiKC0zC8FgaQg-1; Thu, 13 Jun 2024 04:38:00 -0400
+X-MC-Unique: in3_muGYOkiKC0zC8FgaQg-1
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-357766bb14fso420308f8f.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Jun 2024 01:38:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718267879; x=1718872679;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YdO1WJIrqIg61hN5vELUIZIHcL7hxfeUZFi824LjBqU=;
+        b=LPopwwD9j1X3wJ/6Lu0kWytTAJrYsPPpFqxK6p+01FxV9xJotGOqM4qmztrHtwch+k
+         Sbs0QQVLW8LPLrrUahvytMoGoUCKyO2cDnOa1mTMPdMlSO4EQBsRwusj5wEy5dRxt3Xh
+         z6jdER0spL9fN79cTGWCMGeyAvyO1R4jrd9qhqUukmJGZT4xFvoov60jxshTAoHJluQ3
+         vVQW5bQ8Gk/Qf9J1cuj6vUWokdozN5qYMEVkWB4ScV59yL7SP6/54bbmfgy8VpAVRObX
+         CZs9pL7BN7ySMJtuMk8Mw4x4sUu+TsalQr4l3juF0yDPwi/tpD5v/Pa+bJ0YFBBZOthj
+         OtHg==
+X-Forwarded-Encrypted: i=1; AJvYcCV+zJbMgZUmtP5N333jOxmOzSQALr8gW6e6ws9N+WBDpQauQu7PXMq1FljXCbYBpcEm8PWASaxORmnsc52q16J7HuwHWdmffkQSmCiHVnXjXlI=
+X-Gm-Message-State: AOJu0YwWDNMuflYsJk4UbKPDtveWRnee6NhscwanDFz0ADE4/dFErFl4
+	bexzVRlYWY5LulGTy/AG5SexAXjyUtsk1pIsNOtycZEqz0PJo0fmi47JQVILl4GkA+JKTpW+CEA
+	sOQjkRmkFSeCfHKt3S9zswH9zXltxJlKRMuv0b5+u8PEs1cS82f2xch8lZPM26nJ9X2aR
+X-Received: by 2002:a05:6000:1563:b0:360:775d:f917 with SMTP id ffacd0b85a97d-360775dfd15mr630605f8f.4.1718267879571;
+        Thu, 13 Jun 2024 01:37:59 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHqGjyQ/umCl2P9LZ32xVZd+McgCS7SCUcfkDyw5neb2L6t38GU4AsvVfow9TXTVGdrXdS6/Q==
+X-Received: by 2002:a05:6000:1563:b0:360:775d:f917 with SMTP id ffacd0b85a97d-360775dfd15mr630592f8f.4.1718267879169;
+        Thu, 13 Jun 2024 01:37:59 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e? ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-360750ad177sm1011707f8f.56.2024.06.13.01.37.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Jun 2024 01:37:58 -0700 (PDT)
+Message-ID: <386a229b-6904-465d-b772-921f99815e8c@redhat.com>
+Date: Thu, 13 Jun 2024 10:37:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -43,374 +82,54 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v12 05/13] page_pool: convert to use netmem
-Content-Language: en-GB
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Sergey Shtylyov <s.shtylyov@omp.ru>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
- Nikolay Aleksandrov <razor@blackwall.org>,
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>
-References: <20240613013557.1169171-1-almasrymina@google.com>
- <20240613013557.1169171-6-almasrymina@google.com>
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-Organization: Renesas Electronics Corporation
-In-Reply-To: <20240613013557.1169171-6-almasrymina@google.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------2BCbfj48rMDr1Ni41u40ZNJI"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------2BCbfj48rMDr1Ni41u40ZNJI
-Content-Type: multipart/mixed; boundary="------------GGmF9Y2iOanb3ZPuNcD0T337";
- protected-headers="v1"
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Sergey Shtylyov <s.shtylyov@omp.ru>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
- Nikolay Aleksandrov <razor@blackwall.org>,
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>
-Message-ID: <322e7317-61dc-4f1e-8706-7db6f5f7a030@bp.renesas.com>
-Subject: Re: [PATCH net-next v12 05/13] page_pool: convert to use netmem
-References: <20240613013557.1169171-1-almasrymina@google.com>
- <20240613013557.1169171-6-almasrymina@google.com>
-In-Reply-To: <20240613013557.1169171-6-almasrymina@google.com>
-
---------------GGmF9Y2iOanb3ZPuNcD0T337
-Content-Type: multipart/mixed; boundary="------------VLyD3IZiBv1Y2W5pY0JQYGkf"
-
---------------VLyD3IZiBv1Y2W5pY0JQYGkf
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On 13/06/2024 02:35, Mina Almasry wrote:
-> Abstrace the memory type from the page_pool so we can later add support=
+Subject: Re: [PATCH 0/3] drm/panic: Fixes and graphical logo
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <cover.1718199918.git.geert+renesas@glider.be>
+Content-Language: en-US, fr
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <cover.1718199918.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-s/Abstrace/Abstract/
 
-> for new memory types. Convert the page_pool to use the new netmem type
-> abstraction, rather than use struct page directly.
->=20
-> As of this patch the netmem type is a no-op abstraction: it's always a
-> struct page underneath. All the page pool internals are converted to
-> use struct netmem instead of struct page, and the page pool now exports=
+On 12/06/2024 15:54, Geert Uytterhoeven wrote:
+> 	Hi all,
+> 
+> If drm/panic is enabled, a user-friendly message is shown on screen when
+> a kernel panic occurs, together with an ASCII art penguin logo.
+> Of course we can do better ;-)
+> Hence this patch series extends drm/panic to draw the monochrome
+> graphical boot logo, when available, preceded by the customary fix.
 
-> 2 APIs:
->=20
-> 1. The existing struct page API.
-> 2. The new struct netmem API.
->=20
-> Keeping the existing API is transitional; we do not want to refactor al=
-l
-> the current drivers using the page pool at once.
->=20
-> The netmem abstraction is currently a no-op. The page_pool uses
-> page_to_netmem() to convert allocated pages to netmem, and uses
-> netmem_to_page() to convert the netmem back to pages to pass to mm APIs=
-,
->=20
-> Follow up patches to this series add non-paged netmem support to the
-> page_pool. This change is factored out on its own to limit the code
-> churn to this 1 patch, for ease of code review.
->=20
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
->=20
-> ---
->=20
-> v12:
-> - Fix allmodconfig build error. Very recently renesas/ravb_main.c added=
+Thanks for your patch.
 
->   a dependency on page_pool that I missed in my rebase. The dependency
->   calls page_pool_alloc() directly as it wants to set a custom gfp_mask=
-,
->   which is unique as all other drivers call a wrapper to that function.=
+I've tested it, and it works great.
 
->   Fix it by adding netmem_to_page() in the driver.> - Fix printing netm=
-em trace printing (Pavel).
->=20
-> v11:
-> - Fix typing to remove sparse warning. (Paolo/Steven)
->=20
-> v9:
-> - Fix sparse error (Simon).
->=20
-> v8:
-> - Fix napi_pp_put_page() taking netmem instead of page to fix
->   patch-by-patch build error.
-> - Add net/netmem.h include in this patch to fix patch-by-patch build
->   error.
->=20
-> v6:
->=20
-> - Rebased on top of the merged netmem_ref type.
->=20
-> Cc: linux-mm@kvack.org
-> Cc: Matthew Wilcox <willy@infradead.org>
->=20
-> ---
->  drivers/net/ethernet/renesas/ravb_main.c |   5 +-
->  include/linux/skbuff_ref.h               |   4 +-
->  include/net/netmem.h                     |  15 ++
->  include/net/page_pool/helpers.h          | 120 ++++++---
->  include/net/page_pool/types.h            |  14 +-
->  include/trace/events/page_pool.h         |  30 +--
->  net/bpf/test_run.c                       |   5 +-
->  net/core/page_pool.c                     | 304 ++++++++++++-----------=
+You need to rebase your series on top of drm-misc-next, because it 
+conflicts with a series I pushed last week:
+https://patchwork.freedesktop.org/series/134286/
 
->  net/core/skbuff.c                        |   8 +-
->  9 files changed, 305 insertions(+), 200 deletions(-)
->=20
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/eth=
-ernet/renesas/ravb_main.c
-> index c1546b916e4ef..093236ebfeecb 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -303,8 +303,9 @@ ravb_alloc_rx_buffer(struct net_device *ndev, int q=
-, u32 entry, gfp_t gfp_mask,
-> =20
->  	rx_buff =3D &priv->rx_buffers[q][entry];
->  	size =3D info->rx_buffer_size;
-> -	rx_buff->page =3D page_pool_alloc(priv->rx_pool[q], &rx_buff->offset,=
+This rebase should simplify the draw_logo_mono() function.
 
-> -					&size, gfp_mask);
-> +	rx_buff->page =3D netmem_to_page(page_pool_alloc(priv->rx_pool[q],
-> +						       &rx_buff->offset,
-> +						       &size, gfp_mask));
->  	if (unlikely(!rx_buff->page)) {
->  		/* We just set the data size to 0 for a failed mapping which
->  		 * should prevent DMA from happening...
+> 
+> This has been tested with rcar-du.
+> 
+> Thanks for your comments!
+> 
+> Geert Uytterhoeven (3):
+>    drm/panic: Fix off-by-one logo size checks
+>    drm/panic: Rename logo to logo_ascii
+>    drm/panic: Add support for drawing a monochrome graphical logo
+> 
+>   drivers/gpu/drm/drm_panic.c | 81 +++++++++++++++++++++++++++++++++----
+>   drivers/video/logo/Kconfig  |  2 +
+>   2 files changed, 75 insertions(+), 8 deletions(-)
+> 
 
-[snip]
-
-> =20
-> -static inline struct page *page_pool_alloc(struct page_pool *pool,
-> -					   unsigned int *offset,
-> -					   unsigned int *size, gfp_t gfp)
-> +static inline netmem_ref page_pool_alloc(struct page_pool *pool,
-> +					 unsigned int *offset,
-> +					 unsigned int *size, gfp_t gfp)
->  {
->  	unsigned int max_size =3D PAGE_SIZE << pool->p.order;
-> -	struct page *page;
-> +	netmem_ref netmem;
-> =20
->  	if ((*size << 1) > max_size) {
->  		*size =3D max_size;
->  		*offset =3D 0;
-> -		return page_pool_alloc_pages(pool, gfp);
-> +		return page_pool_alloc_netmem(pool, gfp);
->  	}
-> =20
-> -	page =3D page_pool_alloc_frag(pool, offset, *size, gfp);
-> -	if (unlikely(!page))
-> -		return NULL;
-> +	netmem =3D page_pool_alloc_frag_netmem(pool, offset, *size, gfp);
-> +	if (unlikely(!netmem))
-> +		return 0;
-> =20
->  	/* There is very likely not enough space for another fragment, so app=
-end
->  	 * the remaining size to the current fragment to avoid truesize
-> @@ -140,7 +142,7 @@ static inline struct page *page_pool_alloc(struct p=
-age_pool *pool,
->  		pool->frag_offset =3D max_size;
->  	}
-> =20
-> -	return page;
-> +	return netmem;
->  }
-> =20
->  /**
-> @@ -154,7 +156,7 @@ static inline struct page *page_pool_alloc(struct p=
-age_pool *pool,
->   * utilization and performance penalty.
->   *
->   * Return:
-> - * Return allocated page or page fragment, otherwise return NULL.
-> + * Return allocated page or page fragment, otherwise return 0.
->   */
->  static inline struct page *page_pool_dev_alloc(struct page_pool *pool,=
-
->  					       unsigned int *offset,
-> @@ -162,7 +164,7 @@ static inline struct page *page_pool_dev_alloc(stru=
-ct page_pool *pool,
->  {
->  	gfp_t gfp =3D (GFP_ATOMIC | __GFP_NOWARN);
-> =20
-> -	return page_pool_alloc(pool, offset, size, gfp);
-> +	return netmem_to_page(page_pool_alloc(pool, offset, size, gfp));
->  }
-
-I find this API change confusing - why should page_pool_alloc() return a
-netmem_ref but page_pool_dev_alloc() return a struct page *?
-
-Is there any reason to change page_pool_alloc() anyway? It calls
-page_pool_alloc_pages() or page_pool_alloc_frag() as appropriate, both
-of which your patch already converts to wrappers around the appropriate
-_netmem() functions. In all instances where page_pool_alloc() is called
-in this patch, you wrap it with netmem_to_page() anyway, there are no
-calls to page_pool_alloc() added which actually want a netmem_ref.
-
-Thanks,
-
---=20
-Paul Barker
---------------VLyD3IZiBv1Y2W5pY0JQYGkf
-Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-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3D
-=3DsIIN
------END PGP PUBLIC KEY BLOCK-----
-
---------------VLyD3IZiBv1Y2W5pY0JQYGkf--
-
---------------GGmF9Y2iOanb3ZPuNcD0T337--
-
---------------2BCbfj48rMDr1Ni41u40ZNJI
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZmqvcAUDAAAAAAAKCRDbaV4Vf/JGvUxW
-AP4uKbMQBWqrwm4N0a12WI8fJo+BUUCc25C9JJxwln5cIQEAkBtvIuJdTLFRhcetWpSP/iJbKgG5
-snTgszJnAOLlDAE=
-=U1fu
------END PGP SIGNATURE-----
-
---------------2BCbfj48rMDr1Ni41u40ZNJI--
 
