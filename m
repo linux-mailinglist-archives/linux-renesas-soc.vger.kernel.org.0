@@ -1,211 +1,198 @@
-Return-Path: <linux-renesas-soc+bounces-6172-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6176-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15D89907C78
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 21:22:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 619F4907CB3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 21:35:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8A083B262D7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 19:22:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DFD891F23361
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 19:35:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A4EA158D78;
-	Thu, 13 Jun 2024 19:18:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C586614A4C1;
+	Thu, 13 Jun 2024 19:35:35 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [195.130.132.52])
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0322915382E
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Jun 2024 19:18:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D034D12C7E3;
+	Thu, 13 Jun 2024 19:35:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718306299; cv=none; b=uCCWQoppH1ypXrbNSnr01sX48zLGR/i/bEi+ei8sjadO8LdjJrGNu24n6QpmNBuHvttJUfUdU4PHMN6dHcyjJwXR1lkrDvXctTlczZYuijGlivFxUynTsWwORK6tFkbY0iK6T5ISfUF81RX2S8vQWyjfvWW9uBzrtBLtmo4/HiE=
+	t=1718307335; cv=none; b=NeU6jLS5ZtQiQzLsKZ4U0/bFqkkryE+lGjkG70jot68qvbzBF/V1koRK+sFCa0lwqBA17l7eF+u8t7bYfG2BPWFN5EBuuF2fXL7Mqk9jnTBcJd1tTCOuiKwNpfOyqM779fx7CJLKeXDuCyqCdr9mE4aRVgJQ/Vv49el2py1R9gg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718306299; c=relaxed/simple;
-	bh=Sa5ge7CcXmGHW0duWK1aTVxhD/buIL/3bSCNBiMvBNs=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=AFmiQ7rQjsMLuvaVWY2ot++UT1XOW4bw4SFkZp225IX+Dbt3mbjmehIXxu176cA14w2WEI9TzQzAjzs3RY+9z3DnvLL7EHvjA1/6EGsja/kRqSB/HoFyzziQIz5Svcmzs1Bs/Okf4w97l1c2fNzPp9OdbwLlbP/lA8kiBY8cGuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:be2a:f066:50f0:dff7])
-	by xavier.telenet-ops.be with bizsmtp
-	id b7J62C00H3w30qz017J6ml; Thu, 13 Jun 2024 21:18:08 +0200
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1sHpwS-00Ax78-JJ;
-	Thu, 13 Jun 2024 21:18:06 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1sHpxW-00FL8v-JP;
-	Thu, 13 Jun 2024 21:18:06 +0200
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Jocelyn Falempe <jfalempe@redhat.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>
-Cc: Helge Deller <deller@gmx.de>,
-	dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 7/7] drm/panic: Add support for drawing a monochrome graphical logo
-Date: Thu, 13 Jun 2024 21:18:05 +0200
-Message-Id: <3f1a5f56213f3e4584773eb2813e212b2dff6d14.1718305355.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1718305355.git.geert+renesas@glider.be>
-References: <cover.1718305355.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1718307335; c=relaxed/simple;
+	bh=s5KKQ0WNyT8RnqJyo/yU0Fv2P20o+Qh11bQpcaR2S40=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ExK5cWSByhn3dRcxl7Fz7bvE8ngIfQxeHsLwdzkUkBNXSgAsLR2TfLQRVv/NDwQJXBsdkwV2In57Pi6fpHIUbzA6568cDC0TqlUZ+VnWM6Re3QsYfi7XsYWHVh6+cNgL8DHBkDtUOE+rKE+ZIQA2BBthS8QWbNSIwVBiBQ9vxMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-631443f1a04so8053647b3.0;
+        Thu, 13 Jun 2024 12:35:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718307327; x=1718912127;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nQG5ooT0PXUjGHQYatw2DQ/Unvuxh0lOAK6d2aZOYtA=;
+        b=dzBcZS6VrtnY1FNPsbeCp8IJsArriBx5TFISKUyd1tEvgUZ4nAflbZSyvBSHXKAe0W
+         iW5akIPWL2G/GL7UC7ivrBfJ16twxgFolK72eiqCbN3qWTwHrGM/Jl4+1FvR5HqQeq3D
+         43dE8BRfVEPOcVpLvacwIp1ubQR5L4Fy/1ksQlxdZx9y7SqCglwTCNIzyC5lQmNbSfvM
+         ETpoKL/R9e3VWoXGQb5XMUVMpsTHmQiBFaC0+IYshaU4+Bbos4cjlecQ4FGTAo5X7Ye9
+         cWVKu0BSTNwLn3r6Q0hy/nHoZUz8id69DnJqwtKHOt51xEjK/voAs9Xu9W1Wna9NpgDy
+         wZjA==
+X-Forwarded-Encrypted: i=1; AJvYcCVdn0AxSBNCRRpYl8zugU3Wnn+XKBTwo4WWOGhwAJ6WOV4/RPVdGkWGHjFN0DzcuMQbJYHKO8n7uw/cgGEkksSHJuciGtKPJffYbPPMzzRpHJU/nTGbI9Wld3Et/a3WNUAWdrkpDC5U4KUmyAzid2sd3n+nte8dCUX8t5296E7fZZSjpieUwjfh7Ro=
+X-Gm-Message-State: AOJu0Yxz0MH1kQWfC10ykaWGzbd2b5FID+/M5/H2xwFiZvRLX5rEEAhi
+	4PXZRmSsKkDshv/9HEGz6uesUjl8tHSgZTji/+eTfdNsFoZSFGYAlHg69MtN
+X-Google-Smtp-Source: AGHT+IEj2IQ15T0RtLrNpkm7Kg831aV9UJTYXbySLiXylTr/zld1XGb77gJz4KEtSJsEF/e315UjlQ==
+X-Received: by 2002:a81:dc08:0:b0:62f:8513:ba7d with SMTP id 00721157ae682-632064dce1emr4680347b3.22.1718307327392;
+        Thu, 13 Jun 2024 12:35:27 -0700 (PDT)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-631183d7cc4sm2646987b3.10.2024.06.13.12.35.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Jun 2024 12:35:26 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-631443f1a04so8053307b3.0;
+        Thu, 13 Jun 2024 12:35:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUhQDq944CyeBxubI+bidMm4MhcxvLXdMzM7ZPas/+mxOHYeN5V3+IR/1zYVh5dEuP765SQO2IrBieu+fPu7LwHj8yVoLvh0hry66kMkRyujDXfMrxHDuX6mzG4Nr3srXhC40Futs5uNotl96v3UKdXYmDixjN0JQJ2H1w5WYU5Dk2BoZ3j2HlVJcw=
+X-Received: by 2002:a81:ae15:0:b0:630:163b:46f7 with SMTP id
+ 00721157ae682-630bc5fc133mr20529697b3.6.1718307326451; Thu, 13 Jun 2024
+ 12:35:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240610113124.2396688-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240610113124.2396688-2-niklas.soderlund+renesas@ragnatech.se>
+ <20240610-screen-wolverine-78370c66d40f@spud> <20240610165935.GA382677@ragnatech.se>
+ <20240610-yoga-antler-e6447592de16@spud> <20240611110617.GD382677@ragnatech.se>
+ <20240613165111.GA2005299-robh@kernel.org>
+In-Reply-To: <20240613165111.GA2005299-robh@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 13 Jun 2024 21:35:13 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUQr0pzhL6Tq=R_TTUSu5wDZO-sWQHkuLg4C=xv9TyoWQ@mail.gmail.com>
+Message-ID: <CAMuHMdUQr0pzhL6Tq=R_TTUSu5wDZO-sWQHkuLg4C=xv9TyoWQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: media: renesas,vin: Add binding for V4M
+To: Rob Herring <robh@kernel.org>, Conor Dooley <conor@kernel.org>
+Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, linux-media@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Re-use the existing support for boot-up logos to draw a monochrome
-graphical logo in the DRM panic handler.  When no suitable graphical
-logo is available, the code falls back to the ASCII art penguin logo.
+Hi Rob, Conor,
 
-Note that all graphical boot-up logos are freed during late kernel
-initialization, hence a copy must be made for later use.
+On Thu, Jun 13, 2024 at 6:51=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
+:
+> On Tue, Jun 11, 2024 at 01:06:17PM +0200, Niklas S=C3=B6derlund wrote:
+> > On 2024-06-10 22:32:29 +0100, Conor Dooley wrote:
+> > > On Mon, Jun 10, 2024 at 06:59:35PM +0200, Niklas S=C3=B6derlund wrote=
+:
+> > > > On 2024-06-10 17:03:49 +0100, Conor Dooley wrote:
+> > > > > On Mon, Jun 10, 2024 at 01:31:23PM +0200, Niklas S=C3=B6derlund w=
+rote:
+> > > > > > Document support for the VIN module in the Renesas V4M (r8a779h=
+0) SoC.
+> > > > > >
+> > > > > > Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@=
+ragnatech.se>
+> > > > > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > > > ---
+> > > > > >  Documentation/devicetree/bindings/media/renesas,vin.yaml | 1 +
+> > > > > >  1 file changed, 1 insertion(+)
+> > > > > >
+> > > > > > diff --git a/Documentation/devicetree/bindings/media/renesas,vi=
+n.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > > > > > index 5539d0f8e74d..168cb02f8abe 100644
+> > > > > > --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > > > > > +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > > > > > @@ -54,6 +54,7 @@ properties:
+> > > > > >                - renesas,vin-r8a77995 # R-Car D3
+> > > > > >                - renesas,vin-r8a779a0 # R-Car V3U
+> > > > > >                - renesas,vin-r8a779g0 # R-Car V4H
+> > > > > > +              - renesas,vin-r8a779h0 # R-Car V4M
+> > > > >
+> > > > > Your driver patch suggests that this is compatible with the g var=
+iant.
+> > > >
+> > > > Currently it is. But that not always be true, I tried to outline th=
+is in
+> > > > to cover letter.
+> > >
+> > > To be honest, I don't usually read cover letters when reviewing bindi=
+ngs.
+> > > Information about why things are/are not compatible should be in a
+> > > commit itself.
+> > >
+> > > >     The V4M capture pipeline is similar to the other Gen4 SoC suppo=
+rted
+> > > >     upstream already V4H. Currently all futures supported for VIN o=
+n V4M are
+> > > >     also supported by V4H and the driver code can be shared. But as=
+ done for
+> > > >     other R-Car IP bindings a new dedicated binding for V4M is crea=
+ted.
+> > > >     This have proved prudent in the past where quirks are found eve=
+n within
+> > > >     the same generation as more advance use-cases are enabled.
+> > >
+> > > I don't understand how this precludes using the g variant as a fallba=
+ck
+> > > compatible. I'm not suggesting that you don't add a specific one for =
+the
+> > > h variant.
+> >
+> > The bindings have been around for a while and currently there are 25 So=
+C
+> > specific compatibles, one for each SoC supported. Each compatible
+> > consist of the SoC model number, not the VIN IP model/version number as
+> > no such versioning schema exist.
+> >
+> > The datasheets are specific for each SoC and there are differences
+> > between almost every SoC. There are of course lots of similarities
+> > between the SoCs and the similarities are cluster around the 3
+> > generations (Gen{2,3,4}) supported.
+> >
+> > Using the g variant as fallback in DTS for h variant even if we also ad=
+d
+> > a specific one for h is confusing. As g and h are two different SoC.
+>
+> Why? That is the very definition of how "compatible" is supposed to
+> work.
+>
+> > The g variant is r8a779g0 which is the SoC name/number for V4H.
+> > The h variant is r8a779h0 which is the SoC name/number for V4M.
+> >
+> > I think the core of the problem is that there are no versioning schema
+> > for the individual IP blocks used on each SoC. For better or worse the
+> > bindings for lots of Renesas IPs are centred around SoC name/number and
+> > not the individual IP implementations.
+>
+> We've tried IP version based compatibles before. It doesn't work. Guess
+> what, the IP version changes with nearly every SoC. Chip designers have
+> no discipline.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v2:
-  - Rebased,
-  - Inline trivial draw_logo_mono().
----
- drivers/gpu/drm/drm_panic.c | 65 +++++++++++++++++++++++++++++++++----
- drivers/video/logo/Kconfig  |  2 ++
- 2 files changed, 60 insertions(+), 7 deletions(-)
+The R-Car V4M capture pipeline is similar to e.g. the R-Car V4H capture
+pipeline. But it is not identical, hence the different compatible values.
+AFAIU, for the current feature-set, the driver does not need to handle
+the differences.  But that may change later...
 
-diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-index f7e22b69bb25d3be..af30f243b2802ad7 100644
---- a/drivers/gpu/drm/drm_panic.c
-+++ b/drivers/gpu/drm/drm_panic.c
-@@ -7,11 +7,15 @@
-  */
- 
- #include <linux/font.h>
-+#include <linux/init.h>
- #include <linux/iosys-map.h>
- #include <linux/kdebug.h>
- #include <linux/kmsg_dump.h>
-+#include <linux/linux_logo.h>
- #include <linux/list.h>
-+#include <linux/math.h>
- #include <linux/module.h>
-+#include <linux/overflow.h>
- #include <linux/printk.h>
- #include <linux/types.h>
- 
-@@ -88,6 +92,42 @@ static const struct drm_panic_line logo_ascii[] = {
- 	PANIC_LINE(" \\___)=(___/"),
- };
- 
-+#ifdef CONFIG_LOGO
-+static const struct linux_logo *logo_mono;
-+
-+static int drm_panic_setup_logo(void)
-+{
-+	const struct linux_logo *logo = fb_find_logo(1);
-+	const unsigned char *logo_data;
-+	struct linux_logo *logo_dup;
-+
-+	if (!logo || logo->type != LINUX_LOGO_MONO)
-+		return 0;
-+
-+	/* The logo is __init, so we must make a copy for later use */
-+	logo_data = kmemdup(logo->data,
-+			    size_mul(DIV_ROUND_UP(logo->width, BITS_PER_BYTE), logo->height),
-+			    GFP_KERNEL);
-+	if (!logo_data)
-+		return -ENOMEM;
-+
-+	logo_dup = kmemdup(logo, sizeof(*logo), GFP_KERNEL);
-+	if (!logo_dup) {
-+		kfree(logo_data);
-+		return -ENOMEM;
-+	}
-+
-+	logo_dup->data = logo_data;
-+	logo_mono = logo_dup;
-+
-+	return 0;
-+}
-+
-+device_initcall(drm_panic_setup_logo);
-+#else
-+#define logo_mono	((const struct linux_logo *)NULL)
-+#endif
-+
- /*
-  * Color conversion
-  */
-@@ -452,15 +492,22 @@ static void draw_panic_static_user(struct drm_scanout_buffer *sb)
- 	u32 bg_color = convert_from_xrgb8888(CONFIG_DRM_PANIC_BACKGROUND_COLOR, sb->format->format);
- 	const struct font_desc *font = get_default_font(sb->width, sb->height, NULL, NULL);
- 	struct drm_rect r_screen, r_logo, r_msg;
-+	unsigned int logo_width, logo_height;
- 
- 	if (!font)
- 		return;
- 
- 	r_screen = DRM_RECT_INIT(0, 0, sb->width, sb->height);
- 
--	r_logo = DRM_RECT_INIT(0, 0,
--			       get_max_line_len(logo_ascii, logo_ascii_lines) * font->width,
--			       logo_ascii_lines * font->height);
-+	if (logo_mono) {
-+		logo_width = logo_mono->width;
-+		logo_height = logo_mono->height;
-+	} else {
-+		logo_width = get_max_line_len(logo_ascii, logo_ascii_lines) * font->width;
-+		logo_height = logo_ascii_lines * font->height;
-+	}
-+
-+	r_logo = DRM_RECT_INIT(0, 0, logo_width, logo_height);
- 	r_msg = DRM_RECT_INIT(0, 0,
- 			      min(get_max_line_len(panic_msg, msg_lines) * font->width, sb->width),
- 			      min(msg_lines * font->height, sb->height));
-@@ -471,10 +518,14 @@ static void draw_panic_static_user(struct drm_scanout_buffer *sb)
- 	/* Fill with the background color, and draw text on top */
- 	drm_panic_fill(sb, &r_screen, bg_color);
- 
--	if ((r_msg.x1 >= drm_rect_width(&r_logo) || r_msg.y1 >= drm_rect_height(&r_logo)) &&
--	    drm_rect_width(&r_logo) <= sb->width && drm_rect_height(&r_logo) <= sb->height) {
--		draw_txt_rectangle(sb, font, logo_ascii, logo_ascii_lines, false, &r_logo,
--				   fg_color);
-+	if ((r_msg.x1 >= logo_width || r_msg.y1 >= logo_height) &&
-+	    logo_width <= sb->width && logo_height <= sb->height) {
-+		if (logo_mono)
-+			drm_panic_blit(sb, &r_logo, logo_mono->data, DIV_ROUND_UP(logo_width, 8),
-+				       fg_color);
-+		else
-+			draw_txt_rectangle(sb, font, logo_ascii, logo_ascii_lines, false, &r_logo,
-+					   fg_color);
- 	}
- 	draw_txt_rectangle(sb, font, panic_msg, msg_lines, true, &r_msg, fg_color);
- }
-diff --git a/drivers/video/logo/Kconfig b/drivers/video/logo/Kconfig
-index b7d94d1dd1585a84..ce6bb753522d215d 100644
---- a/drivers/video/logo/Kconfig
-+++ b/drivers/video/logo/Kconfig
-@@ -8,6 +8,8 @@ menuconfig LOGO
- 	depends on FB_CORE || SGI_NEWPORT_CONSOLE
- 	help
- 	  Enable and select frame buffer bootup logos.
-+	  Monochrome logos will also be used by the DRM panic handler, if
-+	  enabled.
- 
- if LOGO
- 
--- 
-2.34.1
+Gr{oetje,eeting}s,
 
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
