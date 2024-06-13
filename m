@@ -1,115 +1,150 @@
-Return-Path: <linux-renesas-soc+bounces-6165-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6166-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C4A907857
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 18:33:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 295409078B6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 18:51:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9FEC71F23091
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 16:33:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D24171F23859
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 16:51:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FBE7143C59;
-	Thu, 13 Jun 2024 16:33:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B2FC149E13;
+	Thu, 13 Jun 2024 16:51:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="BOgPACwX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RAP1EmdH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A38130AFF
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Jun 2024 16:33:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 018FA17FD;
+	Thu, 13 Jun 2024 16:51:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718296403; cv=none; b=RkUd0vAGcOHSdrkicsraNkg8AnnRCA9bOav0EkBadJG15K82PBubbbKkEAEKaxUi88BThjqHfjl+d4G9Wpb+9jB+pWhj2zIZcrE9+Qb58sojjdYsxIf902wDQ0e7RYeqEB25yjUHZWX3VTsZY/rxMLOhbGSv0zyFqJw8T+8ci58=
+	t=1718297474; cv=none; b=eVBColMOK4aSDprXhwMGY4zHJkdaMwc2P5pRwFEElg2T2BjelB49o6zVdIzy4FumrqIWtTZiaSM52thuskSwgu+ZQV9Dmsvh7t6AVeblN1NqN7734ed6qs7Tm3SJGnJfPQzhre7snlVzRk7U6UvnI1pKy5C/ku2pMeOgrnma2hQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718296403; c=relaxed/simple;
-	bh=KxVEzA57tlb7dePRLlN+bW+GJrzbV4oxzQQUaG/sQzc=;
+	s=arc-20240116; t=1718297474; c=relaxed/simple;
+	bh=AqclkLgO7O3ZBcq/ORHN2o8G8ZYFtWnr+enwKmSDttQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oid6Cfu44GqpNwrjQ55oWpo0XqqvVhY1trIbGVK7x2XW7xnX/pVddVp8oy3IXI+LOQYkLlFLOy83iXn80rKU5xvUAHEy1H9pjO8/WMk/XcEFgVWW21H7hWClf9y3lep2nyCnuJcpza6q2Lwmeztwt58jSuBGvGQFyBkzwOx1R+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=BOgPACwX; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=KxVE
-	zA57tlb7dePRLlN+bW+GJrzbV4oxzQQUaG/sQzc=; b=BOgPACwX0ANo0oMadmpD
-	Yr73nPBZBmp7baH6guSP1DC5TFWUORAgxUxptrAZbAoojBaCvMpiNnrdn6XSrttI
-	C3YfitgxzPkE+oyxXwgZWWYmurG4f+Mj90F2XHtxT797WYT3yqYo/wikxb7KLVQD
-	UowlqX1K2rlKQJ3sSEcs94sp+sh5c2425J+1jqf5Azt5LmhUy6mlUa64rJB1mKo6
-	aW3hAiRfskBGmfhmZekPpaZuaLoYzTFw8ipSPtESgiXs1wzSeMbNpvpqt1YitGvy
-	meOmYslB+gqk6oDnWrrdITiHhOASFBE/r8bsnf6Sbq8M28Tyx5pZYj7QbBAGHKO7
-	5Q==
-Received: (qmail 1241039 invoked from network); 13 Jun 2024 18:33:17 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Jun 2024 18:33:17 +0200
-X-UD-Smtp-Session: l3s3148p1@ERVcDsgaVe5ehh9j
-Date: Thu, 13 Jun 2024 18:33:16 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, 
-	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Subject: Re: [PATCH v9 1/1] gpio: add sloppy logic analyzer using polling
-Message-ID: <7mkl7su47jqoagphc5daaonhndfw2xuap37z6yu4afdg3zvezb@5raeuolqflmo>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-References: <20240610112700.80819-1-wsa+renesas@sang-engineering.com>
- <20240610112700.80819-2-wsa+renesas@sang-engineering.com>
- <CAMRc=MfZ11U+kAh1+K=DxtJ=QL+cY7Q_sBN4sQDF-RNgjpV0QA@mail.gmail.com>
- <jvnvx7a4pn6evrp5ehfrt4qsiuprq6ogvrue2a3uupwtydmgcm@2rvat7ibvgb4>
- <CAMRc=Mc4__0zzJZG3BPnmbua88SLuEbX=Wk=EZnKH5HQvB+JPg@mail.gmail.com>
- <CACRpkda==5S75Bw6F3ZLUmf7kwgi_JkByiizR=m-61nrMDWuvQ@mail.gmail.com>
- <ce1d8150-c595-44d5-b19a-040920481709@app.fastmail.com>
- <CAMuHMdXmtXcOQ1SibKFh3M+X-syEyEHfxjvSmtDoDNqU40MPVg@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=pvVPGgTHwLyRSlVzyI8FDoRiVZwwiknpJRjPahC5ujsoavfmg89TRvQG613/T9SZnlxj8O9eC46NKc/E3j2BDmExCR3XdzEG7grUHr5FH0XlTmxHopF1Ot7bfC+/ynNk327rs2ORS3FiBcOu2Re9NARiX/DUya/8/Ki7P+VlLsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RAP1EmdH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43B43C3277B;
+	Thu, 13 Jun 2024 16:51:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718297473;
+	bh=AqclkLgO7O3ZBcq/ORHN2o8G8ZYFtWnr+enwKmSDttQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RAP1EmdH6e4rSur0gGQcMy9m++pdFcnJYstl9o+fBm1gU3AeICVzzyjK1F4OBJxO7
+	 JZGun/GoFJd/bM3pASp+hMcLVVifVdQhvbeQcqwCgalOFKtrTpHbPHoaVwZMn9Pthv
+	 FevjeMbQhvHI5CD6ItFAfoLbs0PxFHil9XLueLbtn0DKGOk+qwnWTpqLFmQO6Qo4dM
+	 XMqIbcaYCH5ic+NhejJQjD8TsZchJvFYs+ISpZfIyYAYeQKDKh+Zq15OZci5tESN85
+	 R5TsPinydfVEB+SXT2T4ILJm+/+OlxU/n/frFVKGLmWGPHO+I6bU8IZ8vx6FQP00n8
+	 eMkFD25JQX1pw==
+Date: Thu, 13 Jun 2024 10:51:11 -0600
+From: Rob Herring <robh@kernel.org>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Conor Dooley <conor@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: media: renesas,vin: Add binding for
+ V4M
+Message-ID: <20240613165111.GA2005299-robh@kernel.org>
+References: <20240610113124.2396688-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240610113124.2396688-2-niklas.soderlund+renesas@ragnatech.se>
+ <20240610-screen-wolverine-78370c66d40f@spud>
+ <20240610165935.GA382677@ragnatech.se>
+ <20240610-yoga-antler-e6447592de16@spud>
+ <20240611110617.GD382677@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6en6wjrd5s6y4t3r"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdXmtXcOQ1SibKFh3M+X-syEyEHfxjvSmtDoDNqU40MPVg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240611110617.GD382677@ragnatech.se>
 
+On Tue, Jun 11, 2024 at 01:06:17PM +0200, Niklas Söderlund wrote:
+> On 2024-06-10 22:32:29 +0100, Conor Dooley wrote:
+> > On Mon, Jun 10, 2024 at 06:59:35PM +0200, Niklas Söderlund wrote:
+> > > Hi Conor,
+> > > 
+> > > Thanks for your feedback.
+> > > 
+> > > On 2024-06-10 17:03:49 +0100, Conor Dooley wrote:
+> > > > On Mon, Jun 10, 2024 at 01:31:23PM +0200, Niklas Söderlund wrote:
+> > > > > Document support for the VIN module in the Renesas V4M (r8a779h0) SoC.
+> > > > > 
+> > > > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > > > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > > ---
+> > > > >  Documentation/devicetree/bindings/media/renesas,vin.yaml | 1 +
+> > > > >  1 file changed, 1 insertion(+)
+> > > > > 
+> > > > > diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > > > > index 5539d0f8e74d..168cb02f8abe 100644
+> > > > > --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > > > > +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > > > > @@ -54,6 +54,7 @@ properties:
+> > > > >                - renesas,vin-r8a77995 # R-Car D3
+> > > > >                - renesas,vin-r8a779a0 # R-Car V3U
+> > > > >                - renesas,vin-r8a779g0 # R-Car V4H
+> > > > > +              - renesas,vin-r8a779h0 # R-Car V4M
+> > > > 
+> > > > Your driver patch suggests that this is compatible with the g variant.
+> > > 
+> > > Currently it is. But that not always be true, I tried to outline this in 
+> > > to cover letter.
+> > 
+> > To be honest, I don't usually read cover letters when reviewing bindings.
+> > Information about why things are/are not compatible should be in a
+> > commit itself.
+> > 
+> > >     The V4M capture pipeline is similar to the other Gen4 SoC supported
+> > >     upstream already V4H. Currently all futures supported for VIN on V4M are
+> > >     also supported by V4H and the driver code can be shared. But as done for
+> > >     other R-Car IP bindings a new dedicated binding for V4M is created.
+> > >     This have proved prudent in the past where quirks are found even within
+> > >     the same generation as more advance use-cases are enabled.
+> > 
+> > I don't understand how this precludes using the g variant as a fallback
+> > compatible. I'm not suggesting that you don't add a specific one for the
+> > h variant.
+> 
+> The bindings have been around for a while and currently there are 25 SoC 
+> specific compatibles, one for each SoC supported. Each compatible 
+> consist of the SoC model number, not the VIN IP model/version number as 
+> no such versioning schema exist.
+> 
+> The datasheets are specific for each SoC and there are differences 
+> between almost every SoC. There are of course lots of similarities 
+> between the SoCs and the similarities are cluster around the 3 
+> generations (Gen{2,3,4}) supported.
+> 
+> Using the g variant as fallback in DTS for h variant even if we also add 
+> a specific one for h is confusing. As g and h are two different SoC.
 
---6en6wjrd5s6y4t3r
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Why? That is the very definition of how "compatible" is supposed to 
+work.
 
+> The g variant is r8a779g0 which is the SoC name/number for V4H.
+> The h variant is r8a779h0 which is the SoC name/number for V4M.
+> 
+> I think the core of the problem is that there are no versioning schema 
+> for the individual IP blocks used on each SoC. For better or worse the 
+> bindings for lots of Renesas IPs are centred around SoC name/number and 
+> not the individual IP implementations.
 
-> Hmm, I like the iio idea.
-> Sorry, Wolfram ;-)
+We've tried IP version based compatibles before. It doesn't work. Guess 
+what, the IP version changes with nearly every SoC. Chip designers have 
+no discipline.
 
-Ah, no worries, Geert. I am happy you want to take over :)
-
-
---6en6wjrd5s6y4t3r
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZrH0gACgkQFA3kzBSg
-KbZxsg/8Czee6rn0dAMoaq7pD7T9gQoEh/Dk9CRXW6AGY0vj+qUesC6L9lSFBmBf
-lx63HJJRrjpckhXn4Knk7UBJXWYMASxXpbiE+YcKhZJZn+Or/EuviyWVZWdxYwuH
-ItHH7kwQSLoWykJcRA6+AX6AwRF67qFD1Ff5omCJHjYYbMrF3t4znzgazdIIGDaN
-9W8EG37tdJqEHFC+lBb7gVjt5V/rnH1dDNLIOWFgt3geBP8UE5ea/rqDCxierBcG
-/1pb9t2aiwCs8HeikQKFLQsY+W+mE1s0dz0+FNuxYdfo3LF8bl0kLJoaAnOjUqX6
-Wujft6kYjhbHRGpJFu2Rknxban81mk3Qw1svKC8JH8LacspvjMVmZVkRaqPHeXWI
-nR6bUdkCtGMldW//gD0maQSI9iJvIBFXS6gUbMrdDrIPm/d5625J6w0VIkr/yGhX
-bqG/EyMqXQu57leV3YqCm1JyVYbW/Hgm3eUU4CrrLcIa76b9q8O9R5fpIlUUumT1
-48LsZmHGA9j+B6cgPYUCYrU8zLpXuIJpxLjuJGQ9an/cfuih9T1YeK/K29jaUH84
-zqm9Le5J1QPS2VZsccMD/h2HKjzJrXHqxdz8IH4Od/E5JjRWSsRC1moKJ+adh7Rl
-8vYZWsa0sFjv6iCArYP088FF77qgdkMtBqth4bD/JlR2aqMPY9E=
-=zpkZ
------END PGP SIGNATURE-----
-
---6en6wjrd5s6y4t3r--
+Rob
 
