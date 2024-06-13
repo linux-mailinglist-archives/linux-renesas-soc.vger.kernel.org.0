@@ -1,173 +1,164 @@
-Return-Path: <linux-renesas-soc+bounces-6177-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6178-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3E41907D24
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 22:07:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51CAA907DBA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 22:59:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4B60B282B67
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 20:07:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DF5772827E4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 20:59:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C966A12FB09;
-	Thu, 13 Jun 2024 20:06:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2C2E13B5AC;
+	Thu, 13 Jun 2024 20:59:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DlEuq7k7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g+NZO3rk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9571657C8D;
-	Thu, 13 Jun 2024 20:06:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 363BF2F50;
+	Thu, 13 Jun 2024 20:59:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718309218; cv=none; b=t9IDmMw9zFJEklXjxl6W4GlGnFR+B8uHAAHZn0R4dkx5p/qFQRXbosN0cU3wAA0bk8vCaWA1x+moEc+OxX/qXS9Mqki+PhnQXKoZ75aj/u6fgU68Z10oEKccmB5mulp5g9tdAOZvQAhH3nuuwSSnmD///iz+wX1Uwv4j6Ovzhss=
+	t=1718312375; cv=none; b=JK/kN/fxmQMNBdgkox8YU25wiY83ge7qHSpZTm7gEADDejqh3LdXso0Rr/LY8DaMED2EINCBNFh2mhmgXq0DWl68cq3PWQZhqsUgNl8puLhzg6lDB+dJYU5eJGG5D51X7tjLf1jzj+iMlUkxlumSGjeLUSH6ReHQ03hkDxTofZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718309218; c=relaxed/simple;
-	bh=k7uhUnd2YjV9SjYh5H4FEETcIbU38E9IRN7qo9tzQak=;
+	s=arc-20240116; t=1718312375; c=relaxed/simple;
+	bh=nVm6c8dzPN6w85JqRXEcHGl1cDE6oCtq/cbPfbXWx+Y=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ohPbWdsKRmH8cqvbKD2jwGOixTeOZtYNNn3yuNCbbEKM9O2T3iu6rs7jK8jyETQX7NBLJdEVyutTdJdvxp7FA8U/ENbtseckfGiYoaehU1VUvt55Is3fh+in6NGidkY0JBsMxBopwOhB/QFt0uhA17R0y58ddnWXius5CerfRsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DlEuq7k7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B8A1C4AF1D;
-	Thu, 13 Jun 2024 20:06:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718309218;
-	bh=k7uhUnd2YjV9SjYh5H4FEETcIbU38E9IRN7qo9tzQak=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=DlEuq7k7xrWfF+/uNxHPvjM8TTeMBhwxJQ8nyfU7Qt4wrrLUOPT8f7o2SJUbi+lXW
-	 umpOfL7+joOMEVeowV2j/m+wTJmeSdBV9zubEgsL9wLZxaJJPPIF84ttDeorkEWHHh
-	 oakBQMHx+ZsgzZRPETNoukfAl/W+MX7QonMTUtKHkU9QhoTEy7/+e3AJUMxHfGgBID
-	 oX8qBbkBFZG0R4awJ9Gczy0UGewwkhvTqZsjwv1oQc6N6WbUwg+180FaME/yKmIh2u
-	 3igJcS9QrhVLvmDvQ0DhrIO1E150txoTgq2NoCGlF6E2mMnVVd3ChnFQwxCVlu5Bcn
-	 a0psAPDI0+Aeg==
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2ebe785b234so13847661fa.1;
-        Thu, 13 Jun 2024 13:06:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVyETfAYDEsJr879ZJqipkOGD6JggVww8VXcOT3tQv2gYpitVeJ2IZr93VHoXUn9CjDCI156OomVXG9DbR2neN3AOxdUTYZ+ZuglL654LW0cZcUQJnY821Ejh98mYrUm6eM06nHU4W78M0kRXJ1AlIynnMe/hx/SwQMz9tC4OI5/FkFhqhcqiw5ktkACJwpbEbgDeyIAbOU7/4W/HJu9JZVclELpxKA
-X-Gm-Message-State: AOJu0YzgSc349G/OamnWNNY/ZmjOgTnERRbnTc/+oJVnOt52ZAbIoVV0
-	3rdX590FuF+2xhHobKcSgveZZjozzoDb6YIM275Xw3E+hD9H9X4kAePYbOxjQc/piP4cc8jzmgO
-	PHMZr7bg31Xj9ySoNiz2vvMHUQw==
-X-Google-Smtp-Source: AGHT+IFsTzkTtOjxqfkBNekUNSpBS4UpU4fzi8jxmSPav4ifHXSAVrkwliOQ59BFj0yros0YUN2epLKBg7Nd0rOUY60=
-X-Received: by 2002:a2e:9dda:0:b0:2e1:2169:a5cc with SMTP id
- 38308e7fff4ca-2ec0e46d9e8mr5397851fa.15.1718309216375; Thu, 13 Jun 2024
- 13:06:56 -0700 (PDT)
+	 To:Cc:Content-Type; b=gSx5gXUq+o/F7hquZtBb+Ms+BvDpHabaICkwqBeI77yQlnmNmL3gQlz6agoELCMVo0BCXjRyBwU/7xZR9t3ZDfdJsHrOBOXgFvuaJLvRRuHzVr/9DTkbhquOptBHTRIefKlLHzaTyEyClVZEW2sUCU+CPrvO5NC9yfYMhX1dMno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g+NZO3rk; arc=none smtp.client-ip=209.85.222.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-80b8fd76e6dso752500241.1;
+        Thu, 13 Jun 2024 13:59:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718312373; x=1718917173; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TGK4HgLF/G5T6sS6MVCIimC13eAz1/g4TH5Np1XTe5Y=;
+        b=g+NZO3rk2/U10AQNTg6EdbyYHp7Kmw/w61tIxOh9tJm5FxgJ/woImgKhINmsXI863b
+         hjuWmkJTUkuMXxzgwpQQnG8dE5kASU7r9u5FGKuTDtiSqxsdBOcIMLJy3PZuFnxCNoYa
+         iFpf/biiQUDB+iELWASvN3fY62GlgK2CuHE8odrKxXPEWEHz59RDOebHh5FUswOjX+rf
+         somkX3dGx7XbujoYfIORod9ehd7t4uZwI/LDUZzq1SNMvEKuDVD7diztgVUlAs9yNnFh
+         PK0DtZMW404K1IpPcLUFjm43RC0Q/y34uHGxRuhJypkqS0eTssAHIWODOgUV7w8OiDAK
+         fAzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718312373; x=1718917173;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TGK4HgLF/G5T6sS6MVCIimC13eAz1/g4TH5Np1XTe5Y=;
+        b=XaZYSkAC+pnfG/3Lit2KBaflzKUq8ulAVmTwxs+5jnujR1O8VOGWdKIfwDgmkxeruF
+         T1Ol2ATWE8XQ7TBA5QdF8h0sEPNf7jEdDM0QF5Nq2UiPma/dwwP4BsPOGlrbB1FElLuf
+         Cmn6WkEY34LXuVF6fzE516YfT3ooDbzoGXzHu+34hz7ZOZAPne3BNUCFNEE53iqGX9GD
+         wmQZp0Pu8T3EkmDrLPmNa4dC0D0XgC8y6P0UbTqiN5Ps8U/bs47tdtvdTgqY5lodC3mn
+         3HZeA+FORWhvQu0w3fZUpdiLGiOFoVljalu08QhEzgjWED31qDwVRgV8MDC11ag/07dj
+         Jhfw==
+X-Forwarded-Encrypted: i=1; AJvYcCWoBjNvF4fj844tD5SQ31qzHqbon0BH7UP5yodCgJVxgpL7OLSrpikzAaDm1RQAN9wsKB1Cow3mSmTXw9Toid0TKumFcjP6VLbRYxa7qZAHxEAlmGcOAeAXWuGiRBvMWYmwFbaf1dphXgNUKd009aR9Yz9nKaDvNvID3a5G2ur3kuimOZb3TR/kjBGww7bX4ShhtE/Xte1AgRMS9ESv5WwF5y5YnsTU
+X-Gm-Message-State: AOJu0Yy72TStiW6Hjbiy9/G6glPyL38WBrPcNzWuqa2T7WWFGZsZ6uLb
+	Z1S177dAC6tgzna1yo8lamTAarYIVg6UzXeEX7U7yUdIvY8+3W15LL0E91GfbuMTt4poKNa4mvn
+	NbLVfWLPOYQPJt8KIUDtIaNpELYI=
+X-Google-Smtp-Source: AGHT+IGuEfez6CK1timgXxVp0xE5gnGcSK4bdjdOKc2Wa+djQb/95R1GNpVB6fXgqVQEpt/AJ+Xe3ejMsNulcikviis=
+X-Received: by 2002:a05:6102:22cf:b0:48d:a0d8:8ac4 with SMTP id
+ ada2fe7eead31-48dad965b79mr1460181137.2.1718312372353; Thu, 13 Jun 2024
+ 13:59:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240605074936.578687-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240605074936.578687-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240606002646.GA3509352-robh@kernel.org> <CA+V-a8vX5cop1m40mz6ENy=dDcVBniy39mf2tb0erOQJokb+og@mail.gmail.com>
-In-Reply-To: <CA+V-a8vX5cop1m40mz6ENy=dDcVBniy39mf2tb0erOQJokb+og@mail.gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Thu, 13 Jun 2024 14:06:43 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+P3myoPwEJu_TSi6zgSPhjg2QnB5x4hhMeEVGvh1ncyQ@mail.gmail.com>
-Message-ID: <CAL_Jsq+P3myoPwEJu_TSi6zgSPhjg2QnB5x4hhMeEVGvh1ncyQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 3/4] dt-bindings: mmc: renesas,sdhi: Document
- RZ/V2H(P) support
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, linux-mmc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240612234930.211119-1-allen.lkml@gmail.com> <17eadeab-ecd5-4302-94b3-bbcf4f9d8dfc@intel.com>
+In-Reply-To: <17eadeab-ecd5-4302-94b3-bbcf4f9d8dfc@intel.com>
+From: Allen <allen.lkml@gmail.com>
+Date: Thu, 13 Jun 2024 13:59:21 -0700
+Message-ID: <CAOMdWSLRuzrytH_6t2POHeDNLvZ2SDk5z5ahfSE5dYa7fKKs-Q@mail.gmail.com>
+Subject: Re: [PATCH v2] mmc: Convert from tasklet to BH workqueue
+To: Adrian Hunter <adrian.hunter@intel.com>
+Cc: Aubin Constans <aubin.constans@microchip.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Manuel Lauss <manuel.lauss@gmail.com>, =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>, 
+	Jaehoon Chung <jh80.chung@samsung.com>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Alex Dubov <oakad@yahoo.com>, 
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Bruce Chang <brucechang@via.com.tw>, Harald Welte <HaraldWelte@viatech.com>, 
+	Pierre Ossman <pierre@ossman.eu>, Christian Loehle <christian.loehle@arm.com>, linux-mmc@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 6, 2024 at 3:12=E2=80=AFAM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
->
-> Hi Rob,
->
-> Thank you for the review.
->
-> On Thu, Jun 6, 2024 at 1:26=E2=80=AFAM Rob Herring <robh@kernel.org> wrot=
-e:
+> > The only generic interface to execute asynchronously in the BH context =
+is
+> > tasklet; however, it's marked deprecated and has some design flaws. To
+> > replace tasklets, BH workqueue support was recently added. A BH workque=
+ue
+> > behaves similarly to regular workqueues except that the queued work ite=
+ms
+> > are executed in the BH context.
 > >
-> > On Wed, Jun 05, 2024 at 08:49:35AM +0100, Prabhakar wrote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > The SD/MMC block on the RZ/V2H(P) ("R9A09G057") SoC is similar to tha=
-t
-> > > of the R-Car Gen3, but it has some differences:
-> > > - HS400 is not supported.
-> > > - It supports the SD_IOVS bit to control the IO voltage level.
-> > > - It supports fixed address mode.
-> > >
-> > > To accommodate these differences, a SoC-specific 'renesas,sdhi-r9a09g=
-057'
-> > > compatible string is added.
-> > >
-> > > A "vqmmc-r9a09g057-regulator" regulator object is added to handle the
-> > > voltage level switch of the SD/MMC pins.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
->
-> > > ---
-> > >  .../devicetree/bindings/mmc/renesas,sdhi.yaml | 20 +++++++++++++++++=
-+-
-> > >  1 file changed, 19 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml =
-b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> > > index 3d0e61e59856..154f5767cf03 100644
-> > > --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> > > +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> > > @@ -18,6 +18,7 @@ properties:
-> > >            - renesas,sdhi-r7s9210 # SH-Mobile AG5
-> > >            - renesas,sdhi-r8a73a4 # R-Mobile APE6
-> > >            - renesas,sdhi-r8a7740 # R-Mobile A1
-> > > +          - renesas,sdhi-r9a09g057 # RZ/V2H(P)
-> > >            - renesas,sdhi-sh73a0  # R-Mobile APE6
-> > >        - items:
-> > >            - enum:
-> > > @@ -118,7 +119,9 @@ allOf:
-> > >        properties:
-> > >          compatible:
-> > >            contains:
-> > > -            const: renesas,rzg2l-sdhi
-> > > +            enum:
-> > > +              - renesas,sdhi-r9a09g057
-> > > +              - renesas,rzg2l-sdhi
-> > >      then:
-> > >        properties:
-> > >          clocks:
-> > > @@ -204,6 +207,21 @@ allOf:
-> > >          sectioned off to be run by a separate second clock source to=
- allow
-> > >          the main core clock to be turned off to save power.
-> > >
-> > > +  - if:
-> > > +      properties:
-> > > +        compatible:
-> > > +          contains:
-> > > +            const: renesas,sdhi-r9a09g057
-> > > +    then:
-> > > +      properties:
-> > > +        vqmmc-r9a09g057-regulator:
+> > This patch converts drivers/mmc/* from tasklet to BH workqueue.
 > >
-> > The node is already conditional on the compatible, so why the chip name=
-?
-> > Then it doesn't work when the 2nd chip needs this.
+> > Based on the work done by Tejun Heo <tj@kernel.org>
 > >
-> Are you suggesting to use a generic name "vqmmc-regulator"?
-
-
-Yes, but "regulator-vqmmc" or just "regulator".
-
+> > Tested-by: Christian Loehle <christian.loehle@arm.com>
+> > Tested-by: Aubin Constans <aubin.constans@microchip.com>
+> > Acked-by: Aubin Constans <aubin.constans@microchip.com>
+> > Acked-by: Micha=C5=82 Miros=C5=82aw <mirq-linux@rere.qmqm.pl>
+> > Reviewed-by: Christian Loehle <christian.loehle@arm.com>
+> > Signed-off-by: Allen Pais <allen.lkml@gmail.com>
+> > ---
+> > v2:
+> >    - fixed patch styling issues
+> >    - rename work to bh_work
+> >
+> > Link to v1:
+> > https://lore.kernel.org/all/20240327160314.9982-10-apais@linux.microsof=
+t.com/
+> >
 >
-> Currently depending on the compat value "vqmmc-r9a09g057-regulator" in
-> the driver the corresponding OF data is populated. In future if a
-> different chip needs a regulator which varies slightly to the
-> r9a09g057 chip this will have to have a different OF data. Hence I
-> added the chip name in the regulator.
+> [SNIP]
+>
+> > diff --git a/drivers/mmc/host/sdhci-bcm-kona.c b/drivers/mmc/host/sdhci=
+-bcm-kona.c
+> > index cb9152c6a65d..9c215db81b2b 100644
+> > --- a/drivers/mmc/host/sdhci-bcm-kona.c
+> > +++ b/drivers/mmc/host/sdhci-bcm-kona.c
+> > @@ -107,7 +107,7 @@ static void sdhci_bcm_kona_sd_init(struct sdhci_hos=
+t *host)
+> >   * Software emulation of the SD card insertion/removal. Set insert=3D1=
+ for insert
+> >   * and insert=3D0 for removal. The card detection is done by GPIO. For=
+ Broadcom
+> >   * IP to function properly the bit 0 of CORESTAT register needs to be =
+set/reset
+> > - * to generate the CD IRQ handled in sdhci.c which schedules card_task=
+let.
+> > + * to generate the CD IRQ handled in sdhci.c which schedules card_bh_w=
+ork.
+>
+> The comment was stale because sdhci.c has not had a card_tasklet for
+> a long time.  Just drop the " which schedules card_tasklet"
+>
 
-Yes, compatible values distinguish different chips, not node names.
+ Will do. Thanks.
 
-Rob
+- Allen
+
+> >   */
+> >  static int sdhci_bcm_kona_sd_card_emulate(struct sdhci_host *host, int=
+ insert)
+> >  {
+>
+
+
+--=20
+       - Allen
 
