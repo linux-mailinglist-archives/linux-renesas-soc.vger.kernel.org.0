@@ -1,132 +1,137 @@
-Return-Path: <linux-renesas-soc+bounces-6163-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6164-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 155B2907654
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 17:16:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3E7D907769
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 17:48:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 102C81C22902
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 15:16:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 74AA72894B6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 15:48:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 308A01494C2;
-	Thu, 13 Jun 2024 15:15:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3002A14A4E1;
+	Thu, 13 Jun 2024 15:43:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="LNJUEzSR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [217.72.192.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B1F1474CE;
-	Thu, 13 Jun 2024 15:15:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B455912DDA5;
+	Thu, 13 Jun 2024 15:43:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718291730; cv=none; b=CFUcGkdcW7MDO1EKoX/YZM78YLEomKR5Q1PT9geiXaGbAst/oVq/1QtXBH3Dse+6u6RabnuaJ6/WLQpamkSa0jadAHx+tjCMXZE6WtGztbQlG/OmuQGr6BUAA8Go0PdeIvSF/d/ZeABTMU5cZlic7fo3pvoi+stucZTZH6UqLbY=
+	t=1718293406; cv=none; b=I1kun8vfRtM1dN54STzywkmqJVTLBDXqr5fwL22p+lPYAfD6Nn6BcGkRQNE48FjLkoMSO+NufQ85Gl/M/r+C/cY0mzCWvBu3+LSP3GGR35E/8/U7JiZJhu6koXjPbkA0R77FKCNS2i++C6+3ir+BkPL5XYnr/P94Mvf/v5A76iA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718291730; c=relaxed/simple;
-	bh=upw3YZFDSMosNFgE94Z/c8GKTYTwKdjYG5hj/Ti18sQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XWlEMVv+M90SJq8v9Npe7mQmRoqP1OTYYmMBObQq4fifYwVODCRYtvfcPFBfsHKfkOwPq4Sdb3eDf8P/yhGKkL/sC6PudTEZ2FTtGhg8iGxBGRzcXK8IWb2R/Z6gxZOKEapoT0TeW7QLngK2ZFx39LuOESGD125RJU2gTcn3nN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-63152a07830so6923307b3.3;
-        Thu, 13 Jun 2024 08:15:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718291726; x=1718896526;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3USazagu6cS/+37Hogg/qABAlJZ7SMpYxKFouZ1jhuA=;
-        b=hyaV1QG5xEG+hdcEXr7FWnuZyYbnxCCej4a8XYDqXeBZBbynST+IsD4Fq+ALy+hBO4
-         K/Oo1+BoLKu1YCYL4p84RvtjT2+mlBoQiwAScb2cQSS5qxFFRJnubihW4qJGaMRt5h6D
-         EdJbAjQQb1C0b40Ieo+wW6Vnr7NKA5AWzFEkWsPrPI/5NM9Njlz+Dg5ygyq2iSyrFyz1
-         H84fqxPXkxx2fnF3HvmUbaYciqdXy5QBmKiyp8XqJUPkwHSFqbf7NcyxVVeZnV9Oyb/E
-         6W7uBchuf+cQzEAzs2MaptbN3nJWiwcjGazDaNOAE7OsDNhVK/m5EFZ0mQ98dLb8xurs
-         OevQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUVb+I9sfE2o073qznscslnh0mfXT9U+4FoQBKcoYtyqUft1KRiOB4PPAEi1RRi08T02ThKLNRmOtDj+Pwj5a/SzIYZgxzEj86oF4qMJP9b3JiwnjTdie3ZEp8EHpNgTthCsFfdmw90KMxYqu50m3cwpIWDQa/CLOSYbH8aE6eLPIwdgMeIegXOjiwHhZpJMxRiqJJI87+N58YidWMINFoWQAjW6Ece
-X-Gm-Message-State: AOJu0YzHW5NikyqhS2HZ/6ACEjE9qABVyRwtdpFLe8U57GmuCPJNDtPn
-	IsvXgSIzpE8nM8SKWfuiXIApAbZWsEgEsUbjwHCZNHggXlDw8r64/A2F8y/5
-X-Google-Smtp-Source: AGHT+IGagWeXE+WryF70K5ZP2Dq4uP0EZSxpfr05it96YSS/9QVMlIYbu2RV8nmgBgub9iGPg8sICw==
-X-Received: by 2002:a0d:c645:0:b0:615:35e1:e512 with SMTP id 00721157ae682-62fb79c2c01mr48079267b3.0.1718291724927;
-        Thu, 13 Jun 2024 08:15:24 -0700 (PDT)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-631183d7842sm1951217b3.24.2024.06.13.08.15.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Jun 2024 08:15:24 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-6312dc531d3so8495417b3.0;
-        Thu, 13 Jun 2024 08:15:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWsu8KdoT17RdRLYMieCZAFg+Dz3q244Nc3S7j5QYuA1JpUjRcaHAl8FaR2G9PKkqqq2ubEL5rwkZkyOHpxOUmbOkXTXHMZ5uO/e+Ce5EZibb5sGLh1GqMVAaVy38tIjAaa4sDToTWv/mbuF2XulG9sd93oML0TuvVjH7KWwhRHOgcYOzUrtZjw00BfXy6zUVX270eTrlyQnmbMIZVgaP1eb+/j4Gim
-X-Received: by 2002:a0d:df17:0:b0:62c:f90d:3797 with SMTP id
- 00721157ae682-62fbc5d7d86mr45329167b3.37.1718291724474; Thu, 13 Jun 2024
- 08:15:24 -0700 (PDT)
+	s=arc-20240116; t=1718293406; c=relaxed/simple;
+	bh=wuuRkupuSyLIHDwx1qrL9wK/w/CgUGVdFcSsUcJNGkQ=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=Lpet4EW6gdfIFQDk7vDydkS6wG6HfoviHnNEII1htcWrJsMVgytC1+E6eMN78Ha/6a90qglw6ReppMKV70iWRIYcsrxk7w1hKPKyng4ufP+vmYS+tdoi45/aeGhf4jHMlWI63dm4bZ5cC6+Q9VeOp6e4yizfko1yXNpFZ9zWmow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=LNJUEzSR; arc=none smtp.client-ip=217.72.192.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1718293354; x=1718898154; i=markus.elfring@web.de;
+	bh=7fcDu+jAjKTUeYUTcm6nT/VKOpL7/vLs7dIgrQeJffo=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=LNJUEzSRtJ4s9iQHbH54cTGy1ouN6On874yZ2npBiEOFY80pZZFA5tks18EqHG01
+	 wpyeWVebam83eYtPIbbhzsqU4M0oxyPeFJgk3wHCrlejS+gA5I4d2Y1i7sfV5o10V
+	 XlYRG4zqLm9rdcnQK9P2axqomSmoMu+D/zj3o0yfGLp8ILJ+ZbAOdzdwK4C9ZGuL2
+	 AtqncLRaSFxzliD9iTwV3tyZw+nwz6jOO07W//sYkqmT45mSJ+ZMQMIo6a8u5zfrX
+	 GdMOYSuWxiB7YGYH1AFdkvXoTVJwk1dZFNHi3fpgV5CwxEf+O0E1Nvpz/00sChr6y
+	 KvUj8oSD0htlRKLcfQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MlbHE-1shnjs0jC6-00gPUD; Thu, 13
+ Jun 2024 17:42:34 +0200
+Message-ID: <531fdbbb-486d-4207-b9a9-3db23935d583@web.de>
+Date: Thu, 13 Jun 2024 17:42:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240610233221.242749-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240610233221.242749-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <6b3fe242-3733-4f16-b727-494dc1d82002@kernel.org> <CA+V-a8vp0qHKqUMvyfy9hQjKyk8Cs0bDTnYh-ChvPi150r5i2g@mail.gmail.com>
- <3d0a7a82-6262-40e6-be25-4a1c4d8df2fe@kernel.org>
-In-Reply-To: <3d0a7a82-6262-40e6-be25-4a1c4d8df2fe@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 13 Jun 2024 17:15:12 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUvtUWdEfN_=gNJWY+qfE6Yw9KdenQ2OkLc=HvmRnB6pw@mail.gmail.com>
-Message-ID: <CAMuHMdUvtUWdEfN_=gNJWY+qfE6Yw9KdenQ2OkLc=HvmRnB6pw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 2/4] dt-bindings: clock: Add R9A09G057 core clocks
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ linux-pci@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-arm-kernel@axis.com, linux-arm-kernel@lists.infradead.org,
+ imx@lists.linux.dev, mhi@lists.linux.dev, Bjorn Helgaas
+ <bhelgaas@google.com>, Fabio Estevam <festevam@gmail.com>,
+ Jesper Nilsson <jesper.nilsson@axis.com>, Jingoo Han <jingoohan1@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Marek Vasut <marek.vasut+renesas@gmail.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>, Minghuan Lian
+ <minghuan.Lian@nxp.com>, Mingkai Hu <mingkai.hu@nxp.com>,
+ Niklas Cassel <cassel@kernel.org>, Richard Zhu <hongxing.zhu@nxp.com>,
+ Rob Herring <robh@kernel.org>, Roy Zang <roy.zang@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Siddharth Vadapalli <s-vadapalli@ti.com>,
+ Srikanth Thokala <srikanth.thokala@intel.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: LKML <linux-kernel@vger.kernel.org>, kernel@pengutronix.de
+References: <20240606-pci-deinit-v1-2-4395534520dc@linaro.org>
+Subject: Re: [PATCH 2/5] PCI: endpoint: Introduce 'epc_deinit' event and
+ notify the EPF drivers
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240606-pci-deinit-v1-2-4395534520dc@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:jXSJJJkAI8hN72kU1CJg3ufojWOHI1sFKaf7Q+GXWoK5SHvixA/
+ yrxpcO7iG26yVIJ6a+gDgi7IQ7X4UOlJm7doH6z6KQ09CoTZ4UXvjGVgP4qYQDw1TnsDnm+
+ QVgctN2V24QtpAjdxg0dM1CAxHvdlatDjFFXPjenuaogsqXyOG9yQTvPPKq9AalAtAN4qQW
+ hD6x4vYrIAaZEEVGxiS5w==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:PH53anvoYOY=;1/zV0cxQ7tZhIjrtlZ44ElZLM8Q
+ i/dBiizYx2JrGEKiG8sYkKHnGA384j5aU9TmG7r2D/cFkSPs/yZ0hmPDsuuelZSGCyHWZiRN/
+ oNO+wiyJAPxbMYILm8U3DhPAYJNZL7tChzi/zsp8B0Ib4ehYO2iwpmrdONugRbU5TIwAWBAtt
+ O9Cd1boR1HzXoKsuicQTXIRq42M0q+eeFrw4gHvF7+yVAWOODfM1RkDrMF04xo8/hIKWasMLk
+ GLOKEfJgm5NxvmR+h5J9rmAG2o7PdDilFFAtM4F5qG6niMNgdlmc8tMSNXWrTs5X7cNbolLND
+ GdfeoqXQhgszfzzgCYEC62hZsCKBPBLGFLk9gcEhQVWbhP/v2X6XcVwAwDTXagzQG1eRcaHvn
+ XWChBhxQIPWZJTDfcqUXc/ReGClUJqfuh9a3fj2HR3cYwKXHsMAM/0++GKDTGB3YK076k1DP0
+ 016ihg2akVY+zAqRjQdKi3POQKULjiiULpUCYLnenqi1xkm9viAf2ME6hMmoNZdCrIW2eUD/L
+ rEUUeKzuOB8gGXnQRywfc80Ounpdk42bjy4Spto3HpGg4b7ifudicAAzYTyfh+SXJQCUvKj2t
+ a7wk5vPHw5S0wj9yOnCqxHesNBoirF69BTsUr66isiVPFDNjClzWomn1oCL303/nqyRZNFdnv
+ UgbgIsRlXrUrB/UeMXpqN7c5K00XBixFRFBL5uLnpnFMlrZhtjCrFqooazZL0Of9zEvxbrkj3
+ vDLGyltl4po3ybGUSKAFLDQ4jpbUG/r51SqZRAar3YCVovQArVWZ6ze02zV+bOiJXSkPd5VUW
+ WMUlYtj68L5PQjuICaBMLKaGnwzPX9n/SgmiEdAohcyH0=
 
-Hi Krzysztof,
+=E2=80=A6
+> +++ b/drivers/pci/endpoint/pci-epc-core.c
+=E2=80=A6
+> +void pci_epc_deinit_notify(struct pci_epc *epc)
+> +{
+=E2=80=A6
+> +	mutex_lock(&epc->list_lock);
+> +	list_for_each_entry(epf, &epc->pci_epf, list) {
+> +		mutex_lock(&epf->lock);
+> +		if (epf->event_ops && epf->event_ops->epc_deinit)
+> +			epf->event_ops->epc_deinit(epf);
+> +		mutex_unlock(&epf->lock);
+> +	}
+> +	epc->init_complete =3D false;
+> +	mutex_unlock(&epc->list_lock);
+> +}
+=E2=80=A6
 
-On Thu, Jun 13, 2024 at 2:56=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.or=
-g> wrote:
-> On 13/06/2024 11:57, Lad, Prabhakar wrote:
-> >>> of section 4.4.2 which cannot be controlled by CLKON register.
-> >>> ---
-> >>>  include/dt-bindings/clock/r9a09g057-cpg.h | 21 +++++++++++++++++++++
-> >>>  1 file changed, 21 insertions(+)
-> >>>  create mode 100644 include/dt-bindings/clock/r9a09g057-cpg.h
-> >>
-> >> Missing vendor prefix.
-> >>
-> > OK, Is this just for new includes being added, or do you want me to
-> > rename the existing Renesas specific includes in here which dont have
-> > vendor prefix?
->
-> Didn't we discuss it?
->
-> I commented only about this binding.
+Would you become interested to apply lock guards?
+https://elixir.bootlin.com/linux/v6.10-rc3/source/include/linux/mutex.h#L1=
+96
 
-Yes we did, in the context of the R-Car V4M DT binding definitions,
-which became include/dt-bindings/clock/renesas,r8a779h0-cpg-mssr.h
-But Prabhakar was not involved there.
-
-Note that I also asked to include the vendor prefix, see
-https://lore.kernel.org/linux-renesas-soc/CAMuHMdU7+O-+v=3D2V83AjQmTWyGy_a-=
-AHgU_nPMDHnVUtYt89iQ@mail.gmail.com/
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Regards,
+Markus
 
