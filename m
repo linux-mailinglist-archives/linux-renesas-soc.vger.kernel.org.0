@@ -1,137 +1,115 @@
-Return-Path: <linux-renesas-soc+bounces-6164-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6165-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3E7D907769
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 17:48:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02C4A907857
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 18:33:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 74AA72894B6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 15:48:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9FEC71F23091
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 16:33:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3002A14A4E1;
-	Thu, 13 Jun 2024 15:43:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FBE7143C59;
+	Thu, 13 Jun 2024 16:33:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="LNJUEzSR"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="BOgPACwX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout.web.de (mout.web.de [217.72.192.78])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B455912DDA5;
-	Thu, 13 Jun 2024 15:43:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A38130AFF
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Jun 2024 16:33:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718293406; cv=none; b=I1kun8vfRtM1dN54STzywkmqJVTLBDXqr5fwL22p+lPYAfD6Nn6BcGkRQNE48FjLkoMSO+NufQ85Gl/M/r+C/cY0mzCWvBu3+LSP3GGR35E/8/U7JiZJhu6koXjPbkA0R77FKCNS2i++C6+3ir+BkPL5XYnr/P94Mvf/v5A76iA=
+	t=1718296403; cv=none; b=RkUd0vAGcOHSdrkicsraNkg8AnnRCA9bOav0EkBadJG15K82PBubbbKkEAEKaxUi88BThjqHfjl+d4G9Wpb+9jB+pWhj2zIZcrE9+Qb58sojjdYsxIf902wDQ0e7RYeqEB25yjUHZWX3VTsZY/rxMLOhbGSv0zyFqJw8T+8ci58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718293406; c=relaxed/simple;
-	bh=wuuRkupuSyLIHDwx1qrL9wK/w/CgUGVdFcSsUcJNGkQ=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=Lpet4EW6gdfIFQDk7vDydkS6wG6HfoviHnNEII1htcWrJsMVgytC1+E6eMN78Ha/6a90qglw6ReppMKV70iWRIYcsrxk7w1hKPKyng4ufP+vmYS+tdoi45/aeGhf4jHMlWI63dm4bZ5cC6+Q9VeOp6e4yizfko1yXNpFZ9zWmow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=LNJUEzSR; arc=none smtp.client-ip=217.72.192.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1718293354; x=1718898154; i=markus.elfring@web.de;
-	bh=7fcDu+jAjKTUeYUTcm6nT/VKOpL7/vLs7dIgrQeJffo=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=LNJUEzSRtJ4s9iQHbH54cTGy1ouN6On874yZ2npBiEOFY80pZZFA5tks18EqHG01
-	 wpyeWVebam83eYtPIbbhzsqU4M0oxyPeFJgk3wHCrlejS+gA5I4d2Y1i7sfV5o10V
-	 XlYRG4zqLm9rdcnQK9P2axqomSmoMu+D/zj3o0yfGLp8ILJ+ZbAOdzdwK4C9ZGuL2
-	 AtqncLRaSFxzliD9iTwV3tyZw+nwz6jOO07W//sYkqmT45mSJ+ZMQMIo6a8u5zfrX
-	 GdMOYSuWxiB7YGYH1AFdkvXoTVJwk1dZFNHi3fpgV5CwxEf+O0E1Nvpz/00sChr6y
-	 KvUj8oSD0htlRKLcfQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MlbHE-1shnjs0jC6-00gPUD; Thu, 13
- Jun 2024 17:42:34 +0200
-Message-ID: <531fdbbb-486d-4207-b9a9-3db23935d583@web.de>
-Date: Thu, 13 Jun 2024 17:42:19 +0200
+	s=arc-20240116; t=1718296403; c=relaxed/simple;
+	bh=KxVEzA57tlb7dePRLlN+bW+GJrzbV4oxzQQUaG/sQzc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oid6Cfu44GqpNwrjQ55oWpo0XqqvVhY1trIbGVK7x2XW7xnX/pVddVp8oy3IXI+LOQYkLlFLOy83iXn80rKU5xvUAHEy1H9pjO8/WMk/XcEFgVWW21H7hWClf9y3lep2nyCnuJcpza6q2Lwmeztwt58jSuBGvGQFyBkzwOx1R+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=BOgPACwX; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=KxVE
+	zA57tlb7dePRLlN+bW+GJrzbV4oxzQQUaG/sQzc=; b=BOgPACwX0ANo0oMadmpD
+	Yr73nPBZBmp7baH6guSP1DC5TFWUORAgxUxptrAZbAoojBaCvMpiNnrdn6XSrttI
+	C3YfitgxzPkE+oyxXwgZWWYmurG4f+Mj90F2XHtxT797WYT3yqYo/wikxb7KLVQD
+	UowlqX1K2rlKQJ3sSEcs94sp+sh5c2425J+1jqf5Azt5LmhUy6mlUa64rJB1mKo6
+	aW3hAiRfskBGmfhmZekPpaZuaLoYzTFw8ipSPtESgiXs1wzSeMbNpvpqt1YitGvy
+	meOmYslB+gqk6oDnWrrdITiHhOASFBE/r8bsnf6Sbq8M28Tyx5pZYj7QbBAGHKO7
+	5Q==
+Received: (qmail 1241039 invoked from network); 13 Jun 2024 18:33:17 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Jun 2024 18:33:17 +0200
+X-UD-Smtp-Session: l3s3148p1@ERVcDsgaVe5ehh9j
+Date: Thu, 13 Jun 2024 18:33:16 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, 
+	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Subject: Re: [PATCH v9 1/1] gpio: add sloppy logic analyzer using polling
+Message-ID: <7mkl7su47jqoagphc5daaonhndfw2xuap37z6yu4afdg3zvezb@5raeuolqflmo>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+References: <20240610112700.80819-1-wsa+renesas@sang-engineering.com>
+ <20240610112700.80819-2-wsa+renesas@sang-engineering.com>
+ <CAMRc=MfZ11U+kAh1+K=DxtJ=QL+cY7Q_sBN4sQDF-RNgjpV0QA@mail.gmail.com>
+ <jvnvx7a4pn6evrp5ehfrt4qsiuprq6ogvrue2a3uupwtydmgcm@2rvat7ibvgb4>
+ <CAMRc=Mc4__0zzJZG3BPnmbua88SLuEbX=Wk=EZnKH5HQvB+JPg@mail.gmail.com>
+ <CACRpkda==5S75Bw6F3ZLUmf7kwgi_JkByiizR=m-61nrMDWuvQ@mail.gmail.com>
+ <ce1d8150-c595-44d5-b19a-040920481709@app.fastmail.com>
+ <CAMuHMdXmtXcOQ1SibKFh3M+X-syEyEHfxjvSmtDoDNqU40MPVg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- linux-pci@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-tegra@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-arm-kernel@axis.com, linux-arm-kernel@lists.infradead.org,
- imx@lists.linux.dev, mhi@lists.linux.dev, Bjorn Helgaas
- <bhelgaas@google.com>, Fabio Estevam <festevam@gmail.com>,
- Jesper Nilsson <jesper.nilsson@axis.com>, Jingoo Han <jingoohan1@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Lucas Stach <l.stach@pengutronix.de>,
- Marek Vasut <marek.vasut+renesas@gmail.com>,
- Masami Hiramatsu <mhiramat@kernel.org>, Minghuan Lian
- <minghuan.Lian@nxp.com>, Mingkai Hu <mingkai.hu@nxp.com>,
- Niklas Cassel <cassel@kernel.org>, Richard Zhu <hongxing.zhu@nxp.com>,
- Rob Herring <robh@kernel.org>, Roy Zang <roy.zang@nxp.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Siddharth Vadapalli <s-vadapalli@ti.com>,
- Srikanth Thokala <srikanth.thokala@intel.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Vignesh Raghavendra <vigneshr@ti.com>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, kernel@pengutronix.de
-References: <20240606-pci-deinit-v1-2-4395534520dc@linaro.org>
-Subject: Re: [PATCH 2/5] PCI: endpoint: Introduce 'epc_deinit' event and
- notify the EPF drivers
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240606-pci-deinit-v1-2-4395534520dc@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:jXSJJJkAI8hN72kU1CJg3ufojWOHI1sFKaf7Q+GXWoK5SHvixA/
- yrxpcO7iG26yVIJ6a+gDgi7IQ7X4UOlJm7doH6z6KQ09CoTZ4UXvjGVgP4qYQDw1TnsDnm+
- QVgctN2V24QtpAjdxg0dM1CAxHvdlatDjFFXPjenuaogsqXyOG9yQTvPPKq9AalAtAN4qQW
- hD6x4vYrIAaZEEVGxiS5w==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:PH53anvoYOY=;1/zV0cxQ7tZhIjrtlZ44ElZLM8Q
- i/dBiizYx2JrGEKiG8sYkKHnGA384j5aU9TmG7r2D/cFkSPs/yZ0hmPDsuuelZSGCyHWZiRN/
- oNO+wiyJAPxbMYILm8U3DhPAYJNZL7tChzi/zsp8B0Ib4ehYO2iwpmrdONugRbU5TIwAWBAtt
- O9Cd1boR1HzXoKsuicQTXIRq42M0q+eeFrw4gHvF7+yVAWOODfM1RkDrMF04xo8/hIKWasMLk
- GLOKEfJgm5NxvmR+h5J9rmAG2o7PdDilFFAtM4F5qG6niMNgdlmc8tMSNXWrTs5X7cNbolLND
- GdfeoqXQhgszfzzgCYEC62hZsCKBPBLGFLk9gcEhQVWbhP/v2X6XcVwAwDTXagzQG1eRcaHvn
- XWChBhxQIPWZJTDfcqUXc/ReGClUJqfuh9a3fj2HR3cYwKXHsMAM/0++GKDTGB3YK076k1DP0
- 016ihg2akVY+zAqRjQdKi3POQKULjiiULpUCYLnenqi1xkm9viAf2ME6hMmoNZdCrIW2eUD/L
- rEUUeKzuOB8gGXnQRywfc80Ounpdk42bjy4Spto3HpGg4b7ifudicAAzYTyfh+SXJQCUvKj2t
- a7wk5vPHw5S0wj9yOnCqxHesNBoirF69BTsUr66isiVPFDNjClzWomn1oCL303/nqyRZNFdnv
- UgbgIsRlXrUrB/UeMXpqN7c5K00XBixFRFBL5uLnpnFMlrZhtjCrFqooazZL0Of9zEvxbrkj3
- vDLGyltl4po3ybGUSKAFLDQ4jpbUG/r51SqZRAar3YCVovQArVWZ6ze02zV+bOiJXSkPd5VUW
- WMUlYtj68L5PQjuICaBMLKaGnwzPX9n/SgmiEdAohcyH0=
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6en6wjrd5s6y4t3r"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXmtXcOQ1SibKFh3M+X-syEyEHfxjvSmtDoDNqU40MPVg@mail.gmail.com>
 
-=E2=80=A6
-> +++ b/drivers/pci/endpoint/pci-epc-core.c
-=E2=80=A6
-> +void pci_epc_deinit_notify(struct pci_epc *epc)
-> +{
-=E2=80=A6
-> +	mutex_lock(&epc->list_lock);
-> +	list_for_each_entry(epf, &epc->pci_epf, list) {
-> +		mutex_lock(&epf->lock);
-> +		if (epf->event_ops && epf->event_ops->epc_deinit)
-> +			epf->event_ops->epc_deinit(epf);
-> +		mutex_unlock(&epf->lock);
-> +	}
-> +	epc->init_complete =3D false;
-> +	mutex_unlock(&epc->list_lock);
-> +}
-=E2=80=A6
 
-Would you become interested to apply lock guards?
-https://elixir.bootlin.com/linux/v6.10-rc3/source/include/linux/mutex.h#L1=
-96
+--6en6wjrd5s6y4t3r
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Regards,
-Markus
+
+> Hmm, I like the iio idea.
+> Sorry, Wolfram ;-)
+
+Ah, no worries, Geert. I am happy you want to take over :)
+
+
+--6en6wjrd5s6y4t3r
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZrH0gACgkQFA3kzBSg
+KbZxsg/8Czee6rn0dAMoaq7pD7T9gQoEh/Dk9CRXW6AGY0vj+qUesC6L9lSFBmBf
+lx63HJJRrjpckhXn4Knk7UBJXWYMASxXpbiE+YcKhZJZn+Or/EuviyWVZWdxYwuH
+ItHH7kwQSLoWykJcRA6+AX6AwRF67qFD1Ff5omCJHjYYbMrF3t4znzgazdIIGDaN
+9W8EG37tdJqEHFC+lBb7gVjt5V/rnH1dDNLIOWFgt3geBP8UE5ea/rqDCxierBcG
+/1pb9t2aiwCs8HeikQKFLQsY+W+mE1s0dz0+FNuxYdfo3LF8bl0kLJoaAnOjUqX6
+Wujft6kYjhbHRGpJFu2Rknxban81mk3Qw1svKC8JH8LacspvjMVmZVkRaqPHeXWI
+nR6bUdkCtGMldW//gD0maQSI9iJvIBFXS6gUbMrdDrIPm/d5625J6w0VIkr/yGhX
+bqG/EyMqXQu57leV3YqCm1JyVYbW/Hgm3eUU4CrrLcIa76b9q8O9R5fpIlUUumT1
+48LsZmHGA9j+B6cgPYUCYrU8zLpXuIJpxLjuJGQ9an/cfuih9T1YeK/K29jaUH84
+zqm9Le5J1QPS2VZsccMD/h2HKjzJrXHqxdz8IH4Od/E5JjRWSsRC1moKJ+adh7Rl
+8vYZWsa0sFjv6iCArYP088FF77qgdkMtBqth4bD/JlR2aqMPY9E=
+=zpkZ
+-----END PGP SIGNATURE-----
+
+--6en6wjrd5s6y4t3r--
 
