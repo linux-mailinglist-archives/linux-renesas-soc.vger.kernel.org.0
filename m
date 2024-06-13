@@ -1,120 +1,311 @@
-Return-Path: <linux-renesas-soc+bounces-6159-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6160-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 886EB907462
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 15:53:29 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EEC09074FD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 16:18:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 36ADD1F238A0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 13:53:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8C7C1281E56
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 14:18:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 477E2144D22;
-	Thu, 13 Jun 2024 13:52:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5918C144D24;
+	Thu, 13 Jun 2024 14:18:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="B04IwCKD"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tLfBRN3D"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67696143C7E
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Jun 2024 13:52:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51593142E86
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Jun 2024 14:18:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718286734; cv=none; b=i0yndCIl0zOLD089vemhFPPVyrDdQ7sKAG/TEZ5BldrQhqrYQu5pPI5N+b1p/8A4MGIfUGAm3H7stLki6LBnb2rH3JqXq8wz9QgJm5I1ocYmSlXftuZBLH7+bzV/VM74ZLdMyuHuZSrxHVCgk6bdLiEyzI2ivUjkweAJhmY+Nys=
+	t=1718288321; cv=none; b=JRgWbdzmnB+cHodtlaw3/fmaVnkBCXOgbUaCXC/XL/6w1nIKGqB45fNQ1k47xVv7+ox5cVJV1Q3Fw+uS/Sl9w0OqF9vB9hkbsJkB95rHag0Bd+8Vk51f3UDjDmtFnVi0ZkmyvBc2IWdh4Y2cFaFKWQR9zvBobxDVWQmlJmugC/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718286734; c=relaxed/simple;
-	bh=Drw+bh0vFOGcaS/1pHzqey5YbazBzVY0YTip6dwSx54=;
+	s=arc-20240116; t=1718288321; c=relaxed/simple;
+	bh=85JEwVuIKe/KftRkpLke8Aoka5Lgv+YCkT+qp2fOU5U=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oyfAcVy6cdj4WsI2GVaQfTg0t/gX6qEl+PQjeR6vdcAnOxWzV9MOzuLygHbavIg1uw8qqzixAlMaJlGL21CmJnorj3ayOnjq1CZLfMa48s7WM4EhZMM2yDw9ih2uxxyVl8uiCFGUaEq6RFTvKpXr2oe/5lYbH0BKZkk4ASFyvQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=B04IwCKD; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-52bd48cf36bso1380436e87.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Jun 2024 06:52:12 -0700 (PDT)
+	 To:Cc:Content-Type; b=DBz5h6lliVlX0rd1fiVubCmUUdOtgBr7SXonTZ3GCtx6Te0c/NdD0wXgGQEVHuFBOExv5d3HiiHeUgHzqrEh9QaK1E+Vlb+yYCXqfQIfj5kxKlz0g3XtqMCnzp+yvTZMbgCt1P/e0DJgKyTBQeUm4fdf0YRAWPtsAUZv2kd1Pm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tLfBRN3D; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a6f1dc06298so141850966b.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Jun 2024 07:18:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1718286730; x=1718891530; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1718288318; x=1718893118; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Drw+bh0vFOGcaS/1pHzqey5YbazBzVY0YTip6dwSx54=;
-        b=B04IwCKDjg/tg2e9IGGzOrQ5wmROWb8oVRR3FGyae9jkSvexAMBHD6uxf4u9F+v7F5
-         hdPmxYA5aNPUPcXmmg9bdoZnVx/uPwH/S5Ha/iO233m3Ef38JloMZ6Hv7UyBvvsHNt5O
-         YqDWBMpa/uBFlDBKT15fNDVD/nRVIa16injiY4hhYAsywt1w49MupC07nnjKMCl2/hKG
-         cB+/EKFKaPxzv24hG4rm6W3NRibwm3PwVZmLX7DOscGePHpWAyR1gC4PtFqo+pE+14Q/
-         KPVFv3hpLiDNzuhGX1Yp2gP6iEQwtYYrkq3hLXR7596eTdexxp16vmbNQrZWoqzVTjUI
-         ZJTQ==
+        bh=2wBzmun2RrCaRgPyNcy89ODI4aX7kCqGzkCYxhF3xnY=;
+        b=tLfBRN3Dc1oy1HFX8sK76unqXkHeH+h9HBReZv3Q03XfyneTzXEpmxqZuXj3OJpMJs
+         /cF+4VNYMJLhFVe01YGDWuPfin/BkU6gr7jT22cQg9tglgb8YhZXhfcOZkPytPNegntY
+         Kn9udAXQrzL8npscipfJvALpRmhC8t5rlmdbjb4FkIaeeBGNhGvs4xGiTsmxECEObLuO
+         0ynMDUeaBMEdjP0eUpR0/VFW69fM9H/H/3Xpsz7l5vmq1LdHU5MXpkFwpFF6FuVVQvL5
+         6I8pclo/9YZxE0ZqnUd2Pe6I7H9WOhxFVpEB4yRowEmIBTQTokXlP0jePi3B0o5E35RY
+         18dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718286730; x=1718891530;
+        d=1e100.net; s=20230601; t=1718288318; x=1718893118;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Drw+bh0vFOGcaS/1pHzqey5YbazBzVY0YTip6dwSx54=;
-        b=Z+bWeG2eYeoolLIp2aoFMTYI08TZrJqyAhJJs7H2vHK8+lcFEVWt4DBg2HVXmOOX4t
-         jp7mLQMAxiMFnxRVglzt8p0cxCbBORz0Plj4zkarLvbdnuozKDR1eolNviC+2xI+i++e
-         eNr3lvHUlLaWJQG8AGvysOZKKz7Yj13QLqtKF6BdH2d9yBSRTHFucH55QJG43/GHD75i
-         DWhkw8RaJ6XiI+y1QQ0HlYFSem/T/SFEQWHgBCSrMJlZahB39+vpiwyf7NZg9KWowjJl
-         7A63kd5oFVN8i95jizNx/wJoia8SPUpuBW/UlRYgR9MrmVFXj30CBJjElpU+U7PR4lF4
-         A0jg==
-X-Forwarded-Encrypted: i=1; AJvYcCVU1BjnIrgLKYMba4kOZ9i2Yrll4JXVCNhaefTbGzf6JsHEHTiRL2Qpfq0Fh5x0Co+mjqAi/pQkRFkdWpyEcr23FyNilrCiEtiRX057LxZJ8l8=
-X-Gm-Message-State: AOJu0Yws5Hiqc3UBcDDd61V10bYLYfRFSSzY9vrGq0WdVgd7HH8LBm4j
-	5gBIxNW2mOxnQ8PfIl+5EbCQUXgBtmP153TFXXJLi0tivlUeLC5yVHgw79RfXquha4ZRU6tvGad
-	GUbuVMaW+vdrUTRXcbVPmakdnHsqyTTzZRgDxOw==
-X-Google-Smtp-Source: AGHT+IG0YXfW5J48LhqDyLUpQ92RDHLHqz9rgqm6jSFjDn0RmWaxIXpuWTs4/nVwj+KKnHLtEzbv/tMmMCsmcr7MsEs=
-X-Received: by 2002:a05:6512:b24:b0:52c:9ced:7508 with SMTP id
- 2adb3069b0e04-52c9ced7552mr3490962e87.13.1718286730432; Thu, 13 Jun 2024
- 06:52:10 -0700 (PDT)
+        bh=2wBzmun2RrCaRgPyNcy89ODI4aX7kCqGzkCYxhF3xnY=;
+        b=XWAmtPsvJzEAwI+CAsOmPL617bBr6/QLtg5514yzAPR4fZy2RG0V2Zfel9OJxTv9x5
+         UK5x+ddjWqK/3DM8cVtkUR75Ldh5BCLwJVw1V7x4hCuh+ogc5mdwMPvh8BKGmTG38a9W
+         m4fIFdSRVUk5JiR1YfSKl69AC8sNMv0AA5JF5ePLAt2o8P8+9/iWy8HIMkShTBjIjuyI
+         oRDXpSgy1Xpx+MoO6DO4ZUvhtZWKJyMv969Kl7hH5SfNdm5RxfukJivPiswsbblVqmPf
+         EpHhE7KiAL80wyjHEvXXNz94GLm+SUNdLnt12EBhUsSOzNheOOPOCveedd+Bt95F6xyh
+         z6Cw==
+X-Forwarded-Encrypted: i=1; AJvYcCXMvlyNobAEUc5Ly02DvHrNkYo3DJsRiRrpaBx0J/bddZ3sgxgD2QHTxCuzMKpWERdu1zza7GjGYcNhW/Ibzi+G4lEGd9LuolWzljoEscmSvf4=
+X-Gm-Message-State: AOJu0YyVg3xg00o6Htk4+RMlDUEfiAsHF/RElWBvW4jx3eXSmhKbyu9O
+	aca9VnCHYsWnS544PWsSQIjcl2uvlNReYDytuzNYDR1N+DAuZOeCPXC3+D6Y3HYSDPhnhkPJEtT
+	LmnhQEw8zrrUa3+f1FioC+CM5XaBvDA4vUeYL
+X-Google-Smtp-Source: AGHT+IGGR91TbvvdCO5M/lcoYEexAy68BO6MkHDSEDuQZJK4BYVHQSKOXB6UDTw4lBZYreUPv3qYPyzkPkZtS6UL4po=
+X-Received: by 2002:a17:907:94d1:b0:a6f:4bd5:16bb with SMTP id
+ a640c23a62f3a-a6f4bd51782mr329005366b.56.1718288317233; Thu, 13 Jun 2024
+ 07:18:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240610112700.80819-1-wsa+renesas@sang-engineering.com>
- <20240610112700.80819-2-wsa+renesas@sang-engineering.com> <CAMRc=MfZ11U+kAh1+K=DxtJ=QL+cY7Q_sBN4sQDF-RNgjpV0QA@mail.gmail.com>
- <jvnvx7a4pn6evrp5ehfrt4qsiuprq6ogvrue2a3uupwtydmgcm@2rvat7ibvgb4>
- <CAMRc=Mc4__0zzJZG3BPnmbua88SLuEbX=Wk=EZnKH5HQvB+JPg@mail.gmail.com>
- <CACRpkda==5S75Bw6F3ZLUmf7kwgi_JkByiizR=m-61nrMDWuvQ@mail.gmail.com>
- <ce1d8150-c595-44d5-b19a-040920481709@app.fastmail.com> <CAMRc=McpRjQO8mUrOA4bU_YqO8Tc9-Ujytfy1fcjGUEgH9NW0A@mail.gmail.com>
- <CACRpkdYtLDA3518uSYiTpu1PJuqNErHr9YMAKuar0CeFbfECPA@mail.gmail.com>
-In-Reply-To: <CACRpkdYtLDA3518uSYiTpu1PJuqNErHr9YMAKuar0CeFbfECPA@mail.gmail.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 13 Jun 2024 15:51:59 +0200
-Message-ID: <CAMRc=Mem6HN13FOA_Ru8zC-GqGGLTsQiktLWs5bN4JD1aM3gHQ@mail.gmail.com>
-Subject: Re: [PATCH v9 1/1] gpio: add sloppy logic analyzer using polling
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+References: <20240613013557.1169171-1-almasrymina@google.com>
+ <20240613013557.1169171-6-almasrymina@google.com> <322e7317-61dc-4f1e-8706-7db6f5f7a030@bp.renesas.com>
+In-Reply-To: <322e7317-61dc-4f1e-8706-7db6f5f7a030@bp.renesas.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Thu, 13 Jun 2024 07:18:23 -0700
+Message-ID: <CAHS8izO6T-CSgdfGFw8nMu1EMLz7ZOa_t9v+YCO8jXEM_=iT7A@mail.gmail.com>
+Subject: Re: [PATCH net-next v12 05/13] page_pool: convert to use netmem
+To: Paul Barker <paul.barker.ct@bp.renesas.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
+	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>, linux-mm@kvack.org, 
+	Matthew Wilcox <willy@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 13, 2024 at 3:47=E2=80=AFPM Linus Walleij <linus.walleij@linaro=
-.org> wrote:
+On Thu, Jun 13, 2024 at 1:36=E2=80=AFAM Paul Barker
+<paul.barker.ct@bp.renesas.com> wrote:
 >
-> On Thu, Jun 13, 2024 at 11:43=E2=80=AFAM Bartosz Golaszewski <brgl@bgdev.=
-pl> wrote:
+> On 13/06/2024 02:35, Mina Almasry wrote:
+> > Abstrace the memory type from the page_pool so we can later add support
 >
-> > To prove this point, I even moved the gpio-virtuser driver I'm working
-> > on to drivers/misc/ too as it isn't a GPIO provider either and merely
-> > a GPIO consumer with a one-shot user-space interface not conforming to
-> > any standards.
+> s/Abstrace/Abstract/
 >
-> We *could* just create drivers/gpio/consumers/* and an entry into the
-> top-level drivers/Kconfig to have those appear right under the GPIO
-> providers...
->
-> Yours,
-> Linus Walleij
 
-That would just add to confusion. GPIO consumers are all over the tree
-after all.
+Thanks, will do.
 
-Whatever, let's keep it in drivers/gpio/. Greg KH just shot down my
-idea of putting gpio-virtuser in drivers/misc/.
+> > for new memory types. Convert the page_pool to use the new netmem type
+> > abstraction, rather than use struct page directly.
+> >
+> > As of this patch the netmem type is a no-op abstraction: it's always a
+> > struct page underneath. All the page pool internals are converted to
+> > use struct netmem instead of struct page, and the page pool now exports
+> > 2 APIs:
+> >
+> > 1. The existing struct page API.
+> > 2. The new struct netmem API.
+> >
+> > Keeping the existing API is transitional; we do not want to refactor al=
+l
+> > the current drivers using the page pool at once.
+> >
+> > The netmem abstraction is currently a no-op. The page_pool uses
+> > page_to_netmem() to convert allocated pages to netmem, and uses
+> > netmem_to_page() to convert the netmem back to pages to pass to mm APIs=
+,
+> >
+> > Follow up patches to this series add non-paged netmem support to the
+> > page_pool. This change is factored out on its own to limit the code
+> > churn to this 1 patch, for ease of code review.
+> >
+> > Signed-off-by: Mina Almasry <almasrymina@google.com>
+> >
+> > ---
+> >
+> > v12:
+> > - Fix allmodconfig build error. Very recently renesas/ravb_main.c added
+> >   a dependency on page_pool that I missed in my rebase. The dependency
+> >   calls page_pool_alloc() directly as it wants to set a custom gfp_mask=
+,
+> >   which is unique as all other drivers call a wrapper to that function.
+> >   Fix it by adding netmem_to_page() in the driver.> - Fix printing netm=
+em trace printing (Pavel).
+> >
+> > v11:
+> > - Fix typing to remove sparse warning. (Paolo/Steven)
+> >
+> > v9:
+> > - Fix sparse error (Simon).
+> >
+> > v8:
+> > - Fix napi_pp_put_page() taking netmem instead of page to fix
+> >   patch-by-patch build error.
+> > - Add net/netmem.h include in this patch to fix patch-by-patch build
+> >   error.
+> >
+> > v6:
+> >
+> > - Rebased on top of the merged netmem_ref type.
+> >
+> > Cc: linux-mm@kvack.org
+> > Cc: Matthew Wilcox <willy@infradead.org>
+> >
+> > ---
+> >  drivers/net/ethernet/renesas/ravb_main.c |   5 +-
+> >  include/linux/skbuff_ref.h               |   4 +-
+> >  include/net/netmem.h                     |  15 ++
+> >  include/net/page_pool/helpers.h          | 120 ++++++---
+> >  include/net/page_pool/types.h            |  14 +-
+> >  include/trace/events/page_pool.h         |  30 +--
+> >  net/bpf/test_run.c                       |   5 +-
+> >  net/core/page_pool.c                     | 304 ++++++++++++-----------
+> >  net/core/skbuff.c                        |   8 +-
+> >  9 files changed, 305 insertions(+), 200 deletions(-)
+> >
+> > diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/eth=
+ernet/renesas/ravb_main.c
+> > index c1546b916e4ef..093236ebfeecb 100644
+> > --- a/drivers/net/ethernet/renesas/ravb_main.c
+> > +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> > @@ -303,8 +303,9 @@ ravb_alloc_rx_buffer(struct net_device *ndev, int q=
+, u32 entry, gfp_t gfp_mask,
+> >
+> >       rx_buff =3D &priv->rx_buffers[q][entry];
+> >       size =3D info->rx_buffer_size;
+> > -     rx_buff->page =3D page_pool_alloc(priv->rx_pool[q], &rx_buff->off=
+set,
+> > -                                     &size, gfp_mask);
+> > +     rx_buff->page =3D netmem_to_page(page_pool_alloc(priv->rx_pool[q]=
+,
+> > +                                                    &rx_buff->offset,
+> > +                                                    &size, gfp_mask));
+> >       if (unlikely(!rx_buff->page)) {
+> >               /* We just set the data size to 0 for a failed mapping wh=
+ich
+> >                * should prevent DMA from happening...
+>
+> [snip]
+>
+> >
+> > -static inline struct page *page_pool_alloc(struct page_pool *pool,
+> > -                                        unsigned int *offset,
+> > -                                        unsigned int *size, gfp_t gfp)
+> > +static inline netmem_ref page_pool_alloc(struct page_pool *pool,
+> > +                                      unsigned int *offset,
+> > +                                      unsigned int *size, gfp_t gfp)
+> >  {
+> >       unsigned int max_size =3D PAGE_SIZE << pool->p.order;
+> > -     struct page *page;
+> > +     netmem_ref netmem;
+> >
+> >       if ((*size << 1) > max_size) {
+> >               *size =3D max_size;
+> >               *offset =3D 0;
+> > -             return page_pool_alloc_pages(pool, gfp);
+> > +             return page_pool_alloc_netmem(pool, gfp);
+> >       }
+> >
+> > -     page =3D page_pool_alloc_frag(pool, offset, *size, gfp);
+> > -     if (unlikely(!page))
+> > -             return NULL;
+> > +     netmem =3D page_pool_alloc_frag_netmem(pool, offset, *size, gfp);
+> > +     if (unlikely(!netmem))
+> > +             return 0;
+> >
+> >       /* There is very likely not enough space for another fragment, so=
+ append
+> >        * the remaining size to the current fragment to avoid truesize
+> > @@ -140,7 +142,7 @@ static inline struct page *page_pool_alloc(struct p=
+age_pool *pool,
+> >               pool->frag_offset =3D max_size;
+> >       }
+> >
+> > -     return page;
+> > +     return netmem;
+> >  }
+> >
+> >  /**
+> > @@ -154,7 +156,7 @@ static inline struct page *page_pool_alloc(struct p=
+age_pool *pool,
+> >   * utilization and performance penalty.
+> >   *
+> >   * Return:
+> > - * Return allocated page or page fragment, otherwise return NULL.
+> > + * Return allocated page or page fragment, otherwise return 0.
+> >   */
+> >  static inline struct page *page_pool_dev_alloc(struct page_pool *pool,
+> >                                              unsigned int *offset,
+> > @@ -162,7 +164,7 @@ static inline struct page *page_pool_dev_alloc(stru=
+ct page_pool *pool,
+> >  {
+> >       gfp_t gfp =3D (GFP_ATOMIC | __GFP_NOWARN);
+> >
+> > -     return page_pool_alloc(pool, offset, size, gfp);
+> > +     return netmem_to_page(page_pool_alloc(pool, offset, size, gfp));
+> >  }
+>
+> I find this API change confusing - why should page_pool_alloc() return a
+> netmem_ref but page_pool_dev_alloc() return a struct page *?
+>
+> Is there any reason to change page_pool_alloc() anyway? It calls
+> page_pool_alloc_pages() or page_pool_alloc_frag() as appropriate, both
+> of which your patch already converts to wrappers around the appropriate
+> _netmem() functions. In all instances where page_pool_alloc() is called
+> in this patch, you wrap it with netmem_to_page() anyway, there are no
+> calls to page_pool_alloc() added which actually want a netmem_ref.
+>
 
-Bart
+The general gist is that the page_pool API is being converted to use
+netmem_ref instead of page. The existing API, which uses struct page,
+is kept around transitionally, but meant to be removed and everything
+moved to netmem.
+
+APIs that current drivers depend on, like page_pool_dev_alloc(), I've
+kept as struct page and added netmem versions when needed. APIs that
+had no external users, like page_pool_alloc(), I took the opportunity
+to move them to netmem immediately. But you recently depended on that.
+
+I thought page_pool_alloc() was an internal function to the page_pool
+not meant to be called from drivers, but the documentation actually
+mentions it. Seems like I need to keep it as page* function
+transitionally as well. I'll look into making this change you
+suggested, there is
+no needed page_pool_alloc() caller at the moment.
+
+
+--
+Thanks,
+Mina
 
