@@ -1,80 +1,80 @@
-Return-Path: <linux-renesas-soc+bounces-6209-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6210-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B630908794
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 11:35:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4112690879E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 11:36:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 537E92862B9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 09:35:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CF3CC282296
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 09:36:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD9931922DD;
-	Fri, 14 Jun 2024 09:35:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B77F186282;
+	Fri, 14 Jun 2024 09:36:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UORgpWgv"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AIWNyXo6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3825146D60
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jun 2024 09:35:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01CD192B66
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jun 2024 09:36:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718357728; cv=none; b=tjk/KRCUivl6WmANdo3vd3G7xnwvlOBuvef+n0Vz5f4jD2zQbT69Nd1q8re6aumFcXbaLj5/03gl+O22DBTnh8H0wy8ImOeoAgLKXXuc002P2d8CAfiDg3K+8eB9PrZm60TgIYeHObnnFCLiWdjtjs3J3rO0QnToSsBX7+0otFg=
+	t=1718357797; cv=none; b=V0Acpsx4HbD5IipXfmadTWAhZYx1FbsZ3/9hO0oM1fy5b4QxQ7XD5XBcyW17VfnCoqrdCAyxNUah6oKdcwqR/MhBCVxF6Yes2BsRgM135hV2yM4GTHiPaJti23tk63dVZM+Vy4LI5tWQY6qGn66eMk3M5MZoB3MaGuDnXUM1E4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718357728; c=relaxed/simple;
-	bh=Xd8AfhR+JUvJQlHghzmVxCjQeM7PevGLqZZUpot3QwM=;
+	s=arc-20240116; t=1718357797; c=relaxed/simple;
+	bh=3Xp4hft43r0s80HHbt2Bg6bC+vwJU8fQ6blHSl4LPdI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LfVy4b7hZ4FLeAZCvNDVeiJHPPyitvk1i0aWmvsJyvJgvllMc6R6CitxS511gP0ioybPdWTaMcQLqb11W5DNW58x1HfOFOUcTdrtMT6tjZrq0Ms5TSf5uhIsG0ijIiKDMJXyGOriR6uqxIrBLGT9gfFi3fpdCJaPTh+j7Li7lw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UORgpWgv; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=hAJdJe3Bx2BQmW+iRAyUi7OdzzEjCibAu3aT7v+F1QdBTEC5/6sNDbW5t7Cmw1IglAd+zKz00LzwCoiOtFIoCU9SAaE1cHriJ88Nh6vSaLHOYK3P/uivFrKiB+sS/KPKpcATEpdpKIbC+QANXtpIhe98XPzvMDHRZ0ifrrM+7Ms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AIWNyXo6; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1718357726;
+	s=mimecast20190719; t=1718357794;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xdJt7+cVLZ5M2lQzrTC0sFKbIvCszz8E/fHGwHxyvpM=;
-	b=UORgpWgv79/RFTjVNEYNVqEeXVLDNEwPikUVBfn1ab7ff5fnhdB2tAamYazo+0eB835TQH
-	UejUsC7BVQ78dxsf9Nf8zhRQpZVk/6jgKxS4rmXwlgvL14dalBHV8YvSCs6YjJM6eVZTxX
-	boix1vCc4r0zD/2UxJspebYnq6luLso=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=KdfeWtRDAuWsZ8j9bLApAvsSD5oNrsJwjHXB/7FcSzc=;
+	b=AIWNyXo6nge7cCB37dZMGV8wBU/vwDJl2RceE7/hcR80Jbhl/eSxG+xtuxJKNeWN5h1X5K
+	Q7QOMySV4EuEMOC6rhn9a7s8ZIJPoLoxv6qjy7W1qGhwybfHDENKGc1Li20f3pVAPDptRn
+	Z1NlokKVAz4xXSSHqgdPNGRgLHNhggU=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-458-1OkOkDlfPcCR8Es96hskpQ-1; Fri, 14 Jun 2024 05:35:24 -0400
-X-MC-Unique: 1OkOkDlfPcCR8Es96hskpQ-1
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-421292df2adso12701845e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jun 2024 02:35:24 -0700 (PDT)
+ us-mta-595-8gTbaXu0P2GiAuSlLh-fmg-1; Fri, 14 Jun 2024 05:36:29 -0400
+X-MC-Unique: 8gTbaXu0P2GiAuSlLh-fmg-1
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4218447b900so10616315e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jun 2024 02:36:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718357723; x=1718962523;
+        d=1e100.net; s=20230601; t=1718357788; x=1718962588;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xdJt7+cVLZ5M2lQzrTC0sFKbIvCszz8E/fHGwHxyvpM=;
-        b=YwDfGHbyaxPmz3Q5TaLGWGI+Bgp6p5/bzvk13gKKaZArgvmFUYLUcyx08hB9iQMxaa
-         hM2ZcOCKNG70w91ISUchmzgQte+nPxGcvwdf4gEgYiiKESQV91Vcl50v2cnIavHkg3Is
-         9XWahrE58hGMboRIJHQRKZtLPHc0F/Y2HZAg5YVrl1f8SVjxpJperHbPubkTOoTgrF0A
-         Oc/wCz84dQyJ21lkOD5pJhpx0w63HpQ1rrvMWoTXDZH5sh6ZFPRbev6APUz+so4bOLVL
-         NumFmDZQO1Nt0lbtJYzDheira92KBhPpDCPY98pZEGCt+0jImQfxPot9ypVwRPqKIY9J
-         0itQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVrHOiPpqusJF6hDAs2gJb10q1M/VPXefM44jy9tosRlRNWfBeKHzWC3vYj5AAsccvAMMCfY60tJ5kII9nlQhpSUH+CgExLpyO/B+R8vRUhOiY=
-X-Gm-Message-State: AOJu0YwUEjuEJaxW6UzRjMb47VuhppXtbae5mvilPNbSY95B9+rrTo+l
-	4BfReBntpcfXFJJFDxp59/ZRxuGgbqwyi0jVd5Ark9HVCAbdsjEYKBivXmzBFdTL/kBFDYzSJGt
-	SUilKHwZyaMTsmsM9qbrAJJbJ04KGNTVxRh8fyn4gyfMpaLGlHGIu/8oY6UcRKbYet8Z0
-X-Received: by 2002:a7b:c41a:0:b0:421:7b9d:5b9b with SMTP id 5b1f17b1804b1-42304821171mr19059105e9.15.1718357723214;
-        Fri, 14 Jun 2024 02:35:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGe9EHRho8FXo61eGrPv34AQ567+feP7sbnnVAIN5Dw0SEYP9TPPcNB5desjjcRmD8PIdslsg==
-X-Received: by 2002:a7b:c41a:0:b0:421:7b9d:5b9b with SMTP id 5b1f17b1804b1-42304821171mr19058885e9.15.1718357722864;
-        Fri, 14 Jun 2024 02:35:22 -0700 (PDT)
+        bh=KdfeWtRDAuWsZ8j9bLApAvsSD5oNrsJwjHXB/7FcSzc=;
+        b=k4/ozc7aQrlpR8VX7D5FGyw+Lno9LlXg+/C2+Xhg4KnBNmtxmFuBLvitP6foUwKZZU
+         xQA6EIYMRiOGh2ReGwWkSFmpjRRu+wkNmEba9p38gMlrMp2ZJtXlJuI4B+lwoKggRfu/
+         pvS7cdD7gzjknIYL531dofH+J9dlbhgFCQyweSKC9A9YZ623d4jEIjnwLxSqveuTfSFy
+         Gb1bsWKs7WDV4ggqebJYpjDc2OY05WkQPAtSyAOePVqo4swR+6+/1+oyImgcot18ngoU
+         UQDkpmgHH1dNNNa7teeOn7mJaNMqyg2hkGrueZ2+IHhASFdTcjp4whhtekYQn/ypJMoo
+         onqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXEdtutgD5XctPsVRe5Y++7Zz9/whI5wNogID9WPwu3zP7mXqhDeWuIwl/xLqtZtQf4yXstrfs3Yt1lMnDocjzlYbEb6mcMUDLDbcASVeKlbEU=
+X-Gm-Message-State: AOJu0YzYKAQK42ZyM0J2ib8LKOa3shpX+gXE1CL31z3XExgr6oxo7g54
+	pk75TGAcUJE+LMBbH/CyLber1c9AbBGcduS1sSFbUMT03x/XfcMdIueZFES1V6q9xyuahksMTPA
+	d/XP3UidrvMPvWhK+NuRbY1t2BfGtcV3VYpJvFr8Ah7q0JaCo1hBTqQLTI06Ar6fIjmX7
+X-Received: by 2002:a05:600c:4a9f:b0:422:eee2:572c with SMTP id 5b1f17b1804b1-422eee257d9mr40054965e9.8.1718357788197;
+        Fri, 14 Jun 2024 02:36:28 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFjxUAkrfgiqF4B9IILJq7eNGszyZUh3YENf1nv29/SYoE7i85RFm0GdV/Ed29jYVD8fE7b5g==
+X-Received: by 2002:a05:600c:4a9f:b0:422:eee2:572c with SMTP id 5b1f17b1804b1-422eee257d9mr40054755e9.8.1718357787860;
+        Fri, 14 Jun 2024 02:36:27 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e? ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36075104c17sm3813405f8f.106.2024.06.14.02.35.22
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422f641a65bsm53388225e9.42.2024.06.14.02.36.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Jun 2024 02:35:22 -0700 (PDT)
-Message-ID: <d2f7f2c2-242e-4521-a205-8b19999a565b@redhat.com>
-Date: Fri, 14 Jun 2024 11:35:21 +0200
+        Fri, 14 Jun 2024 02:36:27 -0700 (PDT)
+Message-ID: <a60c6382-2c41-49aa-8f79-ee9744f12b4b@redhat.com>
+Date: Fri, 14 Jun 2024 11:36:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -82,8 +82,7 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/7] drm/panic: Fix uninitialized
- drm_scanout_buffer.set_pixel() crash
+Subject: Re: [PATCH v2 2/7] drm/panic: Fix off-by-one logo size checks
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -91,51 +90,44 @@ To: Geert Uytterhoeven <geert+renesas@glider.be>,
 Cc: Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
  linux-fbdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 References: <cover.1718305355.git.geert+renesas@glider.be>
- <4c250d21880ca0b97e41da7b6a101bdf07e9d015.1718305355.git.geert+renesas@glider.be>
+ <1c9d02463cef3eac22cfac3ac6d1adad369f367b.1718305355.git.geert+renesas@glider.be>
 Content-Language: en-US, fr
 From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <4c250d21880ca0b97e41da7b6a101bdf07e9d015.1718305355.git.geert+renesas@glider.be>
+In-Reply-To: <1c9d02463cef3eac22cfac3ac6d1adad369f367b.1718305355.git.geert+renesas@glider.be>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 13/06/2024 21:17, Geert Uytterhoeven wrote:
-> No implementations of drm_plane_helper_funcs.get_scanout_buffer() fill
-> in the optional drm_scanout_buffer.set_pixel() member.  Hence the member
-> may contain non-zero garbage, causing a crash when deferencing it during
-> drm panic.
-> 
-> Fix this by pre-initializing the drm_scanout_buffer object before
-> calling drm_plane_helper_funcs.get_scanout_buffer().
+On 13/06/2024 21:18, Geert Uytterhoeven wrote:
+> Logos that are either just as wide or just as high as the display work
+> fine.
 
-Good catch, I don't know how I didn't hit this bug before.
-Thanks for the fix.
+Sure, that looks good to me.
 
 Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-
 > 
-> Fixes: 24d07f114e4ec760 ("drm/panic: Add a set_pixel() callback to drm_scanout_buffer")
+> Fixes: bf9fb17c6672868d ("drm/panic: Add a drm panic handler")
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
 > v2:
->    - New.
+>    - Rebased.
 > ---
 >   drivers/gpu/drm/drm_panic.c | 2 +-
 >   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-> index 293d4dcbc80da7ba..fc04ed4e0b399f55 100644
+> index fc04ed4e0b399f55..814ef5c20c08ee42 100644
 > --- a/drivers/gpu/drm/drm_panic.c
 > +++ b/drivers/gpu/drm/drm_panic.c
-> @@ -582,7 +582,7 @@ static void draw_panic_dispatch(struct drm_scanout_buffer *sb)
+> @@ -472,7 +472,7 @@ static void draw_panic_static_user(struct drm_scanout_buffer *sb)
+>   	drm_panic_fill(sb, &r_screen, bg_color);
 >   
->   static void draw_panic_plane(struct drm_plane *plane)
->   {
-> -	struct drm_scanout_buffer sb;
-> +	struct drm_scanout_buffer sb = { };
->   	int ret;
->   	unsigned long flags;
->   
+>   	if ((r_msg.x1 >= drm_rect_width(&r_logo) || r_msg.y1 >= drm_rect_height(&r_logo)) &&
+> -	    drm_rect_width(&r_logo) < sb->width && drm_rect_height(&r_logo) < sb->height) {
+> +	    drm_rect_width(&r_logo) <= sb->width && drm_rect_height(&r_logo) <= sb->height) {
+>   		draw_txt_rectangle(sb, font, logo, logo_lines, false, &r_logo, fg_color);
+>   	}
+>   	draw_txt_rectangle(sb, font, panic_msg, msg_lines, true, &r_msg, fg_color);
 
 
