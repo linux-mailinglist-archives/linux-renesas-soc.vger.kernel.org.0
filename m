@@ -1,199 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-6251-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6252-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABD02908C19
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 14:54:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 865E4908D67
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 16:31:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5359E1F25264
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 12:54:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3A5D6281935
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 14:31:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37134199EB5;
-	Fri, 14 Jun 2024 12:54:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7C6EDF78;
+	Fri, 14 Jun 2024 14:31:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="e/sNUWPz";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fkAY6ikA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h2/JkoUx"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from flow6-smtp.messagingengine.com (flow6-smtp.messagingengine.com [103.168.172.141])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 615B8199247;
-	Fri, 14 Jun 2024 12:54:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA7B1C129;
+	Fri, 14 Jun 2024 14:31:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718369652; cv=none; b=tWAyftH6uu4grbUbbr2p7vCgoEFsvtHY1DuJe2LQ6UdCgjaXb5/oqy0cloUydqB7PoRqBCWCGN2TIYSJNbXImRSy9oYY7KD7SFU90DNGShJ0C1c9Empw9Q3jOtyPpRus5p8jML80x2YWzKoCSIbbJMAyGUYO5dPvX3gTgRO7FuQ=
+	t=1718375509; cv=none; b=S6eRW9c4SFqnQdWQDpjC7IubzbF+Cmk3TtqawIQDZnhSNFtgoevXcmwf8+4OtDWXLSN5bxNGMT4eHhwNZIBpEPv4w64e82kx8+HemfattI9j8qy+Byxrxx24Gd5WpS+rCymKM/LRD46nZUbsrf+E1P4czCNq/qr3k6rxlvUF6Cs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718369652; c=relaxed/simple;
-	bh=8S17m0g/GRM52gnnBJ2eIixlqDKuO32wjIb3d+7vdnw=;
+	s=arc-20240116; t=1718375509; c=relaxed/simple;
+	bh=AW1z+gl+oeKjTe4GvT99ogDWt4IRrSVZcPLIPpAqsm4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M5+f3JV2KMF+U8c96AuU6tGYV3m8xgl35LMMC/utfE927oT5PAIdQtGAG7im7ztvv3W8p/W84um34Vd5jLOpweW7B6RWfGnbqef2Qcwz0vhOCqbIYyV/JUV1rt6fW9hWHgyJzdX7fFkWBXg1CuuUjOcB301bBYTCNF6xC2DFJcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=e/sNUWPz; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fkAY6ikA; arc=none smtp.client-ip=103.168.172.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailflow.nyi.internal (Postfix) with ESMTP id 448CD20036F;
-	Fri, 14 Jun 2024 08:54:07 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Fri, 14 Jun 2024 08:54:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1718369647;
-	 x=1718376847; bh=kzkq65OIpuCs3ZdNQe9hETg6fCuxaq6pJOhxp3W4MzU=; b=
-	e/sNUWPzt41ZDlEJ0rbaHgsDAM6/Psb18uSYQwdiX0fvKqE47ANccOOWPj1FonOQ
-	N3piZ2RgrxAxEjJLHD/Tjg484eOsFcuuVq5Lcr70+sIdjPfPrUAW50u5y3sYMYwt
-	Trz5xVZ4smlNoFkAnnSsSDyXF5f/w9sxJ/aBOlaFkAnTbivmMXznJTEcaPN5esst
-	zyZ/mgTiM4RmKRGUwkRbrpD6HKOXu8Yttwi2uS/vWjJZ9+UfahWXIda2sjBXSeur
-	U0rI/xNHRV/jZzvLlSDHtRPC5Gz7cllMYqgOp6vzbyaXA0palhobbG5bGWRylVxS
-	oDrqU1xuVwRQ6gq/YrP6Sg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1718369647; x=
-	1718376847; bh=kzkq65OIpuCs3ZdNQe9hETg6fCuxaq6pJOhxp3W4MzU=; b=f
-	kAY6ikA50Nntgl2wgpRJZ9Ew6563PdZDxBLtifDJkORDnS00MMuwwyv9AsspdeUg
-	/HTOJFa71y+TfuEXFBHZaBOJPq0OyU1UrM4fJxxdMVCWfGMPFaxLdgJ2+0SjQ2/q
-	ZfO6pl1ptKLd43UMIp4LQA4sXKJv2FsHukJsNNgMErq1IwjgucZOmMiZE5f3QKHB
-	ZTyXQEVhj+6eVMMLiVIoEMnKsg2LYlP5j8ffsbsSXJNToBxvOCxvch6Gr1PemQdD
-	fL5hHJ2eGvyzxBLi5FrMgq0SawjdEbzWq+ultnPkAFTXQWqoJBF2gvN7ScwuaDKh
-	IjX5kLwAzcFwByEYbetyQ==
-X-ME-Sender: <xms:aj1sZm0YAf0zlUT593horrfn2ipIf6acHvfVQfKnkssTGEoa8Om9BA>
-    <xme:aj1sZpFw2wf-iUC0IxtB5DWqqMMCnfD5VwYNAWttsFCic6kzrQpS8fxftg6pDABVX
-    gMRKaPwKQJK1IO1REM>
-X-ME-Received: <xmr:aj1sZu6LnfoPNVf1i1OoOxnLt75iGeJAKkFzz6DKNOFoFPlHciJ07OnW_Ab6ov50yRtvLYs0artd5qzgETjo3Il5sf7KbpI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeduledgheeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
-    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrgh
-    hnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeef
-    heetheekkeegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtne
-    curfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgr
-    ghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:aj1sZn3UF-l6IfHHyHpli8od0E7EfKnMJHiNOP4rjDLANiOlZP9VuA>
-    <xmx:aj1sZpGLjS1pUc8dzhTkicRu4rXw6-BHkx_QDjbMnwIN4RldTwsGMQ>
-    <xmx:aj1sZg9PO3n30TtGNYeLy_c9dRoyMDheA8jU9Iue3Y71RDgWVAyCcg>
-    <xmx:aj1sZum0uT3bn8S6g2d5fDuzN3HqD3y4vwBY3flT8LVQkY6RHWszlw>
-    <xmx:bz1sZrA4KYFKicBY-9XPwZyWW4hVJJyQ9KBkWa4ddbDjdQZY1aBRj8Ry>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 14 Jun 2024 08:54:01 -0400 (EDT)
-Date: Fri, 14 Jun 2024 14:53:59 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Guillaume La Roque <glaroque@baylibre.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=rGJb9p/+ttHDjzA1rJKMgPnYKeuI6T6fqf7EV/145eD2leAKLEtaDqJYZzkop0dqMw1+71bwEIdroA/h231tEkA6fAeWLyre5Qu2bFzA2gqiP2dLgBH5rVsewg0kjJJdqq3TxeSBfMz4O5Q3GcR0uopCJNePrgLl6gcAxEDoM8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h2/JkoUx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D483C2BD10;
+	Fri, 14 Jun 2024 14:31:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718375509;
+	bh=AW1z+gl+oeKjTe4GvT99ogDWt4IRrSVZcPLIPpAqsm4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=h2/JkoUxtNjUvTfAWxSI7vwU5K8bFxjDMrF63rXl+rCX7vgKzK5yQFnwGri9Duvwf
+	 Aij5kmKi+P4MSXS+uxM+7mDEXI71kx2pnp2Oy1vidk13g0UL1sgFst7NVSh5cokfpw
+	 U+XhoFk0cqgSDWR/tUikMCUWaTyq0tDhIaQz873BB5QwHKcyOIvSdYS1/qz299GgvY
+	 YlaE8+nFV7qHyKjxMSaoQ/dmjmgsnuTbmSYxoFSE64r4LALN9evUZ1x8hsQJWdK+xd
+	 Mj5KsKRrlTHCNaQK4LEVyz6JbYWnRwt51DUg71F+K8lGHkJDjPU8j/qsD549jaOelT
+	 ARxy0F9O2QHjw==
+Date: Fri, 14 Jun 2024 15:31:45 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Vasily Khoruzhick <anarsoul@gmail.com>,	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,	Anson Huang <Anson.Huang@nxp.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Amit Kucheria <amitk@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
-	Biju Das <biju.das.jz@bp.renesas.com>,	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Pascal Paillet <p.paillet@foss.st.com>, Keerthy <j-keerthy@ti.com>,
-	Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	zhanghongchen <zhanghongchen@loongson.cn>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,	linux-pm@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org,	devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,	linux-kernel@vger.kernel.org,
- linux-amlogic@lists.infradead.org,	linux-sunxi@lists.linux.dev,
- imx@lists.linux.dev,	linux-tegra@vger.kernel.org,
- linux-arm-msm@vger.kernel.org,	linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 13/22] dt-bindings: thermal: rcar-gen3: reference
- thermal-sensor schema
-Message-ID: <20240614125359.GH382677@ragnatech.se>
-References: <20240614-dt-bindings-thermal-allof-v1-0-30b25a6ae24e@linaro.org>
- <20240614-dt-bindings-thermal-allof-v1-13-30b25a6ae24e@linaro.org>
+	Conor Dooley <conor+dt@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	"biju.das.au" <biju.das.au@gmail.com>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v3 3/6] regulator: core: Add helper for allow access to
+ enable register
+Message-ID: <ZmxUUbpGZiZMlHVE@finisterre.sirena.org.uk>
+References: <20240611110402.58104-1-biju.das.jz@bp.renesas.com>
+ <20240611110402.58104-4-biju.das.jz@bp.renesas.com>
+ <ZmhmWrvyQiCzzeYi@finisterre.sirena.org.uk>
+ <TY3PR01MB11346B807820F681E7EEF7A6786C72@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <ZmnDwKUlXCWFJ8W0@finisterre.sirena.org.uk>
+ <TY3PR01MB113467AD31470F72C75DBF41986C22@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Ois24WsttoXepZBR"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240614-dt-bindings-thermal-allof-v1-13-30b25a6ae24e@linaro.org>
+In-Reply-To: <TY3PR01MB113467AD31470F72C75DBF41986C22@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+X-Cookie: Your love life will be... interesting.
 
-Hi Krzysztof,
 
-Thanks for your work.
+--Ois24WsttoXepZBR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2024-06-14 11:46:12 +0200, Krzysztof Kozlowski wrote:
-> Device is a thermal sensor and it requires '#thermal-sensor-cells', so
-> reference the thermal-sensor.yaml to simplify it and bring the
-> common definition of '#thermal-sensor-cells' property.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Fri, Jun 14, 2024 at 11:43:39AM +0000, Biju Das wrote:
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> To access the hardware register for enabling/disabling the regulator,
+> consumers must use regulator_get_exclusive(), as it can't work if there's
+> more than one consumer. To enable/disable regulator use::
 
-> ---
->  Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml b/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
-> index 6a81cb6e11bc..d92e882c9e8d 100644
-> --- a/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
-> +++ b/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
-> @@ -15,6 +15,8 @@ description:
->  maintainers:
->    - Niklas Söderlund <niklas.soderlund@ragnatech.se>
->  
-> +$ref: thermal-sensor.yaml#
-> +
->  properties:
->    compatible:
->      enum:
-> @@ -57,7 +59,6 @@ required:
->    - clocks
->    - power-domains
->    - resets
-> -  - "#thermal-sensor-cells"
->  
->  if:
->    properties:
-> @@ -96,7 +97,7 @@ else:
->      required:
->        - interrupts
->  
-> -additionalProperties: false
-> +unevaluatedProperties: false
->  
->  examples:
->    - |
-> 
-> -- 
-> 2.43.0
-> 
+>        int regulator_hardware_enable(struct regulator *regulator, bool enable);
 
--- 
-Kind Regards,
-Niklas Söderlund
+We should also enforce this.
+
+> OK, will remove the restriction
+
+> -       if (enable) {
+> -               if (ops->enable == regulator_enable_regmap)
+> -                       ret = ops->enable(rdev);
+> -       } else {
+> -               if (ops->disable == regulator_disable_regmap)
+> -                       ret = rdev->desc->ops->disable(rdev);
+> -       }
+> +       if (enable)
+> +               ret = ops->enable(rdev);
+> +       else
+> +               ret = ops->disable(rdev);
+
+> Please let me know if anything wrong.
+
+Sure.
+
+--Ois24WsttoXepZBR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZsVFAACgkQJNaLcl1U
+h9CpXAf/a6pVjdmFuqfVIs8/VbMeT2v0gancEFoB/8TnUVXKt99DCyJrnPRgI1qL
+NPPs2Br6otvvVQFCoDIefCPlD2sex+j0Sp5oweC/5SOCYiqm60A/CyK30Zvt67c2
+gfHcE5qxKuI6zHEHuYmaJHBxmyKvvOi54eepDW78+xmbT1+Z+dykZ5PhrKdaPGQC
+ylKeHsEspsy8deQ3ohQWXejUQ4oNx8uboXDK0eoffxrRMeAg6l5btX73eZmRvb+m
+o2BrhlA6UJUgIxwxx6SEs8fkG/gjBSHATKIZFM1MyDSblwls7BGCNYjnYA3cn//+
+WszyzfZG4cIRu1C8eyRRklR9cX1SSg==
+=r8RQ
+-----END PGP SIGNATURE-----
+
+--Ois24WsttoXepZBR--
 
