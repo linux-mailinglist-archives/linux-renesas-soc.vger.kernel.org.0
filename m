@@ -1,123 +1,222 @@
-Return-Path: <linux-renesas-soc+bounces-6258-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6259-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4A4D908EBE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 17:29:13 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44DDA908EC9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 17:33:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 82FCA28493E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 15:29:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9214AB210D3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 15:29:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05010158872;
-	Fri, 14 Jun 2024 15:29:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="0LPFsazq"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 385491DFFD;
+	Fri, 14 Jun 2024 15:29:35 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CE5C49649
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jun 2024 15:29:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA9513AA2D
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jun 2024 15:29:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718378949; cv=none; b=X/oL1k7qj1DA5QnBx9U7k2dUWNK8Tb7f3uuY9lzbtxtMaJkzJxjy0GzvBXyrlnzJf6tZcD5xSotNfA5dfrB+f2qF35juopMlq/xfwseXeF9nULHcSIK/TRjIHDh+tks37M/TFV3Tx4w8MwYIyTFGm1mrGCTLMvcV4y1sgw3B0MQ=
+	t=1718378975; cv=none; b=oKVT5GbjNROIBn8O6L+Y+CJZxrvFSnSGmG/v+gaU64B7meMIHJeAw8xTW9jK4fwG7uHbA2Lis4T1wa7rvd4Qe/1251WIeOyEwHwI8TNKhn9y/NBNoLqTqr2pgkdckPPXXQporzK+d1hrDWJw95k9Qv1lfDFFt20JTFMro8l68W0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718378949; c=relaxed/simple;
-	bh=W7xqvtkjrlaNLm6rezIdpjNzE+PEbSbsG6OQ3LfzjAU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Chf0/hYpG4SqaVSqKm72DsvdlxyJmieZ6T4ZKW06FiO+5dubulcHB+Ox0UiTJ1eWDlLLaUYU7nTvSimu4ES0x8rbNhdJdmdHUAr/u3JBIMzTy6oKfVNPyXdfhIRNlxS0JNRVV6JqAAUp293Cc/DH7hZYuv/3yV5T+q27cWCSfzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=0LPFsazq; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a6f1da33826so350638366b.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jun 2024 08:29:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1718378946; x=1718983746; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=W7xqvtkjrlaNLm6rezIdpjNzE+PEbSbsG6OQ3LfzjAU=;
-        b=0LPFsazqMc6YIxo2kxzmeGNwmVarbkqzwIplW5X4ktWuncZp3IGFM0AOycQJA7tjdP
-         VVofC1+GO+sD6tmPXWgr2qRQZ/EFnP2WTpVkWF73FAryivXZ9L0DgL5HOouz4UwwMdQZ
-         JzYvFeiMZQuqpw0DjUh0bjCem/usnXEO06pMJthGw78Rz2XG/d4uHg5yJ1tR9H6UYAIm
-         Hyzw9WnMBi7lTxTED9JglOrHuyhiLP7ix7cpBJUfCR4FdKqmKg4v7eOtte+kM4CgMlhd
-         162diToZNcBVMTVdeYNCKW0j37uDcmf3dc3t/3Hd0o5zts/FHTGe9pr7XRfW2Zxp92ru
-         yOSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718378946; x=1718983746;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W7xqvtkjrlaNLm6rezIdpjNzE+PEbSbsG6OQ3LfzjAU=;
-        b=emgOwXnKps87axGTfNJ/5XdLf0i6Qj0RobwpLzUsnyfgHBE+GAFWwXo5WXxf4FngRV
-         1gDmpd13GdpP3NVP7DHl53WX6stCsazMoJE2IGU665UAkN++2XdYqPA2bEjBlTodlpLt
-         jZUJpb41jabNAGAhYf1Qekbfjy9XXHinCqPqUnQoaiNnMPBL0hwAqawUxyT35QrOAUgG
-         TOMUgsKkq8bKWduo7ByHf5XC1JSDmaNSepVOaBXGoOwWq1t4Pyk41slEBVZ1nxQ9T5UH
-         aG6n3CJBPsX3Dqv/BSXTlcoj0CUTOqTKt/OT4/hBkOSWtMOwzMfUMb6ndRQxODm6zjhU
-         60MA==
-X-Forwarded-Encrypted: i=1; AJvYcCXEx2uXYMasX5uR4ApysQ6NBR3mwLJKLX2xvbp3K0yORgP4X/4J+FrAlzrUDV4ax8uY2yv9xpqxttMO42KqpxeK/LJUHKCvYF0pNcycmYMb8Go=
-X-Gm-Message-State: AOJu0YwbR1LxJlFTM3QcDcHU2fyLXe39rLCJhO3wqtPOacT+noJAWfgT
-	AvYjyig2EI6s9V9HJDw55qx2OmY6sLJgln684V/E8wBiDMeY8YW+5jpRbyLxLKo=
-X-Google-Smtp-Source: AGHT+IHumnKfuc8btdzYl6ReT8HQtlCURJ+kUqGR5cGc/UmojP2LFCJeSU//utdtDxudcuCR+s2Dug==
-X-Received: by 2002:a17:906:34d1:b0:a6f:5466:5f09 with SMTP id a640c23a62f3a-a6f60d5f0e2mr267926766b.33.1718378945720;
-        Fri, 14 Jun 2024 08:29:05 -0700 (PDT)
-Received: from localhost (p509153eb.dip0.t-ipconnect.de. [80.145.83.235])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f56ed379esm198001766b.139.2024.06.14.08.29.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jun 2024 08:29:05 -0700 (PDT)
-Date: Fri, 14 Jun 2024 17:29:03 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: linux-pwm@vger.kernel.org, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] pwm: Fix namespace error
-Message-ID: <ld5tegce2dpiehqg2offdyrazew2l2vkq3unm3fe3l74lyufg4@vnebm7soytym>
-References: <20240614151233.398463-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1718378975; c=relaxed/simple;
+	bh=gWCCrvKuxoszMCXzCLtwyw8rRamAfhAP3anZSCs7rVc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=e8R4/UgJvi4qvlND+Bo2Nh6HyvI757vq7+nuQsgDAQNAQSdNkdwzTmQawuh9aa171zCKH6dpPmeCF7Fv+0PtMs0W0OJpGFDgbcAPnzrOyP2XfrOguB8tTAZKRvOEYiHPxlOp/0rhUI749qvAoF54886sVevFv3Fs0Uha5eq/Qd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:be2a:f066:50f0:dff7])
+	by baptiste.telenet-ops.be with bizsmtp
+	id bTVX2C0043w30qz01TVX1a; Fri, 14 Jun 2024 17:29:31 +0200
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1sI8qm-00CeE6-Do;
+	Fri, 14 Jun 2024 17:29:31 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1sI8rq-00FqMQ-WD;
+	Fri, 14 Jun 2024 17:29:31 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] pinctrl: renesas: r8a779g0: Add INTC-EX pins, groups, and function
+Date: Fri, 14 Jun 2024 17:29:29 +0200
+Message-Id: <9c33c36d13a5e38d79fa53085339b14631888b50.1718378943.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="pxckk4fmjjpjdey3"
-Content-Disposition: inline
-In-Reply-To: <20240614151233.398463-1-biju.das.jz@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
 
+Add pins, groups, and function for the Interrupt Controller for External
+Devices (INTC-EX) on the Renesas R-Car V4H (R8A779G0) SoC.
 
---pxckk4fmjjpjdey3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+This depends on "[PATCH 5/8] pinctrl: renesas: r8a779g0: Fix IRQ
+suffixes"
+(https://lore.kernel.org/all/8ce9baf0a0f9346544a3ac801fd962c7c12fd247.1717754960.git.geert+renesas@glider.be)
 
-On Fri, Jun 14, 2024 at 04:12:33PM +0100, Biju Das wrote:
-> Fix namespace error due to typo by replacing USB_STORAGE->PWM.
->=20
-> Fixes: aeb9cedc87a2 ("pwm: Make use of a symbol namespace for the core")
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+v2:
+  - Adopt R-Car V4M pin naming.
+---
+ drivers/pinctrl/renesas/pfc-r8a779g0.c | 112 +++++++++++++++++++++++++
+ 1 file changed, 112 insertions(+)
 
-I found that issue locally, too, but obviously failed to squash
-this change into the commit. How embarrassing.
+diff --git a/drivers/pinctrl/renesas/pfc-r8a779g0.c b/drivers/pinctrl/renesas/pfc-r8a779g0.c
+index 49b44bdb12505bf2..cae3e65534997d3b 100644
+--- a/drivers/pinctrl/renesas/pfc-r8a779g0.c
++++ b/drivers/pinctrl/renesas/pfc-r8a779g0.c
+@@ -1764,6 +1764,90 @@ static const unsigned int i2c5_mux[] = {
+ 	SDA5_MARK, SCL5_MARK,
+ };
+ 
++/* - INTC-EX ---------------------------------------------------------------- */
++static const unsigned int intc_ex_irq0_a_pins[] = {
++	/* IRQ0_A */
++	RCAR_GP_PIN(0, 6),
++};
++static const unsigned int intc_ex_irq0_a_mux[] = {
++	IRQ0_A_MARK,
++};
++static const unsigned int intc_ex_irq0_b_pins[] = {
++	/* IRQ0_B */
++	RCAR_GP_PIN(1, 20),
++};
++static const unsigned int intc_ex_irq0_b_mux[] = {
++	IRQ0_B_MARK,
++};
++
++static const unsigned int intc_ex_irq1_a_pins[] = {
++	/* IRQ1_A */
++	RCAR_GP_PIN(0, 5),
++};
++static const unsigned int intc_ex_irq1_a_mux[] = {
++	IRQ1_A_MARK,
++};
++static const unsigned int intc_ex_irq1_b_pins[] = {
++	/* IRQ1_B */
++	RCAR_GP_PIN(1, 21),
++};
++static const unsigned int intc_ex_irq1_b_mux[] = {
++	IRQ1_B_MARK,
++};
++
++static const unsigned int intc_ex_irq2_a_pins[] = {
++	/* IRQ2_A */
++	RCAR_GP_PIN(0, 4),
++};
++static const unsigned int intc_ex_irq2_a_mux[] = {
++	IRQ2_A_MARK,
++};
++static const unsigned int intc_ex_irq2_b_pins[] = {
++	/* IRQ2_B */
++	RCAR_GP_PIN(0, 13),
++};
++static const unsigned int intc_ex_irq2_b_mux[] = {
++	IRQ2_B_MARK,
++};
++
++static const unsigned int intc_ex_irq3_a_pins[] = {
++	/* IRQ3_A */
++	RCAR_GP_PIN(0, 3),
++};
++static const unsigned int intc_ex_irq3_a_mux[] = {
++	IRQ3_A_MARK,
++};
++static const unsigned int intc_ex_irq3_b_pins[] = {
++	/* IRQ3_B */
++	RCAR_GP_PIN(1, 23),
++};
++static const unsigned int intc_ex_irq3_b_mux[] = {
++	IRQ3_B_MARK,
++};
++
++static const unsigned int intc_ex_irq4_a_pins[] = {
++	/* IRQ4_A */
++	RCAR_GP_PIN(1, 17),
++};
++static const unsigned int intc_ex_irq4_a_mux[] = {
++	IRQ4_A_MARK,
++};
++static const unsigned int intc_ex_irq4_b_pins[] = {
++	/* IRQ4_B */
++	RCAR_GP_PIN(2, 3),
++};
++static const unsigned int intc_ex_irq4_b_mux[] = {
++	IRQ4_B_MARK,
++};
++
++static const unsigned int intc_ex_irq5_pins[] = {
++	/* IRQ5 */
++	RCAR_GP_PIN(2, 2),
++};
++static const unsigned int intc_ex_irq5_mux[] = {
++	IRQ5_MARK,
++};
++
+ /* - MMC -------------------------------------------------------------------- */
+ static const unsigned int mmc_data_pins[] = {
+ 	/* MMC_SD_D[0:3], MMC_D[4:7] */
+@@ -2602,6 +2686,18 @@ static const struct sh_pfc_pin_group pinmux_groups[] = {
+ 	SH_PFC_PIN_GROUP(i2c4),
+ 	SH_PFC_PIN_GROUP(i2c5),
+ 
++	SH_PFC_PIN_GROUP(intc_ex_irq0_a),
++	SH_PFC_PIN_GROUP(intc_ex_irq0_b),
++	SH_PFC_PIN_GROUP(intc_ex_irq1_a),
++	SH_PFC_PIN_GROUP(intc_ex_irq1_b),
++	SH_PFC_PIN_GROUP(intc_ex_irq2_a),
++	SH_PFC_PIN_GROUP(intc_ex_irq2_b),
++	SH_PFC_PIN_GROUP(intc_ex_irq3_a),
++	SH_PFC_PIN_GROUP(intc_ex_irq3_b),
++	SH_PFC_PIN_GROUP(intc_ex_irq4_a),
++	SH_PFC_PIN_GROUP(intc_ex_irq4_b),
++	SH_PFC_PIN_GROUP(intc_ex_irq5),
++
+ 	BUS_DATA_PIN_GROUP(mmc_data, 1),
+ 	BUS_DATA_PIN_GROUP(mmc_data, 4),
+ 	BUS_DATA_PIN_GROUP(mmc_data, 8),
+@@ -2850,6 +2946,20 @@ static const char * const i2c5_groups[] = {
+ 	"i2c5",
+ };
+ 
++static const char * const intc_ex_groups[] = {
++	"intc_ex_irq0_a",
++	"intc_ex_irq0_b",
++	"intc_ex_irq1_a",
++	"intc_ex_irq1_b",
++	"intc_ex_irq2_a",
++	"intc_ex_irq2_b",
++	"intc_ex_irq3_a",
++	"intc_ex_irq3_b",
++	"intc_ex_irq4_a",
++	"intc_ex_irq4_b",
++	"intc_ex_irq5",
++};
++
+ static const char * const mmc_groups[] = {
+ 	"mmc_data1",
+ 	"mmc_data4",
+@@ -3067,6 +3177,8 @@ static const struct sh_pfc_function pinmux_functions[] = {
+ 	SH_PFC_FUNCTION(i2c4),
+ 	SH_PFC_FUNCTION(i2c5),
+ 
++	SH_PFC_FUNCTION(intc_ex),
++
+ 	SH_PFC_FUNCTION(mmc),
+ 
+ 	SH_PFC_FUNCTION(msiof0),
+-- 
+2.34.1
 
-Thanks for catching,
-Uwe
-
---pxckk4fmjjpjdey3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmZsYbwACgkQj4D7WH0S
-/k4srQgAp/ge4UKlLE0Ccn5fSPO613HlIOFqel5oveWklg1vhPUxupYkvbBh9Phu
-LRRqaTGC2m1FfbruIZVP1CPT0Beh+wZZkJe/yNiqjKq3K1aULstUo5VCjYMLqdGG
-an3x1YtBFgMD4oXEPZZqf+oL7lqFOXZFjCdT7BLNm7TY4KPeSLyGCHdbabS690Hi
-Fpc3gvqvke2/5H4chbxT96LqjlMr3x4+rZWrut+qnbqiqKLXjRwRbaS9WK09gg6J
-C1u6McOoXvxF49MTmxb6KAGY6f4OOF3S0wpmjBOTpch/7Eh37aujIjB1RBgRXAUu
-7Id00PV6PdCP0HWM+Kkdup/RCZBUKg==
-=7cFi
------END PGP SIGNATURE-----
-
---pxckk4fmjjpjdey3--
 
