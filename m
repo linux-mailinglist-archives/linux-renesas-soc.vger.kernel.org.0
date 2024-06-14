@@ -1,163 +1,213 @@
-Return-Path: <linux-renesas-soc+bounces-6214-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6215-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88C7E9087E0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 11:46:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36180908806
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 11:47:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2E274285E6D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 09:46:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3D3461C2141E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 09:47:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82D6A1922C2;
-	Fri, 14 Jun 2024 09:45:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A93E9194132;
+	Fri, 14 Jun 2024 09:46:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gYssdKkh"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="H/IDITRX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A3E148851
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jun 2024 09:45:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9396A1940BC
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jun 2024 09:46:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718358330; cv=none; b=BeiFVytofSWWRXHcllrpNHYh5Vi5d/ZBhHOcvEhNYRFs/grXJkR+FL+vFhOwkEMzRK7Sv561ZDIgAseMW1TZVgEEOHvHgpybZKR6pvn43DbU1MaqfZIKLGMViIdgev21BX4ZeXxAyEeqWPZA61hWAEmbuGi+MvXLiGwCJbe1KWk=
+	t=1718358394; cv=none; b=P6wh4G/WEb79DMuItE1noqm8qqyupRmfqmmgmN5Jxildi/t7M0FYb6MIVwSZKOr2AarSc7zF2E0oyb66MbA4vQI7I+rVQlS7Jnej7JXTCwMsk/xshMfkfrHrOZkUbB8vjbUbfF4Gb9ZhE4yF+GNCvymKHlymul31cUr5LskDx9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718358330; c=relaxed/simple;
-	bh=mBULaiJ7rhqMpeeFJBBm3V1JcggLzYeAf23TTXN6Iaw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=foquRhwJNToyz1KQE5JZJJk8hG7pFDXkfJv7oqbpZ/WsxgisAZ3wl55jTDGGZ4y+IvtP0gdimHGo7gjSH/GSjF0Jq3I2hZaY/1L0Bz1SRdR1UvYmBA9ysH3jP0swkQ6Sqaa+pifRptlVpMJ2Bl105AAHXNCVYu69t5xkiueyTKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gYssdKkh; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1718358328;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3zCQQ8p+hx0Gk9UH1f3YCfOSKKO0jNZPpOokLLsHO7k=;
-	b=gYssdKkhhwdhQpNz2SgSXEggadnaMcsJA2NIu0t+4QKjs6MrpnrYLnPphXy2ViPgPNdd+Q
-	wL3UmVffNcuCOx7EZBleXgoXMX3nhIxhWCrur6Gs6Q0tfFz0ZL0Pjwg/vB4uGEWzce1kCg
-	q4RLcUQHRCpvvKmC2ep50x4H9Jj4thU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-586-dHlAsq-IOkWv7SPwpktdyg-1; Fri, 14 Jun 2024 05:45:20 -0400
-X-MC-Unique: dHlAsq-IOkWv7SPwpktdyg-1
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-421791c4eadso11614415e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jun 2024 02:45:20 -0700 (PDT)
+	s=arc-20240116; t=1718358394; c=relaxed/simple;
+	bh=p3XfyX3kLTCraBOtA3bYk0nZWnKJv6DRa4Xv9JXFZPw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ZlScIQj/7eG53p3FvmBtPAPojGZGRNG/lS34nCjUKVVTDUDp5JlDHH1VIJbRCvt7TvLPWcWc6/H9tY2JQit5h3CbCaqEPUYTe5pjAMh16o7co5VIF5y2HQj2N+NyDCrnRgRGgfGeXz3wVL3CixoECtz4ipf2ezF5zSEjaUrvt2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=H/IDITRX; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a6f0e153eddso266673466b.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jun 2024 02:46:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718358391; x=1718963191; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=R3E6JlKgnDrJSPy23T3qrpFv918sUOaM5ecbbXYgrI4=;
+        b=H/IDITRXaQ+d+nMKUZhIahWqU7wFlPShChBnHyolqy/0A4DR6DKP8qGMKEa8z7xPFd
+         X4DNlSOhzlOhCZPKLcDTpMY7FRSGjT/S8PfYeA8DaxAQDx+OGvLQRfGnCpEuy0xzoaKC
+         PmU7d1V2G3++Xx9ZBvl2MF/bsgFFQ1xRl7sx5PlBc8aaRzN73R42efo2j1JtkuL/W02U
+         e96jLtvAqwR3CHgJV26N/4Vkxdx44+ArmUH3IOIa/0FL1yN2AJrQ4WIOJE016THppN44
+         +QTzw8ehECPICP1BpO49yDuBJ2sJtPHxrVwGHbIWpznQTiTsDI9QTym31DFxi0LENcO7
+         rYFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718358319; x=1718963119;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3zCQQ8p+hx0Gk9UH1f3YCfOSKKO0jNZPpOokLLsHO7k=;
-        b=WR0KOtoNbTeBFJ08NrAqHK1q8bo0gBTpohzzVZzE8cGBgrrkgKPDT3kvSEVt1fuwjr
-         UUYgbKv3x7iHkTPrwvSqaVwNLVXUSdiEFkTl5p+kZCvxJED9jNjkQRE3WjctStmO4Lnx
-         n5CBYN32a/QILKwAIY/HF8TY4bLaohSKIjd6qcqAgeWN4kv+rQUDwaeeWGujZtORPt6h
-         fEr7HEp+G5oQLrYFjt41yD9MgqkueNDo/cZbondWKNjMPk14rEuv5nkW9PUjOspP2Zda
-         in9n1tdHRYDWsweZfvO11mUQK9AynEocQGbBwvybHcQCfJdNnWkBj3Ddq/5cVRxGkhfc
-         Waqg==
-X-Forwarded-Encrypted: i=1; AJvYcCUaHSM+GceKyVHNyXskhxNfBi7SJDulqL7JlqW3fXYTLx5nmcZ0Mf0SGcuhqMGPeWa8ILeGOlTd9sMGx6RpER7yYaiH6P4vY8NtxZyzFs5k53s=
-X-Gm-Message-State: AOJu0Ywy5x3CJfyYzLHq+SgSP6UoQG5NVlR2sq40qzbTPc1seif22HA6
-	XmiS9ecQ3ezaRzYe7GfUJyFPwwvrmvAUeV4KSU1nWciR+nmv1rlUWB0+t/gigkw1x84QTeisE/R
-	4uXvGqo+EimNDfiDQezsLZ0Nb0ZnZbk8swn3phohwa39QTDFdOYXmJtlDcznjWGNiHEc1
-X-Received: by 2002:a05:600c:354e:b0:422:6755:17e3 with SMTP id 5b1f17b1804b1-42304848ad5mr18239355e9.29.1718358319400;
-        Fri, 14 Jun 2024 02:45:19 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGq14KCC0bgeAFbxip4impHue7nA1V9MdeorCw9J2iMMisj4tdn99VzNb0cTThFgkm5mlMrXQ==
-X-Received: by 2002:a05:600c:354e:b0:422:6755:17e3 with SMTP id 5b1f17b1804b1-42304848ad5mr18239255e9.29.1718358319173;
-        Fri, 14 Jun 2024 02:45:19 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e? ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36075104b45sm3833550f8f.109.2024.06.14.02.45.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Jun 2024 02:45:18 -0700 (PDT)
-Message-ID: <31eb764b-27f2-4a99-b035-fab21de4ca7f@redhat.com>
-Date: Fri, 14 Jun 2024 11:45:17 +0200
+        d=1e100.net; s=20230601; t=1718358391; x=1718963191;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=R3E6JlKgnDrJSPy23T3qrpFv918sUOaM5ecbbXYgrI4=;
+        b=bALsGT0txShdPgsekPpNpmC0pX6/A1X8luDhVz7iNFMfUyzq+AFKgF+R+F62TG70bo
+         C/UjxI1rZLecU4sTptupLttYkh0Tjf9vyJ5OHItvBp/dnPLCUe9DjO7sNZk6U3JuNCAX
+         HghEFXBoua12EhPwcvx1mv/oa8I2ik9C6nAKWQ6TR50cWTzffqDlMwfFI73UYF94OoDn
+         xdeYjH7yZvEDNToO+tomMwqtPI36jAPvzvGFg1z8BE5YuQlpfZkM6z+XnS3x4O0dFYyV
+         DH1Jsbb3wby64ZdVrUpRSDxIPM95Vpp3THuEll12GBY8lqIchB3vOt/GrfWgjgIgbObj
+         uc3A==
+X-Forwarded-Encrypted: i=1; AJvYcCX4fAMG8LQuP2s1qil6v9p1tiia5kNOGlIutYq62VwExt0X3ITIUNOwpu4wBerL3mkkc/KDotoa+90yptI2ADr5r2B4UYtb48165pogsloM/ww=
+X-Gm-Message-State: AOJu0YwANjNCT6bCBxkjl7FzubGtI0J1K5mDWjIGpI3Wg9ouYKk2ap04
+	hYP4C37RDcCb2fH7c1oM3KW17+LMqIjfRgu73VLf/ICg1kOGJKI/Ykz9hI+azno=
+X-Google-Smtp-Source: AGHT+IGov8h4HWz1vwXrMuZx4d9Kl8tLftrHfY/R0lPxIE7iVJTda8tqaONdGVeUAi1qLy3sNijSsQ==
+X-Received: by 2002:a17:906:d8b2:b0:a6e:fc0a:efaf with SMTP id a640c23a62f3a-a6f60dc89edmr143181966b.49.1718358390766;
+        Fri, 14 Jun 2024 02:46:30 -0700 (PDT)
+Received: from [127.0.1.1] ([78.10.206.163])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f56f9c84csm164966366b.222.2024.06.14.02.46.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Jun 2024 02:46:30 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 00/22] dt-bindings: thermal: few cleanups
+Date: Fri, 14 Jun 2024 11:45:59 +0200
+Message-Id: <20240614-dt-bindings-thermal-allof-v1-0-30b25a6ae24e@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/7] drm/panic: Rename logo to logo_ascii
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <cover.1718305355.git.geert+renesas@glider.be>
- <df77372c16153655c321a290b5a3191ee2dcbc6b.1718305355.git.geert+renesas@glider.be>
-Content-Language: en-US, fr
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <df77372c16153655c321a290b5a3191ee2dcbc6b.1718305355.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFcRbGYC/x3MQQqAIBBA0avErBtQsRZdJVqYjjpgFhoRRHdPW
+ r7F/w9UKkwVpu6BQhdX3nOD7Duw0eRAyK4ZlFBajFKjO3Hl7DiHimekspmEJqXdoxbSDoJGSV5
+ B649Cnu//PS/v+wHlGnZRawAAAA==
+To: Daniel Lezcano <daniel.lezcano@linaro.org>, 
+ Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
+ Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, 
+ Guillaume La Roque <glaroque@baylibre.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Vasily Khoruzhick <anarsoul@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Anson Huang <Anson.Huang@nxp.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Amit Kucheria <amitk@kernel.org>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+ Heiko Stuebner <heiko@sntech.de>, Biju Das <biju.das.jz@bp.renesas.com>, 
+ Orson Zhai <orsonzhai@gmail.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Pascal Paillet <p.paillet@foss.st.com>, Keerthy <j-keerthy@ti.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Scott Branden <sbranden@broadcom.com>, 
+ zhanghongchen <zhanghongchen@loongson.cn>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-pm@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, imx@lists.linux.dev, 
+ linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ Florian Fainelli <f.fainelli@gmail.com>, 
+ linux-rpi-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3782;
+ i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
+ bh=p3XfyX3kLTCraBOtA3bYk0nZWnKJv6DRa4Xv9JXFZPw=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmbBFZ2k3GJoNNLFeKNDEm6wol3YrFjWScB/fEO
+ gMayn0IsTaJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZmwRWQAKCRDBN2bmhouD
+ 1/1iD/0cmbLdy7BRDK+hdAHoMuk7AzFr49JqiJx9VLENFE1VKTi9ZqBN8aDoSCByUeWGR0qU+4q
+ KEogi56HJQfUf74TNd3+SnFy0Sn+vjwhHn/CGv+mMBvy+WBQcLFhAVq8OPFrC6ZaHnMw+twYqdZ
+ cJztoB4JHHpNSh4utMWjZ/1dCwew1GKPFztUKT8kK4OUhxotGA+oTqFklvuMza1LUOitasdXcWE
+ NO5DOwXa3khj+DvmylZwD9aItPM+9lEIrSe1ZI7Im3INY+QlThZu8/jXgvQShu4wMFo6ZiFcGSf
+ DZQw22RWE9MZfA5rprvMGcHRONNxt7Bj9+XsmFTvsgLNUMtn/4cgbR+H6XB53fYsCXd/U77WruG
+ 5FCXdX04NfpF63KybtlPqGyse++v9DRIjDqOl+YaajBVfY5AIWnNtWpkqo0pHDjr8imiQP7O9RM
+ uJCHWeyn0PwumkruVCJHJ6atM6UxO20yBQIoccFirseDL9dbds/B7ghSRppjIKrS9caS0Zu+XK/
+ i2UMwVJf+O4CyDzjLhIUmKwCDk2jNSqCbmUvcv3F5+o34uhViJYX6Lq22U/Nd7PS7LT1uFK5pNg
+ xGjQ4xLDpRUyKC0lPvWUtf8qn7rOAsuoc6ELE0cz7nJbX0rDs1XLZl4fdMI6cRnxhT0CibGBy7L
+ 6PdmGjRdB0YzBJQ==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
+Hi,
 
+Few cleanups witout practical impact, except maybe the Amlogic schema
+(bringing required cells).
 
-On 13/06/2024 21:18, Geert Uytterhoeven wrote:
-> Rename variables related to the ASCII logo, to prepare for the advent of
-> support for graphical logos.
+Best regards,
+Krzysztof
 
-Thanks, that looks good to me.
+---
+Krzysztof Kozlowski (22):
+      dt-bindings: thermal: samsung,exynos: specify cells
+      dt-bindings: thermal: amlogic: reference thermal-sensor schema
+      dt-bindings: thermal: allwinner,sun8i-a83t-ths: reference thermal-sensor schema
+      dt-bindings: thermal: brcm,avs-ro: reference thermal-sensor schema
+      dt-bindings: thermal: generic-adc: reference thermal-sensor schema
+      dt-bindings: thermal: imx8mm: reference thermal-sensor schema
+      dt-bindings: thermal: nvidia,tegra186-bpmp: reference thermal-sensor schema
+      dt-bindings: thermal: nvidia,tegra30-tsensor: reference thermal-sensor schema
+      dt-bindings: thermal: qcom-spmi-adc-tm-hc: reference thermal-sensor schema
+      dt-bindings: thermal: qcom-spmi-adc-tm5: reference thermal-sensor schema
+      dt-bindings: thermal: qcom-tsens: reference thermal-sensor schema
+      dt-bindings: thermal: qoriq: reference thermal-sensor schema
+      dt-bindings: thermal: rcar-gen3: reference thermal-sensor schema
+      dt-bindings: thermal: rockchip: reference thermal-sensor schema
+      dt-bindings: thermal: rzg2l: reference thermal-sensor schema
+      dt-bindings: thermal: socionext,uniphier: reference thermal-sensor schema
+      dt-bindings: thermal: sprd: reference thermal-sensor schema
+      dt-bindings: thermal: st,stm32: reference thermal-sensor schema
+      dt-bindings: thermal: ti,am654: reference thermal-sensor schema
+      dt-bindings: thermal: ti,j72xx: reference thermal-sensor schema
+      dt-bindings: thermal: simplify few bindings
+      dt-bindings: thermal: cleanup examples indentation
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+ .../bindings/thermal/allwinner,sun8i-a83t-ths.yaml |  6 +-
+ .../bindings/thermal/amlogic,thermal.yaml          | 22 ++---
+ .../bindings/thermal/brcm,avs-ro-thermal.yaml      | 22 ++---
+ .../devicetree/bindings/thermal/brcm,avs-tmon.yaml | 17 ++--
+ .../bindings/thermal/brcm,bcm2835-thermal.yaml     |  1 -
+ .../bindings/thermal/fsl,scu-thermal.yaml          |  1 -
+ .../bindings/thermal/generic-adc-thermal.yaml      |  5 +-
+ .../bindings/thermal/imx8mm-thermal.yaml           |  5 +-
+ .../bindings/thermal/loongson,ls2k-thermal.yaml    |  1 -
+ .../bindings/thermal/mediatek,lvts-thermal.yaml    |  1 -
+ .../bindings/thermal/nvidia,tegra124-soctherm.yaml |  1 -
+ .../thermal/nvidia,tegra186-bpmp-thermal.yaml      | 12 +--
+ .../bindings/thermal/nvidia,tegra30-tsensor.yaml   |  9 +-
+ .../bindings/thermal/qcom,spmi-temp-alarm.yaml     |  1 -
+ .../bindings/thermal/qcom-spmi-adc-tm-hc.yaml      |  8 +-
+ .../bindings/thermal/qcom-spmi-adc-tm5.yaml        |  8 +-
+ .../devicetree/bindings/thermal/qcom-tsens.yaml    | 96 ++++++++++------------
+ .../devicetree/bindings/thermal/qoriq-thermal.yaml |  5 +-
+ .../bindings/thermal/rcar-gen3-thermal.yaml        | 69 ++++++++--------
+ .../devicetree/bindings/thermal/rcar-thermal.yaml  | 60 +++++++-------
+ .../bindings/thermal/rockchip-thermal.yaml         |  5 +-
+ .../devicetree/bindings/thermal/rzg2l-thermal.yaml | 41 ++++-----
+ .../bindings/thermal/samsung,exynos-thermal.yaml   |  3 +-
+ .../thermal/socionext,uniphier-thermal.yaml        |  5 +-
+ .../devicetree/bindings/thermal/sprd-thermal.yaml  | 47 +++++------
+ .../bindings/thermal/st,stm32-thermal.yaml         |  5 +-
+ .../bindings/thermal/ti,am654-thermal.yaml         | 15 ++--
+ .../bindings/thermal/ti,j72xx-thermal.yaml         |  5 +-
+ 28 files changed, 230 insertions(+), 246 deletions(-)
+---
+base-commit: 6906a84c482f098d31486df8dc98cead21cce2d0
+change-id: 20240614-dt-bindings-thermal-allof-401c50e61ef2
 
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v2:
->    - Rebased.
-> ---
->   drivers/gpu/drm/drm_panic.c | 11 ++++++-----
->   1 file changed, 6 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-> index 5b0acf8c86e402a8..f7e22b69bb25d3be 100644
-> --- a/drivers/gpu/drm/drm_panic.c
-> +++ b/drivers/gpu/drm/drm_panic.c
-> @@ -78,7 +78,7 @@ static struct drm_panic_line panic_msg[] = {
->   	PANIC_LINE("Please reboot your computer."),
->   };
->   
-> -static const struct drm_panic_line logo[] = {
-> +static const struct drm_panic_line logo_ascii[] = {
->   	PANIC_LINE("     .--.        _"),
->   	PANIC_LINE("    |o_o |      | |"),
->   	PANIC_LINE("    |:_/ |      | |"),
-> @@ -447,7 +447,7 @@ static void draw_txt_rectangle(struct drm_scanout_buffer *sb,
->   static void draw_panic_static_user(struct drm_scanout_buffer *sb)
->   {
->   	size_t msg_lines = ARRAY_SIZE(panic_msg);
-> -	size_t logo_lines = ARRAY_SIZE(logo);
-> +	size_t logo_ascii_lines = ARRAY_SIZE(logo_ascii);
->   	u32 fg_color = convert_from_xrgb8888(CONFIG_DRM_PANIC_FOREGROUND_COLOR, sb->format->format);
->   	u32 bg_color = convert_from_xrgb8888(CONFIG_DRM_PANIC_BACKGROUND_COLOR, sb->format->format);
->   	const struct font_desc *font = get_default_font(sb->width, sb->height, NULL, NULL);
-> @@ -459,8 +459,8 @@ static void draw_panic_static_user(struct drm_scanout_buffer *sb)
->   	r_screen = DRM_RECT_INIT(0, 0, sb->width, sb->height);
->   
->   	r_logo = DRM_RECT_INIT(0, 0,
-> -			       get_max_line_len(logo, logo_lines) * font->width,
-> -			       logo_lines * font->height);
-> +			       get_max_line_len(logo_ascii, logo_ascii_lines) * font->width,
-> +			       logo_ascii_lines * font->height);
->   	r_msg = DRM_RECT_INIT(0, 0,
->   			      min(get_max_line_len(panic_msg, msg_lines) * font->width, sb->width),
->   			      min(msg_lines * font->height, sb->height));
-> @@ -473,7 +473,8 @@ static void draw_panic_static_user(struct drm_scanout_buffer *sb)
->   
->   	if ((r_msg.x1 >= drm_rect_width(&r_logo) || r_msg.y1 >= drm_rect_height(&r_logo)) &&
->   	    drm_rect_width(&r_logo) <= sb->width && drm_rect_height(&r_logo) <= sb->height) {
-> -		draw_txt_rectangle(sb, font, logo, logo_lines, false, &r_logo, fg_color);
-> +		draw_txt_rectangle(sb, font, logo_ascii, logo_ascii_lines, false, &r_logo,
-> +				   fg_color);
->   	}
->   	draw_txt_rectangle(sb, font, panic_msg, msg_lines, true, &r_msg, fg_color);
->   }
+Best regards,
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 
