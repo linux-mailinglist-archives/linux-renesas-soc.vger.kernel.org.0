@@ -1,254 +1,141 @@
-Return-Path: <linux-renesas-soc+bounces-6208-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6209-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3260D90873B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 11:22:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B630908794
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 11:35:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3928A1C220C7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 09:22:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 537E92862B9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 09:35:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE6711922F5;
-	Fri, 14 Jun 2024 09:22:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD9931922DD;
+	Fri, 14 Jun 2024 09:35:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="eddZwAv/"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UORgpWgv"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88883191497;
-	Fri, 14 Jun 2024 09:22:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3825146D60
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jun 2024 09:35:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718356929; cv=none; b=ZSnduyMlc94gik8H/eSpde6CiEWtdFntB0yeBGTjUlS1I4c3NV+VN76/FxjbJkjofaMFsoHFZnB77VHHXII3Q3NDrtzjVOtWAW3K7yIjV650aYLdmYudlO8vU3WJLScmOJsHTUCb9+cltnK11wI+cne0FIc7EgoGZdudUWYfkT0=
+	t=1718357728; cv=none; b=tjk/KRCUivl6WmANdo3vd3G7xnwvlOBuvef+n0Vz5f4jD2zQbT69Nd1q8re6aumFcXbaLj5/03gl+O22DBTnh8H0wy8ImOeoAgLKXXuc002P2d8CAfiDg3K+8eB9PrZm60TgIYeHObnnFCLiWdjtjs3J3rO0QnToSsBX7+0otFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718356929; c=relaxed/simple;
-	bh=Q7gy1qqjZ+smCjQs/lR/3S57dKZFxfXG77Ywzt1cdUM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SSsT7RvvKA8JnYaOaZ1EUA0kSwSvH3Bzt/8oTbCuTq8k/hWJu68B9eWQGR430VYB3U+sXNYlvBcxfzliV6ZjpwmkibEdZAKx8z5hPDKHAgReMs+GGlH5uNdgRU1SWq7ReFBYd/ogQQL60qmlRMEmOF2JaAdaN3fHH2viTABXuwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=eddZwAv/; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 18A8020007;
-	Fri, 14 Jun 2024 09:21:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1718356919;
+	s=arc-20240116; t=1718357728; c=relaxed/simple;
+	bh=Xd8AfhR+JUvJQlHghzmVxCjQeM7PevGLqZZUpot3QwM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LfVy4b7hZ4FLeAZCvNDVeiJHPPyitvk1i0aWmvsJyvJgvllMc6R6CitxS511gP0ioybPdWTaMcQLqb11W5DNW58x1HfOFOUcTdrtMT6tjZrq0Ms5TSf5uhIsG0ijIiKDMJXyGOriR6uqxIrBLGT9gfFi3fpdCJaPTh+j7Li7lw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UORgpWgv; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1718357726;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ez2HfY1x87bBiR5tU1ndmRD1HXIhQKtusmjdRjvINyc=;
-	b=eddZwAv/wquEluA9pJKGZdXbksACURRWevQ1N6byNcOheTyrgeIOEKGM632e9au9gW12gQ
-	d2IxX2j69f6CaKGOi7zMsIE/c8VglP6S/U+jZH8xfuuktleI2iYtT0rLGs1Ag4CfImo49O
-	ykvT85mdUKaa7LHIXeElrU+UREGO8qXAi4fttIkO8dfY1mKB8PsN+mFWw9f4Hb90xtlkNw
-	2bd9AEFqSEIcYj7GmfcyU6uGyb7q17zQARUK2sl6jjvRKAhWKoscCXefYxXCXRGhu13Pss
-	JH6CDhtFF+dymhpdZuKYBfpN1i80pAuQF/47Qf0w2yxgJxqB1JqrcZpL6TwwUw==
-Date: Fri, 14 Jun 2024 11:21:57 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	lee@kernel.org, magnus.damm@gmail.com,
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH 06/12] rtc: renesas-rtca3: Add driver for RTCA-3
- available on Renesas RZ/G3S SoC
-Message-ID: <2024061409215756e6a10c@mail.local>
-References: <20240614071932.1014067-1-claudiu.beznea.uj@bp.renesas.com>
- <20240614071932.1014067-7-claudiu.beznea.uj@bp.renesas.com>
+	bh=xdJt7+cVLZ5M2lQzrTC0sFKbIvCszz8E/fHGwHxyvpM=;
+	b=UORgpWgv79/RFTjVNEYNVqEeXVLDNEwPikUVBfn1ab7ff5fnhdB2tAamYazo+0eB835TQH
+	UejUsC7BVQ78dxsf9Nf8zhRQpZVk/6jgKxS4rmXwlgvL14dalBHV8YvSCs6YjJM6eVZTxX
+	boix1vCc4r0zD/2UxJspebYnq6luLso=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-458-1OkOkDlfPcCR8Es96hskpQ-1; Fri, 14 Jun 2024 05:35:24 -0400
+X-MC-Unique: 1OkOkDlfPcCR8Es96hskpQ-1
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-421292df2adso12701845e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jun 2024 02:35:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718357723; x=1718962523;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xdJt7+cVLZ5M2lQzrTC0sFKbIvCszz8E/fHGwHxyvpM=;
+        b=YwDfGHbyaxPmz3Q5TaLGWGI+Bgp6p5/bzvk13gKKaZArgvmFUYLUcyx08hB9iQMxaa
+         hM2ZcOCKNG70w91ISUchmzgQte+nPxGcvwdf4gEgYiiKESQV91Vcl50v2cnIavHkg3Is
+         9XWahrE58hGMboRIJHQRKZtLPHc0F/Y2HZAg5YVrl1f8SVjxpJperHbPubkTOoTgrF0A
+         Oc/wCz84dQyJ21lkOD5pJhpx0w63HpQ1rrvMWoTXDZH5sh6ZFPRbev6APUz+so4bOLVL
+         NumFmDZQO1Nt0lbtJYzDheira92KBhPpDCPY98pZEGCt+0jImQfxPot9ypVwRPqKIY9J
+         0itQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVrHOiPpqusJF6hDAs2gJb10q1M/VPXefM44jy9tosRlRNWfBeKHzWC3vYj5AAsccvAMMCfY60tJ5kII9nlQhpSUH+CgExLpyO/B+R8vRUhOiY=
+X-Gm-Message-State: AOJu0YwUEjuEJaxW6UzRjMb47VuhppXtbae5mvilPNbSY95B9+rrTo+l
+	4BfReBntpcfXFJJFDxp59/ZRxuGgbqwyi0jVd5Ark9HVCAbdsjEYKBivXmzBFdTL/kBFDYzSJGt
+	SUilKHwZyaMTsmsM9qbrAJJbJ04KGNTVxRh8fyn4gyfMpaLGlHGIu/8oY6UcRKbYet8Z0
+X-Received: by 2002:a7b:c41a:0:b0:421:7b9d:5b9b with SMTP id 5b1f17b1804b1-42304821171mr19059105e9.15.1718357723214;
+        Fri, 14 Jun 2024 02:35:23 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGe9EHRho8FXo61eGrPv34AQ567+feP7sbnnVAIN5Dw0SEYP9TPPcNB5desjjcRmD8PIdslsg==
+X-Received: by 2002:a7b:c41a:0:b0:421:7b9d:5b9b with SMTP id 5b1f17b1804b1-42304821171mr19058885e9.15.1718357722864;
+        Fri, 14 Jun 2024 02:35:22 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e? ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36075104c17sm3813405f8f.106.2024.06.14.02.35.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Jun 2024 02:35:22 -0700 (PDT)
+Message-ID: <d2f7f2c2-242e-4521-a205-8b19999a565b@redhat.com>
+Date: Fri, 14 Jun 2024 11:35:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240614071932.1014067-7-claudiu.beznea.uj@bp.renesas.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
-
-Hello Claudiu,
-
-On 14/06/2024 10:19:26+0300, Claudiu wrote:
-> +static int rtca3_initial_setup(struct rtca3_priv *priv)
-> +{
-> +	unsigned long osc32k_rate;
-> +	u8 pes, tmp, mask;
-> +	u32 sleep_us;
-> +	int ret;
-> +
-> +	osc32k_rate = clk_get_rate(priv->clk);
-> +	if (!osc32k_rate)
-> +		return -EINVAL;
-> +
-> +	sleep_us = DIV_ROUND_UP_ULL(1000000ULL, osc32k_rate) * 6;
-> +
-> +	priv->ppb.ten_sec = DIV_ROUND_CLOSEST_ULL(1000000000ULL, (osc32k_rate * 10));
-> +	priv->ppb.sixty_sec = DIV_ROUND_CLOSEST_ULL(1000000000ULL, (osc32k_rate * 60));
-> +
-> +	/*
-> +	 * According to HW manual (section 22.4.2. Clock and count mode setting procedure)
-> +	 * we need to wait at least 6 cycles of the 32KHz clock after clock was enabled.
-> +	 */
-> +	usleep_range(sleep_us, sleep_us + 10);
-> +
-> +	/* Disable alarm and carry interrupts. */
-> +	mask = RTCA3_RCR1_AIE | RTCA3_RCR1_CIE;
-> +	rtca3_byte_update_bits(priv, RTCA3_RCR1, mask, 0);
-> +	ret = readb_poll_timeout(priv->base + RTCA3_RCR1, tmp, !(tmp & mask),
-> +				 10, RTCA3_DEFAULT_TIMEOUT_US);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/*
-> +	 * Stop the RTC and set to 12 hours mode and calendar count mode.
-> +	 * RCR2.START initial value is undefined so we need to stop here
-> +	 * all the time.
-> +	 */
-
-Certainly not, if you stop the RTC on probe, you lose the time
-information, this must only be done when the RTC has never been
-initialised. The whole goal of the RTC is the keep time across reboots,
-its lifecycle is longer than the system.
-
-Also, why do you insist on 12H-mode? The proper thing to do is to support
-12H-mode on read but always use 24H-mode when setting the time.
-
-> +	mask = RTCA3_RCR2_START | RTCA3_RCR2_HR24 | RTCA3_RCR2_CNTMD;
-> +	writeb(0, priv->base + RTCA3_RCR2);
-> +	ret = readb_poll_timeout(priv->base + RTCA3_RCR2, tmp, !(tmp & mask),
-> +				 10, RTCA3_DEFAULT_TIMEOUT_US);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Execute reset and wait for reset and calendar count mode to be applied. */
-> +	mask = RTCA3_RCR2_RESET | RTCA3_RCR2_CNTMD;
-> +	writeb(RTCA3_RCR2_RESET, priv->base + RTCA3_RCR2);
-> +	ret = readb_poll_timeout(priv->base + RTCA3_RCR2, tmp, !(tmp & mask),
-> +				 10, RTCA3_RESET_TIMEOUT_US);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/*
-> +	 * According to HW manual (section 22.6.3. Notes on writing to and reading
-> +	 * from registers) after reset we need to wait 6 clock cycles before
-> +	 * writing to RTC registers.
-> +	 */
-> +	usleep_range(sleep_us, sleep_us + 10);
-> +
-> +	/* Set no adjustment. */
-> +	writeb(0, priv->base + RTCA3_RADJ);
-> +	ret = readb_poll_timeout(priv->base + RTCA3_RADJ, tmp, !tmp, 10,
-> +				 RTCA3_DEFAULT_TIMEOUT_US);
-> +
-> +	/* Start the RTC and enable automatic time error adjustment. */
-> +	mask = RTCA3_RCR2_START | RTCA3_RCR2_AADJE;
-> +	writeb(RTCA3_RCR2_START | RTCA3_RCR2_AADJE, priv->base + RTCA3_RCR2);
-> +	ret = readb_poll_timeout(priv->base + RTCA3_RCR2, tmp, ((tmp & mask) == mask),
-> +				 10, RTCA3_START_TIMEOUT_US);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/*
-> +	 * According to HW manual (section 22.6.4. Notes on writing to and reading
-> +	 * from registers) we need to wait 1/128 seconds while the clock is operating
-> +	 * (RCR2.START bit = 1) to be able to read the counters after a return from
-> +	 * reset.
-> +	 */
-> +	usleep_range(8000, 9000);
-> +
-> +	/* Set period interrupt to 1/64 seconds. It is necessary for alarm setup. */
-> +	pes = FIELD_PREP(RTCA3_RCR1_PES, RTCA3_RCR1_PES_1_64_SEC);
-> +	rtca3_byte_update_bits(priv, RTCA3_RCR1, RTCA3_RCR1_PES, pes);
-> +	return readb_poll_timeout(priv->base + RTCA3_RCR1, tmp, ((tmp & RTCA3_RCR1_PES) == pes),
-> +				  10, RTCA3_DEFAULT_TIMEOUT_US);
-> +}
-> +
-> +static int rtca3_request_irqs(struct platform_device *pdev, struct rtca3_priv *priv)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	int ret, irq;
-> +
-> +	irq = platform_get_irq_byname(pdev, "alarm");
-> +	if (irq < 0)
-> +		return dev_err_probe(dev, irq, "Failed to get alarm IRQ!\n");
-> +
-> +	ret = devm_request_irq(dev, irq, rtca3_alarm_handler, 0, "rtca3-alarm", priv);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to request alarm IRQ!\n");
-> +	priv->wakeup_irq = irq;
-> +
-> +	irq = platform_get_irq_byname(pdev, "period");
-> +	if (irq < 0)
-> +		return dev_err_probe(dev, irq, "Failed to get period IRQ!\n");
-> +
-> +	ret = devm_request_irq(dev, irq, rtca3_periodic_handler, 0, "rtca3-period", priv);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to request period IRQ!\n");
-> +
-> +	/*
-> +	 * Driver doesn't implement carry handler. Just get the IRQ here
-> +	 * for backward compatibility, in case carry support will be added later.
-> +	 */
-> +	irq = platform_get_irq_byname(pdev, "carry");
-> +	if (irq < 0)
-> +		return dev_err_probe(dev, irq, "Failed to get carry IRQ!\n");
-> +
-> +	return 0;
-> +}
-> +
-> +static int rtca3_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct rtca3_priv *priv;
-> +	int ret;
-> +
-> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +
-> +	priv->base = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(priv->base))
-> +		return PTR_ERR(priv->base);
-> +
-> +	priv->clk = devm_clk_get_enabled(dev, "counter");
-> +	if (IS_ERR(priv->clk))
-> +		return PTR_ERR(priv->clk);
-> +
-> +	platform_set_drvdata(pdev, priv);
-> +
-> +	spin_lock_init(&priv->lock);
-> +	atomic_set(&priv->alrm_sstep, RTCA3_ALRM_SSTEP_DONE);
-> +	init_completion(&priv->set_alarm_completion);
-> +
-> +	ret = rtca3_initial_setup(priv);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to setup the RTC!\n");
-> +
-> +	ret = rtca3_request_irqs(pdev, priv);
-> +	if (ret)
-> +		return ret;
-> +
-> +	device_init_wakeup(&pdev->dev, 1);
-> +
-> +	priv->rtc_dev = devm_rtc_allocate_device(&pdev->dev);
-> +	if (IS_ERR(priv->rtc_dev))
-> +		return PTR_ERR(priv->rtc_dev);
-> +
-> +	priv->rtc_dev->ops = &rtca3_ops;
-> +	priv->rtc_dev->max_user_freq = 256;
-> +	priv->rtc_dev->range_min = mktime64(1999, 1, 1, 0, 0, 0);
-> +	priv->rtc_dev->range_max = mktime64(2098, 12, 31, 23, 59, 59);
-
-This very much looks like the range should be 2000 to 2099, why do you
-want to shift it?
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/7] drm/panic: Fix uninitialized
+ drm_scanout_buffer.set_pixel() crash
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <cover.1718305355.git.geert+renesas@glider.be>
+ <4c250d21880ca0b97e41da7b6a101bdf07e9d015.1718305355.git.geert+renesas@glider.be>
+Content-Language: en-US, fr
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <4c250d21880ca0b97e41da7b6a101bdf07e9d015.1718305355.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+
+On 13/06/2024 21:17, Geert Uytterhoeven wrote:
+> No implementations of drm_plane_helper_funcs.get_scanout_buffer() fill
+> in the optional drm_scanout_buffer.set_pixel() member.  Hence the member
+> may contain non-zero garbage, causing a crash when deferencing it during
+> drm panic.
+> 
+> Fix this by pre-initializing the drm_scanout_buffer object before
+> calling drm_plane_helper_funcs.get_scanout_buffer().
+
+Good catch, I don't know how I didn't hit this bug before.
+Thanks for the fix.
+
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+
+> 
+> Fixes: 24d07f114e4ec760 ("drm/panic: Add a set_pixel() callback to drm_scanout_buffer")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v2:
+>    - New.
+> ---
+>   drivers/gpu/drm/drm_panic.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+> index 293d4dcbc80da7ba..fc04ed4e0b399f55 100644
+> --- a/drivers/gpu/drm/drm_panic.c
+> +++ b/drivers/gpu/drm/drm_panic.c
+> @@ -582,7 +582,7 @@ static void draw_panic_dispatch(struct drm_scanout_buffer *sb)
+>   
+>   static void draw_panic_plane(struct drm_plane *plane)
+>   {
+> -	struct drm_scanout_buffer sb;
+> +	struct drm_scanout_buffer sb = { };
+>   	int ret;
+>   	unsigned long flags;
+>   
+
 
