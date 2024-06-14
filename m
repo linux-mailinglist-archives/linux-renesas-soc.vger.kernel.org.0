@@ -1,50 +1,57 @@
-Return-Path: <linux-renesas-soc+bounces-6254-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6255-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98E77908E70
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 17:16:22 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54551908EA7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 17:25:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A89941C247D8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 15:16:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 786FE1C202F7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 15:25:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3045E15EFDC;
-	Fri, 14 Jun 2024 15:12:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE3484965C;
+	Fri, 14 Jun 2024 15:25:29 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66A2C1591F8;
-	Fri, 14 Jun 2024 15:12:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E4363B
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jun 2024 15:25:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718377968; cv=none; b=s4XBQZeG2ntxyxD3W7aYFO1RizfT+HgcUyYk8QfyfkIL6Pbd0gEhzEjwtxUGiZ2osS2SXiIEpd58i+YQfuI+pqMxfzqXzse/Rlzi1yAAugFKZFN4DnvrAa8ZhwXCiml1+QHOgp5Jlsn5H/0mGolr/VswuE04K2JlFVdP2N5lBCg=
+	t=1718378729; cv=none; b=BX0SJDzJLZnU5gwxScLWhCRzZFlqWVokUtBgIyoJQCF8dVlI3xRf70whxH0ZYxzUEhs3x8s49GXca6mYNMLwxd4C7CH3VGdJkCy7sEmCeFHdbiX8HQQ7Jwml+o3LCmYCGMsayLM4mV+0kJEl0X8IGAe4lcYoxmpnmBb9J5grLCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718377968; c=relaxed/simple;
-	bh=avEZ+q9GkCyZ8CRA8it+z6Wpyg/1LsKNszJVPpwkXi0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=IDFOJeAVdULlKc2SAJCT7uCDIZIu9mvU5Mmm8wxAF0/6xOgX/BYjDZMyXc06qjImB6ZyA6cOho4boSAhDfI5CUH5kD35oorllD6YYZ+3uJwS+qUKeSWuOFeGEFag6Xw7vuyMEx1Rx542Xjj+MD3RndgYWr737ulPMiaceT0trn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.08,238,1712588400"; 
-   d="scan'208";a="207958146"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 15 Jun 2024 00:12:38 +0900
-Received: from localhost.localdomain (unknown [10.226.92.95])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id E300B445EBA3;
-	Sat, 15 Jun 2024 00:12:35 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-pwm@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] pwm: Fix namespace error
-Date: Fri, 14 Jun 2024 16:12:33 +0100
-Message-Id: <20240614151233.398463-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1718378729; c=relaxed/simple;
+	bh=AVCQJfUDyjy6LexGazLTmdFVv0SdjpkVm6cls25Dan4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WVwNdCG2BgSa3MP9j8gjLcTYd63cft1FeQ4PRGErFdB3pecZcI0wNC1j2+H5Isp6D3lZtc9K8AueoaOS3fHBtaal2EL1COzxPOuLE+N+V3ZJKv64B32ymBoolhhcU4c0vfyyNMA4JaR9u7iHhoQ4yxigOUaZBTgkaOUfkv48Cd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:be2a:f066:50f0:dff7])
+	by albert.telenet-ops.be with bizsmtp
+	id bTRP2C00H3w30qz06TRPKh; Fri, 14 Jun 2024 17:25:24 +0200
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1sI8mn-00CdhI-6r;
+	Fri, 14 Jun 2024 17:25:23 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1sI8nr-00FqCe-N9;
+	Fri, 14 Jun 2024 17:25:23 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Paul Barker <paul.barker.ct@bp.renesas.com>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH/RFC] net: ravb: Add MII support for R-Car V4M
+Date: Fri, 14 Jun 2024 17:25:22 +0200
+Message-Id: <f0ef3e00aec461beb33869ab69ccb44a23d78f51.1718378166.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -53,28 +60,71 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix namespace error due to typo by replacing USB_STORAGE->PWM.
+All EtherAVB instances on R-Car Gen3/Gen4 SoCs support the RGMII
+interface.  In addition, the first two EtherAVB instances on R-Car V4M
+also support the MII interface, but this is not yet supported by the
+driver.
 
-Fixes: aeb9cedc87a2 ("pwm: Make use of a symbol namespace for the core")
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Add support for MII to the R-Car Gen3/Gen4-specific EMAC initialization
+function, by selecting the MII clock instead of the RGMII clock when the
+PHY interface is MII.  Note that all implementations of EtherAVB on
+R-Car Gen3/Gen4 SoCs have the APSR register, but only MII-capable
+instances are documented to have the MIISELECT bit, which has a
+documented value of zero when reserved.
+
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- include/linux/pwm.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Compile-tested only, as all AVB interfaces on the Gray Hawk Single
+development board are connected to RGMII PHYs.
+No regressions on R-Car E3, H3, M3-W, M3-N, and V4H.
+---
+ drivers/net/ethernet/renesas/ravb.h      |  1 +
+ drivers/net/ethernet/renesas/ravb_main.c | 12 +++++++++++-
+ 2 files changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/pwm.h b/include/linux/pwm.h
-index c68576067eca..75ad0d2fd949 100644
---- a/include/linux/pwm.h
-+++ b/include/linux/pwm.h
-@@ -8,7 +8,7 @@
- #include <linux/mutex.h>
- #include <linux/of.h>
+diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+index 6b2444d31fcc3093..9893c91af1050fa1 100644
+--- a/drivers/net/ethernet/renesas/ravb.h
++++ b/drivers/net/ethernet/renesas/ravb.h
+@@ -258,6 +258,7 @@ enum APSR_BIT {
+ 	APSR_CMSW	= 0x00000010,
+ 	APSR_RDM	= 0x00002000,
+ 	APSR_TDM	= 0x00004000,
++	APSR_MIISELECT	= 0x01000000,	/* R-Car V4M only */
+ };
  
--MODULE_IMPORT_NS(USB_STORAGE);
-+MODULE_IMPORT_NS(PWM);
+ /* RCR */
+diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+index c1546b916e4ef581..cbe2709e0ace871f 100644
+--- a/drivers/net/ethernet/renesas/ravb_main.c
++++ b/drivers/net/ethernet/renesas/ravb_main.c
+@@ -579,6 +579,16 @@ static void ravb_emac_init_rcar(struct net_device *ndev)
+ 	ravb_write(ndev, ECSIPR_ICDIP | ECSIPR_MPDIP | ECSIPR_LCHNGIP, ECSIPR);
+ }
  
- struct pwm_chip;
- 
++static void ravb_emac_init_rcar_apsr(struct net_device *ndev)
++{
++	struct ravb_private *priv = netdev_priv(ndev);
++	bool mii = priv->phy_interface == PHY_INTERFACE_MODE_MII;
++
++	ravb_modify(ndev, APSR, APSR_MIISELECT, mii ? APSR_MIISELECT : 0);
++
++	ravb_emac_init_rcar(ndev);
++}
++
+ /* E-MAC init function */
+ static void ravb_emac_init(struct net_device *ndev)
+ {
+@@ -2657,7 +2667,7 @@ static const struct ravb_hw_info ravb_gen3_hw_info = {
+ 	.set_rate = ravb_set_rate_rcar,
+ 	.set_feature = ravb_set_features_rcar,
+ 	.dmac_init = ravb_dmac_init_rcar,
+-	.emac_init = ravb_emac_init_rcar,
++	.emac_init = ravb_emac_init_rcar_apsr,
+ 	.gstrings_stats = ravb_gstrings_stats,
+ 	.gstrings_size = sizeof(ravb_gstrings_stats),
+ 	.net_hw_features = NETIF_F_RXCSUM,
 -- 
-2.25.1
+2.34.1
 
 
