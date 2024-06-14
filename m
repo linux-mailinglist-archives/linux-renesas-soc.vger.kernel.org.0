@@ -1,676 +1,251 @@
-Return-Path: <linux-renesas-soc+bounces-6237-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6238-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 570C39088A7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 11:55:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DFF99088D2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 11:59:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 98F311F2152F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 09:55:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BE9D91C218D6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 09:59:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35A3A1A2FA4;
-	Fri, 14 Jun 2024 09:47:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 156E919149D;
+	Fri, 14 Jun 2024 09:55:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="n8RO82co"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HpBcfFvm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201A6193086
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jun 2024 09:47:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B046190477
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jun 2024 09:55:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718358448; cv=none; b=spaJLCYATce7jys2gqYmkXiiRvWORwvwul9+KbFs/IyZ098oUnqSXduGNKAcf0I2mozyQe8XKlO8DciTOVYfgiv0eSgl8BBNcqHTqY7Dev0dVSGO4oneV9v2glT36phVseHfnQ4i4LP7OnoD1P/hYYmUa4EZBx46uL2bOMt12js=
+	t=1718358931; cv=none; b=icvm/5SfNIIL1bW1HUkHruiV58sIKOwgg7RBgwjdeyniz7xfMRZxPbkQmIjA1avRmPBK5BIcGL/uJ3n1VuHj+3rRApqRRb4WBp8DgFr/X/+eMDz/ZfM2gNN2g50etUXJPVNQ3JYUa4rSlSCJ0VNKZodhH7S/AKunzBn7cvPx1O4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718358448; c=relaxed/simple;
-	bh=PTWaCGHhxDG3JPho0JTkQVwDMdXBskC1S/cinQsqs34=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=q0cFgl6YDMl/OVISHO4OFXo8ZoXTdiF0/1X+E19YiI+n2q20qDAscaVjKBSQTZzBcPn1LeCkyNru4pEjGCONh6bD5Xxn/1sIAcUih3wfmKUL9BlNPkxbpeWdwepDOkqeFhA+vgSgcXgeTZYmCw3PJAdLfKFd6KCUTeFKHxbj+Os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=n8RO82co; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a6f1dc06298so252003566b.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jun 2024 02:47:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718358443; x=1718963243; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=R2gPriGbKHdVX74nqBWMkbblvztnZeI8q7lI51XJyjE=;
-        b=n8RO82coUuSwayFApPgbCsc4AxTRvRPM2KrNVoqsg2+5oWaGsXBOs6kIVAhuWqwr4l
-         zK9eD7w3RrIo4qBggVkwSRz9OBoYTQpjEazeKHiYwciezqMWD80n/w1Kn7lU0wF/DOhH
-         hRR2t/0qDoMVb2S/8rhCsBhpUo2AU+vP2N7Pdp0BplGXqEHkE+1ZILau2emeFAfNN0d/
-         iwXKplDF1xRNHANBSLm4uIBMnXdUfB/XQLaBIX3qXMH7xPxGyYigDihxdNnUyIZRRclq
-         IxFUOIJJnlSv4O2UdhNieCQ2GSzstFVzgMWEsNXhIJO6Ha6BCXIdellPxXCVcOWOr46M
-         CsSg==
+	s=arc-20240116; t=1718358931; c=relaxed/simple;
+	bh=Y76m1yA+rfSm//lWp1WJLp2T9w3wfhXAmzvmAR2QxZM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=vAQNMjO0YaJrPyI9eR7o8Q5l/ro2DucMACHjT4k/DdogTB7S+h55X+hlRWBy0aTz9zX4NSNHey67XkDbDuYsahU9X31ou2WwvZ48Qv5ie19nCLmCElxXUaHT5Qlgqga4o0zwjm/gSN47ePT6YLY3nhp/ExKyclS+dQBXhldQ34k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HpBcfFvm; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1718358928;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Vc9vnEGEoOkbYVmoCf71UsJOzFBKHRz5WSa94wukYEo=;
+	b=HpBcfFvm2Ws2Cc8cpi7GZK0cyz5PghnDDYYhIidHEjKF70WllrXgCxGvyGz6us9rph+q3n
+	rz/mtw8Gx8MSNVPNQvQPvmAQPcsyL6MR76fdpuRDrLee7mPxPadoOshXljBZ+53WxEfsrs
+	Zzc9nc2Bo1GkoKpkGOtNELRK2fFL3q8=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-255-4H8PrRN0OlSl4Yvyh3gfIQ-1; Fri, 14 Jun 2024 05:55:24 -0400
+X-MC-Unique: 4H8PrRN0OlSl4Yvyh3gfIQ-1
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4215b0b1c11so15306705e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jun 2024 02:55:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718358443; x=1718963243;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R2gPriGbKHdVX74nqBWMkbblvztnZeI8q7lI51XJyjE=;
-        b=HKcyW6lr3n3SxeoI4pgKqLC/sbHAo8YRi8wOkP7i27MV9OooBagJIIjsWTDqDpK7zC
-         7xMqer0Iru1xUAKyFU/G47SLT8agiNJBT+jH8hIAJdMY52d9furQJfLdEfopHZbzY85L
-         3dmSOcyV8xe6L5xUoOxgVg7hSBHIXKqpCzCGHj5pltf7Vl/5j7SO73Z0Uo+9fTFbqrdJ
-         oDKliBzlfJJk6Uo5pwcsO1K3B2ovT50TNikMnQWPbbhNwVHmSQ6fGm952gv+KmKmI+4Y
-         pbWX/w9kzr7K+IYWZzrOOWvkj32ybRa8d8a8QKqD2s2SJmLcVCMF4Ig4938zvRYgnWzf
-         ugjg==
-X-Forwarded-Encrypted: i=1; AJvYcCWpGpX6TSzo/ChSkbm+L8tjvGG1/uLQIAZ+daPuYrnEJYjgV8vqwREZWeQULw7clxw83xbBEvkFk1xsS6RcMdIg052irwrwrNVqyUTGhjWYZLk=
-X-Gm-Message-State: AOJu0YxAzSdO/mr6EalSLp7Lre65k97SNVTB9YS5D0a12j88i8FgTs6m
-	plvutVntD/x5HgX2aPT38PktPkfnRTPhNi7ocEEib0r5zZilDcbdk+TEo0FjEwc=
-X-Google-Smtp-Source: AGHT+IEf3+S0MhgY0wukGRo771V3bdpj3ZA5SXQwPVRN2B+sO2RVirDXSDvX66hTXcXM0U1zEb/VKQ==
-X-Received: by 2002:a17:906:4f16:b0:a6e:f997:7d91 with SMTP id a640c23a62f3a-a6f60d42257mr139307566b.38.1718358443385;
-        Fri, 14 Jun 2024 02:47:23 -0700 (PDT)
-Received: from [127.0.1.1] ([78.10.206.163])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f56f9c84csm164966366b.222.2024.06.14.02.47.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jun 2024 02:47:22 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Fri, 14 Jun 2024 11:46:21 +0200
-Subject: [PATCH 22/22] dt-bindings: thermal: cleanup examples indentation
+        d=1e100.net; s=20230601; t=1718358923; x=1718963723;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vc9vnEGEoOkbYVmoCf71UsJOzFBKHRz5WSa94wukYEo=;
+        b=YQ1LE8t5FH0Z+gL4PfYnLrZfxImn7G6O5KTBexdptNrdizwAtfeiAQUapeAXs87wmc
+         kHpKIBw+r7iPY+Bk5ViG8kpSQHykC0US/yGvbIFj9lyFnki+aaw6fue03ChCfceBvbsO
+         zlOsre7smKi9xMD75lvmYNYqltdGu4FYqMAk8tXN6GjbuXjP4Yb9/kk8woSmqwsYxRK3
+         jQp2U+PVPkFJlJYrcfXjUmim25SJ5WWqu/UN3bnRWI1kfD+S9e0FCGTwsx2D0Na+7SsO
+         SWY9Cbz9bPPc4mtQa3j7bVqGP3+9xaI2q6n7ePNranLhY5pzSyHdRoKXuY1HnEpKTLNo
+         nuwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVOYdaT8V7l1pIrNTAWIEczClWpPy/H0GcZO4QgWNcUOO9rTN8xUdA+6cIXmCTJjClH022jCZP3+NC2+hYQ5z/7eRwmlUMMPfvPY24scMaKzIw=
+X-Gm-Message-State: AOJu0Yx5j4N0d+uzSA+lIw64QErCoMTWr6jUAvcuw4fDBWJDHjzta/05
+	v6l7LwkzdVQmQxjlTT/FgRc2IMHLCk+ODWc9rCBs+JjHEf3Be2eJ4wk7QUJSV52807rx59FSo5P
+	MR848Yo+TruIWrmB8ym4W0TdG4QV2teKnxjW7VxQzvzW8/rx4D9r2coSSMlkms0bWhVG+
+X-Received: by 2002:a05:600c:1818:b0:421:4786:eb0c with SMTP id 5b1f17b1804b1-4230485a6acmr21184265e9.33.1718358922923;
+        Fri, 14 Jun 2024 02:55:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHP6kV89/gqZPZg3CTIVIOinlEGl8b8uKTyRlBpWHUEfiwgtPulLVmxijVX5LkwDB+k6n+phQ==
+X-Received: by 2002:a05:600c:1818:b0:421:4786:eb0c with SMTP id 5b1f17b1804b1-4230485a6acmr21184045e9.33.1718358922546;
+        Fri, 14 Jun 2024 02:55:22 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e? ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422d0be1424sm59326775e9.12.2024.06.14.02.55.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Jun 2024 02:55:22 -0700 (PDT)
+Message-ID: <f2c00c97-4d2d-4cb8-aa9b-e9c458ca9e65@redhat.com>
+Date: Fri, 14 Jun 2024 11:55:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 7/7] drm/panic: Add support for drawing a monochrome
+ graphical logo
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <cover.1718305355.git.geert+renesas@glider.be>
+ <3f1a5f56213f3e4584773eb2813e212b2dff6d14.1718305355.git.geert+renesas@glider.be>
+Content-Language: en-US, fr
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <3f1a5f56213f3e4584773eb2813e212b2dff6d14.1718305355.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240614-dt-bindings-thermal-allof-v1-22-30b25a6ae24e@linaro.org>
-References: <20240614-dt-bindings-thermal-allof-v1-0-30b25a6ae24e@linaro.org>
-In-Reply-To: <20240614-dt-bindings-thermal-allof-v1-0-30b25a6ae24e@linaro.org>
-To: Daniel Lezcano <daniel.lezcano@linaro.org>, 
- Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
- Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, 
- Guillaume La Roque <glaroque@baylibre.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Vasily Khoruzhick <anarsoul@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Anson Huang <Anson.Huang@nxp.com>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Amit Kucheria <amitk@kernel.org>, 
- =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
- Heiko Stuebner <heiko@sntech.de>, Biju Das <biju.das.jz@bp.renesas.com>, 
- Orson Zhai <orsonzhai@gmail.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Chunyan Zhang <zhang.lyra@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Pascal Paillet <p.paillet@foss.st.com>, Keerthy <j-keerthy@ti.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Scott Branden <sbranden@broadcom.com>, 
- zhanghongchen <zhanghongchen@loongson.cn>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-pm@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, imx@lists.linux.dev, 
- linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-stm32@st-md-mailman.stormreply.com, 
- Florian Fainelli <f.fainelli@gmail.com>, 
- linux-rpi-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=21269;
- i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=PTWaCGHhxDG3JPho0JTkQVwDMdXBskC1S/cinQsqs34=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmbBFzHrd9GOiKwbzJMror8sT+hnOlEceWGq75k
- 7UM0c1D222JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZmwRcwAKCRDBN2bmhouD
- 1yuHEACQQW+ctgqsyxcNpgAHqwclHpTy68YBzjAnl4LzShLU/IKf0yY+RsTopyTrhoi2a8uqxym
- tb/2s73RE2G0GQGl6ovK2iXBnX57zoQHgEiM+npaJaO8VOeo7SqdNFVMogAV6tQqsJ1at1ApsyZ
- /Rsq7yRCQMOME6Fh7mGb6xsxi1vn1Pe0Pmx4FAHcDlZORtDY0q5uCrzuV5ox3hLALkNxy2gR5Cr
- SLzND16UJibYdb1DDPgARuC8T62okbBouAY/sxXbD1ri9KpKOpZTfq6tXSAwe7Uq16dVk5gMTZH
- pgz9p2yaqZ3YfQfLfClz44hpM5JFAHpK2OQaW8XDXDhcHASmA30A2JGeJjHAvt+E9157G2e5XGX
- vDOkH5TldhWe0Jf3WqfvqF7pJd4iQhNpBbqTglUIDZo7RnwYPyXsQqIQFVUMkp513EZQ513iQJk
- ImwdYUGZHbNyg642Bju3dWO6ydMpKIpRLinsMHViIFI0XOIa+GYqW5n9XrRo95RsEZAJBGiamw1
- kztcCY3tAQVxMZCXBalUMhCJsldG+yK0kybQ42JUjgLYIP/pYJ6Gbl4FRdBTCwORdDwCufh4p5a
- J2cutoXsbGMslNy/H3IVMfdFi//qegvrgHFSYaxZlHeyvMtwjOw0yJvviRhsuBz//He4zuLCH8k
- 8ea1P+ZuXQH2j3w==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-Preferred indentation for DTS examples in the bindings is 4-space.  It
-is also preferred not to have redundant/unused labels. No functional
-change
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../bindings/thermal/amlogic,thermal.yaml          | 18 ++---
- .../bindings/thermal/brcm,avs-ro-thermal.yaml      | 16 ++--
- .../devicetree/bindings/thermal/brcm,avs-tmon.yaml | 16 ++--
- .../devicetree/bindings/thermal/qcom-tsens.yaml    | 88 ++++++++++------------
- .../bindings/thermal/rcar-gen3-thermal.yaml        | 64 ++++++++--------
- .../devicetree/bindings/thermal/rcar-thermal.yaml  | 60 +++++++--------
- .../devicetree/bindings/thermal/rzg2l-thermal.yaml | 36 ++++-----
- .../devicetree/bindings/thermal/sprd-thermal.yaml  | 42 +++++------
- .../bindings/thermal/ti,am654-thermal.yaml         | 10 +--
- 9 files changed, 172 insertions(+), 178 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/thermal/amlogic,thermal.yaml b/Documentation/devicetree/bindings/thermal/amlogic,thermal.yaml
-index e52fc40e215d..725303e1a364 100644
---- a/Documentation/devicetree/bindings/thermal/amlogic,thermal.yaml
-+++ b/Documentation/devicetree/bindings/thermal/amlogic,thermal.yaml
-@@ -50,13 +50,13 @@ unevaluatedProperties: false
- 
- examples:
-   - |
--        cpu_temp: temperature-sensor@ff634800 {
--                compatible = "amlogic,g12a-cpu-thermal",
--                             "amlogic,g12a-thermal";
--                reg = <0xff634800 0x50>;
--                interrupts = <0x0 0x24 0x0>;
--                clocks = <&clk 164>;
--                #thermal-sensor-cells = <0>;
--                amlogic,ao-secure = <&sec_AO>;
--        };
-+    temperature-sensor@ff634800 {
-+        compatible = "amlogic,g12a-cpu-thermal",
-+                     "amlogic,g12a-thermal";
-+        reg = <0xff634800 0x50>;
-+        interrupts = <0x0 0x24 0x0>;
-+        clocks = <&clk 164>;
-+        #thermal-sensor-cells = <0>;
-+        amlogic,ao-secure = <&sec_AO>;
-+    };
- ...
-diff --git a/Documentation/devicetree/bindings/thermal/brcm,avs-ro-thermal.yaml b/Documentation/devicetree/bindings/thermal/brcm,avs-ro-thermal.yaml
-index 0271a0bc1843..29a9844e8b48 100644
---- a/Documentation/devicetree/bindings/thermal/brcm,avs-ro-thermal.yaml
-+++ b/Documentation/devicetree/bindings/thermal/brcm,avs-ro-thermal.yaml
-@@ -35,14 +35,14 @@ unevaluatedProperties: false
- 
- examples:
-   - |
--        avs-monitor@7d5d2000 {
--                compatible = "brcm,bcm2711-avs-monitor",
--                             "syscon", "simple-mfd";
--                reg = <0x7d5d2000 0xf00>;
-+    avs-monitor@7d5d2000 {
-+        compatible = "brcm,bcm2711-avs-monitor",
-+                     "syscon", "simple-mfd";
-+        reg = <0x7d5d2000 0xf00>;
- 
--                thermal: thermal {
--                        compatible = "brcm,bcm2711-thermal";
--                        #thermal-sensor-cells = <0>;
--                };
-+        thermal: thermal {
-+            compatible = "brcm,bcm2711-thermal";
-+            #thermal-sensor-cells = <0>;
-         };
-+    };
- ...
-diff --git a/Documentation/devicetree/bindings/thermal/brcm,avs-tmon.yaml b/Documentation/devicetree/bindings/thermal/brcm,avs-tmon.yaml
-index 32730211e15b..081486b44382 100644
---- a/Documentation/devicetree/bindings/thermal/brcm,avs-tmon.yaml
-+++ b/Documentation/devicetree/bindings/thermal/brcm,avs-tmon.yaml
-@@ -45,11 +45,11 @@ required:
- 
- examples:
-   - |
--     thermal@f04d1500 {
--          compatible = "brcm,avs-tmon-bcm7445", "brcm,avs-tmon";
--          reg = <0xf04d1500 0x28>;
--          interrupts = <0x6>;
--          interrupt-names = "tmon";
--          interrupt-parent = <&avs_host_l2_intc>;
--          #thermal-sensor-cells = <0>;
--     };
-+    thermal@f04d1500 {
-+        compatible = "brcm,avs-tmon-bcm7445", "brcm,avs-tmon";
-+        reg = <0xf04d1500 0x28>;
-+        interrupts = <0x6>;
-+        interrupt-names = "tmon";
-+        interrupt-parent = <&avs_host_l2_intc>;
-+        #thermal-sensor-cells = <0>;
-+    };
-diff --git a/Documentation/devicetree/bindings/thermal/qcom-tsens.yaml b/Documentation/devicetree/bindings/thermal/qcom-tsens.yaml
-index cce6624228c7..01f9f45b94c2 100644
---- a/Documentation/devicetree/bindings/thermal/qcom-tsens.yaml
-+++ b/Documentation/devicetree/bindings/thermal/qcom-tsens.yaml
-@@ -295,22 +295,16 @@ unevaluatedProperties: false
- examples:
-   - |
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
--    // Example msm9860 based SoC (ipq8064):
--    gcc: clock-controller {
-+    thermal-sensor {
-+        compatible = "qcom,ipq8064-tsens";
- 
--           /* ... */
-+        nvmem-cells = <&tsens_calib>, <&tsens_calib_backup>;
-+        nvmem-cell-names = "calib", "calib_backup";
-+        interrupts = <GIC_SPI 178 IRQ_TYPE_LEVEL_HIGH>;
-+        interrupt-names = "uplow";
- 
--           tsens: thermal-sensor {
--                compatible = "qcom,ipq8064-tsens";
--
--                 nvmem-cells = <&tsens_calib>, <&tsens_calib_backup>;
--                 nvmem-cell-names = "calib", "calib_backup";
--                 interrupts = <GIC_SPI 178 IRQ_TYPE_LEVEL_HIGH>;
--                 interrupt-names = "uplow";
--
--                 #qcom,sensors = <11>;
--                 #thermal-sensor-cells = <1>;
--          };
-+        #qcom,sensors = <11>;
-+        #thermal-sensor-cells = <1>;
-     };
- 
-   - |
-@@ -347,66 +341,66 @@ examples:
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
-     // Example 1 (legacy: for pre v1 IP):
-     tsens1: thermal-sensor@4a9000 {
--           compatible = "qcom,msm8916-tsens", "qcom,tsens-v0_1";
--           reg = <0x4a9000 0x1000>, /* TM */
--                 <0x4a8000 0x1000>; /* SROT */
-+        compatible = "qcom,msm8916-tsens", "qcom,tsens-v0_1";
-+        reg = <0x4a9000 0x1000>, /* TM */
-+              <0x4a8000 0x1000>; /* SROT */
- 
--           nvmem-cells = <&tsens_caldata>, <&tsens_calsel>;
--           nvmem-cell-names = "calib", "calib_sel";
-+        nvmem-cells = <&tsens_caldata>, <&tsens_calsel>;
-+        nvmem-cell-names = "calib", "calib_sel";
- 
--           interrupts = <GIC_SPI 184 IRQ_TYPE_LEVEL_HIGH>;
--           interrupt-names = "uplow";
-+        interrupts = <GIC_SPI 184 IRQ_TYPE_LEVEL_HIGH>;
-+        interrupt-names = "uplow";
- 
--           #qcom,sensors = <5>;
--           #thermal-sensor-cells = <1>;
-+        #qcom,sensors = <5>;
-+        #thermal-sensor-cells = <1>;
-     };
- 
-   - |
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
-     // Example 2 (for any platform containing v1 of the TSENS IP):
-     tsens2: thermal-sensor@4a9000 {
--          compatible = "qcom,qcs404-tsens", "qcom,tsens-v1";
--          reg = <0x004a9000 0x1000>, /* TM */
--                <0x004a8000 0x1000>; /* SROT */
-+        compatible = "qcom,qcs404-tsens", "qcom,tsens-v1";
-+        reg = <0x004a9000 0x1000>, /* TM */
-+              <0x004a8000 0x1000>; /* SROT */
- 
--          nvmem-cells = <&tsens_caldata>;
--          nvmem-cell-names = "calib";
-+        nvmem-cells = <&tsens_caldata>;
-+        nvmem-cell-names = "calib";
- 
--          interrupts = <GIC_SPI 506 IRQ_TYPE_LEVEL_HIGH>;
--          interrupt-names = "uplow";
-+        interrupts = <GIC_SPI 506 IRQ_TYPE_LEVEL_HIGH>;
-+        interrupt-names = "uplow";
- 
--          #qcom,sensors = <10>;
--          #thermal-sensor-cells = <1>;
-+        #qcom,sensors = <10>;
-+        #thermal-sensor-cells = <1>;
-     };
- 
-   - |
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
-     // Example 3 (for any platform containing v2 of the TSENS IP):
-     tsens3: thermal-sensor@c263000 {
--           compatible = "qcom,sdm845-tsens", "qcom,tsens-v2";
--           reg = <0xc263000 0x1ff>,
--                 <0xc222000 0x1ff>;
-+        compatible = "qcom,sdm845-tsens", "qcom,tsens-v2";
-+        reg = <0xc263000 0x1ff>,
-+              <0xc222000 0x1ff>;
- 
--           interrupts = <GIC_SPI 506 IRQ_TYPE_LEVEL_HIGH>,
--                        <GIC_SPI 508 IRQ_TYPE_LEVEL_HIGH>;
--           interrupt-names = "uplow", "critical";
-+        interrupts = <GIC_SPI 506 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 508 IRQ_TYPE_LEVEL_HIGH>;
-+        interrupt-names = "uplow", "critical";
- 
--           #qcom,sensors = <13>;
--           #thermal-sensor-cells = <1>;
-+        #qcom,sensors = <13>;
-+        #thermal-sensor-cells = <1>;
-     };
- 
-   - |
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
-     // Example 4 (for any IPQ8074 based SoC-s):
-     tsens4: thermal-sensor@4a9000 {
--           compatible = "qcom,ipq8074-tsens";
--           reg = <0x4a9000 0x1000>,
--                 <0x4a8000 0x1000>;
-+        compatible = "qcom,ipq8074-tsens";
-+        reg = <0x4a9000 0x1000>,
-+              <0x4a8000 0x1000>;
- 
--           interrupts = <GIC_SPI 184 IRQ_TYPE_LEVEL_HIGH>;
--           interrupt-names = "combined";
-+        interrupts = <GIC_SPI 184 IRQ_TYPE_LEVEL_HIGH>;
-+        interrupt-names = "combined";
- 
--           #qcom,sensors = <16>;
--           #thermal-sensor-cells = <1>;
-+        #qcom,sensors = <16>;
-+        #thermal-sensor-cells = <1>;
-     };
- ...
-diff --git a/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml b/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
-index d92e882c9e8d..b6657d64cf3d 100644
---- a/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
-+++ b/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
-@@ -106,33 +106,33 @@ examples:
-     #include <dt-bindings/power/r8a7795-sysc.h>
- 
-     tsc: thermal@e6198000 {
--            compatible = "renesas,r8a7795-thermal";
--            reg = <0xe6198000 0x100>,
--                  <0xe61a0000 0x100>,
--                  <0xe61a8000 0x100>;
--            interrupts = <GIC_SPI 67 IRQ_TYPE_LEVEL_HIGH>,
--                         <GIC_SPI 68 IRQ_TYPE_LEVEL_HIGH>,
--                         <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
--            clocks = <&cpg CPG_MOD 522>;
--            power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
--            resets = <&cpg 522>;
--            #thermal-sensor-cells = <1>;
-+        compatible = "renesas,r8a7795-thermal";
-+        reg = <0xe6198000 0x100>,
-+              <0xe61a0000 0x100>,
-+              <0xe61a8000 0x100>;
-+        interrupts = <GIC_SPI 67 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 68 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&cpg CPG_MOD 522>;
-+        power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
-+        resets = <&cpg 522>;
-+        #thermal-sensor-cells = <1>;
-     };
- 
-     thermal-zones {
--            sensor_thermal: sensor-thermal {
--                    polling-delay-passive = <250>;
--                    polling-delay = <1000>;
--                    thermal-sensors = <&tsc 0>;
-+        sensor_thermal: sensor-thermal {
-+            polling-delay-passive = <250>;
-+            polling-delay = <1000>;
-+            thermal-sensors = <&tsc 0>;
- 
--                    trips {
--                            sensor1_crit: sensor1-crit {
--                                    temperature = <90000>;
--                                    hysteresis = <2000>;
--                                    type = "critical";
--                            };
--                    };
-+            trips {
-+                sensor1_crit: sensor1-crit {
-+                    temperature = <90000>;
-+                    hysteresis = <2000>;
-+                    type = "critical";
-+                };
-             };
-+        };
-     };
-   - |
-     #include <dt-bindings/clock/r8a779a0-cpg-mssr.h>
-@@ -140,14 +140,14 @@ examples:
-     #include <dt-bindings/power/r8a779a0-sysc.h>
- 
-     tsc_r8a779a0: thermal@e6190000 {
--            compatible = "renesas,r8a779a0-thermal";
--            reg = <0xe6190000 0x200>,
--                  <0xe6198000 0x200>,
--                  <0xe61a0000 0x200>,
--                  <0xe61a8000 0x200>,
--                  <0xe61b0000 0x200>;
--            clocks = <&cpg CPG_MOD 919>;
--            power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
--            resets = <&cpg 919>;
--            #thermal-sensor-cells = <1>;
-+        compatible = "renesas,r8a779a0-thermal";
-+        reg = <0xe6190000 0x200>,
-+              <0xe6198000 0x200>,
-+              <0xe61a0000 0x200>,
-+              <0xe61a8000 0x200>,
-+              <0xe61b0000 0x200>;
-+        clocks = <&cpg CPG_MOD 919>;
-+        power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+        resets = <&cpg 919>;
-+        #thermal-sensor-cells = <1>;
-     };
-diff --git a/Documentation/devicetree/bindings/thermal/rcar-thermal.yaml b/Documentation/devicetree/bindings/thermal/rcar-thermal.yaml
-index 119998d10ff4..221a58d18cad 100644
---- a/Documentation/devicetree/bindings/thermal/rcar-thermal.yaml
-+++ b/Documentation/devicetree/bindings/thermal/rcar-thermal.yaml
-@@ -98,8 +98,8 @@ examples:
-   # Example (non interrupt support)
-   - |
-     thermal@ffc48000 {
--            compatible = "renesas,thermal-r8a7779", "renesas,rcar-thermal";
--            reg = <0xffc48000 0x38>;
-+        compatible = "renesas,thermal-r8a7779", "renesas,rcar-thermal";
-+        reg = <0xffc48000 0x38>;
-     };
- 
-   # Example (interrupt support)
-@@ -109,12 +109,12 @@ examples:
-     #include <dt-bindings/interrupt-controller/irq.h>
- 
-     thermal@e61f0000 {
--            compatible = "renesas,thermal-r8a73a4", "renesas,rcar-thermal";
--            reg = <0xe61f0000 0x14>, <0xe61f0100 0x38>,
--                  <0xe61f0200 0x38>, <0xe61f0300 0x38>;
--            interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
--            clocks = <&mstp5_clks R8A73A4_CLK_THERMAL>;
--            power-domains = <&pd_c5>;
-+        compatible = "renesas,thermal-r8a73a4", "renesas,rcar-thermal";
-+        reg = <0xe61f0000 0x14>, <0xe61f0100 0x38>,
-+              <0xe61f0200 0x38>, <0xe61f0300 0x38>;
-+        interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&mstp5_clks R8A73A4_CLK_THERMAL>;
-+        power-domains = <&pd_c5>;
-     };
- 
-   # Example (with thermal-zone)
-@@ -124,32 +124,32 @@ examples:
-     #include <dt-bindings/power/r8a7790-sysc.h>
- 
-     thermal: thermal@e61f0000 {
--      compatible = "renesas,thermal-r8a7790",
--                   "renesas,rcar-gen2-thermal",
--                   "renesas,rcar-thermal";
--            reg = <0xe61f0000 0x10>, <0xe61f0100 0x38>;
--            interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
--            clocks = <&cpg CPG_MOD 522>;
--            power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
--            resets = <&cpg 522>;
--            #thermal-sensor-cells = <0>;
-+        compatible = "renesas,thermal-r8a7790",
-+                     "renesas,rcar-gen2-thermal",
-+                     "renesas,rcar-thermal";
-+        reg = <0xe61f0000 0x10>, <0xe61f0100 0x38>;
-+        interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&cpg CPG_MOD 522>;
-+        power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
-+        resets = <&cpg 522>;
-+        #thermal-sensor-cells = <0>;
-     };
- 
-     thermal-zones {
--            cpu_thermal: cpu-thermal {
--                    polling-delay-passive = <1000>;
--                    polling-delay = <5000>;
-+        cpu_thermal: cpu-thermal {
-+            polling-delay-passive = <1000>;
-+            polling-delay = <5000>;
- 
--                    thermal-sensors = <&thermal>;
-+            thermal-sensors = <&thermal>;
- 
--                    trips {
--                            cpu-crit {
--                                    temperature = <115000>;
--                                    hysteresis = <0>;
--                                    type = "critical";
--                            };
--                    };
--                    cooling-maps {
--                    };
-+            trips {
-+                cpu-crit {
-+                    temperature = <115000>;
-+                    hysteresis = <0>;
-+                    type = "critical";
-+                };
-             };
-+            cooling-maps {
-+            };
-+        };
-     };
-diff --git a/Documentation/devicetree/bindings/thermal/rzg2l-thermal.yaml b/Documentation/devicetree/bindings/thermal/rzg2l-thermal.yaml
-index 2f96c0fe0f75..136589f5adee 100644
---- a/Documentation/devicetree/bindings/thermal/rzg2l-thermal.yaml
-+++ b/Documentation/devicetree/bindings/thermal/rzg2l-thermal.yaml
-@@ -53,27 +53,27 @@ examples:
-     #include <dt-bindings/clock/r9a07g044-cpg.h>
- 
-     tsu: thermal@10059400 {
--            compatible = "renesas,r9a07g044-tsu",
--                         "renesas,rzg2l-tsu";
--            reg = <0x10059400 0x400>;
--            clocks = <&cpg CPG_MOD R9A07G044_TSU_PCLK>;
--            resets = <&cpg R9A07G044_TSU_PRESETN>;
--            power-domains = <&cpg>;
--            #thermal-sensor-cells = <1>;
-+        compatible = "renesas,r9a07g044-tsu",
-+                     "renesas,rzg2l-tsu";
-+        reg = <0x10059400 0x400>;
-+        clocks = <&cpg CPG_MOD R9A07G044_TSU_PCLK>;
-+        resets = <&cpg R9A07G044_TSU_PRESETN>;
-+        power-domains = <&cpg>;
-+        #thermal-sensor-cells = <1>;
-     };
- 
-     thermal-zones {
--            cpu-thermal {
--                    polling-delay-passive = <250>;
--                    polling-delay = <1000>;
--                    thermal-sensors = <&tsu 0>;
-+        cpu-thermal {
-+            polling-delay-passive = <250>;
-+            polling-delay = <1000>;
-+            thermal-sensors = <&tsu 0>;
- 
--                    trips {
--                            sensor_crit: sensor-crit {
--                                    temperature = <125000>;
--                                    hysteresis = <1000>;
--                                    type = "critical";
--                            };
--                    };
-+            trips {
-+                sensor_crit: sensor-crit {
-+                    temperature = <125000>;
-+                    hysteresis = <1000>;
-+                    type = "critical";
-+                };
-             };
-+        };
-     };
-diff --git a/Documentation/devicetree/bindings/thermal/sprd-thermal.yaml b/Documentation/devicetree/bindings/thermal/sprd-thermal.yaml
-index f65076fc68f9..afa551f6185f 100644
---- a/Documentation/devicetree/bindings/thermal/sprd-thermal.yaml
-+++ b/Documentation/devicetree/bindings/thermal/sprd-thermal.yaml
-@@ -86,27 +86,27 @@ unevaluatedProperties: false
- 
- examples:
-   - |
--        ap_thm0: thermal@32200000 {
--                compatible = "sprd,ums512-thermal";
--                reg = <0x32200000 0x10000>;
--                clock-names = "enable";
--                clocks = <&aonapb_gate 32>;
--                #thermal-sensor-cells = <1>;
--                nvmem-cells = <&thm0_sign>, <&thm0_ratio>;
--                nvmem-cell-names = "thm_sign_cal", "thm_ratio_cal";
--                #address-cells = <1>;
--                #size-cells = <0>;
-+    thermal@32200000 {
-+        compatible = "sprd,ums512-thermal";
-+        reg = <0x32200000 0x10000>;
-+        clock-names = "enable";
-+        clocks = <&aonapb_gate 32>;
-+        #thermal-sensor-cells = <1>;
-+        nvmem-cells = <&thm0_sign>, <&thm0_ratio>;
-+        nvmem-cell-names = "thm_sign_cal", "thm_ratio_cal";
-+        #address-cells = <1>;
-+        #size-cells = <0>;
- 
--                prometheus-sensor@0 {
--                        reg = <0>;
--                        nvmem-cells = <&thm0_sen0>;
--                        nvmem-cell-names = "sen_delta_cal";
--                };
--
--                ank-sensor@1 {
--                        reg = <1>;
--                        nvmem-cells = <&thm0_sen1>;
--                        nvmem-cell-names = "sen_delta_cal";
--                };
-+        prometheus-sensor@0 {
-+            reg = <0>;
-+            nvmem-cells = <&thm0_sen0>;
-+            nvmem-cell-names = "sen_delta_cal";
-         };
-+
-+        ank-sensor@1 {
-+            reg = <1>;
-+            nvmem-cells = <&thm0_sen1>;
-+            nvmem-cell-names = "sen_delta_cal";
-+        };
-+    };
- ...
-diff --git a/Documentation/devicetree/bindings/thermal/ti,am654-thermal.yaml b/Documentation/devicetree/bindings/thermal/ti,am654-thermal.yaml
-index 16801aa78bc2..c123d9070525 100644
---- a/Documentation/devicetree/bindings/thermal/ti,am654-thermal.yaml
-+++ b/Documentation/devicetree/bindings/thermal/ti,am654-thermal.yaml
-@@ -47,11 +47,11 @@ examples:
-         thermal-sensors = <&vtm0 0>;
- 
-         trips {
--                mpu0_crit: mpu0_crit {
--                        temperature = <125000>; /* milliCelsius */
--                        hysteresis = <2000>; /* milliCelsius */
--                        type = "critical";
--                };
-+            mpu0_crit: mpu0_crit {
-+                temperature = <125000>; /* milliCelsius */
-+                hysteresis = <2000>; /* milliCelsius */
-+                type = "critical";
-+            };
-         };
-     };
- ...
+On 13/06/2024 21:18, Geert Uytterhoeven wrote:
+> Re-use the existing support for boot-up logos to draw a monochrome
+> graphical logo in the DRM panic handler.  When no suitable graphical
+> logo is available, the code falls back to the ASCII art penguin logo.
+> 
+> Note that all graphical boot-up logos are freed during late kernel
+> initialization, hence a copy must be made for later use.
 
--- 
-2.43.0
+Would it be possible to have the logo not in the __init section if 
+DRM_PANIC is set ?
+
+The patch looks good to me anyway.
+
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v2:
+>    - Rebased,
+>    - Inline trivial draw_logo_mono().
+> ---
+>   drivers/gpu/drm/drm_panic.c | 65 +++++++++++++++++++++++++++++++++----
+>   drivers/video/logo/Kconfig  |  2 ++
+>   2 files changed, 60 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+> index f7e22b69bb25d3be..af30f243b2802ad7 100644
+> --- a/drivers/gpu/drm/drm_panic.c
+> +++ b/drivers/gpu/drm/drm_panic.c
+> @@ -7,11 +7,15 @@
+>    */
+>   
+>   #include <linux/font.h>
+> +#include <linux/init.h>
+>   #include <linux/iosys-map.h>
+>   #include <linux/kdebug.h>
+>   #include <linux/kmsg_dump.h>
+> +#include <linux/linux_logo.h>
+>   #include <linux/list.h>
+> +#include <linux/math.h>
+>   #include <linux/module.h>
+> +#include <linux/overflow.h>
+>   #include <linux/printk.h>
+>   #include <linux/types.h>
+>   
+> @@ -88,6 +92,42 @@ static const struct drm_panic_line logo_ascii[] = {
+>   	PANIC_LINE(" \\___)=(___/"),
+>   };
+>   
+> +#ifdef CONFIG_LOGO
+> +static const struct linux_logo *logo_mono;
+> +
+> +static int drm_panic_setup_logo(void)
+> +{
+> +	const struct linux_logo *logo = fb_find_logo(1);
+> +	const unsigned char *logo_data;
+> +	struct linux_logo *logo_dup;
+> +
+> +	if (!logo || logo->type != LINUX_LOGO_MONO)
+> +		return 0;
+> +
+> +	/* The logo is __init, so we must make a copy for later use */
+> +	logo_data = kmemdup(logo->data,
+> +			    size_mul(DIV_ROUND_UP(logo->width, BITS_PER_BYTE), logo->height),
+> +			    GFP_KERNEL);
+> +	if (!logo_data)
+> +		return -ENOMEM;
+> +
+> +	logo_dup = kmemdup(logo, sizeof(*logo), GFP_KERNEL);
+> +	if (!logo_dup) {
+> +		kfree(logo_data);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	logo_dup->data = logo_data;
+> +	logo_mono = logo_dup;
+> +
+> +	return 0;
+> +}
+> +
+> +device_initcall(drm_panic_setup_logo);
+> +#else
+> +#define logo_mono	((const struct linux_logo *)NULL)
+> +#endif
+> +
+>   /*
+>    * Color conversion
+>    */
+> @@ -452,15 +492,22 @@ static void draw_panic_static_user(struct drm_scanout_buffer *sb)
+>   	u32 bg_color = convert_from_xrgb8888(CONFIG_DRM_PANIC_BACKGROUND_COLOR, sb->format->format);
+>   	const struct font_desc *font = get_default_font(sb->width, sb->height, NULL, NULL);
+>   	struct drm_rect r_screen, r_logo, r_msg;
+> +	unsigned int logo_width, logo_height;
+>   
+>   	if (!font)
+>   		return;
+>   
+>   	r_screen = DRM_RECT_INIT(0, 0, sb->width, sb->height);
+>   
+> -	r_logo = DRM_RECT_INIT(0, 0,
+> -			       get_max_line_len(logo_ascii, logo_ascii_lines) * font->width,
+> -			       logo_ascii_lines * font->height);
+> +	if (logo_mono) {
+> +		logo_width = logo_mono->width;
+> +		logo_height = logo_mono->height;
+> +	} else {
+> +		logo_width = get_max_line_len(logo_ascii, logo_ascii_lines) * font->width;
+> +		logo_height = logo_ascii_lines * font->height;
+> +	}
+> +
+> +	r_logo = DRM_RECT_INIT(0, 0, logo_width, logo_height);
+>   	r_msg = DRM_RECT_INIT(0, 0,
+>   			      min(get_max_line_len(panic_msg, msg_lines) * font->width, sb->width),
+>   			      min(msg_lines * font->height, sb->height));
+> @@ -471,10 +518,14 @@ static void draw_panic_static_user(struct drm_scanout_buffer *sb)
+>   	/* Fill with the background color, and draw text on top */
+>   	drm_panic_fill(sb, &r_screen, bg_color);
+>   
+> -	if ((r_msg.x1 >= drm_rect_width(&r_logo) || r_msg.y1 >= drm_rect_height(&r_logo)) &&
+> -	    drm_rect_width(&r_logo) <= sb->width && drm_rect_height(&r_logo) <= sb->height) {
+> -		draw_txt_rectangle(sb, font, logo_ascii, logo_ascii_lines, false, &r_logo,
+> -				   fg_color);
+> +	if ((r_msg.x1 >= logo_width || r_msg.y1 >= logo_height) &&
+> +	    logo_width <= sb->width && logo_height <= sb->height) {
+> +		if (logo_mono)
+> +			drm_panic_blit(sb, &r_logo, logo_mono->data, DIV_ROUND_UP(logo_width, 8),
+> +				       fg_color);
+> +		else
+> +			draw_txt_rectangle(sb, font, logo_ascii, logo_ascii_lines, false, &r_logo,
+> +					   fg_color);
+>   	}
+>   	draw_txt_rectangle(sb, font, panic_msg, msg_lines, true, &r_msg, fg_color);
+>   }
+> diff --git a/drivers/video/logo/Kconfig b/drivers/video/logo/Kconfig
+> index b7d94d1dd1585a84..ce6bb753522d215d 100644
+> --- a/drivers/video/logo/Kconfig
+> +++ b/drivers/video/logo/Kconfig
+> @@ -8,6 +8,8 @@ menuconfig LOGO
+>   	depends on FB_CORE || SGI_NEWPORT_CONSOLE
+>   	help
+>   	  Enable and select frame buffer bootup logos.
+> +	  Monochrome logos will also be used by the DRM panic handler, if
+> +	  enabled.
+>   
+>   if LOGO
+>   
 
 
