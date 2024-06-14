@@ -1,115 +1,117 @@
-Return-Path: <linux-renesas-soc+bounces-6179-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6180-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E7B3907E72
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 00:00:05 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 914F99080B1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 03:35:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 966DE1F21A0E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2024 22:00:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E7506B222FB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 01:35:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 631911474B6;
-	Thu, 13 Jun 2024 22:00:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED7661822D9;
+	Fri, 14 Jun 2024 01:34:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="LMX958yk"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sg9ZtS8y"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A5E45A4FD;
-	Thu, 13 Jun 2024 21:59:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872431773D;
+	Fri, 14 Jun 2024 01:34:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718316000; cv=none; b=JJdALRhs6gfdzEeQXl5lVF615BKk1WDC+YjaoUZb7G/y2AjWNxvrv5PlvRi2UEDguwH0qJ0HHKj7CxM7z3uR5LbFptKbX5QvmSFJ3+Fums67GUfoDDQY5KgrrqCHgnD1aLbWI35HODPnfCW7MXbaAkXSrdw4wM8tL9min9wamVk=
+	t=1718328897; cv=none; b=VsHrwmH5eYxeiKZFTbnBcWzlULoydE+R7s6cx1jJa8c0Ccth2DsEIxMIH9nHk4a9IH9RD01S/Pk4IPQ+WD/KR570Xa5XYQGDp6oxp9G/KjvqL9QdJdHM3Vszn1XrX8cMTaGXhxOAstp5A/rWavqEs63mJk4VS1VevaXQNjp4rSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718316000; c=relaxed/simple;
-	bh=Hd/9wMpw8pzEUMYSc1ulvSblxTiLluyG6ie+LF/7UNY=;
+	s=arc-20240116; t=1718328897; c=relaxed/simple;
+	bh=CYOxmE4ntQW4bNMvxq9UIlsEBzTRL4qLB1FV48Xatv4=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fzKVKivU9dy9ulBcQ2EqkaUVsIE1EIq3PikBeMioFWFjj2+b2IAR+R7dX9rvxD5D6deeXDIMd2GbY6uCuzLPjw0enrm4lLdtyDa5h3z3xg2gSZNM2ZeWvfoPZYDG+yZ/h1ip4aClLy2Tw1yHUPbiHyTYzV5DG7mBKELKwGQ+1e0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au; spf=pass smtp.mailfrom=canb.auug.org.au; dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b=LMX958yk; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canb.auug.org.au
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
-	s=201702; t=1718315993;
-	bh=Hd/9wMpw8pzEUMYSc1ulvSblxTiLluyG6ie+LF/7UNY=;
+	 MIME-Version:Content-Type; b=USAUY/NF7f9lomUFU0/3qPvQFhIc5mrecPjwbnTHMK6Ruj5KN6zhnD0kQWa7XUT8H7DTvXi24TGeT5fFQ/5ScIs7yqdZcsE0rumG+c9rCTUfme+LP9Q6HJ0SIHzXqIqsEIOosy1u+qd6OimLeN+3c5iD+j7F/h9+2UI6gYg0ovU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sg9ZtS8y; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61242C2BBFC;
+	Fri, 14 Jun 2024 01:34:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718328897;
+	bh=CYOxmE4ntQW4bNMvxq9UIlsEBzTRL4qLB1FV48Xatv4=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=LMX958ykXJ7Od31qbDtsybegrEu+jkMZRISMpaaR2Ib+yrSb7k16rbf0DHWRkFACu
-	 m7mfUJwEHRuXbtvLhT6lOu9gShzu0Dx3TFonF45G6TBSvGw0D8+kbZ6vAL2abaFuvp
-	 7M/zLNpTT3uj4/ISRXkiuzIFxq7W4WUQ/XswwgZ2rNdjMf4THnJvVUkYoR/pYy6wq5
-	 0PLsMr9/FKrtfdfW9CZ79Lnee53h8C7s+05Mz7GuJp0gbr1Yfp7YR+USJldw0xGd68
-	 5jjBI2yXvfIcSQMfeyXrQM7WmYEZDoY416u2GiXxstpLStbPgO0jRNMUuqSk9Ap4fA
-	 pNaYhpMOmlOrw==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4W0btH1kLVz4wbp;
-	Fri, 14 Jun 2024 07:59:51 +1000 (AEST)
-Date: Fri, 14 Jun 2024 07:59:49 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 0/3] drm/panic: Fixes and graphical logo
-Message-ID: <20240614075949.3a3c667f@canb.auug.org.au>
-In-Reply-To: <CAMuHMdUGEuX+8EP3gbCB-Kgri=h34q0ryjOd5-KE-4+fWWwsGQ@mail.gmail.com>
-References: <cover.1718199918.git.geert+renesas@glider.be>
-	<386a229b-6904-465d-b772-921f99815e8c@redhat.com>
-	<CAMuHMdWy15T1JPH6w=xLyx_-zpHJA_VUe_Mu+h5zNPXEZw8+RQ@mail.gmail.com>
-	<cff14393-d702-4fcd-8a13-034692dc931e@redhat.com>
-	<CAMuHMdUGEuX+8EP3gbCB-Kgri=h34q0ryjOd5-KE-4+fWWwsGQ@mail.gmail.com>
+	b=sg9ZtS8yEezxbjTVPI568a2KvEHqvKq8ud8+uPe6dGMbTueQSEMPMAgj2PCgXuIB9
+	 Il047nqeXnP6P/oSYmAKQCAxosjwrgYOaHdSYN8DpizcnGRlWkldLzTTe90OSa9FGv
+	 MBAW9iL444FGaNr9FcdswWY3pHc51pXPD6UDrHaFRQu/JWFwS+m0CctYfvcTP+Y/us
+	 3tPXqBkvjF/1WlqhH8l2wOQHXRcCWEIeW4JHfm3b/MLKWXXuS8tFi+ZMZi3LlOasMl
+	 Pv1svqR65L1eeiVLZrRKEQMiPGyOnYtk2TTlgDn5OVb4lEV9805bZIfH/6hgbdu1Gs
+	 S7zj/D1FRPg8w==
+Date: Thu, 13 Jun 2024 18:34:53 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Richard Henderson
+ <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer
+ <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Sergey Shtylyov <s.shtylyov@omp.ru>,
+ Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas
+ <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, Masami
+ Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Arnd Bergmann <arnd@arndb.de>, Alexei
+ Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
+ <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
+ <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
+ Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
+ <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan
+ <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, "Christian
+ =?UTF-8?B?S8O2bmln?=" <christian.koenig@amd.com>, Bagas Sanjaya
+ <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, Nikolay
+ Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>,
+ David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
+ <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
+ Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
+ <pkaligineedi@google.com>
+Subject: Re: [PATCH net-next v12 00/13] Device Memory TCP
+Message-ID: <20240613183453.2423e23b@kernel.org>
+In-Reply-To: <20240613013557.1169171-1-almasrymina@google.com>
+References: <20240613013557.1169171-1-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/TYz4mwKz+tY5O7NzfgBXWFo";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-
---Sig_/TYz4mwKz+tY5O7NzfgBXWFo
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-Hi Geert,
+On Thu, 13 Jun 2024 01:35:37 +0000 Mina Almasry wrote:
+> v12: https://patchwork.kernel.org/project/netdevbpf/list/?series=859747&state=*
 
-On Thu, 13 Jun 2024 11:48:15 +0200 Geert Uytterhoeven <geert@linux-m68k.org=
-> wrote:
->
-> > > Has the drm-misc git repo moved? =20
-> >
-> > It moved to gitlab recently, the new url is
-> > git@gitlab.freedesktop.org:drm/misc/kernel.git =20
->=20
-> Time to tell Stephen...
+patches 5 and 6 transiently break the build
 
-linux-next has been using that URL for some time.
+../include/trace/events/page_pool.h:65:23: error: use of undeclared identifier 'NET_IOV'
+   65 |                   __entry->netmem & NET_IOV, __entry->pfn, __entry->release)
+      |                                     ^
+../include/trace/events/page_pool.h:91:23: error: use of undeclared identifier 'NET_IOV'
+   91 |                   __entry->netmem & NET_IOV, __entry->pfn, __entry->hold)
+      |                                     ^
 
---=20
-Cheers,
-Stephen Rothwell
+Looking at NIPA status the builders are 12h behind, so please don't
+repost immediately. This series takes a lot of compute cycles to build.
 
---Sig_/TYz4mwKz+tY5O7NzfgBXWFo
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+FWIW there is a docker version of NIPA checks in the nipa repo.
 
------BEGIN PGP SIGNATURE-----
+https://github.com/linux-netdev/nipa/tree/main/docker
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmZra9UACgkQAVBC80lX
-0GyyvwgAonqH5POJPfFcpY00KeYI0W+oRAz3XhU+G43kiim27cnfbH/4LTUy7xDN
-zVClA/NdLFu41bCo12IFL9S0tQqwgovyf6WnC8ukZgzkP3IfwQM1QflN/eT5CTmw
-fB5Gs28QBS69WjWiIRBnmctNJvd2Hrsx90wt+uks8jiMel2CcluxBb3v1IeVUzsW
-z8XajIBH22llHGhAArbL0yFBa9Bxqn/UVhbqxvSo1dy1ZvQnRHj+wRNtIu+ktpbB
-dtYOMRfEcA0x8ReH6l4p6sI8F2dH3fuckfQPMnejelmBOFjVssGtbRIfhR/UrQAD
-XUpdSFUETO9IkDj9Z0z9VFbmH9olVw==
-=485Q
------END PGP SIGNATURE-----
-
---Sig_/TYz4mwKz+tY5O7NzfgBXWFo--
+IDK if it still works, but could help avoid mistakes..
 
