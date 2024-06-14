@@ -1,80 +1,80 @@
-Return-Path: <linux-renesas-soc+bounces-6210-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6211-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4112690879E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 11:36:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C2B99087B0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 11:40:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CF3CC282296
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 09:36:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3D47D282396
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2024 09:40:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B77F186282;
-	Fri, 14 Jun 2024 09:36:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E9661922FC;
+	Fri, 14 Jun 2024 09:40:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AIWNyXo6"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VzEudlC7"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01CD192B66
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jun 2024 09:36:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EAD318413A
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jun 2024 09:40:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718357797; cv=none; b=V0Acpsx4HbD5IipXfmadTWAhZYx1FbsZ3/9hO0oM1fy5b4QxQ7XD5XBcyW17VfnCoqrdCAyxNUah6oKdcwqR/MhBCVxF6Yes2BsRgM135hV2yM4GTHiPaJti23tk63dVZM+Vy4LI5tWQY6qGn66eMk3M5MZoB3MaGuDnXUM1E4Q=
+	t=1718358022; cv=none; b=hurVuq5MdF/xCXl32qVrkExPwTpkpiOqOenzT/EinWPGPIzr7NvjwYNQzszMfvhNPsHl0r+7CsjFnsetZBAZjLQ5By9deG0xld+jzu1F1D0i8nPEnmwNQUoOmto9i5AwsrB/zKwZ0vjPCut1HbXD3SamuXrfUWTU/baNcgjKkoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718357797; c=relaxed/simple;
-	bh=3Xp4hft43r0s80HHbt2Bg6bC+vwJU8fQ6blHSl4LPdI=;
+	s=arc-20240116; t=1718358022; c=relaxed/simple;
+	bh=cUSGw7VhImpZ3HLan+pTkmExdx4glGEn4Q1EnM5Ip0Q=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hAJdJe3Bx2BQmW+iRAyUi7OdzzEjCibAu3aT7v+F1QdBTEC5/6sNDbW5t7Cmw1IglAd+zKz00LzwCoiOtFIoCU9SAaE1cHriJ88Nh6vSaLHOYK3P/uivFrKiB+sS/KPKpcATEpdpKIbC+QANXtpIhe98XPzvMDHRZ0ifrrM+7Ms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AIWNyXo6; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=fEo1GsQmmDUdIxzG3XhHoNFrJgebi4mYEtLz9KmKX9J0A5kQBQf7oxi89qVVxQszexP2cce2tGLPYOsE8ALeBnsRykpXJUjz0otg0TrOXpwh3gWbvh0sct9atmuffM6vHaFxhLn+oPBVLP8XSiMlJTp3G8TWB6OjOr09Dk2BQwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VzEudlC7; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1718357794;
+	s=mimecast20190719; t=1718358020;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KdfeWtRDAuWsZ8j9bLApAvsSD5oNrsJwjHXB/7FcSzc=;
-	b=AIWNyXo6nge7cCB37dZMGV8wBU/vwDJl2RceE7/hcR80Jbhl/eSxG+xtuxJKNeWN5h1X5K
-	Q7QOMySV4EuEMOC6rhn9a7s8ZIJPoLoxv6qjy7W1qGhwybfHDENKGc1Li20f3pVAPDptRn
-	Z1NlokKVAz4xXSSHqgdPNGRgLHNhggU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=WQ6vmkLbNkSPu/I9Dwqivb7WpaSBecMeWv8oRqgyEK0=;
+	b=VzEudlC7Sc6ffrMl3Ar+y4UQhx4XC/CiTG4N9B6KvlQLQdIb8o1rw3o+ZCNX0+XiWOZFAn
+	dwCgvTqXEJxLy8IodNCpFYXf1jEhetC/S12jHF9EdGJe08bzEJeq5LMTSzD4wkwElPG8va
+	lu3E24+7/b0vkwprPA9Bl8loSUQ8JBY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-595-8gTbaXu0P2GiAuSlLh-fmg-1; Fri, 14 Jun 2024 05:36:29 -0400
-X-MC-Unique: 8gTbaXu0P2GiAuSlLh-fmg-1
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4218447b900so10616315e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jun 2024 02:36:29 -0700 (PDT)
+ us-mta-225-Fo0jojdRN-aUpgRJAJOimg-1; Fri, 14 Jun 2024 05:40:19 -0400
+X-MC-Unique: Fo0jojdRN-aUpgRJAJOimg-1
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-42196394b72so13650725e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jun 2024 02:40:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718357788; x=1718962588;
+        d=1e100.net; s=20230601; t=1718358018; x=1718962818;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KdfeWtRDAuWsZ8j9bLApAvsSD5oNrsJwjHXB/7FcSzc=;
-        b=k4/ozc7aQrlpR8VX7D5FGyw+Lno9LlXg+/C2+Xhg4KnBNmtxmFuBLvitP6foUwKZZU
-         xQA6EIYMRiOGh2ReGwWkSFmpjRRu+wkNmEba9p38gMlrMp2ZJtXlJuI4B+lwoKggRfu/
-         pvS7cdD7gzjknIYL531dofH+J9dlbhgFCQyweSKC9A9YZ623d4jEIjnwLxSqveuTfSFy
-         Gb1bsWKs7WDV4ggqebJYpjDc2OY05WkQPAtSyAOePVqo4swR+6+/1+oyImgcot18ngoU
-         UQDkpmgHH1dNNNa7teeOn7mJaNMqyg2hkGrueZ2+IHhASFdTcjp4whhtekYQn/ypJMoo
-         onqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXEdtutgD5XctPsVRe5Y++7Zz9/whI5wNogID9WPwu3zP7mXqhDeWuIwl/xLqtZtQf4yXstrfs3Yt1lMnDocjzlYbEb6mcMUDLDbcASVeKlbEU=
-X-Gm-Message-State: AOJu0YzYKAQK42ZyM0J2ib8LKOa3shpX+gXE1CL31z3XExgr6oxo7g54
-	pk75TGAcUJE+LMBbH/CyLber1c9AbBGcduS1sSFbUMT03x/XfcMdIueZFES1V6q9xyuahksMTPA
-	d/XP3UidrvMPvWhK+NuRbY1t2BfGtcV3VYpJvFr8Ah7q0JaCo1hBTqQLTI06Ar6fIjmX7
-X-Received: by 2002:a05:600c:4a9f:b0:422:eee2:572c with SMTP id 5b1f17b1804b1-422eee257d9mr40054965e9.8.1718357788197;
-        Fri, 14 Jun 2024 02:36:28 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFjxUAkrfgiqF4B9IILJq7eNGszyZUh3YENf1nv29/SYoE7i85RFm0GdV/Ed29jYVD8fE7b5g==
-X-Received: by 2002:a05:600c:4a9f:b0:422:eee2:572c with SMTP id 5b1f17b1804b1-422eee257d9mr40054755e9.8.1718357787860;
-        Fri, 14 Jun 2024 02:36:27 -0700 (PDT)
+        bh=WQ6vmkLbNkSPu/I9Dwqivb7WpaSBecMeWv8oRqgyEK0=;
+        b=iE9IcMrL2+nB1COFmUyClb/5LDzULPrXairux62nKJY7AuE3iQ12heSs+4Uf1uBZ6h
+         4DYGYabhaDa10cqEHbARtnAaBIEiMiAcYRYAZk+B8LlwX8cQVCyNNiyOd2/w1hvdCpBo
+         /me6b5LfkQyFGvPYWAZ1dN6xJ75RtJ7ucjs/tJNOjgsMDe9I/QiG/tJNf91YBH+B1D0C
+         hwXgYOxxeZ3PcnYRbCbBvD2ODhBGfpbFTqCq9YeZlWkxs4y+sgJ6oulOpFNRnZskyWVu
+         3x/Zzt4baz34DxjmAaOfwF/KYR3riMga1WWeYpQ+WL9BduQYA1gKI+W/2EDi+uF+wMYH
+         CzHw==
+X-Forwarded-Encrypted: i=1; AJvYcCXA7b6uHNwwBgBs7/WMze6hnKKCJKAoFb4XcekiJPM6GxzOhRfzJ1gOEw9a1KHFCJL4bVJVSbVxUNvGsDGt9b6HKkLjCIB/uMUtaC4Gm54DJmo=
+X-Gm-Message-State: AOJu0YxZNQeHtlRXzDkp++AOp0M5t2jgYjuHPRURc2t5chbtYKraHVxN
+	x3hpbRVXrXMGlVtIIpRf7hi+19fdW97Pz7ThwL5zkLHF8j6IyeofvFlOWlrnF+/wz8azn2AZAT4
+	dkc1c9jBqaYDeK++HKteJkTsS0QUShUx8avb28krauaGbxMV4WX+hSo3JShdi9rdtV53I
+X-Received: by 2002:a05:600c:15ca:b0:421:5605:8c92 with SMTP id 5b1f17b1804b1-4230482bd1emr18547815e9.20.1718358017891;
+        Fri, 14 Jun 2024 02:40:17 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFakVoq3MEUrERr87P+t+k5+jmQRc+ZytUh6W0nxxbHQtB6z8XVXp9wq7vZ5Y5GyQYgFyH93w==
+X-Received: by 2002:a05:600c:15ca:b0:421:5605:8c92 with SMTP id 5b1f17b1804b1-4230482bd1emr18547655e9.20.1718358017557;
+        Fri, 14 Jun 2024 02:40:17 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e? ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422f641a65bsm53388225e9.42.2024.06.14.02.36.27
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36075104a3dsm3876092f8f.112.2024.06.14.02.40.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Jun 2024 02:36:27 -0700 (PDT)
-Message-ID: <a60c6382-2c41-49aa-8f79-ee9744f12b4b@redhat.com>
-Date: Fri, 14 Jun 2024 11:36:26 +0200
+        Fri, 14 Jun 2024 02:40:17 -0700 (PDT)
+Message-ID: <e705b00d-4a05-44b5-8fb2-d18e7389db7a@redhat.com>
+Date: Fri, 14 Jun 2024 11:40:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -82,7 +82,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/7] drm/panic: Fix off-by-one logo size checks
+Subject: Re: [PATCH v2 3/7] lib/fonts: Fix visiblity of SUN12x22 and TER16x32
+ if DRM_PANIC
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -90,44 +91,62 @@ To: Geert Uytterhoeven <geert+renesas@glider.be>,
 Cc: Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
  linux-fbdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 References: <cover.1718305355.git.geert+renesas@glider.be>
- <1c9d02463cef3eac22cfac3ac6d1adad369f367b.1718305355.git.geert+renesas@glider.be>
+ <ac474c6755800e61e18bd5af407c6acb449c5149.1718305355.git.geert+renesas@glider.be>
 Content-Language: en-US, fr
 From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <1c9d02463cef3eac22cfac3ac6d1adad369f367b.1718305355.git.geert+renesas@glider.be>
+In-Reply-To: <ac474c6755800e61e18bd5af407c6acb449c5149.1718305355.git.geert+renesas@glider.be>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
 On 13/06/2024 21:18, Geert Uytterhoeven wrote:
-> Logos that are either just as wide or just as high as the display work
-> fine.
+> When CONFIG_FONTS ("Select compiled-in fonts") is not enabled, the user
+> should not be asked about any fonts.  However, when CONFIG_DRM_PANIC is
+> enabled, the user is still asked about the Sparc console 12x22 and
+> Terminus 16x32 fonts.
+> 
+> Fix this by moving the "|| DRM_PANIC" to where it belongs.
+> Split the dependency in two rules to improve readability.
 
-Sure, that looks good to me.
+Sorry I think I misunderstood the SPARC && FONTS condition.
+Your fix is much clearer, thanks.
 
 Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+
 > 
-> Fixes: bf9fb17c6672868d ("drm/panic: Add a drm panic handler")
+> Fixes: b94605a3889b9084 ("lib/fonts: Allow to select fonts for drm_panic")
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
 > v2:
->    - Rebased.
+>    - New.
 > ---
->   drivers/gpu/drm/drm_panic.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   lib/fonts/Kconfig | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-> index fc04ed4e0b399f55..814ef5c20c08ee42 100644
-> --- a/drivers/gpu/drm/drm_panic.c
-> +++ b/drivers/gpu/drm/drm_panic.c
-> @@ -472,7 +472,7 @@ static void draw_panic_static_user(struct drm_scanout_buffer *sb)
->   	drm_panic_fill(sb, &r_screen, bg_color);
+> diff --git a/lib/fonts/Kconfig b/lib/fonts/Kconfig
+> index befcb463f7381d1a..3ac26bdbc3ff01a3 100644
+> --- a/lib/fonts/Kconfig
+> +++ b/lib/fonts/Kconfig
+> @@ -105,7 +105,8 @@ config FONT_SUN8x16
 >   
->   	if ((r_msg.x1 >= drm_rect_width(&r_logo) || r_msg.y1 >= drm_rect_height(&r_logo)) &&
-> -	    drm_rect_width(&r_logo) < sb->width && drm_rect_height(&r_logo) < sb->height) {
-> +	    drm_rect_width(&r_logo) <= sb->width && drm_rect_height(&r_logo) <= sb->height) {
->   		draw_txt_rectangle(sb, font, logo, logo_lines, false, &r_logo, fg_color);
->   	}
->   	draw_txt_rectangle(sb, font, panic_msg, msg_lines, true, &r_msg, fg_color);
+>   config FONT_SUN12x22
+>   	bool "Sparc console 12x22 font (not supported by all drivers)"
+> -	depends on (FRAMEBUFFER_CONSOLE && (!SPARC && FONTS || SPARC)) || DRM_PANIC
+> +	depends on FRAMEBUFFER_CONSOLE || DRM_PANIC
+> +	depends on !SPARC && FONTS
+>   	help
+>   	  This is the high resolution console font for Sun machines with very
+>   	  big letters (like the letters used in the SPARC PROM). If the
+> @@ -113,7 +114,8 @@ config FONT_SUN12x22
+>   
+>   config FONT_TER16x32
+>   	bool "Terminus 16x32 font (not supported by all drivers)"
+> -	depends on (FRAMEBUFFER_CONSOLE && (!SPARC && FONTS || SPARC)) || DRM_PANIC
+> +	depends on FRAMEBUFFER_CONSOLE || DRM_PANIC
+> +	depends on !SPARC && FONTS || SPARC
+>   	help
+>   	  Terminus Font is a clean, fixed width bitmap font, designed
+>   	  for long (8 and more hours per day) work with computers.
 
 
