@@ -1,221 +1,190 @@
-Return-Path: <linux-renesas-soc+bounces-6281-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6283-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49837909838
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Jun 2024 14:18:44 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7ECB90983A
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Jun 2024 14:19:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C94D71F2111C
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Jun 2024 12:18:43 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 020F6B20B2D
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Jun 2024 12:19:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E1AF3C062;
-	Sat, 15 Jun 2024 12:18:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 042CE3C062;
+	Sat, 15 Jun 2024 12:19:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="SdkTVcZg"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="eV3ZczMF";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="BM4Hp8ZD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout3-smtp.messagingengine.com (fout3-smtp.messagingengine.com [103.168.172.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646BD45023
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 15 Jun 2024 12:18:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95EBCD53B
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 15 Jun 2024 12:18:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718453921; cv=none; b=bhCRziCQsBi1ckoPKUXlaFTXc0x2wa5dE5nKuaagIpKSzf57NyvrbMY7RtutNQIEsh+bX8fmjWykGW1HJPoQe+1Dv5tiB+/6oDaAlc+J+fXveRRGreVKiAX4KrQj1br5Fa3zzQoUqVXFg1suMW+UouLtP3fAONoRe3DvrRRudc8=
+	t=1718453942; cv=none; b=kjuy5y6qTPMrcHX8neZTFOkLthczkb+OVUCicjkBYvw6hLDVQBSOtWbCk8A/APg32DY5wuNUvZzRUpr5Apa7cQ/Pgi9ANwvR8wap8ItPQc0C3kBMENscslnv178VQ4+cBV56hCufj7mGd0vsRtEK3peZ8ohVw8k8XAZSiMMOwEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718453921; c=relaxed/simple;
-	bh=OBFsQz+fugFyT4RChDZ4sBg6SqYiDCwC4pb8ApIAcek=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=bXOOp8KfxQqyaitqMxJoGSE74fgrtaC4OWg7OPV36uO4KJ4IBUmOqEffo7wolrA8iXGgKBwrGhH0W4ObwcmTbYGOxcUDFce9bKOgvngNRpK05SO1254wRLb7B574gSq1AyDLTu/BMgfAkxq0xoQYCR+5XgKE4gSFX7V9hROLQ24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=SdkTVcZg; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6f4603237e0so2193675b3a.0
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 15 Jun 2024 05:18:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1718453918; x=1719058718; darn=vger.kernel.org;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=/JhE1J3Mui2Y1BrcHGxGeYalp5jL3H2aH6e5Rxfc/WY=;
-        b=SdkTVcZg7+K8kUEIS7J2fbANGjkDcSxeFZJw5szriUR7mGivEyaYq5qr3Gio7ohqoi
-         15KVM7bJ/N+qolrc73kDkrJtx3O79INT08oGacXFW4/DT43GXbsNeiSzgLZ1WhajFn0b
-         8+mbXmpA0tRUlb9IanWxELTsouJhLaICnRQq6XWiD+FxuoI5kiJLyHMzczGzddebstxy
-         EA0HkGetNzorkGBNSDaFseG+/+wZWcBwBBPT62eCGPnsHap81H2KyqEhnXx0xd+uV4PF
-         6l9wfL/k2gHOavUz4VkWwDHvKMmUBEvfQlBFuMokidkbKQAlXMkYtQvJ9Q60v/GCQQsT
-         fXXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718453918; x=1719058718;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/JhE1J3Mui2Y1BrcHGxGeYalp5jL3H2aH6e5Rxfc/WY=;
-        b=csP8U+IZlknvgUEWtiqcMG41K725bCO07+uFWZnds0GHz/Fxto5a36oM+D2iUcnB+B
-         Vpdq7r0mtb6bNSt4p7/kqumuol9X73Z/XdUxEhYBqIXuNrZpDd08o+HOFdHtsHZXd4Me
-         F5Gpz/Ce56/JW2yod7He4Pa5v59R/OWEStUCu5P0y3MjRz+SMbmFbzosSRsMi/hJgVzQ
-         d/CI5iES30pGFaT3Y/mg9LNO1O/oFJCCfO+p/jiem3LAAI1VVwTtv4wPAmDIf9dH93IO
-         VJJb35lOYMT2SdrV5tcX2smZDHMd2mGbpoUaaoExqsJLkKOOuqU5maRbn4MQThFdwgYs
-         9gWw==
-X-Gm-Message-State: AOJu0YzNtYStOSLLB7EPbuxFZGn9Vcks/wfhrAy59IGiAuEoO+i5/EKr
-	YgjyL+jHBW7nueRunra5+Sry4+/qBM0RN0/1XyvFLYPcV3I5CuT1UoxXvynal6YWRRweSHLrq4A
-	f
-X-Google-Smtp-Source: AGHT+IFFD9x7sB9nYi45SuatcK3nm3r/b/2mNiDyYmVz4CUEGskeJFCnmhPmxmt7IqmyMOGOy6aoZw==
-X-Received: by 2002:a05:6a20:daa8:b0:1a9:d27c:3151 with SMTP id adf61e73a8af0-1b8bf0c4483mr12613523637.23.1718453917888;
-        Sat, 15 Jun 2024 05:18:37 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6fee2d3673dsm4033641a12.69.2024.06.15.05.18.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Jun 2024 05:18:37 -0700 (PDT)
-Message-ID: <666d869d.630a0220.5ae09.bdbe@mx.google.com>
-Date: Sat, 15 Jun 2024 05:18:37 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1718453942; c=relaxed/simple;
+	bh=3/lVs8NcHOrjANODPIZObGlO2ZY6zhjYa7A1FbPMVqk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ADLsqSf7Jio4/QFEeaYZOLDam11cacqJ5jJ1VjiWlue29w44YCuz3u8LyChqmOdQGQQRnDgOULHV8d39i1x4FLoBfNEvUkQ50zAwMJ4GsiaFVWwAfE8lEOVjIPdULrajVbUbVi8owknHSZJ9WDhlnqpFCIn/vH/RUZgGWKO/4Tw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=eV3ZczMF; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=BM4Hp8ZD; arc=none smtp.client-ip=103.168.172.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 764521380294;
+	Sat, 15 Jun 2024 08:18:58 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Sat, 15 Jun 2024 08:18:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1718453938;
+	 x=1718540338; bh=iTMP7YZ8I96ow20UdmaH+26dUUolejBhpId61eR8KZk=; b=
+	eV3ZczMFdsBpwH/AYIdbpPyLnJPCLBeAexbcpAjOiTV6aoxZ56F7ZMxZjvY0XXbZ
+	M31NAvn/FoC9oxAf0v2+LuxCykpyzTsJgxRqx2c6ZpdGbIqqDxSzcZ241qZUO8Uw
+	+yJ1/gJp/0ZZ6Wl1BHvsVYghA2JAKBeK9XjmzLI5rXvgezXAsy23qHwWEAChNXKn
+	Enu6oMLtm2ccDkpE6YHxYuzs2bVyz6YZHk3qxIH/PwTDb4H9EdP4/Wf8M6WBiAHW
+	4GNadlQbGo2Hy8mT5zQfYHibraw0kXgnGagW4VHSZW3MPO104ME2K3B7A4Lae17F
+	FVs5HkrsKsnJLl6xIzYXQQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1718453938; x=
+	1718540338; bh=iTMP7YZ8I96ow20UdmaH+26dUUolejBhpId61eR8KZk=; b=B
+	M4Hp8ZD8kPeh3KIgJw9CL1PdLrzMzVOtKhwUwtI9+nYhF4rusJfjMEgZ+1DEFhIX
+	ZUy1dCBAQjVXsT86xFH74fmeo+FNW7nbDBkYYWvJHJdWpnfWKYCu29nEMqGOjdVr
+	aSOvyfq4RcYl0Zt37v607J2IwrvShfJuJHaI0ud2CWoaYndMVYVkLaWGbZyZU9YP
+	pE6E+8OTuYSS/HoR2gOrF3+fNgkZGGOTsT/lElNYRg3m8IMpt0DRQ38b1TViR4nV
+	aiobVQEqh9ny4eA2QLlANTrP+ghjJicqcsDZJkElKTcblSU0OHgWn8+D9s0Y8c9u
+	ci1PfCH44QCPW9mivxSMg==
+X-ME-Sender: <xms:soZtZkeMj5P-2VUkrgF1o2pwCTtnUFhKH0pSQCy02F2lbermANXBEw>
+    <xme:soZtZmOgkPciU7iouE5OQKQC1AGjOL83Tp95epaXSVB4j21ZFvrBeBAcgCpcqkgt9
+    wi1nxe2W11oSMVJKBw>
+X-ME-Received: <xmr:soZtZliUUQXHdSY1xQtw_0aFc43Pprk4aKqm0AY2rS32Mo2eOHiT9sqAnqwV9pqUAUEYoWfnb00slbD7arETZBxabikDoNU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfedvuddghedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
+    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnh
+    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevkeektdek
+    udffvdeludejffejffehveektedtgeekteelfeeitdefudfhieejueenucffohhmrghinh
+    eprhgrvhgspghgshhtrhhinhhgshgpshhtrghtshdrnhgvthenucevlhhushhtvghrufhi
+    iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluh
+    hnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:soZtZp-lBuXUOEtW3b3HMRZGdgHuTkrqM8ThUQ2blk-eOhXPTaAQMw>
+    <xmx:soZtZgsjeUnK5r_cBJl0e77cqGdSMzDkdlPGt9dQ_2szaunMBRMOZg>
+    <xmx:soZtZgFqGncNKWHC6ZEyce2KXDftSoBMopEiDARfFNolyF45kL0AHg>
+    <xmx:soZtZvOZBXuQH1CLZuV-rHwDOPUhypuR-7TSfvt-e_WMkzGWS7HQtQ>
+    <xmx:soZtZkiRJHIZ9pk3lTuZf-as8MTmZQGm_wGrguIadepwTTZUZyYx2vC_>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 15 Jun 2024 08:18:57 -0400 (EDT)
+Date: Sat, 15 Jun 2024 14:18:56 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Paul Barker <paul.barker.ct@bp.renesas.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH/RFC] net: ravb: Add MII support for R-Car V4M
+Message-ID: <20240615121856.GK382677@ragnatech.se>
+References: <f0ef3e00aec461beb33869ab69ccb44a23d78f51.1718378166.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: renesas-next-2024-06-07-v6.10-rc1
-X-Kernelci-Report-Type: test
-X-Kernelci-Branch: next
-X-Kernelci-Tree: renesas
-Subject: renesas/next baseline: 62 runs,
- 3 regressions (renesas-next-2024-06-07-v6.10-rc1)
-To: linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f0ef3e00aec461beb33869ab69ccb44a23d78f51.1718378166.git.geert+renesas@glider.be>
 
-renesas/next baseline: 62 runs, 3 regressions (renesas-next-2024-06-07-v6.1=
-0-rc1)
+Hi Geert,
 
-Regressions Summary
--------------------
+Thanks for your work.
 
-platform                     | arch  | lab             | compiler | defconf=
-ig | regressions
------------------------------+-------+-----------------+----------+--------=
----+------------
-imx8mm-innocomm-wb15-evk     | arm64 | lab-pengutronix | gcc-10   | defconf=
-ig | 1          =
+On 2024-06-14 17:25:22 +0200, Geert Uytterhoeven wrote:
+> All EtherAVB instances on R-Car Gen3/Gen4 SoCs support the RGMII
+> interface.  In addition, the first two EtherAVB instances on R-Car V4M
+> also support the MII interface, but this is not yet supported by the
+> driver.
+> 
+> Add support for MII to the R-Car Gen3/Gen4-specific EMAC initialization
+> function, by selecting the MII clock instead of the RGMII clock when the
+> PHY interface is MII.  Note that all implementations of EtherAVB on
+> R-Car Gen3/Gen4 SoCs have the APSR register, but only MII-capable
+> instances are documented to have the MIISELECT bit, which has a
+> documented value of zero when reserved.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Compile-tested only, as all AVB interfaces on the Gray Hawk Single
+> development board are connected to RGMII PHYs.
+> No regressions on R-Car E3, H3, M3-W, M3-N, and V4H.
 
-imx8mp-evk                   | arm64 | lab-broonie     | gcc-10   | defconf=
-ig | 1          =
+This would be interesting to test on a platform if we ever find one 
+which uses MII. The change do match the docs.
 
-imx8mp-verdin-nonwifi-dahlia | arm64 | lab-broonie     | gcc-10   | defconf=
-ig | 1          =
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
+> ---
+>  drivers/net/ethernet/renesas/ravb.h      |  1 +
+>  drivers/net/ethernet/renesas/ravb_main.c | 12 +++++++++++-
+>  2 files changed, 12 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+> index 6b2444d31fcc3093..9893c91af1050fa1 100644
+> --- a/drivers/net/ethernet/renesas/ravb.h
+> +++ b/drivers/net/ethernet/renesas/ravb.h
+> @@ -258,6 +258,7 @@ enum APSR_BIT {
+>  	APSR_CMSW	= 0x00000010,
+>  	APSR_RDM	= 0x00002000,
+>  	APSR_TDM	= 0x00004000,
+> +	APSR_MIISELECT	= 0x01000000,	/* R-Car V4M only */
+>  };
+>  
+>  /* RCR */
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index c1546b916e4ef581..cbe2709e0ace871f 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -579,6 +579,16 @@ static void ravb_emac_init_rcar(struct net_device *ndev)
+>  	ravb_write(ndev, ECSIPR_ICDIP | ECSIPR_MPDIP | ECSIPR_LCHNGIP, ECSIPR);
+>  }
+>  
+> +static void ravb_emac_init_rcar_apsr(struct net_device *ndev)
+> +{
+> +	struct ravb_private *priv = netdev_priv(ndev);
+> +	bool mii = priv->phy_interface == PHY_INTERFACE_MODE_MII;
+> +
+> +	ravb_modify(ndev, APSR, APSR_MIISELECT, mii ? APSR_MIISELECT : 0);
+> +
+> +	ravb_emac_init_rcar(ndev);
+> +}
+> +
+>  /* E-MAC init function */
+>  static void ravb_emac_init(struct net_device *ndev)
+>  {
+> @@ -2657,7 +2667,7 @@ static const struct ravb_hw_info ravb_gen3_hw_info = {
+>  	.set_rate = ravb_set_rate_rcar,
+>  	.set_feature = ravb_set_features_rcar,
+>  	.dmac_init = ravb_dmac_init_rcar,
+> -	.emac_init = ravb_emac_init_rcar,
+> +	.emac_init = ravb_emac_init_rcar_apsr,
+>  	.gstrings_stats = ravb_gstrings_stats,
+>  	.gstrings_size = sizeof(ravb_gstrings_stats),
+>  	.net_hw_features = NETIF_F_RXCSUM,
+> -- 
+> 2.34.1
+> 
 
-  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
-s-next-2024-06-07-v6.10-rc1/plan/baseline/
-
-  Test:     baseline
-  Tree:     renesas
-  Branch:   next
-  Describe: renesas-next-2024-06-07-v6.10-rc1
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      d1ef2e3bcb03040dfe57f59896a00a69a5eb4b54 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig | regressions
------------------------------+-------+-----------------+----------+--------=
----+------------
-imx8mm-innocomm-wb15-evk     | arm64 | lab-pengutronix | gcc-10   | defconf=
-ig | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/66631298303cb0447d7e7079
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2024=
--06-07-v6.10-rc1/arm64/defconfig/gcc-10/lab-pengutronix/baseline-imx8mm-inn=
-ocomm-wb15-evk.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2024=
--06-07-v6.10-rc1/arm64/defconfig/gcc-10/lab-pengutronix/baseline-imx8mm-inn=
-ocomm-wb15-evk.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230703.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/66631298303cb0447d7e7=
-07a
-        new failure (last pass: renesas-next-2024-06-03-v6.10-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig | regressions
------------------------------+-------+-----------------+----------+--------=
----+------------
-imx8mp-evk                   | arm64 | lab-broonie     | gcc-10   | defconf=
-ig | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6663487b865678ac577e706d
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2024=
--06-07-v6.10-rc1/arm64/defconfig/gcc-10/lab-broonie/baseline-imx8mp-evk.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2024=
--06-07-v6.10-rc1/arm64/defconfig/gcc-10/lab-broonie/baseline-imx8mp-evk.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230703.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/6663487b865678ac577e7=
-06e
-        failing since 9 days (last pass: renesas-next-2024-04-22-v6.9-rc1, =
-first fail: renesas-next-2024-05-28-v6.10-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab             | compiler | defconf=
-ig | regressions
------------------------------+-------+-----------------+----------+--------=
----+------------
-imx8mp-verdin-nonwifi-dahlia | arm64 | lab-broonie     | gcc-10   | defconf=
-ig | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/66633bd7a4e502d36a7e706d
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2024=
--06-07-v6.10-rc1/arm64/defconfig/gcc-10/lab-broonie/baseline-imx8mp-verdin-=
-nonwifi-dahlia.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2024=
--06-07-v6.10-rc1/arm64/defconfig/gcc-10/lab-broonie/baseline-imx8mp-verdin-=
-nonwifi-dahlia.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230703.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/66633bd7a4e502d36a7e7=
-06e
-        failing since 9 days (last pass: renesas-next-2024-04-22-v6.9-rc1, =
-first fail: renesas-next-2024-05-28-v6.10-rc1) =
-
- =20
+-- 
+Kind Regards,
+Niklas Söderlund
 
