@@ -1,167 +1,137 @@
-Return-Path: <linux-renesas-soc+bounces-6295-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6296-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05CC4909C47
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Jun 2024 09:40:29 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EFA6909CB6
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Jun 2024 11:08:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 854301F214EF
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Jun 2024 07:40:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0FC5DB214FB
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Jun 2024 09:08:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D08FC184114;
-	Sun, 16 Jun 2024 07:40:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vOvOe7r+"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56A0E17E464;
+	Sun, 16 Jun 2024 09:08:44 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6F91836FB;
-	Sun, 16 Jun 2024 07:40:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4B855774;
+	Sun, 16 Jun 2024 09:08:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718523607; cv=none; b=L+Yk3inF/vRkA2hmwlIZf0a+QYIrjqKAmBH447c4lgp0/wS7X7/mrrkva6Gqh3p30vlk2SZ2ADhcsnmTlx9MTzhmoyE8odg857o59G55F/eb7sej/yWGL0QQx6mS6Y7FPhSHBjWGXYi2DhLML+8625o5PqguNf/SOK28rXqLE9U=
+	t=1718528924; cv=none; b=AkV4N2G4TsyKl3yi/Bhu+1w1lGpRFS7DY/shGv9cP9E7ZkZx16KkYH8zUiP4UjLUebZ7NOfwdV7encnrSJryFt76G0lbSAFpvlYxw0gF1Wbc3/0sG1xYYVMpsVmiZqc+VCIsN8H3O31TnTKQbCW+2iHm0V+gWNFjIxjIdF+kcMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718523607; c=relaxed/simple;
-	bh=9/cAdGYrdwaI/4y1JqtVx9mdosaD9ipTezgsP7O70KI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ewzEmVBr3Lrmi/li5gFh5hWysJhCf9ovdrV6KmSqNDcc3YkUMwIWvqBCwkhu2axc5TLB9BQf5kOMpgLiQIg/roCQzgFhsS4Lm0/mA3v7nQlHI06XFLKCvCYuLLoejHvOcGi2s6B65Jv8LA5L0svSTTb5+1zYqued+qioVFSqcJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vOvOe7r+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03369C2BBFC;
-	Sun, 16 Jun 2024 07:40:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718523607;
-	bh=9/cAdGYrdwaI/4y1JqtVx9mdosaD9ipTezgsP7O70KI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=vOvOe7r+p5KApeZ5sDQE+mNN2B8K8rE1/dYYLfFH6GusifJLh/MThj+IczxwRoi0X
-	 8q4v8mXXHdh2h6N2AaHI5SEvDVuTV0ywPgmgPygnCcYpQEnK9un9MH+6V6/VMBnYBK
-	 S6lpT27lDVF9D5f6nY6DmYOczWKzdW2kC+dpXRs3hEI837S4jJL+8KTMxoAoPmh712
-	 LUwQYF0uTnAH6TWE1DR1TbjH0TZgSRi4wfqtXLb4AYXg5HCp71kITOeWfDw7FFR+20
-	 JM4s3zMNFsmAkad9zGSkQdKPeahY50CA5KSwJkcIbGXwjsCeHuBpH90m0+L+I/vpet
-	 gd0jakcveqI5Q==
-Message-ID: <de1077de-baa4-42aa-84c1-6ab629088a07@kernel.org>
-Date: Sun, 16 Jun 2024 09:40:01 +0200
+	s=arc-20240116; t=1718528924; c=relaxed/simple;
+	bh=IXt0T2dIV4D47RVWneFjTLBpb2BX9j6tjpPDQQN7Aq0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=k5Bm3zBup9bI1LBNlbpY+Fc9bZK5noXa5cLcmZJkU1g1basPQ+joom3luyRqdK8DqdGAwHKf6JqWErkiwYWAL3SbkkjNDjJT3wweSvWLS4205ZLOU7/MFYPa15Rm6Y/lPI75M//7gsNMBzxdeAvGp96Q0wDbuoQjXwpBjjEzM0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dfb05bcc50dso3435919276.0;
+        Sun, 16 Jun 2024 02:08:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718528920; x=1719133720;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TBtpOZr/trZtltPf6YFqTeIEX30vShCauXV7YYWeLaM=;
+        b=rPPhcyYIOCnl0rGq+FH1d8m83c/MMWgBCC21VyP1fxYDb383xSjtvpb+7Jwkqy/Gii
+         Kls9quuNT+WxDGXihI+msy97w15eJ51yOkQ9/bPkM6r8WI7p+9K0wooAh3uRuhM9wuzo
+         x7Z65T08Urpn2kl7sBE43DZhZl+/mT9sIci6U/URbJRiJEDzMLOdKOatT5BlEn3q0NTD
+         iyUZRMFiarDn9q0+OmRSQU7eo85Mb4zuIVTFK1U4iuwBEkJKg1q3W7f3XoXBb2ckn3dl
+         ksSKX8Ann4+pUR7c4XyG2VcdBV/gwzK3io1D1V9JVKGRTQcEMNA7X6m/IXlUROyAdvoF
+         4I3A==
+X-Forwarded-Encrypted: i=1; AJvYcCXwrmIMTwfTLoTGKDbnt5H0XPbCYfsFDVU9znOpjkuxktUB5chsjz7dMQBew/ZRAbP1g5mfH1IEGNjCHhfGJ/Z9zhorucIjxsJ2+dLW7EYd4Zs7OssOKX9TgxzYuo+CgvunbnX7roauE20H+6bY0w==
+X-Gm-Message-State: AOJu0YzTw58LnFD+uLDXVxknpytK+tXC/2Jp0CCh+Ec/BugEPedxHAb2
+	ctx5d+hyU8t+1aVmIh6LihpH/NvCKnsQVg3xfisELYGv2ikLsX+vPIWj0d1y
+X-Google-Smtp-Source: AGHT+IFR7wWLTVzgxSqllqGmIjkA9gRmREAyRWuKJgrYa3UPCdXNkqvvp/f1IAiqb1sS2OHOzL6Flw==
+X-Received: by 2002:a25:df42:0:b0:dca:c369:fac2 with SMTP id 3f1490d57ef6-dff1535459emr6347185276.3.1718528920266;
+        Sun, 16 Jun 2024 02:08:40 -0700 (PDT)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-dff04a8ba45sm1314667276.58.2024.06.16.02.08.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 16 Jun 2024 02:08:39 -0700 (PDT)
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-dff13c4cec0so2699479276.2;
+        Sun, 16 Jun 2024 02:08:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXjtBNcvxPfD0Xa9FSIqR52XRWOqfjnTsMVwIPvipVQxSSLzxlkJvRVas5ohUHIzhmv9vg8tVL7Ul+o68e305P/iR2CURCTmok9EDnqln1R3XVnLyx0y0QA9VdYUQcsgaI5PeFAcLfIw2qTx1xIXw==
+X-Received: by 2002:a25:fe0d:0:b0:dfe:3e88:3649 with SMTP id
+ 3f1490d57ef6-dff153abc7fmr6851815276.20.1718528918970; Sun, 16 Jun 2024
+ 02:08:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/12] dt-bindings: rtc: renesas,rzg3s-rtc: Document the
- Renesas RZ/G3S RTC
-To: Claudiu <claudiu.beznea@tuxon.dev>, geert+renesas@glider.be,
- mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, lee@kernel.org,
- alexandre.belloni@bootlin.com, magnus.damm@gmail.com
-Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240614071932.1014067-1-claudiu.beznea.uj@bp.renesas.com>
- <20240614071932.1014067-6-claudiu.beznea.uj@bp.renesas.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240614071932.1014067-6-claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <3121082eb4beb461773ebb6f656ed9b4286967ee.1718305355.git.geert+renesas@glider.be>
+ <202406151811.yEIZ6203-lkp@intel.com>
+In-Reply-To: <202406151811.yEIZ6203-lkp@intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Sun, 16 Jun 2024 11:08:26 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVvJwEbbEG6_4T2g0sHFyKehkQ81Ekc2Bi65Oq3hvNiDg@mail.gmail.com>
+Message-ID: <CAMuHMdVvJwEbbEG6_4T2g0sHFyKehkQ81Ekc2Bi65Oq3hvNiDg@mail.gmail.com>
+Subject: Re: [PATCH v2 5/7] drm/panic: Convert to drm_fb_clip_offset()
+To: kernel test robot <lkp@intel.com>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	oe-kbuild-all@lists.linux.dev, Helge Deller <deller@gmx.de>, 
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 14/06/2024 09:19, Claudiu wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> Document the RTC IP (RTCA-3) available on the Renesas RZ/G3S SoC.
+On Sat, Jun 15, 2024 at 12:55=E2=80=AFPM kernel test robot <lkp@intel.com> =
+wrote:
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on drm-misc/drm-misc-next]
+> [cannot apply to linus/master v6.10-rc3 next-20240613]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Geert-Uytterhoeven=
+/drm-panic-Fix-uninitialized-drm_scanout_buffer-set_pixel-crash/20240614-03=
+2053
+> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+> patch link:    https://lore.kernel.org/r/3121082eb4beb461773ebb6f656ed9b4=
+286967ee.1718305355.git.geert%2Brenesas%40glider.be
+> patch subject: [PATCH v2 5/7] drm/panic: Convert to drm_fb_clip_offset()
+> config: x86_64-randconfig-003-20240615 (https://download.01.org/0day-ci/a=
+rchive/20240615/202406151811.yEIZ6203-lkp@intel.com/config)
+> compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240615/202406151811.yEIZ6203-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202406151811.yEIZ6203-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> depmod: ERROR: Cycle detected: drm -> drm_kms_helper -> drm
+>    depmod: ERROR: Found 2 modules in dependency cycles!
 
-> +
-> +  clocks:
-> +    maxItems: 1
-> +    description: RTC counter clock
+Oops, so DRM core cannot call any of the helpers, and DRM_PANIC
+selecting DRM_KMS_HELPER was wrong in the first place?
 
-Just items: with description instead.
+Gr{oetje,eeting}s,
 
-> +
-> +  clock-names:
-> +    maxItems: 1
+                        Geert
 
-Nope, it must be specifc. Or just drop. This applies to all your patches.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - interrupt-names
-> +  - clocks
-> +  - clock-names
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    rtc: rtc@1004ec00 {
-
-Drop label, not used.
-
-> +        compatible = "renesas,rzg3s-rtc";
-> +        reg = <0x1004ec00 0x400>;
-> +        interrupts = <GIC_SPI 315 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <GIC_SPI 316 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <GIC_SPI 317 IRQ_TYPE_LEVEL_HIGH>;
-> +        interrupt-names = "alarm", "period", "carry";
-> +        clocks = <&vbattclk>;
-> +        clock-names = "counter";
-> +        status = "disabled";
-
-Why do you paste it eevrywhere? It does no really make sense.
-
-Best regards,
-Krzysztof
-
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
