@@ -1,115 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-6307-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6308-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21BA2909E48
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Jun 2024 18:01:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3E82909E4A
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Jun 2024 18:04:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 65F0C281273
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Jun 2024 16:01:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3479C1F2142F
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Jun 2024 16:04:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A75FC15ACB;
-	Sun, 16 Jun 2024 16:01:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F39A1755A;
+	Sun, 16 Jun 2024 16:04:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="IrZDr+P9";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="T9UYY3Qr"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Ed3boJ8o"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4B9911185;
-	Sun, 16 Jun 2024 16:01:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0101C2F2B
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 16 Jun 2024 16:04:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718553678; cv=none; b=JNgr4xdzPVKB7uFaujTCu7ySk2WeYjKVYRZJAYMpKwU+HfdyAc1fVd8jrF0whJcu5FahW9XgLyUV3eh0XnfFKLFAGv/AdcewVB4QQ79Chmc0nIMGoo04ygGQxPL+RwUjLwhUDSVDISa/agaCtrEs2wK0Qx6febdEeh8DapAwzsY=
+	t=1718553875; cv=none; b=NNhRqlDFv0Bl9BuhBUJAKeOaPX6wxCDe/YBuORkJJfDJHAdmER6juhS6d42+kYD/8M12mR21ZrhNUkt2hNZNzScRIPdkvIA508mMF+CGOhOkdex8LTfH02jZVIPJfBhv/tiH/R9RIa0x5Mt82J0Xbov2lLYf63CyMb5fux+rGU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718553678; c=relaxed/simple;
-	bh=ky76xrPx3KXd2PYAqt9g4d0sF6oxLndKUB08CCA+F0Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j3hJbzGgj3B5rGNU6IBS6Izbrd4fxLhTUROCqWxm+EQP/ZGxT2Lo498oLZfHfI5dC+zok4h18ggHZJrfRhOMi4q2ZGXtgs6KZkhfqO6f3fpCgFl2BBfUiQpkMeU0p6cSeta9SneL5FkRc5TOPF8ug48RRVTLMJ6kpShLtWL1Jlg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=IrZDr+P9; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=T9UYY3Qr; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4W2Hmz4svLz9sZ1;
-	Sun, 16 Jun 2024 18:01:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1718553667;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=r3CnB77GSg22IGMkBWAHaCoVPnRGOj7kbhcXuyKInSE=;
-	b=IrZDr+P99wuJwGqgEtwuHRuZKy5HwMDMIjW4wjgtPBLm5AsoFbU9jH6J0UyhLvCLWpog0S
-	c3CR94fVR6CeJ98mBjLLULXcjMLSj5pkqQivB4qMch5ucmLmy6Atn237qspzDDPAT8mBwi
-	CpgeDUI36e6WNhjoXz3fB51t7BNhEa8iWSeOQKOCVJbdeZoFPYKRSn1vHPzKsU9exwgChJ
-	fxSHWHaBeeyrPlJTA1fZDyQjm0ymvgf/aSIRBDgSbBqqGxWxnTdWcVOUnnvWmD3jkF0sXn
-	Qmneeerwqx36PFII/N499GgQBAuxr1tkASH/8SuACul0zfAuq2OnugGQkk/iCg==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1718553665;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=r3CnB77GSg22IGMkBWAHaCoVPnRGOj7kbhcXuyKInSE=;
-	b=T9UYY3QrgSqjVPdaFKxneQ1KaMEv2yWISwv92e7cl1sjr6fzj3gp2zSmrmE4Duid5AXdpN
-	3Ch3FY8Vl02WU1kh9YsfVequDNl/mzQsY7syViG0DOaSLIyj+UPyJjQDhlISG/U7nww93G
-	bTkEQ0xpfISuhoFn6bLAyx0iIGeqLKYZLBjgmIkhw6ZyU2IkO4hht7kQJ6UjmoFWGC1q6/
-	UWedibmBTiM+5ooNbvsdTDakNoUgNa1oIyL1tHekJus2dwnPVLeOeao4gO+X8Cs5zMQUQu
-	zHrpp8m66AOeDd8OeiBPwUyV3WNAhXHbiMc8tSoxvQ5Np8VkkWkd3AVd0pVyeQ==
-To: linux-clk@vger.kernel.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Rob Herring <robh@kernel.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] dt-bindings: clock: r8a7779: Remove duplicate newline
-Date: Sun, 16 Jun 2024 18:00:20 +0200
-Message-ID: <20240616160038.45937-1-marek.vasut+renesas@mailbox.org>
+	s=arc-20240116; t=1718553875; c=relaxed/simple;
+	bh=KGBMb+hsV6f1/UzEToXa/ESKEIydm1zGzXT27qGRaAU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WYEZ6NlTGCZvvTARAaDXcjetAOpBsk0P6582Wwj/5DCaMkCEMZAAi4guL3M0aTfeCg0SYrJGyBZZFg/fiCeGxd9f//lJC4lEiqFac/EUMd9GjA3RDldQ5V6BMfsPiWO54YaOSUcMwI3ztLQBf5o8cpFGLMzdgkeJlnT+eWKBIAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Ed3boJ8o; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=KGBM
+	b+hsV6f1/UzEToXa/ESKEIydm1zGzXT27qGRaAU=; b=Ed3boJ8oyxjup0H1+s/c
+	64zC+VA1ZLZL5c4dT2r8+7GL7Lj1CTtwS6Pfo61N8kncuvNsOIKLA1HCfSUgwhJ0
+	wPOUGtxi7ya4nftwpvikNwgOAorszAoJjjmClHDDBwAwzzZDQtRy1zbvoDzqjEqF
+	gZ2HO0xGyFNQpBxFuolLpvCulmL+zv94GsitCA1xPVMT2NqzW/D/hibGL+q/JsbH
+	HHkEuiHwrwK5Adj9ZIeTofbNvm6ypi4I5UznCpfTnf9KAJdTZLgcDeCeHBKEJh2U
+	X9SQpq0yqxMFNVtZlU7MPTWy2fJhbLQl3zU1D0iXgvyLH+f23fymJSHATsdBK/Xt
+	oA==
+Received: (qmail 2067608 invoked from network); 16 Jun 2024 18:04:27 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Jun 2024 18:04:27 +0200
+X-UD-Smtp-Session: l3s3148p1@B1bPAAQbhL9ehh9j
+Date: Sun, 16 Jun 2024 18:04:27 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Subject: Re: [PATCH v9 1/1] gpio: add sloppy logic analyzer using polling
+Message-ID: <qnjiwkrqnwyz65nieioq2lt2kaauj2xqvddq5ba7ajrkmk7rky@hik3pexv7er7>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+References: <CAMRc=Mc4__0zzJZG3BPnmbua88SLuEbX=Wk=EZnKH5HQvB+JPg@mail.gmail.com>
+ <CACRpkda==5S75Bw6F3ZLUmf7kwgi_JkByiizR=m-61nrMDWuvQ@mail.gmail.com>
+ <ce1d8150-c595-44d5-b19a-040920481709@app.fastmail.com>
+ <CAMRc=McpRjQO8mUrOA4bU_YqO8Tc9-Ujytfy1fcjGUEgH9NW0A@mail.gmail.com>
+ <CACRpkdYtLDA3518uSYiTpu1PJuqNErHr9YMAKuar0CeFbfECPA@mail.gmail.com>
+ <CAMRc=Mem6HN13FOA_Ru8zC-GqGGLTsQiktLWs5bN4JD1aM3gHQ@mail.gmail.com>
+ <a7463c6e-2801-4d0e-b723-fc1cf77a04ed@app.fastmail.com>
+ <slpwvai5q24qwymh7nktihvykmlhi5j3nhqjxruxb6yacruu47@27b7rhykw2f3>
+ <3bb9b39c-c15f-49e3-987b-26cd47e05f3e@app.fastmail.com>
+ <CACRpkdaC6i54qUfJ5H16m2wQhR89bXq26Pn0rZ-80m3a60-_mw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 8xqqk8hrsxghkbn9conx3m9oqteiz6ns
-X-MBO-RS-ID: 0e427122175b53372da
-X-Rspamd-Queue-Id: 4W2Hmz4svLz9sZ1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ogf6eemsskgkbba6"
+Content-Disposition: inline
+In-Reply-To: <CACRpkdaC6i54qUfJ5H16m2wQhR89bXq26Pn0rZ-80m3a60-_mw@mail.gmail.com>
 
-Drop duplicate newline. No functional change.
 
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Michael Turquette <mturquette@baylibre.com>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Stephen Boyd <sboyd@kernel.org>
-Cc: devicetree@vger.kernel.org
-Cc: linux-clk@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
----
- include/dt-bindings/clock/r8a7779-clock.h | 1 -
- 1 file changed, 1 deletion(-)
+--ogf6eemsskgkbba6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/include/dt-bindings/clock/r8a7779-clock.h b/include/dt-bindings/clock/r8a7779-clock.h
-index 342a60b11934b..e39acdc6499c0 100644
---- a/include/dt-bindings/clock/r8a7779-clock.h
-+++ b/include/dt-bindings/clock/r8a7779-clock.h
-@@ -57,5 +57,4 @@
- #define R8A7779_CLK_MMC1	30
- #define R8A7779_CLK_MMC0	31
- 
--
- #endif /* __DT_BINDINGS_CLOCK_R8A7779_H__ */
--- 
-2.43.0
 
+> I second this opinion. The logic analyzer does in my mind
+> classify as a GPIO debugging feature. Surely someone
+> debugging anything connected to GPIO, such as a key or
+> MMC card detect or whatever could use this feature to see
+> what is going on on that line.
+
+Okay, with that picture I can see where your argument is coming from.
+However, making it a gpiolib debugging feature will surely raise
+expectations. And it is not only the non-equi-distant sampling. The
+script trying to isolate a CPU core tries really hard but is still hacky
+IMO. It has to disable the RCU stall detector and will likely interfere
+with your CPUSET configuration if you have one. As I always said, it is
+last resort debugging.
+
+As I write this, I start to wonder if this should be really upstream or
+if I just keep it as a branch in my repo. Maybe it is just too hackish
+to be supported mainline?
+
+
+--ogf6eemsskgkbba6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZvDQcACgkQFA3kzBSg
+Kbb7hw/8CrBKvnmbXNsocNTdodgY1tjLDiHpCUAlqOUzbYz1kPOVa1DTkE/rdqam
+iRB/uiHUZU1RkwANATrrSo3ZAfN8e/ffWbOcCtInD/fLqQEC6p7dIz0biFHCfyuz
+L9eXjWMlfFtijXnk7aPphKsZL4n21MqCFC0IN6RpIT8npNieSaY745npgGN2OIaQ
+ViI9QdUy964rYRlzEG9ybJjW8Bh43V/aPKYW8x39T8sqPdOfzZ6BoEpPdjKg/7f2
+3HAmS2WW/ZZK0grDrvmUcKSQOPEgaBuzH6b9qjd+dkcL/YOXCoYO0OmCDSUI9yPW
+KERlFoqnRm30Jnsat1eNIpOv084QDB4EmCZwmxnQQfQ16Bwf4rbv+jzbSNMWCSqV
+ge+aoDvreCzoBKNsnQtYiHbiH/RgR+N9gESuTYKr4jZys6NLI4QdVOmOvuQcOEKy
+/c61N46fQd3wfAQbu8BgqypMRdAj9HAv76+veogZpbVY0Z2v8/XzFVwVqDvGYRGe
+VcUi/pBcuo//OiKsJTkBLJR6WvDo07LfOAMFbYYPS8FYtGzC6eWtPEItvMy+6h2D
+AG5Q4Cg9d9utCNsLPVuXNxLLSfwZJDmw7gPE6kW7y7zPOIKsQ0Vo/JExf6HsPvz+
+7YRkDGxMhPmXfBF/cQq9bcHE1EOeS+oyUMmn/SybJyFB0OWPTVQ=
+=nL8s
+-----END PGP SIGNATURE-----
+
+--ogf6eemsskgkbba6--
 
