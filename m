@@ -1,81 +1,65 @@
-Return-Path: <linux-renesas-soc+bounces-6291-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6292-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE84D909AAE
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Jun 2024 02:20:16 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F002909B13
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Jun 2024 03:24:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4BBBA282E62
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Jun 2024 00:20:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DD4F9282931
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Jun 2024 01:23:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54FA61870;
-	Sun, 16 Jun 2024 00:20:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A73AA15532E;
+	Sun, 16 Jun 2024 01:23:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QgBw352i"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="j0UJoMBU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77D441847;
-	Sun, 16 Jun 2024 00:20:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05DF5154C0E;
+	Sun, 16 Jun 2024 01:23:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718497210; cv=none; b=frphdvIpauAO0x3G47fK94W6mCnqd1IfM8Bo3scWJQdQuk5fbi2O+0Ym+Ha/vGSSP3/g+ZI7XYXfs/PlYc8ATI64uSHpbSjGqqPnEfhysPMcDT5g2oaB7QDfEY7IXLCieYYF78WYx3az4RKHxDMQRaT8nwZkE+oisSo9zJijXL8=
+	t=1718501019; cv=none; b=uO0CKzsRYfnRiP1NFm5AqH4970X/0JB0X6QzVIhGKXgnOMsHHqlyIO+xq5B/pVnc7JSZUnqZwO/3Cp2Y0lKXYmOo7g2FwhNa4BTIZHjxb2YeAs5ZUNsxclgSI17Yq4U5zati5YN8aq9I3MOhuJOaDQCYusBVwueTBkP0j1vfr7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718497210; c=relaxed/simple;
-	bh=wwA+OqE2v6eOVsJjxE41uJDGwJ6LUdWs0oez7vI8tJ0=;
+	s=arc-20240116; t=1718501019; c=relaxed/simple;
+	bh=dh9mvuWyp0eU8teIlxNhIfF/1X5fszgM5t6Y9dIWI1M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dHCsYaE80ph1JZiJMGvN61BHrGWFYjEtjjlaxKJSMpHWNlwHt6eJWrjWJUFVPPSULSpCGxWx0AqyCYFd0WgTi8I8F7/2fR4AXcPV3vZQv/m7pfwzhgxVSUKbUbqrWJuTzCMy4R78Jgm70nu8xvvsQhB3p4VRg786Wf15iP7Re+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QgBw352i; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718497208; x=1750033208;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wwA+OqE2v6eOVsJjxE41uJDGwJ6LUdWs0oez7vI8tJ0=;
-  b=QgBw352iVT0HwrQRoEottbxGdouw5JMoUF8Pk/fp+exg6Q93X3KYR0GX
-   rVA4Ad2TUcStQTj0MaNxYa95wEPEY5NcVhpM410t/ywwiYHlJI6/htsnW
-   Rq+HQmhEoaseVMKH5MJAXBBISAslLLC3/LtSBiDjksKaN3l4T5gUIhlCR
-   w1wQa2NQLdWS3ANFyK9rQD7ugDWpWtpORVz4MbSH2VF8+C/8yvlyT4x/2
-   E5UeBadZXLxcwrIlele6XZ0Pj8cNvtJcUxBOlos9E8pni6TIo9lDsuFdI
-   Fd5GNVFtLvs8Lv8F8J4WGrIveeZjab+zZaM24uGMQBX9w8V0vykqcD7GU
-   w==;
-X-CSE-ConnectionGUID: tb3RojjaTM6OZ80nMLDBMg==
-X-CSE-MsgGUID: RL2KcAgMQXu0GDuBmibhhQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="19145764"
-X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="19145764"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 17:20:08 -0700
-X-CSE-ConnectionGUID: Dsk+HKVsTIOhZ4M66bYGxg==
-X-CSE-MsgGUID: fZPz2K0uQQih11sk8bAk1w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="41529016"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 15 Jun 2024 17:20:05 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sIdcn-0000dm-2e;
-	Sun, 16 Jun 2024 00:20:01 +0000
-Date: Sun, 16 Jun 2024 08:19:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Claudiu <claudiu.beznea@tuxon.dev>, geert+renesas@glider.be,
-	mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, lee@kernel.org,
-	alexandre.belloni@bootlin.com, magnus.damm@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, claudiu.beznea@tuxon.dev,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH 04/12] clk: renesas: clk-vbattb: Add VBATTB clock driver
-Message-ID: <202406160847.Ns62KOVc-lkp@intel.com>
-References: <20240614071932.1014067-5-claudiu.beznea.uj@bp.renesas.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=T2wPYgu1rmptU/A1VM0PucpaMZuLjk5xHcHqCdvSUtdm7PffNIpBOEGQZr4/8EqHxAA2TEX+dJ1O2ztkb2csofaxGViwlASMqhGeS+t2gqrcxOKiZej70VhYPjdUl/UhohjFy48rZf3mHiiLs8Ol+Km4GbwdxmFBDY9QJi2Ox7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=j0UJoMBU; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=lTZVCyklv744EcLdTU/mwOhqQgHd93wrrqaAFyjVQtk=; b=j0UJoMBUy2xcOTBYcPIotdDHpl
+	M5UWGpUoXwN6Ty5kjkNNus8bkPanMxPHqcPvhA5k71tpRZIoqRl80LkYkl/zjKI4sehQNRZabQx3k
+	WZIu5Ut6V7GrcTRVyz/jNI2ezExmBLkRkcBz2e/FMX2Lj6tqg5VVSMOb/P+dTdQit8K4=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1sIec1-0009x2-5t; Sun, 16 Jun 2024 03:23:17 +0200
+Date: Sun, 16 Jun 2024 03:23:17 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Paul Barker <paul.barker.ct@bp.renesas.com>
+Cc: Sergey Shtylyov <s.shtylyov@omp.ru>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Mitsuhiro Kimura <mitsuhiro.kimura.kc@renesas.com>,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [net-next PATCH 2/2] net: ravb: Fix R-Car RX frame size limit
+Message-ID: <b1c10539-4d47-4752-8613-785b0ad83f5e@lunn.ch>
+References: <20240615103038.973-1-paul.barker.ct@bp.renesas.com>
+ <20240615103038.973-3-paul.barker.ct@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -84,114 +68,18 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240614071932.1014067-5-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20240615103038.973-3-paul.barker.ct@bp.renesas.com>
 
-Hi Claudiu,
+On Sat, Jun 15, 2024 at 11:30:38AM +0100, Paul Barker wrote:
+> The RX frame size limit should not be based on the current MTU setting.
+> Instead it should be based on the hardware capabilities.
 
-kernel test robot noticed the following build warnings:
+This is a bit odd. MTU is Maximum Transmission Unit, so clearly is
+about Tx. MRU does not really exist. Does TCP allow for asymmetric
+MTU/MRU? Does MTU discovery work correctly for this?
 
-[auto build test WARNING on geert-renesas-drivers/renesas-clk]
-[also build test WARNING on geert-renesas-devel/next linus/master v6.10-rc3 next-20240613]
-[cannot apply to abelloni/rtc-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+In general, it seems like drivers implement min(MTU, MRU) and nothing
+more. Do you have a real use case for this asymmetry?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Claudiu/clk-renesas-r9a08g045-Add-clock-reset-and-power-domain-support-for-the-VBATTB-IP/20240614-152418
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk
-patch link:    https://lore.kernel.org/r/20240614071932.1014067-5-claudiu.beznea.uj%40bp.renesas.com
-patch subject: [PATCH 04/12] clk: renesas: clk-vbattb: Add VBATTB clock driver
-config: mips-randconfig-r122-20240616 (https://download.01.org/0day-ci/archive/20240616/202406160847.Ns62KOVc-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240616/202406160847.Ns62KOVc-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406160847.Ns62KOVc-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/clk/renesas/clk-vbattb.c:132:35: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int [usertype] size @@     got restricted gfp_t @@
-   drivers/clk/renesas/clk-vbattb.c:132:35: sparse:     expected unsigned int [usertype] size
-   drivers/clk/renesas/clk-vbattb.c:132:35: sparse:     got restricted gfp_t
->> drivers/clk/renesas/clk-vbattb.c:132:47: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted gfp_t [usertype] gfp @@     got unsigned int @@
-   drivers/clk/renesas/clk-vbattb.c:132:47: sparse:     expected restricted gfp_t [usertype] gfp
-   drivers/clk/renesas/clk-vbattb.c:132:47: sparse:     got unsigned int
-   drivers/clk/renesas/clk-vbattb.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-
-vim +132 drivers/clk/renesas/clk-vbattb.c
-
-   119	
-   120	static int vbattb_clk_probe(struct platform_device *pdev)
-   121	{
-   122		struct clk_parent_data parent_data = { .fw_name = "vbattb_xtal" };
-   123		struct device_node *np = pdev->dev.of_node;
-   124		struct device *dev = &pdev->dev;
-   125		struct clk_init_data init = {};
-   126		struct vbattb_clk *vbclk;
-   127		u32 load_capacitance;
-   128		struct clk_hw *hw;
-   129		bool bypass;
-   130		int ret;
-   131	
- > 132		vbclk = devm_kzalloc(dev, GFP_KERNEL, sizeof(*vbclk));
-   133		if (!vbclk)
-   134			return -ENOMEM;
-   135	
-   136		vbclk->regmap = syscon_node_to_regmap(np->parent);
-   137		if (IS_ERR(vbclk->regmap))
-   138			return PTR_ERR(vbclk->regmap);
-   139	
-   140		bypass = of_property_read_bool(np, "renesas,vbattb-osc-bypass");
-   141		ret = of_property_read_u32(np, "renesas,vbattb-load-nanofarads", &load_capacitance);
-   142		if (ret)
-   143			return ret;
-   144	
-   145		ret = vbattb_clk_validate_load_capacitance(vbclk, load_capacitance);
-   146		if (ret)
-   147			return ret;
-   148	
-   149		ret = devm_pm_runtime_enable(dev);
-   150		if (ret)
-   151			return ret;
-   152	
-   153		ret = pm_runtime_resume_and_get(dev);
-   154		if (ret)
-   155			return ret;
-   156	
-   157		regmap_update_bits(vbclk->regmap, VBATTB_BKSCCR, VBATTB_BKSCCR_SOSEL,
-   158				   bypass ? VBATTB_BKSCCR_SOSEL : 0);
-   159	
-   160		init.name = "vbattclk";
-   161		init.ops = &vbattb_clk_ops;
-   162		init.parent_data = &parent_data;
-   163		init.num_parents = 1;
-   164		init.flags = 0;
-   165	
-   166		vbclk->hw.init = &init;
-   167		hw = &vbclk->hw;
-   168	
-   169		spin_lock_init(&vbclk->lock);
-   170	
-   171		ret = devm_clk_hw_register(dev, hw);
-   172		if (ret)
-   173			goto rpm_put;
-   174	
-   175		ret = of_clk_add_hw_provider(np, of_clk_hw_simple_get, hw);
-   176		if (ret)
-   177			goto rpm_put;
-   178	
-   179		return 0;
-   180	
-   181	rpm_put:
-   182		pm_runtime_put(dev);
-   183		return ret;
-   184	}
-   185	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+      Andrew
 
