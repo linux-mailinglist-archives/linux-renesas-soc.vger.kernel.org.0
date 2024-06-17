@@ -1,119 +1,189 @@
-Return-Path: <linux-renesas-soc+bounces-6329-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6330-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE3C390A83C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 10:15:18 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75D8B90A86B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 10:31:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3B0FF2863E5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 08:15:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8C9831C232A1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 08:31:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6169187559;
-	Mon, 17 Jun 2024 08:15:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8418190473;
+	Mon, 17 Jun 2024 08:31:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ZC1lh2pf"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2517190043
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Jun 2024 08:15:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBFFB157A42
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Jun 2024 08:31:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718612115; cv=none; b=tpMZxQ1yqrhgdkA0PciDTCj3a34VTBci1785kyO38w/mBvpmVkD+HHIodMoXKc7Yt0axdq/VpMuAd5bqxrYFS8llInWAChBEYZZFvCxtD9c1YuufrsQ6sDMmS2fjoGpcaM6h/iXQ/A+ubEvNmPJViJWA5ALqirnmViZDT3/cCBE=
+	t=1718613069; cv=none; b=Q1PV55j1ucfUPTXozggxvRpCErdlugOq2GMUbQF3c1w44kNlmGQTDyWUgze09xwY3WYjTM8CgG0doPAKYRQmhcfXVYJtOsuw0LWZ5NkKA/oWvjBzLN20rE4F7NTG21aK3TptIazhZRw6tUoIJsw+VHVw2t8lkufk4A4IaAoDQDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718612115; c=relaxed/simple;
-	bh=qM2chCRu0ga3xJBs08yyD/qhoisWPyxHhOpNYgj19RI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CGV00LSvbyA9jCZ3TXOc7QKDxRHDM1+/nKG0Z+G77Jhs8nhtf2uUUQSMJa5Y2FFPRoBLE0SG0O13vZEMmhUQxTtC8dRGbcp2yjLZL86JgnWmcul6916aUkwFI7sCxEWFlT2zxyv/tuB2GWs+8tM/8UqevLTy6gGECwdPVTeaFBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-6312dc52078so42699677b3.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Jun 2024 01:15:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718612112; x=1719216912;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nczCIexv5lAKNgm7zGVJ7w0Et6rzsxrGwmDLoLhB5Ow=;
-        b=U9KzeqeYsbQNeji+58NNP8h5oidDEc5Rd0/ncKvW9oyb1YqWrnN0BsVoEkHzev1etY
-         MFOMzfgV7F7QSqYj/M0vExUuib8uV5Gdn3Lo1CRMZZr1jy7esVdOMUk5pp8Jpu1o2Cdy
-         iyqlMJ9suuKm/cZ/fWEZsNIp12fHdYxrLjWnYQQKB36WAc72pYXw9qoBy6mwhxX51fI4
-         Gr85d1tx3587dr7cLOLyHUDChIiaL0AD7jRRKaGqG12MES2gTjeOr9DRGz30PXXU1V+W
-         S1CuPZXVp/Vnb+sGx708+ElYZYBEiwHPG3k8EvYKbjmu5ufikMMP8cLpyh+CrQ6pCT62
-         ioNg==
-X-Forwarded-Encrypted: i=1; AJvYcCVP0CXKABeNB+H8iDxFlYZ4BaZdmtFh9EUP7psI/JyRrXTUzbWRNsLcSaG/IHwCwdvNiY1rqXDju/kCcYWyfwMJab7tXXbN2bkbentlQEodmL8=
-X-Gm-Message-State: AOJu0YxfdMgg9J67+1xW6jJH9i0w45kn3yGfnNjHQn0p1jG39+xog6P0
-	eswIYELy2+jI0hwMVvECbiZl/FdA5M6qyUqvtTyUnjN+4+/lfOr8+ZL751g3
-X-Google-Smtp-Source: AGHT+IFbKHhj1E8uyb747E5MH1+rn6u27VQGSYlrr5unZkKzfM/XtKsH82/TWDmHc2xbCAVuR7KihQ==
-X-Received: by 2002:a25:6954:0:b0:dfa:6f3a:b248 with SMTP id 3f1490d57ef6-dff19242299mr7487390276.65.1718612111989;
-        Mon, 17 Jun 2024 01:15:11 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-dff048c11d3sm1771036276.36.2024.06.17.01.15.11
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Jun 2024 01:15:11 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-627ebbefd85so45325577b3.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Jun 2024 01:15:11 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWwuMVkQ2RXsdpvfGuwTYHOEVy7ekTGW8vS7g1bvZE4yMiUAUuOrFa/xNh/nMep7aCLYDsSQ6kQvBEm5WyPAEWc+ckHuNFAsdH0L9J+R9Hitgs=
-X-Received: by 2002:a0d:d614:0:b0:61b:14a8:7944 with SMTP id
- 00721157ae682-6322402fe58mr88286157b3.39.1718612111196; Mon, 17 Jun 2024
- 01:15:11 -0700 (PDT)
+	s=arc-20240116; t=1718613069; c=relaxed/simple;
+	bh=ZbDI9c0HmPjexoKRl1GQN/dSXPz2UkxaGRrj1fQpjmw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qcw9P0QWs8pvPwkCm9HEga8mA/7edZQKlLP9d2veCvZAzmyHeU0CiETxfeO8s09Vi24q91R8RsMyuTwg8g1mAST8+x/0DrdP/ylxVnK8tTu5AVs3oDGLjnKeDbegNRgytlsDMe7Ae4J16ptDvPsh5k1FksrQYWR5PSJCYj4+bu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ZC1lh2pf; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=sJgM
+	bxWu9V+TwYJoRKfSyRjs1pVcjqeuejguaECABE8=; b=ZC1lh2pfEulFpMwsIFWX
+	45+u8TZdz4dTG5H7V2BK77Aro1V0Lpuv2Q0qJH2TFKZ510s24oNWfVnOrzqTSEg2
+	XBac43WDfHZF7MjbAVnhOaHWG5zTwVw5X+7veDo/vBmw9TsoJ51aYH7MqLnAknKH
+	BbYsjtFswv2ky1bYws0OyerF+rzu4YKqi06QvpqTAN/vuu7DbjgfH4HTEzlS2Mtk
+	q1mPhzgAO9HVnyHCPJ/+AtWswBH1+kHK6ty6OmBDyqGZ8PKe3n+HxbLOpYV4I06V
+	0n1jGw2ADAkaddXlgic/ykP6pa5+fHHEaRDSFmubkka/fzKYkMg/jfjgBQH+zHiM
+	8Q==
+Received: (qmail 2258176 invoked from network); 17 Jun 2024 10:31:02 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Jun 2024 10:31:02 +0200
+X-UD-Smtp-Session: l3s3148p1@b8YRyREbzJggAwDPXzjQABqqX1QYyOSW
+Date: Mon, 17 Jun 2024 10:31:01 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [RFC PATCH v2 3/3] mmc: renesas_sdhi: Add support for RZ/V2H(P)
+ SoC
+Message-ID: <prdvmtsp35yy2naohivbrya3go6vh5ji2cdjoebw3ovditcujo@bhck6tca6mhj>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Prabhakar <prabhakar.csengg@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240613091721.525266-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240613091721.525266-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240610164845.89666-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20240610164845.89666-1-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 17 Jun 2024 10:14:59 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXoArW2Y0WBMGZw+MTJdc18OFP8a2-_1=LuKisGnHswGQ@mail.gmail.com>
-Message-ID: <CAMuHMdXoArW2Y0WBMGZw+MTJdc18OFP8a2-_1=LuKisGnHswGQ@mail.gmail.com>
-Subject: Re: [PATCH v2] reset: rzg2l-usbphy-ctrl: Move reset controller registration
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ue4f7wdlmrpwmuit"
+Content-Disposition: inline
+In-Reply-To: <20240613091721.525266-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+
+--ue4f7wdlmrpwmuit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 10, 2024 at 6:48=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
-> As soon as the reset controller is registered, it could be used by a
-> reset consumer. That means hardware setup to be done first and then the
-> registration of the reset controller. So move the registration of reset
-> controller at the end of probe().
->
-> While at it, fix the issue that the reset is not re-asserted in case
-> devm_reset_controller_register() fails and also use goto statements to
-> simplify the error path in probe().
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v1->v2:
->  * Updated commit header and description
->  * Moved reset controller registration at the end of the probe()
->  * Fixed the issue that the reset is not re-asserted in case
->    devm_reset_controller_register() fails
->  * Used goto statements to simplify the error path in probe().
->  * Restored the blank line before devm_reset_controller_register().
+Hi Prabhakar,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> - Ive modelled the regulator now to control the PWEN aswell.
 
-Gr{oetje,eeting}s,
+Yay, this looks much better. Good work!
 
-                        Geert
+> - I have still kept regulator bits in quirks I was wondering if I should
+>   move this to renesas_sdhi_of_data instead?
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+I think so. An internal regulator is not a quirk.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> - I still need to add checks if the internal regulator used and
+>   only then call regulator_enable/regulator_set_voltage. ATM I am still
+>   unclear on differentiating if internal/external regulator is used.
+
+When it comes to re-enabling the regulator in sdhi_reset, I think this
+can be a sdhi_flag like SDHI_FLAG_ENABLE_REGULATOR_IN_RESET or alike.
+
+When it comes to the regulator, I wonder if it wouldn't be clearer to
+replace renesas_sdhi_internal_dmac_register_regulator() with a proper
+probe function and a dedicated compatible value for it. We could use
+platform_driver_probe() to instantiate the new driver within the SDHI
+probe function. This will ensure that the regulator driver will only be
+started once the main driver got all needed resources (mapped
+registers).
+
+My gut feeling is that it will pay off if the internal regulator will be
+described in DT as any other regulator. Like, we could name the
+regulator in DT as always etc...
+
+More opinions on this idea are welcome, though...
+
+> --- a/drivers/mmc/host/renesas_sdhi.h
+> +++ b/drivers/mmc/host/renesas_sdhi.h
+> @@ -11,6 +11,9 @@
+> =20
+>  #include <linux/dmaengine.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/regmap.h>
+
+Regmap can luckily go now.
+
+> +#include <linux/regulator/driver.h>
+> +#include <linux/regulator/machine.h>
+>  #include "tmio_mmc.h"
+> =20
+>  struct renesas_sdhi_scc {
+> @@ -49,6 +52,9 @@ struct renesas_sdhi_quirks {
+>  	bool manual_tap_correction;
+>  	bool old_info1_layout;
+>  	u32 hs400_bad_taps;
+> +	bool internal_regulator;
+> +	struct regulator_desc *rdesc;
+> +	struct regulator_init_data *reg_init_data;
+>  	const u8 (*hs400_calib_table)[SDHI_CALIB_TABLE_MAX];
+>  };
+> =20
+> @@ -93,6 +99,8 @@ struct renesas_sdhi {
+>  	unsigned int tap_set;
+> =20
+>  	struct reset_control *rstc;
+> +
+> +	struct regulator_dev *sd_status;
+
+This is a strange name for the regulater. Especially given that you have
+as well the more fitting 'u32 sd_status' in the code later.
+
+=2E..
+
+> +static struct regulator_init_data r9a09g057_regulator_init_data =3D {
+> +	.constraints =3D {
+> +		.valid_ops_mask =3D REGULATOR_CHANGE_STATUS,
+
+Don't we need REGULATOR_CHANGE_VOLTAGE here as well? Or is this implicit
+because of REGULATOR_VOLTAGE? Can't find this, though.
+
+So much for now. Thanks!
+
+   Wolfram
+
+
+--ue4f7wdlmrpwmuit
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZv9EIACgkQFA3kzBSg
+KbYmhRAArX6HJmfEhElIby3cdkoYJ9a6reWiPnb/H+5jI2ai9dNl2W2oVhfvtI2M
+DAsSAmWM2NzRIy6K/dt8XhLqfBdfcG5qmKQyp3GJxK5iD4naYsQOxGs8IBBvvPgT
+ASWBe6S0bSBUte1dR80iMoVkFXV97BBq2JatTu73hBkZvIaBpcU1Ekr1vAHHvAu8
+ZKf72yONTm7jdPRiEl3P9dSAT957uqh1pQ1Y5SC8rMDiXZ+MGOaBZxXK61lpNoao
+NDXfcDHBEanl0skuiQuWVbLEVw47KJZlEzyEFXzeWaI5/zzE8qxFTFUHcMaNeAHe
+ppnuEqGkgzntT+6je+xuRItcsJbmSlhTGf5LMoU29m99VB7jYN+AGHqfkTpma9Yz
+JIzQ4AdnUm+hi/UzNtxqZXthBcw0KnDThfvWuLFuCojOCaoFFbK/D/fRApdClOG0
+dqRU+e0runDmUPcRSdALGbcfFZCql1phHBaYS185ORd1DReRPagOQxNRn2UDMll6
+6SDUq9A5iEjiRL81MN04Fugi3QXpDSeowa/9QTjEqlOXOCaXghVXqFH0y9KKfL4S
+eN3KNa027p48WYLcSzjfzOceMCL0Ixzkj6oUNur1NmXaVs6TEZSpoc2oDHA5/xAV
+ip8W+RQhRHuui/apICpDV5Pjk0GtQTNuAcbGGxE1lm1VDMfiLrM=
+=00e5
+-----END PGP SIGNATURE-----
+
+--ue4f7wdlmrpwmuit--
 
