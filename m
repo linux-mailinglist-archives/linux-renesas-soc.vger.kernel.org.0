@@ -1,187 +1,124 @@
-Return-Path: <linux-renesas-soc+bounces-6357-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6358-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99A9B90B629
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 18:21:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCD9890B738
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 18:58:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A1388B4666A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 15:46:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 052A3B23359
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 16:12:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4EB3158A27;
-	Mon, 17 Jun 2024 15:19:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DB7B1D9511;
+	Mon, 17 Jun 2024 16:12:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QcD6Akg1"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="RlwZSwaM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD4B22083;
-	Mon, 17 Jun 2024 15:19:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED18ADDC5;
+	Mon, 17 Jun 2024 16:11:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718637576; cv=none; b=D15Jh/NuWrXwWM7Ow7X9rs091YGiuhgthDO4UHI4Did+UbB3mS1fJ4xL+zQNVefmr5RHTjj1Ovty/TMTWpGUXI7dC1TOO1pAiAtElFH3JqofpwsGNVTldBTl9cBDMeIagUHhO6628htrv7g7dCDOPMIDDmu7+NfPPlTLRp5hloA=
+	t=1718640721; cv=none; b=N2czCoo79D/K56xhp4sVdMw71HtyILaRvi0G5BNdLyVJC01VSwr3tinMLdt5NzPQH7K5aX6jroDhIbZdoOr9oIw1QQSiPpu1J5oDa0qnEQTuhJMANOPhQjkxF1Qzsa8IUqa//tsjv7YlJveEx9aYi824tOcwaCLG2n6USBoDCdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718637576; c=relaxed/simple;
-	bh=naIpIa1Kqns2NPV2ho5gEYD9eBsk6s5vBFjFML3y3gY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ttQ4L65tQpVMV6fjDmCFAx1wKiaWFKeNC9KSfiNDIOR9PtkcFVSpekNHDSq8ue39xjDrYMJSw64J23ml9PQ970cWmVjyoOIcHuJMbiW+b8IgVp/n+lA8SAD01pmD3i8eC+LaQ66Tg4WK9VGkdi8i3hzP/vgJKUNUH2UQnI0qvRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QcD6Akg1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B61E1C2BD10;
-	Mon, 17 Jun 2024 15:19:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718637576;
-	bh=naIpIa1Kqns2NPV2ho5gEYD9eBsk6s5vBFjFML3y3gY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QcD6Akg1FReoE8UPj/9zF6jZ1yON9EcKYgTCgFyPoyQ9Wte08cmcGhBeGg10nC+52
-	 O07VNeU9KgWCAhkTidcKUHPuLZVhNLLHF7Q2CVLDMy96838Aq1knZ40LRDYWYRw9h7
-	 wRFVHZzx65ta+Hy8nTLvQW+TchUfJ9RzIAW8G9NnlcHxNMURuZ77x09vgNM2ZJoAVH
-	 B/9g1CHT4IbzAUQLyY1zCq9Q0DAdAZMfnRVNwzKAta163AL8eRs5wW5Xu6D7Y6LSYz
-	 9R9F+CYDa8ySAitMzmOL9BByawEiEH6S/JI+Lqni/isTureAiD5nlUV0rBD+3sZzUh
-	 WskH6GRMGuisw==
-Date: Mon, 17 Jun 2024 16:19:30 +0100
-From: Conor Dooley <conor@kernel.org>
-To: claudiu beznea <claudiu.beznea@tuxon.dev>
-Cc: geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	lee@kernel.org, alexandre.belloni@bootlin.com,
-	magnus.damm@gmail.com, linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH 02/12] dt-bindings: clock: renesas,rzg3s-vbattb-clk:
- Document the VBATTB clock driver
-Message-ID: <20240617-subsoil-creed-04bf5f13d081@spud>
-References: <20240614071932.1014067-1-claudiu.beznea.uj@bp.renesas.com>
- <20240614071932.1014067-3-claudiu.beznea.uj@bp.renesas.com>
- <20240615-angler-occupier-6188a3187655@spud>
- <3d9ed0ec-ca9a-45b4-a633-8f7051d13cff@tuxon.dev>
+	s=arc-20240116; t=1718640721; c=relaxed/simple;
+	bh=UT/svzMt6+KlZ5NxYAhWAeTFvGK8dlfz4ZI2CIesUM8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QZgld9y5rPDnDcfw91NKXKyZvN4S2j1R1VB8rXvERxCpZVrPRf9iFnDtbdGA9QmZ5wqfIGkr/aCIrJOrDZu+p0vUkswtCf1py1NehzadMO66ktkFcwMZ818o5wcmgs3+rSDfd76brAo31tnUBvgKL77ZSTTYQu+oI4Vdujlq0q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=RlwZSwaM; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from localhost.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7504329A;
+	Mon, 17 Jun 2024 18:11:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1718640699;
+	bh=UT/svzMt6+KlZ5NxYAhWAeTFvGK8dlfz4ZI2CIesUM8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=RlwZSwaM50BbjmXIZ0gPZNFzYZ/TqeAUdoEEpwPnM04ptrHmPe3po5NoXWozLfH65
+	 9PSEhC8MqHEENzhhgNvIMsXxYdBUqVAXejObsgX4fpFZgPyeNjb6Ycbki6bHiwB1b6
+	 SYP9yHD48ZrArd0Vl8SPoXvlnxyiozPLcUo6Ov2c=
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v4 00/11] media: renesas: rcar-csi2: Use the subdev active state
+Date: Mon, 17 Jun 2024 18:11:23 +0200
+Message-ID: <20240617161135.130719-1-jacopo.mondi@ideasonboard.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="56coL768YMNwi762"
-Content-Disposition: inline
-In-Reply-To: <3d9ed0ec-ca9a-45b4-a633-8f7051d13cff@tuxon.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+v3->v4:
+- Add tags
+- Re-sort patches as suggested by Niklas to avoid breaking bisection
+
+v2->v3:
+- rcar-csi2: Collect v2.2 of [4/11]
+- adv748x: enum_mbus_code: reduce the number of formats to the ones supported
+  by the HDMI and Analog front ends;
+- adv748x: enum_mbus_code: enumerate all formats on sink pad; enumerate the
+  active format on the source pad
+- max9286: Apply the format to all pads to enforce all links to have the same
+  format
+- max9286: Remove max9286_set_fsync_period() from setup
+
+v2->v1:
+  - Remove "media: adv748x-csi2: Initialize subdev format"
+  - Add "media: adv748x-afe: Use 1X16 media bus code"
+  - Tested with CVBS
+  - address comments from Laurent and Niklas
+
+A branch is available at
+https://git.kernel.org/pub/scm/linux/kernel/git/jmondi/linux.git/
+jmondi/renesas-drivers-2024-06-11-v6.10-rc3/multistream-subdev-active-state
+
+As a follow-up to the recently sent
+"media: renesas: rcar-csi2: Support multiple streams" series, this smaller
+version collects some fixes and implement usage of the subdev active state
+to simplify the R-Car CSI-2, ADV748x and MAX9286 drivers implementations.
+
+Tested with GMSL on Eagle V3M
+Tested with HDMI on Salvator-X
+Tested with CVBS on Salvator-X
+Boot tested on WhiteHawk V4H
 
 
---56coL768YMNwi762
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Jacopo Mondi (11):
+  media: rcar-vin: Fix YUYV8_1X16 handling for CSI-2
+  media: rcar-csi2: Disable runtime_pm in probe error
+  media: rcar-csi2: Cleanup subdevice in remove()
+  media: rcar-csi2: Use the subdev active state
+  media: adv748x-csi2: Implement enum_mbus_codes
+  media: adv748x-afe: Use 1X16 media bus code
+  media: adv748x-csi2: Validate the image format
+  media: adv748x-csi2: Use the subdev active state
+  media: max9286: Fix enum_mbus_code
+  media: max9286: Use the subdev active state
+  media: max9286: Use frame interval from subdev state
 
-On Mon, Jun 17, 2024 at 10:02:47AM +0300, claudiu beznea wrote:
->=20
->=20
-> On 15.06.2024 15:17, Conor Dooley wrote:
-> > On Fri, Jun 14, 2024 at 10:19:22AM +0300, Claudiu wrote:
-> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>
-> >> The VBATTB IP of the Renesas RZ/G3S SoC controls the clock that feeds
-> >> the RTC and the tamper detector. Add documentation for the VBATTB clock
-> >> driver.
-> >>
-> >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >> ---
-> >>  .../clock/renesas,rzg3s-vbattb-clk.yaml       | 90 +++++++++++++++++++
-> >>  1 file changed, 90 insertions(+)
-> >>  create mode 100644 Documentation/devicetree/bindings/clock/renesas,rz=
-g3s-vbattb-clk.yaml
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/clock/renesas,rzg3s-vba=
-ttb-clk.yaml b/Documentation/devicetree/bindings/clock/renesas,rzg3s-vbattb=
--clk.yaml
-> >> new file mode 100644
-> >> index 000000000000..ef52a0c0f874
-> >> --- /dev/null
-> >> +++ b/Documentation/devicetree/bindings/clock/renesas,rzg3s-vbattb-clk=
-=2Eyaml
-> >> @@ -0,0 +1,90 @@
-> >> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> >> +%YAML 1.2
-> >> +---
-> >> +$id: http://devicetree.org/schemas/clock/renesas,rzg3s-vbattb-clk.yam=
-l#
-> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >> +
-> >> +title: Renesas VBATTB clock
-> >> +
-> >> +maintainers:
-> >> +  - Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >> +
-> >> +description:
-> >> +  Renesas VBATTB module is an always on powered module (backed by bat=
-tery) which
-> >> +  generates a clock (VBATTCLK). This clocks feeds the RTC and the tam=
-per detector
-> >> +  modules.
-> >> +
-> >> +properties:
-> >> +  compatible:
-> >> +    const: renesas,rzg3s-vbattb-clk
-> >> +
-> >> +  reg:
-> >> +    maxItems: 1
-> >> +
-> >> +  clocks:
-> >> +    items:
-> >> +      - description: VBATTB module clock
-> >> +      - description: VBATTB input xtal
-> >> +
-> >> +  clock-names:
-> >> +    items:
-> >> +      - const: bclk
-> >> +      - const: vbattb_xtal
-> >> +
-> >> +  '#clock-cells':
-> >> +    const: 0
-> >> +
-> >> +  power-domains:
-> >> +    maxItems: 1
-> >> +
-> >> +  renesas,vbattb-load-nanofarads:
-> >> +    description: load capacitance of the on board xtal
-> >> +    $ref: /schemas/types.yaml#/definitions/uint32
-> >> +    enum: [ 4000, 7000, 9000, 12500 ]
-> >> +
-> >> +  renesas,vbattb-osc-bypass:
-> >> +    description: set when external clock is connected to RTXOUT pin
-> >> +    type: boolean
-> >=20
-> > When you say "external clock", is that an input or an output?
->=20
-> I took that statement from the HW manual. As of the HW manual [1], table
-> 42.2, that would be an input.
+ drivers/media/i2c/adv748x/adv748x-afe.c       |   4 +-
+ drivers/media/i2c/adv748x/adv748x-csi2.c      | 145 +++++++++-----
+ drivers/media/i2c/adv748x/adv748x.h           |   1 -
+ drivers/media/i2c/max9286.c                   | 181 +++++++-----------
+ drivers/media/platform/renesas/rcar-csi2.c    | 155 +++++++++------
+ .../platform/renesas/rcar-vin/rcar-dma.c      |  16 +-
+ 6 files changed, 271 insertions(+), 231 deletions(-)
 
-Forgive me for not wanting to open the zip etc and find the information
-in the document, but why do you need an extra property? Is it not
-something you can determine from the clocks/clock-names properties?
-It sounds like an additional clock from your description, is it actually
-different way to provide the second clock you mention above?
+--
+2.45.2
 
->=20
-> [1]
-> https://www.renesas.com/us/en/products/microcontrollers-microprocessors/r=
-z-mpus/rzg3s-general-purpose-microprocessors-single-core-arm-cortex-a55-11-=
-ghz-cpu-and-dual-core-cortex-m33-250
->=20
-
---56coL768YMNwi762
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZnBUAgAKCRB4tDGHoIJi
-0rZQAQCewakzSyZHrcYUH8+d8xIo+9/OP7zyCp6sCDIWB4L7sAEAzqCsVwlD4cn+
-2oxxeZnpGsG3xJ+EYOZM76MqaXgtQwQ=
-=GLxB
------END PGP SIGNATURE-----
-
---56coL768YMNwi762--
 
