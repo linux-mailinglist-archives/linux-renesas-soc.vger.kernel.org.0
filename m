@@ -1,181 +1,179 @@
-Return-Path: <linux-renesas-soc+bounces-6372-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6373-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77EDA90B7C7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 19:21:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F05090B81D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 19:33:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E457C1F24B3B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 17:21:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1BFB41F21CE5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 17:33:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6685E16DC07;
-	Mon, 17 Jun 2024 17:20:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="pF+dQpe4";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="bfvFXSsA"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC7C8185E40;
+	Mon, 17 Jun 2024 17:33:22 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from wfhigh3-smtp.messagingengine.com (wfhigh3-smtp.messagingengine.com [64.147.123.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DFFB16D4E1;
-	Mon, 17 Jun 2024 17:20:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0565185E5C;
+	Mon, 17 Jun 2024 17:33:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718644851; cv=none; b=ACjY/lANhq5KR+Kyg6VfwquewTlp4LPcXh+jvh/EH3px0XjrZ8XBgyfoqzILMfV/umEfK6ezhPSAvE0VG3FIyvtMq2sP1ZsSxuCNkBxM+AXc7a/sVxbsqNRlGnOaWnHyDqBHjf7L+bG9Qe19Ub2jzXhDx7DFwpMXO077MYdPw8E=
+	t=1718645602; cv=none; b=dxUtlND+mxAusYRzzg1R4SymitQqbjNqSomAcqURmQ874uQOCw6OknKf51e0o7KaHHKgkafp/QRQuUuR0jnO/4WAN9/cl7UQVIEQ7Sptl8FbFhfA/NiWTlZ0kOS60o0BtpqSgRfIQwKuJ6a0O2E9bQ+k182y1ZbG+QxLpbyVIlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718644851; c=relaxed/simple;
-	bh=+5/FUHkbw3NH+kQzndB/Y0YlhYz2S/Z2mC1HKOOwKcg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UU0pPI+vvmj/ISaGyOaqdN4YmBRAUE7L5RVXueqAFW96VnkF2ztTn5gJ2GDmO3By9E7y3DWniwJ9P2xaD+tT1ffQzoku5rJ2Z0SdzB7obdvHIW+cB/gVfOCNWSgalNCe4sVzNvrgef2zo06Zy+Y5/wyPzNNU2H/LYKeN/RXNldY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=pF+dQpe4; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=bfvFXSsA; arc=none smtp.client-ip=64.147.123.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailfhigh.west.internal (Postfix) with ESMTP id CF5C6180012E;
-	Mon, 17 Jun 2024 13:20:45 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Mon, 17 Jun 2024 13:20:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1718644845;
-	 x=1718731245; bh=l1CctP9H/9iN5K+wiFA+tdgZqWgJKcdpigi7qJiuTpc=; b=
-	pF+dQpe42Wf2I7wDHVBhgINh8wdhQxniO7/8tKSgnxGP9Pt1dFzulbJGZw/6cTRN
-	KUc7w7QwaImnLqcTr4679Au9xKclnqaLfEvxl6MEw4mwMcUtk7YNG12y5c19jZUP
-	h1ndurrzSJsYQPQ0mb+HXMEQPjnmujPhP3eHPxSJ+38YzPqww9RKsWOgaQfbiGIo
-	FHYYDbEghxcxROAqLFVJigQl+N6dqpJ7vqt3Q94hB5IFJO/Hw+oXqG1+DehstkpA
-	GPWmVJD2fiXVv3VvQ9iNHs+ZnqUuc7BqkHQ9JONfrRd61USVczbkM1lq2ctF1QBy
-	1Lt+aHPtCrfpFffQG2vQZA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1718644845; x=
-	1718731245; bh=l1CctP9H/9iN5K+wiFA+tdgZqWgJKcdpigi7qJiuTpc=; b=b
-	fvFXSsA6UUcagW9hXCpFIUgDIjyj1vi1TBOJ09bLgVUtByCRX1oEiTAdgn4ay0km
-	TJNlbi+57T3oMOHV4KKdJImKDyNyLUll26Q4Y/T3odPOjQE3OeS2Ifj1pDpjx/8a
-	PMvTL0FZW9N+e78NXSG0308jrYcglC6DSMyhNVHzzHyd2FQlZ5w/hajpTInbJ7XH
-	XsgyR/aI98T9Ky2o+rGWdfsN2m4uDtbPz13BlhHys3PttTRWYMsQibGgC/gFBU3a
-	oHSKEwQVlt3rA8JXoLyhXN+LwX2QkJ7hKLRwEIge3wqueJo/b5qhSV3tXVehwX8G
-	AJ+9HhkHH6zBcjMWIEPUg==
-X-ME-Sender: <xms:bHBwZu3tS_rZi70gNbt8j5QIp4wTPmb2aqq1FbifbrJJ3zOnxgq5Mg>
-    <xme:bHBwZhFYie5L0P1YwyW2oavULVrtA0j3qJZxjwUPyi-VVJ6K11WSGD2trvz_JSuYs
-    nSQUiDNuvQWrDsEZOM>
-X-ME-Received: <xmr:bHBwZm4dptohXF7QMqETjGgY8LFV23YEEcV85kINhGeT2mMmWyC3FxqcehH1JZHT-qykuzJRbjBb3o7yFpVfTl1PzzRvadk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfedvhedgudduudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhi
-    khhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvg
-    hnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepfefhleel
-    hfffjefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftddvleeinecuvehluhhsth
-    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohgu
-    vghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
-X-ME-Proxy: <xmx:bHBwZv3HdiGb3Eozz_uWQCPw7aU3itoXFq44Ji6mCj6mSyYBxGnb8Q>
-    <xmx:bHBwZhE5wPbdSM2QUwMZ1naFKUsOM4wWeGK94TrguAUpJS8plusfWQ>
-    <xmx:bHBwZo8usJ05qvs6wpZ1Gykbl16Y4vvVilQAmpPyXnjSZGqcz1JzIQ>
-    <xmx:bHBwZmneSc5VlDk3iRYnp2yDgu5fCjFrEBr_g4mW4_IVxLuCJHG0Rw>
-    <xmx:bXBwZgDicQgg1FDAm3iwcF9a5Eb0kqSDuJMXG9phLBim8lkMTTOVchbN>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 17 Jun 2024 13:20:44 -0400 (EDT)
-Date: Mon, 17 Jun 2024 19:20:41 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Paul Barker <paul.barker.ct@bp.renesas.com>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew@lunn.ch>, netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [net-next,v8] net: ethernet: rtsn: Add support for Renesas
- Ethernet-TSN
-Message-ID: <20240617172041.GN382677@ragnatech.se>
-References: <20240613104119.2820792-1-niklas.soderlund+renesas@ragnatech.se>
- <306484c7-4a8c-45ba-b0c6-74514a522f05@bp.renesas.com>
- <20240613124921.GG382677@ragnatech.se>
- <adbe998e-d410-4797-b8a7-24d45ca7a1bc@bp.renesas.com>
+	s=arc-20240116; t=1718645602; c=relaxed/simple;
+	bh=y0oydXMWQKzbFbiBAg4M471X1MgbQvXldyh4GrQoX1I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eVsz+Iz2y1noIazqptSRM3YYVEbr7e/GHEQVDgXSCPYRB++eRhW4LkiAS0cl5Wh5wO6iP2R2MDkXonW5oomTwzJYMquXRgy2VvpSaSfyhtD4eaUCZl5xdZGCMJjo5SBFn/6H7TcDN/usycnVHZuZJ4XBiXuFchdKxxfgnBqRKDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-632597a42b8so30820657b3.3;
+        Mon, 17 Jun 2024 10:33:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718645599; x=1719250399;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vQAVRrUu5DgIhmr32+K0xwONZEayKP5zGr+OfCubAWo=;
+        b=HTFJuGD0H34BeE7ERkk7Lm46E5cGkCYBcCmfTMEWGKDiv9gyfZphwELHN7xsREXbij
+         XdWM6ABzIK9y8xpGfZRshMeytEzMv59T+ftuoF5ElMr1ZXtw0p9UVoeqGtKgYIC30/yd
+         MFu9NU5EemIwAIoI9ZVncMePv8fbm2bTAqYtpE4fMW729Ce5h+1LGd5DXVEU5ImdplfB
+         OncJZhN0N8aZOogIaDzrgGTJNtj35/Id5W8OVwnCsNnQYqDx1qLzFYqETGvlN3rBfr78
+         ZPmHZbK9VRSmgS00Eo0btJIeCLBsemV4JcWW+G37dx6RSLRZ2utvPqRf66wFSG+iW0OT
+         Rm+A==
+X-Forwarded-Encrypted: i=1; AJvYcCUbqXPrGVH7A1f8XxUtwF98HAn7+Ilu4IYIxbIMI0slsBDdQt4GBWq7vzF63WXFZ29nD5k+DvfTKY6+CEPRkR7UbT7/D1oY/VKLe4u7zXrI9C2ZKULb9uZmCf1uBy5WjlmXIIoi4Wqe0umVzLhITQ==
+X-Gm-Message-State: AOJu0YzUl+zsJXb9srYNhaxUhRaFS8UEKG6o2DlMQwTffFvj4uXP9iF5
+	tcFboYYBVCLEwRLoRM+323WE1ENxHHcgswXxRAMWiFZ1D3gr7npbSApDxVCy
+X-Google-Smtp-Source: AGHT+IFobFjGHfjis9uI3Ha/ZMTby9hVjFmhSNpslMnNiIPPGxtOGnDAGk8lrAxr5Z6yRYSLiWjHjw==
+X-Received: by 2002:a0d:c302:0:b0:627:a917:bae7 with SMTP id 00721157ae682-6322344ce65mr98035847b3.30.1718645599033;
+        Mon, 17 Jun 2024 10:33:19 -0700 (PDT)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6311a445ea4sm14813717b3.102.2024.06.17.10.33.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Jun 2024 10:33:18 -0700 (PDT)
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-dff0c685292so4033539276.3;
+        Mon, 17 Jun 2024 10:33:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU30Uw2PeusK3kGEq7SDPkIzphrQKo2GF2+8MX0MRQ5Cd5KrV2Ep+NDjOpn8c1l55UK8HS04GDRCBbN6v8EdJnFxVJiigv9ZAteUgOm9Y+zdadaOeNIGZqJVaNo51hqdqAD1N4FjgK6tQtPujQ5IQ==
+X-Received: by 2002:a25:fe05:0:b0:dfa:72cc:f88b with SMTP id
+ 3f1490d57ef6-dff154a8d22mr9588983276.52.1718645597325; Mon, 17 Jun 2024
+ 10:33:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <adbe998e-d410-4797-b8a7-24d45ca7a1bc@bp.renesas.com>
+References: <20240419083331.7761-1-tzimmermann@suse.de> <20240419083331.7761-29-tzimmermann@suse.de>
+In-Reply-To: <20240419083331.7761-29-tzimmermann@suse.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 17 Jun 2024 19:33:04 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX3N0szUvt1VTbroa2zrT1Nye_VzPb5qqCZ7z5gSm7HGw@mail.gmail.com>
+Message-ID: <CAMuHMdX3N0szUvt1VTbroa2zrT1Nye_VzPb5qqCZ7z5gSm7HGw@mail.gmail.com>
+Subject: Re: [PATCH v3 28/43] drm/renesas/rcar-du: Use fbdev-dma
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: javierm@redhat.com, deller@gmx.de, airlied@gmail.com, daniel@ffwll.ch, 
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Paul,
+Hi Thomas,
 
-On 2024-06-17 14:41:52 +0100, Paul Barker wrote:
-<snip>
-> >>> +	entry = priv->cur_tx % priv->num_tx_ring;
-> >>> +	priv->tx_skb[entry] = skb;
-> >>> +	desc = &priv->tx_ring[entry];
-> >>> +	desc->dptr = cpu_to_le32(dma_addr);
-> >>> +	desc->info_ds = cpu_to_le16(skb->len);
-> >>
-> >> Should we check against the maximum TX frame size supported by the
-> >> hardware here?
-> >>
-> >> Whatever we do here, we should also do in the ravb driver as that makes
-> >> a similar cpu_to_le16() call to fill the DS field with no check that the
-> >> HW actually supports transmitting a frame of the given size.
-> > 
-> > Compared to RAVB the RTSN driver do not support splitting a packet over 
-> > multiple descriptors, so the max frame size adhering to the MTU will 
-> > always fit using a single descriptor.
-> > 
-> 
-> My concern here is with pathological or malicious packets.
+On Fri, Apr 19, 2024 at 10:34=E2=80=AFAM Thomas Zimmermann <tzimmermann@sus=
+e.de> wrote:
+> Implement fbdev emulation with fbdev-dma. Fbdev-dma now supports
+> damage handling, which is required by rcar-du. Avoids the overhead of
+> fbdev-generic's additional shadow buffering. No functional changes.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-A malicious Tx packet due to local VLAN setup? There must be easier ways 
-to crash a machine if you got the permissions to configure interface 
-VLAN settings :-) But I agree the user shall be protected from
-misconfiguration.
+Thanks for your patch, which is now commit b3fdbd60d35ce340
+("drm/renesas/rcar-du: Use fbdev-dma") in drm-misc/drm-misc-next.
 
-> For example,
-> you can use stacked VLANS (QinQ, QinQinQ, etc) to expand the size of the
-> TX frame for a given MTU since the bytes used by the extra VLAN tags are
-> not counted as payload bytes.
+Probably this doesn't come as a surprise, but with CONFIG_DEBUG_VIRTUAL=3Dy=
+,
+this triggers the following warning on R-Car Gen3/Gen4 (arm64),
+e.g. on White-Hawk:
 
-This is interesting, I only played with single and double tagging never 
-QinQinQ.. . For some reason I assumed that after double tagging space 
-where going to be consumed from the payload. But indeed setting up 4 
-levels of VLAN tags shows the payload can be force to stay the same and 
-the skb->len do indeed grow.
+    virt_to_phys used for non-linear address: (____ptrval____)
+(0xffffffc088001000)
+    WARNING: CPU: 0 PID: 44 at arch/arm64/mm/physaddr.c:12
+__virt_to_phys+0x38/0x70
+    Modules linked in:
+    CPU: 0 PID: 44 Comm: kworker/u17:2 Not tainted
+6.9.0-rc6-white-hawk-01422-gb3fdbd60d35c-dirty #283
+    Hardware name: Renesas White Hawk CPU and Breakout boards based on
+r8a779g0 (DT)
+    Workqueue: events_unbound deferred_probe_work_func
+    pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=3D--)
+    pc : __virt_to_phys+0x38/0x70
+    lr : __virt_to_phys+0x38/0x70
+    sp : ffffffc08297b930
+    x29: ffffffc08297b930 x28: ffffff844527c000 x27: ffffffc080cb6a47
+    x26: ffffffc0810c0000 x25: ffffff84452a7800 x24: ffffff8445370018
+    x23: ffffff8443d34480 x22: ffffff8443d32c00 x21: ffffffc08297ba30
+    x20: ffffff84452a5800 x19: ffffffc088001000 x18: 0000000000000000
+    x17: 666678302820295f x16: 5f5f5f6c61767274 x15: 0720072007200720
+    x14: 0720072007200720 x13: 0720072007200720 x12: 0720072007200720
+    x11: 0000000000000180 x10: ffffffc0810e9aa0 x9 : ffffffc0813a9c80
+    x8 : ffffffc08297b638 x7 : ffffffc08297b640 x6 : 00000000ffff7fff
+    x5 : c0000000ffff7fff x4 : 0000000000000000 x3 : 0000000000000001
+    x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffffff8441ba2940
+    Call trace:
+     __virt_to_phys+0x38/0x70
+     drm_fbdev_dma_helper_fb_probe+0x178/0x1e8
+     __drm_fb_helper_initial_config_and_unlock+0x26c/0x4b8
+     drm_fb_helper_initial_config+0x30/0x44
+     drm_fbdev_dma_client_hotplug+0x84/0xb4
+     drm_client_register+0x74/0xb8
+     drm_fbdev_dma_setup+0x118/0x11c
+     rcar_du_probe+0x160/0x174
+     platform_probe+0x64/0xb0
+     really_probe+0x130/0x260
+     __driver_probe_device+0xec/0x104
+     driver_probe_device+0x4c/0xf8
+     __device_attach_driver+0xa8/0xc8
+     bus_for_each_drv+0xa4/0xc8
+     __device_attach+0xe4/0x144
+     device_initial_probe+0x10/0x18
+     bus_probe_device+0x38/0xa0
+     deferred_probe_work_func+0xb8/0xd0
+     process_scheduled_works+0x314/0x4d4
+     worker_thread+0x1b8/0x20c
+     kthread+0xd8/0xe8
+     ret_from_fork+0x10/0x20
+    irq event stamp: 7568
+    hardirqs last  enabled at (7567): [<ffffffc080928828>]
+_raw_spin_unlock_irq+0x2c/0x40
+    hardirqs last disabled at (7568): [<ffffffc080922b20>]
+__schedule+0x1cc/0x868
+    softirqs last  enabled at (5004): [<ffffffc0800102fc>]
+__do_softirq+0x1ac/0x3a8
+    softirqs last disabled at (4999): [<ffffffc080015624>]
+____do_softirq+0xc/0x14
 
-  $ ip link add link end0 name end0.2 type vlan id 2
-  $ ifconfig end0.2 10.0.2.10 netmask 255.255.255.0 up
-  $ ip link add link end0.2 name end0.3 type vlan id 3
-  $ ifconfig end0.3 10.0.3.10 netmask 255.255.255.0 up
-  $ ip link add link end0.3 name end0.4 type vlan id 4
-  $ ifconfig end0.4 10.0.4.10 netmask 255.255.255.0 up
-  $ ip link add link end0.4 name end0.5 type vlan id 5
-  $ ifconfig end0.5 10.0.5.10 netmask 255.255.255.0 up
-  $ ping -s 1500 10.0.5.1  # Give an skb->len of 1530
-  $ ping -s 1500 10.0.4.1  # Give an skb->len of 1526
-  $ ping -s 1500 10.0.3.1  # Give an skb->len of 1522
-  $ ping -s 1500 10.0.2.1  # Give an skb->len of 1518
-  $ ping -s 1500 10.0.1.1  # Give an skb->len of 1514 (no tags)
+Interestingly, the warning is not triggered on R-Car Gen2 (arm32),
+although arch/arm/mm/physaddr.c has a similar check.
 
-The above was produced using RAVB and not RTSN and similar VLANS on a 
-2nd device was setup to allow for ICMP traffic and replies.
+Gr{oetje,eeting}s,
 
-> 
-> At least with the RZ/G2L family, no verification has been performed on
-> sending packets larger than 1526 bytes to my knowledge. Even using only
-> one TX descriptor, I was able to completely lock up the GbEth IP by
-> pushing a 2kB frame into the TX queue. So I do think it is worth adding
-> some checks here.
+                        Geert
 
-I will add a check for this to RTSN.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
--- 
-Kind Regards,
-Niklas Söderlund
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
