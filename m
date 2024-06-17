@@ -1,41 +1,41 @@
-Return-Path: <linux-renesas-soc+bounces-6351-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6352-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDF2D90B59A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 18:00:54 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD75B90B373
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 17:08:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 359DBB24962
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 15:06:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 55AF11F24277
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 15:08:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBD4814D29C;
-	Mon, 17 Jun 2024 14:20:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 011211514FB;
+	Mon, 17 Jun 2024 14:22:33 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B921314431B;
-	Mon, 17 Jun 2024 14:20:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13556150999;
+	Mon, 17 Jun 2024 14:22:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718634051; cv=none; b=tU/IzkOh0KC5kPXTXNSw54cScu01+8OWPCNx5AiCEXYs70EgtDkLZR23iyibrTVwgT7qaLrPGFukHkhG9xsJrI+FppJ+HOYdo/iOqOjuZDVigEtJNC8DJZGLDCLNmg/bzIhOgG/SqzwtmY/YL0RYmOa5UunbwmocYpvkzDkmlT8=
+	t=1718634152; cv=none; b=jF188jNLUx84vZ2nEJ4FKLbyx9rC+ms8VfOUZ2I3IHlGOs2l89wJuFHx0/Jj090g3ymFwcNFWrlMt088uu3q0PoD/uVpCUCV4m/F44eooJC/Tg3asPm1YLdmbWwJozccwHM7dC4gFJfh7Jxk243bDNS4s9mXf0zcl3qnYnbmo5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718634051; c=relaxed/simple;
-	bh=LBgqC8IZm7VqHKZVzVoxowDTpsG6xwMKBK6SPTTMDiY=;
+	s=arc-20240116; t=1718634152; c=relaxed/simple;
+	bh=6OxWMUg3yA5WcTolc8+8/GvGqWIxjQzsKph93I8gX/A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=h243+RdU1b7kdpY6XiQ84/5lBlyjywXTa0VTxbDIt4JdjqcaDVaN2vY/qmjrr+3GmM2MuDErUSjtiElIpVfRmw9fsLDg7oYnWUEMscZcEOMbePLhyL1LBfKT3/0/7bED6xRfK0A1PRhFegJMKShm0kU2WoPFZuW57H6SrZTFBbY=
+	 In-Reply-To:Content-Type; b=PLjtuuvaTqCqc895D5yzTPIeFe3hjah4NvwPlcyAgr2RXl3N58GdtWb1Xz7h8RVQD4bY9CmNS1tgfxQKgM+EpzS5/juqzqnbA5gNDFY02AINV/ntWVefPNnvvKZHu1WTWEii9amPjQaXEi3shjLui6tbhHXbvbOAl8b2lA88vxw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 X-IronPort-AV: E=Sophos;i="6.08,244,1712588400"; 
-   d="asc'?scan'208";a="208262803"
+   d="asc'?scan'208";a="208262901"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 17 Jun 2024 23:20:47 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 17 Jun 2024 23:22:28 +0900
 Received: from [10.226.92.92] (unknown [10.226.92.92])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 35E33439D038;
-	Mon, 17 Jun 2024 23:20:42 +0900 (JST)
-Message-ID: <a6f2700b-8b90-4dd7-b8cf-0a061b790b36@bp.renesas.com>
-Date: Mon, 17 Jun 2024 15:20:41 +0100
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 405BB439D056;
+	Mon, 17 Jun 2024 23:22:24 +0900 (JST)
+Message-ID: <fa470a75-84e8-4924-9e1c-365cb397a391@bp.renesas.com>
+Date: Mon, 17 Jun 2024 15:22:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -43,115 +43,141 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [net-next PATCH 2/2] net: ravb: Fix R-Car RX frame size limit
+Subject: Re: [PATCH v2 1/9] pinctrl: renesas: rzg2l: Clarify OEN read/write
+ support
 Content-Language: en-GB
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Sergey Shtylyov <s.shtylyov@omp.ru>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Mitsuhiro Kimura <mitsuhiro.kimura.kc@renesas.com>, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240615103038.973-1-paul.barker.ct@bp.renesas.com>
- <20240615103038.973-3-paul.barker.ct@bp.renesas.com>
- <20240615130439.GM382677@ragnatech.se>
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240611113204.3004-1-paul.barker.ct@bp.renesas.com>
+ <20240611113204.3004-2-paul.barker.ct@bp.renesas.com>
+ <CAMuHMdW-BrHBt9eDw_GaW7JwJ+TP6Q+68EN1Tpp2Z5H00Dq+3g@mail.gmail.com>
 From: Paul Barker <paul.barker.ct@bp.renesas.com>
 Organization: Renesas Electronics Corporation
-In-Reply-To: <20240615130439.GM382677@ragnatech.se>
+In-Reply-To: <CAMuHMdW-BrHBt9eDw_GaW7JwJ+TP6Q+68EN1Tpp2Z5H00Dq+3g@mail.gmail.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------wulCbgkreFkWwlcbfMTg0YSj"
+ boundary="------------C6QDSlgQSws9A1j2aMg0KGw0"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------wulCbgkreFkWwlcbfMTg0YSj
-Content-Type: multipart/mixed; boundary="------------gcL5ZRsLg00ezCA9MUSzjSVW";
+--------------C6QDSlgQSws9A1j2aMg0KGw0
+Content-Type: multipart/mixed; boundary="------------RbiozDZ0z6VG00rUxljqUKph";
  protected-headers="v1"
 From: Paul Barker <paul.barker.ct@bp.renesas.com>
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Sergey Shtylyov <s.shtylyov@omp.ru>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Mitsuhiro Kimura <mitsuhiro.kimura.kc@renesas.com>, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <a6f2700b-8b90-4dd7-b8cf-0a061b790b36@bp.renesas.com>
-Subject: Re: [net-next PATCH 2/2] net: ravb: Fix R-Car RX frame size limit
-References: <20240615103038.973-1-paul.barker.ct@bp.renesas.com>
- <20240615103038.973-3-paul.barker.ct@bp.renesas.com>
- <20240615130439.GM382677@ragnatech.se>
-In-Reply-To: <20240615130439.GM382677@ragnatech.se>
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-ID: <fa470a75-84e8-4924-9e1c-365cb397a391@bp.renesas.com>
+Subject: Re: [PATCH v2 1/9] pinctrl: renesas: rzg2l: Clarify OEN read/write
+ support
+References: <20240611113204.3004-1-paul.barker.ct@bp.renesas.com>
+ <20240611113204.3004-2-paul.barker.ct@bp.renesas.com>
+ <CAMuHMdW-BrHBt9eDw_GaW7JwJ+TP6Q+68EN1Tpp2Z5H00Dq+3g@mail.gmail.com>
+In-Reply-To: <CAMuHMdW-BrHBt9eDw_GaW7JwJ+TP6Q+68EN1Tpp2Z5H00Dq+3g@mail.gmail.com>
 
---------------gcL5ZRsLg00ezCA9MUSzjSVW
-Content-Type: multipart/mixed; boundary="------------f0WuzJ5XyOwLarbWSwgdzs3C"
+--------------RbiozDZ0z6VG00rUxljqUKph
+Content-Type: multipart/mixed; boundary="------------fv908Zin3VFkRAE20i5xZIp2"
 
---------------f0WuzJ5XyOwLarbWSwgdzs3C
+--------------fv908Zin3VFkRAE20i5xZIp2
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On 15/06/2024 14:04, Niklas S=C3=B6derlund wrote:
+On 17/06/2024 12:52, Geert Uytterhoeven wrote:
 > Hi Paul,
 >=20
-> Thanks for your work.
->=20
-> On 2024-06-15 11:30:38 +0100, Paul Barker wrote:
->> The RX frame size limit should not be based on the current MTU setting=
-=2E
->> Instead it should be based on the hardware capabilities.
+> On Tue, Jun 11, 2024 at 1:32=E2=80=AFPM Paul Barker
+> <paul.barker.ct@bp.renesas.com> wrote:
+>> We currently support OEN read/write for the RZ/G3S SoC but not the
+>> RZ/G2L SoC family (consisting of RZ/G2L, RZ/G2LC, RZ/G2UL, RZ/V2L &
+>> RZ/Five). The appropriate functions are renamed to clarify this.
 >>
->> Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
+>> We should also only set the oen_read and oen_write function pointers f=
+or
+>> the devices which support these operations. This requires us to check
+>> that these function pointers are valid before calling them.
+>>
+>> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+>> ---
+>> Changes v1->v2:
+>>   * New patch to clarify function names.
 >=20
-> I agree with the change the RFLR.RFL setting should not be connected to=
-=20
-> the MTU setting. And this likely comes from the early days of the drive=
-r=20
-> where neither Rx or Tx supported multiple descriptors for each packet. =
-=20
-> In those days the single descriptor used for each packet was tied to th=
-e=20
-> MTU setting. So likely the fixes tag should point to a later commit?>=20
-
-If my understanding of MTU & MRU are correct, even with a single
-descriptor we can always accept the same number of bytes regardless of
-the current MTU.
-
-> This is a great find and shows a flaw in the driver. But limiting the=20
-> size of each descriptor used for Tx is only half the solution right? As=
-=20
-> the driver now supports multiple descriptors for Tx (on GbEth) the=20
-> driver allows setting an MTU larger then the maximum size for single=20
-> descriptor on those devices. But the xmit function of the driver still =
-
-> hardcode the maximum of 2 descriptors for each Tx packet. And it only=20
-> uses the two descriptors to align the data to hardware constrains.
+> Thanks for your patch!
 >=20
-> Is it not incorrect for the driver to accept an MTU larger then the=20
-> maximum size of a single descriptor with the current Tx implementation?=
- =20
-> The driver can only support larger MTU settings for Rx, but not Tx ATM.=
+>> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+>> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+>=20
+>> @@ -1016,31 +1016,31 @@ static u8 rzg2l_pin_to_oen_bit(u32 offset, u8 =
+pin, u8 max_port)
+>>         return pin;
+>>  }
+>>
+>> -static u32 rzg2l_read_oen(struct rzg2l_pinctrl *pctrl, u32 caps, u32 =
+offset, u8 pin)
+>> +static u32 rzg3s_read_oen(struct rzg2l_pinctrl *pctrl, u32 caps, u32 =
+offset, u8 pin)
+>=20
+>> -static int rzg2l_write_oen(struct rzg2l_pinctrl *pctrl, u32 caps, u32=
+ offset, u8 pin, u8 oen)
+>> +static int rzg3s_write_oen(struct rzg2l_pinctrl *pctrl, u32 caps, u32=
+ offset, u8 pin, u8 oen)
+>=20
+> As commit 7d566a4d270c52ff ("pinctrl: renesas: rzg2l: Add function
+> pointers for OEN register access") did not rename
+> rzg2l_{read,write}_oen() to rzg2l_oen_{read,write}(), to match the
+> .oen_{read,write}() callback names, this is a good opportunity to fix
+> that oversight.
+
+Ack.
 
 >=20
-> I think the complete fix is to extend ravb_start_xmit() to fully suppor=
-t=20
-> split descriptors for packets larger then the maximum single descriptor=
-=20
-> size. Not just to align the packet between a DT_FSTART and DT_FEND=20
-> descriptor when needed.
+> The v2h variants already match the callback names.
+>=20
+>> @@ -1215,6 +1215,8 @@ static int rzg2l_pinctrl_pinconf_get(struct pinc=
+trl_dev *pctldev,
+>>                 break;
+>>
+>>         case PIN_CONFIG_OUTPUT_ENABLE:
+>> +               if (!pctrl->data->oen_read)
+>> +                       return -EOPNOTSUPP;
+>=20
+> Perhaps the check for PIN_CFG_OEN in each of the .oen_read()
+> callbacks should be moved here?
 
-For the RZ SoCs I have looked at, this isn't an issue. We support
-transmitting frames of slightly over 1500 bytes on the SoCs with GbEth
-IP, or 2047 bytes on the SoCs with R-Car AVB IP (e.g. RZ/G2H). Given
-that a single descriptor can cover up to 4095 bytes of data (with its 12
-bit DS field), we don't need split TX descriptors for either of these.
+Ack.
+
+>=20
+>>                 arg =3D pctrl->data->oen_read(pctrl, cfg, _pin, bit);
+>>                 if (!arg)
+>>                         return -EINVAL;
+>> @@ -1354,6 +1356,8 @@ static int rzg2l_pinctrl_pinconf_set(struct pinc=
+trl_dev *pctldev,
+>>
+>>                 case PIN_CONFIG_OUTPUT_ENABLE:
+>>                         arg =3D pinconf_to_config_argument(_configs[i]=
+);
+>> +                       if (!pctrl->data->oen_write)
+>> +                               return -EOPNOTSUPP;
+>=20
+> Likewise.
+
+Ack.
+
+I'll fix these in v3.
 
 Thanks,
 
 --=20
 Paul Barker
---------------f0WuzJ5XyOwLarbWSwgdzs3C
+
+--------------fv908Zin3VFkRAE20i5xZIp2
 Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
 Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
 Content-Description: OpenPGP public key
@@ -215,22 +241,22 @@ ZyZGVsEsOuGCLkekUMF/5dwOhEDXrY42VR/ZxdDTY99dznQkwTt4o7FOmkY=3D
 =3DsIIN
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------f0WuzJ5XyOwLarbWSwgdzs3C--
+--------------fv908Zin3VFkRAE20i5xZIp2--
 
---------------gcL5ZRsLg00ezCA9MUSzjSVW--
+--------------RbiozDZ0z6VG00rUxljqUKph--
 
---------------wulCbgkreFkWwlcbfMTg0YSj
+--------------C6QDSlgQSws9A1j2aMg0KGw0
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZnBGOQUDAAAAAAAKCRDbaV4Vf/JGvbd8
-APwMiYBePqtIRpEbPzl1Lwzu9gHICHwFFzUYOUwX55l1CwD+P0vPtGK2ToYrBA1i4cvbrksRxElV
-OfA6l4Mmc5JB2gc=
-=EaxN
+wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZnBGoAUDAAAAAAAKCRDbaV4Vf/JGvWna
+AP9p5/HCOBqF1h5FzmOYXHErfMIof0KDoob4zUjs8p/KCAD9Hf5RswcQh+KbvcqZyOQOn3S/gh/S
+sTeHdqwyzdUaHgk=
+=wkPW
 -----END PGP SIGNATURE-----
 
---------------wulCbgkreFkWwlcbfMTg0YSj--
+--------------C6QDSlgQSws9A1j2aMg0KGw0--
 
