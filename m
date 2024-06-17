@@ -1,195 +1,173 @@
-Return-Path: <linux-renesas-soc+bounces-6342-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6343-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA1290AEB8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 15:07:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5E2290AEDE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 15:16:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AB0BA281415
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 13:07:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 983DD1C22107
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 13:16:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67EB5196D98;
-	Mon, 17 Jun 2024 13:07:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B26F194AF6;
+	Mon, 17 Jun 2024 13:15:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="g4A3PT0q"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dc12OSKV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D8A18FC6F
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Jun 2024 13:07:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FDAC17FAA2;
+	Mon, 17 Jun 2024 13:15:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718629624; cv=none; b=RZtmO7YQz1/Atod7Puqvl8Villo297EhRSoU13WNoE91kUsPdFQo27Vxe74gd2v5STqIkSOInDMhhcdxhw4jwXOG4meBGOliXRgN0dfzCgO8fDaCsrjyWf2hLsAMRx5P1PRuGZBSZgisGMD6Df20xkEufaTmVRaeIyYVcJSdZfA=
+	t=1718630152; cv=none; b=AjNRjnOeMTMKzs26UAszQ6iyvp9ddiw8ugQkt0l2OZZWjiT2lqnI7NQSpiXsoaC23Y3MfhmO/pfxtfVZrRwXeO0yks2+InnYz52EUVquEuOLeCJ7t1GYNPTrBvo00GUlRcGUXhi8nIt3sRZf9f2HgGmZOL4m/p3qEj89JOCTVzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718629624; c=relaxed/simple;
-	bh=eOjpz+zFL2+6WO8cSaWf4BmSuGFNzfiJD3g20c/JtA8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=l96BqpxRZiOVHdPvRJQi5n6Gg3Dr5uHH7J4B72P94oOZ3TJUjw6j/uMCCCg7aHjQanyjgF1w8RMklV79rzqYbSJeaRG1tRbt2+VJ/0pfkv4DZ4rA9P8Xug4FaKUriOB6YDd/l8shqMsCxR1kkDBo+ygeSbJwy4WFJoJ5HByWhqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=g4A3PT0q; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1718629621;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j94IkIvUkn3DxicfEpyhPETY6R5+LL1pLlBJM7Hddc8=;
-	b=g4A3PT0qha8nE4A5sVJMEdlvTPvtuFZWeYuCSo1A1U1R0KQcgNLtMwLNoaAddUxGi2QZiE
-	sxUA6hqAca44YwuEQqXgyull0hS2qnrK11TSzzUkbrrlg5srob7ONB0Ee4jTXSxmqMSUK1
-	bvkcQ3FOgbYWcwVnpFula7f/z7KoaJM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-691-4ALkyyGCPgqQqJpgHJhhpg-1; Mon, 17 Jun 2024 09:07:00 -0400
-X-MC-Unique: 4ALkyyGCPgqQqJpgHJhhpg-1
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-421739476b3so37929405e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Jun 2024 06:07:00 -0700 (PDT)
+	s=arc-20240116; t=1718630152; c=relaxed/simple;
+	bh=jgVGBIyV8U78GjJm/qsVjrw68d4BbzUuCGW9a4ZyVEI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=G3tcDKIb+P2eMQid11T8PLi2WEyrYjNsnvQQMOge4++EU0hKtpAMSANsAa/EZgxp+ftftKwAZVodLTRtxNOlUJptG3x2o0Z9Dl0mgBiMRnnbx87/CAMVyiDeOGz5Xfp26r61J6uY+rDFN7I5tv2Q5Kq8cNas6hpeatIcS0UtLe0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dc12OSKV; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-421bb51d81aso33109205e9.3;
+        Mon, 17 Jun 2024 06:15:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718630149; x=1719234949; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mPMFdlSwh1iRDl9l7BoWP6h98w3/zXzLfYpprwi7Xb0=;
+        b=Dc12OSKVUm01GRbfvHgcPS8yoZytv9hzZUegSDtunMjSO5cnSwLBoa9iF34vjGrwDR
+         dAL2O+YJpfOWCqqZeVDxjiIbZC/0FqhVfJ6xljxAc5Z7kndV8LQ88kDigkbVZ4RLj2NZ
+         PvU2gAA3/vUMn0i+RpynXQ/9sZ2g7O3Wglb+78kPjSf9jdrEGrJubBm7DjONj2zPMalL
+         bL9ZV4W8zpi9tbbC9USk5sAwgWybPjX0+EAnmhaQ5V1S+EZoINKwh1gQtTO30jgXnDsN
+         5CfuZNCxmgyOkqoVWW3Axk1JzRNOtRX6smLY49LHXjPc5n4hL1/gchYW6hJV1wGbT/PJ
+         UgJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718629619; x=1719234419;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=j94IkIvUkn3DxicfEpyhPETY6R5+LL1pLlBJM7Hddc8=;
-        b=EBXoAD+BBDATIw+gIprx1TC7QR9DlD3A1PFSTuLGLckS1/o8dWeGsWIgZppVH7IG4Y
-         GPKNR1lWk2jvqHaYJ8Rek1DmqCI1sQoZ2VnWOq+DKhZDgkF2506ntnxlvkNjZpQF7ZuZ
-         nDMc6Vk2Lpli5Uaw03c/MIGQAC6zJ7AEwoPNj164NlzltetC1KG+ilUQ4+R4fYHXkK5V
-         Vo+0Ri5njbfRPN/WNY29yVbltiO122Px58IeQ5HfyV3o/c8eEGTDfC5/IyB0bhJsAx/J
-         3BIjtHYKd+N8VL8ag5mAwKRHvVm0F/eRRxTNYb9f83Fhd8NI9W8d/sLJugUsdIlHk9o5
-         XdHA==
-X-Forwarded-Encrypted: i=1; AJvYcCWMaIJnVyahllL6I9Ji6/lH6mvM3NJ36QfthHhrP0Ha20HNGvRXfskwPIyUa1F76YNBImMC307VW9wnhV733SCfJATdwKJwoZT3QU6N1l7yM1k=
-X-Gm-Message-State: AOJu0YxT+gYNyGI98JeS4VrxZM5jlKye/F/BJ9ZaamwM/7XdVY2rrEM+
-	WJ4h5nSQm4Pf/ZKcBnBPkyg7W8/iefulXrRV7pcykWtZLs+amPfGUK5/nglsLONsfVed/jByax9
-	B2743Age/udkFsTJO5tPpZcNTM6cA8nBd7ep+S2d7RrWKP+ZmpuFSlMPYwQGM2KmWumPiOGPmmD
-	q8n1E=
-X-Received: by 2002:a05:600c:3589:b0:423:6b7:55de with SMTP id 5b1f17b1804b1-42306b75a55mr82866665e9.6.1718629618738;
-        Mon, 17 Jun 2024 06:06:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHOXYjkGkmJz4i2VzrPa1WEQ5ueU+NmDhVd11TfaL5C2XoJq5YGcoQ+Qdf446qEhALAmmNtSQ==
-X-Received: by 2002:a05:600c:3589:b0:423:6b7:55de with SMTP id 5b1f17b1804b1-42306b75a55mr82866425e9.6.1718629618312;
-        Mon, 17 Jun 2024 06:06:58 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e? ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42286fe92c6sm196243565e9.18.2024.06.17.06.06.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Jun 2024 06:06:57 -0700 (PDT)
-Message-ID: <7c502c16-198d-42de-921c-98507981da73@redhat.com>
-Date: Mon, 17 Jun 2024 15:06:56 +0200
+        d=1e100.net; s=20230601; t=1718630149; x=1719234949;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mPMFdlSwh1iRDl9l7BoWP6h98w3/zXzLfYpprwi7Xb0=;
+        b=iNDLdiRiYTCsSSW2mlrcmby3LibHKzd1gtbkxfTaQDzy2g8UBTvmQNy/Ph1K9q4IDC
+         ph0vEkCEPXe3h44O3yCUEjgtJFv0wv9aUz1pIAY0S0fWg93Rz3R8t2vCGLPoDjMePsAw
+         3T6sKHHOh8nlwDA3zB3Ybw5GTkdIXE7IhzgeHpb63ZqO69iJeKI/DEBBBVHk8nYCdOkD
+         IW2tXCWhjACzCUjNrlbBaHGZVdd9r6JF5lgborNO2JWm49gdbVlCNF8g3bG0yGxXJwIW
+         CVe3VCHM7W/wvo7Zd9+Tflcu8Xqzga+KWUvwn7huD4uAZj5pbsEJTBD7icIhN5+jxeUc
+         oqtw==
+X-Forwarded-Encrypted: i=1; AJvYcCWGBqxMmXD+pQLPUvYjAiSbBGTfi4bxIJRmck8YWNoOk3LWSAIhAiiCmjlare3GbOPM2CS2ccuY0XSdvelgnZqtBoup0aW85krewToYpBSKgFtM0qWxTAsudgRug7Sph9JZ2x54UidZbg==
+X-Gm-Message-State: AOJu0Yz4JzRmLcI/h428q1D29tZJ8HQjeHbvuzr6uxTQHzAGiTV1/yru
+	Gy/jlxORwqjOj7RCctikzHz16NxE7WehpACSiL6fx/VEiI6ddBBRTRg/kQ9qHgA=
+X-Google-Smtp-Source: AGHT+IFGCFsrqw0+5k8TDt8YIEGW3eqMyCMz1G2qBXtk+mw7wxBBMHBBkPVv07qeULCqam6yIAgV0g==
+X-Received: by 2002:a05:600c:1912:b0:421:fc5b:b8f4 with SMTP id 5b1f17b1804b1-423048229b5mr85432015e9.2.1718630148599;
+        Mon, 17 Jun 2024 06:15:48 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2500:a01:92ee:d46e:5619:8184])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42286fe92c6sm196452825e9.18.2024.06.17.06.15.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Jun 2024 06:15:47 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] pinctrl: renesas: rzg2l: Use BIT_ULL for PIN_CFG_* macros
+Date: Mon, 17 Jun 2024 14:15:11 +0100
+Message-Id: <20240617131511.160877-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/7] drm/panic: Add support for drawing a monochrome
- graphical logo
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <cover.1718305355.git.geert+renesas@glider.be>
- <3f1a5f56213f3e4584773eb2813e212b2dff6d14.1718305355.git.geert+renesas@glider.be>
- <b20e8ee8-8cdb-464a-aa19-2fe1d39a7440@redhat.com>
- <CAMuHMdWNUhQqmbEELwbmSomLbwE-xgmVZ2Hv5WqDfw8Mku34+g@mail.gmail.com>
-Content-Language: en-US, fr
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <CAMuHMdWNUhQqmbEELwbmSomLbwE-xgmVZ2Hv5WqDfw8Mku34+g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
+Commit 13a8cae6e561 ("pinctrl: renesas: rzg2l: Drop struct
+rzg2l_variable_pin_cfg") introduced a Smatch static checker warning:
 
-On 17/06/2024 14:49, Geert Uytterhoeven wrote:
-> Hi Jocelyn,
-> 
-> On Mon, Jun 17, 2024 at 11:59 AM Jocelyn Falempe <jfalempe@redhat.com> wrote:
->> On 13/06/2024 21:18, Geert Uytterhoeven wrote:
->>> Re-use the existing support for boot-up logos to draw a monochrome
->>> graphical logo in the DRM panic handler.  When no suitable graphical
->>> logo is available, the code falls back to the ASCII art penguin logo.
->>>
->>> Note that all graphical boot-up logos are freed during late kernel
->>> initialization, hence a copy must be made for later use.
->>>
->>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> 
->>> --- a/drivers/gpu/drm/drm_panic.c
->>> +++ b/drivers/gpu/drm/drm_panic.c
-> 
->>>        PANIC_LINE(" \\___)=(___/"),
->>>    };
->>>
->>> +#ifdef CONFIG_LOGO
->>> +static const struct linux_logo *logo_mono;
->>> +
->>> +static int drm_panic_setup_logo(void)
->>> +{
->>> +     const struct linux_logo *logo = fb_find_logo(1);
->>> +     const unsigned char *logo_data;
->>> +     struct linux_logo *logo_dup;
->>> +
->>> +     if (!logo || logo->type != LINUX_LOGO_MONO)
->>> +             return 0;
->>> +
->>> +     /* The logo is __init, so we must make a copy for later use */
->>> +     logo_data = kmemdup(logo->data,
->>> +                         size_mul(DIV_ROUND_UP(logo->width, BITS_PER_BYTE), logo->height),
->>> +                         GFP_KERNEL);
->>> +     if (!logo_data)
->>> +             return -ENOMEM;
->>> +
->>> +     logo_dup = kmemdup(logo, sizeof(*logo), GFP_KERNEL);
->>> +     if (!logo_dup) {
->>> +             kfree(logo_data);
->>> +             return -ENOMEM;
->>> +     }
->>> +
->>> +     logo_dup->data = logo_data;
->>> +     logo_mono = logo_dup;
->>> +
->>> +     return 0;
->>> +}
->>> +
->>> +device_initcall(drm_panic_setup_logo);
->>> +#else
->>> +#define logo_mono    ((const struct linux_logo *)NULL)
->>> +#endif
->>
->> I didn't notice that the first time, but the core drm can be built as a
->> module.
->> That means this will leak memory each time the module is removed.
-> 
-> While I hadn't considered a modular DRM core, there is no memory leak:
-> after the logos are freed (from late_initcall_sync()), fb_find_logo()
-> returns NULL. This does mean there won't be a graphical logo on panic,
-> though.
+    drivers/pinctrl/renesas/pinctrl-rzg2l.c:374 rzg2l_pinctrl_get_variable_pin_cfg()
+    warn: was expecting a 64 bit value instead of '~((((1))) << (16))'
 
-Yes, you're right, thanks for the precision.
-> 
->> But to solve the circular dependency between drm_kms_helper and
->> drm_panic, one solution is to depends on drm core to be built-in.
->> In this case there won't be a leak.
->> So depending on how we solve the circular dependency, it can be acceptable.
-> 
-> So far there is no reason to select DRM_KMS_HELPER, right?
+The function `rzg2l_pinctrl_get_variable_pin_cfg` attempts to mask out
+`PIN_CFG_VARIABLE` using `BIT(16)`. However, since `pincfg` is a `u64`,
+this inadvertently masks the high 32 bits as well, which is unintended
+(on non 64-bit platforms). To correct this, `PIN_CFG_VARIABLE` should
+be defined using `BIT_ULL(16)`, ensuring proper 64-bit masking.
 
-The current version doesn't need DRM_KMS_HELPER.
-But for example, it uses struct drm_rect, and a few functions 
-(drm_rect_width()) that are defined in .h, but other drm_rect_* 
-functions are defined in DRM_KMS_HELPER.
-And as you pointed out in your patch, it duplicates the 
-drm_fb_clip_offset(). So I'm not sure if it can avoid the dependency on 
-DRM_KMS_HELPER in the long term.
+To avoid such issues, update `PIN_CFG_*` macros to use `BIT_ULL()`.
 
+Fixes: 13a8cae6e561 ("pinctrl: renesas: rzg2l: Drop struct rzg2l_variable_pin_cfg")
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/all/5c1bf20b-7e94-4b06-95e5-da9f99750203@moroto.mountain/
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c | 44 ++++++++++++-------------
+ 1 file changed, 22 insertions(+), 22 deletions(-)
 
-> 
-> Gr{oetje,eeting}s,
-> 
->                          Geert
-> 
+diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+index 32945d4c8dc0..d5eee98f6085 100644
+--- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
++++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+@@ -41,28 +41,28 @@
+ #define MUX_FUNC_MASK		GENMASK(31, 16)
+ 
+ /* PIN capabilities */
+-#define PIN_CFG_IOLH_A			BIT(0)
+-#define PIN_CFG_IOLH_B			BIT(1)
+-#define PIN_CFG_SR			BIT(2)
+-#define PIN_CFG_IEN			BIT(3)
+-#define PIN_CFG_PUPD			BIT(4)
+-#define PIN_CFG_IO_VMC_SD0		BIT(5)
+-#define PIN_CFG_IO_VMC_SD1		BIT(6)
+-#define PIN_CFG_IO_VMC_QSPI		BIT(7)
+-#define PIN_CFG_IO_VMC_ETH0		BIT(8)
+-#define PIN_CFG_IO_VMC_ETH1		BIT(9)
+-#define PIN_CFG_FILONOFF		BIT(10)
+-#define PIN_CFG_FILNUM			BIT(11)
+-#define PIN_CFG_FILCLKSEL		BIT(12)
+-#define PIN_CFG_IOLH_C			BIT(13)
+-#define PIN_CFG_SOFT_PS			BIT(14)
+-#define PIN_CFG_OEN			BIT(15)
+-#define PIN_CFG_VARIABLE		BIT(16)
+-#define PIN_CFG_NOGPIO_INT		BIT(17)
+-#define PIN_CFG_NOD			BIT(18)	/* N-ch Open Drain */
+-#define PIN_CFG_SMT			BIT(19)	/* Schmitt-trigger input control */
+-#define PIN_CFG_ELC			BIT(20)
+-#define PIN_CFG_IOLH_RZV2H		BIT(21)
++#define PIN_CFG_IOLH_A			BIT_ULL(0)
++#define PIN_CFG_IOLH_B			BIT_ULL(1)
++#define PIN_CFG_SR			BIT_ULL(2)
++#define PIN_CFG_IEN			BIT_ULL(3)
++#define PIN_CFG_PUPD			BIT_ULL(4)
++#define PIN_CFG_IO_VMC_SD0		BIT_ULL(5)
++#define PIN_CFG_IO_VMC_SD1		BIT_ULL(6)
++#define PIN_CFG_IO_VMC_QSPI		BIT_ULL(7)
++#define PIN_CFG_IO_VMC_ETH0		BIT_ULL(8)
++#define PIN_CFG_IO_VMC_ETH1		BIT_ULL(9)
++#define PIN_CFG_FILONOFF		BIT_ULL(10)
++#define PIN_CFG_FILNUM			BIT_ULL(11)
++#define PIN_CFG_FILCLKSEL		BIT_ULL(12)
++#define PIN_CFG_IOLH_C			BIT_ULL(13)
++#define PIN_CFG_SOFT_PS			BIT_ULL(14)
++#define PIN_CFG_OEN			BIT_ULL(15)
++#define PIN_CFG_VARIABLE		BIT_ULL(16)
++#define PIN_CFG_NOGPIO_INT		BIT_ULL(17)
++#define PIN_CFG_NOD			BIT_ULL(18)	/* N-ch Open Drain */
++#define PIN_CFG_SMT			BIT_ULL(19)	/* Schmitt-trigger input control */
++#define PIN_CFG_ELC			BIT_ULL(20)
++#define PIN_CFG_IOLH_RZV2H		BIT_ULL(21)
+ 
+ #define RZG2L_MPXED_COMMON_PIN_FUNCS(group) \
+ 					(PIN_CFG_IOLH_##group | \
+-- 
+2.34.1
 
 
