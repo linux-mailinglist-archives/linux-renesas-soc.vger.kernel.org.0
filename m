@@ -1,74 +1,73 @@
-Return-Path: <linux-renesas-soc+bounces-6314-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6315-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B71B90A665
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 09:05:25 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66BEB90A76A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 09:36:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 43C281C2164A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 07:05:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2C6C9B2C67E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 07:16:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27685187569;
-	Mon, 17 Jun 2024 07:04:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1146188CBB;
+	Mon, 17 Jun 2024 07:16:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="dPkeukVi"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="qInNYKXm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57FA186E36
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Jun 2024 07:04:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2E76187323
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Jun 2024 07:16:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718607852; cv=none; b=WBjIsyTRWXoZk49MLtVvbMQSHgnnFGIMHFnkKYm4TuCsKaMxf2GxdcNSDkgejngtcKkbG32gWF7SmnssgtQgrdD3Doco6+5pbHuw8ToXSAChEBXo2KOO9Y4PZkju2eron4WL5A5xAbKZbf6zX00HgK1X6ptmsbx/IlUya8Yb6Tc=
+	t=1718608593; cv=none; b=erUTah7FnQ5QTGnjwm8bqe8R8ZhJysCXGwVVqo5eX+1IWkGtV/0KOfDaHIIbhnOSUzXF/swt5UgrdYkrAodRV+ol/cy8HkR3cSkVje6F3wBNopOrQ1QByKDF2NNd4QqMgJO5PdF+BbPl+NMYTOqjdymZr/JVcPO0TzzJhs2Lp8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718607852; c=relaxed/simple;
-	bh=AktLrWFN6uYaEHm2eLlbIr/ITVmWIbhY3r7zRb7at9U=;
+	s=arc-20240116; t=1718608593; c=relaxed/simple;
+	bh=bPW+cY98TVGEQ8oYbU5+kTB5r2TuPe/4Gj4MB1VB0zg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XWaaeCneW6Us70pQJMf10YNAhDAnf21gfcuMc3LZnydRhf0Gkj1tG2xzuUGnk8LLVlgxxntpzl1ZOa8xM4Cxv0yakj44YGNNFWXsO0cdCCA/7q1Mcfw6rPPchDzUrS3VWOA63IJX85P0t8J2Dswt2iccWTYg5iaK1zDI3Aa33TQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=dPkeukVi; arc=none smtp.client-ip=209.85.208.41
+	 In-Reply-To:Content-Type; b=biiP5Isp0xPXp3L7+0fh/bYEjrn2gumsoehclbssX/QxwwPWITduEVYqYTTFI5XPq0oJlTTk3dsnES3NvyNJkyXoc7USfj+J9smQs/WAGUYiJMVD3KaWLvSpqoTtjCwTdr6M59HZbArkfc/9sQ9K6F63Thiwht8Dl87DRqwi3ls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=qInNYKXm; arc=none smtp.client-ip=209.85.208.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-57c68682d1aso4454966a12.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Jun 2024 00:04:10 -0700 (PDT)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2ec002caeb3so53964751fa.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Jun 2024 00:16:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1718607849; x=1719212649; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1718608590; x=1719213390; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=S4op8rIzHP8JvuTAHfHPAy9Ox6rzEQd4/RfOVSiZ2sE=;
-        b=dPkeukVimU+Z7QiP8FmUrrJiarxq0ve1JePcKqUhJGQaMpGOHXSRpzbkveFLiTCFdL
-         bA8YcAP0vmaH0lgsOtY77R0dbqEuvUYrJIw+xUU7MM7SMxBHgOFMn208adM+mqW1aCLe
-         PvEyyXRTlb7X9enYKIJdAIAdyslgOzFd8cjYJMO47U/yCf3Yu7KOfNEYtOOKnWSn458q
-         B4SA/sbJy6AdQ2PTYo/m4Imf0NmCq4U0tch/r9IGu/ETrM+LPkWbPRXeHMxIYLB4x1O+
-         rKBDPgClJtPh6V5svWDJJFhGyMOGfOuiA3Vh1Se4u6O/EnLjIP2lwr++6yFHWoMolw6t
-         ifkw==
+        bh=gOtB6hLjDe2q1k9n9j8GrerUfufcZavMvVvl5T64NeQ=;
+        b=qInNYKXmUySA4K0m8LtV38DyPSDUkYGLMqol4vqFb88MpFuep57Wy6s59OmVGIrTJK
+         K6ljKXYq2ZtceNnnHBcN1lgR6BIjpZMuCpRI3W+oFZaLgZOj/DYjeVi+eOdafjp8lm+H
+         mJMT2fQYtf9mJu+eReVr2PB4a90f/7cmvkQG4i1VnVv82OJLTpUHtEKG7bkyMfhfe0Dv
+         aAacgr4Z40cyPpMrZHtXAFVIHBdURY+hGJCyqd89W4ql4MssiQfh6pJLSzq4rq2Dr0YL
+         lOJ03rVV111VVij1AP3I4MKBpTV3IG0cg8EiXimG8nzQ9RypILkNWUyRT/bPmdrUbn8W
+         1ldA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718607849; x=1719212649;
+        d=1e100.net; s=20230601; t=1718608590; x=1719213390;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=S4op8rIzHP8JvuTAHfHPAy9Ox6rzEQd4/RfOVSiZ2sE=;
-        b=aZoRf7FDbvdbxOTfyEZwNpWg6GUFOPzqNm20XS6RtWOSlDFyushUM4ngkL9J+0dH1f
-         5GzxEU5LLWeKUiAklwBP6CxvC+fHdm6gL6YUrlFhOsaK0N9S+L0RD6/n46FzuTuhp1Cr
-         8XrA1NTYkG8niDVohjmtcUTQ6ohm45foM/Cs0GuVxdMd6XLY057wcJwGCJI//aTVP04N
-         LaS+kpwM2ARKP4Z0II3pqSo+8xBn6UKhOGvehTghX/5ftrWNqmDpr6R0G4G8xxtURuLk
-         slsS3+3NeuyQ3sX8iBpf4WmpfqluORSLgL3+6Rhg7Zq5b03RTGuLMh6ekFc026AnV4PX
-         6mWw==
-X-Forwarded-Encrypted: i=1; AJvYcCXfcnb6hGqZ0/UOxcSywiBuUVPxk2aHpzgyk/OGMl79ifs+CZNEnZz7OS0+rXwkKsaiyZYaf7Ulml+Z7cRaha0G8G+w4IUY0nzOVx2r2pGNqp0=
-X-Gm-Message-State: AOJu0YwyImzdMFu/S8UqJSs1ge2flU3uZTQk7dfraTx1MFoRaEKbGYkD
-	gZjGBNG1ZG2qeMqdRlCAAgqYO0yau2PKYU75YgHXtAFkxmJZ9gTMRjh3EcRp4pQ=
-X-Google-Smtp-Source: AGHT+IF26jBL/MXFko48RwAldivf6KnMYn+dkXyzG1gTNio9sEd7J10HUGxCIpDzL8VV6MHgzlHGig==
-X-Received: by 2002:a05:6402:40c5:b0:57c:de6e:75d9 with SMTP id 4fb4d7f45d1cf-57cde6e766dmr2014654a12.32.1718607848890;
-        Mon, 17 Jun 2024 00:04:08 -0700 (PDT)
+        bh=gOtB6hLjDe2q1k9n9j8GrerUfufcZavMvVvl5T64NeQ=;
+        b=nTeaCEnKZ9rHfoPP8wjZXMQ19vsTAhcD/uos4qRzrSFyiDca7pGqACe8BOy8uIHRj2
+         VaNtj67PA0pqNjeAnPuYaNDoyR7k2uAWMpXqTbwgTwjapac2o5anTSL9KCy7qXgvLgJw
+         /5MShRzEOxqCh/JdOtj2WPWyQH9JuTdNLTVNyN2++v38aP5bDhnFFnqDIYn70zAX2jCy
+         soLCG5KTbE4FrzwpJHcGrcOL4P71J9mKdQqv7dk7wa3ITiIFrDW4o+/l8p9M71mwqc3l
+         qL3BE1BNLfvstKym16pxUgfUpzIZDeDVPGjxQjUNr86B9+qOnK7D7s0ytY9xlkkYGSX/
+         xPOg==
+X-Gm-Message-State: AOJu0YzBZYoEWZDJlEDWTjyFoDtl490lhZtrGzXBgd8a/QmayIN0WK6I
+	A6hg6QBmJww9FtRgslkuCYdBuYGPgDGnf4hUUIjSXs2cf1HCwBCZnEnOqmzHvBw=
+X-Google-Smtp-Source: AGHT+IHlanuvFDHlcHk0QHuwXweE3e5izwPD+BY+hJiW1cVcoATK8SU76Wd3c4dYNArqQvVGdfRmkA==
+X-Received: by 2002:a2e:a0d0:0:b0:2ec:30cd:fd7a with SMTP id 38308e7fff4ca-2ec30cdfe89mr4497991fa.49.1718608589940;
+        Mon, 17 Jun 2024 00:16:29 -0700 (PDT)
 Received: from [192.168.50.4] ([82.78.167.189])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57cb72da785sm5972959a12.28.2024.06.17.00.04.05
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-360750acf32sm11244173f8f.49.2024.06.17.00.16.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Jun 2024 00:04:08 -0700 (PDT)
-Message-ID: <4141ee7f-3f05-48b8-8ea5-97160bb0750d@tuxon.dev>
-Date: Mon, 17 Jun 2024 10:04:05 +0300
+        Mon, 17 Jun 2024 00:16:29 -0700 (PDT)
+Message-ID: <c882bac6-9cb9-4ba2-9bc4-967c03fcb031@tuxon.dev>
+Date: Mon, 17 Jun 2024 10:16:22 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -79,40 +78,110 @@ User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 03/12] dt-bindings: mfd: renesas,rzg3s-vbattb: Document
  VBATTB
 Content-Language: en-US
-To: Conor Dooley <conor@kernel.org>
-Cc: geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, lee@kernel.org,
- alexandre.belloni@bootlin.com, magnus.damm@gmail.com,
- linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+To: Krzysztof Kozlowski <krzk@kernel.org>, geert+renesas@glider.be,
+ mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, lee@kernel.org,
+ alexandre.belloni@bootlin.com, magnus.damm@gmail.com
+Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 References: <20240614071932.1014067-1-claudiu.beznea.uj@bp.renesas.com>
  <20240614071932.1014067-4-claudiu.beznea.uj@bp.renesas.com>
- <20240615-unhitched-slain-446130658f87@spud>
+ <936beb9a-2701-476c-8f5a-4b6b06d4f87d@kernel.org>
 From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20240615-unhitched-slain-446130658f87@spud>
+In-Reply-To: <936beb9a-2701-476c-8f5a-4b6b06d4f87d@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 15.06.2024 15:19, Conor Dooley wrote:
-> On Fri, Jun 14, 2024 at 10:19:23AM +0300, Claudiu wrote:
->> +patternProperties:
->> +  "^clock-controller@[0-9a-f]+$":
->> +    $ref: /schemas/clock/renesas,rzg3s-vbattb-clk.yaml#
->> +    description: VBATTCLK clock
+On 16.06.2024 10:38, Krzysztof Kozlowski wrote:
+> On 14/06/2024 09:19, Claudiu wrote:
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 > 
-> Being a bit of a pedant here, but isn't the address known? 
+>> +
+>> +maintainers:
+>> +  - Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>> +
+>> +properties:
+>> +  compatible:
+>> +    items:
+>> +      - const: renesas,rzg3s-vbattb
+>> +      - const: syscon
+>> +      - const: simple-mfd
+> 
+> No, mfd does no look good. That's not a simple device anymore and you
+> claim here child does not need vbat bclk, power domains and resets? That
+> would be a big surprise, although technically possible.
 
-It is.
+I wasn't sure how this MFD will be received by the Renesas maintainers so I
+kept it simple for this version.
 
-> You leaving
-> room for future devices with it at a different offset?
+In theory the VBAT clk, power domain and resets are specific to VBAT module
+itself but, indeed, the child cannot work w/o these.
 
-Ok, I'll keep it 1c instead.
+> 
+> Please clarify: which of parent resources are needed for children?
 
-Thank you for your review,
+VBAT clock, power domain are needed. Reset, too. In the current
+implementation the reset is deasserted though parent by calling the
+syscon_node_to_regmap(np->parent) in the clock driver.
+
+> 
+> ...
+> 
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/clock/r9a08g045-cpg.h>
+>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+>> +
+>> +    vbattb: vbattb@1005c000 {
+>> +        compatible = "renesas,rzg3s-vbattb", "syscon", "simple-mfd";
+>> +        reg = <0x1005c000 0x1000>;
+>> +        ranges = <0 0 0x1005c000 0 0x1000>;
+>> +        interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
+>> +        interrupt-names = "tampdi";
+>> +        clocks = <&cpg CPG_MOD R9A08G045_VBAT_BCLK>;
+>> +        clock-names = "bclk";
+>> +        power-domains = <&cpg>;
+>> +        resets = <&cpg R9A08G045_VBAT_BRESETN>;
+>> +        #address-cells = <2>;
+>> +        #size-cells = <2>;
+>> +        status = "disabled";
+> 
+> Drop
+
+Could you please clarify this? Would you want me to drop the full node
+(same for clock-controller node)?
+
+Can you point me an example that you are thinking about?
+
+Thank you,
 Claudiu Beznea
+
+> 
+>> +
+>> +        vbattclk: clock-controller@1c {
+>> +            compatible = "renesas,rzg3s-vbattb-clk";
+>> +            reg = <0 0x1c 0 0x10>;
+>> +            clocks = <&cpg CPG_MOD R9A08G045_VBAT_BCLK>, <&vbattb_xtal>;
+>> +            clock-names = "bclk", "vbattb_xtal";
+>> +            #clock-cells = <0>;
+>> +            power-domains = <&cpg>;
+>> +            status = "disabled";
+> 
+> Drop
+> 
+>> +        };
+>> +    };
+>> +
+>> +...
+> 
+> Best regards,
+> Krzysztof
+> 
 
