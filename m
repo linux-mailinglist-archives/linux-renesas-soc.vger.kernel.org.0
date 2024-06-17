@@ -1,139 +1,141 @@
-Return-Path: <linux-renesas-soc+bounces-6353-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6354-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB43D90B382
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 17:09:47 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 441B590B392
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 17:11:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 59862285C95
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 15:09:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DD67A1F21248
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 15:11:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6492915382F;
-	Mon, 17 Jun 2024 14:24:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D75C2155CA7;
+	Mon, 17 Jun 2024 14:29:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KZ1StWvr"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="j94Fw9eC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964AA15381F
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Jun 2024 14:24:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 418F5155C90;
+	Mon, 17 Jun 2024 14:29:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718634288; cv=none; b=XIHh578z5/QQ3eREZNDgh2RJKeWUbRIZJJM+aQoG92hm/AwhvtvhAOb31zbaaltV6ArRn3dlhgvg5Ebof0DA/sgTyiKiRrDes2+TfDOgiprUE9cWI5+JmbUsgzR51ICbhaJ50j7K9lvj+2TSMjXNx4emLDd3eHg05hDaewbSWQY=
+	t=1718634598; cv=none; b=uwFsPq/cvaKYBLFo6iDUJqSNCL4KqMVL3mVzLczyGK99EDGVrhGMeDvDESAmpYC5D7bezdDOjyZKwKGAql7v4uVWkj/SivM2ZT+ITJnbMkPogyBlu2rqm+8KVR26p3hFcLEbPI3gbQ0hP6iNQSsNIt28WVEi9zCsssGhDLsRVmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718634288; c=relaxed/simple;
-	bh=wVhqRWNLZk1bqs6B75oHYwXT2//rBMtuWsFLrtykLhQ=;
+	s=arc-20240116; t=1718634598; c=relaxed/simple;
+	bh=+oLVuF20b17/KeD/cnhmpNZn4qN3JI5332dEw38tUHc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZDyugMCBUdRHPSGau0rxEDaNM+Ie24o9x6+sC35fb9uUpZb+VgbTL9uXfjriPXcQEf60XeDWKK9RlX8iobe9ibboJgVLHrFb4mP/HPFUppllhWOJjXDydBRsllkeEJppJqBSfZ7t2T8+1sbK+Zyb41d9bl988RyEtMIlLTcAlAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KZ1StWvr; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-35f1c209893so4710300f8f.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Jun 2024 07:24:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718634285; x=1719239085; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=TYqDJrI0I1UHhBST5eoFbg+CuNr3i46R10TuIWsB+Ks=;
-        b=KZ1StWvrv1mC1WJe2I77PWplyaixdUTGt+8p3GXGy+aCQ5pBWszH8/WxAEg47g1Pjd
-         rwQu4gewq2flOHS9vqBNQbrYg6J/mSrGiMypIXB5cnInNBBO1n6BiXP0n/pobGS4E6gg
-         SH9ghSoijkcqGb0MHTyXlgvJ5wyz5aeS3E9F0GYrFwsGa2+QFjquckQ2AhjFh+rNl0sE
-         5Tga+FheZcd9FXLwx7UtBnNGAJYius54NOCCkj0D4WzHzH8tLYuLdRK4SBckzKer/gGm
-         lT9Fu3BqBW35QSOgth3VJbQSSihbN5/tVxyxTs46bL46JLVOC/rvmsYpxtpoGBknJ+M7
-         9Y/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718634285; x=1719239085;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TYqDJrI0I1UHhBST5eoFbg+CuNr3i46R10TuIWsB+Ks=;
-        b=Ll1O1kIr0fsCO/qKbwWzLmS5EGIjH2ATEVrkTa189vHE9HJrjiaRfuXsask6A/A0Ja
-         cBei7ncWoqp+14HZYxua908/iCt9/AiHP1LOuWHUWd7M4fkz4GRUzULkTf1CCpiSf/Vo
-         PUiXDDJu1CW0OEAWgfLTEGdqT2zPWm+xotKs4pF4k3kJ8FMRvwvH/8aKOnpjZ4hFNTiv
-         PWM1Tm++WVYAfGjvuDObdblJpXn38pYdvLjSfS190c8SltokWQ+fbfRg/enn2nrHVgY7
-         wi7Vn3bAgxd/NXuAXZ8iVV2ZZRrZBiGgkVTXp88ryzhB/7vnmrdvdVNlAB4SY33Zq17S
-         fMRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXSiwf05GxdvCuoB4BOBxFcbLh+grkEXda8wk5MJA7yk9jZ92wg66SOnfjmhahf6/Uqqej7hltfcpSht1RvosnySXsgEIxUFCifmZ5pqILueak=
-X-Gm-Message-State: AOJu0Yz5EQrgOf7WSV3NC8xIT9h8BtVwdtNW8CIJ6OwSHlO7E/8eSAbw
-	rZp896kuVzRU1femzXoqjCq2JyBr5g+St7BLyh5puqR/5da9r7VlGe7iPPcLnNI=
-X-Google-Smtp-Source: AGHT+IFhoW04Z2vjfp8Vdnof23ViUwN5wREaB43PL2wgSa1MkS0vqUdB4gDIhr3ovCzPLliM/vwrQQ==
-X-Received: by 2002:adf:f84a:0:b0:360:8604:dd76 with SMTP id ffacd0b85a97d-3608604de8cmr7116693f8f.66.1718634284814;
-        Mon, 17 Jun 2024 07:24:44 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36076515a80sm11849360f8f.76.2024.06.17.07.24.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jun 2024 07:24:44 -0700 (PDT)
-Date: Mon, 17 Jun 2024 17:24:39 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=XJMouKDloCVpq15UvkuLaob/6qHqfqro/L0ypgy1f65xTe7z+nIPjqM60dkqpUsS6s4yDcgL8JalPs7AsuHkIq5N/DPQvK4jyvVyhNtoT54eZJawKdxl49vL8mFbF7fB2JUbxgPtuAr3mZO+OLWMQ/oIU33RPDjFddo3Nn25lkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=j94Fw9eC; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=ghrNYOjKUEns5+oO8F4lUhqgpFkLNAVFJZuIbM/3u/w=; b=j94Fw9eC7NnKbFDeBoa45Q7SGt
+	sG5hfav4ymiv/Y4PtNTKhkxBaxoDxJMaelWnUjSpWqPVbvYyEjIHUGyle/WG35CGO4879yIQxDpN6
+	WxD5Rp1S2g6LhgHe1znMW+vwjynMt7vcHKfX8kKepX9mSVoB+VPN4tW4sjUXOqxN81D0=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1sJDMY-000HK8-Q6; Mon, 17 Jun 2024 16:29:38 +0200
+Date: Mon, 17 Jun 2024 16:29:38 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Paul Barker <paul.barker.ct@bp.renesas.com>
+Cc: Sergey Shtylyov <s.shtylyov@omp.ru>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [bug report] pinctrl: renesas: rzg2l: Drop struct
- rzg2l_variable_pin_cfg
-Message-ID: <58d0bda8-7155-4ce5-84f6-74ce3f6d98e2@moroto.mountain>
-References: <5c1bf20b-7e94-4b06-95e5-da9f99750203@moroto.mountain>
- <CA+V-a8urbOnrmWbFt=n9=Twis2+gNQDf2_ap-TN42BRdxb5_Gw@mail.gmail.com>
- <CAMuHMdVVnpHrNwYLOAcgyr53cJkw7ytXWj24TrKn2FBjosn-pA@mail.gmail.com>
+	Mitsuhiro Kimura <mitsuhiro.kimura.kc@renesas.com>,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [net-next PATCH 2/2] net: ravb: Fix R-Car RX frame size limit
+Message-ID: <ed455f3f-dcb3-4654-af78-6ff6c6c5c22e@lunn.ch>
+References: <20240615103038.973-1-paul.barker.ct@bp.renesas.com>
+ <20240615103038.973-3-paul.barker.ct@bp.renesas.com>
+ <b1c10539-4d47-4752-8613-785b0ad83f5e@lunn.ch>
+ <933ffa58-8092-4768-993d-cd62897d203d@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdVVnpHrNwYLOAcgyr53cJkw7ytXWj24TrKn2FBjosn-pA@mail.gmail.com>
+In-Reply-To: <933ffa58-8092-4768-993d-cd62897d203d@bp.renesas.com>
 
-On Mon, Jun 17, 2024 at 02:54:13PM +0200, Geert Uytterhoeven wrote:
-> Hi Prabhakar,
+On Mon, Jun 17, 2024 at 03:03:21PM +0100, Paul Barker wrote:
+> On 16/06/2024 02:23, Andrew Lunn wrote:
+> > On Sat, Jun 15, 2024 at 11:30:38AM +0100, Paul Barker wrote:
+> >> The RX frame size limit should not be based on the current MTU setting.
+> >> Instead it should be based on the hardware capabilities.
+> > 
+> > This is a bit odd. MTU is Maximum Transmission Unit, so clearly is
+> > about Tx. MRU does not really exist. Does TCP allow for asymmetric
+> > MTU/MRU? Does MTU discovery work correctly for this?
+> > 
+> > In general, it seems like drivers implement min(MTU, MRU) and nothing
+> > more. Do you have a real use case for this asymmetry?
+> > 
+> >       Andrew
 > 
-> On Mon, Jun 17, 2024 at 2:47 PM Lad, Prabhakar
-> <prabhakar.csengg@gmail.com> wrote:
-> > On Mon, Jun 17, 2024 at 10:35 AM Dan Carpenter <dan.carpenter@linaro.org> wrote:
-> > > Commit 13a8cae6e561 ("pinctrl: renesas: rzg2l: Drop struct
-> > > rzg2l_variable_pin_cfg") from May 30, 2024 (linux-next), leads to the
-> > > following Smatch static checker warning:
-> > >
-> > >         drivers/pinctrl/renesas/pinctrl-rzg2l.c:374 rzg2l_pinctrl_get_variable_pin_cfg()
-> > >         warn: was expecting a 64 bit value instead of '~((((1))) << (16))'
-> > >
-> > Is there any way I can replicate the same on my setup? I tried the
-> > kcehker utility but it didn't print the above warning.
-> >
-> > > drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> > >     362 static u64 rzg2l_pinctrl_get_variable_pin_cfg(struct rzg2l_pinctrl *pctrl,
-> > >     363                                               u64 pincfg,
-> > >     364                                               unsigned int port,
-> > >     365                                               u8 pin)
-> > >     366 {
-> > >     367         unsigned int i;
-> > >     368
-> > >     369         for (i = 0; i < pctrl->data->n_variable_pin_cfg; i++) {
-> > >     370                 u64 cfg = pctrl->data->variable_pin_cfg[i];
-> > >     371
-> > >     372                 if (FIELD_GET(VARIABLE_PIN_CFG_PORT_MASK, cfg) == port &&
-> > >     373                     FIELD_GET(VARIABLE_PIN_CFG_PIN_MASK, cfg) == pin)
-> > > --> 374                         return (pincfg & ~PIN_CFG_VARIABLE) | FIELD_GET(PIN_CFG_MASK, cfg);
-> > >
-> > > pincfg is a u64 and we're returning a u64.  The code here is trying to
-> > > mask out PIN_CFG_VARIABLE which is BIT(16).  But because it's BIT()
-> > > instead of BIT_ULL(16) then it ends up masking the high 32 bits as well.
+> Hi Andrew,
 > 
-> Note that there is no issue on 64-bit platforms (i.e. all affected
-> platforms), as BIT() does produce a 64-bit value if unsigned long
-> is 64-bit.
+> This change is based on my understanding of MTU/MRU, on the specs of the
+> RZ SoCs I'm working with (primarily RZ/G2L family, RZ/G3S and RZ/G2H)
+> and on some testing. My goal here is just to make the capabilities of
+> the hardware available to users.
 > 
+> For the RZ/G2L family and RZ/G3S, we can only support an MTU of up to
+> 1500 bytes, but we can receive frames of up to (IIRC) 8192 bytes. I have
+> tested sending jumbo frames to an RZ/G2L device using both iperf3 and
+> ping and I see no errors.
+> 
+> * For iperf3 RX testing, the RZ/G2L is only responding with acks. These
+>   are small regardless of the size of the received packets, so the
+>   mis-match in MTU between the two hosts causes no issue.
+> 
+> * For ping testing, the RZ/G2L will give a fragmented response to the
+>   ping packet which the other host can reassemble.
+> 
+> For the RZ/G2H, we support sending frames of up to 2047 bytes but we can
+> receive frames of up to 4092 bytes. The driver will need a few more
+> changes to handle reception of packets >2kB in size, but this is
+> something we can do in the near future.
+> 
+> Is there any reason why we shouldn't support this? I am by no means an
+> expert in the Linux networking internals so there may be things I'm
+> missing.
 
-Ah, yes, thanks.  I had forgotten that it was BIT() was UL.  I was doing
-a 32bit build, yes.
+I've no really experience what the Linux stack will do. I have seen a
+number of devices which do not limit received packets to the MTU,
+i.e. they are happy to receive bigger packets. And i don't think this
+has caused an issue. But is it ever actually used? Do users setup
+asymmetric jumbo systems? I've no idea.
 
-regards,
-dan carpenter
+One thing i suggest you test is you put this in the middle of two
+systems which do support jumbo.
 
+     4K       1.5K       4K
+A <-----> B <-----> C <------> D.
+
+Make your device B and C, setting the MTU as supported. But set A and
+D with a jumbo MTU which your systems should be able to receive. Do IP
+routing along the chain. And then do some iperf transfers. I would
+test both IPv4 and IPv6, since MTU path discovery in IPv6 is used a
+lot, and gateways are not supposed to fragment.
+
+I'm assuming here your device does actually have two interfaces?  If
+it is only ever an end system, that simplifies it a lot, and these
+tests are not needed.
+
+    Andrew
 
