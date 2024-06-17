@@ -1,173 +1,271 @@
-Return-Path: <linux-renesas-soc+bounces-6343-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6344-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5E2290AEDE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 15:16:10 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7F9C90AFD8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 15:45:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 983DD1C22107
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 13:16:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B12CCB2DA14
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 13:24:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B26F194AF6;
-	Mon, 17 Jun 2024 13:15:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01A8B198E6A;
+	Mon, 17 Jun 2024 13:20:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dc12OSKV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AkyQDocK"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FDAC17FAA2;
-	Mon, 17 Jun 2024 13:15:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 170A7197A88;
+	Mon, 17 Jun 2024 13:20:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718630152; cv=none; b=AjNRjnOeMTMKzs26UAszQ6iyvp9ddiw8ugQkt0l2OZZWjiT2lqnI7NQSpiXsoaC23Y3MfhmO/pfxtfVZrRwXeO0yks2+InnYz52EUVquEuOLeCJ7t1GYNPTrBvo00GUlRcGUXhi8nIt3sRZf9f2HgGmZOL4m/p3qEj89JOCTVzY=
+	t=1718630445; cv=none; b=oTe7oK4bxZ7pHbBAq0+w1ZHRmj2+Jy+a1gUWMr9gcL0Uro3QZEPrVpOID8g0R19+eFTJJ4vswW2DwCA5TDQuCOm+hMw1dCSCI2Q3pc1E6jzL2fHn52EaMreF9dJFS0nNOV0sOq/AeIaGuQ990xu6Z4pdBe+XoPyHc8EZcAHGFr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718630152; c=relaxed/simple;
-	bh=jgVGBIyV8U78GjJm/qsVjrw68d4BbzUuCGW9a4ZyVEI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=G3tcDKIb+P2eMQid11T8PLi2WEyrYjNsnvQQMOge4++EU0hKtpAMSANsAa/EZgxp+ftftKwAZVodLTRtxNOlUJptG3x2o0Z9Dl0mgBiMRnnbx87/CAMVyiDeOGz5Xfp26r61J6uY+rDFN7I5tv2Q5Kq8cNas6hpeatIcS0UtLe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dc12OSKV; arc=none smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1718630445; c=relaxed/simple;
+	bh=1nrAD4KfLSnRE+kqydRysazLWCkP8jJyqBGQ4Hd6vr8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eL+lleYxG/K/uGosnkev+hauwd374azZyCbeGClCBCl6PvtPJryZFjeXwY3jmV0Prkky5Pc6Go4bO93mRP6/wBfi7TqxMZa+ecII5cFMU+cZ12Jt9PTHT4uYZ0pyZs4ov8CgPLoexsXOmqOb3V5t6NsaaKcXcqakOa2FhJLHpDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AkyQDocK; arc=none smtp.client-ip=209.85.218.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-421bb51d81aso33109205e9.3;
-        Mon, 17 Jun 2024 06:15:50 -0700 (PDT)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a6e43dad8ecso757187366b.1;
+        Mon, 17 Jun 2024 06:20:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718630149; x=1719234949; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mPMFdlSwh1iRDl9l7BoWP6h98w3/zXzLfYpprwi7Xb0=;
-        b=Dc12OSKVUm01GRbfvHgcPS8yoZytv9hzZUegSDtunMjSO5cnSwLBoa9iF34vjGrwDR
-         dAL2O+YJpfOWCqqZeVDxjiIbZC/0FqhVfJ6xljxAc5Z7kndV8LQ88kDigkbVZ4RLj2NZ
-         PvU2gAA3/vUMn0i+RpynXQ/9sZ2g7O3Wglb+78kPjSf9jdrEGrJubBm7DjONj2zPMalL
-         bL9ZV4W8zpi9tbbC9USk5sAwgWybPjX0+EAnmhaQ5V1S+EZoINKwh1gQtTO30jgXnDsN
-         5CfuZNCxmgyOkqoVWW3Axk1JzRNOtRX6smLY49LHXjPc5n4hL1/gchYW6hJV1wGbT/PJ
-         UgJA==
+        d=gmail.com; s=20230601; t=1718630442; x=1719235242; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FUae8JuWsbpwcHSTs/RVPWcmF5+7RW32qrRGZUORids=;
+        b=AkyQDocKAkm3wA9QKpVyA3+wOLD0HS9GSqpOg028xfcDzF0NXcxR7vcJdrRuk8BCm0
+         8KqsHCGdRdaSb+BG3REBtMo2QJzpAManHpxrDaml23UuYF3xADfRvaAaF4D0/7H6FGNt
+         XRZeA8rGZIZadbca/QlvcGf910sTa6sN4xriq4khh9cBbzeutPi1bOOh0U6S0JxZKOrH
+         uxNW/oKCbgi2MMt+7jV4g2dp+NG/lXZDbFTeaS/U3SXhKsdumymUnwXjrP+b+TXdw/r2
+         Ly4F/kQaRpO8v9/rV2L52II6ETsHg/5NyC3LdK5JpJzdTnGUHWN0CX/n7JM1FBkCb/Gm
+         86+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718630149; x=1719234949;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mPMFdlSwh1iRDl9l7BoWP6h98w3/zXzLfYpprwi7Xb0=;
-        b=iNDLdiRiYTCsSSW2mlrcmby3LibHKzd1gtbkxfTaQDzy2g8UBTvmQNy/Ph1K9q4IDC
-         ph0vEkCEPXe3h44O3yCUEjgtJFv0wv9aUz1pIAY0S0fWg93Rz3R8t2vCGLPoDjMePsAw
-         3T6sKHHOh8nlwDA3zB3Ybw5GTkdIXE7IhzgeHpb63ZqO69iJeKI/DEBBBVHk8nYCdOkD
-         IW2tXCWhjACzCUjNrlbBaHGZVdd9r6JF5lgborNO2JWm49gdbVlCNF8g3bG0yGxXJwIW
-         CVe3VCHM7W/wvo7Zd9+Tflcu8Xqzga+KWUvwn7huD4uAZj5pbsEJTBD7icIhN5+jxeUc
-         oqtw==
-X-Forwarded-Encrypted: i=1; AJvYcCWGBqxMmXD+pQLPUvYjAiSbBGTfi4bxIJRmck8YWNoOk3LWSAIhAiiCmjlare3GbOPM2CS2ccuY0XSdvelgnZqtBoup0aW85krewToYpBSKgFtM0qWxTAsudgRug7Sph9JZ2x54UidZbg==
-X-Gm-Message-State: AOJu0Yz4JzRmLcI/h428q1D29tZJ8HQjeHbvuzr6uxTQHzAGiTV1/yru
-	Gy/jlxORwqjOj7RCctikzHz16NxE7WehpACSiL6fx/VEiI6ddBBRTRg/kQ9qHgA=
-X-Google-Smtp-Source: AGHT+IFGCFsrqw0+5k8TDt8YIEGW3eqMyCMz1G2qBXtk+mw7wxBBMHBBkPVv07qeULCqam6yIAgV0g==
-X-Received: by 2002:a05:600c:1912:b0:421:fc5b:b8f4 with SMTP id 5b1f17b1804b1-423048229b5mr85432015e9.2.1718630148599;
-        Mon, 17 Jun 2024 06:15:48 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2500:a01:92ee:d46e:5619:8184])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42286fe92c6sm196452825e9.18.2024.06.17.06.15.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jun 2024 06:15:47 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] pinctrl: renesas: rzg2l: Use BIT_ULL for PIN_CFG_* macros
-Date: Mon, 17 Jun 2024 14:15:11 +0100
-Message-Id: <20240617131511.160877-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1718630442; x=1719235242;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FUae8JuWsbpwcHSTs/RVPWcmF5+7RW32qrRGZUORids=;
+        b=ZW+V9G2epyh/KysUSiJ3x6oFhva4gSbBZobC2IGmmKvo74OM/IAm/4GoYoRetDYNt8
+         avo0ItGEBpady45+/IMqqJp5jJ7cWNx4lvbRkByEc8ywgw3/64nwnlPXlwkdb+LLaHgP
+         lC+DAepvktzbIdHQY9vjtHgLNMJwFu8NRNXREybx3rL43mUqKzGPMJITQ+dBtcPjBKnh
+         mppseJrch7EgVnBnPyoyXYLct6yeQ1Y21fLAJjHUGAtN5b0afp5r5N6Uv0EmN5qZuvnx
+         ybjjwr5giPJ5/I/ZXlEn9GWXEkNCgXnJSiTZWZigKE8PXrld4U48ZdeM242Q2lQkCpoz
+         u2AA==
+X-Forwarded-Encrypted: i=1; AJvYcCWchIxPUAgYDKe3Rr9kUh/w5051MexNXM1Qtynww3WkOaMBsaGkp/uGYI/gGA4U8fzq5saajeMe8IsEiaRA5YmLXgoV1tzOwgVb7t6fX2QOhze/m7nL0gUzDE3iDCSX+h/Zqs/fg1rQK8nFSfhYT2bAIRuiEBXk0BGqnw8BmLztJUYvE4F7/XZuKHOkikZJbcm75UL6JFBFUzkbbuIbVq2rn5KEcG/j7QAu6tjI3U7C5ZHFRVnfHM7msW3S6v6CGa0u+l/PdnOm9OUdi8xWOfqx70MUJGgEXmU3HQ7t5/ZvqVIaqb0uLK7qEdbzqFFlJ8P4stRe/tFX+WiPXxIgCyTrS+J17I+3PwmZUNj8rRMJ101KlpEppk/2tnHkYDY5rmCjuT+ZRM57NsTdfRFc+BG+xEzLrgxDieBoZ4i4RF03Zej3rFEjnE+TPWQaO90ZnFvOUlvVaSaLZ8wtuaqJF6Zdqezo2i643SBzlfi9SleWIYDRD0TxrwzMZiT2ba151+0xniCJhmXHR09Y19/j6fLZM9CBBx8zNTjk9GxndZS5/vUUFe1kO9+1
+X-Gm-Message-State: AOJu0YxbwIZI1DTTNzRaxcvZNypArwvupsJuQ57jOCJWMQ5vs5nTECdq
+	G0I0m7viSD1k+3bOgVDZXs980Kq2FkNRW/FnrwEr5vb4ub9vtvnSLtqi+S/U
+X-Google-Smtp-Source: AGHT+IHyYrCA4cWOAfaQmJOiDF7VHhRCpPr7ss5P86Xw14pxsXCUj8adUxCN6A9F4atdUbL10vfY8g==
+X-Received: by 2002:a17:906:354e:b0:a6f:c17:1572 with SMTP id a640c23a62f3a-a6f5247429amr788950266b.33.1718630442157;
+        Mon, 17 Jun 2024 06:20:42 -0700 (PDT)
+Received: from [192.168.42.82] ([163.114.131.193])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f56f41700sm514847966b.152.2024.06.17.06.20.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Jun 2024 06:20:41 -0700 (PDT)
+Message-ID: <8cd3af33-3a86-478a-a5ac-462c2cca732a@gmail.com>
+Date: Mon, 17 Jun 2024 14:20:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v12 01/13] netdev: add netdev_rx_queue_restart()
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Sergey Shtylyov <s.shtylyov@omp.ru>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
+References: <20240613013557.1169171-1-almasrymina@google.com>
+ <20240613013557.1169171-2-almasrymina@google.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20240613013557.1169171-2-almasrymina@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On 6/13/24 02:35, Mina Almasry wrote:
+> Add netdev_rx_queue_restart() function to netdev_rx_queue.h
 
-Commit 13a8cae6e561 ("pinctrl: renesas: rzg2l: Drop struct
-rzg2l_variable_pin_cfg") introduced a Smatch static checker warning:
+see nit below
 
-    drivers/pinctrl/renesas/pinctrl-rzg2l.c:374 rzg2l_pinctrl_get_variable_pin_cfg()
-    warn: was expecting a 64 bit value instead of '~((((1))) << (16))'
+Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
 
-The function `rzg2l_pinctrl_get_variable_pin_cfg` attempts to mask out
-`PIN_CFG_VARIABLE` using `BIT(16)`. However, since `pincfg` is a `u64`,
-this inadvertently masks the high 32 bits as well, which is unintended
-(on non 64-bit platforms). To correct this, `PIN_CFG_VARIABLE` should
-be defined using `BIT_ULL(16)`, ensuring proper 64-bit masking.
 
-To avoid such issues, update `PIN_CFG_*` macros to use `BIT_ULL()`.
+> Signed-off-by: David Wei <dw@davidwei.uk>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> 
+> ---
+> 
+> v11:
+> - Fix not checking dev->queue_mgmt_ops (Pavel).
+> - Fix ndo_queue_mem_free call that passed the wrong pointer (David).
+> 
+> v9: https://lore.kernel.org/all/20240502045410.3524155-4-dw@davidwei.uk/
+> (submitted by David).
+> - fixed SPDX license identifier (Simon).
+> - Rebased on top of merged queue API definition, and changed
+>    implementation to match that.
+> - Replace rtnl_lock() with rtnl_is_locked() to make it useable from my
+>    netlink code where rtnl is already locked.
+> 
+> ---
+>   include/net/netdev_rx_queue.h |  3 ++
+>   net/core/Makefile             |  1 +
+>   net/core/netdev_rx_queue.c    | 74 +++++++++++++++++++++++++++++++++++
+>   3 files changed, 78 insertions(+)
+>   create mode 100644 net/core/netdev_rx_queue.c
+> 
+> diff --git a/include/net/netdev_rx_queue.h b/include/net/netdev_rx_queue.h
+> index aa1716fb0e53c..e78ca52d67fbf 100644
+> --- a/include/net/netdev_rx_queue.h
+> +++ b/include/net/netdev_rx_queue.h
+> @@ -54,4 +54,7 @@ get_netdev_rx_queue_index(struct netdev_rx_queue *queue)
+>   	return index;
+>   }
+>   #endif
+> +
+> +int netdev_rx_queue_restart(struct net_device *dev, unsigned int rxq);
+> +
+>   #endif
+> diff --git a/net/core/Makefile b/net/core/Makefile
+> index 62be9aef25285..f82232b358a2c 100644
+> --- a/net/core/Makefile
+> +++ b/net/core/Makefile
+> @@ -19,6 +19,7 @@ obj-$(CONFIG_NETDEV_ADDR_LIST_TEST) += dev_addr_lists_test.o
+>   
+>   obj-y += net-sysfs.o
+>   obj-y += hotdata.o
+> +obj-y += netdev_rx_queue.o
+>   obj-$(CONFIG_PAGE_POOL) += page_pool.o page_pool_user.o
+>   obj-$(CONFIG_PROC_FS) += net-procfs.o
+>   obj-$(CONFIG_NET_PKTGEN) += pktgen.o
+> diff --git a/net/core/netdev_rx_queue.c b/net/core/netdev_rx_queue.c
+> new file mode 100644
+> index 0000000000000..de0575cf6df5d
+> --- /dev/null
+> +++ b/net/core/netdev_rx_queue.c
+> @@ -0,0 +1,74 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +#include <linux/netdevice.h>
+> +#include <net/netdev_queues.h>
+> +#include <net/netdev_rx_queue.h>
+> +
+> +int netdev_rx_queue_restart(struct net_device *dev, unsigned int rxq_idx)
+> +{
+> +	void *new_mem, *old_mem;
+> +	int err;
+> +
+> +	if (!dev->queue_mgmt_ops || !dev->queue_mgmt_ops->ndo_queue_stop ||
+> +	    !dev->queue_mgmt_ops->ndo_queue_mem_free ||
+> +	    !dev->queue_mgmt_ops->ndo_queue_mem_alloc ||
+> +	    !dev->queue_mgmt_ops->ndo_queue_start)
+> +		return -EOPNOTSUPP;
+> +
+> +	DEBUG_NET_WARN_ON_ONCE(!rtnl_is_locked());
+> +
+> +	new_mem = kvzalloc(dev->queue_mgmt_ops->ndo_queue_mem_size, GFP_KERNEL);
+> +	if (!new_mem)
+> +		return -ENOMEM;
+> +
+> +	old_mem = kvzalloc(dev->queue_mgmt_ops->ndo_queue_mem_size, GFP_KERNEL);
+> +	if (!old_mem) {
+> +		err = -ENOMEM;
+> +		goto err_free_new_mem;
+> +	}
+> +
+> +	err = dev->queue_mgmt_ops->ndo_queue_mem_alloc(dev, new_mem, rxq_idx);
+> +	if (err)
+> +		goto err_free_old_mem;
+> +
+> +	err = dev->queue_mgmt_ops->ndo_queue_stop(dev, old_mem, rxq_idx);
+> +	if (err)
+> +		goto err_free_new_queue_mem;
+> +
+> +	err = dev->queue_mgmt_ops->ndo_queue_start(dev, new_mem, rxq_idx);
+> +	if (err)
+> +		goto err_start_queue;
+> +
+> +	dev->queue_mgmt_ops->ndo_queue_mem_free(dev, old_mem);
+> +
+> +	kvfree(old_mem);
+> +	kvfree(new_mem);
+> +
+> +	return 0;
+> +
+> +err_start_queue:
+> +	/* Restarting the queue with old_mem should be successful as we haven't
+> +	 * changed any of the queue configuration, and there is not much we can
+> +	 * do to recover from a failure here.
+> +	 *
+> +	 * WARN if the we fail to recover the old rx queue, and at least free
 
-Fixes: 13a8cae6e561 ("pinctrl: renesas: rzg2l: Drop struct rzg2l_variable_pin_cfg")
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/all/5c1bf20b-7e94-4b06-95e5-da9f99750203@moroto.mountain/
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/pinctrl/renesas/pinctrl-rzg2l.c | 44 ++++++++++++-------------
- 1 file changed, 22 insertions(+), 22 deletions(-)
+nit "if the we"
 
-diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-index 32945d4c8dc0..d5eee98f6085 100644
---- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-@@ -41,28 +41,28 @@
- #define MUX_FUNC_MASK		GENMASK(31, 16)
- 
- /* PIN capabilities */
--#define PIN_CFG_IOLH_A			BIT(0)
--#define PIN_CFG_IOLH_B			BIT(1)
--#define PIN_CFG_SR			BIT(2)
--#define PIN_CFG_IEN			BIT(3)
--#define PIN_CFG_PUPD			BIT(4)
--#define PIN_CFG_IO_VMC_SD0		BIT(5)
--#define PIN_CFG_IO_VMC_SD1		BIT(6)
--#define PIN_CFG_IO_VMC_QSPI		BIT(7)
--#define PIN_CFG_IO_VMC_ETH0		BIT(8)
--#define PIN_CFG_IO_VMC_ETH1		BIT(9)
--#define PIN_CFG_FILONOFF		BIT(10)
--#define PIN_CFG_FILNUM			BIT(11)
--#define PIN_CFG_FILCLKSEL		BIT(12)
--#define PIN_CFG_IOLH_C			BIT(13)
--#define PIN_CFG_SOFT_PS			BIT(14)
--#define PIN_CFG_OEN			BIT(15)
--#define PIN_CFG_VARIABLE		BIT(16)
--#define PIN_CFG_NOGPIO_INT		BIT(17)
--#define PIN_CFG_NOD			BIT(18)	/* N-ch Open Drain */
--#define PIN_CFG_SMT			BIT(19)	/* Schmitt-trigger input control */
--#define PIN_CFG_ELC			BIT(20)
--#define PIN_CFG_IOLH_RZV2H		BIT(21)
-+#define PIN_CFG_IOLH_A			BIT_ULL(0)
-+#define PIN_CFG_IOLH_B			BIT_ULL(1)
-+#define PIN_CFG_SR			BIT_ULL(2)
-+#define PIN_CFG_IEN			BIT_ULL(3)
-+#define PIN_CFG_PUPD			BIT_ULL(4)
-+#define PIN_CFG_IO_VMC_SD0		BIT_ULL(5)
-+#define PIN_CFG_IO_VMC_SD1		BIT_ULL(6)
-+#define PIN_CFG_IO_VMC_QSPI		BIT_ULL(7)
-+#define PIN_CFG_IO_VMC_ETH0		BIT_ULL(8)
-+#define PIN_CFG_IO_VMC_ETH1		BIT_ULL(9)
-+#define PIN_CFG_FILONOFF		BIT_ULL(10)
-+#define PIN_CFG_FILNUM			BIT_ULL(11)
-+#define PIN_CFG_FILCLKSEL		BIT_ULL(12)
-+#define PIN_CFG_IOLH_C			BIT_ULL(13)
-+#define PIN_CFG_SOFT_PS			BIT_ULL(14)
-+#define PIN_CFG_OEN			BIT_ULL(15)
-+#define PIN_CFG_VARIABLE		BIT_ULL(16)
-+#define PIN_CFG_NOGPIO_INT		BIT_ULL(17)
-+#define PIN_CFG_NOD			BIT_ULL(18)	/* N-ch Open Drain */
-+#define PIN_CFG_SMT			BIT_ULL(19)	/* Schmitt-trigger input control */
-+#define PIN_CFG_ELC			BIT_ULL(20)
-+#define PIN_CFG_IOLH_RZV2H		BIT_ULL(21)
- 
- #define RZG2L_MPXED_COMMON_PIN_FUNCS(group) \
- 					(PIN_CFG_IOLH_##group | \
+> +	 * old_mem so we don't also leak that.
+> +	 */
+> +	if (dev->queue_mgmt_ops->ndo_queue_start(dev, old_mem, rxq_idx)) {
+> +		WARN(1,
+> +		     "Failed to restart old queue in error path. RX queue %d may be unhealthy.",
+> +		     rxq_idx);
+> +		dev->queue_mgmt_ops->ndo_queue_mem_free(dev, old_mem);
+> +	}
+> +
+> +err_free_new_queue_mem:
+> +	dev->queue_mgmt_ops->ndo_queue_mem_free(dev, new_mem);
+> +
+> +err_free_old_mem:
+> +	kvfree(old_mem);
+> +
+> +err_free_new_mem:
+> +	kvfree(new_mem);
+> +
+> +	return err;
+> +}
+
 -- 
-2.34.1
-
+Pavel Begunkov
 
