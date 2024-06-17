@@ -1,128 +1,169 @@
-Return-Path: <linux-renesas-soc+bounces-6310-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6311-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31B8B909F81
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Jun 2024 21:23:18 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B39D90A284
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 04:36:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CDA791F210F0
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Jun 2024 19:23:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C7CD1C2093C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 02:36:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2209C44377;
-	Sun, 16 Jun 2024 19:23:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DCCD179665;
+	Mon, 17 Jun 2024 02:36:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UI1bCvAX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2493238396;
-	Sun, 16 Jun 2024 19:22:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6419C176AC6;
+	Mon, 17 Jun 2024 02:36:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718565794; cv=none; b=LXcxKBfLst/jjkhsGwQpzGwPzgTAFh7zJ3vu9sEH0jR6s6Hdyebc0UUQDY1BtdJzXxXOXyV0RyMujSIhKAxFDMU+naA0puIZv5QAyYU8k9zkSKNFYeCfn4X2UhN9skl6dW4If9BQi2qiqciy8ZzLGHtRrF1XqiSIZNQmtlyMLS4=
+	t=1718591796; cv=none; b=XpNBj8/BGiNmJQLTMG/7dVkXabJIQpu28YZFfUBrOBcCAb9SLYBfdMN86dHT/I36kGofcGJhRmW7eu0AORv2ctdgb+QhFYutHLp9UEaJ4a6mNjhiitKuRbXXw0Mn/xpLQBL/KzSmLm3Ch+cRII3iflXNvvmwyngZh+cvLTg6rrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718565794; c=relaxed/simple;
-	bh=fYFfUCifGjntD3+E36odshlq4ZwgFmbkDkSQ3Yxs5IE=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=OsQLxonUbB7Ebf7oKnEIHRYj4C82frI5ED1niOLyH4/zLMhPyNDc1Gd7z/exdJa/dimZfoTw6QeqYRnPUHXzBuhvE67gBtqp+0pibOPSLbRpRI75ynQ67G3pgWtT9q4GPoJbDlWBJKjFEw7/2l9VjesH6ENf/saqbr30Co7Vm7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.1.105] (31.173.87.179) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Sun, 16 Jun
- 2024 22:22:44 +0300
-Subject: Re: [net-next PATCH 0/2] Fix maximum TX/RX frame sizes in ravb driver
-To: Paul Barker <paul.barker.ct@bp.renesas.com>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	=?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-CC: Biju Das <biju.das.jz@bp.renesas.com>, Claudiu Beznea
-	<claudiu.beznea.uj@bp.renesas.com>, Lad Prabhakar
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>, Mitsuhiro Kimura
-	<mitsuhiro.kimura.kc@renesas.com>, <netdev@vger.kernel.org>,
-	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20240615103038.973-1-paul.barker.ct@bp.renesas.com>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <3cad5dd7-2663-d0e4-14ba-b62814c6814e@omp.ru>
-Date: Sun, 16 Jun 2024 22:22:43 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	s=arc-20240116; t=1718591796; c=relaxed/simple;
+	bh=lczObmd9t5CNOLsW1w8BAFRVJ0CtUEDoyScV7EOYG6w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kDvdOEQgCSp2S1RGhfRLVVNms+kfnku7e01XNzbvX6oi1SyTBMM2mAO45qh0BRGHPPApa23z6MbRq06n2gjE0XCqQ1v0O2bcvc9UBaFhpxARUbzTlnAfZgmnF46YCXOas1YWMilPAnZztJP2sWeQy/r+sBfwdXwCC2jrEeIf5Nk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UI1bCvAX; arc=none smtp.client-ip=209.85.160.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-25075f3f472so544980fac.2;
+        Sun, 16 Jun 2024 19:36:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718591794; x=1719196594; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3S2YurUrl5MC+fkMuKFY0ClzSCLEfz1Oc40ER8vtAUk=;
+        b=UI1bCvAXcT8oFawrgPKV7R7V1Y1l9hihWGu2H359gjJ86/mdhD10RbY13jKDplo6/f
+         j4V84YzGTTu7GMT1ujD373FYRNeHQFOHZf6QPKhEoMUGslm5dhXoJ1RwPb2xnhlnWk/p
+         z7z7jOtlxyWt8CfvBFI5/ee6EgGNfqXCkMghaEfY+P9clxdD+UnnSpP/jlgoz43VPB41
+         tVD5AekHv/QDHkxhhuTnNPW2SDN7DQGi56Gvvj84EWqKSmshZ6pThCJEmoa8GAhQG5dj
+         VIRiR66vbrNfsH5XyRNwcbjerF2JQDz4/TR9ZjWsLCKj425Tas+U9JkZmxEi+q8Z9N9V
+         qcPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718591794; x=1719196594;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3S2YurUrl5MC+fkMuKFY0ClzSCLEfz1Oc40ER8vtAUk=;
+        b=jvOUItlC6L/lAYZLl8KVUurp+pX1dgaDnDb4hQ9OEBaC0YMEQoC8HYQyuR3+APoRZ9
+         q6fQTLpFjWwVBPjgO8279WXaBtW0cdIHmA/PrPxHD6ZrlkP9YHdZr1qAakVy1qob4WLo
+         Ed1J7zZYBMlVTFtPGBkQHCYDet9cXi+rfKLld8iI1+iIgXPluYR80poYt6oBYod31NTu
+         kCoZwWH4P9S7KN/p/oTbo9XEZc+9SIGSSr44+WRZpKwVbXX3xYIlrQTZu8ZiTS14Mqu/
+         XD/5ci+pduOWSul41Ndt0iFZrRzh675LxcZDCB6sJdleojYsKRSig9rYpY9I29fjsFAD
+         EIeg==
+X-Forwarded-Encrypted: i=1; AJvYcCWhYVX2EiZOngemrWzn1b7b9JA3sbrM0CIxZHB6Pjcp3Kb2409O+2NqqdioOBYiS9oU2s1i/+8qo5+3VzeeD5r8Lm2PwJaQNfIlHDtMI13eMedKFn/grLLqTkxxDDWMQ3uKDkV2APKXQS4o5EEjyVQPomhsvucKYjHoWEWtCgn9HyE0BWkQzIcj7OJOmdgxzMZ3dm5J+RzpQcnvXWNvbmtFcwG0FQUxAS5R3Z6+xuAzc8OxRDqMWzt+kjo68y+OuMsUr/pLHDoj3mHcglckzvvezLvjCAZwaPTwFVp6xANeUPhFokzUyY9Vmj4PTfu+7Co8OjDeqnbGDEuz2QMJo9KaG2bOOg==
+X-Gm-Message-State: AOJu0Yxu0BgZ9ADF/gBgQT1lzljIvTuI4UwcS7fRtrRlT1g2f3MQUVde
+	WrKzWTuwJzMvhlIquQFDFOrZGa/Z0jFgnYm7zkjg5WT2uw2L0imnrBuUsfD2VgGF+rTUscD5s4v
+	PM3FCkJ27GqkA/N+D4+6Ch6sTIF0=
+X-Google-Smtp-Source: AGHT+IGltFa0bQ5GCz9R8Qfp8q4AWMyO+O31iG05ayKCR1g5p5BB0jiP/wIlvjmzI8GEc+sBuDPZkWfe/0K++X8dom4=
+X-Received: by 2002:a05:6870:469f:b0:254:d417:351f with SMTP id
+ 586e51a60fabf-258429511admr9266807fac.1.1718591794255; Sun, 16 Jun 2024
+ 19:36:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240615103038.973-1-paul.barker.ct@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 06/16/2024 19:10:18
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 185947 [Jun 16 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.0.4
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 20 0.3.20
- 743589a8af6ec90b529f2124c2bbfc3ce1d2f20f
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.87.179 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info:
-	d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1;127.0.0.199:7.1.2
-X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.87.179
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 06/16/2024 19:14:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 6/16/2024 4:53:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+References: <20240614-dt-bindings-thermal-allof-v1-0-30b25a6ae24e@linaro.org> <20240614-dt-bindings-thermal-allof-v1-3-30b25a6ae24e@linaro.org>
+In-Reply-To: <20240614-dt-bindings-thermal-allof-v1-3-30b25a6ae24e@linaro.org>
+From: Vasily Khoruzhick <anarsoul@gmail.com>
+Date: Sun, 16 Jun 2024 19:36:08 -0700
+Message-ID: <CA+E=qVdpw5dMSdZiBkX5i6y18vHzfG2JnBSmd2Rq=y4kkgZLQw@mail.gmail.com>
+Subject: Re: [PATCH 03/22] dt-bindings: thermal: allwinner,sun8i-a83t-ths:
+ reference thermal-sensor schema
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
+	Lukasz Luba <lukasz.luba@arm.com>, Rob Herring <robh@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Guillaume La Roque <glaroque@baylibre.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Anson Huang <Anson.Huang@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+	Amit Kucheria <amitk@kernel.org>, =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+	Heiko Stuebner <heiko@sntech.de>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Pascal Paillet <p.paillet@foss.st.com>, Keerthy <j-keerthy@ti.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+	zhanghongchen <zhanghongchen@loongson.cn>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, linux-pm@vger.kernel.org, 
+	linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-amlogic@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	imx@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
+	Florian Fainelli <f.fainelli@gmail.com>, linux-rpi-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/15/24 1:30 PM, Paul Barker wrote:
+On Fri, Jun 14, 2024 at 2:46=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> Device is a thermal sensor and it requires '#thermal-sensor-cells', so
+> reference the thermal-sensor.yaml to simplify it and bring the
+> common definition of '#thermal-sensor-cells' property.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Vasily Khoruzhick <anarsoul@gmail.com>
 
-> These patches fix a couple of bugs in the maximum supported TX/RX frame sizes
-> in the ravb driver.
-> 
->   * For the GbEth IP, we were advertising a maximum TX frame size/MTU that was
->     larger that the maximum the hardware can transmit.
-> 
->   * For the R-Car AVB IP, we were unnecessarily setting the maximum RX frame
->     size/MRU based on the MTU, which by default is smaller than the maximum the
->     hardware can receive.
-> 
-> Paul Barker (2):
->   net: ravb: Fix maximum MTU for GbEth devices
->   net: ravb: Set R-Car RX frame size limit correctly
-> 
->  drivers/net/ethernet/renesas/ravb.h      |  1 +
->  drivers/net/ethernet/renesas/ravb_main.c | 10 ++++++++--
->  2 files changed, 9 insertions(+), 2 deletions(-)
-> 
-> 
-> base-commit: 934c29999b57b835d65442da6f741d5e27f3b584
-> 
-
-   DaveM & Co, I'm planning to review these patches on Monday evening...
-
-MBR, Sergey
+> ---
+>  .../devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml       | 6 =
++++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a8=
+3t-ths.yaml b/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83=
+t-ths.yaml
+> index 6b3aea6d73b0..dad8de900495 100644
+> --- a/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.=
+yaml
+> +++ b/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.=
+yaml
+> @@ -10,6 +10,8 @@ maintainers:
+>    - Vasily Khoruzhick <anarsoul@gmail.com>
+>    - Yangtao Li <tiny.windzz@gmail.com>
+>
+> +$ref: thermal-sensor.yaml#
+> +
+>  properties:
+>    compatible:
+>      enum:
+> @@ -55,7 +57,6 @@ properties:
+>      maxItems: 1
+>      description: phandle to device controlling temperate offset SYS_CFG =
+register
+>
+> -  # See Documentation/devicetree/bindings/thermal/thermal-sensor.yaml fo=
+r details
+>    "#thermal-sensor-cells":
+>      enum:
+>        - 0
+> @@ -135,9 +136,8 @@ required:
+>    - compatible
+>    - reg
+>    - interrupts
+> -  - '#thermal-sensor-cells'
+>
+> -additionalProperties: false
+> +unevaluatedProperties: false
+>
+>  examples:
+>    - |
+>
+> --
+> 2.43.0
+>
 
