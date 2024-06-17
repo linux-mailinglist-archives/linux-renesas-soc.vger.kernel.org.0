@@ -1,141 +1,210 @@
-Return-Path: <linux-renesas-soc+bounces-6354-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6355-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 441B590B392
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 17:11:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C159690B406
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 17:23:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DD67A1F21248
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 15:11:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4FD9C1F262F2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 15:23:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D75C2155CA7;
-	Mon, 17 Jun 2024 14:29:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9002015FA80;
+	Mon, 17 Jun 2024 14:45:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="j94Fw9eC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jJEj4efi"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 418F5155C90;
-	Mon, 17 Jun 2024 14:29:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B981415FA77;
+	Mon, 17 Jun 2024 14:45:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718634598; cv=none; b=uwFsPq/cvaKYBLFo6iDUJqSNCL4KqMVL3mVzLczyGK99EDGVrhGMeDvDESAmpYC5D7bezdDOjyZKwKGAql7v4uVWkj/SivM2ZT+ITJnbMkPogyBlu2rqm+8KVR26p3hFcLEbPI3gbQ0hP6iNQSsNIt28WVEi9zCsssGhDLsRVmk=
+	t=1718635545; cv=none; b=jkJOWrPrBzepku6NixjfW69+c5bMUXchY7knpRZDAPJCiyOEWnjtUmE/eDn/afq6lEhIULtdyS1HFBCLGvDgjsDSnDMmop/iI7cxUudRVQeTEIGWseCUAY3NAPDJSeDjM66zWAgalgZW7zhemEwxTe5MN3nwK2FkU6avvIlai1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718634598; c=relaxed/simple;
-	bh=+oLVuF20b17/KeD/cnhmpNZn4qN3JI5332dEw38tUHc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XJMouKDloCVpq15UvkuLaob/6qHqfqro/L0ypgy1f65xTe7z+nIPjqM60dkqpUsS6s4yDcgL8JalPs7AsuHkIq5N/DPQvK4jyvVyhNtoT54eZJawKdxl49vL8mFbF7fB2JUbxgPtuAr3mZO+OLWMQ/oIU33RPDjFddo3Nn25lkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=j94Fw9eC; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=ghrNYOjKUEns5+oO8F4lUhqgpFkLNAVFJZuIbM/3u/w=; b=j94Fw9eC7NnKbFDeBoa45Q7SGt
-	sG5hfav4ymiv/Y4PtNTKhkxBaxoDxJMaelWnUjSpWqPVbvYyEjIHUGyle/WG35CGO4879yIQxDpN6
-	WxD5Rp1S2g6LhgHe1znMW+vwjynMt7vcHKfX8kKepX9mSVoB+VPN4tW4sjUXOqxN81D0=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1sJDMY-000HK8-Q6; Mon, 17 Jun 2024 16:29:38 +0200
-Date: Mon, 17 Jun 2024 16:29:38 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Paul Barker <paul.barker.ct@bp.renesas.com>
-Cc: Sergey Shtylyov <s.shtylyov@omp.ru>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Mitsuhiro Kimura <mitsuhiro.kimura.kc@renesas.com>,
-	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [net-next PATCH 2/2] net: ravb: Fix R-Car RX frame size limit
-Message-ID: <ed455f3f-dcb3-4654-af78-6ff6c6c5c22e@lunn.ch>
-References: <20240615103038.973-1-paul.barker.ct@bp.renesas.com>
- <20240615103038.973-3-paul.barker.ct@bp.renesas.com>
- <b1c10539-4d47-4752-8613-785b0ad83f5e@lunn.ch>
- <933ffa58-8092-4768-993d-cd62897d203d@bp.renesas.com>
+	s=arc-20240116; t=1718635545; c=relaxed/simple;
+	bh=rFVsoK865UN32ZC+/dEHN/mQE5ZBn9kkvYV25JTrEHM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oLuQUsJM0TXVxgkoXehzcFpvK+Q7I6Oi93o1Lmivxz5+6yb+YkvJuQGXjlQ4v3XCHQyPt34yj7w4fAClKWjdzEt5xeMe15RKivI1Z9GRpDW3scbsdADU3zvrAff0XPk54QKlZ3NEHv+KyU8aOxpm+fdy8FEcJhnOLsG0EqQW+Mo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jJEj4efi; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a6f09eaf420so519264266b.3;
+        Mon, 17 Jun 2024 07:45:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718635542; x=1719240342; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ah3rcgKtsiLLs9s7Ep0iHOREj7mRgLBYmdEE8sYGz64=;
+        b=jJEj4efijRqlYzaiwfpV62eIpDfDx9+5ZsV9vDy7gteF6E2KsKun5uGC5Rbaqb4iOo
+         nnRzGttnsVzlwJv7UeAgPaqFaFreqMV5+Rx2VZ9gQmHS2nR5/7jVfcjDQx0REz82YrPd
+         W9JmaY3hM2TVjwduqN+PTnXWQVXnv766EQpAYyU1vkhES1iVZauDFUvL2ftMDGd9ip5k
+         MMP6NTad1SEYIebq9+hBMt2I+4eaD+YqV3iaNagwCsKnWP4AUAKI9rEgywii1oS1SxQQ
+         2bTknUjBsGJtXlq0W8ye/1Kl6DV4s4nUa7Dbfla8hy36NB8uuQiVnezjjgKRdwckdMUi
+         qV1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718635542; x=1719240342;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ah3rcgKtsiLLs9s7Ep0iHOREj7mRgLBYmdEE8sYGz64=;
+        b=PEfqkyX+UAA2ipiTczPNSmADI4cHJYUO+8MMeDfHFX9EfqXk5CFrRvYMPd5q5LBPvk
+         b/zLmfB4Re1dQuKm1hpL+2bvdM2PiAP/j6g2fFnhM2u3ZIplTANuVziBW7GImLFcEBhB
+         ZdbPfQUN5UJ2md2yXKJMYTAmYwoBu2nglQxqSjabKyqDQcA0PcEyDZRe93PnpGiOIW0s
+         FjO2c+lt/Jgip+0nFdVLzOgm0dniIWgaTdOQGhP8iYgTS6WNDyF/Vps5dMe691gPEW+R
+         5aYiXACZQbCwvmuecD7csMpZJD5/wEzwTvKSnyobI9h+ZzX2yx+Sg82+8md3PNMlJMgJ
+         vaxw==
+X-Forwarded-Encrypted: i=1; AJvYcCV6Qu1hNTIXDGWBjaLOdKPabPsn5blNBf22rLfwGHedUQNV7elp4hSubn5+B97gR6ie9QIR5mWSiOL3y7LayFVllJNJArOY9mdldK4rPndYOvN+P/SKzXSuHcJWlxh6teRoymxCGTrrjGaVRqDC57Fn/Iv0YuXWNc8SubWJ5K6sd6k8UjtfLaQXPKy2GnoDKzQ9W89FS4aI2REdIclq9Eli9xDywKt2g6UN1ZBhmN9geXUvek9lm4JTya41rMoA6X01p7Tg8xFJEnIB+6uOWpNpJEseHwENoejH/EgS2HSl8hGoAE/vt/3SBMGhNSMjDfcstn76Cu2RcMf5ZCktByTW9yLbeNGUi7xoSeqJrWtAiLF7nwMwz4e0vqCzHSCcZt0c4iJZEHJQU1125DwkZQhICVYIfRso3eZ6+/NdJJSNn049GlXzRC9H/GY6ypTsZhmO6QByuWh7fVCL7TQ5b+Re5Hfmx/IdvZls9bWf9LUxn5PR1yv72J1JfvEk9qhxfRNQCMsDlfCwjze4sNKZQNqY2RQcLet+X/+6Jk8KvwMCuQqOy7V81doa
+X-Gm-Message-State: AOJu0YwL+fsaQIYP3BYBAKUsYYbEpvj8VW+jZpvFqPf8kjyzZkuVOwnU
+	31ck+TZz+IeM0Z4DMHEs67LUmByaAQBQkQgotvglOIwNqRZ1Xcxq
+X-Google-Smtp-Source: AGHT+IGy29Bog/6x0frVCqVR0gtIWSVZ7NmfaBwvNVXbu4bGaKBQqObsvBBOakN7w58CXi9kwdrLlg==
+X-Received: by 2002:a17:906:aacb:b0:a5a:6bde:c3fb with SMTP id a640c23a62f3a-a6f60d29568mr573906666b.28.1718635541341;
+        Mon, 17 Jun 2024 07:45:41 -0700 (PDT)
+Received: from [192.168.42.82] ([163.114.131.193])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f56fa41cbsm522762466b.225.2024.06.17.07.45.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Jun 2024 07:45:40 -0700 (PDT)
+Message-ID: <14b7af66-04fe-4b49-94d6-bea5d554252e@gmail.com>
+Date: Mon, 17 Jun 2024 15:45:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <933ffa58-8092-4768-993d-cd62897d203d@bp.renesas.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v12 07/13] memory-provider: dmabuf devmem memory
+ provider
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Sergey Shtylyov <s.shtylyov@omp.ru>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20240613013557.1169171-1-almasrymina@google.com>
+ <20240613013557.1169171-8-almasrymina@google.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20240613013557.1169171-8-almasrymina@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 17, 2024 at 03:03:21PM +0100, Paul Barker wrote:
-> On 16/06/2024 02:23, Andrew Lunn wrote:
-> > On Sat, Jun 15, 2024 at 11:30:38AM +0100, Paul Barker wrote:
-> >> The RX frame size limit should not be based on the current MTU setting.
-> >> Instead it should be based on the hardware capabilities.
-> > 
-> > This is a bit odd. MTU is Maximum Transmission Unit, so clearly is
-> > about Tx. MRU does not really exist. Does TCP allow for asymmetric
-> > MTU/MRU? Does MTU discovery work correctly for this?
-> > 
-> > In general, it seems like drivers implement min(MTU, MRU) and nothing
-> > more. Do you have a real use case for this asymmetry?
-> > 
-> >       Andrew
+On 6/13/24 02:35, Mina Almasry wrote:
+> Implement a memory provider that allocates dmabuf devmem in the form of
+> net_iov.
 > 
-> Hi Andrew,
+> The provider receives a reference to the struct netdev_dmabuf_binding
+> via the pool->mp_priv pointer. The driver needs to set this pointer for
+> the provider in the net_iov.
 > 
-> This change is based on my understanding of MTU/MRU, on the specs of the
-> RZ SoCs I'm working with (primarily RZ/G2L family, RZ/G3S and RZ/G2H)
-> and on some testing. My goal here is just to make the capabilities of
-> the hardware available to users.
+> The provider obtains a reference on the netdev_dmabuf_binding which
+> guarantees the binding and the underlying mapping remains alive until
+> the provider is destroyed.
 > 
-> For the RZ/G2L family and RZ/G3S, we can only support an MTU of up to
-> 1500 bytes, but we can receive frames of up to (IIRC) 8192 bytes. I have
-> tested sending jumbo frames to an RZ/G2L device using both iperf3 and
-> ping and I see no errors.
+> Usage of PP_FLAG_DMA_MAP is required for this memory provide such that
+> the page_pool can provide the driver with the dma-addrs of the devmem.
 > 
-> * For iperf3 RX testing, the RZ/G2L is only responding with acks. These
->   are small regardless of the size of the received packets, so the
->   mis-match in MTU between the two hosts causes no issue.
+> Support for PP_FLAG_DMA_SYNC_DEV is omitted for simplicity & p.order !=
+> 0.
 > 
-> * For ping testing, the RZ/G2L will give a fragmented response to the
->   ping packet which the other host can reassemble.
-> 
-> For the RZ/G2H, we support sending frames of up to 2047 bytes but we can
-> receive frames of up to 4092 bytes. The driver will need a few more
-> changes to handle reception of packets >2kB in size, but this is
-> something we can do in the near future.
-> 
-> Is there any reason why we shouldn't support this? I am by no means an
-> expert in the Linux networking internals so there may be things I'm
-> missing.
+> Signed-off-by: Willem de Bruijn <willemb@google.com>
+> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
 
-I've no really experience what the Linux stack will do. I have seen a
-number of devices which do not limit received packets to the MTU,
-i.e. they are happy to receive bigger packets. And i don't think this
-has caused an issue. But is it ever actually used? Do users setup
-asymmetric jumbo systems? I've no idea.
+Comments below, apart from them
 
-One thing i suggest you test is you put this in the middle of two
-systems which do support jumbo.
+Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
 
-     4K       1.5K       4K
-A <-----> B <-----> C <------> D.
 
-Make your device B and C, setting the MTU as supported. But set A and
-D with a jumbo MTU which your systems should be able to receive. Do IP
-routing along the chain. And then do some iperf transfers. I would
-test both IPv4 and IPv6, since MTU path discovery in IPv6 is used a
-lot, and gateways are not supposed to fragment.
+> diff --git a/net/core/devmem.c b/net/core/devmem.c
+> index f4fd9b9dbb675..d3843eade5fc2 100644
+> --- a/net/core/devmem.c
+> +++ b/net/core/devmem.c
+> @@ -17,6 +17,7 @@
+...
+> +
+> +bool mp_dmabuf_devmem_release_page(struct page_pool *pool, netmem_ref netmem)
+> +{
+> +	WARN_ON_ONCE(!netmem_is_net_iov(netmem));
+> +	WARN_ON_ONCE(atomic_long_read(netmem_get_pp_ref_count_ref(netmem)) !=
+> +		     1);
 
-I'm assuming here your device does actually have two interfaces?  If
-it is only ever an end system, that simplifies it a lot, and these
-tests are not needed.
+If you're adding it anyway, maybe
+"if (warn) return" ?
 
-    Andrew
+> +
+> +	page_pool_clear_pp_info(netmem);
+> +
+> +	net_devmem_free_dmabuf(netmem_to_net_iov(netmem));
+> +
+> +	/* We don't want the page pool put_page()ing our net_iovs. */
+> +	return false;
+> +}
+> +
+>   #endif
+> diff --git a/net/core/page_pool.c b/net/core/page_pool.c
+> index 1152e3547795a..22e3c58648d42 100644
+> --- a/net/core/page_pool.c
+> +++ b/net/core/page_pool.c
+> @@ -13,6 +13,7 @@
+...
+> @@ -269,7 +275,25 @@ static int page_pool_init(struct page_pool *pool,
+>   	if (pool->dma_map)
+>   		get_device(pool->p.dev);
+>   
+> +	if (pool->p.queue)
+> +		pool->mp_priv = READ_ONCE(pool->p.queue->mp_params.mp_priv);
+> +
+> +	if (pool->mp_priv) {
+> +		err = mp_dmabuf_devmem_init(pool);
+> +		if (err) {
+> +			pr_warn("%s() mem-provider init failed %d\n", __func__,
+> +				err);
+> +			goto free_ptr_ring;
+
+Should also free stats, look up
+
+free_percpu(pool->recycle_stats);
+
+-- 
+Pavel Begunkov
 
