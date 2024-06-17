@@ -1,41 +1,74 @@
-Return-Path: <linux-renesas-soc+bounces-6349-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6350-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29A9190B35D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 17:05:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6692B90B34D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 17:04:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8AD46B3BE6D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 14:57:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E6EEE1F224DE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2024 15:04:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23DE5383BD;
-	Mon, 17 Jun 2024 14:03:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 644BC1411F1;
+	Mon, 17 Jun 2024 14:16:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jurD3cZV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CB873B1A1;
-	Mon, 17 Jun 2024 14:03:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81C4514038E;
+	Mon, 17 Jun 2024 14:16:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718633013; cv=none; b=OYDsDwXsY26LOOgW+5eCmuiXVSYpViFzAvY/kRc5IIsVvA/rj4FAeBuyU9Rt+7Fjru0mOVYHffD9RcD1ZRCurEWbplqm2VlPDXzQrfNx3j5atO4Ld3gkScSiJ1sGqoRrSqpm3hK+iVLglAMqBte2uE09U/tCK0lkKqMzrP7ziYU=
+	t=1718633819; cv=none; b=Bm6pyB+DZgSqwdYASmRPWlwKqvI03d6PquEUw9w/d7tSlW//8s3z+/nbYnP8nRXKOYvaKDe/nI+imZBPH9ShTu9SxzN0nBFVW0OgbDLCn9hTE//qjzqwML7biusLLF6M5sIP28e1EVQgy9q0n9m7DMS7zHDEp6KbH4kBHgLz/9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718633013; c=relaxed/simple;
-	bh=4Wk2uUHFGwBTd8590+ukd6SHK0BLyByUgTCriUPM4yI=;
+	s=arc-20240116; t=1718633819; c=relaxed/simple;
+	bh=EKHULvpqNZT7k8Un31/LE5FzemNbHyJHUksXDrB0rig=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rw1Xz+1cwjBPnBmC0bfJMtk7FazAusC5FvXD/a7dC4B7Y0omBEodCaUZa5r80UVXWVxxrgBq/0RoVWUslBbIXwfhdTWhgHtPYTxcyGn9dr/7XUdafqW8CUDJmviYAQXWU3o6YDUO1dcz79Nb0FA39RQExH2TAMcBLXobO+qyh7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.08,244,1712588400"; 
-   d="asc'?scan'208";a="208261329"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 17 Jun 2024 23:03:27 +0900
-Received: from [10.226.92.92] (unknown [10.226.92.92])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 134424394971;
-	Mon, 17 Jun 2024 23:03:22 +0900 (JST)
-Message-ID: <933ffa58-8092-4768-993d-cd62897d203d@bp.renesas.com>
-Date: Mon, 17 Jun 2024 15:03:21 +0100
+	 In-Reply-To:Content-Type; b=ha0IV6U+r4X1IUmXXZzcEHSN7kG8FbEnDRdmlzjMkF0XnDcZhLjtkQx02Xej/HdeIfnAU93+yU9hM6FRaAK9MGAn6CmmZUvNO427C/f2wfZ7gqVe+hKBkFQr0/LHzqWD5nwXh4q7z0zzgnc+6EaN9xT5BoJmnPGrk5xsRPVLCPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jurD3cZV; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a6f11a2d18aso582622066b.2;
+        Mon, 17 Jun 2024 07:16:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718633816; x=1719238616; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Drz0c1Oa4e/cLUt8BmnU83fUjCzoD8CgDqb9N07B3fI=;
+        b=jurD3cZVbyeVSUSW0vE0zigkqAldLoJaWsm4EEm1IUoET8bixTZ3KpialR/4nH+fMw
+         lGRtc6WIZB4Z0DfOuBIVwyvWABC++D1yM4CdX42ATFJOK0tkos/OpKSv8SNMHgTEVgnh
+         qZ67k37pLSsbi+oWHV1ll6EXGlXoehxpnLAfbhOwq+splzedn/UkVcj99iAoXujg9xLa
+         pirYVcdtk4h9vx8xOqJd5Efvb7/WdpOa5H/ypgt/0W9bsejcYR5UmrTpUZSxfvA8tGjE
+         m42+xLADEW/TNiiU2gE4BRIIX50JkD5ZyQA9r736hgw3wdbNXczaV+3e95HF5O0TeDlr
+         fEcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718633816; x=1719238616;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Drz0c1Oa4e/cLUt8BmnU83fUjCzoD8CgDqb9N07B3fI=;
+        b=HspPGse7fPPKiybvhm6spN9qoindqD0/GibrFXCOfGJcsqtCLn43LRtjv2YZFMZT8T
+         PjSlRUpjvmK6bGHVmThW6xOqSM3Agy2zkBXxbHrAaxlisRqx43wv3rZhHB0K71kB8pup
+         iJpuKtCiRrbUWvbfas4TySvj52iBegOte7fhNE5skEd0nNwutBX30DaNU46mi3hxxPxF
+         cTZGQjbDcLK7rJcs4fDCrkIFo+S5muKKtM4IdUhPjoQnqIGlCsGdwgjeRidkFKCFl4fr
+         KwCBKVK4/DH3iZtVRx1DMlXeB9NEnxzgMvRGAfwT4zpySYA1ARIDNQBWjghVH/yZTGRC
+         73Gw==
+X-Forwarded-Encrypted: i=1; AJvYcCV1f46RY4Bni/WI51yixEXGyh/a9r5Czw11jSwmKfK7p/6GJawsoSA02/IGHqoKankdPbmbYTKWM+M5fkKt181H04+uccIYj8oAvfKlyqBXmufowEIzxJ0BM3LsW0xGHhxNcWsSsvX6iA7/vYZURbSzkSEqqELkPWmu2k4MvU6wSavoC+PweXZ15AgV+2/7FCYJ+IN/s/GrC5oaZ/Fk3QlpVp/pGD+sE4eqmhuDZ5yBaylN5+dPemTUQcL9+3+L5htxGvDNUjABTXAlQcUjrAims4Fx0B0k26ox0IExCektVqTrLYpP263aa0Fv3OMNjkWk0tTG3nOgCDCvP+lryCiPaMvPK+IL5QZoRpmn21uoLr+Ktd3OijqGOnvVXdKklZe85VPHe4YOPkOZvw98kyav5lSYHQNVf4Q5VZAYdkCfgi8GbWdeC337O8SZ8k/6n1SRLFntC74BYCuKxA74Jbzkw5xcIuIGV+XJ09rUJMM/l4/c2eBzLJtOIZd9wbhYHVMeZnmCSVHLfdyy8/pUTPLxub4O/niz27yHZgKiLQVztmf8xcXTehTG
+X-Gm-Message-State: AOJu0YxA7a7eB670T9JrOQo6BcYWAM7bo6MtQlGxQ0yQUOnFsU4XTyp4
+	1RI8ndUEAJJ0oHydOhPK5/zx208/9I/JarKKUltYJxzhAGahUX4H
+X-Google-Smtp-Source: AGHT+IFokiO39Qki+IyFQ+TRRzsTCRMTNhTNMlfnFWf73BlGYeWH1z0yP3M3M0hW8ADbaYfa4+g3mQ==
+X-Received: by 2002:a17:906:4555:b0:a6f:523a:8e93 with SMTP id a640c23a62f3a-a6f60de2129mr643249766b.71.1718633815552;
+        Mon, 17 Jun 2024 07:16:55 -0700 (PDT)
+Received: from [192.168.42.82] ([163.114.131.193])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f56db67e5sm518501066b.66.2024.06.17.07.16.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Jun 2024 07:16:55 -0700 (PDT)
+Message-ID: <439590d4-0f05-4f5e-80ec-e7fdf214e307@gmail.com>
+Date: Mon, 17 Jun 2024 15:16:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -43,184 +76,179 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [net-next PATCH 2/2] net: ravb: Fix R-Car RX frame size limit
-Content-Language: en-GB
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Sergey Shtylyov <s.shtylyov@omp.ru>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Mitsuhiro Kimura <mitsuhiro.kimura.kc@renesas.com>, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240615103038.973-1-paul.barker.ct@bp.renesas.com>
- <20240615103038.973-3-paul.barker.ct@bp.renesas.com>
- <b1c10539-4d47-4752-8613-785b0ad83f5e@lunn.ch>
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-Organization: Renesas Electronics Corporation
-In-Reply-To: <b1c10539-4d47-4752-8613-785b0ad83f5e@lunn.ch>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------3oRCa9JXa8rEzNUJpWGX5HXa"
+Subject: Re: [PATCH net-next v12 06/13] page_pool: devmem support
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Sergey Shtylyov <s.shtylyov@omp.ru>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>
+References: <20240613013557.1169171-1-almasrymina@google.com>
+ <20240613013557.1169171-7-almasrymina@google.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20240613013557.1169171-7-almasrymina@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------3oRCa9JXa8rEzNUJpWGX5HXa
-Content-Type: multipart/mixed; boundary="------------sg0aRvFe07KycBt0Lop00RNu";
- protected-headers="v1"
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Sergey Shtylyov <s.shtylyov@omp.ru>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Mitsuhiro Kimura <mitsuhiro.kimura.kc@renesas.com>, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <933ffa58-8092-4768-993d-cd62897d203d@bp.renesas.com>
-Subject: Re: [net-next PATCH 2/2] net: ravb: Fix R-Car RX frame size limit
-References: <20240615103038.973-1-paul.barker.ct@bp.renesas.com>
- <20240615103038.973-3-paul.barker.ct@bp.renesas.com>
- <b1c10539-4d47-4752-8613-785b0ad83f5e@lunn.ch>
-In-Reply-To: <b1c10539-4d47-4752-8613-785b0ad83f5e@lunn.ch>
+On 6/13/24 02:35, Mina Almasry wrote:
+> Convert netmem to be a union of struct page and struct netmem. Overload
+> the LSB of struct netmem* to indicate that it's a net_iov, otherwise
+> it's a page.
+> 
+> Currently these entries in struct page are rented by the page_pool and
+> used exclusively by the net stack:
+> 
+> struct {
+> 	unsigned long pp_magic;
+> 	struct page_pool *pp;
+> 	unsigned long _pp_mapping_pad;
+> 	unsigned long dma_addr;
+> 	atomic_long_t pp_ref_count;
+> };
+> 
+> Mirror these (and only these) entries into struct net_iov and implement
+> netmem helpers that can access these common fields regardless of
+> whether the underlying type is page or net_iov.
+> 
+> Implement checks for net_iov in netmem helpers which delegate to mm
+> APIs, to ensure net_iov are never passed to the mm stack.
+> 
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
 
---------------sg0aRvFe07KycBt0Lop00RNu
-Content-Type: multipart/mixed; boundary="------------mvw0FoEI0clK5poGQBBl8Kra"
+Apart from small comments below
 
---------------mvw0FoEI0clK5poGQBBl8Kra
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
 
-On 16/06/2024 02:23, Andrew Lunn wrote:
-> On Sat, Jun 15, 2024 at 11:30:38AM +0100, Paul Barker wrote:
->> The RX frame size limit should not be based on the current MTU setting=
-=2E
->> Instead it should be based on the hardware capabilities.
->=20
-> This is a bit odd. MTU is Maximum Transmission Unit, so clearly is
-> about Tx. MRU does not really exist. Does TCP allow for asymmetric
-> MTU/MRU? Does MTU discovery work correctly for this?
->=20
-> In general, it seems like drivers implement min(MTU, MRU) and nothing
-> more. Do you have a real use case for this asymmetry?
->=20
->       Andrew
 
-Hi Andrew,
+> ---
+>   include/net/netmem.h            | 137 ++++++++++++++++++++++++++++++--
+>   include/net/page_pool/helpers.h |  25 +++---
+>   net/core/devmem.c               |   3 +
+>   net/core/page_pool.c            |  26 +++---
+>   net/core/skbuff.c               |  22 +++--
+>   5 files changed, 168 insertions(+), 45 deletions(-)
+> 
+> diff --git a/include/net/netmem.h b/include/net/netmem.h
+> index 664df8325ece5..35ad237fdf29e 100644
+> --- a/include/net/netmem.h
+> +++ b/include/net/netmem.h
+...
+> -/* Converting from page to netmem is always safe, because a page can always be
+> - * a netmem.
+> - */
+>   static inline netmem_ref page_to_netmem(struct page *page)
+>   {
+>   	return (__force netmem_ref)page;
+> @@ -68,17 +107,103 @@ static inline netmem_ref page_to_netmem(struct page *page)
+>   
+>   static inline int netmem_ref_count(netmem_ref netmem)
+>   {
+> +	/* The non-pp refcount of net_iov is always 1. On net_iov, we only
+> +	 * support pp refcounting which uses the pp_ref_count field.
+> +	 */
+> +	if (netmem_is_net_iov(netmem))
+> +		return 1;
+> +
+>   	return page_ref_count(netmem_to_page(netmem));
+>   }
+>   
+>   static inline unsigned long netmem_to_pfn(netmem_ref netmem)
+>   {
+> +	if (netmem_is_net_iov(netmem))
+> +		return 0;
 
-This change is based on my understanding of MTU/MRU, on the specs of the
-RZ SoCs I'm working with (primarily RZ/G2L family, RZ/G3S and RZ/G2H)
-and on some testing. My goal here is just to make the capabilities of
-the hardware available to users.
+IIRC 0 is a valid pfn. Not much of a concern since it's
+used only for tracing, but might make sense to pass some
+invalid pfn if there is one
 
-For the RZ/G2L family and RZ/G3S, we can only support an MTU of up to
-1500 bytes, but we can receive frames of up to (IIRC) 8192 bytes. I have
-tested sending jumbo frames to an RZ/G2L device using both iperf3 and
-ping and I see no errors.
+> +
+>   	return page_to_pfn(netmem_to_page(netmem));
+>   }
+>   
+...
+>   static inline netmem_ref netmem_compound_head(netmem_ref netmem)
+>   {
+> +	/* niov are never compounded */
+> +	if (netmem_is_net_iov(netmem))
+> +		return netmem;
+> +
+>   	return page_to_netmem(compound_head(netmem_to_page(netmem)));
+>   }
+>   
+> +static inline void *netmem_address(netmem_ref netmem)
 
-* For iperf3 RX testing, the RZ/G2L is only responding with acks. These
-  are small regardless of the size of the received packets, so the
-  mis-match in MTU between the two hosts causes no issue.
+I don't think it's used anywhere, do I miss it?
 
-* For ping testing, the RZ/G2L will give a fragmented response to the
-  ping packet which the other host can reassemble.
+> +{
+> +	if (netmem_is_net_iov(netmem))
+> +		return NULL;
+> +
+> +	return page_address(netmem_to_page(netmem));
+> +}
+> +
+...
+> diff --git a/net/core/page_pool.c b/net/core/page_pool.c
+> index a5957d3359762..1152e3547795a 100644
+> --- a/net/core/page_pool.c
+> +++ b/net/core/page_pool.c
+> @@ -26,6 +26,8 @@
+...
+>   
+>   /* If the page refcnt == 1, this will try to recycle the page.
+> @@ -714,7 +713,7 @@ __page_pool_put_page(struct page_pool *pool, netmem_ref netmem,
+>   	 * refcnt == 1 means page_pool owns page, and can recycle it.
+>   	 *
+>   	 * page is NOT reusable when allocated when system is under
+> -	 * some pressure. (page_is_pfmemalloc)
+> +	 * some pressure. (page_pool_page_is_pfmemalloc)
 
-For the RZ/G2H, we support sending frames of up to 2047 bytes but we can
-receive frames of up to 4092 bytes. The driver will need a few more
-changes to handle reception of packets >2kB in size, but this is
-something we can do in the near future.
+There is no page_pool_page_is_pfmemalloc()
 
-Is there any reason why we shouldn't support this? I am by no means an
-expert in the Linux networking internals so there may be things I'm
-missing.
+>   	 */
+>   	if (likely(__page_pool_page_can_be_recycled(netmem))) {
+>   		/* Read barrier done in page_ref_count / READ_ONCE */
+> @@ -727,6 +726,7 @@ __page_pool_put_page(struct page_pool *pool, netmem_ref netmem,
+>   		/* Page found as candidate for recycling */
+>   		return netmem;
+>   	}
 
-Thanks,
-
---=20
-Paul Barker
---------------mvw0FoEI0clK5poGQBBl8Kra
-Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-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3D
-=3DsIIN
------END PGP PUBLIC KEY BLOCK-----
-
---------------mvw0FoEI0clK5poGQBBl8Kra--
-
---------------sg0aRvFe07KycBt0Lop00RNu--
-
---------------3oRCa9JXa8rEzNUJpWGX5HXa
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZnBCKQUDAAAAAAAKCRDbaV4Vf/JGvV1b
-AP9FgB7lkBOCd+twlXt7EsbaCUytaGIfCRnM01oKcKSbjwEAkFllMCdFLlIhP3RXzaFXpygvBqKL
-vA9hUFLCIeoR+AY=
-=5ZCu
------END PGP SIGNATURE-----
-
---------------3oRCa9JXa8rEzNUJpWGX5HXa--
+-- 
+Pavel Begunkov
 
