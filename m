@@ -1,121 +1,98 @@
-Return-Path: <linux-renesas-soc+bounces-6440-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6441-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 010C090DC0F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 20:58:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C26F90DCAB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 21:42:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 00BBE1C2355D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 18:58:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 52B9E1F21C1F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 19:42:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F22015ECEC;
-	Tue, 18 Jun 2024 18:58:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D919B16CD22;
+	Tue, 18 Jun 2024 19:42:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="N9P120Jl"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4E446426;
-	Tue, 18 Jun 2024 18:58:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A7316CD27;
+	Tue, 18 Jun 2024 19:42:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718737107; cv=none; b=hoM3XCs8h02VWOQzYFZauD0kcdtxpvtf5ylzeQHjeMWT2/9wZ2YIlTZXfuCLUT/uZLPwMJIP5O2dowo5kpkL1kItjTtjBODzQ1mUvk3r5+arAcDMmKcT52oKvI3J3ndOwM0XDrZwYctGrEJxaBoXg84hb9KepXm0+CQ6/6nSCmA=
+	t=1718739726; cv=none; b=ivZkC7ohr3YrwHa68mi1iZfP9+ZWk/MIprcIaDnw0IzY6+VQQMQxpRgEv8b9XSt24p+veWiGiPnXRrmPl98I+z64AtTWGZDvPgfiw83ynHCA4qoXiXN5n1ypu4/MCAP5e7dC8OT33/Z4KMeuGpq7JruCp+lwPMPgEud16x9zzI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718737107; c=relaxed/simple;
-	bh=k8EFMG5DMLKsNyQeGALNuSJ/BSvmDb2THX39JB2v2jc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=OaAqV8kDyOCzmPpUnBxwzC5NQcnA55IL1SVARazIdaj9FFqXDAatkLRL8ACr3OYDwbaxkd1ICVeuKqfRH+hMTj9aDxSm6NIfHvAZwdgI3cA3stpl1x6zHNlAe5xqFEjPFPZtDttAvLiBGIimcvSI3Ua9Q/tdaDQPQ/PdEViln5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-632597a42b4so1266897b3.0;
-        Tue, 18 Jun 2024 11:58:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718737103; x=1719341903;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+X8wf+uC0OjwHBa17rdEnSvQT0n3Fv2/cB2AKsMkZxY=;
-        b=fpmbNHGZeFcGLNlw4tGMA5EfxucpfFdRIMI+4++Gy61zKopvQ+swLmOQ8vGLq0+btE
-         TymZCMj9FZ/iOvuM8WlxfWOpOWqyAVz2W+8vocCppM1h0tpmeaJqI8a1lJPODukD92lz
-         Gym/KSpilX6KGlIT8nlM+gKDSbqBHB+mZlu9mPnZ4HfTNXm7EavH4CVm6avylRPN1rk8
-         J6d2PvHx5s8NhnD+gZRNugmkdkfBrc0ORgDBV8xKfwpvNrVWNfLoUhasHbP7I0RikRuA
-         BOwyu2LRPFJ/yxNj0etQ2R1d9Jwl9eV8Z1pQpSvxF0AujRP87eJd4HVhUfN1TlSl6KK8
-         0oQw==
-X-Forwarded-Encrypted: i=1; AJvYcCWyZCE1WlZZDlo1zXEZprBKX56Dr6svgwWgYvmuZ7mWy+8KKS7v0veiIDmtRAWiO56LmBG60G/H+FpDgb6CcBeM1kcRkPGfHscWJHmvHt4Ci/HeWUJ6wPicZ+Vc6W8hvuSTJFK5CEJAuHmseMtim1rVhUB4Korj/rh9EfgmESMSW6LB42MYtfqNRRrKtgSYH6lSh8MtwIb05BbDr89KbSvhO3Bb+N2k
-X-Gm-Message-State: AOJu0YyU0CATIAC2kBYaSwpgjHxwk7sJfecV1mp7+HOwYOQGhGnQhBNu
-	/vjGI987UH6nOWfGTF3BV3SyxHKWSWzvwCxbUVg2DfxMCEazFArvBko8qhGe
-X-Google-Smtp-Source: AGHT+IGHr/VtxA5A0u985IA92CRiSiD7/zYATm8ehyr5rsBrae5vS9IeJXXbkZJEKyDda5lX26nHew==
-X-Received: by 2002:a81:8982:0:b0:62c:f782:ee1e with SMTP id 00721157ae682-63a87ed7484mr6665947b3.11.1718737103362;
-        Tue, 18 Jun 2024 11:58:23 -0700 (PDT)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-631183d7d6dsm18585297b3.17.2024.06.18.11.58.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Jun 2024 11:58:23 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-63036fa87dbso1073557b3.1;
-        Tue, 18 Jun 2024 11:58:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWWccjhGJBDUH61T8+buQqEEx0WAHNu0/e2JIfXLnA/H1lYu/DP3dxVa+eNgZ2tFICmEItifLG7U6IeN4X5V9lyPprkwNbCd6c6RrfJQG23pipFnaHsCB8hvEQb/jGK9rnXcMYYpTBnladsvQO9JFtqCqnCSNKH5ODfoM2zv3sVX5RbW1FvBizSJ6NggFQOTRb2ErxQPV9HkH62zdfo4cM1exxcPqcr
-X-Received: by 2002:a81:e245:0:b0:61b:e506:b0f with SMTP id
- 00721157ae682-63947fc3d6amr27090767b3.4.1718737102803; Tue, 18 Jun 2024
- 11:58:22 -0700 (PDT)
+	s=arc-20240116; t=1718739726; c=relaxed/simple;
+	bh=YY23Lw7s+ZuKEwzkyuhdLZNGpe/RkyrwvbD2vOL7wCw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mnZGGRTbzUcrsqhCkiDnwQ2cm3FtwhrvX11DdKuQyxWqUWPkTOxZ1jwJLf6Snz8oXd3oTZQuR1RuEobljoEO2kBgpLwNbNAmPUnRq2cffzkhGb2+8lQYbkiEoYVB1g0L8cR7KGpn9dy/t6UBTWI4EvhBJLEwZ9EMNjIdNRaMu1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=N9P120Jl; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E3209908;
+	Tue, 18 Jun 2024 21:41:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1718739705;
+	bh=YY23Lw7s+ZuKEwzkyuhdLZNGpe/RkyrwvbD2vOL7wCw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=N9P120JlMEiu60uIJOa5IboQEMxIAPPMuMQ40hBXawFvTeKbIxOEex0ehuhZGeaxt
+	 JqmIHSpE7IIMeNZuRpFI9ZsHJaQafoMGN9fMMoAdewG/WAFb3A9/alsOxttqbEmifA
+	 PLwDfKPk5q+XQ1pw8uOkZaJOjutRMPiGXov8wjcU=
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH] media: renesas: vsp1: Print debug message to diagnose validation failure
+Date: Tue, 18 Jun 2024 22:41:40 +0300
+Message-ID: <20240618194140.26788-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.44.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240610112700.80819-1-wsa+renesas@sang-engineering.com>
- <20240610112700.80819-2-wsa+renesas@sang-engineering.com> <CAMRc=MfZ11U+kAh1+K=DxtJ=QL+cY7Q_sBN4sQDF-RNgjpV0QA@mail.gmail.com>
- <jvnvx7a4pn6evrp5ehfrt4qsiuprq6ogvrue2a3uupwtydmgcm@2rvat7ibvgb4>
- <CAMRc=Mc4__0zzJZG3BPnmbua88SLuEbX=Wk=EZnKH5HQvB+JPg@mail.gmail.com>
- <CACRpkda==5S75Bw6F3ZLUmf7kwgi_JkByiizR=m-61nrMDWuvQ@mail.gmail.com>
- <ce1d8150-c595-44d5-b19a-040920481709@app.fastmail.com> <CAMRc=McpRjQO8mUrOA4bU_YqO8Tc9-Ujytfy1fcjGUEgH9NW0A@mail.gmail.com>
- <3h63msxchuuxqa5liufoivss4raqtzjlusjn7ufti5nyjkshcb@pqevlpuvrm5q>
-In-Reply-To: <3h63msxchuuxqa5liufoivss4raqtzjlusjn7ufti5nyjkshcb@pqevlpuvrm5q>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 18 Jun 2024 20:58:11 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW5oiD93ng0fVotMKoGMavs0G3DV93GW6qEQVhGxLCK5Q@mail.gmail.com>
-Message-ID: <CAMuHMdW5oiD93ng0fVotMKoGMavs0G3DV93GW6qEQVhGxLCK5Q@mail.gmail.com>
-Subject: Re: [PATCH v9 1/1] gpio: add sloppy logic analyzer using polling
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Arnd Bergmann <arnd@arndb.de>, Linus Walleij <linus.walleij@linaro.org>, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Wolfram,
+When formats don't match between a subdev and a connected video device,
+starting streaming returns an error without giving the user any
+indication as to what went wrong. To help debugging pipeline
+misconfigurations, add a debug message that indicates the cause of the
+failure.
 
-On Tue, Jun 18, 2024 at 12:54=E2=80=AFPM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> > I could see it using configfs instead of DT for configuration and iio
-> > for presenting the output but - from what Wolfram said - insisting on
-> > this will simply result in this development being dropped entirely.
->
-> How do you assign a GPIO via debugfs? I only found the out-of-tree
-> pwm-gpio driver[1] which uses a GPIO number. But those are deprecated
-> these days, or? Any other driver doing this you can point me to?
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
+ drivers/media/platform/renesas/vsp1/vsp1_video.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-Do you really need debugfs (or configfs)?
-I guess you can just write GPIO line names or GPIO chip
-labels + offsets to the new_device file, like gpio-aggregator does?
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+index 5a9cb0e5640e..d6f2739456bf 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+@@ -78,8 +78,14 @@ static int vsp1_video_verify_format(struct vsp1_video *video)
+ 
+ 	if (video->rwpf->fmtinfo->mbus != fmt.format.code ||
+ 	    video->rwpf->format.height != fmt.format.height ||
+-	    video->rwpf->format.width != fmt.format.width)
++	    video->rwpf->format.width != fmt.format.width) {
++		dev_dbg(video->vsp1->dev,
++			"Format mismatch: 0x%04x/%ux%u != 0x%04x/%ux%u\n",
++			video->rwpf->fmtinfo->mbus, video->rwpf->format.width,
++			video->rwpf->format.height, fmt.format.code,
++			fmt.format.width, fmt.format.height);
+ 		return -EINVAL;
++	}
+ 
+ 	return 0;
+ }
 
-Documentation/admin-guide/gpio/gpio-aggregator.rst
+base-commit: 91798162245991e26949ef62851719bb2177a9c2
+-- 
+Regards,
 
-Gr{oetje,eeting}s,
+Laurent Pinchart
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
