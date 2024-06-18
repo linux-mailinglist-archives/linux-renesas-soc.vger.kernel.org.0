@@ -1,58 +1,58 @@
-Return-Path: <linux-renesas-soc+bounces-6391-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6392-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA66D90C8B7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 13:13:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 983E090C8F7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 13:19:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DCCD11C224BD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 11:13:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 425611F211B4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 11:19:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E2431CF3E7;
-	Tue, 18 Jun 2024 10:00:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A86F52139C6;
+	Tue, 18 Jun 2024 10:05:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ldzvAATI"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GN8po9/x"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C927F158A20;
-	Tue, 18 Jun 2024 10:00:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE8A2139C2;
+	Tue, 18 Jun 2024 10:05:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718704803; cv=none; b=pAW+4k88omiqR7tzSoLgEJc6zzNoq6KXa91w4UBw2MoqSGHIyueW6+idk6pUOX+VwVmV562+7S7KC20RkwtQy01vIi6hzH35XFIPVM+0BH9Nq2HWMt8StsAlQuJNMyQR1CVkQ/q41moTjB6OrHOCubgpuGsm8JseyB88+DGFURQ=
+	t=1718705139; cv=none; b=K84wZqi2dzPM7eMumSQSanrkU8Sk1iX1YYZ9gjYvsx42hkfqzrIHwnwQ3kPi3ZcelAia0OKRft0I38UilJVD4Mmw7ea4pGGYbmez/KAMBZrA0lfTFWsN9v23MCImVEcN3NSPIGJ65i+WereHkCO8K88jgtMKq7ix3TYnWI/2SZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718704803; c=relaxed/simple;
-	bh=gOksFzGUFU+cBumxtm8iGlbqGQrllsZ6cQJQVlLp6S0=;
+	s=arc-20240116; t=1718705139; c=relaxed/simple;
+	bh=kywCmXi1dPyhtG6XSTTz+OldLwEjv77fjLoqrA1YbvQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IkWmBtT6O7tJV3S56cUxfbutwZvpeBEdhRvkrSPLf0WrgTHmYo0ZFdKamMGK9Oex0N7f+SirSCQcVkom+MBL8l3UpyRag4QZQV0bIzl4B7Ajx/RYTytMMHsg2QWPbTFX6HwTxFFNO87tZts0BGsEzOQM7Dsto9VJWhEk8zLjumk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ldzvAATI; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=S9iyFttRBrbo67MjaCV5wFIKfaVY3rDCh0AjcWuvmE93L+ffVIuOgrd7EJoVnK3Qqc2UYQFbFCHV1W+aROuHJrhD+5oVbbsmpeZ9BUfSptfBP5ygHtG3Xp5WLzwr+gypjLnNJU39UKMc4JHmSNzIjcVfqI2KcizhiwRiFq1MZUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GN8po9/x; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CA47B564;
-	Tue, 18 Jun 2024 11:59:42 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C4DE6564;
+	Tue, 18 Jun 2024 12:05:18 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718704782;
-	bh=gOksFzGUFU+cBumxtm8iGlbqGQrllsZ6cQJQVlLp6S0=;
+	s=mail; t=1718705118;
+	bh=kywCmXi1dPyhtG6XSTTz+OldLwEjv77fjLoqrA1YbvQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ldzvAATI6HClnoqjycl1k5U40OAnJldH6Lbg2nPCA98lE34oAZfzUdSsQ4/qA4taI
-	 b+bVMrWcydYyUvtCNcHwSuSMwGkdWzLiOwt86YqaFSmo169AtER1DvDCMax2qGH8Bw
-	 iTIun6XgvEmhc8wFrojKucjonYAHq8tQ9RpnJpQ4=
-Date: Tue, 18 Jun 2024 11:59:57 +0200
+	b=GN8po9/xPzOiRT6O1fjX3NVqKW7hjjhoVOm6wCUlITEXknxOO28ZXC/zw6vYpwhrf
+	 ch5lAe23nhrJ+b0pCfFr8UClFSuXuHiEyu+v8CnH07IDkhGvmlkmRUNXySBLiVgZoA
+	 YmOc83FBey0a6j8U4270lM7NfyY5oNVSerasv76U=
+Date: Tue, 18 Jun 2024 12:05:32 +0200
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
 	Sakari Ailus <sakari.ailus@iki.fi>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [RFC PATCH v1 04/19] media: renesas: vsp1: Drop
- brx_get_compose() wrapper
-Message-ID: <j2rmeiug46xvakomhqwyeieo32xgh5v5pvpx6lsk5bpig5xfon@osj5puw7jljl>
+Subject: Re: [RFC PATCH v1 05/19] media: renesas: vsp1: Drop custom
+ .get_fmt() handler for histogram
+Message-ID: <fuzqtinkh2q7ifkrrrop5gsivxsqsbcnb6vyojw746yphcg4uo@zumsbndqckij>
 References: <20231122043009.2741-1-laurent.pinchart+renesas@ideasonboard.com>
- <20231122043009.2741-5-laurent.pinchart+renesas@ideasonboard.com>
+ <20231122043009.2741-6-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -61,73 +61,89 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231122043009.2741-5-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20231122043009.2741-6-laurent.pinchart+renesas@ideasonboard.com>
 
 Hi Laurent
 
-On Wed, Nov 22, 2023 at 06:29:54AM GMT, Laurent Pinchart wrote:
+On Wed, Nov 22, 2023 at 06:29:55AM GMT, Laurent Pinchart wrote:
 > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 >
-> The brx_get_compose() function is just a wrapper around
-> v4l2_subdev_state_get_compose() without any added value. Drop it and
-> call v4l2_subdev_state_get_compose() directly.
+> The histogram module is the only one that has a custom .get_fmt()
+> handler, to handle the special case of the output format being fixed.
+> This can equally well be handled in the .set_fmt() handler instead.
+> Beside avoiding special cases and using the same .get_fmt() handler in
+> all modules, it ensures that the correct format is stored in the active
+> state for the source pad, including when .set_fmt() is called from
+> vsp1_entity_init_state(). Both are needed to later switch to the V4L2
+> subdev active state API.
 >
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  .../media/platform/renesas/vsp1/vsp1_histo.c  | 29 +++++++------------
+>  1 file changed, 10 insertions(+), 19 deletions(-)
+>
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_histo.c b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+> index 576270cb3e63..a4076d82651e 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+> @@ -356,30 +356,21 @@ static int histo_set_selection(struct v4l2_subdev *subdev,
+>  	return ret;
+>  }
+>
+> -static int histo_get_format(struct v4l2_subdev *subdev,
+> -			    struct v4l2_subdev_state *sd_state,
+> -			    struct v4l2_subdev_format *fmt)
+> -{
+> -	if (fmt->pad == HISTO_PAD_SOURCE) {
+> -		fmt->format.code = MEDIA_BUS_FMT_FIXED;
+> -		fmt->format.width = 0;
+> -		fmt->format.height = 0;
 
+Suprising!
+
+Anyway:
 Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
 Thanks
   j
 
-> ---
->  drivers/media/platform/renesas/vsp1/vsp1_brx.c | 13 +++----------
->  1 file changed, 3 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_brx.c b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> index 0eb4d8fe4285..05940d0427bf 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> @@ -96,13 +96,6 @@ static int brx_enum_frame_size(struct v4l2_subdev *subdev,
->  	return 0;
->  }
->
-> -static struct v4l2_rect *brx_get_compose(struct vsp1_brx *brx,
-> -					 struct v4l2_subdev_state *sd_state,
-> -					 unsigned int pad)
-> -{
-> -	return v4l2_subdev_state_get_compose(sd_state, pad);
+> -		fmt->format.field = V4L2_FIELD_NONE;
+> -		fmt->format.colorspace = V4L2_COLORSPACE_RAW;
+> -		return 0;
+> -	}
+> -
+> -	return vsp1_subdev_get_pad_format(subdev, sd_state, fmt);
 > -}
 > -
->  static void brx_try_format(struct vsp1_brx *brx,
->  			   struct v4l2_subdev_state *sd_state,
->  			   unsigned int pad, struct v4l2_mbus_framefmt *fmt)
-> @@ -157,7 +150,7 @@ static int brx_set_format(struct v4l2_subdev *subdev,
->  	if (fmt->pad != brx->entity.source_pad) {
->  		struct v4l2_rect *compose;
+>  static int histo_set_format(struct v4l2_subdev *subdev,
+>  			    struct v4l2_subdev_state *sd_state,
+>  			    struct v4l2_subdev_format *fmt)
+>  {
+>  	struct vsp1_histogram *histo = subdev_to_histo(subdev);
 >
-> -		compose = brx_get_compose(brx, state, fmt->pad);
-> +		compose = v4l2_subdev_state_get_compose(state, fmt->pad);
->  		compose->left = 0;
->  		compose->top = 0;
->  		compose->width = format->width;
-> @@ -204,7 +197,7 @@ static int brx_get_selection(struct v4l2_subdev *subdev,
->  			return -EINVAL;
+> -	if (fmt->pad != HISTO_PAD_SINK)
+> -		return histo_get_format(subdev, sd_state, fmt);
+> +	if (fmt->pad == HISTO_PAD_SOURCE) {
+> +		fmt->format.code = MEDIA_BUS_FMT_FIXED;
+> +		fmt->format.width = 0;
+> +		fmt->format.height = 0;
+> +		fmt->format.field = V4L2_FIELD_NONE;
+> +		fmt->format.colorspace = V4L2_COLORSPACE_RAW;
+> +
+> +		return 0;
+> +	}
 >
->  		mutex_lock(&brx->entity.lock);
-> -		sel->r = *brx_get_compose(brx, state, sel->pad);
-> +		sel->r = *v4l2_subdev_state_get_compose(state, sel->pad);
->  		mutex_unlock(&brx->entity.lock);
->  		return 0;
->
-> @@ -253,7 +246,7 @@ static int brx_set_selection(struct v4l2_subdev *subdev,
->  	sel->r.width = format->width;
->  	sel->r.height = format->height;
->
-> -	compose = brx_get_compose(brx, state, sel->pad);
-> +	compose = v4l2_subdev_state_get_compose(state, sel->pad);
->  	*compose = sel->r;
->
->  done:
+>  	return vsp1_subdev_set_pad_format(subdev, sd_state, fmt,
+>  					  histo->formats, histo->num_formats,
+> @@ -390,7 +381,7 @@ static int histo_set_format(struct v4l2_subdev *subdev,
+>  static const struct v4l2_subdev_pad_ops histo_pad_ops = {
+>  	.enum_mbus_code = histo_enum_mbus_code,
+>  	.enum_frame_size = histo_enum_frame_size,
+> -	.get_fmt = histo_get_format,
+> +	.get_fmt = vsp1_subdev_get_pad_format,
+>  	.set_fmt = histo_set_format,
+>  	.get_selection = histo_get_selection,
+>  	.set_selection = histo_set_selection,
 > --
 > Regards,
 >
