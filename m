@@ -1,254 +1,393 @@
-Return-Path: <linux-renesas-soc+bounces-6380-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6381-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 294BD90C38E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 08:30:06 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9786890C465
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 09:33:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A8F2B1F20CFE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 06:30:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 37445B217E1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 07:33:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8021F4206E;
-	Tue, 18 Jun 2024 06:30:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A7B0745C0;
+	Tue, 18 Jun 2024 07:09:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ijMMMZsx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jXagmq93";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ijMMMZsx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jXagmq93"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N9NYB4Tj"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D20A3F9D5
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Jun 2024 06:29:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 304AF73440;
+	Tue, 18 Jun 2024 07:09:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718692201; cv=none; b=LhxC24RnT6ZTdPrm/K90UXDcp7Epruw7hxVPk1ORRk2HMwShbIYtlzOEO931FISkDoMbNhgV1+k3fCvlaCGunIzqrQXCi/yc1/16lP2qYBYJdVeNTtGfL14AyaZFkTFjhBlFnJjJUsjVYFAWPS9LwOirE5Hb6G98PdoDmiXbq80=
+	t=1718694577; cv=none; b=fVvgaYqh17sGIFcmCZrE6BEHuXZaLzR794XAfCMIG8bYrFptPTsmaCAaYty21pF3gpWVxkPKBfrIr3uFAaitA005+YewXLrUBE3zEOuy22nry2y7qeXbX4EqD8+23p4qFDyW9Jhro58mEWNtFWLYVYiiGGMU9gNWT2j24N2TczY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718692201; c=relaxed/simple;
-	bh=5lDLemxyUApaed7ww0TYq+V7xSd4wCGDSBAewVYXigc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RhcflCptoBr/UwHFQqEsMx4LIxSAbGhOJthfyUCsZy3uhKOy2X+2xtKUnNic5s4eZdyXQ7h2elGpjrGYIdutOKhKp1YUBJqNaeBInfPnynklN97kvTvp7Kv3CSmeGbbtqtBcjgi20dsJvr+xYPWbG3kaiQwzZ/bvIvuetY9FTro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ijMMMZsx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jXagmq93; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ijMMMZsx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jXagmq93; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 65DE622636;
-	Tue, 18 Jun 2024 06:29:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718692197; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=VhxyLzMp0xY80/C6VM7Tfa3q/ANla3OH3yenX41cm14=;
-	b=ijMMMZsxN4PRutNPD7sAbxYkh6qb7Q7zenmWRMGfiWYqVtbU7w55aZjSWosIStxxNaopFO
-	wM0czZ61fkh2pf2oFJWOzskfdi63BuJfCKbrA+JjmNZ9/v1qBWCqFvT6HIgeWPEe8JMfpk
-	m8150tk8Dct7dAOsSrIy86KIQl6x0js=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718692197;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=VhxyLzMp0xY80/C6VM7Tfa3q/ANla3OH3yenX41cm14=;
-	b=jXagmq93HfvcixrLyf2+z/GAtf/s7qAGMwbcvFYWmB7tMjRwUdC8N+Xi/4Hmpzb+nDWhra
-	gxHZjNuOEAN0X9Cw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718692197; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=VhxyLzMp0xY80/C6VM7Tfa3q/ANla3OH3yenX41cm14=;
-	b=ijMMMZsxN4PRutNPD7sAbxYkh6qb7Q7zenmWRMGfiWYqVtbU7w55aZjSWosIStxxNaopFO
-	wM0czZ61fkh2pf2oFJWOzskfdi63BuJfCKbrA+JjmNZ9/v1qBWCqFvT6HIgeWPEe8JMfpk
-	m8150tk8Dct7dAOsSrIy86KIQl6x0js=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718692197;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=VhxyLzMp0xY80/C6VM7Tfa3q/ANla3OH3yenX41cm14=;
-	b=jXagmq93HfvcixrLyf2+z/GAtf/s7qAGMwbcvFYWmB7tMjRwUdC8N+Xi/4Hmpzb+nDWhra
-	gxHZjNuOEAN0X9Cw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 319791369F;
-	Tue, 18 Jun 2024 06:29:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id bYJpCmUpcWZuXwAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 18 Jun 2024 06:29:57 +0000
-Message-ID: <22f4df70-92c8-4ead-bf56-65ccffe8953f@suse.de>
-Date: Tue, 18 Jun 2024 08:29:56 +0200
+	s=arc-20240116; t=1718694577; c=relaxed/simple;
+	bh=e6XzdJg33xWRVNzNhUgA1l17Hz8JCuFvsGbY8RSFHzE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PHxefL0ihDnWEG/shQyvel+aqc4fSUkr8STjUXrIN64iij9ERhjwzOYYdg3tpgU5W53pM58EwnAg4rPHk+/H3ylqcX5CejvVpweUhihdYqiP2BAclporKS81kbFRFgT04sF+OT4poJRVG1KeWGPjI0OagBwDvDl1Bc3cEIME3cQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N9NYB4Tj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DBC0C3277B;
+	Tue, 18 Jun 2024 07:09:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718694577;
+	bh=e6XzdJg33xWRVNzNhUgA1l17Hz8JCuFvsGbY8RSFHzE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=N9NYB4TjMFmhgTdHjD1Cd6/wrVJFfDkjK6O8jZ64o3jse5CrgnJozCb0735mnIObJ
+	 4ZareHDMYJScAbYLQoayzTqw7DGYUzlDxMmHyH1k5mokGXSJA0KpROnDBPmTehRE2p
+	 ilWtMyUmAUJLzzgkSm5faFSqVa9MbYVErOPQrZjwe7pDJwpRNtm/AqGRqOmjdqIO8J
+	 vawEhaTFyTVgkL+esm8P5C4zQKQSZQxRjIMIaB1cdRzjZgMDRmLCkb86sXUYoVlAYI
+	 Y6fPUykV4n0Ans35o4LZKwoUO5wNMkQhBq4+mb7LGX4wWMTdb2WbhR/bCx8tLIptlW
+	 s5+sfUXVhKhhQ==
+Date: Tue, 18 Jun 2024 12:39:25 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: lpieralisi@kernel.org, kw@linux.com, robh@kernel.org,
+	bhelgaas@google.com, jingoohan1@gmail.com,
+	marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v9 4/5] PCI: rcar-gen4: Add support for r8a779g0
+Message-ID: <20240618070925.GB5485@thinkpad>
+References: <20240611125057.1232873-1-yoshihiro.shimoda.uh@renesas.com>
+ <20240611125057.1232873-5-yoshihiro.shimoda.uh@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/fbdev-dma: Only set smem_start is enable per module
- option
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: peng.fan@oss.nxp.com, daniel@ffwll.ch, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-References: <20240617152843.11886-1-tzimmermann@suse.de>
- <2643bb67-e3a6-8ca7-37d1-e98080952589@linux-m68k.org>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <2643bb67-e3a6-8ca7-37d1-e98080952589@linux-m68k.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -4.29
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-4.29 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.978];
-	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
+In-Reply-To: <20240611125057.1232873-5-yoshihiro.shimoda.uh@renesas.com>
 
-Hi
+On Tue, Jun 11, 2024 at 09:50:56PM +0900, Yoshihiro Shimoda wrote:
+> Add support for r8a779g0 (R-Car V4H).
+> 
+> This driver previously supported r8a779f0 (R-Car S4-8). PCIe features
+> of both r8a779f0 and r8a779g0 are almost all the same. For example:
+>  - PCI Express Base Specification Revision 4.0
+>  - Root complex mode and endpoint mode are supported
+> However, r8a779g0 requires specific firmware downloading, to
+> initialize the PHY. Otherwise, the PCIe controller cannot work.
+> 
+> The attached firmware file "104_PCIe_fw_addr_data_ver1.05.txt" in
+> the datasheet is a text file. But, Renesas is not able to distribute
+> the firmware freely. So, we require converting the text file
+> to a binary before the driver runs by using the following script:
+> 
+>  $ awk '/^\s*0x[0-9A-Fa-f]{4}\s+0x[0-9A-Fa-f]{4}/ \
+>    { print substr($2,5,2) substr($2,3,2) }' \
+>    104_PCIe_fw_addr_data_ver1.05.txt | xxd -p -r > \
+>    rcar_gen4_pcie.bin
+>  $ sha1sum rcar_gen4_pcie.bin
+>    1d0bd4b189b4eb009f5d564b1f93a79112994945  rcar_gen4_pcie.bin
+> 
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>  drivers/pci/controller/dwc/pcie-rcar-gen4.c | 207 +++++++++++++++++++-
+>  1 file changed, 206 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> index dac78388975d..c67097e718d3 100644
+> --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> @@ -5,8 +5,10 @@
+>   */
+>  
+>  #include <linux/delay.h>
+> +#include <linux/firmware.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/io.h>
+> +#include <linux/iopoll.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+>  #include <linux/pci.h>
+> @@ -20,9 +22,10 @@
+>  /* Renesas-specific */
+>  /* PCIe Mode Setting Register 0 */
+>  #define PCIEMSR0		0x0000
+> -#define BIFUR_MOD_SET_ON	BIT(0)
+> +#define APP_SRIS_MODE		BIT(6)
+>  #define DEVICE_TYPE_EP		0
+>  #define DEVICE_TYPE_RC		BIT(4)
+> +#define BIFUR_MOD_SET_ON	BIT(0)
+>  
+>  /* PCIe Interrupt Status 0 */
+>  #define PCIEINTSTS0		0x0084
+> @@ -37,19 +40,48 @@
+>  #define PCIEDMAINTSTSEN		0x0314
+>  #define PCIEDMAINTSTSEN_INIT	GENMASK(15, 0)
+>  
+> +/* Port Logic Registers 89 */
+> +#define PRTLGC89		0x0b70
+> +
+> +/* Port Logic Registers 90 */
+> +#define PRTLGC90		0x0b74
+> +
+>  /* PCIe Reset Control Register 1 */
+>  #define PCIERSTCTRL1		0x0014
+>  #define APP_HOLD_PHY_RST	BIT(16)
+>  #define APP_LTSSM_ENABLE	BIT(0)
+>  
+> +/* PCIe Power Management Control */
+> +#define PCIEPWRMNGCTRL		0x0070
+> +#define APP_CLK_REQ_N		BIT(11)
+> +#define APP_CLK_PM_EN		BIT(10)
+> +
+>  #define RCAR_NUM_SPEED_CHANGE_RETRIES	10
+>  #define RCAR_MAX_LINK_SPEED		4
+>  
+>  #define RCAR_GEN4_PCIE_EP_FUNC_DBI_OFFSET	0x1000
+>  #define RCAR_GEN4_PCIE_EP_FUNC_DBI2_OFFSET	0x800
+>  
+> +/*
+> + * The attached firmware file "104_PCIe_fw_addr_data_ver1.05.txt" in
+> + * the datasheet is a text file. But, Renesas is not able to distribute
+> + * the firmware freely. So, we require converting the text file
+> + * to a binary before the driver runs by using the following script:
+> + *
+> + * $ awk '/^\s*0x[0-9A-Fa-f]{4}\s+0x[0-9A-Fa-f]{4}/ \
+> + *      { print substr($2,5,2) substr($2,3,2) }' \
+> + *      104_PCIe_fw_addr_data_ver1.05.txt | xxd -p -r > \
+> + *      rcar_gen4_pcie.bin
+> + *    $ sha1sum rcar_gen4_pcie.bin
+> + *      1d0bd4b189b4eb009f5d564b1f93a79112994945  rcar_gen4_pcie.bin
+> + */
+> +#define RCAR_GEN4_PCIE_FIRMWARE_NAME		"rcar_gen4_pcie.bin"
+> +#define RCAR_GEN4_PCIE_FIRMWARE_BASE_ADDR	0xc000
+> +MODULE_FIRMWARE(RCAR_GEN4_PCIE_FIRMWARE_NAME);
+> +
+>  struct rcar_gen4_pcie;
+>  struct rcar_gen4_pcie_drvdata {
+> +	void (*additional_common_init)(struct rcar_gen4_pcie *rcar);
+>  	int (*ltssm_control)(struct rcar_gen4_pcie *rcar, bool enable);
+>  	enum dw_pcie_device_mode mode;
+>  };
+> @@ -57,6 +89,7 @@ struct rcar_gen4_pcie_drvdata {
+>  struct rcar_gen4_pcie {
+>  	struct dw_pcie dw;
+>  	void __iomem *base;
+> +	void __iomem *phy_base;
+>  	struct platform_device *pdev;
+>  	const struct rcar_gen4_pcie_drvdata *drvdata;
+>  };
+> @@ -180,6 +213,9 @@ static int rcar_gen4_pcie_common_init(struct rcar_gen4_pcie *rcar)
+>  	if (ret)
+>  		goto err_unprepare;
+>  
+> +	if (rcar->drvdata->additional_common_init)
+> +		rcar->drvdata->additional_common_init(rcar);
+> +
+>  	return 0;
+>  
+>  err_unprepare:
+> @@ -221,6 +257,10 @@ static void rcar_gen4_pcie_unprepare(struct rcar_gen4_pcie *rcar)
+>  
+>  static int rcar_gen4_pcie_get_resources(struct rcar_gen4_pcie *rcar)
+>  {
+> +	rcar->phy_base = devm_platform_ioremap_resource_byname(rcar->pdev, "phy");
+> +	if (IS_ERR(rcar->phy_base))
+> +		return PTR_ERR(rcar->phy_base);
+> +
 
-Am 17.06.24 um 19:42 schrieb Geert Uytterhoeven:
->     Hi Thomas,
->
-> On Mon, 17 Jun 2024, Thomas Zimmermann wrote:
->> Only export struct fb_info.fix.smem_start if that is required by the
->> user and the memory does not come from vmalloc().
->>
->> Setting struct fb_info.fix.smem_start breaks systems where DMA
->> memory is backed by vmalloc address space. An example error is
->> shown below.
->>
->> [    3.536043] ------------[ cut here ]------------
->> [    3.540716] virt_to_phys used for non-linear address: 
->> 000000007fc4f540 (0xffff800086001000)
->> [    3.552628] WARNING: CPU: 4 PID: 61 at arch/arm64/mm/physaddr.c:12 
->> __virt_to_phys+0x68/0x98
->> [    3.565455] Modules linked in:
->> [    3.568525] CPU: 4 PID: 61 Comm: kworker/u12:5 Not tainted 
->> 6.6.23-06226-g4986cc3e1b75-dirty #250
->> [    3.577310] Hardware name: NXP i.MX95 19X19 board (DT)
->> [    3.582452] Workqueue: events_unbound deferred_probe_work_func
->> [    3.588291] pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS 
->> BTYPE=--)
->> [    3.595233] pc : __virt_to_phys+0x68/0x98
->> [    3.599246] lr : __virt_to_phys+0x68/0x98
->> [    3.603276] sp : ffff800083603990
->> [    3.677939] Call trace:
->> [    3.680393]  __virt_to_phys+0x68/0x98
->> [    3.684067]  drm_fbdev_dma_helper_fb_probe+0x138/0x238
->> [    3.689214] __drm_fb_helper_initial_config_and_unlock+0x2b0/0x4c0
->> [    3.695385]  drm_fb_helper_initial_config+0x4c/0x68
->> [    3.700264]  drm_fbdev_dma_client_hotplug+0x8c/0xe0
->> [    3.705161]  drm_client_register+0x60/0xb0
->> [    3.709269]  drm_fbdev_dma_setup+0x94/0x148
->>
->> Additionally, DMA memory is assumed to by contiguous in physical
->> address space, which is not guaranteed by vmalloc().
->>
->> Resolve this by checking the module flag drm_leak_fbdev_smem when
->> DRM allocated the instance of struct fb_info. Fbdev-dma then only
->> sets smem_start only if required (via FBINFO_HIDE_SMEM_START). Also
->> guarantee that the framebuffer is not located in vmalloc address
->> space.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Reported-by: Peng Fan (OSS) <peng.fan@oss.nxp.com>
->> Closes: 
->> https://lore.kernel.org/dri-devel/20240604080328.4024838-1-peng.fan@oss.nxp.com/
->> Fixes: b79fe9abd58b ("drm/fbdev-dma: Implement fbdev emulation for 
->> GEM DMA helpers")
->
-> Thanks, this fixes the issue I was seeing on R-Car Gen3/Gen4 with 
-> rcar-du.
->
-> No regressions on R-Car Gen2 (rcar-du) and R-Mobile A1 (shmobile)
-> which didn't shown the warning in the first place.
+I failed to spot this in earlier reviews. Since this 'phy' region is only
+applicable for r8a779g0, wouldn't this fail on other platforms?
 
-Right, your bug report overlapped with the other one. I'll add your 
-report to the patch tags.
+- Mani
 
->
-> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Thanks a lot.
-
-Best regards
-Thomas
-
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
+>  	/* Renesas-specific registers */
+>  	rcar->base = devm_platform_ioremap_resource_byname(rcar->pdev, "app");
+>  
+> @@ -528,6 +568,167 @@ static int r8a779f0_pcie_ltssm_control(struct rcar_gen4_pcie *rcar, bool enable)
+>  	return 0;
+>  }
+>  
+> +static void rcar_gen4_pcie_additional_common_init(struct rcar_gen4_pcie *rcar)
+> +{
+> +	struct dw_pcie *dw = &rcar->dw;
+> +	u32 val;
+> +
+> +	val = dw_pcie_readl_dbi(dw, PCIE_PORT_LANE_SKEW);
+> +	val &= ~PORT_LANE_SKEW_INSERT_MASK;
+> +	if (dw->num_lanes < 4)
+> +		val |= BIT(6);
+> +	dw_pcie_writel_dbi(dw, PCIE_PORT_LANE_SKEW, val);
+> +
+> +	val = readl(rcar->base + PCIEPWRMNGCTRL);
+> +	val |= APP_CLK_REQ_N | APP_CLK_PM_EN;
+> +	writel(val, rcar->base + PCIEPWRMNGCTRL);
+> +}
+> +
+> +static void rcar_gen4_pcie_phy_reg_update_bits(struct rcar_gen4_pcie *rcar,
+> +					       u32 offset, u32 mask, u32 val)
+> +{
+> +	u32 tmp;
+> +
+> +	tmp = readl(rcar->phy_base + offset);
+> +	tmp &= ~mask;
+> +	tmp |= val;
+> +	writel(tmp, rcar->phy_base + offset);
+> +}
+> +
+> +/*
+> + * SoC datasheet suggests checking port logic register bits during firmware
+> + * write. If read returns non-zero value, then this function returns -EAGAIN
+> + * indicating that the write needs to be done again. If read returns zero,
+> + * then return 0 to indicate success.
+> + */
+> +static int rcar_gen4_pcie_reg_test_bit(struct rcar_gen4_pcie *rcar,
+> +				       u32 offset, u32 mask)
+> +{
+> +	struct dw_pcie *dw = &rcar->dw;
+> +
+> +	if (dw_pcie_readl_dbi(dw, offset) & mask)
+> +		return -EAGAIN;
+> +
+> +	return 0;
+> +}
+> +
+> +static int rcar_gen4_pcie_download_phy_firmware(struct rcar_gen4_pcie *rcar)
+> +{
+> +	/* The check_addr values are magical numbers in the datasheet */
+> +	const u32 check_addr[] = { 0x00101018, 0x00101118, 0x00101021, 0x00101121};
+> +	struct dw_pcie *dw = &rcar->dw;
+> +	const struct firmware *fw;
+> +	unsigned int i, timeout;
+> +	u32 data;
+> +	int ret;
+> +
+> +	ret = request_firmware(&fw, RCAR_GEN4_PCIE_FIRMWARE_NAME, dw->dev);
+> +	if (ret) {
+> +		dev_err(dw->dev, "Failed to load firmware (%s): %d\n",
+> +			RCAR_GEN4_PCIE_FIRMWARE_NAME, ret);
+> +		return ret;
+> +	}
+> +
+> +	for (i = 0; i < (fw->size / 2); i++) {
+> +		data = fw->data[(i * 2) + 1] << 8 | fw->data[i * 2];
+> +		timeout = 100;
+> +		do {
+> +			dw_pcie_writel_dbi(dw, PRTLGC89, RCAR_GEN4_PCIE_FIRMWARE_BASE_ADDR + i);
+> +			dw_pcie_writel_dbi(dw, PRTLGC90, data);
+> +			if (!rcar_gen4_pcie_reg_test_bit(rcar, PRTLGC89, BIT(30)))
+> +				break;
+> +			if (!(--timeout)) {
+> +				ret = -ETIMEDOUT;
+> +				goto exit;
+> +			}
+> +			usleep_range(100, 200);
+> +		} while (1);
+> +	}
+> +
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x0f8, BIT(17), BIT(17));
+> +
+> +	for (i = 0; i < ARRAY_SIZE(check_addr); i++) {
+> +		timeout = 100;
+> +		do {
+> +			dw_pcie_writel_dbi(dw, PRTLGC89, check_addr[i]);
+> +			ret = rcar_gen4_pcie_reg_test_bit(rcar, PRTLGC89, BIT(30));
+> +			ret |= rcar_gen4_pcie_reg_test_bit(rcar, PRTLGC90, BIT(0));
+> +			if (!ret)
+> +				break;
+> +			if (!(--timeout)) {
+> +				ret = -ETIMEDOUT;
+> +				goto exit;
+> +			}
+> +			usleep_range(100, 200);
+> +		} while (1);
+> +	}
+> +
+> +exit:
+> +	release_firmware(fw);
+> +
+> +	return ret;
+> +}
+> +
+> +static int rcar_gen4_pcie_ltssm_control(struct rcar_gen4_pcie *rcar, bool enable)
+> +{
+> +	struct dw_pcie *dw = &rcar->dw;
+> +	u32 val;
+> +	int ret;
+> +
+> +	if (!enable) {
+> +		val = readl(rcar->base + PCIERSTCTRL1);
+> +		val &= ~APP_LTSSM_ENABLE;
+> +		writel(val, rcar->base + PCIERSTCTRL1);
+> +
+> +		return 0;
+> +	}
+> +
+> +	val = dw_pcie_readl_dbi(dw, PCIE_PORT_FORCE);
+> +	val |= PORT_FORCE_DO_DESKEW_FOR_SRIS;
+> +	dw_pcie_writel_dbi(dw, PCIE_PORT_FORCE, val);
+> +
+> +	val = readl(rcar->base + PCIEMSR0);
+> +	val |= APP_SRIS_MODE;
+> +	writel(val, rcar->base + PCIEMSR0);
+> +
+> +	/*
+> +	 * The R-Car Gen4 datasheet doesn't describe the PHY registers' name.
+> +	 * But, the initialization procedure describes these offsets. So,
+> +	 * this driver has magical offset numbers.
+> +	 */
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x700, BIT(28), 0);
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x700, BIT(20), 0);
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x700, BIT(12), 0);
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x700, BIT(4), 0);
+> +
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x148, GENMASK(23, 22), BIT(22));
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x148, GENMASK(18, 16), GENMASK(17, 16));
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x148, GENMASK(7, 6), BIT(6));
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x148, GENMASK(2, 0), GENMASK(11, 0));
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x1d4, GENMASK(16, 15), GENMASK(16, 15));
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x514, BIT(26), BIT(26));
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x0f8, BIT(16), 0);
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x0f8, BIT(19), BIT(19));
+> +
+> +	val = readl(rcar->base + PCIERSTCTRL1);
+> +	val &= ~APP_HOLD_PHY_RST;
+> +	writel(val, rcar->base + PCIERSTCTRL1);
+> +
+> +	ret = readl_poll_timeout(rcar->phy_base + 0x0f8, val, !(val & BIT(18)), 100, 10000);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = rcar_gen4_pcie_download_phy_firmware(rcar);
+> +	if (ret)
+> +		return ret;
+> +
+> +	val = readl(rcar->base + PCIERSTCTRL1);
+> +	val |= APP_LTSSM_ENABLE;
+> +	writel(val, rcar->base + PCIERSTCTRL1);
+> +
+> +	return 0;
+> +}
+> +
+>  static struct rcar_gen4_pcie_drvdata drvdata_r8a779f0_pcie = {
+>  	.ltssm_control = r8a779f0_pcie_ltssm_control,
+>  	.mode = DW_PCIE_RC_TYPE,
+> @@ -539,10 +740,14 @@ static struct rcar_gen4_pcie_drvdata drvdata_r8a779f0_pcie_ep = {
+>  };
+>  
+>  static struct rcar_gen4_pcie_drvdata drvdata_rcar_gen4_pcie = {
+> +	.additional_common_init = rcar_gen4_pcie_additional_common_init,
+> +	.ltssm_control = rcar_gen4_pcie_ltssm_control,
+>  	.mode = DW_PCIE_RC_TYPE,
+>  };
+>  
+>  static struct rcar_gen4_pcie_drvdata drvdata_rcar_gen4_pcie_ep = {
+> +	.additional_common_init = rcar_gen4_pcie_additional_common_init,
+> +	.ltssm_control = rcar_gen4_pcie_ltssm_control,
+>  	.mode = DW_PCIE_EP_TYPE,
+>  };
+>  
 > -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- 
-> geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a 
-> hacker. But
-> when I'm talking to journalists I just say "programmer" or something 
-> like that.
->                                 -- Linus Torvalds
+> 2.25.1
+> 
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+மணிவண்ணன் சதாசிவம்
 
