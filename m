@@ -1,174 +1,108 @@
-Return-Path: <linux-renesas-soc+bounces-6418-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6417-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2636090D7C3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 17:50:29 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E284990D8FD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 18:21:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8F96B1F23DF9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 15:50:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6CB38B32E0F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 15:28:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 620B24AED7;
-	Tue, 18 Jun 2024 15:49:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="q5ta4Ett"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FCCA22EF4;
+	Tue, 18 Jun 2024 15:26:54 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91BC2D299;
-	Tue, 18 Jun 2024 15:49:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CBCD1E895;
+	Tue, 18 Jun 2024 15:26:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718725751; cv=none; b=kQ0GOj35GObVkEzLnkYOWnchYFOduEGgxhdd9sXf6Dc7jmQl4qCoscD61IeQ/Yygwxu9Dm2AEjmnDEeEoT9/Uim1UOFG67X72rC2vnnTx076BHqd02F4hHSMj5QTPFwVny9CiywbGRmWkdsfBoiXaWIJGRaLEdtV8Nh7Xvmfg40=
+	t=1718724414; cv=none; b=ouHAmFwnqimqQA/URbO9wWnrnBX6H8tW39uSSyFz0MucUxPpE/V1T+SrJ1hmKhme8X+mUHExst7mW6Q6/iPFltm/wEFwqzTuCxn3zMkv41h+EsdFtp0yJuv/Hwgz4SdaBxw8UOt3tkRj8YuZxzPMq9+bkMuc8xDgCsGmC3LnhGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718725751; c=relaxed/simple;
-	bh=2+WOwOV2LxgF6B18s5ooyqMqkfj8zWWAHrW9+17lv8I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sYJk51wpXsswLDiW7kETPD1/ZP6j/wxFazfKGAmk3ZL7ElVMX9ge8IUUCqA99TvTSyZVMw6Us8qeMuE1yD5l0uFuQpOSrTWW7bcAyuz8gopMNdQwQ2GAibLEl3xoqJs50VeRgjArp4Gn1Dp+p4gHIw8q36AacjIB2NQCRWX5qCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=q5ta4Ett; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1ABD2908;
-	Tue, 18 Jun 2024 17:48:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718725728;
-	bh=2+WOwOV2LxgF6B18s5ooyqMqkfj8zWWAHrW9+17lv8I=;
-	h=From:To:Cc:Subject:Date:From;
-	b=q5ta4EttH/fyngvVTqHdtVNaFEoeb4ic7m8cGThnYeGcF4r3y5fAMIQvf9ahGgSNe
-	 ycWYWJSaX2SHxNxwBXsTFeuCBcbVVOo76R4VgbLRnfsGfW2xGUtI9TTuMLLAsjeP5R
-	 XOEuevhjyHlgIxzcEiM0nsHMKsV5Z7H3MhWwck3Y=
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To: linux-media@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org,
-	Dan Carpenter <dan.carpenter@linaro.org>
-Subject: [PATCH v2] media: renesas: vsp1: Fix _irqsave and _irq mix
-Date: Tue, 18 Jun 2024 18:48:43 +0300
-Message-ID: <20240618154843.15775-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.44.2
+	s=arc-20240116; t=1718724414; c=relaxed/simple;
+	bh=QFAInPUce4gQwzxkZrTMM7V/0YYUWyI2QbB1zcT0lNc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CLFYuE3j1+EGg2i9Dw7+92bI0ahdI+ltI2HKNY5v67eW+xm3gMt8eV2ukqfZX/SdJqzuhNZXCkGqzRcrlxJxVuHWIG67ZOjKHYnYz/Yq8/EpH7Bwwgq12116+7EenwP7rsQhW4lviT/5b4zVX3V7ljaaxSegRz7LYcA5JjSk6zM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.08,247,1712588400"; 
+   d="scan'208";a="212384989"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 19 Jun 2024 00:26:46 +0900
+Received: from localhost.localdomain (unknown [10.226.93.44])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id CA6414006A90;
+	Wed, 19 Jun 2024 00:26:43 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-rtc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 2/2] rtc: isl1208: Update correct procedure for clearing alarm
+Date: Tue, 18 Jun 2024 16:26:31 +0100
+Message-ID: <20240618152635.48956-3-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240618152635.48956-1-biju.das.jz@bp.renesas.com>
+References: <20240618152635.48956-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The histogram support mixes _irqsave and _irq, causing the following
-smatch warning:
+As per the latest HW manual[1], there is an internal delay(~250 microsec)
+from setting ALME = 0 to disabling the alarm function, so the user must
+add a short delay of greater than 250µs between setting ALME = 0 and
+clearing ALM.
 
-     drivers/media/platform/renesas/vsp1/vsp1_histo.c:153 histo_stop_streaming()
-     warn: mixing irqsave and irq
+Currently setting of ALME = 0 is done after clearing the ALM, so just
+reverse the operation and add a delay of 275 microsec.
 
-The histo_stop_streaming() calls spin_lock_irqsave() followed by
-wait_event_lock_irq(). The former hints that interrupts may be disabled
-by the caller, while the latter reenables interrupts unconditionally.
-This doesn't cause any real bug, as the function is always called with
-interrupts enabled, but the pattern is still incorrect.
+[1]https://www.renesas.com/us/en/document/dst/raa215300-datasheet?r=1506351
 
-Fix the problem by using spin_lock_irq() instead of spin_lock_irqsave()
-in histo_stop_streaming(). While at it, switch to spin_lock_irq() and
-spin_lock() as appropriate elsewhere.
-
-Fixes: 99362e32332b ("[media] v4l: vsp1: Add histogram support")
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/linux-renesas-soc/164d74ff-312c-468f-be64-afa7182cd2f4@moroto.mountain/
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
-Changes since v1:
+ drivers/rtc/rtc-isl1208.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-- Fix typo in commit message
----
- .../media/platform/renesas/vsp1/vsp1_histo.c  | 20 ++++++++-----------
- 1 file changed, 8 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_histo.c b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
-index 71155282ca11..cd1c8778662e 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_histo.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
-@@ -36,9 +36,8 @@ struct vsp1_histogram_buffer *
- vsp1_histogram_buffer_get(struct vsp1_histogram *histo)
- {
- 	struct vsp1_histogram_buffer *buf = NULL;
--	unsigned long flags;
+diff --git a/drivers/rtc/rtc-isl1208.c b/drivers/rtc/rtc-isl1208.c
+index c58063d917d6..3df5605134fa 100644
+--- a/drivers/rtc/rtc-isl1208.c
++++ b/drivers/rtc/rtc-isl1208.c
+@@ -663,6 +663,13 @@ isl1208_rtc_interrupt(int irq, void *data)
  
--	spin_lock_irqsave(&histo->irqlock, flags);
-+	spin_lock(&histo->irqlock);
+ 		rtc_update_irq(isl1208->rtc, 1, RTC_IRQF | RTC_AF);
  
- 	if (list_empty(&histo->irqqueue))
- 		goto done;
-@@ -49,7 +48,7 @@ vsp1_histogram_buffer_get(struct vsp1_histogram *histo)
- 	histo->readout = true;
++		/* Disable the alarm */
++		err = isl1208_rtc_toggle_alarm(client, 0);
++		if (err)
++			return err;
++
++		fsleep(275);
++
+ 		/* Clear the alarm */
+ 		sr &= ~ISL1208_REG_SR_ALM;
+ 		sr = i2c_smbus_write_byte_data(client, ISL1208_REG_SR, sr);
+@@ -671,11 +678,6 @@ isl1208_rtc_interrupt(int irq, void *data)
+ 				__func__);
+ 		else
+ 			handled = 1;
+-
+-		/* Disable the alarm */
+-		err = isl1208_rtc_toggle_alarm(client, 0);
+-		if (err)
+-			return err;
+ 	}
  
- done:
--	spin_unlock_irqrestore(&histo->irqlock, flags);
-+	spin_unlock(&histo->irqlock);
- 	return buf;
- }
- 
-@@ -58,7 +57,6 @@ void vsp1_histogram_buffer_complete(struct vsp1_histogram *histo,
- 				    size_t size)
- {
- 	struct vsp1_pipeline *pipe = histo->entity.pipe;
--	unsigned long flags;
- 
- 	/*
- 	 * The pipeline pointer is guaranteed to be valid as this function is
-@@ -70,10 +68,10 @@ void vsp1_histogram_buffer_complete(struct vsp1_histogram *histo,
- 	vb2_set_plane_payload(&buf->buf.vb2_buf, 0, size);
- 	vb2_buffer_done(&buf->buf.vb2_buf, VB2_BUF_STATE_DONE);
- 
--	spin_lock_irqsave(&histo->irqlock, flags);
-+	spin_lock(&histo->irqlock);
- 	histo->readout = false;
- 	wake_up(&histo->wait_queue);
--	spin_unlock_irqrestore(&histo->irqlock, flags);
-+	spin_unlock(&histo->irqlock);
- }
- 
- /* -----------------------------------------------------------------------------
-@@ -124,11 +122,10 @@ static void histo_buffer_queue(struct vb2_buffer *vb)
- 	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
- 	struct vsp1_histogram *histo = vb2_get_drv_priv(vb->vb2_queue);
- 	struct vsp1_histogram_buffer *buf = to_vsp1_histogram_buffer(vbuf);
--	unsigned long flags;
- 
--	spin_lock_irqsave(&histo->irqlock, flags);
-+	spin_lock_irq(&histo->irqlock);
- 	list_add_tail(&buf->queue, &histo->irqqueue);
--	spin_unlock_irqrestore(&histo->irqlock, flags);
-+	spin_unlock_irq(&histo->irqlock);
- }
- 
- static int histo_start_streaming(struct vb2_queue *vq, unsigned int count)
-@@ -140,9 +137,8 @@ static void histo_stop_streaming(struct vb2_queue *vq)
- {
- 	struct vsp1_histogram *histo = vb2_get_drv_priv(vq);
- 	struct vsp1_histogram_buffer *buffer;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&histo->irqlock, flags);
-+	spin_lock_irq(&histo->irqlock);
- 
- 	/* Remove all buffers from the IRQ queue. */
- 	list_for_each_entry(buffer, &histo->irqqueue, queue)
-@@ -152,7 +148,7 @@ static void histo_stop_streaming(struct vb2_queue *vq)
- 	/* Wait for the buffer being read out (if any) to complete. */
- 	wait_event_lock_irq(histo->wait_queue, !histo->readout, histo->irqlock);
- 
--	spin_unlock_irqrestore(&histo->irqlock, flags);
-+	spin_unlock_irq(&histo->irqlock);
- }
- 
- static const struct vb2_ops histo_video_queue_qops = {
-
-base-commit: 91798162245991e26949ef62851719bb2177a9c2
+ 	if (isl1208->config->has_tamper && (sr & ISL1208_REG_SR_EVT)) {
 -- 
-Regards,
-
-Laurent Pinchart
+2.43.0
 
 
