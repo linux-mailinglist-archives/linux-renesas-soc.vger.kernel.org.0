@@ -1,57 +1,57 @@
-Return-Path: <linux-renesas-soc+bounces-6394-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6395-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACDC490C96F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 13:30:01 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C85D90C974
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 13:30:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 658211F2138F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 11:30:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A6E3F285EA3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 11:30:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E564D3E478;
-	Tue, 18 Jun 2024 10:29:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9375143C74;
+	Tue, 18 Jun 2024 10:32:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SFRDuNsM"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JuF1UB7l"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29000131E41;
-	Tue, 18 Jun 2024 10:29:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D361304A3;
+	Tue, 18 Jun 2024 10:32:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718706556; cv=none; b=CJ1bUiMsQPUJ1XcKmnyz7cG2FMds/afuq2G3AXozxvNPRvkaUOLGDUW8Et3S73VV5I3ZZFQ9FY9Kd6hcoGkKxb3G/+cuxlpiUIS35fjN4xx4Xr/Ji4IudBM5kWei9FxOC7AXgZ8g7Rs01Il6eq/dd+GpBifl4poGwosDizBJnS0=
+	t=1718706775; cv=none; b=D+evALVAzNj3EAHVc7L5ilIi/MvwLKYJwAFAFKtHtq7xih/pirp0GP84S2+G97kPiug1kwCOs9qnqUv/Wzjj6Q4GbxQ9Mo38L69cRwhtkcHZBE4FmEwAzvWnMrkJGD/40c3UmCP99qMZjh7mf7BEjRw9QimtgLymEKA3EddHmXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718706556; c=relaxed/simple;
-	bh=i/vbYMzV09lvmllMwQDrzk4i1bXW2AowZWY1Lqym2OM=;
+	s=arc-20240116; t=1718706775; c=relaxed/simple;
+	bh=EBqSQLPyaPek1BoqwKC7mqnmH034pNcPdTdq9SO/p+g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PVz3qMwYumqHWruWq0btPaQ3NP9lXBl9sTf9aLw5Pu/6YEgaxLSZF8qXSQ46zNPlBXGAFuUIAVoRyjjqpBaqgWR8B4tiRvK5b2EuuDGNTflTlGfsObz5g50Fg0gVi+woX34EJqjMtgvek5cVLP0ugYhltKno4Ekk84cdiCcLSss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SFRDuNsM; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=CzqHw/9PrUEXzvc6QpKfcZVxbznCJjtdqhAZt3p2V5NJd1CMJfQRPPZmz0U/wofMCqlCxSTv8rxDpgecc/cqSRsXiTj7CSs7vmBM4AB86M+g/aaT7iVd47ZHKCAHQB01hp8H8jj0YGZq1foiq7AqBfAAo2oKhCXJkARjh3dQ21E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JuF1UB7l; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 522EE564;
-	Tue, 18 Jun 2024 12:28:54 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 65146564;
+	Tue, 18 Jun 2024 12:32:33 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718706534;
-	bh=i/vbYMzV09lvmllMwQDrzk4i1bXW2AowZWY1Lqym2OM=;
+	s=mail; t=1718706753;
+	bh=EBqSQLPyaPek1BoqwKC7mqnmH034pNcPdTdq9SO/p+g=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SFRDuNsMKzyWkLatI+AyeRgwbjpSBtMu80Mv/d41NIQQqhE6UmCcqtTppR9SVGiJ9
-	 4JVhbp08USNl7vIreNpt1sBvVO01hoLrhjmxeyPTcP9YVCej8qxEcar2PIDXEbyJKh
-	 dKBSdtERQlxAbqMgRSApS4i+8RZ4Oq9y9haGj/qE=
-Date: Tue, 18 Jun 2024 12:29:08 +0200
+	b=JuF1UB7l09KOEP4VhLa/JGHIaNre82HBTlv6cnst8DzX/8zkcG19TpzqHouRDV27F
+	 r1qaVJfUUR0zo+W+Us/RWaFRaH47bBtipFy3lz2Wgkl7K6NfW8cVJV/0xGGazuQUwV
+	 Se92PTvSJnmE38Xm20eHkjDbIVEyKaanqg88H6SM=
+Date: Tue, 18 Jun 2024 12:32:47 +0200
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
 	Sakari Ailus <sakari.ailus@iki.fi>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [RFC PATCH v1 07/19] media: renesas: vsp1: Simplify partition
- calculation
-Message-ID: <wu4rr6we2sx6rnkn4tnmztagqj2cgz4qbqmsfvtzpm5dqywzrb@k7c26twnb3bi>
+Subject: Re: [RFC PATCH v1 08/19] media: renesas: vsp1: Store RPF partition
+ configuration per RPF instance
+Message-ID: <fzdn7eq4xhofryqqquo3eqpixplegswvkfomhp227fyskhvh7b@la56opfmfr4h>
 References: <20231122043009.2741-1-laurent.pinchart+renesas@ideasonboard.com>
- <20231122043009.2741-8-laurent.pinchart+renesas@ideasonboard.com>
+ <20231122043009.2741-9-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -60,48 +60,68 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231122043009.2741-8-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20231122043009.2741-9-laurent.pinchart+renesas@ideasonboard.com>
 
 Hi Laurent
 
-On Wed, Nov 22, 2023 at 06:29:57AM GMT, Laurent Pinchart wrote:
-> When calculation a partition in vsp1_pipeline_calculate_partition(),
-> there is no need to handle the case where the whole image is covered by
-> a single partition locally. In that case, the index and div_size
-> parameters are 0 and format->width respectively, which makes the general
-> code behave exactly as the special case. Drop the special case.
+On Wed, Nov 22, 2023 at 06:29:58AM GMT, Laurent Pinchart wrote:
+> The vsp1_partition structure stores the RPF partition configuration in a
+> single field for all RPF instances, while each RPF can have its own
+> configuration. Fix it by storing the configuration separately for each
+> RPF instance.
 >
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  drivers/media/platform/renesas/vsp1/vsp1_pipe.c | 10 ----------
->  1 file changed, 10 deletions(-)
->
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> index b90240b24b3a..ca6817f45dd2 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> @@ -495,16 +495,6 @@ void vsp1_pipeline_calculate_partition(struct vsp1_pipeline *pipe,
->  	format = v4l2_subdev_state_get_format(pipe->output->entity.state,
->  					      RWPF_PAD_SINK);
->
-> -	/* A single partition simply processes the output size in full. */
-> -	if (pipe->partitions <= 1) {
-> -		window.left = 0;
-> -		window.width = format->width;
-> -
-> -		vsp1_pipeline_propagate_partition(pipe, partition, index,
-> -						  &window);
-> -		return;
-> -	}
-> -
->  	/* Initialise the partition with sane starting conditions. */
->  	window.left = index * div_size;
->  	window.width = div_size;
 
-Assuming index == 0 and div_size == format->width in case of a single
-partition:
+Is this worth a Fixes: tag ?
 Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
+Thanks
+  j
+
+> ---
+>  drivers/media/platform/renesas/vsp1/vsp1_pipe.h | 2 +-
+>  drivers/media/platform/renesas/vsp1/vsp1_rpf.c  | 8 +++++---
+>  2 files changed, 6 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+> index 02e98d843730..840fd3288efb 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+> @@ -73,7 +73,7 @@ struct vsp1_partition_window {
+>   * @wpf: The WPF partition window configuration
+>   */
+>  struct vsp1_partition {
+> -	struct vsp1_partition_window rpf;
+> +	struct vsp1_partition_window rpf[VSP1_MAX_RPF];
+>  	struct vsp1_partition_window uds_sink;
+>  	struct vsp1_partition_window uds_source;
+>  	struct vsp1_partition_window sru;
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+> index 3e62638fdce6..42b0c5655404 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+> @@ -311,8 +311,8 @@ static void rpf_configure_partition(struct vsp1_entity *entity,
+>  	 * 'width' need to be adjusted.
+>  	 */
+>  	if (pipe->partitions > 1) {
+> -		crop.width = pipe->partition->rpf.width;
+> -		crop.left += pipe->partition->rpf.left;
+> +		crop.width = pipe->partition->rpf[rpf->entity.index].width;
+> +		crop.left += pipe->partition->rpf[rpf->entity.index].left;
+>  	}
+>
+>  	if (pipe->interlaced) {
+> @@ -367,7 +367,9 @@ static void rpf_partition(struct vsp1_entity *entity,
+>  			  unsigned int partition_idx,
+>  			  struct vsp1_partition_window *window)
+>  {
+> -	partition->rpf = *window;
+> +	struct vsp1_rwpf *rpf = to_rwpf(&entity->subdev);
+> +
+> +	partition->rpf[rpf->entity.index] = *window;
+>  }
+>
+>  static const struct vsp1_entity_operations rpf_entity_ops = {
 > --
 > Regards,
 >
