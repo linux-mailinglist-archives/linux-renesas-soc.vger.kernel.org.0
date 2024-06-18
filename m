@@ -1,108 +1,156 @@
-Return-Path: <linux-renesas-soc+bounces-6417-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6419-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E284990D8FD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 18:21:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6130190D93E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 18:30:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6CB38B32E0F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 15:28:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5913EB22F1C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 15:57:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FCCA22EF4;
-	Tue, 18 Jun 2024 15:26:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE9683D0D5;
+	Tue, 18 Jun 2024 15:57:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Kbk1AsDh"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CBCD1E895;
-	Tue, 18 Jun 2024 15:26:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99AB3B79C;
+	Tue, 18 Jun 2024 15:57:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718724414; cv=none; b=ouHAmFwnqimqQA/URbO9wWnrnBX6H8tW39uSSyFz0MucUxPpE/V1T+SrJ1hmKhme8X+mUHExst7mW6Q6/iPFltm/wEFwqzTuCxn3zMkv41h+EsdFtp0yJuv/Hwgz4SdaBxw8UOt3tkRj8YuZxzPMq9+bkMuc8xDgCsGmC3LnhGk=
+	t=1718726271; cv=none; b=XaVh+ZatJp4sCvdd6afKg+4tIkE3jWQNiEde64YATdMEVkogCqATf51Ku3Xqzi5i2/lVDSHOm8Ya9c2wwco3bg3ljoVPx+0PoYQXSbKOFplgdH31HLyygjj/bk2BRHr9uzfB2qXKvkvaflU6/ljgzkpTVfFDCkAV5K4NsAdqnTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718724414; c=relaxed/simple;
-	bh=QFAInPUce4gQwzxkZrTMM7V/0YYUWyI2QbB1zcT0lNc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CLFYuE3j1+EGg2i9Dw7+92bI0ahdI+ltI2HKNY5v67eW+xm3gMt8eV2ukqfZX/SdJqzuhNZXCkGqzRcrlxJxVuHWIG67ZOjKHYnYz/Yq8/EpH7Bwwgq12116+7EenwP7rsQhW4lviT/5b4zVX3V7ljaaxSegRz7LYcA5JjSk6zM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.08,247,1712588400"; 
-   d="scan'208";a="212384989"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 19 Jun 2024 00:26:46 +0900
-Received: from localhost.localdomain (unknown [10.226.93.44])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id CA6414006A90;
-	Wed, 19 Jun 2024 00:26:43 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-rtc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 2/2] rtc: isl1208: Update correct procedure for clearing alarm
-Date: Tue, 18 Jun 2024 16:26:31 +0100
-Message-ID: <20240618152635.48956-3-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240618152635.48956-1-biju.das.jz@bp.renesas.com>
-References: <20240618152635.48956-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1718726271; c=relaxed/simple;
+	bh=c6TT+JCTXSFMRD6Gi7HHvuTxQFYRtZL+BvBjCJn7KqA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q71r/5IpUCUzA20DwfwtF5dPPGE/3Jr225nuug2QSNFF1QR41lylsyVQFqmApWkbwWVPwrMyQx+RaJ89u1aP/81aUtROpOupErBlCtOWtRb7ev/y6K8+fHmNQU0r3qor6PPxr4kUd17k82sArzDQ2x1/odZLgjSzO8kp6n39DQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Kbk1AsDh; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F3F63908;
+	Tue, 18 Jun 2024 17:57:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1718726250;
+	bh=c6TT+JCTXSFMRD6Gi7HHvuTxQFYRtZL+BvBjCJn7KqA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Kbk1AsDh2NLGNhebDr0JIUcb06mL7sjUtq25fbcOcAUBhCRMVO5cUrJwcczrlhlc3
+	 NY8Mv2a+9tLdVl36YWeYV9oW+ka7grJgbtSOjrOfNK2B9oTNrsjnoKwSap4lWYgWQ0
+	 zuFkf4tjvI7ropMW5ZN20mZ8pk1oMJUkap7tBuuc=
+Date: Tue, 18 Jun 2024 18:57:25 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [RFC PATCH v1 05/19] media: renesas: vsp1: Drop custom
+ .get_fmt() handler for histogram
+Message-ID: <20240618155725.GC32669@pendragon.ideasonboard.com>
+References: <20231122043009.2741-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20231122043009.2741-6-laurent.pinchart+renesas@ideasonboard.com>
+ <fuzqtinkh2q7ifkrrrop5gsivxsqsbcnb6vyojw746yphcg4uo@zumsbndqckij>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <fuzqtinkh2q7ifkrrrop5gsivxsqsbcnb6vyojw746yphcg4uo@zumsbndqckij>
 
-As per the latest HW manual[1], there is an internal delay(~250 microsec)
-from setting ALME = 0 to disabling the alarm function, so the user must
-add a short delay of greater than 250µs between setting ALME = 0 and
-clearing ALM.
+On Tue, Jun 18, 2024 at 12:05:32PM +0200, Jacopo Mondi wrote:
+> On Wed, Nov 22, 2023 at 06:29:55AM GMT, Laurent Pinchart wrote:
+> > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >
+> > The histogram module is the only one that has a custom .get_fmt()
+> > handler, to handle the special case of the output format being fixed.
+> > This can equally well be handled in the .set_fmt() handler instead.
+> > Beside avoiding special cases and using the same .get_fmt() handler in
+> > all modules, it ensures that the correct format is stored in the active
+> > state for the source pad, including when .set_fmt() is called from
+> > vsp1_entity_init_state(). Both are needed to later switch to the V4L2
+> > subdev active state API.
+> >
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >  .../media/platform/renesas/vsp1/vsp1_histo.c  | 29 +++++++------------
+> >  1 file changed, 10 insertions(+), 19 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_histo.c b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+> > index 576270cb3e63..a4076d82651e 100644
+> > --- a/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+> > +++ b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+> > @@ -356,30 +356,21 @@ static int histo_set_selection(struct v4l2_subdev *subdev,
+> >  	return ret;
+> >  }
+> >
+> > -static int histo_get_format(struct v4l2_subdev *subdev,
+> > -			    struct v4l2_subdev_state *sd_state,
+> > -			    struct v4l2_subdev_format *fmt)
+> > -{
+> > -	if (fmt->pad == HISTO_PAD_SOURCE) {
+> > -		fmt->format.code = MEDIA_BUS_FMT_FIXED;
+> > -		fmt->format.width = 0;
+> > -		fmt->format.height = 0;
+> 
+> Suprising!
 
-Currently setting of ALME = 0 is done after clearing the ALM, so just
-reverse the operation and add a delay of 275 microsec.
+For metadata formats that are not line-based, the width and height are
+not applicable.
 
-[1]https://www.renesas.com/us/en/document/dst/raa215300-datasheet?r=1506351
+> Anyway:
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> 
+> Thanks
+>   j
+> 
+> > -		fmt->format.field = V4L2_FIELD_NONE;
+> > -		fmt->format.colorspace = V4L2_COLORSPACE_RAW;
+> > -		return 0;
+> > -	}
+> > -
+> > -	return vsp1_subdev_get_pad_format(subdev, sd_state, fmt);
+> > -}
+> > -
+> >  static int histo_set_format(struct v4l2_subdev *subdev,
+> >  			    struct v4l2_subdev_state *sd_state,
+> >  			    struct v4l2_subdev_format *fmt)
+> >  {
+> >  	struct vsp1_histogram *histo = subdev_to_histo(subdev);
+> >
+> > -	if (fmt->pad != HISTO_PAD_SINK)
+> > -		return histo_get_format(subdev, sd_state, fmt);
+> > +	if (fmt->pad == HISTO_PAD_SOURCE) {
+> > +		fmt->format.code = MEDIA_BUS_FMT_FIXED;
+> > +		fmt->format.width = 0;
+> > +		fmt->format.height = 0;
+> > +		fmt->format.field = V4L2_FIELD_NONE;
+> > +		fmt->format.colorspace = V4L2_COLORSPACE_RAW;
+> > +
+> > +		return 0;
+> > +	}
+> >
+> >  	return vsp1_subdev_set_pad_format(subdev, sd_state, fmt,
+> >  					  histo->formats, histo->num_formats,
+> > @@ -390,7 +381,7 @@ static int histo_set_format(struct v4l2_subdev *subdev,
+> >  static const struct v4l2_subdev_pad_ops histo_pad_ops = {
+> >  	.enum_mbus_code = histo_enum_mbus_code,
+> >  	.enum_frame_size = histo_enum_frame_size,
+> > -	.get_fmt = histo_get_format,
+> > +	.get_fmt = vsp1_subdev_get_pad_format,
+> >  	.set_fmt = histo_set_format,
+> >  	.get_selection = histo_get_selection,
+> >  	.set_selection = histo_set_selection,
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/rtc/rtc-isl1208.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/rtc/rtc-isl1208.c b/drivers/rtc/rtc-isl1208.c
-index c58063d917d6..3df5605134fa 100644
---- a/drivers/rtc/rtc-isl1208.c
-+++ b/drivers/rtc/rtc-isl1208.c
-@@ -663,6 +663,13 @@ isl1208_rtc_interrupt(int irq, void *data)
- 
- 		rtc_update_irq(isl1208->rtc, 1, RTC_IRQF | RTC_AF);
- 
-+		/* Disable the alarm */
-+		err = isl1208_rtc_toggle_alarm(client, 0);
-+		if (err)
-+			return err;
-+
-+		fsleep(275);
-+
- 		/* Clear the alarm */
- 		sr &= ~ISL1208_REG_SR_ALM;
- 		sr = i2c_smbus_write_byte_data(client, ISL1208_REG_SR, sr);
-@@ -671,11 +678,6 @@ isl1208_rtc_interrupt(int irq, void *data)
- 				__func__);
- 		else
- 			handled = 1;
--
--		/* Disable the alarm */
--		err = isl1208_rtc_toggle_alarm(client, 0);
--		if (err)
--			return err;
- 	}
- 
- 	if (isl1208->config->has_tamper && (sr & ISL1208_REG_SR_EVT)) {
 -- 
-2.43.0
+Regards,
 
+Laurent Pinchart
 
