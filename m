@@ -1,60 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-6427-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6428-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 918E790D943
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 18:30:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51B2F90D972
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 18:39:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 42B4828547E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 16:30:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 33F681C21DBD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 16:39:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84D9C135A40;
-	Tue, 18 Jun 2024 16:30:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BCEC6F30C;
+	Tue, 18 Jun 2024 16:38:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UTaegMOu"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hLq1x0bI"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC2A017547;
-	Tue, 18 Jun 2024 16:30:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 996E32139DD;
+	Tue, 18 Jun 2024 16:38:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718728229; cv=none; b=GmFdI2eNflpW8VSzJQ9BTJ1Fmwrzo9Zm7TuKpfymU/A5SbneXS543WTsTsd3vtQhhAeY7HYueFLOL4YXPO9DA25RyWb4t2HlEB6KxQzXkrsZ7QSR/MTYfeCNspnsXPV/XxlWG5XO6epZXfbqxypqeZFxY7WeWQIU89PbqePi7/A=
+	t=1718728737; cv=none; b=px6c4/HOj3mopitPyU7Vb8KwGgqPSb+Drop0e5geTSj8v4QvEFJ58Nbs1Z8lKYHsR5R+1nEDmqE40dizEJmJgYhMfoqtQ1i1TPDQwnuEe61EaN50Xf7U8RRFTo4CdP2+5UZ07Oq7pAdXMBXRWL3Cc9+Bx3X2EdQuhwzYKGbaRlk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718728229; c=relaxed/simple;
-	bh=XPJ+8+zYmSyUfvQ/044HDcpEoBuv6jVKSN5NMjx9EwY=;
+	s=arc-20240116; t=1718728737; c=relaxed/simple;
+	bh=WrJeCSbf0n+Kz1zLLF3QzgyxowJrsCXdf4QOs2terjY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AkZkCgNeanmQlV4x7cvVYpoRjxCHzddjFHD8NyruzAQ3RECtW9ZtAqEnuDGt7nvLwwlQM3yYOCCGj9PFIR1V0nD46fF6IkFvWgAmiwPMIHC17S/ztLtyVgjT7aqmLkK7rblhvB0lCu++nSuMOMblG/FO7KXTMHtsd2Q2fNxQgsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UTaegMOu; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=sK2mSNRk+RZYR2vwJJmt8E8X3eys0por7OHO3L0tqCA04Nc2JCSTbWDYDadUCRX36Cz42JUL6w1G20UUns+DtRuSmdMFE4jQd/6BOABang5jhNd82GuZjw+4hA7ON2/aRvHtQBAeDaB7MPNJT45+PK8JBz/mf764OPFVIq71amA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hLq1x0bI; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D8F67564;
-	Tue, 18 Jun 2024 18:30:08 +0200 (CEST)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 53474564;
+	Tue, 18 Jun 2024 18:38:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718728209;
-	bh=XPJ+8+zYmSyUfvQ/044HDcpEoBuv6jVKSN5NMjx9EwY=;
+	s=mail; t=1718728716;
+	bh=WrJeCSbf0n+Kz1zLLF3QzgyxowJrsCXdf4QOs2terjY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UTaegMOucteTi9RemO/1lXV53F6T1L2gjKLAi0axrAXY8AkDS6nzno9W5dF0OsIbI
-	 yeT02ni5I4DJcw2GXNchaJ2ywjawgqfHWueATKxl2K9ZjbqO54+Cgnn1rgepYdToVd
-	 nrzXLlS8EupWBLHBA+hQUro0bFjWr71PpyDObYEk=
-Date: Tue, 18 Jun 2024 18:30:24 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Sakari Ailus <sakari.ailus@iki.fi>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [RFC PATCH v1 11/19] media: renesas: vsp1: Add and use function
- to dump a pipeline to the log
-Message-ID: <oeruhwumsjngorepcpmtkkh6gcep55v7we244vxynr6y43xrdy@hfe2chs4x5ae>
+	b=hLq1x0bIuEp38+jX2g/RYk4cXZ+7NVejDeAoy7yKA6rGz/13ntgFPrj8hQAr4xiTn
+	 3GpeGe2fPs6GKan7TXuTcLJ0rUR+v9m7BMaq/FcadpXuJ5DiP/G0OuFKsgSGvUsRAj
+	 X8K7KVupzqUCpxd/oPQzBzVcncghWsnOm+qDVlIs=
+Date: Tue, 18 Jun 2024 19:38:31 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [RFC PATCH v1 14/19] media: renesas: vsp1: Get configuration
+ from partition instead of state
+Message-ID: <20240618163831.GH32669@pendragon.ideasonboard.com>
 References: <20231122043009.2741-1-laurent.pinchart+renesas@ideasonboard.com>
- <20231122043009.2741-12-laurent.pinchart+renesas@ideasonboard.com>
- <zhtlotecrnczxjpchurr3rkmewnbvlalvyivec5yzrbf3js5r4@sirkpss6cbpt>
- <20240618162502.GG32669@pendragon.ideasonboard.com>
+ <20231122043009.2741-15-laurent.pinchart+renesas@ideasonboard.com>
+ <6ixii6fdmkpwmqr3a2w3otiml5jcev2vvlbwzjiktu7ry5akh6@f3qssur6yd7z>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -63,187 +63,192 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240618162502.GG32669@pendragon.ideasonboard.com>
+In-Reply-To: <6ixii6fdmkpwmqr3a2w3otiml5jcev2vvlbwzjiktu7ry5akh6@f3qssur6yd7z>
 
-Hi Laurent
+Hi Jacopo,
 
-On Tue, Jun 18, 2024 at 07:25:02PM GMT, Laurent Pinchart wrote:
-> On Tue, Jun 18, 2024 at 01:34:41PM +0200, Jacopo Mondi wrote:
-> > Hi Laurent
+On Tue, Jun 18, 2024 at 01:23:33PM +0200, Jacopo Mondi wrote:
+> On Wed, Nov 22, 2023 at 06:30:04AM GMT, Laurent Pinchart wrote:
+> > Entities access various piece of information from the entity state when
+> 
+> s/entity state/subdev state/
+> 
+> > configuring a partition. The same data is available through the
+> > partition structure passed to the .configure_partition() operation. Use
+> > it to avoid accessing the state, which will simplify moving to the V4L2
+> > subdev active state API.
+> 
+> I would move this after 10/19 and possibily considering squashing the
+> two. The overall diff of the 2 patches combined is pretty understandable.
+
+I can't do that, as this patch depends on 13/19 to calculatate
+partitions for the DRM pipeline, otherwise the
+
+	struct v4l2_rect crop = partition->rpf[rpf->entity.index];
+
+line in rpf_configure_partition() will dereference a NULL pointer.
+
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > ---
+> >  .../media/platform/renesas/vsp1/vsp1_rpf.c    | 35 +++++++++----------
+> >  .../media/platform/renesas/vsp1/vsp1_uds.c    |  6 +---
+> >  .../media/platform/renesas/vsp1/vsp1_wpf.c    | 18 +++-------
+> >  3 files changed, 23 insertions(+), 36 deletions(-)
 > >
-> > On Wed, Nov 22, 2023 at 06:30:01AM GMT, Laurent Pinchart wrote:
-> > > It is useful for debugging purpose to dump a vsp1_pipeline to the kernel
-> > > log. Add a new function to do so, and use it when initializing the video
-> > > and DRM pipelines.
-> > >
-> > > As __vsp1_pipeline_dump() needs to construct the log message
-> > > iteratively, it uses pr_cont(...) (exact equivalent to the more verbose
-> > > "printk(KERN_CONT ..."). The function thus can't use dev_dbg() to log
-> > > the initial part of the message, for two reasons:
-> > >
-> > > - pr_cont() doesn't seem to work with dev_*(). Even if the format string
-> > >   passed to dev_*() doesn't end with a '\n', pr_cont() starts a new line
-> > >   in the log. This behaviour doesn't seem to be clearly documented, and
-> > >   may or may not be on purpose.
-> > >
-> > > - Messages printed by dev_dbg() may be omitted if dynamic debugging is
-> > >   enabled. In that case, the continuation messages will still be
-> > >   printed, leading to confusing log messages.
-> > >
-> > > To still benefit from the dynamic debug infrastructure, we declare a
-> > > vsp1_pipeline_dump() macro that uses _dynamic_func_call() when dynamic
-> > > debugging is enabled. The whole vsp1_pipeline_dump() call can be
-> > > selected at runtime. The __vsp1_pipeline_dump() function then uses a
-> > > plain "printk(KERN_DEBUG ...)" to print the message header using the
-> > > debug log level, and pr_cont() to print the rest of the message on the
-> > > same line.
-> > >
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > ---
-> > >  .../media/platform/renesas/vsp1/vsp1_drm.c    |  5 +++++
-> > >  .../media/platform/renesas/vsp1/vsp1_pipe.c   | 22 +++++++++++++++++++
-> > >  .../media/platform/renesas/vsp1/vsp1_pipe.h   | 19 ++++++++++++++++
-> > >  .../media/platform/renesas/vsp1/vsp1_video.c  | 10 ++++++++-
-> > >  4 files changed, 55 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> > > index 3954c138fa7b..1aa59a74672f 100644
-> > > --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> > > @@ -733,6 +733,8 @@ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
-> > >  	if (ret < 0)
-> > >  		goto unlock;
-> > >
-> > > +	vsp1_pipeline_dump(pipe, "LIF setup");
-> > > +
-> > >  	/* Enable the VSP1. */
-> > >  	ret = vsp1_device_get(vsp1);
-> > >  	if (ret < 0)
-> > > @@ -906,6 +908,9 @@ void vsp1_du_atomic_flush(struct device *dev, unsigned int pipe_index,
-> > >  	}
-> > >
-> > >  	vsp1_du_pipeline_setup_inputs(vsp1, pipe);
-> > > +
-> > > +	vsp1_pipeline_dump(pipe, "atomic update");
-> > > +
-> > >  	vsp1_du_pipeline_configure(pipe);
-> > >
-> > >  done:
-> > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> > > index 8eba3cda1e3d..edc5e9f3ba65 100644
-> > > --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> > > @@ -301,6 +301,28 @@ void vsp1_pipeline_init(struct vsp1_pipeline *pipe)
-> > >  	pipe->state = VSP1_PIPELINE_STOPPED;
-> > >  }
-> > >
-> > > +void __vsp1_pipeline_dump(struct _ddebug *, struct vsp1_pipeline *pipe,
-> > > +			  const char *msg)
-> > > +{
-> > > +	struct vsp1_device *vsp1 = pipe->output->entity.vsp1;
-> > > +	struct vsp1_entity *entity;
-> > > +	bool first = true;
-> > > +
-> > > +	printk(KERN_DEBUG "%s: %s: pipe: ", dev_name(vsp1->dev), msg);
-> > > +
-> > > +	list_for_each_entry(entity, &pipe->entities, list_pipe) {
-> > > +		const char *name;
-> > > +
-> > > +		name = strchrnul(entity->subdev.name, ' ');
-> > > +		name = name ? name + 1 : entity->subdev.name;
-> > > +
-> > > +		pr_cont("%s%s", first ? "" : ", ", name);
-> > > +		first = false;
-> > > +	}
-> > > +
-> > > +	pr_cont("\n");
-> > > +}
-> > > +
-> > >  /* Must be called with the pipe irqlock held. */
-> > >  void vsp1_pipeline_run(struct vsp1_pipeline *pipe)
-> > >  {
-> > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
-> > > index c1f411227de7..46a82a9f766a 100644
-> > > --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
-> > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
-> > > @@ -9,6 +9,7 @@
-> > >  #ifndef __VSP1_PIPE_H__
-> > >  #define __VSP1_PIPE_H__
-> > >
-> > > +#include <linux/dynamic_debug.h>
-> > >  #include <linux/kref.h>
-> > >  #include <linux/list.h>
-> > >  #include <linux/spinlock.h>
-> > > @@ -142,6 +143,24 @@ struct vsp1_pipeline {
-> > >  void vsp1_pipeline_reset(struct vsp1_pipeline *pipe);
-> > >  void vsp1_pipeline_init(struct vsp1_pipeline *pipe);
-> > >
-> > > +void __vsp1_pipeline_dump(struct _ddebug *, struct vsp1_pipeline *pipe,
-> > > +			  const char *msg);
-> > > +
-> > > +#if defined(CONFIG_DYNAMIC_DEBUG) || \
-> > > +	(defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
-> > > +#define vsp1_pipeline_dump(pipe, msg)			\
-> > > +	_dynamic_func_call("vsp1_pipeline_dump()", __vsp1_pipeline_dump, pipe, msg)
-> > > +#elif defined(DEBUG)
-> > > +#define vsp1_pipeline_dump(pipe, msg)			\
-> > > +	__vsp1_pipeline_dump(NULL, pipe, msg)
-> > > +#else
-> > > +#define vsp1_pipeline_dump(pipe, msg)			\
-> > > +({							\
-> > > +	if (0)						\
-> > > +		__vsp1_pipeline_dump(NULL, pipe, msg);	\
-> > > +)}
+> > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+> > index 862751616646..b4558670b46f 100644
+> > --- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+> > +++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+> > @@ -289,7 +289,7 @@ static void rpf_configure_partition(struct vsp1_entity *entity,
+> >  	struct vsp1_device *vsp1 = rpf->entity.vsp1;
+> >  	const struct vsp1_format_info *fmtinfo = rpf->fmtinfo;
+> >  	const struct v4l2_pix_format_mplane *format = &rpf->format;
+> > -	struct v4l2_rect crop;
+> > +	struct v4l2_rect crop = partition->rpf[rpf->entity.index];
 > >
-> > Why can't this simply be
+> >  	/*
+> >  	 * Source size and crop offsets.
+> > @@ -299,22 +299,6 @@ static void rpf_configure_partition(struct vsp1_entity *entity,
+> >  	 * offsets are needed, as planes 2 and 3 always have identical
+> >  	 * strides.
+> >  	 */
+> > -	crop = *v4l2_subdev_state_get_crop(rpf->entity.state, RWPF_PAD_SINK);
+> > -
+> > -	/*
+> > -	 * Partition Algorithm Control
+> > -	 *
+> > -	 * The partition algorithm can split this frame into multiple
+> > -	 * slices. We must scale our partition window based on the pipe
+> > -	 * configuration to match the destination partition window.
+> > -	 * To achieve this, we adjust our crop to provide a 'sub-crop'
+> > -	 * matching the expected partition window. Only 'left' and
+> > -	 * 'width' need to be adjusted.
+> > -	 */
+> > -	if (pipe->partitions > 1) {
+> > -		crop.width = partition->rpf[rpf->entity.index].width;
+> > -		crop.left += partition->rpf[rpf->entity.index].left;
+> > -	}
 > >
-> > #else
-> > #define vsp1_pipeline_dump(pipe, msg)
-> > #endif
+> >  	if (pipe->interlaced) {
+> >  		crop.height = round_down(crop.height / 2, fmtinfo->vsub);
+> > @@ -369,8 +353,23 @@ static void rpf_partition(struct vsp1_entity *entity,
+> >  			  struct v4l2_rect *window)
+> >  {
+> >  	struct vsp1_rwpf *rpf = to_rwpf(&entity->subdev);
+> > +	struct v4l2_rect *rpf_rect = &partition->rpf[rpf->entity.index];
 > >
-> > ?
->
-> To avoid unused local variable warnings.
->
+> > -	partition->rpf[rpf->entity.index] = *window;
+> > +	/*
+> > +	 * Partition Algorithm Control
+> > +	 *
+> > +	 * The partition algorithm can split this frame into multiple slices. We
+> > +	 * must adjust our partition window based on the pipe configuration to
+> > +	 * match the destination partition window. To achieve this, we adjust
+> > +	 * our crop to provide a 'sub-crop' matching the expected partition
+> > +	 * window.
+> > +	 */
+> > +	*rpf_rect = *v4l2_subdev_state_get_crop(entity->state, RWPF_PAD_SINK);
+> > +
+> > +	if (pipe->partitions > 1) {
+> > +		rpf_rect->width = window->width;
+> > +		rpf_rect->left += window->left;
+> > +	}
+> >  }
+> >
+> >  static const struct vsp1_entity_operations rpf_entity_ops = {
+> > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_uds.c b/drivers/media/platform/renesas/vsp1/vsp1_uds.c
+> > index 4a14fd3baac1..e5953d86c17c 100644
+> > --- a/drivers/media/platform/renesas/vsp1/vsp1_uds.c
+> > +++ b/drivers/media/platform/renesas/vsp1/vsp1_uds.c
+> > @@ -305,10 +305,6 @@ static void uds_configure_partition(struct vsp1_entity *entity,
+> >  				    struct vsp1_dl_body *dlb)
+> >  {
+> >  	struct vsp1_uds *uds = to_uds(&entity->subdev);
+> > -	const struct v4l2_mbus_framefmt *output;
+> > -
+> > -	output = v4l2_subdev_state_get_format(uds->entity.state,
+> > -					      UDS_PAD_SOURCE);
+> >
+> >  	/* Input size clipping. */
+> >  	vsp1_uds_write(uds, dlb, VI6_UDS_HSZCLIP, VI6_UDS_HSZCLIP_HCEN |
+> > @@ -320,7 +316,7 @@ static void uds_configure_partition(struct vsp1_entity *entity,
+> >  	vsp1_uds_write(uds, dlb, VI6_UDS_CLIP_SIZE,
+> >  		       (partition->uds_source.width
+> >  				<< VI6_UDS_CLIP_SIZE_HSIZE_SHIFT) |
+> > -		       (output->height
+> > +		       (partition->uds_source.height
+> 
+> As I read this 'output' used to be the current format on the sink pad
 
-Fine indeed!
+On the source pad.
 
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> and we use the height from there.
+> 
+> Now we use 'patrition->uds_source.height' which I read being
+> initialized in uds_partition() to:
+> 
+> 	partition->uds_source = *window;
+> 
+> With 'window' being the parameter passed to uds_partition().
 
-> > > +#endif
-> > > +
-> > >  void vsp1_pipeline_run(struct vsp1_pipeline *pipe);
-> > >  bool vsp1_pipeline_stopped(struct vsp1_pipeline *pipe);
-> > >  int vsp1_pipeline_stop(struct vsp1_pipeline *pipe);
-> > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> > > index 6a8db541543a..84394994ccee 100644
-> > > --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> > > @@ -520,11 +520,19 @@ static int vsp1_video_pipeline_build(struct vsp1_pipeline *pipe,
-> > >  static int vsp1_video_pipeline_init(struct vsp1_pipeline *pipe,
-> > >  				    struct vsp1_video *video)
-> > >  {
-> > > +	int ret;
-> > > +
-> > >  	vsp1_pipeline_init(pipe);
-> > >
-> > >  	pipe->frame_end = vsp1_video_pipeline_frame_end;
-> > >
-> > > -	return vsp1_video_pipeline_build(pipe, video);
-> > > +	ret = vsp1_video_pipeline_build(pipe, video);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +
-> > > +	vsp1_pipeline_dump(pipe, "video");
-> > > +
-> > > +	return 0;
-> > >  }
-> > >
-> > >  static struct vsp1_pipeline *vsp1_video_pipeline_get(struct vsp1_video *video)
->
-> --
-> Regards,
->
-> Laurent Pinchart
->
+And that's the window on the UDS output (source), as windows are
+propagated from source to sink (see
+vsp1_pipeline_propagate_partition()).
+
+As partitions span the whole height of the image, output->height should
+be equal to partition->uds_source.height as far as I can tell.
+
+> Is this correct ?
+> 
+> >  				<< VI6_UDS_CLIP_SIZE_VSIZE_SHIFT));
+> >  }
+> >
+> > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+> > index f8d1e2f47691..5c363ff1d36c 100644
+> > --- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+> > +++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+> > @@ -370,7 +370,6 @@ static void wpf_configure_partition(struct vsp1_entity *entity,
+> >  	struct vsp1_rwpf *wpf = to_rwpf(&entity->subdev);
+> >  	struct vsp1_device *vsp1 = wpf->entity.vsp1;
+> >  	struct vsp1_rwpf_memory mem = wpf->mem;
+> > -	const struct v4l2_mbus_framefmt *sink_format;
+> >  	const struct v4l2_pix_format_mplane *format = &wpf->format;
+> >  	const struct vsp1_format_info *fmtinfo = wpf->fmtinfo;
+> >  	unsigned int width;
+> > @@ -380,20 +379,13 @@ static void wpf_configure_partition(struct vsp1_entity *entity,
+> >  	unsigned int flip;
+> >  	unsigned int i;
+> >
+> > -	sink_format = v4l2_subdev_state_get_format(wpf->entity.state,
+> > -						   RWPF_PAD_SINK);
+> > -	width = sink_format->width;
+> > -	height = sink_format->height;
+> > -	left = 0;
+> > -
+> >  	/*
+> > -	 * Cropping. The partition algorithm can split the image into
+> > -	 * multiple slices.
+> > +	 * Cropping. The partition algorithm can split the image into multiple
+> > +	 * slices.
+> >  	 */
+> > -	if (pipe->partitions > 1) {
+> > -		width = partition->wpf.width;
+> > -		left = partition->wpf.left;
+> > -	}
+> > +	width = partition->wpf.width;
+> > +	left = partition->wpf.left;
+> > +	height = partition->wpf.height;
+> 
+> Same question as per the uds module
+
+Same answer :-)
+
+> >
+> >  	vsp1_wpf_write(wpf, dlb, VI6_WPF_HSZCLIP, VI6_WPF_SZCLIP_EN |
+> >  		       (0 << VI6_WPF_SZCLIP_OFST_SHIFT) |
+
+-- 
+Regards,
+
+Laurent Pinchart
 
