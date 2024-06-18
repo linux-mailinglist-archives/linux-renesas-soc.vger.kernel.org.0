@@ -1,132 +1,83 @@
-Return-Path: <linux-renesas-soc+bounces-6414-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6415-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B25990D78F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 17:43:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7759690D73B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 17:28:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7E991B30EB9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 15:14:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 214EC1F24B41
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 15:28:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA6BF3FB8B;
-	Tue, 18 Jun 2024 15:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IDvVcH2y"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44703224EF;
+	Tue, 18 Jun 2024 15:26:51 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1417D3DBB7;
-	Tue, 18 Jun 2024 15:11:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FC7C1E895;
+	Tue, 18 Jun 2024 15:26:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718723517; cv=none; b=rqIIuDEWtAYwBkNLaI0ewfAaaB5d5jrR+lleqe6chTGULbtUZ6zJO+Kp6dFCn0qSTIje0M8R5d5yC8Zw1RXYursUuv+lagTedgPKvsi/yo0Pz1O5SFahbHdElZ7C0OJjhKD3I5pz+lAf4hdsWRDTqg4sKOktUK5/8zMUEhrmCSA=
+	t=1718724411; cv=none; b=EXj+8zapcdxkHPfXfX5BjuLSmkJ8e657IlpAayTNWrfoh9gUKmfn2Mq43SWnKuvOIbzpbwr8uxeNDIxBFeB04CIdM5Y36lmkg0d3hLhbJkOiG+1690eC3aZK72lWvrRBoZCFsJWeGW12Zz/LpTUzls46AyqHUZUwSjmtu5QTsug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718723517; c=relaxed/simple;
-	bh=5/8KXGO0PH1RFt/sKwfKQYjBbvvo5Q6jQ85zOGqIbME=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NOe0GwZdEcvOhkBeHiLm9I4r+fju5GvEB9F7ZHWbAHW4p7GAgJU05aoY7ZxBxuv8Ajz2FvtvgjMCyYb8ByTaxdqh/zWL1SKNYIyBE9ctdMy4jLwYLUcfMYt7tI8QOI7CKiseI+80c7rVePm4wJOw3m9/HhZmFjOFCIeE/cjF/Xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=IDvVcH2y; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A23EA908;
-	Tue, 18 Jun 2024 17:11:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718723496;
-	bh=5/8KXGO0PH1RFt/sKwfKQYjBbvvo5Q6jQ85zOGqIbME=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IDvVcH2yvZ0GxItcIjXhU2SuvQdzWTTGl7F4tBMSmtCorZVGjXsjPvUNdfkH5hG32
-	 W+9opoSp9CQ2spyut/KeLpEid4N/I4NLbMMoerqAJGfdPt3f3t2idlCEGwNaUGJz1m
-	 jHHeeEt3Tq5sHHwAhQbS29ADGnwOwVhdVficyJNs=
-Date: Tue, 18 Jun 2024 18:11:30 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 00/11] media: renesas: rcar-csi2: Use the subdev
- active state
-Message-ID: <20240618151130.GC22767@pendragon.ideasonboard.com>
-References: <20240617161135.130719-1-jacopo.mondi@ideasonboard.com>
+	s=arc-20240116; t=1718724411; c=relaxed/simple;
+	bh=nQhEqavArIQ/hs+sfgW4QyFhU59OZMb6rIk6RRvZsQI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=oxKmLfWv45fZzPChZk2YvmOu1mR734PxJXD/eyHIOs42AuHVGIzzhaIRtKhKvKxyjTuEa4ONbNYP2fvve+/Odaq0jsNAxXS2EeK8HOpAc7QhPzpBXnMtM0K+Tf1gO0xqTC2qImphFY75IV7sqVqaWOzX1FTa4t3SbonpMCQ0AgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.08,247,1712588400"; 
+   d="scan'208";a="212384983"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 19 Jun 2024 00:26:40 +0900
+Received: from localhost.localdomain (unknown [10.226.93.44])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2CDE14006A90;
+	Wed, 19 Jun 2024 00:26:37 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-rtc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 0/2] Update correct procedure for clearing alarm
+Date: Tue, 18 Jun 2024 16:26:29 +0100
+Message-ID: <20240618152635.48956-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240617161135.130719-1-jacopo.mondi@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Jacopo,
+As per the latest HW manual[1], the INT# output is pulled low after the
+alarm is triggered. After the INT# output is pulled low, it is low for at
+least 250ms, even if the correct action is taken to clear it. It is
+impossible to clear ALM if it is still active. The host must wait for the
+RTC to progress past the alarm time plus the 250ms delay before clearing
+ALM. Apart from this, there is an internal delay(~250 microsec) from
+setting ALME = 0 to disabling the alarm function, so the user must add a
+short delay of greater than 250µs between setting ALME = 0 and clearing
+ALM.
 
-I've taken the series in my tree and I'm running some tests. If all goes
-well I'll send a pull request shortly.
+Currently setting of ALME = 0 is done after clearing the ALM, so just
+reverse the operation and add a delay of 275 microsec. Also add a
+250msec delay before clearing the ALM.
 
-On Mon, Jun 17, 2024 at 06:11:23PM +0200, Jacopo Mondi wrote:
-> v3->v4:
-> - Add tags
-> - Re-sort patches as suggested by Niklas to avoid breaking bisection
-> 
-> v2->v3:
-> - rcar-csi2: Collect v2.2 of [4/11]
-> - adv748x: enum_mbus_code: reduce the number of formats to the ones supported
->   by the HDMI and Analog front ends;
-> - adv748x: enum_mbus_code: enumerate all formats on sink pad; enumerate the
->   active format on the source pad
-> - max9286: Apply the format to all pads to enforce all links to have the same
->   format
-> - max9286: Remove max9286_set_fsync_period() from setup
-> 
-> v2->v1:
->   - Remove "media: adv748x-csi2: Initialize subdev format"
->   - Add "media: adv748x-afe: Use 1X16 media bus code"
->   - Tested with CVBS
->   - address comments from Laurent and Niklas
-> 
-> A branch is available at
-> https://git.kernel.org/pub/scm/linux/kernel/git/jmondi/linux.git/
-> jmondi/renesas-drivers-2024-06-11-v6.10-rc3/multistream-subdev-active-state
-> 
-> As a follow-up to the recently sent
-> "media: renesas: rcar-csi2: Support multiple streams" series, this smaller
-> version collects some fixes and implement usage of the subdev active state
-> to simplify the R-Car CSI-2, ADV748x and MAX9286 drivers implementations.
-> 
-> Tested with GMSL on Eagle V3M
-> Tested with HDMI on Salvator-X
-> Tested with CVBS on Salvator-X
-> Boot tested on WhiteHawk V4H
-> 
-> 
-> Jacopo Mondi (11):
->   media: rcar-vin: Fix YUYV8_1X16 handling for CSI-2
->   media: rcar-csi2: Disable runtime_pm in probe error
->   media: rcar-csi2: Cleanup subdevice in remove()
->   media: rcar-csi2: Use the subdev active state
->   media: adv748x-csi2: Implement enum_mbus_codes
->   media: adv748x-afe: Use 1X16 media bus code
->   media: adv748x-csi2: Validate the image format
->   media: adv748x-csi2: Use the subdev active state
->   media: max9286: Fix enum_mbus_code
->   media: max9286: Use the subdev active state
->   media: max9286: Use frame interval from subdev state
-> 
->  drivers/media/i2c/adv748x/adv748x-afe.c       |   4 +-
->  drivers/media/i2c/adv748x/adv748x-csi2.c      | 145 +++++++++-----
->  drivers/media/i2c/adv748x/adv748x.h           |   1 -
->  drivers/media/i2c/max9286.c                   | 181 +++++++-----------
->  drivers/media/platform/renesas/rcar-csi2.c    | 155 +++++++++------
->  .../platform/renesas/rcar-vin/rcar-dma.c      |  16 +-
->  6 files changed, 271 insertions(+), 231 deletions(-)
+[1]https://www.renesas.com/us/en/document/dst/raa215300-datasheet?r=1506351
+
+Biju Das (2):
+  rtc: isl1208: Add a delay for clearing alarm
+  rtc: isl1208: Add correct procedure for clearing alarm
+
+ drivers/rtc/rtc-isl1208.c | 25 ++++++++++++++++++++-----
+ 1 file changed, 20 insertions(+), 5 deletions(-)
 
 -- 
-Regards,
+2.43.0
 
-Laurent Pinchart
 
