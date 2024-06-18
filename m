@@ -1,393 +1,221 @@
-Return-Path: <linux-renesas-soc+bounces-6381-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6382-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9786890C465
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 09:33:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC5590C5F8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 12:11:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 37445B217E1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 07:33:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 24C0E1F2123E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 10:11:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A7B0745C0;
-	Tue, 18 Jun 2024 07:09:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0539B7346B;
+	Tue, 18 Jun 2024 07:34:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N9NYB4Tj"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="GLFkIoU1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 304AF73440;
-	Tue, 18 Jun 2024 07:09:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 900D97345C
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Jun 2024 07:34:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718694577; cv=none; b=fVvgaYqh17sGIFcmCZrE6BEHuXZaLzR794XAfCMIG8bYrFptPTsmaCAaYty21pF3gpWVxkPKBfrIr3uFAaitA005+YewXLrUBE3zEOuy22nry2y7qeXbX4EqD8+23p4qFDyW9Jhro58mEWNtFWLYVYiiGGMU9gNWT2j24N2TczY=
+	t=1718696050; cv=none; b=Ate+M1qTyLTF2bhhZL1JkDdkUCxHK+yXDi0CR071VAGMRW3ZxH+H16N/3lW63TA6PJrnLDl1WPymiyiEQsOCEbhIobHt57EKdNISH5Na/JIxyF84ijHG6l0/RjWj0JlyAneBlJ0frIYTSYozsQC7wLQDG9zdM98znET63auhxOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718694577; c=relaxed/simple;
-	bh=e6XzdJg33xWRVNzNhUgA1l17Hz8JCuFvsGbY8RSFHzE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PHxefL0ihDnWEG/shQyvel+aqc4fSUkr8STjUXrIN64iij9ERhjwzOYYdg3tpgU5W53pM58EwnAg4rPHk+/H3ylqcX5CejvVpweUhihdYqiP2BAclporKS81kbFRFgT04sF+OT4poJRVG1KeWGPjI0OagBwDvDl1Bc3cEIME3cQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N9NYB4Tj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DBC0C3277B;
-	Tue, 18 Jun 2024 07:09:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718694577;
-	bh=e6XzdJg33xWRVNzNhUgA1l17Hz8JCuFvsGbY8RSFHzE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N9NYB4TjMFmhgTdHjD1Cd6/wrVJFfDkjK6O8jZ64o3jse5CrgnJozCb0735mnIObJ
-	 4ZareHDMYJScAbYLQoayzTqw7DGYUzlDxMmHyH1k5mokGXSJA0KpROnDBPmTehRE2p
-	 ilWtMyUmAUJLzzgkSm5faFSqVa9MbYVErOPQrZjwe7pDJwpRNtm/AqGRqOmjdqIO8J
-	 vawEhaTFyTVgkL+esm8P5C4zQKQSZQxRjIMIaB1cdRzjZgMDRmLCkb86sXUYoVlAYI
-	 Y6fPUykV4n0Ans35o4LZKwoUO5wNMkQhBq4+mb7LGX4wWMTdb2WbhR/bCx8tLIptlW
-	 s5+sfUXVhKhhQ==
-Date: Tue, 18 Jun 2024 12:39:25 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: lpieralisi@kernel.org, kw@linux.com, robh@kernel.org,
-	bhelgaas@google.com, jingoohan1@gmail.com,
-	marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v9 4/5] PCI: rcar-gen4: Add support for r8a779g0
-Message-ID: <20240618070925.GB5485@thinkpad>
-References: <20240611125057.1232873-1-yoshihiro.shimoda.uh@renesas.com>
- <20240611125057.1232873-5-yoshihiro.shimoda.uh@renesas.com>
+	s=arc-20240116; t=1718696050; c=relaxed/simple;
+	bh=CIImvumzkAeN2g71CDXVF8iXYe2GO0UwOKirtMYFvqU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jo+D7nRsZBDy4RqEobToIqCZ8TQPguVdK1IwAXbEuXxhs0SIzuQjslFz4SQ+1ntHI75K041RL1O7OAxYPUa23Pk5tITeawp2Tim1DShDHHCX2Z+4svG9+zl46Uti3kj+jEv2p65c33Rf+rwHWcguzQvUq4daWt+uYz+yejQDsTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=GLFkIoU1; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-42172ed3597so31862635e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Jun 2024 00:34:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1718696046; x=1719300846; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=S5rbHo29Bzcv6IgzEIj+saePdUmzo17xMUk+HWO4goE=;
+        b=GLFkIoU1WO3tepxt0KspCdQcl22OJRSAOttnup45B9fh6dNobbzq9X9BmGw04txs2V
+         BnDo6igMFxU3SBnkO3QnhwUY7uZny/lv5KbYrcp8YBonQwvTLEb1Ul+G8RuEYeMWKZH4
+         nBTXGC2/3TIJ9GyyMeX0WULHNFcCfslDUTc+N2NyFpxz2PI/mW32AWRettNuPl2LWvE6
+         YK3hGwLiQgXmQE5oZAMt4NskJLV5ulFdD5b3HHnLKsVnZ/AsebUYG9q2hCX0x7gj9vTv
+         Xxjw/rCRdztT9f7zU4LdFwDvEGxEWt76IvpiMTDdifPUV7qgb2xF35hJkLWzSO0vChc5
+         xniA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718696046; x=1719300846;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=S5rbHo29Bzcv6IgzEIj+saePdUmzo17xMUk+HWO4goE=;
+        b=bKrGcXaHFzB04UL0TqBfXynIet+CRwRMRAcZWZZqqJrNQ3ksLkxwtTYvVn9cl3E5jj
+         XEAaeq03GFlgNRv4L+KByZ7THDJ6MeAdXMG4YLoDHADxYR4K46J3xO2P9bNcZwliWazm
+         jt1Mkh3Jzd9FtVWw/3kdVyxazodw8cF2dMmunnVIQ+RIsJ+ztb8WR6GaB3kgVSDOLFit
+         xlsrkh7iMabugzEPB5o8wxIn8G7o4R4voxuOMfirPaRPS7IObk84yBPX02vTMsZG+pqK
+         qO1WPHrBL+cPGBwhlduc0+9XgD8gL8jD+FmeW9Z4cz4dToi5QUdUgqZRKRYNUd83xlUo
+         0GYg==
+X-Forwarded-Encrypted: i=1; AJvYcCVdtllPmn4utU4H8kV25v5pT/Lt9ZVa5fYuV4L9MF/REqc1gZv8L5/SaRufpwEAw8Ql4cw+/7DU7vTmvuPUvGH8eXIDvbnMd5lYkqxGjHBeP8s=
+X-Gm-Message-State: AOJu0YwPtN8xYI8HwdyqN8e9QGVhmeulBqKoW3BaKVthkAnUSSZb/1cC
+	rnzE0V21ellGZDUIrn1DSAhYTh8lhBg6E2tjvfnJXnIW7FZHaz1hfZyp3f0gmBg=
+X-Google-Smtp-Source: AGHT+IGs6nMfyFgDynWsbFh3DQ7FHvym58ye8vd0+afKHhJ633/JxauO+1qBYCV6VN20sYRNPadGSA==
+X-Received: by 2002:a05:600c:358f:b0:421:79b5:6d84 with SMTP id 5b1f17b1804b1-4246f5dbeabmr15612205e9.17.1718696045685;
+        Tue, 18 Jun 2024 00:34:05 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.189])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422f6320bd8sm180070125e9.32.2024.06.18.00.34.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Jun 2024 00:34:05 -0700 (PDT)
+Message-ID: <0a4ba0e5-3fb1-4ffc-b2d8-a4eb418707eb@tuxon.dev>
+Date: Tue, 18 Jun 2024 10:34:03 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240611125057.1232873-5-yoshihiro.shimoda.uh@renesas.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/12] dt-bindings: clock: renesas,rzg3s-vbattb-clk:
+ Document the VBATTB clock driver
+Content-Language: en-US
+To: Conor Dooley <conor@kernel.org>
+Cc: geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, lee@kernel.org,
+ alexandre.belloni@bootlin.com, magnus.damm@gmail.com,
+ linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20240614071932.1014067-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240614071932.1014067-3-claudiu.beznea.uj@bp.renesas.com>
+ <20240615-angler-occupier-6188a3187655@spud>
+ <3d9ed0ec-ca9a-45b4-a633-8f7051d13cff@tuxon.dev>
+ <20240617-subsoil-creed-04bf5f13d081@spud>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <20240617-subsoil-creed-04bf5f13d081@spud>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 11, 2024 at 09:50:56PM +0900, Yoshihiro Shimoda wrote:
-> Add support for r8a779g0 (R-Car V4H).
-> 
-> This driver previously supported r8a779f0 (R-Car S4-8). PCIe features
-> of both r8a779f0 and r8a779g0 are almost all the same. For example:
->  - PCI Express Base Specification Revision 4.0
->  - Root complex mode and endpoint mode are supported
-> However, r8a779g0 requires specific firmware downloading, to
-> initialize the PHY. Otherwise, the PCIe controller cannot work.
-> 
-> The attached firmware file "104_PCIe_fw_addr_data_ver1.05.txt" in
-> the datasheet is a text file. But, Renesas is not able to distribute
-> the firmware freely. So, we require converting the text file
-> to a binary before the driver runs by using the following script:
-> 
->  $ awk '/^\s*0x[0-9A-Fa-f]{4}\s+0x[0-9A-Fa-f]{4}/ \
->    { print substr($2,5,2) substr($2,3,2) }' \
->    104_PCIe_fw_addr_data_ver1.05.txt | xxd -p -r > \
->    rcar_gen4_pcie.bin
->  $ sha1sum rcar_gen4_pcie.bin
->    1d0bd4b189b4eb009f5d564b1f93a79112994945  rcar_gen4_pcie.bin
-> 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->  drivers/pci/controller/dwc/pcie-rcar-gen4.c | 207 +++++++++++++++++++-
->  1 file changed, 206 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> index dac78388975d..c67097e718d3 100644
-> --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> @@ -5,8 +5,10 @@
->   */
->  
->  #include <linux/delay.h>
-> +#include <linux/firmware.h>
->  #include <linux/interrupt.h>
->  #include <linux/io.h>
-> +#include <linux/iopoll.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/pci.h>
-> @@ -20,9 +22,10 @@
->  /* Renesas-specific */
->  /* PCIe Mode Setting Register 0 */
->  #define PCIEMSR0		0x0000
-> -#define BIFUR_MOD_SET_ON	BIT(0)
-> +#define APP_SRIS_MODE		BIT(6)
->  #define DEVICE_TYPE_EP		0
->  #define DEVICE_TYPE_RC		BIT(4)
-> +#define BIFUR_MOD_SET_ON	BIT(0)
->  
->  /* PCIe Interrupt Status 0 */
->  #define PCIEINTSTS0		0x0084
-> @@ -37,19 +40,48 @@
->  #define PCIEDMAINTSTSEN		0x0314
->  #define PCIEDMAINTSTSEN_INIT	GENMASK(15, 0)
->  
-> +/* Port Logic Registers 89 */
-> +#define PRTLGC89		0x0b70
-> +
-> +/* Port Logic Registers 90 */
-> +#define PRTLGC90		0x0b74
-> +
->  /* PCIe Reset Control Register 1 */
->  #define PCIERSTCTRL1		0x0014
->  #define APP_HOLD_PHY_RST	BIT(16)
->  #define APP_LTSSM_ENABLE	BIT(0)
->  
-> +/* PCIe Power Management Control */
-> +#define PCIEPWRMNGCTRL		0x0070
-> +#define APP_CLK_REQ_N		BIT(11)
-> +#define APP_CLK_PM_EN		BIT(10)
-> +
->  #define RCAR_NUM_SPEED_CHANGE_RETRIES	10
->  #define RCAR_MAX_LINK_SPEED		4
->  
->  #define RCAR_GEN4_PCIE_EP_FUNC_DBI_OFFSET	0x1000
->  #define RCAR_GEN4_PCIE_EP_FUNC_DBI2_OFFSET	0x800
->  
-> +/*
-> + * The attached firmware file "104_PCIe_fw_addr_data_ver1.05.txt" in
-> + * the datasheet is a text file. But, Renesas is not able to distribute
-> + * the firmware freely. So, we require converting the text file
-> + * to a binary before the driver runs by using the following script:
-> + *
-> + * $ awk '/^\s*0x[0-9A-Fa-f]{4}\s+0x[0-9A-Fa-f]{4}/ \
-> + *      { print substr($2,5,2) substr($2,3,2) }' \
-> + *      104_PCIe_fw_addr_data_ver1.05.txt | xxd -p -r > \
-> + *      rcar_gen4_pcie.bin
-> + *    $ sha1sum rcar_gen4_pcie.bin
-> + *      1d0bd4b189b4eb009f5d564b1f93a79112994945  rcar_gen4_pcie.bin
-> + */
-> +#define RCAR_GEN4_PCIE_FIRMWARE_NAME		"rcar_gen4_pcie.bin"
-> +#define RCAR_GEN4_PCIE_FIRMWARE_BASE_ADDR	0xc000
-> +MODULE_FIRMWARE(RCAR_GEN4_PCIE_FIRMWARE_NAME);
-> +
->  struct rcar_gen4_pcie;
->  struct rcar_gen4_pcie_drvdata {
-> +	void (*additional_common_init)(struct rcar_gen4_pcie *rcar);
->  	int (*ltssm_control)(struct rcar_gen4_pcie *rcar, bool enable);
->  	enum dw_pcie_device_mode mode;
->  };
-> @@ -57,6 +89,7 @@ struct rcar_gen4_pcie_drvdata {
->  struct rcar_gen4_pcie {
->  	struct dw_pcie dw;
->  	void __iomem *base;
-> +	void __iomem *phy_base;
->  	struct platform_device *pdev;
->  	const struct rcar_gen4_pcie_drvdata *drvdata;
->  };
-> @@ -180,6 +213,9 @@ static int rcar_gen4_pcie_common_init(struct rcar_gen4_pcie *rcar)
->  	if (ret)
->  		goto err_unprepare;
->  
-> +	if (rcar->drvdata->additional_common_init)
-> +		rcar->drvdata->additional_common_init(rcar);
-> +
->  	return 0;
->  
->  err_unprepare:
-> @@ -221,6 +257,10 @@ static void rcar_gen4_pcie_unprepare(struct rcar_gen4_pcie *rcar)
->  
->  static int rcar_gen4_pcie_get_resources(struct rcar_gen4_pcie *rcar)
->  {
-> +	rcar->phy_base = devm_platform_ioremap_resource_byname(rcar->pdev, "phy");
-> +	if (IS_ERR(rcar->phy_base))
-> +		return PTR_ERR(rcar->phy_base);
-> +
 
-I failed to spot this in earlier reviews. Since this 'phy' region is only
-applicable for r8a779g0, wouldn't this fail on other platforms?
 
-- Mani
-
->  	/* Renesas-specific registers */
->  	rcar->base = devm_platform_ioremap_resource_byname(rcar->pdev, "app");
->  
-> @@ -528,6 +568,167 @@ static int r8a779f0_pcie_ltssm_control(struct rcar_gen4_pcie *rcar, bool enable)
->  	return 0;
->  }
->  
-> +static void rcar_gen4_pcie_additional_common_init(struct rcar_gen4_pcie *rcar)
-> +{
-> +	struct dw_pcie *dw = &rcar->dw;
-> +	u32 val;
-> +
-> +	val = dw_pcie_readl_dbi(dw, PCIE_PORT_LANE_SKEW);
-> +	val &= ~PORT_LANE_SKEW_INSERT_MASK;
-> +	if (dw->num_lanes < 4)
-> +		val |= BIT(6);
-> +	dw_pcie_writel_dbi(dw, PCIE_PORT_LANE_SKEW, val);
-> +
-> +	val = readl(rcar->base + PCIEPWRMNGCTRL);
-> +	val |= APP_CLK_REQ_N | APP_CLK_PM_EN;
-> +	writel(val, rcar->base + PCIEPWRMNGCTRL);
-> +}
-> +
-> +static void rcar_gen4_pcie_phy_reg_update_bits(struct rcar_gen4_pcie *rcar,
-> +					       u32 offset, u32 mask, u32 val)
-> +{
-> +	u32 tmp;
-> +
-> +	tmp = readl(rcar->phy_base + offset);
-> +	tmp &= ~mask;
-> +	tmp |= val;
-> +	writel(tmp, rcar->phy_base + offset);
-> +}
-> +
-> +/*
-> + * SoC datasheet suggests checking port logic register bits during firmware
-> + * write. If read returns non-zero value, then this function returns -EAGAIN
-> + * indicating that the write needs to be done again. If read returns zero,
-> + * then return 0 to indicate success.
-> + */
-> +static int rcar_gen4_pcie_reg_test_bit(struct rcar_gen4_pcie *rcar,
-> +				       u32 offset, u32 mask)
-> +{
-> +	struct dw_pcie *dw = &rcar->dw;
-> +
-> +	if (dw_pcie_readl_dbi(dw, offset) & mask)
-> +		return -EAGAIN;
-> +
-> +	return 0;
-> +}
-> +
-> +static int rcar_gen4_pcie_download_phy_firmware(struct rcar_gen4_pcie *rcar)
-> +{
-> +	/* The check_addr values are magical numbers in the datasheet */
-> +	const u32 check_addr[] = { 0x00101018, 0x00101118, 0x00101021, 0x00101121};
-> +	struct dw_pcie *dw = &rcar->dw;
-> +	const struct firmware *fw;
-> +	unsigned int i, timeout;
-> +	u32 data;
-> +	int ret;
-> +
-> +	ret = request_firmware(&fw, RCAR_GEN4_PCIE_FIRMWARE_NAME, dw->dev);
-> +	if (ret) {
-> +		dev_err(dw->dev, "Failed to load firmware (%s): %d\n",
-> +			RCAR_GEN4_PCIE_FIRMWARE_NAME, ret);
-> +		return ret;
-> +	}
-> +
-> +	for (i = 0; i < (fw->size / 2); i++) {
-> +		data = fw->data[(i * 2) + 1] << 8 | fw->data[i * 2];
-> +		timeout = 100;
-> +		do {
-> +			dw_pcie_writel_dbi(dw, PRTLGC89, RCAR_GEN4_PCIE_FIRMWARE_BASE_ADDR + i);
-> +			dw_pcie_writel_dbi(dw, PRTLGC90, data);
-> +			if (!rcar_gen4_pcie_reg_test_bit(rcar, PRTLGC89, BIT(30)))
-> +				break;
-> +			if (!(--timeout)) {
-> +				ret = -ETIMEDOUT;
-> +				goto exit;
-> +			}
-> +			usleep_range(100, 200);
-> +		} while (1);
-> +	}
-> +
-> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x0f8, BIT(17), BIT(17));
-> +
-> +	for (i = 0; i < ARRAY_SIZE(check_addr); i++) {
-> +		timeout = 100;
-> +		do {
-> +			dw_pcie_writel_dbi(dw, PRTLGC89, check_addr[i]);
-> +			ret = rcar_gen4_pcie_reg_test_bit(rcar, PRTLGC89, BIT(30));
-> +			ret |= rcar_gen4_pcie_reg_test_bit(rcar, PRTLGC90, BIT(0));
-> +			if (!ret)
-> +				break;
-> +			if (!(--timeout)) {
-> +				ret = -ETIMEDOUT;
-> +				goto exit;
-> +			}
-> +			usleep_range(100, 200);
-> +		} while (1);
-> +	}
-> +
-> +exit:
-> +	release_firmware(fw);
-> +
-> +	return ret;
-> +}
-> +
-> +static int rcar_gen4_pcie_ltssm_control(struct rcar_gen4_pcie *rcar, bool enable)
-> +{
-> +	struct dw_pcie *dw = &rcar->dw;
-> +	u32 val;
-> +	int ret;
-> +
-> +	if (!enable) {
-> +		val = readl(rcar->base + PCIERSTCTRL1);
-> +		val &= ~APP_LTSSM_ENABLE;
-> +		writel(val, rcar->base + PCIERSTCTRL1);
-> +
-> +		return 0;
-> +	}
-> +
-> +	val = dw_pcie_readl_dbi(dw, PCIE_PORT_FORCE);
-> +	val |= PORT_FORCE_DO_DESKEW_FOR_SRIS;
-> +	dw_pcie_writel_dbi(dw, PCIE_PORT_FORCE, val);
-> +
-> +	val = readl(rcar->base + PCIEMSR0);
-> +	val |= APP_SRIS_MODE;
-> +	writel(val, rcar->base + PCIEMSR0);
-> +
-> +	/*
-> +	 * The R-Car Gen4 datasheet doesn't describe the PHY registers' name.
-> +	 * But, the initialization procedure describes these offsets. So,
-> +	 * this driver has magical offset numbers.
-> +	 */
-> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x700, BIT(28), 0);
-> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x700, BIT(20), 0);
-> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x700, BIT(12), 0);
-> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x700, BIT(4), 0);
-> +
-> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x148, GENMASK(23, 22), BIT(22));
-> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x148, GENMASK(18, 16), GENMASK(17, 16));
-> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x148, GENMASK(7, 6), BIT(6));
-> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x148, GENMASK(2, 0), GENMASK(11, 0));
-> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x1d4, GENMASK(16, 15), GENMASK(16, 15));
-> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x514, BIT(26), BIT(26));
-> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x0f8, BIT(16), 0);
-> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x0f8, BIT(19), BIT(19));
-> +
-> +	val = readl(rcar->base + PCIERSTCTRL1);
-> +	val &= ~APP_HOLD_PHY_RST;
-> +	writel(val, rcar->base + PCIERSTCTRL1);
-> +
-> +	ret = readl_poll_timeout(rcar->phy_base + 0x0f8, val, !(val & BIT(18)), 100, 10000);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = rcar_gen4_pcie_download_phy_firmware(rcar);
-> +	if (ret)
-> +		return ret;
-> +
-> +	val = readl(rcar->base + PCIERSTCTRL1);
-> +	val |= APP_LTSSM_ENABLE;
-> +	writel(val, rcar->base + PCIERSTCTRL1);
-> +
-> +	return 0;
-> +}
-> +
->  static struct rcar_gen4_pcie_drvdata drvdata_r8a779f0_pcie = {
->  	.ltssm_control = r8a779f0_pcie_ltssm_control,
->  	.mode = DW_PCIE_RC_TYPE,
-> @@ -539,10 +740,14 @@ static struct rcar_gen4_pcie_drvdata drvdata_r8a779f0_pcie_ep = {
->  };
->  
->  static struct rcar_gen4_pcie_drvdata drvdata_rcar_gen4_pcie = {
-> +	.additional_common_init = rcar_gen4_pcie_additional_common_init,
-> +	.ltssm_control = rcar_gen4_pcie_ltssm_control,
->  	.mode = DW_PCIE_RC_TYPE,
->  };
->  
->  static struct rcar_gen4_pcie_drvdata drvdata_rcar_gen4_pcie_ep = {
-> +	.additional_common_init = rcar_gen4_pcie_additional_common_init,
-> +	.ltssm_control = rcar_gen4_pcie_ltssm_control,
->  	.mode = DW_PCIE_EP_TYPE,
->  };
->  
-> -- 
-> 2.25.1
+On 17.06.2024 18:19, Conor Dooley wrote:
+> On Mon, Jun 17, 2024 at 10:02:47AM +0300, claudiu beznea wrote:
+>>
+>>
+>> On 15.06.2024 15:17, Conor Dooley wrote:
+>>> On Fri, Jun 14, 2024 at 10:19:22AM +0300, Claudiu wrote:
+>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>>
+>>>> The VBATTB IP of the Renesas RZ/G3S SoC controls the clock that feeds
+>>>> the RTC and the tamper detector. Add documentation for the VBATTB clock
+>>>> driver.
+>>>>
+>>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>> ---
+>>>>  .../clock/renesas,rzg3s-vbattb-clk.yaml       | 90 +++++++++++++++++++
+>>>>  1 file changed, 90 insertions(+)
+>>>>  create mode 100644 Documentation/devicetree/bindings/clock/renesas,rzg3s-vbattb-clk.yaml
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/clock/renesas,rzg3s-vbattb-clk.yaml b/Documentation/devicetree/bindings/clock/renesas,rzg3s-vbattb-clk.yaml
+>>>> new file mode 100644
+>>>> index 000000000000..ef52a0c0f874
+>>>> --- /dev/null
+>>>> +++ b/Documentation/devicetree/bindings/clock/renesas,rzg3s-vbattb-clk.yaml
+>>>> @@ -0,0 +1,90 @@
+>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>>> +%YAML 1.2
+>>>> +---
+>>>> +$id: http://devicetree.org/schemas/clock/renesas,rzg3s-vbattb-clk.yaml#
+>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>> +
+>>>> +title: Renesas VBATTB clock
+>>>> +
+>>>> +maintainers:
+>>>> +  - Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>> +
+>>>> +description:
+>>>> +  Renesas VBATTB module is an always on powered module (backed by battery) which
+>>>> +  generates a clock (VBATTCLK). This clocks feeds the RTC and the tamper detector
+>>>> +  modules.
+>>>> +
+>>>> +properties:
+>>>> +  compatible:
+>>>> +    const: renesas,rzg3s-vbattb-clk
+>>>> +
+>>>> +  reg:
+>>>> +    maxItems: 1
+>>>> +
+>>>> +  clocks:
+>>>> +    items:
+>>>> +      - description: VBATTB module clock
+>>>> +      - description: VBATTB input xtal
+>>>> +
+>>>> +  clock-names:
+>>>> +    items:
+>>>> +      - const: bclk
+>>>> +      - const: vbattb_xtal
+>>>> +
+>>>> +  '#clock-cells':
+>>>> +    const: 0
+>>>> +
+>>>> +  power-domains:
+>>>> +    maxItems: 1
+>>>> +
+>>>> +  renesas,vbattb-load-nanofarads:
+>>>> +    description: load capacitance of the on board xtal
+>>>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>>>> +    enum: [ 4000, 7000, 9000, 12500 ]
+>>>> +
+>>>> +  renesas,vbattb-osc-bypass:
+>>>> +    description: set when external clock is connected to RTXOUT pin
+>>>> +    type: boolean
+>>>
+>>> When you say "external clock", is that an input or an output?
+>>
+>> I took that statement from the HW manual. As of the HW manual [1], table
+>> 42.2, that would be an input.
 > 
+> Forgive me for not wanting to open the zip etc and find the information
+> in the document, but why do you need an extra property? Is it not
+> something you can determine from the clocks/clock-names properties?
 
--- 
-மணிவண்ணன் சதாசிவம்
+It can't be determined from clocks/clock-names as of my understanding. It
+depends on the type of the input clock (crystal oscillator or external
+hardware device generating the clock).
+
+> It sounds like an additional clock from your description, is it actually
+> different way to provide the second clock you mention above?
+
+This is the block diagram (see [1], only picture this time) of the module
+controlling the clock. Please open it, it helps in understanding what I'll
+explain above.
+
+The VBATTB blocks controlling the VBATTBCLK are:
+- 32KHz-clock oscillator
+- the mux controlled by BKSCCR.SOSEL
+- the gate who's input is the mux output and XOSCCR.OUTEN
+
+To the 32 KHz-clock oscillator block could be connected:
+1/ either a crystal oscillator in which case it will be connected to both
+RTXIN and RTXOUT pins (the direction of RTXOUT is wrong in this picture for
+this case)
+2/ or a device (like [2]) generating a clock which has a single output and,
+from my understanding and experience with devices like this, only RTXIN is
+needed, RTXOUT is connected to the ground; for this case the 32KHz-clock
+oscillator block from [1] need to be bypassed in which case the newly
+introduced property will be used; this will select the XBYP on the mux.
+
+Thank you,
+Claudiu Beznea
+
+[1] https://pasteboard.co/QYsCvhfQlX6n.png
+[2]
+https://ro.mouser.com/datasheet/2/268/DSC1001_3_4_1_8V_3_3V_Low_Power_Precision_CMOS_Osc-3314582.pdf
+
+> 
+>>
+>> [1]
+>> https://www.renesas.com/us/en/products/microcontrollers-microprocessors/rz-mpus/rzg3s-general-purpose-microprocessors-single-core-arm-cortex-a55-11-ghz-cpu-and-dual-core-cortex-m33-250
+>>
 
