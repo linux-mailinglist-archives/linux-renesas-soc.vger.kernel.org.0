@@ -1,303 +1,1587 @@
-Return-Path: <linux-renesas-soc+bounces-6402-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6403-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83E9290CAD8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 14:01:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A8F90CAEF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 14:03:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0906B1F21144
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 12:01:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CD03F1C238C1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2024 12:03:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58EF413E40C;
-	Tue, 18 Jun 2024 11:52:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1547B1552FE;
+	Tue, 18 Jun 2024 11:57:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="Olab9tLo"
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="bZYxyhSC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2075.outbound.protection.outlook.com [40.107.22.75])
+Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C4613E3E8;
-	Tue, 18 Jun 2024 11:52:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.75
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718711553; cv=fail; b=f3uyb6z5TlEleIhV4FCJUfl2c1Q1hsrTS4SVF7RyrPz0e08Vav5kEdRqM3lJPhk+dVlZNq4xR9iAd8lEtWyfNRrjTaOhUGp+p81KGH0f0kF6rRwUvQtEdZWzlCpYHuz+4cjptG3mDWrSp7e10Bjugty3CkXUnkVlpW5eo4dZ8DM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718711553; c=relaxed/simple;
-	bh=ob8M1bPNzqLDN3k9UxJQTeihDCtpO6gbZ63AwWYXKSE=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=SpIeZCMm94/tyDJzXZnm4256hlbEUpN4v7GALNucKCrF8zAyFHS4jXWmg+/G8B9SKFx8gpvCPRpfNo7RMhsSLXpB3YagyopSjXBDK02LDWcBBWX3d/6lHj7/oyGN9y7kYLUyr+I0SCz7sBvxL/WfjrWOKpeY/dsVOi1HRnlj5Dc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=Olab9tLo; arc=fail smtp.client-ip=40.107.22.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XvwV+VOGGV5RKnUN5mL3ik6RWJOHV0NzdbVLN0P6D6ErZkiNnR506+2MIfTjJGtucYuBBBbuZgCiHW3aNT0Z15lMbi5HSebBAvrdYtoKOKvW//vSiMv/1R7whNiIw1F9ucDkyCXHw2Vdf0K8KJujr0vTh9FZb6m3YueAzgF+rOOtwikDm36bolfC28KTmIXluyQguQi6NyT001O9u2cz0JIhdMBftOAGBeyOwTQlfaYOsXffOOr2xqo3KoBOnrE5o/4cYam8js3rLQgu397BL+n5l9mm8+8eHEqQahRrVPZB9Pnpus4dc78+cQSJlxeX3EfAoVDaXwXoC2VK7F1GxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ob8M1bPNzqLDN3k9UxJQTeihDCtpO6gbZ63AwWYXKSE=;
- b=nVg0BMaM5RQCg6iffvgLxoJt3aDzHfu7PmSh31i56NF8vTMvAUGYJqn9NOr0XNtOBy3t5dyYMphYyBrjaqb2ooLtIR3OtoWQ7O1ZjtgqzxtP1/WD1CqG4M6JTDiA0YOPFoHyN47W0b6ovzzg0thclhuAegrdAl8BSQdw2xgKdeV/ZjBye7tKLnRTy5Jmu0sK0Mb3En7LvjdsRnMeCwQsIj3QMLn5LcIYRIYwVeBmqBUcY+YyMYDPRKi3g6N7UOnoAw3n/JHPfr2fXRaKLkOFRYjVndhvcetfDJLYwo5v2XHu35aXfOAT5n/SyonbFUt3UI+gnA5TYp9d/1yRYK57zg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ob8M1bPNzqLDN3k9UxJQTeihDCtpO6gbZ63AwWYXKSE=;
- b=Olab9tLokXMkmdZf0aQEV89Z3YGpoYteKk8mkcdM4cbKYW5mU4JoVH4O5hsn41YYM1unXrmgpz92j6L1tweOPyxQIyiQMkxFS2yatl20KLChrYzel2h/Mc8FQOZ2yxsj4A8fypo6RZwTipo4sYUvO4cSA7KHiH17vc3yRFoHyE8=
-Received: from AM6PR04MB5941.eurprd04.prod.outlook.com (2603:10a6:20b:9e::16)
- by PR3PR04MB7323.eurprd04.prod.outlook.com (2603:10a6:102:88::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.31; Tue, 18 Jun
- 2024 11:52:27 +0000
-Received: from AM6PR04MB5941.eurprd04.prod.outlook.com
- ([fe80::9f4e:b695:f5f0:5256]) by AM6PR04MB5941.eurprd04.prod.outlook.com
- ([fe80::9f4e:b695:f5f0:5256%5]) with mapi id 15.20.7677.030; Tue, 18 Jun 2024
- 11:52:27 +0000
-From: Peng Fan <peng.fan@nxp.com>
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, Linus Walleij
-	<linus.walleij@linaro.org>, Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>, Dvorkin Dmitry <dvorkin@tibbo.com>,
-	Wells Lu <wellslutw@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Emil Renner Berthing
-	<kernel@esmil.dk>, Jianlong Huang <jianlong.huang@starfivetech.com>, Hal Feng
-	<hal.feng@starfivetech.com>, Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
-	<baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, Viresh
- Kumar <vireshk@kernel.org>, Shiraz Hashim <shiraz.linux.kernel@gmail.com>,
-	"soc@kernel.org" <soc@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>, Alim Akhtar
-	<alim.akhtar@samsung.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
-	Patrice Chotard <patrice.chotard@foss.st.com>, Heiko Stuebner
-	<heiko@sntech.de>, Damien Le Moal <dlemoal@kernel.org>, Ludovic Desroches
-	<ludovic.desroches@microchip.com>, Nicolas Ferre
-	<nicolas.ferre@microchip.com>, Alexandre Belloni
-	<alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Aisheng Dong <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>,
-	Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Chester Lin <chester62515@gmail.com>,
-	Matthias Brugger <mbrugger@suse.com>, "Ghennadi Procopciuc (OSS)"
-	<ghennadi.procopciuc@oss.nxp.com>, Sean Wang <sean.wang@kernel.org>, Matthias
- Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Sascha Hauer
-	<s.hauer@pengutronix.de>, Andrew Jeffery <andrew@codeconstruct.com.au>, Joel
- Stanley <joel@jms.id.au>, Dan Carpenter <dan.carpenter@linaro.org>, Tony
- Lindgren <tony@atomide.com>, Stephen Warren <swarren@wwwdotorg.org>
-CC: "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>,
-	"linux-stm32@st-md-mailman.stormreply.com"
-	<linux-stm32@st-md-mailman.stormreply.com>,
-	"linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"linux-rockchip@lists.infradead.org" <linux-rockchip@lists.infradead.org>,
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>, "openbmc@lists.ozlabs.org"
-	<openbmc@lists.ozlabs.org>, Emil Renner Berthing
-	<emil.renner.berthing@canonical.com>
-Subject: RE: [PATCH v2 00/20] pinctrl: Use scope based of_node_put() cleanups
-Thread-Topic: [PATCH v2 00/20] pinctrl: Use scope based of_node_put() cleanups
-Thread-Index: AQHaniSxdGSRMxSwNUygtutwA8lIt7HNryvQ
-Date: Tue, 18 Jun 2024 11:52:27 +0000
-Message-ID:
- <AM6PR04MB594163BAB898D8689A94056F88CE2@AM6PR04MB5941.eurprd04.prod.outlook.com>
-References: <20240504-pinctrl-cleanup-v2-0-26c5f2dc1181@nxp.com>
-In-Reply-To: <20240504-pinctrl-cleanup-v2-0-26c5f2dc1181@nxp.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM6PR04MB5941:EE_|PR3PR04MB7323:EE_
-x-ms-office365-filtering-correlation-id: 8c85b28a-9d67-45fe-bd67-08dc8f8d2053
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230037|366013|1800799021|376011|7416011|921017|38070700015;
-x-microsoft-antispam-message-info:
- =?utf-8?B?aWRpL3NsR2IzSEZ4dmYzcGVsQUNUMnA5bzFtZEdKU1Nhb3gvOUlIVzFDMjEx?=
- =?utf-8?B?L0c2T1dFcWkzRURxSzhSVU8weDAvMExETytzYTJjazhBcWp0SG40VDR1ZHlR?=
- =?utf-8?B?cFdhR2x3RHZzYytIWVZybWNtQ0ZsOTlJL1BTS3NuNEE0STltdEdwcjJxdURH?=
- =?utf-8?B?Q01JWFU0akVWd3FlWVZFTXY2R1V1US9uQlo4cVRTVXQ1ZCtLb0x0NC92akV4?=
- =?utf-8?B?Y3ExVEhqRTQxOGxqMmIvckVKOHlMRVFXMzZsQ294cG1BVjhHSytpSTJjSHN5?=
- =?utf-8?B?bVBEblg1c2ovM3QyeDBWcDRsdFBZZk43NDNOWGlFbGQ4NkNHemp1WDhySGho?=
- =?utf-8?B?dXlrelpJWENoWUx6RGFpSVd3MmhiYjJjaHUzVmtVSXpPTGRqcE1oZlBMZ2xv?=
- =?utf-8?B?cVNQR0J5MHFLR0dXVE9PTTZlRHZLNklxaDhPdGRKMVdLR0VTSE5rYU1EWjR3?=
- =?utf-8?B?eXVZd1EyV0FucExjZ3lJTitnQkdiVWJoNVlPdWNtTWhrRjB1SEhmcndaQ21m?=
- =?utf-8?B?d2R2V1pCZUVFLzNlVWpOaDZtcEhvNERHWDFFSXg4RlRkYnNvb1FWZjg5cHA0?=
- =?utf-8?B?dzd2M2F6dVdMUGpYRk5zUFcrdTc4L1VhKy9UMFJuaSs3ekgzOFhMdEs5bWx6?=
- =?utf-8?B?MHIxaURtNE5YSG5DejZPWWl0Q3VvdFVIdmx2cE1RRTRKUlNMOGsxWWdJV2t1?=
- =?utf-8?B?VWdEMjBHMGV5eXkyckRaWEcwTmd1b0Z3RXVjcXgyQ0ZKN1BLY3U4c2VmVlJj?=
- =?utf-8?B?L08yNGNZdGlxVlBNWWZnVE5EOUhGbjA3bzdRNmN4NDM1YW5WZjVsMzVyQW5Q?=
- =?utf-8?B?KzlHZFZwOWF3eHo4K1NmWUN0N0lMQTFGaHJDQVZ3Nk9RTys1UjV0ODk5VG13?=
- =?utf-8?B?bGpoVXBKNG9pT0pxTUNvRzZGd0Qzc1JYSGZKQ3JweVZrN2xIbGUwZGtEQjYr?=
- =?utf-8?B?TVRmb05GWmFKMU01TVhmWFBJcEpOeGFBRk05aHNhVXRPNENIbUpLKzNoSlVS?=
- =?utf-8?B?RjVieE0wTVg0MmlEbEQxVzNZSnQ5V2RQM1VDTXlhQUV4bEpaamhZclRlOHhy?=
- =?utf-8?B?QmpJMzh5U2VqYjJER2ZMUGc3ZkZUYjM2Y0gxOFIxcFcxUkRmWjFqaVVCVXFk?=
- =?utf-8?B?bWFKWllLVVFCVFc3a3dwUDdDZlNXN3pnOVBPdGFYMStBT2Q5aU9vY3p3U0Rq?=
- =?utf-8?B?NkMxb1UyaXIrcHVWY2lCNmVmUXpmRVc2QWhTYkVBYjhiWmJGOVhvMTNLbi9R?=
- =?utf-8?B?VkYzYjRkZU81TnlZYjFRT29DQ0s5Q3h5NytSNC8rMDNEbys2amx0LzFvcG5t?=
- =?utf-8?B?YzAyZGlrVld3N2tZNFRPNUNxdkdIaEt4QmgxVXVidmltWC8zeTVBVkkyaEdy?=
- =?utf-8?B?VWY1SWhCOU9rTVN2TFA1aEdqOFBTRU1OOXhVZFFycjhldkdwY3E1bVY0NDU3?=
- =?utf-8?B?Z2tnZ0dtNVJKd0NJa0JnbERuWEY0dWlmczZ5bWVEVWljNXFiWmdvUTVJUUxj?=
- =?utf-8?B?YmtXQzlnMkgzUjExZ0x2aisycFhid3Urd09GTVR1UlJRVWg5N1NjM0RaN2tt?=
- =?utf-8?B?bjZ1NEJpcEdRVWJndTRZWkpqZDJzMW5QRmRDTWgvY3E4L0JGQ3NNVTFJMFIw?=
- =?utf-8?B?NElzRnl1aFJPdGdObkIyR0E5dGFJYkZzeW9WVGVJSW1PbGw5Mit1VXR3MWpX?=
- =?utf-8?B?eXY5UEJCZWtoSkdVTUFOTFA2akxFMzI0MzNia052dFNpNXp4T1REMmQ2Q2pi?=
- =?utf-8?B?VDIyaHpJRkZ1SUduUXVYQTlQMGo3aVB4Vm83cXAwYnRVU2Q5Sk14OVlCdk9s?=
- =?utf-8?B?RE1KU3hvTkhiUkp0bXRiZz09?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB5941.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230037)(366013)(1800799021)(376011)(7416011)(921017)(38070700015);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?bnVCTzRMVVRPbHBOTTJ3UmRpb1VMWlB1VVpTakxWdHMrSG5nbzNXeGwzWEYx?=
- =?utf-8?B?SzhVUnJpOG1VS29rbFluVWxyR2EyY2FMNHN0SjJzWHhMR3FVaFQ3cld6aGNv?=
- =?utf-8?B?Ny9DdUZWMFN0LzZKQ3NSazJuV3ljOVlZNmp5N20rQTUzR3hnZ3MvSHh4MTVE?=
- =?utf-8?B?cWRRdCtkY0JmS2VOUW5NZ2Y0WGlDR0xRMm1mNE50Qzc3ZldXdkpmd1VDZHVH?=
- =?utf-8?B?WmRtdHZ3ZG9XMDFxWlJLdFgrNkxhNFFNcmR2RWk3QWQvaTV5OXV6NEdmRE5x?=
- =?utf-8?B?enZEL1lPa0ZOWnMrMkM1K29PQWtkbkNWVSsyU1hVN1FSenB3ZEczaFRid3Z5?=
- =?utf-8?B?TTQxNmFlMXR0OTZkVzhDckRRdXA2b1MzWlFkUE5yQXlZdnVPbENZYk5EQmFG?=
- =?utf-8?B?V1VWRXJsSHJtQ0N1MmI4eXU3U2w4T0ZpWXRlODVacVFmek5PckRLaDBpYko0?=
- =?utf-8?B?UTBXNTNiRlpwU1ZSS3oxWE9KS2NNekwrNm13Q3BobVBuWTFZYy9nbTRDTG5p?=
- =?utf-8?B?Q0FBZkRSN0xoK1NjanRZZENLRjJFYk9QcHNMOENaWkcyOWgwNEdLZHoxTGZN?=
- =?utf-8?B?cTdMdDhMcWh1QkpDRXhLMS9xSy8wWUw0elpaajNOWFJIOUdLMFZ4MUJQZCtx?=
- =?utf-8?B?dXhPUGUvS2prODNVcjYxTVdtS3FOWElSaFVqOVNYT1BtMk1EU0g0ZHJ0VWk5?=
- =?utf-8?B?cjFldWUzRGJybEVxRUYxeDhMNVlpakF2eWNvREpsNklnc1lNa2paenlRbkFU?=
- =?utf-8?B?K0kxN1J2b0J5bkxvZHdJaVp2c3ErNFNiUDhvTk1RRmozSWU5WEErU3FwUCtN?=
- =?utf-8?B?UUo5U3d6Nm5ScmdiNEdhRE0xVGJQNWpmZW10RnlqRGdobFFNTUlwMFMrdEZX?=
- =?utf-8?B?MUViOGIwUkU3VXZaZkpJRDMxYXdrYmNBVXdxaUJEMDV3aS9lZldvdXhibFo5?=
- =?utf-8?B?OHQzWWlvd1U1NEtkTktibXRacG5jQk5laVE3ZFVITWdyVFBCSlNSejFNM0Z3?=
- =?utf-8?B?WXRkc3I4VlYyTThhek5QZE1kQm1udUNIMUVDeFY3Mk9SaTFtRnZsdnNvMkhB?=
- =?utf-8?B?RWxPV29FYkNoUEw0U1RYeFFqQkxKbnkyL3NPL281eCs5RXIvcG5CNFBVZWNm?=
- =?utf-8?B?NVNFSTJlV013RENjSzNscEpiZStGNXUyekxPOWRPRWovakdBY1hYb28vNExJ?=
- =?utf-8?B?NktDME14UFJVMTNBWFc2OHFjNWE3L0VrVEJ1UFVrNEFGRWhIY3I3emEvdHZO?=
- =?utf-8?B?b1ZuR3JaNG5LelJKTy9hWEVKUHd2dWV1QXUxN2RRbFFzaVdKNXJ5K3ZEOTRh?=
- =?utf-8?B?Y1Nlbi9DQm0vdG00ZjcwY20zdkRnck1nODdoQ1E1NFpHNzFsU3dMNGkwMHF5?=
- =?utf-8?B?Q3ZuV2x4WEtkWFhiamsycHpZMGZPOGlBY012YWdxTVNDUW9iajlnZ1ZSbG1w?=
- =?utf-8?B?MnhldksxL0lvQkx1aGhzdUorLzNFSkxtcUtrdE9vN3YxbG55bERsNXc0K0ZO?=
- =?utf-8?B?ZUU1TmxkRzFNWkdEYmUrVWRaMlpBZUVSbEduc21qUk1VM0llNnZ0Uzg1TEhT?=
- =?utf-8?B?YWNCdVNBVEd5V05lUzJhZEx5V0NZblRUTjZFN1dubVlRcEtCZ3FiNGZJZnc1?=
- =?utf-8?B?VGgrQ2RFV1o0Vko5cXA4REUvRTFTN3paS3hWZ2VnV0F2ckFnaVQrM1hwVWov?=
- =?utf-8?B?OHpxNE1GZUpNMCtjZWE0UXpRbXBmalpza0paM2xUQm5qaFVFRGY2SzZJL1F4?=
- =?utf-8?B?czVqWUwyWnBkZTVWRG1MaWJqcG9SSFMybmp1VllPQ2RUS29INkQwUHlxSG5O?=
- =?utf-8?B?M2hvYk1GNFFBa2s4c0RBNEhtQjJ3Y1ZqbGxNNytkMFpJWVkrTjhXaUN1UnFp?=
- =?utf-8?B?N2Y4dmVuZ29YTnJnV2Y3cnVRODA0dzhlaXRLYlJTYXVpUnJtejJBYWpiZkRz?=
- =?utf-8?B?cjNEcjd4N092WTBWR2dLWE1zZ1hMdUpQcTk5cm84YlplcFJtZGR0bGdvMVFv?=
- =?utf-8?B?VWh0UEYzZk91TExTTjBzV2UvS1hPU2FWdkxjaGpnTnNxK0ZqV3B0dUhZaVQx?=
- =?utf-8?B?OHhXY3kva0FmU2l1M213VHRiR1RmSUx2YXh2b0d1L1lkMFcwQlIySXlRMDdM?=
- =?utf-8?Q?g2FE=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 052C11552E4;
+	Tue, 18 Jun 2024 11:57:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.156.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1718711862; cv=none; b=bxXSSDe10ACHMNE6yItAYM4F8bq0FO//ezgxtG9ThkhuUFyLnqT+WKFNjImbkMmmFYpvvU1TASnaidFbvf5obiS+FD9MpsFwS7+nx8JjgaQa2WfyvYWhTyRyJ5rmw2kX1heYYpsZo+fIR4dgr8vUyeydtlZMwAZHwrTVP9knJKI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1718711862; c=relaxed/simple;
+	bh=oQwaHeqRJeZsPOctiutlaGdJLvrvgMdjKhaA7KaJXpo=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HR4tBcAvcr/uKtv/WjS/KJwA0qpDw+QuqJOm73Hb676Gsi3zekYnIq5LW+wMTV7YmSb/x73E4GJ8022zraUNbuj1W4WDRHX7lOjUzZXNUbtH92Ec5gZPZjgpWsk3VaYBiQpzDW4aLrvkXZ+m/Asm0bIeyJOmLgWYt1Ma769Om2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b=bZYxyhSC; arc=none smtp.client-ip=67.231.156.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+	by mx0b-0016f401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45I6Untq017428;
+	Tue, 18 Jun 2024 04:57:22 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pfpt0220; bh=P
+	8yuAbbzfCeXDFxxsyUKxtik4Iuhr9Ev+2XXGYsOtgc=; b=bZYxyhSC5zZTWK1il
+	2SbL4BeTM7naNdCKEDkc0SbHWk+eTPKIgjLx0hITkio4GQkEz6fvBcs8TkkIqKt+
+	FtlEseGwt4DLQOnLTZ2e45FwZm2vzeKinglHqCSRr1SZTDHHmHU4VcMBctzd+CLA
+	DBWK/xhJAuvEdDsyToL73ruevWX02G6XRp2GGlx53ScAPitfwMFElEBR44Cu3LFd
+	4k0jN/jZBchxQNw2qd7AsG1FHDBB4H/kCg0ebvCwskHSPR84MttRSEjvOGP6XIUH
+	HBUR4Vn3lEDedVD7+OcSjG65SvP7c7FQFN+GwWKZ4bylGaKkyEgUc0DfTQUP1OX7
+	8YqLQ==
+Received: from dc5-exch05.marvell.com ([199.233.59.128])
+	by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3ysafh9gde-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Jun 2024 04:57:22 -0700 (PDT)
+Received: from DC5-EXCH05.marvell.com (10.69.176.209) by
+ DC5-EXCH05.marvell.com (10.69.176.209) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.4; Tue, 18 Jun 2024 04:57:20 -0700
+Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH05.marvell.com
+ (10.69.176.209) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
+ Transport; Tue, 18 Jun 2024 04:57:20 -0700
+Received: from maili.marvell.com (unknown [10.28.36.165])
+	by maili.marvell.com (Postfix) with ESMTP id B30A93F706D;
+	Tue, 18 Jun 2024 04:57:17 -0700 (PDT)
+Date: Tue, 18 Jun 2024 17:27:16 +0530
+From: Ratheesh Kannoth <rkannoth@marvell.com>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?=
+	<niklas.soderlund+renesas@ragnatech.se>
+CC: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "David S. Miller"
+	<davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Andrew Lunn
+	<andrew@lunn.ch>,
+        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [net-next,v9] net: ethernet: rtsn: Add support for Renesas
+ Ethernet-TSN
+Message-ID: <20240618115716.GA1186487@maili.marvell.com>
+References: <20240618090824.553018-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB5941.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c85b28a-9d67-45fe-bd67-08dc8f8d2053
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jun 2024 11:52:27.4786
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: FhHfvr7PNMfBbKPFZDejAS8RHoY9ikJ+MPeT/Yr0kyIlzeFbGybLNj73Xnfbk4CS0Jvwt1OkDQrBlig5aE49DA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR04MB7323
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240618090824.553018-1-niklas.soderlund+renesas@ragnatech.se>
+X-Proofpoint-ORIG-GUID: gkk4IWRwclvF68cw7g1Y1uq5QzDdbenf
+X-Proofpoint-GUID: gkk4IWRwclvF68cw7g1Y1uq5QzDdbenf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-18_02,2024-06-17_01,2024-05-17_01
 
-SGkgTGludXMsDQoNCj4gU3ViamVjdDogW1BBVENIIHYyIDAwLzIwXSBwaW5jdHJsOiBVc2Ugc2Nv
-cGUgYmFzZWQgb2Zfbm9kZV9wdXQoKQ0KPiBjbGVhbnVwcw0KDQpzdC9zdG0zMi9yZW5lc2FzIHBh
-dGNoZXMgYXJlIHBpY2tlZC4gV291bGQgeW91IGhhbmRsZSB0aGUgcmVtYWluaW5nDQpvbmVzPw0K
-DQpUaGFua3MsDQpQZW5nLg0KDQo+IA0KPiBVc2Ugc2NvcGUgYmFzZWQgb2Zfbm9kZV9wdXQoKSB0
-byBzaW1wbGlmeSBjb2RlLiBJdCByZWR1Y2VzIHRoZSBjaGFuY2UNCj4gb2YgZm9yZ2V0dGluZyBv
-Zl9ub2RlX3B1dCgpLCBhbmQgYWxzbyBzaW1wbGlmaWVzIGVycm9yIGhhbmRsaW5nIHBhdGguDQo+
-IEkgbm90IGFibGUgdG8gdGVzdCB0aGUgY2hhbmdlcyBvbiBhbGwgdGhlIGhhcmR3YXJlcywgc28g
-ZHJpdmVyIG93bmVycywNCj4gcGxlYXNlIGhlbHAgcmV2aWV3IHdoZW4geW91IGhhdmUgdGltZS4N
-Cj4gDQo+IFRoaXMgcGF0Y2hzZXQgd2FzIGluc3BpcmVkIGZyb20gRGFuJ3MgY29tbWVudHMgb24g
-cGluY3RybC1zY21pLWlteC5jLA0KPiB0aGFua3MuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBQZW5n
-IEZhbiA8cGVuZy5mYW5AbnhwLmNvbT4NCj4gLS0tDQo+IENoYW5nZXMgaW4gdjI6DQo+IC0gRHJv
-cCBhc3BlZWQgY2hhbmdlcyBwZXIgQW5kcmV3IEplZmZlcnkNCj4gLSBEcm9wIGNoYW5nZXMgdG8g
-Y29kZSBwYXR0ZXJuIHRoYXQgb2Zfbm9kZV9nZXQob3Igb3RoZXIgcmVmY291bnQNCj4gaW5jcmVh
-c2luZykgZm9sbG93ZWQgYnkgb2Zfbm9kZV9wdXQuIFRoYXQgc2FpZCwgYnV0IEkgc3RpbGwgaGF2
-ZSBhIGNoYW5nZQ0KPiBmb3Igc2Ftc3VuZyBwaW5jdHJsIHRoYXQgZHJvcHMgc2V2ZXJhbCBvZl9u
-b2RlX3B1dCBwbGFjZXMuIElmIHRoaXMgaXMgbm90DQo+IHdlbGNvbWVkLCBwYXRjaCAyMC8yMCBj
-b3VsZCBiZSBkcm9wcGVkLg0KPiAtIEFkZCBGaXggdGFnIGZvciBwYXRjaCAxDQo+IC0gQWRkIEEt
-YiBmb3IgcGF0Y2ggNA0KPiAtIERyb3AgdW5uZWVkZWQge30gaW4gcGF0Y2ggOCBQZXIgRGFuIENh
-cnBlbnRlcg0KPiAtIEFkZCBhIG5ldyBwYXRjaCAxOC4NCj4gLSBNb3ZlZCBwYXRjaCBbMTksMjBd
-LzIwLCBpbiBjYXNlIHBlb3BsZSBhcmUgbm90IGhhcHB5IHdpdGggdGhlDQo+IGNoYW5nZXMsIHRo
-ZSB0d28gcGF0Y2ggY291bGQgYmUgZHJvcHBlZCB3aGVuIGFwcGx5IGlmIG5vIHYzIHBhdGNoc2V0
-Lg0KPiAtIExpbmsgdG8gdjE6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3IvMjAyNDA1MDEtcGlu
-Y3RybC1jbGVhbnVwLXYxLTAtDQo+IDc5N2NlY2E0NmU1Y0BueHAuY29tDQo+IA0KPiAtLS0NCj4g
-UGVuZyBGYW4gKDIwKToNCj4gICAgICAgcGluY3RybDogdGk6IGlvZGVsYXk6IFVzZSBzY29wZSBi
-YXNlZCBvZl9ub2RlX3B1dCgpIGNsZWFudXBzDQo+ICAgICAgIHBpbmN0cmw6IHRlZ3JhOiBVc2Ug
-c2NvcGUgYmFzZWQgb2Zfbm9kZV9wdXQoKSBjbGVhbnVwcw0KPiAgICAgICBwaW5jdHJsOiBzdG0z
-MjogVXNlIHNjb3BlIGJhc2VkIG9mX25vZGVfcHV0KCkgY2xlYW51cHMNCj4gICAgICAgcGluY3Ry
-bDogc3RhcmZpdmU6IFVzZSBzY29wZSBiYXNlZCBvZl9ub2RlX3B1dCgpIGNsZWFudXBzDQo+ICAg
-ICAgIHBpbmN0cmw6IHNwcmQ6IFVzZSBzY29wZSBiYXNlZCBvZl9ub2RlX3B1dCgpIGNsZWFudXBz
-DQo+ICAgICAgIHBpbmN0cmw6IHNwZWFyOiBVc2Ugc2NvcGUgYmFzZWQgb2Zfbm9kZV9wdXQoKSBj
-bGVhbnVwcw0KPiAgICAgICBwaW5jdHJsOiByZW5lc2FzOiBVc2Ugc2NvcGUgYmFzZWQgb2Zfbm9k
-ZV9wdXQoKSBjbGVhbnVwcw0KPiAgICAgICBwaW5jdHJsOiBzdDogVXNlIHNjb3BlIGJhc2VkIG9m
-X25vZGVfcHV0KCkgY2xlYW51cHMNCj4gICAgICAgcGluY3RybDogcm9ja2NoaXA6IFVzZSBzY29w
-ZSBiYXNlZCBvZl9ub2RlX3B1dCgpIGNsZWFudXBzDQo+ICAgICAgIHBpbmN0cmw6IGVxdWlsaWJy
-aXVtOiBVc2Ugc2NvcGUgYmFzZWQgb2Zfbm9kZV9wdXQoKSBjbGVhbnVwcw0KPiAgICAgICBwaW5j
-dHJsOiBhdDkxOiBVc2Ugc2NvcGUgYmFzZWQgb2Zfbm9kZV9wdXQoKSBjbGVhbnVwcw0KPiAgICAg
-ICBwaW5jdHJsOiBzMzJjYzogVXNlIHNjb3BlIGJhc2VkIG9mX25vZGVfcHV0KCkgY2xlYW51cHMN
-Cj4gICAgICAgcGluY3RybDogbm9tYWRpazogVXNlIHNjb3BlIGJhc2VkIG9mX25vZGVfcHV0KCkg
-Y2xlYW51cHMNCj4gICAgICAgcGluY3RybDogbWVkaWF0ZWs6IFVzZSBzY29wZSBiYXNlZCBvZl9u
-b2RlX3B1dCgpIGNsZWFudXBzDQo+ICAgICAgIHBpbmN0cmw6IGZyZWVzY2FsZTogVXNlIHNjb3Bl
-IGJhc2VkIG9mX25vZGVfcHV0KCkgY2xlYW51cHMNCj4gICAgICAgcGluY3RybDogYmNtOiBiY202
-M3h4OiBVc2Ugc2NvcGUgYmFzZWQgb2Zfbm9kZV9wdXQoKSBjbGVhbnVwcw0KPiAgICAgICBwaW5j
-dHJsOiBwaW5jb25mLWdlbmVyaWM6IFVzZSBzY29wZSBiYXNlZCBvZl9ub2RlX3B1dCgpIGNsZWFu
-dXBzDQo+ICAgICAgIHBpbmN0cmw6IGZyZWVzY2FsZTogbXhzOiBGaXggcmVmY291bnQgb2YgY2hp
-bGQNCj4gICAgICAgcGluY3RybDogazIxMDogVXNlIHNjb3BlIGJhc2VkIG9mX25vZGVfcHV0KCkg
-Y2xlYW51cHMNCj4gICAgICAgcGluY3RybDogc2Ftc3VuZzogVXNlIHNjb3BlIGJhc2VkIG9mX25v
-ZGVfcHV0KCkgY2xlYW51cHMNCj4gDQo+ICBkcml2ZXJzL3BpbmN0cmwvYmNtL3BpbmN0cmwtYmNt
-NjN4eC5jICAgICAgICAgICAgICB8ICA0ICstLQ0KPiAgZHJpdmVycy9waW5jdHJsL2ZyZWVzY2Fs
-ZS9waW5jdHJsLWlteC5jICAgICAgICAgICAgfCAyNSArKysrLS0tLS0tLS0tLS0NCj4gIGRyaXZl
-cnMvcGluY3RybC9mcmVlc2NhbGUvcGluY3RybC1pbXgxLWNvcmUuYyAgICAgIHwgMTYgKysrLS0t
-LS0tLQ0KPiAgZHJpdmVycy9waW5jdHJsL2ZyZWVzY2FsZS9waW5jdHJsLW14cy5jICAgICAgICAg
-ICAgfCAxOCArKysrLS0tLS0tLQ0KPiAgZHJpdmVycy9waW5jdHJsL21lZGlhdGVrL3BpbmN0cmwt
-bXRrLWNvbW1vbi5jICAgICAgfCAgNCArLS0NCj4gIGRyaXZlcnMvcGluY3RybC9tZWRpYXRlay9w
-aW5jdHJsLXBhcmlzLmMgICAgICAgICAgIHwgIDQgKy0tDQo+ICBkcml2ZXJzL3BpbmN0cmwvbm9t
-YWRpay9waW5jdHJsLWFieDUwMC5jICAgICAgICAgICB8ICA0ICstLQ0KPiAgZHJpdmVycy9waW5j
-dHJsL25vbWFkaWsvcGluY3RybC1ub21hZGlrLmMgICAgICAgICAgfCAgNCArLS0NCj4gIGRyaXZl
-cnMvcGluY3RybC9ueHAvcGluY3RybC1zMzJjYy5jICAgICAgICAgICAgICAgIHwgMzEgKysrKysr
-LS0tLS0tLS0tLS0tDQo+ICBkcml2ZXJzL3BpbmN0cmwvcGluY29uZi1nZW5lcmljLmMgICAgICAg
-ICAgICAgICAgICB8ICA3ICsrLS0NCj4gIGRyaXZlcnMvcGluY3RybC9waW5jdHJsLWF0OTEtcGlv
-NC5jICAgICAgICAgICAgICAgIHwgIDcgKystLQ0KPiAgZHJpdmVycy9waW5jdHJsL3BpbmN0cmwt
-YXQ5MS5jICAgICAgICAgICAgICAgICAgICAgfCAxNCArKystLS0tLQ0KPiAgZHJpdmVycy9waW5j
-dHJsL3BpbmN0cmwtZXF1aWxpYnJpdW0uYyAgICAgICAgICAgICAgfCAyMSArKystLS0tLS0tLS0N
-Cj4gIGRyaXZlcnMvcGluY3RybC9waW5jdHJsLWsyMTAuYyAgICAgICAgICAgICAgICAgICAgIHwg
-IDcgKystLQ0KPiAgZHJpdmVycy9waW5jdHJsL3BpbmN0cmwtcm9ja2NoaXAuYyAgICAgICAgICAg
-ICAgICAgfCAxMSArKy0tLS0tDQo+ICBkcml2ZXJzL3BpbmN0cmwvcGluY3RybC1zdC5jICAgICAg
-ICAgICAgICAgICAgICAgICB8IDM3ICsrKysrKystLS0tLS0tLS0tLS0tLS0NCj4gIGRyaXZlcnMv
-cGluY3RybC9yZW5lc2FzL3BpbmN0cmwtcnphMS5jICAgICAgICAgICAgIHwgMTQgKysrLS0tLS0N
-Cj4gIGRyaXZlcnMvcGluY3RybC9yZW5lc2FzL3BpbmN0cmwtcnpnMmwuYyAgICAgICAgICAgIHwg
-IDcgKystLQ0KPiAgZHJpdmVycy9waW5jdHJsL3JlbmVzYXMvcGluY3RybC1yem4xLmMgICAgICAg
-ICAgICAgfCAyMyArKysrLS0tLS0tLS0tLQ0KPiAgZHJpdmVycy9waW5jdHJsL3JlbmVzYXMvcGlu
-Y3RybC1yenYybS5jICAgICAgICAgICAgfCAgNyArKy0tDQo+ICBkcml2ZXJzL3BpbmN0cmwvcmVu
-ZXNhcy9waW5jdHJsLmMgICAgICAgICAgICAgICAgICB8ICA3ICsrLS0NCj4gIGRyaXZlcnMvcGlu
-Y3RybC9zYW1zdW5nL3BpbmN0cmwtZXh5bm9zLmMgICAgICAgICAgIHwgMTYgKysrLS0tLS0tLQ0K
-PiAgZHJpdmVycy9waW5jdHJsL3NhbXN1bmcvcGluY3RybC1zYW1zdW5nLmMgICAgICAgICAgfCAx
-OSArKystLS0tLS0tLQ0KPiAgZHJpdmVycy9waW5jdHJsL3NwZWFyL3BpbmN0cmwtc3BlYXIuYyAg
-ICAgICAgICAgICAgfCAxMyArKystLS0tLQ0KPiAgZHJpdmVycy9waW5jdHJsL3NwcmQvcGluY3Ry
-bC1zcHJkLmMgICAgICAgICAgICAgICAgfCAxNCArKystLS0tLQ0KPiAgZHJpdmVycy9waW5jdHJs
-L3N0YXJmaXZlL3BpbmN0cmwtc3RhcmZpdmUtamg3MTAwLmMgfCAyNyArKysrKysrLS0tLS0tLS0t
-DQo+IGRyaXZlcnMvcGluY3RybC9zdGFyZml2ZS9waW5jdHJsLXN0YXJmaXZlLWpoNzExMC5jIHwg
-MTggKysrKystLS0tLS0NCj4gIGRyaXZlcnMvcGluY3RybC9zdG0zMi9waW5jdHJsLXN0bTMyLmMg
-ICAgICAgICAgICAgIHwgIDQgKy0tDQo+ICBkcml2ZXJzL3BpbmN0cmwvdGVncmEvcGluY3RybC10
-ZWdyYS14dXNiLmMgICAgICAgICB8ICA3ICsrLS0NCj4gIGRyaXZlcnMvcGluY3RybC90ZWdyYS9w
-aW5jdHJsLXRlZ3JhLmMgICAgICAgICAgICAgIHwgIDQgKy0tDQo+ICBkcml2ZXJzL3BpbmN0cmwv
-dGkvcGluY3RybC10aS1pb2RlbGF5LmMgICAgICAgICAgICB8IDM3ICsrKysrKysrLS0tLS0tLS0t
-LS0tLS0NCj4gIDMxIGZpbGVzIGNoYW5nZWQsIDEzMyBpbnNlcnRpb25zKCspLCAyOTggZGVsZXRp
-b25zKC0pDQo+IC0tLQ0KPiBiYXNlLWNvbW1pdDogYmI3YTI0NjdlNmJlZWY0NGE4MGExN2Q0NWVi
-ZjI5MzFlNzYzMTA4Mw0KPiBjaGFuZ2UtaWQ6IDIwMjQwNDI5LXBpbmN0cmwtY2xlYW51cC1lNGQ0
-NjFjMzI2NDgNCj4gDQo+IEJlc3QgcmVnYXJkcywNCj4gLS0NCj4gUGVuZyBGYW4gPHBlbmcuZmFu
-QG54cC5jb20+DQoNCg==
+On 2024-06-18 at 14:38:24, Niklas Söderlund (niklas.soderlund+renesas@ragnatech.se) wrote:
+> Add initial support for Renesas Ethernet-TSN End-station device of R-Car
+> V4H. The Ethernet End-station can connect to an Ethernet network using a
+> 10 Mbps, 100 Mbps, or 1 Gbps full-duplex link via MII/GMII/RMII/RGMII.
+> Depending on the connected PHY.
+>
+> The driver supports Rx checksum and offload and hardware timestamps.
+>
+> While full power management and suspend/resume is not yet supported the
+> driver enables runtime PM in order to enable the module clock. While
+> explicit clock management using clk_enable() would suffice for the
+> supported SoC, the module could be reused on SoCs where the module is
+> part of a power domain.
+>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+> +static int rtsn_tx_free(struct net_device *ndev, bool free_txed_only)
+> +{
+> +	struct rtsn_private *priv = netdev_priv(ndev);
+> +	struct rtsn_ext_desc *desc;
+> +	struct sk_buff *skb;
+> +	int free_num = 0;
+> +	int entry, size;
+> +
+> +	for (; priv->cur_tx - priv->dirty_tx > 0; priv->dirty_tx++) {
+> +		entry = priv->dirty_tx % priv->num_tx_ring;
+> +		desc = &priv->tx_ring[entry];
+> +		if (free_txed_only && (desc->die_dt & DT_MASK) != DT_FEMPTY)
+> +			break;
+> +
+> +		dma_rmb();
+> +		size = le16_to_cpu(desc->info_ds) & TX_DS;
+> +		skb = priv->tx_skb[entry];
+> +		if (skb) {
+> +			if (skb_shinfo(skb)->tx_flags & SKBTX_HW_TSTAMP) {
+> +				struct skb_shared_hwtstamps shhwtstamps;
+> +				struct timespec64 ts;
+> +
+> +				rtsn_get_timestamp(priv, &ts);
+> +				memset(&shhwtstamps, 0, sizeof(shhwtstamps));
+> +				shhwtstamps.hwtstamp = timespec64_to_ktime(ts);
+> +				skb_tstamp_tx(skb, &shhwtstamps);
+> +			}
+> +			dma_unmap_single(ndev->dev.parent,
+> +					 le32_to_cpu(desc->dptr),
+> +					 size, DMA_TO_DEVICE);
+> +			dev_kfree_skb_any(priv->tx_skb[entry]);
+> +			free_num++;
+> +		}
+> +		desc->die_dt = DT_EEMPTY;
+> +		priv->stats.tx_packets++;
+if (!skb) case also, incrementing the tx_packets. Is this correct ?
+
+> +		priv->stats.tx_bytes += size;
+> +	}
+> +
+> +	desc = &priv->tx_ring[priv->num_tx_ring];
+> +	desc->die_dt = DT_LINK;
+> +
+> +	return free_num;
+> +}
+> +
+> +
+> +static int rtsn_dmac_init(struct rtsn_private *priv)
+> +{
+> +	int ret;
+> +
+> +	ret = rtsn_chain_init(priv, TX_CHAIN_SIZE, RX_CHAIN_SIZE);
+> +	if (ret)
+> +		return ret;
+> +
+> +	rtsn_chain_format(priv);
+> +
+> +	return 0;
+> +}
+> +
+> +static enum rtsn_mode rtsn_read_mode(struct rtsn_private *priv)
+> +{
+> +	return (rtsn_read(priv, OSR) & OSR_OPS) >> 1;
+> +}
+> +
+> +static int rtsn_wait_mode(struct rtsn_private *priv, enum rtsn_mode mode)
+> +{
+> +	unsigned int i;
+> +
+> +	/* Need to busy loop as mode changes can happen in atomic context. */
+> +	for (i = 0; i < RTSN_TIMEOUT_US / RTSN_INTERVAL_US; i++) {
+> +		if (rtsn_read_mode(priv) == mode)
+> +			return 0;
+> +
+> +		udelay(RTSN_INTERVAL_US);
+> +	}
+> +
+> +	return -ETIMEDOUT;
+> +}
+> +
+> +static int rtsn_change_mode(struct rtsn_private *priv, enum rtsn_mode mode)
+> +{
+> +	int ret;
+> +
+> +	rtsn_write(priv, OCR, mode);
+> +	ret = rtsn_wait_mode(priv, mode);
+> +	if (ret)
+> +		netdev_err(priv->ndev, "Failed to switch operation mode\n");
+> +	return ret;
+> +}
+> +
+> +static int rtsn_get_data_irq_status(struct rtsn_private *priv)
+> +{
+> +	u32 val;
+> +
+> +	val = rtsn_read(priv, TDIS0) | TDIS_TDS(TX_CHAIN_IDX);
+> +	val |= rtsn_read(priv, RDIS0) | RDIS_RDS(RX_CHAIN_IDX);
+> +
+> +	return val;
+> +}
+> +
+> +static irqreturn_t rtsn_irq(int irq, void *dev_id)
+> +{
+> +	struct rtsn_private *priv = dev_id;
+> +	int ret = IRQ_NONE;
+> +
+> +	spin_lock(&priv->lock);
+> +
+> +	if (rtsn_get_data_irq_status(priv)) {
+> +		/* Clear TX/RX irq status */
+> +		rtsn_write(priv, TDIS0, TDIS_TDS(TX_CHAIN_IDX));
+> +		rtsn_write(priv, RDIS0, RDIS_RDS(RX_CHAIN_IDX));
+> +
+> +		if (napi_schedule_prep(&priv->napi)) {
+> +			/* Disable TX/RX interrupts */
+> +			rtsn_ctrl_data_irq(priv, false);
+> +
+> +			__napi_schedule(&priv->napi);
+> +		}
+> +
+> +		ret = IRQ_HANDLED;
+> +	}
+> +
+> +	spin_unlock(&priv->lock);
+> +
+> +	return ret;
+> +}
+> +
+> +static int rtsn_request_irq(unsigned int irq, irq_handler_t handler,
+> +			    unsigned long flags, struct rtsn_private *priv,
+> +			    const char *ch)
+> +{
+> +	char *name;
+> +	int ret;
+> +
+> +	name = devm_kasprintf(&priv->pdev->dev, GFP_KERNEL, "%s:%s",
+> +			      priv->ndev->name, ch);
+> +	if (!name)
+> +		return -ENOMEM;
+> +
+> +	ret = request_irq(irq, handler, flags, name, priv);
+> +	if (ret)
+> +		netdev_err(priv->ndev, "Cannot request IRQ %s\n", name);
+> +
+> +	return ret;
+> +}
+> +
+> +static void rtsn_free_irqs(struct rtsn_private *priv)
+> +{
+> +	free_irq(priv->tx_data_irq, priv);
+> +	free_irq(priv->rx_data_irq, priv);
+> +}
+> +
+> +static int rtsn_request_irqs(struct rtsn_private *priv)
+> +{
+> +	int ret;
+> +
+> +	priv->rx_data_irq = platform_get_irq_byname(priv->pdev, "rx");
+> +	if (priv->rx_data_irq < 0)
+> +		return priv->rx_data_irq;
+> +
+> +	priv->tx_data_irq = platform_get_irq_byname(priv->pdev, "tx");
+> +	if (priv->tx_data_irq < 0)
+> +		return priv->tx_data_irq;
+> +
+> +	ret = rtsn_request_irq(priv->tx_data_irq, rtsn_irq, 0, priv, "tx");
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = rtsn_request_irq(priv->rx_data_irq, rtsn_irq, 0, priv, "rx");
+> +	if (ret) {
+> +		free_irq(priv->tx_data_irq, priv);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int rtsn_reset(struct rtsn_private *priv)
+> +{
+> +	reset_control_reset(priv->reset);
+> +	mdelay(1);
+> +
+> +	return rtsn_wait_mode(priv, OCR_OPC_DISABLE);
+> +}
+> +
+> +static int rtsn_axibmi_init(struct rtsn_private *priv)
+> +{
+> +	int ret;
+> +
+> +	ret = rtsn_reg_wait(priv, RR, RR_RST, RR_RST_COMPLETE);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Set AXIWC */
+> +	rtsn_write(priv, AXIWC, AXIWC_DEFAULT);
+> +
+> +	/* Set AXIRC */
+> +	rtsn_write(priv, AXIRC, AXIRC_DEFAULT);
+> +
+> +	/* TX Descriptor chain setting */
+> +	rtsn_write(priv, TATLS0, TATLS0_TEDE | TATLS0_TATEN(TX_CHAIN_IDX));
+> +	rtsn_write(priv, TATLS1, priv->tx_desc_bat_dma + TX_CHAIN_ADDR_OFFSET);
+> +	rtsn_write(priv, TATLR, TATLR_TATL);
+> +
+> +	ret = rtsn_reg_wait(priv, TATLR, TATLR_TATL, 0);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* RX Descriptor chain setting */
+> +	rtsn_write(priv, RATLS0,
+> +		   RATLS0_RETS | RATLS0_REDE | RATLS0_RATEN(RX_CHAIN_IDX));
+> +	rtsn_write(priv, RATLS1, priv->rx_desc_bat_dma + RX_CHAIN_ADDR_OFFSET);
+> +	rtsn_write(priv, RATLR, RATLR_RATL);
+> +
+> +	ret = rtsn_reg_wait(priv, RATLR, RATLR_RATL, 0);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Enable TX/RX interrupts */
+> +	rtsn_ctrl_data_irq(priv, true);
+> +
+> +	return 0;
+> +}
+> +
+> +static void rtsn_mhd_init(struct rtsn_private *priv)
+> +{
+> +	/* TX General setting */
+> +	rtsn_write(priv, TGC1, TGC1_STTV_DEFAULT | TGC1_TQTM_SFM);
+> +	rtsn_write(priv, TMS0, TMS_MFS_MAX);
+> +
+> +	/* RX Filter IP */
+> +	rtsn_write(priv, CFCR0, CFCR_SDID(RX_CHAIN_IDX));
+> +	rtsn_write(priv, FMSCR, FMSCR_FMSIE(RX_CHAIN_IDX));
+> +}
+> +
+> +static int rtsn_get_phy_params(struct rtsn_private *priv)
+> +{
+> +	int ret;
+> +
+> +	ret = of_get_phy_mode(priv->pdev->dev.of_node, &priv->iface);
+> +	if (ret)
+> +		return ret;
+> +
+> +	switch (priv->iface) {
+> +	case PHY_INTERFACE_MODE_MII:
+> +		priv->speed = 100;
+> +		break;
+> +	case PHY_INTERFACE_MODE_RGMII:
+> +	case PHY_INTERFACE_MODE_RGMII_ID:
+> +	case PHY_INTERFACE_MODE_RGMII_RXID:
+> +	case PHY_INTERFACE_MODE_RGMII_TXID:
+> +		priv->speed = 1000;
+> +		break;
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void rtsn_set_phy_interface(struct rtsn_private *priv)
+> +{
+> +	u32 val;
+> +
+> +	switch (priv->iface) {
+> +	case PHY_INTERFACE_MODE_MII:
+> +		val = MPIC_PIS_MII;
+> +		break;
+> +	case PHY_INTERFACE_MODE_RGMII:
+> +	case PHY_INTERFACE_MODE_RGMII_ID:
+> +	case PHY_INTERFACE_MODE_RGMII_RXID:
+> +	case PHY_INTERFACE_MODE_RGMII_TXID:
+> +		val = MPIC_PIS_GMII;
+> +		break;
+> +	default:
+> +		return;
+> +	}
+> +
+> +	rtsn_modify(priv, MPIC, MPIC_PIS_MASK, val);
+> +}
+> +
+> +static void rtsn_set_rate(struct rtsn_private *priv)
+> +{
+> +	u32 val;
+> +
+> +	switch (priv->speed) {
+> +	case 10:
+> +		val = MPIC_LSC_10M;
+> +		break;
+> +	case 100:
+> +		val = MPIC_LSC_100M;
+> +		break;
+> +	case 1000:
+> +		val = MPIC_LSC_1G;
+> +		break;
+> +	default:
+> +		return;
+> +	}
+> +
+> +	rtsn_modify(priv, MPIC, MPIC_LSC_MASK, val);
+> +}
+> +
+> +static int rtsn_rmac_init(struct rtsn_private *priv)
+> +{
+> +	const u8 *mac_addr = priv->ndev->dev_addr;
+> +	int ret;
+> +
+> +	/* Set MAC address */
+> +	rtsn_write(priv, MRMAC0, (mac_addr[0] << 8) | mac_addr[1]);
+> +	rtsn_write(priv, MRMAC1, (mac_addr[2] << 24) | (mac_addr[3] << 16) |
+> +		   (mac_addr[4] << 8) | mac_addr[5]);
+> +
+> +	/* Set xMII type */
+> +	rtsn_set_phy_interface(priv);
+> +	rtsn_set_rate(priv);
+> +
+> +	/* Enable MII */
+> +	rtsn_modify(priv, MPIC, MPIC_PSMCS_MASK | MPIC_PSMHT_MASK,
+> +		    MPIC_PSMCS_DEFAULT | MPIC_PSMHT_DEFAULT);
+> +
+> +	/* Link verification */
+> +	rtsn_modify(priv, MLVC, MLVC_PLV, MLVC_PLV);
+> +	ret = rtsn_reg_wait(priv, MLVC, MLVC_PLV, 0);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return ret;
+> +}
+> +
+> +static int rtsn_hw_init(struct rtsn_private *priv)
+> +{
+> +	int ret;
+> +
+> +	ret = rtsn_reset(priv);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Change to CONFIG mode */
+> +	ret = rtsn_change_mode(priv, OCR_OPC_CONFIG);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = rtsn_axibmi_init(priv);
+> +	if (ret)
+> +		return ret;
+> +
+> +	rtsn_mhd_init(priv);
+> +
+> +	ret = rtsn_rmac_init(priv);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = rtsn_change_mode(priv, OCR_OPC_DISABLE);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Change to OPERATION mode */
+> +	ret = rtsn_change_mode(priv, OCR_OPC_OPERATION);
+> +
+> +	return ret;
+> +}
+> +
+> +static int rtsn_mii_access(struct mii_bus *bus, bool read, int phyad,
+> +			   int regad, u16 data)
+> +{
+> +	struct rtsn_private *priv = bus->priv;
+> +	u32 val;
+> +	int ret;
+> +
+> +	val = MPSM_PDA(phyad) | MPSM_PRA(regad) | MPSM_PSME;
+> +
+> +	if (!read)
+> +		val |= MPSM_PSMAD | MPSM_PRD_SET(data);
+> +
+> +	rtsn_write(priv, MPSM, val);
+> +
+> +	ret = rtsn_reg_wait(priv, MPSM, MPSM_PSME, 0);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (read)
+> +		ret = MPSM_PRD_GET(rtsn_read(priv, MPSM));
+> +
+> +	return ret;
+> +}
+> +
+> +static int rtsn_mii_read(struct mii_bus *bus, int addr, int regnum)
+> +{
+> +	return rtsn_mii_access(bus, true, addr, regnum, 0);
+> +}
+> +
+> +static int rtsn_mii_write(struct mii_bus *bus, int addr, int regnum, u16 val)
+> +{
+> +	return rtsn_mii_access(bus, false, addr, regnum, val);
+> +}
+> +
+> +static int rtsn_mdio_alloc(struct rtsn_private *priv)
+> +{
+> +	struct platform_device *pdev = priv->pdev;
+> +	struct device *dev = &pdev->dev;
+> +	struct device_node *mdio_node;
+> +	struct mii_bus *mii;
+> +	int ret;
+> +
+> +	mii = mdiobus_alloc();
+> +	if (!mii)
+> +		return -ENOMEM;
+> +
+> +	mdio_node = of_get_child_by_name(dev->of_node, "mdio");
+> +	if (!mdio_node) {
+> +		ret = -ENODEV;
+> +		goto out_free_bus;
+> +	}
+> +
+> +	/* Enter config mode before registering the MDIO bus */
+> +	ret = rtsn_reset(priv);
+> +	if (ret)
+> +		goto out_free_bus;
+> +
+> +	ret = rtsn_change_mode(priv, OCR_OPC_CONFIG);
+> +	if (ret)
+> +		goto out_free_bus;
+> +
+> +	rtsn_modify(priv, MPIC, MPIC_PSMCS_MASK | MPIC_PSMHT_MASK,
+> +		    MPIC_PSMCS_DEFAULT | MPIC_PSMHT_DEFAULT);
+> +
+> +	/* Register the MDIO bus */
+> +	mii->name = "rtsn_mii";
+> +	snprintf(mii->id, MII_BUS_ID_SIZE, "%s-%x",
+> +		 pdev->name, pdev->id);
+> +	mii->priv = priv;
+> +	mii->read = rtsn_mii_read;
+> +	mii->write = rtsn_mii_write;
+> +	mii->parent = dev;
+> +
+> +	ret = of_mdiobus_register(mii, mdio_node);
+> +	of_node_put(mdio_node);
+> +	if (ret)
+> +		goto out_free_bus;
+> +
+> +	priv->mii = mii;
+> +
+> +	return 0;
+> +
+> +out_free_bus:
+> +	mdiobus_free(mii);
+> +	return ret;
+> +}
+> +
+> +static void rtsn_mdio_free(struct rtsn_private *priv)
+> +{
+> +	mdiobus_unregister(priv->mii);
+> +	mdiobus_free(priv->mii);
+> +	priv->mii = NULL;
+> +}
+> +
+> +static void rtsn_adjust_link(struct net_device *ndev)
+> +{
+> +	struct rtsn_private *priv = netdev_priv(ndev);
+> +	struct phy_device *phydev = ndev->phydev;
+> +	bool new_state = false;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&priv->lock, flags);
+> +
+> +	if (phydev->link) {
+> +		if (phydev->speed != priv->speed) {
+> +			new_state = true;
+> +			priv->speed = phydev->speed;
+> +		}
+> +
+> +		if (!priv->link) {
+> +			new_state = true;
+> +			priv->link = phydev->link;
+> +		}
+> +	} else if (priv->link) {
+> +		new_state = true;
+> +		priv->link = 0;
+> +		priv->speed = 0;
+> +	}
+> +
+> +	if (new_state) {
+> +		/* Need to transition to CONFIG mode before reconfiguring and
+> +		 * then back to the original mode. Any state change to/from
+> +		 * CONFIG or OPERATION must go over DISABLED to stop Rx/Tx.
+> +		 */
+> +		enum rtsn_mode orgmode = rtsn_read_mode(priv);
+> +
+> +		/* Transit to CONFIG */
+> +		if (orgmode != OCR_OPC_CONFIG) {
+> +			if (orgmode != OCR_OPC_DISABLE &&
+> +			    rtsn_change_mode(priv, OCR_OPC_DISABLE))
+> +				goto out;
+> +			if (rtsn_change_mode(priv, OCR_OPC_CONFIG))
+> +				goto out;
+> +		}
+> +
+> +		rtsn_set_rate(priv);
+> +
+> +		/* Transition to original mode */
+> +		if (orgmode != OCR_OPC_CONFIG) {
+> +			if (rtsn_change_mode(priv, OCR_OPC_DISABLE))
+> +				goto out;
+> +			if (orgmode != OCR_OPC_DISABLE &&
+> +			    rtsn_change_mode(priv, orgmode))
+> +				goto out;
+> +		}
+> +	}
+> +out:
+> +	spin_unlock_irqrestore(&priv->lock, flags);
+> +
+> +	if (new_state)
+> +		phy_print_status(phydev);
+> +}
+> +
+> +static int rtsn_phy_init(struct rtsn_private *priv)
+> +{
+> +	struct device_node *np = priv->ndev->dev.parent->of_node;
+> +	struct phy_device *phydev;
+> +	struct device_node *phy;
+> +
+> +	priv->link = 0;
+> +
+> +	phy = of_parse_phandle(np, "phy-handle", 0);
+> +	if (!phy)
+> +		return -ENOENT;
+> +
+> +	phydev = of_phy_connect(priv->ndev, phy, rtsn_adjust_link, 0,
+> +				priv->iface);
+> +	of_node_put(phy);
+> +	if (!phydev)
+> +		return -ENOENT;
+> +
+> +	/* Only support full-duplex mode */
+> +	phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_10baseT_Half_BIT);
+> +	phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_100baseT_Half_BIT);
+> +	phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_1000baseT_Half_BIT);
+> +
+> +	phy_attached_info(phydev);
+> +
+> +	return 0;
+> +}
+> +
+> +static void rtsn_phy_deinit(struct rtsn_private *priv)
+> +{
+> +	phy_disconnect(priv->ndev->phydev);
+> +	priv->ndev->phydev = NULL;
+> +}
+> +
+> +static int rtsn_init(struct rtsn_private *priv)
+> +{
+> +	int ret;
+> +
+> +	ret = rtsn_desc_alloc(priv);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = rtsn_dmac_init(priv);
+> +	if (ret)
+> +		goto error_free_desc;
+> +
+> +	ret = rtsn_hw_init(priv);
+> +	if (ret)
+> +		goto error_free_chain;
+> +
+> +	ret = rtsn_phy_init(priv);
+> +	if (ret)
+> +		goto error_free_chain;
+> +
+> +	ret = rtsn_request_irqs(priv);
+> +	if (ret)
+> +		goto error_free_phy;
+> +
+> +	return 0;
+> +error_free_phy:
+> +	rtsn_phy_deinit(priv);
+> +error_free_chain:
+> +	rtsn_chain_free(priv);
+> +error_free_desc:
+> +	rtsn_desc_free(priv);
+> +	return ret;
+> +}
+> +
+> +static void rtsn_deinit(struct rtsn_private *priv)
+> +{
+> +	rtsn_free_irqs(priv);
+> +	rtsn_phy_deinit(priv);
+> +	rtsn_chain_free(priv);
+> +	rtsn_desc_free(priv);
+> +}
+> +
+> +static void rtsn_parse_mac_address(struct device_node *np,
+> +				   struct net_device *ndev)
+> +{
+> +	struct rtsn_private *priv = netdev_priv(ndev);
+> +	u8 addr[ETH_ALEN];
+> +	u32 mrmac0;
+> +	u32 mrmac1;
+> +
+> +	/* Try to read address from Device Tree. */
+> +	if (!of_get_mac_address(np, addr)) {
+> +		eth_hw_addr_set(ndev, addr);
+> +		return;
+> +	}
+> +
+> +	/* Try to read address from device. */
+> +	mrmac0 = rtsn_read(priv, MRMAC0);
+> +	mrmac1 = rtsn_read(priv, MRMAC1);
+> +
+> +	addr[0] = (mrmac0 >>  8) & 0xff;
+> +	addr[1] = (mrmac0 >>  0) & 0xff;
+> +	addr[2] = (mrmac1 >> 24) & 0xff;
+> +	addr[3] = (mrmac1 >> 16) & 0xff;
+> +	addr[4] = (mrmac1 >>  8) & 0xff;
+> +	addr[5] = (mrmac1 >>  0) & 0xff;
+> +
+> +	if (is_valid_ether_addr(addr)) {
+> +		eth_hw_addr_set(ndev, addr);
+> +		return;
+> +	}
+> +
+> +	/* Fallback to a random address */
+> +	eth_hw_addr_random(ndev);
+> +}
+> +
+> +static int rtsn_open(struct net_device *ndev)
+> +{
+> +	struct rtsn_private *priv = netdev_priv(ndev);
+> +	int ret;
+> +
+> +	napi_enable(&priv->napi);
+> +
+> +	ret = rtsn_init(priv);
+> +	if (ret) {
+> +		napi_disable(&priv->napi);
+> +		return ret;
+> +	}
+> +
+> +	phy_start(ndev->phydev);
+> +
+> +	netif_start_queue(ndev);
+> +
+> +	return 0;
+> +}
+> +
+> +static int rtsn_stop(struct net_device *ndev)
+> +{
+> +	struct rtsn_private *priv = netdev_priv(ndev);
+> +
+> +	phy_stop(priv->ndev->phydev);
+> +	napi_disable(&priv->napi);
+> +	rtsn_change_mode(priv, OCR_OPC_DISABLE);
+> +	rtsn_deinit(priv);
+> +
+> +	return 0;
+> +}
+> +
+> +static netdev_tx_t rtsn_start_xmit(struct sk_buff *skb, struct net_device *ndev)
+> +{
+> +	struct rtsn_private *priv = netdev_priv(ndev);
+> +	struct rtsn_ext_desc *desc;
+> +	int ret = NETDEV_TX_OK;
+> +	unsigned long flags;
+> +	dma_addr_t dma_addr;
+> +	int entry;
+> +
+> +	spin_lock_irqsave(&priv->lock, flags);
+> +
+> +	/* Drop packet if it won't fit in a single descriptor. */
+> +	if (skb->len >= TX_DS) {
+> +		priv->stats.tx_dropped++;
+> +		priv->stats.tx_errors++;
+> +		goto out;
+> +	}
+> +
+> +	if (priv->cur_tx - priv->dirty_tx > priv->num_tx_ring) {
+> +		netif_stop_subqueue(ndev, 0);
+> +		ret = NETDEV_TX_BUSY;
+> +		goto out;
+> +	}
+> +
+> +	if (skb_put_padto(skb, ETH_ZLEN))
+> +		goto out;
+> +
+> +	dma_addr = dma_map_single(ndev->dev.parent, skb->data, skb->len,
+> +				  DMA_TO_DEVICE);
+> +	if (dma_mapping_error(ndev->dev.parent, dma_addr)) {
+> +		dev_kfree_skb_any(skb);
+> +		goto out;
+> +	}
+> +
+> +	entry = priv->cur_tx % priv->num_tx_ring;
+> +	priv->tx_skb[entry] = skb;
+> +	desc = &priv->tx_ring[entry];
+> +	desc->dptr = cpu_to_le32(dma_addr);
+> +	desc->info_ds = cpu_to_le16(skb->len);
+> +	desc->info1 = cpu_to_le64(skb->len);
+> +
+> +	if (skb_shinfo(skb)->tx_flags & SKBTX_HW_TSTAMP) {
+> +		skb_shinfo(skb)->tx_flags |= SKBTX_IN_PROGRESS;
+> +		priv->ts_tag++;
+> +		desc->info_ds |= cpu_to_le16(TXC);
+> +		desc->info = priv->ts_tag;
+> +	}
+> +
+> +	skb_tx_timestamp(skb);
+> +	dma_wmb();
+> +
+> +	desc->die_dt = DT_FSINGLE | D_DIE;
+> +	priv->cur_tx++;
+> +
+> +	/* Start xmit */
+> +	rtsn_write(priv, TRCR0, BIT(TX_CHAIN_IDX));
+> +out:
+> +	spin_unlock_irqrestore(&priv->lock, flags);
+> +	return ret;
+> +}
+> +
+> +static void rtsn_get_stats64(struct net_device *ndev,
+> +			     struct rtnl_link_stats64 *storage)
+> +{
+> +	struct rtsn_private *priv = netdev_priv(ndev);
+> +	*storage = priv->stats;
+> +}
+> +
+> +static int rtsn_do_ioctl(struct net_device *ndev, struct ifreq *ifr, int cmd)
+> +{
+> +	if (!netif_running(ndev))
+> +		return -ENODEV;
+> +
+> +	return phy_do_ioctl_running(ndev, ifr, cmd);
+> +}
+> +
+> +static int rtsn_hwtstamp_get(struct net_device *ndev,
+> +			     struct kernel_hwtstamp_config *config)
+> +{
+> +	struct rcar_gen4_ptp_private *ptp_priv;
+> +	struct rtsn_private *priv;
+> +
+> +	if (!netif_running(ndev))
+> +		return -ENODEV;
+> +
+> +	priv = netdev_priv(ndev);
+> +	ptp_priv = priv->ptp_priv;
+> +
+> +	config->flags = 0;
+> +
+> +	config->tx_type =
+> +		ptp_priv->tstamp_tx_ctrl ? HWTSTAMP_TX_ON : HWTSTAMP_TX_OFF;
+> +
+> +	switch (ptp_priv->tstamp_rx_ctrl & RCAR_GEN4_RXTSTAMP_TYPE) {
+> +	case RCAR_GEN4_RXTSTAMP_TYPE_V2_L2_EVENT:
+> +		config->rx_filter = HWTSTAMP_FILTER_PTP_V2_L2_EVENT;
+> +		break;
+> +	case RCAR_GEN4_RXTSTAMP_TYPE_ALL:
+> +		config->rx_filter = HWTSTAMP_FILTER_ALL;
+> +		break;
+> +	default:
+> +		config->rx_filter = HWTSTAMP_FILTER_NONE;
+> +		break;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int rtsn_hwtstamp_set(struct net_device *ndev,
+> +			     struct kernel_hwtstamp_config *config,
+> +			     struct netlink_ext_ack *extack)
+> +{
+> +	struct rcar_gen4_ptp_private *ptp_priv;
+> +	struct rtsn_private *priv;
+> +	u32 tstamp_rx_ctrl;
+> +	u32 tstamp_tx_ctrl;
+> +
+> +	if (!netif_running(ndev))
+> +		return -ENODEV;
+> +
+> +	priv = netdev_priv(ndev);
+> +	ptp_priv = priv->ptp_priv;
+> +
+> +	if (config->flags)
+> +		return -EINVAL;
+> +
+> +	switch (config->tx_type) {
+> +	case HWTSTAMP_TX_OFF:
+> +		tstamp_tx_ctrl = 0;
+> +		break;
+> +	case HWTSTAMP_TX_ON:
+> +		tstamp_tx_ctrl = RCAR_GEN4_TXTSTAMP_ENABLED;
+> +		break;
+> +	default:
+> +		return -ERANGE;
+> +	}
+> +
+> +	switch (config->rx_filter) {
+> +	case HWTSTAMP_FILTER_NONE:
+> +		tstamp_rx_ctrl = 0;
+> +		break;
+> +	case HWTSTAMP_FILTER_PTP_V2_L2_EVENT:
+> +		tstamp_rx_ctrl = RCAR_GEN4_RXTSTAMP_ENABLED |
+> +			RCAR_GEN4_RXTSTAMP_TYPE_V2_L2_EVENT;
+> +		break;
+> +	default:
+> +		config->rx_filter = HWTSTAMP_FILTER_ALL;
+> +		tstamp_rx_ctrl = RCAR_GEN4_RXTSTAMP_ENABLED |
+> +			RCAR_GEN4_RXTSTAMP_TYPE_ALL;
+> +		break;
+> +	}
+> +
+> +	ptp_priv->tstamp_tx_ctrl = tstamp_tx_ctrl;
+> +	ptp_priv->tstamp_rx_ctrl = tstamp_rx_ctrl;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct net_device_ops rtsn_netdev_ops = {
+> +	.ndo_open		= rtsn_open,
+> +	.ndo_stop		= rtsn_stop,
+> +	.ndo_start_xmit		= rtsn_start_xmit,
+> +	.ndo_get_stats64	= rtsn_get_stats64,
+> +	.ndo_eth_ioctl		= rtsn_do_ioctl,
+> +	.ndo_validate_addr	= eth_validate_addr,
+> +	.ndo_set_mac_address	= eth_mac_addr,
+> +	.ndo_hwtstamp_set	= rtsn_hwtstamp_set,
+> +	.ndo_hwtstamp_get	= rtsn_hwtstamp_get,
+> +};
+> +
+> +static int rtsn_get_ts_info(struct net_device *ndev,
+> +			    struct ethtool_ts_info *info)
+> +{
+> +	struct rtsn_private *priv = netdev_priv(ndev);
+> +
+> +	info->phc_index = ptp_clock_index(priv->ptp_priv->clock);
+> +	info->so_timestamping = SOF_TIMESTAMPING_TX_SOFTWARE |
+> +		SOF_TIMESTAMPING_RX_SOFTWARE |
+> +		SOF_TIMESTAMPING_SOFTWARE |
+> +		SOF_TIMESTAMPING_TX_HARDWARE |
+> +		SOF_TIMESTAMPING_RX_HARDWARE |
+> +		SOF_TIMESTAMPING_RAW_HARDWARE;
+> +	info->tx_types = BIT(HWTSTAMP_TX_OFF) | BIT(HWTSTAMP_TX_ON);
+> +	info->rx_filters = BIT(HWTSTAMP_FILTER_NONE) | BIT(HWTSTAMP_FILTER_ALL);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct ethtool_ops rtsn_ethtool_ops = {
+> +	.nway_reset		= phy_ethtool_nway_reset,
+> +	.get_link		= ethtool_op_get_link,
+> +	.get_ts_info		= rtsn_get_ts_info,
+> +	.get_link_ksettings	= phy_ethtool_get_link_ksettings,
+> +	.set_link_ksettings	= phy_ethtool_set_link_ksettings,
+> +};
+> +
+> +static const struct of_device_id rtsn_match_table[] = {
+> +	{ .compatible = "renesas,r8a779g0-ethertsn", },
+> +	{ /* Sentinel */ }
+> +};
+> +
+> +MODULE_DEVICE_TABLE(of, rtsn_match_table);
+> +
+> +static int rtsn_probe(struct platform_device *pdev)
+> +{
+> +	struct rtsn_private *priv;
+> +	struct net_device *ndev;
+> +	struct resource *res;
+> +	int ret;
+> +
+> +	ndev = alloc_etherdev_mqs(sizeof(struct rtsn_private), TX_NUM_CHAINS,
+> +				  RX_NUM_CHAINS);
+> +	if (!ndev)
+> +		return -ENOMEM;
+> +
+> +	priv = netdev_priv(ndev);
+> +	priv->pdev = pdev;
+> +	priv->ndev = ndev;
+> +	priv->ptp_priv = rcar_gen4_ptp_alloc(pdev);
+> +
+> +	spin_lock_init(&priv->lock);
+> +	platform_set_drvdata(pdev, priv);
+> +
+> +	priv->clk = devm_clk_get(&pdev->dev, NULL);
+> +	if (IS_ERR(priv->clk)) {
+> +		ret = PTR_ERR(priv->clk);
+> +		goto error_free;
+> +	}
+> +
+> +	priv->reset = devm_reset_control_get(&pdev->dev, NULL);
+> +	if (IS_ERR(priv->reset)) {
+> +		ret = PTR_ERR(priv->reset);
+> +		goto error_free;
+> +	}
+> +
+> +	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "tsnes");
+> +	if (!res) {
+> +		dev_err(&pdev->dev, "Can't find tsnes resource\n");
+> +		ret = -EINVAL;
+> +		goto error_free;
+> +	}
+> +
+> +	priv->base = devm_ioremap_resource(&pdev->dev, res);
+> +	if (IS_ERR(priv->base)) {
+> +		ret = PTR_ERR(priv->base);
+> +		goto error_free;
+> +	}
+> +
+> +	SET_NETDEV_DEV(ndev, &pdev->dev);
+> +
+> +	ndev->features = NETIF_F_RXCSUM;
+> +	ndev->hw_features = NETIF_F_RXCSUM;
+> +	ndev->base_addr = res->start;
+> +	ndev->netdev_ops = &rtsn_netdev_ops;
+> +	ndev->ethtool_ops = &rtsn_ethtool_ops;
+> +
+> +	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "gptp");
+> +	if (!res) {
+> +		dev_err(&pdev->dev, "Can't find gptp resource\n");
+> +		ret = -EINVAL;
+> +		goto error_free;
+> +	}
+> +
+> +	priv->ptp_priv->addr = devm_ioremap_resource(&pdev->dev, res);
+> +	if (IS_ERR(priv->ptp_priv->addr)) {
+> +		ret = PTR_ERR(priv->ptp_priv->addr);
+> +		goto error_free;
+> +	}
+> +
+> +	ret = rtsn_get_phy_params(priv);
+> +	if (ret)
+> +		goto error_free;
+> +
+> +	pm_runtime_enable(&pdev->dev);
+> +	pm_runtime_get_sync(&pdev->dev);
+> +
+> +	netif_napi_add(ndev, &priv->napi, rtsn_poll);
+> +
+> +	rtsn_parse_mac_address(pdev->dev.of_node, ndev);
+> +
+> +	dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
+> +
+> +	device_set_wakeup_capable(&pdev->dev, 1);
+> +
+> +	ret = rcar_gen4_ptp_register(priv->ptp_priv, RCAR_GEN4_PTP_REG_LAYOUT,
+> +				     clk_get_rate(priv->clk));
+> +	if (ret)
+> +		goto error_pm;
+> +
+> +	ret = rtsn_mdio_alloc(priv);
+> +	if (ret)
+> +		goto error_ptp;
+> +
+> +	ret = register_netdev(ndev);
+> +	if (ret)
+> +		goto error_mdio;
+> +
+> +	netdev_info(ndev, "MAC address %pM\n", ndev->dev_addr);
+> +
+> +	return 0;
+> +
+> +error_mdio:
+> +	rtsn_mdio_free(priv);
+> +error_ptp:
+> +	rcar_gen4_ptp_unregister(priv->ptp_priv);
+> +error_pm:
+> +	netif_napi_del(&priv->napi);
+> +	rtsn_change_mode(priv, OCR_OPC_DISABLE);
+> +	pm_runtime_put_sync(&pdev->dev);
+> +	pm_runtime_disable(&pdev->dev);
+> +error_free:
+> +	free_netdev(ndev);
+> +
+> +	return ret;
+> +}
+> +
+> +static int rtsn_remove(struct platform_device *pdev)
+> +{
+> +	struct rtsn_private *priv = platform_get_drvdata(pdev);
+> +
+> +	unregister_netdev(priv->ndev);
+> +	rtsn_mdio_free(priv);
+> +	rcar_gen4_ptp_unregister(priv->ptp_priv);
+> +	rtsn_change_mode(priv, OCR_OPC_DISABLE);
+> +	netif_napi_del(&priv->napi);
+> +
+> +	pm_runtime_put_sync(&pdev->dev);
+> +	pm_runtime_disable(&pdev->dev);
+> +
+> +	free_netdev(priv->ndev);
+> +
+> +	return 0;
+> +}
+> +
+> +static struct platform_driver rtsn_driver = {
+> +	.probe		= rtsn_probe,
+> +	.remove		= rtsn_remove,
+> +	.driver	= {
+> +		.name	= "rtsn",
+> +		.of_match_table	= rtsn_match_table,
+> +	}
+> +};
+> +module_platform_driver(rtsn_driver);
+> +
+> +MODULE_AUTHOR("Phong Hoang, Niklas Söderlund");
+> +MODULE_DESCRIPTION("Renesas Ethernet-TSN device driver");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/net/ethernet/renesas/rtsn.h b/drivers/net/ethernet/renesas/rtsn.h
+> new file mode 100644
+> index 000000000000..3183e80d7e6b
+> --- /dev/null
+> +++ b/drivers/net/ethernet/renesas/rtsn.h
+> @@ -0,0 +1,464 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +/* Renesas Ethernet-TSN device driver
+> + *
+> + * Copyright (C) 2022 Renesas Electronics Corporation
+> + * Copyright (C) 2023 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> + */
+> +
+> +#ifndef __RTSN_H__
+> +#define __RTSN_H__
+> +
+> +#include <linux/types.h>
+> +
+> +#define AXIBMI	0x0000
+> +#define TSNMHD	0x1000
+> +#define RMSO	0x2000
+> +#define RMRO	0x3800
+> +
+> +enum rtsn_reg {
+> +	AXIWC		= AXIBMI + 0x0000,
+> +	AXIRC		= AXIBMI + 0x0004,
+> +	TDPC0		= AXIBMI + 0x0010,
+> +	TFT		= AXIBMI + 0x0090,
+> +	TATLS0		= AXIBMI + 0x00a0,
+> +	TATLS1		= AXIBMI + 0x00a4,
+> +	TATLR		= AXIBMI + 0x00a8,
+> +	RATLS0		= AXIBMI + 0x00b0,
+> +	RATLS1		= AXIBMI + 0x00b4,
+> +	RATLR		= AXIBMI + 0x00b8,
+> +	TSA0		= AXIBMI + 0x00c0,
+> +	TSS0		= AXIBMI + 0x00c4,
+> +	TRCR0		= AXIBMI + 0x0140,
+> +	RIDAUAS0	= AXIBMI + 0x0180,
+> +	RR		= AXIBMI + 0x0200,
+> +	TATS		= AXIBMI + 0x0210,
+> +	TATSR0		= AXIBMI + 0x0214,
+> +	TATSR1		= AXIBMI + 0x0218,
+> +	TATSR2		= AXIBMI + 0x021c,
+> +	RATS		= AXIBMI + 0x0220,
+> +	RATSR0		= AXIBMI + 0x0224,
+> +	RATSR1		= AXIBMI + 0x0228,
+> +	RATSR2		= AXIBMI + 0x022c,
+> +	RIDASM0		= AXIBMI + 0x0240,
+> +	RIDASAM0	= AXIBMI + 0x0244,
+> +	RIDACAM0	= AXIBMI + 0x0248,
+> +	EIS0		= AXIBMI + 0x0300,
+> +	EIE0		= AXIBMI + 0x0304,
+> +	EID0		= AXIBMI + 0x0308,
+> +	EIS1		= AXIBMI + 0x0310,
+> +	EIE1		= AXIBMI + 0x0314,
+> +	EID1		= AXIBMI + 0x0318,
+> +	TCEIS0		= AXIBMI + 0x0340,
+> +	TCEIE0		= AXIBMI + 0x0344,
+> +	TCEID0		= AXIBMI + 0x0348,
+> +	RFSEIS0		= AXIBMI + 0x04c0,
+> +	RFSEIE0		= AXIBMI + 0x04c4,
+> +	RFSEID0		= AXIBMI + 0x04c8,
+> +	RFEIS0		= AXIBMI + 0x0540,
+> +	RFEIE0		= AXIBMI + 0x0544,
+> +	RFEID0		= AXIBMI + 0x0548,
+> +	RCEIS0		= AXIBMI + 0x05c0,
+> +	RCEIE0		= AXIBMI + 0x05c4,
+> +	RCEID0		= AXIBMI + 0x05c8,
+> +	RIDAOIS		= AXIBMI + 0x0640,
+> +	RIDAOIE		= AXIBMI + 0x0644,
+> +	RIDAOID		= AXIBMI + 0x0648,
+> +	TSFEIS		= AXIBMI + 0x06c0,
+> +	TSFEIE		= AXIBMI + 0x06c4,
+> +	TSFEID		= AXIBMI + 0x06c8,
+> +	TSCEIS		= AXIBMI + 0x06d0,
+> +	TSCEIE		= AXIBMI + 0x06d4,
+> +	TSCEID		= AXIBMI + 0x06d8,
+> +	DIS		= AXIBMI + 0x0b00,
+> +	DIE		= AXIBMI + 0x0b04,
+> +	DID		= AXIBMI + 0x0b08,
+> +	TDIS0		= AXIBMI + 0x0b10,
+> +	TDIE0		= AXIBMI + 0x0b14,
+> +	TDID0		= AXIBMI + 0x0b18,
+> +	RDIS0		= AXIBMI + 0x0b90,
+> +	RDIE0		= AXIBMI + 0x0b94,
+> +	RDID0		= AXIBMI + 0x0b98,
+> +	TSDIS		= AXIBMI + 0x0c10,
+> +	TSDIE		= AXIBMI + 0x0c14,
+> +	TSDID		= AXIBMI + 0x0c18,
+> +	GPOUT		= AXIBMI + 0x6000,
+> +
+> +	OCR		= TSNMHD + 0x0000,
+> +	OSR		= TSNMHD + 0x0004,
+> +	SWR		= TSNMHD + 0x0008,
+> +	SIS		= TSNMHD + 0x000c,
+> +	GIS		= TSNMHD + 0x0010,
+> +	GIE		= TSNMHD + 0x0014,
+> +	GID		= TSNMHD + 0x0018,
+> +	TIS1		= TSNMHD + 0x0020,
+> +	TIE1		= TSNMHD + 0x0024,
+> +	TID1		= TSNMHD + 0x0028,
+> +	TIS2		= TSNMHD + 0x0030,
+> +	TIE2		= TSNMHD + 0x0034,
+> +	TID2		= TSNMHD + 0x0038,
+> +	RIS		= TSNMHD + 0x0040,
+> +	RIE		= TSNMHD + 0x0044,
+> +	RID		= TSNMHD + 0x0048,
+> +	TGC1		= TSNMHD + 0x0050,
+> +	TGC2		= TSNMHD + 0x0054,
+> +	TFS0		= TSNMHD + 0x0060,
+> +	TCF0		= TSNMHD + 0x0070,
+> +	TCR1		= TSNMHD + 0x0080,
+> +	TCR2		= TSNMHD + 0x0084,
+> +	TCR3		= TSNMHD + 0x0088,
+> +	TCR4		= TSNMHD + 0x008c,
+> +	TMS0		= TSNMHD + 0x0090,
+> +	TSR1		= TSNMHD + 0x00b0,
+> +	TSR2		= TSNMHD + 0x00b4,
+> +	TSR3		= TSNMHD + 0x00b8,
+> +	TSR4		= TSNMHD + 0x00bc,
+> +	TSR5		= TSNMHD + 0x00c0,
+> +	RGC		= TSNMHD + 0x00d0,
+> +	RDFCR		= TSNMHD + 0x00d4,
+> +	RCFCR		= TSNMHD + 0x00d8,
+> +	REFCNCR		= TSNMHD + 0x00dc,
+> +	RSR1		= TSNMHD + 0x00e0,
+> +	RSR2		= TSNMHD + 0x00e4,
+> +	RSR3		= TSNMHD + 0x00e8,
+> +	TCIS		= TSNMHD + 0x01e0,
+> +	TCIE		= TSNMHD + 0x01e4,
+> +	TCID		= TSNMHD + 0x01e8,
+> +	TPTPC		= TSNMHD + 0x01f0,
+> +	TTML		= TSNMHD + 0x01f4,
+> +	TTJ		= TSNMHD + 0x01f8,
+> +	TCC		= TSNMHD + 0x0200,
+> +	TCS		= TSNMHD + 0x0204,
+> +	TGS		= TSNMHD + 0x020c,
+> +	TACST0		= TSNMHD + 0x0210,
+> +	TACST1		= TSNMHD + 0x0214,
+> +	TACST2		= TSNMHD + 0x0218,
+> +	TALIT0		= TSNMHD + 0x0220,
+> +	TALIT1		= TSNMHD + 0x0224,
+> +	TALIT2		= TSNMHD + 0x0228,
+> +	TAEN0		= TSNMHD + 0x0230,
+> +	TAEN1		= TSNMHD + 0x0234,
+> +	TASFE		= TSNMHD + 0x0240,
+> +	TACLL0		= TSNMHD + 0x0250,
+> +	TACLL1		= TSNMHD + 0x0254,
+> +	TACLL2		= TSNMHD + 0x0258,
+> +	CACC		= TSNMHD + 0x0260,
+> +	CCS		= TSNMHD + 0x0264,
+> +	CAIV0		= TSNMHD + 0x0270,
+> +	CAUL0		= TSNMHD + 0x0290,
+> +	TOCST0		= TSNMHD + 0x0300,
+> +	TOCST1		= TSNMHD + 0x0304,
+> +	TOCST2		= TSNMHD + 0x0308,
+> +	TOLIT0		= TSNMHD + 0x0310,
+> +	TOLIT1		= TSNMHD + 0x0314,
+> +	TOLIT2		= TSNMHD + 0x0318,
+> +	TOEN0		= TSNMHD + 0x0320,
+> +	TOEN1		= TSNMHD + 0x0324,
+> +	TOSFE		= TSNMHD + 0x0330,
+> +	TCLR0		= TSNMHD + 0x0340,
+> +	TCLR1		= TSNMHD + 0x0344,
+> +	TCLR2		= TSNMHD + 0x0348,
+> +	TSMS		= TSNMHD + 0x0350,
+> +	COCC		= TSNMHD + 0x0360,
+> +	COIV0		= TSNMHD + 0x03b0,
+> +	COUL0		= TSNMHD + 0x03d0,
+> +	QSTMACU0	= TSNMHD + 0x0400,
+> +	QSTMACD0	= TSNMHD + 0x0404,
+> +	QSTMAMU0	= TSNMHD + 0x0408,
+> +	QSTMAMD0	= TSNMHD + 0x040c,
+> +	QSFTVL0		= TSNMHD + 0x0410,
+> +	QSFTVLM0	= TSNMHD + 0x0414,
+> +	QSFTMSD0	= TSNMHD + 0x0418,
+> +	QSFTGMI0	= TSNMHD + 0x041c,
+> +	QSFTLS		= TSNMHD + 0x0600,
+> +	QSFTLIS		= TSNMHD + 0x0604,
+> +	QSFTLIE		= TSNMHD + 0x0608,
+> +	QSFTLID		= TSNMHD + 0x060c,
+> +	QSMSMC		= TSNMHD + 0x0610,
+> +	QSGTMC		= TSNMHD + 0x0614,
+> +	QSEIS		= TSNMHD + 0x0618,
+> +	QSEIE		= TSNMHD + 0x061c,
+> +	QSEID		= TSNMHD + 0x0620,
+> +	QGACST0		= TSNMHD + 0x0630,
+> +	QGACST1		= TSNMHD + 0x0634,
+> +	QGACST2		= TSNMHD + 0x0638,
+> +	QGALIT1		= TSNMHD + 0x0640,
+> +	QGALIT2		= TSNMHD + 0x0644,
+> +	QGAEN0		= TSNMHD + 0x0648,
+> +	QGAEN1		= TSNMHD + 0x074c,
+> +	QGIGS		= TSNMHD + 0x0650,
+> +	QGGC		= TSNMHD + 0x0654,
+> +	QGATL0		= TSNMHD + 0x0664,
+> +	QGATL1		= TSNMHD + 0x0668,
+> +	QGATL2		= TSNMHD + 0x066c,
+> +	QGOCST0		= TSNMHD + 0x0670,
+> +	QGOCST1		= TSNMHD + 0x0674,
+> +	QGOCST2		= TSNMHD + 0x0678,
+> +	QGOLIT0		= TSNMHD + 0x067c,
+> +	QGOLIT1		= TSNMHD + 0x0680,
+> +	QGOLIT2		= TSNMHD + 0x0684,
+> +	QGOEN0		= TSNMHD + 0x0688,
+> +	QGOEN1		= TSNMHD + 0x068c,
+> +	QGTRO		= TSNMHD + 0x0690,
+> +	QGTR1		= TSNMHD + 0x0694,
+> +	QGTR2		= TSNMHD + 0x0698,
+> +	QGFSMS		= TSNMHD + 0x069c,
+> +	QTMIS		= TSNMHD + 0x06e0,
+> +	QTMIE		= TSNMHD + 0x06e4,
+> +	QTMID		= TSNMHD + 0x06e8,
+> +	QMEC		= TSNMHD + 0x0700,
+> +	QMMC		= TSNMHD + 0x0704,
+> +	QRFDC		= TSNMHD + 0x0708,
+> +	QYFDC		= TSNMHD + 0x070c,
+> +	QVTCMC0		= TSNMHD + 0x0710,
+> +	QMCBSC0		= TSNMHD + 0x0750,
+> +	QMCIRC0		= TSNMHD + 0x0790,
+> +	QMEBSC0		= TSNMHD + 0x07d0,
+> +	QMEIRC0		= TSNMHD + 0x0710,
+> +	QMCFC		= TSNMHD + 0x0850,
+> +	QMEIS		= TSNMHD + 0x0860,
+> +	QMEIE		= TSNMHD + 0x0864,
+> +	QMEID		= TSNMHD + 0x086c,
+> +	QSMFC0		= TSNMHD + 0x0870,
+> +	QMSPPC0		= TSNMHD + 0x08b0,
+> +	QMSRPC0		= TSNMHD + 0x08f0,
+> +	QGPPC0		= TSNMHD + 0x0930,
+> +	QGRPC0		= TSNMHD + 0x0950,
+> +	QMDPC0		= TSNMHD + 0x0970,
+> +	QMGPC0		= TSNMHD + 0x09b0,
+> +	QMYPC0		= TSNMHD + 0x09f0,
+> +	QMRPC0		= TSNMHD + 0x0a30,
+> +	MQSTMACU	= TSNMHD + 0x0a70,
+> +	MQSTMACD	= TSNMHD + 0x0a74,
+> +	MQSTMAMU	= TSNMHD + 0x0a78,
+> +	MQSTMAMD	= TSNMHD + 0x0a7c,
+> +	MQSFTVL		= TSNMHD + 0x0a80,
+> +	MQSFTVLM	= TSNMHD + 0x0a84,
+> +	MQSFTMSD	= TSNMHD + 0x0a88,
+> +	MQSFTGMI	= TSNMHD + 0x0a8c,
+> +
+> +	CFCR0		= RMSO + 0x0800,
+> +	FMSCR		= RMSO + 0x0c10,
+> +
+> +	MMC		= RMRO + 0x0000,
+> +	MPSM		= RMRO + 0x0010,
+> +	MPIC		= RMRO + 0x0014,
+> +	MTFFC		= RMRO + 0x0020,
+> +	MTPFC		= RMRO + 0x0024,
+> +	MTATC0		= RMRO + 0x0040,
+> +	MRGC		= RMRO + 0x0080,
+> +	MRMAC0		= RMRO + 0x0084,
+> +	MRMAC1		= RMRO + 0x0088,
+> +	MRAFC		= RMRO + 0x008c,
+> +	MRSCE		= RMRO + 0x0090,
+> +	MRSCP		= RMRO + 0x0094,
+> +	MRSCC		= RMRO + 0x0098,
+> +	MRFSCE		= RMRO + 0x009c,
+> +	MRFSCP		= RMRO + 0x00a0,
+> +	MTRC		= RMRO + 0x00a4,
+> +	MPFC		= RMRO + 0x0100,
+> +	MLVC		= RMRO + 0x0340,
+> +	MEEEC		= RMRO + 0x0350,
+> +	MLBC		= RMRO + 0x0360,
+> +	MGMR		= RMRO + 0x0400,
+> +	MMPFTCT		= RMRO + 0x0410,
+> +	MAPFTCT		= RMRO + 0x0414,
+> +	MPFRCT		= RMRO + 0x0418,
+> +	MFCICT		= RMRO + 0x041c,
+> +	MEEECT		= RMRO + 0x0420,
+> +	MEIS		= RMRO + 0x0500,
+> +	MEIE		= RMRO + 0x0504,
+> +	MEID		= RMRO + 0x0508,
+> +	MMIS0		= RMRO + 0x0510,
+> +	MMIE0		= RMRO + 0x0514,
+> +	MMID0		= RMRO + 0x0518,
+> +	MMIS1		= RMRO + 0x0520,
+> +	MMIE1		= RMRO + 0x0524,
+> +	MMID1		= RMRO + 0x0528,
+> +	MMIS2		= RMRO + 0x0530,
+> +	MMIE2		= RMRO + 0x0534,
+> +	MMID2		= RMRO + 0x0538,
+> +	MXMS		= RMRO + 0x0600,
+> +
+> +};
+> +
+> +/* AXIBMI */
+> +#define RR_RATRR		BIT(0)
+> +#define RR_TATRR		BIT(1)
+> +#define RR_RST			(RR_RATRR | RR_TATRR)
+> +#define RR_RST_COMPLETE		0x03
+> +
+> +#define AXIWC_DEFAULT		0xffff
+> +#define AXIRC_DEFAULT		0xffff
+> +
+> +#define TATLS0_TEDE		BIT(1)
+> +#define TATLS0_TATEN_SHIFT	24
+> +#define TATLS0_TATEN(n)		((n) << TATLS0_TATEN_SHIFT)
+> +#define TATLR_TATL		BIT(31)
+> +
+> +#define RATLS0_RETS		BIT(2)
+> +#define RATLS0_REDE		BIT(3)
+> +#define RATLS0_RATEN_SHIFT	24
+> +#define RATLS0_RATEN(n)		((n) << RATLS0_RATEN_SHIFT)
+> +#define RATLR_RATL		BIT(31)
+> +
+> +#define DIE_DID_TDICX(n)	BIT((n))
+> +#define DIE_DID_RDICX(n)	BIT((n) + 8)
+> +#define TDIE_TDID_TDX(n)	BIT(n)
+> +#define RDIE_RDID_RDX(n)	BIT(n)
+> +#define TDIS_TDS(n)		BIT(n)
+> +#define RDIS_RDS(n)		BIT(n)
+> +
+> +/* MHD */
+> +#define OSR_OPS			0x07
+> +#define SWR_SWR			BIT(0)
+> +
+> +#define TGC1_TQTM_SFM		0xff00
+> +#define TGC1_STTV_DEFAULT	0x03
+> +
+> +#define TMS_MFS_MAX		0x2800
+> +
+> +/* RMAC System */
+> +#define CFCR_SDID(n)		((n) << 16)
+> +#define FMSCR_FMSIE(n)		((n) << 0)
+> +
+> +/* RMAC */
+> +#define MPIC_PIS_MASK		GENMASK(1, 0)
+> +#define MPIC_PIS_MII		0
+> +#define MPIC_PIS_RMII		0x01
+> +#define MPIC_PIS_GMII		0x02
+> +#define MPIC_PIS_RGMII		0x03
+> +#define MPIC_LSC_SHIFT		2
+> +#define MPIC_LSC_MASK		GENMASK(3, MPIC_LSC_SHIFT)
+> +#define MPIC_LSC_10M		(0 << MPIC_LSC_SHIFT)
+> +#define MPIC_LSC_100M		(0x01 << MPIC_LSC_SHIFT)
+> +#define MPIC_LSC_1G		(0x02 << MPIC_LSC_SHIFT)
+> +#define MPIC_PSMCS_SHIFT	16
+> +#define MPIC_PSMCS_MASK		GENMASK(21, MPIC_PSMCS_SHIFT)
+> +#define MPIC_PSMCS_DEFAULT	(0x0a << MPIC_PSMCS_SHIFT)
+> +#define MPIC_PSMHT_SHIFT	24
+> +#define MPIC_PSMHT_MASK		GENMASK(26, MPIC_PSMHT_SHIFT)
+> +#define MPIC_PSMHT_DEFAULT	(0x07 << MPIC_PSMHT_SHIFT)
+> +
+> +#define MLVC_PASE		BIT(8)
+> +#define MLVC_PSE		BIT(16)
+> +#define MLVC_PLV		BIT(17)
+> +
+> +#define MPSM_PSME		BIT(0)
+> +#define MPSM_PSMAD		BIT(1)
+> +#define MPSM_PDA_SHIFT		3
+> +#define MPSM_PDA_MASK		GENMASK(7, 3)
+> +#define MPSM_PDA(n)		(((n) << MPSM_PDA_SHIFT) & MPSM_PDA_MASK)
+> +#define MPSM_PRA_SHIFT		8
+> +#define MPSM_PRA_MASK		GENMASK(12, 8)
+> +#define MPSM_PRA(n)		(((n) << MPSM_PRA_SHIFT) & MPSM_PRA_MASK)
+> +#define MPSM_PRD_SHIFT		16
+> +#define MPSM_PRD_SET(n)		((n) << MPSM_PRD_SHIFT)
+> +#define MPSM_PRD_GET(n)		((n) >> MPSM_PRD_SHIFT)
+> +
+> +#define GPOUT_RDM		BIT(13)
+> +#define GPOUT_TDM		BIT(14)
+> +
+> +/* RTSN */
+> +#define RTSN_INTERVAL_US	1000
+> +#define RTSN_TIMEOUT_US		1000000
+> +
+> +#define TX_NUM_CHAINS		1
+> +#define RX_NUM_CHAINS		1
+> +
+> +#define TX_CHAIN_SIZE		1024
+> +#define RX_CHAIN_SIZE		1024
+> +
+> +#define TX_CHAIN_IDX		0
+> +#define RX_CHAIN_IDX		0
+> +
+> +#define TX_CHAIN_ADDR_OFFSET	(sizeof(struct rtsn_desc) * TX_CHAIN_IDX)
+> +#define RX_CHAIN_ADDR_OFFSET	(sizeof(struct rtsn_desc) * RX_CHAIN_IDX)
+> +
+> +#define PKT_BUF_SZ		1584
+> +#define RTSN_ALIGN		128
+> +
+> +enum rtsn_mode {
+> +	OCR_OPC_DISABLE,
+> +	OCR_OPC_CONFIG,
+> +	OCR_OPC_OPERATION,
+> +};
+> +
+> +/* Descriptors */
+> +enum RX_DS_CC_BIT {
+> +	RX_DS	= 0x0fff, /* Data size */
+> +	RX_TR	= 0x1000, /* Truncation indication */
+> +	RX_EI	= 0x2000, /* Error indication */
+> +	RX_PS	= 0xc000, /* Padding selection */
+> +};
+> +
+> +enum TX_FS_TAGL_BIT {
+> +	TX_DS	= 0x0fff, /* Data size */
+> +	TX_TAGL	= 0xf000, /* Frame tag LSBs */
+> +};
+> +
+> +enum DIE_DT {
+> +	/* HW/SW arbitration */
+> +	DT_FEMPTY_IS	= 0x10,
+> +	DT_FEMPTY_IC	= 0x20,
+> +	DT_FEMPTY_ND	= 0x30,
+> +	DT_FEMPTY	= 0x40,
+> +	DT_FEMPTY_START	= 0x50,
+> +	DT_FEMPTY_MID	= 0x60,
+> +	DT_FEMPTY_END	= 0x70,
+> +
+> +	/* Frame data */
+> +	DT_FSINGLE	= 0x80,
+> +	DT_FSTART	= 0x90,
+> +	DT_FMID		= 0xa0,
+> +	DT_FEND		= 0xb0,
+> +
+> +	/* Chain control */
+> +	DT_LEMPTY	= 0xc0,
+> +	DT_EEMPTY	= 0xd0,
+> +	DT_LINK		= 0xe0,
+> +	DT_EOS		= 0xf0,
+> +
+> +	DT_MASK		= 0xf0,
+> +	D_DIE		= 0x08,
+> +};
+> +
+> +struct rtsn_desc {
+> +	__le16 info_ds;
+> +	__u8 info;
+> +	u8 die_dt;
+> +	__le32 dptr;
+> +} __packed;
+> +
+> +struct rtsn_ts_desc {
+> +	__le16 info_ds;
+> +	__u8 info;
+> +	u8 die_dt;
+> +	__le32 dptr;
+> +	__le32 ts_nsec;
+> +	__le32 ts_sec;
+> +} __packed;
+> +
+> +struct rtsn_ext_desc {
+> +	__le16 info_ds;
+> +	__u8 info;
+> +	u8 die_dt;
+> +	__le32 dptr;
+> +	__le64 info1;
+> +} __packed;
+> +
+> +struct rtsn_ext_ts_desc {
+> +	__le16 info_ds;
+> +	__u8 info;
+> +	u8 die_dt;
+> +	__le32 dptr;
+> +	__le64 info1;
+> +	__le32 ts_nsec;
+> +	__le32 ts_sec;
+> +} __packed;
+> +
+> +enum EXT_INFO_DS_BIT {
+> +	TXC = 0x4000,
+> +};
+> +
+> +#endif
+> --
+> 2.45.2
+>
 
