@@ -1,144 +1,150 @@
-Return-Path: <linux-renesas-soc+bounces-6498-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6499-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A41B90EA89
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 14:11:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EED090EAF1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 14:23:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D9FA6B2474D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 12:11:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B39C91C20B01
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 12:23:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F58C13E8B8;
-	Wed, 19 Jun 2024 12:11:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E657013FD96;
+	Wed, 19 Jun 2024 12:20:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EIWHUVYb"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="j1/5AkPi"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AD2013EFEE
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Jun 2024 12:11:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A8E144D29;
+	Wed, 19 Jun 2024 12:20:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718799071; cv=none; b=lR8XtAZZGJakV/dhmxcoNzzyOoqxmOsrIDFQaCn7Q1GOJHg7cFKRZ5eZcZgnIweS7jhe0XlMvnpWwormJftFU4VbMKgKxLbLZobgCXyOXLuWwPClLSLauku+UvQaC+EkMyOkv3qnOi9qpJx1h6K2wp78e+tsm0ZKVzGQBD8KfbY=
+	t=1718799655; cv=none; b=hep/MC6/8NUgMrLmPnPbHfO2Z6CzpV7QYYgRj22rFQZM0bYJ/T17DoM7Jyg/OUFS31ZxX/Cw6sRwgskKBwCxuQXZ/M3bOh46TnWJg1UDeu/aTFrGLawwp6k9KWE9mY+Yz1h/61Jl1mjLUhh4gsJK1jDX1FU8cJpcD930lUWST20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718799071; c=relaxed/simple;
-	bh=Njrm/eeWjt5c/VPLYx7ZUA8bLfgKio8EqlOtXl+akdE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XMj7J5mUU7RxnuPlGBzK4d0VTqcTJs4LjZjgAHZcmcxucLs9fR08TRfNmvuOvqH8CW4B1vnPPYoPe2kA9Sj+UtAtutRkl5t/BTgOWFP39NE/PJQcYzYORgazniTFSu4XdL5Qc/LCO+hf1hqfX6/7vJGHVFWmp83WrlbGjQMmPuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EIWHUVYb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B062C2BBFC;
-	Wed, 19 Jun 2024 12:11:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718799070;
-	bh=Njrm/eeWjt5c/VPLYx7ZUA8bLfgKio8EqlOtXl+akdE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=EIWHUVYbFc1acS8nrU5lihU6clLRe67ObeBkk6rlaIzJk7eF+K2Hthd07aoVvDBx0
-	 dmiMQjV/Gfcl/n3RPbbIe5CALmC8oQJXcl9CG8tg3yjGvKIrLNXz/62YlyK4C8rxx1
-	 I3+uIXzUl25GmsIagyPGiat9J+Vvs+5Q7iF/n08XcKwkthOp2jD5rYgHTnlZ/fcPu0
-	 L4rSEt9kP5U+E71Z5fVTT/p9skiviA3zwRJ5gsHg9tQwcFc9SgBbKVhUhDrVu4+Ida
-	 aQHYpt8BGcPvHwToFZhad8/WPMeMeLlnLng3eI30yhcat7EDdRwictLQHKI3977UC2
-	 BNx4cW9KLYybg==
-Message-ID: <e39c6168-a5a9-4bf8-9612-2a88e8c70d1d@kernel.org>
-Date: Wed, 19 Jun 2024 14:11:05 +0200
+	s=arc-20240116; t=1718799655; c=relaxed/simple;
+	bh=9jSdqyZIkSV8E1b0765BnFpgN59wri6zxSDG8CEb3+I=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=HK66VrYI/lq3zbdcGyrTCdXVF4ysHGbAouH/FjEEFk2HPHTpmEqPqPsHpgH+2v1dlZIz4mjnTsmIaIor50isi9hLWTG2BheEiaRdx9/kDR55n719B4XhUfPZJrYrHO4oBrlfeJDCeHl+645GdRk+JAhV2qcaowCHsKB+0mKZ6oY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=j1/5AkPi; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 15C13541;
+	Wed, 19 Jun 2024 14:20:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1718799634;
+	bh=9jSdqyZIkSV8E1b0765BnFpgN59wri6zxSDG8CEb3+I=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=j1/5AkPicpJDzCCsIKZUIyKCf7YjGUhFKhh/GgbEkwOjSbl+KpG2GA66UeOWiJ/YX
+	 J9F3YuXLPcUN2kfp0EjFdhO3+yQWxGFzK7ikSoD7lKE/FGLyW1yE2ERuuDWLkrEOcG
+	 BL5FuSNANzogbvLzdKt5BVyVy1m04rf+ikB3FzSw=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] drm: rcar-mipi-dsi: Add support for R8A779H0
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- "open list:DRM DRIVERS FOR RENESAS R-CAR" <dri-devel@lists.freedesktop.org>,
- "open list:DRM DRIVERS FOR RENESAS R-CAR" <linux-renesas-soc@vger.kernel.org>
-References: <20240619102219.138927-1-jacopo.mondi@ideasonboard.com>
- <20240619102219.138927-4-jacopo.mondi@ideasonboard.com>
- <dbad102e-7bbf-4316-ac9b-29799f428548@kernel.org>
- <kcwneoju3vzz7rdlan3uklgrurk3ewgsk4qbzcqanx3r7ptjyx@hoszmps27r3s>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <kcwneoju3vzz7rdlan3uklgrurk3ewgsk4qbzcqanx3r7ptjyx@hoszmps27r3s>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240619001722.9749-13-laurent.pinchart+renesas@ideasonboard.com>
+References: <20240619001722.9749-1-laurent.pinchart+renesas@ideasonboard.com> <20240619001722.9749-13-laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH v2 12/19] media: renesas: vsp1: Keep the DRM pipeline entities sorted
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: linux-renesas-soc@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, linux-media@vger.kernel.org
+Date: Wed, 19 Jun 2024 13:20:49 +0100
+Message-ID: <171879964925.2248009.4044816953897425991@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
-On 19/06/2024 14:00, Jacopo Mondi wrote:
-> Hi Krzysztof
-> 
-> On Wed, Jun 19, 2024 at 01:07:24PM GMT, Krzysztof Kozlowski wrote:
->> On 19/06/2024 12:22, Jacopo Mondi wrote:
->>> Add support for R-Car R8A779H0 V4M which has the same characteristics
->>> of the already supported R-Car V4H R8A779G0.
->>>
->>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->>>
->>
->> Please run scripts/checkpatch.pl and fix reported warnings. Then please
->> run `scripts/checkpatch.pl --strict` and (probably) fix more warnings.
->> Some warnings can be ignored, especially from --strict run, but the code
->> here looks like it needs a fix. Feel free to get in touch if the warning
->> is not clear.
->>
-> 
-> The only report I got was
-> 
-> WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-> 
-> which for such trivial addition seems overkill, and I presume the
-> patch will go through geert or drm anyway
+Quoting Laurent Pinchart (2024-06-19 01:17:15)
+> Some of the code that handles pipeline configuration assumes that
+> entities in a pipeline's entities list are sorted from sink to source.
+> To prepare for using that code with the DRM pipeline, insert the BRx
+> just before the WPF, and the RPFs at the head of the list.
+>=20
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
+m>
+> ---
+>  drivers/media/platform/renesas/vsp1/vsp1_drm.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/med=
+ia/platform/renesas/vsp1/vsp1_drm.c
+> index 1aa59a74672f..e44359b661b6 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> @@ -317,7 +317,10 @@ static int vsp1_du_pipeline_setup_brx(struct vsp1_de=
+vice *vsp1,
+>                         list_add_tail(&released_brx->list_pipe,
+>                                       &pipe->entities);
+> =20
+> -               /* Add the BRx to the pipeline. */
+> +               /*
+> +                * Add the BRx to the pipeline, inserting it just before =
+the
+> +                * WPF.
 
-That's still the preference. Having patches, even when trivial, tested
-via automation as well.
+So - the pipe->output is from what I recall/can see the output wpf.
+ (struct vsp1_rwpf *output)
 
-Best regards,
-Krzysztof
+> +                */
+>                 dev_dbg(vsp1->dev, "%s: pipe %u: acquired %s\n",
+>                         __func__, pipe->lif->index, BRX_NAME(brx));
+> =20
+> @@ -326,7 +329,8 @@ static int vsp1_du_pipeline_setup_brx(struct vsp1_dev=
+ice *vsp1,
+>                 pipe->brx->sink =3D &pipe->output->entity;
+>                 pipe->brx->sink_pad =3D 0;
+> =20
+> -               list_add_tail(&pipe->brx->list_pipe, &pipe->entities);
+> +               list_add_tail(&pipe->brx->list_pipe,
+> +                             &pipe->output->entity.list_pipe);
 
+But this reads to me as if we're adding the brx after ('the tail') of
+the output WPF....
+
+Now ... of course if we open up list_add_tail()
+
+ * Insert a new entry before the specified head.
+
+And that checks out - because of course the list_add adds it as the
+'next' item in the list... and we're using list_add_tail as a convenient
+way to provide list_add_before() ...
+
+So I believe this is correct, but the nuance of it reads back to front to m=
+e.
+
+Because of that it possibly deserves a better comment to be explicit on
+what it's doing, or makes me wonder if list.h should have something that
+explicitly impliments
+
+#define list_add_before list_add_tail
+
+but otherwise - it does check out.
+
+
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+
+>         }
+> =20
+>         /*
+> @@ -420,7 +424,7 @@ static int vsp1_du_pipeline_setup_inputs(struct vsp1_=
+device *vsp1,
+> =20
+>                 if (!rpf->entity.pipe) {
+>                         rpf->entity.pipe =3D pipe;
+> -                       list_add_tail(&rpf->entity.list_pipe, &pipe->enti=
+ties);
+> +                       list_add(&rpf->entity.list_pipe, &pipe->entities);
+>                 }
+> =20
+>                 brx->inputs[i].rpf =3D rpf;
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
+>
 
