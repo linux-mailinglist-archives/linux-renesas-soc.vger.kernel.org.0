@@ -1,46 +1,46 @@
-Return-Path: <linux-renesas-soc+bounces-6486-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6488-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12ACB90E844
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2E8A90E845
 	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 12:22:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 099C11C21BF8
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 521F4286275
 	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 10:22:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0EF681ADA;
-	Wed, 19 Jun 2024 10:22:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 912D182C60;
+	Wed, 19 Jun 2024 10:22:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="H/UR7E2f"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JXNDgq6H"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D50082C60
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Jun 2024 10:22:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056CF8287C
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Jun 2024 10:22:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718792566; cv=none; b=r6PVsMC+t2xZ+rKQXesGiuLypBGRsbhZ/F1q6gerGXDyTMhuMMJwpPmfIg/vtYN/ny7pScrLWXWoNx1pXU/kPYT7HznnmKjVZEQ8bL/6LcRIw4Rrh6fdbnnwhic3QTKN8qnVNzpCujF+W2qO8rScaB1h7RdVr9Ynfa4NI4sNlb4=
+	t=1718792569; cv=none; b=Bx/RBFt2kwdnTB9PXdJPOkV4JzksMssZ0aIBbNjUIGag4BeIlHqWdeZa/bnJM5S7kjUFyn0Bw8x8Vza/FgzvZH5YeWtqx6g3HN+Z2JATo7HjDlyd997L02ls/C6EpngeLB+YSj7tuiKH0DM57pYsDaPrzRP5A7KFMGGbZwqPP0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718792566; c=relaxed/simple;
-	bh=BuSkJfPLrQniOTiukXrLVq1EESPmQIaUh+RhxBypZWQ=;
+	s=arc-20240116; t=1718792569; c=relaxed/simple;
+	bh=xJi0mpw5h2Tl1pzyNtLKb/aNVp40jhtNs1qUQWZHnZw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZoBq5UvG9WBV5wz2KPaT/GjAvXzff1jch/fiqWxdY6NpV2r+hT9UBgASwkaDdXnWW3CLtsAyv3Ms/AGmPL78Bt6hkURX5kXuqMbRiSW6Tuxf8SCqmKmlk7f+sNvYE6w4sWyOdWmyDaRTkUDrSWORXVqF8bBa7djyvBhh450jspo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=H/UR7E2f; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=iqTX5KztRdr5TItmKtvtUVMO92wBi3CLtEIBNumF70fm7BwB+C6f9tVCo4QnIu96MOKxBNCOHGLJlguE1V1d1LeaWImF4zP6kKgAvLf2pvdsexhka6Kb5rhUeZL9DRrv1pfqbOvNwWnmyvnfcHSQAtPsOEuX2tFMKbHUOqJdgGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JXNDgq6H; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from localhost.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 37A1D11CF;
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D6B8F1207;
 	Wed, 19 Jun 2024 12:22:22 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718792542;
-	bh=BuSkJfPLrQniOTiukXrLVq1EESPmQIaUh+RhxBypZWQ=;
+	s=mail; t=1718792543;
+	bh=xJi0mpw5h2Tl1pzyNtLKb/aNVp40jhtNs1qUQWZHnZw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=H/UR7E2f+q7IG1oB4Mk5e/z1vSkv7oiWt41Oc4S6H+NuRLEGjunfzEW7TbesuViCa
-	 Tk1+kISIZmyFjRFD/Tm+m8RRSrn4PljyUNmYGg7hYBxD8tjS4iopu2eNOZvVhs9m9O
-	 8kEaxlzNvJIXKSvptjB9OyUo2H/sVSIHHBCm8u3g=
+	b=JXNDgq6HzrxvZxLA9AcvgRN9kJoCjvFQIx9on7K60TVgDVEdq0n2H2mEtzg54UDC/
+	 pGR9eheXydcXVUHy2cfIdo01UbiReTweiaOxWJOu+FnbXroXXHkWg3WPRvoZRPETmm
+	 N7VJ8gBFDK9n3j1aDgclZHobvCmTgEq8Rhzyi+GY=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
@@ -49,9 +49,9 @@ Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Daniel Vetter <daniel@ffwll.ch>,
 	dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR RENESAS R-CAR),
 	linux-renesas-soc@vger.kernel.org (open list:DRM DRIVERS FOR RENESAS R-CAR)
-Subject: [PATCH 3/4] drm: rcar-mipi-dsi: Add support for R8A779H0
-Date: Wed, 19 Jun 2024 12:22:17 +0200
-Message-ID: <20240619102219.138927-4-jacopo.mondi@ideasonboard.com>
+Subject: [PATCH 4/4] drm: rcar-du: Add support for R8A779H0
+Date: Wed, 19 Jun 2024 12:22:18 +0200
+Message-ID: <20240619102219.138927-5-jacopo.mondi@ideasonboard.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240619102219.138927-1-jacopo.mondi@ideasonboard.com>
 References: <20240619102219.138927-1-jacopo.mondi@ideasonboard.com>
@@ -63,43 +63,105 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add support for R-Car R8A779H0 V4M which has the same characteristics
-of the already supported R-Car V4H R8A779G0.
+Add support for R-Car R8A779H0 V4M which has similar characteristics
+as the already supported R-Car V4H R8A779G0, but with a single output
+channel.
 
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
 ---
-BSP patch:
-https://github.com/renesas-rcar/linux-bsp/commit/61b876a8fa2c5d0f8049ecf29f24e3dd73ba9f8b
+BSP patch
+https://github.com/renesas-rcar/linux-bsp/commit/f2fc3314dab2052240653c1a31ba3d7c7190038e
 ---
- .../devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml  | 1 +
- drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c                  | 1 +
- 2 files changed, 2 insertions(+)
+---
+ .../bindings/display/renesas,du.yaml           |  1 +
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c  | 18 ++++++++++++++++++
+ .../gpu/drm/renesas/rcar-du/rcar_du_group.c    | 17 ++++++++++++-----
+ 3 files changed, 31 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-index d33026f85e19..c167795c63f6 100644
---- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-@@ -19,6 +19,7 @@ properties:
-     enum:
-       - renesas,r8a779a0-dsi-csi2-tx    # for V3U
-       - renesas,r8a779g0-dsi-csi2-tx    # for V4H
-+      - renesas,r8a779h0-dsi-csi2-tx    # for V4M
+diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
+index c5b9e6812bce..d369953f16f7 100644
+--- a/Documentation/devicetree/bindings/display/renesas,du.yaml
++++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+@@ -41,6 +41,7 @@ properties:
+       - renesas,du-r8a77995 # for R-Car D3 compatible DU
+       - renesas,du-r8a779a0 # for R-Car V3U compatible DU
+       - renesas,du-r8a779g0 # for R-Car V4H compatible DU
++      - renesas,du-r8a779h0 # for R-Car V4M compatible DU
  
    reg:
      maxItems: 1
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-index 2dba7c5ffd2c..d5800ef14a2f 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-@@ -1081,6 +1081,7 @@ static const struct rcar_mipi_dsi_device_info v4h_data = {
- static const struct of_device_id rcar_mipi_dsi_of_table[] = {
- 	{ .compatible = "renesas,r8a779a0-dsi-csi2-tx", .data = &v3u_data },
- 	{ .compatible = "renesas,r8a779g0-dsi-csi2-tx", .data = &v4h_data },
-+	{ .compatible = "renesas,r8a779h0-dsi-csi2-tx", .data = &v4h_data },
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
+index dee530e4c8b2..a1d174b0b00b 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
+@@ -545,6 +545,23 @@ static const struct rcar_du_device_info rcar_du_r8a779g0_info = {
+ 	.dsi_clk_mask =  BIT(1) | BIT(0),
+ };
+ 
++static const struct rcar_du_device_info rcar_du_r8a779h0_info = {
++	.gen = 4,
++	.features = RCAR_DU_FEATURE_CRTC_IRQ
++		  | RCAR_DU_FEATURE_VSP1_SOURCE
++		  | RCAR_DU_FEATURE_NO_BLENDING,
++	.channels_mask = BIT(0),
++	.routes = {
++		/* R8A779H0 has a single MIPI DSI output. */
++		[RCAR_DU_OUTPUT_DSI0] = {
++			.possible_crtcs = BIT(0),
++			.port = 0,
++		},
++	},
++	.num_rpf = 5,
++	.dsi_clk_mask = BIT(0),
++};
++
+ static const struct of_device_id rcar_du_of_table[] = {
+ 	{ .compatible = "renesas,du-r8a7742", .data = &rcar_du_r8a7790_info },
+ 	{ .compatible = "renesas,du-r8a7743", .data = &rzg1_du_r8a7743_info },
+@@ -571,6 +588,7 @@ static const struct of_device_id rcar_du_of_table[] = {
+ 	{ .compatible = "renesas,du-r8a77995", .data = &rcar_du_r8a7799x_info },
+ 	{ .compatible = "renesas,du-r8a779a0", .data = &rcar_du_r8a779a0_info },
+ 	{ .compatible = "renesas,du-r8a779g0", .data = &rcar_du_r8a779g0_info },
++	{ .compatible = "renesas,du-r8a779h0", .data = &rcar_du_r8a779h0_info },
  	{ }
  };
  
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
+index 2ccd2581f544..361e1d01b817 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
+@@ -111,6 +111,8 @@ static void rcar_du_group_setup_didsr(struct rcar_du_group *rgrp)
+ 		/*
+ 		 * On Gen3 dot clocks are setup through per-group registers,
+ 		 * only available when the group has two channels.
++		 *
++		 * R-Car V4M (R8A779H0) has only one channel, index is == 0.
+ 		 */
+ 		rcrtc = &rcdu->crtcs[rgrp->index * 2];
+ 		num_crtcs = rgrp->num_crtcs;
+@@ -185,11 +187,16 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
+ 		dorcr |= DORCR_PG1T | DORCR_DK1S | DORCR_PG1D_DS1;
+ 	rcar_du_group_write(rgrp, DORCR, dorcr);
+ 
+-	/* Apply planes to CRTCs association. */
+-	mutex_lock(&rgrp->lock);
+-	rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 16) |
+-			    rgrp->dptsr_planes);
+-	mutex_unlock(&rgrp->lock);
++	/*
++	 * Apply planes to CRTCs association, skip for V4M which has a single
++	 * channel.
++	 */
++	if (rcdu->info->gen < 4 || rgrp->num_crtcs > 1) {
++		mutex_lock(&rgrp->lock);
++		rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 16) |
++				    rgrp->dptsr_planes);
++		mutex_unlock(&rgrp->lock);
++	}
+ }
+ 
+ /*
 -- 
 2.45.2
 
