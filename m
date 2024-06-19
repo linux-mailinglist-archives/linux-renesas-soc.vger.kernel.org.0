@@ -1,57 +1,105 @@
-Return-Path: <linux-renesas-soc+bounces-6517-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6518-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F51190F729
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 21:44:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F077790F7B1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 22:43:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 06D311C2136C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 19:44:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9AA1D285504
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 20:43:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7524B1D52B;
-	Wed, 19 Jun 2024 19:44:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E256159562;
+	Wed, 19 Jun 2024 20:43:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HHBhXbhp"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="P2Qph7s9";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WuTkAUrJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from fhigh2-smtp.messagingengine.com (fhigh2-smtp.messagingengine.com [103.168.172.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96CE7524B4
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Jun 2024 19:44:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B67E46426;
+	Wed, 19 Jun 2024 20:43:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718826280; cv=none; b=XhZfycfeLeumCFUoGCRDMsIGuwM+tUjVKe9BeaSKbnvUKL16cN69pCURSGfe+cHSl2m/f7PCedEdmvlTXFnb3f+qmPrIk8xzmWM1BQWsmvOZw4Mwlfp9dHb7HaSqXlP83A4GcXiNlLQBCjk6xoOa1TiDNRxihep5bPIqHMq9Nq8=
+	t=1718829808; cv=none; b=rnBgRHs4Wk3uYtIwxxDCaa0R9rcSw2+ldBv1aPWO9oCfJ11E+LQ0YB0QqR/NkFTjz8rjHrRYwcOmts/UASGn5aXpzJ/3GDCKHMEavvHpZkgcEihzL74Houi0b784dnVdgaL9FU2iQGtLzsOaTGclNcXPTR7l3+OmwXWlTg6imUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718826280; c=relaxed/simple;
-	bh=c+FuJ7wwR6oCAHXFNOnEXscsUct8Q1I5yk9CTggvPek=;
+	s=arc-20240116; t=1718829808; c=relaxed/simple;
+	bh=yKZChgvB9dkxH6TlnwyE5Xofu5kOSaiiy/Ug0SshQDg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oTS0fBD6gV2go560t+fGrs0T1nXcVhtwM0mSoCC2cSrcDRB8liuq+3PARNTz2xSJFi+WamKjGKzKzfgewOMGX9iBf0xrizhlUsSjwWVqQ/CA7lFPwWVh9M41or6ioRkiTKUF3RXcuv1ovdCK3UPA6GLQeL2svgjO3vvsT0QnRzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HHBhXbhp; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4980718D;
-	Wed, 19 Jun 2024 21:44:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718826258;
-	bh=c+FuJ7wwR6oCAHXFNOnEXscsUct8Q1I5yk9CTggvPek=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HHBhXbhpzJDNW36dhIT2KPu4PgurwTzhfznXxpVYGvotlcGQMKR/u2p0kP+NQsBNo
-	 yQT/nZIsqiZCBu/vNpib8tsARCiYZz+FplAqDzBqAmw85+mgMcoHlKOy/5pO7GHicK
-	 nEIC7vj84GiEvAZVNHIsdP2FcJBdqAPSsv2h2P64=
-Date: Wed, 19 Jun 2024 22:44:14 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	"open list:DRM DRIVERS FOR RENESAS R-CAR" <dri-devel@lists.freedesktop.org>,
-	"open list:DRM DRIVERS FOR RENESAS R-CAR" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 4/4] drm: rcar-du: Add support for R8A779H0
-Message-ID: <20240619194414.GD31507@pendragon.ideasonboard.com>
-References: <20240619102219.138927-1-jacopo.mondi@ideasonboard.com>
- <20240619102219.138927-5-jacopo.mondi@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=pbQhaEBfX8PL3J7i7lBTWffBtcS17hN8Trjb9/wMWggvsvJ86CcwEkDycJYCVFwBeXK5HUFIqBYDBlQ0OXG78tyy97PeDKRyDQTI3PBLPCgmPp4yR8jtGpV1tE5sAB0u7mNa0SunpeNVIhpQR20RDwKbp1zz8mf8rafYqlBjNac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=P2Qph7s9; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WuTkAUrJ; arc=none smtp.client-ip=103.168.172.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id F117711401D2;
+	Wed, 19 Jun 2024 16:43:23 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Wed, 19 Jun 2024 16:43:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1718829803;
+	 x=1718916203; bh=4+nZ3Of7awLs1nsdV0WyTaF/HUwXKfz5RuglzQQXT9o=; b=
+	P2Qph7s97oRIsLy8vn2OveZStijxtNPwc91dZV3Io5uKgBoEoykikC6FkP/tNA/7
+	O7h94XKVuMr5LL8Z2upfvr7lwSXOVOujwdp9cdGmW55c6496y/4D18vGab9ro7Z7
+	H60juput0sP3TSs3Rhjo6rmUVfISm+FO+b4QTZmlvmxTNEMDsFN7l/byfBn5yWL+
+	j0QklfJ9RvXEbzMZ7me3rjVdzdBUlGdkWDoXCZgla50iYrLeLUPl1ytXgzZanfuY
+	/b/e5vU3ARf3mNQMk3mUl2pg5vn6wKb39u6sA46VwlgJzSh++v7foC6FUEUmTkn3
+	YLWuafebgXLXWYmKUjbhkw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1718829803; x=
+	1718916203; bh=4+nZ3Of7awLs1nsdV0WyTaF/HUwXKfz5RuglzQQXT9o=; b=W
+	uTkAUrJc7NF/kM8pBgYsVWhADFZqQkQ2c4OCNPA2VSdh+6d6tLbztZWxFoFXP0Te
+	Gy7idJszNSQ8JpJCweh100e4qoH2QoQ+aZeRc9/XA4O+rUlfOQxe9K4sJvhLbt3Y
+	YsPVMPjcrt3DYDI8tdLJjvNdRSLpkonYZuiuWLykTZbb0SguI8AVKH8aWmVZgb/r
+	GhpLs6Sa8rPesDAanLvaxXWUzsiNNj9Y4DpGQT3W8zIUJ7orkRHvEu60dI+gT7BN
+	t1hsNjQZKZ/sguQ2ZsYEcLtxrFG0Hr/VlGSvXFoAJ0r38t39SFD6uhrjNMdwN/XK
+	XrU0l9gg8SJJ7VFEVjdlg==
+X-ME-Sender: <xms:60JzZnqSuLMJKD_c8bBfflefaK5vA9FUEf-qC97uRiWOugaAv_zN6A>
+    <xme:60JzZhoWnnXA0tWbu7JGP1T0BgyozD6q-AzHNRSGtJL3FPJyrmt10DqrxaE25maNw
+    jNWg1G0YG7oTra-6Vc>
+X-ME-Received: <xmr:60JzZkMdg_8jc1cCME9eRPatNjKwBF-UkC2Jt0K-p8Jh3o7VzTtWoG5jAgjteBc6ORzTBfu6whN9Ivt3-alycGRLoMn61nw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeeftddgudehudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhi
+    khhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvg
+    hnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepfefhleel
+    hfffjefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftddvleeinecuvehluhhsth
+    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohgu
+    vghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
+X-ME-Proxy: <xmx:60JzZq4Txe_Ki5h8f3m2mvTWIcowbFo4wZZF1Eu2vLTv_Oz7UOJLNQ>
+    <xmx:60JzZm55Q2sj2kMh1C1a5UdLIm3oftQ-HQSoPc7DH7hbDMsg4TNlzw>
+    <xmx:60JzZigkIiHmlKRZlFKiL3SH8oowwdZrsXgO5QA5yfOP4zJoSaug5Q>
+    <xmx:60JzZo7mgj8hVUe5a7G3z8j4wBtFMDMFC2mSEtWOQQtp8ST7jYO-5g>
+    <xmx:60JzZjxDU5nnv_Usq8Mb52QspOUXWfeuJ0cy6voD4CAEc5PDHkImvob2>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 19 Jun 2024 16:43:23 -0400 (EDT)
+Date: Wed, 19 Jun 2024 22:43:21 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Conor Dooley <conor@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: media: renesas,vin: Add binding for
+ V4M
+Message-ID: <20240619204321.GU382677@ragnatech.se>
+References: <20240619153559.1647957-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240619153559.1647957-2-niklas.soderlund+renesas@ragnatech.se>
+ <20240619-passage-iodine-9f944b26a30d@spud>
+ <20240619185607.GT382677@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -60,132 +108,109 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240619102219.138927-5-jacopo.mondi@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240619185607.GT382677@ragnatech.se>
 
-Hi Jacopo,
+Hello again.
 
-Thank you for the patch.
-
-On Wed, Jun 19, 2024 at 12:22:18PM +0200, Jacopo Mondi wrote:
-> Add support for R-Car R8A779H0 V4M which has similar characteristics
-> as the already supported R-Car V4H R8A779G0, but with a single output
-> channel.
+On 2024-06-19 20:56:11 +0200, Niklas Söderlund wrote:
+> Hi Conor,
 > 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> On 2024-06-19 18:33:37 +0100, Conor Dooley wrote:
+> > On Wed, Jun 19, 2024 at 05:35:58PM +0200, Niklas Söderlund wrote:
+> > > Document support for the VIN module in the Renesas V4M (r8a779h0) SoC.
+> > > 
+> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > 
+> > Didn't we just have a conversation about this, yet nothing has changed?
+> > NAK. Either you need a fallback or to explain why a fallback is not
+> > suitable _in this patch_.
 > 
-> ---
-> BSP patch
-> https://github.com/renesas-rcar/linux-bsp/commit/f2fc3314dab2052240653c1a31ba3d7c7190038e
-> ---
-> ---
->  .../bindings/display/renesas,du.yaml           |  1 +
->  drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c  | 18 ++++++++++++++++++
->  .../gpu/drm/renesas/rcar-du/rcar_du_group.c    | 17 ++++++++++++-----
->  3 files changed, 31 insertions(+), 5 deletions(-)
+> Sorry, I'm confused from the conclusion of our conversation in v2. I did 
+> add an explanation to why not fallback is used, but I added it to patch 
+> 2/2 which adds the compatible to the driver.
 > 
-> diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
-> index c5b9e6812bce..d369953f16f7 100644
-> --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
-> +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
-> @@ -41,6 +41,7 @@ properties:
->        - renesas,du-r8a77995 # for R-Car D3 compatible DU
->        - renesas,du-r8a779a0 # for R-Car V3U compatible DU
->        - renesas,du-r8a779g0 # for R-Car V4H compatible DU
-> +      - renesas,du-r8a779h0 # for R-Car V4M compatible DU
->  
->    reg:
->      maxItems: 1
+> It was my understanding that a SoC specific compatible was needed in 
+> either case so, at lest to me, made more sens to explain why in the 
+> driver patch the reason go into detail about the register differences 
+> between the two. Sorry if I misunderstood. I can add the same 
+> explanation to both patches, would this help explain why only a SoC 
+> specific value is added?
+> 
+>   The datasheet for the two SoCs have small nuances around the Pre-Clip
+>   registers ELPrC and EPPrC in three use-cases, interlaced images,
+>   embedded data and RAW8 input. On V4H the values written to the registers
+>   are based on odd numbers while on V4M they are even numbers, based on
+>   the input image size.
+> 
+>   No board that uses these SoCs which also have the external peripherals
+>   to test these nuances exists. Most likely this is an issue in the
+>   datasheet, but to make this easy to address in the future do not add a
+>   common Gen4 fallback compatible. Instead uses SoC specific compatibles
+>   for both SoCs. This is what was done for Gen3 SoCs, which also had
+>   similar nuances in the register documentation.
 
-This should be split to a separate patch.
+After have read thru v1 and v2 comments a few more times I think I might 
+have spotted what I got wrong. If so I apologies for wasting your time 
+reviewing this. I'm really trying to understand what I got wrong and 
+address the review feedback.
 
-You need to add a conditional validation rule below to address the
-clocks, interrupts, ports, ...
+Is what you are asking for with a fallback something like this?
 
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> index dee530e4c8b2..a1d174b0b00b 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> @@ -545,6 +545,23 @@ static const struct rcar_du_device_info rcar_du_r8a779g0_info = {
->  	.dsi_clk_mask =  BIT(1) | BIT(0),
->  };
->  
-> +static const struct rcar_du_device_info rcar_du_r8a779h0_info = {
-> +	.gen = 4,
-> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
-> +		  | RCAR_DU_FEATURE_VSP1_SOURCE
-> +		  | RCAR_DU_FEATURE_NO_BLENDING,
-> +	.channels_mask = BIT(0),
-> +	.routes = {
-> +		/* R8A779H0 has a single MIPI DSI output. */
-> +		[RCAR_DU_OUTPUT_DSI0] = {
-> +			.possible_crtcs = BIT(0),
-> +			.port = 0,
-> +		},
-> +	},
-> +	.num_rpf = 5,
-> +	.dsi_clk_mask = BIT(0),
-> +};
+--- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
++++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+@@ -53,7 +53,11 @@ properties:
+               - renesas,vin-r8a77990 # R-Car E3
+               - renesas,vin-r8a77995 # R-Car D3
+               - renesas,vin-r8a779a0 # R-Car V3U
++      - items:
++          - enum:
+               - renesas,vin-r8a779g0 # R-Car V4H
++              - renesas,vin-r8a779h0 # R-Car V4M
++          - const: renesas,rcar-gen4-vin # Generic R-Car Gen4
 
-This looks good.
+If so I can see that working as I could still fix any issues that come 
+from differences between V4H and V4M if needed. If so do you think it 
+best to add this in two different patches? One to add the 
+renesas,rcar-gen4-vin fallback (which will also need DTS updates to fix 
+warnings from exciting users of V4H not listing the gen4 fallback) and 
+one to add V4M?
 
-> +
->  static const struct of_device_id rcar_du_of_table[] = {
->  	{ .compatible = "renesas,du-r8a7742", .data = &rcar_du_r8a7790_info },
->  	{ .compatible = "renesas,du-r8a7743", .data = &rzg1_du_r8a7743_info },
-> @@ -571,6 +588,7 @@ static const struct of_device_id rcar_du_of_table[] = {
->  	{ .compatible = "renesas,du-r8a77995", .data = &rcar_du_r8a7799x_info },
->  	{ .compatible = "renesas,du-r8a779a0", .data = &rcar_du_r8a779a0_info },
->  	{ .compatible = "renesas,du-r8a779g0", .data = &rcar_du_r8a779g0_info },
-> +	{ .compatible = "renesas,du-r8a779h0", .data = &rcar_du_r8a779h0_info },
->  	{ }
->  };
->  
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-> index 2ccd2581f544..361e1d01b817 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-> @@ -111,6 +111,8 @@ static void rcar_du_group_setup_didsr(struct rcar_du_group *rgrp)
->  		/*
->  		 * On Gen3 dot clocks are setup through per-group registers,
->  		 * only available when the group has two channels.
-> +		 *
-> +		 * R-Car V4M (R8A779H0) has only one channel, index is == 0.
+Apologies again for the confusion.
 
-Is it relevant here ?
-
->  		 */
->  		rcrtc = &rcdu->crtcs[rgrp->index * 2];
->  		num_crtcs = rgrp->num_crtcs;
-> @@ -185,11 +187,16 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
->  		dorcr |= DORCR_PG1T | DORCR_DK1S | DORCR_PG1D_DS1;
->  	rcar_du_group_write(rgrp, DORCR, dorcr);
->  
-> -	/* Apply planes to CRTCs association. */
-> -	mutex_lock(&rgrp->lock);
-> -	rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 16) |
-> -			    rgrp->dptsr_planes);
-> -	mutex_unlock(&rgrp->lock);
-> +	/*
-> +	 * Apply planes to CRTCs association, skip for V4M which has a single
-> +	 * channel.
-
-" and doesn't implement the DPTSR register."
-
-I'm pretty sure writing it is still harmless, but...
-
-> +	 */
-> +	if (rcdu->info->gen < 4 || rgrp->num_crtcs > 1) {
-> +		mutex_lock(&rgrp->lock);
-> +		rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 16) |
-> +				    rgrp->dptsr_planes);
-> +		mutex_unlock(&rgrp->lock);
-> +	}
->  }
->  
->  /*
+> 
+> > 
+> > Thanks,
+> > Conor.
+> > 
+> > > ---
+> > >  Documentation/devicetree/bindings/media/renesas,vin.yaml | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > > index 5539d0f8e74d..168cb02f8abe 100644
+> > > --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > > +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > > @@ -54,6 +54,7 @@ properties:
+> > >                - renesas,vin-r8a77995 # R-Car D3
+> > >                - renesas,vin-r8a779a0 # R-Car V3U
+> > >                - renesas,vin-r8a779g0 # R-Car V4H
+> > > +              - renesas,vin-r8a779h0 # R-Car V4M
+> > >  
+> > >    reg:
+> > >      maxItems: 1
+> > > -- 
+> > > 2.45.2
+> > > 
+> 
+> 
+> 
+> -- 
+> Kind Regards,
+> Niklas Söderlund
 
 -- 
-Regards,
-
-Laurent Pinchart
+Kind Regards,
+Niklas Söderlund
 
