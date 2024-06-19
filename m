@@ -1,174 +1,201 @@
-Return-Path: <linux-renesas-soc+bounces-6504-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6505-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DB2C90F253
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 17:37:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D989190F3E8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 18:19:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6539528332D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 15:37:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5E73C2868E9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 16:19:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 767CE1514DC;
-	Wed, 19 Jun 2024 15:36:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94D8C1534E9;
+	Wed, 19 Jun 2024 16:19:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="N7Dsri06";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="oIuFizL1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gxrQ7+Ho"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout1-smtp.messagingengine.com (fout1-smtp.messagingengine.com [103.168.172.144])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C6B150994;
-	Wed, 19 Jun 2024 15:36:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9CCF1534E6;
+	Wed, 19 Jun 2024 16:19:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718811397; cv=none; b=rv/mhqBbEKCTK9XYbSA6nPkOkCKuX41VBRrSDNUpUahyXV4I5JDq49MZoOnST8JSs6bqgSCZsAtV4bBf0+oXqo9IdB08t8IldnnqOwhQV9iN5q4uN+g2dCpt6tFGSIL6y3xwaQykMMkzOUvBEgF+TLHAC7kN8JcCHIg6SfbU9Wg=
+	t=1718813968; cv=none; b=LG36XMr3AvtslOy+fHIlBZf1qYtsl6s0tR9DklmTkPVCXuPbL+RuKDxsjRMDmEFjlHOdHXnIPaCbYPNVtp64/4zElc0rrz1Oq3SPixQwUjkeXO5fI5wguFVdlrjsnji3q2v4wJndoSgMo3gBeU7DRkrYtUMAJTzLy+wYXG1N8bA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718811397; c=relaxed/simple;
-	bh=sjmkIm1zsrC10eD2advKHDcjbqcq5pzS78G2inpOkvc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WIXj8cCnsM+dLh88gQv2uW/oJHsoYhsBAmCxTmWU8kwHFu/Ningj+q4HbnpYsUAjuNa7/cJsPXjdU6Me9aVy+vyOK7anhzgsIB/JG5Q1oZAUGx2u++Fz7VMDOMpXOJwM4JAZ+deoWYpxPOWv5H0EFef+5IC87pKGji+e4qXZvG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=N7Dsri06; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=oIuFizL1; arc=none smtp.client-ip=103.168.172.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 4B23E138011B;
-	Wed, 19 Jun 2024 11:36:34 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Wed, 19 Jun 2024 11:36:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1718811394;
-	 x=1718897794; bh=mrgUJ9PZVo0mdAfnL1MC+I4cutj4Wk6Q3wuGf6mCjx0=; b=
-	N7Dsri06/yLtXhvI3zFp7tEJ4tDSQrAR7GVhc7m0IFtfBYgZe6qPcLnZLxbDB7SR
-	uxsfxDL83vkrWEVOuKZ2z/q7pn3fudFyLXd5mxBP1Hjl5pzUcnq2Z7OdEwLf5P9B
-	WspR/sbH/izWhu1dnFxhigR9bFFWlWCuETzAXaM2DTOms99Yu9yA+jol1dyByC9C
-	Fl8qzeJcUdh5OlHhl4MbveCylm9pcv9B4RuXHqo6hQ8Ii8xf+mpKiyluKdkXdweF
-	d+ytI+a1TeDAbkgFyFMY5X+Uuwdv3u5QSrOYpy/b6txetQUajxk8mmuB2nBMJuy5
-	4LIl6JQfNF20ptSdqjfBHg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1718811394; x=
-	1718897794; bh=mrgUJ9PZVo0mdAfnL1MC+I4cutj4Wk6Q3wuGf6mCjx0=; b=o
-	IuFizL1Op29pgYXfhxv0+Tcm/pSo/4+vGDYIbl5hBbGwrmg+k1SeWHcxQUhiJxJM
-	VtsWPITyNXycCzOc1JpXWDlkEDUwqrcf5wh6pAeW6DhH3qu3byHTviK2OWLppXZd
-	oYWkMX24NCeJUR/u7wvKMGF4K3CkiaCxfxdVNDF+fIRNxhoMULYdg7JptxlSOVFC
-	BDP0VY/+B3yfadbsJdGs4jweKIZErOXbe9bfvn8UuYbiPeRrsdKMn1ofy2CLSNVa
-	WPuJlebFhEaWFUrotFXLaPrdFrdXX8wRParn8gSDr6LZybYDTswDBUCczOAbc/HE
-	LuvdrVF/FjIc0XFn6uW1w==
-X-ME-Sender: <xms:AvtyZonZF2a3vYzwXK6XyRzu-rwqRg30rrEsIVYMQ0lYCuth3ns4WA>
-    <xme:AvtyZn3R2oXPK9E8hBO1GXr9HT_GvtSd4hnpyZGgSTbHTq06DdTH-7iS12Vz4NpQ1
-    Efk7knjROFr9x3ovuc>
-X-ME-Received: <xmr:AvtyZmrY_RL4c74hnWjq0JH02RrkFBTYr4oyGlDUT_9lBqN1K6i7o5zGO6xgNkBySUTe5Ud83i5lctloY1sL3jl93A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeeftddgkeelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhk
-    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnh
-    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehiefgueev
-    uedtfefhheegkeevtdelueeukeevfeduhefhhfejfffggeffleefgeenucevlhhushhtvg
-    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggv
-    rhhluhhnugesrhgrghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:AvtyZknNH9l7A99cpRUb0vSK1XT5my0kezN1RHMGST-GG5C5lsy9Ow>
-    <xmx:AvtyZm3Cic51f_6wawowR6rhk92h-LKQphvdKJ48JgMSfuHBQEjm2A>
-    <xmx:AvtyZrtSuPh4P4_rBGVOlkykPCzBquzTJY8myMJ5l3EOdMGg1wHXFA>
-    <xmx:AvtyZiXN0GGIW-_AOiyQd1R2BEfeaasrKVuuhZoHAxkR-SNpoYqR_w>
-    <xmx:AvtyZjuKxHIeAuGafwf5EoGYGpNgFNVM7YBeIDQoStmxddLUoUl3SBts>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 19 Jun 2024 11:36:33 -0400 (EDT)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: [PATCH v3 2/2] media: rcar-vin: Add support for R-Car V4M
-Date: Wed, 19 Jun 2024 17:35:59 +0200
-Message-ID: <20240619153559.1647957-3-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240619153559.1647957-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20240619153559.1647957-1-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1718813968; c=relaxed/simple;
+	bh=UMgouaT6S/IixEQF8EjbaOo9Ec9dIFnfX3ko37uhAoM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=A2NSkeqTfi4IFJqqWNgZaY7qEoYxRDjxorjl3j+ttNLOIXtDNxCaZlYzSAcPhNZOc3fafNVnKPTJsCuvblsfed42YV3/zxDZHUixGDC9q18g+7qzuKqc/gn9kVUxAizBnka3od/4+h9gMdmSvXRCKOjFVaj0oENd99mMm/p9jV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gxrQ7+Ho; arc=none smtp.client-ip=209.85.160.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-25488f4e55aso19694fac.0;
+        Wed, 19 Jun 2024 09:19:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718813965; x=1719418765; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vFTtLiupNQjUDm5wJ7kx2VnTWJ/TIurLfPXStd+BLtA=;
+        b=gxrQ7+HoV/6xifISWjvwpbsC7cY44G4DGahaMD8NXHngr5/YHeUWA9Y4aU9jVZ5Pqw
+         /voMBbL0IELciBUgDnWGEtqQP0X7Qk90cq7Hib/ZLFfaZb8HDwY/WnDtzx6suRXfDpsa
+         7MIjHsZOndJe6axUuh9NMjRVsSLhKy1kyzbcjFAxoKJo0ZG146cO2HQq+9azqwlKORko
+         6aa3fcD/yd/oFmSUkPtO5GEkhztpylzNGBqi/h2cQkyjKW89rPo3Wx7L5gC9zvRt36GN
+         m8giRC3xXRgyiwds13fUyyqU7ulzwjoXMHwBceCsR09nRmvU5xB0JAjGjTE4X4JSqfFp
+         5OHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718813965; x=1719418765;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vFTtLiupNQjUDm5wJ7kx2VnTWJ/TIurLfPXStd+BLtA=;
+        b=Sa/qZcsMJiehhDkK38PZIbgaiPh6Fr210i/kRV4lx0GGUjCY/m2rUoUs7chuemoDKr
+         yu0ma1L3TAnSVAiLf0ricHXNuzyoUepgzB11zV3rx36TTzwukTwol+rPTFJToL5Dkf/9
+         ItdJDsVpNJ2WpVzo6kYxevmKCzDgiaoqTXuf2gB5G0SZJ/LrG07Wy/uryQYRZexTBtMi
+         AFhT0v10/9GOait4NUTdH6lkNpD43qTFmUj8L6T6tY09ZZMxT6Ipr82d3ZpkdqOXBzUh
+         2p2jLsMHps8kUwGISCCpmZZ3TmmEU3zJZ+IPB/aEut0WvvDmHujO4O4h+W45qYqGdfaS
+         3cgw==
+X-Forwarded-Encrypted: i=1; AJvYcCUtGniZNGRuozn42BXvGcsVOvmWwvvOjQZ1sQGC1XMsYeyBLTi2YmWjDeTMGi5lR5sxQhQKLUMQc46gukJm7awdqrZd79W46K2vEy1NVAnGBnxGsmVpf9ACXbjVRiMSg4vaI19UMbcVgZhu7v7gbh/K0FxZp8BiHT7TeZ4WalINkiYD4q6teBhfYekf
+X-Gm-Message-State: AOJu0YwN+55EB/E2NS4DUFXW06c6kjmOHzNLdhtXawHG36z0ZW1aYMY7
+	x1IGWjSb4GxC2HUT1CvWzeu2Cj5i78OkNpJ3VuG/PY9UDThmVNxvViEU1O14FqigyjVdKj9qvvF
+	ikoPvcY5DgSQ0+pQN6e4Zb+MryJ8=
+X-Google-Smtp-Source: AGHT+IG8lcFqoVxgi4qmEwYOa2FXhJDu1cbELTejcdqT7shjKmkU/mTPDTR+dr1wTP2oazD7SaMIDyBEPwcu4hTw8Zg=
+X-Received: by 2002:a05:6870:5247:b0:254:956f:ff9a with SMTP id
+ 586e51a60fabf-25c94a1f1b3mr3499722fac.32.1718813964714; Wed, 19 Jun 2024
+ 09:19:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240613091721.525266-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240613091721.525266-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <prdvmtsp35yy2naohivbrya3go6vh5ji2cdjoebw3ovditcujo@bhck6tca6mhj>
+In-Reply-To: <prdvmtsp35yy2naohivbrya3go6vh5ji2cdjoebw3ovditcujo@bhck6tca6mhj>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Wed, 19 Jun 2024 17:18:58 +0100
+Message-ID: <CA+V-a8u6KAFp1pox+emszjCHqvNRYrkOPpsv5XBdkAVJQMxjmA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 3/3] mmc: renesas_sdhi: Add support for RZ/V2H(P) SoC
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-mmc@vger.kernel.org, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Conor Dooley <conor+dt@kernel.org>, 
+	devicetree@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Prabhakar <prabhakar.csengg@gmail.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add support for R-Car V4M. The V4M is similar to the other Gen4 SoC
-supported V4H, and uses the ISP Channel Selector as its only possible
-video input source.
+Hi Wolfram,
 
-The datasheet for the two SoCs have small nuances around the Pre-Clip
-registers ELPrC and EPPrC in three use-cases, interlaced images,
-embedded data and RAW8 input. On V4H the values written to the registers
-are based on odd numbers while on V4M they are even numbers, based on
-the input image size.
+Thank you for the review.
 
-No board that uses these SoCs which also have the external peripherals
-to test these nuances exists. Most likely this is an issue in the
-datasheet, but to make this easy to address in the future do not add a
-common Gen4 fallback compatible. Instead uses SoC specific compatibles
-for both SoCs. This is what was done for Gen3 SoCs, which also had
-similar nuances in the register documentation.
+On Mon, Jun 17, 2024 at 9:31=E2=80=AFAM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+> Hi Prabhakar,
+>
+> > - Ive modelled the regulator now to control the PWEN aswell.
+>
+> Yay, this looks much better. Good work!
+>
+> > - I have still kept regulator bits in quirks I was wondering if I shoul=
+d
+> >   move this to renesas_sdhi_of_data instead?
+>
+> I think so. An internal regulator is not a quirk.
+>
+Agreed.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
-* Changes since v2
-- Extend commit message to explain why SoC specific compatibles are use
-  in the driver instead of adding a new Gen4 fallback to cover both V4H
-  and V4M.
-- Add review tags.
+> > - I still need to add checks if the internal regulator used and
+> >   only then call regulator_enable/regulator_set_voltage. ATM I am still
+> >   unclear on differentiating if internal/external regulator is used.
+>
+> When it comes to re-enabling the regulator in sdhi_reset, I think this
+> can be a sdhi_flag like SDHI_FLAG_ENABLE_REGULATOR_IN_RESET or alike.
+>
+OK.
 
-* Changes since v1
-- Create a shared Gen4 info strucutre.
----
- drivers/media/platform/renesas/rcar-vin/rcar-core.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+> When it comes to the regulator, I wonder if it wouldn't be clearer to
+> replace renesas_sdhi_internal_dmac_register_regulator() with a proper
+> probe function and a dedicated compatible value for it. We could use
+> platform_driver_probe() to instantiate the new driver within the SDHI
+> probe function. This will ensure that the regulator driver will only be
+> started once the main driver got all needed resources (mapped
+> registers).
+>
+I did give it a try with platform_driver_probe() and failed.
 
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-index 809c3a38cc4a..6992b61f0d48 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-@@ -1283,7 +1283,7 @@ static const struct rvin_info rcar_info_r8a779a0 = {
- 	.max_height = 4096,
- };
- 
--static const struct rvin_info rcar_info_r8a779g0 = {
-+static const struct rvin_info rcar_info_gen4 = {
- 	.model = RCAR_GEN3,
- 	.use_mc = true,
- 	.use_isp = true,
-@@ -1359,7 +1359,11 @@ static const struct of_device_id rvin_of_id_table[] = {
- 	},
- 	{
- 		.compatible = "renesas,vin-r8a779g0",
--		.data = &rcar_info_r8a779g0,
-+		.data = &rcar_info_gen4,
-+	},
-+	{
-+		.compatible = "renesas,vin-r8a779h0",
-+		.data = &rcar_info_gen4,
- 	},
- 	{ /* Sentinel */ },
- };
--- 
-2.45.2
+- Firstly I had to move the regulator node outside the SDHI node for
+platform_driver_probe() to succeed or else it failed with -ENODEV (at
+https://elixir.bootlin.com/linux/latest/source/drivers/base/platform.c#L953=
+)
+- In Renesas SoCs we have multiple instances of SDHI, the problem
+being for each instance we are calling platform_driver_probe(). Which
+causes a problem as the regulator node will use the first device.
 
+Let me know if I have missed something obvious here.
+
+> My gut feeling is that it will pay off if the internal regulator will be
+> described in DT as any other regulator. Like, we could name the
+> regulator in DT as always etc...
+>
+> More opinions on this idea are welcome, though...
+>
+> > --- a/drivers/mmc/host/renesas_sdhi.h
+> > +++ b/drivers/mmc/host/renesas_sdhi.h
+> > @@ -11,6 +11,9 @@
+> >
+> >  #include <linux/dmaengine.h>
+> >  #include <linux/platform_device.h>
+> > +#include <linux/regmap.h>
+>
+> Regmap can luckily go now.
+>
+Agreed.
+
+> > +#include <linux/regulator/driver.h>
+> > +#include <linux/regulator/machine.h>
+> >  #include "tmio_mmc.h"
+> >
+> >  struct renesas_sdhi_scc {
+> > @@ -49,6 +52,9 @@ struct renesas_sdhi_quirks {
+> >       bool manual_tap_correction;
+> >       bool old_info1_layout;
+> >       u32 hs400_bad_taps;
+> > +     bool internal_regulator;
+> > +     struct regulator_desc *rdesc;
+> > +     struct regulator_init_data *reg_init_data;
+> >       const u8 (*hs400_calib_table)[SDHI_CALIB_TABLE_MAX];
+> >  };
+> >
+> > @@ -93,6 +99,8 @@ struct renesas_sdhi {
+> >       unsigned int tap_set;
+> >
+> >       struct reset_control *rstc;
+> > +
+> > +     struct regulator_dev *sd_status;
+>
+> This is a strange name for the regulater. Especially given that you have
+> as well the more fitting 'u32 sd_status' in the code later.
+>
+I will update it.
+
+> ...
+>
+> > +static struct regulator_init_data r9a09g057_regulator_init_data =3D {
+> > +     .constraints =3D {
+> > +             .valid_ops_mask =3D REGULATOR_CHANGE_STATUS,
+>
+> Don't we need REGULATOR_CHANGE_VOLTAGE here as well? Or is this implicit
+> because of REGULATOR_VOLTAGE? Can't find this, though.
+>
+I will investigate it.
+
+Cheers,
+Prabhakar
 
