@@ -1,125 +1,100 @@
-Return-Path: <linux-renesas-soc+bounces-6476-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6477-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90C3990E157
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 03:36:07 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B89E90E22F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 06:09:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EE52D2841C6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 01:36:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 36D4FB20CB7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 04:09:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7ACBE6AAD;
-	Wed, 19 Jun 2024 01:36:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED87237700;
+	Wed, 19 Jun 2024 04:09:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IWFm4qBS"
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="ZJDO5K+e"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C03461878;
-	Wed, 19 Jun 2024 01:36:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43FE81E878;
+	Wed, 19 Jun 2024 04:09:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.156.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718760962; cv=none; b=B9KXBL9+reCPztl2Ui12rsRwcoM8fOgg03JgV4V/4xUBUcHf4szpvcSk1nKx0aVBvMhmIwILOEyhhjwf20/noB2Q+PhS9PFEgDo7h+dswl719IABj6Vsyxx0pLbivcZoPEKsNVGUDP5UzkSm/NVBoLa6CuZBU31DIokkUtAkW6A=
+	t=1718770178; cv=none; b=BKKvNHY73u5ilgoKu183I0efuVUwSzDOuqg3jF8wTaEMrF35SY4Prx68EwKMPF8xUS34mU3ZkX9h9pKwWx+UBn3JEUzQ8yVLVuoEj7QjF1Bx1YFgfs+jL3b5l3ZJW20KspmK44TmKDMh7+KcQ8m5Jtiq20Dphn3Q/SCbU9fSpkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718760962; c=relaxed/simple;
-	bh=hRatZ+p2pwXfVavlZb0czCqdixefjbssRPfj5eNN2y4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PENVTPwzSnXHvSDDYaJ4y/2xf+LRhElgKH4AhhlF3ulUtHfMZ8O6bClb3TkMW7MNnkoBJ+b7a+erU/oEidXPc9lBvPZ0Xv227gGNRl74iNu0YdtaZOfgdQgvov48iqUP/MxaQ7N9xdX5eJjinK2fuQK1lT82EHsBbtHRPSGiE7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=IWFm4qBS; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5C921289;
-	Wed, 19 Jun 2024 03:35:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718760941;
-	bh=hRatZ+p2pwXfVavlZb0czCqdixefjbssRPfj5eNN2y4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IWFm4qBSoU7BofQ8pFLRtW8UXiI9bnTCqHMtL2dKnyGwY972v60j+wuKpJblZEy4H
-	 1cFlLHz1eXoMbC8BpY2Buph4+MyZCq3KLEN8j8TRG+YjnfEb5pBdeRqSe2LIFeo5fT
-	 t8WZENbN7CcJScNb3YYsUiLwCHiL1fXwcTRVQEOQ=
-Date: Wed, 19 Jun 2024 04:35:36 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] media: rcar-vin: Add support for R-Car V4M
-Message-ID: <20240619013536.GI32669@pendragon.ideasonboard.com>
-References: <20240610113124.2396688-1-niklas.soderlund+renesas@ragnatech.se>
- <20240610113124.2396688-3-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1718770178; c=relaxed/simple;
+	bh=W/V7hXcR96m5gHFeZUHyDd04w9UerohVBbYWOdqc/NQ=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k83ctsCTaq6PPdQFDTcGfedkqHWsHw5BYPsnkWFyTlaifMHnwOf/KaL+14NUQxcZqWfBSi0HVZQI8jZcNIKEULwkuBoiojPO/uFd3uJ7QaVOsSa7UI+2PHx8rnhLgT7r7p13cc00c2DRTmQ8z1vQpCGp4FCE6N4hU1SPuGN8cug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b=ZJDO5K+e; arc=none smtp.client-ip=67.231.156.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+	by mx0b-0016f401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45J2mJX9013967;
+	Tue, 18 Jun 2024 21:09:18 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pfpt0220; bh=J7mf41VrTlvvXf16ampLWqLyf
+	Vq8RItFV2fhstN2xkc=; b=ZJDO5K+e/NcrsiSIdaIeYyAiynwN+bs5AI3PKLzRX
+	aAZfkFXEgfhVH70bpIIeiTXCHouziaH0Lrk2P8rTdWuyr/qRUMVtw0PDkgQ0dgc/
+	TyiSGrq0xecDMldoL3lesHEIH115OqSMGCqVfY1cMnGNHzZu2hIrBRI0gbDY3zoL
+	txayspMTGwThefas5Qk5y1k+zU2otxtYvLsyn3+keC/el9+X5ZelXt29MNnLDZw5
+	Q7fukGyECDWUi+QlZQ9KasRAcIGIivkMAHabnMrFUl2+u1WRFkXvmxk6+ec3AuaN
+	TI+0MexfdLQuVa9axn+MOgu/9Cxq37S9iDsaDPDdKwWoQ==
+Received: from dc6wp-exch02.marvell.com ([4.21.29.225])
+	by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3yujajgymk-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Jun 2024 21:09:18 -0700 (PDT)
+Received: from DC6WP-EXCH02.marvell.com (10.76.176.209) by
+ DC6WP-EXCH02.marvell.com (10.76.176.209) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.4; Tue, 18 Jun 2024 21:09:17 -0700
+Received: from maili.marvell.com (10.69.176.80) by DC6WP-EXCH02.marvell.com
+ (10.76.176.209) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
+ Transport; Tue, 18 Jun 2024 21:09:17 -0700
+Received: from maili.marvell.com (unknown [10.28.36.165])
+	by maili.marvell.com (Postfix) with SMTP id 1759D3F7081;
+	Tue, 18 Jun 2024 21:09:13 -0700 (PDT)
+Date: Wed, 19 Jun 2024 09:39:12 +0530
+From: Ratheesh Kannoth <rkannoth@marvell.com>
+To: Andrew Lunn <andrew@lunn.ch>
+CC: Niklas =?iso-8859-1?Q?S=F6derlund?=
+	<niklas.soderlund+renesas@ragnatech.se>,
+        Yoshihiro Shimoda
+	<yoshihiro.shimoda.uh@renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo
+ Abeni <pabeni@redhat.com>, <netdev@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [net-next,v9] net: ethernet: rtsn: Add support for Renesas
+ Ethernet-TSN
+Message-ID: <20240619040912.GA1191101@maili.marvell.com>
+References: <20240618090824.553018-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240618115716.GA1186487@maili.marvell.com>
+ <8cacac1d-b9ca-4fbc-b92a-60447f8fb178@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240610113124.2396688-3-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <8cacac1d-b9ca-4fbc-b92a-60447f8fb178@lunn.ch>
+X-Proofpoint-GUID: fN9m-rhZ8KO2XFx_tzdUBi9MzCPhcmkM
+X-Proofpoint-ORIG-GUID: fN9m-rhZ8KO2XFx_tzdUBi9MzCPhcmkM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-19_01,2024-06-17_01,2024-05-17_01
 
-Hi Niklas,
-
-Thank you for the patch.
-
-On Mon, Jun 10, 2024 at 01:31:24PM +0200, Niklas Söderlund wrote:
-> Add support for R-Car V4M. The V4M is similar to V4H and uses the ISP
-> Channel Selector as its only possible video input source. Reuse and
-> rename the info structure from V4H to cover all current Gen4 SoCs.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-I would normally take this in my tree and send a pull request, but a
-decision on the DT bindings is needed first. I may miss the outcome if I
-don't get CC'ed on v2, but I'm sure Hans or Sakari can also take the
-patches.
-
-> ---
-> * Changes since v1
-> - Create a shared Gen4 info strucutre.
-> ---
->  drivers/media/platform/renesas/rcar-vin/rcar-core.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-> index 809c3a38cc4a..6992b61f0d48 100644
-> --- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-> @@ -1283,7 +1283,7 @@ static const struct rvin_info rcar_info_r8a779a0 = {
->  	.max_height = 4096,
->  };
->  
-> -static const struct rvin_info rcar_info_r8a779g0 = {
-> +static const struct rvin_info rcar_info_gen4 = {
->  	.model = RCAR_GEN3,
->  	.use_mc = true,
->  	.use_isp = true,
-> @@ -1359,7 +1359,11 @@ static const struct of_device_id rvin_of_id_table[] = {
->  	},
->  	{
->  		.compatible = "renesas,vin-r8a779g0",
-> -		.data = &rcar_info_r8a779g0,
-> +		.data = &rcar_info_gen4,
-> +	},
-> +	{
-> +		.compatible = "renesas,vin-r8a779h0",
-> +		.data = &rcar_info_gen4,
->  	},
->  	{ /* Sentinel */ },
->  };
-
--- 
-Regards,
-
-Laurent Pinchart
+On 2024-06-18 at 22:45:37, Andrew Lunn (andrew@lunn.ch) wrote:
+> > > +static int rtsn_tx_free(struct net_device *ndev, bool free_txed_only)
+> > > +		priv->stats.tx_packets++;
+> > if (!skb) case also, incrementing the tx_packets. Is this correct ?
+>
+> Please trim the text when replying.
+Thanks, will do. I had trimmed upper portion; but not the bottom part.
 
