@@ -1,93 +1,123 @@
-Return-Path: <linux-renesas-soc+bounces-6506-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6507-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E562B90F481
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 18:54:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D21190F526
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 19:33:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 856F4282C12
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 16:54:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C76851F220A4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 17:33:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4624B152792;
-	Wed, 19 Jun 2024 16:54:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C26355884;
+	Wed, 19 Jun 2024 17:33:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GaGkX6FU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E/PeXlYG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 848AE5C8FC;
-	Wed, 19 Jun 2024 16:54:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E4547779;
+	Wed, 19 Jun 2024 17:33:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718816059; cv=none; b=cKo+GqH+WIm4T+bvkuoJkn7o98xylzbw6heR9a1yPV25EpLpdyGSipbHpsCcq/ZTVS1G2eq+D3ossjzvpCQ1pSlr8liu4w505g+6rSc6dYEJ7bLeB49W7eEuatt93zrUtV4fNZhDZc3b2C06qmLU16ipsRIRDwQq8M8z/+2VF4Q=
+	t=1718818421; cv=none; b=LSJVHC/qSbexOwnzHNLyAJz5cv2gsR+sHuWeyW6hpMtK3IPAT4TKC/U5LFtEb2C7HUIBbE0JtTqwjucBc3KCNtOH5+zyZLlCFrysgdjBiBIVudFqLEiJ/jufmLlphHzo/B7kE8aDwfKt8aFSjjXDlnD9xrolULuCnzKtYKXvJpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718816059; c=relaxed/simple;
-	bh=1Wq7DOJN8DK0tEcTAKWJt8iTdTMDhFjkz13wY8KenZI=;
+	s=arc-20240116; t=1718818421; c=relaxed/simple;
+	bh=jBQbrbECAxZQb03o9hjYR2DC5XcpH4RFuYhnr8rFRXQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sQhZf3c9U+uS4kO5547CZH0SQOI9f3p+SjfKt3cdKF1MBxSpuXTRlXC9XZUZ8jfnKFpERgXSCOYfwS6XFWxCgWHxs72CgDMR+3wGv/QfDQbJLqFpm7cMpg/KY+m8ueZOBpOOpRT2AqWmO7/YAN6/YvRbRpeVqYOuj6L/+tw0BVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GaGkX6FU; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AE7DA541;
-	Wed, 19 Jun 2024 18:53:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718816036;
-	bh=1Wq7DOJN8DK0tEcTAKWJt8iTdTMDhFjkz13wY8KenZI=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=YAHqlTs55iRZKRwIxOXwE8TNpUVox3JLE9Sancr5V2OBYQ5x01U+nBT25Whmahyq4lhvDq2ik6PL09IlfpAxW6/ogEJeRwAcA1/FIOD7i1zsPL2cYva52R03oN0FY2Kyefnxax9glClyO8BHFjptqbdKEgfVCfuj8yXZOBbuHFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E/PeXlYG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30A0AC2BBFC;
+	Wed, 19 Jun 2024 17:33:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718818421;
+	bh=jBQbrbECAxZQb03o9hjYR2DC5XcpH4RFuYhnr8rFRXQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GaGkX6FU/MEN7hXeGfXxsJx1Y7yA2BWRl801DL74lh74GTCLY5kmcyf4BoiNNmzfD
-	 3czJfPB0qgIlh73BUfpEK+m6cvXGGZNRu2zgV6pxzfOPwc2I5nVfvtBDDsFWuy5hx1
-	 uBslDE6J1J0NE5ZloRjNS8/Fma1novn0aF+ZSQ24=
-Date: Wed, 19 Jun 2024 19:53:51 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sergey Shtylyov <s.shtylyov@omp.ru>
-Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
-	kieran.bingham+renesas@ideasonboard.com, airlied@gmail.com,
-	daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Abaci Robot <abaci@linux.alibaba.com>
-Subject: Re: [PATCH] drm: Remove unused function rcar_cmm_write
-Message-ID: <20240619165351.GA4219@pendragon.ideasonboard.com>
-References: <20240619075436.86407-1-jiapeng.chong@linux.alibaba.com>
- <bd98f345-5c71-188a-b3af-a8ef9d205ce6@omp.ru>
+	b=E/PeXlYGKJ01rP7FrfGj/zPeeSHHYDD2Ut2a8yU0kS7JkDKgQzGdGpbmqAnYtumbE
+	 pIcNPU5BKJNdTP73PeNZu0TcbIyvmDdFlp+czBvah+b0tnsbeYXFihwLsHOfpCgBFX
+	 n6r+zaVJTIT/uwSOVBm2ri8p863yuLzazW9iNooZpy8e1WZGgQU63xUb+4oCG4MSTZ
+	 fPWGXnGPf+s6CLTit7HKOCZQQK2gxCyIttuQlsYyiz7CxxcOk93CwdF46vgNkdBOex
+	 6qgY+tHzq8gmapEgRguhHbEjDTPIxYwipIoruFsy/lEugltSBYpPlXAnI4kN6LMKWU
+	 d4aLGafNRtKJA==
+Date: Wed, 19 Jun 2024 18:33:37 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: media: renesas,vin: Add binding for
+ V4M
+Message-ID: <20240619-passage-iodine-9f944b26a30d@spud>
+References: <20240619153559.1647957-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240619153559.1647957-2-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="dWpIEbyvW2ujKmwW"
 Content-Disposition: inline
-In-Reply-To: <bd98f345-5c71-188a-b3af-a8ef9d205ce6@omp.ru>
+In-Reply-To: <20240619153559.1647957-2-niklas.soderlund+renesas@ragnatech.se>
 
-On Wed, Jun 19, 2024 at 12:16:47PM +0300, Sergey Shtylyov wrote:
-> On 6/19/24 10:54 AM, Jiapeng Chong wrote:
-> 
-> > The function are defined in the rcar_cmm.c file, but not called
-> 
->    s/are/is/.
-> 
-> > elsewhere, so delete the unused function.
-> 
->    Anywhere, maybe?
 
-I'll fix those.
+--dWpIEbyvW2ujKmwW
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+On Wed, Jun 19, 2024 at 05:35:58PM +0200, Niklas S=F6derlund wrote:
+> Document support for the VIN module in the Renesas V4M (r8a779h0) SoC.
+>=20
+> Signed-off-by: Niklas S=F6derlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> > drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c:35:19: warning: unused function 'rcar_cmm_read'.
-> > 
-> > Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> > Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=9364
-> > Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> 
-> [...]
+Didn't we just have a conversation about this, yet nothing has changed?
+NAK. Either you need a fallback or to explain why a fallback is not
+suitable _in this patch_.
 
--- 
-Regards,
+Thanks,
+Conor.
 
-Laurent Pinchart
+> ---
+>  Documentation/devicetree/bindings/media/renesas,vin.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/D=
+ocumentation/devicetree/bindings/media/renesas,vin.yaml
+> index 5539d0f8e74d..168cb02f8abe 100644
+> --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> @@ -54,6 +54,7 @@ properties:
+>                - renesas,vin-r8a77995 # R-Car D3
+>                - renesas,vin-r8a779a0 # R-Car V3U
+>                - renesas,vin-r8a779g0 # R-Car V4H
+> +              - renesas,vin-r8a779h0 # R-Car V4M
+> =20
+>    reg:
+>      maxItems: 1
+> --=20
+> 2.45.2
+>=20
+
+--dWpIEbyvW2ujKmwW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZnMWcAAKCRB4tDGHoIJi
+0s6XAP4s/yplPNpynA5D4eo3i0F1REW7NdZrUp19y6lcOKGvSgEA4C54jB1wmtKO
+mRenRWDwEyTonhBlh3nesRdn42gXgwk=
+=N6UY
+-----END PGP SIGNATURE-----
+
+--dWpIEbyvW2ujKmwW--
 
