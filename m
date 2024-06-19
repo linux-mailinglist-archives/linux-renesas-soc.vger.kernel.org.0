@@ -1,104 +1,120 @@
-Return-Path: <linux-renesas-soc+bounces-6480-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6481-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C56090E652
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 10:52:52 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8102D90E6A7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 11:17:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A4C81284CFC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 08:52:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 941CC1C21180
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 09:17:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F58E7D06B;
-	Wed, 19 Jun 2024 08:52:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VbVrKRkz"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ACA57F498;
+	Wed, 19 Jun 2024 09:17:10 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764722139B1;
-	Wed, 19 Jun 2024 08:52:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA3E1869;
+	Wed, 19 Jun 2024 09:17:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718787167; cv=none; b=GnyPZ0T3olWj1Buism8GY2CYA0qtCBP8ucCAiWL90uZV9SRmZPQtBaA/O30SiUsaA8JK9vrl32W+6TxQcGlbXA31z0hD1fvV6BKkhQNuPIfAw2ai+lr1wnYETGgFrX7rRSAer0WHT9TDM7LqkvZhN5pSz/h3e6yNqQCF9Uu/PUc=
+	t=1718788630; cv=none; b=fGjxXRs1YyEyOGRa2m0/oBFIw18eK9TkKAUrVo/HJuGK1GzR1Js5W14PYBpMkm/p2q0t7x9v9nd7BYJYXpEUkAhWvObCRPf14nEp2qwY4Rmi1XO+9n9WDEJZ0KGcFDkYdFlrpIFYH+hGVi+jiaameQ3Bn0Kbbqav7S+wj61MVmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718787167; c=relaxed/simple;
-	bh=Fkb8YCVrp8GptNyVesDfam2YovE22l6N/C89FMRpyLk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UVWnoz/xQ79n/7IU0PGDwqLcptM94f3Nf7Z8vfsm21ihGlSBDIOo+SpAoh7JykLAW40qP/INjP1pi6YVSkg2GwLwREiiUhb6ms+FUUHz6pztm4T1alaLf7gkYUr6dHIC/zsS6iiz/+M79CcvNJI8O9isD4geeQr639eY1jNYsjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VbVrKRkz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E09DC2BBFC;
-	Wed, 19 Jun 2024 08:52:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718787167;
-	bh=Fkb8YCVrp8GptNyVesDfam2YovE22l6N/C89FMRpyLk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VbVrKRkzlQ0Sd8jcanuhXOnuWPsmi15B53bZN9Dhwunr637KyZe5KYCACHb5S1R5U
-	 iOOHaPkTkPwqUwFK42VISDNovChpYyZdRoSZmK90RInHlRGV9+bnD6NJUDYQi8gVG+
-	 ieYLtadjFQnKgEhUnkV8nFzwKntckuEXMULrQYI981wTH8HQmrGXtyFQUFXtuRgjQ2
-	 rkj5Y+nuHEqYZag+q4+p0hec13ATSkidZh19c0DIbsgU/tMj3lqUTV0LcSpo+DgUMn
-	 Ux48VBz3VEvgXXCImpTAlxHf7vEc5C4GA2nrce7BTZhIST29NY5fdhjTnm0nb01yYJ
-	 SEAimSiQeCCRw==
-Date: Wed, 19 Jun 2024 14:22:38 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>,
-	"lpieralisi@kernel.org" <lpieralisi@kernel.org>,
-	"kw@linux.com" <kw@linux.com>, "robh@kernel.org" <robh@kernel.org>,
-	"bhelgaas@google.com" <bhelgaas@google.com>,
-	"jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-	"marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
-	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v9 4/5] PCI: rcar-gen4: Add support for r8a779g0
-Message-ID: <20240619085238.GD3898@thinkpad>
-References: <20240611125057.1232873-1-yoshihiro.shimoda.uh@renesas.com>
- <20240611125057.1232873-5-yoshihiro.shimoda.uh@renesas.com>
- <20240618070925.GB5485@thinkpad>
- <TYCPR01MB11040C48B321E9418D274B6D4D8CE2@TYCPR01MB11040.jpnprd01.prod.outlook.com>
+	s=arc-20240116; t=1718788630; c=relaxed/simple;
+	bh=kjYWE/vd5NcfKU3j65rdo2hEULktE2RsGogJoHxpzVg=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=GK9ohQ+tF1H03K+deehFOD2u3s1d2hRLVgX72YKG1jqjUkLcQbyehQlpYgzdfZ5ZW7tozEnXebTuBJB0H+MFMoKIUrEHeV++ZRal4zC+tIkqdyUKTuX1OzAdRG5VZbBtlcb8zeIFKEV3nOAntqK99HNsTbrlm0hDIV+CPYOMEqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.105] (31.173.87.162) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Wed, 19 Jun
+ 2024 12:16:47 +0300
+Subject: Re: [PATCH] drm: Remove unused function rcar_cmm_write
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+	<laurent.pinchart@ideasonboard.com>
+CC: <kieran.bingham+renesas@ideasonboard.com>, <airlied@gmail.com>,
+	<daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>,
+	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Abaci
+ Robot <abaci@linux.alibaba.com>
+References: <20240619075436.86407-1-jiapeng.chong@linux.alibaba.com>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <bd98f345-5c71-188a-b3af-a8ef9d205ce6@omp.ru>
+Date: Wed, 19 Jun 2024 12:16:47 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <TYCPR01MB11040C48B321E9418D274B6D4D8CE2@TYCPR01MB11040.jpnprd01.prod.outlook.com>
+In-Reply-To: <20240619075436.86407-1-jiapeng.chong@linux.alibaba.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 06/19/2024 08:59:50
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 186000 [Jun 19 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.4
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 20 0.3.20
+ 743589a8af6ec90b529f2124c2bbfc3ce1d2f20f
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.87.162 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.87.162 in (user)
+ dbl.spamhaus.org}
+X-KSE-AntiSpam-Info:
+	bugzilla.openanolis.cn:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;omp.ru:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.87.162
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 06/19/2024 09:04:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 6/19/2024 6:00:00 AM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-On Tue, Jun 18, 2024 at 08:10:43AM +0000, Yoshihiro Shimoda wrote:
-> Hello Manivannan,
-> 
-> Thank you for your review!
-> 
-> > From: Manivannan Sadhasivam, Sent: Tuesday, June 18, 2024 4:09 PM
-> > 
-> > On Tue, Jun 11, 2024 at 09:50:56PM +0900, Yoshihiro Shimoda wrote:
-> <snip>
-> > > @@ -221,6 +257,10 @@ static void rcar_gen4_pcie_unprepare(struct rcar_gen4_pcie *rcar)
-> > >
-> > >  static int rcar_gen4_pcie_get_resources(struct rcar_gen4_pcie *rcar)
-> > >  {
-> > > +	rcar->phy_base = devm_platform_ioremap_resource_byname(rcar->pdev, "phy");
-> > > +	if (IS_ERR(rcar->phy_base))
-> > > +		return PTR_ERR(rcar->phy_base);
-> > > +
-> > 
-> > I failed to spot this in earlier reviews. Since this 'phy' region is only
-> > applicable for r8a779g0, wouldn't this fail on other platforms?
-> 
-> This will not fail on other platforms because the dtsi file of the other platform (r8a779f0.dtsi)
-> already has the 'phy' region in the first commit which I added PCIe nodes:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/arch/arm64/boot/dts/renesas/r8a779f0.dtsi?h=v6.10-rc4&id=183a709d3719e5c9919a6f12c86c0a3e088b712d
-> 
+On 6/19/24 10:54 AM, Jiapeng Chong wrote:
 
-Ah okay. I didn't check the dts/binding. This is fine.
+> The function are defined in the rcar_cmm.c file, but not called
 
-- Mani
+   s/are/is/.
 
--- 
-மணிவண்ணன் சதாசிவம்
+> elsewhere, so delete the unused function.
+
+   Anywhere, maybe?
+
+> drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c:35:19: warning: unused function 'rcar_cmm_read'.
+> 
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=9364
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+
+[...]
+
+MBR, Sergey
 
