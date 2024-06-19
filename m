@@ -1,150 +1,834 @@
-Return-Path: <linux-renesas-soc+bounces-6490-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6491-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD03B90E8FC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 13:07:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6658090E93E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 13:23:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 70AA828521B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 11:07:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3A8941C20FFA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 11:23:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 838DD13A407;
-	Wed, 19 Jun 2024 11:07:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Eodc3Sfp"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0844F135A67;
+	Wed, 19 Jun 2024 11:23:01 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F24B75811
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Jun 2024 11:07:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF65139D07
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Jun 2024 11:22:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718795248; cv=none; b=TQfyJEvZmsyWMYBwkxluX3s6fsOSERK9P40MTHnuGEP2NbvZevPaSI9nK2QsOvlwKYlpmkyiOtpLBuAaecxtYun3wQJ+RZtiLwTvhX4OCfD35N06ugbI6FaRGr5zNeBoAWCow1L5gUPZ+KAR/AXm839vJC9+cp9BJDVRy+5wmxg=
+	t=1718796180; cv=none; b=AZnQ0UgD+x6ugpJszRm+eups2mIr23zpkRocfh+Y0TMS3lqXKCi08PyF7FZ58c1dvQy5JW84SFVrnio1BaLKv1YSdQgqJ9fmNktjAG0wqEEIrJjLcdZupb4I2KJWUYd/VRTH4hTT/RB9vZyQ5STOCNqyhR7Nu4cT10IwhdEsCbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718795248; c=relaxed/simple;
-	bh=CWllv8PFjwL7D2eJdpk9sAOsJ6FgjKhJHcGjKOPLpA4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oO9ExMuXTFgAxvALH+64/bI95h6vSyNf7z+9xrUrT8wULkcRC5Q7GNIdWoLaPXsIR+WyhTCIAtE2KRUluj+eDBdUR1fB57dpmIORk/jv6IrzZFzJ7iVptBLbZfkY6FlW6zc9pkqnkojQ4cdr2f/fR72OdgK9+uQhNGRDtxv6xzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Eodc3Sfp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FBFAC32786;
-	Wed, 19 Jun 2024 11:07:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718795248;
-	bh=CWllv8PFjwL7D2eJdpk9sAOsJ6FgjKhJHcGjKOPLpA4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Eodc3SfpFjgphopbBA1i3w+vXaC7KmTHSdQGauK9UQtZcB7aXAR8u5jAjVk1xyyVM
-	 1xOQ49xaWZFnf4TyXvV8qdp4T9YiTXzTYWvnVhqHbcOO6gtQ6z+qfAwp1v5mmIPU6z
-	 jr3fYGRTA1sIMd3S5U6pxCjDV4uXBWBEa2bwHCbv6M+64w3HkxvJSYC5uDyidKf3oH
-	 OwfNaRLd98LgOI2sj5XTBQT54iS8lNvtJ+J6EQHnKSccuVARNuN+uDLufue6//dD9S
-	 k4pXdNdCawMzUrObKmm2E+vmvZpKKMw4lbKn5ShAzqOjxmjJKWdUsyxxq21lZBxfeW
-	 gL9wwdKuMGfpg==
-Message-ID: <dbad102e-7bbf-4316-ac9b-29799f428548@kernel.org>
-Date: Wed, 19 Jun 2024 13:07:24 +0200
+	s=arc-20240116; t=1718796180; c=relaxed/simple;
+	bh=TloY3t3ntI756xHaK7esooWamSFrP781wkn5J9s0ANs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tuCdrSkZGL882mYNd24fj44G1eFSZ7nU66KGGuLT6jPm8pouK7UIP7CjUsJYRk0UCXugHOfKdT3kdazeT0WGnTFls44fxz4sruoVh4M+3XUrrq7/Hfq17adxUTQ/YYPYmWzX0tCc3GrIMOHtmT49xax8G6H61L1dQ9bTCNJRMV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:6e99:f293:6ea3:1319])
+	by baptiste.telenet-ops.be with bizsmtp
+	id dPNq2C00A2zhmKQ01PNqpN; Wed, 19 Jun 2024 13:22:50 +0200
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1sJtNk-005sLo-Hl;
+	Wed, 19 Jun 2024 13:22:50 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1sJtOs-008F80-1u;
+	Wed, 19 Jun 2024 13:22:50 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: linux-clk@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] dt-bindings: clock: rcar-gen2: Remove obsolete header files
+Date: Wed, 19 Jun 2024 13:22:46 +0200
+Message-Id: <d4abb688d666be35e99577a25b16958cbb4c3c98.1718796005.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] drm: rcar-mipi-dsi: Add support for R8A779H0
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- "open list:DRM DRIVERS FOR RENESAS R-CAR" <dri-devel@lists.freedesktop.org>,
- "open list:DRM DRIVERS FOR RENESAS R-CAR" <linux-renesas-soc@vger.kernel.org>
-References: <20240619102219.138927-1-jacopo.mondi@ideasonboard.com>
- <20240619102219.138927-4-jacopo.mondi@ideasonboard.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240619102219.138927-4-jacopo.mondi@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 19/06/2024 12:22, Jacopo Mondi wrote:
-> Add support for R-Car R8A779H0 V4M which has the same characteristics
-> of the already supported R-Car V4H R8A779G0.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> 
+The clock definitions in <dt-bindings/clock/r8a779?-clock.h> were
+superseded by those in <dt-bindings/clock/r8a779?-cpg-mssr.h> a long
+time ago.
 
-Please run scripts/checkpatch.pl and fix reported warnings. Then please
-run `scripts/checkpatch.pl --strict` and (probably) fix more warnings.
-Some warnings can be ignored, especially from --strict run, but the code
-here looks like it needs a fix. Feel free to get in touch if the warning
-is not clear.
+The last DTS user of these files was removed in commit 362b334b17943d84
+("ARM: dts: r8a7791: Convert to new CPG/MSSR bindings") in v4.15.
+Driver support for the old bindings was removed in commit
+58256143cff7c2e0 ("clk: renesas: Remove R-Car Gen2 legacy DT clock
+support") in v5.5, so there is no point to keep on carrying these.
 
-Bindings are separate patches.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be queued in renesas-clk for v6.11.
+---
+ include/dt-bindings/clock/r8a7790-clock.h | 158 ---------------------
+ include/dt-bindings/clock/r8a7791-clock.h | 161 ----------------------
+ include/dt-bindings/clock/r8a7792-clock.h |  98 -------------
+ include/dt-bindings/clock/r8a7793-clock.h | 159 ---------------------
+ include/dt-bindings/clock/r8a7794-clock.h | 137 ------------------
+ 5 files changed, 713 deletions(-)
+ delete mode 100644 include/dt-bindings/clock/r8a7790-clock.h
+ delete mode 100644 include/dt-bindings/clock/r8a7791-clock.h
+ delete mode 100644 include/dt-bindings/clock/r8a7792-clock.h
+ delete mode 100644 include/dt-bindings/clock/r8a7793-clock.h
+ delete mode 100644 include/dt-bindings/clock/r8a7794-clock.h
 
-<form letter>
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC. It might happen, that command when run on an older
-kernel, gives you outdated entries. Therefore please be sure you base
-your patches on recent Linux kernel.
-
-Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-people, so fix your workflow. Tools might also fail if you work on some
-ancient tree (don't, instead use mainline), work on fork of kernel
-(don't, instead use mainline) or you ignore some maintainers (really
-don't). Just use b4 and everything should be fine, although remember
-about `b4 prep --auto-to-cc` if you added new patches to the patchset.
-
-You missed at least devicetree list (maybe more), so this won't be
-tested by automated tooling. Performing review on untested code might be
-a waste of time, thus I will skip this patch entirely till you follow
-the process allowing the patch to be tested.
-
-Please kindly resend and include all necessary To/Cc entries.
-</form letter>
-
-Best regards,
-Krzysztof
+diff --git a/include/dt-bindings/clock/r8a7790-clock.h b/include/dt-bindings/clock/r8a7790-clock.h
+deleted file mode 100644
+index c92ff1e6022369e5..0000000000000000
+--- a/include/dt-bindings/clock/r8a7790-clock.h
++++ /dev/null
+@@ -1,158 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-or-later */
+-/*
+- * Copyright 2013 Ideas On Board SPRL
+- */
+-
+-#ifndef __DT_BINDINGS_CLOCK_R8A7790_H__
+-#define __DT_BINDINGS_CLOCK_R8A7790_H__
+-
+-/* CPG */
+-#define R8A7790_CLK_MAIN		0
+-#define R8A7790_CLK_PLL0		1
+-#define R8A7790_CLK_PLL1		2
+-#define R8A7790_CLK_PLL3		3
+-#define R8A7790_CLK_LB			4
+-#define R8A7790_CLK_QSPI		5
+-#define R8A7790_CLK_SDH			6
+-#define R8A7790_CLK_SD0			7
+-#define R8A7790_CLK_SD1			8
+-#define R8A7790_CLK_Z			9
+-#define R8A7790_CLK_RCAN		10
+-#define R8A7790_CLK_ADSP		11
+-
+-/* MSTP0 */
+-#define R8A7790_CLK_MSIOF0		0
+-
+-/* MSTP1 */
+-#define R8A7790_CLK_VCP1		0
+-#define R8A7790_CLK_VCP0		1
+-#define R8A7790_CLK_VPC1		2
+-#define R8A7790_CLK_VPC0		3
+-#define R8A7790_CLK_JPU			6
+-#define R8A7790_CLK_SSP1		9
+-#define R8A7790_CLK_TMU1		11
+-#define R8A7790_CLK_3DG			12
+-#define R8A7790_CLK_2DDMAC		15
+-#define R8A7790_CLK_FDP1_2		17
+-#define R8A7790_CLK_FDP1_1		18
+-#define R8A7790_CLK_FDP1_0		19
+-#define R8A7790_CLK_TMU3		21
+-#define R8A7790_CLK_TMU2		22
+-#define R8A7790_CLK_CMT0		24
+-#define R8A7790_CLK_TMU0		25
+-#define R8A7790_CLK_VSP1_DU1		27
+-#define R8A7790_CLK_VSP1_DU0		28
+-#define R8A7790_CLK_VSP1_R		30
+-#define R8A7790_CLK_VSP1_S		31
+-
+-/* MSTP2 */
+-#define R8A7790_CLK_SCIFA2		2
+-#define R8A7790_CLK_SCIFA1		3
+-#define R8A7790_CLK_SCIFA0		4
+-#define R8A7790_CLK_MSIOF2		5
+-#define R8A7790_CLK_SCIFB0		6
+-#define R8A7790_CLK_SCIFB1		7
+-#define R8A7790_CLK_MSIOF1		8
+-#define R8A7790_CLK_MSIOF3		15
+-#define R8A7790_CLK_SCIFB2		16
+-#define R8A7790_CLK_SYS_DMAC1		18
+-#define R8A7790_CLK_SYS_DMAC0		19
+-
+-/* MSTP3 */
+-#define R8A7790_CLK_IIC2		0
+-#define R8A7790_CLK_TPU0		4
+-#define R8A7790_CLK_MMCIF1		5
+-#define R8A7790_CLK_SCIF2		10
+-#define R8A7790_CLK_SDHI3		11
+-#define R8A7790_CLK_SDHI2		12
+-#define R8A7790_CLK_SDHI1		13
+-#define R8A7790_CLK_SDHI0		14
+-#define R8A7790_CLK_MMCIF0		15
+-#define R8A7790_CLK_IIC0		18
+-#define R8A7790_CLK_PCIEC		19
+-#define R8A7790_CLK_IIC1		23
+-#define R8A7790_CLK_SSUSB		28
+-#define R8A7790_CLK_CMT1		29
+-#define R8A7790_CLK_USBDMAC0		30
+-#define R8A7790_CLK_USBDMAC1		31
+-
+-/* MSTP4 */
+-#define R8A7790_CLK_IRQC		7
+-#define R8A7790_CLK_INTC_SYS		8
+-
+-/* MSTP5 */
+-#define R8A7790_CLK_AUDIO_DMAC1		1
+-#define R8A7790_CLK_AUDIO_DMAC0		2
+-#define R8A7790_CLK_ADSP_MOD		6
+-#define R8A7790_CLK_THERMAL		22
+-#define R8A7790_CLK_PWM			23
+-
+-/* MSTP7 */
+-#define R8A7790_CLK_EHCI		3
+-#define R8A7790_CLK_HSUSB		4
+-#define R8A7790_CLK_HSCIF1		16
+-#define R8A7790_CLK_HSCIF0		17
+-#define R8A7790_CLK_SCIF1		20
+-#define R8A7790_CLK_SCIF0		21
+-#define R8A7790_CLK_DU2			22
+-#define R8A7790_CLK_DU1			23
+-#define R8A7790_CLK_DU0			24
+-#define R8A7790_CLK_LVDS1		25
+-#define R8A7790_CLK_LVDS0		26
+-
+-/* MSTP8 */
+-#define R8A7790_CLK_MLB			2
+-#define R8A7790_CLK_VIN3		8
+-#define R8A7790_CLK_VIN2		9
+-#define R8A7790_CLK_VIN1		10
+-#define R8A7790_CLK_VIN0		11
+-#define R8A7790_CLK_ETHERAVB		12
+-#define R8A7790_CLK_ETHER		13
+-#define R8A7790_CLK_SATA1		14
+-#define R8A7790_CLK_SATA0		15
+-
+-/* MSTP9 */
+-#define R8A7790_CLK_GPIO5		7
+-#define R8A7790_CLK_GPIO4		8
+-#define R8A7790_CLK_GPIO3		9
+-#define R8A7790_CLK_GPIO2		10
+-#define R8A7790_CLK_GPIO1		11
+-#define R8A7790_CLK_GPIO0		12
+-#define R8A7790_CLK_RCAN1		15
+-#define R8A7790_CLK_RCAN0		16
+-#define R8A7790_CLK_QSPI_MOD		17
+-#define R8A7790_CLK_IICDVFS		26
+-#define R8A7790_CLK_I2C3		28
+-#define R8A7790_CLK_I2C2		29
+-#define R8A7790_CLK_I2C1		30
+-#define R8A7790_CLK_I2C0		31
+-
+-/* MSTP10 */
+-#define R8A7790_CLK_SSI_ALL		5
+-#define R8A7790_CLK_SSI9		6
+-#define R8A7790_CLK_SSI8		7
+-#define R8A7790_CLK_SSI7		8
+-#define R8A7790_CLK_SSI6		9
+-#define R8A7790_CLK_SSI5		10
+-#define R8A7790_CLK_SSI4		11
+-#define R8A7790_CLK_SSI3		12
+-#define R8A7790_CLK_SSI2		13
+-#define R8A7790_CLK_SSI1		14
+-#define R8A7790_CLK_SSI0		15
+-#define R8A7790_CLK_SCU_ALL		17
+-#define R8A7790_CLK_SCU_DVC1		18
+-#define R8A7790_CLK_SCU_DVC0		19
+-#define R8A7790_CLK_SCU_CTU1_MIX1	20
+-#define R8A7790_CLK_SCU_CTU0_MIX0	21
+-#define R8A7790_CLK_SCU_SRC9		22
+-#define R8A7790_CLK_SCU_SRC8		23
+-#define R8A7790_CLK_SCU_SRC7		24
+-#define R8A7790_CLK_SCU_SRC6		25
+-#define R8A7790_CLK_SCU_SRC5		26
+-#define R8A7790_CLK_SCU_SRC4		27
+-#define R8A7790_CLK_SCU_SRC3		28
+-#define R8A7790_CLK_SCU_SRC2		29
+-#define R8A7790_CLK_SCU_SRC1		30
+-#define R8A7790_CLK_SCU_SRC0		31
+-
+-#endif /* __DT_BINDINGS_CLOCK_R8A7790_H__ */
+diff --git a/include/dt-bindings/clock/r8a7791-clock.h b/include/dt-bindings/clock/r8a7791-clock.h
+deleted file mode 100644
+index bb4f18b1b3d585cd..0000000000000000
+--- a/include/dt-bindings/clock/r8a7791-clock.h
++++ /dev/null
+@@ -1,161 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-or-later */
+-/*
+- * Copyright 2013 Ideas On Board SPRL
+- */
+-
+-#ifndef __DT_BINDINGS_CLOCK_R8A7791_H__
+-#define __DT_BINDINGS_CLOCK_R8A7791_H__
+-
+-/* CPG */
+-#define R8A7791_CLK_MAIN		0
+-#define R8A7791_CLK_PLL0		1
+-#define R8A7791_CLK_PLL1		2
+-#define R8A7791_CLK_PLL3		3
+-#define R8A7791_CLK_LB			4
+-#define R8A7791_CLK_QSPI		5
+-#define R8A7791_CLK_SDH			6
+-#define R8A7791_CLK_SD0			7
+-#define R8A7791_CLK_Z			8
+-#define R8A7791_CLK_RCAN		9
+-#define R8A7791_CLK_ADSP		10
+-
+-/* MSTP0 */
+-#define R8A7791_CLK_MSIOF0		0
+-
+-/* MSTP1 */
+-#define R8A7791_CLK_VCP0		1
+-#define R8A7791_CLK_VPC0		3
+-#define R8A7791_CLK_JPU			6
+-#define R8A7791_CLK_SSP1		9
+-#define R8A7791_CLK_TMU1		11
+-#define R8A7791_CLK_3DG			12
+-#define R8A7791_CLK_2DDMAC		15
+-#define R8A7791_CLK_FDP1_1		18
+-#define R8A7791_CLK_FDP1_0		19
+-#define R8A7791_CLK_TMU3		21
+-#define R8A7791_CLK_TMU2		22
+-#define R8A7791_CLK_CMT0		24
+-#define R8A7791_CLK_TMU0		25
+-#define R8A7791_CLK_VSP1_DU1		27
+-#define R8A7791_CLK_VSP1_DU0		28
+-#define R8A7791_CLK_VSP1_S		31
+-
+-/* MSTP2 */
+-#define R8A7791_CLK_SCIFA2		2
+-#define R8A7791_CLK_SCIFA1		3
+-#define R8A7791_CLK_SCIFA0		4
+-#define R8A7791_CLK_MSIOF2		5
+-#define R8A7791_CLK_SCIFB0		6
+-#define R8A7791_CLK_SCIFB1		7
+-#define R8A7791_CLK_MSIOF1		8
+-#define R8A7791_CLK_SCIFB2		16
+-#define R8A7791_CLK_SYS_DMAC1		18
+-#define R8A7791_CLK_SYS_DMAC0		19
+-
+-/* MSTP3 */
+-#define R8A7791_CLK_TPU0		4
+-#define R8A7791_CLK_SDHI2		11
+-#define R8A7791_CLK_SDHI1		12
+-#define R8A7791_CLK_SDHI0		14
+-#define R8A7791_CLK_MMCIF0		15
+-#define R8A7791_CLK_IIC0		18
+-#define R8A7791_CLK_PCIEC		19
+-#define R8A7791_CLK_IIC1		23
+-#define R8A7791_CLK_SSUSB		28
+-#define R8A7791_CLK_CMT1		29
+-#define R8A7791_CLK_USBDMAC0		30
+-#define R8A7791_CLK_USBDMAC1		31
+-
+-/* MSTP4 */
+-#define R8A7791_CLK_IRQC		7
+-#define R8A7791_CLK_INTC_SYS		8
+-
+-/* MSTP5 */
+-#define R8A7791_CLK_AUDIO_DMAC1		1
+-#define R8A7791_CLK_AUDIO_DMAC0		2
+-#define R8A7791_CLK_ADSP_MOD		6
+-#define R8A7791_CLK_THERMAL		22
+-#define R8A7791_CLK_PWM			23
+-
+-/* MSTP7 */
+-#define R8A7791_CLK_EHCI		3
+-#define R8A7791_CLK_HSUSB		4
+-#define R8A7791_CLK_HSCIF2		13
+-#define R8A7791_CLK_SCIF5		14
+-#define R8A7791_CLK_SCIF4		15
+-#define R8A7791_CLK_HSCIF1		16
+-#define R8A7791_CLK_HSCIF0		17
+-#define R8A7791_CLK_SCIF3		18
+-#define R8A7791_CLK_SCIF2		19
+-#define R8A7791_CLK_SCIF1		20
+-#define R8A7791_CLK_SCIF0		21
+-#define R8A7791_CLK_DU1			23
+-#define R8A7791_CLK_DU0			24
+-#define R8A7791_CLK_LVDS0		26
+-
+-/* MSTP8 */
+-#define R8A7791_CLK_IPMMU_SGX		0
+-#define R8A7791_CLK_MLB			2
+-#define R8A7791_CLK_VIN2		9
+-#define R8A7791_CLK_VIN1		10
+-#define R8A7791_CLK_VIN0		11
+-#define R8A7791_CLK_ETHERAVB		12
+-#define R8A7791_CLK_ETHER		13
+-#define R8A7791_CLK_SATA1		14
+-#define R8A7791_CLK_SATA0		15
+-
+-/* MSTP9 */
+-#define R8A7791_CLK_GYROADC		1
+-#define R8A7791_CLK_GPIO7		4
+-#define R8A7791_CLK_GPIO6		5
+-#define R8A7791_CLK_GPIO5		7
+-#define R8A7791_CLK_GPIO4		8
+-#define R8A7791_CLK_GPIO3		9
+-#define R8A7791_CLK_GPIO2		10
+-#define R8A7791_CLK_GPIO1		11
+-#define R8A7791_CLK_GPIO0		12
+-#define R8A7791_CLK_RCAN1		15
+-#define R8A7791_CLK_RCAN0		16
+-#define R8A7791_CLK_QSPI_MOD		17
+-#define R8A7791_CLK_I2C5		25
+-#define R8A7791_CLK_IICDVFS		26
+-#define R8A7791_CLK_I2C4		27
+-#define R8A7791_CLK_I2C3		28
+-#define R8A7791_CLK_I2C2		29
+-#define R8A7791_CLK_I2C1		30
+-#define R8A7791_CLK_I2C0		31
+-
+-/* MSTP10 */
+-#define R8A7791_CLK_SSI_ALL		5
+-#define R8A7791_CLK_SSI9		6
+-#define R8A7791_CLK_SSI8		7
+-#define R8A7791_CLK_SSI7		8
+-#define R8A7791_CLK_SSI6		9
+-#define R8A7791_CLK_SSI5		10
+-#define R8A7791_CLK_SSI4		11
+-#define R8A7791_CLK_SSI3		12
+-#define R8A7791_CLK_SSI2		13
+-#define R8A7791_CLK_SSI1		14
+-#define R8A7791_CLK_SSI0		15
+-#define R8A7791_CLK_SCU_ALL		17
+-#define R8A7791_CLK_SCU_DVC1		18
+-#define R8A7791_CLK_SCU_DVC0		19
+-#define R8A7791_CLK_SCU_CTU1_MIX1	20
+-#define R8A7791_CLK_SCU_CTU0_MIX0	21
+-#define R8A7791_CLK_SCU_SRC9		22
+-#define R8A7791_CLK_SCU_SRC8		23
+-#define R8A7791_CLK_SCU_SRC7		24
+-#define R8A7791_CLK_SCU_SRC6		25
+-#define R8A7791_CLK_SCU_SRC5		26
+-#define R8A7791_CLK_SCU_SRC4		27
+-#define R8A7791_CLK_SCU_SRC3		28
+-#define R8A7791_CLK_SCU_SRC2		29
+-#define R8A7791_CLK_SCU_SRC1		30
+-#define R8A7791_CLK_SCU_SRC0		31
+-
+-/* MSTP11 */
+-#define R8A7791_CLK_SCIFA3		6
+-#define R8A7791_CLK_SCIFA4		7
+-#define R8A7791_CLK_SCIFA5		8
+-
+-#endif /* __DT_BINDINGS_CLOCK_R8A7791_H__ */
+diff --git a/include/dt-bindings/clock/r8a7792-clock.h b/include/dt-bindings/clock/r8a7792-clock.h
+deleted file mode 100644
+index 2948d9ce3a14bb1e..0000000000000000
+--- a/include/dt-bindings/clock/r8a7792-clock.h
++++ /dev/null
+@@ -1,98 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-or-later */
+-/*
+- * Copyright (C) 2016 Cogent Embedded, Inc.
+- */
+-
+-#ifndef __DT_BINDINGS_CLOCK_R8A7792_H__
+-#define __DT_BINDINGS_CLOCK_R8A7792_H__
+-
+-/* CPG */
+-#define R8A7792_CLK_MAIN		0
+-#define R8A7792_CLK_PLL0		1
+-#define R8A7792_CLK_PLL1		2
+-#define R8A7792_CLK_PLL3		3
+-#define R8A7792_CLK_LB			4
+-#define R8A7792_CLK_QSPI		5
+-
+-/* MSTP0 */
+-#define R8A7792_CLK_MSIOF0		0
+-
+-/* MSTP1 */
+-#define R8A7792_CLK_JPU			6
+-#define R8A7792_CLK_TMU1		11
+-#define R8A7792_CLK_TMU3		21
+-#define R8A7792_CLK_TMU2		22
+-#define R8A7792_CLK_CMT0		24
+-#define R8A7792_CLK_TMU0		25
+-#define R8A7792_CLK_VSP1DU1		27
+-#define R8A7792_CLK_VSP1DU0		28
+-#define R8A7792_CLK_VSP1_SY		31
+-
+-/* MSTP2 */
+-#define R8A7792_CLK_MSIOF1		8
+-#define R8A7792_CLK_SYS_DMAC1		18
+-#define R8A7792_CLK_SYS_DMAC0		19
+-
+-/* MSTP3 */
+-#define R8A7792_CLK_TPU0		4
+-#define R8A7792_CLK_SDHI0		14
+-#define R8A7792_CLK_CMT1		29
+-
+-/* MSTP4 */
+-#define R8A7792_CLK_IRQC		7
+-#define R8A7792_CLK_INTC_SYS		8
+-
+-/* MSTP5 */
+-#define R8A7792_CLK_AUDIO_DMAC0		2
+-#define R8A7792_CLK_THERMAL		22
+-#define R8A7792_CLK_PWM			23
+-
+-/* MSTP7 */
+-#define R8A7792_CLK_HSCIF1		16
+-#define R8A7792_CLK_HSCIF0		17
+-#define R8A7792_CLK_SCIF3		18
+-#define R8A7792_CLK_SCIF2		19
+-#define R8A7792_CLK_SCIF1		20
+-#define R8A7792_CLK_SCIF0		21
+-#define R8A7792_CLK_DU1			23
+-#define R8A7792_CLK_DU0			24
+-
+-/* MSTP8 */
+-#define R8A7792_CLK_VIN5		4
+-#define R8A7792_CLK_VIN4		5
+-#define R8A7792_CLK_VIN3		8
+-#define R8A7792_CLK_VIN2		9
+-#define R8A7792_CLK_VIN1		10
+-#define R8A7792_CLK_VIN0		11
+-#define R8A7792_CLK_ETHERAVB		12
+-
+-/* MSTP9 */
+-#define R8A7792_CLK_GPIO7		4
+-#define R8A7792_CLK_GPIO6		5
+-#define R8A7792_CLK_GPIO5		7
+-#define R8A7792_CLK_GPIO4		8
+-#define R8A7792_CLK_GPIO3		9
+-#define R8A7792_CLK_GPIO2		10
+-#define R8A7792_CLK_GPIO1		11
+-#define R8A7792_CLK_GPIO0		12
+-#define R8A7792_CLK_GPIO11		13
+-#define R8A7792_CLK_GPIO10		14
+-#define R8A7792_CLK_CAN1		15
+-#define R8A7792_CLK_CAN0		16
+-#define R8A7792_CLK_QSPI_MOD		17
+-#define R8A7792_CLK_GPIO9		19
+-#define R8A7792_CLK_GPIO8		21
+-#define R8A7792_CLK_I2C5		25
+-#define R8A7792_CLK_IICDVFS		26
+-#define R8A7792_CLK_I2C4		27
+-#define R8A7792_CLK_I2C3		28
+-#define R8A7792_CLK_I2C2		29
+-#define R8A7792_CLK_I2C1		30
+-#define R8A7792_CLK_I2C0		31
+-
+-/* MSTP10 */
+-#define R8A7792_CLK_SSI_ALL		5
+-#define R8A7792_CLK_SSI4		11
+-#define R8A7792_CLK_SSI3		12
+-
+-#endif /* __DT_BINDINGS_CLOCK_R8A7792_H__ */
+diff --git a/include/dt-bindings/clock/r8a7793-clock.h b/include/dt-bindings/clock/r8a7793-clock.h
+deleted file mode 100644
+index 49c66d8ed1782fc0..0000000000000000
+--- a/include/dt-bindings/clock/r8a7793-clock.h
++++ /dev/null
+@@ -1,159 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0
+- *
+- * r8a7793 clock definition
+- *
+- * Copyright (C) 2014  Renesas Electronics Corporation
+- */
+-
+-#ifndef __DT_BINDINGS_CLOCK_R8A7793_H__
+-#define __DT_BINDINGS_CLOCK_R8A7793_H__
+-
+-/* CPG */
+-#define R8A7793_CLK_MAIN		0
+-#define R8A7793_CLK_PLL0		1
+-#define R8A7793_CLK_PLL1		2
+-#define R8A7793_CLK_PLL3		3
+-#define R8A7793_CLK_LB			4
+-#define R8A7793_CLK_QSPI		5
+-#define R8A7793_CLK_SDH			6
+-#define R8A7793_CLK_SD0			7
+-#define R8A7793_CLK_Z			8
+-#define R8A7793_CLK_RCAN		9
+-#define R8A7793_CLK_ADSP		10
+-
+-/* MSTP0 */
+-#define R8A7793_CLK_MSIOF0		0
+-
+-/* MSTP1 */
+-#define R8A7793_CLK_VCP0		1
+-#define R8A7793_CLK_VPC0		3
+-#define R8A7793_CLK_SSP1		9
+-#define R8A7793_CLK_TMU1		11
+-#define R8A7793_CLK_3DG			12
+-#define R8A7793_CLK_2DDMAC		15
+-#define R8A7793_CLK_FDP1_1		18
+-#define R8A7793_CLK_FDP1_0		19
+-#define R8A7793_CLK_TMU3		21
+-#define R8A7793_CLK_TMU2		22
+-#define R8A7793_CLK_CMT0		24
+-#define R8A7793_CLK_TMU0		25
+-#define R8A7793_CLK_VSP1_DU1		27
+-#define R8A7793_CLK_VSP1_DU0		28
+-#define R8A7793_CLK_VSP1_S		31
+-
+-/* MSTP2 */
+-#define R8A7793_CLK_SCIFA2		2
+-#define R8A7793_CLK_SCIFA1		3
+-#define R8A7793_CLK_SCIFA0		4
+-#define R8A7793_CLK_MSIOF2		5
+-#define R8A7793_CLK_SCIFB0		6
+-#define R8A7793_CLK_SCIFB1		7
+-#define R8A7793_CLK_MSIOF1		8
+-#define R8A7793_CLK_SCIFB2		16
+-#define R8A7793_CLK_SYS_DMAC1		18
+-#define R8A7793_CLK_SYS_DMAC0		19
+-
+-/* MSTP3 */
+-#define R8A7793_CLK_TPU0		4
+-#define R8A7793_CLK_SDHI2		11
+-#define R8A7793_CLK_SDHI1		12
+-#define R8A7793_CLK_SDHI0		14
+-#define R8A7793_CLK_MMCIF0		15
+-#define R8A7793_CLK_IIC0		18
+-#define R8A7793_CLK_PCIEC		19
+-#define R8A7793_CLK_IIC1		23
+-#define R8A7793_CLK_SSUSB		28
+-#define R8A7793_CLK_CMT1		29
+-#define R8A7793_CLK_USBDMAC0		30
+-#define R8A7793_CLK_USBDMAC1		31
+-
+-/* MSTP4 */
+-#define R8A7793_CLK_IRQC		7
+-#define R8A7793_CLK_INTC_SYS		8
+-
+-/* MSTP5 */
+-#define R8A7793_CLK_AUDIO_DMAC1		1
+-#define R8A7793_CLK_AUDIO_DMAC0		2
+-#define R8A7793_CLK_ADSP_MOD		6
+-#define R8A7793_CLK_THERMAL		22
+-#define R8A7793_CLK_PWM			23
+-
+-/* MSTP7 */
+-#define R8A7793_CLK_EHCI		3
+-#define R8A7793_CLK_HSUSB		4
+-#define R8A7793_CLK_HSCIF2		13
+-#define R8A7793_CLK_SCIF5		14
+-#define R8A7793_CLK_SCIF4		15
+-#define R8A7793_CLK_HSCIF1		16
+-#define R8A7793_CLK_HSCIF0		17
+-#define R8A7793_CLK_SCIF3		18
+-#define R8A7793_CLK_SCIF2		19
+-#define R8A7793_CLK_SCIF1		20
+-#define R8A7793_CLK_SCIF0		21
+-#define R8A7793_CLK_DU1			23
+-#define R8A7793_CLK_DU0			24
+-#define R8A7793_CLK_LVDS0		26
+-
+-/* MSTP8 */
+-#define R8A7793_CLK_IPMMU_SGX		0
+-#define R8A7793_CLK_VIN2		9
+-#define R8A7793_CLK_VIN1		10
+-#define R8A7793_CLK_VIN0		11
+-#define R8A7793_CLK_ETHER		13
+-#define R8A7793_CLK_SATA1		14
+-#define R8A7793_CLK_SATA0		15
+-
+-/* MSTP9 */
+-#define R8A7793_CLK_GPIO7		4
+-#define R8A7793_CLK_GPIO6		5
+-#define R8A7793_CLK_GPIO5		7
+-#define R8A7793_CLK_GPIO4		8
+-#define R8A7793_CLK_GPIO3		9
+-#define R8A7793_CLK_GPIO2		10
+-#define R8A7793_CLK_GPIO1		11
+-#define R8A7793_CLK_GPIO0		12
+-#define R8A7793_CLK_RCAN1		15
+-#define R8A7793_CLK_RCAN0		16
+-#define R8A7793_CLK_QSPI_MOD		17
+-#define R8A7793_CLK_I2C5		25
+-#define R8A7793_CLK_IICDVFS		26
+-#define R8A7793_CLK_I2C4		27
+-#define R8A7793_CLK_I2C3		28
+-#define R8A7793_CLK_I2C2		29
+-#define R8A7793_CLK_I2C1		30
+-#define R8A7793_CLK_I2C0		31
+-
+-/* MSTP10 */
+-#define R8A7793_CLK_SSI_ALL		5
+-#define R8A7793_CLK_SSI9		6
+-#define R8A7793_CLK_SSI8		7
+-#define R8A7793_CLK_SSI7		8
+-#define R8A7793_CLK_SSI6		9
+-#define R8A7793_CLK_SSI5		10
+-#define R8A7793_CLK_SSI4		11
+-#define R8A7793_CLK_SSI3		12
+-#define R8A7793_CLK_SSI2		13
+-#define R8A7793_CLK_SSI1		14
+-#define R8A7793_CLK_SSI0		15
+-#define R8A7793_CLK_SCU_ALL		17
+-#define R8A7793_CLK_SCU_DVC1		18
+-#define R8A7793_CLK_SCU_DVC0		19
+-#define R8A7793_CLK_SCU_CTU1_MIX1	20
+-#define R8A7793_CLK_SCU_CTU0_MIX0	21
+-#define R8A7793_CLK_SCU_SRC9		22
+-#define R8A7793_CLK_SCU_SRC8		23
+-#define R8A7793_CLK_SCU_SRC7		24
+-#define R8A7793_CLK_SCU_SRC6		25
+-#define R8A7793_CLK_SCU_SRC5		26
+-#define R8A7793_CLK_SCU_SRC4		27
+-#define R8A7793_CLK_SCU_SRC3		28
+-#define R8A7793_CLK_SCU_SRC2		29
+-#define R8A7793_CLK_SCU_SRC1		30
+-#define R8A7793_CLK_SCU_SRC0		31
+-
+-/* MSTP11 */
+-#define R8A7793_CLK_SCIFA3		6
+-#define R8A7793_CLK_SCIFA4		7
+-#define R8A7793_CLK_SCIFA5		8
+-
+-#endif /* __DT_BINDINGS_CLOCK_R8A7793_H__ */
+diff --git a/include/dt-bindings/clock/r8a7794-clock.h b/include/dt-bindings/clock/r8a7794-clock.h
+deleted file mode 100644
+index 649f005782d05213..0000000000000000
+--- a/include/dt-bindings/clock/r8a7794-clock.h
++++ /dev/null
+@@ -1,137 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0+
+- *
+- * Copyright (C) 2014 Renesas Electronics Corporation
+- * Copyright 2013 Ideas On Board SPRL
+- */
+-
+-#ifndef __DT_BINDINGS_CLOCK_R8A7794_H__
+-#define __DT_BINDINGS_CLOCK_R8A7794_H__
+-
+-/* CPG */
+-#define R8A7794_CLK_MAIN		0
+-#define R8A7794_CLK_PLL0		1
+-#define R8A7794_CLK_PLL1		2
+-#define R8A7794_CLK_PLL3		3
+-#define R8A7794_CLK_LB			4
+-#define R8A7794_CLK_QSPI		5
+-#define R8A7794_CLK_SDH			6
+-#define R8A7794_CLK_SD0			7
+-#define R8A7794_CLK_RCAN		8
+-
+-/* MSTP0 */
+-#define R8A7794_CLK_MSIOF0		0
+-
+-/* MSTP1 */
+-#define R8A7794_CLK_VCP0		1
+-#define R8A7794_CLK_VPC0		3
+-#define R8A7794_CLK_TMU1		11
+-#define R8A7794_CLK_3DG			12
+-#define R8A7794_CLK_2DDMAC		15
+-#define R8A7794_CLK_FDP1_0		19
+-#define R8A7794_CLK_TMU3		21
+-#define R8A7794_CLK_TMU2		22
+-#define R8A7794_CLK_CMT0		24
+-#define R8A7794_CLK_TMU0		25
+-#define R8A7794_CLK_VSP1_DU0		28
+-#define R8A7794_CLK_VSP1_S		31
+-
+-/* MSTP2 */
+-#define R8A7794_CLK_SCIFA2		2
+-#define R8A7794_CLK_SCIFA1		3
+-#define R8A7794_CLK_SCIFA0		4
+-#define R8A7794_CLK_MSIOF2		5
+-#define R8A7794_CLK_SCIFB0		6
+-#define R8A7794_CLK_SCIFB1		7
+-#define R8A7794_CLK_MSIOF1		8
+-#define R8A7794_CLK_SCIFB2		16
+-#define R8A7794_CLK_SYS_DMAC1		18
+-#define R8A7794_CLK_SYS_DMAC0		19
+-
+-/* MSTP3 */
+-#define R8A7794_CLK_SDHI2		11
+-#define R8A7794_CLK_SDHI1		12
+-#define R8A7794_CLK_SDHI0		14
+-#define R8A7794_CLK_MMCIF0		15
+-#define R8A7794_CLK_IIC0		18
+-#define R8A7794_CLK_IIC1		23
+-#define R8A7794_CLK_CMT1		29
+-#define R8A7794_CLK_USBDMAC0		30
+-#define R8A7794_CLK_USBDMAC1		31
+-
+-/* MSTP4 */
+-#define R8A7794_CLK_IRQC		7
+-#define R8A7794_CLK_INTC_SYS		8
+-
+-/* MSTP5 */
+-#define R8A7794_CLK_AUDIO_DMAC0		2
+-#define R8A7794_CLK_PWM			23
+-
+-/* MSTP7 */
+-#define R8A7794_CLK_EHCI		3
+-#define R8A7794_CLK_HSUSB		4
+-#define R8A7794_CLK_HSCIF2		13
+-#define R8A7794_CLK_SCIF5		14
+-#define R8A7794_CLK_SCIF4		15
+-#define R8A7794_CLK_HSCIF1		16
+-#define R8A7794_CLK_HSCIF0		17
+-#define R8A7794_CLK_SCIF3		18
+-#define R8A7794_CLK_SCIF2		19
+-#define R8A7794_CLK_SCIF1		20
+-#define R8A7794_CLK_SCIF0		21
+-#define R8A7794_CLK_DU1			23
+-#define R8A7794_CLK_DU0			24
+-
+-/* MSTP8 */
+-#define R8A7794_CLK_VIN1		10
+-#define R8A7794_CLK_VIN0		11
+-#define R8A7794_CLK_ETHERAVB		12
+-#define R8A7794_CLK_ETHER		13
+-
+-/* MSTP9 */
+-#define R8A7794_CLK_GPIO6		5
+-#define R8A7794_CLK_GPIO5		7
+-#define R8A7794_CLK_GPIO4		8
+-#define R8A7794_CLK_GPIO3		9
+-#define R8A7794_CLK_GPIO2		10
+-#define R8A7794_CLK_GPIO1		11
+-#define R8A7794_CLK_GPIO0		12
+-#define R8A7794_CLK_RCAN1		15
+-#define R8A7794_CLK_RCAN0		16
+-#define R8A7794_CLK_QSPI_MOD		17
+-#define R8A7794_CLK_I2C5		25
+-#define R8A7794_CLK_I2C4		27
+-#define R8A7794_CLK_I2C3		28
+-#define R8A7794_CLK_I2C2		29
+-#define R8A7794_CLK_I2C1		30
+-#define R8A7794_CLK_I2C0		31
+-
+-/* MSTP10 */
+-#define R8A7794_CLK_SSI_ALL		5
+-#define R8A7794_CLK_SSI9		6
+-#define R8A7794_CLK_SSI8		7
+-#define R8A7794_CLK_SSI7		8
+-#define R8A7794_CLK_SSI6		9
+-#define R8A7794_CLK_SSI5		10
+-#define R8A7794_CLK_SSI4		11
+-#define R8A7794_CLK_SSI3		12
+-#define R8A7794_CLK_SSI2		13
+-#define R8A7794_CLK_SSI1		14
+-#define R8A7794_CLK_SSI0		15
+-#define R8A7794_CLK_SCU_ALL		17
+-#define R8A7794_CLK_SCU_DVC1		18
+-#define R8A7794_CLK_SCU_DVC0		19
+-#define R8A7794_CLK_SCU_CTU1_MIX1	20
+-#define R8A7794_CLK_SCU_CTU0_MIX0	21
+-#define R8A7794_CLK_SCU_SRC6		25
+-#define R8A7794_CLK_SCU_SRC5		26
+-#define R8A7794_CLK_SCU_SRC4		27
+-#define R8A7794_CLK_SCU_SRC3		28
+-#define R8A7794_CLK_SCU_SRC2		29
+-#define R8A7794_CLK_SCU_SRC1		30
+-
+-/* MSTP11 */
+-#define R8A7794_CLK_SCIFA3		6
+-#define R8A7794_CLK_SCIFA4		7
+-#define R8A7794_CLK_SCIFA5		8
+-
+-#endif /* __DT_BINDINGS_CLOCK_R8A7794_H__ */
+-- 
+2.34.1
 
 
