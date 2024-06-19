@@ -1,59 +1,57 @@
-Return-Path: <linux-renesas-soc+bounces-6492-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6493-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB31690EA47
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 14:01:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F24690EA4F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 14:02:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C8BA11C2111F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 12:01:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6231D1C20F45
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 12:02:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 205CB139579;
-	Wed, 19 Jun 2024 12:01:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8A5C13D242;
+	Wed, 19 Jun 2024 12:02:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ACCtxd5I"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sKgLjsZV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5853DFC1F
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Jun 2024 12:00:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6679C135A6D;
+	Wed, 19 Jun 2024 12:02:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718798461; cv=none; b=KvzOBSkq5vtbDwIXFLBYkSrVBbOnBVyEIsnADIZ7Er+FQw65cgN89PbCIBhcdwwI1VoPLzI0u7K+7MkzqyPqN+86csxRMtrLgiwtGkrjz1mdj+1JJovqczLbb2QIoWeP1cy1cLbRQM7jC/fVX7m/OJa4uFB+bvTSB3hVDeUh1uk=
+	t=1718798570; cv=none; b=TG1k6oIMd8cnQ8wmIzYllAQmAqLvpl0t2+U1asfAVLx2poR39GLBji8lNUyFwi7JcGQrnSVN73jkO7GjEghpmbhFi4ghimFzQgXtBvp6F/zCIKcXdz8xyGgqpqEhpqltL5QFU46edvsEW7o59sPd4R9XzE5f//i2Ao0YqZqFzJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718798461; c=relaxed/simple;
-	bh=mIIEMTS+j55gSxT/3xPA8m2Ohk6psQdZCnkNC4cn+S8=;
+	s=arc-20240116; t=1718798570; c=relaxed/simple;
+	bh=hhPC12TSdAfNczkdDEp35qzTdIl4a0w8PrCOZyWruS8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nGto3/gfYJwQHvmfKkbhA6RlofvWaJMFZc8JpB3io6iMb7fB4RbPl3YWGUGj908xutIFGlklv05s6g8KHGO4mZTaqr7Fn2Xj9O4AU0vfrWFRZNcDAJ3itlm8fMgrbzDf1Cz7+Csl+7vtwgcfeFjYWjyxJIzk0J20dqIOcGzeD7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ACCtxd5I; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=QFIYKHRLaNmMszgp0DV94tvkA5HT7jFGlxmq1g4tWT8XtRpXsVqKPbmAlPFAJpRQHYl7ZFptPqhyxrv0I+P2vs8pDPJaBVpgihDMPo5vdQLwgjk7iCrLjf0Ii0e5MvODFzztdbtk+w0NYQdKV2350xmtHya7hKYlrHIs8SvfUVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=sKgLjsZV; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 85AB31011;
-	Wed, 19 Jun 2024 14:00:38 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 389A8541;
+	Wed, 19 Jun 2024 14:02:29 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718798438;
-	bh=mIIEMTS+j55gSxT/3xPA8m2Ohk6psQdZCnkNC4cn+S8=;
+	s=mail; t=1718798549;
+	bh=hhPC12TSdAfNczkdDEp35qzTdIl4a0w8PrCOZyWruS8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ACCtxd5Ifvv62tLmCCXtu6OaMhkT2Yu5ePfalni1ZS/qwWZuUTg2h2c5bdMuo03Tf
-	 brPS3toWMQxqJEn6utlGxNgZ45biBq+67u9se+MEk6Bk8ldm7TGmRaCAQWETbboPZ3
-	 9+2chyGZRsq3XkBKxrIhF4xxFDsBBxc1FVWQehvI=
-Date: Wed, 19 Jun 2024 14:00:54 +0200
+	b=sKgLjsZVWmrZ26m1ZMfuFtMUC8ZPSraOOZTRL0YEy4ObTq046HqzXcxYe76vy5VVk
+	 wKa1wnkgObZcZomqjtkthHS+wL9htg/y7kB4L3RnzznZeMJhddV4a/mAJs4nWxgkiX
+	 BjZ3BslTk+Q+V+yxIBHegJUcT/i7395rcn/t40EI=
+Date: Wed, 19 Jun 2024 14:02:44 +0200
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	"open list:DRM DRIVERS FOR RENESAS R-CAR" <dri-devel@lists.freedesktop.org>, 
-	"open list:DRM DRIVERS FOR RENESAS R-CAR" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 3/4] drm: rcar-mipi-dsi: Add support for R8A779H0
-Message-ID: <kcwneoju3vzz7rdlan3uklgrurk3ewgsk4qbzcqanx3r7ptjyx@hoszmps27r3s>
-References: <20240619102219.138927-1-jacopo.mondi@ideasonboard.com>
- <20240619102219.138927-4-jacopo.mondi@ideasonboard.com>
- <dbad102e-7bbf-4316-ac9b-29799f428548@kernel.org>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Sakari Ailus <sakari.ailus@iki.fi>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [RFC PATCH v1 12/19] media: renesas: vsp1: Keep the DRM pipeline
+ entities sorted
+Message-ID: <h2db3y4w2d3u2uakkkhwuknp3mebrbl6cxexruf5cgqurcllpo@mzos4lsuz4in>
+References: <20231122043009.2741-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20231122043009.2741-13-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -62,70 +60,67 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <dbad102e-7bbf-4316-ac9b-29799f428548@kernel.org>
+In-Reply-To: <20231122043009.2741-13-laurent.pinchart+renesas@ideasonboard.com>
 
-Hi Krzysztof
+Hi Laurent
 
-On Wed, Jun 19, 2024 at 01:07:24PM GMT, Krzysztof Kozlowski wrote:
-> On 19/06/2024 12:22, Jacopo Mondi wrote:
-> > Add support for R-Car R8A779H0 V4M which has the same characteristics
-> > of the already supported R-Car V4H R8A779G0.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> >
+On Wed, Nov 22, 2023 at 06:30:02AM GMT, Laurent Pinchart wrote:
+> Some of the code that handles pipeline configuration assumes that
+> entities in a pipeline's entities list are sorted from sink to source.
+> To prepare for using that code with the DRM pipeline, insert the BRx
+> just before the WPF, and the RPFs at the head of the list.
 >
-> Please run scripts/checkpatch.pl and fix reported warnings. Then please
-> run `scripts/checkpatch.pl --strict` and (probably) fix more warnings.
-> Some warnings can be ignored, especially from --strict run, but the code
-> here looks like it needs a fix. Feel free to get in touch if the warning
-> is not clear.
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+With the meaning of pipe->output->entity.list_pipe clarified offline
+
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+
+Thanks
+
+> ---
+>  drivers/media/platform/renesas/vsp1/vsp1_drm.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
 >
-
-The only report I got was
-
-WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-
-which for such trivial addition seems overkill, and I presume the
-patch will go through geert or drm anyway
-
-The other thing I got
-
-CHECK: Prefer using the BIT macro
-#30: FILE: drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h:144:
-
-makes sense, but the rest of the file already uses (1 << x) so I kept
-it that way for consistency (honestly I would have changed all defines
-to use BIT() but that would make upporting from BSP quite more
-tedious).
-
-Is there any other warning I have missed ?
-
-
-
-> Bindings are separate patches.
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> index 1aa59a74672f..e44359b661b6 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> @@ -317,7 +317,10 @@ static int vsp1_du_pipeline_setup_brx(struct vsp1_device *vsp1,
+>  			list_add_tail(&released_brx->list_pipe,
+>  				      &pipe->entities);
 >
-> <form letter>
-> Please use scripts/get_maintainers.pl to get a list of necessary people
-> and lists to CC. It might happen, that command when run on an older
-> kernel, gives you outdated entries. Therefore please be sure you base
-> your patches on recent Linux kernel.
+> -		/* Add the BRx to the pipeline. */
+> +		/*
+> +		 * Add the BRx to the pipeline, inserting it just before the
+> +		 * WPF.
+> +		 */
+>  		dev_dbg(vsp1->dev, "%s: pipe %u: acquired %s\n",
+>  			__func__, pipe->lif->index, BRX_NAME(brx));
 >
-> Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-> people, so fix your workflow. Tools might also fail if you work on some
-> ancient tree (don't, instead use mainline), work on fork of kernel
-> (don't, instead use mainline) or you ignore some maintainers (really
-> don't). Just use b4 and everything should be fine, although remember
-> about `b4 prep --auto-to-cc` if you added new patches to the patchset.
+> @@ -326,7 +329,8 @@ static int vsp1_du_pipeline_setup_brx(struct vsp1_device *vsp1,
+>  		pipe->brx->sink = &pipe->output->entity;
+>  		pipe->brx->sink_pad = 0;
 >
-> You missed at least devicetree list (maybe more), so this won't be
-> tested by automated tooling. Performing review on untested code might be
-> a waste of time, thus I will skip this patch entirely till you follow
-> the process allowing the patch to be tested.
+> -		list_add_tail(&pipe->brx->list_pipe, &pipe->entities);
+> +		list_add_tail(&pipe->brx->list_pipe,
+> +			      &pipe->output->entity.list_pipe);
+>  	}
 >
-> Please kindly resend and include all necessary To/Cc entries.
-> </form letter>
+>  	/*
+> @@ -420,7 +424,7 @@ static int vsp1_du_pipeline_setup_inputs(struct vsp1_device *vsp1,
 >
-> Best regards,
-> Krzysztof
+>  		if (!rpf->entity.pipe) {
+>  			rpf->entity.pipe = pipe;
+> -			list_add_tail(&rpf->entity.list_pipe, &pipe->entities);
+> +			list_add(&rpf->entity.list_pipe, &pipe->entities);
+>  		}
+>
+>  		brx->inputs[i].rpf = rpf;
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
 >
 
