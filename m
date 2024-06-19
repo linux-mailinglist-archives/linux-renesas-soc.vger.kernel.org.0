@@ -1,108 +1,95 @@
-Return-Path: <linux-renesas-soc+bounces-6478-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6479-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9407590E478
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 09:29:24 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DF4390E4F8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 09:55:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 27086B20CF1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 07:29:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A09871C220BB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 07:55:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AD0E770F0;
-	Wed, 19 Jun 2024 07:24:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AE20770F3;
+	Wed, 19 Jun 2024 07:54:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="N/xDuSg7"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="aexp/nWf"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from out30-100.freemail.mail.aliyun.com (out30-100.freemail.mail.aliyun.com [115.124.30.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F84B7581D;
-	Wed, 19 Jun 2024 07:24:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64EBF770ED;
+	Wed, 19 Jun 2024 07:54:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718781857; cv=none; b=PaqixZgImlVKFfCghPnn1R1e8eR+lFjM5fATtBRWem45zlA8nasbeH2S/nKOwQLMjc6ZvgdB5BJgWN5wQj0Ioqo3XYQ4J83NJKo385f9M2sOFLcBlDLqxy2XURZY9vaVTJWFc9gIwmKI01/hD6X4coK9FGQVkgurKmph3aT7WTs=
+	t=1718783696; cv=none; b=XGt5KT6d06IFQ4sqaZsxzN80iCb5HK5UsqVGzBLriPH89EhoCA1JvNOKsJgv0VOD+D2WYPkkFeSWBLQq3tDzQA2dyikXD7JJS902QeRDgsi+YOFN5/836EMPkyj+seMGxYH2Y3OQtc4rpeGlN408ESkxnYF962dsSVazK4CEkp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718781857; c=relaxed/simple;
-	bh=E8C+xeOUSK6QEIdrvCGVdIHxknmfDJuRDey1jnXdcwI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H8WRBDFJ/A5Oe5peg1Mgp8Nxhm6DDsOEpmHsw2I/l6adGFc7/IU9pQizxIUkGMDvSzInM/HHUjaBAH0Ug2kDZPDIMVSbcqSo5VOJS3DvEl6L/eVH2gbwKiyaYL9uNR2pKMOG7EaY8fWFfH6Ve+uPFimKgToBfg8zTZQxBPqbBw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=N/xDuSg7; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B7D5DC8E;
-	Wed, 19 Jun 2024 09:23:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718781834;
-	bh=E8C+xeOUSK6QEIdrvCGVdIHxknmfDJuRDey1jnXdcwI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N/xDuSg7Xtu5JQyAAgAE2ngGREij3AhpdVc+DB9WxlCguJ1QU/xb7xRPTcVDspRmG
-	 QINfI5l+R57mM/nsl8uRnVSds4Oz254wsNBSq+e8plm2QUnoYo/YddRhCcBet2m+9D
-	 4yQwnd/pbOeCXmHRHGo8pGRlxPhOKYLLWD0lnuig=
-Date: Wed, 19 Jun 2024 09:24:09 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH] media: renesas: vsp1: Print debug message to diagnose
- validation failure
-Message-ID: <wbnjltcntvv2r4fv776lxcecsoihofzudikepvhkuucltf5yrl@577txugeutpe>
-References: <20240618194140.26788-1-laurent.pinchart+renesas@ideasonboard.com>
+	s=arc-20240116; t=1718783696; c=relaxed/simple;
+	bh=OLxeNNNbPVf41iNIEfzu7xIT7b6aiF/XEAM7WfvJUDw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=L8tnmjPDss/p2IJHxterYeZ15XQPNQVSInlOl3gpYw0uOSypNRsUjBuSoPii5wQhF7/+P2Osp/4wwmcgGJdKP2FD2TXzhDiZ26kxDOlUYeh4ku9ciE3AwxuZN4TCuuPxszVBpGQfRai7RwePBmgld7xoQZaDcxsweoEEm22y3mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=aexp/nWf; arc=none smtp.client-ip=115.124.30.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1718783685; h=From:To:Subject:Date:Message-Id:MIME-Version;
+	bh=153sJGUDwz+Ma4rWOSNrBYcbULlbrmUWxTCNDx3aNXY=;
+	b=aexp/nWfTB7Go0zPz7AUd0fqBnWyBiEaMKuGeHTlTHMigc3AkTVp5zfjL+HTUe+KK3eIWsHHOEO3JeKJhXistWa9IKT+++tflCHXAQG1eUCXpVtsMTGxB33nMdBY5vUM81cNypG1LwyrrZPmH0MalaewveqYtSTTJJd470kxbIw=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R511e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037067110;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0W8nMtNe_1718783676;
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0W8nMtNe_1718783676)
+          by smtp.aliyun-inc.com;
+          Wed, 19 Jun 2024 15:54:44 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: laurent.pinchart@ideasonboard.com
+Cc: kieran.bingham+renesas@ideasonboard.com,
+	airlied@gmail.com,
+	daniel@ffwll.ch,
+	dri-devel@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+	Abaci Robot <abaci@linux.alibaba.com>
+Subject: [PATCH] drm: Remove unused function rcar_cmm_write
+Date: Wed, 19 Jun 2024 15:54:36 +0800
+Message-Id: <20240619075436.86407-1-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240618194140.26788-1-laurent.pinchart+renesas@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Laurent
+The function are defined in the rcar_cmm.c file, but not called
+elsewhere, so delete the unused function.
 
-On Tue, Jun 18, 2024 at 10:41:40PM GMT, Laurent Pinchart wrote:
-> When formats don't match between a subdev and a connected video device,
-> starting streaming returns an error without giving the user any
-> indication as to what went wrong. To help debugging pipeline
-> misconfigurations, add a debug message that indicates the cause of the
-> failure.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c:35:19: warning: unused function 'rcar_cmm_read'.
 
-Doesn't v4l2-subdev.c give you the same information if you enable
-debug there ?
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=9364
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+ drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-> ---
->  drivers/media/platform/renesas/vsp1/vsp1_video.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> index 5a9cb0e5640e..d6f2739456bf 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> @@ -78,8 +78,14 @@ static int vsp1_video_verify_format(struct vsp1_video *video)
->
->  	if (video->rwpf->fmtinfo->mbus != fmt.format.code ||
->  	    video->rwpf->format.height != fmt.format.height ||
-> -	    video->rwpf->format.width != fmt.format.width)
-> +	    video->rwpf->format.width != fmt.format.width) {
-> +		dev_dbg(video->vsp1->dev,
-> +			"Format mismatch: 0x%04x/%ux%u != 0x%04x/%ux%u\n",
-> +			video->rwpf->fmtinfo->mbus, video->rwpf->format.width,
-> +			video->rwpf->format.height, fmt.format.code,
-> +			fmt.format.width, fmt.format.height);
->  		return -EINVAL;
-> +	}
->
->  	return 0;
->  }
->
-> base-commit: 91798162245991e26949ef62851719bb2177a9c2
-> --
-> Regards,
->
-> Laurent Pinchart
->
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c b/drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c
+index 26a2f5ad8ee5..883b960e9acc 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c
+@@ -32,11 +32,6 @@ struct rcar_cmm {
+ 	} lut;
+ };
+ 
+-static inline int rcar_cmm_read(struct rcar_cmm *rcmm, u32 reg)
+-{
+-	return ioread32(rcmm->base + reg);
+-}
+-
+ static inline void rcar_cmm_write(struct rcar_cmm *rcmm, u32 reg, u32 data)
+ {
+ 	iowrite32(data, rcmm->base + reg);
+-- 
+2.20.1.7.g153144c
+
 
