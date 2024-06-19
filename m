@@ -1,95 +1,104 @@
-Return-Path: <linux-renesas-soc+bounces-6479-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6480-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DF4390E4F8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 09:55:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C56090E652
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 10:52:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A09871C220BB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 07:55:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A4C81284CFC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2024 08:52:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AE20770F3;
-	Wed, 19 Jun 2024 07:54:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F58E7D06B;
+	Wed, 19 Jun 2024 08:52:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="aexp/nWf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VbVrKRkz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from out30-100.freemail.mail.aliyun.com (out30-100.freemail.mail.aliyun.com [115.124.30.100])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64EBF770ED;
-	Wed, 19 Jun 2024 07:54:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764722139B1;
+	Wed, 19 Jun 2024 08:52:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718783696; cv=none; b=XGt5KT6d06IFQ4sqaZsxzN80iCb5HK5UsqVGzBLriPH89EhoCA1JvNOKsJgv0VOD+D2WYPkkFeSWBLQq3tDzQA2dyikXD7JJS902QeRDgsi+YOFN5/836EMPkyj+seMGxYH2Y3OQtc4rpeGlN408ESkxnYF962dsSVazK4CEkp0=
+	t=1718787167; cv=none; b=GnyPZ0T3olWj1Buism8GY2CYA0qtCBP8ucCAiWL90uZV9SRmZPQtBaA/O30SiUsaA8JK9vrl32W+6TxQcGlbXA31z0hD1fvV6BKkhQNuPIfAw2ai+lr1wnYETGgFrX7rRSAer0WHT9TDM7LqkvZhN5pSz/h3e6yNqQCF9Uu/PUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718783696; c=relaxed/simple;
-	bh=OLxeNNNbPVf41iNIEfzu7xIT7b6aiF/XEAM7WfvJUDw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=L8tnmjPDss/p2IJHxterYeZ15XQPNQVSInlOl3gpYw0uOSypNRsUjBuSoPii5wQhF7/+P2Osp/4wwmcgGJdKP2FD2TXzhDiZ26kxDOlUYeh4ku9ciE3AwxuZN4TCuuPxszVBpGQfRai7RwePBmgld7xoQZaDcxsweoEEm22y3mk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=aexp/nWf; arc=none smtp.client-ip=115.124.30.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1718783685; h=From:To:Subject:Date:Message-Id:MIME-Version;
-	bh=153sJGUDwz+Ma4rWOSNrBYcbULlbrmUWxTCNDx3aNXY=;
-	b=aexp/nWfTB7Go0zPz7AUd0fqBnWyBiEaMKuGeHTlTHMigc3AkTVp5zfjL+HTUe+KK3eIWsHHOEO3JeKJhXistWa9IKT+++tflCHXAQG1eUCXpVtsMTGxB33nMdBY5vUM81cNypG1LwyrrZPmH0MalaewveqYtSTTJJd470kxbIw=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R511e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037067110;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0W8nMtNe_1718783676;
-Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0W8nMtNe_1718783676)
-          by smtp.aliyun-inc.com;
-          Wed, 19 Jun 2024 15:54:44 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: laurent.pinchart@ideasonboard.com
-Cc: kieran.bingham+renesas@ideasonboard.com,
-	airlied@gmail.com,
-	daniel@ffwll.ch,
-	dri-devel@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
-	Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH] drm: Remove unused function rcar_cmm_write
-Date: Wed, 19 Jun 2024 15:54:36 +0800
-Message-Id: <20240619075436.86407-1-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+	s=arc-20240116; t=1718787167; c=relaxed/simple;
+	bh=Fkb8YCVrp8GptNyVesDfam2YovE22l6N/C89FMRpyLk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UVWnoz/xQ79n/7IU0PGDwqLcptM94f3Nf7Z8vfsm21ihGlSBDIOo+SpAoh7JykLAW40qP/INjP1pi6YVSkg2GwLwREiiUhb6ms+FUUHz6pztm4T1alaLf7gkYUr6dHIC/zsS6iiz/+M79CcvNJI8O9isD4geeQr639eY1jNYsjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VbVrKRkz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E09DC2BBFC;
+	Wed, 19 Jun 2024 08:52:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718787167;
+	bh=Fkb8YCVrp8GptNyVesDfam2YovE22l6N/C89FMRpyLk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VbVrKRkzlQ0Sd8jcanuhXOnuWPsmi15B53bZN9Dhwunr637KyZe5KYCACHb5S1R5U
+	 iOOHaPkTkPwqUwFK42VISDNovChpYyZdRoSZmK90RInHlRGV9+bnD6NJUDYQi8gVG+
+	 ieYLtadjFQnKgEhUnkV8nFzwKntckuEXMULrQYI981wTH8HQmrGXtyFQUFXtuRgjQ2
+	 rkj5Y+nuHEqYZag+q4+p0hec13ATSkidZh19c0DIbsgU/tMj3lqUTV0LcSpo+DgUMn
+	 Ux48VBz3VEvgXXCImpTAlxHf7vEc5C4GA2nrce7BTZhIST29NY5fdhjTnm0nb01yYJ
+	 SEAimSiQeCCRw==
+Date: Wed, 19 Jun 2024 14:22:38 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>,
+	"lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+	"kw@linux.com" <kw@linux.com>, "robh@kernel.org" <robh@kernel.org>,
+	"bhelgaas@google.com" <bhelgaas@google.com>,
+	"jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+	"marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
+	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v9 4/5] PCI: rcar-gen4: Add support for r8a779g0
+Message-ID: <20240619085238.GD3898@thinkpad>
+References: <20240611125057.1232873-1-yoshihiro.shimoda.uh@renesas.com>
+ <20240611125057.1232873-5-yoshihiro.shimoda.uh@renesas.com>
+ <20240618070925.GB5485@thinkpad>
+ <TYCPR01MB11040C48B321E9418D274B6D4D8CE2@TYCPR01MB11040.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <TYCPR01MB11040C48B321E9418D274B6D4D8CE2@TYCPR01MB11040.jpnprd01.prod.outlook.com>
 
-The function are defined in the rcar_cmm.c file, but not called
-elsewhere, so delete the unused function.
+On Tue, Jun 18, 2024 at 08:10:43AM +0000, Yoshihiro Shimoda wrote:
+> Hello Manivannan,
+> 
+> Thank you for your review!
+> 
+> > From: Manivannan Sadhasivam, Sent: Tuesday, June 18, 2024 4:09 PM
+> > 
+> > On Tue, Jun 11, 2024 at 09:50:56PM +0900, Yoshihiro Shimoda wrote:
+> <snip>
+> > > @@ -221,6 +257,10 @@ static void rcar_gen4_pcie_unprepare(struct rcar_gen4_pcie *rcar)
+> > >
+> > >  static int rcar_gen4_pcie_get_resources(struct rcar_gen4_pcie *rcar)
+> > >  {
+> > > +	rcar->phy_base = devm_platform_ioremap_resource_byname(rcar->pdev, "phy");
+> > > +	if (IS_ERR(rcar->phy_base))
+> > > +		return PTR_ERR(rcar->phy_base);
+> > > +
+> > 
+> > I failed to spot this in earlier reviews. Since this 'phy' region is only
+> > applicable for r8a779g0, wouldn't this fail on other platforms?
+> 
+> This will not fail on other platforms because the dtsi file of the other platform (r8a779f0.dtsi)
+> already has the 'phy' region in the first commit which I added PCIe nodes:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/arch/arm64/boot/dts/renesas/r8a779f0.dtsi?h=v6.10-rc4&id=183a709d3719e5c9919a6f12c86c0a3e088b712d
+> 
 
-drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c:35:19: warning: unused function 'rcar_cmm_read'.
+Ah okay. I didn't check the dts/binding. This is fine.
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=9364
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
----
- drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c | 5 -----
- 1 file changed, 5 deletions(-)
+- Mani
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c b/drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c
-index 26a2f5ad8ee5..883b960e9acc 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c
-@@ -32,11 +32,6 @@ struct rcar_cmm {
- 	} lut;
- };
- 
--static inline int rcar_cmm_read(struct rcar_cmm *rcmm, u32 reg)
--{
--	return ioread32(rcmm->base + reg);
--}
--
- static inline void rcar_cmm_write(struct rcar_cmm *rcmm, u32 reg, u32 data)
- {
- 	iowrite32(data, rcmm->base + reg);
 -- 
-2.20.1.7.g153144c
-
+மணிவண்ணன் சதாசிவம்
 
