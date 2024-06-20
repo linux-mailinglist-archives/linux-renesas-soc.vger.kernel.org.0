@@ -1,161 +1,147 @@
-Return-Path: <linux-renesas-soc+bounces-6524-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6525-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B573C90FF01
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2024 10:37:12 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CA7690FFE8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2024 11:07:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4112D1F26097
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2024 08:37:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D9A0F1F23C01
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2024 09:07:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AC763CF65;
-	Thu, 20 Jun 2024 08:37:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8624319FA72;
+	Thu, 20 Jun 2024 09:06:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="NHthte7V"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1176D54720
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Jun 2024 08:37:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7297515A866;
+	Thu, 20 Jun 2024 09:06:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718872628; cv=none; b=TudjeeGMNoShHJf7leQYq8iyGPCsNcjSUoEUBhpDXg7SrYUwIVE7IBvZZnjmmg+xTzIrKJzAcVU/Cp4cNLgOrqHJnaKQFsyOvApJHM/agnqecDANYYZR3i+bamFMZMuzIzjO3Ta64tYss3QnEbJaq4YTk9Z+7YnTImA5Q5+cJ4U=
+	t=1718874403; cv=none; b=ZLyYLKVgppmDG/W9zJ6sfRnacw3a34PX1BUFtWANjI+C+8oukO4elQLkw+Uwa2VVhlz26Uf21aN2QqTizMyecRc1RULNJnmRYIaWBAq7HdaLWoJK0XBaYg44b5jGSjhH2Il52rFFaTdKAo+ACesNLH3PSwQLILHasZ7L27wRHK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718872628; c=relaxed/simple;
-	bh=WpU6MR8HUlrZjx1A5zd9M4agh9yZX9KrP1cPaYNpW+Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Hhuqyz2MBAVU41LaF0VCHDkAAh9y/bpHYI0Bbai6Jq00RqewS8EwIVWdbcBmn+xuZf8G/iCodS5xZ7Rwbofyau9tGp/MGu1KywotBNxoby+fKWRJmrcawjozjoggo/4+LR8x2vbxQ1SM+ACrm2nLmv4QXrrY+6io7u9RdNqGrcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e02bda4aba3so628669276.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Jun 2024 01:37:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718872624; x=1719477424;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RCl+YUVKslfLT0hk0NaDyWu3rTuDPls8CkOUTvZ5oy0=;
-        b=DKxb4079sMmhttgAa//WIii50sf3aA4OovkEMaeCYTpmL8LvYyLF0cQXmZrJUMNdgJ
-         A2rR+9hnL9f0S9T+iWiiKmtxlcjlMvwWY84Ei26MnRii0dgji05mtG2BV3t1vF1q4ch4
-         b8ywjY2dpdKp5DQmnFdxY6SQF3XsBuespoLNcrVTk//yHWqWs3M66xIUQ7R/+BH0YSgJ
-         v9Nuy6c+/LQvdlrdogm63g/3OCZbIzsYvBt6oiwwNKxRVAVxcumrTJIucO9EYBq0nmId
-         CDlRSO5K8ZOMMNs8KubIl6wBma2xB/ruUPLKs9oMKfFHq7ydLEvGipdA+QL4YyvrMfhG
-         F1iA==
-X-Forwarded-Encrypted: i=1; AJvYcCV/o1hRgDwrf9I9ADRrO9EIPVXI9R8IWg2HUVA/d3TRLOrptShMxdMgk0VyKnEQ3czrRHQMu4/HKSq1wOq9RebFhR8EXkRBGQ3qFzSEl6X+WRY=
-X-Gm-Message-State: AOJu0YwPGl0FrZ4s9rO4063cqEYsFvUTzwSiSl0sN0iivMCIQihY42Zt
-	Df06/0qOPWYe4eXBKkBc8QHJTd8V9cXVveM+/OJLw49gNp3C6xo2qJMW7+da
-X-Google-Smtp-Source: AGHT+IHSFBPyuaL49xyieNRtIaXqDDzI+zVKiCQuZ6zldVGHzshd7XHUnpKSRDsf3bfVMTIBGdFyWw==
-X-Received: by 2002:a25:d6d8:0:b0:dff:2e24:9e8e with SMTP id 3f1490d57ef6-e02be10b97bmr4589920276.11.1718872623710;
-        Thu, 20 Jun 2024 01:37:03 -0700 (PDT)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-dff0466880bsm3382802276.9.2024.06.20.01.37.03
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Jun 2024 01:37:03 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dfdff9771f8so545690276.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Jun 2024 01:37:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW6zDPXOonRVUemRqlAp4TgKCVRzrvqeBaGZrWEurUapWXTXyI+RjPmOT2SNLXrrzd9oEurZKG/W4wHP13RyCjejYITvA99i6PMEY0DyEQwmbQ=
-X-Received: by 2002:a25:5f0f:0:b0:e02:b793:8ad1 with SMTP id
- 3f1490d57ef6-e02be22eefbmr4913668276.58.1718872622937; Thu, 20 Jun 2024
- 01:37:02 -0700 (PDT)
+	s=arc-20240116; t=1718874403; c=relaxed/simple;
+	bh=6OdRD2Pmm+sZS+ESufv2ZHXmu0fdy1yV7iYkfgMQM0Y=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GVq2rhzG1ajVTkLu8+gZGkD/lplYzoNAtKf3s0uqClTrUpW8PgV/Pvx6+q/GsArDVtagnkS2nbPTEzYIz5Ty+uQnhP9XPgVOBJBN3YK3lV/53JPgHmy6Irn/u6WR/MnsyBXxj17m8NNzSoc6wkZTFMworobfhdW3g/eatz4AiLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=NHthte7V; arc=none smtp.client-ip=68.232.153.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1718874402; x=1750410402;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6OdRD2Pmm+sZS+ESufv2ZHXmu0fdy1yV7iYkfgMQM0Y=;
+  b=NHthte7VkM3tcQashrpOETf+kT9wst0mJNpbZFKNuFREethwRGnrxeaW
+   2BjX+Je9fy1ffL8lri50QD4dyFqvF6ZbOnu/+YfCGmESSha+c1p3Vgx/p
+   ukIa6FowjPrInxW278MLA7ZXKCteK21g9mbvma6mEB5e4RKWfz1HgyhW/
+   BqZuvdWmldIhAYRQsIC4RnkoGvAH0FWAfBNIwMR9h5lRV9ngzU+6iqq1k
+   q5C/ZqmR0KJei1QTFcngSeUbuFlvlCVD72//Ubu5zPBkz8cvFH2fy1YXG
+   4Y+xhy+ETbdKnOkhl5atOKdJsIglNa5x+vJC6HWgUZzEhHk1dyPwkGuXs
+   g==;
+X-CSE-ConnectionGUID: MipQqjeITk+QAbwOg52+7w==
+X-CSE-MsgGUID: if95YIMwRPCXshVsCewx1A==
+X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
+   d="asc'?scan'208";a="259150357"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 20 Jun 2024 02:06:40 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 20 Jun 2024 02:06:38 -0700
+Received: from wendy (10.10.85.11) by chn-vm-ex01.mchp-main.com (10.10.85.143)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
+ Transport; Thu, 20 Jun 2024 02:06:37 -0700
+Date: Thu, 20 Jun 2024 10:06:18 +0100
+From: Conor Dooley <conor.dooley@microchip.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+CC: Marek Vasut <marek.vasut@mailbox.org>, Conor Dooley <conor@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
+	<linux-clk@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <marek.vasut+renesas@mailbox.org>
+Subject: Re: [PATCH] dt-bindings: clock: rcar-gen2: Remove obsolete header
+ files
+Message-ID: <20240620-paver-fidgeting-70946d975eac@wendy>
+References: <d4abb688d666be35e99577a25b16958cbb4c3c98.1718796005.git.geert+renesas@glider.be>
+ <20240619-explain-sip-97568f8ac726@spud>
+ <43a57696-eb4f-4ae3-970a-cee0640baa17@mailbox.org>
+ <CAMuHMdV2M6zKwy=Qqv4XR1Zjz4yRGWcp_EYO2d68DUyLp2O1Cw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <f0ef3e00aec461beb33869ab69ccb44a23d78f51.1718378166.git.geert+renesas@glider.be>
- <f757f4a2-2ac5-3005-93e2-aaaab6e95e30@omp.ru>
-In-Reply-To: <f757f4a2-2ac5-3005-93e2-aaaab6e95e30@omp.ru>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 20 Jun 2024 10:36:51 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWiWSy0_ToE50Q8Tq23xyOxWnG-eQtyn0B=x44ca6rkoQ@mail.gmail.com>
-Message-ID: <CAMuHMdWiWSy0_ToE50Q8Tq23xyOxWnG-eQtyn0B=x44ca6rkoQ@mail.gmail.com>
-Subject: Re: [PATCH/RFC] net: ravb: Add MII support for R-Car V4M
-To: Sergey Shtylyov <s.shtylyov@omp.ru>
-Cc: Paul Barker <paul.barker.ct@bp.renesas.com>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="IDCVNyGcpbFD7Skf"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdV2M6zKwy=Qqv4XR1Zjz4yRGWcp_EYO2d68DUyLp2O1Cw@mail.gmail.com>
+
+--IDCVNyGcpbFD7Skf
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Sergey,
+On Thu, Jun 20, 2024 at 10:30:25AM +0200, Geert Uytterhoeven wrote:
+> Hi Marek, Conor,
+>=20
+> On Wed, Jun 19, 2024 at 9:17=E2=80=AFPM Marek Vasut <marek.vasut@mailbox.=
+org> wrote:
+> > On 6/19/24 7:48 PM, Conor Dooley wrote:
+> > > On Wed, Jun 19, 2024 at 01:22:46PM +0200, Geert Uytterhoeven wrote:
+> > >> The clock definitions in <dt-bindings/clock/r8a779?-clock.h> were
+> > >> superseded by those in <dt-bindings/clock/r8a779?-cpg-mssr.h> a long
+> > >> time ago.
+> > >>
+> > >> The last DTS user of these files was removed in commit 362b334b17943=
+d84
+> > >> ("ARM: dts: r8a7791: Convert to new CPG/MSSR bindings") in v4.15.
+> > >> Driver support for the old bindings was removed in commit
+> > >> 58256143cff7c2e0 ("clk: renesas: Remove R-Car Gen2 legacy DT clock
+> > >> support") in v5.5, so there is no point to keep on carrying these.
+> > >>
+> > >> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > >
+> > > If U-Boot is not using them,
+> > > Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> > > (and if it is, another task for Marek I guess!)
+>=20
+> Good point!
+>=20
+> U-Boot does have include/dt-bindings/clock/r8a779?-clock.h, despite
+> never having used them.  The unused headers and the corresponding
+> r8a779?.dtsi files were introduced together, in the various "ARM: dts:
+> rmobile: Import R8A779[0-4] DTS from Linux 4.15-rc8") commits in U-Boot
+> v2018.03, i.e. after the conversion to the CPG/MSSR DT bindings.
+>=20
+> > U-Boot is using upstream DTs on R-Car via OF_UPSTREAM, so whatever
+> > happens in Linux also happens in U-Boot since 2024.07 ... with slight
+> > sync delay . I don't expect much breakage.
+>=20
+> So the obsolete headers will be removed automatically from U-Boot
+> soon, too?
 
-On Wed, Jun 19, 2024 at 9:01=E2=80=AFPM Sergey Shtylyov <s.shtylyov@omp.ru>=
- wrote:
-> On 6/14/24 6:25 PM, Geert Uytterhoeven wrote:
-> > All EtherAVB instances on R-Car Gen3/Gen4 SoCs support the RGMII
-> > interface.  In addition, the first two EtherAVB instances on R-Car V4M
-> > also support the MII interface, but this is not yet supported by the
-> > driver.
-> >
-> > Add support for MII to the R-Car Gen3/Gen4-specific EMAC initialization
-> > function, by selecting the MII clock instead of the RGMII clock when th=
-e
->
->    But why are you adding such code to the ge3 function? According to the=
- gen3
-> manual I have, gen3 SoCs don't have MII support...
+Not if it is is include/dt-bindings/, only if it is in
+dts/upstream/include/dt-bindings AFAIU.
 
-I wanted to limit the number of changes, and avoid the need to add
-an additional ravb_hw_info structure.  The bit is documented to be
-zero on R-Car Gen3 (but writing one to it seems to stick on some of
-the later Gen3 variants, so perhaps these do support MII?).
+--IDCVNyGcpbFD7Skf
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> > PHY interface is MII.  Note that all implementations of EtherAVB on
-> > R-Car Gen3/Gen4 SoCs have the APSR register, but only MII-capable
-> > instances are documented to have the MIISELECT bit, which has a
-> > documented value of zero when reserved.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> [...]
-> > diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/eth=
-ernet/renesas/ravb_main.c
-> > index c1546b916e4ef581..cbe2709e0ace871f 100644
-> > --- a/drivers/net/ethernet/renesas/ravb_main.c
-> > +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> > @@ -579,6 +579,16 @@ static void ravb_emac_init_rcar(struct net_device =
-*ndev)
-> >       ravb_write(ndev, ECSIPR_ICDIP | ECSIPR_MPDIP | ECSIPR_LCHNGIP, EC=
-SIPR);
-> >  }
-> >
-> > +static void ravb_emac_init_rcar_apsr(struct net_device *ndev)
->
->    No, this name doesn't match the currently used naming scheme (which
-> has the SoC type as a last word... I'm suggesting something like ravb_ema=
-c_init_rcar_gen4() instead.
->
-> [...]
-> > @@ -2657,7 +2667,7 @@ static const struct ravb_hw_info ravb_gen3_hw_inf=
-o =3D {
-> >       .set_rate =3D ravb_set_rate_rcar,
-> >       .set_feature =3D ravb_set_features_rcar,
-> >       .dmac_init =3D ravb_dmac_init_rcar,
-> > -     .emac_init =3D ravb_emac_init_rcar,
-> > +     .emac_init =3D ravb_emac_init_rcar_apsr,
->
->    I'm afraid we'll have to add the new ravb_gen4_hw_info variable. We al=
-ready
-> have the gen4-specific compatible in ravb_match_table[]...
+-----BEGIN PGP SIGNATURE-----
 
-If you insist, I will make a v2 doing so...
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZnPxCgAKCRB4tDGHoIJi
+0iSDAP49ObkBfOyC1JWCyDJI0TEYS6St3ujvkDEoRB5D3w6spgD+JbRoosjAT5qc
+7Il1G9/QIwCPlyaKyEdi7xNV3awjCwc=
+=bHeT
+-----END PGP SIGNATURE-----
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+--IDCVNyGcpbFD7Skf--
 
