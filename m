@@ -1,112 +1,106 @@
-Return-Path: <linux-renesas-soc+bounces-6582-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6583-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCAC99112C5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2024 22:09:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E47911643
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 01:05:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 09D2E1C20433
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2024 20:09:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 33FC2282A83
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2024 23:05:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E6831B47D7;
-	Thu, 20 Jun 2024 20:09:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 332AF1422D5;
+	Thu, 20 Jun 2024 23:05:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="QY1Mh9fK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dGsfH1Gp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 581A31B4C4C
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Jun 2024 20:09:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D8782D83;
+	Thu, 20 Jun 2024 23:05:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718914177; cv=none; b=ZKrgTWImm2b0ok37pCntb8cHsPh74NBQLTbqx1iopsxurYc9MA4d+zcn06MBALiTd27tLohcZYijiBirqunLdaFf6SmF8D8mPUbxwG7advL1yiHpJKqWInucbMzitWMU0gbdkcyX399zvXdoFydwHz4xiqu3exvXJAfQlRmgqWA=
+	t=1718924741; cv=none; b=ejrbX45lgDc7C5JxvicTPnxJMlAUtsLS342p7U7Z+n5acDvFbSNdCLvYHcTjE1eTlioHiXoVm0px/pHlC6cIm6Y6w985Yyi2uCKctFdq8O9CornZKBLNBE8cKS1Q7VDYIdKcfRXS0gXMBkgMqRrcxpcLOE+KeWawcDUj4JPGtRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718914177; c=relaxed/simple;
-	bh=QpveN4iN7L13q0sJ+8sxHrE/oNMaO6mMAqrJT6R8M2c=;
+	s=arc-20240116; t=1718924741; c=relaxed/simple;
+	bh=SaOaFRr/ohEIO5+x2sHjKUAw9989Q79otM9vhPABR3c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B26F3CwQv2safIaJtBn4xJQj0oMmL1lg8nDTrt3n2hImwm4byF+drYzc+REBbNue91zSQmU/mfTBvNpjhSri0/I4ER+nAVU5LuIYuN710fLmE85dnoKhc6kESdF5AO+OYjeNeDHRnmMrl9UxHZNQUNq/dwEagFsV4Xm8947YY2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=QY1Mh9fK; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=Qpve
-	N4iN7L13q0sJ+8sxHrE/oNMaO6mMAqrJT6R8M2c=; b=QY1Mh9fK2gylUJ+oQKvX
-	xW67K4YaVWmKkNC9/yn6/o/EDIsn/+MPLVS7KxZuGA9zyl3SBy4/WRFi8+iUaKbd
-	zmSZFq31NisK1nTawF9GEhyekAP1aFLNBNkYWQgKvXi1S71Zcmcs8jYCQFwOp7aJ
-	ZwqChlffgGsO9uzsfG6UwD6OqsOWRUxG9e/jlJquAbrtOTptu82nEnWtQObO097v
-	EvgYunKdbMQkCkeq0lAz/cbjuGb1ceApKadvNXdQE6veuWsrkLerDqDhi24hFNY9
-	6oYHoQPFqiz7N4KEtx5nXeHjDU9hsA0tE8g3idTnCNtU6rVE0yN72p0hZ8X/22Pi
-	Jw==
-Received: (qmail 1135263 invoked from network); 20 Jun 2024 22:09:29 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Jun 2024 22:09:29 +0200
-X-UD-Smtp-Session: l3s3148p1@czZx5FcbNJdehh9j
-Date: Thu, 20 Jun 2024 22:09:28 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Lee Jones <lee@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/2] mmc: tmio: Remove obsolete .set_pwr() callback()
-Message-ID: <dyhcjodncsmeufbsjbn2okj2wnjihohzzcoqfbmbxqjquc4hof@5lk7w6ihm56z>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Lee Jones <lee@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <cover.1718897545.git.geert+renesas@glider.be>
- <fbbc13ddd19df2c40933ffa3b82fb14841bf1d4c.1718897545.git.geert+renesas@glider.be>
+	 Content-Type:Content-Disposition:In-Reply-To; b=JBdkHgR1PAa7QZZJrG9d22mqZe6ThcwRYtlL8QnqJnYXjEdig8HsVSAzQtZKp0p440mJDOGIjKe+baXDwMLWyFBxCNddz3ZuF17O0BEbI1VTnpnR2BdrG0nfTc3bG3p6STuoAETTNsAcNGYc5IfWYHLVyfeDa55xOwfWoz5aQnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dGsfH1Gp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32575C2BD10;
+	Thu, 20 Jun 2024 23:05:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718924740;
+	bh=SaOaFRr/ohEIO5+x2sHjKUAw9989Q79otM9vhPABR3c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dGsfH1GpHmQGHTfZ1l4tF8Yc8IR5UiRboDTNredObqxtOQx82e5s0tzE5UQ3HRdti
+	 YEn9NRju/HM5BF130UGn7A/JtXSjes40KzIwRc9JuVBmqI+8j7E1dPyQ28nSZcPIyG
+	 TOptG9SYCZtxheOmn5MCrlB4o/pGRyWPoX1UppgceSz8O/DTcsfVNH4ydUcWt+i5IJ
+	 oqlDDSWtyhj2zce34mKlyDG9TYhoG/y5KLT8TEJYWtVuC7gL+IKxBIvHGJphOe3KMf
+	 rP0msnieHjZGex3A1fC77vPMeqWKD0e19wRR09Ly11BI6lTQHNI85BCFts6ZIC+fOW
+	 QUnaqIuN62HjA==
+Date: Fri, 21 Jun 2024 01:05:37 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Sergiu Moga <sergiu.moga@microchip.com>, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Doug Anderson <dianders@chromium.org>, Enric Balletbo i Serra <eballetbo@kernel.org>, 
+	Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Vignesh R <vigneshr@ti.com>, 
+	Kamal Dasu <kamal.dasu@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Chris Brandt <chris.brandt@renesas.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>, linux-i2c@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>, 
+	linux-omap@vger.kernel.org, Kamal Dasu <kdasu.kdev@gmail.com>, 
+	linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, stable@vger.kernel.org
+Subject: Re: [PATCH 0/7] dt-bindings: i2c: few fixes and cleanups
+Message-ID: <qru4aqjphjnjpo6yjxl2oznhlz774iv77u4u7u4jldnmlanps5@vpzxntuz6arp>
+References: <20240620-dt-bindings-i2c-clean-v1-0-3a1016a95f9d@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="up77gtjpgaw7xcqk"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <fbbc13ddd19df2c40933ffa3b82fb14841bf1d4c.1718897545.git.geert+renesas@glider.be>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240620-dt-bindings-i2c-clean-v1-0-3a1016a95f9d@linaro.org>
 
+Cześć Krzysztof,
 
---up77gtjpgaw7xcqk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, Jun 20, 2024 at 01:34:48PM GMT, Krzysztof Kozlowski wrote:
+> Few fixes for I2C controller schemas. The third patch (atmel,at91sam)
+> depends on first, so I suggest not splitting this into fixes branch but
+> take as is via next branch.
+> 
+> Best regards,
+> Krzysztof
+> 
+> ---
+> Krzysztof Kozlowski (7):
+>       dt-bindings: i2c: atmel,at91sam: correct path to i2c-controller schema
+>       dt-bindings: i2c: google,cros-ec-i2c-tunnel: correct path to i2c-controller schema
 
-On Thu, Jun 20, 2024 at 05:39:46PM GMT, Geert Uytterhoeven wrote:
-> Commit ca78476e4888f1f1 ("mfd: Remove toshiba tmio drivers") removed the
-> last users of the .set_pwr() callback in the tmio_mmc_data structure.
-> Remove the callback, and all related infrastructure.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+merged to i2c/i2c-host-fixes
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+>       dt-bindings: i2c: atmel,at91sam: drop unneeded address/size-cells
+>       dt-bindings: i2c: nvidia,tegra20: drop unneeded address/size-cells
+>       dt-bindings: i2c: samsung,s3c2410: drop unneeded address/size-cells
+>       dt-bindings: i2c: ti,omap4: reference i2c-controller.yaml schema
+>       dt-bindings: i2c: adjust indentation in DTS example to coding style
 
-Cool, I had the gut feeling that more cleanups were possible after the
-plain TMIO drivers were removed.
+merged to i2c/i2c-host
 
-
---up77gtjpgaw7xcqk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZ0jHgACgkQFA3kzBSg
-KbYSaA/9FO/lBWoRo3w6JYT06UwJek+wuufUKHBM6HUkkQOFk/xOfawWjUsa1CBw
-93BzAS6YgUZXXQ6mcUSRxznfNC+WSwKpkxgoUPc6e/fJ6X+CIG55RNkDmsUH86W6
-BwTiX/JbCS/RWspPpgrHHz3RNdgPRrBswWQCpl9MsZ2dd9mOeUIedEzd2Z1O4l+V
-Ek8e6ReYwGWIdKuogjABu8RYizSb5ARjfsfKPvggbqu8rgykl0Ugg9ZZABjvwHmK
-6Jq4W+ay5qFtFQ/SQTZQXtE8V5pV+ys0kApCJdYFY1xAbbEMT9/Cu9O/Jj4fJWLW
-0A09DEAHc7Xpdo/dSvrXnRwa7BsSBeAKIp2aihNIfXijHaTRhjwcGTAaQEGVXLuJ
-UBwzatq1wKbNRmR2h8KsTojFdyCDmSHp9mn3/OrAXfaVGqM1jVZicX4mI5U5u/Vm
-XNtBLYXiLRxUGspW9OziLLoadHken1tVuSa+YPsbvNnMeEEpWuFd03FMdKjAX6lA
-HhFgPEjW8Ui1HzfVphpP5mB5b9kFdQChD56XtdHJufXZ9T7gJ0eMvpR0nru5NNX/
-ntCfLQKggOtVtJbpYgcQp+jgxhXYFkHURU0iUAoz5AYFw2L8xSpAjg5+Pm9yuymL
-W3QB1gz99Da2Z/E1YgXc5U5BsxvwcgbLdJLfR2B0Wsgc4zY1VDs=
-=miqW
------END PGP SIGNATURE-----
-
---up77gtjpgaw7xcqk--
+Thanks,
+Andi
 
