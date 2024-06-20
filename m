@@ -1,144 +1,150 @@
-Return-Path: <linux-renesas-soc+bounces-6568-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6569-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E7C0910ACA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2024 17:57:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C39910B19
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2024 18:06:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7F2171C2122B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2024 15:57:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C391E28494D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2024 16:06:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6727B1B0103;
-	Thu, 20 Jun 2024 15:57:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09C7F1B1426;
+	Thu, 20 Jun 2024 16:06:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nkIRFZwV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NKmk0EwT"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61141AC434;
-	Thu, 20 Jun 2024 15:57:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0AAE1AF697;
+	Thu, 20 Jun 2024 16:06:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718899030; cv=none; b=NsZlGjZ9rbzxReihvbcNFcZPb+P0xm3/D+7I5tunzeL74arsbCl551Npd6mvL/iidMLrjI/bN3+4XJzPxxG2ySTTaZ74t2i04i6jt1sHun3tseGMFWbbIPRIztN/jeFFH5Fh2nNrBqIqKMRYKHuo7upmL5hk+ZL/KXyVaWfPLn0=
+	t=1718899577; cv=none; b=PNertmLfAzZCfE+A85Nxo2KD2WnYXlAi6yN35hLj0LulhzPKwdbPg1i9eGdhqt7x5xE5emZaCg3UlMIQkty+7zvAObCL1NJ2vQjiKooKabt9oWz54C4mWgna10o1bRNnNli5jnSpmAw/PMC5smOHWwtiKzTVRNKM/GfVgbjDdDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718899030; c=relaxed/simple;
-	bh=1/3jMQta6TJTs+n1vvC+mx8axZltBF9BRh8e6GozG1o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lNunQElwTOIDB9PT+3KG1fSmYfzvtDOKQePoodyIz/RaSvaCJ5SSbdDAldhsVjeDMvmsHyadCh9uJuvcKno+0FTFbJohwIxRYzto5LTHvDqQA11+3VYmlCIVGdJtVoscPCbubVnr3nTwuesx33jdVcqRkryDTC+bc9w5d1xEsM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nkIRFZwV; arc=none smtp.client-ip=209.85.167.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3d220039bc6so542561b6e.2;
-        Thu, 20 Jun 2024 08:57:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718899028; x=1719503828; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1yH+4x0Ne5PVUvj2VIv4THnKxxFN7sxSm6+NDSVc/Dk=;
-        b=nkIRFZwV/nEsWNWU7cysyRbnDaOjRoXH0u5xX1aNG0Bwccw0hLCAb9GMo1Gfsjflbo
-         Bp7jEsmKDWEN4mKMvoBsRTZD0nhkTe5Ks9pkonEsrtBFT9wS/G/3LY/RX6ZMZ+zWb8ou
-         dh7lYsnzOhX50E54ZU9+r4jRok771TM0RYgKytd56dumvJYmaHwRYBd8lhbXzfKrJS3B
-         rTU8UFTboOwyUErNjXQylmOvBF9XnXi92TAXXHp9WQ7mNjfpytxXuZW9t2gNF93Y9NE9
-         V+nDieNOIlX5PENaEM6olCAfEAgXbkeZEva+5lOQ91/8toI6asdDO7Ptrm3vfXUFYqKs
-         b1kA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718899028; x=1719503828;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1yH+4x0Ne5PVUvj2VIv4THnKxxFN7sxSm6+NDSVc/Dk=;
-        b=YcEeeTsx4AvrYmgrvDKyNb4us5FkGhkiH6kxFU014kyULagps9NVrtzsJhEa9p5wD/
-         KzIImMI0ICjBjzLnpKzfEhorwIXyM+XYya8b6X5Dw/iCrrtDmYRWmkpV+7DAenMJWhZs
-         Gj1+/gO7ZpP7KuXynSt6mXSnuaYn0zuhvvIR+joeVUre7WqKVhbacgcR/ITreleoQduk
-         BjbHME4Hi93RJyxaG5CjS26WoKlaZf0KNHi0a4XU1R8nvaq4FoH3dLf6l9ngyLXWkKb4
-         tW9MsTMg2xWns6miLSXpGA96RMiGMRwHUXPNNNysCnw2WZcPaCs9ovI1CiC6GwlfbhMQ
-         kriQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUePwcVkh4bImYaw3nQW2XH0BxWk8v3SL7X4jhIm95F22pBIz2e3DJZHtQ/SoZdHfZXwrv71vlh3Q12tYUZeYROrg9rSzzjxuTs7Lusyp8CGj2uMndUlq35MhBNruGLe1IJjJhX3zQ6KmxBQGYHWcl4gSUyRTNQiNIkpTRfQdQJwPvvFT5b3cZrQd2ueYP+DqmuZgu9M+e+2tgMKFJLvujB6CD0p7jx
-X-Gm-Message-State: AOJu0Yxl3kd8LLEdYamM69J8/tflmn5x0pzc4ZJNJLkoT5Km3hTB/9qT
-	DrZl/D4Ubixb6GP7rKJGq1V1twGzld449D2nopRXu0+yXh9teMxSY5UM3IXFibNVBfvzko3PiyM
-	YqTRn5N3vEtVG5dWAQIK2siotPWc=
-X-Google-Smtp-Source: AGHT+IEpPyR93wa8MmcURc+azft6wBBGKdu4UUIVXgLDzmGMOOcH6MmPKS71AqKGIIVorCAxdNVazKLVGTx7AzEwLP8=
-X-Received: by 2002:a05:6808:148c:b0:3c9:6a21:8cb4 with SMTP id
- 5614622812f47-3d51b99609amr6332410b6e.18.1718899027469; Thu, 20 Jun 2024
- 08:57:07 -0700 (PDT)
+	s=arc-20240116; t=1718899577; c=relaxed/simple;
+	bh=i2WiRp5EABtITG9AK2TqTOt26g3jSkXUUxnTNfCVMq4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AMMihh1QZo2lRHG+MoYsdiYXQVSR/oEQCN985p2uUytjZIVBeZY9DUIIcX2FWINm7NdEM8UYrcuHKfdEOCgNFbOeBvrd+Noq/wfdDda1CjwkArlE30n2G6mvWo+PeoSiPZu/iqAtItR+u8nsI4MkqBimI3vLNlVDayBvR+mCwJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NKmk0EwT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40576C2BD10;
+	Thu, 20 Jun 2024 16:06:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718899577;
+	bh=i2WiRp5EABtITG9AK2TqTOt26g3jSkXUUxnTNfCVMq4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NKmk0EwTNoxOWGlH2v07DF2unWqqSgPHL2w7MXJlzVc9I7chXRxKjQe/L2NGXZupG
+	 UNj4Vdtd58q5X7sr7M7bQwWpAATyud7JONka7ePDgfbmS4QS6aHv/1H6Jea/GI0wsr
+	 cS0oovA/BCovyaDtviZt7P0g0xC7oi/OBJURoHgtNJ41/tMbhmix7alKH5eaGDTlHU
+	 UwqsvgNkb/rDdwiBSIajxDLFHk4/sZT9zybz22d88QbqxxQuLNaoA+GhVKq8RnSMhr
+	 mC/1CYGO5Jsc3hEeYRYiCS6eTAAxYwlu4yaXaLbn7VzvQAhu5uu1p1Ksh0gjdKr41x
+	 MFzAKhEG/iZlA==
+Date: Thu, 20 Jun 2024 17:06:08 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Sergiu Moga <sergiu.moga@microchip.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Doug Anderson <dianders@chromium.org>,
+	Enric Balletbo i Serra <eballetbo@kernel.org>,
+	Ricardo =?iso-8859-1?Q?Ca=F1uelo?= <ricardo.canuelo@collabora.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>, Vignesh R <vigneshr@ti.com>,
+	Kamal Dasu <kamal.dasu@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Chris Brandt <chris.brandt@renesas.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>,
+	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-tegra@vger.kernel.org,
+	Krzysztof Kozlowski <krzk@kernel.org>, linux-omap@vger.kernel.org,
+	Kamal Dasu <kdasu.kdev@gmail.com>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com, stable@vger.kernel.org
+Subject: Re: [PATCH 2/7] dt-bindings: i2c: google,cros-ec-i2c-tunnel: correct
+ path to i2c-controller schema
+Message-ID: <20240620-reggae-caucasian-11dcb3244161@spud>
+References: <20240620-dt-bindings-i2c-clean-v1-0-3a1016a95f9d@linaro.org>
+ <20240620-dt-bindings-i2c-clean-v1-2-3a1016a95f9d@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240613091721.525266-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240613091721.525266-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdU0oFH61fHNp2txOOJi_pWihKrK=UdETrzBs-bDeULTqQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdU0oFH61fHNp2txOOJi_pWihKrK=UdETrzBs-bDeULTqQ@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 20 Jun 2024 16:56:41 +0100
-Message-ID: <CA+V-a8v_r5efeR3U+J0MK7cKxPR7a6s0z4fws0iHO1-uezAuTA@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 3/3] mmc: renesas_sdhi: Add support for RZ/V2H(P) SoC
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-mmc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="K6ixJu9bGXFv18P9"
+Content-Disposition: inline
+In-Reply-To: <20240620-dt-bindings-i2c-clean-v1-2-3a1016a95f9d@linaro.org>
+
+
+--K6ixJu9bGXFv18P9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
+On Thu, Jun 20, 2024 at 01:34:50PM +0200, Krzysztof Kozlowski wrote:
+> The referenced i2c-controller.yaml schema is provided by dtschema
+> package (outside of Linux kernel), so use full path to reference it.
+>=20
+> Cc: <stable@vger.kernel.org>
 
-On Thu, Jun 20, 2024 at 4:40=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> Thanks for your patch!
->
-> On Thu, Jun 13, 2024 at 11:17=E2=80=AFAM Prabhakar <prabhakar.csengg@gmai=
-l.com> wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > The SDHI/eMMC IPs found in the RZ/V2H(P) (a.k.a. r9a09g057) are very
-> > similar to those found in R-Car Gen3. However, they are not identical,
-> > necessitating an SoC-specific compatible string for fine-tuning driver
-> > support.
-> >
-> > Key features of the RZ/V2H(P) SDHI/eMMC IPs include:
-> > - Voltage level control via the IOVS bit.
-> > - PWEN pin support via SD_STATUS register.
-> > - Lack of HS400 support.
-> > - Fixed address mode operation.
-> >
-> > regulator support is added to control the volatage levels of SD pins
-> > via sd_iovs/sd_pwen bits in SD_STATUS register.
->
-> Probably I am missing something obvious in the big picture, but why
-> must this be modelled as a regulator?  Can't the SDHI driver handle
-> this register bit directly?
->
-It can be handled directly. I had asked for suggestions on how to
-implement this ("Subject: Modeling the register bit as a voltage
-regulator for SDHI/eMMC '' also CC'd you), based on the feedback below
-from Wolfram I took this approach.
+I'd question whether this needs to go to stable (given the validation
+seems to work anyway) but it'll get picked up automagically so why
+not...
 
-> There is a similar instance of regulator driver [1] which is
-> controlled via register bit write, but in our case the SD_STATUS
-> register is part of the SDHI IP block itself.
+> Fixes: 1acd4577a66f ("dt-bindings: i2c: convert i2c-cros-ec-tunnel to jso=
+n-schema")
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  Documentation/devicetree/bindings/i2c/google,cros-ec-i2c-tunnel.yaml | 2=
+ +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/i2c/google,cros-ec-i2c-tun=
+nel.yaml b/Documentation/devicetree/bindings/i2c/google,cros-ec-i2c-tunnel.=
+yaml
+> index ab151c9db219..580003cdfff5 100644
+> --- a/Documentation/devicetree/bindings/i2c/google,cros-ec-i2c-tunnel.yaml
+> +++ b/Documentation/devicetree/bindings/i2c/google,cros-ec-i2c-tunnel.yaml
+> @@ -21,7 +21,7 @@ description: |
+>    google,cros-ec-spi or google,cros-ec-i2c.
+> =20
+>  allOf:
+> -  - $ref: i2c-controller.yaml#
+> +  - $ref: /schemas/i2c/i2c-controller.yaml#
+> =20
+>  properties:
+>    compatible:
+>=20
+> --=20
+> 2.43.0
+>=20
 
-... I could imagine that the SDHI driver itself exposes a regulator
-driver. Just without a <reg>-property. The compatible will induce which
-register and bit to use.
+--K6ixJu9bGXFv18P9
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-> Cfr. tmio_mmc_power_on(), which can use the tmio_mmc_host.set_pwr()
-> callback[1] instead of/in addition to a regulator.
->
-PWEN bit would have been controlled via set_pwr()
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZnRTcAAKCRB4tDGHoIJi
+0kXLAQCZRJ/FW5eVYlFgLQVwdTw60zRLbB5U2phtfe/39Y26eQD/aIyvkdWib7L7
+pxarPTgkzcG7Mkqn187N9Xy+9dcxJgc=
+=MMCH
+-----END PGP SIGNATURE-----
 
-Cheers,
-Prabhakar
+--K6ixJu9bGXFv18P9--
 
