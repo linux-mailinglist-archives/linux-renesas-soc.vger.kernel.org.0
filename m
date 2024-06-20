@@ -1,188 +1,327 @@
-Return-Path: <linux-renesas-soc+bounces-6560-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6561-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 817419109BD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2024 17:24:01 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E40829109D1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2024 17:27:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3EF3E2835E1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2024 15:24:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 985FF282112
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2024 15:27:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9BEF1B1406;
-	Thu, 20 Jun 2024 15:23:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7FD41AF696;
+	Thu, 20 Jun 2024 15:27:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="U5G0PAPT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jmol2VVN"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E1D1B0109
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Jun 2024 15:23:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2893158DCE;
+	Thu, 20 Jun 2024 15:27:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718896990; cv=none; b=Zd+zQRKDicvCwu1YpF1timdLqlcWsp8mAB9gwaOGuMus5abTo8Wn8DVrmNBKz5zHLs7IhmOHXm5y2/9QM8Y/BCH1bppNdXfu7OqfJ6AIObDl/CwBZks59RvmR/+YFTZnXo6g57J1ECJdmBs+sTC0xAR6qNIOlIugMt6uOVqSNTI=
+	t=1718897226; cv=none; b=et3WjhMF45UM4Cs2KbGnSJcj6Jc8eNuUTAUEcTb8tzOFYdf1Zm0pThTOa0d7rIreWn5MtNeNrp+4zIgi7pOlK2x/1F2rlySAA1WsV/amOBZtHAjZ7BkCYjx49PlhbLS8fq4liGIt8hEF/29/ZAkdoqy7LZthjsdY482+T0f/7lY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718896990; c=relaxed/simple;
-	bh=m3jVM7bpUoeE5+49dp7A4ZjgZwmHV6SRQMJ7iXtVHb8=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=MVIebHMKqF9MNFn7krY0KE83fL8/rbv3/oP5JK6xQThabO0OU8SIOj5N8mRLuanH6yws1OFYKSzNb49rVG6F/bYNo42fruUAtGyCvyX5pILVFMYv1B1bZV2slHQnIkSqzCQuzP5c4cvb7d8MGSaDxDhhNnR+X31JSJkKuN2oIgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=U5G0PAPT; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1718896987;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=UzeNngK957g2WcRSeg/oMGQjkGqxAJG/+Y13WqhKcnI=;
-	b=U5G0PAPTLT31Z2iNOfh8s//9zI/6/C9dMZnPIkoGfaXFfb4N9hzBy6olhNKiFmaqBUaL3p
-	C1K4QBDQ9+3lbQYPTrYxDX3rJfSf18BPPWiGoNCNPN166vFzc88+nzzD4kn+3kqkJyvaR1
-	vANu5q/2CgYgG4DB97XFedTAV2xajWc=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-613-kE3zBsNrO6uEy8qqtqsRAQ-1; Thu, 20 Jun 2024 11:23:06 -0400
-X-MC-Unique: kE3zBsNrO6uEy8qqtqsRAQ-1
-Received: by mail-lj1-f198.google.com with SMTP id 38308e7fff4ca-2ebe9456e2dso1411381fa.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Jun 2024 08:23:04 -0700 (PDT)
+	s=arc-20240116; t=1718897226; c=relaxed/simple;
+	bh=2XrRRjYF1uqiDwFMGp264d7TNOKR4vo+7hL+13XX10o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Hl7XT0XCVu9IpeA3miolUX9odzlR7WzIhFOQhrH3TM9PBaX6RfjWHblFLidAFSG0eYodUq4RgRuJFHh4g4pVv2OBFo9Orc1aQQLbyi6lUhpG9EV0FaQneQe5Dd7DK4n9RCqdd3wbv1Hs3gd5OcTAg0qSJo2utHWwSIg+hz84R5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jmol2VVN; arc=none smtp.client-ip=209.85.217.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-48c4268adfeso336204137.1;
+        Thu, 20 Jun 2024 08:27:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718897224; x=1719502024; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vnZARGKyWFgO8+qiE4D0Qv1mwYwIeF0Y3Q9hF2+I9x0=;
+        b=jmol2VVNRfWDNNI6Cdd7lXG5NKYZ3iD412aZXw7N0RLfoNc9263UMZTeR+c3sSn8Hg
+         tLb2xPgCfjCNNPFWzHQhV529c+cjfmcC6bicbl59E1GSNdahuT3jaDjsufliTjNlNl3M
+         GDi22HIsUzYYNKeq8Iv5ZfyA6vdx8yzIbg/dFaMySLuIG0QmYP6eSS5COBYHVlmr+YEd
+         WbR0BRSeVGM3hhhM9WZ7GWN+UDI6l6fgcTMFKB7Y09H0WM9ZGkHTjLUoV6KflNFU9ABU
+         oxaPgnHJFlCF74p966xG2EjHXw9g83j3F1zS8G033cifM+ZQIcl7T/XWyDGUc5NnNJbW
+         1SaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718896983; x=1719501783;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UzeNngK957g2WcRSeg/oMGQjkGqxAJG/+Y13WqhKcnI=;
-        b=o17DSDk4qoLe06qbAGWbG7vYj5t8TUNgqyB0t7NEyH7c+eGAzEV18+nBFxsokH1LT2
-         h2fgWkZE5rQDBIjkDDiN9K1YvP53SNP/cj7fWWz6F9x0bV230ZVE9xGN15IAPFSUItnB
-         rhcryRMDKmGWhvbKulbPmGm4sXUh+iXg27+yeG89zT3YNszyKMjqFAwRFlB8Qfb82QKW
-         XNe0l3nqdj8/a8y6o05JraDyim0y3d9UhIdrxE+I+yBOa5hLPt/69mu/7SDLcbq2stpD
-         NHfnYyC7af4JgiXhNc6V/EOFJ6Naym/h5tB7deSr+ZA0NSU8PXKinXh0gQzDVbLTIv2K
-         n07Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXMGvNz9J2VGwR+L9vi92g2Rg5PtrDOeOi+lAdYBWHJBIDh9rXMG6jNAF+UQIlyi7k99jJhEWbvuJ8vTjzkZDwAvnwwzHj+SEeDB5awLRp5bJ4=
-X-Gm-Message-State: AOJu0YyDgGjyYE0skK+c4F/UjZx2OroSkNCAc4I6Nta7lfuMKo9G+Q3y
-	T06LG1WdMlX7dE1AL9MGoCZ5NndTfI/WBjyhGcRcmAzGRQ487DZ+zb5jAvIEJ+rFUpsouwsxchU
-	GWP03rDCAuTdQ5tDe0U2jrMIxC4JlDyEv1Ax4QgvIa5EC0D241JYcmzqb20whbR80n71/
-X-Received: by 2002:a2e:9b57:0:b0:2ec:40d1:fb4 with SMTP id 38308e7fff4ca-2ec40d11208mr22497961fa.1.1718896983673;
-        Thu, 20 Jun 2024 08:23:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHCBG8fL9fZVdrMdacTdFV33H27Cm4uEe4wbLxHle4yNnqwc3reIYOZxHWesPF1+HGpzMeuaQ==
-X-Received: by 2002:a2e:9b57:0:b0:2ec:40d1:fb4 with SMTP id 38308e7fff4ca-2ec40d11208mr22497821fa.1.1718896983264;
-        Thu, 20 Jun 2024 08:23:03 -0700 (PDT)
-Received: from gerbillo.redhat.com ([2a0d:3341:b0b7:b110::f71])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4247d21264fsm29910285e9.44.2024.06.20.08.23.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jun 2024 08:23:02 -0700 (PDT)
-Message-ID: <4bc6795cb1b731f47d2c0b3f06f106f59abf0637.camel@redhat.com>
-Subject: Re: [net-next,v9] net: ethernet: rtsn: Add support for Renesas
- Ethernet-TSN
-From: Paolo Abeni <pabeni@redhat.com>
-To: Niklas =?ISO-8859-1?Q?S=F6derlund?=
-	 <niklas.soderlund+renesas@ragnatech.se>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, "David S. Miller"
-	 <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	 <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>, netdev@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Date: Thu, 20 Jun 2024 17:23:01 +0200
-In-Reply-To: <20240620115051.GW382677@ragnatech.se>
-References: <20240618090824.553018-1-niklas.soderlund+renesas@ragnatech.se>
-	 <716088809af5c646b3f1342656dbb08969becaaa.camel@redhat.com>
-	 <20240620115051.GW382677@ragnatech.se>
-Autocrypt: addr=pabeni@redhat.com; prefer-encrypt=mutual; keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+        d=1e100.net; s=20230601; t=1718897224; x=1719502024;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vnZARGKyWFgO8+qiE4D0Qv1mwYwIeF0Y3Q9hF2+I9x0=;
+        b=KdejI8lj4EFF2a45QBTNh/BFnAFBLEyrdn50qEKXX1ZJT0KsmN5mxmjyg1miHT3OPj
+         BBDhVrpqq/CBX8BdBOt9zj0hcE9lnfTFGRpFBIgi2yaNl997rOUGkz1aVe2haq0MP1nP
+         Atw+1mFWUfJa/kRlqZE2kYEHNSX7gO2jgoo0W3GrzJB+sTH/oxPKdKWq9Fwj6qj2jZVM
+         UkC38DpElywvsQ7BP4mep3BbxAzVKeZ/famBzVUwWlUOUvCq819Q3pi8GjL83jqerEVt
+         R3EcAqrra1E0EirdhFbJhkqRcCkSq/ZrBC3U8CiesRsnw/kWOwLUrA24wd/365baJXi/
+         UBpg==
+X-Forwarded-Encrypted: i=1; AJvYcCXaAlZCckTcXE8QNmWIJPFlE4FHAcVkjT2Ica9KWw02UetujPdOJQAD7McqtC297il2BjZ0Th9IFHbr6zo6WTAedfErKSQrInxE3WFZ2ifDDeIxw3+8VcjP9rYYH1hZeKnYWfRY/gy+oL5l1A8t2W74FEkCVD01PYdzjML8HjQWFA3uDSczZjgId9Fps1ok6iEj76zPwTKZOYJsfl8UyBPHg9AlHXkESHiVgbs=
+X-Gm-Message-State: AOJu0YyFIeZkmcg70hI1qtuZTCV0dUQVlplGP18gmx2YDsPxFXi5w9o/
+	bBG23n8+kt0QUX86XBYosDWRZwobnEI6QLgBhysaZRABre4j14FZ4bUr6wF6EsbTwT8xtQ1qxwr
+	muBkup8opF6g1iW7sIn+KEvC6J1Y=
+X-Google-Smtp-Source: AGHT+IF9wWjFT/oXYKfheDYuwzcjUvYS61Gxy7ssfcblP4Zs9P+hcLZaQLihuPc5JHmVNVvfTOriddQZXw5Y2/pPDHM=
+X-Received: by 2002:a05:6122:2515:b0:4e4:eda9:ec32 with SMTP id
+ 71dfb90a1353d-4ef2779ffb5mr6997993e0c.10.1718897222232; Thu, 20 Jun 2024
+ 08:27:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20240618222403.464872-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240618222403.464872-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <a86797d6-e262-483c-92de-cfab5dfaff69@tuxon.dev>
+In-Reply-To: <a86797d6-e262-483c-92de-cfab5dfaff69@tuxon.dev>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 20 Jun 2024 16:26:36 +0100
+Message-ID: <CA+V-a8sZJhqf9TKVo7znS9HKhfRR7pBw4eWjXkQa9FC6+F41xg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] watchdog: Add Watchdog Timer driver for RZ/V2H(P)
+To: claudiu beznea <claudiu.beznea@tuxon.dev>
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2024-06-20 at 13:50 +0200, Niklas S=C3=B6derlund wrote:
-> Hello Paolo,
->=20
-> Thanks for your feedback.
->=20
-> On 2024-06-20 13:13:21 +0200, Paolo Abeni wrote:
-> > On Tue, 2024-06-18 at 11:08 +0200, Niklas S=C3=B6derlund wrote:
-> > > Add initial support for Renesas Ethernet-TSN End-station device of R-=
-Car
-> > > V4H. The Ethernet End-station can connect to an Ethernet network usin=
-g a
-> > > 10 Mbps, 100 Mbps, or 1 Gbps full-duplex link via MII/GMII/RMII/RGMII=
-.
-> > > Depending on the connected PHY.
-> > >=20
-> > > The driver supports Rx checksum and offload and hardware timestamps.
-> > >=20
-> > > While full power management and suspend/resume is not yet supported t=
-he
-> > > driver enables runtime PM in order to enable the module clock. While
-> > > explicit clock management using clk_enable() would suffice for the
-> > > supported SoC, the module could be reused on SoCs where the module is
-> > > part of a power domain.
-> > >=20
-> > > Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnat=
-ech.se>
-> >=20
-> > I'm sorry for giving such fundamental feedback this late, but I think
-> > this should be split in series to simplify the review process.
-> >=20
-> > You could e.g. introduce the defines and probe in patch 1, the rx path
-> > in patch 2, and the tx path in patch 3.
->=20
-> I have been given the opposite advice in the past, to add a basic driver=
-=20
-> in one single commit. All be it this was in other subsystems. This=20
-> already have been thru a lot of review, do you feel strongly about this=
-=20
-> or can I note it down for how netdev prefers work do be done in future?
+Hi Claudiu,
 
-I understand your pain with such change. Hopefully this will not need
-many more revisions, so I guess you can keep a single patch.
+Thank you for the review.
 
-WRT to the previous advice, I guess the controversial word is 'basic':
-this patch is ~2k LoC, considerably more then a comfortable (to me)
-size.
+On Thu, Jun 20, 2024 at 8:40=E2=80=AFAM claudiu beznea <claudiu.beznea@tuxo=
+n.dev> wrote:
+>
+> Hi, Prabhakar,
+>
+> On 19.06.2024 01:24, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Add Watchdog Timer driver for RZ/V2H(P) SoC.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  drivers/watchdog/Kconfig     |   8 ++
+> >  drivers/watchdog/Makefile    |   1 +
+> >  drivers/watchdog/rzv2h_wdt.c | 248 +++++++++++++++++++++++++++++++++++
+> >  3 files changed, 257 insertions(+)
+> >  create mode 100644 drivers/watchdog/rzv2h_wdt.c
+> >
+> > diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
+> > index 85eea38dbdf4..3f7bcc10ccc2 100644
+> > --- a/drivers/watchdog/Kconfig
+> > +++ b/drivers/watchdog/Kconfig
+> > @@ -938,6 +938,14 @@ config RENESAS_RZG2LWDT
+> >         This driver adds watchdog support for the integrated watchdogs =
+in the
+> >         Renesas RZ/G2L SoCs. These watchdogs can be used to reset a sys=
+tem.
+> >
+> > +config RENESAS_RZV2HWDT
+> > +     tristate "Renesas RZ/V2H(P) WDT Watchdog"
+> > +     depends on ARCH_RENESAS || COMPILE_TEST
+> > +     select WATCHDOG_CORE
+> > +     help
+> > +       This driver adds watchdog support for the integrated watchdogs =
+in the
+> > +       Renesas RZ/V2H(P) SoCs. These watchdogs can be used to reset a =
+system.
+> > +
+> >  config ASPEED_WATCHDOG
+> >       tristate "Aspeed BMC watchdog support"
+> >       depends on ARCH_ASPEED || COMPILE_TEST
+> > diff --git a/drivers/watchdog/Makefile b/drivers/watchdog/Makefile
+> > index 2d1117564f5b..295909a1b3b9 100644
+> > --- a/drivers/watchdog/Makefile
+> > +++ b/drivers/watchdog/Makefile
+> > @@ -86,6 +86,7 @@ obj-$(CONFIG_RENESAS_WDT) +=3D renesas_wdt.o
+> >  obj-$(CONFIG_RENESAS_RZAWDT) +=3D rza_wdt.o
+> >  obj-$(CONFIG_RENESAS_RZN1WDT) +=3D rzn1_wdt.o
+> >  obj-$(CONFIG_RENESAS_RZG2LWDT) +=3D rzg2l_wdt.o
+> > +obj-$(CONFIG_RENESAS_RZV2HWDT) +=3D rzv2h_wdt.o
+> >  obj-$(CONFIG_ASPEED_WATCHDOG) +=3D aspeed_wdt.o
+> >  obj-$(CONFIG_STM32_WATCHDOG) +=3D stm32_iwdg.o
+> >  obj-$(CONFIG_UNIPHIER_WATCHDOG) +=3D uniphier_wdt.o
+> > diff --git a/drivers/watchdog/rzv2h_wdt.c b/drivers/watchdog/rzv2h_wdt.=
+c
+> > new file mode 100644
+> > index 000000000000..08f97b4bab7f
+> > --- /dev/null
+> > +++ b/drivers/watchdog/rzv2h_wdt.c
+> > @@ -0,0 +1,248 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Renesas RZ/V2H(P) WDT Watchdog Driver
+> > + *
+> > + * Copyright (C) 2024 Renesas Electronics Corporation.
+> > + */
+> > +#include <linux/bitops.h>
+> > +#include <linux/clk.h>
+> > +#include <linux/delay.h>
+> > +#include <linux/io.h>
+> > +#include <linux/kernel.h>
+> > +#include <linux/module.h>
+> > +#include <linux/of.h>
+> > +#include <linux/platform_device.h>
+> > +#include <linux/pm_runtime.h>
+> > +#include <linux/reset.h>
+> > +#include <linux/units.h>
+> > +#include <linux/watchdog.h>
+> > +
+> > +#define WDTRR                        0x00    /* RW, 8  */
+> > +#define WDTCR                        0x02    /* RW, 16 */
+> > +#define WDTRCR                       0x06    /* RW, 8  */
+> > +
+> > +#define WDTCR_TOPS_1024              0x00
+> > +#define WDTCR_TOPS_16384     0x03
+> > +
+> > +#define WDTCR_CKS_CLK_1              0x00
+> > +#define WDTCR_CKS_CLK_256    0x50
+> > +
+> > +#define WDTCR_RPES_0         0x300
+> > +#define WDTCR_RPES_75                0x000
+> > +
+> > +#define WDTCR_RPSS_25                0x00
+> > +#define WDTCR_RPSS_100               0x3000
+> > +
+> > +#define WDTRCR_RSTIRQS         BIT(7)
+> > +
+> > +#define CLOCK_DIV_BY_256     256
+> > +
+> > +#define WDT_DEFAULT_TIMEOUT  60U
+> > +
+> > +static bool nowayout =3D WATCHDOG_NOWAYOUT;
+> > +module_param(nowayout, bool, 0);
+> > +MODULE_PARM_DESC(nowayout, "Watchdog cannot be stopped once started (d=
+efault=3D"
+> > +              __MODULE_STRING(WATCHDOG_NOWAYOUT) ")");
+> > +
+> > +struct rzv2h_wdt_priv {
+> > +     void __iomem *base;
+> > +     struct watchdog_device wdev;
+> > +     struct reset_control *rstc;
+>
+> You can keep the pointers first to save some padding, if any.
+>
+OK.
 
-> >=20
-> > > +	/* Refill the RX ring buffers */
-> > > +	for (; priv->cur_rx - priv->dirty_rx > 0; priv->dirty_rx++) {
-> > > +		const unsigned int entry =3D priv->dirty_rx % priv->num_rx_ring;
-> > > +		struct rtsn_ext_ts_desc *desc =3D &priv->rx_ring[entry];
-> > > +		struct sk_buff *skb;
-> > > +		dma_addr_t dma_addr;
-> > > +
-> > > +		desc->info_ds =3D cpu_to_le16(PKT_BUF_SZ);
-> > > +
-> > > +		if (!priv->rx_skb[entry]) {
-> > > +			skb =3D napi_alloc_skb(&priv->napi,
-> > > +					     PKT_BUF_SZ + RTSN_ALIGN - 1);
-> >=20
-> > skb allocation is preferred at receive time, so that the sk_buff itself
-> > is hot in the cache. Adapting to such style would likely require a
-> > larger refactor, so feel free to avoid it.
->=20
-> This is good feedback. There are advanced features in TSN that I would=
-=20
-> like to work on in the future. One of them is to improve the Rx path to=
-=20
-> support split descriptors allowing for larger MTU. That too would=20
-> require invasive changes in this code. I will make a note of it and try=
-=20
-> to do both.
+> > +     unsigned long oscclk_rate;
+> > +};
+> > +
+> > +static u32 rzv2h_wdt_get_cycle_usec(struct rzv2h_wdt_priv *priv,
+> > +                                 unsigned long cycle,
+> > +                                 u16 wdttime)
+> > +{
+> > +     int clock_division_ratio;
+> > +     u64 timer_cycle_us;
+> > +
+> > +     clock_division_ratio =3D CLOCK_DIV_BY_256;
+> > +
+> > +     timer_cycle_us =3D clock_division_ratio * (wdttime + 1) * MICRO;
+> > +
+> > +     return div64_ul(timer_cycle_us, cycle);
+> > +}
+> > +
+> > +static int rzv2h_wdt_ping(struct watchdog_device *wdev)
+> > +{
+> > +     struct rzv2h_wdt_priv *priv =3D watchdog_get_drvdata(wdev);
+> > +     unsigned long delay;
+> > +
+> > +     writeb(0x0, priv->base + WDTRR);
+> > +     writeb(0xFF, priv->base + WDTRR);
+> > +
+> > +     /*
+> > +      * Refreshing the down-counter requires up to 4 cycles
+> > +      * of the signal for counting
+> > +      */
+> > +     delay =3D 4 * rzv2h_wdt_get_cycle_usec(priv, priv->oscclk_rate, 0=
+);
+> > +     udelay(delay);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static void rzv2h_wdt_setup(struct watchdog_device *wdev, u16 wdtcr)
+> > +{
+> > +     struct rzv2h_wdt_priv *priv =3D watchdog_get_drvdata(wdev);
+> > +
+> > +     writew(wdtcr, priv->base + WDTCR);
+> > +
+> > +     /* LSI needs RSTIRQS to be cleared */
+> > +     writeb(readb(priv->base + WDTRCR) & ~WDTRCR_RSTIRQS, priv->base +=
+ WDTRCR);
+> > +}
+> > +
+> > +static int rzv2h_wdt_start(struct watchdog_device *wdev)
+> > +{
+> > +     pm_runtime_get_sync(wdev->parent);
+>
+> You may consider using pm_runtime_resume_and_get() which takes care of
+> failures from __pm_runtime_resume(), if any.
+>
+OK.
 
-In the context of a largish refactor, then I suggest additional
-investigating replacing napi_gro_receive() with napi_gro_frags().
+> > +
+> > +     /*
+> > +      * WDTCR
+> > +      * - CKS[7:4] - Clock Division Ratio Select - 0101b: oscclk/256
+> > +      * - RPSS[13:12] - Window Start Position Select - 11b: 100%
+> > +      * - RPES[9:8] - Window End Position Select - 11b: 0%
+> > +      * - TOPS[1:0] - Timeout Period Select - 11b: 16384 cycles (3FFFh=
+)
+> > +      */
+> > +     rzv2h_wdt_setup(wdev, WDTCR_CKS_CLK_256 | WDTCR_RPSS_100 |
+> > +                     WDTCR_RPES_0 | WDTCR_TOPS_16384);
+> > +
+> > +     rzv2h_wdt_ping(wdev);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int rzv2h_wdt_stop(struct watchdog_device *wdev)
+> > +{
+> > +     struct rzv2h_wdt_priv *priv =3D watchdog_get_drvdata(wdev);
+> > +
+> > +     pm_runtime_put(wdev->parent);
+> > +     reset_control_reset(priv->rstc);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static const struct watchdog_info rzv2h_wdt_ident =3D {
+> > +     .options =3D WDIOF_MAGICCLOSE | WDIOF_KEEPALIVEPING | WDIOF_SETTI=
+MEOUT,
+> > +     .identity =3D "Renesas RZ/V2H WDT Watchdog",
+> > +};
+> > +
+> > +static int rzv2h_wdt_restart(struct watchdog_device *wdev,
+> > +                          unsigned long action, void *data)
+> > +{
+> > +     rzv2h_wdt_stop(wdev);
+>
+> Calling pm_runtime_put() though this function may lead to unbalanced
+> runtime PM counter if the device is not used at this moment. I may be wro=
+ng
+> though, I'm just reading the code, anyway (see below).
+>
+Agreed, I have added a check now to call stop only if WDT is active.
 
-The latter should provide the best performances for GRO-ed traffic.
+> > +
+> > +     pm_runtime_get_sync(wdev->parent);
+>
+> If compiled with LOCKDEP this should trigger an invalid wait context
+> (see commit e4cf89596c1f ("watchdog: rzg2l_wdt: Fix 'BUG: Invalid wait
+> context'") and maybe [2] for a possible fix (if it's considered ok).
+>
+I finally managed to replicate the issue and now replaced it with the
+clk_enable() api to turn ON the clocks.
 
 Cheers,
-
-Paolo
-
+Prabhakar
 
