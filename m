@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-6520-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6521-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15FB790FCE1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2024 08:41:09 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA96690FCF0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2024 08:43:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 702EA285491
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2024 06:41:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 136D3B20A8D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2024 06:43:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A5B63F9F9;
-	Thu, 20 Jun 2024 06:40:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A56DB2BAF3;
+	Thu, 20 Jun 2024 06:43:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="RdX5jqML"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PhIIjMHS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8601A3BBED
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Jun 2024 06:40:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2476B3BBED
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Jun 2024 06:43:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718865659; cv=none; b=ou5neWmuyC3GbuuG9gGreGoxpAhDgMPsqAgtwkXexjGZB+2AEeE4+tjaNAnvmGq3scAY1jTiJb9S4I+5wUsDZuvIE6YTVmME8ZX4F7pGnrxmWxx5X6H1gPyPfDNfwCSBNrmd9N5XLudG7W46Lqb4KNc3FxBL9JrWGEvqvH3fuEo=
+	t=1718865792; cv=none; b=pji6fkMVxSmv6auhyJ2sCO0AQcIzY3MtLam3IMtuI4WymwqId99+H290x45/ccMytVeBZIPHKSjTC0IGszn4qw+sjelsff1HNq6RhFu7jvUH7j2WuE4Vx8G+RwuZv75oS+yZqdYf/NH3R460O9K3gdZVx2BV6E/182VGYWoi4L0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718865659; c=relaxed/simple;
-	bh=0DyIr8oRP6KBBH+K1QiefkxzX+B8T2dsfMh5Vutrro4=;
+	s=arc-20240116; t=1718865792; c=relaxed/simple;
+	bh=qWturLnSem+nd6L24Z/fiAlf2fGYnIsd+lI0twPMfMo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hdiJbtu7MPxYdiVyhIxSCg/p2DtJq4GAayefEu5Epr9m9R6eZ9HwmZX2D0Hf4z3ZuajZE98KKGbXW1yMbeEQrZOMabGESgEnIpIvCMnuAG3Z9gBZUGnG5VPD53R1L4LxM2pRnb9qRew+DTUqQybh1ZsRe4Fatu5upqLOIoMeFrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=RdX5jqML; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=D1RTPkW02K4bbU3ZpWqe8D1WQFdZsw1CCHf5CMi6Tr04V21cilCsJKTbzoapipTl0GrFgcuozgKIoG3lmgg6l3wEKCdv0+HVW/DWyq13E/CRHf4VgG4dEY6p819MjEw+BDJqkHLRz7f9SI7Gbi/hURC1HtDCyFkr+Pw/s+IX1ZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=PhIIjMHS; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-144-210.elisa-laajakaista.fi [91.158.144.210])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 738D666F;
-	Thu, 20 Jun 2024 08:40:36 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2B6C366F;
+	Thu, 20 Jun 2024 08:42:50 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718865636;
-	bh=0DyIr8oRP6KBBH+K1QiefkxzX+B8T2dsfMh5Vutrro4=;
+	s=mail; t=1718865770;
+	bh=qWturLnSem+nd6L24Z/fiAlf2fGYnIsd+lI0twPMfMo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RdX5jqMLPZvJnmiR8bGLLXVXvOJ68cjqD8ajMeFodrsqEueSMicfglo+wQ9Wy4oZN
-	 OczWi4DZXJG5kkB1IDNE/cGh84ZiMLkKpO23FQL03Hy0lPmcsk8zL1ITu1BoloEpzu
-	 bty1eJ8ijBw+0iX6u9Vp/CqG6HjBXtPJxyIYG07I=
-Message-ID: <b3cf22bd-fb75-4485-8f7d-dc7312d201bd@ideasonboard.com>
-Date: Thu, 20 Jun 2024 09:40:51 +0300
+	b=PhIIjMHSW65Tfqx/f89Rn7d2g24nCNUHz0TQm3768BxvGU0ejFj13I3HapF2HrOai
+	 Y4RPZWJLIC8eSTZyPVeOosZ9alKuXpyBPH6Yu2y9iLj+jC7E6smOxg2exc+5woBbAI
+	 fPSVET35XXL0h6OMa/Z3Lv4CNglE5WiMYBM+dj3k=
+Message-ID: <404691d2-b013-4bcc-b7e4-bcc809e4bfbb@ideasonboard.com>
+Date: Thu, 20 Jun 2024 09:43:05 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,18 +50,17 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] drm: rcar-mipi-dsi: Fix CLOCKSET1_LOCK definition
+Subject: Re: [PATCH 2/4] drm: ti-sn65dsi86: Check bridge connection failure
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  "open list:DRM DRIVERS FOR RENESAS R-CAR" <dri-devel@lists.freedesktop.org>,
  "open list:DRM DRIVERS FOR RENESAS R-CAR"
- <linux-renesas-soc@vger.kernel.org>,
- Takeshi Kihara <takeshi.kihara.df@renesas.com>
+ <linux-renesas-soc@vger.kernel.org>, Phong Hoang <phong.hoang.wz@renesas.com>
 References: <20240619102219.138927-1-jacopo.mondi@ideasonboard.com>
- <20240619102219.138927-2-jacopo.mondi@ideasonboard.com>
- <20240619192909.GB31507@pendragon.ideasonboard.com>
+ <20240619102219.138927-3-jacopo.mondi@ideasonboard.com>
+ <20240619193258.GC31507@pendragon.ideasonboard.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Content-Language: en-US
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -107,54 +106,61 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240619192909.GB31507@pendragon.ideasonboard.com>
+In-Reply-To: <20240619193258.GC31507@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 19/06/2024 22:29, Laurent Pinchart wrote:
+On 19/06/2024 22:32, Laurent Pinchart wrote:
 > Hi Jacopo,
 > 
 > Thank you for the patch.
 > 
-> CC'ing Tomi.
-> 
-> On Wed, Jun 19, 2024 at 12:22:15PM +0200, Jacopo Mondi wrote:
->> From: Takeshi Kihara <takeshi.kihara.df@renesas.com>
+> On Wed, Jun 19, 2024 at 12:22:16PM +0200, Jacopo Mondi wrote:
+>> From: Phong Hoang <phong.hoang.wz@renesas.com>
 >>
->> Version 0.51 of the Renesas R-Car Gen4 TRM reports bit 16 of the
->> CLOCKSET1 register of the DSI transmitter module to be a reserved
->> field.
->>
->> Fix this by correcting the CLOCKSET1_LOCK definition to match the TRM
->> and remove the CLOCKSET1_LOCK_PHY definition, as the register is simply
->> called "lock" in the datasheet.
->>
->> Signed-off-by: Takeshi Kihara <takeshi.kihara.df@renesas.com>
->> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->> ---
->>   drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h | 3 +--
->>   1 file changed, 1 insertion(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
->> index f8114d11f2d1..1bf9c4717d5a 100644
->> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
->> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
->> @@ -141,8 +141,7 @@
->>   #define PHYSETUP_RSTZ			(1 << 0)
->>   
->>   #define CLOCKSET1			0x101c
->> -#define CLOCKSET1_LOCK_PHY		(1 << 17)
->> -#define CLOCKSET1_LOCK			(1 << 16)
->> +#define CLOCKSET1_LOCK			(1 << 17)
-> 
-> This matches the documentation, but we should get it tested on V4H to
-> make sure it doesn't cause a regression. Tomi, would you be able to test
-> the patch ?
+>> Add a check to the register access function when attaching a bridge
+>> device.
 
-Works for me.
-
-Tested-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+I think the desc is missing the "why". I'm guessing it's the first 
+register access to the IC, and thus verifies that it is accessible.
 
   Tomi
+
+>>
+>> Signed-off-by: Phong Hoang <phong.hoang.wz@renesas.com>
+>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> 
+>> ---
+>>   drivers/gpu/drm/bridge/ti-sn65dsi86.c | 6 +++++-
+>>   1 file changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+>> index 84698a0b27a8..b7df53577987 100644
+>> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+>> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+>> @@ -696,6 +696,7 @@ static struct ti_sn65dsi86 *bridge_to_ti_sn65dsi86(struct drm_bridge *bridge)
+>>   
+>>   static int ti_sn_attach_host(struct auxiliary_device *adev, struct ti_sn65dsi86 *pdata)
+>>   {
+>> +	int ret;
+>>   	int val;
+>>   	struct mipi_dsi_host *host;
+>>   	struct mipi_dsi_device *dsi;
+>> @@ -720,8 +721,11 @@ static int ti_sn_attach_host(struct auxiliary_device *adev, struct ti_sn65dsi86
+>>   
+>>   	/* check if continuous dsi clock is required or not */
+>>   	pm_runtime_get_sync(dev);
+>> -	regmap_read(pdata->regmap, SN_DPPLL_SRC_REG, &val);
+>> +	ret = regmap_read(pdata->regmap, SN_DPPLL_SRC_REG, &val);
+>>   	pm_runtime_put_autosuspend(dev);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>>   	if (!(val & DPPLL_CLK_SRC_DSICLK))
+>>   		dsi->mode_flags |= MIPI_DSI_CLOCK_NON_CONTINUOUS;
+>>   
+> 
 
 
