@@ -1,164 +1,218 @@
-Return-Path: <linux-renesas-soc+bounces-6557-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6558-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D63EA9108F8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2024 16:52:30 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 209EA91097C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2024 17:15:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1378F1C209B7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2024 14:52:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6B613B20B1E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2024 15:15:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BAE21AE871;
-	Thu, 20 Jun 2024 14:52:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E7811AF69C;
+	Thu, 20 Jun 2024 15:15:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XLrfSJwk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32BEA1AE84E;
-	Thu, 20 Jun 2024 14:52:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B6241AE878
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Jun 2024 15:14:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718895148; cv=none; b=ZHugzqmokr+hZXysotWWZ/CL/tk5p9c2P4nESMgEnXPzbcE9j57+phoXkpvdwywnHfldFK2XgSfcbNgZCC5UINJhveUi7dRO64A6Oo8F26IHIThNoNziyAf2RKZCEOki7QRtTsv0k1mIYphkywafZ41Tch/fnqKlNzO19VNPLvg=
+	t=1718896501; cv=none; b=PCkS2A7BoOqQCRPsq3H1d1i+9JwdvhOw7HFIJGks/Olrcf4RqmqDx5QBtkfqsU4lyEswFodezmcGuYIVC1PFSxB8WLeEZpTLWxo05nP2rB3U11deBft3/094IoY6+r4sAU06hs3rMBjWkjqpH1eoMtAcee2L7I4WvlJ6s7lA/KM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718895148; c=relaxed/simple;
-	bh=quHvdMGXD+OF+Vmvo6ZchqeF+v17FJP9dNrIZBXrvGc=;
+	s=arc-20240116; t=1718896501; c=relaxed/simple;
+	bh=lz3BOHPbrV9ue2IQ/GjEc7GK+aOqkc6HCQO4gNYk5xk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sMvQz3V37yeUl5LLHfleUR5r8uMdLy30IAYK5WAYiBVI1fUobedpHpH8yS6KTf+fHlY96Iz8slKJ32dT2YSyKQ6JKcAQY59JgQKX88sZ3XZHDhJ4q4Tmb5ZdoBLLfLe/8Faye0o5Xa3p13gnalRCh7oHYNc/xBRPPVmfNhfGzM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dfe81d54db9so973713276.2;
-        Thu, 20 Jun 2024 07:52:26 -0700 (PDT)
+	 To:Cc:Content-Type; b=I6tHfon0aOGKKSllwjklxrlxUd6JgOGSkmBSlgid6CQQpGMsl6KuQG94BFEZGMcQF9tXY7qzBEJGJ3OJei5G+keFINeMYYoYbX8x9kzpiHWEndJn8bYBC+bmJxsBdWgOVjPLJAYNaF8GY1vZK1gy4MHyforjczmJ+xidlMxycOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XLrfSJwk; arc=none smtp.client-ip=209.85.219.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-df4d5d0b8d0so936183276.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Jun 2024 08:14:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718896498; x=1719501298; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=9guc84Gchla6fWBOTCy+Mf9QLNavuevhtReJrUxDmLY=;
+        b=XLrfSJwkdg+puXlRQOcaraTiVymhfdyXMnZq11jSIleLrKpqTojHmtjdPlu6LuOhyx
+         3wWl0c4BWTb9OM0g+GqMvRXVTsXCTNwT8HpM222f4t13h4Ev/icUUR5jfynrDJs/6z1g
+         nZpDFGyoVaZrvEW20MnTv0Gj5CtJIf7OSLy8MX3Vlid6pw35EoWqgpDCGLVFLgzLU/c9
+         TF80SqsDxBrY13ut3MUzncJbDnGabppr7P82COFr8l4mYEQUu/c1Fucpm/NabLZeCvbC
+         3PbSlQvB0Kgdl/QxBFBrCg/QfrzFoOJj6Zz8tJR9lOnCs/72HuUe7JPRwbbQ8jpfHn8J
+         gfmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718895144; x=1719499944;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qicnrKvU4izSAdjyf++mWnVsSY0UBkYb5drVYCcA5wY=;
-        b=cdeJnu6fScTZbDDJ5VBiclJX/d3DAxzRVw1+ZUziR2PktI4AezKkSWoXDLIZEJLPol
-         DZRNiOTkKhrWktzkK5ws/uvmoqnn771pNsuAOA2GmkNUwT/9QqA7Y18epbeCFeG1Gd5s
-         6eGSBJtSpNWqNQMFySRx3linrkSsPkoyTG2ktwX+AhEuhey3i6kR0vZOmb3xZej2t4/R
-         Rmg9HRUaf7hVvBnF7RSHN4MDSXEc4zb+68MuRRFezoeMYyzqjmUvx0BhnEXrLUDUK28U
-         PSuiCdTtEGZqSNMfsxKhHpvxop5CzFriNQpM4gr8T6jV/0L6l4FaBrOcR9sU16fYPtJN
-         If8g==
-X-Forwarded-Encrypted: i=1; AJvYcCV7e4QvIb6nn+VQV5HyGYRxivCCbSVrA2r5DiUkuVJPXOFdPiYoTOfoqaAy5zGar+K4TdZj+rhv1Fg5E4wv9Js4Xa1COSKRxxBD+7/edyVcrqhi9zICXo+75imgtf5AsU7YM9POLMTOL3tNbv6moj260D2FFp0N10MO0ETTQfuJK7Fhk1OZCSx+DFKcP/dkpFJ4B7WqTdtYPwvNUoHJ1jiUd2iy+F8Q
-X-Gm-Message-State: AOJu0Yw9Uav9DpyxEIi3k4BSYPlQK2l3YgRfjFGv0994QCuYVM+wPujX
-	/kgfNGoBbHMxXv2z7t2G8ADchrJxSWYAOtevkrnIOvjEbO/paEwt6Pw+jVmF
-X-Google-Smtp-Source: AGHT+IHa726p4LBUgJ4pKzqdMzHgOlyRn0z7kg86RymTqqoueBuhne4yq1OJUzSFpV67LGh1zg0C2A==
-X-Received: by 2002:a25:d653:0:b0:dff:745:2303 with SMTP id 3f1490d57ef6-e02be225ddemr4959097276.57.1718895144153;
-        Thu, 20 Jun 2024 07:52:24 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e02ce311570sm987321276.15.2024.06.20.07.52.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Jun 2024 07:52:23 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dfe81d54db9so973676276.2;
-        Thu, 20 Jun 2024 07:52:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW8Jv9p9FcgyzdRMxyQg94hd8/iEvpkOQYFU9ir04GVpGuNBboPAeVyCFaBAjkEXnBFckDFQqpCd1biv/VRksTFljKHglTDAplzpIyqr0bcpE9HJUpcSiThl5VLfDFi8RZE9KWrC2M4W8AHJeVpoAl+bTgGgPxPNwHz9K1ekVFQKlQF+ARxO3d9+cF/sRdxv4uBkq2AXV32mgC4vLxgmWX42YBYmgEa
-X-Received: by 2002:a25:8403:0:b0:e02:b7ee:5354 with SMTP id
- 3f1490d57ef6-e02be138271mr5993985276.20.1718895143516; Thu, 20 Jun 2024
- 07:52:23 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718896498; x=1719501298;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9guc84Gchla6fWBOTCy+Mf9QLNavuevhtReJrUxDmLY=;
+        b=BdUdRLU7v3X+tpsKi6U7YJh0yHxWLaI1IvYwLaCnX2cSfj/RzNN62/BbRcNt9sLbI0
+         FeZsJ9CivZ6J2jVi568zNYxN4q48X0zd3E8rIc4f6Qaj3fDPWqt76dncRqgWRHHwXXmc
+         MHEu+D8mLtQGB3l6tOymxTpotlU3BtnRZImuiXTiRt7qskRHhL5V0FBW0Q4V9RboKcnS
+         +0zeEcIU6qtagg5B3u5tlvOJM2E5dL6b1s1whtyDWG9nre99XjdhCIvOdSQ9zfPrXGXN
+         HIT0zcdQdNKJVk7sVu4jbtpMdv/clpMkDD+tpQWQ0iBIS6CyYHFUuWzUtDjHXAzaiNbY
+         KPLw==
+X-Forwarded-Encrypted: i=1; AJvYcCXZI8WrbZ7+4w19JsrmPPgJ3uRY+B4EbZTM9PQYiqzkN3mRLB4g7u1G8TsiOYKvptHQCOeb9pvZPWzknca/qvrXjTKD0zKK+a6Yxa9NfVr8yAs=
+X-Gm-Message-State: AOJu0YwXaLQ1Gz/sDo3EURPx7J0XNiS3NACPjRJ87c3MPNNWty5D+wtj
+	/jopZSGdBqW7ulsfawcIzSxus5rAkB0HlMYoV0H92XbMCAez5wD/wxCvKxlW3ki/UhTJYHhBYcZ
+	s+g4LMTQe8D0ccVYOZBPyN26rkxCHtN7620uazQ==
+X-Google-Smtp-Source: AGHT+IH6LIN/vpcDotvk+Oh6j6vDVI1v3GEU01qU7DJ8PJNlH9KlHTY/JAb+18RbHiWT8y0dyadEsog30/o2UAJ03Zo=
+X-Received: by 2002:a25:824a:0:b0:e02:b65d:6e11 with SMTP id
+ 3f1490d57ef6-e02be13b4c8mr6144708276.5.1718896498312; Thu, 20 Jun 2024
+ 08:14:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240605074936.578687-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240605074936.578687-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20240605074936.578687-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 20 Jun 2024 16:52:11 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW5J087M=xD95R87XsP-xTqiaenzJ9WVq8x_d2_+67J1A@mail.gmail.com>
-Message-ID: <CAMuHMdW5J087M=xD95R87XsP-xTqiaenzJ9WVq8x_d2_+67J1A@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/4] regulator: core: Add regulator_map_voltage_descend()
- API
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, linux-mmc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240611-md-drivers-mmc-v2-1-2ef2cbcdc061@quicinc.com>
+In-Reply-To: <20240611-md-drivers-mmc-v2-1-2ef2cbcdc061@quicinc.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Thu, 20 Jun 2024 17:14:22 +0200
+Message-ID: <CAPDyKFqniea558arz-9tJm26Rx_KyOROtpwShq6MHUXsww=ptg@mail.gmail.com>
+Subject: Re: [PATCH v2] mmc: add missing MODULE_DESCRIPTION() macros
+To: Jeff Johnson <quic_jjohnson@quicinc.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, Dragan Simic <dsimic@manjaro.org>, 
+	linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, kernel-janitors@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Prabhakar,
-
-On Wed, Jun 5, 2024 at 9:49=E2=80=AFAM Prabhakar <prabhakar.csengg@gmail.co=
-m> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Tue, 11 Jun 2024 at 17:50, Jeff Johnson <quic_jjohnson@quicinc.com> wrote:
 >
-> Similarly to regulator_map_voltage_ascend() api add
-> regulator_map_voltage_descend() api and export it.
+> make allmodconfig && make W=1 C=1 reports:
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/of_mmc_spi.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/tmio_mmc_core.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/renesas_sdhi_core.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_simple.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_sd8787.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_emmc.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
 >
-> Drivers that have descendant voltage list can use this as their
-> map_voltage() operation.
+> Add the missing invocations of the MODULE_DESCRIPTION() macro.
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com> # for TMIO and SDHI
+> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
 
-Thanks for your patch!
+Applied for next, thanks!
 
-> --- a/drivers/regulator/helpers.c
-> +++ b/drivers/regulator/helpers.c
-> @@ -368,6 +368,37 @@ int regulator_map_voltage_ascend(struct regulator_de=
-v *rdev,
+Kind regards
+Uffe
+
+
+> ---
+> Corrections to these descriptions are welcomed. I'm not an expert in
+> this code so in most cases I've taken these descriptions directly from
+> code comments, Kconfig descriptions, or git logs.  History has shown
+> that in some cases these are originally wrong due to cut-n-paste
+> errors, and in other cases the drivers have evolved such that the
+> original information is no longer accurate.
+> ---
+> Changes in v2:
+> - Updated descriptions in core/pwrseq_emmc.c, core/pwrseq_simple.c, and
+>   host/renesas_sdhi_core.c per guidance from Dragan.
+> - Link to v1: https://lore.kernel.org/r/20240610-md-drivers-mmc-v1-1-c2a2593e4121@quicinc.com
+> ---
+>  drivers/mmc/core/core.c              | 1 +
+>  drivers/mmc/core/pwrseq_emmc.c       | 1 +
+>  drivers/mmc/core/pwrseq_sd8787.c     | 1 +
+>  drivers/mmc/core/pwrseq_simple.c     | 1 +
+>  drivers/mmc/core/sdio_uart.c         | 1 +
+>  drivers/mmc/host/of_mmc_spi.c        | 1 +
+>  drivers/mmc/host/renesas_sdhi_core.c | 1 +
+>  drivers/mmc/host/tmio_mmc_core.c     | 1 +
+>  8 files changed, 8 insertions(+)
+>
+> diff --git a/drivers/mmc/core/core.c b/drivers/mmc/core/core.c
+> index a8c17b4cd737..d6c819dd68ed 100644
+> --- a/drivers/mmc/core/core.c
+> +++ b/drivers/mmc/core/core.c
+> @@ -2362,4 +2362,5 @@ static void __exit mmc_exit(void)
+>  subsys_initcall(mmc_init);
+>  module_exit(mmc_exit);
+>
+> +MODULE_DESCRIPTION("MMC core driver");
+>  MODULE_LICENSE("GPL");
+> diff --git a/drivers/mmc/core/pwrseq_emmc.c b/drivers/mmc/core/pwrseq_emmc.c
+> index 3b6d69cefb4e..96fa4c508900 100644
+> --- a/drivers/mmc/core/pwrseq_emmc.c
+> +++ b/drivers/mmc/core/pwrseq_emmc.c
+> @@ -115,4 +115,5 @@ static struct platform_driver mmc_pwrseq_emmc_driver = {
+>  };
+>
+>  module_platform_driver(mmc_pwrseq_emmc_driver);
+> +MODULE_DESCRIPTION("Hardware reset support for eMMC");
+>  MODULE_LICENSE("GPL v2");
+> diff --git a/drivers/mmc/core/pwrseq_sd8787.c b/drivers/mmc/core/pwrseq_sd8787.c
+> index 0c5808fc3206..f24bbd68e251 100644
+> --- a/drivers/mmc/core/pwrseq_sd8787.c
+> +++ b/drivers/mmc/core/pwrseq_sd8787.c
+> @@ -130,4 +130,5 @@ static struct platform_driver mmc_pwrseq_sd8787_driver = {
+>  };
+>
+>  module_platform_driver(mmc_pwrseq_sd8787_driver);
+> +MODULE_DESCRIPTION("Power sequence support for Marvell SD8787 BT + Wifi chip");
+>  MODULE_LICENSE("GPL v2");
+> diff --git a/drivers/mmc/core/pwrseq_simple.c b/drivers/mmc/core/pwrseq_simple.c
+> index df9588503ad0..154a8921ae75 100644
+> --- a/drivers/mmc/core/pwrseq_simple.c
+> +++ b/drivers/mmc/core/pwrseq_simple.c
+> @@ -159,4 +159,5 @@ static struct platform_driver mmc_pwrseq_simple_driver = {
+>  };
+>
+>  module_platform_driver(mmc_pwrseq_simple_driver);
+> +MODULE_DESCRIPTION("Simple power sequence management for MMC");
+>  MODULE_LICENSE("GPL v2");
+> diff --git a/drivers/mmc/core/sdio_uart.c b/drivers/mmc/core/sdio_uart.c
+> index 575ebbce378e..6b7471dba3bf 100644
+> --- a/drivers/mmc/core/sdio_uart.c
+> +++ b/drivers/mmc/core/sdio_uart.c
+> @@ -1162,4 +1162,5 @@ module_init(sdio_uart_init);
+>  module_exit(sdio_uart_exit);
+>
+>  MODULE_AUTHOR("Nicolas Pitre");
+> +MODULE_DESCRIPTION("SDIO UART/GPS driver");
+>  MODULE_LICENSE("GPL");
+> diff --git a/drivers/mmc/host/of_mmc_spi.c b/drivers/mmc/host/of_mmc_spi.c
+> index bf54776fb26c..05939f30a5ae 100644
+> --- a/drivers/mmc/host/of_mmc_spi.c
+> +++ b/drivers/mmc/host/of_mmc_spi.c
+> @@ -19,6 +19,7 @@
+>  #include <linux/mmc/core.h>
+>  #include <linux/mmc/host.h>
+>
+> +MODULE_DESCRIPTION("OpenFirmware bindings for the MMC-over-SPI driver");
+>  MODULE_LICENSE("GPL");
+>
+>  struct of_mmc_spi {
+> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
+> index 12f4faaaf4ee..58536626e6c5 100644
+> --- a/drivers/mmc/host/renesas_sdhi_core.c
+> +++ b/drivers/mmc/host/renesas_sdhi_core.c
+> @@ -1162,4 +1162,5 @@ void renesas_sdhi_remove(struct platform_device *pdev)
 >  }
->  EXPORT_SYMBOL_GPL(regulator_map_voltage_ascend);
+>  EXPORT_SYMBOL_GPL(renesas_sdhi_remove);
 >
-> +/**
-> + * regulator_map_voltage_descend - map_voltage() for descendant voltage =
-list
-> + *
-> + * @rdev: Regulator to operate on
-> + * @min_uV: Lower bound for voltage
-> + * @max_uV: Upper bound for voltage
-> + *
-> + * Drivers that have descendant voltage list can use this as their
-> + * map_voltage() operation.
-> + */
-> +int regulator_map_voltage_descend(struct regulator_dev *rdev,
-> +                                 int min_uV, int max_uV)
-> +{
-> +       int i, ret;
-> +
-> +       for (i =3D rdev->desc->n_voltages - 1; i >=3D 0 ; i--) {
-> +               ret =3D rdev->desc->ops->list_voltage(rdev, i);
-> +               if (ret < 0)
-> +                       continue;
-> +
-> +               if (ret > min_uV)
-
-I know this patch is superseded, but shouldn't this be "<"?
-
-> +                       break;
-> +
-> +               if (ret >=3D min_uV && ret <=3D max_uV)
-> +                       return i;
-> +       }
-> +
-> +       return -EINVAL;
-> +}
-> +EXPORT_SYMBOL_GPL(regulator_map_voltage_descend);
-> +
->  /**
->   * regulator_map_voltage_linear - map_voltage() for simple linear mappin=
-gs
->   *
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> +MODULE_DESCRIPTION("Renesas SDHI core driver");
+>  MODULE_LICENSE("GPL v2");
+> diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
+> index 93e912afd3ae..c1a4ade5f949 100644
+> --- a/drivers/mmc/host/tmio_mmc_core.c
+> +++ b/drivers/mmc/host/tmio_mmc_core.c
+> @@ -1319,4 +1319,5 @@ int tmio_mmc_host_runtime_resume(struct device *dev)
+>  EXPORT_SYMBOL_GPL(tmio_mmc_host_runtime_resume);
+>  #endif
+>
+> +MODULE_DESCRIPTION("TMIO MMC core driver");
+>  MODULE_LICENSE("GPL v2");
+>
+> ---
+> base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
+> change-id: 20240610-md-drivers-mmc-cb5f273b5b33
+>
 
