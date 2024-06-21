@@ -1,76 +1,65 @@
-Return-Path: <linux-renesas-soc+bounces-6592-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6593-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C2B5911DAF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 10:02:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36D31911EE6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 10:36:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CAB941F2162E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 08:02:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E034D2843DA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 08:36:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB220178390;
-	Fri, 21 Jun 2024 07:54:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="aN/W6cN0"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 521F0126F02;
+	Fri, 21 Jun 2024 08:36:12 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8C0176FB3
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Jun 2024 07:54:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985DD18E20
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Jun 2024 08:36:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718956470; cv=none; b=VaQ2jWIqoA8u2m5nhNV8sL3xttTCA11u99GU8vx/y/sj8eStFbhlCHGPH2hOgcojYRP2xMpM93iIzQBZd4W/IcqBBtNUyf+AnMvH5/IqDkh/U5vEoCQhhfFK+Gmt6yaxSQkfr4TYjH3TPqJfgj81ZZZTXLqeZETUuK57hwOPFQ8=
+	t=1718958972; cv=none; b=HEcQqQaLMbUjfc80Ndd0HYSYiJiZsZpOUJw9tg/XhR0w7GAn3nywP/WUewrE40pR5m9oQepb4xb5HTNvOtnuKItx6YjQ6dTKPJLjBWhUOgO0+DpTOF+Ii3QVodY11T2XxkYXR4F6fpD5cii37uZEZldS6/17rDGkd3oCqG2egy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718956470; c=relaxed/simple;
-	bh=Qiu2cnuLE3bINgaUTy01KWZeDAWULRjFMg9Ap2rFhOk=;
+	s=arc-20240116; t=1718958972; c=relaxed/simple;
+	bh=Ud6uT2u8ipKnq3N0gB5UOQhhwhKjFj6njF2g7a9Pcw0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EM6q8eKWEUwWh8GK7mk86beJuQ1oTew+jrbvbf0aEEIceGYJLLOzpizYS+d3lPZZ47K+RAgxpo2BzdTyNQYAQmCR3VL1HxFSZdyQeajhDyoURVu2w0Na0vhYS7fBmBvsP99sKqbjd4Ek9jla+Pi5oh+Z6tSapoIXx8LCUZgf7HM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=aN/W6cN0; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=G+I7
-	Dy46Mrza8gu4LYO3j9ILWX+nGJyhLuq4M5ObIbo=; b=aN/W6cN0p5nSicAwI5OR
-	yW0sh78BFW0hvhjyiFZmnUfCmXusxuHOy31n/kO2gueaSVtcbmoorzc58OAeckcB
-	jHZH5S9mg+EqMB79lHB8g16caw760vUbQsLP9gBlFwyfjijEqnd36IdzaQY+Qtza
-	/BHueCZaIJfBtMKvlmxiuJDJvIStUhln2ETpG53zYW4/5gy4daTBDdo4X+D0D708
-	25LeFdUEUtzT07ULqXzMi/ySdFLf1VHky9uUxavDTR57u9xkvMzoJNJ6eIQ2TtJG
-	/fgGFahNR7p0nkDjDo2Pxd8YWDw5cUR/qBmE/7LM3Tdy6gWwwptdNWO+kaDo0o9b
-	uw==
-Received: (qmail 1287368 invoked from network); 21 Jun 2024 09:54:26 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 Jun 2024 09:54:26 +0200
-X-UD-Smtp-Session: l3s3148p1@QYWHvWEbCucgAwDPXzjQABqqX1QYyOSW
-Date: Fri, 21 Jun 2024 09:54:25 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, linux-kernel@vger.kernel.org, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org, 
-	Conor Dooley <conor+dt@kernel.org>
-Subject: Re: [RFC PATCH v2 3/3] mmc: renesas_sdhi: Add support for RZ/V2H(P)
- SoC
-Message-ID: <4lypqqf4o2wk22kzpyutlaarare5kurdrlokbm6mb4re3mstam@qo7c3d4tcpll>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, linux-kernel@vger.kernel.org, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org, 
-	Conor Dooley <conor+dt@kernel.org>
-References: <20240613091721.525266-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240613091721.525266-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <prdvmtsp35yy2naohivbrya3go6vh5ji2cdjoebw3ovditcujo@bhck6tca6mhj>
- <CA+V-a8u6KAFp1pox+emszjCHqvNRYrkOPpsv5XBdkAVJQMxjmA@mail.gmail.com>
- <o7tswznmyk6gxoqfqvbvzxdndvf5ggkyc54nwafypquxjlvdrv@3ncwl5i5wyy3>
- <CA+V-a8spwd82a3BTS-u-w-JY859YCRxCi0Os6XRn27-mkWz6WA@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=QbSECc6gqHB3EI150EgCt1I1A/FmmNDpn6QcI/aE77LEoOIoYT0pUzFuYemhEO9H6KsTQm2zs7DkFZzOzZmNAN98cDxTmdXtm8YmkfCOiVlMf2TjOF1YMKBDNuV1LJpIVwWsVJshWTyKPjw/DNJqbSlkGJ7zD7ESRlCy189+6F0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1sKZkd-0000eX-Rv; Fri, 21 Jun 2024 10:36:07 +0200
+Received: from [2a0a:edc0:0:b01:1d::7b] (helo=bjornoya.blackshift.org)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1sKZkd-003tvp-A7; Fri, 21 Jun 2024 10:36:07 +0200
+Received: from pengutronix.de (p5de45302.dip0.t-ipconnect.de [93.228.83.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: mkl-all@blackshift.org)
+	by smtp.blackshift.org (Postfix) with ESMTPSA id 073A62EE58B;
+	Fri, 21 Jun 2024 08:36:07 +0000 (UTC)
+Date: Fri, 21 Jun 2024 10:36:06 +0200
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Vincent MAILHOL <mailhol.vincent@wanadoo.fr>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-can@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	netdev@vger.kernel.org
+Subject: Re: [PATCH 1/3] can: rcar_canfd: Simplify clock handling
+Message-ID: <20240621-sensible-cerulean-pheasant-0a64e7-mkl@pengutronix.de>
+References: <cover.1716973640.git.geert+renesas@glider.be>
+ <2cf38c10b83c8e5c04d68b17a930b6d9dbf66f40.1716973640.git.geert+renesas@glider.be>
+ <CAMZ6RqKZdo1Mk=tY-vqCm0YYr_Qk8m53+LHXqeM+1LL=S=+RqQ@mail.gmail.com>
+ <CAMuHMdXV9q2D=Mhfi7s4NBuvivxBap-k_pkm4pUseoUb3SLWqQ@mail.gmail.com>
+ <CAMZ6RqK32+i69Rd3qDDNm4cgQa3+m3ikZTbpt5jCGrkNt76+vw@mail.gmail.com>
+ <CAMuHMdWCAU7VK97d3yOALpgg7S9+Aa3ZKwC3VVsivUev1iA+Ag@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -78,120 +67,87 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="v6w6c2dqsjx426ws"
+	protocol="application/pgp-signature"; boundary="53dhbrvpm3du3xed"
 Content-Disposition: inline
-In-Reply-To: <CA+V-a8spwd82a3BTS-u-w-JY859YCRxCi0Os6XRn27-mkWz6WA@mail.gmail.com>
+In-Reply-To: <CAMuHMdWCAU7VK97d3yOALpgg7S9+Aa3ZKwC3VVsivUev1iA+Ag@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
 
---v6w6c2dqsjx426ws
-Content-Type: text/plain; charset=us-ascii
+--53dhbrvpm3du3xed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Prabhakar,
-
-> Based on the feedback from Rob I have now changed it to below, i.e.
-> the regulator now probes based on regulator-compatible property value
-> "vqmmc-r9a09g057-regulator" instead of regulator node name as the
-> driver has of_match in regulator_desc.
-
-I like this a lot! One minor comment.
-
-> static struct regulator_desc r9a09g057_vqmmc_regulator =3D {
->     .of_match    =3D of_match_ptr("vqmmc-r9a09g057-regulator"),
->     .owner        =3D THIS_MODULE,
->     .type        =3D REGULATOR_VOLTAGE,
->     .ops        =3D &r9a09g057_regulator_voltage_ops,
->     .volt_table    =3D r9a09g057_vqmmc_voltages,
->     .n_voltages    =3D ARRAY_SIZE(r9a09g057_vqmmc_voltages),
-> };
->=20
-> SoC DTSI:
->         sdhi1: mmc@15c10000 {
->             compatible =3D "renesas,sdhi-r9a09g057";
->             reg =3D <0x0 0x15c10000 0 0x10000>;
->             interrupts =3D <GIC_SPI 737 IRQ_TYPE_LEVEL_HIGH>,
->                      <GIC_SPI 738 IRQ_TYPE_LEVEL_HIGH>;
->             clocks =3D <&cpg CPG_MOD 167>,
->                  <&cpg CPG_MOD 169>,
->                  <&cpg CPG_MOD 168>,
->                  <&cpg CPG_MOD 170>;
->             clock-names =3D "core", "clkh", "cd", "aclk";
->             resets =3D <&cpg 168>;
->             power-domains =3D <&cpg>;
->             status =3D "disabled";
->=20
->             vqmmc_sdhi1: vqmmc-regulator {
->                 regulator-compatible =3D "vqmmc-r9a09g057-regulator";
->                 regulator-name =3D "vqmmc-regulator";
-
-This should have "sdhi<X>" somewhere in the name?
-
->                 regulator-min-microvolt =3D <1800000>;
->                 regulator-max-microvolt =3D <3300000>;
->                 status =3D "disabled";
->             };
->         };
->=20
-> Board DTS:
->=20
-> &sdhi1 {
->     pinctrl-0 =3D <&sdhi1_pins>;
->     pinctrl-1 =3D <&sdhi1_pins>;
->     pinctrl-names =3D "default", "state_uhs";
->     vmmc-supply =3D <&reg_3p3v>;
->     vqmmc-supply =3D <&vqmmc_sdhi1>;
->     bus-width =3D <4>;
->     sd-uhs-sdr50;
->     sd-uhs-sdr104;
->     status =3D "okay";
-> };
->=20
-> &vqmmc_sdhi1 {
->     status =3D "okay";
-> };
-
-Again, I like this. It looks like proper HW description to me.
-
-> Based on the feedback provided Geert ie to use set_pwr callback to set
-> PWEN bit and handle IOVS bit in voltage switch callback by dropping
-> the regulator altogether. In this case we will have to introduce just
-> a single "use-internal-regulator" property and if set make the vqmmc
-> regulator optional?
-
-Let's discuss with Geert. But I am quite convinced of your approach
-above.
-
-> > > Let me know if I have missed something obvious here.
+On 06.06.2024 13:38:24, Geert Uytterhoeven wrote:
+> > > > > @@ -545,8 +539,8 @@ struct rcar_canfd_global {
+> > > > >         struct platform_device *pdev;   /* Respective platform de=
+vice */
+> > > > >         struct clk *clkp;               /* Peripheral clock */
+> > > > >         struct clk *can_clk;            /* fCAN clock */
+> > > > > -       enum rcar_canfd_fcanclk fcan;   /* CANFD or Ext clock */
+> > > > >         unsigned long channels_mask;    /* Enabled channels mask =
+*/
+> > > > > +       bool extclk;                    /* CANFD or Ext clock */
+> > > > >         bool fdmode;                    /* CAN FD or Classical CA=
+N only mode */
+> > > >
+> > > > Notwithstanding comment: you may consider to replace those two bool=
+eans by a:
+> > > >
+> > > >           unsigned int flags;
+> > > >
+> > > > This way, no more fields would be needed in the future if more quir=
+ks are added.
+> > >
+> > > Using "unsigned int flags" and BIT(x) flags would increase code size
+> > > by 8 bytes (arm/arm64).
 > >
-> > Nope, all good.
+> > I am not sure where you derive your figure from, but looking at the pah=
+ole:
+>=20
+> pahole shows the size of data structures.
+>=20
+> > > Using "unsigned int foo:1" bitfields would increase code size by 16
+> > > (arm) or 12 (arm64) bytes.
+> > > So as long as we can fit more bools inside the hole, it is more
+> > > efficient to do so...
+> >
+> > I do not get this either. Where did you get your 16 bytes from? If I do:
+>=20
+> I also looked at code size[*]: while storing bits takes less space than
+> storing bytes, processing bits may require more instructions than
+> processing bytes (depending on the architecture).
+>=20
+> [*] size drivers/net/can/rcar/rcar_canfd.o
 
-Don't give up, I think we are close...
+You have probably used "scripts/bloat-o-meter" from the kernel source
+for this, right?
 
-All the best,
+Marc
 
-   Wolfram
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde          |
+Embedded Linux                   | https://www.pengutronix.de |
+Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
 
-
---v6w6c2dqsjx426ws
+--53dhbrvpm3du3xed
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZ1MbEACgkQFA3kzBSg
-KbZmzhAAhikx9DCJzN4RjY8IXdukZFrLpplVN2YzG4v2JaPtx3Io/CWxE/x0uqbf
-PBHqYGBG4cZSJxeRj05fmMNuQ3bWFPa7b66JzcboFked+yhEg6ZoSflK/N4zNAXD
-xZcriyJWSLbLRJu9/qoA+92KoB1OHEg5eetJETOcp0ipQLQcZA9mUQQ78b2VrlHj
-EaHQeQoIotN9dKbBLOwWFu6G60QI+oKwXvp4LNerh/4DJTiHzQ3olpZPJQGDPmcT
-8o55f60f4r1D75Wnvurx2Hodrd/POHCeEQI4dE5Gjljz1aQ3+5Eh1qVTgoYXUQbA
-E9d3uWDrMGGiLYD3q0HWuRtyN7Da3HhqlRodHG5erIYJ7dmefukEYIi6ghdrnsTY
-BcaKi+R+531wyhpqOXFw0mINfU1YlMTkn0RZNUJiUhctY2BFKHp/I/xvSy0saZbZ
-/2z9KWM1MqpfYwuXUH7YVLoqmvmiJ8LhpLubZ0i9OgsfOv/crv6osY+pxXHNfC9J
-C3sC+4Ybd5RrtJTRKCFe+ANFdYrWW3IkD041qs+HmFlRcN9XUMkrL5/+fGrjt/gQ
-uKw3fhpr3mvBYIA35hxPMjnIriFM7NTTH6qUW2uOgRLW4tTBszcfrkU1AJzRgxis
-gdOOjwfqn/Acov8nmXE8GDNPgjayH5XfJhbwgc02ZQYlwUtTg84=
-=hH6Q
+iQEzBAABCgAdFiEEUEC6huC2BN0pvD5fKDiiPnotvG8FAmZ1O3QACgkQKDiiPnot
+vG8ORgf+MupiedbzdTPO56Iu8X2xz1pZy0K1aQr+0oHavCbADhkq5HSGNkFVy+h9
+YtB5kS5pyFjBSpAGkpP+o7DWnTIjo49tIYXXb3yaGiR23WSNpBnXgvO8hPNBdUTG
+whPxNfG3VgiQ3HCTi9bhEagjbQOjluloBPmRsBUoDoZX1D2NF7an24GjKYY3u5wP
+FfCbGSmmla45QV0yLn3cel0XxxTapC4U/SQlgPtcAHk9gflGD7Ga0w66zyWQgAEa
+N6Mw4xvHEswqzV++NU+WzTuxS8sn3T9+DqccRxMORoE2xt73LvuMNEMAIhbWk2k+
+DnaM8FlXI+N/DxiS8LWdHJJ9c+Ed/A==
+=VO/e
 -----END PGP SIGNATURE-----
 
---v6w6c2dqsjx426ws--
+--53dhbrvpm3du3xed--
 
