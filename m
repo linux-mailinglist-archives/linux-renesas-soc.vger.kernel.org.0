@@ -1,128 +1,156 @@
-Return-Path: <linux-renesas-soc+bounces-6646-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6647-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD63A9129B3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 17:32:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4A9A912C9B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 19:48:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AC396B250C7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 15:29:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6B60728B292
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 17:48:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D44306EB73;
-	Fri, 21 Jun 2024 15:29:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4A681667CF;
+	Fri, 21 Jun 2024 17:48:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FLyDDW6j"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6E1548F7;
-	Fri, 21 Jun 2024 15:29:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF1F15FD0E;
+	Fri, 21 Jun 2024 17:48:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718983771; cv=none; b=RDczOmG1R6Neak9+Jf3kEkygZuBmAmRN13hjY8BT9+qvbpUZ5/mOiZMUCdS/4s5OjGdF8OP3sCpE3pRGVIjkx3Ism3uiXCdjRpX1CVJEf5oA20tFyJKGJWnCP7Hd/VudB0oBVZgmlRvZfY56kapFlR2bAzeZ7kXmxfo8mD3zj4g=
+	t=1718992088; cv=none; b=NEMGyi+L81t1o+YBN5Gp3OIm/h/I60fNwc2C/k2bFsv9eplU06XUzFjaUHruetsHVy8ypXtOOw/OPawPEisGlTuUkOrvb891VbStioyLRwo0sd1RfWoh/cl4pPbDfNFoMjRYe89leiVX3uel5s27zadxKb6nfofRHsLqooUdPc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718983771; c=relaxed/simple;
-	bh=3W/7GEJUFml+rpFv8YIElP7kB+r4mLIZReTBoCiWIoo=;
+	s=arc-20240116; t=1718992088; c=relaxed/simple;
+	bh=mQ5L2vYcZRCcrLtYFaBkfoz0TXVWKORjITMqPyTNnlM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=o5RWTtOlCKCUyuoXjiq025EstC7JOFbrJ1IYK2wcOZk1BK36qPJPsdmLXgI7ukOjQhaifOyObcsu/WnHq23ur5cGHMjDPSzHbz0Pik8/Djpmewt8kXrYTQAf/ZWRD3+ZgkwLN8UAPenrxjNOaDyTmFOOR5MfK1dapPeKrgvFv/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Content-Type; b=RzfTVYPwMmAMVM3PYLZtUutOKsgvNLgRA4fdnq6Zj5UWf/de99G8NnAqKO+fH0OtICCluEXg938HuHC+3zr6z/TcaaqCIwMl52fx51CZbrdnUeZpT9FmsG9A7UT3h70ZPOfCw6cGSK9IsM8Jh62kDoAva4UItrL95fHWXxW/o8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FLyDDW6j; arc=none smtp.client-ip=209.85.222.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-dfdb6122992so2087655276.3;
-        Fri, 21 Jun 2024 08:29:29 -0700 (PDT)
+Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-80f6cc81aa4so353951241.2;
+        Fri, 21 Jun 2024 10:48:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718992086; x=1719596886; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=81ObmjHXbEwa7gKh45uz6idV8z3omKUYoqXG05RakrE=;
+        b=FLyDDW6jUcz1RfebPvBnPSoPO5IHFDPFuN6ONc0hgauR0YWSf2wvbyfO8LuWnMBCNj
+         JmsHXPoViElWKKDJghvqxledpIGTKr0K39+RIwDTJG2vYtdI51hXrO7dKC0y/HyaAUIw
+         tSUXPPW3p2UQxBtQdfC6pjmzRlSUdt1R8UICZ0hcfp0YPvJ69cTg2isSvTYibIvkYVLm
+         qflbLh2AP52uCjeQmboNEpC/bF34+P/YskNnr4LR+jWIofMUlc/wzGFfUtw1Z05RLXlw
+         HkHYh+XPTK+vz2mIhVCSSVkv+V7mGRcp7ozcPR3vKEgKU84/+ujx9v6sDVRpL+wlf54h
+         TYhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718983767; x=1719588567;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+        d=1e100.net; s=20230601; t=1718992086; x=1719596886;
+        h=content-transfer-encoding:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eSQbNV6p7MusuGwhIhNByYs7R6IXrxKvQPF0KCrDuNc=;
-        b=pc6yfbTsQmLAWdsEtJIxBxh7TV9FnARpaISdeqQvOMNt93r9kNHIzD9/EvlhuJU/QL
-         y6hPThWL7Nq0KzMWQMRsx19Ml3r+qoDuYpCVP2vjsfCVWQqmGwo3GMnkwrRO+9Q7uOZ/
-         ZSxnbxSAVNv7tynVuDrRwmkCIN1Q98z6vzuz0P7/2Tf+eGidFtPLy6aVsFtqa6hdg7ea
-         zH4lVHr2CXiRIWkfJqTLgTRvhrLsqrOXm0WyQaw0rCQ6KHEhuL9B+EI+Is/FV/Q4XSbB
-         hBT4gYT+PYn0jYQWtsdvpKNusdsvzkE3UjpSO6taBD7FilPiOyOcrRdJZ2eOxKb+T83b
-         ibTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXWm3Tu4GQU19qVl5Qf871Q6UKVW/jrPpzjG30C7k2mho0ViVlF3cjeP18VD+sH96VS/6tQ/zlqXTMnI8X6VlsPuPm2mpdvOz6TvJTiLECwI/55F//ZHTKDQCxEkbBWSYoPUu5+PlVpiyR6dbiw8ws=
-X-Gm-Message-State: AOJu0Yze6XTIGhGIoBRgj06ZMT2ktDVN1Bfwg5FLzN6ajrmM50o6yf/E
-	t1Hl2CYR2fUxsF3E2YxX6e+zQfhR92nX4h1hvkegVe84MOxb6fzss+ZS03VO
-X-Google-Smtp-Source: AGHT+IEIozGOx3Q60pZ1JD+rlvxuxOg9ueD1lSCvWLIA9DDo1zCpo/Ou10RaAY48OvA+9ic1xpWF4Q==
-X-Received: by 2002:a25:c752:0:b0:dfb:538:df1e with SMTP id 3f1490d57ef6-e02be168beamr9338877276.35.1718983766903;
-        Fri, 21 Jun 2024 08:29:26 -0700 (PDT)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e02e65be7b1sm490700276.42.2024.06.21.08.29.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Jun 2024 08:29:26 -0700 (PDT)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-63ba688bdc9so21417537b3.1;
-        Fri, 21 Jun 2024 08:29:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXWiqCOqrlYFkZhGqUb0SQ/KyXGolA36u8+UWf2EXmEEguH5Acey3ar+vLKxF9LQJ2tP4DTSPQhvYyChE7AC/TRsKlyR9rGpLExgpA7cyqLnm7MSO+tifkxP8Oz4mb+bcAcAW5Qi7VYR238LIfGUIs=
-X-Received: by 2002:a81:f90d:0:b0:615:1cbb:7b81 with SMTP id
- 00721157ae682-63a8f9f9603mr85397687b3.46.1718983766067; Fri, 21 Jun 2024
- 08:29:26 -0700 (PDT)
+        bh=81ObmjHXbEwa7gKh45uz6idV8z3omKUYoqXG05RakrE=;
+        b=hIG/1cdRWYBQvUYdy+pddsW6EgifaHy7EwLgO7YtUKzkFQGn/XsW1zyNbHffbaVpgI
+         Wlfj+SZ8a6ljrVm3cR8FLC3+3IickegIQ5b//Qp821uRcB2j3wc6bpfYQf2D1ogVDHsP
+         RdNQ6IdRj2rVmA03AZ2/485eHWjVXHhp0K8JhwLPHmazztBC1xU/srPHKvKFF0pbq/LB
+         oe9emOmb92MhcENFouF7/e3c82MAJnUjcaVclLDAjU/4r9Vlp9n/Qd5HpfGhTVn7Vbb0
+         yDqpGrvyKrGJXhXNUvRUIcbq+Cyt5s5JV7IjNu3befF8A4WBwEiAoF8YGvTpdNRPtUGP
+         sFFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUCXjV2pyoJtc+dcHAtz1TbEFMAQCPHOnoQ5L4EvTzOl6n5ek4L5ppIQsezHhtLJgRNPIuNtYb1+EvNvPx7GnrJvR6PuzRYQSsgFlYvKjancHstXivL6plVJjDukl+bISyElYuC43AXqO9d+irl7kCev5pqmL9PB1HFBhz8HliWCVeKHPY/VuTa4++7tmVdLQvx289cxOqI3iBDNCNfZEyf5xy8XEi8
+X-Gm-Message-State: AOJu0YwerkS4r4v1KHDhdcyldn3qCrwBRleNK26fsx5VV6pwbGqG5pMl
+	4dpV6+JmWxfQ5tLBxbyJVDfr2kCvJvdmnSHOfdzrU4MoekfNvFdwVTblR1IzpCXyNF61cYUA+g9
+	bqxuKRuS2LZpNTGFZA2CqA2oF8Kk=
+X-Google-Smtp-Source: AGHT+IGuB2z+co8OUz9vMffmlPdrxKTYQViMR/EpC9iBEu86iSA4jDVHANAWyQ0JOxVMxt1gemx/eb204mkQAI8RZ4I=
+X-Received: by 2002:a05:6122:18a1:b0:4ef:53ad:97bd with SMTP id
+ 71dfb90a1353d-4ef53ad9c40mr1421229e0c.3.1718992086037; Fri, 21 Jun 2024
+ 10:48:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240418132602.509313-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <75b1798fbef0f941a7c58b91583d62dff6384671.camel@pengutronix.de>
-In-Reply-To: <75b1798fbef0f941a7c58b91583d62dff6384671.camel@pengutronix.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 21 Jun 2024 17:29:13 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUgHLB6k1jVXdk08U5tgk6M7jGjhaWwpxDZGtoi8ViTjA@mail.gmail.com>
-Message-ID: <CAMuHMdUgHLB6k1jVXdk08U5tgk6M7jGjhaWwpxDZGtoi8ViTjA@mail.gmail.com>
-Subject: Re: [RFC PATCH] reset: Add devm_reset_control_deassert helper
-To: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Prabhakar <prabhakar.csengg@gmail.com>, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240618225210.825290-1-allen.lkml@gmail.com> <gw6adkoy3ndjdjufti2gs2gnk3xdgylt6tnia2zha76hsgdwtq@dr3czbxjij66>
+In-Reply-To: <gw6adkoy3ndjdjufti2gs2gnk3xdgylt6tnia2zha76hsgdwtq@dr3czbxjij66>
+From: Allen <allen.lkml@gmail.com>
+Date: Fri, 21 Jun 2024 10:47:54 -0700
+Message-ID: <CAOMdWS+p4Dt2xDGWvwoXtWinsRZintLwPmADddbsmaEfLvRQkw@mail.gmail.com>
+Subject: Re: [PATCH v3] mmc: Convert from tasklet to BH workqueue
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, Allen Pais <allen.lkml@gmail.com>, 
+	Aubin Constans <aubin.constans@microchip.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Manuel Lauss <manuel.lauss@gmail.com>, =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>, 
+	Jaehoon Chung <jh80.chung@samsung.com>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
+	Adrian Hunter <adrian.hunter@intel.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Alex Dubov <oakad@yahoo.com>, 
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Bruce Chang <brucechang@via.com.tw>, Harald Welte <HaraldWelte@viatech.com>, 
+	Pierre Ossman <pierre@ossman.eu>, Christian Loehle <christian.loehle@arm.com>, linux-mmc@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Philipp,
-
-On Fri, Jun 21, 2024 at 4:45=E2=80=AFPM Philipp Zabel <p.zabel@pengutronix.=
-de> wrote:
-> On Do, 2024-04-18 at 14:26 +0100, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> On Tue, Jun 18, 2024 at 03:52:07PM GMT, Allen Pais wrote:
+> > The only generic interface to execute asynchronously in the BH context =
+is
+> > tasklet; however, it's marked deprecated and has some design flaws. To
+> > replace tasklets, BH workqueue support was recently added. A BH workque=
+ue
+> > behaves similarly to regular workqueues except that the queued work ite=
+ms
+> > are executed in the BH context.
 > >
-> > A typical code pattern for reset_control_deassert() call is to call it =
-in
-> > the _probe function and to call reset_control_assert() both from _probe
-> > error path and from _remove function.
+> > This patch converts drivers/mmc/* from tasklet to BH workqueue.
 > >
-> > Add helper function to replace this bolierplate piece of code. Calling
-> > devm_reset_control_deassert() removes the need for calling
-> > reset_control_assert() both in the probe()'s error path and in the
-> > remove() function.
-> >
-> > Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Based on the work done by Tejun Heo <tj@kernel.org>
 >
-> I'm not sure this aligns well with the intended use of devres for
-> resource acquisition and release.
+> Has this been fully build-tested?
 >
-> Note how there is no devm_clk_prepare_enable, devm_regulator_enable,
-> devm_gpiod_set_value_cansleep, or devm_pwm_enable either.
+> =3D=3D=3D
+> drivers/mmc/host/renesas_sdhi_internal_dmac.c: In function =E2=80=98renes=
+as_sdhi_internal_dmac_complete_work_fn=E2=80=99:
+> ./include/linux/container_of.h:20:54: error: =E2=80=98struct tmio_mmc_hos=
+t=E2=80=99 has no member named =E2=80=98dma_complete=E2=80=99
+> =3D=3D=3D
+
+ Yes, it does break. My bad, my local compile testing failed to catch this.
+
 >
-> I've sent an alternative suggestion that adds
-> devm_reset_control_get..._deasserted calls, similarly to the existing
-> devm_clk_get..._enabled calls. Please let me know what you think.
+> In deed, 'dma_complete' is only in 'struct renesas_sdhi_dma'. From
+> there, we can get to the parent 'struct renesas_sdhi' using
+> container_of. But then, I don't see a way to go to 'struct
+> tmio_mmc_host' from there. The other way around is possible because
+> there is the pointer 'struct tmio_mmc_data *pdata' in the TMIO struct
+> pointing to the data contained in 'struct renesas_sdhi'. 'host_to_priv()'
+> does the math. But I don't see a path the other way around.
+>
 
-Thank you, that sounds like a good alternative.
+ I have been looking at this code since the issue was reported. Yes it
+is a bit tricky and so far, the only way I found was to introduce a new poi=
+nter.
+But, I am not very familiar with the code and have asked Ulf for pointers.
 
-Gr{oetje,eeting}s,
+If introducing the pointer is the only way forward and is an
+acceptable solution,
+I can send out a draft.
 
-                        Geert
+Thanks,
+Allen
+
+> So, it doesn't look like the workqueue interface can provide a
+> generic pointer like tasklets could do? This means we have to add a
+> pointer from 'struct renesas_sdhi' to 'struct tmio_mmc_host'?
+>
+> All the best,
+>
+>    Wolfram
+>
+
 
 --=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+       - Allen
 
