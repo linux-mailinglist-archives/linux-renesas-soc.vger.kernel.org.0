@@ -1,149 +1,115 @@
-Return-Path: <linux-renesas-soc+bounces-6596-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6597-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52FD4911F81
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 10:55:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8CAA911F95
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 10:57:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CFC4BB20A88
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 08:55:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 84AA328BC2F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 08:57:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F2CE15A49F;
-	Fri, 21 Jun 2024 08:55:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A457316EC10;
+	Fri, 21 Jun 2024 08:56:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LVXUvnDE"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Z5y3LyJk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB0C6167296
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Jun 2024 08:55:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCD3716E884
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Jun 2024 08:56:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718960141; cv=none; b=OCm2U0TL3yX4WMJoO0Fdyq+kLqfwwNSLf1KOPmp7fmEiqoTAyg+z+RYrLw2hQ/7dnPtnVMkjsHFUhvrEJ4mFk0Bh4YibioYsrUtEYAT6htPoYggXXOzbCqkoK/vfn29cIwwTBCjidypg6/7t41NJAFq00gbbxBCH/DbaUjHxRnU=
+	t=1718960189; cv=none; b=ZhUkepoaR4D051JEOal71b1TMoVZJNDeoi1PSJthMm4LXZoWJts5Py1dnhsbk4qGtFbizeRqf429bURiVcaczkE/PjVjJFPFjL/Tupy+V/ou5ux9ia807OiFJ5pqnNrSeuvifPO7iFO2gVweImwSrGj9kybBoX17RN54sbFAT+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718960141; c=relaxed/simple;
-	bh=Wi27qEs/5e4tSTUEdKvblPt1WEkhqGpsrhlA/n693m4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Xiw43enMjLt0aVjReeKJoqQZ0USR6QmF0qm5iuWp9Qf/LIk5unIQ85o80A/M6vTBqJ/xXe8NCYFpLgVNmje9rMuwsLtZ98UOh3DzxhMjZIpNxVB/6Hm+iWNh8Uuk2DtP1r0dkcenKZCD287CoEQc1GrY1O2h/gAKkHGhX2pGE1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LVXUvnDE; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1718960138;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HZxfbjVDFLZ8q4+IcR6ygghLj1wY/E9B1wkW/5ajlvI=;
-	b=LVXUvnDECsrJU1ihoBlKcZ7aw+OLY6PxEP++R4y7b9cGvLeJSJY97xtV/x8AakhhSkKNdO
-	jm7fMM0CscsxXsiBPQszCY+i+vhzWvGnmlIJEjVozvD7wQu7mssQnE7ThOubuzoVmt7In2
-	xma/AVfFhV2sLALsm+BELP2wFGMPD4M=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-104-djtU7ZFJNiuBCV880pYbfA-1; Fri, 21 Jun 2024 04:55:35 -0400
-X-MC-Unique: djtU7ZFJNiuBCV880pYbfA-1
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-421bb51d73cso9679565e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Jun 2024 01:55:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718960134; x=1719564934;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HZxfbjVDFLZ8q4+IcR6ygghLj1wY/E9B1wkW/5ajlvI=;
-        b=UwUut8PS6iwGDDmWbMTd4Y0MmuAROnsOCHDCiF+UROOeYFAVCo+8/6WIrw05jXYXJm
-         o+7q5mJpdJLjSiq/GogW+upSUnfygecQg6ApaqpJ0S8OVXKoX6/rNHs6EZkkRLrcr5Zj
-         V5f6EqyWKVzP9VXReL1oNRaopDXhJ1rkRdlO/txUYTw2XI0IYOZNoRRI6X/dvQjOcAEx
-         LLRZZAbZHfufHa7+yDWtot3lQ7bBZDr2jo4u5cReQor1ZZwIrZYZDhkLS0J5ZZ8cAgDT
-         SsNC4rNMbPncusED/HEXXhSmhqWW8gjHbTn1zVBSgTO+5hEi4jm4AEGil+iO8u33xjB8
-         mphg==
-X-Forwarded-Encrypted: i=1; AJvYcCV/CiQYZvAiSjLRC18seIXEjwbAV1166zlNXcMUs2rATH7MTJ6oRp9i2EV3a7P8zOuVlbM4Ld6ulhJIQH98cJe3dZ7TjADoMpbyD8v98SIXrMM=
-X-Gm-Message-State: AOJu0Yy13tsnoVy5unO2btlxJAxO9FQtExtOqN3dLdHw8sMG16MQr+As
-	dL5MsQ2DOY54H4QlgucXEz3CUvxtN8VDXJ1syigq7T5747K29cs12K23WK2ck1EFTwtpcil5peN
-	3t8rjFeyWdXezOrV1yWvv6IpMZt1rwGWvTRw0kte8WwtRpC4Zup3sIeVLH+iEj+Y5FV/v
-X-Received: by 2002:a05:600c:3b96:b0:421:3b74:9c02 with SMTP id 5b1f17b1804b1-424752ac00fmr57877705e9.41.1718960133947;
-        Fri, 21 Jun 2024 01:55:33 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHkCronDs3rd4uDL011azLUJoQX0z7Z/tK6nKcBDkViAJOlmHlF1yWy1e0FG6LHPQxZY7mBOA==
-X-Received: by 2002:a05:600c:3b96:b0:421:3b74:9c02 with SMTP id 5b1f17b1804b1-424752ac00fmr57877585e9.41.1718960133568;
-        Fri, 21 Jun 2024 01:55:33 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e? ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4247d0b6402sm54371555e9.10.2024.06.21.01.55.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Jun 2024 01:55:33 -0700 (PDT)
-Message-ID: <b4caed34-bed4-4b72-9bb0-353ef63fe867@redhat.com>
-Date: Fri, 21 Jun 2024 10:55:32 +0200
+	s=arc-20240116; t=1718960189; c=relaxed/simple;
+	bh=OiAwNBD3dKXwDOjocssIYExCZyx30mK+FWFWYtwpASI=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hrs8qopTi7Y54vr5B94XCecCSfFbKQvGz4a2R5GwRzhwdSw7BzTYf5zPyO6UROoVPrOP4wcwfNcmp4AusLMzCjT/rVO3fHDG1S4UnPfP1sJAq/FaQG4d2H9YiNNNNBMjM0cLSJW0nsmj6vip9P+4rrGipnx52lUwia4wEdYqoQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Z5y3LyJk; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=OiAw
+	NBD3dKXwDOjocssIYExCZyx30mK+FWFWYtwpASI=; b=Z5y3LyJkPEiFbPL36sUx
+	G/7j8jlfBZ7bG2GR7s0hzGe24kIgHzIYpphs/DznBuJG2eswpsQAXf2tWxn/JKbZ
+	/ib2/dmS973UK4G9UBr4S7ZNf08D2i8NGY6sdD1vX/PNYzbi92OmJDG6OyXR2zQo
+	eDjlwWDb4RiOq7/kG3yA95uZLzGWI2UYde2sTJlC6PbJYmfQHG/CVSgv2hErFaMq
+	xqzwqpVTlFNSXKfDCbOuyaXgSxa/+4F+s2IQlD3jtimH3wKixfeOZLJBdr6ycPLA
+	bjQHVNjmT8MEJZYRNzUiCKY+6Zk/Q5qyMrUJlhBpdO3phhWGTRBHE4WSgQLcnepg
+	CQ==
+Received: (qmail 1306307 invoked from network); 21 Jun 2024 10:56:22 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 Jun 2024 10:56:22 +0200
+X-UD-Smtp-Session: l3s3148p1@z+MEm2IbIpwgAwDPXzjQABqqX1QYyOSW
+Date: Fri, 21 Jun 2024 10:56:21 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Ulf Hansson <ulf.hansson@linaro.org>, Lee Jones <lee@kernel.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 2/2] mmc: tmio: Remove obsolete .set_pwr() callback()
+Message-ID: <ny3iwr6sgdvttpywtkgd5ek5ht4ofaezzufr67mxh57gjc2r3v@nj7xwvedtdbl>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Lee Jones <lee@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <cover.1718897545.git.geert+renesas@glider.be>
+ <fbbc13ddd19df2c40933ffa3b82fb14841bf1d4c.1718897545.git.geert+renesas@glider.be>
+ <dyhcjodncsmeufbsjbn2okj2wnjihohzzcoqfbmbxqjquc4hof@5lk7w6ihm56z>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/7] drm/panic: Fixes and graphical logo
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <cover.1718305355.git.geert+renesas@glider.be>
-Content-Language: en-US, fr
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <cover.1718305355.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="vhhlkhozwumzae7c"
+Content-Disposition: inline
+In-Reply-To: <dyhcjodncsmeufbsjbn2okj2wnjihohzzcoqfbmbxqjquc4hof@5lk7w6ihm56z>
 
-Hi,
 
-I want to push at least the first patch that is an important fix.
-But if there are no objections, I can push the whole series except patch 
-5 "drm/panic: Convert to drm_fb_clip_offset()" which causes some build 
-issue.
+--vhhlkhozwumzae7c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Best regards,
+On Thu, Jun 20, 2024 at 10:09:28PM GMT, Wolfram Sang wrote:
+> On Thu, Jun 20, 2024 at 05:39:46PM GMT, Geert Uytterhoeven wrote:
+> > Commit ca78476e4888f1f1 ("mfd: Remove toshiba tmio drivers") removed the
+> > last users of the .set_pwr() callback in the tmio_mmc_data structure.
+> > Remove the callback, and all related infrastructure.
+> >=20
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>=20
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
--- 
+Also:
 
-Jocelyn
+Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-On 13/06/2024 21:17, Geert Uytterhoeven wrote:
-> 	Hi all,
-> 
-> If drm/panic is enabled, a user-friendly message is shown on screen when
-> a kernel panic occurs, together with an ASCII art penguin logo.
-> Of course we can do better ;-)
-> Hence this patch series extends drm/panic to draw the monochrome
-> graphical boot logo, when available, preceded by the customary fixes.
-> 
-> Changes compared to v1:
->    - Rebase against today's drm-misc-next, where drm_panic is broken on
->      all current drivers due to an uninitialized pointer dereference.
->      Presumably this was only tested with an out-of-tree driver change?
->    - New fixes [1/7], [3/7], and [4/7],
->    - New cleanup [5/7],
->    - Inline trivial draw_logo_mono().
-> 
-> This has been tested with rcar-du.
-> 
-> Thanks for your comments!
-> 
-> Geert Uytterhoeven (7):
->    drm/panic: Fix uninitialized drm_scanout_buffer.set_pixel() crash
->    drm/panic: Fix off-by-one logo size checks
->    lib/fonts: Fix visiblity of SUN12x22 and TER16x32 if DRM_PANIC
->    drm/panic: Spelling s/formater/formatter/
->    drm/panic: Convert to drm_fb_clip_offset()
->    drm/panic: Rename logo to logo_ascii
->    drm/panic: Add support for drawing a monochrome graphical logo
-> 
->   drivers/gpu/drm/Kconfig     |  2 +-
->   drivers/gpu/drm/drm_panic.c | 74 +++++++++++++++++++++++++++++++------
->   drivers/video/logo/Kconfig  |  2 +
->   lib/fonts/Kconfig           |  6 ++-
->   4 files changed, 70 insertions(+), 14 deletions(-)
-> 
 
+--vhhlkhozwumzae7c
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZ1QDIACgkQFA3kzBSg
+KbYkfg/9Ey7egzKav3X54wCpYtd5bZ6+kwJzS+naDyKfMIQE9uYA+eaFl558AG5D
+NBP3/COXnjWnShRVGI73Q9IOPDRcA9BHHCqkLq7jvre6jQXNgPy2O9esae7GBB1m
+SlPg9EJSo/73bnu1wjEYZtxm1ONoXxYcnYohvx2wvsoc1GHmwCuShEiUfUT6D+n0
+NXjpzz5KjFQnkU7HRM3hgRoeoFWODszy6MtpcYXMUDE7zK+HbqgvTaweQx1mAm94
+ErN3lTXGNqFV1s5mLyWLlCvVf25SYJDhrNuUPuV9Zz2QfRKiVo/SexvvXPXqbDto
+DfdBl+ldNo102ImbLvN7L6Xb8TkDNkjg7bZazj1RSv2dMR/xCNPp9LQTMagqS8JI
+vTds5CnTMstJHvA26z58bZeJtxkUwUef9gR8zD1lja49cIqlJ8bI3g1bq/zUVrPY
+3wjpqwdUyIk6XJJ3P3j3P5M79kw8tTFrlYgDyvrIMYTiX2L2Ooio6JbtCw3ZtBvX
+zkOHgeeo/TNI5uqH4l7NB2hXbS8LGhGmIP4J14qKgeDAbCmQeE6jZ8J0/g1TGQjM
+LlTjmmgyOGL2STIZVyuYs+5IqPlVzV8gMHmtpffAbqYohRuSsXdytvaBuItkEKtJ
+lwzSJHFK1B2o9nGFHDpdQ1fISSt9x76Dacy8tm65W8TM9ZJrrAA=
+=qXBO
+-----END PGP SIGNATURE-----
+
+--vhhlkhozwumzae7c--
 
