@@ -1,198 +1,267 @@
-Return-Path: <linux-renesas-soc+bounces-6648-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6649-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD0F5912D3F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 20:36:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A50F912D7D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 20:48:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 626E028780E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 18:36:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EED9B282B0D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 18:48:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E75916A924;
-	Fri, 21 Jun 2024 18:35:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DC3216630B;
+	Fri, 21 Jun 2024 18:48:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fyadxZ0C"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ep4qjsFk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D35B48820;
-	Fri, 21 Jun 2024 18:35:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E550917B43E
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Jun 2024 18:48:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718994957; cv=none; b=KpuJov8ka8OV71HYXq5D5D9aLREFDfKlt7gwVxbfduTB9iMnESQmxsUohOlSA8XwPWcB3QbQBFPbVSmoHsmBx6W+zPjwy+oZTufUWXiUcn8+FgzQa2liL8SePrkFFVq8JsSFNgJrBy8rF/OYWPHq5yNhXm+jXRPfdx6QfEfz9U0=
+	t=1718995728; cv=none; b=OoC6ZfDZku+aVoI2dClz0wxDyGvPOf8Sia8hbHOFwED1TLCKd2j/b7qJbc120dIkRMHLC+FlmHlBwuOzH5/TjMRbePw9jmzEW7WQs4AKjZzbslINg/vgfMNWOhtQ6V8hB5F8gnMbusvqW4yb2SBMVc9ZZHT6otVh4O01ZOt6llk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718994957; c=relaxed/simple;
-	bh=QIyejG/zbZEcgR5J/ddiOry3kPPgnnTi3cpFLpIU+X0=;
+	s=arc-20240116; t=1718995728; c=relaxed/simple;
+	bh=OSlxMUbH1cjP63rf/i9A5OnYZ1MoT2re527p17lrMmg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=TLjeeYzqGTQGVeLvM1du7oWn6AXXoPaHg0nDkotvpHWSfK6WELza+c1ibPXeEuFFVWn9M1S49g7wjPHg7eO2N2rcSgNxXjdJXjyZEtXxXDKP+NCZ+Me6LOlSNnBDy1niObjcqYgC4zyNVcHyJZU8r/8OjhYnusEynKsnO8w7/6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fyadxZ0C; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-57d280e2d5dso1938605a12.1;
-        Fri, 21 Jun 2024 11:35:55 -0700 (PDT)
+	 To:Cc:Content-Type; b=FQfH7VHhIU8Xf9B4ssysKv1cWA7DWJog65eDYXt9Irr7uxjc4NT1/q8VaRMkiEFBqU+hIqXNjhaOydY4HwLA9yCFY8qTz2imXArDmEnyXnX66Tzbo8JErT3JxqJUDZt+sNU/HkKoiBv1ALTR3+GhLiB+51c52FO8tFxmbUIa6bU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ep4qjsFk; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-57d203d4682so2921202a12.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Jun 2024 11:48:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718994954; x=1719599754; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
+        d=google.com; s=20230601; t=1718995724; x=1719600524; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8ut3soxKE98hJxPx1BWoehHt/249jkHLzLfTJdtT/OE=;
-        b=fyadxZ0CIy+j+/8N2zZgG5rB8B6Rwjkf0wO3ina+jcr1lwFAa685g/qwy7rXsgoNuK
-         MrQgRJAVVx0HWgvtkvzCTAJzvLOSj3Hx/7hjgqPoxjULaUqPI+TtMECddhHZkx69dYt6
-         sYPOqCTC0uchO16PEOPrpp1vKjIzqSiaXTMqVl4g/hZHcV7/sU+oAjsVRkfzPS2oOWV6
-         x1Y8Jbhet3Eo2lhGE6rPytekD+5uFk6sMFSAgISfynqNiX0mASD4n2CuYqz4ziqGFdkU
-         LcU2DZqxtg9qlgBvgrWaT0SaT892xSNrTae08Eex8opp0oOG6/FgP4fSYsulWoIoS54f
-         0FRA==
+        bh=zlvzkk98R2AMG0Z6R+7nntNyc9a9ODPBi8r4EwCvbRQ=;
+        b=ep4qjsFklEFqpVJUKWocum5m/Io13lGRq4EdyZT2oV2jz2VRFNLFt8t0MBi0IBPJnr
+         jTAkMIfj2nMJb/FnGlSYVFbFSKkwzFxEsH401JxThJZJ4Q1OqDVTYTun8UGcgBg4BXLD
+         pDtpH/J7194OprEHFUy1tgWVSqfPoP9Qcw2wzPPgoS6znpxnWW2RYg3Ik481uFXByHur
+         8t1R8AucQu05yVQZxgfYqKr31+T+yw8tdIwe74GztkEsz3utwTPtu9muIve8NgwRtL9l
+         Wd4wCdN9Kn3pLEt0YBYb1lBp5zl9qLpVPm1rqI4Zhjhc4VMoBaxUKeleB9XZx9PLURO9
+         2QOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718994954; x=1719599754;
-        h=content-transfer-encoding:to:subject:message-id:date:from
+        d=1e100.net; s=20230601; t=1718995724; x=1719600524;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8ut3soxKE98hJxPx1BWoehHt/249jkHLzLfTJdtT/OE=;
-        b=VSqZV5VIlLhTo0kUZ9twImq7mM/DDw6s7+iv4bHQ2Au0phUSMLB9BAYHkYhIbpF6cQ
-         OHf8neeu/nIBNaLL8xvQH2+KIFTmSb/d4ZjkYfgEb7HtB/aviFvKAAP4Av8xtfQyhY12
-         sC2zJFCqlKJ8EAjKbmfsnv706n/Bxmx4vkQJC96aBb4wosytD1cCJ7RPCHvcQFDLjO+B
-         uK0p8Y5HhSU+7THStEmEqpkdycafSCsbIqIOb3Br+oMRmjG8P6VwbBG374WMzx8Z2BRb
-         ytlysZK38Be8DCcaKWf+fhDtWJ+oXuOFXdD3jhmB5zGyV2DrFv8RBFfYNQ3rMPe3LzcP
-         K5Pg==
-X-Forwarded-Encrypted: i=1; AJvYcCW9yzdVm/MyBl9CDvmAB00stD+0qCyHFKi56OBokjOPq/6uKLkQzkS3s5UEwjuwSGVKX6CO9jveIzgxm+YR0YlLvIGFdBtM0jJKclYTSpFhI4md4VEdCkZOcSGuVFrYU6CJVj7Rm+myJFMSZRLiFKTNezIF/9URZZsTWBUieyCBncPYpVehNikjHZgUbzvL+Bs3m7U8+WdyWdjVWS2qrSjLVSeubV5y
-X-Gm-Message-State: AOJu0YzMQLLnB2JppeBQGWE/u8Gf48PlqOPXpgMrrexbGg7EW6Qv2kWT
-	p9DUuxBDfaU95dxCfzSZ7AtZw+emiymKzOIF9SWajnP6fjOzshLehwpfBYG+IGCIN1wXJ62EBFm
-	qFzvMAv88IF1q3h6kXMiaXlUQFeY=
-X-Google-Smtp-Source: AGHT+IGeL1qr5IRUGzRkGEVvSh2+JLe463SKTjitYFVFbztu9r9oubLaI7KKXq2n4LWsmU35TDeIqBD0pgUebFFnfNc=
-X-Received: by 2002:a50:cd13:0:b0:57c:6afc:d2a9 with SMTP id
- 4fb4d7f45d1cf-57d07ed9449mr4999733a12.26.1718994953827; Fri, 21 Jun 2024
- 11:35:53 -0700 (PDT)
+        bh=zlvzkk98R2AMG0Z6R+7nntNyc9a9ODPBi8r4EwCvbRQ=;
+        b=d7cMu8cYTbX5TqXuEgshIKo+dk8zFbxaeiAfXBWNaJSPZRfQLTh1RkGt/TCX0RiDty
+         onYVRpTJWvsIPIjHAoN04VhqkoRYfrPLeQF+0UlYHeOHFUX5JcCXVnXZZI/g3kKabveu
+         Q+L434+jGpwGGy9Lhbko47yX2quG/rtefdMBs6Fim1p6shhY3fCPqUMPDFr0/7wEj6SG
+         cfbm8M4sehttlQxYpo4who/9U1YLoy6yG6VovGTU5HFQ3EQS+JmEvwKBscX/iVEuvnRc
+         W9hUcmqkCxXqQtGyd0N0gFICS+Q8GAEIkZO9pQmOTXpO6GeqKoLMjtmG1k21NydajQMJ
+         YcGA==
+X-Forwarded-Encrypted: i=1; AJvYcCXbkbpkdFhaWxo7uxXlWPjQyGk1WZ6xatYre6sVW9jjAfoVcPbOFOu+F+ODsqoSMoVAf8Knl3SMDWmp1fZa65N0/I703RoqjGmYa1ak+6cmQsI=
+X-Gm-Message-State: AOJu0Yza4fPB69gXw0kdbEPo25+hKaUHcegtNFU54y0V3rj4JSOwKZiJ
+	3Z6Byfx0VLaqmIs6jvtO9pFrFPHY9QQGVKh4eLK7rYPRBlLrjYPeE6uKcVVLGdHLX897n7jXAkN
+	EwtA/5JcwEHikDLhlNNgiRYcWTrBP46VZjZiS
+X-Google-Smtp-Source: AGHT+IFB0A55nMGApv5jFWmOQotPDfRzqqPIQ74RIyN5NL9KIVshccHHA4pJlBegEvYv4fDuzVclwWQ3R4BpwgBCJ4w=
+X-Received: by 2002:a17:907:a644:b0:a6f:b60c:2c08 with SMTP id
+ a640c23a62f3a-a6fb60c2f79mr565339266b.24.1718995723769; Fri, 21 Jun 2024
+ 11:48:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240618225210.825290-1-allen.lkml@gmail.com> <gw6adkoy3ndjdjufti2gs2gnk3xdgylt6tnia2zha76hsgdwtq@dr3czbxjij66>
- <CAOMdWS+p4Dt2xDGWvwoXtWinsRZintLwPmADddbsmaEfLvRQkw@mail.gmail.com>
-In-Reply-To: <CAOMdWS+p4Dt2xDGWvwoXtWinsRZintLwPmADddbsmaEfLvRQkw@mail.gmail.com>
-From: Allen <allen.lkml@gmail.com>
-Date: Fri, 21 Jun 2024 11:35:40 -0700
-Message-ID: <CAOMdWSLfZyoM-_7EV5f1QPKmCM3M2Pkw=zHhVQb4ULnb9B5aZg@mail.gmail.com>
-Subject: Re: [PATCH v3] mmc: Convert from tasklet to BH workqueue
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, Allen Pais <allen.lkml@gmail.com>, 
-	Aubin Constans <aubin.constans@microchip.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Manuel Lauss <manuel.lauss@gmail.com>, =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>, 
-	Jaehoon Chung <jh80.chung@samsung.com>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
-	Adrian Hunter <adrian.hunter@intel.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Alex Dubov <oakad@yahoo.com>, 
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Bruce Chang <brucechang@via.com.tw>, Harald Welte <HaraldWelte@viatech.com>, 
-	Pierre Ossman <pierre@ossman.eu>, Christian Loehle <christian.loehle@arm.com>, linux-mmc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20240613013557.1169171-1-almasrymina@google.com>
+ <20240613013557.1169171-7-almasrymina@google.com> <439590d4-0f05-4f5e-80ec-e7fdf214e307@gmail.com>
+In-Reply-To: <439590d4-0f05-4f5e-80ec-e7fdf214e307@gmail.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Fri, 21 Jun 2024 11:48:30 -0700
+Message-ID: <CAHS8izNr4x6SW0oY_VJDPZOsrBQEAyJO1qVJQbu8VNJQMtX9Sg@mail.gmail.com>
+Subject: Re: [PATCH net-next v12 06/13] page_pool: devmem support
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, linux-mm@kvack.org, 
+	Matthew Wilcox <willy@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-> > > The only generic interface to execute asynchronously in the BH contex=
-t is
-> > > tasklet; however, it's marked deprecated and has some design flaws. T=
-o
-> > > replace tasklets, BH workqueue support was recently added. A BH workq=
-ueue
-> > > behaves similarly to regular workqueues except that the queued work i=
-tems
-> > > are executed in the BH context.
-> > >
-> > > This patch converts drivers/mmc/* from tasklet to BH workqueue.
-> > >
-> > > Based on the work done by Tejun Heo <tj@kernel.org>
+On Mon, Jun 17, 2024 at 7:17=E2=80=AFAM Pavel Begunkov <asml.silence@gmail.=
+com> wrote:
+>
+> On 6/13/24 02:35, Mina Almasry wrote:
+> > Convert netmem to be a union of struct page and struct netmem. Overload
+> > the LSB of struct netmem* to indicate that it's a net_iov, otherwise
+> > it's a page.
 > >
-> > Has this been fully build-tested?
+> > Currently these entries in struct page are rented by the page_pool and
+> > used exclusively by the net stack:
 > >
-> > =3D=3D=3D
-> > drivers/mmc/host/renesas_sdhi_internal_dmac.c: In function =E2=80=98ren=
-esas_sdhi_internal_dmac_complete_work_fn=E2=80=99:
-> > ./include/linux/container_of.h:20:54: error: =E2=80=98struct tmio_mmc_h=
-ost=E2=80=99 has no member named =E2=80=98dma_complete=E2=80=99
-> > =3D=3D=3D
->
->  Yes, it does break. My bad, my local compile testing failed to catch thi=
-s.
->
+> > struct {
+> >       unsigned long pp_magic;
+> >       struct page_pool *pp;
+> >       unsigned long _pp_mapping_pad;
+> >       unsigned long dma_addr;
+> >       atomic_long_t pp_ref_count;
+> > };
 > >
-> > In deed, 'dma_complete' is only in 'struct renesas_sdhi_dma'. From
-> > there, we can get to the parent 'struct renesas_sdhi' using
-> > container_of. But then, I don't see a way to go to 'struct
-> > tmio_mmc_host' from there. The other way around is possible because
-> > there is the pointer 'struct tmio_mmc_data *pdata' in the TMIO struct
-> > pointing to the data contained in 'struct renesas_sdhi'. 'host_to_priv(=
-)'
-> > does the math. But I don't see a path the other way around.
+> > Mirror these (and only these) entries into struct net_iov and implement
+> > netmem helpers that can access these common fields regardless of
+> > whether the underlying type is page or net_iov.
 > >
->
->  I have been looking at this code since the issue was reported. Yes it
-> is a bit tricky and so far, the only way I found was to introduce a new p=
-ointer.
-> But, I am not very familiar with the code and have asked Ulf for pointers=
-.
->
-> If introducing the pointer is the only way forward and is an
-> acceptable solution,
-> I can send out a draft.
->
-> Thanks,
-> Allen
->
-> > So, it doesn't look like the workqueue interface can provide a
-> > generic pointer like tasklets could do? This means we have to add a
-> > pointer from 'struct renesas_sdhi' to 'struct tmio_mmc_host'?
+> > Implement checks for net_iov in netmem helpers which delegate to mm
+> > APIs, to ensure net_iov are never passed to the mm stack.
 > >
+> > Signed-off-by: Mina Almasry <almasrymina@google.com>
+>
+> Apart from small comments below
+>
+> Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
+>
+>
+> > ---
+> >   include/net/netmem.h            | 137 ++++++++++++++++++++++++++++++-=
+-
+> >   include/net/page_pool/helpers.h |  25 +++---
+> >   net/core/devmem.c               |   3 +
+> >   net/core/page_pool.c            |  26 +++---
+> >   net/core/skbuff.c               |  22 +++--
+> >   5 files changed, 168 insertions(+), 45 deletions(-)
+> >
+> > diff --git a/include/net/netmem.h b/include/net/netmem.h
+> > index 664df8325ece5..35ad237fdf29e 100644
+> > --- a/include/net/netmem.h
+> > +++ b/include/net/netmem.h
+> ...
+> > -/* Converting from page to netmem is always safe, because a page can a=
+lways be
+> > - * a netmem.
+> > - */
+> >   static inline netmem_ref page_to_netmem(struct page *page)
+> >   {
+> >       return (__force netmem_ref)page;
+> > @@ -68,17 +107,103 @@ static inline netmem_ref page_to_netmem(struct pa=
+ge *page)
+> >
+> >   static inline int netmem_ref_count(netmem_ref netmem)
+> >   {
+> > +     /* The non-pp refcount of net_iov is always 1. On net_iov, we onl=
+y
+> > +      * support pp refcounting which uses the pp_ref_count field.
+> > +      */
+> > +     if (netmem_is_net_iov(netmem))
+> > +             return 1;
+> > +
+> >       return page_ref_count(netmem_to_page(netmem));
+> >   }
+> >
+> >   static inline unsigned long netmem_to_pfn(netmem_ref netmem)
+> >   {
+> > +     if (netmem_is_net_iov(netmem))
+> > +             return 0;
+>
+> IIRC 0 is a valid pfn. Not much of a concern since it's
+> used only for tracing, but might make sense to pass some
+> invalid pfn if there is one
+>
+
+AFAIU all non-negative pfns are technically valid pfns if the machine
+is big enough.
+
+I could have this function return long long instead of unsigned long
+so I can return a negative number for errors, and then cast to
+unsigned long when I figure out it's actually a pfn. Seemed like such
+a hassle especially since the call site is just tracing that I figured
+it's not that worth it.
+
+> > +
+> >       return page_to_pfn(netmem_to_page(netmem));
+> >   }
+> >
+> ...
+> >   static inline netmem_ref netmem_compound_head(netmem_ref netmem)
+> >   {
+> > +     /* niov are never compounded */
+> > +     if (netmem_is_net_iov(netmem))
+> > +             return netmem;
+> > +
+> >       return page_to_netmem(compound_head(netmem_to_page(netmem)));
+> >   }
+> >
+> > +static inline void *netmem_address(netmem_ref netmem)
+>
+> I don't think it's used anywhere, do I miss it?
+>
+
+Ah, It's used by the GVE devmem implementation:
+https://github.com/mina/linux/commit/da89baa81873d457cbf7b49ee6b4f0d66855b2=
+05
+
+I could leave it out of this patch, then add it with the follow up GVE
+devmem implementation, but I figured almost for sure drivers are going
+to need this eventually, and it's small, so just put it here.
+
+> > +{
+> > +     if (netmem_is_net_iov(netmem))
+> > +             return NULL;
+> > +
+> > +     return page_address(netmem_to_page(netmem));
+> > +}
+> > +
+> ...
+> > diff --git a/net/core/page_pool.c b/net/core/page_pool.c
+> > index a5957d3359762..1152e3547795a 100644
+> > --- a/net/core/page_pool.c
+> > +++ b/net/core/page_pool.c
+> > @@ -26,6 +26,8 @@
+> ...
+> >
+> >   /* If the page refcnt =3D=3D 1, this will try to recycle the page.
+> > @@ -714,7 +713,7 @@ __page_pool_put_page(struct page_pool *pool, netmem=
+_ref netmem,
+> >        * refcnt =3D=3D 1 means page_pool owns page, and can recycle it.
+> >        *
+> >        * page is NOT reusable when allocated when system is under
+> > -      * some pressure. (page_is_pfmemalloc)
+> > +      * some pressure. (page_pool_page_is_pfmemalloc)
+>
+> There is no page_pool_page_is_pfmemalloc()
+>
+
+Thanks done. I implemented most of your other comments on all the
+patches btw. I'm only responding to the ones I didn't apply for
+various reasons. Thanks for the review!
 
 
-How about the following?
-
-diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-index 5fd276492f80..9a63b78837e2 100644
---- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-+++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-@@ -484,9 +484,14 @@ static bool
-renesas_sdhi_internal_dmac_complete(struct tmio_mmc_host *host)
-        return true;
- }
-
--static void renesas_sdhi_internal_dmac_complete_work_fn(struct work_struct=
- *t)
-+static void renesas_sdhi_internal_dmac_complete_work_fn(struct
-work_struct *work)
- {
--       struct tmio_mmc_host *host =3D from_work(host, t, dma_complete);
-+       struct renesas_sdhi_dma *dma_priv =3D container_of(work,
-+                                                        struct
-renesas_sdhi_dma,
-+                                                        dma_complete);
-+       struct renesas_sdhi *sdhi =3D container_of(dma_priv,
-+                                                struct renesas_sdhi, dma_p=
-riv);
-+       struct tmio_mmc_host *host =3D sdhi->mmc_data->host;
-
-        spin_lock_irq(&host->lock);
-        if (!renesas_sdhi_internal_dmac_complete(host))
-diff --git a/include/linux/mfd/tmio.h b/include/linux/mfd/tmio.h
-index eace8ea6cda0..cf2cca0e96b5 100644
---- a/include/linux/mfd/tmio.h
-+++ b/include/linux/mfd/tmio.h
-@@ -100,6 +100,7 @@ struct tmio_mmc_data {
-        dma_addr_t                      dma_rx_offset;
-        unsigned int                    max_blk_count;
-        unsigned short                  max_segs;
-+       struct tmio_mmc_host            *host;          /* back
-pointer to the parent struct */
-        void (*set_pwr)(struct platform_device *host, int state);
-        void (*set_clk_div)(struct platform_device *host, int state);
- };
-
-Thanks.
+--=20
+Thanks,
+Mina
 
