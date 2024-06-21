@@ -1,118 +1,91 @@
-Return-Path: <linux-renesas-soc+bounces-6603-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6604-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33E339121AA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 12:09:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BC4C912233
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 12:21:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 96188B221E2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 10:09:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CB4B01F2518E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 10:21:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92A8517623D;
-	Fri, 21 Jun 2024 10:06:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD298171646;
+	Fri, 21 Jun 2024 10:18:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="cM9kENpH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D471E171647;
-	Fri, 21 Jun 2024 10:06:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 994CB171643
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Jun 2024 10:18:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718964407; cv=none; b=taH8So7m0qrNfqPzewpQ4EHwBeLwWwHmQfDtCxim91Sr3fq3q8cdQhonn7ytSQAqFO4aktLU/2c0BPEojHSmr0wqU8Lq7RCExum3lacKE/5Qrc3n1no825Fv+sNrf7svpQU2mYwmnwYCh8FYM1mWEYXdi6IXF7K/jBShNar1Za8=
+	t=1718965137; cv=none; b=Q7C0uGDn4J0FCL7wpnQr54r5Xu9Ta1V/E9gPLjn0ctdUHMrc8LytvQEqDf3982EaFbbRvAcZRGGEQeTvfTc54zCgq/t0LoXKxMjQuKmcWoDhmHk9ke2gBLKIcPlu5k2VxCHcYXVFM6w2PRFP7GLyv3fnFFtGObz8LYL3MlSXV9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718964407; c=relaxed/simple;
-	bh=7ZwF/4gCp2xy/o3OBICgLWHzRyeKJlkv5mp8YDCLCR0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=bBuV7mP2vzuxkQms0BKKWwLkVXghKvTzWeJW+y1tUwCptqBXJeTCFbZZ7LGjSgOi67HCvDzGXNGlfXq0XQgZN6BjVRhOmwQe9kFa7uL6jfM76xC88JauXQJJVjQNXVtjvmgBMNKHbIz4Moh57YKVO1wmf2DqcMfec9SRCYcQf4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B321FDA7;
-	Fri, 21 Jun 2024 03:07:08 -0700 (PDT)
-Received: from [10.57.42.30] (unknown [10.57.42.30])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1B7CF3F6A8;
-	Fri, 21 Jun 2024 03:06:39 -0700 (PDT)
-Message-ID: <fc2b8a80-373a-4049-bdaf-9970a1c1f651@arm.com>
-Date: Fri, 21 Jun 2024 11:06:37 +0100
+	s=arc-20240116; t=1718965137; c=relaxed/simple;
+	bh=v7B3FQx/L8kciW2YsYAf+HsLQNTzK8QzBbTZt/CR7T0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QBxacDT4srWoHMRO6ir1mXCP8DUUbEfFWz1moXbeRjQYPZCZ8Ynu0+Rhh7EKLmWFoXZPC7J3LYNMMxQuUyn5O434VHRwspecfze3Z/KrgD8Ne2s7RAXIT42jbOycPnHf2v/79UX5pKsOTT6YZT7HKMxgPNaWzPCnYVtpmW8LTbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=cM9kENpH; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=Gvm33rBWWy5Xb1
+	ABd1blAuTcsxxZ6b8ZgLTycZKd5q4=; b=cM9kENpHFDJ/v/hMxH8kCsmyAS+YA6
+	ZUJTGBx9RCL5kc2NrAUTe97jDLk26NkNiOurcluo+babDn/duT8qvwL7kTSQYNL2
+	0eCXQRsHn/tImejD8g7RauR5s9Dy6PhpCSdYTRYUgcJ9KkgsF1Dxf5DH1mzHpFN6
+	Ct9Q+zTCODICNfgl+xtjY088hyI4vgwc2l6q8bU6S/s3qGzJKVUE294qcnQSjaiK
+	+LDfDCuXbOBnNqCDJ41/QjhHBRk3gRywAxRsB2GjDKAZvXhMN+za8iC4xaxcG0b+
+	hYvwW8LH1ya+RRn3L09yDjIco8t6uP4CcFyymAxl1NfhS+hrxqqT3pUg==
+Received: (qmail 1333463 invoked from network); 21 Jun 2024 12:18:49 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 Jun 2024 12:18:49 +0200
+X-UD-Smtp-Session: l3s3148p1@M9XpwWMbxoYgAwDPXzjQABqqX1QYyOSW
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: linux-mmc@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] MAINTAINERS: drop entry for VIA SD/MMC controller
+Date: Fri, 21 Jun 2024 12:18:34 +0200
+Message-ID: <20240621101833.24703-2-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] mmc: Convert from tasklet to BH workqueue
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Allen Pais <allen.lkml@gmail.com>,
- Aubin Constans <aubin.constans@microchip.com>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Manuel Lauss <manuel.lauss@gmail.com>,
- =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
- Jaehoon Chung <jh80.chung@samsung.com>, Aaro Koskinen
- <aaro.koskinen@iki.fi>, Adrian Hunter <adrian.hunter@intel.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
- <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Alex Dubov <oakad@yahoo.com>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Masami Hiramatsu <mhiramat@kernel.org>, Bruce Chang <brucechang@via.com.tw>,
- Harald Welte <HaraldWelte@viatech.com>, Pierre Ossman <pierre@ossman.eu>,
- linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-References: <20240618225210.825290-1-allen.lkml@gmail.com>
- <gw6adkoy3ndjdjufti2gs2gnk3xdgylt6tnia2zha76hsgdwtq@dr3czbxjij66>
-Content-Language: en-US
-From: Christian Loehle <christian.loehle@arm.com>
-In-Reply-To: <gw6adkoy3ndjdjufti2gs2gnk3xdgylt6tnia2zha76hsgdwtq@dr3czbxjij66>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 6/21/24 10:53, Wolfram Sang wrote:
-> Hi,
-> 
-> On Tue, Jun 18, 2024 at 03:52:07PM GMT, Allen Pais wrote:
->> The only generic interface to execute asynchronously in the BH context is
->> tasklet; however, it's marked deprecated and has some design flaws. To
->> replace tasklets, BH workqueue support was recently added. A BH workqueue
->> behaves similarly to regular workqueues except that the queued work items
->> are executed in the BH context.
->>
->> This patch converts drivers/mmc/* from tasklet to BH workqueue.
->>
->> Based on the work done by Tejun Heo <tj@kernel.org>
-> 
-> Has this been fully build-tested?
+EMail addresses of both maintainers bounce. Since there have been only
+cleanups for the last 10 years, let it fall back to the default MMC
+entry.
 
-Obviously not, FWIW I noted this on v1:
-https://lore.kernel.org/linux-mmc/9c31b697-3d80-407a-82b3-cfbb19fafb31@arm.com/
-But hadn't looked at the patch since then, sorry.
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ MAINTAINERS | 6 ------
+ 1 file changed, 6 deletions(-)
 
-> 
-> ===
-> drivers/mmc/host/renesas_sdhi_internal_dmac.c: In function ‘renesas_sdhi_internal_dmac_complete_work_fn’:
-> ./include/linux/container_of.h:20:54: error: ‘struct tmio_mmc_host’ has no member named ‘dma_complete’
-> ===
-> 
-> In deed, 'dma_complete' is only in 'struct renesas_sdhi_dma'. From
-> there, we can get to the parent 'struct renesas_sdhi' using
-> container_of. But then, I don't see a way to go to 'struct
-> tmio_mmc_host' from there. The other way around is possible because
-> there is the pointer 'struct tmio_mmc_data *pdata' in the TMIO struct
-> pointing to the data contained in 'struct renesas_sdhi'. 'host_to_priv()'
-> does the math. But I don't see a path the other way around.
-> 
-> So, it doesn't look like the workqueue interface can provide a
-> generic pointer like tasklets could do? This means we have to add a
-> pointer from 'struct renesas_sdhi' to 'struct tmio_mmc_host'?
-> 
-> All the best,
-> 
->    Wolfram
-> 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cf9c9221c388..5ef1e83e0fd7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -23645,12 +23645,6 @@ M:	Kevin Brace <kevinbrace@bracecomputerlab.com>
+ S:	Maintained
+ F:	drivers/net/ethernet/via/via-rhine.c
+ 
+-VIA SD/MMC CARD CONTROLLER DRIVER
+-M:	Bruce Chang <brucechang@via.com.tw>
+-M:	Harald Welte <HaraldWelte@viatech.com>
+-S:	Maintained
+-F:	drivers/mmc/host/via-sdmmc.c
+-
+ VIA UNICHROME(PRO)/CHROME9 FRAMEBUFFER DRIVER
+ M:	Florian Tobias Schandinat <FlorianSchandinat@gmx.de>
+ L:	linux-fbdev@vger.kernel.org
+-- 
+2.43.0
 
 
