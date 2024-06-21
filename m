@@ -1,117 +1,262 @@
-Return-Path: <linux-renesas-soc+bounces-6650-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6651-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7E1E912DFC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 21:38:54 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FB1D912E87
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 22:32:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0D2CE1C21C6B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 19:38:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C7458287D53
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 20:32:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C70D517C7DF;
-	Fri, 21 Jun 2024 19:37:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5F8017BB15;
+	Fri, 21 Jun 2024 20:31:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="a1aBUw0V"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A6DA17C7D0;
-	Fri, 21 Jun 2024 19:37:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D05E17BB06
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Jun 2024 20:31:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718998668; cv=none; b=uoLujswBTru3z/WNKt/6lqqZUuTIrCpQ3oazKzuqExTsT+3LwtxdLNotF9Nd0CFw0lMwOSLuuhKVwvD7NaOhZLMbfEP8Zor03awLQXSac4YoB+oHaPE7ZmlBSpcJW3QYycSu32IgPXUfkIPErZje5DB9LtbSQKvbJ1RxdvG+xWg=
+	t=1719001907; cv=none; b=BbnRioSxNByikHUvesQnuNT7pWNtp1WDrbATl438U0X6+n013mR/XAiOKp1K7tSjrYOxbN2rQXIx2GWxA2X3+D14wRW09RXDZTObQTLpDQ51NYmz06Kd/bcNr/pfIFORjXNRyxO8q0tfwMccNTBVSgZYXsN7qoIpP4K+eeNQ7F8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718998668; c=relaxed/simple;
-	bh=Z6XDvtd/xm4xSg8Kzfwtsmbr9qvvXnf1QYMN9sGi2k0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O3I8zIHqOtzkW3Zz1foPfRFHETafmXtVRcRH5thYVtFMqpG/0PA52+74eTQNAju/PrLWqjrml5AzYuFV/6Wp/5baTRnm5pne9zzG3IMIHakZPzWRtZlJwP0Q45bv4lnCSaklThFSyfAzxxxinBU67/ntGZuKP1xOiipJqHTY//I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-37613975e20so8888245ab.2;
-        Fri, 21 Jun 2024 12:37:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718998666; x=1719603466;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+	s=arc-20240116; t=1719001907; c=relaxed/simple;
+	bh=J/WeQifhAeBIIgjlkHp6YVizjCJ078ih4ojm5iVrUNI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bgl5UnAawW7MGqFdas8QcskLcIcnP64FzrmTjIoqYUkZ0Tymr87S1vfcyBIMoFqZAVYzM2PtTtB9IX7NHD5Q54pSaHo1Z3P3LK0Gk/znvvkxsKs6cVAvOgHkI+RpWm3M/1kwiHj/jtkPKM0Sjex1BtOqyO6NSoFb+tMlle8kIRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=a1aBUw0V; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a63359aaacaso358852066b.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Jun 2024 13:31:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1719001904; x=1719606704; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sXQhvL9a6CYV2VK3wKh6O5gxH2nHkFbrE11g//vArPo=;
-        b=KPHaaBT1LMxQLIT4qrJNsjC+lg8V94zRvKp9SWweVsgJAc2bk1mqTe56NOpi+nBi8V
-         ASUVXmFspc1vbid9akyRDEkgw7nS3BW7XL6/FmVEXWgjVzqdkcNC/6nOcPd749CWAzZX
-         Zrv2F63MpyNCR4GQxu95fpGlJPGEssKBbnqQb7EpVHDdmjhIN5YmD8VSIaK7k1sCRBMf
-         +zqk/ZlzPd2bIPa120aZ+3FJ3rOHMcnCPhSxyFOLD1eJ79tAl7k9qDEc6hmx57hDHmWj
-         7g6LOEKwTuf3ExBdzpVOJbF2BUTQ5KQM94SmEC6zDUkMNQ2rtd8z9V/Ykr/5Spgt7Eib
-         Myyg==
-X-Forwarded-Encrypted: i=1; AJvYcCWlQBCeRa+f/1GAeABhmRcCkdLoTk3InGb2ixDCRhf6qjVg5UX2LTQyl9nZAva7Dba0icKNZtmRvPB/1IoL6Vrp2bVm+qx4sTB841Wo25K1D9ryYIf7CPC6AFRazTFCLHA3boHa6bJxoGBec0VvTEobTCubDrxGY3MQK7SlzPjp++QGGeCLARs50ARsx7RyyslI5YKVJb0YvqqNf0V05//o7AKsYw2YXrFF3Yglutd558upLGkXiHXeqFTw5oGOp8pxE85ZWgjFD5liEMBWySfUGpLadxsEe0EXNuQVeMqV7fQ9
-X-Gm-Message-State: AOJu0Yy4m+4WgmgVHw3UiKJ/+/RFiKwqlB555k/jJG3S0Xs9OY5Es944
-	re6wSH8+1MsxZTXCUt9UoPGZCSu+YJkfoA1yCgEIN80Pd4JRr+va
-X-Google-Smtp-Source: AGHT+IGlUL9QwPxUHX7nV3tXeYRMDnq/je2PsJ3NCGAtSFvVXOze8EobQXpZtTE4zHujIy0ctpA41A==
-X-Received: by 2002:a05:6e02:1c85:b0:375:a185:f00f with SMTP id e9e14a558f8ab-3761d709758mr109157335ab.22.1718998666403;
-        Fri, 21 Jun 2024 12:37:46 -0700 (PDT)
-Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-716b3ee8c95sm1492640a12.31.2024.06.21.12.37.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Jun 2024 12:37:45 -0700 (PDT)
-Date: Sat, 22 Jun 2024 04:37:44 +0900
-From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: Vignesh Raghavendra <vigneshr@ti.com>,
-	Siddharth Vadapalli <s-vadapalli@ti.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Richard Zhu <hongxing.zhu@nxp.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Minghuan Lian <minghuan.Lian@nxp.com>,
-	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
-	Jesper Nilsson <jesper.nilsson@axis.com>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Srikanth Thokala <srikanth.thokala@intel.com>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	linux-omap@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-arm-kernel@axis.com, linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-	mhi@lists.linux.dev, Niklas Cassel <cassel@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>
-Subject: Re: [PATCH 0/5] PCI: endpoint: Add EPC 'deinit' event and
- dw_pcie_ep_linkdown() API
-Message-ID: <20240621193744.GA3008482@rocinante>
-References: <20240606-pci-deinit-v1-0-4395534520dc@linaro.org>
- <20240610065324.GA7660@thinkpad>
+        bh=CnCN0NXOSNtwy42IdVdysfTTD5ti/ff9XMDOhhfiLx4=;
+        b=a1aBUw0VkzZ3oSHlCqDR+ATOXDYi+sX+izSgTyOwlIGSfvtoki8ooXg63v6L0Z3SBf
+         KiyzZ1pJvQ1WWzksNTFwyyeoqTssrN8S10fKlK5s9S/d//Xvdx2XwzEhza32lsyerNAI
+         rrRvIQQqKXdtV/r5lndW2K+6e9aaYnNAPI/MpYaRwcXuVF5DzUOzTrBFgxEDNxedSwyv
+         BDdLcthc9hfrnKRIXR37CCa55VW1UJHSxCushckLKFvJozqRZelHSsccnM0cLejLlUU3
+         IKIynf0IwbAzXqvQqepVmjQ/q13kNtP0V4e9VpvIE+GxavHiACiAIZqmCNhoB7dnJzlU
+         DDtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719001904; x=1719606704;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CnCN0NXOSNtwy42IdVdysfTTD5ti/ff9XMDOhhfiLx4=;
+        b=pPAzyWnwh8K5G2+yudZOKpShc+nYBDrLByqBmHcqsh6ShfXXBvQH78ZhnbMxvfW5ln
+         qAQGYmVVV5ygvIkvbXPVdQTVk/QQsuVG5mYxoo+KEr47VmkxnVaPFkVetnWlU6SEMfH3
+         vb5+/yhHDsCo6R2cHXgL/m3Zd0s0labAp/JKc/B57BEGvJfSL7waPmKKS2DVH0iVsd3A
+         puFDNRSxi2+2dfZ4gf0NctzeiMPoeLpG7x/4oaZeBLtUOlrjpHXwtSe3ABP2/wGExMVb
+         2ygK9ZD/vZjCUCB0VTT4mGGhq7uBU5SCJTmYVZKetYJ3xaiVNr0Og1WXFm2zfTrrwiwP
+         ierA==
+X-Forwarded-Encrypted: i=1; AJvYcCWsZ0v4Mu0WsEp3Vp9SpNfJYwwCKRtOblIajuszzkMCdZvxnhJSg/CzHh1w8oN6RZfszZo8ffkfyjNoCwPme7JHMbbZ9ABneuYljU0pxkHTM7A=
+X-Gm-Message-State: AOJu0YzFAHvv37nUIGEC5pOlAWrmBY+LrrPrytpnFksUtANbvAkn66/+
+	IXUIRhS2fJap3YNLJKLIYWseuvlkRW7vJvpof9N6bgMWCFDqyE3yUEWxv8REBF9ww4zsVz19l/7
+	8IHB1IGWBv4vInFi8NLSuvUX2RL2EDuHgvYb5
+X-Google-Smtp-Source: AGHT+IH800HqMIWMw3Gfm64r6WN21nh+bezjnNGagk7G9R1DzDSpY7p4WYQEQWPwKzYCAyy4hb9MTRJUxXOTUM+VMbg=
+X-Received: by 2002:a17:906:f349:b0:a6f:49eb:31a5 with SMTP id
+ a640c23a62f3a-a6fab7d0b64mr465681666b.77.1719001903259; Fri, 21 Jun 2024
+ 13:31:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240610065324.GA7660@thinkpad>
+References: <20240613013557.1169171-1-almasrymina@google.com>
+ <20240613013557.1169171-11-almasrymina@google.com> <20a6a727-d9f2-495c-bf75-72c27740dd82@gmail.com>
+In-Reply-To: <20a6a727-d9f2-495c-bf75-72c27740dd82@gmail.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Fri, 21 Jun 2024 13:31:29 -0700
+Message-ID: <CAHS8izMce36FwLhFB0znHQYmxpe5hmTSXtZA7+b5VsmSJUfhRw@mail.gmail.com>
+Subject: Re: [PATCH net-next v12 10/13] tcp: RX path for devmem TCP
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, 
+	Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Mon, Jun 17, 2024 at 9:36=E2=80=AFAM Pavel Begunkov <asml.silence@gmail.=
+com> wrote:
+>
+> On 6/13/24 02:35, Mina Almasry wrote:
+> >
+> > The pages awaiting freeing are stored in the newly added
+> > sk->sk_user_frags, and each page passed to userspace is get_page()'d.
+> > This reference is dropped once the userspace indicates that it is
+> > done reading this page.  All pages are released when the socket is
+> > destroyed.
+>
+> One small concern is that if the pool gets destroyed (i.e.
+> page_pool_destroy) before sockets holding netiov, page pool will
+> semi-busily poll until the sockets die or such and will spam with
+> pr_warn(). E.g. when a user drops the nl but leaks data sockets
+> and continues with its userspace business. You can probably do
+> it in a loop and create dozens of such pending
+> page_pool_release_retry().
+>
 
-> Applied patch 2/5 to pci/endpoint! Krzysztof, please apply patches 1/5 and 5/5
-> to controller/dwc (patches 3/5 and 4/5 are already applied by you).
+Yes, true, but this is not really an issue with netiovs per se, it's a
+quirk with the page_pool in general. If a non-devmem page_pool is
+destroyed while there are pages waiting in the receive queues to be
+recvmsg'd, the behavior you described happens anyway AFAIU.
 
-Applied to controller/dwc, thank you!
+Jakub did some work to improve this. IIRC he disabled the regular
+warning and he reparents the orphan page_pools so they appear in the
+stats of his netlink API.
 
-[01/02] PCI: dwc: ep: Remove dw_pcie_ep_init_notify() wrapper
-        https://git.kernel.org/pci/pci/c/9eba2f70362f
+Since this is behavior already applying to pages, I did not seek to
+improve it as I add devmem support, I just retain it. We could improve
+it in a separate patchset, but I do not see this behavior as a
+critical issue really, especially since the alarming pr_warn has been
+removed.
 
-[02/02] PCI: layerscape-ep: Use the generic dw_pcie_ep_linkdown() API to handle Link Down event
-        https://git.kernel.org/pci/pci/c/14638af66309
+> > +static int tcp_xa_pool_refill(struct sock *sk, struct tcp_xa_pool *p,
+> > +                           unsigned int max_frags)
+> > +{
+> > +     int err, k;
+> > +
+> > +     if (p->idx < p->max)
+> > +             return 0;
+> > +
+> > +     xa_lock_bh(&sk->sk_user_frags);
+> > +
+> > +     tcp_xa_pool_commit_locked(sk, p);
+> > +
+> > +     for (k =3D 0; k < max_frags; k++) {
+> > +             err =3D __xa_alloc(&sk->sk_user_frags, &p->tokens[k],
+> > +                              XA_ZERO_ENTRY, xa_limit_31b, GFP_KERNEL)=
+;
+> > +             if (err)
+> > +                     break;
+> > +     }
+> > +
+> > +     xa_unlock_bh(&sk->sk_user_frags);
+> > +
+> > +     p->max =3D k;
+> > +     p->idx =3D 0;
+> > +     return k ? 0 : err;
+> > +}
+>
+> Personally, I'd prefer this optimisation to be in a separate patch,
+> especially since there is some degree of hackiness to it.
+>
+>
 
-	Krzysztof
+To be honest this optimization is very necessary from my POV. We ran
+into real production problems due to the excessive locking when we use
+regular xa_alloc(), and Eric implemented this optimization to resolve
+that. I simply squashed the optimization for this upstream series.
+
+If absolutely necessary I can refactor it into a separate patch or
+carry the optimization locally, but this seems like a problem everyone
+looking to use devmem TCP will re-discover, so probably worth just
+having here?
+
+> > +             /* if remaining_len is not satisfied yet, we need to go t=
+o the
+> > +              * next frag in the frag_list to satisfy remaining_len.
+> > +              */
+> > +             skb =3D skb_shinfo(skb)->frag_list ?: skb->next;
+> > +
+> > +             offset =3D offset - start;
+>
+> It's an offset into the current skb, isn't it? Wouldn't
+> offset =3D 0; be less confusing?
+>
+
+Seems so, AFAICT. Let me try to apply this and see if it trips up any tests=
+.
+
+> > +     } while (skb);
+> > +
+> > +     if (remaining_len) {
+> > +             err =3D -EFAULT;
+> > +             goto out;
+> > +     }
+>
+> Having data left is not a fault,
+
+I think it is. The caller of tcp_recvmsg_dmabuf() expects all of
+remaining_len to be used up, otherwise it messes up with the math in
+the caller. __skb_datagram_iter(), which is the equivalent to this one
+for pages, regards having left over data as a fault and also returns
+-EFAULT, AFAICT.
+
+> and to get here you
+> need to get an skb with no data left, which shouldn't
+> happen. Seems like everything you need is covered by
+> the "!sent" check below.
+>
+
+I think we can get here if we run out of skbs with data, no?
+
+> > @@ -2503,6 +2504,15 @@ static void tcp_md5sig_info_free_rcu(struct rcu_=
+head *head)
+> >   void tcp_v4_destroy_sock(struct sock *sk)
+> >   {
+> >       struct tcp_sock *tp =3D tcp_sk(sk);
+> > +     __maybe_unused unsigned long index;
+> > +     __maybe_unused void *netmem;
+>
+> How about adding a function to get rid of __maybe_unused?.
+>
+> static void sock_release_devmem_frags() {
+> #ifdef PP
+>         unsigned index;
+>         ...
+> #endif PP
+> }
+>
+
+Will do.
+
+> Also, even though you wire it up for TCP, since ->sk_user_frags
+> is in struct sock I'd expect the release to be somewhere in the
+> generic sock path like __sk_destruct(), and same for init.
+> Perhpas, it's better to leave it for later.
+>
+
+
+--=20
+Thanks,
+Mina
 
