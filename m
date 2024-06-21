@@ -1,170 +1,119 @@
-Return-Path: <linux-renesas-soc+bounces-6588-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6589-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13C9D911CB2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 09:21:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34684911D09
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 09:43:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 352D71C22096
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 07:21:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 553C81C21D07
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2024 07:43:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F3A416B748;
-	Fri, 21 Jun 2024 07:21:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D479E16C858;
+	Fri, 21 Jun 2024 07:42:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="kmXCFdKX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D43516A957;
-	Fri, 21 Jun 2024 07:21:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10FAD16C6A9
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Jun 2024 07:42:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718954500; cv=none; b=YMnaySG+5QqR6ZDgquBxb2oyHeMUxG5W+NoHrCVkDAtwe7D0Pck3oWG4OeGT3PADSTwaIWeW8hgEhyJeoSNK7GUIq0pC+DZClc5iRKZGFPdSzOTu3Nz931LhzNKbKrFvycW68shcUxwR7hk8f8B5IsGZm+mD+1HRG1q6KgaWgeE=
+	t=1718955777; cv=none; b=IyeLoLOxg4V7bznOD1ENWb/J98yeAWnYnSPVBe26ZkhrftNYK/mySzUsQ/YlzDNIruLZFtdiMOaKYfMQ74M9GsFeaobYTlGO1Qd8JD4MuOFFiHgt0hB9A0vAnIcSWmVEDd95P0CJIuqFcyaUXMp+KIOzJXrwKqyfuxGUTwvrxwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718954500; c=relaxed/simple;
-	bh=7CMx5bxarm0V6bXOjOERHcGYnuBsH12q3jR5evZkhxU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KO7Al8rR3PNzw/MsHCweoz3AdBLAW43XcXJElJiIVAiEnTrQoM4tjUfwQv/I1u0AJBV88GAwYACqHHJcQHH9eD6w3k19CdJW0p8qHwIUIcmhgN7gBxjgSjIjWmGlKLLpVutbKX+33chHb7PKWWtMVhPZuG5bNLukfoMCIHRn9w0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-dff02b8a956so1681587276.1;
-        Fri, 21 Jun 2024 00:21:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718954497; x=1719559297;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PACd0JpJmNYTIfca4Iea8deTmLaxbsTwqXeNwFLnksA=;
-        b=BUlugN5+D0pEQA6Y5ZVSVFPE6SVHY3nVGlPcVWK1MWRNxnm9HTe6GCizmhpNJTYvPo
-         tuHB6niaEX7hK9M+jrKRb/uUF5j+eRGb70n5ftlO7kP53Q7rFEDcjA8mmft+r6jgNVT4
-         JIwJUfmxqqOchVXela9cm7kJAFFVFuoZR6sIb3/l9ILvmvbm3ILigFkJLWX8AzrlMJdb
-         KPEXSBFsC1/kH6nqAaWXbOQW/hh5HOdWy8EX3h8mPHcpkv1/yQ8b5wE0KzIwV/0eQJu0
-         eVisjZD5ZoaJSu8O6Huqiec/V8x1XPP+fPaZroPiG5qCuZVJfiFV6SytzgpG/oz+t184
-         w+IA==
-X-Forwarded-Encrypted: i=1; AJvYcCUilCdbrnqvPcgFpB/I2/Cbs34rnQJzRFC7TOWawljm9E00YBwi2bF2v2GkrC2rrgF1nC6AM5/fNyLUMYELsRg/QjDum5xI7wMbpBqHUMKExc0ZsX5AxJ5or3TR+OOUpuprzUak64gKqUe74EFg5xNsha9h3RVwVAVU17iXYK2IKXM30WiG1KYHz1o=
-X-Gm-Message-State: AOJu0Yyt9PZZmNnC6WwJ1zzD+nKAMMXMcSYSgZcsQ57FKsnVEIEDohLY
-	lnNI4zAvqYQoBfEXql2EYwqptQXUhrqwveOAmOgji/JFH8lWB2WTsmkMqYa9
-X-Google-Smtp-Source: AGHT+IF/3VLqYTGe5uwZjivcFccUaABcRl++AVguPPabGq+UJsMB4gCnYw3V8atN7oq5BdK0F7EtVg==
-X-Received: by 2002:a25:ae11:0:b0:e02:bc76:3407 with SMTP id 3f1490d57ef6-e02be16f25fmr8385764276.34.1718954496864;
-        Fri, 21 Jun 2024 00:21:36 -0700 (PDT)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e02e62656d0sm246821276.35.2024.06.21.00.21.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Jun 2024 00:21:36 -0700 (PDT)
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dff02b8a956so1681562276.1;
-        Fri, 21 Jun 2024 00:21:36 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUV9ASaKjGoQf/Dg7biLJuaSyO+vNwleswFSNyiOalbZFp+mOlDkeB4M8kdApCksEQn4jcupNL1D2RAXV2hXOAeyw21AStakA6e5h3WWaN9Ug19xTBxHWOH6pTmTRWW5ZF1esRYMl5yqDCEszb53qwU1bKttsCHY+p0+0jhd2+lnhTaDqX6U/awbvI=
-X-Received: by 2002:a25:b181:0:b0:e02:79a0:8b62 with SMTP id
- 3f1490d57ef6-e02be16c4e5mr7671226276.32.1718954496385; Fri, 21 Jun 2024
- 00:21:36 -0700 (PDT)
+	s=arc-20240116; t=1718955777; c=relaxed/simple;
+	bh=T1sN3oQBJsAz9LXLb/VpxF/ym1YwCX6y2N4CYy7iVPU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fooK6lJ+Ndv6AppWzk1VgeS25BzR9WKYetdRcUViSwP9us3gPs/r5wxs4glmCEHCjS7z4hk+MCt7KA8aETBA5pqrYPYVC+piVqAUl/kmMHfHVa56/PQ1Z4B5LbPJBNO3kOU3pgsVlFIgwHnrq20cueGXo7r0matxtOej60QwIvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=kmXCFdKX; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=pc76
+	Bb9ebpjxmrC5oUNX063Vhn/KxpYxrUvSJUatGlk=; b=kmXCFdKXYDX/wbo1mYCB
+	roK4TR71sjSrRfFyUcy1VWMQ0yrOvttxXAOe1mTThUQUPor3zjg2tFrIlLXouX2U
+	MWtbmBofn51X5L8YhFdfIi+IVUZNdv+kFBEYqodl5Bk0GnSzpQzHdxJyTcap18PT
+	iHuU1+sOuOIK77FyvpmYS0kZYxnPOCJcs4Nlu2qOrZ82zuhjMO3nwwtRjMb+rgap
+	upY1/IUPPaqH0OCmHJZXMzRubPoUI11fdR6DUtIIGKrMgLUY5/oj0J1aCvAIvc5o
+	9xeWVmNZGPmdZJkToUDe/fEdmV9lvWbRx+yjsCZpFwB1nionHyrc93xetcAQo3dC
+	uQ==
+Received: (qmail 1282990 invoked from network); 21 Jun 2024 09:42:47 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 Jun 2024 09:42:47 +0200
+X-UD-Smtp-Session: l3s3148p1@tPDnk2Eb9NIgAwDPXzjQABqqX1QYyOSW
+Date: Fri, 21 Jun 2024 09:42:47 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Prabhakar <prabhakar.csengg@gmail.com>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [RFC PATCH v2 3/3] mmc: renesas_sdhi: Add support for RZ/V2H(P)
+ SoC
+Message-ID: <kphyk4vpp2yxikuwob6x567ob7nujzxi4z4smyqcpwgrrqdded@ujmtdavcdjdo>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, Prabhakar <prabhakar.csengg@gmail.com>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240613091721.525266-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240613091721.525266-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdU0oFH61fHNp2txOOJi_pWihKrK=UdETrzBs-bDeULTqQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240619153559.1647957-1-niklas.soderlund+renesas@ragnatech.se>
- <20240619153559.1647957-2-niklas.soderlund+renesas@ragnatech.se>
- <20240619-passage-iodine-9f944b26a30d@spud> <20240619185607.GT382677@ragnatech.se>
- <20240619204321.GU382677@ragnatech.se> <20240620-gating-coherent-af984389b2d7@spud>
- <20240620172237.GA3623951@ragnatech.se>
-In-Reply-To: <20240620172237.GA3623951@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 21 Jun 2024 09:21:24 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUaWMiQ_wrmX14uwkeU1D_55ehmJD8+GZ4eydWfw4Mi-Q@mail.gmail.com>
-Message-ID: <CAMuHMdUaWMiQ_wrmX14uwkeU1D_55ehmJD8+GZ4eydWfw4Mi-Q@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: media: renesas,vin: Add binding for V4M
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Conor Dooley <conor@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6evv3y66pqz4vm6z"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdU0oFH61fHNp2txOOJi_pWihKrK=UdETrzBs-bDeULTqQ@mail.gmail.com>
 
-Hi Niklas,
 
-On Thu, Jun 20, 2024 at 7:22=E2=80=AFPM Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> On 2024-06-20 17:27:00 +0100, Conor Dooley wrote:
-> > > +      - items:
-> > > +          - enum:
-> > >                - renesas,vin-r8a779g0 # R-Car V4H
-> > > +              - renesas,vin-r8a779h0 # R-Car V4M
-> > > +          - const: renesas,rcar-gen4-vin # Generic R-Car Gen4
-> > >
-> > > If so I can see that working as I could still fix any issues that com=
-e
-> > > from differences between V4H and V4M if needed. If so do you think it
-> > > best to add this in two different patches? One to add the
-> > > renesas,rcar-gen4-vin fallback (which will also need DTS updates to f=
-ix
-> > > warnings from exciting users of V4H not listing the gen4 fallback) an=
-d
-> > > one to add V4M?
-> >
-> >
-> > I would just do:
-> > diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b=
-/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > index 5539d0f8e74d..22bbad42fc03 100644
-> > --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > @@ -54,6 +54,9 @@ properties:
-> >                - renesas,vin-r8a77995 # R-Car D3
-> >                - renesas,vin-r8a779a0 # R-Car V3U
-> >                - renesas,vin-r8a779g0 # R-Car V4H
-> > +      - items:
-> > +          - const: renesas,vin-r8a779h0 # R-Car V4L2
-> > +          - const: renesas,vin-r8a779g0 # R-Car V4H
->
-> @Geert: What do you think about this? This would be a first use-case for
-> compatibles crossing SoC DTS files that I know of. I'm a bit uneasy
-> going down this road.
+--6evv3y66pqz4vm6z
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Me too ;-)
 
-> Would this not also effect the existing users of renesas,vin-r8a779g0
-> which would now need something similar to what you propose below with a
-> list of SoC compatibles and a fallback.
->
-> >
-> >    reg:
-> >      maxItems: 1
-> >
-> > Which requires no driver or dts changes. That could become:
-> >       - items:
-> >           - enum:
-> >               - renesas,vin-r8a779h0 # R-Car V4L2
-> >               - renesas,vin-r8a779i0 # R-Car R4P17
-> >           - const: renesas,vin-r8a779g0 # R-Car V4H
->
-> FWIW, on Gen2 where fallback es where useful compared to Gen3 we did
-> this with "renesas,rcar-gen2-vin".
+> Probably I am missing something obvious in the big picture, but why
+> must this be modelled as a regulator?  Can't the SDHI driver handle
+> this register bit directly?
 
-We do know there are differences (albeit probably small) among the R-Car
-Gen4 VIN implementations, so I am reluctant to add a family-specific
-compatible value.  Typically we only use a family-specific compatible
-value if the IP cores are known (or better, assumed ;-) to be identical.
+I suggested it because we already use external regulators with SDHI. So,
+I preferred the design where the internal regulator was just another
+regulator. Then, the SDHI core can just keep using regulator API. And
+not have two code paths for internal vs. external. Did I miss something?
 
-And sometimes our assumptions turn out to be wrong...
-See slides 25-33 (last two for the numbers) of my talk at ER2019
-https://embedded-recipes.org/2019/talks/herd-your-socs-become-a-matchmaker/
 
-Gr{oetje,eeting}s,
+--6evv3y66pqz4vm6z
+Content-Type: application/pgp-signature; name="signature.asc"
 
-                        Geert
+-----BEGIN PGP SIGNATURE-----
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZ1LvMACgkQFA3kzBSg
+KbbKxBAArTp57QUYbPmUUMhl1n08MWTNsevfeTz9PYxCuVRK1lsNzej2WxBa53lC
+6msflVdMyS9puB//h92gU4Bvn+fIAlo6ZLLuqz0dpgj12KFQMyBJ14Y3GKd+ixbc
+FbKbLQJSjE9hmptQo4OnBqRf6NfNKJzydg1DEumUwUdNW5Bt7wiHsG+xnGsH0kNs
+2gkMY2A0JMHGpmMbNKa01Uz725T7k6saNnnZFYfwemMSO/tEzPz72HY1nUrkO52I
+ZL1zZmHSaOQrc73me4mmuYJr6KjvlpyetZpVboTw6NlosBv2mHc/ITctuQZ+1Nkw
+1p5Nc26ssXHA5n0FBY0uPPKrxEtu02Rn/sH8iy3pL+9rRzTgQ7NdXggBvfkcDd9d
+C+Jtwo4n6s51edasXcNWjSNGA628WDratc5jNpaakB3QgKWU2XhFe9ztRHE5RiZN
+9sMV4PDGD7Hacm8YGhFAYLgA+3lSWD8jH/qXHgiQaLVwom5/D+LXApvrCr7fClID
+cCGqd71ufUqyZ0ZrRkYsas10G/K391Zdp0pevdV8XXTE9IU7mH94W2l69XPHAxNJ
+cjmlNOsLBMZqtNVTby+ZbgjD9w+n9fhvMBHWalCnrpUJChskesGgE1gAqXsygDYm
+8srVpgmPEoCwAoFa1QDr2v3PwzOxQ0VZlcLzUXpAYhPBVuHn+vA=
+=h+fE
+-----END PGP SIGNATURE-----
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+--6evv3y66pqz4vm6z--
 
