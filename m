@@ -1,164 +1,393 @@
-Return-Path: <linux-renesas-soc+bounces-6658-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6659-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90D5091352C
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Jun 2024 18:47:43 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18ECD913AC7
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 23 Jun 2024 15:16:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4ABC5283C38
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Jun 2024 16:47:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3B54C1C20BB0
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 23 Jun 2024 13:16:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB5FA2119;
-	Sat, 22 Jun 2024 16:47:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB8521EA87;
+	Sun, 23 Jun 2024 13:16:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="Q0XmDJfn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p9PvKxVA"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC195C8C7;
-	Sat, 22 Jun 2024 16:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719074858; cv=pass; b=OjKx6oO6fDq5Od0LDgz177H8ZZFWTuYVKr8NHjmMhc/lKkTqwdrFA8pParMhASbW62X6CmYoyOu6gm25y8Y7VpZVDsX+n/kS0JJJtJLwHF5gIJUza8JJOMeiglI888B3Msd2TLn/ZsEA88tXZ+GUMKYbdsZ+LQa97pqRZUh5NXc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719074858; c=relaxed/simple;
-	bh=j4FT13T3zrdSrzx3vsBMF2frCNHV9masxl6ek/pcNFk=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B8E8F6A;
+	Sun, 23 Jun 2024 13:16:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719148583; cv=none; b=WDaA89CPNhQFNwa8uRdkE0g2IAsAOCgelIUcasMnkF6PvROjjL5Dg1vPUidnZoLsuHBz7uAihzWV3r9pckYsOOfncg/+6zyIoRqFSeMb5gSTgzxKe4HGE6GxVs8yYLh5K0pYzsuj3NQRaZSQDAdLrIl6sQqWmYdi5iiYAChS6UE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719148583; c=relaxed/simple;
+	bh=wuh+iLMJWlnLSU0UTI+cNjQb5LTFC2aME8kjtjmCa4Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eRZPFfkVQeNpEuCJeJwaqggFKpW9hbGHVoYVR+ATWxjVikxQBISuxWq3RH6Jp4rEFtQbQ5rl/Wub5TMvBRSv6009Nd6Hy6kEjRLOhvdt08iwODOG40Yh1aPBi3VME20Y1z5Tk/sohGIqLeNTcdZh4xKpXwRGmHtuoEItCjiZr2k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=Q0XmDJfn; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4W60Wp1bRFz49QhT;
-	Sat, 22 Jun 2024 19:47:34 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1719074854;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KtY3MCLf5pNxADYjBpQpzMi8fGwEWgS1XE+bkxux7QY=;
-	b=Q0XmDJfnXoC8D0TKLHyFFJaOagp/eOypqY9cVoQWVOCFgenIioUIR8gnaS2A6aR80eGBN3
-	QLwNM25Hpck3EAVyhPrOmTTtG53jVaesbdHbTEzKp9KqbzTo20XR58Kq8Jvc52V3W/SjZa
-	ME4xEOUIrLpKq8hagaMWnHCATxe0Bd80G+AGxpRCZ3jFzPoNnL0777016beS5acxw8IEvN
-	2QI/fGs1Zq9cNbjSkrdhlaUDm0UFRxs7Cor853FzbbITNLytoihuvuJ55/wqx66Oym0H0X
-	k+0E36ETJqVP2uANhBduZ1BnSgipaNbQkNbXWHhkvGQY/5sffGDtRjJtcK8O0Q==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1719074854; a=rsa-sha256;
-	cv=none;
-	b=LkltzSYW8k6HdFVKFTzAru7qFQtZ3v10TdAXz+fx8HqjsQUbcwe4AhpV13KrVyRD/rXh8V
-	BRnar4wGidq6x9F0LaxE2x79gaG5F1pwParN5Xr1NQuZ58bqagcePMmYxgJYdctPb1x3u2
-	GfHIpfs9F2iZMrvVWHJdJPj9KVASzA7RE50KD+mY1GutBWuAdeLLAyUv2btnEFsfYW59t1
-	7relf3tMD+nuQqcPGFKT9N/JEaZTxb45N00bOATPOxEoYpkaPvfrHBf4OjvfsE7ViCPWti
-	X7s2arOjRl6d+S+IxINmvtOmSVc5kkhKUO6m6aQiCf/hSmH1KXPV4wGGffqRdA==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1719074854;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KtY3MCLf5pNxADYjBpQpzMi8fGwEWgS1XE+bkxux7QY=;
-	b=TroOFEahvi+/X/8aA/A5pBuW+vG1EEg2Yr+8S5dJ4hJ0PzuXwEDPggKMr1QVri7DwlTBWE
-	40i4JvCVwg/8/FwITCvStmjUR7izHh0Wehz2tP86lG5M0DthZNY6OAREpkRMhhQnLp795J
-	G6biACkDZqRRu4Yd++qyf6ehxKbO29p4TazIMzoe1RZyVYXiklHo3B+Gy4U5+UIEteDiyV
-	1njpz+W7KW8AiOCvDYXxjw8rEkF0JhxiJ6Dj5/S6HowGDj8MC+6tVxXe6guAYyy8x9J1VB
-	zBqeWQ3/8pPJ/D/gT8QFOUrJMcTZeXo3xFzQi4SlTrNu/VdvMKj36Sk4UvAJBQ==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 8EA66634C93;
-	Sat, 22 Jun 2024 19:47:33 +0300 (EEST)
-Date: Sat, 22 Jun 2024 16:47:33 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	Eugen Hristev <eugen.hristev@collabora.com>,
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH 4/8] media: v4l2-subdev: Refactor warnings in
- v4l2_subdev_link_validate()
-Message-ID: <ZncAJRoydaWoxGRj@valkosipuli.retiisi.eu>
-References: <20240619012356.22685-1-laurent.pinchart+renesas@ideasonboard.com>
- <20240619012356.22685-5-laurent.pinchart+renesas@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=IHc+qpRC1Yjw3vMe81Y2EyFl6EeZocf87B4u+llUPkhZcLvupgM79RBHRJ02cNlGm4A7v37HeGZZS00ulucr9vQSHtMUPSGpS7Vpkg8Be+HhG8gmWWQfyQCiUcERNXi/GGLqk9d7NJQoeuTaoGxBoI1W8AMiu8DWtuhosM/xaX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p9PvKxVA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47111C2BD10;
+	Sun, 23 Jun 2024 13:16:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719148583;
+	bh=wuh+iLMJWlnLSU0UTI+cNjQb5LTFC2aME8kjtjmCa4Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=p9PvKxVAEoLC76a0N41BWgKi2pW9G/o6uuYVvHOHdW623E8zI3CL4VwkrS7Sc48EY
+	 8Mx7pzNTWIUWi9pMna9U2enxVNucVXsobzxOUSEQv+6HXT8+0kolDuPYf2265T6EGm
+	 Mu4j/wEANfUp8wo1yhuo1+1pnbBQt4BTxsWGclrSCPd1YDTtn+ErH/vFSDb2rxFdic
+	 DBvBlVuP6yiiAxwMJcJHMgWRhNXmU7B/bvdEUm6FyhDysd/EcJk9F+4ZM83baLROU9
+	 hmh3QsmW8SGb8uOax+meLtuOyaWpiAZKlnh0duJVZphxn8awE6VbjDUXw5UYSwgbcU
+	 PfT0gpT61c1Fg==
+Date: Sun, 23 Jun 2024 18:46:16 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: lpieralisi@kernel.org, kw@linux.com, robh@kernel.org,
+	bhelgaas@google.com, jingoohan1@gmail.com, mani@kernel.org,
+	marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v9 4/5] PCI: rcar-gen4: Add support for r8a779g0
+Message-ID: <20240623131616.GA58184@thinkpad>
+References: <20240611125057.1232873-1-yoshihiro.shimoda.uh@renesas.com>
+ <20240611125057.1232873-5-yoshihiro.shimoda.uh@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240619012356.22685-5-laurent.pinchart+renesas@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240611125057.1232873-5-yoshihiro.shimoda.uh@renesas.com>
 
-Hi Laurent,
-
-Thanks for the patch.
-
-On Wed, Jun 19, 2024 at 04:23:52AM +0300, Laurent Pinchart wrote:
-> The v4l2_subdev_link_validate() function prints a one-time warning if it
-> gets called on a link whose source or sink is not a subdev. As links get
-> validated in the context of their sink, a call to the helper when the
-> link's sink is not a subdev indicates that the driver has set its
-> .link_validate() handler to v4l2_subdev_link_validate() on a non-subdev
-> entity, which is a clear driver bug. On the other hand, the link's
-> source not being a subdev indicates that the helper is used for a subdev
-> connected to a video output device, which is a lesser issue, if only
-> because this is currently common practice.
+On Tue, Jun 11, 2024 at 09:50:56PM +0900, Yoshihiro Shimoda wrote:
+> Add support for r8a779g0 (R-Car V4H).
 > 
-> There are no drivers left in the kernel that use
-> v4l2_subdev_link_validate() in a context where it may get called on a
-> non-subdev sink. Replace the pr_warn_once() with a WARN_ON() in this
-> case to make sure that new offenders won't be introduced.
+> This driver previously supported r8a779f0 (R-Car S4-8). PCIe features
+> of both r8a779f0 and r8a779g0 are almost all the same. For example:
+>  - PCI Express Base Specification Revision 4.0
+>  - Root complex mode and endpoint mode are supported
+> However, r8a779g0 requires specific firmware downloading, to
+> initialize the PHY. Otherwise, the PCIe controller cannot work.
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> The attached firmware file "104_PCIe_fw_addr_data_ver1.05.txt" in
+> the datasheet is a text file. But, Renesas is not able to distribute
+> the firmware freely. So, we require converting the text file
+> to a binary before the driver runs by using the following script:
+> 
+>  $ awk '/^\s*0x[0-9A-Fa-f]{4}\s+0x[0-9A-Fa-f]{4}/ \
+>    { print substr($2,5,2) substr($2,3,2) }' \
+>    104_PCIe_fw_addr_data_ver1.05.txt | xxd -p -r > \
+>    rcar_gen4_pcie.bin
+>  $ sha1sum rcar_gen4_pcie.bin
+>    1d0bd4b189b4eb009f5d564b1f93a79112994945  rcar_gen4_pcie.bin
+> 
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+
+Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+
+- Mani
+
 > ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 14 +++++++++-----
->  1 file changed, 9 insertions(+), 5 deletions(-)
+>  drivers/pci/controller/dwc/pcie-rcar-gen4.c | 207 +++++++++++++++++++-
+>  1 file changed, 206 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 4f71199bf592..2d5e39c79620 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -1451,11 +1451,15 @@ int v4l2_subdev_link_validate(struct media_link *link)
->  	bool states_locked;
->  	int ret;
+> diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> index dac78388975d..c67097e718d3 100644
+> --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> @@ -5,8 +5,10 @@
+>   */
 >  
-> -	if (!is_media_entity_v4l2_subdev(link->sink->entity) ||
-> -	    !is_media_entity_v4l2_subdev(link->source->entity)) {
-> -		pr_warn_once("%s of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
-> -			     !is_media_entity_v4l2_subdev(link->sink->entity) ?
-> -			     "sink" : "source",
-> +	/*
-> +	 * Links are validated in the context of the sink entity. Usage of this
-> +	 * helper on a sink that is not a subdev is a clear driver bug.
-> +	 */
-> +	if (WARN_ON(!is_media_entity_v4l2_subdev(link->sink->entity)))
-> +		return -EINVAL;
-
-WARN*() is nowadays deprecated. Could you continue to use pr_warn_once()
-for this (or dev_warn_one())?
-
+>  #include <linux/delay.h>
+> +#include <linux/firmware.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/io.h>
+> +#include <linux/iopoll.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+>  #include <linux/pci.h>
+> @@ -20,9 +22,10 @@
+>  /* Renesas-specific */
+>  /* PCIe Mode Setting Register 0 */
+>  #define PCIEMSR0		0x0000
+> -#define BIFUR_MOD_SET_ON	BIT(0)
+> +#define APP_SRIS_MODE		BIT(6)
+>  #define DEVICE_TYPE_EP		0
+>  #define DEVICE_TYPE_RC		BIT(4)
+> +#define BIFUR_MOD_SET_ON	BIT(0)
+>  
+>  /* PCIe Interrupt Status 0 */
+>  #define PCIEINTSTS0		0x0084
+> @@ -37,19 +40,48 @@
+>  #define PCIEDMAINTSTSEN		0x0314
+>  #define PCIEDMAINTSTSEN_INIT	GENMASK(15, 0)
+>  
+> +/* Port Logic Registers 89 */
+> +#define PRTLGC89		0x0b70
 > +
-> +	if (!is_media_entity_v4l2_subdev(link->source->entity)) {
-> +		pr_warn_once("source of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
->  			     link->source->entity->name, link->source->index,
->  			     link->sink->entity->name, link->sink->index);
->  		return 0;
+> +/* Port Logic Registers 90 */
+> +#define PRTLGC90		0x0b74
+> +
+>  /* PCIe Reset Control Register 1 */
+>  #define PCIERSTCTRL1		0x0014
+>  #define APP_HOLD_PHY_RST	BIT(16)
+>  #define APP_LTSSM_ENABLE	BIT(0)
+>  
+> +/* PCIe Power Management Control */
+> +#define PCIEPWRMNGCTRL		0x0070
+> +#define APP_CLK_REQ_N		BIT(11)
+> +#define APP_CLK_PM_EN		BIT(10)
+> +
+>  #define RCAR_NUM_SPEED_CHANGE_RETRIES	10
+>  #define RCAR_MAX_LINK_SPEED		4
+>  
+>  #define RCAR_GEN4_PCIE_EP_FUNC_DBI_OFFSET	0x1000
+>  #define RCAR_GEN4_PCIE_EP_FUNC_DBI2_OFFSET	0x800
+>  
+> +/*
+> + * The attached firmware file "104_PCIe_fw_addr_data_ver1.05.txt" in
+> + * the datasheet is a text file. But, Renesas is not able to distribute
+> + * the firmware freely. So, we require converting the text file
+> + * to a binary before the driver runs by using the following script:
+> + *
+> + * $ awk '/^\s*0x[0-9A-Fa-f]{4}\s+0x[0-9A-Fa-f]{4}/ \
+> + *      { print substr($2,5,2) substr($2,3,2) }' \
+> + *      104_PCIe_fw_addr_data_ver1.05.txt | xxd -p -r > \
+> + *      rcar_gen4_pcie.bin
+> + *    $ sha1sum rcar_gen4_pcie.bin
+> + *      1d0bd4b189b4eb009f5d564b1f93a79112994945  rcar_gen4_pcie.bin
+> + */
+> +#define RCAR_GEN4_PCIE_FIRMWARE_NAME		"rcar_gen4_pcie.bin"
+> +#define RCAR_GEN4_PCIE_FIRMWARE_BASE_ADDR	0xc000
+> +MODULE_FIRMWARE(RCAR_GEN4_PCIE_FIRMWARE_NAME);
+> +
+>  struct rcar_gen4_pcie;
+>  struct rcar_gen4_pcie_drvdata {
+> +	void (*additional_common_init)(struct rcar_gen4_pcie *rcar);
+>  	int (*ltssm_control)(struct rcar_gen4_pcie *rcar, bool enable);
+>  	enum dw_pcie_device_mode mode;
+>  };
+> @@ -57,6 +89,7 @@ struct rcar_gen4_pcie_drvdata {
+>  struct rcar_gen4_pcie {
+>  	struct dw_pcie dw;
+>  	void __iomem *base;
+> +	void __iomem *phy_base;
+>  	struct platform_device *pdev;
+>  	const struct rcar_gen4_pcie_drvdata *drvdata;
+>  };
+> @@ -180,6 +213,9 @@ static int rcar_gen4_pcie_common_init(struct rcar_gen4_pcie *rcar)
+>  	if (ret)
+>  		goto err_unprepare;
+>  
+> +	if (rcar->drvdata->additional_common_init)
+> +		rcar->drvdata->additional_common_init(rcar);
+> +
+>  	return 0;
+>  
+>  err_unprepare:
+> @@ -221,6 +257,10 @@ static void rcar_gen4_pcie_unprepare(struct rcar_gen4_pcie *rcar)
+>  
+>  static int rcar_gen4_pcie_get_resources(struct rcar_gen4_pcie *rcar)
+>  {
+> +	rcar->phy_base = devm_platform_ioremap_resource_byname(rcar->pdev, "phy");
+> +	if (IS_ERR(rcar->phy_base))
+> +		return PTR_ERR(rcar->phy_base);
+> +
+>  	/* Renesas-specific registers */
+>  	rcar->base = devm_platform_ioremap_resource_byname(rcar->pdev, "app");
+>  
+> @@ -528,6 +568,167 @@ static int r8a779f0_pcie_ltssm_control(struct rcar_gen4_pcie *rcar, bool enable)
+>  	return 0;
+>  }
+>  
+> +static void rcar_gen4_pcie_additional_common_init(struct rcar_gen4_pcie *rcar)
+> +{
+> +	struct dw_pcie *dw = &rcar->dw;
+> +	u32 val;
+> +
+> +	val = dw_pcie_readl_dbi(dw, PCIE_PORT_LANE_SKEW);
+> +	val &= ~PORT_LANE_SKEW_INSERT_MASK;
+> +	if (dw->num_lanes < 4)
+> +		val |= BIT(6);
+> +	dw_pcie_writel_dbi(dw, PCIE_PORT_LANE_SKEW, val);
+> +
+> +	val = readl(rcar->base + PCIEPWRMNGCTRL);
+> +	val |= APP_CLK_REQ_N | APP_CLK_PM_EN;
+> +	writel(val, rcar->base + PCIEPWRMNGCTRL);
+> +}
+> +
+> +static void rcar_gen4_pcie_phy_reg_update_bits(struct rcar_gen4_pcie *rcar,
+> +					       u32 offset, u32 mask, u32 val)
+> +{
+> +	u32 tmp;
+> +
+> +	tmp = readl(rcar->phy_base + offset);
+> +	tmp &= ~mask;
+> +	tmp |= val;
+> +	writel(tmp, rcar->phy_base + offset);
+> +}
+> +
+> +/*
+> + * SoC datasheet suggests checking port logic register bits during firmware
+> + * write. If read returns non-zero value, then this function returns -EAGAIN
+> + * indicating that the write needs to be done again. If read returns zero,
+> + * then return 0 to indicate success.
+> + */
+> +static int rcar_gen4_pcie_reg_test_bit(struct rcar_gen4_pcie *rcar,
+> +				       u32 offset, u32 mask)
+> +{
+> +	struct dw_pcie *dw = &rcar->dw;
+> +
+> +	if (dw_pcie_readl_dbi(dw, offset) & mask)
+> +		return -EAGAIN;
+> +
+> +	return 0;
+> +}
+> +
+> +static int rcar_gen4_pcie_download_phy_firmware(struct rcar_gen4_pcie *rcar)
+> +{
+> +	/* The check_addr values are magical numbers in the datasheet */
+> +	const u32 check_addr[] = { 0x00101018, 0x00101118, 0x00101021, 0x00101121};
+> +	struct dw_pcie *dw = &rcar->dw;
+> +	const struct firmware *fw;
+> +	unsigned int i, timeout;
+> +	u32 data;
+> +	int ret;
+> +
+> +	ret = request_firmware(&fw, RCAR_GEN4_PCIE_FIRMWARE_NAME, dw->dev);
+> +	if (ret) {
+> +		dev_err(dw->dev, "Failed to load firmware (%s): %d\n",
+> +			RCAR_GEN4_PCIE_FIRMWARE_NAME, ret);
+> +		return ret;
+> +	}
+> +
+> +	for (i = 0; i < (fw->size / 2); i++) {
+> +		data = fw->data[(i * 2) + 1] << 8 | fw->data[i * 2];
+> +		timeout = 100;
+> +		do {
+> +			dw_pcie_writel_dbi(dw, PRTLGC89, RCAR_GEN4_PCIE_FIRMWARE_BASE_ADDR + i);
+> +			dw_pcie_writel_dbi(dw, PRTLGC90, data);
+> +			if (!rcar_gen4_pcie_reg_test_bit(rcar, PRTLGC89, BIT(30)))
+> +				break;
+> +			if (!(--timeout)) {
+> +				ret = -ETIMEDOUT;
+> +				goto exit;
+> +			}
+> +			usleep_range(100, 200);
+> +		} while (1);
+> +	}
+> +
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x0f8, BIT(17), BIT(17));
+> +
+> +	for (i = 0; i < ARRAY_SIZE(check_addr); i++) {
+> +		timeout = 100;
+> +		do {
+> +			dw_pcie_writel_dbi(dw, PRTLGC89, check_addr[i]);
+> +			ret = rcar_gen4_pcie_reg_test_bit(rcar, PRTLGC89, BIT(30));
+> +			ret |= rcar_gen4_pcie_reg_test_bit(rcar, PRTLGC90, BIT(0));
+> +			if (!ret)
+> +				break;
+> +			if (!(--timeout)) {
+> +				ret = -ETIMEDOUT;
+> +				goto exit;
+> +			}
+> +			usleep_range(100, 200);
+> +		} while (1);
+> +	}
+> +
+> +exit:
+> +	release_firmware(fw);
+> +
+> +	return ret;
+> +}
+> +
+> +static int rcar_gen4_pcie_ltssm_control(struct rcar_gen4_pcie *rcar, bool enable)
+> +{
+> +	struct dw_pcie *dw = &rcar->dw;
+> +	u32 val;
+> +	int ret;
+> +
+> +	if (!enable) {
+> +		val = readl(rcar->base + PCIERSTCTRL1);
+> +		val &= ~APP_LTSSM_ENABLE;
+> +		writel(val, rcar->base + PCIERSTCTRL1);
+> +
+> +		return 0;
+> +	}
+> +
+> +	val = dw_pcie_readl_dbi(dw, PCIE_PORT_FORCE);
+> +	val |= PORT_FORCE_DO_DESKEW_FOR_SRIS;
+> +	dw_pcie_writel_dbi(dw, PCIE_PORT_FORCE, val);
+> +
+> +	val = readl(rcar->base + PCIEMSR0);
+> +	val |= APP_SRIS_MODE;
+> +	writel(val, rcar->base + PCIEMSR0);
+> +
+> +	/*
+> +	 * The R-Car Gen4 datasheet doesn't describe the PHY registers' name.
+> +	 * But, the initialization procedure describes these offsets. So,
+> +	 * this driver has magical offset numbers.
+> +	 */
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x700, BIT(28), 0);
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x700, BIT(20), 0);
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x700, BIT(12), 0);
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x700, BIT(4), 0);
+> +
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x148, GENMASK(23, 22), BIT(22));
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x148, GENMASK(18, 16), GENMASK(17, 16));
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x148, GENMASK(7, 6), BIT(6));
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x148, GENMASK(2, 0), GENMASK(11, 0));
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x1d4, GENMASK(16, 15), GENMASK(16, 15));
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x514, BIT(26), BIT(26));
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x0f8, BIT(16), 0);
+> +	rcar_gen4_pcie_phy_reg_update_bits(rcar, 0x0f8, BIT(19), BIT(19));
+> +
+> +	val = readl(rcar->base + PCIERSTCTRL1);
+> +	val &= ~APP_HOLD_PHY_RST;
+> +	writel(val, rcar->base + PCIERSTCTRL1);
+> +
+> +	ret = readl_poll_timeout(rcar->phy_base + 0x0f8, val, !(val & BIT(18)), 100, 10000);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = rcar_gen4_pcie_download_phy_firmware(rcar);
+> +	if (ret)
+> +		return ret;
+> +
+> +	val = readl(rcar->base + PCIERSTCTRL1);
+> +	val |= APP_LTSSM_ENABLE;
+> +	writel(val, rcar->base + PCIERSTCTRL1);
+> +
+> +	return 0;
+> +}
+> +
+>  static struct rcar_gen4_pcie_drvdata drvdata_r8a779f0_pcie = {
+>  	.ltssm_control = r8a779f0_pcie_ltssm_control,
+>  	.mode = DW_PCIE_RC_TYPE,
+> @@ -539,10 +740,14 @@ static struct rcar_gen4_pcie_drvdata drvdata_r8a779f0_pcie_ep = {
+>  };
+>  
+>  static struct rcar_gen4_pcie_drvdata drvdata_rcar_gen4_pcie = {
+> +	.additional_common_init = rcar_gen4_pcie_additional_common_init,
+> +	.ltssm_control = rcar_gen4_pcie_ltssm_control,
+>  	.mode = DW_PCIE_RC_TYPE,
+>  };
+>  
+>  static struct rcar_gen4_pcie_drvdata drvdata_rcar_gen4_pcie_ep = {
+> +	.additional_common_init = rcar_gen4_pcie_additional_common_init,
+> +	.ltssm_control = rcar_gen4_pcie_ltssm_control,
+>  	.mode = DW_PCIE_EP_TYPE,
+>  };
+>  
+> -- 
+> 2.25.1
+> 
+> 
 
 -- 
-Kind regards,
-
-Sakari Ailus
+மணிவண்ணன் சதாசிவம்
 
