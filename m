@@ -1,151 +1,184 @@
-Return-Path: <linux-renesas-soc+bounces-6705-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6706-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30F809152AA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 17:41:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAA749152BA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 17:42:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E043B2816EE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 15:41:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2C8E21F210D3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 15:42:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56CF219CD01;
-	Mon, 24 Jun 2024 15:41:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B540319CD00;
+	Mon, 24 Jun 2024 15:42:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="qfpsI0Km";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WfTEuxU3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh1-smtp.messagingengine.com (fhigh1-smtp.messagingengine.com [103.168.172.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D96991DA21;
-	Mon, 24 Jun 2024 15:41:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D789313E024;
+	Mon, 24 Jun 2024 15:42:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719243672; cv=none; b=bI3eFJ+xahV/KwadhM3EuPIdhPRZxnQWIyAwhT0Q6yT8xnSuxyHwj2pPkObEsFeXlu9oLiCDmk3HoWoKCDVpvFkQDVR0lUDNMBYBqcewqeJPNIfV+DiKvGXZ9vj653PGIt8RGEdjgjYx+aQbnd/9tg9QRzeGU6gQZEdki4XZGyM=
+	t=1719243750; cv=none; b=pyr0pcyHe9yT0aWhFdg1rSB0VB2zELlOfasWQkgl9ktR0jycBiKKs3314nmOZq3lTOrIKE7FQmsDJqRTiB7i+WhfHzyqVzRDNFsyW7ouS2f3Y5b/oStMeKPWhzJOnMYkQKPkGENECjDFqv+F6AQgnM7oInzDDJf5TW7BDK3+QVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719243672; c=relaxed/simple;
-	bh=N4Kf7Wuxy/4F/YKVzwXuyiruxJFedNgB2d/xx3ewM1w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hvzsmxgFnFeEbaYWfX5AQIyuw8ssMqCTlJY8GVltqwMntnbrUJe/wzkdExzFQSopV1LoB0/bBR/+7e6pTNkfDqBhjrcyBze/squ2tffnRrLEL0OPbTYI0LAMYgLggGkIts4diiWXJiCJT1eTPld7NCaZsYGbtUatRMzCOORdF5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-645808a3294so7296797b3.3;
-        Mon, 24 Jun 2024 08:41:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719243669; x=1719848469;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YyyZLKfbybyoHW1pomgo1ltrgcPpRsjdS5hXpqQgAyU=;
-        b=q7svj8yzhICghkVRJhNZFsC4mfAnDLiaB60k3m4AAIBfD7hrKnsgol3PHoQvHMg20L
-         lVs4zeIEpvBI7v5IVOiqQoTtq6vDmx+JnEuCsR44UOcdZZXAYmOyIcbIcOWMeUi2dpWn
-         jzOC8cP9xF8AWF1Ni4iM5FD/MY6P87xgYDEzKwaAFZ45urYe+UbX7MU3MYemYLHTOijN
-         Suy+msLx6/iv7Hp7U5D5Z0Hg28eKQbSxgG8h1PzlhQt45BEDR1I79G83pAP+a+yBVueA
-         HTBHZjkBbFN82o5apgY2Gd+lm3Z0XvbkXAmiL3DZMwSIJff1HcrwDHpE8BT9bWk1tb/p
-         lDiA==
-X-Forwarded-Encrypted: i=1; AJvYcCUoevDyO3cnQVdJjk/40KR242wiv89dSL7iH6V2lDqP3goOaMmrwOZ2MrOz/JdNDUN8rBXO6Rg451qxDmuEZA0bejeunySFhICSKWJkssNRJhB85/ke3oL5jX0LiuMtKopVtwvaQWadIHXFzKxHD0JSKGEYSMhlROgfwsgroWbAOOV3IiaKrFpOCiqJ0TXWFc2YKuZkDn2FkR00kcWfkiw8lS9IivUG9SKPHYj5J7AII3D36Pvp0wv8QS2fiDC/nCVd
-X-Gm-Message-State: AOJu0YxODiwArWQEpAauriTHgtFTioRvi1/oKmqwI5Cm2nxDS5um210L
-	StyOo3Fyz43lVgoXc5Lz78Tl9Nnpqs1Fh65lFEjBrVXp0n9cCFMVIIMrpNra
-X-Google-Smtp-Source: AGHT+IHOF6I9BBSjYho30m6qIXh6XBnnpsOwooEsiBDSNpOIZzhhPjm7NCumeBH8UBtWc7pntCLGdg==
-X-Received: by 2002:a0d:c3c2:0:b0:631:3c7c:f766 with SMTP id 00721157ae682-64340ea9a89mr48626827b3.34.1719243668622;
-        Mon, 24 Jun 2024 08:41:08 -0700 (PDT)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-63f14c26102sm29111467b3.75.2024.06.24.08.41.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Jun 2024 08:41:08 -0700 (PDT)
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e02c4983bfaso4279281276.2;
-        Mon, 24 Jun 2024 08:41:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCULCC3ncAztxjHXNng8H6X/tsccXlHwsbkdc3kdWK49cofZO4Yg1ta3VTPw3wK9jdyw5pncPE/S+Ab3292bnwcncirwKAF/Yx6QidYAQPR8gcXZ/7sohZg0TKDj2Vn5dILLN+RcCmrUizSLfZ6OT8MXjVdQHvRxd2vs/aero3PmvRAtsh4+NluDA4wvcJe2xoI8Y44vhd0qkMK5HxIWuzfREXzJc0/I+lI6S6IZ4PuKTKFcT0HLrMzsSg9HWJYURGt9
-X-Received: by 2002:a25:b11f:0:b0:dff:3028:4631 with SMTP id
- 3f1490d57ef6-e0300f86570mr5309852276.33.1719243668079; Mon, 24 Jun 2024
- 08:41:08 -0700 (PDT)
+	s=arc-20240116; t=1719243750; c=relaxed/simple;
+	bh=5JMeSmLDsLkgsIaTR6mhIXS+mNgEMglyV3WnKwkjeOE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BsQ0569+28Wqe766dvC2uw+hmIMhaVX0SRpr5knOztoQ9FvASZFKZD+OhCz9f2LItTR6ufXIvhP66DtXxVurapMIXYTKVVPVgt0q12ch/ppGSEkm9rguNccJrlR3a+Mq8BvmHzUp30fcx6/+GMGDODHV/poZIs42rTKJMFZAv38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=qfpsI0Km; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WfTEuxU3; arc=none smtp.client-ip=103.168.172.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id B5D2A11401AE;
+	Mon, 24 Jun 2024 11:42:26 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Mon, 24 Jun 2024 11:42:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1719243746;
+	 x=1719330146; bh=UuK+dPrRUuBD9ku4mDUSLtpeCuo0xD0S3t8rztLcRiI=; b=
+	qfpsI0KmRAUZlwbCn+1R9+oP78vDyzDnPuZtpCQ4Z1muGGEq7B0qivDpjQ4/6G9H
+	dONRq6/N+wMZeZcwSVCcjOVH2SkGaFuP9DP4xtzyldTg38eJearW16QQ3YTfdnB7
+	WVbDWenLa61tphHvgs/YZs3Z2NU3oEP8t/OoUDclWj4uPpvp/Oz9mXPKLN1lNb0z
+	fZ72I/fSeWPNvwx4BlNhwilvRbGof+na1JKNZqNa/7BYbTro2+W7krVFedTNyoZt
+	a+FmnhZWjh2IWipIn8jOSvz3BZOrH8cAt0d4OQB14anTXHCet7I4+tzC9azYY8P+
+	9z6MjaNsqWcTKijvFayukg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1719243746; x=
+	1719330146; bh=UuK+dPrRUuBD9ku4mDUSLtpeCuo0xD0S3t8rztLcRiI=; b=W
+	fTEuxU3x7Fsa4F2fgMvu9yAu6d+5H/6MxxObV+nvZ5Gryg/TTM4yEkD9hj4G4A68
+	KS/pgRfkUs7TMmrImNsDlPCW5JDR0/t0pf4sft3inRAYMGATqKChsOhyQ/P2fm10
+	BCE617Y0RN+nmLtUjRbumDqs/hz9lu/sIzb/LgtG2rShhixcYX0K0IHsWQcwTAoZ
+	cyU5PMHdMctKSE/Sx7XgYsVrKjMDWreE1by/SCyI6bWBg9UIqB4NBsEGPPOYfRe0
+	qscsLUFtuua7bdzFTRTxbkzyKoshCPXVn4TJvl6gBHt1/aRFDLxQDFIJyZQ1qvpC
+	Fc3yqfNGXQQY1JuImHoIw==
+X-ME-Sender: <xms:4pN5ZkwS-5I370YnVd8O5oWKMS3iwM-6Lx7mKtpja7FfRtdDoZVH1g>
+    <xme:4pN5ZoQuXTUv4RxFHFsz7MI-3bkUeK5m-BsvQfqjo0Q0NwIE1G4AgHbKRQNJO6PdP
+    NdRZOhiBEqLX7SsFIo>
+X-ME-Received: <xmr:4pN5ZmW-h8FJs_wBxHpAVdRs8Ng1c_TbdODbBQynHffiI2EeK7SIgKdICGV_a9Odx7KK4DuWe6hBqw9T_m4HDbaUUnvP_v8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeeguddgleefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
+    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnh
+    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeefhfellefh
+    ffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvdelieenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggv
+    rhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:4pN5Zig72rsHdXEg-fSaBFUwbEsRreM9Ux-h_E_8MDmHYqVPccpaJg>
+    <xmx:4pN5ZmDkNIL3jlNBdCgrx3MsYhvM7O32f2VWWNoPJCipK7TzuGZ8Lw>
+    <xmx:4pN5ZjIZGj8eEZwQPnMpF7u66XWoDI2M8mQgjf2vSniRp07dn8aKTw>
+    <xmx:4pN5ZtA3dVkNoqT54-lJOBxjoO9DStlxWnG61POixPYQ7F3oOioUDA>
+    <xmx:4pN5ZnLcEKMmVtY_PHGypXIZqbyww67Yx1ZP65yBaBbNINQeQL76v9VZ>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 24 Jun 2024 11:42:25 -0400 (EDT)
+Date: Mon, 24 Jun 2024 17:42:23 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Paul Barker <paul.barker.ct@bp.renesas.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH net-next v2 1/2] ravb: Improve ravb_hw_info instance order
+Message-ID: <20240624154223.GE3655345@ragnatech.se>
+References: <cover.1719234830.git.geert+renesas@glider.be>
+ <a76febe3737e26365a784e9193da9363f22aa550.1719234830.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240621112303.1607621-1-claudiu.beznea.uj@bp.renesas.com> <20240621112303.1607621-9-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20240621112303.1607621-9-claudiu.beznea.uj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 24 Jun 2024 17:40:56 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdULaO2dH_wrcM5P6=rDYzRXcMSGfVsBz3okWPGjOsMN4A@mail.gmail.com>
-Message-ID: <CAMuHMdULaO2dH_wrcM5P6=rDYzRXcMSGfVsBz3okWPGjOsMN4A@mail.gmail.com>
-Subject: Re: [PATCH 08/12] dt-bindings: i2c: renesas,riic: Document the
- R9A08G045 support
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: chris.brandt@renesas.com, andi.shyti@kernel.org, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, magnus.damm@gmail.com, 
-	mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de, 
-	wsa+renesas@sang-engineering.com, linux-renesas-soc@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a76febe3737e26365a784e9193da9363f22aa550.1719234830.git.geert+renesas@glider.be>
 
-Hi Claudiu,
+Hi Geert,
 
-On Fri, Jun 21, 2024 at 1:23=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
-wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> Document the Renesas RZ/G3S (R9A08G045) RIIC IP. This is compatible with
-> the version available on Renesas RZ/V2H (R9A09G075). Most of the IP
-> variants that the RIIC driver is working with supports fast mode plus.
-> However, it happens that on the same SoC to have IP instatiations that
-> support fast mode plus as well as IP instantiation that doesn't support
-> it. For this, introduced the renesas,riic-no-fast-mode-plus property.
->
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Thanks for your work.
 
-Thanks for your patch!
+On 2024-06-24 15:25:24 +0200, Geert Uytterhoeven wrote:
+> Move ravb_gen2_hw_info before ravb_gen3_hw_info to match
+> ravb_match_table[] order.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> --- a/Documentation/devicetree/bindings/i2c/renesas,riic.yaml
-> +++ b/Documentation/devicetree/bindings/i2c/renesas,riic.yaml
-> @@ -25,6 +25,10 @@ properties:
->                - renesas,riic-r9a07g054  # RZ/V2L
->            - const: renesas,riic-rz      # RZ/A or RZ/G2L
->
-> +      - items:
-> +          - const: renesas,riic-r9a08g045   # RZ/G3S
-> +          - const: renesas,riic-r9a09g057
-> +
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-LGTM.
+> ---
+> v2:
+>   - New.
+> ---
+>  drivers/net/ethernet/renesas/ravb_main.c | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index c1546b916e4ef581..974e0bb9da1947f2 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -2652,7 +2652,7 @@ static int ravb_mdio_release(struct ravb_private *priv)
+>  	return 0;
+>  }
+>  
+> -static const struct ravb_hw_info ravb_gen3_hw_info = {
+> +static const struct ravb_hw_info ravb_gen2_hw_info = {
+>  	.receive = ravb_rx_rcar,
+>  	.set_rate = ravb_set_rate_rcar,
+>  	.set_feature = ravb_set_features_rcar,
+> @@ -2668,16 +2668,13 @@ static const struct ravb_hw_info ravb_gen3_hw_info = {
+>  	.rx_buffer_size = SZ_2K +
+>  			  SKB_DATA_ALIGN(sizeof(struct skb_shared_info)),
+>  	.rx_desc_size = sizeof(struct ravb_ex_rx_desc),
+> -	.internal_delay = 1,
+> -	.tx_counters = 1,
+> -	.multi_irqs = 1,
+> -	.irq_en_dis = 1,
+> -	.ccc_gac = 1,
+> +	.aligned_tx = 1,
+> +	.gptp = 1,
+>  	.nc_queues = 1,
+>  	.magic_pkt = 1,
+>  };
+>  
+> -static const struct ravb_hw_info ravb_gen2_hw_info = {
+> +static const struct ravb_hw_info ravb_gen3_hw_info = {
+>  	.receive = ravb_rx_rcar,
+>  	.set_rate = ravb_set_rate_rcar,
+>  	.set_feature = ravb_set_features_rcar,
+> @@ -2693,8 +2690,11 @@ static const struct ravb_hw_info ravb_gen2_hw_info = {
+>  	.rx_buffer_size = SZ_2K +
+>  			  SKB_DATA_ALIGN(sizeof(struct skb_shared_info)),
+>  	.rx_desc_size = sizeof(struct ravb_ex_rx_desc),
+> -	.aligned_tx = 1,
+> -	.gptp = 1,
+> +	.internal_delay = 1,
+> +	.tx_counters = 1,
+> +	.multi_irqs = 1,
+> +	.irq_en_dis = 1,
+> +	.ccc_gac = 1,
+>  	.nc_queues = 1,
+>  	.magic_pkt = 1,
+>  };
+> -- 
+> 2.34.1
+> 
 
->        - const: renesas,riic-r9a09g057   # RZ/V2H(P)
->
->    reg:
-> @@ -66,6 +70,10 @@ properties:
->    resets:
->      maxItems: 1
->
-> +  renesas,riic-no-fast-mode-plus:
-> +    description: specifies if fast mode plus is not supported
-> +    type: boolean
-> +
-
-Do you really need this?
-The bus' clock-frequency property should take into account the combined
-capabilities of all of controller, target, and wiring.  It is up to the
-DTS writer to validate that all timing conditions are met.
-
->  required:
->    - compatible
->    - reg
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+Kind Regards,
+Niklas Söderlund
 
