@@ -1,127 +1,195 @@
-Return-Path: <linux-renesas-soc+bounces-6677-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6678-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 513F89145D4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 11:05:39 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 769D0914631
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 11:22:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 098C8286CDB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 09:05:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 98FEF1C21453
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 09:22:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B61F130485;
-	Mon, 24 Jun 2024 09:05:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8712135A69;
+	Mon, 24 Jun 2024 09:20:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="fTTnRYee";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="KcZWrq+x"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wfout5-smtp.messagingengine.com (wfout5-smtp.messagingengine.com [64.147.123.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C300745E2;
-	Mon, 24 Jun 2024 09:05:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A22A2135A51;
+	Mon, 24 Jun 2024 09:20:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719219934; cv=none; b=NzyBYjGjP/YRnxMStrMJUF995jbeTggbUGrBlxpJj4kGMRzYzADcrwr1hm8LlVRkXp3/ororprc3e5v/OGUWflkuepC0LmnHEC841KuyCPQMGoKYFqYIndtPUGu/BltBa55ftttnVKcnt9ZEbU/TzQZS/cU93Ei1Ak/JUwP2mtA=
+	t=1719220839; cv=none; b=VGqftYiJeiCyMj1M+NjCZbLxj4PhWnOmxMptXlZiUFRUxNaTVXsOti+T/o7c+FYfKvsZhQ6ZAd7rRB/Q5NKYsiafAWMlOzLEoKfxXak48858KKyFAiOz5fV4d8YlVs+Gx5FVCYkNgl32SqzL7rZ1XcV5KXQmWdXyoFXkru2bvak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719219934; c=relaxed/simple;
-	bh=MGIQ9hvtO+tnV3qgcrXDb5AHL+aW+bXZP0Z9UKeMuls=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ibGUd9mhjfTuxMV9133R4z8GTQZI4HWEFtv8wkBUDxLw5tKe0w9lUbWO4WnD3s9nSXaJbvoUW1+z1G7BU6aDWqhSTdnabk9qLc1akNWxly3ZTImoIo7sVeNgEjDNGs6h1MEzzfzx6FuWPuyCSRM/dBRHPVrUPXve5qHY1eKsTgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-df4d5d0b8d0so3589906276.2;
-        Mon, 24 Jun 2024 02:05:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719219931; x=1719824731;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2Sn3OTxIINTayKCLeb6KU6Cc1bWOZasndj+qX/CG+k4=;
-        b=LQEmKak4sDK/YE6ls8WS7RlQAi+lkauTK8kJnO2Ff9ktZmhHjKLrWcAFgn3qYWZ21R
-         f/fvqbvlbqr11ewxQdtXnQGor0vvEX0wmNUSSfSOhKJDFoLeO7jMEiqRaPyiqr9JOI4V
-         3IiN3UUO95TsKhMhIlMfMEBcdKfQ0s0J/5COtUqj2H6fFSc9mq7JfHlA2s5RaSEmdz7b
-         sk6kiLwfNlchGiXij7a2MzXzMHuf6QAw7QhivHa2XnONHEtHiWblaH3ZMivMQDjCVNkz
-         venrpoqR6KuEBGAW008DaGcicrlsHFX9fBYefcq2FkU+/FjbrMME1v+iBn1GJCI53oKb
-         t/FQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUdc4LE96aaT7018K+ntCTRi9C4I9+6pEZnEF/ttQvDca7dArEiRmjdF4Nb1urNCyUaiWMWjVQ7mabGCIlkAk0ivFw2cfe5HFZsOEbTk3oeCT+fBn0g36xwiqKC+IDV/MeCY3JDnrUYIkNxG3s=
-X-Gm-Message-State: AOJu0Yyll63Gu6TnMmDmNtbdUrrPciERNJuyZnEfUhn/nu16Irb1dyxL
-	INv9SziD4YYpHfQ0Lzcd2ltVe9cyPSnIgvk83DAzVG0LcCrJrvAi5KT/ylwD
-X-Google-Smtp-Source: AGHT+IEoVtCOi+aBuI1L6GG9NH0xQEhH/fL2u6JCjRFfntGn6Sj7xMjpUnJQuIERP/7JuyCyShHRew==
-X-Received: by 2002:a5b:7cb:0:b0:dff:806:1388 with SMTP id 3f1490d57ef6-e0303fea2c9mr3674973276.46.1719219930944;
-        Mon, 24 Jun 2024 02:05:30 -0700 (PDT)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e02e623d1c0sm3117950276.20.2024.06.24.02.05.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Jun 2024 02:05:30 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-6439f6cf79dso9097237b3.0;
-        Mon, 24 Jun 2024 02:05:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW6jLTBIhV5vkyiBm5986BjDELhV7l4rIfkVPi9cwCKyP+jWeQgm8MMCFFpWqqv8TCnSQQTdJ7cZiHOT0b6BomwjT0wC23Iavrv4lgbnQafNvxOg5yfCWALhvqEP5HJBlybFAjTRMklhYQ+v+c=
-X-Received: by 2002:a05:690c:6e0c:b0:617:cbc7:26fe with SMTP id
- 00721157ae682-643a9fcecb1mr40763937b3.16.1719219930598; Mon, 24 Jun 2024
- 02:05:30 -0700 (PDT)
+	s=arc-20240116; t=1719220839; c=relaxed/simple;
+	bh=sW9SQrbW5JnZk06M/S+/X1T80z64+P3/2u2YWrpgdCE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bG8gKgbDmufZdfQZx6ptbV8rUCadbNyXWFIV+Skk4UPaxfvJvISlXCQ684gP+BViMcEgX3//EsJM0cpxJDlTWz0IHVJUH95tk46JniSbtrg1HbitYOr8toR/J6lolmq24UorqjniN7eCzaqYBKlWeVPQTOP/J+qOwiUX7HBTloc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=fTTnRYee; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=KcZWrq+x; arc=none smtp.client-ip=64.147.123.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.west.internal (Postfix) with ESMTP id B76D71C000AF;
+	Mon, 24 Jun 2024 05:20:33 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Mon, 24 Jun 2024 05:20:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1719220833;
+	 x=1719307233; bh=37OfLm6VCPnaJmLAriLSXlifTiuF5IemwSKkKUym/Yc=; b=
+	fTTnRYee86mIIVMb69V9OiiihYcZXxZjHkavUHsk3hC2AaSlOuaBGaN++DDnLZrS
+	1SfuJvX0R1w7CpM2AI88qfRZi4+vm+28bjsbqAvaXScOymWyGfiM7YuSK2CYO9KD
+	K5LCX23rGhR8IR/iMUpA9UUYKq/zW4IlQ+01DpjkJ6kjvbOocRLgeBnwRIfNQ3ac
+	RPmp+xZUOqV+xs3NgnsqwWBibr6EEGLbirXTWZJRTivW2EYzMQ7neV963U0KiVr8
+	RMC7CqxQSPCnYx8OlHgCH1zjjBUVmhCQKLgcI51Lg39oz2sbWQC2jBQcTqIqW1HZ
+	46Lp23DLDHn7oZxNitZcDw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1719220833; x=
+	1719307233; bh=37OfLm6VCPnaJmLAriLSXlifTiuF5IemwSKkKUym/Yc=; b=K
+	cZWrq+x9ukc3Orf64Ssa1ERXAWKD7zTR/NGvO57tL/D0Qg5tk1LXypz/Q24ktwZy
+	mWBaeCCYqJavk3P6tD924emUZG0K8gZJwTOLZ1qVmi2gyCKizdfFGVAFJsO8AgF0
+	FKtNa7EEjdSVXh8HqyGIt1Ac8wb4UUeB7iVsmG5ihwFNdNpGdjXiSPEAO0VnKahe
+	pSnL3x3LLdHlmq0pEZHmPwTZAZBaycnfhScb8JKo9z5bKsqiDC742bpCcUntrYqX
+	8SJHOYs+0ULA/XTP27ba8lGsP1KAHLA1QslkN7Zdw8WoLFrC17lgrRQ+KFJHWdzr
+	gfdmannJHWTN7ZCGpCeog==
+X-ME-Sender: <xms:YTp5ZoUAkSA35KaF1upLfdjVjJ5gOlSydCbhZlIgL1WE_bEMG6BKAg>
+    <xme:YTp5ZsnSxjy0bKCDcTphXjfNyJHmAZFX-YKp8cCF3e4_waOn5FX42AIZtxjQkcRoC
+    W46yF48PYLKiHlmUdE>
+X-ME-Received: <xmr:YTp5ZsattBis6e-8pmpcko0n7KzBF46UFX6AuAEZl1i7rG46UzZ0sc_xaQ15B2Yh9orGJPBpmoGBH5S8EesgIf2YRblevDA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeeguddgudehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
+    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnh
+    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeektedvvdev
+    jeeijeduffetjeffueeufffffeejfedvffetueevtdfffeetheektdenucffohhmrghinh
+    epvghmsggvugguvgguqdhrvggtihhpvghsrdhorhhgnecuvehluhhsthgvrhfuihiivgep
+    tdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhguod
+    hrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
+X-ME-Proxy: <xmx:YTp5ZnVNeQReKgUpoWjV8o_aSbPqkqnAPWUD04ss2z0khs3oIUccXw>
+    <xmx:YTp5ZindXP3j54d_Pxo4DwOd8ev2kF0pebTJZf3IYf5LGLT8ZROJlg>
+    <xmx:YTp5Zsec7z8FYuyvyooCm3ASFRufMMDcMzXFofvLkHtCJytPRNG1xg>
+    <xmx:YTp5ZkEc8gu4ch7b13PrKDcAVUv-rIU1PF2j9erT9ObRcV-jrJ-nZg>
+    <xmx:YTp5Zkdv0gOAlfZwvTw0-wAv2kO-i8g4lGw1hEQlETOT-YhIBXHWZyJ8>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 24 Jun 2024 05:20:32 -0400 (EDT)
+Date: Mon, 24 Jun 2024 11:20:29 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Conor Dooley <conor@kernel.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: media: renesas,vin: Add binding for
+ V4M
+Message-ID: <20240624092029.GB3655345@ragnatech.se>
+References: <20240619153559.1647957-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240619153559.1647957-2-niklas.soderlund+renesas@ragnatech.se>
+ <20240619-passage-iodine-9f944b26a30d@spud>
+ <20240619185607.GT382677@ragnatech.se>
+ <20240619204321.GU382677@ragnatech.se>
+ <20240620-gating-coherent-af984389b2d7@spud>
+ <20240620172237.GA3623951@ragnatech.se>
+ <CAMuHMdUaWMiQ_wrmX14uwkeU1D_55ehmJD8+GZ4eydWfw4Mi-Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1718897545.git.geert+renesas@glider.be> <e0fa98f138a7b2836128178f8b3a757978517307.1718897545.git.geert+renesas@glider.be>
- <20240620170814.GW3029315@google.com>
-In-Reply-To: <20240620170814.GW3029315@google.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 24 Jun 2024 11:05:18 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVdTusWYK0cD_Ez5bv21iKVF2MOT24+_VR+94W3iqDK5A@mail.gmail.com>
-Message-ID: <CAMuHMdVdTusWYK0cD_Ez5bv21iKVF2MOT24+_VR+94W3iqDK5A@mail.gmail.com>
-Subject: Re: [PATCH 1/2] mfd: tmio: Remove obsolete .set_clk_div() callback
-To: Lee Jones <lee@kernel.org>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, linux-mmc@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdUaWMiQ_wrmX14uwkeU1D_55ehmJD8+GZ4eydWfw4Mi-Q@mail.gmail.com>
 
-Hi Lee,
+Hi Conor,
 
-On Thu, Jun 20, 2024 at 7:08=E2=80=AFPM Lee Jones <lee@kernel.org> wrote:
-> On Thu, 20 Jun 2024, Geert Uytterhoeven wrote:
-> > Commit bef64d2908e825c5 ("mmc: remove tmio_mmc driver") removed the las=
-t
-> > user of the .set_clk_div() callback in the tmio_mmc_data structure.
+On 2024-06-21 09:21:24 +0200, Geert Uytterhoeven wrote:
+> Hi Niklas,
+> 
+> On Thu, Jun 20, 2024 at 7:22 PM Niklas Söderlund
+> <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > On 2024-06-20 17:27:00 +0100, Conor Dooley wrote:
+> > > > +      - items:
+> > > > +          - enum:
+> > > >                - renesas,vin-r8a779g0 # R-Car V4H
+> > > > +              - renesas,vin-r8a779h0 # R-Car V4M
+> > > > +          - const: renesas,rcar-gen4-vin # Generic R-Car Gen4
+> > > >
+> > > > If so I can see that working as I could still fix any issues that come
+> > > > from differences between V4H and V4M if needed. If so do you think it
+> > > > best to add this in two different patches? One to add the
+> > > > renesas,rcar-gen4-vin fallback (which will also need DTS updates to fix
+> > > > warnings from exciting users of V4H not listing the gen4 fallback) and
+> > > > one to add V4M?
+> > >
+> > >
+> > > I would just do:
+> > > diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > > index 5539d0f8e74d..22bbad42fc03 100644
+> > > --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > > +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > > @@ -54,6 +54,9 @@ properties:
+> > >                - renesas,vin-r8a77995 # R-Car D3
+> > >                - renesas,vin-r8a779a0 # R-Car V3U
+> > >                - renesas,vin-r8a779g0 # R-Car V4H
+> > > +      - items:
+> > > +          - const: renesas,vin-r8a779h0 # R-Car V4L2
+> > > +          - const: renesas,vin-r8a779g0 # R-Car V4H
 > >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> >  include/linux/mfd/tmio.h | 1 -
-> >  1 file changed, 1 deletion(-)
+> > @Geert: What do you think about this? This would be a first use-case for
+> > compatibles crossing SoC DTS files that I know of. I'm a bit uneasy
+> > going down this road.
+> 
+> Me too ;-)
+> 
+> > Would this not also effect the existing users of renesas,vin-r8a779g0
+> > which would now need something similar to what you propose below with a
+> > list of SoC compatibles and a fallback.
 > >
-> > diff --git a/include/linux/mfd/tmio.h b/include/linux/mfd/tmio.h
-> > index eace8ea6cda05a3d..aca74ac1ff69e6f7 100644
-> > --- a/include/linux/mfd/tmio.h
-> > +++ b/include/linux/mfd/tmio.h
-> > @@ -101,7 +101,6 @@ struct tmio_mmc_data {
-> >       unsigned int                    max_blk_count;
-> >       unsigned short                  max_segs;
-> >       void (*set_pwr)(struct platform_device *host, int state);
-> > -     void (*set_clk_div)(struct platform_device *host, int state);
->
-> Any ramifications for just hoovering this up?
+> > >
+> > >    reg:
+> > >      maxItems: 1
+> > >
+> > > Which requires no driver or dts changes. That could become:
+> > >       - items:
+> > >           - enum:
+> > >               - renesas,vin-r8a779h0 # R-Car V4L2
+> > >               - renesas,vin-r8a779i0 # R-Car R4P17
+> > >           - const: renesas,vin-r8a779g0 # R-Car V4H
+> >
+> > FWIW, on Gen2 where fallback es where useful compared to Gen3 we did
+> > this with "renesas,rcar-gen2-vin".
+> 
+> We do know there are differences (albeit probably small) among the R-Car
+> Gen4 VIN implementations, so I am reluctant to add a family-specific
+> compatible value.  Typically we only use a family-specific compatible
+> value if the IP cores are known (or better, assumed ;-) to be identical.
+> 
+> And sometimes our assumptions turn out to be wrong...
+> See slides 25-33 (last two for the numbers) of my talk at ER2019
+> https://embedded-recipes.org/2019/talks/herd-your-socs-become-a-matchmaker/
 
-I am sorry, I am not familiar with that expression.
-Can you please elaborate?
-Thanks!
+Do Geert's slides help to explain the R-Car perspective on why a 
+family-specific fallback compatible might not be desirable, and why the 
+SoC specific one is proposed? 
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+Kind Regards,
+Niklas Söderlund
 
