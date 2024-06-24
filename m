@@ -1,182 +1,112 @@
-Return-Path: <linux-renesas-soc+bounces-6712-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6713-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B5C9915556
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 19:27:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACCD09157A9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 22:13:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9E1A71F2333C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 17:27:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5F8931F24C52
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 20:13:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC3C919D8A9;
-	Mon, 24 Jun 2024 17:27:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nmdgNRmQ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9AB61A073B;
+	Mon, 24 Jun 2024 20:12:02 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2733D7604D;
-	Mon, 24 Jun 2024 17:27:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DD361A0737;
+	Mon, 24 Jun 2024 20:11:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719250047; cv=none; b=scue1CFX49MHeaZQvWeGthUA+YVlgeHXdXvfaHO5Qf9lR6K3UZR9rDS3oNMTLqn/TQRJlP1rBif/FkaOnYe6i7WwP0sQEru+Wz1Ldo6c24AMy8T5euslh2jLUrTYqRx8sN9bgPqk0ObTwwpIXiRs1nqzcAtvjRPvT8rFm1QSJO8=
+	t=1719259922; cv=none; b=pwvjcmdCkDut53afIi3AScN77PjmER9Tsdg2u2gx0Ek/2OGJACKn3jyI6I+GDXRS7UImoycwP6Jyf+lD3rxaNN6dVz1dditX3YGRu0X7GX6/9H8NVXoyk3EISWlNTlZ1Q/YWwDqlrlYRN+M+mOVsoo8B5XI/hQL9HxJ23ndjUcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719250047; c=relaxed/simple;
-	bh=2rcPwoShgJdmSyVCPpy8glYPvtkJajNKVhG219tP3jQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bFNq5dDKF4vad9TdGrz5YShCMFLAtSLpWxTtBQYXn9L3lZtwd6pi2u2b0zm+fD/ezQ6nKzeaDS9VHoxxQ7QDAw/oWzifZqgkpZuhfhCnXBEhDuVzES5NC7PyQqbhIOZ40a1iGZmRnlW7RumBwlZgc5Mu55+CSJqeY9xoxxvWUDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nmdgNRmQ; arc=none smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6b505f11973so39857516d6.1;
-        Mon, 24 Jun 2024 10:27:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719250045; x=1719854845; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yMdi8tUy/m0VYQvA5cPdOSnqaZAhOWgJFYMqqkliSqU=;
-        b=nmdgNRmQ1JqXak2MKBZ+AfxYsB45Dep6mS50eGSU8DQJJSXLBjUtNE2hEKXE0F0m3y
-         K+Ru9t2mWTO+rw0LoPItRbYtINNYMrp57nLSL7+9iR7ZIZ2U1mcfPEEsk1O+aiznawCV
-         SOKQi/a9DY3PbHAd1olph0dDReQazL0vVrg7dhSVDS2A+WQlfDQyB4nULrJIKreb0QEI
-         HX7xy6Ye2WgnPE7TgJL1URjDk+E4GUwur3qU/wiAKTD9lxUQX0GyP34FpDaq7QQwX3Lf
-         y+eFFSRcPfhDaxg08ky0EhT7vJrxUpl+YYMqxNLqRlH+WmD2B6WAJAUIyMQSYPNgXCBr
-         6/jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719250045; x=1719854845;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yMdi8tUy/m0VYQvA5cPdOSnqaZAhOWgJFYMqqkliSqU=;
-        b=c6Y1VqUxSp1Y7A/KIquSm0nhJNpXi4gIquLx1yHn12tgn2hl3Rrc2i3l6sfEuNFWA1
-         JmTEyhCkAbFDaTfBW4D1nGBxu1w4kQKXN3nbU5OnLg+bNOGDoUdIV7qEGF5Rb+Xm2C6d
-         1DQfuXXE7Kx8N6e7uSMHjLVuqFnG7pnERJhbSkrtMuWagl6Q882PhatiCCOCOJx+NPXX
-         asvUSNfbQEXGEw/kQ9/Q2xpoavk3f6l1cSsGOtROHM9gDamVfc0JlmRuejDxW9d/kP3q
-         6+tr6bqjEYOLQuJ8XlhAIhYDLDt9v7LpMBbkWyafHdrRmpq5zg1BF3oZUrt+114lYixN
-         R/wQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW5GJuf+x0dP1+mXnfnuC3gELndsaAH/iXxgYeEm7iCv1fSwRKtzaSkIt6rqPiM/nZL+HhZDTucx6HXMqkfkMv6cN9BGIRydDFmW+8gfXZCm4lMmguzLINlzASzyYcLVyLbl99sBx/hUmFoCz8jTPM1tj/I/JkPEsJSeoPd/m+ZZ0xUivsOLcIlSGr91Op7cFrvqy1aaRtPSnxmX+reXxkG3z1PW9yS
-X-Gm-Message-State: AOJu0YyLnactMfVYM9A7vBPb3uNLhbU0fsKAGRZdVSHiEJm1m7Nh/N3A
-	hM11lMdyc+6CxdnCwJDpbLVgPemP+AJV8Cr37gmNHQpD8VjT+t2igcf1HQQ7ACzJDzqiJUK1y0K
-	8GIV44tcYpICG7l85I+s00XFEEjc=
-X-Google-Smtp-Source: AGHT+IFGHDsqhHq9XnFXeklHI5Ipm8OA/hVOwcHjiGnUcm/aw67ox19AqnUEdu/1vVvOeF0GAqvmx5+ew7vXn6HzvNQ=
-X-Received: by 2002:ad4:4ee7:0:b0:6b5:2aa3:3a7f with SMTP id
- 6a1803df08f44-6b53223157dmr97187856d6.20.1719250045001; Mon, 24 Jun 2024
- 10:27:25 -0700 (PDT)
+	s=arc-20240116; t=1719259922; c=relaxed/simple;
+	bh=/8uzQHBdiyGC0ZSFB+cCNRlfzqGLG228vyDgBVcRUKA=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=g/hAXvD3OM67dgwlPxf1w6GrFOms7rQS5ZLbNwJVJB7lDDVkJDpzj0scw9XoUCt0uLHdwva0jsrNmSW3167bUJyhSIQ7bCfab1dZI8AhmqP/kLmW8Ind+m0QJgPhbCBogOSdVai+rCzXEv2T7ceFZ/neacN0ObcRzWQzpF+CXlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.105] (178.176.73.167) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Mon, 24 Jun
+ 2024 23:11:41 +0300
+Subject: Re: [PATCH net-next v2 1/2] ravb: Improve ravb_hw_info instance order
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Paul Barker
+	<paul.barker.ct@bp.renesas.com>, =?UTF-8?Q?Niklas_S=c3=b6derlund?=
+	<niklas.soderlund+renesas@ragnatech.se>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>, Biju Das <biju.das.jz@bp.renesas.com>,
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
+References: <cover.1719234830.git.geert+renesas@glider.be>
+ <a76febe3737e26365a784e9193da9363f22aa550.1719234830.git.geert+renesas@glider.be>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <9a424b01-2004-a1fe-97bd-a7c85f80574e@omp.ru>
+Date: Mon, 24 Jun 2024 23:11:40 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240624153229.68882-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240624153229.68882-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240624-request-demeanor-d66965d27935@spud>
-In-Reply-To: <20240624-request-demeanor-d66965d27935@spud>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 24 Jun 2024 18:26:58 +0100
-Message-ID: <CA+V-a8vJ_fCONw1wpsGB1qqd-FReqhLR1JhLgM4RneeC5=eShQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] dt-bindings: mmc: renesas,sdhi: Document RZ/V2H(P) support
-To: Conor Dooley <conor@kernel.org>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-mmc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <a76febe3737e26365a784e9193da9363f22aa550.1719234830.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 06/24/2024 19:51:42
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 186110 [Jun 24 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.4
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 20 0.3.20
+ 743589a8af6ec90b529f2124c2bbfc3ce1d2f20f
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.73.167 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info:
+	127.0.0.199:7.1.2;omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.73.167
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 06/24/2024 19:56:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 6/24/2024 6:12:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-Hi Conor,
+On 6/24/24 4:25 PM, Geert Uytterhoeven wrote:
 
-Thank you for the review.
+> Move ravb_gen2_hw_info before ravb_gen3_hw_info to match
+> ravb_match_table[] order.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-On Mon, Jun 24, 2024 at 5:39=E2=80=AFPM Conor Dooley <conor@kernel.org> wro=
-te:
->
-> On Mon, Jun 24, 2024 at 04:32:27PM +0100, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > The SD/MMC block on the RZ/V2H(P) ("R9A09G057") SoC is similar to that
-> > of the R-Car Gen3, but it has some differences:
-> > - HS400 is not supported.
-> > - It supports the SD_IOVS bit to control the IO voltage level.
-> > - It supports fixed address mode.
-> >
-> > To accommodate these differences, a SoC-specific 'renesas,sdhi-r9a09g05=
-7'
-> > compatible string is added.
-> >
-> > A 'vqmmc-regulator' object is introduced to handle the power enable (PW=
-EN)
-> > and voltage level switching for the SD/MMC.
-> >
-> > Additionally, the 'renesas,sdhi-use-internal-regulator' flag is introdu=
-ced
-> > to indicate that an internal regulator is used instead of a
-> > GPIO-controlled regulator. This flag will help configure the internal
-> > regulator and avoid special handling when GPIO is used for voltage
-> > regulation instead of the SD_(IOVS/PWEN) pins.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > v2->v3
-> > - Renamed vqmmc-r9a09g057-regulator object to vqmmc-regulator
-> > - Added regulator-compatible property for vqmmc-regulator
-> > - Added 'renesas,sdhi-use-internal-regulator' property
-> >
-> > v1->v2
-> > - Moved vqmmc object in the if block
-> > - Updated commit message
-> > ---
-> >  .../devicetree/bindings/mmc/renesas,sdhi.yaml | 30 ++++++++++++++++++-
-> >  1 file changed, 29 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/=
-Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> > index 3d0e61e59856..20769434a422 100644
-> > --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> > +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> > @@ -18,6 +18,7 @@ properties:
-> >            - renesas,sdhi-r7s9210 # SH-Mobile AG5
-> >            - renesas,sdhi-r8a73a4 # R-Mobile APE6
-> >            - renesas,sdhi-r8a7740 # R-Mobile A1
-> > +          - renesas,sdhi-r9a09g057 # RZ/V2H(P)
-> >            - renesas,sdhi-sh73a0  # R-Mobile APE6
-> >        - items:
-> >            - enum:
-> > @@ -118,7 +119,9 @@ allOf:
-> >        properties:
-> >          compatible:
-> >            contains:
-> > -            const: renesas,rzg2l-sdhi
-> > +            enum:
-> > +              - renesas,sdhi-r9a09g057
-> > +              - renesas,rzg2l-sdhi
-> >      then:
-> >        properties:
-> >          clocks:
-> > @@ -204,6 +207,31 @@ allOf:
-> >          sectioned off to be run by a separate second clock source to a=
-llow
-> >          the main core clock to be turned off to save power.
-> >
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            const: renesas,sdhi-r9a09g057
-> > +    then:
-> > +      properties:
->
-> Please define properties at the top level and constrain then per
-> compatible.
->
-Ok, I'll move them to the top level.
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
-Cheers,
-Prabhakar
+[...]
+
+MBR, Sergey
 
