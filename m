@@ -1,289 +1,191 @@
-Return-Path: <linux-renesas-soc+bounces-6662-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6663-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB4D4913F72
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 02:13:53 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66E62913F79
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 02:14:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 49A191F21025
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 00:13:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E673628133E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 00:14:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 896B710E3;
-	Mon, 24 Jun 2024 00:13:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FEA8376;
+	Mon, 24 Jun 2024 00:14:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a06ab9WT"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Pb1I2D2z"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2066.outbound.protection.outlook.com [40.107.114.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F7233D5;
-	Mon, 24 Jun 2024 00:13:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719188024; cv=none; b=UqDu1PfL4zXyoOQtIKl2cBoWdhyQHhQdyfghctZvqC0oFvW+yeYp8yAhvSiwVwUxOKUCAHCtos0K6I10EVLk7aYsapOvFxEGldRGLFquV50tO3QLgcbVsdWAFJkVQCCZmSCSyetA8zny20HGjmNbWwj7oaYnnRbQXXvGOX4I4n4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719188024; c=relaxed/simple;
-	bh=gLzfNh2sD0Snt/c/PSgDu7vQo2JbZYPugwHufL1hitI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EO4vew/UpHWKs8tGTGm/CxYFDVoQeH0XH/AP9AwTe4fna410Jb7Xp9N/iQmwoxByGKlyOzxa4aOYpp0sMnbNuQfTgY91i56mRIhEdNsGXtew8kW86XUHTKIGMXTcjErKoPRzdkLSMaSAlm4htuAgcPNbWAedrwrufg02XDGQBDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a06ab9WT; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-52cd628f21cso2671764e87.3;
-        Sun, 23 Jun 2024 17:13:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719188020; x=1719792820; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GK3XqR+PJ1d4Fz6hBIhYUON//yKPUubXeIxccDTP36Q=;
-        b=a06ab9WTRhJynHAl+mLZ8WF34RB89lS00xXi4hrLX/5qd/V8YmgRbAnGsX/ncPfmAY
-         NQRamRqOoX3H9w+AxYeGOqt6g7Hfkxp7NCRbm4/qTRf9XzTbjBOvnFcu5Ab5seBQE/wh
-         CqvqiD+1lynMtw9KBureXZ/urzYIZKbAM5EUuebXEtLa8KEND4MblPLyCmM3TgdlmZP7
-         D1zrNIlm+5BXtf3LHCVeMlf0Vdv+7gDXzxg2u+jIOJ31oGU6+grOHOzpS2gDkxGxcPH4
-         TCMyhCWBJCTwJzR0r3TBtqhLnjWvlPVAc3g7ig8VJZoaiQ+qq30jaQjUBi1MGJ48AtOv
-         1bmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719188020; x=1719792820;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GK3XqR+PJ1d4Fz6hBIhYUON//yKPUubXeIxccDTP36Q=;
-        b=hsxIj8qMkI75NvBZrrMtP9vFmJzapokL6PoaSIn5xygboh855xsu1wtWwCJHg+gMRp
-         JNmJIFDPdrXRCIcsaWh9DLtbrMhmkCWx9AnF0SDynRKwAqMHQoH9DcV6yCXrhKGmfWLK
-         D0PNr7LgfL4TEyPHEhStwoaZD9T866VF6LPVPrg21D/BZeCNsKCpHfBF5iC/oVdL+rG2
-         8x+vAo9b7bUepxWS4dJWbtY5lrx0EGeuoYjOsqJirw2UFImn/5djCEOrWBBr+SZnAEqT
-         pxreI2h5jCoXRzZk980WEDcfNqqaXGG0BMuVw2EP7BJnJM+tASmK8eVhLLhPDrW4ZfhN
-         jUNA==
-X-Forwarded-Encrypted: i=1; AJvYcCW/7jgwsP6mqpXZ9d6TBc8J3sHaJBnZuGNerUk40yh0m0xMQ1LIsPY94IRF0nRak58HxRpeFEzrma8XYD/jGbBXcBnnDhNqJGWp9OXYc5s33EBoYdM2WZXwZoXvEL4AHwtObjLZYlp2BIfW+LQtwjaRpFpIh4R3xiB3T08o5RqdIbCKGsTSRASNkZLiF82J+OnNAgBLL/fLxRmENR3e8Hu/BHnQOm+J1IebCYctjO3H6ui3OPRhmlxjMZ8ktbJMafWcZyAz0yGu48F94kn9U02hRJEF0HjM3WodKgQkVzX8tUsibXKZ4vzT06TdRKROaSJitCimM2SPiY3+cQsNdumxxxOTAbPCVzC9r8FE68LMGeuNQaWUxZL16i7KuHSCt0Q910ev6xtX4VcNrWDlw0K+fPm14PXHsfuPglMUeXBkAf45Lvzls3nisPE8aXIcTvMMcKzWdpnyeMm7frAoSuhKKyQwYTAY4Nk+a0t0QYH12KJGhJ+0beQMGnFjP9zuUj/7GPsptYJ90MvWr8y5rnPz
-X-Gm-Message-State: AOJu0YzsteuoHvEdseYFzizqjHjFOU22IaQrm0BUF9rBLmKpmHyXaI0H
-	O6KV46Dk0ZjBrzSjtA0ZWYBE/8HDTsXid7YrkQlDQOSsTeXH+qZ+
-X-Google-Smtp-Source: AGHT+IF2Bfeow77JRmsfl+qYe07q4SCYIXRmBXwU95g0HYBerXLLikzR2pgaDVKgp0/53mQUmpDsKw==
-X-Received: by 2002:ac2:4437:0:b0:52c:c9d1:ad32 with SMTP id 2adb3069b0e04-52ce1835a80mr1726400e87.22.1719188020234;
-        Sun, 23 Jun 2024 17:13:40 -0700 (PDT)
-Received: from [192.168.8.113] ([148.252.133.212])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a725060340csm88197066b.22.2024.06.23.17.13.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 23 Jun 2024 17:13:39 -0700 (PDT)
-Message-ID: <ae0d02f0-b304-4847-a88a-cd5bd4b9bc76@gmail.com>
-Date: Mon, 24 Jun 2024 01:13:41 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09F9C624
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Jun 2024 00:14:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.114.66
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719188074; cv=fail; b=Rag3GqXerpnX2XeMQ69048KrFc4jy/mw/xBsjhCBGDfbZ6C6nLdxLoWjatNj/g4hQHyZf2EsVEnUv8qgae0ZLFZpzN73pOtrdPYeeIYkmUZXiGpGerKvdS6jocQ9sL7j11ltnNIssbJ7ft/iB3e13WYG1Q7RVz2HzUVOzcx211M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719188074; c=relaxed/simple;
+	bh=cZqa4se7/9GAyUMkns2pDEkAByN5IdqoK1KCfP3NZ0Q=;
+	h=Message-ID:From:Subject:To:Cc:Content-Type:Date:MIME-Version; b=IsEjXxc9tMI0OMP4w3NKK3efJdi7/JlTg/R5lL0MzTsYU6/ZiCllOW+T3v6EToR5TLr3bYCrtQvcahiPt9k6M70I5riNFeuaJ1Ji4o1mYx/6h8Pxr/FMX9F+xBw2gp2ZfpL4sMHH9dhdufuGlBM+AbpYEAsoR+cyhsxRjldMetc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Pb1I2D2z; arc=fail smtp.client-ip=40.107.114.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fgZa7csj0ipEBMqoQj9rb9/UqHruJXO/lsZ13p8+4DwjNTHmp5fv+8UWmdaLruakW3emb1Fc25Ii76JIDemN03kHb60wvq10cFDrZ8No9OK7vENcW/msEuj2/X9m/BilyvQBOVHLaO2032hDeMOjRBqr+byjO4Xnlj9CE6lTVv93Y6qeodaPkbbn9SSSS9+dF3763BEb6kTuAHi9U5ugWiSko/WYzjtQcFbODbu2LzrZB8hZ0DHhrrbyXBqFDANgBia6rFbrG7Fc8e7bVkTYCcth68cKpgk1flB7DWLY6PHfSl8XJ/bsdw3nu9qj7c5dDVXyrC+U8dvv4LrPtqV2Ew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uokc3E/5A+yBI7mcvI4vMPTZYMNy9noQXTLeOUWXCoY=;
+ b=jLm4QGA0fgnWMVWXRfg6IaN1GUZG8Ss4H2qMJ6BMcVxqIm0MmRqNkOKS7MG78AoJ/GV9HCHmedLJaRTZ1T04Q8um+bFci6++YJE5/Tuw4fYf84axMRS7vcyHfUTFI/1CJVsbynAw4vhkINwMZQVwI1uYUCG2waSaHzb3FmEl/dWObzLdcvRbZLmjk5n/PO7qy7o+7S/Bh6pqrTCXp+23y+6Lov+na9SMq/LC/4ff6eakSBP3lQgO5gM2qq6xx8UcHcs3KvbkybpAIXCzHrRdHcIuCVDtyAytOzr970wcuint//2QBWcury/VAgP9TIhcmkZj2kJ8Um307GR9rkR+YA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uokc3E/5A+yBI7mcvI4vMPTZYMNy9noQXTLeOUWXCoY=;
+ b=Pb1I2D2z8pxmhH9aWAQfUwYil50uG0dVCLvkXo2yZXmCZo6q7orr5+5hznntWE8qNEXxlkJNZq4vSFtTobBjSQHjj2aYy2zCts9Ha7GnB9jrZcj+LVjkBzxuj1Cy26L/jIHz2E/ydOuDLaThYhhaYYa6B3+zqSWlVdDgk/5TWoo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYYPR01MB7104.jpnprd01.prod.outlook.com
+ (2603:1096:400:dd::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.28; Mon, 24 Jun
+ 2024 00:14:28 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.7698.025; Mon, 24 Jun 2024
+ 00:14:28 +0000
+Message-ID: <87jzifkxi4.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH 0/6] arm64: V4M GrayHawk Sound support
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org, Khanh Le <khanh.le.xr@renesas.com>
+Content-Type: text/plain; charset=US-ASCII
+Date: Mon, 24 Jun 2024 00:14:28 +0000
+X-ClientProxiedBy: TY2PR06CA0035.apcprd06.prod.outlook.com
+ (2603:1096:404:2e::23) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v12 10/13] tcp: RX path for devmem TCP
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Sergey Shtylyov <s.shtylyov@omp.ru>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
- Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-References: <20240613013557.1169171-1-almasrymina@google.com>
- <20240613013557.1169171-11-almasrymina@google.com>
- <20a6a727-d9f2-495c-bf75-72c27740dd82@gmail.com>
- <CAHS8izMce36FwLhFB0znHQYmxpe5hmTSXtZA7+b5VsmSJUfhRw@mail.gmail.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <CAHS8izMce36FwLhFB0znHQYmxpe5hmTSXtZA7+b5VsmSJUfhRw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYYPR01MB7104:EE_
+X-MS-Office365-Filtering-Correlation-Id: f7639694-912f-4b49-5460-08dc93e29cb4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230037|366013|1800799021|52116011|376011|38350700011;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?Vft/CfYdogArZDIjZzJ/r2jRtT0H6zZtWcP1jTWCIXoyG6LN79avXNxnEXy0?=
+ =?us-ascii?Q?mzxAD4+9kD7JjoqgoVV9nK1NKGCtNUt4xwscBJy1ykYT/qDYjrP+XR3TKshs?=
+ =?us-ascii?Q?pYSFtW/+sgnTwWV3u8WUZqzcaaKw/WTJxy3ksGjxouW0fp1T5Q/z8vNh9OkI?=
+ =?us-ascii?Q?DpNnprT8U75sBBiCRZexHcgXL62QjPOPQfdlTVyMsrRYlngbjGnnUshwleXo?=
+ =?us-ascii?Q?vf7czm3XvErcYGaD2Wcjl3e9LvZWCfO19DnmvVi8N+pGeQfTyXV6uVdM+V0I?=
+ =?us-ascii?Q?M8/Ij2qp5Nynmbc/S9jsZzftcajbl22DfXibrkC09pVSHes+WANAy0GO3KqL?=
+ =?us-ascii?Q?wHD+GFGSCcrTbzjgKLNwCAxoMwugMFneHdNQe73I9Zdz+T9xybKLZBM+2GSo?=
+ =?us-ascii?Q?7SHoeTn6NdY9gXt8UlMkDH2jNJvDHR6yPrHEWBZ3Q/dqTaAi0dQY9hY1fNVq?=
+ =?us-ascii?Q?f521LoZdredTwyUqb/AHpJcqWFS8WzM5NyG9z2mCwrPBC++oQf94vyrP0+ce?=
+ =?us-ascii?Q?aWT0BcObE5p8iRGsSko24hYVPojR+6yPHpsBSRH6AZxxDqguGR1gFKZ+oZ6A?=
+ =?us-ascii?Q?Vittxgjoe/h/iyfqQhluE4LuiMLd0sOqRpJEJ0i0PrvXbDXemcnTnBQXGr4x?=
+ =?us-ascii?Q?5MWSPTSQGygD5cx0TBLP/RHbbXH8ugnHZ8J/mdnSkZ3cxr+CWREP0LL7k01J?=
+ =?us-ascii?Q?dhQHICx3DpEXIenRnViOuhVyCqRTHaJdsaOTdqijSlunJmZOzDMHFjtDDRO3?=
+ =?us-ascii?Q?+qhYf+Y3LYMIBA56Nd3AMEWy3C4JomV6HNS9jaHH1r5G+66Cc0SjHRwapqXp?=
+ =?us-ascii?Q?MZwOiCZxN6oNSB0XBOJ539C78CS8Vy7azagF9eFC/IrRZUTmhprbsIl4xiOx?=
+ =?us-ascii?Q?3QBY4Xyui8xNFv9jgXjw9vJ7Oq1nyEOHl3PUL88e3lkKQROqcnAiGpofFUr9?=
+ =?us-ascii?Q?SsqxncVkVMTna0a04a3VIbNzUcmJCWZkmACtoG5O+fmlkRDwddgoq7QGURLB?=
+ =?us-ascii?Q?ndTcHyIYiWLIlo3KsJfnHlrALAsGUKeyjOOMbIVzIqNyM5dMFTJoagHHFrnE?=
+ =?us-ascii?Q?cgqZIZH3ThOFOtuLglQRsXapGGIUCr/Rr+G3Wb+kZzPwRLkoX5digomlr7VE?=
+ =?us-ascii?Q?ChOYNai9PRNI3guTqkcdwxuaoPvDPAgg+KPg0rikvtkUEwfrftXRsZ7/W9Zp?=
+ =?us-ascii?Q?o+kQV05/uTro3UPzNjqInRa7mVBecbq93P35tcG7R1FT89Mz/rZ/kzFV6j4L?=
+ =?us-ascii?Q?1yQiupQs5+Z9hH8dVaZB6SyAewhqZcKxUnolBdWmuQDdULbxAdiC5uyrx/6P?=
+ =?us-ascii?Q?WWwtwh/xbcs8x6VZ6ucUs1xa5nANbv1OJGfCdqMir3LS+i44QwdNM0/cS7pK?=
+ =?us-ascii?Q?y+TD+SQ=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230037)(366013)(1800799021)(52116011)(376011)(38350700011);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?v0qbZCdF2NJFmn24YJgwuoSZDYvvWzz+OaVtF3gtLtvcMucntUqstNmOhDNU?=
+ =?us-ascii?Q?KkVAX+As5UkLUd0rx+Tc899dhNHR+k1BXCTuN0uAcYb2zZcL+J4tCVE4k0Za?=
+ =?us-ascii?Q?X+SreUZ8q9q08ns1/xo5w2uWzrtHmpEj9FXJ6gTuWVHlkcLHaK1rMJmYqMuL?=
+ =?us-ascii?Q?WNnEUTa9BKLsIVkA/48myQ0Jmdyulynq/VD4neckGvNuDfowjwUGI2Kz81jB?=
+ =?us-ascii?Q?XIkN5HNSDelQcOWYtxTyrWxBOW6U4BCAFqsEwBgjPE0WYeC0nEV7MnodL7dN?=
+ =?us-ascii?Q?dQz4/P0x0qjHBFlz+ePHTRT2M5ZKo+Q1Tdivj3bc7DYULtSKFRhBujrRydcV?=
+ =?us-ascii?Q?EzzAjjTvc35BmiApuPDzbtrl3SJfuxiO7pFjn5Ogql3oIAPZBZCLhXS0izPe?=
+ =?us-ascii?Q?/Wgt9ySTj86QEg5DxTq0PXET22zRTZEbkrf/b8Fj9BsdZbvAcze6OEcLBG7r?=
+ =?us-ascii?Q?QRwfUO2PD3Zjq8ztLTq9vYDTA1mlriI1BO0ZHEnSDM8NoAgf1hW7xdUVBI/v?=
+ =?us-ascii?Q?jZOzk+p/n+5mt/xQAiQWOMc5E5kPyp+8ANAgTICQ+tvRv80cBS6promV3sts?=
+ =?us-ascii?Q?esKp1JYQsi/u8hqFPrhJxgg4bcfsXyvnAb0V0Km2hE9LrZk78vZcYQz9xZsA?=
+ =?us-ascii?Q?DfcQf+EabX+QZgObA+zhrdy0cFxlD2jUIyEU/70q9/BFunktaZJyKm7z6+4Y?=
+ =?us-ascii?Q?J+IgAo9oSqafeRXFcNm+dggcBMTq61JOsL5PWwTOMOHuaRVXNAzutDP8/jt2?=
+ =?us-ascii?Q?OH1dfAC1KykG6SMRzf46acLnr3UsXBdxQdbTf++Ya4+rG7FYlWHe/ANEgvM3?=
+ =?us-ascii?Q?LTk+9SgeEK3EUtZ6+ruGACA3CoZ+eqQckwaGHBTdYHnUYkE8t1gALEMtOrks?=
+ =?us-ascii?Q?exoMII9ZYGP+QLoCk7xXyfrLpnszUNn3ur8eVai+NnvtEOrvMJvAL40aB62A?=
+ =?us-ascii?Q?Qyi9OLM8vMUl5HpYmMOlSsyBidQ6HMiXqk3b97sXtidPxZwEpldPiIHSBEnA?=
+ =?us-ascii?Q?PH41d1owQyAcuoBEijMXGwW9vtf1LRLys9cI+hKfyAxPMReLgnc79GgTVfPV?=
+ =?us-ascii?Q?FCh/9yWUW4K8f2TsWmPqzhCiHYzg8vFbCsaBmlFAJtH/OrwQZj0e/sdU27LV?=
+ =?us-ascii?Q?avaSSRujgNNWv/bJnyR8mmb2GIv33nh2XcyzIG20CCvwNBZKLZIwAMukz/xg?=
+ =?us-ascii?Q?Rzmae3mcgnZCwCstRTBBiIeLHFW6/Jxk2u/QOTllKkOcZjlRijPURhk3hELy?=
+ =?us-ascii?Q?nKPATaIJTHc6vTHcPG3Vq/MChP+OCmE2CoF2Vnfv3wsUcgR7yue+ahka5Rek?=
+ =?us-ascii?Q?sQZPMDUzamTYhqHTvWB553B6H43hVyuIYQmV+q/zEzRhX9baObnEL0mD1aiT?=
+ =?us-ascii?Q?nnnlknLf1UbPlr3xXeDQNYB+zbTmnFGZ8yOHxDFWCSLAXvw3FrwT8EK2kMnj?=
+ =?us-ascii?Q?/wnZRhI69imHgzu5Oo+OqkPwNywoxVyq51tQPR4oO2ELAkgwfdQXkS/SSh+n?=
+ =?us-ascii?Q?HQ1IP6jgA8rEL7uy9glAx36EhfGfU5JO6sYeax9vozBsrk/1m/c50CJ6kuds?=
+ =?us-ascii?Q?qRCqCwwOuGHP8DbPjUeeHKTX1W1UAV9mp40vpmn6wYhOd8cQy5XYDz7Lgw5R?=
+ =?us-ascii?Q?groHZDyOVti1Yt/kpwrW6Ds=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f7639694-912f-4b49-5460-08dc93e29cb4
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2024 00:14:28.1695
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: j/6RRwxo9h1Xs254r5miVpbiQQM+RLCbIGHU4bx+qEQhOTnupz+7NryWPLqE3YjO+5uM5HSYEWTvdejpCzUkGEHy+BkJVHzSmTFufTCN/XztKufBndrunOThRBSg+X/A
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB7104
 
-On 6/21/24 21:31, Mina Almasry wrote:
-> On Mon, Jun 17, 2024 at 9:36 AM Pavel Begunkov <asml.silence@gmail.com> wrote:
->>
->> On 6/13/24 02:35, Mina Almasry wrote:
->>>
->>> The pages awaiting freeing are stored in the newly added
->>> sk->sk_user_frags, and each page passed to userspace is get_page()'d.
->>> This reference is dropped once the userspace indicates that it is
->>> done reading this page.  All pages are released when the socket is
->>> destroyed.
->>
->> One small concern is that if the pool gets destroyed (i.e.
->> page_pool_destroy) before sockets holding netiov, page pool will
->> semi-busily poll until the sockets die or such and will spam with
->> pr_warn(). E.g. when a user drops the nl but leaks data sockets
->> and continues with its userspace business. You can probably do
->> it in a loop and create dozens of such pending
->> page_pool_release_retry().
->>
-> 
-> Yes, true, but this is not really an issue with netiovs per se, it's a
-> quirk with the page_pool in general. If a non-devmem page_pool is
 
-True, devmem is just a new convenient way of doing that ...
+Hi Geert
+Cc Khanh
 
-> destroyed while there are pages waiting in the receive queues to be
-> recvmsg'd, the behavior you described happens anyway AFAIU.
-> 
-> Jakub did some work to improve this. IIRC he disabled the regular
-> warning and he reparents the orphan page_pools so they appear in the
-> stats of his netlink API.
-> 
-> Since this is behavior already applying to pages, I did not seek to
-> improve it as I add devmem support, I just retain it. We could improve
-> it in a separate patchset, but I do not see this behavior as a
-> critical issue really, especially since the alarming pr_warn has been
-> removed.
+This patch-set adds V4M GrayHawk Sound support.
+Because V4M has only 1 SSI, we need to switch Playback/Capture when use.
+You can find how to do it on DT file.
 
-... fair enough. I haven't noticed it being removed, but was
-thinking to suggest to conver to ratelimited.
+[2/6] is not related to V4M, but fixup for V4H sound.
+[6/6] is for renesas_defconfig.
 
->>> +static int tcp_xa_pool_refill(struct sock *sk, struct tcp_xa_pool *p,
->>> +                           unsigned int max_frags)
->>> +{
->>> +     int err, k;
->>> +
->>> +     if (p->idx < p->max)
->>> +             return 0;
->>> +
->>> +     xa_lock_bh(&sk->sk_user_frags);
->>> +
->>> +     tcp_xa_pool_commit_locked(sk, p);
->>> +
->>> +     for (k = 0; k < max_frags; k++) {
->>> +             err = __xa_alloc(&sk->sk_user_frags, &p->tokens[k],
->>> +                              XA_ZERO_ENTRY, xa_limit_31b, GFP_KERNEL);
->>> +             if (err)
->>> +                     break;
->>> +     }
->>> +
->>> +     xa_unlock_bh(&sk->sk_user_frags);
->>> +
->>> +     p->max = k;
->>> +     p->idx = 0;
->>> +     return k ? 0 : err;
->>> +}
->>
->> Personally, I'd prefer this optimisation to be in a separate patch,
->> especially since there is some degree of hackiness to it.
->>
->>
-> 
-> To be honest this optimization is very necessary from my POV. We ran
-> into real production problems due to the excessive locking when we use
-> regular xa_alloc(), and Eric implemented this optimization to resolve
-> that. I simply squashed the optimization for this upstream series.
-> 
-> If absolutely necessary I can refactor it into a separate patch or
-> carry the optimization locally, but this seems like a problem everyone
-> looking to use devmem TCP will re-discover, so probably worth just
-> having here?
+Kuninori Morimoto (6):
+  clk: renesas: r8a779h0: Add Audio clocks
+  arm64: dts: renesas: r8a779g0: tidyup sound DT settings
+  arm64: dts: renesas: r8a779h0: R-Car Sound support
+  arm64: dts: renesas: gray-hawk-single: Add Sound support
+  arm64: defconfig: Enable AK4619 codec support
+  arm64: renesas: defconfig: Enable AK4619/Simple_MUX
 
-I specifically mean how it's split into patches within the set. It'd
-have been easier to review, understand for people looking it up in
-history and so on. However, not insisting on changing it now, might
-be safer to leave it alone
-
->>> +             /* if remaining_len is not satisfied yet, we need to go to the
->>> +              * next frag in the frag_list to satisfy remaining_len.
->>> +              */
->>> +             skb = skb_shinfo(skb)->frag_list ?: skb->next;
->>> +
->>> +             offset = offset - start;
->>
->> It's an offset into the current skb, isn't it? Wouldn't
->> offset = 0; be less confusing?
->>
-> 
-> Seems so, AFAICT. Let me try to apply this and see if it trips up any tests.
-> 
->>> +     } while (skb);
->>> +
->>> +     if (remaining_len) {
->>> +             err = -EFAULT;
->>> +             goto out;
->>> +     }
->>
->> Having data left is not a fault,
-> 
-> I think it is. The caller of tcp_recvmsg_dmabuf() expects all of
-> remaining_len to be used up, otherwise it messes up with the math in
-> the caller. __skb_datagram_iter(), which is the equivalent to this one
-> for pages, regards having left over data as a fault and also returns
-> -EFAULT, AFAICT.
-
-I mean "Having data left is not a fault, not receiving
-anything is", and you correctly return a partial result
-if that was the case.
-
->> and to get here you
->> need to get an skb with no data left, which shouldn't
->> happen. Seems like everything you need is covered by
->> the "!sent" check below.
->>
-> 
-> I think we can get here if we run out of skbs with data, no?
-
-IIRC the caller clamps it so that it's within the skb with
-its frags. Well, safer to have the check, I agree. It's just
-looked a bit odd since the value is complementary to @sent,
-but I guess it's just a way to propagate -EFAULT.
-
->>> @@ -2503,6 +2504,15 @@ static void tcp_md5sig_info_free_rcu(struct rcu_head *head)
->>>    void tcp_v4_destroy_sock(struct sock *sk)
->>>    {
->>>        struct tcp_sock *tp = tcp_sk(sk);
->>> +     __maybe_unused unsigned long index;
->>> +     __maybe_unused void *netmem;
->>
->> How about adding a function to get rid of __maybe_unused?.
->>
->> static void sock_release_devmem_frags() {
->> #ifdef PP
->>          unsigned index;
->>          ...
->> #endif PP
->> }
->>
-> 
-> Will do.
-> 
->> Also, even though you wire it up for TCP, since ->sk_user_frags
->> is in struct sock I'd expect the release to be somewhere in the
->> generic sock path like __sk_destruct(), and same for init.
->> Perhpas, it's better to leave it for later.
+ .../r8a779g0-white-hawk-ard-audio-da7212.dtso |   4 -
+ arch/arm64/boot/dts/renesas/r8a779g0.dtsi     |  17 +--
+ .../dts/renesas/r8a779h0-gray-hawk-single.dts | 107 ++++++++++++++++++
+ arch/arm64/boot/dts/renesas/r8a779h0.dtsi     |  68 +++++++++++
+ arch/arm64/configs/defconfig                  |   1 +
+ arch/arm64/configs/renesas_defconfig          |   2 +
+ drivers/clk/renesas/r8a779h0-cpg-mssr.c       |   2 +
+ 7 files changed, 185 insertions(+), 16 deletions(-)
 
 -- 
-Pavel Begunkov
+2.43.0
+
+
+
+
+
+Thank you for your help !!
+Best regards
+---
+Kuninori Morimoto
 
