@@ -1,181 +1,193 @@
-Return-Path: <linux-renesas-soc+bounces-6670-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6671-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7650B913F82
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 02:16:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 176999140EE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 06:10:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C0263B20C3B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 00:16:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7802C1F21593
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 04:10:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 773FD621;
-	Mon, 24 Jun 2024 00:16:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81ED08C1F;
+	Mon, 24 Jun 2024 04:10:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="K5A3f29V"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="KrD5HtQJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2078.outbound.protection.outlook.com [40.107.113.78])
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2172C7FD
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Jun 2024 00:16:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.78
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719188209; cv=fail; b=m3u25lp/99Bl8yoVQJSNnkWqaB0EJxMB+yUs+0LaXdWXLfzk2SUiEnAYKmdObwhV8A9FBmNLYfC87XzI9Egk3YVlasePQPL/0QfMjSaOkCgjK9bW09Wz0NtoEPB9VJ90As8rFunfoKyQj+WFKT8XVetLHHXYwbhMG0GGMHTG/y8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719188209; c=relaxed/simple;
-	bh=Zltk+mW8An0cclQG14G1UfvhJogCA5zu1juBSqFMVfA=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=jTvcRSYBoMXbnquqvZmvpZ18nnW37UZyECn2DsZeN/PirdLgiBoi801pcmjkiQzsldlZN9qfGEhJ4p0PGtOGvkFmCxLXlpNdsjHCeGXvWlFGIl4P4VOCWhDJ+pEwgZxfmOMz3iNLfLhq/DOg7womDE1Uslx3iBY4V+pApwgvBYY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=K5A3f29V; arc=fail smtp.client-ip=40.107.113.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=b0yZmhCYV01sxHEW1J70FGgDoPZDjWdTR0vYIo5BG79lJYocWruviaJG86ls6yr7xElXR+lJl9m5iTArtbf+56BAoyT/pExMSxN0EAFYcFsaM62A0KgNS8wOrfJheifl2wDCvWQzoz77gbV7Miql9qdf6c7/Uyv7r4eyDrZ3BTTRw1WoMMgSXQodC9T28TBxljO2KhDsRQvv1cLGpkMEVo6+uOcqNL1F81QUwvLZ+/w0I7KaMVZ29NFEOfUDAeD16jc4hSNyYT3AkqXgtOdoUey8WDkb6Z904QBme3K8ijTTt1NavXTwIJ9p0iKN4CMTkDGW+nyrq6tA0zQmZRiH+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4q2AKl8dwRXFeKEkvA8mMzhOXGYEOBKURUeDtDcIafQ=;
- b=lhFe+i2o4YO7iNIb6e3eowcUNyaD3jjZqK3P5ZPeDzUgNNOFUHq0hubdiskFnzuDsPYAfW1pmMplc3KBjLTr5W5haZZ/1anGwkFb4ZSybmmH3PVAKZ61mifl8zx8X8GJ0f+DpUR1IXUB6m0NKg9hUQsEFBDDaGyT1uHQldhWdxV2bRrE5OmwzNhCAs4tZi8+1MiiM6+hfkynwblUO+jTApOWuw59kX0jr9k+nl5pJNyWXEcd5qgsq/i0xfY37FE4/lceBfKqK+cnrsUN57ukSgSD1Db1Zg1LmXg2Kv6rtLT//LZ3GgnVfqRTBOXGUhUi42vp0UWVJXhGggJ+vAkchA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4q2AKl8dwRXFeKEkvA8mMzhOXGYEOBKURUeDtDcIafQ=;
- b=K5A3f29Vv1TJuadiOWvLjZn3D6imT0G4+WY+KcXRb80kBIJVBAbjY0vRr8k6pjH2KKG5skgapOeLhBxgGBmPsZOeEYHhghy7Y1+YA7m0vzM0MzCCTv/9yJFTm95TtKyZPwmKr70+UGhM2zz5plO4Qu8cOYDjJBV3wcLkcu+4o4M=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYAPR01MB6250.jpnprd01.prod.outlook.com
- (2603:1096:402:3c::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.28; Mon, 24 Jun
- 2024 00:16:45 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.7698.025; Mon, 24 Jun 2024
- 00:16:45 +0000
-Message-ID: <87a5jbkxeb.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 6/6] arm64: renesas: defconfig: Enable AK4619/Simple_MUX
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org, Khanh Le <khanh.le.xr@renesas.com>
-In-Reply-To: <87jzifkxi4.wl-kuninori.morimoto.gx@renesas.com>
-References: <87jzifkxi4.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=US-ASCII
-Date: Mon, 24 Jun 2024 00:16:44 +0000
-X-ClientProxiedBy: TYXPR01CA0060.jpnprd01.prod.outlook.com
- (2603:1096:403:a::30) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10D436FD0;
+	Mon, 24 Jun 2024 04:10:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719202208; cv=none; b=MMkRQQtVSTW2d7XkJH7hJv9MhS5KGombphoxqnrw9WV/nysPwTPMUCKlsMUE+anURLnfMRDQqAkucU4ltua//qR3b9lFqathdZbm+NEJsG9TZMHRKEcJ4G/UiE0Bu/0eBQ7W/NTXLMHftH18lMFSzuXSPSGAGl8122J34zAFpqs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719202208; c=relaxed/simple;
+	bh=f8MsT2ydR8FVWHQfUu9aV03i/fvtgmg81rTBmx7wZtI=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
+	 Content-Type:References; b=BDbg8UXsQuKwnl38pr1dFyyykIA5bUdgqaZXlEo0KrJmyXo5ziesZV0DQmwcNIDyNEyNH8rjo5N1ooStaOofS/MrKwDF2muXZyY4N48S8ql97UdkndUr64B6f8KpUiPj2Js6KxUXLJoqJyqxDi4hutiNiCXj6D3nVnWy0xEoIFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=KrD5HtQJ; arc=none smtp.client-ip=203.254.224.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20240624041002epoutp017f05577018b2eadddc8b8cb81ec3826f~b1Ut0SVjH1592015920epoutp01L;
+	Mon, 24 Jun 2024 04:10:02 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20240624041002epoutp017f05577018b2eadddc8b8cb81ec3826f~b1Ut0SVjH1592015920epoutp01L
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1719202202;
+	bh=f8MsT2ydR8FVWHQfUu9aV03i/fvtgmg81rTBmx7wZtI=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+	b=KrD5HtQJlXwla8TJO98EzEGmbC6U6iFckhBxukcjB1yovmR3lz02KUcrhstmuFHwP
+	 HlU6mB/4SedvqN4YiOBGO9STneKReT3yuKLSGYAj6kOz4v/+HseOzds5BjWWMSF78Z
+	 UX56cYaK573oQ0K1epKtk2kmiCwRbV6WxQq+ulZM=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20240624041002epcas5p32f5ba38ddb47660961e77f59341cfae1~b1Utit_tu2048920489epcas5p3C;
+	Mon, 24 Jun 2024 04:10:02 +0000 (GMT)
+Received: from epcpadp3 (unknown [182.195.40.17]) by epsnrtp1.localdomain
+	(Postfix) with ESMTP id 4W6vcp3M22z4x9Q8; Mon, 24 Jun 2024 04:10:02 +0000
+	(GMT)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20240624040636epcas5p37dc56f380e9e84e273a040775a8e6f6a~b1RtorJGk1881818818epcas5p3e;
+	Mon, 24 Jun 2024 04:06:36 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240624040636epsmtrp207b25ba1110f1c95c77dc40514d58f15~b1Rtmp5HY1015110151epsmtrp2s;
+	Mon, 24 Jun 2024 04:06:36 +0000 (GMT)
+X-AuditID: b6c32a29-72dff700000074f4-8b-6678f0cc0a0d
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	76.5B.29940.CC0F8766; Mon, 24 Jun 2024 13:06:36 +0900 (KST)
+Received: from INBRO002756 (unknown [107.122.12.5]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20240624040628epsmtip2a5b53ed83b9eac43f0d7a7bd0cd4bb48~b1RlznvHY0728807288epsmtip2H;
+	Mon, 24 Jun 2024 04:06:27 +0000 (GMT)
+From: "Alim Akhtar" <alim.akhtar@samsung.com>
+To: "'Krzysztof Kozlowski'" <krzk@kernel.org>, "'Krzysztof Kozlowski'"
+	<krzysztof.kozlowski@linaro.org>, "'Daniel Lezcano'"
+	<daniel.lezcano@linaro.org>, "'Zhang Rui'" <rui.zhang@intel.com>, "'Lukasz
+ Luba'" <lukasz.luba@arm.com>, "'Rob Herring'" <robh@kernel.org>, "'Conor
+ Dooley'" <conor+dt@kernel.org>, "'Guillaume La Roque'"
+	<glaroque@baylibre.com>, "'Krzysztof Kozlowski'" <krzk+dt@kernel.org>,
+	"'Vasily Khoruzhick'" <anarsoul@gmail.com>, "'Chen-Yu Tsai'"
+	<wens@csie.org>, "'Jernej Skrabec'" <jernej.skrabec@gmail.com>, "'Samuel
+ Holland'" <samuel@sholland.org>, "'Shawn	Guo'" <shawnguo@kernel.org>,
+	"'Sascha Hauer'" <s.hauer@pengutronix.de>, "'Pengutronix Kernel Team'"
+	<kernel@pengutronix.de>, "'Fabio Estevam'" <festevam@gmail.com>, "'Anson
+ Huang'" <Anson.Huang@nxp.com>, "'Thierry Reding'"
+	<thierry.reding@gmail.com>, "'Jonathan Hunter'" <jonathanh@nvidia.com>,
+	"'Dmitry Baryshkov'" <dmitry.baryshkov@linaro.org>, "'Amit Kucheria'"
+	<amitk@kernel.org>, =?utf-8?Q?'Niklas_S=C3=B6derlund'?=
+	<niklas.soderlund@ragnatech.se>, "'Heiko Stuebner'" <heiko@sntech.de>,
+	"'Biju	Das'" <biju.das.jz@bp.renesas.com>, "'Orson Zhai'"
+	<orsonzhai@gmail.com>, "'Baolin Wang'" <baolin.wang@linux.alibaba.com>,
+	"'Chunyan Zhang'" <zhang.lyra@gmail.com>, "'Alexandre Torgue'"
+	<alexandre.torgue@foss.st.com>, "'Pascal Paillet'" <p.paillet@foss.st.com>,
+	"'Keerthy'" <j-keerthy@ti.com>, "'Broadcom internal kernel review list'"
+	<bcm-kernel-feedback-list@broadcom.com>, "'Florian Fainelli'"
+	<florian.fainelli@broadcom.com>, "'Scott Branden'" <sbranden@broadcom.com>,
+	"'zhanghongchen'" <zhanghongchen@loongson.cn>, "'Matthias Brugger'"
+	<matthias.bgg@gmail.com>, "'AngeloGioacchino Del Regno'"
+	<angelogioacchino.delregno@collabora.com>, "'Bjorn Andersson'"
+	<andersson@kernel.org>, "'Geert Uytterhoeven'" <geert+renesas@glider.be>
+Cc: <linux-pm@vger.kernel.org>, <linux-samsung-soc@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, <imx@lists.linux.dev>,
+	<linux-tegra@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+	<linux-renesas-soc@vger.kernel.org>, <linux-rockchip@lists.infradead.org>,
+	<linux-stm32@st-md-mailman.stormreply.com>, "'Florian Fainelli'"
+	<f.fainelli@gmail.com>, <linux-rpi-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <cpgs@samsung.com>
+In-Reply-To: <003b73f2-3b5d-40b7-a87c-2fc937e81bcd@kernel.org>
+Subject: RE: [PATCH 01/22] dt-bindings: thermal: samsung,exynos: specify
+ cells
+Date: Mon, 24 Jun 2024 09:36:22 +0530
+Message-ID: <1296674576.21719202202469.JavaMail.epsvc@epcpadp3>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYAPR01MB6250:EE_
-X-MS-Office365-Filtering-Correlation-Id: d32c46ec-08a5-483a-a5b8-08dc93e2ee41
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230037|366013|376011|1800799021|52116011|38350700011;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?abSLFMafgjThI3atJDWo0NyVnbLTaXeGCfCKlpESXUWd7XikNvfwHIkIXKFT?=
- =?us-ascii?Q?aCo0VASRhb/ud0Jegl2TFDs4ZEvj5b6hZPG+6vbCqcWYgoGe+TRJzvJBYlPW?=
- =?us-ascii?Q?g3w/XqCPTl5165yW8SAtquZNCC0bm7GgBBVHFD+LxfF3EDJ35L9zmOhN/Fr1?=
- =?us-ascii?Q?XEEFOaksVeLPyMF2VPCarAm1NWpBB6JYrgaRk1WHwR80A44PzrbrD7flemtN?=
- =?us-ascii?Q?T4Jca1VJ+QV4BP6wUVQWx8m0MkOvcXWy61haij5W66T137hNv4UUlhT8lyI3?=
- =?us-ascii?Q?BqZ1P5GM5taGzpXLnTgEXm0Epjlt8RylP/TXKBPtCUa74H9HAbB8o160DVoZ?=
- =?us-ascii?Q?/WUqIfGu3osl65xnwFOiQP2KqrNO8JP8rwpM/E/iPAc+yt4uYit+JBIFYcwQ?=
- =?us-ascii?Q?0yA8cQWuDRecRDogFlqlJkZAfKQammwJdccSANSNJo6AGAXKLrMZmX0sJFNg?=
- =?us-ascii?Q?HMzswkYFU7TP6CI8nDRuq+g/FzxKuPirIcMkeUV5rzK9uiom8GLXDFp0s4mn?=
- =?us-ascii?Q?kjwePbZ879rK7z/PgbFCBs/Yu9ToVxA8yrXKhAkjmjIeEqrXwb09vE//yGOG?=
- =?us-ascii?Q?O+ZOKx8hl5V0EETlldtdSWiMcjbnzoMxeFawO8l4W7CRfpL8zXzpLnurKhoL?=
- =?us-ascii?Q?uABMxO5NhDfDyxVCUPcOJZ8joZexAumNmMHssnD7n0Qvw3f5q+OxMXoYdCWM?=
- =?us-ascii?Q?EOfF1Flyf+tDeBfwLpa40ca10KlaWqPSF5SyWm9d3xm3gwDtfC7fei6f0z9q?=
- =?us-ascii?Q?1bulrwzBAberX40RERDbl7XwVoYC+RPIO7crYSsAlYlY604TsY7rz7J6Gs8A?=
- =?us-ascii?Q?enNEuCsTrKNEEpykcypbaBNsfweGYMxoNtT8UwZjeGHa4gYkev4zuJIpY8ve?=
- =?us-ascii?Q?YXjo/ibhGYrZdjc0eU2bnzDRbQ8AmyY86eFUcw16/YOoVTf5N/ab+0CSqiKn?=
- =?us-ascii?Q?GLDDZT/zlHj7E4Ce8bgcc4E/QUr2ijyzIti1jHpjfB+iNbVHgj5CuMnSg9F6?=
- =?us-ascii?Q?NV3REYwsaH/1YwHD04MkCqZbdtAfiJpT3eOKekmknSJalI4MwD35K8XgSak3?=
- =?us-ascii?Q?tCQ5kM/2GvaGGYZrHAtETmhTYWGXOG6sSxfLAlWygExsTNUSl5mXIH3b7eYQ?=
- =?us-ascii?Q?KiHWDmd+6YhlAAwqVK2qDxMZSoZ1ElbU3281ef2jRZehLfhfvTScG0C5HTLk?=
- =?us-ascii?Q?WZLkzvZm+CglQJLn7Ie/uboLGLsYoRF4kd9hfQT4EdAka+PYNP7Go2Ph8biL?=
- =?us-ascii?Q?fcAH1y+dGY0FLlliIrT+xFAu9r5tqsaNEB7c3meDcKZ4Guzol/Mu4Ktu6hbl?=
- =?us-ascii?Q?ueN+awD7NE3nTvX9jqL+VQ0cPuB8TGZFkjXFstTshnVgMRjmem6hewuPprTH?=
- =?us-ascii?Q?DQkzwk0=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230037)(366013)(376011)(1800799021)(52116011)(38350700011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?5XXBaNabEZiX5ifv32PsY2ZgxJ252552T0/12OATJOjl6U5EvEmCq7f12kBL?=
- =?us-ascii?Q?G6qB3XpTyPYsP1+A1zqNb+TFG1TTT2+FWn82PU9Xp1EPWFjAJ9zlTgqiglmi?=
- =?us-ascii?Q?ndI0s4dVHT2lkpsGZfArW0w1rYPtILC1zEOce3MUmjDGhoQljLKPVRXMTJRq?=
- =?us-ascii?Q?wUOQDT8a1NCED65sdEWkjxeqTI1sSyxk3ETImtj+1k2pJV0uH+L4O1BNWZ1Y?=
- =?us-ascii?Q?oTxGVPuF3OLdDttCQNKRv0Vw/8LYYcVNZ9Tf/xUBY+/yKxBLFBcgGJmTtFTn?=
- =?us-ascii?Q?Se4bMpMLYOPQ/o0lOp1DTPeqRz0PgxBZoGEpDWUGzGturH96fFxJAWOS3vMq?=
- =?us-ascii?Q?2iK3y1oP42GI6HwNTe9KN+NoBOWKeIYdD5Yi2JwMde7hLear3fwZtdjFVnQZ?=
- =?us-ascii?Q?m5LKHR4XzucsKA736Mnp1lNroMmPHQ8qONp6vk4Gxhto17kLlkDhXaGjU0WX?=
- =?us-ascii?Q?bzaCFKSkWH5/tW6tY/18UGYPG62F2JaXLHJ/bPCY80eSAWbDwH+q6ua+gA0i?=
- =?us-ascii?Q?pZSNGqjZmxvZtx84nQhj/pOH8h0MvRO4sMSwrWSuihr32l/yPFsPjLT4PC87?=
- =?us-ascii?Q?QS/eOyj29zbCG2EvxMqi8Ey0O16It6iKnYo5ZlTEE5oMnHsiqS3wVC3dd1ZF?=
- =?us-ascii?Q?wPRu8x0PQclbRc/3igpr5BW9fdnc0rHl1K7DITffFZib4dtA3fTeeGTQ9lut?=
- =?us-ascii?Q?20AKA60/QI1FJHLlh04eRGlSZIq2roEm/0YhDKbw/AzH40XN2mRg2lWCGCdY?=
- =?us-ascii?Q?VXm6Huc8ZoEktk9dAtzQpYTV6JMZ8/9cMvSnnDdfcu8udIIx/v+7SfYpZro+?=
- =?us-ascii?Q?ZoniO5jQQ4hmpaMjdOMOAXGYzWXLeM+0u58V/b2ubknzBXzkPPRgvwZDSj3L?=
- =?us-ascii?Q?+XmOVtEb2BRRf2MVixre1YBL0C54EuUJuju1A75X6Do2u+gyek78YgRZmueP?=
- =?us-ascii?Q?r8+kMkfLV0uWTEOkiGB75fhmq9lToph9/w/rTx2PR6poqyY6mFY5mRH/wUVs?=
- =?us-ascii?Q?OH/0xhOYLGFKXjDgKBRb2x8qZ+j9wE2vlq09bHZc0IU4x88UvC18unLrmeSo?=
- =?us-ascii?Q?TPW9mtn0kSeBhJXIjquHS12vVQmnz1L99XODCs6TXh09uIzJKo6YrCR/aiyx?=
- =?us-ascii?Q?s72yUIavXiKyow1UR0g0udOeN3LF2rfD7jg1sP/hjcGOUZeFfgTXNGIU3hGV?=
- =?us-ascii?Q?UtuIixukLt3ic1J8gLTyIz/ciNJMsFNN7N2lM8g33L3F0iIUlD5UkKh2EFg7?=
- =?us-ascii?Q?neDKvDjQ3Z8ez9DUsTnEABm66OhK4A3yKs0UO9dX7v9nWDJ/vuEO2WRvZNFl?=
- =?us-ascii?Q?jaiXgqTM/8OGDDwDy3qTwIy95qKgVrvcv6+MGtjlN3rQodEX7JeRvl67ACHc?=
- =?us-ascii?Q?buY4aZt5XhgqDSDaUFFQmVYcUIZ6tjYJKPEQtBS/t7SmWODPoWgLnH42/9t9?=
- =?us-ascii?Q?Q0EWXiNUmWB1eX03JmN4hO+U72SDIe4Gyz4a1uWmG5YO3j4eUh06ZQaRpGCq?=
- =?us-ascii?Q?4ThlBFOfqJQl0GXF7LjaJLa1jibJJ50Xxv0gE7yc6eVdXY2TqdsgRBiMYYRR?=
- =?us-ascii?Q?cPh+nA5X8N0QCCpRsfN/9f0RlCFV+jyCR8v8YbxDyrfpEXKq+UJ2wkLqsNly?=
- =?us-ascii?Q?0YFPEIC5JI+BSs8tDM30qnU=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d32c46ec-08a5-483a-a5b8-08dc93e2ee41
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2024 00:16:44.9991
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vptCo3AYseaRJd0mF+wbAs+sT26r9rxVGwH+eeoHYftfy2vmpGHSBBulTSIe7z/qpIZARopmpSwY8JZERLc18SOJD60yYw+2l47QzNkim2z8nEzudB4jnm1LRRnnpGDi
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB6250
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQGhCdcVAXQc0tvKk5x9QOKQ/J0WewGh/L0BAiWHCW4CgfI42AIboMv/sgabD1A=
+Content-Language: en-us
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0xbZRjH956ennPogp4VYs8gKiHRZBdgBGKeKcNLNj3ROJfMfcHorFAY
+	chn2DIYzbqyAWjZGOybQMsrVcSsTWi6lBYblsjEHTFEYcpFroYMBAYKWIZXSaPj2ey7/3/N+
+	eCmesITwoCJjz0mkseJob0KA17d5v+jzYCkx/FDH4LNgs2YhaMtPhNROC4L674Lg13IGGlSh
+	YG/uRFCV3oGDxrCGgba5BwOreR9oVp6H/PYePih7bQSsL7STMP77B3C7fpQHebnXERRm5hFg
+	n5jjg2o0lYD7DTIMZvJvI0hRF+FQ8X0jDlb1KAG9vdUkNM/VkVCQuxt0k/1byjvdJPQZbxLQ
+	l/wLgpX0dgR11gUMlsfsPFAObQVyelswSOuf4sONFiMB8lU1AYWyFBJkKQFwN+saH7KXchG0
+	TmfiYG8ykDA1fo2Afxp0OMxMyAlYqJxCMFsrAptRg4PN3ItB6ZiRhLX+Bt4bwGo1WsQuPkol
+	2fLZXJJV/9lNsIaREsRWT1Ty2emMOpJVdvuwjeoRki1usmKsrkJOsMP9TQTbOH6Y1ZdcYmf1
+	KsRelhVhJzxCBEFhkujIBInUL/hTwRmT5QmKqxUk6tqMvCRUTaUhF4qhA5lK/RNeGhJQQtqE
+	mHm7CTkHnsxAjYJ0shtTvjmzzULaghj1Pc7BBO3DGIq/IRxhd3rwGaZqoZR0FDz6Mc7oF8r4
+	Tu1djHk0YSUcERc6mCmxTG6fcKOPM5orU3gaoiicfolZVQU42q70YcYuv086eQ/TpXKsuGxJ
+	DzDTg9P/863COZ7zdV6MbfoW38HuW0rt5lXCuSNirB3tpAK5qXeo1DtU6h0q9Y5IAcIr0F5J
+	HBcTEcP5x/nHSs77cuIYLj42wjf0bIwObX/k/fsMqKFiydeMMAqZEUPxvN1dsy8lhAtdw8Rf
+	XpBIz56WxkdLODPypHBvkatoNj1MSEeIz0miJJI4ifS/KUa5eCRhhfrqbzfHZJHK+RPvkMNe
+	wW5rFxbPH4rZbdwbWfNKl19iYk5UskvJRenAg67VWvnf1Mb73Py8ebm5aS5izTPjdLop2e94
+	q+jzEI61jNBfLRZ2vveR5cdTTzUvrAQykw8DPhw6om/N/ixHsaFYjzYkiF696nXAqPXfCBJM
+	Hc2JbN38GAqUjZ9wsoGTip9VnjfeDfpCZdHuEq5nHFQ8N+y7p9Z0rLKsh91Aj9d6fug72vKb
+	PmXm7eXc6rd08ofxYlNelPGPLCT3R389HbkXUiT9etfJ8s6q0KGiU6a66wgrO/Lam6Uv+17J
+	Lr6zXpC0cvCy9WamsOb1Y+HKn2xpXPzQmCjwojfOnRH77+dJOfG/2JYK7DcEAAA=
+X-CMS-MailID: 20240624040636epcas5p37dc56f380e9e84e273a040775a8e6f6a
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+X-CPGSPASS: Y
+X-Hop-Count: 3
+X-CMS-RootMailID: 20240614094638epcas5p115d52130f45e130652b6f1d946358d19
+References: <20240614-dt-bindings-thermal-allof-v1-0-30b25a6ae24e@linaro.org>
+	<CGME20240614094638epcas5p115d52130f45e130652b6f1d946358d19@epcas5p1.samsung.com>
+	<20240614-dt-bindings-thermal-allof-v1-1-30b25a6ae24e@linaro.org>
+	<1891546521.01718433481489.JavaMail.epsvc@epcpadp4>
+	<003b73f2-3b5d-40b7-a87c-2fc937e81bcd@kernel.org>
 
-This patch enables AK4619/Simple_MUX codec which is needed for
-V4M GrayHawk Sound.
 
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
----
- arch/arm64/configs/renesas_defconfig | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm64/configs/renesas_defconfig b/arch/arm64/configs/renesas_defconfig
-index d0bc1a04c3a80..7f36fe041fb00 100644
---- a/arch/arm64/configs/renesas_defconfig
-+++ b/arch/arm64/configs/renesas_defconfig
-@@ -304,8 +304,10 @@ CONFIG_SND_SOC=y
- CONFIG_SND_SOC_RCAR=y
- CONFIG_SND_SOC_RZ=y
- CONFIG_SND_SOC_AK4613=y
-+CONFIG_SND_SOC_AK4619=y
- CONFIG_SND_SOC_DA7213=y
- CONFIG_SND_SOC_PCM3168A_I2C=y
-+CONFIG_SND_SOC_SIMPLE_MUX=y
- CONFIG_SND_SOC_WM8978=y
- CONFIG_SND_SIMPLE_CARD=y
- CONFIG_SND_AUDIO_GRAPH_CARD=y
--- 
-2.43.0
+> -----Original Message-----
+> From: Krzysztof Kozlowski <krzk@kernel.org>
+> Sent: Saturday, June 15, 2024 3:09 PM
+> To: Alim Akhtar <alim.akhtar@samsung.com>; 'Krzysztof Kozlowski'
+> <krzysztof.kozlowski@linaro.org>; 'Daniel Lezcano'
+[snip]
+> On 14/06/2024 16:29, Alim Akhtar wrote:
+> > Hi Krzysztof,
+> >
+> >> -----Original Message-----
+> >> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> >> Sent: Friday, June 14, 2024 3:16 PM
+> >> To: Daniel Lezcano <daniel.lezcano@linaro.org
+> > .stormreply.com;
+> >> Subject: [PATCH 01/22] dt-bindings: thermal: samsung,exynos: specify
+> >> cells
+> >>
+> >> All Samsung Exynos SoCs Thermal Management Units have only one
+> >> sensor, so make '#thermal-sensor-cells' fixed at 0.
+> >>
+> > This is not entirely true, there are SoCs which have multiple temp sens=
+ors.
+> > It is true that currently only one sensor support is added though.
+>=20
+> All supported by mainline. Others do not exist now :)
+>=20
+> >
+> > So we can leave this as is or you suggest to make it to support only
+> > one sensor (to match the current DT support), and later (in near
+> > future) change it again to match what HW actually support?
+>=20
+> Yes, different devices can have different value (and bindings).
+Ok, this is fine for now.
+
+> Best regards,
+> Krzysztof
+
+
 
 
