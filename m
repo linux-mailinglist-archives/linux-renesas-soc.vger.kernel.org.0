@@ -1,174 +1,142 @@
-Return-Path: <linux-renesas-soc+bounces-6689-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6691-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6F9E914E5C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 15:25:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 303F6914F3A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 15:54:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5E9F81F2301A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 13:25:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6158F1C23109
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 13:54:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37190136E3B;
-	Mon, 24 Jun 2024 13:25:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6BC51419A9;
+	Mon, 24 Jun 2024 13:54:32 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [195.130.132.52])
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D8FD13D62B
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Jun 2024 13:25:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E13414199C;
+	Mon, 24 Jun 2024 13:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719235543; cv=none; b=jyrCBBVxabrBbKRbITmU05qD3FX4lsM2mnpx34lGhciZXiBrCEGo/vVt2EVcNlLdnPn7nzoC59Z3Gi0ut7vNf98TZdfhWjDSN9mZy++d+QlXMergGeFCg0CpLc9xOWzwfF7yZvmsCXSQtphefcr3/H+drEAZewkBwNZLmEGzT0E=
+	t=1719237272; cv=none; b=Hob10lwcHgt3UcQ4au1OV6z9Cxt9QVc1U7Yx7mkZoDYHXs9IhXlyufzXKq8DYfLDZg+FrC/7YugRiu9exKip92etOvYJ9EKcXy/UCiPB+5K/rnroU8b740h+9xoaWUjbZMwBN1Vu8kZkCbuabp9uYWOT6A4yJCa03v1TzA5hjhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719235543; c=relaxed/simple;
-	bh=A6DLatiCi/InAVisv0EQ+ZUL0qiw5alzKOdy6kn2SdE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=K75zXvaufXVBhJLtqfXOI0GzcnqW6/n76WKUOgyGerhdVCXjoGIIDTTtndN/wCrwlwNW1s+2P1FxQlt3JJ6x36ZyltCfyD5f+2xNhsVxIFkuFwY3srplfqQsiwPq0ofU30Fgoj18CrqfNI66BnaD2px3fWMOjbfB3AdCxNJ8yow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:d11f:2bfd:8d32:701a])
-	by xavier.telenet-ops.be with bizsmtp
-	id fRRT2C00R4jBKfC01RRTZQ; Mon, 24 Jun 2024 15:25:32 +0200
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1sLjhF-000HSW-7C;
-	Mon, 24 Jun 2024 15:25:27 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1sLjhH-007u9D-Nl;
-	Mon, 24 Jun 2024 15:25:27 +0200
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Sergey Shtylyov <s.shtylyov@omp.ru>,
-	Paul Barker <paul.barker.ct@bp.renesas.com>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH net-next v2 2/2] ravb: Add MII support for R-Car V4M
-Date: Mon, 24 Jun 2024 15:25:25 +0200
-Message-Id: <3a21d1d6680864aa85afff9260234c2b8054020a.1719234830.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1719234830.git.geert+renesas@glider.be>
-References: <cover.1719234830.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1719237272; c=relaxed/simple;
+	bh=bSuD+8D7Rz+hm5eVrQsl9osZv3K6KDZA9Wtay1ky1vA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eA64j9CqYD/Cq/n5ry6mtIDMxNlPc9TFMdfx/7F7uZe0Fa5uzg+jMVGZG6SfkGwy3VHBF6GIX1DLbvIQ1j/0BXPCqOmZ3Epreqey03Wm7aiJbpC83MQHwdVqvsPcPn3lqLvjFTwfx2SyZFkSuSU6KF1massq2rUoz86ivnDsXn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-63bdb089ffdso33478827b3.3;
+        Mon, 24 Jun 2024 06:54:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719237269; x=1719842069;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RfAlnFTJHlQKWIhVQFUuWrbtwp9vlom9Wv0aMSus9tA=;
+        b=nqkhIdkR5Jd5htvwMxZQJxpgPQJKju4iZb9Cg7vLrsx0vzTBR9l0ZTuxBjUE6/n46A
+         0l2L0k8Uwp5mgeWyeFdX7vDb6RW1GdGZjl/aQaT380VUSRtsLjZcal0wrXAk2//0oE/e
+         Kz1kWOqjdd9q9jhFa78Fob/wioeXPxiREE2SKt+loJDlM5Pb5QIm+UV3c3J1t2UnDL4Y
+         /HzT/iuK+HOJFeZhCVmGyK6g6SwA8lvwySgvNFDeCrWu6lLCDVB5MDSpV0a5GE4uFeo6
+         jDaeT4Q2WMBde5axDpXx6eOYdGc/cDZLc9ZN6yT872/08hOMZ9W7adEjClK3sLkJD26A
+         UciQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUwhDNr+P1NWuR9uEcrYz3JXjYVPd1QXRKXXkFVzGnoHN10RYEbDC6gzAl88JPCEuE4ivPHAjnMNhN+wP/fC44LPvPxJsZsq9SaqQp3Zlo8ndVNu6wwi78GkjLdGmq8vNFHsmE1Y4SHbXKgUuGo
+X-Gm-Message-State: AOJu0Yw2UeSTTp5Ef9xphrJlAtS9hhYKGbLtoNO20hVFst2vKGGOJHu2
+	zVdl+Cqp2mKI/7Nv/cuSlDohtA4WEN7gCJDFoywU/ijnh9glY6gCzFIZ1Zbl
+X-Google-Smtp-Source: AGHT+IFj2iqKo6IwSGSTKMxP1hl7lvCh/4I86/czEEPTycv9qlQ0zrWAnDukQl86y1ZiJn1aFkP5dA==
+X-Received: by 2002:a0d:d047:0:b0:61d:fcf7:3377 with SMTP id 00721157ae682-64343efc76dmr32323797b3.44.1719237268590;
+        Mon, 24 Jun 2024 06:54:28 -0700 (PDT)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-63f156c307dsm28442057b3.124.2024.06.24.06.54.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Jun 2024 06:54:28 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-643603b1feaso15191917b3.0;
+        Mon, 24 Jun 2024 06:54:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWhsEMp81+t+SHoXwiQ3aziRy9kEjxYoYATMjWZ3TbjBQk2fXqTi/5McDP9XVvOPMjrh4mSJ1dWAXAckphGKjkJ+uIRikjctv/e8iyrxfN68IzXB+KkMTw0Lhm91TRh9dCWEl6AZX/k2sc7IejR
+X-Received: by 2002:a81:c741:0:b0:61b:e62e:82a2 with SMTP id
+ 00721157ae682-64342e91b81mr35950887b3.34.1719237267852; Mon, 24 Jun 2024
+ 06:54:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <cover.1717754960.git.geert+renesas@glider.be>
+In-Reply-To: <cover.1717754960.git.geert+renesas@glider.be>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 24 Jun 2024 15:54:15 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVu5iNSZLALBasS6vSzMrPT-Cba8wXO5X-_xSF-xyRUHw@mail.gmail.com>
+Message-ID: <CAMuHMdVu5iNSZLALBasS6vSzMrPT-Cba8wXO5X-_xSF-xyRUHw@mail.gmail.com>
+Subject: Re: [PATCH 0/8] pinctrl: renesas: r8a779g0: Fix pin group suffixes
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Linus Walleij <linus.walleij@linaro.org>
+Cc: Takeshi Kihara <takeshi.kihara.df@renesas.com>, LUU HOAI <hoai.luu.ub@renesas.com>, 
+	Kazuya Mizuguch <kazuya.mizuguchi.ks@renesas.com>, Phong Hoang <phong.hoang.wz@renesas.com>, 
+	CongDang <cong.dang.xn@renesas.com>, Thanh Quan <thanh.quan.xn@renesas.com>, 
+	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-All EtherAVB instances on R-Car Gen3/Gen4 SoCs support the RGMII
-interface.  In addition, the first two EtherAVB instances on R-Car V4M
-also support the MII interface, but this is not yet supported by the
-driver.
+On Fri, Jun 7, 2024 at 12:14=E2=80=AFPM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+> On R-Car SoCs, pin group names usually have a suffix ("_a", "_b", ...)
+> if and only if there are alternate pin groups for the same function.
+> At the time initial pin control support for the R-Car V4H (R8A779G0) SoC
+> was introduced, there were lots of ambiguities and inconsistencies in
+> the naming of pin groups in the documentation, violating this convention:
+>   1. Some alternate pin groups may be named identically, without any
+>      suffix to differentiate,
+>   2. In case of two alternate pin groups, the primary may not carry a
+>      suffix, while the alternate may carry an "_a" or "_b" suffix,
+>   3. A pin group without an alternate may have an "_a" or even a "_b"
+>      suffix.
+> So far the driver followed the documentation, except for case 1, where
+> an "_x" suffix was added to one of the alternates.  The plan was to
+> update the pin group names when they were clarified in the documentation.
+> As technically these names are part of the ABI, they were clearly marked
+> with "suffix might be updated" in the driver.
+>
+> Unfortunately the pin group names are still not updated in the latest
+> revision (Rev.1.10) of the R-Car V4H Series Hardware User's Manual.
+> However, the newer R-Car V4M (R8A779H0) SoC is mostly signal-compatible
+> with R-Car V4H (they are not pin-compatible, as R-Car V4H has many more
+> pins).  Hence this series bites the bullet, and fixes the ambiguities
+> and inconsistencies by adopting R-Car V4M pin group naming (from Rev.0.51
+> of the R-Car V4M Series Hardware User's Manual), and following the
+> traditional naming convention.
+>
+> Note that this does not affect any upstream DTS files.
+>
+> Thanks for your comments!
+>
+> Geert Uytterhoeven (8):
+>   pinctrl: renesas: r8a779g0: Fix CANFD5 suffix
+>   pinctrl: renesas: r8a779g0: Fix FXR_TXEN[AB] suffixes
+>   pinctrl: renesas: r8a779g0: Fix (H)SCIF1 suffixes
+>   pinctrl: renesas: r8a779g0: Fix (H)SCIF3 suffixes
+>   pinctrl: renesas: r8a779g0: Fix IRQ suffixes
+>   pinctrl: renesas: r8a779g0: FIX PWM suffixes
+>   pinctrl: renesas: r8a779g0: Fix TCLK suffixes
+>   pinctrl: renesas: r8a779g0: Fix TPU suffixes
 
-Add support for MII on R-Car Gen4 by adding an R-Car Gen4-specific EMAC
-initialization function that selects the MII clock instead of the RGMII
-clock when the PHY interface is MII.  Note that all implementations of
-EtherAVB on R-Car Gen4 SoCs have the APSR register, but only MII-capable
-instances are documented to have the MIISELECT bit, which has a
-documented value of zero when reserved.
+Unless someone objects, I plan to queue these in renesas-pinctrl for v6.11.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
-v2:
-  - Add Reviewed-by,
-  - Rename ravb_emac_init_rcar_apsr() to ravb_emac_init_rcar_gen4(),
-  - Restrict MII support to R-Car Gen4 by adding a new ravb_hw_info
-    instance.
----
- drivers/net/ethernet/renesas/ravb.h      |  1 +
- drivers/net/ethernet/renesas/ravb_main.c | 37 +++++++++++++++++++++++-
- 2 files changed, 37 insertions(+), 1 deletion(-)
+Gr{oetje,eeting}s,
 
-diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-index 6b2444d31fcc3093..9893c91af1050fa1 100644
---- a/drivers/net/ethernet/renesas/ravb.h
-+++ b/drivers/net/ethernet/renesas/ravb.h
-@@ -258,6 +258,7 @@ enum APSR_BIT {
- 	APSR_CMSW	= 0x00000010,
- 	APSR_RDM	= 0x00002000,
- 	APSR_TDM	= 0x00004000,
-+	APSR_MIISELECT	= 0x01000000,	/* R-Car V4M only */
- };
- 
- /* RCR */
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index 974e0bb9da1947f2..6605e4f4af538106 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -579,6 +579,16 @@ static void ravb_emac_init_rcar(struct net_device *ndev)
- 	ravb_write(ndev, ECSIPR_ICDIP | ECSIPR_MPDIP | ECSIPR_LCHNGIP, ECSIPR);
- }
- 
-+static void ravb_emac_init_rcar_gen4(struct net_device *ndev)
-+{
-+	struct ravb_private *priv = netdev_priv(ndev);
-+	bool mii = priv->phy_interface == PHY_INTERFACE_MODE_MII;
-+
-+	ravb_modify(ndev, APSR, APSR_MIISELECT, mii ? APSR_MIISELECT : 0);
-+
-+	ravb_emac_init_rcar(ndev);
-+}
-+
- /* E-MAC init function */
- static void ravb_emac_init(struct net_device *ndev)
- {
-@@ -2699,6 +2709,31 @@ static const struct ravb_hw_info ravb_gen3_hw_info = {
- 	.magic_pkt = 1,
- };
- 
-+static const struct ravb_hw_info ravb_gen4_hw_info = {
-+	.receive = ravb_rx_rcar,
-+	.set_rate = ravb_set_rate_rcar,
-+	.set_feature = ravb_set_features_rcar,
-+	.dmac_init = ravb_dmac_init_rcar,
-+	.emac_init = ravb_emac_init_rcar_gen4,
-+	.gstrings_stats = ravb_gstrings_stats,
-+	.gstrings_size = sizeof(ravb_gstrings_stats),
-+	.net_hw_features = NETIF_F_RXCSUM,
-+	.net_features = NETIF_F_RXCSUM,
-+	.stats_len = ARRAY_SIZE(ravb_gstrings_stats),
-+	.tccr_mask = TCCR_TSRQ0 | TCCR_TSRQ1 | TCCR_TSRQ2 | TCCR_TSRQ3,
-+	.rx_max_frame_size = SZ_2K,
-+	.rx_buffer_size = SZ_2K +
-+			  SKB_DATA_ALIGN(sizeof(struct skb_shared_info)),
-+	.rx_desc_size = sizeof(struct ravb_ex_rx_desc),
-+	.internal_delay = 1,
-+	.tx_counters = 1,
-+	.multi_irqs = 1,
-+	.irq_en_dis = 1,
-+	.ccc_gac = 1,
-+	.nc_queues = 1,
-+	.magic_pkt = 1,
-+};
-+
- static const struct ravb_hw_info ravb_rzv2m_hw_info = {
- 	.receive = ravb_rx_rcar,
- 	.set_rate = ravb_set_rate_rcar,
-@@ -2751,7 +2786,7 @@ static const struct of_device_id ravb_match_table[] = {
- 	{ .compatible = "renesas,etheravb-rcar-gen2", .data = &ravb_gen2_hw_info },
- 	{ .compatible = "renesas,etheravb-r8a7795", .data = &ravb_gen3_hw_info },
- 	{ .compatible = "renesas,etheravb-rcar-gen3", .data = &ravb_gen3_hw_info },
--	{ .compatible = "renesas,etheravb-rcar-gen4", .data = &ravb_gen3_hw_info },
-+	{ .compatible = "renesas,etheravb-rcar-gen4", .data = &ravb_gen4_hw_info },
- 	{ .compatible = "renesas,etheravb-rzv2m", .data = &ravb_rzv2m_hw_info },
- 	{ .compatible = "renesas,rzg2l-gbeth", .data = &gbeth_hw_info },
- 	{ }
--- 
-2.34.1
+                        Geert
 
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
