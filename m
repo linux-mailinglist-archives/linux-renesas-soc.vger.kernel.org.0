@@ -1,74 +1,73 @@
-Return-Path: <linux-renesas-soc+bounces-6672-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6673-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE27091417D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 06:56:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 810E0914181
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 06:57:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0C6F31C213E1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 04:56:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1F4E71F218D2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 04:57:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 271A210A1E;
-	Mon, 24 Jun 2024 04:56:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E73BF10A3E;
+	Mon, 24 Jun 2024 04:56:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="L13ZlCSE"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="HfxGxzdd"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 100481094E
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Jun 2024 04:56:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504CE10A1E
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Jun 2024 04:56:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719204980; cv=none; b=q/ADiND+Yr1XK9JkijyT0QNAJhfa4gf1Rf5H1Qz84WB5JfuxZ5mTzbGk4clUOfgsnrSt9/xFMST7oyYPAEC6f+OYMCcytIKF+kNUiYx86d1UX44PWtmNkHRcPLjfbbgT9j24WzBJae00I8VINymA4d9B3HbomPKiyOXs385Aww4=
+	t=1719205016; cv=none; b=NvK8uS2JKoYYC/Eb3JA8VrxPJKYZotpaqOHXHgs2Eypws2GI0lVRxFHm/zI2hgyT6k92yGocoZr5tbbDUguMy6a/Y7R4WSsaANR4/a68naXg9MY/yj8SDmTWst4eHco5qcBwxWJLiLr+u8bTwiXYriC9+inqb4+LykJ8CjQSawY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719204980; c=relaxed/simple;
-	bh=XRn8z5Dc6gxQd4rxv6QKMWa5eM7X3d9KBWZ48fMrMNo=;
+	s=arc-20240116; t=1719205016; c=relaxed/simple;
+	bh=vQNVTetRhtLL6F7YslSbOHAhs1Pv0RWIieQe3P1Be+A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pyyo8NWQJUxKBGc54HPBUvPJwyUUA2bo8n7OK/9SoVLl5UGBQui18rsTBnV9t+37C6r3yO1df05+mqBZFGRZGgZSA48/qjqwgehQ8l5S/D3987zvINB2QC3Op+MQXKV3IFsNc0IZ9zFpOnUCaOIVghdQ9xYPgvKfyJdiDgxM1tg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=L13ZlCSE; arc=none smtp.client-ip=209.85.208.41
+	 In-Reply-To:Content-Type; b=aOPBX+BgGCCIKkP7r7RXF3/bQMUNfi6+HtePqfRo6gLlCnDLBLqFpUfIRYtAcT/RrWxz0H8cs2WYp5wWYTVSR+wgn8jcxDrm6dkCfEkbG5UGIzZe/XHYkH8DgxJ5K/iuWAYupJfvGth8Xtkp+1UHqwob4fpV0sRxQQsw54/mNiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=HfxGxzdd; arc=none smtp.client-ip=209.85.208.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-57ccd1111b0so2057058a12.3
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 23 Jun 2024 21:56:17 -0700 (PDT)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2ebeefb9a6eso41907981fa.1
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 23 Jun 2024 21:56:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1719204976; x=1719809776; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=tuxon.dev; s=google; t=1719205013; x=1719809813; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=GwS8nRsUi4Pi7NDswPTZeRQSelgo4Wf8y2x/G7MWwUI=;
-        b=L13ZlCSEz0L52j5idCKiUv24KfqDbND0hYG8A5wPlb9cGlUiyDKkD8EhbLv2TXnfk6
-         +aIiT2nFICoXZlEn38F8uqadzyH3BbniOniEPMLdKFXumcDRJtSTRMUli/4QWR6TDEIu
-         64yv9//ctg99W6KcPblqVoFHLYbr1flGtRpPFBZfiqW4+VdsSWldQRZ1TPRQyDmAEBnJ
-         KT8pdThmmIk/0NXPFaBet4PU4f2TcRQp2gji9bcH3VKsJuHcv91CVMQM+Fw6KL6/BNM6
-         Z3XVDDkx11tnmUYrR6ezjvIRnUqFTV81ul1GHsZIEsir6P5S6od2MlpghCJ1NVoPx27k
-         Yj3w==
+        bh=SsRCBcTH1uEJj0sj9Ql+zGgoMf4mCrb7QZgSphU4FDk=;
+        b=HfxGxzddoE0c0o7t0WrJ5PavlHVjlBt11QBQbirIn+SN5P04F6sT/FzDnoD/GwgriY
+         K4v0K393Loq6gQxAPDl7NEIyizShchRo6M4tAVsVuFlJG/7692ObGti18jKG4ttMD6rj
+         MWD24BjKwXHzArukLxZsEmZ8OX97omVqOvW4d4as5xOgblhh5C1MZLHrCFgTZraxg0Rm
+         KKeKoc7yHSp9vWeNnQ9L9tMptw+oBE4SEuMbBuiUNoPz36rowZGPNLyqzsg98ELIuTVB
+         qGNF55iMelqJ0e0wBMMSnE17yPK+xISxry3ReXEEdRBqZdUhIVMzshsg+0DZWTtpuIoo
+         qsgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719204976; x=1719809776;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1719205013; x=1719809813;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GwS8nRsUi4Pi7NDswPTZeRQSelgo4Wf8y2x/G7MWwUI=;
-        b=VuQqEGMq7nXDlQMQhZmnYLrh3FWDE3UrVRyRt27hIjWtvCPPQd0J/b/aIzqRNldoY0
-         ojRphGERZASgbpSgb64Em5yl8gWHX/671QCX91LikpinqNyfJrJDgaSvFtnKi0mnDvHU
-         GVk/SGWRZmrOjq+dY8Z9XKoC8dkHD/MyIOUdSP23MFo7l5rvpC0ILJ1iOOLd+VNfFkuq
-         AjBnoHEyTOI51Riz0pFnDpXJyiKE2vbvThnr1AnP7LGFaSU0x5ylc91KCiVjhHq5lkiR
-         MAsSz+ihsp0L25Menc0y/ROS7Xf6elPjGgpQeGUVaECozvxnFSTZ9h2I1jtgDVMI7xYI
-         SmsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWGzfwcFURL+MZn1vQYPkshjNz7rIhm+7TApuXpbKfo4PCWG95D1fSz00XCz9F9hkLX5L3Ti+QPGbABFPGNrRy6om4ZT7Dn8kEfD8TtDXITrR4=
-X-Gm-Message-State: AOJu0YwZxeg4TZ/t2cZZWzFFEduqxAKBsxzDWlA0ll/eWAMe++RkR7tx
-	fFAdPVHzpWJ10Kamw7SiKGHBFNfnoCWnlDxNi3VBY3ldql4Aq852Zw0XA1s3ilc=
-X-Google-Smtp-Source: AGHT+IFkAj6+lAcyOS1W5Z8hDAd6EAdxwsjmhe+7pNcvGnK4bEvsilu7KOvy0QwEDrh3qaUYkYkcjQ==
-X-Received: by 2002:a50:a69d:0:b0:57c:5d4a:4122 with SMTP id 4fb4d7f45d1cf-57d4bd59fbamr2512691a12.9.1719204976341;
-        Sun, 23 Jun 2024 21:56:16 -0700 (PDT)
+        bh=SsRCBcTH1uEJj0sj9Ql+zGgoMf4mCrb7QZgSphU4FDk=;
+        b=igY7p1kZixeCPdUADPPA35wsyBgKjiQRNMb+M/ZlaTu89CYy+d73DoHz5VPmzB579E
+         IoTnwcg/o/H0aa5PHUVh3K5u28q/+Jlhy91rTRy7l4qDGakfp3dh3RawtSZViXzJtB8K
+         HNDg6ZD9u+VjnrklJv8TAXwr8oMS31GEvyMwVrKKUy+oGrBbhz4PYNBh0j/8ddNiudna
+         Pb+82cCQjkO7ZkHWJZG4CiKTI5hSna937lxGFUxS9XPSubFNsgHHXCf7aJS/eb3AD0zS
+         a0uxq65Wf3qEMkSYayLnvw9lzQPH/E4n7KQUCdmFlPJeuL1nJeQG3MA3T3Uv9RqXj/IU
+         PRFg==
+X-Gm-Message-State: AOJu0Ywt45SWIU3WE3Hrm9AGZB8Cy1zXQoUzr3tk2RjHA/QYmyOAlSoL
+	kL1e0RgLYmD4aj8VQYVn8h20y9XzN8vy6d277BXfXRb/pYkRdI202Vsf4FmdDP8=
+X-Google-Smtp-Source: AGHT+IHyBzk2CXG4/Qhw8e+uhBRG0J+M+VYIbsPIi8pyPckrwMs/nV4rQV2Emc4LsJMK0lOMIkSQiA==
+X-Received: by 2002:a2e:95d4:0:b0:2ec:40ab:694d with SMTP id 38308e7fff4ca-2ec593be836mr23803111fa.1.1719205013392;
+        Sun, 23 Jun 2024 21:56:53 -0700 (PDT)
 Received: from [192.168.50.4] ([82.78.167.70])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57d303d7aecsm4209761a12.20.2024.06.23.21.56.14
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57d303d7aecsm4209761a12.20.2024.06.23.21.56.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 23 Jun 2024 21:56:15 -0700 (PDT)
-Message-ID: <cec78633-8cfe-4e79-819c-7f9ff07cdfcd@tuxon.dev>
-Date: Mon, 24 Jun 2024 07:56:13 +0300
+        Sun, 23 Jun 2024 21:56:52 -0700 (PDT)
+Message-ID: <10afc62d-b58a-499f-9cc4-ba8905cece64@tuxon.dev>
+Date: Mon, 24 Jun 2024 07:56:51 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -76,55 +75,89 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/9] arm64: dts: renesas: r9a08g045: Add missing
- hypervisor virtual timer IRQ
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Cc: Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>,
- linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org
-References: <cover.1718890849.git.geert+renesas@glider.be>
- <884c683fb6c1d1bf7d0d383a8df8f65a0a424dc7.1718890849.git.geert+renesas@glider.be>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
+Subject: Re: [PATCH 1/4] pinctrl: renesas: rzg2l: Update PIN_CFG_MASK() macro
+ to be 32-bit wide
 Content-Language: en-US
-In-Reply-To: <884c683fb6c1d1bf7d0d383a8df8f65a0a424dc7.1718890849.git.geert+renesas@glider.be>
+To: Prabhakar <prabhakar.csengg@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240618174831.415583-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240618174831.415583-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <20240618174831.415583-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 20.06.2024 16:57, Geert Uytterhoeven wrote:
-> Add the missing fifth interrupt to the device node that represents the
-> ARM architected timer.  While at it, add an interrupt-names property for
-> clarity,
+On 18.06.2024 20:48, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> Fixes: e20396d65b959a65 ("arm64: dts: renesas: Add initial DTSI for RZ/G3S SoC")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Modify the `PIN_CFG_MASK()` macro to be 32-bit wide. The current maximum
+> value for `PIN_CFG_*` is `BIT(21)`, which fits within a 32-bit mask.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
 > ---
->  arch/arm64/boot/dts/renesas/r9a08g045.dtsi | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+>  drivers/pinctrl/renesas/pinctrl-rzg2l.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 > 
-> diff --git a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-> index 2162c247d6deb170..0d5c47a65e46c584 100644
-> --- a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-> @@ -294,6 +294,9 @@ timer {
->  		interrupts-extended = <&gic GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
->  				      <&gic GIC_PPI 14 IRQ_TYPE_LEVEL_LOW>,
->  				      <&gic GIC_PPI 11 IRQ_TYPE_LEVEL_LOW>,
-> -				      <&gic GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>;
-> +				      <&gic GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>,
-> +				      <&gic GIC_PPI 12 IRQ_TYPE_LEVEL_LOW>;
-> +		interrupt-names = "sec-phys", "phys", "virt", "hyp-phys",
-> +				  "hyp-virt";
->  	};
->  };
+> diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> index 32945d4c8dc0..bfaeeb00ac4a 100644
+> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> @@ -89,7 +89,7 @@
+>  
+>  #define PIN_CFG_PIN_MAP_MASK		GENMASK_ULL(62, 55)
+>  #define PIN_CFG_PIN_REG_MASK		GENMASK_ULL(54, 47)
+> -#define PIN_CFG_MASK			GENMASK_ULL(46, 0)
+> +#define PIN_CFG_MASK			GENMASK_ULL(31, 0)
+>  
+>  /*
+>   * m indicates the bitmap of supported pins, a is the register index
+> @@ -1187,7 +1187,7 @@ static int rzg2l_pinctrl_pinconf_get(struct pinctrl_dev *pctldev,
+>  	u64 *pin_data = pin->drv_data;
+>  	unsigned int arg = 0;
+>  	u32 off;
+> -	u64 cfg;
+> +	u32 cfg;
+>  	int ret;
+>  	u8 bit;
+>  
+> @@ -1322,7 +1322,7 @@ static int rzg2l_pinctrl_pinconf_set(struct pinctrl_dev *pctldev,
+>  	u64 *pin_data = pin->drv_data;
+>  	unsigned int i, arg, index;
+>  	u32 off, param;
+> -	u64 cfg;
+> +	u32 cfg;
+>  	int ret;
+>  	u8 bit;
+>  
+> @@ -2755,9 +2755,9 @@ static void rzg2l_pinctrl_pm_setup_regs(struct rzg2l_pinctrl *pctrl, bool suspen
+>  
+>  	for (u32 port = 0; port < nports; port++) {
+>  		bool has_iolh, has_ien;
+> -		u64 cfg, caps;
+> +		u32 off, caps;
+>  		u8 pincnt;
+> -		u32 off;
+> +		u64 cfg;
+>  
+>  		cfg = pctrl->data->port_pin_configs[port];
+>  		off = RZG2L_PIN_CFG_TO_PORT_OFFSET(cfg);
+> @@ -2801,7 +2801,7 @@ static void rzg2l_pinctrl_pm_setup_regs(struct rzg2l_pinctrl *pctrl, bool suspen
+>  static void rzg2l_pinctrl_pm_setup_dedicated_regs(struct rzg2l_pinctrl *pctrl, bool suspend)
+>  {
+>  	struct rzg2l_pinctrl_reg_cache *cache = pctrl->dedicated_cache;
+> -	u64 caps;
+> +	u32 caps;
+>  	u32 i;
+>  
+>  	/*
 
