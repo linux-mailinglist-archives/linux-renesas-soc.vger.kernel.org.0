@@ -1,193 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-6671-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6672-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 176999140EE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 06:10:16 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE27091417D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 06:56:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7802C1F21593
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 04:10:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0C6F31C213E1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jun 2024 04:56:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81ED08C1F;
-	Mon, 24 Jun 2024 04:10:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 271A210A1E;
+	Mon, 24 Jun 2024 04:56:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="KrD5HtQJ"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="L13ZlCSE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10D436FD0;
-	Mon, 24 Jun 2024 04:10:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 100481094E
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Jun 2024 04:56:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719202208; cv=none; b=MMkRQQtVSTW2d7XkJH7hJv9MhS5KGombphoxqnrw9WV/nysPwTPMUCKlsMUE+anURLnfMRDQqAkucU4ltua//qR3b9lFqathdZbm+NEJsG9TZMHRKEcJ4G/UiE0Bu/0eBQ7W/NTXLMHftH18lMFSzuXSPSGAGl8122J34zAFpqs=
+	t=1719204980; cv=none; b=q/ADiND+Yr1XK9JkijyT0QNAJhfa4gf1Rf5H1Qz84WB5JfuxZ5mTzbGk4clUOfgsnrSt9/xFMST7oyYPAEC6f+OYMCcytIKF+kNUiYx86d1UX44PWtmNkHRcPLjfbbgT9j24WzBJae00I8VINymA4d9B3HbomPKiyOXs385Aww4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719202208; c=relaxed/simple;
-	bh=f8MsT2ydR8FVWHQfUu9aV03i/fvtgmg81rTBmx7wZtI=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
-	 Content-Type:References; b=BDbg8UXsQuKwnl38pr1dFyyykIA5bUdgqaZXlEo0KrJmyXo5ziesZV0DQmwcNIDyNEyNH8rjo5N1ooStaOofS/MrKwDF2muXZyY4N48S8ql97UdkndUr64B6f8KpUiPj2Js6KxUXLJoqJyqxDi4hutiNiCXj6D3nVnWy0xEoIFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=KrD5HtQJ; arc=none smtp.client-ip=203.254.224.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20240624041002epoutp017f05577018b2eadddc8b8cb81ec3826f~b1Ut0SVjH1592015920epoutp01L;
-	Mon, 24 Jun 2024 04:10:02 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20240624041002epoutp017f05577018b2eadddc8b8cb81ec3826f~b1Ut0SVjH1592015920epoutp01L
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1719202202;
-	bh=f8MsT2ydR8FVWHQfUu9aV03i/fvtgmg81rTBmx7wZtI=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
-	b=KrD5HtQJlXwla8TJO98EzEGmbC6U6iFckhBxukcjB1yovmR3lz02KUcrhstmuFHwP
-	 HlU6mB/4SedvqN4YiOBGO9STneKReT3yuKLSGYAj6kOz4v/+HseOzds5BjWWMSF78Z
-	 UX56cYaK573oQ0K1epKtk2kmiCwRbV6WxQq+ulZM=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20240624041002epcas5p32f5ba38ddb47660961e77f59341cfae1~b1Utit_tu2048920489epcas5p3C;
-	Mon, 24 Jun 2024 04:10:02 +0000 (GMT)
-Received: from epcpadp3 (unknown [182.195.40.17]) by epsnrtp1.localdomain
-	(Postfix) with ESMTP id 4W6vcp3M22z4x9Q8; Mon, 24 Jun 2024 04:10:02 +0000
-	(GMT)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20240624040636epcas5p37dc56f380e9e84e273a040775a8e6f6a~b1RtorJGk1881818818epcas5p3e;
-	Mon, 24 Jun 2024 04:06:36 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240624040636epsmtrp207b25ba1110f1c95c77dc40514d58f15~b1Rtmp5HY1015110151epsmtrp2s;
-	Mon, 24 Jun 2024 04:06:36 +0000 (GMT)
-X-AuditID: b6c32a29-72dff700000074f4-8b-6678f0cc0a0d
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	76.5B.29940.CC0F8766; Mon, 24 Jun 2024 13:06:36 +0900 (KST)
-Received: from INBRO002756 (unknown [107.122.12.5]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20240624040628epsmtip2a5b53ed83b9eac43f0d7a7bd0cd4bb48~b1RlznvHY0728807288epsmtip2H;
-	Mon, 24 Jun 2024 04:06:27 +0000 (GMT)
-From: "Alim Akhtar" <alim.akhtar@samsung.com>
-To: "'Krzysztof Kozlowski'" <krzk@kernel.org>, "'Krzysztof Kozlowski'"
-	<krzysztof.kozlowski@linaro.org>, "'Daniel Lezcano'"
-	<daniel.lezcano@linaro.org>, "'Zhang Rui'" <rui.zhang@intel.com>, "'Lukasz
- Luba'" <lukasz.luba@arm.com>, "'Rob Herring'" <robh@kernel.org>, "'Conor
- Dooley'" <conor+dt@kernel.org>, "'Guillaume La Roque'"
-	<glaroque@baylibre.com>, "'Krzysztof Kozlowski'" <krzk+dt@kernel.org>,
-	"'Vasily Khoruzhick'" <anarsoul@gmail.com>, "'Chen-Yu Tsai'"
-	<wens@csie.org>, "'Jernej Skrabec'" <jernej.skrabec@gmail.com>, "'Samuel
- Holland'" <samuel@sholland.org>, "'Shawn	Guo'" <shawnguo@kernel.org>,
-	"'Sascha Hauer'" <s.hauer@pengutronix.de>, "'Pengutronix Kernel Team'"
-	<kernel@pengutronix.de>, "'Fabio Estevam'" <festevam@gmail.com>, "'Anson
- Huang'" <Anson.Huang@nxp.com>, "'Thierry Reding'"
-	<thierry.reding@gmail.com>, "'Jonathan Hunter'" <jonathanh@nvidia.com>,
-	"'Dmitry Baryshkov'" <dmitry.baryshkov@linaro.org>, "'Amit Kucheria'"
-	<amitk@kernel.org>, =?utf-8?Q?'Niklas_S=C3=B6derlund'?=
-	<niklas.soderlund@ragnatech.se>, "'Heiko Stuebner'" <heiko@sntech.de>,
-	"'Biju	Das'" <biju.das.jz@bp.renesas.com>, "'Orson Zhai'"
-	<orsonzhai@gmail.com>, "'Baolin Wang'" <baolin.wang@linux.alibaba.com>,
-	"'Chunyan Zhang'" <zhang.lyra@gmail.com>, "'Alexandre Torgue'"
-	<alexandre.torgue@foss.st.com>, "'Pascal Paillet'" <p.paillet@foss.st.com>,
-	"'Keerthy'" <j-keerthy@ti.com>, "'Broadcom internal kernel review list'"
-	<bcm-kernel-feedback-list@broadcom.com>, "'Florian Fainelli'"
-	<florian.fainelli@broadcom.com>, "'Scott Branden'" <sbranden@broadcom.com>,
-	"'zhanghongchen'" <zhanghongchen@loongson.cn>, "'Matthias Brugger'"
-	<matthias.bgg@gmail.com>, "'AngeloGioacchino Del Regno'"
-	<angelogioacchino.delregno@collabora.com>, "'Bjorn Andersson'"
-	<andersson@kernel.org>, "'Geert Uytterhoeven'" <geert+renesas@glider.be>
-Cc: <linux-pm@vger.kernel.org>, <linux-samsung-soc@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <imx@lists.linux.dev>,
-	<linux-tegra@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-	<linux-renesas-soc@vger.kernel.org>, <linux-rockchip@lists.infradead.org>,
-	<linux-stm32@st-md-mailman.stormreply.com>, "'Florian Fainelli'"
-	<f.fainelli@gmail.com>, <linux-rpi-kernel@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>, <cpgs@samsung.com>
-In-Reply-To: <003b73f2-3b5d-40b7-a87c-2fc937e81bcd@kernel.org>
-Subject: RE: [PATCH 01/22] dt-bindings: thermal: samsung,exynos: specify
- cells
-Date: Mon, 24 Jun 2024 09:36:22 +0530
-Message-ID: <1296674576.21719202202469.JavaMail.epsvc@epcpadp3>
+	s=arc-20240116; t=1719204980; c=relaxed/simple;
+	bh=XRn8z5Dc6gxQd4rxv6QKMWa5eM7X3d9KBWZ48fMrMNo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pyyo8NWQJUxKBGc54HPBUvPJwyUUA2bo8n7OK/9SoVLl5UGBQui18rsTBnV9t+37C6r3yO1df05+mqBZFGRZGgZSA48/qjqwgehQ8l5S/D3987zvINB2QC3Op+MQXKV3IFsNc0IZ9zFpOnUCaOIVghdQ9xYPgvKfyJdiDgxM1tg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=L13ZlCSE; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-57ccd1111b0so2057058a12.3
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 23 Jun 2024 21:56:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1719204976; x=1719809776; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GwS8nRsUi4Pi7NDswPTZeRQSelgo4Wf8y2x/G7MWwUI=;
+        b=L13ZlCSEz0L52j5idCKiUv24KfqDbND0hYG8A5wPlb9cGlUiyDKkD8EhbLv2TXnfk6
+         +aIiT2nFICoXZlEn38F8uqadzyH3BbniOniEPMLdKFXumcDRJtSTRMUli/4QWR6TDEIu
+         64yv9//ctg99W6KcPblqVoFHLYbr1flGtRpPFBZfiqW4+VdsSWldQRZ1TPRQyDmAEBnJ
+         KT8pdThmmIk/0NXPFaBet4PU4f2TcRQp2gji9bcH3VKsJuHcv91CVMQM+Fw6KL6/BNM6
+         Z3XVDDkx11tnmUYrR6ezjvIRnUqFTV81ul1GHsZIEsir6P5S6od2MlpghCJ1NVoPx27k
+         Yj3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719204976; x=1719809776;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GwS8nRsUi4Pi7NDswPTZeRQSelgo4Wf8y2x/G7MWwUI=;
+        b=VuQqEGMq7nXDlQMQhZmnYLrh3FWDE3UrVRyRt27hIjWtvCPPQd0J/b/aIzqRNldoY0
+         ojRphGERZASgbpSgb64Em5yl8gWHX/671QCX91LikpinqNyfJrJDgaSvFtnKi0mnDvHU
+         GVk/SGWRZmrOjq+dY8Z9XKoC8dkHD/MyIOUdSP23MFo7l5rvpC0ILJ1iOOLd+VNfFkuq
+         AjBnoHEyTOI51Riz0pFnDpXJyiKE2vbvThnr1AnP7LGFaSU0x5ylc91KCiVjhHq5lkiR
+         MAsSz+ihsp0L25Menc0y/ROS7Xf6elPjGgpQeGUVaECozvxnFSTZ9h2I1jtgDVMI7xYI
+         SmsQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWGzfwcFURL+MZn1vQYPkshjNz7rIhm+7TApuXpbKfo4PCWG95D1fSz00XCz9F9hkLX5L3Ti+QPGbABFPGNrRy6om4ZT7Dn8kEfD8TtDXITrR4=
+X-Gm-Message-State: AOJu0YwZxeg4TZ/t2cZZWzFFEduqxAKBsxzDWlA0ll/eWAMe++RkR7tx
+	fFAdPVHzpWJ10Kamw7SiKGHBFNfnoCWnlDxNi3VBY3ldql4Aq852Zw0XA1s3ilc=
+X-Google-Smtp-Source: AGHT+IFkAj6+lAcyOS1W5Z8hDAd6EAdxwsjmhe+7pNcvGnK4bEvsilu7KOvy0QwEDrh3qaUYkYkcjQ==
+X-Received: by 2002:a50:a69d:0:b0:57c:5d4a:4122 with SMTP id 4fb4d7f45d1cf-57d4bd59fbamr2512691a12.9.1719204976341;
+        Sun, 23 Jun 2024 21:56:16 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.70])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57d303d7aecsm4209761a12.20.2024.06.23.21.56.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 23 Jun 2024 21:56:15 -0700 (PDT)
+Message-ID: <cec78633-8cfe-4e79-819c-7f9ff07cdfcd@tuxon.dev>
+Date: Mon, 24 Jun 2024 07:56:13 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQGhCdcVAXQc0tvKk5x9QOKQ/J0WewGh/L0BAiWHCW4CgfI42AIboMv/sgabD1A=
-Content-Language: en-us
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0xbZRjH956ennPogp4VYs8gKiHRZBdgBGKeKcNLNj3ROJfMfcHorFAY
-	chn2DIYzbqyAWjZGOybQMsrVcSsTWi6lBYblsjEHTFEYcpFroYMBAYKWIZXSaPj2ey7/3/N+
-	eCmesITwoCJjz0mkseJob0KA17d5v+jzYCkx/FDH4LNgs2YhaMtPhNROC4L674Lg13IGGlSh
-	YG/uRFCV3oGDxrCGgba5BwOreR9oVp6H/PYePih7bQSsL7STMP77B3C7fpQHebnXERRm5hFg
-	n5jjg2o0lYD7DTIMZvJvI0hRF+FQ8X0jDlb1KAG9vdUkNM/VkVCQuxt0k/1byjvdJPQZbxLQ
-	l/wLgpX0dgR11gUMlsfsPFAObQVyelswSOuf4sONFiMB8lU1AYWyFBJkKQFwN+saH7KXchG0
-	TmfiYG8ykDA1fo2Afxp0OMxMyAlYqJxCMFsrAptRg4PN3ItB6ZiRhLX+Bt4bwGo1WsQuPkol
-	2fLZXJJV/9lNsIaREsRWT1Ty2emMOpJVdvuwjeoRki1usmKsrkJOsMP9TQTbOH6Y1ZdcYmf1
-	KsRelhVhJzxCBEFhkujIBInUL/hTwRmT5QmKqxUk6tqMvCRUTaUhF4qhA5lK/RNeGhJQQtqE
-	mHm7CTkHnsxAjYJ0shtTvjmzzULaghj1Pc7BBO3DGIq/IRxhd3rwGaZqoZR0FDz6Mc7oF8r4
-	Tu1djHk0YSUcERc6mCmxTG6fcKOPM5orU3gaoiicfolZVQU42q70YcYuv086eQ/TpXKsuGxJ
-	DzDTg9P/863COZ7zdV6MbfoW38HuW0rt5lXCuSNirB3tpAK5qXeo1DtU6h0q9Y5IAcIr0F5J
-	HBcTEcP5x/nHSs77cuIYLj42wjf0bIwObX/k/fsMqKFiydeMMAqZEUPxvN1dsy8lhAtdw8Rf
-	XpBIz56WxkdLODPypHBvkatoNj1MSEeIz0miJJI4ifS/KUa5eCRhhfrqbzfHZJHK+RPvkMNe
-	wW5rFxbPH4rZbdwbWfNKl19iYk5UskvJRenAg67VWvnf1Mb73Py8ebm5aS5izTPjdLop2e94
-	q+jzEI61jNBfLRZ2vveR5cdTTzUvrAQykw8DPhw6om/N/ixHsaFYjzYkiF696nXAqPXfCBJM
-	Hc2JbN38GAqUjZ9wsoGTip9VnjfeDfpCZdHuEq5nHFQ8N+y7p9Z0rLKsh91Aj9d6fug72vKb
-	PmXm7eXc6rd08ofxYlNelPGPLCT3R389HbkXUiT9etfJ8s6q0KGiU6a66wgrO/Lam6Uv+17J
-	Lr6zXpC0cvCy9WamsOb1Y+HKn2xpXPzQmCjwojfOnRH77+dJOfG/2JYK7DcEAAA=
-X-CMS-MailID: 20240624040636epcas5p37dc56f380e9e84e273a040775a8e6f6a
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-X-CPGSPASS: Y
-X-Hop-Count: 3
-X-CMS-RootMailID: 20240614094638epcas5p115d52130f45e130652b6f1d946358d19
-References: <20240614-dt-bindings-thermal-allof-v1-0-30b25a6ae24e@linaro.org>
-	<CGME20240614094638epcas5p115d52130f45e130652b6f1d946358d19@epcas5p1.samsung.com>
-	<20240614-dt-bindings-thermal-allof-v1-1-30b25a6ae24e@linaro.org>
-	<1891546521.01718433481489.JavaMail.epsvc@epcpadp4>
-	<003b73f2-3b5d-40b7-a87c-2fc937e81bcd@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 7/9] arm64: dts: renesas: r9a08g045: Add missing
+ hypervisor virtual timer IRQ
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>,
+ linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org
+References: <cover.1718890849.git.geert+renesas@glider.be>
+ <884c683fb6c1d1bf7d0d383a8df8f65a0a424dc7.1718890849.git.geert+renesas@glider.be>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+Content-Language: en-US
+In-Reply-To: <884c683fb6c1d1bf7d0d383a8df8f65a0a424dc7.1718890849.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
 
-> -----Original Message-----
-> From: Krzysztof Kozlowski <krzk@kernel.org>
-> Sent: Saturday, June 15, 2024 3:09 PM
-> To: Alim Akhtar <alim.akhtar@samsung.com>; 'Krzysztof Kozlowski'
-> <krzysztof.kozlowski@linaro.org>; 'Daniel Lezcano'
-[snip]
-> On 14/06/2024 16:29, Alim Akhtar wrote:
-> > Hi Krzysztof,
-> >
-> >> -----Original Message-----
-> >> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> >> Sent: Friday, June 14, 2024 3:16 PM
-> >> To: Daniel Lezcano <daniel.lezcano@linaro.org
-> > .stormreply.com;
-> >> Subject: [PATCH 01/22] dt-bindings: thermal: samsung,exynos: specify
-> >> cells
-> >>
-> >> All Samsung Exynos SoCs Thermal Management Units have only one
-> >> sensor, so make '#thermal-sensor-cells' fixed at 0.
-> >>
-> > This is not entirely true, there are SoCs which have multiple temp sens=
-ors.
-> > It is true that currently only one sensor support is added though.
->=20
-> All supported by mainline. Others do not exist now :)
->=20
-> >
-> > So we can leave this as is or you suggest to make it to support only
-> > one sensor (to match the current DT support), and later (in near
-> > future) change it again to match what HW actually support?
->=20
-> Yes, different devices can have different value (and bindings).
-Ok, this is fine for now.
+On 20.06.2024 16:57, Geert Uytterhoeven wrote:
+> Add the missing fifth interrupt to the device node that represents the
+> ARM architected timer.  While at it, add an interrupt-names property for
+> clarity,
+> 
+> Fixes: e20396d65b959a65 ("arm64: dts: renesas: Add initial DTSI for RZ/G3S SoC")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> Best regards,
-> Krzysztof
+Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-
-
+> ---
+>  arch/arm64/boot/dts/renesas/r9a08g045.dtsi | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
+> index 2162c247d6deb170..0d5c47a65e46c584 100644
+> --- a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
+> @@ -294,6 +294,9 @@ timer {
+>  		interrupts-extended = <&gic GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
+>  				      <&gic GIC_PPI 14 IRQ_TYPE_LEVEL_LOW>,
+>  				      <&gic GIC_PPI 11 IRQ_TYPE_LEVEL_LOW>,
+> -				      <&gic GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>;
+> +				      <&gic GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>,
+> +				      <&gic GIC_PPI 12 IRQ_TYPE_LEVEL_LOW>;
+> +		interrupt-names = "sec-phys", "phys", "virt", "hyp-phys",
+> +				  "hyp-virt";
+>  	};
+>  };
 
