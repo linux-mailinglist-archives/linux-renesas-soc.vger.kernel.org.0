@@ -1,149 +1,89 @@
-Return-Path: <linux-renesas-soc+bounces-6766-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6767-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A754917263
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2024 22:19:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFFD2917314
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2024 23:12:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4AB121F2232C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2024 20:19:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E05D31C22ABA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2024 21:12:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48ED917D353;
-	Tue, 25 Jun 2024 20:19:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 110EB1836C8;
+	Tue, 25 Jun 2024 21:09:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TU2UOrjp"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hCzpkt/c"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9B6178394
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Jun 2024 20:19:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D8717E45B;
+	Tue, 25 Jun 2024 21:09:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719346769; cv=none; b=SDrGokee0wV0iaZGnvNmIU+JK+U8dZzFZziEJ0FoJe5/DVBL4lwgvtN1bOG803uqhiPEMSOVOxlGvBIN5Mns/9C5f5tBv24j78u8cqJow45FXkr2i86VtV7z/cXM6IV/ATB8DjpDWov6wZthfrxKFQ0JlPpnF4ZRiFj/Qeu5kK0=
+	t=1719349795; cv=none; b=fcF31OmySuB54ksd8lL8RE8UVEcrJqAfa2CXfQw1wsyYks8x2iSaL9w+kivtw7uPdnzB376DZbB6AlYVK//xQaHfFg8H8uhdrwaFhTs2buG4sN2GPk8z2pydoocMwGN5bhQ3hw5DbJ1Ix9jsU0o5GsX18lW4Hdv35mLVRPoqPNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719346769; c=relaxed/simple;
-	bh=emaNGM/JR9cfn6doyYLindrV0vnTXjkN8xcokX6OaiQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Nps5pwGIJmm18w+ms4wkIZ7HcPx1xLNXCbNSwLRQ7WqgSUAKl+LtIn4estmSjUDQ+I2KagIMv1QZs5ermQcQXgvQLJBnvSb7xIaNTx5otj9dRnUd82l5SCiNLlZhOVOW5XJ3CqeaLLeb9dHjwpO0E0JyMP1pXba77tHOcndmUxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TU2UOrjp; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719346763; x=1750882763;
-  h=date:from:to:cc:subject:message-id;
-  bh=emaNGM/JR9cfn6doyYLindrV0vnTXjkN8xcokX6OaiQ=;
-  b=TU2UOrjpSclXC9BZsJlp+NuPUTRvFUowmKz8tTOcCu1b/SCLrDGpvPGX
-   znYCBCavJjMgNG5VRqt2lOVBrjLcEvd9vLQz2Lfl1Gj+vfFSIcMH1Wuc+
-   8+pSW1GIrigR1Y3vhKdSm/uIAuag71Rq4Ad2E+flBd6WTGeKPjGfwvHO1
-   OZfPdURaIbBUlLIBULMzmqcYWILwBdfXF4chnDw7zMuYu68Jn9FgBQv/u
-   QGuC6MMvlDcXEiGCFd+z59PrJgxxdEzAi9/RXTsGa6KS+H4vtEMi7NjCw
-   lmDy6REPm48KTjOEfQ80Wc9gQHBZ0AO/DzWTm4c/fT2gjZGtJ+Phcg34m
-   g==;
-X-CSE-ConnectionGUID: pkgTxTPIR6aA/58dbanayg==
-X-CSE-MsgGUID: wRDKhi3xSA6or89+mm1TSg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11114"; a="16616340"
-X-IronPort-AV: E=Sophos;i="6.08,264,1712646000"; 
-   d="scan'208";a="16616340"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 13:19:23 -0700
-X-CSE-ConnectionGUID: mUXa8u8ERq2VPyh/AgpjRA==
-X-CSE-MsgGUID: 12iVxMcLTFG5qMUuLpEong==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,264,1712646000"; 
-   d="scan'208";a="48683971"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 25 Jun 2024 13:19:22 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sMCdL-000EhK-1d;
-	Tue, 25 Jun 2024 20:19:19 +0000
-Date: Wed, 26 Jun 2024 04:19:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-pinctrl] BUILD SUCCESS
- 9ba049c499cd35bb4a5add713dd768d2cea3590a
-Message-ID: <202406260458.w7cYI7AV-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1719349795; c=relaxed/simple;
+	bh=1PYksQ3E9z4msNPu5htpDLVmL9zgWuVlY34orOJ78PQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kUKDbnHDCkxfDlYhKtsde+WS9KgfiLmfuab9rdPv+YGcEgZlYUWRIBblJWIJHCFeX7Vx4mccBamVdgnynVzlcBaksaWO1UZrRs7JiCmUuCIgWT9sYRF4nJFJpJkn2ZcQN5asNlFm3kTd9AdtL++Rw3xxUSJL51PR0zV9MiUP5/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hCzpkt/c; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3EA4D512;
+	Tue, 25 Jun 2024 23:09:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1719349767;
+	bh=1PYksQ3E9z4msNPu5htpDLVmL9zgWuVlY34orOJ78PQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hCzpkt/cYwQMpgcV6XmKyCmFhOSErR0m+ex+3HrH0zEyOGKTDhAojO/tdd809eygh
+	 ieJ5tVMvBNYrSJg4qzshxaogOZzFtai8AeFbRLPzv9/SBSPQm90+3sqN//UnNXnbm+
+	 ikKm234BCwFme1fYKGYs/zCsAqdyk5VKQAJrJ0vs=
+Date: Wed, 26 Jun 2024 00:09:28 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Eugen Hristev <eugen.hristev@collabora.com>,
+	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH 2/8] media: sun4i_csi: Implement link validate for
+ sun4i_csi subdev
+Message-ID: <20240625210928.GA29726@pendragon.ideasonboard.com>
+References: <20240619012356.22685-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20240619012356.22685-3-laurent.pinchart+renesas@ideasonboard.com>
+ <Znb_X42wK_UoMUNR@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Znb_X42wK_UoMUNR@valkosipuli.retiisi.eu>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl
-branch HEAD: 9ba049c499cd35bb4a5add713dd768d2cea3590a  pinctrl: renesas: Add R-Car Gen3 fuse support
+On Sat, Jun 22, 2024 at 04:44:15PM +0000, Sakari Ailus wrote:
+> On Wed, Jun 19, 2024 at 04:23:50AM +0300, Laurent Pinchart wrote:
+> > The sun4i_csi driver doesn't implement link validation for the subdev it
+> > registers, leaving the link between the subdev and its source
+> > unvalidated. Fix it, using the v4l2_subdev_link_validate() helper.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> 
+> This looks like a bugfix. Shouldn't this be backported?
 
-elapsed time: 1712m
+I'll add
 
-configs tested: 56
-configs skipped: 0
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig   gcc-13.2.0
-arc                               allnoconfig   gcc-13.2.0
-arc                   randconfig-001-20240625   gcc-13.2.0
-arc                   randconfig-002-20240625   gcc-13.2.0
-arm                   randconfig-003-20240625   gcc-13.2.0
-arm                   randconfig-004-20240625   gcc-13.2.0
-arm64                             allnoconfig   gcc-13.2.0
-arm64                 randconfig-001-20240625   gcc-13.2.0
-arm64                 randconfig-002-20240625   gcc-13.2.0
-arm64                 randconfig-004-20240625   gcc-13.2.0
-csky                              allnoconfig   gcc-13.2.0
-csky                  randconfig-001-20240625   gcc-13.2.0
-csky                  randconfig-002-20240625   gcc-13.2.0
-i386         buildonly-randconfig-004-20240625   gcc-13
-i386                  randconfig-001-20240625   gcc-13
-i386                  randconfig-003-20240625   gcc-7
-i386                  randconfig-006-20240625   gcc-13
-i386                  randconfig-012-20240625   gcc-13
-i386                  randconfig-015-20240625   gcc-12
-i386                  randconfig-016-20240625   gcc-10
-loongarch                         allnoconfig   gcc-13.2.0
-loongarch             randconfig-001-20240625   gcc-13.2.0
-loongarch             randconfig-002-20240625   gcc-13.2.0
-m68k                              allnoconfig   gcc-13.2.0
-microblaze                        allnoconfig   gcc-13.2.0
-mips                              allnoconfig   gcc-13.2.0
-nios2                             allnoconfig   gcc-13.2.0
-nios2                 randconfig-001-20240625   gcc-13.2.0
-nios2                 randconfig-002-20240625   gcc-13.2.0
-openrisc                          allnoconfig   gcc-13.2.0
-parisc                            allnoconfig   gcc-13.2.0
-parisc                randconfig-001-20240625   gcc-13.2.0
-parisc                randconfig-002-20240625   gcc-13.2.0
-powerpc                           allnoconfig   gcc-13.2.0
-powerpc               randconfig-002-20240625   gcc-13.2.0
-powerpc               randconfig-003-20240625   gcc-13.2.0
-powerpc64             randconfig-001-20240625   gcc-13.2.0
-riscv                             allnoconfig   gcc-13.2.0
-riscv                 randconfig-001-20240625   gcc-13.2.0
-sh                                allnoconfig   gcc-13.2.0
-sh                    randconfig-001-20240625   gcc-13.2.0
-sh                    randconfig-002-20240625   gcc-13.2.0
-sparc64               randconfig-001-20240625   gcc-13.2.0
-sparc64               randconfig-002-20240625   gcc-13.2.0
-x86_64       buildonly-randconfig-001-20240625   gcc-13
-x86_64                randconfig-002-20240625   gcc-13
-x86_64                randconfig-003-20240625   gcc-13
-x86_64                randconfig-006-20240625   gcc-13
-x86_64                randconfig-012-20240625   gcc-13
-x86_64                randconfig-015-20240625   gcc-13
-x86_64                randconfig-016-20240625   gcc-11
-x86_64                randconfig-071-20240625   gcc-13
-x86_64                randconfig-074-20240625   gcc-13
-xtensa                            allnoconfig   gcc-13.2.0
-xtensa                randconfig-001-20240625   gcc-13.2.0
-xtensa                randconfig-002-20240625   gcc-13.2.0
+Fixes: 577bbf23b758 ("media: sunxi: Add A10 CSI driver")
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+
+Laurent Pinchart
 
