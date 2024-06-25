@@ -1,180 +1,221 @@
-Return-Path: <linux-renesas-soc+bounces-6746-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6749-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66E65916D61
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2024 17:46:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79376916D97
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2024 17:56:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6E7A11C21AAC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2024 15:46:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BEE93B22332
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2024 15:56:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B8E916CD0A;
-	Tue, 25 Jun 2024 15:46:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="G3kxDtD8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5E6D16EBF4;
+	Tue, 25 Jun 2024 15:56:25 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A200C2E62F;
-	Tue, 25 Jun 2024 15:46:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719330372; cv=pass; b=WHrX+nNkw3CJEuF03eSbgtcrwzJMBmSsP3V+V46Xf8fGxdcZuWg68xw2QYHDDha9aoKV+uNL+wnuquuMHL2ftDoabuDkHrYsJ30cfSy5PZG9DfLgueu0CjPd/5dNBe1pp3YDBhx+gCJ+uMrUdnYz0UtHyrzkvcLBprdhpjPpx3Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719330372; c=relaxed/simple;
-	bh=qEWv+KLC9o4fQJcau4qBTyPi1r/DsGRqhaKQw81Fck4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MFPIo6P88y2bZDkZ6fq+cF03Lq3fSqQH/2FCTWQ9SyGSNnXr9Q1vD6UuQGjNE3aIBr/DPsl1Ow3V4X4lDLcoOaFG/SpQEd6d2NFXE31Kt9Sf8XneIhUkPqXeIixKcdC1s0XpTmBMqEy8DILoCZlmTlLXdVUiGL3vev1iQ5do39E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=G3kxDtD8; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4W7q1W59slzyNf;
-	Tue, 25 Jun 2024 18:46:07 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1719330368;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qsgeDXqLAG2r88xeBOLTfP/lA9UggnL7cmVxbh/Y8pM=;
-	b=G3kxDtD8kkAPoida9mtQhQce0StOdxrVYMiJ+5EhX4pzp0GthQsRM+MfbfhxsZv0NRq1b4
-	IrqvMMveEtp7p3i/tikmRMFH/bZCr2JeHYwAAtYi4YrtzkPmAMihX0bmD0nu4R57DosFeX
-	LBy2Yc/OqZGMdIblfWNg7sHh1UrA5/M=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1719330368;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qsgeDXqLAG2r88xeBOLTfP/lA9UggnL7cmVxbh/Y8pM=;
-	b=UvXTM34gxGKR5LmkjoWeFN5bSuVOxNHWPKnN3lvMY2fBbK9oOhbzemxswYt+gQufbJEH8C
-	BY7a9uGiNrufwCMW5JIVMW99iFpOfH+GHwiWNCDc7gRZ5YnuCbvYU59ASJcrHZHcVcBxcn
-	Gi5fxVde0I/nPpKNd78OGOYpdAouj6U=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1719330368; a=rsa-sha256; cv=none;
-	b=h6ggPpiOLRfG48nEaW2s5SmjDOi/uNsX9kxP4H5ROZsrUi5frlTzZ11cVc9Faysd4Hpj6d
-	O+00B09QxaDjrnrOyJXdXO7CKVjCtGrla2n9Va0+7lqWG8ITD3WSiMpIHM9UFDkJ2RJs0W
-	xK/GMQ1vS/jA/tMmnJjj5hHAbcbNRpw=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 352DA634C94;
-	Tue, 25 Jun 2024 18:46:07 +0300 (EEST)
-Date: Tue, 25 Jun 2024 15:46:06 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	Eugen Hristev <eugen.hristev@collabora.com>,
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH 4/8] media: v4l2-subdev: Refactor warnings in
- v4l2_subdev_link_validate()
-Message-ID: <ZnrmPpE9hod_bKHx@valkosipuli.retiisi.eu>
-References: <20240619012356.22685-1-laurent.pinchart+renesas@ideasonboard.com>
- <20240619012356.22685-5-laurent.pinchart+renesas@ideasonboard.com>
- <ZncAJRoydaWoxGRj@valkosipuli.retiisi.eu>
- <20240625140247.GC30459@pendragon.ideasonboard.com>
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A1FF16F91E;
+	Tue, 25 Jun 2024 15:56:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719330985; cv=none; b=N2OSV7Hk0/iMlJURxQSrpzezxhAk9i3nSK5tTO9GETzAr17bTk7GoE3k3cAZtxa0o8FTFix0iTMNcrULCx59EBeDSw6gMECbWQzpGnlotTOtZrR8QB2zMeXRGzC30PaK+oAPQ3HlsB+I6RhoEmdDgaI3EQGeAMJQ4js3S1B4iy8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719330985; c=relaxed/simple;
+	bh=n1FFf5mujbNwYqKy/el2+g6OPIJw7BUE+uVESDPrvtQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NufbZy085AYElP870pFFsaQFffdQ7j74TYB2UPusL4HE8V96/3QfC+Ykvdbu0XtvOxjvco4kUOtUHCNJoWhrdTdjAPZisA8+bGkmMtI7AjawA7Yc795Uvf5ClfKjh9J3ZdiGwp9qIufb/kNzHlTO6SKfAmFRq3CeGy9fnrABu0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.08,264,1712588400"; 
+   d="asc'?scan'208";a="209250203"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 26 Jun 2024 00:51:12 +0900
+Received: from [10.226.92.125] (unknown [10.226.92.125])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id DC0BF400D0C1;
+	Wed, 26 Jun 2024 00:51:09 +0900 (JST)
+Message-ID: <796db874-b88e-4e7b-aebb-7b0a0361843c@bp.renesas.com>
+Date: Tue, 25 Jun 2024 16:51:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240625140247.GC30459@pendragon.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [net-next,v9] net: ethernet: rtsn: Add support for Renesas
+ Ethernet-TSN
+To: Paolo Abeni <pabeni@redhat.com>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+ netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20240618090824.553018-1-niklas.soderlund+renesas@ragnatech.se>
+ <716088809af5c646b3f1342656dbb08969becaaa.camel@redhat.com>
+ <20240620115051.GW382677@ragnatech.se>
+ <4bc6795cb1b731f47d2c0b3f06f106f59abf0637.camel@redhat.com>
+Content-Language: en-GB
+From: Paul Barker <paul.barker.ct@bp.renesas.com>
+Organization: Renesas Electronics Corporation
+In-Reply-To: <4bc6795cb1b731f47d2c0b3f06f106f59abf0637.camel@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------nIhq4e2lwqrmhMK7LsjZX6S1"
 
-Hi Laurent,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------nIhq4e2lwqrmhMK7LsjZX6S1
+Content-Type: multipart/mixed; boundary="------------jZ0SiwluMZy9D0NHvgRw5B1o";
+ protected-headers="v1"
+From: Paul Barker <paul.barker.ct@bp.renesas.com>
+To: Paolo Abeni <pabeni@redhat.com>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+ netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Message-ID: <796db874-b88e-4e7b-aebb-7b0a0361843c@bp.renesas.com>
+Subject: Re: [net-next,v9] net: ethernet: rtsn: Add support for Renesas
+ Ethernet-TSN
+References: <20240618090824.553018-1-niklas.soderlund+renesas@ragnatech.se>
+ <716088809af5c646b3f1342656dbb08969becaaa.camel@redhat.com>
+ <20240620115051.GW382677@ragnatech.se>
+ <4bc6795cb1b731f47d2c0b3f06f106f59abf0637.camel@redhat.com>
+In-Reply-To: <4bc6795cb1b731f47d2c0b3f06f106f59abf0637.camel@redhat.com>
 
-On Tue, Jun 25, 2024 at 05:02:47PM +0300, Laurent Pinchart wrote:
-> On Sat, Jun 22, 2024 at 04:47:33PM +0000, Sakari Ailus wrote:
-> > Hi Laurent,
-> > 
-> > Thanks for the patch.
-> > 
-> > On Wed, Jun 19, 2024 at 04:23:52AM +0300, Laurent Pinchart wrote:
-> > > The v4l2_subdev_link_validate() function prints a one-time warning if it
-> > > gets called on a link whose source or sink is not a subdev. As links get
-> > > validated in the context of their sink, a call to the helper when the
-> > > link's sink is not a subdev indicates that the driver has set its
-> > > .link_validate() handler to v4l2_subdev_link_validate() on a non-subdev
-> > > entity, which is a clear driver bug. On the other hand, the link's
-> > > source not being a subdev indicates that the helper is used for a subdev
-> > > connected to a video output device, which is a lesser issue, if only
-> > > because this is currently common practice.
-> > > 
-> > > There are no drivers left in the kernel that use
-> > > v4l2_subdev_link_validate() in a context where it may get called on a
-> > > non-subdev sink. Replace the pr_warn_once() with a WARN_ON() in this
-> > > case to make sure that new offenders won't be introduced.
-> > > 
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > ---
-> > >  drivers/media/v4l2-core/v4l2-subdev.c | 14 +++++++++-----
-> > >  1 file changed, 9 insertions(+), 5 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> > > index 4f71199bf592..2d5e39c79620 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> > > @@ -1451,11 +1451,15 @@ int v4l2_subdev_link_validate(struct media_link *link)
-> > >  	bool states_locked;
-> > >  	int ret;
-> > >  
-> > > -	if (!is_media_entity_v4l2_subdev(link->sink->entity) ||
-> > > -	    !is_media_entity_v4l2_subdev(link->source->entity)) {
-> > > -		pr_warn_once("%s of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
-> > > -			     !is_media_entity_v4l2_subdev(link->sink->entity) ?
-> > > -			     "sink" : "source",
-> > > +	/*
-> > > +	 * Links are validated in the context of the sink entity. Usage of this
-> > > +	 * helper on a sink that is not a subdev is a clear driver bug.
-> > > +	 */
-> > > +	if (WARN_ON(!is_media_entity_v4l2_subdev(link->sink->entity)))
-> > > +		return -EINVAL;
-> > 
-> > WARN*() is nowadays deprecated.
-> 
-> Why so ? I've followed a recent discussion where some people pointed out
-> they disliked WARN*() due to panic-on-warn, but I didn't see any
-> conclusion there that deprecated WARN*().
+--------------jZ0SiwluMZy9D0NHvgRw5B1o
+Content-Type: multipart/mixed; boundary="------------drz42KU1z0pbXahb33cpo4m0"
 
-Fair enough, there seems to have been more discussion.
+--------------drz42KU1z0pbXahb33cpo4m0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-As this is still user-triggerable, this should be WARN_ON_ONCE() to prevent
-the user from filling the logs, intentionally or not.
+Hi Paolo, Niklas,
 
-> 
-> > Could you continue to use pr_warn_once()
-> > for this (or dev_warn_one())?
-> 
-> I think a WARN_ON() is the right option here. A failure indicates a
-> clear driver bug, we should be as loud as possible to make sure it gets
-> noticed during development.
-> 
-> > > +
-> > > +	if (!is_media_entity_v4l2_subdev(link->source->entity)) {
-> > > +		pr_warn_once("source of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
-> > >  			     link->source->entity->name, link->source->index,
-> > >  			     link->sink->entity->name, link->sink->index);
-> > >  		return 0;
-> 
+On 20/06/2024 16:23, Paolo Abeni wrote:
+> On Thu, 2024-06-20 at 13:50 +0200, Niklas S=C3=B6derlund wrote:
+>> On 2024-06-20 13:13:21 +0200, Paolo Abeni wrote:
+>>>
+>>> skb allocation is preferred at receive time, so that the sk_buff itse=
+lf
+>>> is hot in the cache. Adapting to such style would likely require a
+>>> larger refactor, so feel free to avoid it.
+>>
+>> This is good feedback. There are advanced features in TSN that I would=
+=20
+>> like to work on in the future. One of them is to improve the Rx path t=
+o=20
+>> support split descriptors allowing for larger MTU. That too would=20
+>> require invasive changes in this code. I will make a note of it and tr=
+y=20
+>> to do both.
+>=20
+> In the context of a largish refactor, then I suggest additional
+> investigating replacing napi_gro_receive() with napi_gro_frags().
+>=20
+> The latter should provide the best performances for GRO-ed traffic.
 
--- 
-Kind regards,
+This prompted me to try converting ravb_rx_gbeth() in the ravb driver to
+use napi_get_frags()/napi_gro_frags(). The result of that change was no
+improvement in TCP RX performance and a roughly 10% loss in UDP RX
+performance on the RZ/G2UL. i.e. napi_gro_frags() is worse than
+napi_gro_receive() in this driver.
 
-Sakari Ailus
+I guess using napi_gro_frags() removes the need to copy data if you need
+to add space to the first fragment for a struct skb_shared_info. For the
+GbEth IP, we reserve space for the shared info structure in every
+fragment buffer anyway. For <=3D1500 byte packets there is no benefit to
+changing this, but for larger packets perhaps we would see better
+efficiency if all of each 2kB fragment buffer could be used for packet
+data, with space for the shared info being allocated separately via
+napi_get_frags(). Some thoughts for the future I guess.
+
+Am I missing anything here about why napi_gro_frags() should be better?
+
+Thanks,
+
+--=20
+Paul Barker
+--------------drz42KU1z0pbXahb33cpo4m0
+Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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3D
+=3DsIIN
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------drz42KU1z0pbXahb33cpo4m0--
+
+--------------jZ0SiwluMZy9D0NHvgRw5B1o--
+
+--------------nIhq4e2lwqrmhMK7LsjZX6S1
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZnrnbAUDAAAAAAAKCRDbaV4Vf/JGvT27
+AQCjjCgn5mjoUHQValsWHrY++7tjBqDDboyxK0xoec/viAEAuP2PGSMi60t35bU/EHG8W2KXCtPy
+QX/nZ7N9ZXA2Mgo=
+=eb+y
+-----END PGP SIGNATURE-----
+
+--------------nIhq4e2lwqrmhMK7LsjZX6S1--
 
