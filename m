@@ -1,97 +1,91 @@
-Return-Path: <linux-renesas-soc+bounces-6738-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6739-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4229C91675C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2024 14:17:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1E6D9167EE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2024 14:33:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E0A0C1F260FF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2024 12:17:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 741CB1F2810A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2024 12:33:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC0A216E877;
-	Tue, 25 Jun 2024 12:14:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30AC0157460;
+	Tue, 25 Jun 2024 12:33:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="XK9Eqwz3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UQOKYY42"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09D14155392
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Jun 2024 12:14:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 611A3156238;
+	Tue, 25 Jun 2024 12:33:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719317690; cv=none; b=NqHgy3tQ7MApVM8W7ddqohe7tj69Jj3uhgI47XV1bEnGj1STmUXYR+6W5oBv7ukhkVFM3QRYO2EU0n8JILe3MUa0jWbgsgjdzibuzSHCdcw4QNxCZUHySqi+cSF2ilrpOkYbWE/+zdcynfWFTXjmxWT+jJeUxbKpcddWl94cxbs=
+	t=1719318825; cv=none; b=WFX3ybjfixZ1RQTBMv4zHOYv9rBNoJFVNf/M88e/0vYecvt8fkUE/RIZB0N/1dmfzqz4KXtQgYfwXqTMNKC6ON5cmYpIZpy8clEe31Usuj4br39xHQ7PNFyd0FcfyFtClimAEMGX40rygtzHvHg2FFWN2OoDE8C9qlKWezE9O1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719317690; c=relaxed/simple;
-	bh=up+CKCw3ZtFCZT/R1IA59eXhUiHBrn4jrvl8EMaiQVI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=luRn3zZiMJZQYs5AKlx80v5V7oindnjV2T9npxF+bSqZoYGerBh+ZXTKf/ztSz2pB49eV3shdfYDCwL+R7YMd0bo9kqtq+HizzZoxs6U9awUXxGuCjvzzhDStpYVlUmhUoTaoS5tDsvc3eOt7G7ZNn5gLOTlov0E5VSdVEqFsNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=XK9Eqwz3; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-363826fbcdeso4006177f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Jun 2024 05:14:48 -0700 (PDT)
+	s=arc-20240116; t=1719318825; c=relaxed/simple;
+	bh=4KvUTQLw9gvP30Tp5JNWxt3XSOwjg0Sc/Nc0NF8kTjs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Q1V0qFOTsqTH2an7gqWiX2D8/q1AEl0YEIPXVjOQdpJ6hlNRN2StJG6YDwxb3IoEHJU50as7sKwrFLSHxDdHK5tY8OebjExwWb786dF6zl2jkcnJ5YCIFbj3dpAJGJ9iVzUquZIFaammltYBClVRoxlSXS9ahLolzRxC3+EXLnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UQOKYY42; arc=none smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2ec5fad1984so31538701fa.0;
+        Tue, 25 Jun 2024 05:33:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1719317687; x=1719922487; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6GKJ24v9TVtuWhV14muRJU3eBIqlecW/qbwYzBi7wQ4=;
-        b=XK9Eqwz36RcCgONU1DSVXSLa5fkTGq0t3D6igMER+Rd8d0nQyGfrfnWpaIVJMV6Qwf
-         2Z5t7ERPwN7J8/hnm+di/9zwSPzWXk/4NIkIrJ5NVfdYgkTktAqp+NSL3Wb62x20DEyR
-         3Ot0328/oQc4GzufJAGpvn5UPMy2jYa9L+sgCn5ahWR88vQNzLvsACh6YjcAJ/dqTHhs
-         CSvP9frn0mfDmbmPK8g+Xl+KPZ5UN6YBoEBSaU2jF3+ID2/qhH68d4h+g2cQJPZ/l6AI
-         5EWg4LSup/Q+yUDnj5KaG4O5L59ZCcJSgxTgzJpIu7FH0jiiasJ1T3U1Ocqc+HgghsXd
-         o27A==
+        d=gmail.com; s=20230601; t=1719318821; x=1719923621; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/cqf1zVU8T9PJtUZDZ8GI36DML+N/iS1fJepnMDzz0g=;
+        b=UQOKYY42yj16gHLo2Bg6jMBthzn3FzjOFAIj8STlvR5XIJm35yKwMPjvAmmiD3GlXn
+         iPCN/bPTxta+NsmNZIzDsfSF696BGRlU/l7OSLeQN4s7p3KE5SiDAWHV+FqcLrvHW+hI
+         t88n9zeUiuzbwYRkUC+Ay1lf7ComPEw6MTzSlw10J2ExRYNV4hzJ56FMPct+0hljkdv6
+         2/5NsfWUwyiTRbr4g1xL9ynZf52tqqP8nMgv/PpBByBdyYkb7VZWa5+jpsBJ4ZOIGF3I
+         IsdxjdUP2+hNZRYVURaQm3WFGIw0qPb/ZWWFtGN5yOJVrGTrnJnfGM3MvTsxZW6w6yDB
+         2HVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719317687; x=1719922487;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6GKJ24v9TVtuWhV14muRJU3eBIqlecW/qbwYzBi7wQ4=;
-        b=Soyl+ieyGpfpmZl+D2nTChAPLUuL1im+6pDb3flPlemGSdLILc/ntbXDF8VKdVMd4q
-         W/qxmJ8lI23b25Xr4AO7kVfLKiQRmeAVvx/9NwrWYPAMtkZmyODs0qdrXWW45SjMweQr
-         0ATZGmeqp2BToYG6izVGcEfXYY8cDflGsFZ1VbyNZTwi7t0d5nrLaXW1DK7Lhpdn2s43
-         adcYDfCJ9nTHAISqjTG+1/gXRTzE3BIV0jN7O3ph8AM74Ksas6to8IYfjyc60lWMnRQe
-         ShpZjRFfxNN3V3NUv+ij47OBzoXLbUB4S/cea4o8mBalhlZmR8ojMfv2bhZp0iU0temL
-         ff8A==
-X-Gm-Message-State: AOJu0Yxpu761fJR8AwlZWXz+jJXQp8QxR5LjM2pk4mBiQimi5nsJ6sGB
-	lQuZ7EIjh/3J6YGGtbklE6Q1OInxhaHWIMbJmkTvRn2WVGL5AwNiR3dufhJTIyg=
-X-Google-Smtp-Source: AGHT+IE0bik9VVIosKI1k5PcnDWp8XNvIEpEQaNWzDyB3Cpn8xenkx4I1ZQz7IJ1AZgs6x8KmksV/g==
-X-Received: by 2002:a5d:4ac9:0:b0:35f:1bb2:4354 with SMTP id ffacd0b85a97d-366e7a1065bmr4390465f8f.35.1719317687632;
-        Tue, 25 Jun 2024 05:14:47 -0700 (PDT)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.70])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3663a8c8b32sm12798437f8f.92.2024.06.25.05.14.46
+        d=1e100.net; s=20230601; t=1719318821; x=1719923621;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/cqf1zVU8T9PJtUZDZ8GI36DML+N/iS1fJepnMDzz0g=;
+        b=rd+Nd4DedTrOU57XzWLDqgvHyQ1AKJ7hMO/huaTTYbZ+e3oKrTYDxSckcFKeQ57K6E
+         peKn/cvw74v6mXWA1/iMfG8h2SUJ9OXFLZY3lFfdItRMnht1Dxi3OUojKp6Xi0hef72v
+         JiHP7M+PAzuzO722EgdCUF0dIsDLAf53oEIXip3Cn7v9ojMQ/ozTm+xF80jg6fvr5I84
+         gO6jkpjh4VALAOB7xynVLWNFPuQGKiUd3PPSJALvoHurYLJ6ZTOsexJFq5bsb0Ng8kiv
+         oEDSfekWodte2o2jCjlN+F3m+gSnHV+QQh9wjpX6aBLRMYstYUixgm/Q/Ujdg8C9w4cV
+         6BgA==
+X-Forwarded-Encrypted: i=1; AJvYcCUcGA6EvcMnamk+qAGW/viemzaaplz1ae1v5b2eTfj9794ipYuJmUr4Qtk1LkPKEcSj6LSteNb3WnABqxsVPzI9VJrF47jx0ILXE+yH
+X-Gm-Message-State: AOJu0Yxru9HJ8eSfTgE3/2eqROjcvx8KxPbXBhQIJg1YC05/uwSyd3S4
+	199AKw6YkoLhoP9WRJ52+i/HaxYi9eMh64wbuX6rxYcjYEMAecGI
+X-Google-Smtp-Source: AGHT+IGzf5w6HLzjANOioi8j8FbeMtUVIjSCWhXUsPjbZQabhZlzSRfjXDiGuLHklpPZSuy0Ut33Vg==
+X-Received: by 2002:a2e:86ca:0:b0:2ec:52aa:1155 with SMTP id 38308e7fff4ca-2ec5b36c1fcmr59350491fa.52.1719318821025;
+        Tue, 25 Jun 2024 05:33:41 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4247d0be818sm210288485e9.15.2024.06.25.05.33.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jun 2024 05:14:47 -0700 (PDT)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: chris.brandt@renesas.com,
-	andi.shyti@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	mturquette@baylibre.com,
-	sboyd@kernel.org,
-	p.zabel@pengutronix.de,
-	wsa+renesas@sang-engineering.com
+        Tue, 25 Jun 2024 05:33:40 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	dri-devel@lists.freedesktop.org
 Cc: linux-renesas-soc@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	claudiu.beznea@tuxon.dev,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v2 12/12] arm64: dts: renesas: rzg3s-smarc-som: Enable i2c1 node
-Date: Tue, 25 Jun 2024 15:13:58 +0300
-Message-Id: <20240625121358.590547-13-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240625121358.590547-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20240625121358.590547-1-claudiu.beznea.uj@bp.renesas.com>
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] drm: renesas: Move RZ/G2L MIPI DSI driver to rz-du
+Date: Tue, 25 Jun 2024 13:32:44 +0100
+Message-Id: <20240625123244.200533-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -100,43 +94,89 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Enable i2c1 node.
+All the RZ/G2L DU specific components are located under the rz-du folder,
+so it makes sense to move the RZ/G2L MIPI DSI driver there instead of
+keeping it in the rcar-du folder. This change improves the organization
+and modularity of the driver configuration by grouping related settings together.
 
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
+ drivers/gpu/drm/renesas/rcar-du/Kconfig                   | 8 --------
+ drivers/gpu/drm/renesas/rcar-du/Makefile                  | 2 --
+ drivers/gpu/drm/renesas/rz-du/Kconfig                     | 8 ++++++++
+ drivers/gpu/drm/renesas/rz-du/Makefile                    | 2 ++
+ .../gpu/drm/renesas/{rcar-du => rz-du}/rzg2l_mipi_dsi.c   | 0
+ .../drm/renesas/{rcar-du => rz-du}/rzg2l_mipi_dsi_regs.h  | 0
+ 6 files changed, 10 insertions(+), 10 deletions(-)
+ rename drivers/gpu/drm/renesas/{rcar-du => rz-du}/rzg2l_mipi_dsi.c (100%)
+ rename drivers/gpu/drm/renesas/{rcar-du => rz-du}/rzg2l_mipi_dsi_regs.h (100%)
 
-Changes in v2:
-- none
-
- arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-index 8a3d302f1535..21bfa4e03972 100644
---- a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-@@ -32,6 +32,7 @@ / {
- 	compatible = "renesas,rzg3s-smarcm", "renesas,r9a08g045s33", "renesas,r9a08g045";
+diff --git a/drivers/gpu/drm/renesas/rcar-du/Kconfig b/drivers/gpu/drm/renesas/rcar-du/Kconfig
+index 53c356aed5d5..39af73cf2092 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/Kconfig
++++ b/drivers/gpu/drm/renesas/rcar-du/Kconfig
+@@ -60,14 +60,6 @@ config DRM_RCAR_MIPI_DSI
+ 	select DRM_MIPI_DSI
+ 	select RESET_CONTROLLER
  
- 	aliases {
-+		i2c1 = &i2c1;
- 		mmc0 = &sdhi0;
- #if SW_CONFIG3 == SW_OFF
- 		mmc2 = &sdhi2;
-@@ -150,6 +151,10 @@ &extal_clk {
- 	clock-frequency = <24000000>;
- };
- 
-+&i2c1 {
-+	status = "okay";
-+};
+-config DRM_RZG2L_MIPI_DSI
+-	tristate "RZ/G2L MIPI DSI Encoder Support"
+-	depends on DRM && DRM_BRIDGE && OF
+-	depends on ARCH_RENESAS || COMPILE_TEST
+-	select DRM_MIPI_DSI
+-	help
+-	  Enable support for the RZ/G2L Display Unit embedded MIPI DSI encoders.
+-
+ config DRM_RCAR_VSP
+ 	bool "R-Car DU VSP Compositor Support" if ARM
+ 	default y if ARM64
+diff --git a/drivers/gpu/drm/renesas/rcar-du/Makefile b/drivers/gpu/drm/renesas/rcar-du/Makefile
+index b8f2c82651d9..6f132325c8b7 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/Makefile
++++ b/drivers/gpu/drm/renesas/rcar-du/Makefile
+@@ -14,5 +14,3 @@ obj-$(CONFIG_DRM_RCAR_DU)		+= rcar-du-drm.o
+ obj-$(CONFIG_DRM_RCAR_DW_HDMI)		+= rcar_dw_hdmi.o
+ obj-$(CONFIG_DRM_RCAR_LVDS)		+= rcar_lvds.o
+ obj-$(CONFIG_DRM_RCAR_MIPI_DSI)		+= rcar_mipi_dsi.o
+-
+-obj-$(CONFIG_DRM_RZG2L_MIPI_DSI)	+= rzg2l_mipi_dsi.o
+diff --git a/drivers/gpu/drm/renesas/rz-du/Kconfig b/drivers/gpu/drm/renesas/rz-du/Kconfig
+index 5f0db2c5fee6..8ec14271ebba 100644
+--- a/drivers/gpu/drm/renesas/rz-du/Kconfig
++++ b/drivers/gpu/drm/renesas/rz-du/Kconfig
+@@ -10,3 +10,11 @@ config DRM_RZG2L_DU
+ 	help
+ 	  Choose this option if you have an RZ/G2L alike chipset.
+ 	  If M is selected the module will be called rzg2l-du-drm.
 +
- #if SW_CONFIG2 == SW_ON
- /* SD0 slot */
- &sdhi0 {
++config DRM_RZG2L_MIPI_DSI
++	tristate "RZ/G2L MIPI DSI Encoder Support"
++	depends on DRM && DRM_BRIDGE && OF
++	depends on ARCH_RENESAS || COMPILE_TEST
++	select DRM_MIPI_DSI
++	help
++	  Enable support for the RZ/G2L Display Unit embedded MIPI DSI encoders.
+diff --git a/drivers/gpu/drm/renesas/rz-du/Makefile b/drivers/gpu/drm/renesas/rz-du/Makefile
+index 663b82a2577f..2987900ea6b6 100644
+--- a/drivers/gpu/drm/renesas/rz-du/Makefile
++++ b/drivers/gpu/drm/renesas/rz-du/Makefile
+@@ -6,3 +6,5 @@ rzg2l-du-drm-y := rzg2l_du_crtc.o \
+ 
+ rzg2l-du-drm-$(CONFIG_VIDEO_RENESAS_VSP1)	+= rzg2l_du_vsp.o
+ obj-$(CONFIG_DRM_RZG2L_DU)		+= rzg2l-du-drm.o
++
++obj-$(CONFIG_DRM_RZG2L_MIPI_DSI)	+= rzg2l_mipi_dsi.o
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+similarity index 100%
+rename from drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c
+rename to drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
+similarity index 100%
+rename from drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi_regs.h
+rename to drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h
 -- 
-2.39.2
+2.34.1
 
 
