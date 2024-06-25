@@ -1,150 +1,141 @@
-Return-Path: <linux-renesas-soc+bounces-6743-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6744-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 988BC916957
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2024 15:49:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 166CF9169C7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2024 16:03:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D1F3282235
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2024 13:49:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 94C8F1F2127C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2024 14:03:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABD0F15FCE7;
-	Tue, 25 Jun 2024 13:48:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 555A41509A5;
+	Tue, 25 Jun 2024 14:03:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="r/bqMI5m"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gdlmujqM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D7017C98
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Jun 2024 13:48:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A421B7F7;
+	Tue, 25 Jun 2024 14:03:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719323337; cv=none; b=qpYOXB56U7jn0EmBOoO8sD9s9ixheqHSUbM6nODkigGMGDZZzuLtlAx+ckstyDfhmAqdIevyGc52AhrJYnql3pgE1oLy1GAH8JMEBxHyfdhn09HU7QDzC/QWJvzWkWrqzXhqIs5/llLHj4PqcgJh9H4pMimCPOfowMDi4XyAUGo=
+	t=1719324193; cv=none; b=egcXXxsHlZ2ItkW4pMsPdnhrocXmBfHlLeJfLYTE9N2w089I40IDPzV2cE9XI+U+oD/zkfew7EpldD89tmfQyC+APiDIkxdcAfj4W0ZolobK1IDGsqLlBRR5gA14iduj0b5Zj5CLAd+ImxaqNsi4QS+52vhXFHBXloIQ7zjbD+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719323337; c=relaxed/simple;
-	bh=h8pWXRhOm0cCMASsmP1zGQBFuzsYdLp7Mr9qQAJ7LkI=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=np8nDYNHUqv9Zbjyi7OlarhIPfHH6TYAQKQGQIxXv5s1zjY6IbBpjyt1pjSd/k/sap2u9aefO+8e6X/0QkRslPgOZx4ZZerkr5/psattiYQjqMRdHsUK3MvGibiALcwQya9cLaHpIJPZKVuTTXMJbtvsb8TTe0FiwKgJ0OsCeWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=r/bqMI5m; arc=none smtp.client-ip=209.85.166.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
-Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-371c97913cdso25584155ab.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Jun 2024 06:48:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1719323335; x=1719928135; darn=vger.kernel.org;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=s+najxJPn9oytzqDBWZHBpUwJjUebwMCxl+qq5X22Io=;
-        b=r/bqMI5m8mf2HynbilI0hECi1ClhBon9vbl3jPDIjowQ0QVU8Wm+uJ2EIldz5HVPbW
-         3DVOmAYkVkmFGK6qlj7jRMT4iZxuhqCeQIY4rmAdB/Y+DRuP1Ws3+/qLjSQCxxRXSWN+
-         hw90C0UUhwuRF1VAMKIQdHWOh7UtLUN5SxNZiaWvaO6inHh0OPwHrgIixu4R4eAzSztC
-         TyAadpdLnTxa3oQYM2LWSy6jov8WIANdoieyNSE9UyNOWEdeMGOzW4POcyIDqMpYF/qK
-         DNIPrN/c4Zp48OATrPEpd0E2GUo+4mh/YKXVgMwaX18ZWfRn4wlSzOFsEdJdsiUuY49u
-         +vYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719323335; x=1719928135;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=s+najxJPn9oytzqDBWZHBpUwJjUebwMCxl+qq5X22Io=;
-        b=HoznOTKDc9jzIJIWRRw+jEK071GYAvNMUU1L/6GITtWOquOYYxnvKzHkZGs5WlZT8N
-         QHv+iJRELvffROUKQeQ4WxewKFBWs7BuDdvno6w59WUvIw9xZbbcD0kkvrjRL+lAQ9Qa
-         yBSAl4Xdv6yOm2EgCYyqz56Wuf6vmocEy3C+4tMaiUuYnYEkWSb4DGgfIbb+xSoOeP1l
-         7TRz1yvh4bqCkX8uyJ93wq35Frmc4AyN1t94n87xkhbAlJ1a3N+EGEiYfagH08CnorFB
-         CSTCvJxzvbkmkPmnI4r8/0yZVtb72MhLCm2yTlsNh7Tk1DfsIoh0+SU8XH2iNbWJS9HV
-         e1Cg==
-X-Gm-Message-State: AOJu0YxPu7NGHBbmz2+Hx05zBxSi66RZKzBMBMlBQgqWUaKL0rTyvVuG
-	RvaOzV4SQu1lCA7HrwvkhXa0DwyyqsLfme3R+3xdSLGzQNV1hGniOf65pSpImNljBipoGHZD7rO
-	K
-X-Google-Smtp-Source: AGHT+IGPqFcp+a7TG3zB7YjRd8f2kn9qsJlcGUy4rHFO2OcOke1YF1q+XJOvMnUDnH3sNRi7jgmUiQ==
-X-Received: by 2002:a05:6e02:1a23:b0:377:1655:cec9 with SMTP id e9e14a558f8ab-3771655cfe9mr2027585ab.18.1719323334869;
-        Tue, 25 Jun 2024 06:48:54 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-716ba7a12e0sm7003128a12.60.2024.06.25.06.48.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jun 2024 06:48:54 -0700 (PDT)
-Message-ID: <667acac6.630a0220.d3d96.20c6@mx.google.com>
-Date: Tue, 25 Jun 2024 06:48:54 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1719324193; c=relaxed/simple;
+	bh=V37rgaDjZ1ezglb3IQFrAF0GhRw76BLbLiVDqcYjFbw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uU169+fEjEdtN0lTlUVFN3Z8By5f0e0DpvfRQH7MwZvfWodylq9TItpEvtm5QC8Sp1Ece1SrbHRTJdpcjp0HtWx6+nXMmfMQTygJntAN19SL1q81nasb4ARa0FrtDPUEznCoZXa4fGDKUTshDA7ePS+Jhyr1IY74LBxAQ4xZ2+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gdlmujqM; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (unknown [193.209.96.36])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 58408C62;
+	Tue, 25 Jun 2024 16:02:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1719324166;
+	bh=V37rgaDjZ1ezglb3IQFrAF0GhRw76BLbLiVDqcYjFbw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gdlmujqMN/D9EoYfUwffHVy69EpMvcCo3kiWYNJgZN1xjlyH+lBKXqLQ/CMDGh4Zl
+	 AAoAqG6K7DxwDD4PwxF21mVdL7Z8jGvp5fdeoT56ZeCJZOMkzuX9BNpYCtCzDgLAgE
+	 LibnCYH7W3rAQJOGhiu81njEVXnDpuxgiGpRVThM=
+Date: Tue, 25 Jun 2024 17:02:47 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Eugen Hristev <eugen.hristev@collabora.com>,
+	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH 4/8] media: v4l2-subdev: Refactor warnings in
+ v4l2_subdev_link_validate()
+Message-ID: <20240625140247.GC30459@pendragon.ideasonboard.com>
+References: <20240619012356.22685-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20240619012356.22685-5-laurent.pinchart+renesas@ideasonboard.com>
+ <ZncAJRoydaWoxGRj@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: renesas-devel-2024-06-25-v6.10-rc5
-X-Kernelci-Report-Type: test
-X-Kernelci-Branch: master
-X-Kernelci-Tree: renesas
-Subject: renesas/master baseline-nfs: 19 runs,
- 1 regressions (renesas-devel-2024-06-25-v6.10-rc5)
-To: linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZncAJRoydaWoxGRj@valkosipuli.retiisi.eu>
 
-renesas/master baseline-nfs: 19 runs, 1 regressions (renesas-devel-2024-06-=
-25-v6.10-rc5)
+On Sat, Jun 22, 2024 at 04:47:33PM +0000, Sakari Ailus wrote:
+> Hi Laurent,
+> 
+> Thanks for the patch.
+> 
+> On Wed, Jun 19, 2024 at 04:23:52AM +0300, Laurent Pinchart wrote:
+> > The v4l2_subdev_link_validate() function prints a one-time warning if it
+> > gets called on a link whose source or sink is not a subdev. As links get
+> > validated in the context of their sink, a call to the helper when the
+> > link's sink is not a subdev indicates that the driver has set its
+> > .link_validate() handler to v4l2_subdev_link_validate() on a non-subdev
+> > entity, which is a clear driver bug. On the other hand, the link's
+> > source not being a subdev indicates that the helper is used for a subdev
+> > connected to a video output device, which is a lesser issue, if only
+> > because this is currently common practice.
+> > 
+> > There are no drivers left in the kernel that use
+> > v4l2_subdev_link_validate() in a context where it may get called on a
+> > non-subdev sink. Replace the pr_warn_once() with a WARN_ON() in this
+> > case to make sure that new offenders won't be introduced.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-subdev.c | 14 +++++++++-----
+> >  1 file changed, 9 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > index 4f71199bf592..2d5e39c79620 100644
+> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > @@ -1451,11 +1451,15 @@ int v4l2_subdev_link_validate(struct media_link *link)
+> >  	bool states_locked;
+> >  	int ret;
+> >  
+> > -	if (!is_media_entity_v4l2_subdev(link->sink->entity) ||
+> > -	    !is_media_entity_v4l2_subdev(link->source->entity)) {
+> > -		pr_warn_once("%s of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
+> > -			     !is_media_entity_v4l2_subdev(link->sink->entity) ?
+> > -			     "sink" : "source",
+> > +	/*
+> > +	 * Links are validated in the context of the sink entity. Usage of this
+> > +	 * helper on a sink that is not a subdev is a clear driver bug.
+> > +	 */
+> > +	if (WARN_ON(!is_media_entity_v4l2_subdev(link->sink->entity)))
+> > +		return -EINVAL;
+> 
+> WARN*() is nowadays deprecated.
 
-Regressions Summary
--------------------
+Why so ? I've followed a recent discussion where some people pointed out
+they disliked WARN*() due to panic-on-warn, but I didn't see any
+conclusion there that deprecated WARN*().
 
-platform              | arch  | lab         | compiler | defconfig | regres=
-sions
-----------------------+-------+-------------+----------+-----------+-------=
------
-kontron-kbox-a-230-ls | arm64 | lab-kontron | gcc-10   | defconfig | 1     =
-     =
+> Could you continue to use pr_warn_once()
+> for this (or dev_warn_one())?
 
+I think a WARN_ON() is the right option here. A failure indicates a
+clear driver bug, we should be as loud as possible to make sure it gets
+noticed during development.
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2024-06-25-v6.10-rc5/plan/baseline-nfs/
+> > +
+> > +	if (!is_media_entity_v4l2_subdev(link->source->entity)) {
+> > +		pr_warn_once("source of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
+> >  			     link->source->entity->name, link->source->index,
+> >  			     link->sink->entity->name, link->sink->index);
+> >  		return 0;
 
-  Test:     baseline-nfs
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2024-06-25-v6.10-rc5
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      a2cd07d05e9c0f9c6b389c3314e180f9abf3eece =
+-- 
+Regards,
 
-
-
-Test Regressions
----------------- =
-
-
-
-platform              | arch  | lab         | compiler | defconfig | regres=
-sions
-----------------------+-------+-------------+----------+-----------+-------=
------
-kontron-kbox-a-230-ls | arm64 | lab-kontron | gcc-10   | defconfig | 1     =
-     =
-
-
-  Details:     https://kernelci.org/test/plan/id/667a9afaf4bfbf624d7e7154
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-024-06-25-v6.10-rc5/arm64/defconfig/gcc-10/lab-kontron/baseline-nfs-kontron=
--kbox-a-230-ls.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-024-06-25-v6.10-rc5/arm64/defconfig/gcc-10/lab-kontron/baseline-nfs-kontron=
--kbox-a-230-ls.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm/20=
-240313.0/arm64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/667a9afaf4bfbf624=
-d7e7155
-        failing since 155 days (last pass: renesas-devel-2024-01-08-v6.7, f=
-irst fail: renesas-devel-2024-01-22-v6.8-rc1) =
-
- =20
+Laurent Pinchart
 
