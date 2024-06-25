@@ -1,181 +1,87 @@
-Return-Path: <linux-renesas-soc+bounces-6716-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6717-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6069915F28
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2024 08:57:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5245691608F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2024 10:00:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E098AB22F6A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2024 06:57:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 735042832AB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2024 08:00:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3144A146595;
-	Tue, 25 Jun 2024 06:57:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D793145A0A;
+	Tue, 25 Jun 2024 08:00:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oeXVj1H5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE6614658D;
-	Tue, 25 Jun 2024 06:57:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4844F47A62
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Jun 2024 08:00:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719298661; cv=none; b=j2BX9DgtNFdHwa6bwtC4xyQzRbg+O10KO+MVK8EpKLZlj3D06Z4T2ajvSKaOR8cY2odsbzd3TTm6JiA5/3/MSFpcV1DBQUqV7DYNXgqVK7zhlkAkgjl048BzfB8oYmc+NDn+mrkXqsLfaixbUBms4EV4UC/c6bG616O53tlS6RU=
+	t=1719302433; cv=none; b=dTyRSMmFthwMctsDqmSkAKFRxFYxqId/5Q+Rw2fNs8PIzBZyqcjOOEIW+X26LCJBtKV+DGr+7JTFaejhqz2RA/7swMa7L18ZZkDb986Iu3dNo2yoiwSHNe3qWlvEHBVcb4UKlsAp7kPwwlDKpwLPm/vkpgdlm7lO0oTqovNt9K4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719298661; c=relaxed/simple;
-	bh=7PQ9Ld3PigpkI7t5BiNna4fflu7OG1uZIn6VEDnEgUQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dqYNTT+tTkbaHg76GqnIJXq/eCJadRiCqB8cFgj1VuFKd3aJ75rlTcmPH1SWjWepY35mF4PDEmMydf/8kdq4Lx0IlntNK4xSrmPcgH6l6tv8J6HZuqPen47vkShuWgBpabTS1cnhc9IjxzkFux7jLrk1nVMK6Yxbu5h2618B6Fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-64361817e78so25270627b3.1;
-        Mon, 24 Jun 2024 23:57:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719298657; x=1719903457;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zNbYMFbhgmOSSwF5RGasbPwl9K7tYI8aYy87FC0FKAw=;
-        b=YMD1xsJjicz7/7UP9/OL/OatMBFoy4ck0TXy8cUkcWNaMuitG+KjHpk2d4Hrkhys1v
-         8PRSYp+fG6ku2Tl6ffqnLpcnou4Mp8Z1VyqUsisS+J+HKMEfhMjYwkCTXnz6xr1MUHa4
-         lMQEeXpAfomWlZ0QXOZf1tEChBKWzoQVJStNpEn8cUtGl17QJ7hM55MQysN2lbYrD7kC
-         WG4/jcRJp8PIqsq5CYNRVL2HU/qqw6RtGFcFKxz2NhIUdwpUjBt/JuUmQzkNJGc0vCSH
-         VrVnOzi1drbw2OGsE5Tb8I2BD1Zjm7XSl0EzlxL0n4ID9x7KEziwyELN4WAfwWoqdYza
-         wmmw==
-X-Forwarded-Encrypted: i=1; AJvYcCWSxHmM0e/hM1kcdE8kmOEPWM8A0BkniK6cUDgqQAiIQiRpz2nQ7Gww/R2eHRD0Uy7585RDIQ3YnHYtT0phBRfSzJZv51Pef73d+4ZD+eK+m5/V3EdqLWvl0dxgvTF+/ZPdAx9iM4JxjM6dYD46JyyarH7toBiPDKr+6rrNfwY86DrU75pzrlLoGvJmnBOTAo616cPLxCh3h6NZm6QMHOm+kLoFxpgq
-X-Gm-Message-State: AOJu0YwzphaHsiY3Er4CM8byCXmHWtY16esLRNHq1020gKMWAmWrjjbj
-	DXj2EgL6ZZcejK3XV/AnkaNWClBGiFbiIjS8KYi52Gvlsg/JVgoD3oWFcD/t
-X-Google-Smtp-Source: AGHT+IHWmQxqhcZcwE4sPvQn0p6Wr9FMO+8wNhst8PvMzBNiYKD5Fq+B2YR5eLIc85yO5Z4TvdP3nA==
-X-Received: by 2002:a05:690c:845:b0:61a:d846:9858 with SMTP id 00721157ae682-643aa1c15ddmr60099197b3.20.1719298656843;
-        Mon, 24 Jun 2024 23:57:36 -0700 (PDT)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-63f154d5f8csm33570257b3.111.2024.06.24.23.57.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Jun 2024 23:57:36 -0700 (PDT)
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-dfdff9771f8so4776583276.1;
-        Mon, 24 Jun 2024 23:57:36 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCULI3LaolOrc/SVFBkaCa1z18le1a0/xuKtVfLSZLwZV8LOR600ORtWaUrdmgcAIaQ78clxBhQ/THp7YA1SaCZp8gitVcLmnJJl+tJay1A6RNXORlEFfsRdF7/IGrmJ9mredPGPXHZxdkjG0SB2gm91MpfP7A/eYkSD9LHmVi3LzoQB9w9Zw+vbHDZ+CJqWevfRcxe/0Xlrmc0gMAjr5Nqkb3JAa4oL
-X-Received: by 2002:a25:97c5:0:b0:df7:7065:24cc with SMTP id
- 3f1490d57ef6-e0304045133mr6134526276.61.1719298656102; Mon, 24 Jun 2024
- 23:57:36 -0700 (PDT)
+	s=arc-20240116; t=1719302433; c=relaxed/simple;
+	bh=E6s7l/wu5DRTW95CizafTJWJyY5+bUXnLmxHJz5hLp8=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=NKcsKa7iSq//Dn56AvDBn1YAvh9NdBe85QO7w+7Sd24fMXRyjqcq5BO0EQus/0TEDAmuc/CVYjf7wHvPbJU8tzNeAUCxaHel1RkJeVUYDSgMVxL2GuhhJYvLiBf1QjYMgLq6AUWfsWiYSDwS+17A705lD8QoxNBDqUKGKpTGtSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oeXVj1H5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BC428C32781
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Jun 2024 08:00:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719302432;
+	bh=E6s7l/wu5DRTW95CizafTJWJyY5+bUXnLmxHJz5hLp8=;
+	h=Subject:From:Date:To:From;
+	b=oeXVj1H5A36SeEn0XtMHdWyA8KJOzo4cTNDIsCjO3If9hSM9JDUHYxd0DEGknlCI0
+	 6NCeCkVnkP5oOm/DpkqpSUtlAITstWY4dUu5CYeLXyk4O4ynwyDwnPXzT4XJi5ve7U
+	 ZNbQPXGIi827ZXbagcJBDAxb9XjRtH6VdyyP8PLfUrfjZ9iPwgib4bpqRHnQYXPyeX
+	 B6CwoyqesKzewDqHPYyXfpmtkRFfJHxlYGLariDfwPShJxQswvaR58ShFhJWngUsWD
+	 Q0qAGWJd5xxXTBEXn6sQuq802+kEvt+RxRZSCymRSaTEAPIR8Eym4yP+q4WGJ6HPQ0
+	 73XNXLHWTd8wg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id ACD6FC43638
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Jun 2024 08:00:32 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240624153229.68882-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240624153229.68882-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20240624153229.68882-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 25 Jun 2024 08:57:24 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU0r+B_Jmh7E6sopRbfzzX7DtZKpY=Xte2vLDC-ORwdVA@mail.gmail.com>
-Message-ID: <CAMuHMdU0r+B_Jmh7E6sopRbfzzX7DtZKpY=Xte2vLDC-ORwdVA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] dt-bindings: mmc: renesas,sdhi: Document RZ/V2H(P) support
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-mmc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From: patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: 
+ <171930243265.14910.6975507854270683843.git-patchwork-summary@kernel.org>
+Date: Tue, 25 Jun 2024 08:00:32 +0000
+To: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hello:
 
-On Mon, Jun 24, 2024 at 5:33=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.c=
-om> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> The SD/MMC block on the RZ/V2H(P) ("R9A09G057") SoC is similar to that
-> of the R-Car Gen3, but it has some differences:
-> - HS400 is not supported.
-> - It supports the SD_IOVS bit to control the IO voltage level.
-> - It supports fixed address mode.
->
-> To accommodate these differences, a SoC-specific 'renesas,sdhi-r9a09g057'
-> compatible string is added.
->
-> A 'vqmmc-regulator' object is introduced to handle the power enable (PWEN=
-)
-> and voltage level switching for the SD/MMC.
->
-> Additionally, the 'renesas,sdhi-use-internal-regulator' flag is introduce=
-d
-> to indicate that an internal regulator is used instead of a
-> GPIO-controlled regulator. This flag will help configure the internal
-> regulator and avoid special handling when GPIO is used for voltage
-> regulation instead of the SD_(IOVS/PWEN) pins.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v2->v3
-> - Renamed vqmmc-r9a09g057-regulator object to vqmmc-regulator
-> - Added regulator-compatible property for vqmmc-regulator
-> - Added 'renesas,sdhi-use-internal-regulator' property
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-Thanks for the update!
-
-> --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> @@ -204,6 +207,31 @@ allOf:
->          sectioned off to be run by a separate second clock source to all=
-ow
->          the main core clock to be turned off to save power.
->
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: renesas,sdhi-r9a09g057
-> +    then:
-> +      properties:
-> +        renesas,sdhi-use-internal-regulator:
-> +          $ref: /schemas/types.yaml#/definitions/flag
-> +          description:
-> +            Flag to indicate internal regulator is being used instead of=
- GPIO regulator.
-
-Do you really need this?
-The status of the regulator subnode already indicates this.
-
-> +
-> +        vqmmc-regulator:
-> +          type: object
-> +          description: VQMMC SD regulator
-> +          $ref: /schemas/regulator/regulator.yaml#
-> +          unevaluatedProperties: false
-> +
-> +          properties:
-> +            regulator-compatible:
-> +              pattern: "^vqmmc-r9a09g057-regulator"
-> +
-> +      required:
-> +        - vqmmc-regulator
-
-I'm not 100% sure this works correctly: does the checker complain if
-a required subnode is disabled? Note that I haven't checked that.
-
-> +
->  required:
->    - compatible
->    - reg
-
-Gr{oetje,eeting}s,
-
-                        Geert
+Series: Add R-Car fuse support
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=856904
+  Lore link: https://lore.kernel.org/r/cover.1716974502.git.geert+renesas@glider.be
+    Patches: [v2,1/8] dt-bindings: fuse: Document R-Car E-FUSE / PFC
+             [v2,2/8] dt-bindings: fuse: Document R-Car E-FUSE / OTP_MEM
+             [v2,3/8] soc: renesas: Add R-Car fuse driver
+             [v2,5/8] arm64: dts: renesas: r8a779a0: Add E-FUSE node
+             [v2,6/8] arm64: dts: renesas: r8a779f0: Add E-FUSE node
+             [v2,7/8] arm64: dts: renesas: r8a779g0: Add OTP_MEM node
+             [v2,8/8] arm64: dts: renesas: r8a779h0: Add OTP_MEM node
 
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Total patches: 7
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
 
