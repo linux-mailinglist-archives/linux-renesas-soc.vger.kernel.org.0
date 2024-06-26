@@ -1,210 +1,155 @@
-Return-Path: <linux-renesas-soc+bounces-6786-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6787-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DF60917CB6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jun 2024 11:41:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0C36917D24
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jun 2024 12:02:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B05EE1C2275E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jun 2024 09:41:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 96BF2284DD8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jun 2024 10:02:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3295F16CD0B;
-	Wed, 26 Jun 2024 09:41:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 099491741D7;
+	Wed, 26 Jun 2024 10:02:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uOrrSKWm"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="du7x+dTM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F08768BEF;
-	Wed, 26 Jun 2024 09:41:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DD3D16D4EB
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Jun 2024 10:02:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719394901; cv=none; b=JwepR0FuLlI550LZ9HYE4cHtQbPTfb2d7/xS+w+Iyqpn5vvFxf19oUVHlKc/647pL/Z0TQyADNXceYroNnxeXG3F0UKfjwQxusw36/2XuSDnMyxhmArFbLFAFAY3d+JxQBL94/MRXirzJdyV06LZw9KHdsWf6/OouLycsQS8WsE=
+	t=1719396144; cv=none; b=UCheTrKmSfsHtpPPlJp7fzz5+knoouxgcBTOuhDkUgwQK/7FVRcRGwQK7uCez9boaWtRJUIEEMCx3YiXeVBnB6tKYyASWZ6jz40OpZJhGbWTD7KAR2oJ5f+pJRuS/hJAVMywWgHJZZTt84qtnuMURYGoTeCy4UcG996KQbP2ENQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719394901; c=relaxed/simple;
-	bh=s3z7HXMv4Han+cJsdchl0Tjew+5XriJiwIN+Ja5UnaI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MeNL21XRxpDXvNONeZ90HD7NY95wfBj4RXr2/vjID1LpA8GAXTJlKXRS9E1+a1rZJjsMVzRvdkBa/tnKEPbiRmmn3GJx/+8cJHM4kwP0Ad98XPxR4RU/3jkgwAKfEWbHFbyBMF+zqOpvxiUDWcmD/fYvZOTa0R25lOxfR/api7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uOrrSKWm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C58D4C32786;
-	Wed, 26 Jun 2024 09:41:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719394900;
-	bh=s3z7HXMv4Han+cJsdchl0Tjew+5XriJiwIN+Ja5UnaI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=uOrrSKWmRIW4TSdz+ruUE1K5qfT30Xcy9B4W9WAYRPr0ClteEew+XD0o8YxxRtYHj
-	 d9412DC9EwkSRtEYo+rYXmmhw26ome1CIq5U/zB3CKH8k3tvIjRcyjEK00INVhPii/
-	 XCcMXIUU9HuxGhokj4CDpQixmu9xU7xSBiqRuGIpS30+fD9B8/iU4LxX9iN005G2xh
-	 Gf5Mthm42iLQgZAMPHmOicHnjyipeVIGIDzk2VX6/PfZvm38n1rEoywuSZRV4PKFy2
-	 TK3qFxAaK9TsN+pxFNl9leYVXXvNSJRD5yYG3+JbhFl5nwAy3miz/mv7jYnsDvfQGY
-	 d0CrnQq6a+LnQ==
-Message-ID: <214be4bb-3e24-4868-8cb7-db73b6cd4b50@kernel.org>
-Date: Wed, 26 Jun 2024 11:41:33 +0200
+	s=arc-20240116; t=1719396144; c=relaxed/simple;
+	bh=UIal9mSNuB7WVuajAQysXy9I34dokLqqKQSl/SD8Ip0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ol1vrmpOGLB/imb/dW/0Rsep1QTTWkJB873WqB+HWPTAcPBQ1gl8fKpH3mP6ypbIPXZYvxErbwKpuQ31y81F4lftc3k/SYhUvLm92XPT+RSE8Zy7fdGfHMlyt0UucM8m5wwdvkXuj7dwe9//hs5/9rz3dwInZciFL6T+0f4tCU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=du7x+dTM; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52caebc6137so6171849e87.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Jun 2024 03:02:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1719396141; x=1720000941; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UIal9mSNuB7WVuajAQysXy9I34dokLqqKQSl/SD8Ip0=;
+        b=du7x+dTMouYAHhW8HOS87M+/C9zoDazOHKSh9wJFqYNeyoHIVPrMbzNIN79GPhRJx2
+         o6j/Uf8VuM3LNN6rFDCkJm0gGew55fB9XGqTbgEhaVdA3x3fiwGG5Z5kQKJl5DOYem+H
+         y+dXUs7iPh0GRTtZ+anSWlWocB2LtT8Z4VQ1Eg4cuOUyk7fn98Ppm9j5wYOWj1j6A5kW
+         4ri0R0Ksz6vG8NWrW4K5/AGzhkRG8Stfb7UIbvxUSDNH1AtaO6l1g32JN0MVRd4TPdJy
+         Q4TeZbyHGYM6yqBfUeQ6wXvm8++xP7LWtNA0CMJbmuafkbdDI/QXF21K9NSGy5VBSNTB
+         mfjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719396141; x=1720000941;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UIal9mSNuB7WVuajAQysXy9I34dokLqqKQSl/SD8Ip0=;
+        b=pukEv6OmlxYcPHRe6yYP26eg3T+6Dx4VtMXhXOzzvBvzscbAAGlJE2OMyZzkRFxxgn
+         LTaJFDUhK5m4P7+VpUSqmYzkrPAYo0EiBpY85+l/hAFT4bbN/9SUzVnWT8OunGTK3LiH
+         1RMvQG8nE3BA7nix/lEyCo4AWhqOieKTse2mv2YIs0U4xplNoqv7HQuV9Sx5eYXDe9SN
+         Vh9BQ8xuvVdmyIPzhH/sLxg2VpwJgezc4HvCrsnlWmOnlK5mvgS9AH9ydmrnBrSj2+n/
+         iXUYcSk0esoPxt639iJLaeLdEoYzRqgQEOZTlWllnLs9UN432gQUBml6MfI2Q0SD6eht
+         Ypzw==
+X-Forwarded-Encrypted: i=1; AJvYcCVDWgKvGviAWGthGaCYtvKuLOWlg/T97zOmz691JJZQOjlmJoKeplw+/X8LGNB95ioYy1p22vCllO554GMitW9J3+61VRJdbMQujBHyVIgabg8=
+X-Gm-Message-State: AOJu0YyDBa4s2O/LDwiU/qWlURc8QLWc+IeVoPSIoikNSv4Qzu/TFgY1
+	Z48gnUJNrqXnpnzLnT2ngeuEvdyQwqhnMy0JnFogNcUr0evqmbQr9F4KH0QNkZtp9yiwNMCHCCB
+	lqCp/u27D4MDTSROD03auXWGMfWzHZsB/ZiY6mw==
+X-Google-Smtp-Source: AGHT+IEEH1F7Tv7LomODsunYV84Dtc4zLrPpgRRnnl78k+rzuBYmNhragIOzGe8Zi41e1oTPofFlhnZh4uvVT5y70J8=
+X-Received: by 2002:a05:6512:2254:b0:52c:8fd7:2252 with SMTP id
+ 2adb3069b0e04-52ce18324cdmr7591081e87.11.1719396141307; Wed, 26 Jun 2024
+ 03:02:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 1/4] dt-bindings: clock: renesas: Document
- RZ/V2H(P) SoC CPG
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
- linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20240610233221.242749-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240610233221.242749-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <34b21e6f-0896-4691-9b66-d06ef2f44905@kernel.org>
- <CA+V-a8u6dDpbb5BrQ+ty_RbwcPOF-U6rnJnuASRXEDVdrhrvAA@mail.gmail.com>
- <20438973-d7a1-427f-a2ed-5c5b9f7db872@kernel.org>
- <CAMuHMdVrXmDBxD4gGkHvs3iUuT6nnzjWzVUme7jH5u=YpyzQuw@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <CAMuHMdVrXmDBxD4gGkHvs3iUuT6nnzjWzVUme7jH5u=YpyzQuw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240504-pinctrl-cleanup-v2-0-26c5f2dc1181@nxp.com> <AM6PR04MB594163BAB898D8689A94056F88CE2@AM6PR04MB5941.eurprd04.prod.outlook.com>
+In-Reply-To: <AM6PR04MB594163BAB898D8689A94056F88CE2@AM6PR04MB5941.eurprd04.prod.outlook.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 26 Jun 2024 12:02:09 +0200
+Message-ID: <CACRpkdb17buPQVupCRDthvAgMKpvKvRWEN5GbA7pyF9NxymGEg@mail.gmail.com>
+Subject: Re: [PATCH v2 00/20] pinctrl: Use scope based of_node_put() cleanups
+To: Peng Fan <peng.fan@nxp.com>
+Cc: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Dvorkin Dmitry <dvorkin@tibbo.com>, Wells Lu <wellslutw@gmail.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Emil Renner Berthing <kernel@esmil.dk>, Jianlong Huang <jianlong.huang@starfivetech.com>, 
+	Hal Feng <hal.feng@starfivetech.com>, Orson Zhai <orsonzhai@gmail.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Viresh Kumar <vireshk@kernel.org>, Shiraz Hashim <shiraz.linux.kernel@gmail.com>, 
+	"soc@kernel.org" <soc@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Sylwester Nawrocki <s.nawrocki@samsung.com>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Patrice Chotard <patrice.chotard@foss.st.com>, 
+	Heiko Stuebner <heiko@sntech.de>, Damien Le Moal <dlemoal@kernel.org>, 
+	Ludovic Desroches <ludovic.desroches@microchip.com>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Aisheng Dong <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Chester Lin <chester62515@gmail.com>, 
+	Matthias Brugger <mbrugger@suse.com>, 
+	"Ghennadi Procopciuc (OSS)" <ghennadi.procopciuc@oss.nxp.com>, Sean Wang <sean.wang@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+	Joel Stanley <joel@jms.id.au>, Dan Carpenter <dan.carpenter@linaro.org>, 
+	Tony Lindgren <tony@atomide.com>, Stephen Warren <swarren@wwwdotorg.org>, 
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>, 
+	"linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	"linux-rockchip@lists.infradead.org" <linux-rockchip@lists.infradead.org>, 
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, 
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, 
+	"imx@lists.linux.dev" <imx@lists.linux.dev>, 
+	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, 
+	"openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, 
+	Emil Renner Berthing <emil.renner.berthing@canonical.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 26/06/2024 11:35, Geert Uytterhoeven wrote:
-> Hi Krzysztof,
-> 
-> On Thu, Jun 13, 2024 at 2:57 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->> On 13/06/2024 11:53, Lad, Prabhakar wrote:
->>> On Tue, Jun 11, 2024 at 8:02 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>>> On 11/06/2024 01:32, Prabhakar wrote:
->>>>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>>>>
->>>>> Document the device tree bindings for the Renesas RZ/V2H(P) SoC
->>>>> Clock Pulse Generator (CPG).
->>>>>
->>>>> CPG block handles the below operations:
->>>>> - Generation and control of clock signals for the IP modules
->>>>> - Generation and control of resets
->>>>> - Control over booting
->>>>> - Low power consumption and power supply domains
->>>>>
->>>>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
->>>>> +  '#clock-cells':
->>>>> +    description: |
->>>>> +      - For CPG core clocks, the two clock specifier cells must be "CPG_CORE"
->>>>> +        and a core clock reference, as defined in
->>>>> +        <dt-bindings/clock/r9a09g057-cpg.h>,
->>>>
->>>> So second cell is not used?
->>>>
->>> It will be used for blocks using core clocks.
->>>
->>>>> +      - For module clocks, the two clock specifier cells must be "CPG_MOD" and
->>>>> +        a module number.  The module number is calculated as the CLKON register
->>>>> +        offset index multiplied by 16, plus the actual bit in the register
->>>>> +        used to turn the CLK ON. For example, for CGC_GIC_0_GICCLK, the
->>>>> +        calculation is (1 * 16 + 3) = 19.
->>>>
->>>> You should not have different values. Make it const: 1 and just use IDs.
->>>>
->>> Are you suggesting not to differentiate between core/mod clocks. They
->>> are differentiated because the MOD clocks can turned ON/OFF but where
->>> as with the core clocks we cannot turn them ON/OF so the driver needs
->>> to know this, hence two specifiers are used.
->>
->> Every driver knows it... I am really, what is the problem here? Are you
->> saying the drivers create some unknown clocks?
-> 
-> The driver knows for sure which clocks are module clocks, and thus can
-> be used for power management.  To simplify the driver, two separate
-> numbers spaces are used:
->   1. Core clock numbers come from IDs in the DT binding headers,
->   2. Module clock numbers come straight[1] from the hardware docs.
-> As the latter are fixed, merging them into a single number space in
-> a future-proof way is hard[2], the bindings use 2 clock cells.
+On Tue, Jun 18, 2024 at 1:52=E2=80=AFPM Peng Fan <peng.fan@nxp.com> wrote:
 
-IIUC, your module clock numbers are not DT ABI and should not be put
-into the binding headers. I think that's the case currently, right?
+> > Subject: [PATCH v2 00/20] pinctrl: Use scope based of_node_put()
+> > cleanups
+>
+> st/stm32/renesas patches are picked. Would you handle the remaining
+> ones?
 
-If above is correct, considering your explanation I am fine. Thanks for
-the time to make it clear.
+Hm right, I applied all that apply cleanly:
+971c8b4c08e7 (HEAD -> devel) pinctrl: samsung: Use scope based
+of_node_put() cleanups
+3a882554a3bb pinctrl: k210: Use scope based of_node_put() cleanups
+7f500f2011c0 pinctrl: freescale: mxs: Fix refcount of child
+d7f5120a944a pinctrl: pinconf-generic: Use scope based of_node_put() cleanu=
+ps
+240c5f238d59 pinctrl: bcm: bcm63xx: Use scope based of_node_put() cleanups
+3a0278cfb448 pinctrl: mediatek: Use scope based of_node_put() cleanups
+c957ae7e7e68 pinctrl: nomadik: Use scope based of_node_put() cleanups
+3dcc01b36f18 pinctrl: s32cc: Use scope based of_node_put() cleanups
+7c2aabb56f92 pinctrl: at91: Use scope based of_node_put() cleanups
+56c42f6c7b2c pinctrl: rockchip: Use scope based of_node_put() cleanups
+8c5dc2a5b3a7 pinctrl: spear: Use scope based of_node_put() cleanups
+794e5dc533b0 pinctrl: sprd: Use scope based of_node_put() cleanups
+8fa99c00351c pinctrl: starfive: Use scope based of_node_put() cleanups
+11eefc0ac884 pinctrl: tegra: Use scope based of_node_put() cleanups
 
-> 
-> Alternatively, a unified number space using IDs in the DT binding
-> headers could be used, as you suggest.
-> 
-> [1] "straight" may be a misnomer here, as the DT writer still has to
->     calculate the number from register index and bit index:
-> 
->         n = register index * 16 + bit index
-> 
->     i.e. register index 1 and register bit 3 become 19.
-> 
->     In the R-Car series, this is handled slightly more elegant
->     (IMHO ;-), and easier to the human eye, by using a sparse
->     number space:
-> 
->         n = register index * 100 + bit index
-> 
->     i.e. register index 1 and register bit 3 become 103.
->     Which also matches how the bits were named in older SH-Mobile
->     hardware docs.
-> 
-> [2] One could use an offset to indicate core or module clocks, but
->     future SoCs in the family may have more clocks.
+Can you look into rebasing the remaining ones?
 
+I am a bit unsure about Samsung, Krzysztof usually pick these, but no big
+deal I guess, if he objects I can just take it out again.
 
-> 
-
-Best regards,
-Krzysztof
-
+Yours,
+Linus Walleij
 
