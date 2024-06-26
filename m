@@ -1,532 +1,246 @@
-Return-Path: <linux-renesas-soc+bounces-6781-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6782-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56EE7917A13
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jun 2024 09:49:15 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E0EC917A9F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jun 2024 10:15:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D547B1F214EB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jun 2024 07:49:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1D8591F214A1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jun 2024 08:15:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F33D15CD4D;
-	Wed, 26 Jun 2024 07:49:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D45115F3F3;
+	Wed, 26 Jun 2024 08:15:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="pNSsRvqU"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="DcEP56Fy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2041.outbound.protection.outlook.com [40.107.113.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF48219FC
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Jun 2024 07:49:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719388152; cv=none; b=N58F27QsRFfbgDTA580jZIBNkNsQhU4/0mlqHhzyrH3DoG1MnsrKe7153uQT0qcHINQNoIt++k/gctiBnDx4ZsR+86CV3NEUj25tZ9s3pe3FQ0Delzh74fLDilajVpwhvFzkyTpdJLvteWw+bxCQZM4khdL48JsKmNVi5cXAmrk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719388152; c=relaxed/simple;
-	bh=l+T4MNtFyExPh+zKNUvsER4toWPlSsyojuHGes8B7JM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Mdv9Le89MPjnUeRP6ou43/G+0vdJf8aQJpv5R0VwNkXARD5v/8hkQYqgoQ53UKaniOobdm7Qqx5k3Z4f9ABERx3WEAZHH9TqxuJ/jT0r9pNmh6X79nCx27zXjVJESbyfI1DWuyoznbH19o5avS+1Q/RcuuVT7fUNuf6g97DJ9Go=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=pNSsRvqU; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-424acf3226fso4654635e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Jun 2024 00:49:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1719388148; x=1719992948; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mp/HSpo8A/L6CHJBBx1/j+HqjBNFh2q3JBTiPjt97bI=;
-        b=pNSsRvqUQ3GJNrqRw04MWBVW0CeVozfY2ZLkUQCzRpzH+3xdDx7T3YGa0etEusYh58
-         DDHgD41ZZXHR1kBGVyzFJNlXqnzOnee4RdnYJaqYdV39YrOUB3UjkobEAPXGJMMOumEX
-         HPGcmlIngyo8qHssvheGuIXS6y61hKE024Bwcxq38LvZd3hwcmDGvAsX8CcpJYabSuye
-         zEiib1IU21hk09WzK0PnruGv7I+sEUd2PG5aC3AAba03k7itVGch6J3sVuA6FIe3xwbt
-         FkfMZvmIkbXTM0klyJq//P8FQIwEm/DQ7Le/3AnPwFxzAqUSsqialTlOfSM4lTiVARbM
-         JLDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719388148; x=1719992948;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mp/HSpo8A/L6CHJBBx1/j+HqjBNFh2q3JBTiPjt97bI=;
-        b=JZlSt0Z2UCn/e/1RD9Rrrw38C9KmLrPpefUw6mnP2CfCfRuyLOqgBKG84KX/Wv2h9N
-         Y56E0DLF4sXPGg9r/NXhFZanTUAhq6jxrnCk0JRviU1hieDvRTpzPuArqGzLV4mbkUsR
-         16YL+78Ng2ngq9lor+/MkLQz/h+16RAXHv9uqQ/rE0IU+0eq+PSrisFdTrQNjsGUDtPx
-         f8I0r0gDPGbg4L9DsrSee35SrJNvLeZEZI7bQ9M0gm8PP6RFljY/LalVSR76Ax/j9p5Y
-         aXtNwhHQbOChp8zamSdO3sxWNwo1An15ShTFadcP/piBSYx1vqVCLazbNBdy33DGqJo5
-         anfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUdQB5Q3nQA1RiORW1+JzjVqJgho/JHVn++qyLnlOs/Lo3WOS5VczAxQzD/y4C6B+FPv5u+cimA+DP4HZGdxpwvjahrkziv1hrL9zk/PETADvI=
-X-Gm-Message-State: AOJu0Yw35T78IYOMgHUeI/sWetOuxTGKe9fHNu14fnAlbmfYHk94GJmy
-	UXAHeLo3jhXPE+LjLMh6uZ6sLEqc3pXPyVshiomLfQwDcMG482zdSXQzQgZ+4fQ=
-X-Google-Smtp-Source: AGHT+IGrvZVXxfNu1o20h9Kybj8hYHPurBZ1cstXJctpcFMN9kT8IeM34VlywuTyJrD3RJE0bhbHzw==
-X-Received: by 2002:a05:600c:17d7:b0:424:a49a:ff0a with SMTP id 5b1f17b1804b1-424a49affc2mr23264655e9.15.1719388148172;
-        Wed, 26 Jun 2024 00:49:08 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.70])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-424c8280a87sm15146925e9.24.2024.06.26.00.49.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jun 2024 00:49:07 -0700 (PDT)
-Message-ID: <868638e9-02e9-485a-a0d2-cdb652a2d072@tuxon.dev>
-Date: Wed, 26 Jun 2024 10:49:06 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D5B015B0E1;
+	Wed, 26 Jun 2024 08:15:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719389731; cv=fail; b=BC+Ej0e/tGRoO7HrMrHDXxo9jmUExM5sIBpFZym4aFb72/EI0bRFqo/mW9C5rAIwgLo8JUFw+xyd/Z6xYEv47Tnhs7WDDQ4bwCaaJ4Fd44JfwgMtHjzC7SgWp2PIT3EhPSHLX0hMpuikknHBreoMKPIJs2Ed18pFhN5Bcdc/HnU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719389731; c=relaxed/simple;
+	bh=Ftlsq7r3gzBH4HGeaPA43aHrDGfkcSiuBn+3W2FNP0g=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Vav48Vl8KQXSrRLnpFjFn9ls8t+YVUl25tZievhfCKEMx3DaU0ohb1TxGenAWErtAsQv8duN2BGzcQeNgRkjwbt74DeXhOvEVPJ5CpOXYEsUSbWozcFqtMK6OnmiSfoIoHIn/41ZTJpmHBePBKsoY9diII6ZyOmRv5q+sletJ18=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=DcEP56Fy; arc=fail smtp.client-ip=40.107.113.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Z/JNvjncTZRFlAHs8ukt4trQ8clUtkPjekOrsULwtusNzlwIKTOA+Y7ZCtQJUF+q7Du82t5k8EY/SA3HN8HoZAQvBfQmQyPO9NqtfvJyV0ReYu7Ha3T4bYVX2lTywq5mBdfkFMmckB+zAG/me64aEQPxUavP9NJzMKXqpE+r3Z934mZO+hm7b6E8el8W0XRx5pLnXP00oNsaN9o4FUgnvLHsh6RDpYxnp0qL/Hf2Cvq+JKZ/2DDFz4jEeqG+WV7Hj9K8398NKPciO+hc5SsVTBpe1PmDGFmCaasgNMMGxuT8juZWkWtH84BSTgFrFy6gEC1ebQH8LaXAK3v3l53yaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ftlsq7r3gzBH4HGeaPA43aHrDGfkcSiuBn+3W2FNP0g=;
+ b=V3EfZ3+qrJnMUt0sZCReAuhfiwuKofBFy0ZhMQ8kdT4uCo9bfKrORM4wSoj+jj4KVb4QejfpPyJfRzxAY+dVeCJVl80gQtkersTyKSy/7ycv2rRJiV0/59Pjn01fQLvNco/IalrvdfZosl7Vrr7BcBgs5RxRvpcBVeE3n0JsRKC2uOVNnK1wn9ijnYCeIns6L9hHTCZ+fCjChb2BNl3Svj1OcbmscihYMyTkmsRATeMa5SeeEbzsgajY9L3Y56UxPfRakzmMGeFq3ftJwjSntSfpi+MMZLYJAYLY6jLh3z3b4MQOxsa5l/QnuNo4dpmsO/dqu8btGXO0ePxotkCnIQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ftlsq7r3gzBH4HGeaPA43aHrDGfkcSiuBn+3W2FNP0g=;
+ b=DcEP56Fys1Nz6yKT1bUKbcqyVgGp6si3S8CKIjm57iKMlRlXozaqDHwCsFEuLhC12W513/3BVMLqVHVHU4N1mhiTqVV3Q1sFlUaQ7whIi98TqVK4nlj66SPmK4i5OpdFFUWQoeQIfXoHdrsxcRQnNlQl4tg89dixIhVgMsAszqI=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TYAPR01MB5514.jpnprd01.prod.outlook.com (2603:1096:404:8035::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.30; Wed, 26 Jun
+ 2024 08:15:23 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%4]) with mapi id 15.20.7698.025; Wed, 26 Jun 2024
+ 08:15:23 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+CC: Claudiu.Beznea <claudiu.beznea@tuxon.dev>, Chris Brandt
+	<Chris.Brandt@renesas.com>, "andi.shyti@kernel.org" <andi.shyti@kernel.org>,
+	"robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+	<krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"magnus.damm@gmail.com" <magnus.damm@gmail.com>, "mturquette@baylibre.com"
+	<mturquette@baylibre.com>, "sboyd@kernel.org" <sboyd@kernel.org>,
+	"p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+	"wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>
+Subject: RE: [PATCH v2 04/12] i2c: riic: Use pm_runtime_resume_and_get()
+Thread-Topic: [PATCH v2 04/12] i2c: riic: Use pm_runtime_resume_and_get()
+Thread-Index: AQHaxvlYh4jiRKyfj0yWu87XUamtbLHYoIVQgADxhACAAAGdYIAADluAgAABRCA=
+Date: Wed, 26 Jun 2024 08:15:23 +0000
+Message-ID:
+ <TY3PR01MB113462102306D834D5CA5DE0986D62@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20240625121358.590547-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240625121358.590547-5-claudiu.beznea.uj@bp.renesas.com>
+ <TY3PR01MB11346F03386D05D608041DE8D86D52@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <14167607-e67b-4627-99f0-6e99acc7f880@tuxon.dev>
+ <TY3PR01MB11346A47493E0EE96CB2CF17B86D62@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <CAMuHMdWDMMy-Q-1=DPcvpu9Co-oCQOvbStt-hLpdEwrLRdpt_A@mail.gmail.com>
+In-Reply-To:
+ <CAMuHMdWDMMy-Q-1=DPcvpu9Co-oCQOvbStt-hLpdEwrLRdpt_A@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYAPR01MB5514:EE_
+x-ms-office365-filtering-correlation-id: 5fa99461-c787-4702-d158-08dc95b820c6
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230038|366014|376012|7416012|1800799022|38070700016;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?QTR2emk0SW1Td2pyN3NpelJOVm82c21PMzUzRDdSY21XRXF5WGxNdVl6aFRo?=
+ =?utf-8?B?Y1NIK04yaS8xWC9hZlJBc0lYYnFuSTlKWG1HcDhNcHBSTmFQdG1PUEdtMFpp?=
+ =?utf-8?B?ZCtSU3FQQUdHRnBBTExueWlZSlBOSVIrVm9IdUxuY2d3R3VJM1lXZStnQllP?=
+ =?utf-8?B?NWNjQkpiVDN1cDRySUZZUFRXdU1ZME9BS0lPZmVpQUhybnRQRi9XMDNIMXV2?=
+ =?utf-8?B?V2hYd2dvVGY4anVoQjVLV21kelZML0NqSGI2clh4d3A1eitGVlRPOGVXZmNZ?=
+ =?utf-8?B?UU9zcFloWVpxQm9ndG82NGp1Y3VlQThBSlIxRWpINDQrZ1Q4YUxZNXU3bEUy?=
+ =?utf-8?B?UnZwUVRqVGZvTjMxSlR0UjJIelllUHZLaWUvK3VrdmtrTEtac3FCWVVMK0hG?=
+ =?utf-8?B?N2lFZDZvT1QxWE5Ha3EyV05KeDg3T1M2NU1DM3U1SkxMWDRQaTEzWndxQ002?=
+ =?utf-8?B?T1hmS3RsM2hNRXY2YXE2UVk2NlQ4OENwSlE1dEgxU3ZVNEQrYUE0aUFqZTBQ?=
+ =?utf-8?B?V0REdmNmaWtTNXFVVndBSHN1ZmR5SEJEOEF5ZHlhallKWXBXQ0dwOEpOR2d2?=
+ =?utf-8?B?L2ExODk3VnJrZHo3RHJ4R3Arbkc4MENkYzFHUUJrSUVSZ0wwKzVUQUdVOGRO?=
+ =?utf-8?B?UWpMRU5YQkhGUkVSeEY3VjZNYzNyYi95ZDFmdWFIcERvTHQyR1N5WEZGSTlo?=
+ =?utf-8?B?WXVJK0ZPamFTdm5zSDUvQ1hQYVBSUjlxellZeXNWVmJHSU9TaGo1cENhdS9q?=
+ =?utf-8?B?MFJQS0hpY0tvM2ErYTlxZExteVpyR2x4cTJpSnUyZTlpSExscnNlRmROQWtu?=
+ =?utf-8?B?bWlUZWEyOXQ0UUJuN3VtQ1htakRTd3FZRVRYUzB4THA2eW1qZlcrNVFQeWcz?=
+ =?utf-8?B?cG1tOUZMVENMN0FWbEFWU1JlY3lNSDFZc0doeUN5MFpLR2FLbitpaStEMnYx?=
+ =?utf-8?B?dWtEczhYWS9OQ2VEWWsxUXdTeTlybzlXMGFWWHkzYUhqVEJPeE1RWVdZVElN?=
+ =?utf-8?B?QXR0N1pSSEcreGNUd3lEakdJc2xXSXMzUDdadjFHdDh4TWxiYVQxT3MxM2Mz?=
+ =?utf-8?B?UUxXT0MzS1VQWTBXb1VoUjY1NDJzNDFoYmVKcEpGZHdLRjYwSHdBczI4WDRZ?=
+ =?utf-8?B?bitCYkJhdkx5V1R6T3RXR1hRT1lmU0sxTWRLR0c3RzBGZGEvZGI0OW5tTjc5?=
+ =?utf-8?B?dUVpRVNsQTNrYSs0a0VPSzZhMlA1WURFL3U1R1pBYkxheUhKY3htOHMrSmgx?=
+ =?utf-8?B?VHgyUjFxRFV2MkdFRDNVNFhnc3ZvclZrbmpzVjAwVE5xbXhISTRDenVzb3F2?=
+ =?utf-8?B?WDhXSlR1OFB4OTVJREFQYmpjWXBTZlUxL0tNdi9ybVMwcGlSTS9sZkJBdm8w?=
+ =?utf-8?B?YWdDSzJIV01JdjJiVG9XRVlRNXBtc0ttVTFIMFBvcUNwT01rcHhPQmludWJs?=
+ =?utf-8?B?ZEpRMG8vYWovYURRNjZMUjc1UmcvS0Y0aTMzTkNYV2RtdjVROWNOeWRvWHA5?=
+ =?utf-8?B?azhwNjMwRmZRSVg0aVNIdHZzUzd0OTd6K0pJQXBIZU9LTlJsT21DNmprakNt?=
+ =?utf-8?B?U0J6ZTFHeS9UeVpWVE9kKzlIZUVsWmJ3Mk1GSkJzck9IQ0RBVXR2NUhHSmcv?=
+ =?utf-8?B?cTIxai9xZTQ2RVd2WTNyNmJwd1BJMmlHUlUwMVdFaCtCMjFBWFRFYTR3WDNM?=
+ =?utf-8?B?azhETTRBU3F2dnVHYXdMTnp4WUJvVmtRSnd2UktPQzc2cEJCcGhvUjJoY2Rn?=
+ =?utf-8?Q?uA6i5cR2OvQEJhe9BR5TtPJQ+8i3C9ijhc5Ront?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230038)(366014)(376012)(7416012)(1800799022)(38070700016);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?Sm1lOTl5UG5ZZVREbjN5djBTSEFNbnhMK3BBSm9xdUlkdkx0UHZNWHFvNHBV?=
+ =?utf-8?B?dWxxdUg2dys5WUVsWnpJaTM4U3gyK3dQWHdaS3pnR3U2Y3Zid0tUQVQ4Y0dl?=
+ =?utf-8?B?YjhZVkRKS3dYMUx4YXliYkdXVklsa0U0Q1NvaS91Sk85V2xmT210THgxbGxo?=
+ =?utf-8?B?dTdtRll2VVZpTGpjYTIwNWNibENHczBHUjFrRUoweGV0WFUxYjMrM3lSVWhU?=
+ =?utf-8?B?MWJJRmx3ZjdtbkhrN2U2SzVsSnlqdWpBeDVtaVlOZ1lMTjdlc1JBa3A1ZGdC?=
+ =?utf-8?B?V0ZmL2taaVduTFZmYUVFTk9IV3kyUXFQSUhGVWp4Y203VFlBTjJzU09pR1Jn?=
+ =?utf-8?B?RnJsVGlCY21NblN4dmZrclphdEhRYit0T0g5eXRQKzl2YTFlQkJGNGsyZkd2?=
+ =?utf-8?B?VXRWWDN3REZLdUptdU5qVjVaM2kxa2lycFBIaTFCSTA3aEhrMXJEQ3U4Q2d0?=
+ =?utf-8?B?dHRKa0VtT1dmbC9PeS8rMHFWTisxUGIraUlaKzBORlN2b0xiaHc1bkNUQkMx?=
+ =?utf-8?B?MDBhb0tkODlRVVN1azZoaGVmWlJueXdCVU9iZFcrN0cycXJMblJtSlpjUm5r?=
+ =?utf-8?B?R0c0UVE3U2VGYi9lNVpJdHRldnQyclpvWnRkLzBGQmdWSFFqK2xldmVWdXBi?=
+ =?utf-8?B?QXlTSmduSUE4VjhJaTdLSmJTbyt5MmtPMEhidmxTSFkyUTE0bXl4US9oTlo4?=
+ =?utf-8?B?RDhBc0wzOTZRbTA1K1hYdnBCTHZ5SmQ1bXNRckpYUDVWeHRpMWpYVmU1djVx?=
+ =?utf-8?B?Q1BPcjJZVU1kWHYxaGlOUTdPbGtZZnhPRDZBaWEwaldsSjlwdjFoWVBBNmlK?=
+ =?utf-8?B?bTRZcHVsNEZTa1BhbjF2dHJxVWlqMm96amlJQnE1Q3dGQ0FRcWt6ZzdKQzU4?=
+ =?utf-8?B?UjZXRU9yU0hqT3Y4Yis3UmhZR0VtclRoNFdkcUR6SXJ6TUwyL2I5U0tuMUZD?=
+ =?utf-8?B?Y0FubGx2bEF3R0IyYlllaTFjd2lNZnVNRlk4VlVSd0l3T3dHbVFyWkhuTVpm?=
+ =?utf-8?B?NTlLNXF6NHJlb3FKamVSdEt1U0Z3amQrVXFTVldvbVk2SzRmMXF0Y0hRRXN0?=
+ =?utf-8?B?TUJWeEFnVTY2Z2JZaHV6ZThaRWxxa001bVFHaXdFcjdKdm41K05ZbzlIUzJP?=
+ =?utf-8?B?TzdEbldYTThBMGJOWGIzcGswZXhxRlFiTXBUUk8ySG5MbGV5TFYzWlBGZEIw?=
+ =?utf-8?B?L2Q3aVN6dWgzRy9RTThVcjFqL0lqKzdjVHZwZExhT2lud3BqQm55bmFLY2xp?=
+ =?utf-8?B?UGdScnFyOGRqSFRIWUsvMVV1b2VpVzVHUHVkVnBkSHp2eFF4dkppcHhPUzdX?=
+ =?utf-8?B?N3dIdVBwTjNOSXpDRStOTDRSNk5Wb210N0YrNk5mREl5Zko4MURoVHdTOUp2?=
+ =?utf-8?B?bFhtVWtqNWtsTlA4c2Y4aGluekttZXRsMWkvOXhEcGdENjF0TjVPQ3pGK1Iz?=
+ =?utf-8?B?QVVNeDVwOWNuYzdzMlgrYXpxNjJNNEd3TDJRYUdkOGY1elJZZ0JJVmxzMjE4?=
+ =?utf-8?B?bUV0VVhuRTV6azZuR2N5dTgxYndCSFkzNThjdkprQWc0V3h1MlVvajlrbktL?=
+ =?utf-8?B?ZklEODZLd21pVVdTSkZOQUJqejdub3JvMGJZczRpT1hrTU9sb25KYnRKSE5i?=
+ =?utf-8?B?S1V3L01FaDNwZkpHaUg3d1lld2RrZjNOZXFJVURlWjR2ZXp6RHVtdWdSS0pU?=
+ =?utf-8?B?Y3AwTCtMZHJBbCttWC9JTjlLdWc2VmRRZXVTNVM5MVo5aG1TdVRWM2thc3Ex?=
+ =?utf-8?B?SjZrQTYrTTBHY0JYVlZWaUFiL1dJNWZwMlFqTlpvWDFjK2s2Q0NvZzlWTmpt?=
+ =?utf-8?B?YUg0K29aaENFajRLMGpMMUZib0pJN3Y1ZmJqWG0xWEU2dTVrRVVwcTlEc0VJ?=
+ =?utf-8?B?dVlSM09leFZXK0VrRHZyTWVYdmZKNUZVS0hmRGNQYTlSVXhVZUlaQldqQ0xY?=
+ =?utf-8?B?L25obzZOaVVHeDhIMXRLUXdTSGhrMGpDTnA3U2ZOYnBkUS8rakkxMnUwc1Rq?=
+ =?utf-8?B?ZTU3TDhRa0wwY1F2MDQyWldGMzhqNTR1NW55cGFsS3RXWXpDUkVjemtmRGNj?=
+ =?utf-8?B?UHAyR0tzK2MwMmZrK3c4QXUvdWV6bXBESEdyck5HTjQ2K2pUZnp2MEU2NFdz?=
+ =?utf-8?B?MExTZ05XbW5jSWtHWjZ6V25xUjZWWXliaWJQaDI4cVVoZTNWNFcwSUZGUzlR?=
+ =?utf-8?B?ZlE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/3] mmc: renesas_sdhi: Add support for RZ/V2H(P) SoC
-Content-Language: en-US
-To: Prabhakar <prabhakar.csengg@gmail.com>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
- linux-mmc@vger.kernel.org
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20240624153229.68882-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240624153229.68882-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20240624153229.68882-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5fa99461-c787-4702-d158-08dc95b820c6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jun 2024 08:15:23.5879
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fW/5vkVqMWFlhEuJVBVqv8doE0z3rYDvr6LF3yzb23LdhiByiY5nI7wevowBd03fdH0ZVjvWuShWUOb8mymSKI3IIPiT6uwt1pi7FiZHBBo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB5514
 
-
-
-On 24.06.2024 18:32, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> The SDHI/eMMC IPs found in the RZ/V2H(P) (a.k.a. r9a09g057) are very
-> similar to those found in R-Car Gen3. However, they are not identical,
-> necessitating an SoC-specific compatible string for fine-tuning driver
-> support.
-> 
-> Key features of the RZ/V2H(P) SDHI/eMMC IPs include:
-> - Voltage level control via the IOVS bit.
-> - PWEN pin support via SD_STATUS register.
-> - Lack of HS400 support.
-> - Fixed address mode operation.
-> 
-> internal regulator support is added to control the voltage levels of SD
-> pins via sd_iovs/sd_pwen bits in SD_STATUS register.
-> 
-> As the users can use GPIO regulator instead of SD_IOVS/PWEN pins
-> 'renesas,sdhi-use-internal-regulator' DT property is used for
-> special handling of internal regulator.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com> # on RZ/G3S
-
-Some minor comments above. Feel free to address them or not.
-
-Thank you,
-Claudiu Beznea
-
-> ---
-> v2->v3
-> - Moved regulator info to renesas_sdhi_of_data instead of quirks
-> - Added support to configure the init state of regulator
-> - Added function pointers to configure regulator
-> - Added REGULATOR_CHANGE_VOLTAGE mask
-> 
-> v1->v2
-> - Now controlling PWEN bit get/set_voltage
-> ---
->  drivers/mmc/host/renesas_sdhi.h               |  13 ++
->  drivers/mmc/host/renesas_sdhi_core.c          |  93 +++++++++++
->  drivers/mmc/host/renesas_sdhi_internal_dmac.c | 150 ++++++++++++++++++
->  drivers/mmc/host/tmio_mmc.h                   |   5 +
->  4 files changed, 261 insertions(+)
-> 
-> diff --git a/drivers/mmc/host/renesas_sdhi.h b/drivers/mmc/host/renesas_sdhi.h
-> index 586f94d4dbfd..377804bbc37e 100644
-> --- a/drivers/mmc/host/renesas_sdhi.h
-> +++ b/drivers/mmc/host/renesas_sdhi.h
-> @@ -11,6 +11,8 @@
->  
->  #include <linux/dmaengine.h>
->  #include <linux/platform_device.h>
-> +#include <linux/regulator/driver.h>
-> +#include <linux/regulator/machine.h>
->  #include "tmio_mmc.h"
->  
->  struct renesas_sdhi_scc {
-> @@ -35,6 +37,12 @@ struct renesas_sdhi_of_data {
->  	unsigned int max_blk_count;
->  	unsigned short max_segs;
->  	unsigned long sdhi_flags;
-> +	struct regulator_desc *rdesc;
-> +	struct regulator_init_data *reg_init_data;
-> +	bool regulator_init_state;
-> +	unsigned int regulator_init_voltage;
-> +	int (*regulator_force_endis)(struct regulator_dev *rdev, bool enable);
-> +	int (*regulator_force_voltage)(struct regulator_dev *rdev, unsigned int voltage);
->  };
->  
->  #define SDHI_CALIB_TABLE_MAX 32
-> @@ -93,6 +101,11 @@ struct renesas_sdhi {
->  	unsigned int tap_set;
->  
->  	struct reset_control *rstc;
-> +
-> +	bool use_internal_regulator;
-> +	struct regulator_dev *internal_regulator;
-> +	int (*regulator_force_endis)(struct regulator_dev *rdev, bool enable);
-> +	int (*regulator_force_voltage)(struct regulator_dev *rdev, unsigned int voltage);
->  };
->  
->  #define host_to_priv(host) \
-> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-> index 12f4faaaf4ee..8cf912512f07 100644
-> --- a/drivers/mmc/host/renesas_sdhi_core.c
-> +++ b/drivers/mmc/host/renesas_sdhi_core.c
-> @@ -581,12 +581,50 @@ static void renesas_sdhi_reset(struct tmio_mmc_host *host, bool preserve)
->  
->  	if (!preserve) {
->  		if (priv->rstc) {
-> +			bool regulator_enabled;
-> +
-> +			/* to restore back the internal regulator after reset make a copy of it */
-> +			if (priv->use_internal_regulator)
-> +				regulator_enabled = regulator_is_enabled(host->mmc->supply.vqmmc);
-> +
->  			reset_control_reset(priv->rstc);
->  			/* Unknown why but without polling reset status, it will hang */
->  			read_poll_timeout(reset_control_status, ret, ret == 0, 1, 100,
->  					  false, priv->rstc);
->  			/* At least SDHI_VER_GEN2_SDR50 needs manual release of reset */
->  			sd_ctrl_write16(host, CTL_RESET_SD, 0x0001);
-> +			if (priv->use_internal_regulator) {
-> +				int voltage;
-> +
-> +				/*
-> +				 * HW reset might have toggled the regulator state in HW
-> +				 * which regulator core might be unaware of so restore
-> +				 * back the regulator state in HW bypassing the regulator
-> +				 * core.
-> +				 */
-> +				if (regulator_enabled !=
-> +				    regulator_is_enabled(host->mmc->supply.vqmmc)) {
-> +					ret = priv->regulator_force_endis(priv->internal_regulator,
-> +									  regulator_enabled);
-> +					if (ret)
-> +						dev_err(&host->pdev->dev,
-> +							"Failed to %s internal regulator\n",
-> +							regulator_enabled ? "enable" : "disable");
-> +				}
-> +
-> +				/* restore back voltage on vqmmc supply */
-> +				voltage = regulator_get_voltage(host->mmc->supply.vqmmc);
-> +				if (voltage != host->mmc->ios.signal_voltage) {
-> +					voltage = host->mmc->ios.signal_voltage ==
-> +						  MMC_SIGNAL_VOLTAGE_330 ? 3300000 : 1800000;
-> +					ret = regulator_set_voltage(host->mmc->supply.vqmmc,
-> +								    voltage, voltage);
-> +					if (ret)
-> +						dev_err(&host->pdev->dev,
-> +							"Failed to set voltage on internal regulator\n");
-> +				}
-> +			}
-> +
->  			priv->needs_adjust_hs400 = false;
->  			renesas_sdhi_set_clock(host, host->clk_cache);
->  
-> @@ -904,6 +942,29 @@ static void renesas_sdhi_enable_dma(struct tmio_mmc_host *host, bool enable)
->  	renesas_sdhi_sdbuf_width(host, enable ? width : 16);
->  }
->  
-> +static int renesas_sdhi_internal_dmac_register_regulator(struct platform_device *pdev,
-> +							 const struct renesas_sdhi_of_data *of_data)
-> +{
-> +	struct tmio_mmc_host *host = platform_get_drvdata(pdev);
-> +	struct renesas_sdhi *priv = host_to_priv(host);
-> +	struct regulator_config rcfg = {
-> +		.dev = &pdev->dev,
-> +		.driver_data = host,
-> +		.init_data = of_data->reg_init_data,
-> +	};
-> +	const char *devname;
-> +
-> +	devname = devm_kasprintf(&pdev->dev, GFP_KERNEL, "%s-vqmmc-regulator",
-> +				 dev_name(&pdev->dev));
-> +	if (!devname)
-> +		return -ENOMEM;
-> +
-> +	of_data->rdesc->name = devname;
-> +	priv->internal_regulator = devm_regulator_register(&pdev->dev, of_data->rdesc, &rcfg);
-> +
-> +	return PTR_ERR_OR_ZERO(priv->internal_regulator);
-> +}
-> +
->  int renesas_sdhi_probe(struct platform_device *pdev,
->  		       const struct tmio_mmc_dma_ops *dma_ops,
->  		       const struct renesas_sdhi_of_data *of_data,
-> @@ -970,6 +1031,10 @@ int renesas_sdhi_probe(struct platform_device *pdev,
->  	if (IS_ERR(host))
->  		return PTR_ERR(host);
->  
-> +	if (pdev->dev.of_node)
-> +		priv->use_internal_regulator = of_property_read_bool(pdev->dev.of_node,
-> +								     "renesas,sdhi-use-internal-regulator");
-> +
->  	if (of_data) {
->  		mmc_data->flags |= of_data->tmio_flags;
->  		mmc_data->ocr_mask = of_data->tmio_ocr_mask;
-> @@ -980,6 +1045,18 @@ int renesas_sdhi_probe(struct platform_device *pdev,
->  		mmc_data->max_segs = of_data->max_segs;
->  		dma_priv->dma_buswidth = of_data->dma_buswidth;
->  		host->bus_shift = of_data->bus_shift;
-> +		if (priv->use_internal_regulator) {
-> +			if (!of_data->regulator_force_endis)
-> +				return dev_err_probe(&pdev->dev, -EINVAL,
-> +					"missing function pointer to force regulator enable/disable");
-> +			priv->regulator_force_endis =
-> +				of_data->regulator_force_endis;
-> +			if (!of_data->regulator_force_voltage)
-> +				return dev_err_probe(&pdev->dev, -EINVAL,
-> +					"missing function pointer to force regulator voltage");
-> +			priv->regulator_force_voltage =
-> +				of_data->regulator_force_voltage;
-> +		}
->  		/* Fallback for old DTs */
->  		if (!priv->clkh && of_data->sdhi_flags & SDHI_FLAG_NEED_CLKH_FALLBACK)
->  			priv->clkh = clk_get_parent(clk_get_parent(priv->clk));
-> @@ -1051,6 +1128,22 @@ int renesas_sdhi_probe(struct platform_device *pdev,
->  	if (ret)
->  		goto efree;
->  
-> +	if (priv->use_internal_regulator && of_data) {
-> +		ret = renesas_sdhi_internal_dmac_register_regulator(pdev, of_data);
-> +		if (ret)
-> +			goto efree;
-> +
-> +		/* Set the default init state for regulator in the HW */
-> +		ret = priv->regulator_force_endis(priv->internal_regulator,
-> +						  of_data->regulator_init_state);
-> +		if (ret)
-> +			goto efree;
-> +		ret = priv->regulator_force_voltage(priv->internal_regulator,
-> +						    of_data->regulator_init_voltage);
-> +		if (ret)
-> +			goto efree;
-> +	}
-> +
->  	ver = sd_ctrl_read16(host, CTL_VERSION);
->  	/* GEN2_SDR104 is first known SDHI to use 32bit block count */
->  	if (ver < SDHI_VER_GEN2_SDR104 && mmc_data->max_blk_count > U16_MAX)
-> diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-> index 422fa63a2e99..a70a1ae6919c 100644
-> --- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-> +++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-> @@ -89,6 +89,150 @@ static struct renesas_sdhi_scc rcar_gen3_scc_taps[] = {
->  	},
->  };
->  
-> +static const unsigned int r9a09g057_vqmmc_voltages[] = {
-> +	1800000, 3300000,
-> +};
-> +
-> +static int r9a09g057_regulator_disable(struct regulator_dev *rdev)
-> +{
-> +	struct tmio_mmc_host *host = rdev_get_drvdata(rdev);
-> +	u32 sd_status;
-> +
-> +	sd_ctrl_read32_rep(host, CTL_SD_STATUS, &sd_status, 1);
-> +	sd_status &=  ~SD_STATUS_PWEN;
-
-There is an extra space after =
-
-> +	sd_ctrl_write32(host, CTL_SD_STATUS, sd_status);
-> +
-> +	return 0;
-> +}
-> +
-> +static int r9a09g057_regulator_enable(struct regulator_dev *rdev)
-> +{
-> +	struct tmio_mmc_host *host = rdev_get_drvdata(rdev);
-> +	u32 sd_status;
-> +
-> +	sd_ctrl_read32_rep(host, CTL_SD_STATUS, &sd_status, 1);
-> +	sd_status |=  SD_STATUS_PWEN;
-
-Same here.
-
-> +	sd_ctrl_write32(host, CTL_SD_STATUS, sd_status);
-> +
-> +	return 0;
-> +}
-> +
-> +static int r9a09g057_regulator_force_endis(struct regulator_dev *rdev, bool enable)
-> +{
-> +	if (enable)
-> +		return r9a09g057_regulator_enable(rdev);
-> +
-> +	return r9a09g057_regulator_disable(rdev);
-> +}
-> +
-> +static int r9a09g057_regulator_is_enabled(struct regulator_dev *rdev)
-> +{
-> +	struct tmio_mmc_host *host = rdev_get_drvdata(rdev);
-> +	u32 sd_status;
-> +
-> +	sd_ctrl_read32_rep(host, CTL_SD_STATUS, &sd_status, 1);
-> +	if (sd_status & SD_STATUS_PWEN)
-> +		return 1;
-> +
-> +	return 0;
-
-Could be re-written as:
-
-	return !!(sd_status & SD_STATUS_PWEN)
-
-> +}
-> +
-> +static int r9a09g057_regulator_get_voltage(struct regulator_dev *rdev)
-> +{
-> +	struct tmio_mmc_host *host = rdev_get_drvdata(rdev);
-> +	u32 sd_status;
-> +
-> +	sd_ctrl_read32_rep(host, CTL_SD_STATUS, &sd_status, 1);
-> +	if (sd_status & SD_STATUS_IOVS)
-> +		return 1800000;
-> +
-> +	return 3300000;
-> +}
-> +
-> +static int r9a09g057_regulator_set_voltage(struct regulator_dev *rdev,
-> +					   int min_uV, int max_uV,
-> +					   unsigned int *selector)
-> +{
-> +	struct tmio_mmc_host *host = rdev_get_drvdata(rdev);
-> +	u32 sd_status;
-> +
-> +	sd_ctrl_read32_rep(host, CTL_SD_STATUS, &sd_status, 1);
-> +	if (min_uV >= 1700000 && max_uV <= 1950000) {
-> +		sd_status |=  SD_STATUS_IOVS;
-> +		*selector = 0;
-> +	} else {
-> +		sd_status &=  ~SD_STATUS_IOVS;
-> +		*selector = 1;
-> +	}
-> +	sd_ctrl_write32(host, CTL_SD_STATUS, sd_status);
-> +
-> +	return 0;
-> +}
-> +
-> +static int r9a09g057_regulator_force_voltage(struct regulator_dev *rdev,
-> +					     unsigned int voltage)
-> +{
-> +	unsigned int selector = 0;
-> +
-> +	return r9a09g057_regulator_set_voltage(rdev, voltage, voltage, &selector);
-> +}
-> +
-> +static int r9a09g057_regulator_list_voltage(struct regulator_dev *rdev,
-> +					    unsigned int selector)
-> +{
-> +	if (selector >= ARRAY_SIZE(r9a09g057_vqmmc_voltages))
-> +		return -EINVAL;
-> +
-> +	return r9a09g057_vqmmc_voltages[selector];
-> +}
-> +
-> +static struct regulator_init_data r9a09g057_regulator_init_data = {
-> +	.constraints = {
-> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS | REGULATOR_CHANGE_VOLTAGE,
-> +	},
-> +};
-> +
-> +static const struct regulator_ops r9a09g057_regulator_voltage_ops = {
-> +	.enable = r9a09g057_regulator_enable,
-> +	.disable = r9a09g057_regulator_disable,
-> +	.is_enabled = r9a09g057_regulator_is_enabled,
-> +	.list_voltage = r9a09g057_regulator_list_voltage,
-> +	.get_voltage = r9a09g057_regulator_get_voltage,
-> +	.set_voltage = r9a09g057_regulator_set_voltage,
-> +	.map_voltage = regulator_map_voltage_ascend,
-> +};
-> +
-> +static struct regulator_desc r9a09g057_vqmmc_regulator = {
-> +	.of_match	= of_match_ptr("vqmmc-r9a09g057-regulator"),
-> +	.owner		= THIS_MODULE,
-> +	.type		= REGULATOR_VOLTAGE,
-> +	.ops		= &r9a09g057_regulator_voltage_ops,
-> +	.volt_table	= r9a09g057_vqmmc_voltages,
-> +	.n_voltages	= ARRAY_SIZE(r9a09g057_vqmmc_voltages),
-> +};
-> +
-> +static const struct renesas_sdhi_of_data of_data_r9a09g057 = {
-> +	.tmio_flags	= TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_CLK_ACTUAL |
-> +			  TMIO_MMC_HAVE_CBSY | TMIO_MMC_MIN_RCAR2,
-> +	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ |
-> +			  MMC_CAP_CMD23 | MMC_CAP_WAIT_WHILE_BUSY,
-> +	.capabilities2	= MMC_CAP2_NO_WRITE_PROTECT | MMC_CAP2_MERGE_CAPABLE,
-> +	.bus_shift	= 2,
-> +	.scc_offset	= 0x1000,
-> +	.taps		= rcar_gen3_scc_taps,
-> +	.taps_num	= ARRAY_SIZE(rcar_gen3_scc_taps),
-> +	/* DMAC can handle 32bit blk count but only 1 segment */
-> +	.max_blk_count	= UINT_MAX / TMIO_MAX_BLK_SIZE,
-> +	.max_segs	= 1,
-> +	.sdhi_flags	= SDHI_FLAG_NEED_CLKH_FALLBACK,
-> +	.rdesc = &r9a09g057_vqmmc_regulator,
-> +	.reg_init_data = &r9a09g057_regulator_init_data,
-> +	.regulator_init_state = false,
-> +	.regulator_init_voltage = 3300000,
-> +	.regulator_force_endis = r9a09g057_regulator_force_endis,
-> +	.regulator_force_voltage = r9a09g057_regulator_force_voltage,
-> +};
-> +
->  static const struct renesas_sdhi_of_data of_data_rza2 = {
->  	.tmio_flags	= TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_CLK_ACTUAL |
->  			  TMIO_MMC_HAVE_CBSY,
-> @@ -260,6 +404,11 @@ static const struct renesas_sdhi_of_data_with_quirks of_rzg2l_compatible = {
->  	.quirks = &sdhi_quirks_rzg2l,
->  };
->  
-> +static const struct renesas_sdhi_of_data_with_quirks of_r9a09g057_compatible = {
-> +	.of_data = &of_data_r9a09g057,
-> +	.quirks = &sdhi_quirks_rzg2l,
-> +};
-> +
->  static const struct renesas_sdhi_of_data_with_quirks of_rcar_gen3_compatible = {
->  	.of_data = &of_data_rcar_gen3,
->  };
-> @@ -284,6 +433,7 @@ static const struct of_device_id renesas_sdhi_internal_dmac_of_match[] = {
->  	{ .compatible = "renesas,sdhi-r8a77990", .data = &of_r8a77990_compatible, },
->  	{ .compatible = "renesas,sdhi-r8a77995", .data = &of_rcar_gen3_nohs400_compatible, },
->  	{ .compatible = "renesas,sdhi-r9a09g011", .data = &of_rzg2l_compatible, },
-> +	{ .compatible = "renesas,sdhi-r9a09g057", .data = &of_r9a09g057_compatible, },
->  	{ .compatible = "renesas,rzg2l-sdhi", .data = &of_rzg2l_compatible, },
->  	{ .compatible = "renesas,rcar-gen3-sdhi", .data = &of_rcar_gen3_compatible, },
->  	{ .compatible = "renesas,rcar-gen4-sdhi", .data = &of_rcar_gen3_compatible, },
-> diff --git a/drivers/mmc/host/tmio_mmc.h b/drivers/mmc/host/tmio_mmc.h
-> index de56e6534aea..1a3172786662 100644
-> --- a/drivers/mmc/host/tmio_mmc.h
-> +++ b/drivers/mmc/host/tmio_mmc.h
-> @@ -43,6 +43,7 @@
->  #define CTL_RESET_SD 0xe0
->  #define CTL_VERSION 0xe2
->  #define CTL_SDIF_MODE 0xe6 /* only known on R-Car 2+ */
-> +#define CTL_SD_STATUS 0xf2 /* only known on RZ/G2L and RZ/V2H(P) */
->  
->  /* Definitions for values the CTL_STOP_INTERNAL_ACTION register can take */
->  #define TMIO_STOP_STP		BIT(0)
-> @@ -102,6 +103,10 @@
->  /* Definitions for values the CTL_SDIF_MODE register can take */
->  #define SDIF_MODE_HS400		BIT(0) /* only known on R-Car 2+ */
->  
-> +/* Definitions for values the CTL_SD_STATUS register can take */
-> +#define SD_STATUS_PWEN		BIT(0) /* only known on RZ/V2H(P) */
-> +#define SD_STATUS_IOVS		BIT(16) /* only known on RZ/V2H(P) */
-> +
->  /* Define some IRQ masks */
->  /* This is the mask used at reset by the chip */
->  #define TMIO_MASK_ALL           0x837f031d
+SGkgR2VlcnQsDQoNClRoYW5rcyBmb3IgdGhlIGZlZWRiYWNrLg0KDQo+IC0tLS0tT3JpZ2luYWwg
+TWVzc2FnZS0tLS0tDQo+IEZyb206IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnRAbGludXgtbTY4
+ay5vcmc+DQo+IFNlbnQ6IFdlZG5lc2RheSwgSnVuZSAyNiwgMjAyNCA4OjExIEFNDQo+IFN1Ympl
+Y3Q6IFJlOiBbUEFUQ0ggdjIgMDQvMTJdIGkyYzogcmlpYzogVXNlIHBtX3J1bnRpbWVfcmVzdW1l
+X2FuZF9nZXQoKQ0KPiANCj4gSGkgQmlqdSwNCj4gDQo+IE9uIFdlZCwgSnVuIDI2LCAyMDI0IGF0
+IDg6MjPigK9BTSBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+IHdyb3RlOg0K
+PiA+ID4gRnJvbTogY2xhdWRpdSBiZXpuZWEgPGNsYXVkaXUuYmV6bmVhQHR1eG9uLmRldj4gT24g
+MjUuMDYuMjAyNCAxODo1MywNCj4gPiA+IEJpanUgRGFzIHdyb3RlOg0KPiA+ID4gPj4gRnJvbTog
+Q2xhdWRpdSA8Y2xhdWRpdS5iZXpuZWFAdHV4b24uZGV2Pg0KPiA+ID4gPj4gRnJvbTogQ2xhdWRp
+dSBCZXpuZWEgPGNsYXVkaXUuYmV6bmVhLnVqQGJwLnJlbmVzYXMuY29tPg0KPiA+ID4gPj4NCj4g
+PiA+ID4+IHBtX3J1bnRpbWVfZ2V0X3N5bmMoKSBtYXkgcmV0dXJuIHdpdGggZXJyb3IuIEluIGNh
+c2UgaXQgcmV0dXJucw0KPiA+ID4gPj4gd2l0aCBlcnJvcg0KPiA+ID4gPj4gZGV2LT5wb3dlci51
+c2FnZV9jb3VudCBuZWVkcyB0byBiZSBkZWNyZW1lbnRlZC4NCj4gPiA+ID4+IGRldi0+cG1fcnVu
+dGltZV9yZXN1bWVfYW5kX2dldCgpDQo+ID4gPiA+PiB0YWtlcyBjYXJlIG9mIHRoaXMuIFRodXMg
+dXNlIGl0Lg0KPiA+ID4gPj4NCj4gPiA+ID4+IFNpZ25lZC1vZmYtYnk6IENsYXVkaXUgQmV6bmVh
+IDxjbGF1ZGl1LmJlem5lYS51akBicC5yZW5lc2FzLmNvbT4NCj4gDQo+ID4gPiA+PiAtICBwbV9y
+dW50aW1lX2dldF9zeW5jKGRldik7DQo+ID4gPiA+PiArICByZXQgPSBwbV9ydW50aW1lX3Jlc3Vt
+ZV9hbmRfZ2V0KGRldik7ICBpZiAocmV0KSB7DQo+ID4gPiA+PiArICAgICAgICAgIGRldl9lcnIo
+ZGV2LCByaWljX3JwbV9lcnJfbXNnKTsNCj4gPiA+ID4NCj4gPiA+ID4gQXMgYXQgdGhlIG1vbWVu
+dCB3ZSBkb24ndCBrbm93IGhvdyB0byByZXByb2R1Y2UgdGhpcyBlcnJvcg0KPiA+ID4gPiBjb25k
+aXRpb24gQ2FuIHdlIHVzZSBXQVJOX09OX09OQ0UoKSBpbnN0ZWFkIHRvIGNhdGNoIGRldGFpbGVk
+IGVycm9yIGNvbmRpdGlvbiBoZXJlPz8NCj4gPiA+DQo+ID4gPiBbMV0gc3RhdGVzICJTbywgbmF0
+dXJhbGx5LCB1c2Ugb2YgV0FSTl9PTigpIGlzIGFsc28gbm93IGRpc2NvdXJhZ2VkDQo+ID4gPiBt
+dWNoIG9mIHRoZSB0aW1lIi4gSSd2ZSBnbyB3aXRoDQo+ID4gPiBkZXZfZXJyKCkgb3Igc29tZXRo
+aW5nIHNpbWlsYXIuDQo+ID4NCj4gPiBXQVJOX09OX09OQ0UoKSBzaG91bGQgYmUgb2sgSSBndWVz
+cyBhcyBwZW9wbGUgYXJlIHVzaW5nIGZvciBwcmludGluZyB0aGlzIGluZm8gb25seSBvbmNlPz8N
+Cj4gPg0KPiA+IEN1cnJlbnRseSB3ZSBkb24ndCBrbm93IGhvdyB0byB0cmlnZ2VyIHBtX3J1bnRp
+bWVfcmVzdW1lX2FuZF9nZXQoKQ0KPiA+IGVycm9yIGNvbmRpdGlvbiBpbiBvdXIgc2V0dXAgdXNp
+bmcgYSB0ZXN0YXBwIGFuZCB3ZSBhcmUgZXhwZWN0aW5nIGFuDQo+ID4gZXJyb3IgbWF5IGhhcHBl
+biBpbiBmdXR1cmUuIElmIGF0IGFsbCB0aGVyZSBpcyBhbiBlcnJvciBpbiBmdXR1cmUsIHdlDQo+
+ID4gbmVlZCBkZXRhaWxlZCBlcnJvciBpbmZvIHNvIHRoYXQgd2UgY2FuIGhhbmRsZSBpdCBhbmQg
+Zml4IHRoZSBidWcuDQo+IA0KPiBPbiBSZW5lc2FzIHN5c3RlbXMsIHBtX3J1bnRpbWVfcmVzdW1l
+X2FuZF9nZXQoKSBuZXZlciBmYWlscy4NCj4gVGhhdCdzIHRoZSByZWFzb24gd2h5IG9yaWdpbmFs
+bHkgd2UgZGlkbid0IGNhcmUgdG8gY2hlY2sgdGhlIHJldHVybiB2YWx1ZSBvZiBwbV9ydW50aW1l
+X2dldF9zeW5jKCkuDQoNCkkgYWdyZWUsIA0KDQpJIHdhcyB1bmRlciB0aGUgaW1wcmVzc2lvbiwg
+aWYgdGhlIGNvZGUgZ3VhcmFudGVlcyBiYWxhbmNlZCB1c2FnZSwNCnRoZW4gcG1fcnVudGltZV9n
+ZXRfc3luYygpL3B1dCgpIGl0IHdpbGwgbmV2ZXIgZmFpbHMuDQoNCkJ1dCBoZXJlIHdlIGFyZSBh
+ZGRpbmcgY2hlY2tzIGluIGZyZXF1ZW50IGNhbGxzIGxpa2UgeGZlcg0Kb24gdGhlIGFzc3VtcHRp
+b24gaXQgbWF5IGZhaWwgaW4gZnV0dXJlIGR1ZSB0byBQTSBjaGFuZ2VzLg0KDQpYZmVyLCB3ZSBh
+cmUgaW5jcmVtZW50aW5nIHBtIHVzYWdlIGNvdW50IHdpdGggcG1fcnVudGltZV9nZXRfc3luYygp
+DQpBbmQgdGhlbiBkZWNyZW1lbnRpbmcgaXQgd2l0aCBwbV9ydW50aW1lX3B1dCgpIG9uY2UgdHJh
+bnNmZXIgY29tcGxldGVkDQoNClNvLCB0aGVyZSBpcyBubyBpbWJhbGFuY2UgaGVyZS4NCg0KDQo+
+IA0KPiBUaGUgdmFyaW91cyBqYW5pdG9ycyBkaXNhZ3JlZWQsIGNhdXNpbmcgY2FzY2FkZWQgY2hh
+bmdlcyBhbGwgb3ZlciB0aGUgcGxhY2UuLi4NCg0KRXZlbiB0aGUgY29yZSBjb2RlIGRvZXMgbm90
+IGhhdmUgY2hlY2sgZm9yIHRoaXMuDQpodHRwczovL2VsaXhpci5ib290bGluLmNvbS9saW51eC9s
+YXRlc3Qvc291cmNlL2RyaXZlcnMvYmFzZS9kZC5jI0w3OTINCg0KPiANCj4gSU1ITywgV0FSTl9P
+Tl9PTkNFKCkgaXMgZGVmaW5pdGVseSBvdmVya2lsbCwgb25seSBibG9hdGluZyB0aGUgY29kZS4N
+Cg0KSSBzdWdnZXN0ZWQgYmVjYXVzZSB3ZSBhcmUgYWRkaW5nIHRoaXMgY2hlY2sgYmVjYXVzZSBz
+b21ldGhpbmcgDQp3cm9uZyB3aWxsIGhhcHBlbiBpbiBmdXR1cmUgZHVlIHRvIFBNIHN1YnN5c3Rl
+bSBjaGFuZ2VzIGFuZCB0aGUgY2hlY2sgd2lsbCBjYXB0dXJlIHRoZQ0KaXNzdWUgYW5kIHdpbGwg
+Z2l2ZSBkZXRhaWxlZCB3YXJuaW5nIGluZm8gaW4ga2VybmVsIGxvZy4NCg0KQ2hlZXJzLA0KQmlq
+dQ0K
 
