@@ -1,189 +1,210 @@
-Return-Path: <linux-renesas-soc+bounces-6785-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6786-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE600917C9D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jun 2024 11:35:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DF60917CB6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jun 2024 11:41:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F1A041C208BB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jun 2024 09:35:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B05EE1C2275E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jun 2024 09:41:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70C4C16E867;
-	Wed, 26 Jun 2024 09:35:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3295F16CD0B;
+	Wed, 26 Jun 2024 09:41:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uOrrSKWm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48EF416CD1F;
-	Wed, 26 Jun 2024 09:35:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F08768BEF;
+	Wed, 26 Jun 2024 09:41:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719394538; cv=none; b=Ju7TUPVIHGZQki1rQKqCasADs12otnYHJoQolpB8BwTpB8WjV63648TBTLiFm/93uTxOZbEh8/qw/lkSd1qSwIjGKbuGCyNQLAnf3v5jUKalBIPAqCpOO+uOdEX/BRMJmZPZutTSeSDVTjxBHH9k1YjOQgiI+Q8LZKJlAULEOiQ=
+	t=1719394901; cv=none; b=JwepR0FuLlI550LZ9HYE4cHtQbPTfb2d7/xS+w+Iyqpn5vvFxf19oUVHlKc/647pL/Z0TQyADNXceYroNnxeXG3F0UKfjwQxusw36/2XuSDnMyxhmArFbLFAFAY3d+JxQBL94/MRXirzJdyV06LZw9KHdsWf6/OouLycsQS8WsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719394538; c=relaxed/simple;
-	bh=mJPHb1h8PtVkohruP9kTZw0RpbsN3fWIjbsowGJOhB4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QwBZjrJEg8JIlPqTWsH5BDpxeoJe3zw0lFman6rMUl+YyFIwZpJlGNqB4mcGXYf0Dtew5VuiIU2woh43ytG5If6Av+LPT0p3DuFbM/iuDqTOscd1BhmTyMPmjjEGcCyEFkLSRqkcHsswXviLVkpB9jMbVxPqAFcUsK4nNmmGXSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6326f1647f6so60079087b3.0;
-        Wed, 26 Jun 2024 02:35:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719394534; x=1719999334;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fXYZ7JaFw5Xny2CU1Qww3vsC5MqHS7GWiaZ6UXzK1eQ=;
-        b=tPwqKM9oMEOv4PiHNutxalmXqJZvVFWJLauz5S+M438l/Y2J1yxlgYVSWaDQanzoYw
-         yHQSP/AnUouOI8EF90b0gYUyu/gism+1fJHRz3hNoNxanXfYMDLMV9hJCU5aAPz3onWr
-         aUl/YT3mC52XkLukdBUmVi+yv2ZZn95sZDGo4edlvHJKkEM+AoLoEGWkYBhie9BlHJgz
-         n/3ynzUNWrOa7tRt1pHjeT1BFWc0zB2/B/T3FHobgvtKFgQFKWE64NDBZaltURwHPrOX
-         jsusVokagVa6yvPZYkApdWa7z8lYtH8o5udIcvpMAn1PhjNHOwPiR5CHwbJm75T/3X52
-         UKgw==
-X-Forwarded-Encrypted: i=1; AJvYcCX1SJKo3RpQy2idn3K2n5ctaCUlPF95ygC9V8nKtna5m2LZZOlJkOHqBW+CLSNcNlGJg3kzpqKlER+LUxdz/PEf3n5+jlaJop7R/dicwb2SNB6wMIKoq/Etg4ToQKlBG8q4vlFJEj/hcIWA0lE2SOm5h3zBcp5epoVtyEGXzROCPgMrWgiTS8PTZh2GWu3sbdTDxChE/UAblirkDpr1lJducd9kCY4J
-X-Gm-Message-State: AOJu0YxdLf6L+WGxbrud+hpldIitpeAtD0WQztbZj1Lc61SCTmyp6oAw
-	9ADDy3HGg1Q+HowrFPlyNS7MoSTA3zXwFkp7w6XYBd0T3Ri0+5lEJ8WDN3vR
-X-Google-Smtp-Source: AGHT+IF10ois1JaXNgZUnMdqAsjSc5sEBmXo5QKR+U0QqKNnkVc/SCIXI38rXLcv+m3ZiBypHAWyew==
-X-Received: by 2002:a0d:e603:0:b0:627:a757:cdfa with SMTP id 00721157ae682-643ac81d382mr93856377b3.38.1719394534188;
-        Wed, 26 Jun 2024 02:35:34 -0700 (PDT)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-63f14e10330sm38247737b3.76.2024.06.26.02.35.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jun 2024 02:35:33 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-64546605546so32976537b3.1;
-        Wed, 26 Jun 2024 02:35:33 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUj1AGAfgHHD56y+dCdVn671LVnEOfsf/EyTjjaAgSnR1U86NDULoJFumBWTySpJeJ6psFSo36ATZ/zh0DWK8ecGbXoIKXAk2cZDELVWm0F83Z3CAcb+yy3dbkOD84eNQDNmofZux25/KeD3KBhwweTrGCla8zFeR5EhqpIMAYTYN2owK812OAkT6k4gTi1g/HEJ49UheiRM5bbVuFr2BJBWGy6SH8r
-X-Received: by 2002:a05:690c:4b02:b0:63c:819:2a8f with SMTP id
- 00721157ae682-643aa5a1d6fmr113309907b3.4.1719394533239; Wed, 26 Jun 2024
- 02:35:33 -0700 (PDT)
+	s=arc-20240116; t=1719394901; c=relaxed/simple;
+	bh=s3z7HXMv4Han+cJsdchl0Tjew+5XriJiwIN+Ja5UnaI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MeNL21XRxpDXvNONeZ90HD7NY95wfBj4RXr2/vjID1LpA8GAXTJlKXRS9E1+a1rZJjsMVzRvdkBa/tnKEPbiRmmn3GJx/+8cJHM4kwP0Ad98XPxR4RU/3jkgwAKfEWbHFbyBMF+zqOpvxiUDWcmD/fYvZOTa0R25lOxfR/api7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uOrrSKWm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C58D4C32786;
+	Wed, 26 Jun 2024 09:41:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719394900;
+	bh=s3z7HXMv4Han+cJsdchl0Tjew+5XriJiwIN+Ja5UnaI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=uOrrSKWmRIW4TSdz+ruUE1K5qfT30Xcy9B4W9WAYRPr0ClteEew+XD0o8YxxRtYHj
+	 d9412DC9EwkSRtEYo+rYXmmhw26ome1CIq5U/zB3CKH8k3tvIjRcyjEK00INVhPii/
+	 XCcMXIUU9HuxGhokj4CDpQixmu9xU7xSBiqRuGIpS30+fD9B8/iU4LxX9iN005G2xh
+	 Gf5Mthm42iLQgZAMPHmOicHnjyipeVIGIDzk2VX6/PfZvm38n1rEoywuSZRV4PKFy2
+	 TK3qFxAaK9TsN+pxFNl9leYVXXvNSJRD5yYG3+JbhFl5nwAy3miz/mv7jYnsDvfQGY
+	 d0CrnQq6a+LnQ==
+Message-ID: <214be4bb-3e24-4868-8cb7-db73b6cd4b50@kernel.org>
+Date: Wed, 26 Jun 2024 11:41:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240610233221.242749-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240610233221.242749-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <34b21e6f-0896-4691-9b66-d06ef2f44905@kernel.org> <CA+V-a8u6dDpbb5BrQ+ty_RbwcPOF-U6rnJnuASRXEDVdrhrvAA@mail.gmail.com>
- <20438973-d7a1-427f-a2ed-5c5b9f7db872@kernel.org>
-In-Reply-To: <20438973-d7a1-427f-a2ed-5c5b9f7db872@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 26 Jun 2024 11:35:20 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVrXmDBxD4gGkHvs3iUuT6nnzjWzVUme7jH5u=YpyzQuw@mail.gmail.com>
-Message-ID: <CAMuHMdVrXmDBxD4gGkHvs3iUuT6nnzjWzVUme7jH5u=YpyzQuw@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC PATCH v2 1/4] dt-bindings: clock: renesas: Document
  RZ/V2H(P) SoC CPG
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+ linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240610233221.242749-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240610233221.242749-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <34b21e6f-0896-4691-9b66-d06ef2f44905@kernel.org>
+ <CA+V-a8u6dDpbb5BrQ+ty_RbwcPOF-U6rnJnuASRXEDVdrhrvAA@mail.gmail.com>
+ <20438973-d7a1-427f-a2ed-5c5b9f7db872@kernel.org>
+ <CAMuHMdVrXmDBxD4gGkHvs3iUuT6nnzjWzVUme7jH5u=YpyzQuw@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <CAMuHMdVrXmDBxD4gGkHvs3iUuT6nnzjWzVUme7jH5u=YpyzQuw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Krzysztof,
+On 26/06/2024 11:35, Geert Uytterhoeven wrote:
+> Hi Krzysztof,
+> 
+> On Thu, Jun 13, 2024 at 2:57 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>> On 13/06/2024 11:53, Lad, Prabhakar wrote:
+>>> On Tue, Jun 11, 2024 at 8:02 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>>> On 11/06/2024 01:32, Prabhakar wrote:
+>>>>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>>>>>
+>>>>> Document the device tree bindings for the Renesas RZ/V2H(P) SoC
+>>>>> Clock Pulse Generator (CPG).
+>>>>>
+>>>>> CPG block handles the below operations:
+>>>>> - Generation and control of clock signals for the IP modules
+>>>>> - Generation and control of resets
+>>>>> - Control over booting
+>>>>> - Low power consumption and power supply domains
+>>>>>
+>>>>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+>>>>> +  '#clock-cells':
+>>>>> +    description: |
+>>>>> +      - For CPG core clocks, the two clock specifier cells must be "CPG_CORE"
+>>>>> +        and a core clock reference, as defined in
+>>>>> +        <dt-bindings/clock/r9a09g057-cpg.h>,
+>>>>
+>>>> So second cell is not used?
+>>>>
+>>> It will be used for blocks using core clocks.
+>>>
+>>>>> +      - For module clocks, the two clock specifier cells must be "CPG_MOD" and
+>>>>> +        a module number.  The module number is calculated as the CLKON register
+>>>>> +        offset index multiplied by 16, plus the actual bit in the register
+>>>>> +        used to turn the CLK ON. For example, for CGC_GIC_0_GICCLK, the
+>>>>> +        calculation is (1 * 16 + 3) = 19.
+>>>>
+>>>> You should not have different values. Make it const: 1 and just use IDs.
+>>>>
+>>> Are you suggesting not to differentiate between core/mod clocks. They
+>>> are differentiated because the MOD clocks can turned ON/OFF but where
+>>> as with the core clocks we cannot turn them ON/OF so the driver needs
+>>> to know this, hence two specifiers are used.
+>>
+>> Every driver knows it... I am really, what is the problem here? Are you
+>> saying the drivers create some unknown clocks?
+> 
+> The driver knows for sure which clocks are module clocks, and thus can
+> be used for power management.  To simplify the driver, two separate
+> numbers spaces are used:
+>   1. Core clock numbers come from IDs in the DT binding headers,
+>   2. Module clock numbers come straight[1] from the hardware docs.
+> As the latter are fixed, merging them into a single number space in
+> a future-proof way is hard[2], the bindings use 2 clock cells.
 
-On Thu, Jun 13, 2024 at 2:57=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.or=
-g> wrote:
-> On 13/06/2024 11:53, Lad, Prabhakar wrote:
-> > On Tue, Jun 11, 2024 at 8:02=E2=80=AFAM Krzysztof Kozlowski <krzk@kerne=
-l.org> wrote:
-> >> On 11/06/2024 01:32, Prabhakar wrote:
-> >>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >>>
-> >>> Document the device tree bindings for the Renesas RZ/V2H(P) SoC
-> >>> Clock Pulse Generator (CPG).
-> >>>
-> >>> CPG block handles the below operations:
-> >>> - Generation and control of clock signals for the IP modules
-> >>> - Generation and control of resets
-> >>> - Control over booting
-> >>> - Low power consumption and power supply domains
-> >>>
-> >>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
->
+IIUC, your module clock numbers are not DT ABI and should not be put
+into the binding headers. I think that's the case currently, right?
 
-> >>> +  '#clock-cells':
-> >>> +    description: |
-> >>> +      - For CPG core clocks, the two clock specifier cells must be "=
-CPG_CORE"
-> >>> +        and a core clock reference, as defined in
-> >>> +        <dt-bindings/clock/r9a09g057-cpg.h>,
-> >>
-> >> So second cell is not used?
-> >>
-> > It will be used for blocks using core clocks.
-> >
-> >>> +      - For module clocks, the two clock specifier cells must be "CP=
-G_MOD" and
-> >>> +        a module number.  The module number is calculated as the CLK=
-ON register
-> >>> +        offset index multiplied by 16, plus the actual bit in the re=
-gister
-> >>> +        used to turn the CLK ON. For example, for CGC_GIC_0_GICCLK, =
-the
-> >>> +        calculation is (1 * 16 + 3) =3D 19.
-> >>
-> >> You should not have different values. Make it const: 1 and just use ID=
-s.
-> >>
-> > Are you suggesting not to differentiate between core/mod clocks. They
-> > are differentiated because the MOD clocks can turned ON/OFF but where
-> > as with the core clocks we cannot turn them ON/OF so the driver needs
-> > to know this, hence two specifiers are used.
->
-> Every driver knows it... I am really, what is the problem here? Are you
-> saying the drivers create some unknown clocks?
+If above is correct, considering your explanation I am fine. Thanks for
+the time to make it clear.
 
-The driver knows for sure which clocks are module clocks, and thus can
-be used for power management.  To simplify the driver, two separate
-numbers spaces are used:
-  1. Core clock numbers come from IDs in the DT binding headers,
-  2. Module clock numbers come straight[1] from the hardware docs.
-As the latter are fixed, merging them into a single number space in
-a future-proof way is hard[2], the bindings use 2 clock cells.
+> 
+> Alternatively, a unified number space using IDs in the DT binding
+> headers could be used, as you suggest.
+> 
+> [1] "straight" may be a misnomer here, as the DT writer still has to
+>     calculate the number from register index and bit index:
+> 
+>         n = register index * 16 + bit index
+> 
+>     i.e. register index 1 and register bit 3 become 19.
+> 
+>     In the R-Car series, this is handled slightly more elegant
+>     (IMHO ;-), and easier to the human eye, by using a sparse
+>     number space:
+> 
+>         n = register index * 100 + bit index
+> 
+>     i.e. register index 1 and register bit 3 become 103.
+>     Which also matches how the bits were named in older SH-Mobile
+>     hardware docs.
+> 
+> [2] One could use an offset to indicate core or module clocks, but
+>     future SoCs in the family may have more clocks.
 
-Alternatively, a unified number space using IDs in the DT binding
-headers could be used, as you suggest.
 
-[1] "straight" may be a misnomer here, as the DT writer still has to
-    calculate the number from register index and bit index:
+> 
 
-        n =3D register index * 16 + bit index
+Best regards,
+Krzysztof
 
-    i.e. register index 1 and register bit 3 become 19.
-
-    In the R-Car series, this is handled slightly more elegant
-    (IMHO ;-), and easier to the human eye, by using a sparse
-    number space:
-
-        n =3D register index * 100 + bit index
-
-    i.e. register index 1 and register bit 3 become 103.
-    Which also matches how the bits were named in older SH-Mobile
-    hardware docs.
-
-[2] One could use an offset to indicate core or module clocks, but
-    future SoCs in the family may have more clocks.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
