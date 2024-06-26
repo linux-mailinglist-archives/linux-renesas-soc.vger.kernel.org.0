@@ -1,154 +1,149 @@
-Return-Path: <linux-renesas-soc+bounces-6779-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6780-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC23891795B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jun 2024 09:11:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E1B2917A04
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jun 2024 09:46:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 779611F2225D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jun 2024 07:11:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 86F1F1C20FC6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jun 2024 07:46:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF3EF158A06;
-	Wed, 26 Jun 2024 07:11:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E37915D5CA;
+	Wed, 26 Jun 2024 07:46:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="PDRuAxX5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8481DA31;
-	Wed, 26 Jun 2024 07:11:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9006C219FC
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Jun 2024 07:46:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719385868; cv=none; b=emCGaV4R48J2K81o/jYgqjyji3intCNNBPcdvF8lO56724fHBHXAsWkJTsgyaVPldQUI24hxq8+sf2EWPjtVHNBlDXlHrryAPZWkIVPg/pNlx/ESw5W0XxQquVK7veBbQL8b+qHAx0yZHxatA34L+zOT/9ab9ZdFjGh9UWoOgms=
+	t=1719387966; cv=none; b=n/wYHw5yNg/BdURImvJ8PcC47fIuMI76ccNiPEdEwTrmOtavfd18ZobzHM87xVnOvY0B6d9cR3XL8mx7SagLAQNnRLFfqnLjAjF1ng4+SvWlBHZnysrAt8eVSuyJtu2/JKFLL/d5WfXQ7eRHeI63IoKAMKg0dtEUohPdJ04cCJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719385868; c=relaxed/simple;
-	bh=fzxSia2agHN3X/RNLtdjuINsI+EbMnDIGmS892xRA6M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=f/FqoRX65DFMTdTmSzTPgvFPqCYnLkli//PZVOeITGpUJxBiSuDYmfEXJ430Ztrj7CTGxiPraqSMkokViRknNUCUlB3hcQg0RZJd1Ts5iCEnsFcE46ce1xwp5NDof7VyEk2a6uHYHUb6i5K1BKd04RYSwsPOBUGwVGo3KxDqa7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-64789495923so11678057b3.0;
-        Wed, 26 Jun 2024 00:11:06 -0700 (PDT)
+	s=arc-20240116; t=1719387966; c=relaxed/simple;
+	bh=+S/ZylBo7OkDhqSowKwWFObaRLnN9nAxnObxD0rGb+Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fEQ88RrYQt2EJ2+eOJHG94PrBR5ZSFsYNkLRX7m3V4+ChmutnAw0Sie712NhVmD9dzcjsxBvsLAex3iTeCKZQ8inyi0blzIrB+Nu5p9V6w4p5e+SMU5th/a6kbqekIU+4ancTVHNQYIGYv9PcZhc147Z2z/9eHSO+n/eA+02DkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=PDRuAxX5; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-52bbf73f334so5031491e87.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Jun 2024 00:46:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1719387962; x=1719992762; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6nCZo+jWMRZ6cgUq9Mxe++DtYRLBTMuxAvEuWj2mzpc=;
+        b=PDRuAxX5PEoFRCnLtzb8Qail2JRo6XlJkOioQfY/45Q2Pe5Q4H1J/Zu/9KyxNujnRg
+         S2J0xUcVG4F+oPIm4+Eu5LhVZAYM5/fLmUMAhuzLqeTy2ImN1BIrqO4aFYIdDLNui4Ee
+         zQwemIPBseh0/06zstorqGL/VsXG0M2rI5dIFNewRRQ+MN4PyT+wGyhK3+hg98tvrBf2
+         Kjm82niL0hF4Qi1ELGQKJACSn83OG1GjL5s6SuIM5WoCHD+9AX/c1sNt/uOr1n/dWFfU
+         aPE+pPHRQPFLSxyks5E72AX50YoeEwEQaoLgAOcnFB0JxhNyMd1pAuBqXBcOVL6kbRkv
+         xG1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719385864; x=1719990664;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=07yYxV7EnOmksXH2UcjyWNu5DW1U/oEUl8YKdbIe8Js=;
-        b=VNw+OZ6sxv3lcERUikJ311nzTknwAoGqfSKnJctP4NhEubGj5UmBEk26VRYrzEfWNe
-         xS7jn+Q9H8vU8NyXD8/KD5f4SlUISGeSWv0P8+o/RVe1TNB+/1ebrQF+BiBGURdKuYau
-         uhY46siRWxL3R4fHhWbyLk2L+ZI6IzOAepc9o7jUyjwZb+PlGNeYqVSifZaB8T+Z1+1C
-         ICS1/fA+r9+WAC4f2FCNfRzDPMtnf7VVH/BuLDCR+GwCHHTLj2tnGPVTozPOhbh2ESvJ
-         +CSgsI0w0BiuZTIcyPSWHWq1fOVFQPkjsyOQR1FGYGqc9qkVVpFv4vUrMDjwSxaXUkw+
-         rskg==
-X-Forwarded-Encrypted: i=1; AJvYcCUK41HoK9WWXsHYHlhUD7u/9hLzz8a+IbdHiN4Uw4m/GDAInw9P4HD58fh8RsUrCaYMPqsyfw8Ohk405mTW7f+ivDI7MEK0TW+yQxhpBvQ5kSlAoeMTvbDREV+fDluYFDH28G1Nc9ksGHQoqekz6rMbcu5bx8U3euphGTv4l2dMbFnp8s6HGmJ5qKrN2fR67h1y5YLFOOiFg3SVYGMhWs3fV4GlXm75sqf8TlnjiMxZqrH4TM0PAdzETtBsJgW9b+qG
-X-Gm-Message-State: AOJu0YwjIJTvyO0dxdPaQ6dXyx2Usx3rtatUVNHSiZClry+PiCf05b5+
-	L+ZjGfxBCrIrYGpdeRcj404jA+cHznhA99WRzHAsEGKwyymVFJ7AUoFPuRmc
-X-Google-Smtp-Source: AGHT+IH0zgec7hwqcLbCl46WL8YDXZcl/65syzLW1GAUrRVGI9HTo8JwM/PQVt6qYQrhGcpHiffkXA==
-X-Received: by 2002:a81:6057:0:b0:61a:bc2d:5186 with SMTP id 00721157ae682-643aba46495mr100522467b3.32.1719385864257;
-        Wed, 26 Jun 2024 00:11:04 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-63f154d6075sm38423587b3.113.2024.06.26.00.11.03
+        d=1e100.net; s=20230601; t=1719387962; x=1719992762;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6nCZo+jWMRZ6cgUq9Mxe++DtYRLBTMuxAvEuWj2mzpc=;
+        b=bxTreaZnN3TiKZkbUOb/ZoTJ9P+fp+CisEOTm5ukZCGirhnw0wjJa9Aty1rWPWDMpW
+         edgJD0gOG7UXcWt1CX1ETSxrCxLQPRiY4MYUx0Qra9RA7mYysUILHYT2Q2Xs3KDzrx15
+         S2LPhCP0mTiadwNJ+xdEgVZgDGGHLMdoKFb3a3F658ARumEAtav52I5JAmyfmQLueEGI
+         Th6VFYgj2t21Gx9PPqLuMiuKHNTJNe5rQrVCSHkSkurdKBVrKZEZsllTTymzEfaBRoPr
+         2H09CKo7n7QjAnQRQAfGrEPnY4RcyJfKnE3x7YV+noy7XgfoCFGjfpcVdA2T4PpAce+S
+         YECg==
+X-Forwarded-Encrypted: i=1; AJvYcCUvEOI3ugfsKC5JUBwI1KvwEEIbY2WYeQ7n7rFZU8JFr2wtE8nOHjq0iYCmUVZID73THHxWdSVE+saCfJaq8A+zAbPZVbVd9so5sKz2LwC7j8w=
+X-Gm-Message-State: AOJu0YxV6ucIlCppZ//CKstjMCO3EqCFoS98WdS1TjNDJy/qvt9mIWTn
+	aV49lG+vAHKw5WopoMzDNDD13NccCZGrylbQEBtEB0VdA/j7AOAjq3kvxuFeGgY=
+X-Google-Smtp-Source: AGHT+IGQX0elEmsIgSgrE2SLocb/u9Th6sLY7fmx7i7FDBNC/6k6+LF/g+fLJC0OABw8GNYDkrkA2Q==
+X-Received: by 2002:a05:6512:138a:b0:52c:f521:b1c6 with SMTP id 2adb3069b0e04-52d3ad9e8efmr2137151e87.30.1719387961780;
+        Wed, 26 Jun 2024 00:46:01 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.70])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-424c8246b1dsm15205005e9.6.2024.06.26.00.46.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jun 2024 00:11:03 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-dfdff9771f8so5922062276.1;
-        Wed, 26 Jun 2024 00:11:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWaoQlIeEnSq1zgag1u614KipmMP2mHJXn0cJuJg60pQ21X6kB3HHMoLuFs7OOoROuvpqT5bu3iYOGQyY9syiNOavhbJI3yAnsBpTjxnK2g2gKEuex8QsdGNEbixwx3/HhDYhDZYlJ4Nu/ToN2k+9NZJDEetN9uLqcFNWdjcE6a/Qn3mHfS5p/YLlvqRAHM3EwPyCv61QSnMCNb1GjGyb0bzESFpzKrm+k2r06iwCJtea3cwtUMQy0cS65DK+M29JoB
-X-Received: by 2002:a25:97c5:0:b0:df7:7065:24cc with SMTP id
- 3f1490d57ef6-e0304045133mr9012192276.61.1719385863499; Wed, 26 Jun 2024
- 00:11:03 -0700 (PDT)
+        Wed, 26 Jun 2024 00:46:00 -0700 (PDT)
+Message-ID: <76fc0a6c-b20c-4ae0-bb4f-0023cb66962a@tuxon.dev>
+Date: Wed, 26 Jun 2024 10:45:59 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240625121358.590547-1-claudiu.beznea.uj@bp.renesas.com>
- <20240625121358.590547-5-claudiu.beznea.uj@bp.renesas.com>
- <TY3PR01MB11346F03386D05D608041DE8D86D52@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <14167607-e67b-4627-99f0-6e99acc7f880@tuxon.dev> <TY3PR01MB11346A47493E0EE96CB2CF17B86D62@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY3PR01MB11346A47493E0EE96CB2CF17B86D62@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 26 Jun 2024 09:10:51 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWDMMy-Q-1=DPcvpu9Co-oCQOvbStt-hLpdEwrLRdpt_A@mail.gmail.com>
-Message-ID: <CAMuHMdWDMMy-Q-1=DPcvpu9Co-oCQOvbStt-hLpdEwrLRdpt_A@mail.gmail.com>
-Subject: Re: [PATCH v2 04/12] i2c: riic: Use pm_runtime_resume_and_get()
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: "Claudiu.Beznea" <claudiu.beznea@tuxon.dev>, Chris Brandt <Chris.Brandt@renesas.com>, 
-	"andi.shyti@kernel.org" <andi.shyti@kernel.org>, "robh@kernel.org" <robh@kernel.org>, 
-	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, 
-	"magnus.damm@gmail.com" <magnus.damm@gmail.com>, "mturquette@baylibre.com" <mturquette@baylibre.com>, 
-	"sboyd@kernel.org" <sboyd@kernel.org>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, 
-	"wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/3] mmc: tmio: Use MMC core APIs to control the vqmmc
+ regulator
+Content-Language: en-US
+To: Prabhakar <prabhakar.csengg@gmail.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+ linux-mmc@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240624153229.68882-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240624153229.68882-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <20240624153229.68882-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Biju,
 
-On Wed, Jun 26, 2024 at 8:23=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
-> > From: claudiu beznea <claudiu.beznea@tuxon.dev>
-> > On 25.06.2024 18:53, Biju Das wrote:
-> > >> From: Claudiu <claudiu.beznea@tuxon.dev>
-> > >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> > >>
-> > >> pm_runtime_get_sync() may return with error. In case it returns with
-> > >> error
-> > >> dev->power.usage_count needs to be decremented.
-> > >> dev->pm_runtime_resume_and_get()
-> > >> takes care of this. Thus use it.
-> > >>
-> > >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-> > >> -  pm_runtime_get_sync(dev);
-> > >> +  ret =3D pm_runtime_resume_and_get(dev);
-> > >> +  if (ret) {
-> > >> +          dev_err(dev, riic_rpm_err_msg);
-> > >
-> > > As at the moment we don't know how to reproduce this error condition
-> > > Can we use WARN_ON_ONCE() instead to catch detailed error condition h=
-ere??
-> >
-> > [1] states "So, naturally, use of WARN_ON() is also now discouraged muc=
-h of the time". I've go with
-> > dev_err() or something similar.
->
-> WARN_ON_ONCE() should be ok I guess as people are using for printing this=
- info only once??
->
-> Currently we don't know how to trigger pm_runtime_resume_and_get() error
-> condition in our setup using a testapp and we are expecting an error may
-> happen in future. If at all there is an error in future, we need detailed
-> error info so that we can handle it and fix the bug.
+On 24.06.2024 18:32, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> Use the mmc_regulator_enable_vqmmc() and mmc_regulator_disable_vqmmc() APIs
+> to enable/disable the vqmmc regulator.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>\
 
-On Renesas systems, pm_runtime_resume_and_get() never fails.
-That's the reason why originally we didn't care to check the return
-value of pm_runtime_get_sync().
+Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com> # on RZ/G3S
 
-The various janitors disagreed, causing cascaded changes all over
-the place...
-
-IMHO, WARN_ON_ONCE() is definitely overkill, only bloating the code.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> ---
+> v2->v3
+> - Included RB tags
+> 
+> v1->v2
+> - New patch
+> ---
+>  drivers/mmc/host/tmio_mmc_core.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
+> index 93e912afd3ae..2ec1a74c85bc 100644
+> --- a/drivers/mmc/host/tmio_mmc_core.c
+> +++ b/drivers/mmc/host/tmio_mmc_core.c
+> @@ -897,8 +897,8 @@ static void tmio_mmc_power_on(struct tmio_mmc_host *host, unsigned short vdd)
+>  	 * It seems, VccQ should be switched on after Vcc, this is also what the
+>  	 * omap_hsmmc.c driver does.
+>  	 */
+> -	if (!IS_ERR(mmc->supply.vqmmc) && !ret) {
+> -		ret = regulator_enable(mmc->supply.vqmmc);
+> +	if (!ret) {
+> +		ret = mmc_regulator_enable_vqmmc(mmc);
+>  		usleep_range(200, 300);
+>  	}
+>  
+> @@ -911,8 +911,7 @@ static void tmio_mmc_power_off(struct tmio_mmc_host *host)
+>  {
+>  	struct mmc_host *mmc = host->mmc;
+>  
+> -	if (!IS_ERR(mmc->supply.vqmmc))
+> -		regulator_disable(mmc->supply.vqmmc);
+> +	mmc_regulator_disable_vqmmc(mmc);
+>  
+>  	if (!IS_ERR(mmc->supply.vmmc))
+>  		mmc_regulator_set_ocr(mmc, mmc->supply.vmmc, 0);
 
