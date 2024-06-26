@@ -1,153 +1,91 @@
-Return-Path: <linux-renesas-soc+bounces-6812-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6813-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CCB291835C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jun 2024 15:53:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C86BB918361
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jun 2024 15:54:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 602451C22243
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jun 2024 13:53:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 84DA6288C8B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jun 2024 13:54:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0045181BB1;
-	Wed, 26 Jun 2024 13:53:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0796D18AF4;
+	Wed, 26 Jun 2024 13:54:12 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A119814EC65
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Jun 2024 13:53:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5121E14532F
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Jun 2024 13:54:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719410001; cv=none; b=FbEe4g4AUPFfy3jptrnf+Qu0J++ekzA7kPFem0c3hzdR6yF1yLzotvSBQ0QJPcEOqNrhSh3maZguoIYDrnelITmALc/085+dS7Y8cGzrYEFSxYbItVYaQIxMYAQSUfVfDUz8vrDIPS7z5FAkxy0Sn2k9dG6npIhq2qhe81Q7y2U=
+	t=1719410051; cv=none; b=HU2/pNwP8e2H2UwT6sLp9fbcUST1Jk1xcdAYGzAbmmt5A8wn48h1w70PKz4onMb+jQfLyZ+Ghsg9Hh94qefEOBEzHwbWDQYQ6557zL2ZOBSUIuhGvIrNxQqrpXNFLHvnbnndOU0CH4jXWmwZ031oBpa6wTpvGAS70HsHaFe8wuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719410001; c=relaxed/simple;
-	bh=cc8CToVMRSbpii4o7AP7UaIFF6e2shZN9jkWvaC/iYs=;
+	s=arc-20240116; t=1719410051; c=relaxed/simple;
+	bh=4QYo+I/Qc+bx08x6uAmdb6Lt6/yog7SYwLyh62LZQco=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VwWDKZlJ1zFG4mMEYKgGDSV3Fq4wfGqiV0Og/7yn3qR6jNQavojUZykjTUhA6fS0j8iZVuTYxYQEReV7VYxOVny+W/a8MlEuloD2Uq3OVe4SAFIkXM0wZwtR/4QtCnB5Byya5xxz/UOomzSnl0AHoHcLeoq/sIztNqfiSE1zWW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.173
+	 To:Cc:Content-Type; b=AEi9kqV2pQKs5oqAhzve7Y/L2ihT5AvcEaBYyrEGfuIsf/rhFNsmKnGy8pIrEDtTv6ocPs19JuAIK3m8ZiY8GbnnpXVhTJMWmxUgmeg5rU4UvNHXtnpHJqg9btMDgY29iX1KuJBCXu4Dx7tWvnSzFc7iNd3zybYEM89mYh2xzDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-63b3a9ff064so63038447b3.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Jun 2024 06:53:19 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-64546605546so35707927b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Jun 2024 06:54:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719409998; x=1720014798;
+        d=1e100.net; s=20230601; t=1719410049; x=1720014849;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vfciExwzBXYyOBGIVuikO8bLZhmkfMRfxDv89jcuzYo=;
-        b=OrnDTgX7TdsDfbRXe4BhA7TuFg9i1tghJnxf/8BqA29AdgWTWMKdyZyluCHB9/XQCX
-         B6aCAas8W4/0GMzFWh+oaZ3grYFTTm9FmMdOymg6rYOsD3qL9jfD86LP49dby4RoSLOo
-         24qxR+h1hR3SVmJ2peAHDKe3bTEJq/fQ6wmAnlcRohrL2OxvcSLihAByBmC7Gn7wvMRi
-         QTwlHCYlODvZeiLbKOr5aNVn0MGhsOgR31nj8Y51uAIEml/397Ls54+ASF1+ypEKelkP
-         8QYAc0w/0hbU212AilDStIid53T00GeGoNM8T9pTm4dDcZTAAfJm24vOBC5jxDYoGQTT
-         cT4g==
-X-Gm-Message-State: AOJu0YwlacZOPReXkpz3uPUBDGtKyk0G6AnaM3UwWYy6wKtvwKkBjFZz
-	zCbs6RFt8702kPvOB5EBLjXjdB/LKnt+4w8GbPZ9SKSMRG/2v/x8xveKXP0c
-X-Google-Smtp-Source: AGHT+IFqCxhlEdpbL54n2mdax1WX03zhbuMKp55YVQl4Yn+R8VbpuDPhNedNb32R15tLMjeIu0eJmw==
-X-Received: by 2002:a0d:c504:0:b0:644:548a:758d with SMTP id 00721157ae682-644548a75bcmr84384087b3.49.1719409998205;
-        Wed, 26 Jun 2024 06:53:18 -0700 (PDT)
+        bh=z9dTqW7NGmduBzLdJtmTUSKpuA0Ox9R/EPUfOnP2s+A=;
+        b=FPjzsDP6ijmuc6VMEA14RmUOW3ityy2Kw32Pfi7tgjLirM/tGdbBKYPMZR9ILP/dyN
+         LY9crPPonbI2n5j/KkpmkleXSifPxmXg/Nj9823R1PaVAu29uOADZjznGtLkc903Pdt9
+         7d1RKCXjl42n97SV2jq5MWdpgBktskNh+gpOZo8zJprjw/o/AM6MqUofF8uv6b7mSPPU
+         iVz37GbTwhfSmlnKPIa6mhLdEi2/8sHIVruilhKqjUPfzjYkDyPcQleA00CHkCgxvTXL
+         kKv3iwNXJh2vik1uaO6vaMnSyQa4waq4z3Qa7nm0lThOlUBgIuURQnbulgXu/kpJUobh
+         AQxA==
+X-Gm-Message-State: AOJu0Yzb2Y8DSP1YkfkamFtr+hukofZlYSC/JZ/f+2vtaxn8vfJ3QIAe
+	I2IMDM4h99vDAvFmjlxHDoRBR/hllqYENn5ehWMPpL/oztAWIiKXNVhiFRnQ
+X-Google-Smtp-Source: AGHT+IGUC8OZ5mUwm1lSsbGxNKZSzW7wvw/vW6OUgbMCvRlQttLltz3OGNzuLw+OfycxraFAiqlw6g==
+X-Received: by 2002:a05:690c:841:b0:643:7d35:a861 with SMTP id 00721157ae682-643acc168a8mr83415037b3.46.1719410049144;
+        Wed, 26 Jun 2024 06:54:09 -0700 (PDT)
 Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-63f111748fdsm38318567b3.11.2024.06.26.06.53.18
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-63f15f66a23sm38293137b3.142.2024.06.26.06.54.08
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jun 2024 06:53:18 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-63bca6db118so64505077b3.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Jun 2024 06:53:18 -0700 (PDT)
-X-Received: by 2002:a81:918e:0:b0:648:bc9f:b9f3 with SMTP id
- 00721157ae682-648bc9fba1fmr6896447b3.46.1719409997772; Wed, 26 Jun 2024
- 06:53:17 -0700 (PDT)
+        Wed, 26 Jun 2024 06:54:08 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-63bc513ade5so51377107b3.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Jun 2024 06:54:08 -0700 (PDT)
+X-Received: by 2002:a81:ae0d:0:b0:630:8c44:24db with SMTP id
+ 00721157ae682-643aae70b39mr87732497b3.22.1719410048761; Wed, 26 Jun 2024
+ 06:54:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <87jzifkxi4.wl-kuninori.morimoto.gx@renesas.com> <87cyo7kxek.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87cyo7kxek.wl-kuninori.morimoto.gx@renesas.com>
+References: <87jzifkxi4.wl-kuninori.morimoto.gx@renesas.com> <87bk3rkxef.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87bk3rkxef.wl-kuninori.morimoto.gx@renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 26 Jun 2024 15:53:05 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVuXreoDxQHT9Yf88fhrCTnOwRJjWNVRoue=8DsbO0=4A@mail.gmail.com>
-Message-ID: <CAMuHMdVuXreoDxQHT9Yf88fhrCTnOwRJjWNVRoue=8DsbO0=4A@mail.gmail.com>
-Subject: Re: [PATCH 4/6] arm64: dts: renesas: gray-hawk-single: Add Sound support
+Date: Wed, 26 Jun 2024 15:53:57 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUmLMhc-r6YQv54C1ES-O2vbnWzT8jVMfbD4peVRFpa0w@mail.gmail.com>
+Message-ID: <CAMuHMdUmLMhc-r6YQv54C1ES-O2vbnWzT8jVMfbD4peVRFpa0w@mail.gmail.com>
+Subject: Re: [PATCH 5/6] arm64: defconfig: Enable AK4619 codec support
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: linux-renesas-soc@vger.kernel.org, Khanh Le <khanh.le.xr@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Morimoto-san,
-
 On Mon, Jun 24, 2024 at 2:16=E2=80=AFAM Kuninori Morimoto
 <kuninori.morimoto.gx@renesas.com> wrote:
-> Because V4M supports only 1 SSI, it can't use Playback/Capture
-> in the same time. It select Playback as default.
+> This patch enables AK4619 codec support
+
+as used on the Gray Hawk Single development board.
+
 >
 > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-Thanks for your patch!
-
-> --- a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-> +++ b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-> @@ -5,6 +5,25 @@
->   * Copyright (C) 2023 Renesas Electronics Corp.
->   * Copyright (C) 2024 Glider bv
->   */
-> +/*
-> + * [How to use Sound]
-> + *
-> + * Because R-Car V4M has only 1 SSI, it can't handle both Playback/Captu=
-re
-> + * in the same time. You need to switch the direction which is controlle=
-d
-> + * by GP0_01 pin via amixer.
-> + *
-> + * Playback (CN9500)
-> + *     > amixer set "MUX" "Input 1"    // for GP0_01
-> + *     > amixer set "DAC 1" 85%
-> + *     > aplay xxx.wav
-> + *
-> + * Capture (CN9501)
-> + *     > amixer set "MUX" "Input 2"    // for GP0_01
-> + *     > amixer set "Mic 1" 80%
-> + *     > amixer set "ADC 1" on
-> + *     > amixer set 'ADC 1' 80%
-> + *     > arecord xxx hoge.wav
-
-The use of "Input 1" and "Input 2" sounds a bit strange to me.
-Looking at sound/soc/codecs/simple-mux.c, these are dictated by the
-MUX driver.
-
-> + */
->
->  /dts-v1/;
->
-> @@ -59,6 +78,23 @@ reg_3p3v: regulator-3p3v {
->                         regulator-boot-on;
->                         regulator-always-on;
->         };
-> +
-> +       sound_mux: mux {
-> +               compatible =3D "simple-audio-mux";
-> +               mux-gpios =3D <&gpio0 1 GPIO_ACTIVE_HIGH>;
-
-Adding support to simple-audio-mux to override the default "Input 1"
-and "Input 2" names, using e.g.
-
-    state-names =3D "Playback", "Record";
-
-would make this more user-friendly.
-
-Still, I wonder if there are any side-effects of (ab)using
-simple-audio-mux for your use case. This MUX driver is really meant
-to pick one of two sources to connect to a single sink, as described
-by the topology in simple_mux_dapm_routes[] in the driver.  Perhaps
-there exists software which interpretes these routes, and offers the
-user a graphical description of the topology, which would be wrong?
-
-> +       };
-
-The rest LGTM.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
