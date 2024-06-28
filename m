@@ -1,235 +1,197 @@
-Return-Path: <linux-renesas-soc+bounces-6874-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6875-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B2991BC96
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jun 2024 12:29:10 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B281391BCB4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jun 2024 12:37:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5E90E1F23C12
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jun 2024 10:29:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0E999B21E13
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jun 2024 10:37:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95529155321;
-	Fri, 28 Jun 2024 10:29:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69BFA481D7;
+	Fri, 28 Jun 2024 10:37:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="ptzsed1R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eMcEzLYX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D09154435
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Jun 2024 10:29:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27DED1103
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Jun 2024 10:37:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719570544; cv=none; b=I2GdOiiMKORPcFK+fKcHJfK9hAT0F8ei1N++2K+A8H2Z6ss4p6XF2AYQDU+vxjnK8i+41YpOT69KHjHNPUsMZvU95yyuKRvlWgaM64xRpWk9xKnqS9oqsQUasib5ECOzorcQ+Zk/HtZP0XtmyJVtX8sDdJ/0m0yyTbp9LpVHwRw=
+	t=1719571047; cv=none; b=P67YMFjnXqywfPWN2Xt8ZgVvuU5R2oUWo1E7DSxsFCQHQtiMI280w4ddGU8cfCF66kC2DqAMMud3aYPNaHbo90A/mBHMq0FcZ8vOgvpKBvOxp3V0XmMkhdB/yoUtqRZpS7g3tjt3uS45g4Bleq4IxHuvrFacvgfhqjgO7o0ddrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719570544; c=relaxed/simple;
-	bh=w2Ma/Gjvlg8oufsUs+3sDRJDwFue5i1t5t/mj72HMB8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rbEcXPMLhpkhqrdt1nUK/l7a8o7/+4YN3JYvPy4gO23V63eGKWnySz1tMncdQhyYsaKv2uePmJLWtLcmDIzFo4UlZXWVgwqyZawIos8YrgW+QRYoMwnZhXnXKGga/uSJJXFyg/W4zv+TtQNoYXecMEAVqw8NWYOr3ALZxoY3FhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=ptzsed1R; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a7252bfe773so48242666b.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Jun 2024 03:29:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1719570541; x=1720175341; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=H1Yuc8HPdjefPq+QJsoY4VAF1d5sHQPx0WEKNSi2S60=;
-        b=ptzsed1RcvacNpjcsnFM3b7X5t8k52wTsjA9aJnwALiUkxOx02Gkwr2WEOwxiHeA8Z
-         YDrcPlAEIQ6Xe7cR8lgbapqxBdUst79z5MCUhiB1PP/UPZrwqDUshwMKD9riMDCcR0Vr
-         cYE0pt8dhuRXiKZucopfe23D+4tcs9j34biIERlRjnp9PlGConqbtlB0NjQuB0AUJCka
-         tEPRI4fLbZT8mxC9bm2b8Q07Z9e7heeEAxgitqCoC6MyHFMBU7L4Jobk0r321DRYQ+Zt
-         wXNHs7fhYCd5oRL4nP3IAGmpeBxF9goK71BiB7usE62TmaywnCtsM/Q31JPzTxKcqYyC
-         tnXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719570541; x=1720175341;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=H1Yuc8HPdjefPq+QJsoY4VAF1d5sHQPx0WEKNSi2S60=;
-        b=e+0shDOhqmTUJmp8+Z9939Fg2YWi1xt1M9cKAYILEL7bRQx4yrjZuotcp0eYMai7m0
-         3IMWKalBO+yI6Cp8AsN0ihw7Rl1MQCxl4T53wZH0buk+tba2Eb1zQvG+6l7I5zIP4FYn
-         xGtbbbghEFI8C+y96ghnDNfk20r66Q/x1zsPEFdWSdUDaug1O14GkXGlmAu9AyAscZe1
-         ajeRSjgjE00tgWBZ5wSALHvsbCXbaGEE85nxVp3EIR2N1EqFruo/loZBg2pzFb3w/D4j
-         H2/S2M/TmBbirFHUSzzCKN9JVRR1iKs+fijSlUQwySjJTXPCblTvWsa+TcW0Qo9R75m2
-         irvA==
-X-Forwarded-Encrypted: i=1; AJvYcCV2AqrOGBMgnGYjuzcpj7vg5uq7c09SlPIsfPkgPCSXxy7yIWrFNtSzZCmMMxT7aswzFzo6bBhhTLzwBUXml+rONvMCqljNdFdSwiA0BdXB/1w=
-X-Gm-Message-State: AOJu0Yxa+2Tq2toZMKygnIEh/honhrZTfFmLOxJ7I0D/JpMCVLU35b5v
-	botaNIjBWcA5nP35X047GAaTdlGaKUwszLfcUUA02Uc0fLyI7Gh/PR4Umzh3fw8=
-X-Google-Smtp-Source: AGHT+IGe0+LPjJDA+086uzSs+k4pBy3W/YqLLanB3vnbyU1MPnomcsSYewlm0BJeRxppWtiWVGHm1A==
-X-Received: by 2002:a17:906:3c3:b0:a6f:b08b:86ca with SMTP id a640c23a62f3a-a7245df73b4mr991080266b.75.1719570541128;
-        Fri, 28 Jun 2024 03:29:01 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.70])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a72ab08cc07sm67417366b.149.2024.06.28.03.28.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Jun 2024 03:29:00 -0700 (PDT)
-Message-ID: <7c542f46-c644-4f22-bbc4-408b7dad8273@tuxon.dev>
-Date: Fri, 28 Jun 2024 13:28:58 +0300
+	s=arc-20240116; t=1719571047; c=relaxed/simple;
+	bh=usR0dd2bkhlQ2VV7P+uqjSDa9hhnFUX7dRn42CmD3mU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=TsICjibH76Z2JUIoaDnGosLjmHq2z5h4bblCVfV/Vf4LJSMt81jbWwWhSUnTiZjDhssbe18FpXFAKjn40valrTFXgiRpDqyxqDmuqQfAYBGngFpjlkGiFu9ZKYHd0m4JFFi61mh9nK8tnBJl9OSkIt2npgRIv6orVHT3W7Hoh08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eMcEzLYX; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719571045; x=1751107045;
+  h=date:from:to:cc:subject:message-id;
+  bh=usR0dd2bkhlQ2VV7P+uqjSDa9hhnFUX7dRn42CmD3mU=;
+  b=eMcEzLYXYhRoTUbUsSyE291sdpwLIhMRaboBlgAzYuT8VbhIcJ5F0yoh
+   Up7tzFb0M5HpFZh6iL7+eVtAlXLrnD8CFmxA5q66MXi99ZslPBNCoR+tV
+   EYvMQr9eQnAj9NirLjC/pGYUOQkiVFQk8LTlgx3aF5tSQ/uIONC9jpNWv
+   a9XAFbDtvhL8tvB5Kr+glDMIu2JD8oba3cO71D0ZhxCHSRmN/Og8aDhVb
+   fB9V7bEB28kV6HLKGC37zp6HLYb7j6dheTEy92/HDp8w3bEY4KCBPsVHn
+   RsLyoR7jqMpY0VXDLBw1Y3WrjgdcS3bDH7jgKLWxdk0v3tX7joXbipzuo
+   g==;
+X-CSE-ConnectionGUID: QCZDkY3DRe2DSi++mBYpDA==
+X-CSE-MsgGUID: nmsbfPPJSh6aZ8I6qBCy9Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="16582296"
+X-IronPort-AV: E=Sophos;i="6.09,168,1716274800"; 
+   d="scan'208";a="16582296"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 03:37:24 -0700
+X-CSE-ConnectionGUID: GliX340iQw+aJGIX/rsWOA==
+X-CSE-MsgGUID: s3XM+f/5T5CMeKzk8U1ZDQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,168,1716274800"; 
+   d="scan'208";a="44756397"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 28 Jun 2024 03:37:23 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sN8yn-000H00-0X;
+	Fri, 28 Jun 2024 10:37:21 +0000
+Date: Fri, 28 Jun 2024 18:36:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:renesas-rcar-fuse] BUILD SUCCESS
+ 6147e4545dade50eae81ceaa1a310c59bc9f9f54
+Message-ID: <202406281858.spmGfOQh-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 07/12] i2c: riic: Define individual arrays to describe
- the register offsets
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
- Chris Brandt <Chris.Brandt@renesas.com>,
- "andi.shyti@kernel.org" <andi.shyti@kernel.org>,
- "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
- <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "geert+renesas@glider.be" <geert+renesas@glider.be>,
- "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
- "mturquette@baylibre.com" <mturquette@baylibre.com>,
- "sboyd@kernel.org" <sboyd@kernel.org>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240625121358.590547-1-claudiu.beznea.uj@bp.renesas.com>
- <20240625121358.590547-8-claudiu.beznea.uj@bp.renesas.com>
- <TY3PR01MB11346EF9A001F68162148B70F86D02@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <6289f329-118f-4970-a525-75c3a48bd28b@tuxon.dev>
- <TY3PR01MB1134603F92C72D9B6C6C3733C86D02@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <2f162986-33c5-4d80-958c-4f857adaad20@tuxon.dev>
- <TY3PR01MB11346CA73575CF61B2024F3B386D02@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <79c26030-4b92-4ef3-b8ce-d011f492161b@tuxon.dev>
- <CAMuHMdXJ8eKLzMqCPR2ewS9gr_m5OQPneETPMC-rOOmW+--f5A@mail.gmail.com>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <CAMuHMdXJ8eKLzMqCPR2ewS9gr_m5OQPneETPMC-rOOmW+--f5A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Hi, Geert,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-rcar-fuse
+branch HEAD: 6147e4545dade50eae81ceaa1a310c59bc9f9f54  soc: renesas: Add R-Car fuse driver
 
-On 28.06.2024 12:13, Geert Uytterhoeven wrote:
-> Hi Claudiu,
-> 
-> On Fri, Jun 28, 2024 at 10:12 AM claudiu beznea
-> <claudiu.beznea@tuxon.dev> wrote:
->> On 28.06.2024 11:09, Biju Das wrote:
->>>> -----Original Message-----
->>>> From: claudiu beznea <claudiu.beznea@tuxon.dev>
->>>> Sent: Friday, June 28, 2024 9:03 AM
->>>> Subject: Re: [PATCH v2 07/12] i2c: riic: Define individual arrays to describe the register offsets
->>>>
->>>>
->>>>
->>>> On 28.06.2024 10:55, Biju Das wrote:
->>>>> Hi Claudiu,
->>>>>
->>>>>> -----Original Message-----
->>>>>> From: claudiu beznea <claudiu.beznea@tuxon.dev>
->>>>>> Sent: Friday, June 28, 2024 8:32 AM
->>>>>> Subject: Re: [PATCH v2 07/12] i2c: riic: Define individual arrays to
->>>>>> describe the register offsets
->>>>>>
->>>>>> Hi, Biju,
->>>>>>
->>>>>> On 28.06.2024 08:59, Biju Das wrote:
->>>>>>> Hi Claudiu,
->>>>>>>
->>>>>>>> -----Original Message-----
->>>>>>>> From: Claudiu <claudiu.beznea@tuxon.dev>
->>>>>>>> Sent: Tuesday, June 25, 2024 1:14 PM
->>>>>>>> Subject: [PATCH v2 07/12] i2c: riic: Define individual arrays to
->>>>>>>> describe the register offsets
->>>>>>>>
->>>>>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>>>>>
->>>>>>>> Define individual arrays to describe the register offsets. In this
->>>>>>>> way we can describe different IP variants that share the same
->>>>>>>> register offsets but have differences in other characteristics.
->>>>>>>> Commit prepares for the addition
->>>>>> of fast mode plus.
->>>>>>>>
->>>>>>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>>>>> ---
->>>>>>>>
->>>>>>>> Changes in v2:
->>>>>>>> - none
->>>>>>>>
->>>>>>>>  drivers/i2c/busses/i2c-riic.c | 58
->>>>>>>> +++++++++++++++++++----------------
->>>>>>>>  1 file changed, 31 insertions(+), 27 deletions(-)
->>>>>>>>
->>>>>>>> diff --git a/drivers/i2c/busses/i2c-riic.c
->>>>>>>> b/drivers/i2c/busses/i2c-riic.c index
->>>>>>>> 9fe007609076..8ffbead95492 100644
->>>>>>>> --- a/drivers/i2c/busses/i2c-riic.c
->>>>>>>> +++ b/drivers/i2c/busses/i2c-riic.c
->>>>>>>> @@ -91,7 +91,7 @@ enum riic_reg_list {  };
->>>>>>>>
->>>>>>>>  struct riic_of_data {
->>>>>>>> -        u8 regs[RIIC_REG_END];
->>>>>>>> +        const u8 *regs;
->>>>>>>
->>>>>>>
->>>>>>> Since you are touching this part, can we drop struct and Use u8* as
->>>>>>> device_data instead?
->>>>>>
->>>>>> Patch 09/12 "i2c: riic: Add support for fast mode plus" adds a new member to struct
->>>> riic_of_data.
->>>>>> That new member is needed to differentiate b/w hardware versions
->>>>>> supporting fast mode plus based on compatible.
->>>>>
->>>>> Are we sure RZ/A does not support fast mode plus?
->>>>
->>>> From commit description of patch 09/12:
->>>>
->>>> Fast mode plus is available on most of the IP variants that RIIC driver is working with. The
->>>> exception is (according to HW manuals of the SoCs where this IP is available) the Renesas RZ/A1H.
->>>> For this, patch introduces the struct riic_of_data::fast_mode_plus.
->>>>
->>>> I checked the manuals of all the SoCs where this driver is used.
->>>>
->>>> I haven't checked the H/W manual?
->>>>
->>>> On the manual I've downloaded from Renesas web site the FMPE bit of RIICnFER is not available on
->>>> RZ/A1H.
->>>
->>> I just found RZ/A2M manual, it supports FMP and register layout looks similar to RZ/G2L.
->>
->> I introduced struct riic_of_data::fast_mode_plus because of RZ/A1H.
-> 
-> Do you need to check for that?
-> 
-> The ICFER_FMPE bit won't be set unless the user specifies the FM+
-> clock-frequency.  Setting clock-frequency beyond Fast Mode on RZ/A1H
-> would be very wrong.
+elapsed time: 5521m
 
-I need it to avoid this scenario ^. In patch 09/12 there is this code:
+configs tested: 104
+configs skipped: 1
 
-+	if ((!info->fast_mode_plus && t->bus_freq_hz > I2C_MAX_FAST_MODE_FREQ) ||
-+	    (info->fast_mode_plus && t->bus_freq_hz > I2C_MAX_FAST_MODE_PLUS_FREQ)) {
-+		dev_err(dev, "unsupported bus speed (%dHz). %d max\n", t->bus_freq_hz,
-+			info->fast_mode_plus ? I2C_MAX_FAST_MODE_PLUS_FREQ :
-+			I2C_MAX_FAST_MODE_FREQ);
- 		return -EINVAL;
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-to avoid giving the user the possibility to set FM+ freq on platforms not
-supporting it.
+tested configs:
+alpha                             allnoconfig   gcc-13.2.0
+arc                              allmodconfig   gcc-13.2.0
+arc                               allnoconfig   gcc-13.2.0
+arc                              allyesconfig   gcc-13.2.0
+arc                   randconfig-001-20240625   gcc-13.2.0
+arc                   randconfig-002-20240625   gcc-13.2.0
+arm                              allmodconfig   gcc-13.2.0
+arm                              allyesconfig   gcc-13.2.0
+arm                   randconfig-003-20240625   gcc-13.2.0
+arm                   randconfig-004-20240625   gcc-13.2.0
+arm64                            allmodconfig   gcc-13.2.0
+arm64                             allnoconfig   gcc-13.2.0
+arm64                            allyesconfig   clang-19
+arm64                 randconfig-001-20240625   gcc-13.2.0
+arm64                 randconfig-002-20240625   gcc-13.2.0
+arm64                 randconfig-004-20240625   gcc-13.2.0
+csky                              allnoconfig   gcc-13.2.0
+csky                  randconfig-001-20240625   gcc-13.2.0
+csky                  randconfig-002-20240625   gcc-13.2.0
+i386                             allmodconfig   clang-18
+i386                              allnoconfig   clang-18
+i386                             allyesconfig   clang-18
+i386         buildonly-randconfig-001-20240624   gcc-8
+i386         buildonly-randconfig-002-20240624   gcc-13
+i386         buildonly-randconfig-004-20240624   gcc-10
+i386         buildonly-randconfig-004-20240625   gcc-13
+i386                                defconfig   clang-18
+i386                  randconfig-001-20240625   gcc-13
+i386                  randconfig-003-20240624   gcc-13
+i386                  randconfig-003-20240625   gcc-7
+i386                  randconfig-004-20240624   gcc-13
+i386                  randconfig-005-20240624   gcc-13
+i386                  randconfig-006-20240625   gcc-13
+i386                  randconfig-012-20240625   gcc-13
+i386                  randconfig-013-20240624   gcc-9
+i386                  randconfig-015-20240625   gcc-12
+i386                  randconfig-016-20240624   gcc-9
+i386                  randconfig-016-20240625   gcc-10
+loongarch                         allnoconfig   gcc-13.2.0
+loongarch             randconfig-001-20240625   gcc-13.2.0
+loongarch             randconfig-002-20240625   gcc-13.2.0
+m68k                              allnoconfig   gcc-13.2.0
+microblaze                        allnoconfig   gcc-13.2.0
+mips                             allmodconfig   clang-19
+mips                              allnoconfig   gcc-13.2.0
+mips                             allyesconfig   clang-19
+nios2                            allmodconfig   gcc-13.2.0
+nios2                             allnoconfig   gcc-13.2.0
+nios2                            allyesconfig   gcc-13.2.0
+nios2                 randconfig-001-20240625   gcc-13.2.0
+nios2                 randconfig-002-20240625   gcc-13.2.0
+openrisc                         allmodconfig   gcc-13.2.0
+openrisc                          allnoconfig   gcc-13.2.0
+openrisc                         allyesconfig   gcc-13.2.0
+openrisc                            defconfig   gcc-13.2.0
+parisc                           allmodconfig   gcc-13.2.0
+parisc                            allnoconfig   gcc-13.2.0
+parisc                           allyesconfig   gcc-13.2.0
+parisc                              defconfig   gcc-13.2.0
+parisc                randconfig-001-20240625   gcc-13.2.0
+parisc                randconfig-002-20240625   gcc-13.2.0
+powerpc                          allmodconfig   gcc-13.2.0
+powerpc                           allnoconfig   gcc-13.2.0
+powerpc                          allyesconfig   gcc-13.2.0
+powerpc               randconfig-002-20240625   gcc-13.2.0
+powerpc               randconfig-003-20240625   gcc-13.2.0
+powerpc64             randconfig-001-20240625   gcc-13.2.0
+riscv                            allmodconfig   gcc-13.2.0
+riscv                             allnoconfig   gcc-13.2.0
+riscv                            allyesconfig   gcc-13.2.0
+riscv                 randconfig-001-20240625   gcc-13.2.0
+s390                              allnoconfig   gcc-13.2.0
+sh                                allnoconfig   gcc-13.2.0
+sh                                  defconfig   gcc-13.2.0
+sh                    randconfig-001-20240625   gcc-13.2.0
+sh                    randconfig-002-20240625   gcc-13.2.0
+sparc                            allyesconfig   gcc-13.2.0
+sparc64                          allmodconfig   gcc-13.2.0
+sparc64                          allyesconfig   gcc-13.2.0
+sparc64                             defconfig   gcc-13.2.0
+sparc64               randconfig-001-20240625   gcc-13.2.0
+sparc64               randconfig-002-20240625   gcc-13.2.0
+um                                allnoconfig   gcc-13.2.0
+um                             i386_defconfig   gcc-13
+x86_64                            allnoconfig   clang-18
+x86_64                           allyesconfig   clang-18
+x86_64       buildonly-randconfig-001-20240625   gcc-13
+x86_64                              defconfig   clang-18
+x86_64                                  kexec   clang-18
+x86_64                randconfig-002-20240625   gcc-13
+x86_64                randconfig-003-20240625   gcc-13
+x86_64                randconfig-006-20240625   gcc-13
+x86_64                randconfig-012-20240625   gcc-13
+x86_64                randconfig-015-20240625   gcc-13
+x86_64                randconfig-016-20240625   gcc-11
+x86_64                randconfig-071-20240625   gcc-13
+x86_64                randconfig-074-20240625   gcc-13
+x86_64                          rhel-8.3-func   clang-18
+x86_64                          rhel-8.3-rust   clang-18
+x86_64                               rhel-8.3   clang-18
+xtensa                            allnoconfig   gcc-13.2.0
+xtensa                           allyesconfig   gcc-13.2.0
+xtensa                randconfig-001-20240625   gcc-13.2.0
+xtensa                randconfig-002-20240625   gcc-13.2.0
 
-Please let me know if I'm missing something (or wrongly understood your
-statement).
-
-Thank you,
-Claudiu Beznea
-
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
