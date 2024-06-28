@@ -1,141 +1,152 @@
-Return-Path: <linux-renesas-soc+bounces-6869-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6870-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86F5691BB56
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jun 2024 11:22:27 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF91991BC02
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jun 2024 11:58:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3AF8E281361
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jun 2024 09:22:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 66D021F22768
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jun 2024 09:58:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1AAC14F9FE;
-	Fri, 28 Jun 2024 09:22:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53569153810;
+	Fri, 28 Jun 2024 09:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="I28BZ0+k"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15CBB21105;
-	Fri, 28 Jun 2024 09:22:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC40215358F
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Jun 2024 09:58:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719566542; cv=none; b=KSCNkEpeiq82p0uRNJvB+mJHVTGXP2MzvIZ5uKBphKNpQSGS9C+7yrdGPvj2gO+D0AHvnbYBkS5PpOQO8mlD6QvC3yE4ZOQ52fJmKRlaMXFG+IueyFQU2WAwRf/CQBIHEJzLJr4dTXRAtWOw3StRo2h419ICM47BVN3MtDivR7g=
+	t=1719568703; cv=none; b=HI8AhBjVHbELgVULNlgaXhr3FOqIvAm5Bmfch1CcXGlpNM8GsCT3GRaxn45rw5WS9CPK2ghTo3Ys1YQVduB7suP+MGuYevOzR0aFfanT1CHRnTgpGXqKi5T/I9WUorqoF0UwKuwjZ++gkzHaigTwTvqFtj5NNkm4VnXG7lO1yT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719566542; c=relaxed/simple;
-	bh=s2v0SCtuLdBGXTNA/pzfiqK5TXKCGtl+5CoWL2zIOrM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eN+xzs3lu1kIkacXjhQIxPQbLol6vpYITnYTLFNZFgP8wl2EZ2LDjlWIGXY+2EnE6ynUUtJxEu+NMFC9YOhE9IvAjbHFN08IoKfZd0ldlCap5UdzDVpsAUfaHACDslwKZuzVWnBNXcZG4WGcMz5jYrcidyasD2Bl9Wwmu9HiVbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6327e303739so3517797b3.2;
-        Fri, 28 Jun 2024 02:22:20 -0700 (PDT)
+	s=arc-20240116; t=1719568703; c=relaxed/simple;
+	bh=cPuYKm0YSC1bLHpklv2OpSJ4DO6yrwZaDeYYafFez1Q=;
+	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=AjCGoqt9QZVEwin7J0iyJQIHxaKKEaLnZI2MTrna9yoCHnSQuxmiiFa3nn73L4FaACkmYX10HKbgHohEwoEqHLoICog0mFuwDN1uzHcuPNdwEV0JRP8JAmdrsv3gR8EtAHm5Q8b58t+7OyS6z9t8Bf1FlPU93XmERyfNqpxMUtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=I28BZ0+k; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1f9a78c6c5dso2434265ad.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Jun 2024 02:58:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1719568701; x=1720173501; darn=vger.kernel.org;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=0SUObzsWWq/B5GyviWOL4WRZwHR21PTRZ+q8cjQkElc=;
+        b=I28BZ0+kB9njltxHmhzuFlMy7MQ/v0LUewXG2aF1kkjeXrRCs6S8p6cwdur5TEseUp
+         aNUypnS31528aygsnw+8v4sgaNan7BCZy9jSyg43H8AH6nyT7DesG6mJuBIgrm/3vIQJ
+         llQNXRJ8lM+mYxff2Ggttf/sXZGr8i4Alelig3sA95uq1rmgs67RwnqGzwBkPjTPquun
+         wyTuL0E7NgsZas4ngsydxyJUK4P06YeC6HBRUgDsQ30iOIMUQ+Nfouj3rV1gpoGDLAk1
+         6uiySMZrfM+IZ7uc6xszIn8YksYml1FuDt7lBcoFPI2HxCURmgsK8866FhHwYY2fFLSy
+         hzIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719566537; x=1720171337;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lPkiiuvvTvf4U3Ro8IqPKqYL9PdIgEp2Zf9jQK+VOus=;
-        b=oMPO7I0L4R2LYjIdQ4c6u7uRtIxsaDSbtyiwhlqlOXaTukyIi4HXkXlLTEEX8NtN64
-         BqOv5l1aep5FsWmB9kejIAFb4eJdLxjAY9AaCENEjoRJ5MoZCcmJXZ5EzJ9O+pof8Zoz
-         SqWcKIFZh47e+CFHSOTcoNLJgZIWnpohM6Q89sVX0XQGExJUbD8OxbWmA6DBtQdn9q4g
-         OGgxvQS3dAbEiQerXF26W5A9Hov1ikGspGG2j87X95n6OR44MmOOE4Vo2BVtWr2EatBs
-         TZuKq10xs3BPACE2Up2G4UZaqVeV6vA+e2WfRFbrUnY9DfwcRnF9h3/sU7/hdXX0Nh3m
-         ldQA==
-X-Forwarded-Encrypted: i=1; AJvYcCWI5l5WrCna+LLwqqcEEDE5omLEa/QAz8ip/niAqT9BElXA13rVeh+SNoyn9H0Z8dW5dRDTXVguvzPoeBpN7USxN9IZhwsFz1g6hMNn0sLLF7+JspYAcnkdnnxzwDyePhgzyi1J7uMmnVylhxba2NDz3Et82Z5FEOK9M0cOR25tgwhozMVrLFmgOCZUVr8mo184JxqUJAXOkC1xUzhoxlypUWeDvZiQPD7I7T/Qlua955Pf2zSHBVBmql3k3G7m99gk
-X-Gm-Message-State: AOJu0Yy7wVItFMjFayVGbBX7KXO8V4d3WseyuavraBCmGQsFwBGY3MvY
-	eZA7PSYGvsASepsyC9CZnNc7tjsKLY2J0lHBxjrHIpgLRMXDc+QhH0sijoNn
-X-Google-Smtp-Source: AGHT+IF2U2yL59gFoBHuaQ1ZeXCm8HFBJrGLAq524F2DrTFgDuSmurln8J3OH7v2V5dlY6M32jQHNg==
-X-Received: by 2002:a05:690c:360e:b0:64b:69f0:f900 with SMTP id 00721157ae682-64b69f10411mr2105477b3.23.1719566537524;
-        Fri, 28 Jun 2024 02:22:17 -0700 (PDT)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-64a9a803a15sm2695677b3.68.2024.06.28.02.22.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Jun 2024 02:22:16 -0700 (PDT)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-64b0d45a7aaso3209207b3.0;
-        Fri, 28 Jun 2024 02:22:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUL63FHWF6lOdRcp1BfDlfvNIi9cp+9pS8PiPfA0oh3J48DMFWP+gmmw/2+Yll302Lmr6niy/6qJBgGip53budHEU60ekm+uXj7cq8HY0wcUFmCWcCh6YHTVwKh9igcertpXBYRhj9RR4kVAleBDeQkk0SxVLDBf14oz7B4lka8bGnC6Fby/URj6UmseXjkpyG467OFDKoTXQktBKEFnYiH+DtMXkeVtEF/qhHOoScO72jO09eY96cfcd00HO0RsP7t
-X-Received: by 2002:a81:a20a:0:b0:61b:33c8:7bce with SMTP id
- 00721157ae682-643aab82cc5mr155916427b3.31.1719566536472; Fri, 28 Jun 2024
- 02:22:16 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1719568701; x=1720173501;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0SUObzsWWq/B5GyviWOL4WRZwHR21PTRZ+q8cjQkElc=;
+        b=LSYXAfwglIcLysupL/P6coK9E1Pidan/y/9Ue1ABGCuHyqqkbDey7oscn64yT+Vi8T
+         fs9s5RbtRfuhcTLBdItl5zh0b/QdB5iKMFxVeH8yD+HNq7kJJ/gu6yeA7HypmucTsQ9P
+         Q/8z1C42sWhRJ3Wu9Jfg1G7JZ+Fo3WLYjJV0Md2dujv26DOcnuenVadvIFEN/3QD4CFR
+         rFreQyNRsmDj41Bbr9xTZGwIKQbTouW1Fm3M+Ra6WliJAr7/llEoczd0Gx+OgYG50wCF
+         HIBqJXoUHmyzCiAEC0AuMNrF4//oETAN0lE1TIk7M8ft/V+68GwqtBypuuiyNX2MBMdl
+         UQ6g==
+X-Gm-Message-State: AOJu0YzDLt0jZqb32Ug8uSbHpH4YTXiEYy9Qhp+WqIPr4/C9SYWgLXFt
+	aJZ3pAGqt/2EJfYqqM3KgxORqzbrW8En05+vIU6EbOAK98PyUP57JNhranYw95kjvDJ3WUkV/C5
+	a
+X-Google-Smtp-Source: AGHT+IFLo12LPyBqVpG6wPctVAtxndJ6tCAtoMtJL7feenc7QM6+/Dbk+d7NXlyNokqB01SQ3FbJAA==
+X-Received: by 2002:a17:902:a501:b0:1fa:d77:21f8 with SMTP id d9443c01a7336-1fa23f158c6mr113196055ad.42.1719568700515;
+        Fri, 28 Jun 2024 02:58:20 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fac10e2ea7sm11531525ad.81.2024.06.28.02.58.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jun 2024 02:58:20 -0700 (PDT)
+Message-ID: <667e893c.170a0220.c7d8e.37b9@mx.google.com>
+Date: Fri, 28 Jun 2024 02:58:20 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240625121358.590547-1-claudiu.beznea.uj@bp.renesas.com> <20240625121358.590547-10-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20240625121358.590547-10-claudiu.beznea.uj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 28 Jun 2024 11:22:05 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX4hWou9OtdE8XgU7-U0ghJ6vk2kVqgT90U0ZjsxzR5DA@mail.gmail.com>
-Message-ID: <CAMuHMdX4hWou9OtdE8XgU7-U0ghJ6vk2kVqgT90U0ZjsxzR5DA@mail.gmail.com>
-Subject: Re: [PATCH v2 09/12] i2c: riic: Add support for fast mode plus
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: chris.brandt@renesas.com, andi.shyti@kernel.org, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, magnus.damm@gmail.com, 
-	mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de, 
-	wsa+renesas@sang-engineering.com, linux-renesas-soc@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: renesas-devel-2024-06-28-v6.10-rc5
+X-Kernelci-Report-Type: test
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+Subject: renesas/master igt-gpu-panfrost: 1 runs,
+ 1 regressions (renesas-devel-2024-06-28-v6.10-rc5)
+To: linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Hi Claudiu,
+renesas/master igt-gpu-panfrost: 1 runs, 1 regressions (renesas-devel-2024-=
+06-28-v6.10-rc5)
 
-On Tue, Jun 25, 2024 at 2:14=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
-wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> Fast mode plus is available on most of the IP variants that RIIC driver
-> is working with. The exception is (according to HW manuals of the SoCs
-> where this IP is available) the Renesas RZ/A1H. For this, patch
-> introduces the struct riic_of_data::fast_mode_plus.
->
-> Fast mode plus was tested on RZ/G3S, RZ/G2{L,UL,LC}, RZ/Five by
-> instantiating the RIIC frequency to 1MHz and issuing i2c reads on the
-> fast mode plus capable devices (and the i2c clock frequency was checked o=
-n
-> RZ/G3S).
->
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Regressions Summary
+-------------------
 
-Thanks for your patch!
-
-> --- a/drivers/i2c/busses/i2c-riic.c
-> +++ b/drivers/i2c/busses/i2c-riic.c
-> @@ -407,6 +413,9 @@ static int riic_init_hw(struct riic_dev *riic)
->         riic_writeb(riic, 0, RIIC_ICSER);
->         riic_writeb(riic, ICMR3_ACKWP | ICMR3_RDRFS, RIIC_ICMR3);
->
-> +       if (info->fast_mode_plus && t->bus_freq_hz =3D=3D I2C_MAX_FAST_MO=
-DE_PLUS_FREQ)
-> +               riic_clear_set_bit(riic, 0, ICFER_FMPE, RIIC_ICFER);
-
-Unless FM+ is specified, RIIC_ICFER is never written to.
-Probably the register should always be initialized, also to make sure
-the FMPE bit is cleared when it was set by the boot loader, but FM+
-is not to be used.
+platform      | arch  | lab         | compiler | defconfig | regressions
+--------------+-------+-------------+----------+-----------+------------
+rk3399-roc-pc | arm64 | lab-broonie | gcc-10   | defconfig | 1          =
 
 
-> +
->         riic_clear_set_bit(riic, ICCR1_IICRST, 0, RIIC_ICCR1);
->
->         pm_runtime_mark_last_busy(dev);
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2024-06-28-v6.10-rc5/plan/igt-gpu-panfrost/
 
-Gr{oetje,eeting}s,
+  Test:     igt-gpu-panfrost
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2024-06-28-v6.10-rc5
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      b697d5470d57cfd6ff3e1388699cd905334a9220
 
-                        Geert
+  Test suite revisions:
+    drm
+      URL:  git://anongit.freedesktop.org/mesa/drm
+      SHA:  c8f327ce9cb504a6c2185487d576be3d5254556a
+    igt-gpu-tools
+      URL:  https://gitlab.freedesktop.org/drm/igt-gpu-tools.git
+      SHA:  a44ebfe43edc96acab22a19b6a8850eef9202eea =
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+
+Test Regressions
+---------------- =
+
+
+
+platform      | arch  | lab         | compiler | defconfig | regressions
+--------------+-------+-------------+----------+-----------+------------
+rk3399-roc-pc | arm64 | lab-broonie | gcc-10   | defconfig | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/667e83b016f945d62b7e7076
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+024-06-28-v6.10-rc5/arm64/defconfig/gcc-10/lab-broonie/igt-gpu-panfrost-rk3=
+399-roc-pc.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+024-06-28-v6.10-rc5/arm64/defconfig/gcc-10/lab-broonie/igt-gpu-panfrost-rk3=
+399-roc-pc.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm-ig=
+t/20240313.0/arm64/rootfs.cpio.gz =
+
+
+
+  * igt-gpu-panfrost.login: https://kernelci.org/test/case/id/667e83b016f94=
+5d62b7e7077
+        failing since 3 days (last pass: renesas-devel-2024-06-17-v6.10-rc4=
+, first fail: renesas-devel-2024-06-24-v6.10-rc5) =
+
+ =20
 
