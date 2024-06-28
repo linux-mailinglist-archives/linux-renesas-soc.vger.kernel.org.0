@@ -1,185 +1,119 @@
-Return-Path: <linux-renesas-soc+bounces-6884-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6886-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBE3791BF18
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jun 2024 14:58:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0D6791BF47
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jun 2024 15:11:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A9C3B28594C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jun 2024 12:58:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6E971284651
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jun 2024 13:11:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 825591991DA;
-	Fri, 28 Jun 2024 12:58:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AE431BE25D;
+	Fri, 28 Jun 2024 13:11:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="o8l7ira4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZMwytdi6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20AA4C3BE
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Jun 2024 12:58:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B98F1B3F35;
+	Fri, 28 Jun 2024 13:11:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719579534; cv=none; b=TzfVSJ5zT2lVYjrLM1L7JIcZ76fm9P3vLL2or/n/hzwUFvuPce/Va46klRn4eS0C+sGyqlVe9yW2Bvwg1VNuoDPFclTt9+7+ge87gYWIlgqbDceo9sN1rQty/gt2B0Vr7fyl+jm57dmxzognENqU6jdf/+2YA6T0x9szPAnXSdY=
+	t=1719580268; cv=none; b=uFcuA1J/22Zi7sYZaU74H1+YZZvLkxeACyzHBPhHfAY40Wu1zB/SFgUt3RwsH4gnDSVovxmm9AA4Ltj1yjUnZOPkUNbfU+ajn7YRqsPdldih3v0O6/6aOjJU1itj4LU7LrknfMPivN8rtL0DAhZHrRhWLj3P5+hvUW94cMO6mzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719579534; c=relaxed/simple;
-	bh=eBGCcgEpKWHGWgJWZaM8M5UOBkQAFMNvBxCFm/a0TKQ=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=DxkIkYLXjrLNrqlUb9k92d2JCAPhOB/LvI16tpYddLggtq1c4h/ho/MiYthaK//uHwcsXAkEJ7J/HJbib9W9QFxYScgPheM1j5TNStpPhl5JwQnyx1rUoT7bMg0akomAYKd8oV9Zr7hrQNc2uoDM8UgDgjFDaPhs8fqvV8OZtz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=o8l7ira4; arc=none smtp.client-ip=209.85.160.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-254aec5a084so349214fac.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Jun 2024 05:58:52 -0700 (PDT)
+	s=arc-20240116; t=1719580268; c=relaxed/simple;
+	bh=19WnyASSmiP5dYuGxNF7hCPbTXMLEYdxQkDx//2s+H4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=L3YnY5lGsinPT62JIwq0Mcd6d7t2JFgIdGDXj0lLwc4WS4c0aXNKAr/LxTLraXMVkpiGNxb3nolMU5zIgP9kLh+HOrlPmXe4vmSRv/BB5vBi8SPj1ZzTm81HFJ+St6yqff4OKpzW6vgWJVPr9yTP9EE+8FNUdvrQXmzPfKaL84I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZMwytdi6; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42565670e20so10636695e9.0;
+        Fri, 28 Jun 2024 06:11:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1719579531; x=1720184331; darn=vger.kernel.org;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=BcGcwp1vqmS3vaZhTB36/QLXQXvsV59kc5Yrj+vY974=;
-        b=o8l7ira4hv3nTHRQW81NgXwphyZ6eIbDA/XBBQXh9vQ7powblyDd3Uu/jUTtiNB1zB
-         kYtgMlgzKRvPT/ZtSEtHkbmvfR2lukzb5iihP0YANYTcxtWerjzFyo8uVqMxvDCTvCyL
-         d/vNhSYVfgPgFZKfMES42iLZE0KM3PRnCLBOd80tn/zf8k+ras2fvzvnUiOJeeOz6B0K
-         pPccX4mw3uFvKVHErfj8JW+sz3lfi0gRTqxIApoJOe25vdu/BP6aR9fhR8Gb8yfOQHRX
-         22jl7rb1ovEBl98FG2pncis/oHWq+u0RxkgtFNX27DZzJ5DiVXvr3i/7FbG4c5zTt+Ek
-         oKoQ==
+        d=gmail.com; s=20230601; t=1719580265; x=1720185065; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KQPA87gtEd7oeMcvbLhf363eOnwxMNw4POXQ9E9cysY=;
+        b=ZMwytdi6yYKkGKscTV8aQivkvAczCTuZb6aGV30ijhrJXAKnxS7kbF0XNUkkI9WjnG
+         WlM7zsLcT8ALqM0o6Rll1wTt7zkhfI+goCDXEB/DjKqfLXLTDv8XcoGHFLTn6poQKA1s
+         3QjyL8btsk5tZPdu9Qfnz4S9stAomvZQS/l/6Q0vpq38dMRmUxcXFYIVy/2UjJsPRunF
+         SveLmO+yBpdgUTJpsB2f8J2SarTFjhCYen6H5nrcc9tWCPwLv1oDJl8tgNe+HhiIGDcp
+         9YfVA/QkEx+jSw3lZJC1sJ+S4Zuq2ZT/tFTDndAyCsfPCT/x6o47OrkOW/OgEKtFiOz/
+         DKaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719579531; x=1720184331;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1719580265; x=1720185065;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BcGcwp1vqmS3vaZhTB36/QLXQXvsV59kc5Yrj+vY974=;
-        b=iMgSHPmfkovV4Zh3ZfArmMY+lEWNQJ+RqIC41J37NQ6Aq2194S4e4AXhBpusWBu0+j
-         rCUAUZ1ImLOduNtgnvcgUUCPkIFIv2DULDUJUs8h4854QqajqUa3xED0KDLVNCd17Ge9
-         0CMtL5TeV7gIaA17r12R+n4us6uSLKhdwJcP65DEbFyBDy1QMj5yxjkwsTs3eWR8P2q5
-         obDuAJLWaSWBi2FoZ+GVxvgbmWU96DwINWnE/yrOIOifrSX/798st5acjMIZfSlfOd5g
-         kv1/SDFrXnUb9iiiJy+znf2zP86FCGXNS+qemxjOOVlSb6zhUl2aXq2wx/kbPyYUMeoo
-         YfqQ==
-X-Gm-Message-State: AOJu0YzdTlFrNDyb+bJQ4CLci1laBcKJVLhzsUM0jHso2/k8DVnhByzp
-	L0q54TPG24ek0Wh8Iy4tNvkbdYGYmSgBv8P7NO1jroeSYzCg1QYvsvgT37OQI9fZXEhbKVe8nsA
-	h
-X-Google-Smtp-Source: AGHT+IGEOblH96UWuCgD5EVZVQ/9hPa48+NfWeFJHWQmrTUKIwm7JZpbVWqlvjd1SbAuoaJS/NSToQ==
-X-Received: by 2002:a05:6870:1c8:b0:254:a7ef:b714 with SMTP id 586e51a60fabf-25d019b26ccmr16611331fac.58.1719579531158;
-        Fri, 28 Jun 2024 05:58:51 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70804a89fc9sm1507107b3a.212.2024.06.28.05.58.50
+        bh=KQPA87gtEd7oeMcvbLhf363eOnwxMNw4POXQ9E9cysY=;
+        b=jrK4GjNcaLMWeoKiBK9a2+MW5FuIw07EUzYHGx7au5Ly4oQiggc0gS6IpjGFExOKiH
+         8QiV1ARWHwv5xl3RA0Na6M/KJ24wZno9QWrbeJuU6cOs4GQl7Hk6+ZD2KBKnzsqh/frn
+         MTKlf0O27EQQ29dQyxevjHybzME20fUvCUEZ52HRv55mS3V+4WpS5S2FFUIflTCYsFng
+         wXF7sERY4zn8CF3RDVQEXS9NST934JkXvZ7a9G1AjW4Qnc7jeH6yiTKgLlaWh9L4D6jK
+         xrWQG2LeTf+sgK2RoLM3VQWn7h2DLdN94XyM4bp5ZaH3rA5oh5us0lzSoV8zftTZJILE
+         iFTA==
+X-Forwarded-Encrypted: i=1; AJvYcCXRNigi//3HXg3Jwom89zYx1Y1XmRQ9nBJzimnvKCn3Pmr3b8L4QjGrV3jXuree2JCYH6tg6+924jTaCNoG253rtgMMCd1sv/jB30ovkKSJ5tSBY0kmobiYU8XxvDdiHlbOQ8AjxE3jwqQrZNw=
+X-Gm-Message-State: AOJu0Yyuq5kb1c6hSg2UtvGbXqwD/LwYIfWK/zHLBnP3Ld3KiZhbLKge
+	JC5GEKsr2BosKFWw8Rfif86IHxMzG5k7PkMM3J1eD0wOjKiGFVSm
+X-Google-Smtp-Source: AGHT+IHDUiazcUJzZPnTtqvwGO6vAY8G5/mAYR+XV4svmvxVJdgzZ6C80NjeFCYlEasEvTYzobO0LQ==
+X-Received: by 2002:a05:600c:3b9e:b0:424:8acb:7d53 with SMTP id 5b1f17b1804b1-4256d4c3f58mr18765335e9.1.1719580264582;
+        Fri, 28 Jun 2024 06:11:04 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4256af557fesm35298865e9.11.2024.06.28.06.11.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Jun 2024 05:58:50 -0700 (PDT)
-Message-ID: <667eb38a.050a0220.40423.47ee@mx.google.com>
-Date: Fri, 28 Jun 2024 05:58:50 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Fri, 28 Jun 2024 06:11:04 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	linux-clk@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/4] clk: renesas: rzg2l-cpg: Refactor and simplify clock registration
+Date: Fri, 28 Jun 2024 14:10:17 +0100
+Message-Id: <20240628131021.177866-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: renesas-next-2024-06-28-v6.10-rc1
-X-Kernelci-Report-Type: test
-X-Kernelci-Branch: next
-X-Kernelci-Tree: renesas
-Subject: renesas/next baseline: 58 runs,
- 2 regressions (renesas-next-2024-06-28-v6.10-rc1)
-To: linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Transfer-Encoding: 8bit
 
-renesas/next baseline: 58 runs, 2 regressions (renesas-next-2024-06-28-v6.1=
-0-rc1)
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Regressions Summary
--------------------
+Hi,
 
-platform                     | arch  | lab         | compiler | defconfig |=
- regressions
------------------------------+-------+-------------+----------+-----------+=
-------------
-imx8mp-evk                   | arm64 | lab-broonie | gcc-10   | defconfig |=
- 1          =
+This patch series aims to refactor and simplify the clock registration
+code in the Renesas RZ/G2L CPG (Clock Pulse Generator) driver. The
+changes enhance consistency, simplify function signatures, and remove
+redundant parameters, thereby improving maintainability and reducing
+potential for errors.
 
-imx8mp-verdin-nonwifi-dahlia | arm64 | lab-broonie | gcc-10   | defconfig |=
- 1          =
+Cheers,
+Prabhakar
 
+Lad Prabhakar (4):
+  clk: renesas: rzg2l-cpg: Use devres API to register clocks
+  clk: renesas: rzg2l-cpg: Simplify rzg3s_cpg_div_clk_register function
+  clk: renesas: rzg2l-cpg: Remove unused base pointer from
+    rzg2l_cpg_sd_mux_clk_register
+  clk: renesas: rzg2l-cpg: Refactor to use priv for clks and base in
+    clock register functions
 
-  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
-s-next-2024-06-28-v6.10-rc1/plan/baseline/
+ drivers/clk/renesas/rzg2l-cpg.c | 53 +++++++++++++++++----------------
+ 1 file changed, 27 insertions(+), 26 deletions(-)
 
-  Test:     baseline
-  Tree:     renesas
-  Branch:   next
-  Describe: renesas-next-2024-06-28-v6.10-rc1
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      ae035db289ffbf97e32db0e86571507f9b79ee31 =
+-- 
+2.34.1
 
-
-
-Test Regressions
----------------- =
-
-
-
-platform                     | arch  | lab         | compiler | defconfig |=
- regressions
------------------------------+-------+-------------+----------+-----------+=
-------------
-imx8mp-evk                   | arm64 | lab-broonie | gcc-10   | defconfig |=
- 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/667e81ad1cb31747657e7078
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2024=
--06-28-v6.10-rc1/arm64/defconfig/gcc-10/lab-broonie/baseline-imx8mp-evk.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2024=
--06-28-v6.10-rc1/arm64/defconfig/gcc-10/lab-broonie/baseline-imx8mp-evk.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230703.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/667e81ad1cb31747657e7=
-079
-        failing since 30 days (last pass: renesas-next-2024-04-22-v6.9-rc1,=
- first fail: renesas-next-2024-05-28-v6.10-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab         | compiler | defconfig |=
- regressions
------------------------------+-------+-------------+----------+-----------+=
-------------
-imx8mp-verdin-nonwifi-dahlia | arm64 | lab-broonie | gcc-10   | defconfig |=
- 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/667e80c4b744e54c2d7e707f
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2024=
--06-28-v6.10-rc1/arm64/defconfig/gcc-10/lab-broonie/baseline-imx8mp-verdin-=
-nonwifi-dahlia.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2024=
--06-28-v6.10-rc1/arm64/defconfig/gcc-10/lab-broonie/baseline-imx8mp-verdin-=
-nonwifi-dahlia.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230703.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/667e80c4b744e54c2d7e7=
-080
-        failing since 30 days (last pass: renesas-next-2024-04-22-v6.9-rc1,=
- first fail: renesas-next-2024-05-28-v6.10-rc1) =
-
- =20
 
