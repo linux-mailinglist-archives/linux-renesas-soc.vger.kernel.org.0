@@ -1,199 +1,224 @@
-Return-Path: <linux-renesas-soc+bounces-6883-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6885-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C785991BEDA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jun 2024 14:44:40 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA65891BF19
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jun 2024 14:59:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EAECC1C224CD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jun 2024 12:44:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F1E33B234F6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jun 2024 12:58:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53CE315886A;
-	Fri, 28 Jun 2024 12:44:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFEF04C3BE;
+	Fri, 28 Jun 2024 12:58:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DF92/FMp"
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="najefihT"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32BC8158A12
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Jun 2024 12:44:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4263A1946BC
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Jun 2024 12:58:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719578674; cv=none; b=EloUAByY0ST7ihRNgibpe8dat6Web57LkAzrSxQYDAWb1/mVbrBiAnxuZl4/VpmJ1asjeLUVUQDY5CWhKBCI4yQjA1NWcUVIGhTIBJKn8T9oR3U9gu/EM1hBAbp+VUiYxkryLddnRQ8tRYr/+bzRAfw4aghu5XPDmnDw683TFnI=
+	t=1719579534; cv=none; b=iyQ82dvpZr4pgqmN14DT58jPWeCKKgH96htkyo5kcS2HUF/vyHZP05MjpBLuhRj3KrvtOJFPsK9e2v/zZPsDk6gTcClcbkyt7pYeRPR4JZvVIfCLJlI8Q39701kOpQs7zAqJK61//IJOKMWrcvjh0omHOEPkW6DpxARTFlKjrQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719578674; c=relaxed/simple;
-	bh=eV4Vh1JEQcda64MBnz15P3lyexmWbbu1LhpKJ/Kg/Hk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hkvy+6kx3EwnWa7qa9v8Aqt4c9kQCTW/8Il3GE3DFS8VRj6Y23/KE6FZW5Xq3maoOTAO+J6ixAEpV4cU7QvX08tHiYHtjesh4Ejoqu3AFMvNPe4AoQ55LwJfi84Xa+27X4SDFKXQOI8Qhy7K9Vjetrj46y4uBClUvME3nSUWVlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DF92/FMp; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719578672; x=1751114672;
-  h=date:from:to:cc:subject:message-id;
-  bh=eV4Vh1JEQcda64MBnz15P3lyexmWbbu1LhpKJ/Kg/Hk=;
-  b=DF92/FMpDpQQG5mxz5Rps8/T+WWwnkmaSAOEoCkzlhf3u1mxu2txkToE
-   1VhPhj/KCM1hSLuqUEn+SM9V0npM7z9j/fRtWR77NJaRp8JKtaVAiUdKD
-   sUJW3bocg2XQCYLyNSsf0rtzB7aUdPHpFxfffDS9SM+DTG0LqlvvwrpmX
-   MoGALK9BdYx+4wBGgjoMlRV6JEWcgvf8SWbvQb9jSVWEDg0xW9W2vcibH
-   mUjCPsbbCkEwCPDaOdbqfA9gvEUTihQNDLkGP8lOuCcsylxEfqrNcjfsQ
-   1jiokDKIoH8sayMCPXWI41BY0vgrxs6/YqBZItYrpgmlxNrkGJQOGurNf
-   g==;
-X-CSE-ConnectionGUID: n/Ol9wkqRGKUTkED2pjGKA==
-X-CSE-MsgGUID: 9e63BCBSSGa/k0DZxutWaA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="42180206"
-X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; 
-   d="scan'208";a="42180206"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 05:44:32 -0700
-X-CSE-ConnectionGUID: xkXU5lcvQGuJ5RRjj31NFg==
-X-CSE-MsgGUID: KFwRqlUISCugPSCFJpN1Ew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; 
-   d="scan'208";a="44787599"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 28 Jun 2024 05:44:31 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sNAxo-000H5a-2c;
-	Fri, 28 Jun 2024 12:44:28 +0000
-Date: Fri, 28 Jun 2024 20:44:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-dt-bindings-for-v6.11] BUILD
- SUCCESS 8a3d2ad6129c1c43b683550802a93a9ca7f9645b
-Message-ID: <202406282027.gKQPF3ql-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1719579534; c=relaxed/simple;
+	bh=/iifbaiSnyNP/mB/JJYjnKZP3fLtTgAgMulxAcpJ164=;
+	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=ssoE4ogpoR3KM5OpkZHNBKk87j4oXF0cMBUXSKjnk18Kofm7hs2zTKbcayDJ7/emjzK5Kv85FI7n7EBOxWUT3EdJ1CZZq0yOIpGKbKqnKx9ZuPabUe99h4JzvkNPQ9UgtiLMCmAyr6n8TPMT5JwRSIGezWE/b+P9KeUa4Obg4yE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=najefihT; arc=none smtp.client-ip=209.85.167.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-3c9cc681e4fso310608b6e.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Jun 2024 05:58:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1719579532; x=1720184332; darn=vger.kernel.org;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=lnIVqcDaY7JZA4NbdHworC1cXJMVk2ot2YQsejDqXws=;
+        b=najefihTIillPg+5McXmcDysdF/uSx11i++qS19rPfuIXaE0JcABp6R+EGbnGrH8lQ
+         TY/+fMs3xhIVjSi/ZoXs0D/5zK8Wr5EdeZlNvtVinhyaG3VmX7xXfD1GyctgBS2g/IfC
+         59PD3SEtq3h5sV7etkwSHNg4V70dCcAkfuw00E/4sxz9T2HSxv9v3QIQMW2LK5Sr4QyE
+         3n4U+Exa69wy+lHRKYw7MbDGGe5Xszo83dqAjYc7i5xVMmnLOfUGH2GUYkzD+/TUo2nn
+         MyqTSmCaheld1jt6EFFvNu3zP7QQlDgu5rXNZzgJ5unCn2AjzpZBg5GjUAc8pnHN33qb
+         zZYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719579532; x=1720184332;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lnIVqcDaY7JZA4NbdHworC1cXJMVk2ot2YQsejDqXws=;
+        b=Ej4idrwGiB2kfdnU0gEmC9Ng2+Q6/gwbMFOlGb3yAME1ZohGLzouTfDhPe28xhFMb0
+         1hJb1NfSUwwxFmDVu4YkhP8HWqRbcqpcW2MO/Mv7ykPYGQPfqTA8YGGFhiUxHcxOOidH
+         QQIK79w4y8kHkglQ6DG9KdYBNd5npd7vrUcFKAOnkm0jE+zHQA5P1QfHEk5tgSXcAnRI
+         bh8DxsmnBcAy3sqO9up57s8Kcwg8jzcAH4pneU6/4r/8e896b1Gam34ZratTUhoGuOy1
+         cIz/2Rky2jPEXJstaRlYNvVq+DPoydQY+XFhpzGp1yvtIT3ugU1rcqauI5kSOKbffjPw
+         BRTQ==
+X-Gm-Message-State: AOJu0Yz3ZDLd7LkOlj277cKJLUcXfxfnSXTY63lVANavrHWsGaWpliK4
+	8UVe+niG3kenHEFK3CjzUU091/RTPGgo2T44upgeZ2JV7gqDU8aGoq0Kv6bP2arN11agSKDJ10W
+	M
+X-Google-Smtp-Source: AGHT+IF+yyWD/ZV7/DbcpX8yAfcOZbIlHmLBT5C0SW8720mmvweTSGii6fwl6sLbyEB8h/oYgTVotg==
+X-Received: by 2002:a05:6808:1282:b0:3d2:4fe3:50ef with SMTP id 5614622812f47-3d545a52d32mr23462894b6e.41.1719579531769;
+        Fri, 28 Jun 2024 05:58:51 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7080246c8edsm1517027b3a.58.2024.06.28.05.58.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jun 2024 05:58:50 -0700 (PDT)
+Message-ID: <667eb38a.050a0220.eda44.4ad6@mx.google.com>
+Date: Fri, 28 Jun 2024 05:58:50 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: renesas-next-2024-06-28-v6.10-rc1
+X-Kernelci-Report-Type: test
+X-Kernelci-Branch: next
+X-Kernelci-Tree: renesas
+Subject: renesas/next baseline-nfs: 22 runs,
+ 3 regressions (renesas-next-2024-06-28-v6.10-rc1)
+To: linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From: "kernelci.org bot" <bot@kernelci.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dt-bindings-for-v6.11
-branch HEAD: 8a3d2ad6129c1c43b683550802a93a9ca7f9645b  dt-bindings: fuse: Document R-Car E-FUSE / OTP_MEM
+renesas/next baseline-nfs: 22 runs, 3 regressions (renesas-next-2024-06-28-=
+v6.10-rc1)
 
-elapsed time: 5648m
+Regressions Summary
+-------------------
 
-configs tested: 106
-configs skipped: 1
+platform                     | arch  | lab         | compiler | defconfig |=
+ regressions
+-----------------------------+-------+-------------+----------+-----------+=
+------------
+imx8mp-evk                   | arm64 | lab-broonie | gcc-10   | defconfig |=
+ 1          =
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+imx8mp-verdin-nonwifi-dahlia | arm64 | lab-broonie | gcc-10   | defconfig |=
+ 1          =
 
-tested configs:
-alpha                             allnoconfig   gcc-13.2.0
-arc                              allmodconfig   gcc-13.2.0
-arc                               allnoconfig   gcc-13.2.0
-arc                              allyesconfig   gcc-13.2.0
-arc                   randconfig-001-20240625   gcc-13.2.0
-arc                   randconfig-002-20240625   gcc-13.2.0
-arm                              allmodconfig   gcc-13.2.0
-arm                               allnoconfig   gcc-13.2.0
-arm                              allyesconfig   gcc-13.2.0
-arm                   randconfig-003-20240625   gcc-13.2.0
-arm                   randconfig-004-20240625   gcc-13.2.0
-arm64                            allmodconfig   gcc-13.2.0
-arm64                             allnoconfig   gcc-13.2.0
-arm64                            allyesconfig   clang-19
-arm64                 randconfig-001-20240625   gcc-13.2.0
-arm64                 randconfig-002-20240625   gcc-13.2.0
-arm64                 randconfig-004-20240625   gcc-13.2.0
-csky                              allnoconfig   gcc-13.2.0
-csky                  randconfig-001-20240625   gcc-13.2.0
-csky                  randconfig-002-20240625   gcc-13.2.0
-i386                             allmodconfig   clang-18
-i386                              allnoconfig   clang-18
-i386                             allyesconfig   clang-18
-i386         buildonly-randconfig-004-20240625   gcc-13
-i386                                defconfig   clang-18
-i386                  randconfig-001-20240625   gcc-13
-i386                  randconfig-003-20240625   gcc-7
-i386                  randconfig-006-20240625   gcc-13
-i386                  randconfig-012-20240625   gcc-13
-i386                  randconfig-015-20240625   gcc-12
-i386                  randconfig-016-20240625   gcc-10
-loongarch                        allmodconfig   gcc-13.2.0
-loongarch                         allnoconfig   gcc-13.2.0
-loongarch             randconfig-001-20240625   gcc-13.2.0
-loongarch             randconfig-002-20240625   gcc-13.2.0
-m68k                             allmodconfig   gcc-13.2.0
-m68k                              allnoconfig   gcc-13.2.0
-m68k                             allyesconfig   gcc-13.2.0
-microblaze                       allmodconfig   gcc-13.2.0
-microblaze                        allnoconfig   gcc-13.2.0
-microblaze                       allyesconfig   gcc-13.2.0
-mips                             allmodconfig   clang-19
-mips                              allnoconfig   gcc-13.2.0
-mips                             allyesconfig   clang-19
-nios2                            allmodconfig   gcc-13.2.0
-nios2                             allnoconfig   gcc-13.2.0
-nios2                            allyesconfig   gcc-13.2.0
-nios2                 randconfig-001-20240625   gcc-13.2.0
-nios2                 randconfig-002-20240625   gcc-13.2.0
-openrisc                         allmodconfig   gcc-13.2.0
-openrisc                          allnoconfig   gcc-13.2.0
-openrisc                         allyesconfig   gcc-13.2.0
-openrisc                            defconfig   gcc-13.2.0
-parisc                           allmodconfig   gcc-13.2.0
-parisc                            allnoconfig   gcc-13.2.0
-parisc                           allyesconfig   gcc-13.2.0
-parisc                              defconfig   gcc-13.2.0
-parisc                randconfig-001-20240625   gcc-13.2.0
-parisc                randconfig-002-20240625   gcc-13.2.0
-powerpc                          allmodconfig   gcc-13.2.0
-powerpc                           allnoconfig   gcc-13.2.0
-powerpc                          allyesconfig   gcc-13.2.0
-powerpc               randconfig-002-20240625   gcc-13.2.0
-powerpc               randconfig-003-20240625   gcc-13.2.0
-powerpc64             randconfig-001-20240625   gcc-13.2.0
-riscv                            allmodconfig   gcc-13.2.0
-riscv                             allnoconfig   gcc-13.2.0
-riscv                            allyesconfig   gcc-13.2.0
-riscv                               defconfig   gcc-13.2.0
-riscv                 randconfig-001-20240625   gcc-13.2.0
-s390                              allnoconfig   gcc-13.2.0
-s390                                defconfig   gcc-13.2.0
-sh                                allnoconfig   gcc-13.2.0
-sh                                  defconfig   gcc-13.2.0
-sh                    randconfig-001-20240625   gcc-13.2.0
-sh                    randconfig-002-20240625   gcc-13.2.0
-sparc                            allyesconfig   gcc-13.2.0
-sparc64                          allmodconfig   gcc-13.2.0
-sparc64                          allyesconfig   gcc-13.2.0
-sparc64                             defconfig   gcc-13.2.0
-sparc64               randconfig-001-20240625   gcc-13.2.0
-sparc64               randconfig-002-20240625   gcc-13.2.0
-um                                allnoconfig   gcc-13.2.0
-um                                  defconfig   gcc-13.2.0
-um                             i386_defconfig   gcc-13.2.0
-um                           x86_64_defconfig   gcc-13.2.0
-x86_64                            allnoconfig   clang-18
-x86_64                           allyesconfig   clang-18
-x86_64       buildonly-randconfig-001-20240625   gcc-13
-x86_64                              defconfig   clang-18
-x86_64                                  kexec   clang-18
-x86_64                randconfig-002-20240625   gcc-13
-x86_64                randconfig-003-20240625   gcc-13
-x86_64                randconfig-006-20240625   gcc-13
-x86_64                randconfig-012-20240625   gcc-13
-x86_64                randconfig-015-20240625   gcc-13
-x86_64                randconfig-016-20240625   gcc-11
-x86_64                randconfig-071-20240625   gcc-13
-x86_64                randconfig-074-20240625   gcc-13
-x86_64                          rhel-8.3-func   clang-18
-x86_64                          rhel-8.3-rust   clang-18
-x86_64                               rhel-8.3   clang-18
-xtensa                            allnoconfig   gcc-13.2.0
-xtensa                           allyesconfig   gcc-13.2.0
-xtensa                randconfig-001-20240625   gcc-13.2.0
-xtensa                randconfig-002-20240625   gcc-13.2.0
+kontron-kbox-a-230-ls        | arm64 | lab-kontron | gcc-10   | defconfig |=
+ 1          =
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
+s-next-2024-06-28-v6.10-rc1/plan/baseline-nfs/
+
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   next
+  Describe: renesas-next-2024-06-28-v6.10-rc1
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      ae035db289ffbf97e32db0e86571507f9b79ee31 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform                     | arch  | lab         | compiler | defconfig |=
+ regressions
+-----------------------------+-------+-------------+----------+-----------+=
+------------
+imx8mp-evk                   | arm64 | lab-broonie | gcc-10   | defconfig |=
+ 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/667e824c121936ba627e706f
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2024=
+-06-28-v6.10-rc1/arm64/defconfig/gcc-10/lab-broonie/baseline-nfs-imx8mp-evk=
+.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2024=
+-06-28-v6.10-rc1/arm64/defconfig/gcc-10/lab-broonie/baseline-nfs-imx8mp-evk=
+.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm/20=
+240313.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/667e824c121936ba6=
+27e7070
+        failing since 30 days (last pass: renesas-next-2024-04-22-v6.9-rc1,=
+ first fail: renesas-next-2024-05-28-v6.10-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab         | compiler | defconfig |=
+ regressions
+-----------------------------+-------+-------------+----------+-----------+=
+------------
+imx8mp-verdin-nonwifi-dahlia | arm64 | lab-broonie | gcc-10   | defconfig |=
+ 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/667e95c6adec1c823e7e706f
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2024=
+-06-28-v6.10-rc1/arm64/defconfig/gcc-10/lab-broonie/baseline-nfs-imx8mp-ver=
+din-nonwifi-dahlia.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2024=
+-06-28-v6.10-rc1/arm64/defconfig/gcc-10/lab-broonie/baseline-nfs-imx8mp-ver=
+din-nonwifi-dahlia.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm/20=
+240313.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/667e95c6adec1c823=
+e7e7070
+        failing since 30 days (last pass: renesas-next-2024-04-22-v6.9-rc1,=
+ first fail: renesas-next-2024-05-28-v6.10-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab         | compiler | defconfig |=
+ regressions
+-----------------------------+-------+-------------+----------+-----------+=
+------------
+kontron-kbox-a-230-ls        | arm64 | lab-kontron | gcc-10   | defconfig |=
+ 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/667e819cb932ba05c57e706d
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2024=
+-06-28-v6.10-rc1/arm64/defconfig/gcc-10/lab-kontron/baseline-nfs-kontron-kb=
+ox-a-230-ls.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2024=
+-06-28-v6.10-rc1/arm64/defconfig/gcc-10/lab-kontron/baseline-nfs-kontron-kb=
+ox-a-230-ls.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm/20=
+240313.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/667e819cb932ba05c=
+57e706e
+        failing since 157 days (last pass: renesas-next-2023-11-28-v6.7-rc1=
+, first fail: renesas-next-2024-01-22-v6.8-rc1) =
+
+ =20
 
