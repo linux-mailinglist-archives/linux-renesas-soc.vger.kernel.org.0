@@ -1,317 +1,330 @@
-Return-Path: <linux-renesas-soc+bounces-6898-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6899-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CC2B91C20C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jun 2024 17:06:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1B1B91C272
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jun 2024 17:20:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 42FC6287B3D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jun 2024 15:06:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A9A87285AFA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jun 2024 15:20:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D4B31C230C;
-	Fri, 28 Jun 2024 15:05:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="I51tRMzf"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13D561C2324;
+	Fri, 28 Jun 2024 15:17:44 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2084.outbound.protection.outlook.com [40.107.113.84])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E243039FEB;
-	Fri, 28 Jun 2024 15:05:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.84
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719587157; cv=fail; b=WPvfqcOggJgWmUDs2q8jQ7yTWKCJFwFM2bAVLvUNZb+nuIIfDGuzBK+uyef0EheuI/YgiEve3yjggGwkysSYRyREFYjjbgXknhgfIUN8KXJVJmSIL3nZWw5hE++LiXXv3/EWhIJ9S1LpTkgfMxHZwpdesxd3mDYda9MpP+IaLrE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719587157; c=relaxed/simple;
-	bh=LIHX86D5Ts+G//it0bh2pWLkzEWoXG89GS00fG9GFuo=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=UNWbKLSpS8d+BfEZOU6E3i5SSBn9TJwIP6h42ptAWlgW6dkMDoUrPPRxzctuSHRS6R/z/kW9jv9VhjvwaVEZFwcFczHy7WZVTHWOTkbDKENwfUOcJe66Cvc6k4yjwrPahQChZTIgiwYUQD4Jz+91u1gJfFjk2Ox5xRoE5Uz5lkQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=I51tRMzf; arc=fail smtp.client-ip=40.107.113.84
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19D7C1DDD1;
+	Fri, 28 Jun 2024 15:17:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719587864; cv=none; b=Ve3Pjq8XQLjmWmD09Jiw5Ot9vr41ymI3G9WZBUNyF6d+mN1ruxIOwB79k19tR+jH5jDKvHi/ZaOCjG+7wT72JqMaMfCxoXlmBaVNPK7y+aqAETUKw2p0Ki0xlhpRU562bR4ClYaNAQ/BjHvP1tbcOVlzKwONJWFfd9EyIAUmMsw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719587864; c=relaxed/simple;
+	bh=ltQYSMDVECX+wgu+HQ20UUu9svqH3/sfKqO503XEsWk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cfQf2vSTEQmtcCZlnunSqAsA/isuZ8svARqkFeJXl1Ys+qAYm0YZTjT+/y7H3x6krWaFVlx+p3FwZd5QOK9qbFJO8w9SGylQfDmS6LLwJBtofBaUzKVNtBqHU+sC7wZRwmuwj2kwJ839tt9OaJvyCCz52/vSqf4YpjNjctiJeno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iSqXWpMiV14/ll/huLTo2tQI/sm+LvJbcaT0HA1e7vJrghd02bCjy3BEN1uKAD2WoNcDSjUK3vaABuSzKb0irLe8T8+7NaG4E+LFGHOwq83sH4FBZjh+Fe6VMvLLObMtZJ4ZqHv+3H/UBwU4hO5DvXIBfmWLsKO/a9C8yqCWM8XKWYt3aeOgC4JzszZl8ci8OnwrCAUXqZI09Lt0QQmx6hUCvy7fxu4ICgfGLADDcNxh/9VHuAvQo1o22zqTm0Ljuj9iYf/XHGBifH+AQtwcHs5c1Eta1stjBRkv2gigyZCNliDruN3Aeq4vhITxsdmzvj2T33l8ny9Ni4EPqDBVzw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LIHX86D5Ts+G//it0bh2pWLkzEWoXG89GS00fG9GFuo=;
- b=VtcjwaQB3XU/z19bMz6JS1qIvdBYkep515a131l5jJNIMTv9o1l1yvZRhPsUtiSWcsM3UUYeEaY1aX/6KwZUytUTop59taDqMI4gvlkZjQquoEjZHKdu6JLco1dnOaMzMiagP8RONvSsUqYZS5gBme2KnuCW920q4zYpwQETKMLkCwl52LR6O9/nqmZGNcASdWgY65kINWF/NT+hAc6F61aF2KT/IlucUpubE2GfErLxoTH8pXzpkiKV5saQ81y/rY8dcUhUhRDRruYHnMYMlTK9bUfXErn08GHk8pw98ZbVO6rj5FCiMOWOih07kstsAnfZvuvKuJIJiamDLFJ4Gg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LIHX86D5Ts+G//it0bh2pWLkzEWoXG89GS00fG9GFuo=;
- b=I51tRMzf5IEYNPm8uDRHCxuCTY53CcR3szHBkkddEm5JVsy6762u4pqjBFhz5QFc2nNRmfAOfRBRyBS0l1BCbro9btJzSGfY/13mBefmZwtx6cqyaiGZ6SIq//Nr9oP3bHg/G3pBROM7cB36dprXqroaXrir17apxuqacjputyc=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by OS3PR01MB8068.jpnprd01.prod.outlook.com (2603:1096:604:172::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.35; Fri, 28 Jun
- 2024 15:05:51 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%4]) with mapi id 15.20.7719.022; Fri, 28 Jun 2024
- 15:05:50 +0000
+X-IronPort-AV: E=Sophos;i="6.09,169,1716217200"; 
+   d="scan'208";a="213593811"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 29 Jun 2024 00:17:34 +0900
+Received: from localhost.localdomain (unknown [10.226.93.121])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 833AD4006A9A;
+	Sat, 29 Jun 2024 00:17:31 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>, Claudiu.Beznea
-	<claudiu.beznea@tuxon.dev>, Chris Brandt <Chris.Brandt@renesas.com>,
-	"andi.shyti@kernel.org" <andi.shyti@kernel.org>, "robh@kernel.org"
-	<robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>, "geert+renesas@glider.be"
-	<geert+renesas@glider.be>, "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
-	"mturquette@baylibre.com" <mturquette@baylibre.com>, "sboyd@kernel.org"
-	<sboyd@kernel.org>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-	"wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>
-CC: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, Claudiu Beznea
-	<claudiu.beznea.uj@bp.renesas.com>
-Subject: RE: [PATCH v2 07/12] i2c: riic: Define individual arrays to describe
- the register offsets
-Thread-Topic: [PATCH v2 07/12] i2c: riic: Define individual arrays to describe
- the register offsets
-Thread-Index:
- AQHaxvl1VmkioavocEOGYVCwgbbtfLHcsPSAgAAbwoCAAAXZcIAAAqEAgAAAkfCAAAI1gIAAAhDQgAAi5QCAAAElIIAAD5mAgAAAQqCAADyhkA==
-Date: Fri, 28 Jun 2024 15:05:50 +0000
-Message-ID:
- <TY3PR01MB11346128D4F85CF889A6C0ADE86D02@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20240625121358.590547-1-claudiu.beznea.uj@bp.renesas.com>
- <20240625121358.590547-8-claudiu.beznea.uj@bp.renesas.com>
- <TY3PR01MB11346EF9A001F68162148B70F86D02@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <6289f329-118f-4970-a525-75c3a48bd28b@tuxon.dev>
- <TY3PR01MB1134603F92C72D9B6C6C3733C86D02@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <2f162986-33c5-4d80-958c-4f857adaad20@tuxon.dev>
- <TY3PR01MB11346CA73575CF61B2024F3B386D02@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <79c26030-4b92-4ef3-b8ce-d011f492161b@tuxon.dev>
- <TY3PR01MB11346A2DFBD7FE81337A748D386D02@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <20ff64a8-e619-4281-894f-1aa08ea67f18@tuxon.dev>
- <TY3PR01MB1134678E3A8485DB152BD66D386D02@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <ae2223f8-4058-4bd1-b480-ed2b4b1d526f@tuxon.dev>
- <TY3PR01MB11346B97813661374F72A677986D02@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-In-Reply-To:
- <TY3PR01MB11346B97813661374F72A677986D02@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OS3PR01MB8068:EE_
-x-ms-office365-filtering-correlation-id: aa1ff7ed-e039-43c6-45fe-08dc9783cc95
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|7416014|376014|38070700018|921020;
-x-microsoft-antispam-message-info:
- =?utf-8?B?TGJwdW9iWExUelpiczBJUTd5YjBJOUZyOXdyVk00UzBJNEVNNWNjUlFQTFVT?=
- =?utf-8?B?ZkE1TnlSUTBjL3ZweDhIZmo3SVFQbUJTaHBJbTZGVElDTXBpSmM5K2N0RUpx?=
- =?utf-8?B?UzhiMDU0MUtIUVIweHg2SktMOFpnT3Q4NHlac1g2NU5TVGVTL1FueFhvUTNV?=
- =?utf-8?B?dkZMY0lKS0ZaNzhBK05sNEtqSVBlWFg3Q0laaG1GM0NIaVZ6cFdxNUk0KzBP?=
- =?utf-8?B?akhtUHZ1VEJ0eHRpaUkrYTJUbGpnSEYvaWJCQXBXMllsRmlVYWRYVFhEWlJC?=
- =?utf-8?B?SmRoUHBZQ1hXMGlEK2h1elp0V1dBS2Nwci9qdFF2djlHWElmQTB5N2pEUXlP?=
- =?utf-8?B?M2xFR0ZCV0lPZHMrTzgwRzVZUXRYRU5kQVE3YTZzTitDUksxckd3Z0xxaVd0?=
- =?utf-8?B?OEdSVWRwdXdsZEh0TG1LMWt4R2pIeldVYStMYVdEL2JyOGlTZFZxdEpXUnhT?=
- =?utf-8?B?QW1pVzY3OFJzaThydWx1c21jWmJ3OGVKeWZXR0IrU1NMVldkY0RReUJCWHBs?=
- =?utf-8?B?N2pLd3lUNnBtZFRnSmpVcGlPV05wNDQrNTROdEREVW81QWVEOE1IclVPdzZ4?=
- =?utf-8?B?aERuaUVkdE1WTUt2V3BWeFE4YmVveGE4WXFTYVIydUpEaVMweVZQZHhJZHFk?=
- =?utf-8?B?UWN4K2dZNEorbk4rWE1IVldVQUFic3VVMVNNOEVuV21icFVPQUhWYnBOZ1By?=
- =?utf-8?B?b3YyZTJ5cEg5L1paSGM5OTNqZFUwQTU5YldtMm1NU3V6eVRpbVVQYS85dkta?=
- =?utf-8?B?OTVlMGtTL1BBVnMvTjZ3QktRVTN5WTJLOHVBL0N3VmJINERjWDNteVRJMlV4?=
- =?utf-8?B?TVFkMlIyZm50ZXhaY0ptTmFqcFJzb0pNL0NXVlVoUzZlNzVITWdWUnNscHUw?=
- =?utf-8?B?QUN3N3BmVFBiOEdXT2EvTzA5MWpEWDJoVXRJNzRGVzBYdDUxZnZGWGhlakJG?=
- =?utf-8?B?amlIeDdiMFhHOENpdkxWVk5Kck1pdllJMmgrMjhVbmlxSFJPL1dQbHIybGNw?=
- =?utf-8?B?MGgrdkFqeTRhV3MybEFscEpJT0RKckpQZ1hEejluNk9LSkpBUkJ2SnloMzFP?=
- =?utf-8?B?ME55a3ljTUxiU1BJZTRQWlN3a3RTVnhIaFRkUXJzZG12NVF5MFF4UWQrL3JY?=
- =?utf-8?B?SFNlSURXbEowbDFiTWtZM1hWYy84V0huMVRPVG9MV0xpd2hwOVRZdVgycE13?=
- =?utf-8?B?T0NwVDR4OC9yaVhMUk52dVZxL1pIbDdHM256WTVDYUZLcHlCM1lTeXFoU01r?=
- =?utf-8?B?M0IwWkRsZlJBNlV1UjcwQVNIQmhvc2dZdVY2cDIzNWs3WWtEeUxDeFVxRFNv?=
- =?utf-8?B?dnlyQkFxdTJ4Qi9rMUpBZGpQUXhpM0ZrWjJYK0FyZmRoc2hwa2NPK0Z5SlJT?=
- =?utf-8?B?dS9RSEdaZnpsSzNENm5WdjhaZGJieEpOa2M3enptYkl1TlFRdE1aUmRRUyt3?=
- =?utf-8?B?YXZDUFlaNWJTTk03ZCtrcitYcW1Hd3I4ZU5NeTVlcER0d0x5QUZmZHRYZitt?=
- =?utf-8?B?NXV5M0VGWlZlZmdYRjhSb1pZVmlkZVBFaXVxaGJPMlpzdVZmTEN5akdnbG8w?=
- =?utf-8?B?TEV6bHNSMVRIQkJpeHdFOWVFdCs5QzB4WWZYSGlPUzlXanA3NHpGaGFXbTc1?=
- =?utf-8?B?NXZud2RNNTdDK1lWVXkxNVh6ZnRYL2JzSkNjMkhGMURPR2RvSGtPRWVnOFdi?=
- =?utf-8?B?MFU0emN4YW5BL0czTEVsY05wbkJ0VytrajNDSlQ4QkFOcnVnNThGd2IyN2Rq?=
- =?utf-8?B?NzVGdkU1bitiazFUeDZmMllOdzd4UkplK2xHdnlMMkVweWh1TGNSN2x3WHE5?=
- =?utf-8?B?UnFWRE12VnFKVEZkTmpQenlNSkdYQTQ0Y21MWW9oSm5WbFlKKzREUm54c2E1?=
- =?utf-8?B?U2J6V0tvVjRnSUJ1YjFUQ2w2S2ZrNDM4MFlnN0xmNlo0VmFQWGpMakNrUExu?=
- =?utf-8?Q?dl882nOrymM=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(38070700018)(921020);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?bzNXUUZLa2JWdWZlU09lSTg4RUh4SXdNZ0d4eG9qZXBNRE44bHBVUzFrdnFj?=
- =?utf-8?B?RnRRdVFvTU9mYVVaMGFKUUJ1Q3hmVG1BK01UVi8xcXdtVXptRGJVZi9Zcmdz?=
- =?utf-8?B?OEx2R0hZNkJyMTNlMUFhUU5GMFAvY3V2NVFXYTNvYVV2OWg5RnhRZ0VTdUx1?=
- =?utf-8?B?ODdVY3h3WlkrNHpYZkVhdmlnMVdncU1McmVGWmN0OFdmNHRrakpLQUd1MVZy?=
- =?utf-8?B?NVJQcE9pdWU5RVk5OERiSjZiR25kREVuaGIxdC92SlBTVXNuL3IwZnpUaFJE?=
- =?utf-8?B?bDFKRzNSZFkzeldhN2Foek9mQ3NrZVJhRTh0UkRXQmhzQk8vTWludWVISGF0?=
- =?utf-8?B?ckdZVjVjMTF5Vmt2RkdhcS9GQTZFQ0F4RmI4dEt4UGJaNlZ3bHZ6Um1ZS3Rw?=
- =?utf-8?B?ZWVINW9ocDNzdzBVdFpaQUdFeGo4TkRFYkg3bzkzSkhlWUZnUzBrZFcyZ2Jx?=
- =?utf-8?B?S3pOeHpuVUdJdzhzQ1czRlRxbGxYdmk4TTBUMHd5Z1d6bms0QTRTd3pGZllT?=
- =?utf-8?B?ZFFvQUY3NnUwRE9sUnVxaG52RE43QnB2c05Yb3pxOHVsRmk4dUdLaWF1UGhK?=
- =?utf-8?B?TXM5RFAxaHdRYURScE5sQkFhMmhFNjdkM0NsNm01eUphQ2JmMDRQUVBLWkJR?=
- =?utf-8?B?bnJ4TlYvajdiWlY1aW1waWdRcGhaUStPY2RvTWwydS80aGt2ODFSODlPejg2?=
- =?utf-8?B?YkN3YjcwUE5WZVFYMEhTcW5Lc05oekN3NENreXY5SEVRclVmMlpTV0Ivd1Fp?=
- =?utf-8?B?cGVKd0pnM0h0cndQbEM4SFhCT1VDVDliSER0bkNkRkphTUZoVjUvVHY1Zzcz?=
- =?utf-8?B?dVAwRjBVZlFGMlZ3bUJWMWZsYU05Q0N2YVRUR01SS0tHcWFJZTVZdzFUV25t?=
- =?utf-8?B?c2tPcnA4Q2N6Zlo0VUFYaVNwMWV1Rm1USzZ4WG55S0FZRTFoMFZJU0U4UmdN?=
- =?utf-8?B?KzF6d09QUjY5RG5BRTFhUDAySGk2ZUtJUExHL2JsazF6eEw0eXRUZS9mZ0ZR?=
- =?utf-8?B?S1M0SEdaZTJYVUhHMkRnSFVMaWk0Z3ArUWhXVExzYnRxUXN1dTM5ZENxYjFr?=
- =?utf-8?B?aG1QdVQ0aXRXUDFzUkpMMi84Z0YyTnFsaFA2bnIyalRJbHdZQWgwb2oxdnFi?=
- =?utf-8?B?Q014enpRWHFvQkM5UjhlZXYxNmQ0QWNITm1ZYUN1eEl1bHZGZ3hYSWhBajBm?=
- =?utf-8?B?eHhSSENPRzZRanR2bENGeEdLL3ZLeU5nKzNjYnZ4OWtJaDQ0bXZ6Qkw5ZG9q?=
- =?utf-8?B?VGhBU0xTdnZOQW9YTGRHbVhHMUI0RDIvWFkxQlZNeXNmZjkzY1pnK0ZUNHEw?=
- =?utf-8?B?TUNRYjN6Q2IwLzZUS2NOVkV6aGNpdlA5d2lBSkU4aVQrNHJmVFVPaUxUREZW?=
- =?utf-8?B?V3RJYzNHMXd5WXo4ak1abGdhV1R4U2paY3BsTWdIeVhJcHdRRDVUVHUxQ2o0?=
- =?utf-8?B?cERYYWdaMVVGWlo3U0VDYUppcyt4RDZTbitrR1FtTGkvQXVuOXQrWEtSZEdU?=
- =?utf-8?B?NWVCcHBuRHFqVjZUMGlQanBwcVA3MWpOVGkraUJuRkx3RE5iRVVaN2xJbmRG?=
- =?utf-8?B?a1RHdkt1bExVM2xrVmdYMVNSVjVpbzB1M084TnVEKzAvTCtTU3FqMC9IY0Vo?=
- =?utf-8?B?bFJkb0NUbGsxVHU5QUpVNCtFQ2NER0NsT3FpY0hyempLUVAxTmhLY2lQMUor?=
- =?utf-8?B?VXR0STJLNC9Kbm02NlBYb2c3Q0pUUzd1L1Z2Q0tsUnBGc1NEMWhWZjdidjFs?=
- =?utf-8?B?alF2bVFzNTU3MG4weU9qalhDcld6bkYxSnI4S25TcklMSy8vNmJ1dm1waS8z?=
- =?utf-8?B?UjhEem1QYVJScmFJWU1zOTlCdWVCQ3BuVXBDN3JOazVqT1cxYTJWeDZEQXUr?=
- =?utf-8?B?aExTOTI0WXUwUnFUeW9HaG5QaE00bXc5b0xyZlZkNDZoQkQ4TnRNUkxUQ2Nx?=
- =?utf-8?B?elFEUlpETHBSVzFKRTkzdU1mZWFhRjZhLzM5cjZtZDdqc3JzYjFLN3ZTK3pv?=
- =?utf-8?B?Z1RUNUdUTVdxY29oeWZvdzhwSVd4ZlUrRGgrYWtPNXVnZTBTZlpGdXBhSUhw?=
- =?utf-8?B?azFiMmxRRGxKbkFCYkdKV0dqWGpQQWFQSlhXb3NpS0pwZnpldm05K3ArMTc0?=
- =?utf-8?B?cElNYXBBZ2ljTFJhdUNxYzZiMVZ2Q3RONlNlQTc5YkV6QXhNeFU0cGdnVlEz?=
- =?utf-8?B?VVE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Pavel Machek <pavel@denx.de>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Hien Huynh <hien.huynh.px@renesas.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	dmaengine@vger.kernel.org,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] dmaengine: sh: rz-dmac: Add support for SCIF DMA
+Date: Fri, 28 Jun 2024 16:17:26 +0100
+Message-ID: <20240628151728.84470-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aa1ff7ed-e039-43c6-45fe-08dc9783cc95
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jun 2024 15:05:50.8131
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Tos68JhAToyUreufv18h5gaUNRiut49B/egcwObfc2GSDkWXargjGUkpCzGnSBAemiFecVOh6hTXVbnsrDSdMo9X8UvSI34hv879+lOAyQk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB8068
+Content-Transfer-Encoding: 8bit
 
-PiBTdWJqZWN0OiBSRTogW1BBVENIIHYyIDA3LzEyXSBpMmM6IHJpaWM6IERlZmluZSBpbmRpdmlk
-dWFsIGFycmF5cyB0byBkZXNjcmliZSB0aGUgcmVnaXN0ZXIgb2Zmc2V0cw0KPiANCj4gSGkgQ2xh
-dWRpdSwNCj4gDQo+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiBGcm9tOiBjbGF1
-ZGl1IGJlem5lYSA8Y2xhdWRpdS5iZXpuZWFAdHV4b24uZGV2Pg0KPiA+IFNlbnQ6IEZyaWRheSwg
-SnVuZSAyOCwgMjAyNCAxMjoyNSBQTQ0KPiA+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjIgMDcvMTJd
-IGkyYzogcmlpYzogRGVmaW5lIGluZGl2aWR1YWwgYXJyYXlzIHRvDQo+ID4gZGVzY3JpYmUgdGhl
-IHJlZ2lzdGVyIG9mZnNldHMNCj4gPg0KPiA+DQo+ID4NCj4gPiBPbiAyOC4wNi4yMDI0IDEzOjQ5
-LCBCaWp1IERhcyB3cm90ZToNCj4gPiA+IEhpIENsYXVkaXUsDQo+ID4gPg0KPiA+ID4+IC0tLS0t
-T3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gPj4gRnJvbTogY2xhdWRpdSBiZXpuZWEgPGNsYXVk
-aXUuYmV6bmVhQHR1eG9uLmRldj4NCj4gPiA+PiBTZW50OiBGcmlkYXksIEp1bmUgMjgsIDIwMjQg
-MTE6MjUgQU0NCj4gPiA+PiBTdWJqZWN0OiBSZTogW1BBVENIIHYyIDA3LzEyXSBpMmM6IHJpaWM6
-IERlZmluZSBpbmRpdmlkdWFsIGFycmF5cw0KPiA+ID4+IHRvIGRlc2NyaWJlIHRoZSByZWdpc3Rl
-ciBvZmZzZXRzDQo+ID4gPj4NCj4gPiA+Pg0KPiA+ID4+DQo+ID4gPj4gT24gMjguMDYuMjAyNCAx
-MToyNCwgQmlqdSBEYXMgd3JvdGU6DQo+ID4gPj4+IEhpIENsYXVkaXUsDQo+ID4gPj4+DQo+ID4g
-Pj4+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4+Pj4gRnJvbTogY2xhdWRpdSBi
-ZXpuZWEgPGNsYXVkaXUuYmV6bmVhQHR1eG9uLmRldj4NCj4gPiA+Pj4+IFNlbnQ6IEZyaWRheSwg
-SnVuZSAyOCwgMjAyNCA5OjEzIEFNDQo+ID4gPj4+PiBTdWJqZWN0OiBSZTogW1BBVENIIHYyIDA3
-LzEyXSBpMmM6IHJpaWM6IERlZmluZSBpbmRpdmlkdWFsIGFycmF5cw0KPiA+ID4+Pj4gdG8gZGVz
-Y3JpYmUgdGhlIHJlZ2lzdGVyIG9mZnNldHMNCj4gPiA+Pj4+DQo+ID4gPj4+Pg0KPiA+ID4+Pj4N
-Cj4gPiA+Pj4+IE9uIDI4LjA2LjIwMjQgMTE6MDksIEJpanUgRGFzIHdyb3RlOg0KPiA+ID4+Pj4+
-DQo+ID4gPj4+Pj4gSGkgQ2xhdWRpdSwNCj4gPiA+Pj4+Pg0KPiA+ID4+Pj4+PiAtLS0tLU9yaWdp
-bmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4+Pj4+PiBGcm9tOiBjbGF1ZGl1IGJlem5lYSA8Y2xhdWRp
-dS5iZXpuZWFAdHV4b24uZGV2Pg0KPiA+ID4+Pj4+PiBTZW50OiBGcmlkYXksIEp1bmUgMjgsIDIw
-MjQgOTowMyBBTQ0KPiA+ID4+Pj4+PiBTdWJqZWN0OiBSZTogW1BBVENIIHYyIDA3LzEyXSBpMmM6
-IHJpaWM6IERlZmluZSBpbmRpdmlkdWFsDQo+ID4gPj4+Pj4+IGFycmF5cyB0byBkZXNjcmliZSB0
-aGUgcmVnaXN0ZXIgb2Zmc2V0cw0KPiA+ID4+Pj4+Pg0KPiA+ID4+Pj4+Pg0KPiA+ID4+Pj4+Pg0K
-PiA+ID4+Pj4+PiBPbiAyOC4wNi4yMDI0IDEwOjU1LCBCaWp1IERhcyB3cm90ZToNCj4gPiA+Pj4+
-Pj4+IEhpIENsYXVkaXUsDQo+ID4gPj4+Pj4+Pg0KPiA+ID4+Pj4+Pj4+IC0tLS0tT3JpZ2luYWwg
-TWVzc2FnZS0tLS0tDQo+ID4gPj4+Pj4+Pj4gRnJvbTogY2xhdWRpdSBiZXpuZWEgPGNsYXVkaXUu
-YmV6bmVhQHR1eG9uLmRldj4NCj4gPiA+Pj4+Pj4+PiBTZW50OiBGcmlkYXksIEp1bmUgMjgsIDIw
-MjQgODozMiBBTQ0KPiA+ID4+Pj4+Pj4+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjIgMDcvMTJdIGky
-YzogcmlpYzogRGVmaW5lIGluZGl2aWR1YWwNCj4gPiA+Pj4+Pj4+PiBhcnJheXMgdG8gZGVzY3Jp
-YmUgdGhlIHJlZ2lzdGVyIG9mZnNldHMNCj4gPiA+Pj4+Pj4+Pg0KPiA+ID4+Pj4+Pj4+IEhpLCBC
-aWp1LA0KPiA+ID4+Pj4+Pj4+DQo+ID4gPj4+Pj4+Pj4gT24gMjguMDYuMjAyNCAwODo1OSwgQmlq
-dSBEYXMgd3JvdGU6DQo+ID4gPj4+Pj4+Pj4+IEhpIENsYXVkaXUsDQo+ID4gPj4+Pj4+Pj4+DQo+
-ID4gPj4+Pj4+Pj4+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4+Pj4+Pj4+Pj4g
-RnJvbTogQ2xhdWRpdSA8Y2xhdWRpdS5iZXpuZWFAdHV4b24uZGV2Pg0KPiA+ID4+Pj4+Pj4+Pj4g
-U2VudDogVHVlc2RheSwgSnVuZSAyNSwgMjAyNCAxOjE0IFBNDQo+ID4gPj4+Pj4+Pj4+PiBTdWJq
-ZWN0OiBbUEFUQ0ggdjIgMDcvMTJdIGkyYzogcmlpYzogRGVmaW5lIGluZGl2aWR1YWwNCj4gPiA+
-Pj4+Pj4+Pj4+IGFycmF5cyB0byBkZXNjcmliZSB0aGUgcmVnaXN0ZXIgb2Zmc2V0cw0KPiA+ID4+
-Pj4+Pj4+Pj4NCj4gPiA+Pj4+Pj4+Pj4+IEZyb206IENsYXVkaXUgQmV6bmVhIDxjbGF1ZGl1LmJl
-em5lYS51akBicC5yZW5lc2FzLmNvbT4NCj4gPiA+Pj4+Pj4+Pj4+DQo+ID4gPj4+Pj4+Pj4+PiBE
-ZWZpbmUgaW5kaXZpZHVhbCBhcnJheXMgdG8gZGVzY3JpYmUgdGhlIHJlZ2lzdGVyIG9mZnNldHMu
-DQo+ID4gPj4+Pj4+Pj4+PiBJbiB0aGlzIHdheSB3ZSBjYW4gZGVzY3JpYmUgZGlmZmVyZW50IElQ
-IHZhcmlhbnRzIHRoYXQNCj4gPiA+Pj4+Pj4+Pj4+IHNoYXJlIHRoZSBzYW1lIHJlZ2lzdGVyIG9m
-ZnNldHMgYnV0IGhhdmUgZGlmZmVyZW5jZXMgaW4gb3RoZXIgY2hhcmFjdGVyaXN0aWNzLg0KPiA+
-ID4+Pj4+Pj4+Pj4gQ29tbWl0IHByZXBhcmVzIGZvciB0aGUgYWRkaXRpb24NCj4gPiA+Pj4+Pj4+
-PiBvZiBmYXN0IG1vZGUgcGx1cy4NCj4gPiA+Pj4+Pj4+Pj4+DQo+ID4gPj4+Pj4+Pj4+PiBTaWdu
-ZWQtb2ZmLWJ5OiBDbGF1ZGl1IEJlem5lYQ0KPiA+ID4+Pj4+Pj4+Pj4gPGNsYXVkaXUuYmV6bmVh
-LnVqQGJwLnJlbmVzYXMuY29tPg0KPiA+ID4+Pj4+Pj4+Pj4gLS0tDQo+ID4gPj4+Pj4+Pj4+Pg0K
-PiA+ID4+Pj4+Pj4+Pj4gQ2hhbmdlcyBpbiB2MjoNCj4gPiA+Pj4+Pj4+Pj4+IC0gbm9uZQ0KPiA+
-ID4+Pj4+Pj4+Pj4NCj4gPiA+Pj4+Pj4+Pj4+ICBkcml2ZXJzL2kyYy9idXNzZXMvaTJjLXJpaWMu
-YyB8IDU4DQo+ID4gPj4+Pj4+Pj4+PiArKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0t
-LQ0KPiA+ID4+Pj4+Pj4+Pj4gIDEgZmlsZSBjaGFuZ2VkLCAzMSBpbnNlcnRpb25zKCspLCAyNyBk
-ZWxldGlvbnMoLSkNCj4gPiA+Pj4+Pj4+Pj4+DQo+ID4gPj4+Pj4+Pj4+PiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9pMmMvYnVzc2VzL2kyYy1yaWljLmMNCj4gPiA+Pj4+Pj4+Pj4+IGIvZHJpdmVycy9p
-MmMvYnVzc2VzL2kyYy1yaWljLmMgaW5kZXgNCj4gPiA+Pj4+Pj4+Pj4+IDlmZTAwNzYwOTA3Ni4u
-OGZmYmVhZDk1NDkyIDEwMDY0NA0KPiA+ID4+Pj4+Pj4+Pj4gLS0tIGEvZHJpdmVycy9pMmMvYnVz
-c2VzL2kyYy1yaWljLmMNCj4gPiA+Pj4+Pj4+Pj4+ICsrKyBiL2RyaXZlcnMvaTJjL2J1c3Nlcy9p
-MmMtcmlpYy5jDQo+ID4gPj4+Pj4+Pj4+PiBAQCAtOTEsNyArOTEsNyBAQCBlbnVtIHJpaWNfcmVn
-X2xpc3QgeyAgfTsNCj4gPiA+Pj4+Pj4+Pj4+DQo+ID4gPj4+Pj4+Pj4+PiAgc3RydWN0IHJpaWNf
-b2ZfZGF0YSB7DQo+ID4gPj4+Pj4+Pj4+PiAtCXU4IHJlZ3NbUklJQ19SRUdfRU5EXTsNCj4gPiA+
-Pj4+Pj4+Pj4+ICsJY29uc3QgdTggKnJlZ3M7DQo+ID4gPj4+Pj4+Pj4+DQo+ID4gPj4+Pj4+Pj4+
-DQo+ID4gPj4+Pj4+Pj4+IFNpbmNlIHlvdSBhcmUgdG91Y2hpbmcgdGhpcyBwYXJ0LCBjYW4gd2Ug
-ZHJvcCBzdHJ1Y3QgYW5kIFVzZQ0KPiA+ID4+Pj4+Pj4+PiB1OCogYXMgZGV2aWNlX2RhdGEgaW5z
-dGVhZD8NCj4gPiA+Pj4+Pj4+Pg0KPiA+ID4+Pj4+Pj4+IFBhdGNoIDA5LzEyICJpMmM6IHJpaWM6
-IEFkZCBzdXBwb3J0IGZvciBmYXN0IG1vZGUgcGx1cyIgYWRkcw0KPiA+ID4+Pj4+Pj4+IGEgbmV3
-IG1lbWJlciB0byBzdHJ1Y3QNCj4gPiA+Pj4+Pj4gcmlpY19vZl9kYXRhLg0KPiA+ID4+Pj4+Pj4+
-IFRoYXQgbmV3IG1lbWJlciBpcyBuZWVkZWQgdG8gZGlmZmVyZW50aWF0ZSBiL3cgaGFyZHdhcmUN
-Cj4gPiA+Pj4+Pj4+PiB2ZXJzaW9ucyBzdXBwb3J0aW5nIGZhc3QgbW9kZSBwbHVzIGJhc2VkIG9u
-IGNvbXBhdGlibGUuDQo+ID4gPj4+Pj4+Pg0KPiA+ID4+Pj4+Pj4gQXJlIHdlIHN1cmUgUlovQSBk
-b2VzIG5vdCBzdXBwb3J0IGZhc3QgbW9kZSBwbHVzPw0KPiA+ID4+Pj4+Pg0KPiA+ID4+Pj4+PiBG
-cm9tIGNvbW1pdCBkZXNjcmlwdGlvbiBvZiBwYXRjaCAwOS8xMjoNCj4gPiA+Pj4+Pj4NCj4gPiA+
-Pj4+Pj4gRmFzdCBtb2RlIHBsdXMgaXMgYXZhaWxhYmxlIG9uIG1vc3Qgb2YgdGhlIElQIHZhcmlh
-bnRzIHRoYXQNCj4gPiA+Pj4+Pj4gUklJQyBkcml2ZXIgaXMgd29ya2luZyB3aXRoLiBUaGUgZXhj
-ZXB0aW9uIGlzIChhY2NvcmRpbmcgdG8gSFcNCj4gPiA+Pj4+Pj4gbWFudWFscyBvZiB0aGUgU29D
-cyB3aGVyZSB0aGlzIElQIGlzDQo+ID4gPj4+PiBhdmFpbGFibGUpIHRoZSBSZW5lc2FzIFJaL0Ex
-SC4NCj4gPiA+Pj4+Pj4gRm9yIHRoaXMsIHBhdGNoIGludHJvZHVjZXMgdGhlIHN0cnVjdCByaWlj
-X29mX2RhdGE6OmZhc3RfbW9kZV9wbHVzLg0KPiA+ID4+Pj4+Pg0KPiA+ID4+Pj4+PiBJIGNoZWNr
-ZWQgdGhlIG1hbnVhbHMgb2YgYWxsIHRoZSBTb0NzIHdoZXJlIHRoaXMgZHJpdmVyIGlzIHVzZWQu
-DQo+ID4gPj4+Pj4+DQo+ID4gPj4+Pj4+IEkgaGF2ZW4ndCBjaGVja2VkIHRoZSBIL1cgbWFudWFs
-Pw0KPiA+ID4+Pj4+Pg0KPiA+ID4+Pj4+PiBPbiB0aGUgbWFudWFsIEkndmUgZG93bmxvYWRlZCBm
-cm9tIFJlbmVzYXMgd2ViIHNpdGUgdGhlIEZNUEUNCj4gPiA+Pj4+Pj4gYml0IG9mIFJJSUNuRkVS
-IGlzIG5vdCBhdmFpbGFibGUgb24gUlovQTFILg0KPiA+ID4+Pj4+DQo+ID4gPj4+Pj4gSSBqdXN0
-IGZvdW5kIFJaL0EyTSBtYW51YWwsIGl0IHN1cHBvcnRzIEZNUCBhbmQgcmVnaXN0ZXIgbGF5b3V0
-IGxvb2tzIHNpbWlsYXIgdG8gUlovRzJMLg0KPiA+ID4+Pj4NCj4gPiA+Pj4+IEkgaW50cm9kdWNl
-ZCBzdHJ1Y3QgcmlpY19vZl9kYXRhOjpmYXN0X21vZGVfcGx1cyBiZWNhdXNlIG9mIFJaL0ExSC4N
-Cj4gPiA+Pj4NCj4gPiA+Pj4gTWF5YmUgbWFrZSB0aGUgcmVnaXN0ZXIgbGF5b3V0IGFzIHBlciBT
-b0MNCj4gPiA+Pj4NCj4gPiA+Pj4gUlovQTEgLS0+ICZyaWljX3J6X2FfaW5mbw0KPiA+ID4+PiBS
-Wi9BMiBhbmQgUlove0cyTCxHMkxDLFYyTCxHMlVMLEZJVkV9IC0tPiAmcmlpY19yel9nMl9pbmZv
-IFJaL0czUw0KPiA+ID4+PiBhbmQgUlovVjJIIC0tPiAmcmlpY19yel92MmhfaW5mbw0KPiA+ID4+
-DQo+ID4gPj4gU29ycnksIGJ1dCBJIGRvbid0IHVuZGVyc3RhbmQuIFBhdGNoIDA5LzEyIGFscmVh
-ZHkgZG9lcyB0aGF0IGJ1dCBhDQo+ID4gPj4gYml0DQo+ID4gPj4gZGlmZmVyZW50bHk6DQo+ID4g
-Pg0KPiA+ID4gTm93IHJlZ2lzdGVyIGxheW91dCBpcyBhZGRlZCB0byBkaWZmZXJlbnRpYXRlIHRo
-ZSBTb0NzIGZvciBhZGRpbmcNCj4gPiA+IHN1cHBvcnQgdG8gUlovRzNTIGFuZCB0aGlzIGxheW91
-dCBzaG91bGQgbWF0Y2ggd2l0aCB0aGUgaGFyZHdhcmUgbWFudWFsIGZvciBhbGwgc3VwcG9ydGVk
-IFNvQ3MuDQo+ID4gPiBDdXJyZW50bHkgaXQgaXMgd3JvbmcgZm9yIFJaL0EyIFNvQywgd2hpbGUg
-eW91IGZpeGVkIGl0IGZvciBhbGwgb3RoZXIgU29Dcy4NCj4gPg0KPiA+IEkgY2hlY2tlZCBSWi9B
-Mk0uIFRoZXJlIGlzIG5vdGhpbmcgYnJva2VuLiBUaGUgb25seSB0aGluZyB0aGF0IEkgc2VlDQo+
-ID4gaXMgdGhhdCB0aGUgRlArIGlzIG5vdCBlbmFibGVkIG9uIFJaL0EyTSAocGxlYXNlIGxldCBt
-ZSBrbm93IGlmIHRoZXJlDQo+ID4gaXMgYW55dGhpbmcgZWxzZSBJIG1pc3NlZCkuIEkgZG9uJ3Qg
-c2VlIHRoaXMgYnJva2VuLiBJdCBpcyB0aGUgc2FtZSBiZWhhdmlvciB0aGF0IHdhcyBiZWZvcmUg
-dGhpcw0KPiBwYXRjaC4NCj4gDQo+IEFzIHBlciBSWi9BMk0gaGFyZHdhcmUgbWFudWFsLCBJQ0ZF
-UiByZWdpc3RlciBpcyBwcmVzZW50DQo+IA0KPiBXaGlsZSBhcyBwZXIgWzFdLCB5b3UgZG9uJ3Qg
-aGF2ZSB0aGlzIHJlZ2lzdGVyLiBTbyBhY2NvcmRpbmcgdG8gbWUgUlovQTIgU29DIHJlZ2lzdGVy
-IGxheW91dCBpcw0KPiBicm9rZW4gYW5kIGl0IGlzIHNhbWUgYXMgUlovQTEuDQo+IA0KDQpPb3Bz
-LCBJQ0ZFUiByZWdpc3RlciBpcyBwcmVzZW50IGluIFJaL0ExIGFzIHdlbGwuDQoNCkN1cnJlbnRs
-eSBzYW1lIGNvbXBhdGlibGUgdXNlZCBmb3IgUlovQTEgYW5kIFJaL0EyDQp0aGF0IG5lZWRzIHRv
-IGJlIHVwZGF0ZWQgaW4gcGF0Y2gjOSBhcyB0aGUgbGF0ZXIgaGFzDQpGTVAgY2FwYWJpbGl0eSBs
-aWtlIFJaL0cyTC4NCg0KQ2hlZXJzLA0KQmlqdQ0KDQoNCg==
+The sh_sci driver supports dma with pio mode as fallback. When the DMA Rx
+time out happens, it switches to pio mode and the timer function has the
+below dma callbacks
+
+rx_timer_fn() of the sh-sci.c:
+	dmaengine_pause();		/* [1] */
+	...
+	dmaengine_tx_status();		/* [2] */
+	...
+	dmaengine_terminate_all();	/* [3] */
+
+Update [1] to re-enable the interrupt by clearing the DMARS. RZ/G2L SoC
+use the same signal for both interrupt and DMA transfer requests. The
+signal works as a DMA transfer request signal by setting DMARS, and
+subsequent interrupt requests to the interrupt controller are
+masked.
+
+Update [2] to calculate residue, so that sh_sci driver can work on
+leftover data from DMA operation during pio mode.
+
+Update [3] to invalidate hw descriptors for reuse.
+
+Based on similar work done for rcar_dmac for supporting scif dma.
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ drivers/dma/sh/rz-dmac.c | 193 ++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 192 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
+index 65a27c5a7bce..3ef4dda51c8e 100644
+--- a/drivers/dma/sh/rz-dmac.c
++++ b/drivers/dma/sh/rz-dmac.c
+@@ -109,10 +109,12 @@ struct rz_dmac {
+  * Registers
+  */
+ 
++#define CRTB				0x0020
+ #define CHSTAT				0x0024
+ #define CHCTRL				0x0028
+ #define CHCFG				0x002c
+ #define NXLA				0x0038
++#define CRLA				0x003c
+ 
+ #define DCTRL				0x0000
+ 
+@@ -533,11 +535,15 @@ rz_dmac_prep_slave_sg(struct dma_chan *chan, struct scatterlist *sgl,
+ static int rz_dmac_terminate_all(struct dma_chan *chan)
+ {
+ 	struct rz_dmac_chan *channel = to_rz_dmac_chan(chan);
++	struct rz_lmdesc *lmdesc = channel->lmdesc.base;
+ 	unsigned long flags;
+ 	LIST_HEAD(head);
+ 
+ 	rz_dmac_disable_hw(channel);
+ 	spin_lock_irqsave(&channel->vc.lock, flags);
++	for (; lmdesc < channel->lmdesc.base + DMAC_NR_LMDESC; lmdesc++)
++		lmdesc->header = 0;
++
+ 	list_splice_tail_init(&channel->ld_active, &channel->ld_free);
+ 	list_splice_tail_init(&channel->ld_queue, &channel->ld_free);
+ 	vchan_get_all_descriptors(&channel->vc, &head);
+@@ -647,6 +653,190 @@ static void rz_dmac_device_synchronize(struct dma_chan *chan)
+ 	rz_dmac_set_dmars_register(dmac, channel->index, 0);
+ }
+ 
++static struct rz_lmdesc *
++rz_dmac_get_next_lmdesc(struct rz_lmdesc *base, struct rz_lmdesc *lmdesc)
++{
++	struct rz_lmdesc *next = lmdesc++;
++
++	if (next >= base + DMAC_NR_LMDESC)
++		next = base;
++
++	return next;
++}
++
++static unsigned int
++rz_dmac_calculate_residue_bytes_in_vd(struct rz_dmac_chan *channel)
++{
++	struct rz_lmdesc *lmdesc = channel->lmdesc.head;
++	struct dma_chan *chan = &channel->vc.chan;
++	struct rz_dmac *dmac = to_rz_dmac(chan->device);
++	unsigned int residue = 0, i = 0;
++	unsigned int crla;
++
++	crla = rz_dmac_ch_readl(channel, CRLA, 1);
++	while (!(lmdesc->nxla == crla)) {
++		lmdesc = rz_dmac_get_next_lmdesc(channel->lmdesc.base, lmdesc);
++		if (i++ > DMAC_NR_LMDESC)
++			return 0;
++	}
++
++	/* Get current processing lmdesc in hardware */
++	lmdesc = rz_dmac_get_next_lmdesc(channel->lmdesc.base, lmdesc);
++	/* Calculate residue from next lmdesc to end of virtual desc*/
++	while (lmdesc->chcfg & CHCFG_DEM) {
++		lmdesc = rz_dmac_get_next_lmdesc(channel->lmdesc.base, lmdesc);
++		residue += lmdesc->tb;
++	}
++
++	dev_dbg(dmac->dev, "%s: Getting residue is %d\n", __func__, residue);
++
++	return residue;
++}
++
++static unsigned int rz_dmac_calculate_total_bytes_in_vd(struct rz_dmac_desc *desc)
++{
++	unsigned int i, size = 0;
++	struct scatterlist *sg;
++
++	for_each_sg(desc->sg, sg, desc->sgcount, i)
++		size += sg_dma_len(sg);
++
++	return size;
++}
++
++static unsigned int rz_dmac_chan_get_residue(struct rz_dmac_chan *channel,
++					     dma_cookie_t cookie)
++{
++	struct rz_dmac_desc *current_desc, *desc;
++	enum dma_status status;
++	unsigned int residue;
++	unsigned int crla;
++	unsigned int crtb;
++	unsigned int i;
++
++	/* Get current processing virtual descriptor */
++	current_desc = list_first_entry(&channel->ld_active,
++					struct rz_dmac_desc, node);
++	if (!current_desc)
++		return 0;
++
++	/*
++	 * If the cookie corresponds to a descriptor that has been completed
++	 * there is no residue. The same check has already been performed by the
++	 * caller but without holding the channel lock, so the descriptor could
++	 * now be complete.
++	 */
++	status = dma_cookie_status(&channel->vc.chan, cookie, NULL);
++	if (status == DMA_COMPLETE)
++		return 0;
++
++	/*
++	 * If the cookie doesn't correspond to the currently processing virtual
++	 * descriptor then the descriptor hasn't been processed yet, and the
++	 * residue is equal to the full descriptor size.
++	 * Also, a client driver is possible to call this function before
++	 * rz_dmac_irq_handler_thread() runs. In this case, the running
++	 * descriptor will be the next descriptor, and the done list will
++	 * appear. So, if the argument cookie matches the done list's cookie,
++	 * we can assume the residue is zero.
++	 */
++	if (cookie != current_desc->vd.tx.cookie) {
++		list_for_each_entry(desc, &channel->ld_free, node) {
++			if (cookie == desc->vd.tx.cookie)
++				return 0;
++		}
++
++		list_for_each_entry(desc, &channel->ld_queue, node) {
++			if (cookie == desc->vd.tx.cookie)
++				return rz_dmac_calculate_total_bytes_in_vd(desc);
++		}
++
++		list_for_each_entry(desc, &channel->ld_active, node) {
++			if (cookie == desc->vd.tx.cookie)
++				return rz_dmac_calculate_total_bytes_in_vd(desc);
++		}
++
++		/*
++		 * No descriptor found for the cookie, there's thus no residue.
++		 * This shouldn't happen if the calling driver passes a correct
++		 * cookie value.
++		 */
++		WARN_ONCE(1, "No descriptor for cookie!");
++		return 0;
++	}
++
++	/*
++	 * We need to read two registers.
++	 * Make sure the hardware does not move to next lmdesc while reading
++	 * the current lmdesc.
++	 * Trying it 3 times should be enough: Initial read, retry, retry
++	 * for the paranoid.
++	 */
++	for (i = 0; i < 3; i++) {
++		crla = rz_dmac_ch_readl(channel, CRLA, 1);
++		crtb = rz_dmac_ch_readl(channel, CRTB, 1);
++		/* Still the same? */
++		if (crla == rz_dmac_ch_readl(channel, CRLA, 1))
++			break;
++	}
++
++	WARN_ONCE(i >= 3, "residue might be not continuous!");
++
++	/*
++	 * Calculate number of byte transferred in processing virtual descriptor
++	 * One virtual descriptor can have many lmdesc
++	 */
++	residue = crtb;
++	residue += rz_dmac_calculate_residue_bytes_in_vd(channel);
++
++	return residue;
++}
++
++static enum dma_status rz_dmac_tx_status(struct dma_chan *chan,
++					 dma_cookie_t cookie,
++					 struct dma_tx_state *txstate)
++{
++	struct rz_dmac_chan *channel = to_rz_dmac_chan(chan);
++	enum dma_status status;
++	unsigned int residue;
++	unsigned long flags;
++
++	status = dma_cookie_status(chan, cookie, txstate);
++	if (status == DMA_COMPLETE || !txstate)
++		return status;
++
++	spin_lock_irqsave(&channel->vc.lock, flags);
++	residue = rz_dmac_chan_get_residue(channel, cookie);
++	spin_unlock_irqrestore(&channel->vc.lock, flags);
++
++	/* if there's no residue, the cookie is complete */
++	if (!residue)
++		return DMA_COMPLETE;
++
++	dma_set_residue(txstate, residue);
++
++	return status;
++}
++
++static int rz_dmac_device_pause(struct dma_chan *chan)
++{
++	struct rz_dmac_chan *channel = to_rz_dmac_chan(chan);
++	struct rz_dmac *dmac = to_rz_dmac(chan->device);
++	unsigned int i;
++	u32 chstat;
++
++	for (i = 0; i < 1024; i++) {
++		chstat = rz_dmac_ch_readl(channel, CHSTAT, 1);
++		if (!(chstat & CHSTAT_EN))
++			break;
++		udelay(1);
++	}
++
++	rz_dmac_set_dmars_register(dmac, channel->index, 0);
++
++	return 0;
++}
++
+ /*
+  * -----------------------------------------------------------------------------
+  * IRQ handling
+@@ -929,13 +1119,14 @@ static int rz_dmac_probe(struct platform_device *pdev)
+ 
+ 	engine->device_alloc_chan_resources = rz_dmac_alloc_chan_resources;
+ 	engine->device_free_chan_resources = rz_dmac_free_chan_resources;
+-	engine->device_tx_status = dma_cookie_status;
++	engine->device_tx_status = rz_dmac_tx_status;
+ 	engine->device_prep_slave_sg = rz_dmac_prep_slave_sg;
+ 	engine->device_prep_dma_memcpy = rz_dmac_prep_dma_memcpy;
+ 	engine->device_config = rz_dmac_config;
+ 	engine->device_terminate_all = rz_dmac_terminate_all;
+ 	engine->device_issue_pending = rz_dmac_issue_pending;
+ 	engine->device_synchronize = rz_dmac_device_synchronize;
++	engine->device_pause = rz_dmac_device_pause;
+ 
+ 	engine->copy_align = DMAENGINE_ALIGN_1_BYTE;
+ 	dma_set_max_seg_size(engine->dev, U32_MAX);
+-- 
+2.43.0
+
 
