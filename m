@@ -1,257 +1,195 @@
-Return-Path: <linux-renesas-soc+bounces-6905-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6906-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39D8291CC4C
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Jun 2024 13:13:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18BA891CC6A
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Jun 2024 13:36:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5D9C51C20FDC
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Jun 2024 11:13:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3C96E1C2107F
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Jun 2024 11:36:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 387A24B5A6;
-	Sat, 29 Jun 2024 11:13:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="qEpszVVv"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7975F4D8BB;
+	Sat, 29 Jun 2024 11:35:56 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361E53BBF4
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 29 Jun 2024 11:13:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F6F1CF8D;
+	Sat, 29 Jun 2024 11:35:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719659593; cv=none; b=LA+EAZAFIYWbQmcGL84Qf5pD93cyQF6lLbt7qeKQyDTjVtKMHye0bzvg5AT6DjjRZSOme8ypUTJuj0HXDZk1kQtqjtfTNs8eocFJx0PryuMLUdqNmnpoCrUOisSJt1Trjykj/pIV46fayn5OUb1dli6QvAOEaW6Y4ROt3k6oKFA=
+	t=1719660956; cv=none; b=tfp2xG0/BIEgHk+S2J5KsHZ0xITj21MZ2qUEMHBEBsefTfzGGAcgJiuoHDTYREmdzJkatsBZ9esYOvYVL7PzTWPhakpWFsCx9xZ3gAwUWG3xixaSFIrWyYgamKIQHcuetAbzQZYIF2wGHaU7S/5736L1xc9fkFmxbIcTYq5ZRSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719659593; c=relaxed/simple;
-	bh=/dp17x5002ikclb97825w7caZSX3GVvSUransIBMOtw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CqVmHa6Wc83pZylnuq06WWw0zI77tOnKYITe8A6sPOsGS3WHmGuHsxuCd7ZRPEq/htY9D2BdItJuyaNjq6kHNgS0WohBHBVyVHXBhMMp/ldyXkxhsJvTyawTCKwoehHLmauoYyxfQPE3D0i7kMw6s3thlcjb5YhKo8v3LFJsC5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=qEpszVVv; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4255fa23f7bso11098855e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 29 Jun 2024 04:13:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1719659588; x=1720264388; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=B/67vxFTB/Tf7zkDCTNnAYduxcKlutFylo1YUBym3r4=;
-        b=qEpszVVv1INNXgDt14jlgde3GcbXNdJMf6jropF6FzqxitPPcc3hrXNp9vUWgO0fdw
-         n4z+8+MVH8uqu6UrcK+8UGqU+3n+fIitZsB5CQcMqEgsU0Hj/HiQcpKEG5lZTpsp25Px
-         CfLVPjGQE89xS45VFqMGuTEhqt2n4PKoIPejBWP2U/DWLEZoLdoCAL+U19nwXIsRkrOW
-         AHbCcWVpwKimqpo/wYzarH7/wZRokoA/Ckj/bNU9O/ezvC555Q/7G+wKV9FK7r5EvPB3
-         fZWL7mAI9xzSslUtj/vsBxogFikbmCQsrHnD9DWyLrdYkyKU+uLggODkTHNXfkiE6tM1
-         iMzw==
+	s=arc-20240116; t=1719660956; c=relaxed/simple;
+	bh=KHYsi4NzdHdqcK0JtApKxfLj2hbF4AXMBZAsTJbNacE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=g2xUs1+OkvE7B9iaBcR64E91EdWxDC4Ylozjk0N8N2Obs7tnNuqcV0IRiPTo85HeW3QJc9BViXleNvrmByzLYmp6G5QSNq1lhqXsdep9G3uwSn2FZ+UleUOoiwnQfQzuCKY/hLC3W9xKnzgG5uR7Fl7esFhGiVKaUhPlK/SlbNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-64b5617ba47so11617137b3.3;
+        Sat, 29 Jun 2024 04:35:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719659588; x=1720264388;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=B/67vxFTB/Tf7zkDCTNnAYduxcKlutFylo1YUBym3r4=;
-        b=tRvkdJm7lW+oaNYjecFLHumzHUXNscRdz5ADLC8Zlcoq61elFHZHY+86Zp80rOfJS4
-         GalcMHC4vreDjV+/45y596tKLKjXyaZgrtSjNCe39Z7hW97pbuK+4hHn7jgJJ7ZNuJMo
-         9RZ88muIztGJE5B0Mj+TIpzqptlOKkMA+37Sc0aBFs6FzMN8uhLrZ/E2uL7ReDpnyg3C
-         d7lL9ZGuQug5CeOjen13tQNr6qyApSH1lE5q6mzKQ2GmMe8VLMkXjic++ardtOSXVttB
-         vr0k4ND8gKks073KA90Wdewe5Tf8ZBpSiV1tQP/Vdx5UsNprhJq888NzAbM0Q9u9i43i
-         4+2A==
-X-Gm-Message-State: AOJu0YzijiUt+fTbBNFmgp7tkdI4bE3ufmiYMfBAYYHEv/735CNMV/Yr
-	3ffjWwjG/GYQKhUkaFcj7vTYQgFHGx5Xb9R5qNkFex/jKvDpOzvjEusmFlFrNao=
-X-Google-Smtp-Source: AGHT+IHLIjqMJEiyHVN+CTfuUSwTaj/zjdcMyGfcReaCyCRO87H0bgYYtZ52eeEV4ihXBZh4WcElXQ==
-X-Received: by 2002:a05:600c:1550:b0:425:7a6b:4e82 with SMTP id 5b1f17b1804b1-4257a6b5129mr3985625e9.27.1719659588371;
-        Sat, 29 Jun 2024 04:13:08 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4256af5ba51sm71224295e9.12.2024.06.29.04.13.06
+        d=1e100.net; s=20230601; t=1719660952; x=1720265752;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1S1yRV7C3FxWUhUHxRqIh6Hp71QQxiOPCiDvVMr4BEA=;
+        b=QO8cDSZhCQd/9ksx2LaA4FIqDJpcj9lKLR8fTB3QW0MCGZK8GVqOvu5Jm6RDFj8ruJ
+         LctctJ+nsZaQ25ZePrGMLLhsgCeg6sRrb5FTf/9BrLbuo3olp7WxD2jc1bGSX75s7n2l
+         l+Uz+vmad4sD97H2oAUurmEKXRleyCvmtOGcLuBdkTOzyezPnpxqHkU9dhYfd3USkDTW
+         PaMZ7Fbi5VmgNnS2ww3gjsblDtwAFTlhVtDPOmxg63XzXX4bH+jbUONZjfJQibO8xROB
+         WdTRP+20HhZpoAY0pEh6SjybXYjeNrL0CYrGD8vpIXYUFhHMiNUMKDirK7YDpE+AjWwh
+         6C0A==
+X-Forwarded-Encrypted: i=1; AJvYcCVPzJfaQHuEPxKOdMSaXoh1JJIMQbgAul+JxR8DQx0YoRJYVBrO+q3G43Sg6fYEyIDPk5wQq+S88NM+vyjK+gck4iWEQ6kYtGWa+wR1i5pffjZq51O8XmTm3zAZme6qyZM9O90ZrpFMfsAPn7wG834m22aqh9rdDSNOkz8si40lhtdyRwVL9Gy/d4ZukNm69hV/sgbC2eBybrsw5nJxuj+xlz99lapgdg==
+X-Gm-Message-State: AOJu0YwmSsTZh040Q4eWlpVtUopj+eJXmIjQmQvB/+wNv98wM1QiQwfs
+	6OpOpiyqlKmu2ScqXHklH2jBsgizS0M4eNKXalQFZdQXAtIxLTGoEBUNzPNA
+X-Google-Smtp-Source: AGHT+IGr4jG4lHbu9IjBZo6YNejiX7X18+BSleKOGoND+8h1/4MeKbOM50Mdc0RjsghZLgUnNOVnPQ==
+X-Received: by 2002:a05:690c:a9d:b0:647:7782:421a with SMTP id 00721157ae682-64c73ae898amr5641387b3.45.1719660952388;
+        Sat, 29 Jun 2024 04:35:52 -0700 (PDT)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-64a9c405db0sm6520217b3.130.2024.06.29.04.35.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 29 Jun 2024 04:13:07 -0700 (PDT)
-Message-ID: <37b5839c-696a-4d82-a6f9-dc37733e03e0@tuxon.dev>
-Date: Sat, 29 Jun 2024 14:13:06 +0300
+        Sat, 29 Jun 2024 04:35:51 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-64a6bf15db9so13936047b3.0;
+        Sat, 29 Jun 2024 04:35:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV16s/rWF9eNg7VOH5iuoPGFCBano1zzZ1dHO2gkXUs96XwQ1+wzZCfKn29FX6EdkFnSaZvH868xSlh0HCCycyNNMcWXVnoKKeDPCj8/chkgnvqe/VRX6qZRUzEdRXTEwD7fWS/sa1G0BGNa1P/+Qe3Qgwefo/suLkQqr9wzYhep0GHmmi3SzsLl4IKe0rD4xBF+FOblGVBwXqNmpbKKlMytCaLJZasSA==
+X-Received: by 2002:a05:690c:24f:b0:647:e079:da73 with SMTP id
+ 00721157ae682-64c7114570bmr6412747b3.10.1719660951106; Sat, 29 Jun 2024
+ 04:35:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 09/12] i2c: riic: Add support for fast mode plus
-Content-Language: en-US
-To: Biju Das <biju.das.jz@bp.renesas.com>,
- Chris Brandt <Chris.Brandt@renesas.com>,
- "andi.shyti@kernel.org" <andi.shyti@kernel.org>,
- "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
- <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "geert+renesas@glider.be" <geert+renesas@glider.be>,
- "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
- "mturquette@baylibre.com" <mturquette@baylibre.com>,
- "sboyd@kernel.org" <sboyd@kernel.org>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>
-Cc: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240625121358.590547-1-claudiu.beznea.uj@bp.renesas.com>
- <20240625121358.590547-10-claudiu.beznea.uj@bp.renesas.com>
- <TY3PR01MB113465270C36ED9A2F2C8DFEE86D12@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <TY3PR01MB113465270C36ED9A2F2C8DFEE86D12@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <cover.1716974502.git.geert+renesas@glider.be>
+In-Reply-To: <cover.1716974502.git.geert+renesas@glider.be>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Sat, 29 Jun 2024 13:35:38 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXtAPebwHkEcp+PcAxP-BfP8wqmX4BYOc1TC7mCex7Fsw@mail.gmail.com>
+Message-ID: <CAMuHMdXtAPebwHkEcp+PcAxP-BfP8wqmX4BYOc1TC7mCex7Fsw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/8] Add R-Car fuse support
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi, Biju,
+Hi Srinivas,
 
-On 29.06.2024 08:38, Biju Das wrote:
-> Hi Claudiu,
-> 
-> Thanks for the patch.
-> 
->> -----Original Message-----
->> From: Claudiu <claudiu.beznea@tuxon.dev>
->> Sent: Tuesday, June 25, 2024 1:14 PM
->> Subject: [PATCH v2 09/12] i2c: riic: Add support for fast mode plus
->>
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> Fast mode plus is available on most of the IP variants that RIIC driver is working with. The
->> exception is (according to HW manuals of the SoCs where this IP is available) the Renesas RZ/A1H.
->> For this, patch introduces the struct riic_of_data::fast_mode_plus.
->>
->> Fast mode plus was tested on RZ/G3S, RZ/G2{L,UL,LC}, RZ/Five by instantiating the RIIC frequency to
->> 1MHz and issuing i2c reads on the fast mode plus capable devices (and the i2c clock frequency was
->> checked on RZ/G3S).
->>
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->> ---
->>
->> Changes in v2:
->> - dropped code that handles the renesas,riic-no-fast-mode-plus
->> - updated commit description
->>
->>  drivers/i2c/busses/i2c-riic.c | 28 ++++++++++++++++++++++++----
->>  1 file changed, 24 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/i2c/busses/i2c-riic.c b/drivers/i2c/busses/i2c-riic.c index
->> 8ffbead95492..c07317f95e82 100644
->> --- a/drivers/i2c/busses/i2c-riic.c
->> +++ b/drivers/i2c/busses/i2c-riic.c
->> @@ -63,6 +63,8 @@
->>  #define ICMR3_ACKWP	0x10
->>  #define ICMR3_ACKBT	0x08
->>
->> +#define ICFER_FMPE	0x80
->> +
->>  #define ICIER_TIE	0x80
->>  #define ICIER_TEIE	0x40
->>  #define ICIER_RIE	0x20
->> @@ -80,6 +82,7 @@ enum riic_reg_list {
->>  	RIIC_ICCR2,
->>  	RIIC_ICMR1,
->>  	RIIC_ICMR3,
->> +	RIIC_ICFER,
->>  	RIIC_ICSER,
->>  	RIIC_ICIER,
->>  	RIIC_ICSR2,
->> @@ -92,6 +95,7 @@ enum riic_reg_list {
->>
->>  struct riic_of_data {
->>  	const u8 *regs;
->> +	bool fast_mode_plus;
->>  };
->>
->>  struct riic_dev {
->> @@ -315,11 +319,13 @@ static int riic_init_hw(struct riic_dev *riic)
->>  	int total_ticks, cks, brl, brh;
->>  	struct i2c_timings *t = &riic->i2c_t;
->>  	struct device *dev = riic->adapter.dev.parent;
->> +	const struct riic_of_data *info = riic->info;
->>
->> -	if (t->bus_freq_hz > I2C_MAX_FAST_MODE_FREQ) {
->> -		dev_err(dev,
->> -			"unsupported bus speed (%dHz). %d max\n",
->> -			t->bus_freq_hz, I2C_MAX_FAST_MODE_FREQ);
->> +	if ((!info->fast_mode_plus && t->bus_freq_hz > I2C_MAX_FAST_MODE_FREQ) ||
->> +	    (info->fast_mode_plus && t->bus_freq_hz > I2C_MAX_FAST_MODE_PLUS_FREQ)) {
->> +		dev_err(dev, "unsupported bus speed (%dHz). %d max\n", t->bus_freq_hz,
->> +			info->fast_mode_plus ? I2C_MAX_FAST_MODE_PLUS_FREQ :
->> +			I2C_MAX_FAST_MODE_FREQ);
->>  		return -EINVAL;
->>  	}
->>
->> @@ -407,6 +413,9 @@ static int riic_init_hw(struct riic_dev *riic)
->>  	riic_writeb(riic, 0, RIIC_ICSER);
->>  	riic_writeb(riic, ICMR3_ACKWP | ICMR3_RDRFS, RIIC_ICMR3);
->>
->> +	if (info->fast_mode_plus && t->bus_freq_hz == I2C_MAX_FAST_MODE_PLUS_FREQ)
->> +		riic_clear_set_bit(riic, 0, ICFER_FMPE, RIIC_ICFER);
->> +
->>  	riic_clear_set_bit(riic, ICCR1_IICRST, 0, RIIC_ICCR1);
->>
->>  	pm_runtime_mark_last_busy(dev);
->> @@ -536,6 +545,7 @@ static const u8 riic_rz_a_regs[RIIC_REG_END] = {
->>  	[RIIC_ICCR2] = 0x04,
->>  	[RIIC_ICMR1] = 0x08,
->>  	[RIIC_ICMR3] = 0x10,
->> +	[RIIC_ICFER] = 0x14,
->>  	[RIIC_ICSER] = 0x18,
->>  	[RIIC_ICIER] = 0x1c,
->>  	[RIIC_ICSR2] = 0x24,
->> @@ -549,11 +559,17 @@ static const struct riic_of_data riic_rz_a_info = {
->>  	.regs = riic_rz_a_regs,
->>  };
->>
->> +static const struct riic_of_data riic_rz_g2_info = {
->> +	.regs = riic_rz_a_regs,
->> +	.fast_mode_plus = true,
->> +};
->> +
->>  static const u8 riic_rz_v2h_regs[RIIC_REG_END] = {
->>  	[RIIC_ICCR1] = 0x00,
->>  	[RIIC_ICCR2] = 0x01,
->>  	[RIIC_ICMR1] = 0x02,
->>  	[RIIC_ICMR3] = 0x04,
->> +	[RIIC_ICFER] = 0x05,
->>  	[RIIC_ICSER] = 0x06,
->>  	[RIIC_ICIER] = 0x07,
->>  	[RIIC_ICSR2] = 0x09,
->> @@ -565,6 +581,7 @@ static const u8 riic_rz_v2h_regs[RIIC_REG_END] = {
->>
->>  static const struct riic_of_data riic_rz_v2h_info = {
->>  	.regs = riic_rz_v2h_regs,
->> +	.fast_mode_plus = true,
->>  };
->>
->>  static int riic_i2c_suspend(struct device *dev) @@ -613,6 +630,9 @@ static const struct dev_pm_ops
->> riic_i2c_pm_ops = {
->>
->>  static const struct of_device_id riic_i2c_dt_ids[] = {
->>  	{ .compatible = "renesas,riic-rz", .data = &riic_rz_a_info },
->> +	{ .compatible = "renesas,riic-r9a07g043", .data =  &riic_rz_g2_info, },
->> +	{ .compatible = "renesas,riic-r9a07g044", .data =  &riic_rz_g2_info, },
->> +	{ .compatible = "renesas,riic-r9a07g054", .data =  &riic_rz_g2_info,
->> +},
-> 
-> I feel, the better way is 
-> 
-> { .compatible = "renesas, renesas,r7s72100", .data = &riic_rz_a_info },--> As this SoC does not support FMP
-> { .compatible = "renesas,riic-rz", .data =  &riic_rz_g2_info, },--> As this SoCs has FMP+ support
-> { .compatible = "renesas,riic-r9a09g057", .data = &riic_rz_v2h_info },--> As this SoCs has different register layout and FMP+
+On Wed, May 29, 2024 at 11:29=E2=80=AFAM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+> R-Car Gen3/Gen4 SoCs contain fuses indicating hardware support or
+> hardware parameters.  Unfortunately the various SoCs require different
+> mechanisms to read the state of the fuses:
+>   - On R-Car Gen3, the fuse monitor registers are in the middle of the
+>     Pin Function Controller (PFC) register block,
+>   - On R-Car V3U and S4-8, the E-FUSE non-volatile memory is accessible
+>     through a separate register block in the PFC,
+>   - On R-Car V4H and V4M, the E-FUSE non-volatile memory is accessible
+>     through the second register block of OTP_MEM.
+>
+> This patch series adds support for all 3 variants.  It provides an
+> in-kernel API to read the fuses' states, as well as userspace access
+> through the nvmem subsystem and sysfs:
+>   - R-Car Gen3:    /sys/bus/platform/devices/rcar_fuse/fuse/nvmem
+>   - R-Car V3U/S4:  /sys/bus/platform/devices/e6078800.fuse/fuse/nvmem
+>   - R-Car V4H/V4M: /sys/bus/platform/devices/e61be000.otp/fuse/nvmem
+>
+> This has been tested on R-Car H3 ES2.0, M3-W and M3-W+, M3-N, V3M, V3H
+> and V3H2, D3, E3, V3U, S4-8 ES1.0 and ES1.2, V4H, and V4M.
+>
+> For SoCs where E-FUSE is accessed through the PFC, it is not clear from
+> the documentation if any PFC module clock needs to be enabled for fuse
+> access.  According to experiments on R-Car S4-8, the module clock and
+> reset only impact the GPIO functionality of the PFC, not the pinmux or
+> fuse monitor functionalities.  So perhaps the clock/power-domains/resets
+> properties should be dropped from the DT bindings and DTS, as well as
+> the Runtime PM handling from the driver?
+>
+> Changes compared to v1[1]:
+>   - Drop RFC state and broaden audience,
+>   - Fix typo in one-line summary,
+>   - Add Reviewed-by.
+>
+> Thanks for your comments!
+>
+> [1] https://lore.kernel.org/r/cover.1714642390.git.geert+renesas@glider.b=
+e
+>
+> Geert Uytterhoeven (8):
+>   dt-bindings: fuse: Document R-Car E-FUSE / PFC
+>   dt-bindings: fuse: Document R-Car E-FUSE / OTP_MEM
+>   soc: renesas: Add R-Car fuse driver
+>   pinctrl: renesas: Add R-Car Gen3 fuse support
+>   arm64: dts: renesas: r8a779a0: Add E-FUSE node
+>   arm64: dts: renesas: r8a779f0: Add E-FUSE node
+>   arm64: dts: renesas: r8a779g0: Add OTP_MEM node
+>   arm64: dts: renesas: r8a779h0: Add OTP_MEM node
+>
+>  .../bindings/fuse/renesas,rcar-efuse.yaml     |  55 +++++
+>  .../bindings/fuse/renesas,rcar-otp.yaml       |  38 ++++
+>  arch/arm64/boot/dts/renesas/r8a779a0.dtsi     |   8 +
+>  arch/arm64/boot/dts/renesas/r8a779f0.dtsi     |   8 +
+>  arch/arm64/boot/dts/renesas/r8a779g0.dtsi     |   5 +
+>  arch/arm64/boot/dts/renesas/r8a779h0.dtsi     |   5 +
+>  drivers/pinctrl/renesas/core.c                |  18 ++
+>  drivers/pinctrl/renesas/pfc-r8a77951.c        |   2 +
+>  drivers/pinctrl/renesas/pfc-r8a7796.c         |   4 +
+>  drivers/pinctrl/renesas/pfc-r8a77965.c        |   2 +
+>  drivers/pinctrl/renesas/pfc-r8a77970.c        |   2 +
+>  drivers/pinctrl/renesas/pfc-r8a77980.c        |  14 +-
+>  drivers/pinctrl/renesas/pfc-r8a77990.c        |   2 +
+>  drivers/pinctrl/renesas/pfc-r8a77995.c        |   2 +
+>  drivers/pinctrl/renesas/sh_pfc.h              |   4 +-
+>  drivers/soc/renesas/Kconfig                   |   8 +
+>  drivers/soc/renesas/Makefile                  |   1 +
+>  drivers/soc/renesas/rcar-fuse.c               | 201 ++++++++++++++++++
+>  include/linux/platform_data/rcar_fuse.h       |  11 +
+>  include/linux/soc/renesas/rcar-fuse.h         |  41 ++++
+>  20 files changed, 429 insertions(+), 2 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/fuse/renesas,rcar-e=
+fuse.yaml
+>  create mode 100644 Documentation/devicetree/bindings/fuse/renesas,rcar-o=
+tp.yaml
+>  create mode 100644 drivers/soc/renesas/rcar-fuse.c
+>  create mode 100644 include/linux/platform_data/rcar_fuse.h
+>  create mode 100644 include/linux/soc/renesas/rcar-fuse.h
 
-This is the natural way going forward if we enable it for all platforms
-supporting FM+ (not only for those that could be currently tested).
+Arnd pointed out on IRC this should probably be an nvmem driver instead
+of an soc driver.  I had mimicked this after the Tegra fuse driver,
+which is also an soc driver.  The in-kernel user would be its main
+user. The nvmem interface exists just because the tegra driver did
+the same.
 
-If there are no comments against it I'll go with this compatible list.
+After some investigation, it looks like this should use
+Documentation/devicetree/bindings/nvmem/nvmem-consumer.yaml
+instead, and handle it like e.g.
+Documentation/devicetree/bindings/nvmem/sprd-efuse.txt?
 
-Thank you,
-Claudiu Beznea
+Thanks for your guidance!
 
-> 
-> With this the number of compatible entries in the device tables reduced from 5 to 3.
-> 
-> Cheers,
-> Biju
-> 
+Link to this series:
+https://lore.kernel.org/all/cover.1716974502.git.geert+renesas@glider.be/
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
