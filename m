@@ -1,158 +1,182 @@
-Return-Path: <linux-renesas-soc+bounces-6920-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6921-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B569491CFFD
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Jun 2024 05:47:17 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06E7691D197
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Jun 2024 14:21:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3894D281F63
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Jun 2024 03:47:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9CA81B211ED
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Jun 2024 12:21:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71B9329CEC;
-	Sun, 30 Jun 2024 03:47:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E587912E1F1;
+	Sun, 30 Jun 2024 12:21:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="aAkOOFOF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V9GQVW/E"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F8E54A15;
-	Sun, 30 Jun 2024 03:47:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE04A2B9A2
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 30 Jun 2024 12:20:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719719231; cv=none; b=dI3mP/FcT1YffA3iqXUtn7Ht9jxbzUwhLxOINA+trMYAO7hb5ms+GhNBuFC4NwUVAYhRhtljpcqMZfbDQb6V89ZnykD7s3GGkgUnD3ISaIgEWUkWafML+xhpl1a0Qt64tUaNjrnZ/rhE4P5OE+twjZoZkbbjTptDBikN7QWcKUM=
+	t=1719750061; cv=none; b=outqzpMsYkm2sod0GeshG4URgWSDVvPAvVMuLLwSYmgsjG3LniNLe44Bv3qFiRsZc306iUpJQLVMSLM7uZOKLZdmC6MO1uwHtXzRp59S4D9rxwbfARCm5XGsqPjH0URpnO3pMWrbFAbhK1LwiAuxV109OtGdtB5oJLcgthIP/fo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719719231; c=relaxed/simple;
-	bh=2SE+uc+8nDoiXh2M59H6b8PNLqLpO5Qxe5o9u90c3vA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ao11FITiZe0h+qGcyO0SVxHndvk0v6CHtYhgzogIUUhNx3fMfgF3yfX4tkdeFGvq8OTJtT0REHx2fwXjb90IRpLe2n10hXeHvdEqqgpdarFW0feFf8iz/43i5+rjdh8eCkMgpNIeTvuT2iYc0VqxVHb2H6f4wJxJPQ/DlDgfSxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=aAkOOFOF; arc=none smtp.client-ip=85.214.62.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
-Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 3D85288600;
-	Sun, 30 Jun 2024 05:47:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1719719227;
-	bh=DBW4ckrVc31q4q4vl6kiKwc2TPz3MCTXSH0HxUgZI3g=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aAkOOFOFT5fhQPhKnhOMe8xj2ZrPw2nYvuWbKrqF27XUCXWSx3KPw0w8Dvmt4EN/9
-	 fY1SSwyFrS1AO4IzyWmdxo1mg5ZZu0t7h16uJ+MT/qigg2GCzaNWjGpDYvtmuDxBsX
-	 87TwTMadV9/QyIW/fo3n3CQZre5Rx0Xtzg+FrY8tKsSVV4nVyycP+KgL0lkuXJ7yi4
-	 d4tkT3kSz4fk9lw8DEjlcV/NT9wQZ/VF5J5VTECrvt0KSJ5sezyZ8G2A1oT/0BcYCm
-	 gg3JZBimcJdcfu0c/joRMO34EgdMoEv2iMqLHVgSHFcgBROrAVgXezip2IOKz/bi8I
-	 AEmqRI/n+Q/Xw==
-From: Marek Vasut <marex@denx.de>
-To: linux-arm-kernel@lists.infradead.org
-Cc: andrew@lunn.ch,
-	kernel@dh-electronics.com,
-	Marek Vasut <marex@denx.de>,
-	kernel test robot <lkp@intel.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Khuong Dinh <khuong@os.amperecomputing.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 2/2] arm64: dts: renesas: Drop ethernet-phy-ieee802.3-c22 from PHY compatible string on all RZ boards
-Date: Sun, 30 Jun 2024 05:46:18 +0200
-Message-ID: <20240630034649.173229-2-marex@denx.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240630034649.173229-1-marex@denx.de>
-References: <20240630034649.173229-1-marex@denx.de>
+	s=arc-20240116; t=1719750061; c=relaxed/simple;
+	bh=fpq7ylC2U+In1rpzGg4eS1pmy3CZweV6a6wQia2VZuY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VTXTj9aq8aYM5tz//yV4Mv+chbhcdJnu87nEhjVuzAeJzIgs4ipbnFo5tY4s3DOrmUMeTKCraDmk6/CRdm+Sd5vvmC9Zp9n7cphK5MVX4uHXSH8+a1KTw+oz7izuFa7Lg6HjklNWX9Yu1FSSr8k0zILEoJhFJdpB+xwRgjCMLXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V9GQVW/E; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719750060; x=1751286060;
+  h=date:from:to:cc:subject:message-id;
+  bh=fpq7ylC2U+In1rpzGg4eS1pmy3CZweV6a6wQia2VZuY=;
+  b=V9GQVW/EAezvM6sqKYPkx5zXz+azbqREYwZvcrF2+4Bkz1KbnHxlbTdu
+   T4kl1AqTjTXx960Se8HswBzc2gwvH76esKwGYkkQyqRrl0q4ER1txtfR4
+   9FgA+ElGigYt9FW8FllydXMZvFiG3iO0JJcjPO4J91OKN5M76brYqsTGl
+   RiIfdWAnRUwZfrYFPmwjDv2CY0h8Jz/fw3Gln7hgmCy2CovHqmtrl8dBG
+   ejNRBM72VX/XkWY081R7/pCNoB+5LKHbkXr3Gm2JvjbLgRbxsK+r6uLwz
+   G6fv1FIDUIvINm8D+e4pIGkSa2KCkSXW0q1mTGVgbtM/vV3rxaS1Z33NE
+   w==;
+X-CSE-ConnectionGUID: pUYbopCzRDuVQVO4XnLuaQ==
+X-CSE-MsgGUID: xyLiCAYqQ5Or/ntQIk6hoQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11118"; a="34317016"
+X-IronPort-AV: E=Sophos;i="6.09,174,1716274800"; 
+   d="scan'208";a="34317016"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2024 05:21:00 -0700
+X-CSE-ConnectionGUID: X1lD0IT2SJuKoqQ0JwOMkg==
+X-CSE-MsgGUID: 3IexCrV6QiyPSpv1SrImTw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,174,1716274800"; 
+   d="scan'208";a="68440475"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 30 Jun 2024 05:20:58 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sNtY8-000LXr-0T;
+	Sun, 30 Jun 2024 12:20:56 +0000
+Date: Sun, 30 Jun 2024 20:20:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:renesas-clk-for-v6.11] BUILD SUCCESS
+ c7e58843d1e49a6b54d528a8ea34933cafb713f2
+Message-ID: <202406302025.k5YmcpPy-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
 
-The rtl82xx DT bindings do not require ethernet-phy-ieee802.3-c22
-as the fallback compatible string. There are fewer users of the
-Realtek PHY compatible string with fallback compatible string than
-there are users without fallback compatible string, so drop the
-fallback compatible string from the few remaining users:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v6.11
+branch HEAD: c7e58843d1e49a6b54d528a8ea34933cafb713f2  clk: renesas: r9a08g045: Add clock, reset and power domain support for I2C
 
-$ git grep -ho ethernet-phy-id001c....... | sort | uniq -c
-      1 ethernet-phy-id001c.c816",
-      2 ethernet-phy-id001c.c915",
-      2 ethernet-phy-id001c.c915";
-      5 ethernet-phy-id001c.c916",
-     13 ethernet-phy-id001c.c916";
+elapsed time: 4012m
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202406290316.YvZdvLxu-lkp@intel.com/
-Signed-off-by: Marek Vasut <marex@denx.de>
----
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Khuong Dinh <khuong@os.amperecomputing.com>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Magnus Damm <magnus.damm@gmail.com>
-Cc: Rob Herring <robh@kernel.org>
-Cc: devicetree@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
----
-Note: this closes only part of the report
----
- arch/arm64/boot/dts/renesas/cat875.dtsi           | 3 +--
- arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi   | 3 +--
- arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts | 3 +--
- 3 files changed, 3 insertions(+), 6 deletions(-)
+configs tested: 89
+configs skipped: 0
 
-diff --git a/arch/arm64/boot/dts/renesas/cat875.dtsi b/arch/arm64/boot/dts/renesas/cat875.dtsi
-index 8c9da8b4bd60b..502764aef210b 100644
---- a/arch/arm64/boot/dts/renesas/cat875.dtsi
-+++ b/arch/arm64/boot/dts/renesas/cat875.dtsi
-@@ -22,8 +22,7 @@ &avb {
- 	status = "okay";
- 
- 	phy0: ethernet-phy@0 {
--		compatible = "ethernet-phy-id001c.c915",
--			     "ethernet-phy-ieee802.3-c22";
-+		compatible = "ethernet-phy-id001c.c915";
- 		reg = <0>;
- 		interrupt-parent = <&gpio2>;
- 		interrupts = <21 IRQ_TYPE_LEVEL_LOW>;
-diff --git a/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi b/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
-index ad898c6db4e62..d7a8de2619263 100644
---- a/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
-+++ b/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
-@@ -24,8 +24,7 @@ &avb {
- 	status = "okay";
- 
- 	phy0: ethernet-phy@0 {
--		compatible = "ethernet-phy-id001c.c915",
--			     "ethernet-phy-ieee802.3-c22";
-+		compatible = "ethernet-phy-id001c.c915";
- 		reg = <0>;
- 		interrupt-parent = <&gpio2>;
- 		interrupts = <11 IRQ_TYPE_LEVEL_LOW>;
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts b/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
-index 39fe3f94991e3..07147743de93f 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
-@@ -100,8 +100,7 @@ &avb {
- 	status = "okay";
- 
- 	phy0: ethernet-phy@0 {
--		compatible = "ethernet-phy-id001c.c916",
--			     "ethernet-phy-ieee802.3-c22";
-+		compatible = "ethernet-phy-id001c.c916";
- 		reg = <0>;
- 	};
- };
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc-13.2.0
+arc                               allnoconfig   gcc-13.2.0
+arc                   randconfig-001-20240630   gcc-13.2.0
+arc                   randconfig-002-20240630   gcc-13.2.0
+arm                               allnoconfig   gcc-13.2.0
+arm                   randconfig-001-20240630   gcc-13.2.0
+arm                   randconfig-002-20240630   clang-17
+arm                   randconfig-002-20240630   gcc-13.2.0
+arm                   randconfig-003-20240630   clang-19
+arm                   randconfig-003-20240630   gcc-13.2.0
+arm                   randconfig-004-20240630   clang-19
+arm                   randconfig-004-20240630   gcc-13.2.0
+arm64                             allnoconfig   gcc-13.2.0
+arm64                 randconfig-001-20240630   clang-15
+arm64                 randconfig-001-20240630   gcc-13.2.0
+arm64                 randconfig-002-20240630   clang-19
+arm64                 randconfig-002-20240630   gcc-13.2.0
+arm64                 randconfig-003-20240630   clang-19
+arm64                 randconfig-003-20240630   gcc-13.2.0
+arm64                 randconfig-004-20240630   clang-19
+arm64                 randconfig-004-20240630   gcc-13.2.0
+csky                              allnoconfig   gcc-13.2.0
+csky                  randconfig-001-20240630   gcc-13.2.0
+csky                  randconfig-002-20240630   gcc-13.2.0
+hexagon               randconfig-001-20240630   clang-15
+hexagon               randconfig-002-20240630   clang-16
+i386         buildonly-randconfig-001-20240628   gcc-10
+i386         buildonly-randconfig-002-20240628   gcc-10
+i386         buildonly-randconfig-003-20240628   gcc-10
+i386         buildonly-randconfig-004-20240628   gcc-10
+i386         buildonly-randconfig-005-20240628   gcc-10
+i386         buildonly-randconfig-006-20240628   gcc-10
+i386                  randconfig-001-20240628   gcc-10
+i386                  randconfig-002-20240628   gcc-10
+i386                  randconfig-003-20240628   gcc-10
+i386                  randconfig-004-20240628   gcc-10
+i386                  randconfig-005-20240628   gcc-10
+i386                  randconfig-006-20240628   gcc-10
+i386                  randconfig-011-20240628   gcc-10
+i386                  randconfig-012-20240628   gcc-10
+i386                  randconfig-013-20240628   gcc-10
+i386                  randconfig-014-20240628   gcc-10
+i386                  randconfig-015-20240628   gcc-10
+i386                  randconfig-016-20240628   gcc-10
+loongarch                         allnoconfig   gcc-13.2.0
+loongarch             randconfig-001-20240630   gcc-13.2.0
+loongarch             randconfig-002-20240630   gcc-13.2.0
+m68k                              allnoconfig   gcc-13.2.0
+microblaze                        allnoconfig   gcc-13.2.0
+mips                              allnoconfig   gcc-13.2.0
+nios2                             allnoconfig   gcc-13.2.0
+nios2                 randconfig-001-20240630   gcc-13.2.0
+nios2                 randconfig-002-20240630   gcc-13.2.0
+openrisc                          allnoconfig   gcc-13.2.0
+parisc                            allnoconfig   gcc-13.2.0
+parisc                randconfig-001-20240630   gcc-13.2.0
+parisc                randconfig-002-20240630   gcc-13.2.0
+powerpc                           allnoconfig   gcc-13.2.0
+powerpc               randconfig-001-20240630   clang-19
+powerpc               randconfig-001-20240630   gcc-13.2.0
+powerpc               randconfig-002-20240630   clang-17
+powerpc               randconfig-002-20240630   gcc-13.2.0
+powerpc               randconfig-003-20240630   clang-19
+powerpc               randconfig-003-20240630   gcc-13.2.0
+powerpc64             randconfig-001-20240630   clang-19
+powerpc64             randconfig-001-20240630   gcc-13.2.0
+powerpc64             randconfig-002-20240630   gcc-13.2.0
+powerpc64             randconfig-003-20240630   clang-15
+powerpc64             randconfig-003-20240630   gcc-13.2.0
+riscv                             allnoconfig   gcc-13.2.0
+riscv                 randconfig-001-20240630   clang-19
+riscv                 randconfig-001-20240630   gcc-13.2.0
+riscv                 randconfig-002-20240630   gcc-13.2.0
+s390                              allnoconfig   gcc-13.2.0
+s390                  randconfig-001-20240630   gcc-13.2.0
+s390                  randconfig-002-20240630   gcc-13.2.0
+sh                                allnoconfig   gcc-13.2.0
+sh                    randconfig-001-20240630   gcc-13.2.0
+sh                    randconfig-002-20240630   gcc-13.2.0
+sparc64               randconfig-001-20240630   gcc-13.2.0
+sparc64               randconfig-002-20240630   gcc-13.2.0
+um                                allnoconfig   gcc-13.2.0
+um                    randconfig-001-20240630   gcc-13
+um                    randconfig-001-20240630   gcc-13.2.0
+um                    randconfig-002-20240630   gcc-13
+um                    randconfig-002-20240630   gcc-13.2.0
+xtensa                            allnoconfig   gcc-13.2.0
+xtensa                randconfig-001-20240630   gcc-13.2.0
+xtensa                randconfig-002-20240630   gcc-13.2.0
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
