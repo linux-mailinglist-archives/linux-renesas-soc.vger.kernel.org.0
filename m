@@ -1,167 +1,112 @@
-Return-Path: <linux-renesas-soc+bounces-6922-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6923-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E887D91D1BA
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Jun 2024 15:09:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C526091D35F
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Jun 2024 21:19:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7106B1F212EE
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Jun 2024 13:09:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 023DD1C2086B
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Jun 2024 19:19:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7F812E419;
-	Sun, 30 Jun 2024 13:09:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C59271534EA;
+	Sun, 30 Jun 2024 19:18:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="edh/+2CI"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MInC2OSd"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1CB51DDEB
-	for <linux-renesas-soc@vger.kernel.org>; Sun, 30 Jun 2024 13:09:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B40710F2;
+	Sun, 30 Jun 2024 19:18:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719752978; cv=none; b=YWEpgdMkSI08fZK1uAl/ilA7lZXqMXVUBeBxwpMgPKgnvC9C/dJowyNmV76UVw/UqNK+hPOWsSDS2BOrGhJQFTwsEuRDFSKTbCb572dbUenkXq6ohxWCfJMIYVBdNEZbRXa/Jq1h5yF7noepD8wNZw/fV0U9nEYd6Oyy81Z6MHg=
+	t=1719775128; cv=none; b=uq9TYY91/F1Wx7/BjCbDRNP/UA9qnmsEdwekuaRX5/4Z14ex5cI9WozhPChT7Ci+SkDgtn9exap73nd+DQQIEjwvlOfcxqJl6zpPJWpx/B41oIu2YtTMJScAFn2yRdYnX5Jo9i0atv07Y1LNIxCOtMc3RpaoOf9Ar6g5ZE5qpmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719752978; c=relaxed/simple;
-	bh=BvZBCGu18EBVU+E/0W+Hx4JW2GXDiLdqvZr5qDRPJ/I=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=SF+pTZeURCPj6SQwenl4hU/+OhxffuVLaVuojZRgvatSymBx4777LAloN8OQE37lOSMNI5DA5/bTl0c6fFtHAbzy/w6D57ysM8+BzEoTbNMbv2R+MRogwOLGUczX8FaUpZV4iXJLVWYFL2r9v3FLJlRvQ7cCV+e/CaZ1jkHq8JI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=edh/+2CI; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719752977; x=1751288977;
-  h=date:from:to:cc:subject:message-id;
-  bh=BvZBCGu18EBVU+E/0W+Hx4JW2GXDiLdqvZr5qDRPJ/I=;
-  b=edh/+2CIVeNToNzwqdOwWpiFQDwXaTQFc877Z3cydOIkW75AHoBSP3bI
-   qsfDa+aW1bGVZvGotP64wqLqnx3XW+U1wzjL0+WK7wtH7c4nusx09HzLn
-   /rNc4eLvhe2TtGo+qR52Y3WN8dJbJ5YJL6knqex5s54rPMBdaoVYhlAv3
-   1DpEwwN+I8PKPQo+La9Kbq4cEX1NtLeYAGB0wd+aXzqheRkAM6gqlhvGX
-   QiHgSaWZOU9DXmuHJ+M5lNs9O7c+lw5SY7+q3p0SLb3mhAjbdEazN3x1C
-   cg2zHCyUFJ8YcRZPUP1pLtHJdy9ugEeSQOqmw15tekRz9iN6mthDKrfQ4
-   w==;
-X-CSE-ConnectionGUID: zQn+lcibT020fMYU0TvVlQ==
-X-CSE-MsgGUID: vhxiGiEyRZWUzfcg37hf7w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11119"; a="17015460"
-X-IronPort-AV: E=Sophos;i="6.09,174,1716274800"; 
-   d="scan'208";a="17015460"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2024 06:09:37 -0700
-X-CSE-ConnectionGUID: aOuS7hD8Rn6MPB8Ku8x3KQ==
-X-CSE-MsgGUID: MNhedbEARIKhHPWbEePo+A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,174,1716274800"; 
-   d="scan'208";a="45335632"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 30 Jun 2024 06:09:36 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sNuJB-000LeG-1G;
-	Sun, 30 Jun 2024 13:09:33 +0000
-Date: Sun, 30 Jun 2024 21:09:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-pinctrl] BUILD SUCCESS
- fb0024d1d0742b1a1c97cfb05025913daccfd81f
-Message-ID: <202406302110.m9x3UcLo-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1719775128; c=relaxed/simple;
+	bh=SIyzBUuqYC/Uv6iGqHtSBPjyKkR1Nq7Rna0Dkfcg4vM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=heKzu/hqGu9O3mbqGJr9KT5hUu+CPIaMA9mpswOvchygzxoem9pwge6nPIxJDE9iIv5YBw/JXetQMyUlkP9N6FdtBBJJNdzEC4HSmvwdhOvuCGRTDEZmVQAJxzAHDqq+9eaRJRajlGzcMHBPcCdnCFI0SD9aHIwChOWHtOgVJb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MInC2OSd; arc=none smtp.client-ip=209.85.222.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-80f81080239so718230241.1;
+        Sun, 30 Jun 2024 12:18:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719775126; x=1720379926; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=LROBc5Cn3AHvEzFbrvvny5v7Q2aOnPA043oI17JubXU=;
+        b=MInC2OSdhrrz7aiv3uS3EB8fO1o25YbMnz1kApD7za/LB4c023IE4sf4FEtZybWasV
+         VM8USmocQBNS7Q/qxPv6w/3ERRyGsqXC3OfykikvJwJqBQoOq+XMlmDyiX7HAtEcWnOC
+         TxD4yAOucdtDrVK+4FCgwErhEcMZkAJDb7ZDQ6QfLViM2rA3l/We5NCSiypATZBgHFe5
+         R81WT8plgCNxgXgQK7IRPrskWjIiRe6XfMktuf8TGDYjKxMW60XB+BdC/EJh9qioDm6D
+         EQOU3LBBRPQiI5zX1ys7bJUFtRzfzFBcMKpqjDTa8gWzFk+jiTNjyv4azL9DPit4IJU+
+         Jm7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719775126; x=1720379926;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LROBc5Cn3AHvEzFbrvvny5v7Q2aOnPA043oI17JubXU=;
+        b=jftg2W1GWTCDTkwUVaeaXvJEAXAdYmisKhn3+/5utYk96W6woppGJEJmLmAkCrwQkb
+         7gRYGP+PvXYQqDIJ147/9NZ6uNcZr8TYQzy3JgUN5O1fn9KYUvFRCryMaam4FkTdpOZl
+         nKm7rRrLyUfyoB5C2/9WjLoy6HngrUiARB4vPGfV6P7/6H8uJrSrkbEtWersL8OQmqRf
+         YTY+pA6ekHft7QKwhqtycC9kr/68yFwv0574X9Tfn1EGsUME6xvl5jmtx0q3gY4nXLoi
+         FrEQUJXI/HR1Pbxr5g6+SP4fXr1VdtiqYt1G+Zk3JdDXTJwDFsIvUwb1hkcylmvwS6sR
+         anHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWpw5tkX04iYE1jzXQvP9Iawui7kraoEKzSlQui1ZDz1uLfAFoi297g+uVlxof6XE4iNx2BZJNnrD5rVJjUIvZBVA+fuA0VAodNhQPjGU5XFFUJLfyQlhdXpR2MwT63fE+V6T6hM7JWPEtz+1hmV4Oa/P7e4AKuN4kJNpJO84Whsz7Ov5m8vy9Y3OCuPQAWgGwrbHkXiiDYxcc33YkF/+nMGD2Q1jIk
+X-Gm-Message-State: AOJu0YxwTAfJ+LQCfFEC2TCfOwFcEnJvffWT4mMEx1kdjEu0lsaoGfY6
+	QHyyJwuM+agLJsuAPYIzxi9yI6lsLNm/pCdVU5PAhsn6JnauJLAUej9XvEF3cbf859bRvFbC2yt
+	BIwxpmEzuHP3/JueP31GOm4YuYiU=
+X-Google-Smtp-Source: AGHT+IHgXhi2h52NtLmNbTtFIUCqAOSczB+xkST86qS4TfxzvyFy0Gcmgp6HzPHOYCP2gE0K0vx6dS/AhjgLGdIaoO8=
+X-Received: by 2002:a05:6102:4c12:b0:48f:461b:c9ac with SMTP id
+ ada2fe7eead31-48faf08f6ccmr4121074137.14.1719775126006; Sun, 30 Jun 2024
+ 12:18:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20240626121551.3127032-1-allen.lkml@gmail.com> <dc7hnzrxtrtvlnkfxnqfn46ulx4gq3so235tibohb54zwvjbcx@4s5osl4sjrb7>
+In-Reply-To: <dc7hnzrxtrtvlnkfxnqfn46ulx4gq3so235tibohb54zwvjbcx@4s5osl4sjrb7>
+From: Allen <allen.lkml@gmail.com>
+Date: Sun, 30 Jun 2024 12:18:35 -0700
+Message-ID: <CAOMdWSKh3+HXFuYVx-GHC93iqEPskRKLti9KHKLHs5RYy-mcjg@mail.gmail.com>
+Subject: Re: [PATCH v5] mmc: Convert from tasklet to BH workqueue
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, Allen Pais <allen.lkml@gmail.com>, 
+	Aubin Constans <aubin.constans@microchip.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Manuel Lauss <manuel.lauss@gmail.com>, =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>, 
+	Jaehoon Chung <jh80.chung@samsung.com>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
+	Adrian Hunter <adrian.hunter@intel.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Alex Dubov <oakad@yahoo.com>, 
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Bruce Chang <brucechang@via.com.tw>, Harald Welte <HaraldWelte@viatech.com>, 
+	Pierre Ossman <pierre@ossman.eu>, Christian Loehle <christian.loehle@arm.com>, linux-mmc@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl
-branch HEAD: fb0024d1d0742b1a1c97cfb05025913daccfd81f  pinctrl: renesas: r8a779h0: Remove unneeded separators
+> > v5:
+> >    - completely dropped renasas changes from this series.
+>
+> It seems you need to read mails more carefully. In v4 I said that...
+>
+> >  drivers/mmc/host/tmio_mmc.h       |  3 +-
+> >  drivers/mmc/host/tmio_mmc_core.c  |  4 +-
+>
+> ... these need to go as well.
+>
 
-elapsed time: 4059m
+My apologies, I have been out sick and wanted to unblock Ulf and
+in the process missed reading your feedback. Will have it fixed and sent out.
 
-configs tested: 74
-configs skipped: 0
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig   gcc-13.2.0
-arc                               allnoconfig   gcc-13.2.0
-arc                   randconfig-001-20240630   gcc-13.2.0
-arc                   randconfig-002-20240630   gcc-13.2.0
-arm                               allnoconfig   clang-19
-arm                               allnoconfig   gcc-13.2.0
-arm                   randconfig-001-20240630   gcc-13.2.0
-arm                   randconfig-002-20240630   gcc-13.2.0
-arm                   randconfig-003-20240630   gcc-13.2.0
-arm                   randconfig-004-20240630   gcc-13.2.0
-arm64                             allnoconfig   gcc-13.2.0
-arm64                 randconfig-001-20240630   gcc-13.2.0
-arm64                 randconfig-002-20240630   gcc-13.2.0
-arm64                 randconfig-003-20240630   gcc-13.2.0
-arm64                 randconfig-004-20240630   gcc-13.2.0
-csky                              allnoconfig   gcc-13.2.0
-csky                  randconfig-001-20240630   gcc-13.2.0
-csky                  randconfig-002-20240630   gcc-13.2.0
-hexagon                           allnoconfig   clang-19
-i386         buildonly-randconfig-001-20240628   gcc-10
-i386         buildonly-randconfig-002-20240628   gcc-10
-i386         buildonly-randconfig-003-20240628   gcc-10
-i386         buildonly-randconfig-004-20240628   gcc-10
-i386         buildonly-randconfig-005-20240628   gcc-10
-i386         buildonly-randconfig-006-20240628   gcc-10
-i386                  randconfig-001-20240628   gcc-10
-i386                  randconfig-002-20240628   gcc-10
-i386                  randconfig-003-20240628   gcc-10
-i386                  randconfig-004-20240628   gcc-10
-i386                  randconfig-005-20240628   gcc-10
-i386                  randconfig-006-20240628   gcc-10
-i386                  randconfig-011-20240628   gcc-10
-i386                  randconfig-012-20240628   gcc-10
-i386                  randconfig-013-20240628   gcc-10
-i386                  randconfig-014-20240628   gcc-10
-i386                  randconfig-015-20240628   gcc-10
-i386                  randconfig-016-20240628   gcc-10
-loongarch                         allnoconfig   gcc-13.2.0
-loongarch             randconfig-001-20240630   gcc-13.2.0
-loongarch             randconfig-002-20240630   gcc-13.2.0
-m68k                              allnoconfig   gcc-13.2.0
-microblaze                        allnoconfig   gcc-13.2.0
-mips                              allnoconfig   gcc-13.2.0
-nios2                             allnoconfig   gcc-13.2.0
-nios2                 randconfig-001-20240630   gcc-13.2.0
-nios2                 randconfig-002-20240630   gcc-13.2.0
-openrisc                          allnoconfig   gcc-13.2.0
-parisc                            allnoconfig   gcc-13.2.0
-parisc                randconfig-001-20240630   gcc-13.2.0
-parisc                randconfig-002-20240630   gcc-13.2.0
-powerpc                           allnoconfig   gcc-13.2.0
-powerpc               randconfig-001-20240630   gcc-13.2.0
-powerpc               randconfig-002-20240630   gcc-13.2.0
-powerpc               randconfig-003-20240630   gcc-13.2.0
-powerpc64             randconfig-001-20240630   gcc-13.2.0
-powerpc64             randconfig-002-20240630   gcc-13.2.0
-powerpc64             randconfig-003-20240630   gcc-13.2.0
-riscv                             allnoconfig   gcc-13.2.0
-riscv                 randconfig-001-20240630   gcc-13.2.0
-riscv                 randconfig-002-20240630   gcc-13.2.0
-s390                              allnoconfig   gcc-13.2.0
-s390                  randconfig-001-20240630   gcc-13.2.0
-s390                  randconfig-002-20240630   gcc-13.2.0
-sh                                allnoconfig   gcc-13.2.0
-sh                    randconfig-001-20240630   gcc-13.2.0
-sh                    randconfig-002-20240630   gcc-13.2.0
-sparc64               randconfig-001-20240630   gcc-13.2.0
-sparc64               randconfig-002-20240630   gcc-13.2.0
-um                                allnoconfig   gcc-13.2.0
-um                    randconfig-001-20240630   gcc-13.2.0
-um                    randconfig-002-20240630   gcc-13.2.0
-xtensa                            allnoconfig   gcc-13.2.0
-xtensa                randconfig-001-20240630   gcc-13.2.0
-xtensa                randconfig-002-20240630   gcc-13.2.0
+Thanks.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+       - Allen
 
