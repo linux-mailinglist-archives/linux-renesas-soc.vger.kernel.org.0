@@ -1,51 +1,52 @@
-Return-Path: <linux-renesas-soc+bounces-6919-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6920-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4770291CFFC
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Jun 2024 05:47:16 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B569491CFFD
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Jun 2024 05:47:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5D4471C20AF5
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Jun 2024 03:47:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3894D281F63
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Jun 2024 03:47:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCE682837D;
-	Sun, 30 Jun 2024 03:47:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71B9329CEC;
+	Sun, 30 Jun 2024 03:47:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="rm7vjorE"
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="aAkOOFOF"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 221B2A21;
-	Sun, 30 Jun 2024 03:47:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F8E54A15;
+	Sun, 30 Jun 2024 03:47:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719719230; cv=none; b=Vbq54zk6BMuds+Crir0Cehh8jj7uFfbrLrW6C+81uBlZgb9ZDKh1OOkW9Tqp+O2tZW2NPR/6ahqikEoqZI1g4vQINq2VtRtUMylEfaQvwFXnqenNoGEys7Sufo5h2WqmU3He5SSSB+E83p7EPA9Vp3ZBaXvOFgsrR0KZf+5yvn0=
+	t=1719719231; cv=none; b=dI3mP/FcT1YffA3iqXUtn7Ht9jxbzUwhLxOINA+trMYAO7hb5ms+GhNBuFC4NwUVAYhRhtljpcqMZfbDQb6V89ZnykD7s3GGkgUnD3ISaIgEWUkWafML+xhpl1a0Qt64tUaNjrnZ/rhE4P5OE+twjZoZkbbjTptDBikN7QWcKUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719719230; c=relaxed/simple;
-	bh=gQeHHCqKuPo2VT0EveLTDL7DzuZY35w5BleyDF+S0Ww=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JGt5ib8GaiKDD/g2kifb72ckf4jJA5yuQgnSVj5Kvffr9LxOR1iomTf0UJCKvAfO2fFRL2mzE9mgAEiYHjlYb4Vvl4VWbzWAaSqV8hTughyuD9hJC2yNHg16NYEdk+/CeSeskstgAVK+ErGGVs6+G50BZxI8hlkKP1DrN9bJjVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=rm7vjorE; arc=none smtp.client-ip=85.214.62.61
+	s=arc-20240116; t=1719719231; c=relaxed/simple;
+	bh=2SE+uc+8nDoiXh2M59H6b8PNLqLpO5Qxe5o9u90c3vA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ao11FITiZe0h+qGcyO0SVxHndvk0v6CHtYhgzogIUUhNx3fMfgF3yfX4tkdeFGvq8OTJtT0REHx2fwXjb90IRpLe2n10hXeHvdEqqgpdarFW0feFf8iz/43i5+rjdh8eCkMgpNIeTvuT2iYc0VqxVHb2H6f4wJxJPQ/DlDgfSxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=aAkOOFOF; arc=none smtp.client-ip=85.214.62.61
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
 Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
 	(No client certificate requested)
 	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 9413387E13;
-	Sun, 30 Jun 2024 05:47:06 +0200 (CEST)
+	by phobos.denx.de (Postfix) with ESMTPSA id 3D85288600;
+	Sun, 30 Jun 2024 05:47:07 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
 	s=phobos-20191101; t=1719719227;
-	bh=f0KWjDNGFbZg+LVMtUylCMXvgZ0Nv5vh34VntCMiGHw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=rm7vjorE2IyBbZzPGYGowpNSKPTlpjrjRvrztRZtRFy6/b5ZxcAQ0EQ5mCNdkqZ5f
-	 n2zoRooX95UOjn0OOypjg2iP2uLCQafWsysmbRCD6/CM3B+C1RJBi4RBKMUYSXybCu
-	 rL0Mb/p8lUMgroy02ySyPOWfVd4G33aTRscsF4J4PCDbBQlw3/lp+/AlPxX036z4M6
-	 Vmry/Bc9xHVqM8dGTc0SgNzPn7LlScZjbqMSFQqv40lApBO1vOLVnUcevlTYwssn5U
-	 JdiLzzOV/NaOnZW4w5wv1zZO/ZSQNMPplTSvQ7HCrf6GsNYprH5EYwy5eV6fBGupKZ
-	 h1645mTj1X47Q==
+	bh=DBW4ckrVc31q4q4vl6kiKwc2TPz3MCTXSH0HxUgZI3g=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=aAkOOFOFT5fhQPhKnhOMe8xj2ZrPw2nYvuWbKrqF27XUCXWSx3KPw0w8Dvmt4EN/9
+	 fY1SSwyFrS1AO4IzyWmdxo1mg5ZZu0t7h16uJ+MT/qigg2GCzaNWjGpDYvtmuDxBsX
+	 87TwTMadV9/QyIW/fo3n3CQZre5Rx0Xtzg+FrY8tKsSVV4nVyycP+KgL0lkuXJ7yi4
+	 d4tkT3kSz4fk9lw8DEjlcV/NT9wQZ/VF5J5VTECrvt0KSJ5sezyZ8G2A1oT/0BcYCm
+	 gg3JZBimcJdcfu0c/joRMO34EgdMoEv2iMqLHVgSHFcgBROrAVgXezip2IOKz/bi8I
+	 AEmqRI/n+Q/Xw==
 From: Marek Vasut <marex@denx.de>
 To: linux-arm-kernel@lists.infradead.org
 Cc: andrew@lunn.ch,
@@ -60,10 +61,12 @@ Cc: andrew@lunn.ch,
 	Rob Herring <robh@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 1/2] ARM: dts: renesas: Drop ethernet-phy-ieee802.3-c22 from PHY compatible string on all RZ boards
-Date: Sun, 30 Jun 2024 05:46:17 +0200
-Message-ID: <20240630034649.173229-1-marex@denx.de>
+Subject: [PATCH 2/2] arm64: dts: renesas: Drop ethernet-phy-ieee802.3-c22 from PHY compatible string on all RZ boards
+Date: Sun, 30 Jun 2024 05:46:18 +0200
+Message-ID: <20240630034649.173229-2-marex@denx.de>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240630034649.173229-1-marex@denx.de>
+References: <20240630034649.173229-1-marex@denx.de>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -102,20 +105,50 @@ Cc: linux-renesas-soc@vger.kernel.org
 ---
 Note: this closes only part of the report
 ---
- arch/arm/boot/dts/renesas/r7s9210-rza2mevb.dts | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ arch/arm64/boot/dts/renesas/cat875.dtsi           | 3 +--
+ arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi   | 3 +--
+ arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts | 3 +--
+ 3 files changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/arch/arm/boot/dts/renesas/r7s9210-rza2mevb.dts b/arch/arm/boot/dts/renesas/r7s9210-rza2mevb.dts
-index cd2324b8e8ffb..41b1dbcfba100 100644
---- a/arch/arm/boot/dts/renesas/r7s9210-rza2mevb.dts
-+++ b/arch/arm/boot/dts/renesas/r7s9210-rza2mevb.dts
-@@ -95,8 +95,7 @@ &ether1 {
- 	renesas,no-ether-link;
- 	phy-handle = <&phy1>;
- 	phy1: ethernet-phy@1 {
--		compatible = "ethernet-phy-id001c.c816",
+diff --git a/arch/arm64/boot/dts/renesas/cat875.dtsi b/arch/arm64/boot/dts/renesas/cat875.dtsi
+index 8c9da8b4bd60b..502764aef210b 100644
+--- a/arch/arm64/boot/dts/renesas/cat875.dtsi
++++ b/arch/arm64/boot/dts/renesas/cat875.dtsi
+@@ -22,8 +22,7 @@ &avb {
+ 	status = "okay";
+ 
+ 	phy0: ethernet-phy@0 {
+-		compatible = "ethernet-phy-id001c.c915",
 -			     "ethernet-phy-ieee802.3-c22";
-+		compatible = "ethernet-phy-id001c.c816";
++		compatible = "ethernet-phy-id001c.c915";
+ 		reg = <0>;
+ 		interrupt-parent = <&gpio2>;
+ 		interrupts = <21 IRQ_TYPE_LEVEL_LOW>;
+diff --git a/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi b/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
+index ad898c6db4e62..d7a8de2619263 100644
+--- a/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
++++ b/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
+@@ -24,8 +24,7 @@ &avb {
+ 	status = "okay";
+ 
+ 	phy0: ethernet-phy@0 {
+-		compatible = "ethernet-phy-id001c.c915",
+-			     "ethernet-phy-ieee802.3-c22";
++		compatible = "ethernet-phy-id001c.c915";
+ 		reg = <0>;
+ 		interrupt-parent = <&gpio2>;
+ 		interrupts = <11 IRQ_TYPE_LEVEL_LOW>;
+diff --git a/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts b/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
+index 39fe3f94991e3..07147743de93f 100644
+--- a/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
++++ b/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
+@@ -100,8 +100,7 @@ &avb {
+ 	status = "okay";
+ 
+ 	phy0: ethernet-phy@0 {
+-		compatible = "ethernet-phy-id001c.c916",
+-			     "ethernet-phy-ieee802.3-c22";
++		compatible = "ethernet-phy-id001c.c916";
  		reg = <0>;
  	};
  };
