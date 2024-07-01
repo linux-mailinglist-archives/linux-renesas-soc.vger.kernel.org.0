@@ -1,41 +1,41 @@
-Return-Path: <linux-renesas-soc+bounces-6937-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6936-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F0191E185
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Jul 2024 15:57:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D44CE91E17F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Jul 2024 15:57:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5C5C2B254B1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Jul 2024 13:57:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 024041C23252
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Jul 2024 13:57:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 343F816B74C;
-	Mon,  1 Jul 2024 13:54:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4B8B16B396;
+	Mon,  1 Jul 2024 13:54:28 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 651E615FCE0
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  1 Jul 2024 13:54:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B148F16B39F
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  1 Jul 2024 13:54:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719842069; cv=none; b=pF38mWhbGbQmBbzP7E3gMUZTmIvWHWahEYIAbJHnE1QrC2tyK0rnlkrObFUpb/thB8fr+4SucwHICE8ncK18EJPfgEIpP9Q5nMx4eN3j5octa1fZrAC8Nwt9Pnf41mNjcqeP+Nqd3smH25qjQNBNeXhMLV0deZE6KF/cyVKNwG8=
+	t=1719842068; cv=none; b=VTdWXdp7rrJztP4Vtf9nDmoExzgQNwPG0/gxVRfYcog3ymwJoW9I0y8tL9YsaxMfwYDl82srsirVQqqpdNFUCqUqsWy7mW64icjbiv/pHdSeaR4NoBXriQHbTe+dFkITWHlLQ6thvgMcT8yDThPwns2kxHs9uAbX6iMBkJYzNRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719842069; c=relaxed/simple;
-	bh=mGAuCZgA2CcqrjhV6CHTOjJSYcLUjnH7A7J5jQMNJG0=;
+	s=arc-20240116; t=1719842068; c=relaxed/simple;
+	bh=JIVhgNSL/W/L3u6sKue9yo8smnMnjBQqdTAHH2hC9XU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jJe0fOt50mP3Tthxe92UB5V0ocWRs20QBU4UGoSHymyK8yb1rd934KPJBWe/ljfx1labXlFYdMARKCrW7a+SQzMSpi5tjpyBHpp/GRzpwx0EnL2I/sHf9r5TzCxv21skRjSpVUfR60dxT3pxFtgvFq9EtvfPFN8oY11LGNbSVV0=
+	 In-Reply-To:To:Cc; b=ifJAcM03srhFCvLiKFVa+GZb/rZSwjPjR+jnENzEmz95UFq36wCzld9xk9DZOQBwCCPO15Lz9JaPSZB76X2zhlnxcHkdUvApegidNGlQtMr5KZCDxqKqvIERjiVD6gPe5LJTyFjIx36somnaiAxVs2ogVSL13fTxoz4ap6XVhg4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
 	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
 	(envelope-from <m.felsch@pengutronix.de>)
-	id 1sOHTX-0001LY-6i; Mon, 01 Jul 2024 15:53:47 +0200
+	id 1sOHTX-0001LY-Aa; Mon, 01 Jul 2024 15:53:47 +0200
 From: Marco Felsch <m.felsch@pengutronix.de>
-Date: Mon, 01 Jul 2024 15:53:41 +0200
-Subject: [PATCH 2/9] mtd: add mtd_is_master helper
+Date: Mon, 01 Jul 2024 15:53:42 +0200
+Subject: [PATCH 3/9] mtd: add support to handle EEPROM devices
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -44,7 +44,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240701-b4-v6-10-topic-usbc-tcpci-v1-2-3fd5f4a193cc@pengutronix.de>
+Message-Id: <20240701-b4-v6-10-topic-usbc-tcpci-v1-3-3fd5f4a193cc@pengutronix.de>
 References: <20240701-b4-v6-10-topic-usbc-tcpci-v1-0-3fd5f4a193cc@pengutronix.de>
 In-Reply-To: <20240701-b4-v6-10-topic-usbc-tcpci-v1-0-3fd5f4a193cc@pengutronix.de>
 To: Miquel Raynal <miquel.raynal@bootlin.com>, 
@@ -85,29 +85,99 @@ X-SA-Exim-Mail-From: m.felsch@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
-Provide a simple helper to make it easy to detect an master mtd device.
+At the moment EEPROMs are covered by misc/driver/eeprom/* drivers. This
+commit prepares the MTD framework to handle EEPROM devices within the
+MTD layer.
+
+To keep the backward compatibility with the current misc drivers the
+master device must be exposed always. Furthermore the NVMEM device
+parent must be set to the I2C device instead of the MTD device and the
+name must be either the I2C device name or the name specified via the
+label.
 
 Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 ---
- include/linux/mtd/mtd.h | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/mtd/mtdcore.c      | 32 +++++++++++++++++++++++++++++++-
+ include/uapi/mtd/mtd-abi.h |  2 ++
+ 2 files changed, 33 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/mtd/mtd.h b/include/linux/mtd/mtd.h
-index 8d10d9d2e830..bf3fc2ea7230 100644
---- a/include/linux/mtd/mtd.h
-+++ b/include/linux/mtd/mtd.h
-@@ -408,6 +408,11 @@ static inline struct mtd_info *mtd_get_master(struct mtd_info *mtd)
- 	return mtd;
- }
+diff --git a/drivers/mtd/mtdcore.c b/drivers/mtd/mtdcore.c
+index dcd97e59425e..e2a996ccd17e 100644
+--- a/drivers/mtd/mtdcore.c
++++ b/drivers/mtd/mtdcore.c
+@@ -149,6 +149,9 @@ static ssize_t mtd_type_show(struct device *dev,
+ 	case MTD_ROM:
+ 		type = "rom";
+ 		break;
++	case MTD_EEPROM:
++		type = "eeprom";
++		break;
+ 	case MTD_NORFLASH:
+ 		type = "nor";
+ 		break;
+@@ -578,6 +581,33 @@ static int mtd_nvmem_add(struct mtd_info *mtd)
+ 	config.ignore_wp = true;
+ 	config.priv = mtd;
  
-+static inline bool mtd_is_master(struct mtd_info *mtd)
-+{
-+	return mtd->parent ? false : true;
-+}
++	switch (mtd->type) {
++	case MTD_EEPROM:
++		config.type = NVMEM_TYPE_EEPROM;
++		/*
++		 * The master device must be backward compatible with the
++		 * predecessor (misc/eeprom/at24.c) driver. Therefore we need to
++		 * adapt the naming scheme.
++		 *
++		 * Initialize config.id to NVMEM_DEVID_AUTO even if the
++		 * mtd->name is provided via an label as some platform can have
++		 * multiple eeproms with same label and we can not register each
++		 * of those with same label. Failing to register those eeproms
++		 * trigger cascade failure on such platform.
++		 */
++		if (mtd_is_master(mtd)) {
++			config.id = NVMEM_DEVID_AUTO;
++			config.compat = true;
++			config.name = mtd->name;
++			config.dev = mtd->dev.parent;
++			config.base_dev = mtd->dev.parent;
++		}
++		break;
++	default:
++		config.type = NVMEM_TYPE_UNKNOWN;
++		break;
++	}
 +
- static inline u64 mtd_get_master_ofs(struct mtd_info *mtd, u64 ofs)
- {
- 	while (mtd->parent) {
+ 	mtd->nvmem = nvmem_register(&config);
+ 	if (IS_ERR(mtd->nvmem)) {
+ 		/* Just ignore if there is no NVMEM support in the kernel */
+@@ -1076,7 +1106,7 @@ int mtd_device_parse_register(struct mtd_info *mtd, const char * const *types,
+ 	if (ret)
+ 		goto out;
+ 
+-	if (IS_ENABLED(CONFIG_MTD_PARTITIONED_MASTER)) {
++	if (IS_ENABLED(CONFIG_MTD_PARTITIONED_MASTER) || mtd->type == MTD_EEPROM) {
+ 		ret = add_mtd_device(mtd);
+ 		if (ret)
+ 			goto out;
+diff --git a/include/uapi/mtd/mtd-abi.h b/include/uapi/mtd/mtd-abi.h
+index 714d55b49d2a..59bf43d58ddb 100644
+--- a/include/uapi/mtd/mtd-abi.h
++++ b/include/uapi/mtd/mtd-abi.h
+@@ -146,6 +146,7 @@ struct mtd_read_req {
+ #define MTD_DATAFLASH		6
+ #define MTD_UBIVOLUME		7
+ #define MTD_MLCNANDFLASH	8	/* MLC NAND (including TLC) */
++#define MTD_EEPROM		9
+ 
+ #define MTD_WRITEABLE		0x400	/* Device is writeable */
+ #define MTD_BIT_WRITEABLE	0x800	/* Single bits can be flipped */
+@@ -159,6 +160,7 @@ struct mtd_read_req {
+ #define MTD_CAP_NORFLASH	(MTD_WRITEABLE | MTD_BIT_WRITEABLE)
+ #define MTD_CAP_NANDFLASH	(MTD_WRITEABLE)
+ #define MTD_CAP_NVRAM		(MTD_WRITEABLE | MTD_BIT_WRITEABLE | MTD_NO_ERASE)
++#define MTD_CAP_EEPROM		(MTD_WRITEABLE | MTD_BIT_WRITEABLE | MTD_NO_ERASE)
+ 
+ /* Obsolete ECC byte placement modes (used with obsolete MEMGETOOBSEL) */
+ #define MTD_NANDECC_OFF		0	/* Switch off ECC (Not recommended) */
 
 -- 
 2.39.2
