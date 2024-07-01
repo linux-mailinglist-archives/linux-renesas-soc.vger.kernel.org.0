@@ -1,137 +1,83 @@
-Return-Path: <linux-renesas-soc+bounces-6951-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6952-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6192291E511
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Jul 2024 18:15:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99F0691E93F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Jul 2024 22:12:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D29B81F236D2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Jul 2024 16:15:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BED921C21913
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Jul 2024 20:12:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1007F16DEA5;
-	Mon,  1 Jul 2024 16:14:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CF4416F908;
+	Mon,  1 Jul 2024 20:12:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yZj4cOGS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p4+M3zV8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103E716DC3B
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  1 Jul 2024 16:14:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E527D16EB71;
+	Mon,  1 Jul 2024 20:11:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719850463; cv=none; b=ovtpvFZ6lsSbqsToEB1irXBdCPYL56OtH97c5t1on+KoZlJIhETFbqhDuEU4C6OjrLdvmUBH2ORVlCbpwdGsmaJ7ILSbkJZuDl5AXatYsVcjl2ujQ1hZlYXNu+9K5sduf2mUEMjn4kO6r0mAdl0gfQMtUL9fkqrAXkaM8mvaBfU=
+	t=1719864720; cv=none; b=n6RT0JlYA2GFdEenRtZ/fwgEz7ZQUOKGGoALIhLOng85sFrrwJa5vCio5PmYDmbmyvGWlZhYHSuHxKB29A4ay+INjOdc4oc883/y+ZwTOixKv4zA/lidG6S41bCQhc+a3TTLmkED8Is+yF123SR22G3z2mBd49GALqI+2ELK85c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719850463; c=relaxed/simple;
-	bh=0RU0GQGcEkH75BsHRkr45z+TTTqgKiPUKJEo3MLeH8M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K0G6dsBdqTAeHGG0HmlWL9/wW7UBWCfEVDJ6FZeMeeZO6WToymfM/bG5bZBNleCn1x9x4njeN1tCp/U3pDS9UDGXQRayj6h7RtlEps8YtTp9GYVeqnN62rkd2d4pbSbjH14ypuCaRB6rwb2RPNPub1xtUms41EKN7ekPmd/3hyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yZj4cOGS; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-424acfff613so29099635e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 01 Jul 2024 09:14:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719850459; x=1720455259; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qFC/haLZ9KzQj+xaIDgmhhZVWM9GxdpG2nMd31da2xM=;
-        b=yZj4cOGSzAyUtDGChoHBtg6/IZy0RzhHD20ryD8yGabS2YaCfRNT8wilMvLrcmh/m4
-         HGeITs6/ylht3qy9DipkZwfl4ruF52BNsYlw8HvPSD/U5Idp/Zni8oUC7yYwynpKe/AW
-         5arKwsuMvi4Z7jY05G2d3MZKC0QK1l7HLZ0t4oa1IWeBG7rYnQaXqLZiCXisG+qt+xrT
-         FzVmT4m9cS2e5i9HAaDBJBq91crpibDXcPoQdBfmiKGYUWMr0kNcumCM0e+YkOMvdjpn
-         5DSHXuSXID1uAVr6vbAlPYkM5So9YYAQoGMBOnsoylKyKUdV9qu8iYMM3umKfBIaope/
-         Oj+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719850459; x=1720455259;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qFC/haLZ9KzQj+xaIDgmhhZVWM9GxdpG2nMd31da2xM=;
-        b=SzCs+HrJjU060rcozbsV6yapKzOYBmomrjy90dkWfpqPGlrlUwKbN8vSgIfHPMZLz4
-         WbyftaT4t0xjmh0Vc894FjtX7n9MP75oMZH+4uCqPEObRjhH5bHjyyL/G6ZlIIGKvpK0
-         UN40YhIM/R+hE7rKMOfTz0nPnn95vUkigBoWtVSdrzaJqJwfJgw+KTP0njIJGgYfshqt
-         WXhUEFFSSNUGKBkfgK/uJyL6QItl+XRqykdbM8+74ujAn1JJbNGVbwJdJOv5bbS2Efo1
-         MBI2IoHsMMnOo0/akyObY8r6NcIsEL80GdCOD2CbXT6Fu7KP3mMPCvE/nVuwKfNLV1fg
-         jr/g==
-X-Forwarded-Encrypted: i=1; AJvYcCXWjb6nK4EvZRmyPTrxi4JXS6m/pcsHZFh4KyvNHRESwGvC2CMTRyX+XrwtuvBh34i914t6vN6KPSoRQD6DjtoW/KlyB8x/X0Fvja6CE+ODC8c=
-X-Gm-Message-State: AOJu0YwyEX7YZpVuHmCZfeo+tAuEBZyh5yrBBkZVulkei6fQPb6iaO9y
-	1rCftLBHHzGjqT9rz1ofV59YnsAyknVjkBjCqtnLNvzs/+YxmI44FEQWpMOAvXU=
-X-Google-Smtp-Source: AGHT+IGRrPzTXHiPkwd8Me5LrECNfH4SPW4Xfceuvlm6k2ecNUC83zwkdEYq2h00D81su32yvfY2Qg==
-X-Received: by 2002:a05:600c:1c21:b0:424:addc:c7ae with SMTP id 5b1f17b1804b1-4257a02041emr46524535e9.28.1719850459405;
-        Mon, 01 Jul 2024 09:14:19 -0700 (PDT)
-Received: from [192.168.2.107] ([79.115.63.178])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4256b09a2bcsm158762215e9.36.2024.07.01.09.14.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Jul 2024 09:14:19 -0700 (PDT)
-Message-ID: <07b701a9-7b52-45b7-8dba-1c25d77cbf15@linaro.org>
-Date: Mon, 1 Jul 2024 17:14:14 +0100
+	s=arc-20240116; t=1719864720; c=relaxed/simple;
+	bh=JOdyWIp4JdjCdIHJT0/xXlGViUBjHD/Mwa/JTAO5VzY=;
+	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
+	 Subject:From:Cc:To:Date; b=s1NJRh+Mi6ThoX+RY3v1YQaYgC0qlrf1N4nPzfOJPDxWF93VOU28HnR4/TXmUj/uAdZqC2yTS6ZCmgizJLk7z4j2MtFVohQTQW6DzvaiMX2L35XJufbNXNEOaKvKrXft6gNYKoU8rr+cwHdxH0a1qBlzbB0wKqSG+mI6Jz3irWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p4+M3zV8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66F16C116B1;
+	Mon,  1 Jul 2024 20:11:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719864719;
+	bh=JOdyWIp4JdjCdIHJT0/xXlGViUBjHD/Mwa/JTAO5VzY=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=p4+M3zV86FqA3xQMiDN8yPR2jvL+rD6zLP4EXPtRnFOoc7ze1NtVKpKA+0xFuHx7Q
+	 zK2m3rFrsD7SzTFrbFGa1hc349mcECwoNDWhUOYA8/mIIa3wUeEDXVuMLzY7087Jzl
+	 JP6T5GTwC5vZmU5hGwLMq9yl9W8wspUZxiEgIhpBT5WXsyl8rKBZosOUgPruE8LcF/
+	 hYxj7d52OV7FZ5NsghWdknvg7JKxuUgV//tij5RDzmrYwtjI0frZKbnWvuUet9F83d
+	 MF2/I7fdC2r6inulDqNetLuMHqzhwUVv0P8f74sTW13a6LctV3KdkWzRiLGyunMtTT
+	 ZcQ4PejO6YpgA==
+Message-ID: <625009ed3aa0d406144c01cfd53c0506.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/9] mtd: devices: add AT24 eeprom support
-To: Marco Felsch <m.felsch@pengutronix.de>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Russell King <linux@armlinux.org.uk>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>,
- Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Tony Lindgren <tony@atomide.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Dinh Nguyen <dinguyen@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>
-Cc: linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, imx@lists.linux.dev,
- linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-tegra@vger.kernel.org, openbmc@lists.ozlabs.org,
- linuxppc-dev@lists.ozlabs.org, linux-mips@vger.kernel.org,
- loongarch@lists.linux.dev
-References: <20240701-b4-v6-10-topic-usbc-tcpci-v1-0-3fd5f4a193cc@pengutronix.de>
- <20240701-b4-v6-10-topic-usbc-tcpci-v1-4-3fd5f4a193cc@pengutronix.de>
-Content-Language: en-US
-From: Tudor Ambarus <tudor.ambarus@linaro.org>
-In-Reply-To: <20240701-b4-v6-10-topic-usbc-tcpci-v1-4-3fd5f4a193cc@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <cover.1719579479.git.geert+renesas@glider.be>
+References: <cover.1719579479.git.geert+renesas@glider.be>
+Subject: Re: [GIT PULL] clk: renesas: Updates for v6.11 (take two)
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>
+Date: Mon, 01 Jul 2024 13:11:57 -0700
+User-Agent: alot/0.10
 
+Quoting Geert Uytterhoeven (2024-06-28 06:15:59)
+>         Hi Mike, Stephen,
+>=20
+> The following changes since commit f92d44a00bd559f411b2c70b677afbc7c47230=
+19:
+>=20
+>   clk: renesas: r8a779h0: Add VIN clocks (2024-06-11 09:36:27 +0200)
+>=20
+> are available in the Git repository at:
+>=20
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
+ tags/renesas-clk-for-v6.11-tag2
+>=20
+> for you to fetch changes up to c7e58843d1e49a6b54d528a8ea34933cafb713f2:
+>=20
+>   clk: renesas: r9a08g045: Add clock, reset and power domain support for =
+I2C (2024-06-27 18:17:13 +0200)
+>=20
+> ----------------------------------------------------------------
 
-
-On 7/1/24 2:53 PM, Marco Felsch wrote:
-> EEPROMs can become quite large nowadays (>=64K). Exposing such devices
-> as single device isn't always sufficient. There may be partitions which
-> require different access permissions. Also write access always need to
-> to verify the offset.
-> 
-> Port the current misc/eeprom/at24.c driver to the MTD framework since
-> EEPROMs are memory-technology devices and the framework already supports
-
-I was under the impression that MTD devices are tightly coupled by erase
-blocks. But then we see MTD_NO_ERASE, so what are MTD devices after all?
-
-> partitioning. This allow using of-paritions like we do for SPI-NOR
-> devices already:
+Thanks. Pulled into clk-next
 
