@@ -1,179 +1,160 @@
-Return-Path: <linux-renesas-soc+bounces-6948-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6949-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 044D491E2D0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Jul 2024 16:51:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D966591E2D6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Jul 2024 16:53:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 86FF7282BF7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Jul 2024 14:51:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 16D2A1C20F59
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Jul 2024 14:53:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECAF016C86A;
-	Mon,  1 Jul 2024 14:50:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="g4A7Gcq9";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="riZiaQp8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C61611607BC;
+	Mon,  1 Jul 2024 14:53:02 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh7-smtp.messagingengine.com (fhigh7-smtp.messagingengine.com [103.168.172.158])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C44116C862;
-	Mon,  1 Jul 2024 14:50:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A5516C69B;
+	Mon,  1 Jul 2024 14:53:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719845443; cv=none; b=cmyBH920FRlRePGoUfUvNVRKd7S/bCV31Pk/xae+TT5LT5CHAfSUqo9bPdTnfha8lfSz++BU7o4HiOfliqnpRcjboqBVXjL0CTYhJhRbWT5qVxxsxtT9lgNKHvqcwxIakGLqMK1drvsu3FXz1QVTbpnmetxkQk5Pf3rVM3pb4c8=
+	t=1719845582; cv=none; b=O+YVrDDo5Fw/ezIrWsM0Bj4WMSHTWiIuLT5036hf/losv1Ped+GDhp9wxfpeuYX7FJS2+IldNHX2dSDWGr98GMIbQPOUYxCI/oWipzyF5mwDiJ37d91IjTJCEXv2kiCLIgH0st0NnPl/+VhEMIM1NiYG6YNn0arXT8ZbrywRUAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719845443; c=relaxed/simple;
-	bh=Kj1nrWJXP7huRyw7w/bdNwnpNC9xU9Kp0u5awA4sw8w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HrXs2NtPILgToB8WvPqWodzjPQs7/gwTGUtIoQhUpmX3jPPTZRFE4At0nrp4KBKsVzQoTF5iPciXWLcXoS4AK5HwrTvjU/eQ7EndpvPB2NSWjQK/hSD1fJgzIQ017upx3Zi+clSMRmnOkqYMCtRSgQ6G26hctSIF+Y9Z5O0G6PE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=g4A7Gcq9; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=riZiaQp8; arc=none smtp.client-ip=103.168.172.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id 4C85B1140217;
-	Mon,  1 Jul 2024 10:50:41 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Mon, 01 Jul 2024 10:50:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1719845441;
-	 x=1719931841; bh=DXblF9dw0/RDGfos9kMfhQTYzUfsyxxi8wn1+qC1M+4=; b=
-	g4A7Gcq9/wm10yEsK9h0O/YRzU+qCPkKhxOgG1l05KpsFkf4ZXO61v4LC4FaU2ct
-	zXkact9iEFkYaAnqqM2eT3texUbo19y814q5lL+i1R9FPjyoGwaOkbvSP9I2BM5p
-	x1cnyeqqvW6CJ1hA3atqnR3SJYsfB2C0ksYKt2/OgQ6ooPr5O69SwFWhYaheMeGf
-	LTTW6dwmnq9Y7Jnf9Qwp1GIwLYF999RbEDoIN/fKcg1U/vK4kbsUwCnJfcKqFCvr
-	adzcltbggtE/XTb8z4a6KAEDWxhPzYb25ARYhK1C+NmfkxotMqTZRT4e3dwhPioI
-	34RHqyfRK0n2QJvTy/fi4Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1719845441; x=
-	1719931841; bh=DXblF9dw0/RDGfos9kMfhQTYzUfsyxxi8wn1+qC1M+4=; b=r
-	iZiaQp80pLoCAdAQRkd9BJpgTvfExoL2d/y2TPeJJs966lWCeANXzthyQg26ZQ80
-	nwb3JNaN/kwYDAL//1bnTLuhNGi0C9m2riLQVA6/zNxAHlEC+bPtGjpl8YsMIjHh
-	xwnXAf/WiPb9C+h64nRe1Wofyg9S2o8i5mZjh4OsLhv2+pMkC2nz0to4vEvWVNHu
-	/RmIC1QQmQ4NTggc7hJib8HLBjbpm8p7JodDx04Kc696QfMIykj0QrdQLhDuh1bI
-	c+OCfZntT+OrlrghBo7T1p9mMsGvubpFHKWXW3OwPTXoYt4nQZNP+2xwj/Jymv3A
-	XTj9gtUDPmQ5uWqXLAPZw==
-X-ME-Sender: <xms:QMKCZmF8CkBBPbL8wAeNFQ7uxiG_BhduWX-7dREh78D6S8FXlg1wRQ>
-    <xme:QMKCZnU3mL_wonJ9-dWMqCLxcqNKvoU4JIr1etgHTZHpbE833yqDNoXEsY3oHUtpM
-    yNdf5p1yRzxdUTl4M4>
-X-ME-Received: <xmr:QMKCZgIT3-KZqMOoW11MZCxZvd7lKEpL7mSooyWJ4Q-e-wMdppv7AYZ_dV4ylF24a-MxaoesTMTh94OhxPesRI1eiw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudefgdektdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvfevufffkffojghfgggtgfesthekredtredtjeenucfhrhhomheppfhikhhl
-    rghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvg
-    hsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepheeigfeuveeu
-    tdefhfehgeekvedtleeuueekveefudehhffhjeffgfegffelfeegnecuvehluhhsthgvrh
-    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghr
-    lhhunhgusehrrghgnhgrthgvtghhrdhsvg
-X-ME-Proxy: <xmx:QMKCZgFQyooH8VzS4if6gifRcb6RGFLrtj1p9GRJnEWTbSRC1AMhow>
-    <xmx:QMKCZsW6NLfXkewbjWbzZSXFU632rhxSwNgDRz1p8jkHhtgNTJI4-g>
-    <xmx:QMKCZjMgw-UzCIyqJdvHy5Sck2kHRHnWXDwS61zXiVkcBA4o4VUUAQ>
-    <xmx:QMKCZj0ZpH4GxMAFaxppd_ltn3QBz7299Q-iqZovG7oE1_Xw4FYdfA>
-    <xmx:QcKCZvGIgsmwb-4Yvwop9mMvKyidOh7n2lJPsiwXyl_aQECV7IU5dFnB>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 1 Jul 2024 10:50:40 -0400 (EDT)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2 2/2] arm64: dts: renesas: white-hawk-single: Wire-up Ethernet TSN
-Date: Mon,  1 Jul 2024 16:50:12 +0200
-Message-ID: <20240701145012.2342868-3-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240701145012.2342868-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20240701145012.2342868-1-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1719845582; c=relaxed/simple;
+	bh=RaEIqBBBlZwZlnjhe9HMUAgwkqCYxlvq/qn3lRGk0AI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DMj8G6ETcMRTnLFby2oAQFomsm0yzIc25xStZCZjHk5Em9X7Yl16yZezc1UDRfmh/u4H+4ddo7drxEO2ar/xrRj3iS3XXirt+y3B4ASYnZPJKW2oPvxq93l2fz/yb5Q357l2fftSPMoUsw7v2utF3cY3fDi1a7FsxXkmHmwfyms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-64b3655297aso26164857b3.1;
+        Mon, 01 Jul 2024 07:53:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719845578; x=1720450378;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SP79SDf92bXt2zdoUqVmmj1x8MHK+bQSYpGd6rxMW4U=;
+        b=FLlqBcGcsF3p9BflE1IcgxxurI/q/y9ocGLZj7+1vizZEz6j2I6CeiOVCavQtvLyqQ
+         JG1N2s2XemE5S+HaAwXY4JaxcQOhQIZLPS/Ks4qCAh8Il9ks0OX21al1txVXQfEsmO8x
+         hmM1SwTr9IpPFjglTTzLycJvUWlaSJMb3/xuqFiScbripzss4AH4y6JhtNdFF6DY9HuQ
+         0g+U3/u/jxF7KuRNHcsjvvopCwdqHROQ+yoog5Qqben/SNJj5ZrfsJIw1RstS6H1gV15
+         I9fJF2Oerp0ZaI98JcKhEFwB2UECj+yI7f9xQBybCLHGnAlc+753dSkscDQQmSPABzOk
+         Q2yg==
+X-Forwarded-Encrypted: i=1; AJvYcCXn4dhOfMBPWnC65gH42GNC1wVo8oUtGmFSwQPJh06Qz0VfD/IEPKGMPKQ+fdeSO/5rbVK2Z+FVO2Zuc8aClOs9TcDTEN/sqiC0elF/d1h6WOiPdTu0VxhkDJemAnKzE2VI3bJBqYjpA6WD7pYW
+X-Gm-Message-State: AOJu0YzsSBNCMZhR0y2b4z3t4XSz1P5RdE74Zl7m/67tEU+aEwLmMn+P
+	NxdzGKd8jjzKuUGJITSX/CEvKYP3WofmEyMg9h834xu+t//ZdAhXNMhSlOZ/
+X-Google-Smtp-Source: AGHT+IGpxS/ktwqHyYltRFPP9PO97iHGpYLFQ2YKbyFhdKSiP1eRUpfBd0nDOefdzZYma43POaKekw==
+X-Received: by 2002:a05:690c:a9e:b0:620:3c10:527a with SMTP id 00721157ae682-64c7268293fmr79021017b3.15.1719845578234;
+        Mon, 01 Jul 2024 07:52:58 -0700 (PDT)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-64a99c71a76sm13983287b3.10.2024.07.01.07.52.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 Jul 2024 07:52:57 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-64b3655297aso26164447b3.1;
+        Mon, 01 Jul 2024 07:52:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVWlp2YCYQ3LH7EUS33VYC53XU93UvcvvfWbAGRsEF4PTjR92gOAilcMlCvOmgFsjhNg8EbXGpEl61VtLR5IUl2walW0WJhIi8/jCykjHEDGPsQj1kLUjutvYZI+rAN9bkdX1ZIgshvLJDuxRsx
+X-Received: by 2002:a05:690c:d82:b0:62f:2553:d3b3 with SMTP id
+ 00721157ae682-64c72c4b3a3mr64194377b3.29.1719845577668; Mon, 01 Jul 2024
+ 07:52:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240630034649.173229-1-marex@denx.de>
+In-Reply-To: <20240630034649.173229-1-marex@denx.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 1 Jul 2024 16:52:44 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUMFA-ESPfCbQiddc-Q5bLHaCpMk6fZAf48Aucdg79kGw@mail.gmail.com>
+Message-ID: <CAMuHMdUMFA-ESPfCbQiddc-Q5bLHaCpMk6fZAf48Aucdg79kGw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] ARM: dts: renesas: Drop ethernet-phy-ieee802.3-c22
+ from PHY compatible string on all RZ boards
+To: Marek Vasut <marex@denx.de>
+Cc: linux-arm-kernel@lists.infradead.org, andrew@lunn.ch, 
+	kernel@dh-electronics.com, kernel test robot <lkp@intel.com>, 
+	Conor Dooley <conor+dt@kernel.org>, Khuong Dinh <khuong@os.amperecomputing.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On the V4H White-Hawk Single board as oppose to the Quad board the
-Ethernet TSN is wired up to a PHY (Marvel 88Q2110/QFN40). Wire up the
-connection and enable the TSN0.
+Hi Marek,
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- .../renesas/r8a779g2-white-hawk-single.dts    | 51 +++++++++++++++++++
- 1 file changed, 51 insertions(+)
+Thanks for your patch!
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779g2-white-hawk-single.dts b/arch/arm64/boot/dts/renesas/r8a779g2-white-hawk-single.dts
-index 2f79e5a61248..b5f182903702 100644
---- a/arch/arm64/boot/dts/renesas/r8a779g2-white-hawk-single.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779g2-white-hawk-single.dts
-@@ -24,3 +24,54 @@ &hscif0_pins {
- 	groups = "hscif0_data", "hscif0_ctrl";
- 	function = "hscif0";
- };
-+
-+&pfc {
-+	tsn0_pins: tsn0 {
-+		mux {
-+			groups = "tsn0_link", "tsn0_mdio", "tsn0_rgmii",
-+				 "tsn0_txcrefclk";
-+			function = "tsn0";
-+		};
-+
-+		mdio {
-+			groups = "tsn0_mdio";
-+			drive-strength = <24>;
-+			bias-disable;
-+		};
-+
-+		rgmii {
-+			groups = "tsn0_rgmii";
-+			drive-strength = <24>;
-+			bias-disable;
-+		};
-+
-+		link {
-+			groups = "tsn0_link";
-+			bias-disable;
-+		};
-+	};
-+};
-+
-+&tsn0 {
-+	pinctrl-0 = <&tsn0_pins>;
-+	pinctrl-names = "default";
-+	phy-mode = "rgmii";
-+	phy-handle = <&phy3>;
-+	status = "okay";
-+
-+	mdio {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		reset-gpios = <&gpio1 23 GPIO_ACTIVE_LOW>;
-+		reset-post-delay-us = <4000>;
-+
-+		phy3: ethernet-phy@0 {
-+			compatible = "ethernet-phy-id002b.0980",
-+				     "ethernet-phy-ieee802.3-c22";
-+			reg = <0>;
-+			interrupt-parent = <&gpio4>;
-+			interrupts = <3 IRQ_TYPE_LEVEL_LOW>;
-+		};
-+	};
-+};
--- 
-2.45.2
+On Sun, Jun 30, 2024 at 5:47=E2=80=AFAM Marek Vasut <marex@denx.de> wrote:
+> The rtl82xx DT bindings do not require ethernet-phy-ieee802.3-c22
+> as the fallback compatible string. There are fewer users of the
 
+Why not?
+
+> Realtek PHY compatible string with fallback compatible string than
+> there are users without fallback compatible string, so drop the
+> fallback compatible string from the few remaining users:
+
+Ah, the self-fulfilling collection of patches ;-)
+
+Let's move the discussion to the actual patch that causes this
+https://lore.kernel.org/all/20240625184359.153423-1-marex@denx.de/
+
+> $ git grep -ho ethernet-phy-id001c....... | sort | uniq -c
+>       1 ethernet-phy-id001c.c816",
+>       2 ethernet-phy-id001c.c915",
+>       2 ethernet-phy-id001c.c915";
+>       5 ethernet-phy-id001c.c916",
+>      13 ethernet-phy-id001c.c916";
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202406290316.YvZdvLxu-lkp@i=
+ntel.com/
+
+Hmm, nothing about r7s9210-rza2mevb in that report.
+
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Khuong Dinh <khuong@os.amperecomputing.com>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Magnus Damm <magnus.damm@gmail.com>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+> Note: this closes only part of the report
+
+Please do not use the "Closes" tag if it does not fix everything in
+the report. "Link" (pointing to the correct report!) is fine, though.
+
+> --- a/arch/arm/boot/dts/renesas/r7s9210-rza2mevb.dts
+> +++ b/arch/arm/boot/dts/renesas/r7s9210-rza2mevb.dts
+> @@ -95,8 +95,7 @@ &ether1 {
+>         renesas,no-ether-link;
+>         phy-handle =3D <&phy1>;
+>         phy1: ethernet-phy@1 {
+> -               compatible =3D "ethernet-phy-id001c.c816",
+> -                            "ethernet-phy-ieee802.3-c22";
+> +               compatible =3D "ethernet-phy-id001c.c816";
+>                 reg =3D <0>;
+>         };
+>  };
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
