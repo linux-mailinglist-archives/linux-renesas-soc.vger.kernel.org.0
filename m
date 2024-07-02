@@ -1,60 +1,61 @@
-Return-Path: <linux-renesas-soc+bounces-6974-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6975-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD21B923A77
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 11:47:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4D79923A79
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 11:47:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 71A4E281107
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 09:47:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DF5B51C20C70
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 09:47:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB6EA15572D;
-	Tue,  2 Jul 2024 09:47:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE318155A47;
+	Tue,  2 Jul 2024 09:47:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC5F513D8BA;
-	Tue,  2 Jul 2024 09:47:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19EA213D8BA;
+	Tue,  2 Jul 2024 09:47:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719913623; cv=none; b=lvsRix4gzzk01eDVIzWDCCXBKg+/TJbx/jGQm8vA4palA6Bvv9tUvTIr45tcwEKnwZsxZ4SJRa6MkHsJFI+CPzpvT5FBN/iZ0CPuOSbmrMcMcYf30xYsW+qA1H9rj0YUnNzJlTGiW+/azZpVTQ5LD8JdmLCdsPzI7qEDHbGFIXM=
+	t=1719913629; cv=none; b=j7toOmGID8Uvyt89j1B4CHBDqVV6zNr/xnjzRyFpq2rZMo8qzvkbuNn9jEKqxgUBYgjn/uAPHGtOpHN8L9P3NSVihiDk9SDKIZbvWRvKge+qiUxDVgG1OcvMQwAvzXPBC56/kC4FmmZYtDaerbaPZ1WL4+CE34EKy8YwuVQ6r3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719913623; c=relaxed/simple;
-	bh=FfuV2OS5xT1ph2/ORBzP7nBXgiiZO8n7rjdhj/mWUUM=;
+	s=arc-20240116; t=1719913629; c=relaxed/simple;
+	bh=6sNXErYGiELb7Mk0y+DGkEkaGdhlhJdxwEZ5Z0L9Gd8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GGCr9GX+GVhx/L02f01Sg6Om2yBc7SDIDKocGI2o8fCsPQel5rMyWlQq1YP6DkcerbxDthz1XBKJxqGkACX/8+Lixk3+th5AdUaejDEQHlSL455n3J6oPWYO3B01XRQeSUDP7nrWebKwxSl48BX1GzvXiqBOBv+3Tmr3lVsXsgs=
+	 MIME-Version; b=Mc62/ava+wDyFaxaUkUInBrZZLGr3jCI/8B5f8xmjt/OWEiR/Ff0AOtOa56zibmIInWkg/a/8mU56AXsJnfNY+Qc2EKxYROuebE5I4lvBTCYFEkrnCpmQ4H9czNoL20nWWY/3LoFA1scjC3ytq0+r6U8beC8CX3a1GT2UdzxX5M=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 X-IronPort-AV: E=Sophos;i="6.09,178,1716217200"; 
-   d="scan'208";a="213970934"
+   d="scan'208";a="213970948"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 02 Jul 2024 18:47:01 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 02 Jul 2024 18:47:07 +0900
 Received: from localhost.localdomain (unknown [10.226.93.72])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 35BF840031F9;
-	Tue,  2 Jul 2024 18:46:55 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 24FF8400C9ED;
+	Tue,  2 Jul 2024 18:47:01 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+To: Biju Das <biju.das.jz@bp.renesas.com>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Conor Dooley <conor+dt@kernel.org>,
+	Daniel Vetter <daniel@ffwll.ch>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH 4/9] clk: renesas: r9a07g043: Add LCDC clock and reset entries
-Date: Tue,  2 Jul 2024 10:46:14 +0100
-Message-ID: <20240702094630.41485-5-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 5/9] drm: renesas: rz-du: Add RZ/G2UL DU Support
+Date: Tue,  2 Jul 2024 10:46:15 +0100
+Message-ID: <20240702094630.41485-6-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240702094630.41485-1-biju.das.jz@bp.renesas.com>
 References: <20240702094630.41485-1-biju.das.jz@bp.renesas.com>
@@ -66,64 +67,79 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add LCDC clock and reset entries to CPG driver.
+The LCD controller is composed of Frame Compression Processor (FCPVD),
+Video Signal Processor (VSPD), and Display Unit (DU).
+
+It has DPI interface and supports a maximum resolution of WXGA along
+with 2 RPFs to support the blending of two picture layers and raster
+operations (ROPs).
+
+The DU module is connected to VSPD. Add RZ/G2UL DU support.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/clk/renesas/r9a07g043-cpg.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c |  9 ++++++++-
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  | 11 +++++++++++
+ 2 files changed, 19 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/clk/renesas/r9a07g043-cpg.c b/drivers/clk/renesas/r9a07g043-cpg.c
-index 16acc95f3c62..f1ff3b0cb83b 100644
---- a/drivers/clk/renesas/r9a07g043-cpg.c
-+++ b/drivers/clk/renesas/r9a07g043-cpg.c
-@@ -52,6 +52,8 @@ enum clk_ids {
- 	CLK_PLL5,
- 	CLK_PLL5_500,
- 	CLK_PLL5_250,
-+	CLK_PLL5_FOUTPOSTDIV,
-+	CLK_DSI_DIV,
- #endif
- 	CLK_PLL6,
- 	CLK_PLL6_250,
-@@ -120,6 +122,7 @@ static const struct cpg_core_clk r9a07g043_core_clks[] __initconst = {
- 	DEF_FIXED(".pll5", CLK_PLL5, CLK_EXTAL, 125, 1),
- 	DEF_FIXED(".pll5_500", CLK_PLL5_500, CLK_PLL5, 1, 6),
- 	DEF_FIXED(".pll5_250", CLK_PLL5_250, CLK_PLL5_500, 1, 2),
-+	DEF_PLL5_FOUTPOSTDIV(".pll5_foutpostdiv", CLK_PLL5_FOUTPOSTDIV, CLK_EXTAL),
- #endif
- 	DEF_FIXED(".pll6", CLK_PLL6, CLK_EXTAL, 125, 6),
- 	DEF_FIXED(".pll6_250", CLK_PLL6_250, CLK_PLL6, 1, 2),
-@@ -146,6 +149,8 @@ static const struct cpg_core_clk r9a07g043_core_clks[] __initconst = {
- #ifdef CONFIG_ARM64
- 	DEF_FIXED("M2", R9A07G043_CLK_M2, CLK_PLL3_533, 1, 2),
- 	DEF_FIXED("M2_DIV2", CLK_M2_DIV2, R9A07G043_CLK_M2, 1, 2),
-+	DEF_DSI_DIV("DSI_DIV", CLK_DSI_DIV, CLK_PLL5_FOUTPOSTDIV, CLK_SET_RATE_PARENT),
-+	DEF_FIXED("M3", R9A07G043_CLK_M3, CLK_DSI_DIV, 1, 1),
- #endif
+diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
+index 6e7aac6219be..b1812f947252 100644
+--- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
++++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
+@@ -28,6 +28,7 @@
+ #include "rzg2l_du_vsp.h"
+ 
+ #define DU_MCR0			0x00
++#define DU_MCR0_DPI_OE		BIT(0)
+ #define DU_MCR0_DI_EN		BIT(8)
+ 
+ #define DU_DITR0		0x10
+@@ -216,9 +217,15 @@ static void rzg2l_du_crtc_put(struct rzg2l_du_crtc *rcrtc)
+ 
+ static void rzg2l_du_start_stop(struct rzg2l_du_crtc *rcrtc, bool start)
+ {
++	struct rzg2l_du_crtc_state *rstate =
++					to_rzg2l_crtc_state(rcrtc->crtc.state);
+ 	struct rzg2l_du_device *rcdu = rcrtc->dev;
++	u32 val = DU_MCR0_DI_EN;
+ 
+-	writel(start ? DU_MCR0_DI_EN : 0, rcdu->mmio + DU_MCR0);
++	if (rstate->outputs == BIT(RZG2L_DU_OUTPUT_DPAD0))
++		val |= DU_MCR0_DPI_OE;
++
++	writel(start ? val : 0, rcdu->mmio + DU_MCR0);
+ }
+ 
+ static void rzg2l_du_crtc_start(struct rzg2l_du_crtc *rcrtc)
+diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+index e5eca8691a33..34534441b7ec 100644
+--- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
++++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+@@ -25,6 +25,16 @@
+  * Device Information
+  */
+ 
++static const struct rzg2l_du_device_info rzg2l_du_r9a07g043u_info = {
++	.channels_mask = BIT(0),
++	.routes = {
++		[RZG2L_DU_OUTPUT_DPAD0] = {
++			.possible_outputs = BIT(0),
++			.port = 1,
++		},
++	},
++};
++
+ static const struct rzg2l_du_device_info rzg2l_du_r9a07g044_info = {
+ 	.channels_mask = BIT(0),
+ 	.routes = {
+@@ -40,6 +50,7 @@ static const struct rzg2l_du_device_info rzg2l_du_r9a07g044_info = {
  };
  
-@@ -209,6 +214,12 @@ static const struct rzg2l_mod_clk r9a07g043_mod_clks[] = {
- 				0x564, 2),
- 	DEF_MOD("cru_aclk",     R9A07G043_CRU_ACLK, R9A07G043_CLK_M0,
- 				0x564, 3),
-+	DEF_COUPLED("lcdc_clka", R9A07G043_LCDC_CLK_A, R9A07G043_CLK_M0,
-+				0x56c, 0),
-+	DEF_COUPLED("lcdc_clkp", R9A07G043_LCDC_CLK_P, R9A07G043_CLK_ZT,
-+				0x56c, 0),
-+	DEF_MOD("lcdc_clkd",	R9A07G043_LCDC_CLK_D, R9A07G043_CLK_M3,
-+				0x56c, 1),
- #endif
- 	DEF_MOD("ssi0_pclk",	R9A07G043_SSI0_PCLK2, R9A07G043_CLK_P0,
- 				0x570, 0),
-@@ -309,6 +320,7 @@ static const struct rzg2l_reset r9a07g043_resets[] = {
- 	DEF_RST(R9A07G043_CRU_CMN_RSTB, 0x864, 0),
- 	DEF_RST(R9A07G043_CRU_PRESETN, 0x864, 1),
- 	DEF_RST(R9A07G043_CRU_ARESETN, 0x864, 2),
-+	DEF_RST(R9A07G043_LCDC_RESET_N, 0x86c, 0),
- #endif
- 	DEF_RST(R9A07G043_SSI0_RST_M2_REG, 0x870, 0),
- 	DEF_RST(R9A07G043_SSI1_RST_M2_REG, 0x870, 1),
+ static const struct of_device_id rzg2l_du_of_table[] = {
++	{ .compatible = "renesas,r9a07g043u-du", .data = &rzg2l_du_r9a07g043u_info },
+ 	{ .compatible = "renesas,r9a07g044-du", .data = &rzg2l_du_r9a07g044_info },
+ 	{ /* sentinel */ }
+ };
 -- 
 2.43.0
 
