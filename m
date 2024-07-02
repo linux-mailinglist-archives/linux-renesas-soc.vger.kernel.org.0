@@ -1,119 +1,198 @@
-Return-Path: <linux-renesas-soc+bounces-6966-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6967-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE26F9238FF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 10:57:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07A7892391C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 11:06:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F22DB1C203BD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 08:57:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B4169282EC2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 09:06:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8EC615250C;
-	Tue,  2 Jul 2024 08:57:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9968150997;
+	Tue,  2 Jul 2024 09:06:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="glwt1H6g"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="NpHIw/vI";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Bjx6ImGF"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout6-smtp.messagingengine.com (fout6-smtp.messagingengine.com [103.168.172.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B7E1509BC
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jul 2024 08:57:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F97A14F111;
+	Tue,  2 Jul 2024 09:06:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719910637; cv=none; b=oUxUN8UOBLG3Ktb2p7wfJZ4tnm+n2sen3lKFRul7mu5H/PTe82f7sUBzSyBH2TO+0fFHrmjDYKvhPL6uGHL1FeJX31+kLCH0RwdKYOnIvadV0vUdGD0CnwGmKRIC7DHfmZ8GymRhpD9htH9O57JrC2YFXIj6TEdlfnaCBeXkZJ4=
+	t=1719911179; cv=none; b=l5HTY7UdnhYRGkzhG6QhJN9ljlcTbWTQ+6bDxEKM9Cg9s4APg8mjk0JzIXxXiNk52mXE2QeAXMx9frWIvv4AcjnMgeRC4dpSBj2QJqRVG0B1gD9lbAV6XQ62wE1ItdF5PN0+DhVc8ag6QUU26Q+73yTa5keLnWDBxUrdIwR7QAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719910637; c=relaxed/simple;
-	bh=lQNWMHSAHhi1B2REf6bXB44AOtjzCQUTtwwc1XnHiu4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Fx4n/SxE4dNR43gNEqgZ490EBdHwwT7qoUXy2bDyHTwDcFg7N/14ftSVleo1c7gsuj7R3v8S1/yxpUchfZlVrjRtMKUkIho0O65jJiZ8udE3nfGx3jYzqSWQ1MkQGJwjo7Ao6OVmnAJ7fLcvRSivI+NE4STG4KhFTfY1hVcgQB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=glwt1H6g; arc=none smtp.client-ip=209.85.208.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2ec3f875e68so43600571fa.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 Jul 2024 01:57:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1719910634; x=1720515434; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lQNWMHSAHhi1B2REf6bXB44AOtjzCQUTtwwc1XnHiu4=;
-        b=glwt1H6gEHz5G7Wnt7RTnhGCqk5JZIC88aU+612xeTQ6wk6987komrereM13fpQuFw
-         DnM3gWpGvivvrkmaVkZqjw8iQJMRiyL5bY2JlsfTg/sM/01DZXoZR6xmrnh1+cSB5zqI
-         wsfe8xel4I0LhUKd6/AFreXDxAZnRqLVMcToFi+bCN9n07eOD/0x1TPiL2u+yYnWMxlf
-         7kG098AIf2R+T9LJOtND3GOT2eZBBQUs0mjMgxScReV6q9Er2dv8wbfkAAu3VE9TdV3Y
-         xJd+TqCnpltgchQuCl9btbMOFI36sdKBHC9/UBtE7oG5sFTS6Jge7euCZ005F0NnqXAX
-         f41A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719910634; x=1720515434;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lQNWMHSAHhi1B2REf6bXB44AOtjzCQUTtwwc1XnHiu4=;
-        b=d0FyWohqiLE+qh6C0crjqePFYDYWN5RCj1XfPIv3ueR3JiO0OknqCW1Z0jWDYVj2W8
-         6K3FhVJ9fzdoA6zLyZFHv3JTDx4sJAvwRugbNzCFaawKfK/c5XBokbI/Rb8cn3df9vKE
-         5WToKpexmdbfKDI7iB1Bwlg9M7f/ZrE7+VedUFgswJXuaytI492Ky3vpRFKozT3hpKpa
-         OS1TBPeoZU6LQk/go6MRHXCEu4jdqB+0ErjUZE+lNSRBFCI/8I77XsT43rosAMswhulm
-         Fd6L/QKx3uz0u0Az4g0vXIQtEsLLsmFV0351gO9S/XMd8H4QrpyNK0fDQVseE62R5lH/
-         NodA==
-X-Forwarded-Encrypted: i=1; AJvYcCVJBe+k+Prl5tMBkbwOFhrulknoMa/bKC3rJUdD/fMvx5sFD07FyqMbxoD89UArGBHPeL86afvr7p2dBi3kV9d2doZvR8ivVMhAPgJe+mPjhAw=
-X-Gm-Message-State: AOJu0Yx4t2eBU2foeM7l0kbTwRT72THRXppLGXDdWOiITK0IrjiZPvcI
-	5KZsdskDztplu9brrShTCZJBSuRhVtt+0WdujH17UBjHHSo88dtSoMLAUlVF5XYnkEsWnjygBDe
-	ZGggOl1cDg4gZY/RE8cuAlO/OWpSpuD2Ht/idpg==
-X-Google-Smtp-Source: AGHT+IHo5eEIsVu44pGpnRevjVwA1ZpOtmw6Mmmn4Q+VHOJCxnzpE8v3YnPOHaBgvtoU17z7s4obBrZVrOf9sLuZILM=
-X-Received: by 2002:a2e:bc06:0:b0:2ec:1dfc:45bf with SMTP id
- 38308e7fff4ca-2ee5e6ba584mr55892571fa.42.1719910633934; Tue, 02 Jul 2024
- 01:57:13 -0700 (PDT)
+	s=arc-20240116; t=1719911179; c=relaxed/simple;
+	bh=yT2dU406UigV/1rd2Qpji/wju03N3iYdlfmnLKqMHCw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ssKznDyu+c5seVylqEy0x8TPEL10pojvTKORmbBH0GUllrzib+GHfglrk4qhjdiPzm0ocHfZeKsXjMTH3jpJX1Wr3j2xSzkyi3lwZFcsuHG8msVWsLld/lZ8apsiqRjUpnKrI4+Q8kZhOykoies+ZSiKfNzRDWGMqmLUl9TGEE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=NpHIw/vI; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Bjx6ImGF; arc=none smtp.client-ip=103.168.172.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 4E1BD138053D;
+	Tue,  2 Jul 2024 05:06:14 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Tue, 02 Jul 2024 05:06:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1719911174;
+	 x=1719997574; bh=3YWozVWx8MlebHOnbd6VGG/h5yBrUd/5xxmH3DK6qxg=; b=
+	NpHIw/vIfYD0/psaKVqJEHpoE3BBf6r5Ln9m8A+3mZfGEVfmsnKF+zQtT5yU4wE3
+	9qAQ0OM4adID7dNLKArhgiypPBNTduU82vOvDP7Ri3FXDm5USOC54799GBC2dzxk
+	IEo098b667dQp6WxF52QcwdMsXTgxanU3u0rKH04rTAMbxxeLpd8uugckKtDeom8
+	w8IoyTLaffdHZtVzoIacBDOM17aRLmgtwT74o3dlI917KWNMGVEXkeFdswmbwD57
+	gcbIFO06yqglhq02gy0XhuN3moZj5yToAEDZ5CAwzrXUlEpnQbT9wfpux/cZ3npa
+	gR69Oz+Acd2OVJnuBjmY8w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1719911174; x=
+	1719997574; bh=3YWozVWx8MlebHOnbd6VGG/h5yBrUd/5xxmH3DK6qxg=; b=B
+	jx6ImGFFucudZg5EeazFsFAlN5v4A88LqSi8hH9Fd/bPUxPvh33L+L6N56WCTWBj
+	Vey8p0D0b8x/yZ4GuOH6Lp0IYeMaO5VMWZowF2gavRbHOEU7tj9n1TcO2bljrHur
+	1lG3hqdXJudhQf37UZdJ/2g58ioUj+1Zd77xRvoFkKjbPrBSXGoe7B4EhJ8s4fIP
+	M9uNTPvVxfY8phXvuXWDtZEGuXszmIuXBIpkrDyTDtEjZGwJx0XZqbuBFYhijSFt
+	zcSdoq7y4tulGYJ/ZNdDay6yGtmXAytU0cwe/77PV7AedPAISonya20Ss6XztK/P
+	YFSQZzP39kNkIi2c8+08A==
+X-ME-Sender: <xms:BcODZh8OiKAeLYhUZUvuz8KDvfz3yQdj_DL5I1SLikwBRKf5USCaZg>
+    <xme:BcODZlv5J8Vs1r_Ag4tZnx7NvGc7WDKfRqcQ1MVbRbv_gTsZSpFzvKs5jtM3KURc8
+    -k4eJ9qfp4wn4NSiQQ>
+X-ME-Received: <xmr:BcODZvBFUZ3J2h9W8svSQJHCWHBQkacDaAa9iAjddg5K-yF8WckEn5qQshcvEzygw0xs7cJoXl20d6dQoMzCYRY_jniAq74>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehgddutdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhikhhl
+    rghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvg
+    hsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepfefhleelhfff
+    jefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftddvleeinecuvehluhhsthgvrh
+    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghr
+    lhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
+X-ME-Proxy: <xmx:BcODZlfTk96t2ZKElvqmRMf-8IF20gwpjBw_25Xj1iXrgrYrZS-J_A>
+    <xmx:BcODZmPqSBctXOd5_j89vNyGeExlWAcY6zrHxHFxpPCnMSrxi0f2ZA>
+    <xmx:BcODZnlay9pAZ-nnDkAoN3QWt52kDupEZMJq0BUdbpfpUvJxzuCT9w>
+    <xmx:BcODZgvNB6Rx0O9MzOar4y0WcRqDGZPwQibMAe15tRxmcWsQuiXE_A>
+    <xmx:BsODZnHbmmDhI7J4vJoYETIonWdE74MIC1sh-e3Ka4s87STcnmBkCTEl>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 2 Jul 2024 05:06:13 -0400 (EDT)
+Date: Tue, 2 Jul 2024 11:06:10 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 1/5] dt-bindings: media: renesas,vin: Add Gen4 family
+ fallback
+Message-ID: <20240702090610.GA2984619@ragnatech.se>
+References: <20240624144108.1771189-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240624144108.1771189-2-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdUrEf9KFKCawY_XPu0WuJwaE+Se21jx-d4X_Ef+f2S36Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240701-b4-v6-10-topic-usbc-tcpci-v1-0-3fd5f4a193cc@pengutronix.de>
- <20240701-b4-v6-10-topic-usbc-tcpci-v1-9-3fd5f4a193cc@pengutronix.de>
-In-Reply-To: <20240701-b4-v6-10-topic-usbc-tcpci-v1-9-3fd5f4a193cc@pengutronix.de>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Tue, 2 Jul 2024 10:57:02 +0200
-Message-ID: <CAMRc=McP=K0jSD56JdCR9DPJmJN39Z74mjAo0qX2mEnTBN1GAA@mail.gmail.com>
-Subject: Re: [PATCH 9/9] eeprom: at24: remove deprecated Kconfig symbol
-To: Marco Felsch <m.felsch@pengutronix.de>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
-	Vignesh Raghavendra <vigneshr@ti.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Russell King <linux@armlinux.org.uk>, 
-	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Andrew Lunn <andrew@lunn.ch>, 
-	Gregory Clement <gregory.clement@bootlin.com>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Tony Lindgren <tony@atomide.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Dinh Nguyen <dinguyen@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Huacai Chen <chenhuacai@kernel.org>, 
-	WANG Xuerui <kernel@xen0n.name>, linux-mtd@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
-	imx@lists.linux.dev, linux-omap@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	openbmc@lists.ozlabs.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-mips@vger.kernel.org, loongarch@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdUrEf9KFKCawY_XPu0WuJwaE+Se21jx-d4X_Ef+f2S36Q@mail.gmail.com>
 
-On Mon, Jul 1, 2024 at 3:54=E2=80=AFPM Marco Felsch <m.felsch@pengutronix.d=
-e> wrote:
->
-> All kernel users are shifted to the new MTD_EEPROM_AT24 Kconfig symbol
-> so we can drop the old one.
->
+Hi Geert,
 
-Nope, with this series arm64 still selects the old symbol.
+Thanks for your review.
 
-Bart
+On 2024-07-02 09:52:08 +0200, Geert Uytterhoeven wrote:
+> Hi Niklas,
+> 
+> On Mon, Jun 24, 2024 at 4:43 PM Niklas Söderlund
+> <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > The two Gen4 SoCs released (V4H and V4M) that have a video capture
+> > pipeline the VIN IP are very similar.
+> >
+> > The datasheet for the two SoCs have small nuances around the Pre-Clip
+> > registers ELPrC and EPPrC in three use-cases, interlaced images,
+> > embedded data and RAW8 input. On V4H the values written to the registers
+> > are based on odd numbers while on V4M they are even numbers, values are
+> > based on the input image size. No board that uses these SoCs which also
+> > have the external peripherals to test these nuances exists. Most likely
+> > this is an issue in the datasheet.
+> >
+> > Before adding bindings for V4M add a family compatible fallback for
+> > Gen4. That way the driver only needs to be updated once for Gen4, and we
+> > still have the option to fix any problems in the driver if any testable
+> > differences between the two SoCs is found.
+> >
+> > There are already DTS files using the renesas,vin-r8a779g0 compatible
+> > which needs to be updated to not produce a warning for DTS checks. And
+> > the driver will need to kept compatible with renesas,vin-r8a779g0, but
+> > for new Gen4 SoCs such as V4M we can avoid this.
+> >
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > ---
+> > * Changes since v3
+> > - New in v4.
+> 
+> Thanks for your patch!
+> 
+> > --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > @@ -53,7 +53,10 @@ properties:
+> >                - renesas,vin-r8a77990 # R-Car E3
+> >                - renesas,vin-r8a77995 # R-Car D3
+> >                - renesas,vin-r8a779a0 # R-Car V3U
+> 
+> I think R-Car V3U should be moved below, too, as it's the first
+> member of the R-Car Gen4 family, despite the name.
+
+I was a bit conflicted about if I should do this and opted to for the 
+least intrusive change. But the change seems to have landed on a good 
+note, I will do a new version that covers V3U as well.
+
+> 
+> > +      - items:
+> > +          - enum:
+> >                - renesas,vin-r8a779g0 # R-Car V4H
+> > +          - const: renesas,rcar-gen4-vin # Generic R-Car Gen4
+> 
+> If all differences in the pipeline can be devised from the topology
+> in DT:
+
+It can.
+
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Thanks!
+
+> 
+> >
+> >    reg:
+> >      maxItems: 1
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> -- 
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+
+-- 
+Kind Regards,
+Niklas Söderlund
 
