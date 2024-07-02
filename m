@@ -1,142 +1,155 @@
-Return-Path: <linux-renesas-soc+bounces-7007-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7008-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 165FA92498A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 22:45:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 154BB9249B9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 23:06:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CB15F28456B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 20:45:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 457611C22213
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 21:06:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40D3C1BB684;
-	Tue,  2 Jul 2024 20:45:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E222A20126D;
+	Tue,  2 Jul 2024 21:06:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="Aplv7IPL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T0jF5n0X"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9EDF1E531;
-	Tue,  2 Jul 2024 20:45:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE3C1201264
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jul 2024 21:06:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719953153; cv=none; b=ezYebmPi2x1h2T/gV/Uu70Lr6uZIvFDOtDoAnBnOgphCUymrA/Yon+ya3bIjIFXgGjidjCteCq9vNzsJA2lYAMn2IKSCLTyTKq0LQpXCW2VSAqWBWyUMgAYkFvjmy1KfRiZI22y1PoL+uB96kGyUeIi7WYXnlCjC8bhveUYLuM0=
+	t=1719954379; cv=none; b=MwmH9nv23HQ/LK9AJm0thBnjD46KoxNXFgGOoc66PSIzMopwdqq61zshFZy8b5H1nf3f43PrOxm6MWCTBBwwPnQ7Nbr/U6KoclfH4EyqWvQE7G7U4V2aP9RI5KBCkwQ2gNSM4Sy4lKT1wK5AewWA0wmK5oyr8k7xU+1cTlvfFc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719953153; c=relaxed/simple;
-	bh=ehgWM/z3W96l++CfYeD511unHwMDxY5uw0/ccIeI6hA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z0/QDs8h5CymA3CpaLShHKPXMrRQlEecghFgujxJSWa1gV40q+WBc4h9eIR5SPfgmgfWQK6yfhukYfiWC0KexW5hwBJLGjOx+uvwcscEb3iXqZcDkdLUoJ251UWT00dwQ1n8uiY7QnXmnYe4VZNVCX36pkwK77/2FjuNtc0TfSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=Aplv7IPL; arc=none smtp.client-ip=85.214.62.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 7804E88747;
-	Tue,  2 Jul 2024 22:45:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1719953143;
-	bh=o202O5Cd4rj9NcyZCORLUhE7yY5KqQ5h5kB4I1s5jQ0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Aplv7IPLmi4DfeRIuuWCEMiyIieQgKMEpyE5idWG0oavOAv7hFTHRw3cY6qb6s98S
-	 EOez8+d+xIcPSuEgmZQ93IlG/ZWDfLGa5gGe9MKxgw1tz9t1sK20CnsWlh7PVGhRMB
-	 C9pXHyBta7EF/UCOF+sk7zK4yEXLWWJQlwe6ebbJUSEjk168BDz5N1ebo3XBLJAYtV
-	 /OIFHPKRel5YhmZ0fUZGAyXuLXUMe8roq4O1vF/T/ISOqCUlonBLN3YQgBhDWymSn3
-	 KuYzJ5TsO+mYUljje5kgoiO89Y1mZl8BuZAdT6kZe+lKPbNlBR6Lq9lbLzDPtTAtJh
-	 ap9qBZrLbYSQg==
-Message-ID: <9f1ae430-4cc4-4e2e-a52c-ca17f499bbba@denx.de>
-Date: Tue, 2 Jul 2024 22:02:40 +0200
+	s=arc-20240116; t=1719954379; c=relaxed/simple;
+	bh=NyzwM0fsXKf4dXOAJKkuMhvtpscp3UAXzQ88ePFkdHg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RPZUaclQOuW3AMGfDU7QXBUqyIyiL6ewUw2vJe+/ZaF/ojwTOMKK3DetYhHatL3fWgns/B0irHo+V4guqReAOyhUbTFqa48FyVBwsFkaU5NwFOXzgQvKlO55gmdSenflI/Ziu1uBb53InBP3uhupM44e5gJoNt13Wv11ge75QAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T0jF5n0X; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7071CC4AF10
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jul 2024 21:06:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719954379;
+	bh=NyzwM0fsXKf4dXOAJKkuMhvtpscp3UAXzQ88ePFkdHg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=T0jF5n0XmYOBWCFsIhEiFwCW709AF2iNAJBXPHQDhZ3ouUIflhHJtwIPSeAQkemwl
+	 uvh5nDRj8MsScENuyxikrGs7trBmvGpceQ90A9jThyM6OwHTK1hSB47GteIED0mkfp
+	 yIXfQgx1XVTTfS14P6B441+5oNJT53fpMKqRINxMzkGSKAywbiMtggfLmF/5MhXRyE
+	 MR2OEIi2KWdc0w+AofhLDxqqtYNvgWMUcCMzmTV90XllmcI+M2rs3uGRjmGpiIo+bY
+	 S7E4wTeW1JLVmvZdlftDTuGLXlMEsznlapdBUQq2P/lZic0fAeIbHo/yvEPyuqkLW8
+	 0fIXzDl9OJV+g==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-52cd8897c73so5387317e87.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 Jul 2024 14:06:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVQBIPLZt8GC3ceiYn9et77OCJWj84zMte5+DgJwBSYUd3/HUiu3BU9wHdNNiEj5HAFB2BSaB1AEH1nRe3R80kv6tlQh4W31fMnI83MwBTq5yE=
+X-Gm-Message-State: AOJu0YyzZXLk+WEBV9LJr9c/CVTGLrP8PBZeKNSiJRT/qmLI5GUTMy5S
+	sIPBd0flNSZAYkTXL9/dv/TDUNLojAgbLOAKnEKv+27+dwwRkseN0W7V4JdgJuQ4clZ5JCOm3T2
+	kKpp8eq127tSXJclo6dWX2DhLvZ/ACtmX+FQmJw==
+X-Google-Smtp-Source: AGHT+IGUxDpnfmOI+j4i7sET5B6iGTwPCxoZxCFPXJYFFkWMGwCKQTKuc3id2P0lUND+5DiDyxhNNJ4MNomLGxiA7Lo=
+X-Received: by 2002:a17:906:f185:b0:a72:b1b1:eb3a with SMTP id
+ a640c23a62f3a-a751447b093mr634755766b.19.1719954357446; Tue, 02 Jul 2024
+ 14:05:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] arm64: dts: renesas: Drop ethernet-phy-ieee802.3-c22
- from PHY compatible string on all RZ boards
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-arm-kernel@lists.infradead.org, andrew@lunn.ch,
- kernel@dh-electronics.com, kernel test robot <lkp@intel.com>,
- Conor Dooley <conor+dt@kernel.org>,
- Khuong Dinh <khuong@os.amperecomputing.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Magnus Damm
- <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
- devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20240630034649.173229-1-marex@denx.de>
- <20240630034649.173229-2-marex@denx.de>
- <CAMuHMdXb6nBHLeK1c4CwEUBE8osDyAC_+ohA+10W_mZdGtQufQ@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAMuHMdXb6nBHLeK1c4CwEUBE8osDyAC_+ohA+10W_mZdGtQufQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+References: <20240614-dt-bindings-thermal-allof-v1-0-30b25a6ae24e@linaro.org> <20240614-dt-bindings-thermal-allof-v1-11-30b25a6ae24e@linaro.org>
+In-Reply-To: <20240614-dt-bindings-thermal-allof-v1-11-30b25a6ae24e@linaro.org>
+From: Amit Kucheria <amitk@kernel.org>
+Date: Wed, 3 Jul 2024 02:35:45 +0530
+X-Gmail-Original-Message-ID: <CAHLCerMuG92Sf8+BdqPLqh+x3YxBjD6YdYF2k+AxQcwCqerxzw@mail.gmail.com>
+Message-ID: <CAHLCerMuG92Sf8+BdqPLqh+x3YxBjD6YdYF2k+AxQcwCqerxzw@mail.gmail.com>
+Subject: Re: [PATCH 11/22] dt-bindings: thermal: qcom-tsens: reference
+ thermal-sensor schema
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
+	Lukasz Luba <lukasz.luba@arm.com>, Rob Herring <robh@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Guillaume La Roque <glaroque@baylibre.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Vasily Khoruzhick <anarsoul@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Anson Huang <Anson.Huang@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+	Heiko Stuebner <heiko@sntech.de>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Pascal Paillet <p.paillet@foss.st.com>, Keerthy <j-keerthy@ti.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+	zhanghongchen <zhanghongchen@loongson.cn>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, linux-pm@vger.kernel.org, 
+	linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-amlogic@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	imx@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
+	Florian Fainelli <f.fainelli@gmail.com>, linux-rpi-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 7/2/24 10:38 AM, Geert Uytterhoeven wrote:
-> Hi Marek,
+On Fri, Jun 14, 2024 at 3:17=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> Device is a thermal sensor and it requires '#thermal-sensor-cells', so
+> reference the thermal-sensor.yaml to simplify it and bring the
+> common definition of '#thermal-sensor-cells' property.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Hi,
+Reviewed-by: Amit Kucheria <amitk@kernel.org>
 
-> On Sun, Jun 30, 2024 at 5:47 AM Marek Vasut <marex@denx.de> wrote:
->> The rtl82xx DT bindings do not require ethernet-phy-ieee802.3-c22
->> as the fallback compatible string. There are fewer users of the
->> Realtek PHY compatible string with fallback compatible string than
->> there are users without fallback compatible string, so drop the
->> fallback compatible string from the few remaining users:
->>
->> $ git grep -ho ethernet-phy-id001c....... | sort | uniq -c
->>        1 ethernet-phy-id001c.c816",
->>        2 ethernet-phy-id001c.c915",
->>        2 ethernet-phy-id001c.c915";
->>        5 ethernet-phy-id001c.c916",
->>       13 ethernet-phy-id001c.c916";
->>
->> Reported-by: kernel test robot <lkp@intel.com>
->> Closes: https://lore.kernel.org/oe-kbuild-all/202406290316.YvZdvLxu-lkp@intel.com/
->> Signed-off-by: Marek Vasut <marex@denx.de>
-> 
-> Thanks for your patch!
-> 
->> Note: this closes only part of the report
-> 
-> In that case you should use a Link: instead of a Closes: tag?
-
-But which patch would be the one that Closes that report then ?
-
->> --- a/arch/arm64/boot/dts/renesas/cat875.dtsi
->> +++ b/arch/arm64/boot/dts/renesas/cat875.dtsi
->> @@ -22,8 +22,7 @@ &avb {
->>          status = "okay";
->>
->>          phy0: ethernet-phy@0 {
->> -               compatible = "ethernet-phy-id001c.c915",
->> -                            "ethernet-phy-ieee802.3-c22";
->> +               compatible = "ethernet-phy-id001c.c915";
->>                  reg = <0>;
->>                  interrupt-parent = <&gpio2>;
->>                  interrupts = <21 IRQ_TYPE_LEVEL_LOW>;
-> 
-> What about moving the PHYs inside an mdio subnode, and removing the
-> compatible properties instead? That would protect against different
-> board revisions using different PHYs or PHY revisions.
-> 
-> According to Niklas[1], using an mdio subnode cancels the original
-> reason (failure to identify the PHY in reset state after unbind/rebind
-> or kexec) for adding the compatible values[2].
-
-My understanding is that the compatible string is necessary if the PHY 
-needs clock/reset sequencing of any kind. Without the compatible string, 
-it is not possible to select the correct PHY driver which would handle 
-that sequencing according to the PHY requirements. This board here does 
-use reset-gpio property in the PHY node (it is not visible in this diff 
-context), so I believe a compatible string should be present here.
-
-What would happen if this board got a revision with another PHY with 
-different PHY reset sequencing requirements ? The MDIO node level reset 
-handling might no longer be viable.
+> ---
+>  Documentation/devicetree/bindings/thermal/qcom-tsens.yaml | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/thermal/qcom-tsens.yaml b/=
+Documentation/devicetree/bindings/thermal/qcom-tsens.yaml
+> index 99d9c526c0b6..cce6624228c7 100644
+> --- a/Documentation/devicetree/bindings/thermal/qcom-tsens.yaml
+> +++ b/Documentation/devicetree/bindings/thermal/qcom-tsens.yaml
+> @@ -217,18 +217,16 @@ properties:
+>
+>    "#thermal-sensor-cells":
+>      const: 1
+> -    description:
+> -      Number of cells required to uniquely identify the thermal sensors.=
+ Since
+> -      we have multiple sensors this is set to 1
+>
+>  required:
+>    - compatible
+>    - interrupts
+>    - interrupt-names
+> -  - "#thermal-sensor-cells"
+>    - "#qcom,sensors"
+>
+>  allOf:
+> +  - $ref: thermal-sensor.yaml#
+> +
+>    - if:
+>        properties:
+>          compatible:
+> @@ -292,7 +290,7 @@ allOf:
+>        required:
+>          - reg
+>
+> -additionalProperties: false
+> +unevaluatedProperties: false
+>
+>  examples:
+>    - |
+>
+> --
+> 2.43.0
+>
 
