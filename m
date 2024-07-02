@@ -1,112 +1,112 @@
-Return-Path: <linux-renesas-soc+bounces-6954-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6955-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6080091E9CC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Jul 2024 22:48:22 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26E2091ED23
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 04:52:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1B73E283179
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Jul 2024 20:48:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C400C1F21095
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 02:52:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9A8183CC7;
-	Mon,  1 Jul 2024 20:48:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D28BAB674;
+	Tue,  2 Jul 2024 02:52:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xa/tLdXx"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D161366;
-	Mon,  1 Jul 2024 20:48:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22A98830
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jul 2024 02:52:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719866897; cv=none; b=Z+8apEA41mPg0aflovSRbgJ6dxGGdheuw89hKFT4AD/WTy8xPktvviavgzBmP8H8PLnbdR0pItGsN28/XN2UyHN+J03XDs8aJbVwObA6b/DTL1k2b7QVjNf8ANxih9dLOKppgbZDWnZ2E2WaP+Oee7jPNzB7jKBAoh7vdhE5rrw=
+	t=1719888722; cv=none; b=l+4bhoaex7IwvbeqDuWSGROMKjkGmryGSXT+HAJlRolnJbRHG3HSwUYSl+u6Y/o/w5mHZYQxAEhTSOLvLO2wL2y32UFtAlQR4QNla7WWiCB9UL/RbhmPVxfDPo9cWaj6aiJM6Xun1rhUYnh1AQ155vELTK9sJ3451F6OD85GNOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719866897; c=relaxed/simple;
-	bh=VYRfq/MfPWpVdVqHlzAD+N4k+na090ubX/RfH4sq8MA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MGbmHXIOKMawInty+7+0CvQ5Betr4aEt7smmzsRFx70ltjCmIbd88Z5YPj6R8L0d46VLIEF25IKW4CapHEdQ91hQNlV+NHq7xEeQzW6ilqg40A+dS6Y21n+Ch0RA4k8acKVHCh8gdt8KDRLx0Wsn7PbcpfHQsXITSsQ+jbWoFQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-70671ecd334so2668896b3a.0;
-        Mon, 01 Jul 2024 13:48:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719866896; x=1720471696;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y+vwAhe52gi/wKblVVP4vT7KtjZ4YJC+9NjnxhSRlso=;
-        b=UMBqdKDh85g2y17RgK5Am31hyz65kMBop/oNsFVIpKSnldjoTO8S6BSY30TwEde70g
-         D4yWsQ7EJGXz4eQkopBWWqv0FrrYKgm2VW3xdaFn400PMS6hoAvHKrKCU+E8pqXUDl8g
-         BLocGWSxfBP5WBlOkd0XagXaBFvqsCJmlUwzrwCPHkmucPcx/HDhgfLmyvixV0Gwj7Ls
-         Mki5L48+bQoMD59hHuo4uEV/9sS+zNyS+w4YhNJ+n42zVJepy5IVYnfscZt/CnmOD+kw
-         zBmxhyjfISq13nDYWmsN5wiaVoOxEMPQcrdx2t6Gn07EublKqPmz3MeMDRJADs6Vgp8L
-         Ihpw==
-X-Forwarded-Encrypted: i=1; AJvYcCXOTdt9Dw1EEEaJNdEkPllRDzARBuYem1EGrvXZ/GESLrTDxm/yJOtgQWQGG7gJkquRWCDZmVvEF63m2PuFV7tKC5xTc8PFEpzJ8nPdDHNq7w1Wj0q+Mf6v/eTGvSUhfWx7kGbsCfeCy4l6PJY=
-X-Gm-Message-State: AOJu0Ywb/DNp/cwvEq7xi2nKW3AM3kaG626zczG0Lje2dsHXgW91vC0y
-	YRRqumFsHbjGYjdA9wbscA5uKbRXUDJ1eVWE4AFhOaC8hxdqOsYm
-X-Google-Smtp-Source: AGHT+IEMoV0z6QhZSQ4QNBFHFMHODQfwxB9Z0Duq619IJLwA1b4El13BrVTwj72uTz3W09XZ/1qErQ==
-X-Received: by 2002:a05:6a00:b8b:b0:6f8:e1c0:472f with SMTP id d2e1a72fcca58-70aaad3ae0dmr8801123b3a.8.1719866895509;
-        Mon, 01 Jul 2024 13:48:15 -0700 (PDT)
-Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70803ecfb09sm6974228b3a.136.2024.07.01.13.48.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jul 2024 13:48:15 -0700 (PDT)
-Date: Tue, 2 Jul 2024 05:48:13 +0900
-From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: Bjorn Helgaas <helgaas@kernel.org>,
-	"lpieralisi@kernel.org" <lpieralisi@kernel.org>,
-	"robh@kernel.org" <robh@kernel.org>,
-	"bhelgaas@google.com" <bhelgaas@google.com>,
-	"jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-	"mani@kernel.org" <mani@kernel.org>,
-	"marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
-	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v9 0/5] PCI: rcar-gen4: Add R-Car V4H support
-Message-ID: <20240701204813.GC412915@rocinante>
-References: <20240629200650.GD2249818@rocinante>
- <20240629204620.GA1482128@bhelgaas>
- <TYCPR01MB1104020A6F6F4FB896FEE717ED8D32@TYCPR01MB11040.jpnprd01.prod.outlook.com>
+	s=arc-20240116; t=1719888722; c=relaxed/simple;
+	bh=QmkVl+FjgO+nAsGb7TrD/M+IDeKLYns3zaCbRfS/xZ4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=SOlDlPB3ZF4ao+tUXig+wSnbIZconnXbGpM8/FJzzsHyY/BcMYLB3431GJFRg3OcjeTYJUMWY9axGkD56HdMofbdukJAX7VpM++NVo/qBPu9Cw6ya7vjxPbpC2inx6MddarB2OiDcPXpN2A4p9AkXVAqlOKmHZlib1GQbQKcMY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xa/tLdXx; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719888721; x=1751424721;
+  h=date:from:to:cc:subject:message-id;
+  bh=QmkVl+FjgO+nAsGb7TrD/M+IDeKLYns3zaCbRfS/xZ4=;
+  b=Xa/tLdXxOar42OKWyenG1uDiMA5/AGzInXakVkc/RduACb9NQ/Q/RK34
+   A3CBetLC5lFRx/0hFGYg1fQhy54R4WdXaVwsjknJaiRH5xTKExpI3l4tb
+   LEg3FfGGDUOUvvSagGiCOyDmwTknmWURSavXJPf8uTaMQCFka9HAPmtnC
+   iv3FHKNTXNDUUBfS3e4XbJpiYPr4pOTFy+7GPx8L/+aU8eEkVCwSpTmw6
+   +E25l725GPxOMU0pUH7ci5W/uSUf/d2Sgy24NaWPUH+TunWubG84Qc62U
+   nFhDmCQiUADPUVvpEMzBHvft3hkHAVhn7dNFqR0c+9ly0x6ixbz2CfHbO
+   Q==;
+X-CSE-ConnectionGUID: kj1X4QH0RmCkTlXDiBZeKg==
+X-CSE-MsgGUID: wqq7DYdcR+aWMBIMTz+kJg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11120"; a="17256816"
+X-IronPort-AV: E=Sophos;i="6.09,177,1716274800"; 
+   d="scan'208";a="17256816"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2024 19:52:01 -0700
+X-CSE-ConnectionGUID: 1h0/tfZFSYKMohQHor6wUA==
+X-CSE-MsgGUID: XPWDFUxkQ3u64JFDXm46Jw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,177,1716274800"; 
+   d="scan'208";a="50091221"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 01 Jul 2024 19:51:59 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sOTcb-000Ndf-1Q;
+	Tue, 02 Jul 2024 02:51:57 +0000
+Date: Tue, 02 Jul 2024 10:51:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:renesas-dts-for-v6.11] BUILD SUCCESS
+ 07e777318911d76fa787fc57f02b595481382291
+Message-ID: <202407021032.AvKVyPJX-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <TYCPR01MB1104020A6F6F4FB896FEE717ED8D32@TYCPR01MB11040.jpnprd01.prod.outlook.com>
 
-Hello,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dts-for-v6.11
+branch HEAD: 07e777318911d76fa787fc57f02b595481382291  arm64: dts: renesas: r8a779h0: R-Car Sound support
 
-[...]
-> > > [...]
-> > > > About the firmware binary, please refer to the following patch
-> > > > descirption:
-> > > >   PCI: rcar-gen4: Add support for r8a779g0
-> > >
-> > > This quite a sad state of affairs, and usually would I oppose including
-> > > drivers that rely on closed proprietary firmware blobs to operate.  That
-> > > said, Renesas is not really setting any precedent here, so we will live
-> > > with this.
-> > 
-> > What are the existing similar situations?  Just for curiosity, I'd
-> > like to know what precedent we are relying on here.
-> 
-> Wolfram mentioned it on previous email thread [1].
-> 
-> [1]
-> https://lore.kernel.org/linux-pci/53sfkav45djcaapqkzsps6ofsinf5lnxbhrjvgsevt3w6qcms6@e2vptwrj645q/
+elapsed time: 980m
 
-Another example could be the Marvell's (formerly Aquantia) "Atlantic"
-network cards family, which requires a custom firmware blob that wasn't
-readily or freely distributed.  The firmware files were never added to
-the linux-firmware repository.
+configs tested: 19
+configs skipped: 97
 
-... unless things have changes since I looked some time ago.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-	Krzysztof
+tested configs:
+alpha                             allnoconfig   gcc-13.2.0
+arc                              allmodconfig   gcc-13.2.0
+arc                               allnoconfig   gcc-13.2.0
+arc                              allyesconfig   gcc-13.2.0
+arm                              allmodconfig   gcc-13.2.0
+arm                               allnoconfig   gcc-13.2.0
+arm                              allyesconfig   gcc-13.2.0
+arm64                            allmodconfig   gcc-13.2.0
+arm64                             allnoconfig   gcc-13.2.0
+csky                              allnoconfig   gcc-13.2.0
+loongarch                         allnoconfig   gcc-13.2.0
+m68k                              allnoconfig   gcc-13.2.0
+microblaze                        allnoconfig   gcc-13.2.0
+mips                              allnoconfig   gcc-13.2.0
+nios2                             allnoconfig   gcc-13.2.0
+s390                             allmodconfig   clang-19
+s390                             allyesconfig   clang-19
+sh                                allnoconfig   gcc-13.2.0
+xtensa                            allnoconfig   gcc-13.2.0
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
