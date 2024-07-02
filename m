@@ -1,104 +1,93 @@
-Return-Path: <linux-renesas-soc+bounces-6967-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6968-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A7892391C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 11:06:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73AE692399F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 11:19:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B4169282EC2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 09:06:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 35E8A284ECE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 09:19:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9968150997;
-	Tue,  2 Jul 2024 09:06:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="NpHIw/vI";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Bjx6ImGF"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7213158DB8;
+	Tue,  2 Jul 2024 09:16:33 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout6-smtp.messagingengine.com (fout6-smtp.messagingengine.com [103.168.172.149])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F97A14F111;
-	Tue,  2 Jul 2024 09:06:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E1B3155A52
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jul 2024 09:16:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719911179; cv=none; b=l5HTY7UdnhYRGkzhG6QhJN9ljlcTbWTQ+6bDxEKM9Cg9s4APg8mjk0JzIXxXiNk52mXE2QeAXMx9frWIvv4AcjnMgeRC4dpSBj2QJqRVG0B1gD9lbAV6XQ62wE1ItdF5PN0+DhVc8ag6QUU26Q+73yTa5keLnWDBxUrdIwR7QAA=
+	t=1719911793; cv=none; b=B/oyIxX2DoUKx2FU0DaUMexMk3vW1x8pQFOZGuLehjkos6WbCQsZwRsI03uLFi4IjjBiPrxGIXRebKLuWeZnWDIx2ocnTGwRCuXrTGeVg1GcvznVimzgZH/qHV6IBcBNqIw5wqnHda1GnZ6p5LCdrcGyTBYILnMenBv1kLGHlVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719911179; c=relaxed/simple;
-	bh=yT2dU406UigV/1rd2Qpji/wju03N3iYdlfmnLKqMHCw=;
+	s=arc-20240116; t=1719911793; c=relaxed/simple;
+	bh=4WZAZtnHKSDJYQ5TKJuVTZiOFTMVNAPKVK4zImRkS5k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ssKznDyu+c5seVylqEy0x8TPEL10pojvTKORmbBH0GUllrzib+GHfglrk4qhjdiPzm0ocHfZeKsXjMTH3jpJX1Wr3j2xSzkyi3lwZFcsuHG8msVWsLld/lZ8apsiqRjUpnKrI4+Q8kZhOykoies+ZSiKfNzRDWGMqmLUl9TGEE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=NpHIw/vI; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Bjx6ImGF; arc=none smtp.client-ip=103.168.172.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 4E1BD138053D;
-	Tue,  2 Jul 2024 05:06:14 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Tue, 02 Jul 2024 05:06:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1719911174;
-	 x=1719997574; bh=3YWozVWx8MlebHOnbd6VGG/h5yBrUd/5xxmH3DK6qxg=; b=
-	NpHIw/vIfYD0/psaKVqJEHpoE3BBf6r5Ln9m8A+3mZfGEVfmsnKF+zQtT5yU4wE3
-	9qAQ0OM4adID7dNLKArhgiypPBNTduU82vOvDP7Ri3FXDm5USOC54799GBC2dzxk
-	IEo098b667dQp6WxF52QcwdMsXTgxanU3u0rKH04rTAMbxxeLpd8uugckKtDeom8
-	w8IoyTLaffdHZtVzoIacBDOM17aRLmgtwT74o3dlI917KWNMGVEXkeFdswmbwD57
-	gcbIFO06yqglhq02gy0XhuN3moZj5yToAEDZ5CAwzrXUlEpnQbT9wfpux/cZ3npa
-	gR69Oz+Acd2OVJnuBjmY8w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1719911174; x=
-	1719997574; bh=3YWozVWx8MlebHOnbd6VGG/h5yBrUd/5xxmH3DK6qxg=; b=B
-	jx6ImGFFucudZg5EeazFsFAlN5v4A88LqSi8hH9Fd/bPUxPvh33L+L6N56WCTWBj
-	Vey8p0D0b8x/yZ4GuOH6Lp0IYeMaO5VMWZowF2gavRbHOEU7tj9n1TcO2bljrHur
-	1lG3hqdXJudhQf37UZdJ/2g58ioUj+1Zd77xRvoFkKjbPrBSXGoe7B4EhJ8s4fIP
-	M9uNTPvVxfY8phXvuXWDtZEGuXszmIuXBIpkrDyTDtEjZGwJx0XZqbuBFYhijSFt
-	zcSdoq7y4tulGYJ/ZNdDay6yGtmXAytU0cwe/77PV7AedPAISonya20Ss6XztK/P
-	YFSQZzP39kNkIi2c8+08A==
-X-ME-Sender: <xms:BcODZh8OiKAeLYhUZUvuz8KDvfz3yQdj_DL5I1SLikwBRKf5USCaZg>
-    <xme:BcODZlv5J8Vs1r_Ag4tZnx7NvGc7WDKfRqcQ1MVbRbv_gTsZSpFzvKs5jtM3KURc8
-    -k4eJ9qfp4wn4NSiQQ>
-X-ME-Received: <xmr:BcODZvBFUZ3J2h9W8svSQJHCWHBQkacDaAa9iAjddg5K-yF8WckEn5qQshcvEzygw0xs7cJoXl20d6dQoMzCYRY_jniAq74>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehgddutdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhikhhl
-    rghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvg
-    hsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepfefhleelhfff
-    jefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftddvleeinecuvehluhhsthgvrh
-    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghr
-    lhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
-X-ME-Proxy: <xmx:BcODZlfTk96t2ZKElvqmRMf-8IF20gwpjBw_25Xj1iXrgrYrZS-J_A>
-    <xmx:BcODZmPqSBctXOd5_j89vNyGeExlWAcY6zrHxHFxpPCnMSrxi0f2ZA>
-    <xmx:BcODZnlay9pAZ-nnDkAoN3QWt52kDupEZMJq0BUdbpfpUvJxzuCT9w>
-    <xmx:BcODZgvNB6Rx0O9MzOar4y0WcRqDGZPwQibMAe15tRxmcWsQuiXE_A>
-    <xmx:BsODZnHbmmDhI7J4vJoYETIonWdE74MIC1sh-e3Ka4s87STcnmBkCTEl>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 2 Jul 2024 05:06:13 -0400 (EDT)
-Date: Tue, 2 Jul 2024 11:06:10 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=YpCJ/cH+sZ+Ugy0sKW8sZ/WiEVDOIBysTUyohPuivK81fkvItazPJL2aUL8it1FXOUOh0BpGqnossTn2MqKV+YPVSjw7Dv4aJ8pOLJARYFkGRgMp6gJSf9QxiZRc58hsjZRllqSc/9kJYgJ927x4zaB49HpETrYSwcXKOJcA8Xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1sOZba-0004QR-Dq; Tue, 02 Jul 2024 11:15:18 +0200
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1sOZbW-006ZmA-Rx; Tue, 02 Jul 2024 11:15:14 +0200
+Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1sOZbW-00AOUX-2L;
+	Tue, 02 Jul 2024 11:15:14 +0200
+Date: Tue, 2 Jul 2024 11:15:14 +0200
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Russell King <linux@armlinux.org.uk>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Vladimir Zapolskiy <vz@mleia.com>, Andrew Lunn <andrew@lunn.ch>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Tony Lindgren <tony@atomide.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 1/5] dt-bindings: media: renesas,vin: Add Gen4 family
- fallback
-Message-ID: <20240702090610.GA2984619@ragnatech.se>
-References: <20240624144108.1771189-1-niklas.soderlund+renesas@ragnatech.se>
- <20240624144108.1771189-2-niklas.soderlund+renesas@ragnatech.se>
- <CAMuHMdUrEf9KFKCawY_XPu0WuJwaE+Se21jx-d4X_Ef+f2S36Q@mail.gmail.com>
+	Magnus Damm <magnus.damm@gmail.com>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>, linux-mtd@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	imx@lists.linux.dev, linux-omap@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+	openbmc@lists.ozlabs.org, linuxppc-dev@lists.ozlabs.org,
+	linux-mips@vger.kernel.org, loongarch@lists.linux.dev
+Subject: Re: [PATCH 9/9] eeprom: at24: remove deprecated Kconfig symbol
+Message-ID: <20240702091514.jjdahaseml6fpnrz@pengutronix.de>
+References: <20240701-b4-v6-10-topic-usbc-tcpci-v1-0-3fd5f4a193cc@pengutronix.de>
+ <20240701-b4-v6-10-topic-usbc-tcpci-v1-9-3fd5f4a193cc@pengutronix.de>
+ <CAMRc=McP=K0jSD56JdCR9DPJmJN39Z74mjAo0qX2mEnTBN1GAA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -108,91 +97,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdUrEf9KFKCawY_XPu0WuJwaE+Se21jx-d4X_Ef+f2S36Q@mail.gmail.com>
+In-Reply-To: <CAMRc=McP=K0jSD56JdCR9DPJmJN39Z74mjAo0qX2mEnTBN1GAA@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi,
 
-Thanks for your review.
-
-On 2024-07-02 09:52:08 +0200, Geert Uytterhoeven wrote:
-> Hi Niklas,
-> 
-> On Mon, Jun 24, 2024 at 4:43 PM Niklas Söderlund
-> <niklas.soderlund+renesas@ragnatech.se> wrote:
-> > The two Gen4 SoCs released (V4H and V4M) that have a video capture
-> > pipeline the VIN IP are very similar.
+On 24-07-02, Bartosz Golaszewski wrote:
+> On Mon, Jul 1, 2024 at 3:54 PM Marco Felsch <m.felsch@pengutronix.de> wrote:
 > >
-> > The datasheet for the two SoCs have small nuances around the Pre-Clip
-> > registers ELPrC and EPPrC in three use-cases, interlaced images,
-> > embedded data and RAW8 input. On V4H the values written to the registers
-> > are based on odd numbers while on V4M they are even numbers, values are
-> > based on the input image size. No board that uses these SoCs which also
-> > have the external peripherals to test these nuances exists. Most likely
-> > this is an issue in the datasheet.
+> > All kernel users are shifted to the new MTD_EEPROM_AT24 Kconfig symbol
+> > so we can drop the old one.
 > >
-> > Before adding bindings for V4M add a family compatible fallback for
-> > Gen4. That way the driver only needs to be updated once for Gen4, and we
-> > still have the option to fix any problems in the driver if any testable
-> > differences between the two SoCs is found.
-> >
-> > There are already DTS files using the renesas,vin-r8a779g0 compatible
-> > which needs to be updated to not produce a warning for DTS checks. And
-> > the driver will need to kept compatible with renesas,vin-r8a779g0, but
-> > for new Gen4 SoCs such as V4M we can avoid this.
-> >
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > ---
-> > * Changes since v3
-> > - New in v4.
 > 
-> Thanks for your patch!
-> 
-> > --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > @@ -53,7 +53,10 @@ properties:
-> >                - renesas,vin-r8a77990 # R-Car E3
-> >                - renesas,vin-r8a77995 # R-Car D3
-> >                - renesas,vin-r8a779a0 # R-Car V3U
-> 
-> I think R-Car V3U should be moved below, too, as it's the first
-> member of the R-Car Gen4 family, despite the name.
+> Nope, with this series arm64 still selects the old symbol.
 
-I was a bit conflicted about if I should do this and opted to for the 
-least intrusive change. But the change seems to have landed on a good 
-note, I will do a new version that covers V3U as well.
+sry. I must have forgotten to add the arm64 hunk :/ I also noticed one
+powerpc config which still select the old symbol. I will fix this in v2.
+
+Thank you,
+  Marco
 
 > 
-> > +      - items:
-> > +          - enum:
-> >                - renesas,vin-r8a779g0 # R-Car V4H
-> > +          - const: renesas,rcar-gen4-vin # Generic R-Car Gen4
+> Bart
 > 
-> If all differences in the pipeline can be devised from the topology
-> in DT:
-
-It can.
-
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Thanks!
-
-> 
-> >
-> >    reg:
-> >      maxItems: 1
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
-
--- 
-Kind Regards,
-Niklas Söderlund
 
