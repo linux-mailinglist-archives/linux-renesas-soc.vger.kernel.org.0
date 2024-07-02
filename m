@@ -1,126 +1,124 @@
-Return-Path: <linux-renesas-soc+bounces-6968-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6969-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73AE692399F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 11:19:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D10499239D2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 11:24:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 35E8A284ECE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 09:19:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3B25D282DF2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 09:24:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7213158DB8;
-	Tue,  2 Jul 2024 09:16:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1DC9152166;
+	Tue,  2 Jul 2024 09:24:27 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E1B3155A52
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jul 2024 09:16:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B1C415098E
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jul 2024 09:24:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719911793; cv=none; b=B/oyIxX2DoUKx2FU0DaUMexMk3vW1x8pQFOZGuLehjkos6WbCQsZwRsI03uLFi4IjjBiPrxGIXRebKLuWeZnWDIx2ocnTGwRCuXrTGeVg1GcvznVimzgZH/qHV6IBcBNqIw5wqnHda1GnZ6p5LCdrcGyTBYILnMenBv1kLGHlVI=
+	t=1719912267; cv=none; b=uofmBS9b1QwchPEcNiHCd0CWdZEOr1hg0mQNvjNDgRMjnuvM/2AsvHaL0DCe8Da22WB3OJqnhdKsL0bHZqf5gkR6hGYn8lstdXHJMUtlUvUhqwt5TI/WS079htEQwVdyiyiAGnT2OROZZtngdUNQjNpzGJ+hQhbS/k0ZbJnKhYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719911793; c=relaxed/simple;
-	bh=4WZAZtnHKSDJYQ5TKJuVTZiOFTMVNAPKVK4zImRkS5k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YpCJ/cH+sZ+Ugy0sKW8sZ/WiEVDOIBysTUyohPuivK81fkvItazPJL2aUL8it1FXOUOh0BpGqnossTn2MqKV+YPVSjw7Dv4aJ8pOLJARYFkGRgMp6gJSf9QxiZRc58hsjZRllqSc/9kJYgJ927x4zaB49HpETrYSwcXKOJcA8Xc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1sOZba-0004QR-Dq; Tue, 02 Jul 2024 11:15:18 +0200
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1sOZbW-006ZmA-Rx; Tue, 02 Jul 2024 11:15:14 +0200
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1sOZbW-00AOUX-2L;
-	Tue, 02 Jul 2024 11:15:14 +0200
-Date: Tue, 2 Jul 2024 11:15:14 +0200
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Russell King <linux@armlinux.org.uk>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Vladimir Zapolskiy <vz@mleia.com>, Andrew Lunn <andrew@lunn.ch>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Tony Lindgren <tony@atomide.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>, linux-mtd@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-	imx@lists.linux.dev, linux-omap@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-	openbmc@lists.ozlabs.org, linuxppc-dev@lists.ozlabs.org,
-	linux-mips@vger.kernel.org, loongarch@lists.linux.dev
-Subject: Re: [PATCH 9/9] eeprom: at24: remove deprecated Kconfig symbol
-Message-ID: <20240702091514.jjdahaseml6fpnrz@pengutronix.de>
-References: <20240701-b4-v6-10-topic-usbc-tcpci-v1-0-3fd5f4a193cc@pengutronix.de>
- <20240701-b4-v6-10-topic-usbc-tcpci-v1-9-3fd5f4a193cc@pengutronix.de>
- <CAMRc=McP=K0jSD56JdCR9DPJmJN39Z74mjAo0qX2mEnTBN1GAA@mail.gmail.com>
+	s=arc-20240116; t=1719912267; c=relaxed/simple;
+	bh=LxGzyz1DiRsNhaxhpPwdQb9KqJ29vpI6qOPgCOtDD2I=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bhtKfUHULyAtFLVHakNKMgd6iAA/THQKiqduX9gnRw5Nxbkr+VI+378jSJ8IMvQfrnZ8x0v7L4UM72XJnKjOUAvaf/4mnXp/yY7I7nzT0IaRFOQr6vaUo3iEt5sqBfsoE2pyYc8o5KaJwDEhXkSH3PEpk+osyFPp9nmr+cWqaEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:6bda:2a86:97aa:1205])
+	by baptiste.telenet-ops.be with bizsmtp
+	id iZQG2C006232J2U01ZQGaL; Tue, 02 Jul 2024 11:24:18 +0200
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1sOZk7-000uaT-GG;
+	Tue, 02 Jul 2024 11:24:16 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1sOZkG-001QrH-04;
+	Tue, 02 Jul 2024 11:24:16 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Marc Zyngier <maz@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2] irqchip/gic-v3: Pass #redistributor-regions to gic_of_setup_kvm_info()
+Date: Tue,  2 Jul 2024 11:24:14 +0200
+Message-Id: <808286a3ac08f60585ae7e2c848e0f9b3cb79cf8.1719912215.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMRc=McP=K0jSD56JdCR9DPJmJN39Z74mjAo0qX2mEnTBN1GAA@mail.gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
-Hi,
+The caller of gic_of_setup_kvm_info() already queried DT for the value
+of the #redistributor-regions property.  So just pass this value,
+instead of doing the DT look-up again in the callee.
 
-On 24-07-02, Bartosz Golaszewski wrote:
-> On Mon, Jul 1, 2024 at 3:54 PM Marco Felsch <m.felsch@pengutronix.de> wrote:
-> >
-> > All kernel users are shifted to the new MTD_EEPROM_AT24 Kconfig symbol
-> > so we can drop the old one.
-> >
-> 
-> Nope, with this series arm64 still selects the old symbol.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Marc Zyngier <maz@kernel.org>
+---
+This is v2 of "irqchip/gic-v3: Pass GICV index to
+gic_of_setup_kvm_info()".
 
-sry. I must have forgotten to add the arm64 hunk :/ I also noticed one
-powerpc config which still select the old symbol. I will fix this in v2.
+v2:
+  - Pass nr_redist_regions instead of gicv_idx,
+  - Keep comment about skipping GICD, GICC, GICH,
+  - Add Acked-by.
+---
+ drivers/irqchip/irq-gic-v3.c | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
-Thank you,
-  Marco
+diff --git a/drivers/irqchip/irq-gic-v3.c b/drivers/irqchip/irq-gic-v3.c
+index 1f70262742f3b7c7..79a8a2f189e94c7f 100644
+--- a/drivers/irqchip/irq-gic-v3.c
++++ b/drivers/irqchip/irq-gic-v3.c
+@@ -2185,11 +2185,10 @@ static void __init gic_populate_ppi_partitions(struct device_node *gic_node)
+ 	of_node_put(parts_node);
+ }
+ 
+-static void __init gic_of_setup_kvm_info(struct device_node *node)
++static void __init gic_of_setup_kvm_info(struct device_node *node, u32 nr_redist_regions)
+ {
+ 	int ret;
+ 	struct resource r;
+-	u32 gicv_idx;
+ 
+ 	gic_v3_kvm_info.type = GIC_V3;
+ 
+@@ -2197,12 +2196,8 @@ static void __init gic_of_setup_kvm_info(struct device_node *node)
+ 	if (!gic_v3_kvm_info.maint_irq)
+ 		return;
+ 
+-	if (of_property_read_u32(node, "#redistributor-regions",
+-				 &gicv_idx))
+-		gicv_idx = 1;
+-
+-	gicv_idx += 3;	/* Also skip GICD, GICC, GICH */
+-	ret = of_address_to_resource(node, gicv_idx, &r);
++	/* Also skip GICD, GICC, GICH */
++	ret = of_address_to_resource(node, nr_redist_regions + 3, &r);
+ 	if (!ret)
+ 		gic_v3_kvm_info.vcpu = r;
+ 
+@@ -2292,7 +2287,7 @@ static int __init gic_of_init(struct device_node *node, struct device_node *pare
+ 	gic_populate_ppi_partitions(node);
+ 
+ 	if (static_branch_likely(&supports_deactivate_key))
+-		gic_of_setup_kvm_info(node);
++		gic_of_setup_kvm_info(node, nr_redist_regions);
+ 	return 0;
+ 
+ out_unmap_rdist:
+-- 
+2.34.1
 
-> 
-> Bart
-> 
 
