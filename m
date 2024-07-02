@@ -1,155 +1,134 @@
-Return-Path: <linux-renesas-soc+bounces-7008-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7009-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 154BB9249B9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 23:06:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B4B99249C1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 23:08:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 457611C22213
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 21:06:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D5FED284CDF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 21:08:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E222A20126D;
-	Tue,  2 Jul 2024 21:06:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A8F820125E;
+	Tue,  2 Jul 2024 21:08:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T0jF5n0X"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="USGu5/TF"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE3C1201264
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jul 2024 21:06:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B44E20012E
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jul 2024 21:08:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719954379; cv=none; b=MwmH9nv23HQ/LK9AJm0thBnjD46KoxNXFgGOoc66PSIzMopwdqq61zshFZy8b5H1nf3f43PrOxm6MWCTBBwwPnQ7Nbr/U6KoclfH4EyqWvQE7G7U4V2aP9RI5KBCkwQ2gNSM4Sy4lKT1wK5AewWA0wmK5oyr8k7xU+1cTlvfFc4=
+	t=1719954528; cv=none; b=rjCOfvSCRgY2kmudOKEad/qVwHv/+zkGSPT9YNqF6dskdFIbcB3XMfxgmj1PV9pKe6RNoRG2CX7pKOyS5axYGMlqCWGZf+TqwU17anKgLb1mg2oGGFaMu9LYZZqqcE5Zcu1rfUAuQCwX+77v6Y55r4vG3Kr8OJEn0WS83Qg0LAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719954379; c=relaxed/simple;
-	bh=NyzwM0fsXKf4dXOAJKkuMhvtpscp3UAXzQ88ePFkdHg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RPZUaclQOuW3AMGfDU7QXBUqyIyiL6ewUw2vJe+/ZaF/ojwTOMKK3DetYhHatL3fWgns/B0irHo+V4guqReAOyhUbTFqa48FyVBwsFkaU5NwFOXzgQvKlO55gmdSenflI/Ziu1uBb53InBP3uhupM44e5gJoNt13Wv11ge75QAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T0jF5n0X; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7071CC4AF10
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jul 2024 21:06:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719954379;
-	bh=NyzwM0fsXKf4dXOAJKkuMhvtpscp3UAXzQ88ePFkdHg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=T0jF5n0XmYOBWCFsIhEiFwCW709AF2iNAJBXPHQDhZ3ouUIflhHJtwIPSeAQkemwl
-	 uvh5nDRj8MsScENuyxikrGs7trBmvGpceQ90A9jThyM6OwHTK1hSB47GteIED0mkfp
-	 yIXfQgx1XVTTfS14P6B441+5oNJT53fpMKqRINxMzkGSKAywbiMtggfLmF/5MhXRyE
-	 MR2OEIi2KWdc0w+AofhLDxqqtYNvgWMUcCMzmTV90XllmcI+M2rs3uGRjmGpiIo+bY
-	 S7E4wTeW1JLVmvZdlftDTuGLXlMEsznlapdBUQq2P/lZic0fAeIbHo/yvEPyuqkLW8
-	 0fIXzDl9OJV+g==
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-52cd8897c73so5387317e87.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 Jul 2024 14:06:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVQBIPLZt8GC3ceiYn9et77OCJWj84zMte5+DgJwBSYUd3/HUiu3BU9wHdNNiEj5HAFB2BSaB1AEH1nRe3R80kv6tlQh4W31fMnI83MwBTq5yE=
-X-Gm-Message-State: AOJu0YyzZXLk+WEBV9LJr9c/CVTGLrP8PBZeKNSiJRT/qmLI5GUTMy5S
-	sIPBd0flNSZAYkTXL9/dv/TDUNLojAgbLOAKnEKv+27+dwwRkseN0W7V4JdgJuQ4clZ5JCOm3T2
-	kKpp8eq127tSXJclo6dWX2DhLvZ/ACtmX+FQmJw==
-X-Google-Smtp-Source: AGHT+IGUxDpnfmOI+j4i7sET5B6iGTwPCxoZxCFPXJYFFkWMGwCKQTKuc3id2P0lUND+5DiDyxhNNJ4MNomLGxiA7Lo=
-X-Received: by 2002:a17:906:f185:b0:a72:b1b1:eb3a with SMTP id
- a640c23a62f3a-a751447b093mr634755766b.19.1719954357446; Tue, 02 Jul 2024
- 14:05:57 -0700 (PDT)
+	s=arc-20240116; t=1719954528; c=relaxed/simple;
+	bh=iQAoLd3zEtpYYbvVSah/d8jhIfMBMAETp2gljBGBXRg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dXINhGM0SrOQHlwcWK6RK9kdtrZC15A0wDBLSdrGAOv/ucXfPTc93W+vfE8GSOWFWnv5ILM7xV2tseNSyjXu0k4MfOjyhjMFhGU3usHKxylNrhQ30MmUO8tAPplXpyWOKir+bGC78oSdRZ3U5B6auXbZzl6xA7JoFFeuNYL8xK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=USGu5/TF; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1719954525;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=se85jQN04juZgRCOlUB8db7Xj7Z+u0P5SXHucncyZCM=;
+	b=USGu5/TF/N8oxDOc7HC2R1AMyHISh0rOWiavnXekE4PXi6djxWL5MWAs8qBIfLf5f/p3IN
+	gP6QqsbabsrcMexxkZwbHEwWyRh1H7m1DiPXN/Ss9km34D15PWGAeEfCzDaRfpDzOMEOXt
+	5MpjtZNi1yJfQQmi9TaJrsflpvq2Rek=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-641-B5hGCg1rNoyLbCNeBw4fLw-1; Tue, 02 Jul 2024 17:08:44 -0400
+X-MC-Unique: B5hGCg1rNoyLbCNeBw4fLw-1
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-43fb02db6d2so57581901cf.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 Jul 2024 14:08:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719954524; x=1720559324;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=se85jQN04juZgRCOlUB8db7Xj7Z+u0P5SXHucncyZCM=;
+        b=JCfSf+I4EXjOzT9IT0MWizN2mP+3qs2kjKG7CHwUKyZ9oeLptQwrvzFL4k8IXompVk
+         s7qszO0Pb/76w+ZmvwNN5X4kqVopU7J4k9By+ORNynbpi6XS6l7K3Q0gPpXn5m6lZTyY
+         GLA/BQIkNVvdyqKoRcgNeVnCPWwI4sEM32AkFc1efacNh1hYpv2C1epMX6y7tu2FxrW9
+         h1Hc0VhWeSIEIuB+tGRBjXvp798y5EVjxLjCj3OKyAwTDTRekwSB46qgH3mjCckFhJOV
+         XDhzUsI+5ExTvd9wqoF80jkWaMX/eO+n9xMQey17dz4mRSlzLshK9pkLi9x0wuucU2w9
+         VseA==
+X-Forwarded-Encrypted: i=1; AJvYcCVkSzhGXebQ3iE6Wf5EB+VVyCwnWehU6vMi8DdxuHvD/B3YgKLavHvEPZcWvq69g+iuEskbaQHzEf+7hYBTj0YkSphwoB0TI6q41ZKko5FjDbI=
+X-Gm-Message-State: AOJu0Yw3t67roRaSAeqqkCY6zjoGyVsrVrLdOnl1XwT/wnAyNXJgCUgN
+	fEBHxLfzOjvOB3YKu+7O6PSxMLSEbI9i2StJSrFv9KqgRHXYOu7klxckBZksFKd8EZz9kO8qNV+
+	32y0g7uI9oJITlfIgdmsUP/6zkQv0+IVm55IybJiJ/UEoAlsRDCIA3U3wJT9c4gN7u5EZ
+X-Received: by 2002:ac8:7c50:0:b0:446:5ee0:d1e with SMTP id d75a77b69052e-44662e31cefmr112423941cf.39.1719954524174;
+        Tue, 02 Jul 2024 14:08:44 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHbWzDKoO3DLysrqALy+oE4lA7uiaZ1zyzV/oKjhpoDTKDIA4cjZJMXRmR71FRAQA9DolwanA==
+X-Received: by 2002:ac8:7c50:0:b0:446:5ee0:d1e with SMTP id d75a77b69052e-44662e31cefmr112423701cf.39.1719954523863;
+        Tue, 02 Jul 2024 14:08:43 -0700 (PDT)
+Received: from thinkpad-p1.localdomain.com (pool-174-112-193-187.cpe.net.cable.rogers.com. [174.112.193.187])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-446514b0b1dsm44452501cf.79.2024.07.02.14.08.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Jul 2024 14:08:43 -0700 (PDT)
+From: Radu Rendec <rrendec@redhat.com>
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Paolo Abeni <pabeni@redhat.com>
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Simon Horman <horms@kernel.org>,
+	netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] net: rswitch: Avoid use-after-free in rswitch_poll()
+Date: Tue,  2 Jul 2024 17:08:37 -0400
+Message-ID: <20240702210838.2703228-1-rrendec@redhat.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240614-dt-bindings-thermal-allof-v1-0-30b25a6ae24e@linaro.org> <20240614-dt-bindings-thermal-allof-v1-11-30b25a6ae24e@linaro.org>
-In-Reply-To: <20240614-dt-bindings-thermal-allof-v1-11-30b25a6ae24e@linaro.org>
-From: Amit Kucheria <amitk@kernel.org>
-Date: Wed, 3 Jul 2024 02:35:45 +0530
-X-Gmail-Original-Message-ID: <CAHLCerMuG92Sf8+BdqPLqh+x3YxBjD6YdYF2k+AxQcwCqerxzw@mail.gmail.com>
-Message-ID: <CAHLCerMuG92Sf8+BdqPLqh+x3YxBjD6YdYF2k+AxQcwCqerxzw@mail.gmail.com>
-Subject: Re: [PATCH 11/22] dt-bindings: thermal: qcom-tsens: reference
- thermal-sensor schema
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
-	Lukasz Luba <lukasz.luba@arm.com>, Rob Herring <robh@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Guillaume La Roque <glaroque@baylibre.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Vasily Khoruzhick <anarsoul@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Anson Huang <Anson.Huang@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
-	Heiko Stuebner <heiko@sntech.de>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Pascal Paillet <p.paillet@foss.st.com>, Keerthy <j-keerthy@ti.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
-	zhanghongchen <zhanghongchen@loongson.cn>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, linux-pm@vger.kernel.org, 
-	linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-amlogic@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	imx@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
-	Florian Fainelli <f.fainelli@gmail.com>, linux-rpi-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jun 14, 2024 at 3:17=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> Device is a thermal sensor and it requires '#thermal-sensor-cells', so
-> reference the thermal-sensor.yaml to simplify it and bring the
-> common definition of '#thermal-sensor-cells' property.
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+The use-after-free is actually in rswitch_tx_free(), which is inlined in
+rswitch_poll(). Since `skb` and `gq->skbs[gq->dirty]` are in fact the
+same pointer, the skb is first freed using dev_kfree_skb_any(), then the
+value in skb->len is used to update the interface statistics.
 
-Reviewed-by: Amit Kucheria <amitk@kernel.org>
+Let's move around the instructions to use skb->len before the skb is
+freed.
 
-> ---
->  Documentation/devicetree/bindings/thermal/qcom-tsens.yaml | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/thermal/qcom-tsens.yaml b/=
-Documentation/devicetree/bindings/thermal/qcom-tsens.yaml
-> index 99d9c526c0b6..cce6624228c7 100644
-> --- a/Documentation/devicetree/bindings/thermal/qcom-tsens.yaml
-> +++ b/Documentation/devicetree/bindings/thermal/qcom-tsens.yaml
-> @@ -217,18 +217,16 @@ properties:
->
->    "#thermal-sensor-cells":
->      const: 1
-> -    description:
-> -      Number of cells required to uniquely identify the thermal sensors.=
- Since
-> -      we have multiple sensors this is set to 1
->
->  required:
->    - compatible
->    - interrupts
->    - interrupt-names
-> -  - "#thermal-sensor-cells"
->    - "#qcom,sensors"
->
->  allOf:
-> +  - $ref: thermal-sensor.yaml#
-> +
->    - if:
->        properties:
->          compatible:
-> @@ -292,7 +290,7 @@ allOf:
->        required:
->          - reg
->
-> -additionalProperties: false
-> +unevaluatedProperties: false
->
->  examples:
->    - |
->
-> --
-> 2.43.0
->
+This bug is trivial to reproduce using KFENCE. It will trigger a splat
+every few packets. A simple ARP request or ICMP echo request is enough.
+
+Signed-off-by: Radu Rendec <rrendec@redhat.com>
+---
+ drivers/net/ethernet/renesas/rswitch.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
+index dcab638c57fe8..24c90d8f5a442 100644
+--- a/drivers/net/ethernet/renesas/rswitch.c
++++ b/drivers/net/ethernet/renesas/rswitch.c
+@@ -871,13 +871,13 @@ static void rswitch_tx_free(struct net_device *ndev)
+ 		dma_rmb();
+ 		skb = gq->skbs[gq->dirty];
+ 		if (skb) {
++			rdev->ndev->stats.tx_packets++;
++			rdev->ndev->stats.tx_bytes += skb->len;
+ 			dma_unmap_single(ndev->dev.parent,
+ 					 gq->unmap_addrs[gq->dirty],
+ 					 skb->len, DMA_TO_DEVICE);
+ 			dev_kfree_skb_any(gq->skbs[gq->dirty]);
+ 			gq->skbs[gq->dirty] = NULL;
+-			rdev->ndev->stats.tx_packets++;
+-			rdev->ndev->stats.tx_bytes += skb->len;
+ 		}
+ 		desc->desc.die_dt = DT_EEMPTY;
+ 	}
+-- 
+2.45.2
+
 
