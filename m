@@ -1,114 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-6963-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6964-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17A9191F09C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 09:58:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CE4E91F859
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 10:25:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3FD2F1C2111F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 07:58:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0A0B31C21DF2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 08:24:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEDA5146A68;
-	Tue,  2 Jul 2024 07:58:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAE7B14BF97;
+	Tue,  2 Jul 2024 08:24:05 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66FBD55C1A;
-	Tue,  2 Jul 2024 07:58:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D262B16419
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jul 2024 08:24:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719907133; cv=none; b=auTMrkmoaWs85K37KNmVOAdB6ocRDn5afbq6w2TiZmSw6KuZ7DsLwROGZCk+DUdBmhTEphhId3OZEM33pqMKxciy5mMnC9QTK4VKIYRQwI/ge9laYNg3qq6kOlB8dPDACwlmDT3D0r8XIxzPGH60UBn1/r0kP2uHZClU/eiHtP4=
+	t=1719908645; cv=none; b=aL8hFTVZUCD1I62j9smpcE4kL0L5a4tgnIzWZlTqZ1sBWK8s10KD8XqncCurOp96puy0AjFRBqJqpPR0nphtqTRijkqqSKikuS2r4XRLukb3UhxzZ/9vudFvmAG/LuA0VSdhGnUgLLy23gwQ+4LUk5aK8Wt0wHSciR2ojrgx9QI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719907133; c=relaxed/simple;
-	bh=IisLH2oBRhtJOrVETNoSPuOiNx/XIqrSvKYNu4eJ/jA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mtsEHteuxjxwJDb5+InYnxjwrFQvq+WzzJ88eSvmBiGPpimju4fwg1oCI0Gymw3FOYXepZM8qRd7M91WdLRwhtoAiApgH9esnNjvnAA7bef8mLv9wrhd+tHQlt+soJa7ZUyq2ai3/ZCm0D4gv/a+wynN+72iYcIQa95XbFiv2Qw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-64f4f96bbf9so11728007b3.2;
-        Tue, 02 Jul 2024 00:58:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719907130; x=1720511930;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mO8O5zgBP/PpSUSsJrGMd+bdSGPRfxLLaZZS1rFuVbY=;
-        b=VsuAw9BkqgMtmTLb92K3xsA5zy9/AYKr2PRXTplQJDngd63IH3zMpDvsRc+eM3dPyX
-         lwVJpMT8rTWmPtYPpt/etoAQ9aHhoRv3mUvku0Dy8sRLAjCSk8ZKZJoEU/sK6Hk1Jv7W
-         K5UXamTxIKTiNRREMb2WahyoPUXIju1AhgyieYER37cWXuj+5Bq2LmYqdTIZ0jlqYH/b
-         f4/2AaJw1mOiG/TkSTbQc5sPrwdMOWRjjQp7j99LhoTfl9BOiV1ph4sDIozeXOgGeiiN
-         IBjlzdyjfaajExT1XYjmu+U/BE/w8YwoJiFb96mTUWBHGlpG7nfexrYcbxBv384ciIDN
-         3sFA==
-X-Forwarded-Encrypted: i=1; AJvYcCV/UoQYFI9Z51lBPjCEgLWK2JzsntPwne2WlJv+zeEqpWP8mzvzXxheGNOhjR0SU27ae9nvPwHNi9ApISN7FUeX7sM2Xp42OKove07WuZp5Q8O6dSClPscr1rDE0VKD/BNjMmJkeO3kMMM9vjgcrf/82dXPz4KndxNRVZR5vcvitq9xC5cLPBkwBXM=
-X-Gm-Message-State: AOJu0YyDrJEkDW2pGR+LvdSW8MGRKs0YaMTekg0QFjXPGvdayZ9Te9B9
-	sAiOfdjNq3yBywmyTdUxP4RuKWMGWkYBuK+WdqtQrPSxJEkVwcQiLp5LHTQ1
-X-Google-Smtp-Source: AGHT+IGMUZ6qB/MBWCPLA3RZPlnwiui+Ehv/ucEjI/UixoyTCcpCXyz26khIgN+GHttceSF6ik7J+w==
-X-Received: by 2002:a0d:eb93:0:b0:644:4b82:bb0a with SMTP id 00721157ae682-64c720b8173mr79440857b3.2.1719907130183;
-        Tue, 02 Jul 2024 00:58:50 -0700 (PDT)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-64a9bf326desm16673117b3.114.2024.07.02.00.58.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Jul 2024 00:58:50 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-64b3655297aso33752977b3.1;
-        Tue, 02 Jul 2024 00:58:49 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWp7lMzd//e18M0fsvRtyzZPxsskTPwITGeRosIE3KCgGAu/ZIQJRBQPGQoRO5tnONIVp5sk82nvzsrEA/YcjLLh8ttknrz8ouk5gHjL8tVGVrsMnH2PSrh93KdPCx5jlBdk4G5cDTq5fx+HrxgDqIt5N43Xt++QCmhEjItwxBSUnthNy1zy7eaTZc=
-X-Received: by 2002:a05:690c:804:b0:64a:7d9b:934 with SMTP id
- 00721157ae682-64c7277c728mr87346287b3.16.1719907129452; Tue, 02 Jul 2024
- 00:58:49 -0700 (PDT)
+	s=arc-20240116; t=1719908645; c=relaxed/simple;
+	bh=PF7t4m8gFjUEXljEAYhJjqo97jcQQ/DgD6Wg064kH8I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DVL3VzfNvg/F6t3ZvRID2vefDFTXOGm9Yrn+ph/bUta33009OeaJ2tqHti6uh6e3ms3XVX4oLQ+jKuyVjIaBijlnu08QWn9iYz5yrfc++Sv82UuWrIyPaWx4t7RV/4sQM4CBTE9PKo+qrVrVlh3eKAFGU/lCVOsAGTM7RlHzNiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1sOYmu-00011E-US; Tue, 02 Jul 2024 10:22:56 +0200
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1sOYmp-006ZAc-UQ; Tue, 02 Jul 2024 10:22:51 +0200
+Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1sOYmp-00ANey-2Z;
+	Tue, 02 Jul 2024 10:22:51 +0200
+Date: Tue, 2 Jul 2024 10:22:51 +0200
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Russell King <linux@armlinux.org.uk>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Vladimir Zapolskiy <vz@mleia.com>, Andrew Lunn <andrew@lunn.ch>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Tony Lindgren <tony@atomide.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>, linux-mtd@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	imx@lists.linux.dev, linux-omap@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+	openbmc@lists.ozlabs.org, linuxppc-dev@lists.ozlabs.org,
+	linux-mips@vger.kernel.org, loongarch@lists.linux.dev
+Subject: Re: [PATCH 2/9] mtd: add mtd_is_master helper
+Message-ID: <20240702082251.ljdaz2b7agabbm76@pengutronix.de>
+References: <20240701-b4-v6-10-topic-usbc-tcpci-v1-0-3fd5f4a193cc@pengutronix.de>
+ <20240701-b4-v6-10-topic-usbc-tcpci-v1-2-3fd5f4a193cc@pengutronix.de>
+ <b97bf565-bef5-fbc7-63c5-f174880ad9ab@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240624144108.1771189-1-niklas.soderlund+renesas@ragnatech.se> <20240624144108.1771189-6-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20240624144108.1771189-6-niklas.soderlund+renesas@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 2 Jul 2024 09:58:37 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUWgtt6hvMqkxiH5zHBmdqO-dKtXBMBKVE-grQqBnm49w@mail.gmail.com>
-Message-ID: <CAMuHMdUWgtt6hvMqkxiH5zHBmdqO-dKtXBMBKVE-grQqBnm49w@mail.gmail.com>
-Subject: Re: [PATCH v4 5/5] arm64: dts: renesas: r8a779h0: Add family fallback
- for VIN IP
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b97bf565-bef5-fbc7-63c5-f174880ad9ab@gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jun 24, 2024 at 4:43=E2=80=AFPM Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> The usage of the V4M VIN bindings where merged before the bindings where
-> approved. At that time the family fallback compatible where not part of
-> the bindings, add them.
->
-> Fixes: 2bb78d9fb7c9 ("arm64: dts: renesas: r8a779h0: Add video capture no=
-des")
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
-> ---
-> * Changes since v3
-> - New in v4.
+On 24-07-01, Sergei Shtylyov wrote:
+> On 7/1/24 4:53 PM, Marco Felsch wrote:
+> 
+> > Provide a simple helper to make it easy to detect an master mtd device.
+> > 
+> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > ---
+> >  include/linux/mtd/mtd.h | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> > 
+> > diff --git a/include/linux/mtd/mtd.h b/include/linux/mtd/mtd.h
+> > index 8d10d9d2e830..bf3fc2ea7230 100644
+> > --- a/include/linux/mtd/mtd.h
+> > +++ b/include/linux/mtd/mtd.h
+> > @@ -408,6 +408,11 @@ static inline struct mtd_info *mtd_get_master(struct mtd_info *mtd)
+> >  	return mtd;
+> >  }
+> >  
+> > +static inline bool mtd_is_master(struct mtd_info *mtd)
+> > +{
+> > +	return mtd->parent ? false : true;
+> 
+>    Perhaps:
+> 
+> 	return !mtd->parent;
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Sure, if you prefer this style rather I will change it.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Regards,
+  Marco
 
