@@ -1,68 +1,64 @@
-Return-Path: <linux-renesas-soc+bounces-6992-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-6993-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 291D092414B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 16:50:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A57FD92417C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 16:55:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D920B2887C5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 14:50:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 59BAF1F219D5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2024 14:55:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A07F1BA08A;
-	Tue,  2 Jul 2024 14:50:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10DB01BA892;
+	Tue,  2 Jul 2024 14:55:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RX2OAH2j"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S2/glYfZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6266A1BA067;
-	Tue,  2 Jul 2024 14:50:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD2C1BA886;
+	Tue,  2 Jul 2024 14:55:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719931857; cv=none; b=c4It55WRvwqqUXDcaNUYyjWYZEMV3GbsLrnD1L6Nva1UeEBLqMkDJi1LpudzeWt0NskHjVhQ7LV24Tv3l25956t+oAwMCFb75hpKuOgUH7mmn0mOrg1qOix+woXpXJE0dtZ9ni+tTHKycdiPUCmq7KUWVJG78sdfWxtYV5F/fCk=
+	t=1719932135; cv=none; b=V21QESv4dZix5W/lwR/mfU8JTOwbIE6LsfHj4b3iirWFWV6c/WWjBUDUoOQoThUp2hgm2qe+uVyuXsG+2sLbwkQcwe2Y5lDd3kFWkflIeHLt4nGKampIDJeBD6de7q/WdipmrgWFVHle4ld24lE125lEAT7jYJs4SMEcMsGv9ik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719931857; c=relaxed/simple;
-	bh=8GrPOQF7l2Z/Xp7PSkYsxAUyYslALDELzdKgK4LRHng=;
+	s=arc-20240116; t=1719932135; c=relaxed/simple;
+	bh=6MdDBrXwK7RYXeU/DmcTKAjC7A61gys4py4Z2PoBn+w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y81L1ZHGo6YFsrXeS5SO/VqlI5I6n6e4EBIs/dU1G9Kp+XvQwDZNDXD7w76LC4pH/oarH3cBOi1JuWOlXrZ+W6avh+j/dteG5dlzmiXJF9hFv1tBOwUtt4hC/211McJ5Lc6kmedgyQh3fS8wUITR4E2Go5/QXgofDBGOqokauQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RX2OAH2j; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABCC6C116B1;
-	Tue,  2 Jul 2024 14:50:53 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=p5KW8ylaqgelz0erN25RS7hTpTDduyYOSCE74P1gvMulukE4T/2YY8Kc9yiGWCUzJDMWvDxo56M78Z2JmJtM1nHZzu77VoB78KEhqQopbsc/5U9eZQy6zgL2O1FD2FE1fQI5svr+2E06nVx7Hmgh6l007RFVKh9r1JnxHDHPtyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S2/glYfZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24EAFC4AF07;
+	Tue,  2 Jul 2024 14:55:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719931856;
-	bh=8GrPOQF7l2Z/Xp7PSkYsxAUyYslALDELzdKgK4LRHng=;
+	s=k20201202; t=1719932134;
+	bh=6MdDBrXwK7RYXeU/DmcTKAjC7A61gys4py4Z2PoBn+w=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RX2OAH2jOC1pBLdx4TgjQ4WdYGkOaqVhb5dftZ+HQsnCCpOagSiT4Xp4PbQXbVYCS
-	 XNNexN9pjXHEZgLTeNnuVs9QYPsS+nLUoims1bD7/NcDj4E0ULvLXSWPB2+0Wv1HGr
-	 7I/L/3bk92LgrDWac+5LtCxzFuH0jOV06slRy/qVxxy8o8yda4O5YpKdZ27ql+QUDC
-	 y+e3gR5RBqslS9oY6xPpGXb5Gz1Egeyj6+YUUCbUFB7aJqRr86Le5fY+xQq+trhEVo
-	 wGpQo5xbtwS6X0b9s1p3CIvTtu1dnBJuKW4DJT39XHbpj1uTtZtFd5Pz9Jd3Etzu+t
-	 62hZWtUo+uh0Q==
-Date: Tue, 2 Jul 2024 15:50:51 +0100
+	b=S2/glYfZ7Mb+RQqZFYfvpREfq1Clsj6YUhYOtVwg53349Oz8/KC0d0ZHpIzLH0APY
+	 +lLEDN2KO5Dl5y21sy7K4x4mYCWUIx/gz4jI/NvGvVhPKUvBW0JOKtXsKeauvxUrHh
+	 VS3ycehzLjcFKoG2GuXValaQDeoTwNj2D3YTD2VE0llFV4ebohBKm0yAP8ES2Q+UdS
+	 DcP9w5sf+ZhDjOX5L0eIZ6uVwLrlTglxKWlNDfSn/cJIcTPsrIQUlPmW86CCYe739K
+	 Exb1VglO8oQBxxWoUrd5G0Equ5wn5+b4rs6ryi1a10Mvl1gQLjMsPiecLto05w0b+H
+	 GXbxWTctwfvZA==
+Date: Tue, 2 Jul 2024 15:55:30 +0100
 From: Conor Dooley <conor@kernel.org>
 To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
+	Magnus Damm <magnus.damm@gmail.com>, linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>
-Subject: Re: [PATCH 3/9] dt-bindings: display: renesas,rzg2l-du: Document
- RZ/G2UL DU bindings
-Message-ID: <20240702-choking-glitch-d97191325ac7@spud>
+Subject: Re: [PATCH 2/9] media: dt-bindings: media: renesas,fcp: Document
+ RZ/G2UL FCPVD bindings
+Message-ID: <20240702-observer-hamlet-10ed084ccc1d@spud>
 References: <20240702094630.41485-1-biju.das.jz@bp.renesas.com>
- <20240702094630.41485-4-biju.das.jz@bp.renesas.com>
+ <20240702094630.41485-3-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -70,104 +66,34 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="6lv1T1DM0q9CXqoQ"
+	protocol="application/pgp-signature"; boundary="X2y8VPZfEKNH7z7W"
 Content-Disposition: inline
-In-Reply-To: <20240702094630.41485-4-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20240702094630.41485-3-biju.das.jz@bp.renesas.com>
 
 
---6lv1T1DM0q9CXqoQ
+--X2y8VPZfEKNH7z7W
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 02, 2024 at 10:46:13AM +0100, Biju Das wrote:
-> Document DU found in RZ/G2UL SoC. The DU block is identical to RZ/G2L
-> SoC, but has only DPI interface.
->=20
-> While at it, add missing required property port@1 for RZ/G2L and RZ/V2L
-> SoCs.
-
-A new required property is an ABI break, it deserves more of an
-explanation than "in passing..."
-
+On Tue, Jul 02, 2024 at 10:46:12AM +0100, Biju Das wrote:
+> Document FCPVD found in RZ/G2UL SoC. FCPVD block is similar to FCP for
+> VSP found on RZ/{G2L,G2LC,V2L} SoCs.
 >=20
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  .../bindings/display/renesas,rzg2l-du.yaml    | 32 +++++++++++++++++--
->  1 file changed, 29 insertions(+), 3 deletions(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.y=
-aml b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> index 08e5b9478051..c0fec282fa45 100644
-> --- a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> +++ b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> @@ -18,6 +18,7 @@ properties:
->    compatible:
->      oneOf:
->        - enum:
-> +          - renesas,r9a07g043u-du # RZ/G2UL
->            - renesas,r9a07g044-du # RZ/G2{L,LC}
->        - items:
->            - enum:
-> @@ -60,9 +61,6 @@ properties:
->          $ref: /schemas/graph.yaml#/properties/port
->          unevaluatedProperties: false
-> =20
-> -    required:
-> -      - port@0
-> -
->      unevaluatedProperties: false
-> =20
->    renesas,vsps:
-> @@ -88,6 +86,34 @@ required:
-> =20
->  additionalProperties: false
-> =20
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: renesas,r9a07g043u-du
-> +    then:
-> +      properties:
-> +        ports:
-> +          properties:
-> +            port@0: false
-> +            port@1:
-> +              description: DPI
-> +
-> +          required:
-> +            - port@1
-> +    else:
-> +      properties:
-> +        ports:
-> +          properties:
-> +            port@0:
-> +              description: DSI
-> +            port@1:
-> +              description: DPI
-> +
-> +          required:
-> +            - port@0
-> +            - port@1
->  examples:
->    # RZ/G2L DU
->    - |
-> --=20
-> 2.43.0
->=20
 
---6lv1T1DM0q9CXqoQ
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+
+--X2y8VPZfEKNH7z7W
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZoQTywAKCRB4tDGHoIJi
-0lOBAQCn6PdPFpKiaDN6FCYz31fxa5IjoRWeN/XXq3MNDAxJhgD/dIVSUf9g00XV
-mUd+njn3lrmTYC6+QUKQ2SRpgGexgwU=
-=hI46
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZoQU4QAKCRB4tDGHoIJi
+0hkNAP9SVvaGbeixUIyJfPSN0jY81aIzECPK3yIt7I25fYPs0AD/YY2Kx6O59Pde
+/5h5HiNYTTSvAbf6PmkJ2tXrVFbBzwE=
+=0YDE
 -----END PGP SIGNATURE-----
 
---6lv1T1DM0q9CXqoQ--
+--X2y8VPZfEKNH7z7W--
 
