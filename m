@@ -1,135 +1,96 @@
-Return-Path: <linux-renesas-soc+bounces-7045-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7046-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63A7E926429
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jul 2024 17:00:12 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BDC692698C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jul 2024 22:27:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 19A621F2542B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jul 2024 15:00:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 33FC9B2669A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jul 2024 20:27:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97FE3181B80;
-	Wed,  3 Jul 2024 14:59:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14ABB18FDC2;
+	Wed,  3 Jul 2024 20:27:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tz5D54gt"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 904F2181329;
-	Wed,  3 Jul 2024 14:59:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D739D18FC82;
+	Wed,  3 Jul 2024 20:27:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720018749; cv=none; b=sDVRd8MhgLAxOwDFr5EdtvMD6NnBrtRjw4zYyTSyzR2OBec58ox6wnzW9I44eEh5qE6mM9yp0x5Z+hgjqYYqM/E5NmrOxaK/uqRENwFGjl9EogBb7f4WJ3hqD75DV1gSDVRiNTGv0lVZyBBoeFW0cDDpn28Rm6CNIApO53wCfwo=
+	t=1720038437; cv=none; b=MBOeJUn7qZLDH8sd56242e3HIlZoxf2xNb3BaXS/6WDRs7TTZ5xRIZxy6VFrZZ7Eqyg8c10/vLwlL6dCU9CuBY/1hgwmAiWR5JuqQZfGPj/YykLy36hpJoOoHu+49WBfVgwvJs+8/mDpzQy619b+L29Z8qRu5nemolhgTr9QIJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720018749; c=relaxed/simple;
-	bh=sqMVFPWmb3BNLe4+ONBJ0Zqg287BOwN5kktO4O0GjWs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kyO/S43HO+WHU2e2a8+FCR3qtfqvSk8y2xd5AW1Wpwwp/Haye6PUrvdQ/ze6W8r8rLSY23uBjnGKmvcJ0i8xWXTp/La3LvIdGMPt+3cynR0w9N2IwfsJmVvxsx4Yovl+JAkMCqg9qXydzn20rk8MjCDNCpkBuHqNittuFsJEH8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.09,182,1716217200"; 
-   d="scan'208";a="214125781"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 03 Jul 2024 23:59:07 +0900
-Received: from localhost.localdomain (unknown [10.226.92.104])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 16E474561784;
-	Wed,  3 Jul 2024 23:59:03 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v2 3/3] arm64: dts: renesas: rz{g2l,g2lc}-smarc-som: Update partition table for spi-nor flash
-Date: Wed,  3 Jul 2024 15:58:48 +0100
-Message-ID: <20240703145851.204306-4-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240703145851.204306-1-biju.das.jz@bp.renesas.com>
-References: <20240703145851.204306-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1720038437; c=relaxed/simple;
+	bh=PBcTwQazTXxN3vJLe6dTXyZcwIjt4BiOfPqGEsTN/zs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dh35IsoflcMcLKkzq0l4cyjma5j+F43+bAPsDG+Fny1yxAg66ZzmUX2f88AywjR97epmrVbEKi1+TeRC9Y1EY+7VkiZ0KJWi+LKngS5pHvK4RV+JsKbl4BpuarKxkAnK+9vPAqPPSDMC+QftAyibCACq482ot30CuV2VHsUHO8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tz5D54gt; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01D52C2BD10;
+	Wed,  3 Jul 2024 20:27:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720038436;
+	bh=PBcTwQazTXxN3vJLe6dTXyZcwIjt4BiOfPqGEsTN/zs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tz5D54gt8BA9EpYZxEhBR8qDT+9suJQCZbvnn5LOIQihHHWwqxljPEYQlP5u0/c4a
+	 r9JELjidYnoQGBzvZa1UbhwCOvyQ/Kb+QPDuNnLqQljbnl1JWXdFCIp+ZlDZh3WY3/
+	 dPLTeMTuXx0Gaio0Fv1EJlsKDL9YNHio+Ue6RozA/pAWRZReRHV1L+6bd5eTr9YlHP
+	 gtDfZQrh9midRBcAXpSpXAU8EONEBqfTWKLIsgCwTa40EyRe6RAdBZ0Bdj1AhgC6aT
+	 d+z4X/GiBCnotCaUQy0JFK6WC8uLXPJCXTgugR7M9ZNNvSRTmaoBU5ecHEaKidjrwA
+	 BPb3VAHoexFnA==
+Date: Wed, 3 Jul 2024 22:27:12 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, 
+	Dirk Behme <dirk.behme@de.bosch.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] i2c: rcar: bring hardware to known state when probing
+Message-ID: <g6mthbu3bbg2vl3aobci2gx7lbfy4qbiy7cy43v7wwgjldauc3@qv4yrctu2bmf>
+References: <20240703071625.5389-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240703071625.5389-1-wsa+renesas@sang-engineering.com>
 
-Update partition table for spi-nor flash, so that we can flash bootloaders
-in Linux by executing the below commands:
-flash_erase /dev/mtd0  0 0
-flash_erase /dev/mtd1  0 0
-mtd_debug write /dev/mtd0 0 ${BL2_FILE_SIZE} ${BL2_IMAGE}
-mtd_debug write /dev/mtd1 512 ${FIP_FILE_SIZE} ${FIP_IMAGE}
+Hi Wolfram,
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v2:
- New patch.
----
- arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi  | 15 +++++++++++----
- arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi | 15 +++++++++++----
- 2 files changed, 22 insertions(+), 8 deletions(-)
+On Wed, Jul 03, 2024 at 09:12:03AM GMT, Wolfram Sang wrote:
+> Probably due to a lot of refactorization, the hardware was not brought
+> into a known state in probe. This may be a problem when a hypervisor
+> restarts Linux without resetting the hardware, leaving an old state
+> running. Make sure the hardware gets initialized, especially interrupts
+> should be cleared and disabled.
+> 
+> Reported-by: Dirk Behme <dirk.behme@de.bosch.com>
+> Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Closes: https://lore.kernel.org/r/20240702045535.2000393-1-dirk.behme@de.bosch.com
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
-index 4409c47239b9..09ff0c092f0c 100644
---- a/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
-@@ -319,11 +319,18 @@ partitions {
- 			#address-cells = <1>;
- 			#size-cells = <1>;
- 
--			boot@0 {
--				reg = <0x00000000 0x2000000>;
--				read-only;
-+			partition@0 {
-+				label = "bl2";
-+				reg = <0x00000000 0x0001c000>;
- 			};
--			user@2000000 {
-+
-+			partition@1d000 { /* fip is at offset 0x200 */
-+				label = "fip";
-+				reg = <0x0001d000 0x1fe3000>;
-+			};
-+
-+			partition@2000000 {
-+				label = "user";
- 				reg = <0x2000000 0x2000000>;
- 			};
- 		};
-diff --git a/arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi
-index 5e4209d6fb42..66b5db3cf1f7 100644
---- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi
-@@ -248,11 +248,18 @@ partitions {
- 			#address-cells = <1>;
- 			#size-cells = <1>;
- 
--			boot@0 {
--				reg = <0x00000000 0x2000000>;
--				read-only;
-+			partition@0 {
-+				label = "bl2";
-+				reg = <0x00000000 0x0001c000>;
- 			};
--			user@2000000 {
-+
-+			partition@1d000 { /* fip is at offset 0x200 */
-+				label = "fip";
-+				reg = <0x0001d000 0x1fe3000>;
-+			};
-+
-+			partition@2000000 {
-+				label = "user";
- 				reg = <0x2000000 0x2000000>;
- 			};
- 		};
--- 
-2.43.0
+Do we need the Fixes tag here?
 
+> ---
+> 
+> Here is my proposal to fix the issue reported by Dirk. Build tested.
+> I can do proper testing on HW only tomorrow. But so you know already...
+
+Looks reasonable. If testing is fine I can queue this up for this
+week's pull request.
+
+> It is strange to add another "_slave" function to the driver while I
+> work on removing such language from I2C somewhere else. "Consistency" is
+> the answer here. The driver will be converted as well. But then as a
+> whole.
+
+Ack!
+
+Thanks,
+Andi
 
