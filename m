@@ -1,163 +1,207 @@
-Return-Path: <linux-renesas-soc+bounces-7028-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7029-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 440FE925621
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jul 2024 11:08:52 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 174A29256E5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jul 2024 11:35:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D4B8EB20FB7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jul 2024 09:08:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3AECF1C221E1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jul 2024 09:35:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0894613BAE5;
-	Wed,  3 Jul 2024 09:08:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96C591411E0;
+	Wed,  3 Jul 2024 09:34:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="XR5vYtU8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010064.outbound.protection.outlook.com [52.101.229.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D5412FB2D
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  3 Jul 2024 09:08:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719997727; cv=none; b=tyj8K1ta8jVrbMO7eARnWVp2qd492mEFuv7cra8IHivW0CPoOCA43sZKNPz5huMrrvOaV6Q/J5D7hEvh4C1hjGCEB9ML8k0XBQv64pV2Ef3RQcUJICF+U1mSUdYw3DyXT1cmhD6Huv8oiYWvBpTeVtSLc32DFgAF24VZe/CJM2w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719997727; c=relaxed/simple;
-	bh=5vvKZUq6NW5EcNM+G12bmCAAT4BgzLF5jSIp+823+qs=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Fb762ps52Pmcy8WpClVVhmDY9GRxa9eC+6N8HwO3CbbJlPy94wiGOj4il2ytMrx2DaoV/aJnCZOeBg3/4cWAWdIphRuiOT+HmT8bYT+l5INSGV53he/yoSQpO0Eq7vBwBDnCTfqln4nuWz7AeKQnkRDrc6GgooCYcDPdLMPxIbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1sOvyc-0000LM-Ui; Wed, 03 Jul 2024 11:08:34 +0200
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1sOvyc-006oeT-ED; Wed, 03 Jul 2024 11:08:34 +0200
-Received: from pza by lupine with local (Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1sOvyc-0004Il-1C;
-	Wed, 03 Jul 2024 11:08:34 +0200
-Message-ID: <c551445782f327205c5cdb59717e2879e0982d80.camel@pengutronix.de>
-Subject: Re: [PATCH v5 4/4] arm64: dts: renesas: rz-smarc: Replace fixed
- regulator for USB VBUS
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Biju Das <biju.das.jz@bp.renesas.com>, Geert Uytterhoeven
-	 <geert@linux-m68k.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-  Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>,  Geert Uytterhoeven
- <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "biju.das.au" <biju.das.au@gmail.com>
-Date: Wed, 03 Jul 2024 11:08:34 +0200
-In-Reply-To: <TY3PR01MB11346C77668002325FD916DBD86DD2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20240702180032.207275-1-biju.das.jz@bp.renesas.com>
-	 <20240702180032.207275-5-biju.das.jz@bp.renesas.com>
-	 <CAMuHMdUmvWPPBVqhtpu2dovwQg7YA7TVZBRnATUiY+1QRy0B1w@mail.gmail.com>
-	 <TY3PR01MB11346C77668002325FD916DBD86DD2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A844713D61B;
+	Wed,  3 Jul 2024 09:34:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.64
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719999278; cv=fail; b=gdbi+N7TCQ7xwIQbKx7LzOjKXuvUu4QoWGWQT1sgCcPe93LLH7s7mzsTrnLLpC/wAZ6gEloZUgUNgvzGqBAYWeSmg744Lw8neixMItjQGj27fruDBJfpUPlKMksP5T6zoYLtNYxFxHVuDNw/iSm8iEaPfHj7uNcZGfaqsviZtpo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719999278; c=relaxed/simple;
+	bh=mQjtHVZLwBYizNdT0aWIaBO372al/PASEqABZMehQ3M=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=TnIiilwQoTkYROslYP8In4kwHhGmWPYn1M5g80Z6IePCFn1XdjOiiak4mhyuczGbJ2JmlNpn5dvaNtpI+G7MAs1D9rRa7OJcen09vceRQNhiGUWFajyfMb5Sej71BV3efgnWu8nyjJvX/M3XCR0TXm2ZoeEpS55lAUIEVRDDsi0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=XR5vYtU8; arc=fail smtp.client-ip=52.101.229.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YqeTu22hacjPs4yVYcMr1FWrXso6DY4NsuhIi6DojSqLhIGJwJkfcxQt6nVy9a57K+qThdIWMhXD0G411WFa07vYsu+9NgeIPOkvvQgxjIlwTVGGsYsCK4BkxorgJ47pP0UsZJ9XfUS1EOFzMHXVBRKxVHDYBRtUllcCg1dIoBrId7hXyaPgC59i+u1wPbLLMfkMPYuqH0rzYiPHTXkVQxYJS8cwSj3+V2ATlziKVFMslPMStzUxz/p/pNlwsKlcg3mC8H6EGAhqvx1twgAT6rDeQW5gZns63yATF8Y/fZe9/kTrWMERbiUTZG1lPwuuj7q17DcgTfGFCGUFkHcPmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ckreS44sDKXIT6SgZ17otgx5HyALomNMmQqPgFrcBkU=;
+ b=ld4B/yGI7VDn86T73oikyAhx9GTFVMfHplj2W8JMUMwevz8xo9MQP8JlQroDq/rSgOHdT0UVU3Yoe7JsurLHNFqVRwU0SqBYZucZHSTJCeQrhv1RljifLG1gXeCcmWtzWUT0l2wZSmb88NnqYo4Y5PCDv3I1LxszyIb8Pks4XZi4tZVa5fiRRfs4zWbYDGmDVg5J2yQxPriCftVIKc1Zxo9aRQBsjPJ3ejdZF+ztZDhtMQCTtCpSzlRPpfQ36zFL/AbUUZ92EaCHdi/FgtcPDcUHeCJIQVgGzrDrEzly8tQA/0DkQ4VzHTEe1mRM8dXUtUkD9+stTQ2lz2T2mujxaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ckreS44sDKXIT6SgZ17otgx5HyALomNMmQqPgFrcBkU=;
+ b=XR5vYtU8wYbQ0EGqCwypHSkhS5JwV+lxte4mVO/71qE2iMq4SeGGcaMIJMbGasO3fGXH3T/CMqmi/jGphsfSiT0CCnA9DyUHJphYGmdTsnGW1nvqZsluxAhzRsm/qMnuP3kpG5CzynpqTd/hA1Z2C4GqQyrc+/36L3l+sARseSI=
+Received: from TYCPR01MB11040.jpnprd01.prod.outlook.com (2603:1096:400:3a7::6)
+ by TYCPR01MB11125.jpnprd01.prod.outlook.com (2603:1096:400:3be::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.25; Wed, 3 Jul
+ 2024 09:34:32 +0000
+Received: from TYCPR01MB11040.jpnprd01.prod.outlook.com
+ ([fe80::b183:a30f:c95f:a155]) by TYCPR01MB11040.jpnprd01.prod.outlook.com
+ ([fe80::b183:a30f:c95f:a155%7]) with mapi id 15.20.7741.017; Wed, 3 Jul 2024
+ 09:34:32 +0000
+From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To: =?iso-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kw@linux.com>
+CC: "lpieralisi@kernel.org" <lpieralisi@kernel.org>, "robh@kernel.org"
+	<robh@kernel.org>, "bhelgaas@google.com" <bhelgaas@google.com>,
+	"jingoohan1@gmail.com" <jingoohan1@gmail.com>, "mani@kernel.org"
+	<mani@kernel.org>, "marek.vasut+renesas@gmail.com"
+	<marek.vasut+renesas@gmail.com>, "linux-pci@vger.kernel.org"
+	<linux-pci@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v9 4/5] PCI: rcar-gen4: Add support for r8a779g0
+Thread-Topic: [PATCH v9 4/5] PCI: rcar-gen4: Add support for r8a779g0
+Thread-Index:
+ AQHau/4H2Ue+Yvqse06eFL/aaE81cLHfRNCAgAIafiCAARdjgIABBaRggAFSq4CAABE0cA==
+Date: Wed, 3 Jul 2024 09:34:32 +0000
+Message-ID:
+ <TYCPR01MB110407EAC6DD09E2C40D240FDD8DD2@TYCPR01MB11040.jpnprd01.prod.outlook.com>
+References: <20240611125057.1232873-1-yoshihiro.shimoda.uh@renesas.com>
+ <20240611125057.1232873-5-yoshihiro.shimoda.uh@renesas.com>
+ <20240629195615.GC2249818@rocinante>
+ <TYCPR01MB1104021C193620D3E02D32BB9D8D32@TYCPR01MB11040.jpnprd01.prod.outlook.com>
+ <20240701204333.GB412915@rocinante>
+ <TYCPR01MB1104021542E26342F961B1499D8DC2@TYCPR01MB11040.jpnprd01.prod.outlook.com>
+ <20240703083209.GB4117643@rocinante>
+In-Reply-To: <20240703083209.GB4117643@rocinante>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11040:EE_|TYCPR01MB11125:EE_
+x-ms-office365-filtering-correlation-id: 6990fb43-a6ac-49ab-7c3b-08dc9b435844
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
+x-microsoft-antispam-message-info:
+ =?iso-8859-2?Q?kaB/Hnn8IwC8OHRtArgnkGwJoBpq/BHNW9PuZ1McVANmu0cS3nqbiHN/l8?=
+ =?iso-8859-2?Q?8evXaxVULlRiqUtSrlViz4gOuuhGW/VF6GQ5kFU2O+/RdDvuKfmhggn74C?=
+ =?iso-8859-2?Q?HV3D5f1smcYjd61Nohh7uoL2vGdbAAJ0pXcPWrS2tmcvYwHuREoxzF/vCC?=
+ =?iso-8859-2?Q?amGmJaf6riH6xH+xdK7LDl/b98uPYkT8eJ7FsW0FLwXI4QBeNtcgWkHAKL?=
+ =?iso-8859-2?Q?zfBPe71D46tcglP1ZB7CVW1bRuK2Y6IOHDm1+ovycTBv9BXL9fG9Lb3h/t?=
+ =?iso-8859-2?Q?ZlxozPeZkj1NVo/8vZr+ilEVK7xoyuosCsb7MN49KQCg6uhND5rLpLBk6v?=
+ =?iso-8859-2?Q?KXxvLOPbz3dfketKg16QoCPexlX00rRNXpbQ/x/dfsww+55ywKTXHt+VI9?=
+ =?iso-8859-2?Q?8sroHtIFcw1bpjj6KJI7/D9uqnkFniI14Xg171SM78lX764EmcUJDdwRRY?=
+ =?iso-8859-2?Q?enIoW70IE3MTDZkfDzRvfOXr3rgKLz+nas98HYIKq097/y52Nzs7Sxq/IQ?=
+ =?iso-8859-2?Q?Wr0H2dukbDawfkX7FZR2VAcPqDQERqpOKfCyE1FM7K+jBTNJYyg9/PiGPR?=
+ =?iso-8859-2?Q?mLOlpX1feslYEG9aDeUtRVDoMmMPWgdxX3bIkFRqDpCYorelBMyiQhfuVb?=
+ =?iso-8859-2?Q?r+FF6NJF0kjOTulZcm5+/Up1YSvxnIppgqeVc/MrP/HL+BAvycCJ1fWzYJ?=
+ =?iso-8859-2?Q?aW4LeMQFPqiMMcm1eJT4QkaYck3YYfAn7VLpcbLjkCXxFY58bCEs9eIoBl?=
+ =?iso-8859-2?Q?k2DZD3P46kRcttxpK1pFc+ZhOWRP8OZ21ckuUVSZugH4XHFsJNMy5QVKsm?=
+ =?iso-8859-2?Q?ggWHHfa9yWXKQFkkwoEZUgsrR7rm8KU7qCFMPC1ugxTmFZOcLlpPrVcUh1?=
+ =?iso-8859-2?Q?VodUi53ZzujxZBZDe3blHQUIkoVgwuyhjbWWKBOvr5N2qksC7ggr9MtGO3?=
+ =?iso-8859-2?Q?FTY7I258Xp+X+yzaTII2hreXVRTzPW+9dRosJVkbAkgd5UuAxGDdEiXcRW?=
+ =?iso-8859-2?Q?r4+2cM97VqOWVfvuiDnOqlY2VnzE6LVKVoZ0Qg+G17BmB/vffcgyHsa+0R?=
+ =?iso-8859-2?Q?CzYGpxuMQEFv2B5RGirOSNNLbPBH0JdzZwB2JHyptXvhPU7KC7Dv1XbPM3?=
+ =?iso-8859-2?Q?y5oMy5Pqpern0nftwGTxzmDFesKCvC7lvOexozxrK0R5CTLN0urzk0jjGV?=
+ =?iso-8859-2?Q?B8/1F/NCo7P76voUpy7gFZ62vIarfO/6v5O31ICs7n+oVipaJcW5j9pXSc?=
+ =?iso-8859-2?Q?oNLljvrngbt9XY35QdzAJ8Iw4U8Ai6FmWO2WB/4dTcPjEfwpjgJsTlYe2o?=
+ =?iso-8859-2?Q?/OrDahLu+NlWqs1T7HDnOwnSYhD9/TsGw+N4ZxpdO7kDLC/pO4/rKYryrx?=
+ =?iso-8859-2?Q?UuTJ9bF+WzWxkqCaVyYuRUVdnSDF1X1M4u4tlrRInEiCb4AwvnJXIF/WbP?=
+ =?iso-8859-2?Q?V/fgPvokW7jDe0t2ISr+zrwoeDL0WhxGeIZ89Q=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:ja;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11040.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-2?Q?YVKgDaBP9sX3oeV5BRYWzaqzEUzzpLd3uKTzRngKvEvyFkDFZLtaqiV4Gd?=
+ =?iso-8859-2?Q?pnSlS04prPgagoTwldR2s0DQX8M9HdwemX8FZA4J02dEA0+9N+21sxF5gi?=
+ =?iso-8859-2?Q?YknfpSz+e4szvqXpGOtlV7PjyysPMmn9pma00SxHso7doyb7p+toIXMqbU?=
+ =?iso-8859-2?Q?MgJVJ8e9KxRE5POBi4xU5ZE4qPYAGG3+nDue0Ngua5i5e1c6QXF4dzvLBH?=
+ =?iso-8859-2?Q?5wjuTn1cc/gH6zuBzRac5m9rELyYIIhsnoW5gxz4u9YHVSguoEAto2cFLH?=
+ =?iso-8859-2?Q?QbwlZc6mcrWy9bfxwBa9RSwX4jWICcqkGYtSJcVR0Hpx4hRK90BHRHuBFo?=
+ =?iso-8859-2?Q?3WGrAsF+pzlbBq9aUJwiGPf7r8PNOdouS4bSXWi1ZAQLeYY4N21+xkxp/R?=
+ =?iso-8859-2?Q?GuaKyY24BwUbWrG1ABU7PmOtUI2IPZfUCYJJmb7wgbmyT3qwkMM419WIUa?=
+ =?iso-8859-2?Q?TpMxpsk6DsqkvmQM9tExBZ81PaOi+yoXzYf2h7/euk6cUy8P/Orc4W2l+b?=
+ =?iso-8859-2?Q?IyZNV0VPFq7En0i5IFivYq2PqkoYisUinfY+hxrQR/CwNq2cG4DTa/j1+U?=
+ =?iso-8859-2?Q?//OuKeLFrheRaFTBmzRNdj0aFwWGGcvNs2vKwsSUi1wMgW26VfmrbkoWeu?=
+ =?iso-8859-2?Q?5iGCBz9QBOf/yj0dd4Kkckyp59YE9fvte7BI/H6/LvUWGfik6WCifvoJmz?=
+ =?iso-8859-2?Q?kTnP7YDKrX6O2Dqq2iqmcB3QGULUQpT0KGQQPosyZ3ezPPZ/fZO/yubidf?=
+ =?iso-8859-2?Q?nXkyHIIWW961vdrE4aP0/hC/+dazTL0yMWAYwd4TJe6gxJcATn0uabkkKQ?=
+ =?iso-8859-2?Q?7m+iCasx5eV331WIxDOQiqVp9DI5Btr9vfdI6xNVV7A6kHSd4p455xIM4L?=
+ =?iso-8859-2?Q?JSKQ3GA4+y/T7iw2wIwoCvXbUVGQ4kwAIfWDzobmvOhPBIPdW8SgpKutbs?=
+ =?iso-8859-2?Q?4bDF+Hu9TVepXT2PjCQjQ6wupoe9DyRxaThntp153gKFA68SPv0TnEcnJz?=
+ =?iso-8859-2?Q?BGfTlr4u0JjFMASeLQcdQpcvFGCmTaZcf9FfEEtrsredGxQAUBpj4mHG05?=
+ =?iso-8859-2?Q?d4IB+FVvKoEwbL3RzC4ylHfH9GCxbSCqIZHC8T8oj68KqpsKZBAlAdKv9M?=
+ =?iso-8859-2?Q?4JRNBj+kka/UFg2+F2YwW/id42K3e6CZXMKw8D/9o0H2bbPj70zMbN9nn2?=
+ =?iso-8859-2?Q?mPI1VUJyFZrlY4Mft5dd5l4Jg+PW9zAadNbgYzRgw09MkQkgFpN1ACFfsM?=
+ =?iso-8859-2?Q?XHU0Ng02Gf5hk7UbkQXCpM+KoHAclwPRGT+o52Ovvt1h3OAM+WicDku6cu?=
+ =?iso-8859-2?Q?BmYW+GOaM6temc96iYK2jGaJ8shFMImbFSJ0mFrQt47wxwuxJgFds6N7cV?=
+ =?iso-8859-2?Q?mSlccLMmLqNpQ5XMG7qQNlIWvc2oktbIcEEWvpgmwPnJRYfjxtHl9NHPGb?=
+ =?iso-8859-2?Q?bX0KeduFS61EyPV8lIstV8CpzBoODJd4F5pv0ydmPo2m8B3jh8HmOQIB5J?=
+ =?iso-8859-2?Q?61QCH/VqOxoR4+sVmRobY267zCI5LZl1RubYkTPLG+oDQ10/zunAP1r32c?=
+ =?iso-8859-2?Q?HhpWdum18tKDX1PZ/D0uzbgbV7rrgkH6teNayfaHK7aNvdmuzwQ5R7Sj4E?=
+ =?iso-8859-2?Q?XNyWGX59pQA9NYh262XibG0NjyBWcmCCEOFmz2As0PpEYFk5BhMVETTQ?=
+ =?iso-8859-2?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-2"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11040.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6990fb43-a6ac-49ab-7c3b-08dc9b435844
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2024 09:34:32.5147
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Va8Bwuxq0Wst/dbSZ7X/OdEvUV8v6JeT2Mj1kTBKPHgK7CUmKhEhlswRu49N/uCXfXm9Y1LfD9nvMBkjz7j+HrWulznG6wp5lEDktt7ArRx4QNllmpqzKsqUhY1f7jCl
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB11125
 
-On Mi, 2024-07-03 at 08:56 +0000, Biju Das wrote:
-> Hi Geert,
->=20
-> Thanks for the feedback.
->=20
-> > -----Original Message-----
-> > From: Geert Uytterhoeven <geert@linux-m68k.org>
-> > Sent: Wednesday, July 3, 2024 9:36 AM
-> > Subject: Re: [PATCH v5 4/4] arm64: dts: renesas: rz-smarc: Replace fixe=
-d regulator for USB VBUS
-> >=20
-> > Hi Biju,
-> >=20
-> > On Tue, Jul 2, 2024 at 8:01=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas=
-.com> wrote:
-> > > Replace the fixed regulator for USB VBUS and use the proper one that
-> > > controls regulator based on VBUS detection.
-> > >=20
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > > v4->v5:
-> > >  * Updated commit description.
-> >=20
-> > Thanks for the update!
-> >=20
-> > > --- a/arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi
-> > > +++ b/arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi
-> > > @@ -54,14 +54,6 @@ codec_dai: simple-audio-card,codec {
-> > >                 };
-> > >         };
-> > >=20
-> > > -       usb0_vbus_otg: regulator-usb0-vbus-otg {
-> > > -               compatible =3D "regulator-fixed";
-> > > -
-> > > -               regulator-name =3D "USB0_VBUS_OTG";
-> > > -               regulator-min-microvolt =3D <5000000>;
-> > > -               regulator-max-microvolt =3D <5000000>;
-> > > -       };
-> > > -
-> > >         vccq_sdhi1: regulator-vccq-sdhi1 {
-> > >                 compatible =3D "regulator-gpio";
-> > >                 regulator-name =3D "SDHI1 VccQ"; @@ -139,6 +131,9 @@
-> > > &ohci1 {
-> > >=20
-> > >  &phyrst {
-> > >         status =3D "okay";
-> > > +       usb0_vbus_otg: regulator-vbus {
-> >=20
-> > The label is not really needed, is it?
->=20
-> The label is used in usb2_phy0 node.
->=20
-> vbus-supply =3D <&usb0_vbus_otg>;
->=20
-> >=20
-> > > +               regulator-name =3D "vbus";
-> > > +       };
-> >=20
-> > Also, as the regulator-vbus subnode is required, perhaps it should be m=
-oved to the SoC-
-> > specific .dtsi? Or do you keep it here for board-specific control of th=
-e regulator name, i.e. to
-> > avoid conflicts?
->=20
-> Yes, just to avoid conflicts. Later I can move to individual SoC specific=
- dtsi's
+Hello Krzysztof-san,
 
-Alright, thanks! Applied to reset/next.
+> From: Krzysztof Wilczy=F1ski, Sent: Wednesday, July 3, 2024 5:32 PM
+> [...]
+> > > After thinking about this a little more, I believe that it might be b=
+etter
+> > > to follow what some other drivers have done, and simply add this guid=
+e as
+> > > a text file under a dedicated ../Documentation/admin-guide directory.
+> > >
+> > > We can then mention, or not, at the top of the file that there is a g=
+uide
+> > > available at this location for people to read on how to obtain and pr=
+epare
+> > > the firmware.
+> > >
+> > > Thoughts?
+> >
+> > Thank you for your comments. I agreed. So, may I send such a patch? Or,=
+ should
+> > I send whole patches as v10?
+>=20
+> No need to send a new series.  A small patch that I can pick would be fin=
+e.
 
-[1/4] dt-bindings: reset: renesas,rzg2l-usbphy-ctrl: Document USB VBUS regu=
-lator
-      https://git.pengutronix.de/cgit/pza/linux/commit/?id=3Df64f2d6fdda4
-[2/4] reset: renesas: Add USB VBUS regulator device as child
-      https://git.pengutronix.de/cgit/pza/linux/commit/?id=3D4068f22e4b47
-[3/4] phy: renesas: phy-rcar-gen3-usb2: Control VBUS for RZ/G2L SoCs
-      https://git.pengutronix.de/cgit/pza/linux/commit/?id=3D24843404efe4
-[4/4] arm64: dts: renesas: rz-smarc: Replace fixed regulator for USB VBUS
-      https://git.pengutronix.de/cgit/pza/linux/commit/?id=3Dc1267e1afae6
+I got it. I'll send such a small patch soon.
 
-regards
-Philipp
+Best regards,
+Yoshihiro Shimoda
+
+> Thank you!
+>=20
+> 	Krzysztof
 
 
