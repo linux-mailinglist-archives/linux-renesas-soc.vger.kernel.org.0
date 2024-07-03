@@ -1,175 +1,154 @@
-Return-Path: <linux-renesas-soc+bounces-7034-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7035-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1885E925771
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jul 2024 11:53:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3D9392578E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jul 2024 11:59:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B54A81F26C48
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jul 2024 09:53:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 640671F23ED1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jul 2024 09:59:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9340A1422D0;
-	Wed,  3 Jul 2024 09:51:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2B78143C6E;
+	Wed,  3 Jul 2024 09:59:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="YJyBCCR4"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47FFE1422DD;
-	Wed,  3 Jul 2024 09:51:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED004142E73
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  3 Jul 2024 09:59:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720000284; cv=none; b=LPfQhyJUaiTB2fRdNP1tX2Yg4GxTF1oKs/SuAZsPaAU8g2dCEq0ckBZmnEvWCGgCuptMiMl+6ReuztC59HCGvjBres5sAOnvEK2jplhIvgCXhzuVZwzYqWdjgk9jy2LZUd6q6XnUXDmeebtdQYrB8ljPjVhgA6eAGKIU5Frw98A=
+	t=1720000760; cv=none; b=JCpnzIDzHywMo4qmIPyr1U/b2E55q4i5bRekSBrY3QkcO+3j1N0nK3ZHH6q5eehbZLM2W4Iq/QTLD4AO9r4o52h3hHDX9Fpt1olUJ3e5Udehh9DQ0c1A3MtJcyJFfZcX5BcfJIod2AbvdsQOZ/6H9AkCO3ke3JuGrBIJHzxnJGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720000284; c=relaxed/simple;
-	bh=Mtoyc3gGs0DgyITKAyTCUGaoBUNJO/Ez/v6YEPROUjw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=adFOzWjTBSrnvVB5YdMBzy20agS6nLH2JNzuH9HhUkeM+G9Do/EmQOzRiu8cImOBzakj9QGiljwsFODwGuFkYUmg2jbB+4Ub8K4xyvfgxXEgZbrTHs7+3pAuzv8h1WBYLV5ORF+WLGZ7jt7IKu3GCyJNbVEz5mcHn0v50l1dJQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-64b05fab14eso49371597b3.2;
-        Wed, 03 Jul 2024 02:51:22 -0700 (PDT)
+	s=arc-20240116; t=1720000760; c=relaxed/simple;
+	bh=sGAtnatO2J6eXqeP28h5k3NsoxK3kBN+dN2HTxFUaNQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=chahuqbNIcFwf8a1A4ysKL0HnCmxJK7E8/pJJJNr0tWbw8RxbiBkxcGrl4qwmw2ob5Lu3hK5Otr9D5SjMBo7LK9wbIj4+tO2LobOMKoz1U0WbMDnT7x9Wgp7Mq+zSuzDpDNG4IHKiX1DqJGz0xGbINk8HdfrIPQcXQDkFuCwujM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=YJyBCCR4; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-424ad289949so37531545e9.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 03 Jul 2024 02:59:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1720000757; x=1720605557; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XXjn2sMkd3Qhei4SC2lgBtREpiH+FC34ffCKLhev/MQ=;
+        b=YJyBCCR4AVPYr3FiuUnJ8It7BtdlO36YcC206Al/buLgp1HV3y5SHYb26/J1ge5YLh
+         M7/cc0hYftF7NDlbhvl98soeZ1jlZf/hvJySEPJLTuxzCrNHA0djZvU+zKko14DN2/vh
+         rVK9m/Eq0aY/VUlVMxF/RLGSLDjSS2tmFnWGA7bfH0hqqMgWmhGO2B3kE0BMwaglbagE
+         WgUZXaUkT18xfADsBCto2XeKkU+niT5vAkuBaPszyVcr8j/dkgm8Jvy+dy/wTkSPu6zP
+         a4a/icG/OGFAQRfaqB1tvMqCff/sm+5EuWaVYmW272oO+NdMVJG1z7k7i20/eRoFuRY/
+         0FMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720000280; x=1720605080;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1720000757; x=1720605557;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ojKKZTj52h6Erb5/0PXhQtyS8JIAVZ4taUQH0cCCIKo=;
-        b=V/Vyv9hEYbYfK07ks+44iM2GC2SI82QxuBepOITgLY5AO+yR9+biZyw0FG+nJR1Ir0
-         GiHJxUXip0U2iFglT8MttdqdTx2OKaSuBJOikzFNNAo33WFRoX91m9+EHFhInWSffNZO
-         Q5HVt+RzGawvbbwrWWMkqJULXLGnNU2EdgaJExH976BYkeBJIqtlCgH6bgfzMr4n4uMS
-         G46oSq9lytgznXT0+5mx5fa42sTAjLSVE5xxNgYdSXYHklqPX1y5GX21JZB2ooVRwJQb
-         a6n/BayLBe9Ev35hRIrp7O+2tXBX7IJ7/ljcXZon9Tq7jqBh798BvyJ8VrMLkddPxsYd
-         9FaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWE+d1/Fcs2nl/pZ8Q35jvvl7HzE0CdmN/sXvZfQkh5VqKDqTameQNw231s7QCiK9Qi8uhbmISBc0RZ8Y6lpqNjnYm+/4//tE+mTu0wBTHghVXWAIkmE4Qc4nvFQU9JQeFRQFGcDvMuI2E0ivqx
-X-Gm-Message-State: AOJu0YycHX4NL89YOKsbpM0M97DFDtvO/84WsUy4vsMWz7yxpZfPzwUn
-	7kDVK40xWbwByNt/lUZ8C+TBjM/ZbP2WeKpIXwhFokFDxKrhwF4oLX8OXCIM
-X-Google-Smtp-Source: AGHT+IFZaifBDjx4AHzqNtZG7ISqLR3VHSe/56fK583oPshQOH5Ee4YiFsZl7VNRBtSUPF/HQlg1PA==
-X-Received: by 2002:a81:9256:0:b0:649:fa54:1f8c with SMTP id 00721157ae682-64c72d481bdmr102346827b3.48.1720000280646;
-        Wed, 03 Jul 2024 02:51:20 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6511c6803f5sm2760807b3.95.2024.07.03.02.51.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Jul 2024 02:51:20 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-630640c1e14so51288017b3.1;
-        Wed, 03 Jul 2024 02:51:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVIAh7hxTVwbBKLb68cqoKSKIgd2jRK8sOpGwG8fkEbT0s3Kq8nte0csKgYSIIYBCg12UV6IcXT7Y7RxQUE6qGjUFSg0eJ926boriaf9GXeGcckwNmCMwTnHJir/BvkG7AXTAnaxnxkCwt2gSHc
-X-Received: by 2002:a81:a9c4:0:b0:63b:f6c1:6068 with SMTP id
- 00721157ae682-64c7277c692mr114262177b3.32.1720000279894; Wed, 03 Jul 2024
- 02:51:19 -0700 (PDT)
+        bh=XXjn2sMkd3Qhei4SC2lgBtREpiH+FC34ffCKLhev/MQ=;
+        b=D2Ebm7AlTx6Wmsvz6jESFZaw4JVE9MyYVyTLMQfeeVYACZetfVxvBKVNr+A8JGsJLh
+         n0pSwihnzAzndxnewN8p4gSyeVUzJ1yG7daipi4X0Xk8JFwMmME7nA+1fv9e8Va6r3Gk
+         8syxNr1EmfsaQZyVjQimF2NiHwt+EondEzp9uCKJtOkkU8BvqO9B1jprSW4GumrbeKZ2
+         aK/5MX6w49zMuZnU4KQtGBBSqYet6jipX5zu4DQtZ3u5wQ8cBWWK4dXGp5A/v30n7BE/
+         3t8rKzLkHgpLJYbSmrBlNVa7xhxBHThC8Bsqpko+hdghgpgjRwW68g1DTTuGL5Z2KvcO
+         adQw==
+X-Forwarded-Encrypted: i=1; AJvYcCVaBBZEx9U7KOGOFahqeDx4SdiH/aK7f/DvLnko9dkQre6AWz+SlBVknY+IMvuWzr2XWSSPJQNHT3qkiMKDiuCZR2JzgBsIgw+zczNNo9p+j1I=
+X-Gm-Message-State: AOJu0Yw07o7qSTMWae2Ip5kpKzDkBaN2ZbYiKjCwmAXuo7bbCcZwhQQh
+	arDExU3cCbwpiQsY/0nl3CztCdnfAd2RElYwkVY2HuR4Xyu2LLGCYJMLjrf8fH4=
+X-Google-Smtp-Source: AGHT+IE5t/Pvc5a0A5rMnsuOFd3tzIXs4aS23G7++Z5PDz6z4fb8QnIv+IEonyMakOI8QAVhkpkcDg==
+X-Received: by 2002:a05:600c:1c88:b0:424:ab90:ecf0 with SMTP id 5b1f17b1804b1-4257a020ecdmr79604865e9.31.1720000757100;
+        Wed, 03 Jul 2024 02:59:17 -0700 (PDT)
+Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:c37f:195e:538f:bf06])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4256af376f5sm232858195e9.6.2024.07.03.02.59.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jul 2024 02:59:16 -0700 (PDT)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+To: Bartosz Golaszewski <brgl@bgdev.pl>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	imx@lists.linux.dev,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-gpio@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Li Yang <leoyang.li@nxp.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Robin Gong <yibin.gong@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Stefan Agner <stefan@agner.ch>,
+	Frieder Schrempf <frieder@fris.de>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Frieder Schrempf <frieder.schrempf@kontron.de>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Bo Liu <liubo03@inspur.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Gregor Herburger <gregor.herburger@ew.tq-group.com>,
+	Hiago De Franco <hiago.franco@toradex.com>,
+	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+	Joao Paulo Goncalves <joao.goncalves@toradex.com>,
+	Joy Zou <joy.zou@nxp.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Marco Felsch <m.felsch@pengutronix.de>,
+	Marek Vasut <marex@denx.de>,
+	Markus Niebel <Markus.Niebel@ew.tq-group.com>,
+	Mathieu Othacehe <m.othacehe@gmail.com>,
+	Peng Fan <peng.fan@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Tim Harvey <tharvey@gateworks.com>
+Subject: Re: [PATCH 0/7] Add support for Kontron OSM-S i.MX93 SoM and carrier board
+Date: Wed,  3 Jul 2024 11:59:14 +0200
+Message-ID: <172000073641.11832.10658723886073687420.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240702103155.321855-1-frieder@fris.de>
+References: <20240702103155.321855-1-frieder@fris.de>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240702180032.207275-1-biju.das.jz@bp.renesas.com>
- <20240702180032.207275-5-biju.das.jz@bp.renesas.com> <CAMuHMdUmvWPPBVqhtpu2dovwQg7YA7TVZBRnATUiY+1QRy0B1w@mail.gmail.com>
- <TY3PR01MB11346C77668002325FD916DBD86DD2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY3PR01MB11346C77668002325FD916DBD86DD2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 3 Jul 2024 11:51:06 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUBV=qf11b2pb1rQnkYj6SrFJjm=iVpXu0GHky48Y0Pww@mail.gmail.com>
-Message-ID: <CAMuHMdUBV=qf11b2pb1rQnkYj6SrFJjm=iVpXu0GHky48Y0Pww@mail.gmail.com>
-Subject: Re: [PATCH v5 4/4] arm64: dts: renesas: rz-smarc: Replace fixed
- regulator for USB VBUS
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	"biju.das.au" <biju.das.au@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Biju,
-
-On Wed, Jul 3, 2024 at 10:56=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
-> > -----Original Message-----
-> > From: Geert Uytterhoeven <geert@linux-m68k.org>
-> > Sent: Wednesday, July 3, 2024 9:36 AM
-> > Subject: Re: [PATCH v5 4/4] arm64: dts: renesas: rz-smarc: Replace fixe=
-d regulator for USB VBUS
-> >
-> > On Tue, Jul 2, 2024 at 8:01=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas=
-.com> wrote:
-> > > Replace the fixed regulator for USB VBUS and use the proper one that
-> > > controls regulator based on VBUS detection.
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > > v4->v5:
-> > >  * Updated commit description.
-> >
-> > Thanks for the update!
-> >
-> > > --- a/arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi
-> > > +++ b/arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi
-> > > @@ -54,14 +54,6 @@ codec_dai: simple-audio-card,codec {
-> > >                 };
-> > >         };
-> > >
-> > > -       usb0_vbus_otg: regulator-usb0-vbus-otg {
-> > > -               compatible =3D "regulator-fixed";
-> > > -
-> > > -               regulator-name =3D "USB0_VBUS_OTG";
-> > > -               regulator-min-microvolt =3D <5000000>;
-> > > -               regulator-max-microvolt =3D <5000000>;
-> > > -       };
-> > > -
-> > >         vccq_sdhi1: regulator-vccq-sdhi1 {
-> > >                 compatible =3D "regulator-gpio";
-> > >                 regulator-name =3D "SDHI1 VccQ"; @@ -139,6 +131,9 @@
-> > > &ohci1 {
-> > >
-> > >  &phyrst {
-> > >         status =3D "okay";
-> > > +       usb0_vbus_otg: regulator-vbus {
-> >
-> > The label is not really needed, is it?
->
-> The label is used in usb2_phy0 node.
->
-> vbus-supply =3D <&usb0_vbus_otg>;
-
-Oh right, that's a different node (too many USB-related nodes).
-(my mind must have been mixing this up with the RZ/V2H SDHi regulator)
-
->
-> >
-> > > +               regulator-name =3D "vbus";
-> > > +       };
-> >
-> > Also, as the regulator-vbus subnode is required, perhaps it should be m=
-oved to the SoC-
-> > specific .dtsi? Or do you keep it here for board-specific control of th=
-e regulator name, i.e. to
-> > avoid conflicts?
->
-> Yes, just to avoid conflicts. Later I can move to individual SoC specific=
- dtsi's
-
-OK. Good to go(ne)...
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
 
-Gr{oetje,eeting}s,
+On Tue, 02 Jul 2024 12:31:12 +0200, Frieder Schrempf wrote:
+> From: Frieder Schrempf <frieder.schrempf@kontron.de>
+> 
+> Patch 1-4: small DT binding fixups
+> Patch 5: board DT bindings
+> Patch 6: support PMIC driver without IRQ
+> Patch 7: add devicetrees
+> 
+> [...]
 
-                        Geert
+Applied, thanks!
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+[1/7] dt-bindings: eeprom: at24: Move compatible for Belling BL24C16A to proper place
+      commit: d83c217778e7425d10105001150c5670e07f88fe
+[2/7] dt-bindings: eeprom: at24: Add compatible for ONSemi N24S64B
+      commit: 3a9ba4e32230df6c48cda1fd5cbca6facacc74c2
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Best regards,
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
