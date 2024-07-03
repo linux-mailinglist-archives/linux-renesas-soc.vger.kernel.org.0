@@ -1,154 +1,104 @@
-Return-Path: <linux-renesas-soc+bounces-7035-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7036-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D9392578E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jul 2024 11:59:39 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E8F3925824
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jul 2024 12:15:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 640671F23ED1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jul 2024 09:59:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B236728F694
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jul 2024 10:15:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2B78143C6E;
-	Wed,  3 Jul 2024 09:59:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="YJyBCCR4"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B69815D5B3;
+	Wed,  3 Jul 2024 10:12:58 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED004142E73
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  3 Jul 2024 09:59:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 707B115DBAE;
+	Wed,  3 Jul 2024 10:12:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720000760; cv=none; b=JCpnzIDzHywMo4qmIPyr1U/b2E55q4i5bRekSBrY3QkcO+3j1N0nK3ZHH6q5eehbZLM2W4Iq/QTLD4AO9r4o52h3hHDX9Fpt1olUJ3e5Udehh9DQ0c1A3MtJcyJFfZcX5BcfJIod2AbvdsQOZ/6H9AkCO3ke3JuGrBIJHzxnJGc=
+	t=1720001577; cv=none; b=TB4hhbca3QTKpChJjFE8zBSjgCurTTxNMYf6z6KC3x8y5Khv/mNv4QzI1L47EYP1RAlPZfB3ieN6o7EPsdnh4YKfGDeu1si9euyCPIDM990gxe9kDZddP1Qt1v3/FhbVmvJ1DA3J/jWZzSpS8IDvyQ6Qw8uOgYoObgTxteKWKd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720000760; c=relaxed/simple;
-	bh=sGAtnatO2J6eXqeP28h5k3NsoxK3kBN+dN2HTxFUaNQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=chahuqbNIcFwf8a1A4ysKL0HnCmxJK7E8/pJJJNr0tWbw8RxbiBkxcGrl4qwmw2ob5Lu3hK5Otr9D5SjMBo7LK9wbIj4+tO2LobOMKoz1U0WbMDnT7x9Wgp7Mq+zSuzDpDNG4IHKiX1DqJGz0xGbINk8HdfrIPQcXQDkFuCwujM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=YJyBCCR4; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-424ad289949so37531545e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 03 Jul 2024 02:59:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1720000757; x=1720605557; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XXjn2sMkd3Qhei4SC2lgBtREpiH+FC34ffCKLhev/MQ=;
-        b=YJyBCCR4AVPYr3FiuUnJ8It7BtdlO36YcC206Al/buLgp1HV3y5SHYb26/J1ge5YLh
-         M7/cc0hYftF7NDlbhvl98soeZ1jlZf/hvJySEPJLTuxzCrNHA0djZvU+zKko14DN2/vh
-         rVK9m/Eq0aY/VUlVMxF/RLGSLDjSS2tmFnWGA7bfH0hqqMgWmhGO2B3kE0BMwaglbagE
-         WgUZXaUkT18xfADsBCto2XeKkU+niT5vAkuBaPszyVcr8j/dkgm8Jvy+dy/wTkSPu6zP
-         a4a/icG/OGFAQRfaqB1tvMqCff/sm+5EuWaVYmW272oO+NdMVJG1z7k7i20/eRoFuRY/
-         0FMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720000757; x=1720605557;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XXjn2sMkd3Qhei4SC2lgBtREpiH+FC34ffCKLhev/MQ=;
-        b=D2Ebm7AlTx6Wmsvz6jESFZaw4JVE9MyYVyTLMQfeeVYACZetfVxvBKVNr+A8JGsJLh
-         n0pSwihnzAzndxnewN8p4gSyeVUzJ1yG7daipi4X0Xk8JFwMmME7nA+1fv9e8Va6r3Gk
-         8syxNr1EmfsaQZyVjQimF2NiHwt+EondEzp9uCKJtOkkU8BvqO9B1jprSW4GumrbeKZ2
-         aK/5MX6w49zMuZnU4KQtGBBSqYet6jipX5zu4DQtZ3u5wQ8cBWWK4dXGp5A/v30n7BE/
-         3t8rKzLkHgpLJYbSmrBlNVa7xhxBHThC8Bsqpko+hdghgpgjRwW68g1DTTuGL5Z2KvcO
-         adQw==
-X-Forwarded-Encrypted: i=1; AJvYcCVaBBZEx9U7KOGOFahqeDx4SdiH/aK7f/DvLnko9dkQre6AWz+SlBVknY+IMvuWzr2XWSSPJQNHT3qkiMKDiuCZR2JzgBsIgw+zczNNo9p+j1I=
-X-Gm-Message-State: AOJu0Yw07o7qSTMWae2Ip5kpKzDkBaN2ZbYiKjCwmAXuo7bbCcZwhQQh
-	arDExU3cCbwpiQsY/0nl3CztCdnfAd2RElYwkVY2HuR4Xyu2LLGCYJMLjrf8fH4=
-X-Google-Smtp-Source: AGHT+IE5t/Pvc5a0A5rMnsuOFd3tzIXs4aS23G7++Z5PDz6z4fb8QnIv+IEonyMakOI8QAVhkpkcDg==
-X-Received: by 2002:a05:600c:1c88:b0:424:ab90:ecf0 with SMTP id 5b1f17b1804b1-4257a020ecdmr79604865e9.31.1720000757100;
-        Wed, 03 Jul 2024 02:59:17 -0700 (PDT)
-Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:c37f:195e:538f:bf06])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4256af376f5sm232858195e9.6.2024.07.03.02.59.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jul 2024 02:59:16 -0700 (PDT)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-To: Bartosz Golaszewski <brgl@bgdev.pl>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	imx@lists.linux.dev,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-gpio@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+	s=arc-20240116; t=1720001577; c=relaxed/simple;
+	bh=VAkMMq38BLEp16vE1AIo1HZG4UhT6HnMZCM8w6alvZg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fbfejVgG7rxRsOekYUvJW79YPxJ4L/9WFpBK7A7z9xhTuuISIOOQeXzrTT8+Cz7W1aEft+AHS/rm3fRgwHh1hUIAcd78sYbgzKYege7GKeEc5CnNEY7XZ/q5gEJoIJeGqIJcRHDLOe+T7hAb5oJ2SV7KX4uJuumOM5vVgmpFEPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+X-IronPort-AV: E=Sophos;i="6.09,181,1716217200"; 
+   d="scan'208";a="214108788"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 03 Jul 2024 19:12:48 +0900
+Received: from localhost.localdomain (unknown [10.166.13.99])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 88A1C4006DEB;
+	Wed,  3 Jul 2024 19:12:48 +0900 (JST)
+From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To: lpieralisi@kernel.org,
+	kw@linux.com,
+	robh@kernel.org,
+	bhelgaas@google.com,
+	jingoohan1@gmail.com,
+	mani@kernel.org
+Cc: marek.vasut+renesas@gmail.com,
+	linux-pci@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	Li Yang <leoyang.li@nxp.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Robin Gong <yibin.gong@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Stefan Agner <stefan@agner.ch>,
-	Frieder Schrempf <frieder@fris.de>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Frieder Schrempf <frieder.schrempf@kontron.de>,
-	Alexander Stein <alexander.stein@ew.tq-group.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Bo Liu <liubo03@inspur.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Gregor Herburger <gregor.herburger@ew.tq-group.com>,
-	Hiago De Franco <hiago.franco@toradex.com>,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	Joao Paulo Goncalves <joao.goncalves@toradex.com>,
-	Joy Zou <joy.zou@nxp.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	Marek Vasut <marex@denx.de>,
-	Markus Niebel <Markus.Niebel@ew.tq-group.com>,
-	Mathieu Othacehe <m.othacehe@gmail.com>,
-	Peng Fan <peng.fan@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Tim Harvey <tharvey@gateworks.com>
-Subject: Re: [PATCH 0/7] Add support for Kontron OSM-S i.MX93 SoM and carrier board
-Date: Wed,  3 Jul 2024 11:59:14 +0200
-Message-ID: <172000073641.11832.10658723886073687420.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240702103155.321855-1-frieder@fris.de>
-References: <20240702103155.321855-1-frieder@fris.de>
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH] PCI: rcar-gen4: Add a document about the firmware
+Date: Wed,  3 Jul 2024 19:12:43 +0900
+Message-Id: <20240703101243.1403231-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Renesas R-Car V4H (r8a779g0) has PCIe controller, and it requires
+specific firmwre downloading. So, add a document about the firmware
+how to get.
 
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+ Krzysztof-san suggests writing a document about this [1]. So, I submit
+ this patch.
 
-On Tue, 02 Jul 2024 12:31:12 +0200, Frieder Schrempf wrote:
-> From: Frieder Schrempf <frieder.schrempf@kontron.de>
-> 
-> Patch 1-4: small DT binding fixups
-> Patch 5: board DT bindings
-> Patch 6: support PMIC driver without IRQ
-> Patch 7: add devicetrees
-> 
-> [...]
+ [1]
+ https://lore.kernel.org/linux-pci/20240701204333.GB412915@rocinante/
 
-Applied, thanks!
+ .../admin-guide/rcar-pcie-firmware.rst        | 20 +++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+ create mode 100644 Documentation/admin-guide/rcar-pcie-firmware.rst
 
-[1/7] dt-bindings: eeprom: at24: Move compatible for Belling BL24C16A to proper place
-      commit: d83c217778e7425d10105001150c5670e07f88fe
-[2/7] dt-bindings: eeprom: at24: Add compatible for ONSemi N24S64B
-      commit: 3a9ba4e32230df6c48cda1fd5cbca6facacc74c2
-
-Best regards,
+diff --git a/Documentation/admin-guide/rcar-pcie-firmware.rst b/Documentation/admin-guide/rcar-pcie-firmware.rst
+new file mode 100644
+index 000000000000..75c0d086dcc5
+--- /dev/null
++++ b/Documentation/admin-guide/rcar-pcie-firmware.rst
+@@ -0,0 +1,20 @@
++Firmware of PCIe controller for Renesas R-Car V4H
++=================================================
++
++Renesas R-Car V4H (r8a779g0) has PCIe controller, and it requires specific
++firmwre downloading. The firmware file "104_PCIe_fw_addr_data_ver1.05.txt"
++is available in the datasheet as a text file. But, Renesas is not able to
++distribute the firmware freely. So, we require converting the text file to
++a binary before the driver runs by using the following script:
++
++.. code-block:: sh
++
++   $ awk '/^\s*0x[0-9A-Fa-f]{4}\s+0x[0-9A-Fa-f]{4}/ \
++   { print substr($2,5,2) substr($2,3,2) }' \
++   104_PCIe_fw_addr_data_ver1.05.txt | xxd -p -r > \
++   rcar_gen4_pcie.bin
++
++   $ sha1sum rcar_gen4_pcie.bin
++
++   # Example output of the sha1sum:
++   1d0bd4b189b4eb009f5d564b1f93a79112994945  rcar_gen4_pcie.bin
 -- 
-Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+2.25.1
+
 
