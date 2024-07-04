@@ -1,141 +1,216 @@
-Return-Path: <linux-renesas-soc+bounces-7055-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7056-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 177C1927A01
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Jul 2024 17:27:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEC05927AB2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Jul 2024 17:58:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B4C031F259DA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Jul 2024 15:27:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D50771C239FC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Jul 2024 15:58:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CFBA1B120C;
-	Thu,  4 Jul 2024 15:26:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35C7C1B29C3;
+	Thu,  4 Jul 2024 15:58:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="elAgR08I";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="bUhEWQmh"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fzah5f2j"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout8-smtp.messagingengine.com (fout8-smtp.messagingengine.com [103.168.172.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4386A1B140F;
-	Thu,  4 Jul 2024 15:26:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 677311ACE67;
+	Thu,  4 Jul 2024 15:58:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720106814; cv=none; b=Thc8kTEEEl+ip6e8L2F5r0AzTH6CS9j8ECzwnMDnEXigaAnOERkl7zR411UMMZ08QERnHTcSbz53CGxyaFDYZAuXhTkcvZeuw8WiGCwiJTgEeLe9hRcAY3e2VTP6PgAek62L+sXtCZru51E62H2gyJpScQ3AD00Ff1xuOaSNSEM=
+	t=1720108692; cv=none; b=o6xzWEqFc+4tKtKaAGYvmxL+oZu+QaLIV90aAAj0GTMUEp4kkWgTWGYZzzEPPblAeJ8+Gq3Vz1tyWb03+zbh+eCGnYljpugTuF54+mAT/2T4zxO65fkoctLrOzR+NjqOzRCFsPzrzS7UoIHm+sP6RoMAwnCMR2HQsbq9nj8oWvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720106814; c=relaxed/simple;
-	bh=ZhI+Z0tl78bePu22T7RJC5Roxvh6EkLXuVIji3AFZ88=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=McEsl0ew4ZGogluEwVrF23tZ/k7l6ViW1+KEW4oGF3yGWQabXKqivEhBWVplJgd+W/ioG50LkkHd0JYu3FncfjVHamkjCI0SAZkQE46TefGhnUY527bUsAVMtilX5ydq7XXZDoA9UkO1G9iO5M6NKFRMTSRTM8Z6xV2qPYaxQyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=elAgR08I; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=bUhEWQmh; arc=none smtp.client-ip=103.168.172.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailfout.nyi.internal (Postfix) with ESMTP id E4E8813801CD;
-	Thu,  4 Jul 2024 11:26:48 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Thu, 04 Jul 2024 11:26:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm1; t=1720106808; x=1720193208; bh=MK
-	A4zZt8xiZ9ffKTIPx9Esc2HF1Qk6W896Fkk5r7czc=; b=elAgR08IZ9CLuYFbOC
-	1wLieAqKLxZbrsCguWgXNJi2apuG0+Ubdus2/1Lc+pNtFwlLB7R1aK8xmEmUXzRt
-	GdyyVnCwgIuQO60YhE4iVaVGewocLjxfL4CTnIfA+EXQikMtsAzFstkamB2nQ95Y
-	tUf+LYZWTsFacan473udQtdpfIHy8uO7aqyK9GCy1B57vLqNcf+ntMQlYECYVumC
-	VEUsawH1qS/+xcjIEuGhq9vtjEJ/S5UiA88iJvPtcRJAe2gCWM7IWo24HbMMYqEA
-	umHpFQhhFInzWsbOWSv3Cj61vn+7N3Ke8VCoX8fGvktXDj1h8ZbjUlW5zwSM5Kz1
-	vtXA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1720106808; x=1720193208; bh=MKA4zZt8xiZ9f
-	fKTIPx9Esc2HF1Qk6W896Fkk5r7czc=; b=bUhEWQmhgUoau/6CTLRWKWa/1pc9o
-	Nqj+2nNNa1Jj/UQNCJnGHHa9wTog89BkqlDmEkXQ9EyOybEVwai9/fO13SDN+z4J
-	BuaUaZKrK36M+HhXeElSbFZng9lQxrAi14lS85kGL9rAoW6k+yu2ipaEnH+V0O3G
-	j6z5I26G92I26LTCpVO9oY/Egxgp5aJ7KaIJfq/pKI7dDGtQ8Gxm+0I2zaNkLSfR
-	m2XFKiHIkAdxdLk4dqvm+xpTIN3DPT3lyRX7009nMbaO4e8+hB9atSHh5jRjw4k7
-	i44XxE6oDsSAlKnRO+bkxcz9RJhx33MaRYImK8CQ0yd0odBQnPDxQ/6UA==
-X-ME-Sender: <xms:OL-GZp-2fBEHfoSMHIC8w1UQq6FJmo1O3FJUtAN-6odYNzm5PS3RaA>
-    <xme:OL-GZtu3tgJkJ6P3qlfyRhgJv0jk1x7BneuZXie6IhFC1fzqX1klnHCjM2sk4snxg
-    OLJOyaCLg9Y58acXAY>
-X-ME-Received: <xmr:OL-GZnBiP7ACsk879f8Hk_LO4QQH2r2y9eSfVOAEjauXXghf8q-sI_rpiYHqFa66k4tfQATjtChLOgcojxmI2DMIrQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudelgdekiecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomheppfhikhhlrghs
-    ucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrg
-    hssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepheduleetteekgfff
-    fedufeeuvdejiedvkefhveeifeegffehledtvdevhfefteegnecuvehluhhsthgvrhfuih
-    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhu
-    nhgusehrrghgnhgrthgvtghhrdhsvg
-X-ME-Proxy: <xmx:OL-GZtf1kCGiSteGzaac3trf1ROJWayaKpMMt_CQ3PW-uRyj-7C73A>
-    <xmx:OL-GZuOaD9iiDUarB-XtEhwiMjSrwMEYN-6m4c6fcraPPID1kIyv5A>
-    <xmx:OL-GZvmA9yc1lkdI8aaleavMMQsrLuSkvi389d_UnBsYy2rCM6CMAg>
-    <xmx:OL-GZosxa6iUWELucEIWz7f8EZwfLANKbPwNIl-6_6InIKq4YQue0g>
-    <xmx:OL-GZvjGSxFK7qPXe7aaCh267Qlku1jdPfmVOmQmMumpq65PY5f5Zjf0>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 4 Jul 2024 11:26:47 -0400 (EDT)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: [PATCH] arm64: dts: renesas: white-hawk-cpu: Move avb0 reset gpio to mdio node
-Date: Thu,  4 Jul 2024 17:26:10 +0200
-Message-ID: <20240704152610.1345709-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.45.2
+	s=arc-20240116; t=1720108692; c=relaxed/simple;
+	bh=wJE7HlCPQ2VZ9sr7/loD0hwkFhbboA9WmXEnW4+ChsQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=orgkQGoQCEx7Ffkguj34NQy7tQWkLxTfo9ebzOtFShuNqrcgGqMIDQd44+QVcVLKvCbwTDvdva7ZmTqE74F0GyYDEMikDmjKMYwILtF4E0yKgIces+tEhfsSGOQh5Fyp4j356eZx/4pX1SsP/0rniwo9W+mz80trEcDzQPAA+qY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fzah5f2j; arc=none smtp.client-ip=209.85.221.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-4ef6c8e3602so326850e0c.0;
+        Thu, 04 Jul 2024 08:58:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1720108689; x=1720713489; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=n97CqCq+SpioBUdMovQEEVaZXmKGUSWX+N+6ZspvJ5Y=;
+        b=fzah5f2jPp6xeoFelee2+jl1Jn3hKibubDigkvbQsHgv5GzFC0+nFQris9eZwQ+NOv
+         C8r4OwujqbDFBfGp5PuYGdFVygq9IjqdKzsZhOn6MarqHKJHmQI8OVZYjfXf4u+d0e/A
+         niNupZ9nwSJa1XuVz78JbSbP/4X7322uh8tfjRZpbSkkYcN2mde8al0O0GS6auW89S7X
+         XrME3v8yxfjby9iiEEcmFuKbxEFVY+nl+iPNCiiVN72FldRTEedUwDc9eSvE+zmPaLvK
+         YjakGdyZD3zLSWeOY7JftCVArKFCuq4qOmda6m7TNJrRhW854H1JGVf37RpktRXFOPyT
+         vmvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720108689; x=1720713489;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=n97CqCq+SpioBUdMovQEEVaZXmKGUSWX+N+6ZspvJ5Y=;
+        b=c47otx7njgEewVCWLFfCNjnj+cPMLfUatpFJK9a7D/ra1IX9FtyEWg9YBTl3XblmoV
+         lBqz0sw0iI70GJK5xmxP8F9oJF1x8GqKSMowfybKSePAbpCy4hst8KRVE2aZLDke4/ft
+         zIjqFxVqjO9rLnS7pOR7dT78hvM4KGmEisP3Zqni4aa4GhGXnYNALUIrfkmqaQdvK+pD
+         7mofMNUIIS1i119+MmLkvU+3VqXl26ChyB8Y2pi+dtI8UGzHUJ1PLxHOMDgAPKo0vYZO
+         sE/1gJLyfLI4oJfCPyf6eSS2jkl7XBv6RueKhOwy1/IP7mmxF6zbB9sLDMGgUcoxcnTY
+         USLA==
+X-Forwarded-Encrypted: i=1; AJvYcCUPnMaayVI6UqPSkxl/wWWdcUDZmXaVfjhjGJEgDNfLOthlhUZaQFGu/CGFjd+/cvRMGq11Y2DVpyAYv+Uf1u4qKTeYLJ/qzf3hqqvtHD8BBZnVr6qvylWV7zrnecE8A2r/9gpsuViln+EYorvAuShD+rNNeVmFfnB30Sl72QWDFeFnsEVjpgE0JPLTf5qlNreQEZRKYaw31oNqC1j0+z3GYAk6b9B/
+X-Gm-Message-State: AOJu0Yw0vS/g5Zst0KfddZGebQi5AmWoBPDhKvM/euNn54qeBbTvkD9e
+	y6XLeEWTtndTw4u6rlx96s64GewRznvOTreCrHzJ/t5kxBt+Ow0cvLnGO4WN0rF5bCUX0o08RO1
+	zhuzpqqDaMV9J1LKg7ZVwlK/BBq4=
+X-Google-Smtp-Source: AGHT+IFZ1AIkhnIlR1F2PajHwGmAM3QHm7zYfUYNlGkAcCt+TyLYZj4pGDx0Qw5zZbScstvZjUXz2fAMKekKDEkjrCQ=
+X-Received: by 2002:a05:6122:3887:b0:4ef:4b35:896f with SMTP id
+ 71dfb90a1353d-4f2f3e9ea73mr2621613e0c.7.1720108688497; Thu, 04 Jul 2024
+ 08:58:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240626132341.342963-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240626132341.342963-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <ZoUdUyrld2kZorvU@shikoro>
+In-Reply-To: <ZoUdUyrld2kZorvU@shikoro>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 4 Jul 2024 16:56:56 +0100
+Message-ID: <CA+V-a8v5VcBRjp-kPGp2pKXZ2RhCSXHdsL9X5YDOxjL6W1Mg=Q@mail.gmail.com>
+Subject: Re: [PATCH v4 3/3] mmc: renesas_sdhi: Add support for RZ/V2H(P) SoC
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
+	Rob Herring <robh@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Prabhakar <prabhakar.csengg@gmail.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-mmc@vger.kernel.org, 
+	Magnus Damm <magnus.damm@gmail.com>, Conor Dooley <conor+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-When creating a dedicated mdio node to describe the bus the gpio reset
-property was erroneously left in the phy node. The reason for adding
-mdio nodes on WhiteHawk was to ensure the PHYs where reset before they
-were probed, keeping the property in the phy node prevented this.
+Hi Wolfram,
 
-Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Fixes: 54bf0c27380b ("arm64: dts: renesas: r8a779g0: Use MDIO node for all AVB devices")
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Thank you for the review.
 
-diff --git a/arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi b/arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi
-index 80496fb3d476..4f0230327868 100644
---- a/arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi
-+++ b/arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi
-@@ -156,6 +156,8 @@ mdio {
- 		#address-cells = <1>;
- 		#size-cells = <0>;
- 
-+		reset-gpios = <&gpio7 10 GPIO_ACTIVE_LOW>;
-+
- 		avb0_phy: ethernet-phy@0 {
- 			compatible = "ethernet-phy-id0022.1622",
- 				     "ethernet-phy-ieee802.3-c22";
-@@ -163,7 +165,6 @@ avb0_phy: ethernet-phy@0 {
- 			reg = <0>;
- 			interrupt-parent = <&gpio7>;
- 			interrupts = <5 IRQ_TYPE_LEVEL_LOW>;
--			reset-gpios = <&gpio7 10 GPIO_ACTIVE_LOW>;
- 		};
- 	};
- };
--- 
-2.45.2
+On Wed, Jul 3, 2024 at 10:43=E2=80=AFAM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+> Hi Prabhakar,
+>
+> On Wed, Jun 26, 2024 at 02:23:41PM +0100, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > The SDHI/eMMC IPs found in the RZ/V2H(P) (a.k.a. r9a09g057) are very
+> > similar to those found in R-Car Gen3. However, they are not identical,
+> > necessitating an SoC-specific compatible string for fine-tuning driver
+> > support.
+> >
+> > Key features of the RZ/V2H(P) SDHI/eMMC IPs include:
+> > - Voltage level control via the IOVS bit.
+> > - PWEN pin support via SD_STATUS register.
+> > - Lack of HS400 support.
+> > - Fixed address mode operation.
+> >
+> > internal regulator support is added to control the voltage levels of SD
+> > pins via sd_iovs/sd_pwen bits in SD_STATUS register.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com> # on RZ/G3=
+S
+> > ---
+> > v3->v4
+> > - Dropped using 'renesas,sdhi-use-internal-regulator' property
+> > - Now using of_device_is_available() to check if regulator is available=
+ and enabled
+> > - Dropped extra spaces during operations
+> > - Included tested by tag from Claudiu
+> > - Rebased patch on top of https://patchwork.kernel.org/project/linux-re=
+nesas-soc/patch/20240626085015.32171-2-wsa+renesas@sang-engineering.com/
+> >
+> > v2->v3
+> > - Moved regulator info to renesas_sdhi_of_data instead of quirks
+> > - Added support to configure the init state of regulator
+> > - Added function pointers to configure regulator
+> > - Added REGULATOR_CHANGE_VOLTAGE mask
+> >
+> > v1->v2
+> > - Now controlling PWEN bit get/set_voltage
+> > ---
+> >  drivers/mmc/host/renesas_sdhi.h               |  13 ++
+> >  drivers/mmc/host/renesas_sdhi_core.c          |  98 ++++++++++++
+> >  drivers/mmc/host/renesas_sdhi_internal_dmac.c | 147 ++++++++++++++++++
+> >  drivers/mmc/host/tmio_mmc.h                   |   5 +
+> >  4 files changed, 263 insertions(+)
+> >
+> > diff --git a/drivers/mmc/host/renesas_sdhi.h b/drivers/mmc/host/renesas=
+_sdhi.h
+> > index f12a87442338..cd509e7142ba 100644
+> > --- a/drivers/mmc/host/renesas_sdhi.h
+> > +++ b/drivers/mmc/host/renesas_sdhi.h
+> > @@ -11,6 +11,8 @@
+> >
+> >  #include <linux/dmaengine.h>
+> >  #include <linux/platform_device.h>
+> > +#include <linux/regulator/driver.h>
+> > +#include <linux/regulator/machine.h>
+> >  #include <linux/workqueue.h>
+> >  #include "tmio_mmc.h"
+> >
+> > @@ -36,6 +38,12 @@ struct renesas_sdhi_of_data {
+> >       unsigned int max_blk_count;
+> >       unsigned short max_segs;
+> >       unsigned long sdhi_flags;
+> > +     struct regulator_desc *rdesc;
+> > +     struct regulator_init_data *reg_init_data;
+> > +     bool regulator_init_state;
+> > +     unsigned int regulator_init_voltage;
+> > +     int (*regulator_force_endis)(struct regulator_dev *rdev, bool ena=
+ble);
+> > +     int (*regulator_force_voltage)(struct regulator_dev *rdev, unsign=
+ed int voltage);
+>
+> I am open for discussing this but maybe here only
+>
+> +       struct renesas_sdhi_regulator *internal_regulator
+>
+> or something and create the new struct with the additions above?
+>
+> > +     int (*regulator_force_endis)(struct regulator_dev *rdev, bool ena=
+ble);
+> > +     int (*regulator_force_voltage)(struct regulator_dev *rdev, unsign=
+ed int voltage);
+>
+> Do we need these functions because the regulator framework cannot force
+> these actions because it caches the old state? I wonder if we can avoid
+> these functions...
+>
+Yes, for the voltage setting, it caches the values. However, for the
+regulator enable/disable, we can use is_enabled(), which probes the
+hardware.
 
+The reset value for PWEN is 1. The regulator_force_endis() callback is
+mainly added for a scenario where, consider a code flow where the
+regulator is disabled (using regulator_disable()) and now we land in
+the reset callback (i.e., renesas_sdhi_reset()). Here, after issuing
+the reset, the PWEN value will be 1, but we need to restore it back.
+Hence, this callback is necessary. Note that is_enabled() cannot be
+used, as it probes the hardware when it switches states after a reset.
+
+The reset value for IOVS is 3.3V. Below is the scenario for which
+regulator_force_voltage() is added:
+
+-----> Current value: 1.8V (cached by the regulator)
+--------------> After reset:
+------------------> Hardware has 3.3V, but the regulator core cache
+still has 1.8V.
+----------------------> When requested to switch to 1.8V from MMC
+core: The regulator core returns success, as it sees 1.8V in the
+cached state.
+----------------------------> As a result, the SD card won't work.
+
+Cheers,
+Prabhakar
 
