@@ -1,162 +1,104 @@
-Return-Path: <linux-renesas-soc+bounces-7100-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7101-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0453392829B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jul 2024 09:20:09 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED8F29284E9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jul 2024 11:15:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 90DF1287540
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jul 2024 07:20:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 90BAA1F216D1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jul 2024 09:15:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59CD8144D28;
-	Fri,  5 Jul 2024 07:20:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46E8F145B3E;
+	Fri,  5 Jul 2024 09:15:36 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [195.130.137.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2977139D1B;
-	Fri,  5 Jul 2024 07:20:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72A871459E2
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Jul 2024 09:15:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720164004; cv=none; b=LGowiwmzHuF8lQopT/Wrzlt/2WvILdSaGY5f/xr63Xzm/c/US1i35avnJcBws1DRFe57uQlR4myXNnfTZUy2x2Wv7s5roKojX0zsjUPEiUiF3+RzGDM3MKr8p5cILgizJVOQkfEIYt8pHPUpLsb9gOO75VWpGJpP0Kp3OwjKET0=
+	t=1720170936; cv=none; b=IpVM6IzBTKmo3MyvnPvYitTIOIiqIUjeUAL4tFuDHQTsDSuem/t43yCgK7hJFBNsmAmfPIpGukUsdzQEf1LtuaDSewRdDsLXlW8sUtMyNtgvPLWaxw7uog00fMBXxKEELiLfTPGMF8unWmDQtcDNDvKTSq7I1ISx+2llnZSKOJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720164004; c=relaxed/simple;
-	bh=hrYys/hSWnTYJsfYNVQHw8oZRpFWHaSeNxp6S+CTrwo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KfSI+6x0gT06K8gavYGtdjZVUVOOSGiKk2EsAlypZUNas/0GRzYKBXCDGwSpmZS45hteL4/WBIsJaLKrH5ORLx+V9D+dXtfEKyJxzw/Lp6ahd5ezU+hWv0Akfh5HPE1YFy/94CBnQb+xfcTAvTJxbvsmwkkWWMt7u7kvxqLmgqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dfef5980a69so1355209276.3;
-        Fri, 05 Jul 2024 00:20:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720164000; x=1720768800;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mQlRvdEIl3wW/T9tWerBdCapYf+E5WFW4Sl9gBRQc3I=;
-        b=KZvg8wCaXk4yDecd3ULRgiTgPhrQeuCM+JYP0BKEN8AuBM2SAg4lXFI7vZI+FGOnMa
-         1mfUG9GpjmTLtXmmgTxDn/Wzv0P6qRLTtg0U9/JtCmlgxmFxrAx1q9VXiDHdgnqsZbD5
-         rI2SCHX1CMdx+6/T8i1GzGBhswMkf1jlwa9r/8gUD57Lz98y4HgC2TyGSzdwMR0whI0N
-         4oAEDJHyJgESpPcXRw6oi461ZlXl1TwH7JcnNtsmP71bQxN54ycjTP+Bygp8TS4AIpSe
-         e9pR54I8k3Tjf9IeVDF7hZtU7FUTaFX6raJForsII9ETIcIHk7YyiDspb/HrAUifAw58
-         TYOw==
-X-Forwarded-Encrypted: i=1; AJvYcCVa6uKtLPUtsYzNfGWSR5ezmMcwXlcsUveMARmRetvJbMdPzNNOKAC6AbvFQGpy1is8vYLFZYz6S39uSQG56VD65tTMg20c7uKXVPqtbkWZuQUF808UqOgTvXh+vb9LxO+iLyRvTZfSDGSE7AvopMRz5GV+CkxLCBIc3uYOLW5cKyIS57874zGFZudaX+gDqUr5SnC5YaiIalf8GlYohJQYkFvmGAdGvKtHBFgkNdwXQ+Z3FdgjhlKBx6UzN7FAXOKl
-X-Gm-Message-State: AOJu0Yz+y8qgO2XwLfNTIis0aF9mdjIdZNwyJ4+WEFEabnuWmnu3GTTp
-	wLDk+vMFJNiPXaXi5ohCVRlgNTUOnJGwj0Te/l+DTELuHLhdSXgtlEFRkNBC
-X-Google-Smtp-Source: AGHT+IEdn+yZNpYbqFWcod6LpgXMbCvrh3sPAXeeQuLwG6G/P623/Qckq+WZefCWwErV7FFkjqu8Ew==
-X-Received: by 2002:a05:690c:6ac1:b0:64b:313f:d7cb with SMTP id 00721157ae682-652d5ef9153mr45515107b3.22.1720163999739;
-        Fri, 05 Jul 2024 00:19:59 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-64a9bf32efdsm27722627b3.123.2024.07.05.00.19.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Jul 2024 00:19:59 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6515b824117so11494207b3.3;
-        Fri, 05 Jul 2024 00:19:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWJjjFaLtdaAoJjiJEU+Ze07kQ5fEjatGeqDRl+zsBYroSrexw/cLT/JUy8ZgbjfDDHxlkjbmt+cB81CjQ1TT348a6fysTZh85sKRKA9+T/S4HT3eLecz4STYPJdZwzRyq9wPEXAa3+nsDygiCVgh0qEFibUpj84nrwYh52Shro6czGIVnhOHfLLdE7gRbEsfvITko0efYh4rfYHZqv4EfjlK819rbw2NEOsxgF01ZGQkrcqSumWeXGGNUC2vKD0elt
-X-Received: by 2002:a0d:e8cd:0:b0:643:ed61:11bb with SMTP id
- 00721157ae682-652d5338f0dmr40312717b3.7.1720163999140; Fri, 05 Jul 2024
- 00:19:59 -0700 (PDT)
+	s=arc-20240116; t=1720170936; c=relaxed/simple;
+	bh=JCZMTjW46n8NQ6uToNzYmd2jppFqEHJhP/YOZkuwjYU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UWR9WiG2rRdf+3m1iPBpsw6saZq5v/OZgEvbfQK2yfSXdCTRLGZRl7eEYQFQKhUq7+ZGeyhr1vYWPaCSbnWOPfojnBj6I9h+huCSGsTXFrOLobkx4CCAhKVvnx5pieHLvRyqdaOAsQMmkXGkaMzQeoqeG1hhd4lWAp51DmI42JY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:c3ba:e01c:f6c8:df75])
+	by laurent.telenet-ops.be with bizsmtp
+	id jlFX2C00J36r8Me01lFXzW; Fri, 05 Jul 2024 11:15:31 +0200
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1sPf2G-001F95-PW;
+	Fri, 05 Jul 2024 11:15:31 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1sPf2R-002M5P-9j;
+	Fri, 05 Jul 2024 11:15:31 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-gpio@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [GIT PULL] pinctrl: renesas: Updates for v6.11 (take three)
+Date: Fri,  5 Jul 2024 11:15:30 +0200
+Message-Id: <cover.1720170526.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240625121358.590547-1-claudiu.beznea.uj@bp.renesas.com>
- <20240625121358.590547-5-claudiu.beznea.uj@bp.renesas.com> <2wm6vd4dib7tqpdq2eusjhyvfl3sofyvy65w6axvdjbkmgm5cn@bjltpbwwilc2>
-In-Reply-To: <2wm6vd4dib7tqpdq2eusjhyvfl3sofyvy65w6axvdjbkmgm5cn@bjltpbwwilc2>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 5 Jul 2024 09:19:46 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV=Uhqar6k_z_wo5jzge_7oY4tBK5zNiBbpsWa39Wvabw@mail.gmail.com>
-Message-ID: <CAMuHMdV=Uhqar6k_z_wo5jzge_7oY4tBK5zNiBbpsWa39Wvabw@mail.gmail.com>
-Subject: Re: [PATCH v2 04/12] i2c: riic: Use pm_runtime_resume_and_get()
-To: Andi Shyti <andi.shyti@kernel.org>
-Cc: Claudiu <claudiu.beznea@tuxon.dev>, chris.brandt@renesas.com, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, magnus.damm@gmail.com, 
-	mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de, 
-	wsa+renesas@sang-engineering.com, linux-renesas-soc@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Andi,
+	Hi Linus,
 
-On Fri, Jul 5, 2024 at 12:42=E2=80=AFAM Andi Shyti <andi.shyti@kernel.org> =
-wrote:
-> > diff --git a/drivers/i2c/busses/i2c-riic.c b/drivers/i2c/busses/i2c-rii=
-c.c
-> > index 83e4d5e14ab6..002b11b020fa 100644
-> > --- a/drivers/i2c/busses/i2c-riic.c
-> > +++ b/drivers/i2c/busses/i2c-riic.c
-> > @@ -113,6 +113,8 @@ struct riic_irq_desc {
-> >       char *name;
-> >  };
-> >
-> > +static const char * const riic_rpm_err_msg =3D "Failed to runtime resu=
-me";
->
-> Please, don't do this. Much clearer to write the message
-> explicitly.
+The following changes since commit 71062e52fc0aea0f3477aaaaa789226388a7eeaf:
 
-And the compiler will merge all identical strings, emitting
-just a single string.
+  pinctrl: renesas: r8a779h0: Remove unneeded separators (2024-07-01 11:27:39 +0200)
 
->
-> > +
-> >  static inline void riic_writeb(struct riic_dev *riic, u8 val, u8 offse=
-t)
-> >  {
-> >       writeb(val, riic->base + riic->info->regs[offset]);
-> > @@ -133,10 +135,14 @@ static int riic_xfer(struct i2c_adapter *adap, st=
-ruct i2c_msg msgs[], int num)
-> >       struct riic_dev *riic =3D i2c_get_adapdata(adap);
-> >       struct device *dev =3D adap->dev.parent;
-> >       unsigned long time_left;
-> > -     int i;
-> > +     int i, ret;
-> >       u8 start_bit;
-> >
-> > -     pm_runtime_get_sync(dev);
-> > +     ret =3D pm_runtime_resume_and_get(dev);
->
-> In principle I like the error message to be always checked and I
+are available in the Git repository at:
 
-s/message/condition/?
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v6.11-tag3
 
-> will always approve it. Whenever there is a return value, even
-> when we are sure it's always '0', it needs to be checked.
->
-> I had lots of discussions in the past about this topic but I
-> haven't always found support. I'd love to have the ack from a
-> renesas maintainer here.
+for you to fetch changes up to 2453e858e945e5e2fa8da9fde8584995e7dd17d1:
 
-I don't mind checking for the error here.
+  pinctrl: renesas: rzg2l: Support output enable on RZ/G2L (2024-07-04 19:22:03 +0200)
 
->
-> > +     if (ret) {
-> > +             dev_err(dev, riic_rpm_err_msg);
+----------------------------------------------------------------
+pinctrl: renesas: Updates for v6.11 (take three)
 
-Do you need to print these error messages?
-AFAIU, this cannot happen anyway.
-Ultimately, I expect the device driver that requested the transfer to
-handle failures, and print a message when needed.
+  - Support output enable on RZ/G2L.
+
+This is a hard dependency for setting output enable in the various
+RZ/G2L family DTS files.  So I'd rather see this in v6.11, to avoid
+having to postpone the DTS changes to v6.13.
+
+Thanks for pulling!
+
+----------------------------------------------------------------
+Paul Barker (3):
+      pinctrl: renesas: rzg2l: Clarify OEN read/write support
+      pinctrl: renesas: rzg2l: Clean up and refactor OEN read/write functions
+      pinctrl: renesas: rzg2l: Support output enable on RZ/G2L
+
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c | 144 +++++++++++++++++++++-----------
+ 1 file changed, 95 insertions(+), 49 deletions(-)
 
 Gr{oetje,eeting}s,
 
-                        Geert
+						Geert
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
