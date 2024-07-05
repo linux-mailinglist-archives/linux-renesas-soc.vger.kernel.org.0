@@ -1,117 +1,162 @@
-Return-Path: <linux-renesas-soc+bounces-7099-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7100-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84411928184
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jul 2024 07:51:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0453392829B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jul 2024 09:20:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0CEC2B23EB5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jul 2024 05:51:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 90DF1287540
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jul 2024 07:20:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F62A13AD23;
-	Fri,  5 Jul 2024 05:50:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ihRNNYPO"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59CD8144D28;
+	Fri,  5 Jul 2024 07:20:04 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8BD013A869;
-	Fri,  5 Jul 2024 05:50:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2977139D1B;
+	Fri,  5 Jul 2024 07:20:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720158656; cv=none; b=KCJXDtJC2y3auJrjAoUDEkcsB+RSont9ht/NL+/0pOGY9G2bRm3V+rmTWLzzxQvogCqOEHuJYbQ02OKkDiXlyCDKU7w8VE0VwnOuX1ohX1OwmBhRA5CKqf38iwo5qqoQl8G+XmlOpKauQVT9b5CkJ2ZXrxe8U1kn3+OxrdhslTQ=
+	t=1720164004; cv=none; b=LGowiwmzHuF8lQopT/Wrzlt/2WvILdSaGY5f/xr63Xzm/c/US1i35avnJcBws1DRFe57uQlR4myXNnfTZUy2x2Wv7s5roKojX0zsjUPEiUiF3+RzGDM3MKr8p5cILgizJVOQkfEIYt8pHPUpLsb9gOO75VWpGJpP0Kp3OwjKET0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720158656; c=relaxed/simple;
-	bh=JrLj91YPVZpy2XkIrYFYm75kBGBGgkOBeCe9zPn1RlU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TyT2TYjoCoFwVLDLqdi90fsKQrZOKpuhm2bjtgq2U30VzuIiGNi062K50vHoOrciGNbE1H1t2A/GCOYRXyT7XTKP6GUNWPSH2c+bIS0A+IGp//v2QQ/Ai0cS0mrlIk8d71cs4oPn3kh2lqNKH+JwgTFiVAZTT0AdUxWdJtVLa/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ihRNNYPO; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1720164004; c=relaxed/simple;
+	bh=hrYys/hSWnTYJsfYNVQHw8oZRpFWHaSeNxp6S+CTrwo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KfSI+6x0gT06K8gavYGtdjZVUVOOSGiKk2EsAlypZUNas/0GRzYKBXCDGwSpmZS45hteL4/WBIsJaLKrH5ORLx+V9D+dXtfEKyJxzw/Lp6ahd5ezU+hWv0Akfh5HPE1YFy/94CBnQb+xfcTAvTJxbvsmwkkWWMt7u7kvxqLmgqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2ec3f875e68so15418781fa.0;
-        Thu, 04 Jul 2024 22:50:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720158652; x=1720763452; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tbiPVN/BaSDz+daEINbCMF5/eDCLCv2CP3RxKuEyuuY=;
-        b=ihRNNYPOioYPJddJC6O9E4vd9nGqxz4xnMlDUMl+CM0ztiXBazDpELnOrXRQWE3g32
-         F9HVXDN1Be/ACsK21+QnUzjlLP86y4zUqnMwexNtL45ucvfeuCEqaq5KDTmRGBK+Gn3f
-         CtxJozmh9WlSf1PpdENsZfg8bs3pUWdjM48e9WyKufM3C79KEdam2BzfRqOFZ6pJyhpj
-         A5ebDL0HYxv9nKTBJd3Qclb5Krj+ZVqINAO0H1IJVPll4huw4c0CKmpextmeh/N/Uvcr
-         N1DQEHTtkUAZrjm75C8/HPPY1KoilfKTKqDpNayvLh9pHSjxsO2ID3k1X/EN058p8k47
-         Lncw==
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dfef5980a69so1355209276.3;
+        Fri, 05 Jul 2024 00:20:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720158652; x=1720763452;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tbiPVN/BaSDz+daEINbCMF5/eDCLCv2CP3RxKuEyuuY=;
-        b=WcNly0YOECsvf63zHjspLKa8ga6FH3396kiPgU3ReCqE2NEQasY+aXA0e35g2YbgQQ
-         PLIb+Svh5nXN3NrhjfD6Yh1nL3L5ChgsQWtCgqzfNB0lZgo6UpuTByxq1LA3NrUpsBpg
-         fNvsr0ihKQOlny1iQP2PxPOTGgN20NrfcHPLiyGlGD2uAuy3cpuPT6m30j+ikPEeXJ2A
-         5vQwmF1RENA/SKXSNyhC7Nw5wLrb4jqxac4atLM5L/Ob8hRN7cxkQwZPc13h4Jmh6QfW
-         /ngJybz6nPP5wkRcB8OlG72K4SoZYXMrs0Q2+JrcyY0Coui6+FVHlwJBRgpP0xDwhfxD
-         74ZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW3tuCrbj5Fdx1sQssxhHedMVpTdMfFCKze3v5s+bZ2sCtHXc17uEV9aT2o+2TRkOBTNqZdRxlQAcudep9LSctWmfBZFUJA7ym47RhoVYb+LGKbjPd/k5p/+s5xs5SR58nm1D0vTE15M/+7iJr9
-X-Gm-Message-State: AOJu0YxXu6qWpAJ23JpuNOr15lYe8/7ZQanO0KLZxVGit8VL2HvQsweq
-	cGmnDimRm9PG9eAUs0qjBTcGVIQMueKuKkmHKs3NK5GTaKNXfnf0
-X-Google-Smtp-Source: AGHT+IEpL0Mf1EKOoiMjLyxqd9bytkbdSwdDuZnIv53bLozrxliwMa2PYXZdfQHo1c1KgldzxRAFXQ==
-X-Received: by 2002:a05:651c:19a2:b0:2ea:e98e:4399 with SMTP id 38308e7fff4ca-2ee8ee01aa7mr30757671fa.36.1720158651428;
-        Thu, 04 Jul 2024 22:50:51 -0700 (PDT)
-Received: from ?IPV6:2a10:a5c0:800d:dd00:8cfe:d6e7:6701:9dfd? ([2a10:a5c0:800d:dd00:8cfe:d6e7:6701:9dfd])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ee8cabf202sm5086491fa.99.2024.07.04.22.50.50
+        d=1e100.net; s=20230601; t=1720164000; x=1720768800;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mQlRvdEIl3wW/T9tWerBdCapYf+E5WFW4Sl9gBRQc3I=;
+        b=KZvg8wCaXk4yDecd3ULRgiTgPhrQeuCM+JYP0BKEN8AuBM2SAg4lXFI7vZI+FGOnMa
+         1mfUG9GpjmTLtXmmgTxDn/Wzv0P6qRLTtg0U9/JtCmlgxmFxrAx1q9VXiDHdgnqsZbD5
+         rI2SCHX1CMdx+6/T8i1GzGBhswMkf1jlwa9r/8gUD57Lz98y4HgC2TyGSzdwMR0whI0N
+         4oAEDJHyJgESpPcXRw6oi461ZlXl1TwH7JcnNtsmP71bQxN54ycjTP+Bygp8TS4AIpSe
+         e9pR54I8k3Tjf9IeVDF7hZtU7FUTaFX6raJForsII9ETIcIHk7YyiDspb/HrAUifAw58
+         TYOw==
+X-Forwarded-Encrypted: i=1; AJvYcCVa6uKtLPUtsYzNfGWSR5ezmMcwXlcsUveMARmRetvJbMdPzNNOKAC6AbvFQGpy1is8vYLFZYz6S39uSQG56VD65tTMg20c7uKXVPqtbkWZuQUF808UqOgTvXh+vb9LxO+iLyRvTZfSDGSE7AvopMRz5GV+CkxLCBIc3uYOLW5cKyIS57874zGFZudaX+gDqUr5SnC5YaiIalf8GlYohJQYkFvmGAdGvKtHBFgkNdwXQ+Z3FdgjhlKBx6UzN7FAXOKl
+X-Gm-Message-State: AOJu0Yz+y8qgO2XwLfNTIis0aF9mdjIdZNwyJ4+WEFEabnuWmnu3GTTp
+	wLDk+vMFJNiPXaXi5ohCVRlgNTUOnJGwj0Te/l+DTELuHLhdSXgtlEFRkNBC
+X-Google-Smtp-Source: AGHT+IEdn+yZNpYbqFWcod6LpgXMbCvrh3sPAXeeQuLwG6G/P623/Qckq+WZefCWwErV7FFkjqu8Ew==
+X-Received: by 2002:a05:690c:6ac1:b0:64b:313f:d7cb with SMTP id 00721157ae682-652d5ef9153mr45515107b3.22.1720163999739;
+        Fri, 05 Jul 2024 00:19:59 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-64a9bf32efdsm27722627b3.123.2024.07.05.00.19.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jul 2024 22:50:50 -0700 (PDT)
-Message-ID: <20ce567c-d3be-47e1-8e73-749756204b43@gmail.com>
-Date: Fri, 5 Jul 2024 08:50:49 +0300
+        Fri, 05 Jul 2024 00:19:59 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6515b824117so11494207b3.3;
+        Fri, 05 Jul 2024 00:19:59 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWJjjFaLtdaAoJjiJEU+Ze07kQ5fEjatGeqDRl+zsBYroSrexw/cLT/JUy8ZgbjfDDHxlkjbmt+cB81CjQ1TT348a6fysTZh85sKRKA9+T/S4HT3eLecz4STYPJdZwzRyq9wPEXAa3+nsDygiCVgh0qEFibUpj84nrwYh52Shro6czGIVnhOHfLLdE7gRbEsfvITko0efYh4rfYHZqv4EfjlK819rbw2NEOsxgF01ZGQkrcqSumWeXGGNUC2vKD0elt
+X-Received: by 2002:a0d:e8cd:0:b0:643:ed61:11bb with SMTP id
+ 00721157ae682-652d5338f0dmr40312717b3.7.1720163999140; Fri, 05 Jul 2024
+ 00:19:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 09/24] mfd: bd9571mwv: Constify struct regmap_irq_chip
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- Support Opensource <support.opensource@diasemi.com>,
- Lee Jones <lee@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Xu Yilun <yilun.xu@intel.com>,
- Tom Rix <trix@redhat.com>, Marek Vasut <marek.vasut+renesas@gmail.com>,
- Andy Shevchenko <andy@kernel.org>, Tony Lindgren <tony@atomide.com>,
- Tim Harvey <tharvey@gateworks.com>, Orson Zhai <orsonzhai@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>
-Cc: linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-omap@vger.kernel.org
-References: <20240704-mfd-const-regmap_config-v2-0-0c8785b1331d@gmail.com>
- <20240704-mfd-const-regmap_config-v2-9-0c8785b1331d@gmail.com>
-Content-Language: en-US, en-GB
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <20240704-mfd-const-regmap_config-v2-9-0c8785b1331d@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240625121358.590547-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240625121358.590547-5-claudiu.beznea.uj@bp.renesas.com> <2wm6vd4dib7tqpdq2eusjhyvfl3sofyvy65w6axvdjbkmgm5cn@bjltpbwwilc2>
+In-Reply-To: <2wm6vd4dib7tqpdq2eusjhyvfl3sofyvy65w6axvdjbkmgm5cn@bjltpbwwilc2>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 5 Jul 2024 09:19:46 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV=Uhqar6k_z_wo5jzge_7oY4tBK5zNiBbpsWa39Wvabw@mail.gmail.com>
+Message-ID: <CAMuHMdV=Uhqar6k_z_wo5jzge_7oY4tBK5zNiBbpsWa39Wvabw@mail.gmail.com>
+Subject: Re: [PATCH v2 04/12] i2c: riic: Use pm_runtime_resume_and_get()
+To: Andi Shyti <andi.shyti@kernel.org>
+Cc: Claudiu <claudiu.beznea@tuxon.dev>, chris.brandt@renesas.com, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, magnus.damm@gmail.com, 
+	mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de, 
+	wsa+renesas@sang-engineering.com, linux-renesas-soc@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 7/4/24 20:23, Javier Carrasco wrote:
-> `bd9571mwv_irq_chip` and `bd9574mwf_irq_chip` are not modified and can
-> be declared as const to move their data to a read-only section.
-> 
-> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Hi Andi,
 
-Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
+On Fri, Jul 5, 2024 at 12:42=E2=80=AFAM Andi Shyti <andi.shyti@kernel.org> =
+wrote:
+> > diff --git a/drivers/i2c/busses/i2c-riic.c b/drivers/i2c/busses/i2c-rii=
+c.c
+> > index 83e4d5e14ab6..002b11b020fa 100644
+> > --- a/drivers/i2c/busses/i2c-riic.c
+> > +++ b/drivers/i2c/busses/i2c-riic.c
+> > @@ -113,6 +113,8 @@ struct riic_irq_desc {
+> >       char *name;
+> >  };
+> >
+> > +static const char * const riic_rpm_err_msg =3D "Failed to runtime resu=
+me";
+>
+> Please, don't do this. Much clearer to write the message
+> explicitly.
 
--- 
-Matti Vaittinen
-Linux kernel developer at ROHM Semiconductors
-Oulu Finland
+And the compiler will merge all identical strings, emitting
+just a single string.
 
-~~ When things go utterly wrong vim users can always type :help! ~~
+>
+> > +
+> >  static inline void riic_writeb(struct riic_dev *riic, u8 val, u8 offse=
+t)
+> >  {
+> >       writeb(val, riic->base + riic->info->regs[offset]);
+> > @@ -133,10 +135,14 @@ static int riic_xfer(struct i2c_adapter *adap, st=
+ruct i2c_msg msgs[], int num)
+> >       struct riic_dev *riic =3D i2c_get_adapdata(adap);
+> >       struct device *dev =3D adap->dev.parent;
+> >       unsigned long time_left;
+> > -     int i;
+> > +     int i, ret;
+> >       u8 start_bit;
+> >
+> > -     pm_runtime_get_sync(dev);
+> > +     ret =3D pm_runtime_resume_and_get(dev);
+>
+> In principle I like the error message to be always checked and I
 
+s/message/condition/?
+
+> will always approve it. Whenever there is a return value, even
+> when we are sure it's always '0', it needs to be checked.
+>
+> I had lots of discussions in the past about this topic but I
+> haven't always found support. I'd love to have the ack from a
+> renesas maintainer here.
+
+I don't mind checking for the error here.
+
+>
+> > +     if (ret) {
+> > +             dev_err(dev, riic_rpm_err_msg);
+
+Do you need to print these error messages?
+AFAIU, this cannot happen anyway.
+Ultimately, I expect the device driver that requested the transfer to
+handle failures, and print a message when needed.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
