@@ -1,121 +1,168 @@
-Return-Path: <linux-renesas-soc+bounces-7135-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7136-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBCE192932A
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  6 Jul 2024 13:30:29 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4BC49293C4
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  6 Jul 2024 15:28:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 092B51C21617
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  6 Jul 2024 11:30:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8837F1F21D90
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  6 Jul 2024 13:28:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17F2116B39A;
-	Sat,  6 Jul 2024 11:22:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 924286A33A;
+	Sat,  6 Jul 2024 13:28:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ka0BtGaI"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="UfvdYXaH";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="SgR4mwPu"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 241BF1667F1
-	for <linux-renesas-soc@vger.kernel.org>; Sat,  6 Jul 2024 11:22:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F86482D3;
+	Sat,  6 Jul 2024 13:28:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720264934; cv=none; b=eYKEsJK6ejTLmSufr87OFjQdbUQJfdE6AqKUSw3PbIq5y7T/kBOVc9UYsRXd77COebw1hnndhB4THHd6NEIauCA43XblIYRGoiCep2I8wO7Wgh3hdi9AJpfuFsETCyDLhJ/Fe2UlHhAD8gmNJ+HAikxLBafuNr6MP5MgBo+IIkU=
+	t=1720272505; cv=none; b=KHGvH7Hrt9INzxw3CSmxGnVF0faMxqVxov5OsCJqXvpcotpSIo0zLkmocp4fz7es7IuC6IvaAkUqss2wZ3+/NJ/a+Eub5oSy/40DBn8wrN0XndWMrISGvry5zzG455f+7O9SKF/ZXL41S5llPDJwl6eClL5/1cuHAHkOFNT94nI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720264934; c=relaxed/simple;
-	bh=V8GzMYxUk0jHdZK4zpgyxLvV94uulnNsO+n9pA51jpk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=f+i98IxN5we4COzA9gJdiileGAyvmnHFobkszNXKEaN8npsFbJQztqiXubMHuQ9IfeB7NmPbg6mjrrvsg/aJ5ZCMUn4FsrLmp7vJdKQ4aC+S1aXnbxRXZ6PY0TAN4HnwcEezY+Rkbfgn/AdtahQsER4d1k4TURieW3hg3x6hVPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ka0BtGaI; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=/P4DoAP5gYAxjEHPsExZWYzXzNikF5f0sRGxYHSLQ98=; b=ka0BtG
-	aI9yT89bk8EFs1JvtMldAVVSg8CFFNBeR2UiwyHQHn9Bt+H1LSLmD2CmQr2rx3GJ
-	InfW0SZ8Hb2a4kyVaQMmU/TflcKyPnuPpNDOrm3xqk1EGygZ7ENnSO05l6I5Ga2P
-	gSbfPNP7tzt24Xr7gtDAxE+N+tf3qIW/9TDx9uo/yYuxBqTqUEpX2HjLhb3aV0cL
-	7qMbD9X4KKY5anQs7k7Yb0zZaXUmR1eSgoEjnwyDh8Bib3VJmrVwY61ESI/eLE3m
-	37iADGECWFPQkFi6SqvqxpZwQhfTlJR324WTAPtj0efDu9vylxvRg3+aCikzRTOj
-	Bf5kdQGtfUS1ZSuQ==
-Received: (qmail 3810807 invoked from network); 6 Jul 2024 13:21:53 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Jul 2024 13:21:53 +0200
-X-UD-Smtp-Session: l3s3148p1@x9gSY5IcZMJQT+F6
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-i2c@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 44/60] i2c: rzv2m: reword according to newest specification
-Date: Sat,  6 Jul 2024 13:20:44 +0200
-Message-ID: <20240706112116.24543-45-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240706112116.24543-1-wsa+renesas@sang-engineering.com>
-References: <20240706112116.24543-1-wsa+renesas@sang-engineering.com>
+	s=arc-20240116; t=1720272505; c=relaxed/simple;
+	bh=+YOserGKjpmqK1DcdX+zb0jn/RQAHpubIlZ0wMr/FuU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sCOeHbjPb6SOuZg1ucX2GywJ4ulWMp9q/itYIlbcUiU0Rf98xV0E5UH7JHwOHSoUGFtcKHXQ+A50l8NqvqGlnlgfbGtLzNsEB38+63K9VlMkEk6PVdb4Abd+rl962X5kr7XHcMociRxmqW+GIEA1/dku68lcOROkLyGCpZqYSHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=UfvdYXaH; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=SgR4mwPu; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4WGWRM2kz2z9sWp;
+	Sat,  6 Jul 2024 15:28:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1720272495;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ZHVRL15PnSrx71qs8MKdRnPeHyG2B0QZU0YiU4awXBw=;
+	b=UfvdYXaHY2epDVfv14vStlUtGyuJfuavf+e8MTeO8cFJbjeHlEIWaUZvqZ6uV0aGjPLg+m
+	YvsIQVMXQDQhSCARH7LmMO/cBuv5M1ytNB9xqNDa8kwT5I5DkvNDO3KuDVc9wKSoyeIdp5
+	rSje2fpv0KSAZF24E5ekNH9PkBfOSerRtNdJ8aQZHY1iS0XD1lEliG3AiOq5ggNM9I0F4R
+	LO6H6BVLIpzzHBsfEWM/7HDyBjHbN8pacWoF3znVj7RhfPVBfOevnqHyJXhLvr3nZaO0wH
+	DnWvvpZfsN/4j6ETPsvPbjCdLYmTyjG15q1pNwWX/q+SAyZsWMdJMKnQtJDfCA==
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1720272493;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ZHVRL15PnSrx71qs8MKdRnPeHyG2B0QZU0YiU4awXBw=;
+	b=SgR4mwPusxQDIqQmEiUmCbflZEiXB24ablBX3D7fp+7TCBhyuZ4JwzX3Ht/JoODctuEZbo
+	uE4NWqtCSsruCb43w5AYa/zUSCsicmLeRS4uutjFnAPa0gCDKZTfpPyqujY44Q8HE65bYL
+	EFiz/t7KtVqCAy64I3HxyfMXtwLdyWEDnTu8wFcd10RGytzl/5mhE3MTzZAYmSO52TWO4x
+	lCivAiSjaLPag+TZ97u6mTmY3Q8w96Hc6VBHihsVxAM/QSJu+TU3Lp7xvDjWqKcMAmAyWm
+	YVXh7loF2TOv/hOw3h/eg/gT55QcyA6wftIkOoaZv/22FSoMMi7ksyd+XzP7Hg==
+To: linux-pci@vger.kernel.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
+	Jon Hunter <jonathanh@nvidia.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] [RFC] genirq/cpuhotplug, PCI/rcar-host: Silence set affinity failed warning
+Date: Sat,  6 Jul 2024 15:27:55 +0200
+Message-ID: <20240706132758.53298-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 07b05804bee78fc8a55
+X-MBO-RS-META: srdmci7tm17pehydis9zuaepjse7i1sx
+X-Rspamd-Queue-Id: 4WGWRM2kz2z9sWp
 
-Change the wording of this driver wrt. the newest I2C v7 and SMBus 3.2
-specifications and replace "master/slave" with more appropriate terms.
+This is an RFC patch, I am looking for input on the approach taken here.
+If the approach is sound, this patch would be split into proper patchset.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Various PCIe controllers that mux MSIs onto single IRQ line produce these
+"IRQ%d: set affinity failed" warnings when entering suspend. This has been
+discussed before [1] [2] and an example test case is included at the end
+of this commit message.
+
+Attempt to silence the warning by returning specific error code -EOPNOTSUPP
+from the irqchip .irq_set_affinity callback, which skips printing the warning
+in cpuhotplug.c . The -EOPNOTSUPP was chosen because it indicates exactly what
+the problem is, it is not possible to set affinity of each MSI IRQ line to a
+specific CPU due to hardware limitation.
+
+```
+$ grep 25 /proc/interrupts
+ 25:   0 0 0 0 0 0 0 0   PCIe MSI   0   Edge   PCIe PME
+
+$ echo core > /sys/power/pm_test ; echo mem > /sys/power/state
+...
+Disabling non-boot CPUs ...
+IRQ25: set affinity failed(-22). <---------- This is being silenced here
+psci: CPU7 killed (polled 4 ms)
+...
+```
+
+[1] https://lore.kernel.org/all/d4a6eea3c5e33a3a4056885419df95a7@kernel.org/
+[2] https://lore.kernel.org/all/5f4947b18bf381615a37aa81c2242477@kernel.org/
+
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
- drivers/i2c/busses/i2c-rzv2m.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Cc: "Krzysztof Wilczyński" <kw@linux.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Jisheng Zhang <Jisheng.Zhang@synaptics.com>
+Cc: Jon Hunter <jonathanh@nvidia.com>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: linux-pci@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+ drivers/pci/controller/pcie-rcar-host.c | 2 +-
+ kernel/irq/cpuhotplug.c                 | 6 ++++--
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/i2c/busses/i2c-rzv2m.c b/drivers/i2c/busses/i2c-rzv2m.c
-index b0bfc96b9ede..8380a68538ab 100644
---- a/drivers/i2c/busses/i2c-rzv2m.c
-+++ b/drivers/i2c/busses/i2c-rzv2m.c
-@@ -321,8 +321,8 @@ static int rzv2m_i2c_stop_condition(struct rzv2m_i2c_priv *priv)
- 				  100, jiffies_to_usecs(priv->adap.timeout));
+diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
+index c01efc6ea64f6..2314b2b30df8a 100644
+--- a/drivers/pci/controller/pcie-rcar-host.c
++++ b/drivers/pci/controller/pcie-rcar-host.c
+@@ -660,7 +660,7 @@ static void rcar_msi_irq_unmask(struct irq_data *d)
+ 
+ static int rcar_msi_set_affinity(struct irq_data *d, const struct cpumask *mask, bool force)
+ {
+-	return -EINVAL;
++	return -EOPNOTSUPP;
  }
  
--static int rzv2m_i2c_master_xfer_msg(struct rzv2m_i2c_priv *priv,
--				  struct i2c_msg *msg, int stop)
-+static int rzv2m_i2c_xfer_msg(struct rzv2m_i2c_priv *priv,
-+			      struct i2c_msg *msg, int stop)
- {
- 	unsigned int count = 0;
- 	int ret, read = !!(msg->flags & I2C_M_RD);
-@@ -351,8 +351,8 @@ static int rzv2m_i2c_master_xfer_msg(struct rzv2m_i2c_priv *priv,
- 	return ret;
- }
- 
--static int rzv2m_i2c_master_xfer(struct i2c_adapter *adap,
--				 struct i2c_msg *msgs, int num)
-+static int rzv2m_i2c_xfer(struct i2c_adapter *adap,
-+			  struct i2c_msg *msgs, int num)
- {
- 	struct rzv2m_i2c_priv *priv = i2c_get_adapdata(adap);
- 	struct device *dev = priv->adap.dev.parent;
-@@ -370,7 +370,7 @@ static int rzv2m_i2c_master_xfer(struct i2c_adapter *adap,
- 
- 	/* I2C main transfer */
- 	for (i = 0; i < num; i++) {
--		ret = rzv2m_i2c_master_xfer_msg(priv, &msgs[i], i == (num - 1));
-+		ret = rzv2m_i2c_xfer_msg(priv, &msgs[i], i == (num - 1));
- 		if (ret < 0)
- 			goto out;
+ static void rcar_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
+diff --git a/kernel/irq/cpuhotplug.c b/kernel/irq/cpuhotplug.c
+index eb86283901565..822bd6ca40bf9 100644
+--- a/kernel/irq/cpuhotplug.c
++++ b/kernel/irq/cpuhotplug.c
+@@ -147,8 +147,10 @@ static bool migrate_one_irq(struct irq_desc *desc)
  	}
-@@ -408,7 +408,7 @@ static const struct i2c_adapter_quirks rzv2m_i2c_quirks = {
- };
  
- static struct i2c_algorithm rzv2m_i2c_algo = {
--	.master_xfer = rzv2m_i2c_master_xfer,
-+	.xfer = rzv2m_i2c_xfer,
- 	.functionality = rzv2m_i2c_func,
- };
+ 	if (err) {
+-		pr_warn_ratelimited("IRQ%u: set affinity failed(%d).\n",
+-				    d->irq, err);
++		if (err != -EOPNOTSUPP) {
++			pr_warn_ratelimited("IRQ%u: set affinity failed(%d).\n",
++					    d->irq, err);
++		}
+ 		brokeaff = false;
+ 	}
  
 -- 
 2.43.0
