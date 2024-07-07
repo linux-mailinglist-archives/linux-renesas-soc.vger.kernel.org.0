@@ -1,119 +1,101 @@
-Return-Path: <linux-renesas-soc+bounces-7143-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7144-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FF8792978B
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  7 Jul 2024 13:06:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84B4E92995C
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  7 Jul 2024 20:47:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1734E281659
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  7 Jul 2024 11:06:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B3E341C20895
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  7 Jul 2024 18:47:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B83131BC46;
-	Sun,  7 Jul 2024 11:06:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2818A5381A;
+	Sun,  7 Jul 2024 18:47:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="XgUuU4av"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="sDntQ3FT";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="JtoKb1ia"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B5F1865B
-	for <linux-renesas-soc@vger.kernel.org>; Sun,  7 Jul 2024 11:06:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA28A1429B;
+	Sun,  7 Jul 2024 18:47:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720350403; cv=none; b=Uwq+/DaoKM7zNkb5yUFbX2j0Bu/8R0regrWNvOMND3FFHm/Fnxd5IVuuu0JHtg4FDXtvNvArQx3luMr0KCNlLpQhPHJIvKEdTRzB1rXrP88zr8owfMGSohkD2YE0LSv5F8KV3b2VIORdLY3RU8feBjTLvgjly5benu/sY2cWW5M=
+	t=1720378063; cv=none; b=XofPW/LIKbbjWncmMqKCUDOaPqN/g6RpIGulw+IzVfLjOpfdYwNlLzT8pbtL4yem0qtOPb5qxk/iOuzugHBFMW6Z25vHfb7R5wFdC1BpcVKmei5K4yMm+JjZoYK7s+0VA1nLLMxBoEjyi/MeeysFIH+UbR5r1vWYGjCPejeu0oE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720350403; c=relaxed/simple;
-	bh=qcdakLSQnrrjFFUgrSUQQba4I6Er/xiv67DBi6NE6aQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZA5WOVbGTvvuhUUDmSsgfvrQ1J3hPvpJdgCSlzLxcGdX+G2QAxTvB3U9Vb9761y5F94/RmJ3LO7vmkx42r8qNpF/lg6PM5NXB6FSzQEuiHLGRNbr+jdAcOEdvFox9Et9xAhlD0NHLjW3lbluwqbzsSmsSM7G9uas4PZ+IeMA/to=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=XgUuU4av; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=87n/
-	1dTva8J7QRivoWNaqXOhncR6aueYQkpii/siNgs=; b=XgUuU4avjgtPSh/Ti6MX
-	nGPpXJ/3s7OjGlmtYvlwpGMBDD6d0VlGCzmrOGGZdEWbAGLWhMvx3JLdbEC+YYdN
-	GoTLZvxpV6jQWOsz2M6ZNG1GWCZdorQMvd2yjS/U306TXL2tN1oZPFb4T59zW7ee
-	7VVJafVuc9gTtTdT0IRvkCO1MW6JOgbaJYZf3IHDPU21lBp+fuolRm9u0BFosTg7
-	cY37cmS36Q5ehjhMJykfmNR5xkypfbNMGveHP6umFDx6VFgvh18SUt/CVrh57fuf
-	SQcSPZb9NSxsHJdPOy/uW0hXfsp6w3BlJ+iL2Cmy5g0XgFLJ4nSI4x65FvfcXMQv
-	1A==
-Received: (qmail 4076470 invoked from network); 7 Jul 2024 13:06:37 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 7 Jul 2024 13:06:37 +0200
-X-UD-Smtp-Session: l3s3148p1@SclJSqYcKtNQT+F6
-Date: Sun, 7 Jul 2024 13:06:36 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	LKML <linux-kernel@vger.kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>
-Subject: Re: [PATCH v2 3/3] i2c: rcar: minor changes to adhere to coding style
-Message-ID: <Zop2vNCrzDmEKKiO@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Markus Elfring <Markus.Elfring@web.de>, linux-i2c@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	LKML <linux-kernel@vger.kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>
-References: <20240707082848.5424-4-wsa+renesas@sang-engineering.com>
- <f93eda7e-e65f-42e9-b96d-e88290201ca0@web.de>
+	s=arc-20240116; t=1720378063; c=relaxed/simple;
+	bh=v4h9od8K6fTONBvJosxZ6rQ5SiZd8ic36+1lPp+yduY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=azcXFxQZZLXdE7fsUVp6VelAfh/mekOE8o/LJMFzNV0FEtzsJXMASE8nEYZjGDo3MCKMiF2zq8CTLFTr64dKdxm1kpmPL1LssEZLhrA0q9F5kAUHAogyfCxJOGbw+gZknHFYzGqbs8udzNNV8e5oUy1mc5FnUzP1A7P5DJhsDPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=sDntQ3FT; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=JtoKb1ia; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1720378060;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SGabcz1S+/3HqptjW5xYki+/7SJtSmlNFb9FyOSKDUs=;
+	b=sDntQ3FTjBt3eqSfX9DOeKBLbWiEr+G0N8R9bFsC7b3yyC9uBFA0P29rjHuOAOGIb3mYJh
+	qTzhMlrTglYzexCJN6YwleyNY/QZAKlpwNEb2z9Sr7BJqcEOuOQYGGSzYe3fb7ZQ7IqBwo
+	FpxawuqQoLg/Sp+wV86NdU9LUonvNM/Qze0SUeHGSbJ94vzd69EVaJ+F3Bxtm0bcnC6h2y
+	pJJ/WZktD0ulVwFUkQo4T7pPY2Lg7zlv+uaBmCAe9QHjsHks9E9o44nFhiNgRbOKYLBGx1
+	crPZLMQOsVxUdbdZpxUTAV4bhNFcQmv2qP47sx7dYAi1lmgE5o6PBFNxEB/EAw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1720378060;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SGabcz1S+/3HqptjW5xYki+/7SJtSmlNFb9FyOSKDUs=;
+	b=JtoKb1ia/90BOJcqkbEkYho7f3FcH2fphFta2N3Ws6G9dtZSOuVEBx8ripsCgGZDQKnp7R
+	SHRu789wnTetbFBA==
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>, linux-pci@vger.kernel.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>, Krzysztof =?utf-8?Q?Wil?=
+ =?utf-8?Q?czy=C5=84ski?=
+ <kw@linux.com>, Bjorn Helgaas <bhelgaas@google.com>, Jisheng Zhang
+ <Jisheng.Zhang@synaptics.com>, Jon Hunter <jonathanh@nvidia.com>, Lorenzo
+ Pieralisi <lpieralisi@kernel.org>, Marc Zyngier <maz@kernel.org>, Rob
+ Herring <robh@kernel.org>, Yoshihiro Shimoda
+ <yoshihiro.shimoda.uh@renesas.com>, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] [RFC] genirq/cpuhotplug, PCI/rcar-host: Silence set
+ affinity failed warning
+In-Reply-To: <20240706132758.53298-1-marek.vasut+renesas@mailbox.org>
+References: <20240706132758.53298-1-marek.vasut+renesas@mailbox.org>
+Date: Sun, 07 Jul 2024 20:47:39 +0200
+Message-ID: <87h6d1vy2c.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="MaVWlVIGH0PKR6c9"
-Content-Disposition: inline
-In-Reply-To: <f93eda7e-e65f-42e9-b96d-e88290201ca0@web.de>
+Content-Type: text/plain
 
+Marek!
 
---MaVWlVIGH0PKR6c9
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sat, Jul 06 2024 at 15:27, Marek Vasut wrote:
 
-On Sun, Jul 07, 2024 at 12:34:36PM +0200, Markus Elfring wrote:
-> > A newline was missing and closing braces of functions do not need a
-> > semicolon.
->=20
-> Can there be a need to offer such changes by separate update steps?
+> This is an RFC patch, I am looking for input on the approach taken here.
+> If the approach is sound, this patch would be split into proper patchset.
+>
+> Various PCIe controllers that mux MSIs onto single IRQ line produce these
+> "IRQ%d: set affinity failed" warnings when entering suspend. This has been
+> discussed before [1] [2] and an example test case is included at the end
+> of this commit message.
+>
+> Attempt to silence the warning by returning specific error code -EOPNOTSUPP
+> from the irqchip .irq_set_affinity callback, which skips printing the warning
+> in cpuhotplug.c . The -EOPNOTSUPP was chosen because it indicates exactly what
+> the problem is, it is not possible to set affinity of each MSI IRQ line to a
+> specific CPU due to hardware limitation.
 
-That would be too fine grained in my book.
+Why does the irq_chip in question have an irq_set_affinity() callback in
+the first place?
 
-> >  	return !!(rcar_i2c_read(priv, ICMCR) & FSCL);
-> >
-> > -};
-> > +}
-> =E2=80=A6
->=20
-> How do you think about to omit any blank lines at such source code places?
+Thanks,
 
-Oh yes, that newline should go as well. Thanks!
-
-
---MaVWlVIGH0PKR6c9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmaKdrYACgkQFA3kzBSg
-Kba++g/8C4HdtvgGqE6iJDckRHQ6qUgQL/PPoZEFrivN+umIhSd4wRljIJsRAV3r
-OQ7NUJlnXi0BKnHNAUdDIOinrs5+k/AOUv1VMe+rWiGQooPBM0hp8VbrQ2EGUXoy
-0OyUw64tbOPEpBwdMoYg9++t8YdIaO8pMB99bmLZkQvHLjq/W6K6HXMCYPCL6jjh
-7xBXFKdVa4ARXs35SYwhMGBDwBBox6TwuhJK4b84Bf4idTapim7GyknXZUHYf5EG
-9BC8mk0OzR0W9m7Q1StkyGqSUFbOehz6WsntmF99StuvESzV+aoWcMDlbHO/Ow2o
-rErAz5R0YhlWR4jwKI5Cf8jMbgz4LQH+UpeaPUuGtyy47QOosbhatsDY5/fwGpAy
-WifHlt4OZL8mQLEbHsF36c0xZehCfcsCUt7e6Zj9lD+kyUjfKCSsgG07oDSdw3ka
-wRQ/l6oYOfzWbs1avWVD90Hl9AbpLFONxJJHahKli1lwV5BsX5PZwEBAusBsneBe
-Hnik5DkiUQg1yF1HYxXAMTNx/uA4LVMXkBcWoPc4g2Yu7byEstltVFkU3o2J2j2G
-TQv7WfFfhWMPZDdOy26GlJxcDAENrxHbLY8zLz1NXi6QOxRNvJvfnwsrx8JT1ubA
-AjXCXCascdIkfKxWreuG8SE8ONU6Zx/pytBlhe05Hi9AWn38MrA=
-=Qt7Q
------END PGP SIGNATURE-----
-
---MaVWlVIGH0PKR6c9--
+        tglx
 
