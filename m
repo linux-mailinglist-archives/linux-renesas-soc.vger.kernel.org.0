@@ -1,135 +1,146 @@
-Return-Path: <linux-renesas-soc+bounces-7145-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7146-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDACE92998A
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  7 Jul 2024 21:48:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5860929B6F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jul 2024 07:13:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 81C491F2125C
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  7 Jul 2024 19:48:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 834591F21570
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jul 2024 05:13:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 493963A8CE;
-	Sun,  7 Jul 2024 19:48:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF44EB662;
+	Mon,  8 Jul 2024 05:13:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="fHl0yuG2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB6231DA4D;
-	Sun,  7 Jul 2024 19:48:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66003B658
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Jul 2024 05:13:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720381718; cv=none; b=MNsx2L4YF8gnDGWAxn+pLpBaWZyZAcfjv9TTCxYwi56AYcKIwYAy6ZMocoCiLhmqonv+mOW214jFrq+EsuDbgJtu2ye6XETPKIG9C5ytxExXiRVx+lKXhSKJqFhNBqNNT44ZNss22X4UFwatM6a43O95i8aTBV7rGZAMKEf8Pqc=
+	t=1720415629; cv=none; b=PO2qUC5kroJop0WxdCNd/bNI6Q1T/rtCtEYaEweHT1xoZWgd9HcZHH5bAbE54riA+6O2QECi08Z9u30i8rAQlyH+H3BrXLHwKGf/JnfZv27I4WZtGxRyOES/ywS9/+k9VThfOa7CLUAalFfRC8U+kIAenk9hBaGvjK31Rc4jdSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720381718; c=relaxed/simple;
-	bh=w8dtLH5b/gCGh710eceQVGii0Z5ddM0LbRV4Q4GhUm0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=ZOJBp8b7YW2nQX58E5VzvbJ5p7TZRRccsrv8IPzEQNl/CGh1OwbhJ1Ni+xwNkZglyOfcke3lTlPHK4qiOKoddR9dSJhtxH0PJXGdBLZaoOMtu/pIMtF1QUSLZF3jGUCmSlZeCi50Cs/iHOZOets3PpAepQ2XhQjhDJumnzJv+fc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dfb05bcc50dso2760134276.0;
-        Sun, 07 Jul 2024 12:48:35 -0700 (PDT)
+	s=arc-20240116; t=1720415629; c=relaxed/simple;
+	bh=wRFbwZCq6fW6VzKrR2D+pZJuBoE0qYdTiZYmsY+SkVY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=r9fBr6anDZkpPoLwPNSUcou9vyZHL0pWXWtd63FHx4dso06pWHLx1/ur7ddheNWYRCtzrSiwR8z0ezYBiGqN23E06fvUP4WzYcxYQo2ZRph6LF71NQ/ckhV1NVdGDCSoCyOaDLyWT4D3+hUX0ymVy2LDt14s9XTmaSaeyJ/thLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=fHl0yuG2; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2eabd22d3f4so37068691fa.1
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 07 Jul 2024 22:13:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1720415625; x=1721020425; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bz7wWMAmp35kfVIWuAo+lyRhJVw4zZS6mIxOLkavesk=;
+        b=fHl0yuG2ZDSE0q3bihnJP3u1s51SrFuMYERyIIzOzxQrrkUyao9hRfzD7dja8QU20P
+         tg1HQUaj3Jz/lmpP33MfzBbZZXHp3RVrSBRaXSkGhwO+KhUbT2MeMzQd+5N4iUfBX3r3
+         6N0HM2KkUFuq79bnZmCjYqGojiO8i1pN5ipG+Ob+7BUKj6OmvjqwCBRbis1DnwFmjOq1
+         Fik9F/0Mc/YMXdQc0ApVXK+cAebcLDf9VLozTlNkbcsrdGguH9ZaWr0wz832+nnMqLXd
+         dW4v1McBu+vKMGn9tGZldJSB6kk03XsDtqKkZqMvfbhTGT6suh7Q94yxGh57XVXH/Az7
+         6d1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720381714; x=1720986514;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RMsuZ61QBM82MumDaO8bDuXHBbe5krN+mT8zYezhXwk=;
-        b=sj/3kLrv3H7p4pb3ylti69SfUiQk4s0X29ThV9Abm30QO8Ki25RzPulKNyrgaENxnO
-         Kie5jGLlwIENAxrgp/ao7JZB49gSugEK89zxO5oGXLqAB17QX3/HbteHRNyQy+y5WJ2J
-         d8MupM264lOZnehstbPTNSrOHMhDIBneDr8i4MuxKIzJiA+5/kGraRSlAWu5llZRcn5w
-         6lVL7JbfaHyj6XKY35qg9zf+nq1Jtggj9Q6+9435080W6wz/tFpGdbMRyzMu0Qqbwrbv
-         oonxDsZOvFXmKSzo/AqqRSHcAgFa6d4Qpco9xFR1uYBeIIUWfqiHHMPZA5KCF5AuMb6r
-         993A==
-X-Forwarded-Encrypted: i=1; AJvYcCU4bySsOui1WAGDjqFO/C/TR9JGv7pq5EEvnq2hiItmu6PnvYPfNHkM4F1R0o50TlfQRnjI/BUvGu1j8hgMOCeWqoZ/HprOnAKHn7YB4erwS4V+RdlMlU3B5bXLxGspQzMZbERjnGXPMihLFrFEDMpE+9H+X87+LjvRqTsX5Ww1REkPSMUIUmd5vbYVxhNbOVWsHhmTxFMOzkv5pWZEIgMdfQDnww==
-X-Gm-Message-State: AOJu0YwqUDP3U5HWsTSx71F3FVmo5qZ8G2Pzt+YIgjY3giuVmMTHVCQl
-	PEuiWA474DRgYhfu8CR3WEQKb0gjECWuu+iTyX3cbJfxxC90NdD0OOQSGx5k
-X-Google-Smtp-Source: AGHT+IEFeKZdjsdQAmGHulgBOFRmVtfVuxbYqrjSPEGkCvTVrtuzn/VZ3SDDB0MiOZG67fiu+/DdJw==
-X-Received: by 2002:a05:690c:6f89:b0:64b:5fcb:6847 with SMTP id 00721157ae682-652d5345b48mr118905317b3.16.1720381714414;
-        Sun, 07 Jul 2024 12:48:34 -0700 (PDT)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-65171900016sm16823687b3.99.2024.07.07.12.48.33
+        d=1e100.net; s=20230601; t=1720415625; x=1721020425;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bz7wWMAmp35kfVIWuAo+lyRhJVw4zZS6mIxOLkavesk=;
+        b=ZKDpIpVsae7Y5w9Exz0sokuja/B31k3vjPz3pNSWoPAt2CnJicOFGUkKTZtHq+1bL1
+         1SpjMcqWVB6qnoIQN1oFQjJJSM+Kg2t96wnqsDvHbQEJXIfGJwymD5So2KpQgarfYgOJ
+         1WcC70XhrmJsfVmDbd4Tzk/2hldcczreHPj2VzavIN0wYhn0YpQk6WL8PxOAp/drxDUr
+         RluMLYTHVqe8Tmv/ZF4CWsHE1AHcPNPj3yvUE1GXIv/hbAs9VqHQ0qjAvpDvz+7FqaSE
+         18t4G786yLhPfnA3jOXEumGoRhCPcuab5wDEythFnGyQGvr8D6Xr1gh+DzI7V1AihzcD
+         VhLw==
+X-Forwarded-Encrypted: i=1; AJvYcCURENSmvVG1eB/bJInaAWqOXMipLQzVHf63k9EWrtZdICkGZ4WZUBcpYlGl/jy0hsqLdfT20Xo/kJvZXlFBZ3FHc2OTMonWWKC79EnuRvztM9k=
+X-Gm-Message-State: AOJu0YwrIB3R8wTjBE2Br3EZrozRcPojiNm/ukpiN+8lv4xZrwHekUat
+	7h8WXUAj5SNaoNcJIt1wQD1CZBWYRRp4n/G16Y7Wzqwt92KzryggywCHmrvKLbs=
+X-Google-Smtp-Source: AGHT+IFISF4UwewGpBvBho0EppedjUfcSuAVkq8b8GaHaZZCaF0Hi57425EYZnXMa6pjbT4HHeqobA==
+X-Received: by 2002:a2e:9953:0:b0:2ec:7300:d02f with SMTP id 38308e7fff4ca-2ee8edd7b73mr65514061fa.49.1720415625292;
+        Sun, 07 Jul 2024 22:13:45 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.171])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-367a40a6d4bsm8433845f8f.51.2024.07.07.22.13.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 07 Jul 2024 12:48:34 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-654ce021660so14370987b3.1;
-        Sun, 07 Jul 2024 12:48:33 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWR77H6Iy0FvtPBqv2kpxBSrWKUbf5hEhhf/JxjQ/nl83ujQDwKvESvknq8rnyNUcH07MQv8ASbqNjyJwB4LLyJcul+7sCc+G3GuB4gnO3frtMoWbgy0XYf711WgvPFmQ5eBMY3fqPObzhSjr9uH8tniKVr/TXW0hBhmNUv7C7VJGL3Rrs4KPcKQUuUtxmFaXH3+m0w3Y7p8qMHkB70s6iWuEktvQ==
-X-Received: by 2002:a05:690c:986:b0:632:58ba:cbad with SMTP id
- 00721157ae682-652d522632bmr92288727b3.10.1720381713087; Sun, 07 Jul 2024
- 12:48:33 -0700 (PDT)
+        Sun, 07 Jul 2024 22:13:44 -0700 (PDT)
+Message-ID: <b487595b-d215-4e7e-8e61-71cd6dbf7db6@tuxon.dev>
+Date: Mon, 8 Jul 2024 08:13:42 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240213220221.2380-8-wsa+renesas@sang-engineering.com>
- <170870160052.1698319.4712751560931025638.b4-ty@kernel.org> <Zooqfe1sJQsvltwj@shikoro>
-In-Reply-To: <Zooqfe1sJQsvltwj@shikoro>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Sun, 7 Jul 2024 21:48:21 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU6OquhF_WRxD+YxRfJwASepOb-pJp3wT7bvcpb1PHLDQ@mail.gmail.com>
-Message-ID: <CAMuHMdU6OquhF_WRxD+YxRfJwASepOb-pJp3wT7bvcpb1PHLDQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] mfd: tmio: simplify header and move to platform_data
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, Lee Jones <lee@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org, 
-	linux-sh@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/12] i2c: riic: Use temporary variable for struct
+ device
+Content-Language: en-US
+To: Andi Shyti <andi.shyti@kernel.org>
+Cc: chris.brandt@renesas.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com,
+ mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de,
+ wsa+renesas@sang-engineering.com, linux-renesas-soc@vger.kernel.org,
+ linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20240625121358.590547-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240625121358.590547-3-claudiu.beznea.uj@bp.renesas.com>
+ <mzuqdxb2dthfg6xa5jhodj6d54b6zlcnby35hmxe4jvfw3oghm@uunqpeg5wcdd>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <mzuqdxb2dthfg6xa5jhodj6d54b6zlcnby35hmxe4jvfw3oghm@uunqpeg5wcdd>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jul 7, 2024 at 7:41=E2=80=AFAM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> On Fri, Feb 23, 2024 at 03:20:00PM +0000, Lee Jones wrote:
-> > On Tue, 13 Feb 2024 23:02:19 +0100, Wolfram Sang wrote:
-> > > Changes since v1:
-> > >
-> > > * rebased to rc4
-> > > * collected all needed acks (Thanks!)
-> > > * capitalized first letter in commit subject
-> > >
-> > > The MFD parts of the TMIO have been removed by Arnd, so that only the
-> > > SD/MMC related functionality is left. Remove the outdated remains in =
-the
-> > > public header file and then move it to platform_data as the data is n=
-ow
-> > > specific for the SD/MMC part.
-> > >
-> > > [...]
-> >
-> > Applied, thanks!
-> >
-> > [1/6] mfd: tmio: Remove obsolete platform_data
-> >       commit: 58d6d15662e4039fab7d786f0426843befa77ad4
-> > [2/6] mfd: tmio: Remove obsolete io accessors
-> >       commit: e927d7bac109d8ca1729dda47a8dbc220efdb50e
-> > [3/6] mmc: tmio/sdhi: Fix includes
-> >       commit: bed05c68aa8f078206143700cd37e42a0084155f
-> > [4/6] mfd: tmio: Update include files
-> >       commit: 3ef94c41db82573dc1e1dd6c259aec8ef6caaaf3
-> > [5/6] mfd: tmio: Sanitize comments
-> >       commit: 2d417dda59123b9523a19ce75fea3fd1056c3b4c
-> > [6/6] mfd: tmio: Move header to platform_data
-> >       commit: 858b29729c9d319b9cd1441646cc3af246d3c3f9
->
-> This series is not upstream yet?
+Hi, Andi,
 
-FTR, it entered linux-next in next-20240402, but disappeared after
-next-20240510.
+On 05.07.2024 01:30, Andi Shyti wrote:
+> Hi Claudiu,
+> 
+> ...
+> 
+>> Use a temporary variable for the struct device pointers to avoid
+>> dereferencing.
+> 
+> So far just refactoring...
+> 
+>> While at it, replace riic->adapter.dev argument of
+>> dev_err() from riic_init_hw() with the temporary variable (pointing to
+>> riic->adapter.dev.parent).
+> 
+> This is the real change in this patch and you are not explaining
+> why you did it.
+> 
+> ...
+> 
+>> @@ -303,11 +304,12 @@ static int riic_init_hw(struct riic_dev *riic, struct i2c_timings *t)
+>>  	int ret = 0;
+>>  	unsigned long rate;
+>>  	int total_ticks, cks, brl, brh;
+>> +	struct device *dev = riic->adapter.dev.parent;
+>>  
+>> -	pm_runtime_get_sync(riic->adapter.dev.parent);
+>> +	pm_runtime_get_sync(dev);
+>>  
+>>  	if (t->bus_freq_hz > I2C_MAX_FAST_MODE_FREQ) {
+>> -		dev_err(&riic->adapter.dev,
+>> +		dev_err(dev,
+>>  			"unsupported bus speed (%dHz). %d max\n",
+>>  			t->bus_freq_hz, I2C_MAX_FAST_MODE_FREQ);
+> 
+> I personally prefer the reference to the current device, it's
+> more traceable. If you think it's not providing enough
 
-Gr{oetje,eeting}s,
+OK, I'll keep it as it was initially.
 
-                        Geert
+Thank you,
+Claudiu Beznea
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> information, then you can improve it, but I wouldn't like to lose
+> reference to this driver in the log.
+> 
+> Andi
 
