@@ -1,312 +1,187 @@
-Return-Path: <linux-renesas-soc+bounces-7176-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7177-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 149B292A2BB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jul 2024 14:27:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB9EB92A7AB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jul 2024 18:56:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 944441F220B9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jul 2024 12:27:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2D2941F21775
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jul 2024 16:56:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4675A135A4A;
-	Mon,  8 Jul 2024 12:24:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C5181474D4;
+	Mon,  8 Jul 2024 16:56:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wRoEXjlh"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="m/8gox0M"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6933E3FB94
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Jul 2024 12:24:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D6AE145A08
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Jul 2024 16:56:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720441475; cv=none; b=X680SFbMIF38mAUv+KfP8+ZosZPK2Gy2UnDQvoS0DqYg1616nuWdXXukLo5gLZ5xjVYUqj+k/rjWykYWMz3sVgt6xWPs/oxBTn4PLCik1BUH/qeKvke0cNEiO+3tqQwS4pV4nhCQvrsTjLEc6Pw8WuYdmsKHDYavV/+1rn8tPY8=
+	t=1720457778; cv=none; b=icyY4LIAIZRVwQXMdGgZ0e8T5zahSS9rQjSwyBYBWilbB7POpQXtzky8BEL6//VTrUs906FyzL4UAoRqR+172HUKashMiZ7j31BZmLPEcARoQoKfTbsMqBLkv6/sY1jybruO7RWwKhDXOXC3r9kR1SGYcOZqDIYO3NQiRuHxr/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720441475; c=relaxed/simple;
-	bh=z4Bxyaz3edi58Dv+RWSps+oc8Kq4P5/yglpQA2xRq30=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FrPfZEVDSJGkq5QNH66LUPifORo+djt/VQCwj45kcOAGCW6aBXlugsc9III3Hg/n3K2mOe1cnMpDVdrgn4iw/PKXrQLSJcBEltTkibH9Ory/bCRRonuqgx2NhTII9OhirHQuRNHQXacAh83ilaJlYeHjkkSSbYObljAOlxOlPO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wRoEXjlh; arc=none smtp.client-ip=209.85.219.175
+	s=arc-20240116; t=1720457778; c=relaxed/simple;
+	bh=C49tfT6Wgt5Ck261hQAy7mqF+kocGPwYPx6Hpdry0JM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=ZsMKzIIbFR+LXW/nz3gkkcAqyV2MoZWlSTiD1TRig4CmV4yzk36HIJstis+Ff1IXwylXnjmhKSAlPD7LrywQCt9v4Ust2s1ehVsKWzQJCCEJA4Ta0t0YPtNlHZCEvEA4RqyZ5LDbRBCqxAv7+S8P8Hhi/eZxWUx6oYeiqmfKxH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=m/8gox0M; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-e035ecb35ffso3462935276.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 08 Jul 2024 05:24:33 -0700 (PDT)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-42665be6916so9562485e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 08 Jul 2024 09:56:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720441472; x=1721046272; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=almR4RPYd5gvZMAGgdontA0x4hmK/ZK4iBBbFg6yQ2o=;
-        b=wRoEXjlh/xjFYAxhq30q3k9/5vY5CupKQ+c4A+H5XWtw0VQlEXyMqauXQONMTgE9Jt
-         9t2qKXU+tpU+hxqgMNCfYB4L6twSGNZ1ZiwsYU9kESN1mrKlut/SbvVvAEGJp552LLbr
-         IBPF08txvoV7mLfelUpUchOR5vm2u6C5tHA0tc8PpcxMTBRATZHNL7OHp3M+2/YxljYB
-         B3d3O5bh1QHxaWaI0+Kx5L2DFartxlBuAA2z7+vrNdbmuKhfu8OJewqfY/dQTP7eViJ8
-         gxDojyMQuKmLIjYlwKEmQpXofCNnDSvh+2i3/HKlJ1LaLf3/fqexjA04SHfPGV9ijbJU
-         lw8w==
+        d=linaro.org; s=google; t=1720457773; x=1721062573; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=p+qnhD2hx9xrENWu0QP60bAxducN4cTQgp2xM1mPbvI=;
+        b=m/8gox0MTf+NjrIvFPNAU226j7NG6CyymNo9EeMJVqj6ACWrSQ/v+Sv4qtCZ3x2Sj+
+         7TP/bdhHg+9sOTb3PgbRMGk/b8pB4tCVFr0HDiWPECpsW55S4FEzt3QrmMz2D1x8W+lY
+         PJEPZA7MQNxTokO1pLQXoyXhh99R/2ohYofY1kZM8gPZtx32p8xlVdeG64CiSkEXQBPC
+         hJs4ld5QlMcmvN7IP4A/9uJx3o0NoiGIH/ahkG+XNhBnfKUIjiAeQBs1uG5fnWWxxail
+         Y3dsssHkKAkEYT3cddmnOb6HVuAe9SNvbpbAG39IJy71PehTZGOVB3xETmGOwQ0HYXcz
+         4IPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720441472; x=1721046272;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=almR4RPYd5gvZMAGgdontA0x4hmK/ZK4iBBbFg6yQ2o=;
-        b=gZlMr1FOn3S4ba+eRx0p7niqyCrG7fCJCZtEAjb2ZKbNy8fYn412MXw2e7hkopkdAl
-         A++ggmyi3ADSK+l+vlfqJoaz23Jauk8nbK5bw5WLkyaWVu9UeSbTR0pb9l51EL3cCTZJ
-         MJhB1lmxajiBV/E4b3zgNulln3yKQxqy+pS5eUKWm+9Z2vgcpbPh48B/XRGG8ASpPn6f
-         xmklWck78V83uDMw61Npp6lTAMunWvMBBGCRvksg2ug4RqPpgl9wiZrK8gPcHLXpAj0c
-         Z3GnnE2SIfS7AYkMQLgChtOsCIRmmLEHfDzRHrOgbAH2KIY3reLfeQa/suD7gzJRcQXg
-         gWIw==
-X-Gm-Message-State: AOJu0Yyd5vLN1UZz5j93ybRtQN9hZMJ3OGXmSp/sEpZrGdZGM8KvYtrv
-	NwiF6SAsdcZVwB+G6MZkZH14OtKe6Q2nLb822QDkWJYPDfqh4qfZHL2t2u3lFg8mCxVGIL61JIh
-	lcmQOBPKfKGFEFgC/YzwVquEHP8UAsfyrCc5MpQ==
-X-Google-Smtp-Source: AGHT+IEQvDvjhBXKfQG2jiyWtN1usfStgmrPBbnvkMNvrXvleZQpVkqNiu/KrE5nUew5T3wR0xXXzM+GreViEZC2+Vs=
-X-Received: by 2002:a25:9103:0:b0:df7:6c37:5bb3 with SMTP id
- 3f1490d57ef6-e03c1964619mr12293581276.15.1720441472418; Mon, 08 Jul 2024
- 05:24:32 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1720457773; x=1721062573;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=p+qnhD2hx9xrENWu0QP60bAxducN4cTQgp2xM1mPbvI=;
+        b=heuWDwUKO+IGSKwkbQfOzPD0BvxaOTMB4NnOOYRADL/ArZntxcMcb1ySVzuFDbuWWc
+         5ZDwEb4fgKC5T78Y+5TREd2CwGwTSH/pb3wXV+j73/bmw8zHKltmRl+dEigvr6LMfSNl
+         TVhByTyXLlYkjCZQKbb70muY5W2x16ed31QZA3zjFEkkF3aCWNnRIAL79RjEoW8LFl4Q
+         MPYnGS0blCrWZZQwIc3uWT+PwbNVgAO8VGj4XApK5Qy8twPtbZS9uslYXIlRcw/20vii
+         dDE6bAXzaDxkCBoRD7Pg+xhX5zCD/IwUlCvB0AlRGQviKCem0GievvNwDulB1WtNgaVh
+         aERw==
+X-Forwarded-Encrypted: i=1; AJvYcCXuKfCQdsYWKgbxYezZFyh6/gT3VAm6y5AV4HRYwEmS0CHWAi6rrsZX7NptTOfb/KFjBUMET7ji2cnB3Ial4pJxA4YybVgrzI38xPoiI3Tm2Zo=
+X-Gm-Message-State: AOJu0Yw0mQeN9r/mduyFy9XbELKwmgxBtfpjS3RRzU6SjrBKO/EcL+O3
+	34kFPxKkKjVb/KE+QYgpObTxaZ/AI8Lt24NWjp3OFcod7YqQOQrGOiiamGkIwn4w8Fh10TTXKgX
+	1
+X-Google-Smtp-Source: AGHT+IE2oQep7Ey6Ar/9JAg1Ao7dM6HGDWBtWiUxfm3nMI4/309WpySEbis5SAYg3/+9ERZd988WYQ==
+X-Received: by 2002:a7b:ce88:0:b0:426:6981:1bd with SMTP id 5b1f17b1804b1-426698103bbmr32048115e9.5.1720457773455;
+        Mon, 08 Jul 2024 09:56:13 -0700 (PDT)
+Received: from ?IPV6:2a05:6e02:1041:c10:cf24:cce:17df:12ab? ([2a05:6e02:1041:c10:cf24:cce:17df:12ab])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-42650b26c48sm138476945e9.17.2024.07.08.09.56.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Jul 2024 09:56:12 -0700 (PDT)
+Message-ID: <598da6e0-4d7e-4800-a47a-3914070669d0@linaro.org>
+Date: Mon, 8 Jul 2024 18:56:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240626085015.32171-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20240626085015.32171-2-wsa+renesas@sang-engineering.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Mon, 8 Jul 2024 14:23:56 +0200
-Message-ID: <CAPDyKFqUVxjqyD09Cr0BgL2BTG_CTMoJHMk3PJSJJxRHmHx9vA@mail.gmail.com>
-Subject: Re: [PATCH] mmc: sdhi: Convert from tasklet to BH workqueue
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, Allen Pais <allen.lkml@gmail.com>, 
-	linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] clocksource/drivers/sh_cmt: Address race condition for
+ clock events
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>, Thomas Gleixner
+ <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20240702190230.3825292-1-niklas.soderlund+renesas@ragnatech.se>
+Content-Language: en-US
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <20240702190230.3825292-1-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, 26 Jun 2024 at 10:50, Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
-> From: Allen Pais <allen.lkml@gmail.com>
->
-> The only generic interface to execute asynchronously in the BH context is
-> tasklet; however, it's marked deprecated and has some design flaws. To
-> replace tasklets, BH workqueue support was recently added. A BH workqueue
-> behaves similarly to regular workqueues except that the queued work items
-> are executed in the BH context.
->
-> This patch converts the SDHI driver from tasklet to BH workqueue.
->
-> Based on the work done by Tejun Heo <tj@kernel.org>
->
-> Signed-off-by: Allen Pais <allen.lkml@gmail.com>
-> [wsa: fixed build faliures, corrected whitespace issues]
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-Applied for next, thanks!
-
-Kind regards
-Uffe
-
-
+On 02/07/2024 21:02, Niklas Söderlund wrote:
+> There is a race condition in the CMT interrupt handler. In the interrupt
+> handler the driver sets a driver private flag, FLAG_IRQCONTEXT. This
+> flag is used to indicate any call to set_next_event() should not be
+> directly propagated to the device, but instead cached. This is done as
+> the interrupt handler itself reprograms the device when needed before it
+> completes and this avoids this operation to take place twice.
+> 
+> It is unclear why this design was chosen, my suspicion is to allow the
+> struct clock_event_device.event_handler callback, which is called while
+> the FLAG_IRQCONTEXT is set, can update the next event without having to
+> write to the device twice.
+> 
+> Unfortunately there is a race between when the FLAG_IRQCONTEXT flag is
+> set and later cleared where the interrupt handler have already started to
+> write the next event to the device. If set_next_event() is called in
+> this window the value is only cached in the driver but not written. This
+> leads to the board to misbehave, or worse lockup and produce a splat.
+> 
+>     rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
+>     rcu:     0-...!: (0 ticks this GP) idle=f5e0/0/0x0 softirq=519/519 fqs=0 (false positive?)
+>     rcu:     (detected by 1, t=6502 jiffies, g=-595, q=77 ncpus=2)
+>     Sending NMI from CPU 1 to CPUs 0:
+>     NMI backtrace for cpu 0
+>     CPU: 0 PID: 0 Comm: swapper/0 Not tainted 6.10.0-rc5-arm64-renesas-00019-g74a6f86eaf1c-dirty #20
+>     Hardware name: Renesas Salvator-X 2nd version board based on r8a77965 (DT)
+>     pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+>     pc : tick_check_broadcast_expired+0xc/0x40
+>     lr : cpu_idle_poll.isra.0+0x8c/0x168
+>     sp : ffff800081c63d70
+>     x29: ffff800081c63d70 x28: 00000000580000c8 x27: 00000000bfee5610
+>     x26: 0000000000000027 x25: 0000000000000000 x24: 0000000000000000
+>     x23: ffff00007fbb9100 x22: ffff8000818f1008 x21: ffff8000800ef07c
+>     x20: ffff800081c79ec0 x19: ffff800081c70c28 x18: 0000000000000000
+>     x17: 0000000000000000 x16: 0000000000000000 x15: 0000ffffc2c717d8
+>     x14: 0000000000000000 x13: ffff000009c18080 x12: ffff8000825f7fc0
+>     x11: 0000000000000000 x10: ffff8000818f3cd4 x9 : 0000000000000028
+>     x8 : ffff800081c79ec0 x7 : ffff800081c73000 x6 : 0000000000000000
+>     x5 : 0000000000000000 x4 : ffff7ffffe286000 x3 : 0000000000000000
+>     x2 : ffff7ffffe286000 x1 : ffff800082972900 x0 : ffff8000818f1008
+>     Call trace:
+>      tick_check_broadcast_expired+0xc/0x40
+>      do_idle+0x9c/0x280
+>      cpu_startup_entry+0x34/0x40
+>      kernel_init+0x0/0x11c
+>      do_one_initcall+0x0/0x260
+>      __primary_switched+0x80/0x88
+>     rcu: rcu_preempt kthread timer wakeup didn't happen for 6501 jiffies! g-595 f0x0 RCU_GP_WAIT_FQS(5) ->state=0x402
+>     rcu:     Possible timer handling issue on cpu=0 timer-softirq=262
+>     rcu: rcu_preempt kthread starved for 6502 jiffies! g-595 f0x0 RCU_GP_WAIT_FQS(5) ->state=0x402 ->cpu=0
+>     rcu:     Unless rcu_preempt kthread gets sufficient CPU time, OOM is now expected behavior.
+>     rcu: RCU grace-period kthread stack dump:
+>     task:rcu_preempt     state:I stack:0     pid:15    tgid:15    ppid:2      flags:0x00000008
+>     Call trace:
+>      __switch_to+0xbc/0x100
+>      __schedule+0x358/0xbe0
+>      schedule+0x48/0x148
+>      schedule_timeout+0xc4/0x138
+>      rcu_gp_fqs_loop+0x12c/0x764
+>      rcu_gp_kthread+0x208/0x298
+>      kthread+0x10c/0x110
+>      ret_from_fork+0x10/0x20
+> 
+> The design have been part of the driver since it was first merged in
+> early 2009. It becomes increasingly harder to trigger the issue the
+> older kernel version one tries. It only takes a few boots on v6.10-rc5,
+> while hundreds of boots are needed to trigger it on v5.10.
+> 
+> Close the race condition by using the CMT channel lock for the two
+> competing sections. The channel lock was added to the driver after its
+> initial design.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > ---
->
-> Tested on a Renesas Salvator X board with a R-Car M3-W SoC. Same
-> performance as with tasklets. Thank you Allen for your work!
->
->
->  drivers/mmc/host/renesas_sdhi.h               |  4 ++-
->  drivers/mmc/host/renesas_sdhi_core.c          |  2 ++
->  drivers/mmc/host/renesas_sdhi_internal_dmac.c | 26 +++++++++----------
->  drivers/mmc/host/renesas_sdhi_sys_dmac.c      |  9 +++----
->  drivers/mmc/host/tmio_mmc.h                   |  3 ++-
->  drivers/mmc/host/tmio_mmc_core.c              |  4 +--
->  6 files changed, 26 insertions(+), 22 deletions(-)
->
-> diff --git a/drivers/mmc/host/renesas_sdhi.h b/drivers/mmc/host/renesas_sdhi.h
-> index 586f94d4dbfd..f12a87442338 100644
-> --- a/drivers/mmc/host/renesas_sdhi.h
-> +++ b/drivers/mmc/host/renesas_sdhi.h
-> @@ -11,6 +11,7 @@
->
->  #include <linux/dmaengine.h>
->  #include <linux/platform_device.h>
-> +#include <linux/workqueue.h>
->  #include "tmio_mmc.h"
->
->  struct renesas_sdhi_scc {
-> @@ -67,7 +68,7 @@ struct renesas_sdhi_dma {
->         dma_filter_fn filter;
->         void (*enable)(struct tmio_mmc_host *host, bool enable);
->         struct completion dma_dataend;
-> -       struct tasklet_struct dma_complete;
-> +       struct work_struct dma_complete;
->  };
->
->  struct renesas_sdhi {
-> @@ -93,6 +94,7 @@ struct renesas_sdhi {
->         unsigned int tap_set;
->
->         struct reset_control *rstc;
-> +       struct tmio_mmc_host *host;
->  };
->
->  #define host_to_priv(host) \
-> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-> index 58536626e6c5..04874791541f 100644
-> --- a/drivers/mmc/host/renesas_sdhi_core.c
-> +++ b/drivers/mmc/host/renesas_sdhi_core.c
-> @@ -970,6 +970,8 @@ int renesas_sdhi_probe(struct platform_device *pdev,
->         if (IS_ERR(host))
->                 return PTR_ERR(host);
->
-> +       priv->host = host;
-> +
->         if (of_data) {
->                 mmc_data->flags |= of_data->tmio_flags;
->                 mmc_data->ocr_mask = of_data->tmio_ocr_mask;
-> diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-> index 422fa63a2e99..d4b66daeda66 100644
-> --- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-> +++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-> @@ -337,7 +337,7 @@ static bool renesas_sdhi_internal_dmac_dma_irq(struct tmio_mmc_host *host)
->                 writel(status ^ dma_irqs, host->ctl + DM_CM_INFO1);
->                 set_bit(SDHI_DMA_END_FLAG_DMA, &dma_priv->end_flags);
->                 if (test_bit(SDHI_DMA_END_FLAG_ACCESS, &dma_priv->end_flags))
-> -                       tasklet_schedule(&dma_priv->dma_complete);
-> +                       queue_work(system_bh_wq, &dma_priv->dma_complete);
->         }
->
->         return status & dma_irqs;
-> @@ -352,7 +352,7 @@ renesas_sdhi_internal_dmac_dataend_dma(struct tmio_mmc_host *host)
->         set_bit(SDHI_DMA_END_FLAG_ACCESS, &dma_priv->end_flags);
->         if (test_bit(SDHI_DMA_END_FLAG_DMA, &dma_priv->end_flags) ||
->             host->data->error)
-> -               tasklet_schedule(&dma_priv->dma_complete);
-> +               queue_work(system_bh_wq, &dma_priv->dma_complete);
->  }
->
->  /*
-> @@ -440,9 +440,9 @@ renesas_sdhi_internal_dmac_start_dma(struct tmio_mmc_host *host,
->         renesas_sdhi_internal_dmac_enable_dma(host, false);
->  }
->
-> -static void renesas_sdhi_internal_dmac_issue_tasklet_fn(unsigned long arg)
-> +static void renesas_sdhi_internal_dmac_issue_work_fn(struct work_struct *work)
->  {
-> -       struct tmio_mmc_host *host = (struct tmio_mmc_host *)arg;
-> +       struct tmio_mmc_host *host = from_work(host, work, dma_issue);
->         struct renesas_sdhi *priv = host_to_priv(host);
->
->         tmio_mmc_enable_mmc_irqs(host, TMIO_STAT_DATAEND);
-> @@ -454,7 +454,7 @@ static void renesas_sdhi_internal_dmac_issue_tasklet_fn(unsigned long arg)
->                 /* on CMD errors, simulate DMA end immediately */
->                 set_bit(SDHI_DMA_END_FLAG_DMA, &priv->dma_priv.end_flags);
->                 if (test_bit(SDHI_DMA_END_FLAG_ACCESS, &priv->dma_priv.end_flags))
-> -                       tasklet_schedule(&priv->dma_priv.dma_complete);
-> +                       queue_work(system_bh_wq, &priv->dma_priv.dma_complete);
->         }
->  }
->
-> @@ -484,9 +484,11 @@ static bool renesas_sdhi_internal_dmac_complete(struct tmio_mmc_host *host)
->         return true;
->  }
->
-> -static void renesas_sdhi_internal_dmac_complete_tasklet_fn(unsigned long arg)
-> +static void renesas_sdhi_internal_dmac_complete_work_fn(struct work_struct *work)
->  {
-> -       struct tmio_mmc_host *host = (struct tmio_mmc_host *)arg;
-> +       struct renesas_sdhi_dma *dma_priv = from_work(dma_priv, work, dma_complete);
-> +       struct renesas_sdhi *priv = container_of(dma_priv, typeof(*priv), dma_priv);
-> +       struct tmio_mmc_host *host = priv->host;
->
->         spin_lock_irq(&host->lock);
->         if (!renesas_sdhi_internal_dmac_complete(host))
-> @@ -544,12 +546,10 @@ renesas_sdhi_internal_dmac_request_dma(struct tmio_mmc_host *host,
->         /* Each value is set to non-zero to assume "enabling" each DMA */
->         host->chan_rx = host->chan_tx = (void *)0xdeadbeaf;
->
-> -       tasklet_init(&priv->dma_priv.dma_complete,
-> -                    renesas_sdhi_internal_dmac_complete_tasklet_fn,
-> -                    (unsigned long)host);
-> -       tasklet_init(&host->dma_issue,
-> -                    renesas_sdhi_internal_dmac_issue_tasklet_fn,
-> -                    (unsigned long)host);
-> +       INIT_WORK(&priv->dma_priv.dma_complete,
-> +                 renesas_sdhi_internal_dmac_complete_work_fn);
-> +       INIT_WORK(&host->dma_issue,
-> +                 renesas_sdhi_internal_dmac_issue_work_fn);
->
->         /* Add pre_req and post_req */
->         host->ops.pre_req = renesas_sdhi_internal_dmac_pre_req;
-> diff --git a/drivers/mmc/host/renesas_sdhi_sys_dmac.c b/drivers/mmc/host/renesas_sdhi_sys_dmac.c
-> index 9cf7f9feab72..5a6f41318645 100644
-> --- a/drivers/mmc/host/renesas_sdhi_sys_dmac.c
-> +++ b/drivers/mmc/host/renesas_sdhi_sys_dmac.c
-> @@ -312,9 +312,9 @@ static void renesas_sdhi_sys_dmac_start_dma(struct tmio_mmc_host *host,
->         }
->  }
->
-> -static void renesas_sdhi_sys_dmac_issue_tasklet_fn(unsigned long priv)
-> +static void renesas_sdhi_sys_dmac_issue_work_fn(struct work_struct *work)
->  {
-> -       struct tmio_mmc_host *host = (struct tmio_mmc_host *)priv;
-> +       struct tmio_mmc_host *host = from_work(host, work, dma_issue);
->         struct dma_chan *chan = NULL;
->
->         spin_lock_irq(&host->lock);
-> @@ -401,9 +401,8 @@ static void renesas_sdhi_sys_dmac_request_dma(struct tmio_mmc_host *host,
->                         goto ebouncebuf;
->
->                 init_completion(&priv->dma_priv.dma_dataend);
-> -               tasklet_init(&host->dma_issue,
-> -                            renesas_sdhi_sys_dmac_issue_tasklet_fn,
-> -                            (unsigned long)host);
-> +               INIT_WORK(&host->dma_issue,
-> +                         renesas_sdhi_sys_dmac_issue_work_fn);
->         }
->
->         renesas_sdhi_sys_dmac_enable_dma(host, true);
-> diff --git a/drivers/mmc/host/tmio_mmc.h b/drivers/mmc/host/tmio_mmc.h
-> index 2af5730c21f4..a75755f31d31 100644
-> --- a/drivers/mmc/host/tmio_mmc.h
-> +++ b/drivers/mmc/host/tmio_mmc.h
-> @@ -21,6 +21,7 @@
->  #include <linux/scatterlist.h>
->  #include <linux/spinlock.h>
->  #include <linux/interrupt.h>
-> +#include <linux/workqueue.h>
->
->  #define CTL_SD_CMD 0x00
->  #define CTL_ARG_REG 0x04
-> @@ -153,7 +154,7 @@ struct tmio_mmc_host {
->         bool                    dma_on;
->         struct dma_chan         *chan_rx;
->         struct dma_chan         *chan_tx;
-> -       struct tasklet_struct   dma_issue;
-> +       struct work_struct      dma_issue;
->         struct scatterlist      bounce_sg;
->         u8                      *bounce_buf;
->
-> diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
-> index 2780f0a29871..b61a6310311d 100644
-> --- a/drivers/mmc/host/tmio_mmc_core.c
-> +++ b/drivers/mmc/host/tmio_mmc_core.c
-> @@ -608,7 +608,7 @@ static void tmio_mmc_cmd_irq(struct tmio_mmc_host *host, unsigned int stat)
->                         } else {
->                                 tmio_mmc_disable_mmc_irqs(host,
->                                                           TMIO_MASK_READOP);
-> -                               tasklet_schedule(&host->dma_issue);
-> +                               queue_work(system_bh_wq, &host->dma_issue);
->                         }
->                 } else {
->                         if (!host->dma_on) {
-> @@ -616,7 +616,7 @@ static void tmio_mmc_cmd_irq(struct tmio_mmc_host *host, unsigned int stat)
->                         } else {
->                                 tmio_mmc_disable_mmc_irqs(host,
->                                                           TMIO_MASK_WRITEOP);
-> -                               tasklet_schedule(&host->dma_issue);
-> +                               queue_work(system_bh_wq, &host->dma_issue);
->                         }
->                 }
->         } else {
-> --
-> 2.43.0
->
+> Hello,
+> 
+> I only have access to R-Car based SoCs and that is what I have tested
+> this change on. I have not been able to test on any SH platforms which
+> also uses this driver.
+> ---
+
+Mmh, it seems to fix the race conditions but the testing coverage is 
+incomplete. I'll pick it but keep an eye on it in case it breaks other 
+platforms. If someone can give a try to test on the sh platforms that 
+would be nice.
+
+
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
+
 
