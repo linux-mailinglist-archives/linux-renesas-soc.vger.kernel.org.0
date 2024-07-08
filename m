@@ -1,114 +1,139 @@
-Return-Path: <linux-renesas-soc+bounces-7168-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7169-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C94DA929F8C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jul 2024 11:51:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FD5992A1B6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jul 2024 13:55:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7FA431F2137A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jul 2024 09:51:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B9E731F21CF4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jul 2024 11:55:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E56D6F30B;
-	Mon,  8 Jul 2024 09:51:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 546607E782;
+	Mon,  8 Jul 2024 11:55:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="XX//OLbs"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="nc+paXFo";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="PRioF75z"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE3F555E58
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Jul 2024 09:51:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5990B7FBB6;
+	Mon,  8 Jul 2024 11:55:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720432273; cv=none; b=I0kExeuleQW+CdsCtN1/H1idHWJ1JHC50E2r/alM4aHjUkwOusDUDfFZW2KZCW11NGiNoxBQB8mCsKOJQY2Af4WySd1w2KDRheuFMUs3gFOQz6jrGqwuHVjwhba/tunkGwJAz3GxLVgMqt0KsH2pU3tlVtdtoeXuOdUsZmYhK8E=
+	t=1720439750; cv=none; b=jBQTKPh3I+ZqJwX8JMqwcJRpZ3iyDDjZIfs+HAV/z4VUtCH9Tat2B+eVqwxFb4+Ns0sRFcM3RHdcfMnZyscXxzOO7VOYz102A5eWgd8YOz55ExO/OkEQJMjDK56Mca/AfWU+1SGJQnhvM1e7IQuboQLkKk0rhIJRwvtTyuq+uUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720432273; c=relaxed/simple;
-	bh=xZaxQwZW3afrWtIbOq6gRgeDuU+ePZAUvrJGw24YybQ=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uekx7Qa4wMZOLYd0nKq8nH3xNVS8phQLUMp+8+roUNLEx7Hh4yk53kcRZgsc9LWDKsG3gIAKBLKoMVoXrO1IWAoLzb0UMDJ81cCOTt8he3IwixpGI88S3skVQyHkSscpr4+NwiTavvdhBBRxIs2/VzqftpGWCRSEF++Q6nifVRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=XX//OLbs; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=xZax
-	QwZW3afrWtIbOq6gRgeDuU+ePZAUvrJGw24YybQ=; b=XX//OLbsQfjjWmu1H+/s
-	0nzr+DI3Rcj1/kyOURFxtdsq3ikcan+akvTlqmgstCUbC9whH2p6BP7gI/DVz+B+
-	vPiNvzmNBPEtk84IcNWYwXuEShGwkWPw2Csw1wilGWfCH4vhchcV7OPIy+SevjZ4
-	EnuC7aeIXVc60rW1ihDUrZ1zD75DE7EtRluWgJkW4Vjk/e4uftWPCjN+ksxzAcQz
-	MKY4YLti/UF9AMxjwYGI05OO9yDA6cGor78nbWePAS//L62G0lc65g1w8CeWAf3k
-	P+2GpWvOsg+aRmnS+HaKt4QmYSgglJUXqCr4FXSMJeh6/wjj1R4eoax1g4UXYPM8
-	OA==
-Received: (qmail 243978 invoked from network); 8 Jul 2024 11:51:00 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 8 Jul 2024 11:51:00 +0200
-X-UD-Smtp-Session: l3s3148p1@5AS5WbkcWIYujnsa
-Date: Mon, 8 Jul 2024 11:50:59 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Markus Elfring <Markus.Elfring@web.de>, linux-i2c@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	LKML <linux-kernel@vger.kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>
-Subject: Re: [PATCH v2 3/3] i2c: rcar: minor changes to adhere to coding style
-Message-ID: <Zou2g8nGBD7Pv8kR@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Markus Elfring <Markus.Elfring@web.de>, linux-i2c@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	LKML <linux-kernel@vger.kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>
-References: <20240707082848.5424-4-wsa+renesas@sang-engineering.com>
- <f93eda7e-e65f-42e9-b96d-e88290201ca0@web.de>
- <Zop2vNCrzDmEKKiO@shikoro>
+	s=arc-20240116; t=1720439750; c=relaxed/simple;
+	bh=svJk2a68EMvPk89NhoK9u0qey+5pU5BmhsmnZzUUpX4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AqhBPgTeEdcM+qV+bQPRgSKzRbVXTvFwf3iwQ6H6az4CDbAXYYeI/EkC3lO86sPwwjs1uzeGC4y1gD2AAb4CWKpGPVOO5SVG/z81KIhcdFRJo95HSmW1hWfyts7CgfJKwMbrIT43EWHoUflSZOIo0wZpp2tO7DKsUCyk8JE3//0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=nc+paXFo; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=PRioF75z; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4WHjHj22f5z9sb5;
+	Mon,  8 Jul 2024 13:55:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1720439745;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PWAfYfaY0yizK6Woa1K0h62J6G5j6wjoIDC1zSclttU=;
+	b=nc+paXFoiJ6MO7pRa/4FJbjQD07IyOGvO0JFV6dvJQDTnqYY0gtFclkjLWdSEu5v0r21Pl
+	PZVGQl+//PHuCRNslbOqRh6tG9adyZ0g37PM+SFyzo6pgLSEFhr986GQBF/BhvecmsPXuD
+	rEuV9ub3UYyfsCnapYxk4ItoBdahhT2mOyfFH89tgv+X5m+TidLHQgmSy+IcfGxyWcXVR7
+	x/IPWLHYyD1ZQf+SUUPrNsxshZYCyti7zCqHomFyxcrE16fFRMKa1t/Qc0+pV5hgwVwRuE
+	Kiv0B6l3Zu/MoI/danlzWeH4cTVJZezhPCxR4wFbBph/wkJRJALAi6rzy39t0A==
+Message-ID: <43e4c568-083f-4b14-9f08-563ba6a71220@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1720439743;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PWAfYfaY0yizK6Woa1K0h62J6G5j6wjoIDC1zSclttU=;
+	b=PRioF75zNznjMMWWIQchA+cYL7jATlGd1Gb/LPyaz19qiHgAxW5NT5YKdRSPepIy/Id+sv
+	NQtRGs3qdVqfJSOfL6V8Iv0vKVekHIJIro4uK2qF5z/y6wpvbo6jV918YzsNzfInuOekFt
+	nvBhZDMwf8jqHFFlmnce5n/4mzq0rQ3SLMSiRWJxARDajGm2TQCqJzWueEEOtlVLhJ7e+J
+	oJe19ol9wOkdVT2m+L71AvAzuVJJ0rNuyyGcDnOZcaVRAIAa8FkC1H9EECbph8LTs+ys7x
+	vxr70POMpWG0StzJ0DhdR/6MB0DGnYtbCC9965pgMlgl4M/1/AFsFMwGohl21g==
+Date: Mon, 8 Jul 2024 13:55:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="DWDGslbNGnZ/FKHY"
-Content-Disposition: inline
-In-Reply-To: <Zop2vNCrzDmEKKiO@shikoro>
+Subject: Re: [PATCH] [RFC] genirq/cpuhotplug, PCI/rcar-host: Silence set
+ affinity failed warning
+To: Thomas Gleixner <tglx@linutronix.de>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>, linux-pci@vger.kernel.org
+Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
+ Jon Hunter <jonathanh@nvidia.com>, Lorenzo Pieralisi
+ <lpieralisi@kernel.org>, Marc Zyngier <maz@kernel.org>,
+ Rob Herring <robh@kernel.org>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ linux-renesas-soc@vger.kernel.org
+References: <20240706132758.53298-1-marek.vasut+renesas@mailbox.org>
+ <87h6d1vy2c.ffs@tglx>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <87h6d1vy2c.ffs@tglx>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: fbspjz5oatamk7pou8zhtrktx5cmz91g
+X-MBO-RS-ID: 5a863fed5a6295c1127
+X-Rspamd-Queue-Id: 4WHjHj22f5z9sb5
 
+On 7/7/24 8:47 PM, Thomas Gleixner wrote:
+> Marek!
 
---DWDGslbNGnZ/FKHY
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hello Thomas,
 
+> On Sat, Jul 06 2024 at 15:27, Marek Vasut wrote:
+> 
+>> This is an RFC patch, I am looking for input on the approach taken here.
+>> If the approach is sound, this patch would be split into proper patchset.
+>>
+>> Various PCIe controllers that mux MSIs onto single IRQ line produce these
+>> "IRQ%d: set affinity failed" warnings when entering suspend. This has been
+>> discussed before [1] [2] and an example test case is included at the end
+>> of this commit message.
+>>
+>> Attempt to silence the warning by returning specific error code -EOPNOTSUPP
+>> from the irqchip .irq_set_affinity callback, which skips printing the warning
+>> in cpuhotplug.c . The -EOPNOTSUPP was chosen because it indicates exactly what
+>> the problem is, it is not possible to set affinity of each MSI IRQ line to a
+>> specific CPU due to hardware limitation.
+> 
+> Why does the irq_chip in question have an irq_set_affinity() callback in
+> the first place?
+I believe originally (at least that's what's being discussed in the 
+linked threads) it was because the irqchip code didn't check whether 
+.irq_set_affinity was not NULL at all, so if it was missing, there would 
+be NULL pointer dereference.
 
-> > > -};
-> > > +}
-> > =E2=80=A6
-> >=20
-> > How do you think about to omit any blank lines at such source code plac=
-es?
->=20
-> Oh yes, that newline should go as well. Thanks!
+Now this is checked and irq_do_set_affinity() returns -EINVAL, which 
+triggers the warning that is being silenced by this patch.
 
-Andi, is it okay if I only resend this patch?
+If you think this is better, I can:
+- Tweak the cpuhotplug.c code to do some
+   if (chip && !chip->irq_set_affinity) return false;
+- Remove all the .irq_set_affinity implementations from PCI drivers
+   which only return -EINVAL
 
+Would that be better ?
 
---DWDGslbNGnZ/FKHY
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+Best regards,
+Marek Vasut
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmaLtoAACgkQFA3kzBSg
-KbYnvg/8DFNitYbbDyt/nomANzaC6FdEuS6B+NqJz2IlA5NPQqpItOqW8hZjYbd3
-tgBlH7dqhDW/ST2tKXte+LTYiqU7nehjZJE0vcD/O6vcypW8UioIqQGyL59ZEpDk
-IbWKZ4sb33SEJurZmZp0YTiAXs4GQP91pOa6zt40Qg9Eer9p0V1ojdK/5o8LL6xh
-npdNBDoRDovlhYDIQYcTA+LjZnNxrCDZGiosjpkrtKYaWnR39Xs+iGxgGvkWwhf9
-h1mooQHi50COJYzx1WaVaH5KV4inAe+dANvKEvEkVBpHJD8XDdkb0nma51FBE/rl
-6NMLHKDVN7PhBh7RqVXynkj/8lsqwTf5myiQWhS3Nz/4NDt0+8HCBTiXV9cVwnW7
-0Sj91EFTV/aUcSbSWRM4Ck3uo+7j2mdubPlpuSqeVbKss/zFpkE86KovqftE/RRl
-WRH2aD/q5+hoXKKH3fIPyCU8QizmGz5l0TnJrcu0Wi4iDKeW7ZHgH1CRQyDkaIlV
-dyLonyVbj5ZSBkxK8cD7k/6yb8BdRIbcMPTzSip+AZpgBAhzwnHMD+GuzTdvik5g
-a0b2pk0nCCdBtDn1z8D6Ti4GMuhbs56YSniJMoNfTpN7e5Of2NIQf2G+ggK1tQlx
-jsrchRiL/ocztuY5HG5+Xyq1nhAwHWz0W3IsNnBMH4f77SPgX9Q=
-=cmcS
------END PGP SIGNATURE-----
-
---DWDGslbNGnZ/FKHY--
 
