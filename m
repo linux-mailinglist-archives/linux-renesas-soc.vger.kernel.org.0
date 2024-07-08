@@ -1,75 +1,63 @@
-Return-Path: <linux-renesas-soc+bounces-7177-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7178-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB9EB92A7AB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jul 2024 18:56:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CB6B92A7C7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jul 2024 19:05:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2D2941F21775
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jul 2024 16:56:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7ECE71C20F6E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jul 2024 17:05:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C5181474D4;
-	Mon,  8 Jul 2024 16:56:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F7BF143734;
+	Mon,  8 Jul 2024 17:05:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="m/8gox0M"
+	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="I0lcGot6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from 008.lax.mailroute.net (008.lax.mailroute.net [199.89.1.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D6AE145A08
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Jul 2024 16:56:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD57A14386F;
+	Mon,  8 Jul 2024 17:05:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720457778; cv=none; b=icyY4LIAIZRVwQXMdGgZ0e8T5zahSS9rQjSwyBYBWilbB7POpQXtzky8BEL6//VTrUs906FyzL4UAoRqR+172HUKashMiZ7j31BZmLPEcARoQoKfTbsMqBLkv6/sY1jybruO7RWwKhDXOXC3r9kR1SGYcOZqDIYO3NQiRuHxr/g=
+	t=1720458305; cv=none; b=tEECPoxQ89B+YAW7DGW7ACV9h0VNrF4vWG3Rc3neYkmQ5igNDEmVK9+dQh12jir0djnbQHfAbx7odKbjNY1yoxGdCdzfTSlfIVkSswstMglvBNHddlYrzqVEX86/wjHm0XfLXcOGRHC10DmgYKSABlrrBtRI5BD6STcMbbuQewM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720457778; c=relaxed/simple;
-	bh=C49tfT6Wgt5Ck261hQAy7mqF+kocGPwYPx6Hpdry0JM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=ZsMKzIIbFR+LXW/nz3gkkcAqyV2MoZWlSTiD1TRig4CmV4yzk36HIJstis+Ff1IXwylXnjmhKSAlPD7LrywQCt9v4Ust2s1ehVsKWzQJCCEJA4Ta0t0YPtNlHZCEvEA4RqyZ5LDbRBCqxAv7+S8P8Hhi/eZxWUx6oYeiqmfKxH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=m/8gox0M; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-42665be6916so9562485e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 08 Jul 2024 09:56:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720457773; x=1721062573; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=p+qnhD2hx9xrENWu0QP60bAxducN4cTQgp2xM1mPbvI=;
-        b=m/8gox0MTf+NjrIvFPNAU226j7NG6CyymNo9EeMJVqj6ACWrSQ/v+Sv4qtCZ3x2Sj+
-         7TP/bdhHg+9sOTb3PgbRMGk/b8pB4tCVFr0HDiWPECpsW55S4FEzt3QrmMz2D1x8W+lY
-         PJEPZA7MQNxTokO1pLQXoyXhh99R/2ohYofY1kZM8gPZtx32p8xlVdeG64CiSkEXQBPC
-         hJs4ld5QlMcmvN7IP4A/9uJx3o0NoiGIH/ahkG+XNhBnfKUIjiAeQBs1uG5fnWWxxail
-         Y3dsssHkKAkEYT3cddmnOb6HVuAe9SNvbpbAG39IJy71PehTZGOVB3xETmGOwQ0HYXcz
-         4IPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720457773; x=1721062573;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=p+qnhD2hx9xrENWu0QP60bAxducN4cTQgp2xM1mPbvI=;
-        b=heuWDwUKO+IGSKwkbQfOzPD0BvxaOTMB4NnOOYRADL/ArZntxcMcb1ySVzuFDbuWWc
-         5ZDwEb4fgKC5T78Y+5TREd2CwGwTSH/pb3wXV+j73/bmw8zHKltmRl+dEigvr6LMfSNl
-         TVhByTyXLlYkjCZQKbb70muY5W2x16ed31QZA3zjFEkkF3aCWNnRIAL79RjEoW8LFl4Q
-         MPYnGS0blCrWZZQwIc3uWT+PwbNVgAO8VGj4XApK5Qy8twPtbZS9uslYXIlRcw/20vii
-         dDE6bAXzaDxkCBoRD7Pg+xhX5zCD/IwUlCvB0AlRGQviKCem0GievvNwDulB1WtNgaVh
-         aERw==
-X-Forwarded-Encrypted: i=1; AJvYcCXuKfCQdsYWKgbxYezZFyh6/gT3VAm6y5AV4HRYwEmS0CHWAi6rrsZX7NptTOfb/KFjBUMET7ji2cnB3Ial4pJxA4YybVgrzI38xPoiI3Tm2Zo=
-X-Gm-Message-State: AOJu0Yw0mQeN9r/mduyFy9XbELKwmgxBtfpjS3RRzU6SjrBKO/EcL+O3
-	34kFPxKkKjVb/KE+QYgpObTxaZ/AI8Lt24NWjp3OFcod7YqQOQrGOiiamGkIwn4w8Fh10TTXKgX
-	1
-X-Google-Smtp-Source: AGHT+IE2oQep7Ey6Ar/9JAg1Ao7dM6HGDWBtWiUxfm3nMI4/309WpySEbis5SAYg3/+9ERZd988WYQ==
-X-Received: by 2002:a7b:ce88:0:b0:426:6981:1bd with SMTP id 5b1f17b1804b1-426698103bbmr32048115e9.5.1720457773455;
-        Mon, 08 Jul 2024 09:56:13 -0700 (PDT)
-Received: from ?IPV6:2a05:6e02:1041:c10:cf24:cce:17df:12ab? ([2a05:6e02:1041:c10:cf24:cce:17df:12ab])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-42650b26c48sm138476945e9.17.2024.07.08.09.56.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Jul 2024 09:56:12 -0700 (PDT)
-Message-ID: <598da6e0-4d7e-4800-a47a-3914070669d0@linaro.org>
-Date: Mon, 8 Jul 2024 18:56:11 +0200
+	s=arc-20240116; t=1720458305; c=relaxed/simple;
+	bh=qAaHfzoMz22v8vuwkp2AqgWndXU56qIjre0k9Q/gfuY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=I270cFBQfadW+mNE843D4zSicOy2BMm3H4iJkV9Ph4ii4d6xa6N8THeBmRsBVA99S4IH//gOzi5YejFDQjrD1mhFV8acb6Vjs/qRXyDBCTNlUbdg9pnt4mB0m1TYpG5fp3rk0yiVJjOQMV04E90yrPMfRh6Hx5YvEDFX0IGKiCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=I0lcGot6; arc=none smtp.client-ip=199.89.1.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
+Received: from localhost (localhost [127.0.0.1])
+	by 008.lax.mailroute.net (Postfix) with ESMTP id 4WHr8T4fWYz6CmQwN;
+	Mon,  8 Jul 2024 17:04:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1720458295; x=1723050296; bh=zuyi/B7gq4uyWUQDBVD2sZtx
+	o+eha2O/tA5K7wBSFn8=; b=I0lcGot6LZ9WvWvZczs6js3gXRn/liMYu7ljTaPS
+	gkHMIFSyeXsYtwrD8jg2RYtB84LoAjCQVSA48z3AEHuGe7rh7FLz/gXZ/7p7wnW+
+	4A/HuFSzPCsCeJKsNqPUZpNoqAPhAlYNcjI17ZouJ3ZdQfTUHStPHj20e6Mv3bk2
+	GVKnOl3U9jZTt6uBTT+pnj0wwK2DSXdvU6ABcqilwHO1wjxugDZc6xdjSbxXn9i8
+	JY21Eyh+NDjUUQhmhRojAK4ZreftzsZjis+T4afmxs6Q7MKQAAOQG+LiPZhzOOtU
+	XXQIke79sC9QUAkL7JaAVtp2MX0QO3a1RVv+CS3P5+OoXA==
+X-Virus-Scanned: by MailRoute
+Received: from 008.lax.mailroute.net ([127.0.0.1])
+ by localhost (008.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id Bb4kiBD0BM-R; Mon,  8 Jul 2024 17:04:55 +0000 (UTC)
+Received: from [100.96.154.26] (unknown [104.132.0.90])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 008.lax.mailroute.net (Postfix) with ESMTPSA id 4WHr8Q4sTtz6CmR09;
+	Mon,  8 Jul 2024 17:04:54 +0000 (UTC)
+Message-ID: <434cb981-b0fe-4dd2-bac1-e80de2e68099@acm.org>
+Date: Mon, 8 Jul 2024 10:04:52 -0700
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -77,111 +65,43 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] clocksource/drivers/sh_cmt: Address race condition for
- clock events
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>, Thomas Gleixner
- <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-References: <20240702190230.3825292-1-niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH 1/5] scsi: ufs: renesas: Refactor init code for other UFS
+ controller
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ James.Bottomley@HansenPartnership.com, martin.petersen@oracle.com
+Cc: linux-scsi@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20240708120931.1703956-1-yoshihiro.shimoda.uh@renesas.com>
+ <20240708120931.1703956-2-yoshihiro.shimoda.uh@renesas.com>
 Content-Language: en-US
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <20240702190230.3825292-1-niklas.soderlund+renesas@ragnatech.se>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20240708120931.1703956-2-yoshihiro.shimoda.uh@renesas.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 02/07/2024 21:02, Niklas Söderlund wrote:
-> There is a race condition in the CMT interrupt handler. In the interrupt
-> handler the driver sets a driver private flag, FLAG_IRQCONTEXT. This
-> flag is used to indicate any call to set_next_event() should not be
-> directly propagated to the device, but instead cached. This is done as
-> the interrupt handler itself reprograms the device when needed before it
-> completes and this avoids this operation to take place twice.
-> 
-> It is unclear why this design was chosen, my suspicion is to allow the
-> struct clock_event_device.event_handler callback, which is called while
-> the FLAG_IRQCONTEXT is set, can update the next event without having to
-> write to the device twice.
-> 
-> Unfortunately there is a race between when the FLAG_IRQCONTEXT flag is
-> set and later cleared where the interrupt handler have already started to
-> write the next event to the device. If set_next_event() is called in
-> this window the value is only cached in the driver but not written. This
-> leads to the board to misbehave, or worse lockup and produce a splat.
-> 
->     rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
->     rcu:     0-...!: (0 ticks this GP) idle=f5e0/0/0x0 softirq=519/519 fqs=0 (false positive?)
->     rcu:     (detected by 1, t=6502 jiffies, g=-595, q=77 ncpus=2)
->     Sending NMI from CPU 1 to CPUs 0:
->     NMI backtrace for cpu 0
->     CPU: 0 PID: 0 Comm: swapper/0 Not tainted 6.10.0-rc5-arm64-renesas-00019-g74a6f86eaf1c-dirty #20
->     Hardware name: Renesas Salvator-X 2nd version board based on r8a77965 (DT)
->     pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
->     pc : tick_check_broadcast_expired+0xc/0x40
->     lr : cpu_idle_poll.isra.0+0x8c/0x168
->     sp : ffff800081c63d70
->     x29: ffff800081c63d70 x28: 00000000580000c8 x27: 00000000bfee5610
->     x26: 0000000000000027 x25: 0000000000000000 x24: 0000000000000000
->     x23: ffff00007fbb9100 x22: ffff8000818f1008 x21: ffff8000800ef07c
->     x20: ffff800081c79ec0 x19: ffff800081c70c28 x18: 0000000000000000
->     x17: 0000000000000000 x16: 0000000000000000 x15: 0000ffffc2c717d8
->     x14: 0000000000000000 x13: ffff000009c18080 x12: ffff8000825f7fc0
->     x11: 0000000000000000 x10: ffff8000818f3cd4 x9 : 0000000000000028
->     x8 : ffff800081c79ec0 x7 : ffff800081c73000 x6 : 0000000000000000
->     x5 : 0000000000000000 x4 : ffff7ffffe286000 x3 : 0000000000000000
->     x2 : ffff7ffffe286000 x1 : ffff800082972900 x0 : ffff8000818f1008
->     Call trace:
->      tick_check_broadcast_expired+0xc/0x40
->      do_idle+0x9c/0x280
->      cpu_startup_entry+0x34/0x40
->      kernel_init+0x0/0x11c
->      do_one_initcall+0x0/0x260
->      __primary_switched+0x80/0x88
->     rcu: rcu_preempt kthread timer wakeup didn't happen for 6501 jiffies! g-595 f0x0 RCU_GP_WAIT_FQS(5) ->state=0x402
->     rcu:     Possible timer handling issue on cpu=0 timer-softirq=262
->     rcu: rcu_preempt kthread starved for 6502 jiffies! g-595 f0x0 RCU_GP_WAIT_FQS(5) ->state=0x402 ->cpu=0
->     rcu:     Unless rcu_preempt kthread gets sufficient CPU time, OOM is now expected behavior.
->     rcu: RCU grace-period kthread stack dump:
->     task:rcu_preempt     state:I stack:0     pid:15    tgid:15    ppid:2      flags:0x00000008
->     Call trace:
->      __switch_to+0xbc/0x100
->      __schedule+0x358/0xbe0
->      schedule+0x48/0x148
->      schedule_timeout+0xc4/0x138
->      rcu_gp_fqs_loop+0x12c/0x764
->      rcu_gp_kthread+0x208/0x298
->      kthread+0x10c/0x110
->      ret_from_fork+0x10/0x20
-> 
-> The design have been part of the driver since it was first merged in
-> early 2009. It becomes increasingly harder to trigger the issue the
-> older kernel version one tries. It only takes a few boots on v6.10-rc5,
-> while hundreds of boots are needed to trigger it on v5.10.
-> 
-> Close the race condition by using the CMT channel lock for the two
-> competing sections. The channel lock was added to the driver after its
-> initial design.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
-> Hello,
-> 
-> I only have access to R-Car based SoCs and that is what I have tested
-> this change on. I have not been able to test on any SH platforms which
-> also uses this driver.
-> ---
+On 7/8/24 5:09 AM, Yoshihiro Shimoda wrote:
+> +static void ufs_renesas_param_poll(struct ufs_hba *hba, u32 reg, u32 expected,
+> +				   u32 mask)
+> +{
+> +	struct ufs_renesas_init_param param = { 0 };
+> +
+> +	param.mode = MODE_POLL;
+> +	param.reg = reg;
+> +	param.u.expected = expected;
+> +	param.mask = mask;
 
-Mmh, it seems to fix the race conditions but the testing coverage is 
-incomplete. I'll pick it but keep an eye on it in case it breaks other 
-platforms. If someone can give a try to test on the sh platforms that 
-would be nice.
+Please combine the above declaration and assignments into a single
+statement:
 
+struct ufs_renesas_init_param param = {
+         .mode = MODE_POLL,
+         .reg = reg,
+         .u.expected = expected,
+         .mask = mask,
+};
 
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+Same comment for the other functions below this function.
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+Thanks,
 
+Bart.
 
