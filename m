@@ -1,54 +1,50 @@
-Return-Path: <linux-renesas-soc+bounces-7156-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7157-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3DD9929E4B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jul 2024 10:27:30 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E10EA929E5B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jul 2024 10:36:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 58B401F2102A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jul 2024 08:27:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 674E9B20C7E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jul 2024 08:36:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BC2738FB0;
-	Mon,  8 Jul 2024 08:27:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DFC129CE8;
+	Mon,  8 Jul 2024 08:36:02 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1253B3FB94
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Jul 2024 08:27:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6EBF1C287;
+	Mon,  8 Jul 2024 08:35:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720427247; cv=none; b=JBdxIs1hwSMFOy7rOm6J+Lv7fha0vhp587TLB5eZGoxnktBr9wNQYZ4sE8e7d8xZkemxTC33q6qdETpAqyQ6ooPmds8rermoUQIRB29hAgspq6NtY23Es3JfMnpg/asB6TkrtkZevQ7ate7jMTLp2Fw1w91dUq4y2UiFAagBeJI=
+	t=1720427762; cv=none; b=bFllujIsvk0foE2XQOByx+ko9f2sg5qEqwYUKfgF9uu74jvfwQ/6RYgvpL2U44mUeME5UIQIYdyhcdpvlYstR75gKrqOpmvhVunXMI8+44kSoG5nW+wuUwOnE68NQpXYbK5HwnVwmo19SY0VAijY8sF0NQIcQqg8EOfMhWJQ1yw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720427247; c=relaxed/simple;
-	bh=62QawGjI94BHhDc+9DcC95SKlg/q4sDoBs5oMl73DUM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UPfsGZ1/giZiSZ00JkUvPPlRVsyncZIgab+Ppjk1RDvZmjN92qeI9PF0gUOyMpWF5qP7xAcsRxiC0LrxjLi/fYq53T25Ar3SikE75nrMn57S/wZSzkGMZ3JDjavS1o7biIB/4gNwlJLvUKlZ98UN97+IPR45EHkmUqIsu2S/VbY=
+	s=arc-20240116; t=1720427762; c=relaxed/simple;
+	bh=GSp5TbBpszB+9pg3881ujCUrVWQgn99yRaEHSrBokmM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nANJhtqznM6wk0RdJNd3/+2aXMolU7bOGeJngDjBFaIrcNJM01v8jyKvXHHN3xCV8fwZujmWh+epdPaKZhSm2nMzaXQPtx7UWE8Z2afj5p8eAymfIgPzxAu7cSjrk8DiU3be+uchckqG2KN+GEEXgc0/FfPdsj8+qdgOZ6dqvlw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 X-IronPort-AV: E=Sophos;i="6.09,191,1716217200"; 
-   d="scan'208";a="214604511"
+   d="scan'208";a="214606289"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 08 Jul 2024 17:27:18 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 08 Jul 2024 17:35:58 +0900
 Received: from localhost.localdomain (unknown [10.226.92.86])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id CE3EE43986DF;
-	Mon,  8 Jul 2024 17:27:14 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1EA6143E660E;
+	Mon,  8 Jul 2024 17:35:55 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>
+To: Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-remoteproc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	dri-devel@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH] drm: renesas: shmobile: shmo_drm_crtc: Fix PM imbalance if RPM_ACTIVE is true
-Date: Mon,  8 Jul 2024 09:27:09 +0100
-Message-ID: <20240708082712.30257-1-biju.das.jz@bp.renesas.com>
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] remoteproc: rcar: Fix PM imbalance if RPM_ACTIVE
+Date: Mon,  8 Jul 2024 09:35:51 +0100
+Message-ID: <20240708083553.30799-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -66,22 +62,22 @@ condition only.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 2 +-
+ drivers/remoteproc/rcar_rproc.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-index 2e2f37b9d0a4..42a5d6876bec 100644
---- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-+++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-@@ -208,7 +208,7 @@ static void shmob_drm_crtc_atomic_enable(struct drm_crtc *crtc,
- 	int ret;
+diff --git a/drivers/remoteproc/rcar_rproc.c b/drivers/remoteproc/rcar_rproc.c
+index cc17e8421f65..3373a74d8b3a 100644
+--- a/drivers/remoteproc/rcar_rproc.c
++++ b/drivers/remoteproc/rcar_rproc.c
+@@ -174,7 +174,7 @@ static int rcar_rproc_probe(struct platform_device *pdev)
  
+ 	pm_runtime_enable(dev);
  	ret = pm_runtime_resume_and_get(dev);
--	if (ret)
-+	if (ret < 0)
- 		return;
- 
- 	/* Reset and enable the LCDC. */
+-	if (ret) {
++	if (ret < 0) {
+ 		dev_err(dev, "failed to power up\n");
+ 		return ret;
+ 	}
 -- 
 2.43.0
 
