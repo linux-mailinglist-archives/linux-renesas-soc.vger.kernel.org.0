@@ -1,184 +1,114 @@
-Return-Path: <linux-renesas-soc+bounces-7192-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7193-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3388C92B3B1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jul 2024 11:25:40 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2CF292B3E8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jul 2024 11:33:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A09152811DF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jul 2024 09:25:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4F380B22B36
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jul 2024 09:33:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46BA6155CB3;
-	Tue,  9 Jul 2024 09:24:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58B9E153804;
+	Tue,  9 Jul 2024 09:33:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P5HEUZ47"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F188155C97
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Jul 2024 09:24:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AFC7136657;
+	Tue,  9 Jul 2024 09:33:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720517079; cv=none; b=l3i52mK7WTWRoqNYeupvkCiPRTKadhm8R+iFNSDRHr/Nqp5r2m0u48vdRueym3VEizfpySqYFDO7QQWElPHhmdIRcDIQaYAQnGLat0FlLrteATuBZS5AhW0/6n+gvhRnO4nYjPHtvrDIWpAE0SUkSwF4noNxipUZARE9h7B0BwA=
+	t=1720517617; cv=none; b=Joj8vjtXj0UE0utQpqxDmxes1QYuJXpAf1ZPQ09yZUCp1WanOvt3DO+pCxnvD6WERdckNbPEE1x8DqnPQ5Q/tPjZEqvFToi3hH/Zpw2ZrRcr598trC3kz7eXI3qUGzEhzcD8S8qfCdymXPsss/her1zm0oZ741HliXXLl1YG0ZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720517079; c=relaxed/simple;
-	bh=hPWdIQzrDIKsdWWedF3zVBgednRjpKR88jLhX5flbm0=;
+	s=arc-20240116; t=1720517617; c=relaxed/simple;
+	bh=OG0iT8EGH218BuMSqUrA0G08/WrtG0mn2OrXecjDaeo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ee/yGQ1hwzqUs9gRS+kuQCRl6zfj0NAVHRAEGKzdcBLLjCBcgLuopu3kZgLuX93GL6erodnz403kHTOx4qHYKhDsqFlcr/HM+wEf4S4EykIcLTJQa2zZ4aJEhKxtpyubddIfu4an9WiM4G3NfKDQcqCadsnc7+QCsgg39NL7Hps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1sR73F-0004Yx-KQ; Tue, 09 Jul 2024 11:22:21 +0200
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1sR739-008FMs-2o; Tue, 09 Jul 2024 11:22:15 +0200
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1sR738-006U3J-31;
-	Tue, 09 Jul 2024 11:22:14 +0200
-Date: Tue, 9 Jul 2024 11:22:14 +0200
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Russell King <linux@armlinux.org.uk>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Vladimir Zapolskiy <vz@mleia.com>, Andrew Lunn <andrew@lunn.ch>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Tony Lindgren <tony@atomide.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>, linux-mtd@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-	imx@lists.linux.dev, linux-omap@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-	openbmc@lists.ozlabs.org, linuxppc-dev@lists.ozlabs.org,
-	linux-mips@vger.kernel.org, loongarch@lists.linux.dev
-Subject: Re: [PATCH 4/9] mtd: devices: add AT24 eeprom support
-Message-ID: <20240709092214.omr7ccphdzdk7z7j@pengutronix.de>
-References: <20240701-b4-v6-10-topic-usbc-tcpci-v1-0-3fd5f4a193cc@pengutronix.de>
- <20240701-b4-v6-10-topic-usbc-tcpci-v1-4-3fd5f4a193cc@pengutronix.de>
- <07b701a9-7b52-45b7-8dba-1c25d77cbf15@linaro.org>
- <mafs0ikxnykpr.fsf@kernel.org>
- <20240702-congenial-vigilant-boar-aeae44@houat>
- <mafs0ed8byj5z.fsf@kernel.org>
- <20240702-mighty-brilliant-eel-b0d9fa@houat>
- <20240708084440.70186564@xps-13>
+	 Content-Type:Content-Disposition:In-Reply-To; b=RissicrEHmiMyPGFS8b3NIwdn+HUBH+glZxxA5EDt1n/uQGt3Wqmh82jmCIgJ2SzRK1QLJvaFjnloKHVEgGV5PlmWA9H+68hMygdlnkzbNwFdlAXFpwjxXtZyP7QFV948D+dJxdyNO9XCC5k9gMqI3o0n3OvHujXJS3EGtp/ttY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P5HEUZ47; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 353DCC3277B;
+	Tue,  9 Jul 2024 09:33:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720517616;
+	bh=OG0iT8EGH218BuMSqUrA0G08/WrtG0mn2OrXecjDaeo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=P5HEUZ47WK9+RACJAlO1OWT7ISoJlbNy252GiK2GUEP6dOlepkIPwbX+3JIc+hS4+
+	 OxRg1Qjid4tSWs4oR3SktBAYPvpCPiS6knMl3XXBiBMrcCQa8c3X+zGYfubdY2Krwk
+	 rseLLfmaVBu6s2lMZIjiVGjO7GlacPMrMn8wRzEhQHKeWhvok6EYnkUOaoNX5nPen5
+	 41aBoBnaax4uu/KlaonMIjuUw2GlkZgsTPCZKtvjfITyrmfXXIy7aAIZc4Rvuwu7vp
+	 8xe3FF0WctbzDHNxySE5E1t4uXDKRQEHecB/vU60O/BOxRPoHd64CIqen1JlZTJBBX
+	 5L3O8BED5x6iw==
+Date: Tue, 9 Jul 2024 10:33:32 +0100
+From: Lee Jones <lee@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-mmc@vger.kernel.org, linux-sh@vger.kernel.org
+Subject: Re: [PATCH v2 0/6] mfd: tmio: simplify header and move to
+ platform_data
+Message-ID: <20240709093332.GD501857@google.com>
+References: <20240213220221.2380-8-wsa+renesas@sang-engineering.com>
+ <170870160052.1698319.4712751560931025638.b4-ty@kernel.org>
+ <Zooqfe1sJQsvltwj@shikoro>
+ <CAMuHMdU6OquhF_WRxD+YxRfJwASepOb-pJp3wT7bvcpb1PHLDQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240708084440.70186564@xps-13>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+In-Reply-To: <CAMuHMdU6OquhF_WRxD+YxRfJwASepOb-pJp3wT7bvcpb1PHLDQ@mail.gmail.com>
 
-Hi Miquel,
+On Sun, 07 Jul 2024, Geert Uytterhoeven wrote:
 
-On 24-07-08, Miquel Raynal wrote:
-> Hi,
-> 
-> > > >> >> Port the current misc/eeprom/at24.c driver to the MTD framework since
-> > > >> >> EEPROMs are memory-technology devices and the framework already supports  
-> > > >> >
-> > > >> > I was under the impression that MTD devices are tightly coupled by erase
-> > > >> > blocks. But then we see MTD_NO_ERASE, so what are MTD devices after all?  
-> > > >> 
-> > > >> I was curious as well so I did some digging.
-> > > >>   
-> > > [...]  
-> > > >> 
-> > > >> I also found a thread from 2013 by Maxime Ripard (+Cc) suggesting adding
-> > > >> EEPROMs to MTD [1]. The main purpose would have been unifying the EEPROM
-> > > >> drivers under a single interface. I am not sure what came of it though,
-> > > >> since I can't find any patches that followed up with the proposal.  
+> On Sun, Jul 7, 2024 at 7:41 AM Wolfram Sang
+> <wsa+renesas@sang-engineering.com> wrote:
+> > On Fri, Feb 23, 2024 at 03:20:00PM +0000, Lee Jones wrote:
+> > > On Tue, 13 Feb 2024 23:02:19 +0100, Wolfram Sang wrote:
+> > > > Changes since v1:
 > > > >
-> > > > That discussion led to drivers/nvmem after I started to work on
-> > > > some early prototype, and Srinivas took over that work.  
-> > > 
-> > > So would you say it is better for EEPROM drivers to use nvmem instead of
-> > > moving under MTD?  
-> > 
-> > I thought so at the time, but that was more than 10y ago, and I have
-> > followed neither nvmem nor MTD since so I don't really have an opinion
-> > there.
-> > 
-> > It looks like drivers/misc/eeprom/at24.c has support for nvmem though,
-> > and MTD can be used as an nvmem provider too, so it's not clear to me
-> > why we would want to create yet another variant.
-> > 
-> > But again, you shouldn't really ask me in the first place :)
-> > 
-> > I'm sure Miquel, Srinivas, and surely others, are much more relevant to
-> > answer that question.
+> > > > * rebased to rc4
+> > > > * collected all needed acks (Thanks!)
+> > > > * capitalized first letter in commit subject
+> > > >
+> > > > The MFD parts of the TMIO have been removed by Arnd, so that only the
+> > > > SD/MMC related functionality is left. Remove the outdated remains in the
+> > > > public header file and then move it to platform_data as the data is now
+> > > > specific for the SD/MMC part.
+> > > >
+> > > > [...]
+> > >
+> > > Applied, thanks!
+> > >
+> > > [1/6] mfd: tmio: Remove obsolete platform_data
+> > >       commit: 58d6d15662e4039fab7d786f0426843befa77ad4
+> > > [2/6] mfd: tmio: Remove obsolete io accessors
+> > >       commit: e927d7bac109d8ca1729dda47a8dbc220efdb50e
+> > > [3/6] mmc: tmio/sdhi: Fix includes
+> > >       commit: bed05c68aa8f078206143700cd37e42a0084155f
+> > > [4/6] mfd: tmio: Update include files
+> > >       commit: 3ef94c41db82573dc1e1dd6c259aec8ef6caaaf3
+> > > [5/6] mfd: tmio: Sanitize comments
+> > >       commit: 2d417dda59123b9523a19ce75fea3fd1056c3b4c
+> > > [6/6] mfd: tmio: Move header to platform_data
+> > >       commit: 858b29729c9d319b9cd1441646cc3af246d3c3f9
+> >
+> > This series is not upstream yet?
 > 
-> More relevant, I doubt, but just a feeling: EEPROMs have their own
-> subsystem now, NVMEM, which, as Maxime said, was initially written for
-> that very specific case. EEPROMs don't have the complexity of MTD
-> devices, and thus pulling the whole MTD subsystem just for getting
-> partitions seems counter intuitive to me. You can definitely "split"
-> EEPROM devices with NVMEM as well anyway.
+> FTR, it entered linux-next in next-20240402, but disappeared after
+> next-20240510.
 
-I asked for feedback on my RFC [1] and all I got was to merge both
-drivers into one and make the driver backward compatible, which I did by
-this commit.
+That's very odd.  I cannot explain that.
 
-> Overall I think the idea of getting rid of these misc/ drivers is goes
-> into the right direction, but registering directly into NVMEM makes
-> more sense IMO.
+I'll go apply it again.  Sorry for this.
 
-So you propose to have two places for the partition handling (one for
-MTD and one for NVMEM) instead of one and moving the code into NVMEM
-directly? That doesn't sound right to me either. Also I don't get the
-point why EEPROMs can't be handled by the MTD layer? The layer already
-supports devices of type MTD_RAM which are very simple and don't require
-an erase-op at least I don't see one.
-
-[1] https://lore.kernel.org/all/20231127164623.1008176-1-m.felsch@pengutronix.de
-
-Regards,
-  Marco
-
-> 
-> Thanks,
-> Miqu�l
-> 
+-- 
+Lee Jones [李琼斯]
 
