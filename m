@@ -1,227 +1,112 @@
-Return-Path: <linux-renesas-soc+bounces-7211-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7212-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2A7992BE20
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jul 2024 17:21:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5E6B92C239
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jul 2024 19:19:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 78B52286356
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jul 2024 15:21:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 79F73282C7D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jul 2024 17:19:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6256919D070;
-	Tue,  9 Jul 2024 15:21:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 425BF7F476;
+	Tue,  9 Jul 2024 17:19:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="v4Q4VgRG"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PnOVroRK";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zPcdei8D"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 875EE18A92D
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Jul 2024 15:21:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF6D79EA;
+	Tue,  9 Jul 2024 17:19:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720538486; cv=none; b=pub2J9Kdg52vPNDb4JWuIVMO52CvJn0CSo/Voff3WXtYyRwN62skJlI/MWaTPVQ4z7OhDz/OwZ849ZrNrf0P2j8RBTz4witWik4MNjpNvo/erDJ6h6EtqSjtw2PjNNesi73UvzfN7BJXKqjIbPPHIZIruoahroGh9zMiHKbORnU=
+	t=1720545547; cv=none; b=URXvL20uY5uIwUA5sAEdFJsHdsRNTRlKjZBakbU3T4WUQFWkGrLXCaNZ63XgL6J3jzbQE0dHvE0bHmBIKEkiTAKsZ7OVqusAKaTPM49dcE/VtvGqZsJ5bZXbdZD29bwrpjct112OSZQVYX9B8fymQvmNi0LVT+S6Mh0dVJGIqHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720538486; c=relaxed/simple;
-	bh=JnqGX+NqSmCpgSLShW9xRhy64Jd1gG2A9mOPxMqFDNM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MI8nB8Ss2UTLVIXsAWH0NI8/ZI+2AYzk+Snkwnt4ttJRZb56cXTa//WWhFdMF1vUgBqV0FweLZA4RXUovfDIDw2FiAJhp4mb+hxMAxSxAOeObI9oJQp0zfi+MDdq3b/ZASBaFXY8W0YxMGk8i4FR3Uy2g7RRLlOpNliqkObyv7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=v4Q4VgRG; arc=none smtp.client-ip=209.85.128.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-6510c0c8e29so47377457b3.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 09 Jul 2024 08:21:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720538483; x=1721143283; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ICl7/zRhEDU7+lYP8K9yTw1Jz5+/brpOoKv+lstlOO4=;
-        b=v4Q4VgRGZhA79kUTppY3diTJHXMv8V2mi5R0cSUkcgpMMp7PBVzO+RmmJO1LMHvMsJ
-         hYoGP0SXqM7deZ4Tv5nPFpqKTbLAT5/rBN+HV7Nc0lOdvkS40hMCqBs0lQYITm1feV98
-         ywmqKfioQq84k41pLvIZKWtGv7qAvDJjzqEg8Sqm3/bpCRWL3OmpJTAOBpul34+BIqyM
-         GcvJ6C9lk1QDtp2J3VePsCfRIp9vFeDw4KeFI53reCduEdY6mYH/HGBBJqP+WeDlycgh
-         24QZMu5a4NwUV2J2+9tNHGdiZUm/MF4cyV2Ot4M+QnnZvxMJkrsPxAnkm1wpR7RxgRh8
-         tcrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720538483; x=1721143283;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ICl7/zRhEDU7+lYP8K9yTw1Jz5+/brpOoKv+lstlOO4=;
-        b=DTVBor3c3rgzs8cek3mSGoC13ifB37pmk6NPS6faevgSDNtIQGghodtEiYnqjrOgJa
-         vK/CptEmCt9qI0VwbqDWA0iMVVFBMYY/NvNm4GuV0CVeRtzI2Xtv1rfFZD10Gkyy4yTG
-         aDXjEhtndaFWdH7Hg85OIq/NbygcT3LS7jzy0svLT2vIkd7hXwrFxm+49wF6ElhGSYE9
-         dAUz9t3m4QqRnHq9oabijc/diJIASfRW83aRYggU7ghz31f8uoqQ2uYnc3bdkOJ5AhOF
-         nOG4mEYUnf8sctkM6HIjEJ5tbzvtB6uPisywEgc4YgXQRiY5Y7AcSiQ2qxKAhJFtx+en
-         2hiw==
-X-Forwarded-Encrypted: i=1; AJvYcCVuU3nRQ5bt34o7mRcvn6R1i/frRmvVjWuVX7jsVMPNbQM2Zz/ahlSkfOwS/FbZZ00U3oX9Uf1jEknV8tBKkrGrX7BIMIGJTx4b1/87YRZfAfQ=
-X-Gm-Message-State: AOJu0YyO12wNAEZC/DXmofZY/jVxP7IQA6vEDu5Fpv3riBDtpzSd+Ros
-	WnpuKjInj+x7zoCO9O2IlFc5itQLdYRfDaSsxcnHd3tb2wGPT2NFx1qHfGcDJIX7L7pe+ifZq/1
-	0V22e8RlfPTnMJGFUcFHbepa3luTqX3aOjvE4Ow==
-X-Google-Smtp-Source: AGHT+IEEAUwdlCn2/Ki0VmNsTPtfj2S/xTZsi8vYK2ZmZboTHZVvEXX6s9CJFnBiMKE9+CtvZNiEJj0wkmn4ulsV4X8=
-X-Received: by 2002:a05:690c:30f:b0:643:ed61:11bb with SMTP id
- 00721157ae682-658ee791041mr37664557b3.7.1720538483530; Tue, 09 Jul 2024
- 08:21:23 -0700 (PDT)
+	s=arc-20240116; t=1720545547; c=relaxed/simple;
+	bh=LlPiCSoSA7uRdyDT/x8+7RpEOMTj3SUxN/O3lN+evHs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=DzyksStTt/9pUdOTsrzadNOSfXi5rLwceXTChxxumi/ISbxFWO8LKcOa+1/K11eny2CrZ832YXpPc6Z9v5kHyiiBI/1P2Nm3kjsCyfJzRa6CvxdY8NDp/gWP1mbQWInRrZHGwCPhqEX22JemUNHSIBdNi9mXH++/vmgUh47nFoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PnOVroRK; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=zPcdei8D; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1720545538;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HXRtPpmIr/zw1VxZFsrUYY1TxMhVL7bZNIcSYI84kW8=;
+	b=PnOVroRKqR2qbZWMXqbKarnlYlUwZgz7LosWN7IMdwMc5ENufM6Q/QKcWK0Gvl0jgYYmJx
+	e4ggy9EXk8VLq9c0UJY0rrycGmvMo2qbMM3OPQ1B6lNga6dVWAm8r87rC5eCrkeyplAVI+
+	M1z+3LCjJyqNwd6n9n75euE0pAbOHY+3wacaX+pjfdrYBN+nPa1PYGQPJ3zEPAknYBmtsP
+	MKNhvUPxusR1XXbSEw3yhcCDhpOWsxQMUSuLOJYL44DZST7b+V1lXwhTkP/+gfYk0akIqS
+	8Mn7op+uulq2FE5lljlv66QBAy5NB02Jt90jt5q0J/0Juoh3NHE1/jGqDtLJFA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1720545538;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HXRtPpmIr/zw1VxZFsrUYY1TxMhVL7bZNIcSYI84kW8=;
+	b=zPcdei8DMuFfkYYzd8DODeB87OYLTJ4pR2v6KgrL0E7OGzxoNT7natX7rpIMQ0Rb0yzoWb
+	nk0rVPNu1nu0ZyBg==
+To: Marek Vasut <marek.vasut@mailbox.org>, Marek Vasut
+ <marek.vasut+renesas@mailbox.org>, linux-pci@vger.kernel.org
+Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, Bjorn Helgaas
+ <bhelgaas@google.com>, Jisheng Zhang <Jisheng.Zhang@synaptics.com>, Jon
+ Hunter <jonathanh@nvidia.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>, Yoshihiro
+ Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] [RFC] genirq/cpuhotplug, PCI/rcar-host: Silence set
+ affinity failed warning
+In-Reply-To: <43e4c568-083f-4b14-9f08-563ba6a71220@mailbox.org>
+References: <20240706132758.53298-1-marek.vasut+renesas@mailbox.org>
+ <87h6d1vy2c.ffs@tglx> <43e4c568-083f-4b14-9f08-563ba6a71220@mailbox.org>
+Date: Tue, 09 Jul 2024 19:18:57 +0200
+Message-ID: <875xtewkji.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1716811405.git.geert+renesas@glider.be> <CAPDyKFpa4LZF3eN7x-NT+b9=dKB3Oe6RY8RAyetdRBSR1-LQoQ@mail.gmail.com>
- <0a025885-ed95-45d3-bf76-d2a043baaed7@ideasonboard.com> <CAPDyKFrxUDhnUUfz5wHpGVQfNYssxoWO5Eb2wtmZMTcMYhEjxQ@mail.gmail.com>
- <1bda8e8f-10df-4a10-a217-26cf50ef3577@ideasonboard.com> <CAGETcx-T54w=x=gv524dUJtnRGmOiXFA2CRYHE5Pawbux8_Tig@mail.gmail.com>
- <CAMuHMdUTGLSDv-zAun7tV2VnN0q08PibBT9B-MhxqdwmRTA_UQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdUTGLSDv-zAun7tV2VnN0q08PibBT9B-MhxqdwmRTA_UQ@mail.gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 9 Jul 2024 17:20:46 +0200
-Message-ID: <CAPDyKFpYvinCB3t7aNp02_-=QNwQr+B4wWvtzAAzYi8rTwKkKQ@mail.gmail.com>
-Subject: Re: [PATCH/RFC 0/3] pmdomain: renesas: rmobile-sysc: Remove serial
- console handling
-To: Geert Uytterhoeven <geert@linux-m68k.org>, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Saravana Kannan <saravanak@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jiri Slaby <jirislaby@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Peng Fan <peng.fan@nxp.com>, linux-pm@vger.kernel.org, linux-serial@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Devarsh Thakkar <devarsht@ti.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-[...]
-
-> > > >>>>
-> > > >>>> However, if the serial port's clock or PM Domain is shared with another
-> > > >>>> device, and that other device is runtime-suspended before the full
-> > > >>>> serial driver has probed, the serial port's clock and/or PM Domain will
-> > > >>>> be disabled inadvertently.  Any subsequent serial console output will
-> > > >>>> cause a crash or system lock-up.  E.g. on R/SH-Mobile SoCs, the serial
-> > > >>>> ports share their PM Domain with several other I/O devices.  After the
-> > > >>>> use of pwm (Armadillo-800-EVA) or i2c (KZM-A9-GT) during early boot,
-> > > >>>> before the full serial driver takes over, the PM Domain containing the
-> > > >>>> early serial port is powered down, causing a lock-up when booted with
-> > > >>>> "earlycon".
+On Mon, Jul 08 2024 at 13:55, Marek Vasut wrote:
+> On 7/7/24 8:47 PM, Thomas Gleixner wrote:
+>> Why does the irq_chip in question have an irq_set_affinity() callback in
+>> the first place?
+> I believe originally (at least that's what's being discussed in the 
+> linked threads) it was because the irqchip code didn't check whether 
+> .irq_set_affinity was not NULL at all, so if it was missing, there would 
+> be NULL pointer dereference.
 >
-> Let's call this "Case B".
+> Now this is checked and irq_do_set_affinity() returns -EINVAL, which 
+> triggers the warning that is being silenced by this patch.
 >
-> > > >>>
-> > > >>> Thanks for the detailed description of the problem! As pointed out in
-> > > >>> regards to another similar recent patch [1], this is indeed a generic
-> > > >>> problem, not limited to the serial console handling.
-> > > >>>
-> > > >>> At Linaro Connect a few weeks ago I followed up with Saravana from the
-> > > >>> earlier discussions at LPC last fall. We now have a generic solution
-> > > >>> for genpd drafted on plain paper, based on fw_devlink and the
-> > > >>> ->sync_state() callback. I am currently working on the genpd series,
-> > > >>> while Saravana will re-spin the series (can't find the link to the
-> > > >>> last version) for the clock framework. Ideally, we want these things
-> > > >>> to work in a very similar way.
-> > > >>>
-> > > >>> That said, allow me to post the series for genpd in a week or two to
-> > > >>> see if it can solve your problem too, for the serial console.
+> If you think this is better, I can:
+> - Tweak the cpuhotplug.c code to do some
+>    if (chip && !chip->irq_set_affinity) return false;
 
-I managed to hit the vacation period before I was able to post the
-series. I will pick it up this week and hopefully should be able to
-post something next week.
+It does already:
 
-> > > >>
-> > > >> Both the genpd and the clock solutions will make suppliers depend on all
-> > > >> their consumers to be probed, right?
-> > > >>
-> > > >> I think it is a solution, and should be worked on, but it has the
-> > > >> drawback that suppliers that have consumers that will possibly never be
-> > > >> probed, will also never be able to turn off unused resources.
-> > > >>
-> > > >> This was specifically the case with the TI ti-sci pmdomain case I was
-> > > >> looking at: the genpd driver (ti_sci_pm_domains.c) provides a lot of
-> > > >> genpds for totally unrelated devices, and so if, e.g., you don't have or
-> > > >> don't want to load a driver for the GPU, all PDs are affected.
-> > > >>
-> > > >> Even here the solutions you mention will help: instead of things getting
-> > > >> broken because genpds get turned off while they are actually in use, the
-> > > >> genpds will be kept enabled, thus fixing the breakage. Unfortunately,
-> > > >> they'll be kept enabled forever.
-> > > >>
-> > > >> I've been ill for quite a while so I haven't had the chance to look at
-> > > >> this more, but before that I was hacking around a bit with something I
-> > > >> named .partial_sync_state(). .sync_state() gets called when all the
-> > > >> consumers have probed, but .partial_sync_state() gets called when _a_
-> > > >> consumer has been probed.
-> > > >>
-> > > >> For the .sync_state() things are easy for the driver, as it knows
-> > > >> everything related has been probed, but for .partial_sync_state() the
-> > > >> driver needs to track resources internally. .partial_sync_state() will
-> > > >> tell the driver that a consumer device has probed, the driver can then
-> > > >> find out which specific resources (genpds in my case) that consumer
-> > > >> refers to, and then... Well, that's how far I got with my hacks =).
-> > > >>
-> > > >> So, I don't know if this .partial_sync_state() can even work, but I
-> > > >> think we do need something more on top of the .sync_state().
-> > > >
-> > > > Thanks for the update!
-> > > >
-> > > > You certainly have a point, but rather than implementing some platform
-> > > > specific method, I think we should be able enforce the call to
-> > > > ->sync_state(), based upon some condition/timeout - and even if all
-> > > > consumers haven't been probed.
-> > >
-> > > Hmm, I think that was already implemented in some of the serieses out
-> > > there (or even in mainline already?), as I remember doing some
-> > > experiments with it. I don't like it much, though.
-> > >
-> > > With a simple timeout, it'll always be just a bit too early for some
-> > > user (nfs mount took a bit more time than expected -> board frozen).
-> > >
-> > > The only condition I can see that would somewhat work is a manual
-> > > trigger from the userspace. The boot scripts could then signal the
-> > > kernel when all the modules have been loaded and probably a suitable,
-> > > platform/use case specific amount of time has passed to allow the
-> > > drivers to probe.
-> >
-> > This is also already supported in mainline.
-> >
-> > Devices with sync_state() implementations (once Ulf adds it) will have
-> > a state_synced file in sysfs. It shows where it has been called yet or
-> > not. But you can also echo 1 into it to force the sync_state()
-> > callback (only if it hasn't been called already). So, yeah, all
-> > methods of handling this are available if you implement the
-> > sync_state() callback.
-> >
-> > By default it's all strict (wait till all consumers probe
-> > successfully). But you can set it to timeout (fw_devlink.sync_state).
-> > And you also have the option I mentioned above that you can use with
-> > both cases.
+migrate_one_irq()
+  if (chip && !chip->irq_set_affinity)
+    return false;
+
+Right at the top.
+
+> - Remove all the .irq_set_affinity implementations from PCI drivers
+>    which only return -EINVAL
 >
-> So the idea is to disable unused genpds and clocks from the genpd
-> resp. clock's driver .sync_state() callback, instead of from a late
-> initcall?  That would indeed solve issues related to "Case A".
->
-> However, how to solve "Case B"? Ignore disabling genpds or clocks
-> before .sync_state() callback() has been called?
-> That would cause issues for cases where the clock must be disabled,
-> cfr.
->     "[PATCH RFC 0/3] Add clk_disable_unprepare_sync()"
->     https://lore.kernel.org/all/20240131160947.96171-1-biju.das.jz@bp.renesas.com/
->     "[PATCH v3 0/3] Add clk_poll_disable_unprepare()"
->     https://lore.kernel.org/linux-renesas-soc/20240318110842.41956-1-biju.das.jz@bp.renesas.com/
->
+> Would that be better ?
 
-For genpd, the plan is to check the initial state of the PM domain. It
-can be powered-on or powered-off and if it's powered-on, we should not
-allow it to be powered-off until after ->sync_state() have been
-called.
+I think so.
 
-The similar approach is what Saravanna is trying to implement for
-clocks, I think.
+Thanks,
 
-In the end, we simply need to try out these approaches to see if they
-really work. Although, based on previous discussions (LKML +
-F2F-conferences), I think there should be a good chance for us.
-
-[...]
-
-Kind regards
-Uffe
+        tglx
 
