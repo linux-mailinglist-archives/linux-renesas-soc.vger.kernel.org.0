@@ -1,176 +1,227 @@
-Return-Path: <linux-renesas-soc+bounces-7210-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7211-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CFFE92BC6F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jul 2024 16:04:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2A7992BE20
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jul 2024 17:21:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BB86C280E52
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jul 2024 14:04:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 78B52286356
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jul 2024 15:21:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9217417C203;
-	Tue,  9 Jul 2024 14:04:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6256919D070;
+	Tue,  9 Jul 2024 15:21:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="B80X2Y8n"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="v4Q4VgRG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0694157485
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Jul 2024 14:04:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 875EE18A92D
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Jul 2024 15:21:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720533850; cv=none; b=m5gZCyfr4K4iz6EykW5KWZpcql3xQVZoM4nkICKPxg8lo5CCN7y7QdTM7lpKvmfCq3FEXcPiQ5ayoVO3ejUhQnugeEarh0DOpBLS8CjxbZytXp+xVj9wMwsIFI+whLdnBb53DVEEblnsc0PlQ5VWeUcT1Wh5UTpcR98wLGyBLoA=
+	t=1720538486; cv=none; b=pub2J9Kdg52vPNDb4JWuIVMO52CvJn0CSo/Voff3WXtYyRwN62skJlI/MWaTPVQ4z7OhDz/OwZ849ZrNrf0P2j8RBTz4witWik4MNjpNvo/erDJ6h6EtqSjtw2PjNNesi73UvzfN7BJXKqjIbPPHIZIruoahroGh9zMiHKbORnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720533850; c=relaxed/simple;
-	bh=WehO05lTq9i4SfZ4w807g+0X7qjynyaN5S6EzynjTac=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=H10lxw6ez9pV4+gI3z783eO/Tt2oaHijSclqOWFduNVK4gq75PHVwAKfVLT6pA5LJCk1sZEk0eRjiNTQhovTNV8QwACGbIhv7efy8hTbLp91ly5N96/I+7WRt+YPoMFulx8+rVPJtlDIRNjD6F5h7S96ZYCJUfLGXgjNb1yI+3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=B80X2Y8n; arc=none smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1720538486; c=relaxed/simple;
+	bh=JnqGX+NqSmCpgSLShW9xRhy64Jd1gG2A9mOPxMqFDNM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MI8nB8Ss2UTLVIXsAWH0NI8/ZI+2AYzk+Snkwnt4ttJRZb56cXTa//WWhFdMF1vUgBqV0FweLZA4RXUovfDIDw2FiAJhp4mb+hxMAxSxAOeObI9oJQp0zfi+MDdq3b/ZASBaFXY8W0YxMGk8i4FR3Uy2g7RRLlOpNliqkObyv7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=v4Q4VgRG; arc=none smtp.client-ip=209.85.128.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4266182a9d7so19283175e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 09 Jul 2024 07:04:08 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-6510c0c8e29so47377457b3.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 09 Jul 2024 08:21:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720533847; x=1721138647; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=gr+BI9dX0y9cQgrNoEy2ntD0zgiBxsk0wbP5eVeu2Q4=;
-        b=B80X2Y8ngFGYqfoM1qum3NEI3In10P7f2HJMDTwLTx82zuVMqfj/Z5WiWAcdBaG729
-         UtVFNG1BcMRFAKLuzE8ASsFGmgEai5RdCZu8XHhyjW5T204r64mnFNakpts8haS5zWpw
-         AvqexYM1sWhtY6TFtrgPvb7pLcZ3+v53UVtM27aDzHGa9g7l21wR9Vesjg8S1OKVwRTJ
-         qDqrYHvDX1oNYHlKuYGUTMstG6h9RmeRPYf/sktNW/kDRYte5KccNFfYSReNSJX2MssK
-         M9xDHWUvkGWugN0qZXykem6vfeDM/n8rihPE6Pv8SubCueRcPWreiO+cGIoxOHOO4Sha
-         bR5Q==
+        d=linaro.org; s=google; t=1720538483; x=1721143283; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ICl7/zRhEDU7+lYP8K9yTw1Jz5+/brpOoKv+lstlOO4=;
+        b=v4Q4VgRGZhA79kUTppY3diTJHXMv8V2mi5R0cSUkcgpMMp7PBVzO+RmmJO1LMHvMsJ
+         hYoGP0SXqM7deZ4Tv5nPFpqKTbLAT5/rBN+HV7Nc0lOdvkS40hMCqBs0lQYITm1feV98
+         ywmqKfioQq84k41pLvIZKWtGv7qAvDJjzqEg8Sqm3/bpCRWL3OmpJTAOBpul34+BIqyM
+         GcvJ6C9lk1QDtp2J3VePsCfRIp9vFeDw4KeFI53reCduEdY6mYH/HGBBJqP+WeDlycgh
+         24QZMu5a4NwUV2J2+9tNHGdiZUm/MF4cyV2Ot4M+QnnZvxMJkrsPxAnkm1wpR7RxgRh8
+         tcrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720533847; x=1721138647;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gr+BI9dX0y9cQgrNoEy2ntD0zgiBxsk0wbP5eVeu2Q4=;
-        b=Q+UKcs2aocL9ARnbgWXl0tMAP3URhqprq6ZUvQLhrLM+acIwWzH1gxZMcNGsBRgJ5x
-         dg3hExwIsEmL2gjJ7tQpqTduPoMEiVGNh1sXcnNxQbGTmSXett7nBRX1y7msREFvsyIz
-         Gi1xymvP0Z8B0oDOhw0RobyAhhyGYZ+CiI7kfXOHyi4qAgC294hyr6nKAtwX2cfMyOHm
-         ICozZGP2s4RTOZ/kvjsW+9SkdIQGUiNlSqyokr1PyMfLz3zYJmn/sDtI5u5ZqgmEgQE6
-         GxtcGa3R/uKpHscqutBdr3G1xM5qWn03/Ba+0vn2hlSN5Gyfejj/PFhCUsexZ7hP8IuB
-         3EFg==
-X-Forwarded-Encrypted: i=1; AJvYcCXv5gLxaEj1nun6ojAoIrFwzOQrbHQrK5TU4wPw3TbY90G9fg63Zc359ABLVj8gX2kTimuOC202yi1UZnY1i9xP+pmEruPqEje4pxhfSxahdYQ=
-X-Gm-Message-State: AOJu0YyzUNH31jCiRIQ0cE+FG9JM38dri7CD6z9HSZ/eMmvXNYpwZCid
-	GivYafswkwpnNziKjZziPZKjgdR1ifJFlTaO+ncoyhVaChABSjYDgzHh9t6AC1o=
-X-Google-Smtp-Source: AGHT+IFHJ+GV1aSDHAaZEX2KWlyDDtXutizUkD2W+8jfELexvVFXW2jZy8Aal+D/rXHu12mwyZdQMQ==
-X-Received: by 2002:a05:600c:300a:b0:426:6b47:290b with SMTP id 5b1f17b1804b1-426708f1e2fmr16550985e9.28.1720533846920;
-        Tue, 09 Jul 2024 07:04:06 -0700 (PDT)
-Received: from ?IPV6:2a05:6e02:1041:c10:cf24:cce:17df:12ab? ([2a05:6e02:1041:c10:cf24:cce:17df:12ab])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4266f6f07dasm42393815e9.12.2024.07.09.07.04.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Jul 2024 07:04:06 -0700 (PDT)
-Message-ID: <56681478-399a-4fae-828c-ccf1b579c296@linaro.org>
-Date: Tue, 9 Jul 2024 16:04:05 +0200
+        d=1e100.net; s=20230601; t=1720538483; x=1721143283;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ICl7/zRhEDU7+lYP8K9yTw1Jz5+/brpOoKv+lstlOO4=;
+        b=DTVBor3c3rgzs8cek3mSGoC13ifB37pmk6NPS6faevgSDNtIQGghodtEiYnqjrOgJa
+         vK/CptEmCt9qI0VwbqDWA0iMVVFBMYY/NvNm4GuV0CVeRtzI2Xtv1rfFZD10Gkyy4yTG
+         aDXjEhtndaFWdH7Hg85OIq/NbygcT3LS7jzy0svLT2vIkd7hXwrFxm+49wF6ElhGSYE9
+         dAUz9t3m4QqRnHq9oabijc/diJIASfRW83aRYggU7ghz31f8uoqQ2uYnc3bdkOJ5AhOF
+         nOG4mEYUnf8sctkM6HIjEJ5tbzvtB6uPisywEgc4YgXQRiY5Y7AcSiQ2qxKAhJFtx+en
+         2hiw==
+X-Forwarded-Encrypted: i=1; AJvYcCVuU3nRQ5bt34o7mRcvn6R1i/frRmvVjWuVX7jsVMPNbQM2Zz/ahlSkfOwS/FbZZ00U3oX9Uf1jEknV8tBKkrGrX7BIMIGJTx4b1/87YRZfAfQ=
+X-Gm-Message-State: AOJu0YyO12wNAEZC/DXmofZY/jVxP7IQA6vEDu5Fpv3riBDtpzSd+Ros
+	WnpuKjInj+x7zoCO9O2IlFc5itQLdYRfDaSsxcnHd3tb2wGPT2NFx1qHfGcDJIX7L7pe+ifZq/1
+	0V22e8RlfPTnMJGFUcFHbepa3luTqX3aOjvE4Ow==
+X-Google-Smtp-Source: AGHT+IEEAUwdlCn2/Ki0VmNsTPtfj2S/xTZsi8vYK2ZmZboTHZVvEXX6s9CJFnBiMKE9+CtvZNiEJj0wkmn4ulsV4X8=
+X-Received: by 2002:a05:690c:30f:b0:643:ed61:11bb with SMTP id
+ 00721157ae682-658ee791041mr37664557b3.7.1720538483530; Tue, 09 Jul 2024
+ 08:21:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] clocksource/drivers/sh_cmt: Address race condition for
- clock events
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>, Thomas Gleixner
- <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-References: <20240702190230.3825292-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Language: en-US
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <20240702190230.3825292-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <cover.1716811405.git.geert+renesas@glider.be> <CAPDyKFpa4LZF3eN7x-NT+b9=dKB3Oe6RY8RAyetdRBSR1-LQoQ@mail.gmail.com>
+ <0a025885-ed95-45d3-bf76-d2a043baaed7@ideasonboard.com> <CAPDyKFrxUDhnUUfz5wHpGVQfNYssxoWO5Eb2wtmZMTcMYhEjxQ@mail.gmail.com>
+ <1bda8e8f-10df-4a10-a217-26cf50ef3577@ideasonboard.com> <CAGETcx-T54w=x=gv524dUJtnRGmOiXFA2CRYHE5Pawbux8_Tig@mail.gmail.com>
+ <CAMuHMdUTGLSDv-zAun7tV2VnN0q08PibBT9B-MhxqdwmRTA_UQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdUTGLSDv-zAun7tV2VnN0q08PibBT9B-MhxqdwmRTA_UQ@mail.gmail.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 9 Jul 2024 17:20:46 +0200
+Message-ID: <CAPDyKFpYvinCB3t7aNp02_-=QNwQr+B4wWvtzAAzYi8rTwKkKQ@mail.gmail.com>
+Subject: Re: [PATCH/RFC 0/3] pmdomain: renesas: rmobile-sysc: Remove serial
+ console handling
+To: Geert Uytterhoeven <geert@linux-m68k.org>, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Saravana Kannan <saravanak@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jiri Slaby <jirislaby@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Peng Fan <peng.fan@nxp.com>, linux-pm@vger.kernel.org, linux-serial@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Devarsh Thakkar <devarsht@ti.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 02/07/2024 21:02, Niklas Söderlund wrote:
-> There is a race condition in the CMT interrupt handler. In the interrupt
-> handler the driver sets a driver private flag, FLAG_IRQCONTEXT. This
-> flag is used to indicate any call to set_next_event() should not be
-> directly propagated to the device, but instead cached. This is done as
-> the interrupt handler itself reprograms the device when needed before it
-> completes and this avoids this operation to take place twice.
-> 
-> It is unclear why this design was chosen, my suspicion is to allow the
-> struct clock_event_device.event_handler callback, which is called while
-> the FLAG_IRQCONTEXT is set, can update the next event without having to
-> write to the device twice.
-> 
-> Unfortunately there is a race between when the FLAG_IRQCONTEXT flag is
-> set and later cleared where the interrupt handler have already started to
-> write the next event to the device. If set_next_event() is called in
-> this window the value is only cached in the driver but not written. This
-> leads to the board to misbehave, or worse lockup and produce a splat.
-> 
->     rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
->     rcu:     0-...!: (0 ticks this GP) idle=f5e0/0/0x0 softirq=519/519 fqs=0 (false positive?)
->     rcu:     (detected by 1, t=6502 jiffies, g=-595, q=77 ncpus=2)
->     Sending NMI from CPU 1 to CPUs 0:
->     NMI backtrace for cpu 0
->     CPU: 0 PID: 0 Comm: swapper/0 Not tainted 6.10.0-rc5-arm64-renesas-00019-g74a6f86eaf1c-dirty #20
->     Hardware name: Renesas Salvator-X 2nd version board based on r8a77965 (DT)
->     pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
->     pc : tick_check_broadcast_expired+0xc/0x40
->     lr : cpu_idle_poll.isra.0+0x8c/0x168
->     sp : ffff800081c63d70
->     x29: ffff800081c63d70 x28: 00000000580000c8 x27: 00000000bfee5610
->     x26: 0000000000000027 x25: 0000000000000000 x24: 0000000000000000
->     x23: ffff00007fbb9100 x22: ffff8000818f1008 x21: ffff8000800ef07c
->     x20: ffff800081c79ec0 x19: ffff800081c70c28 x18: 0000000000000000
->     x17: 0000000000000000 x16: 0000000000000000 x15: 0000ffffc2c717d8
->     x14: 0000000000000000 x13: ffff000009c18080 x12: ffff8000825f7fc0
->     x11: 0000000000000000 x10: ffff8000818f3cd4 x9 : 0000000000000028
->     x8 : ffff800081c79ec0 x7 : ffff800081c73000 x6 : 0000000000000000
->     x5 : 0000000000000000 x4 : ffff7ffffe286000 x3 : 0000000000000000
->     x2 : ffff7ffffe286000 x1 : ffff800082972900 x0 : ffff8000818f1008
->     Call trace:
->      tick_check_broadcast_expired+0xc/0x40
->      do_idle+0x9c/0x280
->      cpu_startup_entry+0x34/0x40
->      kernel_init+0x0/0x11c
->      do_one_initcall+0x0/0x260
->      __primary_switched+0x80/0x88
->     rcu: rcu_preempt kthread timer wakeup didn't happen for 6501 jiffies! g-595 f0x0 RCU_GP_WAIT_FQS(5) ->state=0x402
->     rcu:     Possible timer handling issue on cpu=0 timer-softirq=262
->     rcu: rcu_preempt kthread starved for 6502 jiffies! g-595 f0x0 RCU_GP_WAIT_FQS(5) ->state=0x402 ->cpu=0
->     rcu:     Unless rcu_preempt kthread gets sufficient CPU time, OOM is now expected behavior.
->     rcu: RCU grace-period kthread stack dump:
->     task:rcu_preempt     state:I stack:0     pid:15    tgid:15    ppid:2      flags:0x00000008
->     Call trace:
->      __switch_to+0xbc/0x100
->      __schedule+0x358/0xbe0
->      schedule+0x48/0x148
->      schedule_timeout+0xc4/0x138
->      rcu_gp_fqs_loop+0x12c/0x764
->      rcu_gp_kthread+0x208/0x298
->      kthread+0x10c/0x110
->      ret_from_fork+0x10/0x20
-> 
-> The design have been part of the driver since it was first merged in
-> early 2009. It becomes increasingly harder to trigger the issue the
-> older kernel version one tries. It only takes a few boots on v6.10-rc5,
-> while hundreds of boots are needed to trigger it on v5.10.
-> 
-> Close the race condition by using the CMT channel lock for the two
-> competing sections. The channel lock was added to the driver after its
-> initial design.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
+[...]
 
-Applied, thanks
+> > > >>>>
+> > > >>>> However, if the serial port's clock or PM Domain is shared with another
+> > > >>>> device, and that other device is runtime-suspended before the full
+> > > >>>> serial driver has probed, the serial port's clock and/or PM Domain will
+> > > >>>> be disabled inadvertently.  Any subsequent serial console output will
+> > > >>>> cause a crash or system lock-up.  E.g. on R/SH-Mobile SoCs, the serial
+> > > >>>> ports share their PM Domain with several other I/O devices.  After the
+> > > >>>> use of pwm (Armadillo-800-EVA) or i2c (KZM-A9-GT) during early boot,
+> > > >>>> before the full serial driver takes over, the PM Domain containing the
+> > > >>>> early serial port is powered down, causing a lock-up when booted with
+> > > >>>> "earlycon".
+>
+> Let's call this "Case B".
+>
+> > > >>>
+> > > >>> Thanks for the detailed description of the problem! As pointed out in
+> > > >>> regards to another similar recent patch [1], this is indeed a generic
+> > > >>> problem, not limited to the serial console handling.
+> > > >>>
+> > > >>> At Linaro Connect a few weeks ago I followed up with Saravana from the
+> > > >>> earlier discussions at LPC last fall. We now have a generic solution
+> > > >>> for genpd drafted on plain paper, based on fw_devlink and the
+> > > >>> ->sync_state() callback. I am currently working on the genpd series,
+> > > >>> while Saravana will re-spin the series (can't find the link to the
+> > > >>> last version) for the clock framework. Ideally, we want these things
+> > > >>> to work in a very similar way.
+> > > >>>
+> > > >>> That said, allow me to post the series for genpd in a week or two to
+> > > >>> see if it can solve your problem too, for the serial console.
 
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+I managed to hit the vacation period before I was able to post the
+series. I will pick it up this week and hopefully should be able to
+post something next week.
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+> > > >>
+> > > >> Both the genpd and the clock solutions will make suppliers depend on all
+> > > >> their consumers to be probed, right?
+> > > >>
+> > > >> I think it is a solution, and should be worked on, but it has the
+> > > >> drawback that suppliers that have consumers that will possibly never be
+> > > >> probed, will also never be able to turn off unused resources.
+> > > >>
+> > > >> This was specifically the case with the TI ti-sci pmdomain case I was
+> > > >> looking at: the genpd driver (ti_sci_pm_domains.c) provides a lot of
+> > > >> genpds for totally unrelated devices, and so if, e.g., you don't have or
+> > > >> don't want to load a driver for the GPU, all PDs are affected.
+> > > >>
+> > > >> Even here the solutions you mention will help: instead of things getting
+> > > >> broken because genpds get turned off while they are actually in use, the
+> > > >> genpds will be kept enabled, thus fixing the breakage. Unfortunately,
+> > > >> they'll be kept enabled forever.
+> > > >>
+> > > >> I've been ill for quite a while so I haven't had the chance to look at
+> > > >> this more, but before that I was hacking around a bit with something I
+> > > >> named .partial_sync_state(). .sync_state() gets called when all the
+> > > >> consumers have probed, but .partial_sync_state() gets called when _a_
+> > > >> consumer has been probed.
+> > > >>
+> > > >> For the .sync_state() things are easy for the driver, as it knows
+> > > >> everything related has been probed, but for .partial_sync_state() the
+> > > >> driver needs to track resources internally. .partial_sync_state() will
+> > > >> tell the driver that a consumer device has probed, the driver can then
+> > > >> find out which specific resources (genpds in my case) that consumer
+> > > >> refers to, and then... Well, that's how far I got with my hacks =).
+> > > >>
+> > > >> So, I don't know if this .partial_sync_state() can even work, but I
+> > > >> think we do need something more on top of the .sync_state().
+> > > >
+> > > > Thanks for the update!
+> > > >
+> > > > You certainly have a point, but rather than implementing some platform
+> > > > specific method, I think we should be able enforce the call to
+> > > > ->sync_state(), based upon some condition/timeout - and even if all
+> > > > consumers haven't been probed.
+> > >
+> > > Hmm, I think that was already implemented in some of the serieses out
+> > > there (or even in mainline already?), as I remember doing some
+> > > experiments with it. I don't like it much, though.
+> > >
+> > > With a simple timeout, it'll always be just a bit too early for some
+> > > user (nfs mount took a bit more time than expected -> board frozen).
+> > >
+> > > The only condition I can see that would somewhat work is a manual
+> > > trigger from the userspace. The boot scripts could then signal the
+> > > kernel when all the modules have been loaded and probably a suitable,
+> > > platform/use case specific amount of time has passed to allow the
+> > > drivers to probe.
+> >
+> > This is also already supported in mainline.
+> >
+> > Devices with sync_state() implementations (once Ulf adds it) will have
+> > a state_synced file in sysfs. It shows where it has been called yet or
+> > not. But you can also echo 1 into it to force the sync_state()
+> > callback (only if it hasn't been called already). So, yeah, all
+> > methods of handling this are available if you implement the
+> > sync_state() callback.
+> >
+> > By default it's all strict (wait till all consumers probe
+> > successfully). But you can set it to timeout (fw_devlink.sync_state).
+> > And you also have the option I mentioned above that you can use with
+> > both cases.
+>
+> So the idea is to disable unused genpds and clocks from the genpd
+> resp. clock's driver .sync_state() callback, instead of from a late
+> initcall?  That would indeed solve issues related to "Case A".
+>
+> However, how to solve "Case B"? Ignore disabling genpds or clocks
+> before .sync_state() callback() has been called?
+> That would cause issues for cases where the clock must be disabled,
+> cfr.
+>     "[PATCH RFC 0/3] Add clk_disable_unprepare_sync()"
+>     https://lore.kernel.org/all/20240131160947.96171-1-biju.das.jz@bp.renesas.com/
+>     "[PATCH v3 0/3] Add clk_poll_disable_unprepare()"
+>     https://lore.kernel.org/linux-renesas-soc/20240318110842.41956-1-biju.das.jz@bp.renesas.com/
+>
 
+For genpd, the plan is to check the initial state of the PM domain. It
+can be powered-on or powered-off and if it's powered-on, we should not
+allow it to be powered-off until after ->sync_state() have been
+called.
+
+The similar approach is what Saravanna is trying to implement for
+clocks, I think.
+
+In the end, we simply need to try out these approaches to see if they
+really work. Although, based on previous discussions (LKML +
+F2F-conferences), I think there should be a good chance for us.
+
+[...]
+
+Kind regards
+Uffe
 
