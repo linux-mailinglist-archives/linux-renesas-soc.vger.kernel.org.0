@@ -1,112 +1,218 @@
-Return-Path: <linux-renesas-soc+bounces-7212-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7213-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5E6B92C239
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jul 2024 19:19:12 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35FD892C6A7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jul 2024 01:37:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 79F73282C7D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jul 2024 17:19:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9A2FC1F22D37
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jul 2024 23:37:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 425BF7F476;
-	Tue,  9 Jul 2024 17:19:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7C78156C74;
+	Tue,  9 Jul 2024 23:37:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PnOVroRK";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zPcdei8D"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e2P1l4c+"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF6D79EA;
-	Tue,  9 Jul 2024 17:19:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C947144D00;
+	Tue,  9 Jul 2024 23:37:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720545547; cv=none; b=URXvL20uY5uIwUA5sAEdFJsHdsRNTRlKjZBakbU3T4WUQFWkGrLXCaNZ63XgL6J3jzbQE0dHvE0bHmBIKEkiTAKsZ7OVqusAKaTPM49dcE/VtvGqZsJ5bZXbdZD29bwrpjct112OSZQVYX9B8fymQvmNi0LVT+S6Mh0dVJGIqHk=
+	t=1720568248; cv=none; b=jOoAR/toEwhxW1BMXa/husHluzcbGm9gGKPq56UmLfcI883U/JN+CLl8TPULm+UZxbuFnMLXyUs/YzBmWOjTnwFl9Th3vfHa1oqm3gLirSbsyZuq/RP/Zqb5SYdSnBQmNpXkvxDOl6eqPAveP54Km+1xne7fyD6H8/iUGxYHHho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720545547; c=relaxed/simple;
-	bh=LlPiCSoSA7uRdyDT/x8+7RpEOMTj3SUxN/O3lN+evHs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=DzyksStTt/9pUdOTsrzadNOSfXi5rLwceXTChxxumi/ISbxFWO8LKcOa+1/K11eny2CrZ832YXpPc6Z9v5kHyiiBI/1P2Nm3kjsCyfJzRa6CvxdY8NDp/gWP1mbQWInRrZHGwCPhqEX22JemUNHSIBdNi9mXH++/vmgUh47nFoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PnOVroRK; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=zPcdei8D; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1720545538;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HXRtPpmIr/zw1VxZFsrUYY1TxMhVL7bZNIcSYI84kW8=;
-	b=PnOVroRKqR2qbZWMXqbKarnlYlUwZgz7LosWN7IMdwMc5ENufM6Q/QKcWK0Gvl0jgYYmJx
-	e4ggy9EXk8VLq9c0UJY0rrycGmvMo2qbMM3OPQ1B6lNga6dVWAm8r87rC5eCrkeyplAVI+
-	M1z+3LCjJyqNwd6n9n75euE0pAbOHY+3wacaX+pjfdrYBN+nPa1PYGQPJ3zEPAknYBmtsP
-	MKNhvUPxusR1XXbSEw3yhcCDhpOWsxQMUSuLOJYL44DZST7b+V1lXwhTkP/+gfYk0akIqS
-	8Mn7op+uulq2FE5lljlv66QBAy5NB02Jt90jt5q0J/0Juoh3NHE1/jGqDtLJFA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1720545538;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HXRtPpmIr/zw1VxZFsrUYY1TxMhVL7bZNIcSYI84kW8=;
-	b=zPcdei8DMuFfkYYzd8DODeB87OYLTJ4pR2v6KgrL0E7OGzxoNT7natX7rpIMQ0Rb0yzoWb
-	nk0rVPNu1nu0ZyBg==
-To: Marek Vasut <marek.vasut@mailbox.org>, Marek Vasut
- <marek.vasut+renesas@mailbox.org>, linux-pci@vger.kernel.org
-Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, Bjorn Helgaas
- <bhelgaas@google.com>, Jisheng Zhang <Jisheng.Zhang@synaptics.com>, Jon
- Hunter <jonathanh@nvidia.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>, Yoshihiro
- Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] [RFC] genirq/cpuhotplug, PCI/rcar-host: Silence set
- affinity failed warning
-In-Reply-To: <43e4c568-083f-4b14-9f08-563ba6a71220@mailbox.org>
-References: <20240706132758.53298-1-marek.vasut+renesas@mailbox.org>
- <87h6d1vy2c.ffs@tglx> <43e4c568-083f-4b14-9f08-563ba6a71220@mailbox.org>
-Date: Tue, 09 Jul 2024 19:18:57 +0200
-Message-ID: <875xtewkji.ffs@tglx>
+	s=arc-20240116; t=1720568248; c=relaxed/simple;
+	bh=DiAuI5bdoQsv3i9T5xcHLYssufP9HZymoq04bu0koPs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eblfY2YHLUvRgvW4F956jAmYwRzWoqeI/leQO31Qqr5z7hqCSnRUkeE2l/9H/QhJ/xVSebocG61SQcO/rNkbiR/+/TFkJdDy9x4LobHLfmjxinJtebe3gDp0+5NeJngrp9P3f8UQwupqhCkXAjcaM/eGfqfCk7UP52AO6Jni8qM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e2P1l4c+; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-6e7e23b42c3so2987013a12.1;
+        Tue, 09 Jul 2024 16:37:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1720568246; x=1721173046; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rXJX34uWJ5OA5DmRXtCgDDATDBGR/MfQvezGcEDKT9k=;
+        b=e2P1l4c+iIXiGFzV0FB0MHoGKOCcoja9WwBfFAZbkWMLfIRzxAu+W7o5mo2mQuQ71Q
+         stDjUdEiknKx/8VGGPx23dgaeK1BwhDczm/hjQW4FpY2qifo6R7oW0Ri14M/wBxjVL6i
+         wmHpQ3gUchkguA7k5rCy4JUv/ipVAspzpi7sUdcdrTR2b26JCAuXQGaCSYJBhtFQm5dT
+         UvBet+/Zd4KfpVhpHuINbgxF4v0RNthYjtRndX3/3pH9x5h3gf7Bgc7Z+CQTTt5nV13R
+         PfvBLCCEuDTi7O+phh8IhPxGIMagljls+h+azWCIqA8lqpaZA31RiXXT53XqL3FvWvgl
+         McLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720568246; x=1721173046;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rXJX34uWJ5OA5DmRXtCgDDATDBGR/MfQvezGcEDKT9k=;
+        b=FjY6Dvdt1G16Ed/kUYGgnVvzRwxPBu/1XqerFezNG5nIyml5uR2xF7G3pEOEU6xu+y
+         RZk1C1V4wodHr4eAdK5gio8s0zeAWUAkNRZS/sLhBEq72fqeJ6qtGb/RUu21x9Jx/0Aj
+         FxtG7lV5n9tHRGsEk0o/RbpL0jLlgUjEI/YZMPx0iQRCYHZFa7cPHTZZgqve59cfEUEt
+         /vCVfXxvI2t8g1RbmgZkm0/X5K/xUolFdLF+KyOE8LcJmY0wT2XpVS0dyUikQqmpNkKq
+         mf5noBFnqi+M32Zfdex+gNrzzt76WAmd46W6HS87nlnFuyYJmQtMrqPh0tRyQ3YWYi6J
+         p9Jw==
+X-Forwarded-Encrypted: i=1; AJvYcCXTYnaVOffZ8TkyFIjlR4Yco4skKiEXpmR10M45+uzZ++OyQIYZTbNNt5xFqvncks3D5Xgh/BLJPCb1MlPQE44KK4p7b9ueHL/x6/n1kfut1dFVM+1h038MHm2Iw60sWCdkBzVnLmE22KnpSTrW
+X-Gm-Message-State: AOJu0Yyrg4Yn2Z9Z7xp0AiUIhaaBJWiSXFLylBkUUGkHWg1Pk+fuRHTY
+	Ja1vBpn75LOgbAmEyZBhKYKcocE25Dj5yVkRPB2mAaqOQp3YjvdtDKRMtHsdEL0hXQx+Tnur5Q5
+	b/2sHZ9wKQxx2ErlVH7Dshu4fr6M=
+X-Google-Smtp-Source: AGHT+IG2V35mfqIg7l43Fdz1DP9KlBrMp4z7YPnnRZuC4H7+HlGY+ViSRJK2ydM5lZ5PWFHU+QUZJAu5D4cyntA6r/Y=
+X-Received: by 2002:a05:6a20:72a5:b0:1c2:1ed4:4f90 with SMTP id
+ adf61e73a8af0-1c29822de17mr5097610637.19.1720568246442; Tue, 09 Jul 2024
+ 16:37:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20240630034649.173229-1-marex@denx.de> <20240630034649.173229-2-marex@denx.de>
+ <CAMuHMdXb6nBHLeK1c4CwEUBE8osDyAC_+ohA+10W_mZdGtQufQ@mail.gmail.com>
+ <9f1ae430-4cc4-4e2e-a52c-ca17f499bbba@denx.de> <CAMuHMdWLLAff5_ndAvH9PofTpibJdOau65wK+QekcwR26H2YoA@mail.gmail.com>
+ <b9c2abc3-cc01-4ac7-9e42-c9ce1db64eba@denx.de> <CAMuHMdUtAU0uyXYK_FzHW2vMBwG6WEGNXgJALceCVvvr4DCVbw@mail.gmail.com>
+ <9f705a40-0b5b-4313-b50f-627dffb9fe3b@denx.de>
+In-Reply-To: <9f705a40-0b5b-4313-b50f-627dffb9fe3b@denx.de>
+From: Adam Ford <aford173@gmail.com>
+Date: Tue, 9 Jul 2024 18:37:14 -0500
+Message-ID: <CAHCN7xLr4RB-4zhJpf_xcpM5326m_vaG7E_zx1UJj5MZWhnefQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] arm64: dts: renesas: Drop ethernet-phy-ieee802.3-c22
+ from PHY compatible string on all RZ boards
+To: Marek Vasut <marex@denx.de>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, 
+	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+	linux-arm-kernel@lists.infradead.org, andrew@lunn.ch, 
+	kernel@dh-electronics.com, kernel test robot <lkp@intel.com>, 
+	Conor Dooley <conor+dt@kernel.org>, Khuong Dinh <khuong@os.amperecomputing.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 08 2024 at 13:55, Marek Vasut wrote:
-> On 7/7/24 8:47 PM, Thomas Gleixner wrote:
->> Why does the irq_chip in question have an irq_set_affinity() callback in
->> the first place?
-> I believe originally (at least that's what's being discussed in the 
-> linked threads) it was because the irqchip code didn't check whether 
-> .irq_set_affinity was not NULL at all, so if it was missing, there would 
-> be NULL pointer dereference.
+On Mon, Jul 8, 2024 at 10:34=E2=80=AFPM Marek Vasut <marex@denx.de> wrote:
 >
-> Now this is checked and irq_do_set_affinity() returns -EINVAL, which 
-> triggers the warning that is being silenced by this patch.
+> On 7/8/24 9:09 AM, Geert Uytterhoeven wrote:
+> > Hi Marek,
 >
-> If you think this is better, I can:
-> - Tweak the cpuhotplug.c code to do some
->    if (chip && !chip->irq_set_affinity) return false;
-
-It does already:
-
-migrate_one_irq()
-  if (chip && !chip->irq_set_affinity)
-    return false;
-
-Right at the top.
-
-> - Remove all the .irq_set_affinity implementations from PCI drivers
->    which only return -EINVAL
+> Hi,
 >
-> Would that be better ?
+> > On Fri, Jul 5, 2024 at 11:50=E2=80=AFPM Marek Vasut <marex@denx.de> wro=
+te:
+> >> On 7/3/24 10:24 AM, Geert Uytterhoeven wrote:
+> >>>>> What about moving the PHYs inside an mdio subnode, and removing the
+> >>>>> compatible properties instead? That would protect against different
+> >>>>> board revisions using different PHYs or PHY revisions.
+> >>>>>
+> >>>>> According to Niklas[1], using an mdio subnode cancels the original
+> >>>>> reason (failure to identify the PHY in reset state after unbind/reb=
+ind
+> >>>>> or kexec) for adding the compatible values[2].
+> >>>>
+> >>>> My understanding is that the compatible string is necessary if the P=
+HY
+> >>>> needs clock/reset sequencing of any kind. Without the compatible str=
+ing,
+> >>>> it is not possible to select the correct PHY driver which would hand=
+le
+> >>>> that sequencing according to the PHY requirements. This board here d=
+oes
+> >>>> use reset-gpio property in the PHY node (it is not visible in this d=
+iff
+> >>>> context), so I believe a compatible string should be present here.
+> >>>
+> >>> With the introduction of an mdio subnode, the reset-gpios would move
+> >>> from the PHY node to the mio subnode, cfr. commit b4944dc7b7935a02
+> >>> ("arm64: dts: renesas: white-hawk: ethernet: Describe AVB1 and AVB2")
+> >>> in linux-next.
+> >>
+> >> That's a different use case, that commit uses generic
+> >> "ethernet-phy-ieee802.3-c45" compatible string and the PHY type is
+> >> determined by reading out the PHY ID registers after the reset is rele=
+ased.
+> >>
+> >> This here uses specific compatible string, so the kernel can determine
+> >> the PHY ID from the DT before the reset is released .
+> >
+> > I am suggesting removing the specific compatible string here, too,
+> > introducing an mdio subnode, so the kernel can read it from the PHY
+> > ID registers after the reset is released?
+>
+> I wrote this to Niklas already, so let me expand on it:
+>
+> My understanding of reset GPIO in the MDIO node is that it is used in
+> case there might be multiple PHYs with shared reset GPIO on the same
+> MDIO bus. Like on the NXP iMX28 .
+>
+> In this case, the reset is connected to this single PHY, so the reset
+> line connection is a property of the PHY and should be described in the
+> PHY node.
+>
+> You could argue that in this case, because there is only one PHY and
+> only one reset line, it fits both categories, PHY reset and MDIO reset.
+>
+> And then, there is the future-proofing aspect.
+>
+> If the compatible string is retained, then if in the future there is
+> some problem discovered related to the reset of this PHY, the PHY driver
+> can match on the compatible string and apply a fix up. But it prevents
+> future PHY replacement (which is unlikely in my opinion).
+>
+> If the compatible string is removed and the reset is moved to MDIO node,
+> then replacement of the PHY in the future is likely possible (assuming
+> it does not have any special reset timing requirements), but if there is
+> a problem related to the reset of the current PHY model, the PHY driver
+> cannot fix it up because there is no compatible to match on.
+>
+> I think that about sums the pros and cons up, right ?
+>
+> I also think there is no good solution here, only two bad ones, with
+> different issues each.
+>
+> >>>> What would happen if this board got a revision with another PHY with
+> >>>> different PHY reset sequencing requirements ? The MDIO node level re=
+set
+> >>>> handling might no longer be viable.
+> >>>
+> >>> True. However, please consider these two cases, both assuming
+> >>> reset-gpios is in the MDIO node:
+> >>>
+> >>>     1. The PHY node has a compatible value, and a different PHY is
+> >>>        mounted: the new PHY will not work, as the wrong PHY driver
+> >>>        is used.
+> >>
+> >> What is the likelihood of such PHY exchange happening with these three
+> >> specific boards ? I think close to none, as that would require a board
+> >> redesign to swap in a different PHY.
+> >
+> > I don't know about the likelihood for these boards.
+> > It did happen before on other boards, e.g. commit a0d23b8645b2d577
+> > ("arm64: dts: renesas: beacon-renesom: Update Ethernet PHY ID").
+>
+> I had that happen too. The solution there was to upstream the newer PHY
+> ID and apply backward compatibility DTO that rewrote the PHY ID for the
+> few older boards. The DTO application decision was done in U-Boot scripti=
+ng.
+>
+> It was not possible to auto-detect the PHY after deasserting its reset
+> in my case, I had to determine whether to apply DTO or not based on
+> strap resistors on the board.
 
-I think so.
+Beacon had to swap the phy due to the great part shortage of 2021 and
+having the hard-code ID's prevented backwards compatibility.  For the
+Beacon downstream kernel, we removed the PHY ID and kept the generic
+'ethernet-phy-ieee802.3-c22' because it could auto-detect what we
+needed and both PHY's appear to come out of reset and register
+properly.  I don't know if we could make a generic phy-ieee802.3-c22
+handle the reset, wait a moment and then try to auto-detect, but it
+would be nice to not have to jump through hoops if/when people need to
+change PHY's.
 
-Thanks,
+adam
 
-        tglx
+>
 
