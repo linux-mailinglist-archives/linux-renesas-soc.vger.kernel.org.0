@@ -1,78 +1,93 @@
-Return-Path: <linux-renesas-soc+bounces-7218-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7219-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2994592CC65
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jul 2024 10:02:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB16592CDB9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jul 2024 10:59:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5B0681C2318E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jul 2024 08:02:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F0BE1F25D28
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jul 2024 08:59:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9345285656;
-	Wed, 10 Jul 2024 08:02:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94DB316EBE6;
+	Wed, 10 Jul 2024 08:57:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wa+yGhgz"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="KiZNg4Xu"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63EA63A8E4;
-	Wed, 10 Jul 2024 08:02:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C562317F365
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Jul 2024 08:57:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720598536; cv=none; b=QTpXOQKMb2uk9zOVGeGpXcQTSegMWwDiQ7tBgCKGO56bOf0O/sJuIlEY/O4FECoaS4paKmlC+vuaL0/QfDuA2zPpVcLc09Pci9ep9XyamtbdisM6mYlK2TbgBwTiQGYZ9CJkvvxqAqRBp2yKjKH9hkHHyyevPVFeOeJxQb90T9w=
+	t=1720601831; cv=none; b=tedBSk4zhA0OtdCKUmpffcr/oC7Q2YkJSlFQpQcAmVLYbViL/mhW0kZWebwZcoGF2hM5VmYNn8t8cCnrFQyAk8KZGZYIbHDXcx8CJ0SH01JVtB8RdydpjYg8kc/eIZrwX7RYaG2QOI/n51uzVB0xeKRgFSNg98+KNjN83RX1a+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720598536; c=relaxed/simple;
-	bh=tsVFU6PpPDag/m1vEhJjAgzkLvickuoY8VN/4QbAiBg=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ex2iCTJ2Jpde+c8iQmOfavCoqMPDRLnzTxjLkHBM+gj+HzQ8lFsiF2XU9T4WcNp8fByPkGr7Lw5JFZKpkahQPwr87BaqX9HTdxIQWQsl8QvuegPAPreJwSb9SxlfWPh+RwJUvZNA5BwlHw0oMSGpDEKmbMDFRXlHCury1GX2GRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wa+yGhgz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97EBFC32781;
-	Wed, 10 Jul 2024 08:02:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720598536;
-	bh=tsVFU6PpPDag/m1vEhJjAgzkLvickuoY8VN/4QbAiBg=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=Wa+yGhgzIUvoAWYtoMybC8N22r5vfYvhr61hvbjZvDvWA4z4t7LI2OudZtzgYkNNh
-	 jf8xVEe+PDEbrTiufzJchsiz2ONbvxHkD1uzDrhmd1IAZeajbmvr78Ia+hrQfuAO6g
-	 RFilcvM23EVAYz5rg3dBePMCXNJlxP0Q4aQn4GiLYnpP/nZ2u6IJhjY88Om9B9Ni7C
-	 YS4hwATG43cJA4cbsfVkvKWjx3YMRY14M4kbWJP05XtetciUErF8xXw39VRdIfW3Pc
-	 MFSkOMJqwYv4QYAAeOEKyDHAGFIEO6UJg7a1kmsCsMVowtWAoGgxuVLbberD84FaU0
-	 NqO5k6bZM44eQ==
-Date: Wed, 10 Jul 2024 10:02:12 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Markus Elfring <Markus.Elfring@web.de>, linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 3/3] i2c: rcar: minor changes to adhere to coding style
-Message-ID: <k2uzki2fvxzp5sexkgaevdvri5kiw3vrsb5psy4lv4q7idkjlt@vubcmobiyqfv>
-References: <20240707082848.5424-4-wsa+renesas@sang-engineering.com>
- <f93eda7e-e65f-42e9-b96d-e88290201ca0@web.de>
- <Zop2vNCrzDmEKKiO@shikoro>
- <Zou2g8nGBD7Pv8kR@shikoro>
- <5trq7ondxem43rfnckonywhrucvjvecc52pvyik2fsz64ivknv@r22caitz5y3s>
- <Zo4qVeIjGCQH5zXn@shikoro>
+	s=arc-20240116; t=1720601831; c=relaxed/simple;
+	bh=Tt0Jl2tU3zO/Wh7c+LAq5u72FP7J2tjQ9tyd8S/2bFI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EpOTW2W5qI/AXU1LOmIx+otZo0oHAZQM+NtrY/DZ9wJLZ+jyFVMAKlp1NO0xfydAxYKFX+HXJLPr/7p36sFsJ/uoWFaRVbLf5p9ISR/BHu90CxbKYTpNMKHl+DYfQK9JenMqs0WfJX87Aig9yKNJlJUjTmOJ+gNK43DTORDnDPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=KiZNg4Xu; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=koCGvESJ3Imm6Y
+	IVfEKZUOMd5g8GfRwpvXlAJ7OyOYY=; b=KiZNg4XuCOXhRVuBIVA4V9ds+FVFVX
+	TXIy1+VDRIQIpaoSSFutXpmN/qZZNI9ECi2pShKksw4YRs0fUbqUSiLwwEjzJn3l
+	3gGN0vPUHDRRw9fziodi/qZ08QwOgbUzRAdJTwHH5D+3A+XdYGNjTPIeLvilEBWn
+	IOYxJy73KmNfR9vHj+QIargdCEPdp4uBOHqP+0YNFjxN5BaCfF3lviz6CFwWjgjj
+	zlJXr2rQ7tl3JPzdCqMSO6MTDxQ0b2oP6mSX7U2VSZACeboawkZmq0C9j1nO6YaT
+	iJ6OJTu74KBtxJKXTQcaQhCFlGmZEGc0fh4zx3B5cfTTdydsJRLnZyeg==
+Received: (qmail 470350 invoked from network); 10 Jul 2024 10:55:21 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Jul 2024 10:55:21 +0200
+X-UD-Smtp-Session: l3s3148p1@jydhzuAcPNsujnsa
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Pierre-Yves MORDRET <pierre-yves.mordret@st.com>,
+	Alain Volmat <alain.volmat@st.com>,
+	linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] i2c: mark HostNotify target address as used
+Date: Wed, 10 Jul 2024 10:55:07 +0200
+Message-ID: <20240710085506.31267-2-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Zo4qVeIjGCQH5zXn@shikoro>
+Content-Transfer-Encoding: 8bit
 
-Hi Wolfram,
+I2C core handles the local target for receiving HostNotify alerts. There
+is no separate driver bound to that address. That means userspace can
+access it if desired, leading to further complications if controllers
+are not capable of reading their own local target. Bind the local target
+to the dummy driver so it will marked as "handled by the kernel" if the
+HostNotify feature is used. That protects aginst userspace access and
+prevents other drivers binding to it.
 
-> > That's OK... if you want I can remove those blank lines before
-> > applying them, it's just two cases in your patch.
-> 
-> Then, please do that. Thanks!
+Fixes: 2a71593da34d ("i2c: smbus: add core function handling SMBus host-notify")
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ drivers/i2c/i2c-core-base.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-done! Applied 2 and 3 to i2c/i2c-host.
+diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
+index d6213d251336..57f03cbb1f48 100644
+--- a/drivers/i2c/i2c-core-base.c
++++ b/drivers/i2c/i2c-core-base.c
+@@ -1067,6 +1067,7 @@ EXPORT_SYMBOL(i2c_find_device_by_fwnode);
+ 
+ static const struct i2c_device_id dummy_id[] = {
+ 	{ "dummy" },
++	{ "smbus_host_notify" },
+ 	{ }
+ };
+ 
+-- 
+2.43.0
 
-Thanks,
-Andi
 
