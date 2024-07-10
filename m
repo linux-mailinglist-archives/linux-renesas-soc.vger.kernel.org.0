@@ -1,45 +1,45 @@
-Return-Path: <linux-renesas-soc+bounces-7229-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7234-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9243992D265
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jul 2024 15:11:00 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC67F92D271
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jul 2024 15:11:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C3DB91C23894
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jul 2024 13:10:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7C95428237F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jul 2024 13:11:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FADF192488;
-	Wed, 10 Jul 2024 13:10:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A638192B6B;
+	Wed, 10 Jul 2024 13:10:57 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [195.130.132.52])
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [195.130.137.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C198192492
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26467192B65
 	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Jul 2024 13:10:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720617055; cv=none; b=c0g6l7aiYrHwJk2uEGWoB0GjTkOI2ITIkbUZagv9kbND/Ildcg7fL4i28W8TFdUTRNiTp4d2cI3S9Rim+2ycxBPI1+rvFeiMUZbNeMEZFdq3LWuncCg9jy5uaiUoZTCcV6OdQrpeGfqUbzwi8fjjJKaRiY7a1hbR5v3BiIE5bmo=
+	t=1720617057; cv=none; b=SGYRmqsFNMG6GKvkU6IRg43h0NjzE/wbYVN1Em7lz99Wv06eo+kx2UoRo5kVt8HtCDo/MfCOribJPzOpu0tu9MXVFYxKMQKE+ccVcrBIAzOWbKD4bbpwN3gxI4wVS7E/r3QK913e0ApXytyauENLJ1eXQ78OzxUB0CUujU2oGnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720617055; c=relaxed/simple;
-	bh=2zaL63BasDX6Cc1M1ENcL5Tg9TJHWj4bAbNE170bn+s=;
+	s=arc-20240116; t=1720617057; c=relaxed/simple;
+	bh=n2TASd3TZdWoh9fgkpoKHEQ7tawGZgtX3/NFoowI/A0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=iu3Du3Gp8zOncjpA2WUoPGqlJJbMYQsYCnyrkwd7DEY7VG9u4fdjrlHt4sfPrM/vieGzuI+q6u/xiteO8iwl3xYnzD6Yp0sqQGviVAFzqWb+kpiJwYz3/am8h/msnsO2qF9iANZqt545oYxGbUTuX+hZyT+jhe0qN7c1zlUB/qo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.52
+	 MIME-Version; b=j8Jvl6XSZy0RwMfxTdyEvMmBPpKPcx4B429QHz8e440a8qFZPKGaT5+5K1apNnpGR8wdrx51eSJn5qjfUVlwqjrG0eDIFBz9C/8to9/FR5Gi2Oy4Vf3cCD3UC0/vCIf/aXtqfngOyLBzCdHfaVj1XitwwumW/GJtZdP1Z8nPrIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.89
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:2340:18a1:4138:37d2])
-	by xavier.telenet-ops.be with bizsmtp
-	id lpAp2C00P4znMfS01pApdy; Wed, 10 Jul 2024 15:10:50 +0200
+	by laurent.telenet-ops.be with bizsmtp
+	id lpAp2C00G4znMfS01pApF0; Wed, 10 Jul 2024 15:10:50 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1sRX5g-001cTb-0j;
+	id 1sRX5g-001cTf-1g;
 	Wed, 10 Jul 2024 15:10:49 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1sRX5t-00CQCE-Is;
+	id 1sRX5t-00CQCK-KC;
 	Wed, 10 Jul 2024 15:10:49 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Michael Turquette <mturquette@baylibre.com>,
@@ -48,9 +48,9 @@ To: Michael Turquette <mturquette@baylibre.com>,
 Cc: linux-renesas-soc@vger.kernel.org,
 	linux-clk@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 09/14] clk: renesas: r8a779a0: Use defines for PLL control registers
-Date: Wed, 10 Jul 2024 15:10:43 +0200
-Message-Id: <baff62509ec185713380c2f306ae37061b5a467a.1720616233.git.geert+renesas@glider.be>
+Subject: [PATCH 10/14] clk: renesas: r8a779f0: Model PLL1/2/3/6 as fractional PLLs
+Date: Wed, 10 Jul 2024 15:10:44 +0200
+Message-Id: <7f0f381e43debbcf86a8fbe2a1295e6e6e7f2200.1720616233.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1720616233.git.geert+renesas@glider.be>
 References: <cover.1720616233.git.geert+renesas@glider.be>
@@ -62,45 +62,46 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add symbolic definitions for the various PLL control registers.
-Replace hardcoded register offsets by the new definitions.
+Currently, all PLLs are modelled as fixed divider clocks, based on the
+state of the mode pins.  However, the boot loader stack may have changed
+the actual PLL configuration from the default, leading to incorrect
+clock frequencies.
+
+Describe PLL1 as a fixed fractional PLL instead, and PLL2, PLL3, and
+PLL6 as variable fractional PLLs.  Note that the R-Car Gen4 clock driver
+does not support variable 9.24 PLLs yet, so the driver will downgrade
+them to fixed fractional PLLs, too.
+
+Reformat nearby lines to retain a consistent layout.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/clk/renesas/r8a779a0-cpg-mssr.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ drivers/clk/renesas/r8a779f0-cpg-mssr.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/clk/renesas/r8a779a0-cpg-mssr.c b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-index 291e08ae7321670c..caa7e0ff2ed3efdb 100644
---- a/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-+++ b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-@@ -61,6 +61,11 @@ enum clk_ids {
- 	DEF_BASE(_name, _id, CLK_TYPE_GEN4_PLL2X_3X, CLK_MAIN, \
- 		 .offset = _offset)
+diff --git a/drivers/clk/renesas/r8a779f0-cpg-mssr.c b/drivers/clk/renesas/r8a779f0-cpg-mssr.c
+index f05390558a22a367..46b21cca7409010f 100644
+--- a/drivers/clk/renesas/r8a779f0-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a779f0-cpg-mssr.c
+@@ -57,12 +57,12 @@ static const struct cpg_core_clk r8a779f0_core_clks[] __initconst = {
+ 	DEF_INPUT("extalr",	CLK_EXTALR),
  
-+#define CPG_PLL20CR	0x0834	/* PLL20 Control Register */
-+#define CPG_PLL21CR	0x0838	/* PLL21 Control Register */
-+#define CPG_PLL30CR	0x083c	/* PLL30 Control Register */
-+#define CPG_PLL31CR	0x0840	/* PLL31 Control Register */
-+
- static const struct cpg_core_clk r8a779a0_core_clks[] __initconst = {
- 	/* External Clock Inputs */
- 	DEF_INPUT("extal",  CLK_EXTAL),
-@@ -70,10 +75,10 @@ static const struct cpg_core_clk r8a779a0_core_clks[] __initconst = {
- 	DEF_BASE(".main", CLK_MAIN,	CLK_TYPE_GEN4_MAIN, CLK_EXTAL),
- 	DEF_BASE(".pll1", CLK_PLL1,	CLK_TYPE_GEN4_PLL1, CLK_MAIN),
- 	DEF_BASE(".pll5", CLK_PLL5,	CLK_TYPE_GEN4_PLL5, CLK_MAIN),
--	DEF_PLL(".pll20", CLK_PLL20,	0x0834),
--	DEF_PLL(".pll21", CLK_PLL21,	0x0838),
--	DEF_PLL(".pll30", CLK_PLL30,	0x083c),
--	DEF_PLL(".pll31", CLK_PLL31,	0x0840),
-+	DEF_PLL(".pll20", CLK_PLL20,	CPG_PLL20CR),
-+	DEF_PLL(".pll21", CLK_PLL21,	CPG_PLL21CR),
-+	DEF_PLL(".pll30", CLK_PLL30,	CPG_PLL30CR),
-+	DEF_PLL(".pll31", CLK_PLL31,	CPG_PLL31CR),
+ 	/* Internal Core Clocks */
+-	DEF_BASE(".main", CLK_MAIN,	CLK_TYPE_GEN4_MAIN, CLK_EXTAL),
+-	DEF_BASE(".pll1", CLK_PLL1,	CLK_TYPE_GEN4_PLL1, CLK_MAIN),
+-	DEF_BASE(".pll2", CLK_PLL2,	CLK_TYPE_GEN4_PLL2, CLK_MAIN),
+-	DEF_BASE(".pll3", CLK_PLL3,	CLK_TYPE_GEN4_PLL3, CLK_MAIN),
+-	DEF_BASE(".pll5", CLK_PLL5,	CLK_TYPE_GEN4_PLL5, CLK_MAIN),
+-	DEF_BASE(".pll6", CLK_PLL6,	CLK_TYPE_GEN4_PLL6, CLK_MAIN),
++	DEF_BASE(".main", CLK_MAIN,	CLK_TYPE_GEN4_MAIN,	CLK_EXTAL),
++	DEF_GEN4_PLL_F9_24(".pll1", 1,	CLK_PLL1,		CLK_MAIN),
++	DEF_GEN4_PLL_V9_24(".pll2", 2,	CLK_PLL2,		CLK_MAIN),
++	DEF_GEN4_PLL_V9_24(".pll3", 3,	CLK_PLL3,		CLK_MAIN),
++	DEF_BASE(".pll5", CLK_PLL5,	CLK_TYPE_GEN4_PLL5,	CLK_MAIN),
++	DEF_GEN4_PLL_V9_24(".pll6", 6,	CLK_PLL6,		CLK_MAIN),
  
- 	DEF_FIXED(".pll1_div2",		CLK_PLL1_DIV2,	CLK_PLL1,	2, 1),
- 	DEF_FIXED(".pll20_div2",	CLK_PLL20_DIV2,	CLK_PLL20,	2, 1),
+ 	DEF_FIXED(".pll1_div2",	CLK_PLL1_DIV2,	CLK_PLL1,	2, 1),
+ 	DEF_FIXED(".pll2_div2",	CLK_PLL2_DIV2,	CLK_PLL2,	2, 1),
 -- 
 2.34.1
 
