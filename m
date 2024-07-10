@@ -1,218 +1,165 @@
-Return-Path: <linux-renesas-soc+bounces-7213-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7214-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35FD892C6A7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jul 2024 01:37:33 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9F9C92C831
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jul 2024 04:01:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9A2FC1F22D37
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jul 2024 23:37:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 794CFB21082
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jul 2024 02:01:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7C78156C74;
-	Tue,  9 Jul 2024 23:37:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DFDEA32;
+	Wed, 10 Jul 2024 02:01:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e2P1l4c+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ftivqmwb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C947144D00;
-	Tue,  9 Jul 2024 23:37:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606BF320C
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Jul 2024 02:01:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720568248; cv=none; b=jOoAR/toEwhxW1BMXa/husHluzcbGm9gGKPq56UmLfcI883U/JN+CLl8TPULm+UZxbuFnMLXyUs/YzBmWOjTnwFl9Th3vfHa1oqm3gLirSbsyZuq/RP/Zqb5SYdSnBQmNpXkvxDOl6eqPAveP54Km+1xne7fyD6H8/iUGxYHHho=
+	t=1720576867; cv=none; b=RTLxYAa0DaYlNm2oCDPmUJvMGsNOV5yR2rkYwdsIdPMroBCTPwk4hk6yF5oLsnvzA2Cad+JL798fcGYqZwivFRJ88mCLpRB7AMI3DrT+ALMyFk5GkfMd+5SW7HD7gBiAeARDznwd1/Mfa3ZNcBbAnKDHa9M2jvsrYBEBUCO1y70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720568248; c=relaxed/simple;
-	bh=DiAuI5bdoQsv3i9T5xcHLYssufP9HZymoq04bu0koPs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eblfY2YHLUvRgvW4F956jAmYwRzWoqeI/leQO31Qqr5z7hqCSnRUkeE2l/9H/QhJ/xVSebocG61SQcO/rNkbiR/+/TFkJdDy9x4LobHLfmjxinJtebe3gDp0+5NeJngrp9P3f8UQwupqhCkXAjcaM/eGfqfCk7UP52AO6Jni8qM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e2P1l4c+; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-6e7e23b42c3so2987013a12.1;
-        Tue, 09 Jul 2024 16:37:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720568246; x=1721173046; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rXJX34uWJ5OA5DmRXtCgDDATDBGR/MfQvezGcEDKT9k=;
-        b=e2P1l4c+iIXiGFzV0FB0MHoGKOCcoja9WwBfFAZbkWMLfIRzxAu+W7o5mo2mQuQ71Q
-         stDjUdEiknKx/8VGGPx23dgaeK1BwhDczm/hjQW4FpY2qifo6R7oW0Ri14M/wBxjVL6i
-         wmHpQ3gUchkguA7k5rCy4JUv/ipVAspzpi7sUdcdrTR2b26JCAuXQGaCSYJBhtFQm5dT
-         UvBet+/Zd4KfpVhpHuINbgxF4v0RNthYjtRndX3/3pH9x5h3gf7Bgc7Z+CQTTt5nV13R
-         PfvBLCCEuDTi7O+phh8IhPxGIMagljls+h+azWCIqA8lqpaZA31RiXXT53XqL3FvWvgl
-         McLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720568246; x=1721173046;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rXJX34uWJ5OA5DmRXtCgDDATDBGR/MfQvezGcEDKT9k=;
-        b=FjY6Dvdt1G16Ed/kUYGgnVvzRwxPBu/1XqerFezNG5nIyml5uR2xF7G3pEOEU6xu+y
-         RZk1C1V4wodHr4eAdK5gio8s0zeAWUAkNRZS/sLhBEq72fqeJ6qtGb/RUu21x9Jx/0Aj
-         FxtG7lV5n9tHRGsEk0o/RbpL0jLlgUjEI/YZMPx0iQRCYHZFa7cPHTZZgqve59cfEUEt
-         /vCVfXxvI2t8g1RbmgZkm0/X5K/xUolFdLF+KyOE8LcJmY0wT2XpVS0dyUikQqmpNkKq
-         mf5noBFnqi+M32Zfdex+gNrzzt76WAmd46W6HS87nlnFuyYJmQtMrqPh0tRyQ3YWYi6J
-         p9Jw==
-X-Forwarded-Encrypted: i=1; AJvYcCXTYnaVOffZ8TkyFIjlR4Yco4skKiEXpmR10M45+uzZ++OyQIYZTbNNt5xFqvncks3D5Xgh/BLJPCb1MlPQE44KK4p7b9ueHL/x6/n1kfut1dFVM+1h038MHm2Iw60sWCdkBzVnLmE22KnpSTrW
-X-Gm-Message-State: AOJu0Yyrg4Yn2Z9Z7xp0AiUIhaaBJWiSXFLylBkUUGkHWg1Pk+fuRHTY
-	Ja1vBpn75LOgbAmEyZBhKYKcocE25Dj5yVkRPB2mAaqOQp3YjvdtDKRMtHsdEL0hXQx+Tnur5Q5
-	b/2sHZ9wKQxx2ErlVH7Dshu4fr6M=
-X-Google-Smtp-Source: AGHT+IG2V35mfqIg7l43Fdz1DP9KlBrMp4z7YPnnRZuC4H7+HlGY+ViSRJK2ydM5lZ5PWFHU+QUZJAu5D4cyntA6r/Y=
-X-Received: by 2002:a05:6a20:72a5:b0:1c2:1ed4:4f90 with SMTP id
- adf61e73a8af0-1c29822de17mr5097610637.19.1720568246442; Tue, 09 Jul 2024
- 16:37:26 -0700 (PDT)
+	s=arc-20240116; t=1720576867; c=relaxed/simple;
+	bh=a6AEfhQEi+pFuk2UcSc7SM79AtREJL3XKAXhF4ZY3sk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cUt6FdlMHWQjeH58WclL6JWTVJIfmwZM7+WYTDB2OiTHRTMFXDkNz0ScZBc4njkR3+PQZLMKZE9osGo9srtr8bKkCLegr9L7CuyAWRJpbnGoM4LtdiL4ZTC+848/fJ/J0h1jb8LKNYpX62sdpMUHUE7nJ+rn78xy9BHYDa1FhZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ftivqmwb; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720576865; x=1752112865;
+  h=date:from:to:cc:subject:message-id;
+  bh=a6AEfhQEi+pFuk2UcSc7SM79AtREJL3XKAXhF4ZY3sk=;
+  b=FtivqmwbZXCncOfGjIV3HIRGLKOIf3lw5i5RziOXyyOOi20LLr74GmBd
+   9k8FBpX/GLivFeKFlFQnkCpoJpmwfs++QFlJXlfiuj/RIAI2C2Yxmlk4y
+   sM5FMcKkUIzRunqQMppvZ+95yywCKb8WbW9X4j2EB8WANJiqKzm1s65pp
+   pAqe/w9/8bBULk0oBM6IDGjRUql7ScDUqRPfX3iZIwcJmCQWjOz/GnwxS
+   ENOob5yAbuP14z7hL/ZMl68saX+uKyxWsMZ+gig0kGvXv4GNfWOo5DQUP
+   u7btm0DfkQnpvb9zpoqLRafFccsUs3cU01sNZE7/8OsC4PLhSPk8xOks8
+   Q==;
+X-CSE-ConnectionGUID: TyX2gLXeSzCza0YLlqDYfA==
+X-CSE-MsgGUID: oHvzT4MGQJChEz1msxJ0Zg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11128"; a="20778064"
+X-IronPort-AV: E=Sophos;i="6.09,196,1716274800"; 
+   d="scan'208";a="20778064"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2024 19:01:01 -0700
+X-CSE-ConnectionGUID: WtL0THiXTAuiEKLS6jhUKA==
+X-CSE-MsgGUID: wbJhOuXwRPmNPFF4eaRfnA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,196,1716274800"; 
+   d="scan'208";a="71275087"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 09 Jul 2024 19:01:00 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sRMde-000XLu-0H;
+	Wed, 10 Jul 2024 02:00:58 +0000
+Date: Wed, 10 Jul 2024 10:00:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:topic/rcar3-iommus-v1] BUILD SUCCESS
+ f788d9b14a791bc9ab012d48ded2739fee5afb77
+Message-ID: <202407101031.7dwOUWYu-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240630034649.173229-1-marex@denx.de> <20240630034649.173229-2-marex@denx.de>
- <CAMuHMdXb6nBHLeK1c4CwEUBE8osDyAC_+ohA+10W_mZdGtQufQ@mail.gmail.com>
- <9f1ae430-4cc4-4e2e-a52c-ca17f499bbba@denx.de> <CAMuHMdWLLAff5_ndAvH9PofTpibJdOau65wK+QekcwR26H2YoA@mail.gmail.com>
- <b9c2abc3-cc01-4ac7-9e42-c9ce1db64eba@denx.de> <CAMuHMdUtAU0uyXYK_FzHW2vMBwG6WEGNXgJALceCVvvr4DCVbw@mail.gmail.com>
- <9f705a40-0b5b-4313-b50f-627dffb9fe3b@denx.de>
-In-Reply-To: <9f705a40-0b5b-4313-b50f-627dffb9fe3b@denx.de>
-From: Adam Ford <aford173@gmail.com>
-Date: Tue, 9 Jul 2024 18:37:14 -0500
-Message-ID: <CAHCN7xLr4RB-4zhJpf_xcpM5326m_vaG7E_zx1UJj5MZWhnefQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: renesas: Drop ethernet-phy-ieee802.3-c22
- from PHY compatible string on all RZ boards
-To: Marek Vasut <marex@denx.de>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
-	linux-arm-kernel@lists.infradead.org, andrew@lunn.ch, 
-	kernel@dh-electronics.com, kernel test robot <lkp@intel.com>, 
-	Conor Dooley <conor+dt@kernel.org>, Khuong Dinh <khuong@os.amperecomputing.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 8, 2024 at 10:34=E2=80=AFPM Marek Vasut <marex@denx.de> wrote:
->
-> On 7/8/24 9:09 AM, Geert Uytterhoeven wrote:
-> > Hi Marek,
->
-> Hi,
->
-> > On Fri, Jul 5, 2024 at 11:50=E2=80=AFPM Marek Vasut <marex@denx.de> wro=
-te:
-> >> On 7/3/24 10:24 AM, Geert Uytterhoeven wrote:
-> >>>>> What about moving the PHYs inside an mdio subnode, and removing the
-> >>>>> compatible properties instead? That would protect against different
-> >>>>> board revisions using different PHYs or PHY revisions.
-> >>>>>
-> >>>>> According to Niklas[1], using an mdio subnode cancels the original
-> >>>>> reason (failure to identify the PHY in reset state after unbind/reb=
-ind
-> >>>>> or kexec) for adding the compatible values[2].
-> >>>>
-> >>>> My understanding is that the compatible string is necessary if the P=
-HY
-> >>>> needs clock/reset sequencing of any kind. Without the compatible str=
-ing,
-> >>>> it is not possible to select the correct PHY driver which would hand=
-le
-> >>>> that sequencing according to the PHY requirements. This board here d=
-oes
-> >>>> use reset-gpio property in the PHY node (it is not visible in this d=
-iff
-> >>>> context), so I believe a compatible string should be present here.
-> >>>
-> >>> With the introduction of an mdio subnode, the reset-gpios would move
-> >>> from the PHY node to the mio subnode, cfr. commit b4944dc7b7935a02
-> >>> ("arm64: dts: renesas: white-hawk: ethernet: Describe AVB1 and AVB2")
-> >>> in linux-next.
-> >>
-> >> That's a different use case, that commit uses generic
-> >> "ethernet-phy-ieee802.3-c45" compatible string and the PHY type is
-> >> determined by reading out the PHY ID registers after the reset is rele=
-ased.
-> >>
-> >> This here uses specific compatible string, so the kernel can determine
-> >> the PHY ID from the DT before the reset is released .
-> >
-> > I am suggesting removing the specific compatible string here, too,
-> > introducing an mdio subnode, so the kernel can read it from the PHY
-> > ID registers after the reset is released?
->
-> I wrote this to Niklas already, so let me expand on it:
->
-> My understanding of reset GPIO in the MDIO node is that it is used in
-> case there might be multiple PHYs with shared reset GPIO on the same
-> MDIO bus. Like on the NXP iMX28 .
->
-> In this case, the reset is connected to this single PHY, so the reset
-> line connection is a property of the PHY and should be described in the
-> PHY node.
->
-> You could argue that in this case, because there is only one PHY and
-> only one reset line, it fits both categories, PHY reset and MDIO reset.
->
-> And then, there is the future-proofing aspect.
->
-> If the compatible string is retained, then if in the future there is
-> some problem discovered related to the reset of this PHY, the PHY driver
-> can match on the compatible string and apply a fix up. But it prevents
-> future PHY replacement (which is unlikely in my opinion).
->
-> If the compatible string is removed and the reset is moved to MDIO node,
-> then replacement of the PHY in the future is likely possible (assuming
-> it does not have any special reset timing requirements), but if there is
-> a problem related to the reset of the current PHY model, the PHY driver
-> cannot fix it up because there is no compatible to match on.
->
-> I think that about sums the pros and cons up, right ?
->
-> I also think there is no good solution here, only two bad ones, with
-> different issues each.
->
-> >>>> What would happen if this board got a revision with another PHY with
-> >>>> different PHY reset sequencing requirements ? The MDIO node level re=
-set
-> >>>> handling might no longer be viable.
-> >>>
-> >>> True. However, please consider these two cases, both assuming
-> >>> reset-gpios is in the MDIO node:
-> >>>
-> >>>     1. The PHY node has a compatible value, and a different PHY is
-> >>>        mounted: the new PHY will not work, as the wrong PHY driver
-> >>>        is used.
-> >>
-> >> What is the likelihood of such PHY exchange happening with these three
-> >> specific boards ? I think close to none, as that would require a board
-> >> redesign to swap in a different PHY.
-> >
-> > I don't know about the likelihood for these boards.
-> > It did happen before on other boards, e.g. commit a0d23b8645b2d577
-> > ("arm64: dts: renesas: beacon-renesom: Update Ethernet PHY ID").
->
-> I had that happen too. The solution there was to upstream the newer PHY
-> ID and apply backward compatibility DTO that rewrote the PHY ID for the
-> few older boards. The DTO application decision was done in U-Boot scripti=
-ng.
->
-> It was not possible to auto-detect the PHY after deasserting its reset
-> in my case, I had to determine whether to apply DTO or not based on
-> strap resistors on the board.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/rcar3-iommus-v1
+branch HEAD: f788d9b14a791bc9ab012d48ded2739fee5afb77  arm64: dts: renesas: r8a779h0: Add missing iommus properties
 
-Beacon had to swap the phy due to the great part shortage of 2021 and
-having the hard-code ID's prevented backwards compatibility.  For the
-Beacon downstream kernel, we removed the PHY ID and kept the generic
-'ethernet-phy-ieee802.3-c22' because it could auto-detect what we
-needed and both PHY's appear to come out of reset and register
-properly.  I don't know if we could make a generic phy-ieee802.3-c22
-handle the reset, wait a moment and then try to auto-detect, but it
-would be nice to not have to jump through hoops if/when people need to
-change PHY's.
+elapsed time: 735m
 
-adam
+configs tested: 72
+configs skipped: 93
 
->
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc-13.2.0
+alpha                               defconfig   gcc-13.2.0
+arc                              allmodconfig   gcc-13.2.0
+arc                               allnoconfig   gcc-13.2.0
+arc                              allyesconfig   gcc-13.2.0
+arc                                 defconfig   gcc-13.2.0
+arm                              allmodconfig   gcc-13.2.0
+arm                               allnoconfig   gcc-13.2.0
+arm                              allyesconfig   gcc-13.2.0
+arm                                 defconfig   gcc-13.2.0
+arm                            hisi_defconfig   gcc-13.2.0
+arm                          ixp4xx_defconfig   gcc-13.2.0
+arm                          pxa910_defconfig   gcc-13.2.0
+arm                        realview_defconfig   gcc-13.2.0
+arm64                            allmodconfig   clang-19
+arm64                            allmodconfig   gcc-13.2.0
+arm64                             allnoconfig   gcc-13.2.0
+arm64                               defconfig   gcc-13.2.0
+csky                              allnoconfig   gcc-13.2.0
+csky                                defconfig   gcc-13.2.0
+i386                             allmodconfig   clang-18
+i386                              allnoconfig   clang-18
+i386                             allyesconfig   clang-18
+i386                                defconfig   clang-18
+loongarch                        allmodconfig   gcc-13.2.0
+loongarch                         allnoconfig   gcc-13.2.0
+loongarch                           defconfig   gcc-13.2.0
+m68k                             allmodconfig   gcc-13.2.0
+m68k                              allnoconfig   gcc-13.2.0
+m68k                             allyesconfig   gcc-13.2.0
+m68k                                defconfig   gcc-13.2.0
+m68k                       m5249evb_defconfig   gcc-13.2.0
+microblaze                       allmodconfig   gcc-13.2.0
+microblaze                        allnoconfig   gcc-13.2.0
+microblaze                       allyesconfig   gcc-13.2.0
+microblaze                          defconfig   gcc-13.2.0
+mips                              allnoconfig   gcc-13.2.0
+nios2                             allnoconfig   gcc-13.2.0
+nios2                               defconfig   gcc-13.2.0
+openrisc                          allnoconfig   gcc-13.2.0
+openrisc                            defconfig   gcc-13.2.0
+parisc                            allnoconfig   gcc-13.2.0
+parisc                              defconfig   gcc-13.2.0
+parisc64                         alldefconfig   gcc-13.2.0
+parisc64                            defconfig   gcc-13.2.0
+powerpc                           allnoconfig   gcc-13.2.0
+powerpc                      katmai_defconfig   gcc-13.2.0
+powerpc                     tqm8548_defconfig   gcc-13.2.0
+riscv                             allnoconfig   gcc-13.2.0
+riscv                               defconfig   gcc-13.2.0
+riscv                    nommu_virt_defconfig   gcc-13.2.0
+s390                             allmodconfig   clang-19
+s390                              allnoconfig   gcc-13.2.0
+s390                             allyesconfig   clang-19
+s390                                defconfig   gcc-13.2.0
+sh                                allnoconfig   gcc-13.2.0
+sh                                  defconfig   gcc-13.2.0
+sh                        dreamcast_defconfig   gcc-13.2.0
+sh                        edosk7705_defconfig   gcc-13.2.0
+sh                          rsk7264_defconfig   gcc-13.2.0
+sh                           se7780_defconfig   gcc-13.2.0
+sh                            titan_defconfig   gcc-13.2.0
+sparc64                             defconfig   gcc-13.2.0
+um                                allnoconfig   gcc-13.2.0
+um                                  defconfig   gcc-13.2.0
+um                             i386_defconfig   gcc-13.2.0
+um                           x86_64_defconfig   gcc-13.2.0
+x86_64                            allnoconfig   clang-18
+x86_64                           allyesconfig   clang-18
+x86_64                              defconfig   clang-18
+x86_64                          rhel-8.3-rust   clang-18
+xtensa                            allnoconfig   gcc-13.2.0
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
