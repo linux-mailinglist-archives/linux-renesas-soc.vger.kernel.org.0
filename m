@@ -1,305 +1,110 @@
-Return-Path: <linux-renesas-soc+bounces-7220-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7221-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F15092CDE6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jul 2024 11:07:29 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A6FA92CE01
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jul 2024 11:15:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D46A0280A04
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jul 2024 09:07:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C490F1F22F7C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jul 2024 09:15:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FDB283A17;
-	Wed, 10 Jul 2024 09:07:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FEDF84A5B;
+	Wed, 10 Jul 2024 09:15:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DgEwjBuT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gm2r9EeE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51EF83C39
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Jul 2024 09:07:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A120459160;
+	Wed, 10 Jul 2024 09:15:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720602446; cv=none; b=WkzJfWGXbXTVw30oaIVifwgvkHUTfdt3JiKiDx6pEbtMmfEK51JwEZncBJUFGbK6aQivRocNn5gHXgozHVFzABc3p5VKhU5zzyaaYRIrUVcuN7MBbG1mCwUceeaqzpO/DqPMrcr8vttFrfKEwmS+IS8V2BRPnGerN8LvLv3dnTo=
+	t=1720602925; cv=none; b=nLBnozzXLeig4m/yHKqrij+tQoE5H7skithaZNASHt9ioKQqZj8GJEMqdaihfDHEBriHxg5m5qK+73Wj+caeZlNb6VI0tcq/b0E7W2Zm8ZkDC9oZk91zjMF520oVHsVzwFq4vV4BvAt61hsJJMNytp/ZzXCquz4ZlvaiNUz8lB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720602446; c=relaxed/simple;
-	bh=TNSSDNSOOxdLGV/BiABocraA8+uwprI1M/etGRYjXtY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=oxmRJg2CLdOgShFZOVlYMIYMwz35s6knKkptGavXht+oV409MbkFmQUN78NN6DZw2ulWWxMvRcTUbZxhWBvjcKhyYfm44ljo0GcYOEGpoKftHfzy5tinzsF1lhMG5In5/JnKVstpS2XHsbOPy0HtHGZxpeav6l3dEUmNeDIMElk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DgEwjBuT; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720602445; x=1752138445;
-  h=date:from:to:cc:subject:message-id;
-  bh=TNSSDNSOOxdLGV/BiABocraA8+uwprI1M/etGRYjXtY=;
-  b=DgEwjBuTbZmPTiPcF2rJOSK2ukbL/ScdtyZaiVMp8Cr8i0BcxaFURd6v
-   er/SXjPGMCvjeR1vXehj4I2Ids5aEZd8LZd78VSYK0m/Q2lX2uL3K6SUB
-   bGNjTowVCZ+lyoL7tD6wqAJgEnW4DqZafKwzi/YDVFfdTjNPfPCbLZUpd
-   rAwxM3OrWB7Znp/YN2htkIJ7kuRCOhwqqD7DfuyE2mO3MDb6t/KzYAbYT
-   T1fzi7euMjreuRj49seA7sVQbUCZzjB0AwSObJdz0YS/LR16bAkvvfQRD
-   PWksuTJFKqf13OWbAUIX2qqOd/KWZJTmcmc+zOijArxEBwJBKCGh6GVuv
-   g==;
-X-CSE-ConnectionGUID: GIEbH1p9ShCqAvQwAK0MxA==
-X-CSE-MsgGUID: +b31r++xRrW7/UKMdq5hyg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11128"; a="18048423"
-X-IronPort-AV: E=Sophos;i="6.09,197,1716274800"; 
-   d="scan'208";a="18048423"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2024 02:07:24 -0700
-X-CSE-ConnectionGUID: +KdblAHYTba4JxFSt0oGVg==
-X-CSE-MsgGUID: JaTi027RRrCQiY2hNnuKVQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,197,1716274800"; 
-   d="scan'208";a="52745395"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 10 Jul 2024 02:07:22 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sRTIG-000XgC-0F;
-	Wed, 10 Jul 2024 09:07:20 +0000
-Date: Wed, 10 Jul 2024 17:06:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:master] BUILD REGRESSION
- bbf0b241d2544f4c172cb6c223541011a12a5fc6
-Message-ID: <202407101732.UGPTMwJH-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1720602925; c=relaxed/simple;
+	bh=U6uSuiOQr7cJdidG6Se5kn3otyFo/nVBww9vRyRM+ww=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=vEzwA3d6OlGByBmXqObQ64D7V0w7OJan8/NsjgA8wBLMZRghrVDnpyHq0vUeuLSf3vamKDrdbfRdUG0DHTggGz/iib4LYKFI8+v2DP2hGD7TRMZj3kH3rVNuw0WmRbNe34ZZX3j57GJs/zf4RGMFQYh336Zf/2HCWCMex3V7fb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gm2r9EeE; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-52e9c6b5a62so6637815e87.0;
+        Wed, 10 Jul 2024 02:15:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1720602921; x=1721207721; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2ArFh9MZnuzA5Ph/PTRIWLDz/F411ANgeX7cDdeu74A=;
+        b=gm2r9EeEuvsQPHUuKKScXUIcVfFLSQaguju6B3lWTJWf4rMvwJCg+hj+/ZedzokJ1A
+         AoMdp50vtYzHdpIk3KJdkBOy7gqZV5rmBwNDVB80nLGbEXIFxBj6Da+Cz1t05fvyLxQR
+         vfPAee5SmV5/eU2B5uodhA8DWa1osU4cqo/a1gOGvIaU+k1glI5Lef8NShkzGY1K+ckF
+         WrDM4RuOAURVTXFNZEGVWubNusVyE6y7aPN2Shryng0d86emvwPkw9IQ/59fQMd++AEa
+         tj0qprd5YOWnx5djocJqflT7f+Em8Id6QBVbjH4DmR5ohnWAqoeCmHkl0k5fx3yXAwZQ
+         tU2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720602921; x=1721207721;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2ArFh9MZnuzA5Ph/PTRIWLDz/F411ANgeX7cDdeu74A=;
+        b=FyUq1YVhAzfcfz6AIXxxBt6ozWF9T+E7Z8HN4k4IUztBZPayQF1F4qFSXFvCvxeAIx
+         9Hhj6G99KOpIjfngA80W3vMd9ND2+pISBbLRC/u/FyKjnqMFhgmRxUC01Mru4+6e9u5N
+         QedNMM11KW+d8JmGTHpr1BgtnCJg+13Z2oCKBLYiT8lmktDoLq21L1M+L88P/WijJshQ
+         9wVkRq+gT6lB4C4LPcDWVsLZDKyMN7YQZ1RWYUiZfCL51tMNa9kDmN9LPJknKvYy/MP1
+         DVmR0aHAKvf5SqqHg32GgbhrlosaffsVbRlcnIFvSa649M6Qqju+YwhtlrHXGhLIv2nd
+         nyEw==
+X-Forwarded-Encrypted: i=1; AJvYcCVmx5W6EkCIzcQifVdTIfcNuKztoU/kt3BJkWNBzFeufmOYeKF3gGMvgvoB2jM3kr0qSjWftO4Vpwin4NXwhkRy3FnR0TKQ3xlSdFPNJqVZsTMEjMiEetcImnB9s9qMt4r+lwmNtwwWEAbIXnF7Clk8bRumnnxn8zn2CMKfNTrF1tBj4oaeZbmW9TQ=
+X-Gm-Message-State: AOJu0YxaOVL5a5FKKNJ2kzpuPviO83OKRzKbzCGC6ZQEPptMlje0yAXU
+	AaY1ufXKNNQ7FLc1w07LOd5Q8BVhkNEh46duvC3fHPa1/S91PPMEZdP5+g==
+X-Google-Smtp-Source: AGHT+IEHwoR4lUflEvXgQp7sPamQNBBmvHBUPLpX8/fuj+E4rBxHFStvWzC7Tj16yYvw5wR/atq/GA==
+X-Received: by 2002:ac2:4c56:0:b0:52e:be49:9d32 with SMTP id 2adb3069b0e04-52ebe499f4amr1417318e87.47.1720602921079;
+        Wed, 10 Jul 2024 02:15:21 -0700 (PDT)
+Received: from [192.168.1.105] ([31.173.87.238])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52eb8e492ddsm537649e87.88.2024.07.10.02.15.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Jul 2024 02:15:20 -0700 (PDT)
+Subject: Re: [PATCH] i2c: mark HostNotify target address as used
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ linux-renesas-soc@vger.kernel.org
+Cc: Pierre-Yves MORDRET <pierre-yves.mordret@st.com>,
+ Alain Volmat <alain.volmat@st.com>, linux-i2c@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240710085506.31267-2-wsa+renesas@sang-engineering.com>
+From: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <c8f837f5-16b1-a5da-c687-a95d2ec42fa0@gmail.com>
+Date: Wed, 10 Jul 2024 12:15:18 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+In-Reply-To: <20240710085506.31267-2-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-branch HEAD: bbf0b241d2544f4c172cb6c223541011a12a5fc6  [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+On 7/10/24 11:55 AM, Wolfram Sang wrote:
 
-Unverified Error/Warning (likely false positive, please contact us if interested):
+> I2C core handles the local target for receiving HostNotify alerts. There
+> is no separate driver bound to that address. That means userspace can
+> access it if desired, leading to further complications if controllers
+> are not capable of reading their own local target. Bind the local target
+> to the dummy driver so it will marked as "handled by the kernel" if the
+                                ^ be? :-)
 
-arch/arm64/boot/dts/qcom/apq8016-sbc-usb-host.dtb: smsm: 'anyOf' conditional failed, one must be fixed:
-arch/arm64/boot/dts/qcom/apq8016-sbc-usb-host.dtb: smsm: 'mboxes' does not match any of the regexes: '@[0-9a-f]$', '^qcom,ipc-[1-4]$', 'pinctrl-[0-9]+'
-drivers/gpu/drm/stm/lvds.c:1212:12: error: incompatible function pointer types initializing 'void (*)(struct platform_device *)' with an expression of type 'int (struct platform_device *)' [-Wincompatible-function-pointer-types]
-drivers/gpu/drm/stm/lvds.c:1212:19: error: initialization of 'void (*)(struct platform_device *)' from incompatible pointer type 'int (*)(struct platform_device *)' [-Werror=incompatible-pointer-types]
+> HostNotify feature is used. That protects aginst userspace access and
+> prevents other drivers binding to it.
+> 
+> Fixes: 2a71593da34d ("i2c: smbus: add core function handling SMBus host-notify")
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+[...]
 
-Error/Warning ids grouped by kconfigs:
-
-recent_errors
-|-- alpha-allyesconfig
-|   `-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
-|-- arc-allmodconfig
-|   `-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
-|-- arc-allyesconfig
-|   `-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
-|-- arm-allmodconfig
-|   `-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
-|-- arm-allyesconfig
-|   `-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
-|-- arm64-allmodconfig
-|   `-- drivers-gpu-drm-stm-lvds.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
-|-- arm64-randconfig-001-20240710
-|   `-- drivers-gpu-drm-stm-lvds.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
-|-- arm64-randconfig-051-20240709
-|   |-- arch-arm64-boot-dts-qcom-apq8016-sbc-usb-host.dtb:smsm:anyOf-conditional-failed-one-must-be-fixed:
-|   `-- arch-arm64-boot-dts-qcom-apq8016-sbc-usb-host.dtb:smsm:mboxes-does-not-match-any-of-the-regexes:9a-f-qcom-ipc-pinctrl
-|-- hexagon-allmodconfig
-|   `-- drivers-gpu-drm-stm-lvds.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
-|-- hexagon-allyesconfig
-|   `-- drivers-gpu-drm-stm-lvds.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
-|-- hexagon-randconfig-001-20240710
-|   `-- drivers-gpu-drm-stm-lvds.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
-|-- i386-allmodconfig
-|   `-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
-|-- i386-allyesconfig
-|   `-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
-|-- loongarch-allmodconfig
-|   `-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
-|-- microblaze-allmodconfig
-|   `-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
-|-- microblaze-allyesconfig
-|   `-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
-|-- mips-allyesconfig
-|   `-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
-|-- openrisc-allyesconfig
-|   `-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
-|-- parisc-allmodconfig
-|   `-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
-|-- parisc-allyesconfig
-|   `-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
-|-- powerpc-allmodconfig
-|   `-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
-|-- powerpc-allyesconfig
-|   `-- drivers-gpu-drm-stm-lvds.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
-|-- powerpc-randconfig-001-20240710
-|   `-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
-|-- powerpc64-randconfig-001-20240710
-|   `-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
-|-- riscv-allmodconfig
-|   `-- drivers-gpu-drm-stm-lvds.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
-|-- riscv-allyesconfig
-|   `-- drivers-gpu-drm-stm-lvds.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
-|-- s390-allmodconfig
-|   `-- drivers-gpu-drm-stm-lvds.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
-|-- s390-allyesconfig
-|   `-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
-|-- um-allmodconfig
-|   `-- drivers-gpu-drm-stm-lvds.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
-|-- um-allyesconfig
-|   `-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
-`-- xtensa-allyesconfig
-    `-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
-
-elapsed time: 1161m
-
-configs tested: 141
-configs skipped: 1
-
-tested configs:
-alpha                             allnoconfig   gcc-13.2.0
-alpha                            allyesconfig   gcc-13.2.0
-arc                              allmodconfig   gcc-13.2.0
-arc                               allnoconfig   gcc-13.2.0
-arc                              allyesconfig   gcc-13.2.0
-arc                   randconfig-001-20240710   gcc-13.2.0
-arc                   randconfig-002-20240710   gcc-13.2.0
-arm                              allmodconfig   gcc-13.2.0
-arm                               allnoconfig   clang-19
-arm                              allyesconfig   gcc-13.2.0
-arm                            hisi_defconfig   gcc-13.3.0
-arm                          ixp4xx_defconfig   gcc-13.3.0
-arm                          pxa910_defconfig   gcc-13.3.0
-arm                   randconfig-001-20240710   clang-19
-arm                   randconfig-002-20240710   gcc-13.2.0
-arm                   randconfig-003-20240710   clang-19
-arm                   randconfig-004-20240710   gcc-13.2.0
-arm                        realview_defconfig   clang-19
-arm64                            allmodconfig   clang-19
-arm64                             allnoconfig   gcc-13.2.0
-arm64                 randconfig-001-20240710   clang-19
-arm64                 randconfig-002-20240710   clang-19
-arm64                 randconfig-003-20240710   clang-17
-arm64                 randconfig-004-20240710   gcc-13.2.0
-csky                              allnoconfig   gcc-13.2.0
-csky                  randconfig-001-20240710   gcc-13.2.0
-csky                  randconfig-002-20240710   gcc-13.2.0
-hexagon                          allmodconfig   clang-19
-hexagon                           allnoconfig   clang-19
-hexagon                          allyesconfig   clang-19
-hexagon               randconfig-001-20240710   clang-19
-hexagon               randconfig-002-20240710   clang-19
-i386                             allmodconfig   gcc-13
-i386                              allnoconfig   gcc-13
-i386                             allyesconfig   gcc-13
-i386         buildonly-randconfig-001-20240710   clang-18
-i386         buildonly-randconfig-002-20240710   gcc-13
-i386         buildonly-randconfig-003-20240710   gcc-11
-i386         buildonly-randconfig-004-20240710   gcc-11
-i386         buildonly-randconfig-005-20240710   clang-18
-i386         buildonly-randconfig-006-20240710   clang-18
-i386                                defconfig   clang-18
-i386                  randconfig-001-20240710   clang-18
-i386                  randconfig-002-20240710   gcc-11
-i386                  randconfig-003-20240710   gcc-13
-i386                  randconfig-004-20240710   clang-18
-i386                  randconfig-005-20240710   clang-18
-i386                  randconfig-006-20240710   clang-18
-i386                  randconfig-011-20240710   gcc-13
-i386                  randconfig-012-20240710   gcc-12
-i386                  randconfig-013-20240710   gcc-12
-i386                  randconfig-014-20240710   gcc-13
-i386                  randconfig-015-20240710   gcc-8
-i386                  randconfig-016-20240710   clang-18
-loongarch                        allmodconfig   gcc-13.2.0
-loongarch                         allnoconfig   gcc-13.2.0
-loongarch             randconfig-001-20240710   gcc-13.2.0
-loongarch             randconfig-002-20240710   gcc-13.2.0
-m68k                             allmodconfig   gcc-13.2.0
-m68k                              allnoconfig   gcc-13.2.0
-m68k                             allyesconfig   gcc-13.2.0
-m68k                       m5249evb_defconfig   gcc-13.3.0
-microblaze                       allmodconfig   gcc-13.2.0
-microblaze                        allnoconfig   gcc-13.2.0
-microblaze                       allyesconfig   gcc-13.2.0
-mips                              allnoconfig   gcc-13.2.0
-nios2                             allnoconfig   gcc-13.2.0
-nios2                 randconfig-001-20240710   gcc-13.2.0
-nios2                 randconfig-002-20240710   gcc-13.2.0
-openrisc                          allnoconfig   gcc-13.2.0
-openrisc                         allyesconfig   gcc-13.2.0
-parisc                           allmodconfig   gcc-13.2.0
-parisc                            allnoconfig   gcc-13.2.0
-parisc                           allyesconfig   gcc-13.2.0
-parisc                randconfig-001-20240710   gcc-13.2.0
-parisc                randconfig-002-20240710   gcc-13.2.0
-parisc64                         alldefconfig   gcc-13.3.0
-powerpc                          allmodconfig   gcc-13.2.0
-powerpc                           allnoconfig   gcc-13.2.0
-powerpc                          allyesconfig   clang-19
-powerpc               randconfig-001-20240710   gcc-13.2.0
-powerpc               randconfig-002-20240710   clang-19
-powerpc               randconfig-003-20240710   gcc-13.2.0
-powerpc                     tqm8548_defconfig   clang-19
-powerpc64             randconfig-001-20240710   gcc-13.2.0
-powerpc64             randconfig-002-20240710   clang-15
-powerpc64             randconfig-003-20240710   clang-19
-riscv                            allmodconfig   clang-19
-riscv                             allnoconfig   gcc-13.2.0
-riscv                            allyesconfig   clang-19
-riscv                 randconfig-001-20240710   clang-19
-riscv                 randconfig-002-20240710   clang-19
-s390                             allmodconfig   clang-19
-s390                              allnoconfig   clang-19
-s390                             allyesconfig   gcc-13.2.0
-s390                  randconfig-001-20240710   gcc-13.2.0
-s390                  randconfig-002-20240710   gcc-13.2.0
-sh                               allmodconfig   gcc-13.2.0
-sh                                allnoconfig   gcc-13.2.0
-sh                               allyesconfig   gcc-13.2.0
-sh                    randconfig-001-20240710   gcc-13.2.0
-sh                    randconfig-002-20240710   gcc-13.2.0
-sparc                            allmodconfig   gcc-13.2.0
-sparc64               randconfig-001-20240710   gcc-13.2.0
-sparc64               randconfig-002-20240710   gcc-13.2.0
-um                               allmodconfig   clang-19
-um                                allnoconfig   clang-17
-um                               allyesconfig   gcc-13
-um                    randconfig-001-20240710   gcc-13
-um                    randconfig-002-20240710   clang-19
-x86_64                            allnoconfig   clang-18
-x86_64                           allyesconfig   clang-18
-x86_64       buildonly-randconfig-001-20240710   clang-18
-x86_64       buildonly-randconfig-002-20240710   clang-18
-x86_64       buildonly-randconfig-003-20240710   clang-18
-x86_64       buildonly-randconfig-004-20240710   clang-18
-x86_64       buildonly-randconfig-005-20240710   gcc-13
-x86_64       buildonly-randconfig-006-20240710   clang-18
-x86_64                              defconfig   gcc-13
-x86_64                randconfig-001-20240710   gcc-13
-x86_64                randconfig-002-20240710   clang-18
-x86_64                randconfig-003-20240710   gcc-12
-x86_64                randconfig-004-20240710   clang-18
-x86_64                randconfig-005-20240710   clang-18
-x86_64                randconfig-006-20240710   gcc-13
-x86_64                randconfig-011-20240710   clang-18
-x86_64                randconfig-012-20240710   clang-18
-x86_64                randconfig-013-20240710   clang-18
-x86_64                randconfig-014-20240710   clang-18
-x86_64                randconfig-015-20240710   clang-18
-x86_64                randconfig-016-20240710   gcc-13
-x86_64                randconfig-071-20240710   gcc-13
-x86_64                randconfig-072-20240710   clang-18
-x86_64                randconfig-073-20240710   clang-18
-x86_64                randconfig-074-20240710   gcc-7
-x86_64                randconfig-075-20240710   clang-18
-x86_64                randconfig-076-20240710   gcc-13
-x86_64                          rhel-8.3-rust   clang-18
-xtensa                            allnoconfig   gcc-13.2.0
-xtensa                randconfig-001-20240710   gcc-13.2.0
-xtensa                randconfig-002-20240710   gcc-13.2.0
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+MBR, Sergey
 
