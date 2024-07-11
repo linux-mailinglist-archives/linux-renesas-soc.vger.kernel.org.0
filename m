@@ -1,171 +1,153 @@
-Return-Path: <linux-renesas-soc+bounces-7280-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7281-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB0F492EB63
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jul 2024 17:14:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4BBC92F0FA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jul 2024 23:19:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C59F1B225C3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jul 2024 15:14:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 99AF21F22755
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jul 2024 21:19:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 595AB16B752;
-	Thu, 11 Jul 2024 15:14:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EE8C19FA7E;
+	Thu, 11 Jul 2024 21:17:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="hAoUEAEy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14A9616B750;
-	Thu, 11 Jul 2024 15:14:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F12419E7F9
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Jul 2024 21:17:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720710874; cv=none; b=IvmFP4vrtAbd9eKgJrM7hbkNJs+qy2C3jdTGOhq8MwVyzaMhzvSvPvelxEVcSGKcX1vM4DDb5WNSbY/C+9wvP7FtRJ62WhC5zQl1MuTr6zgyo5dPFnLEcBRb4OqjGOpPWn1zqLr9xMnpLAy+nABmccUKfRldxY9SH5oAlkdK3Fw=
+	t=1720732672; cv=none; b=ijUoZVwfE5GsvWAFYUawgkp+Bed2iD10l1Q3If1tw42f0Fa/7pZMB0pR1yvH6wvOYm+eA+fLNd+M8G4cRIFMK5Txn33DdhothHPZrMsmLk1GALS2/K4DStOFU1uwGEV1aT7IS1yUUAf8hzmfZt1TLRSf0EgMvsU/b2Afe2FfIss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720710874; c=relaxed/simple;
-	bh=E2/ZGPEcI1Rw3PXVmpTzOifaaKG2qjpVrpRBa1H77OM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AmVDSqXKEIf8yIFVuyilT9Z6yxQcTBeI28uyl6kJLaZ+396F5vyYCm8sb56dbEoMdfO8jhH1iZTaNq8G8VlO/DBjd+2LsjgNDwkIxICjBqC38EffiGcXu6ojuAT3wNd9ptpQTNt/tqmLvHFRnr7T9g+tMv+qa94WH1TyDXtYX9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-64f4c11d2c9so8820887b3.2;
-        Thu, 11 Jul 2024 08:14:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720710870; x=1721315670;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TG1IUAibKVepFJDLQ5uiThldezvK+l5iRWwuzpOK2ok=;
-        b=ILwOi0fcLm7fRXHSZfHr5jMlnNJOdPcbjJLDHxPVxt+plCI0KQEiFlaAbLBK1AVmuD
-         T9kW+qJEA4F0c/qcjpuYtFRu0IDrE9AC23e411LoRSrzMtb2WLlpS77vWhVbIA3A1S7E
-         kc9trUGqrBAEQDJN9a2XJbC3ZCIb4lAZA/17SMTGdjy+N4tv9pGVCQHGrbs10u/3MM5Y
-         dmRWM2i2q0QXjqkffGYDrQyprpsL9ldoCHbwYmEjNlarTR6N+GhqJ02Nwwd6gP5JC8UD
-         wgX4z7LJuMAxfM+SIxUTpTSX9Gca/43xJ8mcun1cu0jEk53xytEBjT/00DyyaYRlRVyP
-         IBFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXyTgJ1vOmhLDEOJXZ91/DPDjPqRxcvcb7v/FeKXrDflUFHpG3rCkYOOf86Ef08KFT2oK/1LDKFNWOS5mVb8QrrOzMLsZhz1wbI3Y36YtMaAsV12ot2/9jZnKfDU1BSaf+1EMtwKTLYYfxlO/Yq
-X-Gm-Message-State: AOJu0Yyvv1H1yfoqV7txo/KKV75JNEjHzRLgP+weL+Jki6qZ4CW1M+o9
-	/w9W8cPoX1zC6q/1dhK2n/05DFYXSez7vzWSuYwYjj8Re02YQwgLDd7vHake
-X-Google-Smtp-Source: AGHT+IGIizVSXzstb/zW1oCYPoNHmeMK18xzJuTrvxZBhwfFkCINrREeGE4H7nmIUgB7L5xqo8FKgA==
-X-Received: by 2002:a05:690c:d8c:b0:650:9c5e:f6db with SMTP id 00721157ae682-658eed60aabmr115717467b3.18.1720710869993;
-        Thu, 11 Jul 2024 08:14:29 -0700 (PDT)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-658e74919b9sm11074567b3.141.2024.07.11.08.14.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Jul 2024 08:14:29 -0700 (PDT)
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dfef5980a69so1049522276.3;
-        Thu, 11 Jul 2024 08:14:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXK+ydQfUU02GA7fU7FIEjBdb+bDEd9zx+C9x7fha371qBjLdeUFNhSWmnBrGSS/Dk0N5OaTW1FooBWd/7tZPF6G1MkEQwBx1ZJunBuRkduhYuQaZ0pSUZ4oiOE5zNCAJgvpXZASmRHj23VEL+Q
-X-Received: by 2002:a25:c883:0:b0:dff:3308:b921 with SMTP id
- 3f1490d57ef6-e041b0f5f31mr9950761276.31.1720710869408; Thu, 11 Jul 2024
- 08:14:29 -0700 (PDT)
+	s=arc-20240116; t=1720732672; c=relaxed/simple;
+	bh=T0pMyu+dEeOOHsmMaRtnW/KHBfIg6LHAAXQX3YROcGI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JSkqOwtuGyFHz5pOqDsqKRSxvXnyf83ZpFMLSr89FOAUgONQbe6I5mc+/xvdbqsYbZiBvIEmaL/nVfa4lBY1rt8u5WvkXu7ArvD+aqdecXnUYtjgOUYOuvfUB7jr1Bj3l3ZvQpUXOef8ryNiRwjE5s8dCAlla4kkDLT6Ovd9Fh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=hAoUEAEy; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=1Cnf
+	7pWFKheCtd3q1iTzsFDAeHD0a9e5vdpFCoy3tcg=; b=hAoUEAEyd/lZBSbtIZm5
+	XvC73OWHJyrxHMbEwCAjxDXcWayhcVFAhvbliAjIddspGhoycFLpY8hRpautD/V/
+	Jy8OA6SyN76pWawnCOuPx+hUxpCkzSKkKyMvhoG9I3YhoearreERQrMkOPcJCY+9
+	4HSbIqKjpwTm+tRKzmgvaxLBKyGQegnUJtZXwZAf3lj0UWviDJeNtrWeLDrO2Kil
+	OU5+Mih2ePtH4W6EbR4tMmoelKX5ZI4UUpJVQdtGxhOhkILuGB3yQXq2HD+3Mv/e
+	6WqFriZaCAIz1DmGH/44Yd+GR8ZSU4m9xSzPF511Kx+rtzZiAIo/jsr4U/HkKT9h
+	6Q==
+Received: (qmail 957054 invoked from network); 11 Jul 2024 23:17:43 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Jul 2024 23:17:43 +0200
+X-UD-Smtp-Session: l3s3148p1@g/orS/8c7MZehhtW
+Date: Thu, 11 Jul 2024 23:17:43 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] i2c: rcar: ensure Gen3+ reset does not disturb local
+ targets
+Message-ID: <ZpBL90Ko-B9oxCLK@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+References: <20240711083043.8334-2-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240616105402.45211-1-biju.das.jz@bp.renesas.com>
- <20240616105402.45211-5-biju.das.jz@bp.renesas.com> <CAMuHMdX5ayWbLEEa6nAipECVB6H9eCpRg21pu3zYrTdiER0F+Q@mail.gmail.com>
- <TY3PR01MB1134692D0F5D291398FCE5F1086A52@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY3PR01MB1134692D0F5D291398FCE5F1086A52@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 11 Jul 2024 17:14:17 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVc40j9qvmyFpVpKcd_uSrjFj6s5-RmgXZgp2w8HYCGfg@mail.gmail.com>
-Message-ID: <CAMuHMdVc40j9qvmyFpVpKcd_uSrjFj6s5-RmgXZgp2w8HYCGfg@mail.gmail.com>
-Subject: Re: [PATCH v4 4/6] regulator: Add Renesas RZ/G2L USB VBUS regulator driver
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	"biju.das.au" <biju.das.au@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="UtqE6BQ8LQL5xqzI"
+Content-Disposition: inline
+In-Reply-To: <20240711083043.8334-2-wsa+renesas@sang-engineering.com>
+
+
+--UtqE6BQ8LQL5xqzI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Biju,
+On Thu, Jul 11, 2024 at 10:30:44AM +0200, Wolfram Sang wrote:
+> R-Car Gen3+ needs a reset before every controller transfer. That erases
+> configuration of a potentially in parallel running local target
+> instance. To avoid this disruption, avoid controller transfers if a
+> local target is running. Also, disable SMBusHostNotify because it
+> requires being a controller and local target at the same time.
+>=20
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-On Thu, Jul 11, 2024 at 4:58=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
-> > -----Original Message-----
-> > From: Geert Uytterhoeven <geert@linux-m68k.org>
-> > Sent: Thursday, July 11, 2024 3:40 PM
-> > Subject: Re: [PATCH v4 4/6] regulator: Add Renesas RZ/G2L USB VBUS regu=
-lator driver
-> >
-> > Hi Biju,
-> >
-> > On Sun, Jun 16, 2024 at 12:54=E2=80=AFPM Biju Das <biju.das.jz@bp.renes=
-as.com> wrote:
-> > > As per the RZ/G2L HW manual, VBUSEN can be controlled by the VBOUT bi=
-t
-> > > of the VBUS Control Register. This register is mapped in the reset
-> > > framework. The reset driver expose this register as regmap and
-> > > instantiates this driver. The consumer will use the regulator API to
-> > > control the VBOUT bit as the control need to be done in the atomic co=
-ntext.
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> >
-> > Thanks for your patch, which is now commit 84fbd6198766336f
-> > ("regulator: Add Renesas RZ/G2L USB VBUS regulator driver") in regulato=
-r/for-next.
+Fixes: 3b770017b03a ("i2c: rcar: handle RXDMA HW behaviour on Gen3")
 
-> > > --- a/drivers/regulator/Kconfig
-> > > +++ b/drivers/regulator/Kconfig
-> > > @@ -1634,6 +1634,15 @@ config REGULATOR_UNIPHIER
-> > >         help
-> > >           Support for regulators implemented on Socionext UniPhier So=
-Cs.
-> > >
-> > > +config REGULATOR_RZG2L_VBCTRL
-> > > +       tristate "Renesas RZ/G2L USB VBUS regulator driver"
-> > > +       depends on ARCH_RZG2L || COMPILE_TEST
-> > > +       depends on OF
-> > > +       select REGMAP_MMIO
-> > > +       default ARCH_RZG2L
-> >
-> > As the "rzg2l-usb-vbus-regulator" platform device is only created by dr=
-ivers/reset/reset-rzg2l-
-> > usbphy-ctrl.c, perhaps this should be made stricter by using "default R=
-ESET_RZG2L_USBPHY_CTRL"?
->
-> OK.
-> >
-> > Alternatively, RESET_RZG2L_USBPHY_CTRL could select RESET_RZG2L_USBPHY_=
-CTRL if REGULATOR.  Can
-> > RESET_RZG2L_USBPHY_CTRL work without REGULATOR_RZG2L_VBCTRL?  If not, R=
-ESET_RZG2L_USBPHY_CTRL should
-> > depend on REGULATOR, too.
->
-> Yes, from functionality point it works for both host and device mode with=
-out REGULATOR_RZG2L_VBCTRL.
-> From specification point, some customers reported on device mode, VBUS is=
- showing 5V.
-> So, by adding vbus regulator, I am controlling this voltage and forcing t=
-o 0 for device mode
-> and 5V for host mode.
->
-> Please share your input how to proceed.
+> ---
+>  drivers/i2c/busses/i2c-rcar.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>=20
+> diff --git a/drivers/i2c/busses/i2c-rcar.c b/drivers/i2c/busses/i2c-rcar.c
+> index 8f2ede534f30..29cbeda59f3e 100644
+> --- a/drivers/i2c/busses/i2c-rcar.c
+> +++ b/drivers/i2c/busses/i2c-rcar.c
+> @@ -884,6 +884,10 @@ static int rcar_i2c_do_reset(struct rcar_i2c_priv *p=
+riv)
+>  {
+>  	int ret;
+> =20
+> +	/* Don't reset if a slave instance is currently running */
+> +	if (priv->slave)
+> +		return -EISCONN;
+> +
+>  	ret =3D reset_control_reset(priv->rstc);
+>  	if (ret)
+>  		return ret;
+> @@ -1176,6 +1180,7 @@ static int rcar_i2c_probe(struct platform_device *p=
+dev)
+>  	if (of_property_read_bool(dev->of_node, "smbus"))
+>  		priv->flags |=3D ID_P_HOST_NOTIFY;
+> =20
+> +	/* R-Car Gen3+ needs a reset before every transfer */
+>  	if (priv->devtype >=3D I2C_RCAR_GEN3) {
+>  		priv->rstc =3D devm_reset_control_get_exclusive(&pdev->dev, NULL);
+>  		if (IS_ERR(priv->rstc)) {
+> @@ -1186,6 +1191,9 @@ static int rcar_i2c_probe(struct platform_device *p=
+dev)
+>  		ret =3D reset_control_status(priv->rstc);
+>  		if (ret < 0)
+>  			goto out_pm_put;
+> +
+> +		/* hard reset disturbs HostNotify local target, so disable it */
+> +		priv->flags &=3D ~ID_P_HOST_NOTIFY;
+>  	}
+> =20
+>  	ret =3D platform_get_irq(pdev, 0);
+> --=20
+> 2.43.0
+>=20
 
-As it works without, I think changing the default of
-REGULATOR_RZG2L_VBCTRL from ARCH_RZG2L to RESET_RZG2L_USBPHY_CTRL is
-the most appropriate option.
+--UtqE6BQ8LQL5xqzI
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Gr{oetje,eeting}s,
+-----BEGIN PGP SIGNATURE-----
 
-                        Geert
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmaQS/IACgkQFA3kzBSg
+KbY8HRAAg0U/3YGhBJzi0l9c7UC5yk6ZMjujDKLwjnye2S6Fs2cdhBR7gFM2JlUQ
+/Cuocm1+bzG6YJdUl5sa/ZMnGOyACaPpj9lqNA1Uc8zoKkYHaLA3CxQ2nsILvuKf
+E8scAHyeJbRrpbodbi1Pjx7QegDy9bG1kTLmlX/kSLmR2dFtMnwk/0yCVKr5swUU
+3kb+ZRQx4B0qig77JWJibnESJdqsDSpNZ6H3I5f210QtnfQZc0pYNOOEY7BPkPwC
+l7c4lkXcX+86KbYasWe6TmX5yeATlgmOt7nC+smd8AsBjIeNHBk8YJUGNWjj/7W2
+MEFKdR9gAPXkOrB5d+iaUfV9hZQwE8fSVBYOVVKpyhZwMWcH4Vh/2MWZ7ICfR9SF
+I2zDXIDVbkCHUabwvJ1HpBIt1QRaLzTZ/5Zn6JOhL28OC79jGtLD9eRSA6aOSNJf
+mxo9ldIhu/Pd0RCdATZ3Hsk3E3blBGR/IjpqS/DSTaB0PTvo7FrSvZ9xgwI14beR
+qJf7K1Ld+YSzqp5dhX6/2UqP4o7DO8Y2e/xQ5IeLYLIW09XoNeoMR8aYXQ4OMyGW
+lJFKs3ZG1+PoqyaWgZuU/6JbD+U6u5gviDdF1sMJysbGwzdWy/Ne+ndExwHj+Z8x
+rz+ws70gY5gUZx4d/MMy7xJ5m8esaz29rRQlzIX3pKMlKf6SjJ8=
+=1ESC
+-----END PGP SIGNATURE-----
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+--UtqE6BQ8LQL5xqzI--
 
