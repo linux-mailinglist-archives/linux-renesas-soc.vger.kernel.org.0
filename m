@@ -1,109 +1,159 @@
-Return-Path: <linux-renesas-soc+bounces-7243-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7244-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F8F92D5FC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jul 2024 18:14:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58A5392E159
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jul 2024 09:54:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1086E1C21376
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jul 2024 16:14:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 102761F21959
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jul 2024 07:54:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33907194C9A;
-	Wed, 10 Jul 2024 16:11:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="laeZXf7o";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="V5rnpN4Z"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E713B14D44F;
+	Thu, 11 Jul 2024 07:54:01 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6261A197A7D;
-	Wed, 10 Jul 2024 16:11:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB4014B943;
+	Thu, 11 Jul 2024 07:53:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720627900; cv=none; b=DaY3eOXEXrJUsajzA6nz2nBawG/AIkrDLhZREnfuJp31oUKNN/dQE6Vpv1F7vfAjdFoaa/J852CwsJctSb0Xqa9/dIJW4qqxFo8ybmQ9pKw174JNMJdVH4AdljujNhAw3wgkFtxEQ4jgB5dwRrU165YdDPpJn4Gzdl64ZRwzXvs=
+	t=1720684441; cv=none; b=FhrojNOldj1AHV1veNQkQXXIYOdM2zjC3l/rxHl4LHjO9xTJGNllV31aQwWn7WlV7WDhn9CUJkDE9x1S7tCaWl819Lb6LQswQJQV5vogGPVSTRMoMPX0L804iFfFUv5PetHyGesSyLfrLG0r3yH26MScIrI13SrE+scHOorcMDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720627900; c=relaxed/simple;
-	bh=WT7zB1ecqsxtlBLT7e/8VBOglFs2+wWrSmq1asY/k6k=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=HdwZ09ad51IkDIxglpo2y5duLq6euHaNOz3MpzZDqQEJs44658JNQssS2xmTcbR9XRKCm0CaRYeLdAKwfHMKPYmiws4lOXWYfoDZnovdve9M10eVwzMbFFldBFN72GUXy9tqQQNvBI+sNW1BGT6EoJ0iR+hs3qJhqwBx3UnnpcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=laeZXf7o; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=V5rnpN4Z; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1720627896;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=M2CmXroVPL2PAPIltmM39/LvEiwdgc25HymKxV7AEHU=;
-	b=laeZXf7o16elK9QAu4yukTcKw9ahJvCtYCSw8szmofuWTWXM5LD3f0/JjIVjuF0Aji5JON
-	yYr/fAh4JS4WEXtMamz+I4UHqRpz3Rm/egxkgZCPSzGrPnJmeSCf240EdAzoKRPwdJXOGA
-	SQp4qepcnKlcTmJyFX/KRi8LpBH4s+qQ4Jt8IVAvZHjisu5S1vH0+Xs/SXu3C4VtBjGJku
-	IzKQ/+ECgo6M8MVuSlzw17z8+euiZsCU84eM5KcgLM7vL4bt0+fzZx/dwTn+avsobpnTk8
-	jJulPXeZ2e3TUmV7/PAkJioNjOCW8dggNcNhwej+kH/6Nqb0G4a+qW02p32lzQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1720627896;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=M2CmXroVPL2PAPIltmM39/LvEiwdgc25HymKxV7AEHU=;
-	b=V5rnpN4Z4FIJr91PAhu5jFSTUUOYjCXWkt2VuydEX8PUsYs1H349oErj4ZRFs1DXDZPB3L
-	vT9VTGTJ9sxY1CDA==
-To: Marek Vasut <marek.vasut@mailbox.org>, Marek Vasut
- <marek.vasut+renesas@mailbox.org>, linux-pci@vger.kernel.org
-Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, Bjorn Helgaas
- <bhelgaas@google.com>, Jisheng Zhang <Jisheng.Zhang@synaptics.com>, Jon
- Hunter <jonathanh@nvidia.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>, Yoshihiro
- Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] [RFC] genirq/cpuhotplug, PCI/rcar-host: Silence set
- affinity failed warning
-In-Reply-To: <875xtewkji.ffs@tglx>
-References: <20240706132758.53298-1-marek.vasut+renesas@mailbox.org>
- <87h6d1vy2c.ffs@tglx> <43e4c568-083f-4b14-9f08-563ba6a71220@mailbox.org>
- <875xtewkji.ffs@tglx>
-Date: Wed, 10 Jul 2024 18:11:35 +0200
-Message-ID: <8734ohw7k8.ffs@tglx>
+	s=arc-20240116; t=1720684441; c=relaxed/simple;
+	bh=0BgnDHiX/TK+JQoHQMsUy+eteShtWavkLMpjkahy91M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JayWjUhQDYYEJGCFY4tH2VxIl8dePcVqMy0NhWgwQsa2hru0kzhgbgYcK6zSfPpfZPIGD3XY9cU/M5WEEF69v1HdXMYfOVkbA8jCU8I3wMuQBcmhtCBpSPuESE8mx5lnNOg43sFvZuauCZ6oVS7noUC0j42B4I1IJSxmRPs6MmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-650b8e0a6ceso5874147b3.3;
+        Thu, 11 Jul 2024 00:53:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720684438; x=1721289238;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5fRVbJjcNb5I05e6Xfep3Il3HTd1wTS3dEeZLYGEQtM=;
+        b=PHJazHFGAmjv8X4bkxbaxB44Cf7U0Ug2b5psUq5CJGn5i0U0CLxDGz8F5jjQU9QCV4
+         17RhVbblJNQVQlJIRArMzHv3oKlscj9Ue4B2SFZz1PIXZS4kgh3z7LfALD+1lZocL/8K
+         EAwHQA87fnqgR10yq2Ru06sm7qjQEKUkk0DuFG23Do/c4XLBmLw6jC2XIdivyLqeJLr1
+         55oMzKoSbmiEO9q/ewEHnWvyyrJPyi2JYGR1HvBFz3VKkYFCLWP87yzklgdNqmdPbg5I
+         drriOOcReUTkJklqDrvv9j6E6k6iVEjSS5o4QA39JwgRSknZZ+jq4ki7D0bM/v7u1mWH
+         1DKw==
+X-Forwarded-Encrypted: i=1; AJvYcCXDBMQYnO30WcFt0oqS5+NBuTIGoSB2HEVDciE2KtRgLUWF0zFTXEvoHOSXGuBbpblt/qcJlY9wsTVHGyvaU4Odt6C3fg4nRCHrXFfKXwSbFcH3G1aZCPGurxZq74xrH3PRnTEmJyrWr0f6X68e0MRQCbV9kW6YpsNVI3FykAQD4fRWov6yxohpMY3w/k5ZfDkKdPpIZn2oEsirL+t8kAJFzMdM1MtXVB//9NgkDrS9K868Rv7sxc2oKp5vF9CqEkAT
+X-Gm-Message-State: AOJu0YwSBnf3ov5Q802WsxFshwxxwxPp8CszsF+U6AUN4yZbH5vOdL9S
+	ev2P16PvMe6h9rlPOSj+rwZWWdpp50u9SMzb+Flz/F0qzbRs3HNAG6u0EXfi
+X-Google-Smtp-Source: AGHT+IEAVEVDvRPumjsbsdvUEKBWr+nCV0eoncFS6xMhbJf5JHh93sDmEHKqPscdEqfNwYteTbffWg==
+X-Received: by 2002:a25:6801:0:b0:e05:6d47:57a4 with SMTP id 3f1490d57ef6-e056d475973mr3452925276.10.1720684437720;
+        Thu, 11 Jul 2024 00:53:57 -0700 (PDT)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e041a8acf85sm925002276.9.2024.07.11.00.53.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Jul 2024 00:53:56 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-64789495923so5634487b3.0;
+        Thu, 11 Jul 2024 00:53:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU4AQsv5jhWFuUQz0NAtfh4lw8g73dBZSHrV+2Jm5LEAFZta8ZV8wHZmu8OQpncIPgolXa65Dm91ZogINUS+8oBOSrfVVVC2FDeHGlbtTS4n85KK7/Tpv1WIPc5sO/3t7J1RUauL419dilUXE3zCfYrYa+78/2B6FkRUCIk1ofQ6LIXLmFLKwvn7x+mokD9Z2WTA/+qjwHZ2PrNpgTDLwkQ1ez7mskWCQ54pAkrunEGcxmjbkpACdSo6tMQDIJ7KYQe
+X-Received: by 2002:a81:8d49:0:b0:63b:df6e:3f6d with SMTP id
+ 00721157ae682-658f02f3720mr78529147b3.37.1720684436126; Thu, 11 Jul 2024
+ 00:53:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20240625121358.590547-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240625121358.590547-10-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdX4hWou9OtdE8XgU7-U0ghJ6vk2kVqgT90U0ZjsxzR5DA@mail.gmail.com> <22db23bd-5872-49a0-990f-2a0e5f51bfb5@tuxon.dev>
+In-Reply-To: <22db23bd-5872-49a0-990f-2a0e5f51bfb5@tuxon.dev>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 11 Jul 2024 09:53:43 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWTYfK6aVi5BzBtQg_zQWjuZX7d7QHr3a4GAb+dQOWyvQ@mail.gmail.com>
+Message-ID: <CAMuHMdWTYfK6aVi5BzBtQg_zQWjuZX7d7QHr3a4GAb+dQOWyvQ@mail.gmail.com>
+Subject: Re: [PATCH v2 09/12] i2c: riic: Add support for fast mode plus
+To: claudiu beznea <claudiu.beznea@tuxon.dev>
+Cc: chris.brandt@renesas.com, andi.shyti@kernel.org, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, magnus.damm@gmail.com, 
+	mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de, 
+	wsa+renesas@sang-engineering.com, linux-renesas-soc@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 09 2024 at 19:18, Thomas Gleixner wrote:
+Hi Claudiu,
 
-> On Mon, Jul 08 2024 at 13:55, Marek Vasut wrote:
->> On 7/7/24 8:47 PM, Thomas Gleixner wrote:
->>> Why does the irq_chip in question have an irq_set_affinity() callback in
->>> the first place?
->> I believe originally (at least that's what's being discussed in the 
->> linked threads) it was because the irqchip code didn't check whether 
->> .irq_set_affinity was not NULL at all, so if it was missing, there would 
->> be NULL pointer dereference.
->>
->> Now this is checked and irq_do_set_affinity() returns -EINVAL, which 
->> triggers the warning that is being silenced by this patch.
->>
->> If you think this is better, I can:
->> - Tweak the cpuhotplug.c code to do some
->>    if (chip && !chip->irq_set_affinity) return false;
+On Wed, Jul 10, 2024 at 4:20=E2=80=AFPM claudiu beznea <claudiu.beznea@tuxo=
+n.dev> wrote:
+> On 28.06.2024 12:22, Geert Uytterhoeven wrote:
+> > On Tue, Jun 25, 2024 at 2:14=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.d=
+ev> wrote:
+> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >>
+> >> Fast mode plus is available on most of the IP variants that RIIC drive=
+r
+> >> is working with. The exception is (according to HW manuals of the SoCs
+> >> where this IP is available) the Renesas RZ/A1H. For this, patch
+> >> introduces the struct riic_of_data::fast_mode_plus.
+> >>
+> >> Fast mode plus was tested on RZ/G3S, RZ/G2{L,UL,LC}, RZ/Five by
+> >> instantiating the RIIC frequency to 1MHz and issuing i2c reads on the
+> >> fast mode plus capable devices (and the i2c clock frequency was checke=
+d on
+> >> RZ/G3S).
+> >>
+> >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >
+> > Thanks for your patch!
+> >
+> >> --- a/drivers/i2c/busses/i2c-riic.c
+> >> +++ b/drivers/i2c/busses/i2c-riic.c
+> >> @@ -407,6 +413,9 @@ static int riic_init_hw(struct riic_dev *riic)
+> >>         riic_writeb(riic, 0, RIIC_ICSER);
+> >>         riic_writeb(riic, ICMR3_ACKWP | ICMR3_RDRFS, RIIC_ICMR3);
+> >>
+> >> +       if (info->fast_mode_plus && t->bus_freq_hz =3D=3D I2C_MAX_FAST=
+_MODE_PLUS_FREQ)
+> >> +               riic_clear_set_bit(riic, 0, ICFER_FMPE, RIIC_ICFER);
+> >
+> > Unless FM+ is specified, RIIC_ICFER is never written to.
+> > Probably the register should always be initialized, also to make sure
+> > the FMPE bit is cleared when it was set by the boot loader, but FM+
+> > is not to be used.
 >
-> It does already:
+> Instead of clearing only this bit, what do you think about using
+> reset_control_reset() instead of reset_control_deassert() in riic_i2c_pro=
+be()?
 >
-> migrate_one_irq()
->   if (chip && !chip->irq_set_affinity)
->     return false;
->
-> Right at the top.
+> HW manuals for all the devices listed in
+> Documentation/devicetree/bindings/i2c/renesas,riic.yaml specifies that
+> ICFER_FMPE register is initialized with a default value by reset. All the
+> other registers are initialized with default values at reset (according t=
+o
+> HW manuals). I've checked it on RZ/G3S and it behaves like this.
 
-  if (!chip || !chip->irq_set_affinity) {
+RZ/A1 and RZ/A2M do not have reset controller support yet, so calling
+reset_control_reset() is a no-op on these SoCs.
 
-Obviously :)
+However, I overlooked that riic_init_hw() does an internal reset first
+by setting the ICCR1_IICRST bit in RIIC_ICCR1.
+Is that sufficient to reset the FMPE bit?
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
