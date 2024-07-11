@@ -1,131 +1,137 @@
-Return-Path: <linux-renesas-soc+bounces-7248-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7249-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 476BA92E286
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jul 2024 10:37:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8181792E2C5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jul 2024 10:53:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E40BF1F216BB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jul 2024 08:37:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B12E21C21AC7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jul 2024 08:53:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14C16157488;
-	Thu, 11 Jul 2024 08:35:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33C56152534;
+	Thu, 11 Jul 2024 08:53:19 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA86155A24;
-	Thu, 11 Jul 2024 08:35:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0C813B59F;
+	Thu, 11 Jul 2024 08:53:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720686954; cv=none; b=KYpqr5oOJxuFHdDwdZYxfI9I4e43QW3+Ykol7rBizBh+vrsOH5MxSPyJnx00OXSo5CJWht6nfrXwKg4UtMM1tml0BmWwh0LOFRhAi6aGQSOYgSDbhNre1N8ejZsfP69GCO8xQhVc+/1S9o9jQKkpUGknMZ5f3zmvhIc0GeADs0Q=
+	t=1720687999; cv=none; b=rv/PoAUbdUrvihnaCDJZdHYDx5PZaE+ZJ7RcBdqhlgsoABvBhuW8htBLlpypEBfOpTuMROgf2p3o1yatUwIpk90hROO+AoF8k8BoikLinpngJ1vbD+jVEwIIbHFJN0S3JEkczu+4zHq5NRisoMKPoRbzy42DeCvpOiHk4m/Hm7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720686954; c=relaxed/simple;
-	bh=8q1r8au6kO3TF5KUsHOvNGSBdh6KP2dD3d2WrW85cRI=;
+	s=arc-20240116; t=1720687999; c=relaxed/simple;
+	bh=2ou+YsYEEugMGdtQXAJCZ+aAgYO2v5aJq4d7CBht9bA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=E8eQdJD8OACf1Yck28vg1IoVKfBpSzF/5qGlNWw5WOMyDhhNspq1ydkc9WUmiCRf8bOeVTIfdmUqIBkbDxLQwZ/k+tPT5kvc1pd70vLS9vqpKDhNHxcjNPuZJE//U6S9fTUQB4ig2gatwR9V/3ZaKWwzGCpDn8ycNEPu8ZER6TY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.180
+	 To:Cc:Content-Type; b=TyZ/s6lDTEtVGTrdy7DBwk2w50grxhTvWbEiL5if/LWiMkYc9RM8QgvcB3749Mb0zGRM+j3JfI731Bd4BP/0AtZBQpQTsQhNAbouWkvHjh1F51gT15atkmVvFBAmzfgbW2QX7GqgyMV1oYRetxlBPqfm4VBf+yHcfmpFjYiz9Y4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-64b05fab14eso5977077b3.2;
-        Thu, 11 Jul 2024 01:35:51 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-654ce021660so6656817b3.1;
+        Thu, 11 Jul 2024 01:53:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720686950; x=1721291750;
+        d=1e100.net; s=20230601; t=1720687995; x=1721292795;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7EptZoKPLIWNKke/omWu8DOkFmBcLWw6b/BGuaFTohc=;
-        b=ZFTULLusWyTImhWF7p84JFw7zPSYUAvwEvwiBUPDJSXIf1+8nP+Ir7blh+SUNCvMkH
-         u9iRMNfe1AjUD6yZUtAiG2B2gkrPYkE+JRDiuZzMmtG1ZimiUyUTLMjoOFPoGtX3BZoG
-         HNpVkFevl8CTA37gW+gLe39cDiBWODh47WylfgL+tcDmkjF2WrpQ3H9frgywCOxobytR
-         XEnSlt/uDdGmOKk9CtFDvm2MqB/idZTg3vqtNqtTCoyF2V5joMhuCaEcTR7nab45nGZt
-         Y1OpWHkLGH1jy4dUvACTN0/MLIU4FwOTfLOUszk/CQ9iWnSuz3mHrKiZJOfqy9vUb65b
-         y8fQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWTrMV4I7eZnzNSKrJ2dpeJlB0E0eqg4WS6xU5sk+iW6lxkfUejS7Lp2jvRUMN3Re+5F1f5gWwU0oiC8xnmJtnU5CdcZ9fKmpBCddcVW+j+tb4CWWCVydFkg8qLcIpXhrkmmOIEQ9sHtNDCMEo=
-X-Gm-Message-State: AOJu0YyR5ibQxacTFnwy9rc8sGgJlC0WJ5bf49x3F5iny3SX/UAuEJW0
-	wsquQr+SkRxEQLCrmkNoJ+qQof6STh4q7Hxa9vHOL+CAO8HmQlLNbmerpihF
-X-Google-Smtp-Source: AGHT+IG3J9Aq0Xatb7u47VSnfjlyKTcjsydQjrEAr121Pp5f/ro4SVPJh3jfwwdU70JY3nEFQz3YhQ==
-X-Received: by 2002:a81:8d10:0:b0:64a:a81a:99cd with SMTP id 00721157ae682-658ef4407edmr77530597b3.30.1720686949772;
-        Thu, 11 Jul 2024 01:35:49 -0700 (PDT)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-658e4936086sm10236487b3.4.2024.07.11.01.35.49
+        bh=W6f3oSyeWf8yYBWfaEbvUGQAKgtspXaPeuysnNn5pHw=;
+        b=GR8CClR260goFc+bhr2rkbeYznRn1zNKHiahW5GWiabsgVjcrqn4V9+pjz6XVa/ZxT
+         jlE8C4s5CLNxFxkvG9sum0QXFsO6OtT7i6xVcQ1simPdcIn5nSAJPgvv+GCRLwwNo+QV
+         1JAyB9lXlb4fxqWu6WjR0qVxROHsrR1g92lcyy8pDejvgjAnqGFVFEdB8bUkAkHxd6VY
+         yanWigzaB4pOAtcwkb4/bmaXZFEdhE+q0RlIVfJwnQhoq5TGXJ/r06RufICKOVrPEHkH
+         g9hQ1yXnSz6zEe5WGmraOlpH8qXUIuayHGOvNpGITebRgdVRZeTurvuLLU12PRopFZ58
+         f2TA==
+X-Forwarded-Encrypted: i=1; AJvYcCWfg6ekCf+r7uj5xphUPdixZ4jtozeIhAg6R8opZvBQHMa2SUkw4f4wKn8JqJ1NdVL1mqQBxEPfV1u+Uc0dPnBWlSP3GSCLREsu
+X-Gm-Message-State: AOJu0YyPSW9ou/yQcSajDr29mYM9snOJHdQAbBMZ+ynbORyj64LsaJLl
+	3gRKo1X5wJhHchb/1Gq60VGfVASiTEHkrWt5YzsnEAB/UlI50HZ8qC1TLZOd
+X-Google-Smtp-Source: AGHT+IHUdxAbZMOJ1MqrAUxn4ANA6HwI9JatpKzYhOcm/ziAyjFj1DHBkPWB2+D7AsAPIoXpUIakpQ==
+X-Received: by 2002:a0d:dcc1:0:b0:647:eaea:f4de with SMTP id 00721157ae682-658f11a56d1mr75338347b3.47.1720687994975;
+        Thu, 11 Jul 2024 01:53:14 -0700 (PDT)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-658e4a316e9sm10287977b3.17.2024.07.11.01.53.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Jul 2024 01:35:49 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-e03a581276eso528977276.2;
-        Thu, 11 Jul 2024 01:35:49 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUbGU8Tasw+bR105Je1936gD9tJrSn4mwaOAtkTTzW+n8uzuq180xj6gKniMxF+jUBoajpjiFbp0lOyF/2731cuyE63lI//0pB+qFu8CKtNAru1wKXx5pBx7lz7tJVacWHUjsZaKaqN2FD0x7A=
-X-Received: by 2002:a25:d60b:0:b0:e02:92cf:4ea2 with SMTP id
- 3f1490d57ef6-e041b035eadmr9528754276.8.1720686949154; Thu, 11 Jul 2024
- 01:35:49 -0700 (PDT)
+        Thu, 11 Jul 2024 01:53:14 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e03a9f7c6a6so594779276.3;
+        Thu, 11 Jul 2024 01:53:14 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX/Jmj9JnikEJV7mYh4fJGpGq2guoZRMSy0CB/f2ZITn7JxOzaL5mcYH29ztAxwH7tajANbW+loTYWrhnBg2OjDPSAdjPDOBOfN
+X-Received: by 2002:a81:5b42:0:b0:650:8f3a:2ac6 with SMTP id
+ 00721157ae682-658ee790066mr90288287b3.1.1720687994228; Thu, 11 Jul 2024
+ 01:53:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1720616233.git.geert+renesas@glider.be> <TYCPR01MB110400CA4023266B96C8077DFD8A52@TYCPR01MB11040.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYCPR01MB110400CA4023266B96C8077DFD8A52@TYCPR01MB11040.jpnprd01.prod.outlook.com>
+References: <cover.1720616233.git.geert+renesas@glider.be> <3b3e769977dba9c487ec12cf9594e99af4eaceb7.1720616233.git.geert+renesas@glider.be>
+In-Reply-To: <3b3e769977dba9c487ec12cf9594e99af4eaceb7.1720616233.git.geert+renesas@glider.be>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 11 Jul 2024 10:35:36 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUC6JAZrR_rroy_87m9=hxTHQU-A9Hqzm95QSk+LKfD5g@mail.gmail.com>
-Message-ID: <CAMuHMdUC6JAZrR_rroy_87m9=hxTHQU-A9Hqzm95QSk+LKfD5g@mail.gmail.com>
-Subject: Re: [PATCH 00/14] clk: renesas: rcar-gen4: Fractional PLL improvements
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
+Date: Thu, 11 Jul 2024 10:53:01 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWa26+9BCz9Hokn+9HNjAqwG_V+G1JJ07X2ye0m7bWS-A@mail.gmail.com>
+Message-ID: <CAMuHMdWa26+9BCz9Hokn+9HNjAqwG_V+G1JJ07X2ye0m7bWS-A@mail.gmail.com>
+Subject: Re: [PATCH 05/14] clk: renesas: rcar-gen4: Add support for fractional multiplication
+To: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	Geert Uytterhoeven <geert+renesas@glider.be>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Shimoda-san,
-
-On Thu, Jul 11, 2024 at 10:29=E2=80=AFAM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> > From: Geert Uytterhoeven, Sent: Wednesday, July 10, 2024 10:11 PM
-> > Currently, almost all PLLs on R-Car Gen4 SoCs are modelled as fixed
-> > divider clocks, based on the state of the mode pins.  The only exceptio=
-n
-> > is PLL2 on R-Car V4H, which uses a custom clock driver to support High
-> > Performance mode on the Cortex-A76 CPU cores.
-> >
-> > However, the boot loader stack may have changed the actual PLL
-> > configuration from the default, leading to incorrect clock frequencies.
-> > A typical sympton is a CPU core running much slower than reported by
-> > Linux.
-> >
-> > This patch series enhances PLL support on R-Car Gen4 support by
-> > obtaining the actual PLL configuration from the hardware.  As these PLL=
-s
-> > can be configured for fractional multiplication, an old patch to add
-> > support fractional multiplication is revived, too.  Of course some
-> > cleanups are included, too.
+On Wed, Jul 10, 2024 at 3:10=E2=80=AFPM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+> R-Car Gen4 PLLs support fractional multiplication, which can improve
+> accuracy when configuring a specific frequency.
 >
-> Thank you for the patches! I reviewed all patches and it seems good.
-> # I sent a nit comment on the patch 4/14 though.
+> Add support for fractional multiplication to the custom clock driver
+> for PLLs, which is currently used only for PLL2 on R-Car V4H.
+> While at it, add the missing blank line after the function.
 >
-> So,
+> Note that Fractional Multiplication is not enabled by the driver,
+> but used only if the boot loaded enabled it before.
 >
-> Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Thank you!
+> --- a/drivers/clk/renesas/rcar-gen4-cpg.c
+> +++ b/drivers/clk/renesas/rcar-gen4-cpg.c
+> @@ -77,17 +79,26 @@ static unsigned long cpg_pll_8_25_clk_recalc_rate(str=
+uct clk_hw *hw,
+>                                                   unsigned long parent_ra=
+te)
+>  {
+>         struct cpg_pll_clk *pll_clk =3D to_pll_clk(hw);
+> -       unsigned int mult;
+> -
+> -       mult =3D FIELD_GET(CPG_PLLxCR0_NI8, readl(pll_clk->pllcr0_reg)) +=
+ 1;
+> +       u32 cr0 =3D readl(pll_clk->pllcr0_reg);
+> +       unsigned int ni, nf;
+> +       unsigned long rate;
+> +
+> +       ni =3D (FIELD_GET(CPG_PLLxCR0_NI8, cr0) + 1) * 2;
+> +       rate =3D parent_rate * ni;
+> +       if (cr0 & CPG_PLLxCR0_SSMODE_FM) {
+> +               nf =3D FIELD_GET(CPG_PLLxCR1_NF25, readl(pll_clk->pllcr1_=
+reg));
+> +               rate +=3D ((u64)parent_rate * nf) >> 24;
 
-> > Note that struct rcar_gen4_cpg_pll_config still contains the default
-> > multipliers and dividers for PLL1/2/3/4/6, while they are no longer
-> > used. Probably they should be removed, too.  Or do you think we should
-> > retain them for documentation purposes>
+This (and every other similar calculation in this series) can use
+mul_u64_u32_shr(), for better performance when reused on 32-bit,
+at the cost of a slight code increase on arm64.
+
+> +       }
 >
-> I think that retaining them is good for the documentation purposes.
-
-Another option is to remove the members, but keep the values
-in the comments above the SoC-specific instances.
+> -       return parent_rate * mult * 2;
+> +       return rate;
+>  }
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---=20
+
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
 .org
 
