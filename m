@@ -1,71 +1,71 @@
-Return-Path: <linux-renesas-soc+bounces-7263-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7264-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5768D92E793
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jul 2024 13:54:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34F4792E799
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jul 2024 13:54:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 88E7B1C23769
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jul 2024 11:54:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ABD181F21B38
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jul 2024 11:54:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D43B1161911;
-	Thu, 11 Jul 2024 11:52:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35685167DB8;
+	Thu, 11 Jul 2024 11:52:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="qwfDhuAA"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="icwAqShJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AF801607B0
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Jul 2024 11:52:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A0E81662FA
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Jul 2024 11:52:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720698755; cv=none; b=CcVGvDxxO4IbfkkYhCaqGOBLf5vFLUPEcFcLvhBXtrgaBH/iJhYJLV2XF2YGLmEZoOi2E0DO4I5u51Z0BGM4JVHlRONzKZI3EdLSzkA5VC3yGoc/sqbMtffzXYUboifshgsIhVdOYOJ2WmhOXJLV5pthCZnqXx7KnFmUBbMxba8=
+	t=1720698758; cv=none; b=VPAPEaG9RE1ZBT5c+DE5UPBCWuJpO1rFYuHJW9m2bvfcSgS4HYDEYQpEKKqviudIWFxDJON9GFUejOZH091sfsFR7k5R2gCRxqHMuWYhJpFk73YzLj6iSUEBOjvkZ4dXPB8w38LCOBrybbCaJIUQ2EWuog/SfohLJVRwmMIOVVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720698755; c=relaxed/simple;
-	bh=0+MicTBHiUKzvnA3rZDDq9j85qpZ09p47HPHzZsgs38=;
+	s=arc-20240116; t=1720698758; c=relaxed/simple;
+	bh=+msHcSiSOUtVE0zqd9yzVyAfgZYTM4iy8stuOGcJTf0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gR9IekaAuTpW04pIrE1G9z7LglkY8dbCIEBQ6XKfcicWdtimpO6EF5Q2Ah4LbPO16VIVyuOS5WDMmSDsdOUYM1DbBo4tBiuvb3Ilym1J/0vfrY5ozEU8knaV4mOUMpsrKJg5bkqpgtRSMrhPbfQ634LNpAEwXerYryAg/dYFz2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=qwfDhuAA; arc=none smtp.client-ip=209.85.221.44
+	 MIME-Version; b=UJglUand9eesfJI41yQI5LyZfvAbjPG8ni8CD9/ObpKslniFcgfFCh0ipc3W+H+fXGqWNK6m+WJfsENrEBmTz3e331lNu+o++DYQp2PElonuqG5Yhf4Z/myJyVwagD4nKLgiDaBLlEzev+YwcffG8Fpk07gGYVkf2Qa56zDjUcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=icwAqShJ; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-36798779d75so620895f8f.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Jul 2024 04:52:34 -0700 (PDT)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-367818349a0so498855f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Jul 2024 04:52:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1720698753; x=1721303553; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1720698755; x=1721303555; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VZBCyPn7njPR9/TVlgXLD1ap+yXkWFzpRikQNXyqWD4=;
-        b=qwfDhuAAmUgYd6kdIbcXojcJsddV+Pj/auMcM0EWiQLQ/ZApnO70JQP8qoU9y232H6
-         AHsfYVHH1cnfxM8gt0scrVPMkPFzk54Ib27VCgSVM9+zaTmfmIzwRRtt2TLnn54JYg25
-         bbuRyPKjNYeFZqt3vDkUr/6NykMhb3U8LgguAhXCbz8YJtBaF2rQRLycDZxXtaMJdIXm
-         8xoYCjRsUJ0IbceJ9f+l50zKu32LvUbWgVXFD0oVFf2SGoNsmvIWVIs41ngDJNdpS0zo
-         fYRumkgE3Hznsdpnp1P/62KOlAVybYajTlym7f+NM0mjbJRolcKYAKIBbZfABjX01sPA
-         6YEw==
+        bh=KF+Ca0UauuML1oOffpq5+uiBPHq10uLXGtE5BcB3OGE=;
+        b=icwAqShJzNiDCuRGF9DhVCznNMezuUEt/nfPgFKq8f97ik7U0HT05VfTyY6U8xzC9m
+         hLlWdjupeQ+7NYWm3T168qQ9SSRqIOPH3Z00+vSn5qfg3JdZLfukM7QuVkun0EY8X2jP
+         PG9igBWNQbCoVTscRN4/g/pB3/9eSQxw0aua0papbt8IiA21aBQ4nh1OEQzGP6FpBgBE
+         BgMATcY2OCdmmQLHXjTeO4WSOnQERI9lP3uw796yv0xY6ui+DPCvgonZK6jwKMLdASZf
+         HO0ury9+4FDbV9Ak8M6Kz/tYSXeaPVZN77nymKAd+JPpidxVW0rfZKCnvMGRsxajhqUC
+         TVGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720698753; x=1721303553;
+        d=1e100.net; s=20230601; t=1720698755; x=1721303555;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VZBCyPn7njPR9/TVlgXLD1ap+yXkWFzpRikQNXyqWD4=;
-        b=KPncnXdExi2AmtBY7NFHFqQTS3axk34mCLTUVKbbleER4AKBQB2CbzGTXBfBG4md8B
-         3wtaBVC7bT9F8msbQEW+vwVsTKvIVqTXfalzCFLPF6b4TtAYYLyKezOdTa8Ae9Muuwgq
-         weA9WImang8EOOwFIiBWZ5PyMtJ7d96f+TigtC60KfyR9ZxIkTzBQEQaUrtNSMnscBC9
-         rhE7lTNiT4kHQEf4TiWvosW2udGMC7qDbXJ0PV6h+SVHVcrAckUw0/9eFaH1lt3wT6a9
-         8/1GX3zan+ckhtjTLsJV64PWQw7TzC4RcV7og2uC0vIxcNCCU85rr9iWn+tXLbmxIKQ0
-         xS9w==
-X-Gm-Message-State: AOJu0YylY3GHoO5TulLmqunpbFZYYI+DvuqLbztOteZrw69HGbPI2fAb
-	Vp/R9K5u0UItnBmq9iXn1YhmG5vUCaO7imFMQJn1g6xebK9W1aSKgnBbkNR3Hbs=
-X-Google-Smtp-Source: AGHT+IHCT6dpGR1QFEm4/8GPvCs4Rsey07AX3T4PoUoukEJlV6fa1h+I+5OqhxWN6XoK14pz41/4tA==
-X-Received: by 2002:adf:ec42:0:b0:366:ee01:30d6 with SMTP id ffacd0b85a97d-367cead183emr5919650f8f.49.1720698752834;
-        Thu, 11 Jul 2024 04:52:32 -0700 (PDT)
+        bh=KF+Ca0UauuML1oOffpq5+uiBPHq10uLXGtE5BcB3OGE=;
+        b=dTRv+GUOsAdktjsDIvhqTnyJNVMG6GVs4O3LDyrJGAAaUYZ7TV4qBAhb1PPQuf9PeP
+         sEc4fW2ODAO2n446wXbhQRf4zH1fJQRO97AOzEwJz0kFWDyyh0fiH3584aCZtasPs0DG
+         gVa31+ZngRB4Eg4eqgjuNWEomJdwWrel9bU6S/RQU/5UB/m0kQTWUCtXR9Bq2S9MTO7h
+         ZRawSh6oiETDYwPAsv+OiNPWBMDYK9FKordx5/p+bQ9iqp3sn8pVkzBDwt/DkWK+hvPO
+         eRg0bXX9sbaBXa/l/4YSol+brzQOJ+1HKoYFsrnLqjMZHVdND1GlvOxGQFlx36Uhnv5k
+         iB6w==
+X-Gm-Message-State: AOJu0Yx0ij4rwuKqdor0exD9lEKjHM7ic0Ukl+uCQzWbjeOdKK9tfsdP
+	KIjna/Kodg/xdt3oNpT1WhcVoG/ZpfrHFJL5YLTg2cZX6m/lpWfurkqcOLR0yZU=
+X-Google-Smtp-Source: AGHT+IFG+7H1dN+ufITntnAYmlbH6+rebYNpNdUfbgj+80L7inS/ej14iKsqvvdoxzPDiZSv+GOvUA==
+X-Received: by 2002:adf:e64b:0:b0:367:9795:92ba with SMTP id ffacd0b85a97d-367cea73740mr5015509f8f.23.1720698755033;
+        Thu, 11 Jul 2024 04:52:35 -0700 (PDT)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.171])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-367cde891cesm7615728f8f.62.2024.07.11.04.52.30
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-367cde891cesm7615728f8f.62.2024.07.11.04.52.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jul 2024 04:52:32 -0700 (PDT)
+        Thu, 11 Jul 2024 04:52:34 -0700 (PDT)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: chris.brandt@renesas.com,
@@ -82,11 +82,10 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	claudiu.beznea@tuxon.dev,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v3 07/11] dt-bindings: i2c: renesas,riic: Document the R9A08G045 support
-Date: Thu, 11 Jul 2024 14:52:03 +0300
-Message-Id: <20240711115207.2843133-8-claudiu.beznea.uj@bp.renesas.com>
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v3 08/11] i2c: riic: Add support for fast mode plus
+Date: Thu, 11 Jul 2024 14:52:04 +0300
+Message-Id: <20240711115207.2843133-9-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240711115207.2843133-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20240711115207.2843133-1-claudiu.beznea.uj@bp.renesas.com>
@@ -100,38 +99,135 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Document the Renesas RZ/G3S (R9A08G045) RIIC IP. This is compatible with
-the version available on Renesas RZ/V2H (R9A09G075).
+Fast mode plus is available on most of the IP variants that RIIC driver
+is working with. The exception is (according to HW manuals of the SoCs
+where this IP is available) the Renesas RZ/A1H. For this, patch
+introduces the struct riic_of_data::fast_mode_plus.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Fast mode plus was tested on RZ/G3S, RZ/G2{L,UL,LC}, RZ/Five by
+instantiating the RIIC frequency to 1MHz and issuing i2c reads on the
+fast mode plus capable devices (and the i2c clock frequency was checked on
+RZ/G3S).
+
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
 
 Changes in v3:
-- collected tags
+- enabled FM+ for all riic_rz_a_info based platforms except RZ/A1H
+  as requested in review comments; with this, dropped the riic_rz_g2_info
+  and RZ/G2 specific compatibles in riic_i2c_dt_ids[];
+
+  Note that it has been tested only on platforms mentioned in commit
+  description (as I don't have all the other RZ/A platforms).
 
 Changes in v2:
-- dropped the renesas,riic-no-fast-mode-plus
+- dropped code that handles the renesas,riic-no-fast-mode-plus
 - updated commit description
 
- Documentation/devicetree/bindings/i2c/renesas,riic.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/i2c/busses/i2c-riic.c | 25 ++++++++++++++++++++++---
+ 1 file changed, 22 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/i2c/renesas,riic.yaml b/Documentation/devicetree/bindings/i2c/renesas,riic.yaml
-index 7993fe463c4c..e520f06f2c39 100644
---- a/Documentation/devicetree/bindings/i2c/renesas,riic.yaml
-+++ b/Documentation/devicetree/bindings/i2c/renesas,riic.yaml
-@@ -25,6 +25,10 @@ properties:
-               - renesas,riic-r9a07g054  # RZ/V2L
-           - const: renesas,riic-rz      # RZ/A or RZ/G2L
+diff --git a/drivers/i2c/busses/i2c-riic.c b/drivers/i2c/busses/i2c-riic.c
+index 0019a8e56dbb..ba969ad5f015 100644
+--- a/drivers/i2c/busses/i2c-riic.c
++++ b/drivers/i2c/busses/i2c-riic.c
+@@ -63,6 +63,8 @@
+ #define ICMR3_ACKWP	0x10
+ #define ICMR3_ACKBT	0x08
  
-+      - items:
-+          - const: renesas,riic-r9a08g045   # RZ/G3S
-+          - const: renesas,riic-r9a09g057
++#define ICFER_FMPE	0x80
 +
-       - const: renesas,riic-r9a09g057   # RZ/V2H(P)
+ #define ICIER_TIE	0x80
+ #define ICIER_TEIE	0x40
+ #define ICIER_RIE	0x20
+@@ -80,6 +82,7 @@ enum riic_reg_list {
+ 	RIIC_ICCR2,
+ 	RIIC_ICMR1,
+ 	RIIC_ICMR3,
++	RIIC_ICFER,
+ 	RIIC_ICSER,
+ 	RIIC_ICIER,
+ 	RIIC_ICSR2,
+@@ -92,6 +95,7 @@ enum riic_reg_list {
  
-   reg:
+ struct riic_of_data {
+ 	const u8 *regs;
++	bool fast_mode_plus;
+ };
+ 
+ struct riic_dev {
+@@ -311,11 +315,14 @@ static int riic_init_hw(struct riic_dev *riic)
+ 	int total_ticks, cks, brl, brh;
+ 	struct i2c_timings *t = &riic->i2c_t;
+ 	struct device *dev = riic->adapter.dev.parent;
++	const struct riic_of_data *info = riic->info;
+ 
+-	if (t->bus_freq_hz > I2C_MAX_FAST_MODE_FREQ) {
++	if ((!info->fast_mode_plus && t->bus_freq_hz > I2C_MAX_FAST_MODE_FREQ) ||
++	    (info->fast_mode_plus && t->bus_freq_hz > I2C_MAX_FAST_MODE_PLUS_FREQ)) {
+ 		dev_err(&riic->adapter.dev,
+-			"unsupported bus speed (%dHz). %d max\n",
+-			t->bus_freq_hz, I2C_MAX_FAST_MODE_FREQ);
++			"unsupported bus speed (%dHz). %d max\n", t->bus_freq_hz,
++			info->fast_mode_plus ? I2C_MAX_FAST_MODE_PLUS_FREQ :
++			I2C_MAX_FAST_MODE_FREQ);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -401,6 +408,9 @@ static int riic_init_hw(struct riic_dev *riic)
+ 	riic_writeb(riic, 0, RIIC_ICSER);
+ 	riic_writeb(riic, ICMR3_ACKWP | ICMR3_RDRFS, RIIC_ICMR3);
+ 
++	if (info->fast_mode_plus && t->bus_freq_hz == I2C_MAX_FAST_MODE_PLUS_FREQ)
++		riic_clear_set_bit(riic, 0, ICFER_FMPE, RIIC_ICFER);
++
+ 	riic_clear_set_bit(riic, ICCR1_IICRST, 0, RIIC_ICCR1);
+ 
+ 	pm_runtime_mark_last_busy(dev);
+@@ -526,6 +536,7 @@ static const u8 riic_rz_a_regs[RIIC_REG_END] = {
+ 	[RIIC_ICCR2] = 0x04,
+ 	[RIIC_ICMR1] = 0x08,
+ 	[RIIC_ICMR3] = 0x10,
++	[RIIC_ICFER] = 0x14,
+ 	[RIIC_ICSER] = 0x18,
+ 	[RIIC_ICIER] = 0x1c,
+ 	[RIIC_ICSR2] = 0x24,
+@@ -537,6 +548,11 @@ static const u8 riic_rz_a_regs[RIIC_REG_END] = {
+ 
+ static const struct riic_of_data riic_rz_a_info = {
+ 	.regs = riic_rz_a_regs,
++	.fast_mode_plus = true,
++};
++
++static const struct riic_of_data riic_rz_a1h_info = {
++	.regs = riic_rz_a_regs,
+ };
+ 
+ static const u8 riic_rz_v2h_regs[RIIC_REG_END] = {
+@@ -544,6 +560,7 @@ static const u8 riic_rz_v2h_regs[RIIC_REG_END] = {
+ 	[RIIC_ICCR2] = 0x01,
+ 	[RIIC_ICMR1] = 0x02,
+ 	[RIIC_ICMR3] = 0x04,
++	[RIIC_ICFER] = 0x05,
+ 	[RIIC_ICSER] = 0x06,
+ 	[RIIC_ICIER] = 0x07,
+ 	[RIIC_ICSR2] = 0x09,
+@@ -555,6 +572,7 @@ static const u8 riic_rz_v2h_regs[RIIC_REG_END] = {
+ 
+ static const struct riic_of_data riic_rz_v2h_info = {
+ 	.regs = riic_rz_v2h_regs,
++	.fast_mode_plus = true,
+ };
+ 
+ static int riic_i2c_suspend(struct device *dev)
+@@ -603,6 +621,7 @@ static const struct dev_pm_ops riic_i2c_pm_ops = {
+ 
+ static const struct of_device_id riic_i2c_dt_ids[] = {
+ 	{ .compatible = "renesas,riic-rz", .data = &riic_rz_a_info },
++	{ .compatible = "renesas,riic-r7s72100", .data =  &riic_rz_a1h_info, },
+ 	{ .compatible = "renesas,riic-r9a09g057", .data = &riic_rz_v2h_info },
+ 	{ /* Sentinel */ },
+ };
 -- 
 2.39.2
 
