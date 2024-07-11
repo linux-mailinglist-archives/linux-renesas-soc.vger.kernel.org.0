@@ -1,71 +1,71 @@
-Return-Path: <linux-renesas-soc+bounces-7260-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7261-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2397692E783
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jul 2024 13:53:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3557392E787
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jul 2024 13:53:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A4A201F25090
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jul 2024 11:53:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 59DE61C23755
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jul 2024 11:53:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF42F15EFB6;
-	Thu, 11 Jul 2024 11:52:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0FBF15F40D;
+	Thu, 11 Jul 2024 11:52:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="gErmeWW8"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="idCPdsOf"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 374AD15ECDC
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Jul 2024 11:52:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B0B715F311
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Jul 2024 11:52:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720698749; cv=none; b=Z9XLl7kn6eMBcGC8JXOVMKByS4xuBA/cLqcM/gJiz0BmwdbpZZ2+pgj2NImL0vvwyq9oxDrVgPeBWoM82KE+Y7ao6lashg9N19mtci3HEZuPEW2g+8KFMzlCmKTSAd/z3i/0sb4sw6yl0r6fV6Hm6Ya1r9bCz5YQ+usG83vWuZY=
+	t=1720698751; cv=none; b=GRLtsBGDYB3YxOpodJ7dRWR0FXwnKxtbLSrIbzflDLyjd5i99kFsnq6GB/2Jc0rZ41H7u2/phrQZ1U0OHqyEFcfA9plaGto0w4NkWaUa/Q5KZ0o6gCUq+Hhsm8IXSiEFhC2geAjUNyF0xYaQ9edtfS3gM5g4KXsrv6XXE5HJI9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720698749; c=relaxed/simple;
-	bh=LNIbD0mShRhijjyrncFa/Sfct8EIIrIFNTLpGEmeFOg=;
+	s=arc-20240116; t=1720698751; c=relaxed/simple;
+	bh=EvTrmK7vDozYe84CypL1NsIjIVFAwvWhLwqiVCE7rcQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Kr3xx+gQ2y+sfM1HlvBZ2qSqOItXUAYYj7HIvQMt5tTqWrQLJybcTm8d+LCkidJsmjVUi9yTNI0nx4gxUkQFSXn7Y8GBVCbPEiXYdaUug7CyAt+Sl9hZySYlCy9pUVrQMnZqOj9DPhtMiTPeWlkonKUnQQjQyS0TbtfHS+3+Vys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=gErmeWW8; arc=none smtp.client-ip=209.85.128.42
+	 MIME-Version; b=RyONb9kSfraSq0MCXjQc+hwy6BR48V3YyPj+Cr7v19Xd5y7/ANeNIh52H09Ay+Q+CGHoJfxIlfUL7+WmHCEmBKVRtdyA6o5V0pW21r+JDZn8FUwu54IrdVYd+KVmhpFZkiv9k57wxwleoEuIgfvWpoKphuWdfH+05I7GKKkiFxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=idCPdsOf; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4266ed6c691so4785065e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Jul 2024 04:52:28 -0700 (PDT)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3679e9bfb08so453390f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Jul 2024 04:52:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1720698747; x=1721303547; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1720698748; x=1721303548; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3C+MvDdWpXknhzh2+tcBHGd/tUZH0vNFhsggMze/hfU=;
-        b=gErmeWW8eVDwAiXp6aiu2XEy1MSLe9CBSZ9+GDpA7W2DSjeuklvmMM83XouSD4s2wB
-         D26jtlvXgiJMsgKaMdjNKVb4ixXvTt6SvRI+dHmce0UaXUW4oXFjEIrp/fbX02DX1TB/
-         ntFxJNtICST8HniZPGeQ2TcW/QcuJjt6jkV3TIPQrS+wlbT0esvCSvQERbgt374C8YSl
-         RO8FKaKxp6dWMqvAovMOo0uUg212NlAAQjijpbX4qmF7heynE/c4s80hB5w0R1stqqig
-         J6qLpBA7e4QayXljvU5iMABGr1Wch9CVR10QTOsfEjKSP7lCiuL9W0rwF6o87I/yZ1Vn
-         kOyg==
+        bh=es3o2HKhbl78j8FUMZgv61lWfgzAkWIRds7OPE+Umtc=;
+        b=idCPdsOfwz4QJjLzFDToGoZYqK3dBLjtQBF5wPdqnHLtwJfiN5C0ZEKD2B6JJEo/ii
+         3AifJTmv5yztt3/Vh19eg708wpm77OEdtkCyibbwB9f09udFBSm/TiK3L9RRTUzkI2Ka
+         fLww2GWT9dLQ4fmrtJfLAlhIe1nUJa5l/YtWtVcBWSGaqVnZ6zBlaTQJ6H+w5oS0qob8
+         zapjbOCyn3PnzvgzXw3WXHReAvWQOEKO61sObbp5m9Lpvr6hnqA7ZZ+uUpJyxk2zIsou
+         U7CHqB7heh0wm2CbyN4U6vq5sdTRpWIJ7BI055fPlwGYAdpPEK657A2MTRar7TquH2JC
+         GZ4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720698747; x=1721303547;
+        d=1e100.net; s=20230601; t=1720698748; x=1721303548;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3C+MvDdWpXknhzh2+tcBHGd/tUZH0vNFhsggMze/hfU=;
-        b=TgtrT0ELu7ZSEWd8tF7lZM7iAmto24g0jjMprk46K5bApYaKGw0zUpsDlEISc+9keu
-         kwGAaZfhgk2L9FeenOSHUOzTeUftWOuU0i1J7g+26ovXiusgOcfEaJNNpecNXmfdwsNa
-         XNTy7AJ7w/CNOFdxlP6hNlS4Bih4eyT6ekwylafI09oPvChRE77KzPn2iW6xsR1jMFst
-         jcYFkcGBOVKWQJ/9HjEwVaaQcAoFkNzbu+KdqC4XLXHzN0u8oJR9JLZ6iHS1gIkc/mPa
-         3fWFEt2XP+YGCFoNmpQPF2ooVOVZbmFx/ctxY9PpmoUOqOcdHwEvi+s/OWgkJXwHTPut
-         tKew==
-X-Gm-Message-State: AOJu0YzQPYRCbAnxKlsEMMjrxKWtx9xqRbvDow8TiyE3N3LKN9K2YYKa
-	gxKPIB3QV3Pq76v35x4Jdq52oW8j+c05pSfzlMnuiXlJ2VaDFTO+Va/BsHrrGiQ=
-X-Google-Smtp-Source: AGHT+IH2hTGLcXrN3uhdyk22JKMZRxxLuK+TCBJEjjs2NDQ/EQ3L1L+BY0g6p7ApgwsOTecou6oDHA==
-X-Received: by 2002:a5d:47ac:0:b0:367:4384:a572 with SMTP id ffacd0b85a97d-367cea4687amr6873928f8f.9.1720698746729;
-        Thu, 11 Jul 2024 04:52:26 -0700 (PDT)
+        bh=es3o2HKhbl78j8FUMZgv61lWfgzAkWIRds7OPE+Umtc=;
+        b=dx5v8o/iSxTpM6N9gaZHoeyKFUboRiEmpQJKf70ejWaA7OKduFvFrP5c1qf8ac5K+Y
+         DGalrF7lrvFbexCSvARzds40s44UefwdmyzE02R4wtdrovLaumNYwjZpnrOVLQSVnNVP
+         wkMLVf8CFltOU6OMcMOdhFs6VbV/xRbDbz1mcbwIFyVflc+dV84ci2uvDH2I22h2nGh3
+         N3QUNaKYmHMTlJLWPipIu9WLFW3UuVLT+ra1W2B9ei49FzAz1Xl8vIXvrBo05gBfc1cK
+         11BBk3C/9VO0rjWv8tL6Z2x8uPkJxN+qlCbLf7IAIiv49F+31thUDkGsD2lzDJfVahXt
+         OIqA==
+X-Gm-Message-State: AOJu0YyAfSOhMsYEXpc5Ghxpc2m5bmLaXLer1V/4EDW+DDVepOQ5M8XA
+	NSgAV8O/WYwEcgBdkeI9NGCu4WW1roHJ8nWk9U3a5Ja6ns4Fl6LTdrhiQabppto=
+X-Google-Smtp-Source: AGHT+IEH60t9ODgR0Oj+pVFBEJK/4THFELrLG5LNRLuXsSsl9M5qYAfNdmXGbm7EYhk3135U+VwSPA==
+X-Received: by 2002:a05:6000:136e:b0:360:9500:9bbb with SMTP id ffacd0b85a97d-367f7164410mr1180230f8f.12.1720698748630;
+        Thu, 11 Jul 2024 04:52:28 -0700 (PDT)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.171])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-367cde891cesm7615728f8f.62.2024.07.11.04.52.24
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-367cde891cesm7615728f8f.62.2024.07.11.04.52.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jul 2024 04:52:26 -0700 (PDT)
+        Thu, 11 Jul 2024 04:52:28 -0700 (PDT)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: chris.brandt@renesas.com,
@@ -83,9 +83,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	claudiu.beznea@tuxon.dev,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v3 04/11] i2c: riic: Enable runtime PM autosuspend support
-Date: Thu, 11 Jul 2024 14:52:00 +0300
-Message-Id: <20240711115207.2843133-5-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v3 05/11] i2c: riic: Add suspend/resume support
+Date: Thu, 11 Jul 2024 14:52:01 +0300
+Message-Id: <20240711115207.2843133-6-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240711115207.2843133-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20240711115207.2843133-1-claudiu.beznea.uj@bp.renesas.com>
@@ -99,13 +99,13 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Enable runtime PM autosuspend support for the RIIC driver. With this, in
-case there are consecutive xfer requests the device wouldn't be runtime
-enabled/disabled after each consecutive xfer but after the
-the delay configured by user. With this, we can avoid touching hardware
-registers involved in runtime PM suspend/resume saving in this way some
-cycles. The default chosen autosuspend delay is zero to keep the
-previous driver behavior.
+Add suspend/resume support for the RIIC driver. This is necessary for the
+Renesas RZ/G3S SoC which support suspend to deep sleep state where power
+to most of the SoC components is turned off. As a result the I2C controller
+needs to be reconfigured after suspend/resume. For this, the reset line
+was stored in the driver private data structure as well as i2c timings.
+The reset line and I2C timings are necessary to re-initialize the
+controller after resume.
 
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
@@ -114,60 +114,154 @@ Changes in v3:
 - none
 
 Changes in v2:
-- none
+- deassert the reset line in resume if riic_init_hw() fails as
+  if that happens there is no way to recover the controller
 
- drivers/i2c/busses/i2c-riic.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ drivers/i2c/busses/i2c-riic.c | 68 +++++++++++++++++++++++++++++------
+ 1 file changed, 57 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/i2c/busses/i2c-riic.c b/drivers/i2c/busses/i2c-riic.c
-index 068f90ecf27e..46765715d39f 100644
+index 46765715d39f..5e4f56ee97e3 100644
 --- a/drivers/i2c/busses/i2c-riic.c
 +++ b/drivers/i2c/busses/i2c-riic.c
-@@ -171,7 +171,8 @@ static int riic_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[], int num)
+@@ -105,6 +105,8 @@ struct riic_dev {
+ 	struct completion msg_done;
+ 	struct i2c_adapter adapter;
+ 	struct clk *clk;
++	struct reset_control *rstc;
++	struct i2c_timings i2c_t;
+ };
+ 
+ struct riic_irq_desc {
+@@ -302,11 +304,12 @@ static const struct i2c_algorithm riic_algo = {
+ 	.functionality	= riic_func,
+ };
+ 
+-static int riic_init_hw(struct riic_dev *riic, struct i2c_timings *t)
++static int riic_init_hw(struct riic_dev *riic)
+ {
+ 	int ret;
+ 	unsigned long rate;
+ 	int total_ticks, cks, brl, brh;
++	struct i2c_timings *t = &riic->i2c_t;
+ 	struct device *dev = riic->adapter.dev.parent;
+ 
+ 	if (t->bus_freq_hz > I2C_MAX_FAST_MODE_FREQ) {
+@@ -423,8 +426,6 @@ static int riic_i2c_probe(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	struct riic_dev *riic;
+ 	struct i2c_adapter *adap;
+-	struct i2c_timings i2c_t;
+-	struct reset_control *rstc;
+ 	int i, ret;
+ 
+ 	riic = devm_kzalloc(dev, sizeof(*riic), GFP_KERNEL);
+@@ -441,16 +442,16 @@ static int riic_i2c_probe(struct platform_device *pdev)
+ 		return PTR_ERR(riic->clk);
  	}
  
-  out:
--	pm_runtime_put(dev);
-+	pm_runtime_mark_last_busy(dev);
-+	pm_runtime_put_autosuspend(dev);
+-	rstc = devm_reset_control_get_optional_exclusive(dev, NULL);
+-	if (IS_ERR(rstc))
+-		return dev_err_probe(dev, PTR_ERR(rstc),
++	riic->rstc = devm_reset_control_get_optional_exclusive(dev, NULL);
++	if (IS_ERR(riic->rstc))
++		return dev_err_probe(dev, PTR_ERR(riic->rstc),
+ 				     "Error: missing reset ctrl\n");
  
- 	return riic->err ?: num;
- }
-@@ -399,7 +400,8 @@ static int riic_init_hw(struct riic_dev *riic, struct i2c_timings *t)
+-	ret = reset_control_deassert(rstc);
++	ret = reset_control_deassert(riic->rstc);
+ 	if (ret)
+ 		return ret;
  
- 	riic_clear_set_bit(riic, ICCR1_IICRST, 0, RIIC_ICCR1);
+-	ret = devm_add_action_or_reset(dev, riic_reset_control_assert, rstc);
++	ret = devm_add_action_or_reset(dev, riic_reset_control_assert, riic->rstc);
+ 	if (ret)
+ 		return ret;
  
--	pm_runtime_put(dev);
-+	pm_runtime_mark_last_busy(dev);
-+	pm_runtime_put_autosuspend(dev);
- 	return 0;
- }
+@@ -479,13 +480,13 @@ static int riic_i2c_probe(struct platform_device *pdev)
  
-@@ -479,6 +481,8 @@ static int riic_i2c_probe(struct platform_device *pdev)
+ 	init_completion(&riic->msg_done);
  
- 	i2c_parse_fw_timings(dev, &i2c_t, true);
+-	i2c_parse_fw_timings(dev, &i2c_t, true);
++	i2c_parse_fw_timings(dev, &riic->i2c_t, true);
  
-+	pm_runtime_set_autosuspend_delay(dev, 0);
-+	pm_runtime_use_autosuspend(dev);
+ 	pm_runtime_set_autosuspend_delay(dev, 0);
+ 	pm_runtime_use_autosuspend(dev);
  	pm_runtime_enable(dev);
  
- 	ret = riic_init_hw(riic, &i2c_t);
-@@ -496,6 +500,7 @@ static int riic_i2c_probe(struct platform_device *pdev)
+-	ret = riic_init_hw(riic, &i2c_t);
++	ret = riic_init_hw(riic);
+ 	if (ret)
+ 		goto out;
+ 
+@@ -495,7 +496,7 @@ static int riic_i2c_probe(struct platform_device *pdev)
+ 
+ 	platform_set_drvdata(pdev, riic);
+ 
+-	dev_info(dev, "registered with %dHz bus speed\n", i2c_t.bus_freq_hz);
++	dev_info(dev, "registered with %dHz bus speed\n", riic->i2c_t.bus_freq_hz);
+ 	return 0;
  
  out:
- 	pm_runtime_disable(dev);
-+	pm_runtime_dont_use_autosuspend(dev);
- 	return ret;
- }
+@@ -552,6 +553,50 @@ static const struct riic_of_data riic_rz_v2h_info = {
+ 	},
+ };
  
-@@ -512,6 +517,7 @@ static void riic_i2c_remove(struct platform_device *pdev)
- 	}
- 	i2c_del_adapter(&riic->adapter);
- 	pm_runtime_disable(dev);
-+	pm_runtime_dont_use_autosuspend(dev);
- }
++static int riic_i2c_suspend(struct device *dev)
++{
++	struct riic_dev *riic = dev_get_drvdata(dev);
++	int ret;
++
++	ret = pm_runtime_resume_and_get(dev);
++	if (ret)
++		return ret;
++
++	i2c_mark_adapter_suspended(&riic->adapter);
++
++	/* Disable output on SDA, SCL pins. */
++	riic_clear_set_bit(riic, ICCR1_ICE, 0, RIIC_ICCR1);
++
++	pm_runtime_mark_last_busy(dev);
++	pm_runtime_put_sync(dev);
++
++	return reset_control_assert(riic->rstc);
++}
++
++static int riic_i2c_resume(struct device *dev)
++{
++	struct riic_dev *riic = dev_get_drvdata(dev);
++	int ret;
++
++	ret = reset_control_deassert(riic->rstc);
++	if (ret)
++		return ret;
++
++	ret = riic_init_hw(riic);
++	if (ret) {
++		reset_control_assert(riic->rstc);
++		return ret;
++	}
++
++	i2c_mark_adapter_resumed(&riic->adapter);
++
++	return 0;
++}
++
++static const struct dev_pm_ops riic_i2c_pm_ops = {
++	SYSTEM_SLEEP_PM_OPS(riic_i2c_suspend, riic_i2c_resume)
++};
++
+ static const struct of_device_id riic_i2c_dt_ids[] = {
+ 	{ .compatible = "renesas,riic-rz", .data = &riic_rz_a_info },
+ 	{ .compatible = "renesas,riic-r9a09g057", .data = &riic_rz_v2h_info },
+@@ -564,6 +609,7 @@ static struct platform_driver riic_i2c_driver = {
+ 	.driver		= {
+ 		.name	= "i2c-riic",
+ 		.of_match_table = riic_i2c_dt_ids,
++		.pm	= pm_ptr(&riic_i2c_pm_ops),
+ 	},
+ };
  
- static const struct riic_of_data riic_rz_a_info = {
 -- 
 2.39.2
 
