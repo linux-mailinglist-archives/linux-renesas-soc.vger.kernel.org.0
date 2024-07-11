@@ -1,163 +1,180 @@
-Return-Path: <linux-renesas-soc+bounces-7273-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7274-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42B3792E861
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jul 2024 14:34:58 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B72F692E89D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jul 2024 14:57:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EB9952844D6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jul 2024 12:34:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 363661F2309E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jul 2024 12:57:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D145515FD01;
-	Thu, 11 Jul 2024 12:34:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCD2515E5B5;
+	Thu, 11 Jul 2024 12:57:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="WYMHyBRd"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b="ZagcQCku"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32CAF15EFA4
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Jul 2024 12:34:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D9B4155C95;
+	Thu, 11 Jul 2024 12:57:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.133.4.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720701258; cv=none; b=FNQU/d9yD3Qs1nc6qgs0MNt+HF0qeZlHNialc3mC0SNCQTMFC7cBos/b65QsvMcq2ZIeop2HT3r4uxbQQagvuloT/bQymsegj9hHes+glgsouQPvi1QN0UkItucnN/r0FFYZY2vANQ0ALDdZ6/0YKITlLEjH6HRy30pJLGOAC3A=
+	t=1720702656; cv=none; b=WKtQ+JRPLK9SRYGEC/0d7SEwuFLq+Zlf5lOpMdYx+e4CndtOrh5giu4mNC2KU5xj6BU63V2kSFAhi1euqgfLKecsteyjIKXbkgQjStyvk24GNmHucBrzpF5xgZwf17wLra6zOUfjuTCldCvoKcghzwV7JI0b863ICxxXswSzxgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720701258; c=relaxed/simple;
-	bh=Lnw6WVCoDGYqJbevISOZOc2dPUdG1/4V1rq5VXcFSC0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=DsEa8qzJGucz8PhKFg90VmpAnGBbGFYobtdhruE+EDFrANFjBexfuPoLdy+CQ08HGO6Zv01PVK3plI7/HjOVe3ubG+2c6clplgYqVzqtlMB1Kmc5XGv8+FcoxfwZGe/M2VvFEhOS3ShVa0ApBfrXh56fH7h4cmeD1bajzAZlw88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=WYMHyBRd; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-42122ac2f38so5151195e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Jul 2024 05:34:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1720701254; x=1721306054; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7TMSDdjSHMMbfEYs+qwLdoVucqWbdqXw+KkemXAy9e8=;
-        b=WYMHyBRdD+WcpJEKJhfjq24G/cxaxKn+6PbBsHZ/frENsbH+MQgqMgB3lmuEZvIv/T
-         BiGUfJASyaz0NtJ2e4G5eajoltVHGceerqVAbkCc5/VliQKjTHXg3k0UXJLCTWKJUIC4
-         QNNnyTQetHRc+3abPeVq2GFzR9Lz2OXdwWdYqmink4LFNYEYYV1D7HYWsxAGfMDfe0i+
-         ZnBtHCN0ghD2FFijBXEHWfxgNwoXRweEPrLRL3CwqbwOBpuHGhfdHtnM7uTJzXm1YZbU
-         aJZiTIMN9vEwlJzTUK4OYFpVynKMswCrvgoTuartJOk+sxHjvW4Kolv2yikrdnBgt+I3
-         5TtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720701254; x=1721306054;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7TMSDdjSHMMbfEYs+qwLdoVucqWbdqXw+KkemXAy9e8=;
-        b=szmyPgP/Zcx6wZjaQtE/8mFNBaPn24E6xTcAMgtUp2Lpan6axTbg+CvlOInMQTqWa0
-         iT2xPyjPSNz3ipeuEmtsZxcP+hB/+OTXi+8pjZ466bVbIgGYAmYRHJvYZxTJfBdTw8ba
-         KLIscqTzks5gAcoFqQEAurdLpes5ZEcGBYbGeX2ERX0Vq9Thq0BF15HNNf0m/oCVBFV3
-         YmnEtqvdzVAHP7/W3ERC5qIC2Jk32Oy0tBHKgoEqUnHl8ufL0AiyfpnFjKZlDKWCbIqU
-         oWg72kICR/+nw9gEkTGBHa6vKVrerjjqVuEqpLryYmuPf9H0nGk63/TOoJhUCGJq7MPz
-         eqvg==
-X-Forwarded-Encrypted: i=1; AJvYcCVL8Q5NRXQtCEZakBs1AXlwSXqK1/xamUuJDWYpLvRPlRjIHlosdKhp6xiZ73UQGBvOBEJN2WPbZCZWLrNYEK4QARAtFvNDoxWimvhxLlhW34A=
-X-Gm-Message-State: AOJu0YxCbM54yxnJzonyDeLIK/ilLy9rccE9vVzWqJJM4l8RoUyd8kWR
-	VHHvURIbHT7KBx0Q1YLlAAgGe+H6+SuRb5mlgABigc1cYYYEzZ60gZdzh+nP/Qw=
-X-Google-Smtp-Source: AGHT+IG3ie0L2yQcBYNCkX1wFuOkYRefHCR78VISFx6nmwufdVRAZ+HS8zHmnFUi0sv7+fPHPwtL+g==
-X-Received: by 2002:a05:600c:3b93:b0:426:5b19:d2b3 with SMTP id 5b1f17b1804b1-427981e0751mr26099585e9.14.1720701254480;
-        Thu, 11 Jul 2024 05:34:14 -0700 (PDT)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4266f741fa6sm118583955e9.45.2024.07.11.05.34.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jul 2024 05:34:14 -0700 (PDT)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: vkoul@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	mturquette@baylibre.com,
-	sboyd@kernel.org,
-	biju.das.jz@bp.renesas.com
-Cc: dmaengine@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	claudiu.beznea@tuxon.dev,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH 3/3] arm64: dts: renesas: r9a08g045: Add DMAC node
-Date: Thu, 11 Jul 2024 15:34:05 +0300
-Message-Id: <20240711123405.2966302-4-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240711123405.2966302-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20240711123405.2966302-1-claudiu.beznea.uj@bp.renesas.com>
+	s=arc-20240116; t=1720702656; c=relaxed/simple;
+	bh=IgnTnnjkD8FFGi6ivzy/g9+noQ1C0Ks2nR19HopGtQc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Ltwn991fJJKAYGT0cT3egnR3ibbLQSTXiS2UBElbGmIaHUi2Pkb7FPgWmkf2OtjaWqdw8Tw8c6X1cku8fhdPemGE2Hgy5zSoRouiBunLc9PLofXWV26kPpug14DxQmK1AKtqdTd/LzgBHzZaNu3eWPNNi0HCG1cGAnFdcD1NR6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de; spf=pass smtp.mailfrom=zedat.fu-berlin.de; dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b=ZagcQCku; arc=none smtp.client-ip=130.133.4.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zedat.fu-berlin.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=fu-berlin.de; s=fub01; h=MIME-Version:Content-Transfer-Encoding:
+	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=UP29LTmvlHTs/OoBfoU8insLR5ShRbL+0hC3P+TNI/s=; t=1720702652; x=1721307452; 
+	b=ZagcQCkubL7WN9c6ifIlQ7V4f1nvNypRwbpsOr6yNJz/zLKkc5CVkwSmdVykIAiceMjcd+tlFhi
+	Z6esyr52TZWMGkYUYwtfh4H7TJxIH53oxLXtYWkJqIjS35ZZHJ2g53M3oeryf9QNQolTvtRVjoF6O
+	u+FRxbjhG18U6NMR7SiNrhLOGniHRXNrKp+vU+UWbYbCUI9ApaVeOTAiS/WjNP3zByje+XK+Sk3YG
+	Kclf0XoiA/XnE0aNwqxLeSwyjkoa6HNjucmI1UC1H5o1HeWUMK9OZsjmHNhQVuyvxZtxcmS/Z4ZIG
+	fwhQz6fKZeF1nxzzy9c4NHDkCvz66FCT+fvg==;
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.98)
+          with esmtps (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1sRtMO-00000003KGI-40qJ; Thu, 11 Jul 2024 14:57:20 +0200
+Received: from p5b13a475.dip0.t-ipconnect.de ([91.19.164.117] helo=[192.168.178.20])
+          by inpost2.zedat.fu-berlin.de (Exim 4.98)
+          with esmtpsa (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1sRtMO-00000001SHj-2Zok; Thu, 11 Jul 2024 14:57:20 +0200
+Message-ID: <cb7a69949c08be858b107a2b8184d1da92d794a0.camel@physik.fu-berlin.de>
+Subject: Re: [DO NOT MERGE v8 20/36] serial: sh-sci: fix SH4 OF support.
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To: Yoshinori Sato <ysato@users.sourceforge.jp>, linux-sh@vger.kernel.org
+Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,  Geert Uytterhoeven
+ <geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>,  David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Thomas Gleixner
+ <tglx@linutronix.de>, Bjorn Helgaas <bhelgaas@google.com>,  Lorenzo
+ Pieralisi <lpieralisi@kernel.org>, Krzysztof =?UTF-8?Q?Wilczy=C5=84ski?=
+ <kw@linux.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby
+ <jirislaby@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, Daniel Lezcano
+ <daniel.lezcano@linaro.org>, Rich Felker <dalias@libc.org>, Lee Jones
+ <lee@kernel.org>, Helge Deller <deller@gmx.de>, Heiko Stuebner
+ <heiko.stuebner@cherry.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Chris Morgan <macromorgan@hotmail.com>, Sebastian Reichel <sre@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
+ Masahiro Yamada <masahiroy@kernel.org>, Baoquan He <bhe@redhat.com>, Andrew
+ Morton <akpm@linux-foundation.org>, Guenter Roeck <linux@roeck-us.net>,
+ Kefeng Wang <wangkefeng.wang@huawei.com>, Stephen Rothwell
+ <sfr@canb.auug.org.au>, Azeem Shaikh <azeemshaikh38@gmail.com>, Guo Ren
+ <guoren@kernel.org>, Max Filippov <jcmvbkbc@gmail.com>,  Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Herve Codina <herve.codina@bootlin.com>, Andy
+ Shevchenko <andriy.shevchenko@linux.intel.com>, Anup Patel
+ <apatel@ventanamicro.com>,  Jacky Huang <ychuang3@nuvoton.com>, Hugo
+ Villeneuve <hvilleneuve@dimonoff.com>, Jonathan Corbet <corbet@lwn.net>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>, Uwe
+ =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Sam Ravnborg
+ <sam@ravnborg.org>, Javier Martinez Canillas <javierm@redhat.com>, Sergey
+ Shtylyov <s.shtylyov@omp.ru>, Laurent Pinchart
+ <laurent.pinchart+renesas@ideasonboard.com>, linux-ide@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org, 
+ linux-serial@vger.kernel.org, linux-fbdev@vger.kernel.org
+Date: Thu, 11 Jul 2024 14:57:18 +0200
+In-Reply-To: <57525900a4876323467612d73eded183315c1680.1716965617.git.ysato@users.sourceforge.jp>
+References: <cover.1716965617.git.ysato@users.sourceforge.jp>
+	 <57525900a4876323467612d73eded183315c1680.1716965617.git.ysato@users.sourceforge.jp>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3 
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-ZEDAT-Hint: PO
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Hi Yoshinori,
 
-Add DMAC node.
+On Wed, 2024-05-29 at 17:01 +0900, Yoshinori Sato wrote:
+> - Separated RZ's earlycon initialization from normal SCIF.
+> - fix earlyprintk hung (NULL pointer reference).
+> - fix SERIAL_SH_SCI_EARLYCON enablement
 
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/r9a08g045.dtsi | 38 ++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+I feel like this could actually be split into three patches.
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-index 741c9226581f..b9114d1714c9 100644
---- a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-@@ -363,6 +363,44 @@ irqc: interrupt-controller@11050000 {
- 			resets = <&cpg R9A08G045_IA55_RESETN>;
- 		};
- 
-+		dmac: dma-controller@11820000 {
-+			compatible = "renesas,r9a08g045-dmac",
-+				     "renesas,rz-dmac";
-+			reg = <0 0x11820000 0 0x10000>,
-+			      <0 0x11830000 0 0x10000>;
-+			interrupts = <GIC_SPI 111 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 112 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 113 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 114 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 115 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 116 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 117 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 118 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 119 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 120 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 121 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 122 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 123 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 124 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 125 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 126 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 127 IRQ_TYPE_EDGE_RISING>;
-+			interrupt-names = "error",
-+					  "ch0", "ch1", "ch2", "ch3",
-+					  "ch4", "ch5", "ch6", "ch7",
-+					  "ch8", "ch9", "ch10", "ch11",
-+					  "ch12", "ch13", "ch14", "ch15";
-+			clocks = <&cpg CPG_MOD R9A08G045_DMAC_ACLK>,
-+				 <&cpg CPG_MOD R9A08G045_DMAC_PCLK>;
-+			clock-names = "main", "register";
-+			power-domains = <&cpg>;
-+			resets = <&cpg R9A08G045_DMAC_ARESETN>,
-+				 <&cpg R9A08G045_DMAC_RST_ASYNC>;
-+			reset-names = "arst", "rst_async";
-+			#dma-cells = <1>;
-+			dma-channels = <16>;
-+		};
-+
- 		sdhi0: mmc@11c00000  {
- 			compatible = "renesas,sdhi-r9a08g045", "renesas,rzg2l-sdhi";
- 			reg = <0x0 0x11c00000 0 0x10000>;
--- 
-2.39.2
+Adrian
 
+> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/tty/serial/Kconfig  | 2 +-
+>  drivers/tty/serial/sh-sci.c | 6 +++---
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/tty/serial/Kconfig b/drivers/tty/serial/Kconfig
+> index 4fdd7857ef4d..eeb22b582470 100644
+> --- a/drivers/tty/serial/Kconfig
+> +++ b/drivers/tty/serial/Kconfig
+> @@ -664,7 +664,7 @@ config SERIAL_SH_SCI_EARLYCON
+>  	depends on SERIAL_SH_SCI=3Dy
+>  	select SERIAL_CORE_CONSOLE
+>  	select SERIAL_EARLYCON
+> -	default ARCH_RENESAS
+> +	default ARCH_RENESAS || SUPERH
+> =20
+>  config SERIAL_SH_SCI_DMA
+>  	bool "DMA support" if EXPERT
+> diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
+> index f738980a8b2c..068f483401e3 100644
+> --- a/drivers/tty/serial/sh-sci.c
+> +++ b/drivers/tty/serial/sh-sci.c
+> @@ -2723,7 +2723,7 @@ static int sci_remap_port(struct uart_port *port)
+>  	if (port->membase)
+>  		return 0;
+> =20
+> -	if (port->dev->of_node || (port->flags & UPF_IOREMAP)) {
+> +	if (dev_of_node(port->dev) || (port->flags & UPF_IOREMAP)) {
+>  		port->membase =3D ioremap(port->mapbase, sport->reg_size);
+>  		if (unlikely(!port->membase)) {
+>  			dev_err(port->dev, "can't remap port#%d\n", port->line);
+> @@ -3551,8 +3551,8 @@ static int __init hscif_early_console_setup(struct =
+earlycon_device *device,
+> =20
+>  OF_EARLYCON_DECLARE(sci, "renesas,sci", sci_early_console_setup);
+>  OF_EARLYCON_DECLARE(scif, "renesas,scif", scif_early_console_setup);
+> -OF_EARLYCON_DECLARE(scif, "renesas,scif-r7s9210", rzscifa_early_console_=
+setup);
+> -OF_EARLYCON_DECLARE(scif, "renesas,scif-r9a07g044", rzscifa_early_consol=
+e_setup);
+> +OF_EARLYCON_DECLARE(rzscifa, "renesas,scif-r7s9210", rzscifa_early_conso=
+le_setup);
+> +OF_EARLYCON_DECLARE(rzscifa, "renesas,scif-r9a07g044", rzscifa_early_con=
+sole_setup);
+>  OF_EARLYCON_DECLARE(scifa, "renesas,scifa", scifa_early_console_setup);
+>  OF_EARLYCON_DECLARE(scifb, "renesas,scifb", scifb_early_console_setup);
+>  OF_EARLYCON_DECLARE(hscif, "renesas,hscif", hscif_early_console_setup);
+
+--=20
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
