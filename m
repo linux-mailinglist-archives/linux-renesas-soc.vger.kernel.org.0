@@ -1,77 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-7291-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7292-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CC1F92F9C6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jul 2024 13:59:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAC8C92F9CB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jul 2024 14:00:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 22937284880
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jul 2024 11:59:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 380DC2810E9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jul 2024 12:00:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E56BF16B3A5;
-	Fri, 12 Jul 2024 11:59:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA1F915ECF8;
+	Fri, 12 Jul 2024 12:00:48 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97ED82BB15;
-	Fri, 12 Jul 2024 11:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E492638DCC;
+	Fri, 12 Jul 2024 12:00:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720785585; cv=none; b=Nt5WXRUT9WPAFvCUtELFkDzwUktQoy7x9Dc/JtePFgROlhoBZO8zkJ43zErLESMr+8vdNw4BReiZaXX1lEiD5bP5sJfGk1X+iUR0kLKh53Y6i9+H1+cYq9qyk/R/vD0RUyq5AKmZYxhDnY3TNHZEaDch87cZlJcV7rPzenOxcEE=
+	t=1720785648; cv=none; b=lwlm2R9GsYe54DdFVuVYyMg8UQqQepZvX9GZKAQYhcDyNUbkdAFwLj7qFXBl3WFTdzK2RfvZNeRwVgvK7JuZUSZTS8G9Ml/vSpyttBJgBPEj/W0K11YWYiuakh5I4H7oFDcoUig3WbV1iHUT7hGyscoUHzTyHPNmpwgkWqLGVrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720785585; c=relaxed/simple;
-	bh=Y8GUrwKdBPeuWlGW8O+ZM3aOUDLYdjLjJDkS9cndnEc=;
+	s=arc-20240116; t=1720785648; c=relaxed/simple;
+	bh=In64+BK1f95T8kQ3bF8ZWFRLmfrggmOQVRLQ1JlCY38=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TVbe8eeN+GMt9RuKv5F/LjkTpDUAORQ4DhlraavWrZ+khcn1anKwdr7gL+PRnaV4VMX+EVuyxuHTMtTRxG0EW/k++Gs0b9RcZIpL8wPw+vmNWvVJyC2uv7Kq4K5jWh+YRhVv23kN7GGINjnEaAFU4dpON5SEp2wAm8ELVzC6zLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.174
+	 To:Cc:Content-Type; b=dzV99z3ltveFtgnywDk5eb7aU3+zFwbGWwQavIeucP2qJf9JuPYBuo1lXF5/PEx464nhml1PzGvscxfwPJWcYL+fExcUE9IN2M1ZcEgTJ3rqesoryW/CHC/8s6dEeCCj3aIaT8puhKYwFHo4I2fPcJXJkr7drJhBhh2pmyAwgcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e026a2238d8so1929768276.0;
-        Fri, 12 Jul 2024 04:59:43 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-64b417e1511so18983707b3.3;
+        Fri, 12 Jul 2024 05:00:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720785581; x=1721390381;
+        d=1e100.net; s=20230601; t=1720785645; x=1721390445;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=56u2SQbsSqy63Am7LkgkpMkl9moHRB8K1RpGAqv6ZeA=;
-        b=Xf67wqwemXFZwS1TByuMCSX4mvQ4jkq8XOfePxcqhQ9kdv60sarerSBoZ4hUT7qPhz
-         YpUbJMb1YOPIAS9HPeCWUSYo2OeRZSUBHeFKRIY1lzqSejmelDvWYKMM+Kg+h0HMGxuW
-         O7O9KweTJzLdtTenZD48uXta6Ttb+xAI3K2HvW8xFAI8KqYURApmwfPUW7/CeWkd/uxt
-         HLFREY8WVovKO7DGGFLIWQbsTuxxf3KrUJ7YlSQMQxxwAuLIwYhPaVQwWIPZ23h4eHP1
-         70diPC0FhmbIhroYK+WTiEbah93GUZ68RRxIBZZbACW0U2vWTTzvv8pTxtcUJfre+XvH
-         8Rzg==
-X-Forwarded-Encrypted: i=1; AJvYcCWrTVJBG/nUsP7gdBlE+t3rob9TFY75+CgKsbVTCjuwo4Eomz2iOAW/NYG5UyddzTaX9hJgNd4zdgwzbe56EZqE98TPDZ9/OTQwKD9VsaHZfpRsozTwXlb8ggEQghSq1mnvYr4WCNETD8JXGBAkwgkUn3k4G4oxemUXincJ4W7JdMV+WzUKjfZ4mo/li/cyBWZudoAwCrZZEegW7gLlgOtTpaJfcd7l
-X-Gm-Message-State: AOJu0Yw00Tsz5yjD3Pi4d3UT5vD/WMFUATiiVon0WuhafR/2y+zAAE/8
-	IxlcAiSaDVB2T8E/lQ/UQQ5OJvnBT6IV3sTWWHtlCy/YztFPguAW3UBKc27g
-X-Google-Smtp-Source: AGHT+IHjABMvzkh2uV1EIcwYjukm9P09N0AOKbnc6v4C6NjLz1r0HvMyWvtg9AXJ8uTgRd87efmW2A==
-X-Received: by 2002:a25:8005:0:b0:e03:4f88:81f1 with SMTP id 3f1490d57ef6-e041b03c556mr13165897276.5.1720785581408;
-        Fri, 12 Jul 2024 04:59:41 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e041a981cb4sm1259851276.44.2024.07.12.04.59.40
+        bh=p4Wd774CAaehOrbdx8VCAr7EdqZrXN0YFUIfMg8Pkdk=;
+        b=YMPu2q3I8B/RvUCL82jHV6MgX1EAVwaVCdNa2K6l4YaaX9xFtuHnVaf34ZftVWxb28
+         PFtHvBM1/s635gDO4tKgY1HbSjxQUYjg5kr0X5Zj1+Xi69MzWAYvcDAdMkb7TWHDq+5N
+         519DKDX0/Miz+rLxmSJUlCCLJWA18+ESal7OsuYTHElEPCZMGn8GqXTWe31d/MWdHZyJ
+         B/tOUH33xpEJDjPEZWDuiBxjgTEHq774xWU0RKUN/EN7jC/d9LnGoGH1G2otKc4LrXf1
+         yRoc+P5/gEWs5Mg+pEKu/s7UyjP7kEAH8ICxrELWDHhFTq9mABy2EwNiwpMPZ49n6txe
+         j8FA==
+X-Forwarded-Encrypted: i=1; AJvYcCVHXwey8llu/WOCzkI7DDwSUkwbNMD+eAy3gKbHH5CTTevDI/D2SeOLOG9DWIdJMVPm2iB+IPxiNxiHJ3/egkfA1o4WLuN4lKWkQpJBHmg1MBRlgKyDnai3ikKWtlC0ktth95tXcgCehDV52vFSdvPZvw14QczWcs8SK/dmZ5/xlgJC4sC0Tue4sjnDG8l1003zYR+D9OTi/C5XHwe7vqUxS+LgBPb7
+X-Gm-Message-State: AOJu0YzicLG6lzta/NaskiCTltIITnK2vYFE8q04Pj+sWkfMesZnz+bp
+	g1c6aEmELIN/8psRn/WTZFAKMRS16Lxeye49eLsqmEvTjMVAisAPBANcuMZA
+X-Google-Smtp-Source: AGHT+IHhpLR3kvHemArCQTx3acNRJmito+FVEQ8fbnMfIQfCV8IxM0kzewzCcqSH75hJXTSijSm5pg==
+X-Received: by 2002:a05:690c:6c84:b0:651:79ee:d14b with SMTP id 00721157ae682-658ef24bc7fmr133580527b3.29.1720785615423;
+        Fri, 12 Jul 2024 05:00:15 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-658e6ad81f4sm14722237b3.122.2024.07.12.05.00.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Jul 2024 04:59:41 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-64789495923so18576947b3.0;
-        Fri, 12 Jul 2024 04:59:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUYttJQDZfsV/x4Y+NJnxVGl2EX3lfvj4I+KRiy/t0tyRPTVJNOs/xmPhWD1LH+j/t36FQLM8oE9jIGKnI9/WzqVE7hQy4Cy48vKuFluryq+uAKFJUCK8uqBiqeEi2AmbVUcK0dLqOb0L4qWlnUc0DcBrfEMdG1yIHKhakhVGD9hO7Eij7ajK7GCaFQc1pr2VyamgNnZClkotLgZV+S246s16t1jwjA
-X-Received: by 2002:a05:690c:f02:b0:64a:d5fd:f19f with SMTP id
- 00721157ae682-658eec68ddemr151773527b3.18.1720785580735; Fri, 12 Jul 2024
- 04:59:40 -0700 (PDT)
+        Fri, 12 Jul 2024 05:00:14 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-65240d22f7cso17599367b3.0;
+        Fri, 12 Jul 2024 05:00:14 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXvkrjfV0d1QpRa8i2d9mJkRXfcMiuWeOfzbYNJOstwNv8LEg2EnSNLv/5qC8d5A5c2TfREJl3DXvwh1+BBQDkGnFQD5N8yuR7yOCyVxZRaBbY6vLoESEhKaeqENeUJXQ/BSD2NO+TKj5eNtlMGR+I77n5T0wwSZ7k/zan3tke+CiTz+zu9+eBfwY5tUP32735fvzFQ1iz7xlcN69v1Bpusi79iz9gl
+X-Received: by 2002:a81:84d0:0:b0:64a:3d7c:2782 with SMTP id
+ 00721157ae682-658f02f4b2dmr123670157b3.41.1720785614119; Fri, 12 Jul 2024
+ 05:00:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240627161315.98143-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240627161315.98143-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20240627161315.98143-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240627161315.98143-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240627161315.98143-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20240627161315.98143-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 12 Jul 2024 13:59:28 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVLSpaUtdXFv3VXFc5G61dmRX2C1iW9C+km23g6EgZJOg@mail.gmail.com>
-Message-ID: <CAMuHMdVLSpaUtdXFv3VXFc5G61dmRX2C1iW9C+km23g6EgZJOg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] clk: renesas: Add family-specific clock driver for RZ/V2H(P)
+Date: Fri, 12 Jul 2024 14:00:02 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV5Pyy=5-N9nUZZSOnnpGf2Kp3miDMM5H3b+ah2QUUMtA@mail.gmail.com>
+Message-ID: <CAMuHMdV5Pyy=5-N9nUZZSOnnpGf2Kp3miDMM5H3b+ah2QUUMtA@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] clk: renesas: Add RZ/V2H(P) CPG driver
 To: Prabhakar <prabhakar.csengg@gmail.com>
 Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -90,122 +90,58 @@ On Thu, Jun 27, 2024 at 6:14=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.c=
 om> wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Add family-specific clock driver for RZ/V2H(P) SoCs.
+> Add RZ/V2H(P) CPG driver.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
 > v2->v3
-> - Dropped num_hw_resets from struct rzv2h_cpg_priv
-> - Dropped range_check for module clocks
-> - Made mon_index to s8 instead of u8 in struct rzv2h_mod_clk
-> - Added support for critical module clocks with DEF_MOD_CRITICAL
-> - Added check for mon_index in rzv2h_mod_clock_endisable and
->   rzv2h_mod_clock_is_enabled()
+> - Added CLK_PLLDTY
+> - Added core clocks sys_0_pclk and iotop_0_shclk
+> - Dropped r9a09g057_crit_mod_clks
 
 Thanks for the update!
 
 > --- /dev/null
-> +++ b/drivers/clk/renesas/rzv2h-cpg.c
+> +++ b/drivers/clk/renesas/r9a09g057-cpg.c
 
-> +static struct clk * __init
-> +rzv2h_cpg_pll_clk_register(const struct cpg_core_clk *core,
-> +                          struct rzv2h_cpg_priv *priv,
-> +                          const struct clk_ops *ops)
-> +{
-> +       void __iomem *base =3D priv->base;
-> +       struct clk **clks =3D priv->clks;
-> +       struct device *dev =3D priv->dev;
-> +       struct clk_init_data init;
-> +       const struct clk *parent;
-> +       const char *parent_name;
-> +       struct pll_clk *pll_clk;
+> +static const struct cpg_core_clk r9a09g057_core_clks[] __initconst =3D {
+> +       /* External Clock Inputs */
+> +       DEF_INPUT("audio_extal", CLK_AUDIO_EXTAL),
+> +       DEF_INPUT("rtxin", CLK_RTXIN),
+> +       DEF_INPUT("qextal", CLK_QEXTAL),
 > +
-> +       parent =3D clks[core->parent & 0xffff];
+> +       /* PLL Clocks */
+> +       DEF_FIXED(".pllcm33", CLK_PLLCM33, CLK_QEXTAL, 200, 3),
+> +       DEF_FIXED(".plldty", CLK_PLLDTY, CLK_QEXTAL, 200, 3),
+> +       DEF_PLL(".pllca55", CLK_PLLCA55, CLK_QEXTAL, PLL_CONF(0x64)),
+> +
+> +       /* Internal Core Clocks */
+> +       DEF_FIXED(".pllcm33_div16", CLK_PLLCM33_DIV16, CLK_PLLCM33, 1, 16=
+),
+> +
 
-No need to mask with 0xffff, as nothing is ever stored in the high bits.
+Missing comment "/* Core Clocks */"?
 
-> +static void __init
-> +rzv2h_cpg_register_mod_clk(const struct rzv2h_mod_clk *mod,
-> +                          struct rzv2h_cpg_priv *priv)
-> +{
-> +       struct mod_clock *clock =3D NULL;
-> +       struct device *dev =3D priv->dev;
-> +       struct clk_init_data init;
-> +       unsigned int id =3D mod->id;
-
-This is the sole user of mod->id, which can be calculated easily from
-mod->on_index and mod->on_bit.
-
-> --- /dev/null
-> +++ b/drivers/clk/renesas/rzv2h-cpg.h
-
-> +/**
-> + * struct rzv2h_mod_clk - Module Clocks definitions
-> + *
-> + * @name: handle between common and hardware-specific interfaces
-> + * @parent: id of parent clock
-> + * @id: clock index in array containing all Core and Module Clocks
-> + * @critical: flag to indicate the clock is critical
-> + * @on_index: control register index
-> + * @on_bit: ON bit
-> + * @mon_index: monitor register index
-> + * @mon_bit: monitor bit
-> + */
-> +struct rzv2h_mod_clk {
-> +       const char *name;
-> +       unsigned int parent;
-> +       unsigned int id;
-
-No need to store the id, as it can be calculated when needed.
-
-> +       bool critical;
-> +       u8 on_index;
-> +       u8 on_bit;
-> +       s8 mon_index;
-> +       u8 mon_bit;
-
-That leaves us with 1 64-bit pointer, 1 32-bit integer, and 5 bytes.
-Using bitfields for the latter is complicated due to the mix of signed
-and unsigned values.
-However, parent can be reduced to u16, shaving off one 64-bit word
-from each entry.
-
-> +};
-
-> +/**
-> + * struct rzv2h_reset - Reset definitions
-> + *
-> + * @reset_index: reset register index
-> + * @reset_bit: reset bit
-> + * @mon_index: monitor register index
-> + * @mon_bit: monitor bit
-> + */
-> +struct rzv2h_reset {
-> +       u8 reset_index;
-> +       u8 reset_bit;
-> +       u8 mon_index;
-> +       u8 mon_bit;
+> +       DEF_FIXED("sys_0_pclk", R9A09G057_SYS_0_PCLK, CLK_QEXTAL, 1, 1),
+> +       DEF_FIXED("iotop_0_shclk", R9A09G057_IOTOP_0_SHCLK, CLK_PLLCM33_D=
+IV16, 1, 1),
 > +};
 > +
-> +#define RST_ID(x, y)   ((((x) * 16)) + (y))
+> +static const struct rzv2h_mod_clk r9a09g057_mod_clks[] =3D {
+
+__initconst
+
+> +       DEF_MOD("scif_0_clk_pck",               CLK_PLLCM33_DIV16, 8, 15,=
+ 4, 15),
+> +};
 > +
-> +#define DEF_RST_BASE(_id, _resindex, _resbit, _monindex, _monbit)      \
-> +       [_id] =3D { \
+> +static const struct rzv2h_reset r9a09g057_resets[] =3D {
+> +       DEF_RST(9, 5, 4, 6),            /* SCIF_0_RST_SYSTEM_N */
+> +};
+>
+> +const struct rzv2h_cpg_info r9a09g057_cpg_info =3D {
 
-Indexing by _id means the reset array will be very sparse.  E.g. the
-innocent-looking r9a09g057_resets[] with only a single entry takes
-600 bytes.
-
-If you do need the full array for indexing, please allocate and
-populate it at runtime.
-As a bonus, you would no longer need rzv2h_cpg_info.info, and
-r9a09g057_resets[] and r9a09g057_cpg_info[] can become __initconst.
-
-> +               .reset_index =3D (_resindex), \
-> +               .reset_bit =3D (_resbit), \
-> +               .mon_index =3D (_monindex), \
-> +               .mon_bit =3D (_monbit), \
-> +       }
+With my suggested changes to [2/3], these two can be __initconst, too.
 
 Gr{oetje,eeting}s,
 
