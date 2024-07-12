@@ -1,167 +1,109 @@
-Return-Path: <linux-renesas-soc+bounces-7301-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7300-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5726792FBC7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jul 2024 15:49:20 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB3F292FBBD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jul 2024 15:48:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0073B1F232C1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jul 2024 13:49:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 79A04B215F8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jul 2024 13:48:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E7DB17108E;
-	Fri, 12 Jul 2024 13:49:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VWCWqkEp"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 190F9170855;
+	Fri, 12 Jul 2024 13:48:27 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05B716EB6E;
-	Fri, 12 Jul 2024 13:48:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5823FC12;
+	Fri, 12 Jul 2024 13:48:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720792140; cv=none; b=MNtuf9hoO23v+p8WVQGZfETFkKfJs1ERJUTYPHjpSAGESM8KF8/ZBBeJQS9vCPipcV8K420wSZPBVoT4Kr5vLLBivRhXibqOPEo4Kgp/wIqjwuwkbK5wXvI8yjGjXYNLDRE+z+WbDP3Zj1sQTU/pMe8p1sTXKQWfYE+Lxap0jaE=
+	t=1720792107; cv=none; b=VL0H2yhZjWWUD4g72P9ZZKBmw8wAX+PgiAnTFCDhUBQc63aFLIWPFDZkbr9c+3Eow2mlOSe3sfa1UOmdp5cm/gxkdrUdSHlDIsR/jRrCDFATqDgfMo0loAZj9vVnYwyxt7Zz7gk/6rV15Jsde72olddsToFvHE9LVe/Rm6z99fo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720792140; c=relaxed/simple;
-	bh=Tu42nau61uQUrM2WkU0xQHoUNzdUiCiLufs8uTvML20=;
+	s=arc-20240116; t=1720792107; c=relaxed/simple;
+	bh=yYs7MkrW0+QU3QEsKi7sNmspymkEpf3TgBrnpt7kn1Q=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dau1Na2BE8Z7EUCffRu2L8fcfzbSjdemTnUD+5NEeSBpXI720edKLKp3hjuNAIW+neY287n9I8v8GVVsOTgnNkDgUNuFuxRHebtn+bsVlMrOcpkew5eVNrn/FpA+Ca1auU7AtQDGMLeYcWSqyKr+aeoZBkkmSubzE/2L1/VQHh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VWCWqkEp; arc=none smtp.client-ip=209.85.221.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 To:Cc:Content-Type; b=Z+CMY4OwMKxp4Kfbs8j+f0yYND0sumq0iG/Y83k/LDT++ilZAmKbRf1/nbvSn3ZLI0hUXxjSfZFCH2kzQM40aVpdzOGWoaSfwmftRPEIVN1vou0ABHsJJ+03iirzh1NMe9x1NGzr6RUVgLiRP6xBuLZx2YYZc58VSASs1ullu5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-4ef76f04977so667966e0c.2;
-        Fri, 12 Jul 2024 06:48:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720792137; x=1721396937; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CNeMMGyKMUpPSQSPubxQiT+hSpfRpgXCDkgjBJjYMQA=;
-        b=VWCWqkEpmrLYYAAi6RSLkFhP9XA1iya9+W+R+f/5LhnSDKLjbXlEmtsmpbSayacbW3
-         qKXF5c4PDOJqvobdhwBVX7LjEvQAMeswibXu1OIBTKES1hbkML79KwflC5ie+imN9G3V
-         PvWsIvWts7YM38Cw/eDHULufuN54tGSwYc6IlWbzVJygJ1asntRTFi4OaZhZ29W89KOG
-         3w1HrRx2Lh5ixhsAof7L9cD3AxbWDqSePxOMWc73zvxtx2B+C87xs4rWNasrmwXsEogh
-         PXMmfTxOrNuNx/iF7Qq9u5jqzTmvDV7OlFlO9/1zo4Yh5ztCylOd1eLP01xK17KudiXd
-         S32g==
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-650469f59d7so20977387b3.2;
+        Fri, 12 Jul 2024 06:48:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720792137; x=1721396937;
+        d=1e100.net; s=20230601; t=1720792103; x=1721396903;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CNeMMGyKMUpPSQSPubxQiT+hSpfRpgXCDkgjBJjYMQA=;
-        b=JErKuJzgma2aDIcmr5TQcqSlviSd9vTeHizvHSY3CXxS/JEDls4QW8EtMRJ6lJ0f+f
-         jnoh4FuUklpQoKJAtLv7qhBoUbjAsO8pHNDC2UOjZncgUTO+N0smUbfk4KLBLljOZIYC
-         IvQKhgYb0YVF4JSeHLSv3+gyu8xZBA7t9eGIdGI4UgOWkFirIMTBaZF0Zov4Qp4TtRW2
-         uuYSegfTOJwut5I59lyVBUB9UBj7wcDG57g/4e+kNDEluMOhfY0dkoakBaNmDiBLsrKj
-         EFpwbWLrH+7zB13s748m7xHANB1U5cyMk/t8RD1XQRCZvBhvp9Wx/h1535bjYtI6wJ9m
-         Qx7w==
-X-Forwarded-Encrypted: i=1; AJvYcCUp4zKAVFjhSvjGfTXBDRFIf0Jq8w/00YrGx0f8sWqi04Lb/miJ4x9AXcOT8QDGdy2ekEpXRSQfWE9ChyakBnWP8YlGaN+KxqMOxTe1LERsqXQCBNsGdv9b0UzGN+5PthR8FzBYxpdHz5zZScxcy6L7kjgxnI7c5UAUdA+KURFh8Bzkj4Vf5Mc/mzj2N/3haC4ZsZk1RdqI3MVWxpvIQsFHxvqH0zaO
-X-Gm-Message-State: AOJu0Yzujh3AwkofQ0tmxar71oorpHpErfweHz8FT6J4t9l9yeMnaqak
-	x1wAyYf9CXpnJiFOE35XVD5EtYTJaDG9j2yQb2KvMkcUcEsRozQVKYR3g2fzbkY7yowopl8vgXF
-	L6Kd/SWIglwKYn6Qi9gu+zVmonwQ=
-X-Google-Smtp-Source: AGHT+IEVNhqRMz9n9crf1r6WaUvNgJ/dyDPHlu7D7kgnmKPUhB8R0X+CUwUXHsUwxzcfSlFGxKZUeQJI5wevih/Gk48=
-X-Received: by 2002:a05:6122:21ac:b0:4ef:52e2:6763 with SMTP id
- 71dfb90a1353d-4f33f318833mr13257634e0c.13.1720792137495; Fri, 12 Jul 2024
- 06:48:57 -0700 (PDT)
+        bh=442BdvzCkNEPOCEKPQXbGDECLpFWinxKnjTci7pd9gM=;
+        b=ev01vbGDqCrS42q0fS7XeI9QU1v0GNoIcC7ezufc0Mbvdf/j709IowAZgh5EnnHdfw
+         0ChtM6uOKiFSzFG1zj/8VT5MfiAVxUxJ2aNldCKxq7FNYvIBcRj2mljF+9kH6QhIv4q7
+         btUZpOuRrm/eSwxh8T3H3gCR8Vxgj8guSFDSHRQHfPKdfyxs2s0H7Utl+Qq5jc7VyftW
+         F3OH91edlYW5ygHhFq5RBQ0uUx4tqrwUnDXk/UxqJviR5l5zIBnm9Tf2bHKwSGZvQK8J
+         SdPfF5cOlNCExv/Fk1r1rNaQz7biaM4WG9viOsIfyqsny1zUlelTmJ5NgkntYi1na4If
+         KDtw==
+X-Forwarded-Encrypted: i=1; AJvYcCVGsKZyywnLzmRNCBX63JhIdm0j/OAmktny1pnJgOWNJmqsXgsHx0aRAKTpzxk5JAPbrzKwGxZ1WF/jkF43s9yd+R5EoOrANVjdWgG4nsgJ9bbp8J1ljRyWserCUQBy1MbYQ3lFjhM3Tf/eIF3MJbZpo03si/lAuglQHAdZnkwI3PsvCSlBTefYrFa6VnSVV2SDUjoondM44ky979gIk35qMBQGL79679V6uZEb0tJcpYX2eVTdc4WI5U/lGgvkr7M9
+X-Gm-Message-State: AOJu0YzJOvO8hzC1Jbzok5o9lo4cdaISLiBx2R5vc97DPCRmFzn8LlFH
+	f5aSDxGC9V7acODwptOJ6JkIVS7BY64l/c7CkwDSxKSbGoGugsublgG5DfSS
+X-Google-Smtp-Source: AGHT+IFFB42VJP8fv6OfeFMKry7hjXAB/2QigIi6hGKgTuUFG4230MziGertmjharB1YUmo7HubHxg==
+X-Received: by 2002:a05:690c:45c5:b0:61b:3454:8941 with SMTP id 00721157ae682-658f07d74aamr152888327b3.43.1720792102817;
+        Fri, 12 Jul 2024 06:48:22 -0700 (PDT)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-658e4d2ad85sm14943267b3.41.2024.07.12.06.48.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Jul 2024 06:48:22 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-650469f59d7so20977097b3.2;
+        Fri, 12 Jul 2024 06:48:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWiK/33p+YvTqqY7cX11H+cJjJGXSXa2erXOxErAa8HTvB/kGL03fKHu3ET5qn8U4ZFyT4r2qv/jSxyKC7XeDhCzTyMPYyzhHYS5LWJ34rglK2K493JLqZAXDOgME3Mo+FGAHbfnDeLbjKm0EN1RJemIZEQ7sR0Vy5Dmsj+aJG60DI9zRjGGwKo4mZ4KbHCcPFaZIHRZK9TSZWWJgYV+Wk1pRZl5hwrBzOg+Kb9bG4MZbA0Ya3lnOWwRxHOvWnG/pWC
+X-Received: by 2002:a05:690c:7442:b0:64b:9f5f:67b2 with SMTP id
+ 00721157ae682-658ef24c009mr138713557b3.31.1720792101940; Fri, 12 Jul 2024
+ 06:48:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240627161315.98143-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240627161315.98143-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdV4GUKc=LFStKHO47vPJLZs3Vmvz-L7L81bC5DmdK5ztA@mail.gmail.com>
-In-Reply-To: <CAMuHMdV4GUKc=LFStKHO47vPJLZs3Vmvz-L7L81bC5DmdK5ztA@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 12 Jul 2024 14:47:27 +0100
-Message-ID: <CA+V-a8t3GVMo8N=uBn58=S9=0MtuaCtxxN4OC5F-i7Vp8ntcpg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] dt-bindings: clock: renesas: Document RZ/V2H(P)
- SoC CPG
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240711123405.2966302-1-claudiu.beznea.uj@bp.renesas.com> <20240711123405.2966302-2-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20240711123405.2966302-2-claudiu.beznea.uj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 12 Jul 2024 15:48:10 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU1hqPeD91WhcY=JwUho6suwE1gRi6iWdOpYGvchioJLw@mail.gmail.com>
+Message-ID: <CAMuHMdU1hqPeD91WhcY=JwUho6suwE1gRi6iWdOpYGvchioJLw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] clk: renesas: r9a08g045-cpg: Add DMA clocks and resets
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: vkoul@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	magnus.damm@gmail.com, mturquette@baylibre.com, sboyd@kernel.org, 
+	biju.das.jz@bp.renesas.com, dmaengine@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
+On Thu, Jul 11, 2024 at 2:34=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
+wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>
+> Add the missing DMA clock and resets.
+>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Thank you for the review.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-clk for v6.12.
 
-On Fri, Jul 12, 2024 at 12:58=E2=80=AFPM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-<snip>
-> > +++ b/Documentation/devicetree/bindings/clock/renesas,rzv2h-cpg.yaml
-> > +  '#clock-cells':
-> > +    description: |
-> > +      - For CPG core clocks, the two clock specifier cells must be "CP=
-G_CORE"
-> > +        and a core clock reference, as defined in
-> > +        <dt-bindings/clock/renesas,r9a09g057-cpg.h>,
-> > +      - For module clocks, the two clock specifier cells must be "CPG_=
-MOD" and
-> > +        a module number.  The module number is calculated as the CLKON=
- register
-> > +        offset index multiplied by 16, plus the actual bit in the regi=
-ster
-> > +        used to turn the CLK ON. For example, for CGC_GIC_0_GICCLK, th=
-e
-> > +        calculation is (1 * 16 + 3) =3D 19.
->
-> Using hexadecimal for the final number may be more readable,
-> also in the DTS?
->
-> (1 * 16 + 3) =3D 0x13?
->
-Agreed I will update the value to hex.
+Gr{oetje,eeting}s,
 
-> > +    const: 2
-> > +
-> > +  '#power-domain-cells':
-> > +    const: 0
-> > +
-> > +  '#reset-cells':
-> > +    description:
-> > +      The single reset specifier cell must be the reset number. The re=
-set number
-> > +      is calculated as the reset register offset index multiplied by 1=
-6, plus the
-> > +      actual bit in the register used to reset the specific IP block. =
-For example,
-> > +      for SYS_0_PRESETN, the calculation is (3 * 16 + 0) =3D 48.
->
-> (3 * 16 + 0) =3D 0x30?
->
-OK.
+                        Geert
 
-> > --- /dev/null
-> > +++ b/include/dt-bindings/clock/renesas,r9a09g057-cpg.h
-> > @@ -0,0 +1,21 @@
-> > +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > + *
-> > + * Copyright (C) 2024 Renesas Electronics Corp.
-> > + */
-> > +#ifndef __DT_BINDINGS_CLOCK_R9A09G057_CPG_H__
-> > +#define __DT_BINDINGS_CLOCK_R9A09G057_CPG_H__
->
-> __DT_BINDINGS_CLOCK_RENESAS_R9A09G057_CPG_H__
->
-> [...]
->
-> > +#endif /* __DT_BINDINGS_CLOCK_R9A09G057_CPG_H__ */
->
-> __DT_BINDINGS_CLOCK_RENESAS_R9A09G057_CPG_H__
->
-Oops, I missed updating it after the file name change.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-Cheers,
-Prabhakar
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
