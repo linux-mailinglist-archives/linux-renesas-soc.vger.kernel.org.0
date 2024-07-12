@@ -1,171 +1,181 @@
-Return-Path: <linux-renesas-soc+bounces-7315-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7316-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BCE192FD97
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jul 2024 17:29:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3414A92FDB4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jul 2024 17:39:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 57448281993
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jul 2024 15:29:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE7D1283252
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jul 2024 15:39:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B63101741C7;
-	Fri, 12 Jul 2024 15:29:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8ADD1741D3;
+	Fri, 12 Jul 2024 15:39:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gs/ng3Sm"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="cvHB570J"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8BD17085D;
-	Fri, 12 Jul 2024 15:29:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814A2172BA8
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Jul 2024 15:39:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720798181; cv=none; b=ZG2UOqCOp+2pAyGEBGrCt2bm8hqbrICEFBmwRnEo+CzdBlNKDq+JobroMmenfPwlgD64QM2WUupDzJd791MqOqemaJioUaNjcw7RQDu2XJyi4DXvhIXdeLyTLNX5IjLX04/cWcmg6V70grp2G+6HJK5KZoDr0cLjpFVSzWAUtY8=
+	t=1720798769; cv=none; b=BZwUnXH5W1/YXokAnQl3hIs8j/9Bdgz3GLVQtM9gIsBIQ07VU7toC/eFGFHhf7WWJwhhhEs7wTucBjJWJkd0Mhbz+GRXJ+Hn0FYnZ0MflR0woR10WaBAXHOVqkVJVkTqs3tVL9f2XoXxXySliA+auqOWXhbDWlkeD/rRlr4Q0rM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720798181; c=relaxed/simple;
-	bh=+IMZBOwNJ5AwNiX0hjiRah2gQJchIdnWIXPtSSevNfU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gDNx5UtgIzDxKaCWkeYPCigEpjqsD81yX6r8CLDqHOCVpmL+jys03WnBqT3LCOTcp/sgthkCF3TzgNbkjRwisPyZmccKdg4CKyVetln+hM2rKqDg2pO4N7C6ZjjDjKTzciLlcLpaOi6TM/mpBbdo5PuNIL0Ks7piDqjmG/wRlxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gs/ng3Sm; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-447e1eb0117so11454851cf.3;
-        Fri, 12 Jul 2024 08:29:39 -0700 (PDT)
+	s=arc-20240116; t=1720798769; c=relaxed/simple;
+	bh=68/kltcLtm3c5q8IqHBsqqo8yQ9MYg9r+nGvbZAb6v8=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=jEwKYx2GppmT09dVRKPAMUFi9oZu1HVB/h38X07MLewRJDieEV946vYPz9KVityZ3bJXhLeWEbgG1A8iPhX61aP4fJvhcR1Ip9l9OoJ7WnPtbXAWTK27I+ere6kJNTfndfMt/ttcDbR/zpPn7g6/BJT0iYA2IHipFre57snwtew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=cvHB570J; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-52ea5765e75so2551559e87.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Jul 2024 08:39:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720798179; x=1721402979; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ve3CcOjeMtMU8bzJnjUvgQ5PtDwAZqsbHa46kIGMMDU=;
-        b=Gs/ng3SmCWOHPfHf9Kx4U32hL24IXUw9X8PM/AxENhOrwkybRcT8uAb2L9aXZR2dAi
-         pS0j1gm8oE0wy61CdzgIbufthnb+8iQFd3BhSgxHSuoC1Dm5vZz4u0BIirfN/y63Zk9t
-         udEXZc311R3vXqNWd2lwMaH4c0kkdXq8FhiImutgrvp1EmIIddVeJ53+WD2zUb3hswgR
-         kGbXbi1GGfvIKxTMWiEXwzusvAJYSzMAMT0bI5t9TeHCWjX75l+u3xJRVsXY5D1YJ9jo
-         VGuH2uwJM8VCUEAMORHCEjl5GL0kHcPym4SfdLVIk+Q1T5UmN8Wv0U9SXe6ZWt7qfyva
-         eT5A==
+        d=tuxon.dev; s=google; t=1720798765; x=1721403565; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vXS6CNYAdyuDwfj4669MHWReU6UN/YmeD5dTtm16ne4=;
+        b=cvHB570JIU/T0Kc4UbAjc+leZuO7yBrsLKr9kziLLcpdaAb+yOvSTdi9rQjd267Nwc
+         zvn+ip+ghdBKIVk3WuQZstwnRpZ+GRciPeWD5bVIPNNuV2Nvy8M6mzkMZxhgrY5Bn9VH
+         ZDLBBmt2l1VGUfoFvaHNjwA6N75Ec8url3uZL6O8CcN2NFQ9i57o0c6hXG2rSf2FmFvV
+         QCeaur1zEnXYLL55W8dE96a6l6hTRvfGpZVMAmPaOFkG7rt/4zGvTm+JWc26LaRJCRrs
+         WNfejp1msyGDdUF+UGL9rczvsb0NaX9GY7G3IjGPnIePK9ZUB+HzHfzw2vK6LLXQAZZ4
+         2wSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720798179; x=1721402979;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ve3CcOjeMtMU8bzJnjUvgQ5PtDwAZqsbHa46kIGMMDU=;
-        b=F85XHUhepzZqCV2QLPHeAOFb/M4Iag/AnY/TzDXsfVu0vxp/TSlgVNJ916VA4TuikR
-         IzjNdTX7hPRiQp4pG2hHx49zcHi7dcDc2uZG+PVhD3+5yYdWS+cTPLYZQDk8EuUoUKAx
-         jUPgkuIQiX1xJnsPH5WoaC7HVISxMmwougCCSYx4gv4ohbCVDdvVVwCqE+JTfiBgsVeV
-         1t/ytZViUBmZOtf80EOGsYFtVlwXMsWaWpL9ghN9B1R5ORwVAP2ZJ7DnMz+E99bE7kC6
-         ah/Ova79DiA/WFWnnuLY92QOKUxdEqDnAX8camHXSmZeTxid4nCd3fT9OexfeEkOvQVi
-         K3sA==
-X-Forwarded-Encrypted: i=1; AJvYcCU4Qz3iabkSWcbTmnrdl3pGpkdhnvijJMhwPGgQUAXIUqfhSlGSVXIRUcHBhzB1Xbs8BXkVSazeGauamGHiBaNeV6n0qfJq7MjC7NcbgMk6iLIQ2+WNjHFTxBIewCACfIaFoTUdDO+Wv75ttNF3nyVBvhFvNpyUTDONuRPkbftsBENJj8x1vezAHSjlAg6bMPqPJEqO68vsXhR1W+gZhe8UGjTfSKlj
-X-Gm-Message-State: AOJu0YwP/60a7lw7PNCn+CiV42nakblYO3IpBQwkFVPQz9dFx/zktrm1
-	zBLRFGBTXKdZldoU9NALeFOC3ADD0+nw0yaMptzN3AQ96JsxZbMnEATQ1M0pI1UfSaNcQKnSUWJ
-	29Z9qSGgBRIwRPQp6cIgCx1Qbn4bg5sKl
-X-Google-Smtp-Source: AGHT+IHedDfgr4oxy9l8g1SV0quzS/13qgZuFj80DhQ5BESrPL+1aCpiI5uk0XVyzQs7IElyHA+EFOWUbNnnwSnOSC8=
-X-Received: by 2002:a05:622a:3c9:b0:446:49f1:79a with SMTP id
- d75a77b69052e-447fa89dfc5mr148250941cf.24.1720798178892; Fri, 12 Jul 2024
- 08:29:38 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1720798765; x=1721403565;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vXS6CNYAdyuDwfj4669MHWReU6UN/YmeD5dTtm16ne4=;
+        b=PE4Uv4hBSRPBbqCmype3SAGC/i3vQbDi35BWl2ATxI7IA33nSsQ+KjtO+Jq3Jfday7
+         OoGhIBS8UIyqOf3jnbtA4QykGo5Iuic7JgZv7QuSOah9vwargguyAGcmGNMstJIMc5Gi
+         RZRSKM6Wv14tYyXpCO9ylOOmxQPbVDe1J4XR9A0SRZuZ8RuVpOMARKHbNDzJfgSFSJ1w
+         k2WxJ/aRAMVdj1M+53vrgdo8wFm2yhL1+yfOSkrwXipIztSGqpzjrvXovKrAtikYUlN5
+         Q1sKP8iLuBZK9nSOpc2xKPbrLY7CDOBLLx8hB0/ts8dHKDHDQVTV38q8kupEp54baABa
+         6srA==
+X-Forwarded-Encrypted: i=1; AJvYcCWOQweyLH+/YlBdF614ckpDR3gW88LVQyRMqarwnsj6I0xQKPHoylxzVASUaHIgedBlAq8wl9cl0txwMlxiOWL2zd/0ddwRa6YQUGJ6jCRgkII=
+X-Gm-Message-State: AOJu0Ywf1c8iF56YzHlesKKJ8r8dFV8YRvy0R6XBNHOdaTPhg0HjpTTB
+	IlPmfzr9Ns/ZXVxCWh6A2aLdwh1eFIKMzzS5hQbxPFTkHbTKutcT2kav4gLvrL0=
+X-Google-Smtp-Source: AGHT+IFt+v0z4s2SEnUzvpF3XhmKLoMZVPIgAXxpi9rthXghlv3Aylzcme0OH0Wr5YydJX6qYwmksw==
+X-Received: by 2002:a05:6512:750:b0:52c:d78b:d0b8 with SMTP id 2adb3069b0e04-52eb99a32c7mr6495989e87.39.1720798764436;
+        Fri, 12 Jul 2024 08:39:24 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.171])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4279f2ba545sm26557105e9.34.2024.07.12.08.39.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Jul 2024 08:39:23 -0700 (PDT)
+Message-ID: <7f99cb63-0c6b-460e-934b-4e7e8d84bb3a@tuxon.dev>
+Date: Fri, 12 Jul 2024 18:39:22 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240627161315.98143-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240627161315.98143-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdVLSpaUtdXFv3VXFc5G61dmRX2C1iW9C+km23g6EgZJOg@mail.gmail.com>
- <CA+V-a8vABF6vg+J7DAGzgnw8612oe6VfJkc5y-krySvnpAnPkQ@mail.gmail.com> <CAMuHMdXuyQZ=SFfQa5kvZTwYa0uRXc7khJ-vOYBRE5SCd11rPw@mail.gmail.com>
-In-Reply-To: <CAMuHMdXuyQZ=SFfQa5kvZTwYa0uRXc7khJ-vOYBRE5SCd11rPw@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 12 Jul 2024 16:28:08 +0100
-Message-ID: <CA+V-a8ui9AKDOZzg_dgPXeGhGE-+rBHU8O1tpdb8w8myo-1p5Q@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] clk: renesas: Add family-specific clock driver for RZ/V2H(P)
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 0/9] watchdog: rzg2l_wdt: Add support for RZ/G3S
+Content-Language: en-US
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+To: wim@linux-watchdog.org, linux@roeck-us.net, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, p.zabel@pengutronix.de,
+ geert+renesas@glider.be, magnus.damm@gmail.com
+Cc: biju.das.jz@bp.renesas.com, linux-watchdog@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, claudiu.beznea.uj@bp.renesas.com
+References: <20240531065723.1085423-1-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20240531065723.1085423-1-claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Geert,
+Hi, watchdog maintainers,
 
-On Fri, Jul 12, 2024 at 4:23=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Fri, Jul 12, 2024 at 5:14=E2=80=AFPM Lad, Prabhakar
-> <prabhakar.csengg@gmail.com> wrote:
-> > On Fri, Jul 12, 2024 at 12:59=E2=80=AFPM Geert Uytterhoeven
-> > > On Thu, Jun 27, 2024 at 6:14=E2=80=AFPM Prabhakar <prabhakar.csengg@g=
-mail.com> wrote:
-> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > >
-> > > > Add family-specific clock driver for RZ/V2H(P) SoCs.
-> > > >
-> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.c=
-om>
-> > > > ---
-> > > > v2->v3
-> > > > - Dropped num_hw_resets from struct rzv2h_cpg_priv
-> > > > - Dropped range_check for module clocks
-> > > > - Made mon_index to s8 instead of u8 in struct rzv2h_mod_clk
-> > > > - Added support for critical module clocks with DEF_MOD_CRITICAL
-> > > > - Added check for mon_index in rzv2h_mod_clock_endisable and
-> > > >   rzv2h_mod_clock_is_enabled()
->
-> > > > --- /dev/null
-> > > > +++ b/drivers/clk/renesas/rzv2h-cpg.h
->
-> > > > +/**
-> > > > + * struct rzv2h_reset - Reset definitions
-> > > > + *
-> > > > + * @reset_index: reset register index
-> > > > + * @reset_bit: reset bit
-> > > > + * @mon_index: monitor register index
-> > > > + * @mon_bit: monitor bit
-> > > > + */
-> > > > +struct rzv2h_reset {
-> > > > +       u8 reset_index;
-> > > > +       u8 reset_bit;
-> > > > +       u8 mon_index;
-> > > > +       u8 mon_bit;
-> > > > +};
-> > > > +
-> > > > +#define RST_ID(x, y)   ((((x) * 16)) + (y))
-> > > > +
-> > > > +#define DEF_RST_BASE(_id, _resindex, _resbit, _monindex, _monbit) =
-     \
-> > > > +       [_id] =3D { \
-> > >
-> > > Indexing by _id means the reset array will be very sparse.  E.g. the
-> > > innocent-looking r9a09g057_resets[] with only a single entry takes
-> > > 600 bytes.
-> > >
-> > > If you do need the full array for indexing, please allocate and
-> > > populate it at runtime.
-> > >
-> > OK, I will use the radix tree for resets (is that OK)?
->
-> You mean XArray? include/linux/radix-tree.h has:
->
->     /* Keep unconverted code working */
->     #define radix_tree_root         xarray
->     #define radix_tree_node         xa_node
->
-Yes, I meant the above.
+Can you please let me know if there is anything you would like me to
+address for this series?
 
-> Given a single xa_node is already 576 bytes, just allocating the full
-> linear reset array at runtime is probably better.
->
-Agreed, I will create a linear reset array and loop through the array
-based on reset index and reset bit to match with id whenever required.
+Thank you,
+Claudiu Beznea
 
-Cheers,
-Prabhakar
+On 31.05.2024 09:57, Claudiu wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> Hi,
+> 
+> Series adds watchdog support for Renesas RZ/G3S (R9A08G045) SoC.
+> 
+> Patches do the following:
+> - patch 1/9 makes the driver depend on ARCH_RZG2L || ARCH_R9A09G011
+> - patch 2/9 makes the driver depend on PM
+> - patches 3-7/9 adds fixes and cleanups for the watchdog driver
+> - patch 8/9 adds suspend to RAM to the watchdog driver (to be used by
+>   RZ/G3S)
+> - patch 9/9 documents the RZ/G3S support
+> 
+> Thank you,
+> Claudiu Beznea
+> 
+> Changes in v9:
+> - dropped patch "watchdog: rzg2l_wdt: Power on the PM domain in
+>   rzg2l_wdt_restart()" until further clarifications; this will not
+>   impact any behavior as the RZ/G3S power domain support is not
+>   instantiated
+> - on patch "watchdog: rzg2l_wdt: Remove reset de-assert from probe"
+>   call pm_runtime_put() in case the reset deassert fails
+> 
+> Changes in v8:
+> - added patch 9
+> - collected tags
+> 
+> Changes in v7:
+> - updated the dependency on patch 2/9
+> 
+> Changes in v6:
+> - update patch 2/9 description
+> - fixed the dependency on COMPILE_TEST previously introduced in patch
+>   2/9
+> 
+> Changes in v5:
+> - updated description of patch 2/9
+> - simplify the code in patch 2/9 by using on a new line:
+>   depends on PM || COMPILE_TEST
+> 
+> Changes in v4:
+> - added patch "watchdog: rzg2l_wdt: Restrict the driver to ARCH_RZG2L and
+>   ARCH_R9A09G011"
+> - collected tags
+> 
+> Changes in v3:
+> - make driver depend on PM not select it
+> - drop patches already accepted (patches 1, 10, 11 from v2)
+> - re-arranged the tags in patch 8/8 as they were messed by b4 am/shazam
+> 
+> Changes in v2:
+> - added patch "watchdog: rzg2l_wdt: Select PM"
+> - propagate the return status of rzg2l_wdt_start() to it's callers
+>   in patch "watchdog: rzg2l_wdt: Use pm_runtime_resume_and_get()" 
+> - propagate the return status of rzg2l_wdt_stop() to it's callers
+>   in patch "watchdog: rzg2l_wdt: Check return status of pm_runtime_put()" 
+> - removed pm_ptr() from patch "watchdog: rzg2l_wdt: Add suspend/resume support"
+> - s/G2UL/G2L in patch "dt-bindings: watchdog: renesas,wdt: Document RZ/G3S support"
+> - collected tags
+> 
+> Claudiu Beznea (9):
+>   watchdog: rzg2l_wdt: Restrict the driver to ARCH_RZG2L and
+>     ARCH_R9A09G011
+>   watchdog: rzg2l_wdt: Make the driver depend on PM
+>   watchdog: rzg2l_wdt: Use pm_runtime_resume_and_get()
+>   watchdog: rzg2l_wdt: Check return status of pm_runtime_put()
+>   watchdog: rzg2l_wdt: Remove reset de-assert from probe
+>   watchdog: rzg2l_wdt: Remove comparison with zero
+>   watchdog: rzg2l_wdt: Rely on the reset driver for doing proper reset
+>   watchdog: rzg2l_wdt: Add suspend/resume support
+>   dt-bindings: watchdog: renesas,wdt: Document RZ/G3S support
+> 
+>  .../bindings/watchdog/renesas,wdt.yaml        |   1 +
+>  drivers/watchdog/Kconfig                      |   3 +-
+>  drivers/watchdog/rzg2l_wdt.c                  | 113 ++++++++++--------
+>  3 files changed, 66 insertions(+), 51 deletions(-)
+> 
 
