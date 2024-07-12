@@ -1,70 +1,70 @@
-Return-Path: <linux-renesas-soc+bounces-7312-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7313-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0209A92FD53
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jul 2024 17:14:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CE1892FD59
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jul 2024 17:16:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 820FD1F21281
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jul 2024 15:14:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DAE3B1F20FDE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jul 2024 15:16:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46ACB173320;
-	Fri, 12 Jul 2024 15:14:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 170DC16F27E;
+	Fri, 12 Jul 2024 15:15:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CxjAhFr7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CV5y2iNk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E2A91094E;
-	Fri, 12 Jul 2024 15:14:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A1558821;
+	Fri, 12 Jul 2024 15:15:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720797284; cv=none; b=eDFjBmWHVVq1QvM8K++zSW5i3XuYhr1W++TxSdQB80E8SF57VS+1SuILcevxMZ1WhlGQbPyk2G+wAG37Ons3GTvZvmzPFacezmakDx6Pr3nDFfUOq2hVTeQAtgj7zqM2pgtjRT6Ksfzb6pQMt8teWxDK1k7X65XlxsoBl9wYWfo=
+	t=1720797356; cv=none; b=QI1p69+CMgobUCouRplBqEIIf/06I7oeCGsiefY4hCQRvrAjCiBwMD5ceYRVu06dAcWjBrh90l2gffWAfNA5w8Qc8zPPHb8QZD2J4LHD3VwoJ1Uj4+hNGr/X4aCa62AA6e+kQpkOi3NKuKZmt3lXiljXX+df/4tE4HW/Fwibyj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720797284; c=relaxed/simple;
-	bh=BuRuxbp1j4lIF3rtudJiZ1PZKRLDEWAvMXu1lcTHuBY=;
+	s=arc-20240116; t=1720797356; c=relaxed/simple;
+	bh=ZMqDCOQzmWQ3vw/EWvNxWWgzx7s6SQPEwN78IR/9lRk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nfa9nHjjE/jgsyt4rEiXjAhzaJe8UpZcTBsVyk7LpwF0/DZmoqBNZif/BJzS0m52fwoGpTjJ4Q5klzHrm1JVJW8JDtnO5rG3feMopxo79ccluwMCcQImgRR/u8w58UvBm0Es96OqitwMzkkK8uj2kmJtetQqYbwbUTLPu9DyKN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CxjAhFr7; arc=none smtp.client-ip=209.85.221.182
+	 To:Cc:Content-Type; b=oZs0tR6JzH0LosJrtUxrwbQhPGjuHduNWhw9DWcAqzSqoUatgoZIZVeBnXdMHw805kgB5ONyEU7oG6SjMUAuXpyghU6KuhPwcS5OxpNuuDIt6Cx8uQye6cvpfyiECVBFRuoCbm+pxmJy6kX9q4gVbGH6ZCS+M0GI4nq8mu2pSaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CV5y2iNk; arc=none smtp.client-ip=209.85.160.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-4f2fcaa2a3aso732236e0c.0;
-        Fri, 12 Jul 2024 08:14:42 -0700 (PDT)
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4494d41090bso11767941cf.3;
+        Fri, 12 Jul 2024 08:15:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720797281; x=1721402081; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1720797353; x=1721402153; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CEBYznYNSb51V+MSGkUWIxYPLdRWDRMJsAQfhGOICts=;
-        b=CxjAhFr7PHz+dAxrdl77F9KQr+fj1OJd+EAkiyuM+ad9L3buXiZWgUhjX04ZzB3HzY
-         0dIWX9Brby2g6C9+jikkohQAJ6BX/jMe1nz9Umw0YMKD7x0pYx8GnX3Y3tc0c/5qsqn6
-         EEwpMCfj2fJvpAF3ojE9L/1b+rCSDbFvA8WClWUykl4CEcqUuQXBpbQnnW5hzCg8xmKf
-         Ahi/Yroykjpn0Y9oK65ZicE9gwGqR0t/cROeHRToKh9WJpUaTfku06mHwPaLr+OZRFtO
-         EPy3Woum9H7GgrYxHv7flZg12NdGpQVA0BkW4ZjvF3WQd8Zj7mmRepiE3lvH/NBzKfMg
-         AkTA==
+        bh=oL4Tmaqhg4JpjPf66oicYe63pW6/Jp1gnlgfBEo7KYI=;
+        b=CV5y2iNksk1tv34sq3yONHSingjafRlalCM1crSarj7WeXRw3z6g338RLql/5fYzRo
+         5I+AnUjldkpksoVa80H5QJc6uTlTit2NXBTdR3npgX92YhXpozRz/iDmM6lcClMcP7CM
+         /sen7bhjVNGoG6UejzOXJ2KTMlfwLAyaeH/0wUgGQQi7V/h15v3W0NLgyA3sUqLyDASZ
+         plV7b9Kx94WN0V93dEAg6dt9R8oAVfrSjaxgPRXIvvjcG2dbcXGT2fMneRTUR7n8dhNB
+         m5XY90RKu9IooscWLIuuyhQKDc/n+RqWVM1fedKfftRCeN01gZDJcX7PnFbfvXAcO0Nu
+         nccw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720797281; x=1721402081;
+        d=1e100.net; s=20230601; t=1720797353; x=1721402153;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CEBYznYNSb51V+MSGkUWIxYPLdRWDRMJsAQfhGOICts=;
-        b=MAHEAaYvb7IRTEMczEd9RxvCye+TzNuCnaIrpwNBOL6d8LVUlIFFspALNCs8cC1pmo
-         PHEvcxhgSjMz0SP6ZyduIUQIp4nHLbtk/IOfp4LHF4v576zP4mkYOagsoRybAuEQJyWk
-         /VF/2pLpBNicKiwZSfZX5KP07OZMlLrE8SOle7zYhPFXWRBmwtQJv/E0e7RLLjLyWpgl
-         kwhXnMSyQ+p6q7tUxS9S5px++T69koo3TeRN0wyVefinVICe3P5T+lUHvWuS1PAgj+Cm
-         CR2tUUWde6JcLh7CY+DH6U730hSHLZqpR8gFPYcZoUPHIvCAfTE5ygAvN2XBdbCYEKBa
-         zO8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWwYkt/4iRJslJOKU9WIJsEXB9doyCHw8SlbfWuxT+HQkDS4zLTegrGQQD34gymJ8YDXLsKi4E2ABsvg9YqAPwsW5oATYqlJU9wi4pGCmMJzUvgaCbvY8teEdHh1aQvp7IAJQ1xC9UMmU7sFblU9/Qu0+lXHnoUL6+TgUCUS5/q3x7kZ9wcQw+vjvIyqn6RoeijGgHi+8IYmfE0Gv0WP9RTTxOBlrHR
-X-Gm-Message-State: AOJu0YxAgwUcEdBAxHAH8FrfvX3yrx5KY+BURyQiPEPt5FN1pWDFTu0K
-	10t2az+sAjVID7FOxJuUikrDaGMme3RRYaNJTCxoc535t1x78usS74P4rYGGLLqwUK7q9pCAaSv
-	zvyO/lzYbpCsEW8H60nne2tR+jNA=
-X-Google-Smtp-Source: AGHT+IHQ6IpoHvKkeEH62ea/1TZE+/IXyIUpQ/aXUL1PycE6cUD6mYEhLLA4N/tmpGBWaQwn7Ug6D9KxPBXweK2A13I=
-X-Received: by 2002:a05:6122:2026:b0:4ef:630f:d579 with SMTP id
- 71dfb90a1353d-4f33f29a48bmr14472986e0c.8.1720797279917; Fri, 12 Jul 2024
- 08:14:39 -0700 (PDT)
+        bh=oL4Tmaqhg4JpjPf66oicYe63pW6/Jp1gnlgfBEo7KYI=;
+        b=uvTV9YzhMOdBWuZTjohY5VFDd8rewblHyAiVwo/mS7rvJwUJIUMHfdQToQGqCDNn/Z
+         s/hS5rR84H7TP7sp2gzib70q1iLPimWSRa4PoMjqlF7XSufTBHhvbdT49gvRETnPw6da
+         nLFxZgw7n4JdjV09p2a1WuPLhECRGOmM9GP5xzdD40n81RFVIpsLWqvIJtjyqQOoB06Z
+         AuD7JTwh5uS+/uEON0KmGiwlgV0VZ50vWpp9Zlc30BCS+r7rBdyo3PaUOkJdpfWxgu9K
+         NVL4Vp4gkQzn5DSj5RmwMHsza4xe2HO2+w0dycg0psHQ8bdelIxe6kPCTCyPS1EyWvKc
+         fJrw==
+X-Forwarded-Encrypted: i=1; AJvYcCVhK26Umtp4oHVZfkdnz2e/745DMeigLD8hqSZI6eV76QUjPMTbV2vx+hSJom5MwEHZAq7yBAq9cg7MeiUtGxgrGE3EpYgrpdNvQgY/fxr6L77WI87SXfDrBtRc6WE+0bvSrNh68htWIViZrZmOP/oK4rpdkyA1hRon8l2BzKUr8hpyfSKbjzLsdn2eLyRariydMDenzAqOGBgZw8B81HE/NNBvd4TL
+X-Gm-Message-State: AOJu0YwgwAmhPXoMORskTjfINwxD8Whdkw8yGqza7RXz6EPLN4CaKAU8
+	Bmfju5wsUjh/Oy9qT/JgmrjczSg5qlM1A1BsNIq+2VVdFacHQDn8v3YEvMNdb70u9NR0qM7oyeb
+	eL0jIPWtsEiM90fGH0pQkUNtVHGrvaw==
+X-Google-Smtp-Source: AGHT+IGVjWLo+lKB3TvjfoMP0SU22yeCt/L73aepvGxfr4vy/U0GgA6MwDR6cKD04/2zYaKmdHL2gegIOQd32s40n30=
+X-Received: by 2002:ac8:5a96:0:b0:447:f4e0:8d11 with SMTP id
+ d75a77b69052e-447fa918959mr160487831cf.29.1720797353267; Fri, 12 Jul 2024
+ 08:15:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -72,12 +72,12 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20240627161315.98143-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240627161315.98143-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdVLSpaUtdXFv3VXFc5G61dmRX2C1iW9C+km23g6EgZJOg@mail.gmail.com>
-In-Reply-To: <CAMuHMdVLSpaUtdXFv3VXFc5G61dmRX2C1iW9C+km23g6EgZJOg@mail.gmail.com>
+ <20240627161315.98143-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdV5Pyy=5-N9nUZZSOnnpGf2Kp3miDMM5H3b+ah2QUUMtA@mail.gmail.com>
+In-Reply-To: <CAMuHMdV5Pyy=5-N9nUZZSOnnpGf2Kp3miDMM5H3b+ah2QUUMtA@mail.gmail.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 12 Jul 2024 16:13:10 +0100
-Message-ID: <CA+V-a8vABF6vg+J7DAGzgnw8612oe6VfJkc5y-krySvnpAnPkQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] clk: renesas: Add family-specific clock driver for RZ/V2H(P)
+Date: Fri, 12 Jul 2024 16:14:23 +0100
+Message-ID: <CA+V-a8uVcCkhqA9frCbL5MBO1FfFrj2EssDEDYOMw2AYHMK8Xg@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] clk: renesas: Add RZ/V2H(P) CPG driver
 To: Geert Uytterhoeven <geert@linux-m68k.org>
 Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -94,8 +94,8 @@ Hi Geert,
 
 Thank you for the review.
 
-On Fri, Jul 12, 2024 at 12:59=E2=80=AFPM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
+On Fri, Jul 12, 2024 at 1:00=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
 >
 > Hi Prabhakar,
 >
@@ -103,130 +103,66 @@ On Fri, Jul 12, 2024 at 12:59=E2=80=AFPM Geert Uytterhoeven
 .com> wrote:
 > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > Add family-specific clock driver for RZ/V2H(P) SoCs.
+> > Add RZ/V2H(P) CPG driver.
 > >
 > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > > ---
 > > v2->v3
-> > - Dropped num_hw_resets from struct rzv2h_cpg_priv
-> > - Dropped range_check for module clocks
-> > - Made mon_index to s8 instead of u8 in struct rzv2h_mod_clk
-> > - Added support for critical module clocks with DEF_MOD_CRITICAL
-> > - Added check for mon_index in rzv2h_mod_clock_endisable and
-> >   rzv2h_mod_clock_is_enabled()
+> > - Added CLK_PLLDTY
+> > - Added core clocks sys_0_pclk and iotop_0_shclk
+> > - Dropped r9a09g057_crit_mod_clks
 >
 > Thanks for the update!
 >
 > > --- /dev/null
-> > +++ b/drivers/clk/renesas/rzv2h-cpg.c
+> > +++ b/drivers/clk/renesas/r9a09g057-cpg.c
 >
-> > +static struct clk * __init
-> > +rzv2h_cpg_pll_clk_register(const struct cpg_core_clk *core,
-> > +                          struct rzv2h_cpg_priv *priv,
-> > +                          const struct clk_ops *ops)
-> > +{
-> > +       void __iomem *base =3D priv->base;
-> > +       struct clk **clks =3D priv->clks;
-> > +       struct device *dev =3D priv->dev;
-> > +       struct clk_init_data init;
-> > +       const struct clk *parent;
-> > +       const char *parent_name;
-> > +       struct pll_clk *pll_clk;
+> > +static const struct cpg_core_clk r9a09g057_core_clks[] __initconst =3D=
+ {
+> > +       /* External Clock Inputs */
+> > +       DEF_INPUT("audio_extal", CLK_AUDIO_EXTAL),
+> > +       DEF_INPUT("rtxin", CLK_RTXIN),
+> > +       DEF_INPUT("qextal", CLK_QEXTAL),
 > > +
-> > +       parent =3D clks[core->parent & 0xffff];
+> > +       /* PLL Clocks */
+> > +       DEF_FIXED(".pllcm33", CLK_PLLCM33, CLK_QEXTAL, 200, 3),
+> > +       DEF_FIXED(".plldty", CLK_PLLDTY, CLK_QEXTAL, 200, 3),
+> > +       DEF_PLL(".pllca55", CLK_PLLCA55, CLK_QEXTAL, PLL_CONF(0x64)),
+> > +
+> > +       /* Internal Core Clocks */
+> > +       DEF_FIXED(".pllcm33_div16", CLK_PLLCM33_DIV16, CLK_PLLCM33, 1, =
+16),
+> > +
 >
-> No need to mask with 0xffff, as nothing is ever stored in the high bits.
+> Missing comment "/* Core Clocks */"?
 >
-OK, I will drop it.
+Agreed.
 
-> > +static void __init
-> > +rzv2h_cpg_register_mod_clk(const struct rzv2h_mod_clk *mod,
-> > +                          struct rzv2h_cpg_priv *priv)
-> > +{
-> > +       struct mod_clock *clock =3D NULL;
-> > +       struct device *dev =3D priv->dev;
-> > +       struct clk_init_data init;
-> > +       unsigned int id =3D mod->id;
+> > +       DEF_FIXED("sys_0_pclk", R9A09G057_SYS_0_PCLK, CLK_QEXTAL, 1, 1)=
+,
+> > +       DEF_FIXED("iotop_0_shclk", R9A09G057_IOTOP_0_SHCLK, CLK_PLLCM33=
+_DIV16, 1, 1),
+> > +};
+> > +
+> > +static const struct rzv2h_mod_clk r9a09g057_mod_clks[] =3D {
 >
-> This is the sole user of mod->id, which can be calculated easily from
-> mod->on_index and mod->on_bit.
->
-Agreed, I will drop id.
-
-> > --- /dev/null
-> > +++ b/drivers/clk/renesas/rzv2h-cpg.h
->
-> > +/**
-> > + * struct rzv2h_mod_clk - Module Clocks definitions
-> > + *
-> > + * @name: handle between common and hardware-specific interfaces
-> > + * @parent: id of parent clock
-> > + * @id: clock index in array containing all Core and Module Clocks
-> > + * @critical: flag to indicate the clock is critical
-> > + * @on_index: control register index
-> > + * @on_bit: ON bit
-> > + * @mon_index: monitor register index
-> > + * @mon_bit: monitor bit
-> > + */
-> > +struct rzv2h_mod_clk {
-> > +       const char *name;
-> > +       unsigned int parent;
-> > +       unsigned int id;
->
-> No need to store the id, as it can be calculated when needed.
+> __initconst
 >
 OK.
 
-> > +       bool critical;
-> > +       u8 on_index;
-> > +       u8 on_bit;
-> > +       s8 mon_index;
-> > +       u8 mon_bit;
->
-> That leaves us with 1 64-bit pointer, 1 32-bit integer, and 5 bytes.
-> Using bitfields for the latter is complicated due to the mix of signed
-> and unsigned values.
-> However, parent can be reduced to u16, shaving off one 64-bit word
-> from each entry.
->
-Agreed, I will update parent to u16.
-
-> > +};
->
-> > +/**
-> > + * struct rzv2h_reset - Reset definitions
-> > + *
-> > + * @reset_index: reset register index
-> > + * @reset_bit: reset bit
-> > + * @mon_index: monitor register index
-> > + * @mon_bit: monitor bit
-> > + */
-> > +struct rzv2h_reset {
-> > +       u8 reset_index;
-> > +       u8 reset_bit;
-> > +       u8 mon_index;
-> > +       u8 mon_bit;
+> > +       DEF_MOD("scif_0_clk_pck",               CLK_PLLCM33_DIV16, 8, 1=
+5, 4, 15),
 > > +};
 > > +
-> > +#define RST_ID(x, y)   ((((x) * 16)) + (y))
-> > +
-> > +#define DEF_RST_BASE(_id, _resindex, _resbit, _monindex, _monbit)     =
- \
-> > +       [_id] =3D { \
+> > +static const struct rzv2h_reset r9a09g057_resets[] =3D {
+> > +       DEF_RST(9, 5, 4, 6),            /* SCIF_0_RST_SYSTEM_N */
+> > +};
+> >
+> > +const struct rzv2h_cpg_info r9a09g057_cpg_info =3D {
 >
-> Indexing by _id means the reset array will be very sparse.  E.g. the
-> innocent-looking r9a09g057_resets[] with only a single entry takes
-> 600 bytes.
+> With my suggested changes to [2/3], these two can be __initconst, too.
 >
-> If you do need the full array for indexing, please allocate and
-> populate it at runtime.
->
-OK, I will use the radix tree for resets (is that OK)?
-
-> As a bonus, you would no longer need rzv2h_cpg_info.info, and
-> r9a09g057_resets[] and r9a09g057_cpg_info[] can become __initconst.
->
-Agreed (and also r9a09g057_mod_clks).
+Agreed.
 
 Cheers,
 Prabhakar
