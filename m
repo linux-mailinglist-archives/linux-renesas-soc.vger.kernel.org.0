@@ -1,457 +1,282 @@
-Return-Path: <linux-renesas-soc+bounces-7332-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7333-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25ADF931120
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jul 2024 11:23:57 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BE6893117C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jul 2024 11:42:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 576EA281A94
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jul 2024 09:23:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B2FA0B2301C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jul 2024 09:42:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9C45186E52;
-	Mon, 15 Jul 2024 09:23:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65B89187324;
+	Mon, 15 Jul 2024 09:42:07 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EED27346C;
-	Mon, 15 Jul 2024 09:23:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20CD5186E34;
+	Mon, 15 Jul 2024 09:42:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721035419; cv=none; b=pPJ4psWwf5HZ4fBYJdKdWXJKIYgZqCUmIcXMheQvTi4wZSGS2uSYyiFE0yEHia3njZSChCs6OZ0x7nrydS9sxesFtdiPTiGA3avrMZNqldvDD7ibUER/omUyARJbPD5NjIVH1LLhB7xRhcRtvYq5xHccLVSEvG7SQmghuBuXLi0=
+	t=1721036527; cv=none; b=ZHMS605pV2x0/Nf7MlSRDCWo/AOPTcGgKUveum3hYquJV6uIm3cz+Y6oJqJdqWMS4dOWtV7xiCtPgfiGBEtXxWsY+LR5CI1/Y6j26w2boCmwbWVAw9V9a299+My9IM2tmPMlpTvXlQJfQNMo+x9ZJkbK7koQwEYOsl259ErbjZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721035419; c=relaxed/simple;
-	bh=mvHTXOY6FpM/32JSNw9yx0nUrNp7h1+HZmsmW24kIlA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OSJzMwPpje8zc4YoDo7YSJkPvYVcXyPmJ4nDk8RN4Ltk423MWvjZ7DgppCBMZ6ErL6vd3B2oZ90Yg1em0WuY7cIH53xCPCyKbY+5VBJUVIwYSsQ28qU4xiMHZGuCqjC5j+ujLSaeNN5U/hra5/cSJa71HdTQwBbQLZHFLIqQZMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.09,209,1716217200"; 
-   d="scan'208";a="215322328"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 15 Jul 2024 18:23:29 +0900
-Received: from localhost.localdomain (unknown [10.226.92.132])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id EF71640165B2;
-	Mon, 15 Jul 2024 18:23:24 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Rob Herring <robh@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	linux-sound@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] ASoC: sh: rz-ssi: Add full duplex support
-Date: Mon, 15 Jul 2024 10:23:20 +0100
-Message-ID: <20240715092322.119879-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1721036527; c=relaxed/simple;
+	bh=x69YZN4FJusk9fPjLL0YXfgkcrUQFERtj1MOuG38mnw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=p4hz2ZdTVeRUUqeNsrPUNtFdQCBJXChFVyx+T6sPqYlJ6tRzcQ9sQEg+Am9D/d4tmHE7GnaILaj5/pYjAoysMna5MZ07B1VTzSaBVd4qjisXsq3s20QRrx+BYi3sTd/OEKSrc9hC/JI7v/3xQAFx4uxX00Emk0DhHyQhyUnOVGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-65fc94099a6so15061467b3.1;
+        Mon, 15 Jul 2024 02:42:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721036523; x=1721641323;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BvGxhd74JqVuIEOqRaI+e+PaiFpW8y5+5k+CbweUmMM=;
+        b=Aal/O6p8Y4Dizgs+1NzVGGzwo5YAixMf+WRgIE8mIHPgcxaOvfC3/hPNZN7n5BNxSC
+         wLCswwvtDZN/nM4k2iGRO5Ur4yuCu75QAMIklefdI8s+gTSCPrYHX8EvVVlsOp3/b01w
+         CtjVOQZseSMA24PEjFt5m3I9UbWSPj8/8qdTykOE4BuFFMdFhrddvKDduMd78fu5l6dw
+         1n15xKtGjPAXnK+Z6QPQEIVmZ9BrwXsK+CGP9QBR1U71QTBIz4Mhe5yOOIVMNCGE1m1N
+         +Rf0Ly4vdOT+qm7zdj8FwhdCUW0aBGn2lU6l+zx540/QxGMjO8uUmdnxDXHmt6PUV5yb
+         Rn2w==
+X-Forwarded-Encrypted: i=1; AJvYcCXXKxwXFd4kQKPUixj07bqViqhYzb91nCdsVzfeZgrAQ8xNne+pa2KSHZcmlZl/igl6+xGn/npsFmML6eUZpNu5xvevEo+hJh04zRRPKbNz/1WzRSdbS45JBOrlXCSG2pOQ8NJUegeW+2B1zOwBq7KaBIJFK9l58fd/HwSwJjGc5UfV9jgAMo4/P866mzhunQDlYL0iG/1/he5pwGtmxcHKUAdIdu8g
+X-Gm-Message-State: AOJu0YwqRNgm3sOY8qyTF9L+5YKunHt5iS5UoiBQI3XVgiNIyS+ukxGo
+	Fvsmxp6m1baUJmFq1KnydgvQKIX4DpIwkpPCIIOuMnbtFyiIvNv7e0CUENvH
+X-Google-Smtp-Source: AGHT+IFyKvPJlqMmkikCryE4C7E/9ULLrvatoeDHnVDC15S/DMMPNW6Ki14KH16kihynzouwx+C3KQ==
+X-Received: by 2002:a81:8a82:0:b0:65f:80ed:683e with SMTP id 00721157ae682-65f80ed6975mr66161437b3.2.1721036523143;
+        Mon, 15 Jul 2024 02:42:03 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-65fc492c74csm7186167b3.144.2024.07.15.02.42.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Jul 2024 02:42:02 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-65fc94099a6so15061157b3.1;
+        Mon, 15 Jul 2024 02:42:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXPXPAQEVonpbhf9C7exa1w1pJrUZX0GW4NyUPwcsqyy+3bTAPepN8PlYS1+w9bNYh/vSi+J6W5Oewh7lrWqYBgEMzDpiRjgAz5KEvRxgGjgJGdF5VLEwhgWun61HP6EJQpb+csN1rQlTNaJ0bwNfybB+k1VIIXLiIqtzl4QqjRNCezHNbO+Fry5gf6623VuWyiXVGUmOoex0q5nvMaXasLHmf1ux/o
+X-Received: by 2002:a81:b64f:0:b0:63b:b3b8:e834 with SMTP id
+ 00721157ae682-658f09d3c58mr212121517b3.32.1721036521357; Mon, 15 Jul 2024
+ 02:42:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240627161315.98143-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240627161315.98143-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdVLSpaUtdXFv3VXFc5G61dmRX2C1iW9C+km23g6EgZJOg@mail.gmail.com>
+ <CA+V-a8vABF6vg+J7DAGzgnw8612oe6VfJkc5y-krySvnpAnPkQ@mail.gmail.com>
+ <CAMuHMdXuyQZ=SFfQa5kvZTwYa0uRXc7khJ-vOYBRE5SCd11rPw@mail.gmail.com>
+ <CA+V-a8ui9AKDOZzg_dgPXeGhGE-+rBHU8O1tpdb8w8myo-1p5Q@mail.gmail.com>
+ <CAMuHMdVyqBmipMLeYd0nw3kEHwc=RvWJvrD8EYKVt+36E7oS+A@mail.gmail.com> <CA+V-a8u_oMxG8QmmK=_y8z6O_H-22SyCkje-VrQVqHn4H=5oow@mail.gmail.com>
+In-Reply-To: <CA+V-a8u_oMxG8QmmK=_y8z6O_H-22SyCkje-VrQVqHn4H=5oow@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 15 Jul 2024 11:41:49 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX0XRC_gRW6qQEhW09zX+sv_njAznGN0i7UVgsy6gj_yw@mail.gmail.com>
+Message-ID: <CAMuHMdX0XRC_gRW6qQEhW09zX+sv_njAznGN0i7UVgsy6gj_yw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] clk: renesas: Add family-specific clock driver for RZ/V2H(P)
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add full duplex support, to support simultaneous
-playback/record on the same ssi channel.
+Hi Prabhakar,
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- sound/soc/sh/rz-ssi.c | 257 ++++++++++++++++++++++++++++++------------
- 1 file changed, 182 insertions(+), 75 deletions(-)
+On Mon, Jul 15, 2024 at 10:44=E2=80=AFAM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> On Fri, Jul 12, 2024 at 6:11=E2=80=AFPM Geert Uytterhoeven <geert@linux-m=
+68k.org> wrote:
+> > On Fri, Jul 12, 2024 at 5:29=E2=80=AFPM Lad, Prabhakar
+> > <prabhakar.csengg@gmail.com> wrote:
+> > > On Fri, Jul 12, 2024 at 4:23=E2=80=AFPM Geert Uytterhoeven <geert@lin=
+ux-m68k.org> wrote:
+> > > > On Fri, Jul 12, 2024 at 5:14=E2=80=AFPM Lad, Prabhakar
+> > > > <prabhakar.csengg@gmail.com> wrote:
+> > > > > On Fri, Jul 12, 2024 at 12:59=E2=80=AFPM Geert Uytterhoeven
+> > > > > > On Thu, Jun 27, 2024 at 6:14=E2=80=AFPM Prabhakar <prabhakar.cs=
+engg@gmail.com> wrote:
+> > > > > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > > >
+> > > > > > > Add family-specific clock driver for RZ/V2H(P) SoCs.
+> > > > > > >
+> > > > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.ren=
+esas.com>
+> > > > > > > ---
+> > > > > > > v2->v3
+> > > > > > > - Dropped num_hw_resets from struct rzv2h_cpg_priv
+> > > > > > > - Dropped range_check for module clocks
+> > > > > > > - Made mon_index to s8 instead of u8 in struct rzv2h_mod_clk
+> > > > > > > - Added support for critical module clocks with DEF_MOD_CRITI=
+CAL
+> > > > > > > - Added check for mon_index in rzv2h_mod_clock_endisable and
+> > > > > > >   rzv2h_mod_clock_is_enabled()
+> > > >
+> > > > > > > --- /dev/null
+> > > > > > > +++ b/drivers/clk/renesas/rzv2h-cpg.h
+> > > >
+> > > > > > > +/**
+> > > > > > > + * struct rzv2h_reset - Reset definitions
+> > > > > > > + *
+> > > > > > > + * @reset_index: reset register index
+> > > > > > > + * @reset_bit: reset bit
+> > > > > > > + * @mon_index: monitor register index
+> > > > > > > + * @mon_bit: monitor bit
+> > > > > > > + */
+> > > > > > > +struct rzv2h_reset {
+> > > > > > > +       u8 reset_index;
+> > > > > > > +       u8 reset_bit;
+> > > > > > > +       u8 mon_index;
+> > > > > > > +       u8 mon_bit;
+> > > > > > > +};
+> > > > > > > +
+> > > > > > > +#define RST_ID(x, y)   ((((x) * 16)) + (y))
+> > > > > > > +
+> > > > > > > +#define DEF_RST_BASE(_id, _resindex, _resbit, _monindex, _mo=
+nbit)      \
+> > > > > > > +       [_id] =3D { \
+> > > > > >
+> > > > > > Indexing by _id means the reset array will be very sparse.  E.g=
+. the
+> > > > > > innocent-looking r9a09g057_resets[] with only a single entry ta=
+kes
+> > > > > > 600 bytes.
+> > > > > >
+> > > > > > If you do need the full array for indexing, please allocate and
+> > > > > > populate it at runtime.
+> > > > > >
+> > > > > OK, I will use the radix tree for resets (is that OK)?
+> > > >
+> > > > You mean XArray? include/linux/radix-tree.h has:
+> > > >
+> > > >     /* Keep unconverted code working */
+> > > >     #define radix_tree_root         xarray
+> > > >     #define radix_tree_node         xa_node
+> > > >
+> > > Yes, I meant the above.
+> > >
+> > > > Given a single xa_node is already 576 bytes, just allocating the fu=
+ll
+> > > > linear reset array at runtime is probably better.
+> > > >
+> > > Agreed, I will create a linear reset array and loop through the array
+> > > based on reset index and reset bit to match with id whenever required=
+.
+> >
+> > With a full allocated linear reset array you do not need to loop,
+> > but you can just index it by the reset ID??
+> >
+> Instead of having a sparse array, to save memory I was thinking
+> something like below:
+>
+> /**
+>  * struct rzv2h_reset - Reset definitions
+>  *
+>  * @reset_index: reset register index
+>  * @reset_bit: reset bit
+>  * @mon_index: monitor register index
+>  * @mon_bit: monitor bit
+>  */
+> struct rzv2h_reset {
+>     u8 reset_index;
+>     u8 reset_bit;
+>     u8 mon_index;
+>     u8 mon_bit;
+> };
+>
+> #define DEF_RST_BASE(_resindex, _resbit, _monindex, _monbit)    \
+>     { \
+>         .reset_index =3D (_resindex), \
+>         .reset_bit =3D (_resbit), \
+>         .mon_index =3D (_monindex), \
+>         .mon_bit =3D (_monbit), \
+>     }
+>
+> #define DEF_RST(_resindex, _resbit, _monindex, _monbit)    \
+>     DEF_RST_BASE(_resindex, _resbit, _monindex, _monbit)
+>
+>
+> in rzv2h_cpg_probe() (.num_resets =3D ARRAY_SIZE(r9a09g057_resets))
+>
+>     resets =3D devm_kmalloc_array(dev, info->num_resets, sizeof(struct
+> rzv2h_reset), GFP_KERNEL);
+>     if (!resets)
+>         return -ENOMEM;
+>
+>     for (i =3D 0; i < priv->num_resets; i++)
+>         memcpy(&resets[i], &info->resets[i], sizeof(struct rzv2h_reset));
 
-diff --git a/sound/soc/sh/rz-ssi.c b/sound/soc/sh/rz-ssi.c
-index 9d103646973a..d0bf0487bf1b 100644
---- a/sound/soc/sh/rz-ssi.c
-+++ b/sound/soc/sh/rz-ssi.c
-@@ -52,6 +52,7 @@
- #define SSIFCR_RIE		BIT(2)
- #define SSIFCR_TFRST		BIT(1)
- #define SSIFCR_RFRST		BIT(0)
-+#define SSIFCR_FIFO_RST		(SSIFCR_TFRST | SSIFCR_RFRST)
- 
- #define SSIFSR_TDC_MASK		0x3f
- #define SSIFSR_TDC_SHIFT	24
-@@ -130,6 +131,14 @@ struct rz_ssi_priv {
- 	bool lrckp_fsync_fall;	/* LR clock polarity (SSICR.LRCKP) */
- 	bool bckp_rise;	/* Bit clock polarity (SSICR.BCKP) */
- 	bool dma_rt;
-+
-+	/* Full duplex communication support */
-+	struct {
-+		unsigned int rate;
-+		unsigned int channels;
-+		unsigned int sample_width;
-+		unsigned int sample_bits;
-+	} hw_params_cache;
- };
- 
- static void rz_ssi_dma_complete(void *data);
-@@ -208,6 +217,11 @@ static bool rz_ssi_stream_is_valid(struct rz_ssi_priv *ssi,
- 	return ret;
- }
- 
-+static inline bool rz_ssi_is_stream_running(struct rz_ssi_stream *strm)
-+{
-+	return strm->substream && strm->running;
-+}
-+
- static void rz_ssi_stream_init(struct rz_ssi_stream *strm,
- 			       struct snd_pcm_substream *substream)
- {
-@@ -303,13 +317,53 @@ static int rz_ssi_clk_setup(struct rz_ssi_priv *ssi, unsigned int rate,
- 	return 0;
- }
- 
-+static void rz_ssi_set_idle(struct rz_ssi_priv *ssi)
-+{
-+	int timeout;
-+
-+	/* Disable irqs */
-+	rz_ssi_reg_mask_setl(ssi, SSICR, SSICR_TUIEN | SSICR_TOIEN |
-+			     SSICR_RUIEN | SSICR_ROIEN, 0);
-+	rz_ssi_reg_mask_setl(ssi, SSIFCR, SSIFCR_TIE | SSIFCR_RIE, 0);
-+
-+	/* Clear all error flags */
-+	rz_ssi_reg_mask_setl(ssi, SSISR,
-+			     (SSISR_TOIRQ | SSISR_TUIRQ | SSISR_ROIRQ |
-+			      SSISR_RUIRQ), 0);
-+
-+	/* Wait for idle */
-+	timeout = 100;
-+	while (--timeout) {
-+		if (rz_ssi_reg_readl(ssi, SSISR) & SSISR_IIRQ)
-+			break;
-+		udelay(1);
-+	}
-+
-+	if (!timeout)
-+		dev_info(ssi->dev, "timeout waiting for SSI idle\n");
-+
-+	/* Hold FIFOs in reset */
-+	rz_ssi_reg_mask_setl(ssi, SSIFCR, 0,
-+			     SSIFCR_TFRST | SSIFCR_RFRST);
-+}
-+
- static int rz_ssi_start(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
- {
- 	bool is_play = rz_ssi_stream_is_play(ssi, strm->substream);
-+	bool is_full_duplex;
- 	u32 ssicr, ssifcr;
- 
-+	is_full_duplex = rz_ssi_is_stream_running(&ssi->playback) ||
-+		rz_ssi_is_stream_running(&ssi->capture);
- 	ssicr = rz_ssi_reg_readl(ssi, SSICR);
--	ssifcr = rz_ssi_reg_readl(ssi, SSIFCR) & ~0xF;
-+	ssifcr = rz_ssi_reg_readl(ssi, SSIFCR);
-+	if (!is_full_duplex) {
-+		ssifcr &= ~0xF;
-+	} else {
-+		rz_ssi_reg_mask_setl(ssi, SSICR, SSICR_TEN | SSICR_REN, 0);
-+		rz_ssi_set_idle(ssi);
-+		ssifcr &= ~SSIFCR_FIFO_RST;
-+	}
- 
- 	/* FIFO interrupt thresholds */
- 	if (rz_ssi_is_dma_enabled(ssi))
-@@ -322,10 +376,14 @@ static int rz_ssi_start(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
- 	/* enable IRQ */
- 	if (is_play) {
- 		ssicr |= SSICR_TUIEN | SSICR_TOIEN;
--		ssifcr |= SSIFCR_TIE | SSIFCR_RFRST;
-+		ssifcr |= SSIFCR_TIE;
-+		if (!is_full_duplex)
-+			ssifcr |= SSIFCR_RFRST;
- 	} else {
- 		ssicr |= SSICR_RUIEN | SSICR_ROIEN;
--		ssifcr |= SSIFCR_RIE | SSIFCR_TFRST;
-+		ssifcr |= SSIFCR_RIE;
-+		if (!is_full_duplex)
-+			ssifcr |= SSIFCR_TFRST;
- 	}
- 
- 	rz_ssi_reg_writel(ssi, SSICR, ssicr);
-@@ -337,7 +395,11 @@ static int rz_ssi_start(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
- 			      SSISR_RUIRQ), 0);
- 
- 	strm->running = 1;
--	ssicr |= is_play ? SSICR_TEN : SSICR_REN;
-+	if (is_full_duplex)
-+		ssicr |= SSICR_TEN | SSICR_REN;
-+	else
-+		ssicr |= is_play ? SSICR_TEN : SSICR_REN;
-+
- 	rz_ssi_reg_writel(ssi, SSICR, ssicr);
- 
- 	return 0;
-@@ -345,10 +407,12 @@ static int rz_ssi_start(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
- 
- static int rz_ssi_stop(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
- {
--	int timeout;
--
- 	strm->running = 0;
- 
-+	if (rz_ssi_is_stream_running(&ssi->playback) ||
-+	    rz_ssi_is_stream_running(&ssi->capture))
-+		return 0;
-+
- 	/* Disable TX/RX */
- 	rz_ssi_reg_mask_setl(ssi, SSICR, SSICR_TEN | SSICR_REN, 0);
- 
-@@ -356,30 +420,7 @@ static int rz_ssi_stop(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
- 	if (rz_ssi_is_dma_enabled(ssi))
- 		dmaengine_terminate_async(strm->dma_ch);
- 
--	/* Disable irqs */
--	rz_ssi_reg_mask_setl(ssi, SSICR, SSICR_TUIEN | SSICR_TOIEN |
--			     SSICR_RUIEN | SSICR_ROIEN, 0);
--	rz_ssi_reg_mask_setl(ssi, SSIFCR, SSIFCR_TIE | SSIFCR_RIE, 0);
--
--	/* Clear all error flags */
--	rz_ssi_reg_mask_setl(ssi, SSISR,
--			     (SSISR_TOIRQ | SSISR_TUIRQ | SSISR_ROIRQ |
--			      SSISR_RUIRQ), 0);
--
--	/* Wait for idle */
--	timeout = 100;
--	while (--timeout) {
--		if (rz_ssi_reg_readl(ssi, SSISR) & SSISR_IIRQ)
--			break;
--		udelay(1);
--	}
--
--	if (!timeout)
--		dev_info(ssi->dev, "timeout waiting for SSI idle\n");
--
--	/* Hold FIFOs in reset */
--	rz_ssi_reg_mask_setl(ssi, SSIFCR, 0,
--			     SSIFCR_TFRST | SSIFCR_RFRST);
-+	rz_ssi_set_idle(ssi);
- 
- 	return 0;
- }
-@@ -512,66 +553,90 @@ static int rz_ssi_pio_send(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
- 
- static irqreturn_t rz_ssi_interrupt(int irq, void *data)
- {
--	struct rz_ssi_stream *strm = NULL;
-+	struct rz_ssi_stream *strm_playback = NULL;
-+	struct rz_ssi_stream *strm_capture = NULL;
- 	struct rz_ssi_priv *ssi = data;
- 	u32 ssisr = rz_ssi_reg_readl(ssi, SSISR);
- 
- 	if (ssi->playback.substream)
--		strm = &ssi->playback;
--	else if (ssi->capture.substream)
--		strm = &ssi->capture;
--	else
-+		strm_playback = &ssi->playback;
-+	if (ssi->capture.substream)
-+		strm_capture = &ssi->capture;
-+
-+	if (!strm_playback && !strm_capture)
- 		return IRQ_HANDLED; /* Left over TX/RX interrupt */
- 
- 	if (irq == ssi->irq_int) { /* error or idle */
--		if (ssisr & SSISR_TUIRQ)
--			strm->uerr_num++;
--		if (ssisr & SSISR_TOIRQ)
--			strm->oerr_num++;
--		if (ssisr & SSISR_RUIRQ)
--			strm->uerr_num++;
--		if (ssisr & SSISR_ROIRQ)
--			strm->oerr_num++;
--
--		if (ssisr & (SSISR_TUIRQ | SSISR_TOIRQ | SSISR_RUIRQ |
--			     SSISR_ROIRQ)) {
--			/* Error handling */
--			/* You must reset (stop/restart) after each interrupt */
--			rz_ssi_stop(ssi, strm);
--
--			/* Clear all flags */
--			rz_ssi_reg_mask_setl(ssi, SSISR, SSISR_TOIRQ |
--					     SSISR_TUIRQ | SSISR_ROIRQ |
--					     SSISR_RUIRQ, 0);
--
--			/* Add/remove more data */
--			strm->transfer(ssi, strm);
--
--			/* Resume */
--			rz_ssi_start(ssi, strm);
-+		bool is_stopped = false;
-+		int i, count;
-+
-+		if (rz_ssi_is_dma_enabled(ssi))
-+			count = 4;
-+		else
-+			count = 1;
-+
-+		if (ssisr & (SSISR_RUIRQ | SSISR_ROIRQ | SSISR_TUIRQ | SSISR_TOIRQ))
-+			is_stopped = true;
-+
-+		if (ssi->capture.substream && is_stopped) {
-+			if (ssisr & SSISR_RUIRQ)
-+				strm_capture->uerr_num++;
-+			if (ssisr & SSISR_ROIRQ)
-+				strm_capture->oerr_num++;
-+
-+			rz_ssi_stop(ssi, strm_capture);
- 		}
-+
-+		if (ssi->playback.substream && is_stopped) {
-+			if (ssisr & SSISR_TUIRQ)
-+				strm_playback->uerr_num++;
-+			if (ssisr & SSISR_TOIRQ)
-+				strm_playback->oerr_num++;
-+
-+			rz_ssi_stop(ssi, strm_playback);
-+		}
-+
-+		/* Clear all flags */
-+		rz_ssi_reg_mask_setl(ssi, SSISR, SSISR_TOIRQ | SSISR_TUIRQ |
-+				     SSISR_ROIRQ | SSISR_RUIRQ, 0);
-+
-+		/* Add/remove more data */
-+		if (ssi->capture.substream && is_stopped) {
-+			for (i = 0; i < count; i++)
-+				strm_capture->transfer(ssi, strm_capture);
-+		}
-+
-+		if (ssi->playback.substream && is_stopped) {
-+			for (i = 0; i < count; i++)
-+				strm_playback->transfer(ssi, strm_playback);
-+		}
-+
-+		/* Resume */
-+		if (ssi->playback.substream && is_stopped)
-+			rz_ssi_start(ssi, &ssi->playback);
-+		if (ssi->capture.substream && is_stopped)
-+			rz_ssi_start(ssi, &ssi->capture);
- 	}
- 
--	if (!strm->running)
-+	if (!rz_ssi_is_stream_running(&ssi->playback) &&
-+	    !rz_ssi_is_stream_running(&ssi->capture))
- 		return IRQ_HANDLED;
- 
- 	/* tx data empty */
--	if (irq == ssi->irq_tx)
--		strm->transfer(ssi, &ssi->playback);
-+	if (irq == ssi->irq_tx && rz_ssi_is_stream_running(&ssi->playback))
-+		strm_playback->transfer(ssi, &ssi->playback);
- 
- 	/* rx data full */
--	if (irq == ssi->irq_rx) {
--		strm->transfer(ssi, &ssi->capture);
-+	if (irq == ssi->irq_rx && rz_ssi_is_stream_running(&ssi->capture)) {
-+		strm_capture->transfer(ssi, &ssi->capture);
- 		rz_ssi_reg_mask_setl(ssi, SSIFSR, SSIFSR_RDF, 0);
- 	}
- 
- 	if (irq == ssi->irq_rt) {
--		struct snd_pcm_substream *substream = strm->substream;
--
--		if (rz_ssi_stream_is_play(ssi, substream)) {
--			strm->transfer(ssi, &ssi->playback);
-+		if (ssi->playback.substream) {
-+			strm_playback->transfer(ssi, &ssi->playback);
- 		} else {
--			strm->transfer(ssi, &ssi->capture);
-+			strm_capture->transfer(ssi, &ssi->capture);
- 			rz_ssi_reg_mask_setl(ssi, SSIFSR, SSIFSR_RDF, 0);
- 		}
- 	}
-@@ -731,9 +796,12 @@ static int rz_ssi_dai_trigger(struct snd_pcm_substream *substream, int cmd,
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_START:
- 		/* Soft Reset */
--		rz_ssi_reg_mask_setl(ssi, SSIFCR, 0, SSIFCR_SSIRST);
--		rz_ssi_reg_mask_setl(ssi, SSIFCR, SSIFCR_SSIRST, 0);
--		udelay(5);
-+		if (!rz_ssi_is_stream_running(&ssi->playback) &&
-+		    !rz_ssi_is_stream_running(&ssi->capture)) {
-+			rz_ssi_reg_mask_setl(ssi, SSIFCR, 0, SSIFCR_SSIRST);
-+			rz_ssi_reg_mask_setl(ssi, SSIFCR, SSIFCR_SSIRST, 0);
-+			udelay(5);
-+		}
- 
- 		rz_ssi_stream_init(strm, substream);
- 
-@@ -824,14 +892,41 @@ static int rz_ssi_dai_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- 	return 0;
- }
- 
-+static bool rz_ssi_is_valid_hw_params(struct rz_ssi_priv *ssi, unsigned int rate,
-+				      unsigned int channels,
-+				      unsigned int sample_width,
-+				      unsigned int sample_bits)
-+{
-+	if (ssi->hw_params_cache.rate != rate ||
-+	    ssi->hw_params_cache.channels != channels ||
-+	    ssi->hw_params_cache.sample_width != sample_width ||
-+	    ssi->hw_params_cache.sample_bits != sample_bits)
-+		return false;
-+
-+	return true;
-+}
-+
-+static void rz_ssi_cache_hw_params(struct rz_ssi_priv *ssi, unsigned int rate,
-+				   unsigned int channels,
-+				   unsigned int sample_width,
-+				   unsigned int sample_bits)
-+{
-+	ssi->hw_params_cache.rate = rate;
-+	ssi->hw_params_cache.channels = channels;
-+	ssi->hw_params_cache.sample_width = sample_width;
-+	ssi->hw_params_cache.sample_bits = sample_bits;
-+}
-+
- static int rz_ssi_dai_hw_params(struct snd_pcm_substream *substream,
- 				struct snd_pcm_hw_params *params,
- 				struct snd_soc_dai *dai)
- {
- 	struct rz_ssi_priv *ssi = snd_soc_dai_get_drvdata(dai);
-+	struct rz_ssi_stream *strm = rz_ssi_stream_get(ssi, substream);
- 	unsigned int sample_bits = hw_param_interval(params,
- 					SNDRV_PCM_HW_PARAM_SAMPLE_BITS)->min;
- 	unsigned int channels = params_channels(params);
-+	unsigned int rate = params_rate(params);
- 
- 	if (sample_bits != 16) {
- 		dev_err(ssi->dev, "Unsupported sample width: %d\n",
-@@ -845,8 +940,20 @@ static int rz_ssi_dai_hw_params(struct snd_pcm_substream *substream,
- 		return -EINVAL;
- 	}
- 
--	return rz_ssi_clk_setup(ssi, params_rate(params),
--				params_channels(params));
-+	if (rz_ssi_is_stream_running(&ssi->playback) ||
-+	    rz_ssi_is_stream_running(&ssi->capture)) {
-+		if (rz_ssi_is_valid_hw_params(ssi, rate, channels,
-+					      strm->sample_width, sample_bits))
-+			return 0;
-+
-+		dev_err(ssi->dev, "Full duplex needs same HW params\n");
-+		return -EINVAL;
-+	}
-+
-+	rz_ssi_cache_hw_params(ssi, rate, channels, strm->sample_width,
-+			       sample_bits);
-+
-+	return rz_ssi_clk_setup(ssi, rate, channels);
- }
- 
- static const struct snd_soc_dai_ops rz_ssi_dai_ops = {
--- 
-2.43.0
+You can combine both using devm_kmemdup().
 
+> And have the below xlate function that will convert id into index ie
+> index into rests array.
+>
+> static int rzv2h_get_reset_index(struct rzv2h_cpg_priv *priv,
+>                  unsigned long id)
+> {
+>     u8 reset_index =3D id / 16;
+>     u8 reset_bit =3D id % 16;
+>     unsigned int i;
+>
+>     for (i =3D 0; i < priv->num_resets; i++) {
+>         if (priv->resets[i].reset_index =3D=3D reset_index &&
+>             priv->resets[i].reset_bit =3D=3D reset_bit)
+>             return i;
+>     }
+>
+>     return -EINVAL;
+> }
+>
+> static int rzv2h_cpg_reset_xlate(struct reset_controller_dev *rcdev,
+>                  const struct of_phandle_args *reset_spec)
+> {
+>     struct rzv2h_cpg_priv *priv =3D rcdev_to_priv(rcdev);
+>     unsigned int id =3D reset_spec->args[0];
+>     int index =3D rzv2h_get_reset_index(priv, id);
+>
+>     if (index < 0) {
+>         dev_err(rcdev->dev, "Invalid reset index %u\n", id);
+>         return -EINVAL;
+>     }
+>
+>     return index;
+> }
+>
+>
+> rzv2h_cpg_assert() and rzv2h_cpg_deassert() which will use an id that
+> can directly index into resets[] array.
+>
+> Please let me know if this is OK.
+
+That would work, too, at the expense of needing a loop for look-up
+(traditional trade-off between memory and time ;-)
+But look-up is only done once (per device), so that should be fine.
+
+It all depends on how many resets you will end up using...
+Memory allocation also has a granularity, so once you have more
+than a specific number of resets, you better use a sparse array,
+and simple indexing.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
