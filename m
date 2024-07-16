@@ -1,102 +1,181 @@
-Return-Path: <linux-renesas-soc+bounces-7378-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7379-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67B9B9332FE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jul 2024 22:35:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 726E4933438
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jul 2024 00:28:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2210E2846DC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jul 2024 20:35:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 276B61F21B41
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jul 2024 22:28:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80FB63B784;
-	Tue, 16 Jul 2024 20:35:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84E821428F2;
+	Tue, 16 Jul 2024 22:28:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cDC7eTFW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hce1rIEZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2488B1CD20
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Jul 2024 20:35:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C13613D262;
+	Tue, 16 Jul 2024 22:28:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721162120; cv=none; b=eV8cBslUh11rCe9vtUDrtubb6/3MDWViYNf/p9ZCWbky9wAhdZLqchD+GdBVUXTWx7DVlhHS1fA2/SxdcBtEaXZI4EtfrWGyO0a5FKCgMgi6FfTQ0sTr98gVuNB7Xjrytc+jN9u1/H8KCAIY9V2D3Dsyv0N4x7uLaVJHDepbuAc=
+	t=1721168888; cv=none; b=ajIVOJwFWDVTqlz4L0HBxz9dKq+upz6B4zteSgYqoOpc0T4ZH/XaGMQ4k7JAXGpIe3jAXzaPQRw7HDymw0D0MQL6uh6yDaKeCdxGYR42XjfFQJM1jjbOUJ8P18zmRKySvOGcPYRoEtg7Vdv1jw9qqeQn8dUivwmlq12ySTiyPCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721162120; c=relaxed/simple;
-	bh=r4pKorBlov4DYcIhbd+8QFGUWoB8HHosaWo7epdhY+Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FiVihk0Dr8ji3D8V9IDI6UVLWj6FzfquTlWl+MZ1+ckreRWAWoE4PKJgJhw+MCLOok6gTWz2VRdzcHy2QuMbwSPftupcAjvXRDqx/eLmnllQzsNQJoRYmaF0adFXoow+IapLsT4Uka9H73xt3d5XyCWwxkqOtim1JHSCTKUZIXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cDC7eTFW; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721162118; x=1752698118;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=r4pKorBlov4DYcIhbd+8QFGUWoB8HHosaWo7epdhY+Y=;
-  b=cDC7eTFWhSpr5xm6nYhOgVwzYSDsld0IAWFpPXN2FGNMpGZVJ9QWZ5Re
-   mEbBxQjTGItV/ks0QuwVxLd/GBmnoYud9/N1FkDQ0ifY9YRGxRdVmSOzF
-   wEhXI5YsqGx+Iyz8BUtuCUvoDsbedwV4MMxB/vrvwZhTc4OXP3r+46q8t
-   lT/Evtbp38l04Xq+GUzRINC2P34VvbStGqXrfNLnD/IUmtgSqXffHo5sH
-   8nSjgLIwQp1QNl9Wfn97v5mQQeFb1wiyUkBEfAWknNP7gsljSuXT2e35C
-   1HlLxjO9GJW3dAuRjEkewsuq/uCxJa2BlUv843heIOJ00LqgC4NEeweH+
-   g==;
-X-CSE-ConnectionGUID: 0yWUkPRbQnqeLHXm6iD24g==
-X-CSE-MsgGUID: +c9o2ljpQ4mWzF2BP2XzEg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11135"; a="36072240"
-X-IronPort-AV: E=Sophos;i="6.09,212,1716274800"; 
-   d="scan'208";a="36072240"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2024 13:35:18 -0700
-X-CSE-ConnectionGUID: Efn8ZzuCRe2HYwv5by6N6A==
-X-CSE-MsgGUID: Viz70Wk7RiGoAO69/0WpDA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,212,1716274800"; 
-   d="scan'208";a="55294094"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 16 Jul 2024 13:35:17 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sTotF-000fec-2F;
-	Tue, 16 Jul 2024 20:35:13 +0000
-Date: Wed, 17 Jul 2024 04:34:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:topic/rcar4-fractional-pll-improvements-v1
- 19/28] rcar-gen4-cpg.c:undefined reference to `__udivdi3'
-Message-ID: <202407170431.6qjpdi1L-lkp@intel.com>
+	s=arc-20240116; t=1721168888; c=relaxed/simple;
+	bh=NfPZkGC+r85TH2hak7B3uZ5xb2lxTRsz0Snd8QaZPZA=;
+	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
+	 Subject:From:Cc:To:Date; b=Qr/b1DfmA5errGWbnrYXEMM54AoCZQiQBF0jEFetK3lLGIMU1xvAdWhXOR73yY/CXJMq8sW2KJ8efwBILdA9+xz/UcLL8PvEf2OAvCRiyPycJH7WIWOy5GbIZj9Vo7zYmS1kuezi4iHdGNryZm+yGyzbaHGBDTNuJ8y/HPkXtVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hce1rIEZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7C32C116B1;
+	Tue, 16 Jul 2024 22:28:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721168887;
+	bh=NfPZkGC+r85TH2hak7B3uZ5xb2lxTRsz0Snd8QaZPZA=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=Hce1rIEZ0Thyin4pnSSKLVdjqAvQt5o4Bi8Wljh+Q4reiza4WyXEcCRTWY+Z3l6iF
+	 yziZSPyhD3Y05kE8JY+eHXFL3qoH4h8/TUFDFWa+BkQe5w41h3WMkO7R5Ji55Hd4gn
+	 D1eXAIgPvKD4LltPe4u+48sJnfTki9tQqM1Pe3U/e5KEHLp++QOpzlpzm0RNg1p2cI
+	 X21mE4Px7LjIdWjLAkbqg97IMG4ri907ymCqjEjQLG60JAj94NbqyiWJ98r3kGhV9U
+	 v0L0F7+GfRqT5g+WKvPkjPxgtq+egE6G/63jwYwCFbhHOKJSKYrYYkWiRWRlVHB9ZZ
+	 0YT9Jt4a4HwEA==
+Message-ID: <2abcd440664067d95b1ac0e765ad55a3.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240716103025.1198495-4-claudiu.beznea.uj@bp.renesas.com>
+References: <20240716103025.1198495-1-claudiu.beznea.uj@bp.renesas.com> <20240716103025.1198495-4-claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH v2 03/11] clk: renesas: clk-vbattb: Add VBATTB clock driver
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, claudiu.beznea@tuxon.dev, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+To: Claudiu <claudiu.beznea@tuxon.dev>, alexandre.belloni@bootlin.com, conor+dt@kernel.org, geert+renesas@glider.be, krzk+dt@kernel.org, lee@kernel.org, magnus.damm@gmail.com, mturquette@baylibre.com, p.zabel@pengutronix.de, robh@kernel.org
+Date: Tue, 16 Jul 2024 15:28:05 -0700
+User-Agent: alot/0.10
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/rcar4-fractional-pll-improvements-v1
-head:   f5a672b0ed67fa75083e13e5f82832cbe7a55e20
-commit: 4557d64e7540f8fe383458738b45f317e2235f7b [19/28] clk: renesas: rcar-gen4: Add support for fractional multiplication
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240717/202407170431.6qjpdi1L-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240717/202407170431.6qjpdi1L-lkp@intel.com/reproduce)
+Quoting Claudiu (2024-07-16 03:30:17)
+> diff --git a/drivers/clk/renesas/clk-vbattb.c b/drivers/clk/renesas/clk-v=
+battb.c
+> new file mode 100644
+> index 000000000000..8effe141fc0b
+> --- /dev/null
+> +++ b/drivers/clk/renesas/clk-vbattb.c
+> @@ -0,0 +1,212 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * VBATTB clock driver
+> + *
+> + * Copyright (C) 2024 Renesas Electronics Corp.
+> + */
+> +
+> +#include <linux/cleanup.h>
+> +#include <linux/clk.h>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407170431.6qjpdi1L-lkp@intel.com/
+Prefer clk providers to not be clk consumers.
 
-All errors (new ones prefixed by >>):
+> +#include <linux/clk-provider.h>
+> +#include <linux/device.h>
+> +#include <linux/io.h>
+> +#include <linux/of.h>
+> +#include <linux/of_platform.h>
 
-   m68k-linux-ld: drivers/clk/renesas/rcar-gen4-cpg.o: in function `cpg_pll_8_25_clk_determine_rate':
->> rcar-gen4-cpg.c:(.text+0x126): undefined reference to `__udivdi3'
-   m68k-linux-ld: drivers/clk/renesas/rcar-gen4-cpg.o: in function `cpg_pll_8_25_clk_set_rate':
-   rcar-gen4-cpg.c:(.text+0x254): undefined reference to `__udivdi3'
+Is of_platform.h used?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Include mod_devicetable.h for of_device_id.
+
+> +#include <linux/platform_device.h>
+> +
+> +#define VBATTB_BKSCCR                  0x0
+> +#define VBATTB_BKSCCR_SOSEL            BIT(6)
+> +#define VBATTB_SOSCCR2                 0x8
+> +#define VBATTB_SOSCCR2_SOSTP2          BIT(0)
+[..]
+> +
+> +static int vbattb_clk_probe(struct platform_device *pdev)
+> +{
+> +       struct device_node *np =3D pdev->dev.of_node;
+> +       struct clk_parent_data parent_data =3D {};
+> +       struct device *dev =3D &pdev->dev;
+> +       struct clk_init_data init =3D {};
+> +       struct vbattb_clk *vbclk;
+> +       u32 load_capacitance;
+> +       struct clk_hw *hw;
+> +       int ret, bypass;
+> +
+> +       vbclk =3D devm_kzalloc(dev, sizeof(*vbclk), GFP_KERNEL);
+> +       if (!vbclk)
+> +               return -ENOMEM;
+> +
+> +       vbclk->base =3D devm_platform_ioremap_resource(pdev, 0);
+> +       if (IS_ERR(vbclk->base))
+> +               return PTR_ERR(vbclk->base);
+> +
+> +       bypass =3D vbattb_clk_need_bypass(dev);
+
+This is a tri-state bool :(
+
+> +       if (bypass < 0) {
+> +               return bypass;
+> +       } else if (bypass) {
+> +               parent_data.fw_name =3D "clkin";
+> +               bypass =3D VBATTB_BKSCCR_SOSEL;
+
+And now it is a mask value.
+
+> +       } else {
+> +               parent_data.fw_name =3D "xin";
+> +       }
+> +
+> +       ret =3D of_property_read_u32(np, "renesas,vbattb-load-nanofarads"=
+, &load_capacitance);
+> +       if (ret)
+> +               return ret;
+> +
+> +       ret =3D vbattb_clk_validate_load_capacitance(vbclk, load_capacita=
+nce);
+> +       if (ret)
+> +               return ret;
+> +
+> +       vbattb_clk_update_bits(vbclk->base, VBATTB_BKSCCR, VBATTB_BKSCCR_=
+SOSEL, bypass);
+
+Please don't overload 'bypass'. Use two variables or a conditional.
+
+I also wonder if this is really a mux, and either assigned-clock-parents
+should be used, or the clk_ops should have an init routine that looks at
+which parent is present by determining the index and then use that to
+set the mux. The framework can take care of failing to set the other
+parent when it isn't present.
+
+> +
+> +       spin_lock_init(&vbclk->lock);
+> +
+> +       init.name =3D "vbattclk";
+> +       init.ops =3D &vbattb_clk_ops;
+> +       init.parent_data =3D &parent_data;
+> +       init.num_parents =3D 1;
+> +       init.flags =3D 0;
+> +
+> +       vbclk->hw.init =3D &init;
+> +       hw =3D &vbclk->hw;
+> +
+> +       ret =3D devm_clk_hw_register(dev, hw);
+> +       if (ret)
+> +               return ret;
+> +
+> +       return of_clk_add_hw_provider(np, of_clk_hw_simple_get, hw);
+> +}
+> +
+> +static const struct of_device_id vbattb_clk_match[] =3D {
+> +       { .compatible =3D "renesas,r9a08g045-vbattb-clk" },
+> +       { /* sentinel */ }
+> +};
+
+Any MODULE_DEVICE_TABLE?
 
