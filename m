@@ -1,100 +1,104 @@
-Return-Path: <linux-renesas-soc+bounces-7380-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7381-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7757693349E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jul 2024 01:37:27 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29E579334E6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jul 2024 03:12:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 20A741F23B14
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jul 2024 23:37:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 52AE21C21142
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jul 2024 01:12:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6BE51411EB;
-	Tue, 16 Jul 2024 23:37:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85253812;
+	Wed, 17 Jul 2024 01:12:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VuYZ4zVt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I6HD85fo"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8244213DDD0
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Jul 2024 23:37:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB23803
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Jul 2024 01:12:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721173045; cv=none; b=AtfMGK+AycHMVyPI2aRJDfxM/Iw9B3Hx0CGsgJLSe6yDq7hUJA6Kqg6eRbreKW2fWI6JZHXUFXVPOdAiwP2yA96kd3AtYrfGXOOr+RITRTSRhSnDSUB9RFyP2naHKY1I/gyjpuqI7wHbNws1rVZfEIL0hHfM4HT98dlP1mUIumQ=
+	t=1721178754; cv=none; b=Q6FvDmCDPUJnUmwryNstFFwAQxfwFplJi/OaLqoaH/Ul0RM/IkHz2+BzxRb1PKwUVi1mr5GHEW/4TU5aNYUR/XdlrFVvFW/MVj2bw3XTr8UqHLLkM2ijyJvCuQ/7UiMRVGJ8WDZWvmoBajf7Imu391lHKJdaDI4/AilZa36jrzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721173045; c=relaxed/simple;
-	bh=dcpnnFzAvFbvIgk3soPbFwdzymIoxEjwc2BnCmbLdWY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jjgHVtN4GZncfMidSlXHOgcVcsYxQEySU80gJELQKqu3COsS9f/STVOs65CUfnz91FwEFqa6sGe9lqGHv+JOA1JHjA80DBswOR1vnOiLmPGKmMj4j878sd5ZzpI+/TjIpxW5BU7u5bCNDplQzNwmD0j/hZDl0sDhkwbPTQa67kI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VuYZ4zVt; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1721178754; c=relaxed/simple;
+	bh=skpdYwTMjlCpknJKF99XqcckCZKkYAMVeLOMwZ+jG5M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DjTvqRDszO5ksW4aTEJ32N18JgvT+AcrA/GhYNF5dA/emsbk13d9N05JUsnuVhCGFr0pF/l384y4i0eyvYIeXBdCCNRWmMRp8/rcu7Gk52OlHzFVS6vFq4EXs0g1yxkJn/TRe1gXIb5QJoDHdo44sqBpUVW9EB+hn7MAXyACESw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I6HD85fo; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721173043; x=1752709043;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dcpnnFzAvFbvIgk3soPbFwdzymIoxEjwc2BnCmbLdWY=;
-  b=VuYZ4zVtXIA7IKQPngCT0HD/GZSm72rfyCk0wXQAjF2we3wkWYpa+FiU
-   da2/GtwKykJzHNdgkMul1zyP0seIB3BX9DEPqc7JeX+pQOfBU+udx0bWk
-   3ciJtFJk/o0SCdtATbnQR+Lv4i9zF/3Za75jVu4iiwFk34bVaUoskro/M
-   9X1Bd04EIRIZNlWI2ZfYUCf01PjZjwmwbr5sQSADwxNb3qHM/r+VqXnhR
-   Oyr8guHdojglk8B5chv8tERKXF68bMFbIguneMFTIZRqkLJpCd+kyQK8M
-   nuA8xIxJKKTeWOzwwdONa4nNQVvG09zWmlNEefFdHJPCTxgV35vtV+krR
+  t=1721178753; x=1752714753;
+  h=date:from:to:cc:subject:message-id;
+  bh=skpdYwTMjlCpknJKF99XqcckCZKkYAMVeLOMwZ+jG5M=;
+  b=I6HD85fo+9KRpp3Ji+ChXmhv9XLUUdyQ+1DY4JOHxoN2/GFvWXiADAYU
+   iAgfLJtFwm0K07zpJRq3jMOM+wgNF0AmRTKSkLH8scEr9uVYdT4wxc7T5
+   C/Y2pVGvBIqv1CQO+EKGYvd9IaFDkDBlM7X9j7bC0svgB/yw08X0cP/Qq
+   /WZwDbhvDRz/2TZupoqHYM9skem/Zg6fM/dqaFVPNdnkPUJ82SAfOHRse
+   HoRx0/NT0Jc6G+hoNpm1nG5RnfqzjV1hyyA0/yA8ZIEHmVOorARWS+6B8
+   Y9c+3p25uXeYcFgsNTUt8XC9BVCPA9wr1Yz2UXjytJ+W+aArLG34GcDQd
    g==;
-X-CSE-ConnectionGUID: 4uU6ADaaTKO6cW5bo0tE2A==
-X-CSE-MsgGUID: JUZE5LCDTSOTyFy2g+imSA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11135"; a="18460896"
-X-IronPort-AV: E=Sophos;i="6.09,212,1716274800"; 
-   d="scan'208";a="18460896"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2024 16:37:23 -0700
-X-CSE-ConnectionGUID: foTrTlqLQDi2JTAGVsRZZg==
-X-CSE-MsgGUID: xMxYaU3+TKiFZ0EqkukmKw==
+X-CSE-ConnectionGUID: xFGKRkGNSkqewVt610ZG2A==
+X-CSE-MsgGUID: wL4f4jVQQuOrDPQAS9WF3w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11135"; a="18767641"
+X-IronPort-AV: E=Sophos;i="6.09,213,1716274800"; 
+   d="scan'208";a="18767641"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2024 18:12:32 -0700
+X-CSE-ConnectionGUID: AinGAieCR8myH/mGpiTkXg==
+X-CSE-MsgGUID: BSo9jKWJSEO2MoGUjG4RQA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,212,1716274800"; 
-   d="scan'208";a="50066499"
+X-IronPort-AV: E=Sophos;i="6.09,213,1716274800"; 
+   d="scan'208";a="50145028"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 16 Jul 2024 16:37:22 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 16 Jul 2024 18:12:30 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sTrjT-000fm2-2q;
-	Tue, 16 Jul 2024 23:37:19 +0000
-Date: Wed, 17 Jul 2024 07:37:13 +0800
+	id 1sTtDY-000fpo-1P;
+	Wed, 17 Jul 2024 01:12:28 +0000
+Date: Wed, 17 Jul 2024 09:11:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:topic/rcar4-fractional-pll-improvements-v1
- 19/28] rcar-gen4-cpg.c:undefined reference to `__aeabi_uldivmod'
-Message-ID: <202407170751.LGZlPmUL-lkp@intel.com>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:renesas-dts-for-v6.12] BUILD SUCCESS
+ 9a1246fb7fb0bf35bb0bb7f36c8c9a4b724121ce
+Message-ID: <202407170948.GWH7x2Xx-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/rcar4-fractional-pll-improvements-v1
-head:   f5a672b0ed67fa75083e13e5f82832cbe7a55e20
-commit: 4557d64e7540f8fe383458738b45f317e2235f7b [19/28] clk: renesas: rcar-gen4: Add support for fractional multiplication
-config: arm-randconfig-001-20240717 (https://download.01.org/0day-ci/archive/20240717/202407170751.LGZlPmUL-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240717/202407170751.LGZlPmUL-lkp@intel.com/reproduce)
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dts-for-v6.12
+branch HEAD: 9a1246fb7fb0bf35bb0bb7f36c8c9a4b724121ce  arm64: dts: renesas: r8a779h0: Add missing iommus properties
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407170751.LGZlPmUL-lkp@intel.com/
+elapsed time: 733m
 
-All errors (new ones prefixed by >>):
+configs tested: 13
+configs skipped: 132
 
-   arm-linux-gnueabi-ld: drivers/clk/renesas/rcar-gen4-cpg.o: in function `cpg_pll_8_25_clk_set_rate':
->> rcar-gen4-cpg.c:(.text+0x29a): undefined reference to `__aeabi_uldivmod'
-   arm-linux-gnueabi-ld: drivers/clk/renesas/rcar-gen4-cpg.o: in function `cpg_pll_8_25_clk_determine_rate':
-   rcar-gen4-cpg.c:(.text+0x392): undefined reference to `__aeabi_uldivmod'
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+arm                              allmodconfig   gcc-14.1.0
+arm                               allnoconfig   clang-19
+arm                              allyesconfig   gcc-14.1.0
+arm                   randconfig-001-20240717   gcc-14.1.0
+arm                   randconfig-002-20240717   gcc-14.1.0
+arm                   randconfig-003-20240717   gcc-14.1.0
+arm                   randconfig-004-20240717   clang-19
+arm64                            allmodconfig   clang-19
+arm64                             allnoconfig   gcc-14.1.0
+arm64                 randconfig-001-20240717   gcc-14.1.0
+arm64                 randconfig-002-20240717   clang-19
+arm64                 randconfig-003-20240717   clang-16
+arm64                 randconfig-004-20240717   clang-19
 
 -- 
 0-DAY CI Kernel Test Service
