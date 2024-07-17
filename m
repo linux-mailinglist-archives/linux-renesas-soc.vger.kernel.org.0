@@ -1,212 +1,134 @@
-Return-Path: <linux-renesas-soc+bounces-7393-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7394-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D37F8933D9B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jul 2024 15:29:38 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C28C933DD3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jul 2024 15:42:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 10DBD1C221ED
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jul 2024 13:29:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 35445284093
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jul 2024 13:42:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 920EF17FADC;
-	Wed, 17 Jul 2024 13:29:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73369180A6F;
+	Wed, 17 Jul 2024 13:42:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W+97cxOm"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pbvj/YA1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 661EC17E8FA;
-	Wed, 17 Jul 2024 13:29:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 341ED180A60;
+	Wed, 17 Jul 2024 13:42:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721222975; cv=none; b=AxIF3vqjY8sX9zHa3ovtuyWk8HHf2/ahYmwzzSOhjx9/nRn1UlxcIpmtJnacdx0kuebFGvUTOSuU40EhDSJJari9mMHJeWkJp6ZthEYJ5I7z3n0RQK8x3FIAebEIFseEKmQ4kv9TphALg3lCjsOhQp6RiRv84z7r6/ycZERBIoY=
+	t=1721223769; cv=none; b=nH4Ds2aKv2Bdq37RH1XsB6PrB9ITLmkgBZkTIE4DY2dR2ydfzLIz7sI0cyHbK/1+bMbxCHfszckW928eCWSyOWwYniY5Sly7Fvxa4otvE2qvgtqcD15KGoYda1BiybtKDiUaRrR5q4iBM+dc2DyX2EWdkyIkna4zGpiEZbdQiM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721222975; c=relaxed/simple;
-	bh=YQ6l5cI7YXYE0o/kYF2+JwI6tetVX1FjRrXMMaCr4Es=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iAtbA58NmZwOznFblCgRsQmfG3oHXPt1gLZKGdPfc3HIanrSTdkkQPcBkQOVh3wBMlE/KdI6XdriklaWxhqfDDWMJ/ReYjXdwXTVQDcCBvc968DBBMY/YD7ld85ZJCEOVE83VlnnfaBSnQLmGnnMfvA213mJW88ExwC0x5L4pdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W+97cxOm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9CA3C32782;
-	Wed, 17 Jul 2024 13:29:32 +0000 (UTC)
+	s=arc-20240116; t=1721223769; c=relaxed/simple;
+	bh=b6M2u0O/VcQWX4e8CRgM/0cmwdYjHB7jwSQO7Cq366U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mDtSeqXCDYSKoxsl3wUaGmGrFtH2MwvcaMHaTLDvFfowpBzIFXl6okcZd/N29AMq8SwpFunjKvvZaFH2U8GN5idcf6ae9ULbt7BEKBcsOwOQAi5SsciHT4wrlxkbNEs3mYcp4hRzxDjHs+Az+t/mV/aImYcBubjFuqjAG33ZYew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pbvj/YA1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87E96C32782;
+	Wed, 17 Jul 2024 13:42:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721222975;
-	bh=YQ6l5cI7YXYE0o/kYF2+JwI6tetVX1FjRrXMMaCr4Es=;
-	h=From:To:Cc:Subject:Date:From;
-	b=W+97cxOmuKI9hdL9xkKNeVX31I3x/EYwg5GZW1Bjm/nrA7+LCA8d4B9GQBajn/gm3
-	 LPTDWi2kZdwxeUaa1PdHiiPPD8vlaIm+GfRC183XHbFSUI/d0jhLgInuTGhWiVyEau
-	 ph2qNorzT+21ln+XMPl9sD1L8x/FC+i6bScA672ujqVC4t3i6lIsxF9nqKeeqAcrWJ
-	 aCOghHARZbKCn2GwlokCWXdQCzPd5sqqnTSNAoWr3O9P0FvTs6K52cge4ljWIaaBoe
-	 E4sk9dJJqmPHsv5LMbS6waPYChe1vqkTbBjFdxak0Oy6t+0SUoL4C6nlKJDWAkRuwf
-	 cJ059Z6JSmMhw==
-From: Conor Dooley <conor@kernel.org>
-To: linux-riscv@lists.infradead.org
-Cc: conor@kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v1] RISC-V: run savedefconfig for defconfig
-Date: Wed, 17 Jul 2024 14:29:24 +0100
-Message-ID: <20240717-shrubs-concise-51600886babf@spud>
-X-Mailer: git-send-email 2.43.0
+	s=k20201202; t=1721223769;
+	bh=b6M2u0O/VcQWX4e8CRgM/0cmwdYjHB7jwSQO7Cq366U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pbvj/YA1Gs/hjRDC0IXr3+tRYix4k2pKaNUcxopwUOt2F3ENxPAeCd7DoRcMp7O0B
+	 UtRs91T42G/Tgpa0EcWDxZUv+lc0rM4ypbkFy3zjVSDe8hbjRV8lOGcgAAws7/rWT2
+	 hMWfV99wFXGsid9gYH9JPJe+Gwp7nsq2+Ti798NJ4mv4beRMWBtHXM07O8c+D1ncb5
+	 3Na3BkeEPeVECGuoDdhPLJch/+W5um8v4lCcvbzDZnLj51nlSj0p8xOEqgfiFUbvG+
+	 3zkYm6sbagImtoDSlJXsv9/nR27VdgbTGY8ixgsZkEWeJB/1U5WF01yc3llYodPJSe
+	 LpWYqd26vKK/g==
+Date: Wed, 17 Jul 2024 15:42:46 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, Lucas Stach <l.stach@pengutronix.de>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Paul Cercueil <paul@crapouillou.net>, Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
+	Edmund Dea <edmund.j.dea@intel.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Andy Yan <andy.yan@rock-chips.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Jyri Sarha <jyri.sarha@iki.fi>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Rob Clark <robdclark@gmail.com>, 
+	Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org, igt-dev@lists.freedesktop.org, 
+	freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v4 2/5] drm/drm_property: require DRM_MODE_PROP_IMMUTABLE
+ for single-value props
+Message-ID: <20240717-bouncy-horned-mamba-5691b8@houat>
+References: <20240715-drm-bridge-connector-fix-hdmi-reset-v4-0-61e6417cfd99@linaro.org>
+ <20240715-drm-bridge-connector-fix-hdmi-reset-v4-2-61e6417cfd99@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3914; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=jCFQHxaVV64m1uEzxmaK5W8JzwULgV2ZW1IVTbFyuYA=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDGnTj5v8Fd8WySamaB7wnFPwpdyUTbutPifrT9B/75nx9 4eO5ivBjlIWBjEOBlkxRZbE230tUuv/uOxw7nkLM4eVCWQIAxenAEzkGxMjw8MNa288yNa9Yyd3 84Qk/xThB2VFDHUGaX3PZIX+9b2bOI+RYVakpBDX9kYWTd3Lx3buvRmmlih/ZuqeuiNplZ+yzu2 bwwEA
-X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6ldj6ctz25xj6y7b"
+Content-Disposition: inline
+In-Reply-To: <20240715-drm-bridge-connector-fix-hdmi-reset-v4-2-61e6417cfd99@linaro.org>
 
-From: Conor Dooley <conor.dooley@microchip.com>
 
-It's been a while since this was run, and there's a few things that have
-changed. Firstly, almost all of the Renesas stuff vanishes because the
-config for the RZ/Five is gated behind NONPORTABLE. Several options
-(like CONFIG_PM) are removed as they are the default values.
+--6ldj6ctz25xj6y7b
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-To retain DEFVFREQ_THERMAL and BLK_DEV_THROTTLING, add PM_DEVFREQ and
-BLK_CGROUP respectively.
+Hi,
 
-Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
----
-CC: Paul Walmsley <paul.walmsley@sifive.com>
-CC: Palmer Dabbelt <palmer@dabbelt.com>
-CC: Albert Ou <aou@eecs.berkeley.edu>
-CC: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>
-CC: linux-renesas-soc@vger.kernel.org
-CC: linux-riscv@lists.infradead.org
-CC: linux-kernel@vger.kernel.org
----
- arch/riscv/configs/defconfig | 26 ++++++++------------------
- 1 file changed, 8 insertions(+), 18 deletions(-)
+On Mon, Jul 15, 2024 at 09:33:02AM GMT, Dmitry Baryshkov wrote:
+> Document that DRM_MODE_PROP_IMMUTABLE must be set for the properties
+> that are immutable by definition - e.g. ranges with min =3D=3D max or enu=
+ms
+> with a single value. This matches the behaviour of the IGT tests, see
+> kms_properties.c / validate_range_prop(), validate_enum_prop(),
+> validate_bitmask_prop().
+>=20
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
-index 3f1f055866af..0d678325444f 100644
---- a/arch/riscv/configs/defconfig
-+++ b/arch/riscv/configs/defconfig
-@@ -7,6 +7,7 @@ CONFIG_IKCONFIG=y
- CONFIG_IKCONFIG_PROC=y
- CONFIG_CGROUPS=y
- CONFIG_MEMCG=y
-+CONFIG_BLK_CGROUP=y
- CONFIG_CGROUP_SCHED=y
- CONFIG_CFS_BANDWIDTH=y
- CONFIG_RT_GROUP_SCHED=y
-@@ -35,9 +36,6 @@ CONFIG_ARCH_THEAD=y
- CONFIG_ARCH_VIRT=y
- CONFIG_ARCH_CANAAN=y
- CONFIG_SMP=y
--CONFIG_HOTPLUG_CPU=y
--CONFIG_PM=y
--CONFIG_CPU_IDLE=y
- CONFIG_CPU_FREQ=y
- CONFIG_CPU_FREQ_STAT=y
- CONFIG_CPU_FREQ_GOV_POWERSAVE=m
-@@ -52,13 +50,11 @@ CONFIG_ACPI=y
- CONFIG_JUMP_LABEL=y
- CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
--CONFIG_SPARSEMEM_MANUAL=y
- CONFIG_BLK_DEV_THROTTLING=y
-+CONFIG_SPARSEMEM_MANUAL=y
- CONFIG_NET=y
- CONFIG_PACKET=y
--CONFIG_UNIX=y
- CONFIG_XFRM_USER=m
--CONFIG_INET=y
- CONFIG_IP_MULTICAST=y
- CONFIG_IP_ADVANCED_ROUTER=y
- CONFIG_IP_PNP=y
-@@ -102,9 +98,9 @@ CONFIG_NET_SCHED=y
- CONFIG_NET_CLS_CGROUP=m
- CONFIG_NETLINK_DIAG=y
- CONFIG_CGROUP_NET_PRIO=y
-+CONFIG_CAN=m
- CONFIG_NET_9P=y
- CONFIG_NET_9P_VIRTIO=y
--CONFIG_CAN=m
- CONFIG_PCI=y
- CONFIG_PCIEPORTBUS=y
- CONFIG_PCI_HOST_GENERIC=y
-@@ -153,8 +149,8 @@ CONFIG_SERIAL_8250=y
- CONFIG_SERIAL_8250_CONSOLE=y
- CONFIG_SERIAL_8250_DW=y
- CONFIG_SERIAL_OF_PLATFORM=y
--CONFIG_SERIAL_SH_SCI=y
- CONFIG_SERIAL_EARLYCON_RISCV_SBI=y
-+CONFIG_SERIAL_SH_SCI=y
- CONFIG_VIRTIO_CONSOLE=y
- CONFIG_HW_RANDOM=y
- CONFIG_HW_RANDOM_VIRTIO=y
-@@ -179,7 +175,6 @@ CONFIG_DEVFREQ_THERMAL=y
- CONFIG_RZG2L_THERMAL=y
- CONFIG_WATCHDOG=y
- CONFIG_SUNXI_WATCHDOG=y
--CONFIG_RENESAS_RZG2LWDT=y
- CONFIG_MFD_AXP20X_I2C=y
- CONFIG_REGULATOR=y
- CONFIG_REGULATOR_FIXED_VOLTAGE=y
-@@ -193,11 +188,9 @@ CONFIG_DRM_NOUVEAU=m
- CONFIG_DRM_SUN4I=m
- CONFIG_DRM_VIRTIO_GPU=m
- CONFIG_FB=y
--CONFIG_FRAMEBUFFER_CONSOLE=y
- CONFIG_SOUND=y
- CONFIG_SND=y
- CONFIG_SND_SOC=y
--CONFIG_SND_SOC_RZ=m
- CONFIG_SND_DESIGNWARE_I2S=m
- CONFIG_SND_SOC_STARFIVE=m
- CONFIG_SND_SOC_JH7110_PWMDAC=m
-@@ -239,34 +232,31 @@ CONFIG_USB_CONFIGFS_F_FS=y
- CONFIG_MMC=y
- CONFIG_MMC_SDHCI=y
- CONFIG_MMC_SDHCI_PLTFM=y
--CONFIG_MMC_SDHCI_CADENCE=y
- CONFIG_MMC_SDHCI_OF_DWCMSHC=y
-+CONFIG_MMC_SDHCI_CADENCE=y
- CONFIG_MMC_SPI=y
-+CONFIG_MMC_SDHI=y
- CONFIG_MMC_DW=y
- CONFIG_MMC_DW_STARFIVE=y
--CONFIG_MMC_SDHI=y
- CONFIG_MMC_SUNXI=y
- CONFIG_RTC_CLASS=y
- CONFIG_RTC_DRV_SUN6I=y
- CONFIG_DMADEVICES=y
- CONFIG_DMA_SUN6I=m
- CONFIG_DW_AXI_DMAC=y
--CONFIG_RZ_DMAC=y
- CONFIG_VIRTIO_PCI=y
- CONFIG_VIRTIO_BALLOON=y
- CONFIG_VIRTIO_INPUT=y
- CONFIG_VIRTIO_MMIO=y
--CONFIG_RENESAS_OSTM=y
- CONFIG_CLK_SOPHGO_CV1800=y
- CONFIG_SUN8I_DE2_CCU=m
-+CONFIG_RENESAS_OSTM=y
- CONFIG_SUN50I_IOMMU=y
- CONFIG_RPMSG_CHAR=y
- CONFIG_RPMSG_CTRL=y
- CONFIG_RPMSG_VIRTIO=y
--CONFIG_ARCH_R9A07G043=y
-+CONFIG_PM_DEVFREQ=y
- CONFIG_IIO=y
--CONFIG_RZG2L_ADC=m
--CONFIG_RESET_RZG2L_USBPHY_CTRL=y
- CONFIG_PHY_SUN4I_USB=m
- CONFIG_PHY_RCAR_GEN3_USB2=y
- CONFIG_PHY_STARFIVE_JH7110_DPHY_RX=m
--- 
-2.43.0
+We had a discussion yesterday about it on IRC with Sima, Simon and
+Xaver.
 
+https://oftc.irclog.whitequark.org/dri-devel/2024-07-16#33374622;
+
+The conclusion was that it would create an inconsistency between drivers
+on whether a given property is immutable or not, which will lead to more
+troubles for userspace.
+
+It's not clear why Ville added that check in the first place, so the
+best course of action is to remove the IGT test and get the discussion
+started there.
+
+Maxime
+
+--6ldj6ctz25xj6y7b
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZpfKVgAKCRDj7w1vZxhR
+xYH7AQD8w8myEhco9CqAfjh20D1tXY/mlB+W4/bdaby3K0NuIQD/cGVo42JNkoo/
+jCNbgBRkiSwOXLi0a+whYQOE0kxTmwY=
+=bR0t
+-----END PGP SIGNATURE-----
+
+--6ldj6ctz25xj6y7b--
 
