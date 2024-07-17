@@ -1,72 +1,72 @@
-Return-Path: <linux-renesas-soc+bounces-7382-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7383-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 503D19334E7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jul 2024 03:13:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA7C4933571
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jul 2024 04:31:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B0CDE1F22C7D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jul 2024 01:13:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DF7231C21183
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jul 2024 02:31:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32971803;
-	Wed, 17 Jul 2024 01:13:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC699320F;
+	Wed, 17 Jul 2024 02:31:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I4JC7k9w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DZ7W8+sn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC15812
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Jul 2024 01:13:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD31320B
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Jul 2024 02:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721178814; cv=none; b=AkI17JyQAJ/P7Sq2/65aUIa+6hX3qG/6BzEiDw4PG41do6+BlGH8kY+mUDKDmXuzbcKNJbqlVUDNGv6AAxKsbEHLsewJIsFHlSYdDsxJd7jmGHm3c88u/RSQXBNd3/wgHNuhEDsIiyGP1KF1ipyAvfwkRT4BC3aa+Gzo/CdjIRY=
+	t=1721183497; cv=none; b=E4OXgEVSMWeVsWQ89vBGlSGYMmuR9J4UXBxqh3e2z659VyzFwBwl3hUAIbmNk1eqecIsOUW4Wr3J8XP4LhF8naROttaSTeyt2tJQ1rXGXuhi7irrQ5YQ5WHTRreUcgCKVjHfyi7cT80OxEWF5L/tOXQZH9upZXDLq54ceXScUwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721178814; c=relaxed/simple;
-	bh=h7QGbp1mLWeUIkGV/Gqg9H7hNKDv/+QQka/Z4sbzcmk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sqrOAJlArs1uWL3NgjRYD0cLnkMH9LNyr9T/QhhfECOLFSpYDfFQvI8U7L68uF24kgZuZesp13RHINzBcznpI1pTa7tWjKOjkzXrwYdrfb+7WRRPKvGqVHK0YFNzeucG55gF05ob02k9gjFMEQHeocETUv3LwnPBUiKiBS/uuYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I4JC7k9w; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1721183497; c=relaxed/simple;
+	bh=Rqyqgf1ZL4Rzk4PVpviXb9ibQ86cLFGwawtW8U6WVro=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bZT9nUnTWjQDed0QLz6vyLlzuz6qr6ZJFJfdUpdNeBkzwenCeLun46Fe1ts1mWHeJU7zHHVpSBX8RY5aM5W+xQ2R36tEHWit1CCHQFS00Nl9JN60Zr5688T4qpyQiDYj+3PS3JQjizUQANJYZYHLpbjolwD0TxE38KWii3zVGOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DZ7W8+sn; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721178812; x=1752714812;
+  t=1721183496; x=1752719496;
   h=date:from:to:cc:subject:message-id;
-  bh=h7QGbp1mLWeUIkGV/Gqg9H7hNKDv/+QQka/Z4sbzcmk=;
-  b=I4JC7k9wA7K6oqcESYpZfnrGjzKgDb3sKbr5d3PQ1apcBlPjywdM1Cts
-   vakMRp3PWGvcwrFCjba0XSgJA8kHfK1f25BCZLsUSNAL7cO2MOPLxfzH2
-   wP5DR2luy9z4sm0OJgeVqHyzESq8Q9kQ+KJCCFpehwpfw7Seby+FtJlqt
-   lR3B+NE6WFTVCuw3tc6yJviOXSPrr4pdlTYuM82MWnq6K0QPLouYSuE3N
-   bfwDN86Us7SjnWNam0kG7RMtnRQSHIGOpbFE3TTWCysD+YEdTpXlX6e85
-   9l3LvcO0vnHJF9cXO8dEpsO4JKyQ6iCIdygYFIzKKu6PInk5dMX9W6RdR
+  bh=Rqyqgf1ZL4Rzk4PVpviXb9ibQ86cLFGwawtW8U6WVro=;
+  b=DZ7W8+snkczCcqn2Jv1dOThWajlav6XVtM+NujqQXsTjO+RoQeWh4xB1
+   mUbrYiqLXDO1aApMXV6wXvIpTC5bMuhsCr1ntY+/SCvZeeMUPMMTTG2MS
+   8hg1Rr9cIScw43VB0bTJXJGwjSpPAtWfIR2gqhJ0sadzec6LnHUi+i6YH
+   +FuxpDqFE09Cr2nXd83emWTfu/BGSBbrObiYERpuyKMfL2b8sPmIJxich
+   yIk3pOYQtVTx6dBqnzLd8lNggdv7ZzYITnhvNIO/CHOCICbwzlLZIjZTd
+   cRErzZKdLLxsWIGVGIx/ziaiyFiq8ChKvKw4rWjuPLKAfYWXJVmRH+7/w
    Q==;
-X-CSE-ConnectionGUID: 3QWxlQaeSh+cMXSM9KROrA==
-X-CSE-MsgGUID: q8lWinTDRc2bSFA99/fr1w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11135"; a="22421856"
+X-CSE-ConnectionGUID: AQTdU19IRw6BmXFvY6HxUg==
+X-CSE-MsgGUID: A5ls4otvRZuhHS1tQJ+TXA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11135"; a="29248211"
 X-IronPort-AV: E=Sophos;i="6.09,213,1716274800"; 
-   d="scan'208";a="22421856"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2024 18:13:31 -0700
-X-CSE-ConnectionGUID: tTVE2WX3SjW0TUlmUch1Kw==
-X-CSE-MsgGUID: e/ZE+hajQ/iY4Tj7jRGWbg==
+   d="scan'208";a="29248211"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2024 19:31:35 -0700
+X-CSE-ConnectionGUID: 3CvSXWp1QaKryBTVKdGbcw==
+X-CSE-MsgGUID: lFxjuayxSuWxLbfHNBibsA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,213,1716274800"; 
-   d="scan'208";a="54418115"
+   d="scan'208";a="55376466"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 16 Jul 2024 18:13:31 -0700
+  by orviesa004.jf.intel.com with ESMTP; 16 Jul 2024 19:31:34 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sTtEW-000fpz-1m;
-	Wed, 17 Jul 2024 01:13:28 +0000
-Date: Wed, 17 Jul 2024 09:12:49 +0800
+	id 1sTuS2-000fte-2e;
+	Wed, 17 Jul 2024 02:31:30 +0000
+Date: Wed, 17 Jul 2024 10:31:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- b8516cb994f50a51c98eed3ecfffc0661412600a
-Message-ID: <202407170946.ShrNRlZd-lkp@intel.com>
+Subject: [geert-renesas-drivers:master] BUILD REGRESSION
+ a8a63c1aacb72fa278746c12fbf708af474eeb41
+Message-ID: <202407171026.dWZCjlu4-lkp@intel.com>
 User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -74,16 +74,116 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: b8516cb994f50a51c98eed3ecfffc0661412600a  Merge branch 'renesas-dts-for-v6.12' into renesas-devel
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+branch HEAD: a8a63c1aacb72fa278746c12fbf708af474eeb41  [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
 
-elapsed time: 734m
+Unverified Error/Warning (likely false positive, please contact us if interested):
 
-configs tested: 131
+drivers/media/platform/raspberrypi/pisp_be/pisp_be.c:1786:13: error: incompatible function pointer types initializing 'void (*)(struct platform_device *)' with an expression of type 'int (struct platform_device *)' [-Wincompatible-function-pointer-types]
+drivers/media/platform/raspberrypi/pisp_be/pisp_be.c:1786:27: error: initialization of 'void (*)(struct platform_device *)' from incompatible pointer type 'int (*)(struct platform_device *)' [-Wincompatible-pointer-types]
+
+Error/Warning ids grouped by kconfigs:
+
+recent_errors
+|-- alpha-allyesconfig
+|   |-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|-- arc-allmodconfig
+|   |-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|-- arc-allyesconfig
+|   |-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|-- arm-allmodconfig
+|   |-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|-- arm-allyesconfig
+|   |-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|-- arm64-allmodconfig
+|   |-- drivers-gpu-drm-stm-lvds.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
+|-- arm64-randconfig-004-20240717
+|   `-- drivers-gpu-drm-stm-lvds.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
+|-- hexagon-allmodconfig
+|   |-- drivers-gpu-drm-stm-lvds.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
+|-- hexagon-allyesconfig
+|   |-- drivers-gpu-drm-stm-lvds.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
+|-- hexagon-randconfig-002-20240717
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
+|-- i386-allmodconfig
+|   |-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|-- i386-allyesconfig
+|   |-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|-- loongarch-allmodconfig
+|   `-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|-- m68k-allmodconfig
+|   |-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|-- m68k-allyesconfig
+|   `-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|-- microblaze-allmodconfig
+|   |-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|-- microblaze-allyesconfig
+|   |-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|-- openrisc-allyesconfig
+|   |-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|-- parisc-allmodconfig
+|   |-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|-- parisc-allyesconfig
+|   |-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|-- powerpc-allmodconfig
+|   |-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|-- powerpc-allyesconfig
+|   |-- drivers-gpu-drm-stm-lvds.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
+|-- riscv-allmodconfig
+|   |-- drivers-gpu-drm-stm-lvds.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
+|-- riscv-allyesconfig
+|   |-- drivers-gpu-drm-stm-lvds.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
+|-- riscv-randconfig-002-20240717
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
+|-- s390-allmodconfig
+|   `-- drivers-gpu-drm-stm-lvds.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
+|-- s390-allyesconfig
+|   |-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|-- sh-allmodconfig
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|-- sh-allyesconfig
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|-- sparc-allmodconfig
+|   |-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|-- um-allmodconfig
+|   |-- drivers-gpu-drm-stm-lvds.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
+|-- um-allyesconfig
+|   |-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+|-- x86_64-allyesconfig
+|   |-- drivers-gpu-drm-stm-lvds.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
+|   `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:incompatible-function-pointer-types-initializing-void-(-)(struct-platform_device-)-with-an-expression-of-type-int-(struct-platform_device-)
+`-- xtensa-allyesconfig
+    |-- drivers-gpu-drm-stm-lvds.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+    `-- drivers-media-platform-raspberrypi-pisp_be-pisp_be.c:error:initialization-of-void-(-)(struct-platform_device-)-from-incompatible-pointer-type-int-(-)(struct-platform_device-)
+
+elapsed time: 733m
+
+configs tested: 118
 configs skipped: 2
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
 
 tested configs:
 alpha                             allnoconfig   gcc-13.3.0
@@ -167,56 +267,43 @@ powerpc               randconfig-002-20240717   gcc-14.1.0
 powerpc               randconfig-003-20240717   clang-19
 powerpc64             randconfig-001-20240717   gcc-14.1.0
 powerpc64             randconfig-002-20240717   gcc-14.1.0
+powerpc64             randconfig-003-20240717   gcc-14.1.0
 riscv                            allmodconfig   clang-19
 riscv                             allnoconfig   gcc-14.1.0
 riscv                            allyesconfig   clang-19
 riscv                               defconfig   clang-19
 riscv                 randconfig-001-20240717   clang-19
+riscv                 randconfig-002-20240717   clang-17
 s390                             allmodconfig   clang-19
 s390                              allnoconfig   clang-19
 s390                             allyesconfig   gcc-14.1.0
 s390                                defconfig   clang-19
+s390                  randconfig-001-20240717   gcc-14.1.0
+s390                  randconfig-002-20240717   gcc-14.1.0
 sh                               allmodconfig   gcc-14.1.0
 sh                                allnoconfig   gcc-14.1.0
 sh                               allyesconfig   gcc-14.1.0
 sh                                  defconfig   gcc-14.1.0
+sh                    randconfig-001-20240717   gcc-14.1.0
+sh                    randconfig-002-20240717   gcc-14.1.0
 sparc                            allmodconfig   gcc-14.1.0
 sparc64                             defconfig   gcc-14.1.0
+sparc64               randconfig-001-20240717   gcc-14.1.0
+sparc64               randconfig-002-20240717   gcc-14.1.0
 um                               allmodconfig   clang-19
 um                                allnoconfig   clang-17
 um                               allyesconfig   gcc-13
 um                                  defconfig   clang-19
 um                             i386_defconfig   gcc-13
+um                    randconfig-001-20240717   gcc-8
+um                    randconfig-002-20240717   gcc-13
 um                           x86_64_defconfig   clang-15
 x86_64                            allnoconfig   clang-18
 x86_64                           allyesconfig   clang-18
-x86_64       buildonly-randconfig-001-20240717   gcc-13
-x86_64       buildonly-randconfig-002-20240717   gcc-13
-x86_64       buildonly-randconfig-003-20240717   gcc-13
-x86_64       buildonly-randconfig-004-20240717   clang-18
-x86_64       buildonly-randconfig-005-20240717   clang-18
-x86_64       buildonly-randconfig-006-20240717   gcc-13
 x86_64                              defconfig   gcc-13
-x86_64                randconfig-001-20240717   gcc-7
-x86_64                randconfig-002-20240717   gcc-9
-x86_64                randconfig-003-20240717   clang-18
-x86_64                randconfig-004-20240717   gcc-9
-x86_64                randconfig-005-20240717   clang-18
-x86_64                randconfig-006-20240717   gcc-11
-x86_64                randconfig-011-20240717   gcc-8
-x86_64                randconfig-012-20240717   clang-18
-x86_64                randconfig-013-20240717   gcc-12
-x86_64                randconfig-014-20240717   gcc-10
-x86_64                randconfig-015-20240717   clang-18
-x86_64                randconfig-016-20240717   clang-18
-x86_64                randconfig-071-20240717   gcc-12
-x86_64                randconfig-072-20240717   clang-18
-x86_64                randconfig-073-20240717   gcc-10
-x86_64                randconfig-074-20240717   gcc-13
-x86_64                randconfig-075-20240717   gcc-13
-x86_64                randconfig-076-20240717   gcc-12
 x86_64                          rhel-8.3-rust   clang-18
 xtensa                            allnoconfig   gcc-14.1.0
+xtensa                randconfig-002-20240717   gcc-14.1.0
 
 -- 
 0-DAY CI Kernel Test Service
