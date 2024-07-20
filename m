@@ -1,117 +1,108 @@
-Return-Path: <linux-renesas-soc+bounces-7404-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7405-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4476A9376F9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Jul 2024 13:05:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10B659380F5
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Jul 2024 13:20:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D1E14B21E1D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Jul 2024 11:05:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AE8B61F21CEA
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Jul 2024 11:20:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A06B7581A;
-	Fri, 19 Jul 2024 11:05:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 329B6127E3A;
+	Sat, 20 Jul 2024 11:20:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Bk0jRk5U"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D6C61B86D2;
-	Fri, 19 Jul 2024 11:05:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E3F74779E
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 20 Jul 2024 11:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721387127; cv=none; b=IJ9iRFtDgh0R7ql3y7T0y5eTSIGO7DnqmxrmSqoBrRA6AOwq8fkcXaiNuU1ULHFKHIH92/qFXjQfGPpCVSJG9rND7m33anfE3ZAWQCaKqTIodREb4v9Ikb4iM1H25bs1h6CfDJksebqFLWQaqYtVrbxXQyGURrD0Bvi6vbWmFI8=
+	t=1721474410; cv=none; b=Qnyn+kpE+0oBO4HtVv8jsOKz+vfiw2OMI1gbUr7lTG0AmytS0fLrTn83ev2vmqTEJg8FV7BAVSOJFWIOVgP2btzUWCa+tfYCInxkvUiwGPZKjxajkEqT71rCBLwvegsNQMcvpzNquxTk0/TUycOC8YsadsOcFlRFZMqByHHskHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721387127; c=relaxed/simple;
-	bh=5+eSYEMlg04YZMKAmLuA4N74wbOKkq3a67E2jk2l3qs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XNPhrJMuhW3a+tApezoAj54oOCk4iChV9KqCewB8SA4S6K4uWV7rjesA6K46+gy0hZsD7HRUCPA4TeNQruPwrEVz5WnOkww/KdzGXTRPWPI6uPYXAqXTDcO2+RcX88NrXmUIY5WFs7LaL8Hx2xUfBtVXFiT6ivPoVQWMYlDeeso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-66a048806e6so1302747b3.3;
-        Fri, 19 Jul 2024 04:05:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721387124; x=1721991924;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=f9Syv7sYvr8dFphe6oDhNBd5AoqFGOBMWLjrnJkdXso=;
-        b=oG192ighhtiCzMJMTW/JlINIk2FykwmlxFh28P56V6nNYwtW9xuUwM5F8qyjmpD9JE
-         k6OTo+EKtFQGoPaHogoXyzuLP8aaQ6VrY4R8a8svqnrNtP1YH2EHM9PXkwQC3ZUqWX78
-         KXo5MsWG47AroW8Nr+Kmxw2yVk2WAHSd8K/SrOJuq2GJYWQF5Jpi4tfqK3PtCZ+FnIaY
-         nwmndmtX1h5cHg5ecBq6A95eFpGu1KFgy7J1OPKAsDJh8BHzsoyYe5yAiCj02ciaSfUO
-         iqtA2r/sI2aCnNtaUGbENXo34ip82iY4sfFt9C9gUJ7NTHf9+0nTd35nqORKHQHNE2P6
-         ynig==
-X-Forwarded-Encrypted: i=1; AJvYcCU05k3ug6PiSfcIUIsHPfGEq5rLPin6zjMZlAOu22daJINoywhPxnSl/939l/CVFwoGZoezymUZ40O9252C8LtPe2e6RXHuN+BCAo8OTqVrJMUXsnqN7TPFrKS7ZQ0/W94bmx7Dl13fj/vsguLQEHs=
-X-Gm-Message-State: AOJu0YzOOnNzYdsnpy0ZMP2Qekiqq5+VzFNI9Ak6uLtotO4ExoBk+1Qq
-	JekKDA5n2qbR8sB+nk5gg7kiMWQUjvCBkKGPjdgJ16JB5uyqdkWlraSbcqft
-X-Google-Smtp-Source: AGHT+IEKuFH7oynVWhHedJO13DfB0ISzdd6d1ux/CTtMqFM290tKB3SStW/WJTHhswwOYI19wGk1wQ==
-X-Received: by 2002:a05:690c:660b:b0:669:b45d:2098 with SMTP id 00721157ae682-669b45d21f9mr8762687b3.5.1721387123684;
-        Fri, 19 Jul 2024 04:05:23 -0700 (PDT)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-669545a09a3sm3941717b3.141.2024.07.19.04.05.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Jul 2024 04:05:22 -0700 (PDT)
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e05f2adab8bso1813553276.1;
-        Fri, 19 Jul 2024 04:05:22 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUkyoCqscBk6rGLWn52MN6tgwLCio5Opwx5UzCcmp+HAb8gpxxOKeBfn+b2khdXvqsjQTYhFZbo1cTWhUzrrOslvZnRbToLFJeurf68rQeUQrr/A2vwImv3Y3GHoNs+2/tSexnRwMbhT150LWos5JE=
-X-Received: by 2002:a05:6902:2b93:b0:dff:3028:4631 with SMTP id
- 3f1490d57ef6-e05ed729577mr9622463276.33.1721387122548; Fri, 19 Jul 2024
- 04:05:22 -0700 (PDT)
+	s=arc-20240116; t=1721474410; c=relaxed/simple;
+	bh=wNVOEJA5DYv8wA2xPdwzPx/tNExmXoemr0VThd+AAAU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Pbdr6bJJ1ijU4ER9RelHOz7kWPGK9QVJQnkx7IsC1rgZE2AyyfXlkxv6Lxm+JxiK3WSHpjmmXFowmFmfRvHBlLFtvWdVEXwLOWYPxLp41Mdx6c1gcI7xmYgnbnuq4JRDHX06DxuCwDnB40ZOeIZsJ9QGzWupoDwntPaV7gApL9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Bk0jRk5U; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=wNVO
+	EJA5DYv8wA2xPdwzPx/tNExmXoemr0VThd+AAAU=; b=Bk0jRk5UUn40IXL30dop
+	1YBvoUAlsxvfCdJKSiFy0mpj0la5u7N03fMGMSYJbeaie+pNYWyWkNXq6lmQM9CA
+	R6r6amCHO9YkU/mXflHBE8XwzDqXYpOcH2kL/Yx2luueV1dVBj0EeEZWunTzzxn3
+	Xwo6KqFGFwmZIYxT11TAyjjQ79NC4Gq2UwWvfvI/gmCqKhT8m0C9EusHnjKRdR7G
+	Oh0KPEAit6zNPg0WFCrJ04m5P0dzZaUpBH/+v+Ju0Lje9gkHAfP1W9myy3oRAtU9
+	amnUhrBhf2nv66vf92IbaEGGXINZJWqkUx+kPRiqNyZMl/GM3UHzSGWUmaoZ1b55
+	Zg==
+Received: (qmail 1449825 invoked from network); 20 Jul 2024 13:20:05 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Jul 2024 13:20:05 +0200
+X-UD-Smtp-Session: l3s3148p1@VIBp/qsdruQujnsv
+Date: Sat, 20 Jul 2024 13:20:04 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] i2c: header: remove unneeded stuff regarding
+ i2c_algorithm
+Message-ID: <ZpudZDCiAhFTHuMp@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+References: <20240716083623.7737-4-wsa+renesas@sang-engineering.com>
+ <20240716083623.7737-5-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240717-shrubs-concise-51600886babf@spud>
-In-Reply-To: <20240717-shrubs-concise-51600886babf@spud>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 19 Jul 2024 13:05:10 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXc_VPRLg1N_uCerXzzntJ23pq6m3Jb5eSPVZjxuXjHAg@mail.gmail.com>
-Message-ID: <CAMuHMdXc_VPRLg1N_uCerXzzntJ23pq6m3Jb5eSPVZjxuXjHAg@mail.gmail.com>
-Subject: Re: [PATCH v1] RISC-V: run savedefconfig for defconfig
-To: Conor Dooley <conor@kernel.org>
-Cc: linux-riscv@lists.infradead.org, Conor Dooley <conor.dooley@microchip.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="7GzzAtHVAOPE2ILE"
+Content-Disposition: inline
+In-Reply-To: <20240716083623.7737-5-wsa+renesas@sang-engineering.com>
+
+
+--7GzzAtHVAOPE2ILE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Conor,
+On Tue, Jul 16, 2024 at 10:36:24AM +0200, Wolfram Sang wrote:
+> The forward declaration is not needed anymore. The sentence about
+> "following structs" became obsolete when struct i2c_algorithm became a
+> kdoc. The paragraph about return values can go because we have this
+> information in kdoc already.
+>=20
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-On Wed, Jul 17, 2024 at 3:29=E2=80=AFPM Conor Dooley <conor@kernel.org> wro=
-te:
-> From: Conor Dooley <conor.dooley@microchip.com>
->
-> It's been a while since this was run, and there's a few things that have
-> changed. Firstly, almost all of the Renesas stuff vanishes because the
-> config for the RZ/Five is gated behind NONPORTABLE. Several options
-> (like CONFIG_PM) are removed as they are the default values.
->
-> To retain DEFVFREQ_THERMAL and BLK_DEV_THROTTLING, add PM_DEVFREQ and
-> BLK_CGROUP respectively.
->
-> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+Applied to for-current, thanks!
 
-Thanks for your patch!
 
-Perhaps we should add an rzfive_defconfig?
+--7GzzAtHVAOPE2ILE
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Gr{oetje,eeting}s,
+-----BEGIN PGP SIGNATURE-----
 
-                        Geert
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmabnWQACgkQFA3kzBSg
+KbZ3FA/8Dj7nGZj8h9HCJfb7Vny9F1y5fL5mTwzhgVxLrhzSCb7l4CGBbdfBvlMa
++aaN0fj4T6SQW4jLuPglaOZ+ZsSXXqXKcDqTcfnH6mm+FdmMkBdcwGYxSOgt3sbY
+Wsmwayn/U+J9IG+42WXhOz8edN9VHL/ruWaojK0extfTXcjaYVIYc++WO1ALpYcN
+7n0oXJ9zPkNPCxvSFM+Mohm+PZyHzr2d/EtdUHga9n5ub01LOVKWDNNqBZAMbLxQ
+XalkynBvvjm950jJ068OHsnyvsehSkDy72UlvL6Q/kVzWvLt9qeSYbVjCYc3OShP
+1nQAZfsr8s/p/yHpcmEVIi746e+QRD4q5CYsk7Agzd/+5jIAmiI2wd4wzMDetEW5
+AvVJOyvwd2pNGEBfc6xvavz3fEbLepDX7eX02epFRIXT/ileylFOFWYdiYLLSoUt
+c/J4ID61FkuS7uQjsFoRqWMW+tCb3dYGFPHSeOdmjYfgknUnc3mbU82KhFx2Pho0
+fvmRW76I21sRd5AN7ov+5Ij+zmjffK3sKT3leps7jfrFgvLB9+Gy3ZMgyUm4viHG
+sgPAxh9TOhZ3IP3NP9pQ5z2mYRv5RNnlk6kxnnltU1elRzlkGq2i52BP/CYG2pD0
+F7MNsIUpZp8Z37JpG30g63fSOC3IZOB8sP8afWQt7wIieDaRN/A=
+=QArr
+-----END PGP SIGNATURE-----
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+--7GzzAtHVAOPE2ILE--
 
