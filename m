@@ -1,256 +1,188 @@
-Return-Path: <linux-renesas-soc+bounces-7428-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7429-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D69F5938EC9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jul 2024 14:04:30 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBF8B938FD0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jul 2024 15:19:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8ACE3281612
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jul 2024 12:04:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 03752B20EDD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jul 2024 13:19:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 023CA1754B;
-	Mon, 22 Jul 2024 12:04:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5790416CD39;
+	Mon, 22 Jul 2024 13:19:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PlviBwLd"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F58F16D4CE
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jul 2024 12:04:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE18916938C;
+	Mon, 22 Jul 2024 13:19:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721649850; cv=none; b=tbJljY2d5bMBEPwOgaYHnchIrd4dPTaA5rz46zA//9gM1oPja1dteoXsXFdCqIL9ag1MVHd2NXihvr1Quxplji4KoycEIV1lRC7ZrfxiTA9uXUXve91UCEeF+Y7FPWvOeEftjD5xcMKe50pIZREwL8W/1wNFoTX6mlwbil1vvDM=
+	t=1721654379; cv=none; b=t0zoKC/0ikrmJPk50Lx4pb3qnw/kZSD3WwigTTk3nFw5Qmqa2Z1YZf9XdA2GyvXf0w8Ftobu5udYZ32aJUEUppwNCHruzexArkw1Xc/itUkeerkZqGN0xEDiRzqQp/chfnOwYsx8cNgU9Y3iUU3AZCiKUOICpxEMgwlZ5/11Mhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721649850; c=relaxed/simple;
-	bh=qWy9RXASZTPs6u+xH3wHysH2cA1hSPDfQUjvLKSWxbc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=k35nMtaCihLONNB6hprWTJn5Ula8Bdi9X9Fs6CnRnsYeRwvVjoYqm1mzeSJgPqnGgOgGr35jIWQ2D+YudAMswkIjMWePAhZCTtSgZDKjplqVcoTMqCeTBLiSRK5IE1lX0q3sk5LXtNg1zZs62aZsfHHaXrONaJAbj/mnpLtlQ00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:173b:9414:53f5:de4c])
-	by andre.telenet-ops.be with bizsmtp
-	id qc452C00B1wvoRx01c45Lh; Mon, 22 Jul 2024 14:04:06 +0200
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1sVrla-002zES-HX;
-	Mon, 22 Jul 2024 14:04:05 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1sVrls-00210E-Vl;
-	Mon, 22 Jul 2024 14:04:05 +0200
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Support Opensource <support.opensource@diasemi.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] dt-bindings: sound: dlg,da7213: Convert to json-schema
-Date: Mon, 22 Jul 2024 14:04:00 +0200
-Message-Id: <7645c9024a1762d281f4067504bc32a7a3d27caa.1721649741.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1721654379; c=relaxed/simple;
+	bh=6nFLP/ciY3DfP7kbKQXLTQ5W82Xb9tsB2hQvnQAFRCs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JcfLwoHzj3ZK55z8qEfE5j0fVfxq31o1HyTfBsfL8ADTaZm40d8OM8j++uO84oYYIydtOD0yIoRneVPqC8BKrI9prSH+FO4kjlh8BBippKVjI26REtl4P34nfvDgV/m0I4jK+dOR0RcE17Gjpo7MiT4PYpunfphKiSbz46P2uxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PlviBwLd; arc=none smtp.client-ip=209.85.222.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-823227e7572so2227939241.1;
+        Mon, 22 Jul 2024 06:19:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1721654376; x=1722259176; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=07fP8yssZ0tKq69jIj+FMPQwqseZTcnXvz35hYzvfjQ=;
+        b=PlviBwLd5n8tXjI8YUB8WezuDx4iC5Rf2ZfnwaGAVCoR6T4TVl7ZfFjtU20Lm64Evw
+         CUENtpEXouzGK9Lm3f2/nVV5WRlIAJvCe4KkhFJbYZlZ6ytcgwVsAt7HJ3UZQL8Bdi0J
+         8dswlgUD8A1TrPEjkEel5YyObOjrGw/mzdBr0DBq/otQJi098O4DEt5ECzqoc36bajxv
+         Ehe0LQl+Hnb0ynND8G8c2TQYbYvIapHf4RmTC3MOnoa14vRVHSv/hVPMmQm7EHPrd2vh
+         p/pLg/MdtlwySk0utsgt/Xfx1EeUtwwOcrJGKWJye5EUiFqPIZyIV4iE8/luW+AmATxj
+         KDbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721654376; x=1722259176;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=07fP8yssZ0tKq69jIj+FMPQwqseZTcnXvz35hYzvfjQ=;
+        b=SGlrwr3kaMxxHV5UJN6GyxGwphYDpjrImGgFhOakOQo8+w2GVostWoLyRjLK4YY33A
+         3QpNB2fkY27B0L1qBgzZ1osSmuxYScOyIwV2P0khgaP9weEmbgDU/VXgAwWA/6FuX8L3
+         CjPwyfjrzM3dj0w3O2hm4UQ1JpwLE+4f+vIahxaT4hFDNDjMW+XcMZTLJ9cCGfcXcH8U
+         n3WcUp9h/CdJX9fVwJiWyl0F7EviESD0aaPha/VvvwTFPtU2PYxSFhBDdLFk8P4o+04p
+         PnzQAT5mGqqQEXaJOrWdDxCdTY796iDrn56BajG6ulK5hbjfS0122ueMW9KDHMLywcOJ
+         P/yw==
+X-Forwarded-Encrypted: i=1; AJvYcCXHuXECc6QCqySyGAyBrLasc9MZAgodF23/ig0K5ZQi4KnON5sJy0+6wbvUSUXPd3Vn4jGmITpMXiIIjD8pc2+dbZAKjO4gs5QGRB25anIdYtE233u6C3H+/ngVD4LOLke3YAjaAzfMMrMBzuSmKbK9j85HVxAal2EJscd+fIKJq2txnpdWzFYJd9FwWsK7FWAeDKVMayZyJNGD7ZMd+6bTpJUxQ6p7
+X-Gm-Message-State: AOJu0Yy1IyCvLn2DirkHWUFpmVTedLiya21yVk4VUfFtiwO7MPFI7Ae5
+	XjJHPrqq3uxy+Eww1w8IFnNBJXOMg+h0kI4bUWE8swhds8SyBmfj2+rHj4cBhRzKLYp0vGiD+Vh
+	IW+JoApAH9uD5wY/gEpVj9+Lx5oc=
+X-Google-Smtp-Source: AGHT+IEL/nroc1mlmfx0Yrfx++3jeFEcvf1cyf4cZ36K2s4RuLwjF/Sft1Y4OHQJQBZTjBPk3OfNuuEFvFwQVGkuinY=
+X-Received: by 2002:a05:6122:3281:b0:4f5:2849:598d with SMTP id
+ 71dfb90a1353d-4f528496166mr961245e0c.4.1721654376282; Mon, 22 Jul 2024
+ 06:19:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240626132341.342963-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240626132341.342963-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <ZoUb_olfaVapoYBi@shikoro> <CA+V-a8uJ-jv65fK7=XYtMvCCiEbFKcRHW3xNj8SQd2TJ++43QQ@mail.gmail.com>
+In-Reply-To: <CA+V-a8uJ-jv65fK7=XYtMvCCiEbFKcRHW3xNj8SQd2TJ++43QQ@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 22 Jul 2024 14:19:10 +0100
+Message-ID: <CA+V-a8uQz4fbCHeG-88Re3sxa3ye+5NfZ=NRdgV-58=9tHpN+A@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] dt-bindings: mmc: renesas,sdhi: Document RZ/V2H(P) support
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-mmc@vger.kernel.org, 
+	Magnus Damm <magnus.damm@gmail.com>, Conor Dooley <conor+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Convert the Dialog Semiconductor DA7212/DA7213 Audio Codec Device Tree
-binding documentation to json-schema.
+Hi Wolfram,
 
-Add missing properties.
+On Thu, Jul 4, 2024 at 7:27=E2=80=AFPM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+>
+> Hi Wolfram,
+>
+> On Wed, Jul 3, 2024 at 10:38=E2=80=AFAM Wolfram Sang
+> <wsa+renesas@sang-engineering.com> wrote:
+> >
+> > On Wed, Jun 26, 2024 at 02:23:39PM +0100, Prabhakar wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > The SD/MMC block on the RZ/V2H(P) ("R9A09G057") SoC is similar to tha=
+t
+> > > of the R-Car Gen3, but it has some differences:
+> > > - HS400 is not supported.
+> > > - It supports the SD_IOVS bit to control the IO voltage level.
+> > > - It supports fixed address mode.
+> > >
+> > > To accommodate these differences, a SoC-specific 'renesas,sdhi-r9a09g=
+057'
+> > > compatible string is added.
+> > >
+> > > A 'vqmmc-regulator' object is introduced to handle the power enable (=
+PWEN)
+> > > and voltage level switching for the SD/MMC.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
+>
+> >
+> > Can we have an example here? I can read DTS snippets better than YAML
+> > code :/ Also wondering about the "regulator-compatible" property but
+> > maybe the example makes the problem clear?
+> >
+> You mean in the commit message or comment section? (I had added below
+> in the cover letter)
+>
+> SoC DTSI node:
+> sdhi1: mmc@15c10000 {
+>         compatible =3D "renesas,sdhi-r9a09g057";
+>         reg =3D <0x0 0x15c10000 0 0x10000>;
+>         interrupts =3D <GIC_SPI 737 IRQ_TYPE_LEVEL_HIGH>,
+>                         <GIC_SPI 738 IRQ_TYPE_LEVEL_HIGH>;
+>         clocks =3D <&cpg CPG_MOD 167>,
+>                         <&cpg CPG_MOD 169>,
+>                         <&cpg CPG_MOD 168>,
+>                         <&cpg CPG_MOD 170>;
+>         clock-names =3D "core", "clkh", "cd", "aclk";
+>         resets =3D <&cpg 168>;
+>         power-domains =3D <&cpg>;
+>         status =3D "disabled";
+>
+>         vqmmc_sdhi1: vqmmc-regulator {
+>                 regulator-compatible =3D "vqmmc-r9a09g057-regulator";
+>                 regulator-name =3D "sdhi1-vqmmc-regulator";
+>                 regulator-min-microvolt =3D <1800000>;
+>                 regulator-max-microvolt =3D <3300000>;
+>                 status =3D "disabled";
+>         };
+> };
+>
+> Board DTS:
+> &sdhi1 {
+>         pinctrl-0 =3D <&sdhi1_pins>;
+>         pinctrl-1 =3D <&sdhi1_pins>;
+>         pinctrl-names =3D "default", "state_uhs";
+>         vmmc-supply =3D <&reg_3p3v>;
+>         vqmmc-supply =3D <&vqmmc_sdhi1>;
+>         bus-width =3D <4>;
+>         sd-uhs-sdr50;
+>         sd-uhs-sdr104;
+>         status =3D "okay";
+> };
+>
+> &vqmmc_sdhi1 {
+>      status =3D "okay";
+> };
+>
+> Based on feedback from Conor, we cannot use the regulator-compatible
+> property. This would require us to implement separate drivers (one for
+> VMMC and another for VQMMC), which I believe would necessitate the use
+> of regmap. Currently, this seems unnecessary for controlling the two
+> bits as a regulator. As Geert previously pointed out, the PWEN and
+> IOVS pins can always be multiplexed as GPIOs on the RZ/V2H SoC (as is
+> done on R-Car devices). Therefore, I am inclined to drop the internal
+> regulator support for now.
+>
+> Let me know your thoughts.
+>
+Gentle ping.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- .../devicetree/bindings/sound/da7213.txt      |  45 --------
- .../devicetree/bindings/sound/dlg,da7213.yaml | 103 ++++++++++++++++++
- MAINTAINERS                                   |   1 +
- 3 files changed, 104 insertions(+), 45 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/sound/da7213.txt
- create mode 100644 Documentation/devicetree/bindings/sound/dlg,da7213.yaml
-
-diff --git a/Documentation/devicetree/bindings/sound/da7213.txt b/Documentation/devicetree/bindings/sound/da7213.txt
-deleted file mode 100644
-index 94584c96c4ae2237..0000000000000000
---- a/Documentation/devicetree/bindings/sound/da7213.txt
-+++ /dev/null
-@@ -1,45 +0,0 @@
--Dialog Semiconductor DA7212/DA7213 Audio Codec bindings
--
--======
--
--Required properties:
--- compatible : Should be "dlg,da7212" or "dlg,da7213"
--- reg: Specifies the I2C slave address
--
--Optional properties:
--- clocks : phandle and clock specifier for codec MCLK.
--- clock-names : Clock name string for 'clocks' attribute, should be "mclk".
--
--- dlg,micbias1-lvl : Voltage (mV) for Mic Bias 1
--	[<1600>, <2200>, <2500>, <3000>]
--- dlg,micbias2-lvl : Voltage (mV) for Mic Bias 2
--	[<1600>, <2200>, <2500>, <3000>]
--- dlg,dmic-data-sel : DMIC channel select based on clock edge.
--	["lrise_rfall", "lfall_rrise"]
--- dlg,dmic-samplephase : When to sample audio from DMIC.
--	["on_clkedge", "between_clkedge"]
--- dlg,dmic-clkrate : DMIC clock frequency (Hz).
--	[<1500000>, <3000000>]
--
-- - VDDA-supply : Regulator phandle for Analogue power supply
-- - VDDMIC-supply : Regulator phandle for Mic Bias
-- - VDDIO-supply : Regulator phandle for I/O power supply
--
--======
--
--Example:
--
--	codec_i2c: da7213@1a {
--		compatible = "dlg,da7213";
-- 		reg = <0x1a>;
--
-- 		clocks = <&clks 201>;
--		clock-names = "mclk";
--
--		dlg,micbias1-lvl = <2500>;
--		dlg,micbias2-lvl = <2500>;
--
--		dlg,dmic-data-sel = "lrise_rfall";
--		dlg,dmic-samplephase = "between_clkedge";
--		dlg,dmic-clkrate = <3000000>;
--	};
-diff --git a/Documentation/devicetree/bindings/sound/dlg,da7213.yaml b/Documentation/devicetree/bindings/sound/dlg,da7213.yaml
-new file mode 100644
-index 0000000000000000..c2dede1e82ffa4d4
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/dlg,da7213.yaml
-@@ -0,0 +1,103 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/dlg,da7213.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Dialog Semiconductor DA7212/DA7213 Audio Codec
-+
-+maintainers:
-+  - Support Opensource <support.opensource@diasemi.com>
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+properties:
-+  compatible:
-+    enum:
-+      - dlg,da7212
-+      - dlg,da7213
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  clock-names:
-+    const: mclk
-+
-+  "#sound-dai-cells":
-+    const: 0
-+
-+  dlg,micbias1-lvl:
-+    description: Voltage (mV) for Mic Bias 1
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 1600, 2200, 2500, 3000 ]
-+
-+  dlg,micbias2-lvl:
-+    description: Voltage (mV) for Mic Bias 2
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 1600, 2200, 2500, 3000 ]
-+
-+  dlg,dmic-data-sel:
-+    description: DMIC channel select based on clock edge
-+    enum: [ lrise_rfall, lfall_rrise ]
-+
-+  dlg,dmic-samplephase:
-+    description: When to sample audio from DMIC
-+    enum: [ on_clkedge, between_clkedge ]
-+
-+  dlg,dmic-clkrate:
-+    description: DMIC clock frequency (Hz)
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 1500000, 3000000 ]
-+
-+  VDDA-supply:
-+    description: Analogue power supply
-+
-+  VDDIO-supply:
-+    description: I/O power supply
-+
-+  VDDMIC-supply:
-+    description: Mic Bias
-+
-+  VDDSP-supply:
-+    description: Speaker supply
-+
-+  ports:
-+    $ref: audio-graph-port.yaml#/definitions/ports
-+
-+  port:
-+    $ref: audio-graph-port.yaml#
-+    unevaluatedProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        codec@1a {
-+            compatible = "dlg,da7213";
-+            reg = <0x1a>;
-+
-+            clocks = <&clks 201>;
-+            clock-names = "mclk";
-+
-+            #sound-dai-cells = <0>;
-+
-+            dlg,micbias1-lvl = <2500>;
-+            dlg,micbias2-lvl = <2500>;
-+
-+            dlg,dmic-data-sel = "lrise_rfall";
-+            dlg,dmic-samplephase = "between_clkedge";
-+            dlg,dmic-clkrate = <3000000>;
-+        };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a577e41bd90cb1ac..990aced7e7a57e1f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6458,6 +6458,7 @@ F:	Documentation/devicetree/bindings/regulator/da92*.txt
- F:	Documentation/devicetree/bindings/regulator/dlg,da9*.yaml
- F:	Documentation/devicetree/bindings/regulator/dlg,slg51000.yaml
- F:	Documentation/devicetree/bindings/sound/da[79]*.txt
-+F:	Documentation/devicetree/bindings/sound/dlg,da7213.yaml
- F:	Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml
- F:	Documentation/devicetree/bindings/watchdog/dlg,da9062-watchdog.yaml
- F:	Documentation/hwmon/da90??.rst
--- 
-2.34.1
-
+Cheers,
+Prabhakar
 
