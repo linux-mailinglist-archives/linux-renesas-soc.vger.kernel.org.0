@@ -1,139 +1,131 @@
-Return-Path: <linux-renesas-soc+bounces-7408-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7417-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 496E1938E1B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jul 2024 13:36:19 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17CDF938E66
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jul 2024 13:50:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E76EB1F21BD2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jul 2024 11:36:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9681CB213AD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jul 2024 11:50:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99B0016C6B1;
-	Mon, 22 Jul 2024 11:36:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C99816C6B2;
+	Mon, 22 Jul 2024 11:50:55 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gauss.telenet-ops.be (gauss.telenet-ops.be [195.130.132.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48FA217597
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jul 2024 11:36:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75AB6288B5
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jul 2024 11:50:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721648175; cv=none; b=V0e/YnFUA8uCQi7guMncQ/KOjl3TNDQiOWbZfOpCf+BpH5W/TNxG0Z+ar2J9kMR6du5orL/vWAJtCEtH6USLXeowkmZ45CPlz8jfN+LkWaL93Ksl4R/c423D0/xi5d1/lgwFmmsd7ALbgYWZXN7lBmIJfEwcYyppoV/GOinmlS0=
+	t=1721649055; cv=none; b=clMcnYFNsb5mwNdTWhvuiHyZuOP/hkI8a6lLP87dfDuJcWoipup/l2g0qObZTTIXeyOqD/RQYx4SyiKgsVhQHqEqjSluK3shVj4sU2bVvBCzoxkD03G/CQoNYOPD/SebukPBGmeggdumuusNi4u+61Au0Pc2ge34wKuJIdCPd/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721648175; c=relaxed/simple;
-	bh=KNrCQlH/uLWxaJRmaUau+JTh0iwHCPF55QlGmTEWVCQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=btCuhigdCRYRQYOi0kacQDZ/INQBsNRntGBcOu2++N8RflVmu8w9spdA0Wt2VusQ+mKYjfxXK4/bjNG6aqxk6hNwm0QqJodXwDIlhchvy94Zj16xD3wBnIRB1BuQIqO6hTBUFCsQ/DDyckd9G8gS4pvs6MwLbB8UPV03DF0+vGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6694b50a937so31705317b3.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jul 2024 04:36:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721648172; x=1722252972;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=trBxW1zbNAD4GJYbmM/X6M6pR5uxsPplVtqgvGSEuIQ=;
-        b=Z3WwC5vKiVayyRBcXAckJbIut14hg72iTqCgeZBDxFpE0nrScmGVhAoSD43xlkGPuM
-         kwC4STh9HHQQVifTru7QByGRvvwRqESJUWpv+P9dbhijiuplVvs58DROzeEGAZkijLNP
-         vn2igB9obaWIWOEMZcEOJYHTrgqXarjU6+h2KGkLj6WbAnOKTkEphxoYWYE/lCOCSgIe
-         R4s0V6e/58xZMj46HwRuJgovgR3uL3KbbHLsQyVzWufapCETr+adEps2urGqBrMFZ9fQ
-         +cqj29NzqfAjCaDJgsNIlOT30tCurlboUUlxsk3VOpiL2EaM8dsQPxIeygUjrPC2CUy+
-         lQNw==
-X-Gm-Message-State: AOJu0Yx3Ho+mYwKVjUAEpmyExZXJLJ8Jqz3M3uxjWf9N8hib5bDqLoAJ
-	mdXhBAq4k1CwPUe+oSBW85SmSe6DBwWy9XAJIKN3dfsEVKHTZ/tOlBDM6b1O
-X-Google-Smtp-Source: AGHT+IGLNoaRKAT3ADCi6HrrNUesJvPCLqSLUGD/fsKSHmmaMl41VP/TBB7YHFW2+2Ptd/kqlVW5TQ==
-X-Received: by 2002:a05:690c:6604:b0:646:5f0b:e54 with SMTP id 00721157ae682-66a682cbfa1mr112495957b3.8.1721648171878;
-        Mon, 22 Jul 2024 04:36:11 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-66951f727f3sm15880157b3.22.2024.07.22.04.36.11
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jul 2024 04:36:11 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-65faa0614dbso42578047b3.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jul 2024 04:36:11 -0700 (PDT)
-X-Received: by 2002:a05:690c:2f13:b0:615:10f8:124a with SMTP id
- 00721157ae682-66a6a417054mr79066537b3.29.1721648171469; Mon, 22 Jul 2024
- 04:36:11 -0700 (PDT)
+	s=arc-20240116; t=1721649055; c=relaxed/simple;
+	bh=kUKb0P/kAOE7X/86n/cs1pl3V+fDiAJiredd6AqrnCc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bb6TAXOb82yXhwxPAGFWpo08AeF7TmqEDTCAvkLuoBB4+H36F/08/WvawZ/8IHQwT011HanDCE6ewl+PUFjQ91SAMbznbzg7SoL54cK3m3ALnCfg/oGDwYI8JodK208Y3e+IluN4pxzaRJ7DqLVzHq9HUuKdtadfxGQWU7YAVBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+	by gauss.telenet-ops.be (Postfix) with ESMTPS id 4WSJWS2n5Rz4x1pt
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jul 2024 13:50:44 +0200 (CEST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:173b:9414:53f5:de4c])
+	by michel.telenet-ops.be with bizsmtp
+	id qbqc2C00G1wvoRx06bqcKi; Mon, 22 Jul 2024 13:50:37 +0200
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1sVrYY-002zAE-3X;
+	Mon, 22 Jul 2024 13:50:36 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1sVrYq-0020hT-Gk;
+	Mon, 22 Jul 2024 13:50:36 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2 00/15] clk: renesas: rcar-gen4: Fractional PLL improvements
+Date: Mon, 22 Jul 2024 13:50:20 +0200
+Message-Id: <cover.1721648548.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <87ed8bbae7.wl-kuninori.morimoto.gx@renesas.com> <87cynvbadm.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87cynvbadm.wl-kuninori.morimoto.gx@renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 22 Jul 2024 13:35:59 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWUsFkVO8oB19j=LitzRRCdbW5i0b2T1tx4Y1X6coXk=g@mail.gmail.com>
-Message-ID: <CAMuHMdWUsFkVO8oB19j=LitzRRCdbW5i0b2T1tx4Y1X6coXk=g@mail.gmail.com>
-Subject: Re: [PATCH 1/3] arm64: dts: renesas: gray-hawk-single: Add Sound support
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-renesas-soc@vger.kernel.org, Khanh Le <khanh.le.xr@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Morimoto-san,
+	Hi all,
 
-On Wed, Jul 3, 2024 at 2:13=E2=80=AFAM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> Because V4M supports only 1 SSI, it can't use Playback/Capture
-> in the same time. It select Playback as default.
->
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Currently, almost all PLLs on R-Car Gen4 SoCs are modelled as fixed
+divider clocks, based on the state of the mode pins.  The only exception
+is PLL2 on R-Car V4H, which uses a custom clock driver to support High
+Performance mode on the Cortex-A76 CPU cores.
 
-Thanks for your patch^W^Wthe update!
+However, the boot loader stack may have changed the actual PLL
+configuration from the default, leading to incorrect clock frequencies.
+A typical sympton is a CPU core running much slower than reported by
+Linux.
 
-> --- a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-> +++ b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-> @@ -59,6 +78,24 @@ reg_3p3v: regulator-3p3v {
->                         regulator-boot-on;
->                         regulator-always-on;
->         };
-> +
-> +       sound_mux: mux {
+This patch series enhances PLL support on R-Car Gen4 support by
+obtaining the actual PLL configuration from the hardware.  As these PLLs
+can be configured for fractional multiplication, an old patch to add
+support fractional multiplication is revived, too.  Of course some
+cleanups are included, too.
 
-"sound-mux", to avoid potential conflicts.
+Changes compared to v1:
+  - Add Reviewed-by,
+  - Sort register definitions by register offset,
+  - Use mul_u64_u32_shr() and div64_ul() helpers,
+  - New patch "PATCH v2 15/15] clk: renesas: rcar-gen4: Remove unused
+    default PLL2/3/4/6 configs".
 
-> +               compatible =3D "simple-audio-mux";
-> +               mux-gpios =3D <&gpio0 1 GPIO_ACTIVE_HIGH>;
-> +               state-labels =3D "Playback", "Capture";
-> +       };
+I plan to queue this series in renesas-clk-for-v6.12.
 
-> @@ -139,6 +185,29 @@ eeprom@53 {
->         };
->  };
->
-> +&i2c3 {
-> +       pinctrl-0 =3D <&i2c3_pins>;
-> +       pinctrl-names =3D "default";
-> +
-> +       status =3D "okay";
-> +       clock-frequency =3D <400000>;
-> +
-> +       ak4619@10 {
+Thanks for your comments!
 
-codec@10
+Geert Uytterhoeven (15):
+  clk: renesas: rcar-gen4: Removed unused SSMODE_* definitions
+  clk: renesas: rcar-gen4: Clarify custom PLL clock support
+  clk: renesas: rcar-gen4: Use FIELD_GET()
+  clk: renesas: rcar-gen4: Use defines for common CPG registers
+  clk: renesas: rcar-gen4: Add support for fractional multiplication
+  clk: renesas: rcar-gen4: Add support for variable fractional PLLs
+  clk: renesas: rcar-gen4: Add support for fixed variable PLLs
+  clk: renesas: rcar-gen4: Add support for fractional 9.24 PLLs
+  clk: renesas: r8a779a0: Use defines for PLL control registers
+  clk: renesas: r8a779f0: Model PLL1/2/3/6 as fractional PLLs
+  clk: renesas: r8a779g0: Model PLL1/3/4/6 as fractional PLLs
+  clk: renesas: r8a779h0: Model PLL1/2/3/4/6 as fractional PLLs
+  clk: renesas: rcar-gen4: Remove unused variable PLL2 clock type
+  clk: renesas: rcar-gen4: Remove unused fixed PLL clock types
+  clk: renesas: rcar-gen4: Remove unused default PLL2/3/4/6 configs
 
-> +               compatible =3D "asahi-kasei,ak4619";
+ drivers/clk/renesas/r8a779a0-cpg-mssr.c |  35 ++--
+ drivers/clk/renesas/r8a779f0-cpg-mssr.c |  28 ++--
+ drivers/clk/renesas/r8a779g0-cpg-mssr.c |  36 ++--
+ drivers/clk/renesas/r8a779h0-cpg-mssr.c |  32 ++--
+ drivers/clk/renesas/rcar-gen4-cpg.c     | 210 ++++++++++++++++--------
+ drivers/clk/renesas/rcar-gen4-cpg.h     |  36 ++--
+ 6 files changed, 230 insertions(+), 147 deletions(-)
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.12, with the above fixed.
+-- 
+2.34.1
 
 Gr{oetje,eeting}s,
 
-                        Geert
+						Geert
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
