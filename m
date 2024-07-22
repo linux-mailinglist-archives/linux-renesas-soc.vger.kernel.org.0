@@ -1,132 +1,139 @@
-Return-Path: <linux-renesas-soc+bounces-7407-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7408-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2E8C938E02
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jul 2024 13:22:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 496E1938E1B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jul 2024 13:36:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CFAC61C21172
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jul 2024 11:22:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E76EB1F21BD2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jul 2024 11:36:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5550A1684A6;
-	Mon, 22 Jul 2024 11:22:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="cUYoOc9n"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99B0016C6B1;
+	Mon, 22 Jul 2024 11:36:15 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C3F1C2E;
-	Mon, 22 Jul 2024 11:22:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48FA217597
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jul 2024 11:36:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721647343; cv=none; b=sfaYwEUiZ3L+GItO5mjMAXZ9ptd9Du26JGH4pck06b3zr5kcg57pkxflsOeSAMzE9VuPOZTG3YsyTuh26H7GDonTE6CUCOt4zz1arRO/mvGLra1zOKpDPnIjS3uaAtzTvOmRF6AptgthYkKN1F9NTncY+433MI9unf1SiGUlAek=
+	t=1721648175; cv=none; b=V0e/YnFUA8uCQi7guMncQ/KOjl3TNDQiOWbZfOpCf+BpH5W/TNxG0Z+ar2J9kMR6du5orL/vWAJtCEtH6USLXeowkmZ45CPlz8jfN+LkWaL93Ksl4R/c423D0/xi5d1/lgwFmmsd7ALbgYWZXN7lBmIJfEwcYyppoV/GOinmlS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721647343; c=relaxed/simple;
-	bh=TSjluSvqQ3OxAtecfmW9t01oCs4V2LAnNclER/7fRvQ=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=amOXDAM9DHVq7p9Gf4TkdL83HGp73lyySQmxru+O+spU1zEtfZGTvhYIGU0o0y9hOsQOdibTHP1kMzmGH8qqtYjHYI58ui+3IVhTPgUg/BX9bKBVGVWnOuvG2fuqHPJlyOsRopMNBvd5xqb2n0m2Uo1Tc2gVYnreFK4h/nnM6N4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=cUYoOc9n; arc=none smtp.client-ip=68.232.153.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1721647341; x=1753183341;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TSjluSvqQ3OxAtecfmW9t01oCs4V2LAnNclER/7fRvQ=;
-  b=cUYoOc9nF+QnNyVYPp3K3AFgOVGJ1bB9jxsSb6ydW4L0KGmxEsN9LUn3
-   enk8os9N1DT2I/TuV/ywnmSsBS1KSUF7itqhgMaEtUmFELC5bBX0o4Mmg
-   S175HbQdYh+ChcSv8/9KyiVHvj++gFNfSjCtvsE4jpyn8x5O9eF2PtH/x
-   ptTI/23tC833Tu+FvVw9v1HGPguE1NE/6RXsNqnnb5m3RVJOGIc50AIA0
-   SL2AvHpVvp7HKQeJ1ZaLBe1mgLqoHo28Hb652b6UnqKcJ0vz/kI7HD2CD
-   SqwokPP4boZip3rNXVU2Bd1Jqt3uaFInMCGW0mrvX2UZEBqK3WeksHyxx
-   Q==;
-X-CSE-ConnectionGUID: 88n3YL8ETjOgZf2mQfcPfQ==
-X-CSE-MsgGUID: f0NRyWKWTPmVCxK0TqFeIA==
-X-IronPort-AV: E=Sophos;i="6.09,228,1716274800"; 
-   d="asc'?scan'208";a="260412435"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 22 Jul 2024 04:22:14 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
- chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 22 Jul 2024 04:21:33 -0700
-Received: from wendy (10.10.85.11) by chn-vm-ex02.mchp-main.com (10.10.85.144)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
- Transport; Mon, 22 Jul 2024 04:21:31 -0700
-Date: Mon, 22 Jul 2024 12:21:07 +0100
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-CC: Conor Dooley <conor@kernel.org>, <linux-riscv@lists.infradead.org>, Paul
- Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Lad Prabhakar
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1] RISC-V: run savedefconfig for defconfig
-Message-ID: <20240722-unlovely-snowflake-75e44dfd22fa@wendy>
-References: <20240717-shrubs-concise-51600886babf@spud>
- <CAMuHMdXc_VPRLg1N_uCerXzzntJ23pq6m3Jb5eSPVZjxuXjHAg@mail.gmail.com>
+	s=arc-20240116; t=1721648175; c=relaxed/simple;
+	bh=KNrCQlH/uLWxaJRmaUau+JTh0iwHCPF55QlGmTEWVCQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=btCuhigdCRYRQYOi0kacQDZ/INQBsNRntGBcOu2++N8RflVmu8w9spdA0Wt2VusQ+mKYjfxXK4/bjNG6aqxk6hNwm0QqJodXwDIlhchvy94Zj16xD3wBnIRB1BuQIqO6hTBUFCsQ/DDyckd9G8gS4pvs6MwLbB8UPV03DF0+vGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6694b50a937so31705317b3.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jul 2024 04:36:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721648172; x=1722252972;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=trBxW1zbNAD4GJYbmM/X6M6pR5uxsPplVtqgvGSEuIQ=;
+        b=Z3WwC5vKiVayyRBcXAckJbIut14hg72iTqCgeZBDxFpE0nrScmGVhAoSD43xlkGPuM
+         kwC4STh9HHQQVifTru7QByGRvvwRqESJUWpv+P9dbhijiuplVvs58DROzeEGAZkijLNP
+         vn2igB9obaWIWOEMZcEOJYHTrgqXarjU6+h2KGkLj6WbAnOKTkEphxoYWYE/lCOCSgIe
+         R4s0V6e/58xZMj46HwRuJgovgR3uL3KbbHLsQyVzWufapCETr+adEps2urGqBrMFZ9fQ
+         +cqj29NzqfAjCaDJgsNIlOT30tCurlboUUlxsk3VOpiL2EaM8dsQPxIeygUjrPC2CUy+
+         lQNw==
+X-Gm-Message-State: AOJu0Yx3Ho+mYwKVjUAEpmyExZXJLJ8Jqz3M3uxjWf9N8hib5bDqLoAJ
+	mdXhBAq4k1CwPUe+oSBW85SmSe6DBwWy9XAJIKN3dfsEVKHTZ/tOlBDM6b1O
+X-Google-Smtp-Source: AGHT+IGLNoaRKAT3ADCi6HrrNUesJvPCLqSLUGD/fsKSHmmaMl41VP/TBB7YHFW2+2Ptd/kqlVW5TQ==
+X-Received: by 2002:a05:690c:6604:b0:646:5f0b:e54 with SMTP id 00721157ae682-66a682cbfa1mr112495957b3.8.1721648171878;
+        Mon, 22 Jul 2024 04:36:11 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-66951f727f3sm15880157b3.22.2024.07.22.04.36.11
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Jul 2024 04:36:11 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-65faa0614dbso42578047b3.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jul 2024 04:36:11 -0700 (PDT)
+X-Received: by 2002:a05:690c:2f13:b0:615:10f8:124a with SMTP id
+ 00721157ae682-66a6a417054mr79066537b3.29.1721648171469; Mon, 22 Jul 2024
+ 04:36:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="zjetONaQtH1+epJ3"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXc_VPRLg1N_uCerXzzntJ23pq6m3Jb5eSPVZjxuXjHAg@mail.gmail.com>
-
---zjetONaQtH1+epJ3
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <87ed8bbae7.wl-kuninori.morimoto.gx@renesas.com> <87cynvbadm.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87cynvbadm.wl-kuninori.morimoto.gx@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 22 Jul 2024 13:35:59 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWUsFkVO8oB19j=LitzRRCdbW5i0b2T1tx4Y1X6coXk=g@mail.gmail.com>
+Message-ID: <CAMuHMdWUsFkVO8oB19j=LitzRRCdbW5i0b2T1tx4Y1X6coXk=g@mail.gmail.com>
+Subject: Re: [PATCH 1/3] arm64: dts: renesas: gray-hawk-single: Add Sound support
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-renesas-soc@vger.kernel.org, Khanh Le <khanh.le.xr@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 19, 2024 at 01:05:10PM +0200, Geert Uytterhoeven wrote:
-> Hi Conor,
->=20
-> On Wed, Jul 17, 2024 at 3:29=E2=80=AFPM Conor Dooley <conor@kernel.org> w=
-rote:
-> > From: Conor Dooley <conor.dooley@microchip.com>
-> >
-> > It's been a while since this was run, and there's a few things that have
-> > changed. Firstly, almost all of the Renesas stuff vanishes because the
-> > config for the RZ/Five is gated behind NONPORTABLE. Several options
-> > (like CONFIG_PM) are removed as they are the default values.
-> >
-> > To retain DEFVFREQ_THERMAL and BLK_DEV_THROTTLING, add PM_DEVFREQ and
-> > BLK_CGROUP respectively.
-> >
-> > Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
->=20
-> Thanks for your patch!
->=20
-> Perhaps we should add an rzfive_defconfig?
+Hi Morimoto-san,
 
-I dunno, do we want (potentially a bunch of) platform specific
-defconfigs? I'd sooner delete the ones that we have than add more!
-I would suggest to just turn on NONPORTABLE, but that isn't a solution
-given that the RZ/Five support requires turning off Zicbom. Ultimately I
-think it is Palmer's decision whether we add a defconfig for the
-platform - it is a bit of a special case given the aforementioned
-incompatibility.
+On Wed, Jul 3, 2024 at 2:13=E2=80=AFAM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> Because V4M supports only 1 SSI, it can't use Playback/Capture
+> in the same time. It select Playback as default.
+>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
---zjetONaQtH1+epJ3
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks for your patch^W^Wthe update!
 
------BEGIN PGP SIGNATURE-----
+> --- a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
+> +++ b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
+> @@ -59,6 +78,24 @@ reg_3p3v: regulator-3p3v {
+>                         regulator-boot-on;
+>                         regulator-always-on;
+>         };
+> +
+> +       sound_mux: mux {
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZp5AowAKCRB4tDGHoIJi
-0jaMAQDj/lao31dpASHfsg/s6LHzh/a6KomgsOZaKsJPBnapZwD+Jl94C1zmK7X7
-i36INAHW9SWtJmxl0iJFRZEYtv30zwo=
-=gdzg
------END PGP SIGNATURE-----
+"sound-mux", to avoid potential conflicts.
 
---zjetONaQtH1+epJ3--
+> +               compatible =3D "simple-audio-mux";
+> +               mux-gpios =3D <&gpio0 1 GPIO_ACTIVE_HIGH>;
+> +               state-labels =3D "Playback", "Capture";
+> +       };
+
+> @@ -139,6 +185,29 @@ eeprom@53 {
+>         };
+>  };
+>
+> +&i2c3 {
+> +       pinctrl-0 =3D <&i2c3_pins>;
+> +       pinctrl-names =3D "default";
+> +
+> +       status =3D "okay";
+> +       clock-frequency =3D <400000>;
+> +
+> +       ak4619@10 {
+
+codec@10
+
+> +               compatible =3D "asahi-kasei,ak4619";
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.12, with the above fixed.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
