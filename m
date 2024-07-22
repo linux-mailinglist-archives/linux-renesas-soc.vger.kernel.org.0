@@ -1,106 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-7406-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7407-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 296729380F7
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Jul 2024 13:20:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2E8C938E02
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jul 2024 13:22:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E1CE82821A9
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Jul 2024 11:20:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CFAC61C21172
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jul 2024 11:22:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 416CA84D12;
-	Sat, 20 Jul 2024 11:20:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5550A1684A6;
+	Mon, 22 Jul 2024 11:22:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="U94kEMIw"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="cUYoOc9n"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EEFD12C554
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 20 Jul 2024 11:20:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C3F1C2E;
+	Mon, 22 Jul 2024 11:22:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721474415; cv=none; b=tPyocG9D+nusVxOOu9zICSSoy3a6dYZLGrzgiSIo2eTikxc4XFoeDxtYBKlOoMZQ4ZkDAuNsHcs94jlKbQM4Jrd1UeE0vxQLOwb/rPt0LJ9YPzEIT2MNjabhkZGgGPNwFoiQ1dK4HxUHa+T8yR56Nh8qEAgkdi9pVxhsL5oicTY=
+	t=1721647343; cv=none; b=sfaYwEUiZ3L+GItO5mjMAXZ9ptd9Du26JGH4pck06b3zr5kcg57pkxflsOeSAMzE9VuPOZTG3YsyTuh26H7GDonTE6CUCOt4zz1arRO/mvGLra1zOKpDPnIjS3uaAtzTvOmRF6AptgthYkKN1F9NTncY+433MI9unf1SiGUlAek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721474415; c=relaxed/simple;
-	bh=sChH+MCbFo0y4aV4Ep03w6/7OiG6YsIC7fBF8E5hyTs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r1VenfPgJ0ZXOm3F9Bcul7yMqL9y0MXljEqN9VapcssofV+iqcvhL8lzUQwBfwakMSTQAuy1UN2t0bb81ZLFN7C6jIF2Ru1/KHsRe7SoDLOQAy2NZuwaagsNGEOgqHRBGpIKUdxp4Oh5UTKZv915cLnh3btOOcqPLVlYyLE4cJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=U94kEMIw; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=sChH
-	+MCbFo0y4aV4Ep03w6/7OiG6YsIC7fBF8E5hyTs=; b=U94kEMIwK4uRsENIWbKc
-	3Zer3ufj7EFyll7Chf1FS+ArGzUIvWso8ws6ZL6E6eykiwSDfeSBGUprwydlHEX6
-	T5ZuKmvh/k9mp+I3v6wScgv1797HlMiVXDo6d99CL2vi8ZkYckVBNLrguMGD+oDD
-	lVd9hZIQtW+xQ/zN4oo6QIV8X5zhdZZNANL82DqZ56bUW8fTyYis//p+9NaHpfpN
-	e88XhPgXCZV9gRIx30mIAxxetJ1qI+a3gD0sS2O/tGthkg6EzoIMXyHBHroLho6N
-	p50gRNDk1WetyOtBqZELGCUtBVybSdZB9GpI18B8la0HLcf27HD291mBsv0wcvaK
-	yQ==
-Received: (qmail 1449870 invoked from network); 20 Jul 2024 13:20:10 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Jul 2024 13:20:10 +0200
-X-UD-Smtp-Session: l3s3148p1@qjG6/qsdAugujnsv
-Date: Sat, 20 Jul 2024 13:20:09 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] i2c: header: improve kdoc for i2c_algorithm
-Message-ID: <ZpudaTlDrbMltiSI@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-References: <20240716083623.7737-4-wsa+renesas@sang-engineering.com>
- <20240716083623.7737-6-wsa+renesas@sang-engineering.com>
+	s=arc-20240116; t=1721647343; c=relaxed/simple;
+	bh=TSjluSvqQ3OxAtecfmW9t01oCs4V2LAnNclER/7fRvQ=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=amOXDAM9DHVq7p9Gf4TkdL83HGp73lyySQmxru+O+spU1zEtfZGTvhYIGU0o0y9hOsQOdibTHP1kMzmGH8qqtYjHYI58ui+3IVhTPgUg/BX9bKBVGVWnOuvG2fuqHPJlyOsRopMNBvd5xqb2n0m2Uo1Tc2gVYnreFK4h/nnM6N4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=cUYoOc9n; arc=none smtp.client-ip=68.232.153.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1721647341; x=1753183341;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TSjluSvqQ3OxAtecfmW9t01oCs4V2LAnNclER/7fRvQ=;
+  b=cUYoOc9nF+QnNyVYPp3K3AFgOVGJ1bB9jxsSb6ydW4L0KGmxEsN9LUn3
+   enk8os9N1DT2I/TuV/ywnmSsBS1KSUF7itqhgMaEtUmFELC5bBX0o4Mmg
+   S175HbQdYh+ChcSv8/9KyiVHvj++gFNfSjCtvsE4jpyn8x5O9eF2PtH/x
+   ptTI/23tC833Tu+FvVw9v1HGPguE1NE/6RXsNqnnb5m3RVJOGIc50AIA0
+   SL2AvHpVvp7HKQeJ1ZaLBe1mgLqoHo28Hb652b6UnqKcJ0vz/kI7HD2CD
+   SqwokPP4boZip3rNXVU2Bd1Jqt3uaFInMCGW0mrvX2UZEBqK3WeksHyxx
+   Q==;
+X-CSE-ConnectionGUID: 88n3YL8ETjOgZf2mQfcPfQ==
+X-CSE-MsgGUID: f0NRyWKWTPmVCxK0TqFeIA==
+X-IronPort-AV: E=Sophos;i="6.09,228,1716274800"; 
+   d="asc'?scan'208";a="260412435"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 22 Jul 2024 04:22:14 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
+ chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 22 Jul 2024 04:21:33 -0700
+Received: from wendy (10.10.85.11) by chn-vm-ex02.mchp-main.com (10.10.85.144)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
+ Transport; Mon, 22 Jul 2024 04:21:31 -0700
+Date: Mon, 22 Jul 2024 12:21:07 +0100
+From: Conor Dooley <conor.dooley@microchip.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+CC: Conor Dooley <conor@kernel.org>, <linux-riscv@lists.infradead.org>, Paul
+ Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Lad Prabhakar
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v1] RISC-V: run savedefconfig for defconfig
+Message-ID: <20240722-unlovely-snowflake-75e44dfd22fa@wendy>
+References: <20240717-shrubs-concise-51600886babf@spud>
+ <CAMuHMdXc_VPRLg1N_uCerXzzntJ23pq6m3Jb5eSPVZjxuXjHAg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="9Cy2Yhu49Gad3QrT"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="zjetONaQtH1+epJ3"
 Content-Disposition: inline
-In-Reply-To: <20240716083623.7737-6-wsa+renesas@sang-engineering.com>
+In-Reply-To: <CAMuHMdXc_VPRLg1N_uCerXzzntJ23pq6m3Jb5eSPVZjxuXjHAg@mail.gmail.com>
 
-
---9Cy2Yhu49Gad3QrT
-Content-Type: text/plain; charset=us-ascii
+--zjetONaQtH1+epJ3
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 16, 2024 at 10:36:25AM +0200, Wolfram Sang wrote:
-> Reword the explanation of @xfer, the old one was confusing and mixing up
-> terminology. Other than that, capitalize some words correctly and use
-> full line length.
+On Fri, Jul 19, 2024 at 01:05:10PM +0200, Geert Uytterhoeven wrote:
+> Hi Conor,
 >=20
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> On Wed, Jul 17, 2024 at 3:29=E2=80=AFPM Conor Dooley <conor@kernel.org> w=
+rote:
+> > From: Conor Dooley <conor.dooley@microchip.com>
+> >
+> > It's been a while since this was run, and there's a few things that have
+> > changed. Firstly, almost all of the Renesas stuff vanishes because the
+> > config for the RZ/Five is gated behind NONPORTABLE. Several options
+> > (like CONFIG_PM) are removed as they are the default values.
+> >
+> > To retain DEFVFREQ_THERMAL and BLK_DEV_THROTTLING, add PM_DEVFREQ and
+> > BLK_CGROUP respectively.
+> >
+> > Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+>=20
+> Thanks for your patch!
+>=20
+> Perhaps we should add an rzfive_defconfig?
 
-Applied to for-current, thanks!
+I dunno, do we want (potentially a bunch of) platform specific
+defconfigs? I'd sooner delete the ones that we have than add more!
+I would suggest to just turn on NONPORTABLE, but that isn't a solution
+given that the RZ/Five support requires turning off Zicbom. Ultimately I
+think it is Palmer's decision whether we add a defconfig for the
+platform - it is a bit of a special case given the aforementioned
+incompatibility.
 
-
---9Cy2Yhu49Gad3QrT
+--zjetONaQtH1+epJ3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmabnWkACgkQFA3kzBSg
-KbZIIg/9Eg2FiS580J1s/3bV9n+3AR8tH846L3qFtEXwWflESVI7vtvrbljsUicG
-6tWc02c/s/j+GpW1h5foyWSMO22JhR7arr2/jXr+es6on6WgLEzHTkdoDwy1rx7k
-iZUq80Uv04VLXx/xq/1ljYspGpfLj9DxBK4a9eg/XGEDew32t9ioj9di8TEFMzTD
-3sLOpiDjbvUQ+1rvZ37AZWhayT6mmgQDM059HAyrfQneZnjtHcCZy0KHUoBnf25A
-ibLCI2ArBGScIVUP3RVpMWMEw2dw43OIW0A6QWmiaveWnE7jIim7YZHv0ST/Mj9w
-tpFooP41+4yUK3FoPjCgx3LD3N0qutNmHrkUoXNIUOQSpVs+eFzXQ1WsJWrjdlfB
-a47J8iGJwvpG82y9nqPz3CmvteL6r69thQvxW2u4Igdchj02zU7I7xp9JqGau96f
-ybtJtuout1GMHtgiHIvPuaRiAoxVM5a4r/byWxE7HEtM16KoG17w09XRj4kmOW3y
-CeXVSFnLiCdssnUaAk8ySLRrZWa4fjZWXU7Cc33prCuDz3LSTZ7tfczWASBHO12j
-x0D2fRVSofet5R5L6Gi+0wgTaeIt+RtC5qb53/lRdtMdP9+YRz75tuc/hsm8bnqC
-+IdKd5R3sJLhW53EQZLtvWZU2n8QwKSx4CA2FUkcQppEn3Lujzc=
-=di4Z
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZp5AowAKCRB4tDGHoIJi
+0jaMAQDj/lao31dpASHfsg/s6LHzh/a6KomgsOZaKsJPBnapZwD+Jl94C1zmK7X7
+i36INAHW9SWtJmxl0iJFRZEYtv30zwo=
+=gdzg
 -----END PGP SIGNATURE-----
 
---9Cy2Yhu49Gad3QrT--
+--zjetONaQtH1+epJ3--
 
