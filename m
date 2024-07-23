@@ -1,140 +1,82 @@
-Return-Path: <linux-renesas-soc+bounces-7471-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7472-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C01EC93A48E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jul 2024 18:50:07 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1359E93A8B1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jul 2024 23:28:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E401F1C2260C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jul 2024 16:50:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7B136B21ACD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jul 2024 21:28:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEB8D157A68;
-	Tue, 23 Jul 2024 16:50:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 699D014430C;
+	Tue, 23 Jul 2024 21:28:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GJg+wZi2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mN7PJHMi"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1585413B287;
-	Tue, 23 Jul 2024 16:50:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 424CB13DDDB;
+	Tue, 23 Jul 2024 21:28:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721753402; cv=none; b=aLYprKwK5tmgbmn0thGIjyIAg9qoXShEV/cKfOMpCvlfDyXUGohKgEwzUmGG2PbhyotG7FmE/46TE4MjjwgLy8N+yGsNfwSLk39C4R5jjhsv74IQJQa9lGDL5+2POttbBmGdultaNQzXHa4waUZBTWdp8O5SULgVPT7e99fvLSM=
+	t=1721770124; cv=none; b=LIPTG37Yuub8Q8V6QYcStwrWezT+o7qHVuVx8CdN2fwr6CSHCtxlIaa0hXbXDAQMxmlwXjvohPWHbdL4If2tWKCTc/Z04RmNwEphr0coOmUZXY0neZD+snrudpJkLyDiQxYQGkSiDTt3F7cu0nlxkxfN8XWxEa20KoC+IPR7k/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721753402; c=relaxed/simple;
-	bh=bgRzib7ffK4t/fOJONVPwKLTPYzLnXKhHikn+D5UNbk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=C2H5Bfy6UYfGTreqkVz217jOmuO/RzuuZ3Qa1/0juJHYdReC1S9CjI33F/HBGrBDauaJ7fBwOeCiu0P0fw/OWOdr69cNNPQ37tZDnx3p4Bn+5aDKSYNObrZ+ywH2G3yKaCqy0AQQJqDKuCnq4WuJR3QXdA4MRnp5YO5lCua0ulk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GJg+wZi2; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4266edee10cso38498705e9.2;
-        Tue, 23 Jul 2024 09:50:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721753399; x=1722358199; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CIXjbVlMzQ/E74zkKkld+Uu+AAnVMwiLGvKXFp+BrOw=;
-        b=GJg+wZi2ZpT/hjngbuqMks6r2lUX5Jj3u1qpUe/tDNbczrjnsn1Dy5JLsFgFHqnBZR
-         ajI2Qu1dZ4AsJOXcqakWe9QoB7FAbD4WHMjkxrPLoUCv8i6tU9YZZF2CwXkL8zxr4DoD
-         2SGREfZCaIfrbsVAOLqs7JItEvcJRYyygmnZ/gg/1HDFxzSvVbyYwCtZqphhhhFCfrTE
-         QPnl+nLjhrw8SNX3/qs8uzuXBGtohKCt2JGk3lxlDcb8TYg9ezv8XEh/9hbskpBXjCN0
-         9M3xDhrYXQdDINo3ZUfjEclF1zrWK+y7NZV+tKD40kpiHYtVpJEgq1I3IPetMvl9el9o
-         7VqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721753399; x=1722358199;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CIXjbVlMzQ/E74zkKkld+Uu+AAnVMwiLGvKXFp+BrOw=;
-        b=fpLNKf4NrNwxVLELkAu+WM//M1l6t7Ket1AHyxDkIVgPcVfIjwXnyT+TJamYHDTiDm
-         Yl8HXVXU6kA5blYMMY98xOnbdQLq7WFaAz/0c84C/rw4HCBCNSdIGJl0IlfRgxO8SLFe
-         6qNqSanvmbaqo1SU8+8UoNfMEwCPPSNE/n3Mg34iQlJBfTyhU1yeM211RVPF6yLFbKoQ
-         EJkufPZJDvj5SyGdHJ28icChUg7OKrJlFXEhgNNwuyWAUt6AyNaUQCGgvurp72scWYAi
-         5fuIPOmMhQts5gGM1IHuLary6XDo7MgINO59TkZSt4zFdDwMhChIWIr072CqXc0y26JH
-         YAYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWeBfvvTlJNuhRLx7nCSV/1ip4NOUScb1vp+VIG4H8IiNG9Ufw4g5Wx7aoqKk25qxfxjCKMYHXb03amhSFjKEykeEXZQS05lRwI9dfCZyaXQRKIlTRTOStiPo3xywZ8XE3ERRdrxkPAig==
-X-Gm-Message-State: AOJu0YyKs1ANO6bq4Q6GV+/HfyEY5l6fk+dVaDA0xavkzjz+h7Wp886R
-	36tyXQJsf/U/de0ac2RabjAZFYmMxbGan4Jl5OtZhaK2Y10fQXBN
-X-Google-Smtp-Source: AGHT+IF5fAiKkcWS/KCYN1ZlTrAf5xl/dy8U8HtPAw0W8wO8y4qK0TOw3HRz/WQ1BqGJGDbRpL7KuA==
-X-Received: by 2002:a05:600c:5103:b0:426:6b47:290b with SMTP id 5b1f17b1804b1-427daa61cb4mr71062635e9.28.1721753399207;
-        Tue, 23 Jul 2024 09:49:59 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427d2a8e42bsm210617315e9.30.2024.07.23.09.49.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jul 2024 09:49:58 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Linus Walleij <linus.walleij@linaro.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] pinctrl: renesas: rzg2l: Return -EINVAL if the pin doesn't support PIN_CFG_OEN
-Date: Tue, 23 Jul 2024 17:47:44 +0100
-Message-Id: <20240723164744.505233-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1721770124; c=relaxed/simple;
+	bh=1DuTU/4GzAiGpJjiPNA4NvSs7zP/dsLStlGl6xBplbo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YkQSkJkUqVSfRh4MZ5VJ18CeHFAZ9P1P9QjlRs+I3vh8iYgfdgkJTiENBHrx92RON9ZuV3P1uXA1a58gveJGHmcA0sIbCPPHsni8Af+A5KTpn9K4uirStWwm549XgVkkKYysGIJlWspNrer47kvnufhpUeMqXukw2CWHgAWKFUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mN7PJHMi; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99C77C4AF0A;
+	Tue, 23 Jul 2024 21:28:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721770123;
+	bh=1DuTU/4GzAiGpJjiPNA4NvSs7zP/dsLStlGl6xBplbo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mN7PJHMi7ZIRZW3DcxcJhJkDpoWp1qZSZhzuzXnVfWnuvJn1In2DhtNFgC2OOagU+
+	 VkaXqKBib50I8Nh/Qd+7Phkmwlwp+1VW7wqtylUcUrfJTaN+vOctfnhd77BVZyN8Ld
+	 i27jItCZ/Exk76o3hXgH6skUAXBad6Z2GaN9PBeWRwH8rVOzbr4AEJSni6lrS9D3SU
+	 2T2NJE52hyrU1LH5wuXwghcBvO00AfriRc1t0kxjT+TlrW16HBSIbfDfKb6MPBGrJZ
+	 m2AeU5KRPrRrhZqeSemr3IBsBT17NybD5dR5Qy1nEtokvck2goy8QY/mLRyTrA47FE
+	 bd1hjSQ7flasg==
+Date: Tue, 23 Jul 2024 16:28:42 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Oliver Rhodes <oliver.rhodes.aj@renesas.com>
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	linux-renesas-soc@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH V1 resend 1/6] dt-bindings: soc: renesas: Document RZ/G2M
+ v3.0 (r8a774a3) SoC
+Message-ID: <172177012203.1133136.2632527102375897752.robh@kernel.org>
+References: <20240723110733.10988-1-oliver.rhodes.aj@renesas.com>
+ <20240723110733.10988-2-oliver.rhodes.aj@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240723110733.10988-2-oliver.rhodes.aj@renesas.com>
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Update the rzg2l_pinctrl_pinconf_get() function to return -EINVAL for
-PIN_CONFIG_OUTPUT_ENABLE config if the pin doesn't support the PIN_CFG_OEN
-configuration.
+On Tue, 23 Jul 2024 12:07:28 +0100, Oliver Rhodes wrote:
+> Add SoC documentation for Renesas RZ/G2M v3.0 (a.k.a r8a774a3) SoC.
+> 
+> Signed-off-by: Oliver Rhodes <oliver.rhodes.aj@renesas.com>
+> ---
+> v1->v1 resend:
+> * No change.
+> ---
+>  .../devicetree/bindings/soc/renesas/renesas.yaml     | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
 
--EINVAL is a valid error when dumping the pin configurations. Returning
--EOPNOTSUPP for a pin that does not support PIN_CFG_OEN resulted in the
-message 'ERROR READING CONFIG SETTING 16' being printed during dumping
-pinconf-pins.
-
-For consistency do similar change in rzg2l_pinctrl_pinconf_set() for
-PIN_CONFIG_OUTPUT_ENABLE config.
-
-Fixes: a9024a323af2 ("pinctrl: renesas: rzg2l: Clean up and refactor OEN read/write functions")
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/pinctrl/renesas/pinctrl-rzg2l.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-index 632180570b70..3ef20f2fa88e 100644
---- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-@@ -1261,7 +1261,9 @@ static int rzg2l_pinctrl_pinconf_get(struct pinctrl_dev *pctldev,
- 		break;
- 
- 	case PIN_CONFIG_OUTPUT_ENABLE:
--		if (!pctrl->data->oen_read || !(cfg & PIN_CFG_OEN))
-+		if (!(cfg & PIN_CFG_OEN))
-+			return -EINVAL;
-+		if (!pctrl->data->oen_read)
- 			return -EOPNOTSUPP;
- 		arg = pctrl->data->oen_read(pctrl, _pin);
- 		if (!arg)
-@@ -1402,7 +1404,9 @@ static int rzg2l_pinctrl_pinconf_set(struct pinctrl_dev *pctldev,
- 
- 		case PIN_CONFIG_OUTPUT_ENABLE:
- 			arg = pinconf_to_config_argument(_configs[i]);
--			if (!pctrl->data->oen_write || !(cfg & PIN_CFG_OEN))
-+			if (!(cfg & PIN_CFG_OEN))
-+				return -EINVAL;
-+			if (!pctrl->data->oen_write)
- 				return -EOPNOTSUPP;
- 			ret = pctrl->data->oen_write(pctrl, _pin, !!arg);
- 			if (ret)
--- 
-2.34.1
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
 
