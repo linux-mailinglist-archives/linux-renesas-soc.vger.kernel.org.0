@@ -1,160 +1,244 @@
-Return-Path: <linux-renesas-soc+bounces-7430-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7431-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E63049396A0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jul 2024 00:38:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B2493982F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jul 2024 04:17:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 199F31C2169B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jul 2024 22:38:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5E463282288
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jul 2024 02:17:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E532F3BBF2;
-	Mon, 22 Jul 2024 22:38:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BD2D136E3E;
+	Tue, 23 Jul 2024 02:17:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VH3WVAKM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RxOuDL3m"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B678FD512;
-	Mon, 22 Jul 2024 22:38:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46DB214287;
+	Tue, 23 Jul 2024 02:17:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721687897; cv=none; b=aZHQoqTdZqaxfu3PCh2Me5BcqmXeePG1e6wKWckRVnoOsK9Ktf4QvABevbG543g10GNk5TDEIDpX7llwFlL/Z8KFpVhzTrRpPRs22RL3r8vaB50f3UJkoZ0Kva8lsS9ETfHpsm0yMA7OYwm99Gl8rqFtfQbsRRyzS+Kt5CjWxcQ=
+	t=1721701036; cv=none; b=H+opDT/Gg5HySoRyM5FBsdv/vQqhEITPFZYWqkGFx4hwA8+Yyw6VZz8EmAn2uyVp7wGjJoP0VmCQnE0hsqqwIMnZs6TeiVYA6SpoTbRzX036n8HecPe1n5YAfe6LggJeFkAL1cS7/ThPzR4fkm4VKYYVJgZmaUkufRtM29L8YrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721687897; c=relaxed/simple;
-	bh=zxNYwrFa6LhkKHTA0im0Ydgymd4rZUJv61OoqQvLUlY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=ca+rv9neNyYG/qlaqR/S8+84OIPuyT7XMMXZrpfE2RK+4ffXicqN6G+IkQJx0MZMRps9E87CTwCs223+r2WY4ngSYHEwg+ZdSiyVK5CLskuQBMNra7Ap9nJZadMCGes4ecjuamckbsuh0BtwguR3Z3RZqkA20RCWtRrRkjhE6gg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VH3WVAKM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF2A9C116B1;
-	Mon, 22 Jul 2024 22:38:16 +0000 (UTC)
+	s=arc-20240116; t=1721701036; c=relaxed/simple;
+	bh=gnkOYbEfx9zPzHePEL/WxD5v0iNAO66aAz2aJlnJpSU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XORJ/B1ApskxL9ZQ2+ZgoyOT0pjZ3N6+fznxRg/tvAI61O8j4GvtvuQpUXzLwatpWOm55yQkKKRyEvN96evFwaGluZg4n8/tTF8slPJQwRrQgoqaVCcn+EoTVCGOX3jF3fPfTZUGvxts1bbvQXT6j5N8Sj7a42/yQHYXxkNCswg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RxOuDL3m; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C68D9C116B1;
+	Tue, 23 Jul 2024 02:17:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721687897;
-	bh=zxNYwrFa6LhkKHTA0im0Ydgymd4rZUJv61OoqQvLUlY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=VH3WVAKMFrMVlW4ejo2TqEtTogPI7ko+uhjdVJJaHnnhnHKBt8bQx2IhPk1SywTFG
-	 fY7TcyA95gldwGueX0S7Ucdr9iR9UGFfNGyoRAi2DT7cCQwGXgT+veB3abkJzlxVsc
-	 btiN5UnKP8kBpDFmJIr28p4TT8IHnT6C79RlsbeQsOHo4MdEzlmczXKTgMECYL/+8u
-	 tbTqMLhfSnv2gU5FRdNkCXQx/g2onAUpL/P/60F9VVs5YvcHHCawumMSYX8gwEwY8x
-	 B9aRDgv3yPblQctWHWM1mePtL6N+kqRFjV9ojSTx3i+tgT/fxN47bgb429318K/apV
-	 RP40v1qOKQjGw==
-Date: Mon, 22 Jul 2024 17:38:14 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-pci@vger.kernel.org,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Anup Patel <apatel@ventanamicro.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
-	Jon Hunter <jonathanh@nvidia.com>, Koichiro Den <den@valinux.co.jp>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Marc Zyngier <maz@kernel.org>, Nipun Gupta <nipun.gupta@amd.com>,
-	Rob Herring <robh@kernel.org>,
-	Shivamurthy Shastri <shivamurthy.shastri@linutronix.de>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] PCI/rcar-host: Silence set affinity failed warning
-Message-ID: <20240722223814.GA740637@bhelgaas>
+	s=k20201202; t=1721701036;
+	bh=gnkOYbEfx9zPzHePEL/WxD5v0iNAO66aAz2aJlnJpSU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RxOuDL3mrORghbGY9jTuWQjgd2SP7GcjAZPVyjp3hU2M1TmgBi6NwPp8D9X5eUY/s
+	 FaQ0XUpyCBoHtPyz3lY2HoOUMew0FAxFxtLotpL5EqZXj+D+Fx/HQ4YQQd+FejrfEI
+	 Q9QT3y/Rdoy31gJeM1kqGRz1biqv/Lxy7q8mNEGCSlS9sivsTwN7lOpkoywP1llddd
+	 jtiuFux3oh+090v6KBkgxvS0y1ou+qfNYv8hED6vpiWHbs4/qb2qD2g0XdbkiQZIDY
+	 tKBvRxCBrN9e+2vQJ540AT1JpCsHiO6dQfhmuFnYxhSRyTj+ouGuc9cVSOIatcKgwi
+	 UxvT5COn+7daQ==
+Date: Mon, 22 Jul 2024 20:17:13 -0600
+From: Rob Herring <robh@kernel.org>
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: lee@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	alexandre.belloni@bootlin.com, geert+renesas@glider.be,
+	magnus.damm@gmail.com, mturquette@baylibre.com, sboyd@kernel.org,
+	p.zabel@pengutronix.de, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH v2 01/11] dt-bindings: mfd: renesas,r9a08g045-vbattb:
+ Document VBATTB
+Message-ID: <20240723021713.GA40385-robh@kernel.org>
+References: <20240716103025.1198495-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240716103025.1198495-2-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240715122012.35222-2-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20240716103025.1198495-2-claudiu.beznea.uj@bp.renesas.com>
 
-In subject, to match history:
-
-s|PCI/rcar-host|PCI: rcar-host|
-
-On Mon, Jul 15, 2024 at 02:19:27PM +0200, Marek Vasut wrote:
-> Use newly introduced MSI_FLAG_NO_AFFINITY, which keeps .irq_set_affinity unset
-> and allows migrate_one_irq() code in cpuhotplug.c to exit right away, without
-> printing "IRQ...: set affinity failed(-22)" warning.
+On Tue, Jul 16, 2024 at 01:30:15PM +0300, Claudiu wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 > 
-> Remove .irq_set_affinity implementation which only return -EINVAL from this
-> controller driver.
-
-This would be a nice improvement; thanks for working on it.
-
-As you allude to at [1], there are many more PCI controller drivers
-that could benefit from similar changes.  I'd like to do them all at
-once if possible.
-
-[1] https://lore.kernel.org/r/d5efcb28-dd5a-4b96-aabd-c73c95dff8e7@mailbox.org
-
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> ---
-> Cc: "Krzysztof Wilczyński" <kw@linux.com>
-> Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>
-> Cc: Anup Patel <apatel@ventanamicro.com>
-> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: Jisheng Zhang <Jisheng.Zhang@synaptics.com>
-> Cc: Jon Hunter <jonathanh@nvidia.com>
-> Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> Cc: Koichiro Den <den@valinux.co.jp>
-> Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
-> Cc: Marc Zyngier <maz@kernel.org>
-> Cc: Nipun Gupta <nipun.gupta@amd.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Shivamurthy Shastri <shivamurthy.shastri@linutronix.de>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Cc: linux-pci@vger.kernel.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> Cc: linux-tegra@vger.kernel.org
-> ---
-> V3: - New patch
-> ---
->  drivers/pci/controller/pcie-rcar-host.c | 10 ++--------
->  1 file changed, 2 insertions(+), 8 deletions(-)
+> The VBATTB IP of the Renesas RZ/G3S SoC controls the clock for RTC,
+> the tamper detector and a small general usage memory of 128B. Add
+> documentation for it.
 > 
-> diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
-> index c01efc6ea64f6..3dd653f3d7841 100644
-> --- a/drivers/pci/controller/pcie-rcar-host.c
-> +++ b/drivers/pci/controller/pcie-rcar-host.c
-> @@ -658,11 +658,6 @@ static void rcar_msi_irq_unmask(struct irq_data *d)
->  	spin_unlock_irqrestore(&msi->mask_lock, flags);
->  }
->  
-> -static int rcar_msi_set_affinity(struct irq_data *d, const struct cpumask *mask, bool force)
-> -{
-> -	return -EINVAL;
-> -}
-> -
->  static void rcar_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
->  {
->  	struct rcar_msi *msi = irq_data_get_irq_chip_data(data);
-> @@ -678,7 +673,6 @@ static struct irq_chip rcar_msi_bottom_chip = {
->  	.irq_ack		= rcar_msi_irq_ack,
->  	.irq_mask		= rcar_msi_irq_mask,
->  	.irq_unmask		= rcar_msi_irq_unmask,
-> -	.irq_set_affinity 	= rcar_msi_set_affinity,
->  	.irq_compose_msi_msg	= rcar_compose_msi_msg,
->  };
->  
-> @@ -725,8 +719,8 @@ static const struct irq_domain_ops rcar_msi_domain_ops = {
->  };
->  
->  static struct msi_domain_info rcar_msi_info = {
-> -	.flags	= (MSI_FLAG_USE_DEF_DOM_OPS | MSI_FLAG_USE_DEF_CHIP_OPS |
-> -		   MSI_FLAG_MULTI_PCI_MSI),
-> +	.flags	= MSI_FLAG_USE_DEF_DOM_OPS | MSI_FLAG_USE_DEF_CHIP_OPS |
-> +		  MSI_FLAG_NO_AFFINITY | MSI_FLAG_MULTI_PCI_MSI,
->  	.chip	= &rcar_msi_top_chip,
->  };
->  
-> -- 
-> 2.43.0
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> ---
 > 
+> Changes in v2:
+> - changed file name and compatible
+> - updated title, description sections
+> - added clock controller part documentation and drop dedicated file
+>   for it included in v1
+> - used items to describe interrupts, interrupt-names, clocks, clock-names,
+>   resets
+> - dropped node labels and status
+> - updated clock-names for clock controller to cope with the new
+>   logic on detecting the necessity to setup bypass
+> 
+>  .../mfd/renesas,r9a08g045-vbattb.yaml         | 136 ++++++++++++++++++
+>  1 file changed, 136 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/renesas,r9a08g045-vbattb.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/renesas,r9a08g045-vbattb.yaml b/Documentation/devicetree/bindings/mfd/renesas,r9a08g045-vbattb.yaml
+> new file mode 100644
+> index 000000000000..30e4da65e2f6
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/renesas,r9a08g045-vbattb.yaml
+> @@ -0,0 +1,136 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/renesas,r9a08g045-vbattb.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas Battery Backup Function (VBATTB)
+> +
+> +description:
+> +  Renesas VBATTB is an always on powered module (backed by battery) which
+> +  controls the RTC clock (VBATTCLK), tamper detection logic and a small
+> +  general usage memory (128B).
+> +
+> +maintainers:
+> +  - Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: renesas,r9a08g045-vbattb
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  ranges: true
+> +
+> +  interrupts:
+> +    items:
+> +      - description: tamper detector interrupt
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: tampdi
+
+Don't really need -names with only 1 entry.
+
+> +
+> +  clocks:
+> +    items:
+> +      - description: VBATTB module clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: bclk
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    items:
+> +      - description: VBATTB module reset
+> +
+> +  '#address-cells':
+> +    const: 2
+> +
+> +  '#size-cells':
+> +    const: 2
+> +
+> +patternProperties:
+> +  "^clock-controller@1c+$":
+> +    type: object
+> +    description: VBATTCLK clock
+> +
+> +    properties:
+> +      compatible:
+> +        const: renesas,r9a08g045-vbattb-clk
+> +
+> +      reg:
+> +        maxItems: 1
+> +
+> +      clocks:
+> +        items:
+> +          - description: input clock for VBATTCLK
+> +
+> +      clock-names:
+> +        description: |
+> +          Use xin if connected to an external crystal oscillator.
+> +          Use clkin if connected to an external hardware device generating the
+> +          clock.
+> +        enum:
+> +          - xin
+> +          - clkin
+> +
+> +      '#clock-cells':
+> +        const: 0
+> +
+> +      renesas,vbattb-load-nanofarads:
+> +        description: load capacitance of the on board xtal
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        enum: [ 4000, 7000, 9000, 12500 ]
+> +
+> +    required:
+> +      - compatible
+> +      - reg
+> +      - clocks
+> +      - clock-names
+> +      - '#clock-cells'
+> +      - renesas,vbattb-load-nanofarads
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - interrupt-names
+> +  - clocks
+> +  - clock-names
+> +  - power-domains
+> +  - resets
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/r9a08g045-cpg.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    vbattb@1005c000 {
+> +        compatible = "renesas,r9a08g045-vbattb";
+> +        reg = <0x1005c000 0x1000>;
+> +        ranges = <0 0 0x1005c000 0 0x1000>;
+> +        interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
+> +        interrupt-names = "tampdi";
+> +        clocks = <&cpg CPG_MOD R9A08G045_VBAT_BCLK>;
+> +        clock-names = "bclk";
+> +        power-domains = <&cpg>;
+> +        resets = <&cpg R9A08G045_VBAT_BRESETN>;
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        clock-controller@1c {
+> +            compatible = "renesas,r9a08g045-vbattb-clk";
+> +            reg = <0 0x1c 0 0x10>;
+> +            clocks = <&vbattb_xtal>;
+> +            clock-names = "xin";
+> +            #clock-cells = <0>;
+> +            renesas,vbattb-load-nanofarads = <12500>;
+> +        };
+
+Is this really a separate device? Doesn't really look like it. This can 
+all be moved to the parent node.
+
+Rob
 
