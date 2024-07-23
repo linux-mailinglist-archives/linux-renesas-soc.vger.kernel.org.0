@@ -1,74 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-7432-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7433-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32823939B79
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jul 2024 09:10:23 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FDBE939C69
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jul 2024 10:17:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 93DEAB21D25
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jul 2024 07:10:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E0432282123
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jul 2024 08:17:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6E2614AD10;
-	Tue, 23 Jul 2024 07:10:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5C4B14AD1B;
+	Tue, 23 Jul 2024 08:17:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="KQbaIA0/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pzN8vBup"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B79F513D245
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Jul 2024 07:10:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B75938814;
+	Tue, 23 Jul 2024 08:17:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721718612; cv=none; b=rqFfFBM5BviBDr6X4uLPzxZ2M/F3FK8OYApDDtSzQvF58q0k2LkDdlEycVeEry3BHDrkhmpo9oRc3LKL1jazSTWJSHsyxMKbBfvs53cVkBIIuKMqE0QaVB6r1gRkEf2H4/uBUeoaQzzb7JjOdQCoNStBJa+JHFh0iQgXFOWSSDI=
+	t=1721722628; cv=none; b=jWT7QFxdP56v1h7OOdexZgtL/2Gkp0VWJuoczoJI2aeQKYS8yhDHXaFLE4id+DHXMvLnUN3B3ObWL0LgsTY+1Wn+0BUyKUjTaKDh+LolHDyoHe+xTViIohZp3HPZy66MwVkbcNJKJEuT2ok69JZXNkdA//Ir7gGZQAhVRAtDT4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721718612; c=relaxed/simple;
-	bh=pDrcpwPThooXOhuo8yBT0CKcsbido5m6PcRHkzyYUr0=;
+	s=arc-20240116; t=1721722628; c=relaxed/simple;
+	bh=PKkXPHNmWdDy/fWI53xUIiRIvqAzcNq3FSh5kqBhjDE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PkuuIwBy2z9AgpkdDpvV9Gy6Mn+W9aYDwPmSS5HjtCNQWVTwHv6YgO/D3+9sy3dUN+5T+8VwDWtMFsqXJ2zuNVjBQH4fmBqQydh2vwLyl2uOgIK/mNIERAav0PRxCT7bSEhWGVFQs6X1f8W+tQc05Q3/dGhaRKTx6L7W/zLOwg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=KQbaIA0/; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a77e7420697so54376466b.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Jul 2024 00:10:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1721718608; x=1722323408; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NbY9hIILRpQ3t2kLWFKU5JlJAqMsH+KZEUPDJfybT0Y=;
-        b=KQbaIA0/TEPMsD24OnRsEErGVV7S5gq++zOE9txhTZoHwCUuhDlCYlHZyEaHDA3l5q
-         qy/hYWQ2K9HxXvJtlJW1NlCmNCZZte+2TpSd3ltHk5nV8X///HLiNyeMxcN09MBmGO7e
-         Ue5q+pUbrPrG2yy+3MI4FTLICSIyJ0KDrasM4TTu/5/vSmf3iZk5mZva15VpCFItUScI
-         m3pfStWFTmk3imN6nCkT0NZTmMClc/EWDd457AxdhhSoDIg6o6LW9Tfe2Dp+sXIiWvrl
-         kDARsfWOuRT8GcfDKkMmXsNHZ/LUAF5a1aptUXTStuV+f1FAGddZ+P5BRuTqQ3z5Ltl6
-         IRzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721718608; x=1722323408;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NbY9hIILRpQ3t2kLWFKU5JlJAqMsH+KZEUPDJfybT0Y=;
-        b=hZHK8MNff7JE2UGvgra8ZdSla8YWswALVZILub7fyRAhJ1F2o6bE2XUj2/yAMVcCjs
-         RSZUIODP1OcQGcgWNdfVEq3UDRW7JfowzxmMJmIrzx3TIfx6OUPwLaVyUlu5TnS+oFFp
-         Dy9CJ2cheCs/cvTzGWh1VaaO9R8Ui/UAbWE1spksbfwaGp74P36kCkagQzEbEYKWpccH
-         ZY+VGRv8ic+2Sbq0FCrdkDapA2f4+UW+Zow0aKdfJaLvfUyZ/fVUChnCNLXrzP0hKVw9
-         8uJar/XnaWx3X0BZ0YuH214KDc3hUYHvzNt3JziRMz4cvOiEpuvFhyczeTUBrNTeAVt1
-         Zftg==
-X-Forwarded-Encrypted: i=1; AJvYcCXXqwq+B9ThrxIkaOHLq53LDL8JEmWkT7KfCLGNYh68yyrSLBNPJpF3q3grcNFNfi8UxzPqQ60LVtU10HZVcRkYqIkLwEt3iajY6ZkwUIokWHY=
-X-Gm-Message-State: AOJu0YwAmONIHEgRR0qJRWXguDYsJFFpckEct9hEwPISSvwtCC0/ktm+
-	Ex6BxepDINRDbQ+ArVjdgzMdG7MZ00OfBL3RqEHkE+HwF9TjAsusJNvRzjaZJ/g=
-X-Google-Smtp-Source: AGHT+IE+F6g3SA1qf6FRpSztSzuggO/YnYuDsDxPqrtwq9kpss+HQL9yVbIZjttzYydPEUxBHj5Afg==
-X-Received: by 2002:a17:907:96a8:b0:a77:c364:c4ef with SMTP id a640c23a62f3a-a7a87c85d96mr158186366b.5.1721718607688;
-        Tue, 23 Jul 2024 00:10:07 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.75])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7a3c94fc2esm497807966b.210.2024.07.23.00.10.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Jul 2024 00:10:07 -0700 (PDT)
-Message-ID: <f0439b5c-1b93-48f3-a130-e4e7ef06c862@tuxon.dev>
-Date: Tue, 23 Jul 2024 10:10:05 +0300
+	 In-Reply-To:Content-Type; b=jnqjCIyXLwTlow1tt9aESBYZWWGvLQdDeh+QZY40J8+xchoT8J2QDqHCGKKQG+5xKaoY58YL5X2DQY0EcStE8+3aenZlSyEJKY64Xo4LGES6PvnDd1Zg6UwuGpLPF5Rcqxw3KXixhf0ImAdZWJbotYDbxyI0uhZsEXEMOsiYoSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pzN8vBup; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66C41C4AF0B;
+	Tue, 23 Jul 2024 08:17:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721722628;
+	bh=PKkXPHNmWdDy/fWI53xUIiRIvqAzcNq3FSh5kqBhjDE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=pzN8vBup5ca57+UOp02gmz9cG1D19jg4UR7eFyxmZfhAWLShVY+JbNia0DTO1kB1D
+	 Xr7PrcZ6zthZXZK7swgJ2agpLe8yl0CWFfC0SFg5h8WHaT7vPbwiPwPfGz0DsmvKlb
+	 x7dU4NmRh2t5/17Yml5M4o2hEbc5Nn1Nt4P+LKAunYpLKgeee91+1bph9+UY6PnlHc
+	 AQ0JDP2haBTKjGvp5iWR6BZ5t55vCg3Mvg9jDF/is6Hdzl8G4hangugPOTiTOOvuZ5
+	 YZ+7l92bE7dvianbD2YawBIZznQ+wdRq7I89rnwB0EI3qsrXbCkkVPhzSkewBmqnQS
+	 SFwt1eSPxErOg==
+Message-ID: <4049658f-cfe7-43ae-b006-c1a14b6c2611@kernel.org>
+Date: Tue, 23 Jul 2024 10:17:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -76,210 +50,80 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/11] dt-bindings: mfd: renesas,r9a08g045-vbattb:
- Document VBATTB
+Subject: Re: [PATCH] dt-bindings: sound: dlg,da7213: Convert to json-schema
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Support Opensource <support.opensource@diasemi.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <7645c9024a1762d281f4067504bc32a7a3d27caa.1721649741.git.geert+renesas@glider.be>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-To: Rob Herring <robh@kernel.org>
-Cc: lee@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- alexandre.belloni@bootlin.com, geert+renesas@glider.be,
- magnus.damm@gmail.com, mturquette@baylibre.com, sboyd@kernel.org,
- p.zabel@pengutronix.de, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240716103025.1198495-1-claudiu.beznea.uj@bp.renesas.com>
- <20240716103025.1198495-2-claudiu.beznea.uj@bp.renesas.com>
- <20240723021713.GA40385-robh@kernel.org>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20240723021713.GA40385-robh@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <7645c9024a1762d281f4067504bc32a7a3d27caa.1721649741.git.geert+renesas@glider.be>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi, Rob,
-
-On 23.07.2024 05:17, Rob Herring wrote:
-> On Tue, Jul 16, 2024 at 01:30:15PM +0300, Claudiu wrote:
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> The VBATTB IP of the Renesas RZ/G3S SoC controls the clock for RTC,
->> the tamper detector and a small general usage memory of 128B. Add
->> documentation for it.
->>
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->> ---
->>
->> Changes in v2:
->> - changed file name and compatible
->> - updated title, description sections
->> - added clock controller part documentation and drop dedicated file
->>   for it included in v1
->> - used items to describe interrupts, interrupt-names, clocks, clock-names,
->>   resets
->> - dropped node labels and status
->> - updated clock-names for clock controller to cope with the new
->>   logic on detecting the necessity to setup bypass
->>
->>  .../mfd/renesas,r9a08g045-vbattb.yaml         | 136 ++++++++++++++++++
->>  1 file changed, 136 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/mfd/renesas,r9a08g045-vbattb.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/mfd/renesas,r9a08g045-vbattb.yaml b/Documentation/devicetree/bindings/mfd/renesas,r9a08g045-vbattb.yaml
->> new file mode 100644
->> index 000000000000..30e4da65e2f6
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/mfd/renesas,r9a08g045-vbattb.yaml
->> @@ -0,0 +1,136 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/mfd/renesas,r9a08g045-vbattb.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Renesas Battery Backup Function (VBATTB)
->> +
->> +description:
->> +  Renesas VBATTB is an always on powered module (backed by battery) which
->> +  controls the RTC clock (VBATTCLK), tamper detection logic and a small
->> +  general usage memory (128B).
->> +
->> +maintainers:
->> +  - Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->> +
->> +properties:
->> +  compatible:
->> +    const: renesas,r9a08g045-vbattb
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  ranges: true
->> +
->> +  interrupts:
->> +    items:
->> +      - description: tamper detector interrupt
->> +
->> +  interrupt-names:
->> +    items:
->> +      - const: tampdi
+On 22/07/2024 14:04, Geert Uytterhoeven wrote:
+> Convert the Dialog Semiconductor DA7212/DA7213 Audio Codec Device Tree
+> binding documentation to json-schema.
 > 
-> Don't really need -names with only 1 entry.
+> Add missing properties.
 > 
->> +
->> +  clocks:
->> +    items:
->> +      - description: VBATTB module clock
->> +
->> +  clock-names:
->> +    items:
->> +      - const: bclk
->> +
->> +  power-domains:
->> +    maxItems: 1
->> +
->> +  resets:
->> +    items:
->> +      - description: VBATTB module reset
->> +
->> +  '#address-cells':
->> +    const: 2
->> +
->> +  '#size-cells':
->> +    const: 2
->> +
->> +patternProperties:
->> +  "^clock-controller@1c+$":
->> +    type: object
->> +    description: VBATTCLK clock
->> +
->> +    properties:
->> +      compatible:
->> +        const: renesas,r9a08g045-vbattb-clk
->> +
->> +      reg:
->> +        maxItems: 1
->> +
->> +      clocks:
->> +        items:
->> +          - description: input clock for VBATTCLK
->> +
->> +      clock-names:
->> +        description: |
->> +          Use xin if connected to an external crystal oscillator.
->> +          Use clkin if connected to an external hardware device generating the
->> +          clock.
->> +        enum:
->> +          - xin
->> +          - clkin
->> +
->> +      '#clock-cells':
->> +        const: 0
->> +
->> +      renesas,vbattb-load-nanofarads:
->> +        description: load capacitance of the on board xtal
->> +        $ref: /schemas/types.yaml#/definitions/uint32
->> +        enum: [ 4000, 7000, 9000, 12500 ]
->> +
->> +    required:
->> +      - compatible
->> +      - reg
->> +      - clocks
->> +      - clock-names
->> +      - '#clock-cells'
->> +      - renesas,vbattb-load-nanofarads
->> +
->> +    additionalProperties: false
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - interrupts
->> +  - interrupt-names
->> +  - clocks
->> +  - clock-names
->> +  - power-domains
->> +  - resets
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/clock/r9a08g045-cpg.h>
->> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->> +
->> +    vbattb@1005c000 {
->> +        compatible = "renesas,r9a08g045-vbattb";
->> +        reg = <0x1005c000 0x1000>;
->> +        ranges = <0 0 0x1005c000 0 0x1000>;
->> +        interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
->> +        interrupt-names = "tampdi";
->> +        clocks = <&cpg CPG_MOD R9A08G045_VBAT_BCLK>;
->> +        clock-names = "bclk";
->> +        power-domains = <&cpg>;
->> +        resets = <&cpg R9A08G045_VBAT_BRESETN>;
->> +        #address-cells = <2>;
->> +        #size-cells = <2>;
->> +
->> +        clock-controller@1c {
->> +            compatible = "renesas,r9a08g045-vbattb-clk";
->> +            reg = <0 0x1c 0 0x10>;
->> +            clocks = <&vbattb_xtal>;
->> +            clock-names = "xin";
->> +            #clock-cells = <0>;
->> +            renesas,vbattb-load-nanofarads = <12500>;
->> +        };
-> 
-> Is this really a separate device?
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  .../devicetree/bindings/sound/da7213.txt      |  45 --------
+>  .../devicetree/bindings/sound/dlg,da7213.yaml | 103 ++++++++++++++++++
 
-It's not.
 
-> Doesn't really look like it. This can 
-> all be moved to the parent node.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-I'll move it to the parent node.
+Best regards,
+Krzysztof
 
-Thank you for your review,
-Claudiu Beznea
-
-> 
-> Rob
 
