@@ -1,56 +1,50 @@
-Return-Path: <linux-renesas-soc+bounces-7449-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7450-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id F400B939F72
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jul 2024 13:08:25 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD4AF93A0B2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jul 2024 14:58:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7FAABB22470
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jul 2024 11:08:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 67B7A1F22CBD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jul 2024 12:58:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F79814F9D9;
-	Tue, 23 Jul 2024 11:08:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D6C8152E00;
+	Tue, 23 Jul 2024 12:58:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LHkDkwO/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 156BD14D29C;
-	Tue, 23 Jul 2024 11:08:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 080521527A0;
+	Tue, 23 Jul 2024 12:58:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721732902; cv=none; b=prh/Vg8x2osLlJ91N9e0CRN8SDynQC0Rc10wbHAnxekIsoST6+qRwSPoLR6JTepcbFBcX0cQVrHUcjSj07bZtd7rslZsrmNx2190Dr1Fa0+R8RUA1o/QqcEtYiJUSnndwqFJFvlCfCZPu7HyMZbZVDVCX4rAwvYSEk0w8aQ/OYw=
+	t=1721739517; cv=none; b=Ah7BhEqgKaL6bZ7O85x53JChDuiF7rMsJhH7EvBKTULAvbdXuNw63unizB/onYCbrTUPdFL09JNUsBvGrdVmjun9nKaEKtep1qKnJi6qfkstg6acLBKcjusmK75XmKhVv+hKS9fmGFPIdfjv/gC4z2QH2NGR+5eCKTp+1XDh074=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721732902; c=relaxed/simple;
-	bh=UD+CUiNDbBhUvznD+O3qLj2i1Dk0CGEq12ZzBvceWvY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=jAJOOGei1auejxYacmArz9AzdBsBKLcW2fjR1EFUuwteLkuC7J6gvzj/UgdP7PzzmybUfMRoI/sdPNluQ/M1cQr01m9BG3Ya2Fnwo3Ummp0j3t6JDyk8iCeUOBL852Z7pyitrPUhnK7qwnnbTJF0ZCYsocmyzqDS3ash6YgIlps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-IronPort-AV: E=Sophos;i="6.09,230,1716217200"; 
-   d="scan'208";a="216331991"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 23 Jul 2024 20:08:19 +0900
-Received: from localhost.localdomain (unknown [10.226.93.79])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 6592342F3F16;
-	Tue, 23 Jul 2024 20:08:14 +0900 (JST)
-From: Oliver Rhodes <oliver.rhodes.aj@renesas.com>
-To: Linus Walleij <linus.walleij@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Oliver Rhodes <oliver.rhodes.aj@renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH V1 resend 6/6] dt-bindings: pinctrl: renesas: Document RZ/G2M v3.0 (r8a774a3) PFC support
-Date: Tue, 23 Jul 2024 12:07:33 +0100
-Message-Id: <20240723110733.10988-7-oliver.rhodes.aj@renesas.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240723110733.10988-1-oliver.rhodes.aj@renesas.com>
-References: <20240723110733.10988-1-oliver.rhodes.aj@renesas.com>
+	s=arc-20240116; t=1721739517; c=relaxed/simple;
+	bh=MH1AecxN6hBhMEENyKPQfaDdwBYj+Uh3PGqrMvR+6v4=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=Kl2UQCS2mjwwChf4PsgkWxUAP7VJjwRIXiAcS21NGp+oL0/psa2YdAKxbwl8NFjvzyXYYSxOtkJHAcVif0hRXZz8x9Nmpj4M8DSZaVPoCJh9fYGIcPXNNJAGe03TXAVcAhDjM7bmuhPb0OVcSuPkTsmgNonW9JtxXTwNOLDwPG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LHkDkwO/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9C9F1C4AF48;
+	Tue, 23 Jul 2024 12:58:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721739516;
+	bh=MH1AecxN6hBhMEENyKPQfaDdwBYj+Uh3PGqrMvR+6v4=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=LHkDkwO/ZPXShs7BuzSNAZi3gcAn2cGMJHnroRzPo/iFjnZm0ENjbQHpMo0UqrhjX
+	 agCB+gA4y8j/m2dWS3f02h4OvZ2VLdL/Xu4BUfVjZJ30x1jGSe7J+1yEUxim058UIQ
+	 IVHYCfAyMtx0XuBECvqFFIRsKCYEUapppHvQC7qBoCnAHceGBqsiS1E5rfSo3cGFiJ
+	 U4WcLA9ZRDsVCUqgli7qK39tEh3KOzd8R2cyPx/aKpeNBOP0aGaxPjpC88yQKD+xra
+	 L8KJwcXb3BkoB+va/fGL7KYhdplvWvr6a3L6TLzGli2m+IL/Qt80I6JFLpnuQpNtKC
+	 ioGaDVVqURVEg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8EF1CC8E8DC;
+	Tue, 23 Jul 2024 12:58:36 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -58,30 +52,42 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v1] RISC-V: run savedefconfig for defconfig
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <172173951658.10883.5835597869579224496.git-patchwork-notify@kernel.org>
+Date: Tue, 23 Jul 2024 12:58:36 +0000
+References: <20240717-shrubs-concise-51600886babf@spud>
+In-Reply-To: <20240717-shrubs-concise-51600886babf@spud>
+To: Conor Dooley <conor@kernel.org>
+Cc: linux-riscv@lists.infradead.org, conor.dooley@microchip.com,
+ paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, geert+renesas@glider.be,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
 
-Document PFC support for Renesas RZ/G2M v3.0 (a.k.a r8a774a3) SoC.
+Hello:
 
-Signed-off-by: Oliver Rhodes <oliver.rhodes.aj@renesas.com>
----
-v1->v1 resend:
-* No change.
----
- Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml | 1 +
- 1 file changed, 1 insertion(+)
+This patch was applied to riscv/linux.git (for-next)
+by Palmer Dabbelt <palmer@rivosinc.com>:
 
-diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml b/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
-index 5d84364d1358..cfe004573366 100644
---- a/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
-+++ b/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
-@@ -25,6 +25,7 @@ properties:
-       - renesas,pfc-r8a7745     # RZ/G1E
-       - renesas,pfc-r8a77470    # RZ/G1C
-       - renesas,pfc-r8a774a1    # RZ/G2M
-+      - renesas,pfc-r8a774a3    # RZ/G2M v3.0
-       - renesas,pfc-r8a774b1    # RZ/G2N
-       - renesas,pfc-r8a774c0    # RZ/G2E
-       - renesas,pfc-r8a774e1    # RZ/G2H
+On Wed, 17 Jul 2024 14:29:24 +0100 you wrote:
+> From: Conor Dooley <conor.dooley@microchip.com>
+> 
+> It's been a while since this was run, and there's a few things that have
+> changed. Firstly, almost all of the Renesas stuff vanishes because the
+> config for the RZ/Five is gated behind NONPORTABLE. Several options
+> (like CONFIG_PM) are removed as they are the default values.
+> 
+> [...]
+
+Here is the summary with links:
+  - [v1] RISC-V: run savedefconfig for defconfig
+    https://git.kernel.org/riscv/c/82b461680651
+
+You are awesome, thank you!
 -- 
-2.34.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
 
