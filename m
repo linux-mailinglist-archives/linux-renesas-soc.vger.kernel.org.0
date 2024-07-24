@@ -1,72 +1,72 @@
-Return-Path: <linux-renesas-soc+bounces-7492-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7493-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DB7E93B697
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jul 2024 20:23:06 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D917E93B699
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jul 2024 20:23:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1194CB21D23
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jul 2024 18:23:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 78F311F2498A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jul 2024 18:23:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A7C816B38B;
-	Wed, 24 Jul 2024 18:22:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 227F816B74C;
+	Wed, 24 Jul 2024 18:22:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DIeYLkbl"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ePijRn3I"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A1615B963;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C3715EFB2;
 	Wed, 24 Jul 2024 18:22:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721845373; cv=none; b=klQQQho4yeidm65W4UMVq+rnZSj5Z0Gvqh2c4JqJS+v1PwaPMJZEW96oQHhK8Oe+v1OWlvyhmTWywOrfmGM9e0pVUux9xldCx4/hcFWIph4U0N/kgO6Rloatt1DWyQEJOlXJsZmx9/bBNJuT41iMzm70omTisjhvPgUBQb2SWAo=
+	t=1721845374; cv=none; b=F0IMEUnGVTyAR6hDY/VgiKB90mutyVkDXXjmeU2yyRBxUly+A/aNQE+9LeBGQMrJ6om2ccmmvpPd6x58oGiywqVJuSPYxiUWrBjDSW4n4xODByLSK3vHij3qUnOqSGuONYPAbKDaklIinAsnI9HsbU66IG/lgpGhXxc4SwxAK8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721845373; c=relaxed/simple;
-	bh=t483l2brnvBqjz2JZbiV3vdQvhs7A1Vha5nhdtCXtPc=;
+	s=arc-20240116; t=1721845374; c=relaxed/simple;
+	bh=8RGbS1SP7kcHAkCgegT9tAaFogYWT3+ldggVrglL4xE=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=TwTAHqRuKk4S0YOeyH4Ny/KJGt5RVPMjBpRAyMRWZ6uBsmfVqUDv8gl4xD13Ic6Zpnqg4NTmWYtH21V9PEoEQZlBHIQb1jpo8REpajHnYyQt+veIWs9DVGyCeS6j+yHNzdmQTjN26TeIbJRc7iJZxbnf8GAnkNmD2QQM4z01qfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DIeYLkbl; arc=none smtp.client-ip=209.85.128.46
+	 MIME-Version; b=hzJ6y3k99ZvbD9T4IMwo0pEBsdCqouSPtP9Nn9fYM3AHR0IYvwR3z7kEyPjw3LJXJuC5+gafo9lI3AId1m83/uQokzj7aoomadUYGLTWjUW9MZHMpX2/G8kIXng406ZgMecGMBOUMvymnpfd8kzln5h351S+QDN1AbmdrtSiGTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ePijRn3I; arc=none smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4266fcb311cso585685e9.1;
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3683f56b9bdso14698f8f.1;
         Wed, 24 Jul 2024 11:22:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1721845370; x=1722450170; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WSqBBCtB+lOHBpG8zQq+TLg6p4H/QGn61xYkLlbVHgQ=;
-        b=DIeYLkblqdr9MRYFRw5+lVUD2c/9pknek5er55NcV1kgeI76jJPPbohqguxvhv8uKX
-         qzC4Jq+PRYwa4FfxYkjqub8kbgr2c15EBFfTbi2TK/43OmZZMRXDjFecZIX26LU9fp+7
-         CJbNRYBeuZ+FRGr1LWlzyuu4lgfYEyTY8cFKOL/Rzisd0JBFYbfjraRpIs9ldIrXxEW8
-         z4PMsHmpsU8TtIOhcruqx7GFjYcf4Xc1n8KWYtgdp5WAP3PPYR5XHnfWbdmYm/KHtMO6
-         VkPusAAkPtzqotCt6Pouo7Vd/llh6aT3keIaFBf0vRqsVvErwRkA2drr+zITy0dVnIjX
-         omHQ==
+        bh=VBRgR518xk+KQEVpEmgH/CVYJnO0FBFpFD/wJKYtKx8=;
+        b=ePijRn3IlclGOHZkkMPIHeaFci90n4S3z/a6qJTNd9rtq9IajkooWPm+gXtDzJxlI0
+         QgxWOe6nA6T03HVZTdDDnTkUKGfH0S4rYANDYxYT0wd5pVwzUzucpWGm6FJgGwZxI8Ni
+         Rn8kWeamU7bL6MEJzg0yEFYdc7XVcM5sdV9++oXlahwNIoTF3ITSqVFzoEQpbf2E9iFX
+         Xlr2YZJcwEBGSnLkDqbWr782VN+/oB7xnEMD+9jWU6XELSpm3XTNxZQsBluUEjJ/Q6qy
+         KcT3XOIIbEvXw6wsfr3jtgXwJi/MWLPJU0yUjeomZ/N9zp1i+YucTW85ZFRCFcujz/ZY
+         Fnog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1721845370; x=1722450170;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WSqBBCtB+lOHBpG8zQq+TLg6p4H/QGn61xYkLlbVHgQ=;
-        b=UPtXrUqa6GBZp4JyhzLAy7pNHQOfr1MvS0Z/oOu7br7R+d8SGzTWkxmMg/J1k+11Zu
-         Iy6FpKLnT9VWEeCQXp78inhrdYRa9IXHl3HjuBQNtbAO6GKSPpAZ3DNZOhIugDGGnqtj
-         Zy65wPy3+6KnZn0BLioTMkykxXqM2QSe9JOXnAejMUJFldumnA1AVbKlOjhBJEtgeUw4
-         SEscpYZcl+7ik6Hd7VMvTWmFUL3iUtONHwaSJRoZA6ejRw/DEv59Mmi5PA4psB6nJlvp
-         RkdwHfhp6oE6EsjMp+2S/c3XWiu9+aIfEk5/yYl+kW3faVGfFDqBWoNGX9GF2ErAv9ip
-         xWEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWir7iuiDa0zK2G2p46nH1t+SEhHfAMZ/oBhCJUmKLqKKiTTZysjrCjP9NkIavzIot23riuIdL58VQfN5+KP8oorCJvIjAd9qYkR5F93aQn4QZZfAxVVNfwDWZqgpGY8Qg2a+OQ9p8HUnrPmL1os8SmS602vQ9Cfjvn/1ddt7+FG602ATb7Iv2jE+1U
-X-Gm-Message-State: AOJu0YzeJmb6vpBDykQ0aHYqt2nalE7EhGo/dbAu8gDSOxaAkBLiHZN7
-	uweyvJR4AEBQ/HJeoMbsBwESM/usz4hGqCi7BGpJ78mQUxq6P/0M
-X-Google-Smtp-Source: AGHT+IGhmdjY6cqvoXXLaAzoc1WG5lrKZFi+D03tzm5HaF3teZuFx5mF1dvZHYivKHgrRE0xhoqPMA==
-X-Received: by 2002:a05:600c:4e8d:b0:426:6ea2:31af with SMTP id 5b1f17b1804b1-427f95b61c3mr21129185e9.37.1721845369412;
-        Wed, 24 Jul 2024 11:22:49 -0700 (PDT)
+        bh=VBRgR518xk+KQEVpEmgH/CVYJnO0FBFpFD/wJKYtKx8=;
+        b=BwWhHbHIl5scv+M8VNuOLD9+iEpVjsuYF+Th4cpQDOvOkVMFI5c5z44GdgWnze2/TM
+         oPYXwu3WlTfztZxlHN+FMjX3qh3AG7lO+NMF+OOQPKr9xq/49qTk536lbXIXJxn/Tb7N
+         OlIqcOBNIy0W9sxtBq9O+MPU0OPdBKL0CnnOY2S1AmyFHuh415HLhYLmfTyF4f8kziqv
+         jRrAHRRYpBVDTLEb7lPZYt7hXK4xIhBE7KoCL4eaJ7yTP0yaQeQiMruSUh0X+9Y+3gdW
+         OtgVNFIYD4xdu611twGvDsj3gB4ZIvD20lqqQQKQ09JXm1mqQIm9hDhj/Ftjw+bvlpaP
+         cobw==
+X-Forwarded-Encrypted: i=1; AJvYcCVQ/L6A7LHJJvB0zRG9Hx12BSrNrIWU3i3NXF6Cg/7l4m1ZI8DS/LzlPi5/ce8hvzAz8tfBIlFPSegpHRYeKfbLDep6+r7UgiPzwovhYhHqWow2v4usDnFgI6bOuKi7FaZya7yI7/+hVEhy2dG7AoJVU9AZt1cbyiRzJMAOgOikNHIpPxoxUAImdc7L
+X-Gm-Message-State: AOJu0Yz374s+rscaCCKBlYI9gwGTHrE5P1Ggk56UaScSslpQ3nNPY79P
+	rwOvGSFjiZWAZXV9/F413hXRhShZD/PMk84M1j041Uw6aeAGoJ+v
+X-Google-Smtp-Source: AGHT+IEl4Uv5LlJz4QK1tYvI0GnsHyfGj5ud3klmJX6ntUkaQmA+3FLc2q4FjmgDQzx2TVKrZGBGEQ==
+X-Received: by 2002:a5d:4b06:0:b0:367:8a00:fac3 with SMTP id ffacd0b85a97d-36b319eb638mr373618f8f.30.1721845370393;
+        Wed, 24 Jul 2024 11:22:50 -0700 (PDT)
 Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3687868b5fdsm14909882f8f.38.2024.07.24.11.22.48
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3687868b5fdsm14909882f8f.38.2024.07.24.11.22.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jul 2024 11:22:48 -0700 (PDT)
+        Wed, 24 Jul 2024 11:22:49 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -83,10 +83,11 @@ Cc: linux-mmc@vger.kernel.org,
 	Prabhakar <prabhakar.csengg@gmail.com>,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v5 1/3] dt-bindings: mmc: renesas,sdhi: Document RZ/V2H(P) support
-Date: Wed, 24 Jul 2024 19:21:17 +0100
-Message-Id: <20240724182119.652080-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v5 2/3] mmc: tmio: Use MMC core APIs to control the vqmmc regulator
+Date: Wed, 24 Jul 2024 19:21:18 +0100
+Message-Id: <20240724182119.652080-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240724182119.652080-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20240724182119.652080-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -100,57 +101,54 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-The SD/MMC block on the RZ/V2H(P) ("R9A09G057") SoC is similar to that
-of the R-Car Gen3, but it has some differences:
-- HS400 is not supported.
-- It has additional SD_STATUS register to control voltage,
-  power enable and reset.
-- It supports fixed address mode.
-
-To accommodate these differences, a SoC-specific 'renesas,sdhi-r9a09g057'
-compatible string is added.
+Use the mmc_regulator_enable_vqmmc() and mmc_regulator_disable_vqmmc() APIs
+to enable/disable the vqmmc regulator.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com> # on RZ/G3S
 ---
 v4->v5
-- Dropped regulator node.
+- No change
 
 v3->v4
-- Dropped 'renesas,sdhi-use-internal-regulator' property
-- Moved 'vqmmc-regulator' to the top level
+- Collected tested by tag from Claudiu
 
 v2->v3
-- Renamed vqmmc-r9a09g057-regulator object to vqmmc-regulator
-- Added regulator-compatible property for vqmmc-regulator
-- Added 'renesas,sdhi-use-internal-regulator' property
+- Included RB tags
 
 v1->v2
-- Moved vqmmc object in the if block
-- Updated commit message
+- New patch
 ---
- Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/mmc/host/tmio_mmc_core.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-index 3d0e61e59856..1155b1d79df5 100644
---- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-+++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-@@ -18,6 +18,7 @@ properties:
-           - renesas,sdhi-r7s9210 # SH-Mobile AG5
-           - renesas,sdhi-r8a73a4 # R-Mobile APE6
-           - renesas,sdhi-r8a7740 # R-Mobile A1
-+          - renesas,sdhi-r9a09g057 # RZ/V2H(P)
-           - renesas,sdhi-sh73a0  # R-Mobile APE6
-       - items:
-           - enum:
-@@ -66,6 +67,7 @@ properties:
-               - renesas,sdhi-r9a07g054 # RZ/V2L
-               - renesas,sdhi-r9a08g045 # RZ/G3S
-               - renesas,sdhi-r9a09g011 # RZ/V2M
-+              - renesas,sdhi-r9a09g057 # RZ/V2H(P)
-           - const: renesas,rzg2l-sdhi
+diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
+index 93e912afd3ae..2ec1a74c85bc 100644
+--- a/drivers/mmc/host/tmio_mmc_core.c
++++ b/drivers/mmc/host/tmio_mmc_core.c
+@@ -897,8 +897,8 @@ static void tmio_mmc_power_on(struct tmio_mmc_host *host, unsigned short vdd)
+ 	 * It seems, VccQ should be switched on after Vcc, this is also what the
+ 	 * omap_hsmmc.c driver does.
+ 	 */
+-	if (!IS_ERR(mmc->supply.vqmmc) && !ret) {
+-		ret = regulator_enable(mmc->supply.vqmmc);
++	if (!ret) {
++		ret = mmc_regulator_enable_vqmmc(mmc);
+ 		usleep_range(200, 300);
+ 	}
  
-   reg:
+@@ -911,8 +911,7 @@ static void tmio_mmc_power_off(struct tmio_mmc_host *host)
+ {
+ 	struct mmc_host *mmc = host->mmc;
+ 
+-	if (!IS_ERR(mmc->supply.vqmmc))
+-		regulator_disable(mmc->supply.vqmmc);
++	mmc_regulator_disable_vqmmc(mmc);
+ 
+ 	if (!IS_ERR(mmc->supply.vmmc))
+ 		mmc_regulator_set_ocr(mmc, mmc->supply.vmmc, 0);
 -- 
 2.34.1
 
