@@ -1,123 +1,263 @@
-Return-Path: <linux-renesas-soc+bounces-7482-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7483-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB8AD93AF55
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jul 2024 11:49:02 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34CE093B1E7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jul 2024 15:47:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3D5EEB2242A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jul 2024 09:49:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DD9C9282BEF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jul 2024 13:47:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0BB5153BDE;
-	Wed, 24 Jul 2024 09:48:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8176A158A27;
+	Wed, 24 Jul 2024 13:47:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i2221pOs"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="h7tkJN0I"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A0D14B973;
-	Wed, 24 Jul 2024 09:48:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20BE158A10
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jul 2024 13:47:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721814525; cv=none; b=SvAo89T0yl4cBTytJi9z6vaop+GMf/6SpUvXD7V8gMSuP75ILOBIvo8huPJiPd5+JSxOQnQuHCCOLyU0Ru+q+k++1z304r3499JMhH1fMzOvOu42SDBXlKAoX06EGln71N14TVFwCsZOzDFmbXQ/uyerPxOuaKczv5vjSoDnpIY=
+	t=1721828856; cv=none; b=qVR+ACQ74E8XPGnMP0hLo2Aq9r67R/GejtspXUEZewvnwZWjUZ6ARGhEm2uDYUDqbDflfpKCogXTr2M+kBNRcMCzaVHhp33DkFp++MKnn0rf2pE4vlk5wMY5wArrdsEr5hT9jEkM69LW6ztcfH2wVGEoLoH/p5PAysjeyO41WJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721814525; c=relaxed/simple;
-	bh=xWRDdJOpwiXQ+wc1zTXTtD0qbZtLq9dTMSqPvfevNDU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Pc6TR9q8Bv0npu/Hbd33h45Lvu6NRjbgFfXQ5KMipjWeqGYFeG3B73QcBM9twymm+s1zMj3BCuIDnn9v3aSo9niCGmJqlYKqZ4oYW/j9uj/UYEtHn4pKx9AKL8nCQJK7/cowYtvYZf8sNwh/+KH8iWCzR10SnvmaqTHzW4nMtDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i2221pOs; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-42122ac2f38so4060395e9.1;
-        Wed, 24 Jul 2024 02:48:43 -0700 (PDT)
+	s=arc-20240116; t=1721828856; c=relaxed/simple;
+	bh=xjWm/eDlWeqPzKSEQS2S0Ya+3sWJ6iqZgAKGHCaMITE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U5WgU+9kvvSsy3bmwOBUShFdcY+Iuwq4X28YPbf7mdT67ytSPMZJV/mvvtLvHJNRsqAvTTAlcHY9kNtnHtjlCJKTDUUWUt3nfh8NKkMEQzffow4zgTJq3Oq8MWiI9phcDR//Nz7rSpJCWhPTVByhJIeGCOvgrL5jH5tpziKy88s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=h7tkJN0I; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1fc658b6b2eso17686185ad.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jul 2024 06:47:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721814522; x=1722419322; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/+zn81+6Thsh6YCj8FR9Vi+wvfbVwvNwq6fjUlIA0lY=;
-        b=i2221pOs+4LdN3Dx/BGuhFuN9YllsLJNKam//SVS10+tSAXHKTkEt22VOVnI6X+kQR
-         03OQuX6PuUFh/gvqZ1cFa6iMr+jLw+xv6/L9dmR3YPwKMgvd33bKMCQIdFQrFQUgUOXk
-         4F9iM/oXQYlNlCY/PopqjmU9NaTFL8kYSHGCNgL3nnaHf9gdHGRXheGS+sd4RtHEMhUW
-         XCQI3srCXZVb+qw3PFx11SL5bSfZ11Eei/F0OW7rf/nBS315mmXSsKWmnZjDKzIEojRW
-         jG91pizM8eIvwsK85g0MJja5aVzgX6UBw4ZrLVR5hlRs6A2Yp2l5KDhVUWKRBHnbVFaZ
-         Y15Q==
+        d=linaro.org; s=google; t=1721828854; x=1722433654; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=SjlS3KeN9meLLfSQsSaPi/f/kHzcBW78TFSUcPryCjM=;
+        b=h7tkJN0IXAmZSDVDgQOpeqfw+8fvEIc3K1Sbftr9/y0yr79iR+NCNt33saVsG1zH+Z
+         fMBSAvmZ+HthOyrGq/J8fiQhuggVeJDZkNx9dZMRxXMSLDVYyn8Rw/h5Sef+QszH30Lg
+         6K4XgaDxEe8PlovPdua7+GVEx0iaBo7NRBdqS6ShNyG1ngwkSWKAjmSy2VgKlg/jIXEz
+         iWM8hn0W6YrN13X5Zgp//JjFslD0GJK3urRYc+pxE+MjAMPv9sDFvhsReSodr4HZO6iL
+         dejcqC8zG9pVucrHnWh1Ejy/FlWkKhe/eaXgMkQioAxsZqCTlkk6V9EMCxX2HfKp97b1
+         L6Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721814522; x=1722419322;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/+zn81+6Thsh6YCj8FR9Vi+wvfbVwvNwq6fjUlIA0lY=;
-        b=Po4u3J46yoTFO41fibhqDDVw38J6h0h4OFMSq2nRelET3NDOD2xPqGCfDNE423mAgf
-         LCWaSbnS2yWZ4HkkFlVVwToz9mjugjbYjyjrjIEWqENjEIik0WvvaUpwRE0f+8+6MnzJ
-         5GHfK3S5iPJWpa+nPF209zzDFvaLoJzuSleTBZxgroKEpjcRlWEiSQ3CzAyNzwlh4Shz
-         VVRDh2wniFvOAb2H+N92w0duQ1K197X/SiHZelf7EBLNTvyUkAG0d1l+4ikU+3MKWUGy
-         +8qmwMRmvjfhKTYMtz1Ph5fe9+4PySqvml2f1kSoif4/EzX4vEwtPWx7gfMWbjk+T23m
-         hEXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV9SWMbmg1L13dAfQNt2h/okAglEo1YccWdd+p7AjrO+wKt5DKDUE/oswUaG2fMRqN7XZmuS0Ai5r36uezNPq+XfXoi2K4oky+FNsvVlLRydEP6FGKc3ueRIHoR+aRN4tCdwbhMv7QAEg==
-X-Gm-Message-State: AOJu0YwJF7jqrj7ES1w4iAc6BY+R9+GcKllLHjm8QeF5g2IvwUyabGl9
-	xefXfVzXsnj+Te+0BLarV1VLphxMncU2GFMCipVagqrE1Zh3hV4i
-X-Google-Smtp-Source: AGHT+IG0ROd3dWy/M1+aQ7BXkXdQc0ihyAWDfraP0uE6LS6LGpRztEOMRqPaGHeOtEKoPMFVTC68rw==
-X-Received: by 2002:a05:600c:3b16:b0:426:526f:4a1f with SMTP id 5b1f17b1804b1-427f9a19fc3mr9996865e9.16.1721814522596;
-        Wed, 24 Jul 2024 02:48:42 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427f93aae47sm21328195e9.35.2024.07.24.02.48.41
+        d=1e100.net; s=20230601; t=1721828854; x=1722433654;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SjlS3KeN9meLLfSQsSaPi/f/kHzcBW78TFSUcPryCjM=;
+        b=G4CQWGRatr3S68qRj6GDWDHiBrF95pe2Wdx6mPJR7Ig20VSUdPO1OzESajjvEpl4iH
+         7F5M7NQccRfNZ+3/fxCmo39iJ0FuoIqMZH+RaQSKPlP/BX6S/mVHjkUXENptlMS8saOW
+         Q8rHZFje3BoBFmbVqgIZp4le11MZ0p7isGqDJdg+o0PK5+wlAEPijHr/7EsTZlPCtX5V
+         +zC6Kz8Qa27buofxYeSEb+Jztm9yYMnGVshXjTt2ReKNDhHZePYuf606m+mKFaW9BDZd
+         GqBMkwzDrIysyCGOLJfLmDBHQe2H+JyP090EK3Rlc+yTf1LBwn8dXoaKS2HLLuUrpg6H
+         vszQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX4cq9EYdoCm54bjd2yWfLc1LuMhjUTs+RLHIrVItZRx43xtA9d1xksDA3I/Tqk7CGCaTlv/uzy9g87i0vCKKxi+ZOdLlX352boJQsoS/yrVvI=
+X-Gm-Message-State: AOJu0YwDZmv5+6LmDR6G9LYZGb5Fp1QBcHyEVICcNHTWxDZfv2+PnDYL
+	15U2ZK/+M7lKGiXZfd3xLCox/Yn8CkuAwmXrA+mLmH74KgJwLoXIZOLu6GTd5Q==
+X-Google-Smtp-Source: AGHT+IGQ1pRozmQ8WsiHI1I3zmEDTN6hvlFln3KcelbKxSnwPg41LAbjogxZsXYR2+UZUvCxUcYACA==
+X-Received: by 2002:a17:903:244a:b0:1fc:2ee3:d45a with SMTP id d9443c01a7336-1fdd54f46f3mr24825785ad.8.1721828853831;
+        Wed, 24 Jul 2024 06:47:33 -0700 (PDT)
+Received: from thinkpad ([103.244.168.26])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fd6f44f4c4sm94151845ad.224.2024.07.24.06.47.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jul 2024 02:48:42 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 2/2] dt-bindings: soc: renesas: renesas-soc: Add pattern for GP-EVK
-Date: Wed, 24 Jul 2024 10:47:07 +0100
-Message-Id: <20240724094707.569596-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240724094707.569596-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20240724094707.569596-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Wed, 24 Jul 2024 06:47:33 -0700 (PDT)
+Date: Wed, 24 Jul 2024 19:17:21 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-pci@vger.kernel.org,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Aleksandr Mishin <amishin@t-argos.ru>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Anup Patel <apatel@ventanamicro.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Hou Zhiqiang <Zhiqiang.Hou@nxp.com>,
+	Jianjun Wang <jianjun.wang@mediatek.com>,
+	Jim Quinlan <jim2101024@gmail.com>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
+	Jon Hunter <jonathanh@nvidia.com>,
+	Jonathan Derrick <jonathan.derrick@linux.dev>,
+	Joyce Ooi <joyce.ooi@intel.com>,
+	Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Koichiro Den <den@valinux.co.jp>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Marc Zyngier <maz@kernel.org>, Michal Simek <michal.simek@amd.com>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nirmal Patel <nirmal.patel@linux.intel.com>,
+	Rob Herring <robh@kernel.org>, Ryder Lee <ryder.lee@mediatek.com>,
+	Shivamurthy Shastri <shivamurthy.shastri@linutronix.de>,
+	Siddharth Vadapalli <s-vadapalli@ti.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v4 05/15] PCI: dwc: Silence set affinity failed warning
+Message-ID: <20240724134721.GC3349@thinkpad>
+References: <20240723132958.41320-1-marek.vasut+renesas@mailbox.org>
+ <20240723132958.41320-6-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240723132958.41320-6-marek.vasut+renesas@mailbox.org>
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Tue, Jul 23, 2024 at 03:27:05PM +0200, Marek Vasut wrote:
+> Use newly introduced MSI_FLAG_NO_AFFINITY, which keeps .irq_set_affinity unset
+> and allows migrate_one_irq() code in cpuhotplug.c to exit right away, without
+> printing "IRQ...: set affinity failed(-22)" warning.
+> 
+> Remove .irq_set_affinity implementation which only return -EINVAL from this
+> controller driver.
+> 
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-Add a pattern for the Renesas RZ/V2H GP-EVK board.
+Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- Documentation/devicetree/bindings/soc/renesas/renesas-soc.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+- Mani
 
-diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas-soc.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas-soc.yaml
-index 5ddd31f30f26..3e93e0c73ed9 100644
---- a/Documentation/devicetree/bindings/soc/renesas/renesas-soc.yaml
-+++ b/Documentation/devicetree/bindings/soc/renesas/renesas-soc.yaml
-@@ -37,7 +37,7 @@ properties:
-       anyOf:
-         # Preferred naming style for compatibles of SoC components
-         - pattern: "^renesas,(emev2|r(7s|8a|9a)[a-z0-9]+|rcar|rmobile|rz[a-z0-9]*|sh(7[a-z0-9]+)?|mobile)-[a-z0-9-]+$"
--        - pattern: "^renesas,(condor|falcon|gr-peach|gray-hawk|salvator|sk-rz|smar(c(2)?)?|spider|white-hawk)(.*)?$"
-+        - pattern: "^renesas,(condor|falcon|gp|gr-peach|gray-hawk|salvator|sk-rz|smar(c(2)?)?|spider|white-hawk)(.*)?$"
- 
-         # Legacy compatibles
-         #
+> ---
+> Cc: "Krzysztof Wilczyński" <kw@linux.com>
+> Cc: "Pali Rohár" <pali@kernel.org>
+> Cc: "Uwe Kleine-König" <u.kleine-koenig@pengutronix.de>
+> Cc: Aleksandr Mishin <amishin@t-argos.ru>
+> Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>
+> Cc: Anup Patel <apatel@ventanamicro.com>
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+> Cc: Daire McNamara <daire.mcnamara@microchip.com>
+> Cc: Damien Le Moal <dlemoal@kernel.org>
+> Cc: Florian Fainelli <florian.fainelli@broadcom.com>
+> Cc: Hou Zhiqiang <Zhiqiang.Hou@nxp.com>
+> Cc: Jianjun Wang <jianjun.wang@mediatek.com>
+> Cc: Jim Quinlan <jim2101024@gmail.com>
+> Cc: Jingoo Han <jingoohan1@gmail.com>
+> Cc: Jisheng Zhang <Jisheng.Zhang@synaptics.com>
+> Cc: Jon Hunter <jonathanh@nvidia.com>
+> Cc: Jonathan Derrick <jonathan.derrick@linux.dev>
+> Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> Cc: Joyce Ooi <joyce.ooi@intel.com>
+> Cc: Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>
+> Cc: Kishon Vijay Abraham I <kishon@kernel.org>
+> Cc: Koichiro Den <den@valinux.co.jp>
+> Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
+> Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> Cc: Marc Zyngier <maz@kernel.org>
+> Cc: Michal Simek <michal.simek@amd.com>
+> Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>
+> Cc: Niklas Cassel <cassel@kernel.org>
+> Cc: Nipun Gupta <nipun.gupta@amd.com>
+> Cc: Nirmal Patel <nirmal.patel@linux.intel.com>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Ryder Lee <ryder.lee@mediatek.com>
+> Cc: Shivamurthy Shastri <shivamurthy.shastri@linutronix.de>
+> Cc: Siddharth Vadapalli <s-vadapalli@ti.com>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+> Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-mediatek@lists.infradead.org
+> Cc: linux-pci@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> Cc: linux-rpi-kernel@lists.infradead.org
+> Cc: linux-tegra@vger.kernel.org
+> ---
+> V4: - New patch
+> ---
+>  drivers/pci/controller/dwc/pci-keystone.c         |  7 -------
+>  drivers/pci/controller/dwc/pcie-designware-host.c | 12 +++---------
+>  2 files changed, 3 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/dwc/pci-keystone.c b/drivers/pci/controller/dwc/pci-keystone.c
+> index 52c6420ae2003..ce9d9e0a52609 100644
+> --- a/drivers/pci/controller/dwc/pci-keystone.c
+> +++ b/drivers/pci/controller/dwc/pci-keystone.c
+> @@ -189,12 +189,6 @@ static void ks_pcie_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
+>  		(int)data->hwirq, msg->address_hi, msg->address_lo);
+>  }
+>  
+> -static int ks_pcie_msi_set_affinity(struct irq_data *irq_data,
+> -				    const struct cpumask *mask, bool force)
+> -{
+> -	return -EINVAL;
+> -}
+> -
+>  static void ks_pcie_msi_mask(struct irq_data *data)
+>  {
+>  	struct dw_pcie_rp *pp = irq_data_get_irq_chip_data(data);
+> @@ -247,7 +241,6 @@ static struct irq_chip ks_pcie_msi_irq_chip = {
+>  	.name = "KEYSTONE-PCI-MSI",
+>  	.irq_ack = ks_pcie_msi_irq_ack,
+>  	.irq_compose_msi_msg = ks_pcie_compose_msi_msg,
+> -	.irq_set_affinity = ks_pcie_msi_set_affinity,
+>  	.irq_mask = ks_pcie_msi_mask,
+>  	.irq_unmask = ks_pcie_msi_unmask,
+>  };
+> diff --git a/drivers/pci/controller/dwc/pcie-designware-host.c b/drivers/pci/controller/dwc/pcie-designware-host.c
+> index a0822d5371bc5..3e41865c72904 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware-host.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware-host.c
+> @@ -48,8 +48,9 @@ static struct irq_chip dw_pcie_msi_irq_chip = {
+>  };
+>  
+>  static struct msi_domain_info dw_pcie_msi_domain_info = {
+> -	.flags	= (MSI_FLAG_USE_DEF_DOM_OPS | MSI_FLAG_USE_DEF_CHIP_OPS |
+> -		   MSI_FLAG_PCI_MSIX | MSI_FLAG_MULTI_PCI_MSI),
+> +	.flags	= MSI_FLAG_USE_DEF_DOM_OPS | MSI_FLAG_USE_DEF_CHIP_OPS |
+> +		  MSI_FLAG_NO_AFFINITY | MSI_FLAG_PCI_MSIX |
+> +		  MSI_FLAG_MULTI_PCI_MSI,
+>  	.chip	= &dw_pcie_msi_irq_chip,
+>  };
+>  
+> @@ -116,12 +117,6 @@ static void dw_pci_setup_msi_msg(struct irq_data *d, struct msi_msg *msg)
+>  		(int)d->hwirq, msg->address_hi, msg->address_lo);
+>  }
+>  
+> -static int dw_pci_msi_set_affinity(struct irq_data *d,
+> -				   const struct cpumask *mask, bool force)
+> -{
+> -	return -EINVAL;
+> -}
+> -
+>  static void dw_pci_bottom_mask(struct irq_data *d)
+>  {
+>  	struct dw_pcie_rp *pp = irq_data_get_irq_chip_data(d);
+> @@ -177,7 +172,6 @@ static struct irq_chip dw_pci_msi_bottom_irq_chip = {
+>  	.name = "DWPCI-MSI",
+>  	.irq_ack = dw_pci_bottom_ack,
+>  	.irq_compose_msi_msg = dw_pci_setup_msi_msg,
+> -	.irq_set_affinity = dw_pci_msi_set_affinity,
+>  	.irq_mask = dw_pci_bottom_mask,
+>  	.irq_unmask = dw_pci_bottom_unmask,
+>  };
+> -- 
+> 2.43.0
+> 
+
 -- 
-2.34.1
-
+மணிவண்ணன் சதாசிவம்
 
