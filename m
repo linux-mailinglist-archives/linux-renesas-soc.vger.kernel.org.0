@@ -1,48 +1,74 @@
-Return-Path: <linux-renesas-soc+bounces-7476-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7477-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A610F93A984
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jul 2024 00:54:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01D7893AA12
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jul 2024 02:01:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 507AA1F22B70
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jul 2024 22:54:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 753281F229FC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jul 2024 00:01:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A80B725760;
-	Tue, 23 Jul 2024 22:54:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4EC036B;
+	Wed, 24 Jul 2024 00:01:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cYxwu10z"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A7W2GIu9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8D41487F9;
-	Tue, 23 Jul 2024 22:54:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E79EA923;
+	Wed, 24 Jul 2024 00:01:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721775294; cv=none; b=lnXpu9ny99w6E8PM9dkC/Vbto/hHE3TRRVZeUMKDNBoi2Hmr+qU3Sai8ncWyhFi6U0zYR5LjttW2WQDHCLK0E4nBdeFtu97y+D0lpbmh9SXakY4UztNceM+XGbOvQ4MTbPAMpP8Rl/yZWyMKOZvKDNmit8zWjp3YfH8vh9/iPEs=
+	t=1721779269; cv=none; b=XPNkwPAZgwKwxOtNt5WP1UMUSDxHGWupYpqFE79dhzz2qqVr0gCLfR3HnlLgVD/kUGCEU76VQz89Nj3EaxJ354ISdJUQgQmRVDrvL0PGXh8Hak48RsWXwphxEt2YwUBBkFtgQIDHGy2M2xNZGpwwhdbMAMl7iLIVOJIL5/GWNz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721775294; c=relaxed/simple;
-	bh=7yl7pweRsUb/Cz4uzMnBbIvjB393ruYlONQQ/MK1d9U=;
+	s=arc-20240116; t=1721779269; c=relaxed/simple;
+	bh=17jGoMHbmLqSGsjs5XQd+QlOr1gMtDzvuLV1Jfxga6k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s11umWy2x1rORc0LAHUgLx6dUa73EBJk9Kh9k13BAxl1hJPFiFzPbByDrrBQeQAFm4n+IPM9VDLnAHThrjBWWZhF6iDOsCtwEU6Vkmgaa7SrAKF2kueX+zF7KeqYt5EfIA8QldJeMXD5/lUxkf3RSZ0OK9azonxuhFifXRu/loc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cYxwu10z; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76859C4AF09;
-	Tue, 23 Jul 2024 22:54:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721775294;
-	bh=7yl7pweRsUb/Cz4uzMnBbIvjB393ruYlONQQ/MK1d9U=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cYxwu10z5OHmkGQRUgijf1f/SRxT0dVPX2MkHzZ+24lrUWB8pLFMqoBbZSJQe7ZqX
-	 TwQ8stHcyHiRpcsqYpgYWBMbWA0b80okC3O4iHaCpUCQqJsW3nXu6mwhv7ap2Jpslm
-	 3gu35oqshyEDpN6XdUCp4L0hvI9T+dDTQrZ0JpCLvooTmr7D9d8/GKj99xkadZMqcQ
-	 ZvFvAqC+aMnI2mTrS3zU8n0yQJsPLNVA5LHn/HQCRybrhnKNp3PaOhQYN6Kxego95b
-	 kieihj7tORN814FXDDg99GVwDban6fQojEoQ6iLhG5S37BWMVjaWU8g1MkRCSDTfc6
-	 947QCP7HuE3Gg==
-Message-ID: <b77f741f-24da-445b-99bc-8765dabdf820@kernel.org>
-Date: Wed, 24 Jul 2024 07:54:47 +0900
+	 In-Reply-To:Content-Type; b=KqlW62m8k5dEH77uvyNxdj/24zenPTVceB4BrmNsw8aDHrVQ0nluUpmiF3cPn3BGLQ8A9lJlf7cNIGLLRHKqCag/LjSRxGI5X6jJWxsJfIaULTzqFeJvpO9fzh4rT8VtRk4etGXFawVVC2FopfRQ2FSYqKvCO9xfQ6i1oM3A+bk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A7W2GIu9; arc=none smtp.client-ip=209.85.222.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-79efd2151d9so364711185a.0;
+        Tue, 23 Jul 2024 17:01:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1721779267; x=1722384067; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HjPcF3TBfRjPpVjOMK7/fpnxgVcc8VtkPZ4xX3JlhSM=;
+        b=A7W2GIu9gNJ3EGVxnOHvo9ReF1immYywurtF4Tk1GteTcLQJcSQoRBno2GF9Kb/EXF
+         whzaY9jQXGiunYuCv0nJ8V5OkwPSIF5xo0MBX3stYk+57WWHfEDSxLam/0bXO1+wOciA
+         KtoftALWJ3pbR/ktDj4vD07cR3qEJuN6FprVeKHNI+hsTuo+bVcUQ5Tv2Fe9fwoVgrJv
+         5FYSQgesZQuoC7uMB0f4n+988RBtCQWYCR4OkBsgcKSaqWJ5o6ayQlzpc+syYkhZTI4/
+         cY0rcRxHdt/DKrZffT4fV524xPxTYOINRXjxPIk7MczsX3WBOVmH/4zIWmaTRbyqTBf3
+         Xz1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721779267; x=1722384067;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HjPcF3TBfRjPpVjOMK7/fpnxgVcc8VtkPZ4xX3JlhSM=;
+        b=udkz4oaoWBnKbSCQ94srLom28hLTJms3/RJrRx5QQDJJZpweJmq/MaGPkoz5zMz/pi
+         qufXw7CmsjYhG2rcX8+bQLu0KDVgVcuuevjXBfZ4HriOt6VCCBs0cHEUGViSprp1nSSG
+         A4DiK049HUFamUFpiWLjSz0Bni9osXV9Ch8BArgs6gStTx5bQ4EvE2WZvCrnUKTHQSMU
+         qyJzra+UAeFabrXSRJmJyAIuZ78xOao/K17DaTdKqRFIx4DmWLHdHv0CXFTMqStg8vDL
+         kl32qK7WZKykynA4yB28tmVt2xN/OY8vuaPd9ZwVWTzjrwgECOoIyoub0DPfLHg8sQoA
+         Sx+A==
+X-Forwarded-Encrypted: i=1; AJvYcCX97lzylrR9pf9l3AF1SAylJr8XnKntxnwjq4lv2FO4fjFUglTlafzcE/XbgvwTjE5H0h968qZwCirsXfK8OEsBearZuEPuEwejuhHLWURu9XejQsiZ+aZ4z5PaY64NKbQNOMVwHMbrKeBQlUGkGbwawy6EwWZ8Y80s1mFuu7FFPJt5uivgffgVyg==
+X-Gm-Message-State: AOJu0Yz2kh3Ujh9LkZtHlyUOYmcPSRXxcVfbZWzqnJsiYN+4ZnwnVjDH
+	e4UZyfmvpFVPQkg+utBC9L8a8qBcB8VX8gCLKZFU3x+dXeHuXaxK
+X-Google-Smtp-Source: AGHT+IEmrijFPvlymDjiYvpgNdufWQdFfnX8iqTj46gVg2s6gl42hPf89eITjYUBUaoYa2+oQ9bIdw==
+X-Received: by 2002:a05:620a:2544:b0:7a1:c427:22e0 with SMTP id af79cd13be357-7a1c427267amr363339485a.41.1721779267163;
+        Tue, 23 Jul 2024 17:01:07 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.googlemail.com with ESMTPSA id af79cd13be357-7a198fae6d8sm523722485a.7.2024.07.23.17.00.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Jul 2024 17:01:04 -0700 (PDT)
+Message-ID: <62c24823-fa95-46bc-8c7d-0d15cbddc4f6@gmail.com>
+Date: Tue, 23 Jul 2024 17:00:51 -0700
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,7 +76,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 01/15] genirq/msi: Silence set affinity failed warning
+Subject: Re: [PATCH v4 04/15] PCI: brcmstb: Silence set affinity failed
+ warning
 To: Marek Vasut <marek.vasut+renesas@mailbox.org>, linux-pci@vger.kernel.org
 Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
  =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
@@ -61,6 +88,7 @@ Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
  Broadcom internal kernel review list
  <bcm-kernel-feedback-list@broadcom.com>,
  Daire McNamara <daire.mcnamara@microchip.com>,
+ Damien Le Moal <dlemoal@kernel.org>,
  Florian Fainelli <florian.fainelli@broadcom.com>,
  Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, Jianjun Wang
  <jianjun.wang@mediatek.com>, Jim Quinlan <jim2101024@gmail.com>,
@@ -88,55 +116,25 @@ Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
  linux-renesas-soc@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
  linux-tegra@vger.kernel.org
 References: <20240723132958.41320-1-marek.vasut+renesas@mailbox.org>
- <20240723132958.41320-2-marek.vasut+renesas@mailbox.org>
+ <20240723132958.41320-5-marek.vasut+renesas@mailbox.org>
 Content-Language: en-US
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <20240723132958.41320-2-marek.vasut+renesas@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
+From: Florian Fainelli <f.fainelli@gmail.com>
+In-Reply-To: <20240723132958.41320-5-marek.vasut+renesas@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 7/23/24 10:27 PM, Marek Vasut wrote:
-> Various PCIe controllers that mux MSIs onto single IRQ line produce these
-> "IRQ%d: set affinity failed" warnings when entering suspend. This has been
-> discussed before [1] [2] and an example test case is included at the end
-> of this commit message.
+On 7/23/24 06:27, Marek Vasut wrote:
+> Use newly introduced MSI_FLAG_NO_AFFINITY, which keeps .irq_set_affinity unset
+> and allows migrate_one_irq() code in cpuhotplug.c to exit right away, without
+> printing "IRQ...: set affinity failed(-22)" warning.
 > 
-> Controller drivers which create MSI IRQ domain with MSI_FLAG_USE_DEF_CHIP_OPS
-> flag set and which do not override the .irq_set_affinity irqchip callback get
-> assigned default .irq_set_affinity = msi_domain_set_affinity() callback. That
-> is not desired on controllers where it is not possible to set affinity of each
-> MSI IRQ line to a specific CPU core due to hardware limitation.
-> 
-> Introduce dedicated flag MSI_FLAG_NO_AFFINITY, which keeps .irq_set_affinity
-> unset in case the controller driver did not assign the callback. This way, the
-> migrate_one_irq() code in cpuhotplug.c can exit right away, without printing
-> the aforementioned warning. The .irq_set_affinity implementations which only
-> return -EINVAL can be removed from multiple controller drivers.
-> 
-> ```
-> $ grep 25 /proc/interrupts
->  25:   0 0 0 0 0 0 0 0   PCIe MSI   0   Edge   PCIe PME
-> 
-> $ echo core > /sys/power/pm_test ; echo mem > /sys/power/state
-> ...
-> Disabling non-boot CPUs ...
-> IRQ25: set affinity failed(-22). <---------- This is being silenced here
-> psci: CPU7 killed (polled 4 ms)
-> ...
-> ```
-> 
-> [1] https://lore.kernel.org/all/d4a6eea3c5e33a3a4056885419df95a7@kernel.org/
-> [2] https://lore.kernel.org/all/5f4947b18bf381615a37aa81c2242477@kernel.org/
+> Remove .irq_set_affinity implementation which only return -EINVAL from this
+> controller driver.
 > 
 > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-Looks good to me.
-
-Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
-
+Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
 -- 
-Damien Le Moal
-Western Digital Research
+Florian
 
 
