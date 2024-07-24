@@ -1,218 +1,124 @@
-Return-Path: <linux-renesas-soc+bounces-7485-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7486-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8EC93B32B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jul 2024 16:54:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F3D93B3CA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jul 2024 17:35:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B572BB271C1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jul 2024 14:54:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9D707284148
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jul 2024 15:35:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF49715B14D;
-	Wed, 24 Jul 2024 14:53:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CDFF15B13D;
+	Wed, 24 Jul 2024 15:35:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y8w/ulxe"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y4ixcv/K"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95C3115B12F;
-	Wed, 24 Jul 2024 14:53:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F35AE54759;
+	Wed, 24 Jul 2024 15:35:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721832827; cv=none; b=uRsPGAK8ucUKrKEZJvWVCHc3by50Ht41MMtSY0g1jAL68B9eRaRtOwzSCA2fZkOBPmUjVrp4Toepqt6Gk6sDTJjAsniPc8bMh1DlryapKa7F8VsmRqoRU/i6EINPAlurCd/gAEJlsWicanrgsYGSnCDSsuG4Rm41ab2KfqemtyI=
+	t=1721835309; cv=none; b=GoanFrR3Y5M/1QE1umH8PPGw+5Bz/s/rH4WisbF5pqJ8uGbqQjBqUtwP3m+ZoIsDNO1mTAW+c7TrWFB+Eat4W5VCWSxPIWsoc8gbKrT0KomITS1GPjNj5iKkpnOKFalDqjHZAMg58/htpNUO7qhL4gkzmmZ+tTdRF1oW88GBV6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721832827; c=relaxed/simple;
-	bh=EhGs3QHFWEAF4yCV+iWV8W/2NsVyT7nTpnaTm8KpojA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n4TPLW3PoBoV2oagfvfpPaMMks5mgeTg8fcgHsiI/qHHlnZmoNU9UnBZjBunN5jF1GKwxKO776+wDQ8mEmFRnNOGDZMyfU5kevFlykUQnfkL6f8BgwbBgbgrqV8OTV//Avq+suIXhSi00VpglV7oP0ampzDkPhjJpEx4m3DDZsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y8w/ulxe; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE0E0C32781;
-	Wed, 24 Jul 2024 14:53:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721832827;
-	bh=EhGs3QHFWEAF4yCV+iWV8W/2NsVyT7nTpnaTm8KpojA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y8w/ulxe88J1URS6wQyFwZkVk96GQDqEdMvZ/kNvD5gdyiNEYnmjJpdp3UfGhJaO1
-	 ep0Wa8g0j2Rcto37s2A1/9Vsh4PodRY3AelZyYEARm5OOIH4OSWPLgaElb9FYPgRYA
-	 wf2gEc8rjccb2jqMqDvjnzjKe5Zr0G1fU5aHjfCv1rlsLJ3V1gINaoc1+2Ku6b6YUM
-	 lc1UiY3+ugOFBLyDazhUrEB5XtjAdAwZjfuh9UEI+N4VQElhqL1RQEzkOJTRqyusj5
-	 Ss28XcUpzbYB4BrvWqE7syKnqiySR/RjW1SBbJO8bYUEMm3dNSyYBtrfoD35h91M0h
-	 TwkxB5OIhh1SA==
-Date: Wed, 24 Jul 2024 15:53:40 +0100
-From: Lee Jones <lee@kernel.org>
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	alexandre.belloni@bootlin.com, geert+renesas@glider.be,
-	magnus.damm@gmail.com, mturquette@baylibre.com, sboyd@kernel.org,
-	p.zabel@pengutronix.de, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH v2 02/11] mfd: renesas-vbattb: Add a MFD driver for the
- Renesas VBATTB IP
-Message-ID: <20240724145340.GZ501857@google.com>
-References: <20240716103025.1198495-1-claudiu.beznea.uj@bp.renesas.com>
- <20240716103025.1198495-3-claudiu.beznea.uj@bp.renesas.com>
+	s=arc-20240116; t=1721835309; c=relaxed/simple;
+	bh=LueIaqy3Q0j8fN4ues5sGnm8L0r16hoVxCOfXozdzfk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QHlXmU1+mLHLqVtN4ug4pMyU9bZgV6X+j1MirPybOpNvQdhyl62GIGd0PV2yvlbsnUOinatNmGSmjIr5h6RnfjD9SQJuWBAsEJebTy9+okusK3osiunpylSvOSW8K1td9Ps0TtgZVoYg7L6P3YOOIplrEeCfGK8FnUkDnok3CC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y4ixcv/K; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4266f344091so51340305e9.0;
+        Wed, 24 Jul 2024 08:35:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1721835306; x=1722440106; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rUj6GbLkyY4yBCtFy5bfIuKGv+kwHnS2SEUOPXf1qU4=;
+        b=Y4ixcv/KMJEWJrHlsOdBC7v1URZFkeq4WRsmVYp3Gu8sMqWNF6op1n7J5U0YYFoNW1
+         9rRGn3JqPK7PgH8rv1QaWesfH2JIZZS0Eb32S2D1CGj40cp9dl4FHsCI9RGtqUkwRd4w
+         gddfVyT9VsfIqXapgfH0t0ppphw3rwgqTUhbfQ+u1hoAdnixi1kixmMpIwUi1uUoU5Ja
+         z3xNnUGVhCDFhmLTWkhE/N2CBA4nDkcrct/4tQKCnNQgeU0HPiSfaIPsY9VO98NoG9bt
+         Xkt4QaWKsQGt+nvsXS3iQgGH9SXvcv1+4WwSPr1TKtfP+nBRYJLV+JZP3/YbfIVe/fVP
+         lwUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721835306; x=1722440106;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rUj6GbLkyY4yBCtFy5bfIuKGv+kwHnS2SEUOPXf1qU4=;
+        b=Z+7OgjWjkYEvZHtXlmI07Xz8LAbUJ1N/7Ox9JIe5fHNSdcfpuUJ4pXzDvCmasGG6W/
+         GDFLauW6LGtPyddkbG7hvC4z8mZkLdsPgWZavZREoK13TdJ2JeLMXfF6kqdjPkmQa0j9
+         X50f9T141Vgm6y6WOY3RumVkVGGoq3HcZeGthk9b5uuhemgGHFIxKDpnW8hpef+RHuH3
+         BH4DTrM7xbx4FXz/oEFW4E1u/puwriMK/4qMxLv6mV0ag633rgC/b7oterekVMl5XvTs
+         wtMM6CChdS/ynK4ShL2vzxn3DCriyni7UJusBVfbb4sUKEkSLZeQdH1EfSx0h+E3W7E8
+         ilGg==
+X-Forwarded-Encrypted: i=1; AJvYcCWlQhwFelWKrkv9ekUlMqkSz1oBeZ92mirs+QxixyBOwM+UvRj7CdBwJg8aBFhdjd4mx0yXlawzXvRGSJs/RIFs+D6KiVJUxsOLBZtFSzUQzHDd9WGq35zZnl8UvW6etTxh7D2R+MwQqA==
+X-Gm-Message-State: AOJu0YyTxsN46FYD8ujbmZM1HkvnCW1KrLQl13woiRuM5nIe99ss5Xq+
+	qSZDoRZaUl4OuZbMB+5yrr2Q8N7LKEUx+4kEzQaUwo0TRnUBNzn9
+X-Google-Smtp-Source: AGHT+IFGecbpg9mGqnfUkHGeenSXuq52mdNzJsLo7P3GdgZyq4NhI/n3qLCgJHUsXurw22H8uvU1Zg==
+X-Received: by 2002:a05:600c:4f06:b0:425:5ec3:570b with SMTP id 5b1f17b1804b1-427f7a93eb4mr19383485e9.35.1721835305902;
+        Wed, 24 Jul 2024 08:35:05 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427f9397337sm34609565e9.23.2024.07.24.08.35.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jul 2024 08:35:05 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/2] Add support for Renesas RZ/V2H SoC
+Date: Wed, 24 Jul 2024 16:33:37 +0100
+Message-Id: <20240724153339.626460-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240716103025.1198495-3-claudiu.beznea.uj@bp.renesas.com>
 
-On Tue, 16 Jul 2024, Claudiu wrote:
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> Renesas VBATTB IP has logic to control the RTC clock, tamper detection
-> and a small 128B memory. Add a MFD driver to do the basic initialization
-> of the VBATTB IP for the inner components to work.
-> 
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> ---
-> 
-> Changes in v2:
-> - none; this driver is new
-> 
->  drivers/mfd/Kconfig          |  8 ++++
->  drivers/mfd/Makefile         |  1 +
->  drivers/mfd/renesas-vbattb.c | 78 ++++++++++++++++++++++++++++++++++++
->  3 files changed, 87 insertions(+)
->  create mode 100644 drivers/mfd/renesas-vbattb.c
-> 
-> diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-> index bc8be2e593b6..df93e8b05065 100644
-> --- a/drivers/mfd/Kconfig
-> +++ b/drivers/mfd/Kconfig
-> @@ -1383,6 +1383,14 @@ config MFD_SC27XX_PMIC
->  	  This driver provides common support for accessing the SC27xx PMICs,
->  	  and it also adds the irq_chip parts for handling the PMIC chip events.
->  
-> +config MFD_RENESAS_VBATTB
-> +	tristate "Renesas VBATTB driver"
-> +	depends on (ARCH_RZG2L && OF) || COMPILE_TEST
-> +	select MFD_CORE
-> +	help
-> +	  Select this option to enable Renesas RZ/G3S VBATTB driver which
-> +	  provides support for the RTC clock, tamper detector and 128B SRAM.
-> +
->  config RZ_MTU3
->  	tristate "Renesas RZ/G2L MTU3a core driver"
->  	depends on (ARCH_RZG2L && OF) || COMPILE_TEST
-> diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-> index 02b651cd7535..cd2f27492df2 100644
-> --- a/drivers/mfd/Makefile
-> +++ b/drivers/mfd/Makefile
-> @@ -186,6 +186,7 @@ pcf50633-objs			:= pcf50633-core.o pcf50633-irq.o
->  obj-$(CONFIG_MFD_PCF50633)	+= pcf50633.o
->  obj-$(CONFIG_PCF50633_ADC)	+= pcf50633-adc.o
->  obj-$(CONFIG_PCF50633_GPIO)	+= pcf50633-gpio.o
-> +obj-$(CONFIG_MFD_RENESAS_VBATTB)	+= renesas-vbattb.o
->  obj-$(CONFIG_RZ_MTU3)		+= rz-mtu3.o
->  obj-$(CONFIG_ABX500_CORE)	+= abx500-core.o
->  obj-$(CONFIG_MFD_DB8500_PRCMU)	+= db8500-prcmu.o
-> diff --git a/drivers/mfd/renesas-vbattb.c b/drivers/mfd/renesas-vbattb.c
-> new file mode 100644
-> index 000000000000..5d71565b8cbf
-> --- /dev/null
-> +++ b/drivers/mfd/renesas-vbattb.c
-> @@ -0,0 +1,78 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * VBATTB driver
-> + *
-> + * Copyright (C) 2024 Renesas Electronics Corp.
-> + */
-> +
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/of_platform.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/reset.h>
-> +
-> +static int vbattb_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct reset_control *rstc;
-> +	int ret;
-> +
-> +	rstc = devm_reset_control_array_get_exclusive(dev);
-> +	if (IS_ERR(rstc))
-> +		return PTR_ERR(rstc);
-> +
-> +	ret = devm_pm_runtime_enable(dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = pm_runtime_resume_and_get(dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = reset_control_deassert(rstc);
-> +	if (ret)
-> +		goto rpm_put;
-> +
-> +	platform_set_drvdata(pdev, rstc);
+Hi All,
 
-Where is this consumed?
+This patch series aims to add initial support for Renesas RZ/V2H(P)
+SoC and GP-EVK board.
 
-> +	ret = devm_of_platform_populate(dev);
+With this initial patch series we can boot up with initramfs,
+boot log: https://pastebin.com/CLcjgZfZ
 
+Note, the patch series is dependent on below series:
+1] https://patchwork.kernel.org/project/linux-renesas-soc/cover/20240715125438.553688-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+2] https://patchwork.kernel.org/project/linux-renesas-soc/cover/20240724094707.569596-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
-Which devices will this probe?
+Cheers,
+Prabhakar
 
-> +	if (ret)
-> +		goto reset_assert;
-> +
-> +	return 0;
-> +
-> +reset_assert:
-> +	reset_control_assert(rstc);
-> +rpm_put:
-> +	pm_runtime_put(dev);
-> +	return ret;
-> +}
-> +
-> +static void vbattb_remove(struct platform_device *pdev)
-> +{
-> +	struct reset_control *rstc = platform_get_drvdata(pdev);
-> +
-> +	reset_control_assert(rstc);
-> +	pm_runtime_put(&pdev->dev);
-> +}
-> +
-> +static const struct of_device_id vbattb_match[] = {
-> +	{ .compatible = "renesas,r9a08g045-vbattb" },
-> +	{ /* sentinel */ },
-> +};
-> +MODULE_DEVICE_TABLE(of, vbattb_match);
-> +
-> +static struct platform_driver vbattb_driver = {
-> +	.probe = vbattb_probe,
-> +	.remove_new = vbattb_remove,
-> +	.driver = {
-> +		.name = "renesas-vbattb",
-> +		.of_match_table = vbattb_match,
-> +	},
-> +};
-> +module_platform_driver(vbattb_driver);
-> +
-> +MODULE_ALIAS("platform:renesas-vbattb");
-> +MODULE_AUTHOR("Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>");
-> +MODULE_DESCRIPTION("Renesas VBATTB driver");
-> +MODULE_LICENSE("GPL");
-> -- 
-> 2.39.2
-> 
+Lad Prabhakar (2):
+  arm64: dts: renesas: Add initial SoC DTSI for RZ/V2H SoC
+  arm64: dts: renesas: Add initial DTS for RZ/V2H GP-EVK board
+
+ arch/arm64/boot/dts/renesas/Makefile          |   2 +
+ arch/arm64/boot/dts/renesas/r9a09g057.dtsi    | 165 ++++++++++++++++++
+ .../boot/dts/renesas/r9a09g057h44-gp-evk.dts  |  61 +++++++
+ 3 files changed, 228 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g057.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g057h44-gp-evk.dts
 
 -- 
-Lee Jones [李琼斯]
+2.34.1
+
 
