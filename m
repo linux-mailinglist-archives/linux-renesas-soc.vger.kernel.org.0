@@ -1,111 +1,146 @@
-Return-Path: <linux-renesas-soc+bounces-7524-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7525-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E634993C349
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jul 2024 15:48:37 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 862FC93C476
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jul 2024 16:40:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 234E61C219BD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jul 2024 13:48:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 418D3284B7C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jul 2024 14:40:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8287619B3E3;
-	Thu, 25 Jul 2024 13:48:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF9BC19D091;
+	Thu, 25 Jul 2024 14:39:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O4k1BNqH"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="XiE51TIG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51DBD1DA4D;
-	Thu, 25 Jul 2024 13:48:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65BAC19D066
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jul 2024 14:39:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721915297; cv=none; b=tjaQmuE0iPjoihqFB2GNPM9oy5itWUA5Eno9eyloQVo1566J6uT32gPqDqVIC8lIAxKZCrh585mYtv8B4NqpD+m9cpWrR0Ms2gFnQKrgNWXEKu+Q403jI/3CqyVjFNOtMhsZXvRcxp6imSjGHza1Nq4S/GCdzGfDpCNTagahz70=
+	t=1721918399; cv=none; b=G41aDOIZg54tqBONtcutzdeQyMIgq/Gizo7Q6fHQZXOi7iQigh5U9GgQV0IhbJkLsJbZ/s8lXtE9/LyBxd4ONZVdSaPFYjQehnWPFfHwHW5QSZQZM4uDxHbgHh9860zjEUtaH+uGvICQfUTohvlfM4rE9SBj07xhkfNTwN4hCwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721915297; c=relaxed/simple;
-	bh=B0+N0R0oO64HJHIWBCEG3XspO07DEgkcIacwNkawAzc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SVYy8ip1VM/zOSsq/IJJsKYnKC3F3jT+7aRGMC/wEf5cs33cYqK8/ZbB6ka6PrSoVlJ+z3cqEHs8BT2HR5uCCCfXpwwOF5buSNgQKDzDl6Tb8wNhyfc5nEANhvu5YFBsmTNuHzc0hZrzAbRWX7oVbo8ERwp/MfRhPC+tr8c8IUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O4k1BNqH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBA60C32782;
-	Thu, 25 Jul 2024 13:48:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721915297;
-	bh=B0+N0R0oO64HJHIWBCEG3XspO07DEgkcIacwNkawAzc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=O4k1BNqHVdR5cRpUkI8jFRZQYF6Jh3v6M4jW0IsJ83omCCEglNqA+s3T/C39jT7qk
-	 juNBLZExrbTFQM8hWN7TUaiOGsdi0kFiAqS8HMhbwSa3d+17M16C4VXgJtHofKz4Wg
-	 2+1sLqsq/2DlaDg6dQ8dXQTX63dJmcixz4iystEc7TtU0hq3bJ7COp90uDMJc9uXmU
-	 3NYxo4WGVSW2/1p48QNW+fGt0sa5oBgI8HxtHkFo4c7RTk43r0/vNq4imnRgie9gKz
-	 VHbdT3IamZ7GaTJYyq+LS4XbepkdCcohnoLkv3p8xWyYrHruUCg74MNPHN6YTez+DM
-	 m8tD4XNAfVPXg==
-Date: Thu, 25 Jul 2024 08:48:15 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: linux-kernel@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>, devicetree@vger.kernel.org,
-	linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH v5 1/3] dt-bindings: mmc: renesas,sdhi: Document
- RZ/V2H(P) support
-Message-ID: <172191529451.1986364.4998552420592163246.robh@kernel.org>
-References: <20240724182119.652080-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240724182119.652080-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1721918399; c=relaxed/simple;
+	bh=0jprevtwm97HPlvDbJ8iak+QX7zBxOzWXvkyqSqMkaE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RjVdJawGOaGVXcqNV7YbYP/z6i5eONKZq60cPRLQpXN8394IozLP+tQHb1mXf5IePsmHuz82qeBMkuA08gxykzyghhcs6odfu/mkg55HnUvIlBuVqAxRKXRmGHa6nCM270ONLBefh5787aZkU6Fys/g7rxDiBw3DczDU1sBeEfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=XiE51TIG; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3683178b226so606815f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jul 2024 07:39:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1721918396; x=1722523196; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EmNcaMBYjNffFp8Y9eqYmsbKgIfRFa8ntga4/Bnlk8U=;
+        b=XiE51TIG0QSwxM6R7gAJhuGIKhU8Wwv8LqrMssvrQkEr9uGbDiE2G6iX5nrP6LGlVR
+         YjfWORVvdZzJJBiIMFOoW3I1dZdcBxoAm1XqJ/NQJ1ulUKmYi8UAkvhswnD6NQNryhDy
+         Oa4/mk+XZxRMPm05/HOalEMueflQllHl1JTSXhKOgZt2auJez+pYDWLS8Gcfl/E8fN+L
+         BZS1nZ+3Y+jCvbX26wUwkE6BsZcvAMuH25wjjebmIOeUV2l0Y4FAiI9gOrNLudTElrtv
+         YbUAJxJznlKZidOwZFj4ctT7xQ4hr5EpWmdAJcB89SPA4gpmqwdhh69R7qHyJVQqnzJL
+         outQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721918396; x=1722523196;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EmNcaMBYjNffFp8Y9eqYmsbKgIfRFa8ntga4/Bnlk8U=;
+        b=DGqIUy0P2MoezuJklZKvxvSZdlW3ojT0ztHoIavoFVsFoTjcGkGhIE4Dhunmtv2jrf
+         xtcGSopy5VeoxSA15PWr1nkv5idTw+yllx7+2ikX9KYZQmUZ/By9knIuB7HkyEK7xOuX
+         Ff/8eszLdsxjoSi+w923wZ4vEVTU97Wy7Xpf808zq5ke4vBXt/4hPYmCF28+S25B1PTQ
+         GsayZJc5gyIthgOQxBp1AZB2F64uCvCV/Cwrsl1K4pvnXPdojE8WsfSATBvQZHsohtBq
+         HAUOGT1FQmPv7/2ph/cTNIX3Ythrku5qPl67f8hu++7qEaLeSeQf6Ev6G8DuQVuRcPJd
+         TVGw==
+X-Gm-Message-State: AOJu0YzYZi6uWbHVSVQtu3zki+bSzYoYzY41fHuol8Qd9yrgieuk7emR
+	98LZzyynRJzecPh0PItfw0LwZaYkoZEylRiEJfjHf9rww/2XGmGUnuaxoV2xT6A=
+X-Google-Smtp-Source: AGHT+IGf7oywhAAEa3IVVaOAoTIXoWXB5zTQ9uLQU8Ixr/J7YCMLGoCiSQGBGBt7sL48QVY7/UM+8A==
+X-Received: by 2002:adf:fe0c:0:b0:368:6596:c60c with SMTP id ffacd0b85a97d-36b3639dc76mr1767102f8f.30.1721918395512;
+        Thu, 25 Jul 2024 07:39:55 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36b36857dc2sm2403560f8f.77.2024.07.25.07.39.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Jul 2024 07:39:55 -0700 (PDT)
+Message-ID: <97233c2e-78ff-40a0-b808-6929deff4427@tuxon.dev>
+Date: Thu, 25 Jul 2024 17:39:53 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240724182119.652080-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] pinctrl: renesas: rzg2l: Return -EINVAL if the pin
+ doesn't support PIN_CFG_OEN
+Content-Language: en-US
+To: Prabhakar <prabhakar.csengg@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240723164744.505233-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <20240723164744.505233-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-On Wed, 24 Jul 2024 19:21:17 +0100, Prabhakar wrote:
+
+On 23.07.2024 19:47, Prabhakar wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> The SD/MMC block on the RZ/V2H(P) ("R9A09G057") SoC is similar to that
-> of the R-Car Gen3, but it has some differences:
-> - HS400 is not supported.
-> - It has additional SD_STATUS register to control voltage,
->   power enable and reset.
-> - It supports fixed address mode.
+> Update the rzg2l_pinctrl_pinconf_get() function to return -EINVAL for
+> PIN_CONFIG_OUTPUT_ENABLE config if the pin doesn't support the PIN_CFG_OEN
+> configuration.
 > 
-> To accommodate these differences, a SoC-specific 'renesas,sdhi-r9a09g057'
-> compatible string is added.
+> -EINVAL is a valid error when dumping the pin configurations. Returning
+> -EOPNOTSUPP for a pin that does not support PIN_CFG_OEN resulted in the
+> message 'ERROR READING CONFIG SETTING 16' being printed during dumping
+> pinconf-pins.
 > 
+> For consistency do similar change in rzg2l_pinctrl_pinconf_set() for
+> PIN_CONFIG_OUTPUT_ENABLE config.
+> 
+> Fixes: a9024a323af2 ("pinctrl: renesas: rzg2l: Clean up and refactor OEN read/write functions")
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v4->v5
-> - Dropped regulator node.
-> 
-> v3->v4
-> - Dropped 'renesas,sdhi-use-internal-regulator' property
-> - Moved 'vqmmc-regulator' to the top level
-> 
-> v2->v3
-> - Renamed vqmmc-r9a09g057-regulator object to vqmmc-regulator
-> - Added regulator-compatible property for vqmmc-regulator
-> - Added 'renesas,sdhi-use-internal-regulator' property
-> 
-> v1->v2
-> - Moved vqmmc object in the if block
-> - Updated commit message
-> ---
->  Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml | 2 ++
->  1 file changed, 2 insertions(+)
-> 
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
+> ---
+>  drivers/pinctrl/renesas/pinctrl-rzg2l.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> index 632180570b70..3ef20f2fa88e 100644
+> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> @@ -1261,7 +1261,9 @@ static int rzg2l_pinctrl_pinconf_get(struct pinctrl_dev *pctldev,
+>  		break;
+>  
+>  	case PIN_CONFIG_OUTPUT_ENABLE:
+> -		if (!pctrl->data->oen_read || !(cfg & PIN_CFG_OEN))
+> +		if (!(cfg & PIN_CFG_OEN))
+> +			return -EINVAL;
+> +		if (!pctrl->data->oen_read)
+>  			return -EOPNOTSUPP;
+>  		arg = pctrl->data->oen_read(pctrl, _pin);
+>  		if (!arg)
+> @@ -1402,7 +1404,9 @@ static int rzg2l_pinctrl_pinconf_set(struct pinctrl_dev *pctldev,
+>  
+>  		case PIN_CONFIG_OUTPUT_ENABLE:
+>  			arg = pinconf_to_config_argument(_configs[i]);
+> -			if (!pctrl->data->oen_write || !(cfg & PIN_CFG_OEN))
+> +			if (!(cfg & PIN_CFG_OEN))
+> +				return -EINVAL;
+> +			if (!pctrl->data->oen_write)
+>  				return -EOPNOTSUPP;
+>  			ret = pctrl->data->oen_write(pctrl, _pin, !!arg);
+>  			if (ret)
 
