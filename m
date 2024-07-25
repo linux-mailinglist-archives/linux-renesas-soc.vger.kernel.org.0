@@ -1,49 +1,49 @@
-Return-Path: <linux-renesas-soc+bounces-7534-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7533-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5312993C8CE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jul 2024 21:38:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA05493C8CB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jul 2024 21:38:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DEDB6283606
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jul 2024 19:38:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8428A1F22A37
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jul 2024 19:38:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F4295FEE6;
-	Thu, 25 Jul 2024 19:38:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE1ED558BB;
+	Thu, 25 Jul 2024 19:38:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="J8qRI7OP"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="XhkQSnDo"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C10751C4A
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jul 2024 19:38:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184AF5588F
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jul 2024 19:38:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721936313; cv=none; b=gjAt+dOGomLkZc8A5bVJz9KIXuxrQuJz7tz1WfuS+QBl8XIHZ9uBSdjQ2XJcobGJu6NDnlCS+qC7igEuKW3lfsmbAORdNXmbwnUJPrnDAno82B38jeYWCf/mNfMKyGBJS+HF85ToxGXfPX934zRH3O0WFSRoXtQKFSKyEEMW+5A=
+	t=1721936312; cv=none; b=hAx/iZqgUxas01fkjuf+n9LOcIUh3LDjrojf+yrMfZY/hxO3aNaPdgzbGesXhJWQJanWOXdqng/IcLUg9YNOQqERLSvdPqP42EZwNKiddV5cVEhnaU5lUeB73HhIEIXB8dabzT6z1NERX2kHBn29wXQrWl7ZNIJUBHK09jBkPe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721936313; c=relaxed/simple;
-	bh=rn9hIMHNo2Pna8pTksAbo9XeKPgSZNcQeFcNZYyXJoE=;
+	s=arc-20240116; t=1721936312; c=relaxed/simple;
+	bh=iZDrPg+CXyY9fqxcW/wsDBsQ9YoVYk5jMoM543C5ips=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QaUv+3ex1DTj6jjtDk5fNhCk3JlxzpCkKBu2gQxe1iYpEUCDGkdPbAx8BOAA/m7TdegVIOzs1KBK4TpbY+pNz2pGeJ6zt0ntC0YTz5S17EGyyvPSlWd5DdI6UtMXfesEeSLHxjKuuWViCqaVKl02XMid5tjURfINUdhUAweOHyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=J8qRI7OP; arc=none smtp.client-ip=194.117.254.33
+	 MIME-Version; b=ORl/x72bYgjDohJGOhwLnlujhM6l7KX9Fbbpile61vfQ+BfmJZxHCN+FC+J7Hff7VMBvfKhwcuAAcSWxF//K5cwAQjE4dnXGcHEd6x0M9uSIZs+toArPvMl9rWntBEgXRHa3lOHHP8T5OlqbWPqwiWy22mH1LQ3uPy9loCRGa3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=XhkQSnDo; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=from:to:cc:subject:date:message-id
 	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=YUOsB12X9TWd3uUe1z7FI1U/ajvQFn/Ef7WCw40Dze8=; b=J8qRI7
-	OPYUXcJLF2SYXr113AGosq/9YG/BV8deDJ4zFVbFgEDDGmnT5TUh2G3w3dInQmzb
-	zU2dg1kA6pv83ME4o9clvsv8x3DVjMm8idn6XxMKROkiGKY3WGdELLq2kUBhxlG3
-	UBwV+czGFmKbUYwT4pT89gPAr3yJHtwzB42lG4KPMT08WJZ+N1Q9aBZfRF9Bbxd7
-	mw0RWiNmS8NKDA0ORu3zPvvxhsQVdQJv+r64ABqrzT4MO7jwrRYIAnIO6h9A5uUX
-	QgubDv9l/sUS4doHXkGrpnLKhvae7PMPgaGc/dTgZveLkusnnJwGV92lSeub0lig
-	ozqG03ES/Dios6CQ==
-Received: (qmail 3086258 invoked from network); 25 Jul 2024 21:38:27 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Jul 2024 21:38:27 +0200
-X-UD-Smtp-Session: l3s3148p1@5F3liRcebNUujnsv
+	 s=k1; bh=DT5h3oFizEgEe8a32cS3JZd9hwSm/bnmsT6MyoxeeTk=; b=XhkQSn
+	Dos8gcuFqk9Zo5K4Km5YXImNnq0mAlQU+/nLm4XxEe5UQy28YLd+g1COgqUR7z+T
+	irl7+E5CipyhKQd9VTe5TMYS9Bi/4VB3GD4L1y4R2MFkk9Ur99hGmE/wrHFYKcDK
+	F326+jum5y7sftSD4XIsaFZuBzgOWWGqjx8DZLMH3EYldgdKahWj2gbz9xHXiIJE
+	rJBKtuBaXy1z58KoDUfN+ZRC/eEex4OasssFpGD2MUSxaW4oKCZlSNrj80+hy/Au
+	ZZpKRNsgaHVSi/3fMz8sxa+l7oGw6XSzp86F1E0j1n24+YoxSOfnY/H8GxLgIT1s
+	S0L/WXgvgHdjADbQ==
+Received: (qmail 3086315 invoked from network); 25 Jul 2024 21:38:28 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Jul 2024 21:38:28 +0200
+X-UD-Smtp-Session: l3s3148p1@dKLyiRceetUujnsv
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-renesas-soc@vger.kernel.org
 Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
@@ -53,13 +53,13 @@ Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
 	linux-pwm@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] dt-bindings: pwm: renesas,pwm-rcar: Add r8a779h0 support
-Date: Thu, 25 Jul 2024 21:38:04 +0200
-Message-ID: <20240725193803.14130-5-wsa+renesas@sang-engineering.com>
+Subject: [PATCH 2/2] dt-bindings: pwm: renesas,tpu: Add r8a779h0 support
+Date: Thu, 25 Jul 2024 21:38:05 +0200
+Message-ID: <20240725193803.14130-6-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240725193803.14130-4-wsa+renesas@sang-engineering.com>
 References: <20240725193803.14130-4-wsa+renesas@sang-engineering.com>
@@ -71,24 +71,24 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Document support for the PWM timers in the Renesas R-Car V4M (R8A779H0)
-SoC.
+Document support for the 16-Bit Timer Pulse Unit (TPU) in the Renesas
+R-Car V4M (R8A779H0) SoC.
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- Documentation/devicetree/bindings/pwm/renesas,pwm-rcar.yaml | 1 +
+ Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/pwm/renesas,pwm-rcar.yaml b/Documentation/devicetree/bindings/pwm/renesas,pwm-rcar.yaml
-index 6b6a302a175c..2fe1992e2908 100644
---- a/Documentation/devicetree/bindings/pwm/renesas,pwm-rcar.yaml
-+++ b/Documentation/devicetree/bindings/pwm/renesas,pwm-rcar.yaml
-@@ -37,6 +37,7 @@ properties:
-           - renesas,pwm-r8a77995  # R-Car D3
-           - renesas,pwm-r8a779a0  # R-Car V3U
-           - renesas,pwm-r8a779g0  # R-Car V4H
-+          - renesas,pwm-r8a779h0  # R-Car V4M
-       - const: renesas,pwm-rcar
+diff --git a/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml b/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml
+index a3e52b22dd18..a4dfa09344dd 100644
+--- a/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml
++++ b/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml
+@@ -41,6 +41,7 @@ properties:
+           - renesas,tpu-r8a77980  # R-Car V3H
+           - renesas,tpu-r8a779a0  # R-Car V3U
+           - renesas,tpu-r8a779g0  # R-Car V4H
++          - renesas,tpu-r8a779h0  # R-Car V4M
+       - const: renesas,tpu
  
    reg:
 -- 
