@@ -1,57 +1,57 @@
-Return-Path: <linux-renesas-soc+bounces-7537-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7538-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E4FC93C91A
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8466893C91B
 	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jul 2024 21:49:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3FC241C2222A
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3F03B284215
 	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jul 2024 19:49:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8DB954759;
-	Thu, 25 Jul 2024 19:49:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40CEB55898;
+	Thu, 25 Jul 2024 19:49:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="HmJqUW5Y"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="eQeqUQqB"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D598F1CD32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 582D149654
 	for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jul 2024 19:49:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721936971; cv=none; b=cYjii/PI1HFKBcCheq6o6hZaGBmy/K/xsGf5Si1r6+jZ8+ePU74x05G96tUFMrg4hVKdLS3FXhPaX4PJv4dDPSKlAzTt8oc8i6mEw5XLiiF4zVh+S+z3KwLbWBWsOHCG8DiyXyvslMURu3nSjtn9a/0maDq8TY4M6j94e+Wu2OE=
+	t=1721936972; cv=none; b=snnPShQa54ewnBeTYQ8POETg0sRm3OrdqOsWbu3wMRB9uqHsH5NAbLPOkCJERycxp4Yae2MZ6c5xWCizfjbqpB+eGWdzwriFHh+v4jXUXdz8CBbIydUJwB2mLGpKeEk0qGX84MPxITzQwSojuVykYwfqQlC5QYTCyi82fY7+Ce0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721936971; c=relaxed/simple;
-	bh=itWJCIlgkEUJLQ3KZeBnoKj+1gEWsdqds/HRYWyC1/U=;
+	s=arc-20240116; t=1721936972; c=relaxed/simple;
+	bh=dGvu/lzg9W4Ezj1kinEkBRpId06wazDtq8LOym9mDhk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aSY8qUmHCOBQ9ICaVvAhNobITV9GbOfAnwum3qZWRI8ebOdbaQfCQK61hOGEkDSj7NIbsRCBZuh5ECWJO1SlR4YETozBdglMkRhuaP6bLdxjm9eXSOLSWQ9Axr7fFfWL8+uUhOPLxtQ6BSpc5IcrvfPfT1MRlieFAV7Oygg7EAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=HmJqUW5Y; arc=none smtp.client-ip=194.117.254.33
+	 MIME-Version; b=sSswyOKoYQ5nzA1Bw6SbaZvwoBqv1q42DGNj2qDKgoe0nCSb4gsHmR7gyUPpWjXlKQR4c+hgxXDTL8kkp0YEQ5UBbS0Ehwrvg592nE8+frMgWUYf30T98YOwwvsq17ycOMJVJ4bzBR3N8Qh01PtdQWmj+WeBz61cURpaFAhDvq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=eQeqUQqB; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=from:to:cc:subject:date:message-id
 	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=0PHhg+naDGjTaOblPkFrw2AP79kNdGp0IZrvwD97kWo=; b=HmJqUW
-	5Ypkk51r9TkP/gGzdrc5pOxY/diiSIAYrIhiwX9hlc458rwGVeRuXIMer2sK1jfz
-	EeWGCH4jONYlmjJrhTbbSEa/RGzO6shu9rNzzZYT4UnUFfyguwgk1VVaFHBmG7O2
-	E8gEbQj/eK1IVigk4dZz3g8Y209bIohjTsn+MZrmZq6vG6Rad420kdJ+GtdDHiLh
-	boJjagqagG07dhAwdSvZjwYDULAw2KW2Te/glmC2jold7sD/pFQTmC6MYFCfqbwY
-	LZD84SHRDs6xAEwQbr6k8A/gDaJXPQ+keiZjmMHXrw7a/InQBzOpNgGMLkcTClk9
-	d6HtaLgXhPtYa83A==
-Received: (qmail 3088288 invoked from network); 25 Jul 2024 21:49:27 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Jul 2024 21:49:27 +0200
-X-UD-Smtp-Session: l3s3148p1@FrBHsRcelIgujnsv
+	 s=k1; bh=15WlEkMYnXsmWgFeIYtC8h73hwVQtv7LQENIW2/+GPE=; b=eQeqUQ
+	qBWa3XZSl2zF8oSWLdBfNZUjohy456JR+U7Ut2jGya3rimfcEeXsphQwh6wRsW13
+	57BykSwXe+8ia5/Ug7EKb8Zhr2FqTvHNBOMiFIZHomzOw61GhOJ0XHsvqcVmk2hn
+	3lrySzGjhdicSwLr0Sw5z9sfhkui/LmV/hnKeTF7srzHQozHWZkXeAm1+mLDIgcI
+	Ib3y4vSyTfSC4K6VPdKVdcPqCAn9BZ6KbQ692sUjYT8NBR9wNhKIM3c0RcXTdP8c
+	3hSjGllx45Q+MbMCYYkMwNN+atNnPJpVydlvPY/WgHLvyW6UBDikerZ6DAbRtqKo
+	kfMiRSGIuN9TJQyg==
+Received: (qmail 3088312 invoked from network); 25 Jul 2024 21:49:28 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Jul 2024 21:49:28 +0200
+X-UD-Smtp-Session: l3s3148p1@GXBPsRceoIgujnsv
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-renesas-soc@vger.kernel.org
 Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
 	Cong Dang <cong.dang.xn@renesas.com>,
 	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH RFT 1/6] clk: renesas: r8a779h0: Add PWM clock
-Date: Thu, 25 Jul 2024 21:49:08 +0200
-Message-ID: <20240725194906.14644-9-wsa+renesas@sang-engineering.com>
+Subject: [PATCH RFT 2/6] clk: renesas: r8a779h0: Add TPU clock
+Date: Thu, 25 Jul 2024 21:49:09 +0200
+Message-ID: <20240725194906.14644-10-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240725194906.14644-8-wsa+renesas@sang-engineering.com>
 References: <20240725194906.14644-8-wsa+renesas@sang-engineering.com>
@@ -65,8 +65,8 @@ Content-Transfer-Encoding: 8bit
 
 From: Cong Dang <cong.dang.xn@renesas.com>
 
-Add the module clock used by the PWM timers on the Renesas R-Car V4M
-(R8A779H0) SoC.
+Add the module clock used by the 16-Bit Timer Pulse Unit (TPU) on the
+Renesas R-Car V4M (R8A779H0) SoC.
 
 Signed-off-by: Cong Dang <cong.dang.xn@renesas.com>
 [wsa: rebased]
@@ -76,17 +76,17 @@ Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/clk/renesas/r8a779h0-cpg-mssr.c b/drivers/clk/renesas/r8a779h0-cpg-mssr.c
-index 16a2e26abcc7..a9614d0c51ae 100644
+index a9614d0c51ae..1f311206506d 100644
 --- a/drivers/clk/renesas/r8a779h0-cpg-mssr.c
 +++ b/drivers/clk/renesas/r8a779h0-cpg-mssr.c
-@@ -195,6 +195,7 @@ static const struct mssr_mod_clk r8a779h0_mod_clks[] = {
- 	DEF_MOD("msi3",		621,	R8A779H0_CLK_MSO),
- 	DEF_MOD("msi4",		622,	R8A779H0_CLK_MSO),
- 	DEF_MOD("msi5",		623,	R8A779H0_CLK_MSO),
-+	DEF_MOD("pwm",		628,	R8A779H0_CLK_SASYNCPERD4),
- 	DEF_MOD("rpc-if",	629,	R8A779H0_CLK_RPCD2),
- 	DEF_MOD("scif0",	702,	R8A779H0_CLK_SASYNCPERD4),
- 	DEF_MOD("scif1",	703,	R8A779H0_CLK_SASYNCPERD4),
+@@ -209,6 +209,7 @@ static const struct mssr_mod_clk r8a779h0_mod_clks[] = {
+ 	DEF_MOD("tmu2",		715,	R8A779H0_CLK_SASYNCPERD2),
+ 	DEF_MOD("tmu3",		716,	R8A779H0_CLK_SASYNCPERD2),
+ 	DEF_MOD("tmu4",		717,	R8A779H0_CLK_SASYNCPERD2),
++	DEF_MOD("tpu0",		718,	R8A779H0_CLK_SASYNCPERD4),
+ 	DEF_MOD("vin00",	730,	R8A779H0_CLK_S0D4_VIO),
+ 	DEF_MOD("vin01",	731,	R8A779H0_CLK_S0D4_VIO),
+ 	DEF_MOD("vin02",	800,	R8A779H0_CLK_S0D4_VIO),
 -- 
 2.43.0
 
