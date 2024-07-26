@@ -1,130 +1,182 @@
-Return-Path: <linux-renesas-soc+bounces-7546-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7554-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2111193D3BE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jul 2024 15:09:47 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E983C93D452
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jul 2024 15:39:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CF0EB283247
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jul 2024 13:09:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 60EF11F24881
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jul 2024 13:39:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D787742070;
-	Fri, 26 Jul 2024 13:09:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aoUrbR2o"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 414EF17D360;
+	Fri, 26 Jul 2024 13:38:28 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B37C723A8
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Jul 2024 13:09:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74DF417C22A
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Jul 2024 13:38:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721999383; cv=none; b=mp0KIu5A8smxSkOm831EgQkfRXz9liNa13qmOoeHIwJ5zort5XMEtuVjrdazPdNYdege5hSAu9PQ01yUZ0Gat8izdydUDCBvKoHFNJ/oaSCuPH0KnQeLONacm+9PgoYcw/An6oKP3lF+bB1JUMzDtNJamR5RBqvLrUUBzcvsVd4=
+	t=1722001108; cv=none; b=O8DktUrFOrrlyJrqbfFhR0RpqrMgJeynp7VHVvnyyjmc/zJxm8lv+yBTV8ylR+p0SHzjRIVbzR5qdnLDloF7r+zHK9vz0izOnI8OKCEZcXWYTAho5PAIwA6Qw3KhnlFUHA/fE8nvAW3TO+n643lFtewaQtkZOGH6OXH01WLaSsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721999383; c=relaxed/simple;
-	bh=6zB3xALpd+65f/7QUrTrxeBQ9KTEQEZESLucIZ3B/bA=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=Rw/ux1f09sUAoIJZEaa5b0MuEDADUvV827pAbYc7s2idYC0jW+Z57RlB2M++havZk5Kk1UYy72FrFYGEzw71/kcQEdWR4zqiQCPH7WDLObx8ar4L6MGDKwA+oQ523z7MirXk6lj2fW34Uhy8Q0DN5m5q7vJuwSDNRoEFKfHWN9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aoUrbR2o; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13F9AC32782;
-	Fri, 26 Jul 2024 13:09:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721999383;
-	bh=6zB3xALpd+65f/7QUrTrxeBQ9KTEQEZESLucIZ3B/bA=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=aoUrbR2oBkVOF/FGFwRdXHrtjxBtlOOk/V+9oCEgyGazAcES/tii3qx5KZTcI/WqR
-	 p4dMdHBo83ufCpbesNxJk72U0JMsZzIPNm8BkD+vSoKfV0KhQPLGN79ACYx6+lUJky
-	 2jr9shSP/8jSfaVprVOqkoAJVZtKKxChiJ1Ue2XmHAewzt0NEO8KlfrRjQZlEYnbeP
-	 AHCKXnzyw37qC+psvPS2/1u1IeLUvROC5+1Tksa9Op+v4E8vMvEP+pOJ9Qt67OiRIW
-	 wEeXNJ6chX09rzYp3wceHvlXmt8Y8tqW9TVzU946d3BAR44oID7OMmW9XnwEG9IPqf
-	 Mx8H5wtdPuQHA==
-Date: Fri, 26 Jul 2024 08:09:41 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1722001108; c=relaxed/simple;
+	bh=xJhUEjF9jB4XzGfD/za2KOv636ceEw35kVG4ioXeOXQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=p6/S4o1cjOVzJjzav5Xe66Y9qU0uFlQtKhKNB+3ndxAWQKQPcoQoN7eFJmrLGmrEZsDaHkhCmezXgTNnI902P5uy306yMxea42wx+3DS/jKNqwQRUh/bf79pwSlhacl5a6mgarO7UIJPckAJRw23XX0eacNYfo8hLnD4EiRyPAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:3d94:87cf:603a:d7ae])
+	by andre.telenet-ops.be with bizsmtp
+	id sDeE2C0031mGjv501DeEKo; Fri, 26 Jul 2024 15:38:15 +0200
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1sXL8p-003cM0-Qn;
+	Fri, 26 Jul 2024 15:38:13 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1sXL9B-004G6D-Ik;
+	Fri, 26 Jul 2024 15:38:13 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Arnd Bergmann <arnd@arndb.de>
+Cc: devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v3 0/7] Add Renesas R-Car Gen4 E-FUSE support
+Date: Fri, 26 Jul 2024 15:38:05 +0200
+Message-Id: <cover.1721999833.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, 
- Geert Uytterhoeven <geert+renesas@glider.be>
-In-Reply-To: <20240725194906.14644-8-wsa+renesas@sang-engineering.com>
-References: <20240725194906.14644-8-wsa+renesas@sang-engineering.com>
-Message-Id: <172199921274.1507144.4419581037256552879.robh@kernel.org>
-Subject: Re: [PATCH RFT 0/6] PWM & TPU patches for V4M
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+	Hi all,
 
-On Thu, 25 Jul 2024 21:49:07 +0200, Wolfram Sang wrote:
-> Here are the patches I prepared to enable PWM and TPU on the R-Car V4M
-> SoC. Only patches 1-4 are for upstream, the rest are convenience patches
-> for testers. They are based on linus-git as of today.
-> 
-> As discussed privately, Geert wants to have a try testing these. I
-> cannot because testing needs physical access to HW which I don't have.
-> Thanks, Geert!
-> 
-> 
-> Cong Dang (2):
->   clk: renesas: r8a779h0: Add PWM clock
->   clk: renesas: r8a779h0: Add TPU clock
-> 
-> Khanh Le (1):
->   arm64: dts: renesas: r8a779h0: Add PWM device node
-> 
-> Wolfram Sang (3):
->   arm64: dts: renesas: r8a779h0: Add TPU device node
->   arm64: dts: r8a779h0-gray-hawk-single: Add PWM support
->   arm64: dts: r8a779h0-gray-hawk-single: Add TPU support
-> 
->  .../dts/renesas/r8a779h0-gray-hawk-single.dts | 36 +++++++++++
->  arch/arm64/boot/dts/renesas/r8a779h0.dtsi     | 61 +++++++++++++++++++
->  drivers/clk/renesas/r8a779h0-cpg-mssr.c       |  2 +
->  3 files changed, 99 insertions(+)
-> 
-> --
-> 2.43.0
-> 
-> 
-> 
+R-Car Gen3/Gen4 SoCs contain fuses indicating hardware support or
+hardware parameters.  Unfortunately the various SoCs require different
+mechanisms to read the state of the fuses:
+  - On R-Car Gen3, the fuse monitor registers are in the middle of the
+    Pin Function Controller (PFC) register block,
+  - On R-Car V3U and S4-8, the E-FUSE non-volatile memory is accessible
+    through a separate register block in the PFC,
+  - On R-Car V4H and V4M, the E-FUSE non-volatile memory is accessible
+    through the second register block of OTP_MEM.
 
+As the first variant is quite different from the other two, and there is
+currently no use case requiring support for it, this patch series adds
+support for the last 2 variants only.
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
+Note that the first two revisions of this series implemented only basic
+nvmem support, and a custom in-kernel API, mimicked after the
+fuse-tregra driver.  Then, Arnd told me on IRC that the R-Car E-FUSE
+driver should use the nvmem framework fully.
 
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
+The fuses' states can be read using the nvmem subsystem:
+  - In kernelspace, through the nvmem_cell_*() API.
+    A first known use case is reading tuning parameters for the
+    Universal Flash Storage controller on R-Car S4-8 ES1.2.
+  - In userspace, through sysfs. E.g. on R-Car S4-8 ES1.2:
+    / # hd /sys/bus/nvmem/devices/rcar-fuse/nvmem
+    00000000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+    *
+    000000e0  00 00 00 00 fe 00 00 00  00 00 00 00 00 00 00 00  |....�...........|
+    000000f0  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+    *
+    00000140  00 00 00 00 23 51 23 51  52 98 52 98 00 00 00 00  |....#Q#QR�R�....|
+    00000150  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+    *
+    00000200
 
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
+Changes compared to v2[1]:
+  - Dropped accepted dt-bindings,
+  - Drop "pinctrl: renesas: Add R-Car Gen3 fuse support",
+  - New patch "dt-bindings: fuse: Move renesas,rcar-{efuse,otp} to
+    nvmem",
+  - Drop superfluous semicolon,
+  - Drop the custom rcar_fuse_read() kernel API, in favor of the
+    standard nvmem_cell_*() API,
+  - Drop support for explicitly-instantiated platform devices with
+    accompanying platform data, which would be needed to support fuses
+    tightly integrated with the Pin Function Controller on R-Car Gen3
+    SoCs.  It can be added when a use case shows up.
+  - Move from drivers/soc/renesas/ to drivers/nvmem/,
+  - Register the full register block that contains the E-FUSE data
+    registers with the nvmem subsystem, but use keepouts to ignore all
+    registers before the first or after the last documented data
+    register.  Undocumented registers in between are still accessible.
+  - Replace offset/nregs in rcar_fuse_data by start/end,
+  - Use __ioread32_copy() helper,
+  - Initialize most fields of struct nvmem_config in its declaration,
+  - Rename nvmem device from "fuse" to "rcar-fuse",
+  - Use NVMEM_DEVID_NONE,
+  - Add an entry to the MAINTAINERS file,
+  - Fix reg size,
+  - New patch "arm64: dts: renesas: r8a779f4: Add UFS tuning parameters
+    in E-FUSE".
 
-  pip3 install dtschema --upgrade
+Changes compared to v1[2]:
+  - Drop RFC state and broaden audience,
+  - Fix typo in one-line summary,
+  - Add Reviewed-by.
 
+This has been tested on R-Car V3U, S4-8 ES1.0 and ES1.2, V4H, and V4M.
 
-New warnings running 'make CHECK_DTBS=y renesas/r8a779h0-gray-hawk-single.dtb' for 20240725194906.14644-8-wsa+renesas@sang-engineering.com:
+Thanks for your comments!
 
-arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: pwm@e6e30000: compatible:0: 'renesas,pwm-r8a779h0' is not one of ['renesas,pwm-r8a7742', 'renesas,pwm-r8a7743', 'renesas,pwm-r8a7744', 'renesas,pwm-r8a7745', 'renesas,pwm-r8a77470', 'renesas,pwm-r8a774a1', 'renesas,pwm-r8a774b1', 'renesas,pwm-r8a774c0', 'renesas,pwm-r8a774e1', 'renesas,pwm-r8a7778', 'renesas,pwm-r8a7779', 'renesas,pwm-r8a7790', 'renesas,pwm-r8a7791', 'renesas,pwm-r8a7794', 'renesas,pwm-r8a7795', 'renesas,pwm-r8a7796', 'renesas,pwm-r8a77961', 'renesas,pwm-r8a77965', 'renesas,pwm-r8a77970', 'renesas,pwm-r8a77980', 'renesas,pwm-r8a77990', 'renesas,pwm-r8a77995', 'renesas,pwm-r8a779a0', 'renesas,pwm-r8a779g0']
-	from schema $id: http://devicetree.org/schemas/pwm/renesas,pwm-rcar.yaml#
-arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: pwm@e6e31000: compatible:0: 'renesas,pwm-r8a779h0' is not one of ['renesas,pwm-r8a7742', 'renesas,pwm-r8a7743', 'renesas,pwm-r8a7744', 'renesas,pwm-r8a7745', 'renesas,pwm-r8a77470', 'renesas,pwm-r8a774a1', 'renesas,pwm-r8a774b1', 'renesas,pwm-r8a774c0', 'renesas,pwm-r8a774e1', 'renesas,pwm-r8a7778', 'renesas,pwm-r8a7779', 'renesas,pwm-r8a7790', 'renesas,pwm-r8a7791', 'renesas,pwm-r8a7794', 'renesas,pwm-r8a7795', 'renesas,pwm-r8a7796', 'renesas,pwm-r8a77961', 'renesas,pwm-r8a77965', 'renesas,pwm-r8a77970', 'renesas,pwm-r8a77980', 'renesas,pwm-r8a77990', 'renesas,pwm-r8a77995', 'renesas,pwm-r8a779a0', 'renesas,pwm-r8a779g0']
-	from schema $id: http://devicetree.org/schemas/pwm/renesas,pwm-rcar.yaml#
-arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: pwm@e6e32000: compatible:0: 'renesas,pwm-r8a779h0' is not one of ['renesas,pwm-r8a7742', 'renesas,pwm-r8a7743', 'renesas,pwm-r8a7744', 'renesas,pwm-r8a7745', 'renesas,pwm-r8a77470', 'renesas,pwm-r8a774a1', 'renesas,pwm-r8a774b1', 'renesas,pwm-r8a774c0', 'renesas,pwm-r8a774e1', 'renesas,pwm-r8a7778', 'renesas,pwm-r8a7779', 'renesas,pwm-r8a7790', 'renesas,pwm-r8a7791', 'renesas,pwm-r8a7794', 'renesas,pwm-r8a7795', 'renesas,pwm-r8a7796', 'renesas,pwm-r8a77961', 'renesas,pwm-r8a77965', 'renesas,pwm-r8a77970', 'renesas,pwm-r8a77980', 'renesas,pwm-r8a77990', 'renesas,pwm-r8a77995', 'renesas,pwm-r8a779a0', 'renesas,pwm-r8a779g0']
-	from schema $id: http://devicetree.org/schemas/pwm/renesas,pwm-rcar.yaml#
-arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: pwm@e6e33000: compatible:0: 'renesas,pwm-r8a779h0' is not one of ['renesas,pwm-r8a7742', 'renesas,pwm-r8a7743', 'renesas,pwm-r8a7744', 'renesas,pwm-r8a7745', 'renesas,pwm-r8a77470', 'renesas,pwm-r8a774a1', 'renesas,pwm-r8a774b1', 'renesas,pwm-r8a774c0', 'renesas,pwm-r8a774e1', 'renesas,pwm-r8a7778', 'renesas,pwm-r8a7779', 'renesas,pwm-r8a7790', 'renesas,pwm-r8a7791', 'renesas,pwm-r8a7794', 'renesas,pwm-r8a7795', 'renesas,pwm-r8a7796', 'renesas,pwm-r8a77961', 'renesas,pwm-r8a77965', 'renesas,pwm-r8a77970', 'renesas,pwm-r8a77980', 'renesas,pwm-r8a77990', 'renesas,pwm-r8a77995', 'renesas,pwm-r8a779a0', 'renesas,pwm-r8a779g0']
-	from schema $id: http://devicetree.org/schemas/pwm/renesas,pwm-rcar.yaml#
-arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: pwm@e6e34000: compatible:0: 'renesas,pwm-r8a779h0' is not one of ['renesas,pwm-r8a7742', 'renesas,pwm-r8a7743', 'renesas,pwm-r8a7744', 'renesas,pwm-r8a7745', 'renesas,pwm-r8a77470', 'renesas,pwm-r8a774a1', 'renesas,pwm-r8a774b1', 'renesas,pwm-r8a774c0', 'renesas,pwm-r8a774e1', 'renesas,pwm-r8a7778', 'renesas,pwm-r8a7779', 'renesas,pwm-r8a7790', 'renesas,pwm-r8a7791', 'renesas,pwm-r8a7794', 'renesas,pwm-r8a7795', 'renesas,pwm-r8a7796', 'renesas,pwm-r8a77961', 'renesas,pwm-r8a77965', 'renesas,pwm-r8a77970', 'renesas,pwm-r8a77980', 'renesas,pwm-r8a77990', 'renesas,pwm-r8a77995', 'renesas,pwm-r8a779a0', 'renesas,pwm-r8a779g0']
-	from schema $id: http://devicetree.org/schemas/pwm/renesas,pwm-rcar.yaml#
-arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: pwm@e6e80000: compatible:0: 'renesas,tpu-r8a779h0' is not one of ['renesas,tpu-r8a73a4', 'renesas,tpu-r8a7740', 'renesas,tpu-r8a7742', 'renesas,tpu-r8a7743', 'renesas,tpu-r8a7744', 'renesas,tpu-r8a7745', 'renesas,tpu-r8a7790', 'renesas,tpu-r8a7791', 'renesas,tpu-r8a7792', 'renesas,tpu-r8a7793', 'renesas,tpu-r8a7794', 'renesas,tpu-r8a7795', 'renesas,tpu-r8a7796', 'renesas,tpu-r8a77961', 'renesas,tpu-r8a77965', 'renesas,tpu-r8a77970', 'renesas,tpu-r8a77980', 'renesas,tpu-r8a779a0', 'renesas,tpu-r8a779g0']
-	from schema $id: http://devicetree.org/schemas/pwm/renesas,tpu-pwm.yaml#
+[1] https://lore.kernel.org/cover.1716974502.git.geert+renesas@glider.be
+[2] https://lore.kernel.org/cover.1714642390.git.geert+renesas@glider.be
 
+Geert Uytterhoeven (7):
+  dt-bindings: fuse: Move renesas,rcar-{efuse,otp} to nvmem
+  nvmem: Add R-Car E-FUSE driver
+  arm64: dts: renesas: r8a779a0: Add E-FUSE node
+  arm64: dts: renesas: r8a779f0: Add E-FUSE node
+  arm64: dts: renesas: r8a779f4: Add UFS tuning parameters in E-FUSE
+  arm64: dts: renesas: r8a779g0: Add OTP_MEM node
+  arm64: dts: renesas: r8a779h0: Add OTP_MEM node
 
+ .../{fuse => nvmem}/renesas,rcar-efuse.yaml   |  35 +++--
+ .../{fuse => nvmem}/renesas,rcar-otp.yaml     |  17 ++-
+ MAINTAINERS                                   |   2 +
+ arch/arm64/boot/dts/renesas/r8a779a0.dtsi     |   8 +
+ arch/arm64/boot/dts/renesas/r8a779f0.dtsi     |   8 +
+ arch/arm64/boot/dts/renesas/r8a779f4.dtsi     |  12 ++
+ arch/arm64/boot/dts/renesas/r8a779g0.dtsi     |   5 +
+ arch/arm64/boot/dts/renesas/r8a779h0.dtsi     |   5 +
+ drivers/nvmem/Kconfig                         |  11 ++
+ drivers/nvmem/Makefile                        |   2 +
+ drivers/nvmem/rcar-efuse.c                    | 142 ++++++++++++++++++
+ 11 files changed, 230 insertions(+), 17 deletions(-)
+ rename Documentation/devicetree/bindings/{fuse => nvmem}/renesas,rcar-efuse.yaml (54%)
+ rename Documentation/devicetree/bindings/{fuse => nvmem}/renesas,rcar-otp.yaml (60%)
+ create mode 100644 drivers/nvmem/rcar-efuse.c
 
+-- 
+2.34.1
 
+Gr{oetje,eeting}s,
 
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
