@@ -1,104 +1,99 @@
-Return-Path: <linux-renesas-soc+bounces-7561-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7562-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB1E93D63B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jul 2024 17:38:12 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FB0F93D643
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jul 2024 17:39:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D2FDB284642
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jul 2024 15:38:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8E55BB2236F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jul 2024 15:39:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98A8B148312;
-	Fri, 26 Jul 2024 15:38:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CA8E17A580;
+	Fri, 26 Jul 2024 15:39:38 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0AB10A1C;
-	Fri, 26 Jul 2024 15:38:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A81BF225D9;
+	Fri, 26 Jul 2024 15:39:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722008290; cv=none; b=a4Kp0ZaQjQFQKU0avuXWGTLp3sSFOHcedRJEe+BN79wg7JqaLLh7En9S66T1TbUv/uTg+c1j9zFcrYvor6aop4Eu/pb9/2hAViFx4RuVYML4oGZ4tf+eIwgCJGMW5mbLld7cHsfppjaK/L/9fmOjB00607pzPjeiEicQLsPBjr4=
+	t=1722008378; cv=none; b=jT49bul5L1OTJG8pSuS4Wm+1b7KMKMX+SiFxGv5tcu/EXbQWxoxYAC8b0QcUkm/IQEdhyuOxveEWab7Ickjhd6rdR93jF5udgf7c+IH+zVTHpelK8wvwyISJnPXDFvNsPd3gfeD94sxOyLa8LuuJbhAQQwIiD+UzAazhTajMMC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722008290; c=relaxed/simple;
-	bh=mcO78tkBOo/5v4K5+ruMx+yn3GIyWeBqU1WqcegV2Qc=;
+	s=arc-20240116; t=1722008378; c=relaxed/simple;
+	bh=l6xaj9SSWGDgac/61fGC0+u7a2rM6/MOdfTjew4kTrY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GufOnxeMKkBLWgI9b+ovdoBZ/X5csayVmwf6yesMyiwCArMUVPiKsj0Uof4+AXUDh+4LhympWxRnrk6yAX661kmTaf/MoTGlQeKLdWYRNMYnWYleWRW4xR9xTrtA7iN94+MSpTiGO5HcmjHzMZ5qxpJk45QDbDyag/jVwO1wAEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.172
+	 To:Cc:Content-Type; b=bln/0NxHdpjG56HigomF1stolKLL99We2vZ2PvKY8Jel3gOi4IdoPGyg+VNBdRjDMittbOPw/d4NSuu+/hdkWeKjRCsz6p3CrdUgVdlN+1SQK7Ua3Nv+apr0iItbRddjqGIDjd7nBLwd/bsE5RWPBsO0i4fG1ud5MNArZni8tyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-6659e81bc68so23452897b3.0;
-        Fri, 26 Jul 2024 08:38:08 -0700 (PDT)
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e0b2d502c6eso1867196276.0;
+        Fri, 26 Jul 2024 08:39:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722008288; x=1722613088;
+        d=1e100.net; s=20230601; t=1722008374; x=1722613174;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uRA6wjZjvKQo38Lbs/09LuwfqTTU5e/8t/RIuqoaurY=;
-        b=C6CzZZyyGAPbF3ENGkbppY5x8a4aWfNSJ/VQY/rBA3b9l435PmCA8KfcIaUPEkyg0F
-         meE0XTg/aoCxsW2l9VoIa0ZWj+jofQ0R4H3GcgeAEoLUPrT33UlP/chCJJv29gtLmsnp
-         D02HwcbiC2IsL41uWHhfqZCICNWrR2UKGdtRIW0dK2IG9grivv6cQ0r6NAMvAUTg0s08
-         CBM/TMn47zalANANkEJ8ALo12N60KWBlurN8ok7EKFG5u5PuebjHlkpnLJF9nhadWhv3
-         yxy43MAog7tQtbul97XkNTHA1DgUJtABIpmHLpgMcSRk/Smd7xK/oOt1jMMejdlUzfaW
-         aXZg==
-X-Forwarded-Encrypted: i=1; AJvYcCU1WaJ9gddcZQQA/miJp0guJeOaXQw84/LMYmlOJmgSshT/eb8BmTQJ9IQxZgGY7azzP87lRoApABhTjQe+JY3t5DQTn6Uc9LZ+OzX+5QISFmzYf1PwEju6PxB3HR5IgveZexhTEKhEdjCE+yZc
-X-Gm-Message-State: AOJu0YzBTyO5v6qtLfu8EQggbyvp6KHOvFEqHNW9JXlz9WEuyHJfa5ho
-	FuZwZxMN1mXsRYhN6HxjQd5yV31DIFC6ARrWSzVrIK5E6Jg/0vYZbSLVbkdpCes=
-X-Google-Smtp-Source: AGHT+IEE1d0ZlDHuncb0UFp8tgmTg8Zg8Um1IIOxf1VwC9l08wZ5o/Yn8sksXaJVxeX1cOydUhnPHQ==
-X-Received: by 2002:a81:9e0d:0:b0:650:a5cf:ef5b with SMTP id 00721157ae682-67a0a7fb78emr1574317b3.43.1722008287663;
-        Fri, 26 Jul 2024 08:38:07 -0700 (PDT)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-67566dd8ff5sm9170947b3.25.2024.07.26.08.38.07
+        bh=zIUzZYTVG5EcGsz2D8PrezjmVjdD58axd6gvQfxDp7Y=;
+        b=nJ806MLYiKfOo+sIufTwdjzxqot7PqBqpjafFROD9561ezuSOL27EP7XeNuyQdE6IY
+         k8pptwWcWbttFY/3KJtuY6t76/KZ4krPfW+9TrBKtwwwwuY5k5nVv5h2sd5+9mc2tDcr
+         xDrMv9GdvUOkdoWz25767aFAX15ESFCgXz9HbR4vjTKDs2dOzJdjtzsr7yuYOvNylRzu
+         BmJLAb6GmO6UG/424UpnO/hLdY2iQmDkvz8IDscdyrmbruI6E2zP8EJnTDea1xTIfXuy
+         C+qnzgCauV4MLcTk/9ElHDdl36F0urXQ8I4G5+CJaqzgl9vhfW69kuipV80Pw7CYEX34
+         cdGw==
+X-Forwarded-Encrypted: i=1; AJvYcCWIkDlRdFPF+q/9GglcDWCIZGMSpaLsb0QtUO7DFCsy1JyifWmHWkvnVG8CbQwAEzhFgUCj1gZ2nZ/rhlayB4bvAW0rY9wsm6WAI4glGOPyAWk1GUb1+2bX+8jJsB1ozZvbzJKLnwS4Y27ZWKCyKQiNEGGI22yARJ5xhzNLYgRO79rZ/DDbPYys
+X-Gm-Message-State: AOJu0Yzyfl/gmBzpEthEJdNAq1Ia5i7otti2eCw/Jaw2yVWk9e09drvu
+	0OR0ERb287234B6AfF+p0b9w8xI/TAjP1hseLW5tDmgpwVhfTTNIpR8u1i93/ag=
+X-Google-Smtp-Source: AGHT+IFvt2XrboZQMM7P/tmij/zhK8apVa10em7nZFQf3hZB7KcaDFTbMRKa5degC8kytWUUNGnV+w==
+X-Received: by 2002:a05:6902:150b:b0:e06:405a:27e7 with SMTP id 3f1490d57ef6-e0b5449c2damr204956276.1.1722008373937;
+        Fri, 26 Jul 2024 08:39:33 -0700 (PDT)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e0b2960b4f6sm787477276.0.2024.07.26.08.39.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jul 2024 08:38:07 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6678a45eaa3so23082057b3.2;
-        Fri, 26 Jul 2024 08:38:07 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU+/YX6bS356iNdMP2s0YfN6jfS/hH00WJb5fuLw0RWXTjhLj0Omdi6vZe34MMhM/4zgW/CSC6vRaN/T3Ub/ITKrOlPRyEMB+ay4TVqgpdFo+kwXPiLuUWvNMo3RZhKvyyGBsEhAlEHICua8lbl
-X-Received: by 2002:a0d:f3c2:0:b0:627:d23a:4505 with SMTP id
- 00721157ae682-67a053e06f5mr2458237b3.3.1722008287278; Fri, 26 Jul 2024
- 08:38:07 -0700 (PDT)
+        Fri, 26 Jul 2024 08:39:33 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-64b29539d86so21121327b3.2;
+        Fri, 26 Jul 2024 08:39:33 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUdDT6Va9cBMf0CQQx5StCBF0kHHrE9ml401uIsy6EAVSLvb49zmOsGl6qg3R73rFj26yrMa47Qln2UdL6UG92UGPkO0vQGZw8sm91tJV/A41rQ8C1TJe66xdS6q6A/Cc1dt756csxLscvkYt/62Lyt9aTThj4IXqFd7R7TmblJh56QjtBuouKC
+X-Received: by 2002:a0d:f886:0:b0:652:d0a9:87de with SMTP id
+ 00721157ae682-67a09f4ca84mr1733827b3.35.1722008373286; Fri, 26 Jul 2024
+ 08:39:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240725100534.5374-1-oliver.rhodes.aj@renesas.com> <20240725100534.5374-3-oliver.rhodes.aj@renesas.com>
-In-Reply-To: <20240725100534.5374-3-oliver.rhodes.aj@renesas.com>
+References: <20240725100534.5374-1-oliver.rhodes.aj@renesas.com> <20240725100534.5374-4-oliver.rhodes.aj@renesas.com>
+In-Reply-To: <20240725100534.5374-4-oliver.rhodes.aj@renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 26 Jul 2024 17:37:55 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWnULCJouT0sVt2V=TdBjbysy5C+mzPKSbo5e4gAUq5Wg@mail.gmail.com>
-Message-ID: <CAMuHMdWnULCJouT0sVt2V=TdBjbysy5C+mzPKSbo5e4gAUq5Wg@mail.gmail.com>
-Subject: Re: [PATCH V2 2/6] dt-bindings: power: renesas: Document RZ/G2M v3.0
- (r8a774a3) SYSC binding
+Date: Fri, 26 Jul 2024 17:39:21 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW_4JFyauEHxRYfshin6iWFAP1XY4e9fOzvpLHZNzgYww@mail.gmail.com>
+Message-ID: <CAMuHMdW_4JFyauEHxRYfshin6iWFAP1XY4e9fOzvpLHZNzgYww@mail.gmail.com>
+Subject: Re: [PATCH V2 3/6] dt-bindings: clock: renesas: Document RZ/G2M v3.0
+ (r8a774a3) clock
 To: Oliver Rhodes <oliver.rhodes.aj@renesas.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Duy Nguyen <duy.nguyen.rh@renesas.com>, 
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 25, 2024 at 12:05=E2=80=AFPM Oliver Rhodes
+On Thu, Jul 25, 2024 at 12:06=E2=80=AFPM Oliver Rhodes
 <oliver.rhodes.aj@renesas.com> wrote:
-> Document bindings for the Renesas RZ/G2M v3.0 (a.k.a r8a774a3) SYSC block=
-.
-> The RZ/G2M v3.0 SYSC is similar to the RZ/G2M v1.x SYSC however, it lacks
-> the A2VC power area. To handle this difference, introduce
-> renesas,r8a774a3-sysc compatible.
+> Add binding documentation for Renesas RZ/G2M v3.0 (a.k.a r8a774a3) Clock
+> Pulse Generator driver. The r8a774a3 cpg is similar to the r8a774a1 cpg
+> however, it lacks some modules such as the FCPCI.
 >
 > Signed-off-by: Oliver Rhodes <oliver.rhodes.aj@renesas.com>
-> Acked-by: Rob Herring (Arm) <robh@kernel.org>
 > ---
 > v2->v2 resend:
-> * No change.
+> * Updated the patch description.
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.12.
+i.e. will queue in renesas-clk for v6.12.
 
 Gr{oetje,eeting}s,
 
