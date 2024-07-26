@@ -1,44 +1,45 @@
-Return-Path: <linux-renesas-soc+bounces-7554-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7553-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E983C93D452
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jul 2024 15:39:24 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DE1C93D454
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jul 2024 15:39:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 60EF11F24881
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B1858B231E9
 	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jul 2024 13:39:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 414EF17D360;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40FBA17D35F;
 	Fri, 26 Jul 2024 13:38:28 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74DF417C22A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AD3F17C22E
 	for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Jul 2024 13:38:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722001108; cv=none; b=O8DktUrFOrrlyJrqbfFhR0RpqrMgJeynp7VHVvnyyjmc/zJxm8lv+yBTV8ylR+p0SHzjRIVbzR5qdnLDloF7r+zHK9vz0izOnI8OKCEZcXWYTAho5PAIwA6Qw3KhnlFUHA/fE8nvAW3TO+n643lFtewaQtkZOGH6OXH01WLaSsA=
+	t=1722001108; cv=none; b=D5rcu+7pV3J/A66Oh9zhcVVoZkzPVprlN+VKWeKufn9xgB300eTA6hSAzGzCgqRALmURG7/cwjHQTPiV6AiC85MKBfxSgWd9XABjAdgCsQi4CKCm+4vDZ81f1P1bAvebe1sI51pPRS+iDMMtz78AFIKJ8c9II+6MFPsjnfvl5eI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1722001108; c=relaxed/simple;
-	bh=xJhUEjF9jB4XzGfD/za2KOv636ceEw35kVG4ioXeOXQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=p6/S4o1cjOVzJjzav5Xe66Y9qU0uFlQtKhKNB+3ndxAWQKQPcoQoN7eFJmrLGmrEZsDaHkhCmezXgTNnI902P5uy306yMxea42wx+3DS/jKNqwQRUh/bf79pwSlhacl5a6mgarO7UIJPckAJRw23XX0eacNYfo8hLnD4EiRyPAY=
+	bh=IXfAVBJha6O3Zh7HSFhjOKoC8w06/OB1c3mV0auwAxY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=hgTCUFP41o15MM5HDWtjbME9diDlfhxMnf6yEy4FjqzGDfik4i5A7sJ0WpRMMwYlb/p9s7IjrulhBJx3YWzIAc5azdxyfPTrEp741yKV1fgcYPHUWP/2fZOyyvckIPVI5gJoaiRoGktSEsaaUPtKxcpGWxfWp/U/GzvTVfaynRk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:3d94:87cf:603a:d7ae])
 	by andre.telenet-ops.be with bizsmtp
-	id sDeE2C0031mGjv501DeEKo; Fri, 26 Jul 2024 15:38:15 +0200
+	id sDeE2C0041mGjv501DeEKr; Fri, 26 Jul 2024 15:38:15 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1sXL8p-003cM0-Qn;
+	id 1sXL8p-003cLz-Qo;
 	Fri, 26 Jul 2024 15:38:13 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1sXL9B-004G6D-Ik;
+	id 1sXL9B-004G6G-Ja;
 	Fri, 26 Jul 2024 15:38:13 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Rob Herring <robh@kernel.org>,
@@ -52,131 +53,187 @@ Cc: devicetree@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v3 0/7] Add Renesas R-Car Gen4 E-FUSE support
-Date: Fri, 26 Jul 2024 15:38:05 +0200
-Message-Id: <cover.1721999833.git.geert+renesas@glider.be>
+Subject: [PATCH v3 1/7] dt-bindings: fuse: Move renesas,rcar-{efuse,otp} to nvmem
+Date: Fri, 26 Jul 2024 15:38:06 +0200
+Message-Id: <1a3d4ff8ce34a5e676d1cb1fafd40525378e29a4.1721999833.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1721999833.git.geert+renesas@glider.be>
+References: <cover.1721999833.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-	Hi all,
+The R-Car E-FUSE blocks can be modelled better using the nvmem
+framework.
 
-R-Car Gen3/Gen4 SoCs contain fuses indicating hardware support or
-hardware parameters.  Unfortunately the various SoCs require different
-mechanisms to read the state of the fuses:
-  - On R-Car Gen3, the fuse monitor registers are in the middle of the
-    Pin Function Controller (PFC) register block,
-  - On R-Car V3U and S4-8, the E-FUSE non-volatile memory is accessible
-    through a separate register block in the PFC,
-  - On R-Car V4H and V4M, the E-FUSE non-volatile memory is accessible
-    through the second register block of OTP_MEM.
+Replace the R-Car V3U example by an R-Car S4-8 ES1.2 example, to show
+the definition of nvmem cells.  While at it, drop unneeded labels from
+the examples, and fix indentation.
 
-As the first variant is quite different from the other two, and there is
-currently no use case requiring support for it, this patch series adds
-support for the last 2 variants only.
+Add an entry to the MAINTAINERS file.
 
-Note that the first two revisions of this series implemented only basic
-nvmem support, and a custom in-kernel API, mimicked after the
-fuse-tregra driver.  Then, Arnd told me on IRC that the R-Car E-FUSE
-driver should use the nvmem framework fully.
+Reported-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+v3:
+  - New.
 
-The fuses' states can be read using the nvmem subsystem:
-  - In kernelspace, through the nvmem_cell_*() API.
-    A first known use case is reading tuning parameters for the
-    Universal Flash Storage controller on R-Car S4-8 ES1.2.
-  - In userspace, through sysfs. E.g. on R-Car S4-8 ES1.2:
-    / # hd /sys/bus/nvmem/devices/rcar-fuse/nvmem
-    00000000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
-    *
-    000000e0  00 00 00 00 fe 00 00 00  00 00 00 00 00 00 00 00  |....�...........|
-    000000f0  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
-    *
-    00000140  00 00 00 00 23 51 23 51  52 98 52 98 00 00 00 00  |....#Q#QR�R�....|
-    00000150  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
-    *
-    00000200
+I would expect that the calib@144 node needs:
 
-Changes compared to v2[1]:
-  - Dropped accepted dt-bindings,
-  - Drop "pinctrl: renesas: Add R-Car Gen3 fuse support",
-  - New patch "dt-bindings: fuse: Move renesas,rcar-{efuse,otp} to
-    nvmem",
-  - Drop superfluous semicolon,
-  - Drop the custom rcar_fuse_read() kernel API, in favor of the
-    standard nvmem_cell_*() API,
-  - Drop support for explicitly-instantiated platform devices with
-    accompanying platform data, which would be needed to support fuses
-    tightly integrated with the Pin Function Controller on R-Car Gen3
-    SoCs.  It can be added when a use case shows up.
-  - Move from drivers/soc/renesas/ to drivers/nvmem/,
-  - Register the full register block that contains the E-FUSE data
-    registers with the nvmem subsystem, but use keepouts to ignore all
-    registers before the first or after the last documented data
-    register.  Undocumented registers in between are still accessible.
-  - Replace offset/nregs in rcar_fuse_data by start/end,
-  - Use __ioread32_copy() helper,
-  - Initialize most fields of struct nvmem_config in its declaration,
-  - Rename nvmem device from "fuse" to "rcar-fuse",
-  - Use NVMEM_DEVID_NONE,
-  - Add an entry to the MAINTAINERS file,
-  - Fix reg size,
-  - New patch "arm64: dts: renesas: r8a779f4: Add UFS tuning parameters
-    in E-FUSE".
+    #nvmem-cell-cells = <0>;
 
-Changes compared to v1[2]:
-  - Drop RFC state and broaden audience,
-  - Fix typo in one-line summary,
-  - Add Reviewed-by.
+but after adding that, "make dt_binding_check" starts complaining:
 
-This has been tested on R-Car V3U, S4-8 ES1.0 and ES1.2, V4H, and V4M.
-
-Thanks for your comments!
-
-[1] https://lore.kernel.org/cover.1716974502.git.geert+renesas@glider.be
-[2] https://lore.kernel.org/cover.1714642390.git.geert+renesas@glider.be
-
-Geert Uytterhoeven (7):
-  dt-bindings: fuse: Move renesas,rcar-{efuse,otp} to nvmem
-  nvmem: Add R-Car E-FUSE driver
-  arm64: dts: renesas: r8a779a0: Add E-FUSE node
-  arm64: dts: renesas: r8a779f0: Add E-FUSE node
-  arm64: dts: renesas: r8a779f4: Add UFS tuning parameters in E-FUSE
-  arm64: dts: renesas: r8a779g0: Add OTP_MEM node
-  arm64: dts: renesas: r8a779h0: Add OTP_MEM node
-
- .../{fuse => nvmem}/renesas,rcar-efuse.yaml   |  35 +++--
- .../{fuse => nvmem}/renesas,rcar-otp.yaml     |  17 ++-
- MAINTAINERS                                   |   2 +
- arch/arm64/boot/dts/renesas/r8a779a0.dtsi     |   8 +
- arch/arm64/boot/dts/renesas/r8a779f0.dtsi     |   8 +
- arch/arm64/boot/dts/renesas/r8a779f4.dtsi     |  12 ++
- arch/arm64/boot/dts/renesas/r8a779g0.dtsi     |   5 +
- arch/arm64/boot/dts/renesas/r8a779h0.dtsi     |   5 +
- drivers/nvmem/Kconfig                         |  11 ++
- drivers/nvmem/Makefile                        |   2 +
- drivers/nvmem/rcar-efuse.c                    | 142 ++++++++++++++++++
- 11 files changed, 230 insertions(+), 17 deletions(-)
+    Documentation/devicetree/bindings/nvmem/renesas,rcar-efuse.example.dtb: fuse@e6078800: nvmem-layout: 'oneOf' conditional failed, one must be fixed:
+	    '#address-cells', '#size-cells', 'calib@144' do not match any of the regexes: 'pinctrl-[0-9]+'
+	    Unevaluated properties are not allowed ('nvmem-cell-cells' was unexpected)
+	    'kontron,sl28-vpd' was expected
+	    'onie,tlv-layout' was expected
+	    from schema $id: http://devicetree.org/schemas/nvmem/renesas,rcar-efuse.yaml#
+    Documentation/devicetree/bindings/nvmem/renesas,rcar-efuse.example.dtb: fuse@e6078800: nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'calib@144' were unexpected)
+	    from schema $id: http://devicetree.org/schemas/nvmem/renesas,rcar-efuse.yaml#
+    Documentation/devicetree/bindings/nvmem/renesas,rcar-efuse.example.dtb: fuse@e6078800: Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+	    from schema $id: http://devicetree.org/schemas/nvmem/renesas,rcar-efuse.yaml#
+---
+ .../{fuse => nvmem}/renesas,rcar-efuse.yaml   | 35 +++++++++++++------
+ .../{fuse => nvmem}/renesas,rcar-otp.yaml     | 17 +++++----
+ MAINTAINERS                                   |  1 +
+ 3 files changed, 36 insertions(+), 17 deletions(-)
  rename Documentation/devicetree/bindings/{fuse => nvmem}/renesas,rcar-efuse.yaml (54%)
  rename Documentation/devicetree/bindings/{fuse => nvmem}/renesas,rcar-otp.yaml (60%)
- create mode 100644 drivers/nvmem/rcar-efuse.c
 
+diff --git a/Documentation/devicetree/bindings/fuse/renesas,rcar-efuse.yaml b/Documentation/devicetree/bindings/nvmem/renesas,rcar-efuse.yaml
+similarity index 54%
+rename from Documentation/devicetree/bindings/fuse/renesas,rcar-efuse.yaml
+rename to Documentation/devicetree/bindings/nvmem/renesas,rcar-efuse.yaml
+index d7e289244e72cce1..ce7d65afa4602537 100644
+--- a/Documentation/devicetree/bindings/fuse/renesas,rcar-efuse.yaml
++++ b/Documentation/devicetree/bindings/nvmem/renesas,rcar-efuse.yaml
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+ %YAML 1.2
+ ---
+-$id: http://devicetree.org/schemas/fuse/renesas,rcar-efuse.yaml#
++$id: http://devicetree.org/schemas/nvmem/renesas,rcar-efuse.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: R-Car E-FUSE connected to PFC
+@@ -13,6 +13,9 @@ description:
+   The E-FUSE is a type of non-volatile memory, which is accessible through the
+   Pin Function Controller (PFC) on some R-Car Gen4 SoCs.
+ 
++allOf:
++  - $ref: nvmem.yaml#
++
+ properties:
+   compatible:
+     enum:
+@@ -39,17 +42,27 @@ required:
+   - power-domains
+   - resets
+ 
+-additionalProperties: false
++unevaluatedProperties: false
+ 
+ examples:
+   - |
+-    #include <dt-bindings/clock/r8a779a0-cpg-mssr.h>
+-    #include <dt-bindings/power/r8a779a0-sysc.h>
+-
+-    fuse: fuse@e6078800 {
+-            compatible = "renesas,r8a779a0-efuse";
+-            reg = <0xe6078800 0x100>;
+-            clocks = <&cpg CPG_MOD 916>;
+-            power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+-            resets = <&cpg 916>;
++    #include <dt-bindings/clock/r8a779f0-cpg-mssr.h>
++    #include <dt-bindings/power/r8a779f0-sysc.h>
++
++    fuse@e6078800 {
++        compatible = "renesas,r8a779f0-efuse";
++        reg = <0xe6078800 0x200>;
++        clocks = <&cpg CPG_MOD 915>;
++        power-domains = <&sysc R8A779F0_PD_ALWAYS_ON>;
++        resets = <&cpg 915>;
++
++        nvmem-layout {
++            compatible = "fixed-layout";
++            #address-cells = <1>;
++            #size-cells = <1>;
++
++            calib@144 {
++                reg = <0x144 0x08>;
++            };
++        };
+     };
+diff --git a/Documentation/devicetree/bindings/fuse/renesas,rcar-otp.yaml b/Documentation/devicetree/bindings/nvmem/renesas,rcar-otp.yaml
+similarity index 60%
+rename from Documentation/devicetree/bindings/fuse/renesas,rcar-otp.yaml
+rename to Documentation/devicetree/bindings/nvmem/renesas,rcar-otp.yaml
+index d74872ae9ff378f9..3313c03ea68dfd57 100644
+--- a/Documentation/devicetree/bindings/fuse/renesas,rcar-otp.yaml
++++ b/Documentation/devicetree/bindings/nvmem/renesas,rcar-otp.yaml
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+ %YAML 1.2
+ ---
+-$id: http://devicetree.org/schemas/fuse/renesas,rcar-otp.yaml#
++$id: http://devicetree.org/schemas/nvmem/renesas,rcar-otp.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: R-Car E-FUSE connected to OTP_MEM
+@@ -13,6 +13,9 @@ description:
+   The E-FUSE is a type of non-volatile memory, which is accessible through the
+   One-Time Programmable Memory (OTP_MEM) module on some R-Car Gen4 SoCs.
+ 
++allOf:
++  - $ref: nvmem.yaml#
++
+ properties:
+   compatible:
+     enum:
+@@ -22,17 +25,19 @@ properties:
+   reg:
+     items:
+       - description: OTP_MEM_0
+-      - description: OTP_MEM_1
++      - description: OTP_MEM_1.
++          The addresses of cells defined under the optional nvmem-layout
++          subnode are relative to this register bank.
+ 
+ required:
+   - compatible
+   - reg
+ 
+-additionalProperties: false
++unevaluatedProperties: false
+ 
+ examples:
+   - |
+-    otp: otp@e61be000 {
+-            compatible = "renesas,r8a779g0-otp";
+-            reg = <0xe61be000 0x1000>, <0xe61bf000 0x1000>;
++    otp@e61be000 {
++        compatible = "renesas,r8a779g0-otp";
++        reg = <0xe61be000 0x1000>, <0xe61bf000 0x1000>;
+     };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 990aced7e7a57e1f..8da9c4ee231b4db4 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2794,6 +2794,7 @@ Q:	http://patchwork.kernel.org/project/linux-renesas-soc/list/
+ C:	irc://irc.libera.chat/renesas-soc
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+ F:	Documentation/devicetree/bindings/hwinfo/renesas,prr.yaml
++F:	Documentation/devicetree/bindings/nvmem/renesas,*
+ F:	Documentation/devicetree/bindings/soc/renesas/
+ F:	arch/arm/boot/dts/renesas/
+ F:	arch/arm/configs/shmobile_defconfig
 -- 
 2.34.1
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
 
