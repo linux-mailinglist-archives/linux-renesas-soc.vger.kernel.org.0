@@ -1,78 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-7558-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7559-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5174093D5B0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jul 2024 17:09:56 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D69D093D5B4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jul 2024 17:10:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 068EA1F233C9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jul 2024 15:09:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 13A0B1C2031B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jul 2024 15:10:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1F41178393;
-	Fri, 26 Jul 2024 15:09:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 021201F95E;
+	Fri, 26 Jul 2024 15:10:06 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68946BA53;
-	Fri, 26 Jul 2024 15:09:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB141EA6F;
+	Fri, 26 Jul 2024 15:10:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722006567; cv=none; b=jtnTHehVS/Si3E+2Dzy4a8M2o5ahXLBS3HP5CJQSXhmgYjjRKaEQLlzPNQV8qVMgVw3wB+leFNniPMQS+XFkVe+qF4OLJBZn7nfnhx+KZRmh/7qR+dCpKiDf3cWgj8zXSmrylGhwHhA3ipUuBMFzQn01u37vX4L/86uGXOnAYak=
+	t=1722006605; cv=none; b=JGdQyUmpR2DaovP7O6FSqE1tdt/oGdzv3ZhOtCD93yBsjy5kccjGN2c7hMAAWqdeHsC7k1wE1WhvRaiEhiK05kJO8Vg/amI2l6V3KRslH5VPI+yUkABh28DdSwOPhpaV/nNIl+0jZNxEsRULLZ4hKh2Y7NQ/eZph8gNZqzPo0AE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722006567; c=relaxed/simple;
-	bh=e0OL5lkdcWcPJB+5GQzMSYpaHEFhXbY8OwwjMmlkL2I=;
+	s=arc-20240116; t=1722006605; c=relaxed/simple;
+	bh=lbj7+/EBYhSUTgiIfynocRVBV5Tyfr3JqTeNfACTxtc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZuX7xbAMJpil+Y6PC0bj0+mgyWyPBlb7ILvnWTL5tJhr2Gdu1u+H0waVMhVreGPX+TBxyIacMpiBbfm5rDbWqZJFgsTAqarWMIiL1Y72u4i4sGkEvUrPFtgE/jiXQ01h4xm9RB7o7DXIyUFbKpA4xliaN43bXjC5HjH1+NWUmWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.176
+	 To:Cc:Content-Type; b=HDGtlrTjxriQhCMKaIUO+p82WMVdnP2ZMpf/NQpqbjIc80xqiq7jmD3q3VDuARQMFaCVD0HUXuQdnXHwrEPS11l9BHvN24EYqHgkyQy8vlyT5CazxxqcgDdLzWvR+RZrbzTq+uLAeI+iyyzcv/SLAXhkm5v+1GAT6biO9cFWAsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e05f25fb96eso2057785276.1;
-        Fri, 26 Jul 2024 08:09:26 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6512866fa87so21618547b3.2;
+        Fri, 26 Jul 2024 08:10:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722006564; x=1722611364;
+        d=1e100.net; s=20230601; t=1722006602; x=1722611402;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=51U3hsefcTZAJFWhmTojZD3mhhLU9Ox+gLA2KWiuwNE=;
-        b=WlSaABRr/4/ADZsHguDdD2oop3IWXdbLgUrWETnjGjHcM3OD9ykQ3B1Bch/+MlLVaM
-         HTibUptCIWuQq3cfImeoFYRAbeh8/94pgGnT+Xe/hpCDk5txRi2vNTUHSzhq7dMuS6Iw
-         d7faA2nS9VC415eGSYcvvoG+yJUeaMBk9iuyurN0DiepuUKwq2m9m1PrAwETkXdyveUC
-         SoyiKdDg8R/j7ddWXNxndrF0rEBF2GGJ7u1vng6MadTptIt/9RDWMNt1Xj5lTfzn3jW8
-         rGJmiqqCoe8HgWqnqpI8vfskNaGooFTgHpnY1mLSgqLT0W2PzSKqKS9oScT1OrC9zg0v
-         lbRw==
-X-Forwarded-Encrypted: i=1; AJvYcCWkufDn2PrdCskxOiAzL8znBca975HgpmKQKdf9fm+dDWm+mX/DcD8BPYwJey9DKNM9d7MUQpZiePKexwFCllfhO7HfYOBATQWR8nvL78gYMZV9/y33r+oZ5bmMK+KAOBLU+Yc/5rESWvMkg7KqC69bGUV3NKheaAinCyIqT/ZufIu55NzZk2wKhhw=
-X-Gm-Message-State: AOJu0YykKDAQwZep5S4xPwQLt6NjMZBtq7eOcYJ05bI8moE3nJb9NRZJ
-	Z05yGBs6cQHFrtNHUsD00BJD+Uw3Ikz64OSKDVI+z/w1gk90y0gFP1Ria1ZfukA=
-X-Google-Smtp-Source: AGHT+IHt3F7QJTOwcT6Ci/V7+Ou+rYDczNolath92FY0ZtVEPoHyfaMcKqxRZBjEq/0Qix8NRDnnjQ==
-X-Received: by 2002:a0d:eec2:0:b0:664:c24f:c249 with SMTP id 00721157ae682-67a08705720mr958407b3.27.1722006564054;
-        Fri, 26 Jul 2024 08:09:24 -0700 (PDT)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6756b024a32sm9151727b3.97.2024.07.26.08.09.23
+        bh=6NPObEJcy4MbaYeuqnmDPLpIdxEgAN/QMYLotXg1FKQ=;
+        b=pOKuJ2t+EJzb/HRXO8wPM7mrdHKoQv1NnbNfsDBg/GqGRSDALTSFdKKBtsO71e9jwc
+         zSoZU5EL7TlwH7IkMgCJQmlNA0CEQPVGg2yb1yKar8iOnKFrBZScrgpCd4tcBCLkJth8
+         MH4wu8XjdIm+LUczGz+osRyVH8t3DNao8ThHS3cuB8uO5Lkepfs3VOVRtxBdeq7LETnF
+         79J1WuV8/bE43LmHDlQP/hDCayO+KEHanX6yBBu5CUgNxsJHFofLXIcTHhaoPTDEYNbG
+         78Wgc18qDqS/5BQfYRW/7b8z1pk3jGOTHi7bn7TQhXTGSaIZB3cHHrEgxbE/dUGW8cIf
+         YL8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUjKpGEWj/TZT+CcKP+LQd43PL4WodSxqPuauSX/18T7cp57sK7Wq2cFpMpOEZmkmwAHpzY5b9XZNbY98cHV6/6vPNVt6CIk2+KHkFULcXf3pX5mrAT/G8lCptCVlmFP4vn/C6xvpu5C1PqL3pykPnJfXPu1+dCd+Joq+jrfuVhHN/g3iNVdbbqCdA=
+X-Gm-Message-State: AOJu0YwlPsrWaWv4nsuzlq1GOhSoT7vnXK/BsE3aAMaZ6iy8yB4aiBfQ
+	hqNy26RuvXplC8gXm91zWE+SXuusNK0hwNsQSBkJvlprIrAmxcLW7nBK9KDmF8Y=
+X-Google-Smtp-Source: AGHT+IGRgTS6NfIbHWyf2TEZQIusREDCPpG5LTGPaH+l2dXC6HiI5/9KWK7c1PZ2N330tBPY35/RPw==
+X-Received: by 2002:a81:9e14:0:b0:651:6888:9fee with SMTP id 00721157ae682-67a0653ec57mr956467b3.18.1722006602550;
+        Fri, 26 Jul 2024 08:10:02 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6756bc9ec42sm9231807b3.115.2024.07.26.08.10.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jul 2024 08:09:23 -0700 (PDT)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-65cd720cee2so21791817b3.1;
-        Fri, 26 Jul 2024 08:09:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWG3wvLKL+6U5YkUP/ZU0LfQj03OhDhr1xUgnEdBk0pjk7ODkLL9y2CzG49OwlRX++p2FifoU8vNHhvwyfGuLE3fXOzPvUO1wcNS8PCuzS099Uqjs0cOhdl9rhNLOB51vfxjfN2hMiLyBpM+I/Cd7y6GM3qsxV9fygRVt33N4fMdH3XgS1vqQsfbag=
-X-Received: by 2002:a0d:c344:0:b0:64a:e220:bfbf with SMTP id
- 00721157ae682-67a0813c74amr1123757b3.23.1722006563138; Fri, 26 Jul 2024
- 08:09:23 -0700 (PDT)
+        Fri, 26 Jul 2024 08:10:02 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-65fe1239f12so19325007b3.0;
+        Fri, 26 Jul 2024 08:10:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU+Jnb5SImmRPS3NvYHnzekh2fRfgEzy/P7Yau0h//DX3LKNOFzvvI3dcRhOVI5gANayVNawq/iAPT90hTNLACKtxtWdEcLf4/9Wd1sCyB2rJ4EyXdVQ7IKuxgwE0qT3ihFLKHTYF8IGTwOTmWCKv6xEzGOOAb30eXocALK7fDTjU9Psi5B2u61wwA=
+X-Received: by 2002:a05:690c:4a09:b0:64a:5443:7cba with SMTP id
+ 00721157ae682-67a090a645amr979837b3.31.1722006601729; Fri, 26 Jul 2024
+ 08:10:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240715103555.507767-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240715103555.507767-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20240715103555.507767-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240715103555.507767-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240715103555.507767-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20240715103555.507767-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 26 Jul 2024 17:09:10 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV+pk5RgLZV5BdjJ2TR0GkjTni2-ZcL1zA0yrJv3-vtYQ@mail.gmail.com>
-Message-ID: <CAMuHMdV+pk5RgLZV5BdjJ2TR0GkjTni2-ZcL1zA0yrJv3-vtYQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] clk: renesas: rzg2l-cpg: Use devres API to
- register clocks
+Date: Fri, 26 Jul 2024 17:09:49 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXUWqtPwKV1-yqogJ8K552fHgveZRHh0W9Xqh37J3FbKA@mail.gmail.com>
+Message-ID: <CAMuHMdXUWqtPwKV1-yqogJ8K552fHgveZRHh0W9Xqh37J3FbKA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] clk: renesas: rzg2l-cpg: Refactor to use priv for
+ clks and base in clock register functions
 To: Prabhakar <prabhakar.csengg@gmail.com>
 Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
 	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
@@ -82,46 +82,24 @@ Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Prabhakar,
-
 On Mon, Jul 15, 2024 at 12:37=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.=
 com> wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> We are using devres APIs for divider, mux and pll5 clocks so for
-> consistency use the devres APIs for module, fixed factor and PLL clocks.
+> Simplify the `rzg2l-cpg` driver by removing explicit passing of `clks` an=
+d
+> `base` parameters in various clock registration functions. These values
+> are now accessed directly from the `priv` structure.
 >
-> While at it switched to clk_hw_register() instead of clk_register()
-> as this has been marked as deprecated interface.
+> While at it, drop masking of parent clocks with 0xffff as nothing is ever
+> stored in the high bits.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
 > v1->v2
-> - Propagate error code from rzg2l_cpg_pll_clk_register() if
->   devm_clk_hw_register() fails
-> - Used devm_clk_hw_register_fixed_factor() for fixed factor clock
-> - Set error pointer in rzg2l_cpg_register_mod_clk() if
->   devm_clk_hw_register() failed
-
-Thanks for the update!
-
-> --- a/drivers/clk/renesas/rzg2l-cpg.c
-> +++ b/drivers/clk/renesas/rzg2l-cpg.c
-> @@ -1116,6 +1121,8 @@ rzg2l_cpg_register_core_clk(const struct cpg_core_c=
-lk *core,
->                 clk =3D of_clk_get_by_name(priv->dev->of_node, core->name=
-);
->                 break;
->         case CLK_TYPE_FF:
-> +               struct clk_hw *clk_hw;
-
-I will move this up while applying, to match the style of the rest of
-the file.
-
-> +
->                 WARN_DEBUG(core->parent >=3D priv->num_core_clks);
->                 parent =3D priv->clks[core->parent];
->                 if (IS_ERR(parent)) {
+> - Squashed patches (2,3,4)/4 into single patch
+> - Dropped masking of parent clock with 0xffff
+> - Dropped creating local variable clks
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-clk for v6.12.
