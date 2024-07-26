@@ -1,104 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-7545-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7546-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66D9493D2D7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jul 2024 14:10:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2111193D3BE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jul 2024 15:09:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 03E6DB20DCA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jul 2024 12:10:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CF0EB283247
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jul 2024 13:09:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2215417B42B;
-	Fri, 26 Jul 2024 12:10:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D787742070;
+	Fri, 26 Jul 2024 13:09:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="hMJHi9U+";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="GUqgh+WZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aoUrbR2o"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8963517B41B;
-	Fri, 26 Jul 2024 12:10:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B37C723A8
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Jul 2024 13:09:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721995809; cv=none; b=id/faFU5NPDDoJlH0yCBuF4qW0xpxl9X4l3tR62hqVTA9+wHySKtNn+jsNdBo8zOhBC7r/nkQG1Qi2K3YUrZo2nfMskNwNklnYjdo7589uyQmJu0qz0GsReFqZl4BvzMBKBTrSWJ8+0dvnypHaANpp4pDvK0zpIQjfsJ1KPGk30=
+	t=1721999383; cv=none; b=mp0KIu5A8smxSkOm831EgQkfRXz9liNa13qmOoeHIwJ5zort5XMEtuVjrdazPdNYdege5hSAu9PQ01yUZ0Gat8izdydUDCBvKoHFNJ/oaSCuPH0KnQeLONacm+9PgoYcw/An6oKP3lF+bB1JUMzDtNJamR5RBqvLrUUBzcvsVd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721995809; c=relaxed/simple;
-	bh=PlMRijtqCm0MZ6n79QOvrnKsNAELqQTM+5n/uBS9kZA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=hVE4nVmhVn91aVbCsOqCKfX3phKTtXskJfjkEoXRI/ciqFarJuQcwS8BTN8ERndAdMg7Eym5ZWCQB4CAS+IyQ+w/HWFM3JtSQO+V3Vq533OU9gxOoeRTC7bju3siNmdmdqMJFEGYkMlv9U7GBAvsblG6vxQPuSP6PWQmFlnMBiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=hMJHi9U+; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=GUqgh+WZ; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1721995805;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PlMRijtqCm0MZ6n79QOvrnKsNAELqQTM+5n/uBS9kZA=;
-	b=hMJHi9U+xbjwzcO3srL9iaOPH7Y2McTHyRrgfTZs3Wndxtaogpvsk4tCVs40q5um/oJLQ3
-	O6+2510Rm46HWKKYfW970fbKc6AXzyhTMofsK2vFdM7p1oRXAe7aix1HFoNLovkn3M5XE3
-	gLxe1ZkWXMZYWzbLpiVG6ISrcWYUEYf6EobQXEzO9+VTZBuJiG/aGdzcXpTTGPJ/MDtDjV
-	Sl4KRlUETXh9R6dt1hwlt+HeJ3KgQ2vcFHEA0+51fbVG72wkyR/kIfR3BU9xcI8fK457y+
-	TTOCJ9KMRj7tKsFsPpMU+2IqUEhxCZneLI1atXLNYVTX9WxNGbwMRbGJ1CcaVg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1721995805;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PlMRijtqCm0MZ6n79QOvrnKsNAELqQTM+5n/uBS9kZA=;
-	b=GUqgh+WZUy9cUP3jH6HAQmwLB6N/rSRN+ld5YbX5w3t7JPVliPs2jdOAEv/aETNlXUk4lg
-	EueW8xtjf15dmGCA==
-To: Bjorn Helgaas <helgaas@kernel.org>, Marek Vasut
- <marek.vasut+renesas@mailbox.org>
-Cc: linux-pci@vger.kernel.org, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?=
- <kw@linux.com>, Pali
- =?utf-8?Q?Roh=C3=A1r?= <pali@kernel.org>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?=
- <u.kleine-koenig@pengutronix.de>, Aleksandr Mishin <amishin@t-argos.ru>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>, Anup Patel
- <apatel@ventanamicro.com>, Bjorn Helgaas <bhelgaas@google.com>, Broadcom
- internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Daire
- McNamara <daire.mcnamara@microchip.com>, Damien Le Moal
- <dlemoal@kernel.org>, Florian Fainelli <florian.fainelli@broadcom.com>,
- Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, Jianjun Wang
- <jianjun.wang@mediatek.com>, Jim Quinlan <jim2101024@gmail.com>, Jingoo
- Han <jingoohan1@gmail.com>, Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
- Jon Hunter <jonathanh@nvidia.com>, Jonathan Derrick
- <jonathan.derrick@linux.dev>, Joyce Ooi <joyce.ooi@intel.com>, Karthikeyan
- Mitran <m.karthikeyan@mobiveil.co.in>, Kishon Vijay Abraham I
- <kishon@kernel.org>, Koichiro Den <den@valinux.co.jp>, Lorenzo Pieralisi
- <lpieralisi@kernel.org>, Manivannan Sadhasivam
- <manivannan.sadhasivam@linaro.org>, Marc Zyngier <maz@kernel.org>, Michal
- Simek <michal.simek@amd.com>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Niklas Cassel <cassel@kernel.org>, Nipun Gupta <nipun.gupta@amd.com>,
- Nirmal Patel <nirmal.patel@linux.intel.com>, Rob Herring
- <robh@kernel.org>, Ryder Lee <ryder.lee@mediatek.com>, Shivamurthy Shastri
- <shivamurthy.shastri@linutronix.de>, Siddharth Vadapalli
- <s-vadapalli@ti.com>, Thierry Reding <thierry.reding@gmail.com>, Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>, Yoshihiro Shimoda
- <yoshihiro.shimoda.uh@renesas.com>, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v4 00/15] genirq/msi: Silence set affinity failed warning
-In-Reply-To: <20240724154314.GA800620@bhelgaas>
-References: <20240724154314.GA800620@bhelgaas>
-Date: Fri, 26 Jul 2024 14:10:04 +0200
-Message-ID: <87wml8uzfn.ffs@tglx>
+	s=arc-20240116; t=1721999383; c=relaxed/simple;
+	bh=6zB3xALpd+65f/7QUrTrxeBQ9KTEQEZESLucIZ3B/bA=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=Rw/ux1f09sUAoIJZEaa5b0MuEDADUvV827pAbYc7s2idYC0jW+Z57RlB2M++havZk5Kk1UYy72FrFYGEzw71/kcQEdWR4zqiQCPH7WDLObx8ar4L6MGDKwA+oQ523z7MirXk6lj2fW34Uhy8Q0DN5m5q7vJuwSDNRoEFKfHWN9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aoUrbR2o; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13F9AC32782;
+	Fri, 26 Jul 2024 13:09:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721999383;
+	bh=6zB3xALpd+65f/7QUrTrxeBQ9KTEQEZESLucIZ3B/bA=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=aoUrbR2oBkVOF/FGFwRdXHrtjxBtlOOk/V+9oCEgyGazAcES/tii3qx5KZTcI/WqR
+	 p4dMdHBo83ufCpbesNxJk72U0JMsZzIPNm8BkD+vSoKfV0KhQPLGN79ACYx6+lUJky
+	 2jr9shSP/8jSfaVprVOqkoAJVZtKKxChiJ1Ue2XmHAewzt0NEO8KlfrRjQZlEYnbeP
+	 AHCKXnzyw37qC+psvPS2/1u1IeLUvROC5+1Tksa9Op+v4E8vMvEP+pOJ9Qt67OiRIW
+	 wEeXNJ6chX09rzYp3wceHvlXmt8Y8tqW9TVzU946d3BAR44oID7OMmW9XnwEG9IPqf
+	 Mx8H5wtdPuQHA==
+Date: Fri, 26 Jul 2024 08:09:41 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, 
+ Geert Uytterhoeven <geert+renesas@glider.be>
+In-Reply-To: <20240725194906.14644-8-wsa+renesas@sang-engineering.com>
+References: <20240725194906.14644-8-wsa+renesas@sang-engineering.com>
+Message-Id: <172199921274.1507144.4419581037256552879.robh@kernel.org>
+Subject: Re: [PATCH RFT 0/6] PWM & TPU patches for V4M
 
-On Wed, Jul 24 2024 at 10:43, Bjorn Helgaas wrote:
-> Happy to apply this series via the PCI tree given an ack from Thomas.
 
-Here you go:
+On Thu, 25 Jul 2024 21:49:07 +0200, Wolfram Sang wrote:
+> Here are the patches I prepared to enable PWM and TPU on the R-Car V4M
+> SoC. Only patches 1-4 are for upstream, the rest are convenience patches
+> for testers. They are based on linus-git as of today.
+> 
+> As discussed privately, Geert wants to have a try testing these. I
+> cannot because testing needs physical access to HW which I don't have.
+> Thanks, Geert!
+> 
+> 
+> Cong Dang (2):
+>   clk: renesas: r8a779h0: Add PWM clock
+>   clk: renesas: r8a779h0: Add TPU clock
+> 
+> Khanh Le (1):
+>   arm64: dts: renesas: r8a779h0: Add PWM device node
+> 
+> Wolfram Sang (3):
+>   arm64: dts: renesas: r8a779h0: Add TPU device node
+>   arm64: dts: r8a779h0-gray-hawk-single: Add PWM support
+>   arm64: dts: r8a779h0-gray-hawk-single: Add TPU support
+> 
+>  .../dts/renesas/r8a779h0-gray-hawk-single.dts | 36 +++++++++++
+>  arch/arm64/boot/dts/renesas/r8a779h0.dtsi     | 61 +++++++++++++++++++
+>  drivers/clk/renesas/r8a779h0-cpg-mssr.c       |  2 +
+>  3 files changed, 99 insertions(+)
+> 
+> --
+> 2.43.0
+> 
+> 
+> 
 
-Acked-by: Thomas Gleixner <tglx@linutronix.de>
+
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
+
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+New warnings running 'make CHECK_DTBS=y renesas/r8a779h0-gray-hawk-single.dtb' for 20240725194906.14644-8-wsa+renesas@sang-engineering.com:
+
+arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: pwm@e6e30000: compatible:0: 'renesas,pwm-r8a779h0' is not one of ['renesas,pwm-r8a7742', 'renesas,pwm-r8a7743', 'renesas,pwm-r8a7744', 'renesas,pwm-r8a7745', 'renesas,pwm-r8a77470', 'renesas,pwm-r8a774a1', 'renesas,pwm-r8a774b1', 'renesas,pwm-r8a774c0', 'renesas,pwm-r8a774e1', 'renesas,pwm-r8a7778', 'renesas,pwm-r8a7779', 'renesas,pwm-r8a7790', 'renesas,pwm-r8a7791', 'renesas,pwm-r8a7794', 'renesas,pwm-r8a7795', 'renesas,pwm-r8a7796', 'renesas,pwm-r8a77961', 'renesas,pwm-r8a77965', 'renesas,pwm-r8a77970', 'renesas,pwm-r8a77980', 'renesas,pwm-r8a77990', 'renesas,pwm-r8a77995', 'renesas,pwm-r8a779a0', 'renesas,pwm-r8a779g0']
+	from schema $id: http://devicetree.org/schemas/pwm/renesas,pwm-rcar.yaml#
+arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: pwm@e6e31000: compatible:0: 'renesas,pwm-r8a779h0' is not one of ['renesas,pwm-r8a7742', 'renesas,pwm-r8a7743', 'renesas,pwm-r8a7744', 'renesas,pwm-r8a7745', 'renesas,pwm-r8a77470', 'renesas,pwm-r8a774a1', 'renesas,pwm-r8a774b1', 'renesas,pwm-r8a774c0', 'renesas,pwm-r8a774e1', 'renesas,pwm-r8a7778', 'renesas,pwm-r8a7779', 'renesas,pwm-r8a7790', 'renesas,pwm-r8a7791', 'renesas,pwm-r8a7794', 'renesas,pwm-r8a7795', 'renesas,pwm-r8a7796', 'renesas,pwm-r8a77961', 'renesas,pwm-r8a77965', 'renesas,pwm-r8a77970', 'renesas,pwm-r8a77980', 'renesas,pwm-r8a77990', 'renesas,pwm-r8a77995', 'renesas,pwm-r8a779a0', 'renesas,pwm-r8a779g0']
+	from schema $id: http://devicetree.org/schemas/pwm/renesas,pwm-rcar.yaml#
+arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: pwm@e6e32000: compatible:0: 'renesas,pwm-r8a779h0' is not one of ['renesas,pwm-r8a7742', 'renesas,pwm-r8a7743', 'renesas,pwm-r8a7744', 'renesas,pwm-r8a7745', 'renesas,pwm-r8a77470', 'renesas,pwm-r8a774a1', 'renesas,pwm-r8a774b1', 'renesas,pwm-r8a774c0', 'renesas,pwm-r8a774e1', 'renesas,pwm-r8a7778', 'renesas,pwm-r8a7779', 'renesas,pwm-r8a7790', 'renesas,pwm-r8a7791', 'renesas,pwm-r8a7794', 'renesas,pwm-r8a7795', 'renesas,pwm-r8a7796', 'renesas,pwm-r8a77961', 'renesas,pwm-r8a77965', 'renesas,pwm-r8a77970', 'renesas,pwm-r8a77980', 'renesas,pwm-r8a77990', 'renesas,pwm-r8a77995', 'renesas,pwm-r8a779a0', 'renesas,pwm-r8a779g0']
+	from schema $id: http://devicetree.org/schemas/pwm/renesas,pwm-rcar.yaml#
+arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: pwm@e6e33000: compatible:0: 'renesas,pwm-r8a779h0' is not one of ['renesas,pwm-r8a7742', 'renesas,pwm-r8a7743', 'renesas,pwm-r8a7744', 'renesas,pwm-r8a7745', 'renesas,pwm-r8a77470', 'renesas,pwm-r8a774a1', 'renesas,pwm-r8a774b1', 'renesas,pwm-r8a774c0', 'renesas,pwm-r8a774e1', 'renesas,pwm-r8a7778', 'renesas,pwm-r8a7779', 'renesas,pwm-r8a7790', 'renesas,pwm-r8a7791', 'renesas,pwm-r8a7794', 'renesas,pwm-r8a7795', 'renesas,pwm-r8a7796', 'renesas,pwm-r8a77961', 'renesas,pwm-r8a77965', 'renesas,pwm-r8a77970', 'renesas,pwm-r8a77980', 'renesas,pwm-r8a77990', 'renesas,pwm-r8a77995', 'renesas,pwm-r8a779a0', 'renesas,pwm-r8a779g0']
+	from schema $id: http://devicetree.org/schemas/pwm/renesas,pwm-rcar.yaml#
+arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: pwm@e6e34000: compatible:0: 'renesas,pwm-r8a779h0' is not one of ['renesas,pwm-r8a7742', 'renesas,pwm-r8a7743', 'renesas,pwm-r8a7744', 'renesas,pwm-r8a7745', 'renesas,pwm-r8a77470', 'renesas,pwm-r8a774a1', 'renesas,pwm-r8a774b1', 'renesas,pwm-r8a774c0', 'renesas,pwm-r8a774e1', 'renesas,pwm-r8a7778', 'renesas,pwm-r8a7779', 'renesas,pwm-r8a7790', 'renesas,pwm-r8a7791', 'renesas,pwm-r8a7794', 'renesas,pwm-r8a7795', 'renesas,pwm-r8a7796', 'renesas,pwm-r8a77961', 'renesas,pwm-r8a77965', 'renesas,pwm-r8a77970', 'renesas,pwm-r8a77980', 'renesas,pwm-r8a77990', 'renesas,pwm-r8a77995', 'renesas,pwm-r8a779a0', 'renesas,pwm-r8a779g0']
+	from schema $id: http://devicetree.org/schemas/pwm/renesas,pwm-rcar.yaml#
+arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: pwm@e6e80000: compatible:0: 'renesas,tpu-r8a779h0' is not one of ['renesas,tpu-r8a73a4', 'renesas,tpu-r8a7740', 'renesas,tpu-r8a7742', 'renesas,tpu-r8a7743', 'renesas,tpu-r8a7744', 'renesas,tpu-r8a7745', 'renesas,tpu-r8a7790', 'renesas,tpu-r8a7791', 'renesas,tpu-r8a7792', 'renesas,tpu-r8a7793', 'renesas,tpu-r8a7794', 'renesas,tpu-r8a7795', 'renesas,tpu-r8a7796', 'renesas,tpu-r8a77961', 'renesas,tpu-r8a77965', 'renesas,tpu-r8a77970', 'renesas,tpu-r8a77980', 'renesas,tpu-r8a779a0', 'renesas,tpu-r8a779g0']
+	from schema $id: http://devicetree.org/schemas/pwm/renesas,tpu-pwm.yaml#
+
+
+
+
+
 
