@@ -1,68 +1,66 @@
-Return-Path: <linux-renesas-soc+bounces-7572-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7573-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD65693DCC2
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Jul 2024 02:50:22 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4FB593DCCA
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Jul 2024 03:00:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 668C71F2323B
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Jul 2024 00:50:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3B5101F239F3
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Jul 2024 01:00:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBD3415C3;
-	Sat, 27 Jul 2024 00:50:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EC1815C3;
+	Sat, 27 Jul 2024 01:00:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fcK7DcCv"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="H4uaMl0U"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CEE197;
-	Sat, 27 Jul 2024 00:50:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21C117C;
+	Sat, 27 Jul 2024 01:00:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722041420; cv=none; b=Q2dOU1eNq0Hr9xpOXwt91EX8k6CXy5LMcVIA7MaEK5yPT0RJK8Ro00swt6i2fxwS1VXMbhb0dbyEdnoktBBMO9+oEj/sPhNnTY4xxj327OdwYfhQGZ6Yq9P5NWGubyMlRKZxEp5OrKJDjBX497VCWLao3kcrWJTfntw/fF/P49g=
+	t=1722042043; cv=none; b=SaNehNusdP0Dg9r5Q8wQO0ILgm4YNjNbpi2irxLMVzEbrkV+MMwJqIz+N+4h762lbZ5+Zp7+AuyLjHx9S+sjEfX2Q7IboCE/GmcTrdqodOrVdv88/RUrlVtGAgfBpabXs+EN7dPHJXODHkctTLWO0CLK47hG9Hy+Tf3VvUFAt1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722041420; c=relaxed/simple;
-	bh=FMPvc1SZyn/90phKYCnQE41g0GmtXOgYC7qpx+Iema8=;
+	s=arc-20240116; t=1722042043; c=relaxed/simple;
+	bh=9dSQnstnKCSrEUtiMPgMx7SlcoEAcg86wKiIJnX/3EM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FwqrcgzEo1l1aAt1kEl/OB3ece4S+46VlSTzyQNDH2XmJXP+VADOdwc0kO/GZ6Jh4DgdetOa2yaD/JhRPsh2rpCULPhQWV07eGhwvbet+GloaU/sG4fG2ksgEYUjr9qspwFPt78me+RBcb918evzHeUw9yQpSGyV6215V/ya4a0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fcK7DcCv; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=MH11547C5ib9G8O8ZdO/XymLendjM11AvCXIIhzGv+FZia4xtuuoeGI7dOUBC5jn/fIi/GPUvkTy8Y1wA9rsD6bcAjuVFIpQZthCxxY8lEg4yzhqFeSBvdN9Q3aQBdLzN1aIQ2ag7gykcBK5Ay7ZMBFMH5l37X6H218j1LyPh14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=H4uaMl0U; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id ADC54720;
-	Sat, 27 Jul 2024 02:49:32 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D7EA6720;
+	Sat, 27 Jul 2024 02:59:54 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1722041372;
-	bh=FMPvc1SZyn/90phKYCnQE41g0GmtXOgYC7qpx+Iema8=;
+	s=mail; t=1722041995;
+	bh=9dSQnstnKCSrEUtiMPgMx7SlcoEAcg86wKiIJnX/3EM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fcK7DcCvl0O+twoZb5CN8BBIkni4ls6QM8+qFMmk75Mq3yd9mNAQ5hga5CCyAIFb5
-	 /WXaqEVn5hkk+VRKmJo9Qx1EC3XakTB2xVApuEogltnL/SLns9reAQJGaRaTWx/r+o
-	 koxdXPaErqkyP0LD8n+UrmD4pLA7REygDMpAT8Sg=
-Date: Sat, 27 Jul 2024 03:49:58 +0300
+	b=H4uaMl0UP05O5xxSbkPyboaQ8S5vdw0VCNI/KFakAD3rIz9cLb3tG0lZ8HcE9U12d
+	 4FPCJQr4yMeUr1jc0+hDxQKIer4XY2cTSMYplba2SpsoqPRe+fnrMNRYDm5ir/eYm4
+	 o+JDTK+7UFfiURGattv73tmKkY/q7sA2FexdZ9rc=
+Date: Sat, 27 Jul 2024 04:00:21 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Biju Das <biju.das.jz@bp.renesas.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v2 3/9] dt-bindings: display: renesas,rzg2l-du: Document
- RZ/G2UL DU bindings
-Message-ID: <20240727004958.GF300@pendragon.ideasonboard.com>
+	Biju Das <biju.das.au@gmail.com>
+Subject: Re: [PATCH v2 5/9] drm: renesas: rz-du: Add RZ/G2UL DU Support
+Message-ID: <20240727010021.GG300@pendragon.ideasonboard.com>
 References: <20240709135152.185042-1-biju.das.jz@bp.renesas.com>
- <20240709135152.185042-4-biju.das.jz@bp.renesas.com>
+ <20240709135152.185042-6-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -71,94 +69,96 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240709135152.185042-4-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20240709135152.185042-6-biju.das.jz@bp.renesas.com>
 
 Hi Biju,
 
 Thank you for the patch.
 
-On Tue, Jul 09, 2024 at 02:51:41PM +0100, Biju Das wrote:
-> Document DU found in RZ/G2UL SoC. The DU block is identical to RZ/G2L
-> SoC, but has only DPI interface.
+On Tue, Jul 09, 2024 at 02:51:43PM +0100, Biju Das wrote:
+> The LCD controller is composed of Frame Compression Processor (FCPVD),
+> Video Signal Processor (VSPD), and Display Unit (DU).
 > 
-> While at it, add missing required property port@1 for RZ/G2L and RZ/V2L
-> SoCs. Currently there is no user for the DPI interface and hence there
-> won't be any ABI breakage for adding port@1 as required property for
-> RZ/G2L and RZ/V2L SoCs.
+> It has DPI interface and supports a maximum resolution of WXGA along
+> with 2 RPFs to support the blending of two picture layers and raster
+> operations (ROPs).
+> 
+> The DU module is connected to VSPD. Add RZ/G2UL DU support.
 > 
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 > ---
 > v1->v2:
->  * Updated commit description related to non ABI breakage.
->  * Added Ack from Conor.
+>  * No change.
 > ---
->  .../bindings/display/renesas,rzg2l-du.yaml    | 32 +++++++++++++++++--
->  1 file changed, 29 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c |  9 ++++++++-
+>  drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  | 11 +++++++++++
+>  2 files changed, 19 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> index 08e5b9478051..c0fec282fa45 100644
-> --- a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> +++ b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> @@ -18,6 +18,7 @@ properties:
->    compatible:
->      oneOf:
->        - enum:
-> +          - renesas,r9a07g043u-du # RZ/G2UL
->            - renesas,r9a07g044-du # RZ/G2{L,LC}
->        - items:
->            - enum:
-> @@ -60,9 +61,6 @@ properties:
->          $ref: /schemas/graph.yaml#/properties/port
->          unevaluatedProperties: false
+> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
+> index 6e7aac6219be..b1812f947252 100644
+> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
+> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
+> @@ -28,6 +28,7 @@
+>  #include "rzg2l_du_vsp.h"
 >  
-> -    required:
-> -      - port@0
-> -
->      unevaluatedProperties: false
+>  #define DU_MCR0			0x00
+> +#define DU_MCR0_DPI_OE		BIT(0)
+>  #define DU_MCR0_DI_EN		BIT(8)
 >  
->    renesas,vsps:
-> @@ -88,6 +86,34 @@ required:
+>  #define DU_DITR0		0x10
+> @@ -216,9 +217,15 @@ static void rzg2l_du_crtc_put(struct rzg2l_du_crtc *rcrtc)
 >  
->  additionalProperties: false
+>  static void rzg2l_du_start_stop(struct rzg2l_du_crtc *rcrtc, bool start)
+>  {
+> +	struct rzg2l_du_crtc_state *rstate =
+> +					to_rzg2l_crtc_state(rcrtc->crtc.state);
+
+I think you can avoid the line break here.
+
+>  	struct rzg2l_du_device *rcdu = rcrtc->dev;
+> +	u32 val = DU_MCR0_DI_EN;
 >  
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: renesas,r9a07g043u-du
-> +    then:
-> +      properties:
-> +        ports:
-> +          properties:
-> +            port@0: false
-> +            port@1:
-> +              description: DPI
+> -	writel(start ? DU_MCR0_DI_EN : 0, rcdu->mmio + DU_MCR0);
+> +	if (rstate->outputs == BIT(RZG2L_DU_OUTPUT_DPAD0))
+> +		val |= DU_MCR0_DPI_OE;
 > +
-> +          required:
-> +            - port@1
+> +	writel(start ? val : 0, rcdu->mmio + DU_MCR0);
+>  }
+>  
+>  static void rzg2l_du_crtc_start(struct rzg2l_du_crtc *rcrtc)
+> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+> index e5eca8691a33..34534441b7ec 100644
+> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+> @@ -25,6 +25,16 @@
+>   * Device Information
+>   */
+>  
+> +static const struct rzg2l_du_device_info rzg2l_du_r9a07g043u_info = {
+> +	.channels_mask = BIT(0),
+> +	.routes = {
+> +		[RZG2L_DU_OUTPUT_DPAD0] = {
+> +			.possible_outputs = BIT(0),
+> +			.port = 1,
 
-Why do you use port@1 for the DPI output here, and not port@0 ?
+This may need to be port 0 depending on the outcome of the discussion on
+the DT bindings.
 
-> +    else:
-> +      properties:
-> +        ports:
-> +          properties:
-> +            port@0:
-> +              description: DSI
-> +            port@1:
-> +              description: DPI
+> +		},
+> +	},
+> +};
 > +
-> +          required:
-> +            - port@0
-> +            - port@1
-
-You're missing a blank line here.
-
->  examples:
->    # RZ/G2L DU
->    - |
+>  static const struct rzg2l_du_device_info rzg2l_du_r9a07g044_info = {
+>  	.channels_mask = BIT(0),
+>  	.routes = {
+> @@ -40,6 +50,7 @@ static const struct rzg2l_du_device_info rzg2l_du_r9a07g044_info = {
+>  };
+>  
+>  static const struct of_device_id rzg2l_du_of_table[] = {
+> +	{ .compatible = "renesas,r9a07g043u-du", .data = &rzg2l_du_r9a07g043u_info },
+>  	{ .compatible = "renesas,r9a07g044-du", .data = &rzg2l_du_r9a07g044_info },
+>  	{ /* sentinel */ }
+>  };
 
 -- 
 Regards,
