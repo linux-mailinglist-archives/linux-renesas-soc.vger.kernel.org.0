@@ -1,135 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-7579-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7580-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7098093E43B
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 28 Jul 2024 11:09:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B85093E4E2
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 28 Jul 2024 13:46:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 17F1F1F21455
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 28 Jul 2024 09:09:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BF7C81F2155A
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 28 Jul 2024 11:46:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F713182C5;
-	Sun, 28 Jul 2024 09:09:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 765BC36AF5;
+	Sun, 28 Jul 2024 11:46:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ciuQ5fNJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5614F8F62;
-	Sun, 28 Jul 2024 09:09:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429DC3C466;
+	Sun, 28 Jul 2024 11:46:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722157778; cv=none; b=XOou5kar8N+Dcbekku0Ix7ZKPbro5EZua8LPakkdp0zlOHxVxHLugkXhd9h5d/bGR2bIm94y54aPDtTItG2AdiUhv/YIBX8RVJL9Wwxwapjb+FrszykPILdhiv2oE9w6Oz5qSjjF+Sge+uzxBbHCTa4GPC7A+TZy9wnc1KCqh90=
+	t=1722167203; cv=none; b=f7hbbZ0/giZftBDbrnzJXoJmD5nPJ8A8txX7mO4tPPebMTmCAW+raVnqKLywOaUEqLT2NegWi9MeFcV9dtZ96ENp8u2lOIBMWA3JHh4+XcRdmu+L0eBuDXc9PZ4facmQCthvkKBnjfk2ajJQLMVlpXnHTSDzUSD58NgcYJYpJWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722157778; c=relaxed/simple;
-	bh=7/7FMScEAXCexBgKIe8WnYVYP8/6bsuZT+pxnkLEit0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=swj1MS6oLO5Mvg8K7gZZiKclHr3uESzbFqBfvpKNFbbU/0uzw79IxHdTf0laKyLB4ut7CjgR6LaPhMDKXlQyIRVy++rUrS05q8EXj3lIqy9TR5sg6A9/YSS2sdh1Bo930UDiVghVU4tvxzYiBGjG3CVho6o/2OvoeCXc9rG+zr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.09,243,1716217200"; 
-   d="scan'208";a="217379659"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 28 Jul 2024 18:04:26 +0900
-Received: from localhost.localdomain (unknown [10.226.92.33])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 566494001B7C;
-	Sun, 28 Jul 2024 18:04:24 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH] pinctrl: renesas: rzg2l: Use dev_err_probe()
-Date: Sun, 28 Jul 2024 10:04:16 +0100
-Message-ID: <20240728090421.7136-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1722167203; c=relaxed/simple;
+	bh=yygPUstBZwisSVr9S9BFcnYH3+3NoHJF1btJ9ZzlpBk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=V0Yxl0uwMoG0q/aejCjOapBmHAb20fchA3kfz0vk1I089VeFbHS/EfE4A9gnoKwOzHD6rVTb+jYXYSrsb9swxvokfCVGVFNGhBFbovPu1uCyH8xH1Uc8qg+DPLU2DvStgCMwC5jrl9pIJhU4guoqW3T6j+u8kewsozrr646igmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ciuQ5fNJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AECFC116B1;
+	Sun, 28 Jul 2024 11:46:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722167202;
+	bh=yygPUstBZwisSVr9S9BFcnYH3+3NoHJF1btJ9ZzlpBk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ciuQ5fNJyVCg3/AzYwvqJ18m4ijgKSunhz/g1weN4V5rmC5m4ahfYxrSWri1+f4uW
+	 S+8CyYKf2MiCxQBbzLVsUZrl9lWlCAAPMt1JsMTgZL+JmFgRJeapYvyZ9UgLJNfO7W
+	 cSH/YUjUDSgGYJlisD4Y7GJh42DtbU+bRL+jgkxOMBs1RGEoVoZdoA+ncUg6hBvKPd
+	 nnh6jo+WWEP1+Yu3+pcoY6XDX3zo7v/1j5HPigi5tQhSfSHyMNrLuxHyHPLoXqemFt
+	 25+AW50Tk7PO7sVxpBVPx0MgdsIk0QSQvtnuy/vm1xB2ggEnRpEDqEGjPt//LKX2A9
+	 NWFgn8iHYZy2w==
+Message-ID: <66ffa58a-2d4e-45bb-91e9-be486a99b14f@kernel.org>
+Date: Sun, 28 Jul 2024 13:46:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt-bindings: pwm: renesas,pwm-rcar: Add r8a779h0
+ support
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ linux-renesas-soc@vger.kernel.org
+Cc: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240725193803.14130-4-wsa+renesas@sang-engineering.com>
+ <20240725193803.14130-5-wsa+renesas@sang-engineering.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240725193803.14130-5-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Replace dev_err()->dev_err_probe() to simpilfy probe
-helper functions.
+On 25/07/2024 21:38, Wolfram Sang wrote:
+> Document support for the PWM timers in the Renesas R-Car V4M (R8A779H0)
+> SoC.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/pinctrl/renesas/pinctrl-rzg2l.c | 37 +++++++++----------------
- 1 file changed, 13 insertions(+), 24 deletions(-)
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-index 632180570b70..4de86388276d 100644
---- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-@@ -2596,16 +2596,13 @@ static int rzg2l_gpio_register(struct rzg2l_pinctrl *pctrl)
- 		return -EPROBE_DEFER;
- 
- 	ret = of_parse_phandle_with_fixed_args(np, "gpio-ranges", 3, 0, &of_args);
--	if (ret) {
--		dev_err(pctrl->dev, "Unable to parse gpio-ranges\n");
--		return ret;
--	}
-+	if (ret)
-+		return dev_err_probe(pctrl->dev, ret, "Unable to parse gpio-ranges\n");
- 
- 	if (of_args.args[0] != 0 || of_args.args[1] != 0 ||
--	    of_args.args[2] != pctrl->data->n_port_pins) {
--		dev_err(pctrl->dev, "gpio-ranges does not match selected SOC\n");
--		return -EINVAL;
--	}
-+	    of_args.args[2] != pctrl->data->n_port_pins)
-+		return dev_err_probe(pctrl->dev, -EINVAL,
-+				     "gpio-ranges does not match selected SOC\n");
- 
- 	chip->names = pctrl->data->port_pins;
- 	chip->request = rzg2l_gpio_request;
-@@ -2637,10 +2634,8 @@ static int rzg2l_gpio_register(struct rzg2l_pinctrl *pctrl)
- 	pctrl->gpio_range.name = chip->label;
- 	pctrl->gpio_range.gc = chip;
- 	ret = devm_gpiochip_add_data(pctrl->dev, chip, pctrl);
--	if (ret) {
--		dev_err(pctrl->dev, "failed to add GPIO controller\n");
--		return ret;
--	}
-+	if (ret)
-+		return dev_err_probe(pctrl->dev, ret, "failed to add GPIO controller\n");
- 
- 	dev_dbg(pctrl->dev, "Registered gpio controller\n");
- 
-@@ -2726,22 +2721,16 @@ static int rzg2l_pinctrl_register(struct rzg2l_pinctrl *pctrl)
- 
- 	ret = devm_pinctrl_register_and_init(pctrl->dev, &pctrl->desc, pctrl,
- 					     &pctrl->pctl);
--	if (ret) {
--		dev_err(pctrl->dev, "pinctrl registration failed\n");
--		return ret;
--	}
-+	if (ret)
-+		return dev_err_probe(pctrl->dev, ret, "pinctrl registration failed\n");
- 
- 	ret = pinctrl_enable(pctrl->pctl);
--	if (ret) {
--		dev_err(pctrl->dev, "pinctrl enable failed\n");
--		return ret;
--	}
-+	if (ret)
-+		dev_err_probe(pctrl->dev, ret, "pinctrl enable failed\n");
- 
- 	ret = rzg2l_gpio_register(pctrl);
--	if (ret) {
--		dev_err(pctrl->dev, "failed to add GPIO chip: %i\n", ret);
--		return ret;
--	}
-+	if (ret)
-+		return dev_err_probe(pctrl->dev, ret, "failed to add GPIO chip\n");
- 
- 	return 0;
- }
--- 
-2.43.0
+Best regards,
+Krzysztof
 
 
