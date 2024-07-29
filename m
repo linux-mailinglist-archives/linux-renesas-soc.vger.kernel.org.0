@@ -1,229 +1,265 @@
-Return-Path: <linux-renesas-soc+bounces-7586-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7587-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E7E193F0E0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2024 11:22:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7441F93F163
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2024 11:40:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C204C1F22663
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2024 09:22:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 969ED1C21E01
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2024 09:40:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C799113DBBF;
-	Mon, 29 Jul 2024 09:22:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDA5F13D255;
+	Mon, 29 Jul 2024 09:40:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="njBR7ZkF"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hy6/F8Vt"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011027.outbound.protection.outlook.com [52.101.125.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4546913B783;
-	Mon, 29 Jul 2024 09:22:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.27
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722244949; cv=fail; b=oASvC/a+eM5hhfVK1L6/nszh6zM5sb0J353aoW8Zv8Bvp1SciDddAlRfWzcsq1KuCX3yPR4pvjO0+/GFv2yao40O5Wl3cjwX4Lnf9B2Q0glW0NSxsGMd/rSCR2Mis72egUWYN4qRPN2UgsIodWD1YgI3wOyHnh0bxZGvnVfcTNA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722244949; c=relaxed/simple;
-	bh=ywIcvlYaEEhk8n96XWcGvy6iJ3oiEzEx6F2xbK7zV34=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=GiDRUoxCmlOLVYt+HxqDPhwScLufHkgVd2FQ3ptovAd5RYNv74MsvZFwVEdtWJFIGqCtq/mRz8uWGWh1w0l2wI5Hy6iT+ZUfRYTWyBgEP+wDp+nOAZ22OL3miOgzmxkqyjXLB62Oct7unO8oBjzj0Ldg2aXi785xKdzT3uZjgxo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=njBR7ZkF; arc=fail smtp.client-ip=52.101.125.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ApH/RiHNV+pSwSfI4S8Cx2tfWkofkIePGeXzEoO5pwuaq7AuC+jpkmbm2eqh8bomLhlVVnNX/qEizcCQ4EC3KRz9lkSQMRtNB5H8QKX76GHhYatV2YfFtHU0mD6cy4LpKkQxKlqC9eHOiegus2kNmFd3WRyagnA+fYeq6Kf+5BWinTYSlVlCzU7P7v99B0rT6d043qWoWj2Y4G1yQRM+ff+2fHFIi9ouWcEVP1iyY2TRR61+x+xIgs2taGSYsJ3QSi0iJ7oKbS5VSp2CSpFWchbd26FJ4EJgRElkf/tjeNAjCBesC2FegaeiwxHWSxMhxHYOQdf48uJSLukWNtcw3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ywIcvlYaEEhk8n96XWcGvy6iJ3oiEzEx6F2xbK7zV34=;
- b=sSU4V4Zpr3AFfp+7DQ7JodThJP4ObgC9WVDPQgl0uWC+KpNVRduSj8lbXwJ6d3M6d1bDVM/1m9e8F20B8uIcYj6g6UiHUMIzWZpNw7jpJvwGV9p3zqeEjMk9wVoX8Pi/dRfMQiIYiU2vE3PfVyFZAWj6W43DYRnqbdERYeC6APUwIUaLexWww9pS/d/XtAYC3GuMYFCvVsBkVpVwTIkHpBA86aICcispVzSbZf5s+6ngxB7HK2mPXpCsnyRo21aU/avIe3MCZDuh0zgOLlBNUWvHZWniSjvcyT2Z8dduGUdrtuBYo8qb7j0MPWyWz1+GTmzNggKTpxpQ7bIm+mM2ow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ywIcvlYaEEhk8n96XWcGvy6iJ3oiEzEx6F2xbK7zV34=;
- b=njBR7ZkF6SFLMS1PLhAwsx0VYtfcpWHisxO0F00xfZYlhctf8DnddKlJkLfifdtZr1YbvO0/6wDx/rjBlVuObLr5KkBRwfWgbinhyfpfGyc+pVAxGUpI6CJpw9YYzchskq/VK3fxpGlb8H85Z1atFVugvdAH27GkneGsn8lSkZ8=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TYWPR01MB11233.jpnprd01.prod.outlook.com (2603:1096:400:3f9::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.27; Mon, 29 Jul
- 2024 09:22:23 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%5]) with mapi id 15.20.7807.026; Mon, 29 Jul 2024
- 09:22:23 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Kieran Bingham
-	<kieran.bingham+renesas@ideasonboard.com>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Mauro Carvalho
- Chehab <mchehab@kernel.org>, Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
-	<biju.das.au@gmail.com>
-Subject: RE: [PATCH v2 8/9] arm64: dts: renesas: r9a07g043u: Add DU node
-Thread-Topic: [PATCH v2 8/9] arm64: dts: renesas: r9a07g043u: Add DU node
-Thread-Index: AQHa0gdK4KO4jliCJECNSU2FwP7Z0rIJ38YAgAOtmFA=
-Date: Mon, 29 Jul 2024 09:22:23 +0000
-Message-ID:
- <TY3PR01MB11346EBC20449F0F4FD952B7D86B72@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20240709135152.185042-1-biju.das.jz@bp.renesas.com>
- <20240709135152.185042-9-biju.das.jz@bp.renesas.com>
- <20240727011132.GJ300@pendragon.ideasonboard.com>
-In-Reply-To: <20240727011132.GJ300@pendragon.ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYWPR01MB11233:EE_
-x-ms-office365-filtering-correlation-id: 377333af-5c6a-4a78-cbd0-08dcafaff451
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|7416014|376014|366016|38070700018;
-x-microsoft-antispam-message-info:
- =?utf-8?B?MWZnTkxUWUZEcHAxNnN5QnR2MVh4SVhJS0lFUDh5dGVMbWhRV0pVNEpzVjVT?=
- =?utf-8?B?aVRkaldMbk9aenpBa2ltS043YysrUFp0Tk15SkRCMWtncGRSbW1lZVpCOUlt?=
- =?utf-8?B?eUhadHoyNnk0cmNLZDRFbnpma2ZSVFU0LzNWZkVwNGk3WDl0YmEzaTFlQUlT?=
- =?utf-8?B?UGZpU0RQczVNZXVKSUNSNDBQNlM0WTNnSzZ2Q2JKUmpMbU9hVENFbzZqMC9u?=
- =?utf-8?B?eW51elZMSVlCaWRGSG5lcTNsTmxUOC9lclBTdXAxaExnWUZPS0FlNkp6OFRX?=
- =?utf-8?B?Mjg5dVFCSlQweUNNYXhOcUN5dWZ5TitpYlZHRmZvcHdDWWNvUHREUlZYS3Qz?=
- =?utf-8?B?aGdqclBrSnY4WnQ5Y1BEZDFmMzFYcmJjTUxHZG0rTkdWTW1ZYzJaUzBRdXNp?=
- =?utf-8?B?YWNBQ2ptUGxNeE5zVWRQK1ZUSnM2RXNwQWZKZVlmemNRaDI3Zms5Yk9naG5u?=
- =?utf-8?B?WDFYeFBKdW5KalYxbTYwV3FuUVcvR000TFduYVpzcURLOVdYWmZmSzV2bkhD?=
- =?utf-8?B?UEVXMklwZHN0WmcwYnQxK1BQbW50OTJGeStJYXBDU1hhNEtwWFMxT2M3dzhw?=
- =?utf-8?B?enFHa1dzTWRTb1N3NHJNTnZBOEYrajU3RlQydVBPS1pIb2pEZWxBRWFuaFZG?=
- =?utf-8?B?d2NFZlFqbVlCTGtQaHEwOXhrWUE0Q2QrYThXUThxcCtyR2RyT0JNU3NkMnhT?=
- =?utf-8?B?dlp1SFFWdlc2UzhUK09rR3U4ZnFJSjBpVHpueHdRR1A4Nlp5b3hPUjZraG5X?=
- =?utf-8?B?WHk5NUJOZ0cyTU84VFNFZmYraWxYenNGNDFpamd2bWVxaVJjMkNhMitBV3dl?=
- =?utf-8?B?dGlTMmRUeW9KWUR5b09xamhOOU5pYUt5WThVYXlCM1p1MUxjOFlxTHU5UWov?=
- =?utf-8?B?YmFYelZJLzEwUUxyNW9lcUlVbktLMGdhSU9vUHlXTnBGOVJxOFl6MVhjdCtC?=
- =?utf-8?B?aXN4RmdWN05PRFpWV2EwcTdHclNlRksrdXlyU29DRGJSMDBBL20xYTU1cVIr?=
- =?utf-8?B?ekxoUWxvem1TelhtNEt3akhsVHNNYVJvOWpqWGh2dy9hSUEwdkoyYVBDT0pH?=
- =?utf-8?B?SHJreFNveTNkUnVqNjNZMVM2dmNhSThQYW04VExJUzBJL1ZzbDl6ZVBMQ3Uw?=
- =?utf-8?B?NlhEdDcvQ0ROaFFWNlFmN2srQk9ydzhBM21QUlc1RjdVeEd1QzIwRGZ2bG9q?=
- =?utf-8?B?OGMvenFqQU50SkorcEliU1llQ2dEY2lXazNSV0grMHl1c29iUlBkYllSWDd6?=
- =?utf-8?B?d0I3TkNRblZoTWxneGFDVWcxNWxTeENHYm1pdjM4RGJwT0NPQmpBYUR1TnhB?=
- =?utf-8?B?S0V1dHNCYjVPWUpPTkJqS0F0RWRXSkxsTFgrT2dWVXFabFV2VnhtZEFUeW53?=
- =?utf-8?B?MGc4dVo5Qm5NZlVnZFBwN3pXV2VrUE4rcEQ3aWVVSlpMd1NhT29UeEhTWDlm?=
- =?utf-8?B?N01BZFlKcCs5K2g0Ujl6YjBRS20xQXVWdlR5YzdzMHFaRlB5R2MyNEcwSFlo?=
- =?utf-8?B?TGF6MzZETE4ySnF5VS9nYTRUTHpyMll2T1o1ZXRqd1RMTFdINTcxNlF1QnJB?=
- =?utf-8?B?M0FlYUdvV3M1QXh0dVdzOGlYcUtJdENPNU9aeU5VQnVNK3NFZGZ4T1FiVGZK?=
- =?utf-8?B?NG9mNzRydHVwdkNleFk0dllGODdLVzlmL0tyeVZ6M3NNTlVaNWpxUTZNcjlo?=
- =?utf-8?B?T01Sd3ZFZDM5MWIwcTU4UE5tMHlYZ2NxaytWV3BSUU9oUGF4SjhTVnA5RFAv?=
- =?utf-8?B?b2JNd0V2ekx5ZHFLQitHelRMN2RXN0Q3b3NyVHVDRWE3QTVRblZiSFR6NFo0?=
- =?utf-8?B?T0dXbStOVU4veVJ1dEVqcEZWckJBSWJYTloraXRNK3hKbG1pNWRvOTJqOUdI?=
- =?utf-8?B?elpmTVVmZU0vRjJtMGlQK1NXS2lsNFg3RWZqZzBoc3BrUWc9PQ==?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?aW4xOU10WUhtOUowOHQrbjdWUGNVdmpqSmM0TEFMWXlwTE1LZU94Z0ZuRy9E?=
- =?utf-8?B?WHNrS2Y1RG12d2xuRVM3c1FqMXRscENsdlM3Q29VczRrMDZicktEaWRmU091?=
- =?utf-8?B?OENWSHhVL2F6dENDZTFmMGc3ajFBd1RJYnNURDdNMUNUaWl3THdhZ282cGJ3?=
- =?utf-8?B?WFRHd09wRGE3ckVpOGZTdU5RV3B6SEYxdXZFQkRsamlxYWw3Q2VRYVBkY3ZL?=
- =?utf-8?B?cDVkTnRqbCtEbkJNNVpwc3liMC93Zi96K2pHSkUvV1lXZ3NQVnQwNUUwRk9w?=
- =?utf-8?B?S01RbEZtK3V3dEZhTWRrbjI3VzZuSk1QaVVPaGptMXZ3ZG1mZzlpNElScktJ?=
- =?utf-8?B?VGF4anlocC92aGM3Mk9xaXZucllVRkFmcTlySGNNQTVVcWgxaDZHMWh6a29U?=
- =?utf-8?B?T05JM2N6NjFxZ09wRmlZakJLdkt6TDdsNVRPcmhBQlM5c2pScXdRNldaSGRS?=
- =?utf-8?B?RkVsM0hPdlRRTTkvbXg3cUdhQTlnWlJmTWlOa1dTT2g2VDdpTHBNK2RJVFBi?=
- =?utf-8?B?bWd5dExhYzZ3TjVuSzF1TE9tNVpib3VQVitlb1pacUh6VURpcGpWQks3QlhI?=
- =?utf-8?B?YjNzYUIxSVIvVS95RjNlU1U0bTI1QVVDN0NYVU9Gdkg5NXFCQ0lUQ1UyaEF0?=
- =?utf-8?B?UkRXb2hENThiSHczQ2tVbjUxTWErUWx1Z3dNNXRtVW5nUUUweTY4eld2SzF1?=
- =?utf-8?B?OXprSWFsZElMM0ZuK2ozeStKemE0UjB5c0c0L3A1WE4zNWtZb3FQQVliTUk2?=
- =?utf-8?B?SDBwU3hJSE40M1E3TktlSnJiV3V5Ykd6azdkd2M5MFJlZWlnUzJMN3lPQWhL?=
- =?utf-8?B?bFdjeDFIYkJhN25GY0M1bStJRjRrWVJsa1JNcmM0N2h5MFp3N2Zzdy85aUdp?=
- =?utf-8?B?cEZCQVIwVE96S25valI2QlMvR0p2SndqcTFPajRkR2VKZDZLVkZNbDV4ZGpy?=
- =?utf-8?B?c0VqOXYrYjF2RDNPWXRKeDBjNTN3MVYwbVU3VnFhYXkyOE0wdEtyWlZmNXNl?=
- =?utf-8?B?VVIvb292Zm45M3hpV3diQUhVMHJDZ3NJSVI4WVNER3JSc0hVZi9NWTVXengz?=
- =?utf-8?B?aWZFbDcycCtSTEJDT3cwYW53NnBiNk1zYXM5TnNWRVhHOTJaTnRWQXJqQ0xS?=
- =?utf-8?B?SkVCSkJEOTRvTllFc09vbVJ2cmlMT2RNNitITUMxeUxPUjk0NTJCUHQvVG9O?=
- =?utf-8?B?NGhRNlhPYzllK3lPKzJLUDh0ajNGZlZsc0hFNWhMT3pDaU5XdVpHQm5Zb3BC?=
- =?utf-8?B?MjNKeFNlOHJMMk9Ncy92bXhwWXY0M0ROMkNST1hidTRYZGlOUmhBYzg1eVJL?=
- =?utf-8?B?dXpveFZ6VDZ2MlZMV2V6eXBCM0tESzBMMXRXdlFYc1hkc1JMa2tvMm83bW9X?=
- =?utf-8?B?TGhGbnFBMGw1WkhMQmZESEE4UUI5UWtPa25IOWMzd2YwS2tjNURqZmhBWGtm?=
- =?utf-8?B?QUpXbEdSa0M3a0NHSkhxUGFCa05PRDBNU3FNN2tsRHlOSkJFQzJ2UmljOUhn?=
- =?utf-8?B?WUhxNE5CRGhNM21ZZk00V2crTnRmbU0ySGJ0aENwekFmNHh4WTZWKzkvUkp5?=
- =?utf-8?B?RnBoMVl2VWxJL0lKRWlGVldSYm9weXcrM08xMjdSU3hPOUpoZFF3V0JEWDQx?=
- =?utf-8?B?ZFpLVWhBWlUxekRsN2EzdUhxK0VRN2pMcTZrSU5Kc2hiaDJhbnFINHViV1ZF?=
- =?utf-8?B?bzY3bjF4NGRuSTNzTHR4V2E5MDFpTEc4WlVnbVhTQ1BMNFkxVWdqSENNVlpt?=
- =?utf-8?B?a2tIV3Z6R1lQZjR1WTVlSS9iSU4wQnkyd1QvN291UG1YS0hGeUk2OFRWT3Za?=
- =?utf-8?B?UjBibUVHNlZPa1YrNUx5dGdkQkVPU1o4ZW1GQmRqZHlSWTkvaVkrSnVVTVVJ?=
- =?utf-8?B?MG9vaGhuRUkrbUVrOTl4VnprckpBRi9PSjVqVWhlVEhTdmpma3lPL1piWEha?=
- =?utf-8?B?QytvRHBObytVYU03WloyQ1o1aURmS2VjUnJoaXJqUXV4UXJsNGU1TndFdEh6?=
- =?utf-8?B?UzU4RExoMm9Ja3ZDbVZjekwzWFNTcGkzNk5wL3BBOVFvbWlQdSswb2ZtOHRQ?=
- =?utf-8?B?TnRsL3Z1S1Q2c3BFQU5MWWhVUm1uaGh4NGJ5dlI4WjBBRGtZYUhpYjZXNm9h?=
- =?utf-8?Q?BMGTBQYBsTncj96IcM5PbdmG2?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20B3B78B4E;
+	Mon, 29 Jul 2024 09:40:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722246005; cv=none; b=RJ1x7Vqg+UYHjEz6lSCBkia801Owfu90Zn2x4TFzp1NzZ9K2D0aJNfCbPh58E5oa5Egs7a3Rmg5sV/zUadD1RLNde/JUfIiGzPiTIygw0oYSQpxnEJ4CRGnRsWbsQW36qFQg20ScSbyHlHZaHPwCeoMMEd7dOca7MXONw9qyNqY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722246005; c=relaxed/simple;
+	bh=v5CVpGXRECC7xxZl4Fle2Mk+XUxzkpObh9lVcLfvV1s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uiecYG1XnNlGngT4/5+BkoAV5fvcy88BNLOhZ6PETidMZAYf5a2qolHiG0HsLx3erHNEtTTjhRMSXZxDWY6KDM8GEgzkBiet28H1VwKXC3ayya7N05nAIkkN0EoDQGMMJcjXce2WeJbB4p1GBsaKnN9z2S2KciZOM4dcYiCoMag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hy6/F8Vt; arc=none smtp.client-ip=209.85.221.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-4f6b8b7d85bso1083101e0c.1;
+        Mon, 29 Jul 2024 02:40:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722246003; x=1722850803; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qqJ/zR4THD+IIHEf2QepwtOw7uhTMsZvKiU8UBFA/vA=;
+        b=Hy6/F8VtnhtrOCV2FcTRgE7DJhYeh4iicv6moqk0NBUCCguz3q8gBXdr5hNVQDDpPe
+         4Jf4RfdgpdVdDBqdbVM63THXs7wNtEvHu4Soh9xwnEyMt0YsIhfv7lHA0Br6CMz2kD42
+         Tv9cflDOKZv2yHKwJiWhiB4SHxerMTkEXW3k8viedFu5sdIQdpr535Okz5nVaDnAKx8i
+         nXSEg4YMt3Da4m9FaNV4E8OlNhSgSO4VGezLaV2wWQeuXKishWjneh8cENxyO/gd7w6k
+         fjyOfuUef7U65kVD5zng3s/8DKwmSlk2BcAQZKHuLEdNo2w+1WgDkJndJ4PmnFM8vOd/
+         WhTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722246003; x=1722850803;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qqJ/zR4THD+IIHEf2QepwtOw7uhTMsZvKiU8UBFA/vA=;
+        b=XAF2DT/f0Q9KHo2YxJEd3Gjw5BDOODfDfIavdG6KI/Xuy4lWw3hCSVBlBJR6gKn3dO
+         azN+N/slHgwVOhCCe1QD/3sNN8I2MVn2m+i+Dl+6lyWChOiu+N3zVZgahaw9rr2hU6/2
+         pheE+6YUlefvM4luOwThZWXHkCyk2NyS2vn7bJ3i1XqG0n6b2/cArhGwVxh6RbyJcpNC
+         qdWjDESigtGo0YwF/QlEsEqyOVXiaNIcdAhqhL8r/CAry3/jlSu+NOEqA+6cXTVL1PV/
+         71iVnb7W7CaCbnpNbhefl4M4ZfKJVhUpXCM1GYxg312hv59lVgHdOpGbvPGa1QpbZxtn
+         u7qw==
+X-Forwarded-Encrypted: i=1; AJvYcCUh0yEv6EWT33NDfUQXF9wwNt2yLEGp1egoOm8wKJSoqelv2IPUaDRVqq4BXjvIRcO5RdU4HCzxtGNNJS5bgz6RftV7yf2WNDtekBAWMZlY0iDi1CSkkqEQi9E4neA00G493KVk10e42GrJch2eeAmYHu2mqNwcvlah3TU2RtXAbkmU6qBpvJO9KlvI0FX+yXnEzpONw6viKnkQ8s7+ZzfVNI6td2vx
+X-Gm-Message-State: AOJu0YyOzYJjzmni7eHUHBc9fsnL1GTkm3LFRSQn0Xaw+5vro9+72DwC
+	13DXt16Xrkuhgdb0P0tRLE1cvCl6/sH2uzQW0kz70XygmLnZ4JLxkqLf/dj8pBJ8M3yUybno4w/
+	ZAo18+UZUOGfblmaXwb15ZGfQ3Ic=
+X-Google-Smtp-Source: AGHT+IHJOw3LYL+pc0QeWca13CNB+qj11UjJq1kTH+3jSlVQYnx+/46EaOcVohMn+/9cRGfpWpZzHXtBAp0ZZa7aFWg=
+X-Received: by 2002:a05:6122:459e:b0:4f5:23e4:b7c with SMTP id
+ 71dfb90a1353d-4f6e66f6614mr7603498e0c.0.1722246002839; Mon, 29 Jul 2024
+ 02:40:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 377333af-5c6a-4a78-cbd0-08dcafaff451
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jul 2024 09:22:23.2825
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: C53O+sLz10+i2SdKDiZu33nJtUXyvU/2Al8JyqRasX7L/H9o0LsMDWxgYTxVHFI4tJ4o2kxcm/XtgdW0vfEQr9CEoF7B7aBANRSpItaOIOI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB11233
+References: <20240715125438.553688-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240715125438.553688-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdUvfAqJR6=4MG3hXC6cn1AnKz7+RAp4GG1jvdwOctgNzQ@mail.gmail.com>
+ <CA+V-a8uBL-2DeAtu6BnF37Loe_fT6PNbAx=8O9acTR1Ey2zRrg@mail.gmail.com> <CAMuHMdU3ijNmw8nfTHbrsX28ASwO=pTaMaODPg1PUr9x5kPibg@mail.gmail.com>
+In-Reply-To: <CAMuHMdU3ijNmw8nfTHbrsX28ASwO=pTaMaODPg1PUr9x5kPibg@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 29 Jul 2024 10:38:00 +0100
+Message-ID: <CA+V-a8vDKDsEOnPONgo7Q4fKX==VdCwUfXcrQqEMU+VQmEb0fg@mail.gmail.com>
+Subject: Re: [PATCH v4 2/3] clk: renesas: Add family-specific clock driver for RZ/V2H(P)
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-SGkgTGF1cmVudCwNCg0KVGhhbmtzIGZvciB0aGUgZmVlZGJhY2suDQoNCj4gLS0tLS1PcmlnaW5h
-bCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFy
-dEBpZGVhc29uYm9hcmQuY29tPg0KPiBTZW50OiBTYXR1cmRheSwgSnVseSAyNywgMjAyNCAyOjEy
-IEFNDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjIgOC85XSBhcm02NDogZHRzOiByZW5lc2FzOiBy
-OWEwN2cwNDN1OiBBZGQgRFUgbm9kZQ0KPiANCj4gSGkgQmlqdSwNCj4gDQo+IFRoYW5rIHlvdSBm
-b3IgdGhlIHBhdGNoLg0KPiANCj4gT24gVHVlLCBKdWwgMDksIDIwMjQgYXQgMDI6NTE6NDZQTSAr
-MDEwMCwgQmlqdSBEYXMgd3JvdGU6DQo+ID4gQWRkIERVIG5vZGUgdG8gUlovRzJVTCBTb0MgRFRT
-SS4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEJpanUgRGFzIDxiaWp1LmRhcy5qekBicC5yZW5l
-c2FzLmNvbT4NCj4gPiAtLS0NCj4gPiB2MS0+djI6DQo+ID4gICogTm8gY2hhbmdlLg0KPiA+IC0t
-LQ0KPiA+ICBhcmNoL2FybTY0L2Jvb3QvZHRzL3JlbmVzYXMvcjlhMDdnMDQzdS5kdHNpIHwgMjUN
-Cj4gPiArKysrKysrKysrKysrKysrKysrKysNCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDI1IGluc2Vy
-dGlvbnMoKykNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9hcmNoL2FybTY0L2Jvb3QvZHRzL3JlbmVz
-YXMvcjlhMDdnMDQzdS5kdHNpDQo+ID4gYi9hcmNoL2FybTY0L2Jvb3QvZHRzL3JlbmVzYXMvcjlh
-MDdnMDQzdS5kdHNpDQo+ID4gaW5kZXggZDg4YmYyM2IwNzgyLi4wYTRmMjRkODM3OTEgMTAwNjQ0
-DQo+ID4gLS0tIGEvYXJjaC9hcm02NC9ib290L2R0cy9yZW5lc2FzL3I5YTA3ZzA0M3UuZHRzaQ0K
-PiA+ICsrKyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvcmVuZXNhcy9yOWEwN2cwNDN1LmR0c2kNCj4g
-PiBAQCAtMTUzLDYgKzE1MywzMSBAQCBmY3B2ZDogZmNwQDEwODgwMDAwIHsNCj4gPiAgCQlyZXNl
-dHMgPSA8JmNwZyBSOUEwN0cwNDNfTENEQ19SRVNFVF9OPjsNCj4gPiAgCX07DQo+ID4NCj4gPiAr
-CWR1OiBkaXNwbGF5QDEwODkwMDAwIHsNCj4gPiArCQljb21wYXRpYmxlID0gInJlbmVzYXMscjlh
-MDdnMDQzdS1kdSI7DQo+ID4gKwkJcmVnID0gPDAgMHgxMDg5MDAwMCAwIDB4MTAwMDA+Ow0KPiA+
-ICsJCWludGVycnVwdHMgPSA8U09DX1BFUklQSEVSQUxfSVJRKDE1MikgSVJRX1RZUEVfTEVWRUxf
-SElHSD47DQo+ID4gKwkJY2xvY2tzID0gPCZjcGcgQ1BHX01PRCBSOUEwN0cwNDNfTENEQ19DTEtf
-QT4sDQo+ID4gKwkJCSA8JmNwZyBDUEdfTU9EIFI5QTA3RzA0M19MQ0RDX0NMS19QPiwNCj4gPiAr
-CQkJIDwmY3BnIENQR19NT0QgUjlBMDdHMDQzX0xDRENfQ0xLX0Q+Ow0KPiA+ICsJCWNsb2NrLW5h
-bWVzID0gImFjbGsiLCAicGNsayIsICJ2Y2xrIjsNCj4gPiArCQlwb3dlci1kb21haW5zID0gPCZj
-cGc+Ow0KPiA+ICsJCXJlc2V0cyA9IDwmY3BnIFI5QTA3RzA0M19MQ0RDX1JFU0VUX04+Ow0KPiA+
-ICsJCXJlbmVzYXMsdnNwcyA9IDwmdnNwZCAwPjsNCj4gPiArCQlzdGF0dXMgPSAiZGlzYWJsZWQi
-Ow0KPiA+ICsNCj4gPiArCQlwb3J0cyB7DQo+ID4gKwkJCSNhZGRyZXNzLWNlbGxzID0gPDE+Ow0K
-PiA+ICsJCQkjc2l6ZS1jZWxscyA9IDwwPjsNCj4gPiArDQo+ID4gKwkJCXBvcnRAMSB7DQo+ID4g
-KwkJCQlyZWcgPSA8MT47DQo+IA0KPiBUaGlzIG1heSBuZWVkIHRvIGNoYW5nZSBkZXBlbmRpbmcg
-b24gdGhlIG91dGNvbWUgb2YgdGhlIERUIGJpbmRpbmdzIGRpc2N1c3Npb24uIE90aGVyIHRoYW4g
-dGhhdCwNCg0KQWdyZWVkLg0KDQpDaGVlcnMsDQpCaWp1DQoNCj4gDQo+IFJldmlld2VkLWJ5OiBM
-YXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0K3JlbmVzYXNAaWRlYXNvbmJvYXJkLmNv
-bT4NCj4gDQo+ID4gKwkJCQlkdV9vdXRfcmdiOiBlbmRwb2ludCB7DQo+ID4gKwkJCQl9Ow0KPiA+
-ICsJCQl9Ow0KPiA+ICsJCX07DQo+ID4gKwl9Ow0KPiA+ICsNCj4gPiAgCWlycWM6IGludGVycnVw
-dC1jb250cm9sbGVyQDExMGEwMDAwIHsNCj4gPiAgCQljb21wYXRpYmxlID0gInJlbmVzYXMscjlh
-MDdnMDQzdS1pcnFjIiwNCj4gPiAgCQkJICAgICAicmVuZXNhcyxyemcybC1pcnFjIjsNCj4gDQo+
-IC0tDQo+IFJlZ2FyZHMsDQo+IA0KPiBMYXVyZW50IFBpbmNoYXJ0DQo=
+Hi Geert,
+
+On Mon, Jul 29, 2024 at 9:14=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Sat, Jul 27, 2024 at 12:51=E2=80=AFPM Lad, Prabhakar
+> <prabhakar.csengg@gmail.com> wrote:
+> > On Fri, Jul 26, 2024 at 3:53=E2=80=AFPM Geert Uytterhoeven <geert@linux=
+-m68k.org> wrote:
+> > > On Mon, Jul 15, 2024 at 2:56=E2=80=AFPM Prabhakar <prabhakar.csengg@g=
+mail.com> wrote:
+> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > >
+> > > > Add family-specific clock driver for RZ/V2H(P) SoCs.
+> > > >
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.c=
+om>
+> > > > --- /dev/null
+> > > > +++ b/drivers/clk/renesas/rzv2h-cpg.h
+> > >
+> > > > +#define DEF_RST_BASE(_id, _resindex, _resbit, _monindex, _monbit) =
+     \
+> > > > +       [_id] =3D { \
+> > >
+> > > Indexing by _id means the reset array will be very sparse.  E.g. the
+> > > innocent-looking r9a09g057_resets[] with only a single entry takes
+> > > 600 bytes:
+> > >
+> > >     $ nm -S drivers/clk/renesas/r9a09g057-cpg.o | grep r9a09g057_rese=
+ts
+> > >     0000000000000038 0000000000000258 r r9a09g057_resets
+> > >
+> > Agreed.
+> >
+> > > So please pack the array here, and either unpack it while making the
+> > > priv->resets copy, or implement translation ("look-up") from ID to
+> > > packed index in rzv2h_cpg_reset_xlate().
+> > >
+> > OK, I will implement the below:
+> >
+> > #define PACK_RESET(_resindex, _resbit, _monindex, _monbit)    \
+> >     (((_resindex) << 24) | ((_resbit) << 16) | ((_monindex) << 8) | (_m=
+onbit))
+> >
+> > #define DEF_RST(_resindex, _resbit, _monindex, _monbit)    \
+> >     PACK_RESET(_resindex, _resbit, _monindex, _monbit)
+> >
+> > #define GET_RESET_INDEX(x)    (((x) >> 24) & 0xFF)
+> > #define GET_RESET_BIT(x)    (((x) >> 16) & 0xFF)
+> > #define GET_MON_INDEX(x)    (((x) >> 8) & 0xFF)
+> > #define GET_MON_BIT(x)        ((x) & 0xFF)
+> >
+> > static int rzv2h_cpg_reset_xlate(struct reset_controller_dev *rcdev,
+> >                  const struct of_phandle_args *reset_spec)
+> > {
+> >     struct rzv2h_cpg_priv *priv =3D rcdev_to_priv(rcdev);
+> >     unsigned int id =3D reset_spec->args[0];
+> >     u8 rst_index =3D id / 16;
+> >     u8 rst_bit =3D id % 16;
+> >     unsigned int i;
+> >
+> >     for (i =3D 0; i < rcdev->nr_resets; i++) {
+> >         u8 cur_index =3D GET_RESET_INDEX(priv->resets[i]);
+> >         u8 cur_bit =3D GET_RESET_BIT(priv->resets[i]);
+> >
+> >         if (rst_index =3D=3D cur_index && rst_bit =3D=3D cur_bit)
+> >             return i;
+> >     }
+> >
+> >     return -EINVAL;
+> > }
+> >
+> > Let me know if this is OK, or to avoid looping in xlate maybe we can
+> > have a packed entry in the resets property of DT by this way we can
+> > avoid having the resets array all together?
+>
+> Sorry for being unclear. I did not mean packing the fields in the struct
+> into a single word, but packing the entries in the r9a09g057_resets[]
+> array.  Using the rzv2h_reset structure is fine.
+>
+> With:
+>
+>     #define DEF_RST_BASE(_id, _resindex, _resbit, _monindex, _monbit)    =
+   \
+>             [_id] =3D { \
+>                     .reset_index =3D (_resindex), \
+>                     .reset_bit =3D (_resbit), \
+>                     .mon_index =3D (_monindex), \
+>                     .mon_bit =3D (_monbit), \
+>             }
+>
+>     #define DEF_RST(_resindex, _resbit, _monindex, _monbit) \
+>             DEF_RST_BASE(RST_ID((_resindex), (_resbit)), _resindex,
+> _resbit, _monindex, _monbit)
+>
+>     static const struct rzv2h_reset r9a09g057_resets[] __initconst =3D {
+>         DEF_RST(9, 5, 4, 6),            /* SCIF_0_RST_SYSTEM_N */
+>     };
+>
+> is expanded into an array of 150 entries (9 * 16 + 5 =3D 149 empty entrie=
+s
+> followed by the SCIF_0_RST_SYSTEM_N entry), which is wasteful.
+> Over time the array will be filled more, but I expect there will still
+> be lots of unused entries.
+>
+> Hence I suggest to drop the "[id]":
+>
+>    - define DEF_RST_BASE(_id, _resindex, _resbit, _monindex, _monbit)    =
+   \
+>    -       [_id] =3D { \
+>    +#define DEF_RST(_resindex, _resbit, _monindex, _monbit)       \
+>    +       { \
+>                    .reset_index =3D (_resindex), \
+>                     .reset_bit =3D (_resbit), \
+>                     .mon_index =3D (_monindex), \
+>                     .mon_bit =3D (_monbit), \
+>             }
+>    -
+>    -#define DEF_RST(_resindex, _resbit, _monindex, _monbit) \
+>    -        DEF_RST_BASE(RST_ID((_resindex), (_resbit)), _resindex,
+> _resbit, _monindex, _monbit)
+>
+> Then r9a09g057_resets[] will contain only non-empty entries, at the
+> expense of no longer being able to index it directly by reset ID.
+> To solve the indexing, there are two options.
+>
+> Option A: Translate from reset ID to real index during lookup, like
+>           you do in the rzv2h_cpg_reset_xlate() above:
+>
+>     static int rzv2h_cpg_reset_xlate(struct reset_controller_dev *rcdev,
+>                      const struct of_phandle_args *reset_spec)
+>     {
+>         struct rzv2h_cpg_priv *priv =3D rcdev_to_priv(rcdev);
+>         unsigned int id =3D reset_spec->args[0];
+>         u8 rst_index =3D id / 16;
+>         u8 rst_bit =3D id % 16;
+>         unsigned int i;
+>
+>         for (i =3D 0; i < rcdev->nr_resets; i++) {
+>             if (rst_index =3D=3D priv->resets[i].reset_index &&
+>                 rst_bit =3D=3D ->resets[i].reset_bit)
+>                 return i;
+>         }
+>
+>         return -EINVAL;
+>     }
+>
+> Option B: "Unpack" rzv2h_cpg_info.resets[] during copying in
+>           rzv2h_cpg_probe():
+>
+>     priv->resets =3D devm_kcalloc(dev, max_num_reset_ids,
+>                                  sizeof(*priv->resets), GFP_KERNEL);
+>     for (i =3D 0; i < ARRAY_SIZE(info->resets); i++) {
+>             id =3D RST_ID(info->resets[i].reset_index, info->resets[i].re=
+set_bit);
+>             priv->resets[id] =3D info->resets[i];
+>     }
+>
+> BTW, for option B (and for the current code in v4),
+> rzv2h_cpg_reset_xlate() should validate that the entry is non-empty.
+>
+> I hope this is more clear?
+>
+Yes, thanks for the clarification. I will go with option A, so we
+don't waste memory.
+
+Cheers,
+Prabhakar
 
