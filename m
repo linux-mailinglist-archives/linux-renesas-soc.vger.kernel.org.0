@@ -1,230 +1,260 @@
-Return-Path: <linux-renesas-soc+bounces-7581-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7582-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FF7D93EF3D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2024 09:58:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D34E993EF98
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2024 10:14:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9B31FB22F6F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2024 07:58:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8B1FE28478B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2024 08:14:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4C8912D76F;
-	Mon, 29 Jul 2024 07:58:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B673A139D12;
+	Mon, 29 Jul 2024 08:14:42 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7477312D75A;
-	Mon, 29 Jul 2024 07:58:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3722678C98;
+	Mon, 29 Jul 2024 08:14:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722239900; cv=none; b=E3W2Q5rdBUFSKfR+wz47CTZXXqnshvO5ZSCt2k1/822Q80/HJqa9bYu2LWVEeJg+p0CPcn3hTmvHu/RKS2pCCzCX4z7Y44HOV+l2ILJuQ0JrjSglPRS0doo7LziC/3YnHDod3QgONorMRKyJRL8qJ2pWUWisL3TVZoWat4qNIvc=
+	t=1722240882; cv=none; b=PYGyOun26PE6JiUs1eopuxDwf6xzDHHtsQMNqpLfoZYzW0FEMJPAPzwcpPI1bxVKsZHjWK90EYjBM76cH1Gpqf7kAWUdufwNFu8DOiiiQzDhTu3I3HFd6YU0De6msKYdbCxvUrbAZXpZK1MqkGKWuFJEChfScaCQKXbsIOi57TU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722239900; c=relaxed/simple;
-	bh=1Dz4UYhHm9Lqb38HxHPj8a2Eh9aFHgOekszNJPUIK9M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lShSNiLtnHZ/uE7l98KzsYbwolIP7J+vOlMJdcSdDgYkgdXum2RS67dMCI9gIV2mIz6y/sYPHt9AgjQRN3OPWnPTpagp5jZh4Yulohr/34oXd/CqklYs0dcWv3iRBUYR1vaIpuqBw5xCcH0TodqMKjUFsmekdx/lkSj643dWa14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.09,245,1716217200"; 
-   d="asc'?scan'208";a="213872124"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 29 Jul 2024 16:58:10 +0900
-Received: from [10.226.92.233] (unknown [10.226.92.233])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id E19D441B4307;
-	Mon, 29 Jul 2024 16:58:06 +0900 (JST)
-Message-ID: <b3d42d0e-fd39-4f0b-93f6-2c257206ded7@bp.renesas.com>
-Date: Mon, 29 Jul 2024 08:58:05 +0100
+	s=arc-20240116; t=1722240882; c=relaxed/simple;
+	bh=TjciwxBZFvj3o1heIGosoDiwk140Sw33SeHArxc+voo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VDNA+w6ObhkpZ0JyMCiiUBand0Th7ekEMaBVm2MgcbEDJxrbUP2Km0b85a7YhjTXXVg7WrHFQ3f8HQWyPan6Tvx2KeIGTj90gdGRw7khn5006VZ1xPQwfFll5lkg9MnN6rpkzVNCq70zQ19VVIHL/IsqG9RYPc9EceDIc+VzpkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e026a2238d8so1632129276.0;
+        Mon, 29 Jul 2024 01:14:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722240879; x=1722845679;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=R1EIdtPGiXOSospH+OEGixBiy6HXU/pJVnoa2jx2Y5Y=;
+        b=G1AjGp9I2wKBZmFDWi1mpWB7JAfBmgfcirfI9M1iRwGjNYN/R86/bwcyo3zl9hcF/l
+         CHyI7Or8LWGdlrQsIaNWhvpL6g8/GTb+EnPJqc/VUMCxRkyx0F9+jipLdNQlKgLyLaeZ
+         FCBsE8oeRli9iQP9A++jgKx1oH9PsgiAyRCu3ec9N4y2ySzo0F1znaLb/shvqzLY1I9t
+         NDOfoTcM+CLGFnx7lfIsI4CEVqn3t29gsaJhCgbC4o/PeM5u/8boLZpWfvqKUhS3E+cu
+         D9ZzqmXkXGldss8ONFlGbfHhkzZQwTidAAi0DyBF8UnK2xTJ76CIcYnGMrcLd+fRWxqm
+         LItQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXD1gpyWowTCqhWcy8FK/7cPdB075lf/nJ3nr6383OJ96R+Kici+TxhQ6rHIKCv9Lq9teXikgelA2TgrUVJfFHAzxbcPlh1dMmgFqpE/gkyemv8Gi+fPh6lHxCV8m45TwdcI1ehijAXS78IH9yKjZn9xcLt8g9xjn9MMaaIQ6rNGT/3Bw/BW2n2Qup7+cHvJDNLOpbFVkkroC3zOcsKNbdLd/MAYhMY
+X-Gm-Message-State: AOJu0Yx03FL0lYXREPR9+mCWla0+meFn2bLY0zG9dKBRuG2fSKoXbYRE
+	cvIX8GrTJgNSZPMxGu6hm1QM9B6Uw/DJV8t2MYZ3213VlPmP9DQueci5Fy/o
+X-Google-Smtp-Source: AGHT+IGvfh4ym0okaqEwFy1SyN+Pc4WM0XSleoIYaURCr0eWk6WUaZHg3I73a/utq3k74pO0PvNEWg==
+X-Received: by 2002:a25:9187:0:b0:dff:91e:56ed with SMTP id 3f1490d57ef6-e0b5449e17dmr7235013276.1.1722240878714;
+        Mon, 29 Jul 2024 01:14:38 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e0b6ece061dsm576856276.49.2024.07.29.01.14.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Jul 2024 01:14:38 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-66599ca3470so15747997b3.2;
+        Mon, 29 Jul 2024 01:14:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVhNElTauyIXF15EyxobegRRFMkmRhixCPhembv9ou+WrarroWFfDUyVdepq8dFvZYWD9HD7PbpC8yNvpOQXTONAUhJuUYtqZ+mvbaEtgHXrbxYRV4qLH1viH8vyacYv3tlxpH7DBNkDLK/fO+uS8PWElr1wPjg1Qvh0MSUv4ypnZzx7MDxM4J8ututBQVMHCUGz+4I1n01TrtkjIaxG8JZupVNRafF
+X-Received: by 2002:a81:9145:0:b0:660:56fb:7f00 with SMTP id
+ 00721157ae682-67a0adc957bmr56006987b3.46.1722240878292; Mon, 29 Jul 2024
+ 01:14:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] pinctrl: renesas: rzg2l: Return -EINVAL if the pin
- doesn't support PIN_CFG_OEN
-To: Prabhakar <prabhakar.csengg@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Linus Walleij <linus.walleij@linaro.org>
-Cc: linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20240723164744.505233-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Language: en-GB
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-Organization: Renesas Electronics Corporation
-In-Reply-To: <20240723164744.505233-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------40TXotLw2TT5s60mtBfrG0HF"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------40TXotLw2TT5s60mtBfrG0HF
-Content-Type: multipart/mixed; boundary="------------9B27NfCA7uEzs6kQhSPTQ7w3";
- protected-headers="v1"
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Linus Walleij <linus.walleij@linaro.org>
-Cc: linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Message-ID: <b3d42d0e-fd39-4f0b-93f6-2c257206ded7@bp.renesas.com>
-Subject: Re: [PATCH] pinctrl: renesas: rzg2l: Return -EINVAL if the pin
- doesn't support PIN_CFG_OEN
-References: <20240723164744.505233-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20240723164744.505233-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-
---------------9B27NfCA7uEzs6kQhSPTQ7w3
-Content-Type: multipart/mixed; boundary="------------L5GEll9szdB9r6gnjBt1FwVr"
-
---------------L5GEll9szdB9r6gnjBt1FwVr
-Content-Type: text/plain; charset=UTF-8
+References: <20240715125438.553688-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240715125438.553688-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdUvfAqJR6=4MG3hXC6cn1AnKz7+RAp4GG1jvdwOctgNzQ@mail.gmail.com> <CA+V-a8uBL-2DeAtu6BnF37Loe_fT6PNbAx=8O9acTR1Ey2zRrg@mail.gmail.com>
+In-Reply-To: <CA+V-a8uBL-2DeAtu6BnF37Loe_fT6PNbAx=8O9acTR1Ey2zRrg@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 29 Jul 2024 10:14:25 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU3ijNmw8nfTHbrsX28ASwO=pTaMaODPg1PUr9x5kPibg@mail.gmail.com>
+Message-ID: <CAMuHMdU3ijNmw8nfTHbrsX28ASwO=pTaMaODPg1PUr9x5kPibg@mail.gmail.com>
+Subject: Re: [PATCH v4 2/3] clk: renesas: Add family-specific clock driver for RZ/V2H(P)
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On 23/07/2024 17:47, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->=20
-> Update the rzg2l_pinctrl_pinconf_get() function to return -EINVAL for
-> PIN_CONFIG_OUTPUT_ENABLE config if the pin doesn't support the PIN_CFG_=
-OEN
-> configuration.
->=20
-> -EINVAL is a valid error when dumping the pin configurations. Returning=
+Hi Prabhakar,
 
-> -EOPNOTSUPP for a pin that does not support PIN_CFG_OEN resulted in the=
+On Sat, Jul 27, 2024 at 12:51=E2=80=AFPM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> On Fri, Jul 26, 2024 at 3:53=E2=80=AFPM Geert Uytterhoeven <geert@linux-m=
+68k.org> wrote:
+> > On Mon, Jul 15, 2024 at 2:56=E2=80=AFPM Prabhakar <prabhakar.csengg@gma=
+il.com> wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > Add family-specific clock driver for RZ/V2H(P) SoCs.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
+>
+> > > --- /dev/null
+> > > +++ b/drivers/clk/renesas/rzv2h-cpg.h
+> >
+> > > +#define DEF_RST_BASE(_id, _resindex, _resbit, _monindex, _monbit)   =
+   \
+> > > +       [_id] =3D { \
+> >
+> > Indexing by _id means the reset array will be very sparse.  E.g. the
+> > innocent-looking r9a09g057_resets[] with only a single entry takes
+> > 600 bytes:
+> >
+> >     $ nm -S drivers/clk/renesas/r9a09g057-cpg.o | grep r9a09g057_resets
+> >     0000000000000038 0000000000000258 r r9a09g057_resets
+> >
+> Agreed.
+>
+> > So please pack the array here, and either unpack it while making the
+> > priv->resets copy, or implement translation ("look-up") from ID to
+> > packed index in rzv2h_cpg_reset_xlate().
+> >
+> OK, I will implement the below:
+>
+> #define PACK_RESET(_resindex, _resbit, _monindex, _monbit)    \
+>     (((_resindex) << 24) | ((_resbit) << 16) | ((_monindex) << 8) | (_mon=
+bit))
+>
+> #define DEF_RST(_resindex, _resbit, _monindex, _monbit)    \
+>     PACK_RESET(_resindex, _resbit, _monindex, _monbit)
+>
+> #define GET_RESET_INDEX(x)    (((x) >> 24) & 0xFF)
+> #define GET_RESET_BIT(x)    (((x) >> 16) & 0xFF)
+> #define GET_MON_INDEX(x)    (((x) >> 8) & 0xFF)
+> #define GET_MON_BIT(x)        ((x) & 0xFF)
+>
+> static int rzv2h_cpg_reset_xlate(struct reset_controller_dev *rcdev,
+>                  const struct of_phandle_args *reset_spec)
+> {
+>     struct rzv2h_cpg_priv *priv =3D rcdev_to_priv(rcdev);
+>     unsigned int id =3D reset_spec->args[0];
+>     u8 rst_index =3D id / 16;
+>     u8 rst_bit =3D id % 16;
+>     unsigned int i;
+>
+>     for (i =3D 0; i < rcdev->nr_resets; i++) {
+>         u8 cur_index =3D GET_RESET_INDEX(priv->resets[i]);
+>         u8 cur_bit =3D GET_RESET_BIT(priv->resets[i]);
+>
+>         if (rst_index =3D=3D cur_index && rst_bit =3D=3D cur_bit)
+>             return i;
+>     }
+>
+>     return -EINVAL;
+> }
+>
+> Let me know if this is OK, or to avoid looping in xlate maybe we can
+> have a packed entry in the resets property of DT by this way we can
+> avoid having the resets array all together?
 
-> message 'ERROR READING CONFIG SETTING 16' being printed during dumping
-> pinconf-pins.
->=20
-> For consistency do similar change in rzg2l_pinctrl_pinconf_set() for
-> PIN_CONFIG_OUTPUT_ENABLE config.
->=20
-> Fixes: a9024a323af2 ("pinctrl: renesas: rzg2l: Clean up and refactor OE=
-N read/write functions")
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  drivers/pinctrl/renesas/pinctrl-rzg2l.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/=
-renesas/pinctrl-rzg2l.c
-> index 632180570b70..3ef20f2fa88e 100644
-> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> @@ -1261,7 +1261,9 @@ static int rzg2l_pinctrl_pinconf_get(struct pinct=
-rl_dev *pctldev,
->  		break;
-> =20
->  	case PIN_CONFIG_OUTPUT_ENABLE:
-> -		if (!pctrl->data->oen_read || !(cfg & PIN_CFG_OEN))
-> +		if (!(cfg & PIN_CFG_OEN))
-> +			return -EINVAL;
-> +		if (!pctrl->data->oen_read)
->  			return -EOPNOTSUPP;
->  		arg =3D pctrl->data->oen_read(pctrl, _pin);
->  		if (!arg)
-> @@ -1402,7 +1404,9 @@ static int rzg2l_pinctrl_pinconf_set(struct pinct=
-rl_dev *pctldev,
-> =20
->  		case PIN_CONFIG_OUTPUT_ENABLE:
->  			arg =3D pinconf_to_config_argument(_configs[i]);
-> -			if (!pctrl->data->oen_write || !(cfg & PIN_CFG_OEN))
-> +			if (!(cfg & PIN_CFG_OEN))
-> +				return -EINVAL;
-> +			if (!pctrl->data->oen_write)
->  				return -EOPNOTSUPP;
->  			ret =3D pctrl->data->oen_write(pctrl, _pin, !!arg);
->  			if (ret)
+Sorry for being unclear. I did not mean packing the fields in the struct
+into a single word, but packing the entries in the r9a09g057_resets[]
+array.  Using the rzv2h_reset structure is fine.
 
-Reviewed-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+With:
+
+    #define DEF_RST_BASE(_id, _resindex, _resbit, _monindex, _monbit)      =
+ \
+            [_id] =3D { \
+                    .reset_index =3D (_resindex), \
+                    .reset_bit =3D (_resbit), \
+                    .mon_index =3D (_monindex), \
+                    .mon_bit =3D (_monbit), \
+            }
+
+    #define DEF_RST(_resindex, _resbit, _monindex, _monbit) \
+            DEF_RST_BASE(RST_ID((_resindex), (_resbit)), _resindex,
+_resbit, _monindex, _monbit)
+
+    static const struct rzv2h_reset r9a09g057_resets[] __initconst =3D {
+        DEF_RST(9, 5, 4, 6),            /* SCIF_0_RST_SYSTEM_N */
+    };
+
+is expanded into an array of 150 entries (9 * 16 + 5 =3D 149 empty entries
+followed by the SCIF_0_RST_SYSTEM_N entry), which is wasteful.
+Over time the array will be filled more, but I expect there will still
+be lots of unused entries.
+
+Hence I suggest to drop the "[id]":
+
+   - define DEF_RST_BASE(_id, _resindex, _resbit, _monindex, _monbit)      =
+ \
+   -       [_id] =3D { \
+   +#define DEF_RST(_resindex, _resbit, _monindex, _monbit)       \
+   +       { \
+                   .reset_index =3D (_resindex), \
+                    .reset_bit =3D (_resbit), \
+                    .mon_index =3D (_monindex), \
+                    .mon_bit =3D (_monbit), \
+            }
+   -
+   -#define DEF_RST(_resindex, _resbit, _monindex, _monbit) \
+   -        DEF_RST_BASE(RST_ID((_resindex), (_resbit)), _resindex,
+_resbit, _monindex, _monbit)
+
+Then r9a09g057_resets[] will contain only non-empty entries, at the
+expense of no longer being able to index it directly by reset ID.
+To solve the indexing, there are two options.
+
+Option A: Translate from reset ID to real index during lookup, like
+          you do in the rzv2h_cpg_reset_xlate() above:
+
+    static int rzv2h_cpg_reset_xlate(struct reset_controller_dev *rcdev,
+                     const struct of_phandle_args *reset_spec)
+    {
+        struct rzv2h_cpg_priv *priv =3D rcdev_to_priv(rcdev);
+        unsigned int id =3D reset_spec->args[0];
+        u8 rst_index =3D id / 16;
+        u8 rst_bit =3D id % 16;
+        unsigned int i;
+
+        for (i =3D 0; i < rcdev->nr_resets; i++) {
+            if (rst_index =3D=3D priv->resets[i].reset_index &&
+                rst_bit =3D=3D ->resets[i].reset_bit)
+                return i;
+        }
+
+        return -EINVAL;
+    }
+
+Option B: "Unpack" rzv2h_cpg_info.resets[] during copying in
+          rzv2h_cpg_probe():
+
+    priv->resets =3D devm_kcalloc(dev, max_num_reset_ids,
+                                 sizeof(*priv->resets), GFP_KERNEL);
+    for (i =3D 0; i < ARRAY_SIZE(info->resets); i++) {
+            id =3D RST_ID(info->resets[i].reset_index, info->resets[i].rese=
+t_bit);
+            priv->resets[id] =3D info->resets[i];
+    }
+
+BTW, for option B (and for the current code in v4),
+rzv2h_cpg_reset_xlate() should validate that the entry is non-empty.
+
+I hope this is more clear?
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 --=20
-Paul Barker
---------------L5GEll9szdB9r6gnjBt1FwVr
-Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-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3D
-=3DsIIN
------END PGP PUBLIC KEY BLOCK-----
-
---------------L5GEll9szdB9r6gnjBt1FwVr--
-
---------------9B27NfCA7uEzs6kQhSPTQ7w3--
-
---------------40TXotLw2TT5s60mtBfrG0HF
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZqdLjQUDAAAAAAAKCRDbaV4Vf/JGvfr1
-AP9WJQUho8ceoAS9T9mSCJptM+HUfW0/F7Cup+bCVDp10gEAgxCEaBxc/I+441SMiynuIp7WJbCJ
-geBYc3wdI6VCSwI=
-=cRXF
------END PGP SIGNATURE-----
-
---------------40TXotLw2TT5s60mtBfrG0HF--
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
