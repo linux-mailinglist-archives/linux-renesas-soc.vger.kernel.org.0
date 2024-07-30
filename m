@@ -1,118 +1,129 @@
-Return-Path: <linux-renesas-soc+bounces-7624-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7625-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D96C994108C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jul 2024 13:33:53 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 762599411CB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jul 2024 14:26:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 74D0BB253AA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jul 2024 11:33:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A7A4A1C2315D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jul 2024 12:26:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCBB219DF92;
-	Tue, 30 Jul 2024 11:33:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DBF119E828;
+	Tue, 30 Jul 2024 12:26:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lJqG08Hz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1BBE199223;
-	Tue, 30 Jul 2024 11:33:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 895E8187340;
+	Tue, 30 Jul 2024 12:26:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722339228; cv=none; b=jWURTNvCZqdnEiyRYRZrXUQ4lEMZvfevUf56VfxlqvKB9m5OMkS5h5CeX2bawOZccC34PpgTAIcSRjsmipSFu2N1zlk1CmE8k92LzSuHTwkvZSmPScxwKIVYnCzOyO0QLGpOElrX5zQZOTOCv5lb6RNkYox1gI8dn3RGpC6utaw=
+	t=1722342383; cv=none; b=L1PJZ3xhmCAM1C8H+t91lAvFyEm/qx2QYN3yyYMoIHeD2vMbmk+vqYw7ihJqFcrvz1EDMC19g4nk+9zAqjIhDZE4ArtYsEbC+JKxBUwmvjEyXjJKFDcGWMyxPF2HhBG3+eGiTGv622E5xdViLFFI7tMCrVba3XRXliqYKkSkJ7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722339228; c=relaxed/simple;
-	bh=jreJikrD50z/MsfiEtCcf4z8wcJkXKTDq/80kkn76Nw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nT3I8HzPxKPIMj37kRmR5yf3Rt/cAG/2LkJbotis434y9KDZTl6z0W1ykW8T8ko9PAwX6H0GQ/AoDBMTM8eoMFMZbgEv8u6clPNwyXYCFCUJTRFWeq816eEi36Mm+jOD8JBFmDOgVKhTlKpmN+L2O2dQoIzLEfcjl4r20IR/nic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1722342383; c=relaxed/simple;
+	bh=psjpdqny/AT34993h/rSHUqKDueTCD4QaVMuA7f5Gik=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TkRTxRMmBWluM6Sc6fglwftSau5E7nLNSetKeseJMklAJIgixzH5QUP7Y4Fz2ZPdm+907AZiNge+7XRHcfNai0PPFUoLbmSgEbc6wwPPssIXDyPUGvqlYwH2/iqVZsp8r1tNktIbDD5EYnJc23/7F+Ej4tprWpl13Ny/8bavsBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lJqG08Hz; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-66599ca3470so30400957b3.2;
-        Tue, 30 Jul 2024 04:33:46 -0700 (PDT)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4281abc65daso19829355e9.2;
+        Tue, 30 Jul 2024 05:26:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722342380; x=1722947180; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3un4gr+dg+yEKLgzvAmUvLBXXzIjzbNm9J4CeMjygc0=;
+        b=lJqG08HzhIBuV8wfGYc7DAs3D04IeMi28xix3UWWbPPSlDqYX/mYxGuVAGLFVTFia4
+         c8mWQIowTAEX/viDoEmlM3eb9kURqptIG65FwQDX24Lq9vUCKIj5fh2zQ6/J7++H4yfm
+         pNxMK1+0B3QYqjetWl/iqLH4GNtWUGNqHL8KW3yRoDGH9bPgJ5Jfe0ZVU8p/HDMiKs+s
+         JOqdLHB+sDBihFhI/lqThla7hIT93lrEr+N7RxSsPFkO/pzji2IO8dVpCtGWYKKB0hvy
+         2Yq0MdcAAkIrsn5Zkb5PYF2xhcJB9LH9ySTn4Ff/rNKOd5gJEXy+Q9pZhgNu6gOoYV4K
+         eH0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722339225; x=1722944025;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iu/0Gl/ovPvi/QUyUkK6QwbKoB2ipspmsxhrwXiqkYw=;
-        b=ic0hTlA3UK9Ro60RO0Ax6js8DVo7RO0RmsD3BRC2fxg/wN/6fuF6h+hu7D82jXpDin
-         MlC87uYL0t/E0TNinirVupFsklg3tV08Wmf7pIcC3cOVRVFHM9fYxbH8/CIY7j2eX8DH
-         UawXIug9YKSLqrvK1GO2MqQImSRlu/HLvuXdrU72u+x+/FSu1IbsJWOy/ti8NdQUh8QY
-         SDUoncFZv2Uc+6+DWsbm/EiGOaToF3IB0cB77mu8WyArxOO1hvlrlFPwy+9Ja5Elx6jd
-         KEDZxftX50ppuERKHlajidv7gFzERI0IYyWi+FrF9hHGAxaVUnr9yGkW0Dt7VGtPavfg
-         2zyg==
-X-Forwarded-Encrypted: i=1; AJvYcCWeBi4+acJNvx8BE5vZwThYC6SAZideLBCuJDsdh9rYGINUQkzRjWHaCO5uDvrKqGhwfGa4NnEJVA7dypLePcIIoFyPh5SBx+Y/Ve2+3PWc8qtO77v169palY6WubAmJqGAbrMCNa55mrJGzr5VITO906K13ZdaKgnyDMnikOQYuaJDsCnRlJKSopC1WZ7f7MJPniDzkDdTfLsdAaB6tfgFbo+8xHGHvg==
-X-Gm-Message-State: AOJu0YwuL8pKEwTxIqJK8sRnSS5JVkzoUda139hGY2QUsTAtOjoR+5yB
-	jIVd55XdTuBXRsSRRO8+yBco/4IJHxPcNq5NRjflipba0VnKUfA8/aI2ksE3
-X-Google-Smtp-Source: AGHT+IFlyDYKgquLBP/4RknrDD3fRIW2rWfI9Ebj23wJ/BPXn4oeMh//SKFIZu0NrOLAWmfCVYPdlw==
-X-Received: by 2002:a0d:c1c5:0:b0:63b:d242:4fa0 with SMTP id 00721157ae682-67a07b756edmr127437507b3.21.1722339225149;
-        Tue, 30 Jul 2024 04:33:45 -0700 (PDT)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6756b02477dsm24629607b3.103.2024.07.30.04.33.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jul 2024 04:33:44 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-67b709024bfso33659827b3.3;
-        Tue, 30 Jul 2024 04:33:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU9MK1jPi9myi9TNhKR1uM6IMxHWYqDtTZP/t2yiL50n36ZBpao8c7bEpTG+ZsN34Jj1jHwvXcIzu7Xzysr4AVCek5JCsPr1xdv8tFt3VctJyGgnTlemrk9vWNa470uCz7JP78PVZpYf3cqJWBjYdod7kKoR9aAzqEoeT7LdSuMAERHyKXRHV86XP6iEB/rNdgMTK7/GzdfZ1+mrn+1NeBeeuRfiEkXBQ==
-X-Received: by 2002:a05:6902:1883:b0:e0b:128e:d86e with SMTP id
- 3f1490d57ef6-e0b54615aabmr13170000276.48.1722339224669; Tue, 30 Jul 2024
- 04:33:44 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1722342380; x=1722947180;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3un4gr+dg+yEKLgzvAmUvLBXXzIjzbNm9J4CeMjygc0=;
+        b=T3UHyDyII0lkliw/NKV8hz4XBygUa5+J+QcfWuusD3Mxe66MxyEL3cWayRgZ9/dSaQ
+         uYeaHRqejYmqSIubDVWKqaXBc3wtkwAnOe8GDpk/EibxrWSSrOKrBBFvr0DF9ryEm+G8
+         86JQ/w0VL2Q+RHwhaqu1mnuTYbtXgV9OJUXzx2MgdDQrAkHFw+3YSo3+syo55j0q2fqw
+         b1C0HTI+28jBuT7B0Mm5L94nqWEstM7VIm4ywNPn5DBbL5mAk8RRlmkOaZxhdfYWpxzP
+         ojQlJub7suYXjjfzcihaeT4xbAHGrkBkgKH7azKpy45hP16G8bdiPsdPhMtDcM6M+cBP
+         he3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWVL+OAz3YfO0YAfxLI8e5mFAo+4lkYmOoGGbCedFW7HUCCf6hso0Rp1Px41QOmsLtPt4U/aZWOIVHgzVnFWaq11miAz356/ARScGHuXcLbZMGsfbHAgiySSqvWClknPgEZXKoxabkuFA==
+X-Gm-Message-State: AOJu0YxOvTrq1bweAsp8uTlEZjM1IOqDvTBGwqdMhJGQF5ngMcl4LfBj
+	cuPgQODKBh7nM4mayOWFGoQ7NZdJFbTsWk5NV+14dVb1XabbBB/L
+X-Google-Smtp-Source: AGHT+IEo0OR4xTtPsdsqpG9cCpF2H2qx9Mp+KLkzvQb7BSn1LNo54KkYB9VB5F3x2a7GDaRrqqiQHQ==
+X-Received: by 2002:a05:600c:19d3:b0:426:5b3b:88b0 with SMTP id 5b1f17b1804b1-42811d89d55mr80911355e9.14.1722342379341;
+        Tue, 30 Jul 2024 05:26:19 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2500:a01:a2b2:16cc:b7df:405d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42813a5b3f6sm125366615e9.2.2024.07.30.05.26.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jul 2024 05:26:18 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Marc Zyngier <maz@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 0/4] arm64: dts: renesas: Correct GICD and GICR sizes
+Date: Tue, 30 Jul 2024 13:24:32 +0100
+Message-Id: <20240730122436.350013-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240625200316.4282-1-paul.barker.ct@bp.renesas.com>
-In-Reply-To: <20240625200316.4282-1-paul.barker.ct@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 30 Jul 2024 13:33:32 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdURWfM-TMrxVaCq3kWKtF2tYEnkE+QZXPYMhjFKxW-qyQ@mail.gmail.com>
-Message-ID: <CAMuHMdURWfM-TMrxVaCq3kWKtF2tYEnkE+QZXPYMhjFKxW-qyQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/9] Configure GbEth for RGMII on RZ/G2L family
-To: Paul Barker <paul.barker.ct@bp.renesas.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 25, 2024 at 10:03=E2=80=AFPM Paul Barker
-<paul.barker.ct@bp.renesas.com> wrote:
-> For devices in the RZ/G2L family, we have so far relied on U-Boot
-> correctly configuring the Ethernet interfaces in RGMII mode with
-> PVDD=3D1.8V before the kernel is booted. Instead, the required
-> configuration should be described in the device tree and activated
-> within the pinctrl driver.
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-> Paul Barker (9):
->   arm64: dts: renesas: rzg2l: Enable Ethernet TXC output
->   arm64: dts: renesas: rzg2lc: Enable Ethernet TXC output
->   arm64: dts: renesas: rzg2ul: Enable Ethernet TXC output
->   arm64: dts: renesas: rzg2l: Set Ethernet PVDD to 1.8V
->   arm64: dts: renesas: rzg2lc: Set Ethernet PVDD to 1.8V
->   arm64: dts: renesas: rzg2ul: Set Ethernet PVDD to 1.8V
+Hi All,
 
-Now commit 2453e858e945e5e2 ("pinctrl: renesas: rzg2l: Support output
-enable on RZ/G2L")  is in v6.11-rc1, I will queue the DTS patches
-in renesas-devel for v6.12.
+This patch series aims to correct GICD and GICR sizes on RZ/G2L(LC),
+RZ/G2UL, RZ/V2L and RZ/G3S SoCs. These SoCs are equipped with GIC-600.
 
-Gr{oetje,eeting}s,
+GIC-600 supports MBI by default, so GICD size is set to 128kB.
+On RZ/G2UL and RZ/G3S SoC despite being single core the GICR size is set
+to 256kB as dumping the GICR_IIDR register shows it has two instances of
+GICR.
 
-                        Geert
+v1->v2
+- Dropped changes for single core
+- Updated commit message
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Cheers,
+Prabhakar
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Lad Prabhakar (4):
+  arm64: dts: renesas: r9a08g045: Correct GICD and GICR sizes
+  arm64: dts: renesas: r9a07g043u: Correct GICD and GICR sizes
+  arm64: dts: renesas: r9a07g054: Correct GICD and GICR sizes
+  arm64: dts: renesas: r9a07g044: Correct GICD and GICR sizes
+
+ arch/arm64/boot/dts/renesas/r9a07g043u.dtsi | 4 ++--
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi  | 4 ++--
+ arch/arm64/boot/dts/renesas/r9a07g054.dtsi  | 4 ++--
+ arch/arm64/boot/dts/renesas/r9a08g045.dtsi  | 4 ++--
+ 4 files changed, 8 insertions(+), 8 deletions(-)
+
+-- 
+2.34.1
+
 
