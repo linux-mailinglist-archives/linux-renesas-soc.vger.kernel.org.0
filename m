@@ -1,107 +1,115 @@
-Return-Path: <linux-renesas-soc+bounces-7620-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7621-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73D42940E2C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jul 2024 11:44:47 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15DE3940E28
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jul 2024 11:44:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 11A32B270A7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jul 2024 09:41:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 47E2D1C23511
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jul 2024 09:44:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BAD1197A76;
-	Tue, 30 Jul 2024 09:40:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="kV0/KLBw"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41257194140;
+	Tue, 30 Jul 2024 09:44:31 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B430E19599C
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jul 2024 09:40:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E696418EFE0
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jul 2024 09:44:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722332453; cv=none; b=QYmLdOy7/2GjHB20OTmS8j6ss/D0BhAQDKHXW5Xi54/tuYCKdhhVhIUc8JL48TZa9CXBLGVJwsk7pzWlGFPBdVGyY012A1nWsYeViyLKqvp0nSw0fssUmXjZOT3CvtEacFWR7j6AtOJARwoPx4VxKH7IAII/p2K5QNqO4Jb+2d0=
+	t=1722332671; cv=none; b=XSjV4Zp1sKMZyW5ESPzGiTEUbBD+d831RjKGj1lSIAiJGeIr/nz8e44+a+5rx0du9zJBgz6TS32PTNPbDs3la27CoVN6RTXYtWH7Gjbud9vrXDMTHdpLTC3E3DJnR5MdlXsV1mdwx7v4nyhqVsWnwZVvKGQjovcTOPZFqUKUhE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722332453; c=relaxed/simple;
-	bh=+f2w3B8aOkHpr8vJUhaO33DY5IcVlppEB9Kp8RBnpRQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JRM1BP7QRX/tjZ6PfjtTOTVFIrVQT3Pf3170a9cedKkmB13q/lW0K4e9Ba6ZJdjA4I62NZ3XrmwVtlRyvurO2IM+M9ZiLhcMjFbhArD2Q4DXX9MrjFLgjbqKZViNtIvMESTgqakD9pMv7CqTKlp0b2YMXVBr3+PyAfGafv3Mip8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=kV0/KLBw; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=+f2w
-	3B8aOkHpr8vJUhaO33DY5IcVlppEB9Kp8RBnpRQ=; b=kV0/KLBwUUMCnAnT5zv4
-	N39feE0HpQLXtd8XR8z/QFdXHsAkZ9Wrgu2RyO4vGGnqvO5JzbBPPl7gcTNrZslx
-	AUSQ70FzXeSkMuuddf95PTsPKPTh+20oonM22K4IsbegqKU8UXGpssSNwHQ/Hbv4
-	ttEuIXLyUhgpNAi0a2ETchSrPjXglGZHqW/DhBODz9+w64Xm/vo8gUaeEM6Tp81h
-	DFcbatryuWB9GGWUGtoA37hhO1+DaZ2E0weqkAzbnB7+m/b4M3Y0XbaNin4yCDwT
-	duHnSxZKtD7XPuBT1Shp1yeACLDLBysWPC/u0A0dAoj2p2fHOJGmWafeUjH7ZxrB
-	tw==
-Received: (qmail 173229 invoked from network); 30 Jul 2024 11:40:42 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Jul 2024 11:40:42 +0200
-X-UD-Smtp-Session: l3s3148p1@euVoxXMesp9ehh9q
-Date: Tue, 30 Jul 2024 11:40:41 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH RFT 6/6] arm64: dts: r8a779h0-gray-hawk-single: Add TPU
- support
-Message-ID: <Zqi1GdsynDj7j1Ut@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-renesas-soc@vger.kernel.org
-References: <20240725194906.14644-8-wsa+renesas@sang-engineering.com>
- <20240725194906.14644-14-wsa+renesas@sang-engineering.com>
- <CAMuHMdWMMU6FOXH8wCBy+biqAG4dqrQe52F5-TF9xw3Pogi64g@mail.gmail.com>
- <ZqfoFdgtSzDMPq06@shikoro>
- <CAMuHMdWoMuoY0p5ks=56aybawQXk0Ck4ba-Dx=JQdaSBehStig@mail.gmail.com>
+	s=arc-20240116; t=1722332671; c=relaxed/simple;
+	bh=LWf8RmGmiC2GiiZgnXrPtiU+MZtz94nWTNz9XIM29No=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FqYSBUOJAef663KQUTQomKetR3amk2Tg7jTeu3ipJH4DWge02d74ZkULUsMXyxmXRo9o65rePtBjTZc8AqrgQOo0ERvnXrf2fm7n0LziAKde6rY21t8zK4RaSPByVBALpnt7uekTWr4Spt3/IAzAwOl9g8gkHYyl+Ar0wnHokd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e0bad5cc8aeso15673276.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jul 2024 02:44:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722332667; x=1722937467;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UU/Sh37+1y6cP5Ldluk+PoJ336o/0iHRifjkZvD2kjk=;
+        b=Q/jNU1PekSA1J+URtBWZLCszkCuiBsE+jJ9M/uEagG0Vk9jTS6kMjbMWUBtqIpe9Q3
+         zMpCzxW8NLGY+TdP84Ctv8JsYNJhu7+62eXSuyFWfxjmZM6Oo2fTh5wNmjQeXnRHME7/
+         XgHLEfC3oZi+P9V/JXqXoFkKXzKEjGDGHCKYAWeC8JMVsIyvHRtdezdr0vAv0OKXvIrU
+         PFbj9aJ0MM3XLYQYWyP6aS528PtZ3ECZkWMDW8+hmm2XAfsNXO+UEggrOrpZBYbiP36E
+         UcWcAAChgIP936RS94IAMWInR4n6Wzrx3kgec/aWwDFCsGAoRNHUNve36qxcxEYqwn5Z
+         QJ8A==
+X-Gm-Message-State: AOJu0YwcsJBmMqSO6QS8HYjoWICWhU6Dc9xfB7+9W9mOJn5hog3wJ6mP
+	WaQFFnkBb7LGmCswoBc1d1qLQ9UFSgWdng+Zi2I4fNwo4jrDnnZ+Mgk+bfUQ
+X-Google-Smtp-Source: AGHT+IFTDvtLHf8JYWSwzH8gBIexGBruIlo82Dv7p92zhKxd9FkrvmKtxLX2i52h+KMvyc6D4G3g0w==
+X-Received: by 2002:a05:6902:20c7:b0:e0b:6cce:8bd5 with SMTP id 3f1490d57ef6-e0b6cce8d66mr6205289276.30.1722332667377;
+        Tue, 30 Jul 2024 02:44:27 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e0b29f793fcsm2324651276.22.2024.07.30.02.44.26
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Jul 2024 02:44:27 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-65fe1239f12so22380797b3.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jul 2024 02:44:26 -0700 (PDT)
+X-Received: by 2002:a0d:c8c6:0:b0:64a:d5fd:f19e with SMTP id
+ 00721157ae682-67a04ffdb2emr88358617b3.3.1722332666655; Tue, 30 Jul 2024
+ 02:44:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="UUE2S2HIwiO89lZ0"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWoMuoY0p5ks=56aybawQXk0Ck4ba-Dx=JQdaSBehStig@mail.gmail.com>
+References: <172233064397.19494.9781944851148048757.git-patchwork-summary@kernel.org>
+In-Reply-To: <172233064397.19494.9781944851148048757.git-patchwork-summary@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 30 Jul 2024 11:44:15 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXnTBWY-VLEuWU6v22fgeCVYmBE3thP4izSXzPeC4MR7Q@mail.gmail.com>
+Message-ID: <CAMuHMdXnTBWY-VLEuWU6v22fgeCVYmBE3thP4izSXzPeC4MR7Q@mail.gmail.com>
+Subject: Re: Patchwork summary for: linux-renesas-soc
+To: patchwork-bot+linux-renesas-soc@kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Jul 30, 2024 at 11:10=E2=80=AFAM
+<patchwork-bot+linux-renesas-soc@kernel.org> wrote:
+> The following patches were marked "mainlined", because they were applied =
+to
+> geert/renesas-devel.git (master):
+>
+> Series: PWM & TPU patches for V4M
+>   Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+>   Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/=
+?series=3D873919
+>   Lore link: https://lore.kernel.org/r/20240725194906.14644-8-wsa+renesas=
+@sang-engineering.com
+>     Patches: [RFT,1/6] clk: renesas: r8a779h0: Add PWM clock
 
---UUE2S2HIwiO89lZ0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Oops, did I make a mistake?
+No, that commit is not part of geert/renesas-devel.git.
 
+>              [RFT,3/6] arm64: dts: renesas: r8a779h0: Add PWM device node
 
-> Perhaps there's a mistake in the register addresses for bank 2
-> (and bank 4?) in the PFC driver, or in the documentation?
+Yes, commit ca999750b95caf4829dbd89ecff5c673107d257c.
 
-That would be way better than pins somehow wired to low and being
-unusable on the board. I am keeping fingers crossed.
+> Total patches: 2
 
+Gr{oetje,eeting}s,
 
---UUE2S2HIwiO89lZ0
-Content-Type: application/pgp-signature; name="signature.asc"
+                        Geert
 
------BEGIN PGP SIGNATURE-----
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmaotRUACgkQFA3kzBSg
-KbYrYA//a+KFYuEo/BudfxIiVoCgm84OHOHfKTTjt7iYQb7H/gKhWbXRxgzOCA0x
-yYhpigfObYq/pCzVrSj16slAn5EW9TKiJylaAOWHx4UnDi1qiuG3/jgo0t29KjMm
-KM7jiuYQVU46CraChiugA7SAElaRZa5I5vBHcvX/e4dGIx5SQOeOvTOQWTUoHkx8
-qbhqA4GsxUcpkES9DDQGSyKJBTLZgVixZNxshHV518WZnwGFnXrODnFwz2PYlrxU
-LTaIQVMqiankA4CMWFJ8Q+AMb6EVeTFBsd5ob2G3e8uUjw3rYkxs45F4ER739aQj
-52p4Z+TntAKHq55bgtMd1BHMd9KTj/IvhNykz4LjDsAXv4GXrEGxdQMM4xMPUYNf
-Pf5nOTRrFdGYGk3tDIGRrMkJtKQjwKrfnggUfqqsx356/eaIvBZITK6lRxMcbvG0
-Z4mCKnAmExYyv5dw5ZM5x81dySs+cdacNA8NXOEuEMMJ9NmvTKTBQIyCk8y8WJhx
-fAqmKks65qdgw2qmTVFEEH17C1etmslOG1uRqywMUY7hKc9+YSHvrqpwjOxj2IUM
-VETrSZV6+FO2w/KKL7PRcXUGH6AHM1a9Z5mE3HzdA03GwKjMCouRS8B4z0H8FWuF
-k/ORB8Gv5o64PoAP9vh0wHAdcpfuHIZDvvWtUqzq78NAGWmcBIs=
-=f06L
------END PGP SIGNATURE-----
-
---UUE2S2HIwiO89lZ0--
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
