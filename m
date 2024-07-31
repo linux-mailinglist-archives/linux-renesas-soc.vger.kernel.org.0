@@ -1,186 +1,226 @@
-Return-Path: <linux-renesas-soc+bounces-7643-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7644-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64BBA94237D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jul 2024 01:39:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BB79942423
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jul 2024 03:24:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2419C286435
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jul 2024 23:39:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7AC0F1F22EE3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jul 2024 01:24:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E9DC1917E8;
-	Tue, 30 Jul 2024 23:39:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 690108F5E;
+	Wed, 31 Jul 2024 01:24:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DPRqO0Yc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UIuU1mrV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6485A18CC03;
-	Tue, 30 Jul 2024 23:39:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ED808BE0
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jul 2024 01:24:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722382783; cv=none; b=uxhjbAFILsf3xGX1Ln4Myie9S7rEPZf3y1W9O7tjo5VvISamNy8MdXEZVb88k5UGuQ4cWTQg6Rn8pgR8Mi7ZCRcVnbbRznRdRNGhGZiXEoXYvfFCZ8OEBoQzzxuNmMQvMpTPOgWuPDzTPP8qTFzxPeSYLaaGp7EMuZxK5XZWl6c=
+	t=1722389052; cv=none; b=D/SHs8ACm44vFVyGApZv6F8ycLXXPoC9O5YhdQZZwCJpnkKcIUX4i9DK8HR2jlPfvK8OBGdaPB/BJV1DavV31O90Y4Q4BNjjL22ZrDbLAK91JQsrqP06TBv9eTgbKkCWNRCr7R64osziE6n9OT0RggCEVV1gu0wwJCFo+l76TzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722382783; c=relaxed/simple;
-	bh=LTX4ZW4++FE12B+IopXtz43Rn45KZi/DoAxG/MPN6E0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=M1qzio9AheVj7zCNrDkjn3w7hm+KgHf1ZH2mDITKdN06RNxwpZvOq6QimxmhLvQIdZs8EIKQYz4ggtOagWjfXFhcTibx12HNlQBbvBHbNFDZ7nMQoybWl4rS5epghNsR/a9QeGAk6OGwW7akDElsswjAV23GowYiOFO0hZ5v7A8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DPRqO0Yc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D187C32782;
-	Tue, 30 Jul 2024 23:39:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722382782;
-	bh=LTX4ZW4++FE12B+IopXtz43Rn45KZi/DoAxG/MPN6E0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DPRqO0YcTZSgszVfej0THFUJaqTjMjdW42AiTLDdr+vowee3JIRanEt/b/aPGgsAD
-	 vMVb9On6+SzDjYLXlMuTtgzGT60Knu47AE1bWuMN5iENgJx87l+yS7yqUCHEL7+jvA
-	 qakR8hnNufkcr7it91odzHsj2rOx9m5PffLGzt0hULrJlauVY9EN8cOMwSt/Z4hA7f
-	 dP1n4X1XEkqipDF3lkCh9rpxt670LGOCR6BfTEqwWft9uNSJsUxlKRU2SwQDVQWMJ4
-	 kI4pCKA3fp7ko1/OHel+/zUfxFn59PgSA9KY/fb910OWtll+TTBi1S8/7urpDoKE0/
-	 Rr/d9q6YpOsjw==
-Message-ID: <5ee6820d-8253-4208-8b99-dee78acb0f71@kernel.org>
-Date: Wed, 31 Jul 2024 08:39:41 +0900
+	s=arc-20240116; t=1722389052; c=relaxed/simple;
+	bh=NH9qLShzayTcBmHymsmSnybdndkvUQWqQQbkumPRLPY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=AMvZEY+f6UD5lVD5h9vwdFGBJ1Wj1oUDqd7EWAYPKGz5sx9AnR5AnriRbMpNzkVlsR6PwTCel+7ZpYgtpCYcXvpihpjkZsdwMJbdR3R6eZjR7MI7i7NVunLETvtbH3llbiqnxkTStcXqRo1uJTJi5TlGYEnYWEzKAgBbuJ6cDpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UIuU1mrV; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722389050; x=1753925050;
+  h=date:from:to:cc:subject:message-id;
+  bh=NH9qLShzayTcBmHymsmSnybdndkvUQWqQQbkumPRLPY=;
+  b=UIuU1mrV/XZx5qmu7n1MWo67Wo78QnGEPnphqLyUnoY8imOsl4UY4SNk
+   yDtPRAdN6RtTtKWUyx4aXvngF1aEi4Wx2VPwx4d+f3tMmJkMRcj1kMhtP
+   yb439+YgCKKWp2Dw2mMX3rtRdUXBXiQaUujacOa524K/YICu5nRAvGD+W
+   1idgyYPVrPvJIkOpVr8R5DOOirapd6v5rGJjJFmUm3YQS5R+ksHCNWhyt
+   aA3Pdh15t5D+ykOZhuxoejfDOO40PA+yQe83J1aOi3l269JvxCFiQaVzl
+   aBZAEBwr6f6zElgEwFukC28+V9Zh5Rsf8brmrpdFcHAXN8f+dwrR/qQsJ
+   Q==;
+X-CSE-ConnectionGUID: zEGjoCXfSZiVQNpJhGTorQ==
+X-CSE-MsgGUID: XSE7P6xFSgiRkepV1xPDDA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="31394141"
+X-IronPort-AV: E=Sophos;i="6.09,250,1716274800"; 
+   d="scan'208";a="31394141"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2024 18:24:09 -0700
+X-CSE-ConnectionGUID: k6NJwczbSm6WjWkJ86ogZQ==
+X-CSE-MsgGUID: 4ltCtjLxS8GXSOo5i0lqUA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,250,1716274800"; 
+   d="scan'208";a="59322099"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 30 Jul 2024 18:24:07 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sYy4T-000tZd-16;
+	Wed, 31 Jul 2024 01:24:05 +0000
+Date: Wed, 31 Jul 2024 09:23:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:renesas-dts-for-v6.12] BUILD SUCCESS
+ ca999750b95caf4829dbd89ecff5c673107d257c
+Message-ID: <202407310953.JbjwFp0P-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 04/11] ata: libata: Print quirks applied to devices
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-ide@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Niklas Cassel <cassel@kernel.org>
-References: <20240726031954.566882-1-dlemoal@kernel.org>
- <20240726031954.566882-5-dlemoal@kernel.org>
- <df29e7c5-778e-ec11-3276-a6c87da2ec2f@linux-m68k.org>
-From: Damien Le Moal <dlemoal@kernel.org>
-Content-Language: en-US
-Organization: Western Digital Research
-In-Reply-To: <df29e7c5-778e-ec11-3276-a6c87da2ec2f@linux-m68k.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 7/30/24 19:09, Geert Uytterhoeven wrote:
->  	Hi Damien,
-> 
-> On Fri, 26 Jul 2024, Damien Le Moal wrote:
->> Introduce the function ata_dev_print_quirks() to print the quirk flags
->> that will be applied to a scanned device. This new function is called
->> from ata_dev_quirks() when a match on a device model or device model
->> and revision is found for a device in the __ata_dev_quirks array.
->>
->> To implement this function, the ATA_QUIRK_ flags are redefined using
->> the new enum ata_quirk which defines the bit shift for each quirk
->> flag. The array of strings ata_quirk_names is used to define the name
->> of each flag, which are printed by ata_dev_print_quirks().
->>
->> Example output for a device listed in the __ata_dev_quirks array and
->> which has the ATA_QUIRK_DISABLE flag applied:
->>
->> [10193.461270] ata1: SATA link up 6.0 Gbps (SStatus 133 SControl 300)
->> [10193.469190] ata1.00: Model 'ASMT109x- Config', rev '2143 5', applying quirks: disable
->> [10193.469195] ata1.00: unsupported device, disabling
->> [10193.481564] ata1.00: disable device
->>
->> enum ata_quirk also defines the __ATA_QUIRK_MAX value as one plus the
->> last quirk flag defined. This value is used in ata_dev_quirks() to add a
->> build time check that all quirk flags fit within the unsigned int
->> (32-bits) quirks field of struct ata_device.
->>
->> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
->> Reviewed-by: Igor Pylypiv <ipylypiv@google.com>
-> 
-> Thanks for your patch, which is now commit 58157d607aecb4e0 ("ata:
-> libata: Print quirks applied to devices") in libata/for-next.
-> 
->> --- a/drivers/ata/libata-core.c
->> +++ b/drivers/ata/libata-core.c
->> @@ -4273,15 +4336,18 @@ static unsigned int ata_dev_quirks(const struct ata_device *dev)
->> 	unsigned char model_rev[ATA_ID_FW_REV_LEN + 1];
->> 	const struct ata_dev_quirks_entry *ad = __ata_dev_quirks;
->>
->> +	/* dev->quirks is an unsigned int. */
->> +	BUILD_BUG_ON(__ATA_QUIRK_MAX > 32);
->> +
->> 	ata_id_c_string(dev->id, model_num, ATA_ID_PROD, sizeof(model_num));
->> 	ata_id_c_string(dev->id, model_rev, ATA_ID_FW_REV, sizeof(model_rev));
->>
->> 	while (ad->model_num) {
->> -		if (glob_match(ad->model_num, model_num)) {
->> -			if (ad->model_rev == NULL)
->> -				return ad->quirks;
->> -			if (glob_match(ad->model_rev, model_rev))
->> -				return ad->quirks;
->> +		if (glob_match(ad->model_num, model_num) &&
->> +		    (!ad->model_rev || glob_match(ad->model_rev, model_rev))) {
->> +			ata_dev_print_quirks(dev, model_num, model_rev,
->> +					     ad->quirks);
->> +			return ad->quirks;
->> 		}
->> 		ad++;
->> 	}
-> 
-> During boot-up on Salvator-XS (using rcar-sata), the quirk info is
-> printed not once, but four times.  Is that intentional?
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dts-for-v6.12
+branch HEAD: ca999750b95caf4829dbd89ecff5c673107d257c  arm64: dts: renesas: r8a779h0: Add PWM device nodes
 
-Not at all. I tested on x86 with AHCI and see this message only once. So it
-could be that different drivers may need some tweaks to avoid this spamming.
-Though it is strange that the initialization or resume path takes this path 4
-times, meaning that the quirks are applied 4 times. Need to look into that.
-What is the driver for rcar-sata ? Compatible string for it would be fine.
+Unverified Warning (likely false positive, please contact us if interested):
 
-> 
->      ata1: link resume succeeded after 1 retries
->     +rcar-du feb00000.display: [drm] fb0: rcar-dudrmfb frame buffer device
->      input: keys as /devices/platform/keys/input/input0
->      ata1: SATA link up 1.5 Gbps (SStatus 113 SControl 300)
->     +ata1.00: Model 'Maxtor 6L160M0', rev 'BANC1G10', applying quirks: noncq
->      ata1.00: ATA-7: Maxtor 6L160M0, BANC1G10, max UDMA/133
->      ata1.00: 320173056 sectors, multi 0: LBA48 NCQ (not used)
->     +ata1.00: Model 'Maxtor 6L160M0', rev 'BANC1G10', applying quirks: noncq
->     +ata1.00: Model 'Maxtor 6L160M0', rev 'BANC1G10', applying quirks: noncq
->     +ata1.00: Model 'Maxtor 6L160M0', rev 'BANC1G10', applying quirks: noncq
->      ata1.00: configured for UDMA/133
->      scsi 0:0:0:0: Direct-Access     ATA      Maxtor 6L160M0   1G10 PQ: 0 ANSI: 5
->      sd 0:0:0:0: [sda] 320173056 512-byte logical blocks: (164 GB/153 GiB)
->      sd 0:0:0:0: [sda] Write Protect is off
->      sd 0:0:0:0: [sda] Mode Sense: 00 3a 00 00
->      sd 0:0:0:0: [sda] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
->      sd 0:0:0:0: [sda] Preferred minimum I/O size 512 bytes
->       sda: sda1
->      sd 0:0:0:0: [sda] Attached SCSI disk
-> 
-> During resume from s2idle or s2ram, the same info is printed again,
-> fourfold:
-> 
->      ata1: link resume succeeded after 1 retries
->      ata1: SATA link up 1.5 Gbps (SStatus 113 SControl 300)
->     +ata1.00: Model 'Maxtor 6L160M0', rev 'BANC1G10', applying quirks: noncq
->     +ata1.00: Model 'Maxtor 6L160M0', rev 'BANC1G10', applying quirks: noncq
->     +ata1.00: Model 'Maxtor 6L160M0', rev 'BANC1G10', applying quirks: noncq
->     +ata1.00: Model 'Maxtor 6L160M0', rev 'BANC1G10', applying quirks: noncq
->      ata1.00: configured for UDMA/133
->      ata1.00: Entering active power mode
-> 
-> Thanks!
-> 
-> Gr{oetje,eeting}s,
-> 
->  						Geert
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->  							    -- Linus Torvalds
+arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: pwm@e6e30000: compatible:0: 'renesas,pwm-r8a779h0' is not one of ['renesas,pwm-r8a7742', 'renesas,pwm-r8a7743', 'renesas,pwm-r8a7744', 'renesas,pwm-r8a7745', 'renesas,pwm-r8a77470', 'renesas,pwm-r8a774a1', 'renesas,pwm-r8a774b1', 'renesas,pwm-r8a774c0', 'renesas,pwm-r8a774e1', 'renesas,pwm-r8a7778', 'renesas,pwm-r8a7779', 'renesas,pwm-r8a7790', 'renesas,pwm-r8a7791', 'renesas,pwm-r8a7794', 'renesas,pwm-r8a7795', 'renesas,pwm-r8a7796', 'renesas,pwm-r8a77961', 'renesas,pwm-r8a77965', 'renesas,pwm-r8a77970', 'renesas,pwm-r8a77980', 'renesas,pwm-r8a77990', 'renesas,pwm-r8a77995', 'renesas,pwm-r8a779a0', 'renesas,pwm-r8a779g0']
+arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: pwm@e6e31000: compatible:0: 'renesas,pwm-r8a779h0' is not one of ['renesas,pwm-r8a7742', 'renesas,pwm-r8a7743', 'renesas,pwm-r8a7744', 'renesas,pwm-r8a7745', 'renesas,pwm-r8a77470', 'renesas,pwm-r8a774a1', 'renesas,pwm-r8a774b1', 'renesas,pwm-r8a774c0', 'renesas,pwm-r8a774e1', 'renesas,pwm-r8a7778', 'renesas,pwm-r8a7779', 'renesas,pwm-r8a7790', 'renesas,pwm-r8a7791', 'renesas,pwm-r8a7794', 'renesas,pwm-r8a7795', 'renesas,pwm-r8a7796', 'renesas,pwm-r8a77961', 'renesas,pwm-r8a77965', 'renesas,pwm-r8a77970', 'renesas,pwm-r8a77980', 'renesas,pwm-r8a77990', 'renesas,pwm-r8a77995', 'renesas,pwm-r8a779a0', 'renesas,pwm-r8a779g0']
+arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: pwm@e6e32000: compatible:0: 'renesas,pwm-r8a779h0' is not one of ['renesas,pwm-r8a7742', 'renesas,pwm-r8a7743', 'renesas,pwm-r8a7744', 'renesas,pwm-r8a7745', 'renesas,pwm-r8a77470', 'renesas,pwm-r8a774a1', 'renesas,pwm-r8a774b1', 'renesas,pwm-r8a774c0', 'renesas,pwm-r8a774e1', 'renesas,pwm-r8a7778', 'renesas,pwm-r8a7779', 'renesas,pwm-r8a7790', 'renesas,pwm-r8a7791', 'renesas,pwm-r8a7794', 'renesas,pwm-r8a7795', 'renesas,pwm-r8a7796', 'renesas,pwm-r8a77961', 'renesas,pwm-r8a77965', 'renesas,pwm-r8a77970', 'renesas,pwm-r8a77980', 'renesas,pwm-r8a77990', 'renesas,pwm-r8a77995', 'renesas,pwm-r8a779a0', 'renesas,pwm-r8a779g0']
+arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: pwm@e6e33000: compatible:0: 'renesas,pwm-r8a779h0' is not one of ['renesas,pwm-r8a7742', 'renesas,pwm-r8a7743', 'renesas,pwm-r8a7744', 'renesas,pwm-r8a7745', 'renesas,pwm-r8a77470', 'renesas,pwm-r8a774a1', 'renesas,pwm-r8a774b1', 'renesas,pwm-r8a774c0', 'renesas,pwm-r8a774e1', 'renesas,pwm-r8a7778', 'renesas,pwm-r8a7779', 'renesas,pwm-r8a7790', 'renesas,pwm-r8a7791', 'renesas,pwm-r8a7794', 'renesas,pwm-r8a7795', 'renesas,pwm-r8a7796', 'renesas,pwm-r8a77961', 'renesas,pwm-r8a77965', 'renesas,pwm-r8a77970', 'renesas,pwm-r8a77980', 'renesas,pwm-r8a77990', 'renesas,pwm-r8a77995', 'renesas,pwm-r8a779a0', 'renesas,pwm-r8a779g0']
+arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: pwm@e6e34000: compatible:0: 'renesas,pwm-r8a779h0' is not one of ['renesas,pwm-r8a7742', 'renesas,pwm-r8a7743', 'renesas,pwm-r8a7744', 'renesas,pwm-r8a7745', 'renesas,pwm-r8a77470', 'renesas,pwm-r8a774a1', 'renesas,pwm-r8a774b1', 'renesas,pwm-r8a774c0', 'renesas,pwm-r8a774e1', 'renesas,pwm-r8a7778', 'renesas,pwm-r8a7779', 'renesas,pwm-r8a7790', 'renesas,pwm-r8a7791', 'renesas,pwm-r8a7794', 'renesas,pwm-r8a7795', 'renesas,pwm-r8a7796', 'renesas,pwm-r8a77961', 'renesas,pwm-r8a77965', 'renesas,pwm-r8a77970', 'renesas,pwm-r8a77980', 'renesas,pwm-r8a77990', 'renesas,pwm-r8a77995', 'renesas,pwm-r8a779a0', 'renesas,pwm-r8a779g0']
+
+Warning ids grouped by kconfigs:
+
+recent_errors
+`-- arm64-randconfig-051-20240730
+    |-- arch-arm64-boot-dts-renesas-r8a779h0-gray-hawk-single.dtb:pwm-e6e30000:compatible:renesas-pwm-r8a779h0-is-not-one-of-renesas-pwm-r8a7742-renesas-pwm-r8a7743-renesas-pwm-r8a7744-renesas-pwm-r8a7745-ren
+    |-- arch-arm64-boot-dts-renesas-r8a779h0-gray-hawk-single.dtb:pwm-e6e31000:compatible:renesas-pwm-r8a779h0-is-not-one-of-renesas-pwm-r8a7742-renesas-pwm-r8a7743-renesas-pwm-r8a7744-renesas-pwm-r8a7745-ren
+    |-- arch-arm64-boot-dts-renesas-r8a779h0-gray-hawk-single.dtb:pwm-e6e32000:compatible:renesas-pwm-r8a779h0-is-not-one-of-renesas-pwm-r8a7742-renesas-pwm-r8a7743-renesas-pwm-r8a7744-renesas-pwm-r8a7745-ren
+    |-- arch-arm64-boot-dts-renesas-r8a779h0-gray-hawk-single.dtb:pwm-e6e33000:compatible:renesas-pwm-r8a779h0-is-not-one-of-renesas-pwm-r8a7742-renesas-pwm-r8a7743-renesas-pwm-r8a7744-renesas-pwm-r8a7745-ren
+    `-- arch-arm64-boot-dts-renesas-r8a779h0-gray-hawk-single.dtb:pwm-e6e34000:compatible:renesas-pwm-r8a779h0-is-not-one-of-renesas-pwm-r8a7742-renesas-pwm-r8a7743-renesas-pwm-r8a7744-renesas-pwm-r8a7745-ren
+
+elapsed time: 918m
+
+configs tested: 115
+configs skipped: 112
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc-13.2.0
+alpha                               defconfig   gcc-13.2.0
+arc                               allnoconfig   gcc-13.2.0
+arc                                 defconfig   gcc-13.2.0
+arc                   randconfig-001-20240731   gcc-13.2.0
+arc                   randconfig-002-20240731   gcc-13.2.0
+arm                               allnoconfig   gcc-13.2.0
+arm                                 defconfig   gcc-13.2.0
+arm                   randconfig-001-20240731   gcc-13.2.0
+arm                   randconfig-002-20240731   gcc-13.2.0
+arm                   randconfig-003-20240731   gcc-13.2.0
+arm                   randconfig-004-20240731   gcc-13.2.0
+arm                        shmobile_defconfig   gcc-14.1.0
+arm                           tegra_defconfig   gcc-14.1.0
+arm64                            allmodconfig   clang-20
+arm64                             allnoconfig   gcc-13.2.0
+arm64                               defconfig   gcc-13.2.0
+arm64                 randconfig-001-20240731   gcc-13.2.0
+arm64                 randconfig-002-20240731   gcc-13.2.0
+arm64                 randconfig-003-20240731   gcc-13.2.0
+arm64                 randconfig-004-20240731   gcc-13.2.0
+csky                              allnoconfig   gcc-13.2.0
+csky                                defconfig   gcc-13.2.0
+csky                  randconfig-001-20240731   gcc-13.2.0
+csky                  randconfig-002-20240731   gcc-13.2.0
+i386                             allmodconfig   clang-18
+i386                              allnoconfig   clang-18
+i386                             allyesconfig   clang-18
+i386         buildonly-randconfig-001-20240731   clang-18
+i386         buildonly-randconfig-002-20240731   clang-18
+i386         buildonly-randconfig-003-20240731   clang-18
+i386         buildonly-randconfig-004-20240731   clang-18
+i386         buildonly-randconfig-005-20240731   clang-18
+i386         buildonly-randconfig-006-20240731   clang-18
+i386                                defconfig   clang-18
+i386                  randconfig-001-20240731   clang-18
+i386                  randconfig-002-20240731   clang-18
+i386                  randconfig-003-20240731   clang-18
+i386                  randconfig-004-20240731   clang-18
+i386                  randconfig-005-20240731   clang-18
+i386                  randconfig-006-20240731   clang-18
+i386                  randconfig-011-20240731   clang-18
+i386                  randconfig-012-20240731   clang-18
+i386                  randconfig-013-20240731   clang-18
+i386                  randconfig-014-20240731   clang-18
+i386                  randconfig-015-20240731   clang-18
+i386                  randconfig-016-20240731   clang-18
+loongarch                        allmodconfig   gcc-14.1.0
+loongarch                         allnoconfig   gcc-13.2.0
+loongarch                           defconfig   gcc-13.2.0
+loongarch             randconfig-001-20240731   gcc-13.2.0
+loongarch             randconfig-002-20240731   gcc-13.2.0
+m68k                             allmodconfig   gcc-14.1.0
+m68k                              allnoconfig   gcc-13.2.0
+m68k                             allyesconfig   gcc-14.1.0
+m68k                         amcore_defconfig   gcc-14.1.0
+m68k                          amiga_defconfig   gcc-14.1.0
+m68k                                defconfig   gcc-13.2.0
+microblaze                       allmodconfig   gcc-14.1.0
+microblaze                        allnoconfig   gcc-13.2.0
+microblaze                       allyesconfig   gcc-14.1.0
+microblaze                          defconfig   gcc-13.2.0
+mips                              allnoconfig   gcc-13.2.0
+mips                       bmips_be_defconfig   gcc-14.1.0
+mips                  decstation_64_defconfig   gcc-14.1.0
+mips                           ip22_defconfig   gcc-14.1.0
+mips                         rt305x_defconfig   gcc-14.1.0
+nios2                             allnoconfig   gcc-13.2.0
+nios2                               defconfig   gcc-13.2.0
+nios2                 randconfig-001-20240731   gcc-13.2.0
+nios2                 randconfig-002-20240731   gcc-13.2.0
+openrisc                            defconfig   gcc-14.1.0
+parisc                              defconfig   gcc-14.1.0
+parisc                randconfig-001-20240731   gcc-13.2.0
+parisc                randconfig-002-20240731   gcc-13.2.0
+parisc64                            defconfig   gcc-13.2.0
+powerpc                    adder875_defconfig   gcc-14.1.0
+powerpc                     mpc83xx_defconfig   gcc-14.1.0
+powerpc               randconfig-002-20240731   gcc-13.2.0
+powerpc               randconfig-003-20240731   gcc-13.2.0
+powerpc64             randconfig-001-20240731   gcc-13.2.0
+powerpc64             randconfig-002-20240731   gcc-13.2.0
+powerpc64             randconfig-003-20240731   gcc-13.2.0
+riscv                            alldefconfig   gcc-14.1.0
+riscv                               defconfig   gcc-14.1.0
+riscv                 randconfig-001-20240731   gcc-13.2.0
+riscv                 randconfig-002-20240731   gcc-13.2.0
+s390                             allmodconfig   clang-20
+s390                             allyesconfig   clang-20
+s390                                defconfig   gcc-14.1.0
+s390                  randconfig-001-20240731   gcc-13.2.0
+s390                  randconfig-002-20240731   gcc-13.2.0
+sh                                allnoconfig   gcc-13.2.0
+sh                                  defconfig   gcc-14.1.0
+sh                          landisk_defconfig   gcc-14.1.0
+sh                    randconfig-001-20240731   gcc-13.2.0
+sh                    randconfig-002-20240731   gcc-13.2.0
+sh                   rts7751r2dplus_defconfig   gcc-14.1.0
+sh                            shmin_defconfig   gcc-14.1.0
+sparc64                             defconfig   gcc-14.1.0
+sparc64               randconfig-001-20240731   gcc-13.2.0
+sparc64               randconfig-002-20240731   gcc-13.2.0
+um                                  defconfig   gcc-14.1.0
+um                             i386_defconfig   gcc-14.1.0
+um                    randconfig-001-20240731   gcc-13.2.0
+um                    randconfig-002-20240731   gcc-13.2.0
+um                           x86_64_defconfig   gcc-14.1.0
+x86_64                            allnoconfig   clang-18
+x86_64                           allyesconfig   clang-18
+x86_64                              defconfig   clang-18
+x86_64                          rhel-8.3-rust   clang-18
+xtensa                            allnoconfig   gcc-13.2.0
+xtensa                  nommu_kc705_defconfig   gcc-14.1.0
+xtensa                randconfig-001-20240731   gcc-13.2.0
+xtensa                randconfig-002-20240731   gcc-13.2.0
 
 -- 
-Damien Le Moal
-Western Digital Research
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
