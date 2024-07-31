@@ -1,99 +1,84 @@
-Return-Path: <linux-renesas-soc+bounces-7664-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7665-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 708E39433C2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jul 2024 17:59:02 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5126E943465
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jul 2024 18:50:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 259C31F25BD8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jul 2024 15:59:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E28E9B2308D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jul 2024 16:50:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 266F11BBBC7;
-	Wed, 31 Jul 2024 15:58:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OGkupJsb"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 210951BD035;
+	Wed, 31 Jul 2024 16:49:46 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC83C168B8;
-	Wed, 31 Jul 2024 15:58:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52B4E1B29A9;
+	Wed, 31 Jul 2024 16:49:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722441536; cv=none; b=qDbsPHj5q9WMqVGpcSmTrhKrfZ4yhx6xjeM8AjczEuHDoc+qzWYnYEmktYqDH6p3doAntPfOZzNzpsND0WIXRtz7doP/JPwxSrjbBqFcFTSQHxNsgvpe45Sq68UbSStjg0jEenbUaKAYW8pnoZTbHRCjMcsrpWNRB0ASIUBwNss=
+	t=1722444586; cv=none; b=oXZspyRmTorPsfl+fyCEzJdotKEidnTuPupRnZ2+9HkivyubAYojc/7nfQKut02IReXy1sQ8EUfKjDp3Hwb99qYk+18rgW6OVYaP9ToJcI29S1EXbamHc2C2KK5cWZPcIb4R4AQQ9DFBcvgiJGsJtPaATTtx5ih2OrLc+bYaCws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722441536; c=relaxed/simple;
-	bh=IHmZR7O6v1K0g1d6gC55h2MygwSRKHumEEBEnZq+6js=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=nyMPxnci58x3fWfe5bIG8KqEcNqu/WoxgWAzfjpJMhemKfuFsXg4YxIrAS0/hBPgBvwZMyIeHWNE52L3g8pOi3qBNJRM5bbKyNQ7HypJ8PkBI8Ws0ZmjMIr5KBVGkImL9U0TMPldPeVZDYIF16F1IR1WrNofqyqx8HdOfV8PPlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OGkupJsb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2486DC116B1;
-	Wed, 31 Jul 2024 15:58:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722441535;
-	bh=IHmZR7O6v1K0g1d6gC55h2MygwSRKHumEEBEnZq+6js=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=OGkupJsbN6eG833QhmSd7mbIP20sJK/NvSK+DSqzexEcqp/u8ezhD+WPAgoSQ07Ir
-	 +qZ9u8GSOqjUco8s2+Lg64ESA0LCt0Ttr5gpzRUi7bHMgxi3Smu8bEaKdO3v3AvXNI
-	 w6SK3r2O7cWRXWT2pvVtdbBk3A+6vsMfiuAMDaWic8E9QwE2XvLW5z2UeZZARrmE0d
-	 2RKvKJZ99kVDsbDiISr+dM45eAuE8AnN2ONMK0i0H/JrKgWi+H251dcARXc1xSQQKC
-	 hjTF/WlyxKD5ZV4sMZgMCl97Zj6RYou9HZA+WWNZXE6rgGZFxNc5qo5iN3vWXglqqr
-	 pe2985Xg/aHAQ==
-From: Mark Brown <broonie@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>, 
- linux-spi@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, 
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-In-Reply-To: <20240731072955.224125-1-biju.das.jz@bp.renesas.com>
-References: <20240731072955.224125-1-biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH] spi: rpc-if: Add missing MODULE_DEVICE_TABLE
-Message-Id: <172244153388.94084.18090367156896125533.b4-ty@kernel.org>
-Date: Wed, 31 Jul 2024 16:58:53 +0100
+	s=arc-20240116; t=1722444586; c=relaxed/simple;
+	bh=GpMp6tg/YgVY/vTU7Drds7N/cSGXzNQUQkiNMM51k/o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sqVzWWOEMXOer9kiloMISbnl19kb7M1hZdCyzsfFeCuSAhcyrufU0zK2FujWFsqxG78+T6FYzLwc4etBCQLY++dT9GaXVD66c9Gt/sZ24iI18Y91XPD90QpLRhg/6asoGi4aju2udGq9R6nxCEXjMCg+ivjRyMnM1vPffKE5li4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.09,251,1716217200"; 
+   d="scan'208";a="214252124"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 01 Aug 2024 01:49:39 +0900
+Received: from localhost.localdomain (unknown [10.226.93.39])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 1CCA64010088;
+	Thu,  1 Aug 2024 01:49:36 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-media@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] media: platform: rzg2l-cru: rzg2l-csi2: Add missing MODULE_DEVICE_TABLE
+Date: Wed, 31 Jul 2024 17:49:32 +0100
+Message-ID: <20240731164935.308994-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-37811
+Content-Transfer-Encoding: 8bit
 
-On Wed, 31 Jul 2024 08:29:53 +0100, Biju Das wrote:
-> Add missing MODULE_DEVICE_TABLE definition for automatic loading of the
-> driver when it is built as a module.
-> 
-> 
+The rzg2l-csi2 driver can be compiled as a module, but lacks
+MODULE_DEVICE_TABLE() and will therefore not be loaded automatically.
+Fix this.
 
-Applied to
+Fixes: 51e8415e39a9 ("media: platform: Add Renesas RZ/G2L MIPI CSI-2 receiver driver")
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-
-Thanks!
-
-[1/1] spi: rpc-if: Add missing MODULE_DEVICE_TABLE
-      commit: 0880f669436028c5499901e5acd8f4b4ea0e0c6a
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+index e68fcdaea207..c7fdee347ac8 100644
+--- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
++++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+@@ -865,6 +865,7 @@ static const struct of_device_id rzg2l_csi2_of_table[] = {
+ 	{ .compatible = "renesas,rzg2l-csi2", },
+ 	{ /* sentinel */ }
+ };
++MODULE_DEVICE_TABLE(of, rzg2l_csi2_of_table);
+ 
+ static struct platform_driver rzg2l_csi2_pdrv = {
+ 	.remove_new = rzg2l_csi2_remove,
+-- 
+2.43.0
 
 
