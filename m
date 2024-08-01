@@ -1,151 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-7687-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7688-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FE86944F43
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2024 17:31:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CFE4944F4B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2024 17:32:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C21271C2561A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2024 15:31:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5B1A61C25365
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2024 15:32:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D40E31B0125;
-	Thu,  1 Aug 2024 15:29:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bbGg8qaj"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2F8F13BAD5;
+	Thu,  1 Aug 2024 15:31:37 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADFF61B4C2F
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  1 Aug 2024 15:29:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03FD81EB4B1;
+	Thu,  1 Aug 2024 15:31:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722526183; cv=none; b=X+zpZffE0J99cf/DbKUhCeCGpE1OJV4U2FKfzcteGisRjH2bBI7dYDtQ4Obl4DW4e6LDT3PjFMrMEIH4n+8/PjaJeAdTulVpFDJjfV3ycBg4vjzGoC7Xde8v6Yi3KDN3Y8grj/rol4QJbiAoxFauJI+Tcu60K9aaNCE7mXyKJbY=
+	t=1722526297; cv=none; b=t7E9OmYcuhVojRhgBPBep7rYinZFmjNPty14em5N3pDY12keLnBgABS+rqpaOnlDb1tEl4k8sWModcIBZyLbH8QaPZ5AhRxRSnvp7gNdK355SMlkVBmKYInzbI3otzqMczPCazdMmAzSKOXplN4D6I1kg4PC2iRn0oEiVmeaPeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722526183; c=relaxed/simple;
-	bh=R8dLdAAKT6xcigbZDkC8nKSrDhh+M92bcz2XOxHxess=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=Ex6HMinwD0U16ofrRlozE0nnh4h1CZOfsemgtMHYIZPqrqOpyB9or3VJSeQauhSy5jhxB6jA0RVLjoHqyOEFcAn9MHg4q3NXl8+6cTLRYliiZdpoyh74dGSTwITEaBdTM2R2pF2dgW5HML14+XPeTG9Oar6ny65kkZj5sMHGg18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bbGg8qaj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06EA4C32786;
-	Thu,  1 Aug 2024 15:29:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722526183;
-	bh=R8dLdAAKT6xcigbZDkC8nKSrDhh+M92bcz2XOxHxess=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=bbGg8qajmzQ+rrAf9MLCoNQQ2VB+7xvPu15Y9KfOxp7FeC1MMPjWX0dlq4I1+PA+Q
-	 qqnaWH1yfLFnFnRabfdEw0ndM14rZ/2h5PBYoLx7jyGYEw9s9LYFK26YbNgxS+yMRK
-	 VsO6Dx3vCPiKKh/tlzhiqvC6Jt5eAMaJ2iMo1VtvMd3DQDwkrmhSqYV01N8h2YpV9B
-	 /goyg+994rCMm1ELKOWt0aj60XY0HSTENJzMijWTNj7IWz3eDxWr6CdyJdiuuOlGgW
-	 0L1RACKugyOvWQMrY0yqDFNjll1vtp86hPLnJfZoFlUiBszTrGNrloHYsdpRCIK/M3
-	 x3tW9PQOJxpRQ==
-Date: Thu, 01 Aug 2024 09:29:41 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1722526297; c=relaxed/simple;
+	bh=7xL0Avo8izUJdfsqJNLy79ZuDA++AqkF76A0ghNPpCI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ciaVRfzvw5uWkEn1dMK6igBblU9EMFryewpoaPEo9+bOtmQr3290kPT2V8Yu4Kt7TMvjfnBFhB5BzEwHzNEm0ZTZ/152D3XEgXomMfr4T8w1eeP1UKjfxw4MS/lQ8oCLPg2gNFLVJs8wQ/jp921SWJbK0lXxsDi5+rig/RQ1Cs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-67b709024bfso64441257b3.3;
+        Thu, 01 Aug 2024 08:31:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722526294; x=1723131094;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oEvAEJsDUsgTpw4IFZkSM7blNWl56QIoDqvTQ+o7eJ4=;
+        b=PhUQnHz8QMDZ3hw6aPXD6yLZpk/YQRGcKapL8hsW8mv2arkJ0eUTQKE53jY2dfLjBF
+         xkGP/SPz/etil1sNgPRDL31/aKlYJGbQsSkkidghLH1Wfp4NfIA1R3gdhYcU3zGEA26O
+         P8HvKN7UBfENQFZXkh24oDszl229dv3OZXRDuybMRvSIhj2Ht5R/FhWWSQwgxdQL9Z4y
+         ZNTJFubt3XpsTTn8LIXDyoUvmyaypdhBVzYx2oSUMVio0shR/dfFMOn1Z60TSbuW79/+
+         LrfrBUTnR3lIXriZbkRB4V1GtogNAMfp2pUFnOPZ5unEa9SxcQFeACFJ9IVBevdWvD3O
+         RSWw==
+X-Forwarded-Encrypted: i=1; AJvYcCUTX+vf6tsmSe5Zxc0YAaIGxJKbx1/D7OXsd608FsMnuzJNXBIJJqCFj8WVrNGv+4eHYEfX9fR2YEKPIOiKPfvNJUsIGYmyyupr/BLdzA8H2lU59ZRTH37l1MycsXUHH4I30bTCRaCYXb5M0YpQjOjpzjM2PuwOL/wHtn0TP4/SF+gEQtrr3b0APtqks2Zd9cc6SbFZj7uIYRjTCyLx2kxaJqxsLohk
+X-Gm-Message-State: AOJu0YxOA2mPquhKNL3JTnSstX1NVl9RUBmFAGtbabAJL/wQVvs3O/d8
+	3kUcfvDdAAHXpvk6VoPOX9isaO9oZRF4kwOrSYl1hIeb//KGEGdhNZSmgLFO
+X-Google-Smtp-Source: AGHT+IHPtk4KvEDMrUGA4GO9IUYqJnOwGdYLl8tx435MJ6tvQhgzjQqdAe5mgpkNJZ0IpKcDSBnpLA==
+X-Received: by 2002:a81:a551:0:b0:646:5f95:9c7d with SMTP id 00721157ae682-689637fcac2mr3572897b3.36.1722526293894;
+        Thu, 01 Aug 2024 08:31:33 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6756bc9ec42sm33797317b3.115.2024.08.01.08.31.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Aug 2024 08:31:33 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e0b167da277so5342593276.3;
+        Thu, 01 Aug 2024 08:31:33 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXwRJSNM5yjDjauZkwBkW0CzGFf0d/NJcAPutXHBsP7ViLrqLnubrEB8/XsFBRhVqR2JS8NFDzapCBahSe6S8tf6WD5P1izbpuSdx5MEYwElce6NAzEkpkpVcAzkXwByJOCEMOk84ie6KQMBJkNDaZdlyNyMD4nfcsDaX2JfvCRWdhYv1ELcq4Gy8/WJoiP9GLizBUu0XPiWLxxdPEaYfCQEeeFDA6s
+X-Received: by 2002:a05:6902:90e:b0:e0b:55d8:cde6 with SMTP id
+ 3f1490d57ef6-e0bde2b2450mr600736276.6.1722526293300; Thu, 01 Aug 2024
+ 08:31:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Magnus Damm <magnus.damm@gmail.com>, 
- linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org
-In-Reply-To: <cover.1722519717.git.geert+renesas@glider.be>
-References: <cover.1722519717.git.geert+renesas@glider.be>
-Message-Id: <172252601096.120849.16110760383811958819.robh@kernel.org>
-Subject: Re: [PATCH v2 0/2] arm64: dts: renesas: Add CAN-FD support for
- R-Car V4M and Gray Hawk Single
+References: <20240729202645.263525-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240729202645.263525-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20240729202645.263525-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 1 Aug 2024 17:31:21 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVmSwFMhxpBVsDvyzkmtmsu6EZ30SbMYdmBvQ28tBiAtg@mail.gmail.com>
+Message-ID: <CAMuHMdVmSwFMhxpBVsDvyzkmtmsu6EZ30SbMYdmBvQ28tBiAtg@mail.gmail.com>
+Subject: Re: [PATCH v5 1/3] dt-bindings: clock: renesas: Document RZ/V2H(P)
+ SoC CPG
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Jul 29, 2024 at 10:28=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.=
+com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Document the device tree bindings for the Renesas RZ/V2H(P) SoC
+> Clock Pulse Generator (CPG).
+>
+> CPG block handles the below operations:
+> - Generation and control of clock signals for the IP modules
+> - Generation and control of resets
+> - Control over booting
+> - Low power consumption and power supply domains
+>
+> Also define constants for the core clocks of the RZ/V2H(P) SoC. Note the
+> core clocks are a subset of the ones which are listed as part of section
+> 4.4.2 of HW manual Rev.1.01 which cannot be controlled by CLKON register.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v4->v5
+> - Included RB tag from Geert
 
-On Thu, 01 Aug 2024 15:54:34 +0200, Geert Uytterhoeven wrote:
-> 	Hi all,
-> 
-> This patch series adds support for CAN-FD on the R-Car V4M SoC and the
-> Gray Hawk Single development board.
-> 
-> The CAN-FD module on R-Car V4M is very similar to the one on R-Car V4H,
-> but differs in some hardware parameters, as reflected by the Parameter
-> Status Information part of the Global IP Version Register.  However,
-> none of this parameterization should have any impact on the driver, as
-> the driver does not access any register that is impacted by the
-> parameterization (except for the number of channels).
-> 
-> Just like on R-Car V4H and on the White Hawk development board, channels
-> 0 and 1 work fine, while channel 2 does not seem to work at all, and
-> channel 3 works for transmit only.  Hence this patch keeps channels 2
-> and 3 disabled.
-> 
-> Changes compared to v1[1]:
->   - Spun off clock and DT binding patches,
->   - Add missing pinctrl-names,
->   - Correct TJR1443AT Enable GPIO,
->   - Reword now channels 0 and 1 work.
-> 
-> I plan to queue this is renesas-devel for v6.12.
-> 
-> Thanks for your comments!
-> 
-> [1] https://lore.kernel.org/cover.1715956819.git.geert+renesas@glider.be
-> 
-> Duy Nguyen (1):
->   arm64: dts: renesas: r8a779h0: Add CAN-FD node
-> 
-> Geert Uytterhoeven (1):
->   arm64: dts: renesas: gray-hawk-single: Add CAN-FD support
-> 
->  .../dts/renesas/r8a779h0-gray-hawk-single.dts | 41 +++++++++++++++++++
->  arch/arm64/boot/dts/renesas/r8a779h0.dtsi     | 41 +++++++++++++++++++
->  2 files changed, 82 insertions(+)
-> 
-> --
-> 2.34.1
-> 
-> Gr{oetje,eeting}s,
-> 
-> 						Geert
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
-> 							    -- Linus Torvalds
-> 
-> 
+Thanks, will queue in renesas-clk for v6.12.
 
+Gr{oetje,eeting}s,
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
+                        Geert
 
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
-
-  pip3 install dtschema --upgrade
-
-
-New warnings running 'make CHECK_DTBS=y renesas/r8a779h0-gray-hawk-single.dtb' for cover.1722519717.git.geert+renesas@glider.be:
-
-arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: can@e6660000: compatible: 'oneOf' conditional failed, one must be fixed:
-	'renesas,r8a779h0-canfd' is not one of ['renesas,r8a774a1-canfd', 'renesas,r8a774b1-canfd', 'renesas,r8a774c0-canfd', 'renesas,r8a774e1-canfd', 'renesas,r8a7795-canfd', 'renesas,r8a7796-canfd', 'renesas,r8a77961-canfd', 'renesas,r8a77965-canfd', 'renesas,r8a77970-canfd', 'renesas,r8a77980-canfd', 'renesas,r8a77990-canfd', 'renesas,r8a77995-canfd']
-	'renesas,r8a779h0-canfd' is not one of ['renesas,r8a779a0-canfd', 'renesas,r8a779g0-canfd']
-	'renesas,r8a779h0-canfd' is not one of ['renesas,r9a07g043-canfd', 'renesas,r9a07g044-canfd', 'renesas,r9a07g054-canfd']
-	'renesas,rcar-gen3-canfd' was expected
-	'renesas,rzg2l-canfd' was expected
-	from schema $id: http://devicetree.org/schemas/net/can/renesas,rcar-canfd.yaml#
-arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: can@e6660000: Unevaluated properties are not allowed ('compatible' was unexpected)
-	from schema $id: http://devicetree.org/schemas/net/can/renesas,rcar-canfd.yaml#
-
-
-
-
-
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
