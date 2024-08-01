@@ -1,130 +1,92 @@
-Return-Path: <linux-renesas-soc+bounces-7697-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7698-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3E6C94518D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2024 19:34:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A179945345
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2024 21:22:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 87C141F2358E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2024 17:34:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7B0281C235CD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2024 19:22:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83A851B4C39;
-	Thu,  1 Aug 2024 17:34:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E08014A4C0;
+	Thu,  1 Aug 2024 19:22:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fyJ0OlDS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF1913D62B;
-	Thu,  1 Aug 2024 17:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 321921494A4;
+	Thu,  1 Aug 2024 19:22:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722533663; cv=none; b=t5QOlEufSg7hCvg4B+BomDwYntYPEvg3It1aUWbzj5sOvqGpZFt13mZzI2Cd9t0yzpxnH2cug6jnvQq4QYAUv4FPdniJq6o81WjzWibjNiwz14lrFW/JdQn37g5StNZxFwQ5Oh+umBv0sYobahOJ8ZQAmucuvZPhgrunBRIyzJo=
+	t=1722540135; cv=none; b=LVTq6aOPpZn2VvyQYnjIh84+zPBzm+Tcfy1SzdOOtU3Abk89+3uS077dk7zDkdwehgo7r7pwbvyshnQezbs7W7vbNbhBopt4lwu2BIeM8w0yQpSJzonYAOleaLegJndq9UCAwxd/WnzWSZqXWI8of1DD8WwZAijStFCE1KUNESo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722533663; c=relaxed/simple;
-	bh=QGfv6Mwl2jnbBI5jZ5Gi7DAKze67LLzTrgAtwyJNyr8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=riBDZX4jX/4SAoFTsm6P0ozSp9BXrWF30mfC/dri7VRf0fSlcH7MALSe0FWqqopGEG7dEkpd624hx5JxL41HjAyF9o69/MgoL8/UvpUvvKtxez+/6J3r28fIYc0RM7y9IvPUyvgLNw/AcS+Ul7xvIZ6rGQOUOdqSsaA5WTnPPXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-65f7bd30546so19669137b3.1;
-        Thu, 01 Aug 2024 10:34:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722533659; x=1723138459;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=b7RLlBjK6VYDjExx9r5TpBCz781pCBuMFrVQOrMhhBk=;
-        b=rOS26AfyhoiHWFlBodif68+WU/tWDEcOxcT/Y8bT1UCpefpFPdzkY4IimGw+SdsVEU
-         tJGdKDN9xJrc4aI9B9i6GD8aY7XZOq1f2074VZC+69qm8wEmHxAEux68q1j8yIanXzoJ
-         4hzHlA5rEcaQDVUnI6shZ/wZtr/seoiCR5rIs4ZoCjZJWoLqwY4uSrJy9qfDJwlhLj1G
-         HYw0OCCrHl0TJlhea4wwAzbwaUiUbKsW3joi1kkvy/BiaMach5+YVW6vwcxvd/1yFDDt
-         DxF6WgduZw9iogy+7r3J+PSGlhxq7j1R7OB/67k0H8rRXQRfoXmQunqqjCt8M8QJkCSX
-         YlEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW+Hj7SIcGXclvsRxLOcoSn+3aviRApbDc3CiImBe7dFaH/2s/DT4ikzExrkkijIg1ZulSA2/gqPPZ6G5gMOuUERduY6HpvMr1EyzhIqvpk35M5joDAq+J1b7l9XlY0q/dqLZ86++kkKAnV6XpljBNlHxuyqUvrMILEP+q2AXPbCederLfeSl3X2mcLnz+SFKvNbcvQAvE6V0P32kobq6NLLoejcr98lSJcmoncxhVDyIDo9oc7rDiyBqMPoFdYSpY=
-X-Gm-Message-State: AOJu0Yx9wOSwOOGIK/v7BZD2sl7Rxg+eX+qDb6YIv5qjUeeSGon5Vbzq
-	CNO64FOySkm6ybYeZE7IlVn16debbOT+zm/BQsjUCyLAVhogx3bLFyWWlGMU
-X-Google-Smtp-Source: AGHT+IEpDNT2ogMgupDB98BwUhJQZQ61IZB1mOGnyGEmEAwT8R54mpFr8XrFoOgraWpkDIuZTzeI0A==
-X-Received: by 2002:a81:7755:0:b0:66b:c28b:f234 with SMTP id 00721157ae682-689638f35f5mr7412837b3.21.1722533659002;
-        Thu, 01 Aug 2024 10:34:19 -0700 (PDT)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-689af65b26dsm214667b3.7.2024.08.01.10.34.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Aug 2024 10:34:18 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-661d7e68e89so20248157b3.0;
-        Thu, 01 Aug 2024 10:34:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVelEtnSLsTPOcBQ4H6g7FJBEakHBGLnpo+bKfhSbq9eqpnKZ2o3kSrKpQhcljb8kF73fYoD+sCEHJAbDRgUIev8LU4PhWCbm2I4XiuO5eC6/kFPSxTEZ1CGuqYMT07FnIcxTVGzfWCEcUETS7K8HfV+vP0RsGepFvI2IlXqV1QLOYhBrJDArzoelGlA8RiL5P78nhtKxAseEVtfxyHO2AJP8TBQvp7TfWkNgaQsLX9TtJWrNqnQqKL1VuRdatrBuQ=
-X-Received: by 2002:a81:7755:0:b0:66b:c28b:f234 with SMTP id
- 00721157ae682-689638f35f5mr7412527b3.21.1722533658194; Thu, 01 Aug 2024
- 10:34:18 -0700 (PDT)
+	s=arc-20240116; t=1722540135; c=relaxed/simple;
+	bh=etTOiz6nxoka2hkDVBziQ4wSJJjNFpGUAvUQRO9APN4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pxv9vnGk5I4IIEJ+8GMxrpjoYtegEpf1Ms989LO/Q2Mw80CpCnWU3gGaQMVrKpCwj77jI3TsRzeGrs1CurxNS/gpyjZSytnJwcgNlBZZsA+nkp8cE+x+/iOXZw8D4hRLF3Fheadjev3xbRqLjXRpFAdtjEZa0zjA00PRcCBSDUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fyJ0OlDS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2CA9C32786;
+	Thu,  1 Aug 2024 19:22:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722540134;
+	bh=etTOiz6nxoka2hkDVBziQ4wSJJjNFpGUAvUQRO9APN4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fyJ0OlDS6nz2rvMAVZxE898JrmWPBZQ4iT+UCEFLaLYSe2ZmwJ0QKnZAml3yCrqYi
+	 Gj/a+RdvM31tGy1br2ZNgGf4vnojnpK0xzuGbPzQlspH1ZJb4JJdXc1hYbkOjp4T2Q
+	 ZNTGgK/DET+bNumC04BVk2oaxUiYRa34ilWAFDJYtO5YnM+XhqRuCqskQud/eOMAx8
+	 dDpjDURJJqUZ7FYn19Uw/KMYrXeRbJToMaGO3Mv1hvPP2GiFRd/P4mNrkbN5HtD7DD
+	 uzbKA1jrvjNGjcLiEGwD557kcHSVBav4n9btuLLahVt8LOEnt/s6PhY7Gof1knVs5x
+	 9p+OtK6PfpuSA==
+Date: Thu, 1 Aug 2024 20:22:09 +0100
+From: Simon Horman <horms@kernel.org>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Marc Kleine-Budde <mkl@pengutronix.de>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	linux-can@vger.kernel.org, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Duy Nguyen <duy.nguyen.rh@renesas.com>
+Subject: Re: [PATCH v3] dt-bindings: can: renesas,rcar-canfd: Document R-Car
+ V4M support
+Message-ID: <20240801192209.GA2495006@kernel.org>
+References: <68b5f910bef89508e3455c768844ebe859d6ff1d.1722520779.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240422105355.1622177-1-claudiu.beznea.uj@bp.renesas.com>
- <20240422105355.1622177-9-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdWhRRdfoqg_o6bU7jjt5_Di0=z7MJ4fMh=MJ0m8=u4tgg@mail.gmail.com> <80d56236-2499-4c89-8044-6a271e47515d@tuxon.dev>
-In-Reply-To: <80d56236-2499-4c89-8044-6a271e47515d@tuxon.dev>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 1 Aug 2024 19:34:05 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXOztsoKp=9-TDXirJN8voRy0O5mYXcVy=Uz-GX0B2N_Q@mail.gmail.com>
-Message-ID: <CAMuHMdXOztsoKp=9-TDXirJN8voRy0O5mYXcVy=Uz-GX0B2N_Q@mail.gmail.com>
-Subject: Re: [PATCH v4 8/8] arm64: dts: renesas: r9a08g045: Update
- #power-domain-cells = <1>
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: mturquette@baylibre.com, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, magnus.damm@gmail.com, ulf.hansson@linaro.org, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <68b5f910bef89508e3455c768844ebe859d6ff1d.1722520779.git.geert+renesas@glider.be>
 
-Hi Claudiu,
+On Thu, Aug 01, 2024 at 04:03:17PM +0200, Geert Uytterhoeven wrote:
+> From: Duy Nguyen <duy.nguyen.rh@renesas.com>
+> 
+> Document support for the CAN-FD Interface on the Renesas R-Car V4M
+> (R8A779H0) SoC, which supports up to four channels.
+> 
+> The CAN-FD module on R-Car V4M is very similar to the one on R-Car V4H,
+> but differs in some hardware parameters, as reflected by the Parameter
+> Status Information part of the Global IP Version Register.  However,
+> none of this parameterization should have any impact on the driver, as
+> the driver does not access any register that is impacted by the
+> parameterization (except for the number of channels).
+> 
+> Signed-off-by: Duy Nguyen <duy.nguyen.rh@renesas.com>
+> [geert: Clarify R-Car V4M differences]
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-On Thu, Aug 1, 2024 at 7:28=E2=80=AFPM claudiu beznea <claudiu.beznea@tuxon=
-.dev> wrote:
-> On 01.08.2024 19:13, Geert Uytterhoeven wrote:
-> > On Mon, Apr 22, 2024 at 12:54=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.=
-dev> wrote:
-> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>
-> >> Update CPG #power-domain-cells =3D <1> and move all the IPs to be part=
- of the
-> >> IP specific power domain as the driver has been modified to support
-> >> multiple power domains.
-> >>
-> >> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >
-> > Now the watchdog fixes are in v6.11-rc1, I will queue this in
-> > renesas-devel for v6.12.
->
-> Only the RZ/G3S support has been merged.
->
-> The watchdog fixes that allows us to use this patch were submitted as RFC
-> but got no input from Ulf, yet.
+Reviewed-by: Simon Horman <horms@kernel.org>
 
-Oops, postponing.
-
-> [1] https://lore.kernel.org/all/20240619120920.2703605-1-claudiu.beznea.u=
-j@bp.renesas.com/
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
