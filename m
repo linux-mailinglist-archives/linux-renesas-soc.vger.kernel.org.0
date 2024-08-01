@@ -1,223 +1,195 @@
-Return-Path: <linux-renesas-soc+bounces-7670-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7671-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36C9894457A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2024 09:33:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07ED0944777
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2024 11:07:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E6B76283F35
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2024 07:33:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B688C2863E2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2024 09:07:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90B1B1586C0;
-	Thu,  1 Aug 2024 07:33:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UkBM4fIn"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF1E2481DD;
+	Thu,  1 Aug 2024 09:07:24 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA2F22F19;
-	Thu,  1 Aug 2024 07:33:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 527AB16F907;
+	Thu,  1 Aug 2024 09:07:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722497592; cv=none; b=fEjAPzmdU4Py2Tlmq5kKryiS3LLpKcP7WSRyDe1fmKD9h34e0/JizoeDf74i6+tH4JrV1+NfUhCReMlYoMYdSNFdOmpV1E4htW0yylZa+O2iag5ZOuVTbwEC+cq2apSESI6XVHNNgEHrKLlXVgNxUNog05iwHxKrgB8F35/6pXY=
+	t=1722503244; cv=none; b=C+xj4ONUbBVCU5bng/WiKXs8iGNi5rauIOlixb/0w8hPuTAs8A/nF3Cqe58PGiJ8dP9A+QWP3cRLKT16fsGq7bCbhQN895ZIkSBpZntrArxVXBy8KZP5YAV86zDJ3u86gD9BaV57CIcFDOZfs7Ap9Mmf0gu+/EQSJkKnBqopS58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722497592; c=relaxed/simple;
-	bh=pYhEjzteObRUIuChXy7Zneugb0ShoxV2hznJJYmHCn8=;
+	s=arc-20240116; t=1722503244; c=relaxed/simple;
+	bh=0aC5RnRL5pAi2OkV0cuhyGIRzfiO7v/VVlybKppWBEI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Scssy0PVVNQbLjzRsaF8t3zTxy78VajgRzs4F8xF8ouZ3I3gFJMQfRux5252o2L+wCh5o0pjtx4BW+uWOAzc4pvmfZ5QctLA3RmgDZnPYMWXyzbNg3ZtbcknqI9smXJUrFtbTGQOmGhtv+yFpDHR14sJrfGUlzKmfHeR1AD9WSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UkBM4fIn; arc=none smtp.client-ip=209.85.222.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 To:Cc:Content-Type; b=Kr8NRREcDLGPJZXFt/lm9Yga/RzQaC2T6HUdm2VrrzzXzK18eiHYCTENObLoBjLtjsjcSdAXKGyzZANk2QF4llNqFLG6jKZinr8LiTVTjrjsQi+uNOBGY7X5tx60gm6zXeTdwd1j+Td+Ync2mfArmMAuB9dgrhVfV61Cq4Hb06I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-825eaedfef3so1736085241.0;
-        Thu, 01 Aug 2024 00:33:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722497589; x=1723102389; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KxR+keK0EoqoxbiDMpzy0xDwZ6lQuLfFwlbPoWTYpLE=;
-        b=UkBM4fInuollXmp4eT0maP+iwWjH7gUvrV3bVYfdQXrKS32bEYHr6uSYsR7be9sgBu
-         FivCnueade6ze92nn3zu9n4UdhWPBMlP3shr+xOpvrg4gTi32b0w3gD9qeW8mRGIg+LD
-         m5h7g3EUR0fIQQS2KpafqcPMw1BtXo6GpcF+ZcLXH5hdaXfHxD2cTpXx0FzylBGY0IiY
-         7za61OT24IozzzCDmKuGX+5QvKsMdp9l8dB2RlrCIBSYyoyOXPrZ3dnhqKcYk7wM0Rwu
-         5TZuCJxqQsYBo+5hCVkExYtUq2c6TXmXFnPgy+CXxFN0aFn01h9QKBbNBeX4ETND2Vr8
-         vk+g==
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e05e2b2d88bso5210431276.0;
+        Thu, 01 Aug 2024 02:07:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722497589; x=1723102389;
+        d=1e100.net; s=20230601; t=1722503241; x=1723108041;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KxR+keK0EoqoxbiDMpzy0xDwZ6lQuLfFwlbPoWTYpLE=;
-        b=wFDKBGsaRxS9oNBgWFOWxsna/TcnIxnS8y0Es55roxPRKLy5EhtSztPdFx6rumrBg/
-         YxK+t8ESd8hLeeJ+xcetT4cQ9wW6Z0h6UCEB+EMhhD7HSAcAixC6pIQsY+YVSPIeg/mj
-         v+JTtpuVCejAV6Gr2aRmo8gagbtMEhr/fM5woDgd6a4+ymR6M83X/ThjC5VYYoApBVez
-         SgpOTpvKULhvl0Ko1kN4FJc1eYG277vhD27uQiDe/TcWtXOPOq1GlfQhWfaKWXqYVmR7
-         0s+njYIfJEJWrxtNT8Y2dy7yE+zTt56MZ9zm5nTpZ2dLnojyxlfinXddJBQ0hcXns68S
-         IMBg==
-X-Forwarded-Encrypted: i=1; AJvYcCV9+ye1qDfFfUlxWvLhu8tBq0iAzh4vjy5gVDdQ/fEtbO8Pa020RcZoJW7BKydcqTQIUry+/j1x8WD7irfbV686gZIXcD+nJFfXoD/+zGio+WEGHSOfO28WcpMWpc8pEMxjOpFvOFlTNR/vmSDK+OE=
-X-Gm-Message-State: AOJu0YwZwpRQDqFAj5ASXA/Keuc0LIQZiLgLxGSU0HBrzuCcaRDMygBY
-	5dS1Bq+/CA5avN1VVceuzg8jR/myWGH4Tc92FbsLgUK24NPru62B1aex7nZUmoNc4iLpAZCPtpL
-	ZaI8dqKRBRCSwnHd0jvaR87YTXZY=
-X-Google-Smtp-Source: AGHT+IEC4F/yNfXSGbEXf6Ys7ewuz6Z6FPtAktCV2Nmk0h8hk03wn2JqMTg2HFgP4Cz1BNs61Ncn+lGomRaLwAS/APc=
-X-Received: by 2002:a05:6122:901:b0:4ec:f8f0:7175 with SMTP id
- 71dfb90a1353d-4f89654563fmr1999871e0c.11.1722497589401; Thu, 01 Aug 2024
- 00:33:09 -0700 (PDT)
+        bh=w5pA05qveT/ExK++IgOZdxvaIfl26j3G6L05udDWBGM=;
+        b=WaLyQa8neWZuq9Let42Tt2TbEEtfkMUO5gIbtoxrLhIOtmngl3ZpSaL/SuH/oMYec8
+         EzvtQTTnD5oQ6sPFzO7CkfOgQLs95M7Xz22rUlZlpLNh8ks2ksgYGCS5cYGFXOTmPl+s
+         ZKt754mbrVySvHhm/qTuw9+vmTzug5Wf8b4xEA8fk7BgasE47XoXfvzsUE8fDXHHa9Fu
+         nEQOTvEq5l72L+CrtfBD0xSd99cqzSZzT12gm0xn3MMqaSwVf/sWGw+qoKwAX9VXbBE7
+         Hodf2tw2l+iVkzwVYLCBr2bgTSs+ivltvtEJdfDX/AQL2W8pG8ahMZBguu6yd6VFfXFG
+         B28Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXTtxYNGZTjtlW9/d34KYUXPhojOBMcIAxnh3/isa6W0OZXk844ufYGXewXmJByDVMMVwewwrAj3NV2Rif2kRYLFmksVFx+VArzOGdzgExlviU=
+X-Gm-Message-State: AOJu0YwC0Ky8d7yODBUlqPweUd2nFyziH0tYfLXYP6g0weMMCwnA2o0u
+	Z4eTLI1Yf/kC88BL8OtTs2r2KFbdiZ7sId3mLwMBi3P8QRB8iPXLbpsy0ww6
+X-Google-Smtp-Source: AGHT+IFPKxfO3Lek+XuAL3pUoiBLKh+4/lCxAPEF//eKplbFPeqGo2wWTPVzwzFlb/1OzjQFUH03cA==
+X-Received: by 2002:a05:6902:2b07:b0:e06:1bd:976 with SMTP id 3f1490d57ef6-e0bcd30b140mr2187996276.22.1722503240688;
+        Thu, 01 Aug 2024 02:07:20 -0700 (PDT)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e0b2a289b7dsm2998823276.36.2024.08.01.02.07.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Aug 2024 02:07:20 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-68518bc1407so20392357b3.2;
+        Thu, 01 Aug 2024 02:07:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU1cTjK2F+aihHf8JHex9Cx9wBUpL/cvmnkM5NEV6zh2CYDM5bSOSQ2oci+wS3Pq9fW56NvGpoEPqij3/8KbJJkJ/Iq3AMNrvR+kay/l7JFXfc=
+X-Received: by 2002:a0d:de87:0:b0:62f:aaaa:187a with SMTP id
+ 00721157ae682-6874c2549fcmr10063457b3.14.1722503240296; Thu, 01 Aug 2024
+ 02:07:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <89ad70c7d6e8078208fecfd41dc03f6028531729.1722353710.git.geert+renesas@glider.be>
-In-Reply-To: <89ad70c7d6e8078208fecfd41dc03f6028531729.1722353710.git.geert+renesas@glider.be>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 1 Aug 2024 08:32:43 +0100
-Message-ID: <CA+V-a8tKdwvDxYqxyf9JwDa4ZPz41=+ecJ5cf7ZO-G_PAk26-Q@mail.gmail.com>
-Subject: Re: [PATCH/RFC] riscv: defconfig: Disable RZ/Five peripheral support
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Conor Dooley <conor.dooley@microchip.com>, linux-riscv@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240726031954.566882-1-dlemoal@kernel.org> <20240726031954.566882-5-dlemoal@kernel.org>
+ <df29e7c5-778e-ec11-3276-a6c87da2ec2f@linux-m68k.org> <5ee6820d-8253-4208-8b99-dee78acb0f71@kernel.org>
+ <CAMuHMdX1WrK_QRiyq+BfFW=ZFgXkxFTBsw0fJoRH0+znUOh2tg@mail.gmail.com> <5700ac9c-0f7e-40c2-b969-ad67b0ee96ba@kernel.org>
+In-Reply-To: <5700ac9c-0f7e-40c2-b969-ad67b0ee96ba@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 1 Aug 2024 11:07:07 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVbkeeQy_WBcBhKhOzWv=MsCUjsVEBDrEi0b+g_-RKCOQ@mail.gmail.com>
+Message-ID: <CAMuHMdVbkeeQy_WBcBhKhOzWv=MsCUjsVEBDrEi0b+g_-RKCOQ@mail.gmail.com>
+Subject: Re: [PATCH v6 04/11] ata: libata: Print quirks applied to devices
+To: Damien Le Moal <dlemoal@kernel.org>
+Cc: linux-ide@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Niklas Cassel <cassel@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
+Hi Damien,
 
-On Tue, Jul 30, 2024 at 4:37=E2=80=AFPM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
+On Wed, Jul 31, 2024 at 11:08=E2=80=AFAM Damien Le Moal <dlemoal@kernel.org=
+> wrote:
+> On 7/31/24 16:27, Geert Uytterhoeven wrote:
+> > On Wed, Jul 31, 2024 at 1:39=E2=80=AFAM Damien Le Moal <dlemoal@kernel.=
+org> wrote:
+> >> On 7/30/24 19:09, Geert Uytterhoeven wrote:
+> >>> On Fri, 26 Jul 2024, Damien Le Moal wrote:
+> >>>> Introduce the function ata_dev_print_quirks() to print the quirk fla=
+gs
+> >>>> that will be applied to a scanned device. This new function is calle=
+d
+> >>>> from ata_dev_quirks() when a match on a device model or device model
+> >>>> and revision is found for a device in the __ata_dev_quirks array.
+> >>>>
+> >>>> To implement this function, the ATA_QUIRK_ flags are redefined using
+> >>>> the new enum ata_quirk which defines the bit shift for each quirk
+> >>>> flag. The array of strings ata_quirk_names is used to define the nam=
+e
+> >>>> of each flag, which are printed by ata_dev_print_quirks().
+> >>>>
+> >>>> Example output for a device listed in the __ata_dev_quirks array and
+> >>>> which has the ATA_QUIRK_DISABLE flag applied:
+> >>>>
+> >>>> [10193.461270] ata1: SATA link up 6.0 Gbps (SStatus 133 SControl 300=
+)
+> >>>> [10193.469190] ata1.00: Model 'ASMT109x- Config', rev '2143 5', appl=
+ying quirks: disable
+> >>>> [10193.469195] ata1.00: unsupported device, disabling
+> >>>> [10193.481564] ata1.00: disable device
+> >>>>
+> >>>> enum ata_quirk also defines the __ATA_QUIRK_MAX value as one plus th=
+e
+> >>>> last quirk flag defined. This value is used in ata_dev_quirks() to a=
+dd a
+> >>>> build time check that all quirk flags fit within the unsigned int
+> >>>> (32-bits) quirks field of struct ata_device.
+> >>>>
+> >>>> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+> >>>> Reviewed-by: Igor Pylypiv <ipylypiv@google.com>
+> >>>
+> >>> Thanks for your patch, which is now commit 58157d607aecb4e0 ("ata:
+> >>> libata: Print quirks applied to devices") in libata/for-next.
+> >>>
+> >>> During boot-up on Salvator-XS (using rcar-sata), the quirk info is
+> >>> printed not once, but four times.  Is that intentional?
+> >>
+> >> Not at all. I tested on x86 with AHCI and see this message only once. =
+So it
+> >> could be that different drivers may need some tweaks to avoid this spa=
+mming.
+> >> Though it is strange that the initialization or resume path takes this=
+ path 4
+> >> times, meaning that the quirks are applied 4 times. Need to look into =
+that.
+> >> What is the driver for rcar-sata ? Compatible string for it would be f=
+ine.
+> >
+> > drivers/ata/sata_rcar.c, using renesas,rcar-gen3-sata.
+> >
+> > I added a WARN() to ata_dev_quirks() to show backtraces:
+> >
+> > Call trace:
+> >  ata_dev_quirks+0x98/0x19c
+> >  ata_dev_configure+0x74/0x12d8
+> >  ata_eh_recover+0x8d8/0xd08
+> >  ata_do_eh+0x50/0xa8
+> >  ata_sff_error_handler+0xd0/0xec
+> >  ata_bmdma_error_handler+0x7c/0x12c
+> >  ata_scsi_port_error_handler+0xc8/0x5f8
+> >  ata_scsi_error+0x90/0xcc
+> >  scsi_error_handler+0x148/0x308
+> >  kthread+0xe4/0xf4
+> >  ret_from_fork+0x10/0x20
 >
-> There is not much point in keeping support for RZ/Five peripherals
-> enabled, as the RZ/Five platform option (ARCH_R9A07G043) is gated behind
-> NONPORTABLE.  Hence drop all config options that enable built-in or
-> modular support for peripherals found on RZ/Five SoCs.
+> OK. So it is ata_dev_configure() being called many times from EH. Weird.
+> But I have not a lot of experience with the bmdma drivers.
+> Need to look into that.
 >
-> Disable USB_XHCI_RCAR explicitly, as its value defaults to the value of
-> ARCH_RENESAS, which is still enabled.
+> In the meantime, can you try this ?
 >
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> Questions:
->   1. Perhaps the intention is to keep all RZ/Five peripheral support
->      enabled, so RZ/Five users can start from the defconfig, and
->      "just"[1] enable NONPORTABLE and ARCH_R9A07G043?
->
->      [1] Nope, need to disable RISCV_ISA_ZICBOM and ERRATA_THEAD_CMO
->          (and whatever else in the future?), too.
->
->   2. Perhaps CONFIG_ARCH_RENESAS=3Dy should be dropped, too?
->      In addition to USB_XHCI_RCAR, that would get rid of SOC_BUS,
->      PINCTRL_RENESAS, CLK_RENESAS, and SOC_RENESAS.
->
-I think it does make sense if we drop the above configs too as anyway
-users will have to select the configs manually to get a bootable image
-for RZ/Five.
+> --- a/drivers/ata/libata-core.c
+> +++ b/drivers/ata/libata-core.c
 
-> ---
->  arch/riscv/configs/defconfig | 12 +-----------
->  1 file changed, 1 insertion(+), 11 deletions(-)
+> @@ -4087,7 +4087,7 @@ static void ata_dev_print_quirks(const struct ata_d=
+evice *dev,
+>         size_t sz;
+>         char *str;
 >
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> -       if (!quirks)
+> +       if (!ata_dev_print_info(dev) || !quirks)
+>                 return;
+>
+>         sz =3D 64 + ARRAY_SIZE(ata_quirk_names) * 16;
 
-Cheers,
-Prabhakar
+Thanks, that reduces the number of quirk prints from 4 to 2 during
+boot-up, and from 4 to 0 when resuming from s2idle/s2ram.
 
-> diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
-> index 0d678325444fccdc..b51ef6cd1e3986ed 100644
-> --- a/arch/riscv/configs/defconfig
-> +++ b/arch/riscv/configs/defconfig
-> @@ -137,12 +137,10 @@ CONFIG_VIRTIO_NET=3Dy
->  CONFIG_MACB=3Dy
->  CONFIG_E1000E=3Dy
->  CONFIG_R8169=3Dy
-> -CONFIG_RAVB=3Dy
->  CONFIG_STMMAC_ETH=3Dm
->  CONFIG_MICREL_PHY=3Dy
->  CONFIG_MICROSEMI_PHY=3Dy
->  CONFIG_MOTORCOMM_PHY=3Dy
-> -CONFIG_CAN_RCAR_CANFD=3Dm
->  CONFIG_INPUT_MOUSEDEV=3Dy
->  CONFIG_KEYBOARD_SUN4I_LRADC=3Dm
->  CONFIG_SERIAL_8250=3Dy
-> @@ -150,7 +148,6 @@ CONFIG_SERIAL_8250_CONSOLE=3Dy
->  CONFIG_SERIAL_8250_DW=3Dy
->  CONFIG_SERIAL_OF_PLATFORM=3Dy
->  CONFIG_SERIAL_EARLYCON_RISCV_SBI=3Dy
-> -CONFIG_SERIAL_SH_SCI=3Dy
->  CONFIG_VIRTIO_CONSOLE=3Dy
->  CONFIG_HW_RANDOM=3Dy
->  CONFIG_HW_RANDOM_VIRTIO=3Dy
-> @@ -159,11 +156,9 @@ CONFIG_I2C=3Dy
->  CONFIG_I2C_CHARDEV=3Dm
->  CONFIG_I2C_DESIGNWARE_PLATFORM=3Dy
->  CONFIG_I2C_MV64XXX=3Dm
-> -CONFIG_I2C_RIIC=3Dy
->  CONFIG_SPI=3Dy
->  CONFIG_SPI_CADENCE_QUADSPI=3Dm
->  CONFIG_SPI_PL022=3Dm
-> -CONFIG_SPI_RSPI=3Dm
->  CONFIG_SPI_SIFIVE=3Dy
->  CONFIG_SPI_SUN6I=3Dy
->  # CONFIG_PTP_1588_CLOCK is not set
-> @@ -172,7 +167,6 @@ CONFIG_POWER_RESET_GPIO_RESTART=3Dy
->  CONFIG_SENSORS_SFCTEMP=3Dm
->  CONFIG_CPU_THERMAL=3Dy
->  CONFIG_DEVFREQ_THERMAL=3Dy
-> -CONFIG_RZG2L_THERMAL=3Dy
->  CONFIG_WATCHDOG=3Dy
->  CONFIG_SUNXI_WATCHDOG=3Dy
->  CONFIG_MFD_AXP20X_I2C=3Dy
-> @@ -201,11 +195,11 @@ CONFIG_USB=3Dy
->  CONFIG_USB_OTG=3Dy
->  CONFIG_USB_XHCI_HCD=3Dy
->  CONFIG_USB_XHCI_PLATFORM=3Dy
-> +# CONFIG_USB_XHCI_RCAR is not set
->  CONFIG_USB_EHCI_HCD=3Dy
->  CONFIG_USB_EHCI_HCD_PLATFORM=3Dy
->  CONFIG_USB_OHCI_HCD=3Dy
->  CONFIG_USB_OHCI_HCD_PLATFORM=3Dy
-> -CONFIG_USB_RENESAS_USBHS=3Dm
->  CONFIG_USB_STORAGE=3Dy
->  CONFIG_USB_UAS=3Dy
->  CONFIG_USB_CDNS_SUPPORT=3Dm
-> @@ -217,7 +211,6 @@ CONFIG_USB_MUSB_HDRC=3Dm
->  CONFIG_USB_MUSB_SUNXI=3Dm
->  CONFIG_NOP_USB_XCEIV=3Dm
->  CONFIG_USB_GADGET=3Dy
-> -CONFIG_USB_RENESAS_USBHS_UDC=3Dm
->  CONFIG_USB_CONFIGFS=3Dm
->  CONFIG_USB_CONFIGFS_SERIAL=3Dy
->  CONFIG_USB_CONFIGFS_ACM=3Dy
-> @@ -235,7 +228,6 @@ CONFIG_MMC_SDHCI_PLTFM=3Dy
->  CONFIG_MMC_SDHCI_OF_DWCMSHC=3Dy
->  CONFIG_MMC_SDHCI_CADENCE=3Dy
->  CONFIG_MMC_SPI=3Dy
-> -CONFIG_MMC_SDHI=3Dy
->  CONFIG_MMC_DW=3Dy
->  CONFIG_MMC_DW_STARFIVE=3Dy
->  CONFIG_MMC_SUNXI=3Dy
-> @@ -250,7 +242,6 @@ CONFIG_VIRTIO_INPUT=3Dy
->  CONFIG_VIRTIO_MMIO=3Dy
->  CONFIG_CLK_SOPHGO_CV1800=3Dy
->  CONFIG_SUN8I_DE2_CCU=3Dm
-> -CONFIG_RENESAS_OSTM=3Dy
->  CONFIG_SUN50I_IOMMU=3Dy
->  CONFIG_RPMSG_CHAR=3Dy
->  CONFIG_RPMSG_CTRL=3Dy
-> @@ -258,7 +249,6 @@ CONFIG_RPMSG_VIRTIO=3Dy
->  CONFIG_PM_DEVFREQ=3Dy
->  CONFIG_IIO=3Dy
->  CONFIG_PHY_SUN4I_USB=3Dm
-> -CONFIG_PHY_RCAR_GEN3_USB2=3Dy
->  CONFIG_PHY_STARFIVE_JH7110_DPHY_RX=3Dm
->  CONFIG_PHY_STARFIVE_JH7110_PCIE=3Dm
->  CONFIG_PHY_STARFIVE_JH7110_USB=3Dm
-> --
-> 2.34.1
->
->
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
