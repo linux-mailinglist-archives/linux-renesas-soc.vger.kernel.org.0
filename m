@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-7674-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7675-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2931D944911
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2024 12:08:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37E0D94498C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2024 12:42:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8A28AB26AEB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2024 10:08:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B63951F284EB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2024 10:42:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D62A183CA3;
-	Thu,  1 Aug 2024 10:08:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF32F170A3D;
+	Thu,  1 Aug 2024 10:42:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OIscs3vZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZTXPxGCf"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43DE416D33D;
-	Thu,  1 Aug 2024 10:08:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85937170A32;
+	Thu,  1 Aug 2024 10:42:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722506927; cv=none; b=R8bLbA1kSjXprpaD8jBg6U2pqWbr7SpPQClVsHk51rNjOuYV/3foCsq1qP2MJ3oiS1AFPMYJnx5zoGaowzVd4i9mUeUnufWloRdAj1JXzfF+vXQPWp7lHSuQZDreQrM0KE0hfCuhUfqr40FYVqj8hYBm+ZqF2Y17Y3fhHky81xA=
+	t=1722508941; cv=none; b=CNftYcu2UzGNqolZgTQjdROMhcIG4SNlzk3SnOfcp3qWxq08LRX9BD5ebevE4IzZxAasX416j18Z/tpCHmbqMVSpOMw2c114vi1qnxOkXe8HwdSl7O0zW6RA72x7WOHxZ0Wd0xt83KsFerKSHevOfmJm+gEQVIBOgpzZH7wawMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722506927; c=relaxed/simple;
-	bh=wUNXlEWGv6vm+++6I3TNVVuJSuIx1Q8MWZ+XlxZTrIU=;
+	s=arc-20240116; t=1722508941; c=relaxed/simple;
+	bh=LylfDqJdfUF92RaMQEMWd2YonPzALZnPZvBlVQgw2hk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=e6gPhP1ntLE8x2zAr9jfb6ZLJDgnX5ky7vDJESGlcO2WiSg6GT4XIhVLKW7qGVXVSG+5lJDLN5KSOY4YUuxUtA0TYP1VL5vEPpHQF5xfskLHQryf9b50ArGBn5eMr14+9cSwXnVmjB7WQsWk41OI+Wgmsq9ABhp1aUE2MMppAmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OIscs3vZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4075BC4AF09;
-	Thu,  1 Aug 2024 10:08:46 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=e/h6Hdk+8dyfJKYPx7f1QMlpolxu2bHkZWPJMzLKOLXaDPwehEOuTCiswn5V4QK2r8HIDij8NPnfyKs5oMZdRXOnLhiulFuDnCC52c9NEbj37dN+pXlmgTU9bVeNX0qWVVJVEbVsS39fWy2S5BsvLBGMfr+bcstbaxbxqyzqcZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZTXPxGCf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B469C32786;
+	Thu,  1 Aug 2024 10:42:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722506926;
-	bh=wUNXlEWGv6vm+++6I3TNVVuJSuIx1Q8MWZ+XlxZTrIU=;
+	s=k20201202; t=1722508941;
+	bh=LylfDqJdfUF92RaMQEMWd2YonPzALZnPZvBlVQgw2hk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=OIscs3vZ8hHTpYRURHiDrO4pt57jC5R/OFzn9pQvD3IuKiQCIhOpnHS2euzO6I/18
-	 bI5HQG0bqvHPFCPIuyXVkc6RVktBt6IAe+7ZVO1HJNhbf1oWb8uLW37DQssJsjd2Wl
-	 4e2QAEabpPQQM298AW0ouV8O6RDiGmVu0HWzRIycBZBf4xi/HSQc/FRPByME5jdffa
-	 5F4pbi35b2Di49xGBMxbwphR32uyjv15VgTwbj5yy2tl1LyaQIO24RnPnBexEduqfP
-	 V+WOBCpGm4rkMP6KsZdwYrW1YAHMGEz9N8+dzAw5MiwDgw1cjZHd3G/CysvN/gg0bt
-	 jxdsSLgJJ/x1A==
-Message-ID: <8e54bc05-9ea7-4602-b136-892dc1675eeb@kernel.org>
-Date: Thu, 1 Aug 2024 19:08:45 +0900
+	b=ZTXPxGCfLUw/1fThj7zQSFnsrqx+e6afhd/JG2L2fTXIE8zOJQYHeqaJ+2iTdy/ib
+	 x4ADzK1rRAYbxDJEEMUhoU+ARxE6T/Go7MiY4RrjXJof+AwDBi8QrwhWK4lYXbLJtC
+	 mAXo+v3y7rLWTDHuSyv5WL740n4IcDrjn3d5tQ8495kucZNs1g49m/Pl91jhtN2QtB
+	 GzZ1zFydEYUdNQmxvuGJKY645NvhNteZhcHJPKadWvjzYgrMVbP2TgW7HThbollhYH
+	 pxto5Cm3t89RBOTvuUiuxRs0YBQjsAZ967JEEJk/oTXyKQijUL6tcpHUTdUCtzeyfT
+	 eGFdQoSsHTzSQ==
+Message-ID: <daeda931-7b82-42e6-af8e-49d9d6e8eb20@kernel.org>
+Date: Thu, 1 Aug 2024 19:42:19 +0900
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -173,7 +173,68 @@ On 8/1/24 7:05 PM, Geert Uytterhoeven wrote:
 > ata1.00: Model 'Maxtor 6L160M0', rev 'BANC1G10', applying quirks: noncq
 > ata1.00: configured for UDMA/133
 
-Odd. I am missing something... Let me dig into that.
+OK. This path should get rid of the useless extra print:
+
+commit 3c65fcbf942c26ece6d1efef7ad1405c0163575f
+Author: Damien Le Moal <dlemoal@kernel.org>
+Date:   Thu Aug 1 18:04:22 2024 +0900
+
+    ata: libata: Print device quirks only once
+    
+    In ata_dev_print_quirks(), return early if ata_dev_print_info() returns
+    false or if we already printed quirk information. This is to avoid
+    printing a device quirks multiple times (that is, each time
+    ata_dev_revalidate() is called).
+    
+    To remember if ata_dev_print_quirks() was already executed, define the
+    EH context flag ATA_EHI_DID_QUIRK_PRINT and set this flag in
+    ata_dev_print_quirks().
+    
+    Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+    Fixes: 58157d607aec ("ata: libata: Print quirks applied to devices")
+    Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+
+diff --git a/drivers/ata/libata-core.c b/drivers/ata/libata-core.c
+index b4fdb78579c8..2309927b7c23 100644
+--- a/drivers/ata/libata-core.c
++++ b/drivers/ata/libata-core.c
+@@ -160,7 +160,7 @@ MODULE_DESCRIPTION("Library module for ATA devices");
+ MODULE_LICENSE("GPL");
+ MODULE_VERSION(DRV_VERSION);
+ 
+-static inline bool ata_dev_print_info(struct ata_device *dev)
++static inline bool ata_dev_print_info(const struct ata_device *dev)
+ {
+        struct ata_eh_context *ehc = &dev->link->eh_context;
+ 
+@@ -4025,10 +4025,16 @@ static void ata_dev_print_quirks(const struct ata_device *dev,
+                                 const char *model, const char *rev,
+                                 unsigned int quirks)
+ {
++       struct ata_eh_context *ehc = &dev->link->eh_context;
+        int n = 0, i;
+        size_t sz;
+        char *str;
+ 
++       if (!ata_dev_print_info(dev) || ehc->i.flags & ATA_EHI_DID_QUIRK_PRINT)
++               return;
++
++       ehc->i.flags |= ATA_EHI_DID_QUIRK_PRINT;
++
+        if (!quirks)
+                return;
+ 
+diff --git a/include/linux/libata.h b/include/linux/libata.h
+index d5446e18d9df..f8fb9bc7c743 100644
+--- a/include/linux/libata.h
++++ b/include/linux/libata.h
+@@ -378,6 +378,7 @@ enum {
+        ATA_EHI_PRINTINFO       = (1 << 18), /* print configuration info */
+        ATA_EHI_SETMODE         = (1 << 19), /* configure transfer mode */
+        ATA_EHI_POST_SETMODE    = (1 << 20), /* revalidating after setmode */
++       ATA_EHI_DID_QUIRK_PRINT = (1 << 21), /* already printed quirk info */
+ 
+        ATA_EHI_DID_RESET       = ATA_EHI_DID_SOFTRESET | ATA_EHI_DID_HARDRESET,
 
 -- 
 Damien Le Moal
