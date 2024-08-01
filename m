@@ -1,104 +1,110 @@
-Return-Path: <linux-renesas-soc+bounces-7692-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7693-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B96B94501B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2024 18:08:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C49A5945040
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2024 18:13:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA9B228A0D9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2024 16:08:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5191B1F22366
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2024 16:13:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 731E71B3F38;
-	Thu,  1 Aug 2024 16:06:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6946C1B373D;
+	Thu,  1 Aug 2024 16:13:38 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C107C1B3F31;
-	Thu,  1 Aug 2024 16:06:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB54513B79F;
+	Thu,  1 Aug 2024 16:13:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722528389; cv=none; b=mwXi4xrsLQAO63nWy9HVVhP+HIPmszQVg60G9dEMPY015FuAX6P9YwOLBXiHtAzYFmg+u4BQVTanwWJhPKprirNmAZQ8EoS0bBtWCNpVafWqtjJb0BFTA5rjnU0J9ODL0gFA/iC4V0S1wQjRbqvD/Z2CcWMCjSe6yJ/UYjhQuTU=
+	t=1722528818; cv=none; b=IhmrYGUU+KKvw60Q3BDaXjGZBQv6qrb2d7qSzx0Vkjx14iBENfcZkxdyXsPbxEicG3xk3Rxxug1oYsdP/h1ammvNpWb61kzJHDlqEBvaAK494AH8fzeKRC33gJL5J6yTqCPOrhDqK9hdhO08y6UL/rNIvu/4n1VVF0TA06yNe0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722528389; c=relaxed/simple;
-	bh=WTvmxAUSQOJQNm1qQg6JVs25focSaJq5Ruw7UmSLsn4=;
+	s=arc-20240116; t=1722528818; c=relaxed/simple;
+	bh=e12nl0o1Ajo9kjJW9t6rKls4XXt3i97tBIEnjI3JGlg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Gpa2tkj1GCw7N5F5PNKIsxOYblq77YDBypKlgCJI4X9JhCNL+Q8c7Jf6cRv9SXpYqMMhehF0c/pT0/+8C6aR/fK5ebzjNkKz+s9FTLRjvyj9dGHl/nUUME4P+g6EEF6WfVnVvDym0+IkydjuCJPYcFMAj+jr7VFxtTRhERIHGcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.46
+	 To:Cc:Content-Type; b=GUGFnNP2x4VWjCB6HkbG8BXXatjBEqpYf09xf5guWtQuvVmeuzCB3G92nwpwNmYiKxD8QSUBWYZLQQOBYC8lgQO2ShTnrs5DS76QEPa+CtkDS2AA7ksjmhXkb1Wkpm06bb8dl0VnMwM/XUX/EJhbYy2jMqxuVe23z0RhZoB402U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5d5bb03fe42so3841589eaf.3;
-        Thu, 01 Aug 2024 09:06:27 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-66a048806e6so58258717b3.3;
+        Thu, 01 Aug 2024 09:13:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722528386; x=1723133186;
+        d=1e100.net; s=20230601; t=1722528815; x=1723133615;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kIiBHUVSVQyeAx1VP1+X4MP/YScMCPDDrn+HcO4ZZKA=;
-        b=gOxFkw9/cqXJFXKv+HVSURbl62G9ggRQMvA+WJOLt9x3Y9bKzBa0h0sOF2NRHJ3YPO
-         shFhXeR6b6kXBLBcLzCfDlrvTo19/H7KXZi8LzoNPey3ml/jWGyns/N9ib8UKbTCye6j
-         YQyUkuQvxZhUUL+eDu0oqYy2TSHnTeiOJ9pfSBT3eVxqgP6pGiDtqoSkNzw976qq0v1J
-         szI/USxb93EIJ4aOOEsdFNK5CaxGWah8Qr5A3lZYYDoppW8TQUQ0tayhYiJfCHe8jbKi
-         djtzeADNPKBWF9HW4WX/fRYDb1mrv5wT7QIkyUZ7bAzvz4Nx/mgtlzDkVSrRWlXtjP6t
-         +LkA==
-X-Forwarded-Encrypted: i=1; AJvYcCUkhD7Yy47m6WkZhLmRpBOnDG07GKtgJP8Ss6/kakv2SZ5ZBU57CNDmmsB0H5aBcEOfoqpne67qUa1RqtmlYOkRByHirNXF2kOR8BUo01WRf0Mp6OL9AIyqa6z8qnI5Vu6tF8SIpMb/rSsX0Y3EZXrZ+Zizp6xtLr7F/hyok2mOiFhloJ3JW7/qAPua34Bvse60r1d6F6lhVqn6mO5D8Wrm86CERa4uo0bhhCHJUIbeYktVqJcilPojBPZusbPqrLrs
-X-Gm-Message-State: AOJu0YwbP2jeCUdWM8tmACfODvbAyK/3aFjCtIGOea7cQtbjdSI7Z79I
-	xlrjdiVBD7c9Mkzzf3fyeQoGd9DPVgKTMeX42mx27QHYRIRHjPxM9uRvo970
-X-Google-Smtp-Source: AGHT+IF2JbBm6I4mR51gQXeaNLd+KpJcmIcD08dGHLVWebHdn9zXCYoUlIeYEBo9ONowN9YBffMnxg==
-X-Received: by 2002:a05:6820:810:b0:5d5:a69c:fe68 with SMTP id 006d021491bc7-5d6636e24f2mr737243eaf.4.1722528385917;
-        Thu, 01 Aug 2024 09:06:25 -0700 (PDT)
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com. [209.85.210.52])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5d76261b9absm8625eaf.44.2024.08.01.09.06.25
+        bh=ZU8AcYf0RvO9EMRX/7NVbpNBY0T/I+LMhz17A8FopU0=;
+        b=Abb3VW+CHzXscCrLclDJ4AKstPoBoW6UhzRKEavYW4LP1abZ55tjHwR2DRL36U5O0f
+         ChVbWVCKOyoBTFMt1RS5CG/sxx3I8wi4ym9Do/1VdP+h8MSmg1s+j3+c2owzRXDiXuay
+         uKtI5B1q5CWSy2As4giqY6wn6/kPnQWfy1uXLQjwAJoT7wQanirKPCJr8oQb/VfJdhD8
+         UMS6mtL4lRqnguKdTHku+8ikbQ0GgPHNqcQHwYRjKN9Hij/dV5P7jQao0PU6ykbAZDUV
+         YiMz8OiYyWm+f8CUCxU72UcDO6rIYNd566fvtJ+HSadReHGvW9eisWpXhd56jZ7y81Wp
+         Evog==
+X-Forwarded-Encrypted: i=1; AJvYcCUf4Ld1TqLh6bvH4sFrNGNhS6tvjG0k+kl6FLKarwAx8fRlLNX2Mw1djIQIRrIUXeEUNPkKUcKDmdCAghIl9DicXGtp0aN7dPRumy00gn9ufVxVAqC+YxsKLTIwXen9Th9Fv3SBtMWixACc5uCt+iNXbyehnSKTlHXFNS9soN9KC0oBJXO9JSK48QeGZKvRAzSl082ahi/glphPsP+GH3mz7JMeqKzHSksDQmVWkOA2G9bDYLLkRKvC4C6bVEISqJ8=
+X-Gm-Message-State: AOJu0YzzgpAoz7ZyL2IczPuqH5vty6Z3qP4Uv4pXqxBv2kaoImznPBlz
+	UeKxCTj78SQ6BWtKjRNeLMBe8s1+bAIrzABhSyOoOMXHI9ISY1SGtp0HLv6y
+X-Google-Smtp-Source: AGHT+IFmY6GlwvHD4+zvbL3OmNhSmfHHIqvlxzKyiWbxQn8+TMl/u5g7KKvLrFxLjVScg6u+NqFugw==
+X-Received: by 2002:a81:9c0f:0:b0:645:8fb:71c8 with SMTP id 00721157ae682-68964392be3mr5618377b3.37.1722528815304;
+        Thu, 01 Aug 2024 09:13:35 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-67566dd926asm33774987b3.10.2024.08.01.09.13.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Aug 2024 09:06:25 -0700 (PDT)
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-7093705c708so7284545a34.1;
-        Thu, 01 Aug 2024 09:06:25 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWR7eIPMZx1a44ZEKFPq18GOhMa4o38AslDrKFPnIdtatlN6oQoaZBx4RCWEyw8nG66PiGS2OGgsV6AjhvzgXdmTFfTKwrLBIPMFMp6qvlbD5P7CBesAaKNUpRxalsqbRZYw/j3T6CBO1GDLb0O8eQE4TWmv1yxeUEkMILPCVWntR7QRLEpGy9Mi5qB1xZdDG7t9dQ3G2U/3y74BotGaNXFw0BKiew2WQUKE3WHDWTZbddHonGz50ZMdrz7vgoeNtqk
-X-Received: by 2002:a05:6830:390b:b0:709:49fe:5a31 with SMTP id
- 46e09a7af769-709b3214010mr769422a34.13.1722528385150; Thu, 01 Aug 2024
- 09:06:25 -0700 (PDT)
+        Thu, 01 Aug 2024 09:13:35 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-66a048806e6so58258447b3.3;
+        Thu, 01 Aug 2024 09:13:35 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUZW4f6oF+WAaH+rxfq/ySj2attj/oxTkCcYoXFLzDDTOdmRkC8QyU5XD88lZ0JxGNsEEbSQqeuS+q+oI/GA+8Vxkcj32eMQLKJ95dycKE3dPiB69QBrPAkbdhnv8EYFFvFWKe8SReIKxdsbev0eTs36pJhugtq+gGMW2yt3nABV+K3VQ9HTgyML6LO5KsTOM8r5Pvbs8nBrgwqS+Z9hCEzK3mKqISsg1Zht24auNnJkqP6tLT8gq4xwTNFG//rqI0=
+X-Received: by 2002:a0d:da86:0:b0:665:b876:e35f with SMTP id
+ 00721157ae682-6896141ae5amr6046747b3.22.1722528814853; Thu, 01 Aug 2024
+ 09:13:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240711123405.2966302-1-claudiu.beznea.uj@bp.renesas.com> <20240711123405.2966302-3-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20240711123405.2966302-3-claudiu.beznea.uj@bp.renesas.com>
+References: <20240422105355.1622177-1-claudiu.beznea.uj@bp.renesas.com> <20240422105355.1622177-9-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20240422105355.1622177-9-claudiu.beznea.uj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 1 Aug 2024 18:06:13 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWerchdsjuhHn+Pr59UKGLmjNVSPFbD7jBK6G1XTaFwmg@mail.gmail.com>
-Message-ID: <CAMuHMdWerchdsjuhHn+Pr59UKGLmjNVSPFbD7jBK6G1XTaFwmg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] dt-bindings: dma: rz-dmac: Document RZ/G3S SoC
+Date: Thu, 1 Aug 2024 18:13:22 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWhRRdfoqg_o6bU7jjt5_Di0=z7MJ4fMh=MJ0m8=u4tgg@mail.gmail.com>
+Message-ID: <CAMuHMdWhRRdfoqg_o6bU7jjt5_Di0=z7MJ4fMh=MJ0m8=u4tgg@mail.gmail.com>
+Subject: Re: [PATCH v4 8/8] arm64: dts: renesas: r9a08g045: Update
+ #power-domain-cells = <1>
 To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: vkoul@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	magnus.damm@gmail.com, mturquette@baylibre.com, sboyd@kernel.org, 
-	biju.das.jz@bp.renesas.com, dmaengine@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+Cc: mturquette@baylibre.com, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, magnus.damm@gmail.com, ulf.hansson@linaro.org, 
 	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 11, 2024 at 2:34=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
-wrote:
+Hi Claudiu,
+
+On Mon, Apr 22, 2024 at 12:54=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev>=
+ wrote:
 > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >
-> Document the Renesas RZ/G3S DMAC block. This is identical to the one foun=
-d
-> on the RZ/G2L SoC.
+> Update CPG #power-domain-cells =3D <1> and move all the IPs to be part of=
+ the
+> IP specific power domain as the driver has been modified to support
+> multiple power domains.
 >
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Now the watchdog fixes are in v6.11-rc1, I will queue this in
+renesas-devel for v6.12.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---=20
+
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
 .org
 
