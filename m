@@ -1,94 +1,73 @@
-Return-Path: <linux-renesas-soc+bounces-7707-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7708-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E479946256
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Aug 2024 19:16:58 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A787946645
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  3 Aug 2024 01:54:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 58028283852
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Aug 2024 17:16:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C1A511F21F29
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Aug 2024 23:54:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0668115C13C;
-	Fri,  2 Aug 2024 17:16:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8870613AA47;
+	Fri,  2 Aug 2024 23:54:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="USXurMBE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rv/qJOuX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F51136335;
-	Fri,  2 Aug 2024 17:16:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEE51ABEB5;
+	Fri,  2 Aug 2024 23:54:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722619008; cv=none; b=NLOFiKZ8JxbRD8pywhgQZyI0SQvKniW0Y2x0k+ln6yt3A61MvZFFeR2fzvEc23AAAhzOlmrAYpmOcuboeKDMrlTF6kY4B3w6hm6ox/d0Tt7KIdF5gwy6fb4GGvT0B39+XoyCim8B38weE/Med2tqQKheiZOZbGBwe3m+eTNY6O4=
+	t=1722642853; cv=none; b=XwxEIWWPqX4ihJxbEbRo0z045w6he0pyhzfHECcxhvxVtfiuKZx24pDbPdY1DUy6GFdsPCLiVjCDdThxJ9g9P0KkHKN/JUqdqIMcqwcCHal170mtAwYi3q4otwF136k5hqaNNbUxonu7wGBZ1UV13yMTKIe9CerKGgydId01us4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722619008; c=relaxed/simple;
-	bh=cUFeEBARYFV8sis7dqXt2LpqVorwXGI0yJIKPIt5D/c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bY5GWXGbEt+JuZEZV0Idxe549Xi8uVT1wCVnS6dGf8+hIomDD8jUe/r9ZW3l0E5SqGmoUbCJzDez1ffwdBUYOwCACYwUAkApIcBHG+oAp7R/wp2zyGehvrJlWbh/ywkguwV/j5YlRR+ZyUAu5edJfSVokCgfFhfF/hEyUJxi7HM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=USXurMBE; arc=none smtp.client-ip=85.214.62.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 3D9CD889B4;
-	Fri,  2 Aug 2024 19:16:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1722619004;
-	bh=RAXCEEpgCwatpuBHTqAhmFDWy6UBEOuWQxJkjlfgoj8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=USXurMBE9vAznKErmxEavJNYpWLaNX9kmKOh29aqoY3oav7zqrQ/tq6sVr3J52JX2
-	 pES92CqHdOYHshkv6lZ9y3gKH0Nj2101gmTSFfBBpicvCPn8plA4TkB8HANaBiHhLn
-	 lOwY7po8ROCb2SFkmdMnbW8zWHIILSE5Zes/2LUjjWTu3OX8HCS4pYUHFm+MYJO6X0
-	 OoaXH1sLl/LViHWAlwo7uuT0YjkU2JifNaOXmToPb+ssQHIFOjXeh5BFrIi8GO373+
-	 mCizZlPPItXIGH/xgTPMeL1Pc/diAaFHueI/V38lMr7p+cXrmfRT8YJcDvQOVm72OH
-	 vgPv+LxK8n0Lg==
-Message-ID: <d1b36858-da21-4e2a-bc54-175524a7d3b4@denx.de>
-Date: Fri, 2 Aug 2024 19:16:43 +0200
+	s=arc-20240116; t=1722642853; c=relaxed/simple;
+	bh=rZWiK/1Iv5H1CIZJmuDlsAC2QQMACq9GkygNZXvWqao=;
+	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
+	 Subject:From:Cc:To:Date; b=Hfd/lknI+modIiDsSVCDafqcDp1pXSoEn1QcjcskWXK0Cnqk+K2aH+tl0cIgVasVL/uLVoj6eJY2jPnLtbxo1gTNy+T+ZAoBL/jKthR+eePhBs0UDTiQ95CfPxkket9vPmoUHY246IX7HXoC2VbvbEMTZCEPZVW09v+x8dRuObQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rv/qJOuX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 257CFC32782;
+	Fri,  2 Aug 2024 23:54:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722642853;
+	bh=rZWiK/1Iv5H1CIZJmuDlsAC2QQMACq9GkygNZXvWqao=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=Rv/qJOuXnUmTm3eWwR0mynFUfyKHUZXHklIB5sIbTpbhPx85sDI2RZ0S45FMHcCv2
+	 SFoHo245sL8r+yleuZ+FP/+Ia1mJQgMs7niUVrbBU+vR0gIDF3Vt/Gj0Ou+r5ESn9p
+	 hsnxDJEekaT0rey6uR0I2S23JdiAs7cbh4hSq3fHlLRclxAzH/PzLOcLlqSUfZU9fe
+	 pZgEm0dpxU6R8O3cfsnQI6n/0utv0xtyYPj4a6T4MH8Ffpo2cORe7AWiERkJtWkcTc
+	 KNQkcpWmGDOLsWWAj03kkWd4Z7RL9MBbVQtOcmCCSZcM0z9OZ6IjbrmLXBzLQI/i0V
+	 10brQgMOqnl+g==
+Message-ID: <a36c4e33120c47127a6dfbe007414a84.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] arm64: dts: renesas: white-hawk-cpu: Move avb0 reset gpio
- to mdio node
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-References: <20240704152610.1345709-1-niklas.soderlund+renesas@ragnatech.se>
- <CAMuHMdUZAVAkPVus2T_O3sWT7f1PciRYjxm6ecLy0QUyh50OEw@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAMuHMdUZAVAkPVus2T_O3sWT7f1PciRYjxm6ecLy0QUyh50OEw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240731191312.1710417-4-robh@kernel.org>
+References: <20240731191312.1710417-4-robh@kernel.org>
+Subject: Re: [PATCH] clk: Use of_property_present()
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Linus Walleij <linus.walleij@linaro.org>, Michael Turquette <mturquette@baylibre.com>, Rob Herring (Arm) <robh@kernel.org>
+Date: Fri, 02 Aug 2024 16:54:11 -0700
+User-Agent: alot/0.10
 
-On 8/2/24 10:33 AM, Geert Uytterhoeven wrote:
-> Hi Marek,
+Quoting Rob Herring (Arm) (2024-07-31 12:12:42)
+> Use of_property_present() to test for property presence rather than
+> of_(find|get)_property(). This is part of a larger effort to remove
+> callers of of_find_property() and similar functions.
+> of_(find|get)_property() leak the DT struct property and data pointers
+> which is a problem for dynamically allocated nodes which may be freed.
+>=20
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> ---
 
-Hi,
-
-> What is your stance on this?
-> Thanks!
-> 
-> On Thu, Jul 4, 2024 at 5:26 PM Niklas Söderlund
-> <niklas.soderlund+renesas@ragnatech.se> wrote:
->> When creating a dedicated mdio node to describe the bus the gpio reset
->> property was erroneously left in the phy node. The reason for adding
->> mdio nodes on WhiteHawk was to ensure the PHYs where reset before they
->> were probed, keeping the property in the phy node prevented this.
-
-If the PHYs should be reset before they are probed, that is something 
-the PHY driver should take care of, right ? The PHY driver can bind to 
-the PHY via compatible string. Does the PHY driver not reset the PHYs ?
+Applied to clk-next
 
