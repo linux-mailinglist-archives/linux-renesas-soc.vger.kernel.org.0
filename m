@@ -1,74 +1,74 @@
-Return-Path: <linux-renesas-soc+bounces-7717-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7718-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0B95946BEB
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  4 Aug 2024 03:32:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB065946F48
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  4 Aug 2024 16:20:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 13DE7B20E0A
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  4 Aug 2024 01:32:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6F3AA1F21103
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  4 Aug 2024 14:20:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8D137F8;
-	Sun,  4 Aug 2024 01:32:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98D9C4D8B8;
+	Sun,  4 Aug 2024 14:20:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V1bpCNjX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g/Jjuqi3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF72AA38
-	for <linux-renesas-soc@vger.kernel.org>; Sun,  4 Aug 2024 01:32:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC56A1CA9F
+	for <linux-renesas-soc@vger.kernel.org>; Sun,  4 Aug 2024 14:20:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722735163; cv=none; b=ShbBljsZVbtK1yvxGKf7i2UyTPQ9j80ObOUPSW9SDicAHiSMHawjkGx7+BMHHBdUUldftXEjN2UAP2dtEwMavElNRhXw16jtDpdbo/geQIuasKfRuv+s3U45EgjVeryw4ja0sTezJv1vbWOAWw6nKxRIIrPDifVdbDPQGVEjJ0E=
+	t=1722781225; cv=none; b=GnfYXWt3B3wdhWECCbD4HjYLRlqX0h/weO5e2AsjN9/6uqAV+diN4O7QFcnPCcBO4wBwXQrSjTXCg2K4vQDSFNh4hlF9k0tdtFnNRACEMed4t711VhEH7EoaxNTdqmX0VV46coPopi+oJmqiQ1T/IukCRAUJdKYvRuAhU56C4hQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722735163; c=relaxed/simple;
-	bh=2cTOlLqeYWF+ZMmqGMSR2peUZcdQnn/9WMOR4a7IyYU=;
+	s=arc-20240116; t=1722781225; c=relaxed/simple;
+	bh=iVl3jV2GYEuVOmZsIV/I3gXt7gZ8wDTJGFeA+XWGsD4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EqIJ1y8CkWxbLKyO982zavVg+RCuYCMR4OOAGVRLqXyB38WbytTi/kuRzQPzPUi9ps9PdSUcp8ZNvF/lDia6YZhQiZzbLJaWpSkUaU1GTbvu7tZRaQlMQjGKcxCF/spPF2AB22az5k3VAfMXyou6mrmMrdD1n8RBa9DamqHKfFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V1bpCNjX; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=ETds7Ne9TOcMizAbzZSiyd3O+bsGSqn+OrPnObCLATrtbRzk1FSwEszTCZDYgCx01gpmeKvGBDHvirVoXvWMjeAfdICEF4oobXOK8NkJnmK6bR9ixXrKiqh/zNRYPT+TZeoFPXer7k0KpyNITGYnfafq2r4YUiieZNSzMw+AOEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g/Jjuqi3; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722735162; x=1754271162;
+  t=1722781224; x=1754317224;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2cTOlLqeYWF+ZMmqGMSR2peUZcdQnn/9WMOR4a7IyYU=;
-  b=V1bpCNjX8U/vJ6P9SqOcLUSUEl7bmXpVvwJLjubqHoBfaV5wDVU4nCkS
-   N25mcah+C2YmU5Bf4tdo4uu1CPFdkbG6iCXwqMR/crZi4P204RceRUFhn
-   a+vBSCPixSGh5xzMWhthBW9irkZiWjzArp4+fjJvtyh0p9nRrr/xLYnkR
-   Nl0RdANR9ZFH2e+jAVUGh6HTqmJ3hNhcgoI0L2nZ9sM5EZrG8PUAW8zF4
-   ImgvROXu56c3xgc9M73aPPvT/xHwx7hAi+liqaQ4bmjZ0ZIzB4R+bmifZ
-   nxoETdiwym8JAAaQCfXgAx1ngY/kM1zBemELsalG05Y0jw73NSgf+wvRF
+  bh=iVl3jV2GYEuVOmZsIV/I3gXt7gZ8wDTJGFeA+XWGsD4=;
+  b=g/Jjuqi3Niy80ZfZ0lfBphriClpcu5nWrMH3Yheqdo8xeqPbigkqIRKb
+   mKeSx7S/KIZL2bW/ueBTPTYv0qKk0irGnAB8md+Nzx5tpAdqB/6dFlmhn
+   76yM4Xh+8A4LRFQDGHWHLlzuacJTDMu1xbgs0JfxJE5fxWXTRPwBgTt3c
+   wXggW1uIlZxj/ExHThqgjYa8OL1dt61OW8XHN+K+xVMzneo4TAHW+k4jq
+   O6Oh+Fr2HhZ8B4urJ52BteFD0JPySQDT3VPIv+HQ0GnsClN1H452Fuk//
+   nTC2bI2BK+IUIENrzHR1KGscqgyWF89WmVfKFaoe5c/03dBfyos87NJ/V
    Q==;
-X-CSE-ConnectionGUID: bOIV0VYhTkC26G5NXgMdog==
-X-CSE-MsgGUID: 0palE0wWRQiNK7vzhSUFCw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11153"; a="32127184"
-X-IronPort-AV: E=Sophos;i="6.09,261,1716274800"; 
-   d="scan'208";a="32127184"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2024 18:32:41 -0700
-X-CSE-ConnectionGUID: lONrNZcmQtm021hi98KLOA==
-X-CSE-MsgGUID: Uq0DgxgkQRuw6N2KVSX9HA==
+X-CSE-ConnectionGUID: TPr+spKsRB2rMbsVmIRGTg==
+X-CSE-MsgGUID: QhoucosuRiWrNp99Txh5nQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11154"; a="32118861"
+X-IronPort-AV: E=Sophos;i="6.09,262,1716274800"; 
+   d="scan'208";a="32118861"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2024 07:20:24 -0700
+X-CSE-ConnectionGUID: TSPw0bo2T8qBA0ry73Xvgw==
+X-CSE-MsgGUID: oGdbIRdhQQWbdNDX4ZVQUA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,261,1716274800"; 
-   d="scan'208";a="55753100"
+X-IronPort-AV: E=Sophos;i="6.09,262,1716274800"; 
+   d="scan'208";a="55788295"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 03 Aug 2024 18:32:40 -0700
+  by orviesa010.jf.intel.com with ESMTP; 04 Aug 2024 07:20:22 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1saQ6w-00013k-0X;
-	Sun, 04 Aug 2024 01:32:38 +0000
-Date: Sun, 4 Aug 2024 09:31:53 +0800
+	id 1sac5r-0001T4-2F;
+	Sun, 04 Aug 2024 14:20:19 +0000
+Date: Sun, 4 Aug 2024 22:19:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [geert-renesas-drivers:renesas-clk-for-v6.12 29/29] /usr/bin/ld:
+Subject: [geert-renesas-drivers:renesas-clk-for-v6.12 29/29] sparc-linux-ld:
  drivers/clk/renesas/rzv2h-cpg.o:undefined reference to `r9a09g057_cpg_info'
-Message-ID: <202408040932.SqrqyXGU-lkp@intel.com>
+Message-ID: <202408042234.WAYccHy6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -81,20 +81,18 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v6.12
 head:   42b54d52ecb7a81998592c2b40f8a963e82ed02e
 commit: 42b54d52ecb7a81998592c2b40f8a963e82ed02e [29/29] clk: renesas: Add RZ/V2H(P) CPG driver
-config: um-randconfig-r122-20240803 (https://download.01.org/0day-ci/archive/20240804/202408040932.SqrqyXGU-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240804/202408040932.SqrqyXGU-lkp@intel.com/reproduce)
+config: sparc-randconfig-r111-20240804 (https://download.01.org/0day-ci/archive/20240804/202408042234.WAYccHy6-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240804/202408042234.WAYccHy6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408040932.SqrqyXGU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408042234.WAYccHy6-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   /usr/bin/ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
->> /usr/bin/ld: drivers/clk/renesas/rzv2h-cpg.o:(.rodata+0xc0): undefined reference to `r9a09g057_cpg_info'
-   clang-14: error: linker command failed with exit code 1 (use -v to see invocation)
+>> sparc-linux-ld: drivers/clk/renesas/rzv2h-cpg.o:(.rodata+0xc0): undefined reference to `r9a09g057_cpg_info'
 
 -- 
 0-DAY CI Kernel Test Service
