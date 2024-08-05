@@ -1,105 +1,142 @@
-Return-Path: <linux-renesas-soc+bounces-7727-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7728-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4BDB947BB2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Aug 2024 15:17:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EDBC947C8E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Aug 2024 16:10:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9BAFD1F2384F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Aug 2024 13:17:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1B205282001
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Aug 2024 14:10:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F058155730;
-	Mon,  5 Aug 2024 13:17:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAFAA139CFF;
+	Mon,  5 Aug 2024 14:10:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="IaOjWVR4"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10D7E17C;
-	Mon,  5 Aug 2024 13:17:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46DA2136658
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  5 Aug 2024 14:10:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722863846; cv=none; b=EVjL+5Sk9PAxbY60DoqFkb4FwVg/RUtszueT+IRSkYy878XTpHYKb0eZ18MzpqWOY2bezyPMb06M6sBAKcOlCNidhoKfXJu512f+e6tuwCj3POoueVi4+3tBKR5xc93/t0UxHyQehI9bO1OHDlPhqIkzA62FtdrLNMNTkmRXp84=
+	t=1722867021; cv=none; b=IVB3CsH1iyle77crnMQVO10f+KIq78VG2Sf/33RhpIv6+8wEBJsOvl/HHhlYuKOZL/8Jgz9TfEr0eEF7WoDFMhmUwLI/aqDLaQ9FZCDvcUZOjPh42KxYYSFDbtw4C8uiq4qXcXh35hn8kt/rh1IESPCF0d25+9t6yOUoyjbhyWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722863846; c=relaxed/simple;
-	bh=NygtXK6EfwQDMzlViUbnNP7WhtJkQYz8kyQH3YxKu7M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZNFdPjsr/Tu6EoCJR2pGK6IcfWtC/EOh3qkfGldjEc+xdZFHcsW+XwSWpIP4e2i+5YkDu1ooFqbhk2WmnSNdAxaf49eNVOKttEmxWWtXyo0Eeupq3LUOffnjRPnjffY+jF0Z3gAZ+dFp5ECKfcBr5u0IDG6q7ptWUVLpmgq8PJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.09,264,1716217200"; 
-   d="scan'208";a="218700190"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 05 Aug 2024 22:17:22 +0900
-Received: from localhost.localdomain (unknown [10.226.92.197])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 69958422F825;
-	Mon,  5 Aug 2024 22:17:19 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Rob Herring <robh@kernel.org>,
+	s=arc-20240116; t=1722867021; c=relaxed/simple;
+	bh=CRk+WSvg+8ew6Axl9UsveI8a1vmiJxVs2T0r9Dd2K6o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bzpNS6jIYYFWIBO29FvauosFKMKA/kJCmFs9B/oixe4Qs8y2irSTRkxUl1TBjRGdv4P0w+NaDJVXpAPQ5bB33pQp12Et3gsZddlxQjK5dBtd6oXrNiRn+cxClve97oObifhSZEThKfjgdFL2SVuOze7E3ebGmgqUkfchPvx3OV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=IaOjWVR4; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=VC7W
+	KpuwekykfBr8ihdjN8Kp943rQ0vp+Rxzc1f6dM4=; b=IaOjWVR4dCjLxNxJihk4
+	8UG0Q0HrzC69VPZNP0QdivZuHbUesoL1qKJj7otmMAMZovNP0FDhWci5noO5veaV
+	gRNh5BfTw8ClwNA2mrE/ditz7Ji1c+qgrzn8ra+HgAaoFIbdcws4iWqUhNxa/wuE
+	8uzPeAIHELZtA5wbas4yJee2xmaEM2ZAb+bubV6Wg5mrr90yWH5RoK5VLjgOcXWE
+	gJAf0tRV80nfD2HeHQBEVC4bE8iAVks0x+jeTHGC0sd1RFoflm+57a6/OvXXetub
+	gqR4mVLuUD4sp/NOHu8cwURS+tEjbzpyLSTa0LoD4+h33yroQ1fr0cfQ0eqb5v78
+	+w==
+Received: (qmail 2002488 invoked from network); 5 Aug 2024 16:10:14 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Aug 2024 16:10:14 +0200
+X-UD-Smtp-Session: l3s3148p1@vMFdPPAeYskgAwDPXxLGAIH3oZkcU6AS
+Date: Mon, 5 Aug 2024 16:10:13 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-mmc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v3 2/2] arm64: dts: renesas: r9a07g043u: Add vspd node
-Date: Mon,  5 Aug 2024 14:17:06 +0100
-Message-ID: <20240805131709.101679-3-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240805131709.101679-1-biju.das.jz@bp.renesas.com>
-References: <20240805131709.101679-1-biju.das.jz@bp.renesas.com>
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v5 3/3] mmc: renesas_sdhi: Add RZ/V2H(P) compatible string
+Message-ID: <ZrDdRZOdXv4c6-P8@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-mmc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240724182119.652080-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240724182119.652080-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="06jFUOUZfUFs2FzP"
+Content-Disposition: inline
+In-Reply-To: <20240724182119.652080-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Add vspd node to RZ/G2UL SoC DTSI.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v2->v3:
- * Reordered the patch as vspd needs fcpvd handle, so added fcpvd node
-   first
- * Added Rb tag from Laurent.
-v1->v2:
- * No change
----
- arch/arm64/boot/dts/renesas/r9a07g043u.dtsi | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+--06jFUOUZfUFs2FzP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g043u.dtsi b/arch/arm64/boot/dts/renesas/r9a07g043u.dtsi
-index c4defdf0fefd..d88bf23b0782 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g043u.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g043u.dtsi
-@@ -129,6 +129,19 @@ csi2cru: endpoint@0 {
- 		};
- 	};
- 
-+	vspd: vsp@10870000 {
-+		compatible = "renesas,r9a07g043u-vsp2", "renesas,r9a07g044-vsp2";
-+		reg = <0 0x10870000 0 0x10000>;
-+		interrupts = <SOC_PERIPHERAL_IRQ(149) IRQ_TYPE_LEVEL_HIGH>;
-+		clocks = <&cpg CPG_MOD R9A07G043_LCDC_CLK_A>,
-+			 <&cpg CPG_MOD R9A07G043_LCDC_CLK_P>,
-+			 <&cpg CPG_MOD R9A07G043_LCDC_CLK_D>;
-+		clock-names = "aclk", "pclk", "vclk";
-+		power-domains = <&cpg>;
-+		resets = <&cpg R9A07G043_LCDC_RESET_N>;
-+		renesas,fcp = <&fcpvd>;
-+	};
-+
- 	fcpvd: fcp@10880000 {
- 		compatible = "renesas,r9a07g043u-fcpvd", "renesas,fcpv";
- 		reg = <0 0x10880000 0 0x10000>;
--- 
-2.43.0
+On Wed, Jul 24, 2024 at 07:21:19PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>=20
+> The SD/MMC block on the RZ/V2H(P) ("R9A09G057") SoC is similar to that
+> of the R-Car Gen3, but it has some differences:
+> - HS400 is not supported.
+> - It has additional SD_STATUS register to control voltage,
+>   power enable and reset.
+> - It supports fixed address mode.
+>=20
+> To accommodate these differences, a SoC-specific 'renesas,sdhi-r9a09g057'
+> compatible string is added.
+>=20
+> Note for RZ/V2H(P), we are using the `of_rzg2l_compatible` OF data as it
+> already handles no HS400 and fixed address mode support. Since the SDxIOVS
+> and SDxPWEN pins can always be used as GPIO pins on the RZ/V2H(P) SoC, no
+> driver changes are done to control the SD_STATUS register.
 
+Okay, so you mux the pins as GPIOs and leave SD_STATUS alone. Smart
+move.
+
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+For the record:
+
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+
+--06jFUOUZfUFs2FzP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmaw3UEACgkQFA3kzBSg
+KbajIQ//cfYfi1vC75daca5woTDJICrAM8gVdOmFDa8hFFc0LKwgUQFYiWu6CjOE
+VPyCunnEM0YxAHOgc4pmBfysESH/qPnd78wLKDmFxabr8FUGGbRPxsM9nvNC/mlp
+Of5A2RSMayNAz+s15fcMwhZJT2V3U4rCDHVK+iZPjJ3Opfx5CzNta7aRVlvWBJC/
+dmX7Sh4g1RDsJ+52VVX4hPXOFjEoZSwFeRv68kBvXkXhGu8He8Z+kE3oe1N/uBwb
+mcML9RQQgH+pNHirTZPpMvyPtnQizCt6qEbWcQ5cIDkV1uGiZ/lIaztNIayB6zIu
+izS7YDVNWRsjvHERsGQz14XgphDFhDlHTnxcDThGtd4brt3GB1twsf5wuD6fnQO7
+vnQJnFHrgb7LoJqdg9v01NkoJ+7WSryPez2puxPGhWEQzGWBsThjsTQnsmnAXzcr
+Iy8tE66/sJUYWDjsZEMHKgaPnRlrUl6BYGIDSWRO7jCqGfi7bCc6iLh2/m1wN7Wi
+iqgd0grWq75DCxz2UVEZX/Zk2mhv7430QB34q1iRDErRu07UsM/+T3SoRafQtgFw
+CEOog9Hn4IIlNubE93JlJ7O4DBDb5ugc4Ogs8LSa7NURXix9vC4XcUGZmPLTetVA
+Ngtyhv7vfRplIR4Pu5HN08vLgz9QiS5cXx3rUW3g5hhHruOYI1o=
+=pRex
+-----END PGP SIGNATURE-----
+
+--06jFUOUZfUFs2FzP--
 
