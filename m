@@ -1,135 +1,155 @@
-Return-Path: <linux-renesas-soc+bounces-7719-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7720-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE5429478D0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Aug 2024 11:59:02 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D478947914
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Aug 2024 12:09:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E03571C20E7F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Aug 2024 09:59:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CB664282E3A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Aug 2024 10:09:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 256DE15350D;
-	Mon,  5 Aug 2024 09:58:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F00BB154434;
+	Mon,  5 Aug 2024 10:09:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IB+O7lsV"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="d4yJhM4u"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7844F137C37;
-	Mon,  5 Aug 2024 09:58:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F05614F9D4
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  5 Aug 2024 10:09:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722851936; cv=none; b=S/omW57fmSSTwr8ejYNTd42GW24O8x2iy/rp/1ExEBQdnKxoTUqObjNTN0ft12oH5ekLDbZUBipfNtGWprQAqjTaXa+Ql+gWbSnvhzRfxE5GEzqhqhXGzwf0fY3oiz6MPGscLoCUriXshMa+ewqg+Zvsu9/kU85oUAn42HneJio=
+	t=1722852590; cv=none; b=E8X2VuPyhfF7lVBvLRxOW8VizL6rzUxrG+ZM8AUahAg9KRiZG1Fbk6HWNp8QtOUvGPLdoYxMEZ/4PHRL6DDA2Sx+rb36NVvj/o+lbu3X6cW5FGJyXmjISQjAhcV5F2O8k4ovgtgI0KLPU1wM8D88zx8fdrxkjXjuvjWIvAhJaQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722851936; c=relaxed/simple;
-	bh=ckwt517yKxxVzlM8CcWV0s5Rgb+0zNWVAjvo9LJZJVQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UkGwbYfX8G2bizhxCl57Q1HoTuxepSPePN9c/b5xHRaIPrZJ00AQ4RSrdyZmUZ0AE3P9roRCaIrg5+aTHgpYrKdfuVDC55S+HQu6jNeutxjao2zUS+AOXQ7WkeOj5IoB/4PSWyu2l4pWTxnKduaaNtGvHJaur1CrbaWQ1LvZDbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IB+O7lsV; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-367963ea053so6926353f8f.2;
-        Mon, 05 Aug 2024 02:58:54 -0700 (PDT)
+	s=arc-20240116; t=1722852590; c=relaxed/simple;
+	bh=+K9hSpGtE/3iLHQcSO8dUwYSy1HxcajpYURwgaK4bfw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rmAEO7VrKfNMh5f5gNifv6U7qdRziz/MbxFmGTfOwzWycX5iNMX6sWjDsHmcamXy1bxZ1kbX578YlkxyFfGWwE2Iz5Gz/iVADZoerkUdGkfPQbRDUnBK/oZ+F8jK3DxAe71Ndvrndpbik5UGpfmBdBepIxrjtJRhETcDYZZZfxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=d4yJhM4u; arc=none smtp.client-ip=209.85.219.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e0bfc0ee203so1794299276.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 05 Aug 2024 03:09:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722851933; x=1723456733; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BHoHEECpE5o9sWQnAe+eHRzHftTekmhO0P14uXbKEUM=;
-        b=IB+O7lsVw71zTusD0VpJULzMuJf4+kLEeZXBpaVc0NwwXoqiMXuXV0rd3dqwcahFzl
-         LkZqnEnmiqXR+jK0rpKCcoaBay2nuVCSgPuHOww0vWa0st4537ZxQYwX2Q7DUqXGVsAb
-         t9T8ItfqU+SlFN2d2OjCpri2mlnK6DFnLDsv4W7padMOgJNg5ii6CraZ7oeIjd+CXxfd
-         RuG/UmrgYV3RAYG0hQqvDULV+LgOQk1YCi+2fkOQ7dMjpQdJFAYPIZOzsOfwp2Vnvg1W
-         AydRUgklnm96/Xx9RtkDCy5Dt0jSTXXs894SoeNjxRUUSCNkI7LNoY1LgWFOGiOK2NPb
-         uOFg==
+        d=linaro.org; s=google; t=1722852588; x=1723457388; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PndH4jnAZ185cGSKb8aNel1LJ2ETeEsYl8hD1+owehA=;
+        b=d4yJhM4uaAAOBaRyU5bMwBHuHP9Ntd3SOpgRm0Ub4Zn1xSBmB9s2FU9H+S+H+xllew
+         cI6gMbWdrg5TTrUNbXwI3y3HcWzh4msDIEmYLVp/4tXEBsVIAaVpCEprm8jXa/yoX3FB
+         h//MgtmeQkzayhoZA6NsGwgBU+uzG7A0g3Lu6aPxe0ZE+Yw+CupccWLlUeUgAIEpocSa
+         vKpXapd0i8UyaVJxV6Zu2XsFOn4VD9PrS2QJ3zJvf8W8avev9Jh8cnK2dR/uM7uHYEZi
+         y2ita2wjeEQx1A7ykRlK30fZ+xwJYcwHh6KGgorMhLz55KPoiveqFKmtJxJepisHn38y
+         Qbzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722851933; x=1723456733;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BHoHEECpE5o9sWQnAe+eHRzHftTekmhO0P14uXbKEUM=;
-        b=Ar+hKusBfMAC9leEiPv4/1seBNZVeI58VX1oFq1BFAjphpH1Fv+vJIT9NM3UN+u4Ot
-         KKuguQCRAphg2suC/MPATi8zlxIoX3ySJpKr4eZVpCPbOnGh67NLyTKpy/MUjGinNwyB
-         BFnB68Bj6wJsVZTWsMzY/xO2PfOQB1pOYVBkxJZZpEm9Q9AxuOcsfB27uxhydE9gv/fI
-         6k7NRLNgfSPEbgrQDbYh/ml+6VPWOlLg9hzsGVrjCtvdLUHPwzPZOkhx7RDamuzbEGta
-         eHjHGuUntVbJr2ohGqfArz+Mth1T60jSFdUMRFwDoHNc6l4TvCx61aaJSApX/P8Yw0gT
-         biFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXan8O/USIwXB6BVtd3+O/ZULx73GbHg+NScvlg9fx5cvSy+pbOpn7+J989c9lxYujyj/HQyIePoQSysChwd86552do7DbMiLyqVOkBNzoOu+UOWLH8xNYvoTWq7mzAKoyZ1LKWm2Da
-X-Gm-Message-State: AOJu0Yzkev2/yK3vB+SoZpa9yMAtDDCWYPF2g/HBKAvelVnpQKlIOxVM
-	zSKRlh31LGoWiv1BUHCYx4A0hiVPg0WnJzyURtqs/jzf2HRMCIc/
-X-Google-Smtp-Source: AGHT+IEzCM/xqDdmhrxhMEdZ7e0NV1MT+lwhzAh4Tu7K0402wLTOp+q7LKhWEz23m7PCLqn41822pA==
-X-Received: by 2002:a05:6000:18c1:b0:368:3b5c:7a5d with SMTP id ffacd0b85a97d-36bbc0ff29bmr8419575f8f.20.1722851932377;
-        Mon, 05 Aug 2024 02:58:52 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36bbd01945fsm9254927f8f.41.2024.08.05.02.58.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Aug 2024 02:58:51 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH] clk: renesas: rzv2h-cpg: Fix undefined reference to r9a09g057_cpg_info
-Date: Mon,  5 Aug 2024 10:58:42 +0100
-Message-Id: <20240805095842.277792-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1722852588; x=1723457388;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PndH4jnAZ185cGSKb8aNel1LJ2ETeEsYl8hD1+owehA=;
+        b=ogaGl4Z1h6iVnmP7Xx53UyVbB2lxG5IDEvCcrmAYGW9kG0iQJI01hAS/hOdFZuzYJM
+         Mz4WyH5bKozQNLSrLzzNKhxzP9DzShNc4vELid6LWAOYZ99B2j/pv3A/nRPpxrSaImWe
+         6BHBwWLx2yMLqW/U7H9jf61QQ5yTzQzzZnrYkAhDtp4ywUlb4V0BsSAoT7CWr02epgG4
+         PLKhm5Tpi81p3wyhJg4nFG0eIC3dFdqQ6JczW1HUAKpotlqGbfP/FEMtIbT74S/5G2zE
+         gzy81BS9MkCDa2lFGmGyV5ILCKFlecxWrhjHYY2R6O6rpF/W/7SQVRX8Q48gFfau/bdi
+         MSMg==
+X-Forwarded-Encrypted: i=1; AJvYcCV7gnDEu2ajJfIY2xkbeFEUdStP9TjFkj8ktbV8EbwztGRoevVbNgEmQFjOCfqmdxibUen67TGmJgfYFVjVUCKRBqUnC90AS/KVSjmnu2fGW7I=
+X-Gm-Message-State: AOJu0YwL3DYIOvE9wY9v8Jqs2w3H0h3Y+otNQPdPqHJ7YBitiP9HgK9D
+	tR+c0HUAQ2oBC9vCwpARgF8H+W3CQ0NBQF4NGu/BmFo6yGhx4ciHgHcium8ZHrG4bxRigdSna0W
+	1A9ENXh0kdGcwQcHBhPN6HtOHATjvIQBmrlHruA==
+X-Google-Smtp-Source: AGHT+IGg/GAsaKY8g93SL83rdsel5V/KlOUKwAqZsoGoMsz8VtQS+2FhX5IVmdELMhBPT3sA0+WSrmuA7ocZtIVCyHY=
+X-Received: by 2002:a5b:1cb:0:b0:e0b:1519:e0d3 with SMTP id
+ 3f1490d57ef6-e0bde2c64acmr11465264276.6.1722852588222; Mon, 05 Aug 2024
+ 03:09:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240724182119.652080-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240724182119.652080-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdXkPwfVT-iJp70pEi5ubpc5YBKt=a2C5NmL_tjbocXKRQ@mail.gmail.com> <CA+V-a8ttfEHwXqUU2OqxhjJ3E2jt+xCBrbziHtOUs1g74tandA@mail.gmail.com>
+In-Reply-To: <CA+V-a8ttfEHwXqUU2OqxhjJ3E2jt+xCBrbziHtOUs1g74tandA@mail.gmail.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Mon, 5 Aug 2024 12:09:12 +0200
+Message-ID: <CAPDyKFppZPadtEBocoVyQJkchKzQ4WgnLb0_CYgeHWk+noVbFg@mail.gmail.com>
+Subject: Re: [PATCH v5 1/3] dt-bindings: mmc: renesas,sdhi: Document RZ/V2H(P) support
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-mmc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Fri, 2 Aug 2024 at 11:32, Lad, Prabhakar <prabhakar.csengg@gmail.com> wr=
+ote:
+>
+> Hi Geert,
+>
+> On Fri, Aug 2, 2024 at 10:11=E2=80=AFAM Geert Uytterhoeven <geert@linux-m=
+68k.org> wrote:
+> >
+> > Hi Prabhakar,
+> >
+> > On Wed, Jul 24, 2024 at 8:22=E2=80=AFPM Prabhakar <prabhakar.csengg@gma=
+il.com> wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > The SD/MMC block on the RZ/V2H(P) ("R9A09G057") SoC is similar to tha=
+t
+> > > of the R-Car Gen3, but it has some differences:
+> > > - HS400 is not supported.
+> > > - It has additional SD_STATUS register to control voltage,
+> > >   power enable and reset.
+> > > - It supports fixed address mode.
+> > >
+> > > To accommodate these differences, a SoC-specific 'renesas,sdhi-r9a09g=
+057'
+> > > compatible string is added.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
+>
+> > > ---
+> > > v4->v5
+> > > - Dropped regulator node.
+> >
+> > Thanks for your patch, which is now commit 32842af74abc8ff9
+> > ("dt-bindings: mmc: renesas,sdhi: Document RZ/V2H(P) support") in
+> > mmc/next.
+> >
+> > > --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> > > +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> > > @@ -18,6 +18,7 @@ properties:
+> > >            - renesas,sdhi-r7s9210 # SH-Mobile AG5
+> > >            - renesas,sdhi-r8a73a4 # R-Mobile APE6
+> > >            - renesas,sdhi-r8a7740 # R-Mobile A1
+> > > +          - renesas,sdhi-r9a09g057 # RZ/V2H(P)
+> > >            - renesas,sdhi-sh73a0  # R-Mobile APE6
+> > >        - items:
+> > >            - enum:
+> > > @@ -66,6 +67,7 @@ properties:
+> > >                - renesas,sdhi-r9a07g054 # RZ/V2L
+> > >                - renesas,sdhi-r9a08g045 # RZ/G3S
+> > >                - renesas,sdhi-r9a09g011 # RZ/V2M
+> > > +              - renesas,sdhi-r9a09g057 # RZ/V2H(P)
+> >
+> > This looks wrong to me.
+> > Did you want to add it to the clocks constraint, like the third hunk
+> > in v4[1], and was it mangled in a rebase?
+> >
+> Oouch, yes you are correct, this had to go in the clock constraint.
 
-Address randconfig build issue where the linker reports an undefined
-reference to `r9a09g057_cpg_info`. The error occurs when
-CONFIG_CLK_R9A09G057 is not defined, leading to the inclusion of the
-device match entry without the corresponding data. By adding a
-preprocessor condition to the device match table, the entry for
-r9a09g057 is included only when CONFIG_CLK_R9A09G057 is defined, thus
-resolving the linker error.
+I am happy to apply a fix on top for that.
 
-Error message:
-   /usr/bin/ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
->> /usr/bin/ld: drivers/clk/renesas/rzv2h-cpg.o:(.rodata+0xc0): undefined reference to `r9a09g057_cpg_info'
-   clang-14: error: linker command failed with exit code 1 (use -v to see invocation)
-
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202408040932.SqrqyXGU-lkp@intel.com/
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/clk/renesas/rzv2h-cpg.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2h-cpg.c
-index a12720b4b498..504ee263919e 100644
---- a/drivers/clk/renesas/rzv2h-cpg.c
-+++ b/drivers/clk/renesas/rzv2h-cpg.c
-@@ -829,10 +829,12 @@ static int __init rzv2h_cpg_probe(struct platform_device *pdev)
- }
- 
- static const struct of_device_id rzv2h_cpg_match[] = {
-+#ifdef CONFIG_CLK_R9A09G057
- 	{
- 		.compatible = "renesas,r9a09g057-cpg",
- 		.data = &r9a09g057_cpg_info,
- 	},
-+#endif
- 	{ /* sentinel */ }
- };
- 
--- 
-2.34.1
-
+Kind regards
+Uffe
 
