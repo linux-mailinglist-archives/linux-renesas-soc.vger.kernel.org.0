@@ -1,61 +1,54 @@
-Return-Path: <linux-renesas-soc+bounces-7723-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7725-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCA129479EE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Aug 2024 12:36:24 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6548D947BAE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Aug 2024 15:17:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 67A82B214EE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Aug 2024 10:36:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9707C1C21B85
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Aug 2024 13:17:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E4301547F3;
-	Mon,  5 Aug 2024 10:36:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A631155315;
+	Mon,  5 Aug 2024 13:17:19 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2E0D1547D9;
-	Mon,  5 Aug 2024 10:36:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D821C17C;
+	Mon,  5 Aug 2024 13:17:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722854175; cv=none; b=kdHjGy+ZIZoI+98iY1dtPRsKeoPFnYs+97z3y5V2B7NRSPUWSABMNsh9RudcuxS3zxSbkOYGul2mmojWm/ZDV/QsnZQ42sKZlIl+Ep92J0KwPeepzEE2vj0ZqrvTNP0FmAmQ5ngsSeote/dDTHIoZJBSTeTY4hd3uPn2Q4Gc44k=
+	t=1722863839; cv=none; b=oGD4DFuoE7rVpO6xKi3HxA8JInsH0XV9UJL2ObLK4/OkeiJz0VPuwuFqv5zM110Lnee026aElafO4csmOH5if4J1GtiCo5gxaPLv3k83iaZnQ3f56rtTeBgL+SBjlziif7Vxkadgwh2OgPBPpseqTepmP0fXsnZJQ4N5M8KP++A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722854175; c=relaxed/simple;
-	bh=kBhmUclFzk726fT89zE3oK4ucx0reiqXAcJRjHeloQA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XZH8iC4K9IbyMfsCT1XOpphj7Ih5ouiWUvtOv3Kd3J76vjCvAmRpC91tTmNSNme1bBQ9rVts36hXjyckksgTDrLG8OAyYTtZzxUzn0zgJR4Nte3E7Q+wKzLp4fJI8z87uBtTvucAQaQLTp29RfyRGvOOSrATSNcPKAm8D0opc8k=
+	s=arc-20240116; t=1722863839; c=relaxed/simple;
+	bh=EXGHxu1+AmC0Qpkp+kCCzxhURJc66hrOSb2WDAemzuw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fQGex0sktYc0drTAGber3ne0AfdstWIntHSLqHAwPi8HAEn3UhH/RIg8TPlhT/oooE5HRCmREWm5/i33QP9tERL/58ddlpiHlBgpRzx7aXtcvlqvNyMUctWO4b/tr/g27nSQKrV81qBczA6UuVPjBrS6VXMYHrssTFxoDlsdQGM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 X-IronPort-AV: E=Sophos;i="6.09,264,1716217200"; 
-   d="scan'208";a="214716803"
+   d="scan'208";a="214728764"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 05 Aug 2024 19:36:08 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 05 Aug 2024 22:17:15 +0900
 Received: from localhost.localdomain (unknown [10.226.92.197])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id A083041FB3BB;
-	Mon,  5 Aug 2024 19:36:03 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1D049422F825;
+	Mon,  5 Aug 2024 22:17:11 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
+To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	linux-media@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: [PATCH v3 2/2] media: dt-bindings: media: renesas,fcp: Document RZ/G2UL FCPVD bindings
-Date: Mon,  5 Aug 2024 11:35:44 +0100
-Message-ID: <20240805103549.92369-3-biju.das.jz@bp.renesas.com>
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v3 0/2] Add RZ/G2UL {fcpvd, vspd} device nodes
+Date: Mon,  5 Aug 2024 14:17:04 +0100
+Message-ID: <20240805131709.101679-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240805103549.92369-1-biju.das.jz@bp.renesas.com>
-References: <20240805103549.92369-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -64,42 +57,27 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Document FCPVD found in RZ/G2UL SoC. FCPVD block is similar to FCP for
-VSP found on RZ/{G2L,G2LC,V2L} SoCs.
+This patch series aims to add {VSPD, FCPVD} nodes on RZ/G2UL
+SoC dtsi.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
+This patch series depend upon the bindings [1]
+
 v2->v3:
- * Added Rb tag from Geert and Laurent.
-v1->v2:
- * Added Ack from Conor.
----
- Documentation/devicetree/bindings/media/renesas,fcp.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ * Split patch series based on subsystem from DU patch series [2].
+ * Reordered the patch as vspd needs fcpvd handle, so added fcpvd node
+   first.
+ * Added Rb tag from Laurent.
+ 
+[1] https://lore.kernel.org/all/20240805103549.92369-1-biju.das.jz@bp.renesas.com/
+[2] https://lore.kernel.org/all/20240709135152.185042-1-biju.das.jz@bp.renesas.com/
 
-diff --git a/Documentation/devicetree/bindings/media/renesas,fcp.yaml b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
-index c6abe719881b..f94dacd96278 100644
---- a/Documentation/devicetree/bindings/media/renesas,fcp.yaml
-+++ b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
-@@ -27,6 +27,7 @@ properties:
-           - renesas,fcpf # FCP for FDP
-       - items:
-           - enum:
-+              - renesas,r9a07g043u-fcpvd # RZ/G2UL
-               - renesas,r9a07g044-fcpvd # RZ/G2{L,LC}
-               - renesas,r9a07g054-fcpvd # RZ/V2L
-           - const: renesas,fcpv         # Generic FCP for VSP fallback
-@@ -62,6 +63,7 @@ allOf:
-         compatible:
-           contains:
-             enum:
-+              - renesas,r9a07g043u-fcpvd
-               - renesas,r9a07g044-fcpvd
-               - renesas,r9a07g054-fcpvd
-     then:
+Biju Das (2):
+  arm64: dts: renesas: r9a07g043u: Add fcpvd node
+  arm64: dts: renesas: r9a07g043u: Add vspd node
+
+ arch/arm64/boot/dts/renesas/r9a07g043u.dtsi | 24 +++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
 -- 
 2.43.0
 
