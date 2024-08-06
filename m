@@ -1,137 +1,129 @@
-Return-Path: <linux-renesas-soc+bounces-7744-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7745-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97EBD9483F8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Aug 2024 23:13:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD0BF948913
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Aug 2024 07:55:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 524972827B0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Aug 2024 21:13:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9F6902844C8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Aug 2024 05:55:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3792216C69A;
-	Mon,  5 Aug 2024 21:13:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A5F51BC08B;
+	Tue,  6 Aug 2024 05:55:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JXC18KW7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D1RuLWcg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D35C143C4B;
-	Mon,  5 Aug 2024 21:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1681BC07C;
+	Tue,  6 Aug 2024 05:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722892385; cv=none; b=S4XPuAn7lKOH9+CnzQsDodBhno5XWL2QZDNchdj9buepUbaerX5cxf/KrumJe/z2X9YJjZderJU1FaY84qgJCnFsVk8OnY9D3YOb91bNdx6iCkgKpzrrggN2IBvbTlcY7/hscmTw19++Ui9CWSN7fEa5PLe92+x1Rgs7LZNftKE=
+	t=1722923716; cv=none; b=k3IiUJ4l479VAOAw3ubQSLvyzmjVq5ZXN8GioPWoiQ9EJHUp7Opi2jXgViy5JUiIulqbsOLInEyfmRDEpRENq+twuK1CWtq6iwnkZS0ieaYuqP5lWVHXV0mOOz4cA+3WJffgZDmlOAIqaa4VwmneS56ImULhfYP+fQR08/EGv9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722892385; c=relaxed/simple;
-	bh=GKIltvKfS6leUBykxSmVYGNTPtz7UIjd8+lmcpYKYv4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fIfha07a/hAzPcug/hMsdMe6I0cVxpIxQsFt4xEhXcXIm4zCqW1oUkqUeSN72KrAELfvj7PyLrXPDw2nOhBaIfd8JrRTaiCQhyMg1868Kqv9LxotUTVg21Gh0nz3go0TnGJh5cT4lAJO8xCeCdWahZP9TSiFgis9RfpXaXZf1/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JXC18KW7; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-428243f928fso73649055e9.0;
-        Mon, 05 Aug 2024 14:13:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722892382; x=1723497182; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9XnYk4nBJQkbEQGECG7D//tp8apD1fduAxJBFwjq4DM=;
-        b=JXC18KW7nUiyf/w69ycEjuWU3hkL2ygKgIjFsb+raSNb+abSXIpjIDA9PaGykZZ0lx
-         7zeGYLRFhNbWIxGDqOCzLidKjNLBqakUxixFD1gjih8M8oec9ut0PWkcVAFKuOMXKdJA
-         pI9tq9gPVc1HArrMzMS+TK2riiirS/dvmWoMzcVxh1/CP5mypbXacFmwFDV73Qe3HUaN
-         bgTP5r/jcigqvtHkBKs7HCRtwmXlsVzk5epDvx9dQEytoBgpi1Nu7ncZRTl8/dAvG454
-         D+K8YHb+6HabsltvOMFAXsegfcbNga1xZieQpQY8P2S1Zx3d6vbH1sHAM0gkzc9hp/zR
-         JDCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722892382; x=1723497182;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9XnYk4nBJQkbEQGECG7D//tp8apD1fduAxJBFwjq4DM=;
-        b=Qtfv+0xB+TtJ4Y7x/EF4yTArlL+yb6vzCUOrwymBacm78K17W8zqaR0OcTImllqVKK
-         bL/ObIgH/fJ4HVLC+WfzXMTk+juD6FuoqlC6aho6+szKZSkTCYQGFs35yGGKCOlz/265
-         9+rTi0KOCIiRiMWWj4uMoEw1C0Sa4hJaf0YfFX2ci2U38VCW5t0z0ba4Soce/n6WXGMY
-         yW7GLcQV8uxZMtUik1AVZI33f/fPYUuIBgaiC682no2EsX+7hbvzNe6pLVVhMN8cwCZa
-         cC0QWxTdBiqdZfLwgIv/vOoToSyxC1skd2YZ+E0q9YL/PTXzwcS4dMvewWcCBnTJHFHh
-         PzFA==
-X-Forwarded-Encrypted: i=1; AJvYcCXR6kbE/11JZD3YHIC0kP8iswLZsJDArT3iYHknZfD/oKJCmNbBST2TWiBOn5wYOVMDO/xxFsDBJKcL//zWCWkJhtYhlxSn6GWy5qBmX2BAk0HS2U2qvGwBMHoi3fPaSPtGNHj5W3wmCDog73+Sp5OTjg/UA+0Qxb+Gw6AyS4H7ir5wBDrqJ6ZEDVuj
-X-Gm-Message-State: AOJu0YxeKtMIDdOdSI3oAcOvA0SdlBau8r2ttFp3Ny1fe9wO81hdlkFr
-	aHumZSIfqLqMbvPX4mO2CmlEACr/OKf/hhvLHtxnYYemJ8CX57fV
-X-Google-Smtp-Source: AGHT+IF0MAkm46zVSrvjITVZskp6akC97LTpgOFj9SOtWvkG9u/cXHJXxqD1jpsnxB23mSTfiV0GsA==
-X-Received: by 2002:a05:600c:4452:b0:428:e30:fa8d with SMTP id 5b1f17b1804b1-428e6af27a3mr115782765e9.6.1722892381373;
-        Mon, 05 Aug 2024 14:13:01 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2500:a01:25b8:5324:d26c:319c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4282b8adaadsm215391455e9.12.2024.08.05.14.13.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Aug 2024 14:13:00 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-mmc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: [PATCH] dt-bindings: mmc: renesas,sdhi: Remove duplicate compatible and add clock checks
-Date: Mon,  5 Aug 2024 22:12:57 +0100
-Message-Id: <20240805211257.61099-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1722923716; c=relaxed/simple;
+	bh=NQmXkhU3Hn2ExUohpNXfA1yRwH+B9cNfk9UPZJPR8RE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DyQeoCWM1maWEtGF0dwVzNGxnUdQKnhi1HJzYCAhQPRtvSMIM4wyVyFYnuzVu2SRJWD0k+3x/akHJWRdtea8FHgqzlYEGbpeMZ4u1EnBFzhklgtJjBPZYl+QbyU7N46b/L8lBlnTzlB8RcfDaRE7uILzw6OGpJrsWgjvr1+6g4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D1RuLWcg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FFCBC32786;
+	Tue,  6 Aug 2024 05:55:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722923715;
+	bh=NQmXkhU3Hn2ExUohpNXfA1yRwH+B9cNfk9UPZJPR8RE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=D1RuLWcgqM03gIay4o1t2zYO9kWYs9TAOObGk4AI7TgOlA2oU2lLC5nLNlz4XIl4u
+	 dlG1zAwoNJaGBOxh76GvQY4v/dAlHX6JYFyOkN4EdWvxkPq1FJfAftAJ1VvgStqyTx
+	 Ez0atdB3zRGkFk2XVZrfP8gdYJ7zjyuONKzz4TbM9fB3zSv1AY4P1uzFQAb7QyjH2q
+	 k7oFptWu9xUXcRYkon1cPwVdf+ZyJy/qPBjusEHErz1wugMMZ81L06Q+t+1kU0GA0f
+	 1p+hdRLZiRLE86scjOgcyNRxVZozHlqxrY2tv9DWd6SiXIzj84j7z9b0YQB2GOZOEe
+	 g2+6/wvpLePjg==
+Message-ID: <9f459583-3530-4d5b-a6a5-d5fc1450af40@kernel.org>
+Date: Tue, 6 Aug 2024 07:55:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dt-bindings: mmc: renesas,sdhi: Remove duplicate
+ compatible and add clock checks
+To: Prabhakar <prabhakar.csengg@gmail.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ Biju Das <biju.das.jz@bp.renesas.com>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20240805211257.61099-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
+ QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
+ gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
+ /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
+ iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
+ VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
+ 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
+ xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
+ eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
+ AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
+ MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
+ Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
+ ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
+ vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
+ oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
+ lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
+ t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
+ uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
+ 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
+ 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
+In-Reply-To: <20240805211257.61099-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On 05/08/2024 23:12, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> Remove the duplicate compatible entry `renesas,sdhi-r9a09g057` and add a
+> restriction for clocks and clock-names for the RZ/V2H(P) SoC, which has
+> four clocks similar to the RZ/G2L SoC.
 
-Remove the duplicate compatible entry `renesas,sdhi-r9a09g057` and add a
-restriction for clocks and clock-names for the RZ/V2H(P) SoC, which has
-four clocks similar to the RZ/G2L SoC.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Fixes: 32842af74abc ("dt-bindings: mmc: renesas,sdhi: Document RZ/V2H(P) support")
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-index 1155b1d79df5..92622d65f12f 100644
---- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-+++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-@@ -67,7 +67,6 @@ properties:
-               - renesas,sdhi-r9a07g054 # RZ/V2L
-               - renesas,sdhi-r9a08g045 # RZ/G3S
-               - renesas,sdhi-r9a09g011 # RZ/V2M
--              - renesas,sdhi-r9a09g057 # RZ/V2H(P)
-           - const: renesas,rzg2l-sdhi
- 
-   reg:
-@@ -120,7 +119,9 @@ allOf:
-       properties:
-         compatible:
-           contains:
--            const: renesas,rzg2l-sdhi
-+            enum:
-+              - renesas,sdhi-r9a09g057
-+              - renesas,rzg2l-sdhi
-     then:
-       properties:
-         clocks:
--- 
-2.34.1
+Best regards,
+Krzysztof
 
 
