@@ -1,128 +1,143 @@
-Return-Path: <linux-renesas-soc+bounces-7759-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7760-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29519949813
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Aug 2024 21:15:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3AC89499D2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Aug 2024 23:06:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D885F2819BE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Aug 2024 19:15:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 675D1282E3E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Aug 2024 21:06:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 905B880024;
-	Tue,  6 Aug 2024 19:15:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74215158DBF;
+	Tue,  6 Aug 2024 21:06:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HDKLbau2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BED8B7E591
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  6 Aug 2024 19:15:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF6824315D;
+	Tue,  6 Aug 2024 21:06:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722971733; cv=none; b=L0crg444cYQVA208JQwqNfkWMw0lXP+v1S8Av8BppHuTCoW02s8RHU3yI7xLOolmlC5e+boxPAAeOSphmDTxUu9lsBjgOGGTNS1arfErozuvWMLZn8R8x1o0e5Mo79cp58sv0v706USYLhO12Z25q0gwYZsBLPIX6faL6rH+il8=
+	t=1722978411; cv=none; b=N4TQkJRgDPHmHku2hj3aLy3Qq+UQQ/4VCZ6vVS+PxkMUL5rQUg2Oyh2r5jVpxZtuqSWsQNbtlenUPw5WgpvLGM28o6d7su8pggLdiQOvV4hXtknZ22WtJr01RVURht855KS+sXeFil4K4bFy82essGQQEfxbDYodQPzMBhjSZ1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722971733; c=relaxed/simple;
-	bh=/KTY3Gaho72Tf3+2/vhp6C+9MfaiqfVEjgZtRJhZ9k0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aqa+KZQiFC5SeAu5DM1GS+vQqQ7Mq2cwfKpCoKPj1XvnoOmyEgdgUIPyFzlS9eW87ojS+vqCibTbhinVs0wG/Rns+t6v/RHyLppvLFwcJhq4MN9tt9PpxaKzV4vOO8ZhyvouyZT9UvbEVpuDj5yM4VPAy35CQxfXwcz5Y0ilZgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1sbPeI-0004ET-0G; Tue, 06 Aug 2024 21:15:10 +0200
-Received: from [2a0a:edc0:0:b01:1d::7b] (helo=bjornoya.blackshift.org)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1sbPeE-0051Tg-Pj; Tue, 06 Aug 2024 21:15:06 +0200
-Received: from pengutronix.de (p5de45302.dip0.t-ipconnect.de [93.228.83.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id 6F10F31831F;
-	Tue, 06 Aug 2024 19:15:06 +0000 (UTC)
-Date: Tue, 6 Aug 2024 21:15:05 +0200
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, linux-can@vger.kernel.org, netdev@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Duy Nguyen <duy.nguyen.rh@renesas.com>
-Subject: Re: [PATCH v3] dt-bindings: can: renesas,rcar-canfd: Document R-Car
- V4M support
-Message-ID: <20240806-fragrant-nimble-crane-c5a129-mkl@pengutronix.de>
-References: <68b5f910bef89508e3455c768844ebe859d6ff1d.1722520779.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1722978411; c=relaxed/simple;
+	bh=tYOLfx29CK4is6FjILK9GODF0GQ7ZpD4V7eaQPC9uuM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Z7hC2A/XKI+8kpT27aKSCxQ0/eWAtU8V4138l2kkqNior4AONkH+27aKvbPW3kH6r9hGVsDUU5XSRiUfyWLxg+XL5LDXyKmEy6ZSNy0og2K6fv47X5m4h6G6mxxxClEzV0f8wcTyYyFkpW+Ozg+KxUsOOGjebGXCfzwLa5RNtcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HDKLbau2; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4280bbdad3dso7550485e9.0;
+        Tue, 06 Aug 2024 14:06:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722978408; x=1723583208; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UPPMH/+ylcKG4ryd8M9muiUzqaiOJErbAQdD/Vbjb2M=;
+        b=HDKLbau2KCpf1QLbYSKCVUHj98xYXtfn8hc+0TRoe/H8qCbzE9Pr3i1PnNyfRViN5z
+         bTTUVXe/RjBDNbUJ/6US/C6FTlxEV6mnEe2eSjWp6mBDGpzneFJT+oiKJo6KF+WqY6WG
+         1YAu1gIdIGNAZeQyq8k4Zkc+w6suAFjten5IwkHwoCSVPzDc3YQz1oReyxRi83zJ9+1Z
+         h3je8f75S0NFCRu8ZFCeeAM/qHLuWQedBK5x2uNYgzbbPzpai2r+GqREVvFVj/NkJcjC
+         OzhO+hPuxwEdBBzXYgao2f3GWj4YGAcQGGO+a80CX+39EbcBineYAaGLQuWJ3QAo6C8b
+         Bflw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722978408; x=1723583208;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UPPMH/+ylcKG4ryd8M9muiUzqaiOJErbAQdD/Vbjb2M=;
+        b=bYr2VTc988u8XflIJ3Kh4Dwhoxt5Y92yxr6/YEMxevAU4e7hTVAKc1Z7ONabPqtzZN
+         33lFz3ROC9UuHM7k+8yrhG0KjKDF5HpJTAImk3QcFER9mYDlDMecugX1MDqSjMfS3c3V
+         vE5o3ElaLgu3Y8zBM4MVKjU0kbs0a61zGOQV8qQ/cQnaJ8iR3r4z0to2C+XVX9+lKteF
+         iZiAkxhn46UiMMCLSIyi3UuCPtCmGITFszHsaHQAsoNt6/VFl79TU/vgwngmQR4ED0M5
+         Q9Fvg0db1qly0FT7on6rXV+lcBwafa4vCESLW37cxgeicXWin0VDUr9znteWW4d9G+kD
+         3F3g==
+X-Forwarded-Encrypted: i=1; AJvYcCX6fu3sqW+xamjLle2axPDOFQiSLs8ugPnwXvcQUPJQvbEo0zlVLdyEJynD+qDThYevfFJ0KAiPkChpARjZmYRekg+2iKeezM+JE7c1+MuaktN+2/CSSmdsdMPhHZUe93G6VPuk6waGN5fJ+Rfavc56KxfO3Rw2Nt15fNWpcPAQdB9o2WyWDGzfDYvWQQ+1YA==
+X-Gm-Message-State: AOJu0YxkekCWGy0MmPMBlPVTwdBvcBB6eQZpfC8272v3Vpp06TpModtN
+	qGUASEZZthWgyra5zBybEmTEfDSwlxj/02A2wk/2BEVEJKLDi8Vm
+X-Google-Smtp-Source: AGHT+IFS0a47nUcBqWZ9vtSyVhp8Oe/RZWg90rK/M0uSVhtTsX1IdrDwvP5Gkc7P27IP0MODpm4z5A==
+X-Received: by 2002:a05:600c:4690:b0:426:6ed5:d682 with SMTP id 5b1f17b1804b1-428e6b09048mr103744315e9.12.1722978407615;
+        Tue, 06 Aug 2024 14:06:47 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42904f92a2dsm1384025e9.2.2024.08.06.14.06.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Aug 2024 14:06:46 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-watchdog@vger.kernel.org
+Cc: devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v4 0/2] Add Watchdog Timer driver for Renesas RZ/V2H(P) SoC
+Date: Tue,  6 Aug 2024 22:06:21 +0100
+Message-Id: <20240806210623.183842-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="mknissrzzstlngmz"
-Content-Disposition: inline
-In-Reply-To: <68b5f910bef89508e3455c768844ebe859d6ff1d.1722520779.git.geert+renesas@glider.be>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
---mknissrzzstlngmz
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi All,
 
-On 01.08.2024 16:03:17, Geert Uytterhoeven wrote:
-> From: Duy Nguyen <duy.nguyen.rh@renesas.com>
->=20
-> Document support for the CAN-FD Interface on the Renesas R-Car V4M
-> (R8A779H0) SoC, which supports up to four channels.
->=20
-> The CAN-FD module on R-Car V4M is very similar to the one on R-Car V4H,
-> but differs in some hardware parameters, as reflected by the Parameter
-> Status Information part of the Global IP Version Register.  However,
-> none of this parameterization should have any impact on the driver, as
-> the driver does not access any register that is impacted by the
-> parameterization (except for the number of channels).
->=20
-> Signed-off-by: Duy Nguyen <duy.nguyen.rh@renesas.com>
-> [geert: Clarify R-Car V4M differences]
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+This patch series aims to add WDT support to Renesas RZ/V2H(P)
+SoC.
 
-Added to linux-can-next.
+v3->v4
+- Simplified calculation of max_hw_heartbeat_ms
+- Turn on the clocks first before reset operation in start & restart callbacks
+- Added checks in restart callback before turning ON clocks/resets
+- Dropped udelay after every ping operation
+- Added comments
 
-Thanks,
-Marc
+v2->v3
+- Fixed dependency, ARCH_R9A09G011->ARCH_R9A09G057
+- Added dependency for PM
+- Added delay after de-assert operation as clks are halted temporarily
+  after de-assert operation
+- Clearing WDTSR register
 
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+v1->v2
+- Included RB tag for binding patch
+- Fixed review comments from Claudiu
+- Stopped using PM runtime calls in restart handler
+- Dropped rstc deassert from probe
 
---mknissrzzstlngmz
-Content-Type: application/pgp-signature; name="signature.asc"
+Cheers,
+Prabhakar
 
------BEGIN PGP SIGNATURE-----
+Lad Prabhakar (2):
+  dt-bindings: watchdog: renesas,wdt: Document RZ/V2H(P) SoC
+  watchdog: Add Watchdog Timer driver for RZ/V2H(P)
 
-iQEzBAABCgAdFiEEUEC6huC2BN0pvD5fKDiiPnotvG8FAmaydjYACgkQKDiiPnot
-vG+u2AgAn4+6wZaPame+miPr3sdkTEbM/Lg8mogLdoWmXvVo+Th8y/L03f4Toefj
-ms/W67M+6IKrmQ0knx6dvuxoqv2gm3nDDvaxl6cjbmob7bfRqgXgyMCkeQoLnHX3
-fQODaGqxPQUwJMVWkr2a1n22/0amEJS8rt5mJ3JB9q5ZbKomD600abjFBXi2CMiw
-rePQSVXAz7Xs8zliYk1fDUvPU7df+P+oTTFUOvl/6G38xnmRBYPHNEyPdSWN+cKZ
-p3LYYX0BcbjxovTUEx++/Ex9g9KX2OhVroi5C6He7to34xFYgMZmyiA35iZ4Zd8i
-PuyzFe7V+Qyl/4McRVkCyseIDq74Gw==
-=nZkM
------END PGP SIGNATURE-----
+ .../bindings/watchdog/renesas,wdt.yaml        |  17 +-
+ drivers/watchdog/Kconfig                      |   9 +
+ drivers/watchdog/Makefile                     |   1 +
+ drivers/watchdog/rzv2h_wdt.c                  | 272 ++++++++++++++++++
+ 4 files changed, 298 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/watchdog/rzv2h_wdt.c
 
---mknissrzzstlngmz--
+-- 
+2.34.1
+
 
