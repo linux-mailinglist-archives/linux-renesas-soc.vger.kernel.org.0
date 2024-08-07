@@ -1,105 +1,161 @@
-Return-Path: <linux-renesas-soc+bounces-7763-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7764-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5DB494A227
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Aug 2024 09:57:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31B0B94A6D5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Aug 2024 13:21:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5F3761F22610
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Aug 2024 07:57:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E06B72838F8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Aug 2024 11:21:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 659D61C8227;
-	Wed,  7 Aug 2024 07:57:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A90081E3CA4;
+	Wed,  7 Aug 2024 11:21:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZkqZPmQM"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="FD6+mn5Z"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 355031C7B7C;
-	Wed,  7 Aug 2024 07:57:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6830B1DD39A
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  7 Aug 2024 11:21:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723017439; cv=none; b=ifkCMoES2QABhzGPPVvXAC9ERgesk45qC/ztiQ51W17kz4GAyKP04vIELCwBzUYPDTPFni9GX/SEfMUhcE9n+3rc1qpl/9mw5/JV2QxroKe7q22ByWCGwmgiz60jqOjvCCs5LEAuAf7p1vwcOFPIUkONkGcMwM+M2fiCn7rARUE=
+	t=1723029693; cv=none; b=XH2og1OBl1dEy38FOdOggB2h1B2GSZQ9at7u1F/ZJoW6876tuwFNW0pjGlfkwH11AOwcgdu9iQU1Dy2iqUihtKDSc0OcimPJUs0mk61WZMKOsqv7BX+KBYIIuzoebLPUYh4Ub8yhPPcY+6XdCuPziZ66piKBWpSkTIxIZBSAr+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723017439; c=relaxed/simple;
-	bh=s08IpeR5OJliwFxXvYuOnvxCOlF6Vzqg/pmxO7QBo+c=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fweAG37v/qHUTpr1bowjbrz83X9yqKkMshCu2Qc/F3EH7mKe1/JG7e+Y38IEX4qHxFOC3RIGQ62x24HmjQ1W/N6pdIQq/6QEuLlUp+kKdPqWXs46KuhHB+g6uc+2DjMQr+BSjmvmFd0iHCNrzOKhivM5UGp2RDJJuru0hfJaj5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZkqZPmQM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38AEFC4AF10;
-	Wed,  7 Aug 2024 07:57:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723017439;
-	bh=s08IpeR5OJliwFxXvYuOnvxCOlF6Vzqg/pmxO7QBo+c=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ZkqZPmQMHNYrrcOgKiaBDlMdww75Py2+QzisIWH+oKPgxnP1zzlBSCvZX7fMXDwxq
-	 GLkcCV92AsnN9pk51mNosUc1j0W/3SxSri4erDpXKpmdmYS2UskYyFK6ImL7t0U0Rm
-	 9cm4nUVQBhzMQvKwfvI1uCd0ZXL0Xie+Bwt8J1EzJjY5MnV4lltBrOHuWIVCdN3VJ9
-	 B0jHOUX3AMcQAcVNLSwPYtG9T6JLBd1wsQXBBbDNh/PlqEa9VJltGrD3L3MVZydH5d
-	 tEQ7J+7mYLjmOHidIJmgi39UobbACTGyVd76p4ej7CP7l9J5xuQXoXqpehHFwNfe4p
-	 1lrz1XsNukX8Q==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] clk: renesas: fix r9a09g057_cpg_info link error
-Date: Wed,  7 Aug 2024 09:56:58 +0200
-Message-Id: <20240807075714.2156445-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1723029693; c=relaxed/simple;
+	bh=LDuVR8Q8SBltlZ0Y7R0bvpdndZWmNaepum4NflH3uEs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NR1MfmYHNOzSjn2HFQVyzXKpnluuo9K1RhhG229x1HLhxw8jIcDfjqMHNdia/Q+C981Ca15VH2SfKkjfGdd0ShUl6HOqtm2Mf47EHp4zlf9BymY69sfJkUgRd2H1O3uSUyQcVsIFfb0OLqViFeBREh7jp/wo+cvLsFAjknMZMAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=FD6+mn5Z; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5a15692b6f6so2249959a12.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 07 Aug 2024 04:21:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1723029690; x=1723634490; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=O63kDKJnx9fmZjMbiNZsuL2wJTTHJuwzpsSd5JTI0e0=;
+        b=FD6+mn5ZHCrD3MxYmmtC0VaBk3LNHgpKvrKG5BG3p7OaFGG7h9rG8czOmjZX4nQImD
+         y5ee6jjh5mbznkAxusuMXeZBaBZwGdBSbi90RAx756W3xWr2Tps20+RC416Ig9BMDolB
+         AZLU7VeCBkhpciT+ZgCXq7YK7axvCZ0IObzUNM5T2fBIsh3pP6O8GIcfNUdRCmUQvV1s
+         KXPMcISCImcynppr/bYpfaysZDx08IXPZnXVMIDkSanxVmvRKgYuoXIrfQlbDYSSIOpV
+         uowFo+3ggvY+8kzhhpGbNZnhfxNB7K8Wq/ciJnod3aoPoeXZ6LnEki3cSHhMLFO563zq
+         /kxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723029690; x=1723634490;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=O63kDKJnx9fmZjMbiNZsuL2wJTTHJuwzpsSd5JTI0e0=;
+        b=pVzUMhhB+BaoQ9FnGuaImqp6IZk2JJONPVIUv9aZULN9A5//j4hMflWWSkOu29p32J
+         QlKzqWIQXHsk//8ZST9Ma6Ry1YIsQndbr5oW7YPn1/CJSzK5ganBHhtYcKamf0U94f68
+         2isBvq83hl4q0f9K/c/vjaIH9QXX71ESq985JE3s7aEDZPohrageRgzsgLgLw/c1D/zr
+         ZdHQgCE61bo0v6oNxe7YxI942mg1bDhFyIinEVPEatjBCEIatlWg8vK2f1Lc42qDrGfm
+         RMUqH+Gg1cmMxeJgNVuWm2HrYlQaSRYo/fDOL1PqUNgIRQmXjRZDzufBSvQh6pk/o2b5
+         k26Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUF3uvouHW43W2yRW5yLBCQNXZqo21wAA75W4RX8bpdwK6zcr2nwf2Gn3G81QVQXCRdIRn9SHNyIQdDkiY341UzJdfIY69NsY1RabZ836LuBQY=
+X-Gm-Message-State: AOJu0Yx1/O9Uqj300IOh8F0O9WlHODEapBAeiB8GAOQpMCcZzsVHtS1u
+	mrdNpYUFE+C0G7cccv3eKpkdyIaVsP/rn1GZfeRCVXHmVZW522BAU37ReyG4ezY=
+X-Google-Smtp-Source: AGHT+IHM3r2bAdSLrg/pmt0OrZB5Bhj5Th6878fNVzaGx5MeOuvAuO1T3w9OQvFHUVXk+68bCP5iCA==
+X-Received: by 2002:a17:906:fe41:b0:a7a:a46e:dc3f with SMTP id a640c23a62f3a-a7dc50a345bmr1206383166b.45.1723029689288;
+        Wed, 07 Aug 2024 04:21:29 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.5])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7dc9c0cc95sm624246766b.85.2024.08.07.04.21.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Aug 2024 04:21:28 -0700 (PDT)
+Message-ID: <201cbbe6-99eb-4622-bc5f-3d298f9e30b4@tuxon.dev>
+Date: Wed, 7 Aug 2024 14:21:25 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 0/3] watchdog: rzg2l_wdt: Enable properly the watchdog
+ clocks and power domain
+Content-Language: en-US
+To: ulf.hansson@linaro.org, wim@linux-watchdog.org, linux@roeck-us.net,
+ rafael@kernel.org
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, geert+renesas@glider.be,
+ linux-renesas-soc@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20240619120920.2703605-1-claudiu.beznea.uj@bp.renesas.com>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <20240619120920.2703605-1-claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Arnd Bergmann <arnd@arndb.de>
+Hi, Ulf,
 
-The rzv2g-cpg.c driver unconditionally links into the r9a09g057
-one, but that may be disabled:
+Please, do you have any input/suggestions on this?
 
-aarch64-linux-ld: drivers/clk/renesas/rzv2h-cpg.o:(.rodata+0x440): undefined reference to `r9a09g057_cpg_info'
+Thank you,
+Claudiu Beznea
 
-Use the same approach here as with the rzg2l variant, using an #ifdef
-around tha data.
-
-I think both drivers would be better off doing the abstraction the other
-way round, with the platform_driver structure defined in the most specific
-file and the common bits as a library that exports common functions.
-Changing it that way would require a larger rework of course.
-
-Fixes: 42b54d52ecb7 ("clk: renesas: Add RZ/V2H(P) CPG driver")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/clk/renesas/rzv2h-cpg.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2h-cpg.c
-index bc0c3bbdb997..34221046dc46 100644
---- a/drivers/clk/renesas/rzv2h-cpg.c
-+++ b/drivers/clk/renesas/rzv2h-cpg.c
-@@ -664,10 +664,12 @@ static int __init rzv2h_cpg_probe(struct platform_device *pdev)
- }
- 
- static const struct of_device_id rzv2h_cpg_match[] = {
-+#ifdef CONFIG_CLK_R9A09G057
- 	{
- 		.compatible = "renesas,r9a09g057-cpg",
- 		.data = &r9a09g057_cpg_info,
- 	},
-+#endif
- 	{ /* sentinel */ }
- };
- 
--- 
-2.39.2
-
+On 19.06.2024 15:09, Claudiu wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> Hi,
+> 
+> Watchdog device available on RZ/G3S SoC is part of a software-controlled
+> power domain. The watchdog driver implements struct
+> watchdog_ops::restart() handler which is called in atomic context via
+> this call chain:
+> 
+> kernel_restart() ->
+>   machine_restart() ->
+>     do_kernel_restart() ->
+>       atomic_notifier_call_chain() ->
+>         watchdog_restart_notifier()
+> 	  rzg2l_wdt_restart()
+> 
+> When the rzg2l_wdt_restart() is called it may happen that the watchdog
+> clocks to be disabled and the associated power domain to be off.
+> Accessing watchdog registers in this state leads to aborts and system
+> blocks.
+> 
+> To solve this issue the series proposes a new API called
+> dev_pm_genpd_resume_restart_dev() that is intended to be called in
+> scenarios like this. In this RFC series the
+> dev_pm_genpd_resume_restart_dev() checks if the system is in
+> SYSTEM_RESTART context and call dev_pm_genpd_resume(). I also wanted to
+> mark the device as a restart device with a new member in struct dev_pm_info
+> (similar to struct dev_pm_info::syscore) and check it in the newly
+> introduced API but then I told myself maybe it would be better to keep it
+> simpler for the moment.
+> 
+> Please let me know how do you consider this.
+> 
+> Along with it, series addresses the usage of clk_prepare_enable() in
+> rzg2l_wdt_restart() reported by Ulf Hansson at [1] and use the
+> dev_pm_genpd_resume_restart_dev() in rzg2l_wdt driver.
+> 
+> Please note that series is built on top of [1].
+> 
+> A similar approach (using directly the dev_pm_genpd_resume() function in
+> rzg2l_wdt was proposed at [2]). This series was posted separatelly to
+> avoid blocking the initial support for the RZ/G3S SoC.
+> 
+> Thank you,
+> Claudiu Beznea
+> 
+> [1] https://lore.kernel.org/all/20240531065723.1085423-1-claudiu.beznea.uj@bp.renesas.com/
+> [2] https://lore.kernel.org/all/20240410134044.2138310-10-claudiu.beznea.uj@bp.renesas.com/
+> 
+> Claudiu Beznea (3):
+>   pmdomain: core: Add a helper to power on the restart devices
+>   watchdog: rzg2l_wdt: Keep the clocks prepared
+>   watchdog: rzg2l_wdt: Power on the PM domain in rzg2l_wdt_restart()
+> 
+>  drivers/pmdomain/core.c      | 18 +++++++++++++++
+>  drivers/watchdog/rzg2l_wdt.c | 43 +++++++++++++++++++++++++++++++-----
+>  include/linux/pm_domain.h    |  2 ++
+>  3 files changed, 58 insertions(+), 5 deletions(-)
+> 
 
