@@ -1,244 +1,120 @@
-Return-Path: <linux-renesas-soc+bounces-7775-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7776-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14C2F94BE61
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Aug 2024 15:17:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57A3A94C067
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Aug 2024 16:59:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C1F671F261CC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Aug 2024 13:17:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 878561C229CD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Aug 2024 14:59:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99DDC18DF95;
-	Thu,  8 Aug 2024 13:16:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44CA018EFCA;
+	Thu,  8 Aug 2024 14:59:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="BAgGdpoI"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B16118DF71;
-	Thu,  8 Aug 2024 13:16:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F63118C925
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Aug 2024 14:59:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723123010; cv=none; b=tBeWXLHZUaLuq9YIek4WxYSbu3ctZxHhAUyvmUKP6xvi4l3LzI2dmx5BWV4PgPrmbj3ZDK9qoGqT4sd24yvXiOiFtnM0A+2H2k2jypjTea4Pa4+HYtCfxx5EAHAiKDdDG57u1HiLeK3xUTFK7J6va1nPjCU/PTpPQ62VbgMhH+A=
+	t=1723129156; cv=none; b=gQB6eiP4nUbPX85MUiyhpGso6sAXe22SBTokP5jz7e1HMaX5BvKTyCYT39JCBbQ2fskoWVX3nOH0upIFuUeF8R4O24Ix6uiz/NGgC8sYoYZ7REfuZNz9N2t5Spzrzs+BhPEc7o4taaQUM48lEX21PxYAiJM1cuDrzt7vzuGTpwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723123010; c=relaxed/simple;
-	bh=oDGQ7ZC0lz1iojfA8GQTXBW47C7WXL7zk1MEAeLZric=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Q03Mp6a0TvxPh8bFox45J+NEUgYvZZtmmdCCR/NRi9YXm4B25sZXpipjnCK3qTstfZ0HD8VoaulIQ0FOPemC/gx7zAD3S36oB422nRTDGTOf1a1gAVWvOZPZJ7rzcxRhc23Egaqsttm7RyDHobhYbNRdpOUHIoIgQQkh7VI/pkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.09,273,1716217200"; 
-   d="scan'208";a="215122095"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 08 Aug 2024 22:16:47 +0900
-Received: from localhost.localdomain (unknown [10.226.92.225])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id A6588427A697;
-	Thu,  8 Aug 2024 22:16:44 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-pwm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v21 4/4] pwm: rzg2l-gpt: Add support for gpt linking with poeg
-Date: Thu,  8 Aug 2024 14:16:20 +0100
-Message-ID: <20240808131626.87748-5-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240808131626.87748-1-biju.das.jz@bp.renesas.com>
-References: <20240808131626.87748-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1723129156; c=relaxed/simple;
+	bh=gIrobRG6cp9epmRS0lXlVeQtskaNnwNFxb/z6eMhSqc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sFtfblbc1Bio/Bi++6tsyCLOLnVmuSgszcm0/nXyNkwi11wrpCPIWcIvQk8km1W7qN6qfKHXe+tUFtlC9zTA5jQV/DoT2EsMggznoZenfsGn0xMOjevsSVE9pJyeQKUfMnige04spnuwY0SU4FCkxpqlW7aX7JX3Imjs6oLr4/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=BAgGdpoI; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=gIro
+	bRG6cp9epmRS0lXlVeQtskaNnwNFxb/z6eMhSqc=; b=BAgGdpoISHuS0a7gwFNO
+	Xx+yqDEpNIRseTkSLLWB8W9kG5YCY3AAaSek3JQaN8YsqmOfP2BWQccslwhIje7e
+	Fan93urothc01k9DmGi+hTkWEynFN1xS+SRIGK5HCS1MhbO1YlnXeU+VC7TXxC2Z
+	Re1v5jLJEpvsDmsbv8ZG7/z+UVf+194uSNoQwyTuR673PxSUwNXTljAPchoiAjCJ
+	DgLEcd7eHiOCPsPEIViBeeM5ry1Eb9ZNCVAxJJj/VmYIKagymvHACQ0nVhunes2p
+	rsoUW11mm6sOkoXT43qDdK3s2bQt0l14dIb1M5cgw5lZvbLydcNkh+A/CG9hMeti
+	8A==
+Received: (qmail 348998 invoked from network); 8 Aug 2024 16:59:03 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 8 Aug 2024 16:59:03 +0200
+X-UD-Smtp-Session: l3s3148p1@5/l1RC0fFCptKPBr
+Date: Thu, 8 Aug 2024 16:59:02 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: chris.brandt@renesas.com, andi.shyti@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, geert+renesas@glider.be,
+	magnus.damm@gmail.com, p.zabel@pengutronix.de,
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH v3 01/11] i2c: riic: Use temporary variable for struct
+ device
+Message-ID: <ZrTdNiFLYoZecmjX@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Claudiu <claudiu.beznea@tuxon.dev>, chris.brandt@renesas.com,
+	andi.shyti@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com,
+	p.zabel@pengutronix.de, linux-renesas-soc@vger.kernel.org,
+	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20240711115207.2843133-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240711115207.2843133-2-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="d06YuoTTMO2glfO+"
+Content-Disposition: inline
+In-Reply-To: <20240711115207.2843133-2-claudiu.beznea.uj@bp.renesas.com>
 
-The General PWM Timer (GPT) is capable of detecting "dead time error
-and short-circuits between output pins" and send Output disable
-request to poeg(Port Output Enable for GPT).
 
-Add support for linking poeg group with gpt, so that
-gpt can control the output disable function.
+--d06YuoTTMO2glfO+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v20->21:
- * Dropped local variable offs for calculating RZG2L_GTINTAD channel register
-   and instead using the macro RZG2L_GTINTAD(ch).
-v19->v20:
- * No change
-v18->v19:
- * No change
-v17->v18:
- * Moved bitpos near to the user.
-v16->v17:
- * No change
-v15->v16:
- * No change.
-v14->v15:
- * Updated commit description by replacing "This patch add"-> "Add".
-v3->v14:
- * Removed the parenthesis for RZG2L_MAX_POEG_GROUPS.
- * Renamed rzg2l_gpt_parse_properties()->rzg2l_gpt_poeg_init() as it not only parse
-   the properties but also implements the needed register writes.
- * Added acomment here about the purpose of the function rzg2l_gpt_poeg_init()
- * Removed magic numbers from rzg2l_gpt_poeg_init()
- * Fixed resource leak in rzg2l_gpt_poeg_init().
- * Moved the patch from series[1] to here
- [1] https://lore.kernel.org/linux-renesas-soc/20221215205843.4074504-1-biju.das.jz@bp.renesas.com/T/#t
-v2->v3:
- * Updated commit header and description
- * Added check for poeg group in rzg2l_gpt_parse_properties().
-v1->v2:
- * Replaced id->poeg-id as per poeg bindings.
-This patch depend upon [1]
-[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20221214132232.2835828-3-biju.das.jz@bp.renesas.com/
----
- drivers/pwm/pwm-rzg2l-gpt.c | 80 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
+On Thu, Jul 11, 2024 at 02:51:57PM +0300, Claudiu wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>=20
+> Use a temporary variable for the struct device pointers to avoid
+> dereferencing.
+>=20
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-diff --git a/drivers/pwm/pwm-rzg2l-gpt.c b/drivers/pwm/pwm-rzg2l-gpt.c
-index b4fc6a44d869..d0f6bb111d1d 100644
---- a/drivers/pwm/pwm-rzg2l-gpt.c
-+++ b/drivers/pwm/pwm-rzg2l-gpt.c
-@@ -38,6 +38,7 @@
- #define RZG2L_GTCR(ch)		(0x2c + RZG2L_GET_CH_OFFS(ch))
- #define RZG2L_GTUDDTYC(ch)	(0x30 + RZG2L_GET_CH_OFFS(ch))
- #define RZG2L_GTIOR(ch)		(0x34 + RZG2L_GET_CH_OFFS(ch))
-+#define RZG2L_GTINTAD(ch)	(0x38 + RZG2L_GET_CH_OFFS(ch))
- #define RZG2L_GTBER(ch)		(0x40 + RZG2L_GET_CH_OFFS(ch))
- #define RZG2L_GTCNT(ch)		(0x48 + RZG2L_GET_CH_OFFS(ch))
- #define RZG2L_GTCCR(ch, sub_ch)	(0x4c + RZG2L_GET_CH_OFFS(ch) + 4 * (sub_ch))
-@@ -54,11 +55,17 @@
- #define RZG2L_GTUDDTYC_UP_COUNTING	(RZG2L_GTUDDTYC_UP | RZG2L_GTUDDTYC_UDF)
- 
- #define RZG2L_GTIOR_GTIOA	GENMASK(4, 0)
-+#define RZG2L_GTIOR_OADF	GENMASK(10, 9)
- #define RZG2L_GTIOR_GTIOB	GENMASK(20, 16)
- #define RZG2L_GTIOR_GTIOx(a)	((a) ? RZG2L_GTIOR_GTIOB : RZG2L_GTIOR_GTIOA)
-+#define RZG2L_GTIOR_OBDF	GENMASK(26, 25)
- #define RZG2L_GTIOR_OAE		BIT(8)
- #define RZG2L_GTIOR_OBE		BIT(24)
- #define RZG2L_GTIOR_OxE(a)	((a) ? RZG2L_GTIOR_OBE : RZG2L_GTIOR_OAE)
-+#define RZG2L_GTIOR_OADF_HIGH_IMP_ON_OUT_DISABLE	BIT(9)
-+#define RZG2L_GTIOR_OBDF_HIGH_IMP_ON_OUT_DISABLE	BIT(25)
-+#define RZG2L_GTIOR_PIN_DISABLE_SETTING \
-+	(RZG2L_GTIOR_OADF_HIGH_IMP_ON_OUT_DISABLE | RZG2L_GTIOR_OBDF_HIGH_IMP_ON_OUT_DISABLE)
- 
- #define RZG2L_INIT_OUT_HI_OUT_HI_END_TOGGLE	0x1b
- #define RZG2L_GTIOR_GTIOA_OUT_HI_END_TOGGLE_CMP_MATCH \
-@@ -70,12 +77,17 @@
- 	((a) ? RZG2L_GTIOR_GTIOB_OUT_HI_END_TOGGLE_CMP_MATCH : \
- 	 RZG2L_GTIOR_GTIOA_OUT_HI_END_TOGGLE_CMP_MATCH)
- 
-+#define RZG2L_GTINTAD_GRP_MASK	GENMASK(25, 24)
-+
- #define RZG2L_MAX_HW_CHANNELS	8
- #define RZG2L_CHANNELS_PER_IO	2
- #define RZG2L_MAX_PWM_CHANNELS	(RZG2L_MAX_HW_CHANNELS * RZG2L_CHANNELS_PER_IO)
- #define RZG2L_MAX_SCALE_FACTOR	1024
- #define RZG2L_MAX_TICKS ((u64)U32_MAX * RZG2L_MAX_SCALE_FACTOR)
- 
-+#define RZG2L_MAX_POEG_GROUPS	4
-+#define RZG2L_LAST_POEG_GROUP	3
-+
- struct rzg2l_gpt_chip {
- 	void __iomem *mmio;
- 	struct mutex lock; /* lock to protect shared channel resources */
-@@ -84,6 +96,7 @@ struct rzg2l_gpt_chip {
- 	u32 user_count[RZG2L_MAX_HW_CHANNELS];
- 	u32 enable_count[RZG2L_MAX_HW_CHANNELS];
- 	bool bootloader_enabled_channels[RZG2L_MAX_PWM_CHANNELS];
-+	DECLARE_BITMAP(poeg_gpt_link, RZG2L_MAX_POEG_GROUPS * RZG2L_MAX_HW_CHANNELS);
- };
- 
- static inline struct rzg2l_gpt_chip *to_rzg2l_gpt_chip(struct pwm_chip *chip)
-@@ -412,6 +425,72 @@ static void rzg2l_gpt_rpm_put(void *data)
- 	}
- }
- 
-+/*
-+ * This function links a poeg group{A,B,C,D} with a gpt channel{0..7} and
-+ * configure the pin for output disable.
-+ */
-+static void rzg2l_gpt_poeg_init(struct platform_device *pdev,
-+				struct rzg2l_gpt_chip *rzg2l_gpt)
-+{
-+	struct of_phandle_args of_args;
-+	unsigned int i;
-+	u32 poeg_grp;
-+	u32 bitpos;
-+	int cells;
-+	int ret;
-+
-+	cells = of_property_count_u32_elems(pdev->dev.of_node, "renesas,poegs");
-+	if (cells == -EINVAL)
-+		return;
-+
-+	cells >>= 1;
-+	for (i = 0; i < cells; i++) {
-+		ret = of_parse_phandle_with_fixed_args(pdev->dev.of_node,
-+						       "renesas,poegs", 1, i,
-+						       &of_args);
-+		if (ret) {
-+			dev_err(&pdev->dev,
-+				"Failed to parse 'renesas,poegs' property\n");
-+			return;
-+		}
-+
-+		if (of_args.args[0] >= RZG2L_MAX_HW_CHANNELS) {
-+			dev_err(&pdev->dev, "Invalid channel %d >= %d\n",
-+				of_args.args[0], RZG2L_MAX_HW_CHANNELS);
-+			of_node_put(of_args.np);
-+			return;
-+		}
-+
-+		if (!of_device_is_available(of_args.np)) {
-+			/* It's fine to have a phandle to a non-enabled poeg. */
-+			of_node_put(of_args.np);
-+			continue;
-+		}
-+
-+		if (!of_property_read_u32(of_args.np, "renesas,poeg-id", &poeg_grp)) {
-+			if (poeg_grp > RZG2L_LAST_POEG_GROUP) {
-+				dev_err(&pdev->dev, "Invalid poeg group %d > %d\n",
-+					poeg_grp, RZG2L_LAST_POEG_GROUP);
-+				of_node_put(of_args.np);
-+				return;
-+			}
-+
-+			bitpos = of_args.args[0] + poeg_grp * RZG2L_MAX_HW_CHANNELS;
-+			set_bit(bitpos, rzg2l_gpt->poeg_gpt_link);
-+
-+			rzg2l_gpt_modify(rzg2l_gpt, RZG2L_GTINTAD(of_args.args[0]),
-+					 RZG2L_GTINTAD_GRP_MASK,
-+					 poeg_grp << 24);
-+
-+			rzg2l_gpt_modify(rzg2l_gpt, RZG2L_GTIOR(of_args.args[0]),
-+					 RZG2L_GTIOR_OBDF | RZG2L_GTIOR_OADF,
-+					 RZG2L_GTIOR_PIN_DISABLE_SETTING);
-+		}
-+
-+		of_node_put(of_args.np);
-+	}
-+}
-+
- static int rzg2l_gpt_probe(struct platform_device *pdev)
- {
- 	struct rzg2l_gpt_chip *rzg2l_gpt;
-@@ -507,6 +586,7 @@ static int rzg2l_gpt_probe(struct platform_device *pdev)
- 		}
- 	}
- 
-+	rzg2l_gpt_poeg_init(pdev, rzg2l_gpt);
- 	pm_runtime_put(dev);
- 
- 	mutex_init(&rzg2l_gpt->lock);
--- 
-2.43.0
+Looks good, builds fine:
 
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+
+--d06YuoTTMO2glfO+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAma03TIACgkQFA3kzBSg
+Kbay/w//db6OvA9ALA6AXjG8d2g4xuBaL8F0n4jECB/2eNvFnl1qJImwbDvESf/y
+Eg2lJTu0Ut3eDdXyf69YElC9oi+zrMrxKaWNkYSPc8UgyNKr0gKyGyVK+GheqH5t
+1wyc3YFr7faAiDSl8zF8MILdqNdQNvtxsYzD4hr/lSLZnowBouseMFSIRNHHX8NE
+I9TPaB9w7M2a/VOcFPbjGWWsjgEfSmL27KMvLC0BSQU4wxr+cn1POMVkX4ajew82
+ZxLWEeC8xvgQTmm+EC2UZXMdtQQyilWlRz/Su7vuMVlgYd4beQhlzhOIbgr4n/Ww
+r6kzQ4LV6PFppuXkm/d1KHo1j2IsOclpJQru5Ax645/mVDAVUSg1npPq/iuLg8AZ
+1UhGCQ+tsOkna1whSCruH9yUMw9t9JNzSnw3TF9wmnI7KicqCFWZEnCTlni8Ua0M
+8YExrVfMTKFny4IeluPFhEccs7+yJ/o0ixgsdE2j1vOdGIux558iwLioSlKCApCr
+BV8izvVHxjyRGY3QcHqHfb7aay7YyuN23MetSI8Tuyd/7OoL5OpYEO8erpiT92jY
+IqoHTc2C+/K07EFxrZ3dlzICC4iSf0o/cvGBqymRcXhPpEbfqThBw6AzuAkQmvDd
+/YmwNKb/ApVTn/8cVs0+zt2ZQOWlpPrrCruEjYYKw6fUX8tXz+0=
+=b6nv
+-----END PGP SIGNATURE-----
+
+--d06YuoTTMO2glfO+--
 
