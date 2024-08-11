@@ -1,56 +1,56 @@
-Return-Path: <linux-renesas-soc+bounces-7801-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7804-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27C8994E355
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Aug 2024 23:23:40 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C3DF94E35C
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Aug 2024 23:23:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DC819281489
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Aug 2024 21:23:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ECCB11F220BD
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Aug 2024 21:23:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9A2B15886D;
-	Sun, 11 Aug 2024 21:23:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EDF915C138;
+	Sun, 11 Aug 2024 21:23:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="lg+nJqlt"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="SfHl/wwU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45C415FCED
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C464F160796
 	for <linux-renesas-soc@vger.kernel.org>; Sun, 11 Aug 2024 21:23:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723411409; cv=none; b=XbgPgxR8JSbjyH9ID/2vmCWCGhteocmdihDplKxNpCHjUxQcvusPMJ/a/fsnWK3rGvaTIaMuJ1nzbG0IS23EWWauShadPc9CsKZlzef10FFHd6d3BvzTRjdzpEPeXm5Iam0o0DFnFvPv0eFLOpQTeBsRmbz/shqOkPPbFnZFgd0=
+	t=1723411411; cv=none; b=ekYl6AZ02VlLTosUfAuaOyILR27zAeJZ5Yo0p2m8fRgEoMKbOh9U/NqMzVYJUaKBdYSrsAfYLfgd5W7iAGmTwJJKAof1+9gMC/IwDPYwXpRbxgrUnbfklR9rnRVzaBjD+XQMK7clERnxQ1FYeU/cKBJikotJeG65BH+LBhVwh1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723411409; c=relaxed/simple;
-	bh=jIOuqhgEBh6VGxaQQdjTBnedyoXCh3aKOlKNnhGoZr4=;
+	s=arc-20240116; t=1723411411; c=relaxed/simple;
+	bh=s+QtlQkN1TBv2DlSLGxKM756HLmt+3SjAIOsYE9q1n0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=M2m/RlYqWLimWMXEK0vy9qucO+BHfEP1OUuBSY/IovNioctmSXImrFysh4TFcpl0EZXmhbHlIQlytOtL9FHrdMGZAKF9UFQE/e1KqWZ62YJoODZhB2S93c8oUwjhAfd0GZG/kropAtdnGvyXDVCw9NAgPRuqElhjrwIUvoXSfvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=lg+nJqlt; arc=none smtp.client-ip=194.117.254.33
+	 MIME-Version; b=RfnWVY6sbbQt8AWzjsclXsjMA9K4aTc6zj9n9REIQ/WgG2cfFJ0qrV0cvJTZcZkyaAEl/R7JVpDOgMhtQn7sFqwu98kG2NMszuLpMX/t0ZA+7pUzqD0iOpGnIbzEelSbBx17YD4Va0JhdeQFn9YcePp+S2+9XuAF+UOza3ApuFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=SfHl/wwU; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=from:to:cc:subject:date:message-id
 	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=pgj087NucnHKxua0poSb91px8mDb2gODWDuPOmjAJHI=; b=lg+nJq
-	lt3LtiWRh1PtN2E5thmV0e7pwGHE2Y6EjFJUW6FTgfqqhj8+x+4Xht2DFa3c79hy
-	fsX0A/Qh5HU5OM6ngMN4Zkc7ZN9v4l/4Ck1mjhCLcSL4VbTNlMq2m7aDtb0K4YHS
-	Ot8sq7NQiiyyK1MCOE1tQiFHosQHT1//Us8Oy2gJVjARq01b02fqwTH9CCY/SEN6
-	h/TGFwX2oULXJJ+yNIf4K7JVhb4JSMlQQE1oZGGrvVex71i6uxO2U5MImE/2YSsB
-	JNCFXe4fM6Wlmp4I/OEbiMzfvdvdIHRJYfV6tuq8+kpwcMDwTD4KMbu9pvyhBa/G
-	546PNG1R8XM3Jmdw==
-Received: (qmail 1179550 invoked from network); 11 Aug 2024 23:23:23 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Aug 2024 23:23:23 +0200
-X-UD-Smtp-Session: l3s3148p1@iJ96/G4fFpUujnvj
+	 s=k1; bh=d/PFylhViZ8m5LgSnK1jY9LTCD9Ckx8s1nhCAApPX40=; b=SfHl/w
+	wU8XrD0UUBwRijyu4ziJiRMkKnO+aa20xP3cQ36FUQMIXDjt9dhj4TEKcSE/bxqs
+	mdH/zAj8YrIXEo9rpCN7rzqhWgwA3+1aSIhg6o34+3P6A7EN0sP5FXIJiA51YI4p
+	hgFgP5q8npdJbhxVnEQaYfXouLX7Lz9g2dtdOLGDYKIrB85yIYAWZCUeFcsJHXKm
+	Bkj/i2R5wbTNUfcYTIdYtslH9fXoLPBqjTRyT8KkCzpnENSQijm8ghlVA9BhwQ9+
+	ujzpgrhl9A5X1oTJVbJZjBPLvb+QO51xTLmeNMetMjm0i1OcYUnnLjTY1xtncJ+a
+	M7pFphOBAUjIHwhQ==
+Received: (qmail 1179573 invoked from network); 11 Aug 2024 23:23:24 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Aug 2024 23:23:24 +0200
+X-UD-Smtp-Session: l3s3148p1@/H6F/G4fHpUujnvj
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-i2c@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org,
 	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH v2 1/4] i2c: testunit: sort case blocks
-Date: Sun, 11 Aug 2024 23:23:13 +0200
-Message-ID: <20240811212317.16119-2-wsa+renesas@sang-engineering.com>
+Subject: [PATCH v2 2/4] i2c: testunit: use decimal values in docs when appropriate
+Date: Sun, 11 Aug 2024 23:23:14 +0200
+Message-ID: <20240811212317.16119-3-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240811212317.16119-1-wsa+renesas@sang-engineering.com>
 References: <20240811212317.16119-1-wsa+renesas@sang-engineering.com>
@@ -62,49 +62,56 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Because a 'fallthrough' was refactored away, the order of 'case'
-statements can be sorted better now to ease understanding the flow of
-events.
+Sometimes decimal values are just shorter (like for cmds), sometimes
+they are even easier to understand (like for the delay value). Make use
+of them.
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- drivers/i2c/i2c-slave-testunit.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ Documentation/i2c/slave-testunit-backend.rst | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/i2c/i2c-slave-testunit.c b/drivers/i2c/i2c-slave-testunit.c
-index 4c550306f3ec..be1d2e900aef 100644
---- a/drivers/i2c/i2c-slave-testunit.c
-+++ b/drivers/i2c/i2c-slave-testunit.c
-@@ -94,6 +94,14 @@ static int i2c_slave_testunit_slave_cb(struct i2c_client *client,
- 	int ret = 0;
+diff --git a/Documentation/i2c/slave-testunit-backend.rst b/Documentation/i2c/slave-testunit-backend.rst
+index 37142a48ab35..ee019db53938 100644
+--- a/Documentation/i2c/slave-testunit-backend.rst
++++ b/Documentation/i2c/slave-testunit-backend.rst
+@@ -75,7 +75,7 @@ from another device on the bus. If the bus master under test also wants to
+ access the bus at the same time, the bus will be busy. Example to read 128
+ bytes from device 0x50 after 50ms of delay::
  
- 	switch (event) {
-+	case I2C_SLAVE_WRITE_REQUESTED:
-+		if (test_bit(TU_FLAG_IN_PROCESS, &tu->flags))
-+			return -EBUSY;
-+
-+		memset(tu->regs, 0, TU_NUM_REGS);
-+		tu->reg_idx = 0;
-+		break;
-+
- 	case I2C_SLAVE_WRITE_RECEIVED:
- 		if (test_bit(TU_FLAG_IN_PROCESS, &tu->flags))
- 			return -EBUSY;
-@@ -127,14 +135,6 @@ static int i2c_slave_testunit_slave_cb(struct i2c_client *client,
- 		tu->reg_idx = 0;
- 		break;
+-  # i2cset -y 0 0x30 0x01 0x50 0x80 0x05 i
++  # i2cset -y 0 0x30 1 0x50 0x80 5 i
  
--	case I2C_SLAVE_WRITE_REQUESTED:
--		if (test_bit(TU_FLAG_IN_PROCESS, &tu->flags))
--			return -EBUSY;
--
--		memset(tu->regs, 0, TU_NUM_REGS);
--		tu->reg_idx = 0;
--		break;
--
- 	case I2C_SLAVE_READ_PROCESSED:
- 		if (is_proc_call && tu->regs[TU_REG_DATAH])
- 			tu->regs[TU_REG_DATAH]--;
+ 0x02 SMBUS_HOST_NOTIFY
+ ~~~~~~~~~~~~~~~~~~~~~~
+@@ -95,9 +95,9 @@ bytes from device 0x50 after 50ms of delay::
+ 
+ Also needs master mode. This test will send an SMBUS_HOST_NOTIFY message to the
+ host. Note that the status word is currently ignored in the Linux Kernel.
+-Example to send a notification after 10ms::
++Example to send a notification with status word 0x6442 after 10ms::
+ 
+-  # i2cset -y 0 0x30 0x02 0x42 0x64 0x01 i
++  # i2cset -y 0 0x30 2 0x42 0x64 1 i
+ 
+ If the host controller supports HostNotify, this message with debug level
+ should appear (Linux 6.11 and later)::
+@@ -116,7 +116,7 @@ should appear (Linux 6.11 and later)::
+     - DELAY
+ 
+   * - 0x03
+-    - must be '1', i.e. one further byte will be written
++    - 0x01 (i.e. one further byte will be written)
+     - number of bytes to be sent back
+     - leave out, partial command!
+ 
+@@ -131,5 +131,5 @@ from length-1 to 0. Here is an example which emulates
+ i2c_smbus_block_process_call() using i2ctransfer (you need i2c-tools v4.2 or
+ later)::
+ 
+-  # i2ctransfer -y 0 w3@0x30 0x03 0x01 0x10 r?
++  # i2ctransfer -y 0 w3@0x30 3 1 0x10 r?
+   0x10 0x0f 0x0e 0x0d 0x0c 0x0b 0x0a 0x09 0x08 0x07 0x06 0x05 0x04 0x03 0x02 0x01 0x00
 -- 
 2.43.0
 
