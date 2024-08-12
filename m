@@ -1,70 +1,70 @@
-Return-Path: <linux-renesas-soc+bounces-7810-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7811-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2373994ECF9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Aug 2024 14:29:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55D6F94ED11
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Aug 2024 14:32:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 95A951F21D8A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Aug 2024 12:29:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0DE92283300
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Aug 2024 12:32:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46E7517AE0E;
-	Mon, 12 Aug 2024 12:29:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4188217A902;
+	Mon, 12 Aug 2024 12:32:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XdzqkFi9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T0U/yUCk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EC7517A594;
-	Mon, 12 Aug 2024 12:28:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB69A17A5A3;
+	Mon, 12 Aug 2024 12:32:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723465741; cv=none; b=LxN3CMR+QVe1MU/6VEixk5kGGlXN1a+ekgzu8yShUT9vN/dfVplcJKFIsZy4RgJBoXdztXHiLa0X9fgrvLw27+LZzylyRYUbitb20xFld2Epw0EyhNs9fU8+bhDt0jigYAuDIg6/FpWGaZ4g82ElkKSykpafI/lQPn1u0FRpmb4=
+	t=1723465947; cv=none; b=lp/8prsl48LmjRwqrwZXnXzaj9DcMvMzINpqQf816BnrTAigiVBYhTouiVYr2LShjQ/WkWOWkR0RDRICOI44vWqhh4+CrZYoXbvTQZgLWkNnynA0eOqzhXnuT3rrpWjavCPwDfsowo/NZssZ9l/XkLvvRXvgSDLJBGE+cvf/dAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723465741; c=relaxed/simple;
-	bh=OOzAyQ03ZtMeF7A2FRx7abj8ps+nT7X2VrI2X2HcBSg=;
+	s=arc-20240116; t=1723465947; c=relaxed/simple;
+	bh=csxKe1CvcUas5BlvHluDCFPmmYEba5WXuKw9MdotW5Q=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AK6rj/c6uBLyVYsunHxToywYKB/LQeqhwtp2UBp9JP775EqOO+ROh6A/QncGYwdpaV9WClaEcePlx11gpGvgT6Fnk25uE8wqimjBPkn31ApqEGaQgvEnXZRIuzdlHagLLL6NMk7z+GQQQMvNAcX6Y9zm0B+hZaRLUzpyFftlRdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XdzqkFi9; arc=none smtp.client-ip=209.85.222.46
+	 To:Cc:Content-Type; b=WHlcVF4FbK+0+3HEzO7Fzd8ImadBtNohftDjLssU9kc8ZCQLgYrRX9XQA99vpB/u2LjdrGg0FTNzUIBsX/ztMamDYgsbZYe7qVVecXoqIuGzko3e0GmJJe4W0QWtKFA0nNMyP4iwf1zwch/5VYippDmj4+W64rAptKXU2B5J5Bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T0U/yUCk; arc=none smtp.client-ip=209.85.221.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-82c30468266so1394953241.0;
-        Mon, 12 Aug 2024 05:28:58 -0700 (PDT)
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-4f6bd3a7bbdso1615508e0c.3;
+        Mon, 12 Aug 2024 05:32:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723465737; x=1724070537; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1723465944; x=1724070744; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dmvUcZJslqDH1zmxDHmponIrktodaIlrZefDJgoVFQI=;
-        b=XdzqkFi9JmlbOMaK6mSAuRm5v4WKMo81y3vPpClK/2LDQSYHGgVKYoNJqEFMbOtSQc
-         YW8BMLPf0KqV7KO40spE+cYi+9H7UT+gYCZYvvMGlNQz5EK1vmLWadpCVtdznVhOCKnJ
-         fW9L3xxTSpD00E0bRC+4G09KHbF8feXm6oQSYXNi/a+JVR/EAUIWw1X2M6RKNTBgwR67
-         eS7bh68k5GrDM4YBTwy0AVRCSA2LQCIsUNcbGS2mgduZD/63qLGQjpJivmHWdRrQ1LVQ
-         dPxnjz/KdvDE9PJg2vBjBkj9a3zHmpOc14g3BqKKis7nJ/KHm2rGGRxRCqmyDMJA9Z61
-         /x+A==
+        bh=le1zscKV4miNtPBIOT02uIb8thahGwdJDUVJjbhOKtU=;
+        b=T0U/yUCkkq9J6PfVF53Z/VozaM6RYlM2BYaf74SWdlNz1YpftaNRDE/SsjKfHsx7cz
+         pvfJuQ+Ttt/hdfSINCdzw4ZAqCXbgFoZrKFRudCDB37e52PyAZyx0Ssoh4+oSlQyKICm
+         JCyRCHI2txkAvNYiqkBYTnNF3ejkUvChffC6KY52uZB5+odV4E4E7IryuWLaNEKoGscQ
+         nzsMvT99T2tE0okTo3vBzJ/U69GAMARX4IzJxnKJVkZ9WSGB5gpR9gDjRl4ZnFk6wbnh
+         cR6aiwQJ36xc6X9rmFgGJfKNtSSCRrPBCMNB1ewGq/l6Q91FSjZBuoLYOwfS4a1csWyX
+         z+og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723465737; x=1724070537;
+        d=1e100.net; s=20230601; t=1723465944; x=1724070744;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dmvUcZJslqDH1zmxDHmponIrktodaIlrZefDJgoVFQI=;
-        b=TC4IGR0tNG8izeUVJ0Jdx/yXgPr6Mini40MabZX8c4e/04ogSMyOmpjrFgmK88bgrQ
-         UQ9apLZbwIsmfrh1qZtCg2LTpmavVbNNkV22mXvyd0INZwN8Fp6eHt00RzbzicqpSXYT
-         YX/PF8OlXhW398ZfvcROkCLvT5ckwlW1DzNWAosP9NiYQi8APRy7NMX2+SU+jkD6kgJJ
-         NcOeotSAZrMmwn7HiLXLiJxtwvXXQ3nVrZv+6Vw8KwnYq0nITXw1XTPwqA3bO/MVQGM0
-         ySi0LqlNljseJ92sWbWJIcYHz8MqTztqHmiAQP8Mye5atQRU5VDS23SfcL0ORozS0y/N
-         cAdw==
-X-Forwarded-Encrypted: i=1; AJvYcCW9/LmTkQjTZMGLjeEKipENmSblkpEm5KJrLo+zO8iA8BNRgguDR8UQOJCqx+hXW283or0XVRxN4BTEYRABIMuN5cGKqOGHW8q0SGFjyuocJaEeQYVpND4QruLbZLACnL5i3upvexj4bMIqsAyGvNWAErW2kmyn5w9bRsLrohxftupLn+gT+prw7ufN
-X-Gm-Message-State: AOJu0YxvyBTZLZhXWf4zlB9AF+oDXFDyMASTdhkK2EbRKvbuY8ffzAel
-	tvE13GhHcYboyNLJI6IE5PwP3NCF/kGrsrRLvrMCCsrD9X5rghQmtOEcH2j8fjCpULl780Hjr6x
-	rBajIP/9u05jhswh/b6zZS/Q+8hI=
-X-Google-Smtp-Source: AGHT+IFcpmMlKKZ8LojBXNqkfLSl9I+A1+MW5ID7EFAtliPkUzAfxVkLSFAtMSkohwdlMYWYPecUzU/j16xI442Rxyc=
-X-Received: by 2002:a05:6122:2523:b0:4f6:b240:4af8 with SMTP id
- 71dfb90a1353d-4fabf08eff5mr277744e0c.11.1723465737297; Mon, 12 Aug 2024
- 05:28:57 -0700 (PDT)
+        bh=le1zscKV4miNtPBIOT02uIb8thahGwdJDUVJjbhOKtU=;
+        b=L0AgKbaTkGMLTVds9wkrw/7INiMPXVXZ6F2O57kEQCCw0dor10Ap2R7DC8RNEWB7jT
+         hjO3v1s1daIOCV8sabNWYFuLYFyDIJtnhNeoriOyF0CJSVisaDCZNQuFEKPhoTCDAeo0
+         OrTwqZ2ippgDHmc1ToXk3whEKylmnfc2Yp0bTO6eeg1fSZf/2S8kZDx4QBvEr3vFH5JN
+         m0tTW2NVciO8drHr+lSY1+WOVQ1fAp/KHXhwI4CkYeplkJMLk+ihPpfvOfoqtRMjZcV9
+         M10OyeELKAqK81Niwv218ixiI8sygPfL2Ym76/grpxCkgEDEB/cPcnbvANhqQWrWwk11
+         8DFw==
+X-Forwarded-Encrypted: i=1; AJvYcCU5Fy0g+x70ksCVOsWUdtWXP29hcD/+Idrfj8q9lvxNDCYEao4n5417AQ4ancpUanyJJ38bzxIKo72NEZ9W+kQm/Z8=@vger.kernel.org, AJvYcCWw1Yxh7eL7al88nSV6Kg2udaUWTb1Y+rJXs+ySPpcFRzdVYDrOz0ZDaHupXFchmSRMehzepnvhC2UL@vger.kernel.org, AJvYcCXz8n/vB3LyThWTp5icC42Ru4jg++qcRd3B8eO1Q04WQR8OFsZN7cehycyIBqiohlcVnFQppSpryapWymFj@vger.kernel.org
+X-Gm-Message-State: AOJu0YxofnQ2H4IxTko/ljvx0Gq839jSscIwNw0c0YAtDW7zE9dC4igl
+	1MVmiFlii8ukYG7yBv0T04T8gYxg13DvsXfIbRM+hav2A9/I26U78xobbbB7Z/Ad08j6hG79QSg
+	0KxNzRtaAKMo1dXhChVmGGbW8Xgg=
+X-Google-Smtp-Source: AGHT+IEOsrH1eLwyDBDxnUlwqGxChTJINBTeBrZFmcEaYjHTiwBrCRMwAzo6rKa8AR5mynofTSCBUDFN5suAbEwWP28=
+X-Received: by 2002:a05:6122:3286:b0:4f5:1787:18aa with SMTP id
+ 71dfb90a1353d-4fabed8a33emr347752e0c.0.1723465944459; Mon, 12 Aug 2024
+ 05:32:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -72,15 +72,12 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20240811204955.270231-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240811204955.270231-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <TY3PR01MB113466DE7061B60485B3BE97986852@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <CA+V-a8vioGija2x=eoqn1jZbMpK8PAeLzXQZP52hQn976BKisw@mail.gmail.com> <TY3PR01MB1134680204C824F1B567B21B986852@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY3PR01MB1134680204C824F1B567B21B986852@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <20240811204955.270231-7-prabhakar.mahadev-lad.rj@bp.renesas.com> <TY3PR01MB11346E95ED1171818488EFEFA86852@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB11346E95ED1171818488EFEFA86852@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 12 Aug 2024 13:28:31 +0100
-Message-ID: <CA+V-a8toz3xpKSyBj39L-M0iOkbgTRse5jPTocspBrmDzZLUzQ@mail.gmail.com>
-Subject: Re: [PATCH v2 7/8] arm64: dts: renesas: r9a09g057h44-gp-evk: Enable
- OSTM, I2C, and SDHI
+Date: Mon, 12 Aug 2024 13:31:58 +0100
+Message-ID: <CA+V-a8sR1Lu1FYMQbDXzzi19ShF-RLkwirF-51aWp1bjwG8LXw@mail.gmail.com>
+Subject: Re: [PATCH v2 6/8] arm64: dts: renesas: r9a09g057: Add WDT0-WDT3 nodes
 To: Biju Das <biju.das.jz@bp.renesas.com>
 Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -94,138 +91,75 @@ Content-Transfer-Encoding: quoted-printable
 
 Hi Biju,
 
-On Mon, Aug 12, 2024 at 11:02=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.c=
-om> wrote:
+On Mon, Aug 12, 2024 at 1:25=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
 >
 > Hi Prabhakar,
 >
 > > -----Original Message-----
-> > From: Lad, Prabhakar <prabhakar.csengg@gmail.com>
-> > Sent: Monday, August 12, 2024 10:16 AM
-> > Subject: Re: [PATCH v2 7/8] arm64: dts: renesas: r9a09g057h44-gp-evk: E=
-nable OSTM, I2C, and SDHI
+> > From: Prabhakar <prabhakar.csengg@gmail.com>
+> > Sent: Sunday, August 11, 2024 9:50 PM
+> > Subject: [PATCH v2 6/8] arm64: dts: renesas: r9a09g057: Add WDT0-WDT3 n=
+odes
 > >
-> > Hi Biju,
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > On Mon, Aug 12, 2024 at 8:40=E2=80=AFAM Biju Das <biju.das.jz@bp.renesa=
-s.com> wrote:
-> > >
-> > > Hi Prabhakar,
-> > >
-> > > Thanks for the patch.
-> > >
-> > > > -----Original Message-----
-> > > > From: Prabhakar <prabhakar.csengg@gmail.com>
-> > > > Sent: Sunday, August 11, 2024 9:50 PM
-> > > > Subject: [PATCH v2 7/8] arm64: dts: renesas: r9a09g057h44-gp-evk:
-> > > > Enable OSTM, I2C, and SDHI
-> > > >
-> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > >
-> > > > Enable OSTM0-OSTM7, RIIC{0,1,2,3,6,7,8}, and SDHI1 (available on th=
-e
-> > > > SD2
-> > > > connector) on the RZ/V2H GP-EVK platform.
-> > > >
-> > > > Signed-off-by: Lad Prabhakar
-> > > > <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > ---
-> > > > v1->v2
-> > > > - New patch
-> > > > ---
-> > > >  .../boot/dts/renesas/r9a09g057h44-gp-evk.dts  | 191
-> > > > ++++++++++++++++++
-> > > >  1 file changed, 191 insertions(+)
-> > > >
-> > > > diff --git a/arch/arm64/boot/dts/renesas/r9a09g057h44-gp-evk.dts
-> > > > b/arch/arm64/boot/dts/renesas/r9a09g057h44-gp-evk.dts
-> > > > index 593c48181248..11c13c85d278 100644
-> > > > --- a/arch/arm64/boot/dts/renesas/r9a09g057h44-gp-evk.dts
-> > > > +++ b/arch/arm64/boot/dts/renesas/r9a09g057h44-gp-evk.dts
-> > > > @@ -7,6 +7,8 @@
-> > > >
-> > > >  /dts-v1/;
-> > > >
-> > > > +#include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
-> > > > +#include <dt-bindings/gpio/gpio.h>
-> > > >  #include "r9a09g057.dtsi"
-> > > >
-> > > >  / {
-> > > > @@ -14,6 +16,14 @@ / {
-> > > >       compatible =3D "renesas,gp-evk", "renesas,r9a09g057h44",
-> > > > "renesas,r9a09g057";
-> > > >
-> > > >       aliases {
-> > > > +             i2c0 =3D &i2c0;
-> > > > +             i2c1 =3D &i2c1;
-> > > > +             i2c2 =3D &i2c2;
-> > > > +             i2c3 =3D &i2c3;
-> > > > +             i2c6 =3D &i2c6;
-> > > > +             i2c7 =3D &i2c7;
-> > > > +             i2c8 =3D &i2c8;
-> > > > +             mmc1 =3D &sdhi1;
-> > > >               serial0 =3D &scif;
-> > > >       };
-> > > >
-> > > > @@ -32,17 +42,186 @@ memory@240000000 {
-> > > >               device_type =3D "memory";
-> > > >               reg =3D <0x2 0x40000000 0x2 0x00000000>;
-> > > >       };
-> > > > +
-> > > > +     reg_3p3v: regulator1 {
-> > > > +             compatible =3D "regulator-fixed";
-> > > > +
-> > > > +             regulator-name =3D "fixed-3.3V";
-> > > > +             regulator-min-microvolt =3D <3300000>;
-> > > > +             regulator-max-microvolt =3D <3300000>;
-> > > > +             regulator-boot-on;
-> > > > +             regulator-always-on;
-> > > > +     };
-> > > > +
-> > > > +     vqmmc_sdhi1: regulator-vccq-sdhi1 {
-> > > > +             compatible =3D "regulator-gpio";
-> > > > +             regulator-name =3D "SDHI1 VccQ";
-> > > > +             gpios =3D <&pinctrl RZG2L_GPIO(10, 2) GPIO_ACTIVE_HIG=
-H>;
-> > > > +             regulator-min-microvolt =3D <1800000>;
-> > > > +             regulator-max-microvolt =3D <3300000>;
-> > > > +             gpios-states =3D <0>;
-> > > > +             states =3D <3300000 0>, <1800000 1>;
-> > > > +     };
-> > > >  };
-> > > >
-> > > >  &audio_extal_clk {
-> > > >       clock-frequency =3D <22579200>;
-> > > >  };
-> > > >
-> > > > +&i2c0 {
-> > > > +     pinctrl-0 =3D <&i2c0_pins>;
-> > > > +     pinctrl-names =3D "default";
-> > > > +
-> > > > +     status =3D "okay";
-> > > > +};
-> > > > +
-> > >
-> > > clock-frequency =3D <100000>; in SoC dtsim
-> > >
-> > > Why frequency set to 100kHz for all the i2c nodes even though SoC
-> > > supports Transfer rate up to 1MHz? Is it board limitation restricting=
- to 100kHz?
-> > >
-> > This is due to driver limitation, once driver support for FM+ gets acce=
-pted [0] I plan to update the
-> > default frequency to !MHz in SoC DTSI.
+> > Add WDT0-WDT3 nodes to RZ/V2H(P) ("R9A09G057") SoC DTSI.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > v1->v2
+> > - New patch
+> > ---
+> >  arch/arm64/boot/dts/renesas/r9a09g057.dtsi | 44 ++++++++++++++++++++++
+> >  1 file changed, 44 insertions(+)
+> >
+> > diff --git a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi b/arch/arm64/bo=
+ot/dts/renesas/r9a09g057.dtsi
+> > index 435b1f4e7d38..7f4e8ad9b0a5 100644
+> > --- a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
+> > +++ b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
+> > @@ -184,6 +184,17 @@ scif: serial@11c01400 {
+> >                       status =3D "disabled";
+> >               };
+> >
+> > +             wdt0: watchdog@11c00400 {
+> > +                     compatible =3D "renesas,r9a09g057-wdt";
+> > +                     reg =3D <0 0x11c00400 0 0x400>;
+> > +                     clocks =3D <&cpg CPG_MOD 75>,
+> > +                              <&cpg CPG_MOD 76>;
+> > +                     clock-names =3D "pclk", "oscclk";
+> > +                     resets =3D <&cpg 117>;
+> > +                     power-domains =3D <&cpg>;
+> > +                     status =3D "disabled";
+> > +             };
+> > +
+> >               ostm4: timer@12c00000 {
+> >                       compatible =3D "renesas,r9a09g057-ostm", "renesas=
+,ostm";
+> >                       reg =3D <0x0 0x12c00000 0x0 0x1000>;
+> > @@ -224,6 +235,28 @@ ostm7: timer@12c03000 {
+> >                       status =3D "disabled";
+> >               };
+> >
+> > +             wdt2: watchdog@13000000 {
+> > +                     compatible =3D "renesas,r9a09g057-wdt";
+> > +                     reg =3D <0 0x13000000 0 0x400>;
+> > +                     clocks =3D <&cpg CPG_MOD 79>,
+> > +                              <&cpg CPG_MOD 80>;
+> > +                     clock-names =3D "pclk", "oscclk";
+> > +                     resets =3D <&cpg 119>;
+> > +                     power-domains =3D <&cpg>;
+> > +                     status =3D "disabled";
+> > +             };
 >
-> If there os no board limitation, please update to 400kHz, that is the nex=
-t best frequency.
+> I guess same group(all wdt together) arranged together?? Not sure.
 >
-I'll let Geert take a call on this as anyway the once the patch [0]
-will be merged we will update frequency to 1MHz.
+I think Geert prefers it to be sorted based on unit address. So I'll
+let Geert make a decision on this (and the rest of the similar patches
+where nodes are sorted based on unit address and not grouped based on
+IP).
 
-> > [0] https://patchwork.kernel.org/project/linux-renesas-soc/patch/202407=
-11115207.2843133-9-
-> > claudiu.beznea.uj@bp.renesas.com/
-> >
 Cheers,
 Prabhakar
 
