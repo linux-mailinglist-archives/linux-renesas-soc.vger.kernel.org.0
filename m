@@ -1,111 +1,158 @@
-Return-Path: <linux-renesas-soc+bounces-7818-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7819-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EEE99506AC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Aug 2024 15:37:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FD3D9506F2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Aug 2024 15:57:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 083AD289AE9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Aug 2024 13:37:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 30C5F1C2293A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Aug 2024 13:57:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C6AE19D069;
-	Tue, 13 Aug 2024 13:37:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E610919CD19;
+	Tue, 13 Aug 2024 13:57:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OT/S8A62"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47E8019B59C;
-	Tue, 13 Aug 2024 13:37:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F8E187341
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Aug 2024 13:57:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723556248; cv=none; b=POWqfN9Q1nAYcKEAhrGQiXuhy7TDQ3dLVn3H3r4Co2LvIwJI9G2x3BiXtDnA+RUVZMCaaz4ItOWYlv1NdwuiGxYKV16FcHBATus3UaR8tikdyVz3bTbMnFpu1bhGew5TDw8iaNK9avudbw0uBsSIQ7ODqbUQWt0aVgzodE5zD24=
+	t=1723557423; cv=none; b=rKUtx0oWgz5ew+LM5zNbI4CxebBMYHqkb6EGPMlN7UrOdus6I/QJSMXEfWL09AsmaaVa8dlj+AvB/FONffbClfnXmx7vx0SPRfdoP8xRhicvQKGcjHR8/iqk3Eg4x3YwqF+tqLFuQJa22of4QJbbueOvhi/PsuFAsVnIS5P/cCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723556248; c=relaxed/simple;
-	bh=y4m0NGdxLvMzaZXv2Iq9+4JUPWPQslslsChnNMIA9QY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TrqsnWsGQ6VyGisSYPiPrKu1Ns2maDK9/wZZpvrNvODyn21FJoBqmsiVi+ZpLBsJFgXXWdjCSgQUUU5FNUQe1hmSYBGNZkq0bgBrphl9MlRm+A7OU1TxpKtJTeCkuIUHUUM30WhNeh3rK8eG4T34sfZKHzBJbYBFQGzSdVKSGRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.09,285,1716217200"; 
-   d="scan'208";a="219472721"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 13 Aug 2024 22:37:18 +0900
-Received: from [10.226.93.14] (unknown [10.226.93.14])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id E3B4240062D6;
-	Tue, 13 Aug 2024 22:37:14 +0900 (JST)
-Message-ID: <ce098866-4619-4570-9a82-5b2399d52d31@bp.renesas.com>
-Date: Tue, 13 Aug 2024 14:37:13 +0100
+	s=arc-20240116; t=1723557423; c=relaxed/simple;
+	bh=gA+QStwRj/LVatDuKESJdCv++0LFZ88d5P6I6zHRsOE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AiXMm5m4M5vVo56Q4uVk89yAaGE0On8TBPX9P8UrVK7ixoXzXlv374MYAq3nC+0M39VYZSF5FnzqYfhqmxa2AJqfLAGRAM3vBWVh+l7FJN1WfJCGqgwrKN7JCAVDWsikCs1YSRtUJbOAWq76MuV3q26zyzgNnDPfjItX+Vw+EF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OT/S8A62; arc=none smtp.client-ip=209.85.219.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e0ea24477f0so4851096276.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Aug 2024 06:57:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1723557421; x=1724162221; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=zLSLN/JNWAOSXtxRH8miLcEkaLp2UzeNqUb5zeUUf0g=;
+        b=OT/S8A62y9zYsr69otgjbk24Ht0LA8z/uk936ABsW5HIJGf11g8HYOsKjDzrhVjlU2
+         DbWhIJY54Mxt6D0OlbPHLXz2AEmrGHqRHj0Z30znT7onYTyc2Dq/u1qB4XOq72/a29bf
+         Y8gpqNbxILEragu2S0mHpNcu22G2W9jyqDJphO9UQDc5P/puXeWafhhLE0NV7PysPpwS
+         8EVFo6k9dnA0Lss+4sJ4OYwFliWT54VxY0lDKhnedXOe/JMt0cxu8rpvK0JQsIx43Ar6
+         vhfQYX8skbcaK+LPVmBvJB9ztil0jVeO5yx7Kcusqx2ScOyp7jzxxtZAPuCW/PJMaaXx
+         Y/Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723557421; x=1724162221;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zLSLN/JNWAOSXtxRH8miLcEkaLp2UzeNqUb5zeUUf0g=;
+        b=JofKLotOkTg0nNprhC1Z0SesmdUM/Z1lI7SkbBxNzIzysapdspijAse0Xw1s+HSoYY
+         V00OAejnBqOgKfgyqJ8E/z8zOfS3BrGqGrYtcBlO2AcTjxtv4cN9A5Lj67pjPtmKQlz4
+         WPe08knNgLwlJfe9Sz7aEthoUJt94JZwORusC0FPFTDiLncs2bSLFzr2Y1xaWdsvLJAM
+         S6yIGt7ruWepxj/IxIGAhjQDUvUwBFgNHR59zr54Sp90sR+iKwhO4WP5DbvjIotXoQhY
+         cfFKHdbEiBDUEqfqS8GPWLwFVPl1HvGv6cXVxcEL6YT0pgbPHKQ9sa1U7WMiXJfFd2VP
+         nHgA==
+X-Forwarded-Encrypted: i=1; AJvYcCXt8DibwfWcBuQXgwm/D/znckb+RsaPWQ9FPDnDpGbiy/1GHD0z2kO+8IskCYxDKmI7CsSzlBPhCrmeScZCWJo/XN47MasrxxxRbXcnYNDh1Ms=
+X-Gm-Message-State: AOJu0YzdrTk3LVdojvMtybf61tYbx6Vb6atddM09VldKFk2UCpIXBOPR
+	5NbIsugIidmooOLftH13lopsP2ku3VMf3QbbIY/GjxBTvG6eMD3IBov9k2LVNeyXlDMg0D0mblH
+	1HAeN4o8zdqqdXLX9vuPqb+KaoFgEpJrID9riRw==
+X-Google-Smtp-Source: AGHT+IGSRXHkL7PvnTNEwvOCFZfzIGVjr9cYpYKwW+c0HMHoaWdUmQ9IzZF7tEGG+VM8etItOggTy4TAzrcmiyP930o=
+X-Received: by 2002:a05:6902:2805:b0:e0b:f45f:65dd with SMTP id
+ 3f1490d57ef6-e113d2e303emr3310212276.57.1723557421255; Tue, 13 Aug 2024
+ 06:57:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [net-next PATCH 1/2] net: ravb: Fix maximum MTU for GbEth devices
-Content-Language: en-GB
-To: Sergey Shtylyov <s.shtylyov@omp.ru>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Mitsuhiro Kimura <mitsuhiro.kimura.kc@renesas.com>, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240615103038.973-1-paul.barker.ct@bp.renesas.com>
- <20240615103038.973-2-paul.barker.ct@bp.renesas.com>
- <e61ce8b4-fb9a-8b4f-23e1-7cfd6dd1040d@omp.ru>
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-Organization: Renesas Electronics Corporation
-In-Reply-To: <e61ce8b4-fb9a-8b4f-23e1-7cfd6dd1040d@omp.ru>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240619120920.2703605-1-claudiu.beznea.uj@bp.renesas.com> <20240619120920.2703605-4-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20240619120920.2703605-4-claudiu.beznea.uj@bp.renesas.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 13 Aug 2024 15:56:24 +0200
+Message-ID: <CAPDyKFq1EX1Spedhkek=50EdwmHY5erNTmvegVGbxfLzTqYjEA@mail.gmail.com>
+Subject: Re: [PATCH RFC 3/3] watchdog: rzg2l_wdt: Power on the PM domain in rzg2l_wdt_restart()
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: wim@linux-watchdog.org, linux@roeck-us.net, rafael@kernel.org, 
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-watchdog@vger.kernel.org, geert+renesas@glider.be, 
+	linux-renesas-soc@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 17/06/2024 20:38, Sergey Shtylyov wrote:
-> On 6/15/24 1:30 PM, Paul Barker wrote:
-> 
->> The datasheets for all SoCs using the GbEth IP specify a maximum
->> transmission frame size of 1.5 kByte. I've confirmed through internal
->> discussions that support for 1522 byte frames has been validated, which
->> allows us to support the default MTU of 1500 bytes after reserving space
->> for the Ethernet header, frame checksums and an optional VLAN tag.
->>
->> Fixes: 2e95e08ac009 ("ravb: Add rx_max_buf_size to struct ravb_hw_info")
->> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
-> [...]
-> 
-> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-> 
->> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
->> index c1546b916e4e..02cbf850bd85 100644
->> --- a/drivers/net/ethernet/renesas/ravb_main.c
->> +++ b/drivers/net/ethernet/renesas/ravb_main.c
->> @@ -2664,6 +2664,7 @@ static const struct ravb_hw_info ravb_gen3_hw_info = {
->>  	.net_features = NETIF_F_RXCSUM,
->>  	.stats_len = ARRAY_SIZE(ravb_gstrings_stats),
->>  	.tccr_mask = TCCR_TSRQ0 | TCCR_TSRQ1 | TCCR_TSRQ2 | TCCR_TSRQ3,
->> +	.tx_max_frame_size = SZ_2K,
-> 
->    The R-Car gen3 manual says 2047... Typo? :-)
+On Wed, 19 Jun 2024 at 14:09, Claudiu <claudiu.beznea@tuxon.dev> wrote:
+>
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>
+> The rzg2l_wdt_restart() is called in atomic context. Calling
+> pm_runtime_{get_sync, resume_and_get}() or any other runtime PM resume
+> APIs is not an option as it may lead to issues as described in commit
+> e4cf89596c1f ("watchdog: rzg2l_wdt: Fix 'BUG: Invalid wait context'")
+> that removed the pm_runtime_get_sync() and enabled directly the clocks.
+>
+> Starting with RZ/G3S the watchdog could be part of its own
+> software-controlled power domain. In case the watchdog is not used the
+> power domain is off and accessing watchdog registers leads to aborts.
+>
+> To solve this, the patch powers on the power domain using
+> dev_pm_genpd_resume_restart_dev() API after enabling its clock. This is
+> not sleeping or taking any other locks as the watchdog power domain is not
+> registered with GENPD_FLAG_IRQ_SAFE flags.
 
-Apologies for the late response.
+Would it be a problem to register the corresponding genpd using the
+GENPD_FLAG_IRQ_SAFE?
 
-The maximum MTU is currently based on rx_max_frame_size which is SZ_2K
-for the R-Car gen3 devices. So this should be addressed in two commits:
+Assuming it wouldn't, it looks like we should be able to make the
+watchdog device irq-safe too, by calling pm_runtime_irq_safe() during
+->probe().
 
-* This commit to address the GbEth MTU, leaving the R-Car gen3 MTU
-  incorrect.
+In that case it should be okay to call pm_runtime_get_sync() in atomic
+context, right?
 
-* A second commit to address the R-Car gen3 MTU.
+Kind regards
+Uffe
 
-Unfortunately I have no test environment where I can properly
-investigate jumbo packet behaviour with a R-Car gen3 boards so I
-recommend the second commit is sent by someone who can test it fully.
-
-Thanks,
-
--- 
-Paul Barker
+>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> ---
+>  drivers/watchdog/rzg2l_wdt.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>
+> diff --git a/drivers/watchdog/rzg2l_wdt.c b/drivers/watchdog/rzg2l_wdt.c
+> index 6e3d7512f38c..bbdbbaa7b82b 100644
+> --- a/drivers/watchdog/rzg2l_wdt.c
+> +++ b/drivers/watchdog/rzg2l_wdt.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/pm_domain.h>
+>  #include <linux/pm_runtime.h>
+>  #include <linux/reset.h>
+>  #include <linux/units.h>
+> @@ -169,6 +170,17 @@ static int rzg2l_wdt_restart(struct watchdog_device *wdev,
+>         clk_enable(priv->pclk);
+>         clk_enable(priv->osc_clk);
+>
+> +       /*
+> +        * The device may be part of a power domain that is currently
+> +        * powered off. We need to power it on before accessing registers.
+> +        * We don't undo the dev_pm_genpd_resume_restart_dev() as the device
+> +        * need to be on for the reboot to happen. Also, as we are in atomic
+> +        * context here, there is no need to increment PM runtime usage counter
+> +        * (to make sure pm_runtime_active() doesn't return wrong code).
+> +        */
+> +       if (!pm_runtime_active(wdev->parent))
+> +               dev_pm_genpd_resume_restart_dev(wdev->parent);
+> +
+>         if (priv->devtype == WDT_RZG2L) {
+>                 ret = reset_control_deassert(priv->rstc);
+>                 if (ret)
+> --
+> 2.39.2
+>
 
