@@ -1,132 +1,115 @@
-Return-Path: <linux-renesas-soc+bounces-7842-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7843-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9807953A4E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Aug 2024 20:43:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C22EB953B86
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Aug 2024 22:37:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9B8AB1F24EE2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Aug 2024 18:43:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5735C1F25850
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Aug 2024 20:37:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52E6964A8F;
-	Thu, 15 Aug 2024 18:43:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9BD2149DFC;
+	Thu, 15 Aug 2024 20:37:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Zm/rKg88"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JS2lryZU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A6FB5B1E0
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Aug 2024 18:43:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D021448C3;
+	Thu, 15 Aug 2024 20:37:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723747383; cv=none; b=FbzbHEN/rI4GPZ5pmmklKPAO9dXyXKbI5Z4Tlj6oBNx3KJhjNCIb6yn8xLBjJcPcTArhEZg0jtrSopsPQqkoJxtGHXMFBqo6K7RMR8kMyZgOCm6hqRVBjPDK6Cs2A0LTkO/PzVNjjwIuPW7gYZoHj3NjqGw0ptRieaQEyyx626M=
+	t=1723754221; cv=none; b=oPvFQVFOwP1fruCSpIbIoWPT8Szx7iOZ1TwNvUYHCSEzWXl3WDeB6I9FkvqjBOQJkLbSu3sngW0dK5oB2TzSadVqi6McKZCDyGA6+coJIhVKs039KQ6Ci8kaTIhOJxYaB7yoggulsZJL3ziUhJX3W/+2fU4nGf1DN4QmyXKHcyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723747383; c=relaxed/simple;
-	bh=jlqrXpGS7045UvhOkOfAA48RpG3MMb4ZcjxSm0yZ/E0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QbgRtSZ5cha4/jCcVdgYteHhWmDAGISDW9z3pvS7ITNjAtXhhFdzTA8I/ep7/139gYLlFnYQjeSO+jq942+HRgQ2bN1HpnhuTBM7XZ284SZSYNwii0grJCOfueFNXvKkwqjsEhultqwCLvyXWUsmOW5W8f9Bt0L8itYYHcUinmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Zm/rKg88; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=fqan
-	2kodwJblWR0mVVlVZKRs9Tz4t8XOgM7iL+e0kcU=; b=Zm/rKg88w7EYDWdlFDZE
-	8BlDh7fsQAgXJhZ9WCYt7P20Dz6qKpibLBUNEkkELk0o80+K7l8ywDpSm5yo6S3Y
-	6VK5/+fc+StXMgJUjyE5kGjONKZF5SeOLaWSMEQSMn6re6+TyAfL7jhW+2fICGmn
-	fHF7lUmdSdtmQ3QxzQz1lNhYVdkkMkbcueh7ymPK5yye2MM/3W1HSvcbsznkt7rE
-	aXeERcCTe5rSvrN6mHnq0tsG7/WqmKkku6o0YeAEhyPggdBx61Wm+DT+TvK36Yly
-	WlaHLY8DjGchraEloiTSVoZtP/7OoTv1LR6wWFHbTYg+3zzfeSd5hti9P7Aq3oJc
-	lw==
-Received: (qmail 2371965 invoked from network); 15 Aug 2024 20:42:58 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Aug 2024 20:42:58 +0200
-X-UD-Smtp-Session: l3s3148p1@DYMvNr0fpMdehhrc
-Date: Thu, 15 Aug 2024 20:42:58 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Rob Herring <robh@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-	devicetree-spec@vger.kernel.org
-Subject: Re: [PATCH dt-schema 3/3] schemas: i2c: add generic interrupt name
- for I2C controllers
-Message-ID: <Zr5MMrRAw8VhIJri@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Rob Herring <robh@kernel.org>, linux-renesas-soc@vger.kernel.org,
-	linux-i2c@vger.kernel.org, devicetree-spec@vger.kernel.org
-References: <20240815120935.5871-1-wsa+renesas@sang-engineering.com>
- <20240815120935.5871-4-wsa+renesas@sang-engineering.com>
- <CAL_Jsq+FggVdyJBJ_jA=wfiK87qtwYh42+49Lu2p_mi=_+n74A@mail.gmail.com>
+	s=arc-20240116; t=1723754221; c=relaxed/simple;
+	bh=J9J7t/t9xTCyh2sPhdf798PkaKOnhKQUZCG8mzy8+KU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=WU7dbLruB/SCAbvNHbZLenmtvUg3OyLUVQgjhcjyFJqMNsizq6cEkcmx2Xj++BQgYEiz66Id4qrYApiWoiIHOOhmTtnx2aglWYCGsH4n+EruS055yiw8RufJj2zNB96KTeymRdY0Y2mZf4Y9g3gBcok4izx60xoSonTDX7MPJBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JS2lryZU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 520F5C4AF09;
+	Thu, 15 Aug 2024 20:37:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723754221;
+	bh=J9J7t/t9xTCyh2sPhdf798PkaKOnhKQUZCG8mzy8+KU=;
+	h=References:In-Reply-To:From:Date:Subject:To:From;
+	b=JS2lryZU67U9xufssl7+d25Yb5LIcMpioiuDQFl89K5JTtHUt9dD9wtrc6vphITif
+	 n33gqJoO9Vc8+kwcuWHqkRJdoE8UTmTFkwpt67Iv/OZsOuzo+8U66/EzAtcVpgnEc0
+	 MhqpGDfdbacUN+0Xss552/RNdLlIHiK3ZrvsufeMeal0cUTkySfgFEM88IKOQNu6bN
+	 C5yspqeXJvlSJO4A6Th6fpaV3+na/f73TC2ljlZjvxCpy2NFgeF7clk7+3sx+THvcL
+	 dMioDH2qSLuKrKLxxtbI/0MQA4gbeS8jCReAkWc4QfEKhvg/0uoHPlkqb4ff4qhw0f
+	 qx0cFEs1d0nyw==
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-52efbb55d24so2400243e87.1;
+        Thu, 15 Aug 2024 13:37:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXWJvruHNbxjgRvG93HB6RZHDYN6buVaotgeZ9+cXZxhzjztdExu6dBl79KNMb6heuErsKsJepRdd9nvnhISOuKexFbP4LwSgJDM1SmFRU0Hb/SW7A+jUnonFraWkS7rO8lq6oxj5TvtWqROrgfPnmr4n7fSCialO9tX+eZESlAwZ6K11a351Tjzw6W7vY=
+X-Gm-Message-State: AOJu0YwLSgkg/ZUJisc804dlRji37ZEHeSkGVYXffg1N0CqKTzMjRf5I
+	cKhDnrq9mKeqYxaUP5BXccxic4Gn6Uu9zfg1bbIHZcH6FA4Iefu8j4hdaOfOxuvfBuDtBp3KaS4
+	AaeYniAjqJTmjGMnzVRc+duLUKw==
+X-Google-Smtp-Source: AGHT+IF6ug9EjQ7lgvnADFFXEH8FmirmJFE6J25kcEYLm4VnJDqP4JyZ0qa2OOYT446ibd/btb9KFOlsBaAUkMNiA78=
+X-Received: by 2002:a05:6512:2346:b0:530:ad8d:dcdb with SMTP id
+ 2adb3069b0e04-5331c6a1931mr509570e87.19.1723754219562; Thu, 15 Aug 2024
+ 13:36:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="4AkUjHLlMlbZ3LI8"
-Content-Disposition: inline
-In-Reply-To: <CAL_Jsq+FggVdyJBJ_jA=wfiK87qtwYh42+49Lu2p_mi=_+n74A@mail.gmail.com>
-
-
---4AkUjHLlMlbZ3LI8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240815120935.5871-1-wsa+renesas@sang-engineering.com>
+ <CAL_JsqKJRhq9UzsjqbOAam0GSkm4R7m82FZ0zzYFp-mY2HS+Yw@mail.gmail.com> <Zr5KnHR-Qjukqt8K@shikoro>
+In-Reply-To: <Zr5KnHR-Qjukqt8K@shikoro>
+From: Rob Herring <robh@kernel.org>
+Date: Thu, 15 Aug 2024 14:36:47 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+n96kzS9gpNb23d698pi0M1unfOpi1YvSGzDB+7VrENw@mail.gmail.com>
+Message-ID: <CAL_Jsq+n96kzS9gpNb23d698pi0M1unfOpi1YvSGzDB+7VrENw@mail.gmail.com>
+Subject: Re: [PATCH dt-schema 0/3] schemas: i2c: fix "smbus_alert" handling
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, Rob Herring <robh@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	devicetree-spec@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Rob,
+On Thu, Aug 15, 2024 at 12:36=E2=80=AFPM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+>
+> > >  error: Multiple top-level packages discovered in a flat-layout: ['pa=
+tches', 'dtschema'].
+> >
+> > Do you have a 'patches' directory? Not sure why that's a problem other
+> > than python having specific ideas on directory structures.
+>
+> Oh, wow, yes, I had a 'patches' dir and that was really an issue. Weird.
+> Thanks for helping out. I got one step further, now I get:
+>
+>   =C3=97 Building wheel for pylibfdt (pyproject.toml) did not run success=
+fully.
+>   =E2=94=82 exit code: 1
+>   =E2=95=B0=E2=94=80> [14 lines of output]
+>       WARNING setuptools_scm.pyproject_reading toml section missing 'pypr=
+oject.toml does not contain a tool.setuptools_scm section'
+>       Traceback (most recent call last):
+>         File "/tmp/pip-build-env-5v1x378l/normal/lib/python3.11/site-pack=
+ages/setuptools_scm/_integration/pyproject_reading.py", line 36, in read_py=
+project
+>           section =3D defn.get("tool", {})[tool_name]
+>                     ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+>       KeyError: 'setuptools_scm'
+>       running bdist_wheel
+>       running build
+>       running build_py
+>       running build_ext
+>       building '_libfdt' extension
+>       swigging libfdt/libfdt.i to libfdt/libfdt_wrap.c
+>       swig -python -Ilibfdt -o libfdt/libfdt_wrap.c libfdt/libfdt.i
+>       error: command 'swig' failed: No such file or directory
 
-thanks for the super-fast review!
+You have to install 'swig' which is a C to python binding thing
+pylibfdt uses. You should have a distro package for it. There's also a
+pip package 'swig' that will download and build it. There's actually a
+MR to make that a dependency I need to go look at.
 
-> > "smbus_alert" is a generic interrupt name for controllers, so document
-> > it. Introduce also "irq" for the primary interrupt.
->=20
-> I wouldn't add "irq". It's kind of odd in that we have it for I2C
-> devices in the first place and we don't try to do that anywhere else.
-
-Yes, I am actually happy to remove "irq". I only added it for
-consistency.
-
-> > +  interrupt-names:
-> > +    anyOf:
-> > +      - {} # Any name is allowed.
-> > +      - items:
-> > +          enum:
-> > +            - irq
-> > +            - smbus_alert
->=20
-> It doesn't really matter with the {}, but the 2nd entry is only true
-> if interrupt-names only contains these 2 names. I'd use 'contains'
-> rather than 'items' here.
-
-So, just replace "items:" with "contains:", right? Should I also change
-this for I2C targets and add this chunk to patch 2?
-
-All the best,
-
-   Wolfram
-
-
---4AkUjHLlMlbZ3LI8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAma+TDIACgkQFA3kzBSg
-Kba5JA//TdfgprHtfh5UUQdgv79CEijte475hZ8Ajhd0arA8+zTS2vrHM0zmJSgM
-y25+z5XwTeZ51GNvRg8dWoLQ14fG8BF02/Mq7TB8EjMdc9d6rL1gwLzBl0a0NmPt
-JSRvjlJLRe/z9cY8LuFGJ5a6r6AVmlizNlH7c+zdop3uTw68rWGg9ngkW1hfPwRZ
-X/P+Rn1rNuyHHhf+EUgaozEi7A6AKggYW7Z1mFHDgabrecps21xz8Rizaw2selT9
-tNsB/lbzoO6cIhpH8Qbeq5GHdh3vvtNeYqYnYvHkvXVXrqnxVSPpw6Drc2pafQ9N
-ZOgrbaQMf4f25OYOzjix04XXCnrVXf5kgE2S55Y2wZ0tzN483L2QNmuz7Zgu1ZpQ
-GZ2Ll4VKLjXzhj75Up+/0gOaTrhwOuL/a3CAAJgIkkokL8uF3DZSSzk00g2mpTVE
-mjMElrkfEmWEWkAcdRqF/FNOx2SA0fDuOz0T6sb9WxWMe3UeBtw+F6SWWNmVdo9F
-EHhxHxJj+yq3XQauHW80YzK6eQ4pEJOBSdYPY0IqX5IiZArau+fnTXq4G5uSBQEO
-DeJ1TzXAU2qgAkCGlafl0aLp04KsK9amJtLWT+9HHfOqFDqAEl8JGRi4TiuRzGa7
-NiOBo6qjzEauZ7ec7kvWVJLVvLXtUvJ0oQlMNkCICJl2nvbaBGc=
-=UY4B
------END PGP SIGNATURE-----
-
---4AkUjHLlMlbZ3LI8--
+Rob
 
