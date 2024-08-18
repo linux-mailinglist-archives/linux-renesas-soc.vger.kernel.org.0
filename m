@@ -1,66 +1,64 @@
-Return-Path: <linux-renesas-soc+bounces-7874-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7875-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99639955E5F
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Aug 2024 19:47:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0547E955E63
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Aug 2024 19:50:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1709B1F210D4
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Aug 2024 17:47:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 280581C20B36
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Aug 2024 17:50:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC1A513BAE3;
-	Sun, 18 Aug 2024 17:47:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5FF3149E09;
+	Sun, 18 Aug 2024 17:50:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Wcnk5txf"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="aqFBXiUW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BEB6129E9C;
-	Sun, 18 Aug 2024 17:47:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60E0947F69;
+	Sun, 18 Aug 2024 17:50:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724003245; cv=none; b=XHqNORLBKHMoqiOwNMvoVZmhb8YnNm5D0jkkGSXWwrczbZQGX4re6jEQKCfPr7U4sfwdGUTUl3Jo7mCm3Uj6ORktbOPGGmx3r+55mWB8WJEZZ6KGUsvmKdhzbuKaacCCLP1cTJ0D3pdP/1o/7wnlzCPVX8N1XYK+XVY3EPiC5BY=
+	t=1724003450; cv=none; b=msvu788rwiAsAH4vaHBG9POVeqk6dYs+HCDynXH0l9h7gQu8NlWoYTdnSQ1/gUQyIqS6R/RmP1txSuDOanoAAX3rO47P39heqAV7moCFt0GmB3zFLl6mluDfx3gCq/fzmGkv+KOBh99gj+dayKqPA2LpAXR0a7vsjJrgX6hSQI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724003245; c=relaxed/simple;
-	bh=mSqn4Gb3nYN7bq1wMWuPkirN69s9DYJDsLSC1UO7f3A=;
+	s=arc-20240116; t=1724003450; c=relaxed/simple;
+	bh=WYvTQfBxGwe7O+sDt3SBJSreYzdxuTsdbfJrve5XdNI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pcps8boA8opb9YMG92SFbEfxETkrqKCltxLUzCbJy7sVsdxA4IBQF33MGfz/5JafJsKwPr9MyFTe3Xvn3zMb2q+RPs2mUq9ytjWk8bjCmrfsglYabMkaGGKrb3UIdWecK6FvfITq6vI9sfQDXGYGVsARt5uhDfUGvg2h1YpxqFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Wcnk5txf; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=LYK9imTBzhHxqja973bordjTiG1bUwLLXIFx6pD99QwcjPKZOBN3HaU1OoSLJnGB8mMGmLae5WMS6afn49y8E0LX509l85rm8ERN4SLRa3MjLE+0q5ZVHup+EoGbCNJAJbrG6otH8s5sNH6/FnOCLBwWiqRbIoaNI/sgXDCer+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=aqFBXiUW; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BC618541;
-	Sun, 18 Aug 2024 19:46:21 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DD3DD541;
+	Sun, 18 Aug 2024 19:49:46 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1724003182;
-	bh=mSqn4Gb3nYN7bq1wMWuPkirN69s9DYJDsLSC1UO7f3A=;
+	s=mail; t=1724003387;
+	bh=WYvTQfBxGwe7O+sDt3SBJSreYzdxuTsdbfJrve5XdNI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Wcnk5txfIBp7NE0L7x5uh59YFtx7okufy3TuElfDwUIvPUbVh8D/PSkXvwAmYUcvu
-	 gCHU0D64VxcEWJPjgxr7rL2aQGzFdKv8shGKSYcZ4rn3vgYihKVtNkIiNidmUFcnmK
-	 DoYiCAgazwNMLAtmPeHmDAAQE47ZFr2jj9nAG8uU=
-Date: Sun, 18 Aug 2024 20:46:55 +0300
+	b=aqFBXiUWr9RQ8pIg4v0buCYIkJM3clBjpndqDPudPmEcpNgT+xgyxEEYAEcwVMH3E
+	 OPfBZ67sWyxXNln1GuYPe9NVoCf04lMpeKrX8GzUXBg1lVm5/Ev/b9I8e0Ahc8mDNZ
+	 Ml/VZW7qoHd+mNO1+uDya2oRaDzdbobjCMFE1W9Q=
+Date: Sun, 18 Aug 2024 20:50:20 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] dt-bindings: display: renesas,du: add top-level
+	Magnus Damm <magnus.damm@gmail.com>, linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] media: dt-bindings: renesas,fcp: add top-level
  constraints
-Message-ID: <20240818174655.GD29465@pendragon.ideasonboard.com>
-References: <20240818173003.122025-1-krzysztof.kozlowski@linaro.org>
- <20240818173003.122025-2-krzysztof.kozlowski@linaro.org>
+Message-ID: <20240818175020.GE29465@pendragon.ideasonboard.com>
+References: <20240818172937.121928-1-krzysztof.kozlowski@linaro.org>
+ <20240818173758.GA29465@pendragon.ideasonboard.com>
+ <286524f7-d240-4675-bfff-599ce8e4b16c@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -69,80 +67,60 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240818173003.122025-2-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <286524f7-d240-4675-bfff-599ce8e4b16c@linaro.org>
 
-Hi Krzysztof,
-
-Thank you for the patch.
-
-On Sun, Aug 18, 2024 at 07:30:03PM +0200, Krzysztof Kozlowski wrote:
-> Properties with variable number of items per each device are expected to
-> have widest constraints in top-level "properties:" block and further
-> customized (narrowed) in "if:then:".  Add missing top-level constraints
-> for clocks, clock-names, interrupts, resets, reset-names, renesas,cmms
-> and renesas,vsps.
+On Sun, Aug 18, 2024 at 07:45:55PM +0200, Krzysztof Kozlowski wrote:
+> On 18/08/2024 19:37, Laurent Pinchart wrote:
+> > On Sun, Aug 18, 2024 at 07:29:36PM +0200, Krzysztof Kozlowski wrote:
+> >> Properties with variable number of items per each device are expected to
+> >> have widest constraints in top-level "properties:" block and further
+> >> customized (narrowed) in "if:then:".  Add missing top-level constraints
+> >> for clocks and clock-names.
+> > 
+> > In this specific case I think it's fine, but generally speaking, how do
+> > you handle that rule when different variants have completely different
+> > clocks, not just lack some of the clocks ?
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> I don't understand the problem. We handle it as usual, as in all
+> bindings. Here there is no such case, thus names go to the top.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+That answers the question, the clock names would still be
+variant-specific in that case.
 
-> ---
->  .../bindings/display/renesas,du.yaml          | 26 ++++++++++++++++---
->  1 file changed, 22 insertions(+), 4 deletions(-)
+While the change here won't cause validation failures, I think it's
+confusing to define the clock names at the top level, knowing they don't
+apply to some of the variants, if we don't also define the description
+there. I'd move either both or neither.
+
+> >>  
+> >> -  clock-names: true
+> >> +  clock-names:
+> >> +    items:
+> >> +      - const: aclk
+> >> +      - const: pclk
+> >> +      - const: vclk
+> >>  
+> >>    iommus:
+> >>      maxItems: 1
+> >> @@ -71,11 +77,6 @@ allOf:
+> >>              - description: Main clock
+> >>              - description: Register access clock
+> >>              - description: Video clock
+> >> -        clock-names:
+> >> -          items:
+> >> -            - const: aclk
+> >> -            - const: pclk
+> >> -            - const: vclk
+> > 
+> > Any specific reason to move the clock names but not the descriptions ?
+> > The assymetry bothers me.
 > 
-> diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
-> index 147842b6465a..9a2d1c08cb1f 100644
-> --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
-> +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
-> @@ -46,12 +46,26 @@ properties:
->      maxItems: 1
->  
->    # See compatible-specific constraints below.
-> -  clocks: true
-> -  clock-names: true
-> +  clocks:
-> +    minItems: 1
-> +    maxItems: 8
-> +
-> +  clock-names:
-> +    minItems: 1
-> +    maxItems: 8
-> +
->    interrupts:
-> +    minItems: 1
-> +    maxItems: 4
->      description: Interrupt specifiers, one per DU channel
-> -  resets: true
-> -  reset-names: true
-> +
-> +  resets:
-> +    minItems: 1
-> +    maxItems: 2
-> +
-> +  reset-names:
-> +    minItems: 1
-> +    maxItems: 2
->  
->    power-domains:
->      maxItems: 1
-> @@ -77,6 +91,8 @@ properties:
->  
->    renesas,cmms:
->      $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    minItems: 2
-> +    maxItems: 4
->      items:
->        maxItems: 1
->      description:
-> @@ -85,6 +101,8 @@ properties:
->  
->    renesas,vsps:
->      $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    minItems: 1
-> +    maxItems: 4
->      items:
->        items:
->          - description: phandle to VSP instance that serves the DU channel
+> The other variant does not have description of the first clock, so
+> moving it would be incorrect. Moving names is correct, because other
+> variant does not have clock-names at all.
+
+I don't think it's incorrect, when the FCP has a single clock, it's the
+main clock.
 
 -- 
 Regards,
