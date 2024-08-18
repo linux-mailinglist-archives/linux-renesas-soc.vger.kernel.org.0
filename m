@@ -1,92 +1,92 @@
-Return-Path: <linux-renesas-soc+bounces-7861-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7862-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D0CE955E1F
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Aug 2024 19:31:59 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87A53955E27
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Aug 2024 19:32:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B6B2C1F2120C
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Aug 2024 17:31:58 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DF462B213D6
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Aug 2024 17:32:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AB7E158555;
-	Sun, 18 Aug 2024 17:29:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC6ED1534EC;
+	Sun, 18 Aug 2024 17:30:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="j5sXNqW3"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hOUWBZi9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C73158D8F
-	for <linux-renesas-soc@vger.kernel.org>; Sun, 18 Aug 2024 17:29:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C4BC14831F
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 18 Aug 2024 17:30:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724002186; cv=none; b=Zw8AwoWENCNlz0qQZ408iHjQCXimIAAUBAEPjWWTA/Wx2PP99fNuPKiZqCEzzYRJMhRqhXTYZJgNYKqGjn+8yOpcp9QA+d4vRlrTeFwysF5fGDzu0pBPFQm+uYSxRDGfQXfzR2Qgsimow02ZgV+B2MrjGX1IweDiX1FFxyd98pc=
+	t=1724002210; cv=none; b=nG99tMo53JDNJC97Zzjh1HnnZBO9KUn8yqn958MnH0YKh+Fw9Q3oSvfoRcnV37yPoB4UfG8yHvCieeKKLSkWO9xoyaedGXxm7f+yxcznNeUjRW/rm+h3NOcFdPX1N5Prvj3HgvMnjaw2iHlhZrfWi7cZ0VaAOkxsgCWDMkke1/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724002186; c=relaxed/simple;
-	bh=QNM8XrDoLyxO8QrplQys76QoUHuBhx5cFyImCS2xftE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Amr4OpGE/iFNJOf0qnuHifv4GXHH4dH2A+SPY26SQ76wNq90uaIE7q+gFQGDgCi5ndw0UGCM749rDJ2SIN18TfWThHV/RDRg0sjl1n77iJXtTkW0cWCW2k/xqJRJo+Ez+uSWnUohN6Kr1zktuTClugQAsJhCF0LwGy8RWN1FZrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=j5sXNqW3; arc=none smtp.client-ip=209.85.128.53
+	s=arc-20240116; t=1724002210; c=relaxed/simple;
+	bh=7X9ZnxXyUxu/1V0lOGPXjFgoRhd+0gWb23mdc3ayJ3g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YdVgq5evV08TJONWXxt1BFUS/TmT6qn0uFu+F0NGrf4oVER5r5hdBeU0Tlm+0gbM8DqfJMJ4D3P0P2cakrja2x9ki/0kRjEbmPMWGOv16eY1U2/jX8pk5LgFGbvS0ZeLtA29R7kl6bAaroe3HwmnRUwW0y7fKRBuIqtyuJO2sDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hOUWBZi9; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4280bca3960so31042095e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 18 Aug 2024 10:29:44 -0700 (PDT)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-42803bbf842so38785805e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 18 Aug 2024 10:30:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724002182; x=1724606982; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o+LvAPeMNmcVxWf/O9PUXhk3hF91siyLCuBckMkIHMM=;
-        b=j5sXNqW3+ifeujsmUNrqKZ0gabZIjYaBhP1c0mpzEB/GNPlPDhdkMgeafEcIIMMLBI
-         qjqPae072Ag2tWuDsiTHxuxCbZuJUcL4K5SwnCnGa1TfsuuAlECEuuKqUZQwatLve3/4
-         JR4+3OmQovMmQkyflK03hy5hDD6XycRadhFqsHEWss8OGs9x4fzRFiPrMsefrqPk69e5
-         cJajfl5GtVMxJvFyipfs5rorZ8kMCtc/0qrEzlkeJM/atXEp8RqkZOdWBEiWsA8C+qEA
-         7Oya6IU+RIvYh3XFqUKFXGrWB5BBzbWV3FXKdAyIiSme25vXxCUgm9ksXPO774dGQw5R
-         TWeQ==
+        d=linaro.org; s=google; t=1724002207; x=1724607007; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0SCaR0GRkiuZ3/606Q3dnjpJljwAy9G6Uqg06n8FjTI=;
+        b=hOUWBZi9UgiGeemnHBM0Ju51jDjX4gtJ1+Bcq8LXM2tMhwIUTqK6CPTu6SCKrwKiMM
+         XXRLpp2SyqYYQwdgJ0k0S7Z/LVet6caDUjxs1m1GTz+glkZyzpFJ8cj3oBafXm9XylZh
+         esjdOxtxp2mOEF5kMQDxgviqAAkPjbDejHTLigORmCgtAWq5gtOI89KM/gEt+z+OVtKi
+         +DJih0XrVx2MjUWK6Emax1R/RQPrLWJcJ+imwLXOmIXoPFAgbl4/85QSZ4BsFSkVeVVs
+         hHRE2/vLxCTtjqvsxdY25RT08RdHjll17R61atn4td3Ycqxg0N4fW2EdTt7tNahZcEtu
+         aS8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724002182; x=1724606982;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=o+LvAPeMNmcVxWf/O9PUXhk3hF91siyLCuBckMkIHMM=;
-        b=wWCiyxrpMLUxE9Uz7AmihHOTK6nbu9BXz7duaF93qmSk6SF07VOZiq6230WTKVlgFd
-         KKWpxIzxwIhqH0gUivcrodpi7iYhl/bsliRKvFnS5xQOnjLv7PO8gbum4Zq48qVLqQx6
-         aR5au12RThC65yAEIWN/RiG54+Qqx0cQqelEQZDaFJo3nyq/9umatQAeptbXA8/+/4Di
-         tf/dciDxG0Oqi+yNZFvTlrlAH0+QAAeO2i9IzORvTTpnMAeIuKX+uwHCmvoASE+qMLH+
-         3EBj+aBDGZEocAHquK9SlZyBx9zIU+SX8bGNNs/7Yt/Vlh8q4bM3ZiuSxmEojqyVMBB1
-         gWog==
-X-Forwarded-Encrypted: i=1; AJvYcCVoBeV5BUUhPb7LZLzlM+G68cOWkwn+67gKT3YC2mR07Jza7ftBjM4kktizA4Atsu0Bce7QFm3FinIcbiN1TmHoKwhUNw5M6m3jCfm+jxYK/Ys=
-X-Gm-Message-State: AOJu0YzrgOg9KGRPh57a7NuTuhRCWctynS+iq9EkcR3lrTrl64KfJnvA
-	Jd4CBrkFJ1BKZGaRWow3SVgRNeGf8lCMSbkaGuzmoRttEU6jhWdl/jmjjCaq7TU=
-X-Google-Smtp-Source: AGHT+IF8i+fXJ0Qrg98bFngXom9Apje+WExMZ0DCNmKN+9aMo2M7gbBQQTCYC8dV5MiuQlqhPluOXA==
-X-Received: by 2002:a05:600c:4f96:b0:428:16a0:1c3f with SMTP id 5b1f17b1804b1-429ed7da74emr55372845e9.32.1724002182565;
-        Sun, 18 Aug 2024 10:29:42 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1724002207; x=1724607007;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0SCaR0GRkiuZ3/606Q3dnjpJljwAy9G6Uqg06n8FjTI=;
+        b=Syzg0OuPTD8Lcpcv9mPUQ0dRV38JX/aj6ApjN/K76U9LO2ZeFXzloOpm8FK382CXp/
+         H3qYKX2+0IcHe0QAD08KZoHbFdUaBG7NeOOaNj40FoSy+mFoAG9OjIZnx1APUCaMp4S8
+         9jwqaPxYEN/TGExKoR+hWk5Hyb0pbsLhRENiyLlo83FABUe0ASSZHC0bbrEYed+I5ngt
+         HJEs/ttwGDk+ZM6mLORkQExxSXIfPrXS3+7RYlaK93PKzh85B+mOJa84ToMzwsp/5mMG
+         ht6JD8uzj8IwdH4U3aWUyRxUXYrl8+aeUz7PGTcTKcxIlcjAVdOBpvrVvwE/MM59KwEj
+         A98g==
+X-Forwarded-Encrypted: i=1; AJvYcCUwh2u9/lAaF34r4cM5mywgdUIyyi3ZR1sMN57sANdPwCqqeBJpOhBYo1YGbfCLEJ34odxgjLqaGoTUVMn6Y3wCQNZe51BFweETUninw1bvzSY=
+X-Gm-Message-State: AOJu0YzT+xEbZ3glVHiEvE14s3psyj9NqQy7qmfwiBQ4gIhXA8KDTfW/
+	0szT6EPNs0HKGxAJVS3dox5Mmm+TDtGWAo5sCI+GN3Se3+4W+kAZGkNHX9Y5p+I=
+X-Google-Smtp-Source: AGHT+IFWjUiXv+XY641Ss+KqGOnh9S6DjOSW5fs9xPdNg3xhxyfOeVQlO4q1nl00fAyX1GYXCteCkw==
+X-Received: by 2002:a05:600c:3b26:b0:426:6f87:65fc with SMTP id 5b1f17b1804b1-429ed7b6a3dmr70242785e9.17.1724002207227;
+        Sun, 18 Aug 2024 10:30:07 -0700 (PDT)
 Received: from krzk-bin.. ([178.197.215.209])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ded2931asm133974385e9.17.2024.08.18.10.29.41
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ded19839sm138973805e9.6.2024.08.18.10.30.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Aug 2024 10:29:41 -0700 (PDT)
+        Sun, 18 Aug 2024 10:30:06 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
 	linux-renesas-soc@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 2/2] media: dt-bindings: renesas,vsp1: add top-level constraints
-Date: Sun, 18 Aug 2024 19:29:37 +0200
-Message-ID: <20240818172937.121928-2-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 1/2] dt-bindings: display: renesas,du: narrow interrupts and resets per variants
+Date: Sun, 18 Aug 2024 19:30:02 +0200
+Message-ID: <20240818173003.122025-1-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240818172937.121928-1-krzysztof.kozlowski@linaro.org>
-References: <20240818172937.121928-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -95,50 +95,167 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Properties with variable number of items per each device are expected to
-have widest constraints in top-level "properties:" block and further
-customized (narrowed) in "if:then:".  Add missing top-level constraints
-for clocks and clock-names.
+Each variable-length property like interrupts or resets must have fixed
+constraints on number of items for given variant in binding.  The
+clauses in "if:then:" block should define both limits: upper and lower.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- .../devicetree/bindings/media/renesas,vsp1.yaml  | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ .../bindings/display/renesas,du.yaml          | 22 +++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-index 3265e922647c..94c0ab9a5be2 100644
---- a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-+++ b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-@@ -32,8 +32,15 @@ properties:
-   interrupts:
-     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
+index c5b9e6812bce..147842b6465a 100644
+--- a/Documentation/devicetree/bindings/display/renesas,du.yaml
++++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+@@ -173,6 +173,7 @@ allOf:
+             - pattern: '^dclkin\.[01]$'
  
--  clocks: true
--  clock-names: true
-+  clocks:
-+    minItems: 1
-+    maxItems: 3
-+
-+  clock-names:
-+    items:
-+      - const: aclk
-+      - const: pclk
-+      - const: vclk
+         interrupts:
++          minItems: 2
+           maxItems: 2
  
-   power-domains:
-     maxItems: 1
-@@ -81,11 +88,6 @@ allOf:
-             - description: Main clock
-             - description: Register access clock
-             - description: Video clock
--        clock-names:
--          items:
--            - const: aclk
--            - const: pclk
--            - const: vclk
+         resets:
+@@ -228,6 +229,7 @@ allOf:
+             - pattern: '^dclkin\.[01]$'
+ 
+         interrupts:
++          minItems: 2
+           maxItems: 2
+ 
+         resets:
+@@ -281,6 +283,7 @@ allOf:
+             - pattern: '^dclkin\.[01]$'
+ 
+         interrupts:
++          minItems: 2
+           maxItems: 2
+ 
+         resets:
+@@ -335,6 +338,7 @@ allOf:
+             - pattern: '^dclkin\.[01]$'
+ 
+         interrupts:
++          minItems: 2
+           maxItems: 2
+ 
+         resets:
+@@ -396,6 +400,7 @@ allOf:
+             - pattern: '^dclkin\.[012]$'
+ 
+         interrupts:
++          minItems: 3
+           maxItems: 3
+ 
+         resets:
+@@ -460,9 +465,11 @@ allOf:
+             - pattern: '^dclkin\.[0123]$'
+ 
+         interrupts:
++          minItems: 4
+           maxItems: 4
+ 
+         resets:
++          minItems: 2
+           maxItems: 2
+ 
+         reset-names:
+@@ -489,9 +496,11 @@ allOf:
+ 
+         renesas,cmms:
+           minItems: 4
++          maxItems: 4
+ 
+         renesas,vsps:
+           minItems: 4
++          maxItems: 4
+ 
        required:
          - clock-names
-     else:
+@@ -531,9 +540,11 @@ allOf:
+             - pattern: '^dclkin\.[012]$'
+ 
+         interrupts:
++          minItems: 3
+           maxItems: 3
+ 
+         resets:
++          minItems: 2
+           maxItems: 2
+ 
+         reset-names:
+@@ -558,9 +569,11 @@ allOf:
+ 
+         renesas,cmms:
+           minItems: 3
++          maxItems: 3
+ 
+         renesas,vsps:
+           minItems: 3
++          maxItems: 3
+ 
+       required:
+         - clock-names
+@@ -600,9 +613,11 @@ allOf:
+             - pattern: '^dclkin\.[013]$'
+ 
+         interrupts:
++          minItems: 3
+           maxItems: 3
+ 
+         resets:
++          minItems: 2
+           maxItems: 2
+ 
+         reset-names:
+@@ -627,9 +642,11 @@ allOf:
+ 
+         renesas,cmms:
+           minItems: 3
++          maxItems: 3
+ 
+         renesas,vsps:
+           minItems: 3
++          maxItems: 3
+ 
+       required:
+         - clock-names
+@@ -684,6 +701,7 @@ allOf:
+ 
+         renesas,vsps:
+           minItems: 1
++          maxItems: 1
+ 
+       required:
+         - clock-names
+@@ -719,6 +737,7 @@ allOf:
+             - pattern: '^dclkin\.[01]$'
+ 
+         interrupts:
++          minItems: 2
+           maxItems: 2
+ 
+         resets:
+@@ -746,9 +765,11 @@ allOf:
+ 
+         renesas,cmms:
+           minItems: 2
++          maxItems: 2
+ 
+         renesas,vsps:
+           minItems: 2
++          maxItems: 2
+ 
+       required:
+         - clock-names
+@@ -799,6 +820,7 @@ allOf:
+ 
+         renesas,vsps:
+           minItems: 2
++          maxItems: 2
+ 
+       required:
+         - clock-names
 -- 
 2.43.0
 
