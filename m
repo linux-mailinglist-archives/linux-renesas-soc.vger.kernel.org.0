@@ -1,145 +1,184 @@
-Return-Path: <linux-renesas-soc+bounces-7891-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7892-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4050956874
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2024 12:26:53 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 978229568EB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2024 13:05:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5745FB20913
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2024 10:26:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1A7F11F22D82
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2024 11:05:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0790B165EFE;
-	Mon, 19 Aug 2024 10:24:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B9B9166308;
+	Mon, 19 Aug 2024 11:05:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="N5xi36Gp"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="q0tCAIx6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54DFE16BE1B
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Aug 2024 10:24:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC9D165EFE
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Aug 2024 11:05:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724063066; cv=none; b=c4WfK5cqscuCDEFvyxd2g1yHDh1U/V850OuAXrcl3r8L0FiQqCBTHmjZsDoMHNDi2USZYRNEoyYWvcKsXw+0mON0OE5ZxlUzVB8WsNg/TMmhwoyy+zdneRNmWHhCY+suWrmjeOozcUX7y3kmSjVGAvP++x2HoImNshzAWj4+AlY=
+	t=1724065535; cv=none; b=iJ/4Hflh1tvuC0PpJNICSV41Tcs8emQKe3CkkFWEoyjPGzRWGx9YrdVKYQfJTblb2mNMJUww2Rt4eqw4lVgfFCxHdX8WUGE1O09uAT3pz5G89PFiBDDfAs3b8vBTUyw4gl1y5W7u887voyrXulBh5kSnlsmHhxnqdlcZZXuRp2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724063066; c=relaxed/simple;
-	bh=Kjip3a4fXX4ygWPQCnfrVGqq6qqVjaDC5YYo0HwiCNM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=OBhMTO4ZJLbzxyo+vas9FbfPZ5Xa2WHPQQ0imLGey+YPcL7tLVCfvhb/OEQKluXl5T6SU9RrLfmlCERnzHBMnHmmZyfuWzvEkmOGRMI0EzCaRThwo0vmpIjC8uMvR+jUBT0O0R35LocCdFb8jFx3gKpSe+30d8DVieoXiYyxrD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=N5xi36Gp; arc=none smtp.client-ip=209.85.128.46
+	s=arc-20240116; t=1724065535; c=relaxed/simple;
+	bh=aQqI8/PvBkdCYH4Owyk1gyL+aMccBy8C/n1W3mMRor8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EoAhH72XLr8DxjpJeBIVKb+5Deq+m+fMTeuznvTjqGi0n2rVahjQSrelnfsjNltHRt1j8xAJViw724BByIB/RwYDxpNNeZP4fjhsUSuWW3MR2ER0hY6VkB7y0ATMXtohZzoXDSIurVjNgLGsUfr7yPWZOyKx+xr9+Gdo7wNvoVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=q0tCAIx6; arc=none smtp.client-ip=209.85.208.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-42803bbf842so45564545e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Aug 2024 03:24:25 -0700 (PDT)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5bec7d380caso3313033a12.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Aug 2024 04:05:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1724063064; x=1724667864; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NPBriNUBNJl9HUPvS8Bn4pFDMfpKhH8zPFLFTIx9O/M=;
-        b=N5xi36GpuuevYfZkOzwX2/7yB0arLgNmuquEqb3JMIuUX4Mm1m9p/rzlaMRIz1LO34
-         NFeQund0NKf+q1N8F1YputHylYXPS0sn57oA7FkfLxa89LWXIS8b61L7R6JhkvDp+jSF
-         RF5bD+udX/hR7q9vdcclxHl2WPSoJ28TxbvLgx/UUndx7UHd7zwAq9usbRbR5sgy/TK4
-         g9demUYHu1GQ4HjeDKTktLVAU/qWXeYtvlaKW4FqKmGuyVh4Ypi83VaYPT08jOIPAFIP
-         Nyqm0gFGs9zBa1emALqZe2g9NW8tINeN38T4WoiROaWhTaaTQKP2QVfoUXpuQ5IS4squ
-         jVAg==
+        d=tuxon.dev; s=google; t=1724065531; x=1724670331; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VR0zD9PbDpkR3fyrzhpCpbjd6ZpNOkTNvRW/BRKBa/M=;
+        b=q0tCAIx6EEbRBl3p5GpvOXDq3m1vjNnpxdPVVZWbQOx+6arOlOBDOrp5CW7B+h6ZGM
+         PyAi7ygYEA75ZSSXAw11INQaCTDB0a36tO6xicVY5/WKie5ZIoOV+pvMwob1/2mMrSdg
+         mGNNolASn94YJHS8E/WkIystsZQBPJqownklzGHImAauqQxTWiNL6DUdw30QBhQQw62x
+         mFmflAgPoETR+cUGAFtgJYC5vYHulk0AxyAwyM08bDnnKGcNGiXAVr+mcZsY0itPekTy
+         ZZfFhJUbJz9f7w9jrNhkBDuEy19YqeH+kzoB0dU3zykCjRtuCv7sy9pHP451ZruiEKcn
+         d4yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724063064; x=1724667864;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NPBriNUBNJl9HUPvS8Bn4pFDMfpKhH8zPFLFTIx9O/M=;
-        b=ViO0BwWjQDn1J4PcBkZzbsgSqUcdZRxC5DnHdiRoM243duRt4xgONYMrPiL4cgAopd
-         gkAn/fuS+VPhXTAsma8NcKJyHEhTDvvyHJTMPnZ3tJDQyctVcNoENckdXcwHvFLm80WW
-         rj/AEN+4W19blgFYslj+bCc/7EqXrG6uX2P8O5QV+wuXxZHG0B2W9eJ26qGIn420D6Vq
-         znnnY5t+s7TZRSSq2UAgi3YAUl/PSVc5HLw4v3b4nfngGs1lM0tfCSdLUZS5sxV2DQoB
-         jeM3M2rkil/3GxuLxVnacFSF8pQTLzadaulGEpeCkltCUrcpd+0nWcdTK6tv+A3q3G83
-         7gqg==
-X-Gm-Message-State: AOJu0YxO/LXtPQ/iapeDgorSvYxSXuaYyVlojqjigPxReZfgtvl1BaDG
-	idWtu3svYf1Ebn5+9GJieLYTJ+MY3ssTeCJ3swK+4BQvwN8vBU0AhhQlrrw3Jww=
-X-Google-Smtp-Source: AGHT+IFc8feIJaq9GEMPvnpOSeeTFs+RovyO0dzj1O35X/s9IVtD5xqGjyseghvhXebWY3W2QXSRSQ==
-X-Received: by 2002:a05:600c:45cd:b0:426:6e9a:7a1e with SMTP id 5b1f17b1804b1-429ed7ed5c0mr76532165e9.35.1724063063752;
-        Mon, 19 Aug 2024 03:24:23 -0700 (PDT)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ed650402sm106690275e9.11.2024.08.19.03.24.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Aug 2024 03:24:23 -0700 (PDT)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: chris.brandt@renesas.com,
-	andi.shyti@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	p.zabel@pengutronix.de,
-	wsa+renesas@sang-engineering.com
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	claudiu.beznea@tuxon.dev,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v4 11/11] arm64: dts: renesas: rzg3s-smarc-som: Enable i2c1 node
-Date: Mon, 19 Aug 2024 13:23:48 +0300
-Message-Id: <20240819102348.1592171-12-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240819102348.1592171-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20240819102348.1592171-1-claudiu.beznea.uj@bp.renesas.com>
+        d=1e100.net; s=20230601; t=1724065531; x=1724670331;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VR0zD9PbDpkR3fyrzhpCpbjd6ZpNOkTNvRW/BRKBa/M=;
+        b=Q0rX7mCve7M8ZIMTGmZ/LApLTStbePenQ23RxmUix2yBqX56T8Bid31chZSN3m5n09
+         fzgWRsBR9HB8Kx003dK3H1Dk01avoBuPnb6Cr3clFKTISQTFnhiUCn0oFEyfU2M1DKuN
+         QwF/N5vznxG1tcuo+w/bhZY/v1GEphT1u8KK60GzhRKsB/Ao9c+BMqnlsggjTKgRsuEL
+         huk4gn7sCOonAbsG6KOy/EKEXmGTBptn8wZlt4ukTsSoG75BXC5cGEEb3ratKZeiRRxA
+         Lndc9mZrznX2YtpDr7FJ2jOotUsYTWzSxUVZQU77RKjwCmcaO9ugyN9J212tPM2jSGdl
+         /Dpw==
+X-Forwarded-Encrypted: i=1; AJvYcCUy99ZvXQZ+WPntndklS9SmsTmXcnyriP456A4TZtQw3Zc+cuwNS+tRP4uKOprdM9rhJq6dhAAxCvF0seTGmUjhpNNahS1OIOZv4oEy0XcIuVo=
+X-Gm-Message-State: AOJu0YwNRVyj1sXKduYkzII8CNcb5/B6bSmpkUPv6MGJLoxAlsSDWDli
+	0zwcqlxsnoaYv903mOrab2XXXcQlFd1vsCHWtEpTIs8susu+3S+b8f1Pta+dFv6idebKCHMCtbG
+	3
+X-Google-Smtp-Source: AGHT+IHO4S8AdSKKOY37vliaEkMlycJkvKZxWe5CIw13tBNdTGfGqudTUPDxixX5EL2h5Bzu0I7FzA==
+X-Received: by 2002:a05:6402:5114:b0:5be:e1bc:2320 with SMTP id 4fb4d7f45d1cf-5bee1bc262emr4890577a12.4.1724065531317;
+        Mon, 19 Aug 2024 04:05:31 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.177])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5bebc08109esm5446529a12.81.2024.08.19.04.05.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Aug 2024 04:05:30 -0700 (PDT)
+Message-ID: <c854caf4-5de4-42ab-b119-2a6e7fe0c511@tuxon.dev>
+Date: Mon, 19 Aug 2024 14:05:29 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 3/3] watchdog: rzg2l_wdt: Power on the PM domain in
+ rzg2l_wdt_restart()
+Content-Language: en-US
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: wim@linux-watchdog.org, linux@roeck-us.net, rafael@kernel.org,
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, geert+renesas@glider.be,
+ linux-renesas-soc@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20240619120920.2703605-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240619120920.2703605-4-claudiu.beznea.uj@bp.renesas.com>
+ <CAPDyKFq1EX1Spedhkek=50EdwmHY5erNTmvegVGbxfLzTqYjEA@mail.gmail.com>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <CAPDyKFq1EX1Spedhkek=50EdwmHY5erNTmvegVGbxfLzTqYjEA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Hi, Ulf,
 
-Enable i2c1 node.
+Sorry for the late reply, I was off last week.
 
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
+On 13.08.2024 16:56, Ulf Hansson wrote:
+> On Wed, 19 Jun 2024 at 14:09, Claudiu <claudiu.beznea@tuxon.dev> wrote:
+>>
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> The rzg2l_wdt_restart() is called in atomic context. Calling
+>> pm_runtime_{get_sync, resume_and_get}() or any other runtime PM resume
+>> APIs is not an option as it may lead to issues as described in commit
+>> e4cf89596c1f ("watchdog: rzg2l_wdt: Fix 'BUG: Invalid wait context'")
+>> that removed the pm_runtime_get_sync() and enabled directly the clocks.
+>>
+>> Starting with RZ/G3S the watchdog could be part of its own
+>> software-controlled power domain. In case the watchdog is not used the
+>> power domain is off and accessing watchdog registers leads to aborts.
+>>
+>> To solve this, the patch powers on the power domain using
+>> dev_pm_genpd_resume_restart_dev() API after enabling its clock. This is
+>> not sleeping or taking any other locks as the watchdog power domain is not
+>> registered with GENPD_FLAG_IRQ_SAFE flags.
+> 
+> Would it be a problem to register the corresponding genpd using the
+> GENPD_FLAG_IRQ_SAFE?
 
-Changes in v4:
-- none
+Should be no problem, AFIK.
 
-Changes in v3:
-- none
+> 
+> Assuming it wouldn't, it looks like we should be able to make the
+> watchdog device irq-safe too, by calling pm_runtime_irq_safe() during
+> ->probe().
+> 
+> In that case it should be okay to call pm_runtime_get_sync() in atomic
+> context, right?
 
-Changes in v2:
-- none
+Right! I registered the watchdog domain with GENPD_FLAG_IRQ_SAFE as well as
+it's parent domain (the always-on domain) and all looks good. However I
+need to run further testing to be sure nothing is broken.
 
- arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi | 5 +++++
- 1 file changed, 5 insertions(+)
+Thank you,
+Claudiu Beznea
 
-diff --git a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-index 8a3d302f1535..21bfa4e03972 100644
---- a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-@@ -32,6 +32,7 @@ / {
- 	compatible = "renesas,rzg3s-smarcm", "renesas,r9a08g045s33", "renesas,r9a08g045";
- 
- 	aliases {
-+		i2c1 = &i2c1;
- 		mmc0 = &sdhi0;
- #if SW_CONFIG3 == SW_OFF
- 		mmc2 = &sdhi2;
-@@ -150,6 +151,10 @@ &extal_clk {
- 	clock-frequency = <24000000>;
- };
- 
-+&i2c1 {
-+	status = "okay";
-+};
-+
- #if SW_CONFIG2 == SW_ON
- /* SD0 slot */
- &sdhi0 {
--- 
-2.39.2
-
+> 
+> Kind regards
+> Uffe
+> 
+>>
+>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>> ---
+>>  drivers/watchdog/rzg2l_wdt.c | 12 ++++++++++++
+>>  1 file changed, 12 insertions(+)
+>>
+>> diff --git a/drivers/watchdog/rzg2l_wdt.c b/drivers/watchdog/rzg2l_wdt.c
+>> index 6e3d7512f38c..bbdbbaa7b82b 100644
+>> --- a/drivers/watchdog/rzg2l_wdt.c
+>> +++ b/drivers/watchdog/rzg2l_wdt.c
+>> @@ -12,6 +12,7 @@
+>>  #include <linux/module.h>
+>>  #include <linux/of.h>
+>>  #include <linux/platform_device.h>
+>> +#include <linux/pm_domain.h>
+>>  #include <linux/pm_runtime.h>
+>>  #include <linux/reset.h>
+>>  #include <linux/units.h>
+>> @@ -169,6 +170,17 @@ static int rzg2l_wdt_restart(struct watchdog_device *wdev,
+>>         clk_enable(priv->pclk);
+>>         clk_enable(priv->osc_clk);
+>>
+>> +       /*
+>> +        * The device may be part of a power domain that is currently
+>> +        * powered off. We need to power it on before accessing registers.
+>> +        * We don't undo the dev_pm_genpd_resume_restart_dev() as the device
+>> +        * need to be on for the reboot to happen. Also, as we are in atomic
+>> +        * context here, there is no need to increment PM runtime usage counter
+>> +        * (to make sure pm_runtime_active() doesn't return wrong code).
+>> +        */
+>> +       if (!pm_runtime_active(wdev->parent))
+>> +               dev_pm_genpd_resume_restart_dev(wdev->parent);
+>> +
+>>         if (priv->devtype == WDT_RZG2L) {
+>>                 ret = reset_control_deassert(priv->rstc);
+>>                 if (ret)
+>> --
+>> 2.39.2
+>>
 
