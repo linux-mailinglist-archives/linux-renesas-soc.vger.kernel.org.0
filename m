@@ -1,72 +1,72 @@
-Return-Path: <linux-renesas-soc+bounces-7918-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7919-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DD70957203
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2024 19:21:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B3699571E6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2024 19:17:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 64CC5B24887
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2024 17:16:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 611141C232B8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2024 17:17:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB89B18A6AD;
-	Mon, 19 Aug 2024 17:14:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDD3218950C;
+	Mon, 19 Aug 2024 17:15:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qa8/G0jq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OC+U2BTl"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B60817B4ED;
-	Mon, 19 Aug 2024 17:14:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0A13188010;
+	Mon, 19 Aug 2024 17:15:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724087687; cv=none; b=tgFkn5SG0LtontDEBr2S9fknvUcaN5GIfA7qaCdup0pHizYH/46fSencoOboY/auzfiVga289syuAAfk697ihrDo1zfRI9Q70bum7SoXtXsT1a5bdYEvL6qgrdrU8sUTl+scB8+7dD2rStN58suZMfH40+1ku7ILvnoS6LwFaPY=
+	t=1724087707; cv=none; b=kSt5OI6dHU1Ujh7ilUVIk/yDZQt/h2628g2DgjEz5fC0w4xrib+QSoYK7H/SO0v0nS1AAb/LvTp4qdhn7Qh15OdFNk3cLELzhwe0G1XRLH2Ig+4SSesNzev7gTdi+OlHLSh0zKISeCSAXL1vanZ50jzOEqJ5j8UkOCLt+tta5dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724087687; c=relaxed/simple;
-	bh=SJa9wNA/DEXcDPJUqIOrI6KUrhWQ1+evwmrEEGfcIwA=;
+	s=arc-20240116; t=1724087707; c=relaxed/simple;
+	bh=OE/RHkNYDMlFrxPN4ocnZguUrifbzdwI4ehlWTxsrR4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pwLAvenHnIDVir2MrZ+yjX/YcCf1EmGcW+xAk9Xw5tKZ8pmLPJdavdjdc3EJyZajcESEeQITpz/yJvOyf6PZ/jZuiRuWarseGMBoBeXbJWJehkSHtfW3l4XPX5b9+Mv7a6ql5fdCy7/sqVwDZropCy6EwDW0QQD8D5An5zSpxl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qa8/G0jq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0F79C4AF0F;
-	Mon, 19 Aug 2024 17:14:46 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=f52/2PcA9WVX9isZ07YGbtVS6k0nIcfFLDpakJAbGWLG7TORlrQYD57YTf6h0f/2HU6jgIL35DcbKrWrHBzntOBH74MVhxQJGZTu93wWhqDcu5DpX6grVYNHIyHhNvdNS+7InN6fv4UbGE/28XE+p5monzc8XSVAG3G5JqNh9No=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OC+U2BTl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CD85C32782;
+	Mon, 19 Aug 2024 17:15:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724087687;
-	bh=SJa9wNA/DEXcDPJUqIOrI6KUrhWQ1+evwmrEEGfcIwA=;
+	s=k20201202; t=1724087707;
+	bh=OE/RHkNYDMlFrxPN4ocnZguUrifbzdwI4ehlWTxsrR4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Qa8/G0jqFFqmmyfCasZrZoFluls7lx4M9/fOlifj6LAzb4DtCYP8VPjwTygC7mpiV
-	 m+c/TuXNxLVKa31GpiZU2CEntrIsqMKrn6x4Kje3nS7e4kcezmQxa+4HCeSzrjkLer
-	 HdRbOVriuMhjA18kVr6R+pr9x9RoXA0a8wS6BuPAO/bW+Z8gneSyd6w6/VEwc1RCZf
-	 +gQ3l6WdgGRbMRdlExLBR5aKNZbbO5Y5EAfIQfWD8Ix3mMA3xrRhPkPjeeEk+bkVUm
-	 fyLpPnSX3+gulEDvf/Ejqolm475HWbGBVIXMDQUJzIqDYeL4hBdgalyhFUYixja9Lz
-	 1RbKOzVUUNv2A==
-Date: Mon, 19 Aug 2024 11:14:45 -0600
+	b=OC+U2BTlj2oEcHBpjVJY4h1rRr5Wd0NGSzTcMVxjtIqe+BXa7bbGZ8TcLx/UKA3I+
+	 dofXLiCOsl3QuvEmQa2It6cIM8FrFRthx+2gybF3ZmNOD4cRITrchGPfgJVHiTYCdJ
+	 mRs8cWl5gDJS8a/rY3W6d0ba3+dTYHqpRoJUPITODA8OQv3Wt97hURYw1ad+OR0qZx
+	 5nlzGpAZLYfwxBN/wTULm+5NBCCDiUvbANzmHLZCZN0ibYaHLR+W4UBbZm3VkDgNl3
+	 R623TEP7NclNwMAxGCYk1XTWwC5LE5QXekd8X5oDyOiQZRNr2nWrapCVn1JZp6Iv9b
+	 kNRvwGxrput+g==
+Date: Mon, 19 Aug 2024 11:15:05 -0600
 From: "Rob Herring (Arm)" <robh@kernel.org>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-renesas-soc@vger.kernel.org,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Binghui Wang <wangbinghui@hisilicon.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Xiaowei Song <songxiaowei@hisilicon.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
+Cc: linux-renesas-soc@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	Felix Fietkau <nbd@nbd.name>,
+	"David S. Miller" <davem@davemloft.net>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH 3/3] dt-bindings: PCI: socionext,uniphier-pcie-ep: add
- top-level constraints
-Message-ID: <172408768452.1698595.1459135684597826789.robh@kernel.org>
-References: <20240818172843.121787-1-krzysztof.kozlowski@linaro.org>
- <20240818172843.121787-3-krzysztof.kozlowski@linaro.org>
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Eric Dumazet <edumazet@google.com>,
+	Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Paolo Abeni <pabeni@redhat.com>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Sergey Shtylyov <s.shtylyov@omp.ru>,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH net-next 1/4] dt-bindings: net: mediatek,net: narrow
+ interrupts per variants
+Message-ID: <172408770465.1699134.17451371912936634019.robh@kernel.org>
+References: <20240818172905.121829-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -75,19 +75,18 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240818172843.121787-3-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20240818172905.121829-1-krzysztof.kozlowski@linaro.org>
 
 
-On Sun, 18 Aug 2024 19:28:43 +0200, Krzysztof Kozlowski wrote:
-> Properties with variable number of items per each device are expected to
-> have widest constraints in top-level "properties:" block and further
-> customized (narrowed) in "if:then:".  Add missing top-level constraints
-> for clock-names and reset-names.
+On Sun, 18 Aug 2024 19:29:02 +0200, Krzysztof Kozlowski wrote:
+> Each variable-length property like interrupts must have fixed
+> constraints on number of items for given variant in binding.  The
+> clauses in "if:then:" block should define both limits: upper and lower.
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
->  .../bindings/pci/socionext,uniphier-pcie-ep.yaml          | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+>  Documentation/devicetree/bindings/net/mediatek,net.yaml | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
 
 Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
