@@ -1,125 +1,152 @@
-Return-Path: <linux-renesas-soc+bounces-7894-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7895-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB23795690B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2024 13:10:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF7F7956913
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2024 13:11:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4ABA3B21C7C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2024 11:10:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 31919B22B46
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2024 11:11:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACA7D161328;
-	Mon, 19 Aug 2024 11:10:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="THTsQOob"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 417D0165EF8;
+	Mon, 19 Aug 2024 11:11:28 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076C515B12B
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Aug 2024 11:10:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70ED61662F6;
+	Mon, 19 Aug 2024 11:11:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724065820; cv=none; b=FuRVJTjy9jhZgSis07Y8OGL/uWVac9k7cezBHxnLjhsZRin3YIg2w9odC5FZCOPnCRu28E4K1EN/slJz9EqMuzneleTVAQn2BftFp5PjV/rCjImRgo7sP60VRwAVZ+J+4SgIuV8VhZ1BFocoYIgOkNMe6gCBghWGmmk20HaRn/8=
+	t=1724065888; cv=none; b=W3x5/yhgDKIFq7ia0mlWj2kOeTMQ93hoPq1x+znLqCGjAEdbEVPe/HUzoVk/nWv71jmCBF1mLlTBdWxD/CzAzm8SsHjzhqf51RzY+xeJ3H2Loh44HJTqVMLqsHVb2D3dX/AxYP5Ymd0scrZ+HbeWrMx93HQYxZvlXPAjitcuqGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724065820; c=relaxed/simple;
-	bh=zOlYH3GTgzKAHU8di3VALmbBP8ocav6kVwNdHek7zxo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XsCqnvEMzdJWBotEbfHk5jCLsqKoHxYhuJjyyoBMVe6hsGG/5GPz60hGFlIaYfUwhS8JcqULX47iq5r/Bw0UjhkpnkXAab9UKroi89EY/j3YE+juw5wzOD7O/1oKvWl5BMtbX19k+pC+6lUn54g+OTvyU7EIe4qJv+WQqV0oxHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=THTsQOob; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-52efe4c7c16so5445927e87.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Aug 2024 04:10:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1724065817; x=1724670617; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XE2ug3irN3B0PzcH/qnDG30H87tv6xYk/Cf9lQioacg=;
-        b=THTsQOobrrifUcn+RgJmj6zAOqWzfiDCjRaXYBr+Q1JJediOe6MBj11XFNDyPMKBCg
-         G4swmIjtcNdTSGXkajU7Lr7kr1ZqcHZEeLWf2h+fSly9jdvq0ksOqlZkGqH9OQevJblI
-         hQvy+zrJzqAkkJp+RE8dCkhJpPFD2thP7ulVfORQnv2mrn4fA+aTKN6d4REmOEb1UGbl
-         ffRnScbZ/z4whweQewhjqJas1Z/8T+3TNKsnwQgJ67m3AP6x3VfAs1/wUMISFHe/18yy
-         BGp8GMfVWTbiheNIkISXFd05Y/FirXXFBMzNi2izqCl0Ze4DpwlHUibBQ5m46fMaPYD7
-         wpWQ==
+	s=arc-20240116; t=1724065888; c=relaxed/simple;
+	bh=zs3VYO2MmlCGIgfj8+2w6EfSp0KY1ZmiUIx8bcsVVvQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UHyQRrV6/UTrkD5V5dzTAADP9W9IAhxM2qaK5uWKgLHm19tTT+tE63pX7CEQCb8T26xQoqh4AEjSF/mAdssePqWHAtM8iiNYsSqdY0vgFzXvwAAXFK9BSSj3eIehy6HA12TB58k434bBwoI4AEk7PEiR02lBQJ884kksrZAzMoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-428ec6c190eso35105945e9.1;
+        Mon, 19 Aug 2024 04:11:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724065817; x=1724670617;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1724065885; x=1724670685;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XE2ug3irN3B0PzcH/qnDG30H87tv6xYk/Cf9lQioacg=;
-        b=EwewIhhqOW3sbsyhpfYbgfephvzMptaOSHDAyKkaYbFx6sQh2aNuu9OvmnQwcheUp7
-         QWtvkjykf8h4BesamDGqrkg4Hpt3VDR8h8ASP6TbrYWdlUoAlqW+Jg3QS+LofvEYq1v4
-         zcDqRFZb8agDYSM50Zck3ju8iGMjvpRSeoNQ6Fd19P2ThUslxDc5BqqwLH1P3NlBKXyu
-         DC1bksXO2B9FPpWpViq80MCHyiG4yMEBmDVEC3hTg5zGDZa+Xrh7HZX/vq3lqnSMd6EU
-         yrs4xVfeaSV6r2/5fWIgT3oe3Sij64zyVniJcw/bAu36mxLNTc7lHPSuLwEckG2VgN0M
-         gBGw==
-X-Forwarded-Encrypted: i=1; AJvYcCXc5JMUwrWCE8UKGG+qoZ6EPGU6/4wIspa8+mvNfCyeyodHuZi2cFAtBf+9gK6Je6q63g+3lyTVX3OSKwDkvw6okg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxsk6C3Qj0uFLeD9NTs35G0/1IhWyHJ8t/xncUqxGXlrfu3CeAD
-	Cl23KVq8ZpiYbxoATiR35VrgMJnZmPhsuHOfmFIyaTVOfQJBKOsXBIBEpfweCYE=
-X-Google-Smtp-Source: AGHT+IFVSravI8lfSdiu804ftuzvsmERhC3uU+IGlqmkWfmDLfcT8JqBkHBmuPpnv9kff6wDZ8wXAQ==
-X-Received: by 2002:a05:6512:3e22:b0:52f:307:d5ee with SMTP id 2adb3069b0e04-5332df3699fmr4142624e87.4.1724065816798;
-        Mon, 19 Aug 2024 04:10:16 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a83838c6998sm627728366b.19.2024.08.19.04.10.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Aug 2024 04:10:16 -0700 (PDT)
-Message-ID: <e6377448-9af3-4807-a8fd-197f5b2b4aa4@tuxon.dev>
-Date: Mon, 19 Aug 2024 14:10:14 +0300
+        bh=NzBxPiQlNt8RrJF4Nc6evdsL7t4tnpnS9AfJ6DvQ6BQ=;
+        b=D7zrCSbd7WykrWge8nUxke3NYzqk90Ymfxp5vMWP1GAD0Ayb7qrP6wMWThXzKUlkkb
+         ONNYy9xOUxvW0XrCyqB2/Jjf3VHy6T7zBMQqaPD4jmW5sAh2Us93O42W96bu/M0ouuiD
+         p/62fsaeYSnYwa1QszrI2jPUOG9KVK7HSBI5WGwWLDfTQlQEBNEbAL5kHourO8Fe2TQf
+         NnI0yn5sOoPb9PNZLsUqmPYX2eP7cY5UbQPDTYLXrpHOj1IbSDdy2SfpGvjeCvuK4qTe
+         W2R6wArQtNwatQliIijLf4NWnpHup69wFXp2ZuVAKYoecbvIWYcdYEBhb5pq8DdDC7ev
+         ++jQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUad3IF6gvC7ajVwxsS6Uf6PCWhyAYXJxYL3duK3dtg70EQavgl/EqxQ4Zbc8gk9w8nim5dqBBWRVNvsLT8XyLtTu8=@vger.kernel.org, AJvYcCXIEhdQx6uhVGfPGA1AoKnbAyIMwIfbTyOG2yJLqh0BlPJdsZFUZFEy0mW+xwamrUJ3a/4c5/j2fkSh@vger.kernel.org, AJvYcCXmpyf3Ylo0dPkIYTJD8YUQhTAjAFiZyChZrZfR5NnFtIEbUnTPj9AKsUBTROvgDtiVlHHeO09v031PJF6w@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHQHM2mTURm40viNSRlaWxh3AxMC8DkXq6RdG57MYWRqFqzbdf
+	+u7fDkOrIyk/m5ZNXCZusbdqy7IhC33dq9+Zbxowy6sw7+BwE1YItIRGXw==
+X-Google-Smtp-Source: AGHT+IH5WvNfAY0N9OzNkjT9Ufq/0lmn4ikLV23i1mFcnYrkEfxD8WHLZWkifsd/jKS/Q+hMXiVvIg==
+X-Received: by 2002:a05:600c:198b:b0:426:5ee3:728b with SMTP id 5b1f17b1804b1-42aa8241489mr44754235e9.13.1724065884192;
+        Mon, 19 Aug 2024 04:11:24 -0700 (PDT)
+Received: from krzk-bin ([178.197.215.209])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-42aa6736e5esm89388165e9.38.2024.08.19.04.11.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Aug 2024 04:11:23 -0700 (PDT)
+Date: Mon, 19 Aug 2024 13:11:21 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Arnd Bergmann <arnd@arndb.de>, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/7] dt-bindings: fuse: Move renesas,rcar-{efuse,otp}
+ to nvmem
+Message-ID: <67hcoj3haiptjh4f7qvaz4xwcdamr3x33xxrxusuwq2t3veiln@z2ggc7razty4>
+References: <cover.1721999833.git.geert+renesas@glider.be>
+ <1a3d4ff8ce34a5e676d1cb1fafd40525378e29a4.1721999833.git.geert+renesas@glider.be>
+ <20240730162435.GA1480758-robh@kernel.org>
+ <CAMuHMdUwATmjM3E7WmwnCK739CwuyZH1w_YVYbroDcWEpzh8ig@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 07/11] dt-bindings: i2c: renesas,riic: Document the
- R9A08G045 support
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: chris.brandt@renesas.com, andi.shyti@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, geert+renesas@glider.be,
- magnus.damm@gmail.com, p.zabel@pengutronix.de,
- wsa+renesas@sang-engineering.com, linux-renesas-soc@vger.kernel.org,
- linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240819102348.1592171-1-claudiu.beznea.uj@bp.renesas.com>
- <20240819102348.1592171-8-claudiu.beznea.uj@bp.renesas.com>
- <gxjlmdjicwzlexitsx673beyn7ijuf47637nao2luc5h6h6hvi@qstobttin7dw>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <gxjlmdjicwzlexitsx673beyn7ijuf47637nao2luc5h6h6hvi@qstobttin7dw>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAMuHMdUwATmjM3E7WmwnCK739CwuyZH1w_YVYbroDcWEpzh8ig@mail.gmail.com>
 
+On Wed, Jul 31, 2024 at 09:37:36AM +0200, Geert Uytterhoeven wrote:
+> Hi Rob,
+>=20
+> On Tue, Jul 30, 2024 at 6:24=E2=80=AFPM Rob Herring <robh@kernel.org> wro=
+te:
+> > On Fri, Jul 26, 2024 at 03:38:06PM +0200, Geert Uytterhoeven wrote:
+> > > The R-Car E-FUSE blocks can be modelled better using the nvmem
+> > > framework.
+> > >
+> > > Replace the R-Car V3U example by an R-Car S4-8 ES1.2 example, to show
+> > > the definition of nvmem cells.  While at it, drop unneeded labels from
+> > > the examples, and fix indentation.
+> > >
+> > > Add an entry to the MAINTAINERS file.
+> > >
+> > > Reported-by: Arnd Bergmann <arnd@arndb.de>
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > ---
+> > > v3:
+> > >   - New.
+> > >
+> > > I would expect that the calib@144 node needs:
+> > >
+> > >     #nvmem-cell-cells =3D <0>;
+> > >
+> > > but after adding that, "make dt_binding_check" starts complaining:
+> > >
+> > >     Documentation/devicetree/bindings/nvmem/renesas,rcar-efuse.exampl=
+e.dtb: fuse@e6078800: nvmem-layout: 'oneOf' conditional failed, one must be=
+ fixed:
+> > >           '#address-cells', '#size-cells', 'calib@144' do not match a=
+ny of the regexes: 'pinctrl-[0-9]+'
+> > >           Unevaluated properties are not allowed ('nvmem-cell-cells' =
+was unexpected)
+> >
+> > Did you want 'nvmem-cell-cells' or '#nvmem-cell-cells'?
+>=20
+> Oops, I've been (manually) re-adding and removing it again too many
+> times during my investigations. "#nvmem-cell-cells", of course.
+> According to my build logs, I had it right at least once ;-)
+>=20
+> > >           'kontron,sl28-vpd' was expected
+> > >           'onie,tlv-layout' was expected
+> > >           from schema $id: http://devicetree.org/schemas/nvmem/renesa=
+s,rcar-efuse.yaml#
+> > >     Documentation/devicetree/bindings/nvmem/renesas,rcar-efuse.exampl=
+e.dtb: fuse@e6078800: nvmem-layout: Unevaluated properties are not allowed =
+('#address-cells', '#size-cells', 'calib@144' were unexpected)
+> > >           from schema $id: http://devicetree.org/schemas/nvmem/renesa=
+s,rcar-efuse.yaml#
+> > >     Documentation/devicetree/bindings/nvmem/renesas,rcar-efuse.exampl=
+e.dtb: fuse@e6078800: Unevaluated properties are not allowed ('nvmem-layout=
+' was unexpected)
+> > >           from schema $id: http://devicetree.org/schemas/nvmem/renesa=
+s,rcar-efuse.yaml#
+>=20
+> Anyway, with or without the typo, the error message is about the same:
+>=20
+> - Unevaluated properties are not allowed ('nvmem-cell-cells' was unexpect=
+ed)
+> + Unevaluated properties are not allowed ('#nvmem-cell-cells' was unexpec=
+ted)
 
+And if you test your schema or DTS with all nvmem (so also layouts)
+schemas?
 
-On 19.08.2024 14:05, Krzysztof Kozlowski wrote:
-> On Mon, Aug 19, 2024 at 01:23:44PM +0300, Claudiu wrote:
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> Document the Renesas RZ/G3S (R9A08G045) RIIC IP. This is compatible with
->> the version available on Renesas RZ/V2H (R9A09G075).
->>
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->> ---
->>
->> Changes in v4:
->> - added comment near the fallback for RZ/G3S; because of this
->>   dropped Conor's tag
-> 
-> That's not a reason to request a re-review.
+Apparently fixed-layout schema was not applied.
 
-Sorry for that, I wasn't aware of the procedure for this on bindings.
-
-Thank you,
-Claudiu Beznea
-
-> 
-> Best regards,
-> Krzysztof
-> 
+Best regards,
+Krzysztof
 
