@@ -1,71 +1,71 @@
-Return-Path: <linux-renesas-soc+bounces-7882-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7883-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8D6A956850
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2024 12:24:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEC17956856
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2024 12:24:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 68EBB1F2162F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2024 10:24:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7A651283126
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2024 10:24:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB623165EF9;
-	Mon, 19 Aug 2024 10:24:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2421166310;
+	Mon, 19 Aug 2024 10:24:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="jM/7nqaB"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="mncnCM8g"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A27316130C
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Aug 2024 10:24:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F216165EFD
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Aug 2024 10:24:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724063048; cv=none; b=te4jTQ5ZXv7CiSnMxrl2SJePWoOkCzfumEx4ZMIXxNIcgLnG4T5pgDS5Y29rpFe9mO9zhNfz3dXnrpm44J4R8IDS1Oi0u0OCKOfzRKskwQeCG25sJkBF/2T+RVt6h4z6+EnDJmcnsNVaeFkOaISfaIGhA1ZcNnVCE1jL9J4HHVQ=
+	t=1724063051; cv=none; b=ikQrm+yGZBVrh23M99psV+yBY4l4kIcoGdxosQstE32kvafLpgKnEVR+1lYM1tuxqABNU5XGEsoMuN+IEas+h3ACogLqXdgWnXca5yQi3yiHhQJHPSjliZfNRlmy24dygccSkRKiC2fUDDPs+ZGeb8QbW1nrSsm4RP1plTmjeWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724063048; c=relaxed/simple;
-	bh=lATT16tEASaWJrtIZ8R8OxHTCKd5ZoB5ix2CHDbDV6Q=;
+	s=arc-20240116; t=1724063051; c=relaxed/simple;
+	bh=z6TCcjwue9TYz7JInDjcmzx1UOfgxbAEKNVt5syHDaM=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=SHGuzi1hCrTmYNMGRVZNg0eMllTyDNjRu1dGrD+++1+ST+GKds1vQKMSywyum/MqA5JlUVy8q5pQe09okFlvS9SEsqzVB8TYQ5ZU2kVDQcsNHIF1p61WRk415ScM+jMgm6Xpqkdi33LuGNhyYNJB5uU2BH5u/vUzwnaveBlKUVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=jM/7nqaB; arc=none smtp.client-ip=209.85.128.53
+	 MIME-Version; b=PszzlJVjt2TAqSs5j9TLf05ysyJpIO+LuAgxF0kM/wLLLJlbLw5dV/mQDtqg5EG+2PkLO/o2UV6gwJK/psL2sJvxzDPuxrekbxgCgooUa4ad8bu2vKRgBCvx26x4hYfyVaqxouG5NqjAjwTEDtulIcXhkOAYFx+uGWabG2dg5kc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=mncnCM8g; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-42817f1eb1fso33040165e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Aug 2024 03:24:06 -0700 (PDT)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-428119da952so33110705e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Aug 2024 03:24:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1724063045; x=1724667845; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1724063047; x=1724667847; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ria4gejXgTrbHH7pUOF3bsKUCGfhOX9GK/RsFmy6f6k=;
-        b=jM/7nqaBb5NIT5GNIxdjetb+Z0SPV2JTC7cG4Uwp12xFT301H7zMWR6mh0smiPkhzx
-         Ea8xJUr9Bd/WjGCcApYvZE5pbnZCQUh8AfHBIhOojaIZaJY3avxr4geZLRQGZM2hkwOZ
-         0Su36RjUoZQ2InPdqMezEqaZFXViAfXmBvLnv77naJafVvnJF3CwFeMXa4NDwU4IZamU
-         burzyo4XlmJY0o2unleMusPVXBOYrA930hpFO5WmX5Z6fpOOcoisnhw5yk9MzK6AcBQp
-         RuXt2Mbdk+cgeiyUiJJcqXAlL2sboyX/P7sVrDkrG5p3rZniXD/Tx/WeUS6TbPJb/VM0
-         fcjg==
+        bh=NJ7yNcG1m1i0h8P6wLWOssV8KAFemhynAlwW6SKhVVo=;
+        b=mncnCM8gy2FrBzlE9bPELAxyLgIqiL3nHP0agbx+H2oxoGYsDxDljBEDP4A2AltJ3S
+         ftHtY76/pROZ8TlalUeMCgKa8m352sqVS/nrZ7aWweZZhFBnPkEGUC+FnacWyVrQYRCz
+         Ps0kHiuuQ34FjTlFvEZ0cIM//hbERkqK7pVCT63294RY/RGRj2G6PV7nlqJQjhsFPhXC
+         7TYjAKiHTt9keJovtLx6HK2xi5YDJvNj2Ul+ZJKZyzFXoFEiJ0UkIaxzBNowfdZSrOBZ
+         3WVKwFWfCCcA1XW7eLfBrKy2zEew5ApZDa54FwQSivqJd2eyqL/rRH3qum9M1wrkpeit
+         0ixg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724063045; x=1724667845;
+        d=1e100.net; s=20230601; t=1724063047; x=1724667847;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ria4gejXgTrbHH7pUOF3bsKUCGfhOX9GK/RsFmy6f6k=;
-        b=fJRnLpMgqRzzP1v5Id/+EjRjvWzn0J4DT7y1iwiMQFZdqhNG2T1ZemziXrOKLgHmOR
-         mw5eFy7KF50z1Pp65PCirB8xIVOp87OUhLwfU/iUPaCKRmZFW/YBMT2j/drS3U0dlrdu
-         7C1fRGOgH1dMZFeX211zwXRBRNQm5viv48m+g/nFApGJiCPRFDF0aSlbF9+u7wX7F0V/
-         PF4kJ7s5ulke10DOvak7HTKaVoM8hwtpn3AY55m1KlX0EUWVbms8+j2J/PeC71C6udV5
-         Uhjl2CEVcxiqdXat2br8n1hFumFP6EPUcT9foV9OsKddaINJm5oQrl9z5y12MOOf9OyF
-         W80w==
-X-Gm-Message-State: AOJu0YyeOarcYu5e9UoNLEtkHuUdy2fKLmaXzJmwoe7VftrReY4HVOFC
-	L8e10KVeiErU3EKuD46vVk+UE/mOJRIRNa/6ac+K5GUSW8uUBWOI8PIqANnmF+g=
-X-Google-Smtp-Source: AGHT+IFRms7CEp+mC2QUpyEJ6F7ca4xvMy27W1APCHnVbbzJpGgWcbRMxcsIbhj6IKc7uYK2FM2O0Q==
-X-Received: by 2002:a05:600c:3550:b0:429:e67f:1249 with SMTP id 5b1f17b1804b1-429ed77db6amr68523215e9.3.1724063045333;
-        Mon, 19 Aug 2024 03:24:05 -0700 (PDT)
+        bh=NJ7yNcG1m1i0h8P6wLWOssV8KAFemhynAlwW6SKhVVo=;
+        b=A9QHlWWSDBVoNsiASEsMnuWy6VpvAvc09GG0DGQz694cov5sMRyl12wsilOBhZzELk
+         jXRnAhWvtjgVK8W+Jz3QyunPfhu4mx04OHE3bxXcZjjWQlOpD6aq7IaAvNd64YjKe3Qv
+         3arJ+IrPd78vY+4HSmoxjZpTCiuhFZlYEZ+zRy+OMoaphnO9WDYm1lt+vF0FxY2oKHK4
+         jX/e005CxMTIXeS7Le0ERFrYjOWKlnXWMyIT5hPRokwPhz7p9ZLK5zKYoTpjkQQrkzBf
+         6k3/YGKR/O2gmE24gVxT/4SW8hLBs4FQAELsvJnHqhquY8YmIXIG5q7C4LROCQAtl1yV
+         zCJg==
+X-Gm-Message-State: AOJu0YwjqmJWNoWkW1lX2WeGSzMA4PsVKxWQoB9zE/8pxgQVwQAUg/GO
+	9ztfUMzm2wwPgLoV9ob4gBK48t6vDj8KapxINL1OB1YyDnLsibXlodKSKjiKKAM=
+X-Google-Smtp-Source: AGHT+IH35aeD9aoWxV9BWKKVbIqVat0Tr6oYJvQSkKpqYRsKX2JAzCz6Kq8sQaX2iqJjtiMtEYiPdA==
+X-Received: by 2002:a5d:69cc:0:b0:367:905c:823e with SMTP id ffacd0b85a97d-3719464e8d4mr6538216f8f.24.1724063047209;
+        Mon, 19 Aug 2024 03:24:07 -0700 (PDT)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ed650402sm106690275e9.11.2024.08.19.03.24.03
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ed650402sm106690275e9.11.2024.08.19.03.24.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Aug 2024 03:24:04 -0700 (PDT)
+        Mon, 19 Aug 2024 03:24:06 -0700 (PDT)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: chris.brandt@renesas.com,
@@ -83,9 +83,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	claudiu.beznea@tuxon.dev,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v4 02/11] i2c: riic: Call pm_runtime_get_sync() when need to access registers
-Date: Mon, 19 Aug 2024 13:23:39 +0300
-Message-Id: <20240819102348.1592171-3-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v4 03/11] i2c: riic: Use pm_runtime_resume_and_get()
+Date: Mon, 19 Aug 2024 13:23:40 +0300
+Message-Id: <20240819102348.1592171-4-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240819102348.1592171-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20240819102348.1592171-1-claudiu.beznea.uj@bp.renesas.com>
@@ -99,11 +99,10 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-There is no need to runtime resume the device as long as the IP registers
-are not accessed. Calling pm_runtime_get_sync() at the register access
-time leads to a simpler error path.
+pm_runtime_get_sync() may return with error. In case it returns with error
+dev->power.usage_count needs to be decremented. pm_runtime_resume_and_get()
+takes care of this. Thus use it.
 
-Reviewed-by: Andi Shyti <andi.shyti@kernel.org>
 Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
@@ -112,69 +111,70 @@ Changes in v4:
 - collected tags
 
 Changes in v3:
-- collected tags
+- dropped error message on pm_runtime_resume_and_get() failures
+- restored initial place of i2c_del_adapter() in riic_i2c_remove()
 
 Changes in v2:
-- none
+- delete i2c adapter all the time in remove
 
- drivers/i2c/busses/i2c-riic.c | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+ drivers/i2c/busses/i2c-riic.c | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/i2c/busses/i2c-riic.c b/drivers/i2c/busses/i2c-riic.c
-index bc33762a5d07..2e119024c2d7 100644
+index 2e119024c2d7..6fc41bde2ec2 100644
 --- a/drivers/i2c/busses/i2c-riic.c
 +++ b/drivers/i2c/busses/i2c-riic.c
-@@ -301,19 +301,15 @@ static const struct i2c_algorithm riic_algo = {
+@@ -133,10 +133,12 @@ static int riic_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[], int num)
+ 	struct riic_dev *riic = i2c_get_adapdata(adap);
+ 	struct device *dev = adap->dev.parent;
+ 	unsigned long time_left;
+-	int i;
++	int i, ret;
+ 	u8 start_bit;
+ 
+-	pm_runtime_get_sync(dev);
++	ret = pm_runtime_resume_and_get(dev);
++	if (ret)
++		return ret;
+ 
+ 	if (riic_readb(riic, RIIC_ICCR2) & ICCR2_BBSY) {
+ 		riic->err = -EBUSY;
+@@ -301,6 +303,7 @@ static const struct i2c_algorithm riic_algo = {
  
  static int riic_init_hw(struct riic_dev *riic, struct i2c_timings *t)
  {
--	int ret = 0;
++	int ret;
  	unsigned long rate;
  	int total_ticks, cks, brl, brh;
  	struct device *dev = riic->adapter.dev.parent;
- 
--	pm_runtime_get_sync(dev);
--
- 	if (t->bus_freq_hz > I2C_MAX_FAST_MODE_FREQ) {
- 		dev_err(&riic->adapter.dev,
- 			"unsupported bus speed (%dHz). %d max\n",
- 			t->bus_freq_hz, I2C_MAX_FAST_MODE_FREQ);
--		ret = -EINVAL;
--		goto out;
-+		return -EINVAL;
- 	}
- 
- 	rate = clk_get_rate(riic->clk);
-@@ -351,8 +347,7 @@ static int riic_init_hw(struct riic_dev *riic, struct i2c_timings *t)
- 	if (brl > (0x1F + 3)) {
- 		dev_err(&riic->adapter.dev, "invalid speed (%lu). Too slow.\n",
- 			(unsigned long)t->bus_freq_hz);
--		ret = -EINVAL;
--		goto out;
-+		return -EINVAL;
- 	}
- 
- 	brh = total_ticks - brl;
-@@ -384,6 +379,8 @@ static int riic_init_hw(struct riic_dev *riic, struct i2c_timings *t)
+@@ -379,7 +382,9 @@ static int riic_init_hw(struct riic_dev *riic, struct i2c_timings *t)
  		 t->scl_fall_ns / (1000000000 / rate),
  		 t->scl_rise_ns / (1000000000 / rate), cks, brl, brh);
  
-+	pm_runtime_get_sync(dev);
-+
+-	pm_runtime_get_sync(dev);
++	ret = pm_runtime_resume_and_get(dev);
++	if (ret)
++		return ret;
+ 
  	/* Changing the order of accessing IICRST and ICE may break things! */
  	riic_writeb(riic, ICCR1_IICRST | ICCR1_SOWP, RIIC_ICCR1);
- 	riic_clear_set_bit(riic, 0, ICCR1_ICE, RIIC_ICCR1);
-@@ -397,9 +394,8 @@ static int riic_init_hw(struct riic_dev *riic, struct i2c_timings *t)
+@@ -498,10 +503,13 @@ static void riic_i2c_remove(struct platform_device *pdev)
+ {
+ 	struct riic_dev *riic = platform_get_drvdata(pdev);
+ 	struct device *dev = &pdev->dev;
++	int ret;
  
- 	riic_clear_set_bit(riic, ICCR1_IICRST, 0, RIIC_ICCR1);
- 
--out:
- 	pm_runtime_put(dev);
--	return ret;
-+	return 0;
+-	pm_runtime_get_sync(dev);
+-	riic_writeb(riic, 0, RIIC_ICIER);
+-	pm_runtime_put(dev);
++	ret = pm_runtime_resume_and_get(dev);
++	if (!ret) {
++		riic_writeb(riic, 0, RIIC_ICIER);
++		pm_runtime_put(dev);
++	}
+ 	i2c_del_adapter(&riic->adapter);
+ 	pm_runtime_disable(dev);
  }
- 
- static struct riic_irq_desc riic_irqs[] = {
 -- 
 2.39.2
 
