@@ -1,150 +1,153 @@
-Return-Path: <linux-renesas-soc+bounces-7879-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7880-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 868B3956551
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2024 10:13:40 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 577C995684B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2024 12:24:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 44338280E5C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2024 08:13:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E7942B22BD8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2024 10:24:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11D3815ADBB;
-	Mon, 19 Aug 2024 08:13:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0854F160883;
+	Mon, 19 Aug 2024 10:24:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="KuYQjcDW"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="cezkf42g"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D84415AADA
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Aug 2024 08:13:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCEC6160873
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Aug 2024 10:24:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724055216; cv=none; b=kXBrX7FuRDcLI4NnBNqoTKXPqnIDg4v2gcPhhMeF8hI3ZUJm9m3c1MXJNeTKJg/fLdHMJXghA+4kaFPSthpmhbG+lJE8yX/bDL8sSBaOI+L8w8lrx+y/zCmTsK7mYC7Gg/Vc6O4ifAkhSMdRfMXiFqqviZ4dzuVQz0cRu2jyV68=
+	t=1724063046; cv=none; b=QgEUSFGWZv7SCEm+QqTDU0hp4pq5dcnjxW4EIKvrl38rno3BQE/5Lu6Ikmu7KB1K12yrEww96v5zS7oNcYzOup/0A8YQvwSAbKoHanuG1fdSDJWivWflwLHi1jQejHQ4RXY0DWDKgSHzz5Jx47VHHSeDfYFUlUkukV+hevOUkOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724055216; c=relaxed/simple;
-	bh=SxbAV8kd93f+7QswDJM7XxrhkO5ZkojrtQTWX/aGRyI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TkzEP+kRq0kND6+f5AJQcopJd5QQBz1wPF9CS2ZVUy4nisTTX2Q7KVSZGBEVjPH9j+KAG5ZGJrjKCgHqcZSDb+tPiM5xztdtUTL8eOzmGd4hsyleysdjGU5Tk7qIA22cdIGnBvwHBL9KXqryK2Ll4HW81YUYGeyH+4b9P2lqLOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=KuYQjcDW; arc=none smtp.client-ip=209.85.208.43
+	s=arc-20240116; t=1724063046; c=relaxed/simple;
+	bh=dmc0y/kWfY6Cc8jLZorl5FTPhvTODwkyztEgSx9S+Wc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hwimeIpzhfSsmSmd7irOwESrdv+sJzUkjMypcd6z0cLxn2ku4Tdn/WX9JaS2rAyQShL448WYWpf+ZD4WhAAuFT9QJyM8szdKIUj7gfKZ15o2pHmEtEzl2Q+/pDbx7cPG08rP5R1+WPyp0jkb2HMRqLExwDMZY6phhgAoIXtULQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=cezkf42g; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5bec4fc82b0so5849804a12.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Aug 2024 01:13:32 -0700 (PDT)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-37182eee02dso2120843f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Aug 2024 03:24:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1724055211; x=1724660011; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hkaJw/3Kk9sZ53Q99+QnCuQ4WgKVgljtLdb8OyHyfdo=;
-        b=KuYQjcDWpd1WytWfTeN1HmCHFW+mUULBIl+wxfurp2KtQQUs0C9NuPnt6tTnTp//EI
-         kU1eacbhF/+fyeZP+rOfsmn9fAEtiT08wZy+xCNZepOpj3ORuk7NRpYuRg5KzBrSugSk
-         eJyfXNGbwUtvhT3UPCOS5ZF+i49OXQiRIL9Y+Wzi887iHiXQtyEYn0K0wczk4OOt9QwB
-         dWsXcfwG0R2j795t2w/8unfH9EPobWJBO4KT9uzY3xnC0bbeZq/l1BlIhmZ/PCdWwPJs
-         mUi7MaKT2MCFhe6ieYOO+ryrlD5TX2z2nT8WoQxkLIyznyy5IXImGy5K+VjrpDo3tQsC
-         hpcA==
+        d=tuxon.dev; s=google; t=1724063042; x=1724667842; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VDAZtsT6d3mahbQ02zCEF4gWDXuIPAzZhJkrRtcP+C4=;
+        b=cezkf42gNGJJah5vY0Bu+h0suotzcr0Vkn3qxp3Cp91zohPfaqULumvO1Dkq9YGRTZ
+         RbjtKFBsV0D1WDs4hovo1DirBFq91z6Bq0pHR8beYIqrBKllJ0hW1+l2cgUGka+1jCFs
+         rUv7O5KmDMF3uv+Dw4SKmdsdhaLsC1s+ptAyrCXHLtqjeh8X5krI9ciqEqCCqwPmfFC2
+         8ChJNLg+RJI+2Gkzp+kg3VQsteWx8o3W3P1ICSevO/BGAY3SwxJ0mYW396ly1InoNvPL
+         QExFa62bV4WcWx4mi4qlqqXzoLBYLX+0hHeLdL6AQAIy6KTRpIZaiNn5wPrhXjFGagmm
+         sEwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724055211; x=1724660011;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hkaJw/3Kk9sZ53Q99+QnCuQ4WgKVgljtLdb8OyHyfdo=;
-        b=agOutshXuEBAn/lxqLCS4gINAItV8SCuEfvnBFlb0hSZgIu5WnY0lEKfvDz0mvu50v
-         8q2ouEXuWc/JG0BhwYWCrqycwNjNcHUSs6x/r3/3jvkXIcbSxwxI7QnFH4jb/csbYjh8
-         FRUttoqWqa8keKkETPQt4STyLT2zvS8Qj1E7VIxptxKnnuyeRDpPaQl+s4SGcq5JTTA2
-         GOK757BOrOl3hr8GN0V10TcRbVYcd354DFnUm1GceWBIGt/jBw1UkPiMz5x6AxsY77GK
-         mcOhjYH0wlG//LsEjYZwPm5A5xvDT7BmVXapnufLRW0VpznTRZEy2NKf2qZwSKCpErPV
-         AaSw==
-X-Gm-Message-State: AOJu0Yymas1uxQid148fD+j81PQMNUaPlcI2gqOqQB8UoiP2FY3+Tvfq
-	v4UucpWZ5bHn61BiN11fhtAZFguIiZiVCt+018Msy7IMT5h++Lf9o+tLRQ2ksDQ=
-X-Google-Smtp-Source: AGHT+IFZ9FYF/9Dfc2RD2hAOCpnhFF1tHg+n8YjsmN9PPgk6zZt0nZGweN+c++zYhXMyS5h1dLFtRA==
-X-Received: by 2002:a05:6402:3604:b0:5be:fa76:55b4 with SMTP id 4fb4d7f45d1cf-5befa765749mr2385832a12.16.1724055211063;
-        Mon, 19 Aug 2024 01:13:31 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.177])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5bebbdfb4a3sm5292147a12.49.2024.08.19.01.13.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Aug 2024 01:13:30 -0700 (PDT)
-Message-ID: <69b7f374-9037-4373-90e0-676cce0cd0fa@tuxon.dev>
-Date: Mon, 19 Aug 2024 11:13:27 +0300
+        d=1e100.net; s=20230601; t=1724063042; x=1724667842;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VDAZtsT6d3mahbQ02zCEF4gWDXuIPAzZhJkrRtcP+C4=;
+        b=mqgO/B03SP8kYltFybOkFPLIrcZfZC83JfcxZFmapOC5hCWNAofor8kkZ6Y0XwIgfD
+         NhNzuEsr48oHO8J+pAmV9Q5lIwsfwB0RzMi19DLOfjA+idLhVJoKIOa3HYcqqX69bDGH
+         JOQUDGprQu3VW9tOGOIE1If9CnAWa9g2UtxUY+8k332UvlYNqUWbuIFYyP5iDUIVbjuH
+         fuGOmX/Wkpbekxwjxq5mlvz4OLEecVEoEnYRuWb03JCMAnPGua44PjChzRNZmSMLmUdY
+         /fM8+T8mKq2EUEP/+HN6FFwWCT+gzjM9RZjIniiPLmbw2HrNqydT/tLXnprwSwNBIsig
+         KoIA==
+X-Gm-Message-State: AOJu0Ywn9vRppvSKx8CzPoAQB4gPxCk5Fda8THzJRtys+ObLm4SkVGID
+	a5O3gUwxLIJx1l7ROP2JCVxXEAzTk4h0WXbWWvAHh+c15Bq62I3B8wMtTWiKt3o=
+X-Google-Smtp-Source: AGHT+IHhgJykbmREGclvTsJOq15gSZSew6esBvPJJgp2rqvyLR0+ob6kzyl5jQLdhetgliiq2P096A==
+X-Received: by 2002:a5d:6305:0:b0:36b:b174:5256 with SMTP id ffacd0b85a97d-37186bbd0d0mr9221544f8f.6.1724063041873;
+        Mon, 19 Aug 2024 03:24:01 -0700 (PDT)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ed650402sm106690275e9.11.2024.08.19.03.24.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Aug 2024 03:24:01 -0700 (PDT)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: chris.brandt@renesas.com,
+	andi.shyti@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	p.zabel@pengutronix.de,
+	wsa+renesas@sang-engineering.com
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	claudiu.beznea@tuxon.dev,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v4 00/11] i2c: riic: Add support for Renesas RZ/G3S
+Date: Mon, 19 Aug 2024 13:23:37 +0300
+Message-Id: <20240819102348.1592171-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/8] arm64: dts: renesas: r9a09g057: Add RIIC0-RIIC8
- nodes
-Content-Language: en-US
-To: Prabhakar <prabhakar.csengg@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20240811204955.270231-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240811204955.270231-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20240811204955.270231-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi, Prabhakar,
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-On 11.08.2024 23:49, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> Add RIIC0-RIIC8 nodes to RZ/V2H(P) ("R9A09G057") SoC DTSI.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v1->v2
-> - New patch
-> ---
->  arch/arm64/boot/dts/renesas/r9a09g057.dtsi | 198 +++++++++++++++++++++
->  1 file changed, 198 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-> index 3d6c3a604ec9..c9e1e21b820d 100644
-> --- a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-> @@ -141,6 +141,28 @@ ostm1: timer@11801000 {
->  			status = "disabled";
->  		};
->  
-> +		i2c8: i2c@11c01000 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			compatible = "renesas,riic-r9a09g057";
-> +			reg = <0 0x11c01000 0 0x400>;
+Hi,
 
-According to [1] compatible and reg props are preferred to be at the
-beginning of the node.
+Series adds I2C support for the Renesas RZ/G3S SoC.
 
-[1]
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/Documentation/devicetree/bindings/dts-coding-style.rst#n112
+Series is split as follows:
+- patch 01-03/12   - add some cleanups on RIIC driver
+- patch 04/12      - enable runtime autosuspend support on the RIIC driver
+- patch 05/12      - add suspend to RAM support on the RIIC driver
+- patch 06/12      - prepares for the addition of fast mode plus
+- patch 07/12      - updates the I2C documentation for the RZ/G3S SoC
+- patch 08/12      - add fast mode plus support on the RIIC driver
+- patches 09-11/11 - device tree support
 
-> +			interrupts = <GIC_SPI 222 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 523 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 522 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 224 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 225 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 223 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 226 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 227 IRQ_TYPE_LEVEL_HIGH>;
-> +			interrupt-names = "tei", "ri", "ti", "spi", "sti",
-> +					  "naki", "ali", "tmoi";
-> +			clocks = <&cpg CPG_MOD 147>;
-> +			clock-frequency = <100000>;
-> +			resets = <&cpg 160>;
-> +			power-domains = <&cpg>;
-> +			status = "disabled";
-> +		};
-> +
+Thank you,
+Claudiu Beznea
 
-[ ... ]
+Changes in v4:
+- collected tags
+- addressed review comments
+
+Changes in v3:
+- dropped patch "clk: renesas: r9a08g045: Add clock, reset and power
+  domain support for I2C" as it was already integrated
+- addressed review comments
+
+Changes in v2:
+- change the i2c clock names to match the documentation
+- update commit description for patch "i2c: riic: Use temporary
+  variable for struct device"
+- addressed review comments
+- dropped renesas,riic-no-fast-mode-plus DT property and associated code
+
+Claudiu Beznea (11):
+  i2c: riic: Use temporary variable for struct device
+  i2c: riic: Call pm_runtime_get_sync() when need to access registers
+  i2c: riic: Use pm_runtime_resume_and_get()
+  i2c: riic: Enable runtime PM autosuspend support
+  i2c: riic: Add suspend/resume support
+  i2c: riic: Define individual arrays to describe the register offsets
+  dt-bindings: i2c: renesas,riic: Document the R9A08G045 support
+  i2c: riic: Add support for fast mode plus
+  arm64: dts: renesas: r9a08g045: Add I2C nodes
+  arm64: dts: renesas: rzg3s-smarc: Enable i2c0 node
+  arm64: dts: renesas: rzg3s-smarc-som: Enable i2c1 node
+
+ .../devicetree/bindings/i2c/renesas,riic.yaml |   4 +
+ arch/arm64/boot/dts/renesas/r9a08g045.dtsi    |  88 +++++++
+ .../boot/dts/renesas/rzg3s-smarc-som.dtsi     |   5 +
+ arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi  |   7 +
+ drivers/i2c/busses/i2c-riic.c                 | 221 ++++++++++++------
+ 5 files changed, 256 insertions(+), 69 deletions(-)
+
+-- 
+2.39.2
+
 
