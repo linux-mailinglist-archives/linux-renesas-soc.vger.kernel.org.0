@@ -1,124 +1,115 @@
-Return-Path: <linux-renesas-soc+bounces-7926-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7927-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7489495746B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2024 21:27:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D017895748F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2024 21:37:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F3BBE1F23BB1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2024 19:27:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C46321C20E80
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2024 19:37:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17BCD1DF664;
-	Mon, 19 Aug 2024 19:26:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D1A51D54E0;
+	Mon, 19 Aug 2024 19:37:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a6aQ1s4b"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D9C01DC496
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Aug 2024 19:26:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F082D179206;
+	Mon, 19 Aug 2024 19:37:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724095608; cv=none; b=TuGYQhxyUHhbxSClxtJA0fuRduw55irhmhcC1Hm0x36pZC1DxI/0LTS7xhq1ESXucgl7evAqHK4rw/gQvO0sjQQu18QXzl7TDErrZTWD1kpbJ0BK024PLdMJU8SkY+GRUWM9cTCq6yif+eIXwISpJBTXd1xxR4EZDl/hrAoEqrg=
+	t=1724096271; cv=none; b=YGyUaDu8gjMPgtK/V9040+0wPphTFWRIFu/J10n64FctBwCDn95BjLU+5zyPjOoW8oTNtdX2aezAyIfylBZdbEYMl8lREc1Bj2X0G/KyH5LXl2HXrDOgOo5ygpqpbAqg40Fzm9Nnn2Y0NHKr2OYepksfOlp+mBa63rKKHdHZFEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724095608; c=relaxed/simple;
-	bh=rxAVNFMBh3i2aD73+UJcIQDAgEE0KR2hsAgsJEYl1Zg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N5rlpatcByi/EDwPEF0mHR27nBBJs8ssDqAPoq6FRpMsDf5rHJETq7DyScM6XmLZaasXAvKby+DfaeH/DyBZX5bYa3qx7Y/NonLwkf41OQdg3D2MSHXTEI70K0qLkyCyxsZPn0rZ1lG5V1kEwUBtkDZxWDf9ZLS9LUpqQhNhi5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-52f0277daa5so6046704e87.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Aug 2024 12:26:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724095602; x=1724700402;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qTpZ8ZHX2MuhjxsxTBFRBL/fJDqY7h01eYaZIRVd2q8=;
-        b=N9RNaiPo33JV3cTjgjIWc5BbUe6gOy00sx2Q0lPzlqRoyLDGskkQoUYhEGS3xXDcwI
-         Fl266Fmmc7lKw64q5425+ceJXvcK+0qb/UAVryXtjRpM3G/coOjKfxf9amCgnGiJAbDl
-         6U5MIuDAV5Vh+tLeI2xWUIpyheJlFBqLwG3iAERRyzujJu/ue2ESBaS1VjJ1eOmBocgU
-         rChqRWijFygLEzWMf5cwBxa5re3rI3LwsYwoii6csjfQhyXue5SVhR+9eT73lKhAfJa3
-         EUaQeMwxjpsBOl2ubJ93PVvG9JGESp+B4dnYGJ4N94ZeecDZennx+dBFACLydO6r0nEj
-         clAA==
-X-Forwarded-Encrypted: i=1; AJvYcCU1Y7l7VHLV1HUb3K8g5WokRd/89KFuyRx0NPAexmXSaOjCymgSQ2DjUcyiUXxQYLufaZJPgNRWRmg0t5Q0H91rAjIMuXSSE8kOSD6Zbk6qNLM=
-X-Gm-Message-State: AOJu0YyyfnElU19D4veNlHh55ZWLLD6dI5P2sKsDBfXFPDVmul6JUpYp
-	+WNB+5rhoVXuBSKqh1DrvOWA8LD9/TRqIbr/9/jE8f47A7E3+Td3rgNSvaQ5sCU=
-X-Google-Smtp-Source: AGHT+IFI5b7e9QuBI8WYKuC8UWB/FTLZbt2hV0+GTxr1OhE0bELiQu7SdULXgZsseCSYLfX9KtKbhA==
-X-Received: by 2002:a05:6512:1081:b0:52e:73a2:4415 with SMTP id 2adb3069b0e04-5331c6dc95emr8079124e87.46.1724095601523;
-        Mon, 19 Aug 2024 12:26:41 -0700 (PDT)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5330d3ff322sm1568790e87.173.2024.08.19.12.26.41
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Aug 2024 12:26:41 -0700 (PDT)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5314c6dbaa5so6251553e87.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Aug 2024 12:26:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVCnQFof8gmdbh5aWXjc3hvGjQKY6bectqqmkxknCM7obY1WwHVfgnso0Z2SphHf+R2KYLGIvzuQ/ORPfZ23i6mzP6uEiMkXH6DZ+CmMqxT0n0=
-X-Received: by 2002:a05:6512:1096:b0:530:daaa:271c with SMTP id
- 2adb3069b0e04-5331c6a1a7bmr8283007e87.16.1724095600967; Mon, 19 Aug 2024
- 12:26:40 -0700 (PDT)
+	s=arc-20240116; t=1724096271; c=relaxed/simple;
+	bh=PBpJQ8cfDdo8zKxS2UDG3hX3O201hSXAedV6WAjp/lM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I1mxhklKJic3xAtniBMcdY8NdQyMjC2XvF5cIwooMFcNDZHZ30Q+Pjx0kkQLuOOcXmQCfHhNGC3G7XMhoaTB4NE0xpz8VfAioMcTzT9Pb+YGVlctisV44+EwN1nemkuOGThg5TCGhneHUJUGsSBmmb34pX7ebOXg1E8kmln5oVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a6aQ1s4b; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9AFEC32782;
+	Mon, 19 Aug 2024 19:37:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724096270;
+	bh=PBpJQ8cfDdo8zKxS2UDG3hX3O201hSXAedV6WAjp/lM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a6aQ1s4bUuunpkVUp958GYp0M2sjA6aZC0yJrkvCM1UM4PCnCJqCbPdp/w1bJ4zyx
+	 VTHmzuFjxkkMcTSXh9g0EWhr3lWYLaOemIFyb4k8tFMJiPtsTNX7AjfFcoZp0Iv6Uq
+	 d8jMM5bOcjh3Zr2BXCeO1z3FCmwU/N4aiXM0icJEPy//XcpvsxMiHIHLpePjxrCtx1
+	 Cv2cKG96OWMQhaogyaakBwPsbhSZrl2nzrEpoNHKoGKMh+26vgHJByXH911KTL2yw1
+	 5ssbFdCS7tEkvoBT5cxA1jGmU7JIm1PyZJV9+QVyx1a/wsyIIeQj0LJqkVKxzrzu3Y
+	 qE/YYgvcDs4iA==
+Date: Mon, 19 Aug 2024 21:37:44 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: chris.brandt@renesas.com, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com, 
+	p.zabel@pengutronix.de, wsa+renesas@sang-engineering.com, 
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH v4 05/11] i2c: riic: Add suspend/resume support
+Message-ID: <ajj4fwoob5wq5guktq2b54h55fn5qlcakiybq6pk3xagiops7d@abpwevzemidy>
+References: <20240819102348.1592171-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240819102348.1592171-6-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <651189ff-bb02-4c6f-94da-fa2eb4dc0e49@de.bosch.com>
-In-Reply-To: <651189ff-bb02-4c6f-94da-fa2eb4dc0e49@de.bosch.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 19 Aug 2024 21:26:25 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWJT8-hUWrbQEWM4Dj_rJOxvCcUpksL_8EKn19MEstnmA@mail.gmail.com>
-Message-ID: <CAMuHMdWJT8-hUWrbQEWM4Dj_rJOxvCcUpksL_8EKn19MEstnmA@mail.gmail.com>
-Subject: Re: serial: sh-sci: rx overrun errors and hrtimer rx_timeout?
-To: Dirk Behme <dirk.behme@de.bosch.com>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240819102348.1592171-6-claudiu.beznea.uj@bp.renesas.com>
 
-Hi Dirk,
+Hi Claudiu,
 
-On Fri, Aug 9, 2024 at 9:27=E2=80=AFAM Dirk Behme <dirk.behme@de.bosch.com>=
- wrote:
-> short: What is the sh-sci rx DMA hrtimer configured to rx_timeout good fo=
-r?
->
-> Long story:
->
-> Using drivers/tty/serial/sh-sci.c (on 4.14.x Renesas BSP) what is quite
-> similar to [1] we got reports about data loss on rx large files (test
-> case rx 1GB file):
+On Mon, Aug 19, 2024 at 01:23:42PM GMT, Claudiu wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> Add suspend/resume support for the RIIC driver. This is necessary for the
+> Renesas RZ/G3S SoC which support suspend to deep sleep state where power
+> to most of the SoC components is turned off. As a result the I2C controller
+> needs to be reconfigured after suspend/resume. For this, the reset line
+> was stored in the driver private data structure as well as i2c timings.
+> The reset line and I2C timings are necessary to re-initialize the
+> controller after resume.
+> 
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-[...]
+This patch doesn't have tags, so I'll add mine :-)
 
-I'll answer the short question ;-)
+Reviewed-by: Andi Shyti <andi.shyti@kernel.org> 
 
-When RX DMA is enabled, data is received in the RX FIFO.  Only when
-the FIFO is full, an interrupt is raised, and the data is received by
-Linux, and passed to the next layer.
+Just one thing, though...
 
-So what happens if less data is received than the FIFO size?
-In that case, the data would be stuck in the FIFO, as no interrupt
-is raised.  Hence a hrtimer is used to make sure Linux receives data
-from a partially-filled FIFO when no more data arrives soon (within
-rx_timeout =C2=B5s).
+...
 
-I hope this helps to understand the problem you are seeing.
+> +static int riic_i2c_resume(struct device *dev)
+> +{
+> +	struct riic_dev *riic = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	ret = reset_control_deassert(riic->rstc);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = riic_init_hw(riic);
+> +	if (ret) {
+> +		reset_control_assert(riic->rstc);
+> +		return ret;
 
-Gr{oetje,eeting}s,
+Can I add a comment here saying:
 
-                        Geert
+	/*
+	 * Since the driver remains loaded after resume,
+	 * we want the reset line to be asserted.
+	 */
+	reset_control_assert(riic->rstc);
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Unless I missed the point :-)
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Thanks,
+Andi
 
