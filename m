@@ -1,144 +1,134 @@
-Return-Path: <linux-renesas-soc+bounces-7958-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7959-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C5BD9586CD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2024 14:19:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA59A958C91
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2024 18:45:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 31B511F25EE4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2024 12:19:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 767C41F2549B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2024 16:45:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0606018A6BC;
-	Tue, 20 Aug 2024 12:19:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D58E1BC08B;
+	Tue, 20 Aug 2024 16:45:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dlEUuVk8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from gauss.telenet-ops.be (gauss.telenet-ops.be [195.130.132.49])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFB9B18F2F0
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Aug 2024 12:19:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4762C1BBBE4;
+	Tue, 20 Aug 2024 16:45:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724156381; cv=none; b=hRUA2YtFIJ/Z8x9urBlvk2DMOGqCNM/VVg1QiCezs75VQXU/N/q2j3LfupVD/Ff7rXkwC2ze92iCa1vVxByeMrQZ2LjUZqO0cbuAj3sJFnF/8lWVlWKnE9BTt2rnP3tGEkw2yXGAwQHUtWtU8qtcidP0rhv1yBW6E5Dx1eLuLeE=
+	t=1724172303; cv=none; b=n2SI4vRqnfFMcSb6VG3mttVEcV+lG5aaC5TiIOxpD8Lb0IqbgEjBiErmQOUUmCUo+FE9HpaUtmjS4V9PosfgvwibH6ynPhsktfGa8SRMGwGvedYAJ3xKn7riY7Wb+CF9GnTcrGX51pNJNGHh9lsvkepmvHvO3C4Ku7IWXzatR08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724156381; c=relaxed/simple;
-	bh=PhRw1FMEuL4UDTKAYUogDdGDzWu0IXjfC8L68t3+FdI=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version; b=AdvoQEYcItrkpT5wDB92CJDiWdAB+qXtiT3AwqSL9uxZvtIdMCLvSu3toGznFgB19Fs+IjgPEVcuU9TSlAzEFizzMotuAy4t3fsw82N3cQD3cu8edv7wrubFam/Sshuu+TihIiNoDivusJML9jPyd8rlRB4bddSClOGQqxGFCtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-	by gauss.telenet-ops.be (Postfix) with ESMTPS id 4Wp7nL290wz4xLyF
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Aug 2024 14:19:34 +0200 (CEST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:a2e4:464c:5828:2da3])
-	by laurent.telenet-ops.be with bizsmtp
-	id 2CKT2D0022WQTnu01CKTZ7; Tue, 20 Aug 2024 14:19:27 +0200
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1sgNpe-000NrL-DI
-	for linux-renesas-soc@vger.kernel.org;
-	Tue, 20 Aug 2024 14:19:26 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1sgNpe-001nx0-S8
-	for linux-renesas-soc@vger.kernel.org;
-	Tue, 20 Aug 2024 14:19:26 +0200
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2024-08-20-v6.11-rc4
-Date: Tue, 20 Aug 2024 14:19:26 +0200
-Message-Id: <20240820121926.430331-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1724172303; c=relaxed/simple;
+	bh=ho6JjNvEWuP+RY0IE/9AanBGhiT9wEqvz0ePooctFh8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gVgoWhQoovfiApHXsMeUHTvrI67ByWc1CMMvIijasGna4Sdb0N4WcFLQOmfyKKcjHFaZ4x4aKeZbKiuPOLzjq0pq+z4sKjCaaBHSsDQrk2Z97rM/intPC3kOMtGsMy56p31pW+K1hwnVvVip+BIz/nrI6oj4fIlcouD1huHUxU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dlEUuVk8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBB2FC4AF0B;
+	Tue, 20 Aug 2024 16:44:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724172303;
+	bh=ho6JjNvEWuP+RY0IE/9AanBGhiT9wEqvz0ePooctFh8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dlEUuVk8K602CDJGNrteapJppPpyHPEnqiANWmQH2veRVn6NztdMZjuN6WvwznFGr
+	 zDG6+xOqv7Pqt7ghohnjBT5k4GPhhFPcQI6P9p0lfdoCFBkWbDzNMoDWMWnsBh9SbP
+	 DZqft6bGQ5I7YUm1kRg7t5/bFaCEoa+7J8vQY9GonAt7Pw5I4TOMIl5wkCo68AMHE6
+	 5lbx+KhK/obomN73kG/L/YingDlCyNhuJRrMe5b61uh+epiFaba05Opdask0+0bF1H
+	 cxg44OOBBTL1au/h3A/E4zqFu913DquVunsb82w9esDg1ZZ/gY66hbqAZM5X9w+63z
+	 Ha/foAvvOseMA==
+Date: Tue, 20 Aug 2024 17:44:57 +0100
+From: Conor Dooley <conor@kernel.org>
+To: claudiu beznea <claudiu.beznea@tuxon.dev>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, chris.brandt@renesas.com,
+	andi.shyti@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com,
+	p.zabel@pengutronix.de, wsa+renesas@sang-engineering.com,
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH v4 07/11] dt-bindings: i2c: renesas,riic: Document the
+ R9A08G045 support
+Message-ID: <20240820-skinning-submersed-855e69f5e3bc@spud>
+References: <20240819102348.1592171-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240819102348.1592171-8-claudiu.beznea.uj@bp.renesas.com>
+ <gxjlmdjicwzlexitsx673beyn7ijuf47637nao2luc5h6h6hvi@qstobttin7dw>
+ <e6377448-9af3-4807-a8fd-197f5b2b4aa4@tuxon.dev>
+ <56204f92-d1d4-4681-8a9d-f28925919ef4@kernel.org>
+ <20240819-sizing-devouring-17b74473d1a1@spud>
+ <709ddcee-637d-49d3-915b-0872b3c67f30@tuxon.dev>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="1gDvInbFoz39wjDu"
+Content-Disposition: inline
+In-Reply-To: <709ddcee-637d-49d3-915b-0872b3c67f30@tuxon.dev>
 
-I have pushed renesas-drivers-2024-08-20-v6.11-rc4 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM and RISC-V SoCs.  It is created by merging (a) the
-for-next branches of various subsystem trees and (b) branches with
-driver code submitted or planned for submission to maintainers into the
-master branch of my renesas-devel.git tree.
+--1gDvInbFoz39wjDu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Today's version is based on renesas-devel-2024-08-20-v6.11-rc4.
+On Tue, Aug 20, 2024 at 10:45:43AM +0300, claudiu beznea wrote:
+>=20
+>=20
+> On 19.08.2024 19:39, Conor Dooley wrote:
+> > On Mon, Aug 19, 2024 at 01:22:39PM +0200, Krzysztof Kozlowski wrote:
+> >> On 19/08/2024 13:10, claudiu beznea wrote:
+> >>>
+> >>>
+> >>> On 19.08.2024 14:05, Krzysztof Kozlowski wrote:
+> >>>> On Mon, Aug 19, 2024 at 01:23:44PM +0300, Claudiu wrote:
+> >>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >>>>>
+> >>>>> Document the Renesas RZ/G3S (R9A08G045) RIIC IP. This is compatible=
+ with
+> >>>>> the version available on Renesas RZ/V2H (R9A09G075).
+> >>>>>
+> >>>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >>>>> ---
+> >>>>>
+> >>>>> Changes in v4:
+> >>>>> - added comment near the fallback for RZ/G3S; because of this
+> >>>>>   dropped Conor's tag
+> >>>>
+> >>>> That's not a reason to request a re-review.
+> >=20
+> > FWIW, I don't care about how many binding patches I do or do not get
+> > credit for reviewing.=20
+>=20
+> I had no intention to drop your credit for reviewing this. In the past I
 
-Included branches with driver code:
-  - renesas-clk-for-v6.12
-  - renesas-pinctrl-for-v6.12
+That comment was meant for Krzysztof, so that he wouldn't feel like he
+should avoid acking so that I could re-ack in similar situations in the
+future.
 
-Included fixes:
-  - [TEST] soc: renesas: rcar-rst: Enable WDT reset on early R-Car V4M
-  - ARM: shmobile: defconfig: Update shmobile_defconfig
-  - [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+> went though situations where reviewer complained due to keeping the tag a=
+nd
+> doing very simple adjustment on the next version. I dropped your tag to
+> avoid that situation here too and mentioned it in the change log.
 
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#main
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/i2c-host-fixes
-  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/i2c-host
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - https://gitlab.freedesktop.org/drm/kernel.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git#pwm/for-next
-  - https://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rmk/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://git.kernel.org/pub/scm/linux/kernel/git/libata/linux#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - https://gitlab.freedesktop.org/drm/misc/kernel.git#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/glaubitz/sh-linux.git#for-next
-  - git://git.pengutronix.de/git/pza/linux#reset/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#fixes
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/andy/linux-auxdisplay.git#for-next
+Ye, I did note that you'd not dropped it confusingly :)
 
-Gr{oetje,eeting}s,
+--1gDvInbFoz39wjDu
+Content-Type: application/pgp-signature; name="signature.asc"
 
-						Geert
+-----BEGIN PGP SIGNATURE-----
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZsTICQAKCRB4tDGHoIJi
+0umDAP98mMrlkJcnJlOU7ydEwjrI6uMCdk1ivrabenaRSFg/4wEAmHFDk5RqGg/m
+htTGLITqSN6O52orO7nzj3xxLdB5VAI=
+=byR0
+-----END PGP SIGNATURE-----
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+--1gDvInbFoz39wjDu--
 
