@@ -1,223 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-7942-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7943-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4278E95811C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2024 10:37:27 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2F4C9583F0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2024 12:16:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 677D71C20B9F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2024 08:37:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5EBEB1F25954
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2024 10:16:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A541718A6C8;
-	Tue, 20 Aug 2024 08:37:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F2A718A6BA;
+	Tue, 20 Aug 2024 10:16:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="RhMOgmVL"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="NiyHc3gs"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A9B18E342;
-	Tue, 20 Aug 2024 08:37:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D17B18D63E
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Aug 2024 10:16:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724143042; cv=none; b=Ho9DmYrqoUDZkYsXKdQ5rtfno6/K9kCOrejKLD9BnCc9kkcM28Kvmi/cp+KebLGZxjLs8mULqZo8G6ZJNFdaL6EQxFbNEaT76m2kqapteRjKGtXQdg01SId8QZKg60qH5Lqj7LAlZhm1rgZpyakf9fhzLVpbz/VechKsRwoXa2E=
+	t=1724149008; cv=none; b=FmyDRhlDYA/8XgBHx71RasiAbuuKp+jqvfrnzFqDGSrMCr6B9FQgNHRlRYOeAkRfSq4wbkoR93NvITSIz5Ijio6Du+/ddAcvCIX+V+CiEVAXEucZEJUeCYcsMTS2Xs/rhCr2eFweuYXq0UMPIo2KDJPEqwrQ2G2la6NKqdqNgCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724143042; c=relaxed/simple;
-	bh=jhuHOkbZr/nS0ttotBq7H9QyyCuY5ssWy0mXwk53M5o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fnbJJ7xxreeb68Ff3Kf8k8+kTm6ySovjp2PDdSRS4VU5SQxkAkuEDk6706bwmNOYDWTJ+bwLEdpVFpnuP39NQu4KPQJy4TqihAOQllg6rpuejQOeF5cHw449zqrmKa1SuHH5sSlKteMhhrkFZjxq8MWN36NDwdHhFIfgrM7p5K8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=RhMOgmVL; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1AB444CC;
-	Tue, 20 Aug 2024 10:36:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1724142970;
-	bh=jhuHOkbZr/nS0ttotBq7H9QyyCuY5ssWy0mXwk53M5o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RhMOgmVLwFkHOUdUUoetl3XULAnXTeF5RyetPdiJs09Ps/L0D33IWfE62KhovqT48
-	 cS3/rEA+UxaGwMT7810f3Ii2wK9DrKHP3H0ztZ7y51ql0p2vCch66qwbKhp601JYg4
-	 3WIo+YnVBQYr8R+GpX3GWoyyBAEEboS1CWBYRTzY=
-Date: Tue, 20 Aug 2024 11:36:44 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"biju.das.au" <biju.das.au@gmail.com>
-Subject: Re: [PATCH v3 1/4] dt-bindings: display: renesas,rzg2l-du: Document
- RZ/G2UL DU bindings
-Message-ID: <20240820083644.GE24895@pendragon.ideasonboard.com>
-References: <20240805155242.151661-1-biju.das.jz@bp.renesas.com>
- <20240805155242.151661-2-biju.das.jz@bp.renesas.com>
- <20240813163220.GA1164014-robh@kernel.org>
- <20240813193913.GH24634@pendragon.ideasonboard.com>
- <TY3PR01MB11346EC4C14C99A1771DE9A6C868C2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <TY3PR01MB11346FE2410784131B61DF0E1868D2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	s=arc-20240116; t=1724149008; c=relaxed/simple;
+	bh=TqRjFWkKbWeEkGzEJaqHB/W+KKXTwGUJgPmIKjqEgeI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ajG832IHfCCofUKhE4FQqSwz4XSG7G0tFH0J+2k12rNPyQ4JOAlS1IT0uKJDTSZTS7jstWQIfX9ne3TuzYkVuIWatktwrvszsGbOfakjs5dNutCHYibU0SRCiWxBQOzD8EoW9tfzIe/8b1d3MpILy5xaPchqeijn6VAkVAQo1eE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=NiyHc3gs; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a8384008482so560988566b.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Aug 2024 03:16:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1724149005; x=1724753805; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fUgvdkKemsynJw871Va8xFCJPoIgK/+NkAwAS5w3iD4=;
+        b=NiyHc3gsseKQH7eI2t8a/4IaoStNIzdMgpTm/uKYaxaibPwT2VYgxdsnMjXY3HgT0a
+         P9VuLOnxwmCqGEqCnL052SYDm1kXoFsQ0FASq9jHRIPl3Yeq6YFfvno8kD7QQPiZt6dz
+         KGq0GmMs9hwI9IRO5A6m77+4SBO8ymGs4P3PyZI6u3UD28wfPIAlLCZNGvmiU1r7ABbZ
+         S8u8B1ryQ6HjR7k04PGAz3lsBVpHUd25r0815xa48Q9X5mjU8VACwdi08L9rZ/KzoX/l
+         z+o9jQp2cMAS9T6MocOYfVtohTGEQc4Xoob9DjIdsipgUu4nN7M5G2kkbhLd3teQMcdj
+         rWVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724149005; x=1724753805;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fUgvdkKemsynJw871Va8xFCJPoIgK/+NkAwAS5w3iD4=;
+        b=BV08hAW2DY67gWgcspTyfSV2lW82Jn7eFLMTSAsSULhiCMSnnm2uQePGwLQ9XEN6yG
+         XMJEDO9Tdxm4lMeIPSWqVQvkWR06JSjFZw0KpVo5Kp01mIZ7Hm6q7cDwbjJzt2ZiC3RL
+         5Lf1RfVzAu4GCTr7wXhtAZckR/mLMptT8qj68gOeuh6D2cc2NZqEIfVfB5DxWFS39Tj/
+         TDJlJHMoKkUtU6mD10hnYqNin7HpkNDE2dQW7MsZy8IByXZxoAsOO54XFFqnWA4s7KFe
+         IMh1ZOcTjcahiws9D3t/y8hgQHscf93wEJFjq7BPa/Wq9o7wCUKyu5YR7/xb8kFG21fJ
+         CIyA==
+X-Forwarded-Encrypted: i=1; AJvYcCVgNpUjumlLQbFehq7tR0yZyjxsGo7odKn7SIDZfHj7RWRJk9QDX7bHuyqdrPv4OrlXcD3aBJatvf1sXT1NdigUaQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzzdpabA3o0qt3g6Fgmw+7EjiUumi9K2UwTuWGnBtMXtNC+/dGH
+	Zqg8n8HbPUswUL+XAJt4AN9qGV3jd6iJVmbzQ3825fdh05MvqajiZtrOlRg5g2Y=
+X-Google-Smtp-Source: AGHT+IEHAOpi6gAtu1Bdiww8ysONKnU4SlvU51Tmtq6mrQBDcD9AG75eGftS0eZMJPQuXiI1ekXrsw==
+X-Received: by 2002:a17:907:97d2:b0:a77:cdaa:88a3 with SMTP id a640c23a62f3a-a86479e45efmr127114366b.27.1724149004495;
+        Tue, 20 Aug 2024 03:16:44 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.177])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a83838d023dsm736934766b.64.2024.08.20.03.16.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Aug 2024 03:16:44 -0700 (PDT)
+Message-ID: <2fc8ea3c-9074-4291-8355-4b646f51d0e9@tuxon.dev>
+Date: Tue, 20 Aug 2024 13:16:42 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <TY3PR01MB11346FE2410784131B61DF0E1868D2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 00/11] i2c: riic: Add support for Renesas RZ/G3S
+Content-Language: en-US
+To: Andi Shyti <andi.shyti@kernel.org>
+Cc: chris.brandt@renesas.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com,
+ p.zabel@pengutronix.de, wsa+renesas@sang-engineering.com,
+ linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20240819102348.1592171-1-claudiu.beznea.uj@bp.renesas.com>
+ <gc3fqib4iflzmwu2wv33436anbrfywxoj5p7ah3m67sqp3u4h4@2ttbj7kgmjyx>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <gc3fqib4iflzmwu2wv33436anbrfywxoj5p7ah3m67sqp3u4h4@2ttbj7kgmjyx>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 20, 2024 at 06:42:48AM +0000, Biju Das wrote:
-> Hi Rob and all,
+Hi, Andi,
+
+On 19.08.2024 23:23, Andi Shyti wrote:
+> Hi Claudiu,
 > 
-> > -----Original Message-----
-> > From: Biju Das
-> > Sent: Monday, August 19, 2024 1:37 PM
-> > Subject: RE: [PATCH v3 1/4] dt-bindings: display: renesas,rzg2l-du: Document RZ/G2UL DU bindings
-> > 
-> > Hi Laurent and Rob,
-> > 
-> > Thanks for the feedback
-> > 
-> > > -----Original Message-----
-> > > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Sent: Tuesday, August 13, 2024 8:39 PM
-> > > Subject: Re: [PATCH v3 1/4] dt-bindings: display: renesas,rzg2l-du:
-> > > Document RZ/G2UL DU bindings
-> > >
-> > > Hi Rob,
-> > >
-> > > On Tue, Aug 13, 2024 at 10:32:20AM -0600, Rob Herring wrote:
-> > > > On Mon, Aug 05, 2024 at 04:52:35PM +0100, Biju Das wrote:
-> > > > > Document DU found in RZ/G2UL SoC. The DU block is identical to
-> > > > > RZ/G2L SoC, but has only DPI interface.
-> > > > >
-> > > > > While at it, add missing required property port@1 for RZ/G2L and
-> > > > > RZ/V2L SoCs. Currently there is no user for the DPI interface and
-> > > > > hence there won't be any ABI breakage for adding port@1 as
-> > > > > required property for RZ/G2L and RZ/V2L SoCs.
-> > > > >
-> > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > > ---
-> > > > > v2->v3:
-> > > > >  * Replaced ports->port property for RZ/G2UL as it supports only DPI.
-> > > > >    and retained ports property for RZ/{G2L,V2L} as it supports both DSI
-> > > > >    and DPI output interface.
-> > > >
-> > > > Why? Having port and ports is just a needless complication.
-> > >
-> > > I agree that making the ports node mandatory, even when the device has
-> > > a single port, will simplify the bindings. In hindsight we should never have made ports optional,
-> > but that can't be changed.
-> > >
-> > > > >  * Added missing blank line before example.
-> > > > >  * Dropped tags from Conor and Geert as there are new changes.
-> > > > > v1->v2:
-> > > > >  * Updated commit description related to non ABI breakage.
-> > > > >  * Added Ack from Conor.
-> > > > > ---
-> > > > >  .../bindings/display/renesas,rzg2l-du.yaml    | 35 +++++++++++++++++--
-> > > > >  1 file changed, 32 insertions(+), 3 deletions(-)
-> > > > >
-> > > > > diff --git
-> > > > > a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> > > > > b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> > > > > index 08e5b9478051..ca01bf26c4c0 100644
-> > > > > ---
-> > > > > a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> > > > > +++ b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.y
-> > > > > +++ am
-> > > > > +++ l
-> > > > > @@ -18,6 +18,7 @@ properties:
-> > > > >    compatible:
-> > > > >      oneOf:
-> > > > >        - enum:
-> > > > > +          - renesas,r9a07g043u-du # RZ/G2UL
-> > > > >            - renesas,r9a07g044-du # RZ/G2{L,LC}
-> > > > >        - items:
-> > > > >            - enum:
-> > > > > @@ -60,8 +61,9 @@ properties:
-> > > > >          $ref: /schemas/graph.yaml#/properties/port
-> > > > >          unevaluatedProperties: false
-> > > > >
-> > > > > -    required:
-> > > > > -      - port@0
-> > > > > +  port:
-> > > > > +    $ref: /schemas/graph.yaml#/properties/port
-> > > > > +    description: Connection to the DU output video port.
-> > > > >
-> > > > >      unevaluatedProperties: false
-> > > > >
-> > > > > @@ -83,11 +85,38 @@ required:
-> > > > >    - clock-names
-> > > > >    - resets
-> > > > >    - power-domains
-> > > > > -  - ports
-> > > > >    - renesas,vsps
-> > > > >
-> > > > >  additionalProperties: false
-> > > > >
-> > > > > +allOf:
-> > > > > +  - if:
-> > > > > +      properties:
-> > > > > +        compatible:
-> > > > > +          contains:
-> > > > > +            const: renesas,r9a07g043u-du
-> > > > > +    then:
-> > > > > +      properties:
-> > > > > +        port:
-> > > > > +          description: DPI
-> > > >
-> > > > This is equivalent to 'port@0'. IMO, this case should have a 'port@1'
-> > > > node so that DPI interface is *always* the same port.
-> > >
-> > > That's what Biju did in the previous version, and I recommended to
-> > > number the ports based on hardware indices, not types. Mapping port
-> > > numbers to the hardware documentation makes it more consistent for DT
-> > > writers, makes the logic simpler to understand (in my opinion, based
-> > > on my experience with the R-Car
-> > > DU) on the driver side, but most importantly, type-based numbering
-> > > wouldn't scale as SoCs could have multiple ports of the same type
-> > > (we've seen that happening with R-Car).
-> > 
-> > OK, I will send bindings based on hardware indices.
+>> Claudiu Beznea (11):
+>>   i2c: riic: Use temporary variable for struct device
+>>   i2c: riic: Call pm_runtime_get_sync() when need to access registers
+>>   i2c: riic: Use pm_runtime_resume_and_get()
+>>   i2c: riic: Enable runtime PM autosuspend support
+>>   i2c: riic: Add suspend/resume support
+>>   i2c: riic: Define individual arrays to describe the register offsets
+>>   dt-bindings: i2c: renesas,riic: Document the R9A08G045 support
 > 
-> I get a warning, if I use ports and port@0 for single port. I don't
-> see this warning if I use ports and port@1
+> Looks good until here, do you want me to apply these first 7
+> patches to unburden you a bit?
+
+I already prepared the new set. I will send a new version containing
+everything.
+
 > 
-> arch/arm64/boot/dts/renesas/r9a07g043u.dtsi:169.9-178.5: Warning (graph_child_address): /soc/display@10890000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+> Unless Geert has some notes on patch 6.
 > 
-> Can we fix the dt-schema to getting consistent results for single port
-> usage involving ports?
+>>   i2c: riic: Add support for fast mode plus
+> 
+> Small things here
+> 
+>>   arm64: dts: renesas: r9a08g045: Add I2C nodes
+>>   arm64: dts: renesas: rzg3s-smarc: Enable i2c0 node
+>>   arm64: dts: renesas: rzg3s-smarc-som: Enable i2c1 node
+> 
+> I'd like someone to ack here.
 
-I would like that too.
+Usually, these are picked by Geert.
 
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: renesas,r9a07g043u-du
-> +    then:
-> +      properties:
-> +        ports:
-> +          properties:
-> +            port@0:
-> +              description: DPI
-> +
-> +          required:
-> +            - port@0
+Thank you,
+Claudiu Beznea
 
--- 
-Regards,
-
-Laurent Pinchart
+> 
+> Thanks,
+> Andi
 
