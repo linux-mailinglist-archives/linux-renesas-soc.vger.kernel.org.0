@@ -1,156 +1,154 @@
-Return-Path: <linux-renesas-soc+bounces-7939-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7940-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A420F957FE3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2024 09:36:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB89495803C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2024 09:47:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C85811C242BF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2024 07:36:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 678801F21006
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2024 07:47:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1FED188CD8;
-	Tue, 20 Aug 2024 07:35:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9854A18A6BC;
+	Tue, 20 Aug 2024 07:45:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="DKRRP2/l"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB301667ED;
-	Tue, 20 Aug 2024 07:35:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5B6718A6B8
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Aug 2024 07:45:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724139313; cv=none; b=hfl03DmLr3dY80cCtInMlHBleoZKU7hHN5wJjlE6U5929MtRTN91dBly7CqbjK0ezodUgdKpkdvlBkJTtBy+MiBnDR9tFVfZ0xmDmkZx4xbD2BZS444aqOqTyzW0wEF36t7TUzbDoKJ4kV30kJ2nZCL7b7bbRNewyVs+RrkTPOY=
+	t=1724139949; cv=none; b=FN6p0ITQep8GXRM2IE1f83osKdKIBGLp3XK/zod5CU4C7rohMYCgaTr3OK1K2Nbr5riCOuh8s6gMZQHTabXwnsRpi71Ur+d2fPyjzzLFZo/tW433tuMvTRiQkh9f23qBLYTJJnAfYDGnvI9fQVm5BurbBLg3hGUQNvW4IKLq8tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724139313; c=relaxed/simple;
-	bh=n2dSc7kV2NynpTEG/oh56PHjqjhQv+rOsObLY+KgHY4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CFb/soQ0toQ1alvC3KR++5vWCdlxdMDI35c0wpm2Ff3FqjAqj8S+DWm09Ct8em2kMY8NpT9AtQNIt124Pqc7oAqQrUuz+ZmtzdprykeulHKxSZSHJ1ALQZpauMzBNNc493VaJTLfVK2aUXXMeZ63Hns7te7d73VmIi2kwDoaF6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e116d2f5f7fso3584602276.1;
-        Tue, 20 Aug 2024 00:35:11 -0700 (PDT)
+	s=arc-20240116; t=1724139949; c=relaxed/simple;
+	bh=IzqUJpOxWHIZLXuAxFpK1IY0UQNTFwHq2Cl7sGYmSNc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FEdv7jCxbe8FML489e5NaMcaOmWQ2OgQ2q7fpr7Eo21+mNg96dl5trMW3OR4DqZk3qR0bG++fl8yPl21yM2fkL83675iPo9ktOAawSi2QQQ/vhCP+46cHOLzy5/B0WLeLiUsER5tsZHxSAFiDggLDbiiwav2/SsSMRwHDUWU3c0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=DKRRP2/l; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a7aa4ca9d72so680173766b.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Aug 2024 00:45:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1724139946; x=1724744746; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CMkxnD7tJSGVlFCxUXgz+W1GqsA8QnvZFdBKuBS4r0w=;
+        b=DKRRP2/lG/KD15SJCI0RqTxdmoTIm/1E5+2iADrz5OzuMLyqV+l+AHC44dDGjw2ban
+         Q7hbUL52oIvC4RtRXVcN0eeL7dsM/ZWZgC6aRt/1rIs9vomRhARUOCvK/2ZJNYViHAsn
+         Qbib/usuNUVAkpvj8WZ77HU0/rTfUyChnYKf0eGQ8ULu6lr2yg11CDeiH1m201vkpp5k
+         Kl/B5Z7TddWkr88Z3g/dYVKlCGWtYOimqS0qt1Ei1RjzpiQ+Pjez/jDC7P4AM0Hz5kYN
+         kaPPOxhOWh4yL0rRTJVR5g6W4cBVhe1rKxeyixFxhHDwEm2Bveii3R8be9OVTKKZvMW9
+         rISQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724139310; x=1724744110;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=P0RS+DfOTdHedfK4BwC9kmKzZ20XxIqiVeJBqXxrrwI=;
-        b=oYTc4BPOSISM5tHJlEoa7dDgOGd94dvwbyMRujk4dgq8E/BeR3Pj4Q/b80S2zr3YdD
-         bcu+RR0UZ9wSr49zKY5pCpxLgARbYnKkzmAeIYs9/JYxWBVxtKWLFKAjXw/pCOlpxY93
-         4QKHQ8Ug+MT9DfKqgPG9o0nVvPiAwRGq+uQk/Kiu9RcXUoqF++S9hq/bnrAimX6D2b8v
-         huklzo0MFtH5LoKpyucRG4llxALeDMlJBk48f6Ev27gp+83MnsWY5+4K9TJkDZJxuS2J
-         R2dsbqNIR0x41MO6olzOojPO4jWJ2cLFO4JOJ6Ci+/o7iazRNz5DUhXljSOGqajIV0Zq
-         NFcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVRwus1dTXd8Hfp5jN7RDj/eYP+fesYTh0rqfTvDomxkaidX8nwbpKRIdP9F7dHLLVE3GCSFaN3OIGk6zg=@vger.kernel.org, AJvYcCX1ICIVoD868SMFRdNsF2X/ZZTPooWQj+CNxnCjxH3P5S/scPAWcIQVd8xiPAIjU90yJGXliA54cGoo@vger.kernel.org, AJvYcCXe+b9uvGNHEXraLEl6pnGl8h+QojhSOA5mWRWUur8KkOmCgMAKvtRRV5T3eFN0t6IJsRmGUy4SOk4A3ZMki2rWpUg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4AGfe7QVpZKpyfc/DUMHFEcMvjsN1R1EVNSCva3RCK3sjbndG
-	6hszzIjqyEzwySNNFaJqdl2o6urkDA2OgODfZlS+JxIdzZpr+x0vIaTJY8HbOVw=
-X-Google-Smtp-Source: AGHT+IGBZGAQ97xIOBr2P9lJbEYA8ideM2g5FbXRRhVmUbAVpMJCaUyCg9VTC6c/yn4P0Uk5xvU/lg==
-X-Received: by 2002:a05:6902:2206:b0:e11:446b:d43b with SMTP id 3f1490d57ef6-e164a97e8ccmr1692348276.16.1724139309721;
-        Tue, 20 Aug 2024 00:35:09 -0700 (PDT)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e1171e709e1sm2486423276.34.2024.08.20.00.35.09
+        d=1e100.net; s=20230601; t=1724139946; x=1724744746;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CMkxnD7tJSGVlFCxUXgz+W1GqsA8QnvZFdBKuBS4r0w=;
+        b=kb/L41UpGk4TRWie7Xr1kZi69sNshxXBAunwPYzYibjQ/8wynE0HybGlx74BOIB2ci
+         Fo6N3MOqsKYkGveNmovQaEY6xgkQJud0FZhpj0Yu2+b+59GnLD/Osj9Y20EntMkXyWzj
+         Mlbd1MPqt+Vcx4lnNuFRBDv2HUrvlanx1DKsbHKA0s2mp3lAGRn8e+jiGLaEW8V71fKk
+         edMpedqFjTCF+ZKlghRDpIbbV8k36/sVbIlH44XZ7d7C/oKuvC43LngN9L3wPV2QZHMx
+         KQwbxbz+1eWRnl63vd4Jn3/SotNjOz6RrYZHvUyzfNQ2A8+ZM4SOZQHaW0545PPmNY5P
+         ymiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWjCnKODWbiMzR9sGLyOC4Px/sZxNwPlIqfp7bTG2dEritcUioOWbs9vJmoRKNh3ZGoaqxGgqyz2Hiyfz/AUKf1/rZzzLtbVSyOk/8q1BJQIdA=
+X-Gm-Message-State: AOJu0Yz2zLqllwZ2OjJDZulGXKk+9E+GCO02nHgqxXsAzvtNpH9BzZba
+	kdHNBtW8SwAwwK6yQo5mJnWM/1cDT0bj/jJ2FoCl/QsmltEvapsuOrQl3K3J23w=
+X-Google-Smtp-Source: AGHT+IGEB9b5o3lQUcpVrzOpOPM4TKWZrn6n4CB6Bt48ZfipcQPhnHGYi1zYToUDh19MHWDjV7QeBA==
+X-Received: by 2002:a17:907:6d02:b0:a77:da14:8403 with SMTP id a640c23a62f3a-a83928a64e3mr795678866b.2.1724139945917;
+        Tue, 20 Aug 2024 00:45:45 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.177])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a83aeb6eb4dsm430535166b.35.2024.08.20.00.45.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Aug 2024 00:35:09 -0700 (PDT)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6bada443ffeso12086477b3.0;
-        Tue, 20 Aug 2024 00:35:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVgMy/Co/I8hskvouhk7UDVs4lSBBjmRnh4aCtdem6+xi9tIaoO71HtOJz98nbWLZlazhft4hqsrGVZ@vger.kernel.org, AJvYcCX9smN99uE44DIJ+FbE8OMiSICoNxRLkUsZNy2vwOR74lyp4/xWPzJ5kDnDa2mBRGg56J04PCKAWn8Xxq8XJQT5Rmc=@vger.kernel.org, AJvYcCXO5uqXNSrvWrJ5DbUXw4s/sdTNivBWdIZfOEM5cB/NHgHLimHLB7isTz01Fcm9hCuMR6x5CZ88C9VmCXU=@vger.kernel.org
-X-Received: by 2002:a05:690c:f:b0:6a9:5953:a659 with SMTP id
- 00721157ae682-6bdd09092ddmr14596397b3.18.1724139309116; Tue, 20 Aug 2024
- 00:35:09 -0700 (PDT)
+        Tue, 20 Aug 2024 00:45:45 -0700 (PDT)
+Message-ID: <709ddcee-637d-49d3-915b-0872b3c67f30@tuxon.dev>
+Date: Tue, 20 Aug 2024 10:45:43 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240704161620.1425409-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20240704161620.1425409-1-niklas.soderlund+renesas@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 20 Aug 2024 09:34:55 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUjSquBji5+UVACLaWdMhbq5EEkiUANc9LeR5d_1BvkFw@mail.gmail.com>
-Message-ID: <CAMuHMdUjSquBji5+UVACLaWdMhbq5EEkiUANc9LeR5d_1BvkFw@mail.gmail.com>
-Subject: Re: [PATCH v5 0/6] rcar-vin: Add support for R-Car V4M
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	helpdesk <helpdesk@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 07/11] dt-bindings: i2c: renesas,riic: Document the
+ R9A08G045 support
+Content-Language: en-US
+To: Conor Dooley <conor@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>
+Cc: chris.brandt@renesas.com, andi.shyti@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, geert+renesas@glider.be,
+ magnus.damm@gmail.com, p.zabel@pengutronix.de,
+ wsa+renesas@sang-engineering.com, linux-renesas-soc@vger.kernel.org,
+ linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20240819102348.1592171-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240819102348.1592171-8-claudiu.beznea.uj@bp.renesas.com>
+ <gxjlmdjicwzlexitsx673beyn7ijuf47637nao2luc5h6h6hvi@qstobttin7dw>
+ <e6377448-9af3-4807-a8fd-197f5b2b4aa4@tuxon.dev>
+ <56204f92-d1d4-4681-8a9d-f28925919ef4@kernel.org>
+ <20240819-sizing-devouring-17b74473d1a1@spud>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <20240819-sizing-devouring-17b74473d1a1@spud>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 4, 2024 at 6:16=E2=80=AFPM Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> This series adds bindings and support to rcar-vin for R-Car V4M by the
-> means of adding a Gen4 family fallback compatible.
->
-> Previous versions of this series added V4M support like done for VIN
-> since the first Gen3 device, by the use of only a single SoC specific
-> compatible value. This was done as in Gen3 almost every new device
-> differed from the others and a family fallback was not very useful.
->
-> For the Gen4 devices with a video capture pipeline currently documented
-> the VIN instances are very similar and a family fallback can be used.
-> This however requires updating existing DTS files to add this new family
-> fallback. This is done in a backward compatible way and the driver
-> retains the compatible values.
->
-> See individual patches for changes since previous versions.
->
-> Niklas S=C3=B6derlund (6):
->   dt-bindings: media: renesas,vin: Add Gen4 family fallback
->   arm64: dts: renesas: r8a779g0: Add family fallback for VIN IP
->   arm64: dts: renesas: r8a779a0: Add family fallback for VIN IP
->   media: rcar-vin: Add family compatible for R-Car Gen4 family
->   dt-bindings: media: renesas,vin: Add binding for V4M
->   arm64: dts: renesas: r8a779h0: Add family fallback for VIN IP
 
-Any chance the media parts can be accepted, so I can take the DTS
-patches through the Renesas tree?
 
-BTW, running b4 seems to add two bogus Acked-by tags from Conor:
+On 19.08.2024 19:39, Conor Dooley wrote:
+> On Mon, Aug 19, 2024 at 01:22:39PM +0200, Krzysztof Kozlowski wrote:
+>> On 19/08/2024 13:10, claudiu beznea wrote:
+>>>
+>>>
+>>> On 19.08.2024 14:05, Krzysztof Kozlowski wrote:
+>>>> On Mon, Aug 19, 2024 at 01:23:44PM +0300, Claudiu wrote:
+>>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>>>
+>>>>> Document the Renesas RZ/G3S (R9A08G045) RIIC IP. This is compatible with
+>>>>> the version available on Renesas RZ/V2H (R9A09G075).
+>>>>>
+>>>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>>> ---
+>>>>>
+>>>>> Changes in v4:
+>>>>> - added comment near the fallback for RZ/G3S; because of this
+>>>>>   dropped Conor's tag
+>>>>
+>>>> That's not a reason to request a re-review.
+> 
+> FWIW, I don't care about how many binding patches I do or do not get
+> credit for reviewing. 
 
-$ b4 am 20240704161620.1425409-3-niklas.soderlund+renesas@ragnatech.se
-Analyzing 7 messages in the thread
-Analyzing 14 code-review messages
-Checking attestation on all messages, may take a moment...
----
-  =E2=9C=97 [PATCH v5 1/6] dt-bindings: media: renesas,vin: Add Gen4 family=
- fallback
-  =E2=9C=97 [PATCH v5 2/6] arm64: dts: renesas: r8a779g0: Add family fallba=
-ck for VIN IP
-    + Acked-by: Conor Dooley <conor.dooley@microchip.com> (=E2=9C=93 DKIM/k=
-ernel.org)
-  =E2=9C=97 [PATCH v5 3/6] arm64: dts: renesas: r8a779a0: Add family fallba=
-ck for VIN IP
-  =E2=9C=97 [PATCH v5 4/6] media: rcar-vin: Add family compatible for R-Car=
- Gen4 family
-  =E2=9C=97 [PATCH v5 5/6] dt-bindings: media: renesas,vin: Add binding for=
- V4M
-  =E2=9C=97 [PATCH v5 6/6] arm64: dts: renesas: r8a779h0: Add family fallba=
-ck for VIN IP
-    + Acked-by: Conor Dooley <conor.dooley@microchip.com> (=E2=9C=93 DKIM/k=
-ernel.org)
+I had no intention to drop your credit for reviewing this. In the past I
+went though situations where reviewer complained due to keeping the tag and
+doing very simple adjustment on the next version. I dropped your tag to
+avoid that situation here too and mentioned it in the change log.
 
-I cannot find these Acks in my inbox or on lore.
-What's happening?
+Thank you,
+Claudiu Beznea
 
-Thanks!
 
-Gr{oetje,eeting}s,
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> Feel free to give a tag yourself Krzysztof in the
+> future if you come across these situations and I'll happily hit ctrl+d
+> and remove the thread from my mailbox rather than reply :)
+> 
+>>>
+>>> Sorry for that, I wasn't aware of the procedure for this on bindings.
+>>
+>> There is no difference. Please read carefully submitting patches,
+>> including the chapter about tags.
+> 
+> Yeah, I don't think this patch is materially different on those
+> grounds...
+> 
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> 
+> Cheers,
+> Conor.
 
