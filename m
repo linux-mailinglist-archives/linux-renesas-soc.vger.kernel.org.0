@@ -1,147 +1,156 @@
-Return-Path: <linux-renesas-soc+bounces-7938-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-7939-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 582C9957FAF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2024 09:32:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A420F957FE3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2024 09:36:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8ACAB1C210D8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2024 07:32:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C85811C242BF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2024 07:36:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F512148301;
-	Tue, 20 Aug 2024 07:32:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="mxqQwMDK"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1FED188CD8;
+	Tue, 20 Aug 2024 07:35:13 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F0418E37B
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Aug 2024 07:32:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB301667ED;
+	Tue, 20 Aug 2024 07:35:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724139156; cv=none; b=ldwpRHQaTkNWf/Ij3h7QCA14BZ/ULDG5QlG+14tsl5DVqRorKq7Y/sGwZ7qjwMjGDjlhhkTZV8KaE7hLRiERgOuJYM8QXTEEECVwGHVrnkP45M6tw1FutsUhko75VpIk2dXxbEdx9dmfmeofy0+WkOKh3BEb23Afhp3TnwLrH48=
+	t=1724139313; cv=none; b=hfl03DmLr3dY80cCtInMlHBleoZKU7hHN5wJjlE6U5929MtRTN91dBly7CqbjK0ezodUgdKpkdvlBkJTtBy+MiBnDR9tFVfZ0xmDmkZx4xbD2BZS444aqOqTyzW0wEF36t7TUzbDoKJ4kV30kJ2nZCL7b7bbRNewyVs+RrkTPOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724139156; c=relaxed/simple;
-	bh=T37XdcPAhagA4eDYDownsf2XsJs98bfRZyVq01bf9Dc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=owXcQFVSHkcqW2n5mGJ0LLkGJBeQNB4QNf5jHH9v6gf0YOMjmzw3TqtXhzULOs6qzK554SG3gDbIlKj66C+zZfyX38b2x53WwgWy26Hp6VyX9dVZKue1Q7/bZLVCuBk5AG54ylC64TQ+r2A6NUcM165pIoqioJomlBXV9LSe2G0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=mxqQwMDK; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a8647056026so65539466b.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Aug 2024 00:32:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1724139153; x=1724743953; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KgM+QzWQcZ2DUZR7KveS9LeXc/9kicV430vfS4VSRd8=;
-        b=mxqQwMDKDGJtlLjiZ0RXn9FN4PTZxtv2pBIBAv63tyosqE3FmvqCNe2+tdzS7YjRxu
-         UJWwYs3HX6K9cj3TzyMndluDAxfEqi6cMg1sYzsXdUz2tv8P9EyDWkyH/p1c3ZXVhwST
-         1TSImBRFTu7/d4K1vwVIfqMaaTMASDbzK5zxq6bZ4OvBUFlPo1eObBTwPerp/LsUbrbW
-         TI6XjM7iBXgz8b7Iz4hXAVcpKAwFXcb/kkgpz1Q4xu9rNn+Lo3O5W2o7KG36U6hFxVpf
-         wR1ZFxpAlvOsKernWb1pBiaUGFqfCqH6JXS6awIMF41zr6nfuuulaKOL4iEh9V54tNen
-         vs3w==
+	s=arc-20240116; t=1724139313; c=relaxed/simple;
+	bh=n2dSc7kV2NynpTEG/oh56PHjqjhQv+rOsObLY+KgHY4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CFb/soQ0toQ1alvC3KR++5vWCdlxdMDI35c0wpm2Ff3FqjAqj8S+DWm09Ct8em2kMY8NpT9AtQNIt124Pqc7oAqQrUuz+ZmtzdprykeulHKxSZSHJ1ALQZpauMzBNNc493VaJTLfVK2aUXXMeZ63Hns7te7d73VmIi2kwDoaF6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e116d2f5f7fso3584602276.1;
+        Tue, 20 Aug 2024 00:35:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724139153; x=1724743953;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KgM+QzWQcZ2DUZR7KveS9LeXc/9kicV430vfS4VSRd8=;
-        b=U63TFLsWaaeTsJEWY9UgywTvGvZlXDSKnMmlFiSQOTAoN6MJF2dHK8sJpb2WzlkD2/
-         Jfws/XqhhcHdFV/aDQBhu2ze+CyRLZHBrZiSiK5MhY3XeRIxItFG6eFoozjzNECDCUWM
-         XuMaD36l8gaF1I4M4fFmFkEbIkIWDQd6SNtu7KrmJVqilGWHMi3Okume6YpyWY6CUZ31
-         eaY8G1vZOB244uPJYpiF303HCgnL18l90nQQCLAjLiAXvZsvygmq8tr4y0wrUU5kCZ1f
-         1EUE0isA5WCBHaQaGWZPMFZbXwXLYrBJgpf9/IMVwOHtS2gUfvkYbDmKPBzCESLLaqw6
-         2WEw==
-X-Forwarded-Encrypted: i=1; AJvYcCVYaHIu8R0wUClMsY3LVqphpljnXXhlmHFd0ufz8uzw4CBtNeWPPcVRSSgruNMtYZYJKoORxFmZ2OowWFk5qTHWhw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/5J6g3V/lZX+eHRGFb05CPDhLaPYoaJlLtfe1hOY/n/5zCMQ8
-	IOhMtqdllXj4Gvfmp5Oq91RfJ4j9C9rKfGI06RgFbWWhIa+ZGiACinUQUquMN2M=
-X-Google-Smtp-Source: AGHT+IHkyNt7DNdr1FwUFXM1w0JBcq+qGUSMD1P8jHKB+jsefPksVAXH7weJcswaTpOC3d6flO3v/w==
-X-Received: by 2002:a17:907:c7c5:b0:a7d:26ff:aeb0 with SMTP id a640c23a62f3a-a8392952665mr895469166b.30.1724139152450;
-        Tue, 20 Aug 2024 00:32:32 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a83839471c0sm726532466b.182.2024.08.20.00.32.31
+        d=1e100.net; s=20230601; t=1724139310; x=1724744110;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=P0RS+DfOTdHedfK4BwC9kmKzZ20XxIqiVeJBqXxrrwI=;
+        b=oYTc4BPOSISM5tHJlEoa7dDgOGd94dvwbyMRujk4dgq8E/BeR3Pj4Q/b80S2zr3YdD
+         bcu+RR0UZ9wSr49zKY5pCpxLgARbYnKkzmAeIYs9/JYxWBVxtKWLFKAjXw/pCOlpxY93
+         4QKHQ8Ug+MT9DfKqgPG9o0nVvPiAwRGq+uQk/Kiu9RcXUoqF++S9hq/bnrAimX6D2b8v
+         huklzo0MFtH5LoKpyucRG4llxALeDMlJBk48f6Ev27gp+83MnsWY5+4K9TJkDZJxuS2J
+         R2dsbqNIR0x41MO6olzOojPO4jWJ2cLFO4JOJ6Ci+/o7iazRNz5DUhXljSOGqajIV0Zq
+         NFcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVRwus1dTXd8Hfp5jN7RDj/eYP+fesYTh0rqfTvDomxkaidX8nwbpKRIdP9F7dHLLVE3GCSFaN3OIGk6zg=@vger.kernel.org, AJvYcCX1ICIVoD868SMFRdNsF2X/ZZTPooWQj+CNxnCjxH3P5S/scPAWcIQVd8xiPAIjU90yJGXliA54cGoo@vger.kernel.org, AJvYcCXe+b9uvGNHEXraLEl6pnGl8h+QojhSOA5mWRWUur8KkOmCgMAKvtRRV5T3eFN0t6IJsRmGUy4SOk4A3ZMki2rWpUg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4AGfe7QVpZKpyfc/DUMHFEcMvjsN1R1EVNSCva3RCK3sjbndG
+	6hszzIjqyEzwySNNFaJqdl2o6urkDA2OgODfZlS+JxIdzZpr+x0vIaTJY8HbOVw=
+X-Google-Smtp-Source: AGHT+IGBZGAQ97xIOBr2P9lJbEYA8ideM2g5FbXRRhVmUbAVpMJCaUyCg9VTC6c/yn4P0Uk5xvU/lg==
+X-Received: by 2002:a05:6902:2206:b0:e11:446b:d43b with SMTP id 3f1490d57ef6-e164a97e8ccmr1692348276.16.1724139309721;
+        Tue, 20 Aug 2024 00:35:09 -0700 (PDT)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e1171e709e1sm2486423276.34.2024.08.20.00.35.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Aug 2024 00:32:32 -0700 (PDT)
-Message-ID: <96265c60-5b16-4a02-a991-ac0e06f7baf3@tuxon.dev>
-Date: Tue, 20 Aug 2024 10:32:29 +0300
+        Tue, 20 Aug 2024 00:35:09 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6bada443ffeso12086477b3.0;
+        Tue, 20 Aug 2024 00:35:09 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVgMy/Co/I8hskvouhk7UDVs4lSBBjmRnh4aCtdem6+xi9tIaoO71HtOJz98nbWLZlazhft4hqsrGVZ@vger.kernel.org, AJvYcCX9smN99uE44DIJ+FbE8OMiSICoNxRLkUsZNy2vwOR74lyp4/xWPzJ5kDnDa2mBRGg56J04PCKAWn8Xxq8XJQT5Rmc=@vger.kernel.org, AJvYcCXO5uqXNSrvWrJ5DbUXw4s/sdTNivBWdIZfOEM5cB/NHgHLimHLB7isTz01Fcm9hCuMR6x5CZ88C9VmCXU=@vger.kernel.org
+X-Received: by 2002:a05:690c:f:b0:6a9:5953:a659 with SMTP id
+ 00721157ae682-6bdd09092ddmr14596397b3.18.1724139309116; Tue, 20 Aug 2024
+ 00:35:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 08/11] i2c: riic: Add support for fast mode plus
-Content-Language: en-US
-To: Andi Shyti <andi.shyti@kernel.org>
-Cc: chris.brandt@renesas.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com,
- p.zabel@pengutronix.de, wsa+renesas@sang-engineering.com,
- linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240819102348.1592171-1-claudiu.beznea.uj@bp.renesas.com>
- <20240819102348.1592171-9-claudiu.beznea.uj@bp.renesas.com>
- <hu4yt2a7ipxrqd7ciqqyg4izei2dr7yerpgf7j53quepxj4ed6@gzlv7l3etpqb>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <hu4yt2a7ipxrqd7ciqqyg4izei2dr7yerpgf7j53quepxj4ed6@gzlv7l3etpqb>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240704161620.1425409-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20240704161620.1425409-1-niklas.soderlund+renesas@ragnatech.se>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 20 Aug 2024 09:34:55 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUjSquBji5+UVACLaWdMhbq5EEkiUANc9LeR5d_1BvkFw@mail.gmail.com>
+Message-ID: <CAMuHMdUjSquBji5+UVACLaWdMhbq5EEkiUANc9LeR5d_1BvkFw@mail.gmail.com>
+Subject: Re: [PATCH v5 0/6] rcar-vin: Add support for R-Car V4M
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, linux-media@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	helpdesk <helpdesk@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi, Andi,
+On Thu, Jul 4, 2024 at 6:16=E2=80=AFPM Niklas S=C3=B6derlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> This series adds bindings and support to rcar-vin for R-Car V4M by the
+> means of adding a Gen4 family fallback compatible.
+>
+> Previous versions of this series added V4M support like done for VIN
+> since the first Gen3 device, by the use of only a single SoC specific
+> compatible value. This was done as in Gen3 almost every new device
+> differed from the others and a family fallback was not very useful.
+>
+> For the Gen4 devices with a video capture pipeline currently documented
+> the VIN instances are very similar and a family fallback can be used.
+> This however requires updating existing DTS files to add this new family
+> fallback. This is done in a backward compatible way and the driver
+> retains the compatible values.
+>
+> See individual patches for changes since previous versions.
+>
+> Niklas S=C3=B6derlund (6):
+>   dt-bindings: media: renesas,vin: Add Gen4 family fallback
+>   arm64: dts: renesas: r8a779g0: Add family fallback for VIN IP
+>   arm64: dts: renesas: r8a779a0: Add family fallback for VIN IP
+>   media: rcar-vin: Add family compatible for R-Car Gen4 family
+>   dt-bindings: media: renesas,vin: Add binding for V4M
+>   arm64: dts: renesas: r8a779h0: Add family fallback for VIN IP
 
-On 19.08.2024 23:12, Andi Shyti wrote:
-> Hi Claudiu,
-> 
-> ...
-> 
->>  struct riic_dev {
->> @@ -311,11 +315,14 @@ static int riic_init_hw(struct riic_dev *riic)
->>  	int total_ticks, cks, brl, brh;
->>  	struct i2c_timings *t = &riic->i2c_t;
->>  	struct device *dev = riic->adapter.dev.parent;
->> +	const struct riic_of_data *info = riic->info;
-> 
-> Because you are only using info->fast_mode_plus, perhaps you can
-> directly take:
-> 
-> 	fast_mode_plus = riic->info->fast_mode_plus;
-> 
-> and you make it even more compact.
-> 
->>  
->> -	if (t->bus_freq_hz > I2C_MAX_FAST_MODE_FREQ) {
->> +	if ((!info->fast_mode_plus && t->bus_freq_hz > I2C_MAX_FAST_MODE_FREQ) ||
->> +	    (info->fast_mode_plus && t->bus_freq_hz > I2C_MAX_FAST_MODE_PLUS_FREQ)) {
->>  		dev_err(&riic->adapter.dev,
->> -			"unsupported bus speed (%dHz). %d max\n",
->> -			t->bus_freq_hz, I2C_MAX_FAST_MODE_FREQ);
->> +			"unsupported bus speed (%dHz). %d max\n", t->bus_freq_hz,
-> 
-> super nitpick: can you please put t->bus_freq_hz on a new line,
-> it looks better to either have everything put in columns or not.
-> 
->> +			info->fast_mode_plus ? I2C_MAX_FAST_MODE_PLUS_FREQ :
->> +			I2C_MAX_FAST_MODE_FREQ);
-> 
-> another super-nitpick: can you please align
-> I2C_MAX_FAST_MODE_PLUS_FREQ with I2C_MAX_FAST_MODE_FREQ? It makes
-> more clear that there is a "? ... :" statement.
+Any chance the media parts can be accepted, so I can take the DTS
+patches through the Renesas tree?
 
-I'll adjust everything as suggested.
+BTW, running b4 seems to add two bogus Acked-by tags from Conor:
 
-Thank you,
-Claudiu Beznea
+$ b4 am 20240704161620.1425409-3-niklas.soderlund+renesas@ragnatech.se
+Analyzing 7 messages in the thread
+Analyzing 14 code-review messages
+Checking attestation on all messages, may take a moment...
+---
+  =E2=9C=97 [PATCH v5 1/6] dt-bindings: media: renesas,vin: Add Gen4 family=
+ fallback
+  =E2=9C=97 [PATCH v5 2/6] arm64: dts: renesas: r8a779g0: Add family fallba=
+ck for VIN IP
+    + Acked-by: Conor Dooley <conor.dooley@microchip.com> (=E2=9C=93 DKIM/k=
+ernel.org)
+  =E2=9C=97 [PATCH v5 3/6] arm64: dts: renesas: r8a779a0: Add family fallba=
+ck for VIN IP
+  =E2=9C=97 [PATCH v5 4/6] media: rcar-vin: Add family compatible for R-Car=
+ Gen4 family
+  =E2=9C=97 [PATCH v5 5/6] dt-bindings: media: renesas,vin: Add binding for=
+ V4M
+  =E2=9C=97 [PATCH v5 6/6] arm64: dts: renesas: r8a779h0: Add family fallba=
+ck for VIN IP
+    + Acked-by: Conor Dooley <conor.dooley@microchip.com> (=E2=9C=93 DKIM/k=
+ernel.org)
 
-> 
-> Thanks,
-> Andi
-> 
->>  		return -EINVAL;
->>  	}
+I cannot find these Acks in my inbox or on lore.
+What's happening?
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
