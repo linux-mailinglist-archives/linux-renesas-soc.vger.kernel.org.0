@@ -1,100 +1,111 @@
-Return-Path: <linux-renesas-soc+bounces-8023-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8024-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE5095B689
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2024 15:26:13 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DF1795B700
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2024 15:40:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D1190B26537
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2024 13:26:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 39DE1B22B91
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2024 13:40:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0C321C9ECC;
-	Thu, 22 Aug 2024 13:25:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XXmJAaH0"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DC7A1CB316;
+	Thu, 22 Aug 2024 13:40:00 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0603139D05;
-	Thu, 22 Aug 2024 13:25:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60FF31CB30D
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Aug 2024 13:39:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724333146; cv=none; b=deDMNIr1qvArHi1VKRIuvdgeSIINdemBPj8BTwqPL5RwYAcmGbqQJNdNF1rcku+lI1bYul8VpzgHku31XvqNiCAJ/0g9JyexYzEmu6dZwMuOax/f/IGJw2FAqxldw/nOsbTAJZm3CnXuEbPIXUQvQWPovKzgcAfDrmk7l2C1Mt8=
+	t=1724334000; cv=none; b=J/rDBi2ZWe3yX5LfKAT+T9jHf5yuzhp1pyimRPtj8akf9wZtCW56ZsDalxeNcHh/ye6ZJbB0Yk3hUmeIDJvv3JqDLUJoZ69c/1v3O4va/0QFZrFhm1uGhTQpLOd1tfw7jP/m76slRxudjRP9nuG9sWK2zjZpTaYYJSGL0AiELic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724333146; c=relaxed/simple;
-	bh=G4MWnl1LTsJIZXk3+Kb2HykN4Id8Tei1TL23UkRqcMI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MU0VEX8ldmX6pPjt2gBQamUb4K85AQUTMBcEsYZ5J/ifPMoLCQS2HFGY8SMZcqRl27Q71gdPhYIFRPeok4zccHlxs7jqSSqPWQgau0KjxKdK9pjGpF87gggKHZZ5RNlyNg3PaGjvxIkkSUN7vlCcADp9cwRUH3So7WXgHkOwDWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XXmJAaH0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DCDCC32782;
-	Thu, 22 Aug 2024 13:25:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724333146;
-	bh=G4MWnl1LTsJIZXk3+Kb2HykN4Id8Tei1TL23UkRqcMI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XXmJAaH0/b90nuscjjjO+6BYNF1wjBNpFCIHF/X0h/+kG3d/0gQ2f87QTr0pyiBw6
-	 KCaHDz3DdvzQKuRf7x/RlxmxU+aZTujW9THvY1MHY46Qv6UlJfAEYarr+yyq7YJvSH
-	 IaxiRgorIEr3ur7qVvTa4MwifgedC47oAJr1eVAR+qpcsLd4t1skoo73nOcEqf309+
-	 u7hRlzyuluanDngBe6Xengc/LzfXDlWkSZE+gIfn5rchfu/QEULlL2vVAKzeHlalBe
-	 uRmpYjaYV+H3Kx4Sp6UO0Tg4a06bOVRx6UAT+GQYiE/kO7RZS580My+pqFjLaFDCAj
-	 zYHmjEnEJTnUA==
-Date: Thu, 22 Aug 2024 14:25:39 +0100
-From: Simon Horman <horms@kernel.org>
-To: Yangtao Li <frank.li@vivo.com>
-Cc: clement.leger@bootlin.com, andrew@lunn.ch, f.fainelli@gmail.com,
-	olteanv@gmail.com, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, ulli.kroll@googlemail.com,
-	linus.walleij@linaro.org, marcin.s.wojtas@gmail.com,
-	linux@armlinux.org.uk, alexandre.torgue@foss.st.com,
-	joabreu@synopsys.com, mcoquelin.stm32@gmail.com,
-	hkallweit1@gmail.com, justinstitt@google.com, kees@kernel.org,
-	u.kleine-koenig@pengutronix.de, jacob.e.keller@intel.com,
-	shannon.nelson@amd.com, linux-renesas-soc@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [net-next 2/9] net: stmmac: platform: Convert to
- devm_clk_get_enabled() and devm_clk_get_optional_enabled()
-Message-ID: <20240822132539.GQ2164@kernel.org>
-References: <20240822084733.1599295-1-frank.li@vivo.com>
- <20240822084733.1599295-3-frank.li@vivo.com>
+	s=arc-20240116; t=1724334000; c=relaxed/simple;
+	bh=D9d4a3vZk1hseHZNyyJLE3owfteHhhdoPCMvnJF7Yps=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dEnwOds9IixvLdcy9G6fSfH8iQlm6Ifp6bf2Sb3TiWEaTdMkt1SbPgRh2ejRlcdfVZvbu5sYoQvb7o9m2OdCml3HQMvm1bug4GlYiMGv13w+pRkvnqgD29BRvKTb0kcE+DLMvPnOytRb/qym7azZU9pFw48Ea0Htm7I+QEVE/vY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6b5b65b1b9fso7162057b3.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Aug 2024 06:39:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724333996; x=1724938796;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FZkMRyBaaEroPOstH279nGIIYcXd7TB0UyZi9kiQj+s=;
+        b=ZmXK6TDp0JCOD18jYZ2Miv46M6hbc1EGBICNRfNXcSS6A55CEkOfZSdkwmdq0JIrr7
+         xgrxKvxSIB50AlccDrWOwX+TSkFTuZRYxtge30CKByqXPiS1/QQDY/a/iq97EvcMCVw3
+         N5sr/T5UydwIvTE5Z6uo1/AXDK/kvkmexnGELNmzsmz64UNs8c5QS/Cqc0eU949+U5Df
+         9Js1oBpvX61qBurkbRsJDx02XbW+t4wWPw/YO39G3e7F7qrSJCavGihgIib+tmrF527j
+         mgIVyhPHovVEZsvWCC8Qu2CRW1LdP7lj4WwseK3b6YGhd8dtjvy/q2YhTlDXOcjRLJST
+         Ll+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVUHlh3ktxc7zCq7xUmZ4fN5dckAiuUmolubCVNJzhQT2dWYmuz1Yhdy0bHfSnr7k0NjIjrIa22HsroeNThTg2PIQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxo0BZV8X0DSiWsH9kCJxdUrLm7yQ78ivXCfpgS5i1ItjZAeEhx
+	MNV2A4tMTtJJ00xjX/MaRlb5ZwXXpnuU5qx0ucBcbhdO/AnYnBlYy9iDQqfd
+X-Google-Smtp-Source: AGHT+IFBjrap3mMZ2cirA6lrXEvadOZ6TzvzerL1QftXHZYuZEuKKewbptqDb+OtiWT5EKXcCX2V0g==
+X-Received: by 2002:a05:690c:a96:b0:613:febf:7a7c with SMTP id 00721157ae682-6c0fb642ab9mr66839707b3.16.1724333996566;
+        Thu, 22 Aug 2024 06:39:56 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6c39b00750fsm2121557b3.65.2024.08.22.06.39.56
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 Aug 2024 06:39:56 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-6b5b65b1b9fso7161807b3.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Aug 2024 06:39:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVTxpo8BcXsATl2nc1lH+ZeW0LD4OX6WNAABqgaJuYvPjLk6QYwAr1kJN5IgrZoDq0mqNf32/sgeKgXO7b9679qbQ==@vger.kernel.org
+X-Received: by 2002:a05:690c:3208:b0:6b5:916d:5a8 with SMTP id
+ 00721157ae682-6c0fc1de281mr50698077b3.23.1724333996042; Thu, 22 Aug 2024
+ 06:39:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240822084733.1599295-3-frank.li@vivo.com>
+References: <20240822004454.1087582-1-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20240822004454.1087582-1-yoshihiro.shimoda.uh@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 22 Aug 2024 15:39:44 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV122yfBkYS9Kn-e+cOHp=9cEKB1g8JeqK6x3=p_ZmLwQ@mail.gmail.com>
+Message-ID: <CAMuHMdV122yfBkYS9Kn-e+cOHp=9cEKB1g8JeqK6x3=p_ZmLwQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] arm64: dts: renesas: r8a779g0: add PCIe support
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: geert+renesas@glider.be, magnus.damm@gmail.com, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 22, 2024 at 02:47:26AM -0600, Yangtao Li wrote:
-> Use devm_clk_get_enabled() and devm_clk_get_optional_enabled()
-> to simplify code.
-> 
-> Signed-off-by: Yangtao Li <frank.li@vivo.com>
+Hi Shimoda-san,
 
-Hi Yangtao Li,
+On Thu, Aug 22, 2024 at 2:45=E2=80=AFAM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> This patch series adds PCIe support for R-Car V4H (r8a779g0).
+> Since the dt-bindings of PCIe driver patches for R-Car V4H are merged
+> into the mainline, it's time to resubmit this dts[i] patches now.
+>
+> Changes from v2:
+> https://lore.kernel.org/all/20240520075931.126476-1-yoshihiro.shimoda.uh@=
+renesas.com/
+> - Rebase the patch on renesas-drivers-2024-08-20-v6.11-rc4
+> - Add Reviewed-by tag to the patch [12]/2.
 
-I feel that I am missing something obvious here,
-but this patch fails to build when applied to net-next.
+Thank you, will queue in renesas-devel for v6.12.
 
-clang-18 for an x86_64 allmodconfig W=1 build says:
+Gr{oetje,eeting}s,
 
-drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c:625:10: error: incompatible pointer types returning 'struct clk *' from a function with result type 'struct plat_stmmacenet_data *' [-Werror,-Wincompatible-pointer-types]
-  625 |                 return plat->pclk;
-      |                        ^~~~~~~~~~
-drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c:641:10: error: incompatible pointer types returning 'struct reset_control *' from a function with result type 'struct plat_stmmacenet_data *' [-Werror,-Wincompatible-pointer-types]
-  641 |                 return plat->stmmac_rst;
-      |                        ^~~~~~~~~~~~~~~~
-drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c:646:10: error: incompatible pointer types returning 'struct reset_control *' from a function with result type 'struct plat_stmmacenet_data *' [-Werror,-Wincompatible-pointer-types]
-  646 |                 return plat->stmmac_ahb_rst;
-      |                        ^~~~~~~~~~~~~~~~~~~~
-drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c:437:8: warning: unused variable 'ret' [-Wunused-variable]
-  437 |         void *ret;
-      |               ^~~
+                        Geert
 
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
