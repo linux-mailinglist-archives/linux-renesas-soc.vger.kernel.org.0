@@ -1,72 +1,72 @@
-Return-Path: <linux-renesas-soc+bounces-8041-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8042-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6B4195BA30
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2024 17:29:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A318C95BA34
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2024 17:30:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 78286286721
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2024 15:29:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C45E81C225F9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2024 15:30:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AB541CC164;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5D671CDFDE;
 	Thu, 22 Aug 2024 15:28:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="biw6fs4F"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="NZlEQ91a"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE6C1CDA32
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Aug 2024 15:28:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248F21CDA30
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Aug 2024 15:28:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724340511; cv=none; b=rKfoAN8KL22XZh8+DjBfWpYS9+lOpNtPZsPwfnsoXNepW+EKjJ+kjWkYbNrVPyLpcpBYm78saM3TKwM2XPAqeV61CgDK5P2T0ThRCPMvVyg9kUpo5IpPMkHkjYtKjMjycWqEj3b38M9ZLZR8SgAtUxDubUkict/JZgT684mR5/Y=
+	t=1724340511; cv=none; b=SKxA0hmehTbZSxCGU5pbblF0Ha8spzunEMRK8dHw6TDxsLnJUYJl/aa7ylvWvBnYB4yUd7jSNdQ8RjF3A2Y7MLdGkMv340GoGq7drz8BZ9wbiHFtVWo7Gv3Mq4hRKTYCCrauGPUqgeUY5cJAuTet6yIoFEOu+Or8QSaIBIgiLMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1724340511; c=relaxed/simple;
-	bh=XrqcPTylVERKklChscjba3VfZJzY0R9/Nuua9/voHH0=;
+	bh=zmBwUlxzBuNbxMboR4M8TMw3ngUJf31gnqIxK23PZOw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=bd2v9nxlM5745UYKEeTn1TziVeCFaGKOJ13YfBZfrajrOwwQkiHs9a0bWSbFEI2Tzu523nylRS2y+T7FLJHkHBoOHGoNBSlpxXVbINtSCrjR8v7IOhcuqDBL1lPr36bi9cKFEqDojwd7lZRYZB0uduOMYF+9udfn5VzDD9vQRY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=biw6fs4F; arc=none smtp.client-ip=209.85.218.45
+	 MIME-Version; b=pzqsShgP3cMk7qayXwosIsSaV9Bc7D4+P2Ft2eDSnh8rs47ZMm/3f0TaLUIXrD/Cgowqjt6lQEI2sQQ0k5hQhViVRCU4JfpTyhR7JwgDLi6XPVDBxma4XaL1TiuKoiaV1mS3MfWTzFVvnZU1W6kaqOatWOuHtThFv/lXoMKtQ3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=NZlEQ91a; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a7a9185e1c0so93832766b.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Aug 2024 08:28:27 -0700 (PDT)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-37189d8e637so473863f8f.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Aug 2024 08:28:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1724340506; x=1724945306; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1724340508; x=1724945308; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZgJzIoJ7odKtUR1tmJxpafPTYpDoiiIktLX51hzayU4=;
-        b=biw6fs4FEJ9VTT0QKBWewO4YKyGNdebDHOlYUrgMTg8iOBHUSMU5Gmb7ecqjTIdyaK
-         I7Ro0JkfBrfV5nKFDiGU/J0j9kmD3SFKkWJ73ydYo612bUdMTmEWqCV7I1627gYW9aim
-         +BUa1jzThreIMURepC90llPIoN7eqrXtsuJYcWuDl1K3jSJEHbUZ2kUURun1i/MayD74
-         WjWNbwka553pU9i/deR9XDEcnOr34ZiOgWYuEW/PmLtrmVrAWEdwDOFgzyNxa0RNyMae
-         FD0rvjoJ1YKbx9PmMlF7EylOCXtBOC2eEUsHyvi4f9zoAAogZ1rpbwwKy79yy8y8DoEx
-         Um7g==
+        bh=VYtknRff4T33No5Y++IYUbUSWOUqzPRe+qwJzBDRLKk=;
+        b=NZlEQ91aOEwlAJTyDEtAMA7OXAnkdiFOqWu4VHghX27x4ncQ88c++bZNRDCXPHts3d
+         7VYQW10RNde4dZ5ZVdU3yZnnNjAMfgOwm0HAX5pi7asTUtcZGrSBC6x9vCThqbPp2XFA
+         DC+UPs+AYVx8GW5LGCM5LZU0a+EqrLHSNJXI7+yo0AkPLAtkHVa9o8NbY7JQxSfhhRsd
+         A1ajfNSZik7bTh2bC65il9/3/gD+STkftzLb0eZBFiHA6ZccDSWPptAygz5i6KF+COJt
+         5PlDDxvczjkKy4KtrSjxLwpj2RNV2HHeRDRcJrIh7vAGZkkYJGxwL7aNgEFf8QWto89Z
+         59Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724340506; x=1724945306;
+        d=1e100.net; s=20230601; t=1724340508; x=1724945308;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZgJzIoJ7odKtUR1tmJxpafPTYpDoiiIktLX51hzayU4=;
-        b=RAC6Wq47G2iPAURdvvBN71mlQ0Q1YXLcH5DLn7vYkR2OcYHLqg5ezn5Zzf1guQfYmt
-         SN5ZP6kH+OrYV5CKVJ8W3vNkVCpRu9MHenXtrybMBjVVEJ+ml/gNKmRzXSIb4HkrRSpC
-         +lXxqNi1i8epwP6hDNRffeQ39p6z3SurNiSbTlN8z9wQR/YU7APXA2iAOhob8BpjLuSP
-         xEPbuLAiTXjdBbiaB2o6prq4KvxIksxGJjYZMnPVNK2rUen61S09E8Hwv0snTTPbNRD0
-         BRmErdDZKQnJtHXQ3Rcce+z9PaTma4coaVWgBF1eynnJDX2++SHufDt/arcJQYCJ1ljY
-         u+oA==
-X-Forwarded-Encrypted: i=1; AJvYcCXVkZsmnNl7JLlH3ibHorP9GqjEElYSLyOLiOCDp/7RVa0O7EhsaJ1WYgKdpaK2SIuNWQ7IYzdh+fY2gU+CPOg+bw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzNRaS1ljQdTRM5RrColSBB4CqOukAbyAs1gCQle7Oi+EnVEjHE
-	hcQu1VjkRlqCpe5ufax9nl0mhdRcfIQCWkhM8l0YpHIrqAfWiZYbXG/0NJdzIVM=
-X-Google-Smtp-Source: AGHT+IFeGPZpt21jhTv4W0bfHajPG9OGuBMYaiwjLe2EM/CfoluWSL4gm6uew0mp9CeRcXzWktBU8w==
-X-Received: by 2002:a17:907:9688:b0:a86:7a23:1292 with SMTP id a640c23a62f3a-a867a23275amr475672566b.66.1724340506359;
-        Thu, 22 Aug 2024 08:28:26 -0700 (PDT)
+        bh=VYtknRff4T33No5Y++IYUbUSWOUqzPRe+qwJzBDRLKk=;
+        b=oCjQvpCw3w/NSlJNuHw9IE/9Z94IlMGkBAfOMZl85wtEVZjffBK+63TWp8Z/9FNEub
+         41jKd5cVLVH7Ajz9Cicy9qjFo61ondBqxVuRTJ0jrzEDooKGvoss9iVo9UD3spZew8Rk
+         zRtGNTCZBNjMXQcjt8wKSRnx8S1fRwpxMriWk0ZLEaOYDGLYy96/qQBRAvXVuG6qUwU1
+         Kvrjqn2pPXqd7V8KILMNbku3RVt+84AlUGK0uxXmWWbeLFR3MX7hX2qi59sxhRpDbCg1
+         ZzromtY8MAQKJx+bGJpKJm1G6mHrYskmSOFZi6i58TIqZqu/XfIy6GKPf3shDGNzfJaA
+         ZMCA==
+X-Forwarded-Encrypted: i=1; AJvYcCWDcGl2qw0iJD0crxc2vDLKFUszDpONd72WqNIfiTnpvULnZbuMyk/nNn38ezSm1WgDupAnb5iklRdzMG5RC0PWjw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywvu/DaxOVMByhrBMOBCscI4Q5ZseO8gZcVIunxdqHo3S9EiJaY
+	0n3dXdOUmsbbhbl3TJKtwLolnRCgoQjiYz/PyL+9SBI6UpbnOLC9OW3edY+lwJY=
+X-Google-Smtp-Source: AGHT+IFJJW8cbQ+Z6hZ+0qBX8ovTCGv9ZpRZ4mNlCVMcK82sY8yzcRU23B/c+aKa1+lhTAIB2iIHXA==
+X-Received: by 2002:a5d:4289:0:b0:360:791c:aff2 with SMTP id ffacd0b85a97d-37308d725c1mr1462761f8f.47.1724340508459;
+        Thu, 22 Aug 2024 08:28:28 -0700 (PDT)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f484dc5sm134189166b.171.2024.08.22.08.28.24
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f484dc5sm134189166b.171.2024.08.22.08.28.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Aug 2024 08:28:25 -0700 (PDT)
+        Thu, 22 Aug 2024 08:28:27 -0700 (PDT)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: vkoul@kernel.org,
@@ -93,9 +93,9 @@ Cc: linux-phy@lists.infradead.org,
 	linux-pm@vger.kernel.org,
 	claudiu.beznea@tuxon.dev,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH 05/16] soc: renesas: sysc: Move RZ/G3S SoC detection on SYSC driver
-Date: Thu, 22 Aug 2024 18:27:50 +0300
-Message-Id: <20240822152801.602318-6-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH 06/16] dt-bindings: reset: renesas,rzg2l-usbphy-ctrl: Document RZ/G3S SoC
+Date: Thu, 22 Aug 2024 18:27:51 +0300
+Message-Id: <20240822152801.602318-7-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com>
@@ -109,128 +109,76 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Now that we have a driver for SYSC driver for RZ/G3S move the SoC detection
-for RZ/G3S in SYSC driver.
+Document the Renesas RZ/G3S USB PHY Control IP. This is similar with the
+one found on the RZ/G2L SoC the exception being that the SYSC USB specific
+signal need to be configured before accessing the USB area. This is
+done though a reset signal.
 
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
- drivers/soc/renesas/renesas-soc.c | 12 ---------
- drivers/soc/renesas/rzg3s-sysc.c  | 45 +++++++++++++++++++++++++++++++
- 2 files changed, 45 insertions(+), 12 deletions(-)
+ .../reset/renesas,rzg2l-usbphy-ctrl.yaml      | 35 +++++++++++++++----
+ 1 file changed, 28 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/soc/renesas/renesas-soc.c b/drivers/soc/renesas/renesas-soc.c
-index 172d59e6fbcf..425d9037dcd0 100644
---- a/drivers/soc/renesas/renesas-soc.c
-+++ b/drivers/soc/renesas/renesas-soc.c
-@@ -71,10 +71,6 @@ static const struct renesas_family fam_rzg2ul __initconst __maybe_unused = {
- 	.name	= "RZ/G2UL",
- };
+diff --git a/Documentation/devicetree/bindings/reset/renesas,rzg2l-usbphy-ctrl.yaml b/Documentation/devicetree/bindings/reset/renesas,rzg2l-usbphy-ctrl.yaml
+index b0b20af15313..5f053981474e 100644
+--- a/Documentation/devicetree/bindings/reset/renesas,rzg2l-usbphy-ctrl.yaml
++++ b/Documentation/devicetree/bindings/reset/renesas,rzg2l-usbphy-ctrl.yaml
+@@ -15,12 +15,15 @@ description:
  
--static const struct renesas_family fam_rzg3s __initconst __maybe_unused = {
--	.name	= "RZ/G3S",
--};
--
- static const struct renesas_family fam_rzv2h __initconst __maybe_unused = {
- 	.name	= "RZ/V2H",
- };
-@@ -176,11 +172,6 @@ static const struct renesas_soc soc_rz_g2ul __initconst __maybe_unused = {
- 	.id     = 0x8450447,
- };
- 
--static const struct renesas_soc soc_rz_g3s __initconst __maybe_unused = {
--	.family = &fam_rzg3s,
--	.id	= 0x85e0447,
--};
--
- static const struct renesas_soc soc_rz_v2h __initconst __maybe_unused = {
- 	.family = &fam_rzv2h,
- 	.id     = 0x847a447,
-@@ -410,9 +401,6 @@ static const struct of_device_id renesas_socs[] __initconst __maybe_unused = {
- #ifdef CONFIG_ARCH_R9A07G054
- 	{ .compatible = "renesas,r9a07g054",	.data = &soc_rz_v2l },
- #endif
--#ifdef CONFIG_ARCH_R9A08G045
--	{ .compatible = "renesas,r9a08g045",	.data = &soc_rz_g3s },
--#endif
- #ifdef CONFIG_ARCH_R9A09G011
- 	{ .compatible = "renesas,r9a09g011",	.data = &soc_rz_v2m },
- #endif
-diff --git a/drivers/soc/renesas/rzg3s-sysc.c b/drivers/soc/renesas/rzg3s-sysc.c
-index e664d29ce5c3..1dd48c7255d1 100644
---- a/drivers/soc/renesas/rzg3s-sysc.c
-+++ b/drivers/soc/renesas/rzg3s-sysc.c
-@@ -6,10 +6,16 @@
-  */
- 
- #include <linux/auxiliary_bus.h>
-+#include <linux/io.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
-+#include <linux/sys_soc.h>
- 
- #include <linux/soc/renesas/rzg3s-sysc-reset.h>
- 
-+#define RZG3S_SYS_LSI_DEVID		0xa04
-+#define RZG3S_SYS_LSI_DEVID_REV		GENMASK(31, 28)
+ properties:
+   compatible:
+-    items:
+-      - enum:
+-          - renesas,r9a07g043-usbphy-ctrl # RZ/G2UL and RZ/Five
+-          - renesas,r9a07g044-usbphy-ctrl # RZ/G2{L,LC}
+-          - renesas,r9a07g054-usbphy-ctrl # RZ/V2L
+-      - const: renesas,rzg2l-usbphy-ctrl
++    oneOf:
++      - const: renesas,r9a08g045-usbphy-ctrl # RZ/G3S
 +
- /**
-  * struct rzg3s_sysc - SYSC private data structure
-  * @base: base address
-@@ -71,8 +77,14 @@ static int rzg3s_sysc_reset_probe(struct rzg3s_sysc *sysc, const char *adev_name
++      - items:
++          - enum:
++              - renesas,r9a07g043-usbphy-ctrl # RZ/G2UL and RZ/Five
++              - renesas,r9a07g044-usbphy-ctrl # RZ/G2{L,LC}
++              - renesas,r9a07g054-usbphy-ctrl # RZ/V2L
++          - const: renesas,rzg2l-usbphy-ctrl
  
- static int rzg3s_sysc_probe(struct platform_device *pdev)
- {
-+	const char *soc_id_start, *soc_id_end, *compatible;
-+	struct soc_device_attribute *soc_dev_attr;
- 	struct device *dev = &pdev->dev;
-+	struct soc_device *soc_dev;
- 	struct rzg3s_sysc *sysc;
-+	char soc_id[32] = {0};
-+	u32 devid, revision;
-+	u8 size;
+   reg:
+     maxItems: 1
+@@ -29,7 +32,8 @@ properties:
+     maxItems: 1
  
- 	sysc = devm_kzalloc(dev, sizeof(*sysc), GFP_KERNEL);
- 	if (!sysc)
-@@ -85,6 +97,39 @@ static int rzg3s_sysc_probe(struct platform_device *pdev)
- 	sysc->dev = dev;
- 	spin_lock_init(&sysc->lock);
+   resets:
+-    maxItems: 1
++    minItems: 1
++    maxItems: 2
  
-+	compatible = of_get_property(dev->of_node, "compatible", NULL);
-+	if (!compatible)
-+		return -ENODEV;
-+
-+	soc_id_start = strchr(compatible, ',') + 1;
-+	soc_id_end = strchr(compatible, '-');
-+	size = soc_id_end - soc_id_start;
-+	if (size > 32)
-+		size = 32;
-+	strscpy(soc_id, soc_id_start, size);
-+
-+	soc_dev_attr = devm_kzalloc(dev, sizeof(*soc_dev_attr), GFP_KERNEL);
-+	if (!soc_dev_attr)
-+		return -ENOMEM;
-+
-+	soc_dev_attr->family = "RZ/G3S";
-+	soc_dev_attr->soc_id = devm_kstrdup(dev, soc_id, GFP_KERNEL);
-+	if (!soc_dev_attr->soc_id)
-+		return -ENOMEM;
-+
-+	devid = readl(sysc->base + RZG3S_SYS_LSI_DEVID);
-+	revision = FIELD_GET(RZG3S_SYS_LSI_DEVID_REV, devid);
-+	soc_dev_attr->revision = devm_kasprintf(dev, GFP_KERNEL, "%u", revision);
-+	if (!soc_dev_attr->revision)
-+		return -ENOMEM;
-+
-+	dev_info(dev, "Detected Renesas %s %s Rev %s\n", soc_dev_attr->family,
-+		 soc_dev_attr->soc_id, soc_dev_attr->revision);
-+
-+	soc_dev = soc_device_register(soc_dev_attr);
-+	if (IS_ERR(soc_dev))
-+		return PTR_ERR(soc_dev);
-+
- 	return rzg3s_sysc_reset_probe(sysc, "reset", 0);
- }
+   power-domains:
+     maxItems: 1
+@@ -59,6 +63,23 @@ required:
  
+ additionalProperties: false
+ 
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: renesas,r9a08g045-usbphy-ctrl
++    then:
++      properties:
++        resets:
++          items:
++            - description: USB PHY Control module reset
++            - description: USB area reset
++    else:
++      properties:
++        resets:
++          maxItems: 1
++
+ examples:
+   - |
+     #include <dt-bindings/clock/r9a07g044-cpg.h>
 -- 
 2.39.2
 
