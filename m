@@ -1,138 +1,124 @@
-Return-Path: <linux-renesas-soc+bounces-8070-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8071-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4845E95BB38
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2024 18:01:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43B7E95BBC9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2024 18:23:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 066432853C7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2024 16:01:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ED0B81F212D3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2024 16:23:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0A0D1CCB2D;
-	Thu, 22 Aug 2024 16:01:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="WHqj/wdl"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBABA1CB31B;
+	Thu, 22 Aug 2024 16:23:32 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2392D1CC17E
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Aug 2024 16:01:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C337A282FC;
+	Thu, 22 Aug 2024 16:23:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724342466; cv=none; b=oZr/EcQhYG21n7pjzRylWssfO/TXtH+cfkWie0PlWTFJNdDeATh4X0IwIkZ9NtLUGkEYgUZuNqc++CBS6sM1sCI0fdcmcSeudP2K7xIoNIhvfeqhQoNtG2ZUekHqmf12JqNix1e9BR3smxR0+pdxy6S5XiNqZjkFbPwL9ELdAk8=
+	t=1724343812; cv=none; b=KJ0Dah9XxyOZt/tYtDDDN2rMzmntlA54SUdSGL4y6lro05EY+OqNQElbpO9adEnfiiFKxwTjJnMM1Cu24uy6jv4QVjfgj9Pn6PqNIYHYBm5oGaBxdpBOtUZqYjklJmG2BtR7greeycvCphBDkKtykbcevPLfbU1jTwIOu1zGieI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724342466; c=relaxed/simple;
-	bh=MclSXkOnOLTupbtg+RVJZ2pqMTD2zQzObzGTwq335G8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YluKfk3HQGABuh6KD5UGoVlqjKfZyJecHYE86Aev2YcD2DtGipyRwodGy39ibcHNRwRb3LvQjIqQQrAQIjOwDhGDRxnBs4cnG4SfnGbJ/qtZB2yMLhOXOXYKmmlhfl4qCm0ClXPvMbekiPqDDlal2LW3gBUCZcJ7/QpRisEpCOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=WHqj/wdl; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a8696e9bd24so72708366b.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Aug 2024 09:01:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1724342463; x=1724947263; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GnuBeHZrfqyuSlw2s4S9P4UlMr865U+LGI9hzvnRLuQ=;
-        b=WHqj/wdlydUcJQ3ec9OPcfdfscp4yYjQ0SdpgZm3HjMksmPBmeSQ5na6r0xQIZUFU6
-         riYsf3huUlbnvmgO2XBriLTXZy/vN37MgSWvoAtlk2QPFoXZ4XL5mD6fzUgx1h73s4li
-         Q3/XiLXBlb5wUuQ1FC0ogbn0Z+/Ep8QZ2wyz1xMxXTZnbB/973Wk4a6QNV0WtUWGaurK
-         Ah8clkkaF29ZbHR9JzMQ+cSaKu+F4vhT+oNNnodR6UoY7JPihuqgPyRbz9UUAmLP/UN2
-         Ut14wPsuBFA6FSqAHvomAhKgWBo5ugPYA0lw5/8Kv7zKDac9/F+p/apIzXkBW3b3lHYZ
-         31Iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724342463; x=1724947263;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GnuBeHZrfqyuSlw2s4S9P4UlMr865U+LGI9hzvnRLuQ=;
-        b=VGxvMBoQNRvsDjNFj2AxLooi1yGtK4IoWJnJyDA+vnkxqDkxKbmvfLsI1fV6EcUenQ
-         h9mTsNHAHr5ZIjjwxOWSoA8y2W96f/sItBsYxdvqgCZoRw8z8QmdBTotyjQdFB/U79Fh
-         BGsuG6lFee+KiVUdxdpvSID7sKm6cNtrfqy+l6HRUL12+HfVolUvbaJO1z1PwTWwbKgn
-         DNxjqckEPnP2YzxJ8NbUbvKmHQOrof0df2wEHvd57GeZ/bIIXSOTqJY9m579nYNW6czo
-         kPnXStWezC1HA8N8jN0XEnfnacEj3qwseUxKAKrHxUQ0Ci4LiJXD63T05ykHfzhEcCO/
-         5dlg==
-X-Forwarded-Encrypted: i=1; AJvYcCVKmJksbB8DXl7/zsK5IjQ5td+2t7JZBpU5zsbOdHKmt19yEefEGzbl/PPUGeRvugthSa8EbC+E9Rl1MJ4c0wrYSg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5/5nYW3FEn3l2zVExpgK6iS6z6Gy3GD3FveJNYYIIozfhVobb
-	VUNkATQuQkhNhqbU7al3N1/y26I0UKodj3Y7eEkub2XyvKUorJwhMnqv78AcPpo=
-X-Google-Smtp-Source: AGHT+IFmKsPnikBSvZwZHhHC4xxZMreb+EUxNzzV6xe+96SGsynHYu6THV9fmm8arTYP4of1spf7Nw==
-X-Received: by 2002:a17:907:72c5:b0:a7a:ab8a:38a with SMTP id a640c23a62f3a-a866f2b1458mr485782466b.27.1724342463358;
-        Thu, 22 Aug 2024 09:01:03 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f47c584sm136021266b.157.2024.08.22.09.01.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Aug 2024 09:01:02 -0700 (PDT)
-Message-ID: <1bca08ff-f3b5-4ab3-9bed-553acf13d54a@tuxon.dev>
-Date: Thu, 22 Aug 2024 19:01:01 +0300
+	s=arc-20240116; t=1724343812; c=relaxed/simple;
+	bh=lcFmbUPx2tkQ/EAlCHVuMsSc00wtfebwPvgI7oOZSvw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=d8toac1hi4S7vc86vL6v/UvwMo+x1M7P1LC66xsmqEqon1aSoYpY/eYtueuocA+dWnBiXwxCqxLLfrWgQRkwpRXUiq6B0J7aGUTElw/q4XYWsD5F65mUXcGXyPIeg6mMv22UFkFISYsuGb7sf6orxyU3e3MEqODJY9MqXoioEBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.10,167,1719846000"; 
+   d="scan'208";a="220284611"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 23 Aug 2024 01:23:28 +0900
+Received: from localhost.localdomain (unknown [10.226.92.15])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 403FC4007CF2;
+	Fri, 23 Aug 2024 01:23:23 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v4 0/4] Add support for RZ/G2UL Display Unit
+Date: Thu, 22 Aug 2024 17:23:13 +0100
+Message-ID: <20240822162320.5084-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] i2c: riic: Simplify unsupported bus speed handling
-Content-Language: en-US
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Chris Brandt <chris.brandt@renesas.com>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Andi Shyti <andi.shyti@kernel.org>
-Cc: linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <dc6b10a56be9c90f580c50c55d829766fe2956a7.1724337807.git.geert+renesas@glider.be>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <dc6b10a56be9c90f580c50c55d829766fe2956a7.1724337807.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+This patch series aims to add support for RZ/G2UL DU.
 
+The LCD controller is composed of Frame Compression Processor (FCPVD),
+Video Signal Processor (VSPD), and Display Unit (DU).
 
-On 22.08.2024 17:45, Geert Uytterhoeven wrote:
-> Simplify checking for unsupported bus speeds and reporting errors by
-> factoring out the calculation of the maximum bus speed, and by using the
-> dev_err_probe() helper.
-> 
-> While at it, use "%u" for u32, and improve the error message.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+The output of LCDC is connected display parallel interface (DPI) and
+supports a maximum resolution of WXGA along with 2 RPFs to support the
+blending of two picture layers and raster operations (ROPs)
 
-Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+It is similar to LCDC IP on RZ/G2L SoCs, but does not have DSI interface.
 
-> ---
->  drivers/i2c/busses/i2c-riic.c | 15 ++++++---------
->  1 file changed, 6 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/i2c/busses/i2c-riic.c b/drivers/i2c/busses/i2c-riic.c
-> index a6996f3c17110dd7..c7f3a4c02470238c 100644
-> --- a/drivers/i2c/busses/i2c-riic.c
-> +++ b/drivers/i2c/busses/i2c-riic.c
-> @@ -316,16 +316,13 @@ static int riic_init_hw(struct riic_dev *riic)
->  	struct i2c_timings *t = &riic->i2c_t;
->  	struct device *dev = riic->adapter.dev.parent;
->  	bool fast_mode_plus = riic->info->fast_mode_plus;
-> +	u32 max_freq = fast_mode_plus ? I2C_MAX_FAST_MODE_PLUS_FREQ
-> +				      : I2C_MAX_FAST_MODE_FREQ;
->  
-> -	if ((!fast_mode_plus && t->bus_freq_hz > I2C_MAX_FAST_MODE_FREQ) ||
-> -	    (fast_mode_plus && t->bus_freq_hz > I2C_MAX_FAST_MODE_PLUS_FREQ)) {
-> -		dev_err(&riic->adapter.dev,
-> -			"unsupported bus speed (%dHz). %d max\n",
-> -			t->bus_freq_hz,
-> -			fast_mode_plus ? I2C_MAX_FAST_MODE_PLUS_FREQ :
-> -					 I2C_MAX_FAST_MODE_FREQ);
-> -		return -EINVAL;
-> -	}
-> +	if (t->bus_freq_hz > max_freq)
-> +		return dev_err_probe(&riic->adapter.dev, -EINVAL,
-> +				     "unsupported bus speed %uHz (%u max)\n",
-> +				     t->bus_freq_hz, max_freq);
->  
->  	rate = clk_get_rate(riic->clk);
->  
+v3->v4:
+ * Restored the ports property for RZ/G2UL and described port@0 for the
+   DPI interface in bindings patch.
+ * Restored tags from Geert and Conor as the change is trivial
+   (Replaced port 1->0 from v2).
+ * Used "&" instead of "==" in rzg2l_du_start_stop() for scalability.
+ * Restored port variable in struct rzg2l_du_output_routing
+ * Updated rzg2l_du_encoders_init() to handle port based on hardware indices.
+ * Restored ports property in du node and used port@0 for connected
+   DPI interface.
+v2->v3:
+ * Split patch series based on subsystem from DU patch series [1].
+ * Replaced ports->port property for RZ/G2UL as it supports only DPI
+   and retained ports property for RZ/{G2L,V2L} as it supports both DSI
+   and DPI output interface.
+ * Added missing blank line before example.
+ * Dropped tags from Conor and Geert as there are new changes in bindings
+ * Avoided the line break in rzg2l_du_start_stop() for rstate.
+ * Replaced port->du_output in  struct rzg2l_du_output_routing and
+   dropped using the port number to indicate the output type in
+   rzg2l_du_encoders_init().
+ * Updated rzg2l_du_r9a07g043u_info and rzg2l_du_r9a07g044_info.
+
+ [1] https://lore.kernel.org/all/20240709135152.185042-1-biju.das.jz@bp.renesas.com/
+v1->v2:
+ * Updated cover letter header "DU IP->Display Unit".
+ * Updated commit description related to non ABI breakage for patch#3.
+ * Added Ack from Conor for binding patches.
+
+Biju Das (4):
+  dt-bindings: display: renesas,rzg2l-du: Document RZ/G2UL DU bindings
+  drm: renesas: rz-du: Add RZ/G2UL DU Support
+  arm64: dts: renesas: r9a07g043u: Add DU node
+  arm64: dts: renesas: r9a07g043u11-smarc: Enable DU
+
+ .../bindings/display/renesas,rzg2l-du.yaml    |  32 ++++-
+ arch/arm64/boot/dts/renesas/r9a07g043u.dtsi   |  25 ++++
+ .../boot/dts/renesas/r9a07g043u11-smarc.dts   | 111 ++++++++++++++++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c |   8 +-
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  |  11 ++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c  |   3 +-
+ 6 files changed, 185 insertions(+), 5 deletions(-)
+
+-- 
+2.43.0
+
 
