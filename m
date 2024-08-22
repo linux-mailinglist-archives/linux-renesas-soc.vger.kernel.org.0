@@ -1,72 +1,72 @@
-Return-Path: <linux-renesas-soc+bounces-8040-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8041-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E4BF95BA2C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2024 17:29:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6B4195BA30
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2024 17:29:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A7C332861FD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2024 15:29:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 78286286721
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2024 15:29:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA46818EAB;
-	Thu, 22 Aug 2024 15:28:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AB541CC164;
+	Thu, 22 Aug 2024 15:28:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="P+n1/efy"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="biw6fs4F"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151B61CDA1A
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Aug 2024 15:28:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE6C1CDA32
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Aug 2024 15:28:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724340509; cv=none; b=FutEccS5vpX0fGQQoAANTqAx5dSnQFe67aPD1byekjaZUyirA5cvsbaHWKG60IF4dDAQ8ZBW8p3drCWlkNiJFBYpOspT/jAJDJK5KTYf3smSf0/S1yEg6m5JJ3LsXRFk2c/T+kUWwN4n79Vvk6qQiBYzQZL+A7wa24+Y7F9rYFg=
+	t=1724340511; cv=none; b=rKfoAN8KL22XZh8+DjBfWpYS9+lOpNtPZsPwfnsoXNepW+EKjJ+kjWkYbNrVPyLpcpBYm78saM3TKwM2XPAqeV61CgDK5P2T0ThRCPMvVyg9kUpo5IpPMkHkjYtKjMjycWqEj3b38M9ZLZR8SgAtUxDubUkict/JZgT684mR5/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724340509; c=relaxed/simple;
-	bh=+npf8sqx1TsaaMkEzhbJBWj+d9glTP2f3WsOgcb1NU4=;
+	s=arc-20240116; t=1724340511; c=relaxed/simple;
+	bh=XrqcPTylVERKklChscjba3VfZJzY0R9/Nuua9/voHH0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=kqLmY4YrFV8vjvUh3CgwQxUecnyU8Z5gtZKbsDWRyBPqznTJ4zFOy0pPvt6Dh57mICvW9TAPGuIPWetnzUfO7Jbl8380qZRApOdJ59aLdbRiAaiYCDdKOp1GK2QF6O6C3Zj9AgDsPmaIvbGUYAOl67GE5HW4p2Obx4QOMDZYKWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=P+n1/efy; arc=none smtp.client-ip=209.85.208.49
+	 MIME-Version; b=bd2v9nxlM5745UYKEeTn1TziVeCFaGKOJ13YfBZfrajrOwwQkiHs9a0bWSbFEI2Tzu523nylRS2y+T7FLJHkHBoOHGoNBSlpxXVbINtSCrjR8v7IOhcuqDBL1lPr36bi9cKFEqDojwd7lZRYZB0uduOMYF+9udfn5VzDD9vQRY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=biw6fs4F; arc=none smtp.client-ip=209.85.218.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5becfd14353so1157115a12.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Aug 2024 08:28:25 -0700 (PDT)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a7a9185e1c0so93832766b.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Aug 2024 08:28:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1724340504; x=1724945304; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1724340506; x=1724945306; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+9DOBqvnZ/STjSdrebzztVFaplbBr0hBrOhxjpVMxCw=;
-        b=P+n1/efy9JMGmwSBitQv4YqwYu4KAbPb1QMyVtTRxtQMXY8nItoc8J6oZSJnyGABD7
-         G9LdGSwh8Zz3WagfqrUUB17Y8w9YTGXzrW+c9cnDAtH5ldcGM0CkRArJ0W+HakrLxAmt
-         RXd6tkxTlQ24c1n45yk/xCrvVm0lrCYzFDVC3hdaLViEf9xQAqWqo7VOVC5oxQMyECiM
-         I3r17W1j9Isf30+J7p8C1FSZlQh4eoViHoi6BUQhXUckXy3KWYWP3Y/NpGXERjaSfAIm
-         t/FtFx+qSKfl5R/toR3gtaontt4gLnxIMMj6mctEXgRo89Fyg5+dYfxcFW6Tls06lbw2
-         o4Qg==
+        bh=ZgJzIoJ7odKtUR1tmJxpafPTYpDoiiIktLX51hzayU4=;
+        b=biw6fs4FEJ9VTT0QKBWewO4YKyGNdebDHOlYUrgMTg8iOBHUSMU5Gmb7ecqjTIdyaK
+         I7Ro0JkfBrfV5nKFDiGU/J0j9kmD3SFKkWJ73ydYo612bUdMTmEWqCV7I1627gYW9aim
+         +BUa1jzThreIMURepC90llPIoN7eqrXtsuJYcWuDl1K3jSJEHbUZ2kUURun1i/MayD74
+         WjWNbwka553pU9i/deR9XDEcnOr34ZiOgWYuEW/PmLtrmVrAWEdwDOFgzyNxa0RNyMae
+         FD0rvjoJ1YKbx9PmMlF7EylOCXtBOC2eEUsHyvi4f9zoAAogZ1rpbwwKy79yy8y8DoEx
+         Um7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724340504; x=1724945304;
+        d=1e100.net; s=20230601; t=1724340506; x=1724945306;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+9DOBqvnZ/STjSdrebzztVFaplbBr0hBrOhxjpVMxCw=;
-        b=NS09PhfHWDunna7kb4KdocbKVcGS+ZfZtC3mslRva8p/FYhiKM0vkkJx3Ap1JiNdyb
-         WeY7y+SqYnq35UYeudOyRGVx84E+JEsSH0dD5PFt2Z8lBsBqcmcdhkuiPpNbkrVuguWI
-         Jp7idA9WIE/XFnfSJaeTOs2Vq5xbAXpUYQeD6bG29kBGxaejTk9BP0FwaTeEeXE4Rp3g
-         udLWY4fzEMYohsnFzHKhDPehFQrV/Gfd6LlQ3oW1sCMJtbqUEe8B/0MK73WWnzcepmqT
-         ND0PWNXioCY7uZB5auMnAkPKJ90aRy85Nr3oPH3KvAF4MDJqNJkevfieq0HZ701R5dbX
-         0xkg==
-X-Forwarded-Encrypted: i=1; AJvYcCWsTG447cAwVUsqQLZFKW/tSHqHB5iFrDVPCK1dqzUSStDmzoWK0/rixx70m8Xmauv8MByExI09Y1H46IgejSBqvA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZiAObK3GD/SIoffqQZmiDoBdIvWIWmah3idODclqZvgg2tRKw
-	Can4fxyONHvss+3WNoFY9+vffRxl5iFu+OnlAGsRWwrY0EJjXPZE5aysWewWKls=
-X-Google-Smtp-Source: AGHT+IFlSIRkRZTOFLNyPatfUw5Y174bZy9lMxma4FnpCObFSnO03fmX9lo7w0eBmJXtveDmWb0cnA==
-X-Received: by 2002:a17:907:7f25:b0:a7a:b561:3564 with SMTP id a640c23a62f3a-a8691cb98f9mr188865766b.61.1724340504353;
-        Thu, 22 Aug 2024 08:28:24 -0700 (PDT)
+        bh=ZgJzIoJ7odKtUR1tmJxpafPTYpDoiiIktLX51hzayU4=;
+        b=RAC6Wq47G2iPAURdvvBN71mlQ0Q1YXLcH5DLn7vYkR2OcYHLqg5ezn5Zzf1guQfYmt
+         SN5ZP6kH+OrYV5CKVJ8W3vNkVCpRu9MHenXtrybMBjVVEJ+ml/gNKmRzXSIb4HkrRSpC
+         +lXxqNi1i8epwP6hDNRffeQ39p6z3SurNiSbTlN8z9wQR/YU7APXA2iAOhob8BpjLuSP
+         xEPbuLAiTXjdBbiaB2o6prq4KvxIksxGJjYZMnPVNK2rUen61S09E8Hwv0snTTPbNRD0
+         BRmErdDZKQnJtHXQ3Rcce+z9PaTma4coaVWgBF1eynnJDX2++SHufDt/arcJQYCJ1ljY
+         u+oA==
+X-Forwarded-Encrypted: i=1; AJvYcCXVkZsmnNl7JLlH3ibHorP9GqjEElYSLyOLiOCDp/7RVa0O7EhsaJ1WYgKdpaK2SIuNWQ7IYzdh+fY2gU+CPOg+bw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNRaS1ljQdTRM5RrColSBB4CqOukAbyAs1gCQle7Oi+EnVEjHE
+	hcQu1VjkRlqCpe5ufax9nl0mhdRcfIQCWkhM8l0YpHIrqAfWiZYbXG/0NJdzIVM=
+X-Google-Smtp-Source: AGHT+IFeGPZpt21jhTv4W0bfHajPG9OGuBMYaiwjLe2EM/CfoluWSL4gm6uew0mp9CeRcXzWktBU8w==
+X-Received: by 2002:a17:907:9688:b0:a86:7a23:1292 with SMTP id a640c23a62f3a-a867a23275amr475672566b.66.1724340506359;
+        Thu, 22 Aug 2024 08:28:26 -0700 (PDT)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f484dc5sm134189166b.171.2024.08.22.08.28.22
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f484dc5sm134189166b.171.2024.08.22.08.28.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Aug 2024 08:28:23 -0700 (PDT)
+        Thu, 22 Aug 2024 08:28:25 -0700 (PDT)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: vkoul@kernel.org,
@@ -93,9 +93,9 @@ Cc: linux-phy@lists.infradead.org,
 	linux-pm@vger.kernel.org,
 	claudiu.beznea@tuxon.dev,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH 04/16] soc: renesas: Add SYSC driver for Renesas RZ/G3S
-Date: Thu, 22 Aug 2024 18:27:49 +0300
-Message-Id: <20240822152801.602318-5-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH 05/16] soc: renesas: sysc: Move RZ/G3S SoC detection on SYSC driver
+Date: Thu, 22 Aug 2024 18:27:50 +0300
+Message-Id: <20240822152801.602318-6-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com>
@@ -109,431 +109,128 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-The RZ/G3S SYS Controller has 2 registers (one for PCIE one for USB) that
-need to be configured before/after powering off/on the PCI or USB
-ares. The bits in these registers control signals to PCIE and USB that
-need to be de-asserted/asserted after/before power on/off event. For this
-add SYSC controller driver that registers a reset controller driver on
-auxiliary bus which allows USB, PCIE drivers to control these signals.
+Now that we have a driver for SYSC driver for RZ/G3S move the SoC detection
+for RZ/G3S in SYSC driver.
 
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
+ drivers/soc/renesas/renesas-soc.c | 12 ---------
+ drivers/soc/renesas/rzg3s-sysc.c  | 45 +++++++++++++++++++++++++++++++
+ 2 files changed, 45 insertions(+), 12 deletions(-)
 
-Hi, Philipp, Ulf, Geert, all,
-
-In this series the control of USB and PCIE signals was implemented
-though a reset control driver. This approach was chosen as a result
-of looking though the HW manual and trying to understand how these
-signals behave. HW manual can be downloaded from [1] (download
-manual hardware button -> confirm -> extract archive ->
-Deliverables -> r01uh1014ej0110-rzg3s.pdf).
-
-The description of the USB and PCIE control registers is as follows:
-
-SYS_USB_PWRRDY Register (Signal is called PWRRDY), Chapter 6.3.83:
-
-Controls PWRRDY terminal of USB:
-0: PWRRDY
-1: PWRRDY down
-When turning off the USB region power, set this bit to 1.
-When turning on the USB region power, set this bit to 0.
-
-SYS_PCIE_RST_RSM_B (Signal is called RST_RSM_B), Chapter 6.3.84:
-
-Controls RST_RSM_B terminal of PCIe
-0: RST_RSM_B=0
-1: RST_RSM_B=1
-Set RST_RSM_B=1 after PCIe power is applied.
-When the power in the PCIe region is turned off, set RST_RSM_B=0
-before turning off the power supply.
-
-From this description I understood that the control of the USB PWRRDY,
-PCIE RST_RSM_B signals and the power control for the domains
-the USB, PCI belongs are different things [A].
-
-As of Figure 41.1 (Power Domain and Power Supply) and Table 41.1 (Power
-Domain to which Power Supply Pins Belong) the USB and PCIE belongs to
-PD_ISOVCC power domain controlled though PMIC [B].
-
-The USB, PCI signals are also reference in HW manual in the low power
-consumption chapter describing the transition to different power
-modes. E.g., chapter 41.6.1 (ALL_ON to VBATT), Table 41.8 (Example
-Transition Flow Outline from ALL_ON Mode to VBATT Mode) says at
-steps 6 and 7:
-
-6. USB PHY PWRRDY signal control (if using USB) SYS_USB_PWRRDY
-7. PCIe RST_RSM_B signal control (if using PCIe) SYS_PCIE_RST_RSM_B
-
-Meaning these signals need to be controlled before going to VBATT
-power mode (where the power supply to USB is turned off) [C].
-
-Due to [A], [B] and [C] I chosed to have the implementation of these
-signals though a reset control driver.
-
-Other option I explored was though power domains as follows:
-1/ registering one domain for USB, one of PCIE
-2/ passed the domain ID to USB though device tree
-3/ attach from USB PHY control driver to the USB power domain
-   with dev_pm_domain_attach_by_name()
-4/ and controlling the SYSC registers with
-   pm_runtime_resume_and_get(usb_sysc_domain).
-
-Please let me know what do you think about this!
-
-Thank you,
-Claudiu Beznea
-
-
-[1] https://www.renesas.com/us/en/products/microcontrollers-microprocessors/rz-mpus/rzg3s-general-purpose-microprocessors-single-core-arm-cortex-a55-11-ghz-cpu-and-dual-core-cortex-m33-250
-
- drivers/reset/Kconfig                        |   7 +
- drivers/reset/Makefile                       |   1 +
- drivers/reset/reset-rzg3s-sysc.c             | 140 +++++++++++++++++++
- drivers/soc/renesas/Makefile                 |   1 +
- drivers/soc/renesas/rzg3s-sysc.c             | 113 +++++++++++++++
- include/linux/soc/renesas/rzg3s-sysc-reset.h |  24 ++++
- 6 files changed, 286 insertions(+)
- create mode 100644 drivers/reset/reset-rzg3s-sysc.c
- create mode 100644 drivers/soc/renesas/rzg3s-sysc.c
- create mode 100644 include/linux/soc/renesas/rzg3s-sysc-reset.h
-
-diff --git a/drivers/reset/Kconfig b/drivers/reset/Kconfig
-index 67bce340a87e..fbdf860b2293 100644
---- a/drivers/reset/Kconfig
-+++ b/drivers/reset/Kconfig
-@@ -218,6 +218,13 @@ config RESET_RZG2L_USBPHY_CTRL
- 	  Support for USBPHY Control found on RZ/G2L family. It mainly
- 	  controls reset and power down of the USB/PHY.
+diff --git a/drivers/soc/renesas/renesas-soc.c b/drivers/soc/renesas/renesas-soc.c
+index 172d59e6fbcf..425d9037dcd0 100644
+--- a/drivers/soc/renesas/renesas-soc.c
++++ b/drivers/soc/renesas/renesas-soc.c
+@@ -71,10 +71,6 @@ static const struct renesas_family fam_rzg2ul __initconst __maybe_unused = {
+ 	.name	= "RZ/G2UL",
+ };
  
-+config RESET_RZG3S_SYSC
-+	tristate "Renesas RZ/G3S SYSC reset driver"
-+	depends on ARCH_R9A08G045 || COMPILE_TEST
-+	help
-+	  Support for SYSC reset found on RZ/G3S family. It mainly
-+	  controls reset on USB and PCIE.
-+
- config RESET_SCMI
- 	tristate "Reset driver controlled via ARM SCMI interface"
- 	depends on ARM_SCMI_PROTOCOL || COMPILE_TEST
-diff --git a/drivers/reset/Makefile b/drivers/reset/Makefile
-index 27b0bbdfcc04..ee5ca21acc44 100644
---- a/drivers/reset/Makefile
-+++ b/drivers/reset/Makefile
-@@ -30,6 +30,7 @@ obj-$(CONFIG_RESET_QCOM_AOSS) += reset-qcom-aoss.o
- obj-$(CONFIG_RESET_QCOM_PDC) += reset-qcom-pdc.o
- obj-$(CONFIG_RESET_RASPBERRYPI) += reset-raspberrypi.o
- obj-$(CONFIG_RESET_RZG2L_USBPHY_CTRL) += reset-rzg2l-usbphy-ctrl.o
-+obj-$(CONFIG_RESET_RZG3S_SYSC) += reset-rzg3s-sysc.o
- obj-$(CONFIG_RESET_SCMI) += reset-scmi.o
- obj-$(CONFIG_RESET_SIMPLE) += reset-simple.o
- obj-$(CONFIG_RESET_SOCFPGA) += reset-socfpga.o
-diff --git a/drivers/reset/reset-rzg3s-sysc.c b/drivers/reset/reset-rzg3s-sysc.c
-new file mode 100644
-index 000000000000..56af03f1d8a2
---- /dev/null
-+++ b/drivers/reset/reset-rzg3s-sysc.c
-@@ -0,0 +1,140 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Renesas RZ/G3S SYSC reset driver
-+ *
-+ * Copyright (C) 2024 Renesas Electronics Corp.
-+ */
-+
-+#include <linux/auxiliary_bus.h>
-+#include <linux/io.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/platform_device.h>
-+#include <linux/reset-controller.h>
-+#include <linux/soc/renesas/rzg3s-sysc-reset.h>
-+
-+#include <dt-bindings/reset/renesas,r9a08g045-sysc.h>
-+
-+#define RZG3S_SYSC_USB_PWRRDY		0xd70
-+#define RZG3S_SYSC_PCIE_RST_RSM_B	0xd74
-+#define RZG3S_SYSC_RESET_MASK		0x1
-+
-+/**
-+ * struct rzg3s_sysc_reset_info - SYSC reset information
-+ * @offset: offset to configure the reset
-+ * @assert_val: value to write to register on assert
-+ * @deassert_val: value to write to register on de-assert
-+ */
-+struct rzg3s_sysc_reset_info {
-+	u16 offset;
-+	u8 assert_val;
-+	u8 deassert_val;
-+};
-+
-+/**
-+ * struct rzg3s_sysc_reset - SYSC reset
-+ * @info: SYSC reset information
-+ * @radev: SYSC reset auxiliary device
-+ * @rcdev: reset controller device
-+ */
-+struct rzg3s_sysc_reset {
-+	const struct rzg3s_sysc_reset_info *info;
-+	struct rzg3s_sysc_reset_adev *radev;
-+	struct reset_controller_dev rcdev;
-+};
-+
-+#define to_rzg3s_sysc_reset(r)	container_of(r, struct rzg3s_sysc_reset, rcdev)
-+
-+static int rzg3s_sysc_reset_set(struct reset_controller_dev *rcdev,
-+				unsigned long id, bool assert)
-+{
-+	struct rzg3s_sysc_reset *reset = to_rzg3s_sysc_reset(rcdev);
-+	struct rzg3s_sysc_reset_adev *radev = reset->radev;
-+	struct rzg3s_sysc_reset_info info = reset->info[id];
-+	unsigned long flags;
-+	u32 tmp;
-+
-+	spin_lock_irqsave(radev->lock, flags);
-+	tmp = readl(radev->base + info.offset);
-+	tmp &= ~RZG3S_SYSC_RESET_MASK;
-+	tmp |= assert ? info.assert_val : info.deassert_val;
-+	writel(tmp, radev->base + info.offset);
-+	spin_unlock_irqrestore(radev->lock, flags);
-+
-+	return 0;
-+}
-+
-+static int rzg3s_sysc_reset_assert(struct reset_controller_dev *rcdev,
-+				   unsigned long id)
-+{
-+	return rzg3s_sysc_reset_set(rcdev, id, true);
-+}
-+
-+static int rzg3s_sysc_reset_deassert(struct reset_controller_dev *rcdev,
-+				     unsigned long id)
-+{
-+	return rzg3s_sysc_reset_set(rcdev, id, false);
-+}
-+
-+static int rzg3s_sysc_reset_status(struct reset_controller_dev *rcdev,
-+				   unsigned long id)
-+{
-+	struct rzg3s_sysc_reset *reset = to_rzg3s_sysc_reset(rcdev);
-+	const struct rzg3s_sysc_reset_info info = reset->info[id];
-+	struct rzg3s_sysc_reset_adev *radev = reset->radev;
-+	u32 tmp;
-+
-+	tmp = readl(radev->base + info.offset);
-+	tmp = !!(tmp & RZG3S_SYSC_RESET_MASK);
-+
-+	return info.assert_val ? tmp : !tmp;
-+}
-+
-+static const struct reset_control_ops rzg3s_sysc_reset_ops = {
-+	.assert = rzg3s_sysc_reset_assert,
-+	.deassert = rzg3s_sysc_reset_deassert,
-+	.status = rzg3s_sysc_reset_status,
-+};
-+
-+static const struct rzg3s_sysc_reset_info rzg3s_sysc_reset_info[] = {
-+	[R9A08G045_SYSC_RESET_USB] = {
-+		.offset = RZG3S_SYSC_USB_PWRRDY, .assert_val = 1, .deassert_val = 0
-+	},
-+	[R9A08G045_SYSC_RESET_PCIE] = {
-+		.offset = RZG3S_SYSC_PCIE_RST_RSM_B, .assert_val = 0, .deassert_val = 1
-+	},
-+};
-+
-+static int rzg3s_sysc_reset_probe(struct auxiliary_device *adev,
-+				  const struct auxiliary_device_id *id)
-+{
-+	struct rzg3s_sysc_reset_adev *reset_adev = to_rzg3s_sysc_reset_adev(adev);
-+	struct device *dev = &adev->dev;
-+	struct rzg3s_sysc_reset *reset;
-+
-+	reset = devm_kzalloc(dev, sizeof(*reset), GFP_KERNEL);
-+	if (!reset)
-+		return -ENOMEM;
-+
-+	reset->radev = reset_adev;
-+	reset->info = rzg3s_sysc_reset_info;
-+
-+	reset->rcdev.ops = &rzg3s_sysc_reset_ops;
-+	reset->rcdev.of_reset_n_cells = 1;
-+	reset->rcdev.nr_resets = ARRAY_SIZE(rzg3s_sysc_reset_info);
-+	reset->rcdev.of_node = dev->parent->of_node;
-+	reset->rcdev.dev = dev;
-+
-+	return devm_reset_controller_register(dev, &reset->rcdev);
-+}
-+
-+static const struct auxiliary_device_id rzg3s_sysc_reset_ids[] = {
-+	{ .name = "rzg3s_sysc.reset" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(auxiliary, rzg3s_sysc_reset_ids);
-+
-+static struct auxiliary_driver rzg3s_sysc_reset_driver = {
-+	.probe		= rzg3s_sysc_reset_probe,
-+	.id_table	= rzg3s_sysc_reset_ids,
-+};
-+module_auxiliary_driver(rzg3s_sysc_reset_driver);
-diff --git a/drivers/soc/renesas/Makefile b/drivers/soc/renesas/Makefile
-index 734f8f8cefa4..74c72ac46f91 100644
---- a/drivers/soc/renesas/Makefile
-+++ b/drivers/soc/renesas/Makefile
-@@ -6,6 +6,7 @@ obj-$(CONFIG_SOC_RENESAS)	+= renesas-soc.o
- ifdef CONFIG_SMP
- obj-$(CONFIG_ARCH_R9A06G032)	+= r9a06g032-smp.o
- endif
-+obj-$(CONFIG_ARCH_R9A08G045)	+= rzg3s-sysc.o
+-static const struct renesas_family fam_rzg3s __initconst __maybe_unused = {
+-	.name	= "RZ/G3S",
+-};
+-
+ static const struct renesas_family fam_rzv2h __initconst __maybe_unused = {
+ 	.name	= "RZ/V2H",
+ };
+@@ -176,11 +172,6 @@ static const struct renesas_soc soc_rz_g2ul __initconst __maybe_unused = {
+ 	.id     = 0x8450447,
+ };
  
- # Family
- obj-$(CONFIG_PWC_RZV2M)		+= pwc-rzv2m.o
+-static const struct renesas_soc soc_rz_g3s __initconst __maybe_unused = {
+-	.family = &fam_rzg3s,
+-	.id	= 0x85e0447,
+-};
+-
+ static const struct renesas_soc soc_rz_v2h __initconst __maybe_unused = {
+ 	.family = &fam_rzv2h,
+ 	.id     = 0x847a447,
+@@ -410,9 +401,6 @@ static const struct of_device_id renesas_socs[] __initconst __maybe_unused = {
+ #ifdef CONFIG_ARCH_R9A07G054
+ 	{ .compatible = "renesas,r9a07g054",	.data = &soc_rz_v2l },
+ #endif
+-#ifdef CONFIG_ARCH_R9A08G045
+-	{ .compatible = "renesas,r9a08g045",	.data = &soc_rz_g3s },
+-#endif
+ #ifdef CONFIG_ARCH_R9A09G011
+ 	{ .compatible = "renesas,r9a09g011",	.data = &soc_rz_v2m },
+ #endif
 diff --git a/drivers/soc/renesas/rzg3s-sysc.c b/drivers/soc/renesas/rzg3s-sysc.c
-new file mode 100644
-index 000000000000..e664d29ce5c3
---- /dev/null
+index e664d29ce5c3..1dd48c7255d1 100644
+--- a/drivers/soc/renesas/rzg3s-sysc.c
 +++ b/drivers/soc/renesas/rzg3s-sysc.c
-@@ -0,0 +1,113 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * RZ/G3S System controller driver
-+ *
-+ * Copyright (C) 2024 Renesas Electronics Corp.
-+ */
+@@ -6,10 +6,16 @@
+  */
+ 
+ #include <linux/auxiliary_bus.h>
++#include <linux/io.h>
++#include <linux/of.h>
+ #include <linux/platform_device.h>
++#include <linux/sys_soc.h>
+ 
+ #include <linux/soc/renesas/rzg3s-sysc-reset.h>
+ 
++#define RZG3S_SYS_LSI_DEVID		0xa04
++#define RZG3S_SYS_LSI_DEVID_REV		GENMASK(31, 28)
 +
-+#include <linux/auxiliary_bus.h>
-+#include <linux/platform_device.h>
+ /**
+  * struct rzg3s_sysc - SYSC private data structure
+  * @base: base address
+@@ -71,8 +77,14 @@ static int rzg3s_sysc_reset_probe(struct rzg3s_sysc *sysc, const char *adev_name
+ 
+ static int rzg3s_sysc_probe(struct platform_device *pdev)
+ {
++	const char *soc_id_start, *soc_id_end, *compatible;
++	struct soc_device_attribute *soc_dev_attr;
+ 	struct device *dev = &pdev->dev;
++	struct soc_device *soc_dev;
+ 	struct rzg3s_sysc *sysc;
++	char soc_id[32] = {0};
++	u32 devid, revision;
++	u8 size;
+ 
+ 	sysc = devm_kzalloc(dev, sizeof(*sysc), GFP_KERNEL);
+ 	if (!sysc)
+@@ -85,6 +97,39 @@ static int rzg3s_sysc_probe(struct platform_device *pdev)
+ 	sysc->dev = dev;
+ 	spin_lock_init(&sysc->lock);
+ 
++	compatible = of_get_property(dev->of_node, "compatible", NULL);
++	if (!compatible)
++		return -ENODEV;
 +
-+#include <linux/soc/renesas/rzg3s-sysc-reset.h>
++	soc_id_start = strchr(compatible, ',') + 1;
++	soc_id_end = strchr(compatible, '-');
++	size = soc_id_end - soc_id_start;
++	if (size > 32)
++		size = 32;
++	strscpy(soc_id, soc_id_start, size);
 +
-+/**
-+ * struct rzg3s_sysc - SYSC private data structure
-+ * @base: base address
-+ * @dev: device
-+ * @lock: lock
-+ */
-+struct rzg3s_sysc {
-+	void __iomem *base;
-+	struct device *dev;
-+	spinlock_t lock;
-+};
-+
-+static void rzg3s_sysc_reset_adev_release(struct device *dev)
-+{
-+	struct auxiliary_device *adev = to_auxiliary_dev(dev);
-+	struct rzg3s_sysc_reset_adev *reset_adev = to_rzg3s_sysc_reset_adev(adev);
-+
-+	kfree(reset_adev);
-+}
-+
-+static void rzg3s_sysc_reset_unregister_adev(void *adev)
-+{
-+	auxiliary_device_delete(adev);
-+	auxiliary_device_uninit(adev);
-+}
-+
-+static int rzg3s_sysc_reset_probe(struct rzg3s_sysc *sysc, const char *adev_name,
-+				  u32 adev_id)
-+{
-+	struct rzg3s_sysc_reset_adev *radev;
-+	struct auxiliary_device *adev;
-+	int ret;
-+
-+	radev = kzalloc(sizeof(*radev), GFP_KERNEL);
-+	if (!radev)
++	soc_dev_attr = devm_kzalloc(dev, sizeof(*soc_dev_attr), GFP_KERNEL);
++	if (!soc_dev_attr)
 +		return -ENOMEM;
 +
-+	radev->base = sysc->base;
-+	radev->lock = &sysc->lock;
-+
-+	adev = &radev->adev;
-+	adev->name = adev_name;
-+	adev->dev.parent = sysc->dev;
-+	adev->dev.release = rzg3s_sysc_reset_adev_release;
-+	adev->id = adev_id;
-+
-+	ret = auxiliary_device_init(adev);
-+	if (ret)
-+		return ret;
-+
-+	ret = auxiliary_device_add(adev);
-+	if (ret) {
-+		auxiliary_device_uninit(adev);
-+		return ret;
-+	}
-+
-+	return devm_add_action_or_reset(sysc->dev, rzg3s_sysc_reset_unregister_adev, adev);
-+}
-+
-+static int rzg3s_sysc_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct rzg3s_sysc *sysc;
-+
-+	sysc = devm_kzalloc(dev, sizeof(*sysc), GFP_KERNEL);
-+	if (!sysc)
++	soc_dev_attr->family = "RZ/G3S";
++	soc_dev_attr->soc_id = devm_kstrdup(dev, soc_id, GFP_KERNEL);
++	if (!soc_dev_attr->soc_id)
 +		return -ENOMEM;
 +
-+	sysc->base = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(sysc->base))
-+		return PTR_ERR(sysc->base);
++	devid = readl(sysc->base + RZG3S_SYS_LSI_DEVID);
++	revision = FIELD_GET(RZG3S_SYS_LSI_DEVID_REV, devid);
++	soc_dev_attr->revision = devm_kasprintf(dev, GFP_KERNEL, "%u", revision);
++	if (!soc_dev_attr->revision)
++		return -ENOMEM;
 +
-+	sysc->dev = dev;
-+	spin_lock_init(&sysc->lock);
++	dev_info(dev, "Detected Renesas %s %s Rev %s\n", soc_dev_attr->family,
++		 soc_dev_attr->soc_id, soc_dev_attr->revision);
 +
-+	return rzg3s_sysc_reset_probe(sysc, "reset", 0);
-+}
++	soc_dev = soc_device_register(soc_dev_attr);
++	if (IS_ERR(soc_dev))
++		return PTR_ERR(soc_dev);
 +
-+static const struct of_device_id rzg3s_sysc_match[] = {
-+	{ .compatible = "renesas,r9a08g045-sysc" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, rzg3s_sysc_match);
-+
-+static struct platform_driver rzg3s_sysc_driver = {
-+	.driver = {
-+		.name = "renesas-rzg3s-sysc",
-+		.of_match_table = rzg3s_sysc_match
-+	},
-+	.probe = rzg3s_sysc_probe
-+};
-+
-+static int __init rzg3s_sysc_init(void)
-+{
-+	return platform_driver_register(&rzg3s_sysc_driver);
-+}
-+subsys_initcall(rzg3s_sysc_init);
-+
-+MODULE_DESCRIPTION("Renesas RZ/G3S System Controller Driver");
-+MODULE_AUTHOR("Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>");
-+MODULE_LICENSE("GPL");
-diff --git a/include/linux/soc/renesas/rzg3s-sysc-reset.h b/include/linux/soc/renesas/rzg3s-sysc-reset.h
-new file mode 100644
-index 000000000000..813cbe82a68a
---- /dev/null
-+++ b/include/linux/soc/renesas/rzg3s-sysc-reset.h
-@@ -0,0 +1,24 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef __SOC_RENESAS_SYSC_RESET_RZG3S_H
-+#define __SOC_RENESAS_SYSC_RESET_RZG3S_H
-+
-+#include <linux/auxiliary_bus.h>
-+#include <linux/spinlock_types.h>
-+#include <linux/container_of.h>
-+
-+/**
-+ * struct rzg3s_sysc_reset_adev - SYSC reset auxiliary device
-+ * @base: base address
-+ * @lock: lock
-+ * @adev: auxiliary device
-+ */
-+struct rzg3s_sysc_reset_adev {
-+	void __iomem *base;
-+	spinlock_t *lock;
-+	struct auxiliary_device adev;
-+};
-+
-+#define to_rzg3s_sysc_reset_adev(a)	container_of(a, struct rzg3s_sysc_reset_adev, adev)
-+
-+#endif
+ 	return rzg3s_sysc_reset_probe(sysc, "reset", 0);
+ }
+ 
 -- 
 2.39.2
 
