@@ -1,229 +1,321 @@
-Return-Path: <linux-renesas-soc+bounces-8082-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8083-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77A2195BC99
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2024 19:00:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D42F395BCA8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2024 19:03:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E0F53B21F74
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2024 16:59:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5A8481F21FE6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2024 17:03:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C187E1CE6FB;
-	Thu, 22 Aug 2024 16:59:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0B681CF294;
+	Thu, 22 Aug 2024 17:03:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="E3Qj/mY8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MwYytXG3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011034.outbound.protection.outlook.com [52.101.125.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9AC62C190;
-	Thu, 22 Aug 2024 16:59:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.34
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724345978; cv=fail; b=IHx05batN9NFhwbTy00byVEXVojS3C5pXmyEFoqDcxLof9w3I9VkprkjEQhN11xh+RkrhiCJq73qDzYmmVafLNlL207cGamZJLZXC36FtJIVWhfkgoXQNpu1JT732qzgHaApRhm/FWCIzJbvqTJJYE2A/32dCTJ4F6oz8vYAv1A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724345978; c=relaxed/simple;
-	bh=tGhjVrkeqgbane+MB7PuIKc2ABk/58tUA+1mD5gCC4I=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=GJJcVAhD6sx4LFYsTaVJj9g9OxWS425dtLXGBCeCBjKeg9P9Fhf5XkSON8IvQ0DyN10l/jyQTD8MMgFwyFFf1FLhpQE0SQr+IhOk7v8nQcMoHah8oj3AVSvarfBLFfT7h/oYieXRx/SdeGaBP7sLqBXgaoW80y9lTiW7i3OyQ28=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=E3Qj/mY8; arc=fail smtp.client-ip=52.101.125.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DvHg+luRaYEn6oMQaw2x0UT11aZxr0DSqJ29LGHB06kDYN/4URj2v7UY+nKojJjbIAdSS4W28KO3j4wTU/4MnrAUQwCNDs75rEUYX5NuGEggPItFaVBNRgmEFB5RnsOxaHvzBlXa+IplpjBNjw6VtfHEkwQ5uEdNmQ0+8WanBwZCFuuf5TdWKcgxVpNhGokkgbo9asqOdnW/Re4pZJ39mbGQFnZ3npa460eBFDgGH9r/iJwP4yNLpvch3rFsZDzoR6S0gTScHxMfJ1wxNQqQJ9rDMGEoPQ65f/vRvJrK7uf3HGVy4LG75u9WveXIxH3EQbKK3lERCSIReVCJGCw7sA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wOndNSNYQKD5XQxFe9nk33CQLms6sIf2EKCtqcAKmVw=;
- b=cSc04z9LRXaSB+J7hQhdeOHiTxOPKb8exBNNMnXawtnPvvIMKRWipprqaJVsQPa+wY9Fxf3zWxF+WoOhuBqncR3U5iM8ofUf1oAZdTF8g8oKgqcD0ZCvTXtf5WBbxbLZV/L1xW0b8YjsnCWtQhtOB5aOiFL09TVU5wr4EX2SEowheFO/ykV3/s/RKOxgmpznpvFmkc0gHOmQqVPpUwqB6oJHbTAF+qrjyC4x9YgdEyf5tSbmfR5lVPhcf5ieR4r2VI3jM0pHFNROcSDiLO0h0FJ+Lg+xqXq0Z7emgqcTdsOwBSp0CWZ7anYpUBANaENsnmdSIzkcu3VrxJooToSLdA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wOndNSNYQKD5XQxFe9nk33CQLms6sIf2EKCtqcAKmVw=;
- b=E3Qj/mY8qg2WOEriPCWW2bFTAQtA5+rctE/Yp2HJwo1e5thsFS3icho/UAfuXuAbHThCK19CMutUohZVkpIEHxPGRZ8FZQHcO16Qhi3jm85U0rNAQTD9VVAPrC7KUVnMGxSwdYMVvvPyXdZVW5A8/SWnfxZRL35X3tjrqKPCoMA=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TYCPR01MB9989.jpnprd01.prod.outlook.com (2603:1096:400:1d7::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.17; Thu, 22 Aug
- 2024 16:59:28 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%6]) with mapi id 15.20.7897.014; Thu, 22 Aug 2024
- 16:59:27 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Claudiu.Beznea <claudiu.beznea@tuxon.dev>, "vkoul@kernel.org"
-	<vkoul@kernel.org>, "kishon@kernel.org" <kishon@kernel.org>,
-	"robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
-	<krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "geert+renesas@glider.be"
-	<geert+renesas@glider.be>, "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
-	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-	"mturquette@baylibre.com" <mturquette@baylibre.com>, "sboyd@kernel.org"
-	<sboyd@kernel.org>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	"ulf.hansson@linaro.org" <ulf.hansson@linaro.org>
-CC: "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-clk@vger.kernel.org"
-	<linux-clk@vger.kernel.org>, "linux-pm@vger.kernel.org"
-	<linux-pm@vger.kernel.org>, Claudiu.Beznea <claudiu.beznea@tuxon.dev>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: RE: [PATCH 08/16] reset: rzg2l-usbphy-ctrl: Add support for RZ/G3S
-Thread-Topic: [PATCH 08/16] reset: rzg2l-usbphy-ctrl: Add support for RZ/G3S
-Thread-Index: AQHa9Kf1es/yPNhZeEG/EOaLUabxzrIzfjMQ
-Date: Thu, 22 Aug 2024 16:59:27 +0000
-Message-ID:
- <TY3PR01MB11346B5C5D9AA883B7736A5C3868F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com>
- <20240822152801.602318-9-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20240822152801.602318-9-claudiu.beznea.uj@bp.renesas.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYCPR01MB9989:EE_
-x-ms-office365-filtering-correlation-id: fa9cac7e-86f4-4d58-3ebc-08dcc2cbc866
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|7416014|1800799024|366016|38070700018|921020;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?+qIyKQ4cyuc0b8zuVto7bkmfCzBKvsCs97MYNhrQYeRqTMa30UxuAZtftBe7?=
- =?us-ascii?Q?xu4lmlihRJvlXv7iiIccSUUqqSkZLRMvyhJJgBwDVs+StN0jcgdP9lv/QPO9?=
- =?us-ascii?Q?vVFGdQVjsDkJzlWgCu0Ta1UCjK9y/NOKh4wUzXLMkNyZD57OOiZLwweYtFDU?=
- =?us-ascii?Q?hVd38DLVpab6MJ7k62le1kB/EQ38ELdG6/G5vs9iEXyh6l/QCFteEtS3sFev?=
- =?us-ascii?Q?8iTPTeyhFMapg0jkrP7xpA0UNcZeBtwgRedWFO8UXYVyO9RHfpwBqwH3hcNG?=
- =?us-ascii?Q?v9hy/B+cI7rx8wtmIx016mgHWk258Eesmvq88jP1c+I3tQ33uNnTQ1vnbq3L?=
- =?us-ascii?Q?k99L0UlHeNf0v328/K4RWKX/3uj2jDuKbLTivrSNj0BjwuPi2PmvTuC5O2qV?=
- =?us-ascii?Q?y4Qp7yy7oXqaOTVZ7QdWaMW3buEGIRt23AL2E1PZKhNgefVkgkr4db6EYIKz?=
- =?us-ascii?Q?I2PaJVcSzkL9IZ/ZtpmJuLKIQrpzC0pNZECnYDm3qykNV/OkBjIC8O4yFx5Z?=
- =?us-ascii?Q?AxjqAzC/ymJjz9MO4RXsv8OGIROA6EtyW/+kCV89JrCVzwCG+BRHPWTbZ6Nm?=
- =?us-ascii?Q?jOyMhG6telAiEpc4Q5ndRekQJdrCjDVzSLhbc5AJoulIDA7OqNWvBax8wuZM?=
- =?us-ascii?Q?aHTk/Ha23hNoBoqv8KYl/ALVEnwYnOSC68cRQyKUhl7C2BidHPNtEdhTBZgm?=
- =?us-ascii?Q?Iv4iqZyKs3MdBPixjjhgnxhFBNh2nWXzUsJ/Lw9yjtRYkfWo755JHtbQveTg?=
- =?us-ascii?Q?BQN3c9i4F+rwxDKOTRSAaAiXP+D5O6eQOaW1sEB4WN/R7PtzlPA02/Z8SZNX?=
- =?us-ascii?Q?U3gAo5o+v7azq3Dumhx6iLH/FYVYsg6EshgQ3y/TjMd24xveLVq7nwnDa0lZ?=
- =?us-ascii?Q?dCQmcgOxgTsbebKX5M1n7SEFEgVJcdATVOKgsoPHI/QQvbT6O1bNwqjuwu8X?=
- =?us-ascii?Q?EIk0V4Eh21FrfFSHbO2oESOFIHA4t5bmpP50USTBFJQATTucZr6AhXByRqVr?=
- =?us-ascii?Q?hqiGuYqJ9pmEKY7nRv9nY0ECE6fF5J3bX9os289gO/9Am0ghhYLuAejfTwbu?=
- =?us-ascii?Q?olZkVHVBj0bloR6P5CeLj5SXFQTiHAmNFMB6Q7rr9QDXzUivSzSEC6sld+qs?=
- =?us-ascii?Q?V2JoUnW+J+lSooGlS1z1hYPBPfJuDPafZ/EyrcjBP/VORcCW/Hwhl7fGPB2m?=
- =?us-ascii?Q?77TQNR4ax7+lRaDxI3QjpIhF0ZY7jD3Ut4nnKin5EJSv6UY+ud79/u1i8+cb?=
- =?us-ascii?Q?Fj1ECnMu4U8oXJ+CMOxQqw3NkNlcu89NWJt6955q99ZnWx6mM/3AygJJFg5t?=
- =?us-ascii?Q?J3YxmHWn6WVObR7w7bp7P4gqtjGEHG2WhMY6PqkPiS+Nph4/ZRkz5/qsgxEv?=
- =?us-ascii?Q?fN5bvgYUvSAgyxnIhaDljCuWuvxTVZW77/u2TR6WnV3MsIKYOYKBm8RHXQYl?=
- =?us-ascii?Q?reUvnvqnrsE=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(38070700018)(921020);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?aOGyfOvLQdRsPfEPNOUgIE4U8yajOmmCtPYnqdcmB8v5fR7JX1JZrhyIVa4L?=
- =?us-ascii?Q?p4gxIniw9ZZFdDpigHLRSA53AcvIeNpqHv6Di3tCTIbsu9rqtaRYrkZAFtnW?=
- =?us-ascii?Q?Xwk8DF8ecnFkxMvKzhT1FsizbLbw6Ff2kHomzJLOO+5y64AJNW9T9QQkoL3e?=
- =?us-ascii?Q?tifi/yDQj2jz/YeKu0AW5vCCGj/a7f5w6X9vmJ5n5qB+y4Ovtb+9JLUANFQh?=
- =?us-ascii?Q?8ME4Q7fzQ7sqb/WlgYatY7cvkJMDd3uAbydWIntF0ZSd+xkliWY3NLEDqCPI?=
- =?us-ascii?Q?bxVCD8GlGjsTZigLJDd4dhYFV0rYTkgdChjC1Um+pQSBiS/08ayesNX9f4wu?=
- =?us-ascii?Q?zHR9k6tCzRMMbEtfsUDrE8EabPTvWSelLAdO91AChnB9xM4qc3Oz7edJvMIN?=
- =?us-ascii?Q?9dJeHCJJCMeXHGiaBj7ErJbGhdW1Uz+7c1UvRLM5YmS/2z88oVomoZ2jwTHc?=
- =?us-ascii?Q?OgAZvVr0E6HXfQW9wDG8q3MyV25+SOQP5kOniMwGekERR2XVq8NSNi00mYLn?=
- =?us-ascii?Q?glf8/daba81IlkG3erbZWEIhqpCKQDV+NqAppR54248B72AlsDD+HLNA6I0v?=
- =?us-ascii?Q?e82slMlu6BQk/SB3o4X7FiX2Kyj7AxBz3jSCjqtKhsAuTfNnjIPLHSQ5L3Ek?=
- =?us-ascii?Q?1ogzXEDmycG3emFHOm2l0X3W7X58cGi1JmkN9s0bVVaBebuinCMtTrhqulkD?=
- =?us-ascii?Q?5F9LoXaCMIQujgCCSU1mEZp2IosNgaIT739NdCEr6+Wt4MZo/G4nEvGfQJUE?=
- =?us-ascii?Q?DGK8Cp6aLci9bL/BNRzrf3cHAlkRBQrRcMIy+iWinHUofoysGCo/fa5WfLVu?=
- =?us-ascii?Q?+6GgX9DT6ESVn9iWIltXiJej5OtS4do5Q3u9Zom1WnFu4+XSqgy+mEmh1OOn?=
- =?us-ascii?Q?2cQ1Ls3yEghY8TzXw3todgx1m8Fvu3uqXLXRfKsh71+Av7PIKmX6Osbg9LQa?=
- =?us-ascii?Q?ep66oB4Ds3f+kJlUs9dIK0in53Xz53HTJ4o5TK8EPksPSoqdgsVq7B9CCnDR?=
- =?us-ascii?Q?gAZ/HQ6KRfq4W8XHMjgAsjvfWSzE0ALfl4A6fKOSGW8Xra9ySUum9hw9DpR0?=
- =?us-ascii?Q?8JdeAuKPK5szjgu9qFO5jEBqyjZ57YeuAUSVgCvLrgMzZ3WlbXPX38Fj4lUB?=
- =?us-ascii?Q?IUROu3w5g4j8ZglsAIalJVao6tw25CQ0aD+LKLB2cU2Rv8qReIdMJ8oq7FzI?=
- =?us-ascii?Q?cEGWIDItKzEHDNigdewXVAbVuAb5aGvLqNRPs5O4m/7t3tW+KUtjEmVZu9Mn?=
- =?us-ascii?Q?kJ8Nv7x88n4xWMdlcrxuwebOri2kPD0EDBathABeG1UUbVEeT+cDW2TzjHAd?=
- =?us-ascii?Q?hgUCHc1M7BF2Ei2JfxiEnApBYicRSIbBjN6REFbZll40U/x1IZim5Wmqat67?=
- =?us-ascii?Q?DbWK11BngcpnNelHewQQ7fkFZQlS9IIOh7SqHcrmE4IniDKPRdtwAUavC+zj?=
- =?us-ascii?Q?4GEHtgGDflHKCQQXbaFxmT8WGmL7PtXrVy0/SjAJdE6CkEvrartO8IYNIVe7?=
- =?us-ascii?Q?Yg10SBlqQhZBRtLmuU8yMWT8T5zdGU/nnC6RjZt4MVjBFNPOg46bnuFf99a4?=
- =?us-ascii?Q?SwFrCjNSLDxDqAkLSi4DZmdmoq5BAO7rHAPcqBfSwzB6vR+yOkoHQP15td+O?=
- =?us-ascii?Q?OQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F20E71CF288;
+	Thu, 22 Aug 2024 17:03:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724346186; cv=none; b=F9mYOxl76B6wr2pUKT6ZEUpavuD2Nk7ExC8KPPv8bcDc8Gu8o/HUfSSyjOUv5HAVJWp5P+ua+GlwYiy3Kc0YZhRZKjK3ZjUMQF1Ek35oDs0M755dPrJ/0wlAQvDeJuj58+T3er7eF0YCv8O0lhIdtrdbR1aYq70SJyXeEOtM5O8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724346186; c=relaxed/simple;
+	bh=qkIjjiVogjjvnuxGsaniqp8BUrrCLWdw7P3LDfPm/Yw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FYSVAqFeL3zTt5pxOIPqGWDlQWVQHBu+Z+g7fxyIXqNowo9ZYe5AcCXitBPh8Ym6I6QqoV4IsqXrbZnFGCgq/h0Dx/jR8xj0pPkADtMnVw7SXYLi53IXGQlQzY7UdV18vDiG6hyZgoQHVv7lFCm1U1NQsi/PctejMOblZG4NgWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MwYytXG3; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5334adf7249so1457418e87.3;
+        Thu, 22 Aug 2024 10:03:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724346183; x=1724950983; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DIj/n8EH0F4bk0Ees7Y37+6sgIgt4AQemsJzINsa4Sk=;
+        b=MwYytXG3Dol5SheXkLW2VODbAcpA1hv8A5EfqQd0HlrKMF1cAMIeubT0ivHxDS8Htn
+         8CKf3pp/vO3FinAoGvbdyhFqY8bBus2FlAD7uKimUiLcZoInkq2LfQvJI9JAkxkCs/5y
+         CcpbfGQMYQVV07WYCRsi1mrWnPZOw2OBDUFcZGrhAw6rShJjAMH0ziuuSpESZEvdFmUJ
+         yN6muCRO31sViVPwQLABPKBysG0vhr/UoE/k8no57+kkr36WcTobYr+NuI18hGUkCTN/
+         TlIGKikk05RcPEIFASQZeWloRiMElN70wJ5Xl3AHOIBRyOUaSDT715HHHIKEU/rbwIuw
+         rHwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724346183; x=1724950983;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DIj/n8EH0F4bk0Ees7Y37+6sgIgt4AQemsJzINsa4Sk=;
+        b=jf/Wd0osFQa4jGyrU02SGMVEDlKwWyVbwIWhKVFf92/H9+7+KzNU+iRzqHDx0OlZSl
+         RKUl1ncr+/vlGBJCGfeuCw5yJaiuJ6mRoWxNN8OjpWr/6DXXUdV+7AHy8Fe/YQzuoA5v
+         HE8NLhdXykYVL7Qy31vpM6qsCtibtPzCJfVMEJ21+FZ/9OmxRdYaPR0Fn0LIPtAA5USo
+         Qj05TRQeXK3gIcBNHPPrHiH/XDf5DfwfU0+wdvFvVLXBhO1BzkyiihQfwtMntIkkbEtI
+         fWeAWs5eRrTufEHDdOnpBS5UPh8f+cDzIMpxoZWdTcH0fk31ATeT/pngEjl3CA0b4VsR
+         YFMw==
+X-Forwarded-Encrypted: i=1; AJvYcCWTull26zBcqlvmgS7tXn9wSlYhg4ByII4zzYW2Q0euLfcsfa/48/J2nQ2IgnXswPvDVeyFP/3B0WEzrin12ko8zic=@vger.kernel.org, AJvYcCXeknbAFzeEdEmUUjp1XXufe9ZKCl/cP25xdF0SE5aPkGybAjGLDzXPA+CXzBjuJ8DH0kds21bo@vger.kernel.org, AJvYcCXpYu/Ge1BDBenuBTo8eaD+zC54rnN1KlfFMLkWPJWZg6CKwJkf+ta3FOniWNtkOgaIzZqgARnS1vfktpM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyK3wtG3qgA+tcQ9MlMYcnyrDn1qOd19EFJfWAJkg3cHOi6d0eg
+	CJ1krq6yueUP0dzsbty+8dnyH899rH1H/0Bfo2yXWQQ1mAvFjUIUPUBXSYd+OlGV3AO5tg6u/Pi
+	5/MGpqh4BahlvIfihnMGdtuWvbjA=
+X-Google-Smtp-Source: AGHT+IFAxofPqnflODhvDlBtQ1z7sw6PKXYf1b65/dZtDIdsYSI9mkJ9/6dbkLecgibvSfpX8V/qQTeRgjB86ZrsvxA=
+X-Received: by 2002:a2e:f1a:0:b0:2ef:20ae:d111 with SMTP id
+ 38308e7fff4ca-2f3f87e0c64mr45111601fa.6.1724346182420; Thu, 22 Aug 2024
+ 10:03:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa9cac7e-86f4-4d58-3ebc-08dcc2cbc866
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Aug 2024 16:59:27.5680
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: DguEB4HdzeKDGBnULzue61gINhBmtKgckrlX0pmGpXV9xfyyjeYIKRy6/WX+0Wf3f5OpgG9TBSL+ioK8f6qKAS6aZKuA8e8v3VLJAobiDWo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB9989
+References: <20240822084733.1599295-1-frank.li@vivo.com> <20240822084733.1599295-9-frank.li@vivo.com>
+ <15ba8f05-8909-4ade-b0f3-c98cad0bd9f0@wanadoo.fr>
+In-Reply-To: <15ba8f05-8909-4ade-b0f3-c98cad0bd9f0@wanadoo.fr>
+From: Marcin Wojtas <marcin.s.wojtas@gmail.com>
+Date: Thu, 22 Aug 2024 19:02:49 +0200
+Message-ID: <CAHzn2R2To1pQ+RSWMS+fdKpMzvXLoORRva0MOTpUrYnsQQEy+g@mail.gmail.com>
+Subject: Re: [net-next 8/9] net: mvpp2: Convert to devm_clk_get_enabled() and devm_clk_get_optional_enabled()
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Yangtao Li <frank.li@vivo.com>, clement.leger@bootlin.com, andrew@lunn.ch, 
+	f.fainelli@gmail.com, olteanv@gmail.com, davem@davemloft.net, 
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
+	ulli.kroll@googlemail.com, linus.walleij@linaro.org, linux@armlinux.org.uk, 
+	alexandre.torgue@foss.st.com, joabreu@synopsys.com, hkallweit1@gmail.com, 
+	justinstitt@google.com, kees@kernel.org, u.kleine-koenig@pengutronix.de, 
+	jacob.e.keller@intel.com, horms@kernel.org, shannon.nelson@amd.com, 
+	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Claudiu,
+czw., 22 sie 2024 o 15:20 Christophe JAILLET
+<christophe.jaillet@wanadoo.fr> napisa=C5=82(a):
+>
+> Le 22/08/2024 =C3=A0 10:47, Yangtao Li a =C3=A9crit :
+> > Use devm_clk_get_enabled() and devm_clk_get_optional_enabled()
+> > to simplify code.
+> >
+> > Signed-off-by: Yangtao Li <frank.li@vivo.com>
+> > ---
+> >   drivers/net/ethernet/marvell/mvpp2/mvpp2.h    |  7 --
+> >   .../net/ethernet/marvell/mvpp2/mvpp2_main.c   | 86 +++++-------------=
+-
+> >   2 files changed, 22 insertions(+), 71 deletions(-)
+> >
+> > diff --git a/drivers/net/ethernet/marvell/mvpp2/mvpp2.h b/drivers/net/e=
+thernet/marvell/mvpp2/mvpp2.h
+> > index 9e02e4367bec..643a645e8097 100644
+> > --- a/drivers/net/ethernet/marvell/mvpp2/mvpp2.h
+> > +++ b/drivers/net/ethernet/marvell/mvpp2/mvpp2.h
+> > @@ -1044,13 +1044,6 @@ struct mvpp2 {
+> >        */
+> >       struct regmap *sysctrl_base;
+> >
+> > -     /* Common clocks */
+> > -     struct clk *pp_clk;
+> > -     struct clk *gop_clk;
+> > -     struct clk *mg_clk;
+> > -     struct clk *mg_core_clk;
+> > -     struct clk *axi_clk;
+> > -
+> >       /* List of pointers to port structures */
+> >       int port_count;
+> >       struct mvpp2_port *port_list[MVPP2_MAX_PORTS];
+> > diff --git a/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c b/drivers/=
+net/ethernet/marvell/mvpp2/mvpp2_main.c
+> > index 2fe8bae4eb3c..0075499de29f 100644
+> > --- a/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
+> > +++ b/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
+> > @@ -7462,6 +7462,7 @@ static int mvpp2_get_sram(struct platform_device =
+*pdev,
+> >
+> >   static int mvpp2_probe(struct platform_device *pdev)
+> >   {
+> > +     struct clk *pp_clk, *gop_clk, *mg_clk, *mg_core_clk, *axi_clk;
+>
+> Hi,
+>
+> Nitpick: you could also define just struct clk *pp_clk, *clk; and reuse
+> clk for most calls.
+> *Maybe* clk_get_rate() could be moved in order to only need 1 clk.
+>
 
-> -----Original Message-----
-> From: Claudiu <claudiu.beznea@tuxon.dev>
-> Sent: Thursday, August 22, 2024 4:28 PM
-> Subject: [PATCH 08/16] reset: rzg2l-usbphy-ctrl: Add support for RZ/G3S
->=20
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->=20
-> Add support for RZ/G3S SoC. It needs its own compatible as it uses 2 rese=
-t signals and it cannot work
-> w/o both of them. To be able to fully validate this on DT schema, too, th=
-e RZ/G3S uses it's own
-> compatible w/o a fallback (as if the fallback will be used the RZ/G3S wil=
-l not work anyway).
+I'm also supportive to optimizing for amount of variables used, as
+they are all local now.
 
-Other than reset/ power domain approach for handling USBPWRRDY signal
+Best regards,
+Marcin
 
-Can't USBPWRRDY signal handled in SYSC driver directly? Since SYSC driver i=
-nit happens at very early boot stage
-Check for USBPHY control device availability and handle USBPWRRDY signal th=
-ere??
-
-Cheers,
-Biju
-
->=20
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> ---
->  drivers/reset/reset-rzg2l-usbphy-ctrl.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/drivers/reset/reset-rzg2l-usbphy-ctrl.c b/drivers/reset/rese=
-t-rzg2l-usbphy-ctrl.c
-> index 8b64c12f3bec..08b18d7de7ad 100644
-> --- a/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-> +++ b/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-> @@ -93,6 +93,7 @@ static int rzg2l_usbphy_ctrl_status(struct reset_contro=
-ller_dev *rcdev,
->=20
->  static const struct of_device_id rzg2l_usbphy_ctrl_match_table[] =3D {
->  	{ .compatible =3D "renesas,rzg2l-usbphy-ctrl" },
-> +	{ .compatible =3D "renesas,r9a08g045-usbphy-ctrl" },
->  	{ /* Sentinel */ }
->  };
->  MODULE_DEVICE_TABLE(of, rzg2l_usbphy_ctrl_match_table);
-> --
-> 2.39.2
-
+> CJ
+>
+> >       struct mvpp2 *priv;
+> >       struct resource *res;
+> >       void __iomem *base;
+> > @@ -7561,56 +7562,30 @@ static int mvpp2_probe(struct platform_device *=
+pdev)
+> >               priv->max_port_rxqs =3D 32;
+> >
+> >       if (dev_of_node(&pdev->dev)) {
+> > -             priv->pp_clk =3D devm_clk_get(&pdev->dev, "pp_clk");
+> > -             if (IS_ERR(priv->pp_clk))
+> > -                     return PTR_ERR(priv->pp_clk);
+> > -             err =3D clk_prepare_enable(priv->pp_clk);
+> > -             if (err < 0)
+> > -                     return err;
+> > +             pp_clk =3D devm_clk_get_enabled(&pdev->dev, "pp_clk");
+> > +             if (IS_ERR(pp_clk))
+> > +                     return PTR_ERR(pp_clk);
+> >
+> > -             priv->gop_clk =3D devm_clk_get(&pdev->dev, "gop_clk");
+> > -             if (IS_ERR(priv->gop_clk)) {
+> > -                     err =3D PTR_ERR(priv->gop_clk);
+> > -                     goto err_pp_clk;
+> > -             }
+> > -             err =3D clk_prepare_enable(priv->gop_clk);
+> > -             if (err < 0)
+> > -                     goto err_pp_clk;
+> > +             gop_clk =3D devm_clk_get_enabled(&pdev->dev, "gop_clk");
+> > +             if (IS_ERR(gop_clk))
+> > +                     return PTR_ERR(gop_clk);
+> >
+> >               if (priv->hw_version >=3D MVPP22) {
+> > -                     priv->mg_clk =3D devm_clk_get(&pdev->dev, "mg_clk=
+");
+> > -                     if (IS_ERR(priv->mg_clk)) {
+> > -                             err =3D PTR_ERR(priv->mg_clk);
+> > -                             goto err_gop_clk;
+> > -                     }
+> > -
+> > -                     err =3D clk_prepare_enable(priv->mg_clk);
+> > -                     if (err < 0)
+> > -                             goto err_gop_clk;
+> > -
+> > -                     priv->mg_core_clk =3D devm_clk_get_optional(&pdev=
+->dev, "mg_core_clk");
+> > -                     if (IS_ERR(priv->mg_core_clk)) {
+> > -                             err =3D PTR_ERR(priv->mg_core_clk);
+> > -                             goto err_mg_clk;
+> > -                     }
+> > +                     mg_clk =3D devm_clk_get_enabled(&pdev->dev, "mg_c=
+lk");
+> > +                     if (IS_ERR(mg_clk))
+> > +                             return PTR_ERR(mg_clk);
+> >
+> > -                     err =3D clk_prepare_enable(priv->mg_core_clk);
+> > -                     if (err < 0)
+> > -                             goto err_mg_clk;
+> > +                     mg_core_clk =3D devm_clk_get_optional_enabled(&pd=
+ev->dev, "mg_core_clk");
+> > +                     if (IS_ERR(mg_core_clk))
+> > +                             return PTR_ERR(mg_core_clk);
+> >               }
+> >
+> > -             priv->axi_clk =3D devm_clk_get_optional(&pdev->dev, "axi_=
+clk");
+> > -             if (IS_ERR(priv->axi_clk)) {
+> > -                     err =3D PTR_ERR(priv->axi_clk);
+> > -                     goto err_mg_core_clk;
+> > -             }
+> > -
+> > -             err =3D clk_prepare_enable(priv->axi_clk);
+> > -             if (err < 0)
+> > -                     goto err_mg_core_clk;
+> > +             axi_clk =3D devm_clk_get_optional_enabled(&pdev->dev, "ax=
+i_clk");
+> > +             if (IS_ERR(axi_clk))
+> > +                     return PTR_ERR(axi_clk);
+> >
+> >               /* Get system's tclk rate */
+> > -             priv->tclk =3D clk_get_rate(priv->pp_clk);
+> > +             priv->tclk =3D clk_get_rate(pp_clk);
+> >       } else {
+> >               err =3D device_property_read_u32(&pdev->dev, "clock-frequ=
+ency", &priv->tclk);
+> >               if (err) {
+> > @@ -7622,7 +7597,7 @@ static int mvpp2_probe(struct platform_device *pd=
+ev)
+> >       if (priv->hw_version >=3D MVPP22) {
+> >               err =3D dma_set_mask(&pdev->dev, MVPP2_DESC_DMA_MASK);
+> >               if (err)
+> > -                     goto err_axi_clk;
+> > +                     return err;
+> >               /* Sadly, the BM pools all share the same register to
+> >                * store the high 32 bits of their address. So they
+> >                * must all have the same high 32 bits, which forces
+> > @@ -7630,7 +7605,7 @@ static int mvpp2_probe(struct platform_device *pd=
+ev)
+> >                */
+> >               err =3D dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32=
+));
+> >               if (err)
+> > -                     goto err_axi_clk;
+> > +                     return err;
+> >       }
+> >
+> >       /* Map DTS-active ports. Should be done before FIFO mvpp2_init */
+> > @@ -7649,12 +7624,12 @@ static int mvpp2_probe(struct platform_device *=
+pdev)
+> >       err =3D mvpp2_init(pdev, priv);
+> >       if (err < 0) {
+> >               dev_err(&pdev->dev, "failed to initialize controller\n");
+> > -             goto err_axi_clk;
+> > +             return err;
+> >       }
+> >
+> >       err =3D mvpp22_tai_probe(&pdev->dev, priv);
+> >       if (err < 0)
+> > -             goto err_axi_clk;
+> > +             return err;
+> >
+> >       /* Initialize ports */
+> >       device_for_each_child_node_scoped(&pdev->dev, port_fwnode) {
+> > @@ -7665,8 +7640,7 @@ static int mvpp2_probe(struct platform_device *pd=
+ev)
+> >
+> >       if (priv->port_count =3D=3D 0) {
+> >               dev_err(&pdev->dev, "no ports enabled\n");
+> > -             err =3D -ENODEV;
+> > -             goto err_axi_clk;
+> > +             return -ENODEV;
+> >       }
+> >
+> >       /* Statistics must be gathered regularly because some of them (li=
+ke
+> > @@ -7698,16 +7672,6 @@ static int mvpp2_probe(struct platform_device *p=
+dev)
+> >   err_port_probe:
+> >       for (i =3D 0; i < priv->port_count; i++)
+> >               mvpp2_port_remove(priv->port_list[i]);
+> > -err_axi_clk:
+> > -     clk_disable_unprepare(priv->axi_clk);
+> > -err_mg_core_clk:
+> > -     clk_disable_unprepare(priv->mg_core_clk);
+> > -err_mg_clk:
+> > -     clk_disable_unprepare(priv->mg_clk);
+> > -err_gop_clk:
+> > -     clk_disable_unprepare(priv->gop_clk);
+> > -err_pp_clk:
+> > -     clk_disable_unprepare(priv->pp_clk);
+> >       return err;
+> >   }
+> >
+> > @@ -7745,12 +7709,6 @@ static void mvpp2_remove(struct platform_device =
+*pdev)
+> >
+> >       if (!dev_of_node(&pdev->dev))
+> >               return;
+> > -
+> > -     clk_disable_unprepare(priv->axi_clk);
+> > -     clk_disable_unprepare(priv->mg_core_clk);
+> > -     clk_disable_unprepare(priv->mg_clk);
+> > -     clk_disable_unprepare(priv->pp_clk);
+> > -     clk_disable_unprepare(priv->gop_clk);
+> >   }
+> >
+> >   static const struct of_device_id mvpp2_match[] =3D {
+>
 
