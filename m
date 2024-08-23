@@ -1,111 +1,138 @@
-Return-Path: <linux-renesas-soc+bounces-8143-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8144-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB5A395CC42
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 14:20:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A6D95CC65
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 14:33:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3C150B24DE2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 12:20:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4B7E11F23062
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 12:33:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DBF5183CD9;
-	Fri, 23 Aug 2024 12:20:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JbescCSi"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCFA4185B65;
+	Fri, 23 Aug 2024 12:33:15 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C71EA9457;
-	Fri, 23 Aug 2024 12:20:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE285185941;
+	Fri, 23 Aug 2024 12:33:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724415611; cv=none; b=LDQ6I+oGwmlZNKd7sGS6cH7xxVNj422eqlnRVoWMvippwOco1uWg2B7Jr+GDCnLpYeyeNLOrfnx1EsIrpyjqXMObGkBIt6A+iwt14FG9jukZyDB9E8/ocbMq1awBKvo1dVNqPBKWUr0Nc8XMZnqizPwaWYHJSABWLlscmk+aADc=
+	t=1724416395; cv=none; b=N0ZAw/PrTePnNgJSMPBpomCXj2JriH3iJoEtqPHndNhy5Ioj4AFzsevXSQyFvv3cPAtbdJS2ybD829OFR4qb9JzrvG9i7xVKOydcQxsu33gDCLCGJ6cTExy4HcLQfUOnoCul+5M+XVnGYBPMAfLqMqMrvyMTLrq+g2iq4BcwWZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724415611; c=relaxed/simple;
-	bh=ZuTS7ukeYfPjZ1kjzNYzSS+Vmt2wcWpuWgPNNaf4GDM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z0wyW3YCGdxC14Ak6Fu1Hv5B64CHJw/K3OpZvpmWfSBM0NI56kXCP2KpgHPFSYz5TqntcuzJOXNAciH0KfR+0OaXJho3Wnashenz30LhyixgD0KRBDm7uWFue58eQ/nL675JzaDrnBLLoEwwAI5w7CCmp/1Xk2iahTL5lPaw3+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JbescCSi; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E8C06497;
-	Fri, 23 Aug 2024 14:18:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1724415538;
-	bh=ZuTS7ukeYfPjZ1kjzNYzSS+Vmt2wcWpuWgPNNaf4GDM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JbescCSijOlW8HS3wETJILxt7OhFJL2gonxj0JTIAMjC9cDhr06YdxtoQrT0wEDW+
-	 gcbEseuU3bJqO3NN89A8M7taTsPgee8TR8aLsi91QcCtY93nMr/dofs4HMtGsWjc7E
-	 owVGVNPBHB/8AUY5LaNqaYP2x5Q7kpDblr8H70d0=
-Date: Fri, 23 Aug 2024 15:19:59 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	"biju.das.au" <biju.das.au@gmail.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] media: platform: rzg2l-cru: rzg2l-csi2: Add missing
- MODULE_DEVICE_TABLE
-Message-ID: <20240823121959.GA26098@pendragon.ideasonboard.com>
-References: <20240731164935.308994-1-biju.das.jz@bp.renesas.com>
- <TY3PR01MB113469C7FEF9FAB6394992ACF86882@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	s=arc-20240116; t=1724416395; c=relaxed/simple;
+	bh=03rpMEAPkNqtwnDbfq91Teoq4v7JaWyGu9ZP2Xm8doA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DWR6MjFH8HMom84bzXvIDj/xZswo3236xqIBv/oIgfWW0YN2pKqlKtBpqzHFRllx2MHfqt3fygpnjtxY5cgpxr5lWKNjjyOIRseRK5U8BTgW/IxnUx9sAJA1ObVcFqjAtwE55Dw5B2XgfOGZW5ykPC8uhPqlEFbccuKOWKtawOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e116b591e15so1957610276.3;
+        Fri, 23 Aug 2024 05:33:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724416391; x=1725021191;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3Yvty6X76xoXM74eMaH2RxI9/zAHTVxZi7P/oGKdhlw=;
+        b=oFTRZRcKF//pYoal5JM1uD9ZF4pksYcrn5IKxwYRBSAXHkLwChg7DUdIRjRMCGD4N9
+         2bmEOV7SJqOwyr94FJd8dJQp0tocQbFVYmsWsqSYwHBBb3XSNsoCVWSn9xXDRbFLab6c
+         3TGdOJwU8gwQNrmVRvFC7Zb/9Mjwo4olON/15HEUyupr8v3HW77zptClV5GNGobSoi1d
+         9fP1L5VwBeiJ0DdCBaroYc+M++wdStLj3hrmSBaj24OD1TecPY4Hhe35zhnxTOFgNiZt
+         IYjpaoBrL6t0wBHvfJt1lxQXYtp+Px3g1rSyfZumUqvsGXAq5PbXcpkkSr+lyK3pVNAB
+         cS4w==
+X-Forwarded-Encrypted: i=1; AJvYcCXaCwv9a5t96ByY1DJuMBNPK6LxUCh6jvt7HtDau+DAnwmlksS9wZkfKt4mQUZiljaTGc3Ter9UJ30DfrmfmxA33MQ=@vger.kernel.org, AJvYcCXwHmbpCzf9ldcUBteS+2vEoxE/ZV0VwlXVNZOEXr14H3egRbRVM+28NF0WgHaqH2/j6WjVTJQ+PYEk@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxf0MioNDWcPdRT2vUerXNRWdEva/YqE3SnixqlpradZDoYMumf
+	yVT3UThFAANTzNPrUv7IrraYc7aml355j0sBuMN2lJbubSq50CmEOffBwM3p
+X-Google-Smtp-Source: AGHT+IEchlkIO+5gtqC1N+WIqldkAaPNVKD1QUZRtFHv3zqYJPK54ceEEDQRC7a0NvERLlhHWaIeUQ==
+X-Received: by 2002:a05:6902:2182:b0:e13:dd6a:1592 with SMTP id 3f1490d57ef6-e17a8c459b2mr1979660276.49.1724416391154;
+        Fri, 23 Aug 2024 05:33:11 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e178e4638dbsm635669276.14.2024.08.23.05.33.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 Aug 2024 05:33:10 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-690aabe2600so18205567b3.0;
+        Fri, 23 Aug 2024 05:33:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVBYd3gg8ZMPgdctzG3Jkp6cMXujBMOotCrUECIA1K+yW7q4smMR/zfF/joVRg7FnKZfYF73vhPBkCh@vger.kernel.org, AJvYcCXsHNOxVH8m4nGR4jwg7kGstG6eIWcVO25+puL042d2r/kzI8U+z7+38+irEiPPgSQg2kcqUn7rCdbY1oqyMtXuBYU=@vger.kernel.org
+X-Received: by 2002:a05:690c:95:b0:64b:69f0:f8f2 with SMTP id
+ 00721157ae682-6c62441920amr20013277b3.3.1724416390350; Fri, 23 Aug 2024
+ 05:33:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <TY3PR01MB113469C7FEF9FAB6394992ACF86882@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20240822162320.5084-1-biju.das.jz@bp.renesas.com> <20240822162320.5084-5-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20240822162320.5084-5-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 23 Aug 2024 14:32:58 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU3b29rZaKNiX8ikDfd1OLThnpYVcdeYnaWeVuvyER=6g@mail.gmail.com>
+Message-ID: <CAMuHMdU3b29rZaKNiX8ikDfd1OLThnpYVcdeYnaWeVuvyER=6g@mail.gmail.com>
+Subject: Re: [PATCH v4 4/4] arm64: dts: renesas: r9a07g043u11-smarc: Enable DU
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 23, 2024 at 08:58:09AM +0000, Biju Das wrote:
-> Hi Media folks,
-> 
-> Gentle ping. Is this simple fix OK to everyone?
+Hi Biju,
 
-I've added the patch to my tree and will include it in my next pull
-request.
+On Thu, Aug 22, 2024 at 6:23=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
+> Enable DU and link with the HDMI add-on board connected with
+> the parallel connector on RZ/G2UL SMARC EVK.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v3->v4:
+>  * Restored ports property in du node and port@0 for DPI interface.
 
-> > -----Original Message-----
-> > From: Biju Das <biju.das.jz@bp.renesas.com>
-> > Sent: Wednesday, July 31, 2024 5:50 PM
-> > Subject: [PATCH] media: platform: rzg2l-cru: rzg2l-csi2: Add missing MODULE_DEVICE_TABLE
-> > 
-> > The rzg2l-csi2 driver can be compiled as a module, but lacks
-> > MODULE_DEVICE_TABLE() and will therefore not be loaded automatically.
-> > Fix this.
-> > 
-> > Fixes: 51e8415e39a9 ("media: platform: Add Renesas RZ/G2L MIPI CSI-2 receiver driver")
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> >  drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-> > b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-> > index e68fcdaea207..c7fdee347ac8 100644
-> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-> > @@ -865,6 +865,7 @@ static const struct of_device_id rzg2l_csi2_of_table[] = {
-> >  	{ .compatible = "renesas,rzg2l-csi2", },
-> >  	{ /* sentinel */ }
-> >  };
-> > +MODULE_DEVICE_TABLE(of, rzg2l_csi2_of_table);
-> > 
-> >  static struct platform_driver rzg2l_csi2_pdrv = {
-> >  	.remove_new = rzg2l_csi2_remove,
+Thanks for the update!
 
--- 
-Regards,
+> --- a/arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dts
+> +++ b/arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dts
+> @@ -35,4 +35,115 @@
+>  / {
+>         model =3D "Renesas SMARC EVK based on r9a07g043u11";
+>         compatible =3D "renesas,smarc-evk", "renesas,r9a07g043u11", "rene=
+sas,r9a07g043";
+> +
+> +       hdmi-out {
+> +               compatible =3D "hdmi-connector";
 
-Laurent Pinchart
+[...]
+
+> +&i2c1 {
+> +       adv7513: adv7513@39 {
+> +               compatible =3D "adi,adv7513";
+
+The HDMI connector and ADV7513 bridge are not present on the SMARC
+Carrier board, but on a separate board.  Hence I think this should be
+moved to a separate DT overlay .dtso, with a suitable Makefile rule
+to build a DTS for SMARC Carrier + HDMI add-on board.
+
+The actual DT description LGTM.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
