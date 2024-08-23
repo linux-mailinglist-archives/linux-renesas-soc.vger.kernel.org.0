@@ -1,228 +1,176 @@
-Return-Path: <linux-renesas-soc+bounces-8158-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8159-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AABC95CCFF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 14:54:27 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C4D095CD73
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 15:12:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C01861C22446
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 12:54:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F2FF0B233AD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 13:12:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CE1318991A;
-	Fri, 23 Aug 2024 12:51:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7DFA1865EB;
+	Fri, 23 Aug 2024 13:10:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wt2HdV1Y"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Jms3t7Ow"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D06E189518
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Aug 2024 12:51:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C67231865E9;
+	Fri, 23 Aug 2024 13:10:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724417508; cv=none; b=oK48s3tCPmJRIkC+rCxwA40h0Ur72pDm2EYUS4MSWzXj9AWyIro7InW2Y9d3IAWSIOf1tfNa4hjWf7kn8zaWG7Xd+9uQuWB44UwcmINX4D/c6fGbioHZ8fbcpHXSTyFxC4UdKEcZlqHFulsf5Bq0A4DE9T/0g25qybRzhyqe7fY=
+	t=1724418643; cv=none; b=D4+eAH1Bjvc6WBDWGqiABgr5j//AMfbRQG46I5HAGRWCOZEIHqF7NBpdVBIT4WRoX6WstIX6DNfUM8TTTh1tUGAKyHuO5LO/HgR72tJ676zJHZLYz/N/2pbsRDCSDZgLxbPsTfmG1sypQEdHfW6RKQhgtCURRF0EfZ05tRAc7ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724417508; c=relaxed/simple;
-	bh=RaCHoWfcvN19DBMmkgIRc0NGUjytTpFgVMcU13mcxgo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=K7tXybkYED1PRIThzWz2b3SddurR+kSmrfbCsiorjF3k+lHbZg7lsCB2OljGvDfz1zDaXWdA5gMeglOwcnTe8Wp1WksBbO6aa2LLsdl6xaW1Q7h5EjGJ5sFkN+xo0NVGfCfTkYwYw3gGTWi5JQXYEcxMgZLfeu7OoJcBXLGKBxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wt2HdV1Y; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a86978b6e12so10034266b.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Aug 2024 05:51:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724417505; x=1725022305; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/rp37AUE8o1pDdOTGLdrCW8KtmisO6ANjwH8PgBb0ls=;
-        b=wt2HdV1Y+hpHDtGu4AZPY1gaQjH5BA43pu8GrqurKqPNSlmSGOIsL7UA3uNXKqMvy1
-         V3CZ2Pn0K3rZqssB0KftZzRFMWFKPd7VmMuKxDJuqwbyrySnATjgpa0xcLst8zinsR4n
-         eUNyCsX9ezBEKxt7psZ8dyQSFW5uX1InKa80iqqi1s7y7k8xwR1bqHG+OCRxDMJPx5Vu
-         VV2pib7S8T0OargbhFdQopxYtXNlMlXBuzBCyOZjUBucAClgh34ccrLUlQ1zUf5AOLvO
-         mpGzY+v9zoVnyXXTJ5LzikHb3TUT0MIId2ydVNMZcFFVi8R0Qn0C3L1/gqzURz1YQBZo
-         UVUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724417505; x=1725022305;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/rp37AUE8o1pDdOTGLdrCW8KtmisO6ANjwH8PgBb0ls=;
-        b=DKlGwQ03K1hPkHQ+RpPTu0jBiiEnlOdrWRFLDkMha3U054wC2Edlt4HYJ/7LSOvNkd
-         /WlKsLPqKJXNp0Q8co1pb6D+qIKpA7C5u3c1bv9eVU+HZMfxE8cOUXnHn964qyT7LmfL
-         GFOCR6vAfXijl5wXztX1YvqAEgj7guLHZsVgz4lV8BjznqECKwJSG/GcdJm0q7JbhvE0
-         v7il+Oufnf+jywk41NnaS4DgZINOt28XpKkv8FrGrOc7zsN4jb915MtldtGz3w2/N4Ee
-         DgZMs/qcGVMlB0S5gl//XPcOI57lbosRCwbJqqXYpNoCjqO2+vGYKGGZqMlGAHROUIg/
-         dgpg==
-X-Forwarded-Encrypted: i=1; AJvYcCVaszwfjmntkPUJGBBbCbus1lgr5lJJjejJARwIdb3JdUOD6mItfTTRaBxZH+q+JhbuapqV3e9b/EtiqPpJBSSgGQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVPP6tnixMUJIRpY3myhcUknnbUl5WktgwzfvRvzT64m4CsOQL
-	Zqf9SDIqeEkrTf1zlR8z6HGbIa7fGv0wsmAGoWSmmm79qf+l31maShGX624HXAhe94iQaSGIKG5
-	w
-X-Google-Smtp-Source: AGHT+IE1+3Q98ogeUT94jLgiJMspBnSs1Bmg9/MGG8bMaWFikVo5szbklH8yaPLEJlsyUwI0svusGA==
-X-Received: by 2002:a17:906:c355:b0:a86:a694:aaff with SMTP id a640c23a62f3a-a86a694abe2mr75972666b.1.1724417504852;
-        Fri, 23 Aug 2024 05:51:44 -0700 (PDT)
-Received: from [127.0.1.1] ([178.197.222.82])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f4f384bsm255931666b.192.2024.08.23.05.51.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Aug 2024 05:51:44 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Fri, 23 Aug 2024 14:51:14 +0200
-Subject: [PATCH 10/10] pmdomain: renesas: rcar-sysc: Use scoped device node
- handling to simplify error paths
+	s=arc-20240116; t=1724418643; c=relaxed/simple;
+	bh=wLrkvRsuEKzrSQq1bOLy5ckfDECd41lrUlMr2L8Ili8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ERkL0D8lKDUIzEE3B9ZHC27MCc3UOmnAqc4YOmcjuHArNh+cmnvD/lbhcUhXC5p8hOMNu5KrzMfPF1kPBpU6ZPL7rCKpBE6615+hJrhcohcTn/qOoDQbSdSAp2SarsNIxfTEpflwtrAf+PoG6SWjgFieMHpegft8kzQBLf37nW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Jms3t7Ow; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 88532129;
+	Fri, 23 Aug 2024 15:09:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1724418575;
+	bh=wLrkvRsuEKzrSQq1bOLy5ckfDECd41lrUlMr2L8Ili8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Jms3t7Ow1Mi0MrAhU8o24cpXwm84UwVj0hBROeKishsvsgYvQgxEiFvzkTVuKA7v8
+	 cVpKA9fFr3DLHvECIk1fzmtRtDIEauGfgJR7RtLPAyedzCV2RyK8DYMpH1493goz/8
+	 Sez6GmLztu/GGcUcDNLHMu7BcDm5eC61BepAe3BA=
+Date: Fri, 23 Aug 2024 16:10:36 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v4 1/4] dt-bindings: display: renesas,rzg2l-du: Document
+ RZ/G2UL DU bindings
+Message-ID: <20240823131036.GB26098@pendragon.ideasonboard.com>
+References: <20240822162320.5084-1-biju.das.jz@bp.renesas.com>
+ <20240822162320.5084-2-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240823-cleanup-h-guard-pm-domain-v1-10-8320722eaf39@linaro.org>
-References: <20240823-cleanup-h-guard-pm-domain-v1-0-8320722eaf39@linaro.org>
-In-Reply-To: <20240823-cleanup-h-guard-pm-domain-v1-0-8320722eaf39@linaro.org>
-To: Ulf Hansson <ulf.hansson@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>
-Cc: linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
- imx@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3056;
- i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=RaCHoWfcvN19DBMmkgIRc0NGUjytTpFgVMcU13mcxgo=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmyIXNR2zayhDCmXFhzQ1RKmq8aC4JQfASOX82l
- qQyhlx44UOJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZsiFzQAKCRDBN2bmhouD
- 1xL8D/9RUFSYlgRZQEabYs+Zlod9oIJejL78n+4Ll7xzEa+aucx3mi/5XlXocpJxNV+gOzHmnL5
- pTAKjf9vr2rrSCFpdxWqcebEDpOfdp3FhZVpBNUc1h/OP5bjr184cjhi7i9TuCDo/iVdB0pUXdN
- M76MCTdDAD/bgYmwRgVMQpXF1J769uZTGjSJmi58B0VRQhOhJgjmrSLchp8/NAEnWPwerPXMCkm
- eB714yX5DLHHI+JfhnayFx/N2/E534xyEO1HvsBvfioJrdNphfVPfe4xI/qOHupvYmd5t+/9Ghd
- in1T0ooZnRBOqqF/8HZO+fb5oZPBETF2hHD6X7fMDmFhHDfW6lReeoDHG+ru1B6TG9NLvU0x98u
- wrOOoAXHWLuo2AT/cJjkItEh9Q4T0t0HZ4GscFMohXEJ+GKyoOgFKiAgIBfVgaeJ9bfTpT6teuW
- zljMa7caswrosPMTvLgRiWDI6NIuUAP1HdpDhMSMerJwDdR3mM18CodSRTqDknlhCH8Tff/UyzE
- YQqB1Shvtr1g7dD8+6Ajdjhu72i65o1lOBEcq/i6nT6QV3efKKqIzTcF1WoXBmdjq5ZQQyxC71v
- yN682xplaXESoBHsCxOVmTmEK5SdClLG2XTLvLhB2ErFuaqOK91wtibYaqRUCEPcNvHLuNxW/fR
- 7csJsV6ahkbU4zA==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240822162320.5084-2-biju.das.jz@bp.renesas.com>
 
-Obtain the device node reference with scoped/cleanup.h to reduce error
-handling and make the code a bit simpler.
+Hi Biju,
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- drivers/pmdomain/renesas/rcar-sysc.c | 28 +++++++++++-----------------
- 1 file changed, 11 insertions(+), 17 deletions(-)
+Thank you for the patch.
 
-diff --git a/drivers/pmdomain/renesas/rcar-sysc.c b/drivers/pmdomain/renesas/rcar-sysc.c
-index b99326917330..da169eed638c 100644
---- a/drivers/pmdomain/renesas/rcar-sysc.c
-+++ b/drivers/pmdomain/renesas/rcar-sysc.c
-@@ -6,6 +6,7 @@
-  * Copyright (C) 2015-2017 Glider bvba
-  */
- 
-+#include <linux/cleanup.h>
- #include <linux/clk/renesas.h>
- #include <linux/delay.h>
- #include <linux/err.h>
-@@ -348,12 +349,12 @@ static int __init rcar_sysc_pd_init(void)
- 	const struct rcar_sysc_info *info;
- 	const struct of_device_id *match;
- 	struct rcar_pm_domains *domains;
--	struct device_node *np;
- 	void __iomem *base;
- 	unsigned int i;
- 	int error;
- 
--	np = of_find_matching_node_and_match(NULL, rcar_sysc_matches, &match);
-+	struct device_node *np __free(device_node) =
-+		of_find_matching_node_and_match(NULL, rcar_sysc_matches, &match);
- 	if (!np)
- 		return -ENODEV;
- 
-@@ -362,7 +363,7 @@ static int __init rcar_sysc_pd_init(void)
- 	if (info->init) {
- 		error = info->init();
- 		if (error)
--			goto out_put;
-+			return error;
- 	}
- 
- 	has_cpg_mstp = of_find_compatible_node(NULL, NULL,
-@@ -371,8 +372,7 @@ static int __init rcar_sysc_pd_init(void)
- 	base = of_iomap(np, 0);
- 	if (!base) {
- 		pr_warn("%pOF: Cannot map regs\n", np);
--		error = -ENOMEM;
--		goto out_put;
-+		return -ENOMEM;
- 	}
- 
- 	rcar_sysc_base = base;
-@@ -382,10 +382,8 @@ static int __init rcar_sysc_pd_init(void)
- 	rcar_sysc_extmask_val = info->extmask_val;
- 
- 	domains = kzalloc(sizeof(*domains), GFP_KERNEL);
--	if (!domains) {
--		error = -ENOMEM;
--		goto out_put;
--	}
-+	if (!domains)
-+		return -ENOMEM;
- 
- 	domains->onecell_data.domains = domains->domains;
- 	domains->onecell_data.num_domains = ARRAY_SIZE(domains->domains);
-@@ -403,10 +401,8 @@ static int __init rcar_sysc_pd_init(void)
- 
- 		n = strlen(area->name) + 1;
- 		pd = kzalloc(sizeof(*pd) + n, GFP_KERNEL);
--		if (!pd) {
--			error = -ENOMEM;
--			goto out_put;
--		}
-+		if (!pd)
-+			return -ENOMEM;
- 
- 		memcpy(pd->name, area->name, n);
- 		pd->genpd.name = pd->name;
-@@ -417,7 +413,7 @@ static int __init rcar_sysc_pd_init(void)
- 
- 		error = rcar_sysc_pd_setup(pd);
- 		if (error)
--			goto out_put;
-+			return error;
- 
- 		domains->domains[area->isr_bit] = &pd->genpd;
- 
-@@ -429,7 +425,7 @@ static int __init rcar_sysc_pd_init(void)
- 		if (error) {
- 			pr_warn("Failed to add PM subdomain %s to parent %u\n",
- 				area->name, area->parent);
--			goto out_put;
-+			return error;
- 		}
- 	}
- 
-@@ -437,8 +433,6 @@ static int __init rcar_sysc_pd_init(void)
- 	if (!error)
- 		fwnode_dev_initialized(of_fwnode_handle(np), true);
- 
--out_put:
--	of_node_put(np);
- 	return error;
- }
- early_initcall(rcar_sysc_pd_init);
+On Thu, Aug 22, 2024 at 05:23:14PM +0100, Biju Das wrote:
+> Document DU found in RZ/G2UL SoC. The DU block is identical to RZ/G2L
+> SoC, but has only DPI interface.
+> 
+> While at it, add missing required property port@1 for RZ/G2L and RZ/V2L
+> SoCs. Currently there is no user for the DPI interface and hence there
+> won't be any ABI breakage for adding port@1 as required property for
+> RZ/G2L and RZ/V2L SoCs.
+> 
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> ---
+> v3->v4:
+>  * Restored the ports property for RZ/G2UL and described port@0 for the
+>    DPI interface.
+>  * Restored tags from Geert and Conor as the change is trivial
+>    (Replaced port 1->0 from v2).
+> v2->v3:
+>  * Replaced ports->port property for RZ/G2UL as it supports only DPI.
+>    and retained ports property for RZ/{G2L,V2L} as it supports both DSI
+>    and DPI output interface.
+>  * Added missing blank line before example.
+>  * Dropped tags from Conor and Geert as there are new changes.
+> v1->v2:
+>  * Updated commit description related to non ABI breakage.
+>  * Added Ack from Conor.
+> ---
+>  .../bindings/display/renesas,rzg2l-du.yaml    | 32 +++++++++++++++++--
+>  1 file changed, 29 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> index 08e5b9478051..95e3d5e74b87 100644
+> --- a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> +++ b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> @@ -18,6 +18,7 @@ properties:
+>    compatible:
+>      oneOf:
+>        - enum:
+> +          - renesas,r9a07g043u-du # RZ/G2UL
+>            - renesas,r9a07g044-du # RZ/G2{L,LC}
+>        - items:
+>            - enum:
+> @@ -60,9 +61,6 @@ properties:
+>          $ref: /schemas/graph.yaml#/properties/port
+>          unevaluatedProperties: false
+>  
+> -    required:
+> -      - port@0
+> -
+>      unevaluatedProperties: false
+>  
+>    renesas,vsps:
+> @@ -88,6 +86,34 @@ required:
+>  
+>  additionalProperties: false
+>  
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,r9a07g043u-du
+> +    then:
+> +      properties:
+> +        ports:
+> +          properties:
+> +            port@0:
+> +              description: DPI
+> +
+> +          required:
+> +            - port@0
+> +    else:
+> +      properties:
+> +        ports:
+> +          properties:
+> +            port@0:
+> +              description: DSI
+> +            port@1:
+> +              description: DPI
+> +
+> +          required:
+> +            - port@0
+> +            - port@1
+> +
+>  examples:
+>    # RZ/G2L DU
+>    - |
 
 -- 
-2.43.0
+Regards,
 
+Laurent Pinchart
 
