@@ -1,61 +1,62 @@
-Return-Path: <linux-renesas-soc+bounces-8169-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8170-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8566F95CE3B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 15:42:53 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 090D895CE64
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 15:51:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A8EE61C21303
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 13:42:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2E6EC1C21AAA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 13:51:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B133187FFC;
-	Fri, 23 Aug 2024 13:42:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3054187FEE;
+	Fri, 23 Aug 2024 13:51:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="u36CbmL2"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lx2FrnCr"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC334430;
-	Fri, 23 Aug 2024 13:42:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1036F1DFE8;
+	Fri, 23 Aug 2024 13:51:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724420571; cv=none; b=ZigU9577wtMf4NRJhhVOdhl2BXWMGU6sJJ04j52fWKIADRbMnaUVoVPkYfRA53c+XYW+b2bwrFqpbDvbWwLyIWczOkMDaA/l0qvZNnzlMfT4/Lc5bj3fFi712zRqZeVxVliCDJDyvxlgx6xCzh6tyH4y/2/LrC6y++CmCd61zGE=
+	t=1724421092; cv=none; b=fcUJmOyNrPTF/JqioUz8OycP6bKVM19L4DlDCG8cuCLXF2Gx9FyMBszcEzNmZJ79K2UJassXNL7tEMH6a9wT7Vow8iM8FOtpnljievu8KpKj4QvW0ax9G6b+zqvD6zOiXMiL08NiSLCnIdhv2QETlkrGS9BVrXaSrT39h1fz+Dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724420571; c=relaxed/simple;
-	bh=uPf1FEqDRDZ587fNXRrYBb3EjdY4z83iy4gjjmDNIjA=;
+	s=arc-20240116; t=1724421092; c=relaxed/simple;
+	bh=tXtGVbqWOgFkvTUEfar7GhxOPm5t8f7YbEn/hjBhH+o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PKr4jxqTl53S1eIFO1OGQIw0dWRVsWvB5LyxThPSCKIZWG+0NbVmGhkbRn3yaF6NADC8SEI3HWLCWU0Joe4QebtCpYg2FQCRBR5PXfEPmNriziJ6OjaHrthF7lCU4JGfkJC2Tr+RKv1hgNiYtpxosnInpThLQiVWq+fNAdxKsNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=u36CbmL2; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=nKtp+8xJeS3VHvNx82SdFm/w1FSULaIwcniSYWwSxMLIftZL/8Y0ak4GV7xUlU2jLNxzEUX1OXp+2Qxul0g+rPldz/JpzateCLjdn95a2y6Zs0dQ0mjIR88jvlXgHs/qA5Qmbktejjsuy9HeCL1vW8Ln5P8V58r1IOtQaEYYya8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lx2FrnCr; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 135542D5;
-	Fri, 23 Aug 2024 15:41:44 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 50CC02D5;
+	Fri, 23 Aug 2024 15:50:25 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1724420504;
-	bh=uPf1FEqDRDZ587fNXRrYBb3EjdY4z83iy4gjjmDNIjA=;
+	s=mail; t=1724421025;
+	bh=tXtGVbqWOgFkvTUEfar7GhxOPm5t8f7YbEn/hjBhH+o=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u36CbmL2qugMtBhx2jxqAmmILKrihYQRYPrJIm5JRCsdZrYJa5WIemnHzTmq4RGTC
-	 Cq+cFdIxVE1yk0ZTUK+sOxE3IOdXkwHWpS1FG7K3jEOlwe0z53k7sb+XgZI/25ABIr
-	 F0MStKEBHkKuNnerM/vblFBjq7gV+7ZZ3dipYLfA=
-Date: Fri, 23 Aug 2024 16:42:45 +0300
+	b=lx2FrnCrJmhPXZYiuRtRgvPGRbwAOeevo9Qmcj9xu8xCREyM8wVbrdrgI88cHOxs2
+	 pV7K7lIE75tV7B6rehTJcekv9vticzwz5g3jxvylWIv9NYw80NcEsMVl0+ZxGq/Z4K
+	 rqAvLCefWUAA8rX0sevwHl0grhGbLdUYATNssrjk=
+Date: Fri, 23 Aug 2024 16:51:26 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v5 6/6] arm64: dts: renesas: r8a779h0: Add family
- fallback for VIN IP
-Message-ID: <20240823134245.GJ26098@pendragon.ideasonboard.com>
+	linux-renesas-soc@vger.kernel.org, helpdesk <helpdesk@kernel.org>
+Subject: Re: [PATCH v5 0/6] rcar-vin: Add support for R-Car V4M
+Message-ID: <20240823135126.GK26098@pendragon.ideasonboard.com>
 References: <20240704161620.1425409-1-niklas.soderlund+renesas@ragnatech.se>
- <20240704161620.1425409-7-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdUjSquBji5+UVACLaWdMhbq5EEkiUANc9LeR5d_1BvkFw@mail.gmail.com>
+ <20240821115132.GA901567@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -65,197 +66,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240704161620.1425409-7-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20240821115132.GA901567@ragnatech.se>
 
-Hi Niklas,
-
-Thank you for the patch.
-
-On Thu, Jul 04, 2024 at 06:16:20PM +0200, Niklas Söderlund wrote:
-> The usage of the V4M VIN bindings where merged before the bindings where
-
-s/where/were/g
-
-> approved. At that time the family fallback compatible where not part of
-> the bindings, add them.
+On Wed, Aug 21, 2024 at 01:51:32PM +0200, Niklas Söderlund wrote:
+> On 2024-08-20 09:34:55 +0200, Geert Uytterhoeven wrote:
+> > On Thu, Jul 4, 2024 at 6:16 PM Niklas Söderlund wrote:
+> > > This series adds bindings and support to rcar-vin for R-Car V4M by the
+> > > means of adding a Gen4 family fallback compatible.
+> > >
+> > > Previous versions of this series added V4M support like done for VIN
+> > > since the first Gen3 device, by the use of only a single SoC specific
+> > > compatible value. This was done as in Gen3 almost every new device
+> > > differed from the others and a family fallback was not very useful.
+> > >
+> > > For the Gen4 devices with a video capture pipeline currently documented
+> > > the VIN instances are very similar and a family fallback can be used.
+> > > This however requires updating existing DTS files to add this new family
+> > > fallback. This is done in a backward compatible way and the driver
+> > > retains the compatible values.
+> > >
+> > > See individual patches for changes since previous versions.
+> > >
+> > > Niklas Söderlund (6):
+> > >   dt-bindings: media: renesas,vin: Add Gen4 family fallback
+> > >   arm64: dts: renesas: r8a779g0: Add family fallback for VIN IP
+> > >   arm64: dts: renesas: r8a779a0: Add family fallback for VIN IP
+> > >   media: rcar-vin: Add family compatible for R-Car Gen4 family
+> > >   dt-bindings: media: renesas,vin: Add binding for V4M
+> > >   arm64: dts: renesas: r8a779h0: Add family fallback for VIN IP
+> > 
+> > Any chance the media parts can be accepted, so I can take the DTS
+> > patches through the Renesas tree?
 > 
-> Fixes: 2bb78d9fb7c9 ("arm64: dts: renesas: r8a779h0: Add video capture nodes")
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> I would be happy to have some feedback on the media parts as well as I 
+> will need to send a very similar series for the rcar-isp driver to add a 
+> family fallback for Gen4. But I have hold of on posting them until I 
+> knew this is the correct path forward.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+I've reviewed the DT and media patches (1/6, 4/6 and 5/6), and will
+include them in a pull request later today with the minor typos reproted
+in the reviews fixed.
 
-> ---
-> * Changes since v3
-> - New in v4.
-> ---
->  arch/arm64/boot/dts/renesas/r8a779h0.dtsi | 48 +++++++++++++++--------
->  1 file changed, 32 insertions(+), 16 deletions(-)
+> > BTW, running b4 seems to add two bogus Acked-by tags from Conor:
+> > 
+> > $ b4 am 20240704161620.1425409-3-niklas.soderlund+renesas@ragnatech.se
+> > Analyzing 7 messages in the thread
+> > Analyzing 14 code-review messages
+> > Checking attestation on all messages, may take a moment...
+> > ---
+> >   ✗ [PATCH v5 1/6] dt-bindings: media: renesas,vin: Add Gen4 family fallback
+> >   ✗ [PATCH v5 2/6] arm64: dts: renesas: r8a779g0: Add family fallback for VIN IP
+> >     + Acked-by: Conor Dooley <conor.dooley@microchip.com> (✓ DKIM/kernel.org)
+> >   ✗ [PATCH v5 3/6] arm64: dts: renesas: r8a779a0: Add family fallback for VIN IP
+> >   ✗ [PATCH v5 4/6] media: rcar-vin: Add family compatible for R-Car Gen4 family
+> >   ✗ [PATCH v5 5/6] dt-bindings: media: renesas,vin: Add binding for V4M
+> >   ✗ [PATCH v5 6/6] arm64: dts: renesas: r8a779h0: Add family fallback for VIN IP
+> >     + Acked-by: Conor Dooley <conor.dooley@microchip.com> (✓ DKIM/kernel.org)
+> > 
+> > I cannot find these Acks in my inbox or on lore.
+> > What's happening?
 > 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-> index 8f5763b5f267..b9f49288a115 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-> @@ -945,7 +945,8 @@ msiof5: spi@e6c28000 {
->  		};
->  
->  		vin00: video@e6ef0000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6ef0000 0 0x1000>;
->  			interrupts = <GIC_SPI 529 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 730>;
-> @@ -973,7 +974,8 @@ vin00isp0: endpoint@0 {
->  		};
->  
->  		vin01: video@e6ef1000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6ef1000 0 0x1000>;
->  			interrupts = <GIC_SPI 530 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 731>;
-> @@ -1001,7 +1003,8 @@ vin01isp0: endpoint@0 {
->  		};
->  
->  		vin02: video@e6ef2000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6ef2000 0 0x1000>;
->  			interrupts = <GIC_SPI 531 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 800>;
-> @@ -1029,7 +1032,8 @@ vin02isp0: endpoint@0 {
->  		};
->  
->  		vin03: video@e6ef3000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6ef3000 0 0x1000>;
->  			interrupts = <GIC_SPI 532 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 801>;
-> @@ -1057,7 +1061,8 @@ vin03isp0: endpoint@0 {
->  		};
->  
->  		vin04: video@e6ef4000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6ef4000 0 0x1000>;
->  			interrupts = <GIC_SPI 533 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 802>;
-> @@ -1085,7 +1090,8 @@ vin04isp0: endpoint@0 {
->  		};
->  
->  		vin05: video@e6ef5000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6ef5000 0 0x1000>;
->  			interrupts = <GIC_SPI 534 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 803>;
-> @@ -1113,7 +1119,8 @@ vin05isp0: endpoint@0 {
->  		};
->  
->  		vin06: video@e6ef6000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6ef6000 0 0x1000>;
->  			interrupts = <GIC_SPI 535 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 804>;
-> @@ -1141,7 +1148,8 @@ vin06isp0: endpoint@0 {
->  		};
->  
->  		vin07: video@e6ef7000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6ef7000 0 0x1000>;
->  			interrupts = <GIC_SPI 536 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 805>;
-> @@ -1169,7 +1177,8 @@ vin07isp0: endpoint@0 {
->  		};
->  
->  		vin08: video@e6ef8000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6ef8000 0 0x1000>;
->  			interrupts = <GIC_SPI 537 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 806>;
-> @@ -1197,7 +1206,8 @@ vin08isp1: endpoint@1 {
->  		};
->  
->  		vin09: video@e6ef9000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6ef9000 0 0x1000>;
->  			interrupts = <GIC_SPI 538 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 807>;
-> @@ -1225,7 +1235,8 @@ vin09isp1: endpoint@1 {
->  		};
->  
->  		vin10: video@e6efa000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6efa000 0 0x1000>;
->  			interrupts = <GIC_SPI 539 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 808>;
-> @@ -1253,7 +1264,8 @@ vin10isp1: endpoint@1 {
->  		};
->  
->  		vin11: video@e6efb000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6efb000 0 0x1000>;
->  			interrupts = <GIC_SPI 540 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 809>;
-> @@ -1281,7 +1293,8 @@ vin11isp1: endpoint@1 {
->  		};
->  
->  		vin12: video@e6efc000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6efc000 0 0x1000>;
->  			interrupts = <GIC_SPI 541 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 810>;
-> @@ -1309,7 +1322,8 @@ vin12isp1: endpoint@1 {
->  		};
->  
->  		vin13: video@e6efd000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6efd000 0 0x1000>;
->  			interrupts = <GIC_SPI 542 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 811>;
-> @@ -1337,7 +1351,8 @@ vin13isp1: endpoint@1 {
->  		};
->  
->  		vin14: video@e6efe000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6efe000 0 0x1000>;
->  			interrupts = <GIC_SPI 543 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 812>;
-> @@ -1365,7 +1380,8 @@ vin14isp1: endpoint@1 {
->  		};
->  
->  		vin15: video@e6eff000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6eff000 0 0x1000>;
->  			interrupts = <GIC_SPI 544 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 813>;
+> No idea, I can't find any Acks from Conner in my inbox neither. Both 
+> patches in question where new in v4 of the series.
 
 -- 
 Regards,
