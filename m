@@ -1,156 +1,152 @@
-Return-Path: <linux-renesas-soc+bounces-8183-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8184-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E63095D30B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 18:19:46 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C00A95D334
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 18:25:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1BDCC28A811
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 16:19:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DBDCC2862ED
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 16:25:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B913718EFF4;
-	Fri, 23 Aug 2024 16:18:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A93718A6C0;
+	Fri, 23 Aug 2024 16:25:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZC90Fm8O"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TEdeqrfc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6E418BC14;
-	Fri, 23 Aug 2024 16:18:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D9E518893B;
+	Fri, 23 Aug 2024 16:25:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724429891; cv=none; b=Wlkf7KVlT9LvtI8Zj7zEmdcufP2KK31XRIbOUDknjeO8KZrPNRRti1HLnDguD3xuCdNXK3B2/zspjKOfTy7tn/2NAaiMq3fYM62CRRFTaEdKBxTdE6xt9m1ur+bKuCXcCAIBQvIc6HHp6zML0frRJrgM4MYKwK6N/g85EiEVoR0=
+	t=1724430339; cv=none; b=RCxikXk1Lh1cPMacAs1EPCXoAv5LuiapNrQAm0s0VuU0V49xJMoIWcKFsf1aC41lhr7ArKglV1qNZesVCswE6mH5BlnR8kOrifNSeIA4gkb2ckP+xKkOfgIGS+FHVIH6XqQxL9oxIS/f2sPCCGAOXXZTevnOY/RHgqSscX8RWI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724429891; c=relaxed/simple;
-	bh=PgdByvdiAfbXaDotznDJ0dcWaZ63H3JEqmGBNQTkNik=;
+	s=arc-20240116; t=1724430339; c=relaxed/simple;
+	bh=3XMbUYBDHmzNIbQnFO5jFhgJPAAWpbvUV37uWE91XYY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fgcTzg9XirlC8Soo4v9EwWMNFSWmIl/fQzjqksfiaoA5fG6p+u+cYF+vOUa6ib9wJ4MfqSfNXiV+S0XUN9FaBJUHaRAXXGuOE9npoHTSy73vP4lv+kUSUmWqAvj3TDysWy1BfjMeBkr/WQfs3fcBON4LV7MI5gi4CzQkulT0Y2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZC90Fm8O; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD95EC32786;
-	Fri, 23 Aug 2024 16:18:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724429891;
-	bh=PgdByvdiAfbXaDotznDJ0dcWaZ63H3JEqmGBNQTkNik=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZC90Fm8Oaw+MQx+uDsJmmODI2/hX9icvDed7tm4bS+eYRSFHflJN7lzWx7rLqnZVc
-	 /EeRQapRZtyrKflOGlW921S5f2NsO84csxAlObYlSnAoSpArgtGMI1fyIeP9JFeMd+
-	 wxx6FxANYeXN8kJP5XsIVDrOFWBOYyRpjxLF9MXQEWWoYz/NUKfioM1Mo5XKWcUVb2
-	 Xrli84Wyw2O4//SzdGKFRgz5B8WyBrbhzXS4McahzOIuBxJGTEl95FGQdPqujyGtbz
-	 LFS9h83DMHMURzMQNRTkjhJuj8I+FBR4OPZ7ykSCmj8rKCnV6Ksfnx4Ww39PmTXW/w
-	 TNlBbNLVZYIWg==
-Date: Fri, 23 Aug 2024 17:18:04 +0100
-From: Conor Dooley <conor@kernel.org>
-To: claudiu beznea <claudiu.beznea@tuxon.dev>
-Cc: vkoul@kernel.org, kishon@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, p.zabel@pengutronix.de,
-	geert+renesas@glider.be, magnus.damm@gmail.com,
-	gregkh@linuxfoundation.org, mturquette@baylibre.com,
-	sboyd@kernel.org, yoshihiro.shimoda.uh@renesas.com,
-	biju.das.jz@bp.renesas.com, ulf.hansson@linaro.org,
-	linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH 02/16] dt-bindings: soc: renesas: renesas,rzg2l-sysc: Add
- #reset-cells for RZ/G3S
-Message-ID: <20240823-plywood-unfixed-d8d8a2d93f14@spud>
-References: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com>
- <20240822152801.602318-3-claudiu.beznea.uj@bp.renesas.com>
- <20240822-vanilla-enigmatic-f0b05ecca4b6@spud>
- <0d8b1322-cf15-4ed9-b958-06516bbb64c7@tuxon.dev>
+	 Content-Type:Content-Disposition:In-Reply-To; b=QEHFTFhi/IzQIcu+mjVhUbOAx2quy7QIorhicO1D1K4JEt7aHyBfxsbvQMcX7fMQMceKJQBNc3QfH+0f0Jwlyqbiv/tfLjgEYkXDLbn8uI4UeoAwNRxiZZGOhGXgpLWaqZnABCy2LB2WBQ/egdi0a0tNkUvIBuG8PTZmiZq6CjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TEdeqrfc; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724430337; x=1755966337;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3XMbUYBDHmzNIbQnFO5jFhgJPAAWpbvUV37uWE91XYY=;
+  b=TEdeqrfcbxLx99L9+0cq0VBP1FYsYkQCqyGgpEXXB7NgjLpHZmGEZM1o
+   NQx9TreuB4uzCjjmgwPmZd4TZ4zYq1JJJPbtCS5UWIAgG4VmaQp80lwTX
+   UDzzfk3z7DoOLXf17bp1gbFtAz7ALyzMi4oenXbDOjNewuDt53YSbDZ/5
+   4UFEQqQ+4RWJSm+o6hc4Rl+j1HvjrGFwfdj7wqu2RbK/LNo/o3iTeK4jz
+   ZMGCGPBnYcSyUWhURFT+PZt683e2Pv2B48DjJsthobbO70wbeYaEPWx2Y
+   rBIcRHHhvf0+OXYffMtR54DlUuEWXdoL821XPp1c553YjUVva109/sXfB
+   Q==;
+X-CSE-ConnectionGUID: FycDOadURlWiMUKGNasRwQ==
+X-CSE-MsgGUID: vMUjcWdUSKKm9UBG/bpKOw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22504147"
+X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; 
+   d="scan'208";a="22504147"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2024 09:25:35 -0700
+X-CSE-ConnectionGUID: TyAhmqenSA+fGrOHJsVz6g==
+X-CSE-MsgGUID: lexLTyUnSgSoAmUAGKiMPQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; 
+   d="scan'208";a="61694525"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2024 09:25:24 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1shX5I-00000000r8v-11Le;
+	Fri, 23 Aug 2024 19:24:20 +0300
+Date: Fri, 23 Aug 2024 19:24:19 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Marco Felsch <m.felsch@pengutronix.de>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Russell King <linux@armlinux.org.uk>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Vladimir Zapolskiy <vz@mleia.com>, Andrew Lunn <andrew@lunn.ch>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Tony Lindgren <tony@atomide.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>, linux-mtd@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	imx@lists.linux.dev, linux-omap@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+	openbmc@lists.ozlabs.org, linuxppc-dev@lists.ozlabs.org,
+	linux-mips@vger.kernel.org, loongarch@lists.linux.dev
+Subject: Re: [PATCH 0/9] AT24 EEPROM MTD Support
+Message-ID: <Zsi3s9XithGEROwX@smile.fi.intel.com>
+References: <20240701-b4-v6-10-topic-usbc-tcpci-v1-0-3fd5f4a193cc@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="GSCRsUY2DblipIOX"
-Content-Disposition: inline
-In-Reply-To: <0d8b1322-cf15-4ed9-b958-06516bbb64c7@tuxon.dev>
-
-
---GSCRsUY2DblipIOX
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240701-b4-v6-10-topic-usbc-tcpci-v1-0-3fd5f4a193cc@pengutronix.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Fri, Aug 23, 2024 at 10:54:06AM +0300, claudiu beznea wrote:
-> Hi, Conor,
->=20
-> On 22.08.2024 19:42, Conor Dooley wrote:
-> > On Thu, Aug 22, 2024 at 06:27:47PM +0300, Claudiu wrote:
-> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>
-> >> The RZ/G3S System controller has registers to control signals that need
-> >> to be de-asserted/asserted before/after different SoC areas are power
-> >> on/off. This signals are implemented as reset signals. For this docume=
-nt
-> >> the #reset-cells property.
-> >>
-> >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >> ---
-> >>  .../bindings/soc/renesas/renesas,rzg2l-sysc.yaml | 16 ++++++++++++++++
-> >>  1 file changed, 16 insertions(+)
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg=
-2l-sysc.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-=
-sysc.yaml
-> >> index 4386b2c3fa4d..6b0bb34485d9 100644
-> >> --- a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc=
-=2Eyaml
-> >> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc=
-=2Eyaml
-> >> @@ -42,12 +42,28 @@ properties:
-> >>        - const: cm33stbyr_int
-> >>        - const: ca55_deny
-> >> =20
-> >> +  "#reset-cells":
-> >> +    const: 1
-> >> +
-> >>  required:
-> >>    - compatible
-> >>    - reg
-> >> =20
-> >>  additionalProperties: false
-> >> =20
-> >> +allOf:
-> >> +  - if:
-> >> +      properties:
-> >> +        compatible:
-> >> +          contains:
-> >> +            const: renesas,r9a08g045-sysc
-> >> +    then:
-> >> +      required:
-> >> +        - "#reset-cells"
-> >=20
-> > Given this is new required property on an existing platform, I'd expect
-> > some mention of why it used to be okay to not have this but is now
-> > required. Did firmware or a bootloader stage take things out of reset?
->=20
-> On previous SoCs the SYS controller has no support for controlling the
-> signals going to different peripherals (USB, PCIE in case of RZ/G3S).
-> I'll add a note about this on next version.
+On Mon, Jul 01, 2024 at 03:53:39PM +0200, Marco Felsch wrote:
+> This series adds the intial support to handle EEPROMs via the MTD layer
+> as well. This allow the user-space to have separate paritions since
+> EEPROMs can become quite large nowadays.
+> 
+> With this patchset applied EEPROMs can be accessed via:
+>   - legacy 'eeprom' device
+>   - nvmem device
+>   - mtd device(s)
+> 
+> The patchset targets only the AT24 (I2C) EEPROMs since I have no access
+> to AT25 (SPI) EEPROMs nor to one of the other misc/eeprom/* devices.
+> 
+> Note: I'm not familiar with Kconfig symbol migration so I don't know if
+> the last patch is required at the moment. Please be notified that the
+> list of recipients is quite large due to the defconfig changes.
 
-My initial thought here wasn't about previous SoCs though, it was
-because you didn't add the compatible in this series for /this/ SoC.
-What's worth noting isn't about the prior SoCs, it is about what makes
-it okay for this one.
+FWIW, I think that MTD is *not* the place for EEPROMs.
 
---GSCRsUY2DblipIOX
-Content-Type: application/pgp-signature; name="signature.asc"
+Yeah, we have the driver spread over the kernel for EEPROMs (mostly due to
+historical reasons and absence an umbrella subsystem for them), but it's not
+the reason to hack them into something which is not quite suitable.
 
------BEGIN PGP SIGNATURE-----
+If NVMEM needs to be updated and may cover these cases after all (and do not
+forget about *small* size EEPROMs that most likely appear on the devices with
+limited amount of resources!) in a reasonable size and performance, why not?
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZsi2PAAKCRB4tDGHoIJi
-0g2cAQDP31P2uZ2yJsxRp9QIUYTgXjcHmhTZPcFjJt8BD980TgD8DlBwXJ0T9MnS
-uL/Znkm4rQCaBJlq8vpNa0dgniF1pAQ=
-=Yj0N
------END PGP SIGNATURE-----
+-- 
+With Best Regards,
+Andy Shevchenko
 
---GSCRsUY2DblipIOX--
+
 
