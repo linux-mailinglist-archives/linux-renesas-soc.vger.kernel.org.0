@@ -1,139 +1,127 @@
-Return-Path: <linux-renesas-soc+bounces-8161-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8162-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E15195CD88
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 15:15:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B41A95CD97
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 15:18:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2B3B0286526
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 13:15:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7C9B7281CD5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 13:18:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14DA3186E36;
-	Fri, 23 Aug 2024 13:15:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5C6E186613;
+	Fri, 23 Aug 2024 13:18:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rMM0u8aZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mcJjW2kQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE9E186612;
-	Fri, 23 Aug 2024 13:15:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 497CC18660D;
+	Fri, 23 Aug 2024 13:17:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724418923; cv=none; b=Fcug7mm2+d3xlc2Tl/rET5w00oYUhtmkCkmxoi23JrMOiANzgna6vS+YRN9oT+OA4kY+h9xAHCmq1gQAWeRHYeUWNItWnvYer5MMAGO7wu5JvURbMnPJm+faf8LaLwj1ibrR9M7tZLDqBlVkfSxAQj25v+8iOI4hwuMQQmycF6s=
+	t=1724419080; cv=none; b=XWVOqWY9cjLGMHkQo4U/QZxtwglapmIZfJWk9IH/MFXNzebatyDqYpjh4IkCYUfXKv1Yp0ZmlWiGnD0oV333SHSdl+sUSt6xd1E8f4dtv7JcrFmQNKLtV98Pm7brNikG3eArQHJqoIdIdh7rHjgj1frid9o5NaCViuDPvxEyDe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724418923; c=relaxed/simple;
-	bh=0J1A20zaaxasXrjQbzzkc87YPheUgUJeOswx8vmbDaQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jq0zceYZUXg1OK3gMw02e2LrUhx/yNUEIYSknbM+eCfkp8c2isKzn1OxpOvTpaYp0zpF633vHejO/6md3AYo7WbK85ag1bTT9D8+FnoOfS2tvkjCnvoD2KRBnwHzJGg/tPTS5kYCK0/JzYNXJW9HBpeLWrQqCsVNymfuh2ug1Cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rMM0u8aZ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DF26A2D5;
-	Fri, 23 Aug 2024 15:14:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1724418855;
-	bh=0J1A20zaaxasXrjQbzzkc87YPheUgUJeOswx8vmbDaQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rMM0u8aZAbb6nlpTeDOwd9oZ+izXYvVDR76S4mM7MrNiUu7yZu9tUQU0o5Y0yTX5B
-	 omLuiCp5ofFltu5hL8Ck1EgPv38qBg3HT7rTZ+QQnrJ8///w3jH9guaoDA3UQot0wb
-	 B4B/dO6jostqRTr6ZFTKXzgryA7BLDmNYI/+GuDs=
-Date: Fri, 23 Aug 2024 16:15:16 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: Re: [PATCH v4 0/4] Add support for RZ/G2UL Display Unit
-Message-ID: <20240823131516.GD26098@pendragon.ideasonboard.com>
-References: <20240822162320.5084-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1724419080; c=relaxed/simple;
+	bh=pfyQOkmQAU8XkzyXRFVQA9QDvSE5Ui00cEDJmg8NJ6s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LEVgYLThgexDl9Damh9XFEcEi4tJ3K69c9wQA3MDU+Fjd7FAxg2WjpjPWk7EmxbW0DatyN/HdGjlYP9D7ABeIIFJrIrLfTpR9F4A4K8lmSu38YMrb18jodGQ0VfCwePdDHpo8MQV+glG0HRr8b51qmkMjedWAwKn+5n409Wm4hg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mcJjW2kQ; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a8679f534c3so239090766b.0;
+        Fri, 23 Aug 2024 06:17:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724419076; x=1725023876; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GYZqtNKbUf46Y9j/NKPxky9EWjGfSIe8fIFl5OJVMWI=;
+        b=mcJjW2kQ8KXfNQQeYsqUczsn082zwZRaNkrq1r9EyThz8fVghZ2McJrmfbdQjzcG13
+         OPOa0yyIN1uHKYmqaoPg2l8KBkZhBSgw0R3xpBxEy3JyD1yDZTIS+oMAJ0fozXcFvBbS
+         61xbQEjpjXrE+Gl7Eb6FlSu1KmLsuooIAgvefU1Ff8ZYNeV++mK0sD3ufObwCxJOX+ZB
+         4OW6P+3knxgq/5YkfxJ2DleioRnIoGRrF0pto0BDRoWk9MyLZo/7fShOQB6AwOrHB9K0
+         maF3JNMXTxOfL202Gh0v2sJgSqiRJOm39m/30Nk9LHcjP4CvmV0ykFlSgKaZxJuztPb9
+         /Scg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724419076; x=1725023876;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GYZqtNKbUf46Y9j/NKPxky9EWjGfSIe8fIFl5OJVMWI=;
+        b=tBf4W3gGicQf9f4i0OZD9E8ibcDtxTYuf9WfoVw6H1J9Q14LDVoj2F7mhQja8ymmDv
+         Txlf71Nu2MS03Y6UBHHzSM6CoNGmy0MnWDnVTt3VAwpyLR+vPWMyc+j647xTiy1FxiGg
+         yW4MoTWg/c531nrgw6/hNRl19VINWXcSoUv0PDTNgw/6KjNn12tqMBU8TnfUlbyhvTiP
+         MIBgval8D/fABGK/pMRfgQbId6eNnfpYRVAgESTZ02QU3dvLqSe/k011m/vTw5MyajWd
+         Jt9vmsx1NCI6LELloUgVvu9EZyry8orhty6eE/dl0jUHMiiZ6n+UgtrPg281TEduIYuR
+         4+9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWAtFbbUW9aGj3igokC1fvqwkFWFvezufiIuOnzByQ1k+DEcfrQfHetXyf2EdTPFG16OTTw9NJiyW2p@vger.kernel.org, AJvYcCXSr1Tx3bHFe3/SN3BIS5tql5pbNRyx11HESafMHL+LeiDBX0tz9VuwbxaMau3VvsUr3Su97vbHCBA01KrO@vger.kernel.org
+X-Gm-Message-State: AOJu0YydJpxR4C1y2gGQ/mQ3v2ijoPWSs6JAPFovRnV2bDczcjBBeDGu
+	kBwZnep3SPXfQHO1lTTrNqjCW/Z9x11icVOJVnmXdBbnoAmGoGwGEQ3Ax7dmhveSKsm8EMeoKSk
+	vJsmpg48rTZtuwoKaZueukH5WFaY=
+X-Google-Smtp-Source: AGHT+IFb9dM2hTGAgF+mE+zRRyN4RLOmdCTv+xltJOXiNxFfV14R5W5jlIb2uXglMgqXP+bnxHgjptGQ9l74MQxF7/Y=
+X-Received: by 2002:a17:907:6088:b0:a86:7a84:abb7 with SMTP id
+ a640c23a62f3a-a86a51b4cc7mr182232366b.20.1724419076196; Fri, 23 Aug 2024
+ 06:17:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240822162320.5084-1-biju.das.jz@bp.renesas.com>
+References: <20240822230104.707812-1-andy.shevchenko@gmail.com> <CAMuHMdW2W+RsnBWdvxJJ7wOKCyM_162Hb1Xkd6id4h_74fzQrw@mail.gmail.com>
+In-Reply-To: <CAMuHMdW2W+RsnBWdvxJJ7wOKCyM_162Hb1Xkd6id4h_74fzQrw@mail.gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 23 Aug 2024 16:17:19 +0300
+Message-ID: <CAHp75VfyPQGXT9ypp+SducvHwOgMpCm-rCXSrQ=9-MCH8b+ZLw@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] pinctrl: renesas: rzg2l: Replace
+ of_node_to_fwnode() with more suitable API
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>, 
+	"Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Biju,
+On Fri, Aug 23, 2024 at 10:23=E2=80=AFAM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+> On Fri, Aug 23, 2024 at 1:01=E2=80=AFAM Andy Shevchenko
+> <andy.shevchenko@gmail.com> wrote:
+> > of_node_to_fwnode() is a IRQ domain specific implementation of
+> > of_fwnode_handle(). Replace the former with more suitable API.
 
-On Thu, Aug 22, 2024 at 05:23:13PM +0100, Biju Das wrote:
-> This patch series aims to add support for RZ/G2UL DU.
-> 
-> The LCD controller is composed of Frame Compression Processor (FCPVD),
-> Video Signal Processor (VSPD), and Display Unit (DU).
-> 
-> The output of LCDC is connected display parallel interface (DPI) and
-> supports a maximum resolution of WXGA along with 2 RPFs to support the
-> blending of two picture layers and raster operations (ROPs)
-> 
-> It is similar to LCDC IP on RZ/G2L SoCs, but does not have DSI interface.
-> 
-> v3->v4:
->  * Restored the ports property for RZ/G2UL and described port@0 for the
->    DPI interface in bindings patch.
->  * Restored tags from Geert and Conor as the change is trivial
->    (Replaced port 1->0 from v2).
->  * Used "&" instead of "==" in rzg2l_du_start_stop() for scalability.
->  * Restored port variable in struct rzg2l_du_output_routing
->  * Updated rzg2l_du_encoders_init() to handle port based on hardware indices.
->  * Restored ports property in du node and used port@0 for connected
->    DPI interface.
-> v2->v3:
->  * Split patch series based on subsystem from DU patch series [1].
->  * Replaced ports->port property for RZ/G2UL as it supports only DPI
->    and retained ports property for RZ/{G2L,V2L} as it supports both DSI
->    and DPI output interface.
->  * Added missing blank line before example.
->  * Dropped tags from Conor and Geert as there are new changes in bindings
->  * Avoided the line break in rzg2l_du_start_stop() for rstate.
->  * Replaced port->du_output in  struct rzg2l_du_output_routing and
->    dropped using the port number to indicate the output type in
->    rzg2l_du_encoders_init().
->  * Updated rzg2l_du_r9a07g043u_info and rzg2l_du_r9a07g044_info.
-> 
->  [1] https://lore.kernel.org/all/20240709135152.185042-1-biju.das.jz@bp.renesas.com/
-> v1->v2:
->  * Updated cover letter header "DU IP->Display Unit".
->  * Updated commit description related to non ABI breakage for patch#3.
->  * Added Ack from Conor for binding patches.
-> 
-> Biju Das (4):
->   dt-bindings: display: renesas,rzg2l-du: Document RZ/G2UL DU bindings
->   drm: renesas: rz-du: Add RZ/G2UL DU Support
+...
 
-The first two patches look good to me. Do you have access to drm-misc,
-will you push them yourself, or do you expect a maintainer to pick them
-up ?
+> > -       girq->fwnode =3D of_node_to_fwnode(np);
+> > +       girq->fwnode =3D dev_fwnode(pctrl->dev);
+>
+> While this looks correct, the new call goes through many more hoops, and
+> is not a simple inline function.
 
->   arm64: dts: renesas: r9a07g043u: Add DU node
->   arm64: dts: renesas: r9a07g043u11-smarc: Enable DU
-> 
->  .../bindings/display/renesas,rzg2l-du.yaml    |  32 ++++-
->  arch/arm64/boot/dts/renesas/r9a07g043u.dtsi   |  25 ++++
->  .../boot/dts/renesas/r9a07g043u11-smarc.dts   | 111 ++++++++++++++++++
->  drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c |   8 +-
->  drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  |  11 ++
->  drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c  |   3 +-
->  6 files changed, 185 insertions(+), 5 deletions(-)
+Maybe, but it's not a hot path anyway.
 
--- 
-Regards,
+> Perhaps just &np->fwnode? ;-)
 
-Laurent Pinchart
+Definitely not for a couple of reasons:
+- the explicit dereferencing may prevent from easier cleaning up and
+moving the fwnode members around in the driver core
+- the GPIO library internally doesn't use OF node directly, so the
+code that call GPIO library would be better to follow that
+
+Additionally one can call of_fwnode_handle(), but going here and there
+with it makes no sense as it much cleaner to see that this fwnode
+comes directly from the device. This is not obvious from the original
+or any code that uses np.
+
+After all the idea at minimum to isolate of_node_to_fwnode() from all,
+but native IRQ chips (basically there are two big users: native IRQ
+chips and PCI MSI).
+
+P.S. Also note, it's _the only_ pin control driver that uses that API.
+
+--=20
+With Best Regards,
+Andy Shevchenko
 
