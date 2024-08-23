@@ -1,171 +1,156 @@
-Return-Path: <linux-renesas-soc+bounces-8182-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8183-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB5C295D1BD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 17:40:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E63095D30B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 18:19:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B74E7B26A82
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 15:39:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1BDCC28A811
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 16:19:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8554E18BBA3;
-	Fri, 23 Aug 2024 15:38:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B913718EFF4;
+	Fri, 23 Aug 2024 16:18:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="EQgdhHc1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZC90Fm8O"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BBDC18952D;
-	Fri, 23 Aug 2024 15:37:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6E418BC14;
+	Fri, 23 Aug 2024 16:18:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724427482; cv=none; b=l0NMMv12Ba+zI22IPkE5OSWp9VGpRgLLQdTeluidchyM7G91Ug8CwaFfDtbTPJmD5YkSBc4Ht0V3rSJjb3UHW2YxfymSb3a4cCAehRIoGnLIUUrgOk00J3LSAToO/wB+3RC4YQaMupy0ChkiWm6vF3pXPFbSjvlzlmGiMAlQdl8=
+	t=1724429891; cv=none; b=Wlkf7KVlT9LvtI8Zj7zEmdcufP2KK31XRIbOUDknjeO8KZrPNRRti1HLnDguD3xuCdNXK3B2/zspjKOfTy7tn/2NAaiMq3fYM62CRRFTaEdKBxTdE6xt9m1ur+bKuCXcCAIBQvIc6HHp6zML0frRJrgM4MYKwK6N/g85EiEVoR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724427482; c=relaxed/simple;
-	bh=zCxIRWkih4tuPLzhcTwAD0rHAXZgw44YpE8z23P2up4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=l+qf/KQNk5gHVD/FU2KPbNY61/0xuYy18WOCCEcHsfPJjRyKik/1S7fAhEZCNFKlOPpe1i0qyMBUwvZ0DqI1RDen16WH1hK6OWUYIkZJO3l2GS5iE+AGRbNRyV13DfpNKHBalUA7C1s2mZU9l3Ay8nbbE8fnhTyGZosxtS9MVJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=EQgdhHc1; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id DCDC41BF206;
-	Fri, 23 Aug 2024 15:37:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1724427477;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7CutgodhxN+FJr5V+VHWsJBhY68LFF7RKhgiCY4alWI=;
-	b=EQgdhHc1vU0jHveAWULFKVBKA5K/Reu7E11e/ThNq9x2gK+seD0B13sWiulonMlwdOssZ+
-	k+eOdW0o2tv4Ud7+Sc+JOMrfETHvLbvlgyy+kMY6NXxlMbsUmLZ7/FAN5WXqj27n4bSlr+
-	dmDpxLQ/Z+1AQ01pr9Z1lBOL3BCycoIwydon6a7UJIbtuAqynLhzcVgS7Tyw1JXQgEmX0x
-	VOnCrmUGt8M8ZePqnH/ue6a4gvzyEDN1u3bA6Elhg+jRCgsbvMd5Mx/JhrjqIxq4e6ckw+
-	detDzZoFkx9y82FATvoOoDjp178jqdsLKA7rVAVuQiUuWcQl3YXaclc2dwkXfg==
-Date: Fri, 23 Aug 2024 17:37:48 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Marco Felsch <m.felsch@pengutronix.de>
-Cc: Maxime Ripard <mripard@kernel.org>, Pratyush Yadav
- <pratyush@kernel.org>, Tudor Ambarus <tudor.ambarus@linaro.org>, Richard
- Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Arnd
- Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Russell King <linux@armlinux.org.uk>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery
- <andrew@codeconstruct.com.au>, Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
- <claudiu.beznea@tuxon.dev>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>,
- Andrew Lunn <andrew@lunn.ch>, Gregory Clement
- <gregory.clement@bootlin.com>, Sebastian Hesselbarth
- <sebastian.hesselbarth@gmail.com>, Tony Lindgren <tony@atomide.com>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
- <magnus.damm@gmail.com>, Dinh Nguyen <dinguyen@kernel.org>, Thierry Reding
- <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>, Michael
- Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>, "Naveen N. Rao"
- <naveen.n.rao@linux.ibm.com>, Thomas Bogendoerfer
- <tsbogend@alpha.franken.de>, Huacai Chen <chenhuacai@kernel.org>, WANG
- Xuerui <kernel@xen0n.name>, linux-mtd@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- imx@lists.linux.dev, linux-omap@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
- openbmc@lists.ozlabs.org, linuxppc-dev@lists.ozlabs.org,
- linux-mips@vger.kernel.org, loongarch@lists.linux.dev, Michael Walle
- <michael@walle.cc>
-Subject: Re: [PATCH 4/9] mtd: devices: add AT24 eeprom support
-Message-ID: <20240823173748.2b3a364a@xps-13>
-In-Reply-To: <20240718091753.apwsrvmekn2vvo4k@pengutronix.de>
-References: <07b701a9-7b52-45b7-8dba-1c25d77cbf15@linaro.org>
-	<mafs0ikxnykpr.fsf@kernel.org>
-	<20240702-congenial-vigilant-boar-aeae44@houat>
-	<mafs0ed8byj5z.fsf@kernel.org>
-	<20240702-mighty-brilliant-eel-b0d9fa@houat>
-	<20240708084440.70186564@xps-13>
-	<20240709092214.omr7ccphdzdk7z7j@pengutronix.de>
-	<20240709114302.3c604ef3@xps-13>
-	<20240709103841.7x7n4hdtqrunyoc3@pengutronix.de>
-	<20240717101948.2e99f472@xps-13>
-	<20240718091753.apwsrvmekn2vvo4k@pengutronix.de>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1724429891; c=relaxed/simple;
+	bh=PgdByvdiAfbXaDotznDJ0dcWaZ63H3JEqmGBNQTkNik=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fgcTzg9XirlC8Soo4v9EwWMNFSWmIl/fQzjqksfiaoA5fG6p+u+cYF+vOUa6ib9wJ4MfqSfNXiV+S0XUN9FaBJUHaRAXXGuOE9npoHTSy73vP4lv+kUSUmWqAvj3TDysWy1BfjMeBkr/WQfs3fcBON4LV7MI5gi4CzQkulT0Y2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZC90Fm8O; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD95EC32786;
+	Fri, 23 Aug 2024 16:18:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724429891;
+	bh=PgdByvdiAfbXaDotznDJ0dcWaZ63H3JEqmGBNQTkNik=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZC90Fm8Oaw+MQx+uDsJmmODI2/hX9icvDed7tm4bS+eYRSFHflJN7lzWx7rLqnZVc
+	 /EeRQapRZtyrKflOGlW921S5f2NsO84csxAlObYlSnAoSpArgtGMI1fyIeP9JFeMd+
+	 wxx6FxANYeXN8kJP5XsIVDrOFWBOYyRpjxLF9MXQEWWoYz/NUKfioM1Mo5XKWcUVb2
+	 Xrli84Wyw2O4//SzdGKFRgz5B8WyBrbhzXS4McahzOIuBxJGTEl95FGQdPqujyGtbz
+	 LFS9h83DMHMURzMQNRTkjhJuj8I+FBR4OPZ7ykSCmj8rKCnV6Ksfnx4Ww39PmTXW/w
+	 TNlBbNLVZYIWg==
+Date: Fri, 23 Aug 2024 17:18:04 +0100
+From: Conor Dooley <conor@kernel.org>
+To: claudiu beznea <claudiu.beznea@tuxon.dev>
+Cc: vkoul@kernel.org, kishon@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, p.zabel@pengutronix.de,
+	geert+renesas@glider.be, magnus.damm@gmail.com,
+	gregkh@linuxfoundation.org, mturquette@baylibre.com,
+	sboyd@kernel.org, yoshihiro.shimoda.uh@renesas.com,
+	biju.das.jz@bp.renesas.com, ulf.hansson@linaro.org,
+	linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH 02/16] dt-bindings: soc: renesas: renesas,rzg2l-sysc: Add
+ #reset-cells for RZ/G3S
+Message-ID: <20240823-plywood-unfixed-d8d8a2d93f14@spud>
+References: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240822152801.602318-3-claudiu.beznea.uj@bp.renesas.com>
+ <20240822-vanilla-enigmatic-f0b05ecca4b6@spud>
+ <0d8b1322-cf15-4ed9-b958-06516bbb64c7@tuxon.dev>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="GSCRsUY2DblipIOX"
+Content-Disposition: inline
+In-Reply-To: <0d8b1322-cf15-4ed9-b958-06516bbb64c7@tuxon.dev>
+
+
+--GSCRsUY2DblipIOX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
 
-Hi Marco,
-
-m.felsch@pengutronix.de wrote on Thu, 18 Jul 2024 11:17:53 +0200:
-
-> Hi Miquel,
+On Fri, Aug 23, 2024 at 10:54:06AM +0300, claudiu beznea wrote:
+> Hi, Conor,
 >=20
-> On 24-07-17, Miquel Raynal wrote:
-> > Hi Marco,
-> >  =20
-> > > > > > Overall I think the idea of getting rid of these misc/ drivers =
-is goes
-> > > > > > into the right direction, but registering directly into NVMEM m=
-akes
-> > > > > > more sense IMO.     =20
-> > > > >=20
-> > > > > So you propose to have two places for the partition handling (one=
- for
-> > > > > MTD and one for NVMEM) instead of one and moving the code into NV=
-MEM
-> > > > > directly?   =20
-> > > >=20
-> > > > Why two places for the partitions handling? Just one, in NVMEM. Als=
-o   =20
-> > >=20
-> > > Without checking the details I think that converting the MTD
-> > > partitioning code into NVMEM partitioning code is a bigger task. As y=
-ou
-> > > said below there are many legacy code paths you need to consider so t=
-hey
-> > > still work afterwards as well.
-> > >  =20
-> > > > usually EEPROMs don't require very advanced partitioning schemes,
-> > > > unlike flashes (which are the most common MTD devices today).   =20
-> > >=20
-> > > As said in my cover letter EEPROMs can become quite large and MTD
-> > > supports partitioning storage devices which is very handy for large
-> > > EEPROMs as well. =20
+> On 22.08.2024 19:42, Conor Dooley wrote:
+> > On Thu, Aug 22, 2024 at 06:27:47PM +0300, Claudiu wrote:
+> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >>
+> >> The RZ/G3S System controller has registers to control signals that need
+> >> to be de-asserted/asserted before/after different SoC areas are power
+> >> on/off. This signals are implemented as reset signals. For this docume=
+nt
+> >> the #reset-cells property.
+> >>
+> >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >> ---
+> >>  .../bindings/soc/renesas/renesas,rzg2l-sysc.yaml | 16 ++++++++++++++++
+> >>  1 file changed, 16 insertions(+)
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg=
+2l-sysc.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-=
+sysc.yaml
+> >> index 4386b2c3fa4d..6b0bb34485d9 100644
+> >> --- a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc=
+=2Eyaml
+> >> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc=
+=2Eyaml
+> >> @@ -42,12 +42,28 @@ properties:
+> >>        - const: cm33stbyr_int
+> >>        - const: ca55_deny
+> >> =20
+> >> +  "#reset-cells":
+> >> +    const: 1
+> >> +
+> >>  required:
+> >>    - compatible
+> >>    - reg
+> >> =20
+> >>  additionalProperties: false
+> >> =20
+> >> +allOf:
+> >> +  - if:
+> >> +      properties:
+> >> +        compatible:
+> >> +          contains:
+> >> +            const: renesas,r9a08g045-sysc
+> >> +    then:
+> >> +      required:
+> >> +        - "#reset-cells"
 > >=20
-> > Did you had a look at nvmem-layouts ? In particular the fixed-layout. =
-=20
+> > Given this is new required property on an existing platform, I'd expect
+> > some mention of why it used to be okay to not have this but is now
+> > required. Did firmware or a bootloader stage take things out of reset?
 >=20
-> Yes I had a look at nvmem-layouts and we use them within a
-> mtd-partition. Using them instead of a mtd-partition is not sufficient
-> since they:
->  1) don't support user-space write (I send a patch for it but it doesn't
->     seem to be accepted soon).
+> On previous SoCs the SYS controller has no support for controlling the
+> signals going to different peripherals (USB, PCIE in case of RZ/G3S).
+> I'll add a note about this on next version.
 
-Yes, this needed improvements maybe but was not refused either.
+My initial thought here wasn't about previous SoCs though, it was
+because you didn't add the compatible in this series for /this/ SoC.
+What's worth noting isn't about the prior SoCs, it is about what makes
+it okay for this one.
 
->  2) If write would be supported the user-space need to write the
->     complete cell e.g. no partial writes.
+--GSCRsUY2DblipIOX
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Maybe that can also be brought to nvmem. Again, nvmem was introduced
-for handling EEPROMs in the first place.
+-----BEGIN PGP SIGNATURE-----
 
-Anyway, if other people in Cc: want to share some thoughts, they are
-also welcomed, I don't want to block this series for bad reasons. I'm
-also adding Michael Walle in Cc: who might have an opinion on that.
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZsi2PAAKCRB4tDGHoIJi
+0g2cAQDP31P2uZ2yJsxRp9QIUYTgXjcHmhTZPcFjJt8BD980TgD8DlBwXJ0T9MnS
+uL/Znkm4rQCaBJlq8vpNa0dgniF1pAQ=
+=Yj0N
+-----END PGP SIGNATURE-----
 
-Link: https://lore.kernel.org/linux-mtd/20240701-b4-v6-10-topic-usbc-tcpci-=
-v1-4-3fd5f4a193cc@pengutronix.de/
-
-Thanks,
-Miqu=C3=A8l
+--GSCRsUY2DblipIOX--
 
