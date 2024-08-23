@@ -1,114 +1,111 @@
-Return-Path: <linux-renesas-soc+bounces-8176-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8177-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3C1F95D143
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 17:22:46 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B952095D164
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 17:30:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7C905282592
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 15:22:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 47AE2283DB1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 15:30:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93A48188935;
-	Fri, 23 Aug 2024 15:22:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RwiuuZ2t"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 737B118660B;
+	Fri, 23 Aug 2024 15:30:24 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15651433BD;
-	Fri, 23 Aug 2024 15:22:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703CB1E529;
+	Fri, 23 Aug 2024 15:30:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724426562; cv=none; b=EzHs5B1znvpVZzPE+Gjl7BiUTPYViOLtcdVdaxeOlBn6HcGZVI66k4B/xpkj4QJhjmWhxM97pEqNc6SGhZYNKV2Sv+046Fj0BPBzwj97WQR85OE6rnd75PCPPr+r7mc02ZJTHR9x1yhPLe/jh848sYA0k/GIVhxrejjwqWrFq/Y=
+	t=1724427024; cv=none; b=gazPJ7YeKfAcupS8G2dCRAr8B7Wm8f+nWoO9x6MCj9ALNE/yBLD7S0Fq8amiNbC1wnbpmXfqaClzv+mvsgAOSt/4losvg4GgSer61eSE+cVED+j2eXK/8XLkARCWSrCZlKjg9bYjSuoZlfdm236EHlpCswU+TMSUeOtprEO0obA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724426562; c=relaxed/simple;
-	bh=3qK4L+r7VH5lFspwqEdMrN+QdtLEFgzsJe1FRuCWHys=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=in/b7haGpYBsVI5VtftjPVN+dQnIP3sgaqXXC9E+7Qs7XWTEbZk8+ade5Zw68EMD0z0JZz6cUNOJRCUshV3W2l+GhUDOfvAZRGzfOjqVgIom4Fme8+LFVCVvlj+tdu2NKtxoN59b1GdXExzYUcJiSQhygTcqn0tq/XScF4k16S4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RwiuuZ2t; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724426561; x=1755962561;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3qK4L+r7VH5lFspwqEdMrN+QdtLEFgzsJe1FRuCWHys=;
-  b=RwiuuZ2tbYxr4Niq1Sq3QjDs1MDdG9DZ9tVmgojjXlLbORDGUGDX793f
-   ARjjz57lB2Y+Ck4qT5CeyntB3eGUeyUrqr39XHMmIf5+sr+uXHhYcoAJO
-   Gk4owdYLhXWPFsT7TSj1sp2HLe2QfdSa/DY48vsvxjbYvq7Ub1TjPJu61
-   LCMh7f5+a0q9iDuIbF1u9eX6PJtvJFKNQCSf7EThdY0nnuj/XHlg7+LtD
-   jt63BbKPrVBmxq+pYW5zKHjXz4Cbo6cwFEdhA2H8+aaEcaA/hBm8UM9gX
-   6+Do6OJCOC1LyiuOkVAkFdnQgZng8ss+3v/ZWnN1/CsMIMLJ8IR+mhPOT
-   A==;
-X-CSE-ConnectionGUID: Sa0hCwHXQge6pkdgkOVChw==
-X-CSE-MsgGUID: ++OI4opRQTyK2f8e3kBDeQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="23069531"
-X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; 
-   d="scan'208";a="23069531"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2024 08:22:40 -0700
-X-CSE-ConnectionGUID: S7lhRkrzTvuFsWFiwB9K5A==
-X-CSE-MsgGUID: bRpJZFmSTcCz1uRxOvrExg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; 
-   d="scan'208";a="61678428"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa010.jf.intel.com with ESMTP; 23 Aug 2024 08:22:38 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id AFA42209; Fri, 23 Aug 2024 18:22:37 +0300 (EEST)
-Date: Fri, 23 Aug 2024 18:22:37 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Shen Lichuan <shenlichuan@vivo.com>
-Cc: geert+renesas@glider.be, linus.walleij@linaro.org,
-	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
-Subject: Re: [PATCH v1] drivers/pinctrl/renesas: Switch to use kmemdup_array()
-Message-ID: <ZsipPZz7O0yrOHE9@black.fi.intel.com>
-References: <20240822061438.14617-1-shenlichuan@vivo.com>
+	s=arc-20240116; t=1724427024; c=relaxed/simple;
+	bh=MYhe+0dimdjupQz3+SID53Jf06YJ9yx0cG073VN8KUQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lAR6r5nzy1wPxhIClrEGONPjX2uMwNpLuJMwhZhRDssU2fyae67Eb8IOlbjL1c6lOqU9dbRKF6RPtOhNQH9VQgC7VLehJNlM2+hqHsfIY3KtW3zp4XyOu5MUUNl3KqWv4M+4zbg7y+38Xt1IMKTj9h9B6XYlxLwjkWLvSrb4800=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e1205de17aaso2168182276.2;
+        Fri, 23 Aug 2024 08:30:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724427021; x=1725031821;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tfbrrY27H13omvCwK9916CfiXzhyrylN8NolaO2kmUw=;
+        b=D5qT04/cINdGy1kB50ijYOjCbK/AmT0oC+FpxjokirANb92RYozzag2JEsyzOJAS+z
+         9iTJul3pUnjj5gprzlxRax8APFbqryEIQM0uunJ2nTU/+OB8zMwb57p1C/hj8z9DpG4v
+         +rtqqrLQV9wHtedM6Q8zmkF8zP9jcdLxIB6PwOGaDtmt5Q0ICj0xBIb1uMzbGYeRh1g5
+         jbGDiOBrn24eigwJOOvA5d9mg0/nE4SIL7tQCUMOtUA0R7mpVdGx4KdnKm7mbTWvlZxN
+         7kPfqCgXHsdHKc9EotWzBLV2eDfmq9EOnEdAV4aGyviiytN/zCOvC5Qzlr0Ws1kLqcRj
+         4tfg==
+X-Forwarded-Encrypted: i=1; AJvYcCUD8gQRws9825pzbKggGuVVW9V4pHONQ1GI1j4EH/A6uhQegwn4a3pMCoaMwo7161Id2/zoxIrzPK7F2SxmqxNOJ1g=@vger.kernel.org, AJvYcCUWiHiwRn9lQtcyio+W9FQS3X32UutSl1qScLEPRnDKFRBLVsBQmc2K2M2oOmczYTeOxLqxuWKukLfC@vger.kernel.org, AJvYcCXLqgk4alpSEgvvJ9LNdPEKo3ZEYtrqB8K4X/fvROGenVfS+YbizpvBfwdzAptUF8CksijYvNyq6O1IeJPo@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZeIR391T/T2a0n0voyq3blAzf2QSrQiNDX5gnXrGZaDUo0bew
+	H8VNLmCkyAOp4E5gBuYzgiY55aS1JiSXX/GNRJ5f5o2PiV85brfNJal3ZInr
+X-Google-Smtp-Source: AGHT+IFNWc9gJLuCIl8f9PnAKYtAGEMUxz5m0F8sp5F0DW+krHteANK+J/HnyymVvaWnE9wAuZG9Tw==
+X-Received: by 2002:a05:6902:120c:b0:e0b:5d76:c22c with SMTP id 3f1490d57ef6-e17a83b2b3fmr3389578276.5.1724427020716;
+        Fri, 23 Aug 2024 08:30:20 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e178e4638c5sm692477276.18.2024.08.23.08.30.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 Aug 2024 08:30:20 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e0b7efa1c1bso2104576276.3;
+        Fri, 23 Aug 2024 08:30:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVXrv64aUG/VcVEFgaxJRmRFnkzMG6orxmrtEbPFuTituZU2RI7NKGF5F5hesQcv7JS9NIOufqOQxTg@vger.kernel.org, AJvYcCWf1zV/A3Hdfs9Wlr7R4aZsyNiPPx2a6j1WO/rq3BTRajxJfu/ehHfGm1b3RVucmHWuqZStb2AuKHsO0KCd@vger.kernel.org, AJvYcCWfRH4o8+d3NbZnDajR3+aIo46oamh8nP3S84+x88KVWFEZH7B8Dt7TaBAk4/RDbyrKA13sOihVnORMRoHoRiPbwQw=@vger.kernel.org
+X-Received: by 2002:a05:690c:4585:b0:65f:dfd9:b672 with SMTP id
+ 00721157ae682-6c624fb6c9emr23894087b3.11.1724427019711; Fri, 23 Aug 2024
+ 08:30:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240822061438.14617-1-shenlichuan@vivo.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240822061438.14617-1-shenlichuan@vivo.com> <ZsipPZz7O0yrOHE9@black.fi.intel.com>
+In-Reply-To: <ZsipPZz7O0yrOHE9@black.fi.intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 23 Aug 2024 17:30:06 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX=T04FizyGQ4QBWYw_Ug8ODg6K+dQ=Cqg8L7pmA6wEDg@mail.gmail.com>
+Message-ID: <CAMuHMdX=T04FizyGQ4QBWYw_Ug8ODg6K+dQ=Cqg8L7pmA6wEDg@mail.gmail.com>
+Subject: Re: [PATCH v1] drivers/pinctrl/renesas: Switch to use kmemdup_array()
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Shen Lichuan <shenlichuan@vivo.com>, linus.walleij@linaro.org, 
+	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 22, 2024 at 02:14:38PM +0800, Shen Lichuan wrote:
-> Let the kememdup_array() take care about
-> multiplication and possible overflows.
+Hi Andy,
 
-> +	cfgs = kmemdup_array(configs, num_configs,
-> +				sizeof(*cfgs), GFP_KERNEL);
+On Fri, Aug 23, 2024 at 5:22=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@intel.com> wrote:
+> On Thu, Aug 22, 2024 at 02:14:38PM +0800, Shen Lichuan wrote:
+> > Let the kememdup_array() take care about
+> > multiplication and possible overflows.
+>
+> > +     cfgs =3D kmemdup_array(configs, num_configs,
+> > +                             sizeof(*cfgs), GFP_KERNEL);
+>
+> Geert, don't you want to fix the indentation issues?
+> Perhaps even combining these to a single line?
 
-Geert, don't you want to fix the indentation issues?
-Perhaps even combining these to a single line?
+I have already done so while applying ;-)
 
-...
+Gr{oetje,eeting}s,
 
-> +	cfgs = kmemdup_array(configs, num_configs,
-> +				sizeof(*cfgs), GFP_KERNEL);
->  	if (!cfgs)
->  		return -ENOMEM;
+                        Geert
 
-Ditto.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-...
-
-> +	cfgs = kmemdup_array(configs, num_configs,
-> +				sizeof(*cfgs), GFP_KERNEL);
-
-Ditto.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
