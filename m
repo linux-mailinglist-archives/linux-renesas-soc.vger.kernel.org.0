@@ -1,130 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-8172-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8173-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2932795CE8F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 16:00:42 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A296B95CF92
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 16:25:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5B1221C20B9C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 14:00:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D5A601C22083
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 14:25:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70B5818453E;
-	Fri, 23 Aug 2024 14:00:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94350191F9C;
+	Fri, 23 Aug 2024 14:06:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cCplXdrb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aXfJQIlH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA191DA5E
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Aug 2024 14:00:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093101917DB;
+	Fri, 23 Aug 2024 14:06:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724421638; cv=none; b=FdOMCnWO1JPeZ4ioGnQh4Ujr1OqNkUAxkhm2xqnsDXIl2GhEj+gorrd6eRJHOeFT9wgl1UJIMBFV31QQTB7/xNoDC8qozD97qFybZhOgGqH9hEPeZ2/uPCd7Rpotuj9N8DYwQP3N6lCOqN8RWaw49i/qXp/jMaj7omn8O9FyHgM=
+	t=1724421975; cv=none; b=t6YW/zKDcwEXGomlunKHblJgSlR9WRvxQDfsQ/mE/F724tfo9dap817BV0uqjtG9FLfuA1UNlpPSsC/CPMDJdl3rXL8o5gxGOK3D1iJC+9SZWVRGHNj0mbB+9N4MKihB9e3z0wtoCxiZ7X4XDUal1MzPEYKe5yRlzswdt5IPBEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724421638; c=relaxed/simple;
-	bh=y/UyQS05ed/ZY5oB2J59WiygdpRfpEJRVO5/qIl+NIU=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=YL632ieZwgr6m6vNhDWhN1Xb2F0g7sRNLTymxjhgap1blA4lbN4LbW2SsRGbqmI33UksEHK9ZtYIRrBMZtHy9KgiCWhQ7hjUAcWh/Xt9zdssBO/NooQYhyKk+qBjUuE88mg7QNopHx6n5P2q7tK9e6SFumKepufMVynjD5h5SkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cCplXdrb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D918BC32786
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Aug 2024 14:00:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724421637;
-	bh=y/UyQS05ed/ZY5oB2J59WiygdpRfpEJRVO5/qIl+NIU=;
-	h=Subject:From:Date:To:From;
-	b=cCplXdrbOYrtKFoXl/q0dd5IgYiCroM9t6ii5fEcEes+udQ44srVH3CMYKCklQCso
-	 uYbcrS1OyRlg2vDjLNhsNxE5UvTmfJ8fRHTe403fUM2bhBhmViSPe6ueq1gMfcPZ4v
-	 Yn7/6EBlZKoVkEiHER8rZdsEMdEPSGBapPIxuiUoynUoe+zMN+T7soqznUnDulIn/k
-	 9ze1RTc0ClKDaBPjUKLBaezgdNQa6hPTlvwBTIwg1JxSIBYF6fNycMOTiCeDOwZSxw
-	 QDgN+Xk21w/oO3jeOrf4qElx2b0Mne+ZPUaSrIYCTQZ8rU2XNjx+TP+2ZUWwH1JOx9
-	 6NsSFLSo+HSNA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id B33FB3804CB0
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Aug 2024 14:00:38 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1724421975; c=relaxed/simple;
+	bh=+ZiMBXzO2Qnkx4P3z6BE0MLKmZndlbkPBcBXSumtrsA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LvEM25WsNF+Ai4jPVPilj98DfHVVPp833cKb7fQWP5oxyzq3BaXiT+DQzAwMzKambOcGskkKH/26tDR+DTc/PD09cF7f2TLV+RHwnAyQAkJLLG/0uM6vrOS4cFXWFYnKMTZzuOf75Uz+kkb3rUUBrlUiB6jQjYK5WHowtB+Tz5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aXfJQIlH; arc=none smtp.client-ip=209.85.221.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-4fce2c0707bso654856e0c.2;
+        Fri, 23 Aug 2024 07:06:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724421973; x=1725026773; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rYTTxKQGNaBBwgbRWUpxwLKWCThHX0EOM71weT9u2Ys=;
+        b=aXfJQIlHGr9znEKuHCm3JjnmLUDayn9XNtVQA1BkQSQRvYTwVpqhjtkdQVbuNnR/nb
+         RQemvU9JShyYvN0FLUOpXcBlVMlIV0sgm9UF7XwrgQko/b6pjUCT46BnNqNi/lpGqo3g
+         9ATUPSCORc18MdCMuumzDvUc3en4zQPH7hhLZeXMUfSh6kngS4S+qPDy2RSVEq4WvmRk
+         gGprrWiRkjM2HPmWMCv2w2LpgRRQTjaKbFNSg5yCv+sb9WDfwjHsd5YiT8VZJB9fG57O
+         OUJ23aJ2vg7uq/jYdhKiA/Gz5Bh2RhL9cG7GLw2ni8pAB28crIaKWEfgxADHpCTt9FTQ
+         xW/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724421973; x=1725026773;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rYTTxKQGNaBBwgbRWUpxwLKWCThHX0EOM71weT9u2Ys=;
+        b=RRksNn/Lup+8klPKYLQgIBei40b8HIpkLMJotP9sdLOvb4KnJq1Wg0/TLuZ6AeepCZ
+         RfM73mnnuv9lVYr4kvWkSk19dFdYLTiMZOkN+DYXFAqWlEX7CT2ddG3C5XGEzF1AxIAc
+         Z1lfl3idRPVTAg+7Qo7313BTsgj+mRpcHWtI8VT2tliJmRZeoiAd8yiqtDoV/Kxjw3TZ
+         UYZKv/7+pF2ti3vZdY/xYZrpjAxaHgaFmu8StB5PCz1cVnpUac5jYEBtoY2UAFHfuyhQ
+         oDh8azInejp8K8zIXwURStCJvRyTTi/AKfF7mdqbQbD79dhYLgCXENbJdsyiz3P+DVV3
+         Ck1A==
+X-Forwarded-Encrypted: i=1; AJvYcCU1Lc6iOQOj04fLXJY5GcfFfhtQL8VMmOJWIDfDsVzftGr4yaGvQMdsD2iymcnK53F8Q5MXOc5B2VAr@vger.kernel.org, AJvYcCU5tmAwSN2SDLSSn6h5ivl4JJY6zh/TLMjSRY/jtK33ui/Q/1zsmYiBq2IfbxqItXpxQIAZCEgbVu31nDaA@vger.kernel.org, AJvYcCWmGGXVC5MucqEP5HlFBgY8JW4lim17jFTfgdiIxz6j1+jtGsGyq90UvlBiO0QfYJ3bybTGDDPCBnTQQVAMjoL+bLQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxawubEXO7ziXyawkDc2IHdlJxhy1Iz0gzfS8Zbcq8TNRnrjLhW
+	PYy7z6q8oJPeLTe6rj0hDLcCX2GkoXc8dMlJqLemFZiEI7Zr/M98WyKDXw9mCgMepDZgstrscgv
+	ofWvtSy0CYGlHBwfAFADLNJnyyiE=
+X-Google-Smtp-Source: AGHT+IEw8NSACQTt79yaANCMagkmS9EW93UoRdofnZRrQ2gS1Np9VXCynWo7/EzOW+D4kXESy9FONeDOeJCe+tzKzGI=
+X-Received: by 2002:a05:6122:1d4b:b0:4ef:65b6:f3b5 with SMTP id
+ 71dfb90a1353d-4fd1acd19f8mr2710149e0c.10.1724421972312; Fri, 23 Aug 2024
+ 07:06:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From: patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: 
- <172442163729.2974674.7573753579112331111.git-patchwork-summary@kernel.org>
-Date: Fri, 23 Aug 2024 14:00:37 +0000
-To: linux-renesas-soc@vger.kernel.org
+References: <20240822230104.707812-1-andy.shevchenko@gmail.com>
+In-Reply-To: <20240822230104.707812-1-andy.shevchenko@gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Fri, 23 Aug 2024 15:05:46 +0100
+Message-ID: <CA+V-a8v6saYEP-WUA4mT2vBsiqw6aH0xKSyFzchvHZJNwmMqnA@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] pinctrl: renesas: rzg2l: Replace
+ of_node_to_fwnode() with more suitable API
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, linux-renesas-soc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello:
+On Fri, Aug 23, 2024 at 12:42=E2=80=AFAM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> of_node_to_fwnode() is a IRQ domain specific implementation of
+> of_fwnode_handle(). Replace the former with more suitable API.
+>
+> Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> ---
+>  drivers/pinctrl/renesas/pinctrl-rzg2l.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+Cheers,
+Prabhakar
 
-Series: arm64: dts: renesas: Correct GICD and GICR sizes
-  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=875057
-  Lore link: https://lore.kernel.org/r/20240730122436.350013-1-prabhakar.mahadev-lad.rj@bp.renesas.com
-    Patches: [v2,1/4] arm64: dts: renesas: r9a08g045: Correct GICD and GICR sizes
-             [v2,2/4] arm64: dts: renesas: r9a07g043u: Correct GICD and GICR sizes
-             [v2,3/4] arm64: dts: renesas: r9a07g054: Correct GICD and GICR sizes
-             [v2,4/4] arm64: dts: renesas: r9a07g044: Correct GICD and GICR sizes
-
-Series: arm64: dts: renesas: r8a779g0: add PCIe support
-  Submitter: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=881932
-  Lore link: https://lore.kernel.org/r/20240822004454.1087582-1-yoshihiro.shimoda.uh@renesas.com
-    Patches: [v3,1/2] arm64: dts: renesas: r8a779g0: Add PCIe Host and Endpoint nodes
-             [v3,2/2] arm64: dts: renesas: white-hawk-cpu-common: Enable PCIe Host ch0
-
-Series: arm64: dts: renesas: Add TSN support for V4H
-  Submitter: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=867171
-  Lore link: https://lore.kernel.org/r/20240701145012.2342868-1-niklas.soderlund+renesas@ragnatech.se
-    Patches: [v2,1/2] arm64: dts: renesas: r8a779g0: R-Car Ethernet TSN support
-             [v2,2/2] arm64: dts: renesas: white-hawk-single: Wire-up Ethernet TSN
-
-Series: Add RZ/G2UL {fcpvd, vspd} device nodes
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=876715
-  Lore link: https://lore.kernel.org/r/20240805131709.101679-1-biju.das.jz@bp.renesas.com
-    Patches: [v3,1/2] arm64: dts: renesas: r9a07g043u: Add fcpvd node
-             [v3,2/2] arm64: dts: renesas: r9a07g043u: Add vspd node
-
-Series: i2c: riic: Add support for Renesas RZ/G3S
-  Submitter: claudiu beznea <claudiu.beznea@tuxon.dev>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=881284
-  Lore link: https://lore.kernel.org/r/20240820101918.2384635-1-claudiu.beznea.uj@bp.renesas.com
-    Patches: [v5,01/11] i2c: riic: Use temporary variable for struct device
-             [v5,09/11] arm64: dts: renesas: r9a08g045: Add I2C nodes
-             [v5,10/11] arm64: dts: renesas: rzg3s-smarc: Enable i2c0 node
-             [v5,11/11] arm64: dts: renesas: rzg3s-smarc-som: Enable i2c1 node
-
-Patch: arm64: dts: renesas: r9a07g0{43,44,54}: Move regulator-vbus device node
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=871393
-  Lore link: https://lore.kernel.org/r/20240715140705.334183-1-biju.das.jz@bp.renesas.com
-
-Series: Add support for RZ/G2UL Display Unit
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=882260
-  Lore link: https://lore.kernel.org/r/20240822162320.5084-1-biju.das.jz@bp.renesas.com
-    Patches: [v4,1/4] dt-bindings: display: renesas,rzg2l-du: Document RZ/G2UL DU bindings
-             [v4,3/4] arm64: dts: renesas: r9a07g043u: Add DU node
-
-
-Total patches: 17
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+> diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/re=
+nesas/pinctrl-rzg2l.c
+> index 5e3d735a8570..73b55e096106 100644
+> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> @@ -16,6 +16,7 @@
+>  #include <linux/of.h>
+>  #include <linux/of_irq.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/property.h>
+>  #include <linux/seq_file.h>
+>  #include <linux/spinlock.h>
+>
+> @@ -2624,7 +2625,7 @@ static int rzg2l_gpio_register(struct rzg2l_pinctrl=
+ *pctrl)
+>
+>         girq =3D &chip->irq;
+>         gpio_irq_chip_set_chip(girq, &rzg2l_gpio_irqchip);
+> -       girq->fwnode =3D of_node_to_fwnode(np);
+> +       girq->fwnode =3D dev_fwnode(pctrl->dev);
+>         girq->parent_domain =3D parent_domain;
+>         girq->child_to_parent_hwirq =3D rzg2l_gpio_child_to_parent_hwirq;
+>         girq->populate_parent_alloc_arg =3D rzg2l_gpio_populate_parent_fw=
+spec;
+> --
+> 2.46.0
+>
+>
 
