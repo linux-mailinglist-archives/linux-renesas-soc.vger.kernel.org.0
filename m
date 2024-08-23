@@ -1,142 +1,171 @@
-Return-Path: <linux-renesas-soc+bounces-8116-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8117-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F3A795C813
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 10:30:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4193D95C843
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 10:41:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C001FB235E2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 08:30:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 671F71C22FB1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 08:41:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E0C3143C7B;
-	Fri, 23 Aug 2024 08:30:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65C4236AEC;
+	Fri, 23 Aug 2024 08:40:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="ESSgLe3x"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7DC143875;
-	Fri, 23 Aug 2024 08:30:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA02144D21
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Aug 2024 08:40:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724401805; cv=none; b=e5cCQYv/nannWhOQ9msV5rL/Jl1lPJLLOTMdiqUQKPKPCbbCnymaleKW9QZDd7PP3ycd81611r3sB9kq3Oym3Zvha8In5h67Vm1GSIeIIE+PKkA8kSYK8JcZ4o9RpvsMn2k8l8aaUtO5Q5QI0Y+Jqan8Z9438lEDkG8hwrDiIaE=
+	t=1724402445; cv=none; b=eHMHMtOTXvwjpOEECEOY1/e2IiQUZfzX7geeiO1WFW2UUKA7IjIj1lhiEp9ZGFj3Oa5CKQhERwHQydAlQExxN483COCUA68mqEfDQ/yP72gGODnL4X427W0Einbo2q4XJ4KOvi9dYtLVjPwTYNCWXMYI30PtSkUmBr8h6/kMVtY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724401805; c=relaxed/simple;
-	bh=vwvYyfUrP6IBcdtCkGejYt79aWvt0AZyZWj8ALtoo/A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fO5q7wT5vXzsnMzNxAyRRODQxIoaVXQsOg0ZPLR0M6NVQ4MhZEvzdoLBaW0JKs1iWkM/jtHbz3SsZtStCjgIJyky4hhmRqSiB4Ki5AEuDHZ9SZHgZK+cWIKX2DvFzguyR2pODV0ZO6m5ADEnQDk9Q2Nk9NIsNuV0E6N6sARF4c8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e13e11b23faso1744281276.3;
-        Fri, 23 Aug 2024 01:30:03 -0700 (PDT)
+	s=arc-20240116; t=1724402445; c=relaxed/simple;
+	bh=3Lu0q5LE4JQFeJoFtGj8FZCKVCJ+bPdGS586sH9yOco=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bgjHpEUc5IDfktuUlhN5MxldrEPc/dXjBo0gyiMiXhPtMmp6AYRz7paKgddu7VYKnD5hhyUZpa6aCDX1YpC1GV8dCAvwtqTt6kZ7uo5ejQqILya3owptG2/QbDVWDUkCYtcLaVgOoJldj++jQhlTGQdj9st/q7nuyu9mQFYzX5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=ESSgLe3x; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a7d26c2297eso220509066b.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Aug 2024 01:40:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1724402441; x=1725007241; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fG9KNjBoDmO8zW0C42AiccF/rKtpUpUCjugH/PuwWu0=;
+        b=ESSgLe3xxgMVsQDzDEOkRtpf6Utu7PkuRRdKUktTtrTApdTkyk7/yLAEFm6KtkmsgA
+         QMEJjwGEBpPDrBRT1TeKtkiYPOAbEaM4ayqQYBpgYXwSJRigcTDIemd0PTn6/thWUHAR
+         EsNRBIta/y81CqHbkY2G3LgyNmfwVGV6ovbd871h+cuOIgBGnJuf9aJYQ8h/Yqd7DYSL
+         p1VEuZhVu8AkVE11tE6Jdk/mh1d2EmPT5eKOcbwyqs8LLEhgfgJJl3OPxElYg9xz9nKZ
+         NYSmNXgZwCegojNsxGDL4AmVLcvz/De12W/FH8jIzwdwHINwFsfzaMZ7vrgZuu+xMVXI
+         5Rsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724401802; x=1725006602;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6wMOSfp7wWLrfvKZda/G3lCoA2LeDaO0B8B7dm7ip3M=;
-        b=fs9hIxHcTnTUVUGQUFoyz+abeX0nM2WzrNQiac0yg1T6+ap19pDzTk3YFm0yRkTT3M
-         tynhSQ6mff5b5DLO/1PTI8K9Lh8X1Stbbhyiz4ATpQF5pmB9nMxd0D8UznUV19RJ5zvD
-         gvl0wrXLDF006smy72csjn96hs2HFOFUKjveKaTZ2TbmGgSyf8Yy/rGWFzVbJHPtxa8w
-         A+9xyd3cqmOKclYviVOq12Qn47sich3UELtcrTMpsIIjlnRxm2UELoHqrubRm8FPATnA
-         LuQ7mExsMts+/9e6bmXj4gYJOSsAyIWsEjlFh3c7Xi/YzDbBNiE8jUYrYBnXoliOvCqr
-         +CQw==
-X-Forwarded-Encrypted: i=1; AJvYcCXF3TJ638J4PB9p2plPmAIzR2v7dz0BzCqgpfgSnXsrVG/v3uJ/PhinMKO/x9DMh/VFBmEcj9+ztt8=@vger.kernel.org, AJvYcCXJHDvYZBbFswqQwo0j1XTT5xFTitxlOiIvZ0Db9b7Kuv9MWnsNVJ6M7dvb87Iui0SN1CbftRbQoa9jZJfwmJ2hxpU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwiG+ahysyPxslyZs13vBPviRZjMWKBsdoMxkJNRAPM7AzatAuP
-	RjqJ+hy+CfWb5YZiqLWyWWmXSSYjxuhiR5rd5qwW1Aosa7HaMSGP0pQNmMRf
-X-Google-Smtp-Source: AGHT+IGvNJHvt6QDvIsxsCzxyGtSpLcQXPVXF+heJVTD7HTXh3us/pXnHpnIcWjktNyBracA9mUihg==
-X-Received: by 2002:a05:6902:15c4:b0:e15:4b86:2b59 with SMTP id 3f1490d57ef6-e17a83bcb24mr1891090276.4.1724401802077;
-        Fri, 23 Aug 2024 01:30:02 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e178e4b71b0sm599692276.36.2024.08.23.01.30.01
+        d=1e100.net; s=20230601; t=1724402441; x=1725007241;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fG9KNjBoDmO8zW0C42AiccF/rKtpUpUCjugH/PuwWu0=;
+        b=Nd/Y+fCoSM6dSvf7RxSKA/qbYhEQKV91EdJ6GITe2/tKcLHV9eIDK4OulDY80DfJgp
+         nZX9aQ/otomZIE6OrDgaVpT/ApZephdp5NBMgTB9rxzmnI0HJqbr0xnf6MpYljp9P98A
+         ePMQokPmm/0ZeHe3ynWk1iLutg3yo04IlBuH7Y3J+aXJo7iEB6bd8Z6WzmqnkvEr7jTU
+         ooVQEfzDpKHaBOlViRbJ2xAoT47L6cinhBI9918N0hmxMx7G3HREz7CsuzgfSJIzcuIn
+         BOif0hr9fACBbIMnY7NLRVUghWjEljiKp8FSarVFcO8+zLpJqwEoCA42MDSAu2EAFHfb
+         9s+g==
+X-Forwarded-Encrypted: i=1; AJvYcCXiopwk4lLkwr/siSObh+ZNpvl0NPmTuvI5QhAT89jEeM81HNnO5W6lMOvnqwaUJV6aq+a9PqWI3QH8XcejYe5CBg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyFsmB6oMpUQ4ZJ0GvCsMlitdsfs8CqfF8ajrRSRa8Xqjv0Lhvf
+	9+5N0kgfwf900Fje+EtEc0XrN/xxMYRncVhbP+8zLCSNN1RHj0yDkbrYh+8XUSo=
+X-Google-Smtp-Source: AGHT+IELJdt9NWz1Qyq2a+tw+U6RVfRhf7Xtr1odkIop07urXH/CbabXuHZJspnO7+6yMIrduwa9BA==
+X-Received: by 2002:a17:906:da82:b0:a77:dc70:b35f with SMTP id a640c23a62f3a-a86a54b694dmr101050966b.58.1724402440963;
+        Fri, 23 Aug 2024 01:40:40 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.177])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f29004csm229783366b.46.2024.08.23.01.40.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Aug 2024 01:30:01 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-6b747f2e2b7so16297647b3.3;
-        Fri, 23 Aug 2024 01:30:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU9BXLTosbcpIGgZtiQmcS3hFuqRtlSYnmpvVST6agmS2tWLjqtcFqrMhbcS075Ul5YNY8Ja7aIcj5z0oUsDp3EdMA=@vger.kernel.org, AJvYcCWT4MQFpd0jES3H7qmZjXSwCoT6UwKicLepN+jOnYzKadDb65+DOVLQ+CRCg0G5YhB5UOq8KAXnJXQ=@vger.kernel.org
-X-Received: by 2002:a05:690c:f84:b0:698:bde0:a2dd with SMTP id
- 00721157ae682-6c62422b00bmr16286527b3.7.1724401801673; Fri, 23 Aug 2024
- 01:30:01 -0700 (PDT)
+        Fri, 23 Aug 2024 01:40:40 -0700 (PDT)
+Message-ID: <59f4d28b-5b9b-427a-baca-739fc03a5cc1@tuxon.dev>
+Date: Fri, 23 Aug 2024 11:40:37 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <875xsuknvt.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <875xsuknvt.wl-kuninori.morimoto.gx@renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 23 Aug 2024 10:29:50 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWtaM7V+g6+Bre=Z-kUL0G8qC2oaF1xhYzp_BssPn8Jzg@mail.gmail.com>
-Message-ID: <CAMuHMdWtaM7V+g6+Bre=Z-kUL0G8qC2oaF1xhYzp_BssPn8Jzg@mail.gmail.com>
-Subject: Re: [PATCH 1/1] i2c: rcar: tidyup priv->devtype handling on rcar_i2c_probe()
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-i2c@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 08/16] reset: rzg2l-usbphy-ctrl: Add support for RZ/G3S
+Content-Language: en-US
+To: Biju Das <biju.das.jz@bp.renesas.com>, "vkoul@kernel.org"
+ <vkoul@kernel.org>, "kishon@kernel.org" <kishon@kernel.org>,
+ "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "geert+renesas@glider.be" <geert+renesas@glider.be>,
+ "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "mturquette@baylibre.com" <mturquette@baylibre.com>,
+ "sboyd@kernel.org" <sboyd@kernel.org>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>
+Cc: "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+ "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240822152801.602318-9-claudiu.beznea.uj@bp.renesas.com>
+ <TY3PR01MB11346B5C5D9AA883B7736A5C3868F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <TY3PR01MB11346B5C5D9AA883B7736A5C3868F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Morimoto-san,
+Hi, Biju,
 
-On Thu, Jul 25, 2024 at 8:05=E2=80=AFAM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> rcar_i2c_probe() has priv->devtype operation, but handling (A) and (C)
-> in same place is more easy-to-understand ((A)(C) and (B) are independent)=
-.
->
-> (A)     if (priv->devtype < I2C_RCAR_GEN3) {
->                 ...
->         }
->
-> (B)     ...
->
-> (C)     if (priv->devtype >=3D I2C_RCAR_GEN3) {
->                 ...
->         }
->
-> Let's merge it with if-else
->
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+On 22.08.2024 19:59, Biju Das wrote:
+> Hi Claudiu,
+> 
+>> -----Original Message-----
+>> From: Claudiu <claudiu.beznea@tuxon.dev>
+>> Sent: Thursday, August 22, 2024 4:28 PM
+>> Subject: [PATCH 08/16] reset: rzg2l-usbphy-ctrl: Add support for RZ/G3S
+>>
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> Add support for RZ/G3S SoC. It needs its own compatible as it uses 2 reset signals and it cannot work
+>> w/o both of them. To be able to fully validate this on DT schema, too, the RZ/G3S uses it's own
+>> compatible w/o a fallback (as if the fallback will be used the RZ/G3S will not work anyway).
+> 
+> Other than reset/ power domain approach for handling USBPWRRDY signal
+> 
+> Can't USBPWRRDY signal handled in SYSC driver directly? Since SYSC driver init happens at very early boot stage
+> Check for USBPHY control device availability and handle USBPWRRDY signal there??
 
-Thanks for your patch!
+In theory, it can be done this way, too.  The downside I see at the moment
+with this approach would be that the USB, PCIe drivers will not be in
+charge with handling their signals, there will be no direct dependency
+available b/w SYSC and USB drivers.
 
-> --- a/drivers/i2c/busses/i2c-rcar.c
-> +++ b/drivers/i2c/busses/i2c-rcar.c
-> @@ -1168,7 +1163,10 @@ static int rcar_i2c_probe(struct platform_device *=
-pdev)
->         if (of_property_read_bool(dev->of_node, "smbus"))
->                 priv->flags |=3D ID_P_HOST_NOTIFY;
->
-> -       if (priv->devtype >=3D I2C_RCAR_GEN3) {
-> +       if (priv->devtype < I2C_RCAR_GEN3) {
-> +               irqflags |=3D IRQF_NO_THREAD;
-> +               irqhandler =3D rcar_i2c_gen2_irq;
-> +       } else {
->                 priv->rstc =3D devm_reset_control_get_exclusive(&pdev->de=
-v, NULL);
->                 if (IS_ERR(priv->rstc)) {
->                         ret =3D PTR_ERR(priv->rstc);
+The HW manual doesn't mention anything about the power consumption of the
+USB, PCI areas based on the state of the signals from SYSC, so, I don't
+know if there will be any implication on this if the signals will be just
+de-asserted from the SYSC driver.
 
-This hunk won't apply as-is, as a comment was added in commit
-ea5ea84c9d3570dc ("i2c: rcar: ensure Gen3+ reset does not disturb
-local targets") in v6.10.  Hence please rebase your patch.
 
-For the logic:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Thank you,
+Claudiu Beznea
 
-Gr{oetje,eeting}s,
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> Cheers,
+> Biju
+> 
+>>
+>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>> ---
+>>  drivers/reset/reset-rzg2l-usbphy-ctrl.c | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/reset/reset-rzg2l-usbphy-ctrl.c b/drivers/reset/reset-rzg2l-usbphy-ctrl.c
+>> index 8b64c12f3bec..08b18d7de7ad 100644
+>> --- a/drivers/reset/reset-rzg2l-usbphy-ctrl.c
+>> +++ b/drivers/reset/reset-rzg2l-usbphy-ctrl.c
+>> @@ -93,6 +93,7 @@ static int rzg2l_usbphy_ctrl_status(struct reset_controller_dev *rcdev,
+>>
+>>  static const struct of_device_id rzg2l_usbphy_ctrl_match_table[] = {
+>>  	{ .compatible = "renesas,rzg2l-usbphy-ctrl" },
+>> +	{ .compatible = "renesas,r9a08g045-usbphy-ctrl" },
+>>  	{ /* Sentinel */ }
+>>  };
+>>  MODULE_DEVICE_TABLE(of, rzg2l_usbphy_ctrl_match_table);
+>> --
+>> 2.39.2
+> 
 
