@@ -1,131 +1,208 @@
-Return-Path: <linux-renesas-soc+bounces-8122-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8123-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65BD695C8CC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 11:07:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A57895C8E6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 11:11:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BEADCB2442F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 09:06:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E16C41F21D47
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 09:11:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F4B1149C79;
-	Fri, 23 Aug 2024 09:06:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E925C149DF8;
+	Fri, 23 Aug 2024 09:11:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LxsjPsrT"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E4B1442F4;
-	Fri, 23 Aug 2024 09:06:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E5D143C41;
+	Fri, 23 Aug 2024 09:11:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724404004; cv=none; b=Sn7sIpNQlGexyv1OGEAa8tYtDnhWoe/eo7uOSW9tNLOfE4Ueiv3BKYkj5fBUijVgNJoTRpQGRmhOwsgPb7eX4sl1xZ3To3QRjos+WgxmlTYRh4Ge3CU4o0JUcgdbDWGTt5+iJCzusfQVxobFIuQk+9GD5MWG2rVKL/eQCvvdxRk=
+	t=1724404290; cv=none; b=oCIcRAr9oo/u1KCb6470RDfxcssEIvI1tI2L8Lvr9Fan9F0DnKEWBh2PUA3ElmYcFBf9RjJvze8hQ1r5W+xk6I8BrG5EOhy5RKhl29+cZyOz/ToDmKhg190Zt1hrFbCAVwfXZnL16f6ZhFK0ZmMDbNb6R7r9KdduWyovR1frXdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724404004; c=relaxed/simple;
-	bh=+9IpXVuegpDInQgrAgek/vlLq/KRAbJFH1JPQwJ4gwE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZPBrKqblWMW3wGTMD2O/bAQqdx4Hz3WlHwRQ+KA0aG67uQD3gcYLVszF1OEKAUzKXqBVEC76HIXEvyuFGrFj7d54uOSdFQhIbIwX6MdMKLNJjnZ4/T3iXcKZidyYyiUU1dZbe9Qt1lM0h+ujohMAi9A6E5fN7wAzMwHQ+AXSTYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1724404290; c=relaxed/simple;
+	bh=sM627AfEsfkKAMQwbbFpudxSd7uw0zlJsdlc7vRxhrA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nJtPt91ptTQZ6bgau983RT9Af9cMm7IYmo0x5nFHKArvbe119jYVCtNDg2xWy3b4ywH0Gm0xCQ1MjEX0UpefVuA3YlBcVdpBz/O6bJkH9PDEbFdjuzkWD+BZ47ppGvFnygaqc1MhP9zpYNg49cr40vGcdEk6dQx2vD4LIaZG7n8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LxsjPsrT; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e13c23dbabdso1688806276.3;
-        Fri, 23 Aug 2024 02:06:42 -0700 (PDT)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2f3f07ac2dcso18987261fa.2;
+        Fri, 23 Aug 2024 02:11:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724404287; x=1725009087; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4PO5E+Yc2jdmqT5l2dYdMtbWuQDD2570ef53Pzw7Dho=;
+        b=LxsjPsrTCz1+H1B1jwzXI057MfNTfGmgW20Q0WsQ6IjNczWfwRk92nSu5V9U0t9dS/
+         WViQMPgoScAYmSSvNbAmdYeWg0o+EM0difTIMbK7FwYAI2NJ+SjFIPlFqo0yi98F9GC1
+         iuP+LjM5pZ7dh05r+XnnDyAGE/o0qhsWOSv8Juurb+5YEwLTffY5Kn9Uz/TJnf+XOUtT
+         rT+Pb44lAReQJVNCgWibIBckaR03qneV73vtysO0PuSo87HdaDLtJlae5xduWhfMJEbA
+         GNsyCFvacMWq3Q5E3mpd5y78xee718IrYXmT+3oLwGmWPpbg6ddCZ/j1eb+ZQEZtEAoH
+         AT6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724404001; x=1725008801;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gb/YSqzf9fDLhLWRgXRW/noXuJgu/x7bBZHSqFpFD0Q=;
-        b=dC3wbDve5glLecLo5GyHlCjh68RSkaLfFTJan6nNQfwXtznSDo7Bx3ITaiMrrkAwgG
-         9JU9wdsaeJyo/p3hU+ZGlvJ9aDJq9EnBsdcUlba4plP/BVu+Y3vEa6/+ivF35zgCQ8YH
-         JI9M9DBE441fX5OqNo377SwuFibwYBhnMX4AxFt6woaBDibxLpQKt7XzUk/BiVPHKZoQ
-         G7FB0XxZSLKn6vbAMYI0o1DgF12z6lOTC91sT2RWkb7todI26Mh6m3bsAY/sYmZRZ7Ac
-         X1ROEcFWR77tG0S7NGFVxNYoeSD85H7jFurz6Cd8DzAL5bAggU3SJCXhpiHhTzkO3o3C
-         Y2nw==
-X-Forwarded-Encrypted: i=1; AJvYcCU27ucjkhRJRFFOF6KwPMZenNzq4t/PmQkzdvn5QLo5GyLDJrIBr8iCKZMKL2bFkOu0n48cbTDNJwK0XVPAYu3pKPc=@vger.kernel.org, AJvYcCVTslZ6SIoMhgW3fy7441BfdQDVjJ6lv0e0DBseyEcb09QN+0kmI7w1Tunhv2Ed80ovYd21U8NBmtuS@vger.kernel.org, AJvYcCWRKxQ3ZJQO2PivK55Bk45anzw2NNQf0c+W7LSgIo0w8fGCdxdKBdg5ocRwDTAQk2+hwZ/ecQkNPldzBJfu@vger.kernel.org
-X-Gm-Message-State: AOJu0YxggrYde+OfE+z6jK6WnuqdGTTfEyKujcQfXvST8aqIOFt33WZ7
-	JDjOgkuNBAQEqUCGytz2roW8fQ5HIU+4tfgr8mkL82tV/Zvc7gGhbiV/JLtA
-X-Google-Smtp-Source: AGHT+IE8XA4iQjNq3Lh9k9fFy7um3yyoxoDo9pZFNJSUCVZHXMnmwe8pQ+IMDMVEvmTWskrlawXs3w==
-X-Received: by 2002:a05:6902:218b:b0:e05:e103:1ccb with SMTP id 3f1490d57ef6-e17a8e66d33mr1524066276.55.1724404001088;
-        Fri, 23 Aug 2024 02:06:41 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e178e4638c5sm585147276.18.2024.08.23.02.06.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Aug 2024 02:06:40 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6b0c5b1adfaso16800047b3.0;
-        Fri, 23 Aug 2024 02:06:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUTyUTgt5EL524lsBr2FUTz/mz79BcbWW7L4AN7qAqzLSaH0YB7QRCfuvOKvHkfWS/wj3Eed/+pbJT1DsXr1MskJc8=@vger.kernel.org, AJvYcCVX0yjyEh3rg/RS1/faStGKvoyZNOkj9Zgwigzk/HgPo491EBScXx3HPMeUOlTRmXhN2fGfDTuxaWMQbpRE@vger.kernel.org, AJvYcCWeehA8lHwyzeaG6m/90y4TfY7A9UtbFpf8TLROvuHhWXC+O9aainZ7omilJ5cMmeVHPVo9KM1YTEMw@vger.kernel.org
-X-Received: by 2002:a05:690c:340b:b0:664:7b3d:a53f with SMTP id
- 00721157ae682-6c629befdc3mr12100907b3.45.1724404000684; Fri, 23 Aug 2024
- 02:06:40 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1724404287; x=1725009087;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4PO5E+Yc2jdmqT5l2dYdMtbWuQDD2570ef53Pzw7Dho=;
+        b=ebNxqZHRjmn+6YYyq0JEOhYF2t1c73VkW1H0KAMHAS7KGB2cYUGnbdSH2erOY0rA2B
+         5/7B1+ZySUKov1dpPZLxQIacV1BDZeiHNauK+J+Id+/J8YFgceMXAlG22YfDOsjfYZPC
+         kaFXV5IvcVvEcWJc/pd7pEvFaSSaEXVGxIcH2oLwYB+2Mri6rh/G5ExuTotswFaRAsxm
+         5CM8gcuV7nsOkByybJ8RNV8D6GIoHsqUNwQzBiTigEX0cJ3Jtk7o3bN9lR22zJqSKAkh
+         LSE9gjAllx8BsJ765h/zbsTGFcgKtVeTbB09mfcldVBy063NGXC15oOTlLBvUiRCeNWw
+         cOxA==
+X-Forwarded-Encrypted: i=1; AJvYcCUxLaScO6ifqifkAjUn1SfwTtzYJAG+d34fC9jgTDyJrBX941DqlQwidc4/bWe2XGQmNYBwDGAWjWsgb3w=@vger.kernel.org, AJvYcCWB08sF8q2OrR90obKubQWLskQjbLY5d6rAGSUT0GF/CoE0cXDQg0Fdl9L5y8uQJfyoCx2/dC7U2+Cw50F/6b8xF5o=@vger.kernel.org, AJvYcCWp8TcMFj5/SzIlh1HDoNhy41ytFRmBuv6RuoTtwjZFTcqyZoYAwcYE02l28j6mLEhenxLGqJF4@vger.kernel.org
+X-Gm-Message-State: AOJu0YyfsDPPeuzZudemzrLfDWLX6H/nP4isUEEhMPT/3TBlvCrAAafz
+	0C1jlu3Fl4Q/CB9ZtkbiwjTPfvvVfqsll6kMBYvi4xJxd6zOVxC/9Eu/Cjx7
+X-Google-Smtp-Source: AGHT+IG7i0v4Oxi1zDQ7x12f7nNWK8FCGltyKq7l0VpZBxkWpTbouDOSj6EcsEmrspHXN3Tlr5uzsg==
+X-Received: by 2002:a2e:b8c3:0:b0:2f3:f5aa:b3d0 with SMTP id 38308e7fff4ca-2f4f57978bamr7783171fa.35.1724404286482;
+        Fri, 23 Aug 2024 02:11:26 -0700 (PDT)
+Received: from mobilestation ([178.176.56.174])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f40487f797sm4324791fa.119.2024.08.23.02.11.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Aug 2024 02:11:26 -0700 (PDT)
+Date: Fri, 23 Aug 2024 12:11:23 +0300
+From: Serge Semin <fancer.lancer@gmail.com>
+To: Yangtao Li <frank.li@vivo.com>
+Cc: clement.leger@bootlin.com, andrew@lunn.ch, f.fainelli@gmail.com, 
+	olteanv@gmail.com, davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
+	pabeni@redhat.com, ulli.kroll@googlemail.com, linus.walleij@linaro.org, 
+	marcin.s.wojtas@gmail.com, linux@armlinux.org.uk, alexandre.torgue@foss.st.com, 
+	joabreu@synopsys.com, mcoquelin.stm32@gmail.com, hkallweit1@gmail.com, kees@kernel.org, 
+	justinstitt@google.com, u.kleine-koenig@pengutronix.de, horms@kernel.org, 
+	sd@queasysnail.net, linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com, Maxime Chevallier <maxime.chevallier@bootlin.com>
+Subject: Re: [net-next v2 2/9] net: stmmac: platform: Convert to
+ devm_clk_get_enabled() and devm_clk_get_optional_enabled()
+Message-ID: <qx4k2xehasda7zj6vt3bygdh3scehiiwniqvljj4b4rjde25a5@ys4oqsithhwi>
+References: <20240823072122.2053401-1-frank.li@vivo.com>
+ <20240823072122.2053401-3-frank.li@vivo.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240724094707.569596-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240724094707.569596-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20240724094707.569596-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 23 Aug 2024 11:06:29 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUdTZMHOn9qK=mZi7PR=fdwzXOdYnhFwB-2ikEGiLQfmw@mail.gmail.com>
-Message-ID: <CAMuHMdUdTZMHOn9qK=mZi7PR=fdwzXOdYnhFwB-2ikEGiLQfmw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: soc: renesas: Document RZ/V2H GP-EVK board
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240823072122.2053401-3-frank.li@vivo.com>
 
-Hi Prabhakar,
+Hi Yangtao
 
-On Wed, Jul 24, 2024 at 11:48=E2=80=AFAM Prabhakar <prabhakar.csengg@gmail.=
-com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Add "renesas,gp-evk" which targets the Renesas RZ/V2H ("R9A09G057")
-> GP-EVK board.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Fri, Aug 23, 2024 at 01:21:14AM -0600, Yangtao Li wrote:
+> Use devm_clk_get_enabled() and devm_clk_get_optional_enabled()
+> to simplify code.
+> 
+> Signed-off-by: Yangtao Li <frank.li@vivo.com>
+> Reviewed-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
+> ---
+> v2:
+> -remove unused 'ret'
+> -fix incompatible-pointer-types
+> 
+>  .../ethernet/stmicro/stmmac/stmmac_platform.c | 35 +++++--------------
+>  1 file changed, 8 insertions(+), 27 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
+> index ad868e8d195d..1a66baaa4081 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
+> @@ -415,8 +415,6 @@ static int stmmac_of_get_mac_mode(struct device_node *np)
+>  static void stmmac_remove_config_dt(struct platform_device *pdev,
+>  				    struct plat_stmmacenet_data *plat)
+>  {
+> -	clk_disable_unprepare(plat->stmmac_clk);
+> -	clk_disable_unprepare(plat->pclk);
+>  	of_node_put(plat->phy_node);
+>  	of_node_put(plat->mdio_node);
+>  }
+> @@ -436,7 +434,6 @@ stmmac_probe_config_dt(struct platform_device *pdev, u8 *mac)
+>  	struct plat_stmmacenet_data *plat;
+>  	struct stmmac_dma_cfg *dma_cfg;
+>  	int phy_mode;
+> -	void *ret;
+>  	int rc;
+>  
+>  	plat = devm_kzalloc(&pdev->dev, sizeof(*plat), GFP_KERNEL);
+> @@ -615,21 +612,16 @@ stmmac_probe_config_dt(struct platform_device *pdev, u8 *mac)
+>  
+>  	/* clock setup */
+>  	if (!of_device_is_compatible(np, "snps,dwc-qos-ethernet-4.10")) {
+> -		plat->stmmac_clk = devm_clk_get(&pdev->dev,
+> -						STMMAC_RESOURCE_NAME);
+> +		plat->stmmac_clk = devm_clk_get_enabled(&pdev->dev, STMMAC_RESOURCE_NAME);
+>  		if (IS_ERR(plat->stmmac_clk)) {
+>  			dev_warn(&pdev->dev, "Cannot get CSR clock\n");
+>  			plat->stmmac_clk = NULL;
+>  		}
+> -		clk_prepare_enable(plat->stmmac_clk);
+>  	}
+>  
+> -	plat->pclk = devm_clk_get_optional(&pdev->dev, "pclk");
+> -	if (IS_ERR(plat->pclk)) {
+> -		ret = plat->pclk;
+> -		goto error_pclk_get;
+> -	}
+> -	clk_prepare_enable(plat->pclk);
+> +	plat->pclk = devm_clk_get_optional_enabled(&pdev->dev, "pclk");
+> +	if (IS_ERR(plat->pclk))
 
-Thanks for your patch!
+> +		return (void *)plat->pclk;
 
-> --- a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-> @@ -515,6 +515,8 @@ properties:
->
->        - description: RZ/V2H(P) (R9A09G057)
->          items:
-> +          - enum:
-> +              - renesas,gp-evk # GP-EVK
->            - enum:
->                - renesas,r9a09g057h41 # RZ/V2H
->                - renesas,r9a09g057h42 # RZ/V2H with Mali-G31 support
+Use the ERR_CAST() macro instead of the open coded void type cast.
 
-Is this the same board as on[1], which is called "V2HEVK" in the board
-documentation? According to the (vague) picture, it has an "RTKxxx"
-part number, which you may want to add to the comment, too.
+>  
+>  	/* Fall-back to main clock in case of no PTP ref is passed */
+>  	plat->clk_ptp_ref = devm_clk_get(&pdev->dev, "ptp_ref");
+> @@ -644,26 +636,15 @@ stmmac_probe_config_dt(struct platform_device *pdev, u8 *mac)
+>  
+>  	plat->stmmac_rst = devm_reset_control_get_optional(&pdev->dev,
+>  							   STMMAC_RESOURCE_NAME);
+> -	if (IS_ERR(plat->stmmac_rst)) {
+> -		ret = plat->stmmac_rst;
+> -		goto error_hw_init;
+> -	}
+> +	if (IS_ERR(plat->stmmac_rst))
 
-[1] https://www.renesas.com/us/en/products/microcontrollers-microprocessors=
-/rz-mpus/rzv2h-evk-rzv2h-quad-core-vision-ai-mpu-evaluation-kit
+> +		return (void *)plat->stmmac_rst;
 
-Gr{oetje,eeting}s,
+ditto
 
-                        Geert
+>  
+>  	plat->stmmac_ahb_rst = devm_reset_control_get_optional_shared(
+>  							&pdev->dev, "ahb");
+> -	if (IS_ERR(plat->stmmac_ahb_rst)) {
+> -		ret = plat->stmmac_ahb_rst;
+> -		goto error_hw_init;
+> -	}
+> +	if (IS_ERR(plat->stmmac_ahb_rst))
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+> +		return (void *)plat->stmmac_ahb_rst;
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+ditto
+
+-Serge(y)
+
+>  
+>  	return plat;
+> -
+> -error_hw_init:
+> -	clk_disable_unprepare(plat->pclk);
+> -error_pclk_get:
+> -	clk_disable_unprepare(plat->stmmac_clk);
+> -
+> -	return ret;
+>  }
+>  
+>  static void devm_stmmac_remove_config_dt(void *data)
+> -- 
+> 2.39.0
+> 
+> 
 
