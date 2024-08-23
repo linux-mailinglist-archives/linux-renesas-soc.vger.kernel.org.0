@@ -1,83 +1,82 @@
-Return-Path: <linux-renesas-soc+bounces-8187-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8188-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3E5E95D3BC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 18:53:17 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDBF295D3CF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 18:55:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 637391F23D6D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 16:53:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 307B3B24739
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 16:55:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47FD618BB88;
-	Fri, 23 Aug 2024 16:53:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 220C6188A1A;
+	Fri, 23 Aug 2024 16:54:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cShglcHW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iag1mVuO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E24312B6C;
-	Fri, 23 Aug 2024 16:53:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6985818594C;
+	Fri, 23 Aug 2024 16:54:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724431995; cv=none; b=jvsTRqxcDNl4Yr35ncNEsHXMbe1mOsSBiWIyh2jNIzmum/nSVsijBZBlffA8QHSy/UW1d1i6oLmY2lJo31sSdBWUfjRJQN5JVDUY6QbiH2QGi2pFcY19ueKcCJT3ucpHIUDwN46alGpRb4XBaQnvadxxw/zIXsKtx2TSJDKbbqI=
+	t=1724432079; cv=none; b=YMeCGPWyVKIBnHrBmepN/dXhjWokljYHQRtD9ijCuEF9NuJcUw4Bc3GeXKHvVrlfB1qRXC4t3bjC6IvkQoliXypgWXpZGZPXq1YNJHu5u0iEPz3+V94rLGty8xFAMTv6gKUAWT8B1jSvAsWkoUm4UltwAISW0agDytARkWtD+E0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724431995; c=relaxed/simple;
-	bh=1bgw/Kad0mno9yvnmFSAkkRdRvDChUoKawQTuAds79I=;
+	s=arc-20240116; t=1724432079; c=relaxed/simple;
+	bh=5VhG0B8dTv3e3c3BO1l1k7Sja5Ij0EPbr7H3pKg3dZw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GMQYfCRVHhQUMNjMTBp6Y5QLqudP0345OYKTeYpqwrAJytfMV5uTBW/cpjleX2ahNCbYinWU4Xk52TVVJRfG6ni3RxtDjQsoJvrT4yAKqGmbx2pVnxZiS4K19ysep8HjAqZNnJY5gUiR0aiD+rrcyjUiCpsadqlPZkjn5Eeuy5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cShglcHW; arc=none smtp.client-ip=209.85.208.172
+	 To:Cc:Content-Type; b=EkN1QUJyemzS0XhFi/yUiQOyHgU4ElGDSRInk1EIDKkAyorXoB47tVvBi4U/tmdZmBhI/1AK7ALDhtlJUFkPL0BAPjMhO77DSPYLbMZu+LGZ6BvjjlAhFu43jALvJPDs0n+bjraiDExSj0/P+ClR6fmMJ9jFmzo7riw5HxPTxlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Iag1mVuO; arc=none smtp.client-ip=209.85.208.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2f409c87b07so21632291fa.0;
-        Fri, 23 Aug 2024 09:53:12 -0700 (PDT)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2f3f07ac2dcso25226441fa.2;
+        Fri, 23 Aug 2024 09:54:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724431991; x=1725036791; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1724432075; x=1725036875; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=v3dNTaiY5IwxKdtWPFyIFrXrhNmpKz5xY0XspkPMjuU=;
-        b=cShglcHW9C6qEzTnMX1cuubGoDK9aeUufDyjeUPdDZCJ7ijR86TzgFaMqgpgzqGs48
-         gDnbTEl9xAEm5/+kmag+tRs4ai739NMIqzYjTgsF/EZxKzcETyg7EFNg6w3hI6fKuG5o
-         bXe2+g82NV3UJUQ135blj5XJy6T1UWP49f/GDega8Faj9n0xTBiMC3kURkA6agfLx9F4
-         E4HCAOhcMvGRTGqgXMTNU2FUJH06aruPRoFitX6RZqfp1RllFJB1tL47mTEI7y+UEQzi
-         Pl2c4kMu2FLbvd5Hdc05ZPC+g/IpuyObRR14ycp/Y08zrwda7dvb2jJcN7Jdf76oT5LO
-         9WFw==
+        bh=zon1U6XI7RDgoBlJOOvO1r9gIw8jdWpzCbK+CHqcbzY=;
+        b=Iag1mVuOlAK02O89s8ItagdB7KxFb/l0VtZOm8QwRTDcwq44pmumRwJepDOZ4P7Fzh
+         4iNwbkT+1Wcn49sQZ8RXBdH2uAzcFNq1fAp9YE8Fh8khq75Ql+FIMVpQNgnnHrTVU5ET
+         LTGADfJqgJZYWShl6ev6eMCcv3Ul9WQakW0MJsOhayQ1iJ3CcFozVPp+tplzK3HtzluY
+         ejClO0qBIPU9yy0Z13IT9uNBcLWx9kRT8ZfpXnSeQvBe8zBivgRjixMJfuLSI79NxL7q
+         en+uo+dH0ga0prp4K+Y81joqv1uwsRoOT5LlYbp0VtlnkacE+PjUkDGqLa4VSA8JdK97
+         1R4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724431991; x=1725036791;
+        d=1e100.net; s=20230601; t=1724432075; x=1725036875;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=v3dNTaiY5IwxKdtWPFyIFrXrhNmpKz5xY0XspkPMjuU=;
-        b=JFoXKBOtyWhVoMdqQ3FyT7OdAepD0Pekt5MGIfAifhtLBdFyilZMpHYkM4pnwdrwu8
-         MUS0HqzIZI/E9glcHxFNwmzg13JhioFZnvgAd0ySzJmEShofuvDbHNvbpdn8pYYEPH3v
-         GBdmSiMVTAKGZR/FY5WT02FCqNmnRyBPd34Xvj7cfAVwy4vv/mwduD5jRc1Vs6IMyPEc
-         7uOJGY6wStXcINCro8G98tS7UT+jEq+V9gSb06YVjUadV1X6Qn2Cp+54riT+yP8vvEvX
-         +kfQ+owa+JyyqfnSTzUXYCIjmxA7tviINogLVessta/FEfTBFgBChMDjGIRbGLaXDUZA
-         3vPA==
-X-Forwarded-Encrypted: i=1; AJvYcCUPxDcAdFqF6DDsd1aC8Gjl5OM5fb/aU7UeRNXF6gy/XqNKz4c5AhGtFYJvn/n2kNyT/RqSxqyMHQei3vQG4WJlcj0=@vger.kernel.org, AJvYcCUvxEtkkp/porK3tQOHicUiWVt4kDG7/lX4S3Qkmgc88fTUzEBFAsgyMNqqqrMSz65vnellw0DDkw17UX8=@vger.kernel.org, AJvYcCXPzmaxSD7iJBPl9wzvF/Q52F74xcx0WaGXlRrbRyS5P8Zdg0/gppFtAY0rmZpzJmH/oEEL7I5p@vger.kernel.org
-X-Gm-Message-State: AOJu0YwHVRYcyrIgiM16GS8Dc717Q8m9xbJXEPFV3vwN5xp5fYHVrTPv
-	+oB2oA8RNAMx3jB+4/xzlMISzQR0yFBuz/eQGY7RGZtAlaqkqAn/EggiaCvVXGO1H5GwI0/F3Rc
-	52oXRgvOX7XuUoYFjuFBd2gro6hs=
-X-Google-Smtp-Source: AGHT+IHFX3VQxQPo7oldwhzia1sNHKwPxoeEI8OI4ihkGQJzz3Kefmx2UFC0C3joDhGlSP0z6cPQURvCDKileTV5k2w=
-X-Received: by 2002:a05:651c:1505:b0:2ef:2d3d:3cc3 with SMTP id
- 38308e7fff4ca-2f4f48d5a82mr20452211fa.4.1724431990868; Fri, 23 Aug 2024
- 09:53:10 -0700 (PDT)
+        bh=zon1U6XI7RDgoBlJOOvO1r9gIw8jdWpzCbK+CHqcbzY=;
+        b=sqkBlh/uhvV2iTukQAO00mQjon+W8ytsW6MaAe9pce8bSaAo1f1FsVt+GoMMyF122T
+         eMgcCeSRZMKQcTPQEGLFEuUeTvC5NWkO+tr5+mX0gx8bKWudHi7VxuszmoDGagvMrwmj
+         aFxtk87ScExLLBReMFEH3Lo6lIkrbioYEID2uereMgfweB1tL5i3KBxYQ2JhhYsQ8Vn8
+         /tXV4VVLgSfFCq///E+eZ/jaYFTKwXa3F2D3WRzFdG2w3UX2J3+9uL/RMllVfeXOW7tv
+         DMHYlWnfh9W4dbr0lbBx3+wteHJcVe2PzoKOGfMJTb8CElD0yZMYwpCk+vxXtVGHvlW+
+         +O8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCX6ydRtiBvzYpU4C8SAk+3Ny4FazqYB2zlQ2/9OnOf7Qm1OF3O86yjO3IkCXHz9Y3JgpS3yIoAT@vger.kernel.org, AJvYcCX87qUH4nxV8xcbbgRkyGOwzEpSBhttpretXi47lu8IxpnxJpbgypo60sAMQIeupMYA5AJFsTjkTcxFPj0cWwIJeSU=@vger.kernel.org, AJvYcCXkZZQZZ3I33aYQPDPHW4rH4EZ16AETMhRjBPI7AEi1Sbqikc715O4G3vam62UKt6Tc9rs23ibXt+FVdKM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxXQ0YSyeDubJ31X62fKThoAHAuFKQcyPd15+PI5UczLX24jCOa
+	j6UNEtNeS3J1xOAovfEe2gSQQ4xRMJ7aI7g8mrYJwp41COGGTQgJ8gZpKTJltftCY38iVsszB8M
+	g8L7x5cM9vSYcwDdCnWjDNadh9lI=
+X-Google-Smtp-Source: AGHT+IFEzl8US1Mj3j70Ag46lDtaK4hvgcjCEPbcQtWo5rRj98mh3iglrl7HOszxszM05TikzwLuQPgOV0GYu+wm+ic=
+X-Received: by 2002:a2e:9d07:0:b0:2f3:f794:b18 with SMTP id
+ 38308e7fff4ca-2f4f57357bcmr15390471fa.11.1724432075088; Fri, 23 Aug 2024
+ 09:54:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240823072122.2053401-1-frank.li@vivo.com> <20240823072122.2053401-9-frank.li@vivo.com>
-In-Reply-To: <20240823072122.2053401-9-frank.li@vivo.com>
+References: <20240823072122.2053401-1-frank.li@vivo.com> <20240823072122.2053401-8-frank.li@vivo.com>
+In-Reply-To: <20240823072122.2053401-8-frank.li@vivo.com>
 From: Marcin Wojtas <marcin.s.wojtas@gmail.com>
-Date: Fri, 23 Aug 2024 18:52:58 +0200
-Message-ID: <CAHzn2R2eEWeSJOVQWbhG6FbCZv-o2PqL4tdU0E0XWSHM_EOjjw@mail.gmail.com>
-Subject: Re: [net-next v2 8/9] net: mvpp2: Convert to devm_clk_get_enabled()
- and devm_clk_get_optional_enabled()
+Date: Fri, 23 Aug 2024 18:54:23 +0200
+Message-ID: <CAHzn2R39CuQS3WJYs7=2jeg8LvhTrYC8xKmOiTDZKLhmbsLqig@mail.gmail.com>
+Subject: Re: [net-next v2 7/9] net: ethernet: marvell: mvneta: Convert to devm_clk_get_enabled()
 To: Yangtao Li <frank.li@vivo.com>
 Cc: clement.leger@bootlin.com, andrew@lunn.ch, f.fainelli@gmail.com, 
 	olteanv@gmail.com, davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
@@ -88,224 +87,103 @@ Cc: clement.leger@bootlin.com, andrew@lunn.ch, f.fainelli@gmail.com,
 	sd@queasysnail.net, linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
 	linux-stm32@st-md-mailman.stormreply.com, 
-	Maxime Chevallier <maxime.chevallier@bootlin.com>, 
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+	Maxime Chevallier <maxime.chevallier@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 pt., 23 sie 2024 o 09:07 Yangtao Li <frank.li@vivo.com> napisa=C5=82(a):
 >
-> Use devm_clk_get_enabled() and devm_clk_get_optional_enabled()
-> to simplify code.
+> Convert devm_clk_get(), clk_prepare_enable() to a single
+> call to devm_clk_get_enabled(), as this is exactly
+> what this function does.
 >
 > Signed-off-by: Yangtao Li <frank.li@vivo.com>
 > Reviewed-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
-> Tested-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
-> Suggested-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 > ---
-
 
 Reviewed-by: Marcin Wojtas <marcin.s.wojtas@gmail.com>
 
 Thanks!
 Marcin
 
-> v2:
-> -get rid of amount of variables used
+
+>  drivers/net/ethernet/marvell/mvneta_bm.c | 16 +++++-----------
+>  drivers/net/ethernet/marvell/mvneta_bm.h |  1 -
+>  2 files changed, 5 insertions(+), 12 deletions(-)
 >
->  drivers/net/ethernet/marvell/mvpp2/mvpp2.h    |  7 --
->  .../net/ethernet/marvell/mvpp2/mvpp2_main.c   | 89 +++++--------------
->  2 files changed, 24 insertions(+), 72 deletions(-)
->
-> diff --git a/drivers/net/ethernet/marvell/mvpp2/mvpp2.h b/drivers/net/eth=
-ernet/marvell/mvpp2/mvpp2.h
-> index 9e02e4367bec..643a645e8097 100644
-> --- a/drivers/net/ethernet/marvell/mvpp2/mvpp2.h
-> +++ b/drivers/net/ethernet/marvell/mvpp2/mvpp2.h
-> @@ -1044,13 +1044,6 @@ struct mvpp2 {
->          */
->         struct regmap *sysctrl_base;
->
-> -       /* Common clocks */
-> -       struct clk *pp_clk;
-> -       struct clk *gop_clk;
-> -       struct clk *mg_clk;
-> -       struct clk *mg_core_clk;
-> -       struct clk *axi_clk;
-> -
->         /* List of pointers to port structures */
->         int port_count;
->         struct mvpp2_port *port_list[MVPP2_MAX_PORTS];
-> diff --git a/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c b/drivers/ne=
-t/ethernet/marvell/mvpp2/mvpp2_main.c
-> index 2fe8bae4eb3c..0ca2daeb0f90 100644
-> --- a/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
-> +++ b/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
-> @@ -7561,56 +7561,32 @@ static int mvpp2_probe(struct platform_device *pd=
+> diff --git a/drivers/net/ethernet/marvell/mvneta_bm.c b/drivers/net/ether=
+net/marvell/mvneta_bm.c
+> index 3f46a0fed048..bfd1ed12d98c 100644
+> --- a/drivers/net/ethernet/marvell/mvneta_bm.c
+> +++ b/drivers/net/ethernet/marvell/mvneta_bm.c
+> @@ -411,6 +411,7 @@ static int mvneta_bm_probe(struct platform_device *pd=
 ev)
->                 priv->max_port_rxqs =3D 32;
+>  {
+>         struct device_node *dn =3D pdev->dev.of_node;
+>         struct mvneta_bm *priv;
+> +       struct clk *clk;
+>         int err;
 >
->         if (dev_of_node(&pdev->dev)) {
-> -               priv->pp_clk =3D devm_clk_get(&pdev->dev, "pp_clk");
-> -               if (IS_ERR(priv->pp_clk))
-> -                       return PTR_ERR(priv->pp_clk);
-> -               err =3D clk_prepare_enable(priv->pp_clk);
-> -               if (err < 0)
-> -                       return err;
-> -
-> -               priv->gop_clk =3D devm_clk_get(&pdev->dev, "gop_clk");
-> -               if (IS_ERR(priv->gop_clk)) {
-> -                       err =3D PTR_ERR(priv->gop_clk);
-> -                       goto err_pp_clk;
-> -               }
-> -               err =3D clk_prepare_enable(priv->gop_clk);
-> -               if (err < 0)
-> -                       goto err_pp_clk;
-> +               struct clk *clk;
+>         priv =3D devm_kzalloc(&pdev->dev, sizeof(struct mvneta_bm), GFP_K=
+ERNEL);
+> @@ -421,17 +422,14 @@ static int mvneta_bm_probe(struct platform_device *=
+pdev)
+>         if (IS_ERR(priv->reg_base))
+>                 return PTR_ERR(priv->reg_base);
 >
-> -               if (priv->hw_version >=3D MVPP22) {
-> -                       priv->mg_clk =3D devm_clk_get(&pdev->dev, "mg_clk=
-");
-> -                       if (IS_ERR(priv->mg_clk)) {
-> -                               err =3D PTR_ERR(priv->mg_clk);
-> -                               goto err_gop_clk;
-> -                       }
-> +               clk =3D devm_clk_get_enabled(&pdev->dev, "pp_clk");
-> +               if (IS_ERR(clk))
-> +                       return PTR_ERR(clk);
+> -       priv->clk =3D devm_clk_get(&pdev->dev, NULL);
+> -       if (IS_ERR(priv->clk))
+> -               return PTR_ERR(priv->clk);
+> -       err =3D clk_prepare_enable(priv->clk);
+> -       if (err < 0)
+> -               return err;
+> +       clk =3D devm_clk_get_enabled(&pdev->dev, NULL);
+> +       if (IS_ERR(clk))
+> +               return PTR_ERR(clk);
 >
-> -                       err =3D clk_prepare_enable(priv->mg_clk);
-> -                       if (err < 0)
-> -                               goto err_gop_clk;
-> +               /* Get system's tclk rate */
-> +               priv->tclk =3D clk_get_rate(clk);
->
-> -                       priv->mg_core_clk =3D devm_clk_get_optional(&pdev=
-->dev, "mg_core_clk");
-> -                       if (IS_ERR(priv->mg_core_clk)) {
-> -                               err =3D PTR_ERR(priv->mg_core_clk);
-> -                               goto err_mg_clk;
-> -                       }
-> +               clk =3D devm_clk_get_enabled(&pdev->dev, "gop_clk");
-> +               if (IS_ERR(clk))
-> +                       return PTR_ERR(clk);
->
-> -                       err =3D clk_prepare_enable(priv->mg_core_clk);
-> -                       if (err < 0)
-> -                               goto err_mg_clk;
-> -               }
-> +               if (priv->hw_version >=3D MVPP22) {
-> +                       clk =3D devm_clk_get_enabled(&pdev->dev, "mg_clk"=
-);
-> +                       if (IS_ERR(clk))
-> +                               return PTR_ERR(clk);
->
-> -               priv->axi_clk =3D devm_clk_get_optional(&pdev->dev, "axi_=
-clk");
-> -               if (IS_ERR(priv->axi_clk)) {
-> -                       err =3D PTR_ERR(priv->axi_clk);
-> -                       goto err_mg_core_clk;
-> +                       clk =3D devm_clk_get_optional_enabled(&pdev->dev,=
- "mg_core_clk");
-> +                       if (IS_ERR(clk))
-> +                               return PTR_ERR(clk);
->                 }
->
-> -               err =3D clk_prepare_enable(priv->axi_clk);
-> -               if (err < 0)
-> -                       goto err_mg_core_clk;
-> -
-> -               /* Get system's tclk rate */
-> -               priv->tclk =3D clk_get_rate(priv->pp_clk);
-> +               clk =3D devm_clk_get_optional_enabled(&pdev->dev, "axi_cl=
-k");
-> +               if (IS_ERR(clk))
-> +                       return PTR_ERR(clk);
->         } else {
->                 err =3D device_property_read_u32(&pdev->dev, "clock-frequ=
-ency", &priv->tclk);
->                 if (err) {
-> @@ -7622,7 +7598,7 @@ static int mvpp2_probe(struct platform_device *pdev=
-)
->         if (priv->hw_version >=3D MVPP22) {
->                 err =3D dma_set_mask(&pdev->dev, MVPP2_DESC_DMA_MASK);
->                 if (err)
-> -                       goto err_axi_clk;
-> +                       return err;
->                 /* Sadly, the BM pools all share the same register to
->                  * store the high 32 bits of their address. So they
->                  * must all have the same high 32 bits, which forces
-> @@ -7630,7 +7606,7 @@ static int mvpp2_probe(struct platform_device *pdev=
-)
->                  */
->                 err =3D dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32=
-));
->                 if (err)
-> -                       goto err_axi_clk;
-> +                       return err;
->         }
->
->         /* Map DTS-active ports. Should be done before FIFO mvpp2_init */
-> @@ -7649,12 +7625,12 @@ static int mvpp2_probe(struct platform_device *pd=
-ev)
->         err =3D mvpp2_init(pdev, priv);
+>         err =3D mvneta_bm_get_sram(dn, priv);
 >         if (err < 0) {
->                 dev_err(&pdev->dev, "failed to initialize controller\n");
-> -               goto err_axi_clk;
+>                 dev_err(&pdev->dev, "failed to allocate internal memory\n=
+");
+> -               goto err_clk;
 > +               return err;
 >         }
 >
->         err =3D mvpp22_tai_probe(&pdev->dev, priv);
->         if (err < 0)
-> -               goto err_axi_clk;
-> +               return err;
+>         priv->pdev =3D pdev;
+> @@ -452,8 +450,6 @@ static int mvneta_bm_probe(struct platform_device *pd=
+ev)
 >
->         /* Initialize ports */
->         device_for_each_child_node_scoped(&pdev->dev, port_fwnode) {
-> @@ -7665,8 +7641,7 @@ static int mvpp2_probe(struct platform_device *pdev=
-)
->
->         if (priv->port_count =3D=3D 0) {
->                 dev_err(&pdev->dev, "no ports enabled\n");
-> -               err =3D -ENODEV;
-> -               goto err_axi_clk;
-> +               return -ENODEV;
->         }
->
->         /* Statistics must be gathered regularly because some of them (li=
-ke
-> @@ -7698,16 +7673,6 @@ static int mvpp2_probe(struct platform_device *pde=
-v)
->  err_port_probe:
->         for (i =3D 0; i < priv->port_count; i++)
->                 mvpp2_port_remove(priv->port_list[i]);
-> -err_axi_clk:
-> -       clk_disable_unprepare(priv->axi_clk);
-> -err_mg_core_clk:
-> -       clk_disable_unprepare(priv->mg_core_clk);
-> -err_mg_clk:
-> -       clk_disable_unprepare(priv->mg_clk);
-> -err_gop_clk:
-> -       clk_disable_unprepare(priv->gop_clk);
-> -err_pp_clk:
-> -       clk_disable_unprepare(priv->pp_clk);
+>  err_sram:
+>         mvneta_bm_put_sram(priv);
+> -err_clk:
+> -       clk_disable_unprepare(priv->clk);
 >         return err;
 >  }
 >
-> @@ -7745,12 +7710,6 @@ static void mvpp2_remove(struct platform_device *p=
-dev)
+> @@ -473,8 +469,6 @@ static void mvneta_bm_remove(struct platform_device *=
+pdev)
 >
->         if (!dev_of_node(&pdev->dev))
->                 return;
+>         /* Dectivate BM unit */
+>         mvneta_bm_write(priv, MVNETA_BM_COMMAND_REG, MVNETA_BM_STOP_MASK)=
+;
 > -
-> -       clk_disable_unprepare(priv->axi_clk);
-> -       clk_disable_unprepare(priv->mg_core_clk);
-> -       clk_disable_unprepare(priv->mg_clk);
-> -       clk_disable_unprepare(priv->pp_clk);
-> -       clk_disable_unprepare(priv->gop_clk);
+> -       clk_disable_unprepare(priv->clk);
 >  }
 >
->  static const struct of_device_id mvpp2_match[] =3D {
+>  static const struct of_device_id mvneta_bm_match[] =3D {
+> diff --git a/drivers/net/ethernet/marvell/mvneta_bm.h b/drivers/net/ether=
+net/marvell/mvneta_bm.h
+> index e47783ce77e0..396dced914aa 100644
+> --- a/drivers/net/ethernet/marvell/mvneta_bm.h
+> +++ b/drivers/net/ethernet/marvell/mvneta_bm.h
+> @@ -94,7 +94,6 @@ enum mvneta_bm_type {
+>
+>  struct mvneta_bm {
+>         void __iomem *reg_base;
+> -       struct clk *clk;
+>         struct platform_device *pdev;
+>
+>         struct gen_pool *bppi_pool;
 > --
 > 2.39.0
 >
