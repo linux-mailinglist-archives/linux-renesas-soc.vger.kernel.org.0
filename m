@@ -1,74 +1,74 @@
-Return-Path: <linux-renesas-soc+bounces-8111-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8112-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7E5095C700
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 09:54:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A90E295C724
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 10:00:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 006811C21A2E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 07:54:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE8831C21550
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 08:00:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14E4013D52A;
-	Fri, 23 Aug 2024 07:54:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6B071428E3;
+	Fri, 23 Aug 2024 07:59:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="g9r4KbF8"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="DoNc3Nrf"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D077113C9B3
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Aug 2024 07:54:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94741142623
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Aug 2024 07:59:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724399655; cv=none; b=mWHa/ZXCDzM/+0tedv6FEa2lyNIcD5OVi0JoMfqqwTc+48vlLUuUeyZZ05N2HWZeQGttglTooa+5I0qNImRXsCIlRhQ4E9Nybq6t5mCMugIKq0ZLBhGy1APWpeDLEc/XSU3CVebwmXIs6vSZAqdcKn7am3kWstSKSrOxVMaLbvU=
+	t=1724399987; cv=none; b=iE72P5TPFXVEYAX3FGyvdBIuXHbTxo6p3VwCOS1lL28y366FwKlQbAIZNVwW68YX8uG62/YZ9yHbZTYGJIlDQ52v0bnpuqcku18dznapU/+pChX3nlaFetvD8S8uMIJOXxPy28YcRQFaVJKVEs3R2RbbP1r5LtgUV7STLYd7QSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724399655; c=relaxed/simple;
-	bh=o/OpwKFjjA1yEkgqJPpN5d/tMG8m+GDhUM0qxhUcYY8=;
+	s=arc-20240116; t=1724399987; c=relaxed/simple;
+	bh=dGHVx+hFfK2LkEEUaLJJzkbk61htvECuf2CwQAdYmPw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qUpKyokX0u4/t8IYgw3gP4l5GDlMtMN3xUojqqULz7pVyNw5Dku6io5ioauFIXrx3aAYcyaFD9WIhkb7yJxvac2T0fNMh3Xh1rHLBCcm4/iAQOrACVQyihFYoZSgiuSzq6MJPr6wdcbUFmn41aOO16CPqrbPqD2ALCqKF7YS9oo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=g9r4KbF8; arc=none smtp.client-ip=209.85.208.51
+	 In-Reply-To:Content-Type; b=RtlpGI+Vv9nf/3Ku7/iSlIRr6DtYY40Ifa67P2yKkBO9C+4KjjdLJgAELA0IQ3uKQlg1rfKNalkeQyTak4p5mfkYMVvmqoWIxfRuFKOSJJpTj4VTeRLanxBLvJViqyPYhvxBDmCOwN9adxKJfKxe4yhCV5pErfqWrxuZ2NAbcx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=DoNc3Nrf; arc=none smtp.client-ip=209.85.218.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5becdf7d36aso2268633a12.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Aug 2024 00:54:11 -0700 (PDT)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a86933829dcso196492366b.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Aug 2024 00:59:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1724399650; x=1725004450; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1724399983; x=1725004783; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=K9F6H3c2NVmBHPEentW34dAviw4YhqEZNXwnJa/lgq4=;
-        b=g9r4KbF8boXqlaHvOateW8bGYMOhm34jwDwKIzmDuP1vp+uaDAMhXYzuv8uRWqW6NU
-         MjQpU5jSy34jCJgQsLy3OfHRHE2J8AD5feeCkPjYbiZym6eyDruMe4iG7rnPOYfD/o+H
-         BLtzTTlheSsMNwT4cNUiRze65dOg2tFpv3MV+MnBt0LfwwoF6nSucA0oQRk0EY9dVBMi
-         qG4Ut+4xYurOL3y2yUSb1yaubM0eSpK7enfDo5saLzwG1C+R5wyWSq4YghqlUp9IuouO
-         LPm25Wnfdv6AGWlXbWDSmlMPCUVTWHdZlxblshHuKgCvMap2fmCwSzJtCo5MW1XzPcCE
-         BriA==
+        bh=9cyUaWQ/RfElk/9t5oBKQMBDU3FsVlRw3b+jDEVNsQM=;
+        b=DoNc3NrfHp1s2iwmcPndsIbFpdoJkTTwmbp2qyy23PXfUfDARwhZGFQZug8yaiMowb
+         j+b+L3x8L29ezFlBfmmAeMgNjqpYpABtTI+0s3HwUnPC7xOjOoIWcnHrZuOpXnpgPFBz
+         JzibB354DlcDKzxdAzffbDTMq+gMXw9yksz0J1Y9WiS9OyNS89A3NcZPoXqRE4Dp9FLS
+         PMb45DR155zLEUvVeMEqZQpRJJrF0I9pzk2IFYFbgj648VLp4nRC0GLp+lyiH03EBlwD
+         Rm0FjLQziaYUeKzqq/Sfbk/TgdDLuOOgatKg9uS6/HpyIfxKPQoqOOk5+iJllniPiSEE
+         SZCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724399650; x=1725004450;
+        d=1e100.net; s=20230601; t=1724399983; x=1725004783;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=K9F6H3c2NVmBHPEentW34dAviw4YhqEZNXwnJa/lgq4=;
-        b=XCBLcUICRCwUHLHVHCtakfEL6KKP430op9VcsbH2oHdwPzztXtk273+com21Ssl9cs
-         vnT+cPcuD/oPnrJmtLP7vC5fIKg7WSIAt40qzZVRR5J5M5FxPs4BjegiuX+4Woa+gPJh
-         KdWHaPTnrkeszxu/Cl+T0qZX9S5yY3pw9u+KxkH4aa+Y9+CVFau+dE2u9EuhB9lCm1mM
-         b2snw5Y/UETZK2HD9JX9jjnB5ehQ6xFwlc3Wdsd5uqC1cwskd9CW6nbRIL/5sEVWGMV1
-         Ni8NY26ulAyHm83EwSoGgwOJJgNPxkXmxSQLbGzSRFU5dRkIa/7l6IcN7vUqfNCIEFAd
-         DRDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX6v1jVydVeE4NEFSFZDuJ/k6SgJzdpClQ643TAPxpG4Fomr+bqj3XQgm3SzAJaJm/GpsiUIqTbhVZ9rhp+8VFPDQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJTE+IhR0YOegjMAwJ38TD9GmNfhXw9uDyzVB9yHP3D7Xy6MDV
-	2SblRYDbUCTXHE27CeouYCdNAON5FAqMrTfjrb//3TFAeSVgFmTXxEi0f6UZF0I=
-X-Google-Smtp-Source: AGHT+IEoQJnrG7rJ9f2StMomCkVPrYJqe5+JdS66nZak9PuSepkUhwJhO+/TtFtd6qLUxl+/AblgVw==
-X-Received: by 2002:a05:6402:4303:b0:5be:e999:18ab with SMTP id 4fb4d7f45d1cf-5c0891a1ccemr803908a12.23.1724399649843;
-        Fri, 23 Aug 2024 00:54:09 -0700 (PDT)
+        bh=9cyUaWQ/RfElk/9t5oBKQMBDU3FsVlRw3b+jDEVNsQM=;
+        b=er8/+mPzcKRAp8z0yBD6uw2+jE6fSDh/9tq4AHFw047MTw3h/ZYB4e1VT0iDOxVBod
+         4QCzbqgzuRjUvrNG60ywUZsHCpmJbKoz184KjTPV9Yb2DNTRfgKYmHt9JCmK8EgHN9hN
+         oixcow64vuNQ7Gf2iqka8kranONLTNrVSVO3C47nlSyVPJ7pRnldWkwdL7Gk5ymbfUn9
+         dFowQtLZBss9DfMZqBCkx122vZGtp0iGLu3qjhC4yXPvZ8s4/+WUL7++kX800M17hnva
+         APtiKTXQQkL/sMsHma2uSbUuvoHCbjy/0zYn5EqNWXmKBsJu/d+raAfo8gPgOon9IqGD
+         Zgug==
+X-Forwarded-Encrypted: i=1; AJvYcCVeyaAGJuapGFjNb7DUieE7wL3LS+E52sRfU29YezRVT3z6kNS+WLRF3h/9gPvIRoSaSSvt9xyFMeK65knaDpPZvw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyS/YS0u4TJW7XBKe260PFysBL3VULxqSg7C4+xcVbpgLO9G2Rx
+	001owiD6lwsew4oTEjifA81Y0Pb1Ls9objAMmlGleF9hAJ6HrD9F1yo9yZbKH5k=
+X-Google-Smtp-Source: AGHT+IFALanES9BGD/uHrel10X5aoBTS5/4uaV/A+E4WAJMOHgg5/BTkzR0yFcRw4eCRtDATN+BsLQ==
+X-Received: by 2002:a17:907:6d0d:b0:a86:938f:e84c with SMTP id a640c23a62f3a-a86a54df8d3mr78450566b.66.1724399982571;
+        Fri, 23 Aug 2024 00:59:42 -0700 (PDT)
 Received: from [192.168.50.4] ([82.78.167.177])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c04a3eabe1sm1754112a12.52.2024.08.23.00.54.07
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f48aac4sm219597466b.185.2024.08.23.00.59.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Aug 2024 00:54:09 -0700 (PDT)
-Message-ID: <0d8b1322-cf15-4ed9-b958-06516bbb64c7@tuxon.dev>
-Date: Fri, 23 Aug 2024 10:54:06 +0300
+        Fri, 23 Aug 2024 00:59:42 -0700 (PDT)
+Message-ID: <e0308678-c031-41e1-8d07-d2b78504180f@tuxon.dev>
+Date: Fri, 23 Aug 2024 10:59:39 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -93,75 +93,88 @@ Cc: vkoul@kernel.org, kishon@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
 References: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com>
  <20240822152801.602318-3-claudiu.beznea.uj@bp.renesas.com>
  <20240822-vanilla-enigmatic-f0b05ecca4b6@spud>
+ <20240822-mountain-hurdle-dd1f08b96f64@spud>
 From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20240822-vanilla-enigmatic-f0b05ecca4b6@spud>
+In-Reply-To: <20240822-mountain-hurdle-dd1f08b96f64@spud>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi, Conor,
 
-On 22.08.2024 19:42, Conor Dooley wrote:
-> On Thu, Aug 22, 2024 at 06:27:47PM +0300, Claudiu wrote:
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+
+On 22.08.2024 19:44, Conor Dooley wrote:
+> On Thu, Aug 22, 2024 at 05:42:57PM +0100, Conor Dooley wrote:
+>> On Thu, Aug 22, 2024 at 06:27:47PM +0300, Claudiu wrote:
+>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>
+>>> The RZ/G3S System controller has registers to control signals that need
+>>> to be de-asserted/asserted before/after different SoC areas are power
+>>> on/off. This signals are implemented as reset signals. For this document
+>>> the #reset-cells property.
+>>>
+>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>> ---
+>>>  .../bindings/soc/renesas/renesas,rzg2l-sysc.yaml | 16 ++++++++++++++++
+>>>  1 file changed, 16 insertions(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml
+>>> index 4386b2c3fa4d..6b0bb34485d9 100644
+>>> --- a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml
+>>> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml
+>>> @@ -42,12 +42,28 @@ properties:
+>>>        - const: cm33stbyr_int
+>>>        - const: ca55_deny
+>>>  
+>>> +  "#reset-cells":
+>>> +    const: 1
+>>> +
+>>>  required:
+>>>    - compatible
+>>>    - reg
+>>>  
+>>>  additionalProperties: false
+>>>  
+>>> +allOf:
+>>> +  - if:
+>>> +      properties:
+>>> +        compatible:
+>>> +          contains:
+>>> +            const: renesas,r9a08g045-sysc
+>>> +    then:
+>>> +      required:
+>>> +        - "#reset-cells"
 >>
->> The RZ/G3S System controller has registers to control signals that need
->> to be de-asserted/asserted before/after different SoC areas are power
->> on/off. This signals are implemented as reset signals. For this document
->> the #reset-cells property.
->>
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->> ---
->>  .../bindings/soc/renesas/renesas,rzg2l-sysc.yaml | 16 ++++++++++++++++
->>  1 file changed, 16 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml
->> index 4386b2c3fa4d..6b0bb34485d9 100644
->> --- a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml
->> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml
->> @@ -42,12 +42,28 @@ properties:
->>        - const: cm33stbyr_int
->>        - const: ca55_deny
->>  
->> +  "#reset-cells":
->> +    const: 1
->> +
->>  required:
->>    - compatible
->>    - reg
->>  
->>  additionalProperties: false
->>  
->> +allOf:
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            const: renesas,r9a08g045-sysc
->> +    then:
->> +      required:
->> +        - "#reset-cells"
+>> Given this is new required property on an existing platform, I'd expect
+>> some mention of why it used to be okay to not have this but is now
+>> required. Did firmware or a bootloader stage take things out of reset?
 > 
-> Given this is new required property on an existing platform, I'd expect
-> some mention of why it used to be okay to not have this but is now
-> required. Did firmware or a bootloader stage take things out of reset?
+> Reading a bit more into the series, the peripherals in question were
+> just never used nor did a driver for the sysc exist, so there's neither
 
-On previous SoCs the SYS controller has no support for controlling the
-signals going to different peripherals (USB, PCIE in case of RZ/G3S).
-I'll add a note about this on next version.
+Exactly.
+
+> explanation of prior behaviour nor concerns about compatibility?
+
+The newly introduced sysc driver is probed only for RZ/G3S and used to
+control the USB, PCIe signals though reset control driver (registered by
+sysc driver on auxiliary bus) and to identify the chip. The intention is to
+later migrate the chip identification support for the rest of RZ/G2 devices
+to this new driver and add more functionalities, when/if needed.
 
 Thank you,
 Claudiu Beznea
 
-
 > 
->> +    else:
->> +      properties:
->> +        "#reset-cells": false
->> +
->>  examples:
->>    - |
->>      #include <dt-bindings/interrupt-controller/arm-gic.h>
->> -- 
->> 2.39.2
 >>
+>>> +    else:
+>>> +      properties:
+>>> +        "#reset-cells": false
+>>> +
+>>>  examples:
+>>>    - |
+>>>      #include <dt-bindings/interrupt-controller/arm-gic.h>
+>>> -- 
+>>> 2.39.2
+>>>
+> 
+> 
 
