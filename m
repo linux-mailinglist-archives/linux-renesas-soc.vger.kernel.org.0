@@ -1,81 +1,82 @@
-Return-Path: <linux-renesas-soc+bounces-8129-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8130-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE02495C9D1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 11:59:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 334E095C9D8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 12:02:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 67914B23B90
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 09:59:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5B48C1F234A5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 10:02:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D54F714AD30;
-	Fri, 23 Aug 2024 09:59:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0D4014D718;
+	Fri, 23 Aug 2024 10:02:38 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B9795FBBA;
-	Fri, 23 Aug 2024 09:59:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 448A128EA;
+	Fri, 23 Aug 2024 10:02:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724407180; cv=none; b=FwLfxmrwW1JWQe1CtIebdkgjOujdQtfLyuiB80Bd8Blt98O9CMfZmTT8VjqMFGf8/CRcLFQ3nWdzmRMYF/jNJiREJmAweKCGIMvaiMqO0g0FhLnGH9+jsUnnkAqG37GCQmgTDvxlPRE4tkIyyfIRrcMKX/hVFF9XE512PuwK04o=
+	t=1724407358; cv=none; b=DHIPB9DegOg8K+atkOzpltedsq6yUHexMfSRb63FrO8Unj+MXwSLY+EstzGf3uUr0k9A1grJk5vlhQFoprbjwKXN+CsqAbdQ7UumfWakKuvzNDHaahjXwP5fZrSi2twa4TgpPKQ9oWwNuAsno6Lf7pLsLcvNtjYFjqhRzXS/1t4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724407180; c=relaxed/simple;
-	bh=qA1upCTq85JBC0nlj9KDOvzgdSK22jPoFfgjPqpKjLQ=;
+	s=arc-20240116; t=1724407358; c=relaxed/simple;
+	bh=oiYKzaGj7xrlWfmhZHg5Hat7MAkPd2ergf45bH1IXOU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DneaEaXk4SdAnYEz5dFPb684ZcKlROtos1+D2JQUK+IY5NFoPIM04oQe6l1zwegdQysExZNu8ujpqOkra2JxW5KyF3O99+tc33KUzJkcP9vyOqen/cMvkOfzKgIqN+U56GEed2ypCor2oyh7oXn2vQ5LJunJqr35vJQ8s/TsuOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.182
+	 To:Cc:Content-Type; b=dAu+0XTpAdaiBVTh0DqXBWp7U4G1yy/ldkdu1O7ZclbLbtNhsiWl8TSI5dXdxjmR5pyvpCh6329oAezeUSqJFnk8OeKjqHmkI+fEzleaJRiEOxTJyzxfKaiogcydUqov0SrJCHPNDhDIiE7yhUvrNzWm22la010ZIQ3EVniPVeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-e05f25fb96eso1835809276.1;
-        Fri, 23 Aug 2024 02:59:38 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-6b5c37a3138so16709347b3.1;
+        Fri, 23 Aug 2024 03:02:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724407177; x=1725011977;
+        d=1e100.net; s=20230601; t=1724407355; x=1725012155;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xb7U4fwtsM7F6TUfU4gnlT77+ZOKIuBXdT9S91vCiZE=;
-        b=hgSa4Iffv80VHQdFosR2slXrIHWJaQZYwAnqoOM5f8kdhYAH8WGqqPge3HyjocR0u5
-         E2V6EB+UqDMmGsGBGKAzOi0Bmpa/1FIVfEuzJmXkxi97wZKeCetzBQqGwjywnw0fnBk+
-         +YJddP3jdy4ute/TMBrB8eTXjBhEMAECiN+OSSj5CxrnSzOyE+G6bhSZq1zq8xnE4f4H
-         ReLbJqBhyPPn+mSo1b9MsHqbZxmjJtzJO+3JpDXhXisSlnWJjLbjiHWgc00yEXO/vnZC
-         Vr7H2ruIcOcL/6MTbPzyEFNpwhqvjPy/7FOn5gMuy3GJEC0bFIry3e6kH9svsh2DCG6e
-         RBJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV/7YoQ51AKQuD7ZkkYwkQzb51Y0z0D/yyVCZ6v4cdQnmdYU+SSlSvXIWJ62K/eAatl8W8N64b4OeKJCurcN1rfKKU=@vger.kernel.org, AJvYcCVIdySpWHckkJBOPjJKpNCQKK+ednJkABuLakZJa0hri4NUGiz/LaT2IrCPM7RIu2/Qgqo9kDXoXUwo6JA=@vger.kernel.org, AJvYcCWPgOUnamLYqiqX+PJBZMkFI3XIz0oseOU2pyhwmR/uLLKcG50CAo9GBJBfD+oDv75ras9XoYDcguNI@vger.kernel.org
-X-Gm-Message-State: AOJu0YwjycCNpOZJziReolHYxO5EaFxc2KE+/Q6AedZCJGO2TYsoalSe
-	iCvbnQO7NZX5mH9russLPKaEL7XT/T12GzWtAP64ek3a3OMB4tR54lVb6/qy
-X-Google-Smtp-Source: AGHT+IF1qdvIfN67ch+DkCnuSIcTkS/MSF8mMr80A7XQMReopT9elZGgpjRDcdWTgFXN3Wa4lxiyog==
-X-Received: by 2002:a05:690c:f16:b0:6af:8f7a:28c5 with SMTP id 00721157ae682-6c624418a79mr18098537b3.7.1724407176888;
-        Fri, 23 Aug 2024 02:59:36 -0700 (PDT)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6c399cb4f82sm5026557b3.1.2024.08.23.02.59.36
+        bh=/StzLHVzGIe2hAzWOEh0nBxaHg45IwWO5eMFJW/nYrQ=;
+        b=AucMRNy5npNYHI/iTZ2GIaE4V+zUCV+AjHiuTfqvIveQO5FN0k7AIgcdvEJ/byehT8
+         RVazeH3hJ5W9vgdRaBIvihwDlZNsnxWNXgMAuCu20jWvt+MeT/Y6E/n/0lIVN6Q8oA3C
+         uMF8ZOElVOuLmrpPjk5XMyOwOnaxLzCV90F+wdxTPAn7ECEkPgUD9PC95+lnL2okpWJ9
+         964Y0fjWHp10XkCmvf2pkDiDEvjyyqfpsb8+nDSJYNG6/+1EzLKpnL/K5koV3lWzwPsK
+         1gqOpSatxKI9hPd/VwWs3XXgoEstJpQtrji5SyN6nRWfTrO2Vyeyy+Rllnah5Wa/DFqX
+         GMeA==
+X-Forwarded-Encrypted: i=1; AJvYcCUg6KxJv3lBvve+DFu7tl6gbUIYKAuAuqwAX2KGww0FZ4lx0lMmH4B1SV5ZH8C1+MuEaHztma7aAQOFtLk=@vger.kernel.org, AJvYcCUwUZgF+mdD4O10RC99eBmBVrUVkA/Ck/uRAj8AWX2Z1GQ72S1i20RbxeOPvpAe8NcleiiWDWJKR+vrY0GhG6pE4J8=@vger.kernel.org, AJvYcCVKwPluRC9kFlTXcBmpJ389JeFfXgUbFKXaXq5E8KjPwNzVhFV/FN2xHBnAmTE44XaUS/hfJIkxtHG7@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxve+ATyB7W5UIMWJYWIBe/RNyXdrCB9fgH0BOlOCu3iUYkOErU
+	AMqEzOYuuFSe/qwQsUTi+16/19rp/ns9JoHeVzTW9FCwcFuKx29SkmTYXlkJ
+X-Google-Smtp-Source: AGHT+IGtpP5lKFtWxufcpa1bwEy4pbPv3bWWOt/4qwDT6d1JB2vvn6eAHmJR3tIhEZz80KkiXxTKfQ==
+X-Received: by 2002:a05:690c:4585:b0:6b0:488a:5056 with SMTP id 00721157ae682-6c6263ee1c8mr15321077b3.22.1724407355525;
+        Fri, 23 Aug 2024 03:02:35 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6c399cb53f6sm5002797b3.3.2024.08.23.03.02.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Aug 2024 02:59:36 -0700 (PDT)
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e116b591e15so1825511276.3;
-        Fri, 23 Aug 2024 02:59:36 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU/ot8PwlNaZQiNL5iqll0J4K5YO/1BjFuqounyPaFgFQS/2npZ0MP6z1BmXyOamaUiBVHvQMo6F24K@vger.kernel.org, AJvYcCUWGwVTnxASDGhzTyR0c8F82/LxPfrhY1ydXMRdtxv4ZJQYe5qG7fReDxMXoWNhNQ1Pgl06V2YN2j2265B05wAK0cs=@vger.kernel.org, AJvYcCW87ZsPsUFdWma5vbBSxMbPpbSjUpF34bMgu4ghuQSamDhdTypzSx0MAM23yEeXElT6whwhb7/6CruhjwE=@vger.kernel.org
-X-Received: by 2002:a05:690c:dc9:b0:665:54fa:5abf with SMTP id
- 00721157ae682-6c624418f48mr19808117b3.2.1724407176568; Fri, 23 Aug 2024
- 02:59:36 -0700 (PDT)
+        Fri, 23 Aug 2024 03:02:35 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-690e9001e01so17161727b3.3;
+        Fri, 23 Aug 2024 03:02:35 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVGMOu5/wZ7bm5mngVVECdJrG82jlJUt2lCBzLXUGZDyF5rhIaofJ2yxKQR0xg5dBALIYEewNppCTIr2BfL3C7xPsw=@vger.kernel.org, AJvYcCXDTSVswxBppOi0HhIXuTD7zouH6rzMlpqnUQBlyDIBEW0jjVmi4NJ1eBV50Hb6AObw3GSC8Qj5HlYe@vger.kernel.org, AJvYcCXTk2g1bfzojaOsH8FOT2UJfVeCgqEAuQibqaecM2HxXPVpb0e/aiuirfSBcsiIwK0LrYfZlpiTvQhy034=@vger.kernel.org
+X-Received: by 2002:a05:690c:2e8a:b0:6ad:f6ae:768b with SMTP id
+ 00721157ae682-6c62924f5dcmr14634597b3.31.1724407354945; Fri, 23 Aug 2024
+ 03:02:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240725084559.13127-1-biju.das.jz@bp.renesas.com> <20240725084559.13127-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20240725084559.13127-3-biju.das.jz@bp.renesas.com>
+References: <20240725084559.13127-1-biju.das.jz@bp.renesas.com> <20240725084559.13127-4-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20240725084559.13127-4-biju.das.jz@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 23 Aug 2024 11:59:24 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUi+++pYU3jDP2pB3o0mH8+UgnczDyrckKQzL59O92E0w@mail.gmail.com>
-Message-ID: <CAMuHMdUi+++pYU3jDP2pB3o0mH8+UgnczDyrckKQzL59O92E0w@mail.gmail.com>
-Subject: Re: [PATCH 2/3] arm64: dts: renesas: rzg2l-smarc: Enable HDMI audio
+Date: Fri, 23 Aug 2024 12:02:23 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXwtrCyCA6A2AZwFgQedQt+sXr9iXoVogvo2N2iY9fjMA@mail.gmail.com>
+Message-ID: <CAMuHMdXwtrCyCA6A2AZwFgQedQt+sXr9iXoVogvo2N2iY9fjMA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] arm64: dts: renesas: rzg2lc-smarc: Enable HDMI audio
 To: Biju Das <biju.das.jz@bp.renesas.com>
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
 	Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, linux-sound@vger.kernel.org, 
+	Mark Brown <broonie@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-sound@vger.kernel.org, 
 	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
@@ -85,35 +86,64 @@ Hi Biju,
 
 On Thu, Jul 25, 2024 at 10:46=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.c=
 om> wrote:
-> Enable HDMI audio on RZ/{G2L,V2L} SMARC EVK.
+> Enable HDMI audio on RZ/G2LC SMARC EVK. Set SW 1.5 to OFF
+> position on the SoM module to turn on HDMI audio.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
 Thanks for your patch!
 
-> --- a/arch/arm64/boot/dts/renesas/rzg2l-smarc-pinfunction.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc-pinfunction.dtsi
-> @@ -143,6 +143,13 @@ ssi0_pins: ssi0 {
->                          <RZG2L_PORT_PINMUX(45, 3, 1)>; /* RXD */
->         };
+> --- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
+> @@ -48,10 +58,16 @@ &canfd {
+>  };
+>  #endif
 >
-> +       ssi1_pins: ssi1 {
-> +               pinmux =3D <RZG2L_PORT_PINMUX(46, 0, 1)>, /* BCK */
-> +                        <RZG2L_PORT_PINMUX(46, 1, 1)>, /* RCK */
-> +                        <RZG2L_PORT_PINMUX(46, 2, 1)>, /* TXD */
-> +                        <RZG2L_PORT_PINMUX(46, 3, 1)>; /* RXD */
+> +#if (!SW_I2S0_I2S1)
+>  &cpu_dai {
+>         sound-dai =3D <&ssi0>;
+>  };
+>
+> +&ssi0 {
+> +       /delete-node/ port;
 
-RXD/I2S2_SDIN is not wired on the carrier board.
-OK to drop it?
+Which submode does this delete?
+The conditional one below which is only added when SW_I2S0_I2S1=3D=3D1?
 
-The rest LGTM (but I'm no audio bindings expert).
+> +};
+> +#endif
+> +
+>  &dsi {
+>         status =3D "okay";
+>
+
+> @@ -177,6 +202,18 @@ &ssi0 {
+>         pinctrl-names =3D "default";
+>
+>         status =3D "okay";
+> +
+> +#if (SW_I2S0_I2S1)
+> +       i2s2_port: port {
+> +               i2s2_cpu_endpoint: endpoint {
+> +                       remote-endpoint =3D <&codec_endpoint>;
+> +                       dai-format =3D "i2s";
+> +
+> +                       bitclock-master =3D <&i2s2_cpu_endpoint>;
+> +                       frame-master =3D <&i2s2_cpu_endpoint>;
+> +               };
+> +       };
+> +#endif
+>  };
+>
+>  #if (SW_RSPI_CAN)
+
+The rest LGTM.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
-
---
+--=20
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
 .org
 
