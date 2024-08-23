@@ -1,115 +1,111 @@
-Return-Path: <linux-renesas-soc+bounces-8142-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8143-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6989195CC33
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 14:15:28 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB5A395CC42
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 14:20:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9C7301C215F9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 12:15:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3C150B24DE2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2024 12:20:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 758E2358A7;
-	Fri, 23 Aug 2024 12:15:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DBF5183CD9;
+	Fri, 23 Aug 2024 12:20:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JbescCSi"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A473A28D;
-	Fri, 23 Aug 2024 12:15:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C71EA9457;
+	Fri, 23 Aug 2024 12:20:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724415325; cv=none; b=g6KXq1am3/wgWnz6VjiceqUu+m4govVoYUnooJf6xYW6GOSIp4LppnFQlvBSkcEXqrIZiegs8O475PXoKgU0FD7BYy3mS4z/fsygajTgUazb5HT4pTnBJQk//7GEUanG1iBtxrFaDIJfyV2qK5pFVx1nXMIHc/IcMFJBs8/yTvQ=
+	t=1724415611; cv=none; b=LDQ6I+oGwmlZNKd7sGS6cH7xxVNj422eqlnRVoWMvippwOco1uWg2B7Jr+GDCnLpYeyeNLOrfnx1EsIrpyjqXMObGkBIt6A+iwt14FG9jukZyDB9E8/ocbMq1awBKvo1dVNqPBKWUr0Nc8XMZnqizPwaWYHJSABWLlscmk+aADc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724415325; c=relaxed/simple;
-	bh=9Gvond4EpUbd/5LCrfoZSP6X0bn+M70kRVMuJnjnLcg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iw10iYyEL6zYGjifPW5rWyf3g88i2d3iLflBh5NAn6Pv2o8Jv3ipSFBK8NfnApvCANDieLsfKG7I1GHDI2xUQa1Jh9GIIb/K2B7A7I7qWtHAkPa3o1rcVh8Jb1HsoW1XKUDubinVMEMM4kWvfLP3OrVf6vSDbjhRgg5yntRI5U0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-68d30057ae9so17535737b3.1;
-        Fri, 23 Aug 2024 05:15:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724415321; x=1725020121;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Q9McJyguLm8xtxOWd0nGrC2vXxRJ8FqFdeFHw/GUufw=;
-        b=Gg0VLQtWNBYxRlPQ4KHdBgPkW+t0e8tZIIlacf4oZsekFUWqZuAE4d6R9lXrxcKjUf
-         crrd8Wva0gpjpPLi1CuGg2NOmr2g7dQ4V9s8hCJ647EDsymj9UvNAcQrdNB6ndDV2gbu
-         ppSOJIr8P1JzYjINbzv6tg7scyhdWw4a8C4dJ8HJZx8AJKxaewBM5mdUHtmXy8QJ7PGv
-         Rrk67WSRUOvp678Naj+G1i90maxrNd6+aaIOJIG0CWYIAZVY8CfuPkI6IIIsY6d7AfWX
-         i9Ar1p8KsnGZVzc3N9o+HkGZX5JRGN3xIfXXZnTHZ8KHCfeeMStC+DB1DzUHemE017Sg
-         XcNw==
-X-Forwarded-Encrypted: i=1; AJvYcCWfB5aoi3ZTISkgpT1VLa7B2R018xE6JW/unNTI32TbKyw7VGjYMAkSfULLYDMf+Pj1GZZdqwmM4Mrm@vger.kernel.org, AJvYcCWoaRWiItsEpbnLZZzQJf+vqg/wOjSTrvAlfMfN0d8RM8SevC7CK8bN4m9K++rnXs4IFT8tAHRmF+BFn9kAvlOZESs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzYy53ruuXLh6rOqLIRUSWcf0rIeudHsqV8hNJQiMQVb0LHfnhC
-	5dfLL06L7E3zIOeYo4Mi2lm3zDRMw0OhFv+LQzDjRjmU29H32PNnNJ0sN868
-X-Google-Smtp-Source: AGHT+IG6qLUjE/4pg11khN22ayEEHO0V0oUhn5LbhRueSoRooJntj5jRWAmRA8ZDXw3DFzZCeDKW8g==
-X-Received: by 2002:a05:690c:ec9:b0:64a:9832:486 with SMTP id 00721157ae682-6c624419031mr22859477b3.1.1724415321259;
-        Fri, 23 Aug 2024 05:15:21 -0700 (PDT)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6c39d3a9de7sm5276247b3.79.2024.08.23.05.15.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Aug 2024 05:15:21 -0700 (PDT)
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e026a2238d8so2072835276.0;
-        Fri, 23 Aug 2024 05:15:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV7ImV1HFeQ8FakMopJ+zPkKfhymT9oBbMpuHYGafRsPeL8QpSKm/VrmcJwtI8puJVFA0K5gxtzNv9NY9wY6mxGU94=@vger.kernel.org, AJvYcCXSh9PWMeBfCrIzIYfjuH3xUzl5MXrDZfc98rQXzdEiI8yUzkmiEaarrtezZikEf/SbWUe1mAHJknl+@vger.kernel.org
-X-Received: by 2002:a05:690c:288f:b0:6b0:e813:753b with SMTP id
- 00721157ae682-6c6288aa364mr17322387b3.38.1724415320673; Fri, 23 Aug 2024
- 05:15:20 -0700 (PDT)
+	s=arc-20240116; t=1724415611; c=relaxed/simple;
+	bh=ZuTS7ukeYfPjZ1kjzNYzSS+Vmt2wcWpuWgPNNaf4GDM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z0wyW3YCGdxC14Ak6Fu1Hv5B64CHJw/K3OpZvpmWfSBM0NI56kXCP2KpgHPFSYz5TqntcuzJOXNAciH0KfR+0OaXJho3Wnashenz30LhyixgD0KRBDm7uWFue58eQ/nL675JzaDrnBLLoEwwAI5w7CCmp/1Xk2iahTL5lPaw3+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JbescCSi; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E8C06497;
+	Fri, 23 Aug 2024 14:18:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1724415538;
+	bh=ZuTS7ukeYfPjZ1kjzNYzSS+Vmt2wcWpuWgPNNaf4GDM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JbescCSijOlW8HS3wETJILxt7OhFJL2gonxj0JTIAMjC9cDhr06YdxtoQrT0wEDW+
+	 gcbEseuU3bJqO3NN89A8M7taTsPgee8TR8aLsi91QcCtY93nMr/dofs4HMtGsWjc7E
+	 owVGVNPBHB/8AUY5LaNqaYP2x5Q7kpDblr8H70d0=
+Date: Fri, 23 Aug 2024 15:19:59 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	"biju.das.au" <biju.das.au@gmail.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] media: platform: rzg2l-cru: rzg2l-csi2: Add missing
+ MODULE_DEVICE_TABLE
+Message-ID: <20240823121959.GA26098@pendragon.ideasonboard.com>
+References: <20240731164935.308994-1-biju.das.jz@bp.renesas.com>
+ <TY3PR01MB113469C7FEF9FAB6394992ACF86882@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240822162320.5084-1-biju.das.jz@bp.renesas.com> <20240822162320.5084-4-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20240822162320.5084-4-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 23 Aug 2024 14:15:09 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUmUbi9ZyxGJPZKKwXT96KB=mrkTMxhdg0TTDAcT3kxvA@mail.gmail.com>
-Message-ID: <CAMuHMdUmUbi9ZyxGJPZKKwXT96KB=mrkTMxhdg0TTDAcT3kxvA@mail.gmail.com>
-Subject: Re: [PATCH v4 3/4] arm64: dts: renesas: r9a07g043u: Add DU node
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <TY3PR01MB113469C7FEF9FAB6394992ACF86882@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 
-On Thu, Aug 22, 2024 at 6:23=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
-> Add DU node to RZ/G2UL SoC DTSI.
->
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v3->v4:
->  * Restored ports property and used port@0 for connected
->    DPI interface.
+On Fri, Aug 23, 2024 at 08:58:09AM +0000, Biju Das wrote:
+> Hi Media folks,
+> 
+> Gentle ping. Is this simple fix OK to everyone?
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.12.
+I've added the patch to my tree and will include it in my next pull
+request.
 
-Gr{oetje,eeting}s,
+> > -----Original Message-----
+> > From: Biju Das <biju.das.jz@bp.renesas.com>
+> > Sent: Wednesday, July 31, 2024 5:50 PM
+> > Subject: [PATCH] media: platform: rzg2l-cru: rzg2l-csi2: Add missing MODULE_DEVICE_TABLE
+> > 
+> > The rzg2l-csi2 driver can be compiled as a module, but lacks
+> > MODULE_DEVICE_TABLE() and will therefore not be loaded automatically.
+> > Fix this.
+> > 
+> > Fixes: 51e8415e39a9 ("media: platform: Add Renesas RZ/G2L MIPI CSI-2 receiver driver")
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > ---
+> >  drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> > b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> > index e68fcdaea207..c7fdee347ac8 100644
+> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> > @@ -865,6 +865,7 @@ static const struct of_device_id rzg2l_csi2_of_table[] = {
+> >  	{ .compatible = "renesas,rzg2l-csi2", },
+> >  	{ /* sentinel */ }
+> >  };
+> > +MODULE_DEVICE_TABLE(of, rzg2l_csi2_of_table);
+> > 
+> >  static struct platform_driver rzg2l_csi2_pdrv = {
+> >  	.remove_new = rzg2l_csi2_remove,
 
-                        Geert
+-- 
+Regards,
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Laurent Pinchart
 
