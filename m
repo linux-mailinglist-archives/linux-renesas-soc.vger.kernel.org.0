@@ -1,241 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-8268-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8269-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10C6C95F12A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 14:18:47 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FCD695F12D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 14:20:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8735A1F21F59
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 12:18:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E13E9B20E3B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 12:20:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D41C155382;
-	Mon, 26 Aug 2024 12:18:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="a7aeqkUr"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90D11156678;
+	Mon, 26 Aug 2024 12:20:23 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B205C140369;
-	Mon, 26 Aug 2024 12:18:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D341F140369;
+	Mon, 26 Aug 2024 12:20:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724674722; cv=none; b=JO1HHaGrKRHe2kOBpYrQZZAJdiB65cGKkOEZT6V5ZR7fLPzUaoEIFoCX7dUlKurt/hwLOFr0A03AyR8CkgSsGmuVkZ7HsMj84CIm463JGltSWPKCAIuDOAd82qWt76NOLZWMik4p8vk5oI+ljr/KM3T2qXexSCn2/nJXQccE3NA=
+	t=1724674823; cv=none; b=eYvbsnAINzLmCm0gTixfkB0cTpj2lpr0NHuEOx7zQwN2XYYea6NeHm5GUx3Q5KjOVkf6zpgyVjRYSCGYeOSuaZYYnwfxMFAC0bS0xnp7lOUXEsp6endbZbMNLG+SoDOUIFCzV+RBc6PcF5eERCS0K5cj4lCrleGr/J0X5bL1Jws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724674722; c=relaxed/simple;
-	bh=CxLWIEYecMAkx1/7Kn/DpMHICAmyC7zkBqbzOmdW9s0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t7K5ePcyr06nqbwwe38cDoSQhnexycn8HxPAPeQMFdIcJJh/+hQ5xf3RH8YDP0z/9RmK/L1xZrP/rJJAerIQzN+MzUCTUOHg7nBeNz+uCglOz2tcqdVpqnglwMloW7OjTdqF2F+BvTXLYpyixGCHQq+nQIU6+ELqhhPIWZIFfZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=a7aeqkUr; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9A2756CA;
-	Mon, 26 Aug 2024 14:17:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1724674652;
-	bh=CxLWIEYecMAkx1/7Kn/DpMHICAmyC7zkBqbzOmdW9s0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=a7aeqkUrMN+MlApYHm93GaeQs09liQQUp8VKZVg0dWCZvBS2nqMMNyQHexEudujeX
-	 8qL8pT62d0a8yj5OqVJUNtrVnef+WTRVPvBcaAzuIHvy2N+vlGuPwq4zaqhg1qcarw
-	 HJUnJEQImsViajfomB97QpcsPU9a/bUJOAC4TFwI=
-Date: Mon, 26 Aug 2024 15:18:35 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
-	Eugen Hristev <eugen.hristev@collabora.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 7/7] [DNI] media: renesas: vsp1: Validate all links
- through .link_validate()
-Message-ID: <20240826121835.GE27785@pendragon.ideasonboard.com>
-References: <20240822154531.25912-1-laurent.pinchart+renesas@ideasonboard.com>
- <20240822154531.25912-8-laurent.pinchart+renesas@ideasonboard.com>
- <93fd78a6-c8fa-421f-b10c-69a42ac8112d@ideasonboard.com>
+	s=arc-20240116; t=1724674823; c=relaxed/simple;
+	bh=s8/LKtlf80hdQy1KP55Ty+jBjJvYm+19p+cKHvb9fUU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HiSy6sGx/h9y6s3p9yLL5nJMoqF7oQYycaJWnt9tVIVRjs66ZHjCJtCXlrJCTxqqL87I3KCxtN1IDXiiJhP6RJ0pbiy0A5kprS9/D7uPWU5SA9LwRsdpK5gj6GBiqK/qlfjOgDKdVZQK83Clanx7xkAULuNs9MTzNe2mZ7/1VEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e16582cb9f9so3124143276.0;
+        Mon, 26 Aug 2024 05:20:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724674820; x=1725279620;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=m2sv7gNgIdFAM718zIFKTqLRe+kVkpp1n3p96raF+ZM=;
+        b=BU8IAL3lHQDP8U81I0OOcwOhDqoj2e3s/49Wgk9/n/UZELAGn7Vdk1MWO25JBTqxjW
+         O0a0qMBaKbQV59Qv2A0/fywounvAZ/mhhoUwEepHikPAlvITQQHV1FpiKvftRigQiqXo
+         4TsV6vDNvqfMoEntLGqz9jHqsKQK214kaxTJFffE1xG8dzS8qZGwxml9NL137RzSvE7/
+         GVirgFZYamA9hdgKkK3dXVADqALyionf6vjp0ohSMtNVs/pkdy5QBJdJ/ZWwuY/QSdfN
+         UyXw0hONbrL4XXHHdopww6sxF6xQVKEzsk1qdM6UAjBiABj+dx+lnp39mR6eihyqn6L0
+         hicQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVAxL6J0VX515Mtsoft0cOZwu/LBSZpewG5NebY9x5O5QrY6r+bS6qBsudII5kjtVKVqdyQjKGB3YJwFS6z@vger.kernel.org, AJvYcCVr7nySFOIQu3+K8VTZSvT0Vkr5VCiVAX0XuANBRHEbu4Ipl1FpZ9wOAvj0Rg1+aNxtInz6ycYRZOv+@vger.kernel.org, AJvYcCWlSVQh+lJByaF6oeAABahWsFHwfy7LlrqEy14gXcuWXMImTY83SO20Ta+ryk4/ace0pP7J7VHZNbMFX4rylyYqbPo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyfwfPD9td1KyDbIf4+146vU/bWK+onKXQDHDNZQvWFHt+hd00t
+	EMrOtPijoqkcqVoctd7cVMhjUFXHORYsMvXGdB1nqKHieLMRbR4bVNs7JxyE
+X-Google-Smtp-Source: AGHT+IF4eQx/3SXlFoEn5cwmlB/wTCHwUP8+hDAt5LPgnJUrjpybnvvOvgDyxw1MHlf/ibladFUVPg==
+X-Received: by 2002:a05:6902:1023:b0:e11:446b:d43b with SMTP id 3f1490d57ef6-e17a78e6048mr7752997276.16.1724674820064;
+        Mon, 26 Aug 2024 05:20:20 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e178e463e9csm1941701276.25.2024.08.26.05.20.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 Aug 2024 05:20:19 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6b3afc6cd01so40265307b3.1;
+        Mon, 26 Aug 2024 05:20:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUAI+5FARNbbxBa/ewL9hFgHcUfN+StszGGc6MEO9wHtNSDWnxG/zCuETUyKzF56W927QDp+JN7yIl42ix4ShciWW8=@vger.kernel.org, AJvYcCUkg9SG4X4vgy9INZMzdakpxoU5eMzU5tiqzDW4A3pzAWRlLzPILzwbSFXFeBl+9o7TgxZlNZtnzoe+@vger.kernel.org, AJvYcCUvMfdZ6tDw7xz9fPUv88OGBfITNG5iMuSunCKbxuGv2I5UJRr8APxYIcrAyIarUP/sgnxRXjmv2h4rlVvA@vger.kernel.org
+X-Received: by 2002:a05:690c:630c:b0:6cf:4b85:5e69 with SMTP id
+ 00721157ae682-6cf4b8560camr3216737b3.18.1724674819672; Mon, 26 Aug 2024
+ 05:20:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <93fd78a6-c8fa-421f-b10c-69a42ac8112d@ideasonboard.com>
+References: <20240821085644.240009-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240821085644.240009-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20240821085644.240009-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 26 Aug 2024 14:20:08 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVun6ZW95wRFo6wyZWAg9Y6KZ9Ot7j3Jo__uDtJFZDgdw@mail.gmail.com>
+Message-ID: <CAMuHMdVun6ZW95wRFo6wyZWAg9Y6KZ9Ot7j3Jo__uDtJFZDgdw@mail.gmail.com>
+Subject: Re: [PATCH v3 5/8] arm64: dts: renesas: r9a09g057: Add SDHI0-SDHI2 nodes
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Tomi,
+Hi Prabhakar,
 
-On Mon, Aug 26, 2024 at 02:43:47PM +0300, Tomi Valkeinen wrote:
-> On 22/08/2024 18:45, Laurent Pinchart wrote:
-> > Move validation of the links between video devices and subdevs,
-> > performed manually in vsp1_video_streamon(), to the video device
-> > .link_validate() handler.
-> > 
-> > This is how drivers should be implemented, but sadly, doing so for the
-> > vsp1 driver could break userspace, introducing a regression. This patch
-> > serves as an example to showcase usage of the .link_validate()
-> > operation, but should not be merged.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > ---
-> >   .../media/platform/renesas/vsp1/vsp1_video.c  | 98 +++++++------------
-> >   1 file changed, 37 insertions(+), 61 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> > index e728f9f5160e..14575698bbe7 100644
-> > --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> > +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> > @@ -45,51 +45,6 @@
-> >    * Helper functions
-> >    */
-> >   
-> > -static struct v4l2_subdev *
-> > -vsp1_video_remote_subdev(struct media_pad *local, u32 *pad)
-> > -{
-> > -	struct media_pad *remote;
-> > -
-> > -	remote = media_pad_remote_pad_first(local);
-> > -	if (!remote || !is_media_entity_v4l2_subdev(remote->entity))
-> > -		return NULL;
-> > -
-> > -	if (pad)
-> > -		*pad = remote->index;
-> > -
-> > -	return media_entity_to_v4l2_subdev(remote->entity);
-> > -}
-> > -
-> > -static int vsp1_video_verify_format(struct vsp1_video *video)
-> > -{
-> > -	struct v4l2_subdev_format fmt = {
-> > -		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-> > -	};
-> > -	struct v4l2_subdev *subdev;
-> > -	int ret;
-> > -
-> > -	subdev = vsp1_video_remote_subdev(&video->pad, &fmt.pad);
-> > -	if (subdev == NULL)
-> > -		return -EINVAL;
-> > -
-> > -	ret = v4l2_subdev_call(subdev, pad, get_fmt, NULL, &fmt);
-> > -	if (ret < 0)
-> > -		return ret == -ENOIOCTLCMD ? -EINVAL : ret;
-> > -
-> > -	if (video->rwpf->fmtinfo->mbus != fmt.format.code ||
-> > -	    video->rwpf->format.height != fmt.format.height ||
-> > -	    video->rwpf->format.width != fmt.format.width) {
-> > -		dev_dbg(video->vsp1->dev,
-> > -			"Format mismatch: 0x%04x/%ux%u != 0x%04x/%ux%u\n",
-> > -			video->rwpf->fmtinfo->mbus, video->rwpf->format.width,
-> > -			video->rwpf->format.height, fmt.format.code,
-> > -			fmt.format.width, fmt.format.height);
-> > -		return -EPIPE;
-> > -	}
-> > -
-> > -	return 0;
-> > -}
-> > -
-> >   static int __vsp1_video_try_format(struct vsp1_video *video,
-> >   				   struct v4l2_pix_format_mplane *pix,
-> >   				   const struct vsp1_format_info **fmtinfo)
-> > @@ -991,14 +946,6 @@ vsp1_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
-> >   
-> >   	mutex_unlock(&mdev->graph_mutex);
-> >   
-> > -	/*
-> > -	 * Verify that the configured format matches the output of the connected
-> > -	 * subdev.
-> > -	 */
-> > -	ret = vsp1_video_verify_format(video);
-> > -	if (ret < 0)
-> > -		goto err_stop;
-> > -
-> >   	/* Start the queue. */
-> >   	ret = vb2_streamon(&video->queue, type);
-> >   	if (ret < 0)
-> > @@ -1087,14 +1034,43 @@ static const struct v4l2_file_operations vsp1_video_fops = {
-> >   
-> >   static int vsp1_video_link_validate(struct media_link *link)
-> >   {
-> > -	/*
-> > -	 * Ideally, link validation should be implemented here instead of
-> > -	 * calling vsp1_video_verify_format() in vsp1_video_streamon()
-> > -	 * manually. That would however break userspace that start one video
-> > -	 * device before configures formats on other video devices in the
-> > -	 * pipeline. This operation is just a no-op to silence the warnings
-> > -	 * from v4l2_subdev_link_validate().
-> > -	 */
-> > +	struct v4l2_subdev_format fmt = {
-> > +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-> > +	};
-> > +	struct v4l2_subdev *subdev;
-> > +	struct media_entity *entity;
-> > +	struct media_pad *remote;
-> > +	struct vsp1_video *video;
-> > +	int ret;
-> > +
-> > +	if (is_media_entity_v4l2_video_device(link->source->entity)) {
-> > +		entity = link->source->entity;
-> > +		remote = link->sink;
-> > +	} else {
-> > +		entity = link->sink->entity;
-> > +		remote = link->source;
-> > +	}
-> 
-> This looks a bit odd. So this device can be either a source and a sink?
+On Wed, Aug 21, 2024 at 10:56=E2=80=AFAM Prabhakar <prabhakar.csengg@gmail.=
+com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Add SDHI0-SDHI2 nodes to RZ/V2H(P) ("R9A09G057") SoC DTSI.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Correct. The VSP has both capture and output video devices, and this
-helper function is used for both.
+Thanks for your patch!
 
-> This made me also wonder about the .link_validate(). It's the only 
-> media_entity_operations op that does not get the media_entity as a 
-> parameter. Which here means the driver has to go and "guess" whether it 
-> is the source or the sink of the given link.
-> 
-> I wonder if there's a reason why .link_validate() doesn't have the 
-> media_entity parameter?
+> --- a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
+> @@ -420,6 +420,51 @@ gic: interrupt-controller@14900000 {
+>                         interrupt-controller;
+>                         interrupts =3D <GIC_PPI 9 IRQ_TYPE_LEVEL_LOW>;
+>                 };
+> +
+> +               sdhi0: mmc@15c00000  {
+> +                       compatible =3D "renesas,sdhi-r9a09g057";
+> +                       reg =3D <0x0 0x15c00000 0 0x10000>;
+> +                       interrupts =3D <GIC_SPI 735 IRQ_TYPE_LEVEL_HIGH>,
+> +                                    <GIC_SPI 736 IRQ_TYPE_LEVEL_HIGH>;
+> +                       clocks =3D <&cpg CPG_MOD 163>,
+> +                                <&cpg CPG_MOD 165>,
+> +                                <&cpg CPG_MOD 164>,
+> +                                <&cpg CPG_MOD 166>;
+> +                       clock-names =3D "core", "clkh", "cd", "aclk";
+> +                       resets =3D <&cpg 167>;
 
-Because it validates a link. Which of the sink or source entity would
-you pass to the function ?
+With all module clock and reset numbers HEXed:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> > +
-> > +	fmt.pad = remote->index;
-> > +
-> > +	subdev = media_entity_to_v4l2_subdev(remote->entity);
-> > +	ret = v4l2_subdev_call(subdev, pad, get_fmt, NULL, &fmt);
-> > +	if (ret < 0)
-> > +		return ret == -ENOIOCTLCMD ? -EINVAL : ret;
-> > +
-> > +	video = to_vsp1_video(media_entity_to_video_device(entity));
-> > +
-> > +	if (video->rwpf->fmtinfo->mbus != fmt.format.code ||
-> > +	    video->rwpf->format.height != fmt.format.height ||
-> > +	    video->rwpf->format.width != fmt.format.width) {
-> > +		dev_dbg(video->vsp1->dev,
-> > +			"Format mismatch: 0x%04x/%ux%u != 0x%04x/%ux%u\n",
-> > +			video->rwpf->fmtinfo->mbus, video->rwpf->format.width,
-> > +			video->rwpf->format.height, fmt.format.code,
-> > +			fmt.format.width, fmt.format.height);
-> > +		return -EPIPE;
-> > +	}
-> 
-> Why don't we have a common videodev state which could be used to do 
-> these validations in a common function? =)
+Gr{oetje,eeting}s,
 
-Because you haven't sent patches yet ;-)
+                        Geert
 
-But jokes aside, because there's no 1:1 mapping between media bus codes
-and pixel formats, so drivers have to validate at least that part.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-> Fwiw:
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-
--- 
-Regards,
-
-Laurent Pinchart
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
