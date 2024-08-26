@@ -1,123 +1,104 @@
-Return-Path: <linux-renesas-soc+bounces-8287-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8288-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFF5695F240
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 14:59:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3809C95F2A3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 15:17:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F2A651C20869
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 12:59:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6AC121C21C78
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 13:17:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D69E15B554;
-	Mon, 26 Aug 2024 12:59:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 803ED186298;
+	Mon, 26 Aug 2024 13:17:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="avfSzHcW"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="j5sJ8eyD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54AFA155A34;
-	Mon, 26 Aug 2024 12:59:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724677176; cv=pass; b=dgCka9FsxhEgVWIdd0IjRnLcxniDHzrZormUxFGMkcL0Mts0Vnlm4l8fnpadTCI5/1D4zg9b1mO3nRZ+GJ4d9MpLsV1jyQfM+fvjzGl1I+mI5uwxy/pBBD2CzhVuBXnzOAisbEK9yCr03JqcsyBPqgJuutZYCS/OgIO7/jE2XKQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724677176; c=relaxed/simple;
-	bh=S07T6Qa86tFUAwwgNhyuAeSzWq14Thi/doGLWDuh+WI=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5884A183CDA
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Aug 2024 13:17:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724678257; cv=none; b=VsXXQWFEegsWQJTWGuqSg1A7O2tUw3ltrwKVSK76CcPtDwyf7ku1e3z9QGOa3rTfcaVxG0XMumlnMW1sw/QCCevCm4sgzG1rICwTEKOq2j6GsbQtj/gH4c0kQaW7dnoughjCD2xKshyRj48CUSeB5GkPSLkAiRifJatbHLQ1Lo4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724678257; c=relaxed/simple;
+	bh=LUNndesnzTKjx9UFQQznx/kraju95eLh67yaY04ocOs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kDVuVSJ2RBAAXB9c2Pzy15EdI8QwZqGlmjV/IBNrAXYwaN02fSR6Jh/mpfycmiUxfzWeefWcSO8ChSoFganvy3xkrKbzO2Kb9JBtGTGZ1/ZmBNCH5lnu+NPCjdYB+jd3ViuhWQHlxA2SwSpnfuGBGdqUPKV+20j0n3x/7MnxO74=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=avfSzHcW; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4WsrNW5CNjz49Pyv;
-	Mon, 26 Aug 2024 15:59:23 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1724677165;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sA8EMDngYLF87wRxKvm5MIwsPqA42yXIBepqO8qOVmg=;
-	b=avfSzHcWXiPG9F565+LNBQ734O9k2tdVp0NU5uX1DUodJjENb8A68SyWF5dkRajn9+gCHr
-	Me052wu90KKRsU9D2U1TX8ueKhYb/JyxNANaaXe3I0tbRPcXh2/q3osCaQoIROjeYhTIuf
-	YJz6fUh+0K8Gn8wJieUCwiIQnTILK4BAtMke10Ie+gcb9tA5gCB20Cxn6JSXmHkNbth+o2
-	RGKfEJYuIURfS1tabKtdT9NI40GzkPcV6VTH4RNIAH/0nnKUsQtvd2t5RLRh2Dk9dJuyHB
-	vUrOCSbmgPyYsfUdTXAE5Z6RXgxLOvp5egtzr+nFCg7rc1kZhNqk2pELk/LaeA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1724677165;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sA8EMDngYLF87wRxKvm5MIwsPqA42yXIBepqO8qOVmg=;
-	b=RbEO6n5UKL80WEd3wlIf2Xxgk3T4A00UU20ZoTJJ0nC/jLsh1XrACkzshNogjTLCs2eU0A
-	Jpqa7qZidwkHXTAV3QZhJswZ6LLqtypatf+hciH4Ipwigm7XNyWbzsWJGDoTDfsfLMS1eJ
-	18xoUyf2b6pPxEjIYD/NNSD6b6ft7BodfgVMSZvU+g6N2rDD6xZExuq7feRA2YOD/3uJOu
-	KwQuo4A3oFJnjnrQtkFO1+Vimq1IwCgILUAxYOUgPBC9ZgL4HrGdk0ZMX5lKWMlmZC75HF
-	9MtVUeHghsmr6NXtY1ZV43QjYNFLlEEUkf5BAYR+oYHSxdKuSNmcqCKIv/1f3Q==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1724677165; a=rsa-sha256;
-	cv=none;
-	b=R0rXRNHEclNspdTv/P/jk7k34+CqGmLHah+QnD4vnJU2VEkVZ2ySV+kYuUTPaQwzXXQd3v
-	BnLeC8pLoEaMcHMLp3+fG+vsyAEyZHvNvHHixH6xhKvUOjmXph9oSJAjTy7sSNaETm9T95
-	Wuvd3EFBaeY/1ky4FYf0DhHuRLkrf1EuV9KS8LrdsJRuexbzXDxOYdoquVUKUHL3SZS0Bn
-	lu4zt7sRYBQJDhD+m+XYwogBZm3KeRjHrAlr8DfFMDqw122cK3z+hALRyu4nKsL7B1iWmR
-	XZzwOQ3YoFaq+N1t5nLrnA11ORbTcEtPAnklOrYLjPjrZpvVc9ReMj+88+dFOw==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id C00E6634C94;
-	Mon, 26 Aug 2024 15:59:21 +0300 (EEST)
-Date: Mon, 26 Aug 2024 12:59:21 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
-	Eugen Hristev <eugen.hristev@collabora.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v3 0/7] media: v4l2: Improve media link validation
-Message-ID: <Zsx8Kcgqat5jSXPD@valkosipuli.retiisi.eu>
-References: <20240826124106.3823-1-laurent.pinchart+renesas@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=EKIL+T/L8mrDrDDttzvdrbY7mkGQhwAOi+/z6XefFzMoPd0Oj6dtzWUKYsQakq5N2p9SzLpQ4DY3O98essj//34gxi5Q8Pv86665VhgRwqTQIQ2cmKgOSqndma2pI1TFUna51tIh4FB0/zxp56EA8s5P8NVSCkziJzMCNmq6YY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=j5sJ8eyD; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=LUNn
+	desnzTKjx9UFQQznx/kraju95eLh67yaY04ocOs=; b=j5sJ8eyDArPMNiS74XAv
+	xHHn1wUsd/wDvPGxoYiep0JJcGSrfwx3L6YMOOk0Gs/AW+8ytuOodLjISvdoG2lJ
+	qYtQY000moaqERIDkzUZi5h0rSldmunKr4+2t+elLZj/RN8Y9Psiv8Hs40dBkVBJ
+	DikWQoRKQtdaKy/5ubCvBhskp8kmx/MFJ3UanPub4S98PHUtTmjYuv7E866oe5cl
+	c1KAnH44oBKr+pqGIdR27oDTUaa++Yv3BHlLo19fhCf8INhcrIZBOEqS5KxgFca1
+	cCVqc3ve4rtGVBzC8of4WPT3hmhwOTRJPY2bys1uaPTWQZtr0VAQ6mNEeWBhhO27
+	rg==
+Received: (qmail 2001604 invoked from network); 26 Aug 2024 15:17:27 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 26 Aug 2024 15:17:27 +0200
+X-UD-Smtp-Session: l3s3148p1@0OhJ8pUgqMkgAwDPXwdRANgvu6DX4+2c
+Date: Mon, 26 Aug 2024 15:17:27 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: linux-i2c@vger.kernel.org
+Subject: Re: [PATCH 1/3] i2c: testunit: describe fwnode based instantiation
+Message-ID: <ZsyAZ87O803ko6dK@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org
+References: <20240814182210.15382-1-wsa+renesas@sang-engineering.com>
+ <20240814182210.15382-2-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="YMfXPBnibnAJtZLJ"
+Content-Disposition: inline
+In-Reply-To: <20240814182210.15382-2-wsa+renesas@sang-engineering.com>
+
+
+--YMfXPBnibnAJtZLJ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240826124106.3823-1-laurent.pinchart+renesas@ideasonboard.com>
+Content-Transfer-Encoding: quoted-printable
 
-Hi Laurent,
+On Wed, Aug 14, 2024 at 08:22:07PM +0200, Wolfram Sang wrote:
+> The testunit can also be instantiated via firmware nodes. Give a
+> devicetree node as an example.
+>=20
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-On Mon, Aug 26, 2024 at 03:40:59PM +0300, Laurent Pinchart wrote:
-> Hello,
-> 
-> This patch series improves the link validation helpers to make it easier
-> for drivers to validate all links in a pipeline.
+Applied to for-next, thanks!
 
-For the set:
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+--YMfXPBnibnAJtZLJ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Regarding the sun4i_csi driver, if no-one has plans to fix bugs such as
-missing link validation, it should probably be moved to staging. It's a
-separate discussion though.
+-----BEGIN PGP SIGNATURE-----
 
--- 
-Kind regards,
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmbMgGMACgkQFA3kzBSg
+KbbKXg//dLb7MK3qcgtNYLjuYpiSjNc8WMeQ8eg6JuRVqyeKgS4zWnDQsCaUQW2e
+sR6zxk7oKK7gcyDDglUsOn7QLDGSRBLPHwtuF21AoGm2uRSzR7jwrIl5beC8ODe3
+r6oL1Ih2D5TOGyZlxEmXf+ZTk6heJhdpP0ut2GCcgweM5G71SdcTaAGb+oACTU5v
+2kvIry7XkIcbryYVIZLy8eMOsTRdDXSeK6jnFlGm1XzHu7b+hDYdYmDkVhcH+hKi
+HLuNaSTcaSefMjqy9OaYgMBh2hk4ps7PklqC70k9l6jfizPzXn6r+vhn9OUGLwrv
+YK64ykrQJxrqfwLT3GplgglJzfO/2NwUAfPg4B/edEJRVHcR1CmrbFEa/DnwGOcO
+ViY6mKzBMcUc1P6cM7vZCfi/pHd2902fyLogf2gNCkaVYBhPFTFh/CStrubGq06/
+gIZWKzAMavQam5kdQVxtHktW8zhFe32+zWHFbkeQbhmoKatog0Az+hpBXoAeAN7Q
+v5WuUEnlz1WbexlYCy7Z4qAsKVMnsqyPXr8SbvXiPkOE9SWhB+xmBmYN0MnTPWax
+vnvNyG7C9FrcEFj4r3iUQ2rkUR9eig9PnF0T5fem1PsXUAiuaqhJCLdWeLVPIw0x
+OX5BNFlXyUldbPyoJAtb0LEvjlWcTHN1WmudsbWpO82ocl0He4w=
+=C4X5
+-----END PGP SIGNATURE-----
 
-Sakari Ailus
+--YMfXPBnibnAJtZLJ--
 
