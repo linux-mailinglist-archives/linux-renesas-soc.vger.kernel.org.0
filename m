@@ -1,46 +1,46 @@
-Return-Path: <linux-renesas-soc+bounces-8248-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8249-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2412495EF16
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 12:55:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99D9F95EF28
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 12:57:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D56DA288C56
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 10:55:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CCCAF1C20ECD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 10:57:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5241C1487E3;
-	Mon, 26 Aug 2024 10:53:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6461414A4D9;
+	Mon, 26 Aug 2024 10:56:46 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ECF129A2;
-	Mon, 26 Aug 2024 10:53:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3C014EC73;
+	Mon, 26 Aug 2024 10:56:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724669631; cv=none; b=jCoitjs+T4ZA4/jx7/6WZXj/26elVXnqJ6GKmEFQJN92C/c3TfQPABdrAzsLshVibS8H4maborotPJ5GB4MpA4d2RDOhxFtV5udDEjcWqN1TvnuSjQQ7Ng81T6zQ07Ojv1wCzPBWX9Gslft77Wxn7FIYwgs53aU8Zeb9C29deak=
+	t=1724669806; cv=none; b=Cqix82WU3TuwhTmM5Jj8m5Iu4Fq5Rs3m6tyyNKgsG5VNuUlC0BfwLcY2encTbKXitN7Sspm17PqHFpAeJI5JrAWnRWSZZasx6uXXfLm1EtN85ryYBHTlQIDdz+ASx9B7emRNcwFsRB11q3M2qdm5cogBlTxAtaggKkJ/1m/ksLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724669631; c=relaxed/simple;
-	bh=rbLDSLzqYVWDbIAJ0gQcb0pY+30c68c0iGZfrbxw1B0=;
+	s=arc-20240116; t=1724669806; c=relaxed/simple;
+	bh=xYS9hwo25fKdplDvoujE/gpsXj/SO5ESAxaCSOtBKhE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Hpwid4d5GpjM2Ds7klO/et+9F8YMSOROKLcaNyFuSpQuIW8Ab84A65eMWaAPYvBWeHw66wSc4C+ajQZA7qETiuU3W8HuKqzWiNqmVzWfIiUApnllzM26E8dWigIQRRV+x/rjwANACxFDosN8JBopSmNXYvk5S17WkSG9F2FE8Y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
+	 In-Reply-To:Content-Type; b=PQeAtSpu7C8nafyEHsMgyG1UP/VJW4A+TfhAWMWB5ylyBdevuOuB/nGUH2DGO1P7VE5t0p2FJjGFDrPcsqbQ+gTL3sIrpIGOAb547//mbTqZpK0zIYAoWps7Zbvpr7iDgWvm3RKlQ7AGayT7wbc26yHrX6xWi4W3q2MknP3YZJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4WsnYB2s0kzhXc8;
-	Mon, 26 Aug 2024 18:51:42 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.163.48])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Wsnf2232YzyP9Y;
+	Mon, 26 Aug 2024 18:55:54 +0800 (CST)
 Received: from kwepemh500013.china.huawei.com (unknown [7.202.181.146])
-	by mail.maildlp.com (Postfix) with ESMTPS id 4FD851800A7;
-	Mon, 26 Aug 2024 18:53:45 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 1869618006C;
+	Mon, 26 Aug 2024 18:56:40 +0800 (CST)
 Received: from [10.67.109.254] (10.67.109.254) by
  kwepemh500013.china.huawei.com (7.202.181.146) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Mon, 26 Aug 2024 18:53:43 +0800
-Message-ID: <3e0ba029-d658-be41-77ac-6edec75762d1@huawei.com>
-Date: Mon, 26 Aug 2024 18:53:42 +0800
+ 15.2.1544.11; Mon, 26 Aug 2024 18:56:38 +0800
+Message-ID: <ade6d403-e54c-80fb-7d51-1e00602fcbfb@huawei.com>
+Date: Mon, 26 Aug 2024 18:56:37 +0800
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -52,7 +52,8 @@ User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
 Subject: Re: [PATCH -next RESEND 00/10] mtd: Use
  for_each_child_of_node_scoped()
 Content-Language: en-US
-To: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Miquel Raynal
+	<miquel.raynal@bootlin.com>
 CC: <michal.simek@amd.com>, <richard@nod.at>, <vigneshr@ti.com>,
 	<liang.yang@amlogic.com>, <neil.armstrong@linaro.org>,
 	<khilman@baylibre.com>, <jbrunet@baylibre.com>,
@@ -67,34 +68,40 @@ CC: <michal.simek@amd.com>, <richard@nod.at>, <vigneshr@ti.com>,
 	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
 	<linux-amlogic@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
 	<linux-renesas-soc@vger.kernel.org>, <linux-rockchip@lists.infradead.org>,
-	<linux-stm32@st-md-mailman.stormreply.com>, <krzk@kernel.org>,
-	<jic23@kernel.org>
+	<linux-stm32@st-md-mailman.stormreply.com>, <jic23@kernel.org>
 References: <20240826094328.2991664-1-ruanjinjie@huawei.com>
  <20240826115213.389acaef@xps-13>
+ <f7430f87-88d2-4c08-bc1e-6bb3da4e332c@kernel.org>
 From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <20240826115213.389acaef@xps-13>
+In-Reply-To: <f7430f87-88d2-4c08-bc1e-6bb3da4e332c@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
  kwepemh500013.china.huawei.com (7.202.181.146)
 
 
 
-On 2024/8/26 17:52, Miquel Raynal wrote:
-> Hi Jinjie,
+On 2024/8/26 18:19, Krzysztof Kozlowski wrote:
+> On 26/08/2024 11:52, Miquel Raynal wrote:
+>> Hi Jinjie,
+>>
+>> ruanjinjie@huawei.com wrote on Mon, 26 Aug 2024 17:43:18 +0800:
+>>
+>>> Use scoped for_each_available_child_of_node_scoped() when iterating over
+>>> device nodes to make code a bit simpler.
+>>
+>> Why is this a resend ? Did I miss a previous iteration?
 > 
-> ruanjinjie@huawei.com wrote on Mon, 26 Aug 2024 17:43:18 +0800:
+> You were not cc-ed on previous iteration. I asked for proper split
+> between subsystems and sending to maintainers, thus this resend.
 > 
->> Use scoped for_each_available_child_of_node_scoped() when iterating over
->> device nodes to make code a bit simpler.
-> 
-> Why is this a resend ? Did I miss a previous iteration?
+> Although for such big patchset, I would expect some waiting time, not
+> sending immediately.
 
-Hi Miquel,
-
-The previous cc list has missing some entries.
+Sorry, I will pay attention to it later.
 
 > 
-> Thanks,
-> Miquèl
+> Best regards,
+> Krzysztof
+> 
 
