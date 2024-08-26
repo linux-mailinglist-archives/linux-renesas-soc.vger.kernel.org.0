@@ -1,210 +1,250 @@
-Return-Path: <linux-renesas-soc+bounces-8242-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8243-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A264295EE43
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 12:15:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AAC595EE4C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 12:17:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C76921C218D9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 10:15:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B5E721F22CFC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 10:17:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 745911474A5;
-	Mon, 26 Aug 2024 10:15:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="OEI+JDxC"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67F5714430A;
+	Mon, 26 Aug 2024 10:16:58 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69FA01465BB
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Aug 2024 10:15:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E8262E414;
+	Mon, 26 Aug 2024 10:16:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724667351; cv=none; b=Q99jz7g+Vd385b6x1PdYNPIgBHe2QALALg2/hR60R+OduqbcrvyVaYXqm2KD4UBsbY20IDJBC/yWEwEHePgUBmK4dbKwMmbRafqkb5mtV9Nnm3izbRcGJ1xnR9oztqfdm9xsResh6Hw/n8vyy2f0MBPkQpvv6dglrlRkKzi8cuE=
+	t=1724667418; cv=none; b=pkpd7FtBjG+ptCvxMnk0nh1DGUOSKwT5gdJfVlGiXZJNZ2wpRLH1ggMWTNK/HWHPY5NoJjHCo9UAqF4VBBmfVnA8m8qH72OH5xLNxC8mlGrNqakph1NUhVSqBXLOH9X7purQSGXVz+3rL6BsZJkszTk84Sadcts2dqiJ3lVcu4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724667351; c=relaxed/simple;
-	bh=dqF9qz6t/GVpGmum6vuUYfrUMXNhwX8AG3M4+n1M7ZI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VrReNy9dwApXlU2kmSG+1yxjYm8WUsWk3zhUOZV+8sL17ULxtB1hu8p1AhTq4qXj0OIBQzLzFaACCsILTmdVhqb0WFXO3a4ffXpC/sVl7kDDEjRiWFK89QKG25eJ07GTNvPbkuHZIF5KC7v0mrK2+5nys56RXVKa6+PPOzSQrYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=OEI+JDxC; arc=none smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2f3f68dd44bso47249041fa.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Aug 2024 03:15:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1724667347; x=1725272147; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nXSb7P5yQsC6ZA7aZwkzK/D+oEX3tz1a/6VEPbOOF1M=;
-        b=OEI+JDxC340hJbyzaELF9aZjkFT4nnaE1jma3SYSKf8FaDgA8sj2hzwybWxynxWA5X
-         MgON+hpgEbKzURuwi8d3MBJ0Kt82nbfI8ZlyoqEmQozz3gmDJAuM64rbD2K3aR77C3AV
-         eROpf5Q0KDSSNQMz4xScqqIHp9FFyA4M/Up6zMLY9HVH0RuZUzVuRa0hsik+ixO52Tyb
-         jetbHtnX/vAHZjZMenomQw3dxEYAAjaz9+PnG4E7GEpg+ZincehP7SFzQyccplWrKTjc
-         1bLx8Tu+9B23afbvzr66tCsDhNQ02DqmhgGeviPjyhL+fxBZ16refNaKBCLPFxI8Ftsz
-         O9Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724667347; x=1725272147;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nXSb7P5yQsC6ZA7aZwkzK/D+oEX3tz1a/6VEPbOOF1M=;
-        b=cE5LNs29l4Nx7ibjfW0OElNaRNo36cDMhWy21C7WAKkdUzrTgvxijsNzvQaRy3Vj02
-         LbTJ3cSypZRxY1IeFqSIE3oBEv89JEvS598NNIYKqTYQ087z2BcpuvWB9QOU/MA2Vq3N
-         U4oPAV8qw1pFOu+eb8TLDkIdBR9Hv25y1G9Q2zmrntY64HMclsFfgbQJ0LAFPROJGH74
-         04lFytAweqcVA4w8vzDynYnqhrBr8xscl9nN+Eg/pc17jaY2tqJ5KXEA6katp7BeTWVT
-         Ha/l6haNXV4EqN/Ns1sOLV/r3t4RWE0Qa9KO+g7cAWcR+PKG2pKj08NF2NLWhO4FxvVP
-         gKbA==
-X-Forwarded-Encrypted: i=1; AJvYcCV52Y7xRmOifupLLUwbHFkB1ziBEkrqxxnNVdEYghlHUK3VsDpGKDx5L7+Oy2NJ/cElhzaV2pjH4B0VRhZKWWDmBQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLIWUUN8OiIwGMmemhpJM4r5LIcdcXytzrFjoI2p3Kw++u3J4s
-	I0zgAG6ipu+NzriqrfLq/ASiBhOygT7/lNVRu/mn8I8VSP72wINZvd4Uo3SMDoM=
-X-Google-Smtp-Source: AGHT+IGnOO+pYmBeCnoRQo4bouYucQfop3nBZsepSSurhHBVuFJ58XyC2lvaGwZIfEzC6OWNRHTbyQ==
-X-Received: by 2002:a05:651c:198b:b0:2f0:1a19:f3f1 with SMTP id 38308e7fff4ca-2f4f48f0feamr66567071fa.7.1724667346682;
-        Mon, 26 Aug 2024 03:15:46 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.144])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c04a3e8f88sm5421649a12.42.2024.08.26.03.15.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Aug 2024 03:15:46 -0700 (PDT)
-Message-ID: <7b16791b-0d7b-49a1-82aa-c4db99ff2bfd@tuxon.dev>
-Date: Mon, 26 Aug 2024 13:15:43 +0300
+	s=arc-20240116; t=1724667418; c=relaxed/simple;
+	bh=qZjRLh+RtHvMIHihXdVJeuMNnPCPZE5w8LByGfMe224=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W3t+4O8NMT2yEDMg/Ac6xr6wgHel/uPscP0tiE9ZW0XKBbDN1C4CVMPvhDRgs4l2ZREXjERXqZ/Acw41R/u0wVkYv97osfZPPiK3WjwTcE4fjGA2LBEJhrmkA349eyCc6eD+Av2RkLjgJUoxFbDwWHqMUoRjeERYyjDXsYkKsBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.10,177,1719846000"; 
+   d="scan'208";a="220565150"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 26 Aug 2024 19:16:54 +0900
+Received: from localhost.localdomain (unknown [10.226.92.68])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 6097941FEF73;
+	Mon, 26 Aug 2024 19:16:51 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v5] arm64: dts: renesas: r9a07g043u11-smarc: Enable DU
+Date: Mon, 26 Aug 2024 11:16:46 +0100
+Message-ID: <20240826101648.176647-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/16] dt-bindings: soc: renesas: renesas,rzg2l-sysc: Add
- #reset-cells for RZ/G3S
-Content-Language: en-US
-To: Conor Dooley <conor@kernel.org>
-Cc: vkoul@kernel.org, kishon@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, p.zabel@pengutronix.de, geert+renesas@glider.be,
- magnus.damm@gmail.com, gregkh@linuxfoundation.org, mturquette@baylibre.com,
- sboyd@kernel.org, yoshihiro.shimoda.uh@renesas.com,
- biju.das.jz@bp.renesas.com, ulf.hansson@linaro.org,
- linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com>
- <20240822152801.602318-3-claudiu.beznea.uj@bp.renesas.com>
- <20240822-vanilla-enigmatic-f0b05ecca4b6@spud>
- <0d8b1322-cf15-4ed9-b958-06516bbb64c7@tuxon.dev>
- <20240823-plywood-unfixed-d8d8a2d93f14@spud>
- <5eae2ddb-2a7b-4c1d-a7f7-41fb39058de1@tuxon.dev>
- <20240823-dilute-juggle-7e2d43b8b630@spud>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20240823-dilute-juggle-7e2d43b8b630@spud>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Enable DU and link with the HDMI add-on board connected with
+the parallel connector on RZ/G2UL SMARC EV by using Device
+Tree overlay.
 
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+v4->v5:
+ * Created Overlay for ADV 7513 transmiiter connected to DU
+v3->v4:
+ * Restored ports property in du node and port@0 for DPI interface.
+v2->v3:
+ * Replaced ports->port in du node as it support only DPI output.
+v1->v2:
+ * No change.
+---
+ arch/arm64/boot/dts/renesas/Makefile          |  3 +
+ .../r9a07g043u11-smarc-du-adv7513.dtso        | 62 +++++++++++++++
+ .../boot/dts/renesas/rz-smarc-du-adv7513.dtsi | 75 +++++++++++++++++++
+ 3 files changed, 140 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g043u11-smarc-du-adv7513.dtso
+ create mode 100644 arch/arm64/boot/dts/renesas/rz-smarc-du-adv7513.dtsi
 
-On 23.08.2024 19:33, Conor Dooley wrote:
-> On Fri, Aug 23, 2024 at 07:26:42PM +0300, claudiu beznea wrote:
->> On 23.08.2024 19:18, Conor Dooley wrote:
->>> On Fri, Aug 23, 2024 at 10:54:06AM +0300, claudiu beznea wrote:
->>>> Hi, Conor,
->>>>
->>>> On 22.08.2024 19:42, Conor Dooley wrote:
->>>>> On Thu, Aug 22, 2024 at 06:27:47PM +0300, Claudiu wrote:
->>>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>>>
->>>>>> The RZ/G3S System controller has registers to control signals that need
->>>>>> to be de-asserted/asserted before/after different SoC areas are power
->>>>>> on/off. This signals are implemented as reset signals. For this document
->>>>>> the #reset-cells property.
->>>>>>
->>>>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>>> ---
->>>>>>  .../bindings/soc/renesas/renesas,rzg2l-sysc.yaml | 16 ++++++++++++++++
->>>>>>  1 file changed, 16 insertions(+)
->>>>>>
->>>>>> diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml
->>>>>> index 4386b2c3fa4d..6b0bb34485d9 100644
->>>>>> --- a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml
->>>>>> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml
->>>>>> @@ -42,12 +42,28 @@ properties:
->>>>>>        - const: cm33stbyr_int
->>>>>>        - const: ca55_deny
->>>>>>  
->>>>>> +  "#reset-cells":
->>>>>> +    const: 1
->>>>>> +
->>>>>>  required:
->>>>>>    - compatible
->>>>>>    - reg
->>>>>>  
->>>>>>  additionalProperties: false
->>>>>>  
->>>>>> +allOf:
->>>>>> +  - if:
->>>>>> +      properties:
->>>>>> +        compatible:
->>>>>> +          contains:
->>>>>> +            const: renesas,r9a08g045-sysc
->>>>>> +    then:
->>>>>> +      required:
->>>>>> +        - "#reset-cells"
->>>>>
->>>>> Given this is new required property on an existing platform, I'd expect
->>>>> some mention of why it used to be okay to not have this but is now
->>>>> required. Did firmware or a bootloader stage take things out of reset?
->>>>
->>>> On previous SoCs the SYS controller has no support for controlling the
->>>> signals going to different peripherals (USB, PCIE in case of RZ/G3S).
->>>> I'll add a note about this on next version.
->>>
->>> My initial thought here wasn't about previous SoCs though, it was
->>> because you didn't add the compatible in this series for /this/ SoC.
->>
->> RZ/G3S compatible is already present in this file:
->> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml#n26
-> 
-> I know, first thing I did when I read the original patch was open the
-> file ;)
-> I don't care about the old SoCs, cos you're not applying the property to
-> them, so what's changed between SoCs isn't really relevant. It's a mention
-> of why, on this SoC, it is safe to add new required properties that I want.
+diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
+index fbd214a1a638..fdf597e019d7 100644
+--- a/arch/arm64/boot/dts/renesas/Makefile
++++ b/arch/arm64/boot/dts/renesas/Makefile
+@@ -112,9 +112,12 @@ dtb-$(CONFIG_ARCH_R8A77965) += r8a779m5-salvator-xs-panel-aa104xd12.dtb
+ 
+ dtb-$(CONFIG_ARCH_R9A07G043) += r9a07g043u11-smarc.dtb
+ dtb-$(CONFIG_ARCH_R9A07G043) += r9a07g043u11-smarc-cru-csi-ov5645.dtbo
++dtb-$(CONFIG_ARCH_R9A07G043) += r9a07g043u11-smarc-du-adv7513.dtbo
+ dtb-$(CONFIG_ARCH_R9A07G043) += r9a07g043-smarc-pmod.dtbo
+ r9a07g043u11-smarc-cru-csi-ov5645-dtbs := r9a07g043u11-smarc.dtb r9a07g043u11-smarc-cru-csi-ov5645.dtbo
+ dtb-$(CONFIG_ARCH_R9A07G043) += r9a07g043u11-smarc-cru-csi-ov5645.dtb
++r9a07g043u11-smarc-du-adv7513-dtbs := r9a07g043u11-smarc.dtb r9a07g043u11-smarc-du-adv7513.dtbo
++dtb-$(CONFIG_ARCH_R9A07G043) += r9a07g043u11-smarc-du-adv7513.dtb
+ r9a07g043u11-smarc-pmod-dtbs := r9a07g043u11-smarc.dtb r9a07g043-smarc-pmod.dtbo
+ dtb-$(CONFIG_ARCH_R9A07G043) += r9a07g043u11-smarc-pmod.dtb
+ 
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g043u11-smarc-du-adv7513.dtso b/arch/arm64/boot/dts/renesas/r9a07g043u11-smarc-du-adv7513.dtso
+new file mode 100644
+index 000000000000..ecd43a671000
+--- /dev/null
++++ b/arch/arm64/boot/dts/renesas/r9a07g043u11-smarc-du-adv7513.dtso
+@@ -0,0 +1,62 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Device Tree overlay for the RZ/G2UL SMARC EVK with ADV7513 transmitter
++ * connected to DU enabled.
++ *
++ * Copyright (C) 2024 Renesas Electronics Corp.
++ */
++
++/dts-v1/;
++/plugin/;
++
++#include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
++
++#define ADV7513_PARENT_I2C i2c1
++#include "rz-smarc-du-adv7513.dtsi"
++
++&pinctrl {
++	du_pins: du {
++		data {
++			pinmux = <RZG2L_PORT_PINMUX(11, 2, 6)>,
++				 <RZG2L_PORT_PINMUX(13, 1, 6)>,
++				 <RZG2L_PORT_PINMUX(13, 0, 6)>,
++				 <RZG2L_PORT_PINMUX(13, 4, 6)>,
++				 <RZG2L_PORT_PINMUX(13, 3, 6)>,
++				 <RZG2L_PORT_PINMUX(12, 1, 6)>,
++				 <RZG2L_PORT_PINMUX(13, 2, 6)>,
++				 <RZG2L_PORT_PINMUX(14, 0, 6)>,
++				 <RZG2L_PORT_PINMUX(14, 2, 6)>,
++				 <RZG2L_PORT_PINMUX(14, 1, 6)>,
++				 <RZG2L_PORT_PINMUX(16, 0, 6)>,
++				 <RZG2L_PORT_PINMUX(15, 0, 6)>,
++				 <RZG2L_PORT_PINMUX(16, 1, 6)>,
++				 <RZG2L_PORT_PINMUX(15, 1, 6)>,
++				 <RZG2L_PORT_PINMUX(15, 3, 6)>,
++				 <RZG2L_PORT_PINMUX(18, 0, 6)>,
++				 <RZG2L_PORT_PINMUX(15, 2, 6)>,
++				 <RZG2L_PORT_PINMUX(17, 0, 6)>,
++				 <RZG2L_PORT_PINMUX(17, 2, 6)>,
++				 <RZG2L_PORT_PINMUX(17, 1, 6)>,
++				 <RZG2L_PORT_PINMUX(18, 1, 6)>,
++				 <RZG2L_PORT_PINMUX(18, 2, 6)>,
++				 <RZG2L_PORT_PINMUX(17, 3, 6)>,
++				 <RZG2L_PORT_PINMUX(18, 3, 6)>;
++			drive-strength = <2>;
++		};
++
++		sync {
++			pinmux = <RZG2L_PORT_PINMUX(11, 0, 6)>, /* HSYNC */
++				 <RZG2L_PORT_PINMUX(12, 0, 6)>; /* VSYNC */
++			drive-strength = <2>;
++		};
++
++		de {
++			pinmux = <RZG2L_PORT_PINMUX(11, 1, 6)>; /* DE */
++			drive-strength = <2>;
++		};
++
++		clk {
++			pinmux = <RZG2L_PORT_PINMUX(11, 3, 6)>; /* CLK */
++		};
++	};
++};
+diff --git a/arch/arm64/boot/dts/renesas/rz-smarc-du-adv7513.dtsi b/arch/arm64/boot/dts/renesas/rz-smarc-du-adv7513.dtsi
+new file mode 100644
+index 000000000000..a10314c77f54
+--- /dev/null
++++ b/arch/arm64/boot/dts/renesas/rz-smarc-du-adv7513.dtsi
+@@ -0,0 +1,75 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Common Device Tree for the RZ/G2UL SMARC EVK (and alike EVKs) with
++ * ADV7513 transmitter connected to DU enabled.
++ *
++ * Copyright (C) 2024 Renesas Electronics Corp.
++ */
++
++&{/} {
++	hdmi-out {
++		compatible = "hdmi-connector";
++		type = "d";
++
++		port {
++			hdmi_con_out: endpoint {
++				remote-endpoint = <&adv7513_out>;
++			};
++		};
++	};
++};
++
++&du {
++	pinctrl-0 = <&du_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++
++	ports {
++		port@0 {
++			du_out_rgb: endpoint {
++				remote-endpoint = <&adv7513_in>;
++			};
++		};
++	};
++};
++
++&ADV7513_PARENT_I2C {
++	#address-cells = <1>;
++	#size-cells = <0>;
++
++	adv7513: adv7513@39 {
++		compatible = "adi,adv7513";
++		reg = <0x39>;
++
++		adi,input-depth = <8>;
++		adi,input-colorspace = "rgb";
++		adi,input-clock = "1x";
++
++		avdd-supply = <&reg_1p8v>;
++		dvdd-supply = <&reg_1p8v>;
++		pvdd-supply = <&reg_1p8v>;
++		dvdd-3v-supply = <&reg_3p3v>;
++		bgvdd-supply = <&reg_1p8v>;
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				reg = <0>;
++
++				adv7513_in: endpoint {
++					remote-endpoint = <&du_out_rgb>;
++				};
++			};
++
++			port@1 {
++				reg = <1>;
++
++				adv7513_out: endpoint {
++					remote-endpoint = <&hdmi_con_out>;
++				};
++			};
++		};
++	};
++};
+-- 
+2.43.0
 
-
-> 
-> AFAIU the answer is that no consumer of the resets existed before, so
-
-That's true.
-
-> there's not some special state there, and I am guessing that the new
-> sysc driver you're adding isn't going to fail to probe if there are no
-> resets, 
-
-That's true.
-
-it just won't register a reset controller?
-
-It will register it but,
-
-the new sysc driver is going to probe only for this SoC (RZ/G3S). On RZ/G3S
-we have 2 resets. These well be registered unconditionally, currently, only
-for RZ/G3S. If there will be no DT users for it then it should be no
-problem, AFAICT.
-
-SYSC variants have common features b/w different SoC variants (one of them
-being chip identification). The feature implemented though reset controller
-in this series is not common but particular to RZ/G3S.
-
-When the SYSC will be extended for other SoCs the reset driver registration
-would have to be adapted to not be registered. At the moment, as the SYC is
-compatible only with RZ/G3S and the reset driver is registered on auxiliary
-bus though SYSC there is no restriction, reset is registered all the time,
-but SYSC is only compatible with RZ/G3S.
-
-> Which is fine, cos all
-> devicetrees that have the new peripherals will have #reset-cells etc.
-> 
->>> What's worth noting isn't about the prior SoCs, it is about what makes
->>> it okay for this one.
 
