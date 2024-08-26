@@ -1,44 +1,44 @@
-Return-Path: <linux-renesas-soc+bounces-8230-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8231-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDB9D95ED6C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 11:37:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8EC695ED6F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 11:37:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2AD7F1C21CC1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 09:37:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8226E1F230B2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 09:37:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD15814AD1A;
-	Mon, 26 Aug 2024 09:36:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F80F152160;
+	Mon, 26 Aug 2024 09:36:11 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E17E514883C;
-	Mon, 26 Aug 2024 09:36:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.255
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8221F149E0B;
+	Mon, 26 Aug 2024 09:36:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724664969; cv=none; b=OFBHGEhUB0BZcZm8zuTnlpgMRkCr5pjFGD9TMOTGTsGb7+tgotLOfjJWRVdKxwCFTEv9QsVHOzKRllYvHR3z1P3dMfXFI8fSXg0rP0u5VS+9+Z+OBk90a6sHmVJtCxYr3PsUHSCW4JqwfiNmNR5juPcZZwlPwrURcUOd+OwGwzw=
+	t=1724664971; cv=none; b=iAAGDJZdQN6Zh1/2cQCf94PS+xYnQpq86ZtoPjMmVWdmduN3M5tRcZeuGk5dfpGXs4RjmOyXOZFRe+C19XvnGoEPhlEjyvsEgUtxkaIKCry4pWUKPL1UeoTAUsMnDdkmJw+4JVlxyJLDLWdirfg5gvbhFwKwv5en4/TqW8xgy1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724664969; c=relaxed/simple;
-	bh=kaPWioaY10ge/EeuBsJifxGnuaMakkiK/YMcIwPG2Dc=;
+	s=arc-20240116; t=1724664971; c=relaxed/simple;
+	bh=0fEzRVJBNer7g/5p8A4HmoX7GUhsiSUN3gks6XZ4zaA=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UsNB4LXSEWX7qiu4bcjm/Cs7TpIzgluUiBmZp2P9J0wPSiexgqDpUHr6OeeZewN5nO2ge24Hf1fNJuT2mUjaDVm8Cy2S3cS30EcH9lyysDukia+YtxAuXbNLr8r1zhOBmV97ZM7P4WCnf66pJmgVmS/Mwc7eqxh4uY0ITJYZHMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.255
+	 MIME-Version:Content-Type; b=QZRVITgzuNGBDjrs4knvUdeunaFW0kBNOELeQL1PV8xVnFH+ugtuS5yAIhgIDa9rExN1BDMuh4t/MJ+VsqyAWtfsBhVOLornVh6Wc/Mz+uEW59ulKHdIqoa6T8L6782jIolOdlqPkUWlm+fFbIyJdK44q7svl87uuEgnVpo6oy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.194])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Wsls40rFFz14HGd;
-	Mon, 26 Aug 2024 17:35:20 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.162.112])
+	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Wslp91RsWz1HHQH;
+	Mon, 26 Aug 2024 17:32:49 +0800 (CST)
 Received: from kwepemh500013.china.huawei.com (unknown [7.202.181.146])
-	by mail.maildlp.com (Postfix) with ESMTPS id 8D364140120;
-	Mon, 26 Aug 2024 17:36:05 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id A991E140120;
+	Mon, 26 Aug 2024 17:36:06 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemh500013.china.huawei.com
  (7.202.181.146) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 26 Aug
- 2024 17:36:04 +0800
+ 2024 17:36:05 +0800
 From: Jinjie Ruan <ruanjinjie@huawei.com>
 To: <miquel.raynal@bootlin.com>, <michal.simek@amd.com>, <richard@nod.at>,
 	<vigneshr@ti.com>, <liang.yang@amlogic.com>, <neil.armstrong@linaro.org>,
@@ -56,9 +56,9 @@ To: <miquel.raynal@bootlin.com>, <michal.simek@amd.com>, <richard@nod.at>,
 	<linux-renesas-soc@vger.kernel.org>, <linux-rockchip@lists.infradead.org>,
 	<linux-stm32@st-md-mailman.stormreply.com>, <krzk@kernel.org>,
 	<jic23@kernel.org>
-Subject: [PATCH -next RESEND 08/10] mtd: rawnand: renesas: Use for_each_child_of_node_scoped()
-Date: Mon, 26 Aug 2024 17:43:26 +0800
-Message-ID: <20240826094328.2991664-9-ruanjinjie@huawei.com>
+Subject: [PATCH -next RESEND 09/10] mtd: rawnand: stm32_fmc2: Use for_each_child_of_node_scoped()
+Date: Mon, 26 Aug 2024 17:43:27 +0800
+Message-ID: <20240826094328.2991664-10-ruanjinjie@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240826094328.2991664-1-ruanjinjie@huawei.com>
 References: <20240826094328.2991664-1-ruanjinjie@huawei.com>
@@ -78,40 +78,36 @@ from the loop.
 
 Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 ---
- drivers/mtd/nand/raw/renesas-nand-controller.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ drivers/mtd/nand/raw/stm32_fmc2_nand.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/mtd/nand/raw/renesas-nand-controller.c b/drivers/mtd/nand/raw/renesas-nand-controller.c
-index c9a01feff8df..0e92d50c5249 100644
---- a/drivers/mtd/nand/raw/renesas-nand-controller.c
-+++ b/drivers/mtd/nand/raw/renesas-nand-controller.c
-@@ -1297,23 +1297,17 @@ static void rnandc_chips_cleanup(struct rnandc *rnandc)
- 
- static int rnandc_chips_init(struct rnandc *rnandc)
+diff --git a/drivers/mtd/nand/raw/stm32_fmc2_nand.c b/drivers/mtd/nand/raw/stm32_fmc2_nand.c
+index 264556939a00..0f67e96cc240 100644
+--- a/drivers/mtd/nand/raw/stm32_fmc2_nand.c
++++ b/drivers/mtd/nand/raw/stm32_fmc2_nand.c
+@@ -1851,7 +1851,6 @@ static int stm32_fmc2_nfc_parse_child(struct stm32_fmc2_nfc *nfc,
+ static int stm32_fmc2_nfc_parse_dt(struct stm32_fmc2_nfc *nfc)
  {
--	struct device_node *np;
- 	int ret;
+ 	struct device_node *dn = nfc->dev->of_node;
+-	struct device_node *child;
+ 	int nchips = of_get_child_count(dn);
+ 	int ret = 0;
  
--	for_each_child_of_node(rnandc->dev->of_node, np) {
-+	for_each_child_of_node_scoped(rnandc->dev->of_node, np) {
- 		ret = rnandc_chip_init(rnandc, np);
- 		if (ret) {
--			of_node_put(np);
--			goto cleanup_chips;
-+			rnandc_chips_cleanup(rnandc);
-+			return ret;
- 		}
+@@ -1865,12 +1864,10 @@ static int stm32_fmc2_nfc_parse_dt(struct stm32_fmc2_nfc *nfc)
+ 		return -EINVAL;
  	}
  
- 	return 0;
--
--cleanup_chips:
--	rnandc_chips_cleanup(rnandc);
--
--	return ret;
- }
+-	for_each_child_of_node(dn, child) {
++	for_each_child_of_node_scoped(dn, child) {
+ 		ret = stm32_fmc2_nfc_parse_child(nfc, child);
+-		if (ret < 0) {
+-			of_node_put(child);
++		if (ret < 0)
+ 			return ret;
+-		}
+ 	}
  
- static int rnandc_probe(struct platform_device *pdev)
+ 	return ret;
 -- 
 2.34.1
 
