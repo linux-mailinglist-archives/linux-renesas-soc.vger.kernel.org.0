@@ -1,104 +1,151 @@
-Return-Path: <linux-renesas-soc+bounces-8238-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8239-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A908D95EDBD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 11:53:29 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09EBD95EDCD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 11:56:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DC72F1C2137B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 09:53:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B488F2849DF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 09:56:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 590E6145B0F;
-	Mon, 26 Aug 2024 09:53:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59ED214659C;
+	Mon, 26 Aug 2024 09:56:38 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E3DD146A79;
-	Mon, 26 Aug 2024 09:53:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6EFE145B0F;
+	Mon, 26 Aug 2024 09:56:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724665998; cv=none; b=VS+MN9LWrAVyTnUnonUTh+c3e9jKPoyQaI1bLARexwaNBiEZq5EyxDEv88CyNrom5ehyT3enASjXmewqN6cDGDzDJnUcnfdONsc7VPC+oryBg1Drs5WjaBQD6z7QDiSevNWNYv8FocU+ujD9uomgi1reU65P/k0NBCxWHAcTbEo=
+	t=1724666198; cv=none; b=bNEZRo2MiGeg8ZPaIRC8wJZ4ohnyPRE+47z4NxFSSuAa89+PTf9RmymEFqgYZSRd+zTqH7fFFG/BbgxEGj9fkJLJwIlVnHOV8oRZ+M9jeiP52JS5xh0BrkdmYVz0x9011nT0FDLnvIGh3ELsEPVzy5WTuev031dxo59WZpRV6iA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724665998; c=relaxed/simple;
-	bh=uCMVP5AAf9Ic7Tbz+W996PQ4zWUMv7isn0iIiV+daR0=;
+	s=arc-20240116; t=1724666198; c=relaxed/simple;
+	bh=zI9/MZ906dcQQ7OCq/ndqcDMzj8nC91tmnmFUhjWnxg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SRC7k0kJvTIe2TgfWF+TakQv1z8K1OiioMCa28ykJeVILyk8ydj4U0C59eJFjWQ1noFs6foy6eLM+Uqv3y7nBhGtne4ukAbxub9zvyDBmJK6cH4DWPRYsySSQtUzk4+kEhmugHtKbUvw6ckrlMUS4ezCVv/LgFSK2d+8vfDvbGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.170
+	 To:Cc:Content-Type; b=HBq+oawPalwrMX0KAdGtnLADnWAX6wIRSs7stTnuWNZzk4xaePDWg5vHoe4viQ79vygAFLsR29lfKQZ+I+Sf38NV5CCHuEfRCiYOQEGpPktA468d0d2n3BxOIlYS5gJxXS5ElY7GpFQ2hy5cY6DbwTcOxc1NQZc6T08hHBAFNkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6c0e22218d0so42990177b3.0;
-        Mon, 26 Aug 2024 02:53:16 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6b3afc6cd01so39345547b3.1;
+        Mon, 26 Aug 2024 02:56:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724665995; x=1725270795;
+        d=1e100.net; s=20230601; t=1724666195; x=1725270995;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xIxHgySimhudfjPoZi8j1w/98XwT2TmQjMhDhWg7BtU=;
-        b=IlZxfZ4Trnz526cNe+ActhQM3kECmJ8x2Ot9mzLep9xwWV99oMSCSJRGUzCp9Nx+Y6
-         JZGrE9MyIzHwDkCgs2woFLwenC1dSsXzWccm9sop7DVgprMqUQiBETDgJenj6RtN4fX7
-         UwfsSGfSbuo+JGwxFVDOfQhLCnoA28a9cAcDBnwnzKLQ2cXBcA02ijtrAPQrf4qh5n3p
-         47s7PfLQeK2FWv5jpj7N/p0D6ZFhb/FWZ0w6qgqsE5V8Q4Czc0MLG91eWr4OMoDoW38i
-         DqvsQw06jzv3HdAfgrGTvTNtmqGogbQoZKVTreq3n6JbpdefR2olTYUzlep9BhTJrO/j
-         0SFw==
-X-Forwarded-Encrypted: i=1; AJvYcCUvAb/0m8IdmPv3u2seW0DBITcN+0qYdDRH+Uj4nkPzNtrCgzmUSb4l5yrGcQAV+OAjE8d1TtzJ27syiWCi1FmBwBQ=@vger.kernel.org, AJvYcCVVnNuZYIrGyhy7MbfPAe7zNNfikEvQyIahh92TUilAH+sYtGGy07QlDPhmG7mrHvzJotYWFAMmDCp+KiI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0bG7k+5Mo0oq7Z5zYCQ5UGDfe46rhoSgCCdHv9nSJqK3AGi6s
-	gm/Bq4E0rpPTYn1gZzC33lcqkZM8jcMjdWmeI1RityWKmOCF8v7EpHonTevG
-X-Google-Smtp-Source: AGHT+IF2N2XZbZ9IISZaWXLDUHAxjedGRsWpyXE2Z7Y1loO3LXLtjntY4GNMlh4JWphCOKX2XJUJFg==
-X-Received: by 2002:a05:690c:4246:b0:6b2:4154:e598 with SMTP id 00721157ae682-6c6262f43e4mr95411357b3.26.1724665994868;
-        Mon, 26 Aug 2024 02:53:14 -0700 (PDT)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6c39dd475e1sm14520117b3.120.2024.08.26.02.53.14
+        bh=JleScZlBh8qW20TkJdLDIyUdAIrIwI6sGhdfX/+Pdfo=;
+        b=R9UEDkJ8cK28SWPHQA/Ccg5290I9BWuvjevWkOej4pl73Kx7YToWUjEzZrRwBKK3gs
+         L3eBFecOnq4NOR/yoapQI9fou9W2kXGEPB/fuyNs7zx+0EGJ9UL7JvgrsPHJwYMYJW2n
+         +4Ye9Cl2rhUaxTnjaqKG3/6eN+XhDLwoo4EK/np4iXo/TaQXbLJcnoxZnnUprDSlyQLp
+         X078BSEQgzW06Yw0cNprwxJAUVQkw4bxQu/U+CtruXAroU0oracuz2tyx5AN7My7HDIu
+         GpaevG+nI/0Ue6tk/cBZQ2gBn4yyDSUdzWsILcB/OCYCh8JaDnMt8Y5XY4S8a91q9Koe
+         Fp9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWpnUXO9IbRND/aAo/I9qcQbPhoGFH4ZO1aP4VVyE1niknDR1DrHg0IPNKbOegSwvzgtcoaf30BF1DdC991isvWOmk=@vger.kernel.org, AJvYcCXNY/e1CCsgqdCwSafbp78oYNFPQo1N5jm1HQq8yajErwjwSmU0XLommOkzvNPWB6yCH5yeIIo43+pOvg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAswFRHxuAmb07IBTCjoawiIo7PdTX163rRCMADQf29ultUpmU
+	G2L8S+HKUSZywD+avcoCMXqVCoHBPdj+G6XFBB136CpXXOQXxB+WEmBCoDXY
+X-Google-Smtp-Source: AGHT+IEr80Cy56eTi+lSc+YGKTwbfXwYPC9Yk7dO21soIS3OOtIFVylaYXGUgW+H9RKS9owwee3T/A==
+X-Received: by 2002:a05:690c:f93:b0:673:251f:b2eb with SMTP id 00721157ae682-6c6035aaae4mr79917687b3.23.1724666194618;
+        Mon, 26 Aug 2024 02:56:34 -0700 (PDT)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6c39a75666fsm14809097b3.55.2024.08.26.02.56.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Aug 2024 02:53:14 -0700 (PDT)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-6c91f9fb0acso14279797b3.2;
-        Mon, 26 Aug 2024 02:53:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWi+LACs1eagFh5Z7IVa39hZtOIn7DLOaTMk/H9KAabdS3jvv/a8eZPb9E9MhQzhU7AwVPxdTT7GZP/IGuxs9BW3sc=@vger.kernel.org, AJvYcCWrWFDmFhVSO7GNzh9XfCY/H08exTUVxrkkY1BmOSmn3Zcv8W26q9hOBbe93zND+ZaL5XRkWwWi9R8yVg4=@vger.kernel.org
-X-Received: by 2002:a05:690c:4246:b0:6b2:4154:e598 with SMTP id
- 00721157ae682-6c6262f43e4mr95411167b3.26.1724665994139; Mon, 26 Aug 2024
- 02:53:14 -0700 (PDT)
+        Mon, 26 Aug 2024 02:56:33 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-6cdae28014dso5698987b3.1;
+        Mon, 26 Aug 2024 02:56:33 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVC76Gzz/XMsrzWk5ZDx3ciJdCviEVv3EBYggA8HS0gy7ad8hE0dFXPi6VaarrT33sKqkCJ5g1aK639KQ==@vger.kernel.org, AJvYcCVTliA5RDIgCL4/aADBLwzV/2nij7X6u/3WEWZqi4HQ6jAzOwPNrWRoIjy/E5vbgAB3S32F3Haf2jg5Bck03uNXa8Y=@vger.kernel.org
+X-Received: by 2002:a05:690c:6209:b0:6ad:756b:9448 with SMTP id
+ 00721157ae682-6c3075a1698mr117593527b3.22.1724666192913; Mon, 26 Aug 2024
+ 02:56:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240826094328.2991664-1-ruanjinjie@huawei.com> <20240826094328.2991664-9-ruanjinjie@huawei.com>
-In-Reply-To: <20240826094328.2991664-9-ruanjinjie@huawei.com>
+References: <20240824182120.320751-1-biju.das.jz@bp.renesas.com>
+ <6f16a3f7-99bb-47c4-9034-c1f0ccd59546@tuxon.dev> <TY3PR01MB11346F3C71013AD71C1556BA1868B2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <20240826094311.GA27596@pendragon.ideasonboard.com> <TY3PR01MB113465A694F44326ED0A5AA19868B2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB113465A694F44326ED0A5AA19868B2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 26 Aug 2024 11:53:02 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWhfDmRONWLjqgeCa4ZPKKXxXDv6T60OVSmEdvdm1RvvQ@mail.gmail.com>
-Message-ID: <CAMuHMdWhfDmRONWLjqgeCa4ZPKKXxXDv6T60OVSmEdvdm1RvvQ@mail.gmail.com>
-Subject: Re: [PATCH -next RESEND 08/10] mtd: rawnand: renesas: Use for_each_child_of_node_scoped()
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: miquel.raynal@bootlin.com, michal.simek@amd.com, richard@nod.at, 
-	vigneshr@ti.com, liang.yang@amlogic.com, neil.armstrong@linaro.org, 
-	khilman@baylibre.com, jbrunet@baylibre.com, 
-	martin.blumenstingl@googlemail.com, matthias.bgg@gmail.com, 
-	angelogioacchino.delregno@collabora.com, heiko@sntech.de, 
-	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, wens@csie.org, 
-	jernej.skrabec@gmail.com, samuel@sholland.org, kees@kernel.org, 
-	gustavoars@kernel.org, linux@treblig.org, robh@kernel.org, 
-	u.kleine-koenig@pengutronix.de, erick.archer@gmx.com, 
-	christophe.jaillet@wanadoo.fr, val@packett.cool, 
-	christophe.kerello@foss.st.com, linux-mtd@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-stm32@st-md-mailman.stormreply.com, krzk@kernel.org, jic23@kernel.org
+Date: Mon, 26 Aug 2024 11:56:21 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWbVZCntawwKp17PLZMLveGGBxdBSrV+8wwaM4p2x8A2w@mail.gmail.com>
+Message-ID: <CAMuHMdWbVZCntawwKp17PLZMLveGGBxdBSrV+8wwaM4p2x8A2w@mail.gmail.com>
+Subject: Re: [PATCH v3] media: platform: rzg2l-cru: rzg2l-video: Move
+ request_irq() to probe()
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Marc Zyngier <maz@kernel.org>, "Claudiu.Beznea" <claudiu.beznea@tuxon.dev>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	"biju.das.au" <biju.das.au@gmail.com>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 26, 2024 at 11:37=E2=80=AFAM Jinjie Ruan <ruanjinjie@huawei.com=
-> wrote:
-> Avoids the need for manual cleanup of_node_put() in early exits
-> from the loop.
->
-> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+Hi Biju,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Mon, Aug 26, 2024 at 11:50=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.c=
+om> wrote:
+> > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > On Mon, Aug 26, 2024 at 08:08:33AM +0000, Biju Das wrote:
+> > > On Monday, August 26, 2024 8:27 AM, claudiu beznea wrote:
+> > > > On 24.08.2024 21:21, Biju Das wrote:
+> > > > > @@ -270,9 +270,14 @@ static int rzg2l_cru_probe(struct platform_d=
+evice *pdev)
+> > > > >         cru->dev =3D &pdev->dev;
+> > > > >         cru->info =3D of_device_get_match_data(&pdev->dev);
+> > > > >
+> > > > > -       cru->image_conv_irq =3D platform_get_irq(pdev, 0);
+> > > > > -       if (cru->image_conv_irq < 0)
+> > > > > -               return cru->image_conv_irq;
+> > > > > +       irq =3D platform_get_irq(pdev, 0);
+> > > > > +       if (irq < 0)
+> > > > > +               return irq;
+> > > > > +
+> > > > > +       ret =3D devm_request_irq(&pdev->dev, irq, rzg2l_cru_irq, =
+IRQF_SHARED,
+> > > > > +                              KBUILD_MODNAME, cru);
+> > > >
+> > > > Because this is requested w/ IRQF_SHARED the free_irq() ->
+> > > > __free_irq() [1] will call the IRQ handler to simulate an IRQ SHARE
+> > > > scenario where other device generate an interrupt.
+> >
+> > Good point, I had missed that.
+> >
+> > > Currently CSI driver is not registered any interrupts and CRU is the =
+single user.
+> >
+> > Regardless, the fact that the IRQ is requested with IRQF_SHARED means t=
+hat the IRQ handler needs to be
+> > prepared to be called at any time from the point of registration to the=
+ point the IRQ is freed. This
+> > is tested by CONFIG_DEBUG_SHIRQ=3Dy, which you should enable for testin=
+g.
+>
+> For single user, testing CONFIG_DEBUG_SHIRQ=3Dy this does not make any se=
+nse. See [1]
+> [1] https://elixir.bootlin.com/linux/v6.11-rc5/source/kernel/irq/manage.c=
+#L1965
+>
+> >
+> > If you don't need to share the interrupt with any other device, you can=
+ drop the IRQF_SHARED.
+>
+> I will drop IRQF_SHARED flags instead as there is single user
+> and will send RFC for dropping calling IRQ handler for single user
+> with CONFIG_DEBUG_SHIRQ=3Dy
+>
+> Please let me know is it fine for you?
+
+IMHO the latter is not a good idea: if you register an interrupt handler
+with IRQF_SHARED, you should be prepared for the handler being called
+at any time, and test that. Regardless of whether there is only a
+single user or not.
 
 Gr{oetje,eeting}s,
 
