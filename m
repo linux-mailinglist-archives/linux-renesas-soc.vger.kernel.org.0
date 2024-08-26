@@ -1,255 +1,176 @@
-Return-Path: <linux-renesas-soc+bounces-8255-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8256-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05BDE95EF75
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 13:10:55 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C58E95EF77
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 13:11:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B12EB282367
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 11:10:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B0243B20B87
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 11:11:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7DBC13E033;
-	Mon, 26 Aug 2024 11:10:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 258D21482E3;
+	Mon, 26 Aug 2024 11:11:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="h7iQSlcF"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="aDe5occb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011069.outbound.protection.outlook.com [52.101.125.69])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5DB26AED;
-	Mon, 26 Aug 2024 11:10:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.69
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724670651; cv=fail; b=e4I6vKphJxXQnWb5mRF7AVpX0qmRCV2gh6sOqbXswyYrw4sGAynN1/p6p6EuRS7B7Dc+Tx714QOit/ZWVQLvCoALrmMmwgLmPfjkdv3HkuzjomEyx4rFmlsPau5/vE3qQTG7URcAvefDwuifNvVuiCW3BwKOexl0sWE1J2IFq/0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724670651; c=relaxed/simple;
-	bh=/lC+rB4t3gi+epT3QGr0MW0azf3eQVlm2xNRy6cTSy0=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=F0pSePvXigzARP6cRS1OP2BVczPSDYV5mK+ovF+v2FtSVt+Ee+ig2n2e6+TN2fgYm+n0g1e/PXSGEVIR9tXh/N+RLIboQCA93A45d9qajqMM/oj4ddUSyzTI2Wv5H01IvyroN8kjEcUI+Na4PmAF+etvD2PENxNEIXeRh+tuorU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=h7iQSlcF; arc=fail smtp.client-ip=52.101.125.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=k4BlhXWtpeVaUk2Pk18L+B3eWSxQcpXmZ2bOTgdvY559KncJtRVm4iv+AHgHT78QPW03diwnnF/yuJ2MhAtSTDeAM09AAN1pbIYVynZdDPK90fxRCGHmcn6mFLN7lefT5SWvpfvXHvGROF/JTkhLWRN4aVwciSDvU0XEFCFZpvOhIT7LRoa9d2TLFbqzSTUxvANfwDnWlnKSy35znBeM61e9lomo6ObZGJSfujMgEzdZjER+KeoSO1jmA1QQmGxVp6hE3Jh+IffNVp/qCEH4PhPhXjO7xsw8wlMvZgkKLL9+9UKnUarsjHaU7kTqGF1IoHziEUGtpo5CnNo3Yw0tFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/lC+rB4t3gi+epT3QGr0MW0azf3eQVlm2xNRy6cTSy0=;
- b=C26sRtuC9Je8X9III4K3akxyMj4wIE9O+W9YLPFPrzkxDc33GSxATm6UtTS3UWihxN2rwStoK97aKIw6M2wh1Pl6ApJrh7PdAuTEiluVtdl1pcjb7iKyV6Zl2oOjWkFLnHAt7aX7u7L1YMNtA0v9xrzcroQwP4mJFk2rUkdWF3mgJDC5oKjPYHgZOONeHXDtbiBWCuefsrxhd4ftOXFAjrFSZv6bUkXBq3VTNEFFhLex0THQFy5Z5hbK0Ad6NynvS4J9jzQKKNXGFrovxe26P5qFOGbNMli1IrQsKOwLP/LXtbUeoBG/3JQuneJBHl2oAYQEulUlwP8nZhRGFGi2+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/lC+rB4t3gi+epT3QGr0MW0azf3eQVlm2xNRy6cTSy0=;
- b=h7iQSlcFxlvx1Gsxm3qTCWE8NE+fjlpQPwHcGjdagyJpNxV5j15lAhDOYJXV3h9/S0g3eOGnk9N0/oD+YAdGFEF3sGn0XNE+2HpaiOHbzfUfJchMYLZGjZOPeM46TpM/JEaLRmuZDwQe1UP5hZfgE+yqIWexKM1xcekOeRaqQU0=
-Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com (2603:1096:400:3c0::7)
- by TYWPR01MB9836.jpnprd01.prod.outlook.com (2603:1096:400:224::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.24; Mon, 26 Aug
- 2024 11:10:44 +0000
-Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com
- ([fe80::7497:30af:3081:1479]) by TYCPR01MB11332.jpnprd01.prod.outlook.com
- ([fe80::7497:30af:3081:1479%7]) with mapi id 15.20.7897.021; Mon, 26 Aug 2024
- 11:10:43 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Laurent Pinchart
-	<laurent.pinchart@ideasonboard.com>
-CC: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
-	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
-	<airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Conor Dooley
-	<conor+dt@kernel.org>, Kieran Bingham
-	<kieran.bingham+renesas@ideasonboard.com>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Prabhakar Mahadev
- Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
-	<biju.das.au@gmail.com>
-Subject: RE: [PATCH v4 0/4] Add support for RZ/G2UL Display Unit
-Thread-Topic: [PATCH v4 0/4] Add support for RZ/G2UL Display Unit
-Thread-Index: AQHa9K+g3b0qbrJ9gkKCaVY3tzZtn7I0050AgAAG5zCAABZqgIAEYKMAgAAWFLA=
-Date: Mon, 26 Aug 2024 11:10:43 +0000
-Message-ID:
- <TYCPR01MB1133213BF088B3861ABDAB80A868B2@TYCPR01MB11332.jpnprd01.prod.outlook.com>
-References: <20240822162320.5084-1-biju.das.jz@bp.renesas.com>
- <20240823131516.GD26098@pendragon.ideasonboard.com>
- <TY3PR01MB11346F4E01D1FA2688D2799F586882@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <20240823150011.GO26098@pendragon.ideasonboard.com>
- <f5203242-fed4-43e7-8ba4-8f0749f7ade7@ideasonboard.com>
-In-Reply-To: <f5203242-fed4-43e7-8ba4-8f0749f7ade7@ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11332:EE_|TYWPR01MB9836:EE_
-x-ms-office365-filtering-correlation-id: b8b0e720-c7ef-48c7-99df-08dcc5bfba83
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|376014|7416014|38070700018;
-x-microsoft-antispam-message-info:
- =?utf-8?B?ZktEdFZkMzBrY1ZBZTkzejYvT0U1MllFS2QzV1U3ZWI2aHloMmd3ZWloNkJm?=
- =?utf-8?B?QWQvLzVMWnBwRklxVFFsT1ZZazhldVBwMUtkcDIvQVZIRW9uMjk5UVYzc3VN?=
- =?utf-8?B?Q3R4bkIrMFJzWWRwQUpDNGx6QjNRdlFWYjhZS0NKd2hMREFaSkptNmt6Rm5r?=
- =?utf-8?B?dkU0YzRQeGRHSHJzLzhwRHhiVDFtM2pycXdaL21nQUUvYzlqZFk5Q0Vybnp5?=
- =?utf-8?B?NUdheHM2cWpWcVJZYUJKMkl4NWFTVmliNE1lTGpBdWtBYnZZVkZiSm9EZGFY?=
- =?utf-8?B?T0lKcHl4YSt5ai82QjFnTzY5RGY3UHRXSlJoalRRQUZNdGlzUlZnQjZ1eWs5?=
- =?utf-8?B?d3U5VDZMMVdDQ1dRL1Q2MUdveTU1NS8xd0IwNFhMOGxqUnJqRFBZRTZjTUZm?=
- =?utf-8?B?U3RhRWtGS2hGTkwxdm8xdDNQK0g1bnRoRDhEeUlGTDBKYTdCcVg3NDRUVmhq?=
- =?utf-8?B?Q3NLM1lvOUk3RUc4RlNqRHVtKy90dHFXNUE3MnJza1dib082N2pHcU1KT2s1?=
- =?utf-8?B?MTMxemFRbDk3S2Rpbk5jS1pUSnFBanRtVGpzTVJvTFdxY2l0K0YxLzBpbENv?=
- =?utf-8?B?V0hML2FNck1hWk1VMDg2d0RxcUdsbU9yNFkrQlJDb3BBdndESjlvK3JBNW5z?=
- =?utf-8?B?Rjh2ajNiV2xUNGJQWldEajJzeU12NGhlTGVuaDhEWDhwOTg1M1M1S1ZBT1dD?=
- =?utf-8?B?eGNtQ3hsNHk5TWpyM0JlODdhVkZVUXp0dXZlM1hVR3ZLblZ2cUNpWjNCMGI1?=
- =?utf-8?B?NkhuczUyN0JMWHVQWmppMzY3bnRoWGFzMGJuL2JWamNRRW9ROTE0TkJrUUs3?=
- =?utf-8?B?TDA0MzVjSXViRU1kekJEbmIraTlwWDk0Rk1wUUdpLzFzTHFHM0JFMVAyYVVV?=
- =?utf-8?B?Wkc4eWZNb1BQT0UzSnZvc0dGa0JWVDYvUldhU2UrWGZkaVd1TG9PWXBKQldX?=
- =?utf-8?B?WkJFSUgya0hJSmd3OW5QZFdlNTRBUGY0UGMvMTJBYktxdzFNSi9lTGNrL3h3?=
- =?utf-8?B?dTYxbmRGRzRHeHVqTzlibnpvYWl5bm1PdjRFK0RjU3p2UnRBSHRHTDY4VTN4?=
- =?utf-8?B?SUVnbWVDU0N2UjlzZ3BqUUNDelpEYXhYcURHNmNzYkgyTGEwb2JhTEM2OTkw?=
- =?utf-8?B?TUtnUi9hT3l1b0NhYnlWL1hBSFh0NU9LOHNGSUhpVXQzdXZTdHBQL3ZMRUdj?=
- =?utf-8?B?SU1qdnBHRFdGTGdHNFNvWGN6cWwzSExrT0NjVmhSNS92STF2Y2xWSHp3R3dE?=
- =?utf-8?B?M2lkRnF5Zkw2aW9JVHhsMjc0SjBUL0thS2VoR3RqT2x0TFd5dnJMVCtYQ2dr?=
- =?utf-8?B?VDZFcUJOVDFjeUovbXc1dnlNMTRQbFlhbUswSnI2RGkwakYyQURkL3pPUU9W?=
- =?utf-8?B?VDE0bkdERXJBWGlQa3FKOHJKL2lqVHBGei84K0lBajBHTGorZjcxZmt3YTIw?=
- =?utf-8?B?WWlqbTBZM1d2cVppOHZXcW5wTnpsWkhJT3RMU2RxQ29lNVZob0E3U0wwdW85?=
- =?utf-8?B?VE9xd1NQbG85YWpSUVBHQWoxSVord3ZUaUFFdit4Y25VeXlSbW8zUzNva1RV?=
- =?utf-8?B?elZrK1puR0twWUY4WURsVW5WeGlmRWZSbERxcVh4SnRLYXRJVi9SYnlEMzE0?=
- =?utf-8?B?TDNhR0ZFcUE5TUZwWlk1VWhvc3Jzd2dJVDhwVmpSdkQxWGFleWpCK0ZMUENS?=
- =?utf-8?B?VG5xR2pTcm9zRVFLRjdQWERzZHJGN2dDQStPcVVGbFVzM3ovK090b01xLzlW?=
- =?utf-8?B?ZFE2NEZCZStQWmx5VnZwTVhmaTNjemd0K0M4ejZ2Kzd1M1lGKzZ4V096QmR1?=
- =?utf-8?Q?5o1xnU2uZ/HXChBmsgSilRALHPSkfRWxxTBrY=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11332.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?RTEwZkxCQUYvTy9vRU9EemlRbWxwV3RYRzBxOGh4RSt0dWJTUnpwS0d2a1g5?=
- =?utf-8?B?SjhUOG5XWi94N25YK3NqZEkyL1d4UHQ4YXpIREIzU2pMTC9ZZUdQdkdxOGRE?=
- =?utf-8?B?R0ptTXpNVHE3T0E1eU5mVnRjR3dKN1RJVmROVTRqaXplZmxUd1MwZVhmRlVj?=
- =?utf-8?B?THhLc0YyNFpwRG5ReDVvWlUzL1BTSWpweHJSNTdtME1LdGZETGlVMDFjNmVC?=
- =?utf-8?B?dFp2WUxZaDNCSjFDOS9FN3F4MndJYlJoSGk2MlpKODNsZERXTCttVko5bEZN?=
- =?utf-8?B?eFVTQ1hxaVpPcjRJU09nVUpraXBFMFFNcUU0YlBaU3B1YTJOTjV4blVsNXpX?=
- =?utf-8?B?YUxHTXBlYkJkMkFQcndKN3BrYVBBWENnOXhtMy95RFZCMjd1QmVhRWgzTENT?=
- =?utf-8?B?V3NVZ3ZMTWhXQzcyVlhwckVvbDV1bnd1NDg0K21UalNtaHR1NmZjSlhjMWVJ?=
- =?utf-8?B?blVuR1E3eGY4bnhFbmxQbFNqRkFKeG9jYS9SQ05jVkQrcnBmWVVRTWpNL3hv?=
- =?utf-8?B?NkUxSXJoT2Vhd2tRVUNsYW11RmI1SUU5TitnU2JPVEhjLzNUSGI3RTNrV3pU?=
- =?utf-8?B?TWliYWtZSWpYelVsUGF0OHdGZ1hoZEpEdU5PTDVXUVNldnJYQzJFa2FDOXMy?=
- =?utf-8?B?YlU4bTJuYVl1K0Jka3F3bVNkVUZEenQwQU5OZFF5SFBhOUNOSVBZV05xU0hv?=
- =?utf-8?B?bDl0T0NVdzBVQTk0enlsU0hkMFlFWGtPTVZIYllUMU8yMzR3MkhDOUlTQmNn?=
- =?utf-8?B?TjVGMFlVcEgzQWFjd2treURQWVNxSDFwZW0zdDAvOXkwVWswa290ZVdoYmYz?=
- =?utf-8?B?QkFBSjM1TjJLaEtPMHlQdzU5TDBCT25xYllUY3V0ZkZjd0NiV1JKQnJSYWRx?=
- =?utf-8?B?TSs5bjVkSzNReFBVdG5SOEFMeWxta1NsN0Q5ZFp0YWU4NlFiTkxHdnFJQ25n?=
- =?utf-8?B?SVRNR2Izbk1vVXJyVmh5N0c3V2dvZVJCMjNSR2VXY2UyVUswalVhTkYyajho?=
- =?utf-8?B?YnR6eXBUTk45MFE1ekRlenlPK3NLR0lIZ1lOQkNrNHozR2ZkTGJIeGFjZGty?=
- =?utf-8?B?bThjTEtFRjlKZGNSV1RSdHZGOExUWW1KV29ySFhIdWtxd1RaT0JtbDRTbjdE?=
- =?utf-8?B?LzBNK2x5VEJneG94TnpCR09nNUVEaWowcVQvcnlQR09hcDE4R09Nblh2ZjFB?=
- =?utf-8?B?d0tlSlp2RWV0NlZlU2RWZnAvZDBwQVNzR2huQ2JCUFlFTnVuakxKQ3l2LzJV?=
- =?utf-8?B?SnRNQmZ6N0FqTWZNcmhsOHQyWVA2aFhiSVh1VnNCMzRHTlZiSHhsMUpyL3lK?=
- =?utf-8?B?QnNObGVENWN0d1c4ZlZzNnhGREltQXJiNDdMYkRlQjBiSnB5T09MN2p2amtp?=
- =?utf-8?B?ejBLa0pubWdyS1VxbDl4OG9ra2ZHRjE4SjJLd211S3hQTW1USExFWGdvWGVx?=
- =?utf-8?B?L0NTVkFpVFNOUk1zcU9pQnA2SUlWdkNYMFlDSnVuYU5TWUViTWlyWnNwUisz?=
- =?utf-8?B?ZUxZMnhNNC9nVlkvVFRHeXk1dG5BYTFSRXBPRnlVWC93RE52d25HdlVpd2Zm?=
- =?utf-8?B?VXdUdmVNKytxZzZ2dnkzTUxkU21tMzE3OURhSm96UnZKcUgvU0RHeUVhU3BU?=
- =?utf-8?B?ZTFweE9QYlVNcFE3eHFualVrdlcvRit1SzVLb29SZXdYNGpHd1hRQ2tsZVpV?=
- =?utf-8?B?WEhqWFRKU2lTUk5pWnVONktXNU45Qk95cTNNVWQzcVpGa0xYU3ZjTFV6ZmRN?=
- =?utf-8?B?S2QxVXJPRlU4UXZzcVRuRzcxS2xxU1Arb0ZsQ1h3ZUUyYXMycW9RaHFmME1Q?=
- =?utf-8?B?ZjBvMGVCMklmTGxqanBvMGNpZ2NsNUR4NmcyOGlNOXFCMVlDWUZlV3JUMys1?=
- =?utf-8?B?a01Gc1IzSXQrMEg4RHhpd0tVb1NLQURKQ3R5NEdRcURhenl4dTBUK3pjcnlJ?=
- =?utf-8?B?Tys1QUtQazBPODlZZDdrM0t0SzJqejg4Y3dXQkJUTElYTkY3ZkVubTdyZFJu?=
- =?utf-8?B?VnFKQjB1SnBENkxkRTJQMmJDT1dWUitpNWp1U3FGTUU5dm5waG5YbFE2RFRD?=
- =?utf-8?B?eDVveFN3Rm5semYzc2N1OVZxbzBXd2poUHlrb09kWnRhL0kvVlUzaDgwRjQ5?=
- =?utf-8?B?MHlLQTNHVFo3K3NwOFFXTVFQVThpUjhqYmtNR1pVYlJHMGpKSkpmUmI4bXV1?=
- =?utf-8?B?QVE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B62413E033;
+	Mon, 26 Aug 2024 11:11:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724670664; cv=none; b=eP6Ka+Vtjblfw3btFssnvqoTUxG9dRI3RrRCSrooxu9xov9vxLUAeBqUT3V6wW8a8VmznMoMygn137COj8kRsl9s2NNlMW1LPQ0snJpEbHW5cDCIDN0u8L/wNNUVo2wYRHTvmo36ehNnKZdxFsyJz+kMjxB5AXTPM0xE22J+DF4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724670664; c=relaxed/simple;
+	bh=RRkCScZ1WzBWErKzfPhLvRc5v4pQhCbNmabMej1eOX8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=r2eWKLBWOIMTJEEf76p8rdAfQjoZq6q5ESs++zUc3q903iNWAMAm4F1Q/c5WqWgmwYODXRX2q6bmf4t2eAlJDR9UkQt+WIbxkymaobOcCQn0+erhP3LrWIxCCP60ZGpqejvARumdDztNxVVNyOef6w5z4jyMwlQnFEZneWpwD2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=aDe5occb; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 23D72480;
+	Mon, 26 Aug 2024 13:09:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1724670594;
+	bh=RRkCScZ1WzBWErKzfPhLvRc5v4pQhCbNmabMej1eOX8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=aDe5occbLGyxxUyyHonhQTCzuZSdZQrOiUX+HsaTRYDWqkxct248yEdRm0QiVxTNu
+	 BvxrsZOgOzr4JT+c2MgZn28SAZA1cWoXAClZ9+kKUprb1tecnA/zltIwjhzIo5ruUW
+	 +B3ckOvMDOcpUkZJhFVyY18G4SAgRo28fY1rfdX8=
+Message-ID: <cd7d4f07-6d30-492b-b9ee-998b2528fd4d@ideasonboard.com>
+Date: Mon, 26 Aug 2024 14:10:57 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11332.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8b0e720-c7ef-48c7-99df-08dcc5bfba83
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Aug 2024 11:10:43.8094
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: XdswOj1hD1aNr4MgLm1CbJE1nP1Q/g0cSn7Jjhc0cqOg9jPJNdaS2+l84ydL1kdUqgg9f3LjiuSugyVVHGm5W+cju5U+u9HYhHmaQU3qqAg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB9836
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/7] media: v4l2-subdev: Refactor warnings in
+ v4l2_subdev_link_validate()
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-media@vger.kernel.org
+Cc: Chen-Yu Tsai <wens@csie.org>, Eugen Hristev
+ <eugen.hristev@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Maxime Ripard <mripard@kernel.org>, Sakari Ailus <sakari.ailus@iki.fi>,
+ linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
+References: <20240822154531.25912-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20240822154531.25912-5-laurent.pinchart+renesas@ideasonboard.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20240822154531.25912-5-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogVG9taSBWYWxrZWluZW4g
-PHRvbWkudmFsa2VpbmVuQGlkZWFzb25ib2FyZC5jb20+DQo+IFNlbnQ6IE1vbmRheSwgQXVndXN0
-IDI2LCAyMDI0IDEwOjUxIEFNDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjQgMC80XSBBZGQgc3Vw
-cG9ydCBmb3IgUlovRzJVTCBEaXNwbGF5IFVuaXQNCj4gDQo+IEhpLA0KPiANCj4gT24gMjMvMDgv
-MjAyNCAxODowMCwgTGF1cmVudCBQaW5jaGFydCB3cm90ZToNCj4gPiBIaSBCaWp1LA0KPiA+DQo+
-ID4gT24gRnJpLCBBdWcgMjMsIDIwMjQgYXQgMDE6NTI6MTRQTSArMDAwMCwgQmlqdSBEYXMgd3Jv
-dGU6DQo+ID4+IE9uIEZyaWRheSwgQXVndXN0IDIzLCAyMDI0IDI6MTUgUE0sIExhdXJlbnQgUGlu
-Y2hhcnQgd3JvdGU6DQo+ID4+PiBPbiBUaHUsIEF1ZyAyMiwgMjAyNCBhdCAwNToyMzoxM1BNICsw
-MTAwLCBCaWp1IERhcyB3cm90ZToNCj4gPj4+PiBUaGlzIHBhdGNoIHNlcmllcyBhaW1zIHRvIGFk
-ZCBzdXBwb3J0IGZvciBSWi9HMlVMIERVLg0KPiA+Pj4+DQo+ID4+Pj4gVGhlIExDRCBjb250cm9s
-bGVyIGlzIGNvbXBvc2VkIG9mIEZyYW1lIENvbXByZXNzaW9uIFByb2Nlc3Nvcg0KPiA+Pj4+IChG
-Q1BWRCksIFZpZGVvIFNpZ25hbCBQcm9jZXNzb3IgKFZTUEQpLCBhbmQgRGlzcGxheSBVbml0IChE
-VSkuDQo+ID4+Pj4NCj4gPj4+PiBUaGUgb3V0cHV0IG9mIExDREMgaXMgY29ubmVjdGVkIGRpc3Bs
-YXkgcGFyYWxsZWwgaW50ZXJmYWNlIChEUEkpDQo+ID4+Pj4gYW5kIHN1cHBvcnRzIGEgbWF4aW11
-bSByZXNvbHV0aW9uIG9mIFdYR0EgYWxvbmcgd2l0aCAyIFJQRnMgdG8NCj4gPj4+PiBzdXBwb3J0
-IHRoZSBibGVuZGluZyBvZiB0d28gcGljdHVyZSBsYXllcnMgYW5kIHJhc3RlciBvcGVyYXRpb25z
-DQo+ID4+Pj4gKFJPUHMpDQo+ID4+Pj4NCj4gPj4+PiBJdCBpcyBzaW1pbGFyIHRvIExDREMgSVAg
-b24gUlovRzJMIFNvQ3MsIGJ1dCBkb2VzIG5vdCBoYXZlIERTSSBpbnRlcmZhY2UuDQo+ID4+Pj4N
-Cj4gPj4+PiB2My0+djQ6DQo+ID4+Pj4gICAqIFJlc3RvcmVkIHRoZSBwb3J0cyBwcm9wZXJ0eSBm
-b3IgUlovRzJVTCBhbmQgZGVzY3JpYmVkIHBvcnRAMCBmb3IgdGhlDQo+ID4+Pj4gICAgIERQSSBp
-bnRlcmZhY2UgaW4gYmluZGluZ3MgcGF0Y2guDQo+ID4+Pj4gICAqIFJlc3RvcmVkIHRhZ3MgZnJv
-bSBHZWVydCBhbmQgQ29ub3IgYXMgdGhlIGNoYW5nZSBpcyB0cml2aWFsDQo+ID4+Pj4gICAgIChS
-ZXBsYWNlZCBwb3J0IDEtPjAgZnJvbSB2MikuDQo+ID4+Pj4gICAqIFVzZWQgIiYiIGluc3RlYWQg
-b2YgIj09IiBpbiByemcybF9kdV9zdGFydF9zdG9wKCkgZm9yIHNjYWxhYmlsaXR5Lg0KPiA+Pj4+
-ICAgKiBSZXN0b3JlZCBwb3J0IHZhcmlhYmxlIGluIHN0cnVjdCByemcybF9kdV9vdXRwdXRfcm91
-dGluZw0KPiA+Pj4+ICAgKiBVcGRhdGVkIHJ6ZzJsX2R1X2VuY29kZXJzX2luaXQoKSB0byBoYW5k
-bGUgcG9ydCBiYXNlZCBvbiBoYXJkd2FyZSBpbmRpY2VzLg0KPiA+Pj4+ICAgKiBSZXN0b3JlZCBw
-b3J0cyBwcm9wZXJ0eSBpbiBkdSBub2RlIGFuZCB1c2VkIHBvcnRAMCBmb3IgY29ubmVjdGVkDQo+
-ID4+Pj4gICAgIERQSSBpbnRlcmZhY2UuDQo+ID4+Pj4gdjItPnYzOg0KPiA+Pj4+ICAgKiBTcGxp
-dCBwYXRjaCBzZXJpZXMgYmFzZWQgb24gc3Vic3lzdGVtIGZyb20gRFUgcGF0Y2ggc2VyaWVzIFsx
-XS4NCj4gPj4+PiAgICogUmVwbGFjZWQgcG9ydHMtPnBvcnQgcHJvcGVydHkgZm9yIFJaL0cyVUwg
-YXMgaXQgc3VwcG9ydHMgb25seSBEUEkNCj4gPj4+PiAgICAgYW5kIHJldGFpbmVkIHBvcnRzIHBy
-b3BlcnR5IGZvciBSWi97RzJMLFYyTH0gYXMgaXQgc3VwcG9ydHMgYm90aCBEU0kNCj4gPj4+PiAg
-ICAgYW5kIERQSSBvdXRwdXQgaW50ZXJmYWNlLg0KPiA+Pj4+ICAgKiBBZGRlZCBtaXNzaW5nIGJs
-YW5rIGxpbmUgYmVmb3JlIGV4YW1wbGUuDQo+ID4+Pj4gICAqIERyb3BwZWQgdGFncyBmcm9tIENv
-bm9yIGFuZCBHZWVydCBhcyB0aGVyZSBhcmUgbmV3IGNoYW5nZXMgaW4gYmluZGluZ3MNCj4gPj4+
-PiAgICogQXZvaWRlZCB0aGUgbGluZSBicmVhayBpbiByemcybF9kdV9zdGFydF9zdG9wKCkgZm9y
-IHJzdGF0ZS4NCj4gPj4+PiAgICogUmVwbGFjZWQgcG9ydC0+ZHVfb3V0cHV0IGluICBzdHJ1Y3Qg
-cnpnMmxfZHVfb3V0cHV0X3JvdXRpbmcgYW5kDQo+ID4+Pj4gICAgIGRyb3BwZWQgdXNpbmcgdGhl
-IHBvcnQgbnVtYmVyIHRvIGluZGljYXRlIHRoZSBvdXRwdXQgdHlwZSBpbg0KPiA+Pj4+ICAgICBy
-emcybF9kdV9lbmNvZGVyc19pbml0KCkuDQo+ID4+Pj4gICAqIFVwZGF0ZWQgcnpnMmxfZHVfcjlh
-MDdnMDQzdV9pbmZvIGFuZCByemcybF9kdV9yOWEwN2cwNDRfaW5mby4NCj4gPj4+Pg0KPiA+Pj4+
-ICAgWzFdDQo+ID4+Pj4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYWxsLzIwMjQwNzA5MTM1MTUy
-LjE4NTA0Mi0xLWJpanUuZGFzLmp6QGJwLg0KPiA+Pj4+IHJlbmVzYXMuY29tLw0KPiA+Pj4+IHYx
-LT52MjoNCj4gPj4+PiAgICogVXBkYXRlZCBjb3ZlciBsZXR0ZXIgaGVhZGVyICJEVSBJUC0+RGlz
-cGxheSBVbml0Ii4NCj4gPj4+PiAgICogVXBkYXRlZCBjb21taXQgZGVzY3JpcHRpb24gcmVsYXRl
-ZCB0byBub24gQUJJIGJyZWFrYWdlIGZvciBwYXRjaCMzLg0KPiA+Pj4+ICAgKiBBZGRlZCBBY2sg
-ZnJvbSBDb25vciBmb3IgYmluZGluZyBwYXRjaGVzLg0KPiA+Pj4+DQo+ID4+Pj4gQmlqdSBEYXMg
-KDQpOg0KPiA+Pj4+ICAgIGR0LWJpbmRpbmdzOiBkaXNwbGF5OiByZW5lc2FzLHJ6ZzJsLWR1OiBE
-b2N1bWVudCBSWi9HMlVMIERVIGJpbmRpbmdzDQo+ID4+Pj4gICAgZHJtOiByZW5lc2FzOiByei1k
-dTogQWRkIFJaL0cyVUwgRFUgU3VwcG9ydA0KPiA+Pj4NCj4gPj4+IFRoZSBmaXJzdCB0d28gcGF0
-Y2hlcyBsb29rIGdvb2QgdG8gbWUuIERvIHlvdSBoYXZlIGFjY2VzcyB0bw0KPiA+Pj4gZHJtLW1p
-c2MsIHdpbGwgeW91IHB1c2ggdGhlbSB5b3Vyc2VsZiwgb3IgZG8geW91IGV4cGVjdCBhIG1haW50
-YWluZXIgdG8gcGljayB0aGVtIHVwID8NCj4gPj4NCj4gPj4gSSBkb27igJl0IGhhdmUgYWNjZXNz
-IHRvIGRybS1taXNjLiBJIGV4cGVjdCBhIG1haW50YWluZXIgdG8gcGljayBpdA0KPiA+PiB1cChN
-YXliZSB2aWEgcmNhci1kdSB0cmVlIG9yIGRybS1taXNjIHRyZWUpLCBvciBlbHNlIGlmIGl0IGlz
-IG9rLCB3aGF0IGlzIHRoZSBwcm9jZWR1cmUgdG8gZ2V0DQo+IGFjY2VzcyBmb3IgZHJtLW1pc2Mg
-dHJlZT8/DQo+ID4NCj4gPiBZb3UgY2FuIGZpbmQgaW5zdHJ1Y3Rpb25zIHRvIHJlcXVlc3QgZHJt
-LW1pc2MgY29tbWl0IGFjY2VzcyBhdA0KPiA+IGh0dHBzOi8vZHJtLnBhZ2VzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWludGFpbmVyLXRvb2xzL2NvbW1pdHRlci9jb21taXQtYWMNCj4gPiBjZXNzLmh0bWwN
-Cj4gPg0KPiA+IFRvbWksIHRvIGF2b2lkIGRlbGF5cywgY291bGQgeW91IHB1c2ggdGhlIGZpcnN0
-IHR3byBwYXRjaGVzIHRvDQo+ID4gZHJtLW1pc2MgPw0KPiANCj4gSSBoYXZlIHB1c2hlZCB0aGUg
-Zmlyc3QgdHdvIHBhdGNoZXMuDQoNClRoYW5rcyBUb21pLg0KDQpDaGVlcnMsDQpCaWp1DQo=
+Hi,
+
+On 22/08/2024 18:45, Laurent Pinchart wrote:
+> The v4l2_subdev_link_validate() function prints a one-time warning if it
+> gets called on a link whose source or sink is not a subdev. As links get
+> validated in the context of their sink, a call to the helper when the
+> link's sink is not a subdev indicates that the driver has set its
+> .link_validate() handler to v4l2_subdev_link_validate() on a non-subdev
+> entity, which is a clear driver bug. On the other hand, the link's
+> source not being a subdev indicates that the helper is used for a subdev
+> connected to a video output device, which is a lesser issue, if only
+> because this is currently common practice.
+
+Hmm, what does this mean... So we have a sink subdev, which might be 
+linked to a source subdev (in which case everything is fine), or it 
+might be linked to a non-subdev source.
+
+Why is it a bug to be linked to a non-subdev source? And if it is a bug, 
+why is ok (only pr_warn_once)?
+
+  Tomi
+
+> There are no drivers left in the kernel that use
+> v4l2_subdev_link_validate() in a context where it may get called on a
+> non-subdev sink. Replace the pr_warn_once() with a WARN_ON_ONCE() in
+> this case to make sure that new offenders won't be introduced.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+> Changes since v1:
+> 
+> - Switch from WARN_ON() to WARN_ON_ONCE()
+> ---
+>   drivers/media/v4l2-core/v4l2-subdev.c | 14 +++++++++-----
+>   1 file changed, 9 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index 7c5812d55315..d3196042d5c5 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -1443,11 +1443,15 @@ int v4l2_subdev_link_validate(struct media_link *link)
+>   	bool states_locked;
+>   	int ret;
+>   
+> -	if (!is_media_entity_v4l2_subdev(link->sink->entity) ||
+> -	    !is_media_entity_v4l2_subdev(link->source->entity)) {
+> -		pr_warn_once("%s of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
+> -			     !is_media_entity_v4l2_subdev(link->sink->entity) ?
+> -			     "sink" : "source",
+> +	/*
+> +	 * Links are validated in the context of the sink entity. Usage of this
+> +	 * helper on a sink that is not a subdev is a clear driver bug.
+> +	 */
+> +	if (WARN_ON_ONCE(!is_media_entity_v4l2_subdev(link->sink->entity)))
+> +		return -EINVAL;
+> +
+> +	if (!is_media_entity_v4l2_subdev(link->source->entity)) {
+> +		pr_warn_once("source of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
+>   			     link->source->entity->name, link->source->index,
+>   			     link->sink->entity->name, link->sink->index);
+>   		return 0;
+
 
