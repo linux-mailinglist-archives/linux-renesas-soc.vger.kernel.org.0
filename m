@@ -1,160 +1,113 @@
-Return-Path: <linux-renesas-soc+bounces-8215-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8218-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DA8A95ECBC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 11:08:23 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BED7595ECDB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 11:16:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3AC0C281744
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 09:08:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8587C281C7E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 09:16:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64F4313D8B3;
-	Mon, 26 Aug 2024 09:08:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DF0413A88D;
+	Mon, 26 Aug 2024 09:16:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="CkrIopJR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 658A413D880;
-	Mon, 26 Aug 2024 09:08:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0852A142915
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Aug 2024 09:16:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724663298; cv=none; b=iPFq3IreuB7pGyAkD0k+ywsqh/WCVzo0ZwCX1fSgXHcbyPZPfD8jU2K8fGQ+B1wQmb6tX8PPbYhBpPMvayJ4kWtS62kIZeHgJGOHSlciydMsUftpPuinOI8MuHD2D9bJyKn/JJOLRGrR9ooLeAr63cFrkGTrRpWIClVZfoqO85Q=
+	t=1724663765; cv=none; b=VDyJ/bH+rLRgwudEi3D8LaxpR+MNPl26V5V/tuvB1vIir9fYe5EfxjoBJycP3PTWkZ2ZdU8641+FcLYknzyuWFzucsA0ci+llR9Qfi7GHeOtSCk9Xx8L0607FGCuDfz3qLviFPbmh1LRYpdfLB3ghLB0GKksgoNirAjcNoRoYMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724663298; c=relaxed/simple;
-	bh=Ye/42hokrfmovfnq9R+W9hx6eagaPmP5ImW+WKL3H34=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=K/BI1ZdoRkMCnfiFqyJqLxbrYFV3cxKfH0Lc5vfio8SZ4cf7mWbT89YAofc2uw8uAXn1UY7aJ8XCc/BEzD2JZAUCE/iKOu/+sngWqsOOwPWyltysjFQrYEu0IjiJDyC62699jmBv1r6C7qG+KT6uXUcwdIhr+FITYAJLGpWA9Hw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.10,177,1719846000"; 
-   d="scan'208";a="216583881"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 26 Aug 2024 18:08:15 +0900
-Received: from localhost.localdomain (unknown [10.226.92.68])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 64C614007554;
-	Mon, 26 Aug 2024 18:08:12 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v2 2/2] arm64: dts: renesas: rzg2lc-smarc: Enable HDMI audio
-Date: Mon, 26 Aug 2024 10:08:00 +0100
-Message-ID: <20240826090803.56176-3-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240826090803.56176-1-biju.das.jz@bp.renesas.com>
-References: <20240826090803.56176-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1724663765; c=relaxed/simple;
+	bh=K0ePHJHSuul5y3bsWp3mOBJT5h0AY8uuwLn8hFDUiq0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NSp8PGhaiFGLsVynYn9IyfftzSSpkF5KI8BoqCGhCATyRB8fsH4TwXYTkgMJrYv2PXPuhmExb/jYPAvk3rNdM8a1NoXdYuu9s00C6Rvb7gC5SDnWalOdn/86L6+w0y//6AdiQrKO9EbGQ4FCBrnCSW3QRYZSV+XMDyt/GcFAiBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=CkrIopJR; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=K0eP
+	HJHSuul5y3bsWp3mOBJT5h0AY8uuwLn8hFDUiq0=; b=CkrIopJRG3isFkgYx+Fz
+	VsD8l2djumyu4rOilgyIDdoH/pxoTYTNb4e9WMPfh3F4IBk8lO/JfIqH7tdALopI
+	Ea52mx+S67vDmPwejpnA/SHXErgZGFh7Iq6HIdO+v2ceeGwGP73uZKPGN0AQ5fuv
+	/1wl+WhHPeVBEGqahLKzzEvT2Qr/cquMOB1ovEVaewm8K9smCN/T9tPP+AFMQHmk
+	EOBihaqhlFq7z+sw9rOcxau+QLthYMUQWlcaodq347GXQeerT+pzxg2fxacHtTaS
+	mji0C9rXb7937hFLAcLTSwM2Z/m+JC9a8JyJk1W3W5wKUQZgCZm65fVUGRWNaS2O
+	7w==
+Received: (qmail 1931663 invoked from network); 26 Aug 2024 11:09:20 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 26 Aug 2024 11:09:20 +0200
+X-UD-Smtp-Session: l3s3148p1@R33sepIg7IBehhrU
+Date: Mon, 26 Aug 2024 11:09:19 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Rong Qianfeng <rongqianfeng@vivo.com>
+Cc: biju.das.jz@bp.renesas.com, Andi Shyti <andi.shyti@kernel.org>,
+	Paul Cercueil <paul@crapouillou.net>,
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+	opensource.kernel@vivo.com
+Subject: Re: [PATCH v3 2/4] i2c: emev2: drop sclk from struct em_i2c_device
+Message-ID: <ZsxGP6HKQnBuEE7_@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Rong Qianfeng <rongqianfeng@vivo.com>, biju.das.jz@bp.renesas.com,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Paul Cercueil <paul@crapouillou.net>,
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+	opensource.kernel@vivo.com
+References: <20240823035116.21590-1-rongqianfeng@vivo.com>
+ <20240823035116.21590-3-rongqianfeng@vivo.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="GzVTah3YJcw5sKqN"
+Content-Disposition: inline
+In-Reply-To: <20240823035116.21590-3-rongqianfeng@vivo.com>
 
-Enable HDMI audio on RZ/G2LC SMARC EVK. Set SW 1.5 to OFF
-position on the SoM module to turn on HDMI audio.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * Dropped deleting ssi0 port when SW_I2S0_I2S1==0 as it enables only
-   when SW_I2S0_I2S1==1.
----
- .../boot/dts/renesas/r9a07g044c2-smarc.dts    |  3 ++
- arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi | 33 +++++++++++++++++++
- 2 files changed, 36 insertions(+)
+--GzVTah3YJcw5sKqN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts b/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
-index 0b90367b6d1e..ee5bf2c58051 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
-@@ -47,6 +47,9 @@
- #error "Cannot set as both PMOD_MTU3 and SW_RSPI_CAN are mutually exclusive"
- #endif
- 
-+/* Please set SW_I2S0_I2S1. Default value is 0 */
-+#define SW_I2S0_I2S1   0
-+
- #include "r9a07g044c2.dtsi"
- #include "rzg2lc-smarc-som.dtsi"
- #include "rzg2lc-smarc.dtsi"
-diff --git a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
-index f21508640b6e..377849cbb462 100644
---- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
-@@ -33,6 +33,16 @@ hdmi_con_out: endpoint {
- 			};
- 		};
- 	};
-+
-+#if (SW_I2S0_I2S1)
-+	/delete-node/ sound;
-+
-+	sound_card {
-+		compatible = "audio-graph-card";
-+		label = "HDMI-Audio";
-+		dais = <&i2s2_port>;
-+	};
-+#endif
- };
- 
- #if (SW_SCIF_CAN || SW_RSPI_CAN)
-@@ -48,9 +58,11 @@ &canfd {
- };
- #endif
- 
-+#if (!SW_I2S0_I2S1)
- &cpu_dai {
- 	sound-dai = <&ssi0>;
- };
-+#endif
- 
- &dsi {
- 	status = "okay";
-@@ -104,6 +116,15 @@ adv7535_out: endpoint {
- 					remote-endpoint = <&hdmi_con_out>;
- 				};
- 			};
-+
-+#if (SW_I2S0_I2S1)
-+			port@2 {
-+				reg = <2>;
-+				codec_endpoint: endpoint {
-+					remote-endpoint = <&i2s2_cpu_endpoint>;
-+				};
-+			};
-+#endif
- 		};
- 	};
- };
-@@ -177,6 +198,18 @@ &ssi0 {
- 	pinctrl-names = "default";
- 
- 	status = "okay";
-+
-+#if (SW_I2S0_I2S1)
-+	i2s2_port: port {
-+		i2s2_cpu_endpoint: endpoint {
-+			remote-endpoint = <&codec_endpoint>;
-+			dai-format = "i2s";
-+
-+			bitclock-master = <&i2s2_cpu_endpoint>;
-+			frame-master = <&i2s2_cpu_endpoint>;
-+		};
-+	};
-+#endif
- };
- 
- #if (SW_RSPI_CAN)
--- 
-2.43.0
+On Fri, Aug 23, 2024 at 11:51:14AM +0800, Rong Qianfeng wrote:
+> For no need to save clk pointer, drop sclk from struct em_i2c_device.
+>=20
+> Signed-off-by: Rong Qianfeng <rongqianfeng@vivo.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
+Should be folded into patch 1 IMO.
+
+
+--GzVTah3YJcw5sKqN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmbMRj8ACgkQFA3kzBSg
+Kbaa4A//QRGxIflqtho+uXF6Bvym6CoHccm4nUUu4tjLRLtWsjsIT2mggNsr4KFW
+UwKinEPvouGc0EXeuq8zlmLiPvps42rhwlMok2yYNcf9+/QjnTe2Xlw2TgwqFpT5
+dXSDQqtF/bnXaE+jWEYESddXMCqiiMZxn81bXKKenYXdUSsYzZFGsQlBhOp33if0
+UlIH+GlJhivzRDVdYTZcdiFTK+hvSvLMRuHYLHst/Dnhko5kRjfxxIry10VOeWuX
+i7bt/0nGQNa5veXnpVhYYhuHRwTCPGifIWMNGErHAJ5t7PWGqf/Ch7m89F+HyiqT
+Qw+KGodk0FI2ebYwQrUXG4PGzV/nxXLc7R/1FtdfxUNm3+IYK9M3Kr34v+u1C9Bm
+ABeL+4CrCoTi6jIHFsICsOGwxfgiFZA5EUK1r60biqqXz+5TrvQte3iv52GctDf8
+SveEzZnkWGLmZr2Ef5ubQ5nCecAVhQ4bt3cUYF+QrvUWAH61X3a0v5yK5w4lPdB6
+Pzan4WfNyeNKn8Xg8RRiyGSsm+pEANO61reyaPn6cp9I6Cl8sqQZJ/HpLLPPI4gF
+l2s8LlpFYryAEUQ2JixIP66fCoMuGm0+W/iHujDvdCsv9Ggy+5xFkPKv05KrtMAh
+W3lp+Cy33PgJ6YdA6x2xt3kZYNlpY3+oWLeEM86Nt05JEaB2eK4=
+=cjT8
+-----END PGP SIGNATURE-----
+
+--GzVTah3YJcw5sKqN--
 
