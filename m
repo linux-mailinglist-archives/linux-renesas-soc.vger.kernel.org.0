@@ -1,130 +1,156 @@
-Return-Path: <linux-renesas-soc+bounces-8293-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8294-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEBE595F31C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 15:38:17 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8809F95F422
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 16:44:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8D6C5B213F8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 13:38:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AD0501C21B17
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 14:44:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88B3A18859A;
-	Mon, 26 Aug 2024 13:37:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 946AD18D656;
+	Mon, 26 Aug 2024 14:44:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="UY5BR5G2";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="plyHdM7Q"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh2-smtp.messagingengine.com (fhigh2-smtp.messagingengine.com [103.168.172.153])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A65C618454D;
-	Mon, 26 Aug 2024 13:37:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A08C186298;
+	Mon, 26 Aug 2024 14:44:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724679433; cv=none; b=ofZPvkQdgxjyNPfZIYwfdW8NVXdlg0u11wyvws3/oIYOsidJdRSEDEP+s4zIRbvxgJ9J9wC7ePuOBIHfkBYunyAmP6sbw6VE+GptddkUkkqqCGj+K9w7OLzqJAjltGiC9FPLoaO7vBlMRe70x8jiQNt7dAZeJsA3uiYO86dMXcU=
+	t=1724683475; cv=none; b=l1nRvzRdFJnMgWIW3KJtx6yi8ky03hrMeAePfSuDVtuER4vcZ0q6Eyktxp5gQLFxPtWTaNPXbmjKI0WIpQzp7gaxCDoELzeaoOpoeZ4PpztjeRw5h5JAopNEx6pVmvC9q+pfLqakXepJ+fZHQ4f/0PE9bLRjvPAfVGk+315ZzwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724679433; c=relaxed/simple;
-	bh=9whOsCzv3m3ZPW2QREqTez5XUl4MYMB9UFimcB9rE8k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OVS/v7x9SAncfraZgBeLG6CiAi+xhlgopGYb9WhiXrN35UGKDPBUcbm45j2iUTc0GijXuD4QFJQ3ePJ8UkeKulTBR7KhElQQp6eX0PNKyAsRigS6yjizzBDqv6Ak07+orHkWLwQGV+ZccGMUmEnaVY/Lh9BXxvxIb2PsnPMMv6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-68518bc1407so46260997b3.2;
-        Mon, 26 Aug 2024 06:37:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724679430; x=1725284230;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=V42L34Dbl6HXHTKKW+P9zR6eV2yIE2JosLjaAq7Os8c=;
-        b=FXhyxVY64sd8pUkM9rdUZ2k6XH1y8sDHNOE085AdBUU46W/lZU3Z7OKIY9lIHvXb5a
-         LdylWxYKb+ajomyTiJ89HEyx2fSQFc8GmojaBY6XjOhAPIGfeJEPyK6JNUVXsEWLKMLF
-         aFYwOuuTIJaQhO8+eAcDCeKKOO3vhl8KHco2AWu3chI2PocDa3huW22KBmmGkBrZn788
-         2zPwEvo3lpODj6MJ1FDvM+vLMoK8yemf3evvdDQmIW+CaQHIeBsgHpolmYvXuVbJVhcw
-         VOWTb+UGlq76C93anJvNKiUE6D4eUdgThlpGlfK1JWKz1b98nlOro+CfRG6WWRCj03xv
-         kjUA==
-X-Forwarded-Encrypted: i=1; AJvYcCVV1vM2ARmLmzTTTerYTH09a6zxjss2JGk+FXf+RiZsHc+s9Vv/dy0jjfpUBGqYqjBsvcphoZv75C7bbg6k@vger.kernel.org, AJvYcCXGw6wQouS0nJWXlojxbjMcBimXejtiUHBkQ/rg+ygzLiwvZzHp9AtOvqijgukgKydLLT/ePMqUTx4=@vger.kernel.org, AJvYcCXOoie4RQZwuySl8NN/eJ8CJJKGEu5D3xfBNnWGxlZS1ts2D/2PPSnkPrb6+ue27XX2PcOfY9bEjA+C1fOLP2CxkZA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzIF2nIuhQNKUJenu3jVTClXcuuHtEr/2xoC9EWQkXGkoDhQqPV
-	wRi2r0+/BsWrhds0E3o2E5pYThWisLwmctiOjEZkHLDsH5zCSfenUVGGRfk0
-X-Google-Smtp-Source: AGHT+IErlJJmue/qiUPcfJvl2uWqKyDvC7mgjBbu+U0OaYvtcOkLLJLKxq+Dkrk4LwheJclACNOXxQ==
-X-Received: by 2002:a05:690c:298:b0:6b2:6cd4:7f95 with SMTP id 00721157ae682-6c629beb6a8mr108286257b3.38.1724679430031;
-        Mon, 26 Aug 2024 06:37:10 -0700 (PDT)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6c39a752d06sm15257067b3.36.2024.08.26.06.37.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Aug 2024 06:37:09 -0700 (PDT)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-6b5c37a3138so38734397b3.1;
-        Mon, 26 Aug 2024 06:37:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUXb/2/IrFhVq3N+NS5ySEzs3feUTcdOr+A55NabF7GfxH/rqSOiK9VMluL21r9EAMPLIssEtEdBEZp9SyP@vger.kernel.org, AJvYcCVrCGI/RO+v9JUi9ByVbS0QostzMRZEddJnEaY6HD1WZt5ljrTe5eg/Ub+mlZGFiUBJHB78NaH7+EI=@vger.kernel.org, AJvYcCXK0WY1ssQS5udeoSsDEpd0bmWuhR04bahR7Ajr6uOZCgj2u4DpP9KV7vq8qv2wgJY60TjSoIf+5sdyTx11YtZ1bw4=@vger.kernel.org
-X-Received: by 2002:a05:690c:3248:b0:683:37a8:cd77 with SMTP id
- 00721157ae682-6c629250047mr86776737b3.29.1724679429605; Mon, 26 Aug 2024
- 06:37:09 -0700 (PDT)
+	s=arc-20240116; t=1724683475; c=relaxed/simple;
+	bh=JR2NEyh4VH/HX2BQBH1eIbU1qIvcry/5j0YultvlByk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Jiyx1a/z4lA/aaHdgMaH30//iWGsOcftcMtv3g1PJjBqYGQq7dnCrgFm19DAGkvfOgYhMiHzVGRqMmXGLIdmmUj+1yBeAngUaCxCgsijq+6K250Adegp1AjbJvGvFuS02UtZTBVsidfigyTP5w6b/yvykAtLCL/925gILRVqXSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=UY5BR5G2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=plyHdM7Q; arc=none smtp.client-ip=103.168.172.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-07.internal (phl-compute-07.nyi.internal [10.202.2.47])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id 72B241151AA5;
+	Mon, 26 Aug 2024 10:44:30 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-07.internal (MEProxy); Mon, 26 Aug 2024 10:44:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1724683470; x=1724769870; bh=Cw
+	yDN9q8eDeAyDEeiovcNcWnwWDEKkQ6mnezq4RY5yM=; b=UY5BR5G2ZeNLkiy+hf
+	0ZzYLpPEuUw9MmZroHIxuvVdfXdctT57NMpYfHrGo8YcsqBHFmeda6efYnXBDlL9
+	FCIfhaFIYkTHxDFOUU+ui+WiSWk2iq/UNE3/q5vUng5djAri6dX0TMPnSw6fXnSX
+	dMTEZgEGnbgknujM4idaPJgFFLf5QnKxFddXmxwvss0CVE/NLmlR+gGBh4p/VgTO
+	Z7/UD7/AIEsfX0JThkiiokJdEplEJRX4Y6LYP0vroeXistzkf3vXg5iCkcnf6X4U
+	lj6cKNXmxQSCbkU9SUUtw6u1e+8c0c/CKNkX2NxnLQU0OvAe4do8Hm21MGGGEC8S
+	g/ng==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1724683470; x=1724769870; bh=CwyDN9q8eDeAy
+	DEeiovcNcWnwWDEKkQ6mnezq4RY5yM=; b=plyHdM7QBMkDHFQ3z6824qK0BVKmU
+	3QBVuX2/0Kre6JmeQSaFicVIWTPoRJ6n819FFNX1vMWNrc42lJFw2zd8GbyPxaDS
+	VM8odbzTKB8tyf0H3r9+/DraTgw4Tti2iqXNBAlHT4QlNSRVJIc+tMmdBuTyroVJ
+	FaLpq2ZRJoFl2ffsiMACF9h4zB+Tay5g853peh14ISVJDX0g67UYRl6WDzIuTZK6
+	i79fZSAt0QYP74uSl7Vm60X46ebm8I8wGCbJ6mRwu8A/P+v8cUTZt5BVgOkuQW2O
+	buxHH/0MQyRaasAeCch5O0mSBG5IMzfupjEVIika4oykvehbPT5cZLW/A==
+X-ME-Sender: <xms:zpTMZhSJH8u2BiF-GUUSaHcG5zkh8d-zxzZlSDn3iban2EsrQvuzwQ>
+    <xme:zpTMZqxx-892gF2eWGDuf2rUvR4E0Yom1vD4pOPyXlrLDViyULQuuWHEEGXBTPieP
+    O9jj2jfFRUYXm2L9Hg>
+X-ME-Received: <xmr:zpTMZm1GIGCthcBx4qx-48-5Ge_e-_fmzjSgccf9iGKbNJVbACmSY_tTo6Nse8X55lR5uH_a9HelYVGXeb0cC6zm3Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddruddvkedgjeekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecu
+    hfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrh
+    hluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgv
+    rhhnpefhgefhveeghfetudehfffhjeeileehkedvveffuddtleegudegjeeufeefvefftd
+    enucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptden
+    ucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhgusehrrg
+    hgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepuddtpdhmohguvgepshhmthhpohhu
+    thdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhope
+    hlrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhr
+    tghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiihihsii
+    htohhfrdhkohiilhhofihskhhiodgutheslhhinhgrrhhordhorhhgpdhrtghpthhtohep
+    tghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgvggvrhhtodhrvg
+    hnvghsrghssehglhhiuggvrhdrsggvpdhrtghpthhtoheplhhinhhugidqmhgvughirges
+    vhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopeguvghvihgtvghtrhgvvgesvh
+    hgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghs
+    qdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:zpTMZpBWY6SRjguwo6D3-YfvoD11mT2rUwGHzdGD3lCN-kXDr2AQlQ>
+    <xmx:zpTMZqj_FCc7o3fVvGA-9Lfy7b6DEyRIf8gS2avJrXWApA64ReszXQ>
+    <xmx:zpTMZtpmaGGFp_Rm65aJ-lrrwvWkFf4fWxz9X541tDIPWfdiZFXUwQ>
+    <xmx:zpTMZlg4cZWm6SczOO_weKbzuEBf8vaKN6R0f4qzrm_k3QRinyZXFg>
+    <xmx:zpTMZvbL2n7lcdffDinoF0rgwELuK4R1Cwa4uLLIUipIbO96HaxAZ_Qs>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 26 Aug 2024 10:44:29 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2 0/6] rcar-isp: Add support for R-Car V4M
+Date: Mon, 26 Aug 2024 16:43:46 +0200
+Message-ID: <20240826144352.3026980-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240822111631.544886-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240822111631.544886-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20240822111631.544886-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 26 Aug 2024 15:36:56 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWcHn2ae6qennqtPq2eLtKLkeKUNoSoAXbOTh=gDgJ9tg@mail.gmail.com>
-Message-ID: <CAMuHMdWcHn2ae6qennqtPq2eLtKLkeKUNoSoAXbOTh=gDgJ9tg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] clk: renesas: r9a09g057-cpg: Add clock and reset
- entries for GTM/RIIC/SDHI/WDT
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Prabhakar,
+Hi,
 
-On Thu, Aug 22, 2024 at 1:16=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.c=
-om> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Add clock and reset entries for GTM, RIIC, SDHI and WDT IP blocks.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v1->v2
-> - Updated DDIV_PACK macro to accommodate width
+This series adds bindings and support to rcar-isp for R-Car V4M by the
+means of adding a Gen4 family fallback compatible.
 
-Thanks for the update!
+Previous versions of this work did not recognise that the CSISP on found 
+on R-Car Gen4 is very similar and a family compatible to cover them all 
+would have been beneficial. The same is true for the VIN module found on 
+Gen4, and a similar series adds a family compatible for that modules 
+[1]. This series mirrors that work for the CSISP module. Hopefully this 
+pain now will pay off later.
 
-> --- a/drivers/clk/renesas/rzv2h-cpg.h
-> +++ b/drivers/clk/renesas/rzv2h-cpg.h
-> @@ -8,6 +8,13 @@
->  #ifndef __RENESAS_RZV2H_CPG_H__
->  #define __RENESAS_RZV2H_CPG_H__
->
-> +#define CPG_CDDIV0             (0x400)
-> +
-> +#define DDIV_PACK(offset, bitpos, mon, size) \
-> +               (((mon) << 19) | ((offset) << 8) | ((bitpos) << 4) | (siz=
-e))
+This change requires updating existing DTS files to add this new family
+fallback. This is done in a backward compatible way and the driver
+retains the compatible values.
 
-I think the DDIV_PACK() macro (using C bitfields?) belongs in the
-previous patch.
+See individual patches for changes since previous versions.
 
-The rest LGTM.
+1. [PATCH v5 0/6] rcar-vin: Add support for R-Car V4M
+   https://lore.kernel.org/all/20240704161620.1425409-1-niklas.soderlund+renesas@ragnatech.se/
 
-Gr{oetje,eeting}s,
+Niklas Söderlund (6):
+  dt-bindings: media: renesas,isp: Add Gen4 family fallback
+  arm64: dts: renesas: r8a779g0: Add family fallback for CSISP IP
+  arm64: dts: renesas: r8a779a0: Add family fallback for CSISP IP
+  media: rcar-isp: Add family compatible for R-Car Gen4 family
+  dt-bindings: media: renesas,isp: Add binding for V4M
+  arm64: dts: renesas: r8a779h0: Add family fallback for CSISP IP
 
-                        Geert
+ .../devicetree/bindings/media/renesas,isp.yaml       |  4 +++-
+ arch/arm64/boot/dts/renesas/r8a779a0.dtsi            | 12 ++++++++----
+ arch/arm64/boot/dts/renesas/r8a779g0.dtsi            |  6 ++++--
+ arch/arm64/boot/dts/renesas/r8a779h0.dtsi            |  6 ++++--
+ drivers/media/platform/renesas/rcar-isp.c            |  3 +++
+ 5 files changed, 22 insertions(+), 9 deletions(-)
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+-- 
+2.45.2
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
