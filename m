@@ -1,141 +1,178 @@
-Return-Path: <linux-renesas-soc+bounces-8244-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8245-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B46595EE5A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 12:19:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6EF695EE7F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 12:33:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F35291F21E18
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 10:19:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 78A6C281CB9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 10:33:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9E0D1422C8;
-	Mon, 26 Aug 2024 10:19:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32440149E0B;
+	Mon, 26 Aug 2024 10:33:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f+8q9hYU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OyHu+hNH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0ABB14375D;
-	Mon, 26 Aug 2024 10:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37654148308;
+	Mon, 26 Aug 2024 10:33:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724667561; cv=none; b=spzw44h1Eo3iJN3hSuPOObyIMG7s3VRNHqszu80JdTGKb6MwqItVqh3yr6bChvj2Q8o7J7Pdd3VHIPmPShSdqZOyZsSDu3HYWkfZM934DfSurEmw2dfggnDRknub1kE5Vg8swBIIClpFxl1iLEJf0SBIHaWGIUvb/e2LGk+mxuw=
+	t=1724668396; cv=none; b=M97zUe9efpUNmSSksoLLtOGw64ZXR7sLvD4NklnFBtpzkvTks9MpZnHW2VZy4+Ayed5AZ9NIvgcW3OGhh8Bcj4g+1aHFZUlzPS36djEYnVJkA+6zVPsdS3FOwT/pahs8RaS98M5KPVFj/x3U8PSghmP7m7XQLMC0HAV0ELS0jR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724667561; c=relaxed/simple;
-	bh=M+q8rHfzX3p2+aK8A+vt4lDSGTCZyD3lfTR+qdMghhg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZcGAoP4MCBDBeH/9yF7LNXqXCSlZa1bm4Txhy4N1HuktDnCGO4vL0kX1UT8mCwm0Rfuw9dqpG17QS0GOyqSE6ymLXnuAH7WOY4TP4qayo+iViSe8NX+ysupGbpp9th8WLqnI1kbxRuJeH4bMakxHDS+hM6KLhfDx3qKoz6+7z6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f+8q9hYU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EA59C56891;
-	Mon, 26 Aug 2024 10:19:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724667561;
-	bh=M+q8rHfzX3p2+aK8A+vt4lDSGTCZyD3lfTR+qdMghhg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=f+8q9hYUDGLItmWEJlgcbiEZsxJcbdzrcB1nezvm7p2UCvVO8Els4jbQkD0nswQpy
-	 QXyzL8frL48aqrBdAmlBukgzAOXBy4fs5iK6omY67EVyZhLQQO0fBiOBl3qDpuToqc
-	 b+9A6AdXym5xz9vQXG1VeDvAEvrb8wmgvSTV/f4xeOyM6Ycle37glhOq1cVSRsWg4U
-	 guFNm7rB5JGGEOvAvHEyTQR1w2ZaCulzhckbWAm1svHkgftra3Z4/DLVK3EBXm30q0
-	 wrKUGarkUEKYhr8UEdH5lJlfDITEQZlfwupX5L46qS6MdCF3QC5dn+8CCa1+0KD5CJ
-	 yypK1po37LYfg==
-Message-ID: <f7430f87-88d2-4c08-bc1e-6bb3da4e332c@kernel.org>
-Date: Mon, 26 Aug 2024 12:19:07 +0200
+	s=arc-20240116; t=1724668396; c=relaxed/simple;
+	bh=8gNhFuofD5zWGUNIriljHUVsJipVG7nNNSIviq4tVXY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bu9BAjxqv+ucokLeQhN3G6o+AmiFfk3Qk3N22R7c0KEL1XtqjIg8H4sI95x9N8EsrE/1nK08rvOK0Bh9I7ep+0f6w/pAgam3MXZPfWFzOLzTtIMdAvCg6B0/qKFtG6xE5Sy11+iXxJoQ0gPI8zoSPpYDeYGu+R/JgVCOKmzUyEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OyHu+hNH; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724668394; x=1756204394;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8gNhFuofD5zWGUNIriljHUVsJipVG7nNNSIviq4tVXY=;
+  b=OyHu+hNHw9+5OV1xZjLPFfAb6+6Yd0xZhsMKR/kFf61vletunwMrq98F
+   Fiepbfs94mc2Py9gV38ovWk3X1i+uW+ic68WfHp+mYPkuN8aI/zFalgkD
+   MGfzj02wiSEF+IPgOm9VrJjc6a3KMLaQLun1yUVCwpqvwEchpSOwNOOxR
+   MyBz8TTB/5Y93fmDc8Ca4nsBOntQFoMEp6d+1om1iqZoQFlwK39PR//nv
+   g81MlQka/NbyDgueFQ9Jz4do+zMpVLG1nRAciKXXWmBtKbt7zhjOzTKPV
+   IbExW+j+n/BcNrny3fDVjKb77kYkw2TXv0HMzHJFFsk/ykFMEiB5lHhY/
+   Q==;
+X-CSE-ConnectionGUID: 4eDuZXdBQtesVwREn+chNg==
+X-CSE-MsgGUID: qLTIKzznSEa5mGHifYTwmA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="13208710"
+X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
+   d="scan'208";a="13208710"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 03:33:13 -0700
+X-CSE-ConnectionGUID: i7pAAaNJSrSUyr5xtjco/A==
+X-CSE-MsgGUID: cTuMYcAhT2+25aitr3/fAg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
+   d="scan'208";a="62517541"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 03:33:01 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1siX1d-00000001pi8-1NQC;
+	Mon, 26 Aug 2024 13:32:41 +0300
+Date: Mon, 26 Aug 2024 13:32:26 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Marco Felsch <m.felsch@pengutronix.de>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Russell King <linux@armlinux.org.uk>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Vladimir Zapolskiy <vz@mleia.com>, Andrew Lunn <andrew@lunn.ch>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Tony Lindgren <tony@atomide.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>, linux-mtd@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	imx@lists.linux.dev, linux-omap@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+	openbmc@lists.ozlabs.org, linuxppc-dev@lists.ozlabs.org,
+	linux-mips@vger.kernel.org, loongarch@lists.linux.dev
+Subject: Re: [PATCH 0/9] AT24 EEPROM MTD Support
+Message-ID: <ZsxZuvY9MLyjog-y@smile.fi.intel.com>
+References: <20240701-b4-v6-10-topic-usbc-tcpci-v1-0-3fd5f4a193cc@pengutronix.de>
+ <Zsi3s9XithGEROwX@smile.fi.intel.com>
+ <20240826075110.u3cxc6dootou72eq@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH -next RESEND 00/10] mtd: Use
- for_each_child_of_node_scoped()
-To: Miquel Raynal <miquel.raynal@bootlin.com>,
- Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: michal.simek@amd.com, richard@nod.at, vigneshr@ti.com,
- liang.yang@amlogic.com, neil.armstrong@linaro.org, khilman@baylibre.com,
- jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
- matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
- heiko@sntech.de, mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
- wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
- kees@kernel.org, gustavoars@kernel.org, linux@treblig.org, robh@kernel.org,
- u.kleine-koenig@pengutronix.de, erick.archer@gmx.com,
- christophe.jaillet@wanadoo.fr, val@packett.cool,
- christophe.kerello@foss.st.com, linux-mtd@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, jic23@kernel.org
-References: <20240826094328.2991664-1-ruanjinjie@huawei.com>
- <20240826115213.389acaef@xps-13>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240826115213.389acaef@xps-13>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240826075110.u3cxc6dootou72eq@pengutronix.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On 26/08/2024 11:52, Miquel Raynal wrote:
-> Hi Jinjie,
+On Mon, Aug 26, 2024 at 09:51:10AM +0200, Marco Felsch wrote:
+> On 24-08-23, Andy Shevchenko wrote:
+> > On Mon, Jul 01, 2024 at 03:53:39PM +0200, Marco Felsch wrote:
+> > > This series adds the intial support to handle EEPROMs via the MTD layer
+> > > as well. This allow the user-space to have separate paritions since
+> > > EEPROMs can become quite large nowadays.
+> > > 
+> > > With this patchset applied EEPROMs can be accessed via:
+> > >   - legacy 'eeprom' device
+> > >   - nvmem device
+> > >   - mtd device(s)
+> > > 
+> > > The patchset targets only the AT24 (I2C) EEPROMs since I have no access
+> > > to AT25 (SPI) EEPROMs nor to one of the other misc/eeprom/* devices.
+> > > 
+> > > Note: I'm not familiar with Kconfig symbol migration so I don't know if
+> > > the last patch is required at the moment. Please be notified that the
+> > > list of recipients is quite large due to the defconfig changes.
+> > 
+> > FWIW, I think that MTD is *not* the place for EEPROMs.
+> > 
+> > Yeah, we have the driver spread over the kernel for EEPROMs (mostly due to
+> > historical reasons and absence an umbrella subsystem for them), but it's not
+> > the reason to hack them into something which is not quite suitable.
 > 
-> ruanjinjie@huawei.com wrote on Mon, 26 Aug 2024 17:43:18 +0800:
+> Thank you for you input. There are two things to mention:
+>  1st) I send a RFC patch and asked for feedback and all I got was: looks
+>       okay, please send a proper patch [1] which I did.
+
+I was on a long vacation, I haven't had time or even wishes to look at the
+patches or patch series. Sorry for that.
+
+Second point, RFC means "request for comments", here is mine. It's up to the
+maintainers and you on how to proceed it.
+
+>  2nd) I don't see the hacky part in this patchset.
+
+I haven't talked about patchset, I have talked about architectural / design
+point of view. I read the discussion and to me it seems like it solves the
+issue with a quite big hammer. If you can prove that on embedded systems with
+limited resources it is not a problem, just mention that in the cover letter.
+
+> Anyway the customer doesn't need the nvmem-partitions anymore and
+> therefore this patchset can be seen as obsolote.
 > 
->> Use scoped for_each_available_child_of_node_scoped() when iterating over
->> device nodes to make code a bit simpler.
+> [1] https://lore.kernel.org/lkml/20231201144441.imk7rrjnv2dugo7p@pengutronix.de/T/#m1e0e5778448971b50a883f62bd95622f6422b9a2
 > 
-> Why is this a resend ? Did I miss a previous iteration?
+> > If NVMEM needs to be updated and may cover these cases after all (and do not
+> > forget about *small* size EEPROMs that most likely appear on the devices with
+> > limited amount of resources!) in a reasonable size and performance, why not?
 
-You were not cc-ed on previous iteration. I asked for proper split
-between subsystems and sending to maintainers, thus this resend.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Although for such big patchset, I would expect some waiting time, not
-sending immediately.
-
-Best regards,
-Krzysztof
 
 
