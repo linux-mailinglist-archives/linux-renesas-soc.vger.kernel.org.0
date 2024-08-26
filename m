@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-8257-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8258-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 621C495EFA2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 13:23:19 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CFF595F00A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 13:44:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DFE2D1F2170C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 11:23:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A09D5B2244F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 11:44:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AB301527A7;
-	Mon, 26 Aug 2024 11:23:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1F18154BFB;
+	Mon, 26 Aug 2024 11:43:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="aVRC90px"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="j2s59RRk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A971514F6;
-	Mon, 26 Aug 2024 11:23:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D195D1514F6;
+	Mon, 26 Aug 2024 11:43:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724671393; cv=none; b=l9g+ntKsLCgnRtdHM3ktrsi4z0gYxRfb93Z14LEi4T7jl3wr1sxTgRhDbDfZWl+iJ6aBLJ014LZ/XW/oQSJLS866B9J7h9LUg/Hoy6+D2gZW/9oyMd0qUteRetC8yyWNclsXTpoIuYsDb9Gs0tpz96Q1xRMQd7aIwZjgO4a+6bw=
+	t=1724672634; cv=none; b=G8sx7wiS7QDPdmwY3GUIz0tyrmnogJ8wWWm512FlTV73wekzJ0Bl/F02u0tk2lniMrXIx4dyuhR8cj3OGFcwXxRb0OJt3BnAREpgC7W7VU16j7Q15OMz1PZcaBcTAB+GzQAyI7Gg+ZlYjITHoYtHez9JHUiZnUU13IFDk5A7YYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724671393; c=relaxed/simple;
-	bh=Kj7h9bpv+0UPcS9aPXU+xmE4aPfo72AZJcGDaoxuxbs=;
+	s=arc-20240116; t=1724672634; c=relaxed/simple;
+	bh=mBNa8dfx3Gjse1tciYkUBjoyaRZDW9PTWTffgcH3j7I=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=l1JwoCgj6l63Or0wVZPNSkurbmO2+6P5GcuLdi3GMhikTGjNtXfvbFvjpu1s2WjDQ701+Li0qVOCeIT2/S56nwaTxvgGc20CVhwQK65cQXFYvPuv5srKMrpRFLs9P69q3/Xoz8XuLAsDr8X4832t+08j30WMHGjmceVrF7mDWQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=aVRC90px; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=PGkl/C6/DNmkMnnkOySM4p0ihUegeDTJpe3craVPz/lpbLVdPfnlPre65SeMO/s0aNX5zKlAvk//0oz/3U0anC6O2JuFPGkP8iRkJaAuixoAzQJCK6q+0hiYUePAab2c/IZZgfJpIer5Na41QclHxIboyAYjjZOcsB/gpMuMqQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=j2s59RRk; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 717F36CA;
-	Mon, 26 Aug 2024 13:22:03 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7EA89480;
+	Mon, 26 Aug 2024 13:42:44 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1724671324;
-	bh=Kj7h9bpv+0UPcS9aPXU+xmE4aPfo72AZJcGDaoxuxbs=;
+	s=mail; t=1724672565;
+	bh=mBNa8dfx3Gjse1tciYkUBjoyaRZDW9PTWTffgcH3j7I=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=aVRC90pxzn2zJjFh3+9tBJmfKh6LX0938p4z4VDNEP0GDCTyNB4ekxd65kBDO4WPM
-	 lHzSNxm0Rk3V8b6HVyZl0WkmElsqam/VzI0BkTU6Y4RkEVYnXWUAJW+QGbwyLKLkC0
-	 kn6zIuJDrbgU+Yn2TtH+Bb+sAG/90RTCXIhAsNoo=
-Message-ID: <5b1c9f47-3253-48b3-9a43-bd1a4a514caa@ideasonboard.com>
-Date: Mon, 26 Aug 2024 14:23:06 +0300
+	b=j2s59RRkuG0BsAubIAOF7mQOgsVw5Kv6kWmx4ONKseOG/6pqD7vbgOP1J5XAQm80g
+	 0w7Yolv3CVUb5ygeEKU84gMSg2cjwfpu6aERLSWg+2LP2g9jhKnlQz06KsAvvT0Vdd
+	 dg8evTxTSp6JvEblh+yL+FC3sExNtPBBYBv5NSI8=
+Message-ID: <93fd78a6-c8fa-421f-b10c-69a42ac8112d@ideasonboard.com>
+Date: Mon, 26 Aug 2024 14:43:47 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/7] media: v4l2-subdev: Support hybrid links in
- v4l2_subdev_link_validate()
+Subject: Re: [PATCH v2 7/7] [DNI] media: renesas: vsp1: Validate all links
+ through .link_validate()
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  linux-media@vger.kernel.org
 Cc: Chen-Yu Tsai <wens@csie.org>, Eugen Hristev
@@ -61,7 +61,7 @@ Cc: Chen-Yu Tsai <wens@csie.org>, Eugen Hristev
  Maxime Ripard <mripard@kernel.org>, Sakari Ailus <sakari.ailus@iki.fi>,
  linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
 References: <20240822154531.25912-1-laurent.pinchart+renesas@ideasonboard.com>
- <20240822154531.25912-6-laurent.pinchart+renesas@ideasonboard.com>
+ <20240822154531.25912-8-laurent.pinchart+renesas@ideasonboard.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -107,131 +107,164 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240822154531.25912-6-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20240822154531.25912-8-laurent.pinchart+renesas@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
 On 22/08/2024 18:45, Laurent Pinchart wrote:
-> The v4l2_subdev_link_validate() helper function is meant to be used as a
-> drop-in implementation of a V4L2 subdev entity .link_validate() handler.
-> It supports subdev-to-subdev links only, and complains if one end of the
-> link is not a subdev. This forces drivers that have video output devices
-> connected to subdevs to implement a custom .link_validate() handler,
-> calling v4l2_subdev_link_validate() for the subdev-to-subdev links, and
-> performing manual link validation for the video-to-subdev links.
+> Move validation of the links between video devices and subdevs,
+> performed manually in vsp1_video_streamon(), to the video device
+> .link_validate() handler.
 > 
-> Video devices embed a media entity, and therefore also have a
-> .link_validate() operation. For video capture devices, the operation
-> should be manually implemented by drivers for validate the
-> subdev-to-video links. For video output devices, on the other hand, that
-> operation is never called, as link validation is performed in the
-> context of the sink entity.
+> This is how drivers should be implemented, but sadly, doing so for the
+> vsp1 driver could break userspace, introducing a regression. This patch
+> serves as an example to showcase usage of the .link_validate()
+> operation, but should not be merged.
 > 
-> As a result, we end up forcing drivers to implement a custom
-> .link_validate() handler for subdevs connected to video output devices,
-> when the video devices provide an operation that could be used for that
-> purpose.
-> 
-> To improve that situation, make v4l2_subdev_link_validate() delegate
-> link validation to the source's .link_validate() operation when the link
-> source is a video device and the link sink is a subdev. This allows
-> broader usage of v4l2_subdev_link_validate(), and simplifies drivers by
-> making video device link validation easy to implement in the video
-> device .link_validate(), regardless of whether the video device is an
-> output device or a capture device.
-
-Maybe mention this patch in the previous patch's desc to answer the 
-question I sent =)
-
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
->   drivers/media/v4l2-core/v4l2-subdev.c | 40 +++++++++++++++++++++++----
->   include/media/v4l2-subdev.h           |  6 ++++
->   2 files changed, 41 insertions(+), 5 deletions(-)
+>   .../media/platform/renesas/vsp1/vsp1_video.c  | 98 +++++++------------
+>   1 file changed, 37 insertions(+), 61 deletions(-)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index d3196042d5c5..32ffebae4d17 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -1450,13 +1450,43 @@ int v4l2_subdev_link_validate(struct media_link *link)
->   	if (WARN_ON_ONCE(!is_media_entity_v4l2_subdev(link->sink->entity)))
->   		return -EINVAL;
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> index e728f9f5160e..14575698bbe7 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> @@ -45,51 +45,6 @@
+>    * Helper functions
+>    */
 >   
-> -	if (!is_media_entity_v4l2_subdev(link->source->entity)) {
-> -		pr_warn_once("source of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
-> -			     link->source->entity->name, link->source->index,
-> -			     link->sink->entity->name, link->sink->index);
-> -		return 0;
-> +	/*
-> +	 * If the source is a video device, delegate link validation to it. This
-> +	 * allows usage of this helper for subdev connected to a video output
-> +	 * device, provided that the driver implement the video output device's
-> +	 * .link_validate() operation.
-> +	 */
+> -static struct v4l2_subdev *
+> -vsp1_video_remote_subdev(struct media_pad *local, u32 *pad)
+> -{
+> -	struct media_pad *remote;
+> -
+> -	remote = media_pad_remote_pad_first(local);
+> -	if (!remote || !is_media_entity_v4l2_subdev(remote->entity))
+> -		return NULL;
+> -
+> -	if (pad)
+> -		*pad = remote->index;
+> -
+> -	return media_entity_to_v4l2_subdev(remote->entity);
+> -}
+> -
+> -static int vsp1_video_verify_format(struct vsp1_video *video)
+> -{
+> -	struct v4l2_subdev_format fmt = {
+> -		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+> -	};
+> -	struct v4l2_subdev *subdev;
+> -	int ret;
+> -
+> -	subdev = vsp1_video_remote_subdev(&video->pad, &fmt.pad);
+> -	if (subdev == NULL)
+> -		return -EINVAL;
+> -
+> -	ret = v4l2_subdev_call(subdev, pad, get_fmt, NULL, &fmt);
+> -	if (ret < 0)
+> -		return ret == -ENOIOCTLCMD ? -EINVAL : ret;
+> -
+> -	if (video->rwpf->fmtinfo->mbus != fmt.format.code ||
+> -	    video->rwpf->format.height != fmt.format.height ||
+> -	    video->rwpf->format.width != fmt.format.width) {
+> -		dev_dbg(video->vsp1->dev,
+> -			"Format mismatch: 0x%04x/%ux%u != 0x%04x/%ux%u\n",
+> -			video->rwpf->fmtinfo->mbus, video->rwpf->format.width,
+> -			video->rwpf->format.height, fmt.format.code,
+> -			fmt.format.width, fmt.format.height);
+> -		return -EPIPE;
+> -	}
+> -
+> -	return 0;
+> -}
+> -
+>   static int __vsp1_video_try_format(struct vsp1_video *video,
+>   				   struct v4l2_pix_format_mplane *pix,
+>   				   const struct vsp1_format_info **fmtinfo)
+> @@ -991,14 +946,6 @@ vsp1_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
+>   
+>   	mutex_unlock(&mdev->graph_mutex);
+>   
+> -	/*
+> -	 * Verify that the configured format matches the output of the connected
+> -	 * subdev.
+> -	 */
+> -	ret = vsp1_video_verify_format(video);
+> -	if (ret < 0)
+> -		goto err_stop;
+> -
+>   	/* Start the queue. */
+>   	ret = vb2_streamon(&video->queue, type);
+>   	if (ret < 0)
+> @@ -1087,14 +1034,43 @@ static const struct v4l2_file_operations vsp1_video_fops = {
+>   
+>   static int vsp1_video_link_validate(struct media_link *link)
+>   {
+> -	/*
+> -	 * Ideally, link validation should be implemented here instead of
+> -	 * calling vsp1_video_verify_format() in vsp1_video_streamon()
+> -	 * manually. That would however break userspace that start one video
+> -	 * device before configures formats on other video devices in the
+> -	 * pipeline. This operation is just a no-op to silence the warnings
+> -	 * from v4l2_subdev_link_validate().
+> -	 */
+> +	struct v4l2_subdev_format fmt = {
+> +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+> +	};
+> +	struct v4l2_subdev *subdev;
+> +	struct media_entity *entity;
+> +	struct media_pad *remote;
+> +	struct vsp1_video *video;
+> +	int ret;
+> +
 > +	if (is_media_entity_v4l2_video_device(link->source->entity)) {
-> +		struct media_entity *source = link->source->entity;
+> +		entity = link->source->entity;
+> +		remote = link->sink;
+> +	} else {
+> +		entity = link->sink->entity;
+> +		remote = link->source;
+> +	}
+
+This looks a bit odd. So this device can be either a source and a sink?
+
+This made me also wonder about the .link_validate(). It's the only 
+media_entity_operations op that does not get the media_entity as a 
+parameter. Which here means the driver has to go and "guess" whether it 
+is the source or the sink of the given link.
+
+I wonder if there's a reason why .link_validate() doesn't have the 
+media_entity parameter?
+
 > +
-> +		if (!source->ops || !source->ops->link_validate) {
-> +			/*
-> +			 * Many existing drivers do not implement the required
-> +			 * .link_validate() operation for their video devices.
-> +			 * Print a warning to get the drivers fixed, and return
-> +			 * 0 to avoid breaking userspace. This should
-> +			 * eventually be turned into a WARN_ON() when all
-> +			 * drivers will have been fixed.
-> +			 */
-> +			pr_warn_once("video device '%s' does not implement .link_validate(), driver bug!\n",
-> +				     source->name);
-> +			return 0;
-> +		}
+> +	fmt.pad = remote->index;
 > +
-> +		/* Avoid infinite loops. */
+> +	subdev = media_entity_to_v4l2_subdev(remote->entity);
+> +	ret = v4l2_subdev_call(subdev, pad, get_fmt, NULL, &fmt);
+> +	if (ret < 0)
+> +		return ret == -ENOIOCTLCMD ? -EINVAL : ret;
+> +
+> +	video = to_vsp1_video(media_entity_to_video_device(entity));
+> +
+> +	if (video->rwpf->fmtinfo->mbus != fmt.format.code ||
+> +	    video->rwpf->format.height != fmt.format.height ||
+> +	    video->rwpf->format.width != fmt.format.width) {
+> +		dev_dbg(video->vsp1->dev,
+> +			"Format mismatch: 0x%04x/%ux%u != 0x%04x/%ux%u\n",
+> +			video->rwpf->fmtinfo->mbus, video->rwpf->format.width,
+> +			video->rwpf->format.height, fmt.format.code,
+> +			fmt.format.width, fmt.format.height);
+> +		return -EPIPE;
+> +	}
 
-Maybe this could elaborate a bit, and say that non-subdev drivers should 
-not use v4l2_subdev_link_validate, but some do (?) or might use it by 
-mistake, and this catches the driver bug.
+Why don't we have a common videodev state which could be used to do 
+these validations in a common function? =)
 
-> +		if (WARN_ON(source->ops->link_validate == v4l2_subdev_link_validate))
-> +			return -EINVAL;
-
-This might still be risky. The driver could implement its own validate, 
-which does some checks and then calls v4l2_subdev_link_validate(). But 
-I'm sure that'll get get noticed =).
+Fwiw:
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
   Tomi
-
-> +
-> +		return source->ops->link_validate(link);
->   	}
->   
-> +	/*
-> +	 * If the source is still not a subdev, usage of this helper is a clear
-> +	 * driver bug.
-> +	 */
-> +	if (WARN_ON(!is_media_entity_v4l2_subdev(link->source->entity)))
-> +		return -EINVAL;
-> +
->   	sink_sd = media_entity_to_v4l2_subdev(link->sink->entity);
->   	source_sd = media_entity_to_v4l2_subdev(link->source->entity);
->   
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index bd235d325ff9..8daa0929865c 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -1250,6 +1250,12 @@ int v4l2_subdev_link_validate_default(struct v4l2_subdev *sd,
->    * calls v4l2_subdev_link_validate_default() to ensure that
->    * width, height and the media bus pixel code are equal on both
->    * source and sink of the link.
-> + *
-> + * The function can be used as a drop-in &media_entity_ops.link_validate
-> + * implementation for v4l2_subdev instances. It supports all links between
-> + * subdevs, as well as links between subdevs and video devices, provided that
-> + * the video devices also implement their &media_entity_ops.link_validate
-> + * operation.
->    */
->   int v4l2_subdev_link_validate(struct media_link *link);
->   
 
 
