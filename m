@@ -1,104 +1,105 @@
-Return-Path: <linux-renesas-soc+bounces-8212-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8213-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA06A95EC30
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 10:41:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6AF895EC4B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 10:46:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 941E61F2102A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 08:41:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 712801F2111E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2024 08:46:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEA5A13AD13;
-	Mon, 26 Aug 2024 08:41:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DCF713BC35;
+	Mon, 26 Aug 2024 08:46:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QXJ5PEXi"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="akfXGzOA"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 408DF4A2C
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Aug 2024 08:41:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B472782D70
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Aug 2024 08:46:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724661675; cv=none; b=ECyOSKxk8X0xTpGWufuCZe5o6lhzn0bug//mHqG2EEUd578vWbceYgk1TKLUiTjA35dig+4aDB2y9VCh6+usQtsEyBTr8WMhKAHctM0gwI2jI6wtAN0D532qApZgah5r1GtQOMDf9O6e+aaGAMYHU55YLv5SeE45yYcBYZRnkxs=
+	t=1724661993; cv=none; b=bk0IrEW+KCWgMEotGaHN6ecdjNdnCqtk6Sp2A3lzBuyGCJFprPoC08TB3/PFLdoQEy2CIBH3ioqtQAkzsISe0YxN+0AkLa3F1CejaFKHbBfx3cug7YVPiC5JolHFbL1Bnph6iFF1plqgHxe5iW4sCf83OaJY2LCMLXr+UU48gTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724661675; c=relaxed/simple;
-	bh=ZJqPV+M2ayctdGZHxpg+AofznRAfzm17VKe00rGKdUU=;
+	s=arc-20240116; t=1724661993; c=relaxed/simple;
+	bh=jRoGc8zZH4oC05abOb5eEX0kRMeyafNXbYdYJflymmE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DtVXUVwduDuey1ypJ3i6kIKxqHGy2wOWWPsaXFSMVqbNh/+fGh6g25FPRyvo+EhqHD5bbCNfu4bheOIxkeLXS+kFlT/1b9XR+k+FsFCm9ccInY9Ns8j7+rylUmuVi7fN1TDbs9WeyE3lNSoqB1aMCdnCP1WcQ2PPMFNf9Az6rkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QXJ5PEXi; arc=none smtp.client-ip=209.85.208.172
+	 To:Cc:Content-Type; b=aNjn0F+KE9crWYtmQhGnP5s9hC6Xnaj0AIkoWJomo5/8BJMelA05C5tbCEksEhW5jYlh8frq/4SRYtnUIAMKAy0+IH3E7OEb065n8Qw3XfeJ/GCK1vf3xqw0606ceLjGVdpPyvu+0E1pleWCGDKtJZhPz1NeJYxkXzTpfS0sDBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=akfXGzOA; arc=none smtp.client-ip=209.85.208.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2f50ca18a13so11195311fa.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Aug 2024 01:41:14 -0700 (PDT)
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2f50f1d864fso4289521fa.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Aug 2024 01:46:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724661672; x=1725266472; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1724661989; x=1725266789; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZJqPV+M2ayctdGZHxpg+AofznRAfzm17VKe00rGKdUU=;
-        b=QXJ5PEXimOZ13K98cB1Y/XAMdYH4RaTmfS5py/vw/c1EpBP3vuWDSuZ/nMvnJIw3mC
-         th9iepXjNaYdXhdsoQTIRbFQPeTnWJ9w0gSc8+bypMPrFqIAYgt8xPbHZ/Zx6A4xn/rn
-         Qa2oJ6jtE/GyZ/2LG+If+pNK+0yw1B4kGIf27Eu15WBiHnoggZ0s1DG8vbzIAXHzTDCC
-         koN3voYr7wc997LIDXTOCa7wNhdEuIDByWc53MdoE7VNja8oCF3mZoieIvmFO/jm+PrC
-         +Hu86PSoFs9hxZu1OZPqurQkKDezFdJkn6tfbYzd45OJKUSX7yaea0Vs8ejhvAOqepA7
-         WukQ==
+        bh=jRoGc8zZH4oC05abOb5eEX0kRMeyafNXbYdYJflymmE=;
+        b=akfXGzOACYv1vaXfxF9H4LBBq05lTfO384/4Rgu678ZMsDHKAzcYMtfD3WvTt/fCWG
+         UXEsg/HQ4iqw0MPuuUnM1MFu5BE8PpcgKsc1CyzYEULseNRrvQwqJdDtAbZUDLPXGD6u
+         G2wrTlS5kQpVoh1ygWsIF68u6S6ZO3oVkiJFXrLpdsAXXb27JkNVTFseJKvaci/k6zTA
+         WwCdWEIQX6f2a2+uBxrTZYOcelRA740+vQ2pdmH+WdWpuNQiixYDYuOmuhfUJTjNc2rK
+         duc1gSbRJY/C9bhAjViG+yIHZDH3ZaU+LUGDSggNbBzPF2ZWp9WHzGclUWKrJf89ZFi/
+         adoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724661672; x=1725266472;
+        d=1e100.net; s=20230601; t=1724661989; x=1725266789;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZJqPV+M2ayctdGZHxpg+AofznRAfzm17VKe00rGKdUU=;
-        b=AsiacOMmsYAmFrAcwNQ+uh+pnuiNVExRwF6vVZH8/Bo1/5YjRz9kdT0D5KDSfkII5z
-         DfVYpOWP7yi5wkcByUIi0kiAed9ghw0O2XLIGWiR9M4l5/YsUpge+p355k6hQSXZ7Gy5
-         wmq+2tZhKXi693AOf78Hj0dUS13fX/sc/s6LhiyvTdzi2TF4Y8rMkEavWO1dYAPxstu+
-         XTkgXPqBzyTLFIMwj/H9b3/IDNrKu5PSOR3T6cGxk2nREiMIBXUfACWo4t4qPeRhdohB
-         P5paiT1b+pfnLLOAQiNLYLVI1rc5voCabN3XtcC6TDM5mDr1wtoTewaJr+L2EchNQz1H
-         IxIg==
-X-Forwarded-Encrypted: i=1; AJvYcCUB7ApBtHAsGkNJrKuib9/ZYhf5BFbOxKfUwez9hHEHlg6nqCZ3i8uohI8CIOBmtVMsJxALg85TJg+v/qANdhE0Pw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUXPzeQsXKMwYTuUR/QyOuPTxbBuuP9zVuKEf13lsnW1zSRdbG
-	KZhW1Yg5wOyUANYNatyNf9ay+W0vfvVGvNVy1zFWM3xpcuKlQSVUe6vRgFq4F1FxmVgDKkzb8+z
-	dItwj9JBnGmzFiY+VyHOPDfrH2mX41f4CeYMUiA==
-X-Google-Smtp-Source: AGHT+IF1xip2LZYxVRH8VpdWfcRa9uK7A6loLJRPHfWQskmDHQEUYxjPeikly02OaJhz/cUtMMvnXB3y1yNyya30do4=
-X-Received: by 2002:a05:6512:3c85:b0:533:966:72cb with SMTP id
- 2adb3069b0e04-5343885f659mr6807476e87.48.1724661671918; Mon, 26 Aug 2024
- 01:41:11 -0700 (PDT)
+        bh=jRoGc8zZH4oC05abOb5eEX0kRMeyafNXbYdYJflymmE=;
+        b=WzAb4YsAHXdJG3C9ahtT7BHmM+lHz4RYN2NBxEiK6d33MJf3F5ixEFqr1IzKuxEFJN
+         UwZuMCoYfH5N7A2y9Obu1BER4EExFFTQ9P69fXHYoGeS08dtOxoJCK48Esz7Pres/RJc
+         mKRtZH8gb0I5E2Rw1+yj8rU0CSPrP3/OPxRHZbDsvagYnvAr9wOMDrFyY5uuyYl54Fx3
+         ZcK5mrdaS5V6bMlNuu1k0K6T7iOxIuJoN54YAulmb8G0JsDDkC+/9MdwjKRXAgHd/3e3
+         KZnJ3DkQSwMV5CQkg7Eaq43QTMBHVFj/L/ukIBKG/pmtP78Y3YbuulNvNNnBC/7hhIjd
+         QPRg==
+X-Forwarded-Encrypted: i=1; AJvYcCW+dsQ3YJxaDRr4okUtUChsGinkAAGYyACB5pOs/FXqiYbvCWm3ZFwDm0hU0ldNyuxKfOBXTn+84q3Lymhr5FQYCw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwKLB/yJHNbrtHeIKyJXrCAMXry0qMs0TTQJuihtYzAmEPo+UxT
+	8EocXJDdVnRqLJ1nV6QupEBYME0iG38hDDSfuDDhrJRFMEXCnG/qXB/vvV96i0ag22ZENGnh6DC
+	qd0ouZd7mSMwln7TXM5Q4N/jGeXrfCtwYPDgoLg==
+X-Google-Smtp-Source: AGHT+IEAKix9avOZKhj3gUarttYPt1B5mxGGiNfGvZNqelGRoDbFczqf/+RGYgGgaLwvWmb22Hq7c+MIRiChzBxFm/8=
+X-Received: by 2002:a05:6512:280c:b0:530:ab68:25e6 with SMTP id
+ 2adb3069b0e04-53438861474mr7188396e87.48.1724661989086; Mon, 26 Aug 2024
+ 01:46:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240822084733.1599295-1-frank.li@vivo.com> <20240822084733.1599295-4-frank.li@vivo.com>
-In-Reply-To: <20240822084733.1599295-4-frank.li@vivo.com>
+References: <20240823072122.2053401-1-frank.li@vivo.com> <20240823072122.2053401-4-frank.li@vivo.com>
+In-Reply-To: <20240823072122.2053401-4-frank.li@vivo.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 26 Aug 2024 10:41:00 +0200
-Message-ID: <CACRpkdb-MKYAcWA5KUDZ=oeREs86S68WjqzS9XRTrUbBhLbBtQ@mail.gmail.com>
-Subject: Re: [net-next 3/9] net: ethernet: cortina: Convert to devm_clk_get_enabled()
+Date: Mon, 26 Aug 2024 10:46:17 +0200
+Message-ID: <CACRpkdb0rwN1YxF10MQDkVX1QoYTWot+heOJp4RodAtniCOdsA@mail.gmail.com>
+Subject: Re: [net-next v2 3/9] net: ethernet: cortina: Convert to devm_clk_get_enabled()
 To: Yangtao Li <frank.li@vivo.com>
 Cc: clement.leger@bootlin.com, andrew@lunn.ch, f.fainelli@gmail.com, 
 	olteanv@gmail.com, davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
 	pabeni@redhat.com, ulli.kroll@googlemail.com, marcin.s.wojtas@gmail.com, 
 	linux@armlinux.org.uk, alexandre.torgue@foss.st.com, joabreu@synopsys.com, 
-	mcoquelin.stm32@gmail.com, hkallweit1@gmail.com, justinstitt@google.com, 
-	kees@kernel.org, u.kleine-koenig@pengutronix.de, jacob.e.keller@intel.com, 
-	horms@kernel.org, shannon.nelson@amd.com, linux-renesas-soc@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, 
-	linux-stm32@st-md-mailman.stormreply.com
+	mcoquelin.stm32@gmail.com, hkallweit1@gmail.com, kees@kernel.org, 
+	justinstitt@google.com, u.kleine-koenig@pengutronix.de, horms@kernel.org, 
+	sd@queasysnail.net, linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com, 
+	Maxime Chevallier <maxime.chevallier@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 22, 2024 at 10:32=E2=80=AFAM Yangtao Li <frank.li@vivo.com> wro=
-te:
+On Fri, Aug 23, 2024 at 9:06=E2=80=AFAM Yangtao Li <frank.li@vivo.com> wrot=
+e:
 
 > Convert devm_clk_get(), clk_prepare_enable() to a single
 > call to devm_clk_get_enabled(), as this is exactly
 > what this function does.
 >
 > Signed-off-by: Yangtao Li <frank.li@vivo.com>
+> Reviewed-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
 
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
