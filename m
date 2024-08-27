@@ -1,149 +1,205 @@
-Return-Path: <linux-renesas-soc+bounces-8358-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8359-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87DCF960839
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 13:11:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 337FB96083D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 13:12:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BB3581C227E2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 11:11:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DD8022844A7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 11:12:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A52C819EEAF;
-	Tue, 27 Aug 2024 11:11:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F68019F482;
+	Tue, 27 Aug 2024 11:12:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zafcZuJP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F273158D9C;
-	Tue, 27 Aug 2024 11:11:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B847155CBD
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Aug 2024 11:12:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724757113; cv=none; b=MsjJha6pNQMjLEbDIn/XGMGfmku8A26s28OEg/yPnBzjm9/31joBWBjqe9/nlPr90BVK2F7eGf8inGGVU+8V2n63lCc+B3qAAcb0efBDydteHsfPQwOLP8Nwo9j3Yf6ramzjI0NN9YQicaiCEu/S65o+ZL3zv2itr67FZiSHQdg=
+	t=1724757154; cv=none; b=GNrGg74uBad1QKXuU0GcKOjD6ldEzLar3lonvfqpqj4CzYpk+EGtiqr9tkrtTv87j1OSXVBJKw10GtfsrxUmpQPbDwclbAYw3TyPWIirPZboFiCRWWNwEOi03xI55p+mtknkjtT06xAPWGRQsRbNL9ZUtNiEtsEWGx0CXTasItk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724757113; c=relaxed/simple;
-	bh=k99TBizg+HcIIP8jC7HI5f4C2NjlxLfor1s8Vd6V8LQ=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YFbXaNuMl/o6P/Dd4tkVriOlfKWTlJKIzsyUNHmyQRChPEcrBAW9EI/nZQUG6psa0R4tgKqPkdQe/ACxjedeBGFTkk5rtiveS+6RaUPg+ctmfInJih44iht2YesKV/l0JLxGxFwqosODEbvNeE28olG4tB5kHRY+ykc7vkcDHnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4WtPt96lPLz6K9X1;
-	Tue, 27 Aug 2024 19:08:33 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id 355301400D4;
-	Tue, 27 Aug 2024 19:11:49 +0800 (CST)
-Received: from localhost (10.203.177.66) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 27 Aug
- 2024 12:11:48 +0100
-Date: Tue, 27 Aug 2024 12:11:47 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Yangtao Li <frank.li@vivo.com>
-CC: <clement.leger@bootlin.com>, <andrew@lunn.ch>, <f.fainelli@gmail.com>,
-	<olteanv@gmail.com>, <davem@davemloft.net>, <edumazet@google.com>,
-	<kuba@kernel.org>, <pabeni@redhat.com>, <ulli.kroll@googlemail.com>,
-	<linus.walleij@linaro.org>, <marcin.s.wojtas@gmail.com>,
-	<linux@armlinux.org.uk>, <alexandre.torgue@foss.st.com>,
-	<joabreu@synopsys.com>, <mcoquelin.stm32@gmail.com>, <hkallweit1@gmail.com>,
-	<u.kleine-koenig@pengutronix.de>, <jacob.e.keller@intel.com>,
-	<justinstitt@google.com>, <sd@queasysnail.net>, <horms@kernel.org>,
-	<linux-renesas-soc@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-stm32@st-md-mailman.stormreply.com>
-Subject: Re: [net-next v3 9/9] net: marvell: pxa168_eth: Convert to
- devm_clk_get_enabled()
-Message-ID: <20240827121147.00006444@Huawei.com>
-In-Reply-To: <20240827095712.2672820-10-frank.li@vivo.com>
-References: <20240827095712.2672820-1-frank.li@vivo.com>
-	<20240827095712.2672820-10-frank.li@vivo.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1724757154; c=relaxed/simple;
+	bh=+AWoCTjPb2CystHVpVBEd1kzDuWM5n/IGJW+B+ZCYBA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jMYE+ghmjyCMzVD9njr3wSaFuOFJhO4Lefetgcev49I2VnI0kDnYMAQz3PBp2N3onCkuS09FtZlVBJRMcW48WMkDOEAgNtrdXKYTxR2x/DM3wCgmF7rzo1pTAqgJAp+sysLF2S9k5BKgIR1+Fejai8LCHD9qN926+guseBwUm1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zafcZuJP; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-42808a69a93so7724865e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Aug 2024 04:12:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1724757151; x=1725361951; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=YmzUy7ewCiE5ahSeQMfQbeT1WUf5DWvLVzA+AXLyYSM=;
+        b=zafcZuJPDAW5h1vXegaI34gLY49qIy3etckLzhroRIOQHIzoktlJT7C81WIOgO6J9v
+         YV1JHiN0TWrjryBNqIBSiRisnabhjGbDRcMF0tNGnTRGdpxW9h/OHUex1S8ItQlyE4vA
+         JfdiS5aJc0p8uyLM6IiurM0kpQ+z/BIeYINrDNfYpxocXerjtw2oN8ZAMR9dj7/hK3JS
+         MImFnF2pmZzxu5Ij2DBkX5bXUrJNjKtffbFkssHCUfcgDe13HGPknKYybQ75RwthulIk
+         2eJZCZmUXaiItmCznkJd9P9nHvj/IRfCZHFdvI4H1NnzjuXL+SrJwGLKrIk743Z0h+nJ
+         qMgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724757151; x=1725361951;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YmzUy7ewCiE5ahSeQMfQbeT1WUf5DWvLVzA+AXLyYSM=;
+        b=bEON3BDLLJuInuyxpZyFvtqdXkvHIbfvI+6vwLUHD7EsyCfEpKZTZPzr6vgWF/m9LI
+         763VWVWrdic9z77DN+8c24cbYXVCItFULSiIQM871fETTzmZ/5wh6psL1KGdtCeq3cJ1
+         WLf425lpHVQZrAz3BaHIEWhaYrdQipfahD1zNyArz2QsVqy+zbocYB5pZ/fZtk1zUs9u
+         iZ1w8oHq5MyoJGJLCXDvPO/ZrdgLQ2rW5Wqt0Ib54ZlwAH3DSwdkCnn0IVcUoNKZJKqQ
+         2ixW+FL4kXBl9QN/BP/A48uxncXCtm/wIPVTKqTgB77VHdTgzDz5UE4gvItRWrM7C5Ug
+         2zkA==
+X-Forwarded-Encrypted: i=1; AJvYcCXAWlPBgTFgQqje0xQiv81zjmGuWIaC0xXoo42NXHDTFRC0GsFmWNpdPq8I40CtyDKSq6EobBTZgNFD9K7eoMrRdA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzB6WSJ0Y0kXUG0eYZ0cwrvY1y+LTUycBmetYa+gE5BBW4d5Fql
+	XoCaKYzhqvKUgA5q+UONgc+fgzM3afx5Ep15GthXjdjgL78jKrcbTukbwtLU+4OIWjj8O2BTDS8
+	q
+X-Google-Smtp-Source: AGHT+IGA0k36jmgdDgFx0Lv0AZJvjz53dblzhFbQSKezrBZpuUFwtlx0XfcTnR8u7R18varpMaDufQ==
+X-Received: by 2002:a05:600c:5118:b0:425:6dfa:c005 with SMTP id 5b1f17b1804b1-42acc8dca6dmr57506595e9.2.1724757150715;
+        Tue, 27 Aug 2024 04:12:30 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.222.82])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42abee86da6sm215978635e9.17.2024.08.27.04.12.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Aug 2024 04:12:30 -0700 (PDT)
+Message-ID: <a20a940a-2d81-465a-8c26-9a7f09a5d477@linaro.org>
+Date: Tue, 27 Aug 2024 13:12:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 09/10] pmdomain: renesas: rcar-gen4-sysc: Use scoped
+ device node handling to simplify error paths
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, linux-pm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20240823-cleanup-h-guard-pm-domain-v1-0-8320722eaf39@linaro.org>
+ <20240823-cleanup-h-guard-pm-domain-v1-9-8320722eaf39@linaro.org>
+ <CAMuHMdV0R0+u1eCiUOHhL5w-wzge9KhgyumJSd28oF9kQmnx_Q@mail.gmail.com>
+ <a48f1a0b-0e20-4782-bf6b-c430da9ae391@linaro.org>
+ <58f5d332-2f2a-4607-9662-e71fd23b1316@linaro.org>
+ <CAMuHMdUQ5AD1QoO5F1nAy+GJoGtbi2ztKfK=2buU1MNeO8etJw@mail.gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <CAMuHMdUQ5AD1QoO5F1nAy+GJoGtbi2ztKfK=2buU1MNeO8etJw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
 
-On Tue, 27 Aug 2024 03:57:12 -0600
-Yangtao Li <frank.li@vivo.com> wrote:
-
-> Convert devm_clk_get(), clk_prepare_enable() to a single
-> call to devm_clk_get_enabled(), as this is exactly
-> what this function does.
+On 27/08/2024 12:55, Geert Uytterhoeven wrote:
 > 
-> Signed-off-by: Yangtao Li <frank.li@vivo.com>
-Ordering in here is already 'interesting' but I'd still look
-at more devm_ calls for the mdio and netdev parts.
-
-> ---
->  drivers/net/ethernet/marvell/pxa168_eth.c | 17 ++++-------------
->  1 file changed, 4 insertions(+), 13 deletions(-)
+> So it's perfectly fine to have:
 > 
-> diff --git a/drivers/net/ethernet/marvell/pxa168_eth.c b/drivers/net/ethernet/marvell/pxa168_eth.c
-> index 1a59c952aa01..bad91cc705e8 100644
-> --- a/drivers/net/ethernet/marvell/pxa168_eth.c
-> +++ b/drivers/net/ethernet/marvell/pxa168_eth.c
-> @@ -237,8 +237,6 @@ struct pxa168_eth_private {
->  	struct timer_list timeout;
->  	struct mii_bus *smi_bus;
->  
-> -	/* clock */
-> -	struct clk *clk;
->  	struct pxa168_eth_platform_data *pd;
->  	/*
->  	 * Ethernet controller base address.
-> @@ -1394,23 +1392,19 @@ static int pxa168_eth_probe(struct platform_device *pdev)
->  
->  	printk(KERN_NOTICE "PXA168 10/100 Ethernet Driver\n");
->  
-> -	clk = devm_clk_get(&pdev->dev, NULL);
-> +	clk = devm_clk_get_enabled(&pdev->dev, NULL);
->  	if (IS_ERR(clk)) {
->  		dev_err(&pdev->dev, "Fast Ethernet failed to get clock\n");
-> -		return -ENODEV;
-> +		return PTR_ERR(clk);
->  	}
-> -	clk_prepare_enable(clk);
->  
->  	dev = alloc_etherdev(sizeof(struct pxa168_eth_private));
-> -	if (!dev) {
-> -		err = -ENOMEM;
-> -		goto err_clk;
-> -	}
-> +	if (!dev)
-> +		return -ENOMEM;
->  
->  	platform_set_drvdata(pdev, dev);
->  	pep = netdev_priv(dev);
->  	pep->dev = dev;
-> -	pep->clk = clk;
->  
->  	pep->base = devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR(pep->base)) {
-> @@ -1523,8 +1517,6 @@ static int pxa168_eth_probe(struct platform_device *pdev)
->  	mdiobus_free(pep->smi_bus);
->  err_netdev:
->  	free_netdev(dev);
-> -err_clk:
-> -	clk_disable_unprepare(clk);
->  	return err;
->  }
->  
-> @@ -1542,7 +1534,6 @@ static void pxa168_eth_remove(struct platform_device *pdev)
->  	if (dev->phydev)
->  		phy_disconnect(dev->phydev);
->  
-> -	clk_disable_unprepare(pep->clk);
->  	mdiobus_unregister(pep->smi_bus);
->  	mdiobus_free(pep->smi_bus);
->  	unregister_netdev(dev);
+>     static int __init rcar_gen4_sysc_pd_init(void)
+>     {
+>             struct device_node *np __free(device_node) = NULL;
+>             struct rcar_gen4_pm_domains *domains;
+>             const struct rcar_gen4_sysc_info *info;
+>             const struct of_device_id *match;
+>             void __iomem *base;
+>             unsigned int i;
+>             int error;
+> 
+>             np = of_find_matching_node_and_match(NULL,
+> rcar_gen4_sysc_matches, &match);
+>             if (!np)
+>                     return -ENODEV;
+> 
+>             ...
+>     }
+
+It is not perfectly fine because it does not match the preference of
+having declaration with the constructor. See responses from Linus.
+
+> 
+> But my first suggestion:
+> 
+>     static int __init rcar_gen4_sysc_pd_init(void)
+>     {
+>             struct device_node *np __free(device_node) =
+>                     of_find_matching_node_and_match(NULL,
+> rcar_gen4_sysc_matches, &match);
+>             struct rcar_gen4_pm_domains *domains;
+>             const struct rcar_gen4_sysc_info *info;
+>             const struct of_device_id *match;
+>             void __iomem *base;
+>             unsigned int i;
+>             int error;
+> 
+>             if (!np)
+>                     return -ENODEV;
+> 
+>             ...
+>     }
+> 
+> is safer w.r.t. to future modification.
+
+Indeed, sure, I will re-write it above.
+
+
+
+Best regards,
+Krzysztof
 
 
