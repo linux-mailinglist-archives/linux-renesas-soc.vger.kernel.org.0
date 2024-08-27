@@ -1,184 +1,228 @@
-Return-Path: <linux-renesas-soc+bounces-8353-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8354-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5177D9607EA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 12:54:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7B0B9607F7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 12:56:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 84B201C228D4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 10:54:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7E1411F23525
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 10:56:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D33919E7FF;
-	Tue, 27 Aug 2024 10:53:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D32A19E838;
+	Tue, 27 Aug 2024 10:56:01 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A0C4C634;
-	Tue, 27 Aug 2024 10:53:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65A6719DF41;
+	Tue, 27 Aug 2024 10:55:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724756035; cv=none; b=EAjTBX55aua3iU5bdz94Wl6a0JiH8v/tn6vd6F5Zbnns46+5F+89N4RqOl7cFnyfpSeNHTBInLP9lizcXZysqAj0jvctjWEy4c3zkHAxxa/sT3rTev5Qj63o0YHpWKoSzmTmgL/xdR6pW3Uqrq0J1CmygaOnSsa4dIEdhN1GEC8=
+	t=1724756161; cv=none; b=BotMzRWZQAV/Jg59Chp5aZGzW253NG3yibIRrgELeXFOlD81EaMX8gsWLvQwXofOEAbWLOH5QpQF4NWymkcrJI3mWdbSOmrEo/tePvwCTsUDLKZw2/42I4pPQuUcAba7FV1282jSg1GrEg3IHyKT+TkOnwjDi5kHPyP65u9N93Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724756035; c=relaxed/simple;
-	bh=s8W6qCwP1dfOxsBwXIaTpsIJ8nG5fLwW/vsZ9t46X/c=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dpK+H/Gh16YwNPK6yDSw+BMWCxatPYy9qpV4u0th/uBnPXTB6CmHpYcQ3SJj/MC41pP6jvI2zRHCDFXNy3cmlWG08gPG9/tEuXVeexZU5UxFMfh8WT4fV0pmSEQtdZjTl+3S/pCA+cuzsTEKskiWYh7QyzP+X3JB01wAYK79nNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4WtPSd1cR5z6J7LP;
-	Tue, 27 Aug 2024 18:49:53 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id 265CA140A71;
-	Tue, 27 Aug 2024 18:53:51 +0800 (CST)
-Received: from localhost (10.203.177.66) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 27 Aug
- 2024 11:53:50 +0100
-Date: Tue, 27 Aug 2024 11:53:49 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Yangtao Li <frank.li@vivo.com>
-CC: <clement.leger@bootlin.com>, <andrew@lunn.ch>, <f.fainelli@gmail.com>,
-	<olteanv@gmail.com>, <davem@davemloft.net>, <edumazet@google.com>,
-	<kuba@kernel.org>, <pabeni@redhat.com>, <ulli.kroll@googlemail.com>,
-	<linus.walleij@linaro.org>, <marcin.s.wojtas@gmail.com>,
-	<linux@armlinux.org.uk>, <alexandre.torgue@foss.st.com>,
-	<joabreu@synopsys.com>, <mcoquelin.stm32@gmail.com>, <hkallweit1@gmail.com>,
-	<u.kleine-koenig@pengutronix.de>, <jacob.e.keller@intel.com>,
-	<justinstitt@google.com>, <sd@queasysnail.net>, <horms@kernel.org>,
-	<linux-renesas-soc@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-stm32@st-md-mailman.stormreply.com>, Maxime Chevallier
-	<maxime.chevallier@bootlin.com>
-Subject: Re: [net-next v3 3/9] net: ethernet: cortina: Convert to
- devm_clk_get_enabled()
-Message-ID: <20240827115349.00002f77@Huawei.com>
-In-Reply-To: <20240827095712.2672820-4-frank.li@vivo.com>
-References: <20240827095712.2672820-1-frank.li@vivo.com>
-	<20240827095712.2672820-4-frank.li@vivo.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1724756161; c=relaxed/simple;
+	bh=4oBV8H5bs6V7KC17pgVHrSStgbbQbPBeJsp1/aceqNY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ruEkyWte2thgqMZwajCIjcHmtl8Y6hW1OzI607zhQCIPISSReE8/8TBiM9aPXXMsVWbalfx/gr9QvMVrjBMea3lNmbCM7AnSwFZSJ1u4gp46k0F3oOfX1lJWuTKj4T2eqIFPBKqgUlH8AHaWp+J/RKheGOUOJZC6vMNb1SUxz2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6b8d96aa4c3so45161427b3.1;
+        Tue, 27 Aug 2024 03:55:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724756155; x=1725360955;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qo2NMwoxAQ1U2hSpFIW4sKP1B7w0umymouG5LJGc8hU=;
+        b=tMX1Dw9Z+zGNWhjGgBlnTjrOPMMDgNMxkP9EzaABEGB56zn7GkHHBi608bXtY0Fgjk
+         lTy2ejwiwnxctC7LgOtg2Ez9ynnKIkagkTxqT53e7yyc3EC6EfxM4ogPrnp24ngpaIZD
+         0Kuy0CfI4eAtlfWfRcT+cff/fpEDkPMBKpbMs6Av3mClyLL/ln31IGTLYF9eDxblPAi3
+         XPk5gT8+x5p6e2S11kOi0a/Wjljw0ly2ORNSxVh2jNYFCpkrpN2XS7knuXkzFapmdt5N
+         wiSw28JjTwQ7c6PudlVqoFQi/AcjHOMeMs10jJ3J24/1IiZgjKiYXaRuNQ6fuDvrIzyE
+         hv5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVEUYa5weDMTeSTBtJOzQJhrckP/E3G+Jhy93zh5fe/2lu5xAlHgpmS/Rhdbpl8xeHCadxF/hxmhTE=@vger.kernel.org, AJvYcCW/O4EY5BhYPz7EqTc31DfojVqrcKQzkOY7QFJNWvdsuXoQV+8e5ON+Jjtg5J5QyBvJXKBCxICatr0aoub9VnXpuDA=@vger.kernel.org, AJvYcCXevh5vIM4l/N1wILi26zRB0VfCRj5rOTWJ9+i8JCCTtcTqQOQqekuVdeqAxYof3zeK+uApMlN42+ttl3WH@vger.kernel.org, AJvYcCXjyiu2msfh1AXmpdACrjZx+ehysfpAHrqTL3Gk0oouOMr1XE2prmui7X17UkhP6YHRxYLeTF+ljL2Ea/bN@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCNLc2MLekUBkrs1kRjbny8AEcOO6Ria0UohKkgPnEvw8gy2TS
+	XfdJ56LwPfjZfF++mQvDay+6Ux5xItp829lIsUaNFvvSYv5zIamDBY00HOxh
+X-Google-Smtp-Source: AGHT+IETCHIGK0mw721enGSsiHio9F34nf8fMRrHd76WZv69hnIg/7XiAuB9jHfhRho4v3uBI4sk8Q==
+X-Received: by 2002:a05:690c:f82:b0:62c:e6c0:e887 with SMTP id 00721157ae682-6cfb950a938mr29761547b3.9.1724756155382;
+        Tue, 27 Aug 2024 03:55:55 -0700 (PDT)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6c39de3e7d9sm18617947b3.128.2024.08.27.03.55.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Aug 2024 03:55:54 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-e1633202008so5249104276.2;
+        Tue, 27 Aug 2024 03:55:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU1z0Udm9zoeM3IQOFyeenSQLYJpx2yx7cgvGb8yfeCoV5llNKY7CICZ6g8BCN/rfW4IHGuw+6p7YhZs0pdpHgX77M=@vger.kernel.org, AJvYcCUEzwgKCk1MaYoaZHfqkp9EhLlUj/iK4dB5HIfFlhr9/poZyCajC6rUZq2SJWdaCTTL0RG+PTqKDdqmZJK7@vger.kernel.org, AJvYcCVFj/7SgI2UFAFEDYQm1Vnt9diD2heqtr5UMpg5SFfgis85Lj3tyL1+zqJqTookxbwh0sOoPLW54j/jobd7@vger.kernel.org, AJvYcCVHBPjzhh7j36So4wkZIBIl9XOeoQU9SlsgMYz9mCk4gU81vWRbnG3X/V6bK/qE+U+R2HIHt+nJQPg=@vger.kernel.org
+X-Received: by 2002:a05:690c:9e:b0:6b2:28c3:b706 with SMTP id
+ 00721157ae682-6cfbb6fe00dmr29288707b3.34.1724756154320; Tue, 27 Aug 2024
+ 03:55:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+References: <20240823-cleanup-h-guard-pm-domain-v1-0-8320722eaf39@linaro.org>
+ <20240823-cleanup-h-guard-pm-domain-v1-9-8320722eaf39@linaro.org>
+ <CAMuHMdV0R0+u1eCiUOHhL5w-wzge9KhgyumJSd28oF9kQmnx_Q@mail.gmail.com>
+ <a48f1a0b-0e20-4782-bf6b-c430da9ae391@linaro.org> <58f5d332-2f2a-4607-9662-e71fd23b1316@linaro.org>
+In-Reply-To: <58f5d332-2f2a-4607-9662-e71fd23b1316@linaro.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 27 Aug 2024 12:55:40 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUQ5AD1QoO5F1nAy+GJoGtbi2ztKfK=2buU1MNeO8etJw@mail.gmail.com>
+Message-ID: <CAMuHMdUQ5AD1QoO5F1nAy+GJoGtbi2ztKfK=2buU1MNeO8etJw@mail.gmail.com>
+Subject: Re: [PATCH 09/10] pmdomain: renesas: rcar-gen4-sysc: Use scoped
+ device node handling to simplify error paths
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 27 Aug 2024 03:57:06 -0600
-Yangtao Li <frank.li@vivo.com> wrote:
+Hi Krzysztof,
 
-> Convert devm_clk_get(), clk_prepare_enable() to a single
-> call to devm_clk_get_enabled(), as this is exactly
-> what this function does.
-> 
-> Signed-off-by: Yangtao Li <frank.li@vivo.com>
-> Reviewed-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+On Tue, Aug 27, 2024 at 11:39=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> On 27/08/2024 11:33, Krzysztof Kozlowski wrote:
+> > On 27/08/2024 09:48, Geert Uytterhoeven wrote:
+> >> On Fri, Aug 23, 2024 at 2:51=E2=80=AFPM Krzysztof Kozlowski
+> >> <krzysztof.kozlowski@linaro.org> wrote:
+> >>> Obtain the device node reference with scoped/cleanup.h to reduce erro=
+r
+> >>> handling and make the code a bit simpler.
+> >>>
+> >>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> >>
+> >> Thanks for your patch!
+> >>
+> >>> --- a/drivers/pmdomain/renesas/rcar-gen4-sysc.c
+> >>> +++ b/drivers/pmdomain/renesas/rcar-gen4-sysc.c
+> >>> @@ -303,12 +304,12 @@ static int __init rcar_gen4_sysc_pd_init(void)
+> >>>         const struct rcar_gen4_sysc_info *info;
+> >>>         const struct of_device_id *match;
+> >>>         struct rcar_gen4_pm_domains *domains;
+> >>> -       struct device_node *np;
+> >>>         void __iomem *base;
+> >>>         unsigned int i;
+> >>>         int error;
+> >>>
+> >>> -       np =3D of_find_matching_node_and_match(NULL, rcar_gen4_sysc_m=
+atches, &match);
+> >>> +       struct device_node *np __free(device_node) =3D
+> >>> +               of_find_matching_node_and_match(NULL, rcar_gen4_sysc_=
+matches, &match);
+> >>
+> >> This breaks the declarations/blank-line/code structure, so please move
+> >> this up.
+> >
+> > What do you mean "declaration structure"? That's the way how variables
 
-I don't like the mixing of devm and non devm here.
-Maybe better to use a devm_add_action_or_reset()
-for geth_cleanup_freeq() as well.
+First a block with declarations, then a blank line, followed by the actual =
+code
+(yeah, the pre-C99 style ;-)
 
+> > with constructors are expected to be declared - within the code.
 
-> ---
-> v3:
-> -move the local clock variables, keep lines longest to shortest
-> 
->  drivers/net/ethernet/cortina/gemini.c | 25 ++++++++-----------------
->  1 file changed, 8 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/cortina/gemini.c b/drivers/net/ethernet/cortina/gemini.c
-> index 73e1c71c5092..5c86987c6fdf 100644
-> --- a/drivers/net/ethernet/cortina/gemini.c
-> +++ b/drivers/net/ethernet/cortina/gemini.c
-> @@ -109,7 +109,6 @@ struct gemini_ethernet_port {
->  	struct device *dev;
->  	void __iomem *dma_base;
->  	void __iomem *gmac_base;
-> -	struct clk *pclk;
->  	struct reset_control *reset;
->  	int irq;
->  	__le32 mac_addr[3];
-> @@ -2326,7 +2325,6 @@ static void gemini_port_remove(struct gemini_ethernet_port *port)
->  		phy_disconnect(port->netdev->phydev);
->  		unregister_netdev(port->netdev);
->  	}
-> -	clk_disable_unprepare(port->pclk);
->  	geth_cleanup_freeq(port->geth);
->  }
->  
-> @@ -2401,6 +2399,7 @@ static int gemini_ethernet_port_probe(struct platform_device *pdev)
->  	struct gemini_ethernet *geth;
->  	struct net_device *netdev;
->  	struct device *parent;
-> +	struct clk *pclk;
->  	u8 mac[ETH_ALEN];
->  	unsigned int id;
->  	int irq;
-> @@ -2453,14 +2452,11 @@ static int gemini_ethernet_port_probe(struct platform_device *pdev)
->  	port->irq = irq;
->  
->  	/* Clock the port */
-> -	port->pclk = devm_clk_get(dev, "PCLK");
-> -	if (IS_ERR(port->pclk)) {
-> +	pclk = devm_clk_get_enabled(dev, "PCLK");
-> +	if (IS_ERR(pclk)) {
->  		dev_err(dev, "no PCLK\n");
-> -		return PTR_ERR(port->pclk);
-> +		return PTR_ERR(pclk);
->  	}
-> -	ret = clk_prepare_enable(port->pclk);
-> -	if (ret)
-> -		return ret;
->  
->  	/* Maybe there is a nice ethernet address we should use */
->  	gemini_port_save_mac_addr(port);
-> @@ -2469,8 +2465,7 @@ static int gemini_ethernet_port_probe(struct platform_device *pdev)
->  	port->reset = devm_reset_control_get_exclusive(dev, NULL);
->  	if (IS_ERR(port->reset)) {
->  		dev_err(dev, "no reset\n");
-> -		ret = PTR_ERR(port->reset);
-> -		goto unprepare;
-> +		return PTR_ERR(port->reset);
->  	}
->  	reset_control_reset(port->reset);
->  	usleep_range(100, 500);
-> @@ -2532,24 +2527,20 @@ static int gemini_ethernet_port_probe(struct platform_device *pdev)
->  					port_names[port->id],
->  					port);
->  	if (ret)
-> -		goto unprepare;
-> +		return ret;
->  
->  	ret = gmac_setup_phy(netdev);
->  	if (ret) {
->  		netdev_err(netdev,
->  			   "PHY init failed\n");
-> -		goto unprepare;
-> +		return ret;
->  	}
->  
->  	ret = register_netdev(netdev);
->  	if (ret)
-> -		goto unprepare;
-> +		return ret;
->  
->  	return 0;
-> -
-> -unprepare:
-> -	clk_disable_unprepare(port->pclk);
-> -	return ret;
->  }
->  
->  static void gemini_ethernet_port_remove(struct platform_device *pdev)
+When it matters.
 
+> Continuing thoughts, so you prefer:
+>
+>         struct rcar_gen4_pm_domains *domains;
+>         void __iomem *base;
+>         struct device_node *np __free(device_node) =3D
+>                 of_find_matching_node_and_match(NULL, rcar_gen4_sysc_matc=
+hes, &match);
+>
+> (assuming I will put it at the end of declarations).
+>
+> Are you sure this is more readable? It's really long line so it
+> obfuscates a bit the declarations. The point of the scoped assignment is =
+that
+> you declare it at point of need/first use.
+
+You're missing reverse Christmas tree order...
+
+> >> If you insist on keeping assignment to and validation of np together,
+> >> the line should be split in declaration and assignment.
+> >
+> > No, that would be inconsistent with cleanup/constructor coding style.
+> > Maybe this is something new, so let me bring previous discussions:
+
+[...]
+
+> > and finally it will reach documentation (although it focuses on
+
+Oh, "finally" as in not yet upstream ;-)
+
+> > unwinding process to be specific - "When the unwind order ..."):
+> > https://lore.kernel.org/all/171175585714.2192972.12661675876300167762.s=
+tgit@dwillia2-xfh.jf.intel.com/
+
+"When the unwind order matters..."
+
+So it's perfectly fine to have:
+
+    static int __init rcar_gen4_sysc_pd_init(void)
+    {
+            struct device_node *np __free(device_node) =3D NULL;
+            struct rcar_gen4_pm_domains *domains;
+            const struct rcar_gen4_sysc_info *info;
+            const struct of_device_id *match;
+            void __iomem *base;
+            unsigned int i;
+            int error;
+
+            np =3D of_find_matching_node_and_match(NULL,
+rcar_gen4_sysc_matches, &match);
+            if (!np)
+                    return -ENODEV;
+
+            ...
+    }
+
+But my first suggestion:
+
+    static int __init rcar_gen4_sysc_pd_init(void)
+    {
+            struct device_node *np __free(device_node) =3D
+                    of_find_matching_node_and_match(NULL,
+rcar_gen4_sysc_matches, &match);
+            struct rcar_gen4_pm_domains *domains;
+            const struct rcar_gen4_sysc_info *info;
+            const struct of_device_id *match;
+            void __iomem *base;
+            unsigned int i;
+            int error;
+
+            if (!np)
+                    return -ENODEV;
+
+            ...
+    }
+
+is safer w.r.t. to future modification.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
