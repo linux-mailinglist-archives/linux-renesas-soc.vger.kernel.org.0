@@ -1,230 +1,148 @@
-Return-Path: <linux-renesas-soc+bounces-8367-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8368-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E3F960A86
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 14:34:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71F78960AE1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 14:47:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 346371C22CAB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 12:34:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A0DF41C22465
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 12:47:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D07D1C4606;
-	Tue, 27 Aug 2024 12:32:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A118B19CCE7;
+	Tue, 27 Aug 2024 12:47:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="IcQnMc08"
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="zOLpZSv0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4FA1C3F2E
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Aug 2024 12:32:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B61019F49A
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Aug 2024 12:47:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724761977; cv=none; b=M4O6hGmT3TLnbaX1ppfAZdkieHmqAVByFslimwVxohAmtKoV2x+dZpkpFMA8LwaaUpVGfHB1RqAWwWptH5fVgLpBD3nm+D9YGrfUOLC258brdqHCAJXzaeBexoqRWjUu5d4HBemz570LLYkp1/N9VFtryKo/0+D72CZEBY+nN0Y=
+	t=1724762834; cv=none; b=tzwCH4A25149FkKXcK4nA2Vdoqltdie/oORBjk3e9JONEBkN5u6F7fVc91SM4Gtv7Qa4lRBk8xFPXgH4K9SfCsVPLYELgs+Vt31720WBTPMlpOt7rlhwHdDT8jXVUYD0WfraRsVqSzNOBbdZDl1ys190OjQvMHhzBZnTnyHVLUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724761977; c=relaxed/simple;
-	bh=LiQo0dIQMk7M3bHa0opvBkYq4ByVUwoYrG6oVZ/Bk8c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IMvYqc3XmmLF3F5hGJPrWtp0M+ptxVZqWkZrLZVfElyCgJipoF4sD2gAkmLXm1d+yoq2fS9y8YLQgAANawyNNqKgSgkhFZTus+puajppJfqey5uxU1u2MWN3mac9fiw8o590dzlb7+oT9Retan3Pk7eBokp6ZmK1I/Vo5cQomfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=IcQnMc08; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5bf006f37daso1565677a12.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Aug 2024 05:32:54 -0700 (PDT)
+	s=arc-20240116; t=1724762834; c=relaxed/simple;
+	bh=DpuQWR43Mhoh38j+n3GK+VovOfQ9BJdvONA4ul2XIgQ=;
+	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=pm3SodZkpp4ymxqPV15afL0vovG/v5l9HpwApf9Bhy0E2dE1jMJOKxL+J8aJ0EtF/a5zRzfSSG4bk9DxKEcEomASn20ggzf0CZNe4H8uprGkUTEvONzE4mnQWvyRKJ4H7KGO5t1u8GWPutqXYX6k42mGf6A1nJpQ429RcWUTfRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=zOLpZSv0; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2d3e46ba5bcso3957403a91.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Aug 2024 05:47:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1724761973; x=1725366773; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=y+8zmpgoxrDLbCqZtH6gEBqxTqDF5Ns65h0U7300PsM=;
-        b=IcQnMc08NA3XNXX2i1hA2fZN/ycQMaXttC83gkKvAH8jl7+IntgUnWXapNyr0eXSVK
-         8WYE9bOxTtKcNmevPz5VZ/BCkyrKD1KFVsqoCHUZvyvJx2lb47D3mmPIJUi6EKafLlTJ
-         N+aY97sZk9eBvfHpkLLxMUuSxGraBtIB+mV20stiXY2Jj7iMrl0vV/v7njcgEWz6qTkO
-         sSPoC6Emds7gMuyKkoPUb74oEAx8GfIId48v+ophxkSvZIp5HO+E8heOhC7YV738JC/m
-         VVOxyX39DudwvkoGJMO/ACdUnhYBDdXR8cD1Wd297T4VI6gg81ONmQ55onyFeud0C9/d
-         XJ7Q==
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1724762832; x=1725367632; darn=vger.kernel.org;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=2pLFd/Y9N+4o2y5Um+59OxeaVMEVHT76CROh6h2ITks=;
+        b=zOLpZSv0ZTGV3ZvdnFFuA5d5kSwANvx8thD0kjXTT6uofGxa+19imyN6UJ6h50QmgJ
+         3bqtAWjzF3YqktYSCMvGRjeSl8wUT7KwB3q/19qMfrGhEHUknubOdpqKxV/Kdmm848m4
+         WqFF9IxL1TmyTAi4+Fjw0Zp+lw1THffm2+6cOsE/5arzC0L1n6+Lo0vOlW19B3EbPTTQ
+         PZ+YSQsuyzocLTB077WRV2WNesobyorHCGarLLpUCfIVhuylOrXACtYEA3AQdHAyFfoP
+         hgSFST7liDDZzDYFQeCCKu8np6T8N/kPq+fdAtIYBzHOu6zMWlRxEwBtBzfJVaK2WUoY
+         bvow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724761973; x=1725366773;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=y+8zmpgoxrDLbCqZtH6gEBqxTqDF5Ns65h0U7300PsM=;
-        b=w8eZBA7PK0OaFeHjrwxvKgbPbHM0+6PrwfsVLW/b9tsEZDBeSMWrqBbCpy2co2Qb63
-         B+eRvC76AkyyPWX6jLbRJ4ORYktZWo3b7KGbXcC+lsK+pJWCxW6UyPYLbf+bA3tdyHHP
-         Mwcn1WvWT6OoYYP7OHsQ4hJwo2w436lb4+SqV2UJiHureQZ5WduorXr/f2pKe9iM1q99
-         rLYZ9HmBilX2GM8LSix4YDf6aDVFeB/ydyJYJzpA6JHlRgm378+S8/rCcaJzVXqLLWp7
-         qxlVjwGpnEQLiGHZcSqh4MKDJhufDW6cc/j6ofXo88TjkUHTJtl95vPBlrGrwdjF3p4a
-         EStg==
-X-Gm-Message-State: AOJu0Yy3XPlzDhfbbJ5d0H374S3lyzhW6gQ+JHAZPNQn6QTM9KXTdP+M
-	edJJiHV5NqwiXzPrhEFUndNXb5720JGD0WxtXNtOmM9IQD6Y6rl8AsNDrVxTU5E=
-X-Google-Smtp-Source: AGHT+IF0YQF/+Km2Nk6dAVkx3nFNSFyP0k8EfYjfWpB5kX5bCXbFaKsLnQfAOxMeQ48X0I85aPkxKg==
-X-Received: by 2002:a05:6402:2683:b0:5c0:c6a7:1c58 with SMTP id 4fb4d7f45d1cf-5c0c6a71cafmr729455a12.15.1724761972930;
-        Tue, 27 Aug 2024 05:32:52 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.144])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c0bb481fb8sm961543a12.87.2024.08.27.05.32.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Aug 2024 05:32:52 -0700 (PDT)
-Message-ID: <4823173e-b024-482f-83a3-560c7abd888c@tuxon.dev>
-Date: Tue, 27 Aug 2024 15:32:50 +0300
+        d=1e100.net; s=20230601; t=1724762832; x=1725367632;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2pLFd/Y9N+4o2y5Um+59OxeaVMEVHT76CROh6h2ITks=;
+        b=nd428s5dFCw5Y9Jk5b/dT0uPVMc6NLADahu0rXnKmQJacZdBnJoeTOo1kHS3w2HYe2
+         2kyEYemJ7Ja9ymMzM4savvdM8WjJg4Eh005yfo/3ZewDd+CajhDYco8MEZqv4g5D3pAW
+         +FQXD8RRYrUow1H0E3E8s1HeLCVJoo8JbU8SpConc+C/8VSQi601m8xADusf2D0paa+Y
+         eXggO205fXDpaJLzuAlZPeFYEl+4kBqMX3rBFyHrBYr53VRlTc4S0dHgRy6yFuK+44aR
+         0yxjv6qOy/qI2j/xmOvVI/hPd0DMRpuMt2sozO22n09h+O0eRyZKGSRiGrdXEXd50ArF
+         8pvA==
+X-Gm-Message-State: AOJu0YwIYN/2RsTb5xpZpvYOj5li0jUWlPGJBhrFsyq+A/Yzoinyva4S
+	tsmtd15qnpUOdueeOfC6IyRSug6cZlJ96T8n9jVydCatQwwtnRPRjGZltO17xNzLd/9iXbesQEr
+	kip8=
+X-Google-Smtp-Source: AGHT+IGHD8UnTfcaJYovIxP1IjoL4pRWN+LoAxaBhdssZemgXCuQfRvmKj8cmImhql+9edwvXUwfVg==
+X-Received: by 2002:a17:90b:350c:b0:2cb:4e14:fd5d with SMTP id 98e67ed59e1d1-2d82580b791mr2731348a91.17.1724762831515;
+        Tue, 27 Aug 2024 05:47:11 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d613a3f2dfsm12033244a91.27.2024.08.27.05.47.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Aug 2024 05:47:10 -0700 (PDT)
+Message-ID: <66cdcace.170a0220.3255c1.cd1c@mx.google.com>
+Date: Tue, 27 Aug 2024 05:47:10 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] watchdog: rzg2l_wdt: Power on the watchdog domain in
- the restart handler
-To: Biju Das <biju.das.jz@bp.renesas.com>,
- "geert+renesas@glider.be" <geert+renesas@glider.be>,
- "mturquette@baylibre.com" <mturquette@baylibre.com>,
- "sboyd@kernel.org" <sboyd@kernel.org>,
- "wim@linux-watchdog.org" <wim@linux-watchdog.org>,
- "linux@roeck-us.net" <linux@roeck-us.net>,
- "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>
-Cc: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
- "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240826152529.2080248-1-claudiu.beznea.uj@bp.renesas.com>
- <20240826152529.2080248-4-claudiu.beznea.uj@bp.renesas.com>
- <TY3PR01MB11346A223DA7462799B9D103786942@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <TY3PR01MB11346A223DA7462799B9D103786942@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: test
+X-Kernelci-Kernel: renesas-devel-2024-08-26-v6.11-rc5
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+Subject: renesas/master baseline-nfs: 7 runs,
+ 1 regressions (renesas-devel-2024-08-26-v6.11-rc5)
+To: linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Hi, Biju,
+renesas/master baseline-nfs: 7 runs, 1 regressions (renesas-devel-2024-08-2=
+6-v6.11-rc5)
 
-On 27.08.2024 15:15, Biju Das wrote:
-> Hi Claudiu,
-> 
-> Thanks for the feedback.
-> 
->> -----Original Message-----
->> From: Claudiu <claudiu.beznea@tuxon.dev>
->> Sent: Monday, August 26, 2024 4:25 PM
->> Subject: [PATCH 3/3] watchdog: rzg2l_wdt: Power on the watchdog domain in the restart handler
->>
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> On RZ/G3S the watchdog can be part of a software-controlled PM domain. In this case, the watchdog
->> device need to be powered on in struct watchdog_ops::restart API. This can be done though
->> pm_runtime_resume_and_get() API if the watchdog PM domain and watchdog device are marked as IRQ safe.
->> We mark the watchdog PM domain as IRQ safe with GENPD_FLAG_IRQ_SAFE when the watchdog PM domain is
->> registered and the watchdog device though pm_runtime_irq_safe().
->>
->> Before commit e4cf89596c1f ("watchdog: rzg2l_wdt: Fix 'BUG: Invalid wait
->> context'") pm_runtime_get_sync() was used in watchdog restart handler (which is similar to
->> pm_runtime_resume_and_get() except the later one handles the runtime resume errors).
->>
->> Commit e4cf89596c1f ("watchdog: rzg2l_wdt: Fix 'BUG: Invalid wait
->> context'") dropped the pm_runtime_get_sync() and replaced it with
->> clk_prepare_enable() to avoid invalid wait context due to genpd_lock() in genpd_runtime_resume() being
->> called from atomic context. But
->> clk_prepare_enable() doesn't fit for this either (as reported by Ulf Hansson) as clk_prepare() can
->> also sleep (it just not throw invalid wait context warning as it is not written for this).
->>
->> Because the watchdog device is marked now as IRQ safe (though this patch) the
->> irq_safe_dev_in_sleep_domain() call from genpd_runtime_resume() returns
->> 1 for devices not registering an IRQ safe PM domain for watchdog (as the watchdog device is IRQ safe,
->> PM domain is not and watchdog PM domain is always-on), this being the case of RZ/G2 devices that uses
-> 
-> RZ/G2L alike devices or be specific RZ/{G2L,G2LC,G2UL,V2L} as it is not applicable for
-> RZ/G2{H,M,N,E}devices.
+Regressions Summary
+-------------------
 
-OK, but I said "RZ/G2 devices that uses this driver". Here are included
-RZ/{G2L,G2LC,G2UL,V2L} AFAICT.
+platform         | arch | lab     | compiler | defconfig          | regress=
+ions
+-----------------+------+---------+----------+--------------------+--------=
+----
+beaglebone-black | arm  | lab-cip | gcc-12   | multi_v7_defconfig | 1      =
+    =
 
-> 
-> 
->> this driver, we can now drop also the clk_prepare_enable() calls in restart handler and rely on
->> pm_runtime_resume_and_get().
->>
->> Thus, drop clk_prepare_enable() and use pm_runtime_resume_and_get() in watchdog restart handler.
-> 
-> Can this patch be fix for Commit e4cf89596c1f ("watchdog: rzg2l_wdt: Fix 'BUG: Invalid wait
->> context'") on RZ/{G2L,G2LC,G2UL,V2L} SoC??
 
-Not sure... I thought about it, too. I chose to have it like this thinking
-that:
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2024-08-26-v6.11-rc5/plan/baseline-nfs/
 
-1/ that may not apply cleanly as it depends on other cleanups done on this
-   driver, e.g. commit d8997ed79ed7 ("watchdog: rzg2l_wdt: Rely on the
-   reset driver for doing proper reset") so it may be worthless for
-   backport machinery
-2/ There is actually no seen bug reported by lockdep (as the clk_prepare()
-   doesn't handle it)
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2024-08-26-v6.11-rc5
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      4c0157fcf00f49c74c677252100ceb2c476d1519 =
 
-Don't know, I can reply here and add it. Applying this patch with b4 will
-take care of it. But not sure about it.
 
-Thank you,
-Claudiu Beznea
 
-> 
-> Cheers,
-> Biju
-> 
->>
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->> ---
->>  drivers/watchdog/rzg2l_wdt.c | 21 +++++++++++++++++++--
->>  1 file changed, 19 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/watchdog/rzg2l_wdt.c b/drivers/watchdog/rzg2l_wdt.c index
->> 2a35f890a288..e9e0408c96f7 100644
->> --- a/drivers/watchdog/rzg2l_wdt.c
->> +++ b/drivers/watchdog/rzg2l_wdt.c
->> @@ -12,6 +12,7 @@
->>  #include <linux/module.h>
->>  #include <linux/of.h>
->>  #include <linux/platform_device.h>
->> +#include <linux/pm_domain.h>
->>  #include <linux/pm_runtime.h>
->>  #include <linux/reset.h>
->>  #include <linux/units.h>
->> @@ -166,8 +167,23 @@ static int rzg2l_wdt_restart(struct watchdog_device *wdev,
->>  	struct rzg2l_wdt_priv *priv = watchdog_get_drvdata(wdev);
->>  	int ret;
->>
->> -	clk_prepare_enable(priv->pclk);
->> -	clk_prepare_enable(priv->osc_clk);
->> +	/*
->> +	 * In case of RZ/G3S the watchdog device may be part of an IRQ safe power
->> +	 * domain that is currently powered off. In this case we need to power
->> +	 * it on before accessing registers. Along with this the clocks will be
->> +	 * enabled. We don't undo the pm_runtime_resume_and_get() as the device
->> +	 * need to be on for the reboot to happen.
->> +	 *
->> +	 * For the rest of RZ/G2 devices (and for RZ/G3S with old device trees
->> +	 * where PM domains are registered like on RZ/G2 devices) it is safe
->> +	 * to call pm_runtime_resume_and_get() as the
->> +	 * irq_safe_dev_in_sleep_domain() call in genpd_runtime_resume()
->> +	 * returns non zero value and the genpd_lock() is avoided, thus, there
->> +	 * will be no invalid wait context reported by lockdep.
->> +	 */
->> +	ret = pm_runtime_resume_and_get(wdev->parent);
->> +	if (ret)
->> +		return ret;
->>
->>  	if (priv->devtype == WDT_RZG2L) {
->>  		ret = reset_control_deassert(priv->rstc);
->> @@ -275,6 +291,7 @@ static int rzg2l_wdt_probe(struct platform_device *pdev)
->>
->>  	priv->devtype = (uintptr_t)of_device_get_match_data(dev);
->>
->> +	pm_runtime_irq_safe(&pdev->dev);
->>  	pm_runtime_enable(&pdev->dev);
->>
->>  	priv->wdev.info = &rzg2l_wdt_ident;
->> --
->> 2.39.2
->>
-> 
+Test Regressions
+---------------- =
+
+
+
+platform         | arch | lab     | compiler | defconfig          | regress=
+ions
+-----------------+------+---------+----------+--------------------+--------=
+----
+beaglebone-black | arm  | lab-cip | gcc-12   | multi_v7_defconfig | 1      =
+    =
+
+
+  Details:     https://kernelci.org/test/plan/id/66cd9965d66a4a6e21c86993
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-12 (arm-linux-gnueabihf-gcc (Debian 12.2.0-14) 12.2.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+024-08-26-v6.11-rc5/arm/multi_v7_defconfig/gcc-12/lab-cip/baseline-nfs-beag=
+lebone-black.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+024-08-26-v6.11-rc5/arm/multi_v7_defconfig/gcc-12/lab-cip/baseline-nfs-beag=
+lebone-black.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm/20=
+240313.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/66cd9965d66a4a6e2=
+1c86994
+        new failure (last pass: renesas-devel-2024-08-20-v6.11-rc4) =
+
+ =20
 
