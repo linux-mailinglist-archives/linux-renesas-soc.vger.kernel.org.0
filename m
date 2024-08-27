@@ -1,74 +1,85 @@
-Return-Path: <linux-renesas-soc+bounces-8396-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8397-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E60069616D1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 20:21:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37C4F9618E7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 23:00:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 24B421C22497
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 18:21:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AE1F31F23C9C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 21:00:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29CAC1D04A0;
-	Tue, 27 Aug 2024 18:21:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17F8B1D2F5C;
+	Tue, 27 Aug 2024 21:00:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Qkk/E5Bh"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="pyCuVy1r"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 733491C57A5
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Aug 2024 18:21:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724782894; cv=none; b=STht7938oqFH89PwQdL1x4DEqYsNOnEtzepfQUH6T9FkPB+wSl7smXCPA/wJvPvhhMhDVtwnO5nQWbo68k+cVD/DisFLGG/xcYYLxWG0eQfPgpvf4APXeRyK/mE05XPQ0yzgc3kphRaLiv05M1gt5oTnUpBfVjL98rWZiUKBVUw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724782894; c=relaxed/simple;
-	bh=MpceHBZuHH3o2CueqUk5GDOo7VtJrr197q01MLuthFA=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05451197A7E;
+	Tue, 27 Aug 2024 21:00:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724792415; cv=pass; b=T2F1lAqJQB3OaJW1lIaf81ViYE2Zv3w61mtNivjW2xMniiL0rU5e/sFLBDqFF8dcwfIrsM+rNDek0MqtUStrOiSHKhqS4xZ/wp6WY2TXwHvixWAN/6QKx/pHKja09EMZa9E9Qlgx6MC05MeLrKkCAMzPns+nNXzmRk+vSfZMLNQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724792415; c=relaxed/simple;
+	bh=3tmDa+ApxpjRgL2H90px7hBugPgj5TyRTNHhII8BCbo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GkB5FhGwSA+legwEhuaQ+IVRoZb0UsaUxS/YwXZli7Lt7MCOKwXCzHOtKktJWimrUqLD2fKdxJIdBN+qmu+JftW1ufNz51BIZ4KZKDphsH8O+bMhUCjjySpypYoIBNP2DdPiabvX5DWjxheDVGCMJjM9BY8OovenRizXx6oUgEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Qkk/E5Bh; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4280ca0791bso52510105e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Aug 2024 11:21:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724782891; x=1725387691; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=kqdvqJEmzWDPrKZyiAdNz0J2ROp2OO31etrcR1BLAWs=;
-        b=Qkk/E5BhNTbRLvBwbNC0azY9GNZg/1WDwXdZRF+ItgxohfucYoEN/nKaFSd/tSbOzT
-         zJirMTA/wDgFIEmwg8q9JXSpbFnYDNikwrwD1cOcoUsSomSXH/l1vzcLIytNmfPwI8Ky
-         uR/QFS2+PGEgBSqD89DcR5asbM1HweLbLrgeeizyOlZil8OQI1KYaC6HfhGgOadXtxJM
-         Jvm4slbi+628DresDQ+d+4mS8Ee5Mi2iuwNHMVbua0VAr6luJqxg6OR1xKWAFYvVAqSb
-         mndE1zBfRP3XK2hmPHF6bFXnKt0zMXCb7NaD7DhZR5ClRrKDJBv09orSmxOXHhMSARzp
-         apKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724782891; x=1725387691;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kqdvqJEmzWDPrKZyiAdNz0J2ROp2OO31etrcR1BLAWs=;
-        b=N33xqs27UJKBf8X4WkeL+mXbi7DuIVIlxi5DGEJXM5uuckuJgWivNPDM63wJVID3+r
-         L5vluYViy6fjv2JwNF9HayOsrOCkLsIWg680Xr272+pGQCLRrIdwsEF88n+yFndaAi8L
-         wzgciGJwkcmjdhJZV6Qp9j1bPlmnTTTDMRVau1eILY7GHlBPLaloEOPD33WXDPqMKYdu
-         t1LxgJlU4yTB4M1i+0HL5VDzYKUzs/RuBIjzGvz0il4runtdX4/suwG0mpXh9WaB5uGC
-         Oscv6vRFYVMf7m8/v13Vf7ivvzTrJqFTdUnMF/aQvDTFALKl1X7JfARyx/wKw0K5c+2E
-         hI0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVuDFHvak5fETORMTWdx3yqtzBcvORQc2ACPeqtFUHwzz4cPQW7jqDFc8DdAEaG0O7myZ+b/5IHSo8qWR06v42oWw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyqvVtZ4fibaeFZgPmU2Kk1UGo3+ND6NuqxGYRIR30NBV+eH0lC
-	HwskUzc9qT63Pxb2Ox7ywFDo3SrVuQt7apmgewgNkpv5RyFa1pK6R8opfygEBPA=
-X-Google-Smtp-Source: AGHT+IEn/urW2WYXErg3s6zWyW9m2P6dJY1Stz7H7aazJRw4zjfpDd/WN9qJrYv1mjZWFicmilsI7Q==
-X-Received: by 2002:a05:600c:45d1:b0:429:e637:959e with SMTP id 5b1f17b1804b1-42b9add4764mr27914815e9.10.1724782890655;
-        Tue, 27 Aug 2024 11:21:30 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ac5180106sm198559695e9.41.2024.08.27.11.21.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Aug 2024 11:21:29 -0700 (PDT)
-Date: Tue, 27 Aug 2024 21:21:25 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=FOup29OeyuBAfVRvMK7QnWiMnzil8G+zWHjTX4MU0GYEeuQBRBU3GtW+IZ/H6ctIPmzFB1sscbWXv+M5HqdbUAqGDr3JKQVayoCpIACD/WIg7i7zjupOycSphlhS7OdPd/rvV8AQb5WDCAhWk2Y9UFO17MFyxdwtpZRKHn4UGjY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=pyCuVy1r; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Wtg0n4YMnz49Q02;
+	Wed, 28 Aug 2024 00:00:09 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1724792410;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GfbL8MyofjzCdyK16tjATQ9HNfwXNF25derEKHzcUuQ=;
+	b=pyCuVy1rJH8XxzUpXSN4mtcajlztgB+66nhrYUM4PblAxTkxyvchBopdiA+MnRoK9Nivpq
+	Yk7VQHx5xYf0YMjB9Nf6ng46o/32f65FCQ87Nu0tvjsTe1u9NTLzrPC+u/GmXoHHo1sR4Y
+	sg5UTiOGdpsUp2QLJ8dyUX85yCQGD+UasXQmLgvB1w9kEAiTzy0LP4Ly0FAyjqRmMfo8i5
+	xqqbqxJXpjLWrzyGr7AgoFq+qmwAizhUhsA2tM8AkGgH1HC0syR7el+IdSeqqHnInW23uH
+	ALMc+rR7yBjzR9WxOGVd+pATzFzgyXC0F8BU0T4jJyO94CCrwBteBSpUcMimeA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1724792410;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GfbL8MyofjzCdyK16tjATQ9HNfwXNF25derEKHzcUuQ=;
+	b=CndQjWSLQXTZn+GA+GaEcKyWPNUVz4yIpZcZyPXrh6w/kOnl+NA8d5A1xT5vJE0fTdkfgb
+	OglOcknhKYOWkMB+rVB3WEcWxWjeRdolI8L0rni6TgkV8OZo0HrMJBfhwNwPOjbdqFQBkj
+	2TtDgnje/k1+QBRkBSh5VPUMMNTWiSyqah5eVxrOcGeJLu3uHaiZoB0RdCtNKi1qdJjnmb
+	SevNGfBGdB5Pgwlu8Oij7VyB41gCfU2ehiRaoXdGcPCJZt1nRJQ0JLIGalt2EZ9XE/y23Q
+	yc2FfLob1vDK4O2Q1zsC/jIFe80dnQJ5vmx8adXkCpTDQ1sUIKOYmkdVXF/oZQ==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1724792410; a=rsa-sha256;
+	cv=none;
+	b=CS2W89WRcs2QI0ZVh5pyVP+HRJ7qnBK4SyDQj/OQBKs5dkR0TZ3Lfeh8AJ6/U8BGwC39GZ
+	rWrK0J9VqvhW8sAXu3/aTZZZFzf5SzL/80Jit4IEqzmukEeFOU3drPyJolzIoBfLe9H8s4
+	fJ6BjwVnEFPANs01gxsNZxnOUmwlNv2Aa2In/cS8X5U66PigaRKnaRIO5a8N6Ee7TLty7O
+	l8ucUofp7s/yeQBWD00XfUAioEjyp3lWtpAiJgUDoj3SKegVU9PDgk7lcqGL3x1KNYRFte
+	sTsx+EQkKEFYIaicaL3jGs3WznjMXBqpWGlfKsbNA64rrmVehFh6TjBVyrU68g==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id C4D4E634C93;
+	Wed, 28 Aug 2024 00:00:08 +0300 (EEST)
+Date: Tue, 27 Aug 2024 21:00:08 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
 To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh@kernel.org>,
@@ -78,9 +89,11 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-renesas-soc@vger.kernel.org
 Subject: Re: [PATCH v2 2/2] media: staging: max96712: Add support for MAX96724
-Message-ID: <44676cc2-a9e0-45b9-b08b-5280e8aa7a06@stanley.mountain>
+Message-ID: <Zs4-WGZYt_QjgeXE@valkosipuli.retiisi.eu>
 References: <20240827131841.629920-1-niklas.soderlund+renesas@ragnatech.se>
  <20240827131841.629920-3-niklas.soderlund+renesas@ragnatech.se>
+ <Zs3Vey0NEdGJAyTE@valkosipuli.retiisi.eu>
+ <20240827175735.GH2636928@fsdn.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -90,39 +103,35 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240827131841.629920-3-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20240827175735.GH2636928@fsdn.se>
 
-On Tue, Aug 27, 2024 at 03:18:41PM +0200, Niklas Söderlund wrote:
-> @@ -181,7 +186,8 @@ static void max96712_pattern_enable(struct max96712_priv *priv, bool enable)
->  	}
->  
->  	/* PCLK 75MHz. */
-> -	max96712_write(priv, 0x0009, 0x01);
-> +	if (!priv->max96724)
-> +		max96712_write(priv, 0x0009, 0x01);
->  
+Hejssan!
 
-I don't like this either.  The comment should move.  I didn't see the ! the
-first couple times I read this.  I don't like the MAX96712_ID and
-MAX96724_ID defines because when humans read they only see the general shape of
-the words.
+On Tue, Aug 27, 2024 at 07:57:35PM +0200, Niklas Söderlund wrote:
+> Hej Sakari,
+> 
+> Tack för feedback.
 
-https://www.dictionary.com/e/typoglycemia/
-https://en.wikipedia.org/wiki/Hamming_distance
+Var så god!
 
-I guess the best we can do is remove the _ID so at least the last characters are
-different.
+> > > @@ -181,7 +186,8 @@ static void max96712_pattern_enable(struct max96712_priv *priv, bool enable)
+> > >  	}
+> > >  
+> > >  	/* PCLK 75MHz. */
+> > > -	max96712_write(priv, 0x0009, 0x01);
+> > > +	if (!priv->max96724)
+> > > +		max96712_write(priv, 0x0009, 0x01);
+> > 
+> > It'd be nice to have a macro for this, espeically now that the driver
+> > supports more than one chip.
+> 
+> What do you mean by macro? To test for priv->max96724, a define for the 
+> register name or something else?
 
-It should be something like:
+Ah, I meant 0x0009 and preferrably 0x01 as well.
 
-	if (priv->id == MAX96712) {
-		/* PCLK 75MHz. */
-		max96712_write(priv, 0x0009, 0x01);
-	}
+-- 
+Hälsningar,
 
-Or maybe put in function.
-
-regards,
-dan carpenter
-
+Sakari Ailus
 
