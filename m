@@ -1,75 +1,75 @@
-Return-Path: <linux-renesas-soc+bounces-8333-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8334-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D075D9605A9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 11:33:38 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC5D59605DF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 11:41:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 53F261F242A0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 09:33:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 05D88B23586
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 09:41:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3D9019AA46;
-	Tue, 27 Aug 2024 09:33:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A037119D88C;
+	Tue, 27 Aug 2024 09:39:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="v2NO6o1o"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YULUR8Yy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D82DF198E69
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Aug 2024 09:33:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8782C19CD08
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Aug 2024 09:39:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724751215; cv=none; b=W4P9cSYkgnsEo5WXJ6qNtL1UJGrjFEY0voVaCN6AmmK8jgrDt0es9tKsSqcKo8c+mkFLDC31LpaYVJtrenoMTPMJaourDwppzyEQK7+TF+sNtMx1AzC2APTsEjVW54mvEFQ9zMm8UuJcl0WqZ7PtIBt9vU8911zkixnOM06A7kA=
+	t=1724751576; cv=none; b=DqAtJqEh/sDS/0w+ydptVzM1vef9Qqr030AbDreJS0rNZCbOxvR98epkcqHE4OWSKcQu9qAO0X+cVYsdHB4X0uc/CP2X3Lp+P1w20r2rDmN1j/FTTQSkIAkBOWMopEHV0atM04Uo7cFuKwlIhqdlLYEE9O77b9XpndiGufslr+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724751215; c=relaxed/simple;
-	bh=EeA7qq3rsJ55dQOeLzkCx2GOeBOL2372aylz0/+ODo0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Jj3gscPI88E2m1ShLOgH2RCcYN+6IrYKllaPHXBGYYwWUvMFEGLXS6c/bxbViPAaur0P6MLaVdJfLGfCk3Q3GT0EY9qjdx+921h46GupQHCsGyF0HClFejkg951MJ3zvRYHVjeBGAfCcCm/Uswe3eRzCe211kQA9/dF5IbwJErc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=v2NO6o1o; arc=none smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1724751576; c=relaxed/simple;
+	bh=pd7vAXEynb0hQPnIaxUHQTA8QqnRpztQOlW6pMiXuWw=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=KmHwuuMjedb0vFL9b7vfcDO5HagxmNssDQO/qxjVNc58bK3qbgTZ4I6ZOlzZ+wZcDlgi3bqvVXjlZMAs0PiZg1ZfD4447TBK8+Qkgd1mvCkgyCXHivW2WUGfAc1itzJEmOpqEpiuDkPRCvrtWUDjmVTeLqnZ4+gDWEgsP+/k6JU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YULUR8Yy; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4290075c7e1so6693845e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Aug 2024 02:33:33 -0700 (PDT)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4290075c7e1so6702025e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Aug 2024 02:39:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724751212; x=1725356012; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1724751573; x=1725356373; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
+         :references:cc:to:from:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=xhCRE/Dt+PARny9PJYa/9C1D1jCS6Em1dPLj6ri+rj8=;
-        b=v2NO6o1o/UXs9oB1Hk13noVlNwopbn7cdLhRjBtvl7P7c5BeB0bkffBoAmlYcqfBAc
-         NBXzNHxRaKltRpU9ZbkT5nhy4gsEZA7Xi9V9s0aldqR1Cxiv1dg5gvj3YBbetwJLWKf0
-         szYO9UnMKspmkORZ7hcE14pBKa1UFbrPk8TUxSSAHsxzxg4ryJC5r10HE4oqmFG0tl/p
-         hpPr51sByvV5Q1N+5wV0txPKHpyH8m/hbZ8KdgGoQ7VpwRhFk9MP1hGqRDICqNpR50MH
-         yhV3mPMEN+SKcgj1uLMjMj/1ICAa+G4nyI2Gw1PbJaRY6T96H+/4nVcYljZQd0xiB8Os
-         Sbfg==
+        bh=9NA1hPLphJFkg55aBOeaWrnCS8TwQLe/FT77xsFVr/g=;
+        b=YULUR8Yy8y05bKM85RDC9NjuO/tDizuQBhNDgXTGBj9unuEQRmAR7Xc+GCytXqyAUE
+         OgwbXwB23fCuDq+N/VQwPYgRyt6/NsjfkAYSEBG2CdgajNGzNSUBR2UddLqFS2yM4lbN
+         MSBBNnaCPsjRihFuRAkxnWd+X61ebAMTRBBA94ZFmve5wAZ42nsj4JNmRCnQhIqXaYUC
+         5g1qyCeVqWaiZlsoBX+wtahWN91vVoAseFBORhK/DEXL+vrgyzLsXVia1Vb8+rwcljBp
+         wnlJ5qgRCPg0eN7Qs+Rv99ejiayPbht49Jrqf5HSTELIWF3hQaOcbfAcvq+mvv2c2+dg
+         KpaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724751212; x=1725356012;
+        d=1e100.net; s=20230601; t=1724751573; x=1725356373;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
+         :references:cc:to:from:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xhCRE/Dt+PARny9PJYa/9C1D1jCS6Em1dPLj6ri+rj8=;
-        b=AEqbWByRl3lU5EkPVJBbFLK2e+acqnlLroW/9OLz3u5myg+D2Mo/gUgvh1udqv7Wwa
-         O5QfoK445gGFcH3v4ykaCrgNv6J5M1AkWErPAZuhDzhodNvSFnFMqfLVmEYNSF/IEid4
-         fhrKyUEEdsULADFFIfPhps3HbYEqS1GkLa0SkNCo3SHmHwMsIR+9+zzAzDF6Nm3kWERn
-         pmpvyWSEm0mmRvlHuIge0dfes0d6tIKYZDMs/OJtqviwXqLfnf4/7h5nEDruJXHjYMCG
-         NQc0LrU7HzcepFoI16Ib8t7NXoSqqa09qQxhbUMdwPngBAYChC7l8g3wJNfQankDkpa4
-         ak5A==
-X-Forwarded-Encrypted: i=1; AJvYcCV+8tA56TXG09npU5+7VBlieLLK4JdOlqAS5LPQb5JYyaOufdJCFFIZTGsZNP3CDAPEsqdTiLHJ0YDl9MmwtMMUKw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzu7NE9QoSYnst2L5X5vvyQ30zebnBHROUV+LSBt0Ov9rXAxsiE
-	4S3DskvU4O6nq+/3Cb7lCXe8SwHEbvlW6FuMwspH3tMI6lgCdFE+HtPmm0SsSvA=
-X-Google-Smtp-Source: AGHT+IH63pkESvr8WAGG6Va2kOWPz/dYDrPxiymv32ZbAdx/cvZUiR85ioNyNii7YqJtjoTUp0YkxA==
-X-Received: by 2002:a05:600c:1391:b0:428:f1b4:3466 with SMTP id 5b1f17b1804b1-42acca00571mr54085815e9.3.1724751212175;
-        Tue, 27 Aug 2024 02:33:32 -0700 (PDT)
+        bh=9NA1hPLphJFkg55aBOeaWrnCS8TwQLe/FT77xsFVr/g=;
+        b=t4p8GEM/2wmBqfjpC3NBCfsGZydpgx6cgWOjDX7k8NVTkqrHR7OEnyrR2S+GzQybA0
+         2VKEMo+yde3msh3c19UcraNnzfNjlLkS/PbHATSSkGVbEKOgdm8dl8MxH8EP4aqq1+0B
+         hiAYwR6lHZsJqknodfjD2ArTouPcp7BpUGzSk0xV6zPz5jYhkgY+SQa6aAbrpYpN5BzW
+         Pjx7ufmL3002azv1K07j6deFqdYWbxLutBan+y8yawVHKypubBrH/EPvUR4dVLF7MjXS
+         B0cRCRgEMWw++My22gkXvXNWCl732Tkp1dAZJtja5DXFloD+RL13W84mggQ9o2VJgjh8
+         IusA==
+X-Forwarded-Encrypted: i=1; AJvYcCU3cZC1QXjFB2slXGMCbZ3XZCVXhdL8b8T0igPq/7LZ2ESltwj70I+/i9VrrCIDYFGSaLVyJE4moFH3/gnRwqapvQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxBiqzC/uOLwbclYYkaD+KFYIpwP8YgTG/8V9KXX8r6KjNEG3rK
+	XZRdJray/XtyMYUoCTWnAd1RjMTDBe2FMblZyGzcs7xbd7q2W0Wfk4nPnOsYLds=
+X-Google-Smtp-Source: AGHT+IEucEoPnsJ4jJ6ZUZu1I9QHe7Vec7KyXnEjRKdsR+FfHN00nz2DTyVEWDOUtU6KNSpcb2mu9A==
+X-Received: by 2002:a05:600c:3ca3:b0:426:6358:7c5d with SMTP id 5b1f17b1804b1-42acca0c1c8mr54322945e9.4.1724751572652;
+        Tue, 27 Aug 2024 02:39:32 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.222.82])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42abefc626fsm217777435e9.31.2024.08.27.02.33.30
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ac514e269sm182322605e9.2.2024.08.27.02.39.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Aug 2024 02:33:31 -0700 (PDT)
-Message-ID: <a48f1a0b-0e20-4782-bf6b-c430da9ae391@linaro.org>
-Date: Tue, 27 Aug 2024 11:33:29 +0200
+        Tue, 27 Aug 2024 02:39:32 -0700 (PDT)
+Message-ID: <58f5d332-2f2a-4607-9662-e71fd23b1316@linaro.org>
+Date: Tue, 27 Aug 2024 11:39:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -79,6 +79,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 09/10] pmdomain: renesas: rcar-gen4-sysc: Use scoped
  device node handling to simplify error paths
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Geert Uytterhoeven <geert@linux-m68k.org>
 Cc: Ulf Hansson <ulf.hansson@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
  Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
@@ -93,7 +94,7 @@ Cc: Ulf Hansson <ulf.hansson@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
 References: <20240823-cleanup-h-guard-pm-domain-v1-0-8320722eaf39@linaro.org>
  <20240823-cleanup-h-guard-pm-domain-v1-9-8320722eaf39@linaro.org>
  <CAMuHMdV0R0+u1eCiUOHhL5w-wzge9KhgyumJSd28oF9kQmnx_Q@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ <a48f1a0b-0e20-4782-bf6b-c430da9ae391@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -139,83 +140,102 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <CAMuHMdV0R0+u1eCiUOHhL5w-wzge9KhgyumJSd28oF9kQmnx_Q@mail.gmail.com>
+In-Reply-To: <a48f1a0b-0e20-4782-bf6b-c430da9ae391@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 27/08/2024 09:48, Geert Uytterhoeven wrote:
-> Hi Krzysztof,
-> 
-> On Fri, Aug 23, 2024 at 2:51 PM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->> Obtain the device node reference with scoped/cleanup.h to reduce error
->> handling and make the code a bit simpler.
+On 27/08/2024 11:33, Krzysztof Kozlowski wrote:
+> On 27/08/2024 09:48, Geert Uytterhoeven wrote:
+>> Hi Krzysztof,
 >>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> Thanks for your patch!
-> 
->> --- a/drivers/pmdomain/renesas/rcar-gen4-sysc.c
->> +++ b/drivers/pmdomain/renesas/rcar-gen4-sysc.c
->> @@ -303,12 +304,12 @@ static int __init rcar_gen4_sysc_pd_init(void)
->>         const struct rcar_gen4_sysc_info *info;
->>         const struct of_device_id *match;
->>         struct rcar_gen4_pm_domains *domains;
->> -       struct device_node *np;
->>         void __iomem *base;
->>         unsigned int i;
->>         int error;
+>> On Fri, Aug 23, 2024 at 2:51 PM Krzysztof Kozlowski
+>> <krzysztof.kozlowski@linaro.org> wrote:
+>>> Obtain the device node reference with scoped/cleanup.h to reduce error
+>>> handling and make the code a bit simpler.
+>>>
+>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 >>
->> -       np = of_find_matching_node_and_match(NULL, rcar_gen4_sysc_matches, &match);
->> +       struct device_node *np __free(device_node) =
->> +               of_find_matching_node_and_match(NULL, rcar_gen4_sysc_matches, &match);
-> 
-> This breaks the declarations/blank-line/code structure, so please move
-> this up.
-
-What do you mean "declaration structure"? That's the way how variables
-with constructors are expected to be declared - within the code.
-
-> 
-> If you insist on keeping assignment to and validation of np together,
-> the line should be split in declaration and assignment.
-
-No, that would be inconsistent with cleanup/constructor coding style.
-Maybe this is something new, so let me bring previous discussions:
-
-https://lore.kernel.org/all/CAHk-=wicfvWPuRVDG5R1mZSxD8Xg=-0nLOiHay2T_UJ0yDX42g@mail.gmail.com/
-
-https://lore.kernel.org/all/CAHk-=wgRHiV5VSxtfXA4S6aLUmcQYEuB67u3BJPJPtuESs1JyA@mail.gmail.com/
-
-https://lore.kernel.org/all/CAHk-=whvOGL3aNhtps0YksGtzvaob_bvZpbaTcVEqGwNMxB6xg@mail.gmail.com/
-
-and finally it will reach documentation (although it focuses on
-unwinding process to be specific - "When the unwind order ..."):
-https://lore.kernel.org/all/171175585714.2192972.12661675876300167762.stgit@dwillia2-xfh.jf.intel.com/
-
-> 
->>         if (!np)
->>                 return -ENODEV;
+>> Thanks for your patch!
 >>
-> 
->> @@ -369,14 +365,12 @@ static int __init rcar_gen4_sysc_pd_init(void)
->>                 if (error) {
->>                         pr_warn("Failed to add PM subdomain %s to parent %u\n",
->>                                 area->name, area->parent);
->> -                       goto out_put;
->> +                       return error;
->>                 }
->>         }
+>>> --- a/drivers/pmdomain/renesas/rcar-gen4-sysc.c
+>>> +++ b/drivers/pmdomain/renesas/rcar-gen4-sysc.c
+>>> @@ -303,12 +304,12 @@ static int __init rcar_gen4_sysc_pd_init(void)
+>>>         const struct rcar_gen4_sysc_info *info;
+>>>         const struct of_device_id *match;
+>>>         struct rcar_gen4_pm_domains *domains;
+>>> -       struct device_node *np;
+>>>         void __iomem *base;
+>>>         unsigned int i;
+>>>         int error;
+>>>
+>>> -       np = of_find_matching_node_and_match(NULL, rcar_gen4_sysc_matches, &match);
+>>> +       struct device_node *np __free(device_node) =
+>>> +               of_find_matching_node_and_match(NULL, rcar_gen4_sysc_matches, &match);
 >>
->>         error = of_genpd_add_provider_onecell(np, &domains->onecell_data);
->>
->> -out_put:
->> -       of_node_put(np);
->>         return error;
+>> This breaks the declarations/blank-line/code structure, so please move
+>> this up.
 > 
-> return of_genpd_add_provider_onecell(...);
+> What do you mean "declaration structure"? That's the way how variables
+> with constructors are expected to be declared - within the code.
 
-Ack.
+Continuing thoughts, so you prefer:
+
+	struct rcar_gen4_pm_domains *domains;
+	void __iomem *base;
+	struct device_node *np __free(device_node) =
+		of_find_matching_node_and_match(NULL, rcar_gen4_sysc_matches, &match);
+
+(assuming I will put it at the end of declarations).
+
+Are you sure this is more readable? It's really long line so it
+obfuscates a bit the declarations. The point of the scoped assignment is that
+you declare it at point of need/first use.
+
+> 
+>>
+>> If you insist on keeping assignment to and validation of np together,
+>> the line should be split in declaration and assignment.
+> 
+> No, that would be inconsistent with cleanup/constructor coding style.
+> Maybe this is something new, so let me bring previous discussions:
+> 
+> https://lore.kernel.org/all/CAHk-=wicfvWPuRVDG5R1mZSxD8Xg=-0nLOiHay2T_UJ0yDX42g@mail.gmail.com/
+> 
+> https://lore.kernel.org/all/CAHk-=wgRHiV5VSxtfXA4S6aLUmcQYEuB67u3BJPJPtuESs1JyA@mail.gmail.com/
+> 
+> https://lore.kernel.org/all/CAHk-=whvOGL3aNhtps0YksGtzvaob_bvZpbaTcVEqGwNMxB6xg@mail.gmail.com/
+> 
+> and finally it will reach documentation (although it focuses on
+> unwinding process to be specific - "When the unwind order ..."):
+> https://lore.kernel.org/all/171175585714.2192972.12661675876300167762.stgit@dwillia2-xfh.jf.intel.com/
+> 
+>>
+>>>         if (!np)
+>>>                 return -ENODEV;
+>>>
+>>
+>>> @@ -369,14 +365,12 @@ static int __init rcar_gen4_sysc_pd_init(void)
+>>>                 if (error) {
+>>>                         pr_warn("Failed to add PM subdomain %s to parent %u\n",
+>>>                                 area->name, area->parent);
+>>> -                       goto out_put;
+>>> +                       return error;
+>>>                 }
+>>>         }
+>>>
+>>>         error = of_genpd_add_provider_onecell(np, &domains->onecell_data);
+>>>
+>>> -out_put:
+>>> -       of_node_put(np);
+>>>         return error;
+>>
+>> return of_genpd_add_provider_onecell(...);
+> 
+> Ack.
+> 
+> Best regards,
+> Krzysztof
+> 
 
 Best regards,
 Krzysztof
