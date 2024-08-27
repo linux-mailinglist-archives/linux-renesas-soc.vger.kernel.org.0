@@ -1,228 +1,251 @@
-Return-Path: <linux-renesas-soc+bounces-8354-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8355-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7B0B9607F7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 12:56:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B542D960803
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 12:57:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7E1411F23525
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 10:56:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6CEEE283757
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 10:57:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D32A19E838;
-	Tue, 27 Aug 2024 10:56:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B53D219E83C;
+	Tue, 27 Aug 2024 10:57:37 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65A6719DF41;
-	Tue, 27 Aug 2024 10:55:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2CF19E7FF;
+	Tue, 27 Aug 2024 10:57:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724756161; cv=none; b=BotMzRWZQAV/Jg59Chp5aZGzW253NG3yibIRrgELeXFOlD81EaMX8gsWLvQwXofOEAbWLOH5QpQF4NWymkcrJI3mWdbSOmrEo/tePvwCTsUDLKZw2/42I4pPQuUcAba7FV1282jSg1GrEg3IHyKT+TkOnwjDi5kHPyP65u9N93Y=
+	t=1724756257; cv=none; b=I2Vz7E+mkBQ2nMEuAkX5oxaiTFZ4Nf/unHfmNRymOnFUc+OtW8ZsEP+mMjXuSZc8SO6fAAzmw/PhDuBqsqWo+vPKZIfh93IukGdy+w4DNIEixuvC9L7mare66RsX6VqcDUeKdXuNmFYagV6rFFOHg/CbnneaT6PB1QYSRXDckdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724756161; c=relaxed/simple;
-	bh=4oBV8H5bs6V7KC17pgVHrSStgbbQbPBeJsp1/aceqNY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ruEkyWte2thgqMZwajCIjcHmtl8Y6hW1OzI607zhQCIPISSReE8/8TBiM9aPXXMsVWbalfx/gr9QvMVrjBMea3lNmbCM7AnSwFZSJ1u4gp46k0F3oOfX1lJWuTKj4T2eqIFPBKqgUlH8AHaWp+J/RKheGOUOJZC6vMNb1SUxz2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6b8d96aa4c3so45161427b3.1;
-        Tue, 27 Aug 2024 03:55:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724756155; x=1725360955;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qo2NMwoxAQ1U2hSpFIW4sKP1B7w0umymouG5LJGc8hU=;
-        b=tMX1Dw9Z+zGNWhjGgBlnTjrOPMMDgNMxkP9EzaABEGB56zn7GkHHBi608bXtY0Fgjk
-         lTy2ejwiwnxctC7LgOtg2Ez9ynnKIkagkTxqT53e7yyc3EC6EfxM4ogPrnp24ngpaIZD
-         0Kuy0CfI4eAtlfWfRcT+cff/fpEDkPMBKpbMs6Av3mClyLL/ln31IGTLYF9eDxblPAi3
-         XPk5gT8+x5p6e2S11kOi0a/Wjljw0ly2ORNSxVh2jNYFCpkrpN2XS7knuXkzFapmdt5N
-         wiSw28JjTwQ7c6PudlVqoFQi/AcjHOMeMs10jJ3J24/1IiZgjKiYXaRuNQ6fuDvrIzyE
-         hv5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVEUYa5weDMTeSTBtJOzQJhrckP/E3G+Jhy93zh5fe/2lu5xAlHgpmS/Rhdbpl8xeHCadxF/hxmhTE=@vger.kernel.org, AJvYcCW/O4EY5BhYPz7EqTc31DfojVqrcKQzkOY7QFJNWvdsuXoQV+8e5ON+Jjtg5J5QyBvJXKBCxICatr0aoub9VnXpuDA=@vger.kernel.org, AJvYcCXevh5vIM4l/N1wILi26zRB0VfCRj5rOTWJ9+i8JCCTtcTqQOQqekuVdeqAxYof3zeK+uApMlN42+ttl3WH@vger.kernel.org, AJvYcCXjyiu2msfh1AXmpdACrjZx+ehysfpAHrqTL3Gk0oouOMr1XE2prmui7X17UkhP6YHRxYLeTF+ljL2Ea/bN@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCNLc2MLekUBkrs1kRjbny8AEcOO6Ria0UohKkgPnEvw8gy2TS
-	XfdJ56LwPfjZfF++mQvDay+6Ux5xItp829lIsUaNFvvSYv5zIamDBY00HOxh
-X-Google-Smtp-Source: AGHT+IETCHIGK0mw721enGSsiHio9F34nf8fMRrHd76WZv69hnIg/7XiAuB9jHfhRho4v3uBI4sk8Q==
-X-Received: by 2002:a05:690c:f82:b0:62c:e6c0:e887 with SMTP id 00721157ae682-6cfb950a938mr29761547b3.9.1724756155382;
-        Tue, 27 Aug 2024 03:55:55 -0700 (PDT)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6c39de3e7d9sm18617947b3.128.2024.08.27.03.55.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Aug 2024 03:55:54 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-e1633202008so5249104276.2;
-        Tue, 27 Aug 2024 03:55:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU1z0Udm9zoeM3IQOFyeenSQLYJpx2yx7cgvGb8yfeCoV5llNKY7CICZ6g8BCN/rfW4IHGuw+6p7YhZs0pdpHgX77M=@vger.kernel.org, AJvYcCUEzwgKCk1MaYoaZHfqkp9EhLlUj/iK4dB5HIfFlhr9/poZyCajC6rUZq2SJWdaCTTL0RG+PTqKDdqmZJK7@vger.kernel.org, AJvYcCVFj/7SgI2UFAFEDYQm1Vnt9diD2heqtr5UMpg5SFfgis85Lj3tyL1+zqJqTookxbwh0sOoPLW54j/jobd7@vger.kernel.org, AJvYcCVHBPjzhh7j36So4wkZIBIl9XOeoQU9SlsgMYz9mCk4gU81vWRbnG3X/V6bK/qE+U+R2HIHt+nJQPg=@vger.kernel.org
-X-Received: by 2002:a05:690c:9e:b0:6b2:28c3:b706 with SMTP id
- 00721157ae682-6cfbb6fe00dmr29288707b3.34.1724756154320; Tue, 27 Aug 2024
- 03:55:54 -0700 (PDT)
+	s=arc-20240116; t=1724756257; c=relaxed/simple;
+	bh=CeKAJbVu1lrX4Inx0HaxDPih7bt9gT3sC6XDxRYXs0A=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hKmPaEpERHPryBfw0Vx/Tc9wxRv1E0i0R6l4+U1yYH9q465odRyNubELcwS8cqr8Fnawjrb1hvgl8c9KJ3QXUKwMlKRrFmk7qjCf4xlV2ma9tGntR/JKHPEbWTSfWoic0XC99daFPVb0Nu4y8IIVDGBxZlKLAwaV92EvtdWSs8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4WtPXv0Ypyz6J6rX;
+	Tue, 27 Aug 2024 18:53:35 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id 05273140B39;
+	Tue, 27 Aug 2024 18:57:33 +0800 (CST)
+Received: from localhost (10.203.177.66) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 27 Aug
+ 2024 11:57:32 +0100
+Date: Tue, 27 Aug 2024 11:57:31 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Yangtao Li <frank.li@vivo.com>
+CC: <clement.leger@bootlin.com>, <andrew@lunn.ch>, <f.fainelli@gmail.com>,
+	<olteanv@gmail.com>, <davem@davemloft.net>, <edumazet@google.com>,
+	<kuba@kernel.org>, <pabeni@redhat.com>, <ulli.kroll@googlemail.com>,
+	<linus.walleij@linaro.org>, <marcin.s.wojtas@gmail.com>,
+	<linux@armlinux.org.uk>, <alexandre.torgue@foss.st.com>,
+	<joabreu@synopsys.com>, <mcoquelin.stm32@gmail.com>, <hkallweit1@gmail.com>,
+	<u.kleine-koenig@pengutronix.de>, <jacob.e.keller@intel.com>,
+	<justinstitt@google.com>, <sd@queasysnail.net>, <horms@kernel.org>,
+	<linux-renesas-soc@vger.kernel.org>, <netdev@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-stm32@st-md-mailman.stormreply.com>
+Subject: Re: [net-next v3 6/9] net: ethernet: broadcom: bcm63xx_enet:
+ Convert to devm_clk_get_enabled()
+Message-ID: <20240827115731.00007469@Huawei.com>
+In-Reply-To: <20240827095712.2672820-7-frank.li@vivo.com>
+References: <20240827095712.2672820-1-frank.li@vivo.com>
+	<20240827095712.2672820-7-frank.li@vivo.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240823-cleanup-h-guard-pm-domain-v1-0-8320722eaf39@linaro.org>
- <20240823-cleanup-h-guard-pm-domain-v1-9-8320722eaf39@linaro.org>
- <CAMuHMdV0R0+u1eCiUOHhL5w-wzge9KhgyumJSd28oF9kQmnx_Q@mail.gmail.com>
- <a48f1a0b-0e20-4782-bf6b-c430da9ae391@linaro.org> <58f5d332-2f2a-4607-9662-e71fd23b1316@linaro.org>
-In-Reply-To: <58f5d332-2f2a-4607-9662-e71fd23b1316@linaro.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 27 Aug 2024 12:55:40 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUQ5AD1QoO5F1nAy+GJoGtbi2ztKfK=2buU1MNeO8etJw@mail.gmail.com>
-Message-ID: <CAMuHMdUQ5AD1QoO5F1nAy+GJoGtbi2ztKfK=2buU1MNeO8etJw@mail.gmail.com>
-Subject: Re: [PATCH 09/10] pmdomain: renesas: rcar-gen4-sysc: Use scoped
- device node handling to simplify error paths
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	imx@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-Hi Krzysztof,
+On Tue, 27 Aug 2024 03:57:09 -0600
+Yangtao Li <frank.li@vivo.com> wrote:
 
-On Tue, Aug 27, 2024 at 11:39=E2=80=AFAM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> On 27/08/2024 11:33, Krzysztof Kozlowski wrote:
-> > On 27/08/2024 09:48, Geert Uytterhoeven wrote:
-> >> On Fri, Aug 23, 2024 at 2:51=E2=80=AFPM Krzysztof Kozlowski
-> >> <krzysztof.kozlowski@linaro.org> wrote:
-> >>> Obtain the device node reference with scoped/cleanup.h to reduce erro=
-r
-> >>> handling and make the code a bit simpler.
-> >>>
-> >>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> >>
-> >> Thanks for your patch!
-> >>
-> >>> --- a/drivers/pmdomain/renesas/rcar-gen4-sysc.c
-> >>> +++ b/drivers/pmdomain/renesas/rcar-gen4-sysc.c
-> >>> @@ -303,12 +304,12 @@ static int __init rcar_gen4_sysc_pd_init(void)
-> >>>         const struct rcar_gen4_sysc_info *info;
-> >>>         const struct of_device_id *match;
-> >>>         struct rcar_gen4_pm_domains *domains;
-> >>> -       struct device_node *np;
-> >>>         void __iomem *base;
-> >>>         unsigned int i;
-> >>>         int error;
-> >>>
-> >>> -       np =3D of_find_matching_node_and_match(NULL, rcar_gen4_sysc_m=
-atches, &match);
-> >>> +       struct device_node *np __free(device_node) =3D
-> >>> +               of_find_matching_node_and_match(NULL, rcar_gen4_sysc_=
-matches, &match);
-> >>
-> >> This breaks the declarations/blank-line/code structure, so please move
-> >> this up.
-> >
-> > What do you mean "declaration structure"? That's the way how variables
+> Convert devm_clk_get(), clk_prepare_enable() to a single
+> call to devm_clk_get_enabled(), as this is exactly
+> what this function does.
+> 
+> Signed-off-by: Yangtao Li <frank.li@vivo.com>
+Another one where this is mixing devm and not which makes care
+hard to review and may introduce subtle bugs.
 
-First a block with declarations, then a blank line, followed by the actual =
-code
-(yeah, the pre-C99 style ;-)
+Use devm_alloc_etherdev() and devm_register_netdev()
+and take all the cleanup handling managed.
 
-> > with constructors are expected to be declared - within the code.
+Much simpler to review that way.
 
-When it matters.
+J
+> ---
+> v3:
+> -Reduce the number of clk variables
+> 
+>  drivers/net/ethernet/broadcom/bcm63xx_enet.c | 47 ++++++--------------
+>  drivers/net/ethernet/broadcom/bcm63xx_enet.h |  6 ---
+>  2 files changed, 13 insertions(+), 40 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/broadcom/bcm63xx_enet.c b/drivers/net/ethernet/broadcom/bcm63xx_enet.c
+> index 3c0e3b9828be..dcc741837d50 100644
+> --- a/drivers/net/ethernet/broadcom/bcm63xx_enet.c
+> +++ b/drivers/net/ethernet/broadcom/bcm63xx_enet.c
+> @@ -1718,6 +1718,7 @@ static int bcm_enet_probe(struct platform_device *pdev)
+>  	struct bcm63xx_enet_platform_data *pd;
+>  	int irq, irq_rx, irq_tx;
+>  	struct mii_bus *bus;
+> +	struct clk *clk;
+>  	int i, ret;
+>  
+>  	if (!bcm_enet_shared_base[0])
+> @@ -1752,14 +1753,11 @@ static int bcm_enet_probe(struct platform_device *pdev)
+>  	priv->irq_rx = irq_rx;
+>  	priv->irq_tx = irq_tx;
+>  
+> -	priv->mac_clk = devm_clk_get(&pdev->dev, "enet");
+> -	if (IS_ERR(priv->mac_clk)) {
+> -		ret = PTR_ERR(priv->mac_clk);
+> +	clk = devm_clk_get_enabled(&pdev->dev, "enet");
+> +	if (IS_ERR(clk)) {
+> +		ret = PTR_ERR(clk);
+>  		goto out;
+>  	}
+> -	ret = clk_prepare_enable(priv->mac_clk);
+> -	if (ret)
+> -		goto out;
+>  
+>  	/* initialize default and fetch platform data */
+>  	priv->rx_ring_size = BCMENET_DEF_RX_DESC;
+> @@ -1789,15 +1787,11 @@ static int bcm_enet_probe(struct platform_device *pdev)
+>  
+>  	if (priv->has_phy && !priv->use_external_mii) {
+>  		/* using internal PHY, enable clock */
+> -		priv->phy_clk = devm_clk_get(&pdev->dev, "ephy");
+> -		if (IS_ERR(priv->phy_clk)) {
+> -			ret = PTR_ERR(priv->phy_clk);
+> -			priv->phy_clk = NULL;
+> -			goto out_disable_clk_mac;
+> +		clk = devm_clk_get_enabled(&pdev->dev, "ephy");
+> +		if (IS_ERR(clk)) {
+> +			ret = PTR_ERR(clk);
+> +			goto out;
+>  		}
+> -		ret = clk_prepare_enable(priv->phy_clk);
+> -		if (ret)
+> -			goto out_disable_clk_mac;
+>  	}
+>  
+>  	/* do minimal hardware init to be able to probe mii bus */
+> @@ -1889,10 +1883,7 @@ static int bcm_enet_probe(struct platform_device *pdev)
+>  out_uninit_hw:
+>  	/* turn off mdc clock */
+>  	enet_writel(priv, 0, ENET_MIISC_REG);
+> -	clk_disable_unprepare(priv->phy_clk);
+>  
+> -out_disable_clk_mac:
+> -	clk_disable_unprepare(priv->mac_clk);
+>  out:
+>  	free_netdev(dev);
+>  	return ret;
+> @@ -1927,10 +1918,6 @@ static void bcm_enet_remove(struct platform_device *pdev)
+>  				       bcm_enet_mdio_write_mii);
+>  	}
+>  
+> -	/* disable hw block clocks */
+> -	clk_disable_unprepare(priv->phy_clk);
+> -	clk_disable_unprepare(priv->mac_clk);
+> -
+>  	free_netdev(dev);
+>  }
+>  
+> @@ -2648,6 +2635,7 @@ static int bcm_enetsw_probe(struct platform_device *pdev)
+>  	struct bcm63xx_enetsw_platform_data *pd;
+>  	struct resource *res_mem;
+>  	int ret, irq_rx, irq_tx;
+> +	struct clk *mac_clk;
+>  
+>  	if (!bcm_enet_shared_base[0])
+>  		return -EPROBE_DEFER;
+> @@ -2694,14 +2682,11 @@ static int bcm_enetsw_probe(struct platform_device *pdev)
+>  		goto out;
+>  	}
+>  
+> -	priv->mac_clk = devm_clk_get(&pdev->dev, "enetsw");
+> -	if (IS_ERR(priv->mac_clk)) {
+> -		ret = PTR_ERR(priv->mac_clk);
+> +	mac_clk = devm_clk_get_enabled(&pdev->dev, "enetsw");
+> +	if (IS_ERR(mac_clk)) {
+> +		ret = PTR_ERR(mac_clk);
+>  		goto out;
+>  	}
+> -	ret = clk_prepare_enable(priv->mac_clk);
+> -	if (ret)
+> -		goto out;
+>  
+>  	priv->rx_chan = 0;
+>  	priv->tx_chan = 1;
+> @@ -2720,7 +2705,7 @@ static int bcm_enetsw_probe(struct platform_device *pdev)
+>  
+>  	ret = register_netdev(dev);
+>  	if (ret)
+> -		goto out_disable_clk;
+> +		goto out;
+>  
+>  	netif_carrier_off(dev);
+>  	platform_set_drvdata(pdev, dev);
+> @@ -2729,8 +2714,6 @@ static int bcm_enetsw_probe(struct platform_device *pdev)
+>  
+>  	return 0;
+>  
+> -out_disable_clk:
+> -	clk_disable_unprepare(priv->mac_clk);
+>  out:
+>  	free_netdev(dev);
+>  	return ret;
+> @@ -2740,16 +2723,12 @@ static int bcm_enetsw_probe(struct platform_device *pdev)
+>  /* exit func, stops hardware and unregisters netdevice */
+>  static void bcm_enetsw_remove(struct platform_device *pdev)
+>  {
+> -	struct bcm_enet_priv *priv;
+>  	struct net_device *dev;
+>  
+>  	/* stop netdevice */
+>  	dev = platform_get_drvdata(pdev);
+> -	priv = netdev_priv(dev);
+>  	unregister_netdev(dev);
+>  
+> -	clk_disable_unprepare(priv->mac_clk);
+> -
+>  	free_netdev(dev);
+>  }
+>  
+> diff --git a/drivers/net/ethernet/broadcom/bcm63xx_enet.h b/drivers/net/ethernet/broadcom/bcm63xx_enet.h
+> index 78f1830fb3cb..e98838b8b92f 100644
+> --- a/drivers/net/ethernet/broadcom/bcm63xx_enet.h
+> +++ b/drivers/net/ethernet/broadcom/bcm63xx_enet.h
+> @@ -316,12 +316,6 @@ struct bcm_enet_priv {
+>  	/* lock mib update between userspace request and workqueue */
+>  	struct mutex mib_update_lock;
+>  
+> -	/* mac clock */
+> -	struct clk *mac_clk;
+> -
+> -	/* phy clock if internal phy is used */
+> -	struct clk *phy_clk;
+> -
+>  	/* network device reference */
+>  	struct net_device *net_dev;
+>  
 
-> Continuing thoughts, so you prefer:
->
->         struct rcar_gen4_pm_domains *domains;
->         void __iomem *base;
->         struct device_node *np __free(device_node) =3D
->                 of_find_matching_node_and_match(NULL, rcar_gen4_sysc_matc=
-hes, &match);
->
-> (assuming I will put it at the end of declarations).
->
-> Are you sure this is more readable? It's really long line so it
-> obfuscates a bit the declarations. The point of the scoped assignment is =
-that
-> you declare it at point of need/first use.
-
-You're missing reverse Christmas tree order...
-
-> >> If you insist on keeping assignment to and validation of np together,
-> >> the line should be split in declaration and assignment.
-> >
-> > No, that would be inconsistent with cleanup/constructor coding style.
-> > Maybe this is something new, so let me bring previous discussions:
-
-[...]
-
-> > and finally it will reach documentation (although it focuses on
-
-Oh, "finally" as in not yet upstream ;-)
-
-> > unwinding process to be specific - "When the unwind order ..."):
-> > https://lore.kernel.org/all/171175585714.2192972.12661675876300167762.s=
-tgit@dwillia2-xfh.jf.intel.com/
-
-"When the unwind order matters..."
-
-So it's perfectly fine to have:
-
-    static int __init rcar_gen4_sysc_pd_init(void)
-    {
-            struct device_node *np __free(device_node) =3D NULL;
-            struct rcar_gen4_pm_domains *domains;
-            const struct rcar_gen4_sysc_info *info;
-            const struct of_device_id *match;
-            void __iomem *base;
-            unsigned int i;
-            int error;
-
-            np =3D of_find_matching_node_and_match(NULL,
-rcar_gen4_sysc_matches, &match);
-            if (!np)
-                    return -ENODEV;
-
-            ...
-    }
-
-But my first suggestion:
-
-    static int __init rcar_gen4_sysc_pd_init(void)
-    {
-            struct device_node *np __free(device_node) =3D
-                    of_find_matching_node_and_match(NULL,
-rcar_gen4_sysc_matches, &match);
-            struct rcar_gen4_pm_domains *domains;
-            const struct rcar_gen4_sysc_info *info;
-            const struct of_device_id *match;
-            void __iomem *base;
-            unsigned int i;
-            int error;
-
-            if (!np)
-                    return -ENODEV;
-
-            ...
-    }
-
-is safer w.r.t. to future modification.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
