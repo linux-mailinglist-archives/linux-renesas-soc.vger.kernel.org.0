@@ -1,121 +1,224 @@
-Return-Path: <linux-renesas-soc+bounces-8387-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8388-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8698960F2D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 16:56:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37061961134
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 17:17:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 077E11C21E74
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 14:56:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AA0971F24877
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 15:17:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 063571C68A5;
-	Tue, 27 Aug 2024 14:55:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC9C81C825E;
+	Tue, 27 Aug 2024 15:16:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mzY3Ekoi"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cydMjYHs"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC7E1C5783;
-	Tue, 27 Aug 2024 14:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EBCC17C96;
+	Tue, 27 Aug 2024 15:16:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724770532; cv=none; b=bS9gRkH6THt//RMdyZlMqWm+CsJaS3vc/r/KDoa2NsHKAd9dN6rEBDLYfRyubPWQO6nZpMFsNUB6wGzlFbgMbfI9konstRNQOnlp45Rw0N0PtdbxyEsQjo0U9aISi88h8dI1xMOscdzJD6nJ2WUdhzZbQRQb0P9pgaOwdebr5JM=
+	t=1724771817; cv=none; b=neQWYjEsNvHf/8I/cuhBInwaCpgFjSGdNfSw0jWrtCDlfvhtFS+VAD1bG1JirMp9vu6TP8UO+hcM4JwRlMZUWM3lNYlk0ROwu5VrWAcLGJXfMxOIrovPkPhmcNWLYwdWri/t6fNrVYWCLdt55yslACTkOnyYxVf3zVS6JxYYBOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724770532; c=relaxed/simple;
-	bh=D80vpx6U6QT7GcY5OtgT2Iqfz6U4g8ngRy6lrqYUReA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GhKZXs7VECeaziw/m0RWVW2DFRTl2o3hgesoB1Un4xw9tzjN+6BOWb5atGjvdcfakjU987ukoKTPq58kKN7RHZ59jTDiG6BpgNaP/xlrOiQ/I1pXZxubmZECgGj2AEngB4iMDqjIKAPXRFrp8EFJfFZ1AJW1Kp18oQBH9sjjsTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mzY3Ekoi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 903EDC4E699;
-	Tue, 27 Aug 2024 14:55:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724770532;
-	bh=D80vpx6U6QT7GcY5OtgT2Iqfz6U4g8ngRy6lrqYUReA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mzY3EkoijKjcm5DDmYoHp5H2ObZXtFKsAMa12P/QKAptq4mddaMTqo7uGVS3xob46
-	 5jUTvBkE/DZ33nI2za/bDA6MbTauhaXisYMORZ/5e9XdAIGzWXD3JDhE64Ii2i/eKt
-	 O8HiVHGByi9iQJybjjlB2SiZ9eTUVQAE39HG9gr5whw2clXYCtDtvubb7gaZpfy/pE
-	 sx8K4t+gUDaNJDGp/EXP5b8wW7lrQo6TNDlaJ+8SiWg5z61yjpl4plNnwjB9cBtYos
-	 Ql/I7sCYTMQ4C109ubkSm5qLVdm/90L4TOuXhH4QjUYve1b/uzB1+GNGVDGEX4bVCS
-	 sRdHpm4Q4lIjw==
-Date: Tue, 27 Aug 2024 15:55:25 +0100
-From: Simon Horman <horms@kernel.org>
-To: Yangtao Li <frank.li@vivo.com>
-Cc: clement.leger@bootlin.com, andrew@lunn.ch, f.fainelli@gmail.com,
-	olteanv@gmail.com, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, ulli.kroll@googlemail.com,
-	linus.walleij@linaro.org, marcin.s.wojtas@gmail.com,
-	linux@armlinux.org.uk, alexandre.torgue@foss.st.com,
-	joabreu@synopsys.com, mcoquelin.stm32@gmail.com,
-	hkallweit1@gmail.com, u.kleine-koenig@pengutronix.de,
-	jacob.e.keller@intel.com, justinstitt@google.com,
-	sd@queasysnail.net, linux-renesas-soc@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [net-next v3 8/9] net: mvpp2: Convert to devm_clk_get_enabled()
- and devm_clk_get_optional_enabled()
-Message-ID: <20240827145525.GK1368797@kernel.org>
-References: <20240827095712.2672820-1-frank.li@vivo.com>
- <20240827095712.2672820-9-frank.li@vivo.com>
+	s=arc-20240116; t=1724771817; c=relaxed/simple;
+	bh=NsihyD+aLfjCVXnAjPHyrMoeCZJhbzWagHDl4evqrtw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uaStqvK+6WsrKPPJbtHdIm2nM9o3sD1PoLfIDKEMHwFOiRaeaMfiWWfnAOUv61ik74+r8iNP2pX8P5HX1Kb3Hjd75j2JReET1ZgxhihLoBOkt5D7kBADZBjA6ZD2WbHpZ/dDyrRzl55/hvM6OzoJM4EcxLvKCl2TnwbovXk4bas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cydMjYHs; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-44fe11dedb3so31044421cf.1;
+        Tue, 27 Aug 2024 08:16:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724771815; x=1725376615; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L+z7UkBh8WTRUHcbPdX5a5EteYt1iaUFixelF7ndFRI=;
+        b=cydMjYHsU7sScaOh8hln+vNCuucRNViRW84uyg94tk5XONxyEcuJPek/UJbzmrl4bs
+         mrLKsMRS0UbmstbW88ZWpR8sheHkKsqNOke9ew4ujClu2cv/xWh4RXWjsnl6NQL79QcN
+         iSoAeDQ8lGjC78PnDeLXsOQ6qd4PSR0V4U1+AyJXw1wX0MI8o0rkZAP/l8svRul4Av3q
+         VNvlH8x5x5TlreyDNJN9rXDxlAnjYKect4DqmAK9YPLM10bOjcseLtQlqdfTPsItZKaP
+         FFGCBpIRc5d0a42dQn37S9UtEsUJQgroseVOm5/F47Ggfp8Ql4K5KXJF2+MJlwe1GBBE
+         gR6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724771815; x=1725376615;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=L+z7UkBh8WTRUHcbPdX5a5EteYt1iaUFixelF7ndFRI=;
+        b=HVo8Wo2LArU3lAyqWszBTuRsKajmpMZKy8UREbhk9NIO1wvdEZPNxPUl9O9qt2BzbR
+         2IuEME6NNyI3inThGPYl6BNaDHLef/y3xwgyGCeBIO+WsQoIPkARfm5PZtHYCuDqBra8
+         IBsYnP98fBhmleFaDlXHnRh4E4BCnGLVBnLfPXV7EYI1417gtTCbPFz/YszmRBeZr2gL
+         TlaJhKhbJXp0amtTtYSgr3xL/EnIeL+Z9Mrss98ZKxqn27dJRpJ16miP8fMsd+2uRPdT
+         Ih4hHzUuEKZAWF8dj+jPVqAf55zkfIIyrq/EHVr1IWhy0WZdtZTA61R8h2IXkhr64VD7
+         W9Fg==
+X-Forwarded-Encrypted: i=1; AJvYcCUKIarfxvCuXHkmBk2ukJGwwFcPdYWCz5x5iOGjVr8jXc3q57f04l5zQpp9sEpL1eI/zSs5rygZUQDH6ca1@vger.kernel.org, AJvYcCVUhHRU9g+O3bSPQ9RSULx7LzO2x9olSacEQxlKd5KGKiEsfvNMqR7UGHTJnBTLDtzU9vdm1m9fevI5l6KykIxou64=@vger.kernel.org, AJvYcCXldeub1447fst2Hyaw+yK0udlkUIy9bjyO+TN0MnqWdRqDEWM60BinmSLJE8aunnkRHn1pFkqC6iXu@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjUt1Ez4fPR9yORql5ZQlLKgbyu//SKkCdrSW5T8g3sSaTJ3HV
+	PVyq2EVFEAXH4sh+sLCcxWS2pyN9nqnUj3RvL9//NRO5jfyE3T6s0+1d67dw3kIfS7li7Jk7Vsa
+	UaREWZu+BAtQ/S+eZnZl9uRylDBQ=
+X-Google-Smtp-Source: AGHT+IFJcmoW6CXn+oY2Fsaex4mnzkkrd2eTMPElnvFzJM2tT0EQO9SLHZyYUW9xTx5pIxE8y5NbgxrAKOZkshOaAeg=
+X-Received: by 2002:a05:622a:2515:b0:454:f3ce:66c1 with SMTP id
+ d75a77b69052e-45509c37427mr213896101cf.11.1724771814852; Tue, 27 Aug 2024
+ 08:16:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240827095712.2672820-9-frank.li@vivo.com>
+References: <20240821085644.240009-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240821085644.240009-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWC0sgF48Thdg95zyPn04XJv1H+ZScXZrUfzcp8v738ag@mail.gmail.com>
+In-Reply-To: <CAMuHMdWC0sgF48Thdg95zyPn04XJv1H+ZScXZrUfzcp8v738ag@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Tue, 27 Aug 2024 16:16:28 +0100
+Message-ID: <CA+V-a8typL3W3_ivdeYLwLiAmKetHQUb0TVzQuLLi_suJgYRzw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/8] arm64: dts: renesas: Add initial SoC DTSI for
+ RZ/V2H(P) SoC
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 27, 2024 at 03:57:11AM -0600, Yangtao Li wrote:
-> Use devm_clk_get_enabled() and devm_clk_get_optional_enabled()
-> to simplify code.
-> 
-> Signed-off-by: Yangtao Li <frank.li@vivo.com>
-> Reviewed-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
-> Tested-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
-> Suggested-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> Reviewed-by: Marcin Wojtas <marcin.s.wojtas@gmail.com>
+Hi Geert,
 
-...
+Thank you for the review.
 
-> diff --git a/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c b/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
-> index 2fe8bae4eb3c..0ca2daeb0f90 100644
-> --- a/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
-> +++ b/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
-> @@ -7561,56 +7561,32 @@ static int mvpp2_probe(struct platform_device *pdev)
+On Mon, Aug 26, 2024 at 11:38=E2=80=AFAM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Wed, Aug 21, 2024 at 10:56=E2=80=AFAM Prabhakar <prabhakar.csengg@gmai=
+l.com> wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Add initial SoC DTSI for Renesas RZ/V2H(P) ("R9A09G057") SoC, below are
+> > the list of blocks added:
+> > - EXT CLKs
+> > - 4X CA55
+> > - SCIF
+> > - PFC
+> > - CPG
+> > - SYS
+> > - GIC
+> > - ARMv8 Timer
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > v2->v3
+> > - Updated GIC node to match with the coding-style of DTS
+>
+> Thanks for the update!
+>
+> > --- /dev/null
+> > +++ b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
+> > @@ -0,0 +1,165 @@
+> > +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +/*
+> > + * Device Tree Source for the RZ/V2H(P) SoC
+> > + *
+> > + * Copyright (C) 2024 Renesas Electronics Corp.
+> > + */
+> > +
+> > +#include <dt-bindings/clock/renesas,r9a09g057-cpg.h>
+> > +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +
+> > +/ {
+> > +       compatible =3D "renesas,r9a09g057";
+> > +       #address-cells =3D <2>;
+> > +       #size-cells =3D <2>;
+> > +
+> > +       audio_extal_clk: audio-clk {
+> > +               compatible =3D "fixed-clock";
+> > +               #clock-cells =3D <0>;
+> > +               /* This value must be overridden by the board */
+> > +               clock-frequency =3D <0>;
+> > +       };
+> > +
+> > +       rtxin_clk: rtxin-clk {
+> > +               compatible =3D "fixed-clock";
+> > +               #clock-cells =3D <0>;
+> > +               /* This value must be overridden by the board */
+> > +               clock-frequency =3D <0>;
+> > +       };
+> > +
+> > +       qextal_clk: qextal-clk {
+> > +               compatible =3D "fixed-clock";
+> > +               #clock-cells =3D <0>;
+> > +               /* This value must be overridden by the board */
+> > +               clock-frequency =3D <0>;
+> > +       };
+>
+> Please use alphabetical sort order (by nodename).
+>
+Ok, I will sort this alphabetically.
 
-...
+> > +       soc: soc {
+> > +               compatible =3D "simple-bus";
+> > +               interrupt-parent =3D <&gic>;
+> > +               #address-cells =3D <2>;
+> > +               #size-cells =3D <2>;
+> > +               ranges;
+> > +
+> > +               pinctrl: pinctrl@10410000 {
+> > +                       compatible =3D "renesas,r9a09g057-pinctrl";
+> > +                       reg =3D <0 0x10410000 0 0x10000>;
+> > +                       clocks =3D <&cpg CPG_CORE R9A09G057_IOTOP_0_SHC=
+LK>;
+> > +                       gpio-controller;
+> > +                       #gpio-cells =3D <2>;
+> > +                       gpio-ranges =3D <&pinctrl 0 0 96>;
+> > +                       #interrupt-cells =3D <2>;
+> > +                       interrupt-controller;
+> > +                       power-domains =3D <&cpg>;
+> > +                       resets =3D <&cpg 165>, <&cpg 166>;
+>
+> Please use hexadecimal reset numbers, cfr. the description in the DT
+> bindings. E.g. IOTOP_0_RESETN =3D CPG_RST_10 bit 5 =3D> 0xa5.
+>
+> This comment applies to all resets in this series.
+>
+> > +               };
+>
+> > +               scif: serial@11c01400 {
+> > +                       compatible =3D "renesas,scif-r9a09g057";
+> > +                       reg =3D <0 0x11c01400 0 0x400>;
+> > +                       interrupts =3D <GIC_SPI 529 IRQ_TYPE_LEVEL_HIGH=
+>,
+> > +                                    <GIC_SPI 532 IRQ_TYPE_LEVEL_HIGH>,
+> > +                                    <GIC_SPI 533 IRQ_TYPE_LEVEL_HIGH>,
+> > +                                    <GIC_SPI 530 IRQ_TYPE_LEVEL_HIGH>,
+> > +                                    <GIC_SPI 534 IRQ_TYPE_LEVEL_HIGH>,
+> > +                                    <GIC_SPI 531 IRQ_TYPE_LEVEL_HIGH>,
+> > +                                    <GIC_SPI 535 IRQ_TYPE_LEVEL_HIGH>,
+> > +                                    <GIC_SPI 536 IRQ_TYPE_EDGE_RISING>=
+,
+> > +                                    <GIC_SPI 537 IRQ_TYPE_EDGE_RISING>=
+;
+> > +                       interrupt-names =3D "eri", "rxi", "txi", "bri",=
+ "dri",
+> > +                                         "tei", "tei-dri", "rxi-edge",=
+ "txi-edge";
+> > +                       clocks =3D <&cpg CPG_MOD 143>;
+>
+> Please use hexadecimal module clock numbers, cfr. the description in
+> the DT bindings. E.g. CGC_SCIF_0_clk_pck =3D CPG_CLKON_8 bit 15 =3D> 0x8f=
+.
+>
+> This comment applies to all module clocks in this series.
+>
+Ok, I will update the clock and reset numbers to use hexadecimal.
 
-> -		priv->axi_clk = devm_clk_get_optional(&pdev->dev, "axi_clk");
-> -		if (IS_ERR(priv->axi_clk)) {
-> -			err = PTR_ERR(priv->axi_clk);
-> -			goto err_mg_core_clk;
-> +			clk = devm_clk_get_optional_enabled(&pdev->dev, "mg_core_clk");
-
-As it looks like there will be a v3 anyway, a minor nit from my side:
-IMHO, the line above could be trivially wrapped to keep it <= 80 columns wide,
-which is still preferred by Networking code.
-
-> +			if (IS_ERR(clk))
-> +				return PTR_ERR(clk);
->  		}
->  
-> -		err = clk_prepare_enable(priv->axi_clk);
-> -		if (err < 0)
-> -			goto err_mg_core_clk;
-> -
-> -		/* Get system's tclk rate */
-> -		priv->tclk = clk_get_rate(priv->pp_clk);
-> +		clk = devm_clk_get_optional_enabled(&pdev->dev, "axi_clk");
-> +		if (IS_ERR(clk))
-> +			return PTR_ERR(clk);
-
-...
+Cheers,
+Prabhakar
 
