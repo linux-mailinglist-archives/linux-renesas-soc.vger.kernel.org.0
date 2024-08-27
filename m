@@ -1,155 +1,127 @@
-Return-Path: <linux-renesas-soc+bounces-8330-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8331-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A301D960431
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 10:19:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3F0096054D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 11:15:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 57663282C3E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 08:19:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6EFA41F22D3C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2024 09:15:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA22415535A;
-	Tue, 27 Aug 2024 08:19:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4F2019D08C;
+	Tue, 27 Aug 2024 09:15:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iFgxyKp2"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="K7gby9Mg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DCA817736
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Aug 2024 08:19:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD91676056;
+	Tue, 27 Aug 2024 09:15:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724746785; cv=none; b=NWPOGsrjbRrthuFiWyIdvk08Ll/oLGL3mC52HL5LeCEH62KeBzEa2fbrdZSrBNpej6GCms+NcgSfr7SvLsegARmMgwURSe16LuzlEjSxsL91VTDAjZOVaoKOJeOdGPAocI8bqWaaLQIvmcr1b0CXwMgc8O3NjgY9zFRJgD5lrZ0=
+	t=1724750135; cv=none; b=Wkqk9IOwUam/yhGTb/EvOKJnJZlkeja2/ga1oFSQCU7Hq3DiPbmTvlrHLjKlW2K+5U4WE4YiVMw9WKReengyVGUumxfFZA3QhTYzpA+Kdohfrq5z8Yz9JOMIiNqiA0AQW9ePfiRjY2p4129XyelnrNoTWaCQnfJZGrDzOeF/seE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724746785; c=relaxed/simple;
-	bh=spR3CGSFlcWxd61znYrOMywbunOudD26HRQTshpPnAg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FtmO1JNxE4/GBv53+lUNxwUotAZvs0Cp+h4Zq6J6D2fQ44K/ZYkjA3stIhpLYPiiOfADDh5yOR6RNbGPCSOg3xJjlX/2Mimv8758dng2ANMkkTPqBp9EuyQd3Ue4+PofFzhYfPmAL22qxpX/MwJWB6klSsJ3/R0ALf+LlKY0VCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=iFgxyKp2; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-201ee6b084bso44103705ad.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Aug 2024 01:19:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1724746783; x=1725351583; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=huD3ev31mLebmA06NYxn0TFHXgDRdCiQozZGR5G/ENM=;
-        b=iFgxyKp2Jp1jrjiJCGOqeDCqzu22EdQX5fHSaCaxx7eiu1a4aoJDChFZLTXmQw/Or9
-         6CxpdvdysCvmA84B7wSb34K1fZ9JTqLzZW65oIolMqSsvL/V3TTOvdtLffaKnvJwuMCl
-         19jUCQn/UThCGdj0gY0K+7cTlIrXlBnrpaPOs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724746783; x=1725351583;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=huD3ev31mLebmA06NYxn0TFHXgDRdCiQozZGR5G/ENM=;
-        b=tlo8X48CzLwunLY89PlQHlHo1ur+3F1B2tLBajSXOXJfzkPLs76b0c0MgMCS7wj3Iu
-         x//OEpeCvvEJsNOP120075GoqJseQWwUgkSGuOF3qRF+fbrRmNHwtV+oCgaGgeoBlqZO
-         sotGbLwbzA4BK4xpnYQcw6W6MJ5PbJdWyMWUoqQllmuwpd6YX4msL+o4AQ5GdKvZE5R1
-         MUuCGG+Q5YTlJpREZOoL7xfK5M/LNQ5OSndd/UIkT6AgtXRZx6zgl4CQdK5PDSPIgum/
-         e5gHXi6Ngr1mWzop4PJSEzVJFQDY3mCDYVV9S2MsNnsxswqOucqyGcOBR7EYvvJfBKhv
-         GIDw==
-X-Forwarded-Encrypted: i=1; AJvYcCVJIhNzh+XIgmElQ2MQOHtsIR4Sk3SVAGLjn0KLxrIriSv0eptBklEeGNVk7dEna2cuUZNOfTBWvbaFUhdUPfFIuA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxr7G9GQqp/KiklqPINKNmqk8lwwglTfogf9x6EuXCE+o9gieO0
-	8NZZZssorJxRnNneYR1CUdbSuYANPKlj7B8QI3lpX+yNAjfX+1J+rNpU5K1yaQdyM5Y/PJvA8Vw
-	Aoed3
-X-Google-Smtp-Source: AGHT+IHF8znht9A2ki5lNA7uVy1+vKGPvY56BBl/7asfWXc3WWygmmtKq+JYZ2ERoi/NP+HKFlmy1w==
-X-Received: by 2002:a17:903:1c9:b0:202:3469:2c78 with SMTP id d9443c01a7336-204df45fda2mr21559055ad.28.1724746782654;
-        Tue, 27 Aug 2024 01:19:42 -0700 (PDT)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com. [209.85.214.174])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2038558081bsm78090515ad.104.2024.08.27.01.19.42
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Aug 2024 01:19:42 -0700 (PDT)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-201fed75b38so131165ad.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Aug 2024 01:19:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW5gbB/safeczsihxfgTgI0WXcc+xYNLFLKGqajtIVNX3QTw3kBwMnOgI1atrg+kzCzA+OI21w6AqWmorBEzXYkPg==@vger.kernel.org
-X-Received: by 2002:a17:902:e5d2:b0:1f9:bc99:d94a with SMTP id
- d9443c01a7336-204e4c627fdmr1870895ad.5.1724746781507; Tue, 27 Aug 2024
- 01:19:41 -0700 (PDT)
+	s=arc-20240116; t=1724750135; c=relaxed/simple;
+	bh=gHLSR6EWlBDyP7uNTxzYJpnHjzNAgAPqslnvAKgEBoQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ANSnc/2cq25Fhaqtwh+t8Act0zpLTyhv6xGV2ZQpi1Hc2WBEu9wBJJsoZnagVWaFrTc4Oss4+TcMp8qQcwNO+REpftS0SF7At8IxcZsi1fBennRmG296lbjVzHAfh+ZfgVAKv5Gg0rJLzZjNBYoC2MHgWDqGHkftCkoGna6mcPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=K7gby9Mg; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 19F3D9FF;
+	Tue, 27 Aug 2024 11:14:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1724750065;
+	bh=gHLSR6EWlBDyP7uNTxzYJpnHjzNAgAPqslnvAKgEBoQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=K7gby9MgI6mjW7AQmEd56dQL//qdFWrUFN+I/thyAYwuaDPSBqyO2B3PpGLFEErqO
+	 /FTN3FqIl0LP3V36McKAYc/vOZ35gu/QF6c9C1enXmnlkO0zajpBd9rn4vC8oXfuA5
+	 7enZAhur9BRstjlSo1IIG1ZklbrzvBL1ecENdfeo=
+Date: Tue, 27 Aug 2024 12:15:28 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Tomasz Figa <tfiga@chromium.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] media: videobuf2: Drop minimum allocation requirement of
+ 2 buffers
+Message-ID: <20240827091528.GD23129@pendragon.ideasonboard.com>
+References: <20240825232449.25905-1-laurent.pinchart+renesas@ideasonboard.com>
+ <fbdc2a88-bffc-4603-8ceb-25817967ade8@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240825232449.25905-1-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20240825232449.25905-1-laurent.pinchart+renesas@ideasonboard.com>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Tue, 27 Aug 2024 17:19:23 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5DDwFTX48EPksjqQ5bdRWUkQn+ZCBUbKid2H1GeZZSzOg@mail.gmail.com>
-Message-ID: <CAAFQd5DDwFTX48EPksjqQ5bdRWUkQn+ZCBUbKid2H1GeZZSzOg@mail.gmail.com>
-Subject: Re: [PATCH] media: videobuf2: Drop minimum allocation requirement of
- 2 buffers
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <fbdc2a88-bffc-4603-8ceb-25817967ade8@xs4all.nl>
 
-On Mon, Aug 26, 2024 at 8:24=E2=80=AFAM Laurent Pinchart
-<laurent.pinchart+renesas@ideasonboard.com> wrote:
->
-> When introducing the ability for drivers to indicate the minimum number
-> of buffers they require an application to allocate, commit 6662edcd32cc
-> ("media: videobuf2: Add min_reqbufs_allocation field to vb2_queue
-> structure") also introduced a global minimum of 2 buffers. It turns out
-> this breaks the Renesas R-Car VSP test suite, where a test that
-> allocates a single buffer fails when two buffers are used.
->
-> One may consider debatable whether test suite failures without failures
-> in production use cases should be considered as a regression, but
-> operation with a single buffer is a valid use case. While full frame
-> rate can't be maintained, memory-to-memory devices can still be used
-> with a decent efficiency, and requiring applications to allocate
-> multiple buffers for single-shot use cases with capture devices would
-> just waste memory.
->
-> For those reasons, fix the regression by dropping the global minimum of
-> buffers. Individual drivers can still set their own minimum.
->
-> Fixes: 6662edcd32cc ("media: videobuf2: Add min_reqbufs_allocation field =
-to vb2_queue structure")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
-m>
-> ---
->  drivers/media/common/videobuf2/videobuf2-core.c | 7 -------
->  1 file changed, 7 deletions(-)
->
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/me=
-dia/common/videobuf2/videobuf2-core.c
-> index 500a4e0c84ab..29a8d876e6c2 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -2632,13 +2632,6 @@ int vb2_core_queue_init(struct vb2_queue *q)
->         if (WARN_ON(q->supports_requests && q->min_queued_buffers))
->                 return -EINVAL;
->
-> -       /*
-> -        * The minimum requirement is 2: one buffer is used
-> -        * by the hardware while the other is being processed by userspac=
-e.
-> -        */
-> -       if (q->min_reqbufs_allocation < 2)
-> -               q->min_reqbufs_allocation =3D 2;
-> -
->         /*
->          * If the driver needs 'min_queued_buffers' in the queue before
->          * calling start_streaming() then the minimum requirement is
->
-> base-commit: a043ea54bbb975ca9239c69fd17f430488d33522
+Hi Hans,
 
-Thanks for the patch!
+Please let me know if you expect a pull request, otherwise I'll consider
+you will take this in your tree.
 
-Acked-by: Tomasz Figa <tfiga@chromium.org>
+On Mon, Aug 26, 2024 at 08:31:13AM +0200, Hans Verkuil wrote:
+> On 26/08/2024 01:24, Laurent Pinchart wrote:
+> > When introducing the ability for drivers to indicate the minimum number
+> > of buffers they require an application to allocate, commit 6662edcd32cc
+> > ("media: videobuf2: Add min_reqbufs_allocation field to vb2_queue
+> > structure") also introduced a global minimum of 2 buffers. It turns out
+> > this breaks the Renesas R-Car VSP test suite, where a test that
+> > allocates a single buffer fails when two buffers are used.
+> > 
+> > One may consider debatable whether test suite failures without failures
+> > in production use cases should be considered as a regression, but
+> > operation with a single buffer is a valid use case. While full frame
+> > rate can't be maintained, memory-to-memory devices can still be used
+> > with a decent efficiency, and requiring applications to allocate
+> > multiple buffers for single-shot use cases with capture devices would
+> > just waste memory.
+> > 
+> > For those reasons, fix the regression by dropping the global minimum of
+> > buffers. Individual drivers can still set their own minimum.
+> > 
+> > Fixes: 6662edcd32cc ("media: videobuf2: Add min_reqbufs_allocation field to vb2_queue structure")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> 
+> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> 
+> > ---
+> >  drivers/media/common/videobuf2/videobuf2-core.c | 7 -------
+> >  1 file changed, 7 deletions(-)
+> > 
+> > diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> > index 500a4e0c84ab..29a8d876e6c2 100644
+> > --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> > +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> > @@ -2632,13 +2632,6 @@ int vb2_core_queue_init(struct vb2_queue *q)
+> >  	if (WARN_ON(q->supports_requests && q->min_queued_buffers))
+> >  		return -EINVAL;
+> >  
+> > -	/*
+> > -	 * The minimum requirement is 2: one buffer is used
+> > -	 * by the hardware while the other is being processed by userspace.
+> > -	 */
+> > -	if (q->min_reqbufs_allocation < 2)
+> > -		q->min_reqbufs_allocation = 2;
+> > -
+> >  	/*
+> >  	 * If the driver needs 'min_queued_buffers' in the queue before
+> >  	 * calling start_streaming() then the minimum requirement is
+> > 
+> > base-commit: a043ea54bbb975ca9239c69fd17f430488d33522
 
-Best regards,
-Tomasz
+-- 
+Regards,
+
+Laurent Pinchart
 
