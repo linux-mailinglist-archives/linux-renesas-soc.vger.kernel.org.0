@@ -1,175 +1,159 @@
-Return-Path: <linux-renesas-soc+bounces-8438-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8439-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D1B1962587
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Aug 2024 13:09:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C85629625CB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Aug 2024 13:17:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 76E57B22731
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Aug 2024 11:09:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E73F282398
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Aug 2024 11:17:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B659816C69E;
-	Wed, 28 Aug 2024 11:09:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6080416CD2A;
+	Wed, 28 Aug 2024 11:17:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CvGo+n3B"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="nj4hPg8I";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="B7ExTBe6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh6-smtp.messagingengine.com (fhigh6-smtp.messagingengine.com [103.168.172.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AE0B16BE29;
-	Wed, 28 Aug 2024 11:09:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D882916BE3A;
+	Wed, 28 Aug 2024 11:17:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724843357; cv=none; b=mVOLIAYqRBLZiRpmPk6UO/Y9D9vQO4j1ZgWH5e/A7qI3aDVzu7KHu5EquzJSgkebWSN5UC6j9mSJDUKS+QSt/ZBE4vi+A9nzavVGIiSGhtzECGNESOeYQcGUC9Jy+H9FkP+odEq6RPSdhjKkXUpVFPjlRRyUJGn7yypjKtw8g9c=
+	t=1724843858; cv=none; b=nohbqhM7WA7F1WxMXQdenhVwhCZDkhHFiRgdZjSWJxEdyOUTcUF4Z6WvmL6euEgRxUk5VcfQ+ANlWmCM1ZtST0UQDUnbWnI6kutDiPDOHIM+DB3rbq+MEu2jNZkKPRQJAl3ZT0PV0qdpusu53hjRkTdsqcOx/FVDMRrra446ttc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724843357; c=relaxed/simple;
-	bh=+iBZN7J1CfkA6Io8Lrp7yXOxydaxe3SvIGkgl4gtnKA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VrAHYm8IUYMALd3AtZQlkG1SdkeahGk3bQcYjjD6CnbXX5ajgjMs5M0QYdRVt03HEbvYhfzoqCjeNVycsBWRHtE1uwcGiYR6+PLtqG+z9++oHMpRso6KsXgqqKP5N3eXYczbJ6DTwOfoNPqxIvFYcropvliSoMpv7tr5GfeOczY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CvGo+n3B; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D414EC51EFE;
-	Wed, 28 Aug 2024 11:09:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724843357;
-	bh=+iBZN7J1CfkA6Io8Lrp7yXOxydaxe3SvIGkgl4gtnKA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=CvGo+n3BWtvt+eqAWsY9i7U1WvPPAmroKdDj88yG515Yeh4WZjwemALijP9CKFHaQ
-	 4eEluwbyawdzfofe2n+++DgSeYEqaF4XqWhEx1aav+3q3j1Zn916K/anDFWrbiZRdn
-	 LavXuR7Gf+AfT8J8qe/zwOntuJzaueMDaGikwZNvPMVJv6K9wKNsXdD3IMvlYmSQjW
-	 CddEOCPLM1IzPbm6Lryxaye07C2+FmIcTtsuToXAuhibaBEItw/b21M/i/POu43BY9
-	 H+p62Yt0c7xM5rSN/h+anvcdUFU1Oq/Ofmpz3dsEjGj7HIrRI//4d3HS1l0XMVrhB5
-	 0/KeeVgRZuW+A==
-Message-ID: <4cf53373-ca57-4990-b85c-e58c200bc062@kernel.org>
-Date: Wed, 28 Aug 2024 13:09:11 +0200
+	s=arc-20240116; t=1724843858; c=relaxed/simple;
+	bh=nTRvWJgqZ6/EHKfWrmauBXzVGDNVw1+v6YgspqoeBcg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XUyJPyLau6OhAlybRXFs2zUbZWiUzNspdeRrPTbiL6Lqnjd23bYmvyN2Plf0ATS3/XC7fMYABNMoOYi3Opn9/p62Y0uzSxHSmYO71L/9KTAfIiFjYniCiu61Dxc7GKIBgMumPaF+2Rz5P3GPiy5XY45dOnAk3wO+ZcZ4zs20R7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=nj4hPg8I; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=B7ExTBe6; arc=none smtp.client-ip=103.168.172.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-03.internal (phl-compute-03.nyi.internal [10.202.2.43])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id 92F4B1151B6A;
+	Wed, 28 Aug 2024 07:17:34 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Wed, 28 Aug 2024 07:17:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1724843854;
+	 x=1724930254; bh=jMS01jI9CnnK7GbjPdJZhm36vbTQVCLC4OIv0ehgmYo=; b=
+	nj4hPg8ITsrNQs+pv2VszREanuFisCdQiKbcbzuRNFBf5s0JCGOf4upWBlK108Gr
+	Sx9z1Sd3usKX7nCevva8ivwf47GMt962g/jJmAyF3K+DhV/DEbGQjkMRl8WrRwaA
+	UhG5QnTx45GNTfRgY2Ath6UmsA/i6s9VcILTzbX0doj2ybLdeonNl+zhKD4uwthd
+	CuDm+h/TCLLIkBiVakSS3pgWtGITBJDjarcgLbXg3fvKRzLkJLfvOMhYbHlsBjsr
+	gvnAQ5cfJs63t9911i6npALDJHZgXmUVLLhxh+IB6WcSJ2WVvKxQmMqlj91pIyOT
+	X8pPF8Yee91flPhJBO/3Gw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1724843854; x=
+	1724930254; bh=jMS01jI9CnnK7GbjPdJZhm36vbTQVCLC4OIv0ehgmYo=; b=B
+	7ExTBe6A+tnuNiJM/9QwaAPkDM618xSAP1aQPIBV5VpMPrX6N3dSfg6YBvhY+LLn
+	YMoKAsTO3KzFIqqj4wShj0Lw6Om3/p+McRKc9BfLV2hkEEUNuorQE+/MRW05NT/b
+	W2glQx6GYNPFI+QK2oRA+5sYUlJIAq9VNmzTgWgBlGi32/yFKUtsuHGZ/UYVr5x6
+	IyA9dxRq+eCM6wSSvaUqsbIGIzSdDxAbf0dhCClvl9GZWmoYhPLif9QSicQSI5NQ
+	vUhzY/LhX1fYLcCIMZIEICYpU8CDCLmNOnz9cRDtRAPjJHvMiIMnUuIzTFaa1+r7
+	5NQ5sSC7pKXo+e31bMf/A==
+X-ME-Sender: <xms:TgfPZpm9K1yUVwzwmYx_wM57XKnWTvJiSD-2ZKIJ7f4QmZpkTPyqHw>
+    <xme:TgfPZk1M-Ul_TFfTEJZjx8__gU4TRJlxhbWBs-4imPrKmnIHlNS0OwlpVn6uvpR54
+    BpWfKeYnbrJ4jVw8o0>
+X-ME-Received: <xmr:TgfPZvoCD47734FPxmnhfdlObLXmQ7OBiJi3bkGUxLhKI-6oQiD_EMhb3ULhuiw5OLgaFmmft8fj9IijegZ_or_LpV8TaGBI9g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudefvddgfeejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
+    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
+    gvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrght
+    thgvrhhnpeefhfellefhffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvd
+    elieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehn
+    ihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrsh
+    gvpdhnsggprhgtphhtthhopeeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehj
+    uhhlihgvnhdrmhgrshhsohhtsegtohhllhgrsghorhgrrdgtohhmpdhrtghpthhtohepmh
+    gthhgvhhgrsgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepghhrvghgkhhhsehlihhn
+    uhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheplhhinhhugidqmhgvughirg
+    esvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhsthgrghhi
+    nhhgsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqrhgvnh
+    gvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:TgfPZplMbMiynIuFnWZiGz2NfPQnnh8aO14IAK4rKJCN7C2BWlxqaA>
+    <xmx:TgfPZn3XPSpeH8xQA2SKesUH0zUPAyAxyzb4QOFB3lqf-LLn5obQlg>
+    <xmx:TgfPZouqERo-vC1MpRbqSI9QYLK_Q7-cdvjaA8Zh3_JJ0sHHgjJqkg>
+    <xmx:TgfPZrUQgC1Z0acYru9bqlDlN8fBDwE15XZpdRGG03U7wkMLtUW9-Q>
+    <xmx:TgfPZhq7V7MGQ_MHXMoTTXj6QUs0gadozu7s0VDrlWSqfNDGEd2j55Oc>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 28 Aug 2024 07:17:33 -0400 (EDT)
+Date: Wed, 28 Aug 2024 13:17:31 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Julien Massot <julien.massot@collabora.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] media: staging: max96712: Add support for MAX96724
+Message-ID: <20240828111731.GK2636928@fsdn.se>
+References: <20240527133410.1690169-1-niklas.soderlund+renesas@ragnatech.se>
+ <4f3ea360-f17f-4a91-bbdc-08caebb977a7@collabora.com>
+ <20240528093750.GA420934@ragnatech.se>
+ <0a3c796c-2149-42a3-92d6-d45a0ccc78f0@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/6] dt-bindings: media: renesas,isp: Add Gen4 family
- fallback
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20240826144352.3026980-1-niklas.soderlund+renesas@ragnatech.se>
- <20240826144352.3026980-2-niklas.soderlund+renesas@ragnatech.se>
- <cnca2gdh6c3kg5ybb4dxzlca5c7jsvz4tomibpkf746syejvmf@ndbq4qkykume>
- <20240827081233.GE2636928@fsdn.se>
- <20240827213441.GA30398@pendragon.ideasonboard.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240827213441.GA30398@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <0a3c796c-2149-42a3-92d6-d45a0ccc78f0@collabora.com>
 
-On 27/08/2024 23:34, Laurent Pinchart wrote:
-> On Tue, Aug 27, 2024 at 10:12:33AM +0200, Niklas Söderlund wrote:
->> On 2024-08-27 08:31:22 +0200, Krzysztof Kozlowski wrote:
->>> On Mon, Aug 26, 2024 at 04:43:47PM +0200, Niklas Söderlund wrote:
->>>> The ISP Channel Selector IP is the same for all current Gen4 devices.
->>>> This was not known when adding support for V3U and V4H and a single SoC
->>>> specific compatible was used.
->>>>
->>>> Before adding more SoC specific bindings for V4M add a family compatible
->>>> fallback for Gen4. That way the driver only needs to be updated once for
->>>> Gen4, and we still have the option to fix any problems in the driver if
->>>> any testable differences between the SoCs are found.
->>>>
->>>> There are already DTS files using the V3U and V4H compatibles which
->>>> needs to be updated to not produce a warning for DTS checks. The driver
->>>> also needs to kept the compatible values to be backward compatible , but
->>>> for new Gen4 SoCs such as V4M we can avoid this.
->>>>
->>>> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
->>>> ---
->>>> * Changes since v1
->>>> - New in v2.
->>>> ---
->>>>  Documentation/devicetree/bindings/media/renesas,isp.yaml | 3 ++-
->>>>  1 file changed, 2 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/media/renesas,isp.yaml b/Documentation/devicetree/bindings/media/renesas,isp.yaml
->>>> index 33650a1ea034..730c86f2d7b1 100644
->>>> --- a/Documentation/devicetree/bindings/media/renesas,isp.yaml
->>>> +++ b/Documentation/devicetree/bindings/media/renesas,isp.yaml
->>>> @@ -22,6 +22,7 @@ properties:
->>>>        - enum:
->>>>            - renesas,r8a779a0-isp # V3U
->>>>            - renesas,r8a779g0-isp # V4H
->>>> +      - const: renesas,rcar-gen4-isp # Generic R-Car Gen4
->>>
->>> Adding generic fallback post-factum is odd, does not feel reliable.
->>> Instead use specific compatibles as fallbacks.
->>
->> I agree, it feels a bit odd. But this was the road we hammered out at 
->> great pain for how to be able to move forward with this issue for the 
->> other IP block involved in video capture for R-Car Gen4, VIN [1]. This 
->> just mirrors that long discussion decision for the R-Car CSISP.
->>
->> I would hate to have different solutions for the two.
->>
->> 1. [PATCH v5 0/6] rcar-vin: Add support for R-Car V4M
->>    https://lore.kernel.org/all/20240704161620.1425409-1-niklas.soderlund+renesas@ragnatech.se/
-> 
-> The compatible fallback for VIN has been added following a request from
-> Conor and Rob, so it would be nice if the three of you could agree to
-> achieve consistency in the bindings :-)
+Hello Julien,
 
-We are consistent. Above snarky comment is not helping, so please keep
-it civilized.
+Sorry that I missed your later comments before sending out v2.
 
-Best regards,
-Krzysztof
+On 2024-05-28 14:04:03 +0200, Julien Massot wrote:
 
+> > > > diff --git a/drivers/staging/media/max96712/max96712.c 
+> > > > b/drivers/staging/media/max96712/max96712.c
+> > > > index ea67bcf69c9d..69a0a6a16cf9 100644
+> > > > --- a/drivers/staging/media/max96712/max96712.c
+> > > > +++ b/drivers/staging/media/max96712/max96712.c
+> > > > @@ -17,8 +17,10 @@
+> > > >    #include <media/v4l2-subdev.h>
+> > > >    #define MAX96712_ID 0x20
+> > > > +#define MAX96724_ID 0xA7
+> These identifiers seems incorrect
+> #define MAX96712_ID 0xA0 (also valid for MAX96712B)
+> #define MAX96724_ID 0xA2
+> #define MAX96724F_ID 0xA3
+> #define MAX96724R_ID 0xA4
+
+> > > > @@ -419,8 +427,15 @@ static int max96712_probe(struct i2c_client 
+> > > > *client)
+> > > >    	if (priv->gpiod_pwdn)
+> > > >    		usleep_range(4000, 5000);
+> > > > -	if (max96712_read(priv, 0x4a) != MAX96712_ID)
+> > > > +	switch (max96712_read(priv, 0x4a)) {
+> 0x4a is a VDDCMP register you should read 0xd instead (DEV_ID)
+> switch (max96712_read(priv, 0xd)) {
+
+The datasheet I have for max96712 do unfortunately not document the 0x0d
+register.
+
+As Sakari suggested in the review of v2 the usage of device data and 
+of_device_get_match_data() to store and fetch device specific 
+differences this switch will not be needed. Instead I think I will drop 
+trying to read the device id all together, it was left in since early 
+development to make sure the driver could talk to the device and then I 
+never remove it. Would this be OK for you?
+
+-- 
+Kind Regards,
+Niklas Söderlund
 
