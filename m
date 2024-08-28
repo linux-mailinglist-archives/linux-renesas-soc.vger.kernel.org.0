@@ -1,72 +1,72 @@
-Return-Path: <linux-renesas-soc+bounces-8445-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8446-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E7DD962776
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Aug 2024 14:42:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77404962778
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Aug 2024 14:42:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A32C71C2105D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Aug 2024 12:42:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EA88B1F256F9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Aug 2024 12:42:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F8B3187578;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED66D187878;
 	Wed, 28 Aug 2024 12:41:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fUnvqr/S"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fKa9MA0o"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 722A017C9B6;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04423184535;
 	Wed, 28 Aug 2024 12:41:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724848916; cv=none; b=fsgIdZedMcyWjGtRk4VIRA76qp4xa5aTRgIKXDdJkoWwbuPhs3VU0UW1aLw2vOwOEwttvS2qPMmjRhP1BP26OMUyx+tZGddiIXPYELN8Hs2wKy7bztVwLtv7sF3OhJRK34GcYMaSV9hMqwlRX5usBaQXZWHbdoveySGc9l8JAx8=
+	t=1724848916; cv=none; b=RRX34wKQJXwILZKpHlV+rwKmA8xKs4Tr9VfHuvJWt0i47+U265QhNdteJO31SlXdGYcDZLcB1nMmPiUWq+6tnJAyGa109zInDVaLzCQK6HqlEvBQRX4/MLcaM+EIC4G+CVizuI7wOKK6b64aRyD8kThIzMqv9jyuXQRj5FyAMOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1724848916; c=relaxed/simple;
-	bh=EVsqsOh7AuOJHHI70OdYDK9g/0cONB60DGyYmSQfdjs=;
+	bh=OTYcdAEaoKx4PXRDxW2tRoSwy7eqf+wxGXUq2ZcJ7OM=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=tS+JTBjqXdOnBnfBUMc67Mcfg4JczZGNfZjbixwRXQv//AIlG6Z3fgn4W3u0tGSjMybUa+nBuWqHG47DZU/6xBRjP0jLKi9pHX/6g0Hp4amtC3yhaIexjpYHZmvDUVNHXrvGixxUbQQvfvuRTMhnBM7+CQAWG7OLjP0qDy+vbv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fUnvqr/S; arc=none smtp.client-ip=209.85.128.49
+	 MIME-Version; b=dBV7XZYvBrSQhZJLpaIeqroYJSvi6SaZ2DkKF7ITA7OTJENkSVTnhl5fD9Ueo9jtjVIvg+3Xl15AWbcTZiaWkPOOIuR7AzFVPaGIXzH8uuPvD3sz621sGSMuQk/Krz3tpR6gLNth4guhXk8mSmf6Rf9JYJIiGh029runQNeiVk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fKa9MA0o; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4281d812d3eso73607385e9.3;
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-371bb8322b2so316202f8f.0;
         Wed, 28 Aug 2024 05:41:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1724848913; x=1725453713; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uq9xDoR/8i3b1+7O417dMwtB0UELIAN007JdPhFBNkw=;
-        b=fUnvqr/SVk9xrkdACl8gr0Vn8VyQOQ9VKS8zjiwx00vX6HNW4DWCmD+tGK7dlyg10X
-         c09ACpyW3i/i7jJjG8wHprFeJiYP05dSpwZyTYJd3Jhkl4KG5P4LiAb4fmSkVf9Ldq8p
-         ShXTmdMbYoinf5VMopz0MwBnssxaFeZhCPIUlhx2Tgb9GY6jrHEjnPbomLnk+Blf3z9+
-         aYmmfcKjjW/jbvJ2/OZ/RQ1yzmDYj/a17vp1w+rXFrU/FeywfciCoZ0r6nEy1MFhzoe5
-         F87a4RqFl/D1hCBO3nYvjexUzrJrE3MNK1sQqUI2/zWh9IXwgtk4ODrLYx+IIhDhYAx5
-         2afw==
+        bh=6xOkGWP2j9zyxNo/L6kzZilhV8vX14pSMglG1vqEnlM=;
+        b=fKa9MA0oytbbG01QsPy03NXLRYJOJ20NsKPYSbxg6+SzKHb2v65pKFTCYc3MuOuwaM
+         VNm8wfIDXRN8FuJ5+Z5aPOniSI7ogjmCdozH6yrksuLjefKb9FBVEESFzAACXDcP1tZ3
+         XG7VSE1TRheex2DRRzRo6QwBu/Bh7YT6ap/uTfyOn8TI52BUgqMCpooYrNIYcG8dO42a
+         61h+N0BWJd3bc2jY9aPRwwh40Lh1nuLGbh70u7vNQ/o/8JTwhrZUgfK11BHkcgvnA+WC
+         K9HbyjTQONWmuSAjqskWehMPs0rBQxgedARKd7jFe+SJ3AEX/K3ligE84Km8s1+T/nps
+         kUpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1724848913; x=1725453713;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uq9xDoR/8i3b1+7O417dMwtB0UELIAN007JdPhFBNkw=;
-        b=H3v41OLBTngJbw96y9ifD0mKR68h4LQas0N2UubCGT0SeKzioNZg1ArOG1SCkL46ZW
-         xw2VzcURj+W/6B+HX0Z2Kn1AlzvyP/R7wzSIDkYvHTtUdTyMW0tOW1WuHdawVdkwncCb
-         ADsQ24l5QkMUxePYAW4uEliV35fC55erv5CsQxBoXg3qpyOCblc+pemTvJW23H1JekEF
-         dxh7pGuOwjzDhTeKG1ntpVvHRJGAxKcdFNwbbMbBTjmnfaXE/8UU2JRwRx6wJe22BtKa
-         9jzbqRFPU2W4ufA8NEX4Vfm+y22pGD7rxd0ye7Pv94onPpFTpDbQ+gHlC6Qy67JtV6GI
-         YkmA==
-X-Forwarded-Encrypted: i=1; AJvYcCU2x49vV28d4pESxcGRqUbN75Iqyc1KFZUlEIPJwhJHm9/lalKXsK59rvRJvCe/IShUPcneg5P+4oTcsqY+@vger.kernel.org, AJvYcCVilDZcJFEJqjGbOLO9uYfKH90uM97tz8EiFqxKHrnA72R1FvBDXjBXLHizv6eBkz5e2PBbLVQlUc5T@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyyaorg2otLQynDl5oZDgplpw5+gU95QH0sNzttlqPsPLDK7n3+
-	ye6/69q3ZqA0xnkVF26WcM82Ek9nayjrNDyi90TSKoPIvYE5t0tv
-X-Google-Smtp-Source: AGHT+IEreM8kmCAI8H8kJr7n4bRfn9dgE4DJmIe8fYbcQ27lrtHp4FTB3nUthyhUf/De1hwygyqfJQ==
-X-Received: by 2002:a5d:5c87:0:b0:368:4489:8efb with SMTP id ffacd0b85a97d-37489b32395mr5897219f8f.40.1724848912199;
-        Wed, 28 Aug 2024 05:41:52 -0700 (PDT)
+        bh=6xOkGWP2j9zyxNo/L6kzZilhV8vX14pSMglG1vqEnlM=;
+        b=NQAUUERcpl57kFQaBb98H+dJMyABG1LaTSA0Gyqfx8ACMZM4RFk1IPnJUWYmvXGi3m
+         1Vr81VB2WqZRMv0btidGz6xPRgOf6Kw30KZmUY14VyVw1hknuwaZDk1M5npSz0TalrzY
+         I/DBNiGy+xV5nauCCs5coR4Ig/kBYf6Te7FEOJftVyg2K4Q3zFvFqS87sQ0JqRDbsMql
+         ICWisOi781eEUziDQ7upr0s5pjPyHI7IW7E2vkamlk8cHJn/pz1MSFwoUsRuPGr6ASXa
+         VQmhf50Bq0mMJytl/BBS8fvJJ3vVdm4BGInpFY95iE/Dd/2AyirxvQn1Bo1l3nNhd0hj
+         RlbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU3WA0KK/kXXJoa1uLxMFf0eMRsUjaxJJecTc0T9BWLzlIyNvqiUQE2jubpJtdWfE5PqhoqmzP4/YxqZ5NS@vger.kernel.org, AJvYcCV9TFYW9BoDPrzuyv8cwOdB5je2dYB5a9mtq5n71WJfgH6jHKPKBDx5iHJq2okE3LrOdpFWho6uV+IG@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgLtL9pd4BfTrQaoMXLCgA5vNgkAd8rMVDCQ3F4mJklf/fTfO3
+	6iMpKx6vP0/mQzCmbcN1uOsP5z7UMPiZ0DgzxJpbVZ4+UemU6f6uj2Yma8eO1QQ=
+X-Google-Smtp-Source: AGHT+IHPvaWCN7n9wVNCR1sw29whkNGKEA/0t1f1g3DxEaPSBgL4425CE3TifDKT3fw4Zr1ilkmJNg==
+X-Received: by 2002:a05:6000:1948:b0:371:6fb8:8fe3 with SMTP id ffacd0b85a97d-37495f38afbmr1168001f8f.12.1724848913220;
+        Wed, 28 Aug 2024 05:41:53 -0700 (PDT)
 Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3730813c5edsm15508226f8f.31.2024.08.28.05.41.51
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3730813c5edsm15508226f8f.31.2024.08.28.05.41.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Aug 2024 05:41:51 -0700 (PDT)
+        Wed, 28 Aug 2024 05:41:52 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -81,9 +81,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v4 4/9] arm64: dts: renesas: r9a09g057: Add OSTM0-OSTM7 nodes
-Date: Wed, 28 Aug 2024 13:41:29 +0100
-Message-Id: <20240828124134.188864-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v4 5/9] arm64: dts: renesas: r9a09g057: Add RIIC0-RIIC8 nodes
+Date: Wed, 28 Aug 2024 13:41:30 +0100
+Message-Id: <20240828124134.188864-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240828124134.188864-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20240828124134.188864-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -97,7 +97,7 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Add OSTM0-OSTM7 nodes to RZ/V2H(P) ("R9A09G057") SoC DTSI.
+Add RIIC0-RIIC8 nodes to RZ/V2H(P) ("R9A09G057") SoC DTSI.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
@@ -106,99 +106,210 @@ v3->v4
 - Sorted nodes based on nodes index
 
 v2->v3
-- Grouped the OSTM nodes
+- Grouped the I2C nodes
+- Dropped clock-frequency
+- Updated I2C nodes to match with the coding-style of DTS
 
 v1->v2
 - New patch
 ---
- arch/arm64/boot/dts/renesas/r9a09g057.dtsi | 80 ++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
+ arch/arm64/boot/dts/renesas/r9a09g057.dtsi | 189 +++++++++++++++++++++
+ 1 file changed, 189 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-index 35b34c40cdc8..335a6dd17fce 100644
+index 335a6dd17fce..993c18879007 100644
 --- a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
 +++ b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-@@ -121,6 +121,86 @@ sys: system-controller@10430000 {
+@@ -201,6 +201,195 @@ ostm7: timer@12c03000 {
  			status = "disabled";
  		};
  
-+		ostm0: timer@11800000 {
-+			compatible = "renesas,r9a09g057-ostm", "renesas,ostm";
-+			reg = <0x0 0x11800000 0x0 0x1000>;
-+			interrupts = <GIC_SPI 17 IRQ_TYPE_EDGE_RISING>;
-+			clocks = <&cpg CPG_MOD 0x43>;
-+			resets = <&cpg 0x6d>;
++		i2c0: i2c@14400400 {
++			compatible = "renesas,riic-r9a09g057";
++			reg = <0 0x14400400 0 0x400>;
++			interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 507 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 506 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 176 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 177 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 175 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 178 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 179 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "tei", "ri", "ti", "spi", "sti",
++					  "naki", "ali", "tmoi";
++			clocks = <&cpg CPG_MOD 0x94>;
++			resets = <&cpg 0x98>;
 +			power-domains = <&cpg>;
++			#address-cells = <1>;
++			#size-cells = <0>;
 +			status = "disabled";
 +		};
 +
-+		ostm1: timer@11801000 {
-+			compatible = "renesas,r9a09g057-ostm", "renesas,ostm";
-+			reg = <0x0 0x11801000 0x0 0x1000>;
-+			interrupts = <GIC_SPI 18 IRQ_TYPE_EDGE_RISING>;
-+			clocks = <&cpg CPG_MOD 0x44>;
-+			resets = <&cpg 0x6e>;
++		i2c1: i2c@14400800 {
++			compatible = "renesas,riic-r9a09g057";
++			reg = <0 0x14400800 0 0x400>;
++			interrupts = <GIC_SPI 180 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 509 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 508 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 182 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 183 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 181 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 184 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 185 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "tei", "ri", "ti", "spi", "sti",
++					  "naki", "ali", "tmoi";
++			clocks = <&cpg CPG_MOD 0x95>;
++			resets = <&cpg 0x99>;
 +			power-domains = <&cpg>;
++			#address-cells = <1>;
++			#size-cells = <0>;
 +			status = "disabled";
 +		};
 +
-+		ostm2: timer@14000000 {
-+			compatible = "renesas,r9a09g057-ostm", "renesas,ostm";
-+			reg = <0x0 0x14000000 0x0 0x1000>;
-+			interrupts = <GIC_SPI 19 IRQ_TYPE_EDGE_RISING>;
-+			clocks = <&cpg CPG_MOD 0x45>;
-+			resets = <&cpg 0x6f>;
++		i2c2: i2c@14400c00 {
++			compatible = "renesas,riic-r9a09g057";
++			reg = <0 0x14400c00 0 0x400>;
++			interrupts = <GIC_SPI 186 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 511 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 510 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 188 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 189 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 187 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 190 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 191 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "tei", "ri", "ti", "spi", "sti",
++					  "naki", "ali", "tmoi";
++			clocks = <&cpg CPG_MOD 0x96>;
++			resets = <&cpg 0x9a>;
 +			power-domains = <&cpg>;
++			#address-cells = <1>;
++			#size-cells = <0>;
 +			status = "disabled";
 +		};
 +
-+		ostm3: timer@14001000 {
-+			compatible = "renesas,r9a09g057-ostm", "renesas,ostm";
-+			reg = <0x0 0x14001000 0x0 0x1000>;
-+			interrupts = <GIC_SPI 20 IRQ_TYPE_EDGE_RISING>;
-+			clocks = <&cpg CPG_MOD 0x46>;
-+			resets = <&cpg 0x70>;
++		i2c3: i2c@14401000 {
++			compatible = "renesas,riic-r9a09g057";
++			reg = <0 0x14401000 0 0x400>;
++			interrupts = <GIC_SPI 192 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 513 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 512 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 194 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 195 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 193 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 196 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 197 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "tei", "ri", "ti", "spi", "sti",
++					  "naki", "ali", "tmoi";
++			clocks = <&cpg CPG_MOD 0x97>;
++			resets = <&cpg 0x9b>;
 +			power-domains = <&cpg>;
++			#address-cells = <1>;
++			#size-cells = <0>;
 +			status = "disabled";
 +		};
 +
-+		ostm4: timer@12c00000 {
-+			compatible = "renesas,r9a09g057-ostm", "renesas,ostm";
-+			reg = <0x0 0x12c00000 0x0 0x1000>;
-+			interrupts = <GIC_SPI 21 IRQ_TYPE_EDGE_RISING>;
-+			clocks = <&cpg CPG_MOD 0x47>;
-+			resets = <&cpg 0x71>;
++		i2c4: i2c@14401400 {
++			compatible = "renesas,riic-r9a09g057";
++			reg = <0 0x14401400 0 0x400>;
++			interrupts = <GIC_SPI 198 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 515 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 514 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 200 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 201 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 199 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 202 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 203 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "tei", "ri", "ti", "spi", "sti",
++					  "naki", "ali", "tmoi";
++			clocks = <&cpg CPG_MOD 0x98>;
++			resets = <&cpg 0x9c>;
 +			power-domains = <&cpg>;
++			#address-cells = <1>;
++			#size-cells = <0>;
 +			status = "disabled";
 +		};
 +
-+		ostm5: timer@12c01000 {
-+			compatible = "renesas,r9a09g057-ostm", "renesas,ostm";
-+			reg = <0x0 0x12c01000 0x0 0x1000>;
-+			interrupts = <GIC_SPI 22 IRQ_TYPE_EDGE_RISING>;
-+			clocks = <&cpg CPG_MOD 0x48>;
-+			resets = <&cpg 0x72>;
++		i2c5: i2c@14401800 {
++			compatible = "renesas,riic-r9a09g057";
++			reg = <0 0x14401800 0 0x400>;
++			interrupts = <GIC_SPI 204 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 517 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 516 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 206 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 207 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 205 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 208 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 209 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "tei", "ri", "ti", "spi", "sti",
++					  "naki", "ali", "tmoi";
++			clocks = <&cpg CPG_MOD 0x99>;
++			resets = <&cpg 0x9d>;
 +			power-domains = <&cpg>;
++			#address-cells = <1>;
++			#size-cells = <0>;
 +			status = "disabled";
 +		};
 +
-+		ostm6: timer@12c02000 {
-+			compatible = "renesas,r9a09g057-ostm", "renesas,ostm";
-+			reg = <0x0 0x12c02000 0x0 0x1000>;
-+			interrupts = <GIC_SPI 23 IRQ_TYPE_EDGE_RISING>;
-+			clocks = <&cpg CPG_MOD 0x49>;
-+			resets = <&cpg 0x73>;
++		i2c6: i2c@14401c00 {
++			compatible = "renesas,riic-r9a09g057";
++			reg = <0 0x14401c00 0 0x400>;
++			interrupts = <GIC_SPI 210 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 519 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 518 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 212 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 213 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 211 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 214 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 215 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "tei", "ri", "ti", "spi", "sti",
++					  "naki", "ali", "tmoi";
++			clocks = <&cpg CPG_MOD 0x9a>;
++			resets = <&cpg 0x9e>;
 +			power-domains = <&cpg>;
++			#address-cells = <1>;
++			#size-cells = <0>;
 +			status = "disabled";
 +		};
 +
-+		ostm7: timer@12c03000 {
-+			compatible = "renesas,r9a09g057-ostm", "renesas,ostm";
-+			reg = <0x0 0x12c03000 0x0 0x1000>;
-+			interrupts = <GIC_SPI 24 IRQ_TYPE_EDGE_RISING>;
-+			clocks = <&cpg CPG_MOD 0x4a>;
-+			resets = <&cpg 0x74>;
++		i2c7: i2c@14402000 {
++			compatible = "renesas,riic-r9a09g057";
++			reg = <0 0x14402000 0 0x400>;
++			interrupts = <GIC_SPI 216 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 521 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 520 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 218 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 219 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 217 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 220 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 221 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "tei", "ri", "ti", "spi", "sti",
++					  "naki", "ali", "tmoi";
++			clocks = <&cpg CPG_MOD 0x9b>;
++			resets = <&cpg 0x9f>;
 +			power-domains = <&cpg>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++			status = "disabled";
++		};
++
++		i2c8: i2c@11c01000 {
++			compatible = "renesas,riic-r9a09g057";
++			reg = <0 0x11c01000 0 0x400>;
++			interrupts = <GIC_SPI 222 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 523 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 522 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 224 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 225 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 223 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 226 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 227 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "tei", "ri", "ti", "spi", "sti",
++					  "naki", "ali", "tmoi";
++			clocks = <&cpg CPG_MOD 0x93>;
++			resets = <&cpg 0xa0>;
++			power-domains = <&cpg>;
++			#address-cells = <1>;
++			#size-cells = <0>;
 +			status = "disabled";
 +		};
 +
