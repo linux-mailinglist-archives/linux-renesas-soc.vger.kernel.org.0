@@ -1,115 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-8421-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8422-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7521896223C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Aug 2024 10:23:18 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13DD39623AB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Aug 2024 11:39:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0BE742836AA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Aug 2024 08:23:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 46C951C23F60
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Aug 2024 09:39:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCCAD15A842;
-	Wed, 28 Aug 2024 08:23:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ADFA16BE04;
+	Wed, 28 Aug 2024 09:38:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O5emQEza"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2110158851
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 28 Aug 2024 08:23:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6A86166F37;
+	Wed, 28 Aug 2024 09:38:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724833395; cv=none; b=NpDjZmlKTU+Y0TNjedBLzjgSKYHkyhgyLsrT0lRk7Vt0bxTuGwwmYIm7cD6GmyjquwQms6CGmvIR0cNmv6oq1KV+96s8ZFM7yejt92WtgbmOqvT+u1hCWHUkat45mwcUM9bIXjxFLWWP1Ako+Hc+1Ss8e4bbm9a4k3v8Q+u1N+Y=
+	t=1724837913; cv=none; b=J+CJqpQLGGFUWXcFMxicNIEsr8PVexFJm5uQgYZFdTEaTvvftN2YpyaTIzXmg4rUNhn1zD+j46aYrEQJIzEu5Qz02LAwbgjt2k3oJ2lkkw7bpjEee2ASapU21rK5ztH8LHYU6hjtVCtT45IUys8rdUt4ChN3XF+56Lhi1eqR2p0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724833395; c=relaxed/simple;
-	bh=l5o1bgrYKJkJ+MFDPP3JfORlW1we8Lt5q/djJ0xrcwY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mXO2mWx+M0lHbGtRqEuML0Z4si55JwxhUoQuyuya1AQ0paNipXl4jJrI4mkvdOE357KGpGBwcPoAAM4LIgWoms6IwMUw2fCwJ9WHtXVPFsJzzggtXQtl/4JN7A5xoSrBY/26g2/Hku2oN3auiuNgbsplbdajfyHyKkRJGvXaos0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1724837913; c=relaxed/simple;
+	bh=+qA3GjPhmQm0gBlLtsF1WjNxna5DBK6mvirwve4hO7c=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=doezn49Me4e78ev8Bb3cls1xkpe6e94wogEUy+6ToCS3LMXeR5Cwbbokqw1TUuMc+XfU8OORAp4Eqj+vZHto937pNgFeI0E0D6vip2CofgJz2AiJd8sD6RrbN1xV3xEcWXYDuDvM4+uOWRiXiP8XCs2+j0jaenblc6kqBsLHgGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O5emQEza; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-6d0e7dfab60so10329807b3.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 28 Aug 2024 01:23:13 -0700 (PDT)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a80eab3945eso666637066b.1;
+        Wed, 28 Aug 2024 02:38:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724837909; x=1725442709; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YQezADUoPBzO06uzl8Fep7IgE9TotWNgh590G82EupM=;
+        b=O5emQEzahAumS47UF1ptNCYsR7egBkt0ODGp73OUKix/9zX/42Mn2JvdepLrANNB4w
+         Y6LFf1hFs8B2GxmSsvPTRwjmZYHjZTKzZ7PlAkFwm/hLFNsvNTh2dclM+bS48RBYVoWe
+         7MkFM93R6259vxpVASxgvaP8+WlUtNha8my6zlSaZaH9TytZvLnSNX/m3XozU2HLSfey
+         XEdGcAc1Qf18Ow6sMQ1mbrHHtcSI/FkTsk120oOjW04WRMirsq1w69RWmrPUxoY6gNcu
+         8so63vcdWItOWqQg87Q15q3T6Uiu8XY7PB+1jDq9KwADltJsfRaloC+PdAD1dFtcQvnq
+         cJZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724833392; x=1725438192;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ocfTF99wchQ39N4Hwpb5ku5kE3gVniVhDBmhO2vWfB8=;
-        b=E22oFXeUWtlJxxnVwOjvaDx6pX2It6++K9VCxDM1P/Eyms18yGw0sQb2788Cg8R8p4
-         PeobI7ahfxO9+lQz2DrYDjzHEvbikoXAQFvv2c846UALF9xmpyMt8B99rku695/f7JDp
-         Ok3qjjLCVZ0GeKclyGXg7mY92oUaebTYTS8IS6OFFSyobtqCYgTEelaACTxyU9lJfnwH
-         DR1/0AfWhqo9XjpfhCfwZrFn1dA0gZ2/zJMsyokSDFaxlt9fjw6WfeFQv5pKSnyZE4GA
-         36V94/yq8N0k7rnzyNDr72kHKPP2b76lt7G7x1l8yBMUIQtNb8QmNpAasZ/K7O7klT+X
-         THbw==
-X-Forwarded-Encrypted: i=1; AJvYcCUXymaXLwPE2znZzedZIV3FwMzYf2ddbx/Dg3kfVdI1dy73jAmzFWFWdhkLN9/vdkLiVGpaB2lu5/7tKX+Kia95/Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJqBtz5+us41q1kRD437a68vB2+2JqLhEZhkBsDlPrre7rIUEL
-	mvZxqlnX/Zm1PVyHMyr2gpVasq3mapElbBcaM9/D4mG5We2I/O3Y+y3GK4Bh
-X-Google-Smtp-Source: AGHT+IEYZ8zTva4osL3lX7KD656ew7q/gZUk4OQVIOBfTfQUfHoWOwSj04RMgqnXBx8HGF2giiP6FQ==
-X-Received: by 2002:a05:690c:dc4:b0:65f:93c1:fee9 with SMTP id 00721157ae682-6c624418d6amr198006267b3.9.1724833392087;
-        Wed, 28 Aug 2024 01:23:12 -0700 (PDT)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6c39d3a9db0sm22519087b3.88.2024.08.28.01.23.11
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Aug 2024 01:23:11 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-6b47ff8a59aso53146087b3.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 28 Aug 2024 01:23:11 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVJUWWBi7mIEMYqnzyeAkNscrpk8EoB6jwuOuyxlqiYLxOzwN1JY8KIH87MzHz+NDVcx9QVEIXx7jvuXkCuElDINw==@vger.kernel.org
-X-Received: by 2002:a05:690c:95:b0:64b:69f0:f8f2 with SMTP id
- 00721157ae682-6c62441920amr156231277b3.3.1724833391491; Wed, 28 Aug 2024
- 01:23:11 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1724837909; x=1725442709;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YQezADUoPBzO06uzl8Fep7IgE9TotWNgh590G82EupM=;
+        b=E7/6V79kcvecUEt2hoNq/UcEKZMRIZ5SwoEVBzxKcnuZ1VS6235A721Bul5CGxurSd
+         gxgXdY85tYLsyupgKQUhc94xTh4djevCkkOy7p97KRiEr1uWwBpesvw54uv+s5jGbuNP
+         f3sy8qI0rOUYVqu8ZSQWqAjTyPgRULND7t6TY9YqI0sxj077+0wGE3lUZESioGRs6nkW
+         vnL2MSR1Q0shLP7WnsQnld9DN6gegfyU+RaONXorEkf2n02wJPk1U0EV4cu4inaT3OhZ
+         EgouJ9NEnh3LQLrwZRZSxDTNpQ2JzJZnhQl4Qq/zZBKntOq/YuxErg93uZxCTQ7dxQ8s
+         ATow==
+X-Forwarded-Encrypted: i=1; AJvYcCV/9Gw1br/cUD8YTSSnkc75ftnkqkzU+dOuEMNPN889w6/bBZuZdqmtFEBoWXIMPPlSYnXKTuHKk7A=@vger.kernel.org, AJvYcCV9FcC9awL0GJ7C+o1IWfv7+ZYoH1vubdNToU4LMXixVVAJfnBTYeF4rx8e+OFhKLGe057ZSudpZH/TX/Fh@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDe94sqoiJUOdJ65nAQojjIKhbOwMYRo+F+KjPG948R1QAKSLB
+	ZiPh4FBh73Wzwx0UW3T/TEMCsjV3Oh4RZc4rQUss35qTTbT7ZlmC
+X-Google-Smtp-Source: AGHT+IEpsZdR/mnaGMNQLn/MYL46svVGXIjUPQt4XnItVARSLKGHdQuYG4gZj4WquWP6KXgaYlq0+w==
+X-Received: by 2002:a17:907:f15e:b0:a86:b923:4a04 with SMTP id a640c23a62f3a-a870aafff64mr107463066b.50.1724837908939;
+        Wed, 28 Aug 2024 02:38:28 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2500:a01:5ac5:89a0:20cd:42bc])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a86e548967fsm222634366b.19.2024.08.28.02.38.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Aug 2024 02:38:28 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v3 0/2] clk: renesas: rzv2h-cpg: Add divider clock support
+Date: Wed, 28 Aug 2024 10:38:20 +0100
+Message-Id: <20240828093822.162855-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAMuHMdXs=T7Spiu8N_xgx=ai3b1Bcx3qcncwUMwSoN2T2oRFpA@mail.gmail.com>
- <1f29901e-1076-4742-a1cb-c69903afe902@tuxon.dev>
-In-Reply-To: <1f29901e-1076-4742-a1cb-c69903afe902@tuxon.dev>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 28 Aug 2024 10:22:59 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXUE=UJ_dMLVjze2dkzKBLODcVVZmmEffkV6nQsmha_Gw@mail.gmail.com>
-Message-ID: <CAMuHMdXUE=UJ_dMLVjze2dkzKBLODcVVZmmEffkV6nQsmha_Gw@mail.gmail.com>
-Subject: Re: ravb interrupt storm
-To: claudiu beznea <claudiu.beznea@tuxon.dev>
-Cc: Sergey Shtylyov <s.shtylyov@omp.ru>, Paul Barker <paul.barker.ct@bp.renesas.com>, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Claudiu,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Wed, Aug 28, 2024 at 10:11=E2=80=AFAM claudiu beznea
-<claudiu.beznea@tuxon.dev> wrote:
-> On 28.08.2024 10:53, Geert Uytterhoeven wrote:
-> > Yesterday, I saw an interrupt storm on Gray Hawk Single after s2idle
-> > with Wake-on-LAN.
->
-> Do you know if this used to work after suspend to ram and runtime PM
-> support added for RZ/G3S? Not sure if something wrong was added with thes=
-e
-> 2 commits:
->
-> e95273fe4d02 net: ravb: Simplify ravb_resume()
-> b07bc55cbb1c net: ravb: Simplify ravb_suspend()
+Hi All,
 
-These two commits are included.
-But I forgot to mention I saw this only once. I.e. usually it works fine.
+This patch series aims to add divider clock support and add clock and
+reset entries for below IP blocks for RZ/V2H(P) SoC,
+- GTM
+- WDT
+- RIIC
+- SDHI
 
-Gr{oetje,eeting}s,
+v2->v3
+- Updated DDIV_DIVCTL_WEN() macro
+- Introduced struct ddiv to pass divider config
+- Updated DDIV_PACK() macro
 
-                        Geert
+v1->v2
+- Updated DDIV_PACK macro to accommodate width and dropped DDIV_DIVCTL_WIDTH
+- Updated DDIV_GET_* macros
+- Now doing rmw as some of the DIVCTLx require it
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Cheers,
+Prabhakar
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Lad Prabhakar (2):
+  clk: renesas: rzv2h-cpg: Add support for dynamic switching divider
+    clocks
+  clk: renesas: r9a09g057-cpg: Add clock and reset entries for
+    GTM/RIIC/SDHI/WDT
+
+ drivers/clk/renesas/r9a09g057-cpg.c |  84 ++++++++++++++
+ drivers/clk/renesas/rzv2h-cpg.c     | 165 +++++++++++++++++++++++++++-
+ drivers/clk/renesas/rzv2h-cpg.h     |  43 +++++++-
+ 3 files changed, 289 insertions(+), 3 deletions(-)
+
+-- 
+2.34.1
+
 
