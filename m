@@ -1,193 +1,157 @@
-Return-Path: <linux-renesas-soc+bounces-8512-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8513-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A080964C0E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Aug 2024 18:52:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 514DF964E98
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Aug 2024 21:16:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4322028556F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Aug 2024 16:52:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DD0C5282257
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Aug 2024 19:16:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 964221B791D;
-	Thu, 29 Aug 2024 16:51:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 918BE1B654B;
+	Thu, 29 Aug 2024 19:15:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="u0HOd+fY";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lPq20trS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TL6UCmDy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout5-smtp.messagingengine.com (fout5-smtp.messagingengine.com [103.168.172.148])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB22E1B7904;
-	Thu, 29 Aug 2024 16:51:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D1D1465AB;
+	Thu, 29 Aug 2024 19:15:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724950294; cv=none; b=M3Fz4H7W+Wzysyt5w36maWsysnVSWskzbDFgAWOEgHt3UHgFaI5p70dTUnJqVOMJ0nHwTuCOM37gAF+JbePqk/LiRGoix9XC1G5gKIUErVbp39j1U7YGL3Eb/HJ6WTQFSowikxR4ii+FNNhbd7wga1GJEb9wzmYgih1rX1ec+vc=
+	t=1724958957; cv=none; b=X/yxTZ20f/oN1/nKES6nvDLbQhhPnpYtaqOtTNaQE3zeXT56lD2QrVorf4U/6eY2/kg1S1+pWMBwe6+c5S4CyeNdh14gTWLRoeqnzrigJYVS2y76lIzmuZP/x1BdYSQjq3LNUqSITAIOIySF1lsavam8ZzbA7LGbqcwqa06z7TY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724950294; c=relaxed/simple;
-	bh=e2Ul4WhNGlcZeXQdMMvVpKFIdN3eMc1T1l38qwbLHVk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Siq0g67T4aNw8FDkWVoL5jVGZFHP65IJavx8g/VsoX9O1if8UWPzKSQRpFYB9Ex2Q8l+CAkQcgh/0z2F3WVbAX60Slty+yvK05Tkb6SZBRxQayMnpzZhJTFhYqiQAxs4QKA0P03pO6Oj/mVemVtaRtMhzqIwAL0C95II9vG/i3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=u0HOd+fY; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lPq20trS; arc=none smtp.client-ip=103.168.172.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-02.internal (phl-compute-02.nyi.internal [10.202.2.42])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 50960138FFDB;
-	Thu, 29 Aug 2024 12:51:32 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Thu, 29 Aug 2024 12:51:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1724950292;
-	 x=1725036692; bh=JxRke+RPtxCDm2emvz/ESc2BXKQW8dh7vn0rKmecTrU=; b=
-	u0HOd+fY2KLbC9rCy0m9YZwodbBKswh09H2WCD6OJvac2gC3fU4VVRq4ydwz0k6/
-	fENLWo0ZEViIjYDk7KHvfRtH62Yj10IE2k0j+8zW9sbv71vtV4Wa5vQ0TVFBVzbn
-	hMKkFo7sITgXP6SRvJURh4lmzf2yT2IFOnnJ6/DAYQNbMgSj+Uq+Si/xtvhxeW9o
-	COTl2Ndts/BXOJ8WI1I+B0GRwXO3hw35JQaFO3OVcpMduaPRxhPvVdIGQ6CZEnLl
-	SeyrwUBSnAXziM/O3PzCUnXUqKgUjY6Pq5xOVKgzMfVJowYO2Mg25eHiRbPsytXy
-	N6oYUcz5tASi0CxaxDBnqw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1724950292; x=
-	1725036692; bh=JxRke+RPtxCDm2emvz/ESc2BXKQW8dh7vn0rKmecTrU=; b=l
-	Pq20trS8nC3yRoqPritm9CLUhevZbmO5nkI2OJNLAfT9f6frxntgabSm84JxVDVL
-	rPEy8cslwVFdDd6J0syrMl8QJ9HwUHqkwkFNqxV+IU6nMdqti3rOEqU3BcyX2tPI
-	ahZHxjuYsm9Af2PgEur/bRWoO+a03apXsC33S3Mz9FvCEMNrf9XHDmzt7JWcCb45
-	16JTDxnGqe+19h68FAHRe6JLPeFgfRP3SiKbTwWUQGJ4u657MLjkdn5V2rfDoMBk
-	iQ6YSqZUUdnZlwVPCeLGOA80PgphOCopWtV13BLxr1RtYNINJC5kvLsmZ08rsgI/
-	IWtvqGmYV/vAe/QLI++1Q==
-X-ME-Sender: <xms:FKfQZqRqFlJCCa5-UkuwIWUkmCXzlEvEMmd-vBfY1O3hYG0uuKzNMw>
-    <xme:FKfQZvzbgOZpoE5Wg8iNmmq3pY5qJuXQTTrShdi8nG4CudvCdHEwhN1h460p0dzTD
-    kqWQBf0s-2TMtFPciw>
-X-ME-Received: <xmr:FKfQZn1qMjbiH_csr-K6b-8NJEU510S3fRRNRqb50pGs9pMxM4VctUaW6LOYHSRWKzWQ2MbUH6ZwrxJf_a7jt9gK-g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudefgedguddthecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfgggtgfesthekredtredt
-    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
-    guvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgr
-    thhtvghrnhepheeigfeuveeutdefhfehgeekvedtleeuueekveefudehhffhjeffgfegff
-    elfeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
-    nhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtg
-    hpthhtohepuddvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehmtghhvghhrggs
-    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpd
-    hrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptgho
-    nhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgrhgvghhkhheslhhinh
-    hugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehsrghkrghrihdrrghilhhu
-    shesihhkihdrfhhipdhrtghpthhtohepjhhulhhivghnrdhmrghsshhothestgholhhlrg
-    gsohhrrgdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgv
-    rhhnvghlrdhorhhgpdhrtghpthhtohepuggvvhhitggvthhrvggvsehvghgvrhdrkhgvrh
-    hnvghlrdhorhhg
-X-ME-Proxy: <xmx:FKfQZmARQzW65FDcVVV0ry2iHT1WcoODutrj1-HCsiz1yypKXNscqQ>
-    <xmx:FKfQZjhq7m_7V02tM0HUJuuHjr6me0at-4YH6cKqVowZVDl7Rdi0Gg>
-    <xmx:FKfQZiomeNidkC9xIbdy-bHhZ9EkxZnJSpX-oI2sTuI14ptNcjkNvA>
-    <xmx:FKfQZmiNxyrlv7teGO1OLQ9WBucPgzU-XM-NFrrm2gb2gKt36ro5ww>
-    <xmx:FKfQZsa3kSVxwRuqX6_FkHGup2RHixAB9GG-dNh5TbsfnbU_ur-6u6Wo>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 29 Aug 2024 12:51:31 -0400 (EDT)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	Julien Massot <julien.massot@collabora.com>,
-	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: linux-renesas-soc@vger.kernel.org,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v3 5/5] media: staging: max96712: Add support for MAX96724
-Date: Thu, 29 Aug 2024 18:50:51 +0200
-Message-ID: <20240829165051.2498867-6-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240829165051.2498867-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20240829165051.2498867-1-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1724958957; c=relaxed/simple;
+	bh=0jXi7+7QMhF/FyYgxjssnc7RbxbhImRq/78BKVAp2XA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iizfL0EP6SnoEl9R3m4SCvKuiKvUYbq8gJpATgQbIuv0T+xcJz6TSAg9nNDA9FCEJFqJZqxrpzzhqn/vWR+AvX1L0AyiOV16cURwjkYoStfS1J4JdfGC9VPLxQSANeE4YdoHPHZn2nJfIb2OluCJjZtDKpgPpUGYT0fma0W0Zk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TL6UCmDy; arc=none smtp.client-ip=209.85.221.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-4feb60e525bso587477e0c.0;
+        Thu, 29 Aug 2024 12:15:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724958955; x=1725563755; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nR0JuAwLuIKu+YZbSZKkpBbfbZUDSLztLsb5RIpWmB4=;
+        b=TL6UCmDylPiyrTNyc68n+ztq5Q5WISuBLZ3rVeXdtIG3NvsNWHfPbpznFDe2Qmb4fc
+         4PPuZogz3Es95t7FsJBZE4G1eCUPKEnLjmri7iT0BMTf9s6N8xCpisSNogzjvvDH4Rdv
+         InQpRbd3M+3CdL71h5ouKmQcQSg3imt6cs3wTZt0tKItQsHQpa6vHJE0e+gWduxVigEt
+         ukKT0iQ40uSMbOCi9VAlpE0QkDnYh7XV+EQ1WOJst49v3jqnFIaaKTCiWcfFWk81W6vZ
+         +mhwLC8Sr/pWQgR1RqESUVvXQqf03ASa/PUpLNlVjqeg5N/E0rSS7WMdNQH8CSq0BlKI
+         +LkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724958955; x=1725563755;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nR0JuAwLuIKu+YZbSZKkpBbfbZUDSLztLsb5RIpWmB4=;
+        b=mtLI3IAVQpRBwdBy+7b9ge/L/ylWm/4VdXYaRbebl4okJ6U6KQGclNUlXHZUU6GJXZ
+         3b+af683t+D/Bt6XVM+r/XmQHqNOmcajlOcow+Jd1Ydjo/aRdPm0u4XCQhYDlgad6dP5
+         clqO2NWkQ4A3mWxDibDCh2ZZ9m8VYPp/18zwQXO/05BCaYxpXl0jCx9st0jE8gkFDXcq
+         h6CuYQYyObrW6SZohkURiOq7Jh4g21MpIjtQrgaYFDF0GaMiZur34h00SAMEViOD+J9Y
+         pnGrXslUHHsnwZUkA2Fa1vdlE2ugQiUZoNW/ZjfoEUoXUSUppOjhip9XSq+05/vDEXYE
+         iedg==
+X-Forwarded-Encrypted: i=1; AJvYcCV0PYGWBNOlgkucYkDoRXFVkVpraGKcOxinnPIEaaCdwplPamK2ZxL5nHtsSRA+lBLXPU2oTbarBKtyLwYyQYL7taA=@vger.kernel.org, AJvYcCX0Se00CoimizG5uycWsLJCaQoCp+hWmtxw494XqH6jCNbI9/7gqD4iBVlZud486VT1VJf1CkWbJQcF@vger.kernel.org, AJvYcCXVUfmj0ybzMslaeZMm7C6iASPc8ONspSE7CDlWy6Vy8AO/ZKYETvWYwg0B/f/fCOj6DOorjm4tMDR8mVj2@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4G71YBs1l5FdmIM2YwUwR8cRlNmKYsfcQI72BlaTGPUv3fIEH
+	+qkAVMHGPERzHVOr4ZVFLS3EEmCjfl5UjSjpWevYc4OmkUK4sEjajQROj1fZf9CHs5kI/IjeyGV
+	uRg0fMJimEUSAIWqwL+hHFK+JjQE=
+X-Google-Smtp-Source: AGHT+IHgv7JcjoF2hykAtWUI6o2nnP5h2u8BmIiAGNCkjmIUGko5XrcSIvgWtonot4VZ8C5CT7i2yskb+aCm7ARQRYA=
+X-Received: by 2002:ac5:c4d2:0:b0:4f9:a30:d855 with SMTP id
+ 71dfb90a1353d-5003b09d2f7mr3094385e0c.3.1724958954636; Thu, 29 Aug 2024
+ 12:15:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240827131722.89359-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240827131722.89359-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdU739fyGhF4WGo-REEus82h0VVz+jQtgXk5qUaTqvu6hg@mail.gmail.com>
+In-Reply-To: <CAMuHMdU739fyGhF4WGo-REEus82h0VVz+jQtgXk5qUaTqvu6hg@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 29 Aug 2024 20:15:24 +0100
+Message-ID: <CA+V-a8uU2UfhB7JhSKOuOQrOxaGtyuKAMWW-ZC+xDrfYRpHekA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] pinctrl: renesas: rzg2l: Introduce single macro for
+ digital noise filter configuration
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>, linux-renesas-soc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The MAX96724 is almost identical to the MAX96712 and can be supported by
-the same driver, add support for it.
+Hi Geert,
 
-For the staging driver which only supports patter generation the big
-difference is that the datasheet (rev 4) for MAX96724 do not describe
-the DEBUG_EXTRA register, which is at offset 0x0009 on MAX96712. It's
-not clear if this register is removed or moved to a different offset.
-What is known is writing to register 0x0009 have no effect on MAX96724.
+Thank you for the review.
 
-This makes it impossible to increase the test pattern clock frequency
-from 25 MHz to 75Mhz on MAX96724. To be able to get a stable test
-pattern the DPLL frequency have to be increase instead to compensate for
-this. The frequency selected is found by experimentation as the MAX96724
-datasheet is much sparser then what's available for MAX96712.
+On Thu, Aug 29, 2024 at 2:09=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> Thanks for your patch!
+>
+> On Tue, Aug 27, 2024 at 3:17=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail=
+.com> wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > When enabling the digital noise filter for the pins, it is necessary to
+> > configure both the noise filter stages (via the FILNUM register) and th=
+e
+> > sampling interval (via the FILCLKSEL register). To simplify this proces=
+s,
+> > we introduce a single macro for configuring the digital noise filter.
+>
+> Currently the pin control tables just declare which pins support
+> digital noise filter configuration, but the driver does not support
+> configuring the digital noise filters yet, right?
+>
+Yes that's right.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
-* Changes since v2
-- Use device information instead of if and switches statements to
-  differentiate between to two devices.
+> So I'd reword the paragraph above to something like:
+>
+>     Support for enabling the digital noise filter, and support for
+>     configuring the noise filter stages (via the FILNUM register) and the
+>     sampling interval (via the FILCLKSEL register) are related: a pin
+>     supports either all or none of them.  Hence simplify declaring digita=
+l
+>     noise filter support for a pin by using a single feature flag instead=
+ of
+>     three separate flags.
+>
+Ok, I'll update the commit description as above.
 
-* Changes since v1
-- Group in series together with binding.
----
- drivers/staging/media/max96712/max96712.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+Cheers,
+Prabhakar
 
-diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
-index 5c15346c05dd..63ef7eb206e8 100644
---- a/drivers/staging/media/max96712/max96712.c
-+++ b/drivers/staging/media/max96712/max96712.c
-@@ -27,6 +27,7 @@ enum max96712_pattern {
- 
- struct max96712_info {
- 	unsigned int dpllfreq;
-+	bool have_debug_extra;
- };
- 
- struct max96712_priv {
-@@ -173,8 +174,9 @@ static void max96712_pattern_enable(struct max96712_priv *priv, bool enable)
- 		return;
- 	}
- 
--	/* PCLK 75MHz. */
--	max96712_write(priv, DEBUG_EXTRA_REG, DEBUG_EXTRE_PCLK_75MHZ);
-+	/* Set PCLK to 75MHz if device have DEBUG_EXTRA register. */
-+	if (priv->info->have_debug_extra)
-+		max96712_write(priv, DEBUG_EXTRA_REG, DEBUG_EXTRE_PCLK_75MHZ);
- 
- 	/* Configure Video Timing Generator for 1920x1080 @ 30 fps. */
- 	max96712_write_bulk_value(priv, 0x1052, 0, 3);
-@@ -455,10 +457,16 @@ static void max96712_remove(struct i2c_client *client)
- 
- static const struct max96712_info max96712_info_max96712 = {
- 	.dpllfreq = 1000,
-+	.have_debug_extra = true,
-+};
-+
-+static const struct max96712_info max96712_info_max96724 = {
-+	.dpllfreq = 1200,
- };
- 
- static const struct of_device_id max96712_of_table[] = {
- 	{ .compatible = "maxim,max96712", .data = &max96712_info_max96712 },
-+	{ .compatible = "maxim,max96724", .data = &max96712_info_max96724 },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, max96712_of_table);
--- 
-2.46.0
-
+> > This patch removes the PIN_CFG_FILNUM and PIN_CFG_FILCLKSEL configurati=
+on
+> > macros and renames PIN_CFG_FILONOFF to PIN_CFG_NF.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> For the actual patch contents:
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
 
