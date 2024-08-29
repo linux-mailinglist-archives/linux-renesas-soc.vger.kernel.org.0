@@ -1,90 +1,94 @@
-Return-Path: <linux-renesas-soc+bounces-8514-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8515-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6944F964EA2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Aug 2024 21:18:33 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1F93964ED0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Aug 2024 21:29:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 04339B21D36
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Aug 2024 19:18:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E4D211C23220
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Aug 2024 19:29:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FF661B1513;
-	Thu, 29 Aug 2024 19:18:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 594171B9B46;
+	Thu, 29 Aug 2024 19:29:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QuMvUGDb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nV4TTSlY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C0C1AE846;
-	Thu, 29 Aug 2024 19:18:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7EA747A76;
+	Thu, 29 Aug 2024 19:29:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724959107; cv=none; b=eOQH5/wMvWyHDx0XdalL3GC4onL7AWU3ViyL1zq3Ny37Nnsql2Bw3V1VNBGcfOsOTX6bV0zy4AMq1Iik10boDgztVChgRlio2PrD0PLJuk2s/sCLZCxk669Ec40yNlat/iyrJfeiK2wLnmDM+FrRAwcpxy9rzwTlVs5QebThO0Y=
+	t=1724959769; cv=none; b=rh9rEa5fkcEPgL3feq1t7jDlv+/osNgJqm13rzxrhkWp+vvUXX+sqBIzZrHQz/Jbr3iR7kLxXuhYMSw0dc0wy0d6OCNPvmKBIExEchvNgkvCSJSsknsDKKuDhh+YPSUVk9hmwRihzuMwZiaAMlC0jQzwMnvz4v7NR6VC7NnIlQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724959107; c=relaxed/simple;
-	bh=Bfl3X5+OnlYa8Tsu/RDj1/uV8IyVSiTBFiRpVKRHdUY=;
+	s=arc-20240116; t=1724959769; c=relaxed/simple;
+	bh=3KpG/wc2uvwyuNONFaqBxDlDvvAS4epRIbXbeEuwtwY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iPRqwmrDE8saI0lI9QbIMCj53jwKevzi5+BCoNcDKlgikjk1zrMmLrVkhQlCGgoKdacb5+QerODdnYZmCTTDyYUOs/kndZIwxT5KX7T3wkaHuypkoDfXRX7aI38JpIk27KDCaPdy5h6JjzpkroYGsS+G5h9PGyz/RuswJrZDm1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QuMvUGDb; arc=none smtp.client-ip=209.85.221.170
+	 To:Cc:Content-Type; b=O5UAKduD/ymCyyg6mbN6CAkhjQQBS4YuZZTDWm9ej8s5ClH7xD+pN7+0tcAzcseVVPOngIjYnW5LecZuweaSliE/+Sre0kHNwivnWRQEmqVGdNb8x+ecabxzuCPC7ApNDoXsd/5MPhNvVVRFEEJBHJ9DV0MH2rXadimVyqX8RVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nV4TTSlY; arc=none smtp.client-ip=209.85.221.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-4fce700765aso316939e0c.2;
-        Thu, 29 Aug 2024 12:18:25 -0700 (PDT)
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-4fcf40c9ed3so387392e0c.2;
+        Thu, 29 Aug 2024 12:29:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724959104; x=1725563904; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1724959765; x=1725564565; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9JkqGVwZ2J/+2kgurqnclJ7nnN7Z9znEYkfxsvyobCA=;
-        b=QuMvUGDbzw6B/gNk6nMwkg/gulgWFBptypY1x7wwgPhe/7zAhP8jkp3sFSUnrR4BYe
-         Rt3Dm1Zne2JXzM1fAWfBaqp6rADgEkhLaIwyQpo/1hKPf3cl6mtgzy1tED4H62L4cP0T
-         pnNtnCZGceXD9BDyNvNQpx3k/HfI3jcJ4TV6BA9rO7cAQdJmcKuZI6nrtNpmw/Kcu+nz
-         XBKIQBHPsfKypF/aF36JybPuNCuwF+kgb5/NtabioYRkqwpLJWa9fIPMDunrwpmi/rOr
-         7rh4Cvha7hh6GHxygQJsVj5coajeFIv/bxNrzAQCCFi9e/8gOaoGIuoRuI8pGSx2iDnS
-         VV/g==
+        bh=DGGo2SsQCJsSRPiHAjvLnUoOPi0Z0l/2WghbU6Jy+dI=;
+        b=nV4TTSlYu5R7IDdHne7y9pIfl4IER4snxqo+OV3wmbM4prFNYGDe7KK5HPkv57ZTIk
+         PZy7VszheVd6sU/Eg7fVWOUcSAofZbJdOV7u/lGn/DRPoGDMF+xpt420X3GHfJoo1Gr5
+         VLF1gIrcudUivK4QsytOoTYm2wKfM2+kZ5runZCdRuDs57idx4nLB4QGCI5uFv5bDOsq
+         OcVRrQAaxfLKZidUnuonhXxHy+XTDzaFFB1B1rsw+UfiAEIAZ+Vw249ngNqQcw+/lt6H
+         H56B3lCsFBR4mEhlOLAQY2+7C0XBEqHjKcwHYCRpLMXgbOaefvEx00hvBo/O1iVD51Ld
+         g1OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724959104; x=1725563904;
+        d=1e100.net; s=20230601; t=1724959765; x=1725564565;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9JkqGVwZ2J/+2kgurqnclJ7nnN7Z9znEYkfxsvyobCA=;
-        b=SllRBlpz9Y69HJm5iXaAPPL92KqHpkhjba8dHzfWKOs7m7sawa3caFtdnq0FqJ7ytX
-         YZxAfp1yjSO9AvyTWKXwF9lTeRVRtrP9BL+owZIqAiLMS0/sbpeBjn2VVa/xgEx/pVTI
-         x/vecFYqVKFEElAXlYgPnDNbd12dfSXmMD7PGZt8MmzgAXEdWOJIlohgXLW04ENd5cnJ
-         gf3r7anxd9WflMXOjiakffee+5pDQlw2Sn/jOvdvusfZGzLyEx1/Kz5QkwuA54ooAr+i
-         7b3flz0JRAZsq2BQwUqFxomnZcQjoS6o/YSM2nc2b38fVMe4zUATddOYcdFyta1qi+xp
-         qV3g==
-X-Forwarded-Encrypted: i=1; AJvYcCVtqTps88uYvyXkpm7jVzJYJL4KY+As/NH4p8c0QmbvU6canlYn4Bj8lG58ZOUknJXejguQqEAcGDNgwY08@vger.kernel.org, AJvYcCWE8raP8IgDX+rJQa6hktLp1i4i1MNFFBIyJVAg10+bju+ujFtbNgjcqgTgopxXpoAfRMBo2+P5T1FpMUhF2ZQ04nk=@vger.kernel.org, AJvYcCXUXd3g7TntjAIDt0OJzm22lxgvfHtZIFA6tv70NNQHSXKrdY3o8g/QsdCpLha1wEpQjY3NeO8OTBtO@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnLiAEjaL6bU/cxhEZ1Vq2dZ0XtP49SLcAFaGkH4hJRKW54RzQ
-	jw8OkhQXt44J3Sg3bd9Y/QUvAkGrqwf1iI0XvthAfo6lkX08fTKX6E6vupPxEgAvqUz01P4lSYx
-	LOv8WHSUgGHhPwZZea31BMv5OC78=
-X-Google-Smtp-Source: AGHT+IHt7UDuSj5pm8LnzOWtjWbPFfnpw2JDNvyyuEtnENLmFrNE/DrgG2NXJBGp5zXDTggsD1Ni9vazMSjN8Xx9Qc8=
-X-Received: by 2002:a05:6122:da8:b0:4f6:ad39:dab1 with SMTP id
- 71dfb90a1353d-4ffe4a7e888mr4435149e0c.5.1724959104344; Thu, 29 Aug 2024
- 12:18:24 -0700 (PDT)
+        bh=DGGo2SsQCJsSRPiHAjvLnUoOPi0Z0l/2WghbU6Jy+dI=;
+        b=Sf3iQ4Uy8Utq/E/vncD3Ksh7kx3lvmmj7GMLTPnWHX9iSaigVhtYxBJLvbbYUHn4LM
+         g3KXH8CnzEe+V+K/+0P9UD5cgh0zDJKk8u9//DYC81tOsXUes4OyTkF5cPD/B0PzjKIl
+         9hC3Sp+xmQ6kJHZuAilnDBoJHWWd4aGmCd5aUky3ykdsbzk6TS4t+yScPRPv+b652tSt
+         ztfazJwO8KiI3G7gfadxJ5dxWW5EdsrXrr7msqHXpLuEtAY1ZUKco32THROCSXxEgM6D
+         SLH8cR2K7Wh+n6Sw/U8JUG72GmwiQSbz4j4MWQciVQ6AfiXvEFL5tmznHFIsDU1pgO/g
+         LRMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUGOFXZQCEHtY1grdTD7kg0avl6P31DFUQ4/CSw/XBvI6Lw1bXp2IV7PkpyflzaQomqWJO+SyXBrz4iLFFPxgQ=@vger.kernel.org, AJvYcCUeTR4T4wISmUnfHNDEhbXiOoKu/nxoBSWq9tX0qNiNzYsVFFjDN8LRKktmjBWK8DPG9M4ITvcw1uAZ@vger.kernel.org, AJvYcCUxYj0gWea/IwjnOmzGUlhw8pg36QWeB+cIFGdQdlSd/ifMNU/dsQFLZnHU1p2z49fnQ6GWNOjpLbuG9M/2@vger.kernel.org, AJvYcCWeHGhoGtGSTVXuDw9q1eiv1GFcUoy7lg9Y7kGn43RfbasKbK2GpwBE3c9KoyA2ouvJ7Kgj6RJgGOx5lIri/JkPcVs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwqURiJLy0pcwgblkB23L+H3jLKj8S/W6iMsij9SerKZtOpu6MM
+	JLc3dIoD5MnNwfHtibtJ/mRIU3V0dsPcAv4HNfUD0w2YSqurXwrcQLlbkuMvFPQml+gexnDfiX3
+	yFWCaQQqbI31llH3jPRM8mfEevn8=
+X-Google-Smtp-Source: AGHT+IHXKA2wunTaaLZKYHYRHBG7bSAniQ2ZxL8dU1VVslmMiYZoE7LHztbtU809u4jFkK9vfv83aNVqlxPAOYB8C48=
+X-Received: by 2002:a05:6122:32cb:b0:4eb:5cb9:f219 with SMTP id
+ 71dfb90a1353d-4ffdc01e02dmr3845066e0c.0.1724959765459; Thu, 29 Aug 2024
+ 12:29:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240827131722.89359-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240827131722.89359-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdVQ-hy7aW-rs5eTLSOULF_GHVV=NHvjCLhPW3XS3Y=+8Q@mail.gmail.com>
-In-Reply-To: <CAMuHMdVQ-hy7aW-rs5eTLSOULF_GHVV=NHvjCLhPW3XS3Y=+8Q@mail.gmail.com>
+References: <20240806210623.183842-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240806210623.183842-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdUW8FjgNb9J4hsfZOk3EbXMmihemm2BkO4pLAaZ-QGNiw@mail.gmail.com>
+In-Reply-To: <CAMuHMdUW8FjgNb9J4hsfZOk3EbXMmihemm2BkO4pLAaZ-QGNiw@mail.gmail.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 29 Aug 2024 20:17:54 +0100
-Message-ID: <CA+V-a8tNy8OCg3iBrpRLDJ8Ee-wa7npTGggm_K6-a+aW8DBgUw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] pinctrl: renesas: rzg2l: Move pinconf_to_config_argument()
- call outside of switch cases
+Date: Thu, 29 Aug 2024 20:28:55 +0100
+Message-ID: <CA+V-a8sLppm1Mn08nVXxXOpmBtwmDmMQjzuAcuV9yku-0V=5Hg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] dt-bindings: watchdog: renesas,wdt: Document
+ RZ/V2H(P) SoC
 To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>, linux-renesas-soc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-watchdog@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Conor Dooley <conor.dooley@microchip.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -92,84 +96,39 @@ Hi Geert,
 
 Thank you for the review.
 
-On Thu, Aug 29, 2024 at 2:15=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
+On Thu, Aug 29, 2024 at 11:07=E2=80=AFAM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
 >
 > Hi Prabhakar,
 >
 > Thanks for your patch!
 >
-> On Tue, Aug 27, 2024 at 3:17=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail=
+> On Tue, Aug 6, 2024 at 11:06=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail=
 .com> wrote:
 > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > Refactor the `rzg2l_pinctrl_pinconf_set()` function by moving the call =
-to
-> > `arg =3D pinconf_to_config_argument(_configs[i])` to the beginning of t=
-he
-> > loop. Previously, this call was redundantly made in each case of the
-> > switch statement.
+> > Add support for the Watchdog Timer (WDT) hardware found in the Renesas
+> > RZ/V2H(P) SoC to the `renesas,wdt` device tree bindings. The RZ/V2H(P)
+> > SoC features a WDT that is compatible with existing Renesas watchdog
+> > drivers.
 >
-> This is not 100% true: the PIN_CONFIG_BIAS_* cases do not
-> call pinconf_to_config_argument(). But I agree that calling it
-> unconditionally doesn't harm.
+> Your patch "watchdog: Add Watchdog Timer driver for RZ/V2H(P)"
+> contradicts the last sentence, so please drop the latter.
 >
-Ok, I'll update the commit description to below:
+Ok, I'll update the commit message and send a v5.
 
-Refactor the `rzg2l_pinctrl_pinconf_set()` function by moving the call to
-`arg =3D pinconf_to_config_argument(_configs[i])` to the beginning of the
-loop. Previously, this call was redundantly made in most cases within the
-switch statement.
-
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> > --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> > +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> > @@ -1395,7 +1395,6 @@ static int rzg2l_pinctrl_pinconf_set(struct pinct=
-rl_dev *pctldev,
-> >                         break;
-> >
-> >                 case PIN_CONFIG_OUTPUT_ENABLE:
-> > -                       arg =3D pinconf_to_config_argument(_configs[i])=
-;
-> >                         if (!(cfg & PIN_CFG_OEN))
-> >                                 return -EINVAL;
-> >                         if (!pctrl->data->oen_write)
->
-> Missed opportunity for simplification:
->
->                 case PIN_CONFIG_POWER_SOURCE:
-> -                       settings.power_source =3D
-> pinconf_to_config_argument(_configs[i]);
-> +                       settings.power_source =3D arg;
->                         break;
->
-And while at it I'll replace as above and below in the v2.
 
 Cheers,
 Prabhakar
 
-> > @@ -1432,8 +1429,6 @@ static int rzg2l_pinctrl_pinconf_set(struct pinct=
-rl_dev *pctldev,
-> >                         break;
-> >
-> >                 case PIN_CONFIG_DRIVE_STRENGTH:
-> > -                       arg =3D pinconf_to_config_argument(_configs[i])=
-;
-> > -
-> >                         if (!(cfg & PIN_CFG_IOLH_A) || hwcfg->drive_str=
-ength_ua)
-> >                                 return -EINVAL;
-> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 >
->                 case PIN_CONFIG_DRIVE_STRENGTH_UA:
->                         ...
-> -                       settings.drive_strength_ua =3D
-> pinconf_to_config_argument(_configs[i]);
-> +                       settings.drive_strength_ua =3D arg;
->                         break;
+> > --- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> > +++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
 >
-> The rest LGTM.
+> With the above fixed:
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 >
 > Gr{oetje,eeting}s,
 >
