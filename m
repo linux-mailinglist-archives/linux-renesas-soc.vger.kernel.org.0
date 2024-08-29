@@ -1,165 +1,168 @@
-Return-Path: <linux-renesas-soc+bounces-8499-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8500-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A1AB96478E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Aug 2024 16:06:17 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A38696473F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Aug 2024 15:52:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 097D3B23E20
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Aug 2024 13:51:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4FB401C22C37
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Aug 2024 13:52:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08F6D18E046;
-	Thu, 29 Aug 2024 13:51:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A22519306A;
+	Thu, 29 Aug 2024 13:52:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BqCPa1+w"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED68A26AE6
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Aug 2024 13:51:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A160042A96
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Aug 2024 13:52:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724939481; cv=none; b=WHFY0CneKEsVzMRaOkcut9RGZ1hwtka5JNzYC9IZVE6lV5WLi1WTPcN4g+XDXqjy6cYmhhWb1L0czZ6BQzgHuuoqVYdy5xZHI1Bev1siAVfQ/2TLDKPttH4XM7AK/8Ra1mW5CX88U6gYKdJ4NoCz89kKg8ETt+ge5nBth82M0+Y=
+	t=1724939557; cv=none; b=NkSTXec1r18NgmKNhOEaC1o5UsLUcOweMYc0kRdy5jnWVX1EUNx8XDTBKiEOx5Rh2FE/w1nyQBOgvE5sMLorogX5YXdPAy/WcXAb2Wl2r4cG1Vmos26C5VDzg2XBbXAuJJ8rjq2YLwdx8c+4Lv14wP2kHcRukNCv/p6+IxN5n7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724939481; c=relaxed/simple;
-	bh=52HsxIqRdki3hgOle1v5M1YcA23Hhuw0rdhcNc7e4MI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JduCzKQz1vzk3kNexKQVixuipBKjT/3EIxF5Qbz5o/yAoasp5qddOGWeUZnZ+jGGTCDBzLY583WccPRxlAKkIgKhDeZtS7U3DGfOMvO5S1kAFi5ywER7YTxOrZouugwhTNQ41ive3JtkVFl0rHRFjibmQdYKsAPsS2mpUKthjSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-691bb56eb65so6757887b3.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Aug 2024 06:51:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724939478; x=1725544278;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oO+LwtIAdtwbqPzFoJJxjo3VESdONs3yqV/pQ3ireRc=;
-        b=js8HvfnQfouslecKURVXzRLvgHIn5/7uXltLpjCKdmOzOLxsff9UYYoY5Pls6U/1mT
-         GfNRNwQh/Rl908FQQbLO7QLkm3otp5mQL0T+nf3mSukwMmu+6D58hc3Ar07X9OY7oNxN
-         HMV0Wul3D70AVjBVlbHHhVBV+SU8pC+3fne1qWNZIn0QbJpJCt8Tx7GTV90W8Lcko0Vm
-         badpQu5I6wyc8WAETd5qjOxxs41Mba6ECgA+IARgSZzqr5zFK1gCvZxWSIh+Zki+AuXk
-         1Bytkd1PQmNln49lFekE2KbUKVx9DSVuQzGJQVaK6j5zY74WO2CcCbO6xEgvK1Irudwa
-         VB0w==
-X-Forwarded-Encrypted: i=1; AJvYcCW8we9O+CgJ4lPVfWWq0/gBS/xOE5EyNlesIl8pyGlkuiDTYywGHiAUgEY1XHWufKpmuq5gPTgesV6j40/5MITIGg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/a5cQC9GfnX1BOL4m7P5i9eZ8Z32WzmFDXXfVbFGKpU+9tyk7
-	z5HHsuQhkmyaEEhkNXi8BtqBVfOWNYb9cHHdr1LPpPaQ1LSo0p+LHJMtr8yw
-X-Google-Smtp-Source: AGHT+IEq/4OlW5NliexegKgdr3HjyK/UWHeD6qQ+k4Gk35wXX4f/GzBir79EPQ4mnPvj+e5GvbriOw==
-X-Received: by 2002:a05:690c:2d89:b0:6c3:856a:388d with SMTP id 00721157ae682-6d276403669mr24041557b3.13.1724939478224;
-        Thu, 29 Aug 2024 06:51:18 -0700 (PDT)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6d2d6198599sm2451787b3.141.2024.08.29.06.51.17
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Aug 2024 06:51:17 -0700 (PDT)
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e13cda45037so719163276.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Aug 2024 06:51:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW796a2UYZWBCkIZH9Zm5Dc3WvsnLMXVFoVILUVaCw7un97LMg5Nqjxz3G6Uzwf+J3/T0eq8szVyJUfdRxZIJ0QRg==@vger.kernel.org
-X-Received: by 2002:a05:6902:1028:b0:e16:6785:1a5b with SMTP id
- 3f1490d57ef6-e1a5ab72c0emr3573138276.14.1724939477651; Thu, 29 Aug 2024
- 06:51:17 -0700 (PDT)
+	s=arc-20240116; t=1724939557; c=relaxed/simple;
+	bh=dwJLBip6NVw3TOM7RLfpjT9Ru9SpDHoboleBfUqTopI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DtfqH4p8UElpInTf0DmwZDMbkcGk2QJbDyASCmUgugEhbD0r7sZKk4UnXg8ZcNX4azKwL9ApALqEcjXOukJTD0mbDPQZkN6MKMgEZCIpaIIZzOkJvXhcTDa36B0uSLGXQkXBC98y59LoOUlZ1+Y7WJtZqXUHf7t2wFvspOWgvyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BqCPa1+w; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0B08A226;
+	Thu, 29 Aug 2024 15:51:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1724939485;
+	bh=dwJLBip6NVw3TOM7RLfpjT9Ru9SpDHoboleBfUqTopI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BqCPa1+wJWbi+8XrP2lKqTiaoIGnBYb/xoo6RV5yMZlrpqIEZX4/doc0SERofq+wW
+	 VmH4Lck4NPXHT/cwXsTFE+xPk1pYfkZdsJL5m2oOaV8H+uBjtEYfWVJgh05w/hZNxo
+	 MR/Urr3F3lpSo4hLO+SXubiSJ1YEqUMg87H7bH/M=
+Date: Thu, 29 Aug 2024 16:52:03 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	"biju.das.au" <biju.das.au@gmail.com>
+Subject: Re: [PATCH v2] drm: rcar-du: Fix memory leak in rcar_du_vsps_init()
+Message-ID: <20240829135203.GG12951@pendragon.ideasonboard.com>
+References: <20231116122424.80136-1-biju.das.jz@bp.renesas.com>
+ <20231218103903.GP5290@pendragon.ideasonboard.com>
+ <TY3PR01MB11346C640612E2AD57120787C86942@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <20240827222237.GH30398@pendragon.ideasonboard.com>
+ <TY3PR01MB113469F39EFC94916FC2570B986952@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <292638fde9aef8b00e984245f43dc02a818cf322.1716816827.git.geert+renesas@glider.be>
- <9c6116fd-d32d-4150-b0dd-91b8e1a539f2@linux.dev>
-In-Reply-To: <9c6116fd-d32d-4150-b0dd-91b8e1a539f2@linux.dev>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 29 Aug 2024 15:51:04 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW_Uc+ghgXNiW_yvsYdR1_wdQ9_Vskw4GBthysWUCoiXw@mail.gmail.com>
-Message-ID: <CAMuHMdW_Uc+ghgXNiW_yvsYdR1_wdQ9_Vskw4GBthysWUCoiXw@mail.gmail.com>
-Subject: Re: drm: renesas: shmobile: Add drm_panic support
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <TY3PR01MB113469F39EFC94916FC2570B986952@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 
-Hi Sui,
+On Wed, Aug 28, 2024 at 07:21:32AM +0000, Biju Das wrote:
+> On Tuesday, August 27, 2024 11:23 PM, Laurent Pinchart wrote:
+> > Subject: Re: [PATCH v2] drm: rcar-du: Fix memory leak in rcar_du_vsps_init()
+> > 
+> > Hi Biju,
+> > 
+> > On Tue, Aug 27, 2024 at 04:43:12PM +0000, Biju Das wrote:
+> > > Hi Laurent and Tomi,
+> > >
+> > > Gentle ping. Are you happy with this patch?
+> > 
+> > I've sent a pull request last Friday, see
+> > https://lore.kernel.org/r/20240822234445.GA23541@pendragon.ideasonboard.com
+> 
+> I believe the commit[1] won't apply any more as the source location is moved.
+> Shall I resend the patch or You will take care, please let me know.
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git/commit/?h=drm-next-20240823&id=866dfbc953d46cf7682c6a434a4dd6249677fd68
 
-On Wed, May 29, 2024 at 1:31=E2=80=AFPM Sui Jingfeng <sui.jingfeng@linux.de=
-v> wrote:
-> On 5/27/24 21:34, Geert Uytterhoeven wrote:
-> > Add support for the drm_panic module, which displays a message on
-> > the screen when a kernel panic occurs.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
->
-> Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+I think git will be able to handle that nicely.
 
-Thank you!
+> > > > -----Original Message-----
+> > > > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > Sent: Monday, December 18, 2023 10:39 AM
+> > > > Subject: Re: [PATCH v2] drm: rcar-du: Fix memory leak in
+> > > > rcar_du_vsps_init()
+> > > >
+> > > > Hi Biju,
+> > > >
+> > > > Thank you for the patch.
+> > > >
+> > > > On Thu, Nov 16, 2023 at 12:24:24PM +0000, Biju Das wrote:
+> > > > > The rcar_du_vsps_init() doesn't free the np allocated by
+> > > > > of_parse_phandle_with_fixed_args() for the non-error case.
+> > > > >
+> > > > > Fix memory leak for the non-error case.
+> > > > >
+> > > > > While at it, replace the label 'error'->'done' as it applies to
+> > > > > non-error case as well and update the error check condition for
+> > > > > rcar_du_vsp_init() to avoid breakage in future, if it returns positive value.
+> > > > >
+> > > > > Fixes: 3e81374e2014 ("drm: rcar-du: Support multiple sources from
+> > > > > the same VSP")
+> > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > >
+> > > > Reviewed-by: Laurent Pinchart
+> > > > <laurent.pinchart+renesas@ideasonboard.com>
+> > > >
+> > > > > ---
+> > > > > v1->v2:
+> > > > >  * Replaced the label 'error'->'done' as it applies to non-error case as
+> > > > >    well.
+> > > > >  * Update the error check condition for rcar_du_vsp_init() to avoid
+> > > > >    breakage in future, if it returns positive value.
+> > > > > ---
+> > > > >  drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c | 10 ++++------
+> > > > >  1 file changed, 4 insertions(+), 6 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+> > > > > b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+> > > > > index 70d8ad065bfa..4c8fe83dd610 100644
+> > > > > --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+> > > > > +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+> > > > > @@ -705,7 +705,7 @@ static int rcar_du_vsps_init(struct rcar_du_device *rcdu)
+> > > > >  		ret = of_parse_phandle_with_fixed_args(np, vsps_prop_name,
+> > > > >  						       cells, i, &args);
+> > > > >  		if (ret < 0)
+> > > > > -			goto error;
+> > > > > +			goto done;
+> > > > >
+> > > > >  		/*
+> > > > >  		 * Add the VSP to the list or update the corresponding existing
+> > > > > @@
+> > > > > -743,13 +743,11 @@ static int rcar_du_vsps_init(struct rcar_du_device *rcdu)
+> > > > >  		vsp->dev = rcdu;
+> > > > >
+> > > > >  		ret = rcar_du_vsp_init(vsp, vsps[i].np, vsps[i].crtcs_mask);
+> > > > > -		if (ret < 0)
+> > > > > -			goto error;
+> > > > > +		if (ret)
+> > > > > +			goto done;
+> > > > >  	}
+> > > > >
+> > > > > -	return 0;
+> > > > > -
+> > > > > -error:
+> > > > > +done:
+> > > > >  	for (i = 0; i < ARRAY_SIZE(vsps); ++i)
+> > > > >  		of_node_put(vsps[i].np);
+> > > > >
 
-> > --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-> > +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-> > @@ -273,6 +273,13 @@ static const struct drm_plane_helper_funcs shmob_d=
-rm_plane_helper_funcs =3D {
-> >       .atomic_disable =3D shmob_drm_plane_atomic_disable,
-> >   };
-> >
-> > +static const struct drm_plane_helper_funcs shmob_drm_primary_plane_hel=
-per_funcs =3D {
-> > +     .atomic_check =3D shmob_drm_plane_atomic_check,
-> > +     .atomic_update =3D shmob_drm_plane_atomic_update,
-> > +     .atomic_disable =3D shmob_drm_plane_atomic_disable,
-> > +     .get_scanout_buffer =3D drm_fb_dma_get_scanout_buffer,
-> > +};
-> > +
-> >   static const struct drm_plane_funcs shmob_drm_plane_funcs =3D {
-> >       .update_plane =3D drm_atomic_helper_update_plane,
-> >       .disable_plane =3D drm_atomic_helper_disable_plane,
-> > @@ -310,7 +317,12 @@ struct drm_plane *shmob_drm_plane_create(struct sh=
-mob_drm_device *sdev,
->
->
-> Maybe a shmob_drm_plane_create_primary_plane() plus a
-> shmob_drm_plane_create_overlay().
->
-> I remember Thomas told this way or something similiar, call untangle.
+-- 
+Regards,
 
-Hmm, that's what we had until commit c228823426ae509f ("drm:
-renesas: shmobile: Unify plane allocation")...
-
->
-> >       splane->index =3D index;
-> >
-> > -     drm_plane_helper_add(&splane->base, &shmob_drm_plane_helper_funcs=
-);
-> > +     if (type =3D=3D DRM_PLANE_TYPE_PRIMARY)
-> > +             drm_plane_helper_add(&splane->base,
-> > +                                  &shmob_drm_primary_plane_helper_func=
-s);
-> > +     else
-> > +             drm_plane_helper_add(&splane->base,
-> > +                                  &shmob_drm_plane_helper_funcs);
-> >
-> >       return &splane->base;
-> >   }
->
->
-> Anyway, it looks good to me.
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Laurent Pinchart
 
