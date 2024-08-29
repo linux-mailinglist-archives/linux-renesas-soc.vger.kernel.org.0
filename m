@@ -1,146 +1,153 @@
-Return-Path: <linux-renesas-soc+bounces-8498-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8499-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BE90964621
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Aug 2024 15:16:19 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A1AB96478E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Aug 2024 16:06:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9168F1C20971
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Aug 2024 13:16:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 097D3B23E20
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Aug 2024 13:51:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74E5B1A4F34;
-	Thu, 29 Aug 2024 13:15:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08F6D18E046;
+	Thu, 29 Aug 2024 13:51:22 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 996B519005B;
-	Thu, 29 Aug 2024 13:15:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED68A26AE6
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Aug 2024 13:51:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724937351; cv=none; b=kSN+iYkyFrphZRkk+oLa2Yg8OMLD5lriEOrSZ2c5yqjMuhbweP1Sl6kKnrwBV+0/iDdaIMGBsxyVDgK1qLvNlEkFQ6M3P3DaERJgPJLsUJWqUznwkO8S1V2y+d90v7fXQtfoVx0JNtL4iQGehHPuyiCdoAh6DfhkDh/Q1/Rd80c=
+	t=1724939481; cv=none; b=WHFY0CneKEsVzMRaOkcut9RGZ1hwtka5JNzYC9IZVE6lV5WLi1WTPcN4g+XDXqjy6cYmhhWb1L0czZ6BQzgHuuoqVYdy5xZHI1Bev1siAVfQ/2TLDKPttH4XM7AK/8Ra1mW5CX88U6gYKdJ4NoCz89kKg8ETt+ge5nBth82M0+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724937351; c=relaxed/simple;
-	bh=SvcnL1CiJ4UYqU1+vWZ1TpjbnhjVzEHNqoFcTIuferw=;
+	s=arc-20240116; t=1724939481; c=relaxed/simple;
+	bh=52HsxIqRdki3hgOle1v5M1YcA23Hhuw0rdhcNc7e4MI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FT5FDeu28wfoYGvTWbuZX6zXAAUtFUUOOA9nrkKsyo8GdJACWVyHeAr9EeTQxBSuU/jqSvG9/9JbJ3CdgqP5jCNkB2b0emZaJ+LMN+N5jdBX41IbPhwbouoQg6MgQfJQzdobcRv1L3+6oWv8wjYpWf9ODY348loVoYx4L7NG4+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.176
+	 To:Cc:Content-Type; b=JduCzKQz1vzk3kNexKQVixuipBKjT/3EIxF5Qbz5o/yAoasp5qddOGWeUZnZ+jGGTCDBzLY583WccPRxlAKkIgKhDeZtS7U3DGfOMvO5S1kAFi5ywER7YTxOrZouugwhTNQ41ive3JtkVFl0rHRFjibmQdYKsAPsS2mpUKthjSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e1a2264e907so649667276.2;
-        Thu, 29 Aug 2024 06:15:49 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-691bb56eb65so6757887b3.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Aug 2024 06:51:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724937348; x=1725542148;
+        d=1e100.net; s=20230601; t=1724939478; x=1725544278;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZP+WcrUbXlpLIN+zbDAxSw3wyDZd7f9soRRffkD1mr4=;
-        b=PU2puXnBDzErqfK8znng/hMqbzZc3CjOlpRW+uPNIeMrYEVCgYo4CWZsn6ZI4h796k
-         9x6KXUmxd926BmkIXuMjpXxbP41Z4cDJ3h6anQKNuAnfpFUQAm8Yt7J0dm7Z2NcG5F9U
-         gltKz5K6cIXXGdf9QksfS0bbFr8LZSFGg2TjvP/WUqvtb9hg6P4ATcXjJy52PaW5WdVr
-         HvErukvwE/uRNxnCQdTnVTDgEzEwcpmm/pdGtYcwdii/LmLnI+POr7obVer6/0E3xKYA
-         2CDIPT7oT1wtyf8QultEsVLA2M/AmG4+u/OkIqT3AlebXIud5ogM3nqgBqA/PDV4i6f2
-         GFdQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW8USoJfhDSH0bFsYQR32k/+v4C6pG9rIpz5HPIEnlDGWDzwm37BCR7goNCOTbNy4/Al/AKVwNtm5nEKT/aIS4euPc=@vger.kernel.org, AJvYcCWs2bia9+kiCY6dwVhYpHNKsjCQAd07kFonFT53uxw9bFFP3BbWDaqM7Ja02S0heUhUsXjCJB9oC66qrRra@vger.kernel.org, AJvYcCXE4+d4XfOnXg3dRZDUs+/y+pBnKIwnpThoJZqTT11+jI1MzKqN+psSPzfv97dUer/ggshtiIVsPAGt@vger.kernel.org
-X-Gm-Message-State: AOJu0YxgI8TnsZKmWpvPyRiCksJ5rrB96Vx5EttzCxc3kgc53N+Sdfyw
-	OEUhl/aZINReGILxFsFKUmm2qHMyQHcR6I+5N4Dv59f/ETYh56BroXm4UBzX
-X-Google-Smtp-Source: AGHT+IHK5HgicfN/6dt1utpjkwz7mf+Sgz81J6u0cgCFw213cKeEXvqhgKtifuY/V85XzfHPS6ZSbw==
-X-Received: by 2002:a05:6902:2503:b0:e0b:eb79:d49 with SMTP id 3f1490d57ef6-e1a5ab80046mr2609991276.18.1724937348163;
-        Thu, 29 Aug 2024 06:15:48 -0700 (PDT)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e1a626853absm234636276.28.2024.08.29.06.15.47
+        bh=oO+LwtIAdtwbqPzFoJJxjo3VESdONs3yqV/pQ3ireRc=;
+        b=js8HvfnQfouslecKURVXzRLvgHIn5/7uXltLpjCKdmOzOLxsff9UYYoY5Pls6U/1mT
+         GfNRNwQh/Rl908FQQbLO7QLkm3otp5mQL0T+nf3mSukwMmu+6D58hc3Ar07X9OY7oNxN
+         HMV0Wul3D70AVjBVlbHHhVBV+SU8pC+3fne1qWNZIn0QbJpJCt8Tx7GTV90W8Lcko0Vm
+         badpQu5I6wyc8WAETd5qjOxxs41Mba6ECgA+IARgSZzqr5zFK1gCvZxWSIh+Zki+AuXk
+         1Bytkd1PQmNln49lFekE2KbUKVx9DSVuQzGJQVaK6j5zY74WO2CcCbO6xEgvK1Irudwa
+         VB0w==
+X-Forwarded-Encrypted: i=1; AJvYcCW8we9O+CgJ4lPVfWWq0/gBS/xOE5EyNlesIl8pyGlkuiDTYywGHiAUgEY1XHWufKpmuq5gPTgesV6j40/5MITIGg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/a5cQC9GfnX1BOL4m7P5i9eZ8Z32WzmFDXXfVbFGKpU+9tyk7
+	z5HHsuQhkmyaEEhkNXi8BtqBVfOWNYb9cHHdr1LPpPaQ1LSo0p+LHJMtr8yw
+X-Google-Smtp-Source: AGHT+IEq/4OlW5NliexegKgdr3HjyK/UWHeD6qQ+k4Gk35wXX4f/GzBir79EPQ4mnPvj+e5GvbriOw==
+X-Received: by 2002:a05:690c:2d89:b0:6c3:856a:388d with SMTP id 00721157ae682-6d276403669mr24041557b3.13.1724939478224;
+        Thu, 29 Aug 2024 06:51:18 -0700 (PDT)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6d2d6198599sm2451787b3.141.2024.08.29.06.51.17
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Aug 2024 06:15:47 -0700 (PDT)
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e16518785c2so516106276.1;
-        Thu, 29 Aug 2024 06:15:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUTDuEcuWhpq/CPDmsSL722JzIeatOmMK7oaV8a4I8plIl+2vWNY69Oq2oPWM6SzBckF+0BPYtbO7HZ@vger.kernel.org, AJvYcCVsWObdyEFCaswuIN0L38VX9qMXYMfgNQFsRZBpidYSSzFUvzBY4z9DxTLnXJ3MH+CGukq3xhyDS/KIrNQ1@vger.kernel.org, AJvYcCW0bY7iInQ94Ut+QTK8ZVdO3xrhmMtOWj9Cx0hPiPp3j3QyjE7+Y3wuO7rEjCGH9km/4V25h8fdgHPmdXDEyz/pMHY=@vger.kernel.org
-X-Received: by 2002:a05:6902:1b0c:b0:e16:6b7e:94b4 with SMTP id
- 3f1490d57ef6-e1a5ac9a7f0mr3023234276.26.1724937347265; Thu, 29 Aug 2024
- 06:15:47 -0700 (PDT)
+        Thu, 29 Aug 2024 06:51:17 -0700 (PDT)
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e13cda45037so719163276.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Aug 2024 06:51:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW796a2UYZWBCkIZH9Zm5Dc3WvsnLMXVFoVILUVaCw7un97LMg5Nqjxz3G6Uzwf+J3/T0eq8szVyJUfdRxZIJ0QRg==@vger.kernel.org
+X-Received: by 2002:a05:6902:1028:b0:e16:6785:1a5b with SMTP id
+ 3f1490d57ef6-e1a5ab72c0emr3573138276.14.1724939477651; Thu, 29 Aug 2024
+ 06:51:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240827131722.89359-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240827131722.89359-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20240827131722.89359-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <292638fde9aef8b00e984245f43dc02a818cf322.1716816827.git.geert+renesas@glider.be>
+ <9c6116fd-d32d-4150-b0dd-91b8e1a539f2@linux.dev>
+In-Reply-To: <9c6116fd-d32d-4150-b0dd-91b8e1a539f2@linux.dev>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 29 Aug 2024 15:15:34 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVQ-hy7aW-rs5eTLSOULF_GHVV=NHvjCLhPW3XS3Y=+8Q@mail.gmail.com>
-Message-ID: <CAMuHMdVQ-hy7aW-rs5eTLSOULF_GHVV=NHvjCLhPW3XS3Y=+8Q@mail.gmail.com>
-Subject: Re: [PATCH 2/2] pinctrl: renesas: rzg2l: Move pinconf_to_config_argument()
- call outside of switch cases
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, linux-renesas-soc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date: Thu, 29 Aug 2024 15:51:04 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW_Uc+ghgXNiW_yvsYdR1_wdQ9_Vskw4GBthysWUCoiXw@mail.gmail.com>
+Message-ID: <CAMuHMdW_Uc+ghgXNiW_yvsYdR1_wdQ9_Vskw4GBthysWUCoiXw@mail.gmail.com>
+Subject: Re: drm: renesas: shmobile: Add drm_panic support
+To: Sui Jingfeng <sui.jingfeng@linux.dev>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org, 
+	linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Prabhakar,
+Hi Sui,
 
-Thanks for your patch!
-
-On Tue, Aug 27, 2024 at 3:17=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.c=
-om> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Wed, May 29, 2024 at 1:31=E2=80=AFPM Sui Jingfeng <sui.jingfeng@linux.de=
+v> wrote:
+> On 5/27/24 21:34, Geert Uytterhoeven wrote:
+> > Add support for the drm_panic module, which displays a message on
+> > the screen when a kernel panic occurs.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 >
-> Refactor the `rzg2l_pinctrl_pinconf_set()` function by moving the call to
-> `arg =3D pinconf_to_config_argument(_configs[i])` to the beginning of the
-> loop. Previously, this call was redundantly made in each case of the
-> switch statement.
+> Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 
-This is not 100% true: the PIN_CONFIG_BIAS_* cases do not
-call pinconf_to_config_argument(). But I agree that calling it
-unconditionally doesn't harm.
+Thank you!
 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> @@ -1395,7 +1395,6 @@ static int rzg2l_pinctrl_pinconf_set(struct pinctrl=
-_dev *pctldev,
->                         break;
+> > --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+> > +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+> > @@ -273,6 +273,13 @@ static const struct drm_plane_helper_funcs shmob_d=
+rm_plane_helper_funcs =3D {
+> >       .atomic_disable =3D shmob_drm_plane_atomic_disable,
+> >   };
+> >
+> > +static const struct drm_plane_helper_funcs shmob_drm_primary_plane_hel=
+per_funcs =3D {
+> > +     .atomic_check =3D shmob_drm_plane_atomic_check,
+> > +     .atomic_update =3D shmob_drm_plane_atomic_update,
+> > +     .atomic_disable =3D shmob_drm_plane_atomic_disable,
+> > +     .get_scanout_buffer =3D drm_fb_dma_get_scanout_buffer,
+> > +};
+> > +
+> >   static const struct drm_plane_funcs shmob_drm_plane_funcs =3D {
+> >       .update_plane =3D drm_atomic_helper_update_plane,
+> >       .disable_plane =3D drm_atomic_helper_disable_plane,
+> > @@ -310,7 +317,12 @@ struct drm_plane *shmob_drm_plane_create(struct sh=
+mob_drm_device *sdev,
 >
->                 case PIN_CONFIG_OUTPUT_ENABLE:
-> -                       arg =3D pinconf_to_config_argument(_configs[i]);
->                         if (!(cfg & PIN_CFG_OEN))
->                                 return -EINVAL;
->                         if (!pctrl->data->oen_write)
-
-Missed opportunity for simplification:
-
-                case PIN_CONFIG_POWER_SOURCE:
--                       settings.power_source =3D
-pinconf_to_config_argument(_configs[i]);
-+                       settings.power_source =3D arg;
-                        break;
-
-> @@ -1432,8 +1429,6 @@ static int rzg2l_pinctrl_pinconf_set(struct pinctrl=
-_dev *pctldev,
->                         break;
 >
->                 case PIN_CONFIG_DRIVE_STRENGTH:
-> -                       arg =3D pinconf_to_config_argument(_configs[i]);
-> -
->                         if (!(cfg & PIN_CFG_IOLH_A) || hwcfg->drive_stren=
-gth_ua)
->                                 return -EINVAL;
+> Maybe a shmob_drm_plane_create_primary_plane() plus a
+> shmob_drm_plane_create_overlay().
 >
+> I remember Thomas told this way or something similiar, call untangle.
 
-                case PIN_CONFIG_DRIVE_STRENGTH_UA:
-                        ...
--                       settings.drive_strength_ua =3D
-pinconf_to_config_argument(_configs[i]);
-+                       settings.drive_strength_ua =3D arg;
-                        break;
+Hmm, that's what we had until commit c228823426ae509f ("drm:
+renesas: shmobile: Unify plane allocation")...
 
-The rest LGTM.
+>
+> >       splane->index =3D index;
+> >
+> > -     drm_plane_helper_add(&splane->base, &shmob_drm_plane_helper_funcs=
+);
+> > +     if (type =3D=3D DRM_PLANE_TYPE_PRIMARY)
+> > +             drm_plane_helper_add(&splane->base,
+> > +                                  &shmob_drm_primary_plane_helper_func=
+s);
+> > +     else
+> > +             drm_plane_helper_add(&splane->base,
+> > +                                  &shmob_drm_plane_helper_funcs);
+> >
+> >       return &splane->base;
+> >   }
+>
+>
+> Anyway, it looks good to me.
+
+Thanks!
 
 Gr{oetje,eeting}s,
 
