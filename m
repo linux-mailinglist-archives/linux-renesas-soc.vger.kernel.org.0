@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-8545-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8546-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BCB6965F8B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Aug 2024 12:46:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FF16965F90
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Aug 2024 12:49:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DC2E32848AB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Aug 2024 10:46:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3AF5E1F23807
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Aug 2024 10:49:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7907718B474;
-	Fri, 30 Aug 2024 10:46:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CBA815C12D;
+	Fri, 30 Aug 2024 10:49:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="psL89Ya6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D3DnuFbC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5283A73176
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Aug 2024 10:46:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA4E16EBE4
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Aug 2024 10:49:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725014813; cv=none; b=m/0gIcgaYzWd8Xk85uZbM0Z1H5ZkiZyoo2EjuXvqWtuVd6J0W5dGxIs+5BfmJaRJqqjthNRpXY3Q6e2RcyM1oYEHdYhoqrbeHPHl5eKGIgUKpOfxFIcEgw6mRnLYSStmyNQEcqqNhmW8waqizOdxBdkx3m+mttVzT9zTzISClss=
+	t=1725014995; cv=none; b=ma9pkKe+fPQ20h3B9pcuMm3RFXFxdP8dAtoYYEG4cWUNwm0wf6U1nprtjhSJrLT9ysfv8ip4kZD8h8Wsxqr0G3ZyiNaEp7KBHob0Yhbv3/gf6NobJj8zqkcb/Htl6H7MpeGA/uu2t8PkJubea+6LQD/2+2QQwQ8IvpjpvUJ/tlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725014813; c=relaxed/simple;
-	bh=HASCZTBlDwbGvReNyfNhYw06XrZqkfhYsMqZM61kGT0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qtJaYbp6FXssuiDaYUzz4vlKes4JxdRZK7eIIo7O1Qdff5dhWxoeL5WuyZDLLRa4ziujmECcSdCp8PreyBVow2Ky5H8xHIp0auk5dhLHf1oLOjL5CZ4P/ufUkvVIQJag6HPC/ywITTJ253Pi8mJYwKUm5D8cFVIvtBDcTQ2sacI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=psL89Ya6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0471AC4CEC2;
-	Fri, 30 Aug 2024 10:46:50 +0000 (UTC)
+	s=arc-20240116; t=1725014995; c=relaxed/simple;
+	bh=7ia4B+VEZUHKFUXRH+jHa72LLCSJ5WpFbm8GHrYC6Lk=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=uSKrSWN36eFay03p8UOZh2ncGIatG0SmAnADys85gJ/9u6H5euHYH2Y/80mrN6FEjU+KBarwaqismUGjf7x3yuvCPFEbaWZY4DY1qdN4MdfYTr0qGOgKpVbnj/slp4LseDHBHxfU0Q3LJMtChJNs96IVf9GzchzI88jqiNArNDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D3DnuFbC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7227C4CECB;
+	Fri, 30 Aug 2024 10:49:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725014813;
-	bh=HASCZTBlDwbGvReNyfNhYw06XrZqkfhYsMqZM61kGT0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=psL89Ya6ks2571tisHHfccXkSTxxgBVN6Ss+S5gYHugk6fae8MAU0qk+L+s8bz0Iq
-	 tD2On+7tzGiHTtsUfd5nQ6KXzkeWiJTkA0GL6jAx+jjuFFOQz6zzLs/5IwNjxs02/a
-	 B6MlkBFgghurrXOoGrkEbuOI5keI1kN+fcFZa2R3YnLBmgbJ6DP/YQ+EW3pRAzpVkw
-	 KUjEMgpMAzfrLqihRnm5UErFQFzd41CjYBsEp43PH2S8LX6d6wBRPY8qHD1PKEw+NO
-	 kVZjvzMe58+Ql0mnmEpDgo7+uQ11oJbe/K1yydMIZJCdfffYehrkoLvdtEL0e9t2U3
-	 KNX4Xob26iJkg==
-Message-ID: <54695a5a-efbf-47b1-9485-c536656a4078@kernel.org>
-Date: Fri, 30 Aug 2024 12:46:48 +0200
+	s=k20201202; t=1725014994;
+	bh=7ia4B+VEZUHKFUXRH+jHa72LLCSJ5WpFbm8GHrYC6Lk=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=D3DnuFbCJJWEZ19H9+m3jPBqYcaN9uQmC20iIFeyrS/bjCtpTuzimOe6GztMqv5lq
+	 4GV6XfwUiSuSTjcfHD6HWO7CAIXDdrh/O/TA35qu5gI0NgkQT+sLSTlbGybnKMqC/g
+	 f09SliOG86f6Jwdf56w/qKHobkbAMW68BuFXq8+bGScla1WpCFhPX0qOGTX7hQLQkC
+	 ykN9SiZEVfA3qvQhIwU0XElBJjvB218CVwtKpzq1U29rdq5dN5ZDRxaV3eSZuhPPaP
+	 0FwtiIjjvs2bSHctIGc92oC0J2rLLdo/IoknGNlevsymWizeb/nblElERLpxHGZzrl
+	 xhQpZzhswTCRg==
+Message-ID: <ffd6067e-652e-470d-9061-e0efccc24e08@kernel.org>
+Date: Fri, 30 Aug 2024 12:49:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -52,6 +52,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/3] memory: renesas-rpc-if: Use Hi-Z state as the default
  setting for IOVF pins
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Biju Das <biju.das.jz@bp.renesas.com>, Michael Walle <michael@walle.cc>
 Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
  Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
@@ -60,7 +61,7 @@ Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
 References: <20240703145851.204306-1-biju.das.jz@bp.renesas.com>
  <20240703145851.204306-2-biju.das.jz@bp.renesas.com>
  <TY3PR01MB11346E69DB7142AE991ED461F86952@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <54695a5a-efbf-47b1-9485-c536656a4078@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -105,29 +106,36 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <TY3PR01MB11346E69DB7142AE991ED461F86952@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <54695a5a-efbf-47b1-9485-c536656a4078@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 28/08/2024 19:02, Biju Das wrote:
-> Hi Krzysztof Kozlowski, Michael,
+On 30/08/2024 12:46, Krzysztof Kozlowski wrote:
+> On 28/08/2024 19:02, Biju Das wrote:
+>> Hi Krzysztof Kozlowski, Michael,
+>>
+>> Gentle ping. Are you happy with this patch? or do you have different opinion?
+>>
+>> This patch is based on RFC discussion [1]
+>>
+>> [1] RFC: https://lore.kernel.org/all/c9b0cffbb1566a7d38f2251ac7c8883a@walle.cc/
 > 
-> Gentle ping. Are you happy with this patch? or do you have different opinion?
+> sorry, I don't have this patch in the inbox (anything older than 1 month
+> disappears). Even if it reached me, it was an reply to unrelated
+> patchset, so it could have been applied. And probably - due to being
+
+"so it could have not been applied."
+
+> inside other thread - got immediately discarded.
 > 
-> This patch is based on RFC discussion [1]
+> Do not attach (thread) your patchsets to some other threads (unrelated
+> or older versions). This buries them deep in the mailbox and might
+> interfere with applying entire sets.
 > 
-> [1] RFC: https://lore.kernel.org/all/c9b0cffbb1566a7d38f2251ac7c8883a@walle.cc/
+> Please resend.
 
-sorry, I don't have this patch in the inbox (anything older than 1 month
-disappears). Even if it reached me, it was an reply to unrelated
-patchset, so it could have been applied. And probably - due to being
-inside other thread - got immediately discarded.
-
-Do not attach (thread) your patchsets to some other threads (unrelated
-or older versions). This buries them deep in the mailbox and might
-interfere with applying entire sets.
-
-Please resend.
+Maybe the threading was correct, but I missed it because of my DT
+filters. I don't know. Sorry for that, please resend.
 
 Best regards,
 Krzysztof
