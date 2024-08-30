@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-8540-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8541-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87520965DDD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Aug 2024 12:04:10 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B326965DED
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Aug 2024 12:05:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3F5E22872DF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Aug 2024 10:04:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BD69C1F26A67
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Aug 2024 10:05:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6CF916F0EF;
-	Fri, 30 Aug 2024 10:04:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D0F417D344;
+	Fri, 30 Aug 2024 10:04:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ls9q4+wS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GUqgc0af"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A807529D19;
-	Fri, 30 Aug 2024 10:04:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F49517D358;
+	Fri, 30 Aug 2024 10:04:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725012247; cv=none; b=asFH7hnCKCzCWH54+GI5fPxqVA1Lo0bV5U4BjSY611Wgl9N5+bl/WpNE6pCSx/3yyex8GA1kx9WAywmGTohWfvlv8WbpYPt3VkvA+R0kR6yrKWMeRdfDjqVD/07AipS7XtQR+071dgdGDwNF6l9vDatAnLnRMHf1MueF9AVzyPo=
+	t=1725012289; cv=none; b=W3AJ1FuHZZcr66n1o8dlwDp/OdhEbte8gT3028mIUaUA/QPYnjBx8KDegzeZvmehDFyEKBesKCQFF8fvO/dykhEbcZ+h9SS/cXbKgsWuegdCyh7ZiefeJzH90FXp2QHas2Y0CrwTMQpho6AwDZreYjEVwX1L67y13oimyQPWTuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725012247; c=relaxed/simple;
-	bh=ulhx2YCRsDJW6yKBaLbbpxIJyNZWYP5UY/uikdZijbY=;
+	s=arc-20240116; t=1725012289; c=relaxed/simple;
+	bh=nrhuo3AulwFUMj/O06VuyuZ3G9jy2pcDg8Ldwc2SYbE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hTT8nzwL6QVeXX2EilQ67cMvkwJFfnUnx/eNE+2iwvDwnGJjHS/jcs9hAN1KmCvxBeSV1O78Tdo2Z+IlBn/F55hjBIxSpaeha7VA3n4+Sd1dFQtpkTEMTEvxxvX49noVIpwRakTghYz9cFDybj9nfyl3dTdvkDwn2ooxmjY6jzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ls9q4+wS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DBE6C4CEC2;
-	Fri, 30 Aug 2024 10:04:03 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=m4WYa50jqIIE/jcAjBR0f0e1+M6eMK12yCm4es+euqaZfns0lOg3DXllwAkBRlsL5Cjdv4CJGlXeZgRMwXoFmevzg/Q4gvWJ+qrGZCQbTeaV5TMjxifl4QTZNR6qyEOODD54Qrsw3XfErHYETQyMLxjAWobUYzFlqiV2itLamLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GUqgc0af; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 891ACC4CEC4;
+	Fri, 30 Aug 2024 10:04:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725012247;
-	bh=ulhx2YCRsDJW6yKBaLbbpxIJyNZWYP5UY/uikdZijbY=;
+	s=k20201202; t=1725012288;
+	bh=nrhuo3AulwFUMj/O06VuyuZ3G9jy2pcDg8Ldwc2SYbE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Ls9q4+wSKT/ET9K+vZioKMLHLDJm6rS7Gp9tpsz5F3ATvxLST8Md8kYrvD+p+dQM3
-	 Lj8YIrxllVsSYprh0wmVz0alyZ2l0V4BtXiHOImMEuhayRfJP2VxMwOy+Jk/FfIQmy
-	 wejBHwBc8CY9XtYLXib+FPe8NtKHhaKuRTEycXFV6JnTxkdMxVBYPyO1/h64n6E6qk
-	 vJbcM4l3v9JHQBe/Z6IU3FOBHzXiIp28wihiD3V6wP2DNUwopiBunsI3LsxjyFnW5i
-	 pvMI9TiOndLgZDmCh7pls4P8WTbUX8/77KNaUiQS2JCkbqJWesUUm7jX2N1vmWuPD3
-	 Ql4hyIg4pL0fw==
-Message-ID: <905d4ca5-3001-4f8b-aa26-f4c6a51f050c@kernel.org>
-Date: Fri, 30 Aug 2024 12:04:00 +0200
+	b=GUqgc0afS9oZavrwGGTvgec6FUYGhxwODI28SEhZISGlXP03UplNgBvpJLwaC+oPd
+	 5Lbk3SEDufKqUxKLWZDbGTruUVGmTOlTYkQMOv20RFP+d9kJCarCwvqkHKLNwLsbzd
+	 pylnsr6tvZTx7S9GB71rOrlMyA4+021X8D07DK17lQAkQ6h8h/8mN/3OUkvHty07uq
+	 3aGBefvfmE0WnHM6XK2uVP17cm0jGNRWjp6/HvGALTZe1nsJNXP3WJ/0rnggm0qcW7
+	 gNjP2soDnzz43TYIDIAX3FE5B32fj1K9ucYs2mk2NIKiUyiPaFi9zgih77UfyZBMDb
+	 ohxODyJ9twnIA==
+Message-ID: <c0e90bac-56dd-497a-9337-74d10fba95a4@kernel.org>
+Date: Fri, 30 Aug 2024 12:04:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -52,21 +52,16 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v4 1/9] dt-bindings: soc: renesas: Document RZ/V2H EVK
  board
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+To: Prabhakar <prabhakar.csengg@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
  Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Biju Das <biju.das.jz@bp.renesas.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
  Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20240828124134.188864-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
  <20240828124134.188864-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <28106585-59d1-42c4-af56-89820b15bdfb@kernel.org>
- <CA+V-a8tGBQTNLEBBKTi0Gy47CsdFpQKQkwP02omSWTt8DveqGA@mail.gmail.com>
- <606dc93b-9433-46bf-8c38-1d07b3677abb@kernel.org>
- <CAMuHMdVGZKCQ7FKsN7mR6ER7sc=P8qv=+eukFyHZt1VGYN7-GA@mail.gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -112,73 +107,30 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <CAMuHMdVGZKCQ7FKsN7mR6ER7sc=P8qv=+eukFyHZt1VGYN7-GA@mail.gmail.com>
+In-Reply-To: <20240828124134.188864-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 29/08/2024 09:35, Geert Uytterhoeven wrote:
-> Good mornin' Krzysztof,
+On 28/08/2024 14:41, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> On Thu, Aug 29, 2024 at 8:00 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->> On 28/08/2024 22:09, Lad, Prabhakar wrote:
->>> On Wed, Aug 28, 2024 at 3:34 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>>> On 28/08/2024 14:41, Prabhakar wrote:
->>>>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>>>> Add "renesas,rzv2h-evk" which targets the Renesas RZ/V2H ("R9A09G057")
->>>>> EVK board.
->>>>>
->>>>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>>>> Acked-by: Rob Herring (Arm) <robh@kernel.org>
->>>>> ---
->>>>> Hi Rob, I have restored your Ack with the below change, I hope that's OK.
->>>>>
->>>>> Cheers, Prabhakar
->>>>>
->>>>> v1->v4
->>>>> - Updated 'renesas,gp-evk # GP-EVK' -> 'renesas,rzv2h-evk # RZ/V2H EVK'
->>>>> - Updated commit message
->>>>>
->>>>> v1: https://patchwork.kernel.org/project/linux-renesas-soc/patch/20240724094707.569596-2-prabhakar.mahadev-lad.rj@bp.renesas.com/
->>>>> ---
->>>>>  Documentation/devicetree/bindings/soc/renesas/renesas.yaml | 2 ++
->>>>>  1 file changed, 2 insertions(+)
->>>>>
->>>>> diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
->>>>> index d582992aaf0e..b7acb65bdecd 100644
->>>>> --- a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
->>>>> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
->>>>> @@ -527,6 +527,8 @@ properties:
->>>>>
->>>>>        - description: RZ/V2H(P) (R9A09G057)
->>>>>          items:
->>>>> +          - enum:
->>>>> +              - renesas,rzv2h-evk # RZ/V2H EVK
->>>>>            - enum:
->>>>
->>>> This is unusual pattern for me, but maybe I miss here something. Commit
->>>> message does not explain why EXISTING boards needs to be changed. What
->>>> does it mean "rzv2h-evk targets evk board"? How does this work?
->>>>
->>> This commit is not changing the existing boards. The entries below the
->>> addition are the RZ/V2H(P) SoC variants. Here we are just adding the
->>> board entry which is based on RZ/V2H SoC [0].
->>
->> Then it is even more surprising to see there entries which were not
->> boards. What's in this file in such case?
+> Add "renesas,rzv2h-evk" which targets the Renesas RZ/V2H ("R9A09G057")
+> EVK board.
 > 
-> Before this patch, the entry that is being modified just contained
-> SoC variants and a fallback SoC type.
-> This patch documents the compatible value for the first board based
-> on an SoC of this type.
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Acked-by: Rob Herring (Arm) <robh@kernel.org>
+> ---
+> Hi Rob, I have restored your Ack with the below change, I hope that's OK.
 > 
->> Which DTS file it matches?
+> Cheers, Prabhakar
 > 
-> The one that is introduced in patch 3/9  in this series.
+> v1->v4
+> - Updated 'renesas,gp-evk # GP-EVK' -> 'renesas,rzv2h-evk # RZ/V2H EVK'
+> - Updated commit message
 
-So the binding had compatibles without board-part and obviously there
-were no board-DTS files with them.
+To clarify I don't have objections:
 
-That's a less usual, so short explanation in commit msg would be helpful.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
