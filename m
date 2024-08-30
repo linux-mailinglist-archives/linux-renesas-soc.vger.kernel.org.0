@@ -1,141 +1,135 @@
-Return-Path: <linux-renesas-soc+bounces-8544-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8545-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EAD6965F7D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Aug 2024 12:41:51 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BCB6965F8B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Aug 2024 12:46:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 19D061F217C2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Aug 2024 10:41:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DC2E32848AB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Aug 2024 10:46:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28B81188A34;
-	Fri, 30 Aug 2024 10:41:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7907718B474;
+	Fri, 30 Aug 2024 10:46:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="psL89Ya6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A83416E866
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Aug 2024 10:41:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5283A73176
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Aug 2024 10:46:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725014508; cv=none; b=U/bpl6l0bm+IXnHNdWLEzZSkcsY6jdItYmmlBRn0Ltx0ZiZpM3HQYcvfeBBAfDoCXhlK5F13eEI9u5aBnmhtB9PNK3qQyUfVV/cImX+TrKpdviF27rqrCl4Lmt0Zbv2Rolnc9ptnSbHsRWrBpU7R6kqNd0PictLhaEZ9x59UOSE=
+	t=1725014813; cv=none; b=m/0gIcgaYzWd8Xk85uZbM0Z1H5ZkiZyoo2EjuXvqWtuVd6J0W5dGxIs+5BfmJaRJqqjthNRpXY3Q6e2RcyM1oYEHdYhoqrbeHPHl5eKGIgUKpOfxFIcEgw6mRnLYSStmyNQEcqqNhmW8waqizOdxBdkx3m+mttVzT9zTzISClss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725014508; c=relaxed/simple;
-	bh=nUYhO0WXcCD6WYdXSEvS1Vkk9/GD/8f+q+El5lLAK14=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rSgG6H9AsDS3GpgDEuzagXMG96g2N7kX0vdCOUQi9Q2DMKD7b7NZfqSzKYn6ppqxn+LSeOpuGdBp2qVrDeMVLlhdHfI8ZwA635HTAsizgHqRmF6LAe7Tdc1fL1VI0tLOLOaFl8GUT0aftQYO+qaUV1kTU6wz6gAcoqmgzi/4KQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1sjz4F-0001vT-E4; Fri, 30 Aug 2024 12:41:23 +0200
-Received: from [2a0a:edc0:0:b01:1d::7b] (helo=bjornoya.blackshift.org)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1sjz4D-00484Y-B7; Fri, 30 Aug 2024 12:41:21 +0200
-Received: from pengutronix.de (pd9e5994e.dip0.t-ipconnect.de [217.229.153.78])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id 044B632DCDC;
-	Fri, 30 Aug 2024 10:41:21 +0000 (UTC)
-Date: Fri, 30 Aug 2024 12:41:20 +0200
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, linux-can@vger.kernel.org, netdev@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Duy Nguyen <duy.nguyen.rh@renesas.com>
-Subject: Re: [PATCH v3] dt-bindings: can: renesas,rcar-canfd: Document R-Car
- V4M support
-Message-ID: <20240830-tidy-glistening-bear-44918a-mkl@pengutronix.de>
-References: <68b5f910bef89508e3455c768844ebe859d6ff1d.1722520779.git.geert+renesas@glider.be>
- <20240806-fragrant-nimble-crane-c5a129-mkl@pengutronix.de>
- <CAMuHMdXy09rrzB1sc9Soy5mUvMo=u=r_-Yf0iah_HTsYJ+fNDg@mail.gmail.com>
+	s=arc-20240116; t=1725014813; c=relaxed/simple;
+	bh=HASCZTBlDwbGvReNyfNhYw06XrZqkfhYsMqZM61kGT0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qtJaYbp6FXssuiDaYUzz4vlKes4JxdRZK7eIIo7O1Qdff5dhWxoeL5WuyZDLLRa4ziujmECcSdCp8PreyBVow2Ky5H8xHIp0auk5dhLHf1oLOjL5CZ4P/ufUkvVIQJag6HPC/ywITTJ253Pi8mJYwKUm5D8cFVIvtBDcTQ2sacI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=psL89Ya6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0471AC4CEC2;
+	Fri, 30 Aug 2024 10:46:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725014813;
+	bh=HASCZTBlDwbGvReNyfNhYw06XrZqkfhYsMqZM61kGT0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=psL89Ya6ks2571tisHHfccXkSTxxgBVN6Ss+S5gYHugk6fae8MAU0qk+L+s8bz0Iq
+	 tD2On+7tzGiHTtsUfd5nQ6KXzkeWiJTkA0GL6jAx+jjuFFOQz6zzLs/5IwNjxs02/a
+	 B6MlkBFgghurrXOoGrkEbuOI5keI1kN+fcFZa2R3YnLBmgbJ6DP/YQ+EW3pRAzpVkw
+	 KUjEMgpMAzfrLqihRnm5UErFQFzd41CjYBsEp43PH2S8LX6d6wBRPY8qHD1PKEw+NO
+	 kVZjvzMe58+Ql0mnmEpDgo7+uQ11oJbe/K1yydMIZJCdfffYehrkoLvdtEL0e9t2U3
+	 KNX4Xob26iJkg==
+Message-ID: <54695a5a-efbf-47b1-9485-c536656a4078@kernel.org>
+Date: Fri, 30 Aug 2024 12:46:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="67ai2k6iu5bb2q4h"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXy09rrzB1sc9Soy5mUvMo=u=r_-Yf0iah_HTsYJ+fNDg@mail.gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] memory: renesas-rpc-if: Use Hi-Z state as the default
+ setting for IOVF pins
+To: Biju Das <biju.das.jz@bp.renesas.com>, Michael Walle <michael@walle.cc>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "biju.das.au" <biju.das.au@gmail.com>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+References: <20240703145851.204306-1-biju.das.jz@bp.renesas.com>
+ <20240703145851.204306-2-biju.das.jz@bp.renesas.com>
+ <TY3PR01MB11346E69DB7142AE991ED461F86952@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <TY3PR01MB11346E69DB7142AE991ED461F86952@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 28/08/2024 19:02, Biju Das wrote:
+> Hi Krzysztof Kozlowski, Michael,
+> 
+> Gentle ping. Are you happy with this patch? or do you have different opinion?
+> 
+> This patch is based on RFC discussion [1]
+> 
+> [1] RFC: https://lore.kernel.org/all/c9b0cffbb1566a7d38f2251ac7c8883a@walle.cc/
 
---67ai2k6iu5bb2q4h
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+sorry, I don't have this patch in the inbox (anything older than 1 month
+disappears). Even if it reached me, it was an reply to unrelated
+patchset, so it could have been applied. And probably - due to being
+inside other thread - got immediately discarded.
 
-On 30.08.2024 12:18:40, Geert Uytterhoeven wrote:
-> Hi Marc,
->=20
-> On Tue, Aug 6, 2024 at 9:15=E2=80=AFPM Marc Kleine-Budde <mkl@pengutronix=
-=2Ede> wrote:
-> > On 01.08.2024 16:03:17, Geert Uytterhoeven wrote:
-> > > From: Duy Nguyen <duy.nguyen.rh@renesas.com>
-> > >
-> > > Document support for the CAN-FD Interface on the Renesas R-Car V4M
-> > > (R8A779H0) SoC, which supports up to four channels.
-> > >
-> > > The CAN-FD module on R-Car V4M is very similar to the one on R-Car V4=
-H,
-> > > but differs in some hardware parameters, as reflected by the Parameter
-> > > Status Information part of the Global IP Version Register.  However,
-> > > none of this parameterization should have any impact on the driver, as
-> > > the driver does not access any register that is impacted by the
-> > > parameterization (except for the number of channels).
-> > >
-> > > Signed-off-by: Duy Nguyen <duy.nguyen.rh@renesas.com>
-> > > [geert: Clarify R-Car V4M differences]
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >
-> > Added to linux-can-next.
->=20
-> Looks like you are back from holidays, but haven't pushed linux-can-next
-> recently?
+Do not attach (thread) your patchsets to some other threads (unrelated
+or older versions). This buries them deep in the mailbox and might
+interfere with applying entire sets.
 
-I'll update the branch today and send a PR.
+Please resend.
 
-regards,
-Marc
+Best regards,
+Krzysztof
 
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
-
---67ai2k6iu5bb2q4h
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEUEC6huC2BN0pvD5fKDiiPnotvG8FAmbRoc0ACgkQKDiiPnot
-vG/ySQgAjPE+xbklHn2bSXifTp2+1FT4kR0Wq+Wa59JfrRpMqQ1zbTj1QG2dfMH7
-xcoppAQ7Qn32YljyHiAOl0Fx3tCBXQsg3qFiGbVMRPt+ovStnDBueuK7xx0ApxFs
-3/OwrY41fglcF89ihjYbxyYMETj6NTtpOc205Iu/pjcmQ5oidnSEJHgIBVcYheRa
-/yFGXdmR8j+5xuwVuLOSM2JhXC8vojHEDF2ywVC4mjMPiXxjVB19Y539OQRL1QWB
-5K+Ys/lnVbSfYhiNm8si9/TpAHbly3Rf7sd1zLR5BjlJ+Ak49lOIAA8efODW59bR
-HyvOmnNxcBmNFQvtu5Yp6W22X/RDGQ==
-=R3+d
------END PGP SIGNATURE-----
-
---67ai2k6iu5bb2q4h--
 
