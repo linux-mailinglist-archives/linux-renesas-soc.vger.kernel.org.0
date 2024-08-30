@@ -1,363 +1,210 @@
-Return-Path: <linux-renesas-soc+bounces-8547-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8548-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AA6A9660CD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Aug 2024 13:32:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1CF9966102
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Aug 2024 13:50:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BFA792830D3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Aug 2024 11:32:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 601C11F26304
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Aug 2024 11:50:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E6F817C227;
-	Fri, 30 Aug 2024 11:32:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3ADC9195FD1;
+	Fri, 30 Aug 2024 11:50:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="oNRzYtg9"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="IpsYyUnq"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011039.outbound.protection.outlook.com [52.101.125.39])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8CD0185B51
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Aug 2024 11:32:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725017533; cv=none; b=APsStGdX//XLgYrvWbWcLQu8OqcYKihK/NmriU7OXEq1+DjSQseaGzaSDc84CUej15MrY/TL+3lFYYqdvdOgDDbqj2Z4EA8C89A0TZSSZs6Xm96LfWgnH8EddnQGrQwHDKtf/GdbFLk+BD0g8GAn2pfxNN3r5lfPph1cMCRHE/4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725017533; c=relaxed/simple;
-	bh=TfrqS+eEJC4hvAjbeCZHqAZjGPqiFyQI8yt6hFcSBPI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lvbIw/R84Y3JBp8jheDWwWaKHgNGNeTp3+FmugcYp9aDD6JokyQrW/hLVz7a6sbeY8qFy2cAFwURTJQUhm/ygcE69CC2LTrFmUHXOQQyZijTeHXoOPJ082NlAsd1D5wjr7I7Y3md8D26mndTLgD3szWgvRlfDX0nDdJQzQhg6xc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=oNRzYtg9; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-42bac9469e8so14371005e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Aug 2024 04:32:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1725017529; x=1725622329; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cSAdrIdIlTZrcDnp23HrKjtj5P2NCbxTQsvhsi+KTpM=;
-        b=oNRzYtg9L7I0fm1Je+kshl1tjmCeL0TM0IZt0B1IClTv80MwL1TRLuMoOtC+qfOX44
-         1hDQU7Q0C+pJx8UwuquvkLYgDMMuw0beqTobZ7WV1zXfenyWCPdMmXJqpT92qB9+MfvM
-         hVxM0DsJ4hk/vA+LM9BSN5GuiiTmR17aWjN+8AD+oTI5epPQjcQrAJ0nwrTvNHSqQzC5
-         EPeyB0scKxlL0rO6CFWNAxmTIEz40XZyBAzyj5u6cc4QTVt6FJFvJcWvUd92DK7rAagH
-         44e7NUFjbLBN1ZOgCZUbAPxjxBdeXFU5lF9NBCk0UPzLsVYgWMeRjtZbdjrHoXprfcG9
-         xnFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725017529; x=1725622329;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cSAdrIdIlTZrcDnp23HrKjtj5P2NCbxTQsvhsi+KTpM=;
-        b=p1TZ4GTe0zGhpHpJbJzz7vA5CJ2vOTQO7036vcks88GAZnRCss8hfs2yz8fNuV+wB4
-         KzV1iW3+ZHr5ezr9v7EQwAkAcsdpfYav5fxyGiPiCTnJn7im923H4wOIOK5QAtb6eFlP
-         2FebKm/hf7peAMAvwMssaX4F8Gz3daxbxKXScalxA0TMLoLscT7n9TOmB0pHeyuB0CBM
-         RjeUE4sk5uroRtTzjTqRdxjMkGt4/TT3R0pZy/E50mKW+aC0iEisXldb9JD3Ubo+FlTc
-         RFJb9NwsKhgmWAZouvHH1GLE+o1To00XecI0/vp56LK1MLqp/IkA0e1zELLNg8ZyIsrh
-         arNg==
-X-Forwarded-Encrypted: i=1; AJvYcCX9WhCVQezSHil12zlyukTYdIV2rK/GYers/FaBhWGgsA6PHIUsr+nCV1u5amMHa/RjpSEmTi2RP0N7nAgnd5+TOQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwfAta1srHVI+rhZgqkjHM/5OqS9MQ1mobmyW9T0tlwW/D5Z4vu
-	4JXIm6ZSgJeGt/98VtEEZzx5y8xsIr3EplTB8QiOPnRUdXEP+pdwCesQMmt2rJk=
-X-Google-Smtp-Source: AGHT+IGCHErgOXx4yyX533NrAWENK9/do0M6Sx35yhBOeVo9fVW0bDEo+wGDIbFLyg6RNTrJOm6ilA==
-X-Received: by 2002:a05:600c:5110:b0:426:6696:9e50 with SMTP id 5b1f17b1804b1-42bb02591d1mr38716245e9.14.1725017528752;
-        Fri, 30 Aug 2024 04:32:08 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.144])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42bb6deb2dcsm43774765e9.1.2024.08.30.04.32.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Aug 2024 04:32:08 -0700 (PDT)
-Message-ID: <fa9b3449-ea3e-4482-b7eb-96999445cea5@tuxon.dev>
-Date: Fri, 30 Aug 2024 14:32:06 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A704619995A
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Aug 2024 11:50:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.39
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725018609; cv=fail; b=T9F+TVzsYWPV1qIY6Zb/+KDQ+S3Rgig/zkL/K9l9s244QKvZmJoF4Hp1/eOL18WYHmkj1V4bPUsldR01sA0jyTomGJdUmS92hRUaAjpMloq6A+p79P1AuVVMfqseSCo1DJBt51j1lxlCoeDIduysDl+fv2buUrI9bJAUiyRX4QI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725018609; c=relaxed/simple;
+	bh=aCfTiQSucV+wc4oRMaIMr6jt0GNCZXL/K16r2gZpmaw=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=u7uYqezuk6goav91/SbmUxCCmkRpB9RF2lU/rmuoF8ABbrGPh+MtgqgXr11ZhUBDZrM4dWNAQq5gXPNh4R+HleJvHxDuyYoUEyr+4xo1qYr30cnv9K95ed5TA64SFjSU9Q64mCENPelqj3XkINXj+phueiR/9SpRT7Bw0HphdmE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=IpsYyUnq; arc=fail smtp.client-ip=52.101.125.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OAdum7gQBZHsNXuNUvI3C8AaE3fCPMh3X9w6z02MWPO8Z4xP5A+xrh3l1f4pw1YmZQGAuM2YNT1dO30LMiJxxaqtNgSoT/0Fid1QYIUboyJ65BsNXS3xzE3zbya8Ywiiv0S33pBoUoxJ47yYW6XjWAV90Y98KFT+SJ4FkZK6OZjyBp3xSVhMOqocIj21BmGja+oYDxmJbG+/lGr8lcuG6Xp0KmQiT2m/78/i8UW1giA6g+GerwGdhXLdbBI5UyGNfkIQ9+xFoSu7vMNxIB7ZwH1BC71BQKUXBKjwsNpDsZUxRE+Ws6Qs3ekyJIVDMxlhXeaXe/wvElnOOhvEFY3PVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aCfTiQSucV+wc4oRMaIMr6jt0GNCZXL/K16r2gZpmaw=;
+ b=N1/MQJijoFWHFIiiWbiMhc2okGM3HBcNuSpdGJUbQPjZ/6w3kVnxxlx/nFZFTJ6bnb/1ULbwvURf2Kkw9ge+/q1HHApYMA7tLIbvPBUpzqXwI505Emb4x0jrtlrrQLCBNduaiu2OHcz4/T1NYy0kBrqv4v/OMASN0/WZspEPVGkY4w9nDK1TjWuAUonxO3ElFUygKZ0U4a2FZHDsHVIzD+wDlD8LsJV3cGG7dq0vS3ewC3z37rO25bce1A66p7jsJ3JqP9Y8gYpgiKnQJnNvz0bwsuALQgz6LEZeoBzJSnUJiTmv+IOTpmtu5EANTtvZT7tan3K7J/cZ3F57PrvJ1A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aCfTiQSucV+wc4oRMaIMr6jt0GNCZXL/K16r2gZpmaw=;
+ b=IpsYyUnqy5LyBKtUHwHb0uUBnEAPYBaPvYbPs3D7g9cVYSvtiTz49TqRvDinZA8bnVoSKFThY2/c72j8AjjBlqadov+UFo9AhPRYjdO229vdQwpFBE6rQJrC0irBYOSArqVbZTHvgdmvgXPT5JtFkdswgHvstNuS95XWL4uBGMI=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TYAPR01MB5401.jpnprd01.prod.outlook.com (2603:1096:404:803e::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.20; Fri, 30 Aug
+ 2024 11:49:58 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%6]) with mapi id 15.20.7918.019; Fri, 30 Aug 2024
+ 11:49:58 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Michael Walle <michael@walle.cc>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
+	<biju.das.au@gmail.com>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH 1/3] memory: renesas-rpc-if: Use Hi-Z state as the default
+ setting for IOVF pins
+Thread-Topic: [PATCH 1/3] memory: renesas-rpc-if: Use Hi-Z state as the
+ default setting for IOVF pins
+Thread-Index: AQHazVmLhgheZUDUAkmjmnC+TVu0p7I9O9tAgAK9RQCAAADYgIAAEJUA
+Date: Fri, 30 Aug 2024 11:49:57 +0000
+Message-ID:
+ <TY3PR01MB11346043460373DEE6DB5C5E786972@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20240703145851.204306-1-biju.das.jz@bp.renesas.com>
+ <20240703145851.204306-2-biju.das.jz@bp.renesas.com>
+ <TY3PR01MB11346E69DB7142AE991ED461F86952@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <54695a5a-efbf-47b1-9485-c536656a4078@kernel.org>
+ <ffd6067e-652e-470d-9061-e0efccc24e08@kernel.org>
+In-Reply-To: <ffd6067e-652e-470d-9061-e0efccc24e08@kernel.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYAPR01MB5401:EE_
+x-ms-office365-filtering-correlation-id: 34fa2ade-db62-476e-dcc9-08dcc8e9df5a
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?S0orVTQyL2lwQnFXUzgyUWtiN2ppSUcyMHpVdDRKTjFrandRbmFERjlKS0NQ?=
+ =?utf-8?B?VFBCOGU3dHl6VlVnOUJMa09jU1lpTExZcWo0Ny84MkhVeDExU2JiU29NdnhE?=
+ =?utf-8?B?bHFWNFVHTEhsTEJaTTJiOFo3ZUNtdnYxdEczY2tqYWk4eDlIOW1hUHo1ZW16?=
+ =?utf-8?B?Y3BoUkxWczI3V1ZQRGQwK1kzcW1EZi9FSEhpSFpFUWFxYlNjaTBDcGZubmFj?=
+ =?utf-8?B?V3pFMVM5a2dHL0o5c3BOWjVmMk05TjNXSzVVcVBxd0RxcGRiZ3ZicnVtdWgx?=
+ =?utf-8?B?Z0ZDelZPZERJSklsdU1VTHNEdFNrVUtvZ2NqN0RLblVrbHZkbTVPalQ1ZEVC?=
+ =?utf-8?B?TGp1bXp6Q1RKTnRwaHB0TEpFRUJ0dkE0bWdmV2NMTUJ1Q0dmREliREJHZFRW?=
+ =?utf-8?B?RnkxOHd2bUJDWnFFWVZZcVlzQnJrZU9IaFo5WnlXeVBhRGY4T2JWV0pWQ0RG?=
+ =?utf-8?B?N0lxV2tuWlRxRlk4eDRqSDNtenRIeXBWTkdoZkZxWGZ5ckphaVpDVzVTRE5x?=
+ =?utf-8?B?L1FnV0IvZGpnODdkN3orcXd2Tkl5cFVPVmdIZDd5YWlUM2ZCMG1BTm1yN0o2?=
+ =?utf-8?B?QzBFc2pVZUpLUHlxc0ErcVZBalh6anVKVXNJYmdUVUZOVlhwUUpldFBDcmF3?=
+ =?utf-8?B?dU9FN2pMdlhFdDA0QkF6Tzh2T2RsMStQTVNLNmtvd2Y3eE92SXFlcDduazZK?=
+ =?utf-8?B?UDNBL2U1MzN5Vm5BSmcrK3RvdmFlb2lMYmpXLzJCNHBYNStiRVFvU0hBV29G?=
+ =?utf-8?B?RGsvRGZuSlVEanl5N0tMR2I0Lyt2TU5NcXBUZkNlYW5TSHo2cXNDSVNMaUZZ?=
+ =?utf-8?B?MGM0TERmSWQ5bEhxSUw4RTNKbzhZRjhYdTRib0JGMUpPaUZhYkJnSWhBWkpq?=
+ =?utf-8?B?ZE40dTZJZGZmcVNDWExqaHN4Z2NBcit4UWpFdzJYSHkrSlVCRmx3NitxTHZz?=
+ =?utf-8?B?ZWhQMkwzQ1NsTUVDRHhKbzFIYWVObGpXNXQxR1BuaFIvTG8vMWdkd1ZxeGZG?=
+ =?utf-8?B?aklGNzN2Y3BuRERMdis5M0FPRnh3VUFqVjVQR01OUlp3dGFpYUlZeHdPV1k3?=
+ =?utf-8?B?d0MwWU1LdzdsK0s2N3RrQzExak0xa3UyUC9lRGJnaVlrcWJjeHNkYXJ6M0Jp?=
+ =?utf-8?B?Z2hxQVRBaWdXaHRPWDlGS25Va1haK1c1MGlhakUxUDR4bEpTeHpvay90d3Jw?=
+ =?utf-8?B?OUtkUG9JYVl1dW5jNkxlaUNJZ0ZxWUtKQW5nbVZPck5LdHpRZGFQR2FIeVpN?=
+ =?utf-8?B?OVJNdDRDQzJTNTdXUkpWYUJtZ1JybE15VmFxa1BCNHIybVdtNCs3ZEE2dWtW?=
+ =?utf-8?B?RHlGTnBTMkZ0VGtxWURiRHdrM2JmSlBjUWpIcHp2MkJIRFdMbEFXcWNrWjNh?=
+ =?utf-8?B?YnJvOUtDUkQ1V0x3b0xuYXFtTGdVZ2xOTmRUcmJtZTJBUWJsMFRNUE5JT2NV?=
+ =?utf-8?B?Y2VOcFhlUUIySTRJZFBKVS9zelF3RkJtbzBhRGV2WkNDdnRuV3E3TGNkYkla?=
+ =?utf-8?B?NUVaSFlMRFJCZzhKUFoxSGVMRHk1ZzMwZ3JIUFFjT3ZTWGp3aDVWR3NxRFZo?=
+ =?utf-8?B?ZE0wMTYwaDdocWZVTFc4cUNEWElxbWFKbUkyWjZOUVhPYWxRRFVOR3BFbVY3?=
+ =?utf-8?B?Zy9mdUs5KzUyWU50OERUKzkrZjlzUmtkYmFQaUF4TmF4N1hwbFF6amlRZUI5?=
+ =?utf-8?B?M2dYbVA5YkI3NWx3czlMQXNRdS9oNnRtUVpIMnRCeEtFOTBsb0pMYlNjdmtI?=
+ =?utf-8?B?am5KT0xVNmlmVG81Z2tNODFKUXlGcFY2Q29MRFJjYVpuZk9Ocnd0YjAyaVov?=
+ =?utf-8?B?MU53d3JxcnNRaytFRGszS1B2MmFVU2w3NTFZbVdjb2NMRmszd2JENTcxZnlH?=
+ =?utf-8?B?M1k3ZXVsZkRucDV6NDZjMHd3eHVwUC9VVTVuL2RrWHhjSEE9PQ==?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?TGlYNXVuZFdGVTd5c21XdENvaXBMK04vRmp5U2JJekNybmdnOUhJNjZXZE1q?=
+ =?utf-8?B?TElGaHBXQlZvU2pRb0xaYTUyWS81bjByWjZZSzVEVEE3b2xlSlIwZkhoQW9l?=
+ =?utf-8?B?cDY1UVVvSUJDZXh1NWFmTTRReDN5bm4raEoveEFhZU5ZRkFoY0dDT2VDQXFq?=
+ =?utf-8?B?NzJET28wMWhyRzZJdFp5MEs3QmhDM1d6aHlxdHY4d0NpSWpudnBjc3VDUDZo?=
+ =?utf-8?B?ajdXSVVKRkdQN0xUbGhPZHp2MFcveU5Uakd0TnlCM29LZEJjL1cyalJwelZQ?=
+ =?utf-8?B?SEVRdm42U1NRZG1CNkdoN2pZYmNyVWxjekJIZEhSaGVvc2MrMEIwdXlhcGwr?=
+ =?utf-8?B?cmdJOWVJYlF6N3BUdHA3VVRTdEFPamxFMTB4QkRaeWllT25iTWlYU3lyTzBi?=
+ =?utf-8?B?bjBpR1k1cEY4QUFaeXBFdGRVbE52UWVaSFh1UVh4ZEhqUXNJN1c2UDI1MUoy?=
+ =?utf-8?B?OHU4blBiSkNSTDhzWGMrVC9IeDBNK2lzNC93L1p5dWw0TUlubkROR2MrUHpO?=
+ =?utf-8?B?TGQ1ZnYxU2diaCtnY1dNT1ZGQXNqSjNNdWhoaHBvakplUGFBRE1KbG5KS2Iw?=
+ =?utf-8?B?VFk0aFZnNTk2YUlPd0kxUGFDblc1dS9UYWs5Qk5KdUdudXJPQjE4Y1NHWU9w?=
+ =?utf-8?B?Vm1GWi9ad1p3MzR2VGdKbWhUeFpwbzU2QkdleUJrTGltWjkvcUlPcUNGcmZs?=
+ =?utf-8?B?T2lydXV3RnRWSjZ6TDZjNFVweHY1aWRiTjN0N2RVakZSdzhZd3NwWkgrSHFU?=
+ =?utf-8?B?RTAwVGhCUm1YcHUvNnB3UnpRQnFSSmtEMHdQWHo4M2hhelg2YzVzS013QlZm?=
+ =?utf-8?B?Rlp1YXdTS3MrMWpJME1IVGY5Z0hVVVdSRGppdzdRa2NXcTQxWDhRRGpBblVR?=
+ =?utf-8?B?OXgwTVdUK3A5NVlGSGFOZHlnZm0vQXpUWFkxRkc2QVE4VHJyb0ZoQkdGR2JQ?=
+ =?utf-8?B?QXZxcVM2dURyOTVFNVdUQ0M3Lzc5dWlDdG9DZCtaTkhBbzhFQmhuQ1BRWWcr?=
+ =?utf-8?B?L0xya1JuQURudkFZa0N6VUhSVlJRdlAwVmZZLzZ5SklxblNLMGN1VXpzUVJz?=
+ =?utf-8?B?a3hRYVJqWE0vZXR5Yys5Q3FEZGIvZjkxRGRYV0xoM0ZhUThqbHVFUWJpSURS?=
+ =?utf-8?B?aHI4ajlkS2RJM2VmOFM0VzFUc3c4VkNIaDg1RHFhYlhPNmpJSmhVa3dmQzNM?=
+ =?utf-8?B?YUduVUhnTGpoV2NDRnFVR1pNMVRXWGRwR1hiTnVxazF5TDlrUlUrVmxhalRG?=
+ =?utf-8?B?aHJZenhMWDk1NlFvcWIza0ZsaEJCdGVXaVBTSFM4SEt5dmdHdTZ4Qlg5cmtQ?=
+ =?utf-8?B?RGF1bHNRM0k0dW9YSTJGaUFkRitMYkdLM3RNK1U4Q3diTko5MHV1d0ptUEtJ?=
+ =?utf-8?B?ZmVNV0pGT3RDRG9LSXFYeitnNjU1ekJ4dTNWTVdMOThpVm9qOGFxWGFQdmpp?=
+ =?utf-8?B?clVXY3ozcXl4SG5DMDVTS1NPZDI0YnplOXA1bElQQWZCOFBLL3BtclVCZTFI?=
+ =?utf-8?B?S3BoZlppT1A5UFFNZGtwVDg5Mk5ZcjFWUFpFTVhiMWFOZWhWdlB3cUtlSUhU?=
+ =?utf-8?B?M0xFa2IxVzVSelgwR3VLb3RPcFM0YVNicXlTTi9nOHFXdE4zN3J6THRJUHJm?=
+ =?utf-8?B?dzY2SHN1b1p2Yjg5VFB2V2VSWVQ4QTl3RkovQzY1bmljeVVPYXFqVXRLSFUv?=
+ =?utf-8?B?aWxVWjVqNlJGZ05ReTRqbm9UUVMyZ2dQa2JWbEVkckdFc1J3cnp5WG1NQUlF?=
+ =?utf-8?B?SlhwUnVBaXJHQkJjY09teGxpT0Fhek1acnJlT205RUxYT2xZMkVyc3FBZitS?=
+ =?utf-8?B?b2FsUjFyTjFpUkQxRDNCN1dWTU1SZEltL1BvRjU3UWEzZVU2ZWFPTXJVUDJk?=
+ =?utf-8?B?cUNYdzNtWkIvNHdSRXdneGpNU1hpOEZaQVg1WDE3RFBiVU11UGRIZWlvUTRD?=
+ =?utf-8?B?bnpRY0FTTi8zYVdaTlZYS0V0OHVOaUc1Y0tOWUpRRUdBTDJYN1FCcW9uMkcz?=
+ =?utf-8?B?eHVpcFYvd1BZMlEyRjI5V0d5dW9TM1BWamVTNXpveDZTT3NPcUJsZDhUNk1U?=
+ =?utf-8?B?NUJxUzdYUFFOYzk1U09TbERLVHhLVVZSNTlCS3hKOEs3aU4xRnVnQ0doZERz?=
+ =?utf-8?B?TWhOUUZRMWxRYXVxdyttamo5a0NGd29aZE5FWGZmemNrSXdBRnQrZG1CalRG?=
+ =?utf-8?B?c3c9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/16] Add initial USB support for the Renesas RZ/G3S SoC
-Content-Language: en-US
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: vkoul@kernel.org, kishon@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, p.zabel@pengutronix.de, geert+renesas@glider.be,
- magnus.damm@gmail.com, gregkh@linuxfoundation.org, mturquette@baylibre.com,
- sboyd@kernel.org, yoshihiro.shimoda.uh@renesas.com,
- biju.das.jz@bp.renesas.com, linux-phy@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-pm@vger.kernel.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com>
- <CAPDyKFrS4Dhd7DZa2zz=oPro1TiTJFix0awzzzp8Qatm-8Z2Ug@mail.gmail.com>
- <99bef301-9f6c-4797-b47e-c83e56dfbda9@tuxon.dev>
- <CAPDyKFrVS2vpsJqTvjKCJ7ADqXc4D4k2eeCBsaK4T+=pXDnKUA@mail.gmail.com>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <CAPDyKFrVS2vpsJqTvjKCJ7ADqXc4D4k2eeCBsaK4T+=pXDnKUA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 34fa2ade-db62-476e-dcc9-08dcc8e9df5a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Aug 2024 11:49:57.9799
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /S3RA9LyZ/e01LN6P8c+kxIM585a5QfKnWWyto01THhUJDCui2gjwfw5mSw8rDlAl3UDCFWetMI44AC2bZ0QiXpDRMSvA5Hti7t6TDTeEbM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB5401
 
-
-
-On 30.08.2024 13:14, Ulf Hansson wrote:
-> On Fri, 30 Aug 2024 at 10:22, claudiu beznea <claudiu.beznea@tuxon.dev> wrote:
->>
->> Hi, Ulf,
->>
->> On 29.08.2024 18:26, Ulf Hansson wrote:
->>> On Thu, 22 Aug 2024 at 17:28, Claudiu <claudiu.beznea@tuxon.dev> wrote:
->>>>
->>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>
->>>> Hi,
->>>>
->>>> Series adds initial USB support for the Renesas RZ/G3S SoC.
->>>>
->>>> Series is split as follows:
->>>>
->>>> - patch 01/16           - add clock reset and power domain support for USB
->>>> - patch 02-04/16        - add reset control support for a USB signal
->>>>                           that need to be controlled before/after
->>>>                           the power to USB area is turned on/off.
->>>>
->>>>                           Philipp, Ulf, Geert, all,
->>>>
->>>>                           I detailed my approach for this in patch
->>>>                           04/16, please have a look and let me know
->>>>                           your input.
->>>
->>> I have looked briefly. Your suggested approach may work, but I have a
->>> few thoughts, see below.
->>>
->>> If I understand correctly, it is the consumer driver for the device
->>> that is attached to the USB power domain that becomes responsible for
->>> asserting/de-asserting this new signal. Right?
->>
->> Right!
->>
->>>
->>> In this regard, please note that the consumer driver doesn't really
->>> know when the power domain really gets powered-on/off. Calling
->>> pm_runtime_get|put*() is dealing with the reference counting. For
->>> example, a call to pm_runtime_get*() just makes sure that the PM
->>> domain gets-or-remains powered-on. Could this be a problem from the
->>> reset-signal point of view?
->>
->> It should be safe. From the HW manual I understand the hardware block is
->> something like the following:
->>
->>
->>                   USB area
->>          +-------------------------+
->>          |                         |
->>          | PHY --->USB controller  |
->> SYSC --> |  ^                      |
->>          |  |                      |
->>          | PHY reset               |
->>          +-------------------------+
->>
->> Where:
->> - SYSC is the system controller that controls the new signal for which
->>   I'm requesting opinions in this series
->> - PHY reset: is the block controlling the PHYs
->> - PHY: is the block controlling the USB PHYs
->> - USB controller: is the USB controller
->>
->> Currently, I passed the SYSC signal handling to the PHY reset driver; w/o
->> PHY reset the rest of the USB logic cannot work (neither PHY block nor USB
->> controller).
->>
->> Currently, the PHY reset driver call pm_runtime_resume_and_get() in probe
->> and pm_runtime_put() in remove. The struct reset_control_ops::{assert,
->> deassert} only set specific bits in registers (no pm_runtime* calls).
-> 
-> Thanks for clarifying!
-> 
-> For my understanding, in what register range do these bits belong? Is
-> it the USB logic or in the PM domain logic, or something else.
-
-The PHY reset block is an individual hardware block with its own address
-space, clocks and reset signals.
-
-The PHY block may reside in the same address space with USB controller but
-it can provide PHY support for an external USB controller, something like:
-
-+--------------------------+
-|  PHY ---> USB controller |
-|   |                      |
-+---|----------------------+
-   \/
-+---------------+
-| USB controller|
-+---------------+
-
-Because of this the PHY block is modeled in Linux as a standalone driver.
-
-And SYSC is an individual HW block with its own address space. This is
-where it resides the control of the signal for which I'm asking for directions.
-
-> 
->>
->> The PHY driver is taking its PHY reset in probe and release it in remove().
->> With this approach the newly introduced SYSC signal will be
->> de-asserted/asserted only in the PHY reset probe/remove (either if it is
->> handled though PM domain or reset control signal).
->>
->> If the SYSC signal would be passed to all the blocks in the USB area (and
->> it would be handled though PM domains) it should be no problem either,
->> AFAICT, because of reference counting the pm_runtime_get|put*() is taking
->> care of. As the PHY reset is the root node the in the devices node tree for
->> USB the reference counting should work, too (I may miss something though,
->> please correct me if I'm wrong).
->>
->> If the SYSC signal would be handled though a reset control driver (as
->> proposed in this series) and we want to pass this reference to all the
->> blocks in the USB area then we can request the reset signal as shared and,
->> AFAIK, this is also reference counted. The devices node tree should help
->> with the order, too, if I'm not wrong.
-> 
-> Reference counting a reset signal sounds a bit weird to me, but I
-> guess it can work. :-)
-> 
-> To sum up from my side;
-> 
-> As long as it's fine that we may end up asserting/de-asserting the
-> reset-signal, without actually knowing if the PM domain is getting
-> turn-on/off, 
-
-With my understanding of it, that should not happen, at least not with the
-current implementation of the drivers involved in this.
-
-> then using a reset-control like what you propose seems
-> okay to me.
-
-I would prefer this option, too.
-
-> 
-> If not, there are two other options that can be considered I think.
-> *) Using the genpd on/off notifiers, to really allow the consumer
-> driver of the reset-control to know when the PM domain gets turned
-> on/off.
-> **) Move the entire reset handling into the PM domain provider, as it
-> obviously knows when the domain is getting turned on/off.
-
-This option is what I've explored, tested on my side.
-
-I explored it in 2 ways:
-
-1/ SYSC modeled as an individual PM domain provider (this is more
-   appropriate to how HW manual described the hardware) with this the PHY
-   reset DT node would have to get 2 PM domains handlers (one for the
-   current PM domain provider and the other one for SYSC):
-
-+               phyrst: usbphy-ctrl@11e00000 {
-+                       compatible = "renesas,r9a08g045-usbphy-ctrl";
-+                       reg = <0 0x11e00000 0 0x10000>;
-+                       clocks = <&cpg CPG_MOD R9A08G045_USB_PCLK>;
-+                       resets = <&cpg R9A08G045_USB_PRESETN>;
-+                       power-domain-names = "cpg", "sysc";
-+                       power-domains = <&cpg R9A08G045_PD_USB_PHY>, <&sysc
-R9A08G045_SYSC_PD_USB>;
-+                       #reset-cells = <1>;
-+                       status = "disabled";
-+
-+                       usb0_vbus_otg: regulator-vbus {
-+                               regulator-name = "vbus";
-+                       };
-+               };
-+
-
-and the PHY reset driver will get bulky with powering on/off both of these,
-at least with my current implementation, something like (and the following
-code is in probe()):
-
-+       if (priv->set_power) {
-+               priv->cpg_genpd_dev = dev_pm_domain_attach_by_name(dev, "cpg");
-+               if (IS_ERR(priv->cpg_genpd_dev)) {
-+                       dev_err_probe(dev, error, "Failed to attach CPG PM
-domain!");
-+                       error = PTR_ERR(priv->cpg_genpd_dev);
-+                       goto err_pm_runtime_put;
-+               }
-+
-+               priv->sysc_genpd_dev = dev_pm_domain_attach_by_name(dev,
-"sysc");
-+               if (IS_ERR(priv->sysc_genpd_dev)) {
-+                       dev_err_probe(dev, error, "Failed to attach sysc PM
-domain!");
-+                       error = PTR_ERR(priv->sysc_genpd_dev);
-+                       goto err_genpd_cpg_detach;
-+               }
-+
-+               priv->cpg_genpd_dl = device_link_add(dev, priv->cpg_genpd_dev,
-+                                                    DL_FLAG_PM_RUNTIME |
-+                                                    DL_FLAG_STATELESS);
-+               if (!priv->cpg_genpd_dl) {
-+                       dev_err_probe(dev, -ENOMEM, "Failed to add CPG
-genpd device link!");
-+                       goto err_genpd_sysc_detach;
-+               }
-+
-+               priv->sysc_genpd_dl = device_link_add(dev,
-priv->sysc_genpd_dev,
-+                                                     DL_FLAG_PM_RUNTIME |
-+                                                     DL_FLAG_STATELESS);
-+               if (!priv->sysc_genpd_dl) {
-+                       dev_err_probe(dev, -ENOMEM, "Failed to add sysc
-genpd device link!");
-+                       goto err_genpd_cpg_dl_del;
-+               }
-+
-+
-+               error = pm_runtime_resume_and_get(priv->cpg_genpd_dev);
-+               if (error) {
-+                       dev_err_probe(dev, error, "Failed to runtime resume
-cpg PM domain!");
-+                       goto err_genpd_sysc_dl_del;
-+               }
-+
-+               error = pm_runtime_resume_and_get(priv->sysc_genpd_dev);
-+               if (error) {
-+                       dev_err_probe(dev, error, "Failed to runtime resume
-sysc PM domain!");
-+                       goto err_genpd_cpg_off;
-+               }
-+       }
-+
-
-2/ SYSC being a PM domain provider parent of the CPG (current PM domain
-   provider). With this the phy reset node is like proposed in this series
-   (powered by CPG PM domain):
-
-+               phyrst: usbphy-ctrl@11e00000 {
-+                       compatible = "renesas,r9a08g045-usbphy-ctrl",
-+                                    "renesas,rzg2l-usbphy-ctrl";
-+                       reg = <0 0x11e00000 0 0x10000>;
-+                       clocks = <&cpg CPG_MOD R9A08G045_USB_PCLK>;
-+                       resets = <&cpg R9A08G045_USB_PRESETN>;
-+                       power-domains = <&cpg R9A08G045_PD_USB_PHY>;
-+                       #reset-cells = <1>;
-+                       status = "disabled";
-+
-+                       usb0_vbus_otg: regulator-vbus {
-+                               regulator-name = "vbus";
-+                       };
-+               };
-
-And the USB SYSC PM domain is parent for all USB PM domains provided by CPG
-(3 in this case). With this there should be some glue code b/w CPG (code in
-drivers/clk/renesas/{rzg2l-cpg.c, r9a08g045-cpg.c}) and SYSC drivers (I
-have something ugly locally, haven't tried to detach CPG code from SYSC
-code at the moment).
-
-
-> 
-> Thanks again for your explanations!
-
-Thank you, also, for looking into this,
-Claudiu Beznea
-
-> 
-> Kind regards
-> Uffe
+SGkgS3J6eXN6dG9mIEtvemxvd3NraSwNCg0KVGhhbmtzIGZvciB0aGUgZmVlZGJhY2suDQoNCj4g
+LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogS3J6eXN6dG9mIEtvemxvd3NraSA8
+a3J6a0BrZXJuZWwub3JnPg0KPiBTZW50OiBGcmlkYXksIEF1Z3VzdCAzMCwgMjAyNCAxMTo1MCBB
+TQ0KPiBTdWJqZWN0OiBSZTogW1BBVENIIDEvM10gbWVtb3J5OiByZW5lc2FzLXJwYy1pZjogVXNl
+IEhpLVogc3RhdGUgYXMgdGhlIGRlZmF1bHQgc2V0dGluZyBmb3IgSU9WRiBwaW5zDQo+IA0KPiBP
+biAzMC8wOC8yMDI0IDEyOjQ2LCBLcnp5c3p0b2YgS296bG93c2tpIHdyb3RlOg0KPiA+IE9uIDI4
+LzA4LzIwMjQgMTk6MDIsIEJpanUgRGFzIHdyb3RlOg0KPiA+PiBIaSBLcnp5c3p0b2YgS296bG93
+c2tpLCBNaWNoYWVsLA0KPiA+Pg0KPiA+PiBHZW50bGUgcGluZy4gQXJlIHlvdSBoYXBweSB3aXRo
+IHRoaXMgcGF0Y2g/IG9yIGRvIHlvdSBoYXZlIGRpZmZlcmVudCBvcGluaW9uPw0KPiA+Pg0KPiA+
+PiBUaGlzIHBhdGNoIGlzIGJhc2VkIG9uIFJGQyBkaXNjdXNzaW9uIFsxXQ0KPiA+Pg0KPiA+PiBb
+MV0gUkZDOg0KPiA+PiBodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvYzliMGNmZmJiMTU2NmE3
+ZDM4ZjIyNTFhYzdjODg4M2FAd2FsbGUuY2MNCj4gPj4gLw0KPiA+DQo+ID4gc29ycnksIEkgZG9u
+J3QgaGF2ZSB0aGlzIHBhdGNoIGluIHRoZSBpbmJveCAoYW55dGhpbmcgb2xkZXIgdGhhbiAxDQo+
+ID4gbW9udGggZGlzYXBwZWFycykuIEV2ZW4gaWYgaXQgcmVhY2hlZCBtZSwgaXQgd2FzIGFuIHJl
+cGx5IHRvIHVucmVsYXRlZA0KPiA+IHBhdGNoc2V0LCBzbyBpdCBjb3VsZCBoYXZlIGJlZW4gYXBw
+bGllZC4gQW5kIHByb2JhYmx5IC0gZHVlIHRvIGJlaW5nDQo+IA0KPiAic28gaXQgY291bGQgaGF2
+ZSBub3QgYmVlbiBhcHBsaWVkLiINCj4gDQo+ID4gaW5zaWRlIG90aGVyIHRocmVhZCAtIGdvdCBp
+bW1lZGlhdGVseSBkaXNjYXJkZWQuDQo+ID4NCj4gPiBEbyBub3QgYXR0YWNoICh0aHJlYWQpIHlv
+dXIgcGF0Y2hzZXRzIHRvIHNvbWUgb3RoZXIgdGhyZWFkcyAodW5yZWxhdGVkDQo+ID4gb3Igb2xk
+ZXIgdmVyc2lvbnMpLiBUaGlzIGJ1cmllcyB0aGVtIGRlZXAgaW4gdGhlIG1haWxib3ggYW5kIG1p
+Z2h0DQo+ID4gaW50ZXJmZXJlIHdpdGggYXBwbHlpbmcgZW50aXJlIHNldHMuDQo+ID4NCj4gPiBQ
+bGVhc2UgcmVzZW5kLg0KPiANCj4gTWF5YmUgdGhlIHRocmVhZGluZyB3YXMgY29ycmVjdCwgYnV0
+IEkgbWlzc2VkIGl0IGJlY2F1c2Ugb2YgbXkgRFQgZmlsdGVycy4gSSBkb24ndCBrbm93LiBTb3Jy
+eSBmb3INCj4gdGhhdCwgcGxlYXNlIHJlc2VuZC4NCg0KDQpTdXJlLiBXaWxsIHJlc2VuZC4NCg0K
+Q2hlZXJzLA0KQmlqdQ0K
 
