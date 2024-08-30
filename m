@@ -1,127 +1,108 @@
-Return-Path: <linux-renesas-soc+bounces-8568-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8569-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4DF9966854
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Aug 2024 19:47:20 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEBFC966A82
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Aug 2024 22:30:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9A4051F23C5E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Aug 2024 17:47:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F17AB1C21F20
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Aug 2024 20:30:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 624B51BB6A2;
-	Fri, 30 Aug 2024 17:47:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g06uiySL"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 537CF166F0D;
+	Fri, 30 Aug 2024 20:30:31 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3191F1B81B1;
-	Fri, 30 Aug 2024 17:47:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D9B315B117;
+	Fri, 30 Aug 2024 20:30:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725040035; cv=none; b=EOHP+LG7HntgE/bLx+gDfD8TBqDCPa1+WqNrd5qbuuuoHtRPDGWJHP2cm6UUSp5VMmOg3ct8njQGxNoofvegDutSaAojmXzEA/9LR3kRolkPZmbDH3I6M1Qol4lZ1V/le5aJrTPxpG+L/1EnhKRkSzLUj1M4g0nHbeL+M59x0xw=
+	t=1725049831; cv=none; b=blFZpzeJC+u/f3183Uww4+prx6P8IXkDtxZFl/tNWaeYoxSg9DjZ3zrHUe1yfBdeDEfOxnMIC0Vl2tSe5HdhEmyt7Yd/z3m4OrlESQsGgHNjG+5eFT3MXqCWwumBqdZjdBMTSj/HbQQCeIaYg6OgDzKVFT7JnSeZw1nRmZHcr1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725040035; c=relaxed/simple;
-	bh=sji6oTP4f/mPIHe8nZSA3wlyfuFy6QfVG32oiPNCwMA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sk1aW/w+CdPtYU1pLfg5NV/UQzD5eKnbraj4xxTyh/2wGY13GbVogq90xdUnxiW66feoJbcHQP8W2xyDjJVZRBSMWzdKpFzaOBdPuIyz52/+i/WOYhicwtLMOE/HUniFN0z753q/lxIZHc17xCxS9fX51byfKep9jHFwZ+PCp+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g06uiySL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 751B1C4CEC2;
-	Fri, 30 Aug 2024 17:47:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725040034;
-	bh=sji6oTP4f/mPIHe8nZSA3wlyfuFy6QfVG32oiPNCwMA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=g06uiySLv6zORPuie25LzAMuU+uI+WM1zkimEw1iF2+0QfmGkQfXXRCfpbJZBOI90
-	 oN+RYrIUc/bcGh9dQziuLS2OmZON6MCj5ALs5pO5wzmmd7Yo8BCo8XNfR4BYL5w+3u
-	 tOAx1Wr7LV6gltNP3tZukeZs1xb459pG6SxoBEUwzwxGCu+M8W2VvlmdXyl4940XmX
-	 qW6KywuVf1/u69j87cvxgdY60/W+4GMljWI4yzs9UG77AdRNO4nTygi4ecmlQ5I4OF
-	 GQoVgxs0yD0Ki981CYBoX7w1hEzBlWNpFxUC1x7G9GTjjECjjvj3qdaxh23EeHxtQ4
-	 iqEPLyS5VpYjw==
-Date: Fri, 30 Aug 2024 12:47:12 -0500
-From: Rob Herring <robh@kernel.org>
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org,
-	alexandre.belloni@bootlin.com, magnus.damm@gmail.com,
-	p.zabel@pengutronix.de, linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH v3 02/12] dt-bindings: clock: r9a08g045-vbattb: Add clock
- IDs for the VBATTB controller
-Message-ID: <20240830174712.GA562851-robh@kernel.org>
-References: <20240830130218.3377060-1-claudiu.beznea.uj@bp.renesas.com>
- <20240830130218.3377060-3-claudiu.beznea.uj@bp.renesas.com>
+	s=arc-20240116; t=1725049831; c=relaxed/simple;
+	bh=r+vleoUyp+YLco4inMrnkZ9PxfRAdtFda/5YsmJJPzU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bbJYX+OPepGXRdz0zNA03ZPLWOUjY4JirXedw/iMK421JoBjvNT1RSAKZ1ypjIzSO85l3MMHvvCEJizzS33wOfPj06g1QE4w1D0/jRKXjFS0kv6ey3KQ0oNmT48HN5ap2BEtqrS/+BmSHxIaH+8iw/tPKFvZPqLXGrew7WjRNGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.10,189,1719846000"; 
+   d="scan'208";a="217084506"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 31 Aug 2024 05:30:20 +0900
+Received: from localhost.localdomain (unknown [10.226.92.75])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id DE8C5406DF57;
+	Sat, 31 Aug 2024 05:30:17 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v2 RESEND 0/3] Enable serial NOR flash on RZ/G2UL SMARC EVK
+Date: Fri, 30 Aug 2024 21:30:02 +0100
+Message-ID: <20240830203014.199326-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240830130218.3377060-3-claudiu.beznea.uj@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 30, 2024 at 04:02:08PM +0300, Claudiu wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> The VBATTB controllers controls the clock for the RTC on the Renesas
-> RZ/G3S. The HW block diagram for the clock logic is as follows:
-> 
->            +----------+ XC   `\
-> RTXIN  --->|          |----->| \       +----+  VBATTCLK
->            | 32K clock|      |  |----->|gate|----------->
-> 	   | osc      | XBYP |  |      +----+
-> RTXOUT --->|          |----->| /
->            +----------+      ,/
-> 
-> One could connect as input to this HW block either a crystal oscillator or
-> an external clock device.
-> 
-> After discussions w/ Stephen Boyd the clock tree associated with this
-> hardware block was exported in Linux as:
-> 
-> input-xtal
->   xbyp
->   xc
->      mux
->         vbattclk
-> 
-> where:
-> - input-xtal is the input clock (connected to RTXIN, RTXOUT pins)
-> - xc, xbyp are mux inputs
-> - mux is the internal mux
-> - vbattclk is the gate clock that feeds in the end the RTC
-> 
-> to allow selecting the input of the MUX though assigned-clock DT
-> properties, using the already existing clock drivers and avoid adding
-> other DT properties.
-> 
-> This allows select the input of the mux based on the type of the
-> connected input clock:
-> - if the 32768 crystal oscillator is connected as input for the VBATTB,
->   the input of the mux should be xc
-> - if an external clock device is connected as input for the VBATTB the
->   input of the mux should be xbyp
-> 
-> Add clock IDs for the VBATTB controller.
-> 
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> ---
-> 
-> Changes in v3:
-> - none; this patch is new
-> 
->  include/dt-bindings/clock/r9a08g045-vbattb.h | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
->  create mode 100644 include/dt-bindings/clock/r9a08g045-vbattb.h
+This patch series aims to enable serial NOR flash on RZ/G2UL SMARC EVK.
 
-Squash this into the previous patch. It is part of the binding.
+The RZ/{G2L,G2LC,V2L} SMARC EVK uses Micron MT25QU412A flash and RZ/G2UL
+SMARC EVK uses Renesas AT25QL128A flash. With current pin setting for
+IOVF pin, 4-bit flash write fails for AT25QL128A flash. Use Hi-Z state
+as the default for IOVF pins, so that spi controller driver in linux will
+be independent of flash type.
 
-Rob
+To support this, during board production, the bit 4 of the NV config
+register must be cleared by the bootloader for Micron flash.
+
+Output from u-boot after clearing bit4 of NVCR register.
+=> renesas_micron_flash_nvcr
+SF: Detected mt25qu512a with page size 256 Bytes, erase size 64 KiB, total 64 MiB
+
+Update partition table for spi-nor flash, so that we can flash bootloaders
+in Linux by executing the below commands:
+flash_erase /dev/mtd0  0 0
+flash_erase /dev/mtd1  0 0
+mtd_debug write /dev/mtd0 0 ${BL2_FILE_SIZE} ${BL2_IMAGE}
+mtd_debug write /dev/mtd1 512 ${FIP_FILE_SIZE} ${FIP_IMAGE}
+
+v2->v2 resend:
+ * Rebased to next
+RFC->v2:
+ * Dropped patches related to set_iofv() callback
+ * Used Hi-Z state as the default for IOVF pin state.
+ * Enabled Serial NOR flash on RZ/G2UL SMARC EVK
+ * Updated partition table on RZ/{G2L,G2LC,V2L} SMARC EVK in order to
+   flash bootloader images from Linux.
+ 
+RFC: https://lore.kernel.org/all/c9b0cffbb1566a7d38f2251ac7c8883a@walle.cc/
+
+Biju Das (3):
+  memory: renesas-rpc-if: Use Hi-Z state as the default setting for IOVF
+    pins
+  arm64: dts: renesas: rzg2ul-smarc-som: Enable serial NOR flash
+  arm64: dts: renesas: rz{g2l,g2lc}-smarc-som: Update partition table
+    for spi-nor flash
+
+ .../boot/dts/renesas/rzg2l-smarc-som.dtsi     | 15 ++++--
+ .../boot/dts/renesas/rzg2lc-smarc-som.dtsi    | 15 ++++--
+ .../boot/dts/renesas/rzg2ul-smarc-som.dtsi    | 48 +++++++++++++++++++
+ drivers/memory/renesas-rpc-if.c               |  2 +-
+ 4 files changed, 71 insertions(+), 9 deletions(-)
+
+-- 
+2.43.0
+
 
