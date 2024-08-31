@@ -1,202 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-8586-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8587-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42ABE9670E6
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Aug 2024 12:32:47 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 187A5967264
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Aug 2024 17:31:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 68A3C1C212E4
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Aug 2024 10:32:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BF7B81F2262A
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Aug 2024 15:31:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B01B217B500;
-	Sat, 31 Aug 2024 10:32:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D2A5200AE;
+	Sat, 31 Aug 2024 15:31:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="K79//bN8"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="UdCpnIch"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 080FD16F0CA
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 31 Aug 2024 10:32:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4699B3D0D5
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 31 Aug 2024 15:31:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725100362; cv=none; b=Jm5E6ROuVQIyf+AlE1kxppQu+V4yaxA7mr60qgfaNMLy/2G483QgByaEGCRvaZLYrOa7ynWXfFub7m9UPoC2LdTI6vbVko8P24ojIwBe79+piCSatSc3xqvBvXNhayqBrhfhActfh6CxR+iupI7TvcZGZpjGDHgPkRDYUj+p4uo=
+	t=1725118302; cv=none; b=SR1upfH8mY6j/wn54dWp+0ps1KGmYeYFePdIhslFV9vkcNHJywKA4lytGIf/bjo4mMRzG1BsAaBARMPL9+xwrCKCq5BgbKl9WCBth35/I6gY7VZFxn0s+7gRCmybayi5i+FoRouUq0PBMJjfRbdiC4wBLJCHimekmXWqVshMkQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725100362; c=relaxed/simple;
-	bh=LS7JjNLNOai5U4tKMxi9bIxoMnNaywIh2Nz/2XzTViE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=S8gED11WUDv/HFlteFge7UEuqMxHAwKQiLJfdFUxopFlqWQz/v5T9AqOp+GmnDsoR9wPkKJIMwZC3BkHiGaCble0XqByRJWQGeh5AXJvkvuwS1cyVQKCWShO5q4UYMHgQmGg/g50a3VrdhHpuTdonFYysZ3rrrcGYeLIDhq9Obo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=K79//bN8; arc=none smtp.client-ip=209.85.219.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dff1ccdc17bso2837885276.0
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 31 Aug 2024 03:32:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725100360; x=1725705160; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=tKxIacQXeZ2qcUvNmDUUVII5ysi793GfJwtJp8UupOo=;
-        b=K79//bN8cXBhdsmHCleEkY4jKCZWc7vZw5bVpr+9ezF/Tq9yh1+AQko2aps9jV6Nra
-         L3nUQSBVdDPzzAsctwyEh26AqNfkQnXhfTKx0aojqdEI8gv5BjVAuA2+xBBr1rH1wAtc
-         yiWEUy1EZCGryL4OB5YQUkSL5aAXA3sGcD85ZAL4shyVE7asTxQMohCD4zVZ0qcqazA+
-         b53sCQ6XKu59mdeupIEFnm/dF5Ob8dzrs1MmEDemLvq5f8/ydxpoIgty/SaFvRDwTE85
-         iFPmNSWBYjRCQXEJXCFHh80/KOlBz+bZXN+Kne31Q2Xfyrmax4lC7xpTONo/KgnTjNEo
-         +BGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725100360; x=1725705160;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tKxIacQXeZ2qcUvNmDUUVII5ysi793GfJwtJp8UupOo=;
-        b=YgHYWfi+gSSN4s3ZRW87Vcl3GNLEhQiG3P9A6PmrJDYHy0zI7htdtznFc/2lZU6lNv
-         BA4XjYwsSBfJsyPeXDQEznVeeWvuue2ThIhuXlOXtmSr+7Q+j39YVgtZ9gtN7xeKQEbi
-         r4n7TpbRImjqvA79ElDmsrMC/BPGLx2SryvA7vtmQsNZKGGmNpQ00q40DPLqIcfIdsjB
-         kqYNAf8j4UJZIftlFdmLEZ8ExO4zbak5Cpc5CHWq1PYUrsowiOBaR7aTkuQ3Z0HDxlVo
-         /fbxsu37aG/W6WWnQkh3mzJhUDmeDL0sKYV0/5fFNf1i+FTZU+g2J3pMkoOJy2d20Mld
-         rBKg==
-X-Forwarded-Encrypted: i=1; AJvYcCVsLWEltvpoF3AdnNh6XuDNePztJmoc+iEIeYizGeb7zFNU/WXy1R+Xh2W3ljmwth++3e42/1dTdYN5+DLpm5qf7Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxIIW0oLVASEfGKv8SPBPMR3sRx/+6dp7EJmSjyzbckIDcDoIJv
-	99mOFYhr3zirI+wFWzgmjF4xgIizMLCRGJows5/wCjHsY5dhUBko7BSRwmngWrj0/08njCaaiKL
-	rbW0zfQJr34aP6rUeY2z8giDESxEBMgSZDP0hPQ==
-X-Google-Smtp-Source: AGHT+IH8Eb7EYXiidD/DrNNChHQ2lwNk48tFSRFBB77aRxIJWoIIPagMeOtludSNPt8BV9FsjbJZVJT8vUY8xBCkml0=
-X-Received: by 2002:a05:6902:1145:b0:e0b:a7c1:9dcc with SMTP id
- 3f1490d57ef6-e1a7a019106mr5308764276.20.1725100360016; Sat, 31 Aug 2024
- 03:32:40 -0700 (PDT)
+	s=arc-20240116; t=1725118302; c=relaxed/simple;
+	bh=DYZUjdNNimKGZoyJCELSptbQ3XZTKhzJH8kg6cdiYs4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AJ6HhW8BcHnjsuS+kXabbkHBIhOs8W1b1685wm8K2LQrNBDaD0FWr55btQjwee6vn93PoR35VItz1ZD7jHzeLUWDsCnAz5agjcIBXd+rmvjCmg8mT81urNdZYQGYRNLY8AfPdMiYzpj+17Z3YKJfPEjjyBjToG9fLGqpxCugY/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=UdCpnIch; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=bPIU
+	QgoAX+ZCwRz2joXdmT6IKhlmXSEgTdTYNX/r8Ok=; b=UdCpnIchaOKUq1DkMJPg
+	Lr6tmEkk//ctS+HH4nKUzxhQoC24tNgjYteeiW+fPnd3Hi1I/LQ18+CTEk2rimtI
+	tAJ9OaM/EFl/a0LTKLhumsrH7hU5H3w5nHwT+ORzFRnfX1/4oBJpi6LKRodo38GP
+	JmBzBU3Zd3tRIbFq//nOz76Y5mgqs+fgYvN6nBYu/8G2tLQD61G5n4pYsb9bGiy+
+	DxuQ+IWUo8UDGDzy4n20dtX3uvHyaHrb+2j5w0AttgagVeG0aAB4+++IfUuTOZcp
+	9DbW6cBzVNtwC3skpFoLd5XeOlLvemIUSnAIBKwAt/kh4lGLd/ihc3Bl3kLx7w9v
+	DA==
+Received: (qmail 3580804 invoked from network); 31 Aug 2024 17:31:30 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 31 Aug 2024 17:31:30 +0200
+X-UD-Smtp-Session: l3s3148p1@6ZXYZvwgpUBtKnNj
+Date: Sat, 31 Aug 2024 17:31:29 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-renesas-soc@vger.kernel.org, Andi Shyti <andi.shyti@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-i2c@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [RFC PATCH 1/2] dt-bindings: i2c: renesas,rcar-i2c: document
+ SMBusAlert usage
+Message-ID: <ZtM3Ufj1akqZckuu@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	linux-renesas-soc@vger.kernel.org,
+	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-i2c@vger.kernel.org,
+	devicetree@vger.kernel.org
+References: <20240826150840.25497-4-wsa+renesas@sang-engineering.com>
+ <20240826150840.25497-5-wsa+renesas@sang-engineering.com>
+ <CAMuHMdXiOLPm11-nBnFPC4pRa0WP1VviwCwYVVPHAeHLgXLe0g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com>
- <CAPDyKFrS4Dhd7DZa2zz=oPro1TiTJFix0awzzzp8Qatm-8Z2Ug@mail.gmail.com>
- <99bef301-9f6c-4797-b47e-c83e56dfbda9@tuxon.dev> <CAPDyKFrVS2vpsJqTvjKCJ7ADqXc4D4k2eeCBsaK4T+=pXDnKUA@mail.gmail.com>
- <fa9b3449-ea3e-4482-b7eb-96999445cea5@tuxon.dev>
-In-Reply-To: <fa9b3449-ea3e-4482-b7eb-96999445cea5@tuxon.dev>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Sat, 31 Aug 2024 12:32:02 +0200
-Message-ID: <CAPDyKFrkkASq7rfRN=9sEet-p8T8t+f__PdnSNRN3bMNipnNNw@mail.gmail.com>
-Subject: Re: [PATCH 00/16] Add initial USB support for the Renesas RZ/G3S SoC
-To: claudiu beznea <claudiu.beznea@tuxon.dev>
-Cc: vkoul@kernel.org, kishon@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, p.zabel@pengutronix.de, geert+renesas@glider.be, 
-	magnus.damm@gmail.com, gregkh@linuxfoundation.org, mturquette@baylibre.com, 
-	sboyd@kernel.org, yoshihiro.shimoda.uh@renesas.com, 
-	biju.das.jz@bp.renesas.com, linux-phy@lists.infradead.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
-	linux-pm@vger.kernel.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="2XyhbaEh6F/M9F/x"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXiOLPm11-nBnFPC4pRa0WP1VviwCwYVVPHAeHLgXLe0g@mail.gmail.com>
 
-[...]
 
-> >
-> > If not, there are two other options that can be considered I think.
-> > *) Using the genpd on/off notifiers, to really allow the consumer
-> > driver of the reset-control to know when the PM domain gets turned
-> > on/off.
-> > **) Move the entire reset handling into the PM domain provider, as it
-> > obviously knows when the domain is getting turned on/off.
->
-> This option is what I've explored, tested on my side.
->
-> I explored it in 2 ways:
->
-> 1/ SYSC modeled as an individual PM domain provider (this is more
->    appropriate to how HW manual described the hardware) with this the PHY
->    reset DT node would have to get 2 PM domains handlers (one for the
->    current PM domain provider and the other one for SYSC):
->
-> +               phyrst: usbphy-ctrl@11e00000 {
-> +                       compatible = "renesas,r9a08g045-usbphy-ctrl";
-> +                       reg = <0 0x11e00000 0 0x10000>;
-> +                       clocks = <&cpg CPG_MOD R9A08G045_USB_PCLK>;
-> +                       resets = <&cpg R9A08G045_USB_PRESETN>;
-> +                       power-domain-names = "cpg", "sysc";
-> +                       power-domains = <&cpg R9A08G045_PD_USB_PHY>, <&sysc
-> R9A08G045_SYSC_PD_USB>;
-> +                       #reset-cells = <1>;
-> +                       status = "disabled";
-> +
-> +                       usb0_vbus_otg: regulator-vbus {
-> +                               regulator-name = "vbus";
-> +                       };
-> +               };
-> +
+--2XyhbaEh6F/M9F/x
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-According to what you have described earlier/above, modelling the SYSC
-as a PM domain provider seems like a better description of the HW to
-me. Although, as I said earlier, if you prefer the reset approach, I
-would not object to that.
+Hi Geert,
 
->
-> and the PHY reset driver will get bulky with powering on/off both of these,
-> at least with my current implementation, something like (and the following
-> code is in probe()):
->
-> +       if (priv->set_power) {
-> +               priv->cpg_genpd_dev = dev_pm_domain_attach_by_name(dev, "cpg");
-> +               if (IS_ERR(priv->cpg_genpd_dev)) {
-> +                       dev_err_probe(dev, error, "Failed to attach CPG PM
-> domain!");
-> +                       error = PTR_ERR(priv->cpg_genpd_dev);
-> +                       goto err_pm_runtime_put;
-> +               }
-> +
-> +               priv->sysc_genpd_dev = dev_pm_domain_attach_by_name(dev,
-> "sysc");
-> +               if (IS_ERR(priv->sysc_genpd_dev)) {
-> +                       dev_err_probe(dev, error, "Failed to attach sysc PM
-> domain!");
-> +                       error = PTR_ERR(priv->sysc_genpd_dev);
-> +                       goto err_genpd_cpg_detach;
-> +               }
-> +
-> +               priv->cpg_genpd_dl = device_link_add(dev, priv->cpg_genpd_dev,
-> +                                                    DL_FLAG_PM_RUNTIME |
-> +                                                    DL_FLAG_STATELESS);
-> +               if (!priv->cpg_genpd_dl) {
-> +                       dev_err_probe(dev, -ENOMEM, "Failed to add CPG
-> genpd device link!");
-> +                       goto err_genpd_sysc_detach;
-> +               }
-> +
-> +               priv->sysc_genpd_dl = device_link_add(dev,
-> priv->sysc_genpd_dev,
-> +                                                     DL_FLAG_PM_RUNTIME |
-> +                                                     DL_FLAG_STATELESS);
-> +               if (!priv->sysc_genpd_dl) {
-> +                       dev_err_probe(dev, -ENOMEM, "Failed to add sysc
-> genpd device link!");
-> +                       goto err_genpd_cpg_dl_del;
-> +               }
-> +
-> +
-> +               error = pm_runtime_resume_and_get(priv->cpg_genpd_dev);
-> +               if (error) {
-> +                       dev_err_probe(dev, error, "Failed to runtime resume
-> cpg PM domain!");
-> +                       goto err_genpd_sysc_dl_del;
-> +               }
-> +
-> +               error = pm_runtime_resume_and_get(priv->sysc_genpd_dev);
-> +               if (error) {
-> +                       dev_err_probe(dev, error, "Failed to runtime resume
-> sysc PM domain!");
-> +                       goto err_genpd_cpg_off;
-> +               }
-> +       }
+> IIUIC, this is not a property of the hardware, but a side-channel
+> independent from the actual I2C controller hardware? Then a generic
+> "smbus-alert-gpios" property sounds more appropriate to me.
 
-Indeed, the code above looks bulky.
+It is not generic. While it is true that most I2C controllers do need
+GPIOs as a side channel, there are controllers having...
 
-Fortunately, we now have dev|devm_pm_domain_attach_list(), which
-replaces all of the code above.
+> BTW, are you aware of any I2C controller having a dedicated input pin
+> for this?
 
-[...]
+... this. Check 'i2c-stm32f7.c' or 'i2c-xlp9xx.c'.
 
-Kind regards
-Uffe
+Thank you for your comments!
+
+   Wolfram
+
+
+--2XyhbaEh6F/M9F/x
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmbTN00ACgkQFA3kzBSg
+KbbcSw//Y4WgmjqBjMOuIktpE/VH08udl4GEalNkhyfd4rCNIfg1OLt4YXXcO/bN
+mmSkQ3vl38Pp/Z7U+9Kg2eHIQVfON5QQtjVXhor+b9ZVEgLSF+Miihyhh3KjbUbM
+FupkhZhq9kJV6OumBIqWkVzYuAJMTPtdn9YIrDHbtDiEZTyYLQmHeJdSoNvXA/n4
+vpMkzmwyH5cQr2SRzHrguR/zvIddBtIFEfSDr9jFj0LzZ0ovPaSrdYUHNz3n3lFS
+toTH2lgicwkPivVp0sqquxVjxtALEno2oNMjRVN2pMe+LhFjdmD6A4vm+uYT9PAY
+iUBCMS1wlopPZsdgnZTAyyuAJ0U1iVGrCtfNypRqy5gL6NYnZpNa6uPm+80ZjW3q
+UM+P5cBftbMXxu3s3Sf5dhE8tUi5voKlJmd/6OutWIR2qrWmyYxPFyBd+6g7kixt
+rS2/jFqS92YZ3N9tr3q2rRCVlFGTATPGml3OQ/WrbMt17WXtYgr3JRnPTG7TaYOI
+brmlNQoCHUSoNuZDKHAiHpmYmHkK3yus4VBkEGatpJEHMmjizaw8AwEMixDo80+W
+m/qp8L3gatDh/ZlmD0HfrhRxwCkKlBswXvlD+eTwcIcOxXibuyGse6awEyBfbYmV
+E2x1PLu3xNiIxImUyPU1+o80ch5eEkOyd8BExKkzaOepJ7Yku6k=
+=dyYg
+-----END PGP SIGNATURE-----
+
+--2XyhbaEh6F/M9F/x--
 
