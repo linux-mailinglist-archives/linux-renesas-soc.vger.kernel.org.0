@@ -1,139 +1,173 @@
-Return-Path: <linux-renesas-soc+bounces-8607-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8608-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BCF69686F3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2024 14:04:40 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1929F9688AF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2024 15:24:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 40F571F235EF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2024 12:04:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 71868B2282D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2024 13:24:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F9751D363D;
-	Mon,  2 Sep 2024 12:04:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F8B120FA8B;
+	Mon,  2 Sep 2024 13:24:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="U24EiZf+"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="LmjjR7U3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0067E185939
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Sep 2024 12:04:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22CA420125D
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Sep 2024 13:24:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725278677; cv=none; b=W6iVD15LUBSPHhpMbGhk2/bb5W6hrpCzKG7A0iCChZW1Tq3c5BXKN58oetOxhZ4vQPlryElBrSQkXZPlbvc3QbaGDCfyk3a8mfdHo4zxLc2ZtQDkDm3SXrIW+1qTVnxFppeyKgaO8wqEdekvfG93rAXrY20XYxus+k/zK3qz5nE=
+	t=1725283460; cv=none; b=SsZsXrV7OCfAvebYhxP2dHXLMMdsgOUgYXLjYocVf2AKgiO1+Uw1R67GR42Bcq4KpklBrvazjq49YE1l3UjLdeFHvjXLjNqLsDjQ2l9vEnpa/iE3hajWwzt5qSiO+jBot86NhAG9WpslJioNsgTP4ja2fOOEYft/+4vfkC9F0tg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725278677; c=relaxed/simple;
-	bh=lox6fW5epfgn4FAPDOXF3hh8zz8KYkeL5GbkYrNl10o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G1RAaBmexU2oGwVr0W220ktPwH0T1KsZUyU9rizCOes68eimVs8nDHKofMOSpvv7vniazvwYFK7fYCOXVTMOe+ShJEfn4eb3JZZkAQS524ulbQc6C7C6Q+S1xW/QGBs5Nd//glgLJGP7d4JOgYeC2MLRaxPcQKF7VoFNrZHvQ50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=U24EiZf+; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=aTPi
-	xh1xqAuaI+tu+rlRAeX8nd6PO5C2gotdlBn4iT8=; b=U24EiZf+33S03r//eLXC
-	9WDpGH4/MzYRxw9xfHW7IZgeIwCrr+GSjZGrEouBaCSRx/2+Nc6dPxXmdRZMvtok
-	gyv5Xg+Eq78PXW1QQaESLx2xp1zsGqOYrOnVQeji5CsKK4sSBL15j9tWsjfO4DO8
-	+nK+kJ1I77mfL3jljszVHw9s9jSA4pD2e/vkyF3wfIliWYOZDyQ9cKJyuT2kxncR
-	d890AHX/fDu6imZVLTNWzYhuyfR5lSEKZs62/0GaqmqNhaY6yAWRE3Nwo5DRbdwW
-	zcB+kXVoBSRHgu9w6kMHv9SxZoCjFKBuCtfjog698+WBSRT+yI5ZYUhPUlbXAfmt
-	rQ==
-Received: (qmail 4102460 invoked from network); 2 Sep 2024 14:04:29 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 2 Sep 2024 14:04:29 +0200
-X-UD-Smtp-Session: l3s3148p1@eLc2viEhEt4gAwDPXwdRANgvu6DX4+2c
-Date: Mon, 2 Sep 2024 14:04:29 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-renesas-soc@vger.kernel.org, Andi Shyti <andi.shyti@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>, linux-i2c@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [RFC PATCH 1/2] dt-bindings: i2c: renesas,rcar-i2c: document
- SMBusAlert usage
-Message-ID: <ZtWpzXtaQFRd0v_s@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-renesas-soc@vger.kernel.org,
-	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>, linux-i2c@vger.kernel.org,
-	devicetree@vger.kernel.org
-References: <20240826150840.25497-4-wsa+renesas@sang-engineering.com>
- <20240826150840.25497-5-wsa+renesas@sang-engineering.com>
- <CAMuHMdXiOLPm11-nBnFPC4pRa0WP1VviwCwYVVPHAeHLgXLe0g@mail.gmail.com>
- <ZtM3Ufj1akqZckuu@shikoro>
- <CAMuHMdVEBVoBmWVKiVYcKp0As6mo=C9u-bHFwt0zPeRbAgCkvQ@mail.gmail.com>
+	s=arc-20240116; t=1725283460; c=relaxed/simple;
+	bh=Abxa8BkfsJuLjrDSm+JLHl1KZHPfBQ7Y/v/znoZjjdM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=aI/TO/G11hyUSTJJJF6UCc60uD4lEMSX1tNvEuqQ/b4I0UTjhb1jqlbH0Dm3S61oUaRlnbh+rEGkn+TyvaAVHgTuWv1UDUXy4WmSkodJPwpzK4JIt65U2+5EGxXUKpNKcJZzxgrxdmgMhToEYY5Ege+PZl8McubXSYpzzxM80BQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=LmjjR7U3; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a86883231b4so510144266b.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 02 Sep 2024 06:24:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1725283455; x=1725888255; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=B2OrY7LmS5ARPSvD7Xeqfyw/hCUAImQblS8V1N5kgNU=;
+        b=LmjjR7U3F9OKRrrq8tatiKAwO2QEiPY76JqPdLHfcOGML35uuFYi+cfYLHkKMafEyC
+         Lwr7hKyD8mvcYeXibt5oL3Q+eQKGrhtNLUDJp9dhhwvgzlQwlLhJ57UFVIaM5UnQ/qg4
+         xWneUuEcfl6NpC6EuOYCaSA6kHYbbCYCbEk3xp8es5ToHaLFWyJWnLgIknsQdnu1soSr
+         tsiGMA6WantKS/atgqaq8XtbLp+Ss1s1I9SwCKu6R7vLdJP9iMibPU6wY7lUq2WIFz23
+         7Zv6FMpC8UzenyAANOL2IO0HX2KtR4HeFNLJkriE/0Lx4W1LzNTTjtP9Um3rRI3miTru
+         ZiQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725283455; x=1725888255;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=B2OrY7LmS5ARPSvD7Xeqfyw/hCUAImQblS8V1N5kgNU=;
+        b=dFQ6QJiviNuJkVMdTKMon/tOCt2kRoVHUW245rdX85CTtNJcMLkpalEu8YbPVrm8qi
+         0Ok8UHCP2kyGufA4kgMJ2wuXRebY4+5HkF8pKMBOOGz/FJUsga9eRglWqfb2YoBdjrbb
+         E/G8pAiBgPAPmZOgklgqFjz6SyVqbZV/DCACnwRTCRtxSCICAUOJ6NFChBxV+LZla/Um
+         lMs/l1Ddz45A7SQ9IvHiS2Dg2Q05dXJm1u3EdbOgL7/UI6f69syHGykmmaVzhXw/v76c
+         F6q8pMXlRtKY41LQTo2WemMS9Io+dzmEIKrqaCRl5HMqNSJ1ea4SgiLmRfuZMTu2/tQt
+         Sibw==
+X-Gm-Message-State: AOJu0YwM2169wliMeo5dP1LNoHUpxDUqA2PP4IvhuliLCGJIlk91akll
+	hNoxw65LFDvmDhn3am6yUpS1+86QQ6Kjk5FczapgMYfkJlCvb7gsWGVJe7ani1g=
+X-Google-Smtp-Source: AGHT+IHq2+YTpWos8UI4QD8URbF/o1Hr+oJBrO2/y4dbGstIixrmAx2AK2gC4/Vkm+N+BUjHdjr3Lw==
+X-Received: by 2002:a17:907:7e85:b0:a7a:aa35:408a with SMTP id a640c23a62f3a-a89d87821c7mr526219066b.25.1725283455134;
+        Mon, 02 Sep 2024 06:24:15 -0700 (PDT)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.144])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a898900f6e0sm556060266b.77.2024.09.02.06.24.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Sep 2024 06:24:14 -0700 (PDT)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: geert+renesas@glider.be,
+	mturquette@baylibre.com,
+	sboyd@kernel.org,
+	wim@linux-watchdog.org,
+	linux@roeck-us.net,
+	ulf.hansson@linaro.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-watchdog@vger.kernel.org,
+	claudiu.beznea@tuxon.dev,
+	linux-pm@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v3 0/4] watchdog: rzg2l_wdt: Enable properly the watchdog clocks and power domain
+Date: Mon,  2 Sep 2024 16:23:58 +0300
+Message-Id: <20240902132402.2628900-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5ak5lBGLc+wP53ZB"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVEBVoBmWVKiVYcKp0As6mo=C9u-bHFwt0zPeRbAgCkvQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+
+Hi,
+
+Watchdog device available on RZ/G3S SoC is part of a software-controlled
+power domain. The watchdog driver implements struct
+watchdog_ops::restart() handler which is called in atomic context via
+this call chain:
+
+kernel_restart() ->
+  machine_restart() ->
+    do_kernel_restart() ->
+      atomic_notifier_call_chain() ->
+        watchdog_restart_notifier()
+          rzg2l_wdt_restart()
+
+When the rzg2l_wdt_restart() is called it may happen that the watchdog
+clocks to be disabled and the associated power domain to be off.
+Accessing watchdog registers in this state leads to aborts and system
+blocks.
+
+To solve this issue the watchdog power domain was marked as IRQ safe
+as well as watchdog device (as proposed by Ulf Hansson). Along with
+it the clk_prepare_enable() calls from the watchdog restart() handler
+were removed and all is based now on pm_runtime_resume_and_get()
+as explained in patch 03/03.
+
+Series contains also power domain driver changes to be able to
+register the watchdog PM domain as an IRQ safe one.
+
+Initial RFC series for solving this issue was posted at [1].
+
+It is safe to merge watchdog and PM domain driver changes though
+different trees.
+
+Thank you,
+Claudiu Beznea
+
+[1] https://lore.kernel.org/all/20240619120920.2703605-1-claudiu.beznea.uj@bp.renesas.com/
+
+Changes in v3:
+- added patch "clk: renesas: rzg2l-cpg: Move PM domain power on in
+  rzg2l_cpg_pd_setup()"
+- addressed review comments
+- collected tags
+- per-patch changes are listed in individual patches
+
+Changes in v2:
+- adjusted patch title for patch 02/03
+- adjusted description for patch 03/03 along with comment
+  from code
+
+Changes since RFC:
+- dropped patches 01/03, 02/03 from RFC
+- adjusted power domain driver to be able to register the
+  watchdog PM domain as an IRQ safe one
+- drop clock prepare approach from watchdog driver presented in RFC
+  and rely only on pm_runtime_resume_and_get()
+- mark the watchdog device as IRQ safe
 
 
---5ak5lBGLc+wP53ZB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Claudiu Beznea (4):
+  clk: renesas: rzg2l-cpg: Move PM domain power on in
+    rzg2l_cpg_pd_setup()
+  clk: renesas: rzg2l-cpg: Use GENPD_FLAG_* flags instead of local ones
+  clk: renesas: r9a08g045: Mark the watchdog and always-on PM domains as
+    IRQ safe
+  watchdog: rzg2l_wdt: Power on the watchdog domain in the restart
+    handler
 
+ drivers/clk/renesas/r9a08g045-cpg.c | 43 ++++++++++++-----------------
+ drivers/clk/renesas/rzg2l-cpg.c     | 38 ++++++++++++-------------
+ drivers/clk/renesas/rzg2l-cpg.h     | 10 ++-----
+ drivers/watchdog/rzg2l_wdt.c        | 20 ++++++++++++--
+ 4 files changed, 56 insertions(+), 55 deletions(-)
 
-> Still, this interrupt is not a property of the R-Car i2C hardware block,
-> so it should not be modelled as such.
+-- 
+2.39.2
 
-Hmm, you are probably right, given that I need this in the board DTS:
-
-===
-
- &i2c3	{
- 	pinctrl-0 = <&i2c3_pins>;
- 	pinctrl-names = "i2c-pwr";
-+
-+	/delete-property/ interrupts;
-+	interrupts-extended = <&gic GIC_SPI 290 IRQ_TYPE_LEVEL_HIGH>, <&gpio1 26 IRQ_TYPE_EDGE_FALLING>;
-+	interrupt-names = "main", "smbus_alert";
-+
-+	smbus;
- };
-
-===
-
-I have to admit this is not exactly pretty. Pity, though, the I2C core
-is all prepared for the above. Seems I have to update the core for
-"alert-gpios", after all.
-
-Happy hacking,
-
-   Wolfram
-
-
---5ak5lBGLc+wP53ZB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmbVqckACgkQFA3kzBSg
-KbZ4FQ/9F1MSfeHT1DMYXHo+XVIYSf0S4IDfPo5hWKb4vn4n18ZyN2rOoGkJT/ak
-0YqkK8UBtRaypQ0hcV5HoNmniZloNw7lezyiAJRLa5fzhNw34yQxjqISTizcB42u
-e77c0KFh3s8ILvU34zBCDG/PQzEAZOIfUH8BChwDFdKOWORofdEMkdui8zrBe/of
-bGjP/DVJnzA1cYYJMAirY2HUjbWasttHY7hnjtJyaGvlCuyuk8I7JDu3LXIkK9wH
-3X42WUatkdmmegqddqaknCZszNMRly0jJV/Uhy/FHSSANaSR2MqW14IoEDIcwa+D
-ebcNLENqYzed/jwPOS5j7SmnjJ7fQlKvh+cCH8Gi4apR+ovAvig0kDiTLp9ZCYib
-gsRBnXvcINk5TlHNJT6l7V64j+UiTeSlkAHxUu6PFdboYqs9De7OY7vO5ZmljVpF
-Zba7IoXMqgps1QOluwCBKAUVnanAMuFd890swfDPWMHAqxmQg5Kw3uxeOaWqJ6Eq
-zFpqxojviNfFhunQLYLeZOH3tfAdK/iEdP2YOvJxuSKMjjnoc9gmm30sCIfCTjAj
-LwB8D90RD4zLAOPOKn8zQg1y9vyDZk/TwJms8XAWP492upau2lHqMAjtmOUgZqAk
-CbtCwewt55n1LD5bzDFnslUZF2vQmjjma2OAL9seRLZvep4nxc8=
-=E0V2
------END PGP SIGNATURE-----
-
---5ak5lBGLc+wP53ZB--
 
