@@ -1,166 +1,176 @@
-Return-Path: <linux-renesas-soc+bounces-8616-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8617-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B4FE968BFC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2024 18:23:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E68F968EDC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2024 22:28:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 557CBB2294E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2024 16:23:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C43791C21C23
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2024 20:28:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C4521A2627;
-	Mon,  2 Sep 2024 16:22:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B13031C62AB;
+	Mon,  2 Sep 2024 20:28:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="visEotsf"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="F3Qc+8AX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F7C41428E8
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Sep 2024 16:22:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 724CB19CC04;
+	Mon,  2 Sep 2024 20:28:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725294172; cv=none; b=X8WV3iPtn2yy+uM/v1P+gPqXHTShnlXF8JsyF4dyvL25CPDr0qT6GOzEe/KRmu+l3OcqXhXvxMe+cuAyMEnPvahtNsEadeect4a9tYeGanOCHjBvXhT3LLqdBLndO/ksz9QOzqjQpsYopU8UrCBYVTvPnXezsQmM9TaIYFmo9Vg=
+	t=1725308906; cv=none; b=nuzs90xHmvx8KvrNH1g3oVpMA8QrBlMv9ArJ8OV4sVY78deThWPvReN9eED8S0MtEvOCTk8KqyXHKMYFIBueXAAtkXOf821stVuAWN5qbuopVmhDdxwAbep9wHDEsRP2KIol8LB+N5Q3qgO7q/EKPmTBxmbFLJn9M/4BBlWNUZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725294172; c=relaxed/simple;
-	bh=VSBj9zkdTlDwys7I87bQFBsffy7OukJHtqJ2/2Y8tQc=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=NUL7DNAtiVwQYxzvJZ1EfNOkBlszY8C7O6nCVgNHQ160LuUu6FHJLRGiEuxPTNRtiSn/8L1xQLgEQjV31X6w9z2aKNgZaO0wy0qyiMO+2/VftWQXTaTnduv49JGuvNqSGg6i0tZk6Gclh0r48x9HUGH+9ncPgFHoUICNjDKM3KY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=visEotsf; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-71423704ef3so3293475b3a.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 02 Sep 2024 09:22:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1725294169; x=1725898969; darn=vger.kernel.org;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=RxnGXTfLwd/3CIk8Zz4v07D9Ad7OaoThpHPUuHYuwdE=;
-        b=visEotsf+WQkBSUT4f177chghdixcKbveHjZXafbwlOd3FyBAuTQ2kRcY1ApdI0N8Q
-         PwFhk8QgnLtoBzW4k0vsASFx6qZ+kleI25pre6pmpFSJ0icymbi4GFqAV6HxWZiXfSKn
-         htQ4VmX8G8T1fKQYZ5pV9sANfUQwt3VOwLKQ9QQYiFYvprM25jbxOQfvKHXRxKxIl85C
-         5upRPR7ESXA7tfqwAQryuPGhJsO/7Yy9Rf6kuudXK9I9MumTOdC8oDkjJfH67Gas+cV7
-         cTDUFKlV5ZFY1QN/jUS499sV5b93z1G5s0Ez77Ik1oUkztdYp+ukeTeBE69vmP2AZgwc
-         J16w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725294169; x=1725898969;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RxnGXTfLwd/3CIk8Zz4v07D9Ad7OaoThpHPUuHYuwdE=;
-        b=BKxTwR2V/JVzwlO3W5oe5qGa5YAqsjiQpxVT2lzdhP2RR++Cb75MRPX9V2mhOegkto
-         WYCZrvxJngWosOFCMkILNyUresmLndLBshwENboq17vzmQfkaxa4h4bvQ9rZce4JxSkR
-         JQjns/Tz0KToBPDy3yQG7T59PwN1MY8VmCfAAeg+w0gwZzzrDSGDUm11/rnIdyePXXs+
-         N5ZL9CcTq5UjzNdax0DLoHs3HLBpulZ+2RXep+CJx0k9EFzP1ShbRCQC0EVb85ZcggL2
-         SBO6s49Km27XTYuJyrCTmxMs/QN87uVX67ymgn6oc6amkTAwZYu/hJS/8b6VVFHdXVfF
-         d3YQ==
-X-Gm-Message-State: AOJu0YzDSBsxLwexFP9qAkjX2yeYzEGiT+bdLD7hc/XUdeuKRCTvsWdF
-	HV1Se2QDNL+GYw91+U47ijjT4j9U/QX9RYnzSWeLRWBqOYrgxWsrEvknXgZNQOm95mRJ33MJXjI
-	q
-X-Google-Smtp-Source: AGHT+IFdp9GyNYByj8LLVXVklZMuSiteZRdFpzuVgkdbvPios8G4LsNcVNATb2MxVr0puOzqlgXfZQ==
-X-Received: by 2002:a05:6a21:e8c:b0:1c0:ede4:9a73 with SMTP id adf61e73a8af0-1cecdee33d2mr11120665637.7.1725294168934;
-        Mon, 02 Sep 2024 09:22:48 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-715e56e4273sm7299704b3a.149.2024.09.02.09.22.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Sep 2024 09:22:48 -0700 (PDT)
-Message-ID: <66d5e658.a70a0220.22746d.835a@mx.google.com>
-Date: Mon, 02 Sep 2024 09:22:48 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1725308906; c=relaxed/simple;
+	bh=byvMvMs6cQe+rkDvGuGDD5gUm8DvBPi1Lovd4gjQBhY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ejNTgAgW3OAGEmLBz9E2VFn8pIydnhce2qXvC+f+bhvshnQkjb/4P+LkkYexLdASCYxs5VNPnmMuTKq+QbwhhDfkFpAEmhvFuOnYiSKaGfk4x7u0gEIRfxagAEVmWEduXKYoRqjsEcdyzMzmFwp2Jqv9yyDR5gMA7to7nZONV98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=F3Qc+8AX; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0B9FA60002;
+	Mon,  2 Sep 2024 20:28:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1725308901;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/acNWIGC7J/l+lCj9xbwfTsap0VDe5s6cnY9+w/1Cgo=;
+	b=F3Qc+8AXy4XVfyxeE/R7AjyxDNhZStf4Ngzq3cE/0udfpTXLq5utZIhTRlno2r5HNxDqFW
+	7FYsHvNI2HirrQv1DaQjwcuBZmNSDzFcz9CxhEiebQYoCy+gfOJ1k0jarbgqFu22bbaOb6
+	tFlKj00ASPoxjX4Lc1JOzAnRHtjPVzDuHY42HxzOtCqemhBOtE7G7Y8LOm1dL2UYQyzxKP
+	0AQEna6l8JcAoX7cFb43qflsYcmmYoMZs5aTfU7KEFdxqlrNUEJ654L+/DOz7negI+iw0D
+	ctLVRyaFGnT/XT/FPCu2zeftLhyP90QGqO6j8prD0p4RtcUoLB+7bMrWA6ja5w==
+Date: Mon, 2 Sep 2024 22:28:19 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: claudiu beznea <claudiu.beznea@tuxon.dev>
+Cc: geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	magnus.damm@gmail.com, p.zabel@pengutronix.de,
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v3 06/12] rtc: renesas-rtca3: Add driver for RTCA-3
+ available on Renesas RZ/G3S SoC
+Message-ID: <20240902202819e2bf5630@mail.local>
+References: <20240830130218.3377060-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240830130218.3377060-7-claudiu.beznea.uj@bp.renesas.com>
+ <202408302225417622f1e7@mail.local>
+ <a7f0a36b-3169-45f8-9169-50bb0c6c04dd@tuxon.dev>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: test
-X-Kernelci-Kernel: renesas-devel-2024-09-02-v6.11-rc6
-X-Kernelci-Branch: master
-X-Kernelci-Tree: renesas
-Subject: renesas/master baseline: 33 runs,
- 1 regressions (renesas-devel-2024-09-02-v6.11-rc6)
-To: linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a7f0a36b-3169-45f8-9169-50bb0c6c04dd@tuxon.dev>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 
-renesas/master baseline: 33 runs, 1 regressions (renesas-devel-2024-09-02-v=
-6.11-rc6)
+On 02/09/2024 17:49:14+0300, claudiu beznea wrote:
+> >> +	/* Disable alarm, periodic interrupts. */
+> >> +	rtca3_alarm_irq_set_helper(priv, RTCA3_RCR1_AIE | RTCA3_RCR1_PIE, 0);
+> > 
+> > Why do you disable alarms on driver remove? I think you need to add a
+> > comment if this is because it can't system up, else this is a bad
+> > practice.
+> 
+> The RTC cannot power on the system after a power off. It can't also resume
+> it from a deep sleep state (when only the SoC area where the RTC resides
+> remains power on (there is no way to signal from RTC to the power supply
+> chain that an alarm happened)). It can only wake it up from s2idle mode
+> where all SoC components remains powered on.
+> 
+> Also, w/o this change the RTC remains blocked under the following scenarios
+> if the interrupts are not disabled in remove:
+> 
+> 1/ Configure wake alarm and unbind the RTC driver with the following commands:
+> # echo +10 > /sys/class/rtc/rtc0/wakealarm
+> # echo /sys/bus/platform/drivers/rtc-rtca3/1004ec00.rtc > unbind
+> # sleep 12
+> # echo /sys/bus/platform/drivers/rtc-rtca3/1004ec00.rtc > bind
+> 
+> When rebinding the re-configuration of the RTC device times out:
+> [  121.854190] rtc-rtca3 1004ec00.rtc: error -ETIMEDOUT: Failed to setup
+> the RTC!
+> [  121.861511] rtc-rtca3 1004ec00.rtc: probe with driver rtc-rtca3 failed
+> with error -110
+> -sh: echo: write error: Connection timed out
+> 
+> 2/ Configure wake alarm, unbind the RTC driver and switch to s2idle with
+> the following commands:
+> # echo s2idle > /sys/power/mem_sleep
+> # echo +10 > /sys/class/rtc/rtc0/wakealarm
+> # echo /sys/bus/platform/drivers/rtc-rtca/31004ec00.rtc > unbind
+> # echo mem > /sys/power/state
+> # #system is resumed by non RTC wakeup source (as the RTC alarm is not
+> working anymore in this case)
+> # echo /sys/bus/platform/drivers/rtc-rtca/1004ec00.rtc > bind
+> 
+> The system is not waked up from RTC alarm (as expected) and the rebinding
+> fails again:
+> 
+> [  172.483688] rtc-rtca3 1004ec00.rtc: error -ETIMEDOUT: Failed to setup
+> the RTC!
+> [  172.491003] rtc-rtca3 1004ec00.rtc: probe with driver rtc-rtca3 failed
+> with error -110
+> -sh: echo: write error: Connection timed out
+> 
+> 3/ configure the RTC alarm, unbind and power off (with the following commands):
+> # echo +60 > /sys/class/rtc/rtc0/wakealarm
+> # echo /sys/bus/platform/drivers/rtc-rtca/1004ec00.rtc > unbind
+> # poweroff
+> 
+> The system is not started after 60 seconds and at the next reboot the RTC
+> configuration on probe is failing the same:
+> 
+> [    0.292068] rtc-rtca3 1004ec00.rtc: error -ETIMEDOUT: Failed to setup
+> the RTC!
+> [    0.292182] rtc-rtca3 1004ec00.rtc: probe with driver rtc-rtca3 failed
+> with error -110
+> 
+> In all scenarios the RTC is recovered only if removing/re-applying the
+> power to the SoC area where it resides.
+> 
+> These tests were done with the patches in this series and then I tried it
+> with the following diff on top of the patches in this series. The results
+> were the same:
+> 
+> diff --git a/drivers/rtc/rtc-renesas-rtca3.c b/drivers/rtc/rtc-renesas-rtca3.c
+> index 822c055b6e4d..720fdac3adc6 100644
+> --- a/drivers/rtc/rtc-renesas-rtca3.c
+> +++ b/drivers/rtc/rtc-renesas-rtca3.c
+> @@ -586,7 +586,7 @@ static int rtca3_initial_setup(struct clk *clk, struct
+> rtca3_priv *priv)
+>         usleep_range(sleep_us, sleep_us + 10);
+> 
+>         /* Disable alarm and carry interrupts. */
+> -       mask = RTCA3_RCR1_AIE | RTCA3_RCR1_CIE;
+> +       mask = RTCA3_RCR1_AIE | RTCA3_RCR1_CIE | RTCA3_RCR1_PIE;
+>         ret = rtca3_alarm_irq_set_helper(priv, mask, 0);
+>         if (ret)
+>                 return ret;
+> @@ -784,7 +784,7 @@ static void rtca3_remove(struct platform_device *pdev)
+>         guard(spinlock_irqsave)(&priv->lock);
+> 
+>         /* Disable alarm, periodic interrupts. */
+> -       rtca3_alarm_irq_set_helper(priv, RTCA3_RCR1_AIE | RTCA3_RCR1_PIE, 0);
+> +       //rtca3_alarm_irq_set_helper(priv, RTCA3_RCR1_AIE | RTCA3_RCR1_PIE, 0);
+>  }
 
-Regressions Summary
--------------------
-
-platform         | arch | lab     | compiler | defconfig          | regress=
-ions
------------------+------+---------+----------+--------------------+--------=
-----
-beaglebone-black | arm  | lab-cip | gcc-12   | multi_v7_defconfig | 1      =
-    =
+Thanks for the detailed explanation. Can you add a small comment, I
+really want t avoid people cargo-culting this behavior as this has
+already been the case.
 
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2024-09-02-v6.11-rc6/plan/baseline/
-
-  Test:     baseline
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2024-09-02-v6.11-rc6
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      284f4e0d3f0ba80fe5eb5563807d39c6eec0432f =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform         | arch | lab     | compiler | defconfig          | regress=
-ions
------------------+------+---------+----------+--------------------+--------=
-----
-beaglebone-black | arm  | lab-cip | gcc-12   | multi_v7_defconfig | 1      =
-    =
-
-
-  Details:     https://kernelci.org/test/plan/id/66d5b20e72ef3524a8c86861
-
-  Results:     3 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-12 (arm-linux-gnueabihf-gcc (Debian 12.2.0-14) 12.2.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-024-09-02-v6.11-rc6/arm/multi_v7_defconfig/gcc-12/lab-cip/baseline-beaglebo=
-ne-black.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-024-09-02-v6.11-rc6/arm/multi_v7_defconfig/gcc-12/lab-cip/baseline-beaglebo=
-ne-black.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230703.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.dmesg.crit: https://kernelci.org/test/case/id/66d5b20e72ef3524=
-a8c86866
-        new failure (last pass: renesas-devel-2024-08-29-v6.11-rc5)
-        1 lines
-
-    2024-09-02T12:39:31.062269  / # =
-
-    2024-09-02T12:39:31.071236  =
-
-    2024-09-02T12:39:31.176252  / # #
-    2024-09-02T12:39:31.183125  #
-    2024-09-02T12:39:31.300772  / # export SHELL=3D/bin/sh
-    2024-09-02T12:39:31.310973  export SHELL=3D/bin/sh
-    2024-09-02T12:39:31.412682  / # . /lava-1187886/environment
-    2024-09-02T12:39:31.422974  . /lava-1187886/environment
-    2024-09-02T12:39:31.524843  / # /lava-1187886/bin/lava-test-runner /lav=
-a-1187886/0
-    2024-09-02T12:39:31.534851  /lava-1187886/bin/lava-test-runner /lava-11=
-87886/0 =
-
-    ... (9 line(s) more)  =
-
- =20
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
