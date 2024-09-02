@@ -1,127 +1,89 @@
-Return-Path: <linux-renesas-soc+bounces-8602-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8603-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA3149683CF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2024 11:55:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97BB79684B1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2024 12:31:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 473D3B24A50
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2024 09:55:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3F48C1F211DB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2024 10:31:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB0131D1F46;
-	Mon,  2 Sep 2024 09:55:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 526B813C810;
+	Mon,  2 Sep 2024 10:31:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i9kZ5tV3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A34EC76035;
-	Mon,  2 Sep 2024 09:55:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ECA813C69E
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Sep 2024 10:30:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725270947; cv=none; b=gfZoYOXFz8ml1FIQcbOs9Zs1hkmaNoHTZXh1Xjw9ouLrnAY1PypP4XZvXvi6tAWGwf6U+YxXU9XbklO2VPFVEAIb8spxvc6DCCI2xGfp3vqgud+LUlb8GDiigjD0Kk1+NtHIxVg9RC0IAvm7HpcALvtNqQlEBlEWO6ekZFOhemw=
+	t=1725273060; cv=none; b=HFbzbVy32mMG0svAmnh0RwOfPEGxKV7M8ptXHqW+o7DT6hkEV76yy9vdVeptuRII0LlmT9D4t3Wn9PFDfsX16vQp15gKwWP7uwZN2lMhtvPDOhW+t5gL+Awen6fsULUncKnOeyw9YGBrhiMwzZo6k8cB2BNTGO3iy3cabTW3Kf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725270947; c=relaxed/simple;
-	bh=N1G+YOdCXmW6ZM5XS6QgL8CFfLIUCedjbdwaaDSoylU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s+QJ2Lpu8qNHIOqI6FtiCqnbKUjfAATw0LDF1d8JcctV56mDdhMzv9mCjRix87onZPxDh1w44AbznpNOxnvPCERRlJg4V+EIXrGawRwNeJOAspHg5RRcwMZrM9Bz3RVK/cgK5VFSvbdX6MgxhaVMbOknsYP0k4lP2wsUxzcNUVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-6d5893cd721so15636517b3.0;
-        Mon, 02 Sep 2024 02:55:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725270944; x=1725875744;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+MAn5qVpDY22aHv+DFM/MBUkQ/9x+sYh3IxT5133w4g=;
-        b=bK5B73Tpd6I9+GDHybEefl/xaREHvldjWWRw7ajEQZa4xbqdGmDWkoyYrSxYcJM1iz
-         guWww2HSGX1wH/b7X0TQSeAZ7mHTIEqalvvoH0rcZA9xSWu+qqfgbmWhEmwlHcI5o5HC
-         KHLMUvhGNdkC5juDHfKjNn4irM8cJZe9uDvU39Bbdb+AC5fltuDdQXQ1ofp8kV8GjOoS
-         mZ/tBMH/DLWMnyAshwttpu2qQuLm11rzDV1Wi+yEHsdceMcPbIh5iR5NA/tH/D/UdB9d
-         3fkMn2+VeOQqOqD4KcweBvODHzh0mwO0gH76HoZ0e8Ypf+YvuRNQX0Rrf8zAz+M9lBuw
-         5UPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXTWtkwNloUMkuOnUWjRUffK/U1k0mjceQgayGItGJtqMP4PsD5zjMrcjQPSQhyMfYfUBSeSCvyTaQ3@vger.kernel.org, AJvYcCXZsJfADVvUPAzePPsF0oI4kI9pqc1w2B4xCqr2YH1QazRWph2sjgQCHPofzGyK5r+hIkjbR2il2iml@vger.kernel.org
-X-Gm-Message-State: AOJu0YyP+1JRDvAjlhRkJmGmnVZw2NPB5QwDWVmBHD3c5xrVyna4JsZG
-	csIwKxXLYEC3vespyHXlWw5cFL9lNEvVzjrR7wCXGB5fLPDhlW4nROf3yncO
-X-Google-Smtp-Source: AGHT+IEJ+ptSMdMs26WdNp0s8JHpnHf+1nwtv1QlQhRD1U9a+bp1XcduxpH0bJSM/9wkGKfF4t4VjA==
-X-Received: by 2002:a05:690c:6309:b0:6be:2044:9367 with SMTP id 00721157ae682-6d40e17ff2amr112413307b3.15.1725270944361;
-        Mon, 02 Sep 2024 02:55:44 -0700 (PDT)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6d2d438e15dsm15247087b3.66.2024.09.02.02.55.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Sep 2024 02:55:44 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6d5893cd721so15636357b3.0;
-        Mon, 02 Sep 2024 02:55:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVWCOH/kIGAaw+t0W2WsGzDqna50Je9b7LJGOBMwoQVSwzI24ROo0oYqKW1mhYWYjNhwpzK27ARZTzG@vger.kernel.org, AJvYcCXlDuO63eonStLW66r8CsBLHHjuU71fndhbVCsHsVdpWy0+qiZcPKG+CAKIa63uxYWgfDwCBFVqVwRz@vger.kernel.org
-X-Received: by 2002:a05:690c:62c6:b0:6d7:4dea:5f16 with SMTP id
- 00721157ae682-6d74dea5f7bmr31804377b3.26.1725270943798; Mon, 02 Sep 2024
- 02:55:43 -0700 (PDT)
+	s=arc-20240116; t=1725273060; c=relaxed/simple;
+	bh=+rajunp7uI5jLlRcmNrJjxFTRmqTwEWpGD75mwdHfcI=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=JSBkDmjN/5f2ERs2zScE8s+niYmzPjkiwbnCt6IbkEfpjvuqrd7wMqet+vlz6Hptm5LN86djvVNm9oJSHz2WPckFknlnSj/iStevrvCokakyV9ThIZfJRIQJHv1hlyYwYgP29KyZiXqttZPXrojl5kUJ4E1Rupsb75kUp7iM8qg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i9kZ5tV3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC4CFC4CEC2
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Sep 2024 10:30:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725273059;
+	bh=+rajunp7uI5jLlRcmNrJjxFTRmqTwEWpGD75mwdHfcI=;
+	h=Subject:From:Date:To:From;
+	b=i9kZ5tV3As0/LuQOfMBS3WFzgK8e/PY5O+99AEYCMfP6we0JSUSlgkvMPtNkz/fP8
+	 ejOJ1IIFEIEFGYpGy0vLvpt4xoaiO9cL/aKu7b8AjFPCwAh5NxBl+GHRPJrPY8riIX
+	 MYuCVacZ9jXtDclqxGlytCrH8WYLm7EY0FNd8kz8xHfiHQpU1U5CUvy0y1qd3qF5ca
+	 XAlM7yfNEFtfiBLDShGRdooyL/V72ot3y3o8FGQgy8qw/dhJWXrm78X/rROYizRFVu
+	 QlelIN9klB7sxTIZTIdoT2GlQtVYORdFMro44qniAznXcnwHDqHeF499zbncrL1hkV
+	 Y9YvAmmC5ch0w==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 754EA3822D69
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Sep 2024 10:31:01 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240826150840.25497-4-wsa+renesas@sang-engineering.com>
- <20240826150840.25497-5-wsa+renesas@sang-engineering.com> <CAMuHMdXiOLPm11-nBnFPC4pRa0WP1VviwCwYVVPHAeHLgXLe0g@mail.gmail.com>
- <ZtM3Ufj1akqZckuu@shikoro>
-In-Reply-To: <ZtM3Ufj1akqZckuu@shikoro>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 2 Sep 2024 11:55:31 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVEBVoBmWVKiVYcKp0As6mo=C9u-bHFwt0zPeRbAgCkvQ@mail.gmail.com>
-Message-ID: <CAMuHMdVEBVoBmWVKiVYcKp0As6mo=C9u-bHFwt0zPeRbAgCkvQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/2] dt-bindings: i2c: renesas,rcar-i2c: document
- SMBusAlert usage
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, Andi Shyti <andi.shyti@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-i2c@vger.kernel.org, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From: patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: 
+ <172527306007.3841035.10865712041614524272.git-patchwork-summary@kernel.org>
+Date: Mon, 02 Sep 2024 10:31:00 +0000
+To: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+Hello:
 
-On Sat, Aug 31, 2024 at 5:31=E2=80=AFPM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> > IIUIC, this is not a property of the hardware, but a side-channel
-> > independent from the actual I2C controller hardware? Then a generic
-> > "smbus-alert-gpios" property sounds more appropriate to me.
->
-> It is not generic. While it is true that most I2C controllers do need
-> GPIOs as a side channel, there are controllers having...
->
-> > BTW, are you aware of any I2C controller having a dedicated input pin
-> > for this?
->
-> ... this. Check 'i2c-stm32f7.c' or 'i2c-xlp9xx.c'.
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-OK...
+Series: Add support for Renesas RZ/V2H(P) SoC and RZV2H-EVK platform
+  Submitter: Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=884284
+  Lore link: https://lore.kernel.org/r/20240828124134.188864-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+    Patches: [v4,1/9] dt-bindings: soc: renesas: Document RZ/V2H EVK board
+             [v4,2/9] arm64: dts: renesas: Add initial SoC DTSI for RZ/V2H(P) SoC
+             [v4,3/9] arm64: dts: renesas: Add initial DTS for RZ/V2H EVK board
+             [v4,4/9] arm64: dts: renesas: r9a09g057: Add OSTM0-OSTM7 nodes
+             [v4,5/9] arm64: dts: renesas: r9a09g057: Add RIIC0-RIIC8 nodes
+             [v4,6/9] arm64: dts: renesas: r9a09g057: Add SDHI0-SDHI2 nodes
+             [v4,7/9] arm64: dts: renesas: r9a09g057: Add WDT0-WDT3 nodes
+             [v4,8/9] arm64: dts: renesas: r9a09g057h44-rzv2h-evk: Enable OSTM, I2C, and SDHI
+             [v4,9/9] arm64: dts: renesas: r9a09g057h44-rzv2h-evk: Enable watchdog
 
-Still, this interrupt is not a property of the R-Car i2C hardware block,
-so it should not be modelled as such.
 
-To me, this looks similar to hardware flow control on serial ports:
-some ports support this in hardware, other ports need to use GPIOs,
-or board designers may still decide to use a GPIO anyway.
+Total patches: 9
 
-See Documentation/devicetree/bindings/serial/serial.yaml and
-drivers/tty/serial/serial_mctrl_gpio.c, which uses GPIO interrupts.
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Gr{oetje,eeting}s,
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
