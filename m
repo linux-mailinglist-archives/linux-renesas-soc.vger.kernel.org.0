@@ -1,74 +1,74 @@
-Return-Path: <linux-renesas-soc+bounces-8597-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8598-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CBD49681D0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2024 10:29:39 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3BD6968251
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2024 10:47:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AD6681C21ED9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2024 08:29:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 247191F2113E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2024 08:47:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73CD718757C;
-	Mon,  2 Sep 2024 08:28:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5208B186607;
+	Mon,  2 Sep 2024 08:47:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="qd4FSUXZ"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="JOwaJQa7"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53B0B187325
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Sep 2024 08:28:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D93156242
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Sep 2024 08:47:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725265712; cv=none; b=iosUz7SqvInS1oy1MkzotbGfcbjdoX1o5TxtQy29iyOhOk0Q4tma9kW83BmElbgxWSCvoEjN3aG2ssVQ7cT/mDcCkaYjVIA5lz4dwRAxBvIGzeRxLS33HqvK0wAVHCrzpfekui+BJneRoAmy80ZC1yS/uBUuCX4m8TJOYQqth/0=
+	t=1725266851; cv=none; b=ZHLpyuQc5w8blRazQljgzkKD37TP3q7AEedCsXGKcEeFYDYG6dSp0uVOEIXDK3mK97wXM2WqO8qF34lp7dkjtJHuVQudb+ZH+nwG8t1623wuulkJG85DFYxdBmAIAMYyW9zGAocXiWrvZ/Xiz5E3VD16JZsSEF0jdopPiaWRu3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725265712; c=relaxed/simple;
-	bh=rnpVTjL4kf4dMqWQgikUzL9UOIZNjCvBFJeMtodla3M=;
+	s=arc-20240116; t=1725266851; c=relaxed/simple;
+	bh=N2g00tuABoBPM0sSD+eLbo4vma8qIxTBQwjDX+kBOwY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tgMoLNWj4aIPx+ZJnNKU+5qgDEglmMp+9/eEyFcNPik2PcWzSQmT9B8Lhl/zieGUJMN1WmZLVdq1XQfntKLK4bSykCFDcYEr4iAOatHDG0jqyeHVir14OpkIAuB5G5aQW/12YM2mJiu5lh0PNQ3+ZCBxu24V/rdgwgjuxd2xMmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=qd4FSUXZ; arc=none smtp.client-ip=209.85.208.54
+	 In-Reply-To:Content-Type; b=a892ISQS5wYIjKgX85BohopvhdxY4GAlz/Dj8Nec0cj9EAMjk21PxS1tEgIrj2JGe1CO3mGAnGrkCTt9VlqAwP+wkRv8sKh90h/1DF4wMG8oomfDP6wmVNxk3szvxtICcmiyTwirQM+qUcYdDo60AjIt6g9OLhxkTJFFYTVy8w8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=JOwaJQa7; arc=none smtp.client-ip=209.85.167.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5becc379f3fso3273919a12.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 02 Sep 2024 01:28:30 -0700 (PDT)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5343e75c642so5164784e87.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 02 Sep 2024 01:47:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1725265709; x=1725870509; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1725266847; x=1725871647; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=xuSIAX3TkFJwp4EKqR8txlbKQ8ME5wdxgrNK5MzVZqo=;
-        b=qd4FSUXZHwG0Meg+YbcvpkGXy7BFowdm/+/mRSu3CwvviIkAudmc3/odkCcT/3rOxu
-         xdFZQeNTSgwvajA/STsjKwT0fhmc2jSr15blVwcbrO0vLi6zUWDEND1R02poiy8roeg2
-         NWzad0p30kb9lpel2EdSOduw12Y12uU6tDldAghbbmjwqRfUM7zwCzGtv6ZI2KRSlwg8
-         /RpOPHinZpTeTYFmWY1a4Iq42KooB6lSpaqBsHjfZkE4DRf0g69wfA9FPdguAOnqiB4G
-         etW6BtHR9LQmaqUvORGK0H9DfC9QOMHqa1GZnRsxsZW/FBKZH09Mf1AelNi+sruHjmbi
-         XQPA==
+        bh=oOaSphN4uqIVyGx4/lf/Z0TMBGuenM0C4nTClydRFg4=;
+        b=JOwaJQa7oe0E2nuM/9p9QTTllF4o7QC8SPrdiGTm4A+0CzJpTWjOtKcgg49SsjD0NB
+         ZZk4IR6JDv7Ejtx8dnfzr3At5DycGmJBoy1SylS/VZchjiIiN63oUWCnsBMQNA8bOmIT
+         ZEBWsWWKCceWaPlHSgfuN2bKTYMd4sEtaR94p3uE2Mdzv97Z8CKtgkR3AEd0vZVZpS2b
+         VkOiWUOoQtQOl96pQt/+J/q41Hbzis5CI3JJU60XId8GBHw77SoTRZ87KCgRR1DDAgUS
+         IT1M6AdUGpj+8/6kzRbllNIdfTBH/N1b1a78rWKDzzH/n5C2+d97GNUBAwx49CrrJjXE
+         KGxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725265709; x=1725870509;
+        d=1e100.net; s=20230601; t=1725266847; x=1725871647;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xuSIAX3TkFJwp4EKqR8txlbKQ8ME5wdxgrNK5MzVZqo=;
-        b=FcnGqGrPEhOliNiSqMZHzbq0n0CvyImpsYDlZJ3s+xNpqHriyfo61swFdWY4Hw3cSf
-         XUrYiSUV0LE3YuiHDKBQt3lDodh+W48zcBPlRuoeMck6PNIGlTs3VeweshMQ+CeEwaGZ
-         gU15W+Ob59DLeM0aATYw0ADyKKX+c3aXkuB81o8J80gozB7ijNLF/XO8s/6G3RXW6rPr
-         LEFfgKkntv9VQQ5jUKyDTctPD4MvDkSuZwoD0+iJijtzQP1DS7yx70hQ/Bs3oEjbvCzB
-         9lKgoSW511LnSy9kzsxeREIUQQXiADM3znZkv5Fn16W0FUcsmmavJiLreOejvcqn9ajW
-         aAgA==
-X-Forwarded-Encrypted: i=1; AJvYcCVArFU/mGYgrm4+21YOmzfIYRRJWM4d26lmCbHFaNm0tQdb/H5DHm2AY0xX4LR+8q2X6u3V0PuFjCmkGJtd+cZXBA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxg1gJLkVyPdhNUZhn6p7q/sLJD/9gHd7CiG3PgxLCWZMt6xW9O
-	08fKZ6MUgqZ0A25vE3ypr8z35Col03nbD4jinDoApWgHqdnPV6l6buSSZffgX00=
-X-Google-Smtp-Source: AGHT+IFnSS3AyZyXwK3tX+2059zJpEoBIuXq5dRlOW8dSAq2eAxT17MymZumSDwZSnEQaWTkK5CbQg==
-X-Received: by 2002:a17:907:944c:b0:a7a:97ca:3058 with SMTP id a640c23a62f3a-a897f7910e8mr1024209166b.5.1725265708448;
-        Mon, 02 Sep 2024 01:28:28 -0700 (PDT)
+        bh=oOaSphN4uqIVyGx4/lf/Z0TMBGuenM0C4nTClydRFg4=;
+        b=Kgzg9BzVJEjMD3QEXFlDOCztlmhxXkuGb5601Ks4rcPTJ3AFXmZssdUcWa/+bGUtHy
+         ivQhdzCvNJXTDJHN2ZBtGvplPzeGNyQg4JUct/qB5SqSi5sHEDftA9ZJdL1K00643HC+
+         eHO76dch7CtGRtETI9bwV+XAaVM55MGVLyfttIj0J6QGY2EfMdmK7ujhFmZFl2QKyDog
+         TPFIdgSepeIw41BxkVKhBchE701n61UR7E4SenBFpxY0AUHh8V8zq6rZDuIgl1m/1S/V
+         6TgxNn09QWOr4oSQHYO68JvHG2nmiRmWRCHySJN5JyAuOMOE6EUI5yeJxWLPGHVZyGUP
+         cLmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXKVMX8U9ofTJBTb8G/SFvBcqghzmjxynemeH3VoK8T9DQ2N3hyBGnGoWnhIPWvFjouRjyc65FxOfXEIgorOcJ6Ww==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjmEiwUnIzdU5EaH6zG4qMZRS4K8FQXdFq6a1GH8znWDHRI3Xi
+	Zr7cwH/X/L2WsYtPGhJW46Bdkjvd+18gynikZZm6Dpdp1haTumZNH7Ew3kZuQXc=
+X-Google-Smtp-Source: AGHT+IFKP+TMYUf8hSyMMTGOziIULq1HvfnDIOTbDSCryKJ5amdlOmDWug+wIx0ZuZ/E3sdbRQoVKA==
+X-Received: by 2002:a05:6512:15a5:b0:52e:9e70:d068 with SMTP id 2adb3069b0e04-53546afad74mr5564997e87.4.1725266847009;
+        Mon, 02 Sep 2024 01:47:27 -0700 (PDT)
 Received: from [192.168.50.4] ([82.78.167.144])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a89891d6f87sm522330766b.158.2024.09.02.01.28.26
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8988fef4c3sm525445666b.32.2024.09.02.01.47.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Sep 2024 01:28:28 -0700 (PDT)
-Message-ID: <90df82c1-bb09-4c91-ba7f-af328066bd43@tuxon.dev>
-Date: Mon, 2 Sep 2024 11:28:25 +0300
+        Mon, 02 Sep 2024 01:47:26 -0700 (PDT)
+Message-ID: <5556d176-cca7-492c-ba21-48256d5d6338@tuxon.dev>
+Date: Mon, 2 Sep 2024 11:47:24 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -105,151 +105,125 @@ References: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com>
  <CAPDyKFrS4Dhd7DZa2zz=oPro1TiTJFix0awzzzp8Qatm-8Z2Ug@mail.gmail.com>
  <99bef301-9f6c-4797-b47e-c83e56dfbda9@tuxon.dev>
  <TY3PR01MB1134652F9587CFA0ADE851CA486902@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <TY3PR01MB113467275C519B729FCAB1ACB86922@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <TY3PR01MB1134652F9587CFA0ADE851CA486902@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB113467275C519B729FCAB1ACB86922@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+Hi, Biju,
 
-
-On 31.08.2024 08:13, Biju Das wrote:
+On 02.09.2024 10:54, Biju Das wrote:
 > Hi Claudiu,
 > 
 >> -----Original Message-----
->> From: claudiu beznea <claudiu.beznea@tuxon.dev>
->> Sent: Friday, August 30, 2024 9:23 AM
->> Subject: Re: [PATCH 00/16] Add initial USB support for the Renesas RZ/G3S SoC
+>> From: Biju Das
+>> Sent: Saturday, August 31, 2024 6:14 AM
+>> Subject: RE: [PATCH 00/16] Add initial USB support for the Renesas RZ/G3S SoC
 >>
->> Hi, Ulf,
+>> Hi Claudiu,
 >>
->> On 29.08.2024 18:26, Ulf Hansson wrote:
->>> On Thu, 22 Aug 2024 at 17:28, Claudiu <claudiu.beznea@tuxon.dev> wrote:
->>>>
->>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>
->>>> Hi,
->>>>
->>>> Series adds initial USB support for the Renesas RZ/G3S SoC.
->>>>
->>>> Series is split as follows:
->>>>
->>>> - patch 01/16           - add clock reset and power domain support for USB
->>>> - patch 02-04/16        - add reset control support for a USB signal
->>>>                           that need to be controlled before/after
->>>>                           the power to USB area is turned on/off.
->>>>
->>>>                           Philipp, Ulf, Geert, all,
->>>>
->>>>                           I detailed my approach for this in patch
->>>>                           04/16, please have a look and let me know
->>>>                           your input.
+>>> -----Original Message-----
+>>> From: claudiu beznea <claudiu.beznea@tuxon.dev>
+>>> Sent: Friday, August 30, 2024 9:23 AM
+>>> Subject: Re: [PATCH 00/16] Add initial USB support for the Renesas
+>>> RZ/G3S SoC
 >>>
->>> I have looked briefly. Your suggested approach may work, but I have a
->>> few thoughts, see below.
+>>> Hi, Ulf,
 >>>
->>> If I understand correctly, it is the consumer driver for the device
->>> that is attached to the USB power domain that becomes responsible for
->>> asserting/de-asserting this new signal. Right?
->>
->> Right!
->>
+>>> On 29.08.2024 18:26, Ulf Hansson wrote:
+>>>> On Thu, 22 Aug 2024 at 17:28, Claudiu <claudiu.beznea@tuxon.dev> wrote:
+>>>>>
+>>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>>>
+>>>>> Hi,
+>>>>>
+>>>>> Series adds initial USB support for the Renesas RZ/G3S SoC.
+>>>>>
+>>>>> Series is split as follows:
+>>>>>
+>>>>> - patch 01/16           - add clock reset and power domain support for USB
+>>>>> - patch 02-04/16        - add reset control support for a USB signal
+>>>>>                           that need to be controlled before/after
+>>>>>                           the power to USB area is turned on/off.
+>>>>>
+>>>>>                           Philipp, Ulf, Geert, all,
+>>>>>
+>>>>>                           I detailed my approach for this in patch
+>>>>>                           04/16, please have a look and let me know
+>>>>>                           your input.
+>>>>
+>>>> I have looked briefly. Your suggested approach may work, but I have
+>>>> a few thoughts, see below.
+>>>>
+>>>> If I understand correctly, it is the consumer driver for the device
+>>>> that is attached to the USB power domain that becomes responsible
+>>>> for asserting/de-asserting this new signal. Right?
 >>>
->>> In this regard, please note that the consumer driver doesn't really
->>> know when the power domain really gets powered-on/off. Calling
->>> pm_runtime_get|put*() is dealing with the reference counting. For
->>> example, a call to pm_runtime_get*() just makes sure that the PM
->>> domain gets-or-remains powered-on. Could this be a problem from the
->>> reset-signal point of view?
+>>> Right!
+>>>
+>>>>
+>>>> In this regard, please note that the consumer driver doesn't really
+>>>> know when the power domain really gets powered-on/off. Calling
+>>>> pm_runtime_get|put*() is dealing with the reference counting. For
+>>>> example, a call to pm_runtime_get*() just makes sure that the PM
+>>>> domain gets-or-remains powered-on. Could this be a problem from the
+>>>> reset-signal point of view?
+>>>
+>>> It should be safe. From the HW manual I understand the hardware block is something like the
+>> following:
+>>>
+>>>
+>>>                   USB area
+>>>          +-------------------------+
+>>>          |                         |
+>>>          | PHY --->USB controller  |
+>>> SYSC --> |  ^                      |
+>>>          |  |                      |
+>>>          | PHY reset               |
+>>>          +-------------------------+
 >>
->> It should be safe. From the HW manual I understand the hardware block is something like the following:
+>> How USB PWRRDY signal is connected to USB?
 >>
+>> USB block consists of PHY control, PHY, USB HOST and USB OTG Controller IPs.
 >>
->>                   USB area
->>          +-------------------------+
->>          |                         |
->>          | PHY --->USB controller  |
->> SYSC --> |  ^                      |
->>          |  |                      |
->>          | PHY reset               |
->>          +-------------------------+
+>> Is it connected to top level block or connected to each IP's for turning off the USB region power?
+>>
+>> ? Or Just PHY (HW manual mentions for AWO, the USB PWRRDY signal->USB PHY PWRRDY signal control)?
 > 
-> How USB PWRRDY signal is connected to USB? 
+> As per the update from HW team,
+> 
+> "SYS_USB_PWRRDY and SYS_PCIE_RST_RSM_B are used when transition from ALL_ON to AWO (or from AWO to ALL_ON).
+> 
+> Refer to step 8,9 in Table 41.10 Example Transition Flow Outline from ALL_ON Mode to AWO Mode.
+> Refer to step 9,10 in Table 41.11 Example Transition Flow Outline from AWO Mode to ALL_ON Mode.
 
-HW manual mentions this in the chapter describing the SYS_USB_PWRRDY register:
+All this is not new information.
 
-Controls PWRRDY terminal of USB
-
-0: PWRRDY
-
-1: PWRRDY down
-
-When turning off the *USB region* power, set this bit to 1.
-
-When turning on the *USB region* power, set this bit to 0
-
-By USB region I get the that it is related to the SoC area where resides
-all the USB IPs. I cannot tell more than what is in the hardware manual.
-
+From experiments, we need to control these signals also when booting as
+intermediary booting application may control and leave it in improper
+state. W/o having SYSC signals configured properly there is no chance for
+USB to work (it should be the same for PCIe but I haven't explored it yet).
 
 > 
-> USB block consists of PHY control, PHY, USB HOST and USB OTG Controller IPs.
-> 
-> Is it connected to top level block or connected to each IP's for turning off the USB region power?
+> When turning off USB PHY and PCIe PHY, if they are not controlled, PHY may break."
 
-I cannot tell more than it is in the hardware manual.
+From experiments, I know this, as this is the reason the SYSC USB PWRRDY
+has been implemented in Linux and proposed in this series.
 
 > 
-> ? Or Just PHY (HW manual mentions for AWO, the USB PWRRDY signal->USB PHY PWRRDY signal control)?
-> 
-> If the USBPWRRDY signal is connected across modules with this reset signal approach
-> then you may need to update bindings [1] with that reset signal
-> 
-> [1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20240822152801.602318-12-claudiu.beznea.uj@bp.renesas.com/
+> Do you have any plan to control this power transitions(ALL_ON to AWO and vice versa) in linux? 
 
-If that is true, then this signal may need to be routed to the PHY for
-better hardware description.
+As you know, the RZ/G3S USB PM code is already prepared. This is also
+configuring these signals when going to suspend/exiting from resume. W/o
+configuring properly these signals the USB is not working after a
+suspend/resume cycle.
 
->  
-> 
+Thank you,
+Claudiu Beznea
+
+
 > Cheers,
 > Biju
-> 
->>
->> Where:
->> - SYSC is the system controller that controls the new signal for which
->>   I'm requesting opinions in this series
->> - PHY reset: is the block controlling the PHYs
->> - PHY: is the block controlling the USB PHYs
->> - USB controller: is the USB controller
->>
->> Currently, I passed the SYSC signal handling to the PHY reset driver; w/o PHY reset the rest of the
->> USB logic cannot work (neither PHY block nor USB controller).
->>
->> Currently, the PHY reset driver call pm_runtime_resume_and_get() in probe and pm_runtime_put() in
->> remove. The struct reset_control_ops::{assert, deassert} only set specific bits in registers (no
->> pm_runtime* calls).
->>
->> The PHY driver is taking its PHY reset in probe and release it in remove().
->> With this approach the newly introduced SYSC signal will be de-asserted/asserted only in the PHY reset
->> probe/remove (either if it is handled though PM domain or reset control signal).
->>
->> If the SYSC signal would be passed to all the blocks in the USB area (and it would be handled though
->> PM domains) it should be no problem either, AFAICT, because of reference counting the
->> pm_runtime_get|put*() is taking care of. As the PHY reset is the root node the in the devices node
->> tree for USB the reference counting should work, too (I may miss something though, please correct me
->> if I'm wrong).
->>
->> If the SYSC signal would be handled though a reset control driver (as proposed in this series) and we
->> want to pass this reference to all the blocks in the USB area then we can request the reset signal as
->> shared and, AFAIK, this is also reference counted. The devices node tree should help with the order,
->> too, if I'm not wrong.
->>
->> Thank you for looking at this,
->> Claudiu Beznea
->>
->>>
->>> [...]
->>>
->>> Kind regards
->>> Uffe
+>  
 
