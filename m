@@ -1,127 +1,72 @@
-Return-Path: <linux-renesas-soc+bounces-8670-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8671-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C36D996A624
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Sep 2024 20:06:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60AD196A6B6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Sep 2024 20:41:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 31E69B20B4D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Sep 2024 18:06:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 939B01C236B9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Sep 2024 18:41:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81346F9DF;
-	Tue,  3 Sep 2024 18:06:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D9741917F2;
+	Tue,  3 Sep 2024 18:41:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="Hgg3+D0t"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="Ok4jyGQz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130C118DF85
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  3 Sep 2024 18:06:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004B215574F;
+	Tue,  3 Sep 2024 18:41:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725386785; cv=none; b=AIiCC59CjJCrB35GXz+3N8El2VeQ6LVOJmCN3yvrYz9K8zkei6UT72M9aPH9gdLXnWbmuH7qzfnwpQKdJrHC+Im2h++jggpHdLRZs7HP2gUgbNW2yTfovjEHrWy825f9RJVr6yzhZ6SINWArOWQKDSqeAz6GBNMqERjO1BgxfBs=
+	t=1725388881; cv=none; b=sEEyfN3G2RV1JOaQGqMXQvyRhljRlQ8PHNaGjjABNgaKLPUe/ggT9qSRK2YsiESor4VKpzWDwE8Na2n4+IuXZHKrhfg8WzVP+9t5xveVsRGeNOQhW+0Ix0DogI4rNh08fln0biqPoHwSKwfx5Slof1TlHNbD4LSS40j0R/IHGrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725386785; c=relaxed/simple;
-	bh=8LtJshcF78MwCkem83FLb9yKyENRHTqqJOTSxZkm2XQ=;
-	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=nd7zeoA8/J3Dwmzq8JvnaqgPfj9xQvAazOfJRsu4D9GDmvJX2xidJqJL534Wg28TFKVFjrHguxZ+45UrxCOQOIVytlt3HpwqajXxnN6T4SMXRZndlYftrFlT9n/Xkf10DAKu8GJZNz185MhDNUTnWyZT0Hsi3HzpYUptkXEJa/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=Hgg3+D0t; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7176212de5cso1510358b3a.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Sep 2024 11:06:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1725386783; x=1725991583; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PAxNRyl+5iw9fL5FshM+dULs8RYFkiTQUToZxINMKuI=;
-        b=Hgg3+D0toVPAFi21kfj6/q11Rq4sZgPiA0b2QfCEkjNe75qP+E+fs59LuDmdjHbYn0
-         jmFefrmLYVSYXRMg5KcpEiUo71OvgDaAr+k1rPWjyfQDHGLAPozNw2qB0097a9wsdU8s
-         icSZ/d6/OE3wBAjU8z/dPZAeCCNX1hJKkOsFI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725386783; x=1725991583;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PAxNRyl+5iw9fL5FshM+dULs8RYFkiTQUToZxINMKuI=;
-        b=HuEuB5IS7TQgFZmUYoW1j+CzpSJWRJMmB+eRUV623FCw70ReT1az9o1006cgD7RE04
-         YW00MbeodvqCTTWOEt81UEHIRRgaV5FuG3Em9IfIni02w/CNggqz7fL+2NPHk5u3/PRE
-         eYGRsGRfldY9mmRP2m8IrQAOpxUfNeilDBYgZ8zcoak19lWu1ezIsqrdptV1G1mGDMS8
-         wYgT3aSN67Qe3FKNAqdBViqHoadYc6I7mHY+Qo/AoP4aHs/0K/LZmrUMdxqCkp5Y1jNN
-         cejcz3HVo/kgvfmVN3ru0+/GWjgACR4feM48Rfl+gDwqOsFxdVpFspzrqeYGTgeEjfnH
-         lkqA==
-X-Gm-Message-State: AOJu0YzPGrFJ3HNX4pdD8dLxcj4/pIhgfIhhP2SpD56UKj5LOSIzGf8b
-	ZNzU62p4w9qTOVIr/NAU/EInLFediY/y/EatiEWZOpctV2uBn9XqV5ID5Rf55A==
-X-Google-Smtp-Source: AGHT+IEwkKSRG/SEZzavwprpB4VOWLoG2/0A6tFuVScaeVH4NIpIG0gr7j6yXBqJqlUszicz6C+xyw==
-X-Received: by 2002:a05:6a00:1905:b0:714:2dc9:fbaf with SMTP id d2e1a72fcca58-7173c333c1amr11880781b3a.18.1725386783225;
-        Tue, 03 Sep 2024 11:06:23 -0700 (PDT)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7177852108esm164537b3a.33.2024.09.03.11.06.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Sep 2024 11:06:22 -0700 (PDT)
-From: Florian Fainelli <florian.fainelli@broadcom.com>
-X-Google-Original-From: Florian Fainelli <f.fainelli@gmail.com>
-Message-ID: <b151952b-5536-4fb0-a908-d8ee4834f302@gmail.com>
-Date: Tue, 3 Sep 2024 11:06:20 -0700
+	s=arc-20240116; t=1725388881; c=relaxed/simple;
+	bh=CZXIpq1IQk39rfsb0wPJ3zFZ6pZtmbXVHIZxEx/v6Ts=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MDM87N7yw02gXiVITnt/LOQmtI/xS6qXJpGI2811ZGal+mf0a5mpgdnGYOX0EHDVS4RlviDQ/wr2yAQXN4dDFhAKiRbrFxS0N1u2aSB7vYmvTb9EnFWJS3ZKNmNwcvL7p3xXsAGAK2sy5B8AXc7Hzc4239HH3LjXA3jbVs9a/UM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=Ok4jyGQz; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=BaSEjCyHzcCyUy3kvtvU5gvLj82QnRR+Pt0Rb/0BUzs=; b=Ok
+	4jyGQz5nl7muOCK3qg4Xa0ACL451MCXKMH2tkBD9Cuules1kyOSzihR+n4AnAz9sVDbL6K5xrVVGP
+	+ZIQHUUmGCKrFz/YlWvYqXUPAaf7O6VwLCs38a8HAma4oEN3Ab7lOCFrGPxntgWS9f0xRD8G1/x3f
+	kmotfToIZMOHd8g=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1slYSg-006SZP-Mn; Tue, 03 Sep 2024 20:41:06 +0200
+Date: Tue, 3 Sep 2024 20:41:06 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [net-next] net: phy: Check for read errors in SIOCGMIIREG
+Message-ID: <49f85a5f-3393-4d7b-8fcb-5eec00e564d6@lunn.ch>
+References: <20240903171536.628930-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [net-next] net: phy: Check for read errors in SIOCGMIIREG
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>, Andrew Lunn <andrew@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
-References: <20240903171536.628930-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Language: en-US
-Autocrypt: addr=f.fainelli@gmail.com; keydata=
- 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
- HGuUuzv+GKZ6nsysJw==
-In-Reply-To: <20240903171536.628930-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240903171536.628930-1-niklas.soderlund+renesas@ragnatech.se>
 
-On 9/3/24 10:15, Niklas SÃ¶derlund wrote:
+On Tue, Sep 03, 2024 at 07:15:36PM +0200, Niklas Söderlund wrote:
 > When reading registers from the PHY using the SIOCGMIIREG IOCTL any
 > errors returned from either mdiobus_read() or mdiobus_c45_read() are
 > ignored, and parts of the returned error is passed as the register value
@@ -138,19 +83,21 @@ On 9/3/24 10:15, Niklas SÃ¶derlund wrote:
 > 
 > Before this patch,
 > 
->      # phytool read eth0/0:1/0
->      0xffa1
+>     # phytool read eth0/0:1/0
+>     0xffa1
 > 
 > After this change,
 > 
->      $ phytool read eth0/0:1/0
->      error: phy_read (-95)
+>     $ phytool read eth0/0:1/0
+>     error: phy_read (-95)
 > 
-> Signed-off-by: Niklas SÃ¶derlund <niklas.soderlund+renesas@ragnatech.se>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
+write is similarly broken, but i don't think we care about that.
 
-Thanks for fixing that!
--- 
-Florian
+Thanks
+
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+
+    Andrew
 
