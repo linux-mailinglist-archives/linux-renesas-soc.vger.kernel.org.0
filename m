@@ -1,193 +1,217 @@
-Return-Path: <linux-renesas-soc+bounces-8668-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8669-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4693396A554
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Sep 2024 19:19:27 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id F239296A586
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Sep 2024 19:36:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6A7EA1C20C6A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Sep 2024 17:19:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 238521C2303E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Sep 2024 17:36:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ED3C18A6CB;
-	Tue,  3 Sep 2024 17:19:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B39F18E367;
+	Tue,  3 Sep 2024 17:36:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="EFt0qLdT";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="XJWuJdCL"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="HSGMd4Op"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from pfhigh4-smtp.messagingengine.com (fhigh4-smtp.messagingengine.com [103.168.172.155])
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42ACE6F315;
-	Tue,  3 Sep 2024 17:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4029218BC3A;
+	Tue,  3 Sep 2024 17:36:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725383964; cv=none; b=PkVpkR/9Cxxux4D2JPeHCelCV21jlQFWRqNctGl9BKwj7HM3/ht+6RbQv+2z/GezUD5LrAkSp5nA878BuRqex7qhc+f03qV8XdtI3/E9vTGj8YheMP2ohDNjEVXaYxWG8szelrht3zUSpdoeMRgprwbWRBVSHi9h21os1zsjRzc=
+	t=1725384988; cv=none; b=Xb9loJlpF8mLJ9eHSjeRvBUCMwxEV6hlyvbbpXS8PXsdh1Jgq0HMfoVL/htxio3ahejt6nayMrnl+/m+Dj+IgQT0y1ukzSDSHSM0Z4xITiIgHQlNNnFqBlWXKvay8DTUFe9qxAOBzTY2VqoVIwv1QaDUidECVr+fl8VmggLu7u0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725383964; c=relaxed/simple;
-	bh=zOIYjgDTJnoOkC8/xSpv5LRhUYBTqxhR3qIPa2/e/nQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hgZVwVSAKptPc8JV1fHwNHrA8CuwlmqXcRuK081CnVgI35vysY/pCWf5NWzHxaYK4wWR6IhHKU4mh4Czw18z8ZhTR+Kr2g8+KzfeYOQTVlSjpaAThjcFLCD40bKgNizUn+qUtIXfzW2GcloJKkjrX7O0WsN1xvxAte6bipD+YSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=EFt0qLdT; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=XJWuJdCL; arc=none smtp.client-ip=103.168.172.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 3AE68114040A;
-	Tue,  3 Sep 2024 13:19:21 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Tue, 03 Sep 2024 13:19:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm3; t=1725383961; x=1725470361; bh=gr
-	aaZdY9PvQKoMwgbzfUY3v2asqgjwD2mv2g++7oiTs=; b=EFt0qLdTuMtvdtSGSF
-	rmKaFu9t2AkKclGfMKZegTlVBt9wHqQNfC3A1FYMd/am2qpZnreGPeCpCMyV7J2v
-	jVSxlRbb5bKZ2aFJhGfn0b3V9BGG4iWlfNEvf4ORQvfwHKAt5kFY+huHRcAkqOPC
-	TGg2BJt95cse/tIAQmhMax0Vrr4YT2NIMaPQ35WsANYAUVWUCxW/NAbX9stOE3DR
-	0pH4Dmr0toC+tb4+xYZSXFT6MA9xlwbnWegGrzYjmPpQzMf4aMPnpa5eZHDVOOwl
-	5YMK9yUlJMZcIzywlPnHT7kIwCz+8cLMOxUwWVJjR8bPJ+a2zE2lNjF3M8x3Zi82
-	SUEw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1725383961; x=1725470361; bh=graaZdY9PvQKo
-	MwgbzfUY3v2asqgjwD2mv2g++7oiTs=; b=XJWuJdCL/hPKocKvCRYrVNUvAhcj7
-	Qpo+L8xHvrDZI4PogirAuk3WrHdSr3h2FEgOsxUGvFdZxXo/HDSoRDuotISsyum6
-	4ANWyCdggLkfZ0XBT/MMkMjNexZiqh6swxhSdr7/esJPu8enBECjAnvoC3TBMxHn
-	4pjwYB5KmWtsThsK0z/i/anzZAYyNga9vWXClMa9QaEBCjhH0FKDZsedi46eKFlN
-	jMNKHEIf0d5K8KU9bPSC6/+v/KVLOxdDHMGOI1EXpGzGvGEwUH/STlzkeYBVxD41
-	YgWguIRffYHikoU3UZfYElaISWaDVMJThJmHaPXRADS6vUPPXNjozQKXQ==
-X-ME-Sender: <xms:GUXXZmO0jD4WgkJ6I3g4eWwzRKR1B6ZWLxGaDjNGqnUBVSXIoGKmqg>
-    <xme:GUXXZk_cM3kF73RZeI8hfkBYWda1Jo1Th0aYO-fgpzSf2PI1Ta789gofOhH_p7kY0
-    cXaoyuh9o4uY2hRhhc>
-X-ME-Received: <xmr:GUXXZtQfOMWuWz9NbpJFNF3boEMocJSbhVUcgOokvgpv2GKGSkhKMYC2SmUVgIH3zo5jK1eA3nWrRjVSwMnvoiGZ5g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehhedgudduvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeen
-    ucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvg
-    hrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthht
-    vghrnhepheduleetteekgffffedufeeuvdejiedvkefhveeifeegffehledtvdevhfefte
-    egnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhi
-    khhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpth
-    htohepjedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepuggrvhgvmhesuggrvhgv
-    mhhlohhfthdrnhgvthdprhgtphhtthhopegvughumhgriigvthesghhoohhglhgvrdgtoh
-    hmpdhrtghpthhtohepkhhusggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehprggs
-    vghnihesrhgvughhrghtrdgtohhmpdhrtghpthhtohepnhgvthguvghvsehvghgvrhdrkh
-    gvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotges
-    vhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehnihhklhgrshdrshhouggvrh
-    hluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:GUXXZmtx0dkKm9mcA-BY9I7UHUzxzYY0DLzcaO5RvldBcmysf08HRg>
-    <xmx:GUXXZucw-35IPyfLpAtDw_aErBxRtOCwXOpD0hhWRZnysMPDUvks5A>
-    <xmx:GUXXZq34vabdbCcplxTfdXmk1htRAX9q9hI2JZ5EwJnJPD3beaKy1Q>
-    <xmx:GUXXZi_hZ2S_gtJDgJBMjgsAljJFFz3LV4mTO-IizAKLgzGiWhAhLg>
-    <xmx:GUXXZksYGZSnQ-HyUaldYjcH4N-9r2JjvfTmiYAJTq8C_OBcouvbyEmf>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 3 Sep 2024 13:19:20 -0400 (EDT)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [net-next] net: ethernet: rtsn: Add MDIO read/write support for C45
-Date: Tue,  3 Sep 2024 19:18:53 +0200
-Message-ID: <20240903171853.631343-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.46.0
+	s=arc-20240116; t=1725384988; c=relaxed/simple;
+	bh=6wRImgCx+ngG+mf6PjxgW3JwfH1jcknTFnxBP4HSZk0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UqW5LEttLpzfN6OA/WGBeByPRX3TIIbizTcCe3baVcz07KRhGcV2wVJyRv3AdjKIIM+xg6BmLaJlm7jUtyXI95kggzigu7rKwj90GcVLzmJLCpwmGjOwcug+yJliYQvGqhMwZq+1mKtEgbV+3DN6LU5W1YEHZOdinlaJpu7dH1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=HSGMd4Op; arc=none smtp.client-ip=217.70.183.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id EDF88FF805;
+	Tue,  3 Sep 2024 17:36:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1725384977;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ytJ7+V48kuNct1mxvlZovRxmCRiGxTsehGS1w1kVKnU=;
+	b=HSGMd4Op5cYNUkfA1pUTtZUAhOuhh3jWsCrDdxEReBGxCmtwV8Ct7ij5nzTtEzcsCIzK4R
+	C/IQ//w0N8J2KF8G3RXGmLt5P87hAP9qEtTWvctiGQ92BgiPJAmj8MPzGGa+E8sPFi7YZT
+	H+UGW6ZdzyyBzkKJdtixOtYePtblEt4P9RhVUinwkcdmPBn2oo3CQZ41q9NckP+5RjOuDj
+	c7JfnHqIfsE7GpNHAeN3e0GHAzkIxoeuftDWj/5FO0AYroqrWQw9KPaP9lYK+NerAUqwfc
+	3EhP4f+goxzbZeCmBHW4szl8LrmH4/KZYoGrxPN1LoPHRBxu3aWvM/UNS9LZLg==
+Date: Tue, 3 Sep 2024 19:36:15 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: claudiu beznea <claudiu.beznea@tuxon.dev>
+Cc: geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	magnus.damm@gmail.com, p.zabel@pengutronix.de,
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v3 06/12] rtc: renesas-rtca3: Add driver for RTCA-3
+ available on Renesas RZ/G3S SoC
+Message-ID: <20240903173615b69cfd0d@mail.local>
+References: <20240830130218.3377060-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240830130218.3377060-7-claudiu.beznea.uj@bp.renesas.com>
+ <202408302225417622f1e7@mail.local>
+ <a7f0a36b-3169-45f8-9169-50bb0c6c04dd@tuxon.dev>
+ <2e49b73c-c645-446c-8606-7a531e0a74f8@tuxon.dev>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2e49b73c-c645-446c-8606-7a531e0a74f8@tuxon.dev>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 
-Add C45 specific read and write implementations to support C45 PHY
-access using SIOCGMIIREG and SIOCSMIIREG IOCTLs.
+On 03/09/2024 19:09:00+0300, claudiu beznea wrote:
+> > 
+> > Also, w/o this change the RTC remains blocked under the following scenarios
+> > if the interrupts are not disabled in remove:
+> 
+> This intrigued me and did some further investigation. I found that
+> something is wrong on the driver as described bellow.
+> 
+> The failures described in the previous emails were due to the fact that the
+> RTC counter clock was requested by the driver as devres managed resource.
+> This is the clock that feeds the RTC counting logic.
+> 
+> With the bellow diff applied on top of this series scenarios 1/ and 2/
+> described in the previous email works just fine.
+> 
+> For scenario 3/ the system is not powered up (as expected) but there are no
+> more failures on the next boots.
+> 
+> diff --git a/drivers/rtc/rtc-renesas-rtca3.c b/drivers/rtc/rtc-renesas-rtca3.c
+> index f908d2a1017d..c9adcadc58c0 100644
+> --- a/drivers/rtc/rtc-renesas-rtca3.c
+> +++ b/drivers/rtc/rtc-renesas-rtca3.c
+> @@ -747,10 +747,14 @@ static int rtca3_probe(struct platform_device *pdev)
+>         if (ret)
+>                 return ret;
+> 
+> -       clk = devm_clk_get_enabled(dev, "counter");
+> +       clk = devm_clk_get(dev, "counter");
+>         if (IS_ERR(clk))
+>                 return PTR_ERR(clk);
+> 
+> +       ret = clk_prepare_enable(clk);
+> +       if (ret)
+> +               return ret;
+> +
+>         spin_lock_init(&priv->lock);
+>         atomic_set(&priv->alrm_sstep, RTCA3_ALRM_SSTEP_DONE);
+>         init_completion(&priv->set_alarm_completion);
+> @@ -783,7 +787,7 @@ static void rtca3_remove(struct platform_device *pdev)
+> 
+>         guard(spinlock_irqsave)(&priv->lock);
+> 
+> -       rtca3_alarm_irq_set_helper(priv, RTCA3_RCR1_AIE | RTCA3_RCR1_PIE, 0);
+> +       //rtca3_alarm_irq_set_helper(priv, RTCA3_RCR1_AIE | RTCA3_RCR1_PIE, 0);
+>  }
+> 
+> Question is: the RTC counter clock should stay on when the driver is
+> unbinded, right?
 
-While the core can handle a C45 PHY using only the MDIO bus C22 read()
-and write() callbacks there are PHY interactions that are not possible
-without them. One use-case is accessing PHY registers using the
-SIOCGMIIREG and SIOCSMIIREG IOCTLs. Without these callbacks trying to
-access C45 PHY registers using these IOCTLs result in -EOPNOTSUPP.
+Yes, the lifecycle of the RTC and its ressources is longer than the
+system's as the whole point is to keep the time and date running while
+the system is off.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/net/ethernet/renesas/rtsn.c | 40 +++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
+> 
+> Thank you,
+> Claudiu Beznea
+> 
+> > 
+> > 1/ Configure wake alarm and unbind the RTC driver with the following commands:
+> > # echo +10 > /sys/class/rtc/rtc0/wakealarm
+> > # echo /sys/bus/platform/drivers/rtc-rtca3/1004ec00.rtc > unbind
+> > # sleep 12
+> > # echo /sys/bus/platform/drivers/rtc-rtca3/1004ec00.rtc > bind
+> > 
+> > When rebinding the re-configuration of the RTC device times out:
+> > [  121.854190] rtc-rtca3 1004ec00.rtc: error -ETIMEDOUT: Failed to setup
+> > the RTC!
+> > [  121.861511] rtc-rtca3 1004ec00.rtc: probe with driver rtc-rtca3 failed
+> > with error -110
+> > -sh: echo: write error: Connection timed out
+> > 
+> > 2/ Configure wake alarm, unbind the RTC driver and switch to s2idle with
+> > the following commands:
+> > # echo s2idle > /sys/power/mem_sleep
+> > # echo +10 > /sys/class/rtc/rtc0/wakealarm
+> > # echo /sys/bus/platform/drivers/rtc-rtca/31004ec00.rtc > unbind
+> > # echo mem > /sys/power/state
+> > # #system is resumed by non RTC wakeup source (as the RTC alarm is not
+> > working anymore in this case)
+> > # echo /sys/bus/platform/drivers/rtc-rtca/1004ec00.rtc > bind
+> > 
+> > The system is not waked up from RTC alarm (as expected) and the rebinding
+> > fails again:
+> > 
+> > [  172.483688] rtc-rtca3 1004ec00.rtc: error -ETIMEDOUT: Failed to setup
+> > the RTC!
+> > [  172.491003] rtc-rtca3 1004ec00.rtc: probe with driver rtc-rtca3 failed
+> > with error -110
+> > -sh: echo: write error: Connection timed out
+> > 
+> > 3/ configure the RTC alarm, unbind and power off (with the following commands):
+> > # echo +60 > /sys/class/rtc/rtc0/wakealarm
+> > # echo /sys/bus/platform/drivers/rtc-rtca/1004ec00.rtc > unbind
+> > # poweroff
+> > 
+> > The system is not started after 60 seconds and at the next reboot the RTC
+> > configuration on probe is failing the same:
+> > 
+> > [    0.292068] rtc-rtca3 1004ec00.rtc: error -ETIMEDOUT: Failed to setup
+> > the RTC!
+> > [    0.292182] rtc-rtca3 1004ec00.rtc: probe with driver rtc-rtca3 failed
+> > with error -110
+> > 
+> > In all scenarios the RTC is recovered only if removing/re-applying the
+> > power to the SoC area where it resides.
+> > 
+> > These tests were done with the patches in this series and then I tried it
+> > with the following diff on top of the patches in this series. The results
+> > were the same:
+> > 
+> > diff --git a/drivers/rtc/rtc-renesas-rtca3.c b/drivers/rtc/rtc-renesas-rtca3.c
+> > index 822c055b6e4d..720fdac3adc6 100644
+> > --- a/drivers/rtc/rtc-renesas-rtca3.c
+> > +++ b/drivers/rtc/rtc-renesas-rtca3.c
+> > @@ -586,7 +586,7 @@ static int rtca3_initial_setup(struct clk *clk, struct
+> > rtca3_priv *priv)
+> >         usleep_range(sleep_us, sleep_us + 10);
+> > 
+> >         /* Disable alarm and carry interrupts. */
+> > -       mask = RTCA3_RCR1_AIE | RTCA3_RCR1_CIE;
+> > +       mask = RTCA3_RCR1_AIE | RTCA3_RCR1_CIE | RTCA3_RCR1_PIE;
+> >         ret = rtca3_alarm_irq_set_helper(priv, mask, 0);
+> >         if (ret)
+> >                 return ret;
+> > @@ -784,7 +784,7 @@ static void rtca3_remove(struct platform_device *pdev)
+> >         guard(spinlock_irqsave)(&priv->lock);
+> > 
+> >         /* Disable alarm, periodic interrupts. */
+> > -       rtca3_alarm_irq_set_helper(priv, RTCA3_RCR1_AIE | RTCA3_RCR1_PIE, 0);
+> > +       //rtca3_alarm_irq_set_helper(priv, RTCA3_RCR1_AIE | RTCA3_RCR1_PIE, 0);
+> >  }
+> > 
+> > Thank you,
+> > Claudiu Beznea
+> > 
 
-diff --git a/drivers/net/ethernet/renesas/rtsn.c b/drivers/net/ethernet/renesas/rtsn.c
-index 0e6cea42f007..8d6ffaa13e5b 100644
---- a/drivers/net/ethernet/renesas/rtsn.c
-+++ b/drivers/net/ethernet/renesas/rtsn.c
-@@ -771,6 +771,32 @@ static int rtsn_mii_access(struct mii_bus *bus, bool read, int phyad,
- 	return ret;
- }
- 
-+static int rtsn_mii_access_indirect(struct mii_bus *bus, bool read, int phyad,
-+				    int devnum, int regnum, u16 data)
-+{
-+	int ret;
-+
-+	ret = rtsn_mii_access(bus, false, phyad, MII_MMD_CTRL, devnum);
-+	if (ret)
-+		return ret;
-+
-+	ret = rtsn_mii_access(bus, false, phyad, MII_MMD_DATA, regnum);
-+	if (ret)
-+		return ret;
-+
-+	ret = rtsn_mii_access(bus, false, phyad, MII_MMD_CTRL,
-+			      devnum | MII_MMD_CTRL_NOINCR);
-+	if (ret)
-+		return ret;
-+
-+	if (read)
-+		ret = rtsn_mii_access(bus, true, phyad, MII_MMD_DATA, 0);
-+	else
-+		ret = rtsn_mii_access(bus, false, phyad, MII_MMD_DATA, data);
-+
-+	return ret;
-+}
-+
- static int rtsn_mii_read(struct mii_bus *bus, int addr, int regnum)
- {
- 	return rtsn_mii_access(bus, true, addr, regnum, 0);
-@@ -781,6 +807,18 @@ static int rtsn_mii_write(struct mii_bus *bus, int addr, int regnum, u16 val)
- 	return rtsn_mii_access(bus, false, addr, regnum, val);
- }
- 
-+static int rtsn_mii_read_c45(struct mii_bus *bus, int addr, int devnum,
-+			     int regnum)
-+{
-+	return rtsn_mii_access_indirect(bus, true, addr, devnum, regnum, 0);
-+}
-+
-+static int rtsn_mii_write_c45(struct mii_bus *bus, int addr, int devnum,
-+			      int regnum, u16 val)
-+{
-+	return rtsn_mii_access_indirect(bus, false, addr, devnum, regnum, val);
-+}
-+
- static int rtsn_mdio_alloc(struct rtsn_private *priv)
- {
- 	struct platform_device *pdev = priv->pdev;
-@@ -818,6 +856,8 @@ static int rtsn_mdio_alloc(struct rtsn_private *priv)
- 	mii->priv = priv;
- 	mii->read = rtsn_mii_read;
- 	mii->write = rtsn_mii_write;
-+	mii->read_c45 = rtsn_mii_read_c45;
-+	mii->write_c45 = rtsn_mii_write_c45;
- 	mii->parent = dev;
- 
- 	ret = of_mdiobus_register(mii, mdio_node);
 -- 
-2.46.0
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
