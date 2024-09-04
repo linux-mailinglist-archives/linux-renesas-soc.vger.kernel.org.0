@@ -1,302 +1,199 @@
-Return-Path: <linux-renesas-soc+bounces-8704-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8705-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7755096C1C2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2024 17:07:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60D2F96C2EF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2024 17:51:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2D70128EE76
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2024 15:07:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 18D15284C8C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2024 15:51:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 259E71DCB0D;
-	Wed,  4 Sep 2024 15:07:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4D201DFE20;
+	Wed,  4 Sep 2024 15:49:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="C92foaJq";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="E3IntG+R"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="d692u+bM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh1-smtp.messagingengine.com (fhigh1-smtp.messagingengine.com [103.168.172.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62377DDCD;
-	Wed,  4 Sep 2024 15:07:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CA701DEFC0
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Sep 2024 15:49:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725462472; cv=none; b=sqiWceg79kqRwsb+6m4kLLahdjxTSc7ogxMehZKoYmeZNH4PXOwlu85KATg7K+0DAAKn6EWBh7mEnNMwlTBwXeXGrFzzPJ09b95uvJRF4d2YsIdhviO8osFeopBst/Coy+2Lm0NkyS4NSopHlC2/fPVQQ53cgRAmTlxn15u4uhE=
+	t=1725464998; cv=none; b=o0qe04ZuaSxfcZNSyucEw0pEjSLZ+3ibfZ38FjImi3OEj4LoDcVPcRTfQd6T3Hw8Y7E7A/Viy5092UHv7VaBM8RCmIXFCFrbUbv1maNEN9SSlepHITtv6Po0bgtyix/UkzIGfqWMqtm8JJcC1mVLtg89Bp4tEWVlGJ/FDyClkEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725462472; c=relaxed/simple;
-	bh=ni/BNtS+LVF6hehk/pejQfUJSDyj5OKt3TZU0cE96VI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=omubumL2M5DGG0U3IEDZG3i512ydVsvRIrVCk1NCg+7kDcmniVP1y9YvYk2Gwri3IiQ3CD8iFWx6IdwxQrWKwAhdRwUBHHbWab71u/fZVcskNkroi1Ua4mw3gJwGqp58hT8yN45q5uOp7xU3mJAUiEJr5ouOZQch/pX1PZvaLK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=C92foaJq; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=E3IntG+R; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 3DFD911402B7;
-	Wed,  4 Sep 2024 11:07:47 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Wed, 04 Sep 2024 11:07:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm3; t=1725462467; x=1725548867; bh=oX
-	U4ySuEw133d+hVH1hAwzzqFdvqLDQ7uEYJ1Csl/HU=; b=C92foaJqMbTI57EAL5
-	+RVsabuda1yGq+kwQwEsu6TZ/VRNMmvoLiSXSJwsXtTh1yULFTUZPCyfZXsNug+2
-	15SIvRy1a9KUCW+yDQToW6/kgmfSVNAHvRpP8NShUck70sBLWFzwpXUesNsCrmXI
-	VpFqCO05CFKnVKjlk7XiLpYjCDQtEi8UDTkME89gQNiwfFZuoHneJWRjJ/+1MeEy
-	L22aaEnQsqLddRIKdmCUxrHTz0MREr+RREcK3EPFOtEWCEwXk7wQ6K2GhSk+d+WK
-	9weMglyR1ILchfyZn1tKJMwpAFO2I1x4Ap43mXbAV4UghF0dx5UrO8cQYlZ/ZNmu
-	5KQg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1725462467; x=1725548867; bh=oXU4ySuEw133d
-	+hVH1hAwzzqFdvqLDQ7uEYJ1Csl/HU=; b=E3IntG+RUlfD7tlN2gmEOXdCTHl7c
-	lCXVGb/p7TTEwGzLzW/af37ceLDHbuJZa7lq0j/Ql0qTJ1Z4aUTp6rwhqOXM2IJ/
-	NLLj/ZJz80smNzpXWJteae3xJPC8Kfwqvq29DhftmodFNrXTcohcF9fUQa1Q4g4a
-	d34H80ArZ9DOAUcEn31kcIrEkgSZPHr1CCjO3Ea47Ey4bFX/gN+aZOSgA++vH0JI
-	DHBU88OA+EOYv1nTuLW8Zp6CVSESKLBBYVUs2DNUliF0v/Y4FWMPVivG8pdaINKQ
-	QCri26ZdabnYxps4d3j0Lf+E+Nt/92atlJoLWOZ5/JJibKnjob73YCnQg==
-X-ME-Sender: <xms:wnfYZomw6EK9Tknagy-Y22uSY4l2YJkMUQjhc7HrdnqGT1MWqu88Zw>
-    <xme:wnfYZn1c8F_PaZ0U1B8o6x4uh9bDkWjYufDmkk9rBFVlhHklcRiz_O6dbVJilOEb8
-    T0rAWIz4epOt02i-rA>
-X-ME-Received: <xmr:wnfYZmoHDG3PyIvcPN_GdBuHeX5VrFDMQbVSSiMGbI6hQY_e5uO9Qkyg3KTDIOPfqzNZI18nz9gU6LmT01uZ4BbVrw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehjedgkeegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecu
-    hfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrh
-    hluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgv
-    rhhnpeehudelteetkefgffefudefuedvjeeivdekhfevieefgeffheeltddvvefhfeetge
-    enucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhk
-    lhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtth
-    hopeeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehhvhgvrhhkuhhilhesgihs
-    gegrlhhlrdhnlhdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprh
-    gtphhtthhopehlrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgu
-    rdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlh
-    drohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdr
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhhikhhlrghsrdhsohguvghrlhhunhguod
-    hrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
-X-ME-Proxy: <xmx:wnfYZknQY0PBfvLpBzI0iChhTZKL793ciD9a_bF4xG4ziCk3Wev46Q>
-    <xmx:wnfYZm0JMexxdUfEObrTY49su87eff5l0TSE_nAnR4nrqYi_xl7CqQ>
-    <xmx:wnfYZruNu1Y774PB4NSm6WcJ_z4SeFRb_JY2sLe0O_6nXpQmAQZfqw>
-    <xmx:wnfYZiXsMrTALf4dAuBiLGxE-UIb5Bp6cUCgL0wXP-c3RDXTcXHNZA>
-    <xmx:w3fYZgpK99cspnKWRjwYiVvL4UEfodlUeYMGdZ42IUkJLC9G9mblxMDX>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 4 Sep 2024 11:07:46 -0400 (EDT)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Hans Verkuil <hverkuil@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2] media: rcar-vin: Add support for RAW10
-Date: Wed,  4 Sep 2024 17:06:56 +0200
-Message-ID: <20240904150656.1495705-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.46.0
+	s=arc-20240116; t=1725464998; c=relaxed/simple;
+	bh=CTpZT61cw+v7Isz+5KEp0TwRe2k81PyY8Q9DOwJbOnI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZGqbePMnpMZBi+M86Gs+wD3ah86aqikwe58jv3r9Y52QqqUp5C+KFGtDcGrciW7vCd8CuFSDLFtJR02DSr5RRs8MhAbY4Gc/2AGcLpbn4vicwpj1GcmDhLOB5Ff7SWOL52DnmZtM2JHPcxdbo7l/56YbNGHGhBsIitDC+PC3z/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=d692u+bM; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-206aee40676so10504025ad.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Sep 2024 08:49:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725464996; x=1726069796; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=aUspjdaZipuOhA4NRY0RJgeHGMKwRMzsWto8djn5vLI=;
+        b=d692u+bMkoKPaC1KysMc/5oBJOQrUqWi4Tz0sQhd99IZ3e5CmzKMlA8yu83gEO4cYp
+         eW6ZnRYJOt+ixnU+LVgmrDSgFGgF6x4pjD92BZn87RVsxQYz1l+8Hz1Q+50owV20aCcT
+         DDl922u1dP02I/xMllsRxmpGVsEtPtPpTfszHZ/1ncPRpG7UkT1NH6b3pbs+27NrLIZn
+         +1fEpbl2zaZ5pFlB529qqhzBZfYxsf7azUnHlMRdnfAO0G9zhQshWQ8OJ5nbo2jpp6T0
+         5yh4GPeZt5eQoKT3Uen0gUECaPJy87To6Lc3yUh3riydVWa91hgocwi4voLipM6HKJOm
+         hyiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725464996; x=1726069796;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aUspjdaZipuOhA4NRY0RJgeHGMKwRMzsWto8djn5vLI=;
+        b=XnMOzgxV9QbU7gpdtpxziLsnH/VGB7Hm0gcTjHGBX6BQyyAx3w/rfYdhafEaZzsHkU
+         LgtBdEa854/j+90OtP8cXTKdL09348nL6IplUwqSVmuSynNuqUBhL8oOCk3KI9Zov0kz
+         g4xOZ1egSyaLAyeOh7B+OtPhbXSR/LDIdXcUlNECPVWVdiVZg40L8XSvfOO58mu7GJ4x
+         Gi3QeYcPu2k/lHDIjJxLhg2FRhC0E/QAJYEyk7Ew89B78r9pDJtbIQhIFZnSsjDVs06L
+         /5S35KTPFPxLBcL4A2yZ13ePG6qUF6Q5WmuHwZbGLH6rxZIVZyhZNnydDe/6tVBBYmya
+         cQxA==
+X-Forwarded-Encrypted: i=1; AJvYcCWF3Wo74nC8nP/8PMSyFdGOfuByDJo6vURUlvEwQMKJB1B+IRdBv+HRWDE1LQazteyNysmOGTuwB3nIf0xTmnDk9Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YznApuRj1XNnCCE8voQMni2TC5Ce1N+yR0uyiYTtdUXdkMFTExi
+	R1tQwBy2tYnot5JcXEDujAB0XHyFFYA7mudi4KiphzjNprkZ35hMFdc0+TntTg==
+X-Google-Smtp-Source: AGHT+IGaIqW5Fd7iC7eWGx3Bkr4KIAhnl/c5JAG+0dmpw/6XA8lzo2zqW5pfYpjv80IFZFIFhT9/Sw==
+X-Received: by 2002:a17:902:cec6:b0:206:9caf:1e00 with SMTP id d9443c01a7336-2069caf211cmr72629265ad.25.1725464996370;
+        Wed, 04 Sep 2024 08:49:56 -0700 (PDT)
+Received: from thinkpad ([120.60.128.165])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-206ae950571sm15158925ad.82.2024.09.04.08.49.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Sep 2024 08:49:56 -0700 (PDT)
+Date: Wed, 4 Sep 2024 21:19:44 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Chuanhua Lei <lchuanhua@maxlinear.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	imx@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	abel.vesa@linaro.org, johan+linaro@kernel.org,
+	Shashank Babu Chinta Venkata <quic_schintav@quicinc.com>
+Subject: Re: [PATCH v6 2/4] PCI: dwc: Always cache the maximum link speed
+ value in dw_pcie::max_link_speed
+Message-ID: <20240904154944.w4bujfmhy5uhzkld@thinkpad>
+References: <20240904-pci-qcom-gen4-stability-v6-0-ec39f7ae3f62@linaro.org>
+ <20240904-pci-qcom-gen4-stability-v6-2-ec39f7ae3f62@linaro.org>
+ <ZtgooHdex5gXh0tP@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZtgooHdex5gXh0tP@hovoldconsulting.com>
 
-Some R-Car SoCs are capable of capturing RAW10. Extend the format
-enumeration, validation and setup to expose and configure for this
-format if the particular device supports it.
+On Wed, Sep 04, 2024 at 11:30:08AM +0200, Johan Hovold wrote:
+> On Wed, Sep 04, 2024 at 12:41:58PM +0530, Manivannan Sadhasivam via B4 Relay wrote:
+> > From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > 
+> > Currently, dw_pcie::max_link_speed has a valid value only if the controller
+> > driver restricts the maximum link speed in the driver or if the platform
+> > does so in the devicetree using the 'max-link-speed' property.
+> > 
+> > But having the maximum supported link speed of the platform would be
+> > helpful for the vendor drivers to configure any link specific settings.
+> > So in the case of non-valid value in dw_pcie::max_link_speed, just cache
+> > the hardware default value from Link Capability register.
+> > 
+> > While at it, let's also remove the 'max_link_speed' argument to the
+> > dw_pcie_link_set_max_speed() function since the value can be retrieved
+> > within the function.
+> > 
+> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > ---
+> >  drivers/pci/controller/dwc/pcie-designware.c | 18 ++++++++++++++----
+> >  1 file changed, 14 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
+> > index 86c49ba097c6..0704853daa85 100644
+> > --- a/drivers/pci/controller/dwc/pcie-designware.c
+> > +++ b/drivers/pci/controller/dwc/pcie-designware.c
+> > @@ -687,16 +687,27 @@ void dw_pcie_upconfig_setup(struct dw_pcie *pci)
+> >  }
+> >  EXPORT_SYMBOL_GPL(dw_pcie_upconfig_setup);
+> >  
+> > -static void dw_pcie_link_set_max_speed(struct dw_pcie *pci, u32 max_link_speed)
+> > +static void dw_pcie_link_set_max_speed(struct dw_pcie *pci)
+> >  {
+> >  	u32 cap, ctrl2, link_speed;
+> >  	u8 offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
+> >  
+> >  	cap = dw_pcie_readl_dbi(pci, offset + PCI_EXP_LNKCAP);
+> > +
+> > +	/*
+> > +	 * Even if the platform doesn't want to limit the maximum link speed,
+> > +	 * just cache the hardware default value so that the vendor drivers can
+> > +	 * use it to do any link specific configuration.
+> > +	 */
+> > +	if (pci->max_link_speed < 0) {
+> 
+> This should be 
+> 
+> 	if (pci->max_link_speed < 1) {
+> 
 
-The VIN is usually capable of converting from most media bus formats to
-a range of different pixel formats. However if the input media bus
-format is a RAW10 format this is not possible so the corresponding pixel
-output format is forced.
+Well I was trying to catch the error value here because if neither driver nor
+platform limits the max link speed, this would have -EINVAL (returned by
+of_pci_get_max_link_speed()).
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
-* Changes since v1
-- Update rvin_enum_fmt_vid_cap().
-- Switch to use the correct bayer media and media bus formats.
+But logically it makes sense to use 'pci->max_link_speed < 1' since anything
+below value 1 is an invalid value.
 
-* Changes since RFC
-- Fix spelling in rcar-vin.h
----
- .../platform/renesas/rcar-vin/rcar-core.c     |  1 +
- .../platform/renesas/rcar-vin/rcar-dma.c      | 30 +++++++++++++
- .../platform/renesas/rcar-vin/rcar-v4l2.c     | 43 +++++++++++++++++++
- .../platform/renesas/rcar-vin/rcar-vin.h      |  4 +-
- 4 files changed, 77 insertions(+), 1 deletion(-)
+Will change it.
 
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-index 809c3a38cc4a..e9675cb8faa2 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-@@ -1279,6 +1279,7 @@ static const struct rvin_info rcar_info_r8a779a0 = {
- 	.use_mc = true,
- 	.use_isp = true,
- 	.nv12 = true,
-+	.raw10 = true,
- 	.max_width = 4096,
- 	.max_height = 4096,
- };
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-index 21d5b2815e86..a6e79d47408d 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-@@ -123,7 +123,9 @@
- /* Video n Data Mode Register bits */
- #define VNDMR_A8BIT(n)		(((n) & 0xff) << 24)
- #define VNDMR_A8BIT_MASK	(0xff << 24)
-+#define VNDMR_RMODE_RAW10	(2 << 19)
- #define VNDMR_YMODE_Y8		(1 << 12)
-+#define VNDMR_YC_THR		(1 << 11)
- #define VNDMR_EXRGB		(1 << 8)
- #define VNDMR_BPSM		(1 << 4)
- #define VNDMR_ABIT		(1 << 2)
-@@ -790,6 +792,12 @@ static int rvin_setup(struct rvin_dev *vin)
- 	case MEDIA_BUS_FMT_Y8_1X8:
- 		vnmc |= VNMC_INF_RAW8;
- 		break;
-+	case MEDIA_BUS_FMT_SBGGR10_1X10:
-+	case MEDIA_BUS_FMT_SGBRG10_1X10:
-+	case MEDIA_BUS_FMT_SGRBG10_1X10:
-+	case MEDIA_BUS_FMT_SRGGB10_1X10:
-+		vnmc |= VNMC_INF_RGB666;
-+		break;
- 	default:
- 		break;
- 	}
-@@ -898,6 +906,12 @@ static int rvin_setup(struct rvin_dev *vin)
- 			dmr = 0;
- 		}
- 		break;
-+	case V4L2_PIX_FMT_SBGGR10:
-+	case V4L2_PIX_FMT_SGBRG10:
-+	case V4L2_PIX_FMT_SGRBG10:
-+	case V4L2_PIX_FMT_SRGGB10:
-+		dmr = VNDMR_RMODE_RAW10 | VNDMR_YC_THR;
-+		break;
- 	default:
- 		vin_err(vin, "Invalid pixelformat (0x%x)\n",
- 			vin->format.pixelformat);
-@@ -1280,6 +1294,22 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
- 		if (vin->format.pixelformat != V4L2_PIX_FMT_GREY)
- 			return -EPIPE;
- 		break;
-+	case MEDIA_BUS_FMT_SBGGR10_1X10:
-+		if (vin->format.pixelformat != V4L2_PIX_FMT_SBGGR10)
-+			return -EPIPE;
-+		break;
-+	case MEDIA_BUS_FMT_SGBRG10_1X10:
-+		if (vin->format.pixelformat != V4L2_PIX_FMT_SGBRG10)
-+			return -EPIPE;
-+		break;
-+	case MEDIA_BUS_FMT_SGRBG10_1X10:
-+		if (vin->format.pixelformat != V4L2_PIX_FMT_SGRBG10)
-+			return -EPIPE;
-+		break;
-+	case MEDIA_BUS_FMT_SRGGB10_1X10:
-+		if (vin->format.pixelformat != V4L2_PIX_FMT_SRGGB10)
-+			return -EPIPE;
-+		break;
- 	default:
- 		return -EPIPE;
- 	}
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-index bb4b07bed28d..756fdfdbce61 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-@@ -86,6 +86,22 @@ static const struct rvin_video_format rvin_formats[] = {
- 		.fourcc			= V4L2_PIX_FMT_GREY,
- 		.bpp			= 1,
- 	},
-+	{
-+		.fourcc			= V4L2_PIX_FMT_SBGGR10,
-+		.bpp			= 4,
-+	},
-+	{
-+		.fourcc			= V4L2_PIX_FMT_SGBRG10,
-+		.bpp			= 4,
-+	},
-+	{
-+		.fourcc			= V4L2_PIX_FMT_SGRBG10,
-+		.bpp			= 4,
-+	},
-+	{
-+		.fourcc			= V4L2_PIX_FMT_SRGGB10,
-+		.bpp			= 4,
-+	},
- };
- 
- const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
-@@ -106,6 +122,13 @@ const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
- 		if (!vin->info->nv12 || !(BIT(vin->id) & 0x3333))
- 			return NULL;
- 		break;
-+	case V4L2_PIX_FMT_SBGGR10:
-+	case V4L2_PIX_FMT_SGBRG10:
-+	case V4L2_PIX_FMT_SGRBG10:
-+	case V4L2_PIX_FMT_SRGGB10:
-+		if (!vin->info->raw10)
-+			return NULL;
-+		break;
- 	default:
- 		break;
- 	}
-@@ -407,6 +430,26 @@ static int rvin_enum_fmt_vid_cap(struct file *file, void *priv,
- 			return -EINVAL;
- 		f->pixelformat = V4L2_PIX_FMT_SRGGB8;
- 		return 0;
-+	case MEDIA_BUS_FMT_SBGGR10_1X10:
-+		if (f->index)
-+			return -EINVAL;
-+		f->pixelformat = V4L2_PIX_FMT_SBGGR10;
-+		return 0;
-+	case MEDIA_BUS_FMT_SGBRG10_1X10:
-+		if (f->index)
-+			return -EINVAL;
-+		f->pixelformat = V4L2_PIX_FMT_SGBRG10;
-+		return 0;
-+	case MEDIA_BUS_FMT_SGRBG10_1X10:
-+		if (f->index)
-+			return -EINVAL;
-+		f->pixelformat = V4L2_PIX_FMT_SGRBG10;
-+		return 0;
-+	case MEDIA_BUS_FMT_SRGGB10_1X10:
-+		if (f->index)
-+			return -EINVAL;
-+		f->pixelformat = V4L2_PIX_FMT_SRGGB10;
-+		return 0;
- 	default:
- 		return -EINVAL;
- 	}
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-index 997a66318a29..f87d4bc9e53e 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-@@ -151,7 +151,8 @@ struct rvin_group_route {
-  * @model:		VIN model
-  * @use_mc:		use media controller instead of controlling subdevice
-  * @use_isp:		the VIN is connected to the ISP and not to the CSI-2
-- * @nv12:		support outputing NV12 pixel format
-+ * @nv12:		support outputting NV12 pixel format
-+ * @raw10:		support outputting RAW10 pixel format
-  * @max_width:		max input width the VIN supports
-  * @max_height:		max input height the VIN supports
-  * @routes:		list of possible routes from the CSI-2 recivers to
-@@ -163,6 +164,7 @@ struct rvin_info {
- 	bool use_mc;
- 	bool use_isp;
- 	bool nv12;
-+	bool raw10;
- 
- 	unsigned int max_width;
- 	unsigned int max_height;
+- Mani
+
+> but the patch works as-is because of the default case in the switch
+> below which falls back to PCI_EXP_LNKCAP_SLS.
+> 
+> > +		pci->max_link_speed = FIELD_GET(PCI_EXP_LNKCAP_SLS, cap);
+> > +		return;
+> > +	}
+> > +
+> >  	ctrl2 = dw_pcie_readl_dbi(pci, offset + PCI_EXP_LNKCTL2);
+> >  	ctrl2 &= ~PCI_EXP_LNKCTL2_TLS;
+> >  
+> > -	switch (pcie_link_speed[max_link_speed]) {
+> > +	switch (pcie_link_speed[pci->max_link_speed]) {
+> >  	case PCIE_SPEED_2_5GT:
+> >  		link_speed = PCI_EXP_LNKCTL2_TLS_2_5GT;
+> >  		break;
+> 
+> > @@ -1058,8 +1069,7 @@ void dw_pcie_setup(struct dw_pcie *pci)
+> >  {
+> >  	u32 val;
+> >  
+> > -	if (pci->max_link_speed > 0)
+> > -		dw_pcie_link_set_max_speed(pci, pci->max_link_speed);
+> > +	dw_pcie_link_set_max_speed(pci);
+> 
+> With the above fixed:
+> 
+> Reviewed-by: Johan Hovold <johan+linaro@kernel.org>
+
 -- 
-2.46.0
-
+மணிவண்ணன் சதாசிவம்
 
