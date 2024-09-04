@@ -1,216 +1,141 @@
-Return-Path: <linux-renesas-soc+bounces-8696-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8697-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCF7496BBCF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2024 14:17:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F48796BCBF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2024 14:45:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0D32D1C20BF3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2024 12:17:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 048DC1F238E4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2024 12:45:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D20041D220E;
-	Wed,  4 Sep 2024 12:17:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60E781D0956;
+	Wed,  4 Sep 2024 12:45:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="eXBeZN7s"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GW18c91n"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98363170A0E
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Sep 2024 12:17:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4CE1EBFE4;
+	Wed,  4 Sep 2024 12:45:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725452257; cv=none; b=WM9b0QRWAigPaICZtoixIuSunhWDhRUjrAo0V91ncQ9UNr4++Y2LKlBtoLRzccibTcGgF/s4NM8DbvrCaZ9i2T/qAaHH0JPmbP78Dn8vPqlWPqxL0H2nrifYE3DvgOfY9NSUDkAyZBAlPGK6GBp0QMdaIKItoFq/8sW4zRODfY0=
+	t=1725453945; cv=none; b=FDiu+gVHR/HqlMlar9WbKnk5gTEUeMwmXzjm6kbNN+s0wo7OKqg8NyqhLMWHiTU7IYPbeh8YMJBHHt5UPrsksVpKdTAdIlbEL49AdM2oWbixTPQI0rHwYrzkIzvfsAE9+4lT7R+Rm4vV9+qceq620Qn2f0xJogzGJuYL8jKhlm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725452257; c=relaxed/simple;
-	bh=zj4T6WIZPeDa2vmSh0wjtMlkCysvSJAyGYFqeXOmG2g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CqjpKPWBOlguiX7sFXSZtQPiSWeH1Km/DJUW2IeihMiWMESzicY02wtY3y9zQqon82/yd3q2deGKahZWPB0io7ZZbG+7s+JrYzVD5RZrMhcG6wRb2S2kR105MAnJGZbhb1GJnk0DccU73xQWjprcFTjEhilU+dgft4lGEsokwRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=eXBeZN7s; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2f502086419so18034111fa.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Sep 2024 05:17:34 -0700 (PDT)
+	s=arc-20240116; t=1725453945; c=relaxed/simple;
+	bh=zecXoti5ozx8wrxHZvnlSmAH0XIKx082xDSFxKVV9Y4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iBHWBEyYadNBnf+0IE/ik2ZQVxEEdY1rJyEVeQzzoUtQqeA627yVMWKx1dSBLaKLCCddNjTaAAo+nhodpOI+aUjoyLQBHhfWh/r1jtUoIBLA4Q8z2+o+0kO3Dw1Q7AALQrlyqs6WEL1uF6FznRxrte0IEqtCWldG9rvAEms8ePk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GW18c91n; arc=none smtp.client-ip=209.85.208.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2f3f25a1713so78336881fa.2;
+        Wed, 04 Sep 2024 05:45:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1725452253; x=1726057053; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+Dou6mOpsNIsQhbLYqI2p6f69XLT/g8gRU79/Y8W7xI=;
-        b=eXBeZN7s7RaJeXKMfFQzr3eREESwYsefuTID6B+eCWl+HocnK3FU31VHPkIKkuX48E
-         4mejZv9JOfwJeFBtiGbc97+MBYfP83Z8YCA0AgPXYcPBGyuD+mWWEx0tt8Mrls7GNePL
-         N7HGkclE/bH3Z2DJphY008aSCyhEp58btEjIvncLgJjD5+RLMjt9lYNaRWBiz27N7oPv
-         e/7Wr7ABMoPce4RjQk4553dvz2aHQ56HaD7eY3ecfOUwU9lhns2rv8bARxfwQAsZYU2E
-         js4jt4p5GUg2587cqJlNGawX3RGivvhK1QjyfHi6FuvD4Gs3qmY6jqdl+Yz0BSQHinil
-         hxcg==
+        d=gmail.com; s=20230601; t=1725453942; x=1726058742; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tawvlkn51YSgu6BWUSzYSB+wnnr576T+LPuEkCbb3D4=;
+        b=GW18c91nM7A9S/V3etH/IxZ/sHOUvXaiZMakQaV/Bav2CU+dD6XnD24IP57EsUQpcP
+         UaKbAZLOfh8KDheeSgklbkkqhOwMJkKY2QsF8sVn+lEYfcdscARSwdut0ks7lFi1pXnK
+         bXffxXB8dqTD6EyVoyqAmBFa9U//bhNTWW1gk0oX49ADIjiwlcQq7USIKPZP+5fGgr0b
+         /iLm9jlrBPv3QvI+pWA5l94eghi8Dr4p6Yf+jsBQpmujH9tmUSktOBNcjufplzcYnVk5
+         WyEL0dRIR6XGymQtVn52ya88WlhmoNDm/MlEWWc4UDa9PioUu3S1vDuz8GwtFaR26ebd
+         deTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725452253; x=1726057053;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+Dou6mOpsNIsQhbLYqI2p6f69XLT/g8gRU79/Y8W7xI=;
-        b=MjFW1Ht4fSxafn2dmmU8tNtCcTwdsps2ZJ/u9Cj5cymcYoeVqHfglSzVbqdywYGiH5
-         thYZQeOeWr5VAL1Z4obtubJO8/IieJGmUnNaxT2QPzehyGmcKtBr7ltHQQxQBtEb3rau
-         F9HJj0uf7fdxfS1qdy5tBd2krRXTDDRXd7Xr08T9Rs1b/TGAntYMVIzsOpUIhtHZaIwn
-         dliAAACll5/glFMHf7AvzJQVhX4hh1O2z3Ckwj7A6QJlC63/7I+KUvev0sP0sKRs2ojJ
-         N3jBaA56dCJHp17KZuv+/KbOh7csfavql9bIVcnQr8uCro1kw0tLekqAc9GlxNOvNyvs
-         CXPA==
-X-Gm-Message-State: AOJu0YyhLrLuLGcU2TSAkUM44Arfw1809NIZuiHH0C1ceBaTF/HP0SOs
-	rOevaJ1+TUgGkvCV4tXf5UP6H6zp7mNvr8HE/wnc4XfEJXcokWS1nhXKrNpXoFs=
-X-Google-Smtp-Source: AGHT+IHIB0jGC+rRkMo8IDU8M56OjRH4fYE4YIr0S9tvlFg9or1QcS58k5s2WfCgUk3OlQ5thdo7OQ==
-X-Received: by 2002:a2e:1312:0:b0:2f3:d82b:1959 with SMTP id 38308e7fff4ca-2f64441ec9fmr46353361fa.23.1725452252267;
-        Wed, 04 Sep 2024 05:17:32 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.144])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c226c7c39bsm7568836a12.52.2024.09.04.05.17.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Sep 2024 05:17:31 -0700 (PDT)
-Message-ID: <d8303146-89e0-4229-a3fe-9f3c42434045@tuxon.dev>
-Date: Wed, 4 Sep 2024 15:17:30 +0300
+        d=1e100.net; s=20230601; t=1725453942; x=1726058742;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Tawvlkn51YSgu6BWUSzYSB+wnnr576T+LPuEkCbb3D4=;
+        b=BQw0CFj6tf/tUAGs9LPxNMg8kEsDjR7HNjPZFPuVQ1fMgLzZseiWj4f9r/d6fDD7T3
+         lAkw5kBzqPa3k7Q4yNjrP66uyQ1k2SVNYJb4am+3ny8xpxsiuh8lr1xUQJ29jsNEcKQt
+         SnT4Bq1w/AVaFiKl3z2D/DdgsKOKdrC0zexAmBCRqGa7V95VpI21R+f4QZByN9dkoFCt
+         OwCRSI7YKwjoYRuGJ8igmzHjHEJVWbK96GiQvJMBXQh6vz+IhTr8pbLyLx9jPuISKnzP
+         LhhIM4piaf9u9jZ1kd69QtqRuX4zZgWAEIB06MFd0eLxh6p6yewF5UsRr341GGbhPsdZ
+         ykTg==
+X-Forwarded-Encrypted: i=1; AJvYcCU0GERHWa8r9OlO0Wo+xGKRY5DvsiI1xrUAOr1if/77l8adAKEjDy4MnmYZwGGD1fNjUaAdXArX76GnrXE=@vger.kernel.org, AJvYcCU4YHFB/PNldyWMI94iXISigd1WYqX2vejIEgW3Vr0GqXNMFW1M4Oyzt+sSDxTjmijXQGw8EeYtJWRl@vger.kernel.org, AJvYcCVs1lE1oxWt7yn8o0nv/w3JJKZz3OtKT+bT4ciOgTSxvzoUm2l/c49SvlvzeBk6xSL6bAq9bRxxDmitRaRC9iJUiDA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy76L0YuNGTlEj5sX+i/ODJ9gsQL0V+NaiwnDDJOJvrCKCA+nvd
+	1lM99XGYCVYhwE+ge2kDdDiUY4mzUlWaRU8kIKti90wWBJ+ELgsWxdTjlQ==
+X-Google-Smtp-Source: AGHT+IEChMDIBYtnYGb4yZMQbRj5JHN3uh54LgKNkdfJgX5I/rB1mv7tkjxlRjaLR4N8Q8l3EAXaMw==
+X-Received: by 2002:a05:6512:1396:b0:52c:dbe7:cfd5 with SMTP id 2adb3069b0e04-53546b40f5emr10743790e87.32.1725453940762;
+        Wed, 04 Sep 2024 05:45:40 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-48-58.cust.vodafonedsl.it. [188.217.48.58])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8989215caasm802528366b.189.2024.09.04.05.45.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Sep 2024 05:45:40 -0700 (PDT)
+Date: Wed, 4 Sep 2024 14:45:38 +0200
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: Julien Massot <julien.massot@collabora.com>
+Cc: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] media: staging: max96712: Add support for MAX96724
+Message-ID: <ZthWcqC+1KAMm3TR@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20240827131841.629920-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240827131841.629920-3-niklas.soderlund+renesas@ragnatech.se>
+ <Zs3az1G/e5y5lkf1@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+ <dd566af6-9632-4768-b945-ec25db93814b@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 07/12] arm64: dts: renesas: r9a08g045: Add VBATTB node
-Content-Language: en-US
-To: Stephen Boyd <sboyd@kernel.org>, alexandre.belloni@bootlin.com,
- conor+dt@kernel.org, geert+renesas@glider.be, krzk+dt@kernel.org,
- magnus.damm@gmail.com, mturquette@baylibre.com, p.zabel@pengutronix.de,
- robh@kernel.org
-Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240830130218.3377060-1-claudiu.beznea.uj@bp.renesas.com>
- <20240830130218.3377060-8-claudiu.beznea.uj@bp.renesas.com>
- <83fac884d749bda0cf0b346e4e869bc8.sboyd@kernel.org>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <83fac884d749bda0cf0b346e4e869bc8.sboyd@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dd566af6-9632-4768-b945-ec25db93814b@collabora.com>
 
-Hi, Stephen,
+On Wed, Aug 28, 2024 at 12:02:24PM +0200, Julien Massot wrote:
 
-On 03.09.2024 22:48, Stephen Boyd wrote:
-> Quoting Claudiu (2024-08-30 06:02:13)
->> diff --git a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
->> index 067a26a66c24..247fa80a4f53 100644
->> --- a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
->> +++ b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
->> @@ -160,6 +160,18 @@ i2c3: i2c@10090c00 {
->>                         status = "disabled";
->>                 };
->>  
->> +               vbattb: vbattb@1005c000 {
->> +                       compatible = "renesas,r9a08g045-vbattb";
->> +                       reg = <0 0x1005c000 0 0x1000>;
->> +                       interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
->> +                       clocks = <&cpg CPG_MOD R9A08G045_VBAT_BCLK>, <&vbattb_xtal>;
->> +                       clock-names = "bclk", "rtx";
->> +                       #clock-cells = <1>;
->> +                       power-domains = <&cpg>;
->> +                       resets = <&cpg R9A08G045_VBAT_BRESETN>;
->> +                       status = "disabled";
->> +               };
->> +
->>                 cpg: clock-controller@11010000 {
->>                         compatible = "renesas,r9a08g045-cpg";
->>                         reg = <0 0x11010000 0 0x10000>;
->> @@ -425,4 +437,11 @@ timer {
->>                 interrupt-names = "sec-phys", "phys", "virt", "hyp-phys",
->>                                   "hyp-virt";
->>         };
->> +
->> +       vbattb_xtal: vbattb-xtal {
+Hi Julien,
+
+> Hi Tommaso,
 > 
-> The node name should be something like clock-<frequency> but if the
-> frequency is different per-board then I don't know what should happen
-> here.
+> On 8/27/24 3:55 PM, Tommaso Merciai wrote:
+> > Hi Niklas,
+> > Thanks for your work.
+> > 
+> > Hi Julien,
+> > I think we can adopt a similar approach for the max96716 deserializer using your work
+> > on max96714 driver. What do you think?
+> > 
+> > Thanks in advance.
+> 
+> 
+> I don't think that supporting MAX96716 and MAX96714 in the same driver is
+> the best option
+> 
+> MAX96714 is a very simple device with one input one output one video pipe.
+> 
+> While the MAX96716 is a two inputs/outputs with four different pipes.
+> 
+> IMHO we should have one driver for the 1 port GMSL2 devices, another driver
+> for the dual deserializers which will introduce more complex routing, and
+> another one for the quad deserializers since the register layout is too much
+> different.
+> 
+> But that's only my opinion let's see when we will implement the dual
+> deserializer support.
+> 
+> We can of course share some functions for those drivers like GPIO handling
+> or pattern generation.
 
-The frequency should be always around 32768 Hz but not necessarily exactly
-32768 Hz. It depends on what is installed on the board, indeed. RTC can do
-time error adjustments based on the variations around 32768 Hz.
+Understood. Thanks for sharing your idea. :)
 
-> Can you leave the vbattb_xtal phandle up above and then require
-> the node to be defined in the board with the proper frequency after the
-> dash?
-
-Is it OK for you something like this (applied on top of this series)?
-
-diff --git a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-index f31ec08a1e1d..60679211dc48 100644
---- a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-@@ -181,7 +181,8 @@ vbattb: clock-controller@1005c000 {
-                        compatible = "renesas,r9a08g045-vbattb";
-                        reg = <0 0x1005c000 0 0x1000>;
-                        interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
--                       clocks = <&cpg CPG_MOD R9A08G045_VBAT_BCLK>,
-<&vbattb_xtal>;
-+                       /* rtx clock must be overridden by the board. */
-+                       clocks = <&cpg CPG_MOD R9A08G045_VBAT_BCLK>, <0>;
-                        clock-names = "bclk", "rtx";
-                        #clock-cells = <1>;
-                        power-domains = <&cpg>;
-@@ -454,11 +455,4 @@ timer {
-                interrupt-names = "sec-phys", "phys", "virt", "hyp-phys",
-                                  "hyp-virt";
-        };
--
--       vbattb_xtal: vbattb-xtal {
--               compatible = "fixed-clock";
--               #clock-cells = <0>;
--               /* This value must be overridden by the board. */
--               clock-frequency = <0>;
--       };
- };
-diff --git a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-index 95b79a03d3d5..46cce0d48ddc 100644
---- a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-@@ -47,6 +47,12 @@ chosen {
-                stdout-path = "serial0:115200n8";
-        };
-
-+       vbattb_xtal: clock-32768 {
-+               compatible = "fixed-clock";
-+               #clock-cells = <0>;
-+               clock-frequency = <32768>;
-+       };
-+
-        memory@48000000 {
-                device_type = "memory";
-                /* First 128MB is reserved for secure area. */
-@@ -351,14 +357,11 @@ &rtc {
- };
-
- &vbattb {
-+       clocks = <&cpg CPG_MOD R9A08G045_VBAT_BCLK>, <&vbattb_xtal>;
-        renesas,vbattb-load-nanofarads = <12500>;
-        status = "okay";
- };
-
--&vbattb_xtal {
--       clock-frequency = <32768>;
--};
--
- &wdt0 {
-        timeout-sec = <60>;
-        status = "okay";
-
-
-Thank you for your review,
-Claudiu Beznea
+Thanks & Regards,
+Tommaso
 
 > 
->> +               compatible = "fixed-clock";
->> +               #clock-cells = <0>;
->> +               /* This value must be overridden by the board. */
->> +               clock-frequency = <0>;
+> Regards,
+> Julien
+> 
+> 
 
