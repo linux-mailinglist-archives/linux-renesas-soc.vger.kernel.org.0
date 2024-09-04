@@ -1,228 +1,115 @@
-Return-Path: <linux-renesas-soc+bounces-8686-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8688-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D5796B27E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2024 09:12:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE23E96B31A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2024 09:43:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 41404B25FF9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2024 07:12:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7C790287914
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2024 07:43:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D248B146A87;
-	Wed,  4 Sep 2024 07:12:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IxAVgAiy"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1421D38DD1;
+	Wed,  4 Sep 2024 07:43:32 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F4EF14659C;
-	Wed,  4 Sep 2024 07:12:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80D91465A0
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Sep 2024 07:43:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725433922; cv=none; b=MF6ZVwdPRxq2IvUgFTA0JSFPhEn9YEoA+ln2TRtRY+r1puIxGyIMMDnOsNfO+1E+R94RgXjByDkqFS7jvPpPcgMMJlQwfRngsmkMRBrGe6Lw68xl0gdHqu1U+o07LQONvnn8CViU7uqAOYldI41JfhvUOO1ZbPac2NvmDlBYqq8=
+	t=1725435812; cv=none; b=pzCSG1bvsmCnPF0r6fPBVrnxwVWf9kF/C6VOw7xL6aq9p2iOjEBP3W5qbJWkyuAvAcqZPLWVoVYdKjTflTo3hTfNfRDbg/vj03PqQCCAAG2m+PeDAdJKRkzJqo/7y2WjydoMtrHB7bcISK8fn8CRMkWCHvd/3vb82lr9KgsclOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725433922; c=relaxed/simple;
-	bh=fByxYHe/OXVj/eHBrGGRG8NwOR5K7E48NNBb5OSzu0k=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=W5f7O+VuztPl+mMsec3BUkLJXZgMpQOjMhXNn8fL8HyZj3JK28vm5c0qBqx8BiPnvisr3azihtQxEMh0s8RenIg2S/n0oZfyCWgh2lrJrybD91H3AicFdGJIRbFomOz6qMh0yBQDAQo81m8dp6pf2KlwD/cCen2BvviBOLv4gl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IxAVgAiy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 46A00C4CECF;
-	Wed,  4 Sep 2024 07:12:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725433922;
-	bh=fByxYHe/OXVj/eHBrGGRG8NwOR5K7E48NNBb5OSzu0k=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=IxAVgAiyKknQ/ye7phmarHhB2kbjaDwS8YI8VfldfQlyuI8ZWr5yFbY3KA1+AxUee
-	 Rw1dM3b0e4GNF+hjj8y4tZ/8WWl5EAngFeM81To+N94fN5OlSUSQQlzFee+pv4hGmD
-	 HQGKjrE3QqCtQxlsRsAhAs6Nx3V2pxpc37R7yDoeD/+DUrCWgjqgEAWuOARoxEiWz5
-	 q48sqkGe6jwoolN3qraNmpsrRfGQXzJ1ExQU4JgKWnmW7KAC3eE/VmQ+d4HS7T4LoY
-	 wp/hS/QopQd2qsePe63ctxJo1JNYir6tSNmqSWLcagJMiezA8nB86Fes0VvgbqEDVb
-	 cqF+XJzC/p92g==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C05DCD3431;
-	Wed,  4 Sep 2024 07:12:02 +0000 (UTC)
-From: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.linaro.org@kernel.org>
-Date: Wed, 04 Sep 2024 12:42:00 +0530
-Subject: [PATCH v6 4/4] PCI: qcom: Add RX margining settings for 16.0 GT/s
+	s=arc-20240116; t=1725435812; c=relaxed/simple;
+	bh=izpGAulDaxC7TKHHWWxK7BxTgRIl9toGvRx+CwvMpZw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dPYuTvUotptMwH0hPbQFlUmazyBmxUj54BxqDyMf0iJZsku74UxLjUT0n1bF0osl6cmOIvch4Om4a8NYYfuVXYBhR1B6YEz8t2FJMRm4BtEEgywCGhoc5jUpUo8hZ4KRYe++aGHRBxlMt6wA1qPy7MY4CMJx7H39MaOKnmDus9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-6da395fb97aso23405967b3.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Sep 2024 00:43:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725435808; x=1726040608;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hKngfcZJ2CHatb4+oQxp+YK5sjsLAKBfiRrYcbgcD/Y=;
+        b=tAl2g86/RYKY+DEG62pmoOqPHlyUvvTm90RZxYuVbWRWebwWp+MuVz0Jz5t2h7KWk0
+         PlbutPDrT1ccsKaF26U6prvFgEFD7xVrUtGuUPNE0Zdq8VYP8dClVgL8rAnTqzUJTw64
+         mhm6om09vGur2+MdwEJhmOblUlrhyWiLtpMaKC2teMECG1CvC5vYb5h4C3llEMwQH1zy
+         Jn1nUVT8FIH25pTWVaFjJhmvDdEu2qOa4UT1SV5lZLXDmFtPoSEKWJ61Tx5CPlpNOnKS
+         +Yz7S3sbzLsjxnCEiZd4sTx7Bp5r5AEfi9AWzdrVH83EMFW5oy8n3dfZYpldHFqs+/ql
+         uvHA==
+X-Forwarded-Encrypted: i=1; AJvYcCXfnXZ2Qcv5ecxB+frZfeju+4GnIcecVX0O/IhyMlpvQdNkEGwHPtn53ZhuYtkf/KGZ6tQ9f9Tkdme0UrMvvCSaCw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNe+AuS+t1ER8TDMfCgHD8kvpi3dzCiI7woEcQqx58OQeguAQu
+	5/onQmuc+wYasARfrWzfBKSf+kRCVMK30tQ3x5TROJ1fQPcJ5QtfFuLbYsLy
+X-Google-Smtp-Source: AGHT+IFfY0pT3LTffvtDajvWbsV9bDQoc6p/x0dqp5bZMYo9xD2XdSuFztR9iMkl3TjJjXVX4QumCw==
+X-Received: by 2002:a05:690c:480d:b0:6be:815a:b030 with SMTP id 00721157ae682-6d40fb19f36mr133154467b3.37.1725435808203;
+        Wed, 04 Sep 2024 00:43:28 -0700 (PDT)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6d2eaff2b0fsm23161257b3.39.2024.09.04.00.43.28
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Sep 2024 00:43:28 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-6da395fb97aso23405797b3.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Sep 2024 00:43:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWXgJFp/w4JRYkfFgGntbQ8lFykpnHIPD/Tdcc6zrARtrNbkx4BMgUDscJnL8PyBwX0pYbIa+4Ur/EzB95mbrIh8w==@vger.kernel.org
+X-Received: by 2002:a05:690c:d90:b0:65f:d27d:3f6a with SMTP id
+ 00721157ae682-6d40da7efecmr164929827b3.7.1725435807847; Wed, 04 Sep 2024
+ 00:43:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240904-pci-qcom-gen4-stability-v6-4-ec39f7ae3f62@linaro.org>
-References: <20240904-pci-qcom-gen4-stability-v6-0-ec39f7ae3f62@linaro.org>
-In-Reply-To: <20240904-pci-qcom-gen4-stability-v6-0-ec39f7ae3f62@linaro.org>
-To: Richard Zhu <hongxing.zhu@nxp.com>, 
- Lucas Stach <l.stach@pengutronix.de>, 
- Lorenzo Pieralisi <lpieralisi@kernel.org>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
- Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Jingoo Han <jingoohan1@gmail.com>, 
- Chuanhua Lei <lchuanhua@maxlinear.com>, 
- Marek Vasut <marek.vasut+renesas@gmail.com>, 
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- imx@lists.linux.dev, linux-kernel@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- abel.vesa@linaro.org, johan+linaro@kernel.org, 
- Shashank Babu Chinta Venkata <quic_schintav@quicinc.com>, 
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5581;
- i=manivannan.sadhasivam@linaro.org; h=from:subject:message-id;
- bh=+UyPXoBEoMHThbW48iMeb9Epx8yMpHkZz7Vs41Qi22Y=;
- b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBm2Ag/CKqFkchoOhfhcoyHVeR3YDPEC2OUGEWKm
- 6WLB/Ag6VaJATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCZtgIPwAKCRBVnxHm/pHO
- 9T9aB/0cOOobTwlsF0wmCW6pgspvSb7L5UPaZJLD9me+c+UTbkKm+gmOC/7F0uhZc0mk91W104B
- 7uqxEJOqSw585He5P6MCADmUTIV52H+sBvRQKQ9gEHrUd8GdC4neN+Je/JQMJKrldwkDj59AUvV
- NhiLjHvqT9p/xfskS0QpnO161HeZU3Qa0GcEXwqpL9jGAz1gjzVsUbcGffGGuilzGJtbvxar9YT
- HktzXUuO2QX2etlTpsm6qRmZD4DdzQaVpZ68hW/oxYjiiebbya9VKk+t6nwHIvRhqIznGDKFHrY
- +Vh7w8QtIvvWul1i7Z58hfnF1TeZTuO++OOnhhDw9ApQUHV9
-X-Developer-Key: i=manivannan.sadhasivam@linaro.org; a=openpgp;
- fpr=C668AEC3C3188E4C611465E7488550E901166008
-X-Endpoint-Received: by B4 Relay for
- manivannan.sadhasivam@linaro.org/default with auth_id=185
-X-Original-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Reply-To: manivannan.sadhasivam@linaro.org
+References: <20240904003409.1578212-1-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20240904003409.1578212-1-yoshihiro.shimoda.uh@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 4 Sep 2024 09:43:16 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXCAvv1REa_Tr_RfJNn+oD8tNVqLO7+uJ8CQsQD=GWykQ@mail.gmail.com>
+Message-ID: <CAMuHMdXCAvv1REa_Tr_RfJNn+oD8tNVqLO7+uJ8CQsQD=GWykQ@mail.gmail.com>
+Subject: Re: [PATCH 0/2] arm64: dts: renesas: r8a779h0: Enable PCIe Host
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: magnus.damm@gmail.com, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Shashank Babu Chinta Venkata <quic_schintav@quicinc.com>
+Hi Shimoda-san,
 
-Add RX lane margining settings for 16.0 GT/s (GEN 4) data rate. These
-settings improve link stability while operating at high date rates and
-helps to improve signal quality.
+On Wed, Sep 4, 2024 at 2:34=E2=80=AFAM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Add PCIe controller nodes for R-Car V4M (R8A779H0).
 
-Signed-off-by: Shashank Babu Chinta Venkata <quic_schintav@quicinc.com>
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-[mani: dropped the code refactoring and minor changes]
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
- drivers/pci/controller/dwc/pcie-designware.h  | 18 ++++++++++++++++
- drivers/pci/controller/dwc/pcie-qcom-common.c | 31 +++++++++++++++++++++++++++
- drivers/pci/controller/dwc/pcie-qcom-common.h |  1 +
- drivers/pci/controller/dwc/pcie-qcom-ep.c     |  4 +++-
- drivers/pci/controller/dwc/pcie-qcom.c        |  4 +++-
- 5 files changed, 56 insertions(+), 2 deletions(-)
+Thanks for your series!
 
-diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
-index 51744ad25575..f5be99731f7e 100644
---- a/drivers/pci/controller/dwc/pcie-designware.h
-+++ b/drivers/pci/controller/dwc/pcie-designware.h
-@@ -209,6 +209,24 @@
- 
- #define PCIE_PL_CHK_REG_ERR_ADDR			0xB28
- 
-+/*
-+ * 16.0 GT/s (GEN4) lane margining register definitions
-+ */
-+#define GEN4_LANE_MARGINING_1_OFF		0xb80
-+#define MARGINING_MAX_VOLTAGE_OFFSET		GENMASK(29, 24)
-+#define MARGINING_NUM_VOLTAGE_STEPS		GENMASK(22, 16)
-+#define MARGINING_MAX_TIMING_OFFSET		GENMASK(13, 8)
-+#define MARGINING_NUM_TIMING_STEPS		GENMASK(5, 0)
-+
-+#define GEN4_LANE_MARGINING_2_OFF		0xb84
-+#define MARGINING_IND_ERROR_SAMPLER		BIT(28)
-+#define MARGINING_SAMPLE_REPORTING_METHOD	BIT(27)
-+#define MARGINING_IND_LEFT_RIGHT_TIMING		BIT(26)
-+#define MARGINING_IND_UP_DOWN_VOLTAGE		BIT(25)
-+#define MARGINING_VOLTAGE_SUPPORTED		BIT(24)
-+#define MARGINING_MAXLANES			GENMASK(20, 16)
-+#define MARGINING_SAMPLE_RATE_TIMING		GENMASK(13, 8)
-+#define MARGINING_SAMPLE_RATE_VOLTAGE		GENMASK(5, 0)
- /*
-  * iATU Unroll-specific register definitions
-  * From 4.80 core version the address translation will be made by unroll
-diff --git a/drivers/pci/controller/dwc/pcie-qcom-common.c b/drivers/pci/controller/dwc/pcie-qcom-common.c
-index dc7d93db9dc5..99b75e7f085d 100644
---- a/drivers/pci/controller/dwc/pcie-qcom-common.c
-+++ b/drivers/pci/controller/dwc/pcie-qcom-common.c
-@@ -43,3 +43,34 @@ void qcom_pcie_common_set_16gt_eq_settings(struct dw_pcie *pci)
- 	dw_pcie_writel_dbi(pci, GEN3_EQ_CONTROL_OFF, reg);
- }
- EXPORT_SYMBOL_GPL(qcom_pcie_common_set_16gt_eq_settings);
-+
-+void qcom_pcie_common_set_16gt_rx_margining_settings(struct dw_pcie *pci)
-+{
-+	u32 reg;
-+
-+	reg = dw_pcie_readl_dbi(pci, GEN4_LANE_MARGINING_1_OFF);
-+	reg &= ~(MARGINING_MAX_VOLTAGE_OFFSET |
-+		MARGINING_NUM_VOLTAGE_STEPS |
-+		MARGINING_MAX_TIMING_OFFSET |
-+		MARGINING_NUM_TIMING_STEPS);
-+	reg |= FIELD_PREP(MARGINING_MAX_VOLTAGE_OFFSET, 0x24) |
-+		FIELD_PREP(MARGINING_NUM_VOLTAGE_STEPS, 0x78) |
-+		FIELD_PREP(MARGINING_MAX_TIMING_OFFSET, 0x32) |
-+		FIELD_PREP(MARGINING_NUM_TIMING_STEPS, 0x10);
-+	dw_pcie_writel_dbi(pci, GEN4_LANE_MARGINING_1_OFF, reg);
-+
-+	reg = dw_pcie_readl_dbi(pci, GEN4_LANE_MARGINING_2_OFF);
-+	reg |= MARGINING_IND_ERROR_SAMPLER |
-+		MARGINING_SAMPLE_REPORTING_METHOD |
-+		MARGINING_IND_LEFT_RIGHT_TIMING |
-+		MARGINING_VOLTAGE_SUPPORTED;
-+	reg &= ~(MARGINING_IND_UP_DOWN_VOLTAGE |
-+		MARGINING_MAXLANES |
-+		MARGINING_SAMPLE_RATE_TIMING |
-+		MARGINING_SAMPLE_RATE_VOLTAGE);
-+	reg |= FIELD_PREP(MARGINING_MAXLANES, pci->num_lanes) |
-+		FIELD_PREP(MARGINING_SAMPLE_RATE_TIMING, 0x3f) |
-+		FIELD_PREP(MARGINING_SAMPLE_RATE_VOLTAGE, 0x3f);
-+	dw_pcie_writel_dbi(pci, GEN4_LANE_MARGINING_2_OFF, reg);
-+}
-+EXPORT_SYMBOL_GPL(qcom_pcie_common_set_16gt_rx_margining_settings);
-diff --git a/drivers/pci/controller/dwc/pcie-qcom-common.h b/drivers/pci/controller/dwc/pcie-qcom-common.h
-index 259e04b7bdf9..e9ddc901082e 100644
---- a/drivers/pci/controller/dwc/pcie-qcom-common.h
-+++ b/drivers/pci/controller/dwc/pcie-qcom-common.h
-@@ -6,3 +6,4 @@
- #include "pcie-designware.h"
- 
- void qcom_pcie_common_set_16gt_eq_settings(struct dw_pcie *pci);
-+void qcom_pcie_common_set_16gt_rx_margining_settings(struct dw_pcie *pci);
-diff --git a/drivers/pci/controller/dwc/pcie-qcom-ep.c b/drivers/pci/controller/dwc/pcie-qcom-ep.c
-index af83470216e8..5c220f2ecafe 100644
---- a/drivers/pci/controller/dwc/pcie-qcom-ep.c
-+++ b/drivers/pci/controller/dwc/pcie-qcom-ep.c
-@@ -487,8 +487,10 @@ static int qcom_pcie_perst_deassert(struct dw_pcie *pci)
- 		goto err_disable_resources;
- 	}
- 
--	if (pcie_link_speed[pci->max_link_speed] == PCIE_SPEED_16_0GT)
-+	if (pcie_link_speed[pci->max_link_speed] == PCIE_SPEED_16_0GT) {
- 		qcom_pcie_common_set_16gt_eq_settings(pci);
-+		qcom_pcie_common_set_16gt_rx_margining_settings(pci);
-+	}
- 
- 	/*
- 	 * The physical address of the MMIO region which is exposed as the BAR
-diff --git a/drivers/pci/controller/dwc/pcie-qcom.c b/drivers/pci/controller/dwc/pcie-qcom.c
-index 2742e82fdcb3..b0b1d8d34279 100644
---- a/drivers/pci/controller/dwc/pcie-qcom.c
-+++ b/drivers/pci/controller/dwc/pcie-qcom.c
-@@ -284,8 +284,10 @@ static int qcom_pcie_start_link(struct dw_pcie *pci)
- {
- 	struct qcom_pcie *pcie = to_qcom_pcie(pci);
- 
--	if (pcie_link_speed[pci->max_link_speed] == PCIE_SPEED_16_0GT)
-+	if (pcie_link_speed[pci->max_link_speed] == PCIE_SPEED_16_0GT) {
- 		qcom_pcie_common_set_16gt_eq_settings(pci);
-+		qcom_pcie_common_set_16gt_rx_margining_settings(pci);
-+	}
- 
- 	/* Enable Link Training state machine */
- 	if (pcie->cfg->ops->ltssm_enable)
+> The dt-bindings patches for R-Car V4M have been merged into the pci.git /
+> next branch now [1]. And, it will be merged into v6.12-rc1. So, I think
+> this patch will be merged into v6.13-rc1?
 
--- 
-2.25.1
+IUIC correctly, the real dependency is the reworked meaning of the
+family-specific compatible value (up to [2]), which was merged in
+v6.11-rc1?
 
+But as iI have closed my tree for v6.12-rc1, the DTS part can indeed be
+merged only in v6.13-rc1.
 
+[2] commit faf5a975ee3b94aa ("PCI: rcar-gen4: Add support for R-Car V4H").
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
