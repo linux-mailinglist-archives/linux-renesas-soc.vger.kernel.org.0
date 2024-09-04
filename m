@@ -1,229 +1,244 @@
-Return-Path: <linux-renesas-soc+bounces-8712-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8713-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E86A596C8F8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2024 22:50:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B988196C921
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2024 23:07:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B7C9D1C25B97
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2024 20:50:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 707052863CE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2024 21:07:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D17DB148310;
-	Wed,  4 Sep 2024 20:50:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F8DC14B08E;
+	Wed,  4 Sep 2024 21:07:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="IC3xmFZG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S30JOPQe"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE9762A02;
-	Wed,  4 Sep 2024 20:50:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF8E84047;
+	Wed,  4 Sep 2024 21:07:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725483005; cv=none; b=Uf8AfToTOsyHa7i0g8C0BjQrLNzhEZoRsQK/B7EAV6DmBQd9rvKlLRjCN/Lugi4nQrhjTtcSvjFPgOMy9ejCNRlEwCSnWHOxvdW1F5Tr4jK7zQb9AYi0pB2ZvY8FOqeQYrrZStjOl6BV9IYmISw5M5+l5pjHOrjHy9Edv3rNGV8=
+	t=1725484066; cv=none; b=TDpJIHgG18KdaMauwTW6SkHgy2jaIbGK2ORi2rHjV14BrrBwjxn+bvVEUjPkiBTlfalLQw9sigT6XKJ+vKh4ZbWNX8OxVFTkceEJqS60nui48+H2NuSoecbLeKjSM2FbLdnXgd16VzAVkfzKbQ427neSooYxAJ4vtRo0gQmU05Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725483005; c=relaxed/simple;
-	bh=hMDviyqPpbNkAXtWMozFCrxEkhOype3sYzn9/eDJzS0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=bIxxYAdxJFTCcJToIk2BpzJhLJ7zYnv4dQItgIuFvLte/dRbktZPKiQvpdlVMGu7JEafHi24s0FBOEavfci06186y6Va2ySQ5f05qqs+o7H4yAAXxI4gmdcBvdFPZCzJCDwx3iHNgqE7b/ggXcKtiyFSif7qKrrYL7kMNrlx0go=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=IC3xmFZG; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 484A6ZmK006005;
-	Wed, 4 Sep 2024 20:49:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	LWxPeIqAejEe5oPCfx9IDxvc+KANAKRiwRmr9zEOadk=; b=IC3xmFZGYGZMjY7s
-	PIzk3yBHisGgtox70K/Oh3DafrmAmt+hbOpl4d1p5+5EJI4CJ3IQrRWnPizrpsLR
-	TV6Gnc84kzZMXDdVkGb003G9HmkYx+e1as1n8RRPM0nOHsYTLX1oEwxqVHcSV6vh
-	n8+ZD6bqai3JBa5H3Mnh58W3S51IJWiO9palOD4CrFvSoojIg+Hi+QjA31UQM0xJ
-	q5aWzLlasInIn/JrVH3G0x8Fu1GmpBgl7j8NduLgMq1uxpf0jves0HfLB98C5DMZ
-	qY5zgMtJXV6UIqN7Gv9rk0oH935N/wcXDaXFngtoOVk5MxzSQ3PWZNfUolptKFUp
-	Hl4AwQ==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41bt6742x4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 04 Sep 2024 20:49:37 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 484KmAdj002821
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 4 Sep 2024 20:49:35 GMT
-Received: from [10.81.25.230] (10.49.16.6) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 4 Sep 2024
- 13:48:10 -0700
-Message-ID: <195b4937-dfba-4ef9-8381-0ba2bdbd6e4c@quicinc.com>
-Date: Wed, 4 Sep 2024 13:48:09 -0700
+	s=arc-20240116; t=1725484066; c=relaxed/simple;
+	bh=UGTJYGv+0UmGj+Ze0pdlYqBkQwyEedTIWoYfk5nRgb4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bb6sC4CpfJxZS+iCSQ8qjyGOAeVyFN0JcJtd2wTx7rRg2V3bFCObkbbwmkVUXWxqfPWHcMxYki1sBuksHhsjSjvbv+1Bj/gzRNzyEjEuxtUaGBDSCxAVkM7hgRGzej6PpeA9Dd9dAhwDLx7BZi4QyQCr+tR0j6ZPHsjEbapvr8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S30JOPQe; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-428e1915e18so57897165e9.1;
+        Wed, 04 Sep 2024 14:07:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725484063; x=1726088863; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5OiiYFimXSQBkHtC8xC7+fpH0+JqA60CxzJJEPbycak=;
+        b=S30JOPQeMCJteCt7/HY9nAO7IUgQAoUBEd+zTu7/iBheOmY+Ikq/UuAL84U6GR1InB
+         hstl+zPiYzfB+ClLeERWW0+ricCmcpZkIQ8B9wMJJGXzrdCulI47NLw/YGRx41zYLmy/
+         JUMt7LGa45lvT441dS9mSJZYEj0+G1M9Fi4fDxXAO1+TuX5S3Mj0YTk3ZlCBnv0bctQT
+         +iL1TErcWRIdJh+aRCnXj1C8NWeMKtpseFdMc6E6W4OYQUdO4VzqP/r8YYSUMGadEO5X
+         w739r8UZXd4LA8eqdH1r921SgOqCaUcTafucQ9Lu81MXggnZUBX1feQninyeK0xvMcnH
+         cP/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725484063; x=1726088863;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5OiiYFimXSQBkHtC8xC7+fpH0+JqA60CxzJJEPbycak=;
+        b=TKn/LcMsrwpMAeUOH7tzbpRT9B5gNXPNS+nhtcKxOKwfEDZqwOphUxZ7aNxOGjSH8b
+         qunRVTgz9Ba8DelLgC/E9RK+pPAcAqwzKRPHFCaeYXFrss2ZxZQQ8Ra/cOJgCFhXc5j0
+         6L1spgTxvH/UpQ7wVm63wBxHNIfqFn1SRPMNVjfQVDmqvHtDJwZH3YWRWJB7RUAjo2pc
+         tBkxYFbrO3PDPlRdwdbDZZQBPujjx5bdOsFbOhqCxi6E9IxHADUCsTxR7tdIw7h9WDpY
+         d8nA8y1E7lzeFinemWfZiqDRwTbiBnu0L6YYZnGa5DidTZrOxQG6I1Cx69mKfA9P16iY
+         74ag==
+X-Forwarded-Encrypted: i=1; AJvYcCVpyUf8JRZ2bVL5vjrmP2LUMDZzocPHmRo3JVySGNrrjbHnDonRQ7pa3jh7klefNr1Uw23DGiMktcKtX0Q=@vger.kernel.org, AJvYcCXYx8N2d3Mtb02/hV544Ps4WaNDhroG8QMMtoJ1UmVz/L5gEbRsbu128sPgnUMYq6Gkajgs9kRkHawj8cAlXck9UfU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmTeGLlLljMKJJD1LZa0C89pYEfNB7pREXMHd86iHFH+phPW/w
+	YWbRnPJqwxk+5BcdKOlU8laHBgtDtfb/H1T9myJ2NFrx/UiBp223
+X-Google-Smtp-Source: AGHT+IEisZfpjh5yr9l6IjozsVxAz5zCuH1MG1Vkuxvikw5aLmvlyJiyUkuG0hGlWfs2IGpkAl+blQ==
+X-Received: by 2002:a05:600c:3511:b0:426:6f1e:ce93 with SMTP id 5b1f17b1804b1-42c7b5f0e91mr93463875e9.33.1725484062449;
+        Wed, 04 Sep 2024 14:07:42 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2500:a01:c57c:1e61:792:2ab1])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42c7a41bdc8sm158821485e9.3.2024.09.04.14.07.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Sep 2024 14:07:41 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [RFC PATCH 00/12] media: ov5645: Add support for streams
+Date: Wed,  4 Sep 2024 22:07:07 +0100
+Message-Id: <20240904210719.52466-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 4/4] PCI: qcom: Add RX margining settings for 16.0 GT/s
-Content-Language: en-US
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Johan Hovold
-	<johan@kernel.org>
-CC: Richard Zhu <hongxing.zhu@nxp.com>, Lucas Stach <l.stach@pengutronix.de>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
-        Rob Herring
-	<robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-        Shawn Guo
-	<shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix
- Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>, Jingoo Han <jingoohan1@gmail.com>,
-        Chuanhua Lei <lchuanhua@maxlinear.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda
-	<yoshihiro.shimoda.uh@renesas.com>,
-        <linux-pci@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <imx@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <abel.vesa@linaro.org>, <johan+linaro@kernel.org>
-References: <20240904-pci-qcom-gen4-stability-v6-0-ec39f7ae3f62@linaro.org>
- <20240904-pci-qcom-gen4-stability-v6-4-ec39f7ae3f62@linaro.org>
- <ZtguJs128O-N07Eg@hovoldconsulting.com>
- <20240904160422.gcyrdrzgc47w7pbd@thinkpad>
-From: Shashank Babu Chinta Venkata <quic_schintav@quicinc.com>
-In-Reply-To: <20240904160422.gcyrdrzgc47w7pbd@thinkpad>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 3G2FaZ3_2d7nIn9G5XqtHjtOBkdK_n5p
-X-Proofpoint-GUID: 3G2FaZ3_2d7nIn9G5XqtHjtOBkdK_n5p
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-04_18,2024-09-04_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
- bulkscore=0 mlxscore=0 impostorscore=0 suspectscore=0 phishscore=0
- mlxlogscore=746 lowpriorityscore=0 spamscore=0 clxscore=1015
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2409040157
+Content-Transfer-Encoding: 8bit
 
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
+Hi All,
 
-On 9/4/24 09:04, Manivannan Sadhasivam wrote:
-> On Wed, Sep 04, 2024 at 11:53:42AM +0200, Johan Hovold wrote:
->> On Wed, Sep 04, 2024 at 12:42:00PM +0530, Manivannan Sadhasivam via B4 Relay wrote:
->>> From: Shashank Babu Chinta Venkata <quic_schintav@quicinc.com>
->>>
->>> Add RX lane margining settings for 16.0 GT/s (GEN 4) data rate. These
->>> settings improve link stability while operating at high date rates and
->>> helps to improve signal quality.
->>>
->>> Signed-off-by: Shashank Babu Chinta Venkata <quic_schintav@quicinc.com>
->>> Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
->>> [mani: dropped the code refactoring and minor changes]
->>> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
->>> ---
->>>  drivers/pci/controller/dwc/pcie-designware.h  | 18 ++++++++++++++++
->>>  drivers/pci/controller/dwc/pcie-qcom-common.c | 31 +++++++++++++++++++++++++++
->>>  drivers/pci/controller/dwc/pcie-qcom-common.h |  1 +
->>>  drivers/pci/controller/dwc/pcie-qcom-ep.c     |  4 +++-
->>>  drivers/pci/controller/dwc/pcie-qcom.c        |  4 +++-
->>>  5 files changed, 56 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
->>> index 51744ad25575..f5be99731f7e 100644
->>> --- a/drivers/pci/controller/dwc/pcie-designware.h
->>> +++ b/drivers/pci/controller/dwc/pcie-designware.h
->>> @@ -209,6 +209,24 @@
->>>  
->>>  #define PCIE_PL_CHK_REG_ERR_ADDR			0xB28
->>>  
->>> +/*
->>> + * 16.0 GT/s (GEN4) lane margining register definitions
->>
->> nit: Gen 4?
->>
->>> + */
->>> +#define GEN4_LANE_MARGINING_1_OFF		0xb80
->>
->> nit: upper case hex
->>
->>> +#define MARGINING_MAX_VOLTAGE_OFFSET		GENMASK(29, 24)
->>> +#define MARGINING_NUM_VOLTAGE_STEPS		GENMASK(22, 16)
->>> +#define MARGINING_MAX_TIMING_OFFSET		GENMASK(13, 8)
->>> +#define MARGINING_NUM_TIMING_STEPS		GENMASK(5, 0)
->>> +
->>> +#define GEN4_LANE_MARGINING_2_OFF		0xb84
->>
->> Same here
->>
->>> +#define MARGINING_IND_ERROR_SAMPLER		BIT(28)
->>> +#define MARGINING_SAMPLE_REPORTING_METHOD	BIT(27)
->>> +#define MARGINING_IND_LEFT_RIGHT_TIMING		BIT(26)
->>> +#define MARGINING_IND_UP_DOWN_VOLTAGE		BIT(25)
->>> +#define MARGINING_VOLTAGE_SUPPORTED		BIT(24)
->>> +#define MARGINING_MAXLANES			GENMASK(20, 16)
->>> +#define MARGINING_SAMPLE_RATE_TIMING		GENMASK(13, 8)
->>> +#define MARGINING_SAMPLE_RATE_VOLTAGE		GENMASK(5, 0)
->>>  /*
->>>   * iATU Unroll-specific register definitions
->>>   * From 4.80 core version the address translation will be made by unroll
->>> diff --git a/drivers/pci/controller/dwc/pcie-qcom-common.c b/drivers/pci/controller/dwc/pcie-qcom-common.c
->>> index dc7d93db9dc5..99b75e7f085d 100644
->>> --- a/drivers/pci/controller/dwc/pcie-qcom-common.c
->>> +++ b/drivers/pci/controller/dwc/pcie-qcom-common.c
->>> @@ -43,3 +43,34 @@ void qcom_pcie_common_set_16gt_eq_settings(struct dw_pcie *pci)
->>>  	dw_pcie_writel_dbi(pci, GEN3_EQ_CONTROL_OFF, reg);
->>>  }
->>>  EXPORT_SYMBOL_GPL(qcom_pcie_common_set_16gt_eq_settings);
->>> +
->>> +void qcom_pcie_common_set_16gt_rx_margining_settings(struct dw_pcie *pci)
->>
->> I'd try to find a shorter symbol name here, "settings" seems redundant
->> after "set". Perhaps just
->>
->> 	qcom_pcie_common_enable_lane_margining()
->>
->> or
->>
->> 	qcom_pcie_common_enable_16gt_lane_margining()?
->>
-> 
-> This one looks better. Since lane margining is implemented in the receiver, we
-> don't really need 'rx' in the function name.
-> 
->> if these settings are indeed specific to 16 GT/s. But perhaps it's
->> better to let the helper honour pci->max_link_speed if different
->> settings will later be needed for higher speeds:
->>
->> 	if (pcie_link_speed[pci->max_link_speed] >= PCIE_SPEED_16_0GT)
->> 		qcom_pcie_common_enable_lane_margining(pci)
->>
-> 
-> I did thought about it during the review, but this setting claims to be for 16
-> GT/s only. So I wouldn't recommend applying it to other speeds without checking 
-> with Qcom.
-> 
-> Unfortunately, I'm on vacation for 2 weeks and have limited access to Qcom
-> internal docs/chat. So won't be able to check it soon. If Shashank could check
-> it, it is fine. But on the conservative side, let's stick to 16 GT/s only?
-> 
-> - Mani
+This patch series aims to add the below features,
+- Support subdev active state
+- Support for streams
+- Support for virtual channel
+- Code cleanup
 
-Yes Mani I think we have to stick to 16 GT/s only for now as we haven't characterized 32 GT/s yet.
+Sending this is as an RFC, I've done limited testing and Im seeing issue
+when route is updated and wanted some feedback on the implementation.
 
+When route is updated for the sensor with below command, and when start
+streaming I get "Dangling sink streams: mask 0x1" error. Should the
+corresponding bridge also need to support routes to fix this? or is it
+something missing Ive missed in the current implementation.
 
-> 
->>>  void qcom_pcie_common_set_16gt_eq_settings(struct dw_pcie *pci);
->>> +void qcom_pcie_common_set_16gt_rx_margining_settings(struct dw_pcie *pci);
->>
->> And maybe something similar for the eq settings for symmetry.
->>
->> Johan
-> 
+$ media-ctl -R "'ov5645 0-003c' [1/0->0/1[1]]"
+
+Output after route update:
+- entity 4: ov5645 0-003c (2 pads, 1 link, 1 route)
+            type V4L2 subdev subtype Sensor flags 0
+            device node name /dev/v4l-subdev1
+        routes:
+                1/0 -> 0/1 [ACTIVE]
+        pad0: SOURCE
+                [stream:1 fmt:UYVY8_1X16/1920x1080 field:none colorspace:srgb
+                 crop:(0,0)/1920x1080]
+                -> "csi-10830400.csi2":0 [ENABLED,IMMUTABLE]
+        pad1: SINK,0x8
+                [stream:0 fmt:UYVY8_1X16/2592x1944 field:none colorspace:srgb
+                 crop:(0,0)/1920x1080]
+              
+v4l2-compliance log after this patch series:
+--------------------------------------------
+root@smarc-rzg2l:~# v4l2-compliance -u /dev/v4l-subdev1
+v4l2-compliance 1.28.1-5233, 64 bits, 64-bit time_t
+v4l2-compliance SHA: fc15e229d9d3 2024-07-23 19:22:15
+
+Compliance test for device /dev/v4l-subdev1:
+
+Driver Info:
+        Driver version   : 6.11.0
+        Capabilities     : 0x00000002
+                Streams Support
+        Client Capabilities:[   53.919041] ov5645 0-003c: =================  START STATUS  =================
+ 0x0000000000000[   53.927271] ov5645 0-003c: ==================  END STATUS  ==================
+003
+streams interval-uses-which
+Required ioctls:
+        test VIDIOC_SUDBEV_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/v4l-subdev1 open: OK
+        test VIDIOC_SUBDEV_QUERYCAP: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Sub-Device routing ioctls:
+        test Try VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING: OK
+        test Active VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING: OK
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 12 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK (Not Supported)
+        test VIDIOC_TRY_FMT: OK (Not Supported)
+        test VIDIOC_S_FMT: OK (Not Supported)
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK (Not Supported)
+        test Requests: OK (Not Supported)
+
+Total for device /dev/v4l-subdev1: 47, Succeeded: 47, Failed: 0, Warnings: 0
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (12):
+  media: i2c: ov5645: Add V4L2_SUBDEV_FL_HAS_EVENTS and subscribe hooks
+  media: i2c: ov5645: Use local `dev` pointer for subdev device
+    assignment
+  media: i2c: ov5645: Enable runtime PM after
+    v4l2_async_register_subdev()
+  media: i2c: ov5645: Use dev_err_probe instead of dev_err
+  media: i2c: ov5645: Use v4l2_async_register_subdev_sensor()
+  media: i2c: ov5645: Drop `power_lock` mutex
+  media: i2c: ov5645: Use subdev active state
+  media: i2c: ov5645: Switch to {enable,disable}_streams
+  media: i2c: ov5645: Add internal image sink pad
+  media: i2c: ov5645: Report internal routes to userspace
+  media: i2c: ov5645: Report streams using frame descriptors
+  media: i2c: ov5645: Add virtual channel support
+
+ drivers/media/i2c/ov5645.c | 507 +++++++++++++++++++++++--------------
+ 1 file changed, 316 insertions(+), 191 deletions(-)
+
+-- 
+2.34.1
+
 
