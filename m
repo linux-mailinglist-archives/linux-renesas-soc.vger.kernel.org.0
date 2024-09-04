@@ -1,141 +1,101 @@
-Return-Path: <linux-renesas-soc+bounces-8697-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8702-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F48796BCBF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2024 14:45:48 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19BFB96C099
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2024 16:32:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 048DC1F238E4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2024 12:45:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4C60C1C223B3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2024 14:32:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60E781D0956;
-	Wed,  4 Sep 2024 12:45:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GW18c91n"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 661CC1DEFD4;
+	Wed,  4 Sep 2024 14:31:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4CE1EBFE4;
-	Wed,  4 Sep 2024 12:45:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87F7E1DCB37
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Sep 2024 14:31:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725453945; cv=none; b=FDiu+gVHR/HqlMlar9WbKnk5gTEUeMwmXzjm6kbNN+s0wo7OKqg8NyqhLMWHiTU7IYPbeh8YMJBHHt5UPrsksVpKdTAdIlbEL49AdM2oWbixTPQI0rHwYrzkIzvfsAE9+4lT7R+Rm4vV9+qceq620Qn2f0xJogzGJuYL8jKhlm4=
+	t=1725460269; cv=none; b=hNtvSC21M4yfix1l9gcn5nSdBkfuwaNcYynTlFTCfmuQ7lDWzPZ1MD4wIgSRvAQ3QgCWYtJh+Sadmr5nZK4SaecvBJdol/tBuidvcyzatUt2pvP9ucCab5koMCeLfjNOfBFluESTq2Jo/Fhm2T1+8YVyiaGq94N8uijFpgEQALM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725453945; c=relaxed/simple;
-	bh=zecXoti5ozx8wrxHZvnlSmAH0XIKx082xDSFxKVV9Y4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iBHWBEyYadNBnf+0IE/ik2ZQVxEEdY1rJyEVeQzzoUtQqeA627yVMWKx1dSBLaKLCCddNjTaAAo+nhodpOI+aUjoyLQBHhfWh/r1jtUoIBLA4Q8z2+o+0kO3Dw1Q7AALQrlyqs6WEL1uF6FznRxrte0IEqtCWldG9rvAEms8ePk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GW18c91n; arc=none smtp.client-ip=209.85.208.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2f3f25a1713so78336881fa.2;
-        Wed, 04 Sep 2024 05:45:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725453942; x=1726058742; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tawvlkn51YSgu6BWUSzYSB+wnnr576T+LPuEkCbb3D4=;
-        b=GW18c91nM7A9S/V3etH/IxZ/sHOUvXaiZMakQaV/Bav2CU+dD6XnD24IP57EsUQpcP
-         UaKbAZLOfh8KDheeSgklbkkqhOwMJkKY2QsF8sVn+lEYfcdscARSwdut0ks7lFi1pXnK
-         bXffxXB8dqTD6EyVoyqAmBFa9U//bhNTWW1gk0oX49ADIjiwlcQq7USIKPZP+5fGgr0b
-         /iLm9jlrBPv3QvI+pWA5l94eghi8Dr4p6Yf+jsBQpmujH9tmUSktOBNcjufplzcYnVk5
-         WyEL0dRIR6XGymQtVn52ya88WlhmoNDm/MlEWWc4UDa9PioUu3S1vDuz8GwtFaR26ebd
-         deTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725453942; x=1726058742;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Tawvlkn51YSgu6BWUSzYSB+wnnr576T+LPuEkCbb3D4=;
-        b=BQw0CFj6tf/tUAGs9LPxNMg8kEsDjR7HNjPZFPuVQ1fMgLzZseiWj4f9r/d6fDD7T3
-         lAkw5kBzqPa3k7Q4yNjrP66uyQ1k2SVNYJb4am+3ny8xpxsiuh8lr1xUQJ29jsNEcKQt
-         SnT4Bq1w/AVaFiKl3z2D/DdgsKOKdrC0zexAmBCRqGa7V95VpI21R+f4QZByN9dkoFCt
-         OwCRSI7YKwjoYRuGJ8igmzHjHEJVWbK96GiQvJMBXQh6vz+IhTr8pbLyLx9jPuISKnzP
-         LhhIM4piaf9u9jZ1kd69QtqRuX4zZgWAEIB06MFd0eLxh6p6yewF5UsRr341GGbhPsdZ
-         ykTg==
-X-Forwarded-Encrypted: i=1; AJvYcCU0GERHWa8r9OlO0Wo+xGKRY5DvsiI1xrUAOr1if/77l8adAKEjDy4MnmYZwGGD1fNjUaAdXArX76GnrXE=@vger.kernel.org, AJvYcCU4YHFB/PNldyWMI94iXISigd1WYqX2vejIEgW3Vr0GqXNMFW1M4Oyzt+sSDxTjmijXQGw8EeYtJWRl@vger.kernel.org, AJvYcCVs1lE1oxWt7yn8o0nv/w3JJKZz3OtKT+bT4ciOgTSxvzoUm2l/c49SvlvzeBk6xSL6bAq9bRxxDmitRaRC9iJUiDA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy76L0YuNGTlEj5sX+i/ODJ9gsQL0V+NaiwnDDJOJvrCKCA+nvd
-	1lM99XGYCVYhwE+ge2kDdDiUY4mzUlWaRU8kIKti90wWBJ+ELgsWxdTjlQ==
-X-Google-Smtp-Source: AGHT+IEChMDIBYtnYGb4yZMQbRj5JHN3uh54LgKNkdfJgX5I/rB1mv7tkjxlRjaLR4N8Q8l3EAXaMw==
-X-Received: by 2002:a05:6512:1396:b0:52c:dbe7:cfd5 with SMTP id 2adb3069b0e04-53546b40f5emr10743790e87.32.1725453940762;
-        Wed, 04 Sep 2024 05:45:40 -0700 (PDT)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-48-58.cust.vodafonedsl.it. [188.217.48.58])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8989215caasm802528366b.189.2024.09.04.05.45.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Sep 2024 05:45:40 -0700 (PDT)
-Date: Wed, 4 Sep 2024 14:45:38 +0200
-From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: Julien Massot <julien.massot@collabora.com>
-Cc: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] media: staging: max96712: Add support for MAX96724
-Message-ID: <ZthWcqC+1KAMm3TR@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <20240827131841.629920-1-niklas.soderlund+renesas@ragnatech.se>
- <20240827131841.629920-3-niklas.soderlund+renesas@ragnatech.se>
- <Zs3az1G/e5y5lkf1@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <dd566af6-9632-4768-b945-ec25db93814b@collabora.com>
+	s=arc-20240116; t=1725460269; c=relaxed/simple;
+	bh=P467mDUfuNo+4sLO1U0OGgnTSxfzQa2d9CPIR8FgBtk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Oprbk+JjP0rPP7pZXKWl9PoOcgjeYLUac/LkhVYC1ue5FqGyKxil2MS9q70+Hw/FdsqVnAABEXN7AHipUU8HkeYjt19QAa12LRv60ZMwJCwwDpDKiiRXTsNIByUunJk7u6MDgUaEFaO3O0Yfz4HRfi6+aflUOzkX11KWT5njGm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:ef52:68c5:eac1:f6b5])
+	by andre.telenet-ops.be with cmsmtp
+	id 8EWv2D00J3m5in101EWvaT; Wed, 04 Sep 2024 16:30:59 +0200
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1slr24-0028JM-H1;
+	Wed, 04 Sep 2024 16:30:55 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1slr27-004My7-6y;
+	Wed, 04 Sep 2024 16:30:55 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Ulf Hansson <ulf.hansson@linaro.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Jagadeesh Kona <quic_jkona@quicinc.com>,
+	Taniya Das <quic_tdas@quicinc.com>,
+	Abel Vesa <abel.vesa@linaro.org>
+Cc: linux-pm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/4] pmdomain: core: Debug summary improvements
+Date: Wed,  4 Sep 2024 16:30:44 +0200
+Message-Id: <cover.1725459707.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dd566af6-9632-4768-b945-ec25db93814b@collabora.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 28, 2024 at 12:02:24PM +0200, Julien Massot wrote:
+	Hi Ulf,
 
-Hi Julien,
+This patch series improves the table formatting in the pm_genpd_summary
+file in debugfs.
 
-> Hi Tommaso,
-> 
-> On 8/27/24 3:55 PM, Tommaso Merciai wrote:
-> > Hi Niklas,
-> > Thanks for your work.
-> > 
-> > Hi Julien,
-> > I think we can adopt a similar approach for the max96716 deserializer using your work
-> > on max96714 driver. What do you think?
-> > 
-> > Thanks in advance.
-> 
-> 
-> I don't think that supporting MAX96716 and MAX96714 in the same driver is
-> the best option
-> 
-> MAX96714 is a very simple device with one input one output one video pipe.
-> 
-> While the MAX96716 is a two inputs/outputs with four different pipes.
-> 
-> IMHO we should have one driver for the 1 port GMSL2 devices, another driver
-> for the dual deserializers which will introduce more complex routing, and
-> another one for the quad deserializers since the register layout is too much
-> different.
-> 
-> But that's only my opinion let's see when we will implement the dual
-> deserializer support.
-> 
-> We can of course share some functions for those drivers like GPIO handling
-> or pattern generation.
+The first two patches are fixes and cleanups for commits in upstream.
+On systems where performance_state is always zero, the first three
+patches have no visible impact.
 
-Understood. Thanks for sharing your idea. :)
+Thanks for your comments!
 
-Thanks & Regards,
-Tommaso
+Geert Uytterhoeven (4):
+  pmdomain: core: Harden inter-column space in debug summary
+  pmdomain: core: Fix "managed by" alignment in debug summary
+  pmdomain: core: Move mode_status_str()
+  pmdomain: core: Reduce debug summary table width
 
-> 
-> Regards,
-> Julien
-> 
-> 
+ drivers/pmdomain/core.c | 21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
+
+-- 
+2.34.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
