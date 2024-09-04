@@ -1,257 +1,109 @@
-Return-Path: <linux-renesas-soc+bounces-8699-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8703-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1041096C09A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2024 16:32:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 392E996C0D7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2024 16:37:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2E37BB29C21
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2024 14:31:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D78CC1F215B9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2024 14:37:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80C761DC751;
-	Wed,  4 Sep 2024 14:31:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6C281D014A;
+	Wed,  4 Sep 2024 14:37:38 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE53B1DC07B
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Sep 2024 14:30:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65F2B1DA61C;
+	Wed,  4 Sep 2024 14:37:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725460263; cv=none; b=kIA/tZdMcbP+Wyh1LJ7+Zy9/ARuR9SyVKy0+HrZ/rDoilq3zQTCgVfvDa94qGd/Syc5WhwwJ+mSdFYFu+QXRcSj+a4vPboGddAJVWMouaW2ruhwfP2zx/p3VBEfU6XwTo1CDdpSQQ+40Y/oMSSmcBp2/WnygywQFBAl587tKtQc=
+	t=1725460658; cv=none; b=UOzb1Y9EPcbzcHoaPw+Drn3O1hKUX7pwiTezTsDj3sEbxUjqbXHqwX8ynPVvwhlt/KZQZMaOF6bxOv5M6JTOj9gqtdz7MrKYioGSQAkUtlVBgT3fSiSpkglYxKsJYx/c1+gv+8iL0qq8kpWTuk9Dm8OG2MqBEULUj+HbnukDeDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725460263; c=relaxed/simple;
-	bh=IHJiZt3d3WP1/U0rfOhft2OuptnfKHxTsCu5JXAwzBY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=apkr000QKQ4i6t4lfUCDSmahfp5OowwaTqhXMiVgyEnOebB3QPjYib3S4B+rEtZ6b2qqun2dRgrX33vpND+xf2mCoAeU7iLZmdaV6XWp/cnoJY8G4rUstBcgvXHlvvoJ6MMLWr5l4vqy+VZLkUw0RL+BLnWLW0iM3bmnm6Cfa0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:ef52:68c5:eac1:f6b5])
-	by albert.telenet-ops.be with cmsmtp
-	id 8EWv2D00D3m5in106EWvSN; Wed, 04 Sep 2024 16:30:57 +0200
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1slr24-0028JW-Jx;
-	Wed, 04 Sep 2024 16:30:55 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1slr27-004MyM-BS;
-	Wed, 04 Sep 2024 16:30:55 +0200
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Ulf Hansson <ulf.hansson@linaro.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Jagadeesh Kona <quic_jkona@quicinc.com>,
-	Taniya Das <quic_tdas@quicinc.com>,
-	Abel Vesa <abel.vesa@linaro.org>
-Cc: linux-pm@vger.kernel.org,
+	s=arc-20240116; t=1725460658; c=relaxed/simple;
+	bh=8FBaJR3/i5iho+H6LO/jm9p/DpWHmVIC7QJH1el3y2g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uwSXqGUeCOet9R08gllCDHBzriZ/eQb9qInx5j+0yX1SjaplI+PY+Upn6xvx1NZYazOEAJgRH4ILaoCPEAgyTMpigF2ZMGRh/aMkttkWXnHBgiYA1SKdX3/apf2tEht8/cIMRce0g2d9QtEFyfHNenNBW5am+SF28GHfxmqFqpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7cb3db0932cso5013844a12.1;
+        Wed, 04 Sep 2024 07:37:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725460657; x=1726065457;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XeTNdvUSWx7HJEOyqeFtoigbheBAm0ccbTjqgX0Hr8w=;
+        b=l8Pe/765z+pbH8NoRXbf2DA9X6A6sbz5pmwBtMu/8/gFq248DmVAmHqJeBVwnkco7Y
+         UO8JeyFhScwQLozP4Ye43ffbB4zvqWPppDhqdTwyg2gDeXINmRGo8AHsHHcGkdDw1pUA
+         yxcQBNCNTVu7RBwjY7l3yaiV4IIM336y96Tqzr+ML9eovVKm0l/VxtEw/+OGMFan0y5t
+         J4SSK/jQl1W6GRuZ1fWfDwMrcN/YCADhYkFQtGGdseoJiC4oEXCCBFHlS/74hFDb6ZdF
+         w86yaSGR65gK1GLlM8kRnkqmBemjweSn8Wxl4TOjXZHNPrLjfJ+nY0Vg9+mlttQx5xdX
+         rD4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUV/hjxxZLzhzUfr4oUOuxjOCwFYeEyzFvS5xhm/2m8MR8e8y2cnH1gcumKTGr87QASK1iEhPm/gmZ+Wkzf@vger.kernel.org, AJvYcCVYPaBH8bRslE57uY/HH+TgFxax5Oveiyeu1oxKLUQfSH1LBq9HKuRCpTX/xrmyIypWsHabtKTpa22KILxPE1rW2lM=@vger.kernel.org, AJvYcCWHmfnn59rvlsxTNq91fo2XuTImyYRX9MEb2VmnzUQ8YcFw9MLAw+fhPS5y452/4fvUYoNyvI3OicEG@vger.kernel.org, AJvYcCX0QN6McTMZ7WGaQBhQX9QpByJT7rV/B248xCWSPsTDqe6h5xehLNGN/VNbTROJy4laq3T+vn5VHNeC@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgmVcbpYtyxcTrzAhb7XmScm2GNhVTehLOW+Oq+s42nVHQzq8R
+	fQGl8OFhISvwUypk3EZPecq7lFhSMDcJmbTL+iFaZNEmyb5G/oRD
+X-Google-Smtp-Source: AGHT+IGFm3a6nIytISSTxdeWLXJD9PZzc11mSxiB8yoFNa+9OMf68AqsNjBgX2pnazA24lTCn9MZ5g==
+X-Received: by 2002:a05:6a20:d80b:b0:1ca:ccd0:1bf6 with SMTP id adf61e73a8af0-1cce0ffe3cemr20844080637.8.1725460656582;
+        Wed, 04 Sep 2024 07:37:36 -0700 (PDT)
+Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7d4fbd8c61asm1526789a12.25.2024.09.04.07.37.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Sep 2024 07:37:35 -0700 (PDT)
+Date: Wed, 4 Sep 2024 23:37:34 +0900
+From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Xiaowei Song <songxiaowei@hisilicon.com>,
+	Binghui Wang <wangbinghui@hisilicon.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-pci@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 4/4] pmdomain: core: Reduce debug summary table width
-Date: Wed,  4 Sep 2024 16:30:48 +0200
-Message-Id: <f8e1821364b6d5d11350447c128f6d2b470f33fe.1725459707.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1725459707.git.geert+renesas@glider.be>
-References: <cover.1725459707.git.geert+renesas@glider.be>
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 1/3] dt-bindings: PCI: hisilicon,kirin-pcie: add
+ top-level constraints
+Message-ID: <20240904143734.GA3032973@rocinante>
+References: <20240818172843.121787-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240818172843.121787-1-krzysztof.kozlowski@linaro.org>
 
-Commit 9094e53ff5c86ebe ("pmdomain: core: Use dev_name() instead of
-kobject_get_path() in debugfs") severely shortened the names of devices
-in a PM Domain.  Now the most common format[1] consists of a 32-bit
-unit-address (8 characters), followed by a dot and a node name (20
-characters for "air-pollution-sensor" and "interrupt-controller", which
-are the longest generic node names documented in the Devicetree
-Specification), for a typical maximum of 29 characters.
+Hello,
 
-This offers a good opportunity to reduce the table width of the debug
-summary:
-  - Reduce the device name field width from 50 to 30 characters, which
-    matches the PM Domain name width,
-  - Reduce the large inter-column space between the "performance" and
-    "managed by" columns.
+> Properties with variable number of items per each device are expected to
+> have widest constraints in top-level "properties:" block and further
+> customized (narrowed) in "if:then:".  Add missing top-level constraints
+> for clock-names and reset-names.
 
-Visual impact:
-  - The "performance" column now starts at a position that is a
-    multiple of 16, just like the "status" and "children" columns,
-  - All of the "/device", "runtime status", and "managed by" columns are
-    now indented 4 characters more than the columns right above them,
-  - Everything fits in (one less than) 80 characters again ;-)
+Applied to dt-bindings, thank you!
 
-[1] Note that some device names (e.g. TI AM335x interconnect target
-    modules) do not follow this convention, and may be much longer, but
-    these didn't fit in the old 50-character column width either.
+[01/03] dt-bindings: PCI: hisilicon,kirin-pcie: Add top-level constraints
+        https://git.kernel.org/pci/pci/c/ac44be2155cd
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-On the Koelsch development board with an R-Car M2-W SoC, the contents of
-/sys/kernel/debug/pm_genpd/pm_genpd_summary change from:
+[02/03] dt-bindings: PCI: renesas,pci-rcar-gen2: Add top-level constraints
+        https://git.kernel.org/pci/pci/c/c62a0b8fe8bf
 
-    domain                          status          children                           performance
-        /device                                             runtime status                           managed by
-    ------------------------------------------------------------------------------------------------------------
-    clock-controller                on                                                 0
-    sgx                             off-0                                              0
-    sh-4a                           off-0                                              0
-    ca15-cpu1                       on                                                 0
-    ca15-cpu0                       on                                                 0
-    ca15-scu                        on                                                 0
-                                                    ca15-cpu0, ca15-cpu1
-    always-on                       on                                                 0
-                                                    ca15-scu, sh-4a, sgx
-        e60b0000.i2c                                        suspended                  0                  SW
-        ffca0000.timer                                      suspended                  0                  SW
-        e6590100.usb-phy-controller                         unsupported                0                  SW
-        e6050000.gpio                                       suspended                  0                  SW
-        e6051000.gpio                                       suspended                  0                  SW
-        e6052000.gpio                                       active                     0                  SW
-        e6053000.gpio                                       active                     0                  SW
-        e6054000.gpio                                       suspended                  0                  SW
-        e6055000.gpio                                       active                     0                  SW
-        e6055400.gpio                                       active                     0                  SW
-        e6055800.gpio                                       active                     0                  SW
-        ee090000.pci                                        active                     0                  SW
-        ee0d0000.pci                                        active                     0                  SW
-        e6700000.dma-controller                             active                     0                  SW
-        e6720000.dma-controller                             active                     0                  SW
-        ec700000.dma-controller                             suspended                  0                  SW
-        ec720000.dma-controller                             suspended                  0                  SW
-        e65a0000.dma-controller                             suspended                  0                  SW
-        e65b0000.dma-controller                             suspended                  0                  SW
-        e6e60000.serial                                     active                     0                  SW
-        e6e68000.serial                                     active                     0                  SW
-        ee300000.sata                                       active                     0                  SW
-        e6b10000.spi                                        suspended                  0                  SW
-        e6e20000.spi                                        suspended                  0                  SW
-        e6518000.i2c                                        suspended                  0                  SW
-        e6530000.i2c                                        suspended                  0                  SW
-        e6520000.i2c                                        suspended                  0                  SW
-        e61f0000.thermal                                    active                     0                  SW
-        ec500000.sound                                      suspended                  0                  SW
-        e61c0000.interrupt-controller                       active                     0                  SW
-        ee700000.ethernet                                   active                     0                  SW
-        ee100000.mmc                                        suspended                  0                  SW
-        ee140000.mmc                                        suspended                  0                  SW
-        ee160000.mmc                                        suspended                  0                  SW
+[03/03] dt-bindings: PCI: socionext,uniphier-pcie-ep: Add top-level constraints
+        https://git.kernel.org/pci/pci/c/a5c1bf7e9a46
 
-to:
-
-    domain                          status          children        performance
-        /device                         runtime status                  managed by
-    ------------------------------------------------------------------------------
-    clock-controller                on                              0
-    sgx                             off-0                           0
-    sh-4a                           off-0                           0
-    ca15-cpu1                       on                              0
-    ca15-cpu0                       on                              0
-    ca15-scu                        on                              0
-                                                    ca15-cpu0, ca15-cpu1
-    always-on                       on                              0
-                                                    ca15-scu, sh-4a, sgx
-        e60b0000.i2c                    suspended                   0           SW
-        ffca0000.timer                  suspended                   0           SW
-        e6590100.usb-phy-controller     unsupported                 0           SW
-        e6050000.gpio                   suspended                   0           SW
-        e6051000.gpio                   suspended                   0           SW
-        e6052000.gpio                   active                      0           SW
-        e6053000.gpio                   active                      0           SW
-        e6054000.gpio                   suspended                   0           SW
-        e6055000.gpio                   active                      0           SW
-        e6055400.gpio                   active                      0           SW
-        e6055800.gpio                   active                      0           SW
-        ee090000.pci                    active                      0           SW
-        ee0d0000.pci                    active                      0           SW
-        e6700000.dma-controller         active                      0           SW
-        e6720000.dma-controller         active                      0           SW
-        ec700000.dma-controller         suspended                   0           SW
-        ec720000.dma-controller         suspended                   0           SW
-        e65a0000.dma-controller         suspended                   0           SW
-        e65b0000.dma-controller         suspended                   0           SW
-        e6e60000.serial                 active                      0           SW
-        e6e68000.serial                 active                      0           SW
-        ee300000.sata                   active                      0           SW
-        e6b10000.spi                    suspended                   0           SW
-        e6e20000.spi                    suspended                   0           SW
-        e6518000.i2c                    suspended                   0           SW
-        e6530000.i2c                    suspended                   0           SW
-        e6520000.i2c                    suspended                   0           SW
-        e61f0000.thermal                active                      0           SW
-        ec500000.sound                  suspended                   0           SW
-        e61c0000.interrupt-controller   active                      0           SW
-        ee700000.ethernet               active                      0           SW
-        ee100000.mmc                    suspended                   0           SW
-        ee140000.mmc                    suspended                   0           SW
-        ee160000.mmc                    suspended                   0           SW
----
- drivers/pmdomain/core.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
-index 2233daaa4168be14..2c51de5d58372d3d 100644
---- a/drivers/pmdomain/core.c
-+++ b/drivers/pmdomain/core.c
-@@ -3308,7 +3308,7 @@ static void rtpm_status_str(struct seq_file *s, struct device *dev)
- 	else
- 		WARN_ON(1);
- 
--	seq_printf(s, "%-25s  ", p);
-+	seq_printf(s, "%-26s  ", p);
- }
- 
- static void perf_status_str(struct seq_file *s, struct device *dev)
-@@ -3326,7 +3326,7 @@ static void mode_status_str(struct seq_file *s, struct device *dev)
- 
- 	gpd_data = to_gpd_data(dev->power.subsys_data->domain_data);
- 
--	seq_printf(s, "%9s", gpd_data->hw_mode ? "HW" : "SW");
-+	seq_printf(s, "%2s", gpd_data->hw_mode ? "HW" : "SW");
- }
- 
- static int genpd_summary_one(struct seq_file *s,
-@@ -3353,7 +3353,7 @@ static int genpd_summary_one(struct seq_file *s,
- 	else
- 		snprintf(state, sizeof(state), "%s",
- 			 status_lookup[genpd->status]);
--	seq_printf(s, "%-30s  %-49s  %u", genpd->name, state, genpd->performance_state);
-+	seq_printf(s, "%-30s  %-30s  %u", genpd->name, state, genpd->performance_state);
- 
- 	/*
- 	 * Modifications on the list require holding locks on both
-@@ -3369,7 +3369,7 @@ static int genpd_summary_one(struct seq_file *s,
- 	}
- 
- 	list_for_each_entry(pm_data, &genpd->dev_list, list_node) {
--		seq_printf(s, "\n    %-50s  ", dev_name(pm_data->dev));
-+		seq_printf(s, "\n    %-30s  ", dev_name(pm_data->dev));
- 		rtpm_status_str(s, pm_data->dev);
- 		perf_status_str(s, pm_data->dev);
- 		mode_status_str(s, pm_data->dev);
-@@ -3387,9 +3387,9 @@ static int summary_show(struct seq_file *s, void *data)
- 	struct generic_pm_domain *genpd;
- 	int ret = 0;
- 
--	seq_puts(s, "domain                          status          children                           performance\n");
--	seq_puts(s, "    /device                                             runtime status                           managed by\n");
--	seq_puts(s, "------------------------------------------------------------------------------------------------------------\n");
-+	seq_puts(s, "domain                          status          children        performance\n");
-+	seq_puts(s, "    /device                         runtime status                  managed by\n");
-+	seq_puts(s, "------------------------------------------------------------------------------\n");
- 
- 	ret = mutex_lock_interruptible(&gpd_list_lock);
- 	if (ret)
--- 
-2.34.1
-
+	Krzysztof
 
