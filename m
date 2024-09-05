@@ -1,147 +1,108 @@
-Return-Path: <linux-renesas-soc+bounces-8743-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8744-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84E6596D805
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Sep 2024 14:12:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E37496D9D9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Sep 2024 15:09:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 424C9289B7F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Sep 2024 12:12:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0FB1A1C2166F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Sep 2024 13:09:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A040319AD97;
-	Thu,  5 Sep 2024 12:12:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0530819B3FF;
+	Thu,  5 Sep 2024 13:08:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CLuInnLe"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nJtuxFYq"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA7219AA5D;
-	Thu,  5 Sep 2024 12:12:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B3583CC1
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Sep 2024 13:08:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725538347; cv=none; b=DDXlcKxr83lGAKZkYPKY7JaCI3sTCc+bYRNX+xQQ6zfKa9NOnEYRwLS59aDHSLm7kaYlRfue+mlztuUBeqVmcI7Ytm2Frry0nI/ZFDgsUMcVTf7OX/AeZ9Z1OhVIIrQnz1cOk8jeLG9wevTa/358i1/vlzRjzU3ZZdiTA6bR7Vk=
+	t=1725541738; cv=none; b=bigu70tLVFF9pLOHitHi9dPjYh9MXHFCm2rTbsODpWsN04sabQzZvySGpfEoSu5txNPwcVq16b05s3ndnmXp9WRCE5Zxhk662TbkfQf7biWm8R13NM6p0T0dSorc2hOhxiqylsPHCr4oipNQopXNWYce2L6ylPs7Wi1WCwwS6kI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725538347; c=relaxed/simple;
-	bh=FONOtkrHn9wffb60g9bCFmD5Ce6Mpzm24koAoepUZFQ=;
+	s=arc-20240116; t=1725541738; c=relaxed/simple;
+	bh=f9N4xrTTes+g7/U54vG6V+6L0L1TrCM5nN3Nv7eOD40=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fUECrZRafxLwprvJ1GUdXM/RxVyGiIsGFuapYPbd2PuxN6NEr+I3MwXUuF3za0VxZBQpWH+2RWaQEcnD2LsfENC/4JjYV02VPMer+tx0X+kvasdXEpJ4BWwOV3zbiKoyA5eKnrx56KIdc0TP9+jHpG9vqCT/LcVE8rPTYhnx44k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CLuInnLe; arc=none smtp.client-ip=209.85.221.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-501274e2c29so10878e0c.3;
-        Thu, 05 Sep 2024 05:12:25 -0700 (PDT)
+	 To:Cc:Content-Type; b=f8KEgv2NEzilq58XNwoHpysioZVDhDJN17C4o0c+Q5jpxBovr/F/Z6sLF91fdR3nD11vzPvYWRO1HK2Yyeb2T4+NOhqoeu/nH1MjyD6oJqY+AObmlkoJdnBJGXKcUJXYRbK+m3mOp8yVIoSrOfTPY1MAaafOOBHNkmY0CFrWAME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nJtuxFYq; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-53654dbde59so292953e87.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 05 Sep 2024 06:08:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725538345; x=1726143145; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1725541735; x=1726146535; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9gZAyTtY3aoGNNDzIbl+ioueHhEM4J2F6ba4GcLwUm8=;
-        b=CLuInnLegHd+XHPSVPghafie3UQqCrew+zqk0jBidVXsiJWTlSRxxdHf3u/3wOT5dP
-         DU/IV5j4AP8rQKqeJOEyO1bUiX70hPNpDsd//gajwRYph0pQCMovSgxX4NzLTCnWJHXG
-         SgsfLC/7ODYsYrVIEav8G48iHKbmsS4r4I45w27Pa1hYuZDVqxsW86gVLP7gd4ni2aox
-         pvy8Q0RCOMJnM9mc7KGUmOemJURBq4XgMCIHWoU50TcwhKmQGTZgyfBabfMygmnSR52e
-         cV/01Sx9MseL0bIhAVo3vGtuWgBfRUgaGFQSQve22OZ/US/AeGgakV0vn+wT5d3kLrld
-         xZOQ==
+        bh=pneB5MZJo622qMiA84d3oB2fd0IWKTmHmFHMugfOKGk=;
+        b=nJtuxFYq9NPkSvRf39kp6llSmlXyaPeAH6ndgRILSTNqO7Eq23UxbnAkkgxiqVJRe/
+         +d/nfbHzAqXVX9ayf4kKlo9xEF934gQ+n+rFRjxmX9uuuJEdzYyjnc7O2UKEGSNO143S
+         Ma/WUOtvaF45qGqZn+TG6hzjQakiWPkdsXY3AMX1Ll/xFmxXK2VRBVB3LwcKp9xv0ZPR
+         icAFUpwqWqK9t6RpnzEVv5Z1uWY3QbYjdCxJSxHZgdTSqReGBC55t2ZFWu8nOONH598L
+         6nVtLT10SMukMDAMgGe2mUdnGhoyLlCKSAtEpUN7tLzAN9roYc4VCWeFAohnHIpgS6VM
+         9mog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725538345; x=1726143145;
+        d=1e100.net; s=20230601; t=1725541735; x=1726146535;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9gZAyTtY3aoGNNDzIbl+ioueHhEM4J2F6ba4GcLwUm8=;
-        b=vN5p5r7jhdMk5fYx1cc+DG1kuMzNeBaEpKhKlaL1YjPWgE0wL7uhfIqrhvRzblSrpu
-         LJj6wlJ2KHkP6Mj9sOp1NIHWmsrW5yMJtiDmWVb2u9xnewb3vJScqrnjZ07ooAklT9BA
-         3rjPV9w57lurVPdYLGSbU+zVawEyZhBGRq/sPl9qsTmwBzStW4VMcUfE1WWsq6uPrjxR
-         DiFL8vYGFSZID9C/HniE8UC9E1U/z9neyXO1Tmrr2DG/Fy9TbIrr5yV21NydeDdM2VjN
-         dGaIY2Uqd6RiOKhSYbQ2HihxcDIhhnsXl64KdxAbrwZgQja4w8B/mHqhOK/2BVf3V966
-         w9eQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU0SOatdL9lwsYOtMrDx8f2VqVGKFCwyBhdBRhaAJfulErAhyRPXD7ZW9x2ghMtcbQKxBz5/1hoNlPAVVxIxB4=@vger.kernel.org, AJvYcCUIyS2LrF4ZRM87PVA50vgfzUVq6RGhGP36mkaD7nyszIidtXVyr89nG2dsgpHbNzHIaTJTiTb8lh4BB0UUzLSsmzU=@vger.kernel.org, AJvYcCVngW5Pc/z4y++SYszOywSS2BpCvQK7Rc4pBm9AHIY1ltRA1KXhfvgMdCR2iUlcX+FXmze5koUTRVjQRnqf@vger.kernel.org, AJvYcCXnJgbLGA9cNl9rD5mbpovVj7NVH5V8WOUHankVSOL261M4mb5rvyCkl7wU8ee1t+81Nb1D075jquMh@vger.kernel.org
-X-Gm-Message-State: AOJu0YwfuY4KgeTMBzNKH+3n7bPeYqoKsHnnv89d7Pclg8OGt83l3mTK
-	qPUr+6VakIRDlg/qf6MPMAFrYu2zBCnfqOVtBrdHG7puKQdkHo+8FvihAIE9Zm5qR8YG1BQJWZr
-	zdRibrzcpOsrZ0ANZrOePAauu4M+Vf7zH/P8=
-X-Google-Smtp-Source: AGHT+IHXyw2RxkWhPsZxpmqiSi/213b8QWfi+5HjtH7I9tuPHtt3kLBnh3OYZTkw1Y8/ZGUBwriigeoD0h16GDmtUJg=
-X-Received: by 2002:a05:6122:2a05:b0:4f6:a7f7:164d with SMTP id
- 71dfb90a1353d-5009ac7a8a8mr21097634e0c.8.1725538344968; Thu, 05 Sep 2024
- 05:12:24 -0700 (PDT)
+        bh=pneB5MZJo622qMiA84d3oB2fd0IWKTmHmFHMugfOKGk=;
+        b=K0gN6/gMwO08DqtHc2xgTSv44HqyOxwbO3u7W0W5JPX/2kykw/hvTnIMMyfMtudm6T
+         Y8iHsmGhwbzaiibSBfCZRgUBBXK7Mkyrvy4UIJknOLtVTs0KToLB23f6YU1OrBFxhf4a
+         oNZRwILhgSnRIwgJZvFZx67NFu96qrWldCkarC+1+3NgqNn3byi83JreTMq+AtFNg0Nx
+         bEwOZTJPJeZDQjJXFIXUO02SpBIec0trcNFjo8AUM9i1tdiLQPNuJp6q9+Fsu7wlEur+
+         TV6wbfZY0/vXjVrBlgH3bXxtMpEAENwuUr2/zGWfknvggG0nJzdkhSzyZKpu/jCB+5G4
+         bEOw==
+X-Forwarded-Encrypted: i=1; AJvYcCXHomuMOX5YnD7JRrJQ0CYFxA4lylOy0+Ct+aVGDlNWYDs5wwTyve0toSCm8eFc314Q7Ni7qm8zDrTQ34of86ZetA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz84RKGyyWcRtAT4KWRRaCO4lrce8+NUip2XQwJTZ0Dda/myvIV
+	CuclSznWDq4Ys9m/7C3gn9A0Y+7U34zvkJJVNAs+Ixvx5Ueom2bWr9Q8hony9b6AEW/w0pSebCi
+	GH8zpa0xr7sv30CCJlWD+FXbHns8YzSDQ+yy/xT4e9C2EUcoW
+X-Google-Smtp-Source: AGHT+IFDB+SQJUcFHIcGLBtUAOQM4sjWL8eQZL09m+CyJVfUaqz9ywFiYDlcdoeQwKx+jer8WTrcghc5W5KnnXyPtLs=
+X-Received: by 2002:a05:6512:3ca1:b0:533:4613:21be with SMTP id
+ 2adb3069b0e04-53567791065mr2156474e87.18.1725541735090; Thu, 05 Sep 2024
+ 06:08:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240829193831.80768-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20240829193831.80768-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 5 Sep 2024 13:11:58 +0100
-Message-ID: <CA+V-a8tzZPkdxiivuRvOQoo8ayFttzXBWGoMufDXtdGg9477Yw@mail.gmail.com>
-Subject: Re: [PATCH v5 0/2] Add Watchdog Timer driver for Renesas RZ/V2H(P) SoC
-To: Wim Van Sebroeck <wim@linux-watchdog.org>
-Cc: Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Guenter Roeck <linux@roeck-us.net>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Magnus Damm <magnus.damm@gmail.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <cover.1725374961.git.geert+renesas@glider.be>
+In-Reply-To: <cover.1725374961.git.geert+renesas@glider.be>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 5 Sep 2024 15:08:44 +0200
+Message-ID: <CACRpkdbtB_MbxdiVM-V-CsBvKah2Mv9h1o2KmoZ0YCwZLxxrcQ@mail.gmail.com>
+Subject: Re: [GIT PULL] pinctrl: renesas: Updates for v6.12 (take two)
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Wim,
+On Tue, Sep 3, 2024 at 4:52=E2=80=AFPM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-On Thu, Aug 29, 2024 at 8:38=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.c=
-om> wrote:
+> The following changes since commit f73f63b24491fa43641daf3b6162d2a451bd84=
+81:
 >
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>   pinctrl: renesas: rzg2l: Use dev_err_probe() (2024-08-02 11:26:03 +0200=
+)
 >
-> Hi All,
+> are available in the Git repository at:
 >
-> This patch series aims to add WDT support to Renesas RZ/V2H(P) SoC.
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
+ tags/renesas-pinctrl-for-v6.12-tag2
 >
-> v4->v5
-> - Updated commit description for patch 1/2
-> - Collated RB tags from Geert and Guenter
+> for you to fetch changes up to 1325820dd085809645bdd89a2fd408a05b4a5492:
 >
-> v3->v4
-> - Simplified calculation of max_hw_heartbeat_ms
-> - Turn on the clocks first before reset operation in start & restart
->   callbacks
-> - Added checks in restart callback before turning ON clocks/resets
-> - Dropped udelay after every ping operation
-> - Added comments
->
-> v2->v3
-> - Fixed dependency, ARCH_R9A09G011->ARCH_R9A09G057
-> - Added dependency for PM
-> - Added delay after de-assert operation as clks are halted temporarily
->   after de-assert operation
-> - Clearing WDTSR register
->
-> v1->v2
-> - Included RB tag for binding patch
-> - Fixed review comments from Claudiu
-> - Stopped using PM runtime calls in restart handler
-> - Dropped rstc deassert from probe
->
-> Cheers,
-> Prabhakar
->
-> Lad Prabhakar (2):
->   dt-bindings: watchdog: renesas,wdt: Document RZ/V2H(P) SoC
->   watchdog: Add Watchdog Timer driver for RZ/V2H(P)
->
->  .../bindings/watchdog/renesas,wdt.yaml        |  17 +-
->  drivers/watchdog/Kconfig                      |   9 +
->  drivers/watchdog/Makefile                     |   1 +
->  drivers/watchdog/rzv2h_wdt.c                  | 272 ++++++++++++++++++
->  4 files changed, 298 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/watchdog/rzv2h_wdt.c
->
-Gentle ping.
+>   pinctrl: renesas: rzg2l: Move pinconf_to_config_argument() call outside=
+ of switch cases (2024-09-02 10:13:59 +0200)
 
-Cheers,
-Prabhakar
+Pulled into my pinctrl devel branch, thanks!
+
+Yours,
+Linus Walleij
 
