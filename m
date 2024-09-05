@@ -1,197 +1,127 @@
-Return-Path: <linux-renesas-soc+bounces-8728-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8729-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62B6B96CBE7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Sep 2024 02:45:00 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ED7F96CFA1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Sep 2024 08:45:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E02F71F25F15
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Sep 2024 00:44:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CFB89B2163D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Sep 2024 06:45:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99D6B4A1A;
-	Thu,  5 Sep 2024 00:44:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F88118F2C3;
+	Thu,  5 Sep 2024 06:45:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QndT7AgU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QLAgHg4r"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8932621
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Sep 2024 00:44:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18EE84400;
+	Thu,  5 Sep 2024 06:45:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725497096; cv=none; b=enEBvDqzPg/5G8UtEziFgyfwgvb9qFSo9dNmedy9whiS9+arCf1bBDwXkdbzq8jMatIiCEb+cYfLl9/cWPm95yVDH4Td0CFyb8DkCuIpu+00C3Jpj1aJEQK2AV6XGuYAHZ4NP5d33hE60Lb5ed4AAYHXuDz250KqYZR/RCh5hp0=
+	t=1725518722; cv=none; b=GHHM7LMR6mm4VSoVMnI/WWCeFTXU6xxykgOrIsvE9HqTWbfNH/rJ06rhWbn0sVjutyEOkt7TgpnbYdW6JhG0+l1L7pmckgi4XElSN0pNl6+tSE0+COd26adGHDCUyEHGvnM44XxahQ6b5/qFw3/m5pMS8bi9Q4AooCN6NjpmsRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725497096; c=relaxed/simple;
-	bh=P+dUMeHmR1P3YzToP7SIiJIsngTGa98Ok/urPmzSXYs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LguQmnTnrJyYx+SPDPfx7f39WGGd5EC2VqdViCYSRf/5NdiOEjODupaJ4eB2bOpSavCOcc/TZ8j6GQ6C4i3zUDeNgBv1e4ff+UUNy2Fh6g7q6q8VHmePYJ/EBMDnpEEy1UspGFV/xLydKuw65OKK9JhVOKEfdngD3CsGK+L0GbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QndT7AgU; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725497095; x=1757033095;
-  h=date:from:to:cc:subject:message-id;
-  bh=P+dUMeHmR1P3YzToP7SIiJIsngTGa98Ok/urPmzSXYs=;
-  b=QndT7AgUWcXxCCCrbiEr1LGMyKgh6RUeGkbfK0m2h6sJL918jM3WdOEw
-   8XUZDvyQs2ZzwJHSOQsoYGVYJ8fcNyawowWj2n1xKyLur7JRzs20xuNy+
-   +YWudklte6ZvNslswaxchkY9IgjrYZTNfeMj2R8uyPc6B/Hl1DVU/Wizx
-   SUWxA3id7lnes9tXeGWKga6nrFtC3dxHfasunkBvimW8eDWwWjGZ2Vjr1
-   7iQ6R50sUzo+XxXL+ZTYtStp/H296u+5j98COyx6sraAP2aN89yaAYBhm
-   /nPKkJYGOZqAUk/EWYt1fH5VKni/C6LEQdBtOtBSlh2IzJBAT8aTfQG1i
-   A==;
-X-CSE-ConnectionGUID: DM5+7YLQQsSXyNUgGKHLDg==
-X-CSE-MsgGUID: G1/rGrJQTWSUlLhijV/AAw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="24050231"
-X-IronPort-AV: E=Sophos;i="6.10,203,1719903600"; 
-   d="scan'208";a="24050231"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 17:44:54 -0700
-X-CSE-ConnectionGUID: hkQVoXLlQ1uLx21HHBk0vA==
-X-CSE-MsgGUID: F26fhPg8SzauN2LGh0fbYw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,203,1719903600"; 
-   d="scan'208";a="88679007"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 04 Sep 2024 17:44:53 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sm0cF-0008kB-0R;
-	Thu, 05 Sep 2024 00:44:51 +0000
-Date: Thu, 05 Sep 2024 08:44:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:topic/overlays-v6.11-rc5] BUILD
- SUCCESS d82dbabc2e0aca4d21447e6604915b7d11198a4a
-Message-ID: <202409050806.009FgiHu-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1725518722; c=relaxed/simple;
+	bh=pwkWnjC+Q1NqaXK6JlAyfabTkTo0JS4rxXogOThDdac=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bnsuKXVpvjyKf7f2NtDKpTE6aIBdksCWFKtPC976S6z5TyHiDWagPzbs5unze0DN4IX6IXp04zVhz5oOec9jBObJI7FDuc42YPRUvuVK9MR0ZszpxoV9kBnJ83ZGoAV/v9W9zRezYQLu0AcCid44VuZ9rxOsAoVeQi0MUxl0a+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QLAgHg4r; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97B1EC4CEC4;
+	Thu,  5 Sep 2024 06:45:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725518721;
+	bh=pwkWnjC+Q1NqaXK6JlAyfabTkTo0JS4rxXogOThDdac=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QLAgHg4raavHGx9ezW/P9yna3hyJgw6SY+qG+4eCnu+2qT3zUt0b0fPsaJX0WAkRr
+	 b9cDKSCmOjvrTllVynwEXb3enBl+fSuzgT8hcBIruZ1ep0mGnWnVs4eifKMzJLsXgD
+	 35jjwGbavg8yMkh4NuEm3LKrA4x/PiKW9Ths/TrPgN0knM+hXgOmtuzIsjGCLGx80j
+	 z/MZF/3Spt7uR/u6V7jXGZQ69+qZxu9fqwCjKpnn8ybA6s1e5TAsV2Q3+PArjZM+Vb
+	 AOHDiGufvBkKqM3fG7dHqhwMeJTdNSxlKnbaolpRKwMhvrtoM2mQb+ukgwSk+Zdewl
+	 ds5+/dbcHItmw==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1sm6FO-000000001Hc-2EOT;
+	Thu, 05 Sep 2024 08:45:38 +0200
+Date: Thu, 5 Sep 2024 08:45:38 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Chuanhua Lei <lchuanhua@maxlinear.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	imx@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	abel.vesa@linaro.org, johan+linaro@kernel.org,
+	Shashank Babu Chinta Venkata <quic_schintav@quicinc.com>
+Subject: Re: [PATCH v6 2/4] PCI: dwc: Always cache the maximum link speed
+ value in dw_pcie::max_link_speed
+Message-ID: <ZtlTkjIky3X2fBQc@hovoldconsulting.com>
+References: <20240904-pci-qcom-gen4-stability-v6-0-ec39f7ae3f62@linaro.org>
+ <20240904-pci-qcom-gen4-stability-v6-2-ec39f7ae3f62@linaro.org>
+ <ZtgooHdex5gXh0tP@hovoldconsulting.com>
+ <20240904154944.w4bujfmhy5uhzkld@thinkpad>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240904154944.w4bujfmhy5uhzkld@thinkpad>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/overlays-v6.11-rc5
-branch HEAD: d82dbabc2e0aca4d21447e6604915b7d11198a4a  kbuild: Enable DT symbols when CONFIG_OF_OVERLAY is used
+On Wed, Sep 04, 2024 at 09:19:44PM +0530, Manivannan Sadhasivam wrote:
+> On Wed, Sep 04, 2024 at 11:30:08AM +0200, Johan Hovold wrote:
+> > On Wed, Sep 04, 2024 at 12:41:58PM +0530, Manivannan Sadhasivam via B4 Relay wrote:
+> > > From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-elapsed time: 2132m
+> > > +	/*
+> > > +	 * Even if the platform doesn't want to limit the maximum link speed,
+> > > +	 * just cache the hardware default value so that the vendor drivers can
+> > > +	 * use it to do any link specific configuration.
+> > > +	 */
+> > > +	if (pci->max_link_speed < 0) {
+> > 
+> > This should be 
+> > 
+> > 	if (pci->max_link_speed < 1) {
+> > 
+> 
+> Well I was trying to catch the error value here because if neither driver nor
+> platform limits the max link speed, this would have -EINVAL (returned by
+> of_pci_get_max_link_speed()).
 
-configs tested: 104
-configs skipped: 5
+Indeed, I thought I'd traced it do be zero here, but I must have made a
+mistake. The old code did check for 0 before calling this function,
+though (e.g. in case max_link_speed was never initialised as intended).
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> But logically it makes sense to use 'pci->max_link_speed < 1' since anything
+> below value 1 is an invalid value.
+> 
+> Will change it.
 
-tested configs:
-alpha                             allnoconfig   gcc-13.3.0
-arc                               allnoconfig   gcc-13.2.0
-arc                   randconfig-001-20240905   gcc-13.2.0
-arc                   randconfig-002-20240905   gcc-13.2.0
-arm                               allnoconfig   clang-20
-arm                   randconfig-001-20240905   clang-14
-arm                   randconfig-002-20240905   clang-20
-arm                   randconfig-003-20240905   clang-20
-arm                   randconfig-004-20240905   gcc-14.1.0
-arm64                             allnoconfig   gcc-14.1.0
-arm64                 randconfig-001-20240905   clang-20
-arm64                 randconfig-002-20240905   gcc-14.1.0
-arm64                 randconfig-003-20240905   clang-20
-arm64                 randconfig-004-20240905   gcc-14.1.0
-csky                              allnoconfig   gcc-14.1.0
-csky                  randconfig-001-20240905   gcc-14.1.0
-csky                  randconfig-002-20240905   gcc-14.1.0
-hexagon                           allnoconfig   clang-20
-hexagon               randconfig-001-20240905   clang-20
-hexagon               randconfig-002-20240905   clang-20
-i386                             allmodconfig   gcc-12
-i386                              allnoconfig   gcc-12
-i386                             allyesconfig   gcc-12
-i386         buildonly-randconfig-001-20240904   clang-18
-i386         buildonly-randconfig-002-20240904   gcc-12
-i386         buildonly-randconfig-003-20240904   clang-18
-i386         buildonly-randconfig-004-20240904   clang-18
-i386         buildonly-randconfig-005-20240904   clang-18
-i386         buildonly-randconfig-006-20240904   clang-18
-i386                                defconfig   clang-18
-i386                  randconfig-001-20240904   clang-18
-i386                  randconfig-002-20240904   clang-18
-i386                  randconfig-003-20240904   clang-18
-i386                  randconfig-004-20240904   clang-18
-i386                  randconfig-005-20240904   gcc-12
-i386                  randconfig-006-20240904   gcc-12
-i386                  randconfig-011-20240904   clang-18
-i386                  randconfig-012-20240904   clang-18
-i386                  randconfig-013-20240904   gcc-12
-i386                  randconfig-014-20240904   clang-18
-i386                  randconfig-015-20240904   clang-18
-i386                  randconfig-016-20240904   gcc-12
-loongarch                        allmodconfig   gcc-14.1.0
-loongarch                         allnoconfig   gcc-14.1.0
-loongarch             randconfig-001-20240905   gcc-14.1.0
-loongarch             randconfig-002-20240905   gcc-14.1.0
-m68k                             allmodconfig   gcc-14.1.0
-m68k                              allnoconfig   gcc-14.1.0
-m68k                             allyesconfig   gcc-14.1.0
-microblaze                       allmodconfig   gcc-14.1.0
-microblaze                        allnoconfig   gcc-14.1.0
-microblaze                       allyesconfig   gcc-14.1.0
-mips                              allnoconfig   gcc-14.1.0
-nios2                             allnoconfig   gcc-14.1.0
-nios2                 randconfig-001-20240905   gcc-14.1.0
-nios2                 randconfig-002-20240905   gcc-14.1.0
-openrisc                          allnoconfig   gcc-14.1.0
-parisc                            allnoconfig   gcc-14.1.0
-parisc                randconfig-001-20240905   gcc-14.1.0
-parisc                randconfig-002-20240905   gcc-14.1.0
-powerpc                           allnoconfig   gcc-14.1.0
-powerpc               randconfig-001-20240905   clang-14
-powerpc               randconfig-002-20240905   clang-20
-powerpc               randconfig-003-20240905   gcc-14.1.0
-powerpc64             randconfig-001-20240905   gcc-14.1.0
-powerpc64             randconfig-002-20240905   gcc-14.1.0
-powerpc64             randconfig-003-20240905   clang-20
-riscv                             allnoconfig   gcc-14.1.0
-riscv                 randconfig-001-20240905   gcc-14.1.0
-riscv                 randconfig-002-20240905   clang-20
-s390                             allmodconfig   clang-20
-s390                              allnoconfig   clang-20
-s390                             allyesconfig   gcc-14.1.0
-s390                  randconfig-001-20240905   clang-20
-s390                  randconfig-002-20240905   gcc-14.1.0
-sh                               allmodconfig   gcc-14.1.0
-sh                                allnoconfig   gcc-14.1.0
-sh                               allyesconfig   gcc-14.1.0
-sh                    randconfig-001-20240905   gcc-14.1.0
-sh                    randconfig-002-20240905   gcc-14.1.0
-sparc                            allmodconfig   gcc-14.1.0
-sparc64               randconfig-001-20240905   gcc-14.1.0
-sparc64               randconfig-002-20240905   gcc-14.1.0
-um                               allmodconfig   clang-20
-um                                allnoconfig   clang-17
-um                    randconfig-001-20240905   gcc-12
-um                    randconfig-002-20240905   gcc-12
-x86_64                            allnoconfig   clang-18
-x86_64                           allyesconfig   clang-18
-x86_64       buildonly-randconfig-001-20240905   gcc-12
-x86_64       buildonly-randconfig-002-20240905   clang-18
-x86_64       buildonly-randconfig-003-20240905   gcc-12
-x86_64       buildonly-randconfig-004-20240905   clang-18
-x86_64       buildonly-randconfig-005-20240905   clang-18
-x86_64       buildonly-randconfig-006-20240905   gcc-12
-x86_64                              defconfig   gcc-11
-x86_64                randconfig-001-20240905   clang-18
-x86_64                randconfig-002-20240905   gcc-12
-x86_64                randconfig-003-20240905   clang-18
-x86_64                randconfig-004-20240905   gcc-12
-x86_64                          rhel-8.3-rust   clang-18
-xtensa                            allnoconfig   gcc-14.1.0
-xtensa                randconfig-001-20240905   gcc-14.1.0
-xtensa                randconfig-002-20240905   gcc-14.1.0
+Sounds good.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> > > @@ -1058,8 +1069,7 @@ void dw_pcie_setup(struct dw_pcie *pci)
+> > >  {
+> > >  	u32 val;
+> > >  
+> > > -	if (pci->max_link_speed > 0)
+> > > -		dw_pcie_link_set_max_speed(pci, pci->max_link_speed);
+> > > +	dw_pcie_link_set_max_speed(pci);
+
+Johan
 
