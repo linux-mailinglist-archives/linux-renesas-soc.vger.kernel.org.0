@@ -1,70 +1,70 @@
-Return-Path: <linux-renesas-soc+bounces-8812-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8813-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FC2896F599
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 15:40:45 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9A7B96F59D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 15:40:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 37177285D14
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 13:40:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DDF12B20DAD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 13:40:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7046E1CEE9D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFCBA1CF289;
 	Fri,  6 Sep 2024 13:40:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="QI1Xjskp";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OnxKsVlE"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Ggz5DPFf";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="FWIZlAzh"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout2-smtp.messagingengine.com (fout2-smtp.messagingengine.com [103.168.172.145])
+Received: from fhigh6-smtp.messagingengine.com (fhigh6-smtp.messagingengine.com [103.168.172.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8BA51CEAD6;
-	Fri,  6 Sep 2024 13:40:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD9A1CE6FF;
+	Fri,  6 Sep 2024 13:40:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725630036; cv=none; b=Jk/xgig3ZniVlCW0Hqs9VSvg0LIxXxegvSJ8PbF7p8QvCZ/QiKrCnC/yQkbDlWg8NjdF4k2J3iPHq5EN5zDyNzAO155rpTtGd9I7n9PudAz+TKBph334Q/vC6psvg10IrIW+oamnw9Kbv+qmwLjMtzrDJB7En9fn8DKABDCbpyM=
+	t=1725630036; cv=none; b=ljGxChds4FXLsXZtcN7gd1ou1bpr1e2LWshw6HiKDcC9eW0JCsfQK28SraU9/ZPPxYjTgt78SnKrHmjrb0680lpF24FGa6Ls8BN51t7iipk4cDek78asuSZpftO/cuDZ2f2ReEwH2BRKE/+lMbB0QTsb5BGrBU10xXLtRxVO0cQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1725630036; c=relaxed/simple;
-	bh=AQEE5fDspnnTDhrCMn5tJW3pOfRCp5Fmy7jgbd9B7Gg=;
+	bh=WENUCUsOv4SBUXx4InO4cxPLfb2dIVYnv9Rr4pUSS/g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EYh0Cvqgns13pr5WMP1pE0RpQsdizkwWP16ikYnTG25NzAJ2nQ3fKXluNMTNakfheBQN/UCrCeFm6LeP2fvWkAJWGepf1inq/mds3LxpSba1hGyDhiwdglxEGrlgugUTLbIOEReMVcL5+wicZSMhoEJeHHCiiXMHeT4zW++gWM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=QI1Xjskp; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OnxKsVlE; arc=none smtp.client-ip=103.168.172.145
+	 MIME-Version:Content-Type; b=COcStSs08rKeNTGywunBNrr3XIL/rxOiC+w37r+5gm0wKxPOVazrIW3BbS82C1YeF8SV1NtX6WraJYISJIe7POFcaZ5O21IZ3XSZsiD4KrvHhnDz5CN6wdGycTk8L1lQB3EC+5RzcVjNNeYlxdlVJx/zeHwrMszaDBiOHb60XzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Ggz5DPFf; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=FWIZlAzh; arc=none smtp.client-ip=103.168.172.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
-	by mailfout.phl.internal (Postfix) with ESMTP id C3011138025F;
-	Fri,  6 Sep 2024 09:40:31 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Fri, 06 Sep 2024 09:40:31 -0400
+Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id E25441140214;
+	Fri,  6 Sep 2024 09:40:33 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Fri, 06 Sep 2024 09:40:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1725630031;
-	 x=1725716431; bh=FM0PnGJElLICnGdwe5dojHrZcD64SeT1T/l8yB1nYjo=; b=
-	QI1XjskpzgcJPWbUVlzx6edRUlv7FpYHK+Y5+huGQq9AEyq+YjCBm6g+xeiNV0zJ
-	mx++m/BVGmIXJ6W+hSKEWK5dNxEcDHIFfEKYM9kTm/E5umXx4jirL/j2UsTO4Tlv
-	OFbupQJfm0PcmrIwhmwZOBMbhRjaTbAPHkfpFMzCPh5EZk/CYTMqTAzVpV/Mvg5A
-	lHOBKWZPWoJM28Lbjxgdp60yAqDNTfjvCpKBmcL+Qow0CjMmG1hWcysyIUDGMoly
-	bP+UysqOuz2lGApn41pCsghPrEGUaFK/wZB8N/X1EbqZJjucMTpoFrHo0ExQPor/
-	lz91oeGxXWtzHxS7RRGMTA==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1725630033;
+	 x=1725716433; bh=XE7OiKtXXyYqXfuW6/RdUdABlf9okxd8+Nlg4WboFIM=; b=
+	Ggz5DPFf3m+BBLHPxAbFIAd5lKgZZCK84sryjhL8ClnDX/In3GN/ZQzTz9+HmnP0
+	+tEch8wJQdMT4YRmovprVgkfcxBABi1gm9l+b3MqrcqXlRlL9lCUnaQTH70Lf0vf
+	c8DDnm7F683v97Wx8AiIQMI2YUCRdljW53+0Ztmdzw7q59NBK8VNQfa9KeBR4DZJ
+	9Skknr+CWtFgXBysIpAkyvUrSPdOJNkWPISx1qtlmqVSeaU358NEUMjXvym4tKBD
+	Isz+bCIz9Iy9x8A9eE/7gbxFuoMaL1zbzJCNBhUtw3jyvy6v+zeguwyF/D5+EUkc
+	QXYGQ5jwA/+pWVeyFXxavg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1725630031; x=
-	1725716431; bh=FM0PnGJElLICnGdwe5dojHrZcD64SeT1T/l8yB1nYjo=; b=O
-	nxKsVlE1YC6pL+vK0Fc9gRcXr+tMcCcT2UhAJN7fLGP9wduAwp32S45buIiHFroS
-	D9W98oPJ3WWhFW+2GopLlZ3uKC712qe+bQT/efYr2hoKNJ0Sh+kVeFL4Bpl/u5bC
-	ZSy5NLCRtbaJYeMl1BT26X6U20uHBoLvkPB+5p6TWTMjlqi6/nOgGPuXFa1c3svP
-	MER84/YpVKhB2sUIQOBf9n6+PUEjL2vnrnoYy0mES68/CS1U3vo8I1gdK+DP1+8W
-	D7ADF9fZgtBw0XnSJQq9kJqICCVrr3UrzKm1Z2oAOg2iu1ThIAdfRW5bgc6OIPQk
-	U9OjyjNaT4At4IArpbzuA==
-X-ME-Sender: <xms:TwbbZog1fHZHe0nWGghXbcLnkJb2i3Sb-tNjnOAkbNPnee6mgX8B6Q>
-    <xme:TwbbZhAXUZzNatMQX_ueE6mkhp_GY4YUFyOo_SIuhWNvFt_GZN0hN9-gJSVTxSuxv
-    QNR82FtJnC3wdqUKjY>
-X-ME-Received: <xmr:TwbbZgGKX4Pz_m27os_s7r7Le12rfmE6_FBTprmevN6JwxlwkP3Yx0H3G2iv7dYxK-Vx9Y_EVqXV9q1yiF7Wdasawg>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1725630033; x=
+	1725716433; bh=XE7OiKtXXyYqXfuW6/RdUdABlf9okxd8+Nlg4WboFIM=; b=F
+	WIZlAzhKKMZOXNln0YzMvNPpN9TO7XNJJgP1bPWHGqy/wnPwwD4cxpHT6sVPKzNM
+	P25Xmb9Fs6OVOUEFbvXMZT5TJh4iIyGhRrcCBP744A2UTmQYEwhr/6vDIDtRcekB
+	tdH3l4lU0dzlptNjccj6surLlZP5SzMw1pa5YcCAfWZh6MSDPtBl0YTykFQPLcvt
+	6RARtsGxcH60B6QrOKaXxpW2u1STS/22Zde+FptJ6HXmWDaPm5JLimbsRf6jRIZr
+	4NWsaH/1PMZ2mdu9hP4ThcZRiAuVxQePNiSw1+c0VuApSpdEe029EA0QlDK+q/jd
+	F1sOiZV4bMY77kmPnYM8Q==
+X-ME-Sender: <xms:UQbbZj7_C4jrvEQ7l0RlK3FPupE-9aQCmgcgymGWk81GuYRuWkFUug>
+    <xme:UQbbZo59iw1zDA6E7NRv3QYwbacbH_G7keXsJQpNTmhO9NSahiNySbBulxs46qIgM
+    0o4GysRBrVgDRPr6Wo>
+X-ME-Received: <xmr:UQbbZqdhevFHtJWgauq3sebygWsL2-D14reA1k-M9vXM5iASkXZkceWrJXGpgg6Gi2b8JkANzU9B65rrW7avxhpGcQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudeiuddgieelucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
     rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
@@ -82,14 +82,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudeiuddgieelucetufdoteggod
     pdhrtghpthhtohepphgrsggvnhhisehrvgguhhgrthdrtghomhdprhgtphhtthhopegvih
     gthhgvshhtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepughimhgrrdhfvggurhgruhes
     ghhmrghilhdrtghomh
-X-ME-Proxy: <xmx:TwbbZpQUeiHywUclKaElUUmMR8T4HzTNBmMpyfpn-K4BldsyHk6Z0w>
-    <xmx:TwbbZlx_K3zxCZMGAw1B6wRgXwT-LS-KScKtQdzjyRfDOjr9jimkpA>
-    <xmx:TwbbZn5-qKT5PTgfRuHvR6CXPyZLX8754bc4VbiqD003RGoXdDqeVQ>
-    <xmx:TwbbZiyhKNDtOKvbJyerHoEcofaLVtCWTiM0WHT6YfjxeV5h4k2gTg>
-    <xmx:TwbbZlimTSM4ACs7GmY_pQMGuXzJQa0aS8EceSN8PY1hRcu8hVIFoXY5>
+X-ME-Proxy: <xmx:UQbbZkIKr-Ewex4islFXecTgMvftVfigy8NHfzy4_-4qN56iOTog2A>
+    <xmx:UQbbZnJu2kdc5P0aEFGHZlN57yzrFYA6rjYEtXXGbAUSfunMx-d6vw>
+    <xmx:UQbbZtwOOgVbxEmMkaYG5gP1EbipyEJUzsLGEyL42vRDOFylfFKRKQ>
+    <xmx:UQbbZjKNf1Dcv-bojvB04oUs8RxopUS8iWZRGBJmVVyUiGTgU12a8g>
+    <xmx:UQbbZmZI-2e45ppzAQxAbnwde0hsYPeAw2Zd3AfsxXwGNzsT_XazHI4_>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 6 Sep 2024 09:40:31 -0400 (EDT)
+ 6 Sep 2024 09:40:33 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Andrew Lunn <andrew@lunn.ch>,
 	Heiner Kallweit <hkallweit1@gmail.com>,
@@ -104,9 +104,9 @@ To: Andrew Lunn <andrew@lunn.ch>,
 	netdev@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org,
 	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [net-next 1/3] net: phy: marvell-88q2xxx: Align soft reset for mv88q2110 and mv88q2220
-Date: Fri,  6 Sep 2024 15:39:49 +0200
-Message-ID: <20240906133951.3433788-2-niklas.soderlund+renesas@ragnatech.se>
+Subject: [net-next 2/3] net: phy: marvell-88q2xxx: Make register writer function generic
+Date: Fri,  6 Sep 2024 15:39:50 +0200
+Message-ID: <20240906133951.3433788-3-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240906133951.3433788-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20240906133951.3433788-1-niklas.soderlund+renesas@ragnatech.se>
@@ -119,107 +119,103 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The soft reset implementations for mv88q2110 and mv88q2220 differ as the
-later need to consider that auto negation is supported on mv88q2220
-devices. In preparation of enabling auto negotiation on mv88q2110 merge
-the two rest functions into a device generic one.
+In preparation to adding auto negotiation support to mv88q2110 move and
+rename the helper function used to write an array of register values to
+the PHY.
 
-The mv88q2220 behavior is kept as is but extended to wait for the reset
-bit to be clears before continuing, as was done previously on mv88q2220.
+Just as for mv88q2220 devices this helper will be needed to for the
+initial configuration of the mv88q2110 to support auto negotiation.
+
+The function is moved verbatim, there is no change in behavior.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- drivers/net/phy/marvell-88q2xxx.c | 60 ++++++++++++++-----------------
- 1 file changed, 26 insertions(+), 34 deletions(-)
+ drivers/net/phy/marvell-88q2xxx.c | 40 +++++++++++++++----------------
+ 1 file changed, 20 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/net/phy/marvell-88q2xxx.c b/drivers/net/phy/marvell-88q2xxx.c
-index c812f16eaa3a..850beb4b1722 100644
+index 850beb4b1722..31f8c976e387 100644
 --- a/drivers/net/phy/marvell-88q2xxx.c
 +++ b/drivers/net/phy/marvell-88q2xxx.c
-@@ -179,15 +179,34 @@ static int mv88q2xxx_soft_reset(struct phy_device *phydev)
- 	int ret;
- 	int val;
+@@ -174,6 +174,21 @@ static const struct mmd_val mv88q222x_revb1_revb2_init_seq1[] = {
+ 	{ MDIO_MMD_PCS, 0xfe11, 0x1105 },
+ };
  
--	ret = phy_write_mmd(phydev, MDIO_MMD_PCS,
--			    MDIO_PCS_1000BT1_CTRL, MDIO_PCS_1000BT1_CTRL_RESET);
-+	/* Enable RESET of DCL */
-+	if (phydev->autoneg == AUTONEG_ENABLE || phydev->speed == SPEED_1000) {
-+		ret = phy_write_mmd(phydev, MDIO_MMD_PCS, 0xfe1b, 0x48);
++static int mv88q2xxx_write_mmd_vals(struct phy_device *phydev,
++				    const struct mmd_val *vals, size_t len)
++{
++	int ret;
++
++	for (; len; vals++, len--) {
++		ret = phy_write_mmd(phydev, vals->devad, vals->regnum,
++				    vals->val);
 +		if (ret < 0)
 +			return ret;
 +	}
 +
-+	ret = phy_write_mmd(phydev, MDIO_MMD_PCS, MDIO_PCS_1000BT1_CTRL,
-+			    MDIO_PCS_1000BT1_CTRL_RESET);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = phy_read_mmd_poll_timeout(phydev, MDIO_MMD_PCS,
-+					MDIO_PCS_1000BT1_CTRL, val,
-+					!(val & MDIO_PCS_1000BT1_CTRL_RESET),
-+					50000, 600000, true);
- 	if (ret < 0)
- 		return ret;
- 
--	return phy_read_mmd_poll_timeout(phydev, MDIO_MMD_PCS,
--					 MDIO_PCS_1000BT1_CTRL, val,
--					 !(val & MDIO_PCS_1000BT1_CTRL_RESET),
--					 50000, 600000, true);
-+	ret = phy_write_mmd(phydev, MDIO_MMD_PCS, 0xffe4, 0xc);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* Disable RESET of DCL */
-+	if (phydev->autoneg == AUTONEG_ENABLE || phydev->speed == SPEED_1000)
-+		return phy_write_mmd(phydev, MDIO_MMD_PCS, 0xfe1b, 0x58);
-+
 +	return 0;
- }
- 
- static int mv88q2xxx_read_link_gbit(struct phy_device *phydev)
-@@ -705,33 +724,6 @@ static int mv88q2xxx_probe(struct phy_device *phydev)
++}
++
+ static int mv88q2xxx_soft_reset(struct phy_device *phydev)
+ {
+ 	int ret;
+@@ -724,33 +739,18 @@ static int mv88q2xxx_probe(struct phy_device *phydev)
  	return mv88q2xxx_hwmon_probe(phydev);
  }
  
--static int mv88q222x_soft_reset(struct phy_device *phydev)
+-static int mv88q222x_write_mmd_vals(struct phy_device *phydev,
+-				    const struct mmd_val *vals, size_t len)
 -{
 -	int ret;
 -
--	/* Enable RESET of DCL */
--	if (phydev->autoneg == AUTONEG_ENABLE || phydev->speed == SPEED_1000) {
--		ret = phy_write_mmd(phydev, MDIO_MMD_PCS, 0xfe1b, 0x48);
+-	for (; len; vals++, len--) {
+-		ret = phy_write_mmd(phydev, vals->devad, vals->regnum,
+-				    vals->val);
 -		if (ret < 0)
 -			return ret;
 -	}
 -
--	ret = phy_write_mmd(phydev, MDIO_MMD_PCS, MDIO_PCS_1000BT1_CTRL,
--			    MDIO_PCS_1000BT1_CTRL_RESET);
--	if (ret < 0)
--		return ret;
--
--	ret = phy_write_mmd(phydev, MDIO_MMD_PCS, 0xffe4, 0xc);
--	if (ret < 0)
--		return ret;
--
--	/* Disable RESET of DCL */
--	if (phydev->autoneg == AUTONEG_ENABLE || phydev->speed == SPEED_1000)
--		return phy_write_mmd(phydev, MDIO_MMD_PCS, 0xfe1b, 0x58);
--
 -	return 0;
 -}
 -
- static int mv88q222x_write_mmd_vals(struct phy_device *phydev,
- 				    const struct mmd_val *vals, size_t len)
+ static int mv88q222x_revb0_config_init(struct phy_device *phydev)
  {
-@@ -906,7 +898,7 @@ static struct phy_driver mv88q2xxx_driver[] = {
- 		.aneg_done		= genphy_c45_aneg_done,
- 		.config_init		= mv88q222x_config_init,
- 		.read_status		= mv88q2xxx_read_status,
--		.soft_reset		= mv88q222x_soft_reset,
-+		.soft_reset		= mv88q2xxx_soft_reset,
- 		.config_intr		= mv88q2xxx_config_intr,
- 		.handle_interrupt	= mv88q2xxx_handle_interrupt,
- 		.set_loopback		= genphy_c45_loopback,
+ 	int ret;
+ 
+-	ret = mv88q222x_write_mmd_vals(phydev, mv88q222x_revb0_init_seq0,
++	ret = mv88q2xxx_write_mmd_vals(phydev, mv88q222x_revb0_init_seq0,
+ 				       ARRAY_SIZE(mv88q222x_revb0_init_seq0));
+ 	if (ret < 0)
+ 		return ret;
+ 
+ 	usleep_range(5000, 10000);
+ 
+-	ret = mv88q222x_write_mmd_vals(phydev, mv88q222x_revb0_init_seq1,
++	ret = mv88q2xxx_write_mmd_vals(phydev, mv88q222x_revb0_init_seq1,
+ 				       ARRAY_SIZE(mv88q222x_revb0_init_seq1));
+ 	if (ret < 0)
+ 		return ret;
+@@ -764,17 +764,17 @@ static int mv88q222x_revb1_revb2_config_init(struct phy_device *phydev)
+ 	int ret;
+ 
+ 	if (is_rev_b1)
+-		ret = mv88q222x_write_mmd_vals(phydev, mv88q222x_revb1_init_seq0,
++		ret = mv88q2xxx_write_mmd_vals(phydev, mv88q222x_revb1_init_seq0,
+ 					       ARRAY_SIZE(mv88q222x_revb1_init_seq0));
+ 	else
+-		ret = mv88q222x_write_mmd_vals(phydev, mv88q222x_revb2_init_seq0,
++		ret = mv88q2xxx_write_mmd_vals(phydev, mv88q222x_revb2_init_seq0,
+ 					       ARRAY_SIZE(mv88q222x_revb2_init_seq0));
+ 	if (ret < 0)
+ 		return ret;
+ 
+ 	usleep_range(3000, 5000);
+ 
+-	ret = mv88q222x_write_mmd_vals(phydev, mv88q222x_revb1_revb2_init_seq1,
++	ret = mv88q2xxx_write_mmd_vals(phydev, mv88q222x_revb1_revb2_init_seq1,
+ 				       ARRAY_SIZE(mv88q222x_revb1_revb2_init_seq1));
+ 	if (ret < 0)
+ 		return ret;
 -- 
 2.46.0
 
