@@ -1,43 +1,43 @@
-Return-Path: <linux-renesas-soc+bounces-8752-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8753-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DFE396E9DD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 08:15:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B12496E9E3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 08:15:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 57253B231F9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 06:15:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0B6B31F2498B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 06:15:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDE9614264A;
-	Fri,  6 Sep 2024 06:15:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BE3414A4DE;
+	Fri,  6 Sep 2024 06:15:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wiwynn.com header.i=@wiwynn.com header.b="DUEuwVfH"
+	dkim=pass (2048-bit key) header.d=wiwynn.com header.i=@wiwynn.com header.b="YuWBRc64"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2074.outbound.protection.outlook.com [40.107.117.74])
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2055.outbound.protection.outlook.com [40.107.215.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 032FA13D8B5;
-	Fri,  6 Sep 2024 06:14:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.117.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32C7A13D2BE;
+	Fri,  6 Sep 2024 06:15:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.215.55
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725603300; cv=fail; b=YJUfIi9z/ROQTSGGI6DcmFJQD9wkY2ED2LkvhQsQl6/geCrjPIF4KovHCWcXO+5VrLxxwuqxffoJsiyrMAkJmOO5VKyssbWeds3+RPeAlO+ulQwxrzTWC869w/6ogTPx5L6a83qY7wJS8dyWVY2yNxoRDdqhRQ3gCanNDZfCEi4=
+	t=1725603309; cv=fail; b=Uw9bAnaIQSKXGnBUk+L6I1oumF9Zbm9z36LqjeK05xnN2hy9yYHVGXvcq1labr44d2wFCGOTmaGbxJasYBqB+wVW6vQGCVMhRd07zCCNShtSmgTRFV7e81RWglwvuWniwhiE1EOeWL4anAW91YvVpq+SMiLk8Z3Y2rsQK8tiZiI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725603300; c=relaxed/simple;
-	bh=uXRTK5E/ZkYd/IejJmeE/1meXCAlHODbEcF6DbfbFAQ=;
+	s=arc-20240116; t=1725603309; c=relaxed/simple;
+	bh=tixLFoDRlOvZFLUwjZTvhCpnTkCm3ZcNdrF51v9zfXg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=De3hlIaMy8yTK3978P4s5eA6vPfm7jscqKVl5dNcmqAUNTNnpVcHCw1/Ctcq/9XNbs2kaKtSSIiCb2xTIhuZ+YbIYt8N+RVZ/crTXCMytbp7I93Uu/azB+6OD2fuVfJoGiFqr4YhU1Ib2QQcaaFD0kcNOVdOwD1dcM2Mjp1BZj4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wiwynn.com; spf=pass smtp.mailfrom=wiwynn.com; dkim=pass (2048-bit key) header.d=wiwynn.com header.i=@wiwynn.com header.b=DUEuwVfH; arc=fail smtp.client-ip=40.107.117.74
+	 MIME-Version:Content-Type; b=AW3ZE4EyxU7WI18O05I7O9mEsKIMzzOJVYSm0IJpZrdvM6Oh7JF0jLFuoWAbre3jBlIRA8IwxmbN3j9J1Hlls5oPKeNqkg+fgBd/tlVXvrcJ3lsprhqCrnSv1+jyXQZga4Mn+xGjtBzUjb2QBjKpfDLefyrXUpE0NAeuQ/4hlEs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wiwynn.com; spf=pass smtp.mailfrom=wiwynn.com; dkim=pass (2048-bit key) header.d=wiwynn.com header.i=@wiwynn.com header.b=YuWBRc64; arc=fail smtp.client-ip=40.107.215.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wiwynn.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wiwynn.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VXFA8u4TaMiSq+ut2vtgcxQG5/Jbi9yWj0GGord/9TQMzIXhZjlVjb7Hp1M3zgpRkAfsJP7TqgCEtc9nmbTuL/KYMuX/dtyxpCRP026TT//6r4HB+TD/OAPTUJ0GgWWCzGXvX3tR1kGDyivXQx+F12CV/J9fDYQfHHLnZgkhX5M33Clnfy7uQZoiduAjQg3NvClUMY5mscT9b5R/9fSSA9YqNe+wMhPiC+WFfviUCsxZ/+fVfSaJ7wSohv5kkq898qzUUEeDmdNFd0RV3GSYATrUHPcSL6HEjQM1Z54JZJjCcAmc+PFiSO4Vc+I6xfYIaZ8Bqrci1jTzPvUA0ZWbUA==
+ b=CguR4EIHODDpHuxvYxg2LdbnRGSXmc2jVoi+ycpRgxMNMJ30m+KJqEyv18QFR72ZIXbUTV3a4RETxSurcOByLWSWitLBORyakGxpXrKSBF0oYLp8pnOAGg9xoUT58fGPaguGMC40VLYusaY/r87S6S3Kpt5Np5Yn3vwiDAswaPdySHeeXxax38z4i6TLwwa7WdEf4pwN8cU/iATt+I/81Jk3b2exkZGKaXhQ/P34rSBZ/LI2euVDni1Ar7P5LIk5e33UcLwVw9DGErA2uDTgkn+QCMNCi1QgsQ32P1dNkHYA59FoPGi6TxgUSzxKoVdkQE7BBo5HDJZqLa53GrhUqQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NjSPiGVt5mrfI/V12S/7TXpE76spvcLvJ8nRI8PHiHw=;
- b=glprz1sPMyBsWD2yMLpPv3k20GcLYRLTnJ2X6a7F7ffUfWQ/ejALqHSV9b3V8mK1NiWzi4oejua+XeEpZxMBwuUucxgGAHbnQ5kTb1VFb7/BqKQ3actI1sFMDoe/SeS0G9nVgaQ1BSpyU57j+HTCv9zGWdOGhEDx7ofASlBh8QDYmvnksGyYhnw1MKb3FnGAJLG9bx5c6W9/GEGoJ+M/iJc1yPZ3JyqC7wy/Rl0Xs/d3sKKf/vCau3cxMYxrLeJ/w5eH9dtiYngUeR9UxwK/LjakeurOdl+nhOgCGxV16RL+h5EusfIjlsXC13mQZI2V/dsPQvwCuBO1+YzPkjOdrQ==
+ bh=dDRNL8aqBLV1TuuBW7ADbrQVrbs0/GZw0WSSfkNDrCo=;
+ b=uYzqdp/Wq5b2nUzyWbnP4RYeX3M8aLuAB9Le242UbwdlPUz8ZR9qpxevH1GbWPtW/oI1tnMIFXREtmW6SW6X4ir+FatHhyx6FLTnK0mEDPx7XYLlxgWtER2M5kV27AmpSc4KG3Dlp2oXxITo+4pNCAMVFsh5Xci/UarPfcwR6XAwKVrbIUHpzflNlx1vUrytXgvvjORzjY8+9LHVrOnKWE7C3MhQqvZxSNnxCnRrMImU1Yg0lwkgfl0TW0Ow+Q9jyJsAUY9S9l0ig2hCXfTjGbfR45/kECtuC7nApvqlSYZ2XrEB6ra1hzYw17xkjjXEf9/IMWrbCrLHJAmMpPeUIQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  211.20.1.79) smtp.rcpttodomain=stwcx.xyz smtp.mailfrom=wiwynn.com; dmarc=fail
  (p=quarantine sp=quarantine pct=100) action=quarantine
@@ -45,18 +45,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NjSPiGVt5mrfI/V12S/7TXpE76spvcLvJ8nRI8PHiHw=;
- b=DUEuwVfHN3TOKzjRBVbeaQGpZx65RZve3TRwi1JNQfKw/TUI1v9zm3+TmHrBdHhjh2dBQcrAM8vW9EEs9j9wmnEo3xjd6gEE4RVy8dH3AjDCaq7BDXZmr5QiGeCprzJduOkNtxAISB7Ae5TAI7KY+kpp813b/4qMqWzJQpoYfwIn8qTaA0tSTmKBCGum+2o3lKUdbCvaIW9SSjRMRQcUf72aPqz7Pkbuw/L/Q9mZNWzlFSRXVQ56YVTWXLuqN8PYSa57S4gSOOi7kZqlZkfCT6cC6nPiKY4ARwuu0TGGGF6rO1sNQouB/qKPS0Ssbhl8Z1T17K1fkvHV5Rfjg1pnzw==
-Received: from PS2PR01CA0040.apcprd01.prod.exchangelabs.com
- (2603:1096:300:58::28) by KL1PR04MB7163.apcprd04.prod.outlook.com
- (2603:1096:820:f9::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.22; Fri, 6 Sep
- 2024 06:14:53 +0000
+ bh=dDRNL8aqBLV1TuuBW7ADbrQVrbs0/GZw0WSSfkNDrCo=;
+ b=YuWBRc64yhh3DelzsYtJZYmL56SZoUQaEv26rymJ3tJC7booIWLJ/ZpY7Jf8qcVrcB0hCu2dBV9BrzuENA4GwuLQycD2hBNOBSOXYbFU48plwXCE7Jda98eQ3rdoyAWEEFQ5VPe1i2pgc8yFknBHNsn1dueJhSkQ+xC55nEuVIMytkFozLMWvXAIB/DKOYxAC+P4LyX/WoaIQ6Zu/5Tt/cvo8HgKGPySabDdsT/tEYQOuOU8/P0RkDqJ9qg9Y2hFfD2hs2QhLxHIr28sSepSyBsWthHpHMOhH/dDYeYoHUApiynye2u59KnmVDNX73PouIPCVo8CkqjcXb/4KovnRQ==
+Received: from PS2PR01CA0025.apcprd01.prod.exchangelabs.com
+ (2603:1096:300:58::13) by TYSPR04MB7566.apcprd04.prod.outlook.com
+ (2603:1096:400:46e::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.25; Fri, 6 Sep
+ 2024 06:14:58 +0000
 Received: from HK2PEPF00006FB3.apcprd02.prod.outlook.com
- (2603:1096:300:58:cafe::15) by PS2PR01CA0040.outlook.office365.com
- (2603:1096:300:58::28) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:1096:300:58:cafe::ec) by PS2PR01CA0025.outlook.office365.com
+ (2603:1096:300:58::13) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.17 via Frontend
- Transport; Fri, 6 Sep 2024 06:14:53 +0000
+ Transport; Fri, 6 Sep 2024 06:14:57 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 211.20.1.79)
  smtp.mailfrom=wiwynn.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=quarantine header.from=wiwynn.com;
@@ -65,28 +65,28 @@ Received-SPF: Fail (protection.outlook.com: domain of wiwynn.com does not
  client-ip=211.20.1.79; helo=localhost.localdomain;
 Received: from localhost.localdomain (211.20.1.79) by
  HK2PEPF00006FB3.mail.protection.outlook.com (10.167.8.9) with Microsoft SMTP
- Server id 15.20.7918.13 via Frontend Transport; Fri, 6 Sep 2024 06:14:53
+ Server id 15.20.7918.13 via Frontend Transport; Fri, 6 Sep 2024 06:14:57
  +0000
 From: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
 To: patrick@stwcx.xyz,
 	=?UTF-8?q?Carsten=20Spie=C3=9F?= <mail@carsten-spiess.de>,
 	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
+	Guenter Roeck <linux@roeck-us.net>
+Cc: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
 	Jonathan Corbet <corbet@lwn.net>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
 	linux-hwmon@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v6 2/3] dt-bindings: hwmon: add renesas,isl28022
-Date: Fri,  6 Sep 2024 14:14:17 +0800
-Message-Id: <20240906061421.9392-3-Delphine_CC_Chiu@wiwynn.com>
+Subject: [PATCH v6 3/3] hwmon: (isl28022) support shunt voltage for ISL28022 power monitor
+Date: Fri,  6 Sep 2024 14:14:18 +0800
+Message-Id: <20240906061421.9392-4-Delphine_CC_Chiu@wiwynn.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240906061421.9392-1-Delphine_CC_Chiu@wiwynn.com>
 References: <20240906061421.9392-1-Delphine_CC_Chiu@wiwynn.com>
@@ -96,156 +96,242 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: HK2PEPF00006FB3:EE_|KL1PR04MB7163:EE_
-X-MS-Office365-Filtering-Correlation-Id: 873b3221-1d01-4095-23b6-08dcce3b3900
+X-MS-TrafficTypeDiagnostic: HK2PEPF00006FB3:EE_|TYSPR04MB7566:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 8083e210-0cb1-4277-f37c-08dcce3b3b96
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|376014|82310400026|1800799024|7416014;
+	BCL:0;ARA:13230040|1800799024|7416014|376014|36860700013|82310400026;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?SzEvblR2ZWhDK1FGaGVndVhXSG42bytiN3lJWFBGMnRTZUp2Nm8xUy9UdXBJ?=
- =?utf-8?B?YStHQmZNYVJGT1N6YUtYR3p1cWRnc2NNK2l0cjBFU1VvcWxjdlc2Szdmekcv?=
- =?utf-8?B?dTBYTUVJTUd2OC9jRlFnYlZxYkhtazZjcFl0MlZQLytCQmNSSU93WHdMUjJm?=
- =?utf-8?B?TVBjQUEyQU9BWDR0UHlBNmNaSHhzK0xLTUxVbjdIR0JGcWZpWUVVMWdQaVdl?=
- =?utf-8?B?aXpBWlhZeWhic1E4MnYvMDFJZnVubmc1dXluQUZCMlN2eVRpdk45VDY1OGVr?=
- =?utf-8?B?elRrb2d1aktuVlkySHpoWitGdHM1dHY0SXpmZXI4anlVS0s5OUtWT1VvUk9D?=
- =?utf-8?B?TnB5WkdRNGJ0SFVsMFBvd05BSmc2SXhtVDRRbmNUa2FmTWFQUzJJS0U2bjJi?=
- =?utf-8?B?N3lkaUVBZUNUZ3h3OG41NmJrd3c1cWkvT2ZDRVZPaHhjeEttTkEvS2pXZUJB?=
- =?utf-8?B?QjVpYk53ek5iVks2SEFGNXVTMjgxVTVQRk9rblBCMzl2WittbENucWJJeFd3?=
- =?utf-8?B?TDJmM1NxYVBqSGk3VkZyR2g4Q2pwTEFtbXoraWJOaVBlQ0UrY1JkbUZFUGJh?=
- =?utf-8?B?MEVINC9VWEdEYnFCUFF6Z3RzbVd4T2VKSzg2K01HNEdjd3RQVENuakNCQXl0?=
- =?utf-8?B?NG9JQjZmeWZPS05xZFRzQ3BYaysyNitZMnIyQWYyR2FFZkJaS21Wc2lvMEFY?=
- =?utf-8?B?dG90QjM0VDFMUS9WekV4MUYybkNtOXlnK2h1VUgwRXU1cTdLWkkvSVZFb3k4?=
- =?utf-8?B?VEliUXhubGFzcHV4SHdFQnA0WStFVU1talhQVGpPYVc1dU1LSTd4bk41RDNQ?=
- =?utf-8?B?Sm9ENXlWVldjQ0V2U3E0NlR4QTFRKy9Nbk02WHAxZ1k0cWFMR2psMXQ1Q3E4?=
- =?utf-8?B?bTNIaCt2N3cxd2swWk9NZjZ5aVp4K3o1WnlObnNXSmJlZ2ttM2kzcHVCdS9O?=
- =?utf-8?B?cTFMTGx0dWhaS29DemhTdWhaU0RGSGdOaGkxdVVGZmZDUUJNbDNpbHh0YmRS?=
- =?utf-8?B?bWtkRS9pT0RORjFORmg2R1B4Z3FJK3dRQ0xUbDg3NkFIUXZzVzEvYUVXRktF?=
- =?utf-8?B?dTgyMnFteFlLN0FZQ1duelU4d2s2SG5CR0RuYWVraXV2T1RZaFVWcm1LMTdh?=
- =?utf-8?B?eXhNNzZvdTJRUE5DMHFqdndsRVpJUzlZcVYycW5VUURidzZ6S09mOUlyVjJa?=
- =?utf-8?B?dkJOUHRHQkwrZHdUTjBRWG40Um5UQjNpREdEeVlnU1U4WGFTTEtqQ1ZKUXhy?=
- =?utf-8?B?QzZrLy9aM3ZvZUlEd3pvZlhpeG5oVUVrR2pLdmdXZVY1OXRGb3lYekZNbGo1?=
- =?utf-8?B?ZjhkOUljRExiQTE4Q1JGdVh0YVBUWXZuelhyWnhSYTVpZTJDSlN0ajc1cmR1?=
- =?utf-8?B?VmRsSU0yQ29xcDdQdGpWZ3JubUdiQjhld3JOZjJmUkw4ZSttWWgyOXdvemsr?=
- =?utf-8?B?R2dmcWwxKzZpKzBMVVBucDZPeDFzbll2Tm5HMVJJNnZoTHYrdGhrb0tVcDk5?=
- =?utf-8?B?NmhETjF2eHQ0WUxqRFluVzVINTJIWnp5RW5oSGxRcXpvcnlHQm1iTkY3cDRE?=
- =?utf-8?B?S3lSQURaM0dFQTBEdnJVellVMkxzMzJxMm5ta2poZ1JjT1lpNnVuaEZIN1VX?=
- =?utf-8?B?cGFWQXl3bmUyL2tnbHJtMUhsdlY0UDYrUUJTWm9VY2wvRmRBTmN1MjNNWFJa?=
- =?utf-8?B?b2dNbGtoeFc4elRRMTNheHRuUmJZVGJKYW9vT0ZSTlZiY3RvdU0yZlBkZGV1?=
- =?utf-8?B?SjIxRFdYUEh5SWh4MjI1a2tKbUh2R2IvWnVObWRtWDE0bGlxeUs0Y2V0c3hv?=
- =?utf-8?B?cEZNNTFyZjNzaEhZbmU5Y2dGeDhYeE93bEFHQUw1ZkhNdGtVWC9MRExETTd1?=
- =?utf-8?Q?sWyt6thOQSQNQ?=
+	=?us-ascii?Q?xJ1dcAzHoWRcg17izxydOxFC8LyyC0oha+hyfedD2M6JbmGfsEJ9VXNwmom3?=
+ =?us-ascii?Q?eZfBwQv1DLkpHPwwatrTPMG4INjMiOmM05dBsxbVL0goQcHbKGxbvL73kY+a?=
+ =?us-ascii?Q?/ROw5xuQBVAZm+1JT0vJN28Nvd9e8QsUfJnrim2j5guo7pjmC1vD5hfzoFrH?=
+ =?us-ascii?Q?N/OZeP3RAlRn1T4tgoV1CFqvSxWUR9SkeOyY7XxQ3udU5Kzfe7eUqbasxvpp?=
+ =?us-ascii?Q?0oLyi8iziN0rUfALGbFhIWa4z1IXii2GYcJZpdACX1M2brcruGPYBoEhkYdQ?=
+ =?us-ascii?Q?rzYCCG+1boedTRYLYwWX+b66NfJo9fO8eW00cVgWeJhRllE2x9mPc35GtUfH?=
+ =?us-ascii?Q?ZPM0Pje1HvY5Ie/RQLaMQ/3r6QsxKQGUuaij7nWLzCxuyDLylwQN6+SuFEny?=
+ =?us-ascii?Q?Y2XlUxWbRL9tuU6NpCOONl7CToI1bnS8ogEpTA/snMVsbnlhAmc8rOsnBofN?=
+ =?us-ascii?Q?VN7s44qXgWgZ0UeV9siS0XfDFu+KUVSq1an3ENQjPAYghqH3DS/QVvLLgmNq?=
+ =?us-ascii?Q?yY3SJTNYt1AxMy0sG4/pM8xWXzUO+gXw1vhZqr6hIxcqiyOkjRJVTPzC0nGP?=
+ =?us-ascii?Q?QLBen0AzkaJK+94pnCuYTzJFGC0uJy1mt15CLC6Xu4xr3o4EWmst+j7u7URe?=
+ =?us-ascii?Q?W1RncRCvmn5M++/uDdQXXQ3gcIIPzVwX1YgQIZjfW+gSUXQ/FkHVeclnMe8e?=
+ =?us-ascii?Q?hFHocluoXTz9lIGLqZOblFuG81wjaP0Ru9WVH8XqgMzrGplGOWlBVC2pSKmU?=
+ =?us-ascii?Q?A1a2VrIPyFc8ilwH3GjSmt7Llc6KEUK6PISl/UD4wTE7xZlYmhQ6dptLEPiE?=
+ =?us-ascii?Q?ZrNRVi+CXybIJ6XyZl4+obhlndx4ccMPbSiwQYFm6c7ZzPl9k51hPBQT+EnV?=
+ =?us-ascii?Q?uROPhTpRwuU0kMzDYzcT4eFjTu7JT3Qg3gspf5wg0c1c3T8B5oDJQW3C08tT?=
+ =?us-ascii?Q?ZLXB9ak6zbLCMmhNqACX8x+y8TeCOv0Lf3p8ZeDHbL4CTIoUj07IcLjE/1Pm?=
+ =?us-ascii?Q?C9kylo93YgF9/8afaZiSnTfT94FPTz4X83kuyJwtWzesLUrRWMF+7jH+T29E?=
+ =?us-ascii?Q?V+4aO2XTuL9nBqYooQ+f1HjwgsTWF8OGsiglAbDppR9NLJqNtwQaQ+DASrEK?=
+ =?us-ascii?Q?vp5WOCXenbgDz5Pi/Pu805Gsv2GyeVKds0kqMyAtG5ld3SM6i0s2kQYXu6Ca?=
+ =?us-ascii?Q?p3UevqgOpcplc/IrDzEQHQZpjG4Iu4lnxky5twPtARNdqACJV6PhUiVjIZsJ?=
+ =?us-ascii?Q?dAAh4/vXRFp8al18j+7+HGHXZpxgRUlvkOYploqESlGN1eV/Iq3VYGGlCOVE?=
+ =?us-ascii?Q?ocu1QueAqMp67zor+PUnLLoJJpSY4fW9uCe1W2CELAm6rubZ5qaofEoUXiZC?=
+ =?us-ascii?Q?btR2I3E5+QUCkvKwYvnbrZVIJaXN85IZMwKiDnOWPTbLXF/hnexTIiCyat+2?=
+ =?us-ascii?Q?HDA8gPH85Us6myz1i0n9UiwlpQuOY7D4?=
 X-Forefront-Antispam-Report:
-	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230040)(36860700013)(376014)(82310400026)(1800799024)(7416014);DIR:OUT;SFP:1101;
+	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(36860700013)(82310400026);DIR:OUT;SFP:1101;
 X-OriginatorOrg: wiwynn.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2024 06:14:53.1501
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2024 06:14:57.4939
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 873b3221-1d01-4095-23b6-08dcce3b3900
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8083e210-0cb1-4277-f37c-08dcce3b3b96
 X-MS-Exchange-CrossTenant-Id: da6e0628-fc83-4caf-9dd2-73061cbab167
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=da6e0628-fc83-4caf-9dd2-73061cbab167;Ip=[211.20.1.79];Helo=[localhost.localdomain]
 X-MS-Exchange-CrossTenant-AuthSource:
 	HK2PEPF00006FB3.apcprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR04MB7163
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR04MB7566
 
-From: Carsten Spieß <mail@carsten-spiess.de>
+Added support reading shunt voltage in mV and revise code
+for Renesas ISL28022.
 
-Add dt-bindings for Renesas ISL28022 power monitor.
-
-Signed-off-by: Carsten Spieß <mail@carsten-spiess.de>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
 ---
- .../bindings/hwmon/renesas,isl28022.yaml      | 64 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 2 files changed, 65 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
+ drivers/hwmon/isl28022.c | 93 ++++++++++++++++++++++++++++------------
+ 1 file changed, 66 insertions(+), 27 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml b/Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
-new file mode 100644
-index 000000000000..dd82a80e4115
---- /dev/null
-+++ b/Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
-@@ -0,0 +1,64 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/hwmon/renesas,isl28022.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas ISL28022 power monitor
-+
-+maintainers:
-+  - Carsten Spieß <mail@carsten-spiess.de>
-+
-+description: |
-+  The ISL28022 is a power monitor with I2C interface. The device monitors
-+  voltage, current via shunt resistor and calculated power.
-+
-+  Datasheets:
-+    https://www.renesas.com/us/en/www/doc/datasheet/isl28022.pdf
-+
-+properties:
-+  compatible:
-+    const: renesas,isl28022
-+
-+  reg:
-+    maxItems: 1
-+
-+  shunt-resistor-micro-ohms:
-+    description:
-+      Shunt resistor value in micro-Ohm
-+    minimum: 800
-+    default: 10000
-+
-+  renesas,shunt-range-microvolt:
-+    description:
-+      Maximal shunt voltage range of +/- 40 mV, 80 mV, 160 mV or 320 mV
-+    default: 320000
-+    enum: [40000, 80000, 160000, 320000]
-+
-+  renesas,average-samples:
-+    description:
-+      Number of samples to be used to report voltage, current and power values.
-+    default: 1
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [1, 2, 4, 8, 16, 32, 64, 128]
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        power-monitor@40 {
-+            compatible = "renesas,isl28022";
-+            reg = <0x40>;
-+            shunt-resistor-micro-ohms = <8000>;
-+            renesas,shunt-range-microvolt = <40000>;
-+            renesas,average-samples = <128>;
-+        };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d39199ed51da..d5809cf181ff 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11936,6 +11936,7 @@ ISL28022 HARDWARE MONITORING DRIVER
- M:	Carsten Spieß <mail@carsten-spiess.de>
- L:	linux-hwmon@vger.kernel.org
- S:	Maintained
-+F:	Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
- F:	Documentation/hwmon/isl28022.rst
- F:	drivers/hwmon/isl28022.c
+diff --git a/drivers/hwmon/isl28022.c b/drivers/hwmon/isl28022.c
+index f0494c3bd483..01220fad813d 100644
+--- a/drivers/hwmon/isl28022.c
++++ b/drivers/hwmon/isl28022.c
+@@ -85,8 +85,6 @@ struct isl28022_data {
+ 	u32			shunt;
+ 	u32			gain;
+ 	u32			average;
+-	u16			config;
+-	u16			calib;
+ };
+ 
+ static int isl28022_read(struct device *dev, enum hwmon_sensor_types type,
+@@ -95,20 +93,61 @@ static int isl28022_read(struct device *dev, enum hwmon_sensor_types type,
+ 	struct isl28022_data *data = dev_get_drvdata(dev);
+ 	unsigned int regval;
+ 	int err;
++	u16 sign_bit;
+ 
+ 	switch (type) {
+ 	case hwmon_in:
+-		switch (attr) {
+-		case hwmon_in_input:
+-			err = regmap_read(data->regmap,
+-					  ISL28022_REG_BUS, &regval);
+-			if (err < 0)
+-				return err;
+-			/* driver supports only 60V mode (BRNG 11) */
+-			*val = (long)(((u16)regval) & 0xFFFC);
++		switch (channel) {
++		case 0:
++			switch (attr) {
++			case hwmon_in_input:
++				err = regmap_read(data->regmap,
++						  ISL28022_REG_BUS, &regval);
++				if (err < 0)
++					return err;
++				/* driver supports only 60V mode (BRNG 11) */
++				*val = (long)(((u16)regval) & 0xFFFC);
++				break;
++			default:
++				return -EOPNOTSUPP;
++			}
++			break;
++		case 1:
++			switch (attr) {
++			case hwmon_in_input:
++				err = regmap_read(data->regmap,
++						  ISL28022_REG_SHUNT, &regval);
++				if (err < 0)
++					return err;
++			switch (data->gain) {
++			case 8:
++				sign_bit = (regval >> 15) & 0x01;
++				*val = (long)((((u16)regval) & 0x7FFF) -
++					   (sign_bit * 32768)) / 100;
++				break;
++			case 4:
++				sign_bit = (regval >> 14) & 0x01;
++				*val = (long)((((u16)regval) & 0x3FFF) -
++					   (sign_bit * 16384)) / 100;
++				break;
++			case 2:
++				sign_bit = (regval >> 13) & 0x01;
++				*val = (long)((((u16)regval) & 0x1FFF) -
++					   (sign_bit * 8192)) / 100;
++				break;
++			case 1:
++				sign_bit = (regval >> 12) & 0x01;
++				*val = (long)((((u16)regval) & 0x0FFF) -
++					   (sign_bit * 4096)) / 100;
++				break;
++			}
++			break;
++			default:
++				return -EOPNOTSUPP;
++			}
+ 			break;
+ 		default:
+-			return -EINVAL;
++			return -EOPNOTSUPP;
+ 		}
+ 		break;
+ 	case hwmon_curr:
+@@ -122,7 +161,7 @@ static int isl28022_read(struct device *dev, enum hwmon_sensor_types type,
+ 				(long)data->shunt;
+ 			break;
+ 		default:
+-			return -EINVAL;
++			return -EOPNOTSUPP;
+ 		}
+ 		break;
+ 	case hwmon_power:
+@@ -136,11 +175,11 @@ static int isl28022_read(struct device *dev, enum hwmon_sensor_types type,
+ 				(long)data->shunt) * (long)regval;
+ 			break;
+ 		default:
+-			return -EINVAL;
++			return -EOPNOTSUPP;
+ 		}
+ 		break;
+ 	default:
+-		return -EINVAL;
++		return -EOPNOTSUPP;
+ 	}
+ 
+ 	return 0;
+@@ -182,7 +221,8 @@ static umode_t isl28022_is_visible(const void *data, enum hwmon_sensor_types typ
+ 
+ static const struct hwmon_channel_info *isl28022_info[] = {
+ 	HWMON_CHANNEL_INFO(in,
+-			   HWMON_I_INPUT),	/* channel 0: bus voltage (mV) */
++			   HWMON_I_INPUT,	/* channel 0: bus voltage (mV) */
++			   HWMON_I_INPUT),	/* channel 1: shunt voltage (mV) */
+ 	HWMON_CHANNEL_INFO(curr,
+ 			   HWMON_C_INPUT),	/* channel 1: current (mA) */
+ 	HWMON_CHANNEL_INFO(power,
+@@ -368,24 +408,22 @@ static int isl28022_read_properties(struct device *dev, struct isl28022_data *da
+ static int isl28022_config(struct isl28022_data *data)
+ {
+ 	int err;
++	u16 config;
++	u16 calib;
+ 
+-	data->config = (ISL28022_MODE_CONT_SB << ISL28022_MODE_SHIFT) |
++	config = (ISL28022_MODE_CONT_SB << ISL28022_MODE_SHIFT) |
+ 			(ISL28022_BRNG_60 << ISL28022_BRNG_SHIFT) |
+ 			(__ffs(data->gain) << ISL28022_PG_SHIFT) |
+ 			((ISL28022_ADC_15_1 + __ffs(data->average)) << ISL28022_SADC_SHIFT) |
+ 			((ISL28022_ADC_15_1 + __ffs(data->average)) << ISL28022_BADC_SHIFT);
+ 
+-	data->calib = data->shunt ? 0x8000 / data->gain : 0;
+-
+-	err = regmap_write(data->regmap, ISL28022_REG_CONFIG, data->config);
+-	if (err < 0)
+-		return err;
++	calib = data->shunt ? 0x8000 / data->gain : 0;
+ 
+-	err = regmap_write(data->regmap, ISL28022_REG_CALIB, data->calib);
++	err = regmap_write(data->regmap, ISL28022_REG_CONFIG, config);
+ 	if (err < 0)
+ 		return err;
+ 
+-	return 0;
++	return regmap_write(data->regmap, ISL28022_REG_CALIB, calib);
+ }
+ 
+ static int isl28022_probe(struct i2c_client *client)
+@@ -396,8 +434,8 @@ static int isl28022_probe(struct i2c_client *client)
+ 	int err;
+ 
+ 	if (!i2c_check_functionality(client->adapter,
+-				     I2C_FUNC_SMBUS_BYTE_DATA |
+-				     I2C_FUNC_SMBUS_WORD_DATA))
++					 I2C_FUNC_SMBUS_BYTE_DATA |
++					 I2C_FUNC_SMBUS_WORD_DATA))
+ 		return -ENODEV;
+ 
+ 	data = devm_kzalloc(dev, sizeof(struct isl28022_data), GFP_KERNEL);
+@@ -418,7 +456,7 @@ static int isl28022_probe(struct i2c_client *client)
+ 
+ 	isl28022_debugfs_init(client, data);
+ 
+-	hwmon_dev = devm_hwmon_device_register_with_info(dev, "isl28022_hwmon",
++	hwmon_dev = devm_hwmon_device_register_with_info(dev, client->name,
+ 							 data, &isl28022_chip_info, NULL);
+ 	if (IS_ERR(hwmon_dev))
+ 		return PTR_ERR(hwmon_dev);
+@@ -437,8 +475,9 @@ static struct i2c_driver isl28022_driver = {
+ 	.class		= I2C_CLASS_HWMON,
+ 	.driver = {
+ 		.name	= "isl28022",
++		.of_match_table = of_match_ptr(isl28022_of_match),
+ 	},
+-	.probe_new	= isl28022_probe,
++	.probe	= isl28022_probe,
+ 	.id_table	= isl28022_ids,
+ };
  
 -- 
 2.25.1
