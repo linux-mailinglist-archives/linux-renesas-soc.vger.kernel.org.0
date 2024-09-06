@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-8799-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8800-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEF0F96EF1E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 11:26:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDAEB96EF23
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 11:27:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 41B6FB23BD5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 09:26:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E91D281418
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 09:27:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64E2E1C86E7;
-	Fri,  6 Sep 2024 09:25:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBB5A1C7B7E;
+	Fri,  6 Sep 2024 09:27:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O+8q2f2H"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eWR9pXJY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 392DD1C7B9E;
-	Fri,  6 Sep 2024 09:25:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A08A51581EE;
+	Fri,  6 Sep 2024 09:27:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725614753; cv=none; b=SS7pRB+GST7aG9irWLDpu8iT/LQQzIzQMt7+6J/0iYE+B6Y861PwjGh2mAqkfMWjxbfFhClkQVplS1dFJDjy7fwEpgiue0KuplEj6t8OssA2FzjjoMp479A0g9/lhRKZ8tDIxNoACBvDRYPEP02Pq6+5CWIuhqHjfwaPj32t294=
+	t=1725614832; cv=none; b=Vb0IWXM5W5WtM5Q0VLRzTx5AnCCnuaINJ/Zn1MjyW6QKDngtSCwXiEohZhqZHulEfSJfhyMkoRl2QWIYb3L84boNTIMvq1AEGTkAVifUgTgU76jegOYp2JYAX+ADefEpNj8yoRbTXWm17KLDuSd3lBcj8f1gBASBNnvVZkukONQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725614753; c=relaxed/simple;
-	bh=OOZSVtYZonld9Ebpwx/Lw4siE3C2Su5fEHkakh+h7ak=;
+	s=arc-20240116; t=1725614832; c=relaxed/simple;
+	bh=OIA8HXSM5TnHNn0iNSRymE5aF9pj/H5jQBZHRfGOuIM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=X/fsS8+grBP267ewBzTpuPzFXp5h8qSBH+a6f6Ccu7r5RcsTZkRCHDXg4to/f15pNHhYlYXr2+DNfnCCEDSrZiHv4YaXUhJAzm6zmppmHNA8akrEGrLpK5FdFTxUgzI7xvfvweIikBdxamBGV6omuYKo+VVMGEgEEnruAqjwBKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O+8q2f2H; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46100C4CEC4;
-	Fri,  6 Sep 2024 09:25:47 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=PVZIn0GnQHhQML69fsITfEeLsY+CMrxGkW3G3QJrTmus2TmVnFzNAspeNhFHPqLqVoBNIlfmbGDI10wg/OE0udoq4lZuMpS0b47Ph4uJGL3V/MM/c/v0dPscTW+dcuSfI09jBIFR3LilHCL+KkUNDHsaMNGfHUx8bvB7DQkktVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eWR9pXJY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 298FFC4CEC4;
+	Fri,  6 Sep 2024 09:27:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725614752;
-	bh=OOZSVtYZonld9Ebpwx/Lw4siE3C2Su5fEHkakh+h7ak=;
+	s=k20201202; t=1725614832;
+	bh=OIA8HXSM5TnHNn0iNSRymE5aF9pj/H5jQBZHRfGOuIM=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=O+8q2f2HrkfXgFbZlGWft6UKkC7fsxyD0X2mLuBx9zIW97HiFVxFKJtra2ddkLdS7
-	 hTIAMtlQvoQs+jLhSvjJ0I8rWgIRaIFLUP4A2uSrUW+Jj0M6/btx8zF4Ja5OvX+Xx4
-	 zsoJcDeFmjG6VngnYEJoDd92qMj/5jIYTULbT1F4YvDjlAmsKSI+c25zDuABqDw9A5
-	 WBpWjgnnnyjTBQlNJNgt2zjeXr8oFaMskZlv24raWeTIlHCgY/tx+RAA9mDuC0JcaZ
-	 bKJBuVPYc/gFLRYR2ncMoehmC9UL6xCaPJ1klyYRFpk9LJ7oaJs9dd6Mw4kMvu7fNu
-	 2tKtHPtFnln8A==
-Message-ID: <3d791a58-e311-4837-bc3f-f988bb5c085e@kernel.org>
-Date: Fri, 6 Sep 2024 11:25:46 +0200
+	b=eWR9pXJYsL3Ww3mdoCDtpBWKNJ0q+Vyy1tolhUmdlWwhGkEst6BBnCFFb57P1Tagz
+	 0vGf2Xcg386CvVnPqEJgMR/zgDWsobAf/z/XLSHaZ/Rr6AJ5Fe83Bqh7aMEekyyS+Q
+	 jgTFcc2IqvUFsnJx5/jjYI2xlUvOiR7KlqiwQzymDs3YkoFa28cFzdSPgqnZzlq+zO
+	 K30MIw1MJOmu0eDLws+NL35wvXxm08VBVRW2R5iSYNH+xY7KE+KeeoSr22jUyJrWeX
+	 C1L+EeoqbRFSA65+LbEU8JlF3hcYaqJzxNtntQicEByqtsXobDn26Rdys1xQGJvKO1
+	 iaYb/uiKev7rQ==
+Message-ID: <6ce7bb37-833f-4164-8247-2ea80321993e@kernel.org>
+Date: Fri, 6 Sep 2024 11:27:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,7 +50,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 26/32] ARM: dts: aspeed: yosemite4: add MP5990 support
+Subject: Re: [PATCH v15 28/32] ARM: dts: aspeed: yosemite4: fix GPIO linename
+ typo
 To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
@@ -60,9 +61,9 @@ Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
  linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
  linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 References: <20240906062701.37088-1-Delphine_CC_Chiu@wiwynn.com>
- <20240906062701.37088-27-Delphine_CC_Chiu@wiwynn.com>
-Content-Language: en-US
+ <20240906062701.37088-29-Delphine_CC_Chiu@wiwynn.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -106,36 +107,59 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240906062701.37088-27-Delphine_CC_Chiu@wiwynn.com>
+In-Reply-To: <20240906062701.37088-29-Delphine_CC_Chiu@wiwynn.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 06/09/2024 08:26, Delphine CC Chiu wrote:
-> Add MP5990 in yosemite4 DTS.
-
-It's already there.
-
+> Fix GPIO linename typo and add missing GPIO pin initial state.
 > 
 > Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
 > ---
->  .../dts/aspeed/aspeed-bmc-facebook-yosemite4.dts | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
+>  .../aspeed/aspeed-bmc-facebook-yosemite4.dts  | 554 ++++++++++++++----
+>  1 file changed, 455 insertions(+), 99 deletions(-)
 > 
 > diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-> index 03a1e41312e3..f139f426099e 100644
+> index abd4a9173de4..4090725160f9 100644
 > --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
 > +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-> @@ -356,7 +356,7 @@ gpio@24 {
->  	};
->  
->  	power-sensor@40 {
-> -		compatible = "adi,adm1281";
-> +		compatible = "adi,adm1281", "mps,mp5990";
+> @@ -285,6 +285,8 @@ &mac2 {
+>  	pinctrl-0 = <&pinctrl_rmii3_default>;
+>  	use-ncsi;
+>  	mellanox,multi-host;
+> +	ncsi-ctrl,start-redo-probe;
+> +	ncsi-ctrl,no-channel-monitor;
 
-No, you keep sending same buggy patches.
+NAK.
 
+Stop sending downstream junk to us.
 
+...
 
+> +	pin_gpio_m3 {
+
+You were already told multiple times to fix youro naming.
+
+Underscores are not allowed in node names.
+
+Finally, fix all your patches, not just one.
+
+> +		gpios = <ASPEED_GPIO(M, 3) GPIO_ACTIVE_LOW>;
+> +		input;
+> +	};
+> +	pin_gpio_m4 {
+> +		gpios = <ASPEED_GPIO(M, 4) GPIO_ACTIVE_LOW>;
+> +		input;
+> +	};
+> +	pin_gpio_m5 {
+> +		gpios = <ASPEED_GPIO(M, 5) GPIO_ACTIVE_LOW>;
+> +		input;
+> +	};
+> +	pin_gpio_n0 {
+> +		gpios = <ASPEED_GPIO(N, 0) GPIO_ACTIVE_LOW>;
+> +		input;
+> +	};
+> +	pin_gpio_n1 {
 
 Best regards,
 Krzysztof
