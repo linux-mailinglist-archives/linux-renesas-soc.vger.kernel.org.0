@@ -1,312 +1,108 @@
-Return-Path: <linux-renesas-soc+bounces-8793-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8794-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC40C96EBFE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 09:31:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37C5796EC09
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 09:34:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2121DB20E55
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 07:31:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CE7411F23828
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 07:34:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1708414A4D1;
-	Fri,  6 Sep 2024 07:31:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XrUTohjU"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33C1D14A4F9;
+	Fri,  6 Sep 2024 07:34:37 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C900522087;
-	Fri,  6 Sep 2024 07:31:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53E4217C9B;
+	Fri,  6 Sep 2024 07:34:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725607893; cv=none; b=t4iqgFgxjkwt7rXAhutNdjJ7XoVe22osl2NRh5XfjN9Emmm3BvlvbPlZ2aGyV4xngwTnBH2SqKozQaiUJ33l4f5ui1oEZRACA/nQGHfbsonL1CpZmvx0dFcjz/LjdxGz/tD83RfvYAZ0iowKy047iJM+Tz40p1CZNXZAxYsDkRs=
+	t=1725608077; cv=none; b=eokZ38nXVntZVzQzGPqTxQCB4ZhILzBNFB1eIulIfag/Yl68qFs5s+9a5Di5UkENdVAMqj+2ebhqrBwMefRzDHbXNKC1ZbGGsyv4y+EyaMTOZ8E0EXmE3Ry6uMOIufnkCARozu0cyJ6VPH2v1l67QyDE6no1uhTUciTr9BQ24c8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725607893; c=relaxed/simple;
-	bh=bH+u1poiP8KymP8wCH/Oh2qSwEOx0LGtJlm+LlrCVUk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eUl8OXZEjb1HnLTa0w3S64vn7zMj2xBtvGwivIKQ67jhh8l6Wg64QE4jGhEJwMpRqbr/G2c+fZ2qnkLpM3OeHUjKUfsN4QDjvx3ah7PnDQCTyssv5oiVHOup/C8omc4dBgtCkIM0/o0l5TEfAVR+PwlRhUP2lgukVfjrX3XAhV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XrUTohjU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BBE6C4CEC4;
-	Fri,  6 Sep 2024 07:31:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725607893;
-	bh=bH+u1poiP8KymP8wCH/Oh2qSwEOx0LGtJlm+LlrCVUk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=XrUTohjUlzNcyGv03yfeY6fSR7HlIStQGqu+b2oPNrPDxL16+i46Jgdwra+SOVSj4
-	 69MAkn1aCGCqmarkcuItQ/Hxs7yVpPJARDBwo+oB1jBbGzZjNohr9fDczfNoq4Yjcr
-	 9yAyuBL8ydyLG+4ogsnQSYil/1sVx3x2+vhT5U6aqnp3f8SVAhxlqjXz+NyQZjLfQv
-	 q88UfmRpv9UAfyOQGPYE1aaJFVT1890hQRUkQyxOPREfbfPvO/q1ZL9PJN9iNAzzoy
-	 otWyLO3UEy4FPW/uljYYBq6Vx6WrTwF4BF4KQUdD50NrQRU+zeY6iwy+/lfMt6kya0
-	 xvnx1BRciVABQ==
-Message-ID: <7e3af957-391a-4604-9cad-04e581761b3c@kernel.org>
-Date: Fri, 6 Sep 2024 09:31:25 +0200
+	s=arc-20240116; t=1725608077; c=relaxed/simple;
+	bh=eeVzETaP9T5RwN0n/X9P3/bS1TMJXFOsU2KTkWDq7eg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RwdGJJKWsfkJoky0nAA6OstuEMig2SSFSC+QWfRrVUBSLxcxA+z9BM9fnWWLvnqBY0t0pvXazyVgIrkjD5gt4WzsVtLdy2DN2c3Qx1xxw3tS3515/+hWRpWFkyVZahOMNbDyWnzFUUIq3V+n/gNivalIFqWOtkhg8Zjmpr+T/8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6b5b65b1b9fso13780247b3.2;
+        Fri, 06 Sep 2024 00:34:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725608073; x=1726212873;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OzWwlgD21vw3dYHmaJkpCeyi7AwIVfGBZ5Yt8JsuZL0=;
+        b=UYhiKJE7etT+6pEaT5W0S3cYxSt/An3TImwSsTFItrZLXsdbWI0YZatBStnUpjcviL
+         dn3jCwgNJdPC+VDpMfx3aay8vg55wsF58XJ6D5va9HfSQegHLv8zmkhkijfrrCgtKTjv
+         LpUJBO1AVFcllXTiElJCYpWVzt5MOqrdl77oCvApyOxa9+Cn6uuhAEa9TZjybv3lixGW
+         2iPbnA9PD0RePDCTw5aXdSzTNaIznGXOF6cd/egQ06UaFe363gN3hN8XjDaZUE8EtLqZ
+         zfjFZb9cirNplP3ZFPctwhieH5s9pCM/PoL+WqWbL2ocrYDWtulrcihNVbHf+t83U7WH
+         nJRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUTZcoBKTG/Ey3afrerRziJ5JIpJ91/BHw5zDLJhLG3Knst4Af2GXEeRKAfoXFv4nAuVNzfX1byTJFbCxYw@vger.kernel.org, AJvYcCUfY8JUA/FftfYm9yXUCXrSEUqbXTtSSSazApOxCA4iQ6GYc/bLTcpMV/tIv+028+D0fCDrv2g4cfZQ5xY2LZrJRRs=@vger.kernel.org, AJvYcCXE+1EYq6xkBmFDz9elzRS3X/9HVVNJ46nv3n20uwS3tkn72TiG1RPt2Dt9IbYUC6BBWMwC9pB8kAuD@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/AiRHsy88oVoyU2IJDMMw++j3a1gkRwZ0FAcyBRe+diJniVFR
+	aCwhA7Z0NtalIXRV4TN+QuB2ZBQdLaCI5Su9QGrYKyKHxAvKbyNDtQ+FbPdO
+X-Google-Smtp-Source: AGHT+IEOuyidtSxUCV5oKopj2oA3H3Umq7j6zjGPhxw5/6gjtm9gJh1IHixdTZyJlmoqTaJAlW9Gqg==
+X-Received: by 2002:a05:690c:61c6:b0:6db:3b2f:a1eb with SMTP id 00721157ae682-6db45134ccamr24090997b3.26.1725608073031;
+        Fri, 06 Sep 2024 00:34:33 -0700 (PDT)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6d697a15d23sm20991977b3.135.2024.09.06.00.34.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Sep 2024 00:34:31 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-6d4f1d9951fso16013587b3.1;
+        Fri, 06 Sep 2024 00:34:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUxtuM6blAydizM0aY9BIFM3yHptm981wEBrr2a2ZPoJMGj254wifGk2tlPgFGBe005tRJ2HlVvZpz/@vger.kernel.org, AJvYcCV22oSWukBKU5WZtPU1HkHENUb3+iRwVcAJGIEDmKtaUAOmhOCFl5yJoNSxnhft27FGXJX+Q/8F9Kx/6X+C8CqDusQ=@vger.kernel.org, AJvYcCVRreWkgTksBHHxH0eqaXz/p1oDpipGODQt+3D3Cq0xtm1JauEBTyvsUzjtaVto6C3WqhGQjf23Kyd9DDov@vger.kernel.org
+X-Received: by 2002:a05:690c:61c6:b0:6db:3b2f:a1eb with SMTP id
+ 00721157ae682-6db45134ccamr24089527b3.26.1725608071358; Fri, 06 Sep 2024
+ 00:34:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/3] hwmon: (isl28022) support shunt voltage for
- ISL28022 power monitor
-To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
- =?UTF-8?Q?Carsten_Spie=C3=9F?= <mail@carsten-spiess.de>,
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, linux-hwmon@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20240906061421.9392-1-Delphine_CC_Chiu@wiwynn.com>
- <20240906061421.9392-4-Delphine_CC_Chiu@wiwynn.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240906061421.9392-4-Delphine_CC_Chiu@wiwynn.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240906062701.37088-1-Delphine_CC_Chiu@wiwynn.com> <20240906062701.37088-9-Delphine_CC_Chiu@wiwynn.com>
+In-Reply-To: <20240906062701.37088-9-Delphine_CC_Chiu@wiwynn.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 6 Sep 2024 09:34:19 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVTkLDz=5+GH+kKhfKC89nh0+bKh=X4A7bdeiMoBgPwWg@mail.gmail.com>
+Message-ID: <CAMuHMdVTkLDz=5+GH+kKhfKC89nh0+bKh=X4A7bdeiMoBgPwWg@mail.gmail.com>
+Subject: Re: [PATCH v15 08/32] ARM: dts: aspeed: yosemite4: Remove space for
+ adm1272 compatible
+To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+Cc: patrick@stwcx.xyz, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+	Andrew Jeffery <andrew@codeconstruct.com.au>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 06/09/2024 08:14, Delphine CC Chiu wrote:
-> Added support reading shunt voltage in mV and revise code
-> for Renesas ISL28022.
-> 
+On Fri, Sep 6, 2024 at 8:27=E2=80=AFAM Delphine CC Chiu
+<Delphine_CC_Chiu@wiwynn.com> wrote:
+> Remove space for adm1272 compatible
+>
 > Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-> ---
->  drivers/hwmon/isl28022.c | 93 ++++++++++++++++++++++++++++------------
->  1 file changed, 66 insertions(+), 27 deletions(-)
-> 
-> diff --git a/drivers/hwmon/isl28022.c b/drivers/hwmon/isl28022.c
-> index f0494c3bd483..01220fad813d 100644
-> --- a/drivers/hwmon/isl28022.c
-> +++ b/drivers/hwmon/isl28022.c
-> @@ -85,8 +85,6 @@ struct isl28022_data {
->  	u32			shunt;
->  	u32			gain;
->  	u32			average;
-> -	u16			config;
-> -	u16			calib;
->  };
->  
->  static int isl28022_read(struct device *dev, enum hwmon_sensor_types type,
-> @@ -95,20 +93,61 @@ static int isl28022_read(struct device *dev, enum hwmon_sensor_types type,
->  	struct isl28022_data *data = dev_get_drvdata(dev);
->  	unsigned int regval;
->  	int err;
-> +	u16 sign_bit;
->  
->  	switch (type) {
->  	case hwmon_in:
-> -		switch (attr) {
-> -		case hwmon_in_input:
-> -			err = regmap_read(data->regmap,
-> -					  ISL28022_REG_BUS, &regval);
-> -			if (err < 0)
-> -				return err;
-> -			/* driver supports only 60V mode (BRNG 11) */
-> -			*val = (long)(((u16)regval) & 0xFFFC);
-> +		switch (channel) {
-> +		case 0:
-> +			switch (attr) {
-> +			case hwmon_in_input:
-> +				err = regmap_read(data->regmap,
-> +						  ISL28022_REG_BUS, &regval);
-> +				if (err < 0)
-> +					return err;
-> +				/* driver supports only 60V mode (BRNG 11) */
-> +				*val = (long)(((u16)regval) & 0xFFFC);
-> +				break;
-> +			default:
-> +				return -EOPNOTSUPP;
-> +			}
-> +			break;
-> +		case 1:
-> +			switch (attr) {
-> +			case hwmon_in_input:
-> +				err = regmap_read(data->regmap,
-> +						  ISL28022_REG_SHUNT, &regval);
-> +				if (err < 0)
-> +					return err;
-> +			switch (data->gain) {
-> +			case 8:
-> +				sign_bit = (regval >> 15) & 0x01;
-> +				*val = (long)((((u16)regval) & 0x7FFF) -
-> +					   (sign_bit * 32768)) / 100;
-> +				break;
-> +			case 4:
-> +				sign_bit = (regval >> 14) & 0x01;
-> +				*val = (long)((((u16)regval) & 0x3FFF) -
-> +					   (sign_bit * 16384)) / 100;
-> +				break;
-> +			case 2:
-> +				sign_bit = (regval >> 13) & 0x01;
-> +				*val = (long)((((u16)regval) & 0x1FFF) -
-> +					   (sign_bit * 8192)) / 100;
-> +				break;
-> +			case 1:
-> +				sign_bit = (regval >> 12) & 0x01;
-> +				*val = (long)((((u16)regval) & 0x0FFF) -
-> +					   (sign_bit * 4096)) / 100;
-> +				break;
-> +			}
-> +			break;
-> +			default:
-> +				return -EOPNOTSUPP;
-> +			}
->  			break;
->  		default:
-> -			return -EINVAL;
-> +			return -EOPNOTSUPP;
->  		}
->  		break;
->  	case hwmon_curr:
-> @@ -122,7 +161,7 @@ static int isl28022_read(struct device *dev, enum hwmon_sensor_types type,
->  				(long)data->shunt;
->  			break;
->  		default:
-> -			return -EINVAL;
-> +			return -EOPNOTSUPP;
->  		}
->  		break;
->  	case hwmon_power:
-> @@ -136,11 +175,11 @@ static int isl28022_read(struct device *dev, enum hwmon_sensor_types type,
->  				(long)data->shunt) * (long)regval;
->  			break;
->  		default:
-> -			return -EINVAL;
-> +			return -EOPNOTSUPP;
->  		}
->  		break;
->  	default:
-> -		return -EINVAL;
-> +		return -EOPNOTSUPP;
->  	}
->  
->  	return 0;
-> @@ -182,7 +221,8 @@ static umode_t isl28022_is_visible(const void *data, enum hwmon_sensor_types typ
->  
->  static const struct hwmon_channel_info *isl28022_info[] = {
->  	HWMON_CHANNEL_INFO(in,
-> -			   HWMON_I_INPUT),	/* channel 0: bus voltage (mV) */
-> +			   HWMON_I_INPUT,	/* channel 0: bus voltage (mV) */
-> +			   HWMON_I_INPUT),	/* channel 1: shunt voltage (mV) */
->  	HWMON_CHANNEL_INFO(curr,
->  			   HWMON_C_INPUT),	/* channel 1: current (mA) */
->  	HWMON_CHANNEL_INFO(power,
-> @@ -368,24 +408,22 @@ static int isl28022_read_properties(struct device *dev, struct isl28022_data *da
->  static int isl28022_config(struct isl28022_data *data)
->  {
->  	int err;
-> +	u16 config;
-> +	u16 calib;
->  
-> -	data->config = (ISL28022_MODE_CONT_SB << ISL28022_MODE_SHIFT) |
-> +	config = (ISL28022_MODE_CONT_SB << ISL28022_MODE_SHIFT) |
->  			(ISL28022_BRNG_60 << ISL28022_BRNG_SHIFT) |
->  			(__ffs(data->gain) << ISL28022_PG_SHIFT) |
->  			((ISL28022_ADC_15_1 + __ffs(data->average)) << ISL28022_SADC_SHIFT) |
->  			((ISL28022_ADC_15_1 + __ffs(data->average)) << ISL28022_BADC_SHIFT);
->  
-> -	data->calib = data->shunt ? 0x8000 / data->gain : 0;
-> -
-> -	err = regmap_write(data->regmap, ISL28022_REG_CONFIG, data->config);
-> -	if (err < 0)
-> -		return err;
-> +	calib = data->shunt ? 0x8000 / data->gain : 0;
->  
-> -	err = regmap_write(data->regmap, ISL28022_REG_CALIB, data->calib);
-> +	err = regmap_write(data->regmap, ISL28022_REG_CONFIG, config);
->  	if (err < 0)
->  		return err;
->  
-> -	return 0;
-> +	return regmap_write(data->regmap, ISL28022_REG_CALIB, calib);
->  }
->  
->  static int isl28022_probe(struct i2c_client *client)
-> @@ -396,8 +434,8 @@ static int isl28022_probe(struct i2c_client *client)
->  	int err;
->  
->  	if (!i2c_check_functionality(client->adapter,
-> -				     I2C_FUNC_SMBUS_BYTE_DATA |
-> -				     I2C_FUNC_SMBUS_WORD_DATA))
-> +					 I2C_FUNC_SMBUS_BYTE_DATA |
-> +					 I2C_FUNC_SMBUS_WORD_DATA))
->  		return -ENODEV;
->  
->  	data = devm_kzalloc(dev, sizeof(struct isl28022_data), GFP_KERNEL);
-> @@ -418,7 +456,7 @@ static int isl28022_probe(struct i2c_client *client)
->  
->  	isl28022_debugfs_init(client, data);
->  
-> -	hwmon_dev = devm_hwmon_device_register_with_info(dev, "isl28022_hwmon",
-> +	hwmon_dev = devm_hwmon_device_register_with_info(dev, client->name,
->  							 data, &isl28022_chip_info, NULL);
->  	if (IS_ERR(hwmon_dev))
->  		return PTR_ERR(hwmon_dev);
-> @@ -437,8 +475,9 @@ static struct i2c_driver isl28022_driver = {
->  	.class		= I2C_CLASS_HWMON,
->  	.driver = {
->  		.name	= "isl28022",
-> +		.of_match_table = of_match_ptr(isl28022_of_match),
 
-This is both unrelated and wrong. Your of_match_ptr causes here warnings.
+Fixes: 2b8d94f4b4a4765d ("ARM: dts: aspeed: yosemite4: add Facebook
+Yosemite 4 BMC")
 
-Organize your patchset in logical chunks and be sure EACH has no
-warnings. Your patch #1 now has such warnings. Please run standard
-kernel tools for static analysis, like coccinelle, smatch and sparse,
-and fix reported warnings. Also please check for warnings when building
-with W=1. Most of these commands (checks or W=1 build) can build
-specific targets, like some directory, to narrow the scope to only your
-code. The code here looks like it needs a fix. Feel free to get in touch
-if the warning is not clear.
+Gr{oetje,eeting}s,
 
-Best regards,
-Krzysztof
+                        Geert
 
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
