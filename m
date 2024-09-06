@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-8805-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8806-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04F0F96EF44
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 11:30:36 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C2BC96EF5C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 11:34:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5CC29B216BA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 09:30:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 07FB8B21C5F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 09:34:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91E6619AD4F;
-	Fri,  6 Sep 2024 09:30:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0633C1C7B9D;
+	Fri,  6 Sep 2024 09:34:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mIpA7qsS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dfAnpXm0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 665C01581E1;
-	Fri,  6 Sep 2024 09:30:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6F841A8F;
+	Fri,  6 Sep 2024 09:34:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725615028; cv=none; b=hnoq9OGhoVyWeJcRah67qiwFF6FP+yFuzF0MCsak1I4GF0ti9i2GIBm8uJ2ms/O+49CLlys4nSuzBo1yL0KKBeRl6qcypgEL/ivNLCz72hPz4ePcouRAQsCIP2BloO0HXlyZ4wMKrakk/Nd2UOlzS6sC/upwPX/W/7Mi8e/mah8=
+	t=1725615251; cv=none; b=BsUVzMBVLcIOG+XAxRvEfTuiM3XX7NgnMXZT1YMHgIQVntACZmtsA2zY3I6Zy5wD7kdUGe3IAOC7GK5sR9w7ulIwsUhLSUjtreMcViWA7Ktncp479abDjrbLXkffgBn9xyDdK5FMmMOKY1FhIOc7N2L3w8NhJj/ItBIIjnIWyCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725615028; c=relaxed/simple;
-	bh=4K9johHuYDHQAcK64WSihyOACMgPFudhnNUyspxHx6A=;
+	s=arc-20240116; t=1725615251; c=relaxed/simple;
+	bh=D8ggnlkQGEfDw4NUOjX1ed1YGldTkwA8qf2F/QYa+xc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PCqwksVRLdjlb7QHh+mcqn6jgQn0RYCXNL4l0qbg1TuJX90pjJ9b9YoL4XiOEfc1WYOGgkKoKhJPlTAFWvwZxy+BE0xGuOX8WtjUNjqkXBOvvfEXsvY0ij4PWaKpm3VYsoE+rThp0OaxS0OSGmotAJoy3OQeOpgLHJ+ensrVmEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mIpA7qsS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2416C4CEC4;
-	Fri,  6 Sep 2024 09:30:22 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=H5HJYW9TrlLpZE9GTd02wUzrpSRuQpmiXUzEUdnfRrnUpxlmAuaxO4PkGMqeyXE1RJ0t9gWWGpq6BbPzk4sQdTHwNCRwboq/q7vOoJ3fpAGXQBgD2sBKJRnLWIc+jWVbqcI5MahQOuigfte8+7RRbxF1X7PTcP+QuLdqEEdvuSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dfAnpXm0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B34BC4CEC4;
+	Fri,  6 Sep 2024 09:34:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725615027;
-	bh=4K9johHuYDHQAcK64WSihyOACMgPFudhnNUyspxHx6A=;
+	s=k20201202; t=1725615251;
+	bh=D8ggnlkQGEfDw4NUOjX1ed1YGldTkwA8qf2F/QYa+xc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=mIpA7qsS4GMZktHe8ZSBgZ3ywaK+ShqAWxo94GYtBKs2fZSKXshz1spzbFD2ZGEqG
-	 vqJ0IsBK4YXTG57mWk/PUnNMwav0+FA6U6v/slfIxRpXVXhKv+BrWI4FMSvQ8fYX+F
-	 /gy7rYqBjPnl3Db/yGCdTIKzLg4y5ezvPUbcmPfVUB5bKDKJPknbamCTViiMvWGOua
-	 Mnc39ID9GlBZ/hY0OAVZe6l+hJ8BL01XY43CGT2CuvjikJC61BciEuKsJFr+m7O873
-	 zPQFRjCDc5mXRi+QbXxTRGAqycild9aHDolX6jYGZiepI63qt3fi3CK2AM6a4GVVg6
-	 tTnL/8YCngNog==
-Message-ID: <4065ec96-5f8b-4e89-9db6-6b1203958af9@kernel.org>
-Date: Fri, 6 Sep 2024 11:30:20 +0200
+	b=dfAnpXm0AKs2pTRwrYXexY5INC48MY3bonznPG0K0MD9ltKgDNxVi20q9plpWMZ89
+	 ZpTqtISnW7I1/j2Ky++tB4wc5VAOzP2OE+8kBHRJdjRMyGwMmy37GZpQCx1egPKEvW
+	 EPRVFUSZpXZ7sWzk6RPk7ZOhqgZzu7COGxAN68AUYgD81t/Uv4LfeAKfzzuRgGPWPa
+	 hx8ekYpBtPNSr/wDF0F714cya11xVJyk+MII6oFpfQuPnldfczIc0AfoxjAk8Y4XAj
+	 QY9uvRmVsAIfwoFPUcwqzBumKd1+U95Sh2l0vosEIX640RrvRPmU5hgImTreb8jxB0
+	 kTZs2CICcMQCA==
+Message-ID: <cc1920e9-8d9d-48b6-b593-e6c70f3f672a@kernel.org>
+Date: Fri, 6 Sep 2024 11:34:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,20 +50,19 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 09/32] ARM: dts: aspeed: yosemite4: Enable interrupt
- setting for pca9555
-To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+Subject: Re: [PATCH v15 00/32] Add i2c-mux and eeprom devices for Meta
+ Yosemite 4
+To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
  Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
  linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 References: <20240906062701.37088-1-Delphine_CC_Chiu@wiwynn.com>
- <20240906062701.37088-10-Delphine_CC_Chiu@wiwynn.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -107,44 +106,32 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240906062701.37088-10-Delphine_CC_Chiu@wiwynn.com>
+In-Reply-To: <20240906062701.37088-1-Delphine_CC_Chiu@wiwynn.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 06/09/2024 08:26, Delphine CC Chiu wrote:
-> Enable interrupt setting for pca9555
-> 
-> Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-> ---
->  .../aspeed/aspeed-bmc-facebook-yosemite4.dts  | 56 +++++++++++++++++--
->  1 file changed, 52 insertions(+), 4 deletions(-)
-> 
-> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-> index b11951c2f71e..09bbbcb192f5 100644
-> --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-> @@ -832,30 +832,78 @@ power-sensor@12 {
->  
->  	gpio@20 {
->  		compatible = "nxp,pca9555";
-> -		reg = <0x20>;
+> Changelog:
+>   - v15
+>     - Add ISL28022 support
+>   - v14
+>     - Add SQ52205 support
+>     - Add GPIO I6 pin
+>   - v13
+>     - Add RTQ6056-support-on-bus-11 
 
-NAK.
+Stop this nonsense. Your patchset should improve, not grow with multiple
+revisions with new stuff but with more and more errors.
 
-You are making the code worse. Read DTS coding style.
+Prepare final work, not v13 with something but without rest, thus v14
+with another missing piece but still incomplete, then v15 with one more
+patch but obviously not complete.
 
-> +		pinctrl-names = "default";
->  		gpio-controller;
->  		#gpio-cells = <2>;
-> +		reg = <0x20>;
-> +		interrupt-parent = <&gpio0>;
-> +		interrupts = <98 IRQ_TYPE_LEVEL_LOW>;
-> +		gpio-line-names =
-> +		"P48V_OCP_GPIO1","P48V_OCP_GPIO2",
+Then BEFORE you post new version fix all the oddities you have here. You
+did not run checkpatch, you did not write proper commit msgs, you did
+not test your DTS.
 
-Broken alignment.
-
-
+The quality of this patchset is unacceptably low.
 
 Best regards,
 Krzysztof
