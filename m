@@ -1,50 +1,50 @@
-Return-Path: <linux-renesas-soc+bounces-8818-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8820-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0371996F7AB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 17:03:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E1DA96F7B2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 17:04:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B6630285874
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 15:03:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1D94F28696C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 15:04:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 865601D1F56;
-	Fri,  6 Sep 2024 15:03:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1C781D223B;
+	Fri,  6 Sep 2024 15:03:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="HqC7m+EF"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="QFdduUky"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 706931C8FBC;
-	Fri,  6 Sep 2024 15:03:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C06CC1D1F4F;
+	Fri,  6 Sep 2024 15:03:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725635022; cv=none; b=RMc/A0I/5baaaTiuLVi3jP6dEOYKlm9ZZ2ckfBlKnIGaWBFcXHf01Oe0M2ZfnB7TBVbFj66F5t8un/x7tjVnlsS80q24+Go3/geuaMkJAY1/6fmG4yAtXACMX3nHEtTsp1STfzF/Onifg9WdaDgWD/ocnDYQjea+VmyC9TWl+Bk=
+	t=1725635033; cv=none; b=GH2nID92eHQnAfpmpaAyzgA/hQaypDRtTAHKIMrJVV0tsDmDQTWtkU3A2JUfDfafVtL0/kRrkT1uu49WquLHMXUS8GYVLtVShprcFpKgFtuQCfzr8FRPS26GcqLo2xZojO56U1PyNErxmXi0m1QElSNntl0f3u/wIDxuTkMymog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725635022; c=relaxed/simple;
-	bh=NIY5AZ0GlTPdccNKtWY3YvUuuYbSzAWlagISjAt/HcE=;
+	s=arc-20240116; t=1725635033; c=relaxed/simple;
+	bh=2oeQEBkTdVNWGwtz6+y1GsN4AO/sM4yT7WaXmgyvhJ0=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PtkXKD9jSUBS1Id/3Inz3zesF6oN3PJkui+DFkJmm0+P+G7p1dL8Tdl1mLfqtTIHPaw1hU4GQfq4RKreBV01frfys/fDc4v5GVfO/INAlPJt+u/+cPfD/D6w4qV2ZfL1bet/O+rF3YOVWq6eRkaZ+zBluSwX05tDoPv75sIgH5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=HqC7m+EF; arc=none smtp.client-ip=217.70.183.199
+	 MIME-Version; b=tDmZnIToq4puLWaitgPHmUYpo30EjVDGZwnVjwsY7irUVIWWdRcHqz5RoMYHl9uRO3nfvnrngobrGYNeSlbXgpCGvdaVKFwG3lTgoc0DLxnsEw6tQTPqUbIJb5RF54dot0FYXcgPSABN8M4+KnfdOASD5CTZX7oXU2GQCb+iR1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=QFdduUky; arc=none smtp.client-ip=217.70.183.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 00735FF809;
-	Fri,  6 Sep 2024 15:03:35 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 79075E000F;
+	Fri,  6 Sep 2024 15:03:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1725635018;
+	t=1725635023;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YCzNIuC06O9GFpBj+rz7i/FoJaoTyZM/ftekjkxFq5M=;
-	b=HqC7m+EFgPCjd836JQLxJJmHm80prF1dgL8sxE6fAr42qroDhMQBXdwtpFosb6wpPNsQCR
-	IfuvCZbXn3iKIvMijAwzafQkCGIz95baZwVtzeVkxDmqKMkYnZZ69eCU/39m1O9bgIzKap
-	wDRHyPJAHhTmStNvOG6/WaLdwrXVYJLMzWPAta5Z+W6WrWFBQj6xzLckz3E2eI440WRGgY
-	GqN/Dv1Bf4id3WzmxlDDKi4Fnv2+12VO3veuLpXJ3KmrGKTv8Rnwo1vLW+8BiFzWGaDbPP
-	sX1US0i2uG+MLavxLw0sAtEdk8BWGX2OrxhYlIZjVC7pXIfFBJPqKM2cRwdf2Q==
+	bh=Ee9E1EaKOTlVdaGoV/jFTAD6cKrW6LwAZgqUGO3N8fI=;
+	b=QFdduUkyT1+QwBo+jlvyJMYP3/45JVTkmvu1YL4mwpOQaUBF1aV/jkT92vRfa8v3SRbIqZ
+	fk9Sf+TsTdH61rs3UzxlhLpC6Q7AP2yYrvo/6ici5ot19NZWbvbWuJfXIYTzRGW42988WJ
+	I1KJDnY/Ysxq2db8P9yqJosCZpcc9iOTgQHFx0HO/ZV9wGiXDrwCM4Vh869XCOF3T0EIaI
+	f0PA4B8JkRH1iJDwhoFpLxZtxIecWCDA4tbGw9FV9w6IFu2pwt0SpkPOS4cXDtMPFRNxPz
+	Tfxgn6/Nl/KYg78OmDL12HTvgIlWD5IXAnugF/St6P5p8E03rJPuCp5gAa7Mbw==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
 To: Jinjie Ruan <ruanjinjie@huawei.com>,
 	miquel.raynal@bootlin.com,
@@ -83,11 +83,11 @@ To: Jinjie Ruan <ruanjinjie@huawei.com>,
 	linux-stm32@st-md-mailman.stormreply.com,
 	krzk@kernel.org,
 	jic23@kernel.org
-Subject: Re: [PATCH -next RESEND 08/10] mtd: rawnand: renesas: Use for_each_child_of_node_scoped()
-Date: Fri,  6 Sep 2024 17:03:34 +0200
-Message-ID: <20240906150334.734568-1-miquel.raynal@bootlin.com>
+Subject: Re: [PATCH -next RESEND 07/10] mtd: rawnand: mtk: Use for_each_child_of_node_scoped()
+Date: Fri,  6 Sep 2024 17:03:40 +0200
+Message-ID: <20240906150341.734598-1-miquel.raynal@bootlin.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240826094328.2991664-9-ruanjinjie@huawei.com>
+In-Reply-To: <20240826094328.2991664-8-ruanjinjie@huawei.com>
 References: 
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -96,16 +96,15 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-linux-mtd-patch-notification: thanks
-X-linux-mtd-patch-commit: b'f3b3c47ca41f696623e71596416d34fe1671d229'
+X-linux-mtd-patch-commit: b'8795952679494b111b7b2ba08bb54ac408daca3b'
 Content-Transfer-Encoding: 8bit
 X-GND-Sasl: miquel.raynal@bootlin.com
 
-On Mon, 2024-08-26 at 09:43:26 UTC, Jinjie Ruan wrote:
+On Mon, 2024-08-26 at 09:43:25 UTC, Jinjie Ruan wrote:
 > Avoids the need for manual cleanup of_node_put() in early exits
 > from the loop.
 > 
 > Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Applied to https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next, thanks.
 
