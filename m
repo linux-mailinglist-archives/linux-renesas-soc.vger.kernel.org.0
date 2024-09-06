@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-8798-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8799-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02D0396EF1A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 11:26:02 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEF0F96EF1E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 11:26:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 20E791C21EA2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 09:26:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 41B6FB23BD5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 09:26:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FA6D1C7B8B;
-	Fri,  6 Sep 2024 09:25:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64E2E1C86E7;
+	Fri,  6 Sep 2024 09:25:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Efk8offz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O+8q2f2H"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12EFA1C7B7E;
-	Fri,  6 Sep 2024 09:25:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 392DD1C7B9E;
+	Fri,  6 Sep 2024 09:25:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725614724; cv=none; b=tCtsc7CkernSOb5mjDp6IX5YVDtbtxE8pUgpvxPVmbnGQgeWrAGTovJbmjjpHprKWQx4cHut+dtoYKJYX82EslBmqkMYaLXaztapBifrtsrpXBTxc5UE72AO9kmR5AoxUmf79grBLTgf1xYIyyB1sGMPEZtKAp3yDcvvaeRwpUY=
+	t=1725614753; cv=none; b=SS7pRB+GST7aG9irWLDpu8iT/LQQzIzQMt7+6J/0iYE+B6Y861PwjGh2mAqkfMWjxbfFhClkQVplS1dFJDjy7fwEpgiue0KuplEj6t8OssA2FzjjoMp479A0g9/lhRKZ8tDIxNoACBvDRYPEP02Pq6+5CWIuhqHjfwaPj32t294=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725614724; c=relaxed/simple;
-	bh=jsXhO1f+XBwY5PvEK9eqpQJzE0scVLEcbo3KSfegTdg=;
+	s=arc-20240116; t=1725614753; c=relaxed/simple;
+	bh=OOZSVtYZonld9Ebpwx/Lw4siE3C2Su5fEHkakh+h7ak=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kNIGR087MG+Ef2EocCae0498IjYjh8VoFHCrONM56N+vZnzaCVZRACpBz09PUoW0wbpWrP/JuTbtM0OJZ1rKx70NA0no2WRGmS7NFtqM/QWyqSeGPo5aFTopDWFo7WGgCyFSIlFPx4SHjYdL3zgIb9EPgKHpoBrbT+FpjCNMOBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Efk8offz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49109C4CEC4;
-	Fri,  6 Sep 2024 09:25:19 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=X/fsS8+grBP267ewBzTpuPzFXp5h8qSBH+a6f6Ccu7r5RcsTZkRCHDXg4to/f15pNHhYlYXr2+DNfnCCEDSrZiHv4YaXUhJAzm6zmppmHNA8akrEGrLpK5FdFTxUgzI7xvfvweIikBdxamBGV6omuYKo+VVMGEgEEnruAqjwBKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O+8q2f2H; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46100C4CEC4;
+	Fri,  6 Sep 2024 09:25:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725614723;
-	bh=jsXhO1f+XBwY5PvEK9eqpQJzE0scVLEcbo3KSfegTdg=;
+	s=k20201202; t=1725614752;
+	bh=OOZSVtYZonld9Ebpwx/Lw4siE3C2Su5fEHkakh+h7ak=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Efk8offzLoJn0HcSOVBH/J694zBgE+vTGXsz3oRupjw15dp3h/99yzsfTQLh+HAHW
-	 WdiOEzgP3U9veUw16OnmG/7PEzQ0dcQVuveg7hUdcgrbzXRt+cTnDFLrP8g+e5KpTZ
-	 qtpDWRQxMY22g5lfvO+TRKgrDEwZbkIaXMDJxbxesCLzHHW0YWkXdkepiy6miYVgUe
-	 sXbtnhVT60mnJGRCg7iEId9s/NERsb/oNxLdxpIrRo89TBwMmDsT2oaN++lzCR51RP
-	 TnzwaR1cnW5MAEJGsBNdH596k0aPIMO+y3/yJb2ygO9Y5qUb+EmtMIVFSBTrN7mej4
-	 Ft3DF/Hk4veCQ==
-Message-ID: <adb49570-581b-46a1-88d6-99373ce2bc75@kernel.org>
-Date: Fri, 6 Sep 2024 11:25:16 +0200
+	b=O+8q2f2HrkfXgFbZlGWft6UKkC7fsxyD0X2mLuBx9zIW97HiFVxFKJtra2ddkLdS7
+	 hTIAMtlQvoQs+jLhSvjJ0I8rWgIRaIFLUP4A2uSrUW+Jj0M6/btx8zF4Ja5OvX+Xx4
+	 zsoJcDeFmjG6VngnYEJoDd92qMj/5jIYTULbT1F4YvDjlAmsKSI+c25zDuABqDw9A5
+	 WBpWjgnnnyjTBQlNJNgt2zjeXr8oFaMskZlv24raWeTIlHCgY/tx+RAA9mDuC0JcaZ
+	 bKJBuVPYc/gFLRYR2ncMoehmC9UL6xCaPJ1klyYRFpk9LJ7oaJs9dd6Mw4kMvu7fNu
+	 2tKtHPtFnln8A==
+Message-ID: <3d791a58-e311-4837-bc3f-f988bb5c085e@kernel.org>
+Date: Fri, 6 Sep 2024 11:25:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,8 +50,7 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 25/32] ARM: dts: aspeed: yosemite4: add RTQ6056
- support
+Subject: Re: [PATCH v15 26/32] ARM: dts: aspeed: yosemite4: add MP5990 support
 To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
@@ -61,9 +60,9 @@ Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
  linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
  linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 References: <20240906062701.37088-1-Delphine_CC_Chiu@wiwynn.com>
- <20240906062701.37088-26-Delphine_CC_Chiu@wiwynn.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <20240906062701.37088-27-Delphine_CC_Chiu@wiwynn.com>
 Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -107,31 +106,36 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240906062701.37088-26-Delphine_CC_Chiu@wiwynn.com>
+In-Reply-To: <20240906062701.37088-27-Delphine_CC_Chiu@wiwynn.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 06/09/2024 08:26, Delphine CC Chiu wrote:
-> Add RTQ6056 (spider board 3rd source) support in yosemite4 DTS.
+> Add MP5990 in yosemite4 DTS.
+
+It's already there.
+
 > 
 > Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
 > ---
->  .../boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts  | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+>  .../dts/aspeed/aspeed-bmc-facebook-yosemite4.dts | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
 > 
 > diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-> index f73719b3c2f1..03a1e41312e3 100644
+> index 03a1e41312e3..f139f426099e 100644
 > --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
 > +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-> @@ -1240,35 +1240,35 @@ adc@37 {
+> @@ -356,7 +356,7 @@ gpio@24 {
 >  	};
 >  
 >  	power-sensor@40 {
-> -		compatible = "ti,ina233";
-> +		compatible = "ti,ina233", "richtek,rtq6056";
+> -		compatible = "adi,adm1281";
+> +		compatible = "adi,adm1281", "mps,mp5990";
 
-NAK, this does not make sense, does not match bindings and is not
-explained in commit msg.
+No, you keep sending same buggy patches.
+
+
+
 
 Best regards,
 Krzysztof
