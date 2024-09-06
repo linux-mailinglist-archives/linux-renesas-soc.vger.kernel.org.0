@@ -1,132 +1,99 @@
-Return-Path: <linux-renesas-soc+bounces-8838-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8839-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACAE096FE0E
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Sep 2024 00:38:42 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 603B996FE46
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Sep 2024 01:01:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CD7EB1C21C25
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 22:38:41 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F19D8B2359F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 23:01:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A351715AD9C;
-	Fri,  6 Sep 2024 22:38:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CFC8158D6A;
+	Fri,  6 Sep 2024 23:01:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vzD4W7/i"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V9JGbMWo"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04851581EA;
-	Fri,  6 Sep 2024 22:38:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E9C1B85DC;
+	Fri,  6 Sep 2024 23:01:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725662317; cv=none; b=HTsYReh7+9gEr9flp/yHYeYSLagLTh/fkcPtL6K+ajyeYe+vBQjF38OyIs3lsxvRHwHzWPXl1A/ZQ36E6o5DmoaCYiYGFZmCkTR+KQpAPHJCJab99UNgde97soPSooba0fcu3VxQcwqmBT1cqUtax5mRm9Q2BCdb7yoOKcjKYjw=
+	t=1725663663; cv=none; b=Mxof9P7s2rUTbMymIIT/yjCB/xL/Pa4ayc9Pxhmpew0qxL1R+1f73TZJ08EE1ccE+IZZD7YF5bsAtaLlkrgQJa5TcOTeaTX37mchjxmeXGsKborNCftqKtn9hxm9jWyrcDE9VEsZw2rZKZDwtX/xxv2uu1cRi5K7JF0CYO53pVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725662317; c=relaxed/simple;
-	bh=X/567zU5k9K5hStaCvKzrLyx0nYNiuyl9q1uQZPX8L8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l1pjpXh0YOItmvWh48wo6teWMJRiGNiqrggUXhGVyQDfYmS+g458oER/j1SYyCJapaKzDfMm2fc54/7D9aQ6zjkjTofx+CD/vbwv9A0ueoprD1Kvuue+E8OQCYbxtrmF8crnMg5OlzP3/Scx04F4jUR0oWWJ0VtNFxZtcecdZZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vzD4W7/i; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4B02D593;
-	Sat,  7 Sep 2024 00:37:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725662239;
-	bh=X/567zU5k9K5hStaCvKzrLyx0nYNiuyl9q1uQZPX8L8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vzD4W7/iYfESqZfmK/mbSEn5BHWHvxf2mB/jDB6qZkE4SlU6MP+u6VC3yN1UBXoA0
-	 dMDj6v6Jiz5MrFxruBYZ3W+DB7eIC6dHdkUMvlIT3McftmORcL5D43H886pgUMYCVi
-	 vSbeFfomlt/UIQqLM5HOCDtv44xnTtR8lLQC4GgI=
-Date: Sat, 7 Sep 2024 01:38:31 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 1/3] media: platform: rzg2l-cru: rzg2l-csi2: Implement
- .get_frame_desc()
-Message-ID: <20240906223831.GB12915@pendragon.ideasonboard.com>
-References: <20240906173947.282402-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240906173947.282402-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1725663663; c=relaxed/simple;
+	bh=KAS/Rwnc7T0eZM71tzNaAc3sWj4LOqmY83CNc7otz+k=;
+	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
+	 Subject:From:Cc:To:Date; b=a5kZMcKWUtijiwa2d5g2olNyz8Ix2s5P9T1c5WPBUPhI0NLL5EoGAF2+FvQ0zIjddQ3QaR3xXtqTSeygrzG6mA+lnIbURqJ3Q2Y4KMil++50eHggSok2T6TjivYROCwcjETRl3lzcLimjTC6TDe9+mCX8LBSnpX9d/NGChdFUxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V9JGbMWo; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DA8FC4CEC4;
+	Fri,  6 Sep 2024 23:01:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725663662;
+	bh=KAS/Rwnc7T0eZM71tzNaAc3sWj4LOqmY83CNc7otz+k=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=V9JGbMWoTcRD+R7JyDvalu0KM0ftwD1NewkIvjjoXLdwmSTIv4ql+UD7IusXhbXw3
+	 C4Awf5d0kXFiXSFVoQIP/Ozn+dVnMI9XZAuMFRumtmsoJZD4C8cbbDrN/nom748O+U
+	 t9vNhe4N+QvEgPVi1cpvkmSSriqlPpZ3za/vquA22K/5IDlT3UCBBJ7QtAIHPErkMH
+	 pErs/lY+Fppj2KJsSQqW2rBQQ9dkd22FY9D56Nn5PbmU7KErcCNaVLkjtN/ZJblDqd
+	 yQgnoN6M9fYmYho+njxn3tlDKKWtoK2NC7lvwYqFUBRaOSGdBuyxarHuK2mtIInTSC
+	 VLHPd17TElaHg==
+Message-ID: <951b5c09c3ca2de3f0a28a078084f7dd.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240906173947.282402-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAMuHMdX40ROk2vZe9VHoiPDJCvtrjto+swkicv29LFyQ7zoVng@mail.gmail.com>
+References: <20240830130218.3377060-1-claudiu.beznea.uj@bp.renesas.com> <20240830130218.3377060-8-claudiu.beznea.uj@bp.renesas.com> <83fac884d749bda0cf0b346e4e869bc8.sboyd@kernel.org> <d8303146-89e0-4229-a3fe-9f3c42434045@tuxon.dev> <c744cf7a70a3f97722146215a7620cfb.sboyd@kernel.org> <CAMuHMdX40ROk2vZe9VHoiPDJCvtrjto+swkicv29LFyQ7zoVng@mail.gmail.com>
+Subject: Re: [PATCH v3 07/12] arm64: dts: renesas: r9a08g045: Add VBATTB node
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: alexandre.belloni@bootlin.com, claudiu beznea <claudiu.beznea@tuxon.dev>, conor+dt@kernel.org, krzk+dt@kernel.org, magnus.damm@gmail.com, mturquette@baylibre.com, p.zabel@pengutronix.de, robh@kernel.org, linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 06 Sep 2024 16:01:00 -0700
+User-Agent: alot/0.10
 
-Hi Prabhakar,
+Quoting Geert Uytterhoeven (2024-09-06 00:28:38)
+> Hi Stephen,
+>=20
+> On Thu, Sep 5, 2024 at 8:09=E2=80=AFPM Stephen Boyd <sboyd@kernel.org> wr=
+ote:
+> > Quoting claudiu beznea (2024-09-04 05:17:30)
+> > > On 03.09.2024 22:48, Stephen Boyd wrote:
+> > > > The node name should be something like clock-<frequency> but if the
+> > > > frequency is different per-board then I don't know what should happ=
+en
+> > > > here.
+> > >
+> > > The frequency should be always around 32768 Hz but not necessarily ex=
+actly
+> > > 32768 Hz. It depends on what is installed on the board, indeed. RTC c=
+an do
+> > > time error adjustments based on the variations around 32768 Hz.
+> > >
+> > > > Can you leave the vbattb_xtal phandle up above and then require
+> > > > the node to be defined in the board with the proper frequency after=
+ the
+> > > > dash?
+> > >
+> > > Is it OK for you something like this (applied on top of this series)?
+> >
+> > Yes, it's too bad we can't append to a property in DT, or somehow leave
+> > alone certain cells and only modify one of them.
+>=20
+> My main objections are that (1) this approach is different than the one u=
+sed
+> for all other external clock inputs on Renesas SoCs, and (2) this requires
+> duplicating part of the clocks property in all board DTS files.
+>=20
 
-Thank you for the patch.
-
-On Fri, Sep 06, 2024 at 06:39:45PM +0100, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> The RZ/G2L CRU requires information about which VCx to process data from,
-> among the four available VCs. To obtain this information, the
-> .get_frame_desc() routine is implemented. This routine, in turn, calls
-> .get_frame_desc() on the remote sensor connected to the CSI2 bridge.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  .../media/platform/renesas/rzg2l-cru/rzg2l-csi2.c    | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-> index c7fdee347ac8..a7e4a0c109da 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-> @@ -582,6 +582,17 @@ static int rzg2l_csi2_enum_frame_size(struct v4l2_subdev *sd,
->  	return 0;
->  }
->  
-> +static int rzg2l_csi2_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
-> +				     struct v4l2_mbus_frame_desc *fd)
-> +{
-> +	struct rzg2l_csi2 *csi2 = sd_to_csi2(sd);
-> +
-> +	if (!csi2->remote_source)
-> +		return -EINVAL;
-
-Maybe -ENODEV ?
-
-> +
-> +	return v4l2_subdev_call(csi2->remote_source, pad, get_frame_desc, pad, fd);
-> +}
-> +
-
-I wonder if we should implement a wrapper around .get_frame_desc() that
-would automatically forward the call to the source if .get_frame_desc()
-isn't implemented by a subdev. That's not a requirement for this series,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
->  static const struct v4l2_subdev_video_ops rzg2l_csi2_video_ops = {
->  	.s_stream = rzg2l_csi2_s_stream,
->  	.pre_streamon = rzg2l_csi2_pre_streamon,
-> @@ -593,6 +604,7 @@ static const struct v4l2_subdev_pad_ops rzg2l_csi2_pad_ops = {
->  	.enum_frame_size = rzg2l_csi2_enum_frame_size,
->  	.set_fmt = rzg2l_csi2_set_format,
->  	.get_fmt = v4l2_subdev_get_fmt,
-> +	.get_frame_desc = rzg2l_csi2_get_frame_desc,
->  };
->  
->  static const struct v4l2_subdev_ops rzg2l_csi2_subdev_ops = {
-
--- 
-Regards,
-
-Laurent Pinchart
+Can 'clock-ranges' be used here? Leave the cell as null in the SoC dtsi
+file and then fill it in with clocks property at the parent node. I
+think you'd have to use clock-names for this though.
 
