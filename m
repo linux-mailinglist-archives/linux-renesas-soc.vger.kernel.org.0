@@ -1,139 +1,144 @@
-Return-Path: <linux-renesas-soc+bounces-8806-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8807-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C2BC96EF5C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 11:34:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19B5496EFE5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 11:44:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 07FB8B21C5F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 09:34:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 978731F243C3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2024 09:44:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0633C1C7B9D;
-	Fri,  6 Sep 2024 09:34:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F2CD1CBEAC;
+	Fri,  6 Sep 2024 09:40:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dfAnpXm0"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="VHDT9Qdy";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Xu7hD7dm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout8-smtp.messagingengine.com (fout8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6F841A8F;
-	Fri,  6 Sep 2024 09:34:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 927C41CBE8E;
+	Fri,  6 Sep 2024 09:40:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725615251; cv=none; b=BsUVzMBVLcIOG+XAxRvEfTuiM3XX7NgnMXZT1YMHgIQVntACZmtsA2zY3I6Zy5wD7kdUGe3IAOC7GK5sR9w7ulIwsUhLSUjtreMcViWA7Ktncp479abDjrbLXkffgBn9xyDdK5FMmMOKY1FhIOc7N2L3w8NhJj/ItBIIjnIWyCQ=
+	t=1725615658; cv=none; b=pDzN+hl7uJ8KyvKgIok1GzjzdFB3SnS1VYv4Q6nDIfNYpT/KNfq2SndZQJB7szXrWpYDdyszt6tSYK319VOGQgROtQ25BjlTU3eCi1b7RxyaAAQNmux+hjmWcz53hveniwPPGrJwzUUyquVdXTY2D7eV/qjpxQXKCbU4yQhP50w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725615251; c=relaxed/simple;
-	bh=D8ggnlkQGEfDw4NUOjX1ed1YGldTkwA8qf2F/QYa+xc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=H5HJYW9TrlLpZE9GTd02wUzrpSRuQpmiXUzEUdnfRrnUpxlmAuaxO4PkGMqeyXE1RJ0t9gWWGpq6BbPzk4sQdTHwNCRwboq/q7vOoJ3fpAGXQBgD2sBKJRnLWIc+jWVbqcI5MahQOuigfte8+7RRbxF1X7PTcP+QuLdqEEdvuSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dfAnpXm0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B34BC4CEC4;
-	Fri,  6 Sep 2024 09:34:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725615251;
-	bh=D8ggnlkQGEfDw4NUOjX1ed1YGldTkwA8qf2F/QYa+xc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dfAnpXm0AKs2pTRwrYXexY5INC48MY3bonznPG0K0MD9ltKgDNxVi20q9plpWMZ89
-	 ZpTqtISnW7I1/j2Ky++tB4wc5VAOzP2OE+8kBHRJdjRMyGwMmy37GZpQCx1egPKEvW
-	 EPRVFUSZpXZ7sWzk6RPk7ZOhqgZzu7COGxAN68AUYgD81t/Uv4LfeAKfzzuRgGPWPa
-	 hx8ekYpBtPNSr/wDF0F714cya11xVJyk+MII6oFpfQuPnldfczIc0AfoxjAk8Y4XAj
-	 QY9uvRmVsAIfwoFPUcwqzBumKd1+U95Sh2l0vosEIX640RrvRPmU5hgImTreb8jxB0
-	 kTZs2CICcMQCA==
-Message-ID: <cc1920e9-8d9d-48b6-b593-e6c70f3f672a@kernel.org>
-Date: Fri, 6 Sep 2024 11:34:04 +0200
+	s=arc-20240116; t=1725615658; c=relaxed/simple;
+	bh=bbwj6CDjD67KTml2nsZKiirHbKdrdnCliMqLdtXd5TE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FoY18zK6imHFoV7LKjyOomuW1/C1CsjkninUxtAXiHICJ8U5fmsBKMcmPNS2Ns1DqbawOZDZQHNt/yDer0NKF5RseOd6RjhXeq/C4wrxs6fCKal6pIjbDzF8WM8G6aI/zHDuTndpiQyxvNbfnr2c8HpnRa60PeADejK6ciyh7Ls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=VHDT9Qdy; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Xu7hD7dm; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
+	by mailfout.phl.internal (Postfix) with ESMTP id 73F871380405;
+	Fri,  6 Sep 2024 05:40:53 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-12.internal (MEProxy); Fri, 06 Sep 2024 05:40:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1725615653; x=1725702053; bh=OO
+	MKVNy0B22j03Xgg33UJvIiiIzkklxLiD49wmo2U6k=; b=VHDT9Qdyp2WImy8NIB
+	hqXHaz5J2xpu2ke2qfLqoOdmVqpm0o6PJ73ki/WIRjKMKTgtk8N4egbK2i5Q8sHT
+	yiOpHkF28VPU9d0yjLKgzz281mUI26c/QDAA21TnMW6HNoyNi8ugBEFnd9bIhHRG
+	1J6TinYnpWxhZm2QZne5rNRWCBO2XEqMXn+FE32LjIjrCwIEfDuhb1EKatH3J/eL
+	aiq04ZaA0GL/2m/XSvLpnhvLyFaK/50AEFjMiOPy1+kbNUEnbKUsaOyAyTR62Xvh
+	W/MHtwHTo10Nz07Le8eamH0senlWzCHiyNCF816QtJk6S5YXUmgcamAwPARzkUNO
+	mZ/A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1725615653; x=1725702053; bh=OOMKVNy0B22j0
+	3Xgg33UJvIiiIzkklxLiD49wmo2U6k=; b=Xu7hD7dmuJ0Bzs3G1+sxqYf34ZfWl
+	eWHf3VlVbGsXu/06AHasEFelYFJ2vXsNb2duIf1zkiUDlrCmfaP8GcLKt1qJ6KN6
+	4/25ewjkt9xCXvKm7RBa6TvvRBIsGeNHx1TbmptAfEymlYqg8TQClhILbuK/s/WC
+	bQ049RajUIrtVxd4oyufiRqZGzjOaSB37pEZh0BNNYbmhQ0IEQ7oniUIS5cw5N3C
+	S8ZMj3PcOKTloVHSCt6hTj7tslqvAvk9gSyYi/kfvkI7ZQn+W5pB+SfLeG7zzYjm
+	zTdEReHGZ/nFxvm25K3vhZHDzLT2eXnJU+CTnia/IKhYrKw5kXIQmzD9w==
+X-ME-Sender: <xms:JM7aZkP_0Ztu0bSnAeNwawXm1vBGW1f8tnvFM77q7ApnKTDOUht_eQ>
+    <xme:JM7aZq_9ebdiaaaXiwVuEo6G8_HQowIVHtk2oCbzbtgZLk0g_WOfDnEGY6uJCYou5
+    SVJji9yvg7z7UQTbVc>
+X-ME-Received: <xmr:JM7aZrSVkE_XvaENBUlbWKRLBvJBLBnW-MfnWrdtFAQk6F7K4LUKYMGX1szYlwAwBUNGtqA-BZQ_e2VMJfxk7B2OSQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudeiuddgudekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecu
+    hfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrh
+    hluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgv
+    rhhnpeehudelteetkefgffefudefuedvjeeivdekhfevieefgeffheeltddvvefhfeetge
+    enucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhk
+    lhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtth
+    hopeduuddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprghnughrvgifsehluhhn
+    nhdrtghhpdhrtghpthhtohephhhkrghllhifvghithdusehgmhgrihhlrdgtohhmpdhrtg
+    hpthhtoheplhhinhhugiesrghrmhhlihhnuhigrdhorhhgrdhukhdprhgtphhtthhopegu
+    rghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtghpthhtohepvgguuhhmrgiivghtse
+    hgohhoghhlvgdrtghomhdprhgtphhtthhopehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhr
+    tghpthhtohepphgrsggvnhhisehrvgguhhgrthdrtghomhdprhgtphhtthhopeihohhshh
+    hihhhirhhordhshhhimhhouggrrdhuhhesrhgvnhgvshgrshdrtghomhdprhgtphhtthho
+    pehnvghtuggvvhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:JM7aZsvh4iWcYqOHU0Yb-5vwsPK98UZny0Xd2ajvnQEZgtUMTqhJKg>
+    <xmx:JM7aZsdJ3mWG0JsLQymxa_ZK3zuLxIDHmNptBfMh1BfdiyINi-oEHA>
+    <xmx:JM7aZg3QSCwB9EcE7btVz3UQ3f1HyMQ76NBNaTubZWXh6my1K24Zsw>
+    <xmx:JM7aZg_VhcrBwe0r9WkVVEPTRBoK4sDqjWTpzG4S2Ca5R_ESX-dNzA>
+    <xmx:Jc7aZg0AlzREvZcjnCBYKc4obvv_-IXxsxRM3z4E9Re6-gR9n7b_1EFL>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 6 Sep 2024 05:40:52 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	netdev@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [net-next 0/2] net: phy: Fallback to C22 for PHY register read/write
+Date: Fri,  6 Sep 2024 11:39:53 +0200
+Message-ID: <20240906093955.3083245-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 00/32] Add i2c-mux and eeprom devices for Meta
- Yosemite 4
-To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20240906062701.37088-1-Delphine_CC_Chiu@wiwynn.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240906062701.37088-1-Delphine_CC_Chiu@wiwynn.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 06/09/2024 08:26, Delphine CC Chiu wrote:
-> Changelog:
->   - v15
->     - Add ISL28022 support
->   - v14
->     - Add SQ52205 support
->     - Add GPIO I6 pin
->   - v13
->     - Add RTQ6056-support-on-bus-11 
+Hello,
 
-Stop this nonsense. Your patchset should improve, not grow with multiple
-revisions with new stuff but with more and more errors.
+This series extends the behavior of the SIOCGMIIREG and SIOCSMIIREG 
+IOCTLs to use the convenience functions mmd_phy_read() and 
+mmd_phy_write() for C45 access. This brings the benefit of the core 
+falling back to indirect C22 access of the underlying driver do not 
+itself provide C45 read/write capability.
 
-Prepare final work, not v13 with something but without rest, thus v14
-with another missing piece but still incomplete, then v15 with one more
-patch but obviously not complete.
+Patch 1/2 exposes the read/write functions making them available to the 
+IOCTL callback. While patch 2/2 changes the IOCTL callback to make use 
+of them.
 
-Then BEFORE you post new version fix all the oddities you have here. You
-did not run checkpatch, you did not write proper commit msgs, you did
-not test your DTS.
+Without this change using tools like phytool to read/write registers on 
+a C45 only PHY using a C22 only driver fails as the IOCTL callback don't 
+know how to talk C45 on the mdio bus.
 
-The quality of this patchset is unacceptably low.
+Niklas Söderlund (2):
+  net: phy: Expose the direct mdiobus access functions
+  net: phy: Fallback to C22 access if needed in phy_mii_ioctl()
 
-Best regards,
-Krzysztof
+ drivers/net/phy/phy-core.c | 10 ++++++----
+ drivers/net/phy/phy.c      | 18 ++++++++++++------
+ include/linux/phy.h        | 12 ++++++++++++
+ 3 files changed, 30 insertions(+), 10 deletions(-)
+
+-- 
+2.46.0
 
 
