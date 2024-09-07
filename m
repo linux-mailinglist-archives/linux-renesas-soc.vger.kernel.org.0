@@ -1,133 +1,108 @@
-Return-Path: <linux-renesas-soc+bounces-8847-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8848-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5420B970210
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Sep 2024 13:50:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A6597028C
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Sep 2024 15:59:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6946D1C21CCF
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Sep 2024 11:50:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 405D21C21732
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Sep 2024 13:59:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B82531598EC;
-	Sat,  7 Sep 2024 11:49:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32C3115CD60;
+	Sat,  7 Sep 2024 13:59:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HHc8+LeH"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="SYH5bcSp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-21.smtpout.orange.fr [80.12.242.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BAD7159583;
-	Sat,  7 Sep 2024 11:49:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F8C1591F1;
+	Sat,  7 Sep 2024 13:59:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725709745; cv=none; b=REdTgF0nwZFX3YrADp+tAg59xipvAqmxQRBhZDDdri0IE/f+TOW4Qgnu+DDie0j4Zf+nMbxrkdIRG9lnIMUBJbfUL7BNmEx0Es5DbvtujiBsKtLFyR6UrPb4+IKTNvYBRYvMNPydPLBjNf7jtugLNlQ9DFV3G9tjGWXKJ+TFvKQ=
+	t=1725717549; cv=none; b=h71TXYzU1+sjeV4bNgekHBqvQQ7nM51ucL6iOPcj02lLD4LUFet0W7U2wlUtLUtmbqZFVy0idbX4/YRgoo964dju1Zps4iERVTVkD3oZ1eFbbkitAwRpKAk5cGWEtqpy9ZHyyhB/i2rCC3MniZhjOxob9YNqYBhcUlB/gJAgSuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725709745; c=relaxed/simple;
-	bh=eLBXJetdD5j03P1c9yViblj7mq5YY1zzUGq/BpZWIbE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=djOgQsVeD5K54F5y8NGbg8gf4Wr1Bt34tphlWhx7tbuXDV3J9Lsi/E8dZnR9nTRYatJWBOxaQYMlq+6K2aRSGR5APLX8RSGQP/gT+69vmmFLh+nyaU0UA+EjSkeTWN1XwpSOEJRjhRjGgO3fq5zMVG8fMuILsYWwxoZTbVq0L0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HHc8+LeH; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 59B603EA;
-	Sat,  7 Sep 2024 13:47:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725709667;
-	bh=eLBXJetdD5j03P1c9yViblj7mq5YY1zzUGq/BpZWIbE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HHc8+LeHnN1GjD5AW+5YrUbbXz91AVcVT7rKrVoodmNvGwXRvBdXGf0cDmWQHjQxH
-	 664OGRRbcK5ZY8EPfBqZU01iTxu4PDFzfApqPRXPR/fUM870CXBFH44SvJukwrXbY1
-	 58R0NwdANEBE+vipj/slN5cuL7qtCZcVKKWuC13Q=
-Date: Sat, 7 Sep 2024 14:48:58 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Hien Huynh <hien.huynh.px@renesas.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"biju.das.au" <biju.das.au@gmail.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	Pavel Machek <pavel@denx.de>
-Subject: Re: [PATCH] media: platform: rzg2l-cru: rzg2l-video: Fix the comment
- in rzg2l_cru_start_streaming_vq()
-Message-ID: <20240907114858.GC15491@pendragon.ideasonboard.com>
-References: <20240905112508.160560-1-biju.das.jz@bp.renesas.com>
- <20240907000434.GI27086@pendragon.ideasonboard.com>
- <TY3PR01MB1134601C75125427794EB493D869F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	s=arc-20240116; t=1725717549; c=relaxed/simple;
+	bh=SqANuviM84Av24qoAk3zFpgfL+6iOF2E8YUfIHlf9hU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XI79+ZI2ZFTYSI5K3iIJk52un48/aD+YSt6AaCIiry6iP/v7gLCS04DyTgt89HcBjxftjvZcUQO3xfAzMrUHd4kSpJ+zP3tcW+E6GYtWZW5dodaYdeGdHtEjnC7VHTJa/X4P8g+zVIbRSpsLqxVsvpQ4ERg+dgpuS2LVblZyG0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=SYH5bcSp; arc=none smtp.client-ip=80.12.242.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from fedora.home ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id mvxns88H1730VmvxnssasU; Sat, 07 Sep 2024 15:58:59 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1725717539;
+	bh=32/HoL3jcmr5qRrQpL/j/PmxL/AzMzQm8GZ2DrNSaj4=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=SYH5bcSp2M88X2ZraPu/u7TNfNAsBTnp3PHyY7KTnJpgeDHJDgOJdwMleML/RCM58
+	 wVqvs1uFJBfqUofUptcQdrPCKyBOINK5cBXlT6QxlW4lOs40BM3w+VRNqa1nGHpPsq
+	 i9OKzavdcUxMthx0qta40gM4byrjb1/YLLnM5nnTG9SkzwicwGDthFJn27R2uESweG
+	 Fs7o21d0MoH5p2ukXIuoUjt+xLsIW4ScdGhPiaKx8UfO6pNBXZ72qz0L5MCMtr4xWm
+	 hrw28A1sZ//tzKXXBzQTULG1wh0td2A1WlhwAh7usAgCJ2cSiUduHuh/WJEwI/CbH4
+	 TkRgu9Ti7d+5Q==
+X-ME-Helo: fedora.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 07 Sep 2024 15:58:59 +0200
+X-ME-IP: 90.11.132.44
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-phy@lists.infradead.org
+Subject: [PATCH v2] phy: renesas: rcar-gen3-usb2: Fix an error handling path in rcar_gen3_phy_usb2_probe()
+Date: Sat,  7 Sep 2024 15:58:52 +0200
+Message-ID: <4efe2d0419cbe98163e2422ebe0c7896b8a5efed.1725717505.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <TY3PR01MB1134601C75125427794EB493D869F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Sep 07, 2024 at 07:28:13AM +0000, Biju Das wrote:
-> Hi Laurent,
-> 
-> Thanks for the feedback.
-> 
-> > -----Original Message-----
-> > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Sent: Saturday, September 7, 2024 1:05 AM
-> > Subject: Re: [PATCH] media: platform: rzg2l-cru: rzg2l-video: Fix the comment in
-> > rzg2l_cru_start_streaming_vq()
-> > 
-> > Hi Biju,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Thu, Sep 05, 2024 at 12:25:05PM +0100, Biju Das wrote:
-> > > Replace "buffer." -> "buffer", for consistency with rest of the
-> > > comment blocks in rzg2l_cru_start_streaming_vq().
-> > 
-> > I usually go the other way around, sentences should end with a period.
-> > You can go either way as it's your driver.
-> 
-> Ok, I will send next version with sentences end with a period.
+If an error occurs after the rcar_gen3_phy_usb2_init_bus(),
+reset_control_assert() must be called, as already done in the remove
+function.
 
-It's really up to you, and I mean it :-) What I favour the most is
-consistency. I personally think sentences are better with a trailing
-period, but if you prefer considering all those comments as titles and
-drop the period, I'm OK with it too. As long as it doesn't conflict with
-subsystem-wide rules, your driver, your preferences.
+This is fine to re-use the existing error handling path, because even if
+"channel->rstc" is still NULL at this point, it is safe to call
+reset_control_assert(NULL).
 
-> > > Reported-by: Pavel Machek <pavel@denx.de>
-> > > Closes: https://lore.kernel.org/all/ZtWNFuw70nkB37EK@duo.ucw.cz/
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > > This patch have merge dependency on [1] [1]
-> > > https://lore.kernel.org/all/20240826110740.271212-1-biju.das.jz@bp.ren
-> > > esas.com/
-> > > ---
-> > >  drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > index bbf4674f888d..d17e3eac4177 100644
-> > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > @@ -648,7 +648,7 @@ static int rzg2l_cru_start_streaming_vq(struct vb2_queue *vq, unsigned int count
-> > >  		goto assert_aresetn;
-> > >  	}
-> > >
-> > > -	/* Allocate scratch buffer. */
-> > > +	/* Allocate scratch buffer */
-> > >  	cru->scratch = dma_alloc_coherent(cru->dev, cru->format.sizeimage,
-> > >  					  &cru->scratch_phys, GFP_KERNEL);
-> > >  	if (!cru->scratch) {
+Fixes: 4eae16375357 ("phy: renesas: rcar-gen3-usb2: Add support to initialize the bus")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+Changes in v2:
+  - Re-use 'error' to simplify the patch   [claudiu beznea]
+  - Update the commit description to explain why it is safe.
 
+v1: https://lore.kernel.org/all/fc9f7b444f0ca645411868992bbe16514aeccfed.1725652654.git.christophe.jaillet@wanadoo.fr/
+---
+ drivers/phy/renesas/phy-rcar-gen3-usb2.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+index 58e123305152..ccb0b54b70f7 100644
+--- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
++++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+@@ -803,6 +803,7 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
+ 	return 0;
+ 
+ error:
++	reset_control_assert(channel->rstc);
+ 	pm_runtime_disable(dev);
+ 
+ 	return ret;
 -- 
-Regards,
+2.46.0
 
-Laurent Pinchart
 
