@@ -1,170 +1,121 @@
-Return-Path: <linux-renesas-soc+bounces-8849-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8850-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1164970360
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Sep 2024 19:32:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 144D79703F0
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Sep 2024 21:36:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E781E1C211B3
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Sep 2024 17:32:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CCAB9282D15
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Sep 2024 19:36:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9658D3D982;
-	Sat,  7 Sep 2024 17:32:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F20F1662F4;
+	Sat,  7 Sep 2024 19:36:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cQCkM4+L"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="jZ7KeRDW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782DB28FC;
-	Sat,  7 Sep 2024 17:32:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D6B1662E8
+	for <linux-renesas-soc@vger.kernel.org>; Sat,  7 Sep 2024 19:36:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725730361; cv=none; b=lfSjIKKQg8a//8bPhOU337S1JsC495H0qteKRtD18xvY78e+DJSNtrt39++Igde49p3O/mHQCizZ+eMyHfSOgDo344xCgqSJI0jVuo8Hd5OB8Nzcp9ckNTa02GRYRRKG8h4GdedsGbK+ZLJ5ctC3s4SRWvN+6w1U9EtwoUOgcx8=
+	t=1725737804; cv=none; b=SGMijfM+8pyostgRTjd6wiQmLxbp/mAv8UM20wuDhC9iTuulXZTuxmmVA9CUAPuJu7w4+NkmJ93Ml6zx+YH2YB2KDK+uhQXHZ5yZ7pg7cCVej0qHS+EASEXic5RNkp0Mchr+iPS/UexYJHXKZe8qMqlatPDaJsQVt5xNOhIfsiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725730361; c=relaxed/simple;
-	bh=vnUnh9s7HkwYRNQ1rCpFGD3Gx2eWs0ugMiU4/08C0rY=;
+	s=arc-20240116; t=1725737804; c=relaxed/simple;
+	bh=diq//ypwFpciLVOeg5yN2zfMUy+DDfDmYoj1id8kWHc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mV56etPrdFiG745o3MfK/eW9HBHXenteK/Y/Ld7TXZP+Y1Als/YnKIHY8VwyUIGZBSB+GlPIdtHDJEz72MtfUCNzsyONA+5H9Z1gSXnwX4XeAgQjpvExeeZsGLdK/4tdR1NDd01XT0lMkzNk+jPRXyCAY0f7/Md0l782Kq6ZLLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cQCkM4+L; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 451C882E;
-	Sat,  7 Sep 2024 19:31:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725730281;
-	bh=vnUnh9s7HkwYRNQ1rCpFGD3Gx2eWs0ugMiU4/08C0rY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cQCkM4+L38R6p6Ha6VLJKWahOm3/uGPQ1Zui3X++jtaNpDnSk/PpelmqdzvswX79G
-	 vxkVUj6aX+hY2CujLtrP7hnWUeoIGOrDSvFVcHk4Vj5I96FudP8gaC1vlwF9a2pMt3
-	 t3uAJfYzliFLrc2b/DtuyxoZCg1P2FBGtWMFtbtE=
-Date: Sat, 7 Sep 2024 20:32:32 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Hien Huynh <hien.huynh.px@renesas.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"biju.das.au" <biju.das.au@gmail.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] media: platform: rzg2l-cru: rzg2l-video: Set AXI burst
- max length
-Message-ID: <20240907173232.GE15491@pendragon.ideasonboard.com>
-References: <20240905111828.159670-1-biju.das.jz@bp.renesas.com>
- <20240906235948.GH27086@pendragon.ideasonboard.com>
- <TY3PR01MB113461F40823C3404EB4E61AA869F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=XTuQVtbueXe4II2cy/T4sF3dlJyvoKEgG4Q/+BQ40iWwgot8p8Gt3DMTiToXdbxrGCODW0NRECpap3JZerK/VwbjSANuzodqrpdZNjAt04iYpp5JKt4hr1dT2ooa+uqbi4JKPApClgUMItUG1rL1zCEaReO3sVhCwfJ7uWZFQ14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=jZ7KeRDW; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=ftmI
+	51XeY5SayZ7K9um85kpUIGa3z77Fyu2HJa1sqPQ=; b=jZ7KeRDW4lUedqNBLJR7
+	3yMfDiAwVEM9fmUcg6YiCIk+SO0/fkez5cBdVl6SAJ0e003lPPekRMZ++8pQbm/R
+	/HBo75oSZ7Dm+AvjEZwjY2mXKcKjyx//kgfZpkXoiG60iypEb9JrJvgCQyYl8E93
+	NYYukWi/46aQcgHXGNqZuSzVKQDjXzh7cTG7ymWveKTOuYx9IY4g3jrI5j/gy2D5
+	t0Zn5C6fiextcLNWIylAU6t+svjzXl0Mut230o3cH+YU+FYQ8l2QKLongufhNsmU
+	aq+lnGex715eYRM3IVCAY/Z8spy7QIAjqXng9pV8StmuEJ4Pu0DhQExAmYfjHuqJ
+	dQ==
+Received: (qmail 1597171 invoked from network); 7 Sep 2024 21:36:37 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 7 Sep 2024 21:36:37 +0200
+X-UD-Smtp-Session: l3s3148p1@fJlhpIwhXJYujnvu
+Date: Sat, 7 Sep 2024 21:36:36 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Rong Qianfeng <rongqianfeng@vivo.com>
+Cc: andriy.shevchenko@intel.com, biju.das.jz@bp.renesas.com,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Paul Cercueil <paul@crapouillou.net>,
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+	opensource.kernel@vivo.com
+Subject: Re: [PATCH v4 1/3] i2c: emev2: Use devm_clk_get_enabled() helpers
+Message-ID: <ZtyrRLojI8GNiEj0@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Rong Qianfeng <rongqianfeng@vivo.com>, andriy.shevchenko@intel.com,
+	biju.das.jz@bp.renesas.com, Andi Shyti <andi.shyti@kernel.org>,
+	Paul Cercueil <paul@crapouillou.net>,
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+	opensource.kernel@vivo.com
+References: <20240827034841.4121-1-rongqianfeng@vivo.com>
+ <20240827034841.4121-2-rongqianfeng@vivo.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="zQo77BMXTDa4nVkc"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <TY3PR01MB113461F40823C3404EB4E61AA869F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <20240827034841.4121-2-rongqianfeng@vivo.com>
 
-Hi Biju,
 
-On Sat, Sep 07, 2024 at 07:41:24AM +0000, Biju Das wrote:
-> On Saturday, September 7, 2024 1:00 AM, Laurent Pinchart wrote:
-> > On Thu, Sep 05, 2024 at 12:18:26PM +0100, Biju Das wrote:
-> > > As per the hardware manual section 35.2.3.26 'AXI Master Transfer
-> > > Setting Register for CRU Image Data;, it is mentioned that to improve
-> > > the transfer
-> > 
-> > s/;/'/
-> 
-> Oops, Will fix this in next version.
-> 
-> > > performance of CRU, it is recommended to use AXILEN value '0xf' for
-> > > AXI burst max length setting for image data.
-> > >
-> > > Signed-off-by: Hien Huynh <hien.huynh.px@renesas.com>
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > >  .../media/platform/renesas/rzg2l-cru/rzg2l-video.c    | 11 +++++++++++
-> > >  1 file changed, 11 insertions(+)
-> > >
-> > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > index 374dc084717f..d17e3eac4177 100644
-> > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > @@ -52,6 +52,11 @@
-> > >  #define AMnMBS				0x14c
-> > >  #define AMnMBS_MBSTS			0x7
-> > >
-> > > +/* AXI Master Transfer Setting Register for CRU Image Data */
-> > > +#define AMnAXIATTR			0x158
-> > > +#define AMnAXIATTR_AXILEN_MASK		GENMASK(3, 0)
-> > > +#define AMnAXIATTR_AXILEN		(0xf)
-> > > +
-> > >  /* AXI Master FIFO Pointer Register for CRU Image Data */
-> > >  #define AMnFIFOPNTR			0x168
-> > >  #define AMnFIFOPNTR_FIFOWPNTR		GENMASK(7, 0)
-> > > @@ -278,6 +283,7 @@ static void rzg2l_cru_fill_hw_slot(struct
-> > > rzg2l_cru_dev *cru, int slot)  static void
-> > > rzg2l_cru_initialize_axi(struct rzg2l_cru_dev *cru)  {
-> > >  	unsigned int slot;
-> > > +	u32 amnaxiattr;
-> > >
-> > >  	/*
-> > >  	 * Set image data memory banks.
-> > > @@ -287,6 +293,11 @@ static void rzg2l_cru_initialize_axi(struct
-> > > rzg2l_cru_dev *cru)
-> > >
-> > >  	for (slot = 0; slot < cru->num_buf; slot++)
-> > >  		rzg2l_cru_fill_hw_slot(cru, slot);
-> > > +
-> > > +	/* Set AXI burst max length to recommended setting */
-> > > +	amnaxiattr = rzg2l_cru_read(cru, AMnAXIATTR) & ~AMnAXIATTR_AXILEN_MASK;
-> > > +	amnaxiattr |= AMnAXIATTR_AXILEN;
-> > > +	rzg2l_cru_write(cru, AMnAXIATTR, amnaxiattr);
-> > 
-> > It would be more efficient to just write
-> > 
-> > 	rzg2l_cru_write(cru, AMnAXIATTR, AMnAXIATTR_AXILEN);
-> 
-> I thought about that. But then re-reading register description changed the mind because
-> of the below bits
-> 
-> {9,8} — 01b R Reserved:
-> When read, the initial value is read. When writing, be sure to write the initial value.
-> Operation is not guaranteed if a value other than the initial value is written.
-> 
-> {6,4} — 101b R Reserved:
-> When read, the initial value is read. When writing, be sure to write the initial value.
-> Operation is not guaranteed if a value other than the initial value is written.
-> 
-> Also, bits {27,24}, {22,16} and {13,12} -0b :
-> 
-> It is mentioned that
-> When read, the initial value is read. When writing, be sure to write the initial value.
-> operation is not guaranteed if a value other than the initial value is written.
+--zQo77BMXTDa4nVkc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Let's keep the code as-is then. I'll fix the typo in (and reflow) the
-commit message myself, no need to resubmit.
+On Tue, Aug 27, 2024 at 11:48:39AM +0800, Rong Qianfeng wrote:
+> The devm_clk_get_enabled() helpers:
+>     - call devm_clk_get()
+>     - call clk_prepare_enable() and register what is needed in order to
+>      call clk_disable_unprepare() when needed, as a managed resource.
+>=20
+> This simplifies the code and avoids the calls to clk_disable_unprepare().
+>=20
+> While at it, no need to save clk pointer, drop sclk from struct
+> em_i2c_device.
+>=20
+> Signed-off-by: Rong Qianfeng <rongqianfeng@vivo.com>
 
-> > the hardware manual however doesn't make it clear if this is safe or not. The rest of the register is
-> > reserved, and writes as documented as ignored, but the reset value is non-zero. If it's not safe to
-> > write the reserved bits to 0,
-> > 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > 
-> > >  }
-> > >
-> > >  static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru, bool
-> > > *input_is_yuv,
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
--- 
-Regards,
 
-Laurent Pinchart
+--zQo77BMXTDa4nVkc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmbcq0AACgkQFA3kzBSg
+KbZZDRAAqpH+N1/D/nIYiSriyH3t4x3bAo19j269qgknU9HxkhD5orC618cheUhS
+vi2v/4U63GraIoGKMfelq6BSXWzozNotp5SF4+LVQP2D2Xc94sc1YAT7nPMGUniK
+AqVcb1eXrx99PEGU/hBVPu9DXXgOYM+8eK/xte0ASWlvishO6gKY3NqUhFxsF57G
+24oSEOXk4yHQgYXBbZ0jt1+H9THOdMWCJ5VyvOVK0Rt2P9hk/XJSyHxlRHyU29nd
+yQM46rWf0MMyG/qmZ5fJT8bCHJnAVpfLJUQlilLpH5w4pQ6uK/O3D+SKhIJn7Jwu
+gGFD9ztMvvHbgBDU2TBO3yOf3xuh+P/ZcFSXOu9xCWycHa17U6wpnFQw940kYnR1
+yP0uJTnWIJj3bwdHWiLFnctMS/3i7LODFNIk6uWUUxAyLMG8fBCkAPWSwcK0jEjJ
+Ej1G6f7AHZTBxO4oXa57Ydo03cV2IIH7C6k86C0bTuwouhnf5oUK1AU2TTm9hNWx
+abkuiEPotIXDe+sZK76C8XbGh1ViPn7xcYLM7RZe2iapQcs4gwulEEhtBSU4gjDK
+aTpNdxVqByMvIh8kGEA3V05Mot0JdUNRpOa1uQH36hmdIKjEAU35oa45ZN5n+7kE
+bg3gIqvXIJCc3P5FLFMvgrmj7CZ98RSs+CFOdbMADaWzID6yuuQ=
+=xVsd
+-----END PGP SIGNATURE-----
+
+--zQo77BMXTDa4nVkc--
 
