@@ -1,121 +1,169 @@
-Return-Path: <linux-renesas-soc+bounces-8850-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8851-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 144D79703F0
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Sep 2024 21:36:48 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E81D1970420
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Sep 2024 23:04:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CCAB9282D15
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Sep 2024 19:36:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 23832B2234B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Sep 2024 21:04:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F20F1662F4;
-	Sat,  7 Sep 2024 19:36:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C413A166F0C;
+	Sat,  7 Sep 2024 21:04:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="jZ7KeRDW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cK0RTEAH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D6B1662E8
-	for <linux-renesas-soc@vger.kernel.org>; Sat,  7 Sep 2024 19:36:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F9F9166F33;
+	Sat,  7 Sep 2024 21:04:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725737804; cv=none; b=SGMijfM+8pyostgRTjd6wiQmLxbp/mAv8UM20wuDhC9iTuulXZTuxmmVA9CUAPuJu7w4+NkmJ93Ml6zx+YH2YB2KDK+uhQXHZ5yZ7pg7cCVej0qHS+EASEXic5RNkp0Mchr+iPS/UexYJHXKZe8qMqlatPDaJsQVt5xNOhIfsiU=
+	t=1725743047; cv=none; b=ZezKFJF5WaqDMcgbDEqFJkyqF6vgBGet/oMqgNTDTEhVgV9+ajpSVfbCeKEkZngoM0+u36baaaRpiONQaaxuUhmf6BnNXsectfNUkimUgpU42TSDfgNxUMYCnoGveUYzF6NSJVC3Ye9IBQisErjWrHWu0fl5NKNQ8Jm0rrmIs0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725737804; c=relaxed/simple;
-	bh=diq//ypwFpciLVOeg5yN2zfMUy+DDfDmYoj1id8kWHc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XTuQVtbueXe4II2cy/T4sF3dlJyvoKEgG4Q/+BQ40iWwgot8p8Gt3DMTiToXdbxrGCODW0NRECpap3JZerK/VwbjSANuzodqrpdZNjAt04iYpp5JKt4hr1dT2ooa+uqbi4JKPApClgUMItUG1rL1zCEaReO3sVhCwfJ7uWZFQ14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=jZ7KeRDW; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=ftmI
-	51XeY5SayZ7K9um85kpUIGa3z77Fyu2HJa1sqPQ=; b=jZ7KeRDW4lUedqNBLJR7
-	3yMfDiAwVEM9fmUcg6YiCIk+SO0/fkez5cBdVl6SAJ0e003lPPekRMZ++8pQbm/R
-	/HBo75oSZ7Dm+AvjEZwjY2mXKcKjyx//kgfZpkXoiG60iypEb9JrJvgCQyYl8E93
-	NYYukWi/46aQcgHXGNqZuSzVKQDjXzh7cTG7ymWveKTOuYx9IY4g3jrI5j/gy2D5
-	t0Zn5C6fiextcLNWIylAU6t+svjzXl0Mut230o3cH+YU+FYQ8l2QKLongufhNsmU
-	aq+lnGex715eYRM3IVCAY/Z8spy7QIAjqXng9pV8StmuEJ4Pu0DhQExAmYfjHuqJ
-	dQ==
-Received: (qmail 1597171 invoked from network); 7 Sep 2024 21:36:37 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 7 Sep 2024 21:36:37 +0200
-X-UD-Smtp-Session: l3s3148p1@fJlhpIwhXJYujnvu
-Date: Sat, 7 Sep 2024 21:36:36 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Rong Qianfeng <rongqianfeng@vivo.com>
-Cc: andriy.shevchenko@intel.com, biju.das.jz@bp.renesas.com,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Paul Cercueil <paul@crapouillou.net>,
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-	opensource.kernel@vivo.com
-Subject: Re: [PATCH v4 1/3] i2c: emev2: Use devm_clk_get_enabled() helpers
-Message-ID: <ZtyrRLojI8GNiEj0@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Rong Qianfeng <rongqianfeng@vivo.com>, andriy.shevchenko@intel.com,
-	biju.das.jz@bp.renesas.com, Andi Shyti <andi.shyti@kernel.org>,
-	Paul Cercueil <paul@crapouillou.net>,
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-	opensource.kernel@vivo.com
-References: <20240827034841.4121-1-rongqianfeng@vivo.com>
- <20240827034841.4121-2-rongqianfeng@vivo.com>
+	s=arc-20240116; t=1725743047; c=relaxed/simple;
+	bh=uV//lxLMzxasc/zCdpYec0V3wLeHo3e7GzQGZwvVFDU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=D1ee89PzxvW7OB1BJy/PTWNqzP+nlAXzSIXDpVusNANxuf12zyBimeboRh60zKkZgW0xNYk1LUiTHIdxf9qZi5hJq9HQ7Hzv5t8zcsaIdcaJIrtn+T0QvE8XrZKctMGoLi7vsts/eGCt3GmQNysYNWiUvNcUSCTcb7vU+pA1R/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cK0RTEAH; arc=none smtp.client-ip=209.85.221.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-50108b3749aso940815e0c.2;
+        Sat, 07 Sep 2024 14:04:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725743045; x=1726347845; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RS0qJmOAWGvGMAz2sPe3y3syKBWbtUOwrE1+l4wrMq4=;
+        b=cK0RTEAHTNtY7nnV7qkHFe7GBzEZDxh97dtqHXs5Kbd0ucobftHVzPkbbmW8zmhO2O
+         KdOU5Xd0YPfCmHUWGbVjPvCdzB39I0qejMaHiPPE1Hhu3EEk5ngnKdfKh6I+1DGWXRn5
+         Ax2bXT8RKBTRiI2PrMK1LvLZEST4+ogkaPmbbEaWyq+3i1pxFt9IeWSOhRFF3d7ukvse
+         scEfesJ89IKStal2sGGVUrN7CtsX3otgE3VW93I8KyKgdWMAPj8j2AhlpiXOyKbqE5Zz
+         C62+paIjrpbTP/OCfSY8AwtE7nQTdOmU5Q49AUbBy7ACm4+UACzuGquk+iWsqA73japG
+         oMZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725743045; x=1726347845;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RS0qJmOAWGvGMAz2sPe3y3syKBWbtUOwrE1+l4wrMq4=;
+        b=hmBZaWardyCMr367M08TToKp2CBlXsf8xiufM6or6N+PA4sRKnB14vkP/E3apsqscH
+         L0y3jMjyOtp2eNoGYk9NVubGW3q76ApAK0peg1+E9Kv9XUlrY2GoOtTlxlIQ9B/iV9Nt
+         oo3J0xPUJ3iLkubkL645mNFiVqvqHFhZxH9qxUPydgTCCHfHI220k8hPqNRKx4Ofzm6M
+         TUmD5GHjaaBWC1mhTSq2hAoHLXadQ0rqp+dJjEnFpwOFZZn/Wz4dijwlR3tPJuCVna+W
+         tf33lIcpVTAhBTS8CDECfxl35pfQO9t29ye4WtSrb/vBYkldMwHVmSKZvatMTt7Vit14
+         09kA==
+X-Forwarded-Encrypted: i=1; AJvYcCU8wyB2KlBEDhpusQnp+rT2ozCnXlCEaWzcQNDzvTjV1ocizqWJSS+7EirsnodWrb3QGCgh+XedEg/6t6w=@vger.kernel.org, AJvYcCWy3WHkTZQ5BCuLxAggr/TVcJZQSu6SaGxRNbet2oAGAP9I1teQ0CtIEOdwKeBtnhAHj+7hHpwRVI1us6g=@vger.kernel.org, AJvYcCXsu1HK4To5RfIKHkhVESSqr3ZyGtD4LxKfsM0aj09jZk8N/rtZ1doXuRk5tmOYaZRm2rR9Hxe3GtSCHANh28csdYA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw31NE4JEjIeQfeFxIf4DtYhpO0Ii1sLtJsHYkUD1qwb2zMBclY
+	/uKCZIgXzM7Hv3PAANWn2Od3d0W3GHZOfVmKuieOQr6B6lnaPEREwJYVt3WVX4XxtS55YO+Ki7j
+	OHzfZRfbKcFZpYACJc95WEmJsnJ5ptQMq
+X-Google-Smtp-Source: AGHT+IHI55YygLC0Avb1oY+2+o0G8tz10yH/2T8BnVIeTuRIrqwvwYyvjzieGpKrJ9lX4C3JP+aqBqOiPhu5AfOUb+Y=
+X-Received: by 2002:a05:6122:369d:b0:500:b4c7:b87e with SMTP id
+ 71dfb90a1353d-502096fa250mr7786835e0c.4.1725743044807; Sat, 07 Sep 2024
+ 14:04:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zQo77BMXTDa4nVkc"
-Content-Disposition: inline
-In-Reply-To: <20240827034841.4121-2-rongqianfeng@vivo.com>
-
-
---zQo77BMXTDa4nVkc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240906173947.282402-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240906173947.282402-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240906223831.GB12915@pendragon.ideasonboard.com>
+In-Reply-To: <20240906223831.GB12915@pendragon.ideasonboard.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Sat, 7 Sep 2024 22:03:38 +0100
+Message-ID: <CA+V-a8u2rd60ueUZar5keyo2wBG565XPUmOknaXg_4U5cq4QtA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] media: platform: rzg2l-cru: rzg2l-csi2: Implement .get_frame_desc()
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 27, 2024 at 11:48:39AM +0800, Rong Qianfeng wrote:
-> The devm_clk_get_enabled() helpers:
->     - call devm_clk_get()
->     - call clk_prepare_enable() and register what is needed in order to
->      call clk_disable_unprepare() when needed, as a managed resource.
->=20
-> This simplifies the code and avoids the calls to clk_disable_unprepare().
->=20
-> While at it, no need to save clk pointer, drop sclk from struct
-> em_i2c_device.
->=20
-> Signed-off-by: Rong Qianfeng <rongqianfeng@vivo.com>
+Hi Laurent,
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Thank you for the review.
 
+On Fri, Sep 6, 2024 at 11:38=E2=80=AFPM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Prabhakar,
+>
+> Thank you for the patch.
+>
+> On Fri, Sep 06, 2024 at 06:39:45PM +0100, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > The RZ/G2L CRU requires information about which VCx to process data fro=
+m,
+> > among the four available VCs. To obtain this information, the
+> > .get_frame_desc() routine is implemented. This routine, in turn, calls
+> > .get_frame_desc() on the remote sensor connected to the CSI2 bridge.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  .../media/platform/renesas/rzg2l-cru/rzg2l-csi2.c    | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
+> >
+> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/dr=
+ivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> > index c7fdee347ac8..a7e4a0c109da 100644
+> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> > @@ -582,6 +582,17 @@ static int rzg2l_csi2_enum_frame_size(struct v4l2_=
+subdev *sd,
+> >       return 0;
+> >  }
+> >
+> > +static int rzg2l_csi2_get_frame_desc(struct v4l2_subdev *sd, unsigned =
+int pad,
+> > +                                  struct v4l2_mbus_frame_desc *fd)
+> > +{
+> > +     struct rzg2l_csi2 *csi2 =3D sd_to_csi2(sd);
+> > +
+> > +     if (!csi2->remote_source)
+> > +             return -EINVAL;
+>
+> Maybe -ENODEV ?
+>
+Agreed.
 
---zQo77BMXTDa4nVkc
-Content-Type: application/pgp-signature; name="signature.asc"
+> > +
+> > +     return v4l2_subdev_call(csi2->remote_source, pad, get_frame_desc,=
+ pad, fd);
+> > +}
+> > +
+>
+> I wonder if we should implement a wrapper around .get_frame_desc() that
+> would automatically forward the call to the source if .get_frame_desc()
+> isn't implemented by a subdev. That's not a requirement for this series,
+>
+That would be helpful.
 
------BEGIN PGP SIGNATURE-----
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> >  static const struct v4l2_subdev_video_ops rzg2l_csi2_video_ops =3D {
+> >       .s_stream =3D rzg2l_csi2_s_stream,
+> >       .pre_streamon =3D rzg2l_csi2_pre_streamon,
+> > @@ -593,6 +604,7 @@ static const struct v4l2_subdev_pad_ops rzg2l_csi2_=
+pad_ops =3D {
+> >       .enum_frame_size =3D rzg2l_csi2_enum_frame_size,
+> >       .set_fmt =3D rzg2l_csi2_set_format,
+> >       .get_fmt =3D v4l2_subdev_get_fmt,
+> > +     .get_frame_desc =3D rzg2l_csi2_get_frame_desc,
+> >  };
+> >
+> >  static const struct v4l2_subdev_ops rzg2l_csi2_subdev_ops =3D {
+>
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmbcq0AACgkQFA3kzBSg
-KbZZDRAAqpH+N1/D/nIYiSriyH3t4x3bAo19j269qgknU9HxkhD5orC618cheUhS
-vi2v/4U63GraIoGKMfelq6BSXWzozNotp5SF4+LVQP2D2Xc94sc1YAT7nPMGUniK
-AqVcb1eXrx99PEGU/hBVPu9DXXgOYM+8eK/xte0ASWlvishO6gKY3NqUhFxsF57G
-24oSEOXk4yHQgYXBbZ0jt1+H9THOdMWCJ5VyvOVK0Rt2P9hk/XJSyHxlRHyU29nd
-yQM46rWf0MMyG/qmZ5fJT8bCHJnAVpfLJUQlilLpH5w4pQ6uK/O3D+SKhIJn7Jwu
-gGFD9ztMvvHbgBDU2TBO3yOf3xuh+P/ZcFSXOu9xCWycHa17U6wpnFQw940kYnR1
-yP0uJTnWIJj3bwdHWiLFnctMS/3i7LODFNIk6uWUUxAyLMG8fBCkAPWSwcK0jEjJ
-Ej1G6f7AHZTBxO4oXa57Ydo03cV2IIH7C6k86C0bTuwouhnf5oUK1AU2TTm9hNWx
-abkuiEPotIXDe+sZK76C8XbGh1ViPn7xcYLM7RZe2iapQcs4gwulEEhtBSU4gjDK
-aTpNdxVqByMvIh8kGEA3V05Mot0JdUNRpOa1uQH36hmdIKjEAU35oa45ZN5n+7kE
-bg3gIqvXIJCc3P5FLFMvgrmj7CZ98RSs+CFOdbMADaWzID6yuuQ=
-=xVsd
------END PGP SIGNATURE-----
-
---zQo77BMXTDa4nVkc--
+Cheers,
+Prabhakar
 
