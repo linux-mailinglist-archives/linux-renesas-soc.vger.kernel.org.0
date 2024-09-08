@@ -1,193 +1,193 @@
-Return-Path: <linux-renesas-soc+bounces-8856-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8857-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 771E6970A14
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  8 Sep 2024 23:13:08 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8AAF970A76
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Sep 2024 00:39:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7A3B11C2245A
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  8 Sep 2024 21:13:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E362DB210AF
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  8 Sep 2024 22:39:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6016317B402;
-	Sun,  8 Sep 2024 21:11:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FE8F172773;
+	Sun,  8 Sep 2024 22:39:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="s4I0FQ6I";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="nZ4yG/7y"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="H2IVnZlS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D7117A5B6;
-	Sun,  8 Sep 2024 21:11:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF630F9EC;
+	Sun,  8 Sep 2024 22:39:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725829889; cv=none; b=lPziBdq/Pb/n1vJKHanIpF/uDQE3SEfigk64vr94uSpIHMyo47fslF/vQTXb+uL0yBTPfvtxNGgXNIKQb+WSyfNEyb+7dwY+9RlGmty5HHns5vo0+qPxMCqSwenVhjS5dH/aR7RLXORLO6Jl52hyKHROljo++QJOk2rp1aWW9lc=
+	t=1725835158; cv=none; b=fKc6qezJ0pYJT90tDh+VU5PpK5cvuYWflD+chN3YV/BhlGBzlnjwaRUopD9Et4iBpyOMZoOZxCMM0qloK9NfjZwUtfZlT9kpt5glZJXWq3bmi6WVW4Ldc+rBjiKcmzwOPUhLzICKeafR4A11k9f6FkTaM/xeHf6aers5mndMvxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725829889; c=relaxed/simple;
-	bh=25RB4FzT4WxgCBCu9L1xAKNbbyb/rhQbiNzzddhqHQ4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RWhJtZh5qMEqcJc0g04QLbw0kQh1wl9IKXLrUS6hhYL+6iIcS4t4tyoxpMP/6jT5Q3AfW5OdZsU9ne9rOJ7i42gGoZ+BAymnA8lRHYecYVALSN5G7LTj7+wyEWVYKEvDmJfKoBnKvbiVaAVJTHwfcuzO543VL1AohIAO6drr8Lk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=s4I0FQ6I; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=nZ4yG/7y; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4X22h700jSz9sSH;
-	Sun,  8 Sep 2024 23:11:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1725829879;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=iu10XaQnGzoRMAyxC23k7fGvV791jxaNF9ONi5fQsDo=;
-	b=s4I0FQ6ImZjC1JOQW/ZFDPaaBo9yHJQMQZ2Cg5+nke7WyifVUZ2g2nNv7pwTyE39oECfz8
-	FIcxAaq6rJ63bcH/LxJwQnEPU4eEC6mlNfRAMdprNW/AOYeZgsSx2ZPb5T7nA51LHNcnGX
-	rGYOng/f+7pk5tqNv0XT7HVMi3Ypi3ZhY6zSblM+s34mRqdPqLJd6CKhpwxY/AsTfrdKvJ
-	arD2CvkHhzgCiQBDp2umHxw8tzbczqZaDAKo/E5x2q/51WG/ApEgL0QbodCG9Bym0APXLG
-	Eu609LS+geyDjGtm65drd9bujG7U2u3RtjBVOkrT3qBANjjQWZbWlAls2jPpnw==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1725829877;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=iu10XaQnGzoRMAyxC23k7fGvV791jxaNF9ONi5fQsDo=;
-	b=nZ4yG/7yOwdbuCc/aNK/dCedBMaqt98zEnz6NTF2ZGP4Z+tne1JKqn/+A1uUyZQ0SiqU5x
-	IKzyOLgFUNifc3RH7fQyJtHtNObTt5VDNlYGi0ugjnD0Mam5Ho3ea/TWNt+aCnIhZ5usiW
-	1O5tWqhlq5N0Dxbm7ud1MiyByyAcathWssrXMxlpFCCd61B29Bv89XLDqImGEJfTc2L3R6
-	iYtHLCRkOQugugWD4ceE+ujOAQm6xNq80xmLSDBgLUjLL4kBBUXNPGgQVzuzpjOj274SMJ
-	xI1nC9x8r2RDE07KoDhuUEY9tvm+yiM3G1pqX9rwavQs0SoWAlEVyP7zWEN5LA==
-To: linux-clk@vger.kernel.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] clk: renesas: trivial: Remove duplicate and trailing empty lines
-Date: Sun,  8 Sep 2024 23:10:40 +0200
-Message-ID: <20240908211056.230784-1-marek.vasut+renesas@mailbox.org>
+	s=arc-20240116; t=1725835158; c=relaxed/simple;
+	bh=oKBzCVtgHJg7DdDPVdriKTlHZHHU34KAuqI25QTmZmY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MYJMC2skZh7Y5zDnZ9/B5/QndVdhdLe4bOTgLAFoWT6kDe6UyXiHnv7sP1wO7OKXlxQ65guH1xqLrLHwUzEpOP6bNgZG2d1EJ2ju3GAR/bfi5C+4DwSKub6hQ8qNSZ9mc0N5CV7vAD64jfP46mTTtLWwkAZbV5IRzUcNjD2CMi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=H2IVnZlS; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (213-229-8-243.static.upcbusiness.at [213.229.8.243])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 91B985A4;
+	Mon,  9 Sep 2024 00:37:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1725835072;
+	bh=oKBzCVtgHJg7DdDPVdriKTlHZHHU34KAuqI25QTmZmY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=H2IVnZlSh8pEU3KW7Gz4vSVm67eN0dlFtz/gUGfVcWR9vjvOoolcNP9ykJh/k5n5X
+	 6XjMrzipiV06ujtXy2i75+UHRtFCtlVRXUgKUUA9fdAgbfZogZY1IwRwNigKwSnyHJ
+	 JKT8VxvREUyNxtLedg3FURFwh08oDhG3VDohAn4g=
+Date: Mon, 9 Sep 2024 01:39:05 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 2/3] media: platform: rzg2l-cru: rzg2l-video: Retrieve
+ virtual channel information
+Message-ID: <20240908223905.GG15491@pendragon.ideasonboard.com>
+References: <20240906173947.282402-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240906173947.282402-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240906231038.GC12915@pendragon.ideasonboard.com>
+ <CA+V-a8vsmYSOWgoiHnO5xWdn-wo-eda6hdxGz5X_Hc5s-yVv6g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 169ab20e05709d2b496
-X-MBO-RS-META: k8goq9uthstmbf4r5xuwm6uceha4pqq6
+In-Reply-To: <CA+V-a8vsmYSOWgoiHnO5xWdn-wo-eda6hdxGz5X_Hc5s-yVv6g@mail.gmail.com>
 
-Remove the duplicate and trailing empty lines. No functional change.
+Hi Prabhakar,
 
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Michael Turquette <mturquette@baylibre.com>
-Cc: Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
----
- drivers/clk/renesas/clk-r8a73a4.c       | 1 -
- drivers/clk/renesas/clk-r8a7778.c       | 1 -
- drivers/clk/renesas/r8a779a0-cpg-mssr.c | 1 -
- drivers/clk/renesas/r9a09g011-cpg.c     | 1 -
- drivers/clk/renesas/rcar-cpg-lib.c      | 1 -
- drivers/clk/renesas/rcar-gen3-cpg.c     | 1 -
- drivers/clk/renesas/renesas-cpg-mssr.c  | 2 --
- 7 files changed, 8 deletions(-)
+On Sat, Sep 07, 2024 at 10:09:10PM +0100, Lad, Prabhakar wrote:
+> On Sat, Sep 7, 2024 at 12:10 AM Laurent Pinchart wrote:
+> > On Fri, Sep 06, 2024 at 06:39:46PM +0100, Prabhakar wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > The RZ/G2L CRU needs to configure the ICnMC.VCSEL bits to specify which
+> > > virtual channel should be processed from the four available VCs. To
+> > > retrieve this information from the connected subdevice, the
+> > > .get_frame_desc() function is called.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > ---
+> > >  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 29 +++++++++++++++++++
+> > >  1 file changed, 29 insertions(+)
+> > >
+> > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > > index bbf4674f888d..6101a070e785 100644
+> > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > > @@ -433,12 +433,41 @@ void rzg2l_cru_stop_image_processing(struct rzg2l_cru_dev *cru)
+> > >       spin_unlock_irqrestore(&cru->qlock, flags);
+> > >  }
+> > >
+> > > +static int rzg2l_cru_get_virtual_channel(struct rzg2l_cru_dev *cru)
+> > > +{
+> > > +     struct v4l2_mbus_frame_desc fd = { };
+> > > +     struct media_pad *pad;
+> > > +     int ret;
+> > > +
+> > > +     pad = media_pad_remote_pad_unique(&cru->ip.pads[1]);
+> >
+> > It would be nice to use RZG2L_CRU_IP_SOURCE here instead of hardcoding
+> > the pad number. That would require moving rzg2l_csi2_pads to the shared
+> > header. You can do that on top.
+>
+> With the below comment we dont need to move rzg2l_csi2_pads into the
+> shared header.
+> 
+> > An now that I've said that, is it really the source pad you need here ?
+>
+> Ouch you are right.
+> 
+> > > +     if (IS_ERR(pad))
+> > > +             return PTR_ERR(pad);
+> >
+> > Can this happen, or would the pipeline fail to validate ? I think you
+> > can set the MUST_CONNECT flag on the sink pad, then you'll have a
+> > guarantee something will be connected.
+>
+> After adding the MUST_CONNECT flag, I wouldn't need the  above
+> media_pad_remote_pad_unique()...
+> 
+> > > +
+> > > +     ret = v4l2_subdev_call(cru->ip.remote, pad, get_frame_desc,
+> > > +                            pad->index, &fd);
+>
+> ... and here I can use '0' instead
 
-diff --git a/drivers/clk/renesas/clk-r8a73a4.c b/drivers/clk/renesas/clk-r8a73a4.c
-index 4b1815147f77..f331d8bc9daf 100644
---- a/drivers/clk/renesas/clk-r8a73a4.c
-+++ b/drivers/clk/renesas/clk-r8a73a4.c
-@@ -64,7 +64,6 @@ r8a73a4_cpg_register_clock(struct device_node *np, struct r8a73a4_cpg *cpg,
- 	unsigned int mult = 1;
- 	unsigned int div = 1;
- 
--
- 	if (!strcmp(name, "main")) {
- 		u32 ckscr = readl(base + CPG_CKSCR);
- 
-diff --git a/drivers/clk/renesas/clk-r8a7778.c b/drivers/clk/renesas/clk-r8a7778.c
-index 797556259370..6ea173f22251 100644
---- a/drivers/clk/renesas/clk-r8a7778.c
-+++ b/drivers/clk/renesas/clk-r8a7778.c
-@@ -67,7 +67,6 @@ r8a7778_cpg_register_clock(struct device_node *np, const char *name)
- 	return ERR_PTR(-EINVAL);
- }
- 
--
- static void __init r8a7778_cpg_clocks_init(struct device_node *np)
- {
- 	struct clk_onecell_data *data;
-diff --git a/drivers/clk/renesas/r8a779a0-cpg-mssr.c b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-index 4c8e4c69c1bf..9c7e4094705c 100644
---- a/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-+++ b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-@@ -266,7 +266,6 @@ static const struct rcar_gen4_cpg_pll_config cpg_pll_configs[4] __initconst = {
- 	{ 2,		128,	1,	192,	1,	32,	},
- };
- 
--
- static int __init r8a779a0_cpg_mssr_init(struct device *dev)
- {
- 	const struct rcar_gen4_cpg_pll_config *cpg_pll_config;
-diff --git a/drivers/clk/renesas/r9a09g011-cpg.c b/drivers/clk/renesas/r9a09g011-cpg.c
-index dda9f29dff33..22272279b104 100644
---- a/drivers/clk/renesas/r9a09g011-cpg.c
-+++ b/drivers/clk/renesas/r9a09g011-cpg.c
-@@ -98,7 +98,6 @@ static const struct clk_div_table dtable_divd[] = {
- 	{0, 0},
- };
- 
--
- static const struct clk_div_table dtable_divw[] = {
- 	{0, 6},
- 	{1, 7},
-diff --git a/drivers/clk/renesas/rcar-cpg-lib.c b/drivers/clk/renesas/rcar-cpg-lib.c
-index 42b126ea3e13..a45f8e7e9ab6 100644
---- a/drivers/clk/renesas/rcar-cpg-lib.c
-+++ b/drivers/clk/renesas/rcar-cpg-lib.c
-@@ -206,4 +206,3 @@ struct clk * __init cpg_rpcd2_clk_register(const char *name,
- 
- 	return clk;
- }
--
-diff --git a/drivers/clk/renesas/rcar-gen3-cpg.c b/drivers/clk/renesas/rcar-gen3-cpg.c
-index 20b89eb6c35c..027100e84ee4 100644
---- a/drivers/clk/renesas/rcar-gen3-cpg.c
-+++ b/drivers/clk/renesas/rcar-gen3-cpg.c
-@@ -335,7 +335,6 @@ static u32 cpg_quirks __initdata;
- 
- #define RCKCR_CKSEL	BIT(1)		/* Manual RCLK parent selection */
- 
--
- static const struct soc_device_attribute cpg_quirks_match[] __initconst = {
- 	{
- 		.soc_id = "r8a7796", .revision = "ES1.0",
-diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renesas/renesas-cpg-mssr.c
-index 1b421b809796..79e7a90c3b1b 100644
---- a/drivers/clk/renesas/renesas-cpg-mssr.c
-+++ b/drivers/clk/renesas/renesas-cpg-mssr.c
-@@ -39,7 +39,6 @@
- #define WARN_DEBUG(x)	do { } while (0)
- #endif
- 
--
- /*
-  * Module Standby and Software Reset register offets.
-  *
-@@ -716,7 +715,6 @@ static inline int cpg_mssr_reset_controller_register(struct cpg_mssr_priv *priv)
- }
- #endif /* !CONFIG_RESET_CONTROLLER */
- 
--
- static const struct of_device_id cpg_mssr_match[] = {
- #ifdef CONFIG_CLK_R7S9210
- 	{
+Can you ? You need to call the operation on the pad of the connected
+entity that is connected to tbe sink pad of the IP entity. That would be
+the source pad of the CSI-2 RX in this case, but it can't be hardcoded
+as it could also bethe source pad of a parallel sensor (once support for
+that will be implemented). I think you therefore need to keep the
+media_pad_remote_pad_unique() call.
+
+> or do you prefer RZG2L_CRU_IP_SINK
+> (I say because we are calling into remote subdev of IP which is CSI so
+> the RZG2L_CRU_IP_SINK wont make sense)?
+> 
+> > > +     if (ret < 0 && ret != -ENOIOCTLCMD)
+> >
+> > Printing an error message would help debugging.
+> >
+> OK, I will add.
+> 
+> > > +             return ret;
+> > > +     /* If remote subdev does not implement .get_frame_desc default to VC0. */
+> > > +     if (ret == -ENOIOCTLCMD)
+> > > +             return 0;
+> > > +
+> > > +     if (fd.type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2)
+> >
+> > An error message would help here too I think.
+> >
+> OK, I will add.
+> 
+> > > +             return -EINVAL;
+> > > +
+> > > +     return fd.num_entries ? fd.entry[0].bus.csi2.vc : 0;
+> >
+> > I think you should return an error if fd.num_entries is 0, that
+> > shouldn't happen.
+> >
+> OK, I will add.
+> 
+> > > +}
+> > > +
+> > >  int rzg2l_cru_start_image_processing(struct rzg2l_cru_dev *cru)
+> > >  {
+> > >       struct v4l2_mbus_framefmt *fmt = rzg2l_cru_ip_get_src_fmt(cru);
+> > >       unsigned long flags;
+> > >       int ret;
+> > >
+> > > +     ret = rzg2l_cru_get_virtual_channel(cru);
+> > > +     if (ret < 0)
+> > > +             return ret;
+> > > +     cru->csi.channel = ret;
+> >
+> > How about passing the value to the function that needs it, instead of
+> > storing it in cru->csi.channel ? You can do that on top and drop the
+> > csi.channel field.
+> >
+> OK, let me check if this can be done.
+
 -- 
-2.45.2
+Regards,
 
+Laurent Pinchart
 
