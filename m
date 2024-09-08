@@ -1,184 +1,144 @@
-Return-Path: <linux-renesas-soc+bounces-8854-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8855-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B9CD9708D6
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  8 Sep 2024 18:59:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7011F9709AB
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  8 Sep 2024 22:24:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8F4A11C20C3E
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  8 Sep 2024 16:59:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2DDB92814B5
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  8 Sep 2024 20:24:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E01A172BB9;
-	Sun,  8 Sep 2024 16:59:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00EA6178387;
+	Sun,  8 Sep 2024 20:24:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="Waf26juj"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TGHutnDW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.smtpout.orange.fr (smtp-16.smtpout.orange.fr [80.12.242.16])
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64172535D8;
-	Sun,  8 Sep 2024 16:58:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A714085D;
+	Sun,  8 Sep 2024 20:24:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725814742; cv=none; b=RV/2X1f/GY0zwh90ff/v920eDqIbP5kfj/P95d45qAs5LT7MCniah29Z75QHY6zTyJkoyFgmwQ6QrL7UJk9Z7WGuka1tdJ1Y45tnVgALsf4OeSzs+mNA9eTMRhF7YNCMAaDM1dIDTfk/pSQl9mT8fcdsTlNJw3ML4DPxWqeqi/s=
+	t=1725827061; cv=none; b=UrZV/lGtu+hKZ4uQSu5WDLJh6HpVLqdRtug8dOYCNZoh9S2O/p64DXExrxklb2Joi8NcRFrr4msL31PcauL7xpTM+YCXlgEAO1VpFNrWCXBGKZNN5Ig0rnn+beOJQYamMl8qfSeGGdJt+/lXimyDCnkMsagwhvd1jU3o+3G/I50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725814742; c=relaxed/simple;
-	bh=6QjX+p/V7p6CoIL0gKUlUJEfv0XMVAsaxYaaV5atd5k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=G6Op/R/x1+mfVWJlH7G3fNdn99BZoEBDA1oNK7pg0RN6Obh5QKsGNEIzTRBl9nMOE6xOFESB6V77ZNH9Oqh1pJeWRXQS3G2cN22Tu+5pf05uCnvyi0+YPVJDszWtVQgSnEwlB65ED+cBgEEXYfTXM18V//YgPufj7WLjdgDsb+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=Waf26juj; arc=none smtp.client-ip=80.12.242.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id nLFVsSexkHecynLFVs3xum; Sun, 08 Sep 2024 18:58:57 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1725814737;
-	bh=RdcTk8ohJPW11cQiApgamG5S3f5jcX8WFaEBB5WL29M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=Waf26jujfPXECY3CCDjijKiHyI/dBzztosdUkGORAS/uepLb4kcKcLqmgiPDoYcku
-	 MoXMKrUxZEDENW48sn74nf7unkftTZiaW/l95dmfPviRRTkvexcsvSiskoc1uat1ZD
-	 +gRtAs187E32Lft/bz80V2cScm6OjBinBKUQVX9Wyx0Xf17m1H6bpTOHmpjU4VtAGW
-	 rklcVfzdta3T+DQRBeCO2mgLWFTmkVQ7LbQ6V4SI36ZSf59SzBh56y+6KmeB1IZu3Q
-	 i/ZB8QGH7iR9sLQpi46o6xJdGoV3ffCZLVCx/6E7ZWWtMtOPTJ/mI/ktgazDnTtOe9
-	 irQCqqT4HbSPg==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Sun, 08 Sep 2024 18:58:57 +0200
-X-ME-IP: 90.11.132.44
-Message-ID: <d01bed96-7811-4ace-8b92-1ee9fafac649@wanadoo.fr>
-Date: Sun, 8 Sep 2024 18:58:52 +0200
+	s=arc-20240116; t=1725827061; c=relaxed/simple;
+	bh=qyTMDaNl3wEhwWVcojNWjkZnsJpC+40VxxbDY5HqtT8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fHTbdF24IO0OFoSxy34rNnYcCLl9QvDQfTpoMvjKlLWsJCWDvqtyeul+rBfFr8qxdW4WKDfT46eHeuPK4RbYao/cR6c9vacokdyAKTbajkQsCzW8oTF4/5MpByRXsru6lA4VQqz6GB1cc6OeAnhcIXzNFMMdmYcNfZJC+VvvZFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TGHutnDW; arc=none smtp.client-ip=209.85.221.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-502b144f31bso887498e0c.1;
+        Sun, 08 Sep 2024 13:24:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725827059; x=1726431859; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Sl+8qFsuwS53ls/QxH0ANQIZHTR+8dp3OUKkdq/DQXU=;
+        b=TGHutnDWGgum1oCmH31TOFATZ9vSAEoWy1vhH4avZ/PGL0QODpcs6ZOc2CXbpapmqi
+         UN+1CEsBM30MCQ/e7939CJO4GsXwUk7ZC4cBFK33WU1JhOFPd09kBwyiI3UtZcNtQEkB
+         /sfwC8B/1HFoJcZWj1uJMdcsz155A9wRt/JyQQzVziIeWnm+TgbURDkcGVcfPYVDG9K4
+         xk3ozTXHsysn3IeOXw/84xm/KIwd3lYa+99Pai4phWPeJg0nqVnW5I4xLH4zpzqr/VQm
+         wTyfwu3cL85HDddKqFYChXijaYYthIGsfGCdrnqWAZEXPGBeeNTZdDFnxWNSPWqDtjDD
+         fzaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725827059; x=1726431859;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Sl+8qFsuwS53ls/QxH0ANQIZHTR+8dp3OUKkdq/DQXU=;
+        b=dh0qhnLmkOwFPgX6K+pU+qnJkq+jbszCvidPvEKuatAQkpDGFLbW2DrBG9GflBRu/a
+         ap6HFbD1/x3q5fytXjV/X4rWeAW0AKv33qkeFTxLKXMk/4M3RhFTVeEIR6TKBtAb2tJl
+         KHajP7f60XykL06O7ZjAjQKigQ4omhC9lrJ70yCaRtzmA4GQohgj1JhOqOT52Dtrpz8g
+         gssW7M1q7MLkkM9tSmDcs25L3htOr35squAb9KLh1GQI4Qa3mo5ldMAH0VidrLwtB9nl
+         LOZ9SpO6YGc7qOva9g3Btv8arobb8iFRbVxaTK/mM3QJn1xOTwt+cWeHPeI/jaoHAdQ+
+         g1EA==
+X-Forwarded-Encrypted: i=1; AJvYcCVtSrUu26lYkO+SWJOuEAhX+m0MKeIUpJs5LjZQ2dj1gtSX6SZcnfu3foAxD+rqFKnRqvApPAjQsiU+SxI=@vger.kernel.org, AJvYcCW8xU6luNVLD6KW0pFET1CSIUAyov3jTkZ1VFAxmVnSFHpoetzdD+ICKJSHx2xiNOjOHZbyBQ9vaGDdNyeylbniWAo=@vger.kernel.org, AJvYcCWyPkV8DmvIyzdhMxUSCl0RQ+VxkOgMmYR/bLs/N5Oni5y+tndY1oPFqlalFXjTXJ1ra2/jqBuJSb2PqkU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7fjRmfNzK7YNwsy20ejXxK3+lavF3xJKLHd4gCVpvp621U3cv
+	1SzcMe7tZXuBhTiNeoZpbkgyFr9usqu3How2JrzQfBIveuSOhqcXjQRV8aPoVP6jO6bPtM3qpdb
+	XQQHGZZlD0atgCFKfXhle5/24dNzLth5BzuX+Ag==
+X-Google-Smtp-Source: AGHT+IHmWtl+POZCFiFgXBKJFuO0g41J3A5BIAsnkX9EHA+oI8Tuq0ND52koymelfGcabRoqf24bHCCox9nxwnWa51o=
+X-Received: by 2002:a05:6122:168d:b0:4ed:145:348f with SMTP id
+ 71dfb90a1353d-50220c7bb1emr10298047e0c.12.1725827059067; Sun, 08 Sep 2024
+ 13:24:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] phy: renesas: rcar-gen3-usb2: Fix an error handling
- path in rcar_gen3_phy_usb2_probe()
-To: Biju Das <biju.das.jz@bp.renesas.com>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>
-References: <4efe2d0419cbe98163e2422ebe0c7896b8a5efed.1725717505.git.christophe.jaillet@wanadoo.fr>
- <TY3PR01MB113468D1573C1E50AC9F97DCF86982@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <TY3PR01MB113468D1573C1E50AC9F97DCF86982@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20240906173947.282402-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240906173947.282402-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240906231038.GC12915@pendragon.ideasonboard.com> <CA+V-a8vsmYSOWgoiHnO5xWdn-wo-eda6hdxGz5X_Hc5s-yVv6g@mail.gmail.com>
+In-Reply-To: <CA+V-a8vsmYSOWgoiHnO5xWdn-wo-eda6hdxGz5X_Hc5s-yVv6g@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Sun, 8 Sep 2024 21:23:52 +0100
+Message-ID: <CA+V-a8s4UjjDTrQ4aw3OjQuac8B-oq++KqYf-fJEQvuxD5GodA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] media: platform: rzg2l-cru: rzg2l-video: Retrieve
+ virtual channel information
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Le 08/09/2024 à 18:39, Biju Das a écrit :
-> Hi Christophe JAILLET,
-> 
-> Thanks for the patch.
-> 
->> -----Original Message-----
->> From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
->> Sent: Saturday, September 7, 2024 2:59 PM
->> Subject: [PATCH v2] phy: renesas: rcar-gen3-usb2: Fix an error handling path in
->> rcar_gen3_phy_usb2_probe()
->>
->> If an error occurs after the rcar_gen3_phy_usb2_init_bus(),
->> reset_control_assert() must be called, as already done in the remove function.
->>
->> This is fine to re-use the existing error handling path, because even if "channel->rstc" is still NULL
->> at this point, it is safe to call reset_control_assert(NULL).
->>
->> Fixes: 4eae16375357 ("phy: renesas: rcar-gen3-usb2: Add support to initialize the bus")
->> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
->> ---
->> Changes in v2:
->>    - Re-use 'error' to simplify the patch   [claudiu beznea]
->>    - Update the commit description to explain why it is safe.
->>
->> v1:
->> https://lore.kernel.org/all/fc9f7b444f0ca645411868992bbe16514aeccfed.1725652654.git.christophe.jaillet
->> @wanadoo.fr/
->> ---
->>   drivers/phy/renesas/phy-rcar-gen3-usb2.c | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
->> index 58e123305152..ccb0b54b70f7 100644
->> --- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
->> +++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
->> @@ -803,6 +803,7 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
->>   	return 0;
->>
->>   error:
->> +	reset_control_assert(channel->rstc);
-> 
-> This will result in either kernel crash [1] or reset usage count imbalance in case
-> of error [2] and [3] in rcar_gen3_phy_usb2_init_bus() see [4]. Also reset control API is not
-> respected for SoCs other than RZ/G3S. For those SoC's reset assert is
-> called without calling a get(). Maybe add a check (phy_data->init_bus) for
-> assert api's, that guarantees assert is called after calling a get() as it
-> valid only for RZ/G3S??
-> 
-> [1]
-> channel->rstc = devm_reset_control_array_get_shared(dev);
-> 	if (IS_ERR(channel->rstc))
-> 		return PTR_ERR(channel->rstc);
-> 
-> [2]
-> ret = pm_runtime_resume_and_get(dev);
-> 	if (ret)
-> 		return ret;
-> [3]
-> ret = reset_control_deassert(channel->rstc);
-> 	if (ret)
-> 		goto rpm_put;
-> 
-> [4] https://elixir.bootlin.com/linux/v6.11-rc6/source/drivers/reset/core.c#L483
+Hi Laurent,
 
-So, if I understand correctly, v1 [5] was correct. :)
+On Sat, Sep 7, 2024 at 10:09=E2=80=AFPM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+>
+> Hi Laurent,
+>
+> Thank you for the review.
+>
+> On Sat, Sep 7, 2024 at 12:10=E2=80=AFAM Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+<snip>
+> > > +
+> > >  int rzg2l_cru_start_image_processing(struct rzg2l_cru_dev *cru)
+> > >  {
+> > >       struct v4l2_mbus_framefmt *fmt =3D rzg2l_cru_ip_get_src_fmt(cru=
+);
+> > >       unsigned long flags;
+> > >       int ret;
+> > >
+> > > +     ret =3D rzg2l_cru_get_virtual_channel(cru);
+> > > +     if (ret < 0)
+> > > +             return ret;
+> > > +     cru->csi.channel =3D ret;
+> >
+> > How about passing the value to the function that needs it, instead of
+> > storing it in cru->csi.channel ? You can do that on top and drop the
+> > csi.channel field.
+> >
+> OK, let me check if this can be done.
+>
+The virtual channel number is programmed in rzg2l_cru_csi2_setup() [0]
+call, below is the code flow of the call. This code flow is called by
+spinlock held.
 
+rzg2l_cru_start_image_processing()
+    rzg2l_cru_initialize_image_conv()
+        rzg2l_cru_csi2_setup()
 
-I don't think that [1] would crash, because of [6]. It would only 
-WARN_ON. But with v1, it is not called.
+When rzg2l_cru_get_virtual_channel() is called directly in
+rzg2l_cru_csi2_setup() function we get "BUG: Invalid wait context"
+(when PROVE_LOCKING is enabled) this is due to we do a mutex lock as
+part of v4l2_subdev_lock_and_get_active_state() in get_frame_desc.
 
-With v1, reset_control_assert() is not called if 
-rcar_gen3_phy_usb2_init_bus() fails. So [2] and [3] can't occur.
+So probably I'll leave this as it is now.
 
-I can send a v3, which is the same of v1, or you can pick v1 as-is (if 
-I'm correct... :)) or you can just ignore it if "reset control API is 
-not respected for SoCs".
+[0] https://elixir.bootlin.com/linux/v6.10.8/source/drivers/media/platform/=
+renesas/rzg2l-cru/rzg2l-video.c#L311
 
-
-If of interest, I spotted it with one of my coccinelle script that 
-compares functions called in .remove function, but not in error handling 
-path of probe.
-
-
-CJ
-
-[5]: 
-https://lore.kernel.org/all/fc9f7b444f0ca645411868992bbe16514aeccfed.1725652654.git.christophe.jaillet@wanadoo.fr/
-
-[6]: 
-https://elixir.bootlin.com/linux/v6.11-rc6/source/drivers/reset/core.c#L473
-
-> 
-> Cheers,
-> Biju
-> 
->>   	pm_runtime_disable(dev);
->>
->>   	return ret;
->> --
->> 2.46.0
->>
-> 
-> 
-> 
-
+Cheers,
+Prabhakar
 
