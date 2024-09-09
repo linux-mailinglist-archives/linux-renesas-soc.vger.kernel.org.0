@@ -1,173 +1,194 @@
-Return-Path: <linux-renesas-soc+bounces-8873-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8874-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 206559718F8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Sep 2024 14:11:24 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06786971A09
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Sep 2024 14:54:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4C2261C226A5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Sep 2024 12:11:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7BF3DB22B6F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Sep 2024 12:54:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EB171B6547;
-	Mon,  9 Sep 2024 12:11:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B14C01B81C6;
+	Mon,  9 Sep 2024 12:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NKsEpgSL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371A5172BCE;
-	Mon,  9 Sep 2024 12:11:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B38111B2529;
+	Mon,  9 Sep 2024 12:54:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725883881; cv=none; b=Y4hoYkYlEBcVXoiwXP+qNrs8i3a6r+k2OYN39EOq+aI8jzQ4P+oXK+9YCbfuM4f+yik7OKJknxDNwogmq4q9Jojv2fUVPNMqIWahVgsciKuX29nPIvxUAvff6BRRm8RZ9+DWlzBgAUBd9ui2qEyVBZPHcNTXviHTaDZJHrq18H8=
+	t=1725886470; cv=none; b=eKc+vfSZjlwCqo8RguJrF7hu6ftp3oqZFKESn+heSBpST7m4r8C+2P0A/vqUpM6vE9w9GaTp95mcQu6RnVVFmCRgqoJMk6PrldDccOJilxigpbhwwfYb4kfNIcbigroTFHJZ7h/5ipYrecupCnbfN4z0yhxQwIdZfxVmywOITgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725883881; c=relaxed/simple;
-	bh=39bHDieju2KDrK1NVgP6S2Lyn0IKtZ3wRK9Z+78eCR0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Jt+3stwVmgsUbJYMN1tFTE1frjmUeyc8/icVIRx38sbSi/e5SgUe6CJD2HVith6NkAvRModiLUDIAVO6eMVaCUroHELAdj79Xc3Oju3+CCX3u4l97BXHQQz3uTsxChb2gT7MEHdqPu3upjuIU2b4h2DLoFKRi1TwQrnqBxQ7TFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-6b47ff8a59aso41071177b3.2;
-        Mon, 09 Sep 2024 05:11:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725883877; x=1726488677;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jcqCtl6E7A4OPOryoegwZKV2Sgx5JBQZ+r80cmVrDm8=;
-        b=QmQO2MwaqGQl4QsRSvyujyD401EJ6ohNMTZ3QzytKENK+zD+SK1xVVSfbmSmUmNImF
-         /4YccT+P75hhLNMmfEWWvwOQkz3eDQI82bGQqZHWUgmVSnvrvPy9Mh02mxOilUr8AroB
-         Oujuvxq6Afz6FoG9z6KEDaxnshpUl3Ul8z8yYJjHfuGostc5hFLwrwFNAxKlwTwsU6rp
-         3CPiz6IltiNTsGefFCmWn/C7AAi8D2EkR9gtKIht6u5iBGXbGchV7wXtTBY4ri0nQjPp
-         9mVwuz1u+w2mZrAy9snN+PvYuSn0kfsX0D0G3l6ypvCnI/NaVMoZs1i2BNm9SO4U4/MK
-         VgLA==
-X-Forwarded-Encrypted: i=1; AJvYcCUK/Znbi9GkSPXzXl0Qrpn3VmRmhxES4k/yf/0CswKJ9OybwTZ+81OVQqsJel7K3hkwnX1SF2wZ4levIMo4@vger.kernel.org, AJvYcCViwgLiolWg6S636ujbO4ahzCqGJpqk+ICROgyEgxkHjFuGA+OxE1wi+rTZWW0VhXm9LfnThXEgjtdW@vger.kernel.org, AJvYcCWzg0o022zlujWoyfgCegna9RJALm1kvA3gq/Ne90wUBMhgtUIWcBVe6ICUztFyziRJgdgp/vqaO8fA@vger.kernel.org, AJvYcCXC0bcWGCEOQQ+AXhum9IDlq+IUMVmWLyRlI3QAQ9JlCmu3LQ5NYPcMvDO36aBDcR/KIoNPYUU3E4ucsDqqnoSzFmQ=@vger.kernel.org, AJvYcCXmH8uYRiSM90qaStVnE7PQA2DJRhWGa6d1zZpCSrfnlW16L2iElTIFAxrrOS5KyKAfgFNhSk8CgQmW@vger.kernel.org
-X-Gm-Message-State: AOJu0YzueTovKQ4KIQc5ItMbnBB+NAInvrIc3wpwkRAF2H2T8N7f4xfS
-	R7mww10HS0bZClgP2kla17exA+3FzUIG0Dra5rQ+tRhC3pbCEpawWU2MSoDd
-X-Google-Smtp-Source: AGHT+IGDII4HeTicxTe5FjVMRM0+oi+fdq5O0AyQMHadyK9M/YQm7V1LD1w2OYDOnLADgv4fSM1BGw==
-X-Received: by 2002:a05:690c:b:b0:664:a85d:47c6 with SMTP id 00721157ae682-6db4516c241mr120039097b3.33.1725883876780;
-        Mon, 09 Sep 2024 05:11:16 -0700 (PDT)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6db5c6229c2sm8912217b3.54.2024.09.09.05.11.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Sep 2024 05:11:16 -0700 (PDT)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-690aabe2600so37544547b3.0;
-        Mon, 09 Sep 2024 05:11:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU4WC20Txrnk5UsddshTjusolfUINmyqmegAFCwBBgDfUGFYTC6G+hR0ugxjoi3BvndqTW7FRLK0IpR@vger.kernel.org, AJvYcCU8DmxoRTg2TW11bRaxVxpFrFf01zdaYGkzKuRd8/bBX3pRZJjzSAC9dOPFkICNIUaV50Q/+VkQU1J5@vger.kernel.org, AJvYcCVi7aLnIVlHeaUThepCI9jbWZQPhNVkgXKFLXBjdnMUIalAntWONUwFF/FBHG35LBF/z1e04tKLKb+7Hz7wxKw2azY=@vger.kernel.org, AJvYcCWjKgwvnAUHtt1HAKqIe02n6gz7KIXg+LXj81XovDV/8iFsfJYoygTAx9j1iv3ENSQc0KUCp6wq02Uy@vger.kernel.org, AJvYcCXgzB9ac6wgbNEm141XpyhpDXrUl8hHKBJZmegGxHqcVswBsnKjH+LCU1dZNyNimZYOSNXYFo9xoQu2AJAo@vger.kernel.org
-X-Received: by 2002:a05:690c:64c7:b0:6b0:e813:753b with SMTP id
- 00721157ae682-6db45272fd9mr131856427b3.38.1725883875698; Mon, 09 Sep 2024
- 05:11:15 -0700 (PDT)
+	s=arc-20240116; t=1725886470; c=relaxed/simple;
+	bh=txW1654y94X29FXMN4GClRGV1MDVbTcNImneVY/pVf4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BWHpJc6aCSKwq3N09+T1oVhPHo+LyivPNHLXBWeIVM/If3UyHChYpRptoB/2XLrj+PrLetPYS+eFrg23P9cIET29xoPl7s9Z8fjLxy28CTsaHhm8os5t00AmdjclqJiomN3BRECBV3xRwCgu/v0H8JsFBK3+LYSIQeyWwxxM4FU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NKsEpgSL; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (213-229-8-243.static.upcbusiness.at [213.229.8.243])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EA73D3DA;
+	Mon,  9 Sep 2024 14:53:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1725886391;
+	bh=txW1654y94X29FXMN4GClRGV1MDVbTcNImneVY/pVf4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NKsEpgSLOPB1qhSKxi951O7k2CmyMjRZRpuRZRLM0xHHnDd/XHKkOaNkRVYn3pt+W
+	 nUuFPjLMl0ece0VU873fHPCTDDVDi3rJ5nq5mJJ4QUToiGp69UbUMNo7UdZQL6tNp3
+	 SJ1Bm4FSs6/8Qq6FhIqzwjSkEr66OfDxVsbv3AYk=
+Date: Mon, 9 Sep 2024 15:54:23 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 2/3] media: platform: rzg2l-cru: rzg2l-video: Retrieve
+ virtual channel information
+Message-ID: <20240909125423.GB13983@pendragon.ideasonboard.com>
+References: <20240906173947.282402-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240906173947.282402-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240906231038.GC12915@pendragon.ideasonboard.com>
+ <CA+V-a8vsmYSOWgoiHnO5xWdn-wo-eda6hdxGz5X_Hc5s-yVv6g@mail.gmail.com>
+ <20240908223905.GG15491@pendragon.ideasonboard.com>
+ <CA+V-a8sEgOmL5P=YDZB4EnFy=RSFWjCVVPuBFYr39qSB83D_qQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240830130218.3377060-1-claudiu.beznea.uj@bp.renesas.com>
- <20240830130218.3377060-8-claudiu.beznea.uj@bp.renesas.com>
- <83fac884d749bda0cf0b346e4e869bc8.sboyd@kernel.org> <d8303146-89e0-4229-a3fe-9f3c42434045@tuxon.dev>
- <c744cf7a70a3f97722146215a7620cfb.sboyd@kernel.org> <CAMuHMdX40ROk2vZe9VHoiPDJCvtrjto+swkicv29LFyQ7zoVng@mail.gmail.com>
- <951b5c09c3ca2de3f0a28a078084f7dd.sboyd@kernel.org>
-In-Reply-To: <951b5c09c3ca2de3f0a28a078084f7dd.sboyd@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 9 Sep 2024 14:11:03 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWBT6AaH2_5qj+j4s8JeeO3qrhYUTCVG=s_J13nSzYPsQ@mail.gmail.com>
-Message-ID: <CAMuHMdWBT6AaH2_5qj+j4s8JeeO3qrhYUTCVG=s_J13nSzYPsQ@mail.gmail.com>
-Subject: Re: [PATCH v3 07/12] arm64: dts: renesas: r9a08g045: Add VBATTB node
-To: Stephen Boyd <sboyd@kernel.org>
-Cc: alexandre.belloni@bootlin.com, claudiu beznea <claudiu.beznea@tuxon.dev>, 
-	conor+dt@kernel.org, krzk+dt@kernel.org, magnus.damm@gmail.com, 
-	mturquette@baylibre.com, p.zabel@pengutronix.de, robh@kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+V-a8sEgOmL5P=YDZB4EnFy=RSFWjCVVPuBFYr39qSB83D_qQ@mail.gmail.com>
 
-Hi Stephen,
+Hi Prabhakar,
 
-On Sat, Sep 7, 2024 at 1:01=E2=80=AFAM Stephen Boyd <sboyd@kernel.org> wrot=
-e:
-> Quoting Geert Uytterhoeven (2024-09-06 00:28:38)
-> > On Thu, Sep 5, 2024 at 8:09=E2=80=AFPM Stephen Boyd <sboyd@kernel.org> =
-wrote:
-> > > Quoting claudiu beznea (2024-09-04 05:17:30)
-> > > > On 03.09.2024 22:48, Stephen Boyd wrote:
-> > > > > The node name should be something like clock-<frequency> but if t=
-he
-> > > > > frequency is different per-board then I don't know what should ha=
-ppen
-> > > > > here.
+On Mon, Sep 09, 2024 at 10:57:59AM +0100, Lad, Prabhakar wrote:
+> On Sun, Sep 8, 2024 at 11:39 PM Laurent Pinchart wrote:
+> > On Sat, Sep 07, 2024 at 10:09:10PM +0100, Lad, Prabhakar wrote:
+> > > On Sat, Sep 7, 2024 at 12:10 AM Laurent Pinchart wrote:
+> > > > On Fri, Sep 06, 2024 at 06:39:46PM +0100, Prabhakar wrote:
+> > > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > >
+> > > > > The RZ/G2L CRU needs to configure the ICnMC.VCSEL bits to specify which
+> > > > > virtual channel should be processed from the four available VCs. To
+> > > > > retrieve this information from the connected subdevice, the
+> > > > > .get_frame_desc() function is called.
+> > > > >
+> > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > ---
+> > > > >  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 29 +++++++++++++++++++
+> > > > >  1 file changed, 29 insertions(+)
+> > > > >
+> > > > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > > > > index bbf4674f888d..6101a070e785 100644
+> > > > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > > > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > > > > @@ -433,12 +433,41 @@ void rzg2l_cru_stop_image_processing(struct rzg2l_cru_dev *cru)
+> > > > >       spin_unlock_irqrestore(&cru->qlock, flags);
+> > > > >  }
+> > > > >
+> > > > > +static int rzg2l_cru_get_virtual_channel(struct rzg2l_cru_dev *cru)
+> > > > > +{
+> > > > > +     struct v4l2_mbus_frame_desc fd = { };
+> > > > > +     struct media_pad *pad;
+> > > > > +     int ret;
+> > > > > +
+> > > > > +     pad = media_pad_remote_pad_unique(&cru->ip.pads[1]);
 > > > >
-> > > > The frequency should be always around 32768 Hz but not necessarily =
-exactly
-> > > > 32768 Hz. It depends on what is installed on the board, indeed. RTC=
- can do
-> > > > time error adjustments based on the variations around 32768 Hz.
-> > > >
-> > > > > Can you leave the vbattb_xtal phandle up above and then require
-> > > > > the node to be defined in the board with the proper frequency aft=
-er the
-> > > > > dash?
-> > > >
-> > > > Is it OK for you something like this (applied on top of this series=
-)?
+> > > > It would be nice to use RZG2L_CRU_IP_SOURCE here instead of hardcoding
+> > > > the pad number. That would require moving rzg2l_csi2_pads to the shared
+> > > > header. You can do that on top.
 > > >
-> > > Yes, it's too bad we can't append to a property in DT, or somehow lea=
-ve
-> > > alone certain cells and only modify one of them.
+> > > With the below comment we dont need to move rzg2l_csi2_pads into the
+> > > shared header.
+> > >
+> > > > An now that I've said that, is it really the source pad you need here ?
+> > >
+> > > Ouch you are right.
+> > >
+> > > > > +     if (IS_ERR(pad))
+> > > > > +             return PTR_ERR(pad);
+> > > >
+> > > > Can this happen, or would the pipeline fail to validate ? I think you
+> > > > can set the MUST_CONNECT flag on the sink pad, then you'll have a
+> > > > guarantee something will be connected.
+> > >
+> > > After adding the MUST_CONNECT flag, I wouldn't need the  above
+> > > media_pad_remote_pad_unique()...
+> > >
+> > > > > +
+> > > > > +     ret = v4l2_subdev_call(cru->ip.remote, pad, get_frame_desc,
+> > > > > +                            pad->index, &fd);
+> > >
+> > > ... and here I can use '0' instead
 > >
-> > My main objections are that (1) this approach is different than the one=
- used
-> > for all other external clock inputs on Renesas SoCs, and (2) this requi=
-res
-> > duplicating part of the clocks property in all board DTS files.
+> > Can you ? You need to call the operation on the pad of the connected
+> > entity that is connected to tbe sink pad of the IP entity. That would be
+> > the source pad of the CSI-2 RX in this case, but it can't be hardcoded
+> > as it could also bethe source pad of a parallel sensor (once support for
+> > that will be implemented). I think you therefore need to keep the
+> > media_pad_remote_pad_unique() call.
 >
-> Can 'clock-ranges' be used here? Leave the cell as null in the SoC dtsi
-> file and then fill it in with clocks property at the parent node. I
-> think you'd have to use clock-names for this though.
+> media pipeline for RZ/G2L is [0].
+> 
+> Calling media_pad_remote_pad_unique() with sink pad of IP entity will
+> return source pad of CSI-Rx, where the pad index will be '1', passing
+> pad index '1' to .get_frame_desc to CSI subdev and then OV5645 subdev
+> would return -EINVAL.
 
-"clock-ranges" does not seem to be well-documented...
+Why does it return -EINVAL ?
 
-IUIC, your suggestion is to:
-  1. Add "clock-ranges" to the /soc subnode,
-  2. Completely leave out the "rtx" clock from the clocks property
-     of the vbattb@1005c000 node,
-  3. Add the following to the board DTS:
+> I need to update patch [1] instead of just forwarding the pad index to
+> remote subdev I'll need to do the same as done IP subdev ie in CSI
+> subdev call media_pad_remote_pad_unique() on sink pad of CSI which
+> will return OV5465 source pad, and this will have a pad index of '0'.
 
-        &soc {
-                clocks =3D <&vbattb_xtal>;
-                clock-names =3D "rtx";
-        };
+Ah, that's why it returns -EINVAL :-)
 
-Then, when resolving "rtx" for the vbattb@1005c000 node,
-of_parse_clkspec() would iterate up and find the proper vbattb_xtal.
-Is that correct? And probably that should be done for other external
-clock inputs as well?
+You're right, the pad number can't be propagated as-is.
 
-Still, it looks a bit complicated and un-intuitive. And what about
-e.g. carrier boards with a SoM, where some clocks are provided by
-the SoM, and some by the carrier? In that case you still have to
-override the clock and clock-names properties in the carrier .dts,
-thus duplicating all clocks provided by the SoM.
+> The CSI get_frame_desc() will look something like below:
+> 
+> static int rzg2l_csi2_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+>                      struct v4l2_mbus_frame_desc *fd)
+> {
+>     struct rzg2l_csi2 *csi2 = sd_to_csi2(sd);
+>     struct media_pad *remote_pad;
+> 
+>     if (!csi2->remote_source)
+>         return -ENODEV;
+> 
+>     remote_pad = media_pad_remote_pad_unique(&csi2->pads[RZG2L_CSI2_SINK]);
+>     if (IS_ERR(remote_pad)) {
+>         dev_err(csi2->dev, "can't get source pad of %s (%ld)\n",
+>             csi2->remote_source->name, PTR_ERR(remote_pad));
+>         return PTR_ERR(remote_pad);
+>     }
+>     return v4l2_subdev_call(csi2->remote_source, pad, get_frame_desc,
+> remote_pad->index, fd);
+> }
+> 
+> For the parallel input case I plan to implement something similar to
+> R-Car vin with bool flag 'is_csi' where we skip calling
+> 'rzg2l_cru_get_virtual_channel'.
+> 
+> [0] https://postimg.cc/rz0vSMLC
+> [1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20240906173947.282402-2-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
-So I prefer the original approach, like is done for all other external
-SoC clock inputs on Renesas SoCs.
+-- 
+Regards,
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Laurent Pinchart
 
