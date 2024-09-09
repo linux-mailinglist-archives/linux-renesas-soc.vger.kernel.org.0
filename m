@@ -1,111 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-8875-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8876-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F858971A52
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Sep 2024 15:07:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E48AC971B11
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Sep 2024 15:31:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 457871F23716
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Sep 2024 13:07:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1CEB21C23120
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Sep 2024 13:31:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6ABC51B790E;
-	Mon,  9 Sep 2024 13:07:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N8ND7XjX"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78F811EF01;
+	Mon,  9 Sep 2024 13:31:11 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AC521B3B19;
-	Mon,  9 Sep 2024 13:07:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2970F175562;
+	Mon,  9 Sep 2024 13:31:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725887247; cv=none; b=dI+6rFmdlvqnjyzUNknsDrwj51JQ117D4tuXpRKdxrUFlPrJfqSB50KuaGhurlCkVTwPDyQHvjjm3KWCA849NzX6Xn79h5+Y8ogeXuXXgdE848pbhlyQX88dI26X96CEjetjg1THwwONflcS3bfImvLgDj9neEE6y/W2mU7QtOY=
+	t=1725888671; cv=none; b=AFgvAUEPWn5e3RDCY/Utr7wGAOO9/1Xj16yCPvyvmElZKpMzOd8cuddC/cpvL5kX5392dMMzVpNQviUmnUgwf1fYdLHiW2iYHlo4uDE79AhKgEEHTLEFqxrJLM7rdOYAWlbBCkoopI7edw5SJgDWpRm54CegFHQipf8uChfWFKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725887247; c=relaxed/simple;
-	bh=ocUGvsi8EaoQ/mQuLJ7GHiw64nOgwqAG+6IpcIsd0KQ=;
+	s=arc-20240116; t=1725888671; c=relaxed/simple;
+	bh=pOFig3eU0wBb1qCL+nsbHBh/qyBtiYCCd6tB5xK4AmY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fK46In95YsTlWcndPMBkCaSoLWAJgwtslg3ykiHbxToNZYQOVdHmcLaSjzA1huj4b/hJZhvg1hHsMnID+/L263wYhNWGwkwDcCVjPep0lUbYa1ZzDTilrWPGgQd351oHGldv6dclY/0BmbBD4PumPzvuFKg82ttcS05r8DrCaK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N8ND7XjX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6A6DC4CEC7;
-	Mon,  9 Sep 2024 13:07:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725887246;
-	bh=ocUGvsi8EaoQ/mQuLJ7GHiw64nOgwqAG+6IpcIsd0KQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=N8ND7XjXAV8sZXRus3Y1jVlLTP7UpROW2sWOsGcIoaMJ2qFN/LW4XHAOsZcPMVEc6
-	 2NcGdUXvX3PRPDZEREVr2tlEwKVkm1i0tmxyl8yAyVbkZzAnkQKB1GLMYjGBRvxiGi
-	 Z9bBPi6UfLWr+QSmjMsX1nSC3skT7DK7hQ2V3vGUYN6WenflW9i56GpEnAMNhI71Ny
-	 /ig6MjQjiZoFk9AZXPnXuRPrMbRxeUxexUuSKPQvpwKFRdqC3UiZJDbcFiSiuItvc2
-	 +NUhXXnbl8hyRJ5Ez+WKuAxfH119jKw39VDL9EDsdd4/LlAc5YcGi/CQSx6/pU/AdA
-	 sOjzVzoV1cgnw==
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-53653ff0251so5125148e87.0;
-        Mon, 09 Sep 2024 06:07:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXHX8Cvkr/cQm/mrppGYViZu/wRFckJLukRLAbwSvyVIBwVWIjjtwruhwKmJBVxc4rHI1kf4jQzP7qFA3zXgN0=@vger.kernel.org, AJvYcCXu0dLFEVpnxL0lNbcqy+rVN7bACoZBir80+KmzVcj9uPLPklQbVGhED/kxrdoNjRi+11Q/PvqW+B29@vger.kernel.org
-X-Gm-Message-State: AOJu0YwADU00mG3oB9lqRMDHLY2k9bWf9aLgaKCYRgh/d682RbfZlVOv
-	u0j6TE2NveJgrxfL9iQL2ngDaP2ys/MT2Si8/Yd7U98dPG7n0Ji2kjaCPlGxLNtrC1UZx909aEG
-	sOhGvoffPMq4utJ+NtfZR7MCVbg==
-X-Google-Smtp-Source: AGHT+IEc6jfss0Xs7RGRmd+2uE00bQhxJjnT7Pw+/hsEOJy1y7fCKpKb0MCZQUld9qRyWALoDZNxzWfaikgj2A75tMk=
-X-Received: by 2002:a05:6512:a92:b0:535:6cde:5c4d with SMTP id
- 2adb3069b0e04-536587a79efmr7707595e87.3.1725887245131; Mon, 09 Sep 2024
- 06:07:25 -0700 (PDT)
+	 To:Cc:Content-Type; b=N0Av1DyoGfidKyMIZ7bRYZebxXNdMRtnLwA3F8sYQciyoCvSoqdWIV3cELzUEirbLakHTYAtjOyE5Y2bXX8vlK9jc3GvKx/i/pAzpfMpKGgGAwp/jy/f9Us5IRX0wIxfmwMv6xm2PIXNq76+ZEuunmCoX0P+2MwEkwl1um36dlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e1a7e54b898so4060115276.2;
+        Mon, 09 Sep 2024 06:31:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725888668; x=1726493468;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ex72KcEBC32BEvrz/AzGLG+FsBKHihpIBTF/blpU0cc=;
+        b=nk6CGRbVQVKeLPfa9LXiMXpKJ+pLCdz699Z9KPSOrPhSXvsBKxN8y2oAy950Z1PJkm
+         SFsfDSHIeep261vqQaCBR1VfdTUZMMhQlKhGLLat41NgyE8KJ9DcizcOlvdgfGdsC5aC
+         LliGQKxLZSkHu2jD9lo3VXD7Mw+aMq2SGwhLm4oYPWQPRRiljU1cwRWOA0tI/xFBG3RN
+         OXakvmU4BN6ObrpDISoylCXaNLmfBTP+x0cK9RfM1dITdeL6VnnQ3rpoKxn8Kmc9W8P3
+         zfNs97YrNvGZaVh94ZtT4GCP5fwtpnZiZRcrGSEdhlKy6kwt6NBvlElYzY97wZHJWciL
+         /MxA==
+X-Forwarded-Encrypted: i=1; AJvYcCUEbm4UA0lH/JJHvbSJO/ZjoWs1cK4beR4FYDsHXNzFYs81nAZnAqVisXQi8JBxguDhGrkY5F1Cp+VBMiv9fAI=@vger.kernel.org, AJvYcCVuDAzUP/0x/iWxBYCOxBw8SYfXkl+2B9NxDe2jn5FHqvBkmDDk71uZ8HQPeps18WngXl4XkNBDdknV@vger.kernel.org, AJvYcCXa8pO5yF+s8qlrvgRevl4ng240GcU2/aHhCN86nxKyP2jYCUh/Hq4+Rn3AOTLDJiwqPXNqJ5TDRpA+S3OWQ67EwSU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwbIWxfKe89OnuEUSWYqCZ0O6Y9DUXQHAD8NzitqXIESveNW7Uc
+	nTbFEXc3OUx2cFo9VYzn7SKRtakh7YHz2IsAkqatRDOZ3nzkWjQ1wtl1uIH7
+X-Google-Smtp-Source: AGHT+IEK/DPcX2EkuJp30m92OblQSWNKMeYLvxqYtCbIaUZ3hTHax0prwc1aMS4UCrfHuzceNDT5vQ==
+X-Received: by 2002:a05:6902:230a:b0:e16:6aae:e65 with SMTP id 3f1490d57ef6-e1d3487f52emr9039359276.13.1725888667690;
+        Mon, 09 Sep 2024 06:31:07 -0700 (PDT)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e1d4b4ae070sm995049276.62.2024.09.09.06.31.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Sep 2024 06:31:07 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6d6a3ab427aso32535747b3.2;
+        Mon, 09 Sep 2024 06:31:07 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU1GwO0XT0IBaB8SkaAiHq7yXoMpdLcWxQGBnEo56lQdtmMUw18YBdsKxG4ROLiWNoAfOPghasUHWOR@vger.kernel.org, AJvYcCUrqGnsCjt094nUUSVyW0ugjYTm8/rGkaRfxR5UA3zvIh9m2izxeukWgUvMwN4D3JPsy551PUGCeR+asglWaRI=@vger.kernel.org, AJvYcCXzncPXhF6wxHiEfe2ifT1EU5JND5elwGtcZt+JbrIV8jnv95QFrdeBVG4u17rO9EJqprIJZMgcSXQbrHhcjjuQAW8=@vger.kernel.org
+X-Received: by 2002:a05:690c:fc1:b0:6d6:94b2:f3cb with SMTP id
+ 00721157ae682-6db4515405dmr88200357b3.36.1725888666984; Mon, 09 Sep 2024
+ 06:31:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240909105835.28531-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20240909105835.28531-1-wsa+renesas@sang-engineering.com>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 9 Sep 2024 08:07:12 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqLui9=K_LdAoEAibxRo30_2ahdGXhCW50ow8rcqCp6jZA@mail.gmail.com>
-Message-ID: <CAL_JsqLui9=K_LdAoEAibxRo30_2ahdGXhCW50ow8rcqCp6jZA@mail.gmail.com>
+References: <20240909105835.28531-1-wsa+renesas@sang-engineering.com> <CAL_JsqLui9=K_LdAoEAibxRo30_2ahdGXhCW50ow8rcqCp6jZA@mail.gmail.com>
+In-Reply-To: <CAL_JsqLui9=K_LdAoEAibxRo30_2ahdGXhCW50ow8rcqCp6jZA@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 9 Sep 2024 15:30:54 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWGtuAuQ3M3HonY8zfODTTz_izV6g9555iwuPLSY+P9_g@mail.gmail.com>
+Message-ID: <CAMuHMdWGtuAuQ3M3HonY8zfODTTz_izV6g9555iwuPLSY+P9_g@mail.gmail.com>
 Subject: Re: [PATCH dt-schema] schemas: i2c: add optional GPIO binding for
  SMBALERT# line
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	devicetree-spec@vger.kernel.org
+To: Rob Herring <robh@kernel.org>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, devicetree-spec@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 9, 2024 at 5:58=E2=80=AFAM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
-> Most I2C controllers do not have a dedicated pin for SMBus Alerts. Allow
-> them to define a GPIO as a side-channel.
+Hi Rob,
 
-Most GPIOs are also interrupts, so shouldn't the existing binding be
-sufficient? The exception is if the GPIO needs to be polled.
+On Mon, Sep 9, 2024 at 3:07=E2=80=AFPM Rob Herring <robh@kernel.org> wrote:
+> On Mon, Sep 9, 2024 at 5:58=E2=80=AFAM Wolfram Sang
+> <wsa+renesas@sang-engineering.com> wrote:
+> >
+> > Most I2C controllers do not have a dedicated pin for SMBus Alerts. Allo=
+w
+> > them to define a GPIO as a side-channel.
+>
+> Most GPIOs are also interrupts, so shouldn't the existing binding be
+> sufficient? The exception is if the GPIO needs to be polled.
 
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->  dtschema/schemas/i2c/i2c-controller.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/dtschema/schemas/i2c/i2c-controller.yaml b/dtschema/schemas/=
-i2c/i2c-controller.yaml
-> index 97d0aaa..487e669 100644
-> --- a/dtschema/schemas/i2c/i2c-controller.yaml
-> +++ b/dtschema/schemas/i2c/i2c-controller.yaml
-> @@ -135,6 +135,11 @@ properties:
->        use this information to detect a stalled bus more reliably, for ex=
-ample.
->        Can not be combined with 'multi-master'.
->
-> +  smbalert-gpios:
-> +    maxItems: 1
-> +    description:
-> +      Specifies the GPIO used for the SMBALERT# line. Optional.
-> +
->    smbus:
->      type: boolean
->      description:
-> --
-> 2.43.0
->
->
+If the GPIO pin supports multiple functions, it must be configured as
+a GPIO  first. devm_gpiod_get() takes care of that.  Just calling
+request_irq() does not.  In addition, the mapping from GPIO to IRQ
+number may not be fixed, e.g. in case the GPIO controller supports
+less interrupt inputs than GPIOs, and needs to map them when requested.
+
+See also the different handling of interrupts and gpios by gpio-keys.
+
+> > --- a/dtschema/schemas/i2c/i2c-controller.yaml
+> > +++ b/dtschema/schemas/i2c/i2c-controller.yaml
+> > @@ -135,6 +135,11 @@ properties:
+> >        use this information to detect a stalled bus more reliably, for =
+example.
+> >        Can not be combined with 'multi-master'.
+> >
+> > +  smbalert-gpios:
+> > +    maxItems: 1
+> > +    description:
+> > +      Specifies the GPIO used for the SMBALERT# line. Optional.
+> > +
+> >    smbus:
+> >      type: boolean
+> >      description:
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
