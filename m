@@ -1,124 +1,98 @@
-Return-Path: <linux-renesas-soc+bounces-8869-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8870-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE3A9714DB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Sep 2024 12:07:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89C8B971513
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Sep 2024 12:15:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BF3D3B20BB9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Sep 2024 10:07:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 43F84281B54
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Sep 2024 10:15:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69CE61B3B2D;
-	Mon,  9 Sep 2024 10:07:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E44291B3B05;
+	Mon,  9 Sep 2024 10:15:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gtxEjCzz"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="DPAloqnQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCB091B374E;
-	Mon,  9 Sep 2024 10:07:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533431B3F2D
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  9 Sep 2024 10:15:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725876458; cv=none; b=WNKG/64FuxFn8wNM871FtBn2A001N5cisyXfQ9EKS3YHruvLu0bYNYwiB6YvnSAzVni+yFJ1KKPoCBiLeXqtNdYaZw8kKRZ5FAi1jP0M05A+qVR8heT4dkmEC8cPqOfJZTL6fn6AzXg9tvS4kyfUVNYZhEaaPkPYwIJHfWExXn0=
+	t=1725876910; cv=none; b=jzSDo3Y45f50dNXJbzqP6x27ueR1bnRLotZEXJpxFxs8g7Ix08GlxMYkOzVZpu6dCpy0SPQk70ZNy6ljgjVwwGm67ZSdFbjoslUJ5E4NFP2Wv+rBzuzi68pSzEK2cQld4X7lvSiSLjrgEkK/hLPhukQaBUj5Z0wSZWW5N3/MagI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725876458; c=relaxed/simple;
-	bh=gGAf8fH+CF7c4deB2V1S6EIMbFGUAOFQEO2Wv26+Bh4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YhbuyzSQ0a6P4pB/2qu/sbPg5sSVSSMiou4wROkuFyjkbozfMFLsQ5KMUiO73lbpkeF7Zxm6Vw2KnvNafJaGBURkpZfVfsgKycJBQRi94kerVQSlEKS5lu1P9y/TZn1KMuShVh9HUfb8KgYgIC+Pv8P5gHN9MZkZMu+yqouOOII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gtxEjCzz; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (213-229-8-243.static.upcbusiness.at [213.229.8.243])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0945D2C6;
-	Mon,  9 Sep 2024 12:06:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725876379;
-	bh=gGAf8fH+CF7c4deB2V1S6EIMbFGUAOFQEO2Wv26+Bh4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gtxEjCzzUV++3NzQ3ApD0eIdjAgJTsk3zplsC8NAevhvOAkWpOo52WMh6Zzyz8AEZ
-	 nL3nM0RrK+MFzPBBeJpypsqGRLdyFZ5QXQcTfHkbY1qBXGmBSyBD2FdIHGrIxN7DTI
-	 pASuYchjtVGr4ajR+jRHRyNsO2mUVgML0TkC2WZ8=
-Date: Mon, 9 Sep 2024 13:07:32 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 2/3] media: platform: rzg2l-cru: rzg2l-video: Retrieve
- virtual channel information
-Message-ID: <20240909100732.GA13983@pendragon.ideasonboard.com>
-References: <20240906173947.282402-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240906173947.282402-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240906231038.GC12915@pendragon.ideasonboard.com>
- <CA+V-a8vsmYSOWgoiHnO5xWdn-wo-eda6hdxGz5X_Hc5s-yVv6g@mail.gmail.com>
- <CA+V-a8s4UjjDTrQ4aw3OjQuac8B-oq++KqYf-fJEQvuxD5GodA@mail.gmail.com>
+	s=arc-20240116; t=1725876910; c=relaxed/simple;
+	bh=iYiiZYMW5d5IKe5lxd4620eX0tj60EgR17w9m7jJkMo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iCwvBG6yV0MHIE457VExDSP6navuG+NLukAGM3NtQ1Y5fznZVjQvXCm2RGBC5twALfK+iIbPBr9wwQZD05F0QbizsrbrVeglRQhaCKF1mmnsEPckEL0aQZ5uyCqc1Yxc3hsKvglzSImZ/C1NAO6dogt6MlcqVCpmHCtFCAG4/dc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=DPAloqnQ; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=289U87GA3GSL5l
+	cTchh+w4AZi32RduF8/gkTCqtLHyE=; b=DPAloqnQYxG5l4UGcCcv9ysjBXC42I
+	vi0TwV0l24FXI6z2YltLyJn5YHExul1VnlLaSCiOag6/ZuyCQZutbBg8R5b4SqsA
+	KviX3nXuvCvEZdUxf9kfq5eim8CAaiJVKFxStSBKhbR5c0AhXB0dgssiiIs3EkFy
+	EgZ1367tUVCIXvFL7Q3vD7FI/2N9+iNLLgzQenqs7YkBG1jtzUNIIsceFoRYCfLO
+	+cgkpWbe1wdgvaVHmc7GYvLQfCV338LeG1hlh+uxX/qz3O25rQIXZFiTs6xPSsoz
+	3BHjuwJ6XBdwGCac56nDGPa32kEIEkYM4rY1FiHj8Gbud2VUkYoNWX1w==
+Received: (qmail 2031615 invoked from network); 9 Sep 2024 12:14:56 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Sep 2024 12:14:56 +0200
+X-UD-Smtp-Session: l3s3148p1@QINUB60hQJYgAwDPXwlaAFpYOMUD2VTJ
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-i2c@vger.kernel.org
+Subject: [PATCH] i2c: testunit: improve error handling for GPIO
+Date: Mon,  9 Sep 2024 12:14:50 +0200
+Message-ID: <20240909101449.22956-2-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+V-a8s4UjjDTrQ4aw3OjQuac8B-oq++KqYf-fJEQvuxD5GodA@mail.gmail.com>
 
-On Sun, Sep 08, 2024 at 09:23:52PM +0100, Lad, Prabhakar wrote:
-> On Sat, Sep 7, 2024 at 10:09 PM Lad, Prabhakar wrote:
-> > On Sat, Sep 7, 2024 at 12:10 AM Laurent Pinchart wrote:
->
-> <snip>
->
-> > > > +
-> > > >  int rzg2l_cru_start_image_processing(struct rzg2l_cru_dev *cru)
-> > > >  {
-> > > >       struct v4l2_mbus_framefmt *fmt = rzg2l_cru_ip_get_src_fmt(cru);
-> > > >       unsigned long flags;
-> > > >       int ret;
-> > > >
-> > > > +     ret = rzg2l_cru_get_virtual_channel(cru);
-> > > > +     if (ret < 0)
-> > > > +             return ret;
-> > > > +     cru->csi.channel = ret;
-> > >
-> > > How about passing the value to the function that needs it, instead of
-> > > storing it in cru->csi.channel ? You can do that on top and drop the
-> > > csi.channel field.
-> >
-> > OK, let me check if this can be done.
->
-> The virtual channel number is programmed in rzg2l_cru_csi2_setup() [0]
-> call, below is the code flow of the call. This code flow is called by
-> spinlock held.
-> 
-> rzg2l_cru_start_image_processing()
->     rzg2l_cru_initialize_image_conv()
->         rzg2l_cru_csi2_setup()
-> 
-> When rzg2l_cru_get_virtual_channel() is called directly in
-> rzg2l_cru_csi2_setup() function we get "BUG: Invalid wait context"
-> (when PROVE_LOCKING is enabled) this is due to we do a mutex lock as
-> part of v4l2_subdev_lock_and_get_active_state() in get_frame_desc.
+Bail out in probe if getting the optional GPIO returns an error. Bail
+out in the test early if the optional GPIO is not present, otherwise the
+timeout errno is misleading.
 
-I didn't mean calling rzg2l_cru_get_virtual_channel() from
-rzg2l_cru_csi2_setup(), but passing the virtual channel number from
-rzg2l_cru_start_image_processing() to rzg2l_cru_initialize_image_conv()
-and then to rzg2l_cru_csi2_setup().
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ drivers/i2c/i2c-slave-testunit.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-> So probably I'll leave this as it is now.
-> 
-> [0] https://elixir.bootlin.com/linux/v6.10.8/source/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c#L311
-
+diff --git a/drivers/i2c/i2c-slave-testunit.c b/drivers/i2c/i2c-slave-testunit.c
+index 9fe3150378e8..0d6fbaa48248 100644
+--- a/drivers/i2c/i2c-slave-testunit.c
++++ b/drivers/i2c/i2c-slave-testunit.c
+@@ -183,6 +183,10 @@ static void i2c_slave_testunit_work(struct work_struct *work)
+ 		break;
+ 
+ 	case TU_CMD_SMBUS_ALERT_REQUEST:
++		if (!tu->gpio) {
++			ret = -ENOENT;
++			break;
++		}
+ 		i2c_slave_unregister(tu->client);
+ 		orig_addr = tu->client->addr;
+ 		tu->client->addr = 0x0c;
+@@ -232,6 +236,9 @@ static int i2c_slave_testunit_probe(struct i2c_client *client)
+ 	INIT_DELAYED_WORK(&tu->worker, i2c_slave_testunit_work);
+ 
+ 	tu->gpio = devm_gpiod_get_index_optional(&client->dev, NULL, 0, GPIOD_OUT_LOW);
++	if (IS_ERR(tu->gpio))
++		return PTR_ERR(tu->gpio);
++
+ 	if (gpiod_cansleep(tu->gpio)) {
+ 		dev_err(&client->dev, "GPIO access which may sleep is not allowed\n");
+ 		return -EDEADLK;
 -- 
-Regards,
+2.43.0
 
-Laurent Pinchart
 
