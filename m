@@ -1,54 +1,55 @@
-Return-Path: <linux-renesas-soc+bounces-8870-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8871-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89C8B971513
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Sep 2024 12:15:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A519715DE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Sep 2024 12:59:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 43F84281B54
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Sep 2024 10:15:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3E4FF1C22D39
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Sep 2024 10:59:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E44291B3B05;
-	Mon,  9 Sep 2024 10:15:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 089DA1B5EAB;
+	Mon,  9 Sep 2024 10:58:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="DPAloqnQ"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="LTWq9Lo8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533431B3F2D
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  9 Sep 2024 10:15:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A67F91B5EA1
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  9 Sep 2024 10:58:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725876910; cv=none; b=jzSDo3Y45f50dNXJbzqP6x27ueR1bnRLotZEXJpxFxs8g7Ix08GlxMYkOzVZpu6dCpy0SPQk70ZNy6ljgjVwwGm67ZSdFbjoslUJ5E4NFP2Wv+rBzuzi68pSzEK2cQld4X7lvSiSLjrgEkK/hLPhukQaBUj5Z0wSZWW5N3/MagI=
+	t=1725879524; cv=none; b=TLfQLfYSVdwnpCnEyNH0whl+KGnI2+kSScXjP7LYQgo00sO7ogLJVZ7g2ZM1DMQBV0zWo7iI6J7W6/xoNKxUIw28LkOS7ZDoqcdtZFQA52C8cqSV1PH+yjh0TzEiFExkvjxxB8LIm9rRwJ7se2/QpDNvecjZBg0AjTRI1Y/GdVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725876910; c=relaxed/simple;
-	bh=iYiiZYMW5d5IKe5lxd4620eX0tj60EgR17w9m7jJkMo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iCwvBG6yV0MHIE457VExDSP6navuG+NLukAGM3NtQ1Y5fznZVjQvXCm2RGBC5twALfK+iIbPBr9wwQZD05F0QbizsrbrVeglRQhaCKF1mmnsEPckEL0aQZ5uyCqc1Yxc3hsKvglzSImZ/C1NAO6dogt6MlcqVCpmHCtFCAG4/dc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=DPAloqnQ; arc=none smtp.client-ip=194.117.254.33
+	s=arc-20240116; t=1725879524; c=relaxed/simple;
+	bh=4ffm+7cR1ZRKXI4mD63W8SZwQQnR+sPYghebbp8Yw6c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bnJTgI7pjxOhvqzpPdaqhZRypgD4H5co+jzxMd+xe6k91wVWfzmELLophtk0Qd0Hdf1e+VxINnmmnKdZ/Ef5IgUQ1U982eBCxRvLB0SvCWVje1QJJeZI3IQFTniEOCAucgwdH94C6oVsQ0VoFGiY2Jq7XdROsIJ++sUvnOZexXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=LTWq9Lo8; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=289U87GA3GSL5l
-	cTchh+w4AZi32RduF8/gkTCqtLHyE=; b=DPAloqnQYxG5l4UGcCcv9ysjBXC42I
-	vi0TwV0l24FXI6z2YltLyJn5YHExul1VnlLaSCiOag6/ZuyCQZutbBg8R5b4SqsA
-	KviX3nXuvCvEZdUxf9kfq5eim8CAaiJVKFxStSBKhbR5c0AhXB0dgssiiIs3EkFy
-	EgZ1367tUVCIXvFL7Q3vD7FI/2N9+iNLLgzQenqs7YkBG1jtzUNIIsceFoRYCfLO
-	+cgkpWbe1wdgvaVHmc7GYvLQfCV338LeG1hlh+uxX/qz3O25rQIXZFiTs6xPSsoz
-	3BHjuwJ6XBdwGCac56nDGPa32kEIEkYM4rY1FiHj8Gbud2VUkYoNWX1w==
-Received: (qmail 2031615 invoked from network); 9 Sep 2024 12:14:56 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Sep 2024 12:14:56 +0200
-X-UD-Smtp-Session: l3s3148p1@QINUB60hQJYgAwDPXwlaAFpYOMUD2VTJ
+	:mime-version:content-transfer-encoding; s=k1; bh=+SZh6Xd3HzMOgs
+	tqqLmZpchNLWCCiq+A1Oa+4OeKqug=; b=LTWq9Lo8xGbLjUOZbef7YIF/xH5QRC
+	JFUeljW/Mn22obZLzKdY3ho3LpOt1b6YNJwkk+C+z07lLhdzAYKiGciZ9dcAZpxC
+	CtR8dLvA8YhW/ep33QQ3/Njev64TOx1GfJ8UH+ONGk3pfvKmZMsPrs+Y1H20zAF7
+	y1+Dgo3H29DxTWg/hqLxyu/4TtEiRtBIv9vFV3RsNO2nHz29Snz8GGb1s4gjGd93
+	aqHpw2mqE2uAeYPouPaNVSkKkpu2C9d3CcrXebWxJ6dVYLUTX9bFbCu1hLn0yLNh
+	uPnP+qOUFXiehj/KDuLevTCwC20Xl7dQssFTgT4+ousNlAV4l24FP/EA==
+Received: (qmail 2045066 invoked from network); 9 Sep 2024 12:58:38 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Sep 2024 12:58:38 +0200
+X-UD-Smtp-Session: l3s3148p1@QaGeo60h0JQgAwDPXwlaAFpYOMUD2VTJ
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-i2c@vger.kernel.org
-Subject: [PATCH] i2c: testunit: improve error handling for GPIO
-Date: Mon,  9 Sep 2024 12:14:50 +0200
-Message-ID: <20240909101449.22956-2-wsa+renesas@sang-engineering.com>
+Cc: linux-i2c@vger.kernel.org,
+	devicetree-spec@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH dt-schema] schemas: i2c: add optional GPIO binding for SMBALERT# line
+Date: Mon,  9 Sep 2024 12:58:35 +0200
+Message-ID: <20240909105835.28531-1-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -58,40 +59,30 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Bail out in probe if getting the optional GPIO returns an error. Bail
-out in the test early if the optional GPIO is not present, otherwise the
-timeout errno is misleading.
+Most I2C controllers do not have a dedicated pin for SMBus Alerts. Allow
+them to define a GPIO as a side-channel.
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- drivers/i2c/i2c-slave-testunit.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ dtschema/schemas/i2c/i2c-controller.yaml | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/i2c/i2c-slave-testunit.c b/drivers/i2c/i2c-slave-testunit.c
-index 9fe3150378e8..0d6fbaa48248 100644
---- a/drivers/i2c/i2c-slave-testunit.c
-+++ b/drivers/i2c/i2c-slave-testunit.c
-@@ -183,6 +183,10 @@ static void i2c_slave_testunit_work(struct work_struct *work)
- 		break;
+diff --git a/dtschema/schemas/i2c/i2c-controller.yaml b/dtschema/schemas/i2c/i2c-controller.yaml
+index 97d0aaa..487e669 100644
+--- a/dtschema/schemas/i2c/i2c-controller.yaml
++++ b/dtschema/schemas/i2c/i2c-controller.yaml
+@@ -135,6 +135,11 @@ properties:
+       use this information to detect a stalled bus more reliably, for example.
+       Can not be combined with 'multi-master'.
  
- 	case TU_CMD_SMBUS_ALERT_REQUEST:
-+		if (!tu->gpio) {
-+			ret = -ENOENT;
-+			break;
-+		}
- 		i2c_slave_unregister(tu->client);
- 		orig_addr = tu->client->addr;
- 		tu->client->addr = 0x0c;
-@@ -232,6 +236,9 @@ static int i2c_slave_testunit_probe(struct i2c_client *client)
- 	INIT_DELAYED_WORK(&tu->worker, i2c_slave_testunit_work);
- 
- 	tu->gpio = devm_gpiod_get_index_optional(&client->dev, NULL, 0, GPIOD_OUT_LOW);
-+	if (IS_ERR(tu->gpio))
-+		return PTR_ERR(tu->gpio);
++  smbalert-gpios:
++    maxItems: 1
++    description:
++      Specifies the GPIO used for the SMBALERT# line. Optional.
 +
- 	if (gpiod_cansleep(tu->gpio)) {
- 		dev_err(&client->dev, "GPIO access which may sleep is not allowed\n");
- 		return -EDEADLK;
+   smbus:
+     type: boolean
+     description:
 -- 
 2.43.0
 
