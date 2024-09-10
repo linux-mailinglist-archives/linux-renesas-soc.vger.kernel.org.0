@@ -1,34 +1,34 @@
-Return-Path: <linux-renesas-soc+bounces-8931-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8932-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 461EE974400
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Sep 2024 22:21:29 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CAF5974403
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Sep 2024 22:21:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 724951F269A3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Sep 2024 20:21:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9F4BE1C2386B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Sep 2024 20:21:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2ACB6183CC7;
-	Tue, 10 Sep 2024 20:21:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93416188CB4;
+	Tue, 10 Sep 2024 20:21:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="ZexFf+SY"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="ZK/dEZUh"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EF01225A8;
-	Tue, 10 Sep 2024 20:21:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10AB2566A;
+	Tue, 10 Sep 2024 20:21:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725999685; cv=none; b=WvPLgAlNMVi29OBStra3pv9X4oCSS4JB8YkdMWkhVd3FXDXj30niF7AkY7KpsMRZszillWkYv84M4pCBLyazkuPiUiKaPtHd6GF/F1XMNi6hnb2jZ83HINd0s22ArUVPNpl+4WITcxf7AIuLcJ8kA5dAOw13oqzLtH15ikTQfwo=
+	t=1725999711; cv=none; b=M+oJIaQ4Yrdk+T+Ghdri750i1SsNYKt1LdutD3HJ0o0ReSZJyyo30+m5ZAe1XtEba1r4HVuxrSMdhAf7c3hI3c4+SaDth1v03BlRQoEF9fBmQWWvKI6dl1qJ/cRYjXestCBk6WbyfffE/Ig6ijhihSNZsEzf9avA3ZGA8qBn06M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725999685; c=relaxed/simple;
-	bh=5gGz4/repS+HnMCJHP3BUj8k2XgMj7oh/lyP3iPi0kk=;
+	s=arc-20240116; t=1725999711; c=relaxed/simple;
+	bh=R1XbdcvWqAynf9FFP2bxtjTaRJoDIE1rVBPVDM141Sw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=npUKVUPMjXb+/nta8tw75fECICWVFv5pd1N5dMiTf76WTYXjJcnLoklqgu1XwYVWClvJhL3VzoD30n+4Qz/KQuZ6cjSlBo7SIDsNORnyTPgOP6nsb1ei8s6ulPTK4naVr7h5JC/UTnnMuHyjPbepYyIzHY5wzaHMpyW8gtf5XoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=ZexFf+SY; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dm60t/T/mjRq0d+UaHm7EtnMAFQnNgbtaD66uqXmqmwBVJjf/ez21H/zV+4jBl5shxfWgHu0RatC10PbWhbFSO1T0GinEGz4vUcShOj3qL7Ifx5xCyMdVdWAYSnjf51u/YLwzhCCN0NT9itBKmw0AjvIvh4xMZLfjP+P0oDPI7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=ZK/dEZUh; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
@@ -36,14 +36,14 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
 	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=BQMNvEvTZyBkro1NdoLjMyz8efBDDw9HCIOMj80hZF8=; b=Ze
-	xFf+SYVazXttYvn2x9kQbL5RHEkMCSCgP0XzlVTcdGhGsDi7ndVU8xFDpXP9Dkli9T3lr3yd7Lymq
-	fseaEq4QGHxWDfvKOUI/vuXN2/o3qaSLlgsdvduHyv7o+s2wu7b71un8CyXHcIyh7nOm32jvuh0PE
-	PKWJvZzS5piJJwY=;
+	In-Reply-To:References; bh=/elSOm7rItG5b9wtp5bNWLeO6G4Dz5qp65sPHfG+V8M=; b=ZK
+	/dEZUh+vV+eVzH1UNK/gS8BfRv81P04BwYu3pCfrrQJgeE1KnI9PJ22B2sbQQ3G8tERKJv86Gb5a0
+	PPzbl9gVXPMOs1twbMx8oOYyL0b3MiJ4tAU8IL4o/LCvcN2sNSlnJ2/bVwTDmWV7w3Z8+H9XJzehi
+	GxkzVt/xZWGTlWI=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1so7MN-0078sH-4n; Tue, 10 Sep 2024 22:21:11 +0200
-Date: Tue, 10 Sep 2024 22:21:11 +0200
+	id 1so7Mq-0078su-6f; Tue, 10 Sep 2024 22:21:40 +0200
+Date: Tue, 10 Sep 2024 22:21:40 +0200
 From: Andrew Lunn <andrew@lunn.ch>
 To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 Cc: Heiner Kallweit <hkallweit1@gmail.com>,
@@ -55,11 +55,11 @@ Cc: Heiner Kallweit <hkallweit1@gmail.com>,
 	Dimitri Fedrau <dima.fedrau@gmail.com>,
 	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [net-next 1/3] net: phy: marvell-88q2xxx: Align soft reset for
- mv88q2110 and mv88q2220
-Message-ID: <3486c75b-90bd-43a7-bc2a-ae37a4ea6c28@lunn.ch>
+Subject: Re: [net-next 2/3] net: phy: marvell-88q2xxx: Make register writer
+ function generic
+Message-ID: <b2f32ece-3ecf-439d-b1ae-f91879ab7bf0@lunn.ch>
 References: <20240906133951.3433788-1-niklas.soderlund+renesas@ragnatech.se>
- <20240906133951.3433788-2-niklas.soderlund+renesas@ragnatech.se>
+ <20240906133951.3433788-3-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -69,16 +69,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240906133951.3433788-2-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20240906133951.3433788-3-niklas.soderlund+renesas@ragnatech.se>
 
-On Fri, Sep 06, 2024 at 03:39:49PM +0200, Niklas Söderlund wrote:
-> The soft reset implementations for mv88q2110 and mv88q2220 differ as the
-> later need to consider that auto negation is supported on mv88q2220
-> devices. In preparation of enabling auto negotiation on mv88q2110 merge
-> the two rest functions into a device generic one.
+On Fri, Sep 06, 2024 at 03:39:50PM +0200, Niklas Söderlund wrote:
+> In preparation to adding auto negotiation support to mv88q2110 move and
+> rename the helper function used to write an array of register values to
+> the PHY.
 > 
-> The mv88q2220 behavior is kept as is but extended to wait for the reset
-> bit to be clears before continuing, as was done previously on mv88q2220.
+> Just as for mv88q2220 devices this helper will be needed to for the
+> initial configuration of the mv88q2110 to support auto negotiation.
+> 
+> The function is moved verbatim, there is no change in behavior.
 > 
 > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
