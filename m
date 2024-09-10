@@ -1,129 +1,153 @@
-Return-Path: <linux-renesas-soc+bounces-8897-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8898-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6831973D61
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Sep 2024 18:36:38 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BFA3973DF9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Sep 2024 19:01:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2EC2BB2665F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Sep 2024 16:36:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4BF69288417
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Sep 2024 17:01:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC8ED1A0729;
-	Tue, 10 Sep 2024 16:32:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4769818DF8C;
+	Tue, 10 Sep 2024 17:01:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="k8yxs3ux"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nEi2hqXy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED4D1A00F4;
-	Tue, 10 Sep 2024 16:32:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A694A02
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Sep 2024 17:01:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725985954; cv=none; b=S803274y8lizEt6a/uO3juncjLeqadwLuvRikXs8OSoOOguVMix7+//GJ36ro4FyMYlVPzmnS95mkeGTEAP8GeYct4cROCnvqZc2o3yDDSW9aP3uR4wp5jdF504sEehy+g/5KT7YnWmBBBpJ1BtYwn3lEL+Ujy2iiJbNz5B1omI=
+	t=1725987675; cv=none; b=aMZbMaPIkzfCyc4p+rOGGskrwYuaFJzJoT27xdsxZu/LCfMUyOOegV+81ed8P7wyJTIcNiQvbr2e0CtPtWXQJLO0KtwlrSs51ukkjgvs+bV6otGaADlHKhw+jCAu/sVitMDE9Up5pTTC8eiMf4TZO2J/qpSR4Lmqal3gNFdPDfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725985954; c=relaxed/simple;
-	bh=wZJxvli6xkBo565gzmkeDC+luJEfvIDAFnW8fzt75k4=;
+	s=arc-20240116; t=1725987675; c=relaxed/simple;
+	bh=HIYNvnAdgW89EfSpETD3OtBL5KxgpvDe1ZV5+r8iyVM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NbrEqByDLx5B35ZKoFrTMcEGEmUE0TB3+DY/4U/6bKQFid6WzHCp1ihLn0Y3MyJ0u0BpXrbNhBldWymxU/W2tRttXvitjWTlU9ftqmgSKaC67LnpwE4qt607zf5yus5a2QZ+egC8WEQQE7LnNeoJyTPMqwBdaxVsKyU/xuRusZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=k8yxs3ux; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=SmlzTZbd8ekrNP0FYd766dwtBomh66QlX4qmvlM4FZs=; b=k8
-	yxs3uxXIdm3h/7P5qClb+5Y0IFLnq7kJN+tr/v8aq7P4WmBUBNT64ab71KZl/etAVcH9s209FcsQT
-	EDHm4PnIIJAb6y1nY/gUbvl3iF6mv9tLIRBKyZ0Tum9k+Yiu4E0W2aWwqb+po3IFlIG3lEA5MvcVa
-	QZFG11+sA1Pb1Ig=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1so3mt-0077rj-OF; Tue, 10 Sep 2024 18:32:19 +0200
-Date: Tue, 10 Sep 2024 18:32:19 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Stefan Eichenberger <eichest@gmail.com>
-Cc: Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Stefan Eichenberger <eichest@gmail.com>,
-	Dimitri Fedrau <dima.fedrau@gmail.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=LTBtHvzJpvxeUT/ZTgg17cryK04t97CUdP5Z+aUYyBiZoOiVwljAkcu6LFgYdbV8WW4m4Nawddeulc88ZhT0MUY/ewyKhmL9svMBytoX3KfLOpVSvkeqgIXsfbBiS/T+G+LDC3+tGCCbmLYBJlMD/RflnD+5YsBnB441ATW0bnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nEi2hqXy; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-207115e3056so27783905ad.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Sep 2024 10:01:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725987673; x=1726592473; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=pBskbk3QBU0YMtrU99WpBguxflCzi8adsZB8njQ7nhU=;
+        b=nEi2hqXy4bFv+4EXH00305ZEe9khGaOb0o7r5k1e7907EtjPorp37Sg6idERwbjLrt
+         BaxF3rwNLBB1KcmCg26EowKEPFX+r1J1NJJCiYxlaWaHZARxdOHh2gdslX7eZNDJFvvi
+         aokzwO3fQIkZ2GoLtPmekyEkD7ZGP2ycs+qO6jcnPLsCF7lR1RLO3UxKaGpfSsMcyXX/
+         0C2V//Gn5iFPWG1Gzpqhb1HAoMV3wMGV6RU0K4NvAJu5t+ZKbgWAoBFupFhnwTsR/Kk8
+         vpJFZjcYN157HT82zDoi+sEA4to/H+Y6rWxUNRgApGzdvhgxN6kn7PcKqPrUoVCBDX+L
+         ft/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725987673; x=1726592473;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pBskbk3QBU0YMtrU99WpBguxflCzi8adsZB8njQ7nhU=;
+        b=LFC5v7PBAfN+45Tu32/6JrejGxSjc2wClF4cpF+A8avOWfZgxaRs8Hcz1WBgfrzOgL
+         J7lfNmUyoep8NxV+/V0+KQjC43kD8Fsfw0ymLEQrjo315vdb6ag6ydmUre1/tdwZ1c7r
+         FuMu9QSkh08KcMQSkT7j4uZSHP9HrJ7ypCC/UPFSCgt9FmovaFDRqQJlW0OVxHYe694x
+         stcgJK5tjSCQj5RRTQ08WKx/2OO9QS71WKABErbVoCvPs5nMfXCQfcCv4tUYTZwkO2uw
+         CQexzg22m9jpOgxb43a3fLbRiFNJz3xUvm9Rjz+73HWQt9tMvnGAPFX3pqrgAFnSbKXR
+         WoNA==
+X-Forwarded-Encrypted: i=1; AJvYcCVPujk2CY7pmbF13xPsjFanpqIBsuETD71XPcUrspKAV/+4Lb9/6RUBk7unIa1hNMdTrqdpp7NVnSZ6A3GDi9Wwug==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzUbDHqxViXKMWewzsoro1lRNSSWfSN77wH9sz6BpFnN9vaI0ND
+	MrGdHECs/ppxYtcp//Qs4p4ZX90oDJ64b6Nkt12uf/9Uw5joAucMLiFjI9foeQ==
+X-Google-Smtp-Source: AGHT+IF/raqp+DCJypfwe5V7+Q+7qT8bMOaTzbFGyeYWrZCI1/k/X6tIvkrcWMVdJdlQehGHErlM4Q==
+X-Received: by 2002:a17:902:d2c9:b0:207:73f:59f3 with SMTP id d9443c01a7336-2074c681cecmr18549225ad.32.1725987672621;
+        Tue, 10 Sep 2024 10:01:12 -0700 (PDT)
+Received: from thinkpad ([120.60.128.228])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20710f1f469sm50762155ad.223.2024.09.10.10.01.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Sep 2024 10:01:12 -0700 (PDT)
+Date: Tue, 10 Sep 2024 22:30:52 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Chuanhua Lei <lchuanhua@maxlinear.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
 	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [net-next 3/3] net: phy: marvell-88q2xxx: Enable auto
- negotiation for mv88q2110
-Message-ID: <f18ef2e8-f3ac-43df-95d4-96cea73e72d4@lunn.ch>
-References: <20240906133951.3433788-1-niklas.soderlund+renesas@ragnatech.se>
- <20240906133951.3433788-4-niklas.soderlund+renesas@ragnatech.se>
- <c334205e-6289-48da-b0c7-7ba82c6d2709@lunn.ch>
- <20240906213923.GZ3708622@fsdn.se>
+	linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	imx@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	abel.vesa@linaro.org, johan+linaro@kernel.org,
+	Shashank Babu Chinta Venkata <quic_schintav@quicinc.com>
+Subject: Re: [PATCH v6 3/4] PCI: qcom: Add equalization settings for 16.0 GT/s
+Message-ID: <20240910170052.qorc7hedfy4oqzgt@thinkpad>
+References: <20240904-pci-qcom-gen4-stability-v6-0-ec39f7ae3f62@linaro.org>
+ <20240904-pci-qcom-gen4-stability-v6-3-ec39f7ae3f62@linaro.org>
+ <ZtgqvXGgp2sWNg5O@hovoldconsulting.com>
+ <20240905152742.4llkcjvvu3klmo6j@thinkpad>
+ <Ztnb-GauC_8D8N-i@hovoldconsulting.com>
+ <20240905173437.hm3hegv5zolaj7gj@thinkpad>
+ <Ztql31KXrBQ1I5JV@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240906213923.GZ3708622@fsdn.se>
+In-Reply-To: <Ztql31KXrBQ1I5JV@hovoldconsulting.com>
 
-On Fri, Sep 06, 2024 at 11:39:23PM +0200, Niklas S�derlund wrote:
-> On 2024-09-06 22:36:49 +0200, Andrew Lunn wrote:
-> > On Fri, Sep 06, 2024 at 03:39:51PM +0200, Niklas S�derlund wrote:
-> > > The initial marvell-88q2xxx driver only supported the Marvell 88Q2110
-> > > PHY without auto negotiation support. The reason documented states that
-> > > the provided initialization sequence did not to work. Now a method to
-> > > enable auto negotiation have been found by comparing the initialization
-> > > of other supported devices and an out-of-tree PHY driver.
+On Fri, Sep 06, 2024 at 08:49:03AM +0200, Johan Hovold wrote:
+> On Thu, Sep 05, 2024 at 11:04:37PM +0530, Manivannan Sadhasivam wrote:
+> > On Thu, Sep 05, 2024 at 06:27:36PM +0200, Johan Hovold wrote:
+> > > On Thu, Sep 05, 2024 at 08:57:42PM +0530, Manivannan Sadhasivam wrote:
+>  
+> > > > Perhaps we can just get rid of the Kconfig entry and build it by default for
+> > > > both RC and EP drivers? I don't see a value in building it as a separate module.
+> > > > And we may also move more common code in the future.
 > > > 
-> > > Perform the minimal needed initialization of the PHY to get auto
-> > > negotiation working and remove the limitation that disables the auto
-> > > negotiation feature for the mv88q2110 device.
-> > > 
-> > > With this change a 1000Mbps full duplex link is able to be negotiated
-> > > between two mv88q2110 and the link works perfectly. The other side also
-> > > reflects the manually configure settings of the master device.
-> > > 
-> > >     # ethtool eth0
-> > >     Settings for eth0:
-> > >             Supported ports: [  ]
-> > >             Supported link modes:   100baseT1/Full
-> > >                                     1000baseT1/Full
-> > >             Supported pause frame use: Symmetric Receive-only
-> > >             Supports auto-negotiation: Yes
+> > > It is already built by default for both drivers. I'm not sure what
+> > > you're suggesting here.
 > > 
-> > My understanding is that most automotive applications using T1 don't
-> > actually want auto-neg, because it is slow. Given the static use case,
-> > everything can be statically configured.
+> > Right now it is selected by both drivers using a Kconfig symbol. But I'm
+> > thinking of building it by default as below:
 > > 
-> > Is there a danger this change is going to cause regressions? There are
-> > users who are happy for it to use 100BaseT1 without negotiation, and
-> > the link partner is not offering any sort of negotiation. But with
-> > this change, autoneg is now the default, and the link fails to come
-> > up?
+> > -obj-$(CONFIG_PCIE_QCOM) += pcie-qcom.o
+> > -obj-$(CONFIG_PCIE_QCOM_EP) += pcie-qcom-ep.o
+> > +obj-$(CONFIG_PCIE_QCOM) += pcie-qcom.o pcie-qcom-common.o
+> > +obj-$(CONFIG_PCIE_QCOM_EP) += pcie-qcom-ep.o pcie-qcom-common.o
+> > 
+> > A separate Kconfig symbol is not really needed here as this file contains common
+> > code required by both the drivers.
 > 
-> I'm not sure how the generic use-case looks like. All I can say all 
-> other devices supported by this driver support autoneg by default and 
-> the initial commit adds some of the autoneg features but disables it 
-> with a comment that they could not get it to work.
+> But the separate Kconfig symbol will only be enabled via either PCI
+> driver's option (e.g. can't be enabled on its own).
+> 
 
-I'm just worried about reports of regressions. It could be you are
-currently the only user of this driver, and you obviously don't care
-about the change in behaviour, and can change the configuration of the
-other end so that it also does autoneg.
+True. But since the common file is required by both drivers, I thought of just
+building it by default. But looking at your below reply, it won't be possible.
 
-But then again, Stefan Eichenberger <eichest@gmail.com> added this
-driver. Does autoneg by default, not forced, cause problems for his
-systems?
+> I'm also not sure if the above works if you build one driver as a module
+> and the other into the kernel (yes, I still intend to resubmit my patch
+> for making the rc driver modular).
+> 
 
-Stefan?
+Hmm, I thought you dropped that patch ;) Anyway, if that happens, it will be a
+problem. I'll keep it as it is.
 
-	Andrew
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
 
