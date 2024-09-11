@@ -1,176 +1,172 @@
-Return-Path: <linux-renesas-soc+bounces-8938-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8939-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 012A797557D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Sep 2024 16:32:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34B16975704
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Sep 2024 17:26:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 719FA1F27B05
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Sep 2024 14:32:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E46C028B087
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Sep 2024 15:26:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A531318858A;
-	Wed, 11 Sep 2024 14:32:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F6CC1ABECE;
+	Wed, 11 Sep 2024 15:26:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SXkd+WyC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tgZUt2Gp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A37719E992;
-	Wed, 11 Sep 2024 14:32:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA45C1AB6C6;
+	Wed, 11 Sep 2024 15:26:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726065163; cv=none; b=d3wZYmGJBn1PKXK4GlZ8de6Suw76aK67CbAJgU5g1zMatu01xnVv86yGHkczp9TxvnKfpaAT/U73FnH4gGC7+KU8GxIF+hSWx2basRPzDnO9uIUQd0ONmlHkip9glaISkQgAk3/RpSBHgdqiEfBs3kYh8IP0T0dFtkzkYD3xssk=
+	t=1726068390; cv=none; b=ubngfCwidDzcL0Jp6dIs05luyvIOI7Jc8jvKEheMHTMWKjAfXZ3J6MasW+AxLU6E+FAUQbSsIr3+MlffOznnmgbEIOGNtIY8F6+0HEI8tJQlg80BzKHnf1bheZ7J57w4ioXUXgxUUiSDTNGjuvBIBbHCOI4DM38tzs5NUMkP7QM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726065163; c=relaxed/simple;
-	bh=jfcMosZKGqQXI5QVRMHCF+GKS0zzHRVNb0uYU3UNrv0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tyMA1ZmS9rp3OIZgSOnoEtnhcOuqCuQs9o40TBOkdQcYQEShtNIWWeWn6h3Iwj7KmskUJp3DMQe/l7NGOy5JuV51XshCRt7JzBIIw25XbY3HUeGv7Xj9VtUSJOTuRTszEGwBswn3DtZg+QczK0s7BaT5R3cSeP3fQopjuyhlyfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SXkd+WyC; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2057835395aso21981315ad.3;
-        Wed, 11 Sep 2024 07:32:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726065161; x=1726669961; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=n5NidkcZrH/768JCnNFNiqCS2fmQO/daX4yiCZWTu7U=;
-        b=SXkd+WyCiMYa59WlUUysXP8LkUvL1Ij2zxs+QgVe9IV1zbCwq1bLlthLfXiZXGkE7Q
-         BIaEfynTBT0KWEkOk/x8ho+mpBTOq1xd923TAhdU0PR1mY9ldWIur6UChD5vxAbD+vhO
-         sAJIpPVR1u/9rru0OQbRO1jbWCXKQ7Xz/c2frq28tE3isskrdjghTy/mICxxmtETM7GI
-         +R1AujkDTxmLUiyJXodtzXtePxHzF/mGwZvtAc3vAZ0jpHo5RzXNyoGYfUkh19/vl9FJ
-         j8IuTNDu+xSAQIC0Lieg3IhNqGcTdWJdRqlFqlETPFI05bhBstn266E/r+KHvsOLK0R3
-         H9Tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726065161; x=1726669961;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=n5NidkcZrH/768JCnNFNiqCS2fmQO/daX4yiCZWTu7U=;
-        b=SKqHp3bnj4N/jfVuGuDlftYXI3vgJEhB/LdEjIqPgqNCztf6NxzqJcA2SqRyg7Pitq
-         J68rfMvnOy0GFl4fmGBIDUjgHUUcCUDUsnO1WGmIcji31dtko4ePEJGX3TY0OJGcz2v1
-         4UQZRgAC6Wx6LDhYe/j9DGjMjNquvaDu4QMhUQ9KYa1RfhpkC/EF6u/u1XDAMt1ErhAH
-         1Si9tSDa8OGqulUyhdZamg2hAOkwsCD5ETFMOX4RYPaeXgPC0QttTR4uxIYvDQlDZjV8
-         HZ5H/voZqi31AriAYG5/60zMM9l2pTlfpUzhRsPob0FQPcH1Hoh4p6OW7SrNI/V0znqJ
-         KYvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXDKaoy0sYJObIu4RpvEeopWlZECZPQ8JKMM9cBaXcgRr0ysXOxw6ElCkO40BhkDu+tkI2m1RoqI6m111ITFZhzpg==@vger.kernel.org, AJvYcCXr+wF4j6BJDFSPtdyFUsy63SB3nNPgmDtDSvmtpyNEgr54jV1Qo0tWW057m+kCnOAG/5P0cIFlClJQTkv9BH8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzV5cmStYEFZ1zPOSRzIt1PMQK4cA0ztHaPMbO07DAJI7cPFjFL
-	wjADEKLrTV5jsGsRYIX3XUI8eQDe/BaB/TdSOwCw2nFWaT2B2yTwZamqGw==
-X-Google-Smtp-Source: AGHT+IFzD+FUIvWrv8kn+9weVA2+tVBqJmPPJP3gK0Y31lG3GTiu6ndHi1T+rXNls63xDDwwRu56XQ==
-X-Received: by 2002:a17:902:e5c8:b0:205:3e68:7367 with SMTP id d9443c01a7336-207521971cbmr34531945ad.21.1726065160685;
-        Wed, 11 Sep 2024 07:32:40 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2076af2568esm406515ad.14.2024.09.11.07.32.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Sep 2024 07:32:39 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <3383bc21-9e51-40c4-8bee-07fc59437434@roeck-us.net>
-Date: Wed, 11 Sep 2024 07:32:38 -0700
+	s=arc-20240116; t=1726068390; c=relaxed/simple;
+	bh=ySbiEt3ATot0IO6ukCbLnsXhtNtXL/Guqo5EQ5kc+vU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=V5hdBfanY3JNEr7Of8JPFs3lOCxQHUz46qZlZ/21OFWD5m/DdlazxYUIxyshaGL6JNWeSJVMAUP9hvYiRpxA2U8XXIuk5ZC5zW4K6Ovxep7DDXLM4XqSzodmZbrqymuPwxk7dMTqHNquzT0oxPrHDxUw8d+ixc5d1Yln6tpD9Hg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tgZUt2Gp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3B91EC4CEC0;
+	Wed, 11 Sep 2024 15:26:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726068390;
+	bh=ySbiEt3ATot0IO6ukCbLnsXhtNtXL/Guqo5EQ5kc+vU=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=tgZUt2GpwqvGKS8TVUDJgwk2znhaYjDppzRhhC1rESibZwxWXWmC/9K8la/KxGTgs
+	 PQJFV88220I30DP3gUnlDe+DQ5ZuSqQqzZp9849QAT6ewKpQfTiZHfUBwIhqzsIGVv
+	 jkvHNRImk1gFNC4PXrHrMyTAjbipQWpvKzPRZ7qiEmkSjznJr+/PDUVNgBo5VlbjHF
+	 0QfYnA3nMkYNwZqX9ZBN6JafRdKL3TDsmVJe+Px+csnzJajmRmYsCWsnGnFHDqygoQ
+	 RQmX1T9e25Jt0L8v5FQ1GSxPCOgO3LbHfIfKIIH3uv2ejmNdr+0fq1xa8mlfWulQG2
+	 4NMtby9jeU7FQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E02FEE0213;
+	Wed, 11 Sep 2024 15:26:30 +0000 (UTC)
+From: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.linaro.org@kernel.org>
+Subject: [PATCH v7 0/4] PCI: qcom: Add 16.0 GT/s equalization and margining
+ settings
+Date: Wed, 11 Sep 2024 20:56:25 +0530
+Message-Id: <20240911-pci-qcom-gen4-stability-v7-0-743f5c1fd027@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] watchdog: rzv2h_wdt: Add missing MODULE_LICENSE tag to
- fix modpost error
-To: Prabhakar <prabhakar.csengg@gmail.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-watchdog@vger.kernel.org,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20240911132031.544479-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20240911132031.544479-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKG24WYC/4WNQQ7CIBBFr9LM2jGEIk1deQ/TBeJAJ6lQgTQ2T
+ e8u9gIu30v++xtkSkwZrs0GiRbOHEOF7tSAHU3whPysDFJIJXqhcLaMbxtf6CkozMU8eOKyopB
+ k9cV0pElBXc+JHH+O8n2oPHIuMa3H0aJ/9n9z0SiQbNu7zlDrtLxNHEyK55g8DPu+fwGZ1S6ev
+ wAAAA==
+To: Richard Zhu <hongxing.zhu@nxp.com>, 
+ Lucas Stach <l.stach@pengutronix.de>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+ Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Jingoo Han <jingoohan1@gmail.com>, 
+ Chuanhua Lei <lchuanhua@maxlinear.com>, 
+ Marek Vasut <marek.vasut+renesas@gmail.com>, 
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+ Pratyush Anand <pratyush.anand@gmail.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>
+Cc: linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ imx@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ abel.vesa@linaro.org, johan+linaro@kernel.org, 
+ Shashank Babu Chinta Venkata <quic_schintav@quicinc.com>, 
+ linux-tegra@vger.kernel.org, 
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+ Frank Li <Frank.Li@nxp.com>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2886;
+ i=manivannan.sadhasivam@linaro.org; h=from:subject:message-id;
+ bh=ySbiEt3ATot0IO6ukCbLnsXhtNtXL/Guqo5EQ5kc+vU=;
+ b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBm4baiuGrwKvXu8Vn7676IMqAa3SnFAiqeGWP15
+ rRv9Ot+Y++JATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCZuG2ogAKCRBVnxHm/pHO
+ 9UAfB/wJn1xjr7gpcV5/74TYwbz4d8AOHHZh693NV+oSlBCpL1toQgQA6Abx1BqGLKNL0IlJY/L
+ rKzJQhYDg8Dfz/eoLnJzC+bJmxV9Wtj8pbu2tmzKMCT8OrsclFUjUQVzr5JfOB3XHP2YmrUj0iw
+ OiIhvy8iI7GZ2Ju8zl9rz8boWOjblFZ/gsk29ZJHdsJNprELyoa9F/PXGYb8piL6/7GqidWpwGY
+ UboBRSx/kcLZVbCcPVI6TC/NYBpy7puAdX28RpatQCTJ3KL1164J9ColLZfAdepBd+PgFan4SiB
+ mzDQ73C3/r3ohaO47FhOVVKgNaYDfuKWy45U2RZLtyJRJPtC
+X-Developer-Key: i=manivannan.sadhasivam@linaro.org; a=openpgp;
+ fpr=C668AEC3C3188E4C611465E7488550E901166008
+X-Endpoint-Received: by B4 Relay for
+ manivannan.sadhasivam@linaro.org/default with auth_id=185
+X-Original-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Reply-To: manivannan.sadhasivam@linaro.org
 
-On 9/11/24 06:20, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> Add the missing `MODULE_LICENSE()` tag to the `rzv2h_wdt` driver, which
-> resolves the following modpost error when built as a module:
-> 
->      ERROR: modpost: missing MODULE_LICENSE() in drivers/watchdog/rzv2h_wdt.o
-> 
-> Fixes: f6febd0a30b6 ("watchdog: Add Watchdog Timer driver for RZ/V2H(P)")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi,
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+This series adds 16.0 GT/s specific equalization and RX lane margining settings
+to the Qcom RC and EP drivers. This series is mandatory for the stable operation
+of the PCIe link at 16.0 GT/s on the Qcom platforms.
 
-> ---
-> Hi Wim,
-> 
-> As `rzv2h_wdt.c` still not in -next maybe we can merge this patch in
-> original commit in the watchdog tree?
-> 
-> Cheers,
-> Prabhakar
-> ---
->   drivers/watchdog/rzv2h_wdt.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/watchdog/rzv2h_wdt.c b/drivers/watchdog/rzv2h_wdt.c
-> index 2da7a631fb2a..1d1b17312747 100644
-> --- a/drivers/watchdog/rzv2h_wdt.c
-> +++ b/drivers/watchdog/rzv2h_wdt.c
-> @@ -270,3 +270,4 @@ static struct platform_driver rzv2h_wdt_driver = {
->   module_platform_driver(rzv2h_wdt_driver);
->   MODULE_AUTHOR("Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>");
->   MODULE_DESCRIPTION("Renesas RZ/V2H(P) WDT Watchdog Driver");
-> +MODULE_LICENSE("GPL");
+NOTE:
+=====
+
+I've taken over the series from Shashank based on the discussion [1]. In order
+to apply the equalization/margining settings properly in the Qcom driver, I
+added the first 2 patches to the series which inevitably touches other vendor
+drivers also.
+
+- Mani
+
+Changes in v7:
+- Fixed the build issue reported by Kbuild bot in patch 1/4
+- Changed the logic to check invalid max_link_speed in patch 2/4
+- Cleanups to patches 3/4 and 4/4 as suggested by Johan
+- Added include header guard to pci-qcom-common.h
+- Link to v6: https://lore.kernel.org/r/20240904-pci-qcom-gen4-stability-v6-0-ec39f7ae3f62@linaro.org
+
+Changes in v6:
+
+- Dropped the code refactoring patch as suggested by Johan
+- Added 2 patches to fix the caching of maximum supported link speed value that
+  is needed to apply the equalization/margining settings
+- Updated the commit message of patch 3 as per Bjorn's suggestion
+
+For previous changelogs, please refer [2]
+
+[1] https://lore.kernel.org/linux-pci/af65b744-7538-4929-9ab4-8ee42e17b8d1@quicinc.com/
+[2] https://lore.kernel.org/linux-pci/20240821170917.21018-1-quic_schintav@quicinc.com/
+
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+---
+Manivannan Sadhasivam (2):
+      PCI: dwc: Rename 'dw_pcie::link_gen' to 'dw_pcie::max_link_speed'
+      PCI: dwc: Always cache the maximum link speed value in dw_pcie::max_link_speed
+
+Shashank Babu Chinta Venkata (2):
+      PCI: qcom: Add equalization settings for 16.0 GT/s
+      PCI: qcom: Add RX lane margining settings for 16.0 GT/s
+
+ MAINTAINERS                                   |  4 +-
+ drivers/pci/controller/dwc/Kconfig            |  5 ++
+ drivers/pci/controller/dwc/Makefile           |  1 +
+ drivers/pci/controller/dwc/pci-imx6.c         |  8 +--
+ drivers/pci/controller/dwc/pcie-designware.c  | 22 +++++---
+ drivers/pci/controller/dwc/pcie-designware.h  | 33 +++++++++++-
+ drivers/pci/controller/dwc/pcie-intel-gw.c    |  4 +-
+ drivers/pci/controller/dwc/pcie-qcom-common.c | 78 +++++++++++++++++++++++++++
+ drivers/pci/controller/dwc/pcie-qcom-common.h | 14 +++++
+ drivers/pci/controller/dwc/pcie-qcom-ep.c     |  6 +++
+ drivers/pci/controller/dwc/pcie-qcom.c        |  6 +++
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c   |  6 +--
+ drivers/pci/controller/dwc/pcie-spear13xx.c   |  2 +-
+ drivers/pci/controller/dwc/pcie-tegra194.c    | 19 +++----
+ 14 files changed, 178 insertions(+), 30 deletions(-)
+---
+base-commit: 47ac09b91befbb6a235ab620c32af719f8208399
+change-id: 20240904-pci-qcom-gen4-stability-02ec65a7e6e4
+
+Best regards,
+-- 
+Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+
 
 
