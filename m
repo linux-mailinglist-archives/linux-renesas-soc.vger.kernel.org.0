@@ -1,132 +1,103 @@
-Return-Path: <linux-renesas-soc+bounces-8948-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8947-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBD8C976194
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Sep 2024 08:35:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23FED976192
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Sep 2024 08:35:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 945262820D6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Sep 2024 06:35:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BFD811F22711
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Sep 2024 06:35:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C13C617DFFC;
-	Thu, 12 Sep 2024 06:35:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B719918953D;
+	Thu, 12 Sep 2024 06:35:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="BTh6mtRk"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IdZIxRI1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0112F76025
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Sep 2024 06:35:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72129188903;
+	Thu, 12 Sep 2024 06:35:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726122930; cv=none; b=rvT1kk+X2X4U9hZ17hHZQqtANEfJD397d5SmsT7giAV+Tpdg5bXbHLsgqRF+/9GhnkKtQSr4a5Z86ICCkBoeFKTN0Jr1x4PVSOD2sxOOB2aOMc9Lnc0DiPXWTnjZzONdo9f73Jd3auKJtmJlW1mbeNUxKeDnO10u8Rp/hjUcj0Y=
+	t=1726122908; cv=none; b=WQ5e2lAcSf7tlSI4C3wvqModAJhU5RA0zmhesh0G4H1tozSKpZPAYpvMZijE32oufZkRcc5Xjl5B0K32bgmgRDMv9SgrrApefgbzQ4X6OmeEezYGN0k0a7MfBMu8XD+Nw9DiPdW4dgxwwbzEK7VVyaQ+xkaQ9hweqh6DP60iXYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726122930; c=relaxed/simple;
-	bh=mnGy8JwASG+Hv1/zsbYu6HTZgvX1VjQ5xqqUFng7TJY=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mYmKhXnTullHGHrTxbVHCdhc1vL00gzUqkC601Zlo0XTYY3zmuCBnG7A2GPCX6+K4aS490xkBwaaLa40N32+tjwUt+CU9jU9c+4q3VGc9o/2MifZYLXgelUGmE71RCnLjb0sxiaT9yZoSWwwl2xjrTzIvrA3PZNa9E7oPYsAafE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=BTh6mtRk; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=vSVN
-	PCbeHNknNrnOe/NI4LVWOEozOzy9ZmVugjqJsBU=; b=BTh6mtRkTVS2K1ahhUEt
-	3pAe7GhdN0gnJEe/+9lC4FK5+AHrax/AR3MpYkR3DXLBKJT9tuGjpUgpym20QxQQ
-	vx8ZkVE7KLrIiUdwbDofzuxCPyox/vXwDWVQSdEn2o/HBlV12/cT/Vq96QQhTrZG
-	yBgKZ+2h9A9VQaYgmebRAEX/VSwkv1OeqGcDfoP87MTi9CIhnKRTG9ESbyakj0rg
-	SCjuo1QxBYd8T4x3AvOZv0Qha1OKI9FZTolZLGN5OeF9BF9riYgvu+OnZu08956E
-	Cqx+kV0cvUq0Sa5mXsLmze83imis2JHlNqtIu4hY3EVfJrx4Iu2YP0/hVdObAhcQ
-	gg==
-Received: (qmail 788387 invoked from network); 12 Sep 2024 08:35:19 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Sep 2024 08:35:19 +0200
-X-UD-Smtp-Session: l3s3148p1@qlprT+Yh8pRQT+F6
-Date: Thu, 12 Sep 2024 08:35:18 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Rob Herring <robh@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-	devicetree-spec@vger.kernel.org
-Subject: Re: [PATCH dt-schema] schemas: i2c: add optional GPIO binding for
- SMBALERT# line
-Message-ID: <ZuKLpilWKCS5k7Kx@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Rob Herring <robh@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-	devicetree-spec@vger.kernel.org
-References: <20240909105835.28531-1-wsa+renesas@sang-engineering.com>
- <CAL_JsqLui9=K_LdAoEAibxRo30_2ahdGXhCW50ow8rcqCp6jZA@mail.gmail.com>
- <CAMuHMdWGtuAuQ3M3HonY8zfODTTz_izV6g9555iwuPLSY+P9_g@mail.gmail.com>
- <CAL_Jsq+cFb56e5WvipL1nR-0TDz+v6vnFDvz9F9JbXinxkEt1Q@mail.gmail.com>
- <Zt_3WtlRP_5wt4PN@shikoro>
+	s=arc-20240116; t=1726122908; c=relaxed/simple;
+	bh=JiVBt1seEou3ZPmEnMtRuyu8frlYcMJJC/6b2VpHDWo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nEggFZnzwe9IgIislO74Y2WSC0bqYjxorq08TlRyr3WwIpCIS6PnC/h/zEX5Zny2FMApUnIQC9mhjdx2mL09/IuN0kSmvjQOhLP95i4oU5uTtAPElE5eK8Pg3RxBTj9KsbMhg8NMkeupxNNXoHOg1y4Evq8cOIQdc01aOWADPO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IdZIxRI1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE25DC4CEC3;
+	Thu, 12 Sep 2024 06:35:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726122907;
+	bh=JiVBt1seEou3ZPmEnMtRuyu8frlYcMJJC/6b2VpHDWo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IdZIxRI19axF1Zq3ZQ1qRJ8bgLqVgoDd1WzpYt2Q/CDqsu85UCFTRIgk6nRpNlWZz
+	 IN/ftegFBtj0okCEhAuXxPBBOfbCnrxihswr4zOzLbqPxvyigiPuxLFWqa94hvm6Xs
+	 GoSpns45e2m8oqILIFQFDwQXl9PdIWv5ooi/Z0QxqsW32duIK3hxraKAhebZSZNPB7
+	 mRzsuHzdZOZFGI2u+K0y+aoUSC9Wi9tGrJJgJx3/O3C4Be3jXJorVZKaj+aBQtnneQ
+	 mltk7u+ddWz7PgCHn7YMbPqm5E2sY1rNmUGlSfqMbL1TWhNkb7vZkCGOXxRbhIHCe3
+	 7Vi+TT9HL7w+A==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1sodQL-000000005F9-30EC;
+	Thu, 12 Sep 2024 08:35:26 +0200
+Date: Thu, 12 Sep 2024 08:35:25 +0200
+From: Johan Hovold <johan@kernel.org>
+To: manivannan.sadhasivam@linaro.org, Bjorn Helgaas <bhelgaas@google.com>
+Cc: Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Chuanhua Lei <lchuanhua@maxlinear.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Pratyush Anand <pratyush.anand@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>, linux-pci@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, abel.vesa@linaro.org,
+	johan+linaro@kernel.org,
+	Shashank Babu Chinta Venkata <quic_schintav@quicinc.com>,
+	linux-tegra@vger.kernel.org, Frank Li <Frank.Li@nxp.com>
+Subject: Re: [PATCH v7 0/4] PCI: qcom: Add 16.0 GT/s equalization and
+ margining settings
+Message-ID: <ZuKLrTriES9w5G_a@hovoldconsulting.com>
+References: <20240911-pci-qcom-gen4-stability-v7-0-743f5c1fd027@linaro.org>
+ <ZuKJYGVwXrvAuRIv@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="/k0KcEJ6kMjctRzk"
-Content-Disposition: inline
-In-Reply-To: <Zt_3WtlRP_5wt4PN@shikoro>
-
-
---/k0KcEJ6kMjctRzk
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <ZuKJYGVwXrvAuRIv@hovoldconsulting.com>
 
+On Thu, Sep 12, 2024 at 08:25:37AM +0200, Johan Hovold wrote:
 
-> I had this originally in my RFC[1]. I got convinced by Geert's arguments
-> because the DT snippet in the board DTS looked kinda ugly. The board
-> needs to override the DTSI of the SoC to replace "interrupts" with
-> "interrupts-extended":
->=20
-> =3D=3D=3D
->=20
->  &i2c3	{
->  	pinctrl-0 =3D <&i2c3_pins>;
->  	pinctrl-names =3D "i2c-pwr";
-> +
-> +	/delete-property/ interrupts;
-> +	interrupts-extended =3D <&gic GIC_SPI 290 IRQ_TYPE_LEVEL_HIGH>, <&gpio1=
- 26 IRQ_TYPE_EDGE_FALLING>;
-> +	interrupt-names =3D "main", "smbus_alert";
-> +
-> +	smbus;
->  };
->=20
-> =3D=3D=3D
+> Bjorn, it would be great to have these in 6.12 since we're currently
+> seeing lots of NVMe link errors on x1e80100 platforms (e.g. the Lenovo
+> ThinkPad T14s) without them.
+> 
+> These errors are also blocking the enabling of using the GIC ITS for
+> interrupts since that will cause all these AER reports to spam the
+> logs. So if you pick this one up, please consider also picking up:
+> 
+> 	https://lore.kernel.org/lkml/20240711090250.20827-1-johan+linaro@kernel.org/
 
-I guess my questions here are: is this proper? Is there a better way to
-describe it? Is using interrupts still the way to go?
+Heh, this one should of course go through the qcom tree once the Gen4
+stability fixes have been merged by you. Sorry about the confusion.
 
-Thanks for the guidance and happy hacking!
-
-
---/k0KcEJ6kMjctRzk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmbii6YACgkQFA3kzBSg
-KbbZrQ/+ISHD3cqlO+60QfhsSyi6JOsnODJcQ0GXCMH42/CvwgF9zV8/DiDIZO+H
-qvaGq6Czm+OTUp7HkY3FYsS5udF6XcQuZwfeAs70TkP8QAv9zW5HDFgzzfgazeWb
-L20ycT1KF/ANUE9yJGGXV72dKaooMw0i03FZ/IjuJNX0J3yHCtgcbbXtme4XKq4D
-6wI7peiNLg+uHhK57utE0A4yMsih9rm0ouPzwPjDn8yQhekn7B8jye/ICqAd9uKe
-lpMNzJAksPoKu1CGOvML95b5TebachZSKLxzLC28THQ3SdbZ+B0AUYXcB4T+QDBH
-/K1PxCte6BVl4/ed6tLaGJlDZ5lDYwYZDLqpSVAu1EnGKpYSvwS7Tv08hoT3yjig
-7aXe0Txk0eE1w9Q15gfpedlh0uhp5Er5O/wi3WAdQALZ/zXQxQvqa2vro7aCJwz8
-GiMjeJM1dbCLXRopUcWcpP2fM1Bh5YlM+MIHz8FpbY7IsJ8Al94USP5oIVl1pZ/X
-WRPYRhCBg4ee8BZ60TQSoACjx8MilKtoSPviMqb/sKwAKsms83YGjJiNs+9uVpE5
-iKdR/+95ovcqNnj1Y79fknAaSi6FLItcnIxtdDiNNJMdF/PsnheViZhGjGLiWSzq
-adL59XnrU9Bvu86iHBKRnXWnLjYdnZf0OVNAK9FhPUP/gelclN0=
-=JKkW
------END PGP SIGNATURE-----
-
---/k0KcEJ6kMjctRzk--
+Johan
 
