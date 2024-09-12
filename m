@@ -1,73 +1,73 @@
-Return-Path: <linux-renesas-soc+bounces-8950-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8951-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBB81976F22
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Sep 2024 18:52:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A925A976F26
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Sep 2024 18:52:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4B2F91F21171
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Sep 2024 16:52:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 69301281B53
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Sep 2024 16:52:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04ACD1AF4D3;
-	Thu, 12 Sep 2024 16:52:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC7F51BDA89;
+	Thu, 12 Sep 2024 16:52:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T+GUkzMM"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QqOaz5Q2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24FEA1865F7;
-	Thu, 12 Sep 2024 16:52:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DEAA1BD002;
+	Thu, 12 Sep 2024 16:52:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726159923; cv=none; b=Ur21Jr2BY1o1q+VcrFH8z9UA5cekNU7zHfv4/D52Z5hvP8YX5B0TgsS60R+SQ/YaatznFrEUcNFFN6hspCP4uG5222o5TOE5WATTILGKW2qVq7jOQO2Nop8lZHA7ppW0cfZo1wQh8SAy/J71R54v27RB4gOAtxrVRLjHwik5OGg=
+	t=1726159954; cv=none; b=oZ7FrDfJAc+5BTAni+LPhbLwhe0LHJOxk5kBMwlxigh9awOec9YuIV2FSwVZkIyoj3kH0/FmUYo6Ko1zskJAberKYM09HPznInnwkAQroZAUfpzk72KQFOmFmTZOu6lsSZA+iXOlG+vy1B3L92FRFILb7q3bAlKrk8OCTltVrHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726159923; c=relaxed/simple;
-	bh=CmhuJmafPulkeMUMLaDQgSadOOCAXfGo8qyGbwcMvW4=;
+	s=arc-20240116; t=1726159954; c=relaxed/simple;
+	bh=K+Wd8X9yFGfyPVoEZ7UrkcJPiYFVQJAUqr5wLL0yulk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sRJMRZrJ5Jzb/MPOCXH25SFxmh0aFkl7XegvKDf0GpHInoaeUE+VzqswDi2kg+mL3pSpQAQ8Odenu/zDmVwlRP6MYTRr3Oyz/daSzWUzMt0AGlLIP4VzxLTmTLjWPkdgNLzrLWTHHmu0/VTVpVFfoZHDCJGc0zUpLtuMZdFbBBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T+GUkzMM; arc=none smtp.client-ip=209.85.218.47
+	 Content-Type:Content-Disposition:In-Reply-To; b=RzdfivC5Tm1O+j0XJz52htsJ+e/0uH7R/YA3vWEfaUR9mU/WUcuZmLJmvuj94+kAypjAspaVOqyL1lEuuFgPinw0Tlc5Mf2RVMTg1QJN2gTOoFYZDuvW2GkwJNxzTCczxyqCgYzninE8gSgmaIryh5VG7MEjVG7N4mOMxXbXqhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QqOaz5Q2; arc=none smtp.client-ip=209.85.208.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a90188ae58eso134379666b.1;
-        Thu, 12 Sep 2024 09:52:01 -0700 (PDT)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5c412cab25cso1409853a12.2;
+        Thu, 12 Sep 2024 09:52:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726159920; x=1726764720; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1726159951; x=1726764751; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=El9c1hHBtJk1KwcOs+RS/kGDroFCnxhe1WGLlRa6rqc=;
-        b=T+GUkzMM9XNc+BBBtDgoxU2sJbZmwlJ1rvw9c+5uX2/Ld7nMrbpFbFB3nYQOLobPl+
-         iTuAJj/mTh/NPHVvEV4CqttriHox/pR2pNOqsVa7rByfc6C6MJKZDHJ9qHmiiPDLdOmg
-         aaynA4yOAiF6dU4iZx1asmI9/ZWkdR4VdPZhj74KKdzDSolsITmUvtCCsrEIJDezcmtb
-         59ixZvudl5hpRiG1yKdtN1wcLD2+iPOeTzjoKVD4HVfK64U5hf7ijr3apNVu3DSYns66
-         GgzkHbEd9Nbai7h20DXbwWCCKnNcgCMjnNOjKCwMEQy3psVzMJK9t3fLea8n3IQ3QOSU
-         ywDg==
+        bh=E+qYy9wxlqbNVk/fX19YXA25U2GbicIS2xFaXry74ek=;
+        b=QqOaz5Q2R5vbE7AcgiWUxXVlF94y3zB/Gbqt/j+rJy8c1pz1Y7uPoHZr7gPCT4RptP
+         QBD7V21xSlQVF3BzOxYj10FrG7bkA85D77BTh+Dx/wtOPMzBs4DfWwvTprfXLuNxZVHA
+         X+aTS2H/pteaFZ2QafIRV3tCz90lCIS4WbYXLPnoHej/wCIBKtDWUizlGHTOy+gOvdGB
+         j52tBgj8DhT1XtADzstNZTseepUfQFi4vsVmXTyfCO6ZFSh1RNji2StmrEHH+rb3UKVp
+         Liq7T/2YRR6ZRu3HKGW/52wUsSBpQdBVpXmg0NCJe97eooMx1HL7exj8QKkiWwXvBzxb
+         befg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726159920; x=1726764720;
+        d=1e100.net; s=20230601; t=1726159951; x=1726764751;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=El9c1hHBtJk1KwcOs+RS/kGDroFCnxhe1WGLlRa6rqc=;
-        b=TZZWHcNtnoRWt3EtuGz7LWgeD5niCWbsq2QfHbtzJb9GVE+wnRsxH7X7xE89j69qE9
-         nWu2ilXq4I9i6XG993G2kYi/9kS27edylh/z+Hr4evJLfZxv8fxL0NqVNXghU9rIPEnA
-         Ige+1OADMHJRpjGPdDmPSD8WJhWqlgSbW3dr9wwkhbb9iziZM+q3GAwM0VhfWPj3wnZI
-         IqTm/yWIVphET3AzoDiFPQ9T1Uulen67l8FAodxbpf3VRB9dJ04Tnftz+LoBZjWjYR4E
-         dpekF3ALNbNqXpFF5o+j3dx8RyuXTHimzJJ3AttuDNBJxm/ULxI2Hj5ovSmznsfVzM9O
-         o83g==
-X-Forwarded-Encrypted: i=1; AJvYcCViNtdLlkzTkdHqKhfjJ22PZu+tTRMhXYN1fUiFnLQtegM1zNvZKR/0zULtLw/lcRJCyZLma3Sq@vger.kernel.org, AJvYcCW7KPkrwD5WxhlD0A/Vn9lACsbthFW36UJgD/PHDHRDIZyQ70bhMIrdjBf0Mq/sSbY/wBbpAxq3KqyQx/hN+EDJIw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNOlGPl8aW6iqvpZr9VuysD/Je711rvyMH4TMD6rQczbUrBIgO
-	4RvYxcyGpNiyjan7SSNmhhj7GE1jLwtltPtt9d3jWhjb58xHW9xQ
-X-Google-Smtp-Source: AGHT+IF98ZqnSGCWeL4ZkiOt2HX6+Z1kuS/s2NUdxOCMQSBIx6ov+pm8VMcDP6zn5puTt5RgidFf1A==
-X-Received: by 2002:a17:907:60d4:b0:a8a:9054:8392 with SMTP id a640c23a62f3a-a9029115703mr332145566b.0.1726159919618;
-        Thu, 12 Sep 2024 09:51:59 -0700 (PDT)
+        bh=E+qYy9wxlqbNVk/fX19YXA25U2GbicIS2xFaXry74ek=;
+        b=PBAR4EldhgkokF4NDPGfjKI5q7L5btnyKj1J5KfFw3kG0YiWOkikQRPJMYCnWjIkGg
+         i7+LhQUYlsqJp2B0qJECnx3QeJUzg0vrOdJuVS3H8Mp1rHqdN37q7hxWkS4dXEM3UZsl
+         EvbBOFRUPSwm21Y7w5H2eiijhkCU8GdBfPWw7Wx3i2ps9DIrJT939AtbiRe8zv2xYrWL
+         DX2CBt6VSy3gLGe+62xW5xfWi1w3gzJcJD0Ymfq5yJswE6F/1fgHcnDmstS94pRxqbXf
+         7Jmgohokul4eOcVKnS6iXIb+MlkeGIzgGa/ZdhzQXBohcXkKaer6ynMriqRose0rY6bN
+         f15A==
+X-Forwarded-Encrypted: i=1; AJvYcCVM0OGpgC0fF50oRRNHQwOVs6qRRcqQ79+E8NEphV2OFbzQEfQ9ord1pK5Gsd6v6wZFPjBP1Q5a@vger.kernel.org, AJvYcCWCQurOfflWTDUBvzHnsRuU/2puoKEHZxf0N/m9KFyO9gUYKhLdLViA4rWPWds3ivmc9gykFRXRKDn4+NWHVtz/5A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw24+7CSmX7sY9lLCKY6WV+IHDMwRC4+JN5e2Vowr2Bwhdtl5Ug
+	CYK45HyErjUdeMr/etlxBeKHY+f0OiY6PIos3edX+eDIhlVYnJzG
+X-Google-Smtp-Source: AGHT+IEBFelGWCw7aog8FPm7T1HRJY0aXE1oegdawsGdecU5Q641ClOjJUeKQMkifehe3v4qqcM9HA==
+X-Received: by 2002:a05:6402:40c8:b0:5c2:6311:8445 with SMTP id 4fb4d7f45d1cf-5c413e0887bmr2821108a12.2.1726159950466;
+        Thu, 12 Sep 2024 09:52:30 -0700 (PDT)
 Received: from debian ([2a00:79c0:61c:8b00:224:9bff:fe22:6dd6])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d259267a6sm778061266b.51.2024.09.12.09.51.58
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c3ebd424e5sm6632468a12.10.2024.09.12.09.52.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Sep 2024 09:51:58 -0700 (PDT)
-Date: Thu, 12 Sep 2024 18:51:56 +0200
+        Thu, 12 Sep 2024 09:52:30 -0700 (PDT)
+Date: Thu, 12 Sep 2024 18:52:27 +0200
 From: Dimitri Fedrau <dima.fedrau@gmail.com>
 To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 Cc: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
@@ -78,11 +78,11 @@ Cc: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
 	Stefan Eichenberger <eichest@gmail.com>,
 	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [net-next 1/3] net: phy: marvell-88q2xxx: Align soft reset for
- mv88q2110 and mv88q2220
-Message-ID: <20240912165156.GA176933@debian>
+Subject: Re: [net-next 2/3] net: phy: marvell-88q2xxx: Make register writer
+ function generic
+Message-ID: <20240912165227.GB176933@debian>
 References: <20240906133951.3433788-1-niklas.soderlund+renesas@ragnatech.se>
- <20240906133951.3433788-2-niklas.soderlund+renesas@ragnatech.se>
+ <20240906133951.3433788-3-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -92,110 +92,106 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240906133951.3433788-2-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20240906133951.3433788-3-niklas.soderlund+renesas@ragnatech.se>
 
-Am Fri, Sep 06, 2024 at 03:39:49PM +0200 schrieb Niklas Söderlund:
-> The soft reset implementations for mv88q2110 and mv88q2220 differ as the
-> later need to consider that auto negation is supported on mv88q2220
-> devices. In preparation of enabling auto negotiation on mv88q2110 merge
-> the two rest functions into a device generic one.
+Am Fri, Sep 06, 2024 at 03:39:50PM +0200 schrieb Niklas Söderlund:
+> In preparation to adding auto negotiation support to mv88q2110 move and
+> rename the helper function used to write an array of register values to
+> the PHY.
 > 
-> The mv88q2220 behavior is kept as is but extended to wait for the reset
-> bit to be clears before continuing, as was done previously on mv88q2220.
+> Just as for mv88q2220 devices this helper will be needed to for the
+> initial configuration of the mv88q2110 to support auto negotiation.
+> 
+> The function is moved verbatim, there is no change in behavior.
 > 
 > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > ---
->  drivers/net/phy/marvell-88q2xxx.c | 60 ++++++++++++++-----------------
->  1 file changed, 26 insertions(+), 34 deletions(-)
+>  drivers/net/phy/marvell-88q2xxx.c | 40 +++++++++++++++----------------
+>  1 file changed, 20 insertions(+), 20 deletions(-)
 > 
 > diff --git a/drivers/net/phy/marvell-88q2xxx.c b/drivers/net/phy/marvell-88q2xxx.c
-> index c812f16eaa3a..850beb4b1722 100644
+> index 850beb4b1722..31f8c976e387 100644
 > --- a/drivers/net/phy/marvell-88q2xxx.c
 > +++ b/drivers/net/phy/marvell-88q2xxx.c
-> @@ -179,15 +179,34 @@ static int mv88q2xxx_soft_reset(struct phy_device *phydev)
->  	int ret;
->  	int val;
+> @@ -174,6 +174,21 @@ static const struct mmd_val mv88q222x_revb1_revb2_init_seq1[] = {
+>  	{ MDIO_MMD_PCS, 0xfe11, 0x1105 },
+>  };
 >  
-> -	ret = phy_write_mmd(phydev, MDIO_MMD_PCS,
-> -			    MDIO_PCS_1000BT1_CTRL, MDIO_PCS_1000BT1_CTRL_RESET);
-> +	/* Enable RESET of DCL */
-> +	if (phydev->autoneg == AUTONEG_ENABLE || phydev->speed == SPEED_1000) {
-> +		ret = phy_write_mmd(phydev, MDIO_MMD_PCS, 0xfe1b, 0x48);
+> +static int mv88q2xxx_write_mmd_vals(struct phy_device *phydev,
+> +				    const struct mmd_val *vals, size_t len)
+> +{
+> +	int ret;
+> +
+> +	for (; len; vals++, len--) {
+> +		ret = phy_write_mmd(phydev, vals->devad, vals->regnum,
+> +				    vals->val);
 > +		if (ret < 0)
 > +			return ret;
 > +	}
 > +
-> +	ret = phy_write_mmd(phydev, MDIO_MMD_PCS, MDIO_PCS_1000BT1_CTRL,
-> +			    MDIO_PCS_1000BT1_CTRL_RESET);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = phy_read_mmd_poll_timeout(phydev, MDIO_MMD_PCS,
-> +					MDIO_PCS_1000BT1_CTRL, val,
-> +					!(val & MDIO_PCS_1000BT1_CTRL_RESET),
-> +					50000, 600000, true);
->  	if (ret < 0)
->  		return ret;
->  
-> -	return phy_read_mmd_poll_timeout(phydev, MDIO_MMD_PCS,
-> -					 MDIO_PCS_1000BT1_CTRL, val,
-> -					 !(val & MDIO_PCS_1000BT1_CTRL_RESET),
-> -					 50000, 600000, true);
-> +	ret = phy_write_mmd(phydev, MDIO_MMD_PCS, 0xffe4, 0xc);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Disable RESET of DCL */
-> +	if (phydev->autoneg == AUTONEG_ENABLE || phydev->speed == SPEED_1000)
-> +		return phy_write_mmd(phydev, MDIO_MMD_PCS, 0xfe1b, 0x58);
-> +
 > +	return 0;
->  }
->  
->  static int mv88q2xxx_read_link_gbit(struct phy_device *phydev)
-> @@ -705,33 +724,6 @@ static int mv88q2xxx_probe(struct phy_device *phydev)
+> +}
+> +
+>  static int mv88q2xxx_soft_reset(struct phy_device *phydev)
+>  {
+>  	int ret;
+> @@ -724,33 +739,18 @@ static int mv88q2xxx_probe(struct phy_device *phydev)
 >  	return mv88q2xxx_hwmon_probe(phydev);
 >  }
 >  
-> -static int mv88q222x_soft_reset(struct phy_device *phydev)
+> -static int mv88q222x_write_mmd_vals(struct phy_device *phydev,
+> -				    const struct mmd_val *vals, size_t len)
 > -{
 > -	int ret;
 > -
-> -	/* Enable RESET of DCL */
-> -	if (phydev->autoneg == AUTONEG_ENABLE || phydev->speed == SPEED_1000) {
-> -		ret = phy_write_mmd(phydev, MDIO_MMD_PCS, 0xfe1b, 0x48);
+> -	for (; len; vals++, len--) {
+> -		ret = phy_write_mmd(phydev, vals->devad, vals->regnum,
+> -				    vals->val);
 > -		if (ret < 0)
 > -			return ret;
 > -	}
 > -
-> -	ret = phy_write_mmd(phydev, MDIO_MMD_PCS, MDIO_PCS_1000BT1_CTRL,
-> -			    MDIO_PCS_1000BT1_CTRL_RESET);
-> -	if (ret < 0)
-> -		return ret;
-> -
-> -	ret = phy_write_mmd(phydev, MDIO_MMD_PCS, 0xffe4, 0xc);
-> -	if (ret < 0)
-> -		return ret;
-> -
-> -	/* Disable RESET of DCL */
-> -	if (phydev->autoneg == AUTONEG_ENABLE || phydev->speed == SPEED_1000)
-> -		return phy_write_mmd(phydev, MDIO_MMD_PCS, 0xfe1b, 0x58);
-> -
 > -	return 0;
 > -}
 > -
->  static int mv88q222x_write_mmd_vals(struct phy_device *phydev,
->  				    const struct mmd_val *vals, size_t len)
+>  static int mv88q222x_revb0_config_init(struct phy_device *phydev)
 >  {
-> @@ -906,7 +898,7 @@ static struct phy_driver mv88q2xxx_driver[] = {
->  		.aneg_done		= genphy_c45_aneg_done,
->  		.config_init		= mv88q222x_config_init,
->  		.read_status		= mv88q2xxx_read_status,
-> -		.soft_reset		= mv88q222x_soft_reset,
-> +		.soft_reset		= mv88q2xxx_soft_reset,
->  		.config_intr		= mv88q2xxx_config_intr,
->  		.handle_interrupt	= mv88q2xxx_handle_interrupt,
->  		.set_loopback		= genphy_c45_loopback,
+>  	int ret;
+>  
+> -	ret = mv88q222x_write_mmd_vals(phydev, mv88q222x_revb0_init_seq0,
+> +	ret = mv88q2xxx_write_mmd_vals(phydev, mv88q222x_revb0_init_seq0,
+>  				       ARRAY_SIZE(mv88q222x_revb0_init_seq0));
+>  	if (ret < 0)
+>  		return ret;
+>  
+>  	usleep_range(5000, 10000);
+>  
+> -	ret = mv88q222x_write_mmd_vals(phydev, mv88q222x_revb0_init_seq1,
+> +	ret = mv88q2xxx_write_mmd_vals(phydev, mv88q222x_revb0_init_seq1,
+>  				       ARRAY_SIZE(mv88q222x_revb0_init_seq1));
+>  	if (ret < 0)
+>  		return ret;
+> @@ -764,17 +764,17 @@ static int mv88q222x_revb1_revb2_config_init(struct phy_device *phydev)
+>  	int ret;
+>  
+>  	if (is_rev_b1)
+> -		ret = mv88q222x_write_mmd_vals(phydev, mv88q222x_revb1_init_seq0,
+> +		ret = mv88q2xxx_write_mmd_vals(phydev, mv88q222x_revb1_init_seq0,
+>  					       ARRAY_SIZE(mv88q222x_revb1_init_seq0));
+>  	else
+> -		ret = mv88q222x_write_mmd_vals(phydev, mv88q222x_revb2_init_seq0,
+> +		ret = mv88q2xxx_write_mmd_vals(phydev, mv88q222x_revb2_init_seq0,
+>  					       ARRAY_SIZE(mv88q222x_revb2_init_seq0));
+>  	if (ret < 0)
+>  		return ret;
+>  
+>  	usleep_range(3000, 5000);
+>  
+> -	ret = mv88q222x_write_mmd_vals(phydev, mv88q222x_revb1_revb2_init_seq1,
+> +	ret = mv88q2xxx_write_mmd_vals(phydev, mv88q222x_revb1_revb2_init_seq1,
+>  				       ARRAY_SIZE(mv88q222x_revb1_revb2_init_seq1));
+>  	if (ret < 0)
+>  		return ret;
 > -- 
 > 2.46.0
 >
