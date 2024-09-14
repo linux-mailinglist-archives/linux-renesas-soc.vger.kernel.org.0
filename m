@@ -1,68 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-8961-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8962-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B453E97923B
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Sep 2024 19:03:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DDB69792F5
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Sep 2024 20:30:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DC2381C212E9
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Sep 2024 17:03:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AA6C31F210D8
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Sep 2024 18:30:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F02F1CF5E1;
-	Sat, 14 Sep 2024 17:03:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD26F1D130F;
+	Sat, 14 Sep 2024 18:30:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="XFXCeKKS"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="jN/kQzvY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.smtpout.orange.fr (smtp-20.smtpout.orange.fr [80.12.242.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D196817BCA
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 14 Sep 2024 17:02:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251491D2239
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 14 Sep 2024 18:30:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726333381; cv=none; b=u3FL0/MRyif+xFgTrHRAkqHvCqQtiRnyWF+eGufZahygiJjZ97s4t6UWHB406AluVI5C6/kgC1OpvF/lksoPzLL+9dI3RYQNE1AEno0KMrg4hiI6OSHgceguYOPzrl9VhMomak33+e+sCAhz1IvK08lLER5u9mVjqjplX5vvPNg=
+	t=1726338618; cv=none; b=Ig4o0W5MWdT6VG2C3bgCa1qPOpdvmDcp2KITbO8RmMp4ZaKynrg4l2O9SLFI5p9vVSAqJv3o6AjRcgHNKMIWhSD6vnDOqoVR/yRsMwM2uyzIIbwRvOcH00EUCdj0p7awhukntY2VFY1394q0joq5wtJ6RJQBhVRy6GYQnN0cvyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726333381; c=relaxed/simple;
-	bh=CfOgQpo0wd5FNYZlcNhUIiMkd4jJ7pzoQSKISw4XJu0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EmyeGJphRIrKDjGynAAkdyvZznYMt05ZSKxmKWU7T7o21C36lcunDOp8Zx7Rufl5Y5W8Jnb1dLtQPbqypGPlIgmwNo3CVgd7rmJ4ESH7pyx2NJxZ9QY7yVCzsWw4PPXVnTUZb5yP16pJtW6KNWA1flZ53uzB1NaYXb+MQ188CFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=XFXCeKKS; arc=none smtp.client-ip=80.12.242.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from fedora.home ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id pWAYsZyXRERiZpWAZsSBCx; Sat, 14 Sep 2024 19:02:51 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1726333371;
-	bh=9mmHPrhPQ42BfgqjlGF5PD7LXLG84dsNAms6oZMuxi8=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=XFXCeKKSgs/6kEZR+yw8/6YixXB2Ry4EgFcEoDs730RFo8/mVKjYYcz769o/M9usl
-	 f3ZanConqPx6SBi2+cViQDQZgqiOisduInT/PDD1obuCa4A43nilp+v6UEp42Gaec0
-	 X+OgTrPmaqVmnt4o8hDlW/z80AscVjI+RP6PZ2Kx58FQecBcWvp1whSasZxOQquz/W
-	 r6bu1QH553Bu4oGAzJDQQG/ykTgGI3BLxLlnoVXl/YUXarNqd0BJpCO9CJ4Ts+Qiy4
-	 JQYAWQpX/SKoAXurjVrUcjqZwBcvGodhJrniBkVkxpdSuBXQqX/QjFPSXRJQ8agSrE
-	 Ir6aUFAU5jaQw==
-X-ME-Helo: fedora.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sat, 14 Sep 2024 19:02:51 +0200
-X-ME-IP: 90.11.132.44
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: biju.das.jz@bp.renesas.com,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-phy@lists.infradead.org
-Subject: [PATCH v4] phy: renesas: rcar-gen3-usb2: Fix an error handling path in rcar_gen3_phy_usb2_probe()
-Date: Sat, 14 Sep 2024 19:02:44 +0200
-Message-ID: <1457c401e3cdf792c5170f5c703cb24de137c19a.1726333335.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.46.0
+	s=arc-20240116; t=1726338618; c=relaxed/simple;
+	bh=EQ93nZSDGHLyBey8wgh1gxUSuoEk4PtupfSEChU/0Kw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QSNwi0jWyVWF00FWrt+nDYI+TXsZnhWmYD8PDQO9FhH+nMIKcugQmuPHNexgXF2BJHkJ0AJJ/nREn9E5RarCTjxTt5zzKz1sZXatyHBLi21ID0sktSLyi6agBI3oR40P+IlqS9vK45WBV3INxFbQ6cpFRY55f0oXsKi7a9xXNMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=jN/kQzvY; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=GvysVu0PhnkMft
+	9fkJoOIHZ3G0gRGbte7iX2P5NSMF0=; b=jN/kQzvYddBXxQ5+VA67fKKJQQOeab
+	0TIgRjf7sWjhVpHDZXxI5QM1PtCpTJ8tXgu8OND2YssumkU8nfzjxe4pYiKJ3rpq
+	uic08txEdMA7ZeJdU3H5oyQQfEVW3p9W3aipkIs8YeguPZxjEMFuULNv8FKO2p/x
+	3MMcgiYDb17gV66NWEaHC+R3zJcTqZQ9eRh6ZEJSwJqmDKguwzcTwAlD6zt4dm+N
+	oj1J9ncVVFGdHsYon4/jS2hDDHF4dOCJnC/oZ/3u1t1rseX+nUM1K5O/24NKqFx5
+	uvVRh1h5gw0f+JbpB7Wsf5wEatd4S1urI83fy9lGQ52IxCm/L5a6gMvg==
+Received: (qmail 1531060 invoked from network); 14 Sep 2024 20:30:05 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Sep 2024 20:30:05 +0200
+X-UD-Smtp-Session: l3s3148p1@rvdVhxgiUrlQT+F6
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org
+Subject: [PATCH] ARM: dts: renesas: genmai: Fix partition size for QSPI NOR Flash
+Date: Sat, 14 Sep 2024 20:28:44 +0200
+Message-ID: <20240914182948.94031-2-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -71,76 +63,34 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If an error occurs after the reset_control_deassert(),
-reset_control_assert() must be called, as already done in the remove
-function.
+Second partition was too large, looks like two digits got mixed up.
+Fixes:
 
-Use devm_add_action_or_reset() to add the missing call and simplify the
-.remove() function accordingly.
+mtd: partition "user1" extends beyond the end of device "18000000.flash" -- size truncated to 0x4000000
 
-Fixes: 4eae16375357 ("phy: renesas: rcar-gen3-usb2: Add support to initialize the bus")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Fixes: 30e0a8cf886c ("ARM: dts: renesas: genmai: Add FLASH nodes")
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
-This patch changes the order of function calls when releasing the resources
-in the .remove function(). Looks fine to me, but pm_ functions are
-sometimes tricky.
 
-Changes in v4:
-  - Use the error handling path in rcar_gen3_phy_usb2_init_bus()
+As you can see, I got my Genmai board working again \o/
 
-Changes in v3:
-  - Use devm_add_action_or_reset()   [Biju Das]
-v3: https://lore.kernel.org/all/290b25827e3f0742808940719455ff0c5cb9d01d.1726329925.git.christophe.jaillet@wanadoo.fr/
+ arch/arm/boot/dts/renesas/r7s72100-genmai.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes in v2: (broken proposal)
-  - Re-use 'error' to simplify the patch   [claudiu beznea]
-  - Update the commit description to explain why it is safe.
-v2: https://lore.kernel.org/all/4efe2d0419cbe98163e2422ebe0c7896b8a5efed.1725717505.git.christophe.jaillet@wanadoo.fr/
-
-v1: https://lore.kernel.org/all/fc9f7b444f0ca645411868992bbe16514aeccfed.1725652654.git.christophe.jaillet@wanadoo.fr/
----
- drivers/phy/renesas/phy-rcar-gen3-usb2.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-index 58e123305152..f900fe42c311 100644
---- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-+++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-@@ -668,6 +668,13 @@ static enum usb_dr_mode rcar_gen3_get_dr_mode(struct device_node *np)
- 	return candidate;
- }
+diff --git a/arch/arm/boot/dts/renesas/r7s72100-genmai.dts b/arch/arm/boot/dts/renesas/r7s72100-genmai.dts
+index 63f9f679964b..c835d61fc20d 100644
+--- a/arch/arm/boot/dts/renesas/r7s72100-genmai.dts
++++ b/arch/arm/boot/dts/renesas/r7s72100-genmai.dts
+@@ -54,7 +54,7 @@ partition@0 {
  
-+static void rcar_gen3_reset_assert(void *data)
-+{
-+	struct reset_control *rstc = data;
-+
-+	reset_control_assert(rstc);
-+}
-+
- static int rcar_gen3_phy_usb2_init_bus(struct rcar_gen3_chan *channel)
- {
- 	struct device *dev = channel->dev;
-@@ -686,6 +693,11 @@ static int rcar_gen3_phy_usb2_init_bus(struct rcar_gen3_chan *channel)
- 	if (ret)
- 		goto rpm_put;
- 
-+	ret = devm_add_action_or_reset(dev, rcar_gen3_reset_assert,
-+				       channel->rstc);
-+	if (ret)
-+		goto rpm_put;
-+
- 	val = readl(channel->base + USB2_AHB_BUS_CTR);
- 	val &= ~USB2_AHB_BUS_CTR_MBL_MASK;
- 	val |= USB2_AHB_BUS_CTR_MBL_INCR4;
-@@ -815,7 +827,6 @@ static void rcar_gen3_phy_usb2_remove(struct platform_device *pdev)
- 	if (channel->is_otg_channel)
- 		device_remove_file(&pdev->dev, &dev_attr_role);
- 
--	reset_control_assert(channel->rstc);
- 	pm_runtime_disable(&pdev->dev);
- };
- 
+ 			partition@4000000 {
+ 				label = "user1";
+-				reg = <0x04000000 0x40000000>;
++				reg = <0x04000000 0x04000000>;
+ 			};
+ 		};
+ 	};
 -- 
-2.46.0
+2.45.2
 
 
