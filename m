@@ -1,112 +1,141 @@
-Return-Path: <linux-renesas-soc+bounces-8970-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8972-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B049797B0E2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2024 15:42:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5096A97B114
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2024 16:10:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7A1C8288BF0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2024 13:42:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5C6A21C20FA7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2024 14:10:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 743191662F6;
-	Tue, 17 Sep 2024 13:40:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C95DE176AD8;
+	Tue, 17 Sep 2024 14:10:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VG3kdr51"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A3116B75B
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Sep 2024 13:40:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72EF420323;
+	Tue, 17 Sep 2024 14:10:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726580458; cv=none; b=MAfAaSlLHwO+nQ4icjQgDy64VLmUWyyj57fBqd6D+c0kPl2298IC3cZ4X61DiG2NkutwnOjmsZksDNuDdB11Ieszh5KH3OyqgFOQts90YchzR/24pulcgb6kzhOYNFD5QmEuJQC2vRPFoHCyqB94uyHqeliMkR8cOuwrzTBYes4=
+	t=1726582210; cv=none; b=YGakTErVjleyk7QY3rT14XyPDYkCPoYJICwbeUehf6jdkJ03u16hiAaMkYy1efcTnNGJj/i3V9rVVsMC3k/o3/JZxUNSETh0vjmZrnLzghSK/YiUA54jlvDNzCK1ZztvHL9sgcEydbC3pniO2TxgJdaH031wsLf6P4VAeWMNq2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726580458; c=relaxed/simple;
-	bh=er/Zag/IlU8zzwbmwesjc+cjWpaAStHNXjD+F0U9qog=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=JceSDcwPfKWhQACik46bktvX3c0uX7FzaE63MmotxKJ1ylsMZiUeo1qq8llBN8bA/EUbqQX9g6rwmL3RE+0/Vf+KXc7ZMxWw3HeuhcksqYu2wMU9kPUf4vhApsUvt6QzmedNVCPY9At54lx6Aj+qM3Vd0g/JCeARRdoqwnUlpZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.1.108] (178.176.75.202) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Tue, 17 Sep
- 2024 16:40:36 +0300
-Message-ID: <3acac3fb-7e23-8d8d-974e-dec7bffb8125@omp.ru>
-Date: Tue, 17 Sep 2024 16:40:14 +0300
+	s=arc-20240116; t=1726582210; c=relaxed/simple;
+	bh=iXygWqgsvlZ4USdjE4KG4+lh1cAoIA2R/07pye8+siE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=p/w6HP+GOIznF/i3BrZUFE3H4L96iBKF9UsMJ5cipIURq+PmGmOC2sSFBZB6gFA1p5pN0NpF/ycYlp+PynKIE6QtQkb3hh0+kAZh/gGHL9BQrTLc+GuzrGBZ+6BjjbBm6CUl/Z9WiPsN84tuIGcsbLwB7mg1MfIWYh1ARhlWczc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=VG3kdr51; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [127.0.1.1] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3169C514;
+	Tue, 17 Sep 2024 16:08:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1726582123;
+	bh=iXygWqgsvlZ4USdjE4KG4+lh1cAoIA2R/07pye8+siE=;
+	h=From:Subject:Date:To:Cc:From;
+	b=VG3kdr51W/mcljJnuI5jmfFlx9vMwlUlJ8eihLsUEbEpJZpTxzvkW3pa/ME3GIb/+
+	 v5NRBn0Fwbx5UJ8LzKspKjohBK+g25z4dRzuUrPXXw4Y2ZdkE9qN30Bhdrtn/5SUAJ
+	 a/odRGXoTVeBOaUXprgsGYOt4Oxcnndw9oO1P+KA=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH 0/4] media: v4l2-subdev: Add cleanup macros for active
+ state
+Date: Tue, 17 Sep 2024 17:09:28 +0300
+Message-Id: <20240917-scoped-state-v1-0-b8ba3fbe5952@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH] RISC-V: defconfig: Remove ARCH_RENESAS
-Content-Language: en-US
-To: Palmer Dabbelt <palmer@rivosinc.com>, <prabhakar.csengg@gmail.com>,
-	<geert+renesas@glider.be>
-CC: <linux-riscv@lists.infradead.org>, <linux-renesas-soc@vger.kernel.org>
-References: <20240917131936.18980-1-palmer@rivosinc.com>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-In-Reply-To: <20240917131936.18980-1-palmer@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.1, Database issued on: 09/17/2024 13:30:04
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 187802 [Sep 17 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.1.5
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 34 0.3.34
- 8a1fac695d5606478feba790382a59668a4f0039
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info:
-	d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1;127.0.0.199:7.1.2
-X-KSE-AntiSpam-Info: FromAlignment: s
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.75.202
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 09/17/2024 13:33:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 9/17/2024 11:32:00 AM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-B4-Tracking: v=1; b=H4sIAJmN6WYC/x3MQQqAIBBA0avErBNMi7CrRAvTqWaj4UgE4t2Tl
+ m/xfwHGRMiwdAUSPsQUQ8PQd+AuG04U5JtBSTVKM8yCXbzRC842o7DGTM5Jv1utoSV3woPef7d
+ utX675DINXgAAAA==
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2320;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=iXygWqgsvlZ4USdjE4KG4+lh1cAoIA2R/07pye8+siE=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBm6Y23aU4AVMm7kTVvvMNhihlpGEH+U6rQxs59S
+ xHxmcjFq0mJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZumNtwAKCRD6PaqMvJYe
+ 9Yu7D/439cuminfFl9puxve5vBS0uUeIweAZws2iN9f0jq4PSj+nwvXsIcDZLMHqJi76BVWaWz+
+ I7k3/gIjs5PZe8aUqoqq8Jc5vE59/ISGNsCgLxZZszvbvUghR0s9G1RwPmu83OSmVTNDWwrBaAx
+ lJxT03hbmVfZORyan9Om/FFOXch9jc0YXp69QuQN/znU+5e8+dCTdC0CBCAImbLskD/s06Lczba
+ kIDn6/PlmG4VZ4L7tynotfipfZlB4wWJGEOEesFBD7URkxW1gw6FZLz5ipiLbhBFRHi+eamkv2d
+ up6gazJp4ZMy2H326nUD6byYiAlA1IXDFtiofvZmKCln+eR4e9MyL283pEVkiCFcDEGzJ2sk46F
+ 5cOqube5lnVAuuxjNHgpDqmbBzyyWAVrN6kUFMa8wgk6WtjUjiQLmj90+3IqW0Ke1jaHQhtwqQO
+ 4FoUKZ3OemNxw8qVGpOgfBvBkZ/vk8asxl3N7xJEt+CTbdOyZHRYSVreoFC8/mARGEedj2+LL/K
+ erT05Fp5IAirKj+q3RWB0BIn/WoffaYyhVgdZPEOTVVFnzOzfT9MVDSv075fTNADFduMd5+XaNI
+ 9W3rZ1/xNEO04ynivJg23rEr1UijT0e1AxOUjQad0xYer52yFDP76kKriPQbsN4RbTC/OJ4TRd6
+ QNjQR+RsZ4SqI/w==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-On 9/17/24 16:19, Palmer Dabbelt wrote:
+Add cleanup macros for the subdev active state. While we could add more
+macros to handle state locking in different situations, I believe the
+two macros introduced here are the ones most often needed.
 
-> The RZ/Five is gated behind CONFIG_NONPORTABLE because of the DMA pool
-> issue.  e36ddf322686 ("riscv: defconfig: Disable RZ/Five peripheral
+A few drivers are changed to use the macros, as an example.
 
-   Commit e36ddf322686?
+A few thoughts:
 
-> support") removes the drivers, so let's remove the rest of the vendor
-> support as well -- users of these will already have to play aruond with
+The scoped_v4l2_subdev_lock_and_get_active_state() macro will define an
+implicitly named 'state' variable inside the scope. This is a bit
+similar to scoped_guard(), which defined an implicitly named 'scope'
+variable. However, adding the name of the variable as a parameter to the
+macro is an easy addition, if needed. Then the usage would be:
 
-   Around. :-)
+    scoped_v4l2_subdev_lock_and_get_active_state(subdev, state) {
+    }
 
-> kernel configs, so this shouldn't be much of a burden.
-> 
-> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
-[...]
+Using the CLASS() version does take the name of the variable. The two
+macros also look quite different, so I wonder if we should make a helper
+macro to hide the CLASS() usage (I don't know what to call it...):
 
-MBR, Sergey
+    #define init_v4l2_subdev_lock_and_get_active_state(sd) \
+         CLASS(v4l2_subdev_lock_and_get_active_state, state)(sd)
+
+The macro names are quite long, but so is the function name of
+'v4l2_subdev_lock_and_get_active_state', which these macros often
+replace.
+
+ Tomi
+
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+---
+Tomi Valkeinen (4):
+      media: v4l2-subdev: Add cleanup macros for active state
+      media: v4l2-subdev: Use state cleanup macros
+      media: renesas: Use state cleanup macros
+      media: i2c: ds90ub9xx: Use state cleanup macros
+
+ drivers/media/i2c/ds90ub913.c                      | 11 +++------
+ drivers/media/i2c/ds90ub953.c                      | 11 +++------
+ drivers/media/i2c/ds90ub960.c                      | 27 +++++++---------------
+ drivers/media/platform/renesas/rcar-csi2.c         | 14 ++++-------
+ .../media/platform/renesas/rzg2l-cru/rzg2l-csi2.c  |  9 ++++----
+ .../media/platform/renesas/rzg2l-cru/rzg2l-ip.c    |  9 ++------
+ drivers/media/v4l2-core/v4l2-subdev.c              | 14 +++--------
+ include/media/v4l2-subdev.h                        | 10 ++++++++
+ 8 files changed, 37 insertions(+), 68 deletions(-)
+---
+base-commit: 98f7e32f20d28ec452afb208f9cffc08448a2652
+change-id: 20240917-scoped-state-a995cc0dba33
+
+Best regards,
+-- 
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
 
