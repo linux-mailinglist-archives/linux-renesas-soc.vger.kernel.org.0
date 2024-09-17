@@ -1,283 +1,144 @@
-Return-Path: <linux-renesas-soc+bounces-8975-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8976-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AE6E97B11D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2024 16:11:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 871A797B23E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2024 17:49:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DBB941F22A20
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2024 14:11:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3BD9D1F2678C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2024 15:49:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD2C8187FFC;
-	Tue, 17 Sep 2024 14:10:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lOShdXFy"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22553186E37;
+	Tue, 17 Sep 2024 15:42:11 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from gauss.telenet-ops.be (gauss.telenet-ops.be [195.130.132.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5AC1865FB;
-	Tue, 17 Sep 2024 14:10:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDD5193417
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Sep 2024 15:41:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726582216; cv=none; b=kwVfsxAZZblgYRTGXwhfFLiPeu6bGBZX/e8B0Kcw7K1rWZmb5z6ArNfRd9lm3FiIPc1mceen1GyuE+MX8qdCRoV1jFFOBAaDHrRM4R+Zl+OK4MXQ2aDL16Tiv5ttfCNHWw2xiR3GHzgtIXRDdDoRLXN7d+YjdcBVJ/fkNoPdMvs=
+	t=1726587730; cv=none; b=AGe2z5PZVzY1d4L8liWimE8ucv5ZT/aBCSmaZ++FH/sYJ/qOshNNGs1XVpbpkIVoqneySltW1DFR5GfhK0p+IkqZTuj6bvZRFoEtBprawpt4GFuUjLatSa/hW6n58FHfXw2zExO8d+wOo1btOx2tjAp6DEYj9mZcTk2fvpUZWlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726582216; c=relaxed/simple;
-	bh=MQejPUhA+YLEWckuXq06Okd8VmXhHdkXVmMWosZvBuA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZTsZZTTYhFXCEjnrpCJAZN355SsMcCYRLjBBqD4bVNQ2TnhY5onts2QN5KKEMDYtgcZXtJ1+HEGErhOtw63Kx2rpYUEv6IETLCQ0bwUWhu5Y4WZz5HNTehmtOmFd401+IfuB08AMvunemb8J1dp6I+yp8gPc2m3IbhEHMXRKbFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lOShdXFy; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [127.0.1.1] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B0A3AF86;
-	Tue, 17 Sep 2024 16:08:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1726582126;
-	bh=MQejPUhA+YLEWckuXq06Okd8VmXhHdkXVmMWosZvBuA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=lOShdXFyeyghnksDq3BUEuaAHxnMrKyuEQgc5wKLPICFYn0EVRTnbJOSlpZ5AETlK
-	 qz0hiKaD8bx4l+bA6Yr69EQOo2Ru/F0zbWgdz20Ug2aIJStfwB363kv3M6TYsyKqNJ
-	 ltBKkzppKTd/O3ACPDMsT3FRT5j6fKwD4hZ6wi6U=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Tue, 17 Sep 2024 17:09:32 +0300
-Subject: [PATCH 4/4] media: i2c: ds90ub9xx: Use state cleanup macros
+	s=arc-20240116; t=1726587730; c=relaxed/simple;
+	bh=LzCNQCRrb+Fr6EliuAEl0y3EsNA9GFkW4uKfJWFQAic=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=kk7zlKZBRKox3jZS0l2YoSHpd5ebUCZd9DMz1wHPxw2XC5/b5lDeYWNnP6kkFnxVQ1DmRoYR6T0BcuuKAfKCbewIh20qXzICcK1UItMX20gHY4ZNH79iXleXC86cmTe07l4xdxyRZVOwyYm2I+0lAYJ8Uz1zjh81cLdSev5rsiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+	by gauss.telenet-ops.be (Postfix) with ESMTPS id 4X7QnX5FWlz4wx6K
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Sep 2024 17:34:40 +0200 (CEST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:969e:4ec:b24f:3e0e])
+	by michel.telenet-ops.be with cmsmtp
+	id DTaY2D00F08ixsY06TaYV4; Tue, 17 Sep 2024 17:34:33 +0200
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1sqaDo-0001fX-Pm
+	for linux-renesas-soc@vger.kernel.org;
+	Tue, 17 Sep 2024 17:34:32 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1sqaDo-0001D3-N1
+	for linux-renesas-soc@vger.kernel.org;
+	Tue, 17 Sep 2024 17:34:32 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2024-09-17-v6.11
+Date: Tue, 17 Sep 2024 17:34:32 +0200
+Message-Id: <20240917153432.4642-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240917-scoped-state-v1-4-b8ba3fbe5952@ideasonboard.com>
-References: <20240917-scoped-state-v1-0-b8ba3fbe5952@ideasonboard.com>
-In-Reply-To: <20240917-scoped-state-v1-0-b8ba3fbe5952@ideasonboard.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6178;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=jLqnCfsN8nWchZxolR03Bfc5Bu6MqE3ssrg54dj55Ws=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBm6Y28wB6Ai7xXG80tcbePYq2sntO19C9gE02uH
- /PaWbLMZL6JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZumNvAAKCRD6PaqMvJYe
- 9SjYD/90l4x4d+2tL/hXEM8LzacA4AJAFJD7izawzpBX7JaoQdz/Ixk4yITPnA2mobPeajwrgWm
- KDs1DDVmmvJ2mV5T2lo8rRdA7t6mHuuhyEw8BYEb1LX1UUJQMCTLf9fInREGC2rikDFn/U4c2Ob
- 7LUa7btVgJpWwDjtxT2N8HmbrseqX7OCQEZgAzsX/qywGU/8qAL/mMoaZTC0ftazkqb9T4cTvQT
- iqUR1K11wv8SiKvXyEnzDFDYfMQUOGaMkEKukrzzR6pQRQ4hn5sjk2+xd6/o6y7x3KMVwBouYfC
- 5CGCd7sZyQ+EbxwnUDITLJHNAqJun365W0KZhciXHVfAjP0hThDBhbp4aJDextQh1U7ArUQLQFc
- LxU2z4hSSEst8hZfrhJGpAX+zaD1umPTikraTgkIsnmJEIR8ecqKpP5iqfgXLtGorhb8HT006Cz
- +6xBzoxi/7dSouWql8xIYzvOraIVCiKwACoYQV2uOAXovz0947WBcFkNcykBo0yuoHzU8o/O9Dq
- hQ9kuDt7BunsnM/U7vSBktDXlPhmEdk+PVHzgQRcDaXbrQC/lYvRRi7UrxR0Xl9ywzznVzunbc/
- 4sOpdeM3oqSAoRSez8lDAkO06bcwkxxXcVuAzF+L4mGC1j5W/6IO3JFwCWMTcBla9DS+wX50DOw
- Ct3S0oZ3RdGwZyQ==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
+Content-Transfer-Encoding: 8bit
 
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+I have pushed renesas-drivers-2024-09-17-v6.11 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-Use the new subdev state cleanup macros.
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM and RISC-V SoCs.  It is created by merging (a) the
+for-next branches of various subsystem trees and (b) branches with
+driver code submitted or planned for submission to maintainers into the
+master branch of my renesas-devel.git tree.
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
----
- drivers/media/i2c/ds90ub913.c | 11 +++--------
- drivers/media/i2c/ds90ub953.c | 11 +++--------
- drivers/media/i2c/ds90ub960.c | 27 ++++++++-------------------
- 3 files changed, 14 insertions(+), 35 deletions(-)
+Today's version is based on renesas-devel-2024-09-16-v6.11.
 
-diff --git a/drivers/media/i2c/ds90ub913.c b/drivers/media/i2c/ds90ub913.c
-index ca9bb29dab89..7a53b68db1b4 100644
---- a/drivers/media/i2c/ds90ub913.c
-+++ b/drivers/media/i2c/ds90ub913.c
-@@ -351,7 +351,6 @@ static int ub913_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 	const struct v4l2_subdev_krouting *routing;
- 	struct v4l2_mbus_frame_desc source_fd;
- 	struct v4l2_subdev_route *route;
--	struct v4l2_subdev_state *state;
- 	int ret;
- 
- 	if (pad != UB913_PAD_SOURCE)
-@@ -364,7 +363,7 @@ static int ub913_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 
- 	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL;
- 
--	state = v4l2_subdev_lock_and_get_active_state(sd);
-+	CLASS(v4l2_subdev_lock_and_get_active_state, state)(sd);
- 
- 	routing = &state->routing;
- 
-@@ -382,8 +381,7 @@ static int ub913_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 		if (i == source_fd.num_entries) {
- 			dev_err(&priv->client->dev,
- 				"Failed to find stream from source frame desc\n");
--			ret = -EPIPE;
--			goto out_unlock;
-+			return -EPIPE;
- 		}
- 
- 		fd->entry[fd->num_entries].stream = route->source_stream;
-@@ -395,10 +393,7 @@ static int ub913_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 		fd->num_entries++;
- 	}
- 
--out_unlock:
--	v4l2_subdev_unlock_state(state);
--
--	return ret;
-+	return 0;
- }
- 
- static int ub913_set_fmt(struct v4l2_subdev *sd,
-diff --git a/drivers/media/i2c/ds90ub953.c b/drivers/media/i2c/ds90ub953.c
-index 16f88db14981..131b1523c3a5 100644
---- a/drivers/media/i2c/ds90ub953.c
-+++ b/drivers/media/i2c/ds90ub953.c
-@@ -488,7 +488,6 @@ static int ub953_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 	struct ub953_data *priv = sd_to_ub953(sd);
- 	struct v4l2_mbus_frame_desc source_fd;
- 	struct v4l2_subdev_route *route;
--	struct v4l2_subdev_state *state;
- 	int ret;
- 
- 	if (pad != UB953_PAD_SOURCE)
-@@ -501,7 +500,7 @@ static int ub953_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 
- 	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
- 
--	state = v4l2_subdev_lock_and_get_active_state(sd);
-+	CLASS(v4l2_subdev_lock_and_get_active_state, state)(sd);
- 
- 	for_each_active_route(&state->routing, route) {
- 		struct v4l2_mbus_frame_desc_entry *source_entry = NULL;
-@@ -520,8 +519,7 @@ static int ub953_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 		if (!source_entry) {
- 			dev_err(&priv->client->dev,
- 				"Failed to find stream from source frame desc\n");
--			ret = -EPIPE;
--			goto out_unlock;
-+			return -EPIPE;
- 		}
- 
- 		fd->entry[fd->num_entries].stream = route->source_stream;
-@@ -536,10 +534,7 @@ static int ub953_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 		fd->num_entries++;
- 	}
- 
--out_unlock:
--	v4l2_subdev_unlock_state(state);
--
--	return ret;
-+	return 0;
- }
- 
- static int ub953_set_fmt(struct v4l2_subdev *sd,
-diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-index ffe5f25f8647..e873611bf5c7 100644
---- a/drivers/media/i2c/ds90ub960.c
-+++ b/drivers/media/i2c/ds90ub960.c
-@@ -2777,7 +2777,6 @@ static int ub960_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- {
- 	struct ub960_data *priv = sd_to_ub960(sd);
- 	struct v4l2_subdev_route *route;
--	struct v4l2_subdev_state *state;
- 	int ret = 0;
- 	struct device *dev = &priv->client->dev;
- 	u8 vc_map[UB960_MAX_RX_NPORTS] = {};
-@@ -2787,7 +2786,7 @@ static int ub960_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 
- 	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
- 
--	state = v4l2_subdev_lock_and_get_active_state(&priv->sd);
-+	CLASS(v4l2_subdev_lock_and_get_active_state, state)(&priv->sd);
- 
- 	ub960_get_vc_maps(priv, state, vc_map);
- 
-@@ -2810,7 +2809,7 @@ static int ub960_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 			dev_err(dev,
- 				"Failed to get source frame desc for pad %u\n",
- 				route->sink_pad);
--			goto out_unlock;
-+			return ret;
- 		}
- 
- 		for (i = 0; i < source_fd.num_entries; i++) {
-@@ -2823,8 +2822,7 @@ static int ub960_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 		if (!source_entry) {
- 			dev_err(dev,
- 				"Failed to find stream from source frame desc\n");
--			ret = -EPIPE;
--			goto out_unlock;
-+			return -EPIPE;
- 		}
- 
- 		fd->entry[fd->num_entries].stream = route->source_stream;
-@@ -2844,16 +2842,13 @@ static int ub960_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 			fmt = v4l2_subdev_state_get_format(state, pad,
- 							   route->source_stream);
- 
--			if (!fmt) {
--				ret = -EINVAL;
--				goto out_unlock;
--			}
-+			if (!fmt)
-+				return -EINVAL;
- 
- 			ub960_fmt = ub960_find_format(fmt->code);
- 			if (!ub960_fmt) {
- 				dev_err(dev, "Unable to find format\n");
--				ret = -EINVAL;
--				goto out_unlock;
-+				return -EINVAL;
- 			}
- 
- 			fd->entry[fd->num_entries].bus.csi2.dt =
-@@ -2863,10 +2858,7 @@ static int ub960_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 		fd->num_entries++;
- 	}
- 
--out_unlock:
--	v4l2_subdev_unlock_state(state);
--
--	return ret;
-+	return 0;
- }
- 
- static int ub960_set_fmt(struct v4l2_subdev *sd,
-@@ -2944,14 +2936,13 @@ static int ub960_log_status(struct v4l2_subdev *sd)
- {
- 	struct ub960_data *priv = sd_to_ub960(sd);
- 	struct device *dev = &priv->client->dev;
--	struct v4l2_subdev_state *state;
- 	unsigned int nport;
- 	unsigned int i;
- 	u16 v16 = 0;
- 	u8 v = 0;
- 	u8 id[UB960_SR_FPD3_RX_ID_LEN];
- 
--	state = v4l2_subdev_lock_and_get_active_state(sd);
-+	CLASS(v4l2_subdev_lock_and_get_active_state, state)(sd);
- 
- 	for (i = 0; i < sizeof(id); i++)
- 		ub960_read(priv, UB960_SR_FPD3_RX_ID(i), &id[i]);
-@@ -3078,8 +3069,6 @@ static int ub960_log_status(struct v4l2_subdev *sd)
- 		}
- 	}
- 
--	v4l2_subdev_unlock_state(state);
--
- 	return 0;
- }
- 
+Included branches with driver code:
+  - renesas-clk-for-v6.12
+  - renesas-pinctrl-for-v6.12
 
--- 
-2.43.0
+Included fixes:
+  - [TEST] soc: renesas: rcar-rst: Enable WDT reset on early R-Car V4M
+  - ARM: shmobile: defconfig: Update shmobile_defconfig
+  - [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
 
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#main
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/i2c-host-fixes
+  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/i2c-host
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - https://gitlab.freedesktop.org/drm/kernel.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git#pwm/for-next
+  - https://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rmk/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://git.kernel.org/pub/scm/linux/kernel/git/libata/linux#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - https://gitlab.freedesktop.org/drm/misc/kernel.git#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/glaubitz/sh-linux.git#for-next
+  - git://git.pengutronix.de/git/pza/linux#reset/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#fixes
+  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/andy/linux-auxdisplay.git#for-next
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
