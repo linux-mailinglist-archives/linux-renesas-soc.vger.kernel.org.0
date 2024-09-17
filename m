@@ -1,232 +1,112 @@
-Return-Path: <linux-renesas-soc+bounces-8969-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-8970-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8505097B0B0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2024 15:21:00 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B049797B0E2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2024 15:42:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A9EFD1C21A18
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2024 13:20:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7A1C8288BF0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2024 13:42:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0299D16B38B;
-	Tue, 17 Sep 2024 13:20:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b="rIZ0pqYD"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 743191662F6;
+	Tue, 17 Sep 2024 13:40:58 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B80BA4C66
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Sep 2024 13:20:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A3116B75B
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Sep 2024 13:40:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726579255; cv=none; b=AJowKR+vSRachFarFsf3E/YPweXb4m4HiXGOzHoMesAV2VNaHcKRFon6mJf3EQTQBw9jsYcsVShV90lMrTBeD4YHDKYSYOVZsukhwRGe8VAnMQbccI41m98zl03Ai5yxE8q7CuByT8MEY0787P4SzamZNsUjIgWNjzohejc1f8s=
+	t=1726580458; cv=none; b=MAfAaSlLHwO+nQ4icjQgDy64VLmUWyyj57fBqd6D+c0kPl2298IC3cZ4X61DiG2NkutwnOjmsZksDNuDdB11Ieszh5KH3OyqgFOQts90YchzR/24pulcgb6kzhOYNFD5QmEuJQC2vRPFoHCyqB94uyHqeliMkR8cOuwrzTBYes4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726579255; c=relaxed/simple;
-	bh=Fpm0Y4e07Hw3gcfa0JjfLJNgQcphzoqg/BK3qENdfrY=;
-	h=Date:Subject:In-Reply-To:CC:From:To:Message-ID:Mime-Version:
-	 Content-Type; b=Mqmejsj9nXrqT5sN9IDkTqv2ap0dfP//QOve9DdzGG4FP1bOY9n1Uy6QAzgdLojmXNjwQtosSUb0tztoKb7czNZw4RBtUVl28YvpT/YzmY5+MToBbaTuQLe+C5hvLpjW/M1AgEfQkGHp5n5ms8esiCaEG8WaBzg/eNCEAqfB/As=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com; spf=pass smtp.mailfrom=dabbelt.com; dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b=rIZ0pqYD; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dabbelt.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-42cd46f3a26so36584555e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Sep 2024 06:20:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20230601.gappssmtp.com; s=20230601; t=1726579252; x=1727184052; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=J2dLER4hFIewaSVuZKAuDv/8Id6s8izBkR6u+XBoB78=;
-        b=rIZ0pqYDu/GtThmFFKcAxUv40XJQtk+rTyLESYXkOdRlbBh4XYtNXp3VHzjlHPalHR
-         pDm5ZkG8emIYwi8o2X5qohrfq6AukDGDMJfaYT/87LErAGZAV4GIf0ukYo/uOgCP1WXs
-         ofXt+UZVE/HP/f4+Kw5fpwkQgcN6nHoJrVNuA3sycK3IWEsMTcsungHsAvmLz7m4otnV
-         3hAHb36G+Bs2+4NI5Vj/++di2oymykvMfacE5aEb2AhzGXfN/S4MyTq7zUW/u9vJohGd
-         DUmlJNS2g3LRllXcmSmhtB1pnNPRiMkieg5agVzyWNGelMKF9CHSuqQpxddsChDCvjfV
-         0DeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726579252; x=1727184052;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=J2dLER4hFIewaSVuZKAuDv/8Id6s8izBkR6u+XBoB78=;
-        b=RZ0mTbkkj9vVYe9FIus5YZHakxALlPBcbf9luJX24WNPz7FgOpJHBYVAfC7VEnBGjb
-         4vZVsbsY3yOzptVwyDPlufllh8rFrBgo/+sxm+dVeKXJwh2NCDZus+wOyrYUP1s1ArJl
-         0eGXa29LIHi1CUE45D+CTNL4ZbfE84wPsIKlk9ay3xBJdVtc8rsmx3m5lvhSfuG5HUJY
-         TgufOM5YzWok2UynPKwnVySAklleHl5dMVzCrIo5zjxlGEZ+jUUJzXwfGqevFZp/mxFt
-         t1qXZjaQsHl4dzna+ruj0/AtjZ7lL/d3e/jZfaf2WqAEndHiXKHhN6OMIrgpxFpzVhJl
-         eG6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWVVeR0wzzTLduZmGrdGsOhceucW7drz2maJ8/WIYEsMXxL5dMcote2xrb/ES+dGVLw5ddyMzuoSjxUWKaolf9mHQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxzcjre2/GNiN7q3We2hLwAUNpL+HbjIUQMxifWrtTZQB0IOZHV
-	QLeDFYB+v1OvBzM1GiFvJbDAwX4vKzd+4HvnIOV6qEG5B+ZMsh9XSQe3QO0FGkE=
-X-Google-Smtp-Source: AGHT+IEkJo5p9GCz0LoYuqEsugBea6QpohVZTav3exdRbgQ8e5OLK2ugx0SXZ25Eyd1uMg7S70RlkA==
-X-Received: by 2002:a05:600c:510a:b0:42c:b58d:98ad with SMTP id 5b1f17b1804b1-42d9081b3a2mr101242645e9.14.1726579251797;
-        Tue, 17 Sep 2024 06:20:51 -0700 (PDT)
-Received: from localhost ([213.208.157.38])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42da22d8b22sm102624115e9.12.2024.09.17.06.20.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Sep 2024 06:20:51 -0700 (PDT)
-Date: Tue, 17 Sep 2024 06:20:51 -0700 (PDT)
-X-Google-Original-Date: Tue, 17 Sep 2024 06:20:20 PDT (-0700)
-Subject:     Re: [PATCH/RFC] riscv: defconfig: Disable RZ/Five peripheral support
-In-Reply-To: <CA+V-a8tKdwvDxYqxyf9JwDa4ZPz41=+ecJ5cf7ZO-G_PAk26-Q@mail.gmail.com>
-CC: geert+renesas@glider.be, Paul Walmsley <paul.walmsley@sifive.com>,
-  aou@eecs.berkeley.edu, prabhakar.mahadev-lad.rj@bp.renesas.com,
-  Conor Dooley <conor.dooley@microchip.com>, linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
-  linux-kernel@vger.kernel.org
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: prabhakar.csengg@gmail.com
-Message-ID: <mhng-b838be82-513e-4403-8746-d6db428bbb1f@palmer-ri-x1c9>
+	s=arc-20240116; t=1726580458; c=relaxed/simple;
+	bh=er/Zag/IlU8zzwbmwesjc+cjWpaAStHNXjD+F0U9qog=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=JceSDcwPfKWhQACik46bktvX3c0uX7FzaE63MmotxKJ1ylsMZiUeo1qq8llBN8bA/EUbqQX9g6rwmL3RE+0/Vf+KXc7ZMxWw3HeuhcksqYu2wMU9kPUf4vhApsUvt6QzmedNVCPY9At54lx6Aj+qM3Vd0g/JCeARRdoqwnUlpZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.108] (178.176.75.202) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Tue, 17 Sep
+ 2024 16:40:36 +0300
+Message-ID: <3acac3fb-7e23-8d8d-974e-dec7bffb8125@omp.ru>
+Date: Tue, 17 Sep 2024 16:40:14 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH] RISC-V: defconfig: Remove ARCH_RENESAS
+Content-Language: en-US
+To: Palmer Dabbelt <palmer@rivosinc.com>, <prabhakar.csengg@gmail.com>,
+	<geert+renesas@glider.be>
+CC: <linux-riscv@lists.infradead.org>, <linux-renesas-soc@vger.kernel.org>
+References: <20240917131936.18980-1-palmer@rivosinc.com>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+In-Reply-To: <20240917131936.18980-1-palmer@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.1, Database issued on: 09/17/2024 13:30:04
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 187802 [Sep 17 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.1.5
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 34 0.3.34
+ 8a1fac695d5606478feba790382a59668a4f0039
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info:
+	d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1;127.0.0.199:7.1.2
+X-KSE-AntiSpam-Info: FromAlignment: s
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.75.202
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 09/17/2024 13:33:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 9/17/2024 11:32:00 AM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-On Thu, 01 Aug 2024 00:32:43 PDT (-0700), prabhakar.csengg@gmail.com wrote:
-> Hi Geert,
->
-> On Tue, Jul 30, 2024 at 4:37 PM Geert Uytterhoeven
-> <geert+renesas@glider.be> wrote:
->>
->> There is not much point in keeping support for RZ/Five peripherals
->> enabled, as the RZ/Five platform option (ARCH_R9A07G043) is gated behind
->> NONPORTABLE.  Hence drop all config options that enable built-in or
->> modular support for peripherals found on RZ/Five SoCs.
->>
->> Disable USB_XHCI_RCAR explicitly, as its value defaults to the value of
->> ARCH_RENESAS, which is still enabled.
->>
->> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->> ---
->> Questions:
->>   1. Perhaps the intention is to keep all RZ/Five peripheral support
->>      enabled, so RZ/Five users can start from the defconfig, and
->>      "just"[1] enable NONPORTABLE and ARCH_R9A07G043?
->>
->>      [1] Nope, need to disable RISCV_ISA_ZICBOM and ERRATA_THEAD_CMO
->>          (and whatever else in the future?), too.
->>
->>   2. Perhaps CONFIG_ARCH_RENESAS=y should be dropped, too?
->>      In addition to USB_XHCI_RCAR, that would get rid of SOC_BUS,
->>      PINCTRL_RENESAS, CLK_RENESAS, and SOC_RENESAS.
->>
-> I think it does make sense if we drop the above configs too as anyway
-> users will have to select the configs manually to get a bootable image
-> for RZ/Five.
+On 9/17/24 16:19, Palmer Dabbelt wrote:
 
-Ya, I agree.  If we end up with another RZ/Five or somone gets rid of 
-that DMA pool stuff that's forcing the NONPORTABLE then we can always 
-re-add it.
+> The RZ/Five is gated behind CONFIG_NONPORTABLE because of the DMA pool
+> issue.  e36ddf322686 ("riscv: defconfig: Disable RZ/Five peripheral
 
-I picked this one up and send the ARCH_RENESAS removal.
+   Commit e36ddf322686?
 
->
->> ---
->>  arch/riscv/configs/defconfig | 12 +-----------
->>  1 file changed, 1 insertion(+), 11 deletions(-)
->>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Cheers,
-> Prabhakar
->
->> diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
->> index 0d678325444fccdc..b51ef6cd1e3986ed 100644
->> --- a/arch/riscv/configs/defconfig
->> +++ b/arch/riscv/configs/defconfig
->> @@ -137,12 +137,10 @@ CONFIG_VIRTIO_NET=y
->>  CONFIG_MACB=y
->>  CONFIG_E1000E=y
->>  CONFIG_R8169=y
->> -CONFIG_RAVB=y
->>  CONFIG_STMMAC_ETH=m
->>  CONFIG_MICREL_PHY=y
->>  CONFIG_MICROSEMI_PHY=y
->>  CONFIG_MOTORCOMM_PHY=y
->> -CONFIG_CAN_RCAR_CANFD=m
->>  CONFIG_INPUT_MOUSEDEV=y
->>  CONFIG_KEYBOARD_SUN4I_LRADC=m
->>  CONFIG_SERIAL_8250=y
->> @@ -150,7 +148,6 @@ CONFIG_SERIAL_8250_CONSOLE=y
->>  CONFIG_SERIAL_8250_DW=y
->>  CONFIG_SERIAL_OF_PLATFORM=y
->>  CONFIG_SERIAL_EARLYCON_RISCV_SBI=y
->> -CONFIG_SERIAL_SH_SCI=y
->>  CONFIG_VIRTIO_CONSOLE=y
->>  CONFIG_HW_RANDOM=y
->>  CONFIG_HW_RANDOM_VIRTIO=y
->> @@ -159,11 +156,9 @@ CONFIG_I2C=y
->>  CONFIG_I2C_CHARDEV=m
->>  CONFIG_I2C_DESIGNWARE_PLATFORM=y
->>  CONFIG_I2C_MV64XXX=m
->> -CONFIG_I2C_RIIC=y
->>  CONFIG_SPI=y
->>  CONFIG_SPI_CADENCE_QUADSPI=m
->>  CONFIG_SPI_PL022=m
->> -CONFIG_SPI_RSPI=m
->>  CONFIG_SPI_SIFIVE=y
->>  CONFIG_SPI_SUN6I=y
->>  # CONFIG_PTP_1588_CLOCK is not set
->> @@ -172,7 +167,6 @@ CONFIG_POWER_RESET_GPIO_RESTART=y
->>  CONFIG_SENSORS_SFCTEMP=m
->>  CONFIG_CPU_THERMAL=y
->>  CONFIG_DEVFREQ_THERMAL=y
->> -CONFIG_RZG2L_THERMAL=y
->>  CONFIG_WATCHDOG=y
->>  CONFIG_SUNXI_WATCHDOG=y
->>  CONFIG_MFD_AXP20X_I2C=y
->> @@ -201,11 +195,11 @@ CONFIG_USB=y
->>  CONFIG_USB_OTG=y
->>  CONFIG_USB_XHCI_HCD=y
->>  CONFIG_USB_XHCI_PLATFORM=y
->> +# CONFIG_USB_XHCI_RCAR is not set
->>  CONFIG_USB_EHCI_HCD=y
->>  CONFIG_USB_EHCI_HCD_PLATFORM=y
->>  CONFIG_USB_OHCI_HCD=y
->>  CONFIG_USB_OHCI_HCD_PLATFORM=y
->> -CONFIG_USB_RENESAS_USBHS=m
->>  CONFIG_USB_STORAGE=y
->>  CONFIG_USB_UAS=y
->>  CONFIG_USB_CDNS_SUPPORT=m
->> @@ -217,7 +211,6 @@ CONFIG_USB_MUSB_HDRC=m
->>  CONFIG_USB_MUSB_SUNXI=m
->>  CONFIG_NOP_USB_XCEIV=m
->>  CONFIG_USB_GADGET=y
->> -CONFIG_USB_RENESAS_USBHS_UDC=m
->>  CONFIG_USB_CONFIGFS=m
->>  CONFIG_USB_CONFIGFS_SERIAL=y
->>  CONFIG_USB_CONFIGFS_ACM=y
->> @@ -235,7 +228,6 @@ CONFIG_MMC_SDHCI_PLTFM=y
->>  CONFIG_MMC_SDHCI_OF_DWCMSHC=y
->>  CONFIG_MMC_SDHCI_CADENCE=y
->>  CONFIG_MMC_SPI=y
->> -CONFIG_MMC_SDHI=y
->>  CONFIG_MMC_DW=y
->>  CONFIG_MMC_DW_STARFIVE=y
->>  CONFIG_MMC_SUNXI=y
->> @@ -250,7 +242,6 @@ CONFIG_VIRTIO_INPUT=y
->>  CONFIG_VIRTIO_MMIO=y
->>  CONFIG_CLK_SOPHGO_CV1800=y
->>  CONFIG_SUN8I_DE2_CCU=m
->> -CONFIG_RENESAS_OSTM=y
->>  CONFIG_SUN50I_IOMMU=y
->>  CONFIG_RPMSG_CHAR=y
->>  CONFIG_RPMSG_CTRL=y
->> @@ -258,7 +249,6 @@ CONFIG_RPMSG_VIRTIO=y
->>  CONFIG_PM_DEVFREQ=y
->>  CONFIG_IIO=y
->>  CONFIG_PHY_SUN4I_USB=m
->> -CONFIG_PHY_RCAR_GEN3_USB2=y
->>  CONFIG_PHY_STARFIVE_JH7110_DPHY_RX=m
->>  CONFIG_PHY_STARFIVE_JH7110_PCIE=m
->>  CONFIG_PHY_STARFIVE_JH7110_USB=m
->> --
->> 2.34.1
->>
->>
+> support") removes the drivers, so let's remove the rest of the vendor
+> support as well -- users of these will already have to play aruond with
+
+   Around. :-)
+
+> kernel configs, so this shouldn't be much of a burden.
+> 
+> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+[...]
+
+MBR, Sergey
 
