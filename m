@@ -1,88 +1,92 @@
-Return-Path: <linux-renesas-soc+bounces-9004-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9008-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF1BE97DB0D
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Sep 2024 02:52:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65CCB97DCF8
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Sep 2024 13:48:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EF0FF1C211A5
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Sep 2024 00:52:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1847D1F21959
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Sep 2024 11:48:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E90720E3;
-	Sat, 21 Sep 2024 00:52:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 135B0155C88;
+	Sat, 21 Sep 2024 11:48:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LSoK4n68"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="JGHgMMMU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF59E15C3;
-	Sat, 21 Sep 2024 00:52:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1FD51CD2C
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 21 Sep 2024 11:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726879967; cv=none; b=qpLPRwQo6SDnoYfx+IxchD/N3rMgy6WYJCH3DhVb327/ok1vslnYrnkDI3E4s8jYLWoWjImKpRT7zk6JqA0axt1xhM3dvi44VSPzVmOeNpUUmRpZo9EMEq5nj81DfTdJDu466xqD+BQdN8vKXCSRUcopuv+Wg1bKxoqQzPPVdeM=
+	t=1726919323; cv=none; b=Q0Rtgqv50Z6D+vIRi4dRVKYyqKfVrAoum8FccDHAiJzyEtY5ocAuyFVuD3l4HmISsmr4bqpnyvF/F2fFN6tAmf5TDg17JMXrU3pam+KBtbawcZ/XnhX+VmCuEmNHUxZx8Vz6jJlzs+Ck9IVq9hjsqk+nc7yDbbM+bHtk0N3T0Sk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726879967; c=relaxed/simple;
-	bh=Ew4IcMCEa8YzyxrVwkXd+y/Nq+B0O5bzEquyaZoikgM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fSZBCvKImaNU2YAcf/vuKhKjREFR6BByr4qvXpnaQAi2N+fG6TR8gO/HR4V106GClOevsWjoLQXO57JRC3zIsF9lL6tj3uhuZTniI/Czp6lc226pTx7JVY655+hQndUSJ9qikYJi0G19Zg3uy0CsvAQHX5FIMbN2aNlEYpI171A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LSoK4n68; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F1DEC4CEC3;
-	Sat, 21 Sep 2024 00:52:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726879966;
-	bh=Ew4IcMCEa8YzyxrVwkXd+y/Nq+B0O5bzEquyaZoikgM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LSoK4n68mb6GjY/LyqV67r3PQRcQypBSo/NljlG18Oq5RoxyH4/sszulryAkIqVB9
-	 Fi7lZVmH6hx//DPBp0v6qlDA83EyXzaeYx3AaxTiM9HzxmD/ZVP3TY9+Q+Og5oBqC5
-	 Q8vQavEhHSaL6g2xFOs+aekyXpf6D8LVlHJkWt3y1VOYq54pFbHb1d9QcEvYAptWw8
-	 lGw+lSjirlGvgnXqXA+iZNRKYmgPGKrVuz/ZXDJ9bTa7M063+o3vkKO2/VayY0baFd
-	 tkLsAWjQeaejMPIb32iHV7vMQuWpIQa0JDY5qaV7pgW8BsDBoqqLF53DmvYf8Pqu7v
-	 z+2fu7fTARfrQ==
-Date: Fri, 20 Sep 2024 19:52:45 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, linux-kernel@vger.kernel.org,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	s=arc-20240116; t=1726919323; c=relaxed/simple;
+	bh=bxocJ30aoT5zSqsupVkc/wv2Eei9qb4gBauQUvFMhiI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X8rHhjDTIyLoGnCUnOnX7Go5BdrPNosj2q3rXOWfe66mpUvoyVIhiRotts4lrtB85UU7I4HfN6fI6ORvJqvDEmwvzZqcwjA2Ia2T5QMRpA4uo067IuqZ8ApEO2lInBCNKYnbODJWYBgX4EaBece6tY6QI4CFwQCdUhH/MU9o5is=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=JGHgMMMU; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=AnGD4oQgfHpw4s
+	tijlRvP6UckMuOr8otrdqAYZytbrs=; b=JGHgMMMUi/WPjlj4SNDFtcv+Y791lX
+	GqigLt5PBbxKQuFNtF4NvTnWxtRRaDeWuNwXerw43aql8YUBPZT1pbbRyzpyo+Ij
+	lhq0SJCIFK5lvGssA+vmCbJNxqMJyKGmQTKiMAwe/8ZGi9SHy9XXzKNAxspw3kQR
+	8JqJpXMsKKq6UuFZV6SmEnmgNB5tkz9PwkbVM5PDfDoGnc0ad4KRQ+frhyHgrVeO
+	ahjmZM/EhdvgWqUuLbOAp/i61BVPatYVAsit4RWXuasivAunNgR9TfQ9rtPlAsVq
+	UkCKOLpJIWgQ8f9yITWwXslNksRoZtb/ZFIV0SSPQUcv/6x44NrIlAsQ==
+Received: (qmail 3652674 invoked from network); 21 Sep 2024 13:48:35 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 Sep 2024 13:48:35 +0200
+X-UD-Smtp-Session: l3s3148p1@8/pUvJ8ibuEgAwDwn0Nz2qARpwvTE8dN
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	devicetree@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-renesas-soc@vger.kernel.org,
-	Magnus Damm <magnus.damm@gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: pinctrl: renesas,rzg2l-pinctrl: Allow
- 'input-schmitt-{enable,disable}' and 'drive-open-drain' properties
-Message-ID: <172687996507.184385.8256447340209726726.robh@kernel.org>
-References: <20240918120909.284930-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240918120909.284930-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>
+Subject: [PATCH 0/5] ARM: dts: renesas: bring genmai up to date - the easy stuff
+Date: Sat, 21 Sep 2024 13:48:12 +0200
+Message-ID: <20240921114813.4124-7-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240918120909.284930-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
+
+I recently rediscovered the Genmai board as a great platform for
+regression testing (RIIC, pre R-Car SDHI and MMCIF). Its DTS file is a
+bit outdated, though. This series adds the simple stuff, and reorganizes
+it to be sorted. I want to add SDHI and MMCIF on top of this, but those
+didn't work out of the box and need a little more work, probably.
+
+Let's start with this seris first. Looking forward to comments.
+
+Happy hacking,
+
+   Wolfram
 
 
-On Wed, 18 Sep 2024 13:09:07 +0100, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> On the RZ/V2H(P) SoC we can configure the 'input-schmitt-{enable,disable}'
-> and 'drive-open-drain' of multiplexed pins. Update the binding
-> documentation to include these properties.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  .../devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml     | 3 +++
->  1 file changed, 3 insertions(+)
-> 
+Wolfram Sang (5):
+  ARM: dts: renesas: genmai: enable watchdog
+  ARM: dts: renesas: genmai: enable OS timer modules
+  ARM: dts: renesas: genmai: sort nodes
+  ARM: dts: renesas: genmai: sort pinctrl entries
+  ARM: dts: renesas: genmai: define keyboard switch
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+ arch/arm/boot/dts/renesas/r7s72100-genmai.dts | 136 +++++++++++-------
+ 1 file changed, 85 insertions(+), 51 deletions(-)
+
+-- 
+2.45.2
 
 
