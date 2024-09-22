@@ -1,111 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-9013-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9014-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FB4497E0D7
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Sep 2024 12:15:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9986A97E3A2
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Sep 2024 23:06:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 64CAC1C2090C
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Sep 2024 10:15:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4FB561F211EC
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Sep 2024 21:06:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27C2C126C19;
-	Sun, 22 Sep 2024 10:15:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C336274E09;
+	Sun, 22 Sep 2024 21:06:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="EueiuIlz";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="a4uQ9P9p"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AwHP4ZuY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout5-smtp.messagingengine.com (fout5-smtp.messagingengine.com [103.168.172.148])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B924524D7;
-	Sun, 22 Sep 2024 10:15:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F356F077;
+	Sun, 22 Sep 2024 21:06:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727000127; cv=none; b=pDfOC6XEDGnRH2EnFzWWjgGQGws8BIKxyr9aGiWsHWpe8YBg3dsgzSXdJkQdRtFK5HHo2zM5p9ZmHYivhHaGeYvAfQV2CkCRHN1W85QruOS+nz+eLrXKJ9hND/TYbBUN+iGqGVfBis0sE9KkisvdVJdJdjqeTcO0BZJTcg8gygc=
+	t=1727039205; cv=none; b=bGvB8NlntVVelq1pgtQLJCdxwvu56fwfhYjtSYs+iKxG0HBgZAttxHkk17+i0yc3+N6Ua6Ig267zk5DMDaUGDfow672Us20Ue64CkQSspRtKvo6VtMPit6hL6atBfa6hA2P6RX/HIz90fV/UBWwi4Vm3vHGcqBcosIC65FTFE9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727000127; c=relaxed/simple;
-	bh=o1laS0iBNe7sZJ2IkaOVgaenqSTEu3eJl+BG4qqQvyU=;
+	s=arc-20240116; t=1727039205; c=relaxed/simple;
+	bh=0bDiEHTafhursfduV1ZVpisNLRB9KGIhx0y0NnN6AjU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LNCR7X4vmNylUZ/zEJJbP+29LnWF630fFQaYslzOiXqKKzh9pN5n4Nn0XKDV9qJSc+n3lDcnhEFkrFaOrKpSMZxifBuThXXlCsIENll/Rgt3Gh62vcgJ6+C0sDQL5QRYEpIS++r08tX52am56WrC3jATzPypWiyBOdKANxraO5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=EueiuIlz; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=a4uQ9P9p; arc=none smtp.client-ip=103.168.172.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
-	by mailfout.phl.internal (Postfix) with ESMTP id 7274413802E8;
-	Sun, 22 Sep 2024 06:15:22 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-07.internal (MEProxy); Sun, 22 Sep 2024 06:15:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1727000122;
-	 x=1727086522; bh=z3lbEBj7Hn2s5ZLm0g8ZucXx9EFzxLsl8v8/hMTPYTA=; b=
-	EueiuIlzEqXC/HuTT4YJR6uW6W0RF5jeP1pt/5NtgA3mHkJffAT06sq7ZXWj6tE0
-	3UE/kNlbFYeoPEF7vME9u6FkmejuLmKcAHQQARFKzQcfg51SpDcfkdRuiDBbhnXV
-	m6tD4lLCYX00y2SmpBbQ2J7Q6Y3dpbeR1s3prUS9XGosyYk/P/qDBhFBfSWJ6f/n
-	PPAXOeSuxMK5/eV2y5AGha9PUhgUaiVJy2f/zWuqauxKtnQVi4m+Sg2tjZcT6fou
-	kxDfFWzfQaytj8+yGaGLe4g7dISYJVKvYlN3c87APUoxJFEuvBBVAeEGHYu37Hzo
-	KKovOmo4crU67+igrRKm4w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1727000122; x=
-	1727086522; bh=z3lbEBj7Hn2s5ZLm0g8ZucXx9EFzxLsl8v8/hMTPYTA=; b=a
-	4uQ9P9pLwxohNrVy8IYw7QFArMLxkhAPgfhXX0iI96KOOF5IOE9HK0ddktmewCOU
-	eXAoJeDO9X5GHakoTr367Ar4Mc66Ey47cQqVTLWsGzKFWuFk1MU3Agunt+hW4llJ
-	ePozVk94Z/dGCVgu5nMBi2fW5j0YR7SX+Zmd2tO3E+z1oweOzaUp6TdKCKfPyI6X
-	htG7uXZzF2lAMYx9XATdESOh135yOmuWEmy4H+khgwAAsxE7wGtLtU2ABnLJK1tK
-	lEaV9PDv3l5T8CVEKNat2LucYzlFl4/ihljUNcoDIN2ajlPun9K7kgtMORpMJXeh
-	oIXWvuTm6i+hF6L8OqRcw==
-X-ME-Sender: <xms:Oe7vZg6Ke4jBOF5549ojEMHJduRLwdBJMGn1i-F2g3V-RjT77iPiGw>
-    <xme:Oe7vZh54gMvHnCGnJqqO87RGIzVvwDL5LAGI-batwUqGI-3WChqjesNWfNe8R-mFQ
-    22QkYpocdIXbDrSZGY>
-X-ME-Received: <xmr:Oe7vZvdwpshLx7ilN3i3Oto1Jvty7G0GDe1zdtJG5J0wjT0QkZedqbfRC1KbIsZB5Y9ffr__OsJS_WBkcSPaYPysodqUHLNLuQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudeljedgvdeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
-    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
-    gvrhhluhhnugesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteeg
-    tddvvdfhtdekgefhfeefheetheekkeegfeejudeiudeuleegtdehkeekteenucevlhhush
-    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshho
-    uggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeelpdhmoh
-    guvgepshhmthhpohhuthdprhgtphhtthhopehtohhmihdrvhgrlhhkvghinhgvnhesihgu
-    vggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrhhnvg
-    hlrdhorhhgpdhrtghpthhtohephhhvvghrkhhuihhlqdgtihhstghoseigshegrghllhdr
-    nhhlpdhrtghpthhtohepshgrkhgrrhhirdgrihhluhhssehlihhnuhigrdhinhhtvghlrd
-    gtohhmpdhrtghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhn
-    sghorghrugdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkh
-    gvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdr
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotg
-    esvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehtohhmihdrvhgrlhhkvghi
-    nhgvnhdorhgvnhgvshgrshesihguvggrshhonhgsohgrrhgurdgtohhm
-X-ME-Proxy: <xmx:Oe7vZlJv85IEj4KTLckYocqJeIJ_tydFAnYp_FuinpQy2tyI276qGw>
-    <xmx:Oe7vZkLWhT8rWUi0OxMnK66Eg8dXhe9yLBAAEdPmSfl-JnFcqrh_jA>
-    <xmx:Oe7vZmwiOoxBis7-WOdCY6dLexmWNhrjwfrtQXFQpcz4c6L3tznVrg>
-    <xmx:Oe7vZoJB28V-IvYFC9G4QEoBq54wEuQWcl3sQjpavhi8ob4cetVriA>
-    <xmx:Ou7vZpUI64SHGm_GRIMM7XPXKH0El4ZaZVw6C-OIOGjvlVY585djA0gM>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 22 Sep 2024 06:15:21 -0400 (EDT)
-Date: Sun, 22 Sep 2024 12:15:19 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: Re: [PATCH 3/4] media: renesas: Use state cleanup macros
-Message-ID: <20240922101519.GA3490560@ragnatech.se>
-References: <20240917-scoped-state-v1-0-b8ba3fbe5952@ideasonboard.com>
- <20240917-scoped-state-v1-3-b8ba3fbe5952@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=cqXExLKm47Gt7imj3T1h+z+o4MdxzDKp80tXdq7MNhnIwQLu7kMOPxiT3m8yh8UZAXRpRDrKrfS5Yx65hFeZ+8VPPAb0kCsJuqjNxbjduxGRCAkDACOeVuQ1OBMc18k2O81dbGAXyo/Lw86KVW+Zmz/Q3knrLvVQ8O0btDw5xVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AwHP4ZuY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD47CC4CEC3;
+	Sun, 22 Sep 2024 21:06:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727039205;
+	bh=0bDiEHTafhursfduV1ZVpisNLRB9KGIhx0y0NnN6AjU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AwHP4ZuY6eBkiRqe8LeJ2m3tW/AxQwbx8HLRQixK5kVIogeBscRaJHLfRIjLr2MPy
+	 klvPp+YGnTbg/YTts6+uG0hDynh6ZC053skZGVhYyFPMcWVquQua9d12VG31guEIHl
+	 TplWt/4+aY2Uno6Kqr5nx5ho0ZcBwjonv0YYRo6AVvxhMJ0+vDp4UlmvJ68O4XM5Ux
+	 MNbZUcV7QUPoSMetR8CaIWsF4ochvtL1loTE7EOVtYw/A3WeOmTw8ZB9gpSzvHzkLo
+	 D7OZag84YxHKmEL0g33ZjEfnQCg+37pOBBWvnxct1UcGmmUxw4IdSqY+X4F8GurJx0
+	 J3lvS0n06w36w==
+Date: Sun, 22 Sep 2024 23:06:41 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: 
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 5/6] dt-bindings: media: renesas,isp: Add binding for
+ V4M
+Message-ID: <bni2gdpp65cigjnodckebirahmwacjzb2so5a42lthagcrjmuh@g4nqyanuz3gr>
+References: <20240826144352.3026980-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240826144352.3026980-6-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -114,144 +63,25 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240917-scoped-state-v1-3-b8ba3fbe5952@ideasonboard.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240826144352.3026980-6-niklas.soderlund+renesas@ragnatech.se>
 
-Hi Tomi,
-
-Thanks for your work. I like the scoped management.
-
-On 2024-09-17 17:09:31 +0300, Tomi Valkeinen wrote:
-> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> 
-> Use the new subdev state cleanup macros.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+On Mon, Aug 26, 2024 at 04:43:51PM +0200, Niklas S=C3=B6derlund wrote:
+> Document support for the ISP module in the Renesas V4M (r8a779h0) SoC.
+> This device is compatible with the CSISP module on the other Gen4 SoCs.
+>=20
+> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
+se>
 > ---
->  drivers/media/platform/renesas/rcar-csi2.c            | 14 ++++----------
->  drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c |  9 ++++-----
->  drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c   |  9 ++-------
->  3 files changed, 10 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
-> index c419ddb4c5a2..03ef6566271f 100644
-> --- a/drivers/media/platform/renesas/rcar-csi2.c
-> +++ b/drivers/media/platform/renesas/rcar-csi2.c
-> @@ -1163,27 +1163,24 @@ static void rcsi2_stop(struct rcar_csi2 *priv)
->  static int rcsi2_s_stream(struct v4l2_subdev *sd, int enable)
->  {
->  	struct rcar_csi2 *priv = sd_to_csi2(sd);
-> -	struct v4l2_subdev_state *state;
->  	int ret = 0;
->  
->  	if (!priv->remote)
->  		return -ENODEV;
->  
-> -	state = v4l2_subdev_lock_and_get_active_state(&priv->subdev);
-> +	CLASS(v4l2_subdev_lock_and_get_active_state, state)(&priv->subdev);
->  
->  	if (enable && priv->stream_count == 0) {
->  		ret = rcsi2_start(priv, state);
->  		if (ret)
-> -			goto out;
-> +			return ret;
+> * Changes since v1
+> - Add to commit message that V4M is compatible with other Gen4 SoCs.
+> ---
+>  Documentation/devicetree/bindings/media/renesas,isp.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 
-As ret is now only used in this branch maybe we can move the declaration 
-of it here? At least I think you should remove the assignment to 0 above 
-as that behavior is not needed anymore but, at lest to me, keeping it 
-indicates there is an intent in initializing it.
+Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-With that fixed,
+Best regards,
+Krzysztof
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
->  	} else if (!enable && priv->stream_count == 1) {
->  		rcsi2_stop(priv);
->  	}
->  
->  	priv->stream_count += enable ? 1 : -1;
-> -out:
-> -	v4l2_subdev_unlock_state(state);
->  
-> -	return ret;
-> +	return 0;
->  }
->  
->  static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
-> @@ -1274,18 +1271,15 @@ static irqreturn_t rcsi2_irq(int irq, void *data)
->  
->  static irqreturn_t rcsi2_irq_thread(int irq, void *data)
->  {
-> -	struct v4l2_subdev_state *state;
->  	struct rcar_csi2 *priv = data;
->  
-> -	state = v4l2_subdev_lock_and_get_active_state(&priv->subdev);
-> +	CLASS(v4l2_subdev_lock_and_get_active_state, state)(&priv->subdev);
->  
->  	rcsi2_stop(priv);
->  	usleep_range(1000, 2000);
->  	if (rcsi2_start(priv, state))
->  		dev_warn(priv->dev, "Failed to restart CSI-2 receiver\n");
->  
-> -	v4l2_subdev_unlock_state(state);
-> -
->  	return IRQ_HANDLED;
->  }
->  
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-> index e68fcdaea207..63b846f3e468 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-> @@ -238,7 +238,6 @@ static int rzg2l_csi2_calc_mbps(struct rzg2l_csi2 *csi2)
->  	struct v4l2_subdev *source = csi2->remote_source;
->  	const struct rzg2l_csi2_format *format;
->  	const struct v4l2_mbus_framefmt *fmt;
-> -	struct v4l2_subdev_state *state;
->  	struct v4l2_ctrl *ctrl;
->  	u64 mbps;
->  
-> @@ -250,10 +249,10 @@ static int rzg2l_csi2_calc_mbps(struct rzg2l_csi2 *csi2)
->  		return -EINVAL;
->  	}
->  
-> -	state = v4l2_subdev_lock_and_get_active_state(&csi2->subdev);
-> -	fmt = v4l2_subdev_state_get_format(state, RZG2L_CSI2_SINK);
-> -	format = rzg2l_csi2_code_to_fmt(fmt->code);
-> -	v4l2_subdev_unlock_state(state);
-> +	scoped_v4l2_subdev_lock_and_get_active_state(&csi2->subdev) {
-> +		fmt = v4l2_subdev_state_get_format(state, RZG2L_CSI2_SINK);
-> +		format = rzg2l_csi2_code_to_fmt(fmt->code);
-> +	}
->  
->  	/*
->  	 * Calculate hsfreq in Mbps
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-> index ac8ebae4ed07..0b9e8a7cf22a 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-> @@ -36,14 +36,9 @@ static const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned int c
->  
->  struct v4l2_mbus_framefmt *rzg2l_cru_ip_get_src_fmt(struct rzg2l_cru_dev *cru)
->  {
-> -	struct v4l2_subdev_state *state;
-> -	struct v4l2_mbus_framefmt *fmt;
-> +	CLASS(v4l2_subdev_lock_and_get_active_state, state)(&cru->ip.subdev);
->  
-> -	state = v4l2_subdev_lock_and_get_active_state(&cru->ip.subdev);
-> -	fmt = v4l2_subdev_state_get_format(state, 1);
-> -	v4l2_subdev_unlock_state(state);
-> -
-> -	return fmt;
-> +	return v4l2_subdev_state_get_format(state, 1);
->  }
->  
->  static int rzg2l_cru_ip_s_stream(struct v4l2_subdev *sd, int enable)
-> 
-> -- 
-> 2.43.0
-> 
-
--- 
-Kind Regards,
-Niklas Söderlund
 
