@@ -1,100 +1,148 @@
-Return-Path: <linux-renesas-soc+bounces-9016-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9017-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B4AF9842D1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Sep 2024 12:00:32 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9986F9844DF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Sep 2024 13:36:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 07891280F93
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Sep 2024 10:00:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D42C6B277C9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Sep 2024 11:36:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6484156678;
-	Tue, 24 Sep 2024 10:00:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ScHLowhF"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3C771A4F2E;
+	Tue, 24 Sep 2024 11:32:22 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 777551494CE;
-	Tue, 24 Sep 2024 10:00:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B247C86277;
+	Tue, 24 Sep 2024 11:32:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727172027; cv=none; b=Gjpa7KhyP+7t7kVUSn03GB1cE7KLATaAmK7wLNTBUTHebbikes6Df775u1nwv6LVF+aHYM+7DdJSPmU2M49IanpFbZY+u7Q6lkEJ2jC6JYkfrW3tvoe745CR5r2Tyy/tcn9e0ptAg7RDfRUSKbYitRFjCBZ7THDYa1WhoZivJeE=
+	t=1727177542; cv=none; b=oPvfTIHXhCiJfsues6mcUDhexkzOS9wbRmEwhcnJhlYMDcDtdDXNzRDb6z2pZGlb3a1/QcPYRpRITlEeeCKvCR2+YtYJWAyp1iRr83mGSVeJXhg7+gktnQ4dhsu6SbaQXZ+CJD5H5oq8P9JaBD1gUQ7gPpJJYF1tMctlmMvKIeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727172027; c=relaxed/simple;
-	bh=vwwcht1BEi5Bui59qglPewDZ63ryyP+yzkukmNfzoZg=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=o1l2LndAs2LA0/o50pEyHA+QKvy2S5FO2/02HZVld7AsFom5yku6NTUgaDvAoYfJbOQ8N/QFjMRRnQ6CkmMXegxoUjMD3Xap1M3EZDu1TBY4qo6RfxDTyPBGa/QzlKow3sBq//yjzvN49hDDwzouktAXdY3EZIQ6/ZmbkJ2MVt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ScHLowhF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE23BC4CEC4;
-	Tue, 24 Sep 2024 10:00:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727172026;
-	bh=vwwcht1BEi5Bui59qglPewDZ63ryyP+yzkukmNfzoZg=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=ScHLowhF7XupHEieOu9xOfvardJ12COtXZhfE7Xcacwx6hkkdTPm/TfOWprN1fM90
-	 fqJJOP3a27LMAwRGtikLxmPA6hHqDMSqGRzlBVUQNaDqtwRnIwIKXNfnHv2HG66YYs
-	 KE7jVGd2ZUNOnzbV374uJNYaCNjNK/HDC0leNZUZVsuvYlvScbNOQNVkIiIvG45P0I
-	 z5dqYk+E79laO223vv8uD7P6it25Ct52GTj5eQJ1J7Njul/o6m9s08F0TWpubuazGK
-	 aCXNSAlcyc2TQJcY/cHwKnMgrnvk5K7QFttK2Jv29Tc4P6l5dMAYmhuD4/XP8VzJQe
-	 oY4X/dA1DJbng==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7126A3806655;
-	Tue, 24 Sep 2024 10:00:30 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1727177542; c=relaxed/simple;
+	bh=274mWF5yEg9y+wkgxhf4U9sHZqXg34pBvu3HEUVXSrE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GEPQvljxFpebMkMFcQpo9O8nDqVpIrewVK3fqO8iXPiStl80GXLysSub6I0tCgVz+hmZhYW5pQw904VpTsXn2tR9sxQCAWo34YNOlUTwqAYjy54gMr4JxHp/2nMS1Y8dbT6EHDnjE6zSRFkH7bnbl2/ZCj7P1/xTxUvsJYdMCwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e1a9463037cso4304698276.2;
+        Tue, 24 Sep 2024 04:32:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727177539; x=1727782339;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jm6h96BED8DQTfet2QAIovV1CqCtWAjpatPZ7/UosWI=;
+        b=O+FdUPxWG3BBt8tugF2UAreSMvSpqGm3qBzno0F/nxwd1e0810kPCFVNI721Dee6k0
+         /kejpfHO6bN6qMZUOEoOGL6WAX3s7J3GOzWuihkbg872ePFfzg3fxJOWObWU+8WXDvDU
+         5bRO9Izbpl3gS/1xjmSQ67wpvWovW9J4C/t7hkAxnLKcxkeFpbED44NLzGdgi2Op9Gyo
+         Qp0KUwdGc6A1KuKzAP7fRlWcq7CMc9vLidelweyahE3xTGTbJ0OwR70IuZYOUrgnpWYe
+         b6izvWhaSWTfmq1lYEjVOmhFu05kdaSBZAxkyjtL1jT+EJ6kEtvoQKJnY2oMgzEI9xqA
+         RBEw==
+X-Forwarded-Encrypted: i=1; AJvYcCU5P6ccXBzvGpHDE7MQHd0YrV2PvUZmFiRMszkplB1hzIg1WGXOGLtSyogf/0e4+UTMqCQnUM2vzCs=@vger.kernel.org, AJvYcCUMPNGoZorrpCJmLYbBYDhogP9IW4IGF+WMJpXQ3W2kQcJ2H5FbEeykrzSE5YtMF/1iHYFoXtKoexAy@vger.kernel.org, AJvYcCVGNliva32m4NIL3A8qRoUBKpB3MgX4c2T9vfHa8iBLXMwoxJZ47A6fmHUU01ZXuCxGKMCMH9tN7WPCrGREuRHltiE=@vger.kernel.org, AJvYcCVjizAiX2k1eUb9uRFmKnfrVdnzdG8UT5qCiWTwEkXYSnr6R4WY7pUZz+AbYSd4trMmTZ2Pyl7KuroJ@vger.kernel.org, AJvYcCX/84m2rNLWcyKJm5F9lRlq7WVa/bHtE/J8TsvnpEq9sJoJBxu0IqPbs0Aqh1XDPPVGfZ0bRoAqCaQK@vger.kernel.org, AJvYcCXwRd/1MEmNlP97mK/dXRYsJrxRddzQg03FuBycpibRSYWitdOkWL5Y4s8ox7KVgE0MVewKdSFr8q6BVYfl@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1V+5qE++4ULbYMEDrqV2LzjuMNgiPetjWP4vfRo8qfMZ8ozJL
+	9/RWpt90UVe+kJOQvCv1uCd3iX0XOwLFNm87ipseox1zgSWySRia27dDwie2
+X-Google-Smtp-Source: AGHT+IGd1dnlMbgebNUguoCcxM9oWkJXb0wuXHGJaBip1RtFNA0UIc2YRhkqnwJTUIzowHL1bZkcCg==
+X-Received: by 2002:a05:690c:2507:b0:647:7782:421a with SMTP id 00721157ae682-6dfef019bb1mr70492647b3.45.1727177538769;
+        Tue, 24 Sep 2024 04:32:18 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e20d2a7b4asm2117897b3.143.2024.09.24.04.32.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Sep 2024 04:32:17 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6da395fb97aso40617217b3.0;
+        Tue, 24 Sep 2024 04:32:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUeckDrUJBOL1K0zfCMg/uLugj4l6mcROczcwmycRmFIcBibsXEneeObLw8GZT4Tjp9nzlSSrvOLxJxtqg0C+J/VeA=@vger.kernel.org, AJvYcCUm1yLINOEa2+aQnyN46koR6dLCw5WhdvzkpL3ZHf9JFvpFzw1OYdWMHAJwzDuMudslYo3Xij6e1jmO@vger.kernel.org, AJvYcCV5ef23bMFkoIIf9rfPquqml7hVw5DkEJ1B1QKQq+3B55eqtvfRDSEFX0NnTqc6golq+88vlXzywUfX@vger.kernel.org, AJvYcCVxnEAcO7i7cxzBdVLLGzpOuEnH2+Wlf0im4jWjEYX2S7rcj5MVfu3sZnosi3DdHNrMPXiki1RQ8iE=@vger.kernel.org, AJvYcCWk1ZnXAolXPZx5b0vIowIiOI7Rt+Ph2/UNceHvOUsVL6FRPXDpsAR7A12sftELdIi7BinoEYKq7RaP@vger.kernel.org, AJvYcCWwZI/P5NQvoQdOI55FVLfA48XhbIYpPtVJKiEtWDFjKQO9djJAwE3tLaVuVo+bcpMvSNTMhB79v43m4dV5@vger.kernel.org
+X-Received: by 2002:a05:690c:48c1:b0:6af:eaaf:2527 with SMTP id
+ 00721157ae682-6dfeed87f8cmr127931067b3.18.1727177537112; Tue, 24 Sep 2024
+ 04:32:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [net PATCH v3 0/2] Fix maximum TX/RX frame sizes in ravb driver
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <172717202926.3972444.193078551368656456.git-patchwork-notify@kernel.org>
-Date: Tue, 24 Sep 2024 10:00:29 +0000
-References: <20240918081839.259-1-paul.barker.ct@bp.renesas.com>
-In-Reply-To: <20240918081839.259-1-paul.barker.ct@bp.renesas.com>
-To: Paul Barker <paul.barker.ct@bp.renesas.com>
-Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, niklas.soderlund+renesas@ragnatech.se,
- andrew@lunn.ch, biju.das.jz@bp.renesas.com, claudiu.beznea.uj@bp.renesas.com,
- prabhakar.mahadev-lad.rj@bp.renesas.com, mitsuhiro.kimura.kc@renesas.com,
- geert+renesas@glider.be, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com> <20240822152801.602318-5-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20240822152801.602318-5-claudiu.beznea.uj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 24 Sep 2024 13:32:04 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVQsHx0nC3xwQWVRWyWMnbXd1=RokNn8rkJv3bfG_0p-A@mail.gmail.com>
+Message-ID: <CAMuHMdVQsHx0nC3xwQWVRWyWMnbXd1=RokNn8rkJv3bfG_0p-A@mail.gmail.com>
+Subject: Re: [PATCH 04/16] soc: renesas: Add SYSC driver for Renesas RZ/G3S
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: vkoul@kernel.org, kishon@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, p.zabel@pengutronix.de, geert+renesas@glider.be, 
+	magnus.damm@gmail.com, gregkh@linuxfoundation.org, mturquette@baylibre.com, 
+	sboyd@kernel.org, yoshihiro.shimoda.uh@renesas.com, 
+	biju.das.jz@bp.renesas.com, ulf.hansson@linaro.org, 
+	linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello:
+Hi Claudiu,
 
-This series was applied to netdev/net.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
+On Thu, Aug 22, 2024 at 5:28=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
+wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>
+> The RZ/G3S SYS Controller has 2 registers (one for PCIE one for USB) that
+> need to be configured before/after powering off/on the PCI or USB
+> ares. The bits in these registers control signals to PCIE and USB that
+> need to be de-asserted/asserted after/before power on/off event. For this
+> add SYSC controller driver that registers a reset controller driver on
+> auxiliary bus which allows USB, PCIE drivers to control these signals.
+>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-On Wed, 18 Sep 2024 09:18:37 +0100 you wrote:
-> These patches fix a couple of bugs in the maximum supported TX/RX frame
-> sizes in the ravb driver.
-> 
->   * For the GbEth IP, we were advertising a maximum TX frame size/MTU
->     that was larger that the maximum the hardware can transmit.
-> 
->   * For the R-Car AVB IP, we were unnecessarily setting the maximum RX
->     frame size/MRU based on the MTU, which by default is smaller than
->     the maximum the hardware can receive.
-> 
-> [...]
+Thanks for your patch!
 
-Here is the summary with links:
-  - [net,v3,1/2] net: ravb: Fix maximum TX frame size for GbEth devices
-    https://git.kernel.org/netdev/net/c/1d63864299ca
-  - [net,v3,2/2] net: ravb: Fix R-Car RX frame size limit
-    https://git.kernel.org/netdev/net/c/ec8234717db8
+> --- /dev/null
+> +++ b/drivers/reset/reset-rzg3s-sysc.c
+> @@ -0,0 +1,140 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Renesas RZ/G3S SYSC reset driver
+> + *
+> + * Copyright (C) 2024 Renesas Electronics Corp.
+> + */
+> +
+> +#include <linux/auxiliary_bus.h>
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Using the Auxiliary Bus requires selecting AUXILIARY_BUS.
+Elsse you might run into build failures:
 
+aarch64-linux-gnu-ld: drivers/soc/renesas/rzg3s-sysc.o: in function
+`rzg3s_sysc_probe':
+rzg3s-sysc.c:(.text+0x21c): undefined reference to `auxiliary_device_init'
+aarch64-linux-gnu-ld: rzg3s-sysc.c:(.text+0x264): undefined reference
+to `__auxiliary_device_add'
+aarch64-linux-gnu-ld: drivers/reset/reset-rzg3s-sysc.o: in function
+`rzg3s_sysc_reset_driver_init':
+reset-rzg3s-sysc.c:(.init.text+0x1c): undefined reference to
+`__auxiliary_driver_register'
+aarch64-linux-gnu-ld: drivers/reset/reset-rzg3s-sysc.o: in function
+`rzg3s_sysc_reset_driver_exit':
+reset-rzg3s-sysc.c:(.exit.text+0x10): undefined reference to
+`auxiliary_driver_unregister'
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
