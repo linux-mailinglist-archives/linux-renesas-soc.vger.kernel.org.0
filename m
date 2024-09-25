@@ -1,157 +1,115 @@
-Return-Path: <linux-renesas-soc+bounces-9039-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9040-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FF6A985485
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2024 09:50:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E04E7985524
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2024 10:09:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DFCA61F2545A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2024 07:50:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D8CB91C20A0F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2024 08:09:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94149154BF5;
-	Wed, 25 Sep 2024 07:50:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 869CD157487;
+	Wed, 25 Sep 2024 08:08:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="qTaOKFwu"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="En4p2fKR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27671514FB
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 25 Sep 2024 07:50:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F1A1581E0
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 25 Sep 2024 08:08:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727250632; cv=none; b=J3HJg+YsWJ0VW2FqZ4me4/ExD116PpTH7oaxHXcaHSAXN2Y6bIwDmNod/lm2S11b0jEYfGXsGzKfDOUna8cUKI0ywbPeXzE3NFyZBU17MkOyxfqeCN2rwtXRYFMnVzUOwlUWxNFLCRF1g3tlaF/kgZcRp0pfmt8x4Myi5ziQZxQ=
+	t=1727251739; cv=none; b=OOA81yXGDtZcvKPU0znCDm4WiBlVVEYynMecpGAhFP/sbhTFTHHUibNpoKHoVgZ2JlM17Ua8vyfHO+4XaBzSFnv4dgMAQLd/jGr+mELltegiqGcLvYUWuZ2Ue2BXimNic8WfcNOJn7ehAZXNOf76X+h6mt7SVkLmbTomjD+M1D0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727250632; c=relaxed/simple;
-	bh=LQJL9XnZ7aqpWYvsQHqnHYPGaY781b2/pcH4k8tMXf0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Rb54vpRBx8LM5D3pKdfy9JTzj+sSA6bSLT2wYtycO2Pyl/I1vfXEOvkxeAAAat/uCX2HVrPqcejxNWCjA506bWQmUcF3SRGbb6hp8bGZi6Uy2CfJYcsk5wY7orpGkG04uKFz7GKCNn/9un0r9kaj7Cb7VBvxkcf3bJbJW2WT6AM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=qTaOKFwu; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-37cc9aeb01dso102392f8f.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 25 Sep 2024 00:50:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1727250629; x=1727855429; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YFiXClqbPRW4CJclRDKGkw40xsL++a9HxAmJhaouAR4=;
-        b=qTaOKFwur8NWzwTTOKUrLm2/lHaFRxfR3ELJKonQIhw+faVILbQrhWbbHFlQgiRd+4
-         o6pLBn+8gKElH5zchy3DKzfCY7waSwihtH1rOyWFkOv1i7Bl8MqLzaIKwaBHS4Mok+/m
-         SBTcQF6DT1edztz9ppNB8L4bTaem7rhnL5ooU6NV/39Oz+21dGxY2om7OhSlqzK+7VHu
-         qUBtovz2P508UiV0Odjs+yNPwKRYCWp7oaAXMC+txQ/Jzxvn5aDDC0R4dXetWNV+F+Ns
-         OhYMZLEpKunfm6ct24sL3wHb7Ud/u9ql5C98gadYlpIQO95GLGJCkTq99XI1FCm9f+70
-         9Adw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727250629; x=1727855429;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YFiXClqbPRW4CJclRDKGkw40xsL++a9HxAmJhaouAR4=;
-        b=ElQ27k8818y8pcnAlvzlVND3tdFwHvkqzdx3Kc0J4CTnzRmjJ4L5oIsJzoHhq/vsaE
-         +IMHsy03zaq3GdtLfOzB8AYeNBo8/o4SRGcEdBJ6/ijyAhG/2gKksdTqk79HYooh0s1m
-         I1+rqmdmrYW0+O/w4p6hQ32BOGNo2D2wC0q2f2QTiIhf0E4Z9YgjwRukQ7DYO52MnvHi
-         uCmHE7PWdkkl6TPmStswCGaBFJiZzZjiYrkGVnaZ2/2tgoqc3M70iqWU+v1p4s1egFyh
-         Px+F65dWYpD4kmo6EvjTc6nvzGg0S50ZpOTJK742h6YBR54RXsFvI+0pKKRxwtQcN0dV
-         FqHg==
-X-Forwarded-Encrypted: i=1; AJvYcCWYAgp1+hPHyUkU6ar+RYOrhEtbrMVrPMR3jhDPLbklMY+k24Ol4fYMVvYDIQsvWnN/8GMhqGe5G42aqzBIDpCOGw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxlQwjQeZ7xD4ZPF5UghqQOlsigWL7N26pWZn/lfumkOBCPWD/7
-	bDLs2OA37eRf1q0YPRCXr49Fw0mDZKDMdl/LRuY0Z3kkl+FA/hrClu/+WSpUy7o=
-X-Google-Smtp-Source: AGHT+IFSqrWOgvLYloNvVXm1vEQkjP+JD1QteKQEPhT8fVsIjwexzPr+xFJfYUTXmrkXaAxZ4I2zWw==
-X-Received: by 2002:adf:f58e:0:b0:36d:2984:ef6b with SMTP id ffacd0b85a97d-37cc2466ff9mr1203849f8f.11.1727250629008;
-        Wed, 25 Sep 2024 00:50:29 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.115])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e969feb45sm10046135e9.20.2024.09.25.00.50.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Sep 2024 00:50:27 -0700 (PDT)
-Message-ID: <23531a70-cf50-4b32-a9fd-81e6cfcbcf9d@tuxon.dev>
-Date: Wed, 25 Sep 2024 10:50:24 +0300
+	s=arc-20240116; t=1727251739; c=relaxed/simple;
+	bh=depYVt6fWOK3HfU3lEMXuCuvoggswBStzR6gwsqjmeI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kg+OO3z5Uj9l84KAwPeej16+IWrWEDIkgmvFP7PjnZ8/xFBSgvmjYyu+wRZcjzHUqCf02rq8trKAqMcBbDdXDCurXw3EZ6KVWWQjKm6tI5o4MgwC9FGEX9r/b61p3oxUKLQnUASdRLfSp8fXRKseegctVbRwzvyK+1ON2vTCvfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=En4p2fKR; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=L1Oc
+	6AVo2jubjkejONS2UDmsZEVq2tV2ABI09U5+ngY=; b=En4p2fKR/Ipvd6jx01BQ
+	syeDjmQAk292THvbOjA5c07D8LzW0itxryCEGvsqzXCwiSRgGHnIoExMAD+o3PyS
+	OtvMr7drzafxc/ECfAdeajK6pzGfBgdotjAjqwah9O5IldKoOs5j1GlVGN+d03cp
+	5oQBBoczJ+2hVuEmb/ONlTfhFDICNT2wUCpBf+ng3poR9rrSfk5T4g0evm1lQOia
+	MzAZoFvx1/MEVdlmtphX6sB7kooUB0tnxpABL/6w0gKsP7lvqOZKzlSG4175U8l7
+	AnIwdsnWY8MUCKEN0oRigX+k/QryOQmfSx5A553Rz44jFmq3RAEvQRDCz4xBB36F
+	uA==
+Received: (qmail 535317 invoked from network); 25 Sep 2024 10:08:53 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Sep 2024 10:08:53 +0200
+X-UD-Smtp-Session: l3s3148p1@eGn9Ie0ieE9tKPDh
+Date: Wed, 25 Sep 2024 10:08:52 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>
+Subject: Re: [PATCH 0/5] ARM: dts: renesas: bring genmai up to date - the
+ easy stuff
+Message-ID: <ZvPFFEhbAtiJ0EWq@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	"Rob Herring (Arm)" <robh@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>
+References: <20240921114813.4124-7-wsa+renesas@sang-engineering.com>
+ <172722909822.835713.6559556227241563232.robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/16] soc: renesas: Add SYSC driver for Renesas RZ/G3S
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: vkoul@kernel.org, kishon@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, p.zabel@pengutronix.de, geert+renesas@glider.be,
- magnus.damm@gmail.com, gregkh@linuxfoundation.org, mturquette@baylibre.com,
- sboyd@kernel.org, yoshihiro.shimoda.uh@renesas.com,
- biju.das.jz@bp.renesas.com, ulf.hansson@linaro.org,
- linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com>
- <20240822152801.602318-5-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdVQsHx0nC3xwQWVRWyWMnbXd1=RokNn8rkJv3bfG_0p-A@mail.gmail.com>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <CAMuHMdVQsHx0nC3xwQWVRWyWMnbXd1=RokNn8rkJv3bfG_0p-A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-Hi, Geert,
-
-On 24.09.2024 14:32, Geert Uytterhoeven wrote:
-> Hi Claudiu,
-> 
-> On Thu, Aug 22, 2024 at 5:28 PM Claudiu <claudiu.beznea@tuxon.dev> wrote:
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> The RZ/G3S SYS Controller has 2 registers (one for PCIE one for USB) that
->> need to be configured before/after powering off/on the PCI or USB
->> ares. The bits in these registers control signals to PCIE and USB that
->> need to be de-asserted/asserted after/before power on/off event. For this
->> add SYSC controller driver that registers a reset controller driver on
->> auxiliary bus which allows USB, PCIE drivers to control these signals.
->>
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> Thanks for your patch!
-> 
->> --- /dev/null
->> +++ b/drivers/reset/reset-rzg3s-sysc.c
->> @@ -0,0 +1,140 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * Renesas RZ/G3S SYSC reset driver
->> + *
->> + * Copyright (C) 2024 Renesas Electronics Corp.
->> + */
->> +
->> +#include <linux/auxiliary_bus.h>
-> 
-> Using the Auxiliary Bus requires selecting AUXILIARY_BUS.
-
-Thank you for pointing it. I'll adjust it in the next version, if it will
-be one.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="8yQYSzjm/Q9Qs7wq"
+Content-Disposition: inline
+In-Reply-To: <172722909822.835713.6559556227241563232.robh@kernel.org>
 
 
-> Elsse you might run into build failures:
-> 
-> aarch64-linux-gnu-ld: drivers/soc/renesas/rzg3s-sysc.o: in function
-> `rzg3s_sysc_probe':
-> rzg3s-sysc.c:(.text+0x21c): undefined reference to `auxiliary_device_init'
-> aarch64-linux-gnu-ld: rzg3s-sysc.c:(.text+0x264): undefined reference
-> to `__auxiliary_device_add'
-> aarch64-linux-gnu-ld: drivers/reset/reset-rzg3s-sysc.o: in function
-> `rzg3s_sysc_reset_driver_init':
-> reset-rzg3s-sysc.c:(.init.text+0x1c): undefined reference to
-> `__auxiliary_driver_register'
-> aarch64-linux-gnu-ld: drivers/reset/reset-rzg3s-sysc.o: in function
-> `rzg3s_sysc_reset_driver_exit':
-> reset-rzg3s-sysc.c:(.exit.text+0x10): undefined reference to
-> `auxiliary_driver_unregister'
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
+--8yQYSzjm/Q9Qs7wq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+
+> arch/arm/boot/dts/renesas/r7s72100-genmai.dtb: keyboard: 'interrupt-parent' does not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', 'pinctrl-[0-9]+'
+> 	from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml#
+
+I fixed this by moving 'interrupt-parent' to 'key-1'. Checked with
+dtbs_check now (which I needed to repair first becausde of a Python
+version upgrade :/).
+
+Geert, shall I resend the series or just the last patch?
+
+
+--8yQYSzjm/Q9Qs7wq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmbzxRQACgkQFA3kzBSg
+KbayJA/9HPPaL9JOD9ynvZUe5xASXNiAfvWZl1pf8/LtDP8ZHhSxRXN14W18gSFj
+KEh4xrV/Y7uzLbaI9KPb8+8r4VQxyu52lCS+jgz0jIw6CmZTgQfimc9VgsLOZ2tl
+pDqfmHT0Dn1omHQNl1RRklNen3yKMIPj7c+mysXH4ZSpIILVG9bk86vXNQDvRade
+KmDmFXeFqruxVyGnByaoNEyGuNVqke7Y4epcl8Fe9kpIX1ShAcR7MeIbHxQsWQhX
+SIS5XAWpwsJAPAk/uvz5jG4MP3iTzFMhABcUQr2pj2l9GFDIoOheKAnMHEBm36fX
+QEgVgPbKcAfH3XKeo2fIru0MnJfnQvrAVfd9Oa+1UNE/czMgwyN4jA1ppE0J2m8S
+WRXW6TzezACpp/BrPaRm2+Tsvr3rnWzIyZCh9/BdkkLnKcZII/8EgnOVDr5sfODW
+2EpUGbLItQk3Vsx5UxiSPJvT3m+0yeCQPcY1b8E+b8ULqb+QGNsBgUswxY8Paj1R
+XeRhumXeB0Gj6ynfgwjDinxixSDOoFP/MZnhJqQMe+NhRFPjteG3jPZ4FNqFWyiF
+d+OK1acCQywy6pkBu6RJpKzIWYYAxG5D9hWyVRktVTZxQ7/297RAElZmffNpM3r4
+JDUwJQOGROrUfyzq+3OQ5El6fsVpbDuRu+0rnXUPScBkjOevBtI=
+=FSL6
+-----END PGP SIGNATURE-----
+
+--8yQYSzjm/Q9Qs7wq--
 
