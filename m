@@ -1,227 +1,120 @@
-Return-Path: <linux-renesas-soc+bounces-9031-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9032-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4931A984E33
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2024 00:55:58 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D50489850BD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2024 03:56:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5E6E8B218A0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Sep 2024 22:55:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5CE18B22D5F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2024 01:56:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CA99183CA0;
-	Tue, 24 Sep 2024 22:55:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6E7B1369AA;
+	Wed, 25 Sep 2024 01:56:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JZTGJLWz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KLX+JqqT"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0679918308A;
-	Tue, 24 Sep 2024 22:55:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAA1E2E83F;
+	Wed, 25 Sep 2024 01:56:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727218551; cv=none; b=F6se4msT/g2UhvaK/U3nE0ltU4Px5v6hHbpSG/m+cBik7xG6DABVxP19IAlO28nq2QysJNPvcKTLAPWygFHaUXoTFqX0SYBt7ACcPRKVeaGlFvcy22CyGr9GATSJMVwFGkJQy/IIhut3Na+Q8deBQuVzMIsfl12pKvV1EGeN7GE=
+	t=1727229412; cv=none; b=lZNE939XZMfZZ0paPltjbQ3J1zZqA6HkVKl/y7y+fgXcjxVky/mX9wtwgtXD5hrR8J3MjRLQVYVAZN3VRtdj1FqmawalCKQJRUFbW+nVlX54rXesfEHRW+kyqx6Qu5eZA2mKsCrSBT8BxoiGqMtlgAbhElk+fbO94/JKHRhp/Oo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727218551; c=relaxed/simple;
-	bh=NN1DjooGHxfFNdIG/PuNIR/rBiHxbIazdx8EsEzgGrQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WZEok8yJNORBnoDdB1M6iP8snC+KoxjMc+VFSGnMXeEdyyvLAjXW+2RuDQqPotDvv5B+2LMo5sR4mw6EapGMNlzAsy9s09UDHGoF9ibwpcMo6AlyuVoSFXNRRbVbyzc8iYgHO0mcXN0nyPDzIsvm/KInnNUL08WiAk4m4LGIcmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JZTGJLWz; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E51567E2;
-	Wed, 25 Sep 2024 00:54:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1727218461;
-	bh=NN1DjooGHxfFNdIG/PuNIR/rBiHxbIazdx8EsEzgGrQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JZTGJLWzgxiRXrRktII0RhCJrNAPotrT3wwLyQSu2xDNif4zo7fq6VKmAmUA0/b3q
-	 rKutEcFNxAEHRbSRGtI32EDs7gJRlM6vaqYV5UaSplonGl3OAV4hbm/qsBVF40c9dm
-	 6aR69fL7wpqtl4+poxSDhz+YZ64dErlJHKZjf+5s=
-Date: Wed, 25 Sep 2024 01:55:15 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2 08/11] media: i2c: ov5645: Switch to
- {enable,disable}_streams
-Message-ID: <20240924225515.GQ7165@pendragon.ideasonboard.com>
-References: <20240910170610.226189-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240910170610.226189-9-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1727229412; c=relaxed/simple;
+	bh=gwZoGgu6joQKepI/nFtly2OWY1FeRY6640Y3Dt9N530=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=BKoGspyRlYol0r0qOZTKdft8MuJnOAkFrvvB4QIF9LKDoetp8dfLvYlL0evEBJOes1x0367mDR8B876/ARk5jgnvpxdlc01LoaX0eEJuCx5EQ1E9MhZjHpoOQCUoHuF7yoObrK9olbD1DjdARuJlN78zeregzU6LBUh+H4g7Urk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KLX+JqqT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DF3DC4CEC4;
+	Wed, 25 Sep 2024 01:56:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727229412;
+	bh=gwZoGgu6joQKepI/nFtly2OWY1FeRY6640Y3Dt9N530=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=KLX+JqqTerFzjda/uy6fuBlvOGTcJfU5bG49B0UrpAOpDLTyDWmPIHMkX5M4E6bRq
+	 /1CI1cxojsPFNH6bgWVJOmkgr9S1XY+iljNJd7FxxQ+//PRBZ+IxHfwoSymZ4R+OYE
+	 yVofBANJvJ2r7NobHOhG4k8nTfz/JA7x9gFGTHKTyCOVA0nEmKHqzoLLsL/TlZYnRc
+	 Q1SRKxzB32+F4kvG9J1UMkAVY3BUg4MYWFOseP8jQYyXJYQkYrFZhGMIBbjqh+Kcwr
+	 q9LbpeLMqVzpRbBdydMjkunPzV3hJG/mTnIM84J06OUJC128cfDDC9JSvBYTkvGjl9
+	 hfFMuDqS408cA==
+Date: Tue, 24 Sep 2024 20:56:51 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240910170610.226189-9-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>
+In-Reply-To: <20240921114813.4124-7-wsa+renesas@sang-engineering.com>
+References: <20240921114813.4124-7-wsa+renesas@sang-engineering.com>
+Message-Id: <172722909822.835713.6559556227241563232.robh@kernel.org>
+Subject: Re: [PATCH 0/5] ARM: dts: renesas: bring genmai up to date - the
+ easy stuff
 
-Hi Prabhakar,
 
-Thank you for the patch.
-
-On Tue, Sep 10, 2024 at 06:06:07PM +0100, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Sat, 21 Sep 2024 13:48:12 +0200, Wolfram Sang wrote:
+> I recently rediscovered the Genmai board as a great platform for
+> regression testing (RIIC, pre R-Car SDHI and MMCIF). Its DTS file is a
+> bit outdated, though. This series adds the simple stuff, and reorganizes
+> it to be sorted. I want to add SDHI and MMCIF on top of this, but those
+> didn't work out of the box and need a little more work, probably.
 > 
-> Switch from s_stream to enable_streams and disable_streams callbacks.
-
-Here too you should explain why. The "why" is the most important part of
-any commit message.
-
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-> ---
->  drivers/media/i2c/ov5645.c | 90 +++++++++++++++++++-------------------
->  1 file changed, 46 insertions(+), 44 deletions(-)
+> Let's start with this seris first. Looking forward to comments.
 > 
-> diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-> index 9497ec737cb7..dc93514608ee 100644
-> --- a/drivers/media/i2c/ov5645.c
-> +++ b/drivers/media/i2c/ov5645.c
-> @@ -923,71 +923,71 @@ static int ov5645_get_selection(struct v4l2_subdev *sd,
->  	return 0;
->  }
->  
-> -static int ov5645_s_stream(struct v4l2_subdev *subdev, int enable)
-> +static int ov5645_enable_streams(struct v4l2_subdev *sd,
-> +				 struct v4l2_subdev_state *state, u32 pad,
-> +				 u64 streams_mask)
->  {
-> -	struct ov5645 *ov5645 = to_ov5645(subdev);
-> -	struct v4l2_subdev_state *state;
-> +	struct ov5645 *ov5645 = to_ov5645(sd);
->  	int ret;
->  
-> -	state = v4l2_subdev_lock_and_get_active_state(&ov5645->sd);
-> -
-> -	if (enable) {
-> -		ret = pm_runtime_resume_and_get(ov5645->dev);
-> -		if (ret < 0) {
-> -			v4l2_subdev_unlock_state(state);
-> -			return ret;
-> -		}
-> +	ret = pm_runtime_resume_and_get(ov5645->dev);
-> +	if (ret < 0)
-> +		return ret;
->  
-> -		ret = ov5645_set_register_array(ov5645,
-> +	ret = ov5645_set_register_array(ov5645,
->  					ov5645->current_mode->data,
->  					ov5645->current_mode->data_size);
-> -		if (ret < 0) {
-> -			dev_err(ov5645->dev, "could not set mode %dx%d\n",
-> -				ov5645->current_mode->width,
-> -				ov5645->current_mode->height);
-> -			goto err_rpm_put;
-> -		}
-> -		ret = __v4l2_ctrl_handler_setup(&ov5645->ctrls);
-> -		if (ret < 0) {
-> -			dev_err(ov5645->dev, "could not sync v4l2 controls\n");
-> -			goto err_rpm_put;
-> -		}
-> -
-> -		ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x45);
-> -		if (ret < 0)
-> -			goto err_rpm_put;
-> -
-> -		ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
-> -				       OV5645_SYSTEM_CTRL0_START);
-> -		if (ret < 0)
-> -			goto err_rpm_put;
-> -	} else {
-> -		ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x40);
-> -		if (ret < 0)
-> -			goto stream_off_rpm_put;
-> +	if (ret < 0) {
-> +		dev_err(ov5645->dev, "could not set mode %dx%d\n",
-> +			ov5645->current_mode->width,
-> +			ov5645->current_mode->height);
-> +		goto err_rpm_put;
-> +	}
-> +	ret = __v4l2_ctrl_handler_setup(&ov5645->ctrls);
-> +	if (ret < 0) {
-> +		dev_err(ov5645->dev, "could not sync v4l2 controls\n");
-> +		goto err_rpm_put;
-> +	}
->  
-> -		ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
-> -				       OV5645_SYSTEM_CTRL0_STOP);
-> +	ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x45);
-> +	if (ret < 0)
-> +		goto err_rpm_put;
->  
-> -		goto stream_off_rpm_put;
-> -	}
-> +	ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
-> +			       OV5645_SYSTEM_CTRL0_START);
-> +	if (ret < 0)
-> +		goto err_rpm_put;
->  
-> -	v4l2_subdev_unlock_state(state);
->  	return 0;
->  
->  err_rpm_put:
->  	pm_runtime_put_sync(ov5645->dev);
->  	return ret;
-> +}
-> +
-> +static int ov5645_disable_streams(struct v4l2_subdev *sd,
-> +				  struct v4l2_subdev_state *state, u32 pad,
-> +				  u64 streams_mask)
-> +{
-> +	struct ov5645 *ov5645 = to_ov5645(sd);
-> +	int ret;
-> +
-> +	ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x40);
-> +	if (ret < 0)
-> +		goto rpm_put;
-> +
-> +	ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
-> +			       OV5645_SYSTEM_CTRL0_STOP);
->  
-> -stream_off_rpm_put:
-> +rpm_put:
->  	pm_runtime_mark_last_busy(ov5645->dev);
->  	pm_runtime_put_autosuspend(ov5645->dev);
-> -	v4l2_subdev_unlock_state(state);
-> +
->  	return ret;
->  }
->  
->  static const struct v4l2_subdev_video_ops ov5645_video_ops = {
-> -	.s_stream = ov5645_s_stream,
-> +	.s_stream = v4l2_subdev_s_stream_helper,
->  };
->  
->  static const struct v4l2_subdev_pad_ops ov5645_subdev_pad_ops = {
-> @@ -996,6 +996,8 @@ static const struct v4l2_subdev_pad_ops ov5645_subdev_pad_ops = {
->  	.get_fmt = v4l2_subdev_get_fmt,
->  	.set_fmt = ov5645_set_format,
->  	.get_selection = ov5645_get_selection,
-> +	.enable_streams = ov5645_enable_streams,
-> +	.disable_streams = ov5645_disable_streams,
->  };
->  
->  static const struct v4l2_subdev_core_ops ov5645_core_ops = {
+> Happy hacking,
+> 
+>    Wolfram
+> 
+> 
+> Wolfram Sang (5):
+>   ARM: dts: renesas: genmai: enable watchdog
+>   ARM: dts: renesas: genmai: enable OS timer modules
+>   ARM: dts: renesas: genmai: sort nodes
+>   ARM: dts: renesas: genmai: sort pinctrl entries
+>   ARM: dts: renesas: genmai: define keyboard switch
+> 
+>  arch/arm/boot/dts/renesas/r7s72100-genmai.dts | 136 +++++++++++-------
+>  1 file changed, 85 insertions(+), 51 deletions(-)
+> 
+> --
+> 2.45.2
+> 
+> 
+> 
 
--- 
-Regards,
 
-Laurent Pinchart
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
+
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+New warnings running 'make CHECK_DTBS=y renesas/r7s72100-genmai.dtb' for 20240921114813.4124-7-wsa+renesas@sang-engineering.com:
+
+arch/arm/boot/dts/renesas/r7s72100-genmai.dtb: keyboard: 'interrupt-parent' does not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml#
+
+
+
+
+
 
