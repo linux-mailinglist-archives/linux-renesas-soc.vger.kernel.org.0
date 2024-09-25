@@ -1,195 +1,252 @@
-Return-Path: <linux-renesas-soc+bounces-9045-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9046-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D1FF98607F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2024 16:24:31 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B47F9863A1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2024 17:33:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1EF1B1F2602F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2024 14:24:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8A810B36E2C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2024 14:55:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DBCD187550;
-	Wed, 25 Sep 2024 13:04:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDA8018A6D1;
+	Wed, 25 Sep 2024 14:25:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JzbbvifS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KS321w1d"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972A643AA4;
-	Wed, 25 Sep 2024 13:04:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6209176FCF;
+	Wed, 25 Sep 2024 14:25:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727269466; cv=none; b=g0fwP/PTN7/cifWb/f4Z1zNO0BuUX02iVepTzsKn7RNTSM7BWiYM0G3PAVa9DWdBdQzm2aj2BYvE8T//y6AcCfYT8OZ5O6qTAaU2yXxoQy4oc902IQcqqj/W+Htgt9LW+cits+bDreq/Vpv/Gmz7uABvgDTm9PcYGl1bb0b8Lx4=
+	t=1727274332; cv=none; b=Te7g5eXhel7wgM/Ud0HlJJJovqy/fa7soZp5doV1FEpdCXhhiyYLzVZo7MDp0YdeNrgSof47ghTVRszqRaZy+Z5mK4T43A60U76vbFifdIscKmfY4MTm69UZ4fqg1ECMwJpg2ezjk7DYq2u3HjHwIifnT3+ohkeSyKV5DdxycF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727269466; c=relaxed/simple;
-	bh=EchhUKDCT0c9jPflNJ3DvHngI4+2g3zFk93f1tD6GN8=;
+	s=arc-20240116; t=1727274332; c=relaxed/simple;
+	bh=0KrTP0hX+3PRCNf/kikMSMXg0eMbbB55A2pBrDjHw8k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E9I5lgTw98qSfW08zavbjN7i9TOr0toMlitpWsi/cimGRfxf0vq7/REbG1fiiomeKz9fyMQ5Mz5UdkebpH4pYPsVjcxNUabOBb6abvg8xsMcn+VZRNmDrhYNlb2ozEHhpg5edsOX+7ZKfOXLKZe2pfTE/+gC0TjSCH7/WcAamgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JzbbvifS; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-374c180d123so3994557f8f.3;
-        Wed, 25 Sep 2024 06:04:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727269463; x=1727874263; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=DBu5XUnhJNdOeappOvbSgH7IVH7jDxNvY4SRG1JHBCk=;
-        b=JzbbvifSIIiR3w1ZfJoUerM4f8ySQjGJBuK6WpAPrSBxKJFoGu8GWlK5erG5qkSFM8
-         sGDvE+gb923Nl28tqd/errznjrT4uO/4FvhAUqhHA5lKVnRIpBsGXm1zQTx5nax1Xt+t
-         qHePec8MTPMp/qF5hWh49DxyXeS0ZSuoQLA8KdbdSIR+zrz7gy7PR+DjWa4TauQaO7O8
-         WAGOIsfteHnjf3+1y3Fzb0buZl/paxzbt3AryBh+aaBMNAEqdDdSpogt3a9mz/GyI8tf
-         CCeyRjHgWPDk4FHh4Eam8XNA2WeSKwVW/QFtwPmSEZbbYDCxBAl/lRsOixRKvNJFg/sD
-         dNtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727269463; x=1727874263;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DBu5XUnhJNdOeappOvbSgH7IVH7jDxNvY4SRG1JHBCk=;
-        b=mGOwWVErSh/rRFARm+d3xj8z8ceamLMk2Dj7A9Z004VJGcw70uT1lNYyWLllOAtqYT
-         WHRSxry0nQnMPv+YFcsj9mwIe6ylsEITAPAlQ0xxon2Wdb6DXcFXp2rbIEErvuTvqkeL
-         F5Up/464T/3bIF+oHKNDjJh4gIvtrsQAAwk2SgnHpM7IGIVINs2oxciLJvo6/ViPV+d/
-         u0/74tUGHFPl7m/W315SzJkw5gmXvxOpgao/oHYQ/I85XTsJuTFuOmpgcpP7wj/Dpeat
-         IjSKkcBrBec27QZ+kFHtUpSn1xbWUw6h85pJmetKomMWIB/w9TtQ/NmaHxiapfoyZ4f6
-         P9fw==
-X-Forwarded-Encrypted: i=1; AJvYcCWn47oJ2d6If+sq8CbYSZtOowTjdIqTIu0rL8BrZYmrNDXnIYsm27Tanf6b0T2kvgQriYXmr/h8qVcJcCbHbSDXOQ==@vger.kernel.org, AJvYcCXfKR29vHodV9LzhS/pgktri1tcYX9meaQm2IUBhqoPdlXKBDouD89GPHDjXgTCJw/GzXWWhT5x@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyb6rRmYPqzxf5RitBlaDs5BL4JPpGr/Bm/Q5L7UiWrM4KL0+2t
-	cW9/eu+Ccn2kH2zOV/AvH9RSgBZpcxRklZQkAh+SdU65xMlSVB1z
-X-Google-Smtp-Source: AGHT+IFwKMc+tAQezLhJNXzzXloJLI9dfhwj83QKjLHjVCF/RnFrIRbTT01y2K0W5H7ly+6gOUk6Ig==
-X-Received: by 2002:a5d:5587:0:b0:377:2df4:55f6 with SMTP id ffacd0b85a97d-37cc2468768mr1755328f8f.17.1727269462406;
-        Wed, 25 Sep 2024 06:04:22 -0700 (PDT)
-Received: from eichest-laptop ([2a02:168:af72:0:bfae:1f4d:37af:7b02])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37cbc318803sm3924142f8f.94.2024.09.25.06.04.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Sep 2024 06:04:21 -0700 (PDT)
-Date: Wed, 25 Sep 2024 15:04:19 +0200
-From: Stefan Eichenberger <eichest@gmail.com>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Dimitri Fedrau <dima.fedrau@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [net-next 3/3] net: phy: marvell-88q2xxx: Enable auto
- negotiation for mv88q2110
-Message-ID: <ZvQKU02iGgcq5Mzp@eichest-laptop>
-References: <20240906133951.3433788-1-niklas.soderlund+renesas@ragnatech.se>
- <20240906133951.3433788-4-niklas.soderlund+renesas@ragnatech.se>
- <70b86181-7bcf-42d7-b5a8-d26ac0c4c573@lunn.ch>
- <ZuWW4UOtOGI_KmSg@eichest-laptop>
- <20240914142136.GC64607@ragnatech.se>
+	 Content-Type:Content-Disposition:In-Reply-To; b=GValM7J6t3wz12hZVaDESmfB86KoiryR4EnWEkgV2ktm7CBc0dcy8l6CqqK/Z6yrs8fkeS7qARAP6KmsImMKmgWQUxb3+N/6q2p3EQg/qG8DCHXeYeL3Q1HdvrnToScmpkijYihCErgF/jD1VRd3DvjzzcAaZKgvFlIrNRFlpCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KS321w1d; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727274331; x=1758810331;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0KrTP0hX+3PRCNf/kikMSMXg0eMbbB55A2pBrDjHw8k=;
+  b=KS321w1d22R84Q+L+EvfhedMaocQD4tFaXrR6vFKKunIRMhPphep8f3P
+   xCy+IPo6XF1jQxgvdjdENl63vyiMS0txqAOFHpPP1hk/Mwf1wzDUwWxv3
+   RYSGX6G3qqYlQBNzUIRhizLAXznqqq8jNUN5XT/wu5mzRn0DvhZJRcArH
+   fVhl/qdE2Xk4QOINUHGd+e+26xmIqhW4EIPP40KgRtTbufPDstQwQXQh1
+   2Pyc+PEmGCzlrmlNgPrHDyH497sc1R+Fv79eYZWbjZ2o0rY1KEbxVoTfY
+   DBy/bFITrbruuZtXR8qPhnygqJrZRJe4b+1PvKuvkwzYicaXW6LyNdFZD
+   A==;
+X-CSE-ConnectionGUID: nqsf7Q3ITcCFLo1orpCYXA==
+X-CSE-MsgGUID: qYElqjHdTWSZJzbCfG1VjQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="30036742"
+X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; 
+   d="scan'208";a="30036742"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 07:25:25 -0700
+X-CSE-ConnectionGUID: VHKIucy4Q9qg8bWQwRvclA==
+X-CSE-MsgGUID: KXuWMDfTQ0KbE/JPST/d0Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; 
+   d="scan'208";a="95119418"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 25 Sep 2024 07:25:20 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1stSxC-000Jb2-0h;
+	Wed, 25 Sep 2024 14:25:18 +0000
+Date: Wed, 25 Sep 2024 22:24:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>, patrick@stwcx.xyz,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Carsten =?iso-8859-1?Q?Spie=DF?= <mail@carsten-spiess.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Yikai Tsai <yikai.tsai.wiwynn@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v7 2/2] hwmon: (isl28022) new driver for ISL28022 power
+ monitor
+Message-ID: <202409252223.s09tP6IL-lkp@intel.com>
+References: <20240925031131.14645-3-yikai.tsai.wiwynn@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240914142136.GC64607@ragnatech.se>
+In-Reply-To: <20240925031131.14645-3-yikai.tsai.wiwynn@gmail.com>
 
-Hi Niklas,
+Hi Yikai,
 
-On Sat, Sep 14, 2024 at 04:21:36PM +0200, Niklas Söderlund wrote:
-> Hello,
-> 
-> On 2024-09-14 16:00:01 +0200, Stefan Eichenberger wrote:
-> > Hi Niklas and Andrew,
-> > 
-> > I was able to do a first basic test on my setup. I'm using the MV88Q2110
-> > and connecting it to a Göpel media converter that I use as a reference.
-> 
-> Thanks for testing this work.
-> 
-> > However, with your patch applied, I can't get a link. When I set a fixed
-> > link speed of 1GBit/s and the media converter is configured as the
-> > master, I can normally do: 
-> > ethtool -s end1 speed 1000 master-slave forced-slave
-> > After that, the link came up. However, with the changes made, I can't do
-> > this anymore. Can you reproduce this in your setup?
-> 
-> Without this patch I can't bring up a 1GBit/s link at all, I can only 
-> setup a 100 MBit/s link with,
-> 
->     ethtool -s eth1 speed 100 master-slave forced-slave
-> 
-> If I do the same with speed set to a 1000 I never get a link. That's why 
-> autoneg is a such a boon for me, as with that I do get a 1 Gbit/s link.
-> 
-> As you have the MV88Q2110 datasheets, can you check the register writes 
-> in mv88q2110_init_seq0 and mv88q2110_init_seq1 for sanity? Maybe 
-> something is not quiet right there, I have only been able to reveres 
-> engineer support for autoneg so it's quiet likely.
+kernel test robot noticed the following build warnings:
 
-Unfortunately this registers are not documented in the datasheet.
-However, from the software initialization guide the following values
-would be correct for A1 and A2 devices (A0 does not need one write):
-static const struct mmd_val mv88q2110_init_seq1[] = {
-	{ MDIO_MMD_PCS, 0xffde, 0x402f },
-	{ MDIO_MMD_PCS, 0xfe2a, 0x3c3d},
-	{ MDIO_MMD_PCS, 0xfe34, 0x4040 },
-	{ MDIO_MMD_PCS, 0xfe4b, 0x9337},
-	{ MDIO_MMD_PCS, 0xfe2a, 0x3c1d },
-	{ MDIO_MMD_PCS, 0xfe34, 0x0040 },
-	{ MDIO_MMD_AN, 0x8032, 0x0064 },
-	{ MDIO_MMD_AN, 0x8031, 0x0a01 },
-	{ MDIO_MMD_AN, 0x8031, 0x0c01 },
-	{ MDIO_MMD_PCS, 0xFE0F, 0x0000 },
-	{ MDIO_MMD_PCS, 0x800C, 0x0000 },
-	{ MDIO_MMD_PCS, 0x801D, 0x0800 },
-	{ MDIO_MMD_PCS, 0xfc00, 0x01c0 },
-	{ MDIO_MMD_PCS, 0xfc17, 0x0425},
-	{ MDIO_MMD_PCS, 0xfc94, 0x5470},
-	{ MDIO_MMD_PCS, 0xfc95, 0x0055},
-	{ MDIO_MMD_PCS, 0xfc19, 0x08d8},
-	{ MDIO_MMD_PCS, 0xfc1a, 0x0110},
-	{ MDIO_MMD_PCS, 0xfc1b, 0x0a10},
-	{ MDIO_MMD_PCS, 0xfc3a, 0x2725},
-	{ MDIO_MMD_PCS, 0xfc61, 0x2627},
-	{ MDIO_MMD_PCS, 0xfc3b, 0x1612},
-	{ MDIO_MMD_PCS, 0xfc62, 0x1c12},
-	{ MDIO_MMD_PCS, 0xfc9d, 0x6367},
-	{ MDIO_MMD_PCS, 0xfc9e, 0x8060},
-	{ MDIO_MMD_PCS, 0xfc00, 0x01c8},
-	{ MDIO_MMD_PCS, 0x8000, 0x0000},
-	{ MDIO_MMD_PCS, 0x8016, 0x0011},
-	{ MDIO_MMD_PCS, 0xfda3, 0x1800}, /* According to datahsheet not for Rev A0 */
-	{ MDIO_MMD_PCS, 0xfe02, 0x00c0},
-	{ MDIO_MMD_PCS, 0xffdb, 0x0010},
-	{ MDIO_MMD_PCS, 0xfff3, 0x0020},
-	{ MDIO_MMD_PCS, 0xfe40, 0x00a6},
-	{ MDIO_MMD_PCS, 0xfe60, 0x0000},
-	{ MDIO_MMD_PCS, 0xfe04, 0x0008},
-	{ MDIO_MMD_PCS, 0xfe2a, 0x3c3d},
-	{ MDIO_MMD_PCS, 0xfe4b, 0x9334},
-	{ MDIO_MMD_PCS, 0xfc10, 0xf600},
-	{ MDIO_MMD_PCS, 0xfc11, 0x073d},
-	{ MDIO_MMD_PCS, 0xfc12, 0x000d},
-	{ MDIO_MMD_PCS, 0xfc13, 0x0010},
-};
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.11 next-20240925]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-On my side, your values and the ones above are working.
+url:    https://github.com/intel-lab-lkp/linux/commits/Yikai-Tsai/dt-bindings-hwmon-add-renesas-isl28022/20240925-111332
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20240925031131.14645-3-yikai.tsai.wiwynn%40gmail.com
+patch subject: [PATCH v7 2/2] hwmon: (isl28022) new driver for ISL28022 power monitor
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20240925/202409252223.s09tP6IL-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240925/202409252223.s09tP6IL-lkp@intel.com/reproduce)
 
-By the way, do you know why you only get between 800 and 850 Mbps? On my
-setup I see up to 930 Mbps in bidir mode. Just asking because maybe this
-is the reason why fixed speed doesn't work in your setup (would be weird
-though)?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409252223.s09tP6IL-lkp@intel.com/
 
-[ ID][Role] Interval           Transfer     Bitrate         Retr
-[  5][TX-C]   0.00-10.01  sec  1.09 GBytes   935 Mbits/sec    0             sender
-[  5][TX-C]   0.00-10.01  sec  1.09 GBytes   932 Mbits/sec                  receiver
-[  7][RX-C]   0.00-10.01  sec  1.09 GBytes   933 Mbits/sec  154             sender
-[  7][RX-C]   0.00-10.01  sec  1.08 GBytes   931 Mbits/sec                  receiver
+All warnings (new ones prefixed by >>):
 
-Regards,
-Stefan
+   drivers/hwmon/isl28022.c: In function 'isl28022_read_properties':
+>> drivers/hwmon/isl28022.c:396:36: warning: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
+     396 |                 dev_err_probe(dev, "renesas,shunt-range-microvolt invalid value %d\n", val);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                    |
+         |                                    char *
+   In file included from include/linux/device.h:15,
+                    from include/linux/acpi.h:14,
+                    from include/linux/i2c.h:13,
+                    from drivers/hwmon/isl28022.c:11:
+   include/linux/dev_printk.h:278:64: note: expected 'int' but argument is of type 'char *'
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                            ~~~~^~~
+>> drivers/hwmon/isl28022.c:396:88: warning: passing argument 3 of 'dev_err_probe' makes pointer from integer without a cast [-Wint-conversion]
+     396 |                 dev_err_probe(dev, "renesas,shunt-range-microvolt invalid value %d\n", val);
+         |                                                                                        ^~~
+         |                                                                                        |
+         |                                                                                        u32 {aka unsigned int}
+   include/linux/dev_printk.h:278:81: note: expected 'const char *' but argument is of type 'u32' {aka 'unsigned int'}
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                                     ~~~~~~~~~~~~^~~
+   drivers/hwmon/isl28022.c:406:36: warning: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
+     406 |                 dev_err_probe(dev, "renesas,average-samples invalid value %d\n", val);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                    |
+         |                                    char *
+   include/linux/dev_printk.h:278:64: note: expected 'int' but argument is of type 'char *'
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                            ~~~~^~~
+   drivers/hwmon/isl28022.c:406:82: warning: passing argument 3 of 'dev_err_probe' makes pointer from integer without a cast [-Wint-conversion]
+     406 |                 dev_err_probe(dev, "renesas,average-samples invalid value %d\n", val);
+         |                                                                                  ^~~
+         |                                                                                  |
+         |                                                                                  u32 {aka unsigned int}
+   include/linux/dev_printk.h:278:81: note: expected 'const char *' but argument is of type 'u32' {aka 'unsigned int'}
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                                     ~~~~~~~~~~~~^~~
+   drivers/hwmon/isl28022.c:414:28: warning: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
+     414 |         dev_err_probe(dev, "renesas,shunt-resistor-microvolt invalid value %d\n", data->shunt);
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                            |
+         |                            char *
+   include/linux/dev_printk.h:278:64: note: expected 'int' but argument is of type 'char *'
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                            ~~~~^~~
+   drivers/hwmon/isl28022.c:414:87: warning: passing argument 3 of 'dev_err_probe' makes pointer from integer without a cast [-Wint-conversion]
+     414 |         dev_err_probe(dev, "renesas,shunt-resistor-microvolt invalid value %d\n", data->shunt);
+         |                                                                                   ~~~~^~~~~~~
+         |                                                                                       |
+         |                                                                                       u32 {aka unsigned int}
+   include/linux/dev_printk.h:278:81: note: expected 'const char *' but argument is of type 'u32' {aka 'unsigned int'}
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                                     ~~~~~~~~~~~~^~~
+
+
+vim +/dev_err_probe +396 drivers/hwmon/isl28022.c
+
+   346	
+   347	/*
+   348	 * read property values and make consistency checks.
+   349	 *
+   350	 * following values for shunt range and resistor are allowed:
+   351	 *   40 mV -> gain 1, shunt min.  800 micro ohms
+   352	 *   80 mV -> gain 2, shunt min. 1600 micro ohms
+   353	 *  160 mV -> gain 4, shunt min. 3200 micro ohms
+   354	 *  320 mV -> gain 8, shunt min. 6400 micro ohms
+   355	 */
+   356	static int isl28022_read_properties(struct device *dev, struct isl28022_data *data)
+   357	{
+   358		u32 val;
+   359		int err;
+   360	
+   361		err = device_property_read_u32(dev, "shunt-resistor-micro-ohms", &val);
+   362		if (err == -EINVAL)
+   363			val = 10000;
+   364		else if (err < 0)
+   365			return err;
+   366		data->shunt = val;
+   367	
+   368		err = device_property_read_u32(dev, "renesas,shunt-range-microvolt", &val);
+   369		if (err == -EINVAL)
+   370			val = 320000;
+   371		else if (err < 0)
+   372			return err;
+   373	
+   374		switch (val) {
+   375		case 40000:
+   376			data->gain = 1;
+   377			if (data->shunt < 800)
+   378				goto shunt_invalid;
+   379			break;
+   380		case 80000:
+   381			data->gain = 2;
+   382			if (data->shunt < 1600)
+   383				goto shunt_invalid;
+   384			break;
+   385		case 160000:
+   386			data->gain = 4;
+   387			if (data->shunt < 3200)
+   388				goto shunt_invalid;
+   389			break;
+   390		case 320000:
+   391			data->gain = 8;
+   392			if (data->shunt < 6400)
+   393				goto shunt_invalid;
+   394			break;
+   395		default:
+ > 396			dev_err_probe(dev, "renesas,shunt-range-microvolt invalid value %d\n", val);
+   397			return -EINVAL;
+   398		}
+   399	
+   400		err = device_property_read_u32(dev, "renesas,average-samples", &val);
+   401		if (err == -EINVAL)
+   402			val = 1;
+   403		else if (err < 0)
+   404			return err;
+   405		if (val > 128 || hweight32(val) != 1) {
+   406			dev_err_probe(dev, "renesas,average-samples invalid value %d\n", val);
+   407			return -EINVAL;
+   408		}
+   409		data->average = val;
+   410	
+   411		return 0;
+   412	
+   413	shunt_invalid:
+   414		dev_err_probe(dev, "renesas,shunt-resistor-microvolt invalid value %d\n", data->shunt);
+   415		return -EINVAL;
+   416	}
+   417	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
