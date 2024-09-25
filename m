@@ -1,68 +1,68 @@
-Return-Path: <linux-renesas-soc+bounces-9046-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9047-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B47F9863A1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2024 17:33:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 634AD986324
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2024 17:20:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8A810B36E2C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2024 14:55:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E142DB320FE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2024 15:01:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDA8018A6D1;
-	Wed, 25 Sep 2024 14:25:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0F1318CBFA;
+	Wed, 25 Sep 2024 14:36:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KS321w1d"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CW6+ZdtE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6209176FCF;
-	Wed, 25 Sep 2024 14:25:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50FC17C9A9;
+	Wed, 25 Sep 2024 14:36:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727274332; cv=none; b=Te7g5eXhel7wgM/Ud0HlJJJovqy/fa7soZp5doV1FEpdCXhhiyYLzVZo7MDp0YdeNrgSof47ghTVRszqRaZy+Z5mK4T43A60U76vbFifdIscKmfY4MTm69UZ4fqg1ECMwJpg2ezjk7DYq2u3HjHwIifnT3+ohkeSyKV5DdxycF0=
+	t=1727274987; cv=none; b=OxJ0QQlEbMnpiWHGtLzzIj/sPwRiHH4v3NWKdZNEQE6hHLOLxVdPEzM+5vBHGtmIG742YkkyLknlQR/oF84rkAP6FotDR3avB30VJsuRmtH0FWWd54uAhytQjN6y9Ws/rAS9Ud701ppWZzLHM5CajSsrKRkJH3hKLUF5OhMr8PM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727274332; c=relaxed/simple;
-	bh=0KrTP0hX+3PRCNf/kikMSMXg0eMbbB55A2pBrDjHw8k=;
+	s=arc-20240116; t=1727274987; c=relaxed/simple;
+	bh=Ud1Wh4GTBi6jLxNAiO/ptsjGRRySTSynM9fjc4WRSqQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GValM7J6t3wz12hZVaDESmfB86KoiryR4EnWEkgV2ktm7CBc0dcy8l6CqqK/Z6yrs8fkeS7qARAP6KmsImMKmgWQUxb3+N/6q2p3EQg/qG8DCHXeYeL3Q1HdvrnToScmpkijYihCErgF/jD1VRd3DvjzzcAaZKgvFlIrNRFlpCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KS321w1d; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=foa8f20uby/v2U8WEGTRR1v/ud2vdeAXITD5QLleD/sagLIBwPykbM7BLQ2Pnu4eMkFNk1jeQqpzVvMCfZnOMsalvkZPh+ma71+zSTYbLsqQnLMhAwZtQ2TsHLMOXEK285GaD7lR0CUGeaQs4HvO6eCtB/b4n1pVP0+zumIq0Lo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CW6+ZdtE; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727274331; x=1758810331;
+  t=1727274986; x=1758810986;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=0KrTP0hX+3PRCNf/kikMSMXg0eMbbB55A2pBrDjHw8k=;
-  b=KS321w1d22R84Q+L+EvfhedMaocQD4tFaXrR6vFKKunIRMhPphep8f3P
-   xCy+IPo6XF1jQxgvdjdENl63vyiMS0txqAOFHpPP1hk/Mwf1wzDUwWxv3
-   RYSGX6G3qqYlQBNzUIRhizLAXznqqq8jNUN5XT/wu5mzRn0DvhZJRcArH
-   fVhl/qdE2Xk4QOINUHGd+e+26xmIqhW4EIPP40KgRtTbufPDstQwQXQh1
-   2Pyc+PEmGCzlrmlNgPrHDyH497sc1R+Fv79eYZWbjZ2o0rY1KEbxVoTfY
-   DBy/bFITrbruuZtXR8qPhnygqJrZRJe4b+1PvKuvkwzYicaXW6LyNdFZD
-   A==;
-X-CSE-ConnectionGUID: nqsf7Q3ITcCFLo1orpCYXA==
-X-CSE-MsgGUID: qYElqjHdTWSZJzbCfG1VjQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="30036742"
+  bh=Ud1Wh4GTBi6jLxNAiO/ptsjGRRySTSynM9fjc4WRSqQ=;
+  b=CW6+ZdtEcKo2jz4cZmf3tABdpCIIPqrYvjbdXgQsK9wSsKA1OOqbUrAa
+   3HIoO9mbThIKqJwLbGYGC0V/naShLxrjO2KzuIoD26ac62IRf77PA8mQX
+   +fn4IHuMHYxm2SK88fUJCeFb2I8NvgsOPtf5s5IWK5ZFp/9pbWyc8Yurb
+   IZpy6m6h5RdwsT/ZuZD5whfMVOvO4Y5ibWGYY+w9aWjZD6XPjFkPuSVUp
+   6pkzpd1ffC8i6Tt4i8nFIzbWY4TIk6MqBlFWPinlTlEFtkOsziXTcnFJa
+   OhWU5LP0QmgOlOX6UDuM0Wv944OsDm/XTNs6tM1Ep2SAlLb4ny7nBsB2s
+   Q==;
+X-CSE-ConnectionGUID: y5yFU8VJSuixvxBRat67mw==
+X-CSE-MsgGUID: BBZLiS6KQlqGjXAyDSRkHw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="37710319"
 X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; 
-   d="scan'208";a="30036742"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 07:25:25 -0700
-X-CSE-ConnectionGUID: VHKIucy4Q9qg8bWQwRvclA==
-X-CSE-MsgGUID: KXuWMDfTQ0KbE/JPST/d0Q==
+   d="scan'208";a="37710319"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 07:36:26 -0700
+X-CSE-ConnectionGUID: cQ2kt2YvRQeEVrR4a/v3pg==
+X-CSE-MsgGUID: z6MCUjSeSWSLsH3UT/D40A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; 
-   d="scan'208";a="95119418"
+   d="scan'208";a="76183373"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 25 Sep 2024 07:25:20 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 25 Sep 2024 07:36:20 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1stSxC-000Jb2-0h;
-	Wed, 25 Sep 2024 14:25:18 +0000
-Date: Wed, 25 Sep 2024 22:24:51 +0800
+	id 1stT7q-000JbY-1g;
+	Wed, 25 Sep 2024 14:36:18 +0000
+Date: Wed, 25 Sep 2024 22:35:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>, patrick@stwcx.xyz,
 	Jean Delvare <jdelvare@suse.com>,
@@ -79,7 +79,7 @@ Cc: oe-kbuild-all@lists.linux.dev, Yikai Tsai <yikai.tsai.wiwynn@gmail.com>,
 	linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Subject: Re: [PATCH v7 2/2] hwmon: (isl28022) new driver for ISL28022 power
  monitor
-Message-ID: <202409252223.s09tP6IL-lkp@intel.com>
+Message-ID: <202409252244.3ZXLJlyK-lkp@intel.com>
 References: <20240925031131.14645-3-yikai.tsai.wiwynn@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -93,10 +93,10 @@ In-Reply-To: <20240925031131.14645-3-yikai.tsai.wiwynn@gmail.com>
 
 Hi Yikai,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on linus/master v6.11 next-20240925]
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on linus/master v6.11 next-20240925]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
@@ -105,19 +105,19 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Yikai-Tsai/dt-bindings-hw
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
 patch link:    https://lore.kernel.org/r/20240925031131.14645-3-yikai.tsai.wiwynn%40gmail.com
 patch subject: [PATCH v7 2/2] hwmon: (isl28022) new driver for ISL28022 power monitor
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20240925/202409252223.s09tP6IL-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240925/202409252223.s09tP6IL-lkp@intel.com/reproduce)
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20240925/202409252244.3ZXLJlyK-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240925/202409252244.3ZXLJlyK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409252223.s09tP6IL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409252244.3ZXLJlyK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
    drivers/hwmon/isl28022.c: In function 'isl28022_read_properties':
->> drivers/hwmon/isl28022.c:396:36: warning: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
+>> drivers/hwmon/isl28022.c:396:36: error: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
      396 |                 dev_err_probe(dev, "renesas,shunt-range-microvolt invalid value %d\n", val);
          |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
          |                                    |
@@ -129,7 +129,7 @@ All warnings (new ones prefixed by >>):
    include/linux/dev_printk.h:278:64: note: expected 'int' but argument is of type 'char *'
      278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
          |                                                            ~~~~^~~
->> drivers/hwmon/isl28022.c:396:88: warning: passing argument 3 of 'dev_err_probe' makes pointer from integer without a cast [-Wint-conversion]
+>> drivers/hwmon/isl28022.c:396:88: error: passing argument 3 of 'dev_err_probe' makes pointer from integer without a cast [-Wint-conversion]
      396 |                 dev_err_probe(dev, "renesas,shunt-range-microvolt invalid value %d\n", val);
          |                                                                                        ^~~
          |                                                                                        |
@@ -137,7 +137,7 @@ All warnings (new ones prefixed by >>):
    include/linux/dev_printk.h:278:81: note: expected 'const char *' but argument is of type 'u32' {aka 'unsigned int'}
      278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
          |                                                                     ~~~~~~~~~~~~^~~
-   drivers/hwmon/isl28022.c:406:36: warning: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
+   drivers/hwmon/isl28022.c:406:36: error: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
      406 |                 dev_err_probe(dev, "renesas,average-samples invalid value %d\n", val);
          |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
          |                                    |
@@ -145,7 +145,7 @@ All warnings (new ones prefixed by >>):
    include/linux/dev_printk.h:278:64: note: expected 'int' but argument is of type 'char *'
      278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
          |                                                            ~~~~^~~
-   drivers/hwmon/isl28022.c:406:82: warning: passing argument 3 of 'dev_err_probe' makes pointer from integer without a cast [-Wint-conversion]
+   drivers/hwmon/isl28022.c:406:82: error: passing argument 3 of 'dev_err_probe' makes pointer from integer without a cast [-Wint-conversion]
      406 |                 dev_err_probe(dev, "renesas,average-samples invalid value %d\n", val);
          |                                                                                  ^~~
          |                                                                                  |
@@ -153,7 +153,7 @@ All warnings (new ones prefixed by >>):
    include/linux/dev_printk.h:278:81: note: expected 'const char *' but argument is of type 'u32' {aka 'unsigned int'}
      278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
          |                                                                     ~~~~~~~~~~~~^~~
-   drivers/hwmon/isl28022.c:414:28: warning: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
+   drivers/hwmon/isl28022.c:414:28: error: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
      414 |         dev_err_probe(dev, "renesas,shunt-resistor-microvolt invalid value %d\n", data->shunt);
          |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
          |                            |
@@ -161,7 +161,7 @@ All warnings (new ones prefixed by >>):
    include/linux/dev_printk.h:278:64: note: expected 'int' but argument is of type 'char *'
      278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
          |                                                            ~~~~^~~
-   drivers/hwmon/isl28022.c:414:87: warning: passing argument 3 of 'dev_err_probe' makes pointer from integer without a cast [-Wint-conversion]
+   drivers/hwmon/isl28022.c:414:87: error: passing argument 3 of 'dev_err_probe' makes pointer from integer without a cast [-Wint-conversion]
      414 |         dev_err_probe(dev, "renesas,shunt-resistor-microvolt invalid value %d\n", data->shunt);
          |                                                                                   ~~~~^~~~~~~
          |                                                                                       |
