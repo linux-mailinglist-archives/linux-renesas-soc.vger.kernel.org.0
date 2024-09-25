@@ -1,70 +1,70 @@
-Return-Path: <linux-renesas-soc+bounces-9050-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9051-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94AC898643B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2024 17:56:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1770986397
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2024 17:32:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 205DCB38810
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2024 15:30:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 776881F26A27
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2024 15:32:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B95313A25B;
-	Wed, 25 Sep 2024 15:25:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60E6517BD5;
+	Wed, 25 Sep 2024 15:27:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="etU5KFHl"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OiybpZce"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 746DE25757;
-	Wed, 25 Sep 2024 15:25:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FA71D5AB1;
+	Wed, 25 Sep 2024 15:27:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727277921; cv=none; b=UBDiNvBDhomYIIDvwpg2JMwvZhiE6LKWzjabYvPwyRg93K5ygiO+vXuxWxWmSdIG8Cq8MGE3c8gp7KLKGA9ezfqbyhASzehsAtQgqZEQv0KN1q6Odrh4vXXw4ou5aT0XLTlKsBIeqfU3x3m4g2upYtTfjnG1WWPJSPWDNZQthgQ=
+	t=1727278044; cv=none; b=N+5NwJqwGZu1pK6KF0jzhpSC72NYVDhk9/GXmfV6YLFdp0q9RKcFK+s/VJi90ymtSW9Kjy2s/ai+HiOxpdagjRwtAKZLcRARlk4Z9xwpbaFd1YyIrxeK3sSS+0gqhfSIR/ChqZb+igS+X6KlZCTc/jrHidZyXbjZjDbhNxqlkXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727277921; c=relaxed/simple;
-	bh=/rg8lzY/L9SaJEfUUJfiiuMItn3SqcxpEq8hsR2vPO4=;
+	s=arc-20240116; t=1727278044; c=relaxed/simple;
+	bh=VLJzEBA6BP1aaYoFnRl+tPYJhwrgksdsnuLTdmQ5FcM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bBSx672mEknz1m8iVmFoCB9g9bmGNtcYZ1r7wQE2LtvtuSU+BfKpW8hwZlX+RviJF8HBVGDW1kUeUmx28kf4Mc8igFfvwbbegzUyfqt8duuTNCWZ+KGOMUAoi4XdP2qYvdzKAuxrlojtMwGrMhiewPk3spB0PvMuEgJlfGcqIas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=etU5KFHl; arc=none smtp.client-ip=209.85.217.43
+	 To:Cc:Content-Type; b=Mgd20B9Swwqcb0UNPQMV6d5e8fiKGRaNdztprQRfD3zGO0uki1pF+OW7h1Zt9+UknG3jAQLwJhAJo35fNkXaeYhOTgbfT27OkvQmLiw+kvEZSHgv3wtFgkHxzlDFBdY+YM7a7dpzKyppE3/Enx0YNPuWYuEhhQ9LPoxO8PvBNro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OiybpZce; arc=none smtp.client-ip=209.85.210.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-49bbbebc26dso2344443137.0;
-        Wed, 25 Sep 2024 08:25:19 -0700 (PDT)
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-7124395ca86so2716007a34.0;
+        Wed, 25 Sep 2024 08:27:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727277918; x=1727882718; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1727278042; x=1727882842; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+xh/2EOs2WTw8AQzEyqJvYQT+wfQifYuKy9bTkOCzPg=;
-        b=etU5KFHls/AQi12xnZireF/Bul4TeGc3/Zpff4oAti2Uet6y0XV6vVQss1O7rtLb+d
-         XWOwzalINOdfF4Dy+7mu6D5sdIBDKSNCb+gVRbzwmlPkzHWb8KbDP9/TLRnOnPPV9ZaZ
-         3YvLaClToFIRSJU80RG93mnHzyGUb+paS6GtrUf2iXYHwLjnqMOwVEPQbBYRBx4dJ/2c
-         Ld1XsOgOvATr2FeDkzhh+Ghv0awgSw4QB1l7asw4DyzrcaSUa5HD4rNTNwKPw+YVza5z
-         pVyoHerGAvcxAuWsKxPiM+SWas92bejvpQHTb0Kfl2f4aLip7yV/3pjPV1dkoZv736iv
-         uRFg==
+        bh=VLJzEBA6BP1aaYoFnRl+tPYJhwrgksdsnuLTdmQ5FcM=;
+        b=OiybpZcewW42EySMnPn0rGX0gjar+9O0q06pZWf26KW63VKxH6y2vc0UOuWn1X0L+4
+         QhFp3iSFgfiLZikxobugGrRRNWGcHPcnXTXibCR7e+49EFLZ1YsEODtCsu5aikcabXnK
+         ZMNLvsVCIQ0qlLT1XjiXl59tkz1ka65NVHbp6MrtA0UvrFoWWtk4QO9WM0VY7cnJpM9H
+         ngjlbL3JzNOfM0/UvrWu20HgJs50F6t48VveNiipEDq0M27I02W7QIYze2lejTGmmnRm
+         EEb2hh/hugATdFBrOtPOYtsLAovX2m/+BpV1u8X2kp07UqN/RiQtQr8lh9vcg358QWA5
+         8cTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727277918; x=1727882718;
+        d=1e100.net; s=20230601; t=1727278042; x=1727882842;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+xh/2EOs2WTw8AQzEyqJvYQT+wfQifYuKy9bTkOCzPg=;
-        b=S276bpY0ArP6o+RIfQAtvbNkJS7PeX2vH+iGnElhfBgLtTvXnkV6a13SWf7SScCfQY
-         xN0BnOL3PNZ47fyJIKnznTvAcborXTG81ts+9XC6C/ATLs1jdxvm8RVWji17T6mkrg+Y
-         khaLDQg/vbH6hK1iKtXmBpYMKEPFG+OPLLj3QhatQ+cq6LwPRdBEAPc9MRBRet3VJb6t
-         ya8mASDBkkFnmYJGAJLPBCFX2moW97KjkmBv5a+SBBN9zJtBz5piFgy3G1wR3fVWZUe4
-         t9zu+1L/6+ix0IzZDjZ70O1qrNACkjHX7ivE0fAug5QFDuScZQcGTLk+BB/MN4KRhAup
-         8QPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUNYoB7yQIgMa6KFCgoPl5rcVNshThLOteLsG6j9BZhJZHB69ZpFa5vVETjwqcP9C78JcQZwXlEPbW5dx2VtqRPkjg=@vger.kernel.org, AJvYcCX5PBVnjeQQhMPpABx+v4L0UARat99AQytFwOzaE+CZmvgJRMatlLy9XPmxlRdOzC0F1bT4V7v0vpyZvec=@vger.kernel.org, AJvYcCXftOCL+dTxV1XQeYM0yZlcxv6noOiXxSPd5WwOPQe9aiL4zXJOq4ttjkK9jMINCGNkIKrwFl7Zb3XhIS0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyE1+TrW3Mc3EbfUmiZq4p7p0v22n2GkDTQDRA+fogYXifXX0ns
-	Tmch/us69CXk4M0cnwZTbYqKfNUnJ3jWnddvFkkQelCwayhuJY358mQ6k01moOFJ2VbW/grrAtD
-	r1XKe1pYUcGid9cpVoB2Y0foHa+c=
-X-Google-Smtp-Source: AGHT+IEg6P4vnh18BilWdWKPk3+aT1nLRyAXyvrAWbYUOD6SRQAugNrB4O6aCr5Atj7f9apSxRU16+Pjxx7ksN+WqtM=
-X-Received: by 2002:a05:6122:319b:b0:4ef:5b2c:df41 with SMTP id
- 71dfb90a1353d-505c20745fcmr2875987e0c.9.1727277917965; Wed, 25 Sep 2024
- 08:25:17 -0700 (PDT)
+        bh=VLJzEBA6BP1aaYoFnRl+tPYJhwrgksdsnuLTdmQ5FcM=;
+        b=SC2Jew/D/vuaShUT9E67Fil5kjr8Sgq9aCjz1d6XyFrTfh569/hfSqs77kMkqae5Pb
+         DJrt0LknRKU9yEZsttPxu7JBM7KybKhVBX9JKaQb8L1gsG6JMwMxpHWU6yivoW/tO/q8
+         Jf4EqFbUTXCfpMPcPny4xilwn2dPdlQs1MlW5lCENGqQIRXxB7avTmokEWWqd30JQWWN
+         8T1Nr6Lev351ZNypMfFMxsTTWjuculgotk9WwqLz+PTyX392cF3qLhhD1g0XkxPgCu7c
+         pbj5ZM7bDqmQd4qpUdNUfYRT8+nZkm+Qabm3RJzB9Jnb+8lBtMbGi+A52gzJIuOFwbFk
+         dgNA==
+X-Forwarded-Encrypted: i=1; AJvYcCVbe1s/u/odh8i5SBvxQKJN/J8UBe165QH9yoRh+lCYduCjLzeNQ5bzDm/I3T2A0QzJ1nrIHcvV8KBTgCE=@vger.kernel.org, AJvYcCWF2KZ5ZvmZw79eKoufUhIjeDRJEz0NG5Ik+QCsCqR0cZtGSfUfimF8pNXwIAe+gxu7dSkWl+EdXba5Jmk=@vger.kernel.org, AJvYcCXcyNGZXeOepvHpZabj5yJikXa3pUm+03R930IqBm8F8efnmSfChyC3LlWvqzilb2BbCfBxO0DPZ0joVc6Wzr+qbjA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2lgdCdqsXr4HaPntldAkUp12521UxF2ISc9KAtSLu4QEywfDF
+	l1RfHnF0vTXA2AwJBN5J+ziwiLS+knpl1VTtVC9b3n7X7EV6liu3CIak7wC23Jk8ycfybq6Va7y
+	JiU4sf39gBs7B4fqfXZao0acwftw=
+X-Google-Smtp-Source: AGHT+IFcoo4m0J3fW0Fjub2lfthqwCKhP3Gnjm4sWBC69WipXB2td90mcLi9PLM6DP3Zb4BX4NfRdBNTIS4xje69jI8=
+X-Received: by 2002:a05:6830:d0b:b0:713:8387:9efc with SMTP id
+ 46e09a7af769-713c7d94344mr3523790a34.3.1727278041765; Wed, 25 Sep 2024
+ 08:27:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -72,12 +72,12 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20240910170610.226189-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240910170610.226189-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240924224357.GM7165@pendragon.ideasonboard.com>
-In-Reply-To: <20240924224357.GM7165@pendragon.ideasonboard.com>
+ <20240910170610.226189-6-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240924224452.GN7165@pendragon.ideasonboard.com>
+In-Reply-To: <20240924224452.GN7165@pendragon.ideasonboard.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 25 Sep 2024 16:24:52 +0100
-Message-ID: <CA+V-a8uZP0_kvtNYzfTA8atn=wgFrabLODxyVuyYvjR68z=HZA@mail.gmail.com>
-Subject: Re: [PATCH v2 04/11] media: i2c: ov5645: Use dev_err_probe instead of dev_err
+Date: Wed, 25 Sep 2024 16:26:55 +0100
+Message-ID: <CA+V-a8tGREVn_LWJbrKwb1HGjp4g7r=ZXu4AZWS+0RfdXhYrdg@mail.gmail.com>
+Subject: Re: [PATCH v2 05/11] media: i2c: ov5645: Use v4l2_async_register_subdev_sensor()
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Kieran Bingham <kieran.bingham@ideasonboard.com>, 
@@ -95,232 +95,18 @@ Hi Laurent,
 
 Thank you for the review.
 
-On Tue, Sep 24, 2024 at 11:44=E2=80=AFPM Laurent Pinchart
+On Tue, Sep 24, 2024 at 11:45=E2=80=AFPM Laurent Pinchart
 <laurent.pinchart@ideasonboard.com> wrote:
 >
-> Hi Prabhakar,
->
-> Thank you for the patch.
->
-> On Tue, Sep 10, 2024 at 06:06:03PM +0100, Prabhakar wrote:
+> On Tue, Sep 10, 2024 at 06:06:04PM +0100, Prabhakar wrote:
 > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > Drop dev_err() and use the dev_err_probe() helper on probe path.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  drivers/media/i2c/ov5645.c | 74 +++++++++++++++-----------------------
-> >  1 file changed, 28 insertions(+), 46 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-> > index 78b86438c798..9e6ff1f1b9ac 100644
-> > --- a/drivers/media/i2c/ov5645.c
-> > +++ b/drivers/media/i2c/ov5645.c
-> > @@ -1076,51 +1076,37 @@ static int ov5645_probe(struct i2c_client *clie=
-nt)
-> >       ov5645->dev =3D dev;
-> >
-> >       endpoint =3D of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
-> > -     if (!endpoint) {
-> > -             dev_err(dev, "endpoint node not found\n");
-> > -             return -EINVAL;
-> > -     }
-> > +     if (!endpoint)
-> > +             return dev_err_probe(dev, -EINVAL, "endpoint node not fou=
-nd\n");
-> >
-> >       ret =3D v4l2_fwnode_endpoint_parse(of_fwnode_handle(endpoint),
-> >                                        &ov5645->ep);
-> >
-> >       of_node_put(endpoint);
-> >
-> > -     if (ret < 0) {
-> > -             dev_err(dev, "parsing endpoint node failed\n");
-> > -             return ret;
-> > -     }
-> > +     if (ret < 0)
-> > +             return dev_err_probe(dev, ret, "parsing endpoint node fai=
-led\n");
-> >
-> > -     if (ov5645->ep.bus_type !=3D V4L2_MBUS_CSI2_DPHY) {
-> > -             dev_err(dev, "invalid bus type, must be CSI2\n");
-> > -             return -EINVAL;
-> > -     }
-> > +     if (ov5645->ep.bus_type !=3D V4L2_MBUS_CSI2_DPHY)
-> > +             return dev_err_probe(dev, -EINVAL, "invalid bus type, mus=
-t be CSI2\n");
-> >
-> >       /* get system clock (xclk) */
-> >       ov5645->xclk =3D devm_clk_get(dev, NULL);
-> > -     if (IS_ERR(ov5645->xclk)) {
-> > -             dev_err(dev, "could not get xclk");
-> > -             return PTR_ERR(ov5645->xclk);
-> > -     }
-> > +     if (IS_ERR(ov5645->xclk))
-> > +             return dev_err_probe(dev, PTR_ERR(ov5645->xclk), "could n=
-ot get xclk");
-> >
-> >       ret =3D of_property_read_u32(dev->of_node, "clock-frequency", &xc=
-lk_freq);
-> > -     if (ret) {
-> > -             dev_err(dev, "could not get xclk frequency\n");
-> > -             return ret;
-> > -     }
-> > +     if (ret)
-> > +             return dev_err_probe(dev, ret, "could not get xclk freque=
-ncy\n");
-> >
-> >       /* external clock must be 24MHz, allow 1% tolerance */
-> > -     if (xclk_freq < 23760000 || xclk_freq > 24240000) {
-> > -             dev_err(dev, "external clock frequency %u is not supporte=
-d\n",
-> > -                     xclk_freq);
-> > -             return -EINVAL;
-> > -     }
-> > +     if (xclk_freq < 23760000 || xclk_freq > 24240000)
-> > +             return dev_err_probe(dev, -EINVAL, "external clock freque=
-ncy %u is not supported\n",
-> > +                                  xclk_freq);
-> >
-> >       ret =3D clk_set_rate(ov5645->xclk, xclk_freq);
-> > -     if (ret) {
-> > -             dev_err(dev, "could not set xclk frequency\n");
-> > -             return ret;
-> > -     }
-> > +     if (ret)
-> > +             return dev_err_probe(dev, ret, "could not set xclk freque=
-ncy\n");
-> >
-> >       for (i =3D 0; i < OV5645_NUM_SUPPLIES; i++)
-> >               ov5645->supplies[i].supply =3D ov5645_supply_name[i];
-> > @@ -1131,16 +1117,12 @@ static int ov5645_probe(struct i2c_client *clie=
-nt)
-> >               return ret;
-> >
-> >       ov5645->enable_gpio =3D devm_gpiod_get(dev, "enable", GPIOD_OUT_H=
-IGH);
-> > -     if (IS_ERR(ov5645->enable_gpio)) {
-> > -             dev_err(dev, "cannot get enable gpio\n");
-> > -             return PTR_ERR(ov5645->enable_gpio);
-> > -     }
-> > +     if (IS_ERR(ov5645->enable_gpio))
-> > +             return dev_err_probe(dev, PTR_ERR(ov5645->enable_gpio), "=
-cannot get enable gpio\n");
+> > Make use v4l2_async_register_subdev_sensor() helper to register
+> > the subdev.
 >
-> Those lines are getting long. We usually try to wrap at 80 columns for
-> sensor drivers:
+> The commit message should explain why.
 >
-As there will be a v3 anyway, I'll wrap it to 80 columns.
-
->                 return dev_err_probe(dev, PTR_ERR(ov5645->enable_gpio),
->                                      "cannot get enable gpio\n");
->
-> Same elsewhere. I'll let Sakari decide.
->
-> >
-> >       ov5645->rst_gpio =3D devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH)=
-;
-> > -     if (IS_ERR(ov5645->rst_gpio)) {
-> > -             dev_err(dev, "cannot get reset gpio\n");
-> > -             return PTR_ERR(ov5645->rst_gpio);
-> > -     }
-> > +     if (IS_ERR(ov5645->rst_gpio))
-> > +             return dev_err_probe(dev, PTR_ERR(ov5645->rst_gpio), "can=
-not get reset gpio\n");
-> >
-> >       mutex_init(&ov5645->power_lock);
-> >
-> > @@ -1177,9 +1159,9 @@ static int ov5645_probe(struct i2c_client *client=
-)
-> >       ov5645->sd.ctrl_handler =3D &ov5645->ctrls;
-> >
-> >       if (ov5645->ctrls.error) {
-> > -             dev_err(dev, "%s: control initialization error %d\n",
-> > -                    __func__, ov5645->ctrls.error);
-> >               ret =3D ov5645->ctrls.error;
-> > +             dev_err_probe(dev, ret, "%s: control initialization error=
- %d\n",
-> > +                           __func__, ov5645->ctrls.error);
-> >               goto free_ctrl;
-> >       }
-> >
-> > @@ -1192,7 +1174,7 @@ static int ov5645_probe(struct i2c_client *client=
-)
-> >
-> >       ret =3D media_entity_pads_init(&ov5645->sd.entity, 1, &ov5645->pa=
-d);
-> >       if (ret < 0) {
-> > -             dev_err(dev, "could not register media entity\n");
-> > +             dev_err_probe(dev, ret, "could not register media entity\=
-n");
-> >               goto free_ctrl;
-> >       }
-> >
-> > @@ -1202,14 +1184,14 @@ static int ov5645_probe(struct i2c_client *clie=
-nt)
-> >
-> >       ret =3D ov5645_read_reg(ov5645, OV5645_CHIP_ID_HIGH, &chip_id_hig=
-h);
-> >       if (ret < 0 || chip_id_high !=3D OV5645_CHIP_ID_HIGH_BYTE) {
-> > -             dev_err(dev, "could not read ID high\n");
-> >               ret =3D -ENODEV;
-> > +             dev_err_probe(dev, ret, "could not read ID high\n");
-> >               goto power_down;
-> >       }
-> >       ret =3D ov5645_read_reg(ov5645, OV5645_CHIP_ID_LOW, &chip_id_low)=
-;
-> >       if (ret < 0 || chip_id_low !=3D OV5645_CHIP_ID_LOW_BYTE) {
-> > -             dev_err(dev, "could not read ID low\n");
-> >               ret =3D -ENODEV;
-> > +             dev_err_probe(dev, ret, "could not read ID low\n");
-> >               goto power_down;
-> >       }
-> >
-> > @@ -1218,24 +1200,24 @@ static int ov5645_probe(struct i2c_client *clie=
-nt)
-> >       ret =3D ov5645_read_reg(ov5645, OV5645_AEC_PK_MANUAL,
-> >                             &ov5645->aec_pk_manual);
-> >       if (ret < 0) {
-> > -             dev_err(dev, "could not read AEC/AGC mode\n");
-> >               ret =3D -ENODEV;
-> > +             dev_err_probe(dev, ret, "could not read AEC/AGC mode\n");
-> >               goto power_down;
-> >       }
-> >
-> >       ret =3D ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG20,
-> >                             &ov5645->timing_tc_reg20);
-> >       if (ret < 0) {
-> > -             dev_err(dev, "could not read vflip value\n");
-> >               ret =3D -ENODEV;
-> > +             dev_err_probe(dev, ret, "could not read vflip value\n");
-> >               goto power_down;
-> >       }
-> >
-> >       ret =3D ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG21,
-> >                             &ov5645->timing_tc_reg21);
-> >       if (ret < 0) {
-> > -             dev_err(dev, "could not read hflip value\n");
-> >               ret =3D -ENODEV;
-> > +             dev_err_probe(dev, ret, "could not read hflip value\n");
-> >               goto power_down;
-> >       }
-> >
-> > @@ -1243,7 +1225,7 @@ static int ov5645_probe(struct i2c_client *client=
-)
-> >
-> >       ret =3D v4l2_async_register_subdev(&ov5645->sd);
-> >       if (ret < 0) {
-> > -             dev_err(dev, "could not register v4l2 device\n");
-> > +             dev_err_probe(dev, ret, "could not register v4l2 device\n=
-");
-> >               goto power_down;
-> >       }
-> >
->
-> The probe function looks really young, I think it would benefit from
-> being broken down in multiple functions.
->
-I will add this once this initial series gets accepted.
+Sure I'll update the commit message.
 
 Cheers,
 Prabhakar
