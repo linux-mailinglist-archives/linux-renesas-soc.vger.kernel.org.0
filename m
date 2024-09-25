@@ -1,245 +1,123 @@
-Return-Path: <linux-renesas-soc+bounces-9048-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9049-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A8A398637A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2024 17:28:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30883986388
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2024 17:29:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 281E51C26E35
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2024 15:28:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4D3CC1C276DA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2024 15:29:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54D6477107;
-	Wed, 25 Sep 2024 15:16:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6D68185B4A;
+	Wed, 25 Sep 2024 15:22:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="FzrsYF2/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nfYOUbW9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32CFC45007
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 25 Sep 2024 15:16:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4116E26AF5;
+	Wed, 25 Sep 2024 15:22:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727277378; cv=none; b=pUndfwFJAw0FCps8467p1N3I8Af7AjUp83E6xSfJTCDYsYmj2lhsg1YdL8xDNQjHktcDXq9VWuBia9/h6qudyWQTEBlm0/Zey1aBgzuirX/5sK9tlsZ+cwGz01y5ovP/q5n4k19pEQxy/JmyE9HPm9BgjypVWD6FP4W95m9Amwk=
+	t=1727277765; cv=none; b=lYx1vkHdjU7n6yE7XiSGBHTri9PLsTnMuwIVTpxi8LCxJwhBhxEI/FAT9zcgH5jeuJS7NSX1dHRu2TrOMzVzt5YpPXICUNHhyx0UDYirdHw5JpNhKrC6j0/iLRy7EJmT8d6VfuKI08/5WB36b8tSzc4ldpvqJL6RvmKT5TIFOHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727277378; c=relaxed/simple;
-	bh=mvT2c/KSBaiR6s0I+UhsMoSPJQvU4tOCHVmwHizwpLQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N4hGH9Gp2jfsjl4qtpophIVMwZFJkrQMa2tUxsPZb+y0ky6Qt/TVAonUTkwgE9nnBBNZLRg+em0HA1RzY+njDn274YnTxRSM7wx95yds3Wsl4UlSLvKOtWqJpym3AdUKzBhErqpUkupbbFBNH3LVXlyfxUkK72NdTtoD2rFKkEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=FzrsYF2/; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=Tnqus0Kf8iddQn
-	KAEcEdEcIfurY0FS60lvmV8in2pSA=; b=FzrsYF2/af6aeV+oxfPEA0+/gFora5
-	EgO7ycIGUabWZjzXhA8vF5SMdM6ABt0iobbnVDPDYd0YKXh0LKE7zZuXO2ytOdsY
-	gcY5Uq5mqMBHlB+PQbxOIizEm5DzGy+BzNCt4FGIbSDCJf8Z8YgkP9PL2ee7LoVy
-	fN0adLm3yI228ZnfD/0JqLZHBot6ThmriavVo2oS5RoftsBLdXeilzXmNnTkz3rw
-	sBE1vrfv2u/rKC8xumRcfGI8O+mfqLjExGatEOL5vmSSICP4ot+0YgwYKI+Pg+zG
-	XqqoMN9cdxEi+wqPtW/6tZDBhxxSds+5NvBNdcMauaxXu8M5ipmH2Iiw==
-Received: (qmail 670290 invoked from network); 25 Sep 2024 17:09:16 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Sep 2024 17:09:16 +0200
-X-UD-Smtp-Session: l3s3148p1@15pgAfMigNpehh9n
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org
-Subject: [PATCH] ARM: dts: renesas: remove 'reg-io-width' properties from MMCIF nodes
-Date: Wed, 25 Sep 2024 17:09:04 +0200
-Message-ID: <20240925150904.3582-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.45.2
+	s=arc-20240116; t=1727277765; c=relaxed/simple;
+	bh=E6vIP4pLFWWrtvbUIG48yyFvZgYCUGXO8NPYzOGdxp8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=imuhnW5Xj54A9Tsswr+DhE+lHtoHncaYu+nighR7pjLAuNIFaxZF94MrXtauVH2g1QStbAZgMPIe40ZQwIAisvJV3TXRs1SB9iqj9c3IU5+dUCR004zO1A7OsnxoLNOkjXNq363cjJ1UKqfh0Cm2eM7//KC3NF3Q0BWW16usebk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nfYOUbW9; arc=none smtp.client-ip=209.85.222.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-84e85d2b5baso308742241.1;
+        Wed, 25 Sep 2024 08:22:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727277763; x=1727882563; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=E6vIP4pLFWWrtvbUIG48yyFvZgYCUGXO8NPYzOGdxp8=;
+        b=nfYOUbW9YjAdXo5IWa6cbN6UXfwucL0/hCQ4bL/40Y3Re2AaA2Dt93FT593K3ZMhUX
+         29lai2JDpg3lDxp5YFUoU7MoWUzLAvv/CakfhwNWaJJzC2kfpjAFr5gQ2RoOjJR1dtlL
+         pZU0kh98uoBFlvMIaWmT809emYtNY6PQoZCebuM8Pf/P1uaNyf8KLe/XWz8X10BJvwuS
+         L4k8Op6Gz81QToJfbVqF35R8E1JSUvQt7aurmOoICkrfUPXWt2Vh9QLemqcLogQ50301
+         nLqWNKOeVPX8flBfF8r5fW1PmRs7EEzytPVmOgzuAyEDcFsd6bBS8hBjxLNkvpeSy0yo
+         ZgWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727277763; x=1727882563;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=E6vIP4pLFWWrtvbUIG48yyFvZgYCUGXO8NPYzOGdxp8=;
+        b=biEf0ZrdCefgU/VuT21sQ+e013K4dXIbWfIu9/4sYaIoqm8Jso4UOC/cy3V86r4PG4
+         h7lKK+ciMCS/ziZCsKNp7BwjZGlov5w/+j/+AVVKgGRcVi28B4l3JHyAZSSflX0nFWdN
+         /6ADxz3ttJI2z3TuclctB7JyvFSEHR3BHSHAk5BSwfvnK96g/2RYCsIcHgVgWbMGqNeJ
+         YsOI5H9xKHJoI9uRQH6qK9kJb9nHYK0XQvrblxKiavAIjgIXSpwlafEHnhkPsKa8q4QS
+         0NR863QEUykh80tOWXPeDwANGNoDgB5KE7vpUdFgDtwOvCBrwHwhCKcSkYYa2fZc6fQT
+         BG1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVwmmhFax25+GDFjzCIUdSUxUnrnbUptJyahnUfUnz+vlShhegiju2qqb/MSY2jEXN370scn0bbjV9oyrW5fxQyNR8=@vger.kernel.org, AJvYcCVybOENtjikYcqmblX/ZqH6DMcpiRNwLueJNlnVByzw8hchS1JBjjZ/nxY2x24a9HvXRcJIDk6JPsc4SJk=@vger.kernel.org, AJvYcCX3yNn/yfXa7fubZhhml30sTPZtzHjdDszwT6XTAr/Yf/J9kCuNsP50cGBLxW74hZQh3H4WNg3dYEJDnhU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxXJhSSbIZ6iehpVxt3MCppsGwUKCZLe2BKr2iy09GT0szEp7gx
+	9CRB4sch1O0z68CU6BPIzZBZJiVfB/TfRRiG3z7D8t19tqB3oXJbBY9ALjl5SDMwU/o+GxTnr3a
+	YKtyt7vUv/UYME9EoVQ9ihsIooiHDuQ==
+X-Google-Smtp-Source: AGHT+IGKodtfaaU3chHy1ljxg9SBW4VmFxTsane1zQyUhE//XpjpYSGXNRG0OflZUOYVn8866qNPFK2TbdK4d2ZT+J4=
+X-Received: by 2002:a05:6122:d0f:b0:4fc:e3c2:2c71 with SMTP id
+ 71dfb90a1353d-505c1d36780mr2646672e0c.2.1727277762797; Wed, 25 Sep 2024
+ 08:22:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240910170610.226189-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240910170610.226189-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240924223740.GL7165@pendragon.ideasonboard.com>
+In-Reply-To: <20240924223740.GL7165@pendragon.ideasonboard.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Wed, 25 Sep 2024 16:22:16 +0100
+Message-ID: <CA+V-a8tuCJD=2whHdY1AjgrBz_Bsgk9CZWU=2kCEn6sWahTF3g@mail.gmail.com>
+Subject: Re: [PATCH v2 03/11] media: i2c: ov5645: Enable runtime PM after v4l2_async_register_subdev()
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The driver does not use this property and all upstream SoCs use the same
-value anyhow. Remove it and get rid of a lot of dtbs_check warnings.
-Tested with a Lager (R-Car H2) board and with the soon to be added
-Genmai (RZA1) MMCIF support.
+Hi Laurent,
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- arch/arm/boot/dts/renesas/r7s72100.dtsi | 1 -
- arch/arm/boot/dts/renesas/r8a73a4.dtsi  | 2 --
- arch/arm/boot/dts/renesas/r8a7742.dtsi  | 2 --
- arch/arm/boot/dts/renesas/r8a7743.dtsi  | 1 -
- arch/arm/boot/dts/renesas/r8a7744.dtsi  | 1 -
- arch/arm/boot/dts/renesas/r8a7745.dtsi  | 1 -
- arch/arm/boot/dts/renesas/r8a7790.dtsi  | 2 --
- arch/arm/boot/dts/renesas/r8a7791.dtsi  | 1 -
- arch/arm/boot/dts/renesas/r8a7793.dtsi  | 1 -
- arch/arm/boot/dts/renesas/r8a7794.dtsi  | 1 -
- arch/arm/boot/dts/renesas/sh73a0.dtsi   | 1 -
- 11 files changed, 14 deletions(-)
+Thank you for the review.
 
-diff --git a/arch/arm/boot/dts/renesas/r7s72100.dtsi b/arch/arm/boot/dts/renesas/r7s72100.dtsi
-index 08ea4c551ed0..07ffd9ec96cc 100644
---- a/arch/arm/boot/dts/renesas/r7s72100.dtsi
-+++ b/arch/arm/boot/dts/renesas/r7s72100.dtsi
-@@ -333,7 +333,6 @@ mmcif: mmc@e804c800 {
- 				     <GIC_SPI 267 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&mstp8_clks R7S72100_CLK_MMCIF>;
- 			power-domains = <&cpg_clocks>;
--			reg-io-width = <4>;
- 			bus-width = <8>;
- 			status = "disabled";
- 		};
-diff --git a/arch/arm/boot/dts/renesas/r8a73a4.dtsi b/arch/arm/boot/dts/renesas/r8a73a4.dtsi
-index 85261684b5d5..2e19ebf9e2ba 100644
---- a/arch/arm/boot/dts/renesas/r8a73a4.dtsi
-+++ b/arch/arm/boot/dts/renesas/r8a73a4.dtsi
-@@ -428,7 +428,6 @@ mmcif0: mmc@ee200000 {
- 		interrupts = <GIC_SPI 169 IRQ_TYPE_LEVEL_HIGH>;
- 		clocks = <&mstp3_clks R8A73A4_CLK_MMCIF0>;
- 		power-domains = <&pd_a3sp>;
--		reg-io-width = <4>;
- 		status = "disabled";
- 	};
- 
-@@ -438,7 +437,6 @@ mmcif1: mmc@ee220000 {
- 		interrupts = <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>;
- 		clocks = <&mstp3_clks R8A73A4_CLK_MMCIF1>;
- 		power-domains = <&pd_a3sp>;
--		reg-io-width = <4>;
- 		status = "disabled";
- 	};
- 
-diff --git a/arch/arm/boot/dts/renesas/r8a7742.dtsi b/arch/arm/boot/dts/renesas/r8a7742.dtsi
-index 3a5d6b434d09..9083d288cc33 100644
---- a/arch/arm/boot/dts/renesas/r8a7742.dtsi
-+++ b/arch/arm/boot/dts/renesas/r8a7742.dtsi
-@@ -1651,7 +1651,6 @@ mmcif0: mmc@ee200000 {
- 			dma-names = "tx", "rx", "tx", "rx";
- 			power-domains = <&sysc R8A7742_PD_ALWAYS_ON>;
- 			resets = <&cpg 315>;
--			reg-io-width = <4>;
- 			status = "disabled";
- 			max-frequency = <97500000>;
- 		};
-@@ -1667,7 +1666,6 @@ mmcif1: mmc@ee220000 {
- 			dma-names = "tx", "rx", "tx", "rx";
- 			power-domains = <&sysc R8A7742_PD_ALWAYS_ON>;
- 			resets = <&cpg 305>;
--			reg-io-width = <4>;
- 			status = "disabled";
- 			max-frequency = <97500000>;
- 		};
-diff --git a/arch/arm/boot/dts/renesas/r8a7743.dtsi b/arch/arm/boot/dts/renesas/r8a7743.dtsi
-index 8833898d5557..58a06cf37784 100644
---- a/arch/arm/boot/dts/renesas/r8a7743.dtsi
-+++ b/arch/arm/boot/dts/renesas/r8a7743.dtsi
-@@ -1639,7 +1639,6 @@ mmcif0: mmc@ee200000 {
- 			dma-names = "tx", "rx", "tx", "rx";
- 			power-domains = <&sysc R8A7743_PD_ALWAYS_ON>;
- 			resets = <&cpg 315>;
--			reg-io-width = <4>;
- 			max-frequency = <97500000>;
- 			status = "disabled";
- 		};
-diff --git a/arch/arm/boot/dts/renesas/r8a7744.dtsi b/arch/arm/boot/dts/renesas/r8a7744.dtsi
-index c66c1102fb72..034244648d18 100644
---- a/arch/arm/boot/dts/renesas/r8a7744.dtsi
-+++ b/arch/arm/boot/dts/renesas/r8a7744.dtsi
-@@ -1639,7 +1639,6 @@ mmcif0: mmc@ee200000 {
- 			dma-names = "tx", "rx", "tx", "rx";
- 			power-domains = <&sysc R8A7744_PD_ALWAYS_ON>;
- 			resets = <&cpg 315>;
--			reg-io-width = <4>;
- 			max-frequency = <97500000>;
- 			status = "disabled";
- 		};
-diff --git a/arch/arm/boot/dts/renesas/r8a7745.dtsi b/arch/arm/boot/dts/renesas/r8a7745.dtsi
-index 6ddde364782b..704fa6f3cbd0 100644
---- a/arch/arm/boot/dts/renesas/r8a7745.dtsi
-+++ b/arch/arm/boot/dts/renesas/r8a7745.dtsi
-@@ -1513,7 +1513,6 @@ mmcif0: mmc@ee200000 {
- 			dma-names = "tx", "rx", "tx", "rx";
- 			power-domains = <&sysc R8A7745_PD_ALWAYS_ON>;
- 			resets = <&cpg 315>;
--			reg-io-width = <4>;
- 			max-frequency = <97500000>;
- 			status = "disabled";
- 		};
-diff --git a/arch/arm/boot/dts/renesas/r8a7790.dtsi b/arch/arm/boot/dts/renesas/r8a7790.dtsi
-index 20e4d4c6e748..f746f0b9e686 100644
---- a/arch/arm/boot/dts/renesas/r8a7790.dtsi
-+++ b/arch/arm/boot/dts/renesas/r8a7790.dtsi
-@@ -1686,7 +1686,6 @@ mmcif0: mmc@ee200000 {
- 			dma-names = "tx", "rx", "tx", "rx";
- 			power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
- 			resets = <&cpg 315>;
--			reg-io-width = <4>;
- 			status = "disabled";
- 			max-frequency = <97500000>;
- 		};
-@@ -1702,7 +1701,6 @@ mmcif1: mmc@ee220000 {
- 			dma-names = "tx", "rx", "tx", "rx";
- 			power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
- 			resets = <&cpg 305>;
--			reg-io-width = <4>;
- 			status = "disabled";
- 			max-frequency = <97500000>;
- 		};
-diff --git a/arch/arm/boot/dts/renesas/r8a7791.dtsi b/arch/arm/boot/dts/renesas/r8a7791.dtsi
-index f9c9e1d8f669..e57567adff55 100644
---- a/arch/arm/boot/dts/renesas/r8a7791.dtsi
-+++ b/arch/arm/boot/dts/renesas/r8a7791.dtsi
-@@ -1680,7 +1680,6 @@ mmcif0: mmc@ee200000 {
- 			dma-names = "tx", "rx", "tx", "rx";
- 			power-domains = <&sysc R8A7791_PD_ALWAYS_ON>;
- 			resets = <&cpg 315>;
--			reg-io-width = <4>;
- 			status = "disabled";
- 			max-frequency = <97500000>;
- 		};
-diff --git a/arch/arm/boot/dts/renesas/r8a7793.dtsi b/arch/arm/boot/dts/renesas/r8a7793.dtsi
-index 24e66ddf37e0..e48e43cc6b03 100644
---- a/arch/arm/boot/dts/renesas/r8a7793.dtsi
-+++ b/arch/arm/boot/dts/renesas/r8a7793.dtsi
-@@ -1343,7 +1343,6 @@ mmcif0: mmc@ee200000 {
- 			dma-names = "tx", "rx", "tx", "rx";
- 			power-domains = <&sysc R8A7793_PD_ALWAYS_ON>;
- 			resets = <&cpg 315>;
--			reg-io-width = <4>;
- 			status = "disabled";
- 			max-frequency = <97500000>;
- 		};
-diff --git a/arch/arm/boot/dts/renesas/r8a7794.dtsi b/arch/arm/boot/dts/renesas/r8a7794.dtsi
-index 8e6386a79aea..bc16c896c0f9 100644
---- a/arch/arm/boot/dts/renesas/r8a7794.dtsi
-+++ b/arch/arm/boot/dts/renesas/r8a7794.dtsi
-@@ -1349,7 +1349,6 @@ mmcif0: mmc@ee200000 {
- 			dma-names = "tx", "rx", "tx", "rx";
- 			power-domains = <&sysc R8A7794_PD_ALWAYS_ON>;
- 			resets = <&cpg 315>;
--			reg-io-width = <4>;
- 			status = "disabled";
- 		};
- 
-diff --git a/arch/arm/boot/dts/renesas/sh73a0.dtsi b/arch/arm/boot/dts/renesas/sh73a0.dtsi
-index 30c67acc4e35..c7cc17e3c3c5 100644
---- a/arch/arm/boot/dts/renesas/sh73a0.dtsi
-+++ b/arch/arm/boot/dts/renesas/sh73a0.dtsi
-@@ -273,7 +273,6 @@ mmcif: mmc@e6bd0000 {
- 			     <GIC_SPI 141 IRQ_TYPE_LEVEL_HIGH>;
- 		clocks = <&mstp3_clks SH73A0_CLK_MMCIF0>;
- 		power-domains = <&pd_a3sp>;
--		reg-io-width = <4>;
- 		status = "disabled";
- 	};
- 
--- 
-2.45.2
+On Tue, Sep 24, 2024 at 11:38=E2=80=AFPM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Prabhakar,
+>
+> Thank you for the patch.
+>
+> On Tue, Sep 10, 2024 at 06:06:02PM +0100, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > To simplify the probe error path, enable runtime PM after the
+> > v4l2_async_register_subdev() call.
+> >
+> > This change ensures that runtime PM is only enabled once the subdevice
+> > registration is successful, avoiding unnecessary cleanup in the error
+> > path.
+>
+> The subdev could start being used as soon as it gets registered, so
+> runtime PM initialization should happen before
+> v4l2_async_register_subdev().
+>
+Agreed, I will drop this patch.
 
+Cheers,
+Prabhakar
 
