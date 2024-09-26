@@ -1,121 +1,196 @@
-Return-Path: <linux-renesas-soc+bounces-9066-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9067-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB87A987108
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2024 12:09:49 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B61B198711B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2024 12:16:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EBAC31C22913
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2024 10:09:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 129AAB210E7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2024 10:16:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93AA21A704A;
-	Thu, 26 Sep 2024 10:09:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D78F41AB6F2;
+	Thu, 26 Sep 2024 10:16:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lygcrPFK"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C94D17BB30
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Sep 2024 10:09:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397805647F;
+	Thu, 26 Sep 2024 10:16:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727345386; cv=none; b=Aqigwkv7OLTc+Nx7XprDfBp21B3OGX79gvEj9Hu88LlXeDJp1qe1jhd0MRGwWT2CW1i/Zr5cyuN9GswUgM7Lp1Vb102z8ygZai99kiaxNFmE0jg876r3TP7tiWQX+EgXJ2cnZbFYUngeWlFFInnaNIr7Js1CKPy0B1PsMFeTULk=
+	t=1727345807; cv=none; b=NI8IlGK6ucX4wB9zvEtIO9L1TjhSlWF4sKKt/eJsQWi+Eq0TfDJZt2+oCgdXXZTKb4qV70WgcWF73LmZ7ukmqWB6mF80xPskgYZWtu6hdg1PFi4OaY7/STqh4dYZRDQYngHs/FIkjThHhjr9tmmDubJyT2drDiNwaSooFLSN40k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727345386; c=relaxed/simple;
-	bh=B+JnuGSv5SOfPxw7vZ7Dqz/IhgclntTf42wVoeEH3gE=;
+	s=arc-20240116; t=1727345807; c=relaxed/simple;
+	bh=tpvaoQfbFT+eHDEpIsf1F1wUwNkqOvgEpvT10S4K0jY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tBgSU6OCJo9y9x+TRequjMGWP+FCceYYo41XqgOiX7YhYW7zEyXw8yTV/Bvd/8ComoYIyKt8e3hrpuayV53ju07SmNzEjrmiKk/4qOSeh7DQQI/zpDImqoHWlDc8F5xk4Hl2/7r429FuzfdR1njiX48ydUp1DUTnTIjozvMWCEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=uNG6bsG6wASimMRs4MmW87gMfVwcsQd8kPZhVVBayMFBis4f+f9R4GvhSzBPEEZR3F5FUDxHYWtwONSzwnPBLZSAZ8ZE1BQHQv67yBrrYpW5nbbPnDlNpc6zyGKRcgiAGAOzvFgg5hAKCur/zZuCW3tLNb45oFstlNFd4QjCC9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lygcrPFK; arc=none smtp.client-ip=209.85.221.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-6db20e22c85so7619947b3.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Sep 2024 03:09:44 -0700 (PDT)
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-500fcf0b32fso175898e0c.1;
+        Thu, 26 Sep 2024 03:16:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727345805; x=1727950605; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3/i5t2uxUT8cFIitTXnab6lbLA8GH+FQPNpxPleTeFc=;
+        b=lygcrPFKMnHPv4gWLGncpYY9weV57LJ/pnzMGISkRvK3nllHen/Y6OBE3qjJTHNJBR
+         uMa0eyJ42JGEdkA17UJ1nHOllrhW1w/YELQgvKhPUs5aTpNXr/vezp3o4G0Bk0MNKwb1
+         cqLyLdeNlYF4qThTSSbafbwrD4mCUNPD8+Yvh/VyXQvUiUQkE9TnIjU6ZuEoHtqn6GId
+         sPcQI6ZvScYLgtsjcz//7ZzgDcmgsMw6IGiI8E++GWrK3sYwqM1qUu6cmHBVLhE32OWe
+         Jm1kgInHWswAQ/tBZdDfRl4e13yvF43gHDL98xAh0iFAPewIBYdPg4IOiyrISxOAqTMC
+         1g0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727345383; x=1727950183;
+        d=1e100.net; s=20230601; t=1727345805; x=1727950605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=s2KU9wDkKdBfNHt+uymqjtCMXeRKtwZzLd6Am53NnaI=;
-        b=hdbrpl/kpBKMYxEEynToCXL3eTpEE/J4DSMrsJj2EnMKFOllGUcQF+T/nZRgcZilel
-         5/tBsbLADtieoi5XQPuFz7Q3lj700E2der5944ogOQiOSi/rwT7EEGRPdAFqbANjiOjb
-         TEidTxYIP0PyWLRYWAekZbvegH7Kx5THqrl2OfVJhQolG7I9qACCDN3lTPgoKuh2wP82
-         nmQVRoMf1xhCzhqwH2hL53/O0uRb9GWIWCLx/0U+N18W1CSWyIxdUtbhg3ylB0Mvj8Ce
-         xcsKnByMit+ioTQ6/WvCrbjPFhCT4F2OzLyMKaNDleLVubU54wrMW2FQl+FsNThMS0Jw
-         BEOA==
-X-Gm-Message-State: AOJu0Ywa2ybLMwuOrj5YOocZRGIy2ireeoW/k/o106yFLlBU4PIZbPYh
-	UFz2mlcWA8QlUC3VsY2LIQ8GY5iAvtpRthBhX3y6XtwFtGJVBS2KM3TQh0OY
-X-Google-Smtp-Source: AGHT+IGWqb6fpKrx7KLfsX3B27UiHuA3psiPblU8B/Qgep8leNo0cbRralHEsW5O4r0CGkaQxWfrwQ==
-X-Received: by 2002:a05:690c:744a:b0:6dd:bf29:cece with SMTP id 00721157ae682-6e21d9cb628mr40067667b3.36.1727345382594;
-        Thu, 26 Sep 2024 03:09:42 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e22a5e89adsm3883817b3.1.2024.09.26.03.09.42
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Sep 2024 03:09:42 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-6dbc75acbfaso7740937b3.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Sep 2024 03:09:42 -0700 (PDT)
-X-Received: by 2002:a05:690c:3:b0:6b1:8834:1588 with SMTP id
- 00721157ae682-6e21d9bb582mr53472477b3.35.1727345382073; Thu, 26 Sep 2024
- 03:09:42 -0700 (PDT)
+        bh=3/i5t2uxUT8cFIitTXnab6lbLA8GH+FQPNpxPleTeFc=;
+        b=kY7SPpygqU4wLTwmPS/YA2++0QNegsmAJgKGGhUgWoUU5oejGLcxjjz7vwtM6+Rvw1
+         jaquI+22d+7vnoaLCFy7OMd+fS6ZFNgtYDFhFhwKyzWpV6u2O20yTBbJOYzO75WEfVML
+         5SJBz43GvQME7EeHNms9I/9apAWXrbAMLPn05KwdWOxt67FPW/UyiMbOyFYqW9O0h36C
+         nk26PfcCbUcLM+bqbIzAyK2Cn/KLwwswr3/rOf+7ikIM4WtVEuCfZVaRu83rynt8AAn8
+         ip+c2fYlCj9hw8xA5kADhcAJx2kZwkxxGD8qoMg6477JhmXZUIbK0KPb0xOJ73LiBjAV
+         U7Yw==
+X-Forwarded-Encrypted: i=1; AJvYcCXG3PaSeyPDLdxE1dgDNqoQGblaoahSNDa/89zWe/lGtbBM4ZK96RgpTkvMbK7dIdXZQqQvP3e+HF8QL7g=@vger.kernel.org, AJvYcCXnviHjibi71TH5dnqH6w2RfyHcaUGxZSKIsOoucumWwZazv8g3QBl5cNiGnHp86vm6BXU0Uw6K1fkaB1U=@vger.kernel.org, AJvYcCXu38eV9JxJcHpL4oSTLc9auX5+HHX341As7XYllNKxzSxYs4aj5u+rN5YLxiTUAGwyzQAhNuv4/mTnJHJPFdUvG/Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwqggP5xoe55n1fjPBnkN5A3gYk3sqOuTtHO0JB0vRccJIrYIXN
+	Bv8OFGZwMRDhrKclbCAztRhbT+E+vfpB5/cCFJYfh+uANWS/jafZOMPDqS3/697Vot4UukQzyHB
+	gbFxrvJMPkCVJAm8eMuDN673TwFU=
+X-Google-Smtp-Source: AGHT+IGHBOsTmgPkbv7uo3NZBAXRZWhYPUtM1em9SrEVWULUxo5+IdE2T+tH6UpQv7P+gZJ4Kf415Zl4FWpEv+sdSe4=
+X-Received: by 2002:a05:6122:3c41:b0:4fe:bce9:8f4f with SMTP id
+ 71dfb90a1353d-505c20706a7mr4586255e0c.9.1727345804699; Thu, 26 Sep 2024
+ 03:16:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240926075724.6161-4-wsa+renesas@sang-engineering.com>
- <20240926075724.6161-5-wsa+renesas@sang-engineering.com> <CAMuHMdVBAWny2Z1e6_D+v+=jd2y63a=HDe9+cnRMwfNTeh0cpA@mail.gmail.com>
- <ZvUxxWTIDCGOUQjh@shikoro>
-In-Reply-To: <ZvUxxWTIDCGOUQjh@shikoro>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 26 Sep 2024 12:09:29 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUKHJp2ZFABhh5SKP1ago+YFW=igHFj2J-k4F_u+A6ecw@mail.gmail.com>
-Message-ID: <CAMuHMdUKHJp2ZFABhh5SKP1ago+YFW=igHFj2J-k4F_u+A6ecw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] ARM: dts: renesas: add proper node names to (L)BSC devices
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org
+References: <20240910170610.226189-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240910170610.226189-12-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240925162619.GB27666@pendragon.ideasonboard.com>
+In-Reply-To: <20240925162619.GB27666@pendragon.ideasonboard.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 26 Sep 2024 11:16:18 +0100
+Message-ID: <CA+V-a8vO2sP9--owHdZDiwNhtw=Oie0sjPf096BzP7CD6WWYBA@mail.gmail.com>
+Subject: Re: [PATCH v2 11/11] media: i2c: ov5645: Report streams using frame descriptors
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Wolfram,
+Hi Laurent,
 
-On Thu, Sep 26, 2024 at 12:04=E2=80=AFPM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> > The "@<unit-address>" part is optional.
+Thank you for the review.
+
+On Wed, Sep 25, 2024 at 5:26=E2=80=AFPM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> Ah! Then, I actually prefer dropping the unit address.
-
-Fine for me!
-
-> > Actually, I cannot find that in the DT spec, only:
+> Hi Prabhakar,
+>
+> Thank you for the patch.
+>
+> On Tue, Sep 10, 2024 at 06:06:10PM +0100, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> >    "If the node has no reg property, the @unit-address must be omitted"=
-.
+> > Implement the .get_frame_desc() subdev operation to report information
+> > about streams to the connected CSI-2 receiver. This is required to let
+> > the CSI-2 receiver driver know about virtual channels and data types fo=
+r
+> > each stream.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  drivers/media/i2c/ov5645.c | 28 ++++++++++++++++++++++++++++
+> >  1 file changed, 28 insertions(+)
+> >
+> > diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
+> > index 7f1133292ffc..c24eb6e7a7b5 100644
+> > --- a/drivers/media/i2c/ov5645.c
+> > +++ b/drivers/media/i2c/ov5645.c
+> > @@ -28,6 +28,7 @@
+> >  #include <linux/regulator/consumer.h>
+> >  #include <linux/slab.h>
+> >  #include <linux/types.h>
+> > +#include <media/mipi-csi2.h>
+> >  #include <media/v4l2-ctrls.h>
+> >  #include <media/v4l2-event.h>
+> >  #include <media/v4l2-fwnode.h>
+> > @@ -829,6 +830,32 @@ static const struct v4l2_ctrl_ops ov5645_ctrl_ops =
+=3D {
+> >       .s_ctrl =3D ov5645_s_ctrl,
+> >  };
+> >
+> > +static int ov5645_get_frame_desc(struct v4l2_subdev *sd, unsigned int =
+pad,
+> > +                              struct v4l2_mbus_frame_desc *fd)
+> > +{
+> > +     const struct v4l2_mbus_framefmt *fmt;
+> > +     struct v4l2_subdev_state *state;
+> > +
+> > +     if (pad !=3D OV5645_PAD_SOURCE)
+> > +             return -EINVAL;
+> > +
+> > +     state =3D v4l2_subdev_lock_and_get_active_state(sd);
+> > +     fmt =3D v4l2_subdev_state_get_format(state, OV5645_PAD_SOURCE, 0)=
+;
+> > +     v4l2_subdev_unlock_state(state);
 >
-> Sounds good to me. However, sh73a0 and r8a73a4 are still a bit strange.
-> They have a unit-address because they have a reg-property which is
-> documented for renesas,bsc. However, there is no driver for the BSC.
-> AFAICS, this could work as well with "simple-pm-bus" and we could drop
-> the renesas,bsc bindings? This probably is a separate issue, though.
+> Once you unlock the state fmt could change, so you should instead do
+>
+>         state =3D v4l2_subdev_lock_and_get_active_state(sd);
+>         code =3D v4l2_subdev_state_get_format(state, OV5645_PAD_SOURCE, 0=
+)->code;
+>         v4l2_subdev_unlock_state(state);
+>
+Ok, I will update the above.
 
-You can have DT bindings without a (full) driver.
+Cheers,
+Prabhakar
 
-Probably the other (L)BSC variants could be extended with a register
-block and interrupts, too, but so far we didn't have a need to
-describe them fully.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>
+> > +
+> > +     fd->type =3D V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
+> > +     fd->num_entries =3D 1;
+> > +
+> > +     memset(fd->entry, 0, sizeof(fd->entry));
+> > +
+> > +     fd->entry[0].pixelcode =3D fmt->code;
+> > +     fd->entry[0].stream =3D 0;
+> > +     fd->entry[0].bus.csi2.vc =3D 0;
+> > +     fd->entry[0].bus.csi2.dt =3D MIPI_CSI2_DT_YUV422_8B;
+> > +
+> > +     return 0;
+> > +}
+> > +
+> >  static int ov5645_enum_mbus_code(struct v4l2_subdev *sd,
+> >                                struct v4l2_subdev_state *sd_state,
+> >                                struct v4l2_subdev_mbus_code_enum *code)
+> > @@ -1062,6 +1089,7 @@ static const struct v4l2_subdev_video_ops ov5645_=
+video_ops =3D {
+> >  };
+> >
+> >  static const struct v4l2_subdev_pad_ops ov5645_subdev_pad_ops =3D {
+> > +     .get_frame_desc =3D ov5645_get_frame_desc,
+> >       .enum_mbus_code =3D ov5645_enum_mbus_code,
+> >       .enum_frame_size =3D ov5645_enum_frame_size,
+> >       .get_fmt =3D v4l2_subdev_get_fmt,
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
