@@ -1,78 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-9087-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9088-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3B32987427
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2024 15:07:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C38C98743C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2024 15:11:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 42A01B28BEB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2024 13:07:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4C48F1C20A58
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2024 13:11:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4D33EAD5;
-	Thu, 26 Sep 2024 13:07:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9AD2219FC;
+	Thu, 26 Sep 2024 13:11:16 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C59219FC;
-	Thu, 26 Sep 2024 13:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F9D43AA8;
+	Thu, 26 Sep 2024 13:11:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727356051; cv=none; b=L/Eporv8hZa4cIXQYgfJyfAf6iffl6OthcnB/6e/s671ThMwKHWeCWLcqiFIWB5Cmo38X2R1PxLjFNJA9XaO481GZADmj8BTTUbTiRJ7lViRRp8l0ouWs0y8KbLq21aKweGy3+ZLsoK+3Jhn1XeCOlMEokrgo4Tlelj5wClLiJA=
+	t=1727356276; cv=none; b=DQ/Gd6YI90o6coi92JWlL5MsKjAf3gTt1YcMEWCsXLU8xbv4/UESJPqXBHiyruqqJ7yEhxGvi/gY4REFy0PunTXwmsJOH6wPUGGLGuj3VXF2ebFEspv0n4tQCCTxtRZVuZg/k1LJQpAsELlWfMb+uYZpckgNIoTSzVZOONkfWxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727356051; c=relaxed/simple;
-	bh=qzpO/HTuH/tItojsQXiylVnhtgioNt73YdyvPHTexKQ=;
+	s=arc-20240116; t=1727356276; c=relaxed/simple;
+	bh=Ifx8nzAdFfV1Z0C32wPXwwBK4bwTnZwuvQa1l8VG1jE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pxPzhmelZwZjQJ2OOZzvw7viQi1bB6QEz0a897QrgQZLGv9ncbFn0UlBSNvbuvSCykqqpIIY4KL226PWoeKnw8KSPNTPUCX/2rDoV1SoV2aGQ5PAqWFWwRp00kGqSt2zCm4cgCKd6NViX7njwELpPeL91T1rwC17NXPCjfmjNcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.43
+	 To:Cc:Content-Type; b=f1fXU0PyzLqcSPf5jOQMS0aIcmBV48ACppefFskcIYAkvBUaFdPYjbtUUvg6QuOE/OY3Ci5yXJL4rcmeERth4+pYkkfVe7iE8xx2fguN9DeDRqjU/EwLtKXNjvy9GJuCiNopR8WdFBbnggjwwDNLGCzU+admNd4A6YLsooMb1PA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-710e14e2134so544280a34.0;
-        Thu, 26 Sep 2024 06:07:29 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-6db836c6bd7so9403987b3.3;
+        Thu, 26 Sep 2024 06:11:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727356048; x=1727960848;
+        d=1e100.net; s=20230601; t=1727356273; x=1727961073;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bAGnMuP1Lt9IvSivgeIov8R45n6wGMgQcTTPjLL4kxo=;
-        b=PEnpF7BRbjyd2CjRL6PdPl/CDmuVYXYJ+N55TefdIR7zFgzZDt+PKdqTtietwEacap
-         0pTopkw1eOZrmEVgThwy5YixOqH1j9PwPaUIPhl2b7MxLzo6PBvfgWXb2gWuMTiJbz6m
-         vnFJc+x7sid/+3b/ALWH35GsVapUvUcYdJCVOwGDWPusrE4y3NecWDl8BMbIj1zRkq7a
-         00iDK7BsfjyYfWAmxOdKjsViV5X6nMhPf2VTgsJOMiGVolADmXtZFBnz2bxivbe1P3l3
-         wheJnLePOvU5yBZy7xixvSKNO3km6r05QWDAu9qXhifvPec4GScyhov5BWYIFxu+YvD7
-         kAdw==
-X-Forwarded-Encrypted: i=1; AJvYcCXecTyN461hYQIudKCl6bjRsBxq70x5FzNx3ZIokki8G7DySArEwgot41HAv0H5RfiT46vYGrRORuGm@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8+JcqIo0/yGVNjUErizqYv99Wqg3t+1vadx/EgVo1przPFnUm
-	Omx5ZoTKVFiH7vs8YHW3b5n4ONzKg4i50/YgAdnpqLgrdvd+ppsc3/CHrwaV
-X-Google-Smtp-Source: AGHT+IFdNjyznFy4hJigaI2RtivEmYJ5Uc7ks2gDK6oApfw3gzN6S1IFMgr+YPstPLwcq6UegpVhxw==
-X-Received: by 2002:a05:6830:6c82:b0:710:f522:75d6 with SMTP id 46e09a7af769-713c7e1df39mr4104864a34.25.1727356048460;
-        Thu, 26 Sep 2024 06:07:28 -0700 (PDT)
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com. [209.85.210.52])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-713beae5c11sm1405406a34.33.2024.09.26.06.07.27
+        bh=ae22g67465D42AsU8WiJ6xb14L3KGQVsOXvugoGAtwE=;
+        b=rrklGYAmU7Jv+kJEkMfq/eRwLQ2R7lSw9vSnDGqWa1T3RSFwYO8mp2mae1n68LvreU
+         RFtPp06yWufk0DsD6ltUy/xqYDLEZ7iXq67nJ3NUDlWa2rZlNdWfH3XKfUnVUvRcuXQO
+         IPN9eQ7U2f0OxNa3MPA+Kz0Nloi2Ybqj1RF3iAU/ZeaoP6JQLC098/0/GD1zu1gIcs6T
+         WxIngLVR+r2d2LP4Pslr0RNsH13jAJd5FWjqOc4m8b7VgW4QaCSjt3TZUXGFO1cNo7ml
+         C20F4oE9jNhYMWWfxPxV1sFbSxyQYGg/Pe+IjmcwJThAecAuoNPmbE88Pp4kOozrLPPo
+         ZftQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXLPzkWW8a0/BOGDk/S77uRAbTHHvXStaO7ww7HQALJYvFpa6N/UisUMEC7HloSVzag0PCQVNzeoBD3@vger.kernel.org
+X-Gm-Message-State: AOJu0YwgF6PW8F3SjPsDO37FaApKWe9YZeODl+UHMBg/7jJuAQZ9o+hG
+	S4kP/5b/vtK79xIF4r7SaWvO3Ohc4YZKGSaQcVgGcaYA97tO2O4X20OxYbgB
+X-Google-Smtp-Source: AGHT+IGZs83/AQjHGYXNA4g4iQ9rtflJkeGJAIT/t6260b5kqhBhz03Hpo7oBOeUNHCePj3zSxmLWQ==
+X-Received: by 2002:a05:690c:4089:b0:6dd:d5b7:f33b with SMTP id 00721157ae682-6e23734eb0cmr9219867b3.33.1727356272890;
+        Thu, 26 Sep 2024 06:11:12 -0700 (PDT)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e20d2a67a2sm9859337b3.136.2024.09.26.06.11.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Sep 2024 06:07:27 -0700 (PDT)
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-710e14e2134so544244a34.0;
-        Thu, 26 Sep 2024 06:07:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWCOdYazoo0WojuJXNwB+BIvJ3SFK0lqoSjzqKz0ThxfxhM0wDKbekm/Yx4p3BnPvs1WQ2RuW08+PkF@vger.kernel.org
-X-Received: by 2002:a05:6358:71a:b0:1b8:5022:327 with SMTP id
- e5c5f4694b2df-1bea860c2a3mr413231355d.17.1727356047247; Thu, 26 Sep 2024
- 06:07:27 -0700 (PDT)
+        Thu, 26 Sep 2024 06:11:12 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6db836c6bd7so9403727b3.3;
+        Thu, 26 Sep 2024 06:11:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXekS2deHwv31lxBo/fCGJcYxvyi9WwlJiEQQhTOJskyo+kgXqjQCZZPoH+BppO0Fe6XiRP2E//ZMjA@vger.kernel.org
+X-Received: by 2002:a05:690c:7183:b0:65f:80bb:e6b2 with SMTP id
+ 00721157ae682-6e21d6f4a05mr49453487b3.14.1727356272192; Thu, 26 Sep 2024
+ 06:11:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240925150904.3582-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20240925150904.3582-2-wsa+renesas@sang-engineering.com>
+References: <20240925090812.14497-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20240925090812.14497-2-wsa+renesas@sang-engineering.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 26 Sep 2024 15:07:15 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUvbWHrV3fn2f8e9HMv3Os1vmLZaDxYhnXL6QLFBB2p=A@mail.gmail.com>
-Message-ID: <CAMuHMdUvbWHrV3fn2f8e9HMv3Os1vmLZaDxYhnXL6QLFBB2p=A@mail.gmail.com>
-Subject: Re: [PATCH] ARM: dts: renesas: remove 'reg-io-width' properties from
- MMCIF nodes
+Date: Thu, 26 Sep 2024 15:11:00 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUcw4DVOLKsQ00z3oEkegPSqgpyYE+Wf440j_DMmBN73Q@mail.gmail.com>
+Message-ID: <CAMuHMdUcw4DVOLKsQ00z3oEkegPSqgpyYE+Wf440j_DMmBN73Q@mail.gmail.com>
+Subject: Re: [PATCH] ARM: dts: renesas: genmai: update audio codec bindings
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc: linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -82,24 +81,37 @@ Content-Transfer-Encoding: quoted-printable
 
 Hi Wolfram,
 
-On Wed, Sep 25, 2024 at 5:09=E2=80=AFPM Wolfram Sang
+On Wed, Sep 25, 2024 at 11:08=E2=80=AFAM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
-> The driver does not use this property and all upstream SoCs use the same
-> value anyhow. Remove it and get rid of a lot of dtbs_check warnings.
-> Tested with a Lager (R-Car H2) board and with the soon to be added
-> Genmai (RZA1) MMCIF support.
+> Meanwhile, bindings for the audio codec exist. Add dai-cells property
+> and limit max frequency accordingly:
+>
+>   codec@0: '#sound-dai-cells' is a required property
+>   codec@0: spi-max-frequency: 5000000 is greater than the maximum of 5260=
+00
 >
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.13.
+i.e. will queue in renesas-devel for v6.13, with s/bindings/device node/
+in the one-line summary.
 
-The driver has been using 32-bit accesses since basically forever.
-If we ever need smaller accesses, that can be handled through the
-compatible value.  Note that on SH, this driver is used only on SH7757
-and SH7724. At least the latter is documented to use 32-bit accesses,
-but e.g. SH7785 supports only 8 or 16-bit addresses (depending on
-the register).
+> --- a/arch/arm/boot/dts/renesas/r7s72100-genmai.dts
+> +++ b/arch/arm/boot/dts/renesas/r7s72100-genmai.dts
+> @@ -248,9 +248,10 @@ &spi4 {
+>         status =3D "okay";
+>
+>         codec: codec@0 {
+> +               #sound-dai-cells =3D <0>;
+
+I'll move this to the end, to match generic property order.
+
+>                 compatible =3D "wlf,wm8978";
+>                 reg =3D <0>;
+> -               spi-max-frequency =3D <5000000>;
+> +               spi-max-frequency =3D <500000>;
+>         };
+>  };
 
 Gr{oetje,eeting}s,
 
