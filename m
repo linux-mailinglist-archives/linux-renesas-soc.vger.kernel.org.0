@@ -1,159 +1,107 @@
-Return-Path: <linux-renesas-soc+bounces-9093-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9094-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A7E6987897
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2024 19:48:33 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 443919878DF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2024 20:09:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5DEFD1F21856
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2024 17:48:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4C5641C21114
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2024 18:09:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C53F156665;
-	Thu, 26 Sep 2024 17:48:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9539216088F;
+	Thu, 26 Sep 2024 18:09:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uzqXQvja"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="S+aFpSA/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF414A24;
-	Thu, 26 Sep 2024 17:48:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 747DC15F308
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Sep 2024 18:09:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727372908; cv=none; b=YCQFD+/K2g78+dGFxcyDRr2mD/8tSPgnel2ky18h+ydXkjb+gvKIjHj1F4vPw1/+JlA8yWXPLh427s8VE1mJocFTaEILezsPpK0Z/eA0pqPQoBH5/3JaCZMM3m3yV13Cu33CHgQ770HGMdZ0PmaBsuDAKyx4SdnoJQTtKegEs+I=
+	t=1727374162; cv=none; b=cMRWGRk+0eIaRL3cliNhrzMX/c31AWtMUeLDmDRu0l5sRk9aEApZCguGozRmWAiax3EsP8Vz/CAcoAa+dXAGoGRiJeSwZrN8oHRItgzYyvroLuflHEjSDafdrIGuv0ep3l6FefCUuaLAH+YYmIegiRKaLeJsBxBNtIHWHy6keb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727372908; c=relaxed/simple;
-	bh=GqLH4dC8Wk7BOLguF4xiTuSKGoyO7U82IHOcy3yXBCE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AOsXX1pC5uWQCKsJ2rubwQdqQwtQDFclQB5Zs16bXaJ3nLGx35vdNV46+jnJz4QzDXORKZRTGjXUljTDQeOxZbbWQvepFLmNM7hnXpXoGwMthFs32qnYncUFTTrwYt5I8SvdAI1jhDVaU3wtn/yq8lT3LBQKgYZCMuOxpTf1L6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uzqXQvja; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7658E163;
-	Thu, 26 Sep 2024 19:46:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1727372813;
-	bh=GqLH4dC8Wk7BOLguF4xiTuSKGoyO7U82IHOcy3yXBCE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uzqXQvjaPSRAQUGls3RL8ziGEY1+tU4SRdEp6aLdU821q78nuw0QJfrcnhSUP+jaC
-	 u/Zxc5nLxDbWO17cVZkH47a4gjmGk4H4KYtPopKhIDoOFdhOnWgx7I7CMiW0acUNDP
-	 A6bBds09S2i0BmNPQ/9RqFxMXUU+jq4Vm+5FaPm4=
-Date: Thu, 26 Sep 2024 20:48:19 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Prabhakar <prabhakar.csengg@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	s=arc-20240116; t=1727374162; c=relaxed/simple;
+	bh=ZF2DzBa49BfuanikxreLTcbSEAwgY3M0gB0xW3443fQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ONDPW/HBN8piZz29wfGeMLblCIMNQGmZtq36Q3AtTJyCgyAOOtJz4sSroPqB/xK7zsKLlsKq1ByHFKtSf3Yryf8E+m8DuLvR+kCuUMkp2UeShnCYltdFg0+gHnLXO4BK6C88fTGUe0IMtmV3nCMEpq8FunrWefvuS2CvdRAUWBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=S+aFpSA/; arc=none smtp.client-ip=95.215.58.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1727374158;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=CsVPXYKrkdpFFA8bj1gjkMTFFkhyOuco1Zs7NUqsw6Y=;
+	b=S+aFpSA/V6FYFj9SsHrGdmlb5qrqPwLo9FQ6cLn/yNMHUSfYElyzFODjQztv/vyqpye/Ts
+	WhO+Td6QH9yHb5HAfF5V/GlCTfi0X/UvH83cLXzC9yhkTs1spjByMR1IbLoZN07vfg+zw/
+	1AyuHyVvfeEcbbIwldGffwHXC1gMqik=
+From: Sean Anderson <sean.anderson@linux.dev>
+To: Arnd Bergmann <arnd@arndb.de>,
+	Olof Johansson <olof@lixom.net>,
+	linux-arm-kernel@lists.infradead.org
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>,
 	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2 11/11] media: i2c: ov5645: Report streams using frame
- descriptors
-Message-ID: <20240926174819.GK21788@pendragon.ideasonboard.com>
-References: <20240910170610.226189-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240910170610.226189-12-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <ZvWBlivUaZ92KoAI@kekkonen.localdomain>
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Sean Anderson <sean.anderson@linux.dev>
+Subject: [PATCH 0/2] arm64: dts: renesas: Add SD/OE pin properties
+Date: Thu, 26 Sep 2024 14:09:01 -0400
+Message-Id: <20240926180903.479895-1-sean.anderson@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZvWBlivUaZ92KoAI@kekkonen.localdomain>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Sep 26, 2024 at 03:45:26PM +0000, Sakari Ailus wrote:
-> Hi Prabhakar,
-> 
-> Thanks for the set. It looks largely very nice to me, after addressing
-> Laurent's comments. A few comments here and possibly on other patches...
-> 
-> On Tue, Sep 10, 2024 at 06:06:10PM +0100, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > 
-> > Implement the .get_frame_desc() subdev operation to report information
-> > about streams to the connected CSI-2 receiver. This is required to let
-> > the CSI-2 receiver driver know about virtual channels and data types for
-> > each stream.
-> > 
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  drivers/media/i2c/ov5645.c | 28 ++++++++++++++++++++++++++++
-> >  1 file changed, 28 insertions(+)
-> > 
-> > diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-> > index 7f1133292ffc..c24eb6e7a7b5 100644
-> > --- a/drivers/media/i2c/ov5645.c
-> > +++ b/drivers/media/i2c/ov5645.c
-> > @@ -28,6 +28,7 @@
-> >  #include <linux/regulator/consumer.h>
-> >  #include <linux/slab.h>
-> >  #include <linux/types.h>
-> > +#include <media/mipi-csi2.h>
-> >  #include <media/v4l2-ctrls.h>
-> >  #include <media/v4l2-event.h>
-> >  #include <media/v4l2-fwnode.h>
-> > @@ -829,6 +830,32 @@ static const struct v4l2_ctrl_ops ov5645_ctrl_ops = {
-> >  	.s_ctrl = ov5645_s_ctrl,
-> >  };
-> >  
-> > +static int ov5645_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
-> > +				 struct v4l2_mbus_frame_desc *fd)
-> > +{
-> > +	const struct v4l2_mbus_framefmt *fmt;
-> > +	struct v4l2_subdev_state *state;
-> > +
-> > +	if (pad != OV5645_PAD_SOURCE)
-> > +		return -EINVAL;
-> 
-> As you have a single source pad, and pretty much all sensor drivers will, I
-> think it'd be nice to add a check for this (that it's not an internal pad)
-> to the caller side in v4l2-subdev.c. And of course drop this one.
+Linux can configure almost every part of this clock generator without
+relying on the OTP settings. However, the correct configuration for the
+SD/OE pin cannot be determined automatically. Therefore, add the
+appropriate properties to configure this pin.
 
-What check would you add, just verifying that the pad is a source pad ?
+I have CC'd some people who appear to have access to the following
+boards which use the versaclock5:
 
-> > +
-> > +	state = v4l2_subdev_lock_and_get_active_state(sd);
-> > +	fmt = v4l2_subdev_state_get_format(state, OV5645_PAD_SOURCE, 0);
-> > +	v4l2_subdev_unlock_state(state);
-> > +
-> > +	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
-> > +	fd->num_entries = 1;
-> > +
-> > +	memset(fd->entry, 0, sizeof(fd->entry));
-> > +
-> > +	fd->entry[0].pixelcode = fmt->code;
-> > +	fd->entry[0].stream = 0;
-> > +	fd->entry[0].bus.csi2.vc = 0;
-> > +	fd->entry[0].bus.csi2.dt = MIPI_CSI2_DT_YUV422_8B;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  static int ov5645_enum_mbus_code(struct v4l2_subdev *sd,
-> >  				 struct v4l2_subdev_state *sd_state,
-> >  				 struct v4l2_subdev_mbus_code_enum *code)
-> > @@ -1062,6 +1089,7 @@ static const struct v4l2_subdev_video_ops ov5645_video_ops = {
-> >  };
-> >  
-> >  static const struct v4l2_subdev_pad_ops ov5645_subdev_pad_ops = {
-> > +	.get_frame_desc = ov5645_get_frame_desc,
-> >  	.enum_mbus_code = ov5645_enum_mbus_code,
-> >  	.enum_frame_size = ov5645_enum_frame_size,
-> >  	.get_fmt = v4l2_subdev_get_fmt,
-> > 
+- Salvator-X
+- HiHope RZ/G2[MN] Main Board
+- Beacon Embedded Works RZ/G2N Development Kit
+
+as I could not find schematics for these boards. You can help me out by
+(pick one):
+
+- Run the following command and send me the output:
+
+    $ grep 10: /sys/kernel/debug/regmap/*-006a/registers
+
+- Measure the voltage on the SD/OE pin on a functioning board.
+- Inspect (or send me) the schematic to determine the state of the SD/OE
+  pin during normal operation.
+
+My suspicion is that all of these boards use the same configuration
+(SD/OE pin tied high) owing to their common design heritage. Thanks in
+advance.
+
+
+Sean Anderson (2):
+  arm64: dts: renesas: salvator-xs: Add SD/OE pin properties
+  arm64: dts: renesas: ulcb: Add SD/OE pin properties
+
+ arch/arm64/boot/dts/renesas/salvator-xs.dtsi | 2 ++
+ arch/arm64/boot/dts/renesas/ulcb.dtsi        | 2 ++
+ 2 files changed, 4 insertions(+)
 
 -- 
-Regards,
+2.35.1.1320.gc452695387.dirty
 
-Laurent Pinchart
 
