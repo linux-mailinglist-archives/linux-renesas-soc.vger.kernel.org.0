@@ -1,154 +1,141 @@
-Return-Path: <linux-renesas-soc+bounces-9144-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9145-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CDB69885F5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2024 15:00:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB0BA98860A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2024 15:04:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6FA261C21B64
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2024 13:00:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 859571F212E2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2024 13:04:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 371A318DF73;
-	Fri, 27 Sep 2024 13:00:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A2F318D640;
+	Fri, 27 Sep 2024 13:04:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u1Eunqo9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QytLK7YK"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024BA18CC00;
-	Fri, 27 Sep 2024 13:00:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9491618CBF9;
+	Fri, 27 Sep 2024 13:04:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727442009; cv=none; b=My6QOJjyRZ2HQVbR3gslLzK6SPYb78jBONzHQl8EZ8nDXxn8eYDeL6DO9/uVNVrLRLl5S/lojtgLTc6Q868gTYx0Qxh1YGSyXwcFNsBll+2j9Ql8K2AMj7o2Nw9hRJAjyUbJuroMQuEv4tG7rY88XeF0Xso/M8HXo+NKm08MlkU=
+	t=1727442245; cv=none; b=ULD9qu1oRdaFkw6tFzWeDL5cFi55M/cLpDP80fRWYF+HTUEBLMUaDBEc7Jv/Z0zxHvUsCjkjzN+MPZdH9kUWokFzrdUXsLIo4+1MMEl8O+CM+xFsbWpwLtTVGmi5arnqmaUvDUePTmjyNq7tHJ1ggkGluHOv7OL7mKZdio/xRxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727442009; c=relaxed/simple;
-	bh=Ee0Q/JS6j6Be3GL0oiQfbUBPEIgHZRQob9pPgugKAqU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NnxImrB5PJeFCMyD74uweoZQifQgeGeOg+Q6YhaO6/eSfiFp42pr7plrFXD/+o9jiV7vPK8Hh1SkPld4mnXPSUAUCpa/YbZZwPA0Jr4umRC/bhBWf34LPRUkaybGuRQf5JQytyfydDh+xHUj7Hh9Y0HcjZEYc6Y4qYT4jJZmoxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u1Eunqo9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18F03C4CEC4;
-	Fri, 27 Sep 2024 13:00:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727442008;
-	bh=Ee0Q/JS6j6Be3GL0oiQfbUBPEIgHZRQob9pPgugKAqU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=u1Eunqo9tkpr0482d/migHpm/hJU6OBMCxPxgMJ+vnVKywAMzy1KmaeS9eo6DhkjV
-	 U5itVoEzX1HNJNPiof71DzlBMAhI8lsSEM3ALb2JyAIys3UDnKVgGTwAgfZu8GP41S
-	 muUOFprRBckjpzNlhVLldab0EYnIpjgOZYrcPxkJ97R+pCRR1h1HBYGae5ReZweTB5
-	 Zlv9PuBneIc8/6e9MQevN1SXCKBNzNJQLXRUYbPxu0ZKWgKVr6W11BhqX4IlEb5y0T
-	 dkXHuuQi8iFOnKtIEtVcc/EBrdhQbXpR3w2JlBTXDcwxRQabkmk6nZmHceoWeeCIs5
-	 MRtkjOw7B/Pug==
-Message-ID: <00fd0f7d-e05b-4140-9997-b4ffe0fcd8e9@kernel.org>
-Date: Fri, 27 Sep 2024 14:59:59 +0200
+	s=arc-20240116; t=1727442245; c=relaxed/simple;
+	bh=lMZjaaCr3EBfndkZEzdIumPZ24tnOworlO7tnZ5+lEE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YLUVFp2FiLEF0XDrDYLKZl069AM4cwnSY+DQIZGAJaUSSHFrMrH7T1+nUHsfpxoBDXnTIxh2EnCQhX468mWEIVlp+RiyHKKjCMdrjnZ3oE/zVSGsedOj8wA418Goxq3tkg5K8DWIhF65ij7wLR8JRcIJWeundnrF75cqMa4x8js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QytLK7YK; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2e077a4b8c0so1558046a91.1;
+        Fri, 27 Sep 2024 06:04:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727442243; x=1728047043; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lLZBoouw/VuTYq1d8wJ2tQsyjB5lc2Ro32qoC8DsyX8=;
+        b=QytLK7YKJn7neczB3bLXKsGmCCbl0VMugxkmb76y0yvEgWyfc4W/8ow/jJjQbQMGsq
+         8k4Vhs8fIT8oc8M50e6O7T4G98xJIvojZHY5vLmNThRXzT8t9mdbHYTF3kHwbt9z0vkF
+         Uxxx5qz6gPlRw0HXvGv7ef6s5L6V+/Dw3oPSLbACHD5CaIQ8Jq6z6qwAWVzxjwjUb3y7
+         4FnYHSIHNggRD5vImFyzDYl7V4SBZzWCPDlu1O//NiGUWsbYd/hGpGmwdyeDpQL2l2A5
+         VFp6CBkfaXasJxQ1Xvh8oF0UAGJLx4dOjiajerR6LMjBRVSp8fl78TwKypZmXcqc37Q5
+         Ujkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727442243; x=1728047043;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lLZBoouw/VuTYq1d8wJ2tQsyjB5lc2Ro32qoC8DsyX8=;
+        b=BjZYNicTtak1D7V+g9v6aPn741xrkFafmYzgNzbgtxM/xODxgmk88gVj+l7qggxrw8
+         sG5H9Si9XO+sRY64ba0lkpqrSd2WTEVpe3mWfOyTvHgHWoXckUd3jKRbYTeD99z/SnEj
+         IfLFvp/dMaIy2ut2C16+7oHnx/L4/EVltKWivDO4Tj+2HPPHqt7PqMhmQq3cFaw5n/uD
+         kMVV63sLiiyPUJMTQFIEMblCLWy5ECelnr4qqBDIrxRLlwBpyLDUvyFvdEgMB3kkEbuO
+         UfKxxJAlCe3K2VEY13Q22p/zeUTrkdWerQELLFdwSpltSQThtNXzC68UVNHnuqrHLfd1
+         XIBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVM0ZvYgoQFByMIHDRWwcHNHtb5Zz2fokMnsG2S+LepTKOKYbCcqDa1G5gvguQSfxtj8tvlgkcHNeVJr0w=@vger.kernel.org, AJvYcCVRNQVnx8xp+4Vv+chQ4OS+NZ9jQ/MRnG1zgDSs3fjjEojeAUiKBEVuJ9NUgJ5rRtRBslxE1BlU8vGGZOAZ@vger.kernel.org, AJvYcCVTtcp3UMYQFumBFqGon7PMrcQLgaoISTIXcGJm3wpI7hCxdq2k8p2VkSTdH/dCCChmwXiX5XGaTgD8xUtQqYe6A3Y=@vger.kernel.org, AJvYcCVVaVn3xe9gce6/4yizsE6WyfvWAtbF/k6VQVXzog5NUxGly+A0jUsg4fw/M90Ceu5GeVYiergifVmBqg==@vger.kernel.org, AJvYcCVwRQ705lyQXPMbUsf1Sy3tVXjGwcbUb0FSbULcKKMcoM6DYQUXolaQ0KjGRm+MwstpaP8xg4hWbFN9@vger.kernel.org
+X-Gm-Message-State: AOJu0YzZinjBMtr0qnsDDlCOMWX6YR1HB6W9ez+j3pWYD/aeTrH7PuXX
+	RttEa42HAbrhWfBXSovOkqGKJcFaYfYJHmBnT7wKTSKCHOcwHnQ1/mbEtY190Sc+cMnusgnPdAE
+	TIaqDIFYm+A08VwNRSwFctVTY/80=
+X-Google-Smtp-Source: AGHT+IFtB7KLDPn+GDWKySAL2J4hNThlacj2FyNRmL5tDSlTqDrYlCCyOxeg5M2NMx4sjqT6GHGIxy0O+b+GZDd+MQM=
+X-Received: by 2002:a17:90a:8984:b0:2e0:855b:9b21 with SMTP id
+ 98e67ed59e1d1-2e09111a9ebmr10387052a91.8.1727442242759; Fri, 27 Sep 2024
+ 06:04:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH treewide 10/11] ARM: dts: nxp: imx: Switch to
- {hp,mic}-det-gpios
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Lubomir Rintel <lkundrak@v3.sk>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Magnus Damm <magnus.damm@gmail.com>,
- Heiko Stuebner <heiko@sntech.de>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Masami Hiramatsu <mhiramat@kernel.org>, Paul Cercueil
- <paul@crapouillou.net>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
- Nicolin Chen <nicoleotsuka@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Adrien Grassein <adrien.grassein@gmail.com>, Adam Ford <aford173@gmail.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-mips@vger.kernel.org, alsa-devel@alsa-project.org,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
-References: <cover.1727438777.git.geert+renesas@glider.be>
- <7ff1bfb73a6d6fc71f3d751dbb7133b045853f64.1727438777.git.geert+renesas@glider.be>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <7ff1bfb73a6d6fc71f3d751dbb7133b045853f64.1727438777.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <cover.1727438777.git.geert+renesas@glider.be> <7ff1bfb73a6d6fc71f3d751dbb7133b045853f64.1727438777.git.geert+renesas@glider.be>
+ <00fd0f7d-e05b-4140-9997-b4ffe0fcd8e9@kernel.org>
+In-Reply-To: <00fd0f7d-e05b-4140-9997-b4ffe0fcd8e9@kernel.org>
+From: Adam Ford <aford173@gmail.com>
+Date: Fri, 27 Sep 2024 08:03:51 -0500
+Message-ID: <CAHCN7xKywTnuW9W-5abwpq8txNYhN39G9OX8zJDy_j=fqJFPfg@mail.gmail.com>
+Subject: Re: [PATCH treewide 10/11] ARM: dts: nxp: imx: Switch to {hp,mic}-det-gpios
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Lubomir Rintel <lkundrak@v3.sk>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Magnus Damm <magnus.damm@gmail.com>, 
+	Heiko Stuebner <heiko@sntech.de>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Paul Cercueil <paul@crapouillou.net>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Shengjiu Wang <shengjiu.wang@gmail.com>, 
+	Xiubo Li <Xiubo.Lee@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Adrien Grassein <adrien.grassein@gmail.com>, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-mips@vger.kernel.org, 
+	alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 27/09/2024 14:42, Geert Uytterhoeven wrote:
-> Replace the deprecated "hp-det-gpio" and "mic-det-gpio" properties by
-> "hp-det-gpios" resp. "mic-det-gpios" in Freescale Generic ASoC Sound
-> Card device nodes.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> This has a run-time dependency on "ASoC: fsl-asoc-card: Add missing
-> handling of {hp,mic}-dt-gpios".
+On Fri, Sep 27, 2024 at 8:00=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.or=
+g> wrote:
+>
+> On 27/09/2024 14:42, Geert Uytterhoeven wrote:
+> > Replace the deprecated "hp-det-gpio" and "mic-det-gpio" properties by
+> > "hp-det-gpios" resp. "mic-det-gpios" in Freescale Generic ASoC Sound
+> > Card device nodes.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> > This has a run-time dependency on "ASoC: fsl-asoc-card: Add missing
+> > handling of {hp,mic}-dt-gpios".
+>
+> Therefore this should wait a cycle. Patch is good, although maybe we
+> should keep both properties for backwards compatibility?
 
-Therefore this should wait a cycle. Patch is good, although maybe we
-should keep both properties for backwards compatibility?
+I also wonder what the point of the customer fsl-asoc-card is when
+used in conjunction with a standard audio codec because the simple
+audio card works just fine.  I think they have some special drivers
+that need it like their ARC/eARC and HDMI drivers, but I have tested
+several NXP boards using a simple sound card and it works fine.
 
-Subject: drop "nxp" prefix.
-
-> ---
->  arch/arm/boot/dts/nxp/imx/imx6qdl-sabresd.dtsi  | 4 ++--
->  arch/arm/boot/dts/nxp/imx/imx6sl-evk.dts        | 2 +-
->  arch/arm/boot/dts/nxp/imx/imx6sll-evk.dts       | 2 +-
->  arch/arm/boot/dts/nxp/imx/imx6sx-sdb.dtsi       | 2 +-
->  arch/arm/boot/dts/nxp/imx/imx6ul-14x14-evk.dtsi | 2 +-
->  arch/arm/boot/dts/nxp/imx/imx7d-sdb.dts         | 2 +-
-
-
-Best regards,
-Krzysztof
-
+adam
+>
+> Subject: drop "nxp" prefix.
+>
+> > ---
+> >  arch/arm/boot/dts/nxp/imx/imx6qdl-sabresd.dtsi  | 4 ++--
+> >  arch/arm/boot/dts/nxp/imx/imx6sl-evk.dts        | 2 +-
+> >  arch/arm/boot/dts/nxp/imx/imx6sll-evk.dts       | 2 +-
+> >  arch/arm/boot/dts/nxp/imx/imx6sx-sdb.dtsi       | 2 +-
+> >  arch/arm/boot/dts/nxp/imx/imx6ul-14x14-evk.dtsi | 2 +-
+> >  arch/arm/boot/dts/nxp/imx/imx7d-sdb.dts         | 2 +-
+>
+>
+> Best regards,
+> Krzysztof
+>
 
