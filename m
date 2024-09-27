@@ -1,138 +1,127 @@
-Return-Path: <linux-renesas-soc+bounces-9115-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9116-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F6F988413
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2024 14:20:12 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 050D598849E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2024 14:29:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 11AD61F2297A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2024 12:20:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 78ED7B23BA8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2024 12:29:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A9F418BC0A;
-	Fri, 27 Sep 2024 12:20:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61B8918BC23;
+	Fri, 27 Sep 2024 12:29:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FtvCBuZJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dlkrZWa5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387F818BBB6;
-	Fri, 27 Sep 2024 12:20:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B12518BC1D;
+	Fri, 27 Sep 2024 12:29:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727439609; cv=none; b=g2y4bVOareh1xT4tv0CTXDb96wICDtsq1tVVTQNvoE3ajcODAP7WVMga9cDqKW1BsEYUkV/GnfrR6gtVFby9fGgAtokzDsSyb/6GskGTeocfO5HgZMArOMr6UZFNorBMRisIirwIpzGU5xnMO5RIbeZInF7MDBou9M2PjKaGk6I=
+	t=1727440168; cv=none; b=nqiMvE+/+yhoK02t/ZHOA8xos/JvcdjzSqOXOeTFaDDU5McdvqcjPc2c6f22bFJOc6ySKqQcVl66tPS3tN7Q2m7AgO/UwebyTohdKwF8eF9AsdIL2UHelsMsppDB3iNohPnVR9diHjBlN1w4zqWXHsK5Zli+iObLrj83aAI678k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727439609; c=relaxed/simple;
-	bh=WPNYO+xd1s1KN3jUa+JBRRpxKWaYwWSOMkkB8tCf+NQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QX2Psro8YHlBIPHwrAU6CCap6WkSGSejSG/vsznCYPuHNydFm1wIxG0s+jaskrmo14sLHUNkV1CSvI5nmUZEdBu2HI/BI5SNkd8mhvEEolPe3mKWKC6D+Y3W/fTtcvPhZbhbfiY+G/G1OIuDr5ipBo+RL3q+GNvwMqyXTfu3+8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FtvCBuZJ; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-20570b42f24so23842125ad.1;
-        Fri, 27 Sep 2024 05:20:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727439607; x=1728044407; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wmpHJeLs6NJdfwlzRVUknQADxAgUSEiuTv5BJcRJnFc=;
-        b=FtvCBuZJqQ1lZf6mSKiHpm2+DJgLbow9NCkWHV4IDQ3ktEL6VIv3M9fAx7r5tE0Svs
-         APTuIAx1/cTOVwhqXb2oGzeYneUJlzMbt4aFa6R+qTVYd/5KyVCr5FUzECEQS+unF+2d
-         VEs5P56IHZs8/W1tzSXTmsfUPvPyo8QVpT3Pynktn0/tEs4U0w4pnLHOgyeys+RBiV67
-         pTSnomoATzEHzge6MkcJ3T/7Yp/UawokYlnZTanboD2I6pqBpr/zaNQzTOkf0OPEtpxY
-         +zOOGXr/rFYwYc6GUaIXevn+dhoWown0Mpesi5DplM13G7lLXuq5bbT6uVNW55u+HRHL
-         6d+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727439607; x=1728044407;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wmpHJeLs6NJdfwlzRVUknQADxAgUSEiuTv5BJcRJnFc=;
-        b=wPIxAnASGJigz1jyaAMJEpZ8YOjpmKxLJEriVYjXCd++gQJ6anW0S0F5U12N8+WV8b
-         qzXNmG/lM/mJF83Q8mfxLBldRJfRtriJhUlorc6bTr9CcbXlNHSsYIC/EWDI3D1gagqf
-         nuksO3GJoFhbN9qNnbiUcSwnLFmw3+CPr56b61yvIrTUEJVNtTQ5zFY8PeGaWNsLVyTC
-         cnYDEue2s2hUdEGJFImpiMOsg7zH5B33bq5DQar50hBTEpShJkgP2COIf3pMTwrD2GJ+
-         gSp+sOhz4MWUyEgpG1BQ9z8rWjYXmB443hFqxVOIkriNTSvHdNoIxSUqVW4zv7GLEupM
-         qHYA==
-X-Forwarded-Encrypted: i=1; AJvYcCW2EmWJAe1RGAGbBic3BApC8gWcO70uT/cgf/DaTbbbDdblOTL9TvaA0C9lFredh476aFWq2lZKGMc4@vger.kernel.org, AJvYcCWzWQ3IBtWZFAYh8pht8PFYwKLkiifE56YjsXrS34FGyRMkMlVE9SUzYPwr4KPf2x1VmDNaDzSMVlgV8licFm8Xduo=@vger.kernel.org, AJvYcCXkY4r5h7EAWMq7BWlsr6WHfIDtZRHZ8WKTmeL6G3e6SaiBapHhpF/6aYEZQf6Dq59/Iun1yOt3m4IzwK2F@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5Nu1ne+RxcObONcW2ZQ01a0eolv5FrxGo7lQF+FhxHDXffuJ0
-	h+OTlucf12I1w73sTg9ebFIM1nsCKIpvjAaGYOoO7Qp09a9tl3w73ZftSz7JeC1rp/vgKEf2mxx
-	Tg3DyBdcbEhW2S2wyAjUVIOyNnNs=
-X-Google-Smtp-Source: AGHT+IG8xzE2YhDlqy6m9OCQv2i651ZoyrhJRmx3DU1y1XLHaGexnr0U8wiN8jW67VoZb0Kdz0KoguDZte066MqyFCk=
-X-Received: by 2002:a17:903:98b:b0:206:8d6e:cff9 with SMTP id
- d9443c01a7336-20b36be53e9mr53189825ad.4.1727439607242; Fri, 27 Sep 2024
- 05:20:07 -0700 (PDT)
+	s=arc-20240116; t=1727440168; c=relaxed/simple;
+	bh=UDXihsRr5ZptKwJK6vosrDwZ/WY/vJSD1CSvxUAHb+w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IZHyu6Hk1vC2d84bPWEsId270WcnZbYnwvhHfQ29IkUItsYGbUbNBCwLSEIawTsgcWhqNqzNyBMs2j+mcI4DX2TCRnyEaVfRjEub3+NY2oO2lecv2YiK+oqEii+VEQqqh2uTW774amGd64sJOw9Jix55o1jSNuT31YkURzo5mIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dlkrZWa5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD7D1C4CEC4;
+	Fri, 27 Sep 2024 12:29:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727440168;
+	bh=UDXihsRr5ZptKwJK6vosrDwZ/WY/vJSD1CSvxUAHb+w=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=dlkrZWa5AzwGmldMen1M2R42A1qQaJB4j3Hz+kHQPGEcd0f0oLJjHihywzKx1UjWF
+	 +Mzt7OHbnqJ476pFSO2sRe9nEcy0PhOhGapMd8iFBoLTLpjS1ZDB/eS8Uz4QHR+Or+
+	 MATqQPhzlMXKP83Ejwsak7R9TShPpUORhLlA8O1KH9ap4XMTocMjukp9ErQsZuotyT
+	 lKZhaXkEH2FeIMkNN/36QD6Utjd1R0Beon7x+qCRKb3OxRhSHfNpQChIckBVh4jd1N
+	 /3IO6zmeAelRLw8kTpXBImaglOtZdl/7OBum9H5HJCRHvJ3LdBAkrlQVJED7oA7MYh
+	 7h0Y34x27hy0A==
+Message-ID: <073f910a-763e-4e40-bdc3-6dfd84eb3721@kernel.org>
+Date: Fri, 27 Sep 2024 14:29:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240926180903.479895-1-sean.anderson@linux.dev> <cb716925-f6c0-4a00-8cfd-b30aed132fd1@linux.dev>
-In-Reply-To: <cb716925-f6c0-4a00-8cfd-b30aed132fd1@linux.dev>
-From: Adam Ford <aford173@gmail.com>
-Date: Fri, 27 Sep 2024 07:19:55 -0500
-Message-ID: <CAHCN7x+tcvih1-kmUs8tVLCAk0Gnj11t0yEZLPWk3UBNyad7Jg@mail.gmail.com>
-Subject: Re: [PATCH 0/2] arm64: dts: renesas: Add SD/OE pin properties
-To: Sean Anderson <sean.anderson@linux.dev>
-Cc: linux-arm-kernel@lists.infradead.org, 
-	Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>, 
-	Biju Das <biju.das@bp.renesas.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Olof Johansson <olof@lixom.net>, Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] ARM: dts: renesas: marzen: use interrupts-extended
+ for gpio-keys
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ linux-renesas-soc@vger.kernel.org
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, devicetree@vger.kernel.org
+References: <20240927095414.10241-6-wsa+renesas@sang-engineering.com>
+ <20240927095414.10241-7-wsa+renesas@sang-engineering.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240927095414.10241-7-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 26, 2024 at 1:24=E2=80=AFPM Sean Anderson <sean.anderson@linux.=
-dev> wrote:
->
-> On 9/26/24 14:09, Sean Anderson wrote:
-> > Linux can configure almost every part of this clock generator without
-> > relying on the OTP settings. However, the correct configuration for the
-> > SD/OE pin cannot be determined automatically. Therefore, add the
-> > appropriate properties to configure this pin.
-> >
-> > I have CC'd some people who appear to have access to the following
-> > boards which use the versaclock5:
-> >
-> > - Salvator-X
-> > - HiHope RZ/G2[MN] Main Board
-> > - Beacon Embedded Works RZ/G2N Development Kit
-> >
-> > as I could not find schematics for these boards. You can help me out by
-> > (pick one):
-> >
-> > - Run the following command and send me the output:
-> >
-> >     $ grep 10: /sys/kernel/debug/regmap/*-006a/registers
+On 27/09/2024 11:54, Wolfram Sang wrote:
+> Using the inherited interrupt-parent is discouraged. Use
+> interrupts-extended to fully describe the interrupt.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>  arch/arm/boot/dts/renesas/r8a7779-marzen.dts | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
 
-Without any of the patches from this series, for the Beacon RZ/G2 Boards:
+Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-grep 10: /sys/kernel/debug/regmap/*-006a/registers
-/sys/kernel/debug/regmap/2-006a/registers:10: a0
-/sys/kernel/debug/regmap/4-006a/registers:10: a0
+Best regards,
+Krzysztof
 
-> >
-> > - Measure the voltage on the SD/OE pin on a functioning board.
-> > - Inspect (or send me) the schematic to determine the state of the SD/O=
-E
-> >   pin during normal operation.
-
-The SD/OE pins on the Beacon boards are not tied high by default.
-They have an optional pull-up resistor, but it is not populated by
-default.
-
-adam
-> >
-> > My suspicion is that all of these boards use the same configuration
-> > (SD/OE pin tied high) owing to their common design heritage. Thanks in
-> > advance.
->
-> +CC the people I meant to CC in the first place
 
