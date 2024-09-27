@@ -1,106 +1,174 @@
-Return-Path: <linux-renesas-soc+bounces-9146-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9147-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DB8F988767
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2024 16:45:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D3C6988850
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2024 17:32:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5F0131C214CE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2024 14:45:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CF8412823CD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2024 15:32:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EC2A1C0DC7;
-	Fri, 27 Sep 2024 14:45:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AE7918660B;
+	Fri, 27 Sep 2024 15:32:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="hHZyQS+v"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nGSTpYpA"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03EF71BFE15;
-	Fri, 27 Sep 2024 14:45:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB3B174BED;
+	Fri, 27 Sep 2024 15:31:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727448318; cv=none; b=giJVwrYvCeRNuGW70raU2/YBW4MRnV30FvSSKioFTJZe/m/fjoUyqDMxkJrGlOgrUkP/vXStVJSfKVTl4kvUNXt/QPRqqotlVpXFKFq0vKJX4GfPlaCrIyCmcDDJ6oFWukvCR9FEy/J5YNjsB63EDR0NrvpVaxOT9rA7WuPEHns=
+	t=1727451120; cv=none; b=BuLCxrZ3Em8X8j69LHJyhCOljRZPZGNO8SwFX9OrKRQrOMDh9raMn2kqrI4BCsWC1tSgaI2MYnYP6qEbyJOHcLK6iQkAp426WXCQI7cyKfoUjZdxQlx8ue0+2O9DRW/G7CZvLpxA0uzx6RV9T9IeUnUDQikwJmkXAxnHeSa32Q0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727448318; c=relaxed/simple;
-	bh=MEJMjn9ntS8Y8zmLvfnNVYD5q/dmVMCCKHH9WIxiXyc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=b7bYZN2buH4Udg+zEwAP+6R/dco2IvmD1+tVJUfqJ15Ee8ye3VejJVCDsx3/T9KJBQXr+w0D7hWtd0AciyqbulPmjJf9ZAWmbJ87MmSNCXeOy416xa84XtQ833S1xJn1lXVTL3UkMu4bg7qYUnpuAKWnSm52WibY3OoAbgdZN+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=hHZyQS+v; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Eyv6FxKbSvQOFgQGcK5COE/kC4alwt92KY2oNq8SFCM=; b=hHZyQS+vg3fGvDLP66OXewKSw/
-	MgkYPIHasNP3Y4Vnw+Qz32VU90hJgUuL0TNZM9Z0ex/VAcLL+btM20yOKGwqvGR0MSZJy8sZzWNmu
-	CRtWZj46gdvGkeDWd8p6q6YFW0AO0Dg5nO6P2uO2uLV/GZj9x94qWOdQJ0+fOJKpEOeNwONe2b8my
-	IytLCrYxSKBSyluqn/mTPCnt7Whlj3/ufprGWJQo4y2pUCu3eDn29jqe+Qo39CjycUpZaK6XK8Vbs
-	wKQGVRYSz7kf5xERWOuc7hB190jPyoC7OddhWU6836LF6mjGb7UEvB/bz8zUJ6HC3A5y94d4HTLiu
-	+ui1ah4g==;
-Received: from 85-160-70-253.reb.o2.cz ([85.160.70.253] helo=phil.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1suCD8-0006OK-Lb; Fri, 27 Sep 2024 16:44:46 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Lubomir Rintel <lkundrak@v3.sk>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Magnus Damm <magnus.damm@gmail.com>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Masami Hiramatsu <mhiramat@kernel.org>, Paul Cercueil <paul@crapouillou.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
- Nicolin Chen <nicoleotsuka@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Adrien Grassein <adrien.grassein@gmail.com>, Adam Ford <aford173@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-mips@vger.kernel.org, alsa-devel@alsa-project.org,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH treewide 00/11] ASoC: Clean up {hp,mic}-det-gpio handling
-Date: Fri, 27 Sep 2024 16:44:43 +0200
-Message-ID: <4455919.MSiuQNM8U4@phil>
-In-Reply-To: <cover.1727438777.git.geert+renesas@glider.be>
-References: <cover.1727438777.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1727451120; c=relaxed/simple;
+	bh=ecsRbGoKvi94m683sBbOe5u+7jAt/EOz4MF3SLQZLRs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PHymMlTlARExjT1BzLeTJsat9F1uPNDoORPFurosfbMTxcsdyNfQDMNRv5wvOXUbQFgDrvf93Lbib+Yn9v+7lFcIeCNUNl1m04CpRLQ8SmaEBWL/SUIoAUChpa/JSN3fssib3SwDNozUYE3rlUoV8vr56KErXchOXLIRc+SJweA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nGSTpYpA; arc=none smtp.client-ip=209.85.161.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-5d5eec95a74so1092758eaf.1;
+        Fri, 27 Sep 2024 08:31:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727451118; x=1728055918; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=usbGndAEP6RKj6SG8WhrwCRKqwPvgi09AD1FuzxTCC8=;
+        b=nGSTpYpA1odliLMKUvHOtHshO/k9RzygWzJtp5H2C+BUDCwaBlClBUcfM1Ly/4am4W
+         1dZ0yKlmNilEhBEBXqhpWSKW7WLWFFIGeuEJCA31C5lMf8C0EGx1KYtBlDwfDAr+nbpF
+         nPLBfUStyutu3km6cl0RmeuuHD8YqdDkKjTzTKNN3fT1tCEByVcPJbjYfTbo5ZB1VKBy
+         Td9aGsR2rDl1EBwbQKLNxe8iqGWPaYSzfVJHgbh47hPL20Z747VbgXaflYi46y07z9BT
+         i154cSyCkvpZKfl0qM+FU9uxupdpAH0WNeNZ/h+yA2Y6ojHHt+dq8qVQZXdQtaE/WzLe
+         yVuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727451118; x=1728055918;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=usbGndAEP6RKj6SG8WhrwCRKqwPvgi09AD1FuzxTCC8=;
+        b=meIh2f1s6bNkk6f0zikvJ2o4nA5fY162rUur275V1zeUN2SP5mDSSmOeGkM6A392bY
+         C1Jyz0jqyTeNFX1yCU7EKQ/3GVR8zIu2ngKlmzbl2b7aoHsEDQe5zpIggtPDR7URK+9d
+         N8nCpYXPvmusDEHvnehtz6ilsMB2beclf3CP32iBQw7vkKt5MSLE8xM1ziUgO47kl5p6
+         3cWT+eKReGligMRoamkNcbPMfAEnfvtTE06JjHvbzczNt5ZgLzMDHL9ERs3C0lmBs644
+         +hDEfkLZWekTeYJYfM9ccdPvfa1HnqOmf+HTXBVxPUui1KOgFh8fP4jh/Asq2XdNJxDy
+         aOyg==
+X-Forwarded-Encrypted: i=1; AJvYcCUTNGXvoP8RHP/ewpVN1oLsFbQqkd84aiOoojs2INsQqHnsR7vKGV/11aANGQoaGDbqAvPCups73UN7olY=@vger.kernel.org, AJvYcCXc8mtD0xsnyATTyZaG8Z1ig0Pxdb9ZJeTVdccaCLbyt4mzyyMP9tVkHadaAmKJxEMSqgKacr2BnFft610=@vger.kernel.org, AJvYcCXqTfvCZiyObFlt+rRcGISeXws6RqWfnLmNMK02BweN6Wp+5srHQBqMtv55adQz26lHrWEZUzrIGnO8KRHtM1jDp9U=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/0qMOro/fMS64peAUe3nPdB9Nmkfh7vR6hFIpMDixLdVJmqxT
+	T+WZvboKiRCUjgqlgyMD9YfXmsFJaaRJxzQdFNZuM9bGUPCDZGzbBQdRjnqIPSzwtO+RQwSj4io
+	QvkXYA7uk2BNs1Ukokc8J9kZNAJc=
+X-Google-Smtp-Source: AGHT+IF4JspM/zMBLkoNZehhJMPEmtTkj8/Ez0HqBPtRzJrG7epkmEQIYm8UrvsTuDdZxqRg4sw4VNQOBVlqUn6pffw=
+X-Received: by 2002:a05:6358:99aa:b0:1b5:f74e:ae3a with SMTP id
+ e5c5f4694b2df-1becbbb8890mr235276755d.15.1727451117751; Fri, 27 Sep 2024
+ 08:31:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <20240910170610.226189-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240910170610.226189-12-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <ZvWBlivUaZ92KoAI@kekkonen.localdomain> <20240926174819.GK21788@pendragon.ideasonboard.com>
+ <ZvWumaGsMPGGwPaS@kekkonen.localdomain>
+In-Reply-To: <ZvWumaGsMPGGwPaS@kekkonen.localdomain>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Fri, 27 Sep 2024 16:31:31 +0100
+Message-ID: <CA+V-a8uGmyrSQQULY9sS9r-Ss_Gxw7OBtbYjFYOMpLJ_e=ZRGg@mail.gmail.com>
+Subject: Re: [PATCH v2 11/11] media: i2c: ov5645: Report streams using frame descriptors
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
+Hi Sakari and Laurent,
 
-Am Freitag, 27. September 2024, 14:42:15 CEST schrieb Geert Uytterhoeven:
->   - The second patch updates the Audio Graph and Simple Audio Card DT
->     bindings,
->   - Patches 3-9 converts various DTS files to use the new properties,
->   - The last 2 patches convert Freescale sound device nodes to use the
->     new properties.
-> 
-> All patches can be applied independently,
+On Thu, Sep 26, 2024 at 7:57=E2=80=AFPM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> On Thu, Sep 26, 2024 at 08:48:19PM +0300, Laurent Pinchart wrote:
+> > On Thu, Sep 26, 2024 at 03:45:26PM +0000, Sakari Ailus wrote:
+> > > Hi Prabhakar,
+> > >
+> > > Thanks for the set. It looks largely very nice to me, after addressin=
+g
+> > > Laurent's comments. A few comments here and possibly on other patches=
+...
+> > >
+> > > On Tue, Sep 10, 2024 at 06:06:10PM +0100, Prabhakar wrote:
+> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > >
+> > > > Implement the .get_frame_desc() subdev operation to report informat=
+ion
+> > > > about streams to the connected CSI-2 receiver. This is required to =
+let
+> > > > the CSI-2 receiver driver know about virtual channels and data type=
+s for
+> > > > each stream.
+> > > >
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.c=
+om>
+> > > > ---
+> > > >  drivers/media/i2c/ov5645.c | 28 ++++++++++++++++++++++++++++
+> > > >  1 file changed, 28 insertions(+)
+> > > >
+> > > > diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.=
+c
+> > > > index 7f1133292ffc..c24eb6e7a7b5 100644
+> > > > --- a/drivers/media/i2c/ov5645.c
+> > > > +++ b/drivers/media/i2c/ov5645.c
+> > > > @@ -28,6 +28,7 @@
+> > > >  #include <linux/regulator/consumer.h>
+> > > >  #include <linux/slab.h>
+> > > >  #include <linux/types.h>
+> > > > +#include <media/mipi-csi2.h>
+> > > >  #include <media/v4l2-ctrls.h>
+> > > >  #include <media/v4l2-event.h>
+> > > >  #include <media/v4l2-fwnode.h>
+> > > > @@ -829,6 +830,32 @@ static const struct v4l2_ctrl_ops ov5645_ctrl_=
+ops =3D {
+> > > >   .s_ctrl =3D ov5645_s_ctrl,
+> > > >  };
+> > > >
+> > > > +static int ov5645_get_frame_desc(struct v4l2_subdev *sd, unsigned =
+int pad,
+> > > > +                          struct v4l2_mbus_frame_desc *fd)
+> > > > +{
+> > > > + const struct v4l2_mbus_framefmt *fmt;
+> > > > + struct v4l2_subdev_state *state;
+> > > > +
+> > > > + if (pad !=3D OV5645_PAD_SOURCE)
+> > > > +         return -EINVAL;
+> > >
+> > > As you have a single source pad, and pretty much all sensor drivers w=
+ill, I
+> > > think it'd be nice to add a check for this (that it's not an internal=
+ pad)
+> > > to the caller side in v4l2-subdev.c. And of course drop this one.
+> >
+> > What check would you add, just verifying that the pad is a source pad ?
+>
+> I think you could add that, too, besides the absence of the internal flag=
+.
+>
+Checking only for the source flag should suffice, as the
+MEDIA_PAD_FL_INTERNAL flag cannot be set for a source pad because
+media_entity_pads_init() enforces this restriction.
 
-though I guess dts patches should wait till patch 2 gets applied
-somewhere, so that changed dts and changed binding can again find
-together in linux-next?
+Do you agree?
 
-
-Heiko
-
-
+Cheers,
+Prabhakar
 
