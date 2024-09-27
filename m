@@ -1,117 +1,198 @@
-Return-Path: <linux-renesas-soc+bounces-9119-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9127-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2414D98851F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2024 14:38:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B06AD988551
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2024 14:43:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 545FE1C20C03
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2024 12:38:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6B2ED283BA7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2024 12:43:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 523A918C026;
-	Fri, 27 Sep 2024 12:38:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35C1B18E03B;
+	Fri, 27 Sep 2024 12:43:13 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from riemann.telenet-ops.be (riemann.telenet-ops.be [195.130.137.80])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB6BE189BBF;
-	Fri, 27 Sep 2024 12:38:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A43E18DF74
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Sep 2024 12:43:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727440708; cv=none; b=HpuaSnloTCKUIBL1aCuGbp78DAf2bQDu+IAaRIq55xVx6vJUIqWc3xa4njdwn/Rm/zN+a2akYB3HMbvXbiVzup4Urn5XO6lnU6UCuCVjC92bm2q2aInUL4B+5E1oXsz6oRNuH0til6wJ7yTB6RCeFEEfIY/fFmifUV2sEFWop30=
+	t=1727440993; cv=none; b=PtfiXydimbB3IqUDr6mSze+SSk1jkvDv3H72XiUrMvAQEL7Qnmb0I8edb+T8GU6+x6zVIRcjWXmTi17JSeK3uKy4UEaldFso7d/0DlmnFy8536rvOGR6YFFKRk9PEJmid2kQzlavPfGdaq3GXKp9jqZmUgGyyRYe/Cc66qZd9KE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727440708; c=relaxed/simple;
-	bh=mRrA4Ra+keaAGaFRVwiO99FRpqypJbOHY7A5IlTwqQ8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=f/UPd8l63FyxY0DiuMWaMvDtEyC+Av088a2KUaiMQXq/AGRmKSOnELT7SWnVM84NhJjBhMdDAhL9AJSIfSc4+LInIoS6hoB9LAvAf3H7lR9L7ETYUr6fGwhA1uFFFQg2VOq0XyJh5h9m2SUm/JpXWl8eBNNu+O0L931bdwU/od0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-6e2326896cbso14203727b3.3;
-        Fri, 27 Sep 2024 05:38:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727440704; x=1728045504;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TqFBH+5HsFabcWzieETwGKzU8RIL4xGNtRxP80P6Whg=;
-        b=Y5IjKDr8dp8K81kcjn5wK6iv7ho5JGDX0BZL0159pPm0n1Bywbd6k0lrhILSa7flAu
-         1R/4rLwHrv2gMdDhGoX1u4SUM8smdKta+t9bIVHJObATF6xQRhmRoRCLQzoNTsSMZum5
-         nL1xdAn1D32QVerLQ1XTzCn86/TdEecfAh5AMTd9NQxrZAm9SpGevcsG4hSMlBaHLThY
-         GLy4yAeb/fFoUXS/LUWDtNuF4pOd8iEiky1e9dEBASgl1Os5VWb4BsrEFFwTMxvDWXo5
-         D82WohoOfj7eBVZmKadjrJ8gt31SPiwUDLrn+Wdey8qBUHLgAnOXrRd2sYBfITWutWRY
-         xTjA==
-X-Forwarded-Encrypted: i=1; AJvYcCVC0SEMnI3+/vr5GdIc0ha3dj2akanOsommPjaL+0bUlX2MPaIiwGoILvA2CuKV1HYqB0wio+UCV+yrb08b@vger.kernel.org, AJvYcCWMQQgXfmRBZ0nRlU/9iteOhc9aJrG6EAqAkdKiruwuBK9l+fSnY0H6ljPETT7ZbkvRTFOawo0c1pOgeeMQoEmtWTg=@vger.kernel.org, AJvYcCWcu6UFVKhUPeXDXW0NJODn0gn3JZucKtlo1GiDumtvWiNrnNNbYigJsOqLSo7+S3fQiE7fqJe4g0XF@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJcO/m3hAie29VfHOs2E6N8JP5PHlkTGSXPTVj8IArc8PuKuOz
-	uUudeOTXQSAkKbVyuJedu3OTREpe5zDb7Exk2nYNEPeMhyl+GgYSWCNa6tbb
-X-Google-Smtp-Source: AGHT+IE3Ghih593VjUZ2wTl961rqWVRU6zauO5LW4WB2We3JDJ+z3RXrvrDhhXERb1p+UiVqfKxw1A==
-X-Received: by 2002:a05:690c:dca:b0:6af:fc23:178e with SMTP id 00721157ae682-6e2474d8d1emr25646447b3.1.1727440704080;
-        Fri, 27 Sep 2024 05:38:24 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e24549d250sm2843977b3.131.2024.09.27.05.38.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Sep 2024 05:38:23 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e25d405f238so1522043276.3;
-        Fri, 27 Sep 2024 05:38:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCX/Mcxr9dA5KpYhSZ/QISYpKpECTdmTzEchzk3GKXvhhZ+oqDjMh/YS/pXafLJ735/dsiBzA394yAve@vger.kernel.org, AJvYcCX76rLAb1EGpk5r+5kg06fIqAafcfV7rOTrsLwDlxVQ2bfWXAMMdJ73LqCoT/g7CdGB2upYq1AYK2VoxzTChpLkRHU=@vger.kernel.org, AJvYcCXrQ4yBJg4kg19TTiIxE4CG6jNc+umQuK1Uv9CZxSKcAbWkVrbjobOvNfNNoSWRgjoS7XfGKiklCiu50695@vger.kernel.org
-X-Received: by 2002:a05:690c:5084:b0:6dd:c0eb:dd99 with SMTP id
- 00721157ae682-6e24750b56amr20281677b3.13.1727440703190; Fri, 27 Sep 2024
- 05:38:23 -0700 (PDT)
+	s=arc-20240116; t=1727440993; c=relaxed/simple;
+	bh=2QXljp1dC/8iHwUW7hKb7vZR7RspRKinKvyyOkLSgtI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XQbgiH9KWcBKjHdxLgnxUwV9HZMV+WY5bdkzGTZppYMiE6BwFsEeP5kU4cYKqe4tA/ond4jdadjMEpzQl50WvmnB37JNd5WQDq0SAKLqteKYVL58oZ0e+H2d/MFVzLwyURPcMbRZqicRG6wwnocbodRLi6HlOMoGLxYQSPMmylY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+	by riemann.telenet-ops.be (Postfix) with ESMTPS id 4XFVVt5S6lz4xT7q
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Sep 2024 14:43:02 +0200 (CEST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:b47d:fd74:3975:15b7])
+	by baptiste.telenet-ops.be with cmsmtp
+	id HQic2D00C3BfLyr01Qicjs; Fri, 27 Sep 2024 14:43:02 +0200
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1suAIj-000fPq-HD;
+	Fri, 27 Sep 2024 14:42:31 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1suAIo-008IDa-TV;
+	Fri, 27 Sep 2024 14:42:30 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Lubomir Rintel <lkundrak@v3.sk>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Adrien Grassein <adrien.grassein@gmail.com>,
+	Adam Ford <aford173@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	imx@lists.linux.dev,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-mips@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH treewide 00/11] ASoC: Clean up {hp,mic}-det-gpio handling
+Date: Fri, 27 Sep 2024 14:42:15 +0200
+Message-Id: <cover.1727438777.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240926180903.479895-1-sean.anderson@linux.dev>
- <cb716925-f6c0-4a00-8cfd-b30aed132fd1@linux.dev> <CAHCN7x+tcvih1-kmUs8tVLCAk0Gnj11t0yEZLPWk3UBNyad7Jg@mail.gmail.com>
-In-Reply-To: <CAHCN7x+tcvih1-kmUs8tVLCAk0Gnj11t0yEZLPWk3UBNyad7Jg@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 27 Sep 2024 14:38:10 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW3Lnu+fLm6tsWvtysOGmvKJ-utNYGJRUpRXtRmOXpQiw@mail.gmail.com>
-Message-ID: <CAMuHMdW3Lnu+fLm6tsWvtysOGmvKJ-utNYGJRUpRXtRmOXpQiw@mail.gmail.com>
-Subject: Re: [PATCH 0/2] arm64: dts: renesas: Add SD/OE pin properties
-To: Adam Ford <aford173@gmail.com>
-Cc: Sean Anderson <sean.anderson@linux.dev>, linux-arm-kernel@lists.infradead.org, 
-	Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>, 
-	Biju Das <biju.das@bp.renesas.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Olof Johansson <olof@lixom.net>, Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Adam,
+	Hi all,
 
-On Fri, Sep 27, 2024 at 2:20=E2=80=AFPM Adam Ford <aford173@gmail.com> wrot=
-e:
-> On Thu, Sep 26, 2024 at 1:24=E2=80=AFPM Sean Anderson <sean.anderson@linu=
-x.dev> wrote:
-> > > - Inspect (or send me) the schematic to determine the state of the SD=
-/OE
-> > >   pin during normal operation.
->
-> The SD/OE pins on the Beacon boards are not tied high by default.
-> They have an optional pull-up resistor, but it is not populated by
-> default.
+The "gpio" suffix for GPIO consumers was deprecated a while ago, in
+favor of the "gpios" suffix.  However, there are still several users of
+the "hp-det-gpio" and "mic-det-gpio" properties, in DT bindings,
+drivers, and DT source files.
 
-Whoops, this "np" suffix is really tiny! I had completely missed it :-(
+Drivers that use gpiolib handle both the deprecated and new properties
+transparently, but that is not the case when using of_property_*() calls
+directly.
+
+  - The first patch fixes a bug, as the Freescale Generic ASoC Sound
+    driver handles only the deprecated properties, while there is
+    already a user of the new variants,
+  - The second patch updates the Audio Graph and Simple Audio Card DT
+    bindings,
+  - Patches 3-9 converts various DTS files to use the new properties,
+  - The last 2 patches convert Freescale sound device nodes to use the
+    new properties.
+
+All patches can be applied independently, except for the last two, which
+depend on the first patch to avoid regressions.
+This series was compile-tested only.
+
+Thanks for your comments!
+
+Geert Uytterhoeven (11):
+  ASoC: fsl-asoc-card: Add missing handling of {hp,mic}-dt-gpios
+  ASoC: dt-bindings: Deprecate {hp,mic}-det-gpio
+  ARM: dts: marvell: mmp2-olpc-xo-1-75: Switch to {hp,mic}-det-gpios
+  arm64: dts: freescale: imx: Switch to simple-audio-card,hp-det-gpios
+  arm64: dts: renesas: beacon-renesom: Switch to mic-det-gpios
+  arm64: dts: rockchip: Switch to simple-audio-card,hp-det-gpios
+  arm64: dts: rockchip: Switch to hp-det-gpios
+  arm64: dts: uniphier: Switch to hp-det-gpios
+  mips: dts: ingenic: Switch to simple-audio-card,hp-det-gpios
+  ARM: dts: nxp: imx: Switch to {hp,mic}-det-gpios
+  arm64: dts: freescale: imx: Switch to hp-det-gpios
+
+ .../devicetree/bindings/sound/audio-graph.yaml       |  6 ++++++
+ .../devicetree/bindings/sound/simple-card.yaml       | 12 ++++++++++++
+ arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dts      |  4 ++--
+ arch/arm/boot/dts/nxp/imx/imx6qdl-sabresd.dtsi       |  4 ++--
+ arch/arm/boot/dts/nxp/imx/imx6sl-evk.dts             |  2 +-
+ arch/arm/boot/dts/nxp/imx/imx6sll-evk.dts            |  2 +-
+ arch/arm/boot/dts/nxp/imx/imx6sx-sdb.dtsi            |  2 +-
+ arch/arm/boot/dts/nxp/imx/imx6ul-14x14-evk.dtsi      |  2 +-
+ arch/arm/boot/dts/nxp/imx/imx7d-sdb.dts              |  2 +-
+ .../boot/dts/freescale/imx8mq-librem5-devkit.dts     |  2 +-
+ arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi    |  2 +-
+ arch/arm64/boot/dts/freescale/imx8qm-mek.dts         |  2 +-
+ arch/arm64/boot/dts/freescale/imx8qxp-mek.dts        |  2 +-
+ arch/arm64/boot/dts/freescale/imx95-19x19-evk.dts    |  2 +-
+ .../boot/dts/renesas/beacon-renesom-baseboard.dtsi   |  2 +-
+ .../boot/dts/rockchip/rk3326-anbernic-rg351m.dtsi    |  2 +-
+ .../arm64/boot/dts/rockchip/rk3326-gameforce-chi.dts |  2 +-
+ arch/arm64/boot/dts/rockchip/rk3326-odroid-go.dtsi   |  2 +-
+ arch/arm64/boot/dts/rockchip/rk3368-lba3368.dts      |  2 +-
+ arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dts    |  2 +-
+ arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dts |  2 +-
+ arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dts  |  2 +-
+ .../boot/dts/rockchip/rk3399-rock-pi-4a-plus.dts     |  2 +-
+ .../boot/dts/rockchip/rk3399-rock-pi-4b-plus.dts     |  2 +-
+ arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4c.dts   |  2 +-
+ .../boot/dts/rockchip/rk3399-sapphire-excavator.dts  |  2 +-
+ .../boot/dts/rockchip/rk3566-anbernic-rg-arc.dtsi    |  2 +-
+ .../boot/dts/rockchip/rk3566-anbernic-rg353p.dts     |  2 +-
+ .../boot/dts/rockchip/rk3566-anbernic-rg353ps.dts    |  2 +-
+ .../boot/dts/rockchip/rk3566-anbernic-rg353v.dts     |  2 +-
+ .../boot/dts/rockchip/rk3566-anbernic-rg353vs.dts    |  2 +-
+ .../boot/dts/rockchip/rk3566-anbernic-rg503.dts      |  2 +-
+ arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi    |  2 +-
+ arch/arm64/boot/dts/rockchip/rk3566-powkiddy-x55.dts |  2 +-
+ arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dts    |  2 +-
+ arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dts |  2 +-
+ arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dts     |  2 +-
+ .../dts/rockchip/rk3588-friendlyelec-cm3588-nas.dts  |  2 +-
+ arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtsi   |  2 +-
+ arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dts     |  2 +-
+ .../boot/dts/rockchip/rk3588-orangepi-5-plus.dts     |  2 +-
+ arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dts  |  2 +-
+ arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dts   |  2 +-
+ arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts      |  2 +-
+ .../boot/dts/rockchip/rk3588s-gameforce-ace.dts      |  2 +-
+ .../boot/dts/socionext/uniphier-ld11-global.dts      |  2 +-
+ .../boot/dts/socionext/uniphier-ld20-global.dts      |  2 +-
+ arch/mips/boot/dts/ingenic/gcw0.dts                  |  2 +-
+ arch/mips/boot/dts/ingenic/rs90.dts                  |  2 +-
+ sound/soc/fsl/fsl-asoc-card.c                        |  8 +++++---
+ 50 files changed, 72 insertions(+), 52 deletions(-)
+
+-- 
+2.34.1
 
 Gr{oetje,eeting}s,
 
-                        Geert
+						Geert
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
