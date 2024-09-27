@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-9117-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9118-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 210299884A2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2024 14:29:41 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB0269884B9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2024 14:30:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 524771C217E4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2024 12:29:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 77522B223F7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2024 12:30:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5787818BC1D;
-	Fri, 27 Sep 2024 12:29:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1368F18C003;
+	Fri, 27 Sep 2024 12:30:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tnBjg1cD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i2/zgm7r"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 305A518A95D;
-	Fri, 27 Sep 2024 12:29:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84B118C034;
+	Fri, 27 Sep 2024 12:30:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727440178; cv=none; b=HFPq2Kj2VY0wpuQSRuK+QgVFbLREgHD8Hlx1l4L5W83FulhpjHu466ekYRNnNH+lq902TM867nif7bJAL20OwHQy+6qQBXRZq5BQgVGQ7ymLA843PzOscKwt7E6YAXE24HWAe/zRFgnbOoQ6W3000Nqyqu5l/IVq2AZl5hBalno=
+	t=1727440216; cv=none; b=hsXbZR97E5rbCDhFe5tMgcWRNt+cjDYQU3yh5AZpKSoeiQvlPesCdAzYinxkbgb+jzMerVB69FhLc7HcU7HOrMCT0Tv4ingsR7FKB/v93G6Zenl1d7qLqG0rbffxZ8XozqeTIE1IzvmRrAQql3EM046eyQB87q1s2zeIKKTYUek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727440178; c=relaxed/simple;
-	bh=xpVIjoHQIDmk2QcPblrgw3FGdIq5mLjiF0rwggl38wI=;
+	s=arc-20240116; t=1727440216; c=relaxed/simple;
+	bh=WkxpBjDPlvEA84J0TuPuzB0yCEs1Z0np/eqBqHtWSzg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fuRe+Tm3Au10vHXqnIzqspGIROE2LuUe8B9SR7ddDUDKSi98qdzzINprg3024GP1DH+zeXWTGV9swdJni5yisxUDvEmSsVOXXDJaS6HDO3D+iD1W1wbl47D2VtIyNhmmTXAVt5B6A/PFPXKlYUSFsxEgvwl1AN7DMhnQCroSU/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tnBjg1cD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57E30C4CEC6;
-	Fri, 27 Sep 2024 12:29:35 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=Vn3Be4EEqADzUKDI+ZmizSoCYNVMTVDJIQ2XqfS9oauK1p9jSPWA4rCjbNFihauPvKLDvfTBARvMntheNHFvsrIVOfTTi8FF69tik62MEQ2USHF9utoJK/b4upqw0JySwH2Rmkzy1qZE9Xmt2y3ERiU2TIEU8YuaWeiSqjgAR5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i2/zgm7r; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C287C4CEC6;
+	Fri, 27 Sep 2024 12:30:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727440178;
-	bh=xpVIjoHQIDmk2QcPblrgw3FGdIq5mLjiF0rwggl38wI=;
+	s=k20201202; t=1727440215;
+	bh=WkxpBjDPlvEA84J0TuPuzB0yCEs1Z0np/eqBqHtWSzg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=tnBjg1cDlR5OLBOZ4UYJ4O9Zs9UjJGpsKqcR0KGdQM5oBXuggpAZ7wiY6aA4nppH3
-	 GkYf3kLL6K5hw7yhGSkZsfRgTYdp+PeFYTIoYhQkaiMi/i6IByESuwImr4YVuKQA7D
-	 ruY+7YQeLdQ94jC8aP/q2VfXANIkeWWEp+IpDfJNdmz5LiM/5f5hfplzBDFUH9sISF
-	 HHrTp8oywyxC80x+ACNEsqthbsaECs87lF8sDlbSOgu59NSRyy/P0XFspm2unGbQc4
-	 3m9oZ6O+ZRYt2KZ0LiMSKhbyUWBGGQwlSw4l0MY4DtvefZEjihYGi/moChtj424wTB
-	 gyUKKMUpqrBSg==
-Message-ID: <7423bd69-9219-4766-bdb7-13fe3420afaf@kernel.org>
-Date: Fri, 27 Sep 2024 14:29:33 +0200
+	b=i2/zgm7rMLinQ6naITjYZiCwmM0KThn3/86NTFYcn28ACYF/akIruYZWt6g6oUz2u
+	 zM+0iix+T/WklLRJbjjQHrrqkf9hfY6u32IeNcAyblUoFDVx+BYsCHxsW35Z5QL2bs
+	 w5qKAeRsjuJMfeZwJd+TatIY3nm3pil131VKsijHJHEuKzDGS1iaTuTtqS1nJuxTWm
+	 o5s2SzzBN04uvpc5msGGlwVb09PWp67kEls5cFnAVG6qhULOltHJXA1C2KVzJcHrlu
+	 eKwYU+8uShwQnDGv95ccKBPCTWEwOJpMfPfcv3DMdNISVj4u3xd4dZc46PPjV6mrni
+	 xvyFPElX+cXYg==
+Message-ID: <771ca057-af25-475a-8f2f-374a150134e3@kernel.org>
+Date: Fri, 27 Sep 2024 14:30:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] ARM: dts: renesas: genmai: use interrupts-extended
+Subject: Re: [PATCH 3/4] ARM: dts: renesas: rskrza1: use interrupts-extended
  for gpio-keys
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
  linux-renesas-soc@vger.kernel.org
@@ -59,9 +59,9 @@ Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, devicetree@vger.kernel.org
 References: <20240927095414.10241-6-wsa+renesas@sang-engineering.com>
- <20240927095414.10241-8-wsa+renesas@sang-engineering.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <20240927095414.10241-9-wsa+renesas@sang-engineering.com>
 Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -105,7 +105,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240927095414.10241-8-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20240927095414.10241-9-wsa+renesas@sang-engineering.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
@@ -115,11 +115,8 @@ On 27/09/2024 11:54, Wolfram Sang wrote:
 > 
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > ---
->  arch/arm/boot/dts/renesas/r7s72100-genmai.dts | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
 
-Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+The code is correct, but are you sure this is not just a churn?
 
 Best regards,
 Krzysztof
