@@ -1,209 +1,218 @@
-Return-Path: <linux-renesas-soc+bounces-9100-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9101-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B0C0987B92
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2024 01:18:50 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A95B2987DAF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2024 06:48:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 06D5828628B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2024 23:18:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2FE97B20F81
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2024 04:48:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5C5C18A92A;
-	Thu, 26 Sep 2024 23:18:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD6F3171E4F;
+	Fri, 27 Sep 2024 04:48:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="kLxOFeYI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lmhhp3Zr"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011045.outbound.protection.outlook.com [52.101.125.45])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C28157A41;
-	Thu, 26 Sep 2024 23:18:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727392725; cv=fail; b=dzuqLVvBvsVdPwRDKv3bj/4UbLhdhYhDr/ykpIV52P9WrciPJCux8dlNuDThw1Qb6MyxGk0WhkpEsDgLuSi847HzmgXHwIweYiNsVgcXuTbKH8PcjlNOCk0h39dSgaAosyA94WVk+TPIWZTAFnj/pB+ImPXpNhcygpvK8o1O+Uc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727392725; c=relaxed/simple;
-	bh=Fbf9Ral9zF+M3P8TQEH7L6Nvv1PC3diL8v30/MBKMOg=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=qsDpZUFFM2MiSmKuCdeSLby/wYvT8jqBaWaSL8Z1soRuXHlxPRUo8oSVwKRFqEdk1H3ebaSUMduHwl7w8HR7sOEEED2kd9hfyW/Vt6SCuKpdyobM27B22PD24vHy1fbiDMmhxWvZY2Z4VW7ZC1pnGu07SEh5qDm8Mu0C68K9Y+w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=kLxOFeYI; arc=fail smtp.client-ip=52.101.125.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HAS14i+NQkF6pF444DORt6aamuoM0HUemhh86U5d9Omib8htj4+hi9Tk7Rq/p59gBhNlmLxicZ8REaMsvvlQ4XwU9nYs4TmqAGOKliVeZOkH/6VEUgcn2QFgheI61IWZc+UDzZWJNkQa5jiSuznXuPhCez+WejYnxBOmnR1wl75iNWkKsr4uUY7hAECL2+rQP1NeUslPR4F3067gymBaluUp5taiqk1WYvM//6mf2M+dnxy3HpTbXVS0BVIzZaRxlyNGKUeAmtrOxCn9TIYLWsX/7OIwIRjY0j9QdoSAaBdluQFBVIrj1IEYqxZLU8zMHFiEdcEsFHIdYOymAtV4dA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5ZFE90K4gQt1SSjwF3C6g470VsBNDwFUI4ygQv9Wl/s=;
- b=GBDReIgcjGzc4l7bg2dJImy82W49e2L5AfdzW+gqiB3AdTpIVRQmS4DTIWXW+V8USYXEDsBKnq1J6X/l1VcJmykbGaFiZaxeLiuaCYfXhuSqlhP9f21Kz6lDfj6vwU2YMS3MQQPd+y7LhH7KONgWlb2kR3opFHq1AAx2T/PHWlCmhwf9XgfPn4QMVg+PI6e9A5+4TFv+iENllX4+AcxxysRfTYCOQ4YD4p3UUvOqKSq0lWDeeky7WJj65GuNeLtcFScMYxfC41QK/35eMicTaQ7TxXhDtCjeMNpYZFxXO2qVEjurPUOcbtpMNxz7LDhz+xijJdVxj5Z/UF2psElKnw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5ZFE90K4gQt1SSjwF3C6g470VsBNDwFUI4ygQv9Wl/s=;
- b=kLxOFeYIkbIgZQyBRY4Ef0R0BBdOrfiYUV17SuDgjKup/gpbQueT7WNQcRl1KwVC0YHnSQP5T4FLzg90KQm/ktJ93mTZsrJMai5EeEG9BQqDnxuVeVDaDqmZ/HnyIW+2fE5+UHoew1jj4i2Dr2dgbK948yRwcpJt5kWv+k7pBIo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TY3PR01MB10236.jpnprd01.prod.outlook.com
- (2603:1096:400:1da::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.21; Thu, 26 Sep
- 2024 23:18:39 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8005.017; Thu, 26 Sep 2024
- 23:18:39 +0000
-Message-ID: <87ploq0zso.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99675155A3C;
+	Fri, 27 Sep 2024 04:48:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727412482; cv=none; b=rxBKSp9z7U3odCmdKp3bMT2n4s38Zu9IeK9URqzEwnOdJyBzjAepL6vfIM76S/hNKSpbPymGvZyDTxfGtVu294ghIUxs4wWBjwcvYPEpClWUzz7uOdzhZv7jQX0Ai4Ocdt9nPIVL8qF6cXqZDr0n2t/hdopy5vRQTGoW2qlDPC4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727412482; c=relaxed/simple;
+	bh=qC2jhxg7WlhX38LeC4pPC2pcLt1WwpSHbyeFL2HNUh8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WTc6XHsU+xlTZOaudwR9GNvtBDyxAQvsopqFGkR2tZoBqUe3KmNUzQ0E5NewYpdSG3HTbUIHAMIXWqJaFNLZNvPv3bgPj9HLh49ieD+/YXh/au30wpWxUJKHDB7DtemLvtg+uk9WLWrkBx7937p9Jw0bxqIDv9xn0Hu2fCFza5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lmhhp3Zr; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727412480; x=1758948480;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qC2jhxg7WlhX38LeC4pPC2pcLt1WwpSHbyeFL2HNUh8=;
+  b=Lmhhp3ZrmPagBVJt58C3226hEjr9Pl142MKIvAh9dZb3p+EDTwjcjmvR
+   292/bNYtlOwascn6wulxTr61efm/ojvAfzEpOkZSzOeHsrW3+onSay1tm
+   s3S379RthnE1J/r5TVc9srxYd6ALHcJ/QRR8gW+HLnXsKbu2z/p0R1iPC
+   NLkBKc6PanqCQRW4touxYlAJxKMbYhFbPXSOb0qEEHtH9SZebwp0Em/2u
+   j/12oZtDuLBzTbmkBm7TTTU4vXKRs6AIWp+B2ToXjrTzsdQkyGv9s/zgN
+   3Iobhr58D9bTm/hbUEHkaq9Yfz5JBI1U74P2qzccA3/Dr7xYwbUY48Jqh
+   A==;
+X-CSE-ConnectionGUID: tgAhT2eGSH2gGN3F+BPmlA==
+X-CSE-MsgGUID: g0wL7eFMT+yB3QufO8esbA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="44061804"
+X-IronPort-AV: E=Sophos;i="6.11,157,1725346800"; 
+   d="scan'208";a="44061804"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 21:47:59 -0700
+X-CSE-ConnectionGUID: /WCBYUQMSe+w08i1SKRseg==
+X-CSE-MsgGUID: fltToOK8R0Chkgi5CP16PA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,157,1725346800"; 
+   d="scan'208";a="76464027"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 26 Sep 2024 21:47:56 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1su2tV-000LUH-2C;
+	Fri, 27 Sep 2024 04:47:53 +0000
+Date: Fri, 27 Sep 2024 12:47:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>, patrick@stwcx.xyz,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Carsten =?iso-8859-1?Q?Spie=DF?= <mail@carsten-spiess.de>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH] ASoC: dt-bindings: renesas,rsnd: correct reg-names for R-Car Gen1
-In-Reply-To: <20240926113241.24060-2-wsa+renesas@sang-engineering.com>
-References: <20240926113241.24060-2-wsa+renesas@sang-engineering.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 26 Sep 2024 23:18:38 +0000
-X-ClientProxiedBy: TYBP286CA0030.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:404:10a::18) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Yikai Tsai <yikai.tsai.wiwynn@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v7 2/2] hwmon: (isl28022) new driver for ISL28022 power
+ monitor
+Message-ID: <202409271235.PtMXq9Kx-lkp@intel.com>
+References: <20240925031131.14645-3-yikai.tsai.wiwynn@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TY3PR01MB10236:EE_
-X-MS-Office365-Filtering-Correlation-Id: ccd5c08a-b96b-4691-8bfa-08dcde818dbe
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|1800799024|52116014|7416014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?uF9N59Kaq207PRnAOP0rNxrKGC8wPBDSuvY7uMQ1yHGqbSSkhVDD+fwY5swQ?=
- =?us-ascii?Q?NTUePsxHFKE8B5MFxOlPSNShDMXWwAYqrZT5rY9VTARSfwDWLf21P0HeXpyU?=
- =?us-ascii?Q?SNPl5vclxDmcG54ABqkjMFaWBKYNSvuT4mfV4LdjnJgpSKk6jcEhcDfmhdDs?=
- =?us-ascii?Q?qH4U+49eKQeVmwF/bdK63TyZE3eJNT7WgRZkM77aSp39kTRaeC3a0sigB1j4?=
- =?us-ascii?Q?o6Z6TQdqrQq5TW+OZanSeGAChV1avgnFmVkaXoeV3kRguU5TxRWrWTgXT5Iz?=
- =?us-ascii?Q?G8ISSAoiimksniHgzy8DUOKe/XG50jD7+pb1t1OH630d7w8XbxqvcDQ/nN10?=
- =?us-ascii?Q?QwWYGAkWmm4MFZa0m06MINp9HD0gN8TzeBKsb6UcF5XILQZPQ5PjtXzaDHWv?=
- =?us-ascii?Q?U0v4N2+oNk113Avs1tFIZdl2WtzNQsqFk2wuRdQ2/qWEJaC0Yz6wqGkpZaaK?=
- =?us-ascii?Q?H56y7EOsIZsCjFWpct9hGPrwYqqhAUhS87fcjFN7epaMNYJY7xuwzci9ZLdf?=
- =?us-ascii?Q?SOCtq+D8HGjg5oUX/vG1hrMFvhdr7x+eqXWbzEwN28elY/Qf36NYX/CdZVzb?=
- =?us-ascii?Q?UN4/6YbHcfdCFAKh8J3bPOLsfhMP/6s/tNUU+C463GTp93/qQa6D+hBnbfUC?=
- =?us-ascii?Q?ff0Va+jVDmoloCyx0mRn6FPvgTaX4sChYIPkztkxa8nXjQ5TlWNjOyU159nb?=
- =?us-ascii?Q?05UKo31ksFlW1Dk/uBkFaM2czgBlYDor7WGtj625omjBCrs90qmphpD3ivSI?=
- =?us-ascii?Q?yMOFABAw/yaXsnXxbRre2QSFzIpOvciHclbI/CuUEbWH5VZSS2S0a6sx5pIk?=
- =?us-ascii?Q?i18ItN8cBXO7ARaI/AZ94yvaGQ6wA1RCfzoFpEc9rP82eE2vMoKN6NHUfX6h?=
- =?us-ascii?Q?eVu0ON+sMZLmvRrUWvGHWjLqExJvHbcnH929yFxJqoYxyGS/3b2ZWSPhza0d?=
- =?us-ascii?Q?BaDZSI1gZF0mSkFokb2dfDR7oxsDQdA6Yb3EqeFQqqK9q5zil1GMOoAIuaeP?=
- =?us-ascii?Q?oB7NQe7ZLvYRlLs1LzU63SAQE3nh7J3vUfFqyIDLCS6araiqEG635ZIfAYze?=
- =?us-ascii?Q?MiIEDi1S2p3VpGm+ukCne9v2bRSL1hoXjy+pyhbrcJXTZm/e+eLxJr0o9FOG?=
- =?us-ascii?Q?kFfi8mb+cucNVMTnmrxgXNZhO5VOL1FFFnpZZeJ1XJlwrLd4av7kNO8U8tK9?=
- =?us-ascii?Q?Zv7VoJbKh2ksgt0SAlk8yFfL426sP+1IMREUH2kAB+1iDwI+lNbrVgiMLblJ?=
- =?us-ascii?Q?8FIW84bzYWttKV/W7E110nZ6po3MKOLsiGl+I+NKt6cqypNXyYLJa+6U+qa2?=
- =?us-ascii?Q?waqswj8DLxJ7DP7TiGuwbsTB8iviV/RWpUaJFdti2CyZgg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(52116014)(7416014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?P76CGLqRkUsRw11lPd7n8ymVLqLLvMljxLPZP2UGezYi9NW89ixPXWsfDcoO?=
- =?us-ascii?Q?nOw9bsW1yHXvWwwOpvNfHMq+8YKZgcXEmm/z5p+FMKDwNmZbSxj0lLn58Zyk?=
- =?us-ascii?Q?MMjUKBB82hPg2MC0ZnKZzMXKM84yAsURosGz8KyRVL6bZJR7sh6SU7XU+Pbd?=
- =?us-ascii?Q?DRdYUTTKi83xclVDuS1Q8rqZD6WlIeWPRn+J2e9fMp8zIh8OUprJ2K0dTyM9?=
- =?us-ascii?Q?t3W8jLdMs6WlDLol8vvnV79BA7UG7Vey2+ye8OsK4fpiYCVMIL/cOjbzxNNB?=
- =?us-ascii?Q?GJQKST7HxJAXvebmARkva+bOxsEn6pPlFcSJGWxoEC5uRO+PA1H/GKJxVRm1?=
- =?us-ascii?Q?hKKJ1amPiZMsOm30EdKPpfaPlAoQjzNNNKFUIq/S4Oh9JCD4k+jm/qz5/LZz?=
- =?us-ascii?Q?Rk1o5k+9TcjUGVnS+8Kd7+HiAGcNKpDp/CdlpVvsSbYyvc9qTO8AUx4sPsqZ?=
- =?us-ascii?Q?y8cu0QkavcZMU+57SXllsyi//cC4M92nCm1IncyZHXY6VzVWX39AojCd/qIE?=
- =?us-ascii?Q?oJU3Qwzja2PZC3XFnpT4oIX3COSMX8ZFdGbKFK4yG2XaISuKcVz1T9syZjmj?=
- =?us-ascii?Q?FBrBxLiMmKFCOHbO3ZF2mJLLnITATu7BHvCX1E8X8S8Bc5HXJrgdsMuFXXOO?=
- =?us-ascii?Q?oVbVebqtM936XI6MQYNmSCJOoUH6CG8lxsHhJ/7cBa+vWfVHrCChihFpTrth?=
- =?us-ascii?Q?Lq22gNA9Re0Uxyq35g1Fwu2wXuBa0APtPlg6sru4mZhqL9I8gJYMPiLdlHb7?=
- =?us-ascii?Q?U6OQoKdXzSSLhXtCbjusd/yCII+aluDGCVh1qSaCM6J201GyQ3txk3azcxFf?=
- =?us-ascii?Q?Rs0JvheOc66Jw2i9FTEbvryjru4zR8uapV3p4NjVo/SxqO6dNdIq8kAQVZe2?=
- =?us-ascii?Q?W5/xTXgKccfjCz8++nl29/a5wvK0zjM7VyFt5gg4J3ZQ32gdVq/SB0fjTDOz?=
- =?us-ascii?Q?T2r5TL3Z357wsdnvQZ6CdI0TtGEGdJFlJ78Ri5yyGiT+hKPM/awE6/KKkuJ5?=
- =?us-ascii?Q?RZsjlylX9hbAJRuLzJz39h9ufYHD7doekT0Lr3tFRQj8ys4Zvr6wG18AZY6y?=
- =?us-ascii?Q?EJ6ciT9K+/gaIpxJVZCGBJCe9jEgkvO4s7xOv+Ajm5rnNl4zS7zN1m+Yct/r?=
- =?us-ascii?Q?bN319wKJUm0cWSVBxvKGPJjBsk2SkEOgNChsw38aWkoXOCeirZVrxAkvFQPw?=
- =?us-ascii?Q?XnPNBP63ReH9LbwIMFqAAWJGK5HH5B906ffcV3Z/bYy6yIeRDpEnqBGudTja?=
- =?us-ascii?Q?EDoJ4PkmabpoMgeQHNsBiKWEHf7fDr7r/BCl59TD0AUtCaMotdquA+J9aAki?=
- =?us-ascii?Q?/1Xl8vA8vgY4eGtehuxbldWWqc53sGGXPaXTIDcJ1yQN3clp+mjXRTg79kcR?=
- =?us-ascii?Q?iTwZfQxo/S+4v6BqveZmOUadfgYp4nIRddT3VMvwKNenBepx28Jvna4RpXae?=
- =?us-ascii?Q?Dr9H5DZwK04QcIuEW+KmvAlCCnVTZWSWCBOvMXaiCS/ZOD91TnHbcxZelvbM?=
- =?us-ascii?Q?TEUadevemB4J192taHGlC28wNqX94ylUz4MA8lnKe5/yXBusP8Z0dZicsakm?=
- =?us-ascii?Q?NJKBqdpfbH8DUvigG7jjCOghTn7DNPexZysMZjhrALpHgM6kJY2734Gzqtrq?=
- =?us-ascii?Q?TZCo2VFvWXFaiNuWGpcInQw=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ccd5c08a-b96b-4691-8bfa-08dcde818dbe
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2024 23:18:39.0922
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: weavhfTe/jdJcM5EBsJSkEfqF5uWZGP0L3MKaAsRLTcW+2iic7LOKALuGVOmpgpJLGvMfsjmCL/biVVlUBOKCTiTYvWLQbFJfQgnq6D0yN+uGzrumPwPIZ+y+M3kisr0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB10236
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240925031131.14645-3-yikai.tsai.wiwynn@gmail.com>
 
+Hi Yikai,
 
-Hi Wolfram
+kernel test robot noticed the following build warnings:
 
-> The device at 0xffd90000 is named SRU, both in the datasheet and SoC
-> DTSI. Fix the typo in the bindings to avoid the false positive report:
-> 
->   sound@ffd90000: reg-names:0: 'sru' is not one of ['scu', 'ssi', 'adg']
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->  Documentation/devicetree/bindings/sound/renesas,rsnd.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-> index 3bc93c59535e..6d0d1514cd42 100644
-> --- a/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-> +++ b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-> @@ -302,7 +302,7 @@ allOf:
->          reg-names:
->            items:
->              enum:
-> -              - scu
-> +              - sru
->                - ssi
->                - adg
->    # for Gen2/Gen3
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.11 next-20240926]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thank you the patch.
+url:    https://github.com/intel-lab-lkp/linux/commits/Yikai-Tsai/dt-bindings-hwmon-add-renesas-isl28022/20240925-111332
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20240925031131.14645-3-yikai.tsai.wiwynn%40gmail.com
+patch subject: [PATCH v7 2/2] hwmon: (isl28022) new driver for ISL28022 power monitor
+config: i386-randconfig-r133-20240927 (https://download.01.org/0day-ci/archive/20240927/202409271235.PtMXq9Kx-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409271235.PtMXq9Kx-lkp@intel.com/reproduce)
 
-"sru" is old naming which was used for Gen1 only. It is called as "scu"
-after Gen2, and driver is assuming it.
-But sound driver doesn't support SRU(SCU) for Gen1, but this setting was
-needed because driver get resource by using ID (this was needed to for
-Gen2/Gen3 compatibility).
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409271235.PtMXq9Kx-lkp@intel.com/
 
-Around Gen4 support, driver gets resource by using "reg-names", "sru"
-setting itself is no longer needed on SoC DTSI, but fixup Doc side is
-good idea.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/hwmon/isl28022.c:396:36: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int err @@     got char * @@
+   drivers/hwmon/isl28022.c:396:36: sparse:     expected int err
+   drivers/hwmon/isl28022.c:396:36: sparse:     got char *
+>> drivers/hwmon/isl28022.c:396:88: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected char const *fmt @@     got unsigned int [addressable] [assigned] [usertype] val @@
+   drivers/hwmon/isl28022.c:396:88: sparse:     expected char const *fmt
+   drivers/hwmon/isl28022.c:396:88: sparse:     got unsigned int [addressable] [assigned] [usertype] val
+   drivers/hwmon/isl28022.c:406:36: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int err @@     got char * @@
+   drivers/hwmon/isl28022.c:406:36: sparse:     expected int err
+   drivers/hwmon/isl28022.c:406:36: sparse:     got char *
+   drivers/hwmon/isl28022.c:406:82: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected char const *fmt @@     got unsigned int [addressable] [assigned] [usertype] val @@
+   drivers/hwmon/isl28022.c:406:82: sparse:     expected char const *fmt
+   drivers/hwmon/isl28022.c:406:82: sparse:     got unsigned int [addressable] [assigned] [usertype] val
+   drivers/hwmon/isl28022.c:414:28: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int err @@     got char * @@
+   drivers/hwmon/isl28022.c:414:28: sparse:     expected int err
+   drivers/hwmon/isl28022.c:414:28: sparse:     got char *
+>> drivers/hwmon/isl28022.c:414:87: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected char const *fmt @@     got unsigned int [usertype] shunt @@
+   drivers/hwmon/isl28022.c:414:87: sparse:     expected char const *fmt
+   drivers/hwmon/isl28022.c:414:87: sparse:     got unsigned int [usertype] shunt
+   drivers/hwmon/isl28022.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
 
-Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+vim +396 drivers/hwmon/isl28022.c
 
-Thank you for your help !!
+   346	
+   347	/*
+   348	 * read property values and make consistency checks.
+   349	 *
+   350	 * following values for shunt range and resistor are allowed:
+   351	 *   40 mV -> gain 1, shunt min.  800 micro ohms
+   352	 *   80 mV -> gain 2, shunt min. 1600 micro ohms
+   353	 *  160 mV -> gain 4, shunt min. 3200 micro ohms
+   354	 *  320 mV -> gain 8, shunt min. 6400 micro ohms
+   355	 */
+   356	static int isl28022_read_properties(struct device *dev, struct isl28022_data *data)
+   357	{
+   358		u32 val;
+   359		int err;
+   360	
+   361		err = device_property_read_u32(dev, "shunt-resistor-micro-ohms", &val);
+   362		if (err == -EINVAL)
+   363			val = 10000;
+   364		else if (err < 0)
+   365			return err;
+   366		data->shunt = val;
+   367	
+   368		err = device_property_read_u32(dev, "renesas,shunt-range-microvolt", &val);
+   369		if (err == -EINVAL)
+   370			val = 320000;
+   371		else if (err < 0)
+   372			return err;
+   373	
+   374		switch (val) {
+   375		case 40000:
+   376			data->gain = 1;
+   377			if (data->shunt < 800)
+   378				goto shunt_invalid;
+   379			break;
+   380		case 80000:
+   381			data->gain = 2;
+   382			if (data->shunt < 1600)
+   383				goto shunt_invalid;
+   384			break;
+   385		case 160000:
+   386			data->gain = 4;
+   387			if (data->shunt < 3200)
+   388				goto shunt_invalid;
+   389			break;
+   390		case 320000:
+   391			data->gain = 8;
+   392			if (data->shunt < 6400)
+   393				goto shunt_invalid;
+   394			break;
+   395		default:
+ > 396			dev_err_probe(dev, "renesas,shunt-range-microvolt invalid value %d\n", val);
+   397			return -EINVAL;
+   398		}
+   399	
+   400		err = device_property_read_u32(dev, "renesas,average-samples", &val);
+   401		if (err == -EINVAL)
+   402			val = 1;
+   403		else if (err < 0)
+   404			return err;
+   405		if (val > 128 || hweight32(val) != 1) {
+ > 406			dev_err_probe(dev, "renesas,average-samples invalid value %d\n", val);
+   407			return -EINVAL;
+   408		}
+   409		data->average = val;
+   410	
+   411		return 0;
+   412	
+   413	shunt_invalid:
+ > 414		dev_err_probe(dev, "renesas,shunt-resistor-microvolt invalid value %d\n", data->shunt);
+   415		return -EINVAL;
+   416	}
+   417	
 
-Best regards
----
-Kuninori Morimoto
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
