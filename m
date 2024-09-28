@@ -1,60 +1,64 @@
-Return-Path: <linux-renesas-soc+bounces-9176-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9175-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05CAA988ED5
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 28 Sep 2024 11:30:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C66988ED7
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 28 Sep 2024 11:30:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B6A191F21758
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 28 Sep 2024 09:30:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 552861F21478
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 28 Sep 2024 09:30:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 368A319F138;
-	Sat, 28 Sep 2024 09:30:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1C1D19EED3;
+	Sat, 28 Sep 2024 09:30:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="gyNlIT83"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="klJK5fdd"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D780C19F10F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA1B19EED8
 	for <linux-renesas-soc@vger.kernel.org>; Sat, 28 Sep 2024 09:30:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727515814; cv=none; b=ICfEWHJokpOJ4FJ8lzv8Dq8XqU19LSyvaLe4JJlTlN/XFY2/FCn6iSKDc8OcE2veR4OOypJx4r40giO8EDWHoOkH/POJJU7+pTWaO0fKQ6VUEW50APHq36sbEk5xEdQys37dXTdrQAGL/4JCBrbXjbtECAwchzweW5Qs8gGYuXQ=
+	t=1727515813; cv=none; b=cc0ZNUitedrXVbXsJJ+kY2AHx8AGa3Sbj3p3J1qve2nYnyRq81bd5yk905NAQ7uGm/wHck65XxBw+cCxVsvdUcYHKEXxjWUlM4nFROKFNIV1MVWKM8c21bkejDNzhNwwP4azg8KUlwcWDq2xPoBxrC9nvRhHccN0yrU9yjwgjyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727515814; c=relaxed/simple;
-	bh=Vuqp+q9o4nBqrcfa18zikjQZmzHSYSaWrybyrU96eNc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PeqpZpa2mhZ4/IvirGuUZ57MRPIxOseBwDEBUrDpc6RYDFoZaUyXf0RZNdrDkvj75S5aCcrctfhYaOx8IdinL7HJFC0Un3prwJoy4Hj4H4A/lUAlgKdBAMm4zvhJcEFjN4l9snSq4+zxDCBQkbtWRqlrebQ/k7gGZZ3A3vivO10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=gyNlIT83; arc=none smtp.client-ip=194.117.254.33
+	s=arc-20240116; t=1727515813; c=relaxed/simple;
+	bh=u1Mao6Pt1hD/05TXRxjRStZ7jugPNQNY3310P1oBfYk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=o8/XhQaCmWBcm0zDbKzw4oTENqpTXe3gtgVvUA2rjo7y0or8W3eOlPFhg8iQnl4Rjhpk+eI6bCkM4rYRxZpex7z09VZ0BomdbVih3g/mDY2YeTrU9+cWeyNLsOTRrYJ4KPG3vhVtTS0tIunz9zs+wUW/xFCCeaosLETjDZlO1b4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=klJK5fdd; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=3wlYkNdzOcOftv
-	EDIwBVGPleYIAPh9pfBgQXi5YhrDg=; b=gyNlIT834pm5rd3ztmjHK43tjl/dd1
-	taLLPGv3wvR/6iLcwHC16EkKIShQs+VfR4eB8cM0qndUQjhEkRHAcC1pb2c8NNnz
-	qoK4fbm3o4NvQo6jVyyu3UWZmuefYN6t1xcU2I92IzgQMYN156wefm6mVqe+TEO2
-	w726W5CwrlZevPJ9G9tqb5oTbDKyDKOgn3jUYrkrEN8lPHb6rUNL4fk5KaK36bwp
-	wGaVYLU3ZEo1vca1bxZZZ6ERLW7mWgAmt6jq3esHWxu050HW2yq+DqSIBNuVSJAn
-	J/VIBagmsQfz/w1jzYwx0C1uJzUfKJ63Et26bm6dEfQiqUvlEwBt7XQA==
-Received: (qmail 1576628 invoked from network); 28 Sep 2024 11:30:06 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Sep 2024 11:30:06 +0200
-X-UD-Smtp-Session: l3s3148p1@7ov1nSojuOIgAQnoAHS0AAL7owIOnAiN
+	:in-reply-to:references:mime-version:content-transfer-encoding;
+	 s=k1; bh=8maR6u45YPSDoUaReOHVbKQEN6AYER8eFMxpt0e1MMs=; b=klJK5f
+	ddjZ6vgXibS4BXBt6x85l28OEf2Y6DRalGlpi7kyBImlkfOYM6aSxSwCE838NEtT
+	6lSPc+VPBkII0yDQSzKRQVdXbpPUjo7tPUqkkX4gFNoTrOlDmYNCzA0VgKY4qRjS
+	kItOZyK39olsnvXbI8yl8Hkkb4unVAz72dQpWzZb6o545/Q/pZrta6uCTlTzenzw
+	M/Sk6YQ50576BXkuTLwbAsIxdKIYoX6wCgFdHYdcSUY7BgdWTt5L+xqt9qVZn0h1
+	ZB0MXD3QEwB1oELLclG/Thj9dm5OC5q+5cR39cucJkz8alOAy1KPdIphZL+uDmWL
+	ns8aZ51UpixwE8RA==
+Received: (qmail 1576673 invoked from network); 28 Sep 2024 11:30:07 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Sep 2024 11:30:07 +0200
+X-UD-Smtp-Session: l3s3148p1@OxwCniojuuIgAQnoAHS0AAL7owIOnAiN
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-renesas-soc@vger.kernel.org
 Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>
-Subject: [PATCH v2 0/3] ARM: dts: renesas: genmai: enable SDHI and MMCIF
-Date: Sat, 28 Sep 2024 11:29:53 +0200
-Message-ID: <20240928092953.2982-5-wsa+renesas@sang-engineering.com>
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org
+Subject: [PATCH v2 1/3] ARM: dts: renesas: genmai: enable SDHI0
+Date: Sat, 28 Sep 2024 11:29:54 +0200
+Message-ID: <20240928092953.2982-6-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240928092953.2982-5-wsa+renesas@sang-engineering.com>
+References: <20240928092953.2982-5-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -63,30 +67,62 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Here are the improved patches to enable SDHI and MMCIF for the Genmai
-board.
+For this to work, User LEDs must be disabled because they share their
+pins with SD data lines.
 
-Changes since v1 (all in patch 3):
-* renamed regulator to match schematics
-* added "boot-on" property to regulator node
-* added vqmmc-property to mmc node
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ arch/arm/boot/dts/renesas/r7s72100-genmai.dts | 23 ++++++++++++++++++-
+ 1 file changed, 22 insertions(+), 1 deletion(-)
 
-A branch with all my Genmai-related patches can be found here:
-
-git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/genmai-upstreaming
-
-Thanks and happy hacking!
-
-
-Wolfram Sang (3):
-  ARM: dts: renesas: genmai: enable SDHI0
-  ARM: dts: renesas: r7s72100: 'bus-width' is a board property
-  ARM: dts: renesas: genmai: enable MMCIF
-
- arch/arm/boot/dts/renesas/r7s72100-genmai.dts | 57 ++++++++++++++++++-
- arch/arm/boot/dts/renesas/r7s72100.dtsi       |  1 -
- 2 files changed, 56 insertions(+), 2 deletions(-)
-
+diff --git a/arch/arm/boot/dts/renesas/r7s72100-genmai.dts b/arch/arm/boot/dts/renesas/r7s72100-genmai.dts
+index 2d72daa4fac2..e93f444b2442 100644
+--- a/arch/arm/boot/dts/renesas/r7s72100-genmai.dts
++++ b/arch/arm/boot/dts/renesas/r7s72100-genmai.dts
+@@ -76,7 +76,8 @@ key-1 {
+ 	};
+ 
+ 	leds {
+-		status = "okay";
++		/* Needs SDHI0 to be disabled */
++		status = "disabled";
+ 		compatible = "gpio-leds";
+ 
+ 		led1 {
+@@ -227,6 +228,18 @@ scif2_pins: serial2 {
+ 		/* P3_0 as TxD2; P3_2 as RxD2 */
+ 		pinmux = <RZA1_PINMUX(3, 0, 6)>, <RZA1_PINMUX(3, 2, 4)>;
+ 	};
++
++	sdhi0_pins: sdhi0 {
++		/* SDHI0: P4_8 up to P4_15 */
++		pinmux = <RZA1_PINMUX(4, 8, 3)>,	/* SD_CD_0 */
++			 <RZA1_PINMUX(4, 9, 3)>,	/* SD_WP_0 */
++			 <RZA1_PINMUX(4, 10, 3)>,	/* SD_D1_0 */
++			 <RZA1_PINMUX(4, 11, 3)>,	/* SD_D0_0 */
++			 <RZA1_PINMUX(4, 12, 3)>,	/* SD_CLK_0 */
++			 <RZA1_PINMUX(4, 13, 3)>,	/* SD_CMD_0 */
++			 <RZA1_PINMUX(4, 14, 3)>,	/* SD_D3_0 */
++			 <RZA1_PINMUX(4, 15, 3)>;	/* SD_D2_0 */
++	};
+ };
+ 
+ &rtc_x1_clk {
+@@ -244,6 +257,14 @@ &scif2 {
+ 	status = "okay";
+ };
+ 
++&sdhi0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&sdhi0_pins>;
++
++	bus-width = <4>;
++	status = "okay";
++};
++
+ &spi4 {
+ 	status = "okay";
+ 
 -- 
 2.45.2
 
