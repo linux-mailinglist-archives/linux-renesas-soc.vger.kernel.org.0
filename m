@@ -1,49 +1,49 @@
-Return-Path: <linux-renesas-soc+bounces-9175-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9173-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25C66988ED7
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 28 Sep 2024 11:30:47 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 775C7988ED0
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 28 Sep 2024 11:30:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 552861F21478
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 28 Sep 2024 09:30:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 94DCC1C20DA1
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 28 Sep 2024 09:30:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1C1D19EED3;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 390F119DF8D;
 	Sat, 28 Sep 2024 09:30:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="klJK5fdd"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ZOvb6y+L"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA1B19EED8
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 28 Sep 2024 09:30:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA7D19F11C
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 28 Sep 2024 09:30:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727515813; cv=none; b=cc0ZNUitedrXVbXsJJ+kY2AHx8AGa3Sbj3p3J1qve2nYnyRq81bd5yk905NAQ7uGm/wHck65XxBw+cCxVsvdUcYHKEXxjWUlM4nFROKFNIV1MVWKM8c21bkejDNzhNwwP4azg8KUlwcWDq2xPoBxrC9nvRhHccN0yrU9yjwgjyE=
+	t=1727515813; cv=none; b=AfJn24yF14HwkbdcX//j8Imq73bIF531qa+eOEh6CEASoknSC+iQI+Jt8B7gS9rtv9DPVx7dkqay0ha4B6wZvxHE8n3Q5mli+cRaHb64Y9drD29JiyjiHhPISR+CuDUJpnmnXMd7pslwj4rU1SKnVeJKy6izcw4B0H+heEXalvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1727515813; c=relaxed/simple;
-	bh=u1Mao6Pt1hD/05TXRxjRStZ7jugPNQNY3310P1oBfYk=;
+	bh=U1o8zsQH9QAxRcMiSHpB8zIktIWgf43eCXACRJDEUv0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=o8/XhQaCmWBcm0zDbKzw4oTENqpTXe3gtgVvUA2rjo7y0or8W3eOlPFhg8iQnl4Rjhpk+eI6bCkM4rYRxZpex7z09VZ0BomdbVih3g/mDY2YeTrU9+cWeyNLsOTRrYJ4KPG3vhVtTS0tIunz9zs+wUW/xFCCeaosLETjDZlO1b4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=klJK5fdd; arc=none smtp.client-ip=194.117.254.33
+	 MIME-Version; b=H5dtMcv1c2fKT0DoIOVkC1ZPvQLK0e+6GUYQsMx+cjcLWbi6qOaLngqYDwbExhvmKU+CUSflK8/JQJzdRokIfbxUjD+iEJynhrKvCtqXnA8JbO/nH465ePKMynUgxQNnlDCbXrcHK+0wYcJdsx3mNsE+FecPRhl8B4iQT4v8UBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ZOvb6y+L; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=from:to:cc:subject:date:message-id
 	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=8maR6u45YPSDoUaReOHVbKQEN6AYER8eFMxpt0e1MMs=; b=klJK5f
-	ddjZ6vgXibS4BXBt6x85l28OEf2Y6DRalGlpi7kyBImlkfOYM6aSxSwCE838NEtT
-	6lSPc+VPBkII0yDQSzKRQVdXbpPUjo7tPUqkkX4gFNoTrOlDmYNCzA0VgKY4qRjS
-	kItOZyK39olsnvXbI8yl8Hkkb4unVAz72dQpWzZb6o545/Q/pZrta6uCTlTzenzw
-	M/Sk6YQ50576BXkuTLwbAsIxdKIYoX6wCgFdHYdcSUY7BgdWTt5L+xqt9qVZn0h1
-	ZB0MXD3QEwB1oELLclG/Thj9dm5OC5q+5cR39cucJkz8alOAy1KPdIphZL+uDmWL
-	ns8aZ51UpixwE8RA==
-Received: (qmail 1576673 invoked from network); 28 Sep 2024 11:30:07 +0200
+	 s=k1; bh=CIOhJiEeyR5dKMh/shrdM/lwK38nHREnHJ5W+4u/LSQ=; b=ZOvb6y
+	+LL1551nu/kTfI6KM3qDpblvFNvMLjSK2gd130btl+w4EtaVKODK7FuT+YJXxEj/
+	qj6fjR6KPlhZUhK3WaIN8eE8Mhu4nwu367FXozUw5//Q23TAXbyswkdYyAlF++rI
+	hrjejlGXznuJNnKODW2bfl++5Qn/3Yef6PYIqBTPIUBdlLyC2frKpSknJlMrrke2
+	TdMKo2WRykN2D4pwcns/WyVXIi1drW1orxJklgpujZY8/zx44C9oKozbKCVP+j9c
+	6h+PRTx/gs89C9by5l/3Yz30tOWYy5MuVhb4C16ZlM0PpxXoDCIjZaoWa8nJ7C9B
+	YXqMW5OObU6pHQdQ==
+Received: (qmail 1576715 invoked from network); 28 Sep 2024 11:30:07 +0200
 Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Sep 2024 11:30:07 +0200
-X-UD-Smtp-Session: l3s3148p1@OxwCniojuuIgAQnoAHS0AAL7owIOnAiN
+X-UD-Smtp-Session: l3s3148p1@vlMOniojyuIgAQnoAHS0AAL7owIOnAiN
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-renesas-soc@vger.kernel.org
 Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
@@ -53,9 +53,9 @@ Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	devicetree@vger.kernel.org
-Subject: [PATCH v2 1/3] ARM: dts: renesas: genmai: enable SDHI0
-Date: Sat, 28 Sep 2024 11:29:54 +0200
-Message-ID: <20240928092953.2982-6-wsa+renesas@sang-engineering.com>
+Subject: [PATCH v2 2/3] ARM: dts: renesas: r7s72100: 'bus-width' is a board property
+Date: Sat, 28 Sep 2024 11:29:55 +0200
+Message-ID: <20240928092953.2982-7-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240928092953.2982-5-wsa+renesas@sang-engineering.com>
 References: <20240928092953.2982-5-wsa+renesas@sang-engineering.com>
@@ -67,61 +67,26 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-For this to work, User LEDs must be disabled because they share their
-pins with SD data lines.
+Do not set 'bus-width' in the SoC-include DTSI. It must be set in the
+board DTS file. No regressions because MMCIF was not enabled yet for
+this SoC.
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- arch/arm/boot/dts/renesas/r7s72100-genmai.dts | 23 ++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
+ arch/arm/boot/dts/renesas/r7s72100.dtsi | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/renesas/r7s72100-genmai.dts b/arch/arm/boot/dts/renesas/r7s72100-genmai.dts
-index 2d72daa4fac2..e93f444b2442 100644
---- a/arch/arm/boot/dts/renesas/r7s72100-genmai.dts
-+++ b/arch/arm/boot/dts/renesas/r7s72100-genmai.dts
-@@ -76,7 +76,8 @@ key-1 {
- 	};
- 
- 	leds {
--		status = "okay";
-+		/* Needs SDHI0 to be disabled */
-+		status = "disabled";
- 		compatible = "gpio-leds";
- 
- 		led1 {
-@@ -227,6 +228,18 @@ scif2_pins: serial2 {
- 		/* P3_0 as TxD2; P3_2 as RxD2 */
- 		pinmux = <RZA1_PINMUX(3, 0, 6)>, <RZA1_PINMUX(3, 2, 4)>;
- 	};
-+
-+	sdhi0_pins: sdhi0 {
-+		/* SDHI0: P4_8 up to P4_15 */
-+		pinmux = <RZA1_PINMUX(4, 8, 3)>,	/* SD_CD_0 */
-+			 <RZA1_PINMUX(4, 9, 3)>,	/* SD_WP_0 */
-+			 <RZA1_PINMUX(4, 10, 3)>,	/* SD_D1_0 */
-+			 <RZA1_PINMUX(4, 11, 3)>,	/* SD_D0_0 */
-+			 <RZA1_PINMUX(4, 12, 3)>,	/* SD_CLK_0 */
-+			 <RZA1_PINMUX(4, 13, 3)>,	/* SD_CMD_0 */
-+			 <RZA1_PINMUX(4, 14, 3)>,	/* SD_D3_0 */
-+			 <RZA1_PINMUX(4, 15, 3)>;	/* SD_D2_0 */
-+	};
- };
- 
- &rtc_x1_clk {
-@@ -244,6 +257,14 @@ &scif2 {
- 	status = "okay";
- };
- 
-+&sdhi0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&sdhi0_pins>;
-+
-+	bus-width = <4>;
-+	status = "okay";
-+};
-+
- &spi4 {
- 	status = "okay";
+diff --git a/arch/arm/boot/dts/renesas/r7s72100.dtsi b/arch/arm/boot/dts/renesas/r7s72100.dtsi
+index fa26e4a39fd7..39999468c28b 100644
+--- a/arch/arm/boot/dts/renesas/r7s72100.dtsi
++++ b/arch/arm/boot/dts/renesas/r7s72100.dtsi
+@@ -333,7 +333,6 @@ mmcif: mmc@e804c800 {
+ 				     <GIC_SPI 267 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&mstp8_clks R7S72100_CLK_MMCIF>;
+ 			power-domains = <&cpg_clocks>;
+-			bus-width = <8>;
+ 			status = "disabled";
+ 		};
  
 -- 
 2.45.2
