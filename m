@@ -1,109 +1,135 @@
-Return-Path: <linux-renesas-soc+bounces-9234-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9233-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A93D398AC9D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 21:15:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6FED98AC95
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 21:15:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 65B7D1F218C4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 19:15:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 047C71C20EB9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 19:15:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1D06193415;
-	Mon, 30 Sep 2024 19:15:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0488199254;
+	Mon, 30 Sep 2024 19:14:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="jXwISgMJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jqWvpOiL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA7A199FAC
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Sep 2024 19:15:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75998194C92;
+	Mon, 30 Sep 2024 19:14:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727723735; cv=none; b=JVLamCKA4ez4TAUca/r9ol6LH0hdAiQTBnQmT/xL6gFWUgELIOOTk69HTsGATWuHdDDtSx8lEvGv4GmlLcXK9Ykz0p5X1NzGtc1BTrZLQquXEpXR2OEb22UNDB6BhR1mbGpS252IeK3TzDIer3DhMn1/CDGLR5jRTNPJpBKje7k=
+	t=1727723695; cv=none; b=nmm8w0i7UeNIo/OOo5sMVgsftoIVOyh9qs/Ec4E39fde7iTcaMMy/hCN6ys/el2adFuyNDK5hohgGZyydvjDm3Yx9ecYQQrOmUMBbvTnsvnK0a9Bv3P0iWvw3o9ZErM/zuCRBYG54iBEIOWIc6MsaEQ9PZfHlIyV/wQhkvHJF1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727723735; c=relaxed/simple;
-	bh=fnKkSM2+e5ZimgCIf0VifgU6U6mMhsEfwRXVZmYrfQc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n7FlDYVA4ofqzL066ceU5QClPAcV+HTONo+pvhNBOvtYO1OjHjyVzM8WS3TDlvvEQlIj6B/7BwzMQIYTyLWhJywwQNnHDLYUmPTbSmIiB/PElGj7XQ7wo9Zqd1GHkr2DDoXrmfkcr5wg+3/tQbXGUW2sNjjy7Oj9M/tbW+W6j38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=jXwISgMJ; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=6JZXkG3oA6HJJC
-	FwHQYV9mot3fwWTf57nlAkjits37E=; b=jXwISgMJVX4nhdhAw9sgsucYJPi4hy
-	EFnMNyg/4Lw16IT3cngT2PHLeW/ul6dMpveJrbjokLWovxQP79ENDXl5Qgq1Rm1+
-	zf1fe4z2MfrUJjA73zTqIbRVm4OOU01E07uwGksT9iHhaV/zmO8B22SolleGfy7o
-	/aQW6Ay/Euo8RBAW6uAZwBJwVQx22ALZLXvwDcSPO8YE0vvKaMzB4KnBZx70GTUb
-	AwC0iEI2JEFIFvhjJbtJbLx/xMufU4GYlJ5h7TeuXZ/HGxrIcIKi2WdhxkxerIf5
-	JWqhqE8gGm6lD8NUY7M9emgEWNLUrvd5jgWXTIpiWZZHua0vj6Lj56aQ==
-Received: (qmail 2280566 invoked from network); 30 Sep 2024 21:15:27 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Sep 2024 21:15:27 +0200
-X-UD-Smtp-Session: l3s3148p1@rJoIB1sjspEgAQnoAH/eAHsKVyf407fR
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-gpio@vger.kernel.org
-Subject: [PATCH v2] pinctrl: renesas: rza1: mark GPIOs as used
-Date: Mon, 30 Sep 2024 21:14:43 +0200
-Message-ID: <20240930191523.7030-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.45.2
+	s=arc-20240116; t=1727723695; c=relaxed/simple;
+	bh=yPPWd8LSLMPsco9pid8gUD9uR0sV8t8Iz+vJoaDxXpQ=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AQ2oWkCC5DUBZlDyUq2tEmlti8zZ09eWgcr7dvPiGBSo5qZg4JUmVjLTD+gJ602/wkk8e57xExphFgBgbvRTcNEfH/d6BbzwiS1lPKtNycgixfYbMaBwTZw/XLP0HYrhCiwIUGEE8CnLPKJDWwQ/unmBveZd9letIQPDcYdKS/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jqWvpOiL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03108C4CEC7;
+	Mon, 30 Sep 2024 19:14:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727723695;
+	bh=yPPWd8LSLMPsco9pid8gUD9uR0sV8t8Iz+vJoaDxXpQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=jqWvpOiLHHYA8d2epXFWjWXbZbJZV40SDaFwKv+tRZjpZNJlkX7BdQNdlbQGxUtK+
+	 1+Cye02uzLaVUM38omXZqQQo6QzqdTKoKwTFI0+YhnVoO0c7NKMDPoYAwGoEIY5frg
+	 RY7KrbmuZMjYg3JJqcVPOY3rM2zPdqM61xvPNEPuIvEMmiXjIxpm4Yp9xdB2UdlAOj
+	 DJlJNCFrRxhNH8cqFJWZaAKRRZM0R7K3SY3JSP0NHa07yBs0nt93s+owvnCe4WmYqH
+	 TMN2TBk0M7AVu3fM72tojiGZKf+Z5vEu61d1Esic8jn8pBY0MJCq+k/LMUJqL8otGi
+	 dOEiQy6STUyYQ==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1svLrA-00GXWp-SB;
+	Mon, 30 Sep 2024 20:14:52 +0100
+Date: Mon, 30 Sep 2024 20:14:52 +0100
+Message-ID: <86frph6jir.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>,
+	Geert Uytterhoeven
+	<geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	"linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>,
+	Chris Paterson <Chris.Paterson2@renesas.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	"linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] irqchip/renesas-rzg2l: Fix missing put_device
+In-Reply-To: <TYCPR01MB12093A2984117267AC18D679CC2762@TYCPR01MB12093.jpnprd01.prod.outlook.com>
+References: <20240930145539.357573-1-fabrizio.castro.jz@renesas.com>
+	<87ldz9uomz.wl-maz@kernel.org>
+	<TYCPR01MB12093A2984117267AC18D679CC2762@TYCPR01MB12093.jpnprd01.prod.outlook.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: fabrizio.castro.jz@renesas.com, tglx@linutronix.de, geert+renesas@glider.be, prabhakar.mahadev-lad.rj@bp.renesas.com, linux-kernel@vger.kernel.org, Chris.Paterson2@renesas.com, biju.das.jz@bp.renesas.com, linux-renesas-soc@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-GPIOs showed up as unclaimed, so they could be muxed to something else
-even though they were in use. Mark GPIOs as claimed to avoid that.
+On Mon, 30 Sep 2024 17:36:20 +0100,
+Fabrizio Castro <fabrizio.castro.jz@renesas.com> wrote:
+> 
+> Hi Marc,
+> 
+> Thanks for your feedback.
+> 
+> > From: Marc Zyngier <maz@kernel.org>
+> > Sent: Monday, September 30, 2024 4:50 PM
+> > To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > Subject: Re: [PATCH] irqchip/renesas-rzg2l: Fix missing put_device
+> > 
+> > On Mon, 30 Sep 2024 15:55:39 +0100,
+> > Fabrizio Castro <fabrizio.castro.jz@renesas.com> wrote:
+> > >
+> > > rzg2l_irqc_common_init calls of_find_device_by_node, but the
+> > > corresponding put_device call is missing.
+> > >
+> > > Make sure we call put_device both when failing and when succeeding.
+> > 
+> > What sort of lifetime are you trying to enforce?
+> 
+> Function rzg2l_irqc_common_init uses pdev->dev until its very end.
+> My understanding is that we should decrement the reference counter
+> once we are fully done with it. Is my understanding correct?
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+"done with it" is what scares me. Specially when I see code like this:
 
-Change since v1: * free the gpio as well (Thanks, Geert!)
+	rzg2l_irqc_data = devm_kzalloc(&pdev->dev, sizeof(*rzg2l_irqc_data), GFP_KERNEL);
+	if (!rzg2l_irqc_data)
+		return -ENOMEM;
 
- drivers/pinctrl/renesas/pinctrl-rza1.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+	rzg2l_irqc_data->irqchip = irq_chip;
 
-diff --git a/drivers/pinctrl/renesas/pinctrl-rza1.c b/drivers/pinctrl/renesas/pinctrl-rza1.c
-index 6527872813dc..b1058504e0bb 100644
---- a/drivers/pinctrl/renesas/pinctrl-rza1.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rza1.c
-@@ -19,6 +19,7 @@
- #include <linux/ioport.h>
- #include <linux/module.h>
- #include <linux/of.h>
-+#include <linux/pinctrl/consumer.h>
- #include <linux/pinctrl/pinconf-generic.h>
- #include <linux/pinctrl/pinctrl.h>
- #include <linux/pinctrl/pinmux.h>
-@@ -750,6 +751,11 @@ static int rza1_pin_mux_single(struct rza1_pinctrl *rza1_pctl,
- static int rza1_gpio_request(struct gpio_chip *chip, unsigned int gpio)
- {
- 	struct rza1_port *port = gpiochip_get_data(chip);
-+	int ret;
-+
-+	ret = pinctrl_gpio_request(chip, gpio);
-+	if (ret)
-+		return ret;
- 
- 	rza1_pin_reset(port, gpio);
- 
-@@ -771,6 +777,7 @@ static void rza1_gpio_free(struct gpio_chip *chip, unsigned int gpio)
- 	struct rza1_port *port = gpiochip_get_data(chip);
- 
- 	rza1_pin_reset(port, gpio);
-+	pinctrl_gpio_free(chip, gpio);
- }
- 
- static int rza1_gpio_get_direction(struct gpio_chip *chip, unsigned int gpio)
+	rzg2l_irqc_data->base = devm_of_iomap(&pdev->dev, pdev->dev.of_node, 0, NULL);
+	if (IS_ERR(rzg2l_irqc_data->base))
+		return PTR_ERR(rzg2l_irqc_data->base);
+
+If you drop the reference on the device, you are allowing it to be
+removed, and everything the driver cares about to disappear behind its
+back.
+
+I can't really see how this is safe, because in general, removing an
+interrupt controller driver from the system is a pretty bad idea, and
+I'm worried that's you are implicitly enabling.
+
+	M.
+
 -- 
-2.45.2
-
+Without deviation from the norm, progress is not possible.
 
