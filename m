@@ -1,125 +1,140 @@
-Return-Path: <linux-renesas-soc+bounces-9179-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9180-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C79C2989BCD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 09:46:17 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99B2A98A003
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 12:59:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 500E3B21027
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 07:46:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CB4451C229CA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 10:59:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDA62158DB1;
-	Mon, 30 Sep 2024 07:46:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26F5518D658;
+	Mon, 30 Sep 2024 10:59:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hg89WdR9"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ey4sQ9LH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D9B446444;
-	Mon, 30 Sep 2024 07:46:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C9C18D622
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Sep 2024 10:59:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727682370; cv=none; b=XpigXuMp0aSAcPg4wuAHiQvUpYVg0VTDU/B/aEefH/CvH5fyIox1BxqQ89sr9eaO5pzh8bu68+bxbC3KUO6Nv/bqjQqIgS3y0yW6dWEK2TDrJJ9RrSUNNt8jpzXDNpKZUikB3J77pZXvGA3IjQRfyBx0GWAkw4tdZIwtu0E+E/4=
+	t=1727693945; cv=none; b=owpf2OjQBTPDM0Kg/HgsdG1NXUUCgwCyVHYzLfDnR4TAbU7k5uEB1eu4Kr+hgy329/0jbRX5XX5+w5W8fJC/wFuSDS8O5Pis0CMyPJLg5kT2pkZREhvS9hzULxRSStImg3J1KOsQlxhOut3r53MdmKIByFO63rsbTtgjHBwuYjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727682370; c=relaxed/simple;
-	bh=BQpQRKotpPUbROJEka7Jc0JMq31sph1t38NhhhefHLw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nkEYkzRmzYAlGBspoS4a37EAxfCG23YR+w2LvpRqyop6ic4qpi2LOxnhzZHlVIrsg4pv2GTZYjGhH3SPLj1usNBXg7v+xHHyUJPVDz8FYME2bmmNQqMuD/APnssmRobmljMBBM8Lgk6eLbRNz6UcKnHzoSBBErQtjuCGi3h55TA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hg89WdR9; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5c87ab540b3so5898915a12.1;
-        Mon, 30 Sep 2024 00:46:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727682367; x=1728287167; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=d1exfD00/TC4+inACEcZfqiu4Lapq/4PqvMhcA5g74M=;
-        b=hg89WdR9NJ/gj4f3uHr73T0zIhKXbukJBIquGCuhD0/ViznslBqgU2fcK56zVLyLoQ
-         YTY3l9G08A0+31IP3MHp9DfArjGeWopyWFvA0W/uY+JNkzJLtlE6ZWlZtUeKHuuilyQ2
-         XXcfOTPI0vO9auGIgNQbaJUx2JHDEhttZsCgln7p9inB3Gbb6m0XMv8wxJ1hzHa0IwLJ
-         qS1huVU7y6+GGErypBQ24Ghz07rboMwMBC1NA/xUcD8BcyoAkuMrzhOM/37buJPAiYuu
-         9MlP2KcgRyQaNzVPW/YQy0VYfdqrOf5Fy+DP3GeDh3NbEBAnMiG+VSToFEaKK49Cyxn/
-         4x3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727682367; x=1728287167;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=d1exfD00/TC4+inACEcZfqiu4Lapq/4PqvMhcA5g74M=;
-        b=tNv2XSqXen1hBRQIpaAUsC/s8p3wzBtM+IlsyqsJdhDuTO86UvcK348PZjO0Ri+O7J
-         E6Qnix9LO11DxtuJrpYPsTrrCGnDFzI7Oiiq27ktuJfSgIns1PIksLkq/pDiKJJ67+Tv
-         aIR1Umm9NqMIA1azANNz30i2z3f2M15t8OqA40rjh9g93SL6POrU9GamT+fTkQ23KE5B
-         TjmB7Nt4S/hDDvHsiF9V4r3f7u4VAGWx4tlSZDyR7pc95LJ/gwdTJDESxyqR58OO9mq9
-         Z9n0aaCLuaz71um/n0bLQlYsEQd41IMFDQo8hcHzc4+CyzI7bwLMF5z65BWAaFwDBifc
-         ifHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVDhjIWjRWum0DqSoDEkbiCvqnxwIiNB/KnGEfovY/JjKE6YF30x6T1xi1ghLIk3ZcRezIpuL5VMuhPO4M=@vger.kernel.org, AJvYcCWCbSUNz1clzTJVyjM2kNObTGHnqPPiblre47/9Mb0QlfBOnNy9hkhqfGs/BKZY2qfZgc8LGhKKNgRcoXp37JGCcRc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8XC+iZ0/75c3wm7hQdbLv/6bSxRUICOw4tIEapczYtFYZ1+qX
-	TeO7TXMr+rj2fJsiZ0m3lzDE9mAge0gfaN3v/NESw+i0bbo5DrK9
-X-Google-Smtp-Source: AGHT+IH3MC1zbtISzeMVpxWS/AMA/s1zFFnCt4GVBZkEpHuH64UaLW2tas/0oGWuozwBI3qhjEAcDQ==
-X-Received: by 2002:a05:6402:5407:b0:5c8:81a6:f14c with SMTP id 4fb4d7f45d1cf-5c882455c96mr12523719a12.9.1727682367114;
-        Mon, 30 Sep 2024 00:46:07 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c88240517fsm4128885a12.4.2024.09.30.00.46.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 00:46:06 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] v4l2-subdev: Return -EOPNOTSUPP for unsupported pad type in call_get_frame_desc()
-Date: Mon, 30 Sep 2024 08:46:02 +0100
-Message-ID: <20240930074602.500968-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1727693945; c=relaxed/simple;
+	bh=tGsE4gnAGI94Dilik0vAC2fgamlajnKDHGmeN4h79NI=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KK3LtCTJL8pXeAFjBe0ktAF+tspDHHYUKcEwAYdxiUd1yqoZPupTfAdUwJ+KobCVeQP4A0oe1r2L62HjpQZPztfaG2MtDne1AOkS//ghNhsPn5URifdFzyTqN7s6zmXk7LLf3/tif27/LrQh2vRySrJcFw2N9RT4ORBmb3FCgHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ey4sQ9LH; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=/MdT
+	qoOYofI5jKHRdvBt8ZzGblilbR+9UBQxu10obeY=; b=ey4sQ9LHWRI9n9PgfaON
+	5xuA1hwPE87dofg/y7cdTGPYbtCVj25LMdmVXaxU+660DuWpNS+pwmW7tTnem1SI
+	/RGrFh1BsB5NJnAdK1ZYhLhDmo+h6IOv7hc4N4CXvr8TrCc3DUH0u54jS8DEl2+j
+	tqM+0PGRvP9/FtptSxKj9K+8zPO1zTLtHNVR+/BCreH787IpBnzycn3K2889yaEr
+	gsT8rRnSyqSou6Jd6+mqoVQr7QN2OpT1uCk46ItSz52epM7jmcMg7cP/16kBLteo
+	+yPQH+FZtNCpBHKQOEqTT81OB65/CR5MpjlfhqTIeMItV+db3+bWmeirQkrhbcXV
+	fA==
+Received: (qmail 2157287 invoked from network); 30 Sep 2024 12:58:53 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Sep 2024 12:58:53 +0200
+X-UD-Smtp-Session: l3s3148p1@IMIjF1Qj8J8gAQnoAH/eAHsKVyf407fR
+Date: Mon, 30 Sep 2024 12:58:52 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Rob Herring <robh@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+	devicetree-spec@vger.kernel.org
+Subject: Re: [PATCH dt-schema] schemas: i2c: add optional GPIO binding for
+ SMBALERT# line
+Message-ID: <ZvqEbMHgbNymNUYJ@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Rob Herring <robh@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+	devicetree-spec@vger.kernel.org
+References: <20240909105835.28531-1-wsa+renesas@sang-engineering.com>
+ <CAL_JsqLui9=K_LdAoEAibxRo30_2ahdGXhCW50ow8rcqCp6jZA@mail.gmail.com>
+ <CAMuHMdWGtuAuQ3M3HonY8zfODTTz_izV6g9555iwuPLSY+P9_g@mail.gmail.com>
+ <CAL_Jsq+cFb56e5WvipL1nR-0TDz+v6vnFDvz9F9JbXinxkEt1Q@mail.gmail.com>
+ <Zt_3WtlRP_5wt4PN@shikoro>
+ <ZuKLpilWKCS5k7Kx@shikoro>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ViQf10GYLX3Nuesl"
+Content-Disposition: inline
+In-Reply-To: <ZuKLpilWKCS5k7Kx@shikoro>
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-The `get_frame_desc()` operation should always be called on a source pad,
-which is indicated by the `MEDIA_PAD_FL_SOURCE` flag. This patch adds a
-check in `call_get_frame_desc()` to ensure that the `MEDIA_PAD_FL_SOURCE`
-flag is set for the pad before invoking `get_frame_desc()`. If the pad is
-not a source pad, the function will return an `-EOPNOTSUPP` error,
-signaling that the operation is not supported on non-source pads.
+--ViQf10GYLX3Nuesl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/media/v4l2-core/v4l2-subdev.c | 3 +++
- 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index de9ac67574bb..ea8e8976272d 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -325,6 +325,9 @@ static int call_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 	unsigned int i;
- 	int ret;
- 
-+	if (!(sd->entity.pads[pad].flags & MEDIA_PAD_FL_SOURCE))
-+		return -EOPNOTSUPP;
-+
- 	memset(fd, 0, sizeof(*fd));
- 
- 	ret = sd->ops->pad->get_frame_desc(sd, pad, fd);
--- 
-2.43.0
+> > I had this originally in my RFC[1]. I got convinced by Geert's arguments
+> > because the DT snippet in the board DTS looked kinda ugly. The board
+> > needs to override the DTSI of the SoC to replace "interrupts" with
+> > "interrupts-extended":
+> >=20
+> > =3D=3D=3D
+> >=20
+> >  &i2c3	{
+> >  	pinctrl-0 =3D <&i2c3_pins>;
+> >  	pinctrl-names =3D "i2c-pwr";
+> > +
+> > +	/delete-property/ interrupts;
+> > +	interrupts-extended =3D <&gic GIC_SPI 290 IRQ_TYPE_LEVEL_HIGH>, <&gpi=
+o1 26 IRQ_TYPE_EDGE_FALLING>;
+> > +	interrupt-names =3D "main", "smbus_alert";
+> > +
+> > +	smbus;
+> >  };
+> >=20
+> > =3D=3D=3D
+>=20
+> I guess my questions here are: is this proper? Is there a better way to
+> describe it? Is using interrupts still the way to go?
 
+Hi Rob,
+
+do you still prefer "interrupts" over "smbalert-gpios" given the above
+snippet?
+
+Thanks,
+
+   Wolfram
+
+
+--ViQf10GYLX3Nuesl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmb6hGgACgkQFA3kzBSg
+KbZQRxAAisaHk/3B+ojhVo3LMlr6I4s7403zjpBZFdZxs8v5qX4Z0oR0aoyKRlfo
+A6Nmv0jfGk2vgSJQdmcT/hatWYvFKofHT9JKWREIPIIwW60l1m1osnxPHC9WGOnT
+6peA7Ktvmw7JYmkOoxB4rhaGXvFxj3HIbD+bKi+gRrGROdHlx0otxfISZfhArbUW
+4TaWwWqWbFFq53Q9aLHjoaHgMqkSWddjotD43DcGBwlmXy2l1M+hUr3L2GcHcLFZ
+DxXjpG15pkQSWZ4XGLTbVsXEquSOf6bkIEyUmzSFHJG4pPgYyLiKf65fXtMJOJ2B
++xy0VQmlJ49ajxxdidflCFZI1GqJAnqzS/IzthSCO+v1/F/A54QdntM8zJIn3V1C
+eUkcqBdLAdm213WnR5pYdrUj1TiuPXShHPLKWZsdIGcgH0600yMTJjb/4yGJYsAM
+Fy7WmENQy9L/TobeBT9E+0pU391ro3Mhl+Am2hRWUvK40ryQc1AKfpVHs0m6UMoW
+uZzZpp8OBlcCAfbXfMBtXB3WbM6tCwHwlmJ1ez1iFDRDGkV2vWw7nPkyIdc8wfy3
+MIvxiqu4CAYz4NNUrsK3dXPQKjGnmtJND7evNDCIh8iSFLiYzggUpTGwkO6kiICf
+rLcUUUV7dxZKMahqzLtVmn7BgWosHPmyIqWMhJwtC9leG2FYN2w=
+=l1v0
+-----END PGP SIGNATURE-----
+
+--ViQf10GYLX3Nuesl--
 
