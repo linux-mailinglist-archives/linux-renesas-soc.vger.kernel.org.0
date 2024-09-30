@@ -1,124 +1,162 @@
-Return-Path: <linux-renesas-soc+bounces-9238-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9239-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DF9098ACCE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 21:26:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BDD598ACF1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 21:30:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9F8621C2123B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 19:26:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C951A284053
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 19:30:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84BC2199396;
-	Mon, 30 Sep 2024 19:26:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="bDY6ffSH"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05C2D199252;
+	Mon, 30 Sep 2024 19:30:32 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62CD8199930
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Sep 2024 19:26:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B3A94206E;
+	Mon, 30 Sep 2024 19:30:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727724391; cv=none; b=gGHzURmnPQLHMHXDKQGBAybBNE1cXZOS7xFtiofsRuF8SOEb7TqqvNVOzmcwzRLjZ/GAtA1NqgFoaezGTUoBwt5zz2+b59cc5jp6ikkRHk//xn8slSR6NZNmiyXuARDS1DM/typqYipH74WVt++xP5FSTKbTqt9kF9IaG2koVig=
+	t=1727724631; cv=none; b=DLpfaMaBkFxhbA6+/JtCngOPsfP99wQTdNdqAVJEOM+GEBrTmqdzldzt0B4g0WV/lUbN1L6Z13mXVqtW2X16r84s3gl5Z5TwYJfDutmKsXhHIuY7K5mXaghTiQUrhNRKYHtHAkXGQYW8Ct38h5Yggpzt8tJbWMMWCs39pUdr8nI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727724391; c=relaxed/simple;
-	bh=e+aBS0EcIqQCeva20AFIcVDMGO3E3D/ovwze6Otvzzk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HB7N6arvQFaIvkh/d2TZXQ69H6pwZndYqJ4IUN9yTqs2D+txaVFp0p88HhjJJlJUfJXnZv16ai6x7BEas+OMfyet/EeEcBI8GSnE64iH19zgyIQGQ5OrQMm7GL4kNCL7QW8An5fjWsiO/6pHfWl9PPX4+v5S4QXrF2npNCV7ogI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=bDY6ffSH; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=e+aB
-	S0EcIqQCeva20AFIcVDMGO3E3D/ovwze6Otvzzk=; b=bDY6ffSHazKiPWB6Sh+P
-	oJSEeli87P3KKBXYMHL2P5qNjIXoaWznKnPQWe+YLznl+7YUnyZSFD3gDWWNq3zW
-	37YyJ3Xi5TPOZHQ0IIfNZvU6doO/kimDhJzJAa/NgkNRvpLD/eV2/u2nu9LAKBtd
-	rwEQQyQFn49Q+VWzafXAPVQk1jvWGGsgQshAF/6kqqNAhTIRv5m5eu3F3zU3XkJZ
-	O71kJZmJHgpFSzv4Sgj0CHk1l8n8ko36bqo0VrYQUWpR2EVaZCfmaZqPjzOIHSjp
-	keoPsTot1NAOBL41AELqzDnk6MQg2OTM9jFtZq6NIGXCfHJm1KLoVCH0f9no6ngM
-	GA==
-Received: (qmail 2283075 invoked from network); 30 Sep 2024 21:26:27 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Sep 2024 21:26:27 +0200
-X-UD-Smtp-Session: l3s3148p1@naFdLlsjiNUgAQnoAH/eAHsKVyf407fR
-Date: Mon, 30 Sep 2024 21:26:27 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, dmaengine@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/3] dt-bindings: dma: rz-dmac: Document RZ/A1L SoC
-Message-ID: <Zvr7Y6PxV9CqcbHF@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, dmaengine@vger.kernel.org,
-	devicetree@vger.kernel.org
-References: <20240930145955.4248-1-wsa+renesas@sang-engineering.com>
- <20240930145955.4248-3-wsa+renesas@sang-engineering.com>
- <CAMuHMdWa7QXU+Ka6FipF6sbcn=UOnVtYa-+an4F7thprNt6ALQ@mail.gmail.com>
+	s=arc-20240116; t=1727724631; c=relaxed/simple;
+	bh=OVm5n8rRgeWWLWcPZNj0/VWtcXnxpJfHbaBD144bNzk=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:CC:References:
+	 In-Reply-To:Content-Type; b=LVdiEXFrbH/SM3xG6KGaJ9GBRDN3m2BqY3hTeK+MOXll4D0rX40V0V6daVLOFsK4ITaqvObaSiXOdNkQjvqPinLKf9ZUAOsbkTAXS2GwQlRyNZqUpc+14WqVAOioQLpLoGgy0FTCsgdw9nJjp912hUxRAsHEYI3V1MheuMwOnkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.2.100] (213.87.154.82) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Mon, 30 Sep
+ 2024 22:30:25 +0300
+Message-ID: <8cb1de35-a40a-4d1b-a081-1b8fc08e0a6a@omp.ru>
+Date: Mon, 30 Sep 2024 22:30:25 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="O5tKaXQq4nFrPMWf"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWa7QXU+Ka6FipF6sbcn=UOnVtYa-+an4F7thprNt6ALQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [net-next PATCH 05/11] net: ravb: Simplify types in RX csum
+ validation
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+To: Paul Barker <paul@pbarker.dev>, "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>
+CC: Paul Barker <paul.barker.ct@bp.renesas.com>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+	<niklas.soderlund+renesas@ragnatech.se>, Biju Das
+	<biju.das.jz@bp.renesas.com>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>, <netdev@vger.kernel.org>,
+	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20240930160845.8520-1-paul@pbarker.dev>
+ <20240930160845.8520-6-paul@pbarker.dev>
+ <b4707880-2be4-4132-a3e1-8b104b89828c@omp.ru>
+Content-Language: en-US
+Organization: Open Mobile Platform
+In-Reply-To: <b4707880-2be4-4132-a3e1-8b104b89828c@omp.ru>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 09/30/2024 19:14:44
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 0
+X-KSE-AntiSpam-Info: Lua profiles 188102 [Sep 30 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.4
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 35 0.3.35
+ d90443ea3cdf6e421a9ef5a0a400f1251229ba23
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info:
+	127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
+X-KSE-AntiSpam-Info: FromAlignment: s
+X-KSE-AntiSpam-Info: ApMailHostAddress: 213.87.154.82
+X-KSE-AntiSpam-Info: Rate: 0
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 09/30/2024 19:18:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 9/30/2024 3:37:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
+On 9/30/24 22:11, Sergey Shtylyov wrote:
+[...]
 
---O5tKaXQq4nFrPMWf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+>> From: Paul Barker <paul.barker.ct@bp.renesas.com>
+>>
+>> The HW checksum value is used as a 16-bit flag, it is zero when the
+> 
+>    I think I prefer s/HW/hardware/ but there's no hard feelings... :-)
+> 
+>> checksum has been validated and non-zero otherwise. Therefore we don't
+>> need to treat this as an actual __wsum type or call csum_unfold(), we
+>> can just use a u16 pointer.
+>>
+>> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+> [...]
+>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+>> index 1dd2152734b0..9350ca10ab22 100644
+>> --- a/drivers/net/ethernet/renesas/ravb_main.c
+>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> [...]
+>> @@ -762,23 +761,22 @@ static void ravb_rx_csum_gbeth(struct sk_buff *skb)
+[...]
+>> +	if (unlikely(skb->len < csum_len))
+>>  		return;
+>>  
+>>  	if (skb_is_nonlinear(skb)) {
+>> -		last_frag = &shinfo->frags[shinfo->nr_frags - 1];
+>> -		hw_csum = skb_frag_address(last_frag) +
+>> -			  skb_frag_size(last_frag);
+>> -		skb_frag_size_sub(last_frag, 2 * sizeof(__sum16));
+>> +		skb_frag_t *last_frag = &shinfo->frags[shinfo->nr_frags - 1];
+> 
+>    Could've been done in the previous patch...
 
+   Even fit better there, I think...
 
-> > Document the Renesas RZ/A1L DMAC block. This one does not require clocks
->=20
-> RZ/A1H
+>> +
+>> +		hw_csum = (u16 *)(skb_frag_address(last_frag) +
+>> +				  skb_frag_size(last_frag));
+>> +		skb_frag_size_sub(last_frag, csum_len);
+>>  	} else {
+>> -		hw_csum = skb_tail_pointer(skb);
+>> -		skb_trim(skb, skb->len - 2 * sizeof(__sum16));
+>> +		hw_csum = (u16 *)skb_tail_pointer(skb);
+>> +		skb_trim(skb, skb->len - csum_len);
+>>  	}
+>>  
+>> -	hw_csum -= sizeof(__sum16);
+>> -	csum_proto = csum_unfold((__force __sum16)get_unaligned_le16(hw_csum));
+>> -
+>> -	if (!csum_proto)
+>> +	if (!*--hw_csum)
+> 
+>    Hm, you lost get_unaligned_le16() here. The checksum can be anywhere,
+> unaligned too...
 
-Argh, I managed to mix it up again. Thanks!
+   No need to keep using get_unaligned_le16() itself but you should then switch to 
+using get_unaligned().
 
-> > -title: Renesas RZ/{G2L,G2UL,V2L} DMA Controller
-> > +title: Renesas RZ/{A1L,G2L,G2UL,V2L} DMA Controller
+[...]
 
-I'd vote for your suggestion. Biju?
+MBR, Sergey
 
-
---O5tKaXQq4nFrPMWf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmb6+2IACgkQFA3kzBSg
-KbYxmRAAkqlKzlctfTkc55OxsPvtDx6CM71Cgmzr0KtTO/Rfk4Wq2GRNKPWMvnrj
-oeQ/hUYtHSSmpyXHPyCxLuUG4zBNk208jETRzHrIu55a43HScI88ZCD28npCuGNq
-IE9FXODjy3RhJVuoxKOi2XSi6bzIDpgg4ypkg529yBAlifkeJegG13MChK5aBfuN
-EuaVbJMPk59phDJc2+3gjgBjMTiAdFj0KFzMjYCQsK/tbdBPvwL2Y9L+4IqSM5Fl
-OwWW0Rytq87Gk6jxBrikNHdAbZgKE86mXS/I/cINX8AC/gqJvo/o1ugzqmU1lgal
-lpaQOQ6UfE5vakvjW+qJZCtzcBRxKRw3DMu6WGSshq67Lbe8rPY+eleSUUNvsDVM
-QiCSyMiriPz2Pa7YMIPzfsRMIDYqjKuhUPpCb/zGGhlrXogcEdwpW3yp7wZSFUHd
-mJUwS4oVnQEsQHR9g7X3nRe9f8aByHFlRe8ZT85Mgw9+mIJXptuACyKj4eHL3N+p
-UF2kovphE9j9J0NyZKCo1eLocre1DfDfJH+5Dg/Mgz1nIYNP7X1jjjE8mtYCzBBV
-rh5F8bqHAaNV2UpmIjtAqyEOTdN6wBBFFed2m7kPwH3tc3SfHW+tiFGyROZJM0N8
-CaNOOymGbm8hxZuqGJWUQrxLzGqLqzZzzz5pKx+o5av0aiCfa/A=
-=eUwp
------END PGP SIGNATURE-----
-
---O5tKaXQq4nFrPMWf--
 
