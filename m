@@ -1,137 +1,100 @@
-Return-Path: <linux-renesas-soc+bounces-9189-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9190-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25F4A98A6DB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 16:18:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8E7A98A6F8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 16:28:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE97B280FBA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 14:17:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 260921C21D61
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 14:28:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3082413D539;
-	Mon, 30 Sep 2024 14:17:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 172811917C7;
+	Mon, 30 Sep 2024 14:27:56 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3886217C22F;
-	Mon, 30 Sep 2024 14:17:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DB15191484;
+	Mon, 30 Sep 2024 14:27:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727705878; cv=none; b=uN8a5+ypd4P21tcO4gUo8/FbPN4ZYk3RJmz9eBkMgll8cADQt6yiIJ4a7nd3pt9aURyK9nhWWiDSjpFljujJds71Q6VySByQM3F4soo7fnQ2H2wsApZLGVm04XFjz3P061lZaycXYGm6zxKNwt1UFO4kBNYbjUSHlS0LLLNuCRw=
+	t=1727706476; cv=none; b=iTOeTtuXEVYBaAqMvyDL5cZQ1J1rASYTsf3l6N9sBv/sbnNE6Qm3Yc3CayC509TxH6uOcu4lAXixtmDG4oC5LsTFCt6qU0kpnpl3ySDy/qqRCNBowrm39NcbhPfKPKLtPlUVeZznc+VfB5HN8r9QLi7e8yGfcIVrW5vdehuSfEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727705878; c=relaxed/simple;
-	bh=y/F1NBCTnAB3UuPVjUX5FuS5if9jSL5+KRpqoTut+kk=;
+	s=arc-20240116; t=1727706476; c=relaxed/simple;
+	bh=oPTIw5YfsovYjrnxs4UQ84cLGGp8sPG7eUb3P5w4wd8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ng1Jiu0Aqidi7mI4jz7eSDtWtvBORwDwLvYG8Wu3qHbNkxDcMWn0uPnBuUwBx6mXhvjEaR7TL5VoLnUsrOF7a7WqmtWpSSYxiPbU4dkB7ECGDn4kzPmpCMnIJb/RtuQtl11IeS+lmEh6XtnSz0nQCW6J9Uwtj81yD80kWTr22os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.175
+	 To:Cc:Content-Type; b=qUwwOpNQZB4q82R1PEHLz5yGvkujhvUB9pX0NabapFSUGkYASrYXTHPceZ2F2W+1h99HTK1jBUHKMGGUQtiR5vRpOj+NSOcOgDG61b6be96a4Gs+O3z58NnsriaTXZmCB3LZEYhruhwt+lvQkZNV4g3dQXZAdMhLN4GzTbtpHl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-e25d405f255so3644667276.2;
-        Mon, 30 Sep 2024 07:17:55 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e1651f48c31so4298322276.0;
+        Mon, 30 Sep 2024 07:27:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727705875; x=1728310675;
+        d=1e100.net; s=20230601; t=1727706473; x=1728311273;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9vsPdt8dp1EhWLsYJbbEjP53Z7pKpAwdym21sKtiHvQ=;
-        b=obuNrdPKdSX13FiwmsiPNqpPB3FRKy1WQupEdz5SHAkqAwGfFAkKBNibQOam2SX/1S
-         Tdips8Bj5PcMJISnCCvgToRxLz/ZCujx6XCwk3HOYEQV27X4X0zItibAzrzrPXATq8BG
-         ifHUqSzA45Eu0uMc6jXFqY0laO7/vVOQIlMAUNx8xs5qL0FVGGuB56rfbk8JZguUtbQo
-         6wq7dgkox96ezj4aQoMaF0nvPxB5a0g5Mx66tYnUw4b+i2UpYoSohsyQCThYsfIgpzEh
-         22xHI/kiLCyKn9CFLLB7wHR5OvHpiz10T2YI40OZIsGt9J+wiMS4/oBsMaZhE5mr1FGY
-         ez8g==
-X-Forwarded-Encrypted: i=1; AJvYcCUPYs438X7HtSaIIEQK9WdI/P5rt6SPTGshH5SY287RQzu3HBxUaOYdmDErklLVrDfxfHlMBWkm7po=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQTj44svzVX6/vasPtLmzR2zYNnYVpUnRES9k16h3UBq2ggW2y
-	Jogae1YDn3SSv7u5bvCpgWiofJn9u0yjTiHBy5llJhLtnv6eEfr4+OpFC+K7
-X-Google-Smtp-Source: AGHT+IEX5gRaVm5hFOGP8R3g4dlZBZR063j5AwtYNY88TL6va0wndk7rRwKmTXHLWNayou6bza8Otg==
-X-Received: by 2002:a05:6902:18c6:b0:e26:d31:7b8c with SMTP id 3f1490d57ef6-e260d317c5amr5933819276.57.1727705874674;
-        Mon, 30 Sep 2024 07:17:54 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e25e4015fe9sm2342323276.26.2024.09.30.07.17.54
+        bh=qIwcknFjfAOkd16gzyHHjbVxkGkOzmZX89V7ikbQToA=;
+        b=hgsxn2tr2U/wBLsDzVwyypzoaoq7tlITrmqNfLyPnyydl8rhcbuNe7PAsHxw9EwaAk
+         cj8NYp8ecKg/VhAGgBTeWkFiJWBMOVAOBjosceA3d4cMCef3qyydwOyYPPynAZhytXoX
+         V/w1adBRjJ8d5k9DEjDoJgYGSfGrKishJOwbVQcwuCzDK4jJpbHhimYz1vLxYsK/7TlD
+         RKwx/kv88zjOeTtNLbcdHIs7yinc7UhKQ+VewIPPf+rA9NUUUCT74Lt/0dn3fqkhKn7h
+         caLEfBpMIRKkdK6kvpHcCqSLQDaC2lKMvplJGQ7/j4dt1AwbeW7AK2nZ9bJNbUYf1FQN
+         loJw==
+X-Forwarded-Encrypted: i=1; AJvYcCWI8+mVJO8lhUErn2FllmgbyjaSWEfbH5BZjAcH3kRWFqLjrBg3nH7dknETit1C8nirquObpVUfMKC/@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAz6ES2UUZrcWMn1ABh8HoH0Mz/u//SOYJare8tff3OJj73suA
+	Am42zzZXGOvlQuieL8K//d0V5RxaylLDJh+NEHPXshwisVZKfdsakH67oW3L
+X-Google-Smtp-Source: AGHT+IE5cTK46SBaiOLOOnwrwnk3Yxz64sgNo4ZJWWOUIcAIJj/n2eSv5Fbn1Y+wkjzcxJFjWOHl9w==
+X-Received: by 2002:a05:6902:230b:b0:e26:486:5be with SMTP id 3f1490d57ef6-e2604b1527dmr8021034276.11.1727706472720;
+        Mon, 30 Sep 2024 07:27:52 -0700 (PDT)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e25e3ef8ee8sm2361150276.1.2024.09.30.07.27.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Sep 2024 07:17:54 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6c3f1939d12so35744027b3.2;
-        Mon, 30 Sep 2024 07:17:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWF8NC0YTIXwxGcI+a3wjCXxMXsb3ovgID3Km8K7aPUy3xmuJwRwKp/QOI3bzEdgv2PAAWy/0byk0k=@vger.kernel.org
-X-Received: by 2002:a05:690c:dd1:b0:6e2:636:d9ba with SMTP id
- 00721157ae682-6e267118e38mr43153857b3.3.1727705873617; Mon, 30 Sep 2024
- 07:17:53 -0700 (PDT)
+        Mon, 30 Sep 2024 07:27:52 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-6db4b602e38so34916577b3.1;
+        Mon, 30 Sep 2024 07:27:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXkxxI+iUSLNUKS9bilqhnr7UnfH7+VGKtgWKCBsq4twEPiX/ihDI5AsD5oQFxA9yCslU5VOdnijJF9@vger.kernel.org
+X-Received: by 2002:a05:690c:3691:b0:6dd:c2e4:d245 with SMTP id
+ 00721157ae682-6e2475498a3mr101009707b3.14.1727706472256; Mon, 30 Sep 2024
+ 07:27:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240928094454.3592-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20240928094454.3592-2-wsa+renesas@sang-engineering.com>
+References: <20240927095414.10241-6-wsa+renesas@sang-engineering.com> <20240927095414.10241-7-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20240927095414.10241-7-wsa+renesas@sang-engineering.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 30 Sep 2024 16:17:40 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX6tv-Z2ZisYg3ridB5M28+vnGzEyC9CReeUWRUQJPA1g@mail.gmail.com>
-Message-ID: <CAMuHMdX6tv-Z2ZisYg3ridB5M28+vnGzEyC9CReeUWRUQJPA1g@mail.gmail.com>
-Subject: Re: [PATCH] mmc: sh_mmcif: correctly report success when obtaining
- DMA channels
+Date: Mon, 30 Sep 2024 16:27:40 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXUpFAt4BX9ApxehohLpsjn_OHBsFHJeGxbPfafF3Dekw@mail.gmail.com>
+Message-ID: <CAMuHMdXUpFAt4BX9ApxehohLpsjn_OHBsFHJeGxbPfafF3Dekw@mail.gmail.com>
+Subject: Re: [PATCH 1/4] ARM: dts: renesas: marzen: use interrupts-extended
+ for gpio-keys
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>, 
-	linux-mmc@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	devicetree@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Wolfram,
-
-On Sat, Sep 28, 2024 at 11:45=E2=80=AFAM Wolfram Sang
+On Fri, Sep 27, 2024 at 11:54=E2=80=AFAM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
-> The debug message could still report success when getting the channels
-> was OK but configuring them failed. This actually caused a minor detour
-> when debugging DMA problems, so make sure the success is only reported
-> when the channels are really ready-to-use.
+> Using the inherited interrupt-parent is discouraged. Use
+> interrupts-extended to fully describe the interrupt.
 >
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Thanks for your patch!
-
-> --- a/drivers/mmc/host/sh_mmcif.c
-> +++ b/drivers/mmc/host/sh_mmcif.c
-> @@ -439,14 +439,15 @@ static void sh_mmcif_request_dma(struct sh_mmcif_ho=
-st *host)
->                 if (IS_ERR(host->chan_rx))
->                         host->chan_rx =3D NULL;
->         }
-> -       dev_dbg(dev, "%s: got channel TX %p RX %p\n", __func__, host->cha=
-n_tx,
-> -               host->chan_rx);
-
-This was not a real success indicator, which could indeed confuse
-people, but an obfuscated NULL-pointer still prints as NULL, right?
-
->         if (!host->chan_tx || !host->chan_rx ||
->             sh_mmcif_dma_slave_config(host, host->chan_tx, DMA_MEM_TO_DEV=
-) ||
->             sh_mmcif_dma_slave_config(host, host->chan_rx, DMA_DEV_TO_MEM=
-))
->                 goto error;
->
-> +       dev_dbg(dev, "%s: got channel TX %p RX %p\n", __func__, host->cha=
-n_tx,
-> +               host->chan_rx);
-
-This means we no longer see a debug message in case only one DMA
-channel could be requested, thus requiring manual addition of more code
-to find out what was really wrong?
-
-> +
->         return;
->
->  error:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.13.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
-
---
+--=20
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
 .org
 
