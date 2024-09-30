@@ -1,40 +1,40 @@
-Return-Path: <linux-renesas-soc+bounces-9231-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9232-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C04498AB46
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 19:41:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF69C98AC87
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 21:11:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AC36F1F23721
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 17:41:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 63BE61F214CF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 19:11:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 259411990CF;
-	Mon, 30 Sep 2024 17:41:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF3A3199250;
+	Mon, 30 Sep 2024 19:11:34 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B10198E84;
-	Mon, 30 Sep 2024 17:41:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707911991D3;
+	Mon, 30 Sep 2024 19:11:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727718066; cv=none; b=prmbjfPm02tzYyxim6KW/WdGjSBs+xRqgiv3tkbBb0SCaGNDpfvoe+tTDF7p+BqLe6zF+2PveTfxEE8iXKGu2KFCZGXRxNJ5mdq2jnE5MFO71arXijQ7jv8RUyZfxtqlP0A7JLLZIAGieEjKmRlH5zq7DLRX+HaUJCbPQDwZYEs=
+	t=1727723494; cv=none; b=kg5+OqKwySpobOF6myYDrPUBoW8jyA0ez6LmGF17X4v8jpfY+20tpNyzvlWK5NTmt53j6889w8oARoEVcsu0FZP4YNG9wrCeA5uCWLv570VSQ64de8jPnJmXb4WGsQwkn11NtyZDyWFBA5v+ON0n63zV/As4K53n8wY6Rsg8sEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727718066; c=relaxed/simple;
-	bh=lK/QC+3stxadzbwts3ksUKD8dgi+IJ9L9aQKkmic/+g=;
+	s=arc-20240116; t=1727723494; c=relaxed/simple;
+	bh=nlN3tNCZ6HWT3Bpw4JsI9Ww2HIUiOECQXGJjadRjQlA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=egPGsK3FLtiLm8nvFgdIvC5RMbwfORXOTY1WIxm2LuWDoEjw4smauf7kaDewXHE2dYASnWX3P9HX+dgE+9KtY6YuI84TcTSituk8CruPITIAUxdHpEeJyiwB9ce/kQI8DHTiD46GhFWOn+NvnSW7JlpGxkzq1aYveepCXt4VwqU=
+	 In-Reply-To:Content-Type; b=rkH5EMF74fSSs9zk0H9lJZIExe7NhCt71mHGPOi1MakZKR5BJ8BaxFJnlhjJxiRnmaeI1h3cvNcIXr4PPpOJ0LKQ1+HoqmD469WykEI2QVk+qedQST6YbwehJqsH1rnMPSv1KAALAgldm4vs/u9/xKKTU5c4NjnCKl0x1RIFYqo=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
 Received: from [192.168.2.100] (213.87.154.82) by msexch01.omp.ru
  (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Mon, 30 Sep
- 2024 20:40:53 +0300
-Message-ID: <fc2c91c8-d379-44f6-b7b7-acc9a208cb02@omp.ru>
-Date: Mon, 30 Sep 2024 20:40:52 +0300
+ 2024 22:11:17 +0300
+Message-ID: <b4707880-2be4-4132-a3e1-8b104b89828c@omp.ru>
+Date: Mon, 30 Sep 2024 22:11:17 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -42,8 +42,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [net-next PATCH 04/11] net: ravb: Combine if conditions in RX
- csum validation
+Subject: Re: [net-next PATCH 05/11] net: ravb: Simplify types in RX csum
+ validation
 To: Paul Barker <paul@pbarker.dev>, "David S . Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
  Abeni <pabeni@redhat.com>
@@ -54,22 +54,22 @@ CC: Paul Barker <paul.barker.ct@bp.renesas.com>, Geert Uytterhoeven
 	<claudiu.beznea.uj@bp.renesas.com>, <netdev@vger.kernel.org>,
 	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
 References: <20240930160845.8520-1-paul@pbarker.dev>
- <20240930160845.8520-5-paul@pbarker.dev>
+ <20240930160845.8520-6-paul@pbarker.dev>
 Content-Language: en-US
 From: Sergey Shtylyov <s.shtylyov@omp.ru>
 Organization: Open Mobile Platform
-In-Reply-To: <20240930160845.8520-5-paul@pbarker.dev>
+In-Reply-To: <20240930160845.8520-6-paul@pbarker.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
  (10.188.4.12)
 X-KSE-ServerInfo: msexch01.omp.ru, 9
 X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 09/30/2024 17:25:31
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 09/30/2024 18:54:28
 X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
 X-KSE-AntiSpam-Method: none
 X-KSE-AntiSpam-Rate: 19
-X-KSE-AntiSpam-Info: Lua profiles 188099 [Sep 30 2024]
+X-KSE-AntiSpam-Info: Lua profiles 188102 [Sep 30 2024]
 X-KSE-AntiSpam-Info: Version: 6.1.0.4
 X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
 X-KSE-AntiSpam-Info: LuaCore: 35 0.3.35
@@ -77,10 +77,8 @@ X-KSE-AntiSpam-Info: LuaCore: 35 0.3.35
 X-KSE-AntiSpam-Info: {rep_avail}
 X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
 X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 213.87.154.82 in (user)
- dbl.spamhaus.org}
 X-KSE-AntiSpam-Info:
-	127.0.0.199:7.1.2;omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
+	d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;omp.ru:7.1.1
 X-KSE-AntiSpam-Info: FromAlignment: s
 X-KSE-AntiSpam-Info: ApMailHostAddress: 213.87.154.82
 X-KSE-AntiSpam-Info: {DNS response errors}
@@ -92,9 +90,9 @@ X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
 X-KSE-Antiphishing-Info: Clean
 X-KSE-Antiphishing-ScanningType: Heuristic
 X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 09/30/2024 17:33:00
+X-KSE-Antiphishing-Bases: 09/30/2024 18:58:00
 X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 9/30/2024 2:10:00 PM
+X-KSE-Antivirus-Info: Clean, bases: 9/30/2024 3:37:00 PM
 X-KSE-Attachment-Filter-Triggered-Rules: Clean
 X-KSE-Attachment-Filter-Triggered-Filters: Clean
 X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
@@ -103,13 +101,61 @@ On 9/30/24 19:08, Paul Barker wrote:
 
 > From: Paul Barker <paul.barker.ct@bp.renesas.com>
 > 
-> We can merge the two if conditions on skb_is_nonlinear(). Since
-> skb_frag_size_sub() and skb_trim() do not free memory, it is still safe
-> to access the trimmed bytes at the end of the packet after these calls.
+> The HW checksum value is used as a 16-bit flag, it is zero when the
+
+   I think I prefer s/HW/hardware/ but there's no hard feelings... :-)
+
+> checksum has been validated and non-zero otherwise. Therefore we don't
+> need to treat this as an actual __wsum type or call csum_unfold(), we
+> can just use a u16 pointer.
 > 
 > Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+[...]
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index 1dd2152734b0..9350ca10ab22 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+[...]
+> @@ -762,23 +761,22 @@ static void ravb_rx_csum_gbeth(struct sk_buff *skb)
+>  	 * The last 2 bytes are the protocol checksum status which will be zero
+>  	 * if the checksum has been validated.
+>  	 */
+> -	if (unlikely(skb->len < sizeof(__sum16) * 2))
+> +	csum_len = sizeof(*hw_csum) * 2;
 
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+   Could've been done by an initializer instead?
+
+> +	if (unlikely(skb->len < csum_len))
+>  		return;
+>  
+>  	if (skb_is_nonlinear(skb)) {
+> -		last_frag = &shinfo->frags[shinfo->nr_frags - 1];
+> -		hw_csum = skb_frag_address(last_frag) +
+> -			  skb_frag_size(last_frag);
+> -		skb_frag_size_sub(last_frag, 2 * sizeof(__sum16));
+> +		skb_frag_t *last_frag = &shinfo->frags[shinfo->nr_frags - 1];
+
+   Could've been done in the previous patch...
+
+> +
+> +		hw_csum = (u16 *)(skb_frag_address(last_frag) +
+> +				  skb_frag_size(last_frag));
+> +		skb_frag_size_sub(last_frag, csum_len);
+>  	} else {
+> -		hw_csum = skb_tail_pointer(skb);
+> -		skb_trim(skb, skb->len - 2 * sizeof(__sum16));
+> +		hw_csum = (u16 *)skb_tail_pointer(skb);
+> +		skb_trim(skb, skb->len - csum_len);
+>  	}
+>  
+> -	hw_csum -= sizeof(__sum16);
+> -	csum_proto = csum_unfold((__force __sum16)get_unaligned_le16(hw_csum));
+> -
+> -	if (!csum_proto)
+> +	if (!*--hw_csum)
+
+   Hm, you lost get_unaligned_le16() here. The checksum can be anywhere,
+unaligned too...
 
 [...]
 
