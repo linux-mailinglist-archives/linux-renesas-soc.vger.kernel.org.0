@@ -1,148 +1,143 @@
-Return-Path: <linux-renesas-soc+bounces-9188-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9189-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D19F098A683
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 16:01:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F4A98A6DB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 16:18:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7C0E61F21107
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 14:01:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE97B280FBA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 14:17:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 736AB192B79;
-	Mon, 30 Sep 2024 13:59:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dmj3TWle"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3082413D539;
+	Mon, 30 Sep 2024 14:17:58 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4C019258A;
-	Mon, 30 Sep 2024 13:59:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3886217C22F;
+	Mon, 30 Sep 2024 14:17:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727704779; cv=none; b=Z1lK+8nl31ggtOQyJVvadONR1konbZHPMY6T5c2d/YsKTjxoVkbcIeP80vkZavmPvSnfLWOHHII9XWKLWp7vGC8VR4wuLmsDcSUMO35DkOugkH4xQpo27izReqpIZ+ixnuxaU/YlPJiXqdbMAWLyh4MA+7bWQyqtoHTx/K4EY5w=
+	t=1727705878; cv=none; b=uN8a5+ypd4P21tcO4gUo8/FbPN4ZYk3RJmz9eBkMgll8cADQt6yiIJ4a7nd3pt9aURyK9nhWWiDSjpFljujJds71Q6VySByQM3F4soo7fnQ2H2wsApZLGVm04XFjz3P061lZaycXYGm6zxKNwt1UFO4kBNYbjUSHlS0LLLNuCRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727704779; c=relaxed/simple;
-	bh=NlJwpxgXMuxcuSwKFC8yew5wFYtptuBoyy0PmRRBWXY=;
+	s=arc-20240116; t=1727705878; c=relaxed/simple;
+	bh=y/F1NBCTnAB3UuPVjUX5FuS5if9jSL5+KRpqoTut+kk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fiBnsD357Exn3GohucO7/VeyX6xUHFGXGeLCwUDQU9Jlapl28npuLfI7Xljy76XIi2ryTQhRhRHWTnhVFak+ynKjJh5hyW/r5j/zI8qMqW6/ldRJWeIjF3PHtrFkTxhOajXLGUel5eA9DzmEMBIAwNvbkpg155gUJe4kvbPjOHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dmj3TWle; arc=none smtp.client-ip=209.85.221.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 To:Cc:Content-Type; b=ng1Jiu0Aqidi7mI4jz7eSDtWtvBORwDwLvYG8Wu3qHbNkxDcMWn0uPnBuUwBx6mXhvjEaR7TL5VoLnUsrOF7a7WqmtWpSSYxiPbU4dkB7ECGDn4kzPmpCMnIJb/RtuQtl11IeS+lmEh6XtnSz0nQCW6J9Uwtj81yD80kWTr22os=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-509bd2e944dso516319e0c.2;
-        Mon, 30 Sep 2024 06:59:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727704777; x=1728309577; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q2BYXLM5lmakS//B8yHpK4KdGUO6tiaDpeo8qFg24NI=;
-        b=Dmj3TWleIolmDBd1U4s2pQ8fhnb5PkjZ/EDwpJUavYDd+/vOG3++ssV0oxAd0htSLs
-         QMj2lSXlpOg4HPqx4iIswWsGHGcEL/D17qYgwr9bVoE75aWb6Zc1CJ+I+u6rJhiX4F5o
-         EK8Yyi449LS0Dzi5QJWVdE+3CmRqKG6nIOs4D7E8Gv2v2Nv+EfVA3FlbqAGmQ/Q7KPD9
-         EStA+OSt1jOKvHcnH1nd/0Hx/jEb955KFB1e0gfTnWBzVU/wjGwbVMshUCkhR5i6lOiU
-         VwZa3EKlaMMMe/GFJtHwvORDjC4dYlsSFkE6whYMG5arYhXOLbr7ELxocMbTlXgWazlS
-         f64g==
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-e25d405f255so3644667276.2;
+        Mon, 30 Sep 2024 07:17:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727704777; x=1728309577;
+        d=1e100.net; s=20230601; t=1727705875; x=1728310675;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=q2BYXLM5lmakS//B8yHpK4KdGUO6tiaDpeo8qFg24NI=;
-        b=wQBc3IruWkf4uRr55kOgoLIAqhEWNPqlEWJ5SnJ3ynayR1OPCoMc21bQC36F9NN8b4
-         3SwIbI3z2Jq5GBVgxV/P/uPpkSE+iTzvD69ejhM5N1xBlQZ0E8OjET7X9R9Nq1WTPTvS
-         i07o5Ba/LrE/q+tGuJJErpmeSm3JxAGkWWfI3uVvvqzVQ+KAVnE/wBBPZYalgCQcSW3J
-         8ewQVq01hGCWaJuQzJWyJS24kB4Eg0qJRIsXMglgnYeQ43Lnv+7HDxCjmwGdewfHhVEV
-         EafACaCZpG4NaqHrpUfGSP06zQItWBLAPDF/h/awfUBUjLtnZDxB09WWGPkE1PGyNTCB
-         mD7A==
-X-Forwarded-Encrypted: i=1; AJvYcCW5i6bJc/J4MQ0CHKCrZZi2idEJy0W5psDV5rZRljNlsOCLGhm1m+ZYxE4bBWWBO9yNZ2NCU5pQS/hjfjg=@vger.kernel.org, AJvYcCWhCpv0/CTd0RBB5Qtqc9Woy6qk9P2wes5dp+fcTlpV2GBdbk6eIaZnhzttNsag48tToRCSn7elk62NY+c=@vger.kernel.org, AJvYcCX3YF8I06ZVjHW5PzX2MM7biJfrT6jCCgXM6bntp+xilTi9Gs9xfSGwmk6ydl9VRW0YxS/sLzfNSjTZTlshbeFWMTk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwdcovXmw5OggWOo8/X//dD91Plcl6vEwPXOah1RLwjm2wvNB1k
-	IuaWh0C6SHejtZHtGnpzQQtNK82Hvfoee8luo3tTfhqGsmarDRXCaJog2cA7zcjBlP40B2/VLpZ
-	bwm0D7zBGF0dYX6vNded/4KyH8nmCIIia
-X-Google-Smtp-Source: AGHT+IH4bGDmbxYQUAoib0TDoCtrNJop4GdaUMAWMA5Ok6FU55s0vifzCmf0i4Kgf5WzWeFTqHRSx4DGUoTry2DtLwc=
-X-Received: by 2002:a05:6122:5013:b0:508:4997:18c6 with SMTP id
- 71dfb90a1353d-508499719d5mr4241359e0c.0.1727704776702; Mon, 30 Sep 2024
- 06:59:36 -0700 (PDT)
+        bh=9vsPdt8dp1EhWLsYJbbEjP53Z7pKpAwdym21sKtiHvQ=;
+        b=obuNrdPKdSX13FiwmsiPNqpPB3FRKy1WQupEdz5SHAkqAwGfFAkKBNibQOam2SX/1S
+         Tdips8Bj5PcMJISnCCvgToRxLz/ZCujx6XCwk3HOYEQV27X4X0zItibAzrzrPXATq8BG
+         ifHUqSzA45Eu0uMc6jXFqY0laO7/vVOQIlMAUNx8xs5qL0FVGGuB56rfbk8JZguUtbQo
+         6wq7dgkox96ezj4aQoMaF0nvPxB5a0g5Mx66tYnUw4b+i2UpYoSohsyQCThYsfIgpzEh
+         22xHI/kiLCyKn9CFLLB7wHR5OvHpiz10T2YI40OZIsGt9J+wiMS4/oBsMaZhE5mr1FGY
+         ez8g==
+X-Forwarded-Encrypted: i=1; AJvYcCUPYs438X7HtSaIIEQK9WdI/P5rt6SPTGshH5SY287RQzu3HBxUaOYdmDErklLVrDfxfHlMBWkm7po=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQTj44svzVX6/vasPtLmzR2zYNnYVpUnRES9k16h3UBq2ggW2y
+	Jogae1YDn3SSv7u5bvCpgWiofJn9u0yjTiHBy5llJhLtnv6eEfr4+OpFC+K7
+X-Google-Smtp-Source: AGHT+IEX5gRaVm5hFOGP8R3g4dlZBZR063j5AwtYNY88TL6va0wndk7rRwKmTXHLWNayou6bza8Otg==
+X-Received: by 2002:a05:6902:18c6:b0:e26:d31:7b8c with SMTP id 3f1490d57ef6-e260d317c5amr5933819276.57.1727705874674;
+        Mon, 30 Sep 2024 07:17:54 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e25e4015fe9sm2342323276.26.2024.09.30.07.17.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Sep 2024 07:17:54 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6c3f1939d12so35744027b3.2;
+        Mon, 30 Sep 2024 07:17:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWF8NC0YTIXwxGcI+a3wjCXxMXsb3ovgID3Km8K7aPUy3xmuJwRwKp/QOI3bzEdgv2PAAWy/0byk0k=@vger.kernel.org
+X-Received: by 2002:a05:690c:dd1:b0:6e2:636:d9ba with SMTP id
+ 00721157ae682-6e267118e38mr43153857b3.3.1727705873617; Mon, 30 Sep 2024
+ 07:17:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240910175357.229075-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240910175357.229075-16-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240927232057.GO12322@pendragon.ideasonboard.com>
-In-Reply-To: <20240927232057.GO12322@pendragon.ideasonboard.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 30 Sep 2024 14:59:10 +0100
-Message-ID: <CA+V-a8sTFjCtJNDmVPzU9VHf1bVXqndPJ2ojjZNM=Lvkin3bcw@mail.gmail.com>
-Subject: Re: [PATCH v2 15/16] media: renesas: rzg2l-cru: Refactor ICnDMR
- register configuration
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240928094454.3592-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20240928094454.3592-2-wsa+renesas@sang-engineering.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 30 Sep 2024 16:17:40 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX6tv-Z2ZisYg3ridB5M28+vnGzEyC9CReeUWRUQJPA1g@mail.gmail.com>
+Message-ID: <CAMuHMdX6tv-Z2ZisYg3ridB5M28+vnGzEyC9CReeUWRUQJPA1g@mail.gmail.com>
+Subject: Re: [PATCH] mmc: sh_mmcif: correctly report success when obtaining
+ DMA channels
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>, 
+	linux-mmc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Laurent,
+Hi Wolfram,
 
-Thank you for the review.
+On Sat, Sep 28, 2024 at 11:45=E2=80=AFAM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> The debug message could still report success when getting the channels
+> was OK but configuring them failed. This actually caused a minor detour
+> when debugging DMA problems, so make sure the success is only reported
+> when the channels are really ready-to-use.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-On Sat, Sep 28, 2024 at 12:21=E2=80=AFAM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Prabhakar,
->
-> Thank you for the patch.
->
-> On Tue, Sep 10, 2024 at 06:53:56PM +0100, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Refactor the ICnDMR register configuration in
-> > `rzg2l_cru_initialize_image_conv()` by adding a new member `icndmr` in =
-the
-> > `rzg2l_cru_ip_format` structure. This change introduces a new function
-> > `rzg2l_cru_ip_pix_fmt_to_icndmr()` to map the pixel format to its
-> > corresponding ICnDMR value.
->
-> Skip this new function, use the function thar returns a
-> rzg2l_cru_ip_format pointer, and access the icndmr field from there.
-> rzg2l_cru_initialize_image_conv() already gets the format info pointer,
-> so the code will be simpler and more efficient.
->
-Agreed.
+Thanks for your patch!
 
-> >
-> > Suggested-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.c=
-om>
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h |  5 +++++
-> >  drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c  | 12 ++++++++++++
-> >  .../media/platform/renesas/rzg2l-cru/rzg2l-video.c   | 10 ++++------
-> >  3 files changed, 21 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/dri=
-vers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> > index 24097df14881..3da9e8e7025a 100644
-> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> > @@ -31,6 +31,8 @@
-> >  #define RZG2L_CRU_MIN_INPUT_HEIGHT   240
-> >  #define RZG2L_CRU_MAX_INPUT_HEIGHT   4095
-> >
-> > +#define ICnDMR_YCMODE_UYVY           (1 << 4)
->
-> Not a candidate for this patch, but I would recommend moving all the
-> register definitions to this file, or to a rzg2l-cru-regs.h file.
->
-OK, I'll create a new patch to move all reg defs to rzg2l-cru-regs.h file.
+> --- a/drivers/mmc/host/sh_mmcif.c
+> +++ b/drivers/mmc/host/sh_mmcif.c
+> @@ -439,14 +439,15 @@ static void sh_mmcif_request_dma(struct sh_mmcif_ho=
+st *host)
+>                 if (IS_ERR(host->chan_rx))
+>                         host->chan_rx =3D NULL;
+>         }
+> -       dev_dbg(dev, "%s: got channel TX %p RX %p\n", __func__, host->cha=
+n_tx,
+> -               host->chan_rx);
 
-Cheers,
-Prabhakar
+This was not a real success indicator, which could indeed confuse
+people, but an obfuscated NULL-pointer still prints as NULL, right?
+
+>         if (!host->chan_tx || !host->chan_rx ||
+>             sh_mmcif_dma_slave_config(host, host->chan_tx, DMA_MEM_TO_DEV=
+) ||
+>             sh_mmcif_dma_slave_config(host, host->chan_rx, DMA_DEV_TO_MEM=
+))
+>                 goto error;
+>
+> +       dev_dbg(dev, "%s: got channel TX %p RX %p\n", __func__, host->cha=
+n_tx,
+> +               host->chan_rx);
+
+This means we no longer see a debug message in case only one DMA
+channel could be requested, thus requiring manual addition of more code
+to find out what was really wrong?
+
+> +
+>         return;
+>
+>  error:
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
