@@ -1,39 +1,39 @@
-Return-Path: <linux-renesas-soc+bounces-9214-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9219-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42F3A98A95B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 18:09:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3180798A969
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 18:11:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 751BF1C2181D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 16:09:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DB4081F23F6D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 16:11:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4F0C19259B;
-	Mon, 30 Sep 2024 16:09:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B77641991B8;
+	Mon, 30 Sep 2024 16:09:39 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B444C35894;
-	Mon, 30 Sep 2024 16:09:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5084192D84;
+	Mon, 30 Sep 2024 16:09:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727712567; cv=none; b=Dpvch+3q26X7gwI9g1nNhmSGL68HaZr36jvlhL/Fo6Xz4q/btJhpfjAKlC/U2lZprOD/jSJU135MQpsKdw1W2iggV42wsZvBMT/SY4CtyxYSZofWjLNKkiesHacb/UHdomrndoAFeM0PKD3tNbsxN7C/6V2KZ7k7iighGQHaL8U=
+	t=1727712579; cv=none; b=ghA6Gy3nSBfMVfTGUnbzHcykybx85j1Uv7E6cwnSH8bYMtDl3j1S8mg/7O32SMo+w+K/8eJVvDh7mWepqaYqzn+QNIG8CXS5QHNxGTrvXKVIy2lcmys796rWh1HHVnyW0Qb/OE0tK9VPlKXyHauTkKRVpUlYl5nKbWugvTmJhJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727712567; c=relaxed/simple;
-	bh=MxfAjJYO4xjkhmFSR4yEM0PrB7kjlaIka8hz0EfTdeU=;
+	s=arc-20240116; t=1727712579; c=relaxed/simple;
+	bh=sae72RfWlDAO3Nw+OnMZXDZzXG+S/tHXJC641DiN0Ek=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GpS+r88em+A/EmNbpzWMJqG++IV15i43KxrUoGLYIL1wP+1/GbmwRo3ainQnjjQldeiCRg6uLOL0XWE1O3uiSL+uJD949rh6bgQMyTp9GnkZzp7qsSovGYWJHjtQ/usKoTZU0ID+rOO1BVe9qW9KwEIw2eylayIA/4AeQLrG8pU=
+	 MIME-Version; b=SO8mu1aYx+K5cRNpjuc3mM7jrSvhs4Di672Q/uFHz5/W89hCpzTGD1mF9E6HW9bfkhfsjIiZLpc5vkSu7DMKj/DdCZEWOwJGJPKpCswBKNgTJR7GGFSoa1VMJLSQHP4sUfumFjyu7XLqOoIPDtEPcRlxVFhcijTFUM8yMab5qLA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pbarker.dev; spf=fail smtp.mailfrom=pbarker.dev; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pbarker.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=pbarker.dev
 X-IronPort-AV: E=Sophos;i="6.11,166,1725289200"; 
-   d="scan'208";a="220371949"
+   d="scan'208";a="220371963"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 01 Oct 2024 01:09:24 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 01 Oct 2024 01:09:36 +0900
 Received: from GBR-5CG2373LKG.adwin.renesas.com (unknown [10.226.93.43])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 794D84015251;
-	Tue,  1 Oct 2024 01:09:02 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4AE2340156C4;
+	Tue,  1 Oct 2024 01:09:07 +0900 (JST)
 From: Paul Barker <paul@pbarker.dev>
 To: Sergey Shtylyov <s.shtylyov@omp.ru>,
 	"David S . Miller" <davem@davemloft.net>,
@@ -48,9 +48,9 @@ Cc: Paul Barker <paul.barker.ct@bp.renesas.com>,
 	netdev@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [net-next PATCH 01/11] net: ravb: Factor out checksum offload enable bits
-Date: Mon, 30 Sep 2024 17:08:35 +0100
-Message-Id: <20240930160845.8520-2-paul@pbarker.dev>
+Subject: [net-next PATCH 02/11] net: ravb: Disable IP header RX checksum offloading
+Date: Mon, 30 Sep 2024 17:08:36 +0100
+Message-Id: <20240930160845.8520-3-paul@pbarker.dev>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240930160845.8520-1-paul@pbarker.dev>
 References: <20240930160845.8520-1-paul@pbarker.dev>
@@ -64,73 +64,73 @@ Content-Transfer-Encoding: 8bit
 
 From: Paul Barker <paul.barker.ct@bp.renesas.com>
 
-Introduce new constants for the CSR1 (TX) and CSR2 (RX) checksum enable
-bits, removing the risk of inconsistency when we change which flags we
-enable.
+For IPv4 packets, the header checksum will always be checked in software
+in the RX path (inet_gro_receive() calls ip_fast_csum() unconditionally)
+so there is no advantage in asking the hardware to also calculate this
+checksum.
 
 Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
 ---
- drivers/net/ethernet/renesas/ravb.h      | 4 ++++
- drivers/net/ethernet/renesas/ravb_main.c | 9 ++++-----
- 2 files changed, 8 insertions(+), 5 deletions(-)
+ drivers/net/ethernet/renesas/ravb.h      |  2 +-
+ drivers/net/ethernet/renesas/ravb_main.c | 16 +++++++++-------
+ 2 files changed, 10 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-index a7de5cf6b317..4e1e0a754cd9 100644
+index 4e1e0a754cd9..98496aa39f3d 100644
 --- a/drivers/net/ethernet/renesas/ravb.h
 +++ b/drivers/net/ethernet/renesas/ravb.h
-@@ -998,6 +998,8 @@ enum CSR1_BIT {
- 	CSR1_TDHD	= 0x08000000,
- };
- 
-+#define CSR1_CSUM_ENABLE (CSR1_TIP4 | CSR1_TTCP4 | CSR1_TUDP4)
-+
- enum CSR2_BIT {
- 	CSR2_RIP4	= 0x00000001,
- 	CSR2_RTCP4	= 0x00000010,
-@@ -1012,6 +1014,8 @@ enum CSR2_BIT {
+@@ -1014,7 +1014,7 @@ enum CSR2_BIT {
  	CSR2_RDHD	= 0x08000000,
  };
  
-+#define CSR2_CSUM_ENABLE (CSR2_RIP4 | CSR2_RTCP4 | CSR2_RUDP4 | CSR2_RICMP4)
-+
+-#define CSR2_CSUM_ENABLE (CSR2_RIP4 | CSR2_RTCP4 | CSR2_RUDP4 | CSR2_RICMP4)
++#define CSR2_CSUM_ENABLE (CSR2_RTCP4 | CSR2_RUDP4 | CSR2_RICMP4)
+ 
  #define DBAT_ENTRY_NUM	22
  #define RX_QUEUE_OFFSET	4
- #define NUM_RX_QUEUE	2
 diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index d2a6518532f3..b53f6062a106 100644
+index b53f6062a106..f1b487152555 100644
 --- a/drivers/net/ethernet/renesas/ravb_main.c
 +++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -504,11 +504,10 @@ static void ravb_csum_init_gbeth(struct net_device *ndev)
- 			ndev->features &= ~NETIF_F_RXCSUM;
- 	} else {
- 		if (tx_enable)
--			ravb_write(ndev, CSR1_TIP4 | CSR1_TTCP4 | CSR1_TUDP4, CSR1);
-+			ravb_write(ndev, CSR1_CSUM_ENABLE, CSR1);
+@@ -749,13 +749,18 @@ static void ravb_get_tx_tstamp(struct net_device *ndev)
+ static void ravb_rx_csum_gbeth(struct sk_buff *skb)
+ {
+ 	struct skb_shared_info *shinfo = skb_shinfo(skb);
+-	__wsum csum_ip_hdr, csum_proto;
++	__wsum csum_proto;
+ 	skb_frag_t *last_frag;
+ 	u8 *hw_csum;
  
- 		if (rx_enable)
--			ravb_write(ndev, CSR2_RIP4 | CSR2_RTCP4 | CSR2_RUDP4 | CSR2_RICMP4,
--				   CSR2);
-+			ravb_write(ndev, CSR2_CSUM_ENABLE, CSR2);
- 	}
+ 	/* The hardware checksum status is contained in sizeof(__sum16) * 2 = 4
+-	 * bytes appended to packet data. First 2 bytes is ip header checksum
+-	 * and last 2 bytes is protocol checksum.
++	 * bytes appended to packet data.
++	 *
++	 * For ipv4, the first 2 bytes are the ip header checksum status. We can
++	 * ignore this as it will always be re-checked in inet_gro_receive().
++	 *
++	 * The last 2 bytes are the protocol checksum status which will be zero
++	 * if the checksum has been validated.
+ 	 */
+ 	if (unlikely(skb->len < sizeof(__sum16) * 2))
+ 		return;
+@@ -771,16 +776,13 @@ static void ravb_rx_csum_gbeth(struct sk_buff *skb)
+ 	hw_csum -= sizeof(__sum16);
+ 	csum_proto = csum_unfold((__force __sum16)get_unaligned_le16(hw_csum));
  
- done:
-@@ -2531,7 +2530,7 @@ static int ravb_set_features_gbeth(struct net_device *ndev,
- 	spin_lock_irqsave(&priv->lock, flags);
- 	if (changed & NETIF_F_RXCSUM) {
- 		if (features & NETIF_F_RXCSUM)
--			val = CSR2_RIP4 | CSR2_RTCP4 | CSR2_RUDP4 | CSR2_RICMP4;
-+			val = CSR2_CSUM_ENABLE;
- 		else
- 			val = 0;
+-	hw_csum -= sizeof(__sum16);
+-	csum_ip_hdr = csum_unfold((__force __sum16)get_unaligned_le16(hw_csum));
+-
+ 	if (skb_is_nonlinear(skb))
+ 		skb_frag_size_sub(last_frag, 2 * sizeof(__sum16));
+ 	else
+ 		skb_trim(skb, skb->len - 2 * sizeof(__sum16));
  
-@@ -2542,7 +2541,7 @@ static int ravb_set_features_gbeth(struct net_device *ndev,
- 
- 	if (changed & NETIF_F_HW_CSUM) {
- 		if (features & NETIF_F_HW_CSUM)
--			val = CSR1_TIP4 | CSR1_TTCP4 | CSR1_TUDP4;
-+			val = CSR1_CSUM_ENABLE;
- 		else
- 			val = 0;
+ 	/* TODO: IPV6 Rx checksum */
+-	if (skb->protocol == htons(ETH_P_IP) && !csum_ip_hdr && !csum_proto)
++	if (skb->protocol == htons(ETH_P_IP) && !csum_proto)
+ 		skb->ip_summed = CHECKSUM_UNNECESSARY;
+ }
  
 -- 
 2.43.0
