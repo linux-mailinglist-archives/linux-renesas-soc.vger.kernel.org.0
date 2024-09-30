@@ -1,120 +1,100 @@
-Return-Path: <linux-renesas-soc+bounces-9211-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9212-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0765F98A8FD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 17:47:39 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71B8D98A906
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 17:50:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4AEFE280F15
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 15:47:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DDC461F2304B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 15:50:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B906818EA2;
-	Mon, 30 Sep 2024 15:47:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E7C8190482;
+	Mon, 30 Sep 2024 15:50:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lqcWCMVk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [195.130.137.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE2F63D5
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Sep 2024 15:47:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9987189BAC;
+	Mon, 30 Sep 2024 15:50:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727711246; cv=none; b=JtcpKvwPzjPfCcW8GcRYUORyAU16fa8cZSFNQD6m0FdYWWIUZ1NwBmv8PhqiXNbAnslDt7qEA1o/muuMdS5Tv2UDzTCQPY7ipgWU69zCywWe0zglrBF3+aKR/ECECAAqZMJ54qCmWDCmvkg+78i2EvP6CnZylynwMHWSrhKF9pY=
+	t=1727711438; cv=none; b=ELzi9j/LV3CZwbO1UCciRPrSMVzEbc7lS7b8pf9r6u+X1lVLWaVzlS8WHgitrH7hfI2/Ex67YVDFGYl/PqTJsugmPfQOHMP3KC/Q/AjyMgR6R99GDyViha+lAEZKqS/kCmg27nnfXeNjLEUT2yluLhYiTAX+Pe97eHRAFgzeJ5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727711246; c=relaxed/simple;
-	bh=ji77p899NmuWJWPYiFO/RsFWcSBX60ECvP0uw6S6F7w=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tn4d+yUqGO5M6M5ervsHZh3EkaehMiABk8uTw3Ed4lQLF8glGBmLQezrPK2fnlvBB5PMXd46n/PAwpLC5cpG2tHMs03T39s7kdHlO0TI5Gs5N6cKl1XHqDM6ptRmiALcJ4LUn9Je7FwwRofB1J0cAxOiJqjQ+6FVqx9VC7wZu6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:99bb:7ad4:7fac:370a])
-	by michel.telenet-ops.be with cmsmtp
-	id JfnL2D00H4pGYif06fnLxt; Mon, 30 Sep 2024 17:47:21 +0200
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1svIcD-000wnk-4i;
-	Mon, 30 Sep 2024 17:47:20 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1svIcK-000djs-Id;
-	Mon, 30 Sep 2024 17:47:20 +0200
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Linus Walleij <linus.walleij@linaro.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Chris Brandt <chris.brandt@renesas.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] pinctrl: renesas: rza2: Mark GPIOs as used
-Date: Mon, 30 Sep 2024 17:47:19 +0200
-Message-Id: <2862093f7701dcaf29f37c0b2f9268234168338f.1727711124.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1727711438; c=relaxed/simple;
+	bh=XwQufWlA9oOR+zahrhG9fBrbWA0VGgrx+eSGo9UFqNs=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BcGPFaM789NLS6EY5R9d2kKZHuHsBTAp51vdyNdGDHv0Cu7e97tqUReS4h/MR3j63+fsXt5tqqfPa3TjZPHm8FRl21VjyCerqfz6iMQyBZ92r33umt7753IWB0BcDC+E3FF912QWEUg7ImaEXc5d7lH9aTMqmIXSItj/4TrTmuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lqcWCMVk; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D825C4CECE;
+	Mon, 30 Sep 2024 15:50:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727711437;
+	bh=XwQufWlA9oOR+zahrhG9fBrbWA0VGgrx+eSGo9UFqNs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=lqcWCMVkzrKlEEXiaZTLyBxgaphw9xPGgJS/z/q78CGMshzzoau/Tr156kP20mK6p
+	 HkQaHVUk0otEuTdFuHSp0yZsRGT38M+YgifiDReWRppfoqp/gSpQialSZBjpKscBbZ
+	 oIjhDXGdgzzxP4PO2eLMpsUoUrCTaDCe/2qI4ekBRwXFPItzvT3mAxXKetwENBIKxm
+	 6fr+xbjVUFIb9p12NHNUttjzA/25JQhqkhpOsWey3DNIMlMTTxzYALGWBc2Y/bAdVS
+	 PmrlhkQ90BzaxWrexYAmANnw9bGeDBP/SzITU8niWMgasWNXh/8AEGCVE2TvnPwpT3
+	 oBKkY92o5z2Xg==
+Received: from [104.132.1.106] (helo=wait-a-minute.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1svIfS-00GUXu-UO;
+	Mon, 30 Sep 2024 16:50:35 +0100
+Date: Mon, 30 Sep 2024 16:50:28 +0100
+Message-ID: <87ldz9uomz.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-kernel@vger.kernel.org,
+	Chris Paterson <Chris.Paterson2@renesas.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] irqchip/renesas-rzg2l: Fix missing put_device
+In-Reply-To: <20240930145539.357573-1-fabrizio.castro.jz@renesas.com>
+References: <20240930145539.357573-1-fabrizio.castro.jz@renesas.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 104.132.1.106
+X-SA-Exim-Rcpt-To: fabrizio.castro.jz@renesas.com, tglx@linutronix.de, geert+renesas@glider.be, prabhakar.mahadev-lad.rj@bp.renesas.com, linux-kernel@vger.kernel.org, Chris.Paterson2@renesas.com, biju.das.jz@bp.renesas.com, linux-renesas-soc@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-GPIOs showed up as unclaimed in debugfs, so they could be muxed to
-something else even though they were in use.  Mark GPIOs as claimed when
-in use to avoid that.
+On Mon, 30 Sep 2024 15:55:39 +0100,
+Fabrizio Castro <fabrizio.castro.jz@renesas.com> wrote:
+> 
+> rzg2l_irqc_common_init calls of_find_device_by_node, but the
+> corresponding put_device call is missing.
+> 
+> Make sure we call put_device both when failing and when
+> succeeding.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-To be queued in renesas-pinctrl for v6.13.
+What sort of lifetime are you trying to enforce?
 
-On RZA2M-EVB,
-/sys/kernel/debug/pinctrl/fcffe000.pinctrl-pinctrl-rza2/pinmux-pins
-changes:
+It looks to me that you'd be better off doing *one* device_put() right
+after you have found the parent domain, but that completely depends on
+the above.
 
-    @@ -48,7 +48,7 @@
-     pin 45 (P5_5): device e822a000.mmc function sdhi1 group sdhi1
-     pin 46 (P5_6): UNCLAIMED
-     pin 47 (P5_7): UNCLAIMED
-    -pin 48 (P6_0): UNCLAIMED
-    +pin 48 (P6_0): GPIO pinctrl:560
-     pin 49 (P6_1): UNCLAIMED
-     pin 50 (P6_2): UNCLAIMED
-     pin 51 (P6_3): UNCLAIMED
-    @@ -97,7 +97,7 @@
-     pin 94 (PB_6): UNCLAIMED
-     pin 95 (PB_7): UNCLAIMED
-     pin 96 (PC_0): UNCLAIMED
-    -pin 97 (PC_1): UNCLAIMED
-    +pin 97 (PC_1): GPIO pinctrl:609
-     pin 98 (PC_2): UNCLAIMED
-     pin 99 (PC_3): UNCLAIMED
-     pin 100 (PC_4): UNCLAIMED
----
- drivers/pinctrl/renesas/pinctrl-rza2.c | 3 +++
- 1 file changed, 3 insertions(+)
+Thanks,
 
-diff --git a/drivers/pinctrl/renesas/pinctrl-rza2.c b/drivers/pinctrl/renesas/pinctrl-rza2.c
-index af689d7c117f3548..dd1f8c29d3e7557b 100644
---- a/drivers/pinctrl/renesas/pinctrl-rza2.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rza2.c
-@@ -16,6 +16,7 @@
- #include <linux/module.h>
- #include <linux/mutex.h>
- #include <linux/of.h>
-+#include <linux/pinctrl/consumer.h>
- #include <linux/pinctrl/pinmux.h>
- #include <linux/platform_device.h>
- 
-@@ -229,6 +230,8 @@ static const char * const rza2_gpio_names[] = {
- static struct gpio_chip chip = {
- 	.names = rza2_gpio_names,
- 	.base = -1,
-+	.request = pinctrl_gpio_request,
-+	.free = pinctrl_gpio_free,
- 	.get_direction = rza2_chip_get_direction,
- 	.direction_input = rza2_chip_direction_input,
- 	.direction_output = rza2_chip_direction_output,
+	M.
+
 -- 
-2.34.1
-
+Without deviation from the norm, progress is not possible.
 
