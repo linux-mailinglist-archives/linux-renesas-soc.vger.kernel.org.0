@@ -1,148 +1,106 @@
-Return-Path: <linux-renesas-soc+bounces-9244-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9245-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3842A98AE80
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 22:37:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D471398AFD3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Oct 2024 00:29:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6A4651C206FD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 20:36:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 12DB71C221F2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 22:29:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2947F19882F;
-	Mon, 30 Sep 2024 20:36:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 062F0188CA6;
+	Mon, 30 Sep 2024 22:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QqO3oJ6k"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD8AEDE;
-	Mon, 30 Sep 2024 20:36:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9AF9188A3B;
+	Mon, 30 Sep 2024 22:29:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727728617; cv=none; b=usj23RahJUywFox1BTnj1PMa8F1DZlkY4jz6p7VzvR99TBmkrq09HGQFKrqVJP31tkaeFfs9otM+cDuk9eg/9IsS6p4JOfJk0BXddbaEKi1KOVQoKQBbTjkadpURUJv1R/82IZL7vNab5d3XRhu6jOBGvPXy41xPrUwP0L3Tj34=
+	t=1727735347; cv=none; b=MGzxW0M+sTB0yWKZzKm1nNhxxlYGzLFh5F+W8fGXE6vUb+ZGMpZCcYbouB88IsQpbHZqOgPFVSVlNuj5PirFYoH4IHNo7aHNSWoBy6J83EWFlHL2etJ+t+P9KYfk52ukCqXIuA98Q318ZTgsKcJ//h5jYRj5IaUKo0n7qHFD6j4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727728617; c=relaxed/simple;
-	bh=iOG6QXejhSdRm8E1UagT4uqNj9fswWpzf8iYPzM+aPI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=J88Jjr7uda7KGi5mZy1ZE9qdKrX8BXEYBwblmPQs64iqm2BoWL/9+KZ7afyT1fde7+JSgQ/vrIsZuQKmJxJs2paJIwAkvU1imDblct8l9Q/pz2Zs2coGf0woaPD0eM2SMbMI7Gw4Ev7PhXYz05XjwS/toTxhg3kWi916DUYnq+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.2.100] (213.87.154.82) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Mon, 30 Sep
- 2024 23:36:43 +0300
-Message-ID: <ab7482f9-6833-416f-8adf-5e1347628dec@omp.ru>
-Date: Mon, 30 Sep 2024 23:36:40 +0300
+	s=arc-20240116; t=1727735347; c=relaxed/simple;
+	bh=/mq1/7TS4lL82I1QLjkKX5CI0UrFzICZCCU/f3l8tXQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=OB0FwJKtKY8H4Z63r+w12J9zE7XFBnrVYyYEyGxu7Pao1JE9p4VNV8Ih2GdLchpmXnLQvepI2ZNPPDs9coP4KR1KXECZIxy6M1BcqSj3AQM2fJ1DLBDsekahpMGZfIFu3q8iD5JHGPkKoUSQuE0+T9R7HJCB/oRvUyUQ4wT4PsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QqO3oJ6k; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7131AC4CED3;
+	Mon, 30 Sep 2024 22:29:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727735347;
+	bh=/mq1/7TS4lL82I1QLjkKX5CI0UrFzICZCCU/f3l8tXQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=QqO3oJ6kBoK8J0KLL+7aTPwgH68c5v+Xo1OdgIx1oYRzTUhcGg4xJCtZpHA5mMISd
+	 1E1SXABPmpa8uCbgOn71H75flhBq5EBt9AXfWsQInLEDJdJqgrlw3Tit/UTDlqcCtz
+	 Yzdv+9nIuRYW3fgJX/r0uUwD1Cb5YwgBy157WxPphfNL05Pqj0w5IrygmaRVN+8yeg
+	 hNxPpfFY02tsEMQgBjg6EOPAFhurD+8msIo+mk+PPhD/xOFNQfwNNfpweBZdJJNqwK
+	 sqKKnRqk3t5+Oui607/ccpD/+rfJ95PAEIrFVLBu2EhzEJtf+2xLn4DWcBysyOq4SV
+	 8I5gr6jzXfhHQ==
+From: Mark Brown <broonie@kernel.org>
+To: linux-renesas-soc@vger.kernel.org, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org
+In-Reply-To: <20240926113241.24060-2-wsa+renesas@sang-engineering.com>
+References: <20240926113241.24060-2-wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH] ASoC: dt-bindings: renesas,rsnd: correct reg-names for
+ R-Car Gen1
+Message-Id: <172773534521.2224334.6019952106506396995.b4-ty@kernel.org>
+Date: Mon, 30 Sep 2024 23:29:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [net-next PATCH 11/11] net: ravb: Add VLAN checksum support
-To: Paul Barker <paul@pbarker.dev>, "David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>
-CC: Paul Barker <paul.barker.ct@bp.renesas.com>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, =?UTF-8?Q?Niklas_S=C3=B6derlund?=
-	<niklas.soderlund+renesas@ragnatech.se>, Biju Das
-	<biju.das.jz@bp.renesas.com>, Claudiu Beznea
-	<claudiu.beznea.uj@bp.renesas.com>, <netdev@vger.kernel.org>,
-	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20240930160845.8520-1-paul@pbarker.dev>
- <20240930160845.8520-12-paul@pbarker.dev>
-Content-Language: en-US
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-In-Reply-To: <20240930160845.8520-12-paul@pbarker.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 09/30/2024 20:27:55
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 19
-X-KSE-AntiSpam-Info: Lua profiles 188103 [Sep 30 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.0.4
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 35 0.3.35
- d90443ea3cdf6e421a9ef5a0a400f1251229ba23
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info:
-	127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
-X-KSE-AntiSpam-Info: FromAlignment: s
-X-KSE-AntiSpam-Info: ApMailHostAddress: 213.87.154.82
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 19
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 09/30/2024 20:31:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 9/30/2024 3:37:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-Mailer: b4 0.15-dev-99b12
 
-On 9/30/24 19:08, Paul Barker wrote:
-
-> From: Paul Barker <paul.barker.ct@bp.renesas.com>
+On Thu, 26 Sep 2024 13:32:41 +0200, Wolfram Sang wrote:
+> The device at 0xffd90000 is named SRU, both in the datasheet and SoC
+> DTSI. Fix the typo in the bindings to avoid the false positive report:
 > 
-> The GbEth IP supports offloading checksum calculation for VLAN-tagged
-> packets, provided that the EtherType is 0x8100 and only one VLAN tag is
-> present.
+>   sound@ffd90000: reg-names:0: 'sru' is not one of ['scu', 'ssi', 'adg']
 > 
-> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
-[...]
+> 
 
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index 832132d44fb4..eb7499d42a9b 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -2063,11 +2063,30 @@ static void ravb_tx_timeout_work(struct work_struct *work)
->  
->  static bool ravb_can_tx_csum_gbeth(struct sk_buff *skb)
->  {
-> -	/* TODO: Need to add support for VLAN tag 802.1Q */
-> -	if (skb_vlan_tag_present(skb))
-> +	u16 net_protocol = ntohs(skb->protocol);
-> +
-> +	/* GbEth IP can calculate the checksum if:
-> +	 * - there are zero or one VLAN headers with TPID=0x8100
-> +	 * - the network protocol is IPv4 or IPv6
-> +	 * - the transport protocol is TCP, UDP or ICMP
-> +	 * - the packet is not fragmented
-> +	 */
-> +
-> +	if (skb_vlan_tag_present(skb) &&
-> +	    (skb->vlan_proto != ETH_P_8021Q || net_protocol == ETH_P_8021Q))
+Applied to
 
-   Not sure I understand this check... Maybe s/==/!=/?
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
->  		return false;
->  
-> -	switch (ntohs(skb->protocol)) {
-> +	if (net_protocol == ETH_P_8021Q) {
-> +		struct vlan_hdr vhdr, *vh;
-> +
-> +		vh = skb_header_pointer(skb, ETH_HLEN, sizeof(vhdr), &vhdr);
+Thanks!
 
-   Hm, I thought the VLAN header starts at ETH_HLEN - 2, not at ETH_HLEN...
+[1/1] ASoC: dt-bindings: renesas,rsnd: correct reg-names for R-Car Gen1
+      commit: a36614bf88cd4b43984f24fd960c7aa0e43b5fb7
 
-[...]
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-MBR, Sergey
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
 
