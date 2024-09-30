@@ -1,70 +1,70 @@
-Return-Path: <linux-renesas-soc+bounces-9182-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9183-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCF8598A157
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 14:04:06 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91D5198A23D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 14:25:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CABE21C20FBB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 12:04:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F7551F23B6D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 12:25:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B610117DFE8;
-	Mon, 30 Sep 2024 12:04:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 613E718E755;
+	Mon, 30 Sep 2024 12:19:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IUmCL5lv"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T2f39q8f"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CCCB21105;
-	Mon, 30 Sep 2024 12:03:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA86818E36E;
+	Mon, 30 Sep 2024 12:19:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727697840; cv=none; b=npWOyLshVEjO9AeD1QU7yWmOxlyrs5e1FJdm7wMRni60U0ZIlRXGT+sHBvZdez+coLhixI2Dm4LxjEYDVrR1ScZODdlgEOi+LoldsshqB+J2BEGDfprQnFnf3Wkl4jJX1cD8xHoiNxJ1u/f662msMDxXK8rQTcP1TVtshvuGxrM=
+	t=1727698794; cv=none; b=BqY2GKJRfyWA1gXDBxrPhqqFr3wvsj8LW7Ldg5mv+PqJKhNiU0QbY+RSYaZa6K3RnFIEHa+/icYcpaeh7tYlJUlAHAaTvPbpEdwpjoGdJfsEgLGdSZUz3nR/XwBxpyCorqSG/EssuaSJOPahimfalZSCYa9lQnV1Z80xd95iCPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727697840; c=relaxed/simple;
-	bh=zG4Gu/rlJhrf5Knf71hbugwnS/g3fSNxlmO9u/hpQWE=;
+	s=arc-20240116; t=1727698794; c=relaxed/simple;
+	bh=T0H2p5SM8zMQRwZlExn1DGe8xJM1lRLrhXS6V1nVWiE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hR4F0XckSkVGT0Xh421IDGs2Sy0B3ZTv/P/O9ln3vxtz/llH4nrl8QQFM2FaiPazT1UH0OuFTbFBMjYj8ABwb9xr1Jle7mI3Q0vk6138oSB2YPTp6NQ8OuKdluqwoux7OzBDWCzDR0SpLvRJa6kc/NJmKsaIed4Oa4eCNZRxNyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IUmCL5lv; arc=none smtp.client-ip=209.85.210.43
+	 To:Cc:Content-Type; b=VEanycqqA6kF7yxSAfBiwYU+dqfABn6fVN0Q8V6X98BQwcx0vs1mp+CKZP1tu0+K/0byXhrqDk8rFXTsqo58vfuIsRhlLz9m9P2E5y7Dl8rsgGF/kzyTFSiokwfbyQLnh2NbOMPY/cPlEVbASG5IVcmc+duztH7RRt476xoqanA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T2f39q8f; arc=none smtp.client-ip=209.85.222.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-709339c91f9so1413185a34.0;
-        Mon, 30 Sep 2024 05:03:58 -0700 (PDT)
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-84ea36b65cfso1145631241.0;
+        Mon, 30 Sep 2024 05:19:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727697838; x=1728302638; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1727698791; x=1728303591; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IwP7caGLeqYlVwxEWL8tTd/ThO9zJjNgMBWaLUC6pu0=;
-        b=IUmCL5lvnfhMSD7Mx0X2XgO9UPiOjgHzH5OUFYX/iQG1mKLTrevppaSfOejjvUHMgT
-         0Y5yTSbp3hiLeTj87UYfJgyPSsxb2mIFmJyX5sX/KRq89PWKwCoOhKZxuLlCJIH8J0ee
-         hLdng2P9gfDzEWavqYk1Hff906Iws8OPxiYeQQ2zIATSLYlOSwvsnU3rYwCTEIWOXhGM
-         8Sh8uJyz7Z54rIx/YCStfqc7JubpOfCHc2gtghs4tEx+JX3bK1KUIC1UxRBZXdb3g6V/
-         KEd31xCaYWqjp+8Mf732HORUawd4zqTY9u+rzZ2GyZN2RPjqVroeX4q12rTvDRIS0drd
-         qV3w==
+        bh=1WKbPMrVoX41jphFFXnvsCs/qisQx+D1m9p+KCH6szc=;
+        b=T2f39q8f5hd5paSIyIu/uy5Pmpnne5XIb5VFQInCmBCiwMa+8ERvH8T94Tikpqb4Nn
+         KUDTmwQvcXgAwrjrOaS7DJgg/B1tJdocgWW5vp7D1BMrLNm/PROWlxoNHizpvzx1QpEy
+         G6ev3WOARSMJRFilKvwR+bItEKVgWOcuxgxuMYFVnMk3r3ZaUzODi6oOFf5q+7RqciZ0
+         wOKQZwa23l7oXehDqiOtGAZbfpK6RW1cF8un+PxeYP2rIs8AaiVZCYgTOLQ7byf1yvyd
+         ignX0s2e9qAtSU9GgJuNY4gnXSwoqZxXWXNVnW7EGLQIaT3HYuFJ4xoTIC48KTeyQTbY
+         5Yug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727697838; x=1728302638;
+        d=1e100.net; s=20230601; t=1727698791; x=1728303591;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IwP7caGLeqYlVwxEWL8tTd/ThO9zJjNgMBWaLUC6pu0=;
-        b=SWtdvaUjsbk/7LY5zYlNdnHHtp4kcfU9Hm/nRmRJMPfF4MjiFJCOq74NeDWRUf6zXm
-         eWokZrKtqGzNkgt+UW7pLa/sXf/NnxVirsytiXbGxgpIi9JH1aozhij3g6oNMOPKiqi+
-         TJMOkpNEv/6w56gfYePvQRX8aX7bYzp8lU+SiNKyWZcgvkHa82HAbN5xrVNyeHA3aSDZ
-         kQPzTJOOm4xAF7VC8De1aRV5cprbDn1VHzvFFF8CdKX1O0fzgd0wRkvPMUS3OmDaj31S
-         EJ1/QdC2ySyP7ZxDVc1eQu/nmCPDWlo7CUpx8gJfEIm1P21oJAgtC278wg+VU9ep7t/E
-         h/Hw==
-X-Forwarded-Encrypted: i=1; AJvYcCUSsORxua8szxrPiTBzceRHdmjyf+m3/nljEjVtU/gX2b3xLUdwIs9jARxXCwPmVnEC5bYdP3rTGFYo0Wo=@vger.kernel.org, AJvYcCV0ladIvnyet819bv4y8apUeXdvcju1om4UHUyMs3QmKkVmZRxrPURrPhXBy3/BPxBGBH18+nK8iFwx/C/F9cha9fc=@vger.kernel.org, AJvYcCVWf8uzFu9sthPi0EQLqJuRk3REX0DpdKIaWKgsUnuAKXYOqLwbQcELrMd0pfUkXx1X1J1uVCiTVjkPa0M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyllpZuuD+SsW3A4dbqKaGfwcyhw50wTCKmCkZWxeWoZyT2fn5G
-	fdWd1U1xh0/vsVUDZiZ5JPrBIJhgC6NzzJqqjEChYp3nEtq03cZNNqJzR2os5sYMhBRsfFk7CB9
-	vylID/ulwK2T64SU+pLVa82rqpdo=
-X-Google-Smtp-Source: AGHT+IFtsJEe2U27M5FF1HqnDsSt21XyBhConV4H6Z9wQ//aETDC7UHhxT45tU9IxtTpeDDlT+bdRxyNIYNFtxxy1Jc=
-X-Received: by 2002:a05:6830:6a9b:b0:713:8387:9f1b with SMTP id
- 46e09a7af769-714fbe73386mr7564727a34.6.1727697838124; Mon, 30 Sep 2024
- 05:03:58 -0700 (PDT)
+        bh=1WKbPMrVoX41jphFFXnvsCs/qisQx+D1m9p+KCH6szc=;
+        b=PfCNxkzrTnoWD9QKE9GExy6ZlEcFXBm01lzMULMPt9EC84peTZ/RM+j95vIoSa3lIC
+         YKNidKXvxj1eOlHWOjC9M8VvBqZCCNYgblo9b6Yla1eVWBk+uKWI4xPudBJ5KN4dTqPK
+         2qVHXNMqIQkApqZRYxx2QA6zUa9Z83HgIq56ik+tQghRsJuYrfz/4kY8NH8RKYmu2nM+
+         opS8fIWzDZG9hvNRL7XIgbLuJibVyAXwALVBS6kf8OrDOru9spRfELJYFXu3N8XGNNtu
+         sNdBwu/1JPAvwiccr05gTigSaU4W0yMtXI0yxr8pTD2ZJtjqniOUsONJP5tJ07dicHSN
+         LA4A==
+X-Forwarded-Encrypted: i=1; AJvYcCVrWQqI4NU5AsW3sU77OVJfEAfEO/WN/2yqhvx5tOxhWRNiBfUvhOQ7ouVGeezwhW/MMbcOzdJdEaPBYQgGC1TgHfk=@vger.kernel.org, AJvYcCW0qHSeXwFl9fcbIWUkef3KT3SyeWkXfnOEZnYPSI//RIAEMGbyuW+lEO6BgK4QwCb7o8p4iUAxKyWfdkY=@vger.kernel.org, AJvYcCXYpGxlEOe8TIz9/Ah35Y8vgbU1d3eQgc23y92OyB8xm7+9bnR8DcjEAUZRMvc5DYHlu07G70vQ06oFhOE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwbBkJ+VJpq5zfyam9kthIR1uoSOqW/8iyp65kLnwccnL1Mkqoh
+	lN26eN4uNQHMic0hXe9jYoAiNn/hMazOxfcTF8ebQeS+OjMpha4MvGLbFOFKAISLgFNctjZ4HIT
+	h8j6InDMe7wB8vgqYf8awu+daTVM=
+X-Google-Smtp-Source: AGHT+IGJ/jgjqICTkD+FA8y7IpA6SgFOyWL9OuXr/jASGSGYUFBYaxvJGwLZEpbxrRYhnwwFWkiPCGR1M8tXHgztkK0=
+X-Received: by 2002:a05:6122:1e10:b0:4ef:280f:96ea with SMTP id
+ 71dfb90a1353d-507816da1bemr6769696e0c.4.1727698791502; Mon, 30 Sep 2024
+ 05:19:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -72,13 +72,13 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20240910175357.229075-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240910175357.229075-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240927222620.GF12322@pendragon.ideasonboard.com>
-In-Reply-To: <20240927222620.GF12322@pendragon.ideasonboard.com>
+ <20240910175357.229075-15-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240927231122.GN12322@pendragon.ideasonboard.com>
+In-Reply-To: <20240927231122.GN12322@pendragon.ideasonboard.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 30 Sep 2024 13:03:32 +0100
-Message-ID: <CA+V-a8vnkjq-B6xabWWaZU821+KBUQzszdEXPpcqMT=fgvJ1PA@mail.gmail.com>
-Subject: Re: [PATCH v2 04/16] media: platform: rzg2l-cru: rzg2l-csi2: Make use
- of NR_OF_RZG2L_CSI2_PAD
+Date: Mon, 30 Sep 2024 13:19:25 +0100
+Message-ID: <CA+V-a8vzf7gjcO-jPTB2Sd=4GBmpSkUfWDCnAR8BbL1xohytvQ@mail.gmail.com>
+Subject: Re: [PATCH v2 14/16] media: platform: rzg2l-cru: rzg2l-csi2: Make use
+ of rzg2l_csi2_formats array in rzg2l_csi2_enum_frame_size()
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
@@ -93,53 +93,51 @@ Hi Laurent,
 
 Thank you for the review.
 
-On Fri, Sep 27, 2024 at 11:26=E2=80=AFPM Laurent Pinchart
+On Sat, Sep 28, 2024 at 12:11=E2=80=AFAM Laurent Pinchart
 <laurent.pinchart@ideasonboard.com> wrote:
 >
 > Hi Prabhakar,
 >
 > Thank you for the patch.
 >
-> On Tue, Sep 10, 2024 at 06:53:45PM +0100, Prabhakar wrote:
+> I've just noticed that the subject line of most of your patches is much
+> longer than the 72 characters limit. Please try to shorten them. You can
+> replace the prefixes with "media: rzg2l-cru:", and reword the subject
+> lines that mention long function names.
+>
+Ok, I'll rework the subject line so that it fits within 72 characters.
+
+> On Tue, Sep 10, 2024 at 06:53:55PM +0100, Prabhakar wrote:
 > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > Make use of NR_OF_RZG2L_CSI2_PAD enum entry in media_entity_pads_init()
-> > instead of magic number.
+> > Make use `rzg2l_csi2_formats` array in rzg2l_csi2_enum_frame_size().
 > >
 > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > > ---
-> >  drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >  drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
 > >
 > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/dr=
 ivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-> > index 2f4c87ede8bf..10b8b0c87c1f 100644
+> > index 79d99d865c1f..e630283dd1f1 100644
 > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
 > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-> > @@ -804,7 +804,7 @@ static int rzg2l_csi2_probe(struct platform_device =
-*pdev)
-> >        */
-> >       csi2->pads[RZG2L_CSI2_SOURCE].flags =3D MEDIA_PAD_FL_SOURCE |
-> >                                             MEDIA_PAD_FL_MUST_CONNECT;
-> > -     ret =3D media_entity_pads_init(&csi2->subdev.entity, 2, csi2->pad=
-s);
-> > +     ret =3D media_entity_pads_init(&csi2->subdev.entity, NR_OF_RZG2L_=
-CSI2_PAD, csi2->pads);
+> > @@ -570,7 +570,10 @@ static int rzg2l_csi2_enum_frame_size(struct v4l2_=
+subdev *sd,
+> >                                     struct v4l2_subdev_state *sd_state,
+> >                                     struct v4l2_subdev_frame_size_enum =
+*fse)
+> >  {
+> > -     if (fse->index !=3D 0)
+> > +     if (fse->index >=3D ARRAY_SIZE(rzg2l_csi2_formats))
+> > +             return -EINVAL;
 >
-> Better, I would use ARRAY_SIZE
+> Same comment as in 11/16. With this fixed,
 >
->         ret =3D media_entity_pads_init(&csi2->subdev.entity, ARRAY_SIZE(c=
-si2->pads),
->                                      csi2->pads);
->
-> With this (and an updated commit message),
->
-Ok, I will update the code to above suggestion and update the commit
-description.
+Ok, I'll drop this check.
 
 > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 >
-And I will add the RB tag.
 
 Cheers,
 Prabhakar
