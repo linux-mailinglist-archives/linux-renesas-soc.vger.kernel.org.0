@@ -1,100 +1,100 @@
-Return-Path: <linux-renesas-soc+bounces-9212-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9213-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71B8D98A906
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 17:50:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E43D298A958
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 18:09:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DDC461F2304B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 15:50:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2197F1C2042F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 16:09:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E7C8190482;
-	Mon, 30 Sep 2024 15:50:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lqcWCMVk"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33D11190482;
+	Mon, 30 Sep 2024 16:09:16 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9987189BAC;
-	Mon, 30 Sep 2024 15:50:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE51235894;
+	Mon, 30 Sep 2024 16:09:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727711438; cv=none; b=ELzi9j/LV3CZwbO1UCciRPrSMVzEbc7lS7b8pf9r6u+X1lVLWaVzlS8WHgitrH7hfI2/Ex67YVDFGYl/PqTJsugmPfQOHMP3KC/Q/AjyMgR6R99GDyViha+lAEZKqS/kCmg27nnfXeNjLEUT2yluLhYiTAX+Pe97eHRAFgzeJ5k=
+	t=1727712556; cv=none; b=F+rlRmyTLWY5g127/BHFyZc9pIVqPHMk4nd3ww2mEVfNtGd9+1O8ZUeJBwrrpuN3sgUYcMQ+GKuYVVvNoZlbFZCH2ipYvCmCdJanltpn2Q7P0ubSkC0AiK9lF40Pg13m77audRX60crFdPegCQhB0gJQqYimz1CSWMwxVmN1HQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727711438; c=relaxed/simple;
-	bh=XwQufWlA9oOR+zahrhG9fBrbWA0VGgrx+eSGo9UFqNs=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BcGPFaM789NLS6EY5R9d2kKZHuHsBTAp51vdyNdGDHv0Cu7e97tqUReS4h/MR3j63+fsXt5tqqfPa3TjZPHm8FRl21VjyCerqfz6iMQyBZ92r33umt7753IWB0BcDC+E3FF912QWEUg7ImaEXc5d7lH9aTMqmIXSItj/4TrTmuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lqcWCMVk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D825C4CECE;
-	Mon, 30 Sep 2024 15:50:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727711437;
-	bh=XwQufWlA9oOR+zahrhG9fBrbWA0VGgrx+eSGo9UFqNs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=lqcWCMVkzrKlEEXiaZTLyBxgaphw9xPGgJS/z/q78CGMshzzoau/Tr156kP20mK6p
-	 HkQaHVUk0otEuTdFuHSp0yZsRGT38M+YgifiDReWRppfoqp/gSpQialSZBjpKscBbZ
-	 oIjhDXGdgzzxP4PO2eLMpsUoUrCTaDCe/2qI4ekBRwXFPItzvT3mAxXKetwENBIKxm
-	 6fr+xbjVUFIb9p12NHNUttjzA/25JQhqkhpOsWey3DNIMlMTTxzYALGWBc2Y/bAdVS
-	 PmrlhkQ90BzaxWrexYAmANnw9bGeDBP/SzITU8niWMgasWNXh/8AEGCVE2TvnPwpT3
-	 oBKkY92o5z2Xg==
-Received: from [104.132.1.106] (helo=wait-a-minute.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1svIfS-00GUXu-UO;
-	Mon, 30 Sep 2024 16:50:35 +0100
-Date: Mon, 30 Sep 2024 16:50:28 +0100
-Message-ID: <87ldz9uomz.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>,
+	s=arc-20240116; t=1727712556; c=relaxed/simple;
+	bh=FyK/Mzd+tY6qVJFWXiALuT8RBko0XuRXwKjMSp2eVy8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=m/SD29gYUxaTmAqxqX6x/D746n1Jhgp5c8zUpOFuYw0yQBU5Bwz4Kt0abDLWJb6Ek3U7Nd1kAAa+XdkdeXkiX8dLHytCpaJ6N0b+LOz1hxhI3uKV0Oz0pIzU5Q0w/zSRxP/5U3k8dh4uSzbIbjMuyo7dfGCBURi+/5zZzSL3E34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pbarker.dev; spf=fail smtp.mailfrom=pbarker.dev; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pbarker.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=pbarker.dev
+X-IronPort-AV: E=Sophos;i="6.11,166,1725289200"; 
+   d="scan'208";a="220371929"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 01 Oct 2024 01:09:12 +0900
+Received: from GBR-5CG2373LKG.adwin.renesas.com (unknown [10.226.93.43])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id B37674014DA5;
+	Tue,  1 Oct 2024 01:08:57 +0900 (JST)
+From: Paul Barker <paul@pbarker.dev>
+To: Sergey Shtylyov <s.shtylyov@omp.ru>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>
+Cc: Paul Barker <paul.barker.ct@bp.renesas.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	linux-kernel@vger.kernel.org,
-	Chris Paterson <Chris.Paterson2@renesas.com>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
 	Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] irqchip/renesas-rzg2l: Fix missing put_device
-In-Reply-To: <20240930145539.357573-1-fabrizio.castro.jz@renesas.com>
-References: <20240930145539.357573-1-fabrizio.castro.jz@renesas.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [net-next PATCH 00/11] Extend GbEth checksum offload support to VLAN/IPv6 packets
+Date: Mon, 30 Sep 2024 17:08:34 +0100
+Message-Id: <20240930160845.8520-1-paul@pbarker.dev>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 104.132.1.106
-X-SA-Exim-Rcpt-To: fabrizio.castro.jz@renesas.com, tglx@linutronix.de, geert+renesas@glider.be, prabhakar.mahadev-lad.rj@bp.renesas.com, linux-kernel@vger.kernel.org, Chris.Paterson2@renesas.com, biju.das.jz@bp.renesas.com, linux-renesas-soc@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Mon, 30 Sep 2024 15:55:39 +0100,
-Fabrizio Castro <fabrizio.castro.jz@renesas.com> wrote:
-> 
-> rzg2l_irqc_common_init calls of_find_device_by_node, but the
-> corresponding put_device call is missing.
-> 
-> Make sure we call put_device both when failing and when
-> succeeding.
+From: Paul Barker <paul.barker.ct@bp.renesas.com>
 
-What sort of lifetime are you trying to enforce?
+The GbEth IP found in Renesas RZ/G2L, RZ/G3S and related SoCs supports
+hardware checksum offload for packets in the following cases:
 
-It looks to me that you'd be better off doing *one* device_put() right
-after you have found the parent domain, but that completely depends on
-the above.
+ - there are zero or one VLAN headers with TPID=0x8100
+ - the network protocol is IPv4 or IPv6
+ - the transport protocol is TCP, UDP or ICMP
+ - the packet is not fragmented 
 
-Thanks,
+To complete the support for all these cases in the ravb driver, we need
+to add handling for ICMP packets, VLAN-tagged packets and IPv6 packets
+in both the TX and RX code paths.
 
-	M.
+These patches also do some refactoring/tidy-up, drop unnecessary checks
+from performance sensitive code paths and disable unnecessary IP header
+checksum offloading.
+
+Paul Barker (11):
+  net: ravb: Factor out checksum offload enable bits
+  net: ravb: Disable IP header RX checksum offloading
+  net: ravb: Drop IP protocol check from RX csum verification
+  net: ravb: Combine if conditions in RX csum validation
+  net: ravb: Simplify types in RX csum validation
+  net: ravb: Disable IP header TX checksum offloading
+  net: ravb: Simplify UDP TX checksum offload
+  net: ravb: Support ICMP TX checksum offload for GbEth
+  net: ravb: Enable IPv6 RX checksum offloading for GbEth
+  net: ravb: Enable IPv6 TX checksum offload for GbEth
+  net: ravb: Add VLAN checksum support
+
+ drivers/net/ethernet/renesas/ravb.h      |   7 ++
+ drivers/net/ethernet/renesas/ravb_main.c | 108 +++++++++++++----------
+ 2 files changed, 68 insertions(+), 47 deletions(-)
 
 -- 
-Without deviation from the norm, progress is not possible.
+2.43.0
+
 
