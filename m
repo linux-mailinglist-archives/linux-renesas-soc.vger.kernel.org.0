@@ -1,40 +1,40 @@
-Return-Path: <linux-renesas-soc+bounces-9243-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9244-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 595CC98ADBD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 22:09:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3842A98AE80
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 22:37:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 08F6D1F20B65
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 20:09:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6A4651C206FD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2024 20:36:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D02F519F10E;
-	Mon, 30 Sep 2024 20:09:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2947F19882F;
+	Mon, 30 Sep 2024 20:36:57 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35407131E2D;
-	Mon, 30 Sep 2024 20:09:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD8AEDE;
+	Mon, 30 Sep 2024 20:36:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727726951; cv=none; b=DhHViafT9ulIG63IrhtmqjplN4myQB47iBVBAZcZWioZsn+lYLzUlB5lThIf/ARZI/o6RIPOC/a7pKYPEoRYdSEsih9R4p7UVgDA/ql8jHmXs0sRZ7CuhbTMdPRmu97JWqB+8nbaXWot+mNqGfg/D7BJo8htYU7z9wHLHo+KyF0=
+	t=1727728617; cv=none; b=usj23RahJUywFox1BTnj1PMa8F1DZlkY4jz6p7VzvR99TBmkrq09HGQFKrqVJP31tkaeFfs9otM+cDuk9eg/9IsS6p4JOfJk0BXddbaEKi1KOVQoKQBbTjkadpURUJv1R/82IZL7vNab5d3XRhu6jOBGvPXy41xPrUwP0L3Tj34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727726951; c=relaxed/simple;
-	bh=xUNSMaAmHVeNdhgOTWqVkl2PygFTznyJ14lxg2/JBUY=;
+	s=arc-20240116; t=1727728617; c=relaxed/simple;
+	bh=iOG6QXejhSdRm8E1UagT4uqNj9fswWpzf8iYPzM+aPI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=JJbgT11JugGBr5FMJRwjA6lt/yNkPohIgXVzmQy0yuE4EK4m2QfQFv1L23R02968JfPDpyNrYYtP9ii/Bh1oxZs32o8DJ7Fjnn+vPEK4BUTASANtkXgbTSs0DLksuBAlOq+PxJJTCzzBf0yI8RvBpiZGdUnVZM+7KHU1IAZG+Yw=
+	 In-Reply-To:Content-Type; b=J88Jjr7uda7KGi5mZy1ZE9qdKrX8BXEYBwblmPQs64iqm2BoWL/9+KZ7afyT1fde7+JSgQ/vrIsZuQKmJxJs2paJIwAkvU1imDblct8l9Q/pz2Zs2coGf0woaPD0eM2SMbMI7Gw4Ev7PhXYz05XjwS/toTxhg3kWi916DUYnq+8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
 Received: from [192.168.2.100] (213.87.154.82) by msexch01.omp.ru
  (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Mon, 30 Sep
- 2024 23:09:00 +0300
-Message-ID: <c71e263c-56a6-4392-9d5e-8437fad913da@omp.ru>
-Date: Mon, 30 Sep 2024 23:08:59 +0300
+ 2024 23:36:43 +0300
+Message-ID: <ab7482f9-6833-416f-8adf-5e1347628dec@omp.ru>
+Date: Mon, 30 Sep 2024 23:36:40 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -42,8 +42,7 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [net-next PATCH 10/11] net: ravb: Enable IPv6 TX checksum offload
- for GbEth
+Subject: Re: [net-next PATCH 11/11] net: ravb: Add VLAN checksum support
 To: Paul Barker <paul@pbarker.dev>, "David S . Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
  Abeni <pabeni@redhat.com>
@@ -54,18 +53,18 @@ CC: Paul Barker <paul.barker.ct@bp.renesas.com>, Geert Uytterhoeven
 	<claudiu.beznea.uj@bp.renesas.com>, <netdev@vger.kernel.org>,
 	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
 References: <20240930160845.8520-1-paul@pbarker.dev>
- <20240930160845.8520-11-paul@pbarker.dev>
+ <20240930160845.8520-12-paul@pbarker.dev>
 Content-Language: en-US
 From: Sergey Shtylyov <s.shtylyov@omp.ru>
 Organization: Open Mobile Platform
-In-Reply-To: <20240930160845.8520-11-paul@pbarker.dev>
+In-Reply-To: <20240930160845.8520-12-paul@pbarker.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
  (10.188.4.12)
 X-KSE-ServerInfo: msexch01.omp.ru, 9
 X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 09/30/2024 19:52:21
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 09/30/2024 20:27:55
 X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
 X-KSE-AntiSpam-Method: none
 X-KSE-AntiSpam-Rate: 19
@@ -77,10 +76,8 @@ X-KSE-AntiSpam-Info: LuaCore: 35 0.3.35
 X-KSE-AntiSpam-Info: {rep_avail}
 X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
 X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 213.87.154.82 in (user)
- dbl.spamhaus.org}
 X-KSE-AntiSpam-Info:
-	127.0.0.199:7.1.2;omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
+	127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
 X-KSE-AntiSpam-Info: FromAlignment: s
 X-KSE-AntiSpam-Info: ApMailHostAddress: 213.87.154.82
 X-KSE-AntiSpam-Info: {DNS response errors}
@@ -92,7 +89,7 @@ X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
 X-KSE-Antiphishing-Info: Clean
 X-KSE-Antiphishing-ScanningType: Heuristic
 X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 09/30/2024 19:56:00
+X-KSE-Antiphishing-Bases: 09/30/2024 20:31:00
 X-KSE-Antivirus-Interceptor-Info: scan successful
 X-KSE-Antivirus-Info: Clean, bases: 9/30/2024 3:37:00 PM
 X-KSE-Attachment-Filter-Triggered-Rules: Clean
@@ -103,14 +100,48 @@ On 9/30/24 19:08, Paul Barker wrote:
 
 > From: Paul Barker <paul.barker.ct@bp.renesas.com>
 > 
-> The GbEth IP supports offloading IPv6 TCP, UDP & ICMPv6 checksums.
-
-   TX, you mean (and RX in previous patch?
-
+> The GbEth IP supports offloading checksum calculation for VLAN-tagged
+> packets, provided that the EtherType is 0x8100 and only one VLAN tag is
+> present.
+> 
 > Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
 [...]
 
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index 832132d44fb4..eb7499d42a9b 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -2063,11 +2063,30 @@ static void ravb_tx_timeout_work(struct work_struct *work)
+>  
+>  static bool ravb_can_tx_csum_gbeth(struct sk_buff *skb)
+>  {
+> -	/* TODO: Need to add support for VLAN tag 802.1Q */
+> -	if (skb_vlan_tag_present(skb))
+> +	u16 net_protocol = ntohs(skb->protocol);
+> +
+> +	/* GbEth IP can calculate the checksum if:
+> +	 * - there are zero or one VLAN headers with TPID=0x8100
+> +	 * - the network protocol is IPv4 or IPv6
+> +	 * - the transport protocol is TCP, UDP or ICMP
+> +	 * - the packet is not fragmented
+> +	 */
+> +
+> +	if (skb_vlan_tag_present(skb) &&
+> +	    (skb->vlan_proto != ETH_P_8021Q || net_protocol == ETH_P_8021Q))
+
+   Not sure I understand this check... Maybe s/==/!=/?
+
+>  		return false;
+>  
+> -	switch (ntohs(skb->protocol)) {
+> +	if (net_protocol == ETH_P_8021Q) {
+> +		struct vlan_hdr vhdr, *vh;
+> +
+> +		vh = skb_header_pointer(skb, ETH_HLEN, sizeof(vhdr), &vhdr);
+
+   Hm, I thought the VLAN header starts at ETH_HLEN - 2, not at ETH_HLEN...
+
+[...]
 
 MBR, Sergey
 
