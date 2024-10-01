@@ -1,170 +1,142 @@
-Return-Path: <linux-renesas-soc+bounces-9285-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9286-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97ACC98C3D7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Oct 2024 18:47:47 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A64AD98C667
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Oct 2024 22:00:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E400B1C23B90
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Oct 2024 16:47:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1FDC81F24E6D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Oct 2024 20:00:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3AF01CBE8A;
-	Tue,  1 Oct 2024 16:47:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 461031CCEF7;
+	Tue,  1 Oct 2024 20:00:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KjjHXgQB"
+	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="dOvEmBvP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC8A61B5827;
-	Tue,  1 Oct 2024 16:47:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF2F11CDFBE;
+	Tue,  1 Oct 2024 20:00:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727801254; cv=none; b=mtmWZmbha/96AgwB+mcuaEvdossBtl0FJkmigWvFk6fryq2b1YmtVQz7P6tiundZTcYIBwpE+pTalUJZT2WsXFM/XxNWVFm4EP5d687+NI1UTWCWEo/Va0XTzdjzU07XU3Th5O4ZKelQkyc4d1BINjEoNdVdMgjeUCw+i0Axwd4=
+	t=1727812812; cv=none; b=TvnNSn7BrlNSmeRtYkgVKJSif76oP0+D/O50sL7TAocJA+7i7WKXhmkEHFROgmrIUtH8fHb1QwWLtsrNoB/JtZxxH9y6CuYQx+7H9PP5XCHxlyhkSx/+9naGwlae7TXgtGIlAXWmXDE/BXWsMGFl/bz6t+mInGsC0eoWnhCYsJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727801254; c=relaxed/simple;
-	bh=0GaRAREoBw3Gg86SCt+wqeMEvEPA48fIXoK9+rrfsak=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cANLxmk1MLCaJT1j9yrueFrZE/GN+ZOAfQjQbRJ35Ch0CrJCqyanE33rMQUq6riHj7ey9t9AF5wD2r5X8p4ENlNwfFkUke0e2nQlqJ57dCDDeVMy1bmbQI3ZyJcCiNRxdthbrH4Sn6r12S0fdKQUX246rXxXerHWE6ZOkgHC+7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KjjHXgQB; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727801254; x=1759337254;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0GaRAREoBw3Gg86SCt+wqeMEvEPA48fIXoK9+rrfsak=;
-  b=KjjHXgQB12EnUCxOU+golO7Pl+a6xqTzYvFfayn88jZNoymmTQv2LHnN
-   grcHOE+N0604n3QWlCqgfswVmYhP9SvalB91ZvM+JZDP0KQWugERfMGW4
-   Bni08LGGFMFNX7g2kU0vf6LPrzNwTXTCbS/FsvE4AE68fx6xZanX6b1KD
-   pME5LwyrWwvMmrsAKNmsrGvPdEX/Q4GSUGTZmcIBFdygdjxVEQPf8iXil
-   dJ9wGFBBFRD3RRrqClCILT27fimv72rh/DnrcOzioBv4p9fn40e6JyreX
-   yumtXytEZ1iADiGfnolT+ukY5RKeOLRwY34MjiNgP079RVxleTmdP6AUc
-   A==;
-X-CSE-ConnectionGUID: +iewspnFRVei33JsNdin2A==
-X-CSE-MsgGUID: 4mU4jH4iR7ScjR/tt0XyRQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="38080984"
-X-IronPort-AV: E=Sophos;i="6.11,169,1725346800"; 
-   d="scan'208";a="38080984"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 09:47:33 -0700
-X-CSE-ConnectionGUID: GNaEC8gyQvysP9vsOCPE5A==
-X-CSE-MsgGUID: edqf1jd6RqKpKAIBMPU4fg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,169,1725346800"; 
-   d="scan'208";a="74523638"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 01 Oct 2024 09:47:28 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1svg22-000Qvd-24;
-	Tue, 01 Oct 2024 16:47:26 +0000
-Date: Wed, 2 Oct 2024 00:46:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Paul Barker <paul@pbarker.dev>, Sergey Shtylyov <s.shtylyov@omp.ru>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Paul Barker <paul.barker.ct@bp.renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [net-next PATCH 11/11] net: ravb: Add VLAN checksum support
-Message-ID: <202410020057.Z9KJHqVt-lkp@intel.com>
-References: <20240930160845.8520-12-paul@pbarker.dev>
+	s=arc-20240116; t=1727812812; c=relaxed/simple;
+	bh=9nxNhpLrx3HJEq9JhEouMSM4YNgGI4tmenEeJnI7KaI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uv3R5UQQFHXY4/67gY2qRHQb+mwRPUm3qcOsVmfUDEEcZVtVOt8oQ/WURwSl0yTqJLLneMGENwRtqOYM/oHnRU0UYRWe7Wl01C78Gj57mHI0i1PYOj669xWpRdebsWaSrFHuXvgS4PHfbCD8JyhSiNgmAe0Rd365/lWom24HPwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=dOvEmBvP; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-20b7259be6fso32127965ad.0;
+        Tue, 01 Oct 2024 13:00:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20230601; t=1727812810; x=1728417610; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Txj9X25LmbjQ//MeIX5ksz2p7RxnM6sQFO6w2mk7FrQ=;
+        b=dOvEmBvPamriXlYTdJUeJ9JQvPEsV1ben9lzbzUIZ9HHbp6mjkLrFvfD57QabzUaJB
+         V2gdZu8k7TzvpK1KuHoS66KnKzlZ4wK2VqJax/ZHSS6mL7dwbpAvl/nuUn/62/XS90Em
+         Aka6+MMWmkYEcsQrU0LBKhoBgKANnIR56KLtUEJEwSdnIzTsF8IXVODbKlZrDC27FHdz
+         92s05d8QmhKxpJRxydrQZJCGamh98WDF5Kn0yY5W9Z24feRNEAZjvpGZ5iKozCenWnMt
+         HWXYrAL/qpaKMZEZCgcPN/jWYKXsLUdhRpC+7WGmeXgOe4gmcI7Zp4SNUuUEogol/UTU
+         zlVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727812810; x=1728417610;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Txj9X25LmbjQ//MeIX5ksz2p7RxnM6sQFO6w2mk7FrQ=;
+        b=XkRfivHwdkmMi4gaWKS6ihyScQy1pq8M4cuvzfsN5myCGFebeqFNIAGN0hOsrxKY6Q
+         2uM3YS0WcW2alRxhqlonuHvmHPmBj307DYpNym7eauCFb9sTqxAGbN/rsyHbVBFe8VOq
+         gxdAGpZ5/0HGnPQ4fFCEfur+TJis2+zvXuz1zuIWzRgBscCaLviGkCJ2+DJKylsIVNBz
+         +xe5HmSsvwW3u6HI5fLkH6XMW7JnCwMj3hQZCkm1ROPPS/ehZ/M5M92R4M+YfWGSLsUt
+         03m8fEBVOEnmsJBgwPjLsvjtd+4fHLGvs8DrYtQEHBt8WfBlcUs3lFuLks5Vx/4byG+d
+         j2Uw==
+X-Forwarded-Encrypted: i=1; AJvYcCUm2Ob+/N7wM2+qQiEIpr8YY8foSjEtEq5QVt7yPWbdiPyCw24khEGCuGLnq3DPkvyVZgL5wKA5mshODPFO8lWEh5s=@vger.kernel.org, AJvYcCUvP2ABPXHjVCEHtiTZXMISl7fM4EIV6M5sSQp3lH7j4BsUFhuUZxfuBI/PxGw9p7swPmtdJsNmx6F3KH60TqCR3g8=@vger.kernel.org, AJvYcCVnyPRPZW3NyGU+cogkxCaN5uaKZpP2zQUfA2Lp9qk+gaigz7rfwqChBNU7eBXsytc+g9H1JtohGyBCoS2ssA==@vger.kernel.org, AJvYcCXQSogziQtb+6seRW1XzSswGYxW2/6Wwq/HmJ406haVaerMnqdy3ZAhA1xFqDaZ0OW93wM268qAI2H+oCue@vger.kernel.org, AJvYcCXhvF4W249EWiW+p19ai52nZrFS2WWM6U/od8qEwHJA8BY7L1I3He302PNsrxCHiK7BIqjONqtyza1Csg==@vger.kernel.org, AJvYcCXp0UkWtIuxP2TqvPclKZ9AvVCpjzlZBonvD+AXzpV5OVyhH7bP5XgksugCpFUteSFdPjJ+2sKRmsjezBw=@vger.kernel.org, AJvYcCXyTT7hSFmdWLNJLiMj+BcLHPz+eEqUisava0LsHpnFPBM60zi/66AzJxmdYtyeDIMc5HFPzIvxSZfc@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz19uYRHGJY3WLqWa6hEI580EU49boq0L+G2N0VOfw/13iQj+hj
+	OhiWQSusLBL81ZHkQPqhoM/tL53k7Jl0IbEFx/7+Nq82eDNAF4GYBfjR9aOb+r8BRXUbRqRJjbP
+	vR44ZFJERoWVzKcTKioZrcpKoDAo=
+X-Google-Smtp-Source: AGHT+IEzN68oFH6UETNrpbvCGpopcDsigqPvgYKygFNF7D6FUqPz4x1zQ8ZA7UoZNXXUi84OPMM6AhdceSvhM1DdNJ4=
+X-Received: by 2002:a17:902:e550:b0:20b:720d:734 with SMTP id
+ d9443c01a7336-20bc5a5cd06mr11151925ad.41.1727812809889; Tue, 01 Oct 2024
+ 13:00:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240930160845.8520-12-paul@pbarker.dev>
+References: <20240930223550.353882-1-rosenp@gmail.com> <20240930223550.353882-3-rosenp@gmail.com>
+In-Reply-To: <20240930223550.353882-3-rosenp@gmail.com>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Tue, 1 Oct 2024 21:59:58 +0200
+Message-ID: <CAFBinCB1Rz+C=Tj+RJAL5KZbk9K7cnpF_uR6rKkMeqyCuDBo4A@mail.gmail.com>
+Subject: Re: [PATCH 2/2] ARM: dts: assign reg to memory nodes
+To: Rosen Penev <rosenp@gmail.com>
+Cc: linux-arm-kernel@lists.infradead.org, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Antoine Tenart <atenart@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Joel Stanley <joel@jms.id.au>, 
+	Andrew Jeffery <andrew@codeconstruct.com.au>, Jesper Nilsson <jesper.nilsson@axis.com>, 
+	Lars Persson <lars.persson@axis.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Viresh Kumar <vireshk@kernel.org>, Shiraz Hashim <shiraz.linux.kernel@gmail.com>, 
+	"maintainer:SPEAR PLATFORM/CLOCK/PINCTRL SUPPORT" <soc@kernel.org>, Marek Vasut <marex@denx.de>, Jisheng Zhang <jszhang@kernel.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, David Lechner <david@lechnology.com>, Nishanth Menon <nm@ti.com>, 
+	Santosh Shilimkar <ssantosh@kernel.org>, Tony Lindgren <tony@atomide.com>, 
+	Enric Balletbo i Serra <eballetbo@gmail.com>, Javier Martinez Canillas <javier@dowhile0.org>, 
+	Alexey Charkov <alchark@gmail.com>, Denis Burkov <hitechshell@mail.ru>, Arnd Bergmann <arnd@arndb.de>, 
+	Stefan Wahren <wahrenst@gmx.net>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	=?UTF-8?Q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>, 
+	Nicolas Chauvet <kwizart@gmail.com>, Tomasz Maciej Nowak <tmn505@gmail.com>, 
+	Robert Eckelmann <longnoserob@gmail.com>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, 
+	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>, 
+	"open list:ARM/Amlogic Meson SoC support" <linux-amlogic@lists.infradead.org>, 
+	"moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>, 
+	"moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" <linux-rpi-kernel@lists.infradead.org>, 
+	"moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>, 
+	"moderated list:ARM/NUVOTON NPCM ARCHITECTURE" <openbmc@lists.ozlabs.org>, 
+	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>, 
+	"open list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <imx@lists.linux.dev>, 
+	"open list:TQ SYSTEMS BOARD & DRIVER SUPPORT" <linux@ew.tq-group.com>, 
+	"open list:DH ELECTRONICS IMX6 DHCOM/DHCOR BOARD SUPPORT" <kernel@dh-electronics.com>, 
+	"moderated list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>, 
+	"open list:ARM/QUALCOMM SUPPORT" <linux-arm-msm@vger.kernel.org>, 
+	"open list:ARM/RISC-V/RENESAS ARCHITECTURE" <linux-renesas-soc@vger.kernel.org>, 
+	"open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>, 
+	"open list:ARM/SAMSUNG S3C, S5P AND EXYNOS ARM ARCHITECTURES" <linux-samsung-soc@vger.kernel.org>, 
+	"open list:OMAP DEVICE TREE SUPPORT" <linux-omap@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Paul,
+Hello Rosen,
 
-kernel test robot noticed the following build warnings:
+when you re-send this, please drop the Amlogic files.
 
-[auto build test WARNING on net-next/main]
+On Tue, Oct 1, 2024 at 12:36=E2=80=AFAM Rosen Penev <rosenp@gmail.com> wrot=
+e:
+[...]
+>  arch/arm/boot/dts/amlogic/meson6-atv1200.dts                    | 2 +-
+This file was dropped with [0]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Barker/net-ravb-Factor-out-checksum-offload-enable-bits/20241001-001351
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240930160845.8520-12-paul%40pbarker.dev
-patch subject: [net-next PATCH 11/11] net: ravb: Add VLAN checksum support
-config: arc-randconfig-r123-20241001 (https://download.01.org/0day-ci/archive/20241002/202410020057.Z9KJHqVt-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241002/202410020057.Z9KJHqVt-lkp@intel.com/reproduce)
+>  arch/arm/boot/dts/amlogic/meson8-minix-neo-x8.dts               | 2 +-
+>  arch/arm/boot/dts/amlogic/meson8b-ec100.dts                     | 2 +-
+>  arch/arm/boot/dts/amlogic/meson8b-mxq.dts                       | 2 +-
+>  arch/arm/boot/dts/amlogic/meson8b-odroidc1.dts                  | 2 +-
+>  arch/arm/boot/dts/amlogic/meson8m2-mxiii-plus.dts               | 2 +-
+These got updated with [1]
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410020057.Z9KJHqVt-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/renesas/ravb_main.c:2076:17: sparse: sparse: restricted __be16 degrades to integer
-   drivers/net/ethernet/renesas/ravb_main.c: note: in included file (through include/linux/mutex.h, include/linux/notifier.h, include/linux/clk.h):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-
-vim +2076 drivers/net/ethernet/renesas/ravb_main.c
-
-  2063	
-  2064	static bool ravb_can_tx_csum_gbeth(struct sk_buff *skb)
-  2065	{
-  2066		u16 net_protocol = ntohs(skb->protocol);
-  2067	
-  2068		/* GbEth IP can calculate the checksum if:
-  2069		 * - there are zero or one VLAN headers with TPID=0x8100
-  2070		 * - the network protocol is IPv4 or IPv6
-  2071		 * - the transport protocol is TCP, UDP or ICMP
-  2072		 * - the packet is not fragmented
-  2073		 */
-  2074	
-  2075		if (skb_vlan_tag_present(skb) &&
-> 2076		    (skb->vlan_proto != ETH_P_8021Q || net_protocol == ETH_P_8021Q))
-  2077			return false;
-  2078	
-  2079		if (net_protocol == ETH_P_8021Q) {
-  2080			struct vlan_hdr vhdr, *vh;
-  2081	
-  2082			vh = skb_header_pointer(skb, ETH_HLEN, sizeof(vhdr), &vhdr);
-  2083			if (!vh)
-  2084				return false;
-  2085	
-  2086			net_protocol = ntohs(vh->h_vlan_encapsulated_proto);
-  2087		}
-  2088	
-  2089		switch (net_protocol) {
-  2090		case ETH_P_IP:
-  2091			switch (ip_hdr(skb)->protocol) {
-  2092			case IPPROTO_TCP:
-  2093			case IPPROTO_UDP:
-  2094			case IPPROTO_ICMP:
-  2095				return true;
-  2096			}
-  2097			break;
-  2098	
-  2099		case ETH_P_IPV6:
-  2100			switch (ipv6_hdr(skb)->nexthdr) {
-  2101			case IPPROTO_TCP:
-  2102			case IPPROTO_UDP:
-  2103			case IPPROTO_ICMPV6:
-  2104				return true;
-  2105			}
-  2106		}
-  2107	
-  2108		return false;
-  2109	}
-  2110	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git/commi=
+t/?h=3Dv6.13/arm-dt&id=3De2a3f11ae11c9f9ee780bf49f00a69f12dce3529
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git/commi=
+t/?h=3Dv6.13/arm-dt&id=3D7947fd2d350e6057e7514459c7ee2db39d1096a2
 
