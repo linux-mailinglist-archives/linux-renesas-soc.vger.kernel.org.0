@@ -1,120 +1,114 @@
-Return-Path: <linux-renesas-soc+bounces-9290-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9291-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89E1A98CD3D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2024 08:38:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AF7A98CD42
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2024 08:42:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2E8661F2465A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2024 06:38:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 18D5228602A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2024 06:42:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6608D12C54D;
-	Wed,  2 Oct 2024 06:37:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F265312DD90;
+	Wed,  2 Oct 2024 06:42:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Etdwc9+K"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O2KdJVxb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB22712C474
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  2 Oct 2024 06:37:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5750733EC;
+	Wed,  2 Oct 2024 06:42:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727851077; cv=none; b=VeChpL4SScuvjuvXj9Z79Yn0fZMh9SY1It28+IcybPzCdssaW76Mav32upOHRFd+DjQdRgEEXgu2p2Ae4rEzHvvPpmaOR29wq9k7vn/Bj/1nkJTaqfQIFyIwc7icbdwpjXyiGsOvt21UiOzOLqNMYWQeRcyRZmV8yIF5I1pWUlQ=
+	t=1727851341; cv=none; b=O8cqkDMwklMydvwz0tLyZXjRrRFY1qKP0nrs1gtPui10d+SNs86w5vngp3zBDgsl3ui/C/Wl3JWPKwc6xBhA0oTOw2oYdxRTAm9fOH8YBJamR32Dez9fo6K6lXdWP7kAiBpzdGhXGLb893sdUP37sMEZjYXciLuYowVyMvgkPZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727851077; c=relaxed/simple;
-	bh=1dHkcvQgJSnNHV9nsMxjAHl3O3rq2uNwZn8/8dbv2jQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qbqSTmdaECGWj7KB5gYVAf+LCXBnzIhOFuJZHbIEjBmP4weFKa9bWj+XdTT/PdSalhICRWv+JHKoC+PsGXSwQ+HPOv/ogBQWQ9/O/ZIlhUr/1jSxRwt3c0fn7mF7zIuAuR+3jHfT8Wh9GvsIOiiNBcNmmX/O5sTLB4ArnJKqdR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Etdwc9+K; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=1dHk
-	cvQgJSnNHV9nsMxjAHl3O3rq2uNwZn8/8dbv2jQ=; b=Etdwc9+K1wBhOVV4lWdU
-	jWiyEKBMcypav6y5jDmAoS7Xny3s2goJ96rHbc5frp5T0O7TmLoYgKPFXQ9vCzJR
-	B1zHY2kFf7ukc5N986+Qp48zw8issnC/0lU83SQVDZSudei+QkocsCCTnLzM4In3
-	cTU/C/r7QP2c0XBFo1jjTBC/ph1yfSlrLhW4P2ekiVg4J7ni+aL3E++QoqR6Yed0
-	WNeGc6W+Lh0Tx9oqX6/sRfFoaWZ5wHYQQbLNJE+kM1zYy9D6q0fNtq0zc77Lm8B0
-	PCmErdX0d3PEhkkE8cPuXrLvNlb/aHSz84NGBVvOZkuFf4FzQVFF0MwZGmaS+nqt
-	HA==
-Received: (qmail 2756738 invoked from network); 2 Oct 2024 08:37:50 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 2 Oct 2024 08:37:50 +0200
-X-UD-Smtp-Session: l3s3148p1@IgtIrXgjnqMujnuV
-Date: Wed, 2 Oct 2024 08:37:50 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, dmaengine@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] dt-bindings: dma: rz-dmac: Document RZ/A1H SoC
-Message-ID: <ZvzqPkUPmurHf-fu@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, dmaengine@vger.kernel.org,
-	devicetree@vger.kernel.org
-References: <20241001124310.2336-1-wsa+renesas@sang-engineering.com>
- <20241001124310.2336-3-wsa+renesas@sang-engineering.com>
- <qifp4hpndfhe6jlmzjmngr7uolfzvj663donhjg5x7kmeb4ey3@a2a66w5l35zf>
+	s=arc-20240116; t=1727851341; c=relaxed/simple;
+	bh=MdWuSwkybXUYj063xEzsz/V8JSIpC4VUKS6xkG8i7Ek=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=o8Olqf+v5o7EhJOmCfr1wQhEdOLUWzezaNreh+INN5gI2RE2sJF6OL9SkxXWpyKlt02lP4PF40iR6xcb37MIeUCCHPpPMq5YsFkWJ7ifJb4331lPMom1pqvopwQsd89EvlXYC6h6dtHbqxfPXTVeIZ9GDL1HY48MyqP9EiSOkSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O2KdJVxb; arc=none smtp.client-ip=209.85.218.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f66.google.com with SMTP id a640c23a62f3a-a8a897bd4f1so929280766b.3;
+        Tue, 01 Oct 2024 23:42:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727851339; x=1728456139; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MdWuSwkybXUYj063xEzsz/V8JSIpC4VUKS6xkG8i7Ek=;
+        b=O2KdJVxbsbYvrfUq9pzp2AmuV9xIJHplRWBP/qOCMecRC8OpOeaHbLV6PLLIPvEofD
+         hjBKtJVogzMDeRYQf1hxVFSPXWCRbxkfogcMwHSpWPCfgEmwPTHIMcrDVAYRGMSymnVi
+         FYMZoZ8BN3PgeVVAdF6eLenud1iACOoOz2wHMv/Ve5rOXbXyWjykCBNDPVp6gVZfWDdm
+         ojIJU3YxosvZtYDmv09jUPYNhLn8LD2Went3VGr72Q96e9gE2LclUbGZZ200eZSQOo9g
+         ea2SfwAtX6up6Rv2oyxN0kLR+IPUefNkYRZMNBnem6smMgP+vTchZYsATTBkfKUJhKV8
+         mMFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727851339; x=1728456139;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MdWuSwkybXUYj063xEzsz/V8JSIpC4VUKS6xkG8i7Ek=;
+        b=GXfSO1QsBLnR9kGyZrRx52kvgU50/CdqG+jtke5SOqMK3TNVpJ1FLwaQoGczm6o9u/
+         s5SRvxvEUXjQAjH1LOZNxpO0F5t3BrMYUeND9rBtcSMd/aTUj4wEcs32jo8CKXxThy3n
+         NXppUS5RHsAA3b5msDlpXxKoaZgdU82MYga/VDnHPsa9JVB599R2pOtzbpv6I9BRFNuB
+         4t0fnE7/l8Czgl/OrLBPQysJWVKY85MDK2UrvQAvCZYZ3aITKvo6j9eC3a/Bf2c6Vh4A
+         SD4eoy8PskJcqe6WdGBhxL2GP9j1XivDkByVLkE94NsTQtLafwtYbyqJ9X0yWAJIlGM/
+         0g4A==
+X-Forwarded-Encrypted: i=1; AJvYcCU123Z7ei1Gkr8Fa7t7BLMPJ5A9XARgLRtRTZ7wRWAg3ddStj2574K+PnApXA5X0z/xxqSmnohWC3H6@vger.kernel.org, AJvYcCUE8of2zfhK7V8hq9pponsnv84GQqvsvuJRoYmVNfWYOb/UIpMpPD7WgWrafC7clHtB5vXSUUAdNqxNfg3S@vger.kernel.org, AJvYcCUOC8Nw/mg2IZGqrxrVUR/7uvqlj2QlShCYtMVpJTSrLPJ6KCvCbqOq//UBOIj2x0skigDdft/K70dUgBo=@vger.kernel.org, AJvYcCWq0ciaq4zpb/HAxLCkhhPUWdCQqSAAA+x8wvA3+3+HwIoBjdhRUrR0ANBAuTYtaYMfMeQ8CX+5+O+N@vger.kernel.org, AJvYcCX0d/q6BCpJB/Uo+566peewZYkwsJhVgjLUKRhe0v8/NNvc0R6bFEr0txeUY2Xdk672wf0F95KIWRSDFZW32hqDPes=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHfGzxoSli5KE1uaSN4IQt1SHbGPATTrjSGTzRYVnL9OYQev5i
+	GPrd7ySAAJ4iuckUcdHSEy3mjO67ZNvhYZx5eHwBiKtH/auAUY6om8DO3toVeggw1lNIPC1FSEo
+	4yWhGm/GuppTi/oEhprJxDUGU1tU=
+X-Google-Smtp-Source: AGHT+IHo5N+PmxexOIAZW9wy2hU9cuTy5rl7qjrkN/SU1uBB8FGlt4ZcL2RSEzaIwqP4nFhi4TRSgJ7Nzvn0kPnXYJQ=
+X-Received: by 2002:a17:907:6e90:b0:a7a:aa35:408c with SMTP id
+ a640c23a62f3a-a98f82008d3mr181880466b.8.1727851338455; Tue, 01 Oct 2024
+ 23:42:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2jTu04x4xCLlMS1r"
-Content-Disposition: inline
-In-Reply-To: <qifp4hpndfhe6jlmzjmngr7uolfzvj663donhjg5x7kmeb4ey3@a2a66w5l35zf>
+References: <20240925031131.14645-1-yikai.tsai.wiwynn@gmail.com> <e2sceba6setxuvm5ztygqo5eoihjbts7gl4pfewjunepfhllhq@oblkbeb4wfym>
+In-Reply-To: <e2sceba6setxuvm5ztygqo5eoihjbts7gl4pfewjunepfhllhq@oblkbeb4wfym>
+From: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>
+Date: Wed, 2 Oct 2024 14:42:08 +0800
+Message-ID: <CAL5-g4VE9kzXewhqOFetuyjZdh-OnaisyProEujuW9dbVCWTmA@mail.gmail.com>
+Subject: Re: [PATCH v7 0/2] hwmon: (isl28022) new driver for ISL28022 power monitor
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Krzysztof Kozlowski <krzk@kernel.org>
+Cc: patrick@stwcx.xyz, Magnus Damm <magnus.damm@gmail.com>, 
+	=?UTF-8?Q?Carsten_Spie=C3=9F?= <mail@carsten-spiess.de>, 
+	Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Geert, Krzysztof,
+
+Thanks for your feedback. I will fix them.
 
 
---2jTu04x4xCLlMS1r
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Best regards,
+Yikai
 
-
-> Does not require or does not have? What does it mean that device does
-> not require clocks? It has its own, internal clock oscillator? But then
-
-You are right, it requires "clocks" but not "clock-names". Seems I got
-carried away when removing the reset properties :(
-
-Thanks!
-
-
---2jTu04x4xCLlMS1r
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmb86joACgkQFA3kzBSg
-KbbTiQ/8DgBhjfNeeFMxQZdP9fHlmw4M79ssyaYHUWp5lyKtM+D01r1ZEFA1lpw3
-ltqSLbtHJHLndn4gX//BMVWwGh8ZLW5ZVd51Q3c2VXyjHH6IS2+DviFEb60q42HC
-O20zOlYzR1eM+6to+7+ERTH5XSPs/MCuF2XW39vZZj4XWqEPakveJ2HL3c2XmlAv
-fM+XMw4SZ394Pg0EtQLm6Tz800C932Y3vHuoHJeS1tO4ysBTqilW+YF/r8N0Q3rO
-6EFiNWHKyr7dgD+yE37E39EgMc3PUjPmvbYtHmVXbT05fhryUU5mv402nCyvT3P+
-lZ9ZjJFo9SE2tQwZnsl5VaD27oaDvqr7ITDTF4vcwIPj6xLKYFDMD2hrXeOY0cnG
-GvyDhubePd0uCJfhUQDMNTWFr3gR2GmxksCH5ngE281tm0RAh1iQVmTr4J7vNgWm
-BPIsnO9Js0XhXcjYsGxkcLDSYETzjK4xZaavKan9i6Rb/eb/51psTDgoAVLGjm1Y
-e6RoveO0ZTcYi4zUglvsV3SIQg6LdsYa9f/McbN+1r5EdGlzBcJnktSjxDeHOuIv
-A+Q85R2MP1V/hV1a0EinCmkYsJIYETmN3YUsLZN98mNos7RRFTbRRCb/Yo8oSPtV
-1Z/XwENwMtxoFSNJy+MWQinfEOPj3Nw+S7dj4VY9TYrN1XH8zM8=
-=k5N8
------END PGP SIGNATURE-----
-
---2jTu04x4xCLlMS1r--
+Krzysztof Kozlowski <krzk@kernel.org> =E6=96=BC 2024=E5=B9=B49=E6=9C=8825=
+=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=883:35=E5=AF=AB=E9=81=93=EF=BC=
+=9A
+>
+> On Wed, Sep 25, 2024 at 11:11:26AM +0800, Yikai Tsai wrote:
+> > Driver for Renesas ISL28022 power monitor chip.
+> > Found e.g. on Ubiquiti Edgerouter ER-6P
+> >
+> > v7: review comments and code refactoring
+>
+> What exactly happened? That's too vague.
+>
+> Best regards,
+> Krzysztof
+>
 
