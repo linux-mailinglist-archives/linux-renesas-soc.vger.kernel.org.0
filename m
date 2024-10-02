@@ -1,117 +1,135 @@
-Return-Path: <linux-renesas-soc+bounces-9298-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9299-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD5C698CE39
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2024 09:57:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DE8598CE78
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2024 10:12:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DEF771C20A09
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2024 07:57:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B9D3A1C20DC1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2024 08:12:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31C5B1946C9;
-	Wed,  2 Oct 2024 07:57:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 772B2194A67;
+	Wed,  2 Oct 2024 08:12:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="eX+xGmed"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kbgi6U55"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093351946B1
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  2 Oct 2024 07:56:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A4519414E;
+	Wed,  2 Oct 2024 08:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727855822; cv=none; b=dUiWQusce+RSSBQLCTychYHiPl1XR2IbJpTTGur61Fx34lZcLbxtX7/m8cVjBAQ6nfdaAUeUEbjjOO+jE6EO6QrdC2VGL8tTXdeIhlOOuhinqPhtOiPpr4sHr+wj5CTV7ldZKUwDcgaBv959V+lV31V6lJVPfPjKi1g3rHsAtcA=
+	t=1727856723; cv=none; b=ALLLRNM/VTrqrHHIBm7TIWPh85KTGNwvU49ndTt1RylSk2sOkKm1polD0stVXWtHQuubC4AeMkbwmXFHK7ZtfwmWxVo8xaG/ox7Vui8zKMziIYMMzCB9De4ZKWQnp7QDfCiAmrSByxsKAtWUFpkpzmvUnGEpJy5++f0S/ILXZdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727855822; c=relaxed/simple;
-	bh=J+7Sl/URdHcMV40EtgLByltqrysN7Fydu+LS7gR76Vk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V1laL/qKuajxImEvfKpW18wWoRfE8tSIoDh4b/cHFK7G/ahNRF+s58OxCKyiopsIK1RwqrmUrhs3llcoSIQ2MnlKYXi3KnnRkmIN7rz3H7K8Kjli3iCaP2M3HjbfdZPlDcdKP1d9IxZvtBqWb+XDokF9K7aJoVVzasK/9R2NA4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=eX+xGmed; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=29cB
-	vmo6x0A4d3ahPQtmA55H1bcUgnjda5SGHPHGg4I=; b=eX+xGmedFCcA447B5+LR
-	QRqu8MGaNs+871o4s/foHrBm59QjTYBfrUVSURjObZc3PceJHSldnQwJfUGiGQXf
-	vpkHGncENZz7OGTGslJTnHb4e1P4FUdAxV8CYmBxq+5R1EwlX+EKG/n+75YUsKqY
-	2lqgXit0We5P4izBdthTnycUh4Hob0xd6mHtl+juQOEtr2cbF8JmrCcO9rUrutrD
-	AxRJfAPRXmMj3osz1wE/SdF5YyixcGiPdwY/SgtooJnfkAEeOHUgiX1djp6ZStgx
-	hB9Ibd44U5CQfCKRvmFSGqTnpD0CgfjD80NJOyx4//Jv9BMGTzbI4YsgdtInVBEm
-	Pg==
-Received: (qmail 2780191 invoked from network); 2 Oct 2024 09:56:56 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 2 Oct 2024 09:56:56 +0200
-X-UD-Smtp-Session: l3s3148p1@RwIlyHkjYrsujnuV
-Date: Wed, 2 Oct 2024 09:56:56 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: usb: renesas,usbhs: Deprecate
- renesas,enable-gpio
-Message-ID: <Zvz8yA4sIKpKP8eD@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	s=arc-20240116; t=1727856723; c=relaxed/simple;
+	bh=70wnDyxHCzKJTJjwowzBQj1Ibokxz5hy40NjX5cZwkw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Cxw/7uf6WRR8ihQZ+D4AWpYNfowLQUQ6FZTTu/e82thr4Rm1kVKW8IW8XGkTtkms5t14zdRNsQW4BqzuFBr8AHd9mW4b6C5Z6hp3TzSKdr2z9N8aypxcHghxd0jHLyNGvxDy2v31cT5OfhgbB5NsyQX3h5Ywcj3AjNZmefuPoZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kbgi6U55; arc=none smtp.client-ip=209.85.210.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-718e6299191so3447895b3a.2;
+        Wed, 02 Oct 2024 01:12:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727856721; x=1728461521; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AwYW3aXkOfpbJFEkTcyjA4Puz8SUEOqTQONRZN7kTSM=;
+        b=Kbgi6U55T/+r12FP2mho1PlDEjRUSoKyIbMrgQrpRlh9Y3dnGLWu/y2Uda10AEQR/A
+         aABoT5QVsmFq5u2+PMZT6bwSF5qeajuiqC+YNJ0RgZhUfdIXb/JM5eSBJUOs45TcDwM4
+         1iIS62OqHxbh+qb0lDADEd0B7Xb5zgDsdvUMVjfTQkTf2I8bp09edPM9t/opNsZgw19a
+         hJBaQhbA3VV2uRIezkcgpfl1ipld7pLWzQLwVpi8PddSOeZkrJRGJ7uOXS9QnrHcriiO
+         xPJeGWZAYw2ejKvXooTL6LysXl/UE5fpDlBf0ipJQOJpoWLgUDNA0j3uKfpQG2e8u4Hd
+         EP/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727856721; x=1728461521;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AwYW3aXkOfpbJFEkTcyjA4Puz8SUEOqTQONRZN7kTSM=;
+        b=xI01rnq5NIXvg+wYhc4900tn9Qs1J7jP0QWEF25x6XiqU8FRRmMuo+45ThYjIvFP9A
+         IqMTmzJ8vmVUyVl4yA3VGRX506jiHWVBsPUoO9RFhs0E67iV7hLHNFj6aJumyaxJqSNx
+         tsJCVUJ56NAjC0HBFJr+5pw5TlkHL/ldYy91B5Rw9aAXkyOs9gpj980Z7gq0+np8QSyw
+         YibGPyZmn1LoflAwuFs4rxE8f2t0Y72ZAlTdUjtLU0KaAJH4MThYGAkcdODj2td3nKng
+         Oi+E1tKz90/GYQGVuDD3uu0FJqtVTGMR07ugvgHMq/9nsja8ogBo4tOlazeDAePSO3IZ
+         efLg==
+X-Forwarded-Encrypted: i=1; AJvYcCV7zsKmg6C2bqpqRrYJjTkXojvNUbK0RpgtyQ+YvNJqoIPA7+FSbu9lTaHkCAn+kgSu1H+RDX5cTQJg@vger.kernel.org, AJvYcCVzopR7mYBxLgjmJvjbh8jQtgxg0+ApLu9YkhLf8Gvb1QjBsqoN8xD0W20Pgx/Uz7ijj9WaGJs/wOFq5W7JNNRRo1U=@vger.kernel.org, AJvYcCW+FGj7YAmtCI7BHfwgSWvbjNOOYljSaVs35RP+CN7FKaL9gpUM2xHiVQqt5CEOdZ5Ew+qUqigbP2QF+Zba@vger.kernel.org, AJvYcCXHxuPfqSjnP9fEO0d3ZwNlKf2HFfOa4XVx5ZLhNjWLVDSGtjshD9hTOQ/uxLY1aNDTnVke70fwwtAB0zM=@vger.kernel.org, AJvYcCXL77GWNTDGLSbmikL9UBsDcpWqiRzJ01nOoZ3FgN8WEqxmZpMl3jb/gmLoVUgy/4nXGpsmBht2fkTz@vger.kernel.org
+X-Gm-Message-State: AOJu0YwSXl/JIyMfPbxA/d0b5bSw5angf66ppa0yMrs2ysbsO/hhgXBg
+	MnWrl2a5B88rF41MGoFnKeqg7+CIqG6LavfJBdPlKbtH6MCJFO+b
+X-Google-Smtp-Source: AGHT+IEWAQq/PDSNce8fNJCMrbE725mZU0WLJ3wtGPmqrDfOR+mYJ2PBSVZQSCoG2J59ftPf5NXxkQ==
+X-Received: by 2002:a05:6a00:8914:b0:714:157a:bfc7 with SMTP id d2e1a72fcca58-71dc5c8f1b3mr2659166b3a.15.1727856721040;
+        Wed, 02 Oct 2024 01:12:01 -0700 (PDT)
+Received: from Ubuntu22.. ([219.91.95.148])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71b2652b4f6sm9618115b3a.174.2024.10.02.01.11.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Oct 2024 01:12:00 -0700 (PDT)
+From: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>
+To: patrick@stwcx.xyz,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>,
+	=?UTF-8?q?Carsten=20Spie=C3=9F?= <mail@carsten-spiess.de>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-References: <cover.1727853953.git.geert+renesas@glider.be>
- <e9cf476ffac794bad7b0860dc89afd62a9ebc812.1727853953.git.geert+renesas@glider.be>
+Subject: [PATCH v8 0/2] hwmon: (isl28022) new driver for ISL28022 power monitor
+Date: Wed,  2 Oct 2024 16:11:28 +0800
+Message-Id: <20241002081133.13123-1-yikai.tsai.wiwynn@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="I8HZsTejYT1Kx6Tu"
-Content-Disposition: inline
-In-Reply-To: <e9cf476ffac794bad7b0860dc89afd62a9ebc812.1727853953.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Driver for Renesas ISL28022 power monitor chip.
+Found e.g. on Ubiquiti Edgerouter ER-6P
 
---I8HZsTejYT1Kx6Tu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+v8: fix mistakenly removed Reviewed-by
+v8: fix incorrect use of dev_err_probe
+v7: move dt-bindings to the first patch
+v7: fix unreasonable code
+v7: separate voltage, current, and power reading functions
+v6: shunt voltage in mV and revise code
+v5: review comments incorporated
+v4: property compatible fixed
+v3: changelog added
+v2: properties reworked
+v2: calculations fixed
+v2: shunt voltage input moved to debugfs
+v2: documentation and devicetree schema reworked
+v1: created
 
+Yikai Tsai (2):
+  dt-bindings: hwmon: add renesas,isl28022
+  hwmon: (isl28022) new driver for ISL28022 power monitor
 
-> +  renesas,enable-gpios:
+ .../bindings/hwmon/renesas,isl28022.yaml      |  64 +++
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/isl28022.rst              |  63 ++
+ MAINTAINERS                                   |   8 +
+ drivers/hwmon/Kconfig                         |  11 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/isl28022.c                      | 536 ++++++++++++++++++
+ 7 files changed, 684 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
+ create mode 100644 Documentation/hwmon/isl28022.rst
+ create mode 100644 drivers/hwmon/isl28022.c
 
-Isn't this a good occasion to drop the "renesas"-prefix? Binding docs
-are full of plain "enable-gpios".
+-- 
+2.34.1
 
-
---I8HZsTejYT1Kx6Tu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmb8/McACgkQFA3kzBSg
-KbYymhAAodjF/wppQLY0dF+kPLukm3002cCkz5UncwTPUPy7C3H0FB3ekLz7mlq1
-GXiPUOm9QY2vcQhZcWFWfdt5xWr+YA3DjLasQdleShyaisphxpymcGPkYCF/4xhF
-bXZ0yJNqYxtEONaRdyPnJKc3Q0KW8rbBKm6v5g2n/5DymUf+Go5d11WNAV0HUt6A
-UWuaFLcwXhoYeJZ30DCkUBfJRuh048q0FIQPHKHoh0at7GIlbEmD+1Zza4SrGGir
-iH9GEMAoNlxgDfumAIadvhGZWpmencDPnUUhKXxvB0HdXXNuYNHkrCA9v/kQjw5+
-fdIm4uKkxDZ0YJEyjmrbg0YtEffV7hUtHXv8ARF0JhjQOkdT99sv0APGYz8Z/lTg
-+WeI0ovhIyCzWz0NqBai1jMwvAanXVFJXYr2ZS8+Qas8Mx0CyIUtrOSntR27tn6t
-LGCzprLsNvYAvBdYFaTliZZbte4MuUMMlTjlgGbmjOlUHF8+JolKhc70IlxpWjcF
-S3IKeYix//qqPYrX+Y8FrN3eWBCwREa9LFrbivdI6RJUKu5Viygja2clkRd0e4eh
-tIKWKlAshbc6zJnrcydDn2HFwO6TKTkA4AzxzN4oZFAArQGpxBm+4zmk6bMzAYiK
-lTiPWyBJr27PWyJ8wgIqER6mC/HkImsbbaCd8MCP0hb2kRGwv+k=
-=zijr
------END PGP SIGNATURE-----
-
---I8HZsTejYT1Kx6Tu--
 
