@@ -1,141 +1,151 @@
-Return-Path: <linux-renesas-soc+bounces-9309-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9310-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5C2B98D10F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2024 12:21:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B2D898D154
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2024 12:34:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E8490B21936
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2024 10:21:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A62EE1F22FA1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2024 10:34:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C60793234;
-	Wed,  2 Oct 2024 10:21:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4301F1E7648;
+	Wed,  2 Oct 2024 10:34:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h4mT8P1Y"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="VOd1QZJR";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nvYpgwV5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8712F56
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  2 Oct 2024 10:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F31041E6DFE;
+	Wed,  2 Oct 2024 10:34:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727864474; cv=none; b=BG1y8YPNHdPga9iBWMaNtOLSgeKUhXI1Wo1723xVgq+I8SgEgwceYipgncM4SWSZMiQ6+80tn1tqgs57KWGYYBMz+lQfNxormrEmGyMU/ojqiLEaVityCXpVPY7v48HFs0K2ryRQROoJedTf7j9C4xSE2cG/lN15m2ql8Qwa9l0=
+	t=1727865273; cv=none; b=RXAH9Fyor8x33HMOzfKcImfQX2XbDWJ+J6OXyGJ3ByBNCz3gkKc7Lin+IQ5q0ici8+r0H19RicHqqTLvrWUxfuPe/Go+t22j1Q85WMO2bsfuZSorjwywCSjD2h1ulEuJLTuDUgfQgKVZfddFXJ4RKyNGZSjB9tP2gbNMGLyX0i8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727864474; c=relaxed/simple;
-	bh=Pd82H9r915AjLLd8TdTUJ9L6CxiBe9CVYVOJ0T8WXOU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Iu72LA7scLigAKPUn435NmJHYIn7B68EHeQZjP5TFFK1OXknRvZ3afOW5sahrqsNq4b9bqdCW8HMyFQtjv8P6egZnJQurggI8ORWX4GRGX4J9wYTmJ2nGXAzKTAlVlM2xjNcmwEb1C9dzW+fjOkHMAy/yvP/m6wbKMmKsSRvpic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h4mT8P1Y; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727864474; x=1759400474;
-  h=date:from:to:cc:subject:message-id;
-  bh=Pd82H9r915AjLLd8TdTUJ9L6CxiBe9CVYVOJ0T8WXOU=;
-  b=h4mT8P1Y+SP/NUW0vPRteXbysnuThxL71q8AB39A3qJMiRG2uGn3mjX/
-   /Jk0iDZNMLhyWN8KtAijvwXipPQL8Mfmr76PKA93HiXtJPcpdxoxW1BD8
-   NJZhEKfUj6/qK1PJ3AfV5NF1tkB5ZLA12RRI6kXS3nJTP7FXUNLXhpFs5
-   BcQngAUyiNwwNy98QRt+csYEV3KJwWQceW56mxHMjp/tYNZBfCzhUIQgx
-   EMzWUPw0XcpgLTTiR7ufzhFCRsxrpgy+mUd5m71xPWTkDZOoSjgRF5dhZ
-   HFXQbSLXwS6GyML+bS5R+XODvooduCeUPlmGym9v6tFPyG0qi54H0FVEP
-   A==;
-X-CSE-ConnectionGUID: ArQ90TBAQ7GLuQqheIBfMQ==
-X-CSE-MsgGUID: JSTW8zrXTpKVOTGUAJvA8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="49544720"
-X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; 
-   d="scan'208";a="49544720"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 03:21:13 -0700
-X-CSE-ConnectionGUID: i/UnknZQTOuhv6RXY2tbYw==
-X-CSE-MsgGUID: JZjFLrO/Svui7mLkkWqfDg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; 
-   d="scan'208";a="74196738"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 02 Oct 2024 03:21:12 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1svwTl-000Rv1-0c;
-	Wed, 02 Oct 2024 10:21:09 +0000
-Date: Wed, 02 Oct 2024 18:20:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:next] BUILD SUCCESS
- b5819d09a365e7c33a6d0198323bee7332c6cd76
-Message-ID: <202410021837.OIA4calt-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1727865273; c=relaxed/simple;
+	bh=UJvLAOOdkyNTc45AEJD0rQF7xbyEMfEtM7RFdqNtzPU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RU7aUn0wErIdC8qY/7X/nmbQOn3q/Q9dmJXVw7J3LxEQO5x+WZltiUEI66AoTnodYE3H+XoiwnpuoABW+XpbDs0XFURk4PZVxqy6GFX1cjbsz+Vm4oplmyu8TF5TzdtxImYdy5rXTiwZaQkF/huqpUV3In4geRIxxhriGzJpFAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=VOd1QZJR; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nvYpgwV5; arc=none smtp.client-ip=103.168.172.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailfout.phl.internal (Postfix) with ESMTP id D405913804BF;
+	Wed,  2 Oct 2024 06:34:28 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-10.internal (MEProxy); Wed, 02 Oct 2024 06:34:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm1; t=1727865268; x=1727951668; bh=MH
+	UxFNK6Kj0O6vRoXpXcWRw2nL8Vq/neYJBDtKDNXvI=; b=VOd1QZJRFhFKBkX0DQ
+	SV+HTRIQH9/+jtlyN+F15TNAw/MZzupi3aiyQWzz9rVZMy2al7JAKIKDzteRDman
+	35W/4UCmG8WU0w/G0td2dNBGBdmmaeJzelK8rn9XkJBRDIYKMvtG/ax5U71DE7be
+	4YEWjCUtw/uA7vLaUl4oKgtySUtUQD7AGhShmO7Ea2bhxlPLx/jiHUMPCrcXXsfN
+	YYsBBxBs+vaeB0o48CUheyaiTbrAioNXKnO6OMqz9kIJr7oPI5ShW9NF9pql6juv
+	XT1GF28HiPsAVoFCU0D+u3HGIrE5tkH6cAb7WVZTPWtHHgPiJkafaSsIHRHs5zM8
+	r3FA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1727865268; x=1727951668; bh=MHUxFNK6Kj0O6
+	vRoXpXcWRw2nL8Vq/neYJBDtKDNXvI=; b=nvYpgwV5BrkfT5apMTyBJ7+fRKaHu
+	d5TI5vBiiJD2w1mIapq9NaEIZU5D0TcB2dJuBLBCg3bOZd+2bmCsnDSUD8qt9kxG
+	YT8b+UQNH3US0NveVyhzXO5Ox2NU4ykGNOQqbMtq/Cxi/BwkvMLbxd2AHXNxWr+J
+	D6goPKcJkH+ts7TgqdTnGRtAm+6l+glpApktX180JLq4fZIxWLkqMwo07Duq425F
+	xnJV9PNOk5l2H2EkItOccYOHM6EFsWXeVcT1/dK6y2e5G7vnkUP+Wlc2agGiCh+W
+	pRdcvkxbLVMOtjh/S2pMZxQDUAccL0GQYwoqQexUdhYPSfIEh4th4A4dw==
+X-ME-Sender: <xms:tCH9Zr47zd_IT1RK2ri6gDXXuutR6GP-MdlTWsx16ljGsd1JvowZ-A>
+    <xme:tCH9Zg5ALc2yOTI8a96yNy_d-aYBBumVt_Mk75yot0vMGSjPM1K9LpO0HVhqBh2EA
+    3i4gU_TIM1gYEIC9u0>
+X-ME-Received: <xmr:tCH9ZicyGSy41G5gzzOmgAwUkj5-MIhwP8eR4O1pAhjSIiKwb2iWlPL0yS8fffOJYMPlF4FNPBb5yY_RePRJnIlspQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdduledgvdeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecu
+    hfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrh
+    hluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgv
+    rhhnpeehudelteetkefgffefudefuedvjeeivdekhfevieefgeffheeltddvvefhfeetge
+    enucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhk
+    lhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtth
+    hopeduuddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhgthhgvhhgrsgeskhgv
+    rhhnvghlrdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtph
+    htthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhr
+    odgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshgrkhgrrhhirdgrihhluhhsse
+    hikhhirdhfihdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghssehglhhiuggvrhdr
+    sggvpdhrtghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsg
+    horghrugdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgv
+    rhhnvghlrdhorhhgpdhrtghpthhtohepuggvvhhitggvthhrvggvsehvghgvrhdrkhgvrh
+    hnvghlrdhorhhg
+X-ME-Proxy: <xmx:tCH9ZsLQoLxMM-alJzKILtBND3_vBtNdo72-DqyaPa9UiUbiMOvfoQ>
+    <xmx:tCH9ZvLyIre7GDWdurgRz3aSwZ2VWoPH-zdIUnE0to2CLvIKseYCRQ>
+    <xmx:tCH9Zlx5JbTMhEC4TP53bacK-LZCbPvwgkUGrjmduxLyPbI-jpJgzA>
+    <xmx:tCH9ZrLlanolvJQLjQNmiJYPB8dX3uxbDtCAgmKuG9TW0Z05I-jtSQ>
+    <xmx:tCH9ZhybvMSAB0jmCA9WG0vqjE693oJNp4dboRHRh5BVYbYHBVNC04VO>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 2 Oct 2024 06:34:27 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v3 0/3] rcar-isp: Add support for R-Car V4M
+Date: Wed,  2 Oct 2024 12:33:15 +0200
+Message-ID: <20241002103318.24289-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.46.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-branch HEAD: b5819d09a365e7c33a6d0198323bee7332c6cd76  Merge branch 'renesas-dts-for-v6.13' into renesas-next
+Hi,
 
-elapsed time: 1268m
+This series adds bindings and support to rcar-isp for R-Car V4M by the
+means of adding a Gen4 family fallback compatible.
 
-configs tested: 48
-configs skipped: 137
+Previous versions of this work did not recognise that the CSISP on found
+on R-Car Gen4 is very similar and a family compatible to cover them all
+would have been beneficial. The same is true for the VIN module found on
+Gen4, and similar work adds a family compatible for that modules
+[1]. This series mirrors that work for the CSISP module. Hopefully this
+pain now will pay off later.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+This change requires updating existing DTS files to add this new family
+fallback. This is done in a backward compatible way and the driver
+retains the compatible values. These patches where previously part of 
+this series but have now already been merged by Geert in the Renesas 
+tree.
 
-tested configs:
-alpha                   allnoconfig    gcc-14.1.0
-arc                     allnoconfig    gcc-14.1.0
-arm                    allmodconfig    gcc-14.1.0
-arm                     allnoconfig    clang-20
-arm                     allnoconfig    gcc-14.1.0
-arm                    allyesconfig    gcc-14.1.0
-arm         randconfig-001-20241002    gcc-14.1.0
-arm         randconfig-002-20241002    clang-20
-arm         randconfig-003-20241002    clang-14
-arm         randconfig-004-20241002    gcc-14.1.0
-arm64                  allmodconfig    clang-20
-arm64                   allnoconfig    gcc-14.1.0
-arm64       randconfig-001-20241002    clang-20
-arm64       randconfig-002-20241002    clang-20
-arm64       randconfig-003-20241002    gcc-14.1.0
-arm64       randconfig-004-20241002    gcc-14.1.0
-csky                    allnoconfig    gcc-14.1.0
-hexagon                 allnoconfig    gcc-14.1.0
-i386                   allmodconfig    clang-18
-i386                    allnoconfig    clang-18
-i386                   allyesconfig    clang-18
-i386                      defconfig    clang-18
-loongarch               allnoconfig    gcc-14.1.0
-m68k                    allnoconfig    gcc-14.1.0
-microblaze              allnoconfig    gcc-14.1.0
-mips                    allnoconfig    gcc-14.1.0
-nios2                   allnoconfig    gcc-14.1.0
-openrisc                allnoconfig    clang-20
-openrisc                  defconfig    gcc-12
-parisc                  allnoconfig    clang-20
-parisc                    defconfig    gcc-12
-powerpc                 allnoconfig    clang-20
-riscv                   allnoconfig    clang-20
-riscv                     defconfig    gcc-12
-s390                    allnoconfig    clang-20
-s390                      defconfig    gcc-12
-sh                      allnoconfig    gcc-14.1.0
-sh                        defconfig    gcc-12
-sparc64                   defconfig    gcc-12
-um                      allnoconfig    clang-20
-um                        defconfig    gcc-12
-um                   i386_defconfig    gcc-12
-um                 x86_64_defconfig    gcc-12
-x86_64                  allnoconfig    clang-18
-x86_64                 allyesconfig    clang-18
-x86_64                    defconfig    clang-18
-x86_64                rhel-8.3-rust    clang-18
-xtensa                  allnoconfig    gcc-14.1.0
+See individual patches for changes since previous versions.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+1. commit 9fba8eb8d55d ("dt-bindings: media: renesas,vin: Add Gen4 family fallback")
+
+Niklas Söderlund (3):
+  dt-bindings: media: renesas,isp: Add Gen4 family fallback
+  media: rcar-isp: Add family compatible for R-Car Gen4 family
+  dt-bindings: media: renesas,isp: Add binding for V4M
+
+ Documentation/devicetree/bindings/media/renesas,isp.yaml | 4 +++-
+ drivers/media/platform/renesas/rcar-isp.c                | 4 +++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+-- 
+2.46.1
+
 
