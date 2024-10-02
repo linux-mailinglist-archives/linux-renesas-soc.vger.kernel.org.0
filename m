@@ -1,152 +1,141 @@
-Return-Path: <linux-renesas-soc+bounces-9313-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9314-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD97998D15D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2024 12:34:55 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EECB98D175
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2024 12:41:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4B6431F20FFC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2024 10:34:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3CEC0B23BBB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2024 10:41:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AE961E766B;
-	Wed,  2 Oct 2024 10:34:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FBB4195FE3;
+	Wed,  2 Oct 2024 10:41:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="FmG/v0+Z";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GTpACYWP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XJoHO0nc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E27D01E7667;
-	Wed,  2 Oct 2024 10:34:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD3011E500C
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  2 Oct 2024 10:41:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727865277; cv=none; b=nPvaz5ZYEfgBmBKWw6fmzlN7oUSanl5JwC5FdS/U1ZBGZKA3r81yO28OI6IzhCVnmMB49YFtLOqYdJNzf8IRdijNBdEQbDh2KBriFdugkr/mltmoBVaEiJCRlHimog+kBBry7fFUeqcfFGaaYUyI24pKqL/WiYIrUGTaB71XMkU=
+	t=1727865676; cv=none; b=r/rtSge3DU2/hIKJZlhQYEDY1AGu5DaFbZn9B94TQQpvgYw4+fF/qT2BSlQPPTMscrbhu1l/PcqdodBwPoG+GBib6nEw4nQhv5aC9tFY+efHx7jm2tNwCV21TqJD1zYskUzp/foE+7p/rb21S6074KAT3BUZnr0BqYg3bzcYL8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727865277; c=relaxed/simple;
-	bh=YIfTxHiEvUAVhkU3V9dbhXvptga1ow901Q5cbVOGSk4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YYohb0BLArIoGT1LWVWnzXukv9PDJoUJ0MBOf8SjmbSKbKBXWaMFotJZGeF3x8l8SIa8RhnLNkq9xRMSQeEbXRS0ynZTqITJ7W3/OsaGXOgOHctxisRjMwOM57rHFmBR3qOj5cJcMhxiBkIamcUuxgOxx94jynxamJQ6qKHVHoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=FmG/v0+Z; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GTpACYWP; arc=none smtp.client-ip=103.168.172.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id 1488613801E9;
-	Wed,  2 Oct 2024 06:34:35 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Wed, 02 Oct 2024 06:34:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1727865275;
-	 x=1727951675; bh=GjEIhcPUrNWOp27FIGg3lTjVjxhwbQaFKJgLoP6Jq2U=; b=
-	FmG/v0+Z1d6RAq4KvZ11AckAJWhUqHMq6SYm0yYdLvUwHhHcwH3GXKyuWHNWcVxp
-	IqRvWyB6AI3ndA8oH2MLswSwU+4eYA9eWKtFNjwBOVKGDpmDXxY2woL1/RkaxR4z
-	Co9yZaQmsVqT5KQpTzJUsxNlu2UL1QnL5o35GHocZxHJ9cMl0Cgb1ztIkZNHKWTs
-	IiymjOfrNMZxJOHz6M9afqQEZwDdL0a9u4FnP8W4gW1MHyRkxzGGvlGRalqNojmR
-	RqEbAYXnFTdzkAcosNS4+LH4Mb27kyqR0+kq3C/6gFQaqKjMiZObVfmgjuqiGyWw
-	QPv8Cc3IYklIUwVggCZyqw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1727865275; x=
-	1727951675; bh=GjEIhcPUrNWOp27FIGg3lTjVjxhwbQaFKJgLoP6Jq2U=; b=G
-	TpACYWPldeEn0TN2lr+5GzFbgAcEgFYHUu9+FFLlsOhm0Kkl/fsC6pzwEV1yTKjz
-	noxDNnv3ozwo4gxWRpqKV+IMTEQfvhgoFKFxz+qTAf7OJ58tG/nsC1APlEYC7FD/
-	lGiSjaD9y9Y7jWSg6JDJGEDrDZsUaKjJ0M7zKYG6Q86teJAMbGCz5GZ64m3FXhHG
-	zjz3bhhlORZZjiDrpO/jn4VhVxRKgxvRJ9cUzp4OlSM6lt93uXgOiOBzj3aJeEvP
-	PDjPke6fL/H4CpmRapqa8vLQsYK54yTmRbxVnZis4NNrBKfVzn4t5FkwBhQ1s77P
-	ldNMCC17ndiyCsdYpCLcQ==
-X-ME-Sender: <xms:uiH9Zt40eV8Le8hFYTAutcid8n-QwAFiD76fTKUEUiSnSj2wMmn9HQ>
-    <xme:uiH9Zq4SuRR2DE6b96H7h12ycT38EDQ8Br8sqgigBUQdQZIg98ktgnA18OPLuYuVY
-    obFXtCXdVLkXDQdu2g>
-X-ME-Received: <xmr:uiH9ZkegXS0_N6_1b0ZXA_1gqHOxsOpL6Mx09LBOzD61ew76OungeARix2mcGySbQpWFYfGc8SgbNgnwakCU8z7Ktw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdduledgvdejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhephffvvefufffkofgjfhggtgfgsehtkeertdertdej
-    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
-    gvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrght
-    thgvrhhnpeehiefgueevuedtfefhheegkeevtdelueeukeevfeduhefhhfejfffggeffle
-    efgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehn
-    ihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtph
-    htthhopedufedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhgthhgvhhgrsges
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprh
-    gtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhn
-    ohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshgrkhgrrhhirdgrihhluh
-    hssehikhhirdhfihdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghssehglhhiuggv
-    rhdrsggvpdhrtghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsoh
-    hnsghorghrugdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdr
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggvvhhitggvthhrvggvsehvghgvrhdrkh
-    gvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:uiH9ZmJ0NAeWNswPenhk-X6Gr25d387kvw0ODIumBj3Ug7mt1XaFGA>
-    <xmx:uiH9ZhJegbQCbWQCe5p8CKNPo5yGuXm2AEl72xwdNNwiakNG5V_qHw>
-    <xmx:uiH9ZvzVF-v-ACYXDkuFk5GSaC0MANC93B-bkWm5_PD0pKSd1IjnxQ>
-    <xmx:uiH9ZtIVVMLIncPCLQRBKqXgs2vjSw_AXV06VazLaXBhLIPfdmU1tw>
-    <xmx:uyH9ZoZ8jG98E9GZPGGqCHxVCIRHjq_sCMQBvyzBF-Q5PF2V_xcxCF7X>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 2 Oct 2024 06:34:34 -0400 (EDT)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v3 3/3] dt-bindings: media: renesas,isp: Add binding for V4M
-Date: Wed,  2 Oct 2024 12:33:18 +0200
-Message-ID: <20241002103318.24289-4-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.46.1
-In-Reply-To: <20241002103318.24289-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20241002103318.24289-1-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1727865676; c=relaxed/simple;
+	bh=Q5BhR+3N5fMtbUoGaWQwcFBibZHFBuHoPWLF5LWOOgo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=e1Las8n+efnW7g8xA/TirDuVykQYYUOwKeV+GC6kPDLJ9NRqLTGNEDmtMgxtaX/jKFHBxTe/0Goeg3hQrco0ZVxXBpWcOBpIOSgaeDUfpW8I/2gWPwmeBCY93gWvZfA1rmxWpS2Jq/UeiHKo9FXtAQ2Auk4iwxYTn+2QxK7dwkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XJoHO0nc; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727865674; x=1759401674;
+  h=date:from:to:cc:subject:message-id;
+  bh=Q5BhR+3N5fMtbUoGaWQwcFBibZHFBuHoPWLF5LWOOgo=;
+  b=XJoHO0ncu8HUgskZKZelcgUobDCace6st2KimeRLWmmlmwQOzU8sEwgt
+   MDw0DAr7Z/ggDfMq4Zrz0k0JPI/c2j6mjsK+Xx5YJrieRErh546QmYqg7
+   g1asEvCM/6xjRxNbnt+py1R+jlnhOxIRYfqPAhp2kgoYny8+N5E3kEIl/
+   CLR+fV6qleEy8GvS5wLRcOTUs/fVcvCCXPTsnPIHI6WxV61X6ylcEe+Pp
+   Zg8by8DuTRIh3AyanOOkJ7V2dLXG/OBFoe/UHznK6WG6ez7NdUhHyR1cD
+   0KKusgN7o8SUdzVh+sMCumZ5n/kaqIYPS3lwBHdQOQe4J840bT8M//W85
+   A==;
+X-CSE-ConnectionGUID: GmI3fkhYQFmNUJXIVjO54A==
+X-CSE-MsgGUID: Fa7flqsPS5SVtdxKbZ//5g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="26821676"
+X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; 
+   d="scan'208";a="26821676"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 03:41:13 -0700
+X-CSE-ConnectionGUID: usvlY7CTSEm317n7EwoJWg==
+X-CSE-MsgGUID: IGHxQo8DSPKpfmctheWysQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; 
+   d="scan'208";a="97314327"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 02 Oct 2024 03:41:13 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1svwn8-000RwA-0b;
+	Wed, 02 Oct 2024 10:41:10 +0000
+Date: Wed, 02 Oct 2024 18:40:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:renesas-dts-for-v6.13] BUILD SUCCESS
+ ddda5046e484d881563a6ad8da77f23f39f9e298
+Message-ID: <202410021816.mDFDtDez-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Document support for the ISP module in the Renesas V4M (r8a779h0) SoC.
-This device is compatible with the CSISP module on the other Gen4 SoCs.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dts-for-v6.13
+branch HEAD: ddda5046e484d881563a6ad8da77f23f39f9e298  ARM: dts: renesas: rskrza1: Enable watchdog timer
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
----
-* Changes since v1
-- Add to commit message that V4M is compatible with other Gen4 SoCs.
----
- Documentation/devicetree/bindings/media/renesas,isp.yaml | 1 +
- 1 file changed, 1 insertion(+)
+elapsed time: 1288m
 
-diff --git a/Documentation/devicetree/bindings/media/renesas,isp.yaml b/Documentation/devicetree/bindings/media/renesas,isp.yaml
-index 730c86f2d7b1..c4de4555b753 100644
---- a/Documentation/devicetree/bindings/media/renesas,isp.yaml
-+++ b/Documentation/devicetree/bindings/media/renesas,isp.yaml
-@@ -22,6 +22,7 @@ properties:
-       - enum:
-           - renesas,r8a779a0-isp # V3U
-           - renesas,r8a779g0-isp # V4H
-+          - renesas,r8a779h0-isp # V4M
-       - const: renesas,rcar-gen4-isp # Generic R-Car Gen4
-   reg:
-     maxItems: 1
--- 
-2.46.1
+configs tested: 48
+configs skipped: 137
 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                   allnoconfig    gcc-14.1.0
+arc                     allnoconfig    gcc-14.1.0
+arm                    allmodconfig    gcc-14.1.0
+arm                     allnoconfig    clang-20
+arm                     allnoconfig    gcc-14.1.0
+arm                    allyesconfig    gcc-14.1.0
+arm         randconfig-001-20241002    gcc-14.1.0
+arm         randconfig-002-20241002    clang-20
+arm         randconfig-003-20241002    clang-14
+arm         randconfig-004-20241002    gcc-14.1.0
+arm64                  allmodconfig    clang-20
+arm64                   allnoconfig    gcc-14.1.0
+arm64       randconfig-001-20241002    clang-20
+arm64       randconfig-002-20241002    clang-20
+arm64       randconfig-003-20241002    gcc-14.1.0
+arm64       randconfig-004-20241002    gcc-14.1.0
+csky                    allnoconfig    gcc-14.1.0
+hexagon                 allnoconfig    gcc-14.1.0
+i386                   allmodconfig    clang-18
+i386                    allnoconfig    clang-18
+i386                   allyesconfig    clang-18
+i386                      defconfig    clang-18
+loongarch               allnoconfig    gcc-14.1.0
+m68k                    allnoconfig    gcc-14.1.0
+microblaze              allnoconfig    gcc-14.1.0
+mips                    allnoconfig    gcc-14.1.0
+nios2                   allnoconfig    gcc-14.1.0
+openrisc                allnoconfig    clang-20
+openrisc                  defconfig    gcc-12
+parisc                  allnoconfig    clang-20
+parisc                    defconfig    gcc-12
+powerpc                 allnoconfig    clang-20
+riscv                   allnoconfig    clang-20
+riscv                     defconfig    gcc-12
+s390                    allnoconfig    clang-20
+s390                      defconfig    gcc-12
+sh                      allnoconfig    gcc-14.1.0
+sh                        defconfig    gcc-12
+sparc64                   defconfig    gcc-12
+um                      allnoconfig    clang-20
+um                        defconfig    gcc-12
+um                   i386_defconfig    gcc-12
+um                 x86_64_defconfig    gcc-12
+x86_64                  allnoconfig    clang-18
+x86_64                 allyesconfig    clang-18
+x86_64                    defconfig    clang-18
+x86_64                rhel-8.3-rust    clang-18
+xtensa                  allnoconfig    gcc-14.1.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
