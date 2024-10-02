@@ -1,91 +1,96 @@
-Return-Path: <linux-renesas-soc+bounces-9299-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9300-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DE8598CE78
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2024 10:12:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F98E98CE7C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2024 10:12:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B9D3A1C20DC1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2024 08:12:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F2E6A1F23C06
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2024 08:12:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 772B2194A67;
-	Wed,  2 Oct 2024 08:12:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CD1E194A6C;
+	Wed,  2 Oct 2024 08:12:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kbgi6U55"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aBcrzmKg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A4519414E;
-	Wed,  2 Oct 2024 08:12:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E8EC19414E;
+	Wed,  2 Oct 2024 08:12:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727856723; cv=none; b=ALLLRNM/VTrqrHHIBm7TIWPh85KTGNwvU49ndTt1RylSk2sOkKm1polD0stVXWtHQuubC4AeMkbwmXFHK7ZtfwmWxVo8xaG/ox7Vui8zKMziIYMMzCB9De4ZKWQnp7QDfCiAmrSByxsKAtWUFpkpzmvUnGEpJy5++f0S/ILXZdo=
+	t=1727856730; cv=none; b=FIgR5qsRNoidEOuKj4NO/3kfsJXbCTOvhtcRzMnBroMuev7PMD7H41zqpgHbzbQQExeyXyXvf9NjWCRh2/SahRhPgmxH97t+IX/8KF0sWIA2LeFA28/6Gymf/0EgW9GTdwLQfQCjShlfPe/9jQkXpqjD8QoDwUbBlK8ZlmtX5g0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727856723; c=relaxed/simple;
-	bh=70wnDyxHCzKJTJjwowzBQj1Ibokxz5hy40NjX5cZwkw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Cxw/7uf6WRR8ihQZ+D4AWpYNfowLQUQ6FZTTu/e82thr4Rm1kVKW8IW8XGkTtkms5t14zdRNsQW4BqzuFBr8AHd9mW4b6C5Z6hp3TzSKdr2z9N8aypxcHghxd0jHLyNGvxDy2v31cT5OfhgbB5NsyQX3h5Ywcj3AjNZmefuPoZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kbgi6U55; arc=none smtp.client-ip=209.85.210.196
+	s=arc-20240116; t=1727856730; c=relaxed/simple;
+	bh=qv5RrY1sAg9A4avEJJ7H4rY1rIYT16zVPu06l4R4Fpc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Hb/OMRWRoUsdfQkh0PcUEqU9T5BuRrOIdAQUle9oeo43evO6RBqlX6hmUBVi7MDqYGdQ/YQ3A/vE+gFL4f84hZ4U+cik25SAhsLFx7qpj0FccTsHY/hxfBFj8wNdXALm+Zo0aoLdWs/P1NInMDQyLE/tbqkv+0AYT8U4/z2bEcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aBcrzmKg; arc=none smtp.client-ip=209.85.210.193
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-718e6299191so3447895b3a.2;
-        Wed, 02 Oct 2024 01:12:01 -0700 (PDT)
+Received: by mail-pf1-f193.google.com with SMTP id d2e1a72fcca58-719ba0654f9so5422948b3a.3;
+        Wed, 02 Oct 2024 01:12:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727856721; x=1728461521; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AwYW3aXkOfpbJFEkTcyjA4Puz8SUEOqTQONRZN7kTSM=;
-        b=Kbgi6U55T/+r12FP2mho1PlDEjRUSoKyIbMrgQrpRlh9Y3dnGLWu/y2Uda10AEQR/A
-         aABoT5QVsmFq5u2+PMZT6bwSF5qeajuiqC+YNJ0RgZhUfdIXb/JM5eSBJUOs45TcDwM4
-         1iIS62OqHxbh+qb0lDADEd0B7Xb5zgDsdvUMVjfTQkTf2I8bp09edPM9t/opNsZgw19a
-         hJBaQhbA3VV2uRIezkcgpfl1ipld7pLWzQLwVpi8PddSOeZkrJRGJ7uOXS9QnrHcriiO
-         xPJeGWZAYw2ejKvXooTL6LysXl/UE5fpDlBf0ipJQOJpoWLgUDNA0j3uKfpQG2e8u4Hd
-         EP/g==
+        d=gmail.com; s=20230601; t=1727856728; x=1728461528; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gTawi8vlABzn4eU3Jwuqn4V6YP8Yw8I/ChTBGFVJseE=;
+        b=aBcrzmKgvfPPg3Ww7Xua1CrsYNvrOz7M6ZX0ZCSKZaFnpObdzIXyYwHGP14eD7Z2ri
+         5uwqvDS+W9vuZjmGv2AQo+WFCvRo+y6GBx5zmwDUzKgJPeDkDP+ZkJ98hfwe2dTvJpMo
+         2z7SV4SbtCXvW3KK5VUYfKqt3VjY47X75lf8UHqJ/CbfGO0X6a6R9zO+p2a4RpMTtK6t
+         pbeTLKsNK7ng2ZGfP8TspKWOc8xN5lNOEIzCGa9oBFGQSYx6ek/zMDiLRC42ALpYwCWZ
+         QoGkcWxfegWAyMCQeMBWcf1xAdg4uUD0UnDXAwKmfB1h2b1cu8bclBTzLP1aH5BWbcZS
+         avpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727856721; x=1728461521;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AwYW3aXkOfpbJFEkTcyjA4Puz8SUEOqTQONRZN7kTSM=;
-        b=xI01rnq5NIXvg+wYhc4900tn9Qs1J7jP0QWEF25x6XiqU8FRRmMuo+45ThYjIvFP9A
-         IqMTmzJ8vmVUyVl4yA3VGRX506jiHWVBsPUoO9RFhs0E67iV7hLHNFj6aJumyaxJqSNx
-         tsJCVUJ56NAjC0HBFJr+5pw5TlkHL/ldYy91B5Rw9aAXkyOs9gpj980Z7gq0+np8QSyw
-         YibGPyZmn1LoflAwuFs4rxE8f2t0Y72ZAlTdUjtLU0KaAJH4MThYGAkcdODj2td3nKng
-         Oi+E1tKz90/GYQGVuDD3uu0FJqtVTGMR07ugvgHMq/9nsja8ogBo4tOlazeDAePSO3IZ
-         efLg==
-X-Forwarded-Encrypted: i=1; AJvYcCV7zsKmg6C2bqpqRrYJjTkXojvNUbK0RpgtyQ+YvNJqoIPA7+FSbu9lTaHkCAn+kgSu1H+RDX5cTQJg@vger.kernel.org, AJvYcCVzopR7mYBxLgjmJvjbh8jQtgxg0+ApLu9YkhLf8Gvb1QjBsqoN8xD0W20Pgx/Uz7ijj9WaGJs/wOFq5W7JNNRRo1U=@vger.kernel.org, AJvYcCW+FGj7YAmtCI7BHfwgSWvbjNOOYljSaVs35RP+CN7FKaL9gpUM2xHiVQqt5CEOdZ5Ew+qUqigbP2QF+Zba@vger.kernel.org, AJvYcCXHxuPfqSjnP9fEO0d3ZwNlKf2HFfOa4XVx5ZLhNjWLVDSGtjshD9hTOQ/uxLY1aNDTnVke70fwwtAB0zM=@vger.kernel.org, AJvYcCXL77GWNTDGLSbmikL9UBsDcpWqiRzJ01nOoZ3FgN8WEqxmZpMl3jb/gmLoVUgy/4nXGpsmBht2fkTz@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSXl/JIyMfPbxA/d0b5bSw5angf66ppa0yMrs2ysbsO/hhgXBg
-	MnWrl2a5B88rF41MGoFnKeqg7+CIqG6LavfJBdPlKbtH6MCJFO+b
-X-Google-Smtp-Source: AGHT+IEWAQq/PDSNce8fNJCMrbE725mZU0WLJ3wtGPmqrDfOR+mYJ2PBSVZQSCoG2J59ftPf5NXxkQ==
-X-Received: by 2002:a05:6a00:8914:b0:714:157a:bfc7 with SMTP id d2e1a72fcca58-71dc5c8f1b3mr2659166b3a.15.1727856721040;
-        Wed, 02 Oct 2024 01:12:01 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1727856728; x=1728461528;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gTawi8vlABzn4eU3Jwuqn4V6YP8Yw8I/ChTBGFVJseE=;
+        b=sL8nSo+igPu2oTSysce3B7gVTe3rN9Gtimnx3hXJwoim6iBl9peqFG0MTFur1y1C+1
+         Le92n/R757jLBiYGxBW+5ujITAl6jLOMPEyZycEBiVzkbmQ4YfUJtKKcmvnUHlGDmISF
+         ZBUnWfit6qZN9kQGvQQPw1VomCUvpYZhKsrNTZCtIR3bv3fi2KXl0qu0Db9Np2OM7X3E
+         PJI6dLAwgqWzaIUTBgreUw3xWEnA0BxNvgRmUmtk/CVzx7QEgjQ7V9vVFG16Nzg8+18K
+         REv5uLRsI8wy3xEVxkNCPw+b9++Q8nHiIR70ztDnouurxIxcOGioFV4gU3c84RXtCmow
+         zsRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVIt2mKCShKS2X1d3MWdxxMbH2YYueJElhP4V7pgQqs5pvMjTvLHptcyYtzNJ7JtclLERm0mcZV4Ju8pRSwTU8v0VA=@vger.kernel.org, AJvYcCVTcr4mOF21JU3JAt+Z+CvSppUa4ovoIV+SbD5k0fJu7lZcLkefKVZDLv+/Dx7k41ZIA8lAuqWZdi34VCZm@vger.kernel.org, AJvYcCVr+bnxuW99cVEtzozo7bltGw3djaEni+qQ8qKjhRqSRE6F9wuoj872HQnt0zs1lXnPOjk8MD3ihSZZ@vger.kernel.org, AJvYcCW1lxgdAQLWxaKcQEBYFxrjL49VIXpzldSC1sOSgS9gYCy3f7+7wIMIJbX3jCO/mvxLEQINLtZzXPet@vger.kernel.org, AJvYcCXMsnoA1IMbdtFLSRP3gJMWRTkzTEDts7KpSAvP08MM7IMIKk1esadBUfXD6rwHKcBTclz3BGLoVV1OE6w=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz42F9iy7BbMrxk4Cdz/1VwzqLcogk2R0jedEqzoIjF4ffuCiRx
+	0DmIdwGnp8fAoh7F+0WnM03HPlx5YBUXf+m2wocQPyiaAGPbN7J6
+X-Google-Smtp-Source: AGHT+IGwR48M259nJHAFUBw6qCKkXd4ejrHKz1v+kWfrIGS1FwJsFKjfIkioL5Z42ZdnZmWhxZh6hg==
+X-Received: by 2002:a05:6a00:3916:b0:717:9154:b5b6 with SMTP id d2e1a72fcca58-71dc5c6622dmr4008381b3a.7.1727856727560;
+        Wed, 02 Oct 2024 01:12:07 -0700 (PDT)
 Received: from Ubuntu22.. ([219.91.95.148])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71b2652b4f6sm9618115b3a.174.2024.10.02.01.11.58
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71b2652b4f6sm9618115b3a.174.2024.10.02.01.12.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Oct 2024 01:12:00 -0700 (PDT)
+        Wed, 02 Oct 2024 01:12:07 -0700 (PDT)
 From: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>
 To: patrick@stwcx.xyz,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>,
 	=?UTF-8?q?Carsten=20Spie=C3=9F?= <mail@carsten-spiess.de>,
 	Jean Delvare <jdelvare@suse.com>,
 	Guenter Roeck <linux@roeck-us.net>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	linux-hwmon@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v8 0/2] hwmon: (isl28022) new driver for ISL28022 power monitor
-Date: Wed,  2 Oct 2024 16:11:28 +0800
-Message-Id: <20241002081133.13123-1-yikai.tsai.wiwynn@gmail.com>
+Subject: [PATCH v8 1/2] dt-bindings: hwmon: add renesas,isl28022
+Date: Wed,  2 Oct 2024 16:11:29 +0800
+Message-Id: <20241002081133.13123-2-yikai.tsai.wiwynn@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241002081133.13123-1-yikai.tsai.wiwynn@gmail.com>
+References: <20241002081133.13123-1-yikai.tsai.wiwynn@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -95,40 +100,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Driver for Renesas ISL28022 power monitor chip.
-Found e.g. on Ubiquiti Edgerouter ER-6P
+Add dt-bindings for Renesas ISL28022 power monitor.
 
-v8: fix mistakenly removed Reviewed-by
-v8: fix incorrect use of dev_err_probe
-v7: move dt-bindings to the first patch
-v7: fix unreasonable code
-v7: separate voltage, current, and power reading functions
-v6: shunt voltage in mV and revise code
-v5: review comments incorporated
-v4: property compatible fixed
-v3: changelog added
-v2: properties reworked
-v2: calculations fixed
-v2: shunt voltage input moved to debugfs
-v2: documentation and devicetree schema reworked
-v1: created
-
-Yikai Tsai (2):
-  dt-bindings: hwmon: add renesas,isl28022
-  hwmon: (isl28022) new driver for ISL28022 power monitor
-
- .../bindings/hwmon/renesas,isl28022.yaml      |  64 +++
- Documentation/hwmon/index.rst                 |   1 +
- Documentation/hwmon/isl28022.rst              |  63 ++
- MAINTAINERS                                   |   8 +
- drivers/hwmon/Kconfig                         |  11 +
- drivers/hwmon/Makefile                        |   1 +
- drivers/hwmon/isl28022.c                      | 536 ++++++++++++++++++
- 7 files changed, 684 insertions(+)
+Signed-off-by: Carsten Spieß <mail@carsten-spiess.de>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>
+---
+ .../bindings/hwmon/renesas,isl28022.yaml      | 64 +++++++++++++++++++
+ MAINTAINERS                                   |  6 ++
+ 2 files changed, 70 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
- create mode 100644 Documentation/hwmon/isl28022.rst
- create mode 100644 drivers/hwmon/isl28022.c
 
+diff --git a/Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml b/Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
+new file mode 100644
+index 000000000000..dd82a80e4115
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
+@@ -0,0 +1,64 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/hwmon/renesas,isl28022.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas ISL28022 power monitor
++
++maintainers:
++  - Carsten Spieß <mail@carsten-spiess.de>
++
++description: |
++  The ISL28022 is a power monitor with I2C interface. The device monitors
++  voltage, current via shunt resistor and calculated power.
++
++  Datasheets:
++    https://www.renesas.com/us/en/www/doc/datasheet/isl28022.pdf
++
++properties:
++  compatible:
++    const: renesas,isl28022
++
++  reg:
++    maxItems: 1
++
++  shunt-resistor-micro-ohms:
++    description:
++      Shunt resistor value in micro-Ohm
++    minimum: 800
++    default: 10000
++
++  renesas,shunt-range-microvolt:
++    description:
++      Maximal shunt voltage range of +/- 40 mV, 80 mV, 160 mV or 320 mV
++    default: 320000
++    enum: [40000, 80000, 160000, 320000]
++
++  renesas,average-samples:
++    description:
++      Number of samples to be used to report voltage, current and power values.
++    default: 1
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum: [1, 2, 4, 8, 16, 32, 64, 128]
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        power-monitor@40 {
++            compatible = "renesas,isl28022";
++            reg = <0x40>;
++            shunt-resistor-micro-ohms = <8000>;
++            renesas,shunt-range-microvolt = <40000>;
++            renesas,average-samples = <128>;
++        };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c27f3190737f..950456f4d393 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12118,6 +12118,12 @@ F:	drivers/isdn/Makefile
+ F:	drivers/isdn/hardware/
+ F:	drivers/isdn/mISDN/
+ 
++ISL28022 HARDWARE MONITORING DRIVER
++M:	Carsten Spieß <mail@carsten-spiess.de>
++L:	linux-hwmon@vger.kernel.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
++
+ ISOFS FILESYSTEM
+ M:	Jan Kara <jack@suse.cz>
+ L:	linux-fsdevel@vger.kernel.org
 -- 
 2.34.1
 
