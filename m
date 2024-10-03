@@ -1,162 +1,134 @@
-Return-Path: <linux-renesas-soc+bounces-9362-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9363-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C49E98F294
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2024 17:29:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE54698F2A2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2024 17:32:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E7FE1C21BA2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2024 15:29:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1372D1C214AB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2024 15:32:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37CDF1A3AA7;
-	Thu,  3 Oct 2024 15:29:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B617719DF92;
+	Thu,  3 Oct 2024 15:32:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kuMVv3oV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JW6wiGlo"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5561A256F;
-	Thu,  3 Oct 2024 15:29:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C796DDA8;
+	Thu,  3 Oct 2024 15:32:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727969360; cv=none; b=udTAWKA3JyyOQ1D4UjzI9sTT72DlFWaszGU1zvNwmcrLlNoaMZuWwNhTeP6PAEJjXskAwQO6bpzuCLOobD36hzWhstVt8hMl3JEO4z+Qw3xwQZ6h/91sPONEe7AT+VHd1N4aQynK/dLDpzoawV3BWa001TgUAj5yv9kdYiXWdKA=
+	t=1727969557; cv=none; b=VtnTy1A/DYw2/TAFK8NNN2f+B0+OaA+w9Xl9w7waadDkXx+N7QmOpdYtIf+nZNiJLdkA5It9AQ5KkspdDYF8TNIV5ihQ7URUJDDqZInO/gBzzVu+qpbh8XAy94Hw9ELdN3Rv3NxbBhrR+8RJ1AdUSdatfzBlQgfyXMHOZEvhYmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727969360; c=relaxed/simple;
-	bh=YvquIwwg5/j4zuorAq7NmB4oxpw4k5D2MxcNq7+7jVA=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u+SmgcoAVVrWJnrPK79M4QVcNO4CYtGJ1UtdnyQx2lw883bXuiWAbRs5NMw7443QHcLwA1iBWNDQiZoWY1D0G3MWg7znmogxT+IBr0uH5jX5utjU8ECD8/GYoacKe5DD5axcOywIefuC0E6F0OT5+0MBOtLsKlyEAunDNoX1ioQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kuMVv3oV; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727969359; x=1759505359;
-  h=date:from:to:subject:message-id:references:mime-version:
-   content-transfer-encoding:in-reply-to;
-  bh=YvquIwwg5/j4zuorAq7NmB4oxpw4k5D2MxcNq7+7jVA=;
-  b=kuMVv3oV8G7edPznipQyHxg75FCx3GOh4uL/DIomV8EC1LroedBsnAxe
-   RP3fUHZIo8HskIcqa3ta1Xpg0Atly9UGs1Sr8igfWCyrxRNqXCTJkZQ7n
-   peglNbDgp/edKzSttcbyJ4mT6sBFNyiionHVLQDVbrQqMpXieLSohwNAj
-   64G4lqR0tArBBad10HGKHKs8UQjnwDdGNdGabycRlq/4ofE+pLi1KOeLu
-   3kp8pwupgpcWuLE0jxhL6qn3El7GozCWyUadc1H+YbU6FSlghT0wsPmnO
-   3YlQLnp6ydfMybYst1E96AvZgHYAgNElRk0nEvRsBS4568Dh0TleNeAmz
-   A==;
-X-CSE-ConnectionGUID: W+6UmqV5TRCRGVQo68zmQQ==
-X-CSE-MsgGUID: sqhbJhLoRxW0rFwOW0vNAw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="26680400"
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
-   d="scan'208";a="26680400"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 08:29:18 -0700
-X-CSE-ConnectionGUID: R4ZdAm2cSWCWdcBvo+HW5w==
-X-CSE-MsgGUID: Rg93cpzSR3e/8YcpWOq3jg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
-   d="scan'208";a="74496623"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
-  by fmviesa008.fm.intel.com with SMTP; 03 Oct 2024 08:29:11 -0700
-Received: by stinkbox (sSMTP sendmail emulation); Thu, 03 Oct 2024 18:29:10 +0300
-Date: Thu, 3 Oct 2024 18:29:10 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Inki Dae <inki.dae@samsung.com>,
-	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Sandy Huang <hjc@rock-chips.com>, Jyri Sarha <jyri.sarha@iki.fi>,
-	Alexey Brodkin <abrodkin@synopsys.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
-	Zack Rusin <zack.rusin@broadcom.com>, amd-gfx@lists.freedesktop.org,
-	linux-mediatek@lists.infradead.org,
-	linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-	virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org, xen-devel@lists.xenproject.org
-Subject: Re: [PATCH 2/2] drm: Move crtc->{x, y, mode, enabled} to legacy
- sub-structure
-Message-ID: <Zv64RktMPv2rpCZf@intel.com>
-References: <20241002182200.15363-1-ville.syrjala@linux.intel.com>
- <20241002182200.15363-3-ville.syrjala@linux.intel.com>
- <Zv6QF2EmIcogtlLA@louis-chauvet-laptop>
- <Zv6gSGMXZZARf3oV@intel.com>
- <Zv6zN7Go_XG44P2-@louis-chauvet-laptop>
+	s=arc-20240116; t=1727969557; c=relaxed/simple;
+	bh=jahUCEKj9NRTWQg1+eog4R85O0MFnIuBfeHhBf4QMZQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hlGuq9hY1dwy2DZz4QL+6OhfuiI0Rauo6yH4rFDiYjsZvTawiJ/UwDpLk4/D3nuh7NWPdRGAtukqmloVxTdTc/ABLpa6CX7zAIerGSvDl3VS6VolrI6OynOidTECF+tfvQz8B03dk/TStsEow/lcHM8CGO7KGWw2rxfvRL7HFfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JW6wiGlo; arc=none smtp.client-ip=209.85.160.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-287b8444ff3so225195fac.1;
+        Thu, 03 Oct 2024 08:32:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727969555; x=1728574355; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jahUCEKj9NRTWQg1+eog4R85O0MFnIuBfeHhBf4QMZQ=;
+        b=JW6wiGlo53t21DwJKAYRAHUyCf2NSxLrvjOlUv5D2By0FbG3k54gJpYkOJ1JFkOiPz
+         O1w41yNnu7RqkOIvrviUKGCNBdogS9dHQX4DfQqFK3of6ZCYWCtQjk/44p2j4TvwmB80
+         4Du3sGBRgVx0YPPbfDsTAWp5hl54YJfdvmkbLMA9IoJwhslJSB4iIXh9iDIacsV2HDFX
+         ZT9ukVF9sVmm+I2lc1jkBPAUvnsyjgCTUX2Hs+7YFSIksduE0wOrRVYRFEm8HNJ85Lzc
+         jlfxnu9FqYuz/HIKztaeuQmuMZHJ+ymQFZGV7AuNhNXSRCAlRNJBiRe+pSObtQPRqFEc
+         3RtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727969555; x=1728574355;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jahUCEKj9NRTWQg1+eog4R85O0MFnIuBfeHhBf4QMZQ=;
+        b=jVELJryxQTl+r8nqgWpQpKtUE7Zjmqv4hnfxb21VDduUIJBgeR0HK7tpouvk6YYE9W
+         /QVvwAjwhEhWa9BRjR8XYUFYLi7PhQKD/f7J9JSXCbE6o+3soeurZ9UOrM+p3LOJiuuF
+         nR+vjBwSmte9f6t+T2iJKDAX9p0sw91rbMzmXPwYrEzjKnvmRIBTUVzTzPkUAEsXUBxq
+         J1SUH4lQDOdn1AzxdWomKbugAE7yj97BxywoxJvSGdZ74EOSBsVrQ39PrHGNuFLqtudp
+         2zaJcjdF42r12NiGKHB14GfYimcGLUWEIKz3cIhwVTHOSUtSHEMkblvfo1erb7nG6Xmi
+         EmAA==
+X-Forwarded-Encrypted: i=1; AJvYcCVDAEh8C7dCaLi8/xdxx9i4gyi5JVhoZstJOmwoNHLI4wgs10LD4e5F9wv25qCB2KMWJ/hXCZ+DvUghDOLW1m+wSrs=@vger.kernel.org, AJvYcCVT2RjQYOTVxPOo8dRg6sbzNffnmpT/bc/6an/9aOoN3SNWp4VrDo181E4xyQpXfRrRyKs5EFRXb2AI@vger.kernel.org, AJvYcCVtqS3LkblJXTDV5wD+s8iFnNbCPoyZixpR5g8cBuP3LtndgCefOyJJXC/X/PgNiIfu7hc0OKRR6Ahx9hdZ@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywo/lKoFB5AoyuzWBb4ZZ1E5fwIEB96Y15QvKrf2XIkeUrObDFD
+	MB8y1nTPcJagTNsJ3LY+Of8bK5xDKv7NXUDttWr39UbD5v9375vhHytuS7bJ62N37Wqz+PKb4vB
+	3kR0IFJOPRZM9z6b1knaEl8dkTT8=
+X-Google-Smtp-Source: AGHT+IGWgHG1pZLAJW1/0INFYGZK0vzLTtDKn/CvN91U6G58RVlzwkIQ+mHchK9Eyqu2EfUsF5ZJzF7dOXTRO5Q+5L4=
+X-Received: by 2002:a05:6870:d1c2:b0:277:d932:deb1 with SMTP id
+ 586e51a60fabf-28788a8b15emr5118049fac.18.1727969555113; Thu, 03 Oct 2024
+ 08:32:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zv6zN7Go_XG44P2-@louis-chauvet-laptop>
-X-Patchwork-Hint: comment
+References: <20241003131642.472298-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdVknArz3W5XhPVj-ZGCu97SWyf2EqHhJRXOg6pJ1=tF=w@mail.gmail.com>
+In-Reply-To: <CAMuHMdVknArz3W5XhPVj-ZGCu97SWyf2EqHhJRXOg6pJ1=tF=w@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 3 Oct 2024 16:32:08 +0100
+Message-ID: <CA+V-a8v-zumfwm4q7icQxwB60SXetGogNOi0fBBFZRQwTsTxEw@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: renesas: rzg2l: Always call rzg2l_gpio_request()
+ for interrupt pins
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 03, 2024 at 05:07:35PM +0200, Louis Chauvet wrote:
-> 
-> > > > diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-> > > > index a40295c18b48..780681ea77e4 100644
-> > > > --- a/drivers/gpu/drm/vkms/vkms_crtc.c
-> > > > +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-> > > > @@ -64,7 +64,7 @@ static int vkms_enable_vblank(struct drm_crtc *crtc)
-> > > >  	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
-> > > >  	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
-> > > >  
-> > > > -	drm_calc_timestamping_constants(crtc, &crtc->mode);
-> > > > +	drm_calc_timestamping_constants(crtc, &crtc->legacy.mode);
-> > > 
-> > > 	drm_calc_timestamping_constants(crtc, &crtc->state->mode);
-> > 
-> > This one doesn't look safe. You want to call that during your atomic
-> > commit already.
-> > 
-> 
-> This was already not safe with the previous implementation? Or it is only 
-> unsafe because now I use state->mode instead of legacy.mode?
+Hi Geert,
 
-Yeah, if you want to look at obj->state then you need the corresponding
-lock.
+On Thu, Oct 3, 2024 at 2:46=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
+.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Thu, Oct 3, 2024 at 3:16=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.=
+com> wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Ensure that rzg2l_gpio_request() is called for GPIO pins configured as
+> > interrupts, regardless of whether they are muxed in u-boot. This
+> > guarantees that the pinctrl core is aware of the GPIO pin usage via
+> > pinctrl_gpio_request(), which is invoked through rzg2l_gpio_request().
+> >
+> > Fixes: 2fd4fe19d0150 ("pinctrl: renesas: rzg2l: Configure interrupt inp=
+ut mode")
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Thanks for your patch!
+>
+> > Output before this patch on G2L/SMARC:
+> > root@smarc-rzg2l:~# cat /sys/kernel/debug/pinctrl/11030000.pinctrl-pinc=
+trl-rzg2l/pinmux-pins | grep P2_1
+> > pin 17 (P2_1): UNCLAIMED
+> >
+> > Output after this patch G2L/SMARC:
+> > root@smarc-rzg2l:~# cat /sys/kernel/debug/pinctrl/11030000.pinctrl-pinc=
+trl-rzg2l/pinmux-pins | grep P2_1
+> > pin 17 (P2_1): GPIO 11030000.pinctrl:529
+>
+> Just wondering: is this restored to UNCLAIMED after releasing the
+> interrupt (i.e. after unbinding the ADV7535 driver)?
+>
+Actually it doesn't report `UNCLAIMED` after `modprobe -r adv7511`,
+pinmux-pins reports P2_1 is claimed 11030000.pinctrl:529. `modprobe
+adv7511` later succeeds though (maybe because it's the same device).
+rzg2l_gpio_free() is called from the rzg2l_gpio_irq_domain_free()
+path, either this path is not being called when IRQ is freed or the
+adv7511 isn't releasing the IRQ.
 
-obj->state is also not necessarily the correct state you want because
-a parallel commit could have already swapped in a new state but the
-hardware is still on the old state.
-
-Basically 99.9% of code should never even look at obj->state, and
-instead should always use the for_each_new_<obj>_in_state()
-and drm_atomic_get_new_<obj>_state() stuff. Currently that is a
-pipe dream though because a lot of drivers haven't been fixed to
-do things properly. If we ever manage to fix everything then we
-could remove the stall hacks from drm_atomic_helper_swap_state()
-and allow a commit pipeline of arbitrary length.
-
-> 
-> After inspecting the code, I think I don't need to call it as:
-> 
-> In `vkms_atomic_commit_tail` (used in 
-> `@vkms_mode_config_helpers.atomic_commit_tail`), we call 
-> `drm_atomic_helper_commit_modeset_disables`, which call 
-> `drm_atomic_helper_calc_timestamping_constants` which call 
-> `drm_calc_timestamping_constants` for every CRTC.
-
-Slightly odd place for it, but I think that's just because it was
-originally part of drm_atomic_helper_update_legacy_modeset_state()
-and I didn't bother looking for a better home for it when I split
-it out. But seems like it should work fine as is.
-
-> 
-> I tested kms_vblank, all of them are SUCCESS/SKIP, do you know other tests 
-> that can trigger bugs?
-
-You would explicitly have to race commits against vblank_enable.
-Could of course sprinkle sleep()s around to widen the race window
-if you're really keen to hit it.
-
--- 
-Ville Syrjälä
-Intel
+Cheers,
+Prabhakar
 
