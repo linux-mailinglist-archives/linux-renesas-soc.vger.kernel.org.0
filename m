@@ -1,110 +1,223 @@
-Return-Path: <linux-renesas-soc+bounces-9335-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9336-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8445398EBB7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2024 10:35:49 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F01C98EC3C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2024 11:23:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B6DD81C2160B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2024 08:35:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 88BC6B2240D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2024 09:23:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7643B13AA2B;
-	Thu,  3 Oct 2024 08:35:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F332F1465A1;
+	Thu,  3 Oct 2024 09:23:45 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 706F181742;
-	Thu,  3 Oct 2024 08:35:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B8D6145A03;
+	Thu,  3 Oct 2024 09:23:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727944546; cv=none; b=YltYGfL0pKxyXzK+YNzmxL/GwtOp68Dzi5rphk8RXhEkw6s9PkVrqvgkDsKkG4D8Oyi/YUdb2l1QgEjYYaBgj9fG1LFrsst5me/RHV+k/0XPX6Fvb97XW0SEHditN/4eaHXOy8oMHwY07X6/MZoZLOXM3Heq74nFx6QNVprBsWw=
+	t=1727947425; cv=none; b=tlQsYa0tlG5D0emTjjUbbaZGcoWTc8JjVIzb5fAVbRx/1g367TZM6Lm/hvOUWqp9cP8Du+zfA87qNX4mlTeC3Yma9Wj5Jl9I1RnYHHgz341x0xcHQUwwk+hwga9Xmnzo+LqLjJEI3DsP8fjVckLyNVQBz8BngBYFJM/phdKgQO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727944546; c=relaxed/simple;
-	bh=p/nfHuOds5kWEfxjbRBSBV+/WZM7eIqifKDeA0IQQ0k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WstBTJu940vJHdpnbU9Ga/EpzGbKwryeeeqv01kvNB5PtBzE8I19F2kmR367BwenK0IV+L5u+mW3rPN6Dh2ES8M09nwZr/9CvN4bUfJFI2Kq85JjGz1kCGDJyHh8v2OdyUtcfp4pNui2a9fno2K4SzwhBD35EOOuCastUQXFhX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6e2b1b10103so5222067b3.1;
-        Thu, 03 Oct 2024 01:35:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727944543; x=1728549343;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gttN3Lnn1dt76KPqzbwuRn+yOVls4OjMw6TmAmt9+OM=;
-        b=vXw85bT3l58Jd6u/daKh5OGcFKNXIsR3a4bpl74MMVBI8m9YOs0wnNVOW1sj4ruUd8
-         eFKp8rL9mdpI2Sm6CrPU0ZZ2ua43/qI4jw7BaYb4l8f1o3mEQiNOd0mVJnssrMMDJW/1
-         OQfohWlzD36zg0j3tgaXKyfoQNou0aeuEVL4+p0ZM61lwld/R5qtB83B9LeHUY8lnYU3
-         oaGQjX/EjSb5/L+imRKLHNfVjkCWHiXgz/pBlqPDMKRJsClMTzwGVLUgLdLT67ylf9ZO
-         fg9a9INBakoS15ynVjhMu0P/ekHJA2nohdlvErJxP8T8ggUURJLhc7lScL8neCFmnq45
-         8OBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWCJu8xlkQRd/DO2f0wNl+dxbsyftRwrs2fMBs3Lm9yUFP/HOMGSw0ydoC24ByPYk+wmV91Z7BoQdA3ugFnWHyyFA==@vger.kernel.org, AJvYcCXZMvTQcaOl7gk+XM5aKcnqR5f0BIJVrqUwjjbwJoMHW4HIFFMN1VmnbqZRk9Psm9HSoWWlj1NP3kaXVJs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0l6OihiB2+/iAUWAbOBxihh9mBDUHG/FsJ/BMY+e8Quqb/NZG
-	x8DqEXG5yu9AYRZx2L1f6lDufOQEDsAR33A7o6dt1meWOekTq31g0qHSoMGhldU=
-X-Google-Smtp-Source: AGHT+IGdrgqDWTHUAogssH4zvjA6DQ0w1z2qr2kdmFW9M4p12kdrEx5rik+ORF4quaBVSUN9+bxHAw==
-X-Received: by 2002:a05:690c:2b81:b0:64a:b33a:d954 with SMTP id 00721157ae682-6e2a2df3cc7mr39654237b3.23.1727944542852;
-        Thu, 03 Oct 2024 01:35:42 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e2bbbb79ebsm1368857b3.5.2024.10.03.01.35.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Oct 2024 01:35:40 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-6d6891012d5so5546357b3.2;
-        Thu, 03 Oct 2024 01:35:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUrdLnxgX/F4F33j8gcxARe3GKCOKiB1ghCoVoSWE5xbKQOp5CHArTLEjei1uEv5X2IL87iOaB2ZWI+K4hrhWK5VA==@vger.kernel.org, AJvYcCWBrSzJoqy2xh70BJhcYyBOrLWdiO45eWbcOpXaZgOAM3hF5O1Mhp1VlgTde3GkPpgcHCHav+3AsKAX16M=@vger.kernel.org
-X-Received: by 2002:a05:690c:4682:b0:6ac:ce34:9726 with SMTP id
- 00721157ae682-6e2a2cb5e70mr40616197b3.18.1727944538799; Thu, 03 Oct 2024
- 01:35:38 -0700 (PDT)
+	s=arc-20240116; t=1727947425; c=relaxed/simple;
+	bh=ODXT+OB62fsrIp9vnCTm3lZ6Omf1JRSMYbS9sKW3lYI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ElhRFmbsWtdPLnlkl+cDc7vGxm3TuT1wMg7W0e3+GFasezylLuB30/4uMWbAFo+g8s6CrJFhWYIl7ql8TmVoVPHEfsFSfhYzwLdxxf4nMc8l0nduR2JcJrWqhIbGJVW8wqmPoQ/REyq+8DUkaEblBjRNOvSvz6u+QmrasPGdO7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.11,173,1725289200"; 
+   d="asc'?scan'208";a="220683241"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 03 Oct 2024 18:23:41 +0900
+Received: from [10.226.92.134] (unknown [10.226.92.134])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 6E22141D4005;
+	Thu,  3 Oct 2024 18:23:37 +0900 (JST)
+Message-ID: <0a779070-d91a-49df-a606-5fc9428e312c@bp.renesas.com>
+Date: Thu, 3 Oct 2024 10:23:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241003081140.31332-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20241003081140.31332-1-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 3 Oct 2024 10:35:25 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU8dBAinXmVXw667-5TO6aQLFm6YqnCmGgfSpsK0QS0BA@mail.gmail.com>
-Message-ID: <CAMuHMdU8dBAinXmVXw667-5TO6aQLFm6YqnCmGgfSpsK0QS0BA@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: sh: rz-ssi: Use SSIFCR_FIFO_RST macro
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Rob Herring <robh@kernel.org>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
-	linux-sound@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [net-next PATCH 05/11] net: ravb: Simplify types in RX csum
+ validation
+To: Sergey Shtylyov <s.shtylyov@omp.ru>, Paul Barker <paul@pbarker.dev>,
+ "David S . Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Biju Das <biju.das.jz@bp.renesas.com>,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, netdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240930160845.8520-1-paul@pbarker.dev>
+ <20240930160845.8520-6-paul@pbarker.dev>
+ <b4707880-2be4-4132-a3e1-8b104b89828c@omp.ru>
+Content-Language: en-GB
+From: Paul Barker <paul.barker.ct@bp.renesas.com>
+In-Reply-To: <b4707880-2be4-4132-a3e1-8b104b89828c@omp.ru>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------fmM0mRCgeMk1fMr6WxolpM9J"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------fmM0mRCgeMk1fMr6WxolpM9J
+Content-Type: multipart/mixed; boundary="------------Z6JL8248ZBV8EaKLNReDrORo";
+ protected-headers="v1"
+From: Paul Barker <paul.barker.ct@bp.renesas.com>
+To: Sergey Shtylyov <s.shtylyov@omp.ru>, Paul Barker <paul@pbarker.dev>,
+ "David S . Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Biju Das <biju.das.jz@bp.renesas.com>,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, netdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-ID: <0a779070-d91a-49df-a606-5fc9428e312c@bp.renesas.com>
+Subject: Re: [net-next PATCH 05/11] net: ravb: Simplify types in RX csum
+ validation
+References: <20240930160845.8520-1-paul@pbarker.dev>
+ <20240930160845.8520-6-paul@pbarker.dev>
+ <b4707880-2be4-4132-a3e1-8b104b89828c@omp.ru>
+In-Reply-To: <b4707880-2be4-4132-a3e1-8b104b89828c@omp.ru>
+
+--------------Z6JL8248ZBV8EaKLNReDrORo
+Content-Type: multipart/mixed; boundary="------------OqIYyWhrrgklZQcnj6oiekr0"
+
+--------------OqIYyWhrrgklZQcnj6oiekr0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 3, 2024 at 10:11=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
-> Use SSIFCR_FIFO_RST macro to make the line shorter.
->
-> Suggested-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+On 30/09/2024 20:11, Sergey Shtylyov wrote:
+> On 9/30/24 19:08, Paul Barker wrote:
+>=20
+>> From: Paul Barker <paul.barker.ct@bp.renesas.com>
+>>
+>> The HW checksum value is used as a 16-bit flag, it is zero when the
+>=20
+>    I think I prefer s/HW/hardware/ but there's no hard feelings... :-)
+>=20
+>> checksum has been validated and non-zero otherwise. Therefore we don't=
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>> need to treat this as an actual __wsum type or call csum_unfold(), we
+>> can just use a u16 pointer.
+>>
+>> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+> [...]
+>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/et=
+hernet/renesas/ravb_main.c
+>> index 1dd2152734b0..9350ca10ab22 100644
+>> --- a/drivers/net/ethernet/renesas/ravb_main.c
+>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> [...]
+>> @@ -762,23 +761,22 @@ static void ravb_rx_csum_gbeth(struct sk_buff *s=
+kb)
+>>  	 * The last 2 bytes are the protocol checksum status which will be z=
+ero
+>>  	 * if the checksum has been validated.
+>>  	 */
+>> -	if (unlikely(skb->len < sizeof(__sum16) * 2))
+>> +	csum_len =3D sizeof(*hw_csum) * 2;
+>=20
+>    Could've been done by an initializer instead?
 
-Gr{oetje,eeting}s,
+So, if I move this to the initializers at the start of the function,
+csum_len must be declared after hw_csum which breaks reverse Christmas
+tree ordering:
 
-                        Geert
+    struct skb_shared_info *shinfo =3D skb_shinfo(skb);
+    u16 *hw_csum;
+    size_t csum_len =3D sizeof(*hw_csum) * 2;
+
+Thanks,
 
 --=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Paul Barker
+--------------OqIYyWhrrgklZQcnj6oiekr0
+Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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3D
+=3DsIIN
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------OqIYyWhrrgklZQcnj6oiekr0--
+
+--------------Z6JL8248ZBV8EaKLNReDrORo--
+
+--------------fmM0mRCgeMk1fMr6WxolpM9J
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZv5ilwUDAAAAAAAKCRDbaV4Vf/JGvZP+
+AP9IfusW09PVyD7/cyYLPl/uq85fUO2cdDuGFjxDWKMNaQEA/BZJ9h/c1sGU1bz8a0o3/i57L7NA
+T//vGjjW9STp4Qs=
+=AmCE
+-----END PGP SIGNATURE-----
+
+--------------fmM0mRCgeMk1fMr6WxolpM9J--
 
