@@ -1,45 +1,45 @@
-Return-Path: <linux-renesas-soc+bounces-9350-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9353-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D0F298F0FE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2024 16:04:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F279C98F10A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2024 16:05:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2652C2826DE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2024 14:04:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BB127282603
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2024 14:05:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DBB619E827;
-	Thu,  3 Oct 2024 14:04:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC96C1A071C;
+	Thu,  3 Oct 2024 14:04:45 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [195.130.132.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C7519CC2A
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  3 Oct 2024 14:04:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CB3719D065
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  3 Oct 2024 14:04:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727964284; cv=none; b=sc08iDUmAish2XqSePhooXF6hoPdlF0DDA3GUt+oRSUDHi61p4N51PX9Wa4JuiaKPfTbUJOai6drNt8Q1U1u49UKvEavant9z7dPaVOxugtcq2YFXNX039MLQW2cM7OU/WblPADRcS5DKTuKjC4n4nyprrP+gqXadgZrqKkdXg4=
+	t=1727964285; cv=none; b=dqJkQ2B60PepCrXaXLRHxT9dmsfeZWVRpLSnM1K3ilWEjrfIEJv2KCk1eiLtvoSQgqCnBvdRDDKbfPq/ssQFazXSu0T9vxgQQ/NOsrdsW7of36YYL5yjOQzPEXAnqPkvA5CX4GLst8sstIcEnDXT7wMuS7pfbNcHnHiGxJlM9TM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727964284; c=relaxed/simple;
-	bh=47fe7Fwb0yXTDKoNl2wd/u4e8OnEK9iPFbqci4doMh0=;
+	s=arc-20240116; t=1727964285; c=relaxed/simple;
+	bh=kyfZbCjQZdw/uIQAn4keSGzXfbV7LKhfTIJNIxZC7lc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Fsm6SUpNB2bvDuDGR43lI5jhBe+sXOy1eP7RlftbIxhVUB/fthmCVO/XVg34bFl6UTrxXZmn1dSVTr0m1wjZQwGe/hhC7kdQKxYUBVIOyClJk65EPjskBP1PvHtGVXyloWVH2JLwndJM4xDxQk1SlFsIUhAVX7YK9rKwyw0dmy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
+	 MIME-Version; b=TD4dR6fMsP4JmVAtP1bAQny2Wu54WOysdk/9amQw5ipBxn9gWuj+fbMeD2xTrQgzIWFXNCtMQ1pOVtUC8gKswcT0hkLg2yuz90Ks4EYwil6U31PVZep4pHI2hVkJv9wfy0h62CKW26OMJK+dGxv6bfREg19asUi/awGorgUrYsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:d4db:7463:4f08:3c82])
-	by albert.telenet-ops.be with cmsmtp
-	id Kq4d2D00J5K8SYz06q4d4G; Thu, 03 Oct 2024 16:04:39 +0200
+	by xavier.telenet-ops.be with cmsmtp
+	id Kq4d2D00B5K8SYz01q4dMz; Thu, 03 Oct 2024 16:04:39 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1swMRR-001CGk-74;
+	id 1swMRR-001CGo-7s;
 	Thu, 03 Oct 2024 16:04:37 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1swMRZ-006e9w-F1;
+	id 1swMRZ-006eA2-Gi;
 	Thu, 03 Oct 2024 16:04:37 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
@@ -53,9 +53,9 @@ Cc: devicetree@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v3 resend 5/7] arm64: dts: renesas: r8a779f4: Add UFS tuning parameters in E-FUSE
-Date: Thu,  3 Oct 2024 16:04:29 +0200
-Message-Id: <dd37f7a914509bf1c731dc6ffb457bb0e02ff694.1727963347.git.geert+renesas@glider.be>
+Subject: [PATCH v3 resend 6/7] arm64: dts: renesas: r8a779g0: Add OTP_MEM node
+Date: Thu,  3 Oct 2024 16:04:30 +0200
+Message-Id: <5a8d065dd782d3ede07928f5ad44b84396f9c71d.1727963347.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1727963347.git.geert+renesas@glider.be>
 References: <cover.1727963347.git.geert+renesas@glider.be>
@@ -67,83 +67,37 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Describe the location in the E-FUSE block of the PLL and AFE tuning
-parameters for the Universal Flash Storage controller.
+Add a device node for the OTP non-volatile memory on the R-Car V4H
+(R8A779G0) SoC, which provides E-FUSE services.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 ---
 v3:
-  - New.
+  - No changes,
 
-After adding:
-
-    &ufs {
-	    nvmem-cells = <&ufs_tune>;
-	    nvmem-cell-names = "calibration";
-    };
-
-The calibration data can be retrieved using the following sample code:
-
-    #include <linux/nvmem-consumer.h>
-
-    static int nvmem_dump_cell(struct platform_device *pdev, const char *name)
-    {
-	    struct device *dev = &pdev->dev;
-	    struct nvmem_cell *cell;
-	    int res = 0;
-	    void *data;
-	    size_t len;
-
-	    cell = nvmem_cell_get(dev, name);
-	    if (IS_ERR(cell))
-		    return dev_err_probe(dev, PTR_ERR(cell),
-					 "Failed to get cell %s\n", name);
-
-	    data = nvmem_cell_read(cell, &len);
-	    if (IS_ERR(data)) {
-		    res = dev_err_probe(dev, PTR_ERR(data),
-					"Failed to read cell %s\n", name);
-		    goto put;
-	    }
-
-	    pr_info("Cell %s contains %zu bytes of data\n", name, len);
-	    print_hex_dump(KERN_INFO, "| ", DUMP_PREFIX_NONE, 32, 1, data, len, 0);
-
-	    kfree(data);
-    put:
-	    nvmem_cell_put(cell);
-	    return res;
-    }
-
-Calling nvmem_dump_cell(pdev, "calibration") from ufs_renesas_probe() on
-the R-Car S4 Starter Kit development board gives:
-
-    Cell calibration contains 8 bytes of data
-    | 23 51 23 51 52 98 52 98
+v2:
+  - Add Reviewed-by.
 ---
- arch/arm64/boot/dts/renesas/r8a779f4.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ arch/arm64/boot/dts/renesas/r8a779g0.dtsi | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779f4.dtsi b/arch/arm64/boot/dts/renesas/r8a779f4.dtsi
-index ebed41892df3346c..dfa3c015e04b740c 100644
---- a/arch/arm64/boot/dts/renesas/r8a779f4.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779f4.dtsi
-@@ -10,3 +10,15 @@
- / {
- 	compatible = "renesas,r8a779f4", "renesas,r8a779f0";
- };
-+
-+&fuse {
-+	nvmem-layout {
-+		compatible = "fixed-layout";
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+
-+		ufs_tune: calib@144 {
-+			reg = <0x144 0x08>;
+diff --git a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
+index 12900ebd098b0b78..61c6b8022ffdc3b2 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
+@@ -477,6 +477,11 @@ tsc: thermal@e6198000 {
+ 			#thermal-sensor-cells = <1>;
+ 		};
+ 
++		otp: otp@e61be000 {
++			compatible = "renesas,r8a779g0-otp";
++			reg = <0 0xe61be000 0 0x1000>, <0 0xe61bf000 0 0x1000>;
 +		};
-+	};
-+};
++
+ 		intc_ex: interrupt-controller@e61c0000 {
+ 			compatible = "renesas,intc-ex-r8a779g0", "renesas,irqc";
+ 			#interrupt-cells = <2>;
 -- 
 2.34.1
 
