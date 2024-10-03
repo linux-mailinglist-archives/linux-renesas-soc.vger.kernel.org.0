@@ -1,205 +1,189 @@
-Return-Path: <linux-renesas-soc+bounces-9348-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9354-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE31A98F0BF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2024 15:47:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3BAB98F10D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2024 16:05:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 80D612810E0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2024 13:47:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 201171C21E4F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2024 14:05:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 356C01991AC;
-	Thu,  3 Oct 2024 13:46:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YoSJx8J+"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB4D91A3A95;
+	Thu,  3 Oct 2024 14:04:48 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62FB1154C12;
-	Thu,  3 Oct 2024 13:46:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D9071A0B15
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  3 Oct 2024 14:04:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727963218; cv=none; b=SzbBORq/g6ERzdxpxYL4IBsnagAkqBb8tgOlOnTRZIQO3nvYACpkata0qR5g9MPqng+K4QN75KIHKKEJm4N1uX8SIlb/zobT43J5C+GBEY+gqmnMZ5BDOVIkCEdcsF/HXzIK6bplwC7fmBY4v1N8FAU6s19cm8E1ZSoRr8OFXEw=
+	t=1727964288; cv=none; b=ezcF2Jcft4PN8+xzdo8M9xJDs59nuGTBo8x8y+/0UotaKPj4RwtC/JfakfcF6ww2y9XgFU0EtMfcnszDiLoJ+nLDbdcIIXOnlpI7z3+5nQXOAhBSqkITbNzIZIkzvUnUuVmZv/S+yEXWKXFcK9rUd7LqLMSAIPGf80CDVE9Gagk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727963218; c=relaxed/simple;
-	bh=n5OHn3QUdpat2aC/O/iKVjfoE6iGTaPoN/6J8frtUYg=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rlZYBYD33wx0FCf3hpmQraHMEP6XkMalZg/xHehRLPvOmhWWOg3hQei+Ef3xjzlvzn1Y1pWnRCnbhDMhSU03y4YGbbM68UKhKPfm+ZGCkAPWoNaaOI+nqdxfGL0pJu7kh0badvv47y41FQyqUYiE9vhWoBV0UUhsUiREPvzWP74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YoSJx8J+; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727963217; x=1759499217;
-  h=date:from:to:subject:message-id:references:mime-version:
-   content-transfer-encoding:in-reply-to;
-  bh=n5OHn3QUdpat2aC/O/iKVjfoE6iGTaPoN/6J8frtUYg=;
-  b=YoSJx8J+nOAGpupUZE+M60XfDzYhATyBDvLh1Pyt7oWYpE7QcdXGuwzz
-   FLhuhYWSxZ1RGCaVw9uOQnYJ6qPpA+QUo6zvwzn8pMShC/OpcqiHsCbuT
-   CfNXnZbq9kjilvnWBNfJD9oiWUO+LkDipWrN95v08e+Ji9T7OKabsytCt
-   RG/PXL+y71c7SUWfkZvUlGHLDvWTn5c1URim4E0rKm0ne8hbIpQfn6Bda
-   g8WxF4JZUD9Kgl7Xs30/ew7IP+YdudA3aVD+lBBy0hlJxSbFlDboEX+bq
-   iKcdKnzzEpv/bV1XKZ0MfakioZ5uXigMQNsE32lU19HGXFw+UJJS260x7
-   Q==;
-X-CSE-ConnectionGUID: OcD+5CZvQpex/qRT40oiZg==
-X-CSE-MsgGUID: B9rD4x7wR/KqUXEwrDH67w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="27286661"
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
-   d="scan'208";a="27286661"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 06:46:56 -0700
-X-CSE-ConnectionGUID: H7+f/vSCTa27grfFf3KfqQ==
-X-CSE-MsgGUID: dSiUo7Y0SbyaiImM3Q2NMw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
-   d="scan'208";a="74451391"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
-  by fmviesa008.fm.intel.com with SMTP; 03 Oct 2024 06:46:50 -0700
-Received: by stinkbox (sSMTP sendmail emulation); Thu, 03 Oct 2024 16:46:48 +0300
-Date: Thu, 3 Oct 2024 16:46:48 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Inki Dae <inki.dae@samsung.com>,
-	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Sandy Huang <hjc@rock-chips.com>, Jyri Sarha <jyri.sarha@iki.fi>,
-	Alexey Brodkin <abrodkin@synopsys.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
-	Zack Rusin <zack.rusin@broadcom.com>, amd-gfx@lists.freedesktop.org,
-	linux-mediatek@lists.infradead.org,
-	linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-	virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org, xen-devel@lists.xenproject.org
-Subject: Re: [PATCH 2/2] drm: Move crtc->{x, y, mode, enabled} to legacy
- sub-structure
-Message-ID: <Zv6gSGMXZZARf3oV@intel.com>
-References: <20241002182200.15363-1-ville.syrjala@linux.intel.com>
- <20241002182200.15363-3-ville.syrjala@linux.intel.com>
- <Zv6QF2EmIcogtlLA@louis-chauvet-laptop>
+	s=arc-20240116; t=1727964288; c=relaxed/simple;
+	bh=/1sLkX3ojG+JNCcmAA5vSnCNSDspfW2Rs8CQ+t/asPQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=hzxHu0LbkPlGF9Fe6g01L/e2JheR+bJm2vYFEj0/aABaPZ5VmT1AR7dgCXH+JFuDp+TbLZy0cLXuJ14O+OIArfBPTupctdvsBcTUCuW9hV6r/Shb5kfsySatHQeXtNPqzTXxJJD1TsHI3Kh+o8lKjxmnWgOp8tgdOjhkeMUSP1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:d4db:7463:4f08:3c82])
+	by baptiste.telenet-ops.be with cmsmtp
+	id Kq4d2D0075K8SYz01q4d5F; Thu, 03 Oct 2024 16:04:39 +0200
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1swMRR-001CGS-2P;
+	Thu, 03 Oct 2024 16:04:37 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1swMRZ-006e9c-8O;
+	Thu, 03 Oct 2024 16:04:37 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Arnd Bergmann <arnd@arndb.de>
+Cc: devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v3 resend 0/7] Add Renesas R-Car Gen4 E-FUSE support
+Date: Thu,  3 Oct 2024 16:04:24 +0200
+Message-Id: <cover.1727963347.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zv6QF2EmIcogtlLA@louis-chauvet-laptop>
-X-Patchwork-Hint: comment
 
-On Thu, Oct 03, 2024 at 02:38:35PM +0200, Louis Chauvet wrote:
-> Le 02/10/24 - 21:22, Ville Syrjala a écrit :
-> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > 
-> > Atomic drivers shouldn't be using the legacy state stored
-> > directly under drm_crtc. Move that junk into a 'legacy' sub
-> > structure to highlight the offenders, of which there are
-> > quite a few unfortunately.
-> 
-> Hi,
-> 
-> Do we need to do something particular in an atomic driver except using
-> state content?
-> 
-> I proposed some modifications for VKMS bellow. If you think this is good,
-> I can send a patch to avoid being an offender :-) I just tested it, and it
-> seems to work.
-> 
-> > I'm hoping we could get all these fixed and then declare
-> > the legacy state off limits for atomic drivers (which is
-> > what did long ago for plane->fb/etc). And maybe eventually
-> > turn crtc->legacy into a pointer and only allocate it on
-> > legacy drivers.
-> > 
-> > TODO: hwmode should probably go there too but it probably
-> >       needs a closer look, maybe other stuff too...
-> 
-> [...]
-> 
-> > diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-> > index 57a5769fc994..a7f8b1da6e85 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> > @@ -187,7 +187,7 @@ static void blend(struct vkms_writeback_job *wb,
-> >  
-> >  	const struct pixel_argb_u16 background_color = { .a = 0xffff };
-> >  
-> > -	size_t crtc_y_limit = crtc_state->base.crtc->mode.vdisplay;
-> > +	size_t crtc_y_limit = crtc_state->base.crtc->legacy.mode.vdisplay;
-> 
-> 	size_t crtc_y_limit = crtc_state->base.mode.vdisplay;
-> 
-> >  	/*
-> >  	 * The planes are composed line-by-line to avoid heavy memory usage. It is a necessary
-> > @@ -270,7 +270,7 @@ static int compose_active_planes(struct vkms_writeback_job *active_wb,
-> >  	if (WARN_ON(check_format_funcs(crtc_state, active_wb)))
-> >  		return -EINVAL;
-> >  
-> > -	line_width = crtc_state->base.crtc->mode.hdisplay;
-> > +	line_width = crtc_state->base.crtc->legacy.mode.hdisplay;
-> 
-> 	line_width = crtc_state->base.mode.hdisplay;
-> 
-> >  	stage_buffer.n_pixels = line_width;
-> >  	output_buffer.n_pixels = line_width;
-> >  
-> > diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-> > index a40295c18b48..780681ea77e4 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_crtc.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-> > @@ -64,7 +64,7 @@ static int vkms_enable_vblank(struct drm_crtc *crtc)
-> >  	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
-> >  	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
-> >  
-> > -	drm_calc_timestamping_constants(crtc, &crtc->mode);
-> > +	drm_calc_timestamping_constants(crtc, &crtc->legacy.mode);
-> 
-> 	drm_calc_timestamping_constants(crtc, &crtc->state->mode);
+	Hi all,
 
-This one doesn't look safe. You want to call that during your atomic
-commit already.
+(another rc1, so time for a resend)
 
-The rest look reasonable.
+R-Car Gen3/Gen4 SoCs contain fuses indicating hardware support or
+hardware parameters.  Unfortunately the various SoCs require different
+mechanisms to read the state of the fuses:
+  - On R-Car Gen3, the fuse monitor registers are in the middle of the
+    Pin Function Controller (PFC) register block,
+  - On R-Car V3U and S4-8, the E-FUSE non-volatile memory is accessible
+    through a separate register block in the PFC,
+  - On R-Car V4H and V4M, the E-FUSE non-volatile memory is accessible
+    through the second register block of OTP_MEM.
 
-> 
-> >  	hrtimer_init(&out->vblank_hrtimer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-> >  	out->vblank_hrtimer.function = &vkms_vblank_simulate;
-> > diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-> > index bc724cbd5e3a..27164cddb94d 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_writeback.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-> > @@ -131,8 +131,8 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
-> >  	struct drm_connector_state *conn_state = wb_conn->base.state;
-> >  	struct vkms_crtc_state *crtc_state = output->composer_state;
-> >  	struct drm_framebuffer *fb = connector_state->writeback_job->fb;
-> > -	u16 crtc_height = crtc_state->base.crtc->mode.vdisplay;
-> > -	u16 crtc_width = crtc_state->base.crtc->mode.hdisplay;
-> > +	u16 crtc_height = crtc_state->base.crtc->legacy.mode.vdisplay;
-> > +	u16 crtc_width = crtc_state->base.crtc->legacy.mode.hdisplay;
-> 
-> 	u16 crtc_height = crtc_state->base.mode.vdisplay;
-> 	u16 crtc_width = crtc_state->base.mode.hdisplay;
-> 
-> >  	struct vkms_writeback_job *active_wb;
-> >  	struct vkms_frame_info *wb_frame_info;
-> >  	u32 wb_format = fb->format->format;
-> 
-> [...]
-> 
-> -- 
-> Louis Chauvet, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+As the first variant is quite different from the other two, and there is
+currently no use case requiring support for it, this patch series adds
+support for the last 2 variants only.
+
+Note that the first two revisions of this series implemented only basic
+nvmem support, and a custom in-kernel API, mimicked after the
+fuse-tregra driver.  Then, Arnd told me on IRC that the R-Car E-FUSE
+driver should use the nvmem framework fully.
+
+The fuses' states can be read using the nvmem subsystem:
+  - In kernelspace, through the nvmem_cell_*() API.
+    A first known use case is reading tuning parameters for the
+    Universal Flash Storage controller on R-Car S4-8 ES1.2.
+
+  - In userspace, through sysfs. E.g. on R-Car S4-8 ES1.2:
+    / # hd /sys/bus/nvmem/devices/rcar-fuse/nvmem
+    00000000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+    *
+    000000e0  00 00 00 00 fe 00 00 00  00 00 00 00 00 00 00 00  |....ï¿½...........|
+    000000f0  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+    *
+    00000140  00 00 00 00 23 51 23 51  52 98 52 98 00 00 00 00  |....#Q#QRï¿½Rï¿½....|
+    00000150  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+    *
+    00000200
+
+Previous v3 submission[3]:
+  - Some discussion about #nvmem-cell-cells = <0>, no changes.
+
+Changes compared to v2[2]:
+  - Dropped accepted dt-bindings,
+  - Drop "pinctrl: renesas: Add R-Car Gen3 fuse support",
+  - New patch "dt-bindings: fuse: Move renesas,rcar-{efuse,otp} to
+    nvmem",
+  - Drop superfluous semicolon,
+  - Drop the custom rcar_fuse_read() kernel API, in favor of the
+    standard nvmem_cell_*() API,
+  - Drop support for explicitly-instantiated platform devices with
+    accompanying platform data, which would be needed to support fuses
+    tightly integrated with the Pin Function Controller on R-Car Gen3
+    SoCs.  It can be added when a use case shows up.
+  - Move from drivers/soc/renesas/ to drivers/nvmem/,
+  - Register the full register block that contains the E-FUSE data
+    registers with the nvmem subsystem, but use keepouts to ignore all
+    registers before the first or after the last documented data
+    register.  Undocumented registers in between are still accessible.
+  - Replace offset/nregs in rcar_fuse_data by start/end,
+  - Use __ioread32_copy() helper,
+  - Initialize most fields of struct nvmem_config in its declaration,
+  - Rename nvmem device from "fuse" to "rcar-fuse",
+  - Use NVMEM_DEVID_NONE,
+  - Add an entry to the MAINTAINERS file,
+  - Fix reg size,
+  - New patch "arm64: dts: renesas: r8a779f4: Add UFS tuning parameters
+    in E-FUSE".
+
+Changes compared to v1[3]:
+  - Drop RFC state and broaden audience,
+  - Fix typo in one-line summary,
+  - Add Reviewed-by.
+
+This has been tested on R-Car V3U, S4-8 ES1.0 and ES1.2, V4H, and V4M.
+
+Thanks for your comments!
+
+[1] https://lore.kernel.org/cover.1721999833.git.geert+renesas@glider.be
+[2] https://lore.kernel.org/cover.1716974502.git.geert+renesas@glider.be
+[3] https://lore.kernel.org/cover.1714642390.git.geert+renesas@glider.be
+
+Geert Uytterhoeven (7):
+  dt-bindings: fuse: Move renesas,rcar-{efuse,otp} to nvmem
+  nvmem: Add R-Car E-FUSE driver
+  arm64: dts: renesas: r8a779a0: Add E-FUSE node
+  arm64: dts: renesas: r8a779f0: Add E-FUSE node
+  arm64: dts: renesas: r8a779f4: Add UFS tuning parameters in E-FUSE
+  arm64: dts: renesas: r8a779g0: Add OTP_MEM node
+  arm64: dts: renesas: r8a779h0: Add OTP_MEM node
+
+ .../{fuse => nvmem}/renesas,rcar-efuse.yaml   |  35 +++--
+ .../{fuse => nvmem}/renesas,rcar-otp.yaml     |  17 ++-
+ MAINTAINERS                                   |   2 +
+ arch/arm64/boot/dts/renesas/r8a779a0.dtsi     |   8 +
+ arch/arm64/boot/dts/renesas/r8a779f0.dtsi     |   8 +
+ arch/arm64/boot/dts/renesas/r8a779f4.dtsi     |  12 ++
+ arch/arm64/boot/dts/renesas/r8a779g0.dtsi     |   5 +
+ arch/arm64/boot/dts/renesas/r8a779h0.dtsi     |   5 +
+ drivers/nvmem/Kconfig                         |  11 ++
+ drivers/nvmem/Makefile                        |   2 +
+ drivers/nvmem/rcar-efuse.c                    | 142 ++++++++++++++++++
+ 11 files changed, 230 insertions(+), 17 deletions(-)
+ rename Documentation/devicetree/bindings/{fuse => nvmem}/renesas,rcar-efuse.yaml (54%)
+ rename Documentation/devicetree/bindings/{fuse => nvmem}/renesas,rcar-otp.yaml (60%)
+ create mode 100644 drivers/nvmem/rcar-efuse.c
 
 -- 
-Ville Syrjälä
-Intel
+2.34.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
