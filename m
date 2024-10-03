@@ -1,177 +1,129 @@
-Return-Path: <linux-renesas-soc+bounces-9364-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9365-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7DAA98F317
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2024 17:47:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48A6198F5CE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2024 20:05:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 16EEF1C21CA3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2024 15:47:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 109B2283100
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2024 18:05:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BCFF15C0;
-	Thu,  3 Oct 2024 15:45:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20F3C1AAE36;
+	Thu,  3 Oct 2024 18:05:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="TICrwrFP"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="Yj0A2XYQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from mout.web.de (mout.web.de [212.227.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC9C117A5BE;
-	Thu,  3 Oct 2024 15:45:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9819A1A7040;
+	Thu,  3 Oct 2024 18:05:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727970320; cv=none; b=T9dZaYCJtFcfvs9L3t/p1gScl4RIAqrjGwgUaceCV6roMAtLhFj+24VDMUVltvthp6Cb2A4ewq5UcgAh30jrWlTt+cBo1hdmBBadD9YhHEXzRkkQnark9w7fe+dxQvnwcv4aoPVloi31nenpVTsZCa713sGn0OMZTgeEOcdz7MI=
+	t=1727978739; cv=none; b=LccYhkosVzSQggjDO31cW/vBZvzTiWw5ube+li+XDDmJGES+VbhiWnBG8seRc2Dt/FP8z17U12zwjYK04UKhI6pqyW1nCcTKgpTF++5O2ebynjsthEI//Nn1pmjjSfY966Y4DepR3UKex1QVsN439W9drbyb2L9sFvkoEoGiJoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727970320; c=relaxed/simple;
-	bh=db7wFSXu55YxYqQhHg+EKW3vYvNDj36DGysroSWySVs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EfAJmk3VbvQ2T+zmXfSwpB7NsmMDXn+upCjdRbFIhVxBzXFjyFulf5KHj54dtS0JF3y46HzgDhc+fWVSRPxi4V20ZQB3NJqExwF8AMi1iqhTAlPi4ET/GVpWWu0Uh0g6I+1KQ5+NYWdqh4/6rnorAMmw/ScJwc3YfB8EMA3mJMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=TICrwrFP; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6E6A6E0002;
-	Thu,  3 Oct 2024 15:45:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1727970315;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KEG391uPbET+smFrjuUd3Gbf+SfD/X5R0PGVdaNVyDQ=;
-	b=TICrwrFPqNQr0FkllJojskNhDNyxJBBjJ7p1KfIigSpe1yz5eAAGd2ZrO2BidvC6/A+Qom
-	NZAd/9RJSz1RiDd3lLdtADp5nqX9bQyWNoBMaYmxSJhOSDe0T0fZ3BzR0Se1uCIXgHLatP
-	0EnPqF616SrgdCpZaDlShmBrP13ZbIXW9Bj7Oi5IuZvb8HSqOh6m1SReSPJmtquU99Yk9c
-	wA7Vpopy8iwsQYMzzsZgtNT4idP5iRQdLFv3pdXkbJyEmdQQR3dqplUNNyYzH1sATd/MpW
-	BCY3lPJp+f+t7R9s2mNyuYyLKxVcwMtVAupvHPO8B9IX4HLM2IwIi9MsvKSHrQ==
-Date: Thu, 3 Oct 2024 17:45:10 +0200
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Inki Dae <inki.dae@samsung.com>,
-	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Sandy Huang <hjc@rock-chips.com>, Jyri Sarha <jyri.sarha@iki.fi>,
-	Alexey Brodkin <abrodkin@synopsys.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
-	Zack Rusin <zack.rusin@broadcom.com>, amd-gfx@lists.freedesktop.org,
-	linux-mediatek@lists.infradead.org,
-	linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-	virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org, xen-devel@lists.xenproject.org
-Subject: Re: [PATCH 2/2] drm: Move crtc->{x, y, mode, enabled} to legacy
- sub-structure
-Message-ID: <Zv68Bj8UTNvRSmFj@louis-chauvet-laptop>
-Mail-Followup-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
-	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Inki Dae <inki.dae@samsung.com>,
-	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Sandy Huang <hjc@rock-chips.com>, Jyri Sarha <jyri.sarha@iki.fi>,
-	Alexey Brodkin <abrodkin@synopsys.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
-	Zack Rusin <zack.rusin@broadcom.com>, amd-gfx@lists.freedesktop.org,
-	linux-mediatek@lists.infradead.org,
-	linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-	virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org, xen-devel@lists.xenproject.org
-References: <20241002182200.15363-1-ville.syrjala@linux.intel.com>
- <20241002182200.15363-3-ville.syrjala@linux.intel.com>
- <Zv6QF2EmIcogtlLA@louis-chauvet-laptop>
- <Zv6gSGMXZZARf3oV@intel.com>
- <Zv6zN7Go_XG44P2-@louis-chauvet-laptop>
- <Zv64RktMPv2rpCZf@intel.com>
+	s=arc-20240116; t=1727978739; c=relaxed/simple;
+	bh=NS7kXQUKxlrTfeb+LWgoodsEtPxJoaNeIkvDx3vZ6b4=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=UPtnzgrTITaCBxVe1TdnKCNDtz77NDoB6bPIbroY+zoIM/ihTgOTDHd5huyqpjELO+Go2i1Y05g6AxhlzgeRVH/WZHL2bU/vLLU+/MOgg4zKVsJC5UE5wKyn73gsiYcf7ZJxlS1IwZHvY3puoRoXZ9wRLITLXndOjzwyw+QkIEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=Yj0A2XYQ; arc=none smtp.client-ip=212.227.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1727978728; x=1728583528; i=markus.elfring@web.de;
+	bh=sXYDfNxNXvlLEtQjQyqH5jtoLuiiUVmTvTAFLF5cYH4=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
+	 Subject:Content-Type:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=Yj0A2XYQGXuhXxxN9faAUpkh7h8aqrJAdmqh6yy53MopmHhzb770NWpRh4QXN6lP
+	 YmR7bzEDIGEHiuKI08BCvW7CdhxgkUfuqBP8SbTY4wDpiXt2TN1HZKVIc1s+tWBTd
+	 +SUX6HdzgAQ6tOGEl+8xMGEd+rTvcdacmHyxljEFH4r/Nv17Y6g8AzAAOrdFYs7HT
+	 Lew3vxMKgZ4gh+08D/Hq8AqDoJ+18Qa46h2lxn1R1kSAptzYfNId7lMmtV1Ovswjx
+	 YvWLZBm7Rk8JQZGiBk1fWY+Lx4gzSexLaJn6xiZaKb1H5ITDwaWP+25woNieR3fmL
+	 kDIvehaqHhKWxb2jzA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.87.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MaHWx-1sQkA90WnN-00Xucq; Thu, 03
+ Oct 2024 20:05:28 +0200
+Message-ID: <504bb76d-d8ee-4332-ab3d-ad6b2482c29c@web.de>
+Date: Thu, 3 Oct 2024 20:05:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zv64RktMPv2rpCZf@intel.com>
-X-GND-Sasl: louis.chauvet@bootlin.com
+User-Agent: Mozilla Thunderbird
+To: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ David Airlie <airlied@gmail.com>, Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Simona Vetter <simona@ffwll.ch>
+Content-Language: en-GB
+Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org
+From: Markus Elfring <Markus.Elfring@web.de>
+Subject: [PATCH] drm: rcar-du: Reduce of_node_put(cmm) calls in
+ rcar_du_cmm_init()
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:GzLe1BNnQpGneYCLWGjV3Sn3P+BLxsHJpEIfsLxgOab82VnS6Vz
+ QkzMxzHjENmdN1thEhr8VdufpeTW6LgLWN2gGtzn/CXg8YisrdRUyUhQZgtw11eWMymAABU
+ l1llAqcyVO+MRL+E9G0rU3tAGYUJvWNrV3CFkeLLu6LGhqxB+JjJuLiTwL2dEXOjp0jJ/SS
+ YOhb1AaIZPbXcPKypO5/g==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:SWAexnI8TKo=;MdJndK/inRWqYpfmqoqzxcuKWTH
+ nPRDm+jzUy0JgiXlqXtt6qLdwa5gkXWX9WPO5/axyidQp36+w5JXEX2cHrqcgze+VJ0GSxOcQ
+ jAQ5nc5NZBVfVc2cQXZ6f4gAuSl/3EFT1f3SbiomB6DQ4p16H9aSBPGDhG+kdnUJAbaHAT3/x
+ RGBBxzveg0ob9At1ri5zOB1z+W+hXuKk1Jj9G/y5/Hv/TR7xe2DHf9wcU7NzkHbgNwEktXjDu
+ PsEvE79oSwU8QOoqsJ8Ab6G4ne8HzlaLS6sLsqFRpzQU6DZnYXPeAHOadZA0ClrurAi7so373
+ RNZafHzoFfn34DKDUGvAP/JbpoJjjK+tpQwrWTTgJ0lX0L2UEGVxbc+UM4cbPIlU+jTn52rBJ
+ d/pT0H19YjI/OyTJqYiGaVEilFVIHexODiI6gnpVd9XxFwCGNNitvu4ScQjqWnePw9A0ONFJr
+ KfLLbaEZh4DoGKBCftfpiYISpuyYY7zrX4F9iId9Y35UgryxRtS6GnOx97bS+ucT1yhAeE7tp
+ /nXVPQL7fjDl+NGbU7fTpRcKu2ltZL3dcreA73D4Yt2K/lLYY2NcvqbxqiuVHwyMlXIPRuf6l
+ Wnian0RZFHwboHKfX4IYF3flBhVFWwLaH4Vad2SpJyEB0UPrgXAP70f4jbDh3Y1br3Wgk4UrA
+ G97Ji9xN5Mdn88WO/c60R1xsG4VZJaN1kOoXzy6RaK1Yw6QJUithrkdaYwM49eXqWuqN3ghsR
+ daH3RuWdx9hHmzWmQaljdr8HU2dBhsqla72uQM+p++8rzbzf60un6s3oXzS7aYfJdqFk2pcVe
+ eBYbYtgrWHyKoinqZ1i2qtog==
 
-Le 03/10/24 - 18:29, Ville Syrjälä a écrit :
-> On Thu, Oct 03, 2024 at 05:07:35PM +0200, Louis Chauvet wrote:
-> > 
-> > > > > diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-> > > > > index a40295c18b48..780681ea77e4 100644
-> > > > > --- a/drivers/gpu/drm/vkms/vkms_crtc.c
-> > > > > +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-> > > > > @@ -64,7 +64,7 @@ static int vkms_enable_vblank(struct drm_crtc *crtc)
-> > > > >  	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
-> > > > >  	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
-> > > > >  
-> > > > > -	drm_calc_timestamping_constants(crtc, &crtc->mode);
-> > > > > +	drm_calc_timestamping_constants(crtc, &crtc->legacy.mode);
-> > > > 
-> > > > 	drm_calc_timestamping_constants(crtc, &crtc->state->mode);
-> > > 
-> > > This one doesn't look safe. You want to call that during your atomic
-> > > commit already.
-> > > 
-> > 
-> > This was already not safe with the previous implementation? Or it is only 
-> > unsafe because now I use state->mode instead of legacy.mode?
-> 
-> Yeah, if you want to look at obj->state then you need the corresponding
-> lock.
-> 
-> obj->state is also not necessarily the correct state you want because
-> a parallel commit could have already swapped in a new state but the
-> hardware is still on the old state.
-> 
-> Basically 99.9% of code should never even look at obj->state, and
-> instead should always use the for_each_new_<obj>_in_state()
-> and drm_atomic_get_new_<obj>_state() stuff. Currently that is a
-> pipe dream though because a lot of drivers haven't been fixed to
-> do things properly. If we ever manage to fix everything then we
-> could remove the stall hacks from drm_atomic_helper_swap_state()
-> and allow a commit pipeline of arbitrary length.
->
-> > 
-> > After inspecting the code, I think I don't need to call it as:
-> > 
-> > In `vkms_atomic_commit_tail` (used in 
-> > `@vkms_mode_config_helpers.atomic_commit_tail`), we call 
-> > `drm_atomic_helper_commit_modeset_disables`, which call 
-> > `drm_atomic_helper_calc_timestamping_constants` which call 
-> > `drm_calc_timestamping_constants` for every CRTC.
-> 
-> Slightly odd place for it, but I think that's just because it was
-> originally part of drm_atomic_helper_update_legacy_modeset_state()
-> and I didn't bother looking for a better home for it when I split
-> it out. But seems like it should work fine as is.
+From: Markus Elfring <elfring@users.sourceforge.net>
+Date: Thu, 3 Oct 2024 19:56:29 +0200
 
-I just send a patch for this! Thanks for your help!
+An of_node_put(cmm) call was immediately used after a null pointer check
+for an of_find_device_by_node() call in this function implementation.
+Thus call such a function instead directly before the check.
 
-[1]:https://lore.kernel.org/all/20241003-remove-legacy-v1-1-0b7db1f1a1a6@bootlin.com/
- 
-> > 
-> > I tested kms_vblank, all of them are SUCCESS/SKIP, do you know other tests 
-> > that can trigger bugs?
-> 
-> You would explicitly have to race commits against vblank_enable.
-> Could of course sprinkle sleep()s around to widen the race window
-> if you're really keen to hit it.
-> 
-> -- 
-> Ville Syrjälä
-> Intel
+This issue was transformed by using the Coccinelle software.
 
--- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c b/drivers/gpu/d=
+rm/renesas/rcar-du/rcar_du_kms.c
+index 70d8ad065bfa..a854b2b085f9 100644
+=2D-- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+@@ -792,14 +792,12 @@ static int rcar_du_cmm_init(struct rcar_du_device *r=
+cdu)
+ 		}
+
+ 		pdev =3D of_find_device_by_node(cmm);
++		of_node_put(cmm);
+ 		if (!pdev) {
+ 			dev_err(rcdu->dev, "No device found for CMM%u\n", i);
+-			of_node_put(cmm);
+ 			return -EINVAL;
+ 		}
+
+-		of_node_put(cmm);
+-
+ 		/*
+ 		 * -ENODEV is used to report that the CMM config option is
+ 		 * disabled: return 0 and let the DU continue probing.
+=2D-
+2.46.1
+
 
