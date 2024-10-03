@@ -1,197 +1,140 @@
-Return-Path: <linux-renesas-soc+bounces-9343-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9344-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3F3E98EF55
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2024 14:38:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6303E98F019
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2024 15:14:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 29AC71F22479
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2024 12:38:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0A88C1F21B74
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2024 13:14:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84FDE1865E9;
-	Thu,  3 Oct 2024 12:38:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0337119993F;
+	Thu,  3 Oct 2024 13:14:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jaIPWC0X"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="azabhpWE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 351491EB48;
-	Thu,  3 Oct 2024 12:38:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34947199397;
+	Thu,  3 Oct 2024 13:14:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727959124; cv=none; b=a3Tj2eM4zgqk+ddIbA+y7DE3hc+kQB4E1mrKHg9GlYNjn+lleIBBN7rujhOoYSc0KAQQ4gT7cgVEJhX0BdPwbl+q+Zh6kPq5ZEY/KdqIggyNylifZuRlWCz/etFEQxdT7/B2NKlIWapG4tTMPZrEU8O5sUkfVnS/i2VjXAhgrNA=
+	t=1727961244; cv=none; b=WWye8ejsirtHG85hgCSlTAYHBQ2uFHZbeVcPhmZoTNhcKNCnMoBfI2L1B9YFz9v3G2EABc/cCI0JuVwvLiUUJf+aIMhYY5ggbP7plMTsmGaV5pTzKezLbxxorXlJBzDoZhJplgvfY464CxO6wnBJN9Y8tyoRXk/jB+QFW0EInKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727959124; c=relaxed/simple;
-	bh=BormQBizLjKHcata0UWRd4Fb0RqXNq39UuaSlr9HO+I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k39BOn4QaLhie8Vd1jW74vYEQZPehdyI+wtiK3YjGPEdFYoeHvtOSOIsgKmNgLEfCVgMbsfZlEN3fZwjPJnI8yH36QUBkJwe8B20ZYw/diKZ7m6xA+tH6EkNYXl1XmChJkXuDQNIfw2wS1iOYS4wIGp5pVlTCb4w1PaZrt+Xvaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jaIPWC0X; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1429220003;
-	Thu,  3 Oct 2024 12:38:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1727959119;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G1WWqv8PxjeMLKflSPYmbUe7DeomMcAnSm/A8iMPhzI=;
-	b=jaIPWC0Xu79mrXEmZMnQsiXzA9Wr3uoH8MULWQT5IUuNp55G4sX5QevmhszIPLVwNB8KAr
-	O3AkPLtQl5yloTMbuyNDdO+X5TRPKMqYEvSTrAQoGgw5IuBAjgFtNYLiG0d10jUZ4bA3FH
-	m1e4s8kFAAe17/+QzeW38cun4KUy2aCMbNTrAFDwf/82DfLhx3fqZMuDYE4KWwrNFUQiLe
-	EpyU5sN7nS1+Zc1hdPjgaFvbZTVp4v512I9O9Hvnt/yMn7PWEyyffcB8w/4zGq889GcVPI
-	rtotQp17FYcj62LrbVAqrFIRzZevDuIvYg4y31zSeUiM6gR48lVIIrxWlvKtpw==
-Date: Thu, 3 Oct 2024 14:38:35 +0200
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Inki Dae <inki.dae@samsung.com>,
-	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Sandy Huang <hjc@rock-chips.com>, Jyri Sarha <jyri.sarha@iki.fi>,
-	Alexey Brodkin <abrodkin@synopsys.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
-	Zack Rusin <zack.rusin@broadcom.com>, amd-gfx@lists.freedesktop.org,
-	linux-mediatek@lists.infradead.org,
-	linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-	virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org, xen-devel@lists.xenproject.org
-Subject: Re: [PATCH 2/2] drm: Move crtc->{x, y, mode, enabled} to legacy
- sub-structure
-Message-ID: <Zv6QF2EmIcogtlLA@louis-chauvet-laptop>
-Mail-Followup-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
-	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Inki Dae <inki.dae@samsung.com>,
-	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Sandy Huang <hjc@rock-chips.com>, Jyri Sarha <jyri.sarha@iki.fi>,
-	Alexey Brodkin <abrodkin@synopsys.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
-	Zack Rusin <zack.rusin@broadcom.com>, amd-gfx@lists.freedesktop.org,
-	linux-mediatek@lists.infradead.org,
-	linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-	virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org, xen-devel@lists.xenproject.org
-References: <20241002182200.15363-1-ville.syrjala@linux.intel.com>
- <20241002182200.15363-3-ville.syrjala@linux.intel.com>
+	s=arc-20240116; t=1727961244; c=relaxed/simple;
+	bh=H37t7jF8JPa9QoP6hz9mRoYu/q1kywp+62CUyAJ1xG4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hiXCvyY5JKoo/FRD8p8TVblsHE9mIg8uJfu0KfLfNt3Er2MeI/PrrhFlHAeNwTI8seY788ToBiz7FMNs7nUFGJB+ilV5czgjBp5eZEgyEVkScxlW3IJ82H52+Gh03Hdo/+8onCFXV63fWftpAI4F5l1wBaRA1ZHDHJkCYdLeq6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=azabhpWE; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a8a7596b7dfso189569266b.0;
+        Thu, 03 Oct 2024 06:14:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727961241; x=1728566041; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ykJIKgFoBDaBht1oD06/VH2LsvMsqWEds6+rHumtGW8=;
+        b=azabhpWEb+tmwuqtFDTNTEqHEUaCsOHyMlcnmQ2EPigh9rNLtUVkUzYQdZuKGhXI3k
+         MibJZmvOcmC5htWsdQot/+6Ly7s45D2ge27wSuSolgaiKkNOtVWWc3TsYgfKjaqjz03f
+         bbXJd40SzO+9DwCcSgqQ2lNX43acBe2YRNmSOGyba2jAe1e+uCggfx2zNzIDBoqCmgH/
+         exNt2LOY7mpAani1WsLSzb6w3/WZDZZoysoeyiJcKMVBMRDvAOQEnlIxdNWtqASKoT87
+         jK4PFg9ZlxnQQO74SZ9NBUGqbK49JziLYor6IkSF9yH1pXrm8RouTD8IrFBlUVBjz7LX
+         Ce4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727961241; x=1728566041;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ykJIKgFoBDaBht1oD06/VH2LsvMsqWEds6+rHumtGW8=;
+        b=DuQBahwMyOTYogfUipAn4Fgivzz6NGKmhfs2cXrakNvOAbe5sHz7jMEYNPZtfl57qv
+         HlGzdYwol9FHJ0110e+sesAh8cBONTaC7BE4wYqEVzqWJJPUBg7A9gWyd9D3vz9JyRch
+         rCGRLOrppLDAW+62YakusLAl0PaJsC0vJGHmOYRns6VVS7+ibgQkzp8h2c6ntpeajNsr
+         ckGyXxNP4dbacJ2XZ/Y4fSS07GYIn0UIF0hYQajLJFfdqtKx5x7bmnxJhGk+1jm4iRJm
+         FYmBdfJtXEQAqAOsJCZZT7nuip1+zyGnmj8xra5d9dpv0wgIrJlYgMqIMwjBus70JoHl
+         mfGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV2eWoOpeo9eUgEMcUvmvzhOPnpPfF8O7EfwqCwIPDxD6oAC0w8+IIjbvKttLGlI9PXeAMX/O4YjYVq/TE=@vger.kernel.org, AJvYcCXE8EGMyh+d1YcadTM+Z8ptPaFE2xM+fZbuRVNhhIQ0gHPEUAvOfnR+fYBqHeMBx1hpHZHC7qcQ5wQWwpFplTv2xMo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyH79zCnlLpDqEE5xUt87TKhPk+IUc97nEPkDLgRReLDmf0viHv
+	5N+YmgBK+OzC11PIRRSKbzUKlRY3ExIE8fabbl1qooCvZfMkC8FbsN1ueA==
+X-Google-Smtp-Source: AGHT+IEX5l8uCZxcIF+kwYUxASuzMCid4bVjFIwkJLo4iQcwUUma7+j1JIaX3qvkeLMW9/GlZY75qA==
+X-Received: by 2002:a17:907:971a:b0:a86:6a9a:d719 with SMTP id a640c23a62f3a-a990a1d701amr338347266b.29.1727961241157;
+        Thu, 03 Oct 2024 06:14:01 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99102858b0sm84721666b.40.2024.10.03.06.14.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Oct 2024 06:14:00 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] gpiolib: Fix potential NULL pointer dereference in gpiod_get_label()
+Date: Thu,  3 Oct 2024 14:13:51 +0100
+Message-ID: <20241003131351.472015-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241002182200.15363-3-ville.syrjala@linux.intel.com>
-X-GND-Sasl: louis.chauvet@bootlin.com
 
-Le 02/10/24 - 21:22, Ville Syrjala a écrit :
-> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> 
-> Atomic drivers shouldn't be using the legacy state stored
-> directly under drm_crtc. Move that junk into a 'legacy' sub
-> structure to highlight the offenders, of which there are
-> quite a few unfortunately.
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hi,
+In `gpiod_get_label()`, it is possible that `srcu_dereference_check()` may
+return a NULL pointer, leading to a scenario where `label->str` is accessed
+without verifying if `label` itself is NULL.
 
-Do we need to do something particular in an atomic driver except using
-state content?
+This patch adds a proper NULL check for `label` before accessing
+`label->str`. The check for `label->str != NULL` is removed because
+`label->str` can never be NULL if `label` is not NULL.
 
-I proposed some modifications for VKMS bellow. If you think this is good,
-I can send a patch to avoid being an offender :-) I just tested it, and it
-seems to work.
+This fixes the issue where the label name was being printed as `(efault)`
+when dumping the sysfs GPIO file when `label == NULL`.
 
-> I'm hoping we could get all these fixed and then declare
-> the legacy state off limits for atomic drivers (which is
-> what did long ago for plane->fb/etc). And maybe eventually
-> turn crtc->legacy into a pointer and only allocate it on
-> legacy drivers.
-> 
-> TODO: hwmode should probably go there too but it probably
->       needs a closer look, maybe other stuff too...
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+Output before this patch:
+root@smarc-rzg2l:~# cat /sys/kernel/debug/gpio | grep P2_1
+ gpio-529 (P2_1                |(efault)            ) in  hi IRQ
 
-[...]
+Output after this patch:
+root@smarc-rzg2l:~# cat /sys/kernel/debug/gpio | grep P2_1
+ gpio-529 (P2_1                |interrupt           ) in  hi IRQ
+---
+ drivers/gpio/gpiolib.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-> index 57a5769fc994..a7f8b1da6e85 100644
-> --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> @@ -187,7 +187,7 @@ static void blend(struct vkms_writeback_job *wb,
->  
->  	const struct pixel_argb_u16 background_color = { .a = 0xffff };
->  
-> -	size_t crtc_y_limit = crtc_state->base.crtc->mode.vdisplay;
-> +	size_t crtc_y_limit = crtc_state->base.crtc->legacy.mode.vdisplay;
-
-	size_t crtc_y_limit = crtc_state->base.mode.vdisplay;
-
->  	/*
->  	 * The planes are composed line-by-line to avoid heavy memory usage. It is a necessary
-> @@ -270,7 +270,7 @@ static int compose_active_planes(struct vkms_writeback_job *active_wb,
->  	if (WARN_ON(check_format_funcs(crtc_state, active_wb)))
->  		return -EINVAL;
->  
-> -	line_width = crtc_state->base.crtc->mode.hdisplay;
-> +	line_width = crtc_state->base.crtc->legacy.mode.hdisplay;
-
-	line_width = crtc_state->base.mode.hdisplay;
-
->  	stage_buffer.n_pixels = line_width;
->  	output_buffer.n_pixels = line_width;
->  
-> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-> index a40295c18b48..780681ea77e4 100644
-> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
-> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-> @@ -64,7 +64,7 @@ static int vkms_enable_vblank(struct drm_crtc *crtc)
->  	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
->  	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
->  
-> -	drm_calc_timestamping_constants(crtc, &crtc->mode);
-> +	drm_calc_timestamping_constants(crtc, &crtc->legacy.mode);
-
-	drm_calc_timestamping_constants(crtc, &crtc->state->mode);
-
->  	hrtimer_init(&out->vblank_hrtimer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
->  	out->vblank_hrtimer.function = &vkms_vblank_simulate;
-> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-> index bc724cbd5e3a..27164cddb94d 100644
-> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
-> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-> @@ -131,8 +131,8 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
->  	struct drm_connector_state *conn_state = wb_conn->base.state;
->  	struct vkms_crtc_state *crtc_state = output->composer_state;
->  	struct drm_framebuffer *fb = connector_state->writeback_job->fb;
-> -	u16 crtc_height = crtc_state->base.crtc->mode.vdisplay;
-> -	u16 crtc_width = crtc_state->base.crtc->mode.hdisplay;
-> +	u16 crtc_height = crtc_state->base.crtc->legacy.mode.vdisplay;
-> +	u16 crtc_width = crtc_state->base.crtc->legacy.mode.hdisplay;
-
-	u16 crtc_height = crtc_state->base.mode.vdisplay;
-	u16 crtc_width = crtc_state->base.mode.hdisplay;
-
->  	struct vkms_writeback_job *active_wb;
->  	struct vkms_frame_info *wb_frame_info;
->  	u32 wb_format = fb->format->format;
-
-[...]
-
+diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
+index c6afbf434366..d5952ab7752c 100644
+--- a/drivers/gpio/gpiolib.c
++++ b/drivers/gpio/gpiolib.c
+@@ -114,12 +114,12 @@ const char *gpiod_get_label(struct gpio_desc *desc)
+ 				srcu_read_lock_held(&desc->gdev->desc_srcu));
+ 
+ 	if (test_bit(FLAG_USED_AS_IRQ, &flags))
+-		return label->str ?: "interrupt";
++		return label ? label->str : "interrupt";
+ 
+ 	if (!test_bit(FLAG_REQUESTED, &flags))
+ 		return NULL;
+ 
+-	return label->str;
++	return label ? label->str : NULL;
+ }
+ 
+ static void desc_free_label(struct rcu_head *rh)
 -- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.43.0
+
 
