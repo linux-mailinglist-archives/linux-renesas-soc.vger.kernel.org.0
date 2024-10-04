@@ -1,70 +1,70 @@
-Return-Path: <linux-renesas-soc+bounces-9453-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9454-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18D27990A44
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 19:39:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9C16990A45
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 19:39:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 481051C21C49
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 17:39:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9AF3C281A7D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 17:39:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 808FB1CACDA;
-	Fri,  4 Oct 2024 17:39:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FDAD1D9A5E;
+	Fri,  4 Oct 2024 17:39:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="DgKhUTJS";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lO1cPTb8"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="NUMlFjya";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GdyB2sZ7"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E76D50A63;
-	Fri,  4 Oct 2024 17:38:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D93850A63;
+	Fri,  4 Oct 2024 17:39:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728063540; cv=none; b=cIFb/uoIC0CwYXD9HMC+79cLn9I1lFe+ZtZJ3w9SFgCtjBUUfe7D7Iuw6T9Zy05J+dLh8OzzoQ1WDKk0sh2Us8kpI4Ho/76UC5g5HIGfkpN0RZEL++hD6DTrI/jLyXHwz36Hu2l2rlNKEv3wOOuq6Js/h5jmFHUSZqAaQZSxuMc=
+	t=1728063558; cv=none; b=tRP6WD3fpES1BXhcqYx+tMFYZk7GmNMXAs+kXhyMKu2SaE+g9Z9ObOkG7vaprtvS1fgeRdHGa6G7A+tQELSgsOdaVX8pa7kNlrT6+eUtv6m6LcCSWkvNyOBQKcoWwuE5rOoUKKnTzKB+9tipcrgak13g/h9TMahcEIHVmCKrNkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728063540; c=relaxed/simple;
-	bh=6C6rckneoIfeQaVFYy5ysQVY7s7+luoJtIP63xEv2Nw=;
+	s=arc-20240116; t=1728063558; c=relaxed/simple;
+	bh=OrhQ+SyYcO2/RJEU/ZyKeSsEA1egosvAGhatozWU6fE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b+Ae2H8do/SEE/yQjVp0QvAqWiuSk/I5h9HXh/VTlfedlaWgIYmPUaOs6kS0mIcRqtNECe+R1GD6BkdYpyeSBxXx1/ZOIJmZKwLkXp1jqiyioRlL4MD3SBe9wRBdD+TpglIF29WbwFIEykYYqG26DakNjdIaeq2u0LtvFsWA8bE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=DgKhUTJS; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lO1cPTb8; arc=none smtp.client-ip=103.168.172.146
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hb7oMcDpuefpuagX9QKq8hE0UawUo2zjKpu0Me4dFGJVxR4h6YK2LqmHbnvyfaNoHmKz3AgRqE/7IhPM7hNTEm9wnHJSm0k2wH+r7JdsDb05sTO3rCYJIRFIcUrv0i/E9mrr/uWJRlLFaWHYi9CcevIXDay9yBQWmudK8yzKgxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=NUMlFjya; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GdyB2sZ7; arc=none smtp.client-ip=103.168.172.159
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
-	by mailfout.phl.internal (Postfix) with ESMTP id 257031380189;
-	Fri,  4 Oct 2024 13:38:57 -0400 (EDT)
+Received: from phl-compute-08.internal (phl-compute-08.phl.internal [10.202.2.48])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 6B9831140210;
+	Fri,  4 Oct 2024 13:39:13 -0400 (EDT)
 Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Fri, 04 Oct 2024 13:38:57 -0400
+  by phl-compute-08.internal (MEProxy); Fri, 04 Oct 2024 13:39:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1728063537;
-	 x=1728149937; bh=Kr3Vl5fZuJ7XMJgVhryNTAWHCxiNXbFT1ubQ2V63qKU=; b=
-	DgKhUTJS8CKj3MQGjqTCgOroDVLESvyvVOlpvEiXv0EKevhwEKyEd1V9GY0sNQGS
-	9OairBCe1jxDaY+32LaIm5oiHuL+fFf072ACsGrsn3UNBKj4vnXojkQVtLv7opPS
-	76SnbvArGjgjAC5S7JrpVFFeTer60fqSJOPavplhBo7ZHhW+7xGUNWkMamFRN1zc
-	OaDxS9j78n+jSd8FDKagdkYa/nAfimkVWnEtoq/4XqPgGZnjqy4ngmcUL+Vxd1sB
-	wqmJeI4TsE4bg5M2fhiv3OEgQ/gU/S93Mwcuji7U9GULpU3PlT/ppf9YEaIml85I
-	l4jQtqMeXn0o09izuUgaOA==
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1728063553;
+	 x=1728149953; bh=6NxozmCLj+6J+30gnQcc9OLXqm9vSomkzMTLoTZQrCc=; b=
+	NUMlFjyadTFRvMfUwmjEeAJohNdAxVj+NhxROONz0taCIOMJ4SFjZZ5YPPx8INEW
+	NMX4BCTMaqrnhCdIMobI/6BBdJH+p/5o6gJHRCFih8WJHxAEXHMHPAJsN5Dkx9py
+	G50RVPmpqMyfhTOiYevlOyQ+fUDVsuyK+K/pF5oYG9GCwWz4tvG6INuuRknd4+pw
+	r2cvI47q5OZk/AP2FZ/iXVPUGmS1U6ALqHaKd4q/eBTGIIt7g6LYOplABBV496WR
+	hoscsADszwNetTNj0IU/Ityt5oQji88+0UP+oJprCXwl1+4F/6HC317s1iDcOZaW
+	pXkNlCYLWHt8hUkems3l0A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1728063537; x=
-	1728149937; bh=Kr3Vl5fZuJ7XMJgVhryNTAWHCxiNXbFT1ubQ2V63qKU=; b=l
-	O1cPTb8T8p99fzdVL81QuJ8Raq/HG+BvLrrsk1c7ta0erM4tAodmHUvM4+sPqant
-	3CKIq9nRe/l08uKPxoiTHkInCbIFnLh6umpvL/vaa75JKudcwMW2HX4X0dTWCddo
-	Fb1OU8rAN8FLDjMf8NScqeUd5454wex7moqoPLaR/l/fv7fw2QMxvJi5MVF8g1Co
-	SSTFxm+kW21IwQgc9V563+VMtFMORFzGM/M9W0+ly8YDfpEi1Wyvt/6UjJKuKID3
-	TytvX1Kz/nvjjG54GK7IybYJeueF4YsYURfMKoASv9UcmmeH+MEnl73mKmDi36Sl
-	KkxQ4pXNfMe1Q4hcyVgGw==
-X-ME-Sender: <xms:MCgAZ_05-cnioLrWcGk55abuF58oxMK6yiaU2qyJF8nWOGD0H-etGw>
-    <xme:MCgAZ-EaaQy97VEoIYUnRdVpskekOKL02DPz9CM3vqtecJNL6J9iaIO4ic6EmvJWi
-    yQLqfCZX7JXS9aiDHc>
-X-ME-Received: <xmr:MCgAZ_7vspM69tuUV-2JEzDxTu7SyNJU6YPzVF4VDrILxlGHs36PdzAlgv2P_TWuJ9BUAAHahn0Z3l4zMKOO64_rsIYdfpKMcA>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1728063553; x=
+	1728149953; bh=6NxozmCLj+6J+30gnQcc9OLXqm9vSomkzMTLoTZQrCc=; b=G
+	dyB2sZ7KjEU1304vWxs/v17eGrqfjVEDi4bD0eZzi4l5XOnnkZhzE53Bc3JS3LI2
+	Xk5lPx6PnN4zbgSkt9Tq8q8FNE2CBpTaULQJ4V6b/ZA5psz1rEzXCAolJgqIGMbs
+	R0bvFp9nAR+3ntBWR/M/Q31RQc1LPM3cC7Uq1Luj+D2RhuqoB8goLlzyAUjklJuR
+	6nI+FPBd+Xf/R7wfz5Aw0oSFil5U7OTtNnsn1VC5rZ2Q1LBi400pnP0KTD6Lzz/+
+	YLXadhDsXO3FH6vt18H8A0z1SAmFtDfR8XEMX/cwIDHeAiq289E5hi4xPeiOtZjr
+	I28kmWhv5cxJUIwwS0IJA==
+X-ME-Sender: <xms:QSgAZ-L4RI2vmHj8Ql951vS6rhG_sHL7quOEbaGiJ5YW_SS_Ccv57w>
+    <xme:QSgAZ2IgR9JWg62Kj0XyUtam-VccJYgzS47_Qg9Puu40VKx8vZ5Ec1qBnhWHUX2_z
+    7JHp6V9EXwyCeeEuZA>
+X-ME-Received: <xmr:QSgAZ-stGT2oNJ4uchR1EpAM_GscJoND-WfGy0FYrDKHR7G_iRgyWaxRDoh0cZlSDyTfBFBt6guBjXjd1vCfzmzPda4dhelVnQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddvfedguddugecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
     uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
@@ -81,26 +81,26 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddvfedguddugecutefuodetgg
     hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgv
     lheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopeguvghvihgtvg
     htrhgvvgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:MCgAZ03P2W243yr8_-RhsZlOuQ4fRTsD7xEH6uDirYWE0cWjk4GeMw>
-    <xmx:MCgAZyE2PJMGGtriN0R65SmKbphMeESBxk_lAhn4MgfVyRWw5THLaw>
-    <xmx:MCgAZ19Ol85T-BlHJ1gMviDOvuAHPcTG4c5omBMpmlCFFPbnM4Y7iQ>
-    <xmx:MCgAZ_lJB_tvY367R8g9Uwku3KARP5g8SV9rPAsr_iaFrX2j-GCddA>
-    <xmx:MSgAZ34YzQx0kC8XQdcVv54gVyuxp1V9HosK67JLvjH5crfq6Jox8MUr>
+X-ME-Proxy: <xmx:QSgAZzYbgQYsJkMJGfPc5PvHm9_wH2hjn_g7ny1qowBxst_GwBp4Jg>
+    <xmx:QSgAZ1bedunCtuQ8YFtmWf9yzCLOvTTX1oUJbl5MTkqbMvwcCNI_4Q>
+    <xmx:QSgAZ_CKjD9dFOoTGFZrLECFqlBgJv7Ch3rLnW6VV-04yJdfLkuqJg>
+    <xmx:QSgAZ7ZZiPudIZ8P4spYUVuWfpJ00pmP6tHywRttoRhH8BeC-b8vTQ>
+    <xmx:QSgAZ6NaSppLvfeVmcDL0PSB1IIQ0zMXzUw7BmF81vYUzYq55-fyF9I1>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 4 Oct 2024 13:38:56 -0400 (EDT)
-Date: Fri, 4 Oct 2024 19:38:53 +0200
+ 4 Oct 2024 13:39:12 -0400 (EDT)
+Date: Fri, 4 Oct 2024 19:39:11 +0200
 From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: Magnus Damm <magnus.damm@gmail.com>,
 	Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	linux-renesas-soc@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 15/20] arm64: dts: renesas: Use interrupts-extended for
- PMICs
-Message-ID: <20241004173853.GF3542504@ragnatech.se>
+Subject: Re: [PATCH 16/20] arm64: dts: renesas: Use interrupts-extended for
+ USB muxes
+Message-ID: <20241004173911.GG3542504@ragnatech.se>
 References: <cover.1728045620.git.geert+renesas@glider.be>
- <14948b763694f3e78e8c4af35fa9c17ec91b2997.1728045620.git.geert+renesas@glider.be>
+ <b65bc4b90074f13f7b36e61a8ea47afa07eb1221.1728045620.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -110,9 +110,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <14948b763694f3e78e8c4af35fa9c17ec91b2997.1728045620.git.geert+renesas@glider.be>
+In-Reply-To: <b65bc4b90074f13f7b36e61a8ea47afa07eb1221.1728045620.git.geert+renesas@glider.be>
 
-On 2024-10-04 14:52:57 +0200, Geert Uytterhoeven wrote:
+On 2024-10-04 14:52:58 +0200, Geert Uytterhoeven wrote:
 > Use the more concise interrupts-extended property to fully describe the
 > interrupts.
 > 
@@ -121,53 +121,38 @@ On 2024-10-04 14:52:57 +0200, Geert Uytterhoeven wrote:
 Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
 > ---
->  arch/arm64/boot/dts/renesas/ebisu.dtsi           | 3 +--
->  arch/arm64/boot/dts/renesas/salvator-common.dtsi | 3 +--
->  arch/arm64/boot/dts/renesas/ulcb.dtsi            | 3 +--
->  3 files changed, 3 insertions(+), 6 deletions(-)
+>  arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi | 3 +--
+>  arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts           | 3 +--
+>  2 files changed, 2 insertions(+), 4 deletions(-)
 > 
-> diff --git a/arch/arm64/boot/dts/renesas/ebisu.dtsi b/arch/arm64/boot/dts/renesas/ebisu.dtsi
-> index 54ebffcd82d4337b..b4e0347d3617a83e 100644
-> --- a/arch/arm64/boot/dts/renesas/ebisu.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/ebisu.dtsi
-> @@ -514,8 +514,7 @@ pmic: pmic@30 {
+> diff --git a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+> index 9436b249ebdd9dcd..fd1dd2875644dd60 100644
+> --- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+> @@ -448,8 +448,7 @@ touchscreen@26 {
+>  	hd3ss3220@47 {
+>  		compatible = "ti,hd3ss3220";
+>  		reg = <0x47>;
+> -		interrupt-parent = <&gpio6>;
+> -		interrupts = <4 IRQ_TYPE_LEVEL_LOW>;
+> +		interrupts-extended = <&gpio6 4 IRQ_TYPE_LEVEL_LOW>;
 >  
->  		compatible = "rohm,bd9571mwv";
->  		reg = <0x30>;
-> -		interrupt-parent = <&intc_ex>;
-> -		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
-> +		interrupts-extended = <&intc_ex 0 IRQ_TYPE_LEVEL_LOW>;
->  		interrupt-controller;
->  		#interrupt-cells = <2>;
->  		gpio-controller;
-> diff --git a/arch/arm64/boot/dts/renesas/salvator-common.dtsi b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-> index ca0b5c070ae57dce..08f4e35c414ebbcf 100644
-> --- a/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-> @@ -617,8 +617,7 @@ pmic: pmic@30 {
+>  		ports {
+>  			#address-cells = <1>;
+> diff --git a/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts b/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts
+> index 486688b789b8cd58..94d85273064e9bc8 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts
+> +++ b/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts
+> @@ -208,8 +208,7 @@ &i2c0 {
+>  	hd3ss3220@47 {
+>  		compatible = "ti,hd3ss3220";
+>  		reg = <0x47>;
+> -		interrupt-parent = <&gpio6>;
+> -		interrupts = <3 IRQ_TYPE_LEVEL_LOW>;
+> +		interrupts-extended = <&gpio6 3 IRQ_TYPE_LEVEL_LOW>;
 >  
->  		compatible = "rohm,bd9571mwv";
->  		reg = <0x30>;
-> -		interrupt-parent = <&intc_ex>;
-> -		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
-> +		interrupts-extended = <&intc_ex 0 IRQ_TYPE_LEVEL_LOW>;
->  		interrupt-controller;
->  		#interrupt-cells = <2>;
->  		gpio-controller;
-> diff --git a/arch/arm64/boot/dts/renesas/ulcb.dtsi b/arch/arm64/boot/dts/renesas/ulcb.dtsi
-> index 4cf141a701c0625a..3d4a64d103b64bfa 100644
-> --- a/arch/arm64/boot/dts/renesas/ulcb.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/ulcb.dtsi
-> @@ -247,8 +247,7 @@ pmic: pmic@30 {
->  
->  		compatible = "rohm,bd9571mwv";
->  		reg = <0x30>;
-> -		interrupt-parent = <&intc_ex>;
-> -		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
-> +		interrupts-extended = <&intc_ex 0 IRQ_TYPE_LEVEL_LOW>;
->  		interrupt-controller;
->  		#interrupt-cells = <2>;
->  		gpio-controller;
+>  		ports {
+>  			#address-cells = <1>;
 > -- 
 > 2.34.1
 > 
