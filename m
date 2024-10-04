@@ -1,79 +1,80 @@
-Return-Path: <linux-renesas-soc+bounces-9427-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9428-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FA729904F0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 15:55:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBB8599050F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 15:59:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4DE741F2259D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 13:55:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 070D91C22A15
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 13:59:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F122F212EF1;
-	Fri,  4 Oct 2024 13:55:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54F0F215F60;
+	Fri,  4 Oct 2024 13:57:17 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55467212EF8;
-	Fri,  4 Oct 2024 13:55:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0DDB2141DC;
+	Fri,  4 Oct 2024 13:57:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728050142; cv=none; b=bbkmQ0pPBJ+9/7vWT7Er9JbhQ1m6Tf38Y8sAb4lahV0Iqw/S+QWPc+soErvkEYwagqrfxD17g2T3hjI+wi7C3EVJm2epKdbdW3rLNvcTqg8nJIwHvwMnFe/p/3W6P1Jn05u4TedA2w3ehBpNxW39ZwXqVdRDF7pnn2SxGTExIXU=
+	t=1728050237; cv=none; b=S26COxbZB05YpaL35/zTvC56Hyg6G0X5zUai/qE4vuQZo+red3bOEoD77Mw8SQkmqlwxbuZxa1xpX7ywIlU9/0XSfGFiH/IPW2w6xusBhNjIzsz/njXF1FJ0++9+KeL0FhJYJf9j4+YZ+1uELGp20oqYTGE2yGC+UMlcWlHk8Hc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728050142; c=relaxed/simple;
-	bh=qK19Tb4slLvZrRwVcJmPBbVvxfRRry3OzJxQb60YnKo=;
+	s=arc-20240116; t=1728050237; c=relaxed/simple;
+	bh=kzvehQB+L0tO7TxiItTIteZGiHS/2QUiwTEDDjnbKJE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pd4EPAW5AFAqSeA/eNDrVS2TKf5aBOM5hpK21bwaeLWtl+82hKQoIeNsDY8W2ELm7iOLtRD+rFNopBMK1e7JrjJo2vyQy1AMATVyvsKKPEQ8OshGr3dKPqFdwbJvnoGReliQbZIeal6TNtVXZO18nBFzkryiMZpN93/JRqwSkzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.179
+	 To:Cc:Content-Type; b=ZMg98fpacP53YY2tQtaRNlzfqqgDpVTSZC3MgVSBYQJV+8gtu5eVnP+N7sFLrP/3DzHp97FvM2AH9i/tOsr62qQfLP6bKEVTSOHeS8hHmMifmAuvpqZiSuyUtw/ZyaJZfnUA0zeuv+pUF+yI965VUHde3EvTvQNH7d+TCw50qwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e03caab48a2so1694568276.1;
-        Fri, 04 Oct 2024 06:55:40 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6e2d36343caso3393927b3.2;
+        Fri, 04 Oct 2024 06:57:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728050140; x=1728654940;
+        d=1e100.net; s=20230601; t=1728050234; x=1728655034;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6ej7WUSE2P6Ee3k4IlTWH9mcujKPIZcgSPx5++Xro5Y=;
-        b=aalMqYUTkTJL5RI4Pdie/eE0WMnBQKl6MoSdGR/ET//BtjWaI46Ae38mJBZB+RYIo1
-         GxNvxBRjh6HucL7MwrfmS9qjLARjdqCPFsv+y8hk4l0glPVCLe9T+lMGvurFQjwdeELg
-         8A9uw7RjaCjucc+n2XPT7dW3zk4jC+6hy5kp5fKHY7qsXTGKX6v//tFvygjO7Wdi8FSV
-         n6diYUIeyfsBlIDDBsCwDyEV9L0AKnjfrddj7H9lemMB1yL72s1/VvJEZFGuKRji9v7i
-         Nn0RI9AidHr0x0+nGUWW0UoytEA95jQLL4qB5KNrYdFleGOAupVUPnoP2qIbEV7t/5Ex
-         ECPg==
-X-Forwarded-Encrypted: i=1; AJvYcCVvC5kO5bFPVUJAlvGvc5+kjizC2bRFe4NaPKHLub+AuIPfgGoC9BFtiYMhg8h9+Wewe2Z3PwYobTcy@vger.kernel.org
-X-Gm-Message-State: AOJu0YyML9PAljsUQ1p+D/g/eShGuinIBhEpZzTTS9JXh+9iI2ZyXHVG
-	NIWL9uvrVl3rPADCNG4h7L4wb8s9S2rkfoAd1FHFmXl+eY1CYnlwF3I4tKZ9zpw=
-X-Google-Smtp-Source: AGHT+IHqLCBtVwg+NpQpMRGAd+lJczP73PFb5r8tBU9IsJyOEcctVWKWTiEwblV6jEW3cAPWB0Bn+Q==
-X-Received: by 2002:a05:6902:2304:b0:e26:677:656d with SMTP id 3f1490d57ef6-e2892ff2e27mr1962187276.10.1728050139716;
-        Fri, 04 Oct 2024 06:55:39 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e2885d6b5bcsm597837276.36.2024.10.04.06.55.38
+        bh=dt+tRMO+kb7ohi6uzJ4m3wlyh86vOBzqwTQQZZxmxyk=;
+        b=MbpGwpqaW9LyLLfQXrQyip8oQwZyL1Xh40DZdNoHEWgYBwsnFBFVkQqEk/7mQxHJ78
+         GPx4+tCZxfSuO48vgQ1rlt1AfiGmIktH1YwixjzuwaCv+rDN5eZ23FyEqK6wWPQjsvpM
+         f4jJ6c2ZCChxnBgB93+MM7j6OyBEBZAIRb0CWbFEKzZTWWNXMxIKPOTBZ2KCmlBgLmcN
+         3wrTrFdjdYROslZQ2yaZ1FIEouzovR/oyWgd1ThYG1HZPNrdrjnHqxumgmkvfGRcQzmo
+         lp6v5fSDlP6e0BM74Pc7KYA8amW2uQpTj/PfipCfRFvf5G1Der9q+Y2GPJQwJYP0+W5j
+         2seg==
+X-Forwarded-Encrypted: i=1; AJvYcCXaJFGH7PdJxI4eT4Gpmc6wX1Z5RD7KNNpQ+rczJ73omCIPV35J5AddEwGGG2Fn2U6qM0/1xbJZiuKp@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPImVB+8lGo1z//xza5BDiv124t5eYrOO1tpokf7xdIBdHHw3+
+	yKWHjsPZLMEjhhllXboF2CVFiPOn8DiGwfZ1vBfBs52udF3a0k4Dy9PpGhKVMc4=
+X-Google-Smtp-Source: AGHT+IEmWeahiyD7O/sL4Sc77bEbOACzT3z7xAmcJTADAEWIgJwdhB1wKEd4NDtgHf9dvziy1Zqpww==
+X-Received: by 2002:a05:690c:d8d:b0:6e2:ac0a:890e with SMTP id 00721157ae682-6e2c6ff5155mr24969857b3.6.1728050234438;
+        Fri, 04 Oct 2024 06:57:14 -0700 (PDT)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e2bbead375sm6587637b3.51.2024.10.04.06.57.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Oct 2024 06:55:39 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6dbc5db8a31so17145937b3.1;
-        Fri, 04 Oct 2024 06:55:38 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV3K1tOWTF3eDVeZzZlsmWAIEPQPT1ISzDGfCH/ShRgitS+PffbLbD4YptsXMX9Z78do76bIRjnpUy1@vger.kernel.org
-X-Received: by 2002:a05:690c:3081:b0:6e2:1c94:41f8 with SMTP id
- 00721157ae682-6e2c7c31210mr14890377b3.10.1728050138447; Fri, 04 Oct 2024
- 06:55:38 -0700 (PDT)
+        Fri, 04 Oct 2024 06:57:13 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-6e2326896cbso18280057b3.3;
+        Fri, 04 Oct 2024 06:57:13 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWdnUvu9GteiO3AcmlNCjoglZG7WXuqZihdFlAnaJ3FdoSl6jYnS4mj+wavVMcmNinZpu9BFLHWLJxN@vger.kernel.org
+X-Received: by 2002:a05:690c:60c1:b0:6e2:1b8c:ad28 with SMTP id
+ 00721157ae682-6e2c72423e7mr27736847b3.24.1728050233336; Fri, 04 Oct 2024
+ 06:57:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240926103340.16909-4-wsa+renesas@sang-engineering.com> <20240926103340.16909-5-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20240926103340.16909-5-wsa+renesas@sang-engineering.com>
+References: <20240926103340.16909-4-wsa+renesas@sang-engineering.com> <20240926103340.16909-6-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20240926103340.16909-6-wsa+renesas@sang-engineering.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 4 Oct 2024 15:55:26 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWQ0uiPCZ=OUdUacc2HWHJf+y3XDAJHh+hAzoRHNu9zMQ@mail.gmail.com>
-Message-ID: <CAMuHMdWQ0uiPCZ=OUdUacc2HWHJf+y3XDAJHh+hAzoRHNu9zMQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] ARM: dts: renesas: add proper node names to (L)BSC devices
+Date: Fri, 4 Oct 2024 15:57:01 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWNa-5tE7CCEypD-7rN60euGEphGmmBxQeixannP4+HXw@mail.gmail.com>
+Message-ID: <CAMuHMdWNa-5tE7CCEypD-7rN60euGEphGmmBxQeixannP4+HXw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] ARM: dts: renesas: r8a7778: rename 'bsc' to 'lbsc'
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>, 
+Cc: linux-renesas-soc@vger.kernel.org, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	devicetree@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
@@ -81,11 +82,11 @@ Content-Transfer-Encoding: quoted-printable
 
 On Thu, Sep 26, 2024 at 12:33=E2=80=AFPM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
-> (L)BSC must have a "bus" node name [1] and no unit-address because
-> there is no reg-property. Fix these entries.
->
-> [1] lbsc: $nodename:0: 'lbsc' does not match '^([a-z][a-z0-9\\-]+-bus|bus=
-|localbus|soc|axi|ahb|apb)(@.+)?$'
+> R-Car Gen1 has an LBSC which has quite a different register set from the
+> former BSC. To match H1 with M1, rename the nodes to LBSC.
+
+M1 with H1?
+
 >
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
