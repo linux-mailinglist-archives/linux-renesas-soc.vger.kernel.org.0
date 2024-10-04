@@ -1,71 +1,71 @@
-Return-Path: <linux-renesas-soc+bounces-9436-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9437-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9520990712
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 17:04:37 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57BB999076A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 17:26:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 047111C20B0D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 15:04:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 14FBD2865FA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 15:26:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C77A481CE;
-	Fri,  4 Oct 2024 15:04:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58BAA1AA7A7;
+	Fri,  4 Oct 2024 15:26:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="FM0zMwXx";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Ioj8xxLC"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="fzxMpIPx";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="qPU1nXQ5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
+Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84AE1D9A47;
-	Fri,  4 Oct 2024 15:04:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF6A148316;
+	Fri,  4 Oct 2024 15:26:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728054273; cv=none; b=NK1ReIEQt7BehvuxS9m/j4nkyUhkTyrv/Sh0swLCETNtR9EU/YJYmJhnjC4MCy1aPJsItApMMjTv63qELBxdMsRTP6gHkKw1s0Bp1pDTcIGl0g2b5tWXATea3ypXxWG+W7oJQxdmBNWsp9QdXWOjE2xMT/56yjjD+zKlpHM6C3s=
+	t=1728055566; cv=none; b=AZgh0BMDPc5+glmQ2OnS3w0ZF3cH1mr/Vh64nEbWWilMD3gvCQpM8YiNP2+bdlsZn+szzOJQ8h/zOEbcM1MWbKh0ZnJ07sfzKTIjCGsOW6h/IZ6ayUZJ0WsExVvJ2EMPIxMcwB1wMiRTnId2IE2M3P46XlLukuhaorEL22AHlFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728054273; c=relaxed/simple;
-	bh=ZFMSYUjuyS2Oy5hk2+z4kloBk5By/ujg2f3qRQ2q6C0=;
+	s=arc-20240116; t=1728055566; c=relaxed/simple;
+	bh=SvYDkSucSWSIMqg+3i47vPz9eD7ZH4hhE13XrLPgwxU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cILaz8oy2qTqi4IE+0ArLAx4P/3Mg+hQfqERhi4GroGi0wOGrEKa+5u1zxPKwB5EGTmymRx3UGuCmpW0lomCok2J42vC7EPVKBCm6FBHhYAye8j0gwGeDENl6WSYQDMOgcSt7tGHZC0tsHlybaIbrIqQQSkqRlNutywrdC9JYME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=FM0zMwXx; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Ioj8xxLC; arc=none smtp.client-ip=103.168.172.144
+	 Content-Type:Content-Disposition:In-Reply-To; b=k40ANhpwe+nXdaYwrwnFmWRF8tyYPfDS5q0bmB1wRxupvtoGB41SqtOpS7H28Q2Veex/Ne96yEedVU3rfOVunLwORZtdNUXPf85Fbwr946qaGfG9kXcc4/x7Jm8lWjlYL8kWB49IiebSdhLL4eQeD9hk6aUO0WXzDHF8McJlWTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=fzxMpIPx; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=qPU1nXQ5; arc=none smtp.client-ip=103.168.172.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
-	by mailfout.phl.internal (Postfix) with ESMTP id EA3751380298;
-	Fri,  4 Oct 2024 11:04:28 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-11.internal (MEProxy); Fri, 04 Oct 2024 11:04:28 -0400
+Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 45CCC1140202;
+	Fri,  4 Oct 2024 11:26:02 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Fri, 04 Oct 2024 11:26:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1728054268;
-	 x=1728140668; bh=dd6N/R856yCFLLDvfp2ocNlkl+9DamU2qSo0anLfsSI=; b=
-	FM0zMwXx72vlaFdwcHjk7Fr5636JEWhyfJumiG6i7E4GhxiLNQozkbduFOrTwgvj
-	X1g2bjWNSenX/CfAXZMtQQyz5lMFxNN+RgtW5q6hLs88WHpw8GOuay/2lbGU/rF8
-	7Tkj5EGB0Pr8RvjFcp5eHTkpX9vJCHA4OqknYrUmcZFTpcdYZ3mHQspQx6FZBRcF
-	XFT5ONK5XH9VgA7UhICyPGDkRsCQE1lxz1ljhf0kabon9p7BddV4dF0fYPjOkTkf
-	iZs7mALPHtPcXX1t1uJ/OEsnBq3Fv4cvST8M/7H69GkoXok8DCeRNsoJ8aol1+AT
-	bIxkJuWVaIyTPvDlqozh3Q==
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1728055562;
+	 x=1728141962; bh=i1PtJgZu54CTz3672qgokI314kIA1KRjnU+caIo37BQ=; b=
+	fzxMpIPxhini/MXpLIcif1PViwzQ2IZH6ZQZNfW5B5DEifdTYgBN+bSbbm7ge7Ew
+	idjFuZCCI1IuZpsaexQYPSLUBohjeRni43aASqaFBhLJjYL3U0pIbtltLm/9NCCr
+	/iC+iGKySX2eMN5duJxi0QVgEcbKa59+ErJzLSSzH2EZ2Xv31TALAjxsok78nkJ+
+	KCAJRbUQ38FfoMu6oE+1cwmSUrxywxgvAllrZ6mHva+9KJVt/Z2D5CHsafS4CMWf
+	uMzej1eOF2IlsO4KX+bFxXtVJTwFlko+BZois+JhZ7xEweRxLL1Qaqdo5Hx4gsu9
+	N6GjpHULFIg4Bg3jzk+5AQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1728054268; x=
-	1728140668; bh=dd6N/R856yCFLLDvfp2ocNlkl+9DamU2qSo0anLfsSI=; b=I
-	oj8xxLCB98ffObfw997BrNSbdX+uGEyyvruNaluMYswOGNAotVW8O9mIbK1ht/ke
-	GOwD361m5rP/bzvemn4Dn1H6UqypEv9ryhSENHOQQG5a6AVTuh6PUusj9xQsPoiP
-	vJW4ExQgBQ4AhpdZSNg5bJJLKoxKIu/uXGNgbhyt7gKyzc3k9hVbm9Pyf6Ck9Nz7
-	cEvvajgKgw8G7egKLysVpkmHPYR3y+Nx9z4HXhV2ollWpQSZvXw/RVTKnYHFdtRw
-	yCDbwArYI0mGWEnszoHJWPtPv1G62EHabZdy4+tM2m6ozEf1D+bQ7SwkTy3TXAJ8
-	JLgtlZ6AXzaK9N4xlCy1Q==
-X-ME-Sender: <xms:_AMAZ3zt7txavN92WfZtGZ449kzu1PMle__c-ag9ir0knmNgkyKYgQ>
-    <xme:_AMAZ_ShXnl6lXzzhdpGGcdr8Rb5HKDTBeQuW9_xt1utN8pKfrO_8wLB7f9D9GZSK
-    SbAyY-GCTsP5K0V2Qc>
-X-ME-Received: <xmr:_AMAZxWFHI_PmT-hz3X-ZOJiKE9Uf5PgGDlkuWFgvob_8K04Ataj1rJtoJfiCs4SphyrIrkDAFADfu0VcV-DaeXTj9G4VAaBzQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddvfedgkeefucetufdoteggodetrfdotf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1728055562; x=
+	1728141962; bh=i1PtJgZu54CTz3672qgokI314kIA1KRjnU+caIo37BQ=; b=q
+	PU1nXQ5NV26hiEnTik1IrCZsA7g4O0OmHh5EOP0dlTuhy6TwmBqJyjlnhWpJKhCh
+	7mpxoaFhA6ERmpC0YGBZcsA8oBRdGRqdUZb84ou1WF4aglbaAsINSFidFNoTdjC0
+	ToMhJP2jSyCml7byZIO0W75lCpn99/y23AiV8KTEIPIlUQ+kFuU+HtXNaUU899rL
+	FO7H9TKhbM4QvyKtpSTFvrInds+gfmrYezXOzkjO74FCeGa+7vz0oHdLrFU2ZWIU
+	xowDOXEULl7ZleIk1pwTSeZqxhOiz3TsN9A1tS1tnz7xXlHrk8KGIjgx6t1R3FSj
+	1v74sSRpykTk7fmJBkl8Q==
+X-ME-Sender: <xms:CQkAZ6aIuhvB8fsDPhdMs_fZzmSQgh4u72aBqI2zlOce3L-Dwt48fQ>
+    <xme:CQkAZ9ZuL5pBtAaWgaA_9JpFWUODr7Ah91AmvJrv9WzrB3NY8WTC_wDCYa6Vtyvcp
+    QJYYbXxgvNduP68BP4>
+X-ME-Received: <xmr:CQkAZ0_Nbvw2JcUwV2osPXK5dkQb4m-lXI7lB10znnVlMffTEQcyp7COXSMhUzMYhy3UiwSBQOylssY604uF_UvjqbM6FoFwNA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddvfedgkeekucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
     rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
     htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
@@ -81,26 +81,26 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddvfedgkeefucetufdoteggod
     drkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgvrhhnvghl
     sehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepuggvvhhitggvth
     hrvggvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:_AMAZxj09LiFEdwAlDXWJJPzTpDqAA0zqbDV2jYyWxIbQHY7bF2v6Q>
-    <xmx:_AMAZ5BC_eVqB66nRM2hrZvQhoZwILfdKktJeH97jApvlkTaUoPMDw>
-    <xmx:_AMAZ6JTSTTd7zuGzVtbTlUNvVXgNV1EQigkkHYbRhRQk8suvzdUGQ>
-    <xmx:_AMAZ4C5USxUAbyMrujeL5taJFXsqNEgxcRFDotuMwNr2vW_yaPACw>
-    <xmx:_AMAZ72pIr6xCdJplClYAxdzo7PHFFlXlsHmSgW2Zr3pXcF_sbcAB67Q>
+X-ME-Proxy: <xmx:CgkAZ8rQWRPS9F12HYyO08ZPK6hF9LWuFF2h9HHIxBI-_JNWJFN20w>
+    <xmx:CgkAZ1omT9E3ABq4aglA450u7Fp5JSHd0XBxhD2-n0RXji_J6t8O2Q>
+    <xmx:CgkAZ6TMBiOAvOFXCTuu5xL4J3aLcUtuX6SOS69ddyy-5hmtoLNm6g>
+    <xmx:CgkAZ1oLjlcFqj7n4DcrGHVRhFaMerpy5oWPJVfOFp1Nl75-584KXw>
+    <xmx:CgkAZ2djE1aOBRMgSrV4z4h2bJA5EFq9YM6p7xkd5Xb_cvxMvegIvl90>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 4 Oct 2024 11:04:28 -0400 (EDT)
-Date: Fri, 4 Oct 2024 17:04:26 +0200
+ 4 Oct 2024 11:26:01 -0400 (EDT)
+Date: Fri, 4 Oct 2024 17:25:59 +0200
 From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: Magnus Damm <magnus.damm@gmail.com>,
 	Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	linux-renesas-soc@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 02/20] ARM: dts: renesas: Use interrupts-extended for
- Ethernet PHYs
-Message-ID: <20241004150426.GI2071111@ragnatech.se>
+Subject: Re: [PATCH 03/20] ARM: dts: renesas: Use interrupts-extended for
+ HDMI bridges
+Message-ID: <20241004152559.GJ2071111@ragnatech.se>
 References: <cover.1728045620.git.geert+renesas@glider.be>
- <623645456e7636f43150a70f8603114b26304818.1728045620.git.geert+renesas@glider.be>
+ <850317c7818b100f9afe026e80b6d685affe81a0.1728045620.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -110,9 +110,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <623645456e7636f43150a70f8603114b26304818.1728045620.git.geert+renesas@glider.be>
+In-Reply-To: <850317c7818b100f9afe026e80b6d685affe81a0.1728045620.git.geert+renesas@glider.be>
 
-On 2024-10-04 14:52:44 +0200, Geert Uytterhoeven wrote:
+On 2024-10-04 14:52:45 +0200, Geert Uytterhoeven wrote:
 > Use the more concise interrupts-extended property to fully describe the
 > interrupts.
 > 
@@ -121,158 +121,158 @@ On 2024-10-04 14:52:44 +0200, Geert Uytterhoeven wrote:
 Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
 > ---
->  arch/arm/boot/dts/renesas/r8a7743-sk-rzg1m.dts    | 3 +--
->  arch/arm/boot/dts/renesas/r8a7745-sk-rzg1e.dts    | 3 +--
->  arch/arm/boot/dts/renesas/r8a77470-iwg23s-sbc.dts | 3 +--
->  arch/arm/boot/dts/renesas/r8a7790-lager.dts       | 3 +--
->  arch/arm/boot/dts/renesas/r8a7790-stout.dts       | 3 +--
->  arch/arm/boot/dts/renesas/r8a7791-koelsch.dts     | 3 +--
->  arch/arm/boot/dts/renesas/r8a7791-porter.dts      | 3 +--
->  arch/arm/boot/dts/renesas/r8a7793-gose.dts        | 3 +--
->  arch/arm/boot/dts/renesas/r8a7794-alt.dts         | 3 +--
->  arch/arm/boot/dts/renesas/r8a7794-silk.dts        | 3 +--
+>  arch/arm/boot/dts/renesas/iwg20d-q7-dbcm-ca.dtsi            | 3 +--
+>  arch/arm/boot/dts/renesas/r8a7745-iwg22d-sodimm-dbhd-ca.dts | 3 +--
+>  arch/arm/boot/dts/renesas/r8a77470-iwg23s-sbc.dts           | 3 +--
+>  arch/arm/boot/dts/renesas/r8a7790-lager.dts                 | 3 +--
+>  arch/arm/boot/dts/renesas/r8a7790-stout.dts                 | 3 +--
+>  arch/arm/boot/dts/renesas/r8a7791-koelsch.dts               | 3 +--
+>  arch/arm/boot/dts/renesas/r8a7791-porter.dts                | 3 +--
+>  arch/arm/boot/dts/renesas/r8a7792-blanche.dts               | 3 +--
+>  arch/arm/boot/dts/renesas/r8a7793-gose.dts                  | 3 +--
+>  arch/arm/boot/dts/renesas/r8a7794-silk.dts                  | 3 +--
 >  10 files changed, 10 insertions(+), 20 deletions(-)
 > 
-> diff --git a/arch/arm/boot/dts/renesas/r8a7743-sk-rzg1m.dts b/arch/arm/boot/dts/renesas/r8a7743-sk-rzg1m.dts
-> index ff274bfcb6646ea7..9b16fe7ce713c903 100644
-> --- a/arch/arm/boot/dts/renesas/r8a7743-sk-rzg1m.dts
-> +++ b/arch/arm/boot/dts/renesas/r8a7743-sk-rzg1m.dts
-> @@ -73,8 +73,7 @@ phy1: ethernet-phy@1 {
->  		compatible = "ethernet-phy-id0022.1537",
->  			     "ethernet-phy-ieee802.3-c22";
->  		reg = <1>;
-> -		interrupt-parent = <&irqc>;
+> diff --git a/arch/arm/boot/dts/renesas/iwg20d-q7-dbcm-ca.dtsi b/arch/arm/boot/dts/renesas/iwg20d-q7-dbcm-ca.dtsi
+> index de52218ceaa4c0e0..ca58ea93f58fbbb1 100644
+> --- a/arch/arm/boot/dts/renesas/iwg20d-q7-dbcm-ca.dtsi
+> +++ b/arch/arm/boot/dts/renesas/iwg20d-q7-dbcm-ca.dtsi
+> @@ -73,8 +73,7 @@ &i2c5 {
+>  	hdmi@39 {
+>  		compatible = "adi,adv7511w";
+>  		reg = <0x39>;
+> -		interrupt-parent = <&gpio0>;
+> -		interrupts = <13 IRQ_TYPE_LEVEL_LOW>;
+> +		interrupts-extended = <&gpio0 13 IRQ_TYPE_LEVEL_LOW>;
+>  		clocks = <&cec_clock>;
+>  		clock-names = "cec";
+>  
+> diff --git a/arch/arm/boot/dts/renesas/r8a7745-iwg22d-sodimm-dbhd-ca.dts b/arch/arm/boot/dts/renesas/r8a7745-iwg22d-sodimm-dbhd-ca.dts
+> index a0b574398055ad2d..5903c1f1356f26c6 100644
+> --- a/arch/arm/boot/dts/renesas/r8a7745-iwg22d-sodimm-dbhd-ca.dts
+> +++ b/arch/arm/boot/dts/renesas/r8a7745-iwg22d-sodimm-dbhd-ca.dts
+> @@ -84,8 +84,7 @@ &i2c1 {
+>  	hdmi@39 {
+>  		compatible = "adi,adv7511w";
+>  		reg = <0x39>;
+> -		interrupt-parent = <&gpio1>;
 > -		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
-> +		interrupts-extended = <&irqc 0 IRQ_TYPE_LEVEL_LOW>;
->  		micrel,led-mode = <1>;
->  		reset-gpios = <&gpio5 22 GPIO_ACTIVE_LOW>;
->  	};
-> diff --git a/arch/arm/boot/dts/renesas/r8a7745-sk-rzg1e.dts b/arch/arm/boot/dts/renesas/r8a7745-sk-rzg1e.dts
-> index 0a75e8c79acc0e58..571615a506207169 100644
-> --- a/arch/arm/boot/dts/renesas/r8a7745-sk-rzg1e.dts
-> +++ b/arch/arm/boot/dts/renesas/r8a7745-sk-rzg1e.dts
-> @@ -68,8 +68,7 @@ phy1: ethernet-phy@1 {
->  		compatible = "ethernet-phy-id0022.1537",
->  			     "ethernet-phy-ieee802.3-c22";
->  		reg = <1>;
-> -		interrupt-parent = <&irqc>;
-> -		interrupts = <8 IRQ_TYPE_LEVEL_LOW>;
-> +		interrupts-extended = <&irqc 8 IRQ_TYPE_LEVEL_LOW>;
->  		micrel,led-mode = <1>;
->  		reset-gpios = <&gpio1 24 GPIO_ACTIVE_LOW>;
->  	};
+> +		interrupts-extended = <&gpio1 0 IRQ_TYPE_LEVEL_LOW>;
+>  		clocks = <&cec_clock>;
+>  		clock-names = "cec";
+>  		pd-gpios = <&gpio2 24 GPIO_ACTIVE_HIGH>;
 > diff --git a/arch/arm/boot/dts/renesas/r8a77470-iwg23s-sbc.dts b/arch/arm/boot/dts/renesas/r8a77470-iwg23s-sbc.dts
-> index 6448022852491661..7c7a9f257567d4f8 100644
+> index 7c7a9f257567d4f8..e511eb425bc550e9 100644
 > --- a/arch/arm/boot/dts/renesas/r8a77470-iwg23s-sbc.dts
 > +++ b/arch/arm/boot/dts/renesas/r8a77470-iwg23s-sbc.dts
-> @@ -82,8 +82,7 @@ phy3: ethernet-phy@3 {
->  		compatible = "ethernet-phy-id0022.1622",
->  			     "ethernet-phy-ieee802.3-c22";
->  		reg = <3>;
-> -		interrupt-parent = <&gpio5>;
-> -		interrupts = <16 IRQ_TYPE_LEVEL_LOW>;
-> +		interrupts-extended = <&gpio5 16 IRQ_TYPE_LEVEL_LOW>;
->  		micrel,led-mode = <1>;
->  	};
->  };
+> @@ -150,8 +150,7 @@ &i2c4 {
+>  	hdmi@39 {
+>  		compatible = "sil,sii9022";
+>  		reg = <0x39>;
+> -		interrupt-parent = <&gpio2>;
+> -		interrupts = <29 IRQ_TYPE_LEVEL_LOW>;
+> +		interrupts-extended = <&gpio2 29 IRQ_TYPE_LEVEL_LOW>;
+>  
+>  		ports {
+>  			#address-cells = <1>;
 > diff --git a/arch/arm/boot/dts/renesas/r8a7790-lager.dts b/arch/arm/boot/dts/renesas/r8a7790-lager.dts
-> index 826a29064d27f663..97c13b31f476505c 100644
+> index 97c13b31f476505c..5ef87f8088c4c81c 100644
 > --- a/arch/arm/boot/dts/renesas/r8a7790-lager.dts
 > +++ b/arch/arm/boot/dts/renesas/r8a7790-lager.dts
-> @@ -692,8 +692,7 @@ phy1: ethernet-phy@1 {
->  		compatible = "ethernet-phy-id0022.1537",
->  			     "ethernet-phy-ieee802.3-c22";
->  		reg = <1>;
-> -		interrupt-parent = <&irqc0>;
-> -		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
-> +		interrupts-extended = <&irqc0 0 IRQ_TYPE_LEVEL_LOW>;
->  		micrel,led-mode = <1>;
->  		reset-gpios = <&gpio5 31 GPIO_ACTIVE_LOW>;
->  	};
+> @@ -365,8 +365,7 @@ adv7180: endpoint {
+>  		hdmi@39 {
+>  			compatible = "adi,adv7511w";
+>  			reg = <0x39>;
+> -			interrupt-parent = <&gpio1>;
+> -			interrupts = <15 IRQ_TYPE_LEVEL_LOW>;
+> +			interrupts-extended = <&gpio1 15 IRQ_TYPE_LEVEL_LOW>;
+>  			clocks = <&cec_clock>;
+>  			clock-names = "cec";
+>  
 > diff --git a/arch/arm/boot/dts/renesas/r8a7790-stout.dts b/arch/arm/boot/dts/renesas/r8a7790-stout.dts
-> index 683f7395fab0b696..1593609064104ae4 100644
+> index 1593609064104ae4..9287724187ef3b69 100644
 > --- a/arch/arm/boot/dts/renesas/r8a7790-stout.dts
 > +++ b/arch/arm/boot/dts/renesas/r8a7790-stout.dts
-> @@ -211,8 +211,7 @@ phy1: ethernet-phy@1 {
->  		compatible = "ethernet-phy-id0022.1537",
->  			     "ethernet-phy-ieee802.3-c22";
->  		reg = <1>;
-> -		interrupt-parent = <&irqc0>;
-> -		interrupts = <1 IRQ_TYPE_LEVEL_LOW>;
-> +		interrupts-extended = <&irqc0 1 IRQ_TYPE_LEVEL_LOW>;
->  		micrel,led-mode = <1>;
->  		reset-gpios = <&gpio3 31 GPIO_ACTIVE_LOW>;
->  	};
+> @@ -299,8 +299,7 @@ &iic2	{
+>  	hdmi@39 {
+>  		compatible = "adi,adv7511w";
+>  		reg = <0x39>;
+> -		interrupt-parent = <&gpio1>;
+> -		interrupts = <15 IRQ_TYPE_LEVEL_LOW>;
+> +		interrupts-extended = <&gpio1 15 IRQ_TYPE_LEVEL_LOW>;
+>  		clocks = <&osc4_clk>;
+>  		clock-names = "cec";
+>  
 > diff --git a/arch/arm/boot/dts/renesas/r8a7791-koelsch.dts b/arch/arm/boot/dts/renesas/r8a7791-koelsch.dts
-> index 0a8eac57135f2e81..758d8331e7af66c4 100644
+> index 758d8331e7af66c4..bce93db4c9df5e18 100644
 > --- a/arch/arm/boot/dts/renesas/r8a7791-koelsch.dts
 > +++ b/arch/arm/boot/dts/renesas/r8a7791-koelsch.dts
-> @@ -659,8 +659,7 @@ phy1: ethernet-phy@1 {
->  		compatible = "ethernet-phy-id0022.1537",
->  			     "ethernet-phy-ieee802.3-c22";
->  		reg = <1>;
-> -		interrupt-parent = <&irqc0>;
-> -		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
-> +		interrupts-extended = <&irqc0 0 IRQ_TYPE_LEVEL_LOW>;
->  		micrel,led-mode = <1>;
->  		reset-gpios = <&gpio5 22 GPIO_ACTIVE_LOW>;
->  	};
+> @@ -397,8 +397,7 @@ adv7180: endpoint {
+>  		hdmi@39 {
+>  			compatible = "adi,adv7511w";
+>  			reg = <0x39>;
+> -			interrupt-parent = <&gpio3>;
+> -			interrupts = <29 IRQ_TYPE_LEVEL_LOW>;
+> +			interrupts-extended = <&gpio3 29 IRQ_TYPE_LEVEL_LOW>;
+>  			clocks = <&cec_clock>;
+>  			clock-names = "cec";
+>  
 > diff --git a/arch/arm/boot/dts/renesas/r8a7791-porter.dts b/arch/arm/boot/dts/renesas/r8a7791-porter.dts
-> index 93c86e9216455577..267b3623655fbc38 100644
+> index 267b3623655fbc38..92b54e043795ba08 100644
 > --- a/arch/arm/boot/dts/renesas/r8a7791-porter.dts
 > +++ b/arch/arm/boot/dts/renesas/r8a7791-porter.dts
-> @@ -329,8 +329,7 @@ phy1: ethernet-phy@1 {
->  		compatible = "ethernet-phy-id0022.1537",
->  			     "ethernet-phy-ieee802.3-c22";
->  		reg = <1>;
-> -		interrupt-parent = <&irqc0>;
-> -		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
-> +		interrupts-extended = <&irqc0 0 IRQ_TYPE_LEVEL_LOW>;
->  		micrel,led-mode = <1>;
->  		reset-gpios = <&gpio5 22 GPIO_ACTIVE_LOW>;
->  	};
+> @@ -194,8 +194,7 @@ adv7180: endpoint {
+>  		hdmi@39 {
+>  			compatible = "adi,adv7511w";
+>  			reg = <0x39>;
+> -			interrupt-parent = <&gpio3>;
+> -			interrupts = <29 IRQ_TYPE_LEVEL_LOW>;
+> +			interrupts-extended = <&gpio3 29 IRQ_TYPE_LEVEL_LOW>;
+>  
+>  			avdd-supply = <&reg_1p8v>;
+>  			dvdd-supply = <&reg_1p8v>;
+> diff --git a/arch/arm/boot/dts/renesas/r8a7792-blanche.dts b/arch/arm/boot/dts/renesas/r8a7792-blanche.dts
+> index 7eefa227d65514a9..69009535814406fe 100644
+> --- a/arch/arm/boot/dts/renesas/r8a7792-blanche.dts
+> +++ b/arch/arm/boot/dts/renesas/r8a7792-blanche.dts
+> @@ -335,8 +335,7 @@ &i2c1 {
+>  	hdmi@39 {
+>  		compatible = "adi,adv7511w";
+>  		reg = <0x39>;
+> -		interrupt-parent = <&irqc>;
+> -		interrupts = <3 IRQ_TYPE_EDGE_FALLING>;
+> +		interrupts-extended = <&irqc 3 IRQ_TYPE_EDGE_FALLING>;
+>  
+>  		avdd-supply = <&d1_8v>;
+>  		dvdd-supply = <&d1_8v>;
 > diff --git a/arch/arm/boot/dts/renesas/r8a7793-gose.dts b/arch/arm/boot/dts/renesas/r8a7793-gose.dts
-> index 1ea6c757893bc0bf..f3f62206088348c6 100644
+> index f3f62206088348c6..45ef1d1900245a11 100644
 > --- a/arch/arm/boot/dts/renesas/r8a7793-gose.dts
 > +++ b/arch/arm/boot/dts/renesas/r8a7793-gose.dts
-> @@ -622,8 +622,7 @@ phy1: ethernet-phy@1 {
->  		compatible = "ethernet-phy-id0022.1537",
->  			     "ethernet-phy-ieee802.3-c22";
->  		reg = <1>;
-> -		interrupt-parent = <&irqc0>;
-> -		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
-> +		interrupts-extended = <&irqc0 0 IRQ_TYPE_LEVEL_LOW>;
->  		micrel,led-mode = <1>;
->  		reset-gpios = <&gpio5 22 GPIO_ACTIVE_LOW>;
->  	};
-> diff --git a/arch/arm/boot/dts/renesas/r8a7794-alt.dts b/arch/arm/boot/dts/renesas/r8a7794-alt.dts
-> index b5ecafbb2e4de582..1e04b8630ef3f3ca 100644
-> --- a/arch/arm/boot/dts/renesas/r8a7794-alt.dts
-> +++ b/arch/arm/boot/dts/renesas/r8a7794-alt.dts
-> @@ -381,8 +381,7 @@ phy1: ethernet-phy@1 {
->  		compatible = "ethernet-phy-id0022.1537",
->  			     "ethernet-phy-ieee802.3-c22";
->  		reg = <1>;
-> -		interrupt-parent = <&irqc0>;
-> -		interrupts = <8 IRQ_TYPE_LEVEL_LOW>;
-> +		interrupts-extended = <&irqc0 8 IRQ_TYPE_LEVEL_LOW>;
->  		micrel,led-mode = <1>;
->  		reset-gpios = <&gpio1 24 GPIO_ACTIVE_LOW>;
->  	};
+> @@ -383,8 +383,7 @@ adv7180_out: endpoint {
+>  		hdmi@39 {
+>  			compatible = "adi,adv7511w";
+>  			reg = <0x39>;
+> -			interrupt-parent = <&gpio3>;
+> -			interrupts = <29 IRQ_TYPE_LEVEL_LOW>;
+> +			interrupts-extended = <&gpio3 29 IRQ_TYPE_LEVEL_LOW>;
+>  
+>  			avdd-supply = <&reg_1p8v>;
+>  			dvdd-supply = <&reg_1p8v>;
 > diff --git a/arch/arm/boot/dts/renesas/r8a7794-silk.dts b/arch/arm/boot/dts/renesas/r8a7794-silk.dts
-> index 595e074085eb4cd3..8857bb4a9b91d969 100644
+> index 8857bb4a9b91d969..5ed5b426f9639775 100644
 > --- a/arch/arm/boot/dts/renesas/r8a7794-silk.dts
 > +++ b/arch/arm/boot/dts/renesas/r8a7794-silk.dts
-> @@ -415,8 +415,7 @@ phy1: ethernet-phy@1 {
->  		compatible = "ethernet-phy-id0022.1537",
->  			     "ethernet-phy-ieee802.3-c22";
->  		reg = <1>;
-> -		interrupt-parent = <&irqc0>;
-> -		interrupts = <8 IRQ_TYPE_LEVEL_LOW>;
-> +		interrupts-extended = <&irqc0 8 IRQ_TYPE_LEVEL_LOW>;
->  		micrel,led-mode = <1>;
->  		reset-gpios = <&gpio1 24 GPIO_ACTIVE_LOW>;
->  	};
+> @@ -262,8 +262,7 @@ adv7180: endpoint {
+>  		hdmi@39 {
+>  			compatible = "adi,adv7511w";
+>  			reg = <0x39>;
+> -			interrupt-parent = <&gpio5>;
+> -			interrupts = <23 IRQ_TYPE_LEVEL_LOW>;
+> +			interrupts-extended = <&gpio5 23 IRQ_TYPE_LEVEL_LOW>;
+>  
+>  			avdd-supply = <&d1_8v>;
+>  			dvdd-supply = <&d1_8v>;
 > -- 
 > 2.34.1
 > 
