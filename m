@@ -1,171 +1,176 @@
-Return-Path: <linux-renesas-soc+bounces-9393-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9416-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A24DA990346
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 14:47:14 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0709990436
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 15:27:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 60F152824BA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 12:47:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CCC98B20DB9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 13:27:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 098A51DFE14;
-	Fri,  4 Oct 2024 12:47:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Zqe161aI"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19C0F21F434;
+	Fri,  4 Oct 2024 13:22:50 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F2091DEFF3
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Oct 2024 12:47:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C91216A06
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Oct 2024 13:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728046032; cv=none; b=UC/zAZFiut4woNM70snD3LNeChUDSOKUe9TBMvl6foNyR5kfCgrfH1BQsq0wPvHOd05MVxjo79fymePbqlAzrMY/RBDJwYfwLVnLfaCF0dxkFlHyY2ZW4vk/+7oXHpqd7P+bd29RRHgEqK6zGQ507QbNI+LDOUHLeCeDUxqLApU=
+	t=1728048170; cv=none; b=Mku0dK/MW4Hz7dG4luOYwbboJAB5r5yigZtBHqeZ0dX1KK/Fnook5bZOT4X93CLl1CmKpgZ0vXS5042EBAq//2QDzBAeOZC0gxgVxRiNSU2TKC8Pf9MkigfWjhLsE/fgHcrarHMEXi7py5RakK6SDR24UWaVYLOd6zkbAyELSlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728046032; c=relaxed/simple;
-	bh=HICytwfdtw7/SipI7fgXAgtcwBx5F7Vc9P9Ftg8QFHQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BSVizekmvtyqECWc92cXZ8ceXjtlICbPvVw6Tg70xc92skFSPt8l9uY6WSg4qvK023ObcAaKeI4WSEpd30e5FxTJPYNnSIcZckgPJm/85PQxPNrEtHuprqw95ED3SKIJ8m82sAKJqp1y7/SnJkHVQjUUuQB67NuYrUkSoQWpUOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Zqe161aI; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5c87ab540b3so5700618a12.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Oct 2024 05:47:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1728046029; x=1728650829; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ihg4pApurv/9QiOH9PKnVypV3KdqAXrF75Gx9rMVrc4=;
-        b=Zqe161aItsdTe5YLuEhMysDmfNET+6Sc1udDxFAtna9AELL4NbzaAcZEmOifxZIalm
-         iA5rsLHIUFuVHhLqHWNXjcjT+maZx/UsdHxK89nriWCCXERUBfaEZnuVIKdZHKmj63hb
-         nBJsQdIUp9PmyI7e6we0ND8ahqABVXze/qmygjyOeBGvk6S3tupo4HRwDjbpFNzPYIhD
-         UW9OBomdw6vC8jcgnHA2BMXwEAj9QGDmg5j/kG7d5/UVQEtt5xdHLZxjwjnwtXqWV34J
-         qRkzEteGSlUC473cXE1JRr+98bCSz9yj3+aPUGDX9riUe8j3wVV8yGiPnI8H68zGGGxa
-         jq0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728046029; x=1728650829;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ihg4pApurv/9QiOH9PKnVypV3KdqAXrF75Gx9rMVrc4=;
-        b=Petmhe2G3xLFgEXOOLpNpoQgL5b9SVqmAAslgfaIOZlZPLcDzKf4lu6XfyBtTO00QO
-         Iotdh8M3jqTJOCsGI+GYKuv/mxpVgXEvYJdl93XmYp6qT846Km7Gp+s4/wBl01216VDZ
-         nDZ7WcwR7q343zJTxYDhrtUzXRVCduPpVMRjuvncgim/Hw4BYG9/ZYq15mye/J9DeLFS
-         xYMQlmobB7r/gKUZrH0Cb+uyDQtFcCTQ8su4vV+DJx2sGNtfTJLCwxYR9J0+t8EadzVw
-         CvJIGpVBl1U6J9twc16v+8ps1T94lgw1p754hapwzID/dRCGXC/chm5J7mbkRyS3C0ac
-         jEEw==
-X-Forwarded-Encrypted: i=1; AJvYcCVYlsJEx2xPr1yLUKyEp6z+l7jd4x5uO7NMear4LIF9XzuXHuoOGAd8bVLxas5l3Cewb0LsSdkIEahvjN477OmuAA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzokKATXpIvM2zEtpx/VGk4zH7FoBwskl9/1nWsx8otcGJ0Zwz7
-	xkLnq1xmpHTvH8tDlEBumegd6LolkMqwD5OcqE3V8fdXy/Hw7knfQowdUz2Pc3E=
-X-Google-Smtp-Source: AGHT+IHw5OL6aWlKerVdXesc8DNMCsK4I0j59/2VIZC5lLt+vP5Gw/EU7fPESgWG9X+4R8TXDNt5uw==
-X-Received: by 2002:a17:907:7e82:b0:a8d:4c83:d85d with SMTP id a640c23a62f3a-a990a04e25bmr678199666b.12.1728046028595;
-        Fri, 04 Oct 2024 05:47:08 -0700 (PDT)
-Received: from localhost (p5dc68d3d.dip0.t-ipconnect.de. [93.198.141.61])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99102a6553sm223316166b.82.2024.10.04.05.47.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Oct 2024 05:47:08 -0700 (PDT)
-Date: Fri, 4 Oct 2024 14:47:06 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	"linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	"biju.das.au" <biju.das.au@gmail.com>
-Subject: Re: [PATCH v21 3/4] pwm: Add support for RZ/G2L GPT
-Message-ID: <thfymed6o42wcascazgpvgq6zcqrjxloz3nt5h2pwypqgs4fra@zeyh36lcphia>
-References: <20240808131626.87748-1-biju.das.jz@bp.renesas.com>
- <20240808131626.87748-4-biju.das.jz@bp.renesas.com>
- <slpywmbmamr4kw4jg2vyydheop44ioladvvm52aocnojgjkcsy@3eoztwsej5mn>
- <TYCPR01MB113320CDF49DB0564A958241A86722@TYCPR01MB11332.jpnprd01.prod.outlook.com>
+	s=arc-20240116; t=1728048170; c=relaxed/simple;
+	bh=TGh7eOa0EBdIxKdSzn8xUltxSvBCZpatgt1kKjJJZqQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WBlzX3gv7Cf5jvh5D6iyyVhNMStBvJMa9FikxkNZfO36H1+yewhNY50F9omKY+StPoflCuyfJzcAgvdSyNYy1uQcY+81OpVh3VGx8kjCsPE9aLymeotdF5u+QfvYRpYWN9X1l7HOlNwyaUxYEPeaFZkoXCHDIw5xvQQ8JLMHvMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:5518:aeb:d9c0:fc7c])
+	by andre.telenet-ops.be with cmsmtp
+	id LDNd2D00M4NXpdT01DNduz; Fri, 04 Oct 2024 15:22:37 +0200
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1swiGL-001EmF-Cv;
+	Fri, 04 Oct 2024 15:22:37 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1swhnu-006yTe-4Z;
+	Fri, 04 Oct 2024 14:53:06 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Magnus Damm <magnus.damm@gmail.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 00/20] renesas: dts: Use interrupts-extended
+Date: Fri,  4 Oct 2024 14:52:42 +0200
+Message-Id: <cover.1728045620.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="s2ajehwltv5lgpne"
-Content-Disposition: inline
-In-Reply-To: <TYCPR01MB113320CDF49DB0564A958241A86722@TYCPR01MB11332.jpnprd01.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 
+	Hi all,
 
---s2ajehwltv5lgpne
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patch series is a follow-up to Wolfram's series "[PATCH 0/4] ARM:
+dts: renesas: use interrupts-extended for gpio-keys"[1].  It replaces
+pairs of "interrupt-parent" and "interrupts" properties in Renesas DTS
+files by the more concise "interrupts-extended" property, as suggested
+by [2].
 
-Hello Biju,
+To reduce the number of patches, I combined patches touching similar
+device types.  I still have the original indiviual patches, so I can
+easily remix upon request ;-)
+    
+I intend to queue this series in renesas-devel for v6.13.
 
-On Fri, Oct 04, 2024 at 09:53:08AM +0000, Biju Das wrote:
-> On Wed, Sep 25, Uwe Kleine-K=F6nig wrote:
-> > On Thu, Aug 08, 2024 at 02:16:19PM +0100, Biju Das wrote:
-> > > +static int rzg2l_gpt_request(struct pwm_chip *chip, struct pwm_device
-> > > +*pwm) {
-> > > +	struct rzg2l_gpt_chip *rzg2l_gpt =3D to_rzg2l_gpt_chip(chip);
-> > > +	u32 ch =3D RZG2L_GET_CH(pwm->hwpwm);
-> > > +
-> > > +	mutex_lock(&rzg2l_gpt->lock);
-> > > +	rzg2l_gpt->user_count[ch]++;
-> > > +	mutex_unlock(&rzg2l_gpt->lock);
-> >=20
-> > Please consider using guard(mutex)(&rzg2l_gpt->lock);
->=20
-> Agreed. expect rzg2l_gpt_apply() as it will cause
-> deadlock as rzg2l_gpt_enable acquires same lock.
+Thanks for your comments!
 
-Note there is scoped_guard() if you don't want to hold the lock for the
-whole function but only for a block. Regarding rzg2l_gpt_apply() calling
-rzg2l_gpt_enable(): It might make sense to shift the semantic of
-rzg2l_gpt_enable() to expect the caller to hold the lock already. This
-way you won't release the lock just to allow a called function to retake
-it. This is usually also safer, consider someone manages to grab the
-lock in between.
-=20
-> > > +	 * clearing the flag will avoid errors during unbind.
-> > > +	 */
-> > > +	if (enabled && rzg2l_gpt->bootloader_enabled_channels[pwm->hwpwm])
-> > > +		rzg2l_gpt->bootloader_enabled_channels[pwm->hwpwm] =3D false;
-> >=20
-> > Hmm, not 100% sure, but I think if rzg2l_gpt_config() below fails, clea=
-ning this flag is wrong.
-> >=20
-> > Does rzg2l_gpt->bootloader_enabled_channels[pwm->hwpwm] =3D=3D true imp=
-ly enabled =3D=3D true? If so, the if
-> > condition can be simplified to just the right hand side of the &&. Then=
- even an unconditional
-> > assignment works, because
-> >=20
-> > 	rzg2l_gpt->bootloader_enabled_channels[pwm->hwpwm] =3D false;
-> >=20
-> > is a nop if the flag is already false.
->=20
-> I am planning to drop "bootloader_enabled_channels" based on your comment=
- in probe()
-> which simplifies the driver.
+[1] https://lore.kernel.org/20240927095414.10241-6-wsa+renesas@sang-engineering.com
+[2] commit 6df58e485fd002f6 ("dt-bindings: Clarify interrupts-extended usage")
 
-If by saying "drop" you mean that you remove bootloader_enabled_channels
-completely from the driver, that is the wrong conclusion.
+Geert Uytterhoeven (20):
+  ARM: dts: renesas: Use interrupts-extended for Ethernet MACs
+  ARM: dts: renesas: Use interrupts-extended for Ethernet PHYs
+  ARM: dts: renesas: Use interrupts-extended for HDMI bridges
+  ARM: dts: renesas: Use interrupts-extended for PMICs
+  ARM: dts: renesas: Use interrupts-extended for touchpanels
+  ARM: dts: renesas: Use interrupts-extended for video decoders
+  ARM: dts: renesas: iwg22d-sodimm: Use interrupts-extended for port
+    expander
+  ARM: dts: renesas: r8a7742-iwg21m: Use interrupts-extended for RTC
+  ARM: dts: renesas: kzm9g: Use interrupts-extended for I/O expander
+  ARM: dts: renesas: kzm9g: Use interrupts-extended for sensors
+  arm64: dts: renesas: Use interrupts-extended for DisplayPort bridges
+  arm64: dts: renesas: Use interrupts-extended for Ethernet PHYs
+  arm64: dts: renesas: Use interrupts-extended for HDMI bridges
+  arm64: dts: renesas: Use interrupts-extended for I/O expanders
+  arm64: dts: renesas: Use interrupts-extended for PMICs
+  arm64: dts: renesas: Use interrupts-extended for USB muxes
+  arm64: dts: renesas: Use interrupts-extended for video decoders
+  arm64: dts: renesas: Use interrupts-extended for WLAN
+  arm64: dts: renesas: beacon-renesom: Use interrupts-extended for
+    touchscreen
+  arm64: dts: renesas: rzg3s-smarc: Use interrupts-extended for
+    gpio-keys
 
-Best regards
-Uwe
+ arch/arm/boot/dts/renesas/emev2-kzm9d.dts      |  3 +--
+ .../arm/boot/dts/renesas/iwg20d-q7-common.dtsi |  3 +--
+ .../boot/dts/renesas/iwg20d-q7-dbcm-ca.dtsi    |  3 +--
+ arch/arm/boot/dts/renesas/r8a73a4-ape6evm.dts  |  3 +--
+ .../dts/renesas/r8a7740-armadillo800eva.dts    |  3 +--
+ .../arm/boot/dts/renesas/r8a7742-iwg21d-q7.dts |  3 +--
+ arch/arm/boot/dts/renesas/r8a7742-iwg21m.dtsi  |  3 +--
+ arch/arm/boot/dts/renesas/r8a7743-sk-rzg1m.dts |  3 +--
+ .../renesas/r8a7745-iwg22d-sodimm-dbhd-ca.dts  |  3 +--
+ .../boot/dts/renesas/r8a7745-iwg22d-sodimm.dts |  3 +--
+ arch/arm/boot/dts/renesas/r8a7745-sk-rzg1e.dts |  3 +--
+ .../boot/dts/renesas/r8a77470-iwg23s-sbc.dts   |  6 ++----
+ arch/arm/boot/dts/renesas/r8a7778-bockw.dts    |  3 +--
+ arch/arm/boot/dts/renesas/r8a7779-marzen.dts   |  3 +--
+ arch/arm/boot/dts/renesas/r8a7790-lager.dts    | 15 +++++----------
+ arch/arm/boot/dts/renesas/r8a7790-stout.dts    | 15 +++++----------
+ arch/arm/boot/dts/renesas/r8a7791-koelsch.dts  | 15 +++++----------
+ arch/arm/boot/dts/renesas/r8a7791-porter.dts   | 12 ++++--------
+ arch/arm/boot/dts/renesas/r8a7792-blanche.dts  |  9 +++------
+ arch/arm/boot/dts/renesas/r8a7792-wheat.dts    |  3 +--
+ arch/arm/boot/dts/renesas/r8a7793-gose.dts     | 15 +++++----------
+ arch/arm/boot/dts/renesas/r8a7794-alt.dts      |  6 ++----
+ arch/arm/boot/dts/renesas/r8a7794-silk.dts     |  9 +++------
+ arch/arm/boot/dts/renesas/sh73a0-kzm9g.dts     | 17 ++++++-----------
+ .../dts/renesas/beacon-renesom-baseboard.dtsi  |  6 ++----
+ .../boot/dts/renesas/beacon-renesom-som.dtsi   |  9 +++------
+ arch/arm64/boot/dts/renesas/cat875.dtsi        |  3 +--
+ arch/arm64/boot/dts/renesas/condor-common.dtsi |  6 ++----
+ arch/arm64/boot/dts/renesas/draak.dtsi         |  6 ++----
+ arch/arm64/boot/dts/renesas/ebisu.dtsi         | 17 ++++++-----------
+ arch/arm64/boot/dts/renesas/hihope-common.dtsi |  3 +--
+ .../arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi |  3 +--
+ .../arm64/boot/dts/renesas/r8a774c0-cat874.dts |  9 +++------
+ .../r8a77970-eagle-function-expansion.dtso     |  7 +++----
+ arch/arm64/boot/dts/renesas/r8a77970-eagle.dts |  6 ++----
+ arch/arm64/boot/dts/renesas/r8a77970-v3msk.dts |  6 ++----
+ arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dts |  6 ++----
+ .../boot/dts/renesas/r8a779a0-falcon-cpu.dtsi  |  3 +--
+ .../arm64/boot/dts/renesas/r8a779a0-falcon.dts |  3 +--
+ .../dts/renesas/r8a779f0-spider-ethernet.dtsi  |  9 +++------
+ arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts  |  6 ++----
+ .../dts/renesas/r8a779g2-white-hawk-single.dts |  3 +--
+ .../dts/renesas/r8a779h0-gray-hawk-single.dts  |  6 ++----
+ .../boot/dts/renesas/rzg2l-smarc-som.dtsi      |  6 ++----
+ arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi   |  3 +--
+ .../boot/dts/renesas/rzg2lc-smarc-som.dtsi     |  3 +--
+ arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi  |  3 +--
+ .../boot/dts/renesas/rzg2ul-smarc-som.dtsi     |  6 ++----
+ .../boot/dts/renesas/rzg3s-smarc-som.dtsi      |  6 ++----
+ arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi   |  9 +++------
+ .../boot/dts/renesas/salvator-common.dtsi      | 11 ++++-------
+ arch/arm64/boot/dts/renesas/ulcb-kf.dtsi       | 18 ++++++------------
+ arch/arm64/boot/dts/renesas/ulcb.dtsi          |  6 ++----
+ .../dts/renesas/white-hawk-cpu-common.dtsi     |  9 +++------
+ .../boot/dts/renesas/white-hawk-ethernet.dtsi  |  6 ++----
+ 55 files changed, 123 insertions(+), 241 deletions(-)
 
---s2ajehwltv5lgpne
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.34.1
 
------BEGIN PGP SIGNATURE-----
+Gr{oetje,eeting}s,
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmb/48gACgkQj4D7WH0S
-/k6NaggAiQi3Y76HgjjED3RCzql93qWlJLrzWhShgwCXJDxAol/sYWCNZ3uKFoA7
-lg84/KRGSKi+FAnh4ljqZkMCUHgggKttBxewS5PdEBgABPtmHf6QvFlbC6o3hX0G
-BoPeruYCePjnj6EvtwMNF+3me0rQvja6KLPAxlz2dLEhYKyO0p7kAUOfabYyX64M
-EUOJdxlQUiI3OZJMXUYejzIZlwmGCnWjlJxHfxYsBtz6QlX0VUzLG60JvG0bPTPH
-2OsNQFKbjGMR6+qWBJqBx6YOO0VKEDdmu2TafXQgfmRbRNJrP7EiaBS8c4kyt3qa
-IvXmgDDX46VvBnne6S/pn+031HL5qQ==
-=FXoC
------END PGP SIGNATURE-----
+						Geert
 
---s2ajehwltv5lgpne--
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
