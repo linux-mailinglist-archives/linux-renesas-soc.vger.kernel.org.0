@@ -1,106 +1,106 @@
-Return-Path: <linux-renesas-soc+bounces-9445-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9446-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A40D1990929
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 18:29:02 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 582AE990936
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 18:31:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 24C48B25D37
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 16:23:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 50A0B1C215D0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 16:31:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95F691C728F;
-	Fri,  4 Oct 2024 16:23:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1A181CACCC;
+	Fri,  4 Oct 2024 16:31:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="CskBVnAN";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fy5xf1yr"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="W38mhcOM";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nZPCzdCd"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B2C26286;
-	Fri,  4 Oct 2024 16:23:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7521D1E379F;
+	Fri,  4 Oct 2024 16:31:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728059016; cv=none; b=l1yQzUWB6KY/vIvfjBgfMD51nG1Qn9DDu5GhuEaOcPn3G7Idg/t4+a0LOmgbEW7mY17JmEUTAlmKYU/b7r2wTOiluS36rX2QM5TOvCQxenZEg0bkJ/RJDbe+ot51+6Y2eGgXYrJe0MOiiNi9wqH9VRDAcXlyvKinXEe/ihcas3I=
+	t=1728059487; cv=none; b=cuVVmeohwh/CK8jh+SVpDyV4CXnjvbne9hMOo8RFoE2xJK5ICKuZHpo53XnZRNDqxqF4pBkOmFJy2tUpYQwQ0guULpq2BnpH7SCr9VgebFgFFoQUg3PlmMp6rWtkEqdyh7UrCBp9guUZqv5CD5/Yasq5Mz3olx2tpyr+mV1PMNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728059016; c=relaxed/simple;
-	bh=D/W9ok3aL3BJiKAQK040jklSur5fynRfyF0fdW2SNEI=;
+	s=arc-20240116; t=1728059487; c=relaxed/simple;
+	bh=zigsK6WMkgNauDnS+RJ2q8aWx0Ovy3AgMVqbg6Vk3t0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ismw8NAKkTh9k+XDmsBiTurFove549Z9/cmOXMXa8gLxZkXF5pevAKI48xTg2jUMFKA4/qo/hg2rCxmDsGWOdvlwncqUYbqRFjg+hBVJNlo18OYRhqPDULcds/GupntkYMMWheI4uwJsTR+GKKqnYKCg3rftd6JRaBNvSF//3zY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=CskBVnAN; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fy5xf1yr; arc=none smtp.client-ip=103.168.172.158
+	 Content-Type:Content-Disposition:In-Reply-To; b=NgjAvfUoMrHy0XSJMMERDpCUaJC5/QbNwBMzeZRtVWzKQoh7UeaJuE/E+ZaKR4wX+AUP9/UbsK71hfjhLgrEoQBgBKYFMWpXFF8yO2wNV18Hu4aV7m4CEskZgWuOigntPnUa/erWVxO2DeWWw5djcrmugdIrwVkQRC4OVujW+MA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=W38mhcOM; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nZPCzdCd; arc=none smtp.client-ip=103.168.172.158
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
 Received: from phl-compute-08.internal (phl-compute-08.phl.internal [10.202.2.48])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 503F81140139;
-	Fri,  4 Oct 2024 12:23:31 -0400 (EDT)
+	by mailfhigh.phl.internal (Postfix) with ESMTP id A46FE11400E2;
+	Fri,  4 Oct 2024 12:31:24 -0400 (EDT)
 Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-08.internal (MEProxy); Fri, 04 Oct 2024 12:23:31 -0400
+  by phl-compute-08.internal (MEProxy); Fri, 04 Oct 2024 12:31:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1728059011;
-	 x=1728145411; bh=0iXkxgUDX/DUq4WmlndYBUVDIqfVDdAWzQov9P68Wq0=; b=
-	CskBVnAN0DCMVE5t7AbhqfPzbi90sZ64fn814Khxxh+jOV7txF+64nXFUstN3pDm
-	l25eolUJdRX5mYp+I7PIUOzLyz+gD7r1N+LGSYU7wIncghH7hjhBOfapMrcXFpdJ
-	eQpGHAVNVXBDMe6vXOZHSkxieSvuXufB+j05OxPsGTTd3Rgo3V3kGE8nCtmVF2Of
-	sQEwCp9ZevbvdEKNMxMhACH6zITEEZPvv4HAAzk0GMCQOgsHBD14Ko/XlFVyFTWU
-	Iw7/vlGP4aM/kCsjobQ0X2HLe1JnkuQJyrtu+0Rdi5b3005oc9Kau9gTQqSMnepx
-	oo7HkC7+49JRjdIwTx7G+g==
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1728059484;
+	 x=1728145884; bh=ybNFOvCcidYzO3PFvuu9g54ePppL64QE8bp9bWasTtM=; b=
+	W38mhcOMZauELn/TgeLpweH3KrIwiUYmBcWdwGIKx8AFHWhg+Pp2jSoMBcOxFwSG
+	0EqVa6nr0KVQDONNcSDE8kZGW9zo/xk0dawaNoAH7366QGaTpGGvKtViJKZJw5Cj
+	qGCZmDgIIGT0jv/MPuWUKjNAH7FzICEp2xwvXt/sNAnvHsjzESNOoH0TwrEqlsV6
+	lX8Tg5gx1fD98BQI87A/UD1PTPUTAzXuHhBv873ZO6CDvHzhf+R9/ij9y51eARKg
+	11q5oxQnzwnMJoG4epYecw9P8x9wrhhHEOuB/BPT+RESnBoHsmG6QnGQDtUVmL/6
+	E6mPqO0SuYiFIHR4be7BJw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1728059011; x=
-	1728145411; bh=0iXkxgUDX/DUq4WmlndYBUVDIqfVDdAWzQov9P68Wq0=; b=f
-	y5xf1yr+enpRXTRxzg/JQZMYJn3SkccqCrqxBWSlM1qF/n0CmjdE9UojO4urzK9k
-	DpUBEWjVVV7mJbl5LNxSAW4niReF7vK3OfyTmxsYEhWnCZcRTqCk0ZVYA5v+hFbN
-	Uf42kI0mxG2Su0Wh77pVXWWH+zwkeSi9r4mnaQ5PMSaNkkkccLtoaaLJkI6JiJqC
-	TlSvIqqygT+oMlsSgozt8/UXSVH2K491AOd6Jbw7uekjiy2ERjeo7Bxc1GGwqzqY
-	OEnHrhviBmPckhaMA3iTFVdcl/WH9uWc60OJwakRiNjb7gjc+3G8fBSIvTO9d/4K
-	rREDlh1i53KkWtEoPMESw==
-X-ME-Sender: <xms:ghYAZyHbU4lI-qlgMk2W-Prda1X37lNYplEcY-MrZCPsw3xI7G-f8A>
-    <xme:ghYAZzUP9rc6LddWeDBxOyCCBfjBZaGPnAmBJkvVwdX5Tr7SRk_Y2Q-hVoPtgbEDk
-    MI3_5I1KSN50Yo4IiU>
-X-ME-Received: <xmr:ghYAZ8Jvqlcs7-tEtIrxbu8yCoFqR1DQrBWtLRuECih35oFYShaEja02260tiwfYDe06JdL4P8QQT1cBBrhX8u5FS1UbdrV1mg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddvfedgleelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
-    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
-    gvrhhluhhnugesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteeg
-    tddvvdfhtdekgefhfeefheetheekkeegfeejudeiudeuleegtdehkeekteenucevlhhush
-    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshho
-    uggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeeipdhmoh
-    guvgepshhmthhpohhuthdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghssehglhhi
-    uggvrhdrsggvpdhrtghpthhtohepmhgrghhnuhhsrdgurghmmhesghhmrghilhdrtghomh
-    dprhgtphhtthhopeifshgrodhrvghnvghsrghssehsrghnghdqvghnghhinhgvvghrihhn
-    ghdrtghomhdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrh
-    drkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgvrhhnvghl
-    sehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepuggvvhhitggvth
-    hrvggvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:ghYAZ8FNtfulikhRwJPmq_GtRa6fk0Riw6RUN6KYVy9g2Cak3jyVHQ>
-    <xmx:ghYAZ4VFPVj2fHDh8QPv3zWBagDdUh2zk8YDkVTYnFj1TV0vLSnQ6Q>
-    <xmx:ghYAZ_OzDoxvL_cKt2ecQ2MB4f86bdn41G-aeM9uj_ns0Sc5ywEtKg>
-    <xmx:ghYAZ_2BkOhkF0pQ9Syaj-ZgjHuJmUGdnd0U306YHE1y4Kp67wABsA>
-    <xmx:gxYAZ6JKYtxGvIMf0i9ZVM-Jw6ybgtjvRW8820qFHmFV1cA4dLrbbBiz>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1728059484; x=
+	1728145884; bh=ybNFOvCcidYzO3PFvuu9g54ePppL64QE8bp9bWasTtM=; b=n
+	ZPCzdCd+OwHDc9b1sLnxYiKFWOLti+R/AvJJKwkX/mRLW7TaJqSJOfzhWijlsovI
+	0v1bPX0QdX8/pmoHJBO49HN++uhQJ1ybuEmUA4C44MCIZamdfows46juriB+u4EY
+	LNy/fdPKK4hPMLHAqoWS/jXqjTdNOI3lJJB0kiGppekfuZHWBe2rzepQzF239AD8
+	5doUMzCHj651mYhEK7qPksUVudOkr9kkEXe6mbb8xsCv6ldPCqgR5F2GQxgg55YJ
+	lph1PFQVEp5qcKLDb+Cj8mnv01Oqn+Jh/7yzMXRB7Z2nUbMj82zQoFoWC5N/U7NJ
+	uJJlYMRpNupmKz2ytlWJQ==
+X-ME-Sender: <xms:XBgAZ7F0Va3Y-CyjHflLgPR_vTdyAyfRls5fNkKCL-_aZSf02oTRew>
+    <xme:XBgAZ4XRW-12oo2VjDXDQfmCFCn3dcvQ3XeKts14fHUR15BKeWcFdlMAIplIfdKi2
+    5Ty_9VIPuXNocR5hxs>
+X-ME-Received: <xmr:XBgAZ9ILUgLEqHfOss6Zou4bJm8WswFgPAgU90zhgJonv6aCYlKpBdJ_GMWeXMWlV9mpE1Wcb1FKxyovB58XFasznRPe2SlI1w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddvfedguddttdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddt
+    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
+    guvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepveet
+    gedtvddvhfdtkeeghfeffeehteehkeekgeefjeduieduueelgedtheekkeetnecuvehluh
+    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhs
+    ohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepiedpmh
+    houggvpehsmhhtphhouhhtpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhl
+    ihguvghrrdgsvgdprhgtphhtthhopehmrghgnhhushdruggrmhhmsehgmhgrihhlrdgtoh
+    hmpdhrtghpthhtohepfihsrgdorhgvnhgvshgrshesshgrnhhgqdgvnhhgihhnvggvrhhi
+    nhhgrdgtohhmpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvg
+    hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgv
+    lheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopeguvghvihgtvg
+    htrhgvvgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:XBgAZ5EgCfpQ6hw0MyLdMy_4zALinRDo7tFSm_wj8bFs09UZIzMdnw>
+    <xmx:XBgAZxXoFKlKo4wQc5nZF_ZcsD2sC_unrKg1HAChUWoDejO5PSsWTg>
+    <xmx:XBgAZ0NLrHDBJOL2xZ_oTyyMdtCXavR_S_8GzTe1kCUrVBttNw1UQA>
+    <xmx:XBgAZw3PW7M40OriL17xwsvSER-SvuoYuFC6y1LXVaaWmL4ze8THtw>
+    <xmx:XBgAZwHHoL4AJDu4x8Je8S2HM8io5ZLJYGIXuREaF2Kz3Gxoi0Y16lYO>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 4 Oct 2024 12:23:30 -0400 (EDT)
-Date: Fri, 4 Oct 2024 18:23:28 +0200
+ 4 Oct 2024 12:31:23 -0400 (EDT)
+Date: Fri, 4 Oct 2024 18:31:22 +0200
 From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: Magnus Damm <magnus.damm@gmail.com>,
 	Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	linux-renesas-soc@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 10/20] ARM: dts: renesas: kzm9g: Use interrupts-extended
- for sensors
-Message-ID: <20241004162328.GA3542504@ragnatech.se>
+Subject: Re: [PATCH 11/20] arm64: dts: renesas: Use interrupts-extended for
+ DisplayPort bridges
+Message-ID: <20241004163122.GB3542504@ragnatech.se>
 References: <cover.1728045620.git.geert+renesas@glider.be>
- <e04fff0e6d7d9ffebf5e3d3fe7682f0d411b60d9.1728045620.git.geert+renesas@glider.be>
+ <2b217486221d90eb3c127f5e44f9c886161ab8c6.1728045620.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -110,9 +110,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <e04fff0e6d7d9ffebf5e3d3fe7682f0d411b60d9.1728045620.git.geert+renesas@glider.be>
+In-Reply-To: <2b217486221d90eb3c127f5e44f9c886161ab8c6.1728045620.git.geert+renesas@glider.be>
 
-On 2024-10-04 14:52:52 +0200, Geert Uytterhoeven wrote:
+On 2024-10-04 14:52:53 +0200, Geert Uytterhoeven wrote:
 > Use the more concise interrupts-extended property to fully describe the
 > interrupts.
 > 
@@ -121,35 +121,38 @@ On 2024-10-04 14:52:52 +0200, Geert Uytterhoeven wrote:
 Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
 > ---
->  arch/arm/boot/dts/renesas/sh73a0-kzm9g.dts | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
+>  arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi   | 3 +--
+>  arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi | 3 +--
+>  2 files changed, 2 insertions(+), 4 deletions(-)
 > 
-> diff --git a/arch/arm/boot/dts/renesas/sh73a0-kzm9g.dts b/arch/arm/boot/dts/renesas/sh73a0-kzm9g.dts
-> index ae7e68a44f493e1b..1ce07d0878dc635a 100644
-> --- a/arch/arm/boot/dts/renesas/sh73a0-kzm9g.dts
-> +++ b/arch/arm/boot/dts/renesas/sh73a0-kzm9g.dts
-> @@ -195,8 +195,7 @@ &i2c0 {
->  	compass@c {
->  		compatible = "asahi-kasei,ak8975";
->  		reg = <0x0c>;
-> -		interrupt-parent = <&irqpin3>;
-> -		interrupts = <4 IRQ_TYPE_EDGE_FALLING>;
-> +		interrupts-extended = <&irqpin3 4 IRQ_TYPE_EDGE_FALLING>;
->  	};
+> diff --git a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
+> index 99b73e21c82c2b18..e8c8fca48b6963c9 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
+> @@ -208,8 +208,7 @@ bridge@2c {
+>  		clocks = <&sn65dsi86_refclk>;
+>  		clock-names = "refclk";
 >  
->  	ak4648: codec@12 {
-> @@ -208,9 +207,8 @@ ak4648: codec@12 {
->  	accelerometer@1d {
->  		compatible = "adi,adxl345";
->  		reg = <0x1d>;
-> -		interrupt-parent = <&irqpin3>;
-> -		interrupts = <2 IRQ_TYPE_LEVEL_HIGH>,
-> -			     <3 IRQ_TYPE_LEVEL_HIGH>;
-> +		interrupts-extended = <&irqpin3 2 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <&irqpin3 3 IRQ_TYPE_LEVEL_HIGH>;
->  	};
+> -		interrupt-parent = <&intc_ex>;
+> -		interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
+> +		interrupts-extended = <&intc_ex 0 IRQ_TYPE_LEVEL_HIGH>;
 >  
->  	rtc@32 {
+>  		vccio-supply = <&reg_1p8v>;
+>  		vpll-supply = <&reg_1p8v>;
+> diff --git a/arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi b/arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi
+> index 6dc968352c046129..36f5deb7f24afc2e 100644
+> --- a/arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi
+> @@ -246,8 +246,7 @@ bridge@2c {
+>  		clocks = <&sn65dsi86_refclk>;
+>  		clock-names = "refclk";
+>  
+> -		interrupt-parent = <&intc_ex>;
+> -		interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
+> +		interrupts-extended = <&intc_ex 0 IRQ_TYPE_LEVEL_HIGH>;
+>  
+>  		enable-gpios = <&gpio1 26 GPIO_ACTIVE_HIGH>;
+>  
 > -- 
 > 2.34.1
 > 
