@@ -1,112 +1,122 @@
-Return-Path: <linux-renesas-soc+bounces-9374-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9375-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EACBD98FDEE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 09:40:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E0998FE22
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 09:54:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9202F1F21823
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 07:40:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 79221283DEB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 07:54:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5241613774A;
-	Fri,  4 Oct 2024 07:40:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AFEB13AA31;
+	Fri,  4 Oct 2024 07:54:16 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56C11862;
-	Fri,  4 Oct 2024 07:40:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ED3313A884;
+	Fri,  4 Oct 2024 07:54:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728027616; cv=none; b=Bg/NOQvs8pu+37jXL8em3Ky3IvhOIylw0gAe+Lc67HldqyKIWG4E3a7ikRN9bEEAc0njSu5yG9DYzyui+XJgcftSa8JXG2jVW6XYq+liFQIA5+dd6qM16++gdoERP0+upx8/fP1RLFbhzOku2QzPKwMxZ5LjD75Eu4vAREWdu08=
+	t=1728028456; cv=none; b=EoBfVtYQQQtZMZYsHwRykuJ/n7OfdhxBxaTXuAA7yvHy8pxYzsabsiCEyix6BlWqhxeyfp38ouwewW0FhbthsK05qAknv+eCGfeTshkKG7WmSN25kqG+/lEwEwMNaCNIKDdWmdmg/pdUOyDrbzksWBVUOMXfO38+mU6b4KBQNYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728027616; c=relaxed/simple;
-	bh=s+U7mPA4cuZ5ZhEywjO1q5MFBt0+X41WS0Xgg54VSWs=;
+	s=arc-20240116; t=1728028456; c=relaxed/simple;
+	bh=Wg7ul4YZSmWzSUMBwlfWIpZgmFJpPiFMzQOvVLNoDP0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lhhv1QKmVF81L7GbA12TCsoNWB3x3vkibHdBuYDMVILAvzVRsySwOItsMjKqyPsxeLUhwF17++Tzo6C1Vpvt0fKAMamycUMUqH1E8YodtnDiOpOC/mDrIZzmxuZej1gVyPjf2Tmgh/Doj+i4FgS+d28lGLgFNCOj+ZVnsE8cZEg=
+	 To:Cc:Content-Type; b=gAi1DBcY5bRpT8Kwi+9QSMNUt4OkbvlBgMu4EAFKQtTC6wYvVcssw3ry3CUXg6Ezo7x4QSdm1eI5iYOTLEaKlws9VPLXz+65OEDyS1c/xcVP3/A3J7qnTZdKFPVLDbkPkV4IgmM1pRSYjtHNnYNqZcovKsavqxL0poQICTbsZxg=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e026a2238d8so1760667276.0;
-        Fri, 04 Oct 2024 00:40:14 -0700 (PDT)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e25ccdffcc5so1683261276.1;
+        Fri, 04 Oct 2024 00:54:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728027612; x=1728632412;
+        d=1e100.net; s=20230601; t=1728028453; x=1728633253;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RO0BXZepgLq8tijgrMu3ZUSo4QDTL+V9orOPGhbqOUs=;
-        b=PLrxKN2kE2dMTRtJVuZX93YHLOHJ06c/b7oNy0bDuZyyHWUDIjWOgnl7wYdElla2ne
-         TCnt/3y6SEEK221SnDM7i/4IVfV5uZ2zqgtCS3QTChVJb+wZwMT/mHQlXNBadzK5o2zg
-         gKZo3CDvylHPot35ObS8poBWSvSY/eg1VhJ57wd/OIZ1gM51vaT5ZSfElw/uI9rWAE/v
-         nsRxinMXroMAfJ5WzqnUXfRS4CBOyaTZczXTv8GUV8LvzHTR3EXTW0GmjOds3TlgiW1L
-         cl3qowJqPLCLs5QSuBtJ0SmUCz08JgUQyxqlk0drMrNqlpdNTdnnYg6SbONmPACC9EtC
-         fR+g==
-X-Forwarded-Encrypted: i=1; AJvYcCU7bMNL1ldJOZSb56NVn85oxzFewRDuTblnkFKxzQDbFLyXgHqu3oOxxjXBXiyE7Cf4vSqLnrA/tTiLF0G8@vger.kernel.org, AJvYcCVp8zS7Lxvp64owCtnFau/TdJk4LDO+1gIcCQMEjw6YWyTwirUjr0xX3NfYaflURhyvvjvak9gPpYMH@vger.kernel.org, AJvYcCWPG/8/17uIW6gr581nNVkhBxtwSiCagfFD/dqN+1Ep21M48SfHGi2mPlf0Q8P9lmiVfzsT3dp4zBI4xxW0K45i1Dg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyw0rNGthB70J/XSqihUCfnBJep9azwNJ5wL49i9AbxDGEtqNlW
-	Lb+QQD9uV2K63GCjOhChjMoTjhKH9L0tdbqWzo3S8EXY4cIER33E8mD44jRPFMA=
-X-Google-Smtp-Source: AGHT+IHaQzLGFnkmSQQ8PwO1b1buyQSq5jmZUnXPcYzWP1WlMkO/RDtuwRpj3L+nxZG3H3K40WhibA==
-X-Received: by 2002:a05:6902:1882:b0:e26:12fb:1d98 with SMTP id 3f1490d57ef6-e28937e3a9fmr1183615276.31.1728027612566;
-        Fri, 04 Oct 2024 00:40:12 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e2bbbb7843sm5623237b3.26.2024.10.04.00.40.11
+        bh=WKYPD1a2MwpDAh7rgvBPhraVJ6bG7cu3U6Mm6tadaOg=;
+        b=PNajY66EEz9Q79kE0mEJ55s9qmtX9lMrYaVIGWP8w9+EFGyp2vPcuz8T6DxT37FKLb
+         7Hs6JoJbuSIBZbcRwp4D4VOtF5yhjM3fa1ke2lA58KEqo+Ie7xr3bJLsnj0evfo6EwtM
+         MloqlzHmhbB9cFObjE+JbAipI9j/n1joLVd5Lae1riJ/ek+P9RWFECGNZmj17ZIqZUB0
+         99p2aRrHXU64gmOk/3m4cjETRkhTTsleouBgWSvXscw+CBpaJlDPWneYUEoMMNjLM3pa
+         1KXsDMHLESoqG0+qdc2Omr1CFcSu9fsQEFf0aGIJZkKBQLaxU5dwP6eYn/gaCNWSD8Qy
+         Ya3A==
+X-Forwarded-Encrypted: i=1; AJvYcCUL3hHM4VIyyUvGi832yeflS1D3VoinYg4/mMbiaDYNd/D+f1p1qvz19W062ZjlCUcaQVMiRuJO212a@vger.kernel.org, AJvYcCUemvmsTV86saOVU0oxNXGq9RYFKCQJVQDX7yV/AGn7I9UO8zJIpyz76vKyM8uY9CrDQ0pDeAWZWeBk4rwA@vger.kernel.org, AJvYcCUo1WL06Y3dEKJrkptEzCxcKLjbYKngmI+bB9s2QKZJxlJoETXT/7cf78LWWyA9p28OkAPBU2ahL1PpUOd3kg9uVZc=@vger.kernel.org, AJvYcCVh82roSM+wB2BH2kzrKskI3usd9dvdRV4zLZs5OPZ91e3Cdo8vhpWzM6U5b0+oxay4VNeh4i4iEcG6pA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywuk/eFDCGsIaJTMyPSYYy36RhZMymapnbJc77tI3ML0UOPICeB
+	ahW/gDQbYxiZndJhzp+WG/2Qg0gxU0nfjgtN1S2b8DvVPNOl3KnBjgGLlzBarYw=
+X-Google-Smtp-Source: AGHT+IF0qW0aHCCIqgYmt95gwlS+6dhhA/vMYHaxSM+ejOhu+Ld/5K8AY7/7HlikYRL9EkDhumR+Gw==
+X-Received: by 2002:a05:6902:2412:b0:e26:ab6:e49b with SMTP id 3f1490d57ef6-e28937e37a0mr1250803276.28.1728028453010;
+        Fri, 04 Oct 2024 00:54:13 -0700 (PDT)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e2885d15b73sm517074276.7.2024.10.04.00.54.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Oct 2024 00:40:11 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6e21b4d7236so15458807b3.2;
-        Fri, 04 Oct 2024 00:40:11 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU+EA5QAfrWEipaR6FTrTiq6RvzrdZ1XP0a0Zp56++wQuxsfPwwBwcNEmOJh57tAo1HEEtsYlgbhLtt@vger.kernel.org, AJvYcCW6915BRpWyXyf8+YKKNVO3QPQB/Pg7jRuSSJQaxMaiPFUscyKKmZo2Mgsl1N2zDDzo3MbhAsucpuCSZcnjpWoU7BY=@vger.kernel.org, AJvYcCXHhJp4GwcXyTJt+2pKhMnpWd2oNX8/4KU3zqEBkCRP161958hrxvhC7uw3yJsWC/et5e0ylBmJ0i2TI75A@vger.kernel.org
-X-Received: by 2002:a05:690c:60c1:b0:6e2:1a41:ebe5 with SMTP id
- 00721157ae682-6e2c72b07d0mr17527947b3.41.1728027611475; Fri, 04 Oct 2024
- 00:40:11 -0700 (PDT)
+        Fri, 04 Oct 2024 00:54:12 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-e1651f48c31so1747520276.0;
+        Fri, 04 Oct 2024 00:54:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUKWV4KfLKLXepBKjEwD/KoD9fh+4z2LH2kFS8EvtP7No3mZKnFK0xnHjVXvNzlFRgKtidt8JDskeB7@vger.kernel.org, AJvYcCWCUkDnRoNS4RDjO8Gh/ytYVoC4beu9ntVkpvLYHYnSUcVHMwNCRK9OVQEUpz2DpapbcEo6Z0TPim1c6w==@vger.kernel.org, AJvYcCXbg99CfRzewa3X+i+65rwKndU73FAZxNglSIjENINiWWLwUy2Y4dIJizSmbJxb9DJ3BgdEaJ9eolIC9vnm@vger.kernel.org, AJvYcCXiKOgl2nQoQMy8N5Cd3mEW5jG4TAq6Cs+nm4HlE2UzeMyC6MoBJpiONxcqzEgN/DN04/VKJJrSJBAMo1vN9bVBOTY=@vger.kernel.org
+X-Received: by 2002:a05:690c:b:b0:6e2:167e:814f with SMTP id
+ 00721157ae682-6e2c7289b2emr16053787b3.31.1728028451953; Fri, 04 Oct 2024
+ 00:54:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241003131351.472015-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20241003131351.472015-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240918120909.284930-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240918120909.284930-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20240918120909.284930-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 4 Oct 2024 09:40:00 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU-79wt71k_kCE5OrRzsKG+qDu+W6E1JJe0LnfjywRkQg@mail.gmail.com>
-Message-ID: <CAMuHMdU-79wt71k_kCE5OrRzsKG+qDu+W6E1JJe0LnfjywRkQg@mail.gmail.com>
-Subject: Re: [PATCH] gpiolib: Fix potential NULL pointer dereference in gpiod_get_label()
+Date: Fri, 4 Oct 2024 09:53:59 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWkHvHh=AhJhOutFRAJMczpCGdUCPvPuqjY_V4aiMvmAg@mail.gmail.com>
+Message-ID: <CAMuHMdWkHvHh=AhJhOutFRAJMczpCGdUCPvPuqjY_V4aiMvmAg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] dt-bindings: pinctrl: renesas,rzg2l-pinctrl: Allow
+ 'input-schmitt-{enable,disable}' and 'drive-open-drain' properties
 To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
+Cc: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 3, 2024 at 3:14=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.co=
-m> wrote:
+Hi Fabrizio,
+
+On Wed, Sep 18, 2024 at 2:09=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.c=
+om> wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> In `gpiod_get_label()`, it is possible that `srcu_dereference_check()` ma=
-y
-> return a NULL pointer, leading to a scenario where `label->str` is access=
-ed
-> without verifying if `label` itself is NULL.
->
-> This patch adds a proper NULL check for `label` before accessing
-> `label->str`. The check for `label->str !=3D NULL` is removed because
-> `label->str` can never be NULL if `label` is not NULL.
->
-> This fixes the issue where the label name was being printed as `(efault)`
-> when dumping the sysfs GPIO file when `label =3D=3D NULL`.
+> On the RZ/V2H(P) SoC we can configure the 'input-schmitt-{enable,disable}=
+'
+> and 'drive-open-drain' of multiplexed pins. Update the binding
+> documentation to include these properties.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Neat!
+Thanks for your patch!
 
-Took me an aha-erlebnis to realize why it didn't crash immediately when
-accessing label->str, but it just returns the address relative to the
-zero base...
+> --- a/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yam=
+l
+> +++ b/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yam=
+l
+> @@ -119,6 +119,9 @@ additionalProperties:
+>          bias-disable: true
+>          bias-pull-down: true
+>          bias-pull-up: true
+> +        input-schmitt-enable: true
+> +        input-schmitt-disable: true
+> +        drive-open-drain: true
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+I think you also need "drive-push-pull", to disable open drain.
+
+>          renesas,output-impedance:
+>            description:
+>              Output impedance for pins on the RZ/V2H(P) SoC. The value pr=
+ovided by this
 
 Gr{oetje,eeting}s,
 
