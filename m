@@ -1,167 +1,171 @@
-Return-Path: <linux-renesas-soc+bounces-9392-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9393-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A29B99031E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 14:38:23 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A24DA990346
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 14:47:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C8A2FB21C66
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 12:38:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 60F152824BA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 12:47:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09B631D45EA;
-	Fri,  4 Oct 2024 12:37:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 098A51DFE14;
+	Fri,  4 Oct 2024 12:47:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iiWD+TyG"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Zqe161aI"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 395A31D45E2;
-	Fri,  4 Oct 2024 12:37:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F2091DEFF3
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Oct 2024 12:47:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728045441; cv=none; b=l+Wb2M9hmlozxswODoIEd7ZcRtl5w4yZ+M4imZtjTLQwy0gO7svTSBCaM5+skJDUIw+FMCLN+uo7SHOT5KMEA0eYQmTuj81meUwT8qJi8HCGVLsrm0dcQ/MCgUT8mZTT+jESv4I13DQpHJnj1lpK1vTUs7F1IFa6MwRGY4ELskc=
+	t=1728046032; cv=none; b=UC/zAZFiut4woNM70snD3LNeChUDSOKUe9TBMvl6foNyR5kfCgrfH1BQsq0wPvHOd05MVxjo79fymePbqlAzrMY/RBDJwYfwLVnLfaCF0dxkFlHyY2ZW4vk/+7oXHpqd7P+bd29RRHgEqK6zGQ507QbNI+LDOUHLeCeDUxqLApU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728045441; c=relaxed/simple;
-	bh=5QsFlrsVLsZwdtZp6mO6Us/52BhYyLYRdllWADfop4Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Uj/QQXr0uimt2DWXTMRkiHThgL0RtiDgRS9cUwU2D4Z5OyJvudbVKVjFJJ6FGOZQsIo8QwJpKUXy2BDgXHjTSLzb6skltyPOIezbZX5jYkUbfjUGBFHgGlMJHVU/yilvvgTMwfKHRXocQ/gQjeCKfxKADFbnuXNQ+crOUsJdaIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iiWD+TyG; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a8d4093722bso295686266b.0;
-        Fri, 04 Oct 2024 05:37:16 -0700 (PDT)
+	s=arc-20240116; t=1728046032; c=relaxed/simple;
+	bh=HICytwfdtw7/SipI7fgXAgtcwBx5F7Vc9P9Ftg8QFHQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BSVizekmvtyqECWc92cXZ8ceXjtlICbPvVw6Tg70xc92skFSPt8l9uY6WSg4qvK023ObcAaKeI4WSEpd30e5FxTJPYNnSIcZckgPJm/85PQxPNrEtHuprqw95ED3SKIJ8m82sAKJqp1y7/SnJkHVQjUUuQB67NuYrUkSoQWpUOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Zqe161aI; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5c87ab540b3so5700618a12.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Oct 2024 05:47:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728045435; x=1728650235; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I9LcPLLxPDaleyrFMUiTMF5QBxTx4spV5s9XLwwB+E0=;
-        b=iiWD+TyGUqMCdR8Mf5U8JDaNZ98Eeiz+4PmWwg1wF3zXAax8jyxIbhHEGnMcuTlavi
-         py847D+gHpoBRLaIYlfH0EV1JTl8JuIOSG7NxTS/JcGMhNGjSPSxevH2HKt1k0Qai1Il
-         wUBRK9VydnWzdSumRT+DVUA+Wr+O6hWbK+XHc0tzmgCdw4xeCNQ+ZGEy2vQZ9ff8W8zE
-         JHibGn7z3llEqh+q0UR7+AmD4jnEzi/io8aAruD2n5AokO613dVzOPbzp5ojdYuOn4lX
-         12nK6gYFzJqVO9BCxVtNdyThUV/nnaEiiOY4QDKr0rzyFWGqy0ysf6AnhW4IPc9uaPl2
-         knMA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1728046029; x=1728650829; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ihg4pApurv/9QiOH9PKnVypV3KdqAXrF75Gx9rMVrc4=;
+        b=Zqe161aItsdTe5YLuEhMysDmfNET+6Sc1udDxFAtna9AELL4NbzaAcZEmOifxZIalm
+         iA5rsLHIUFuVHhLqHWNXjcjT+maZx/UsdHxK89nriWCCXERUBfaEZnuVIKdZHKmj63hb
+         nBJsQdIUp9PmyI7e6we0ND8ahqABVXze/qmygjyOeBGvk6S3tupo4HRwDjbpFNzPYIhD
+         UW9OBomdw6vC8jcgnHA2BMXwEAj9QGDmg5j/kG7d5/UVQEtt5xdHLZxjwjnwtXqWV34J
+         qRkzEteGSlUC473cXE1JRr+98bCSz9yj3+aPUGDX9riUe8j3wVV8yGiPnI8H68zGGGxa
+         jq0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728045435; x=1728650235;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I9LcPLLxPDaleyrFMUiTMF5QBxTx4spV5s9XLwwB+E0=;
-        b=kyCEr+HHFx6a2AxUZtp0Hgvj9SUa3Apzaj4VcYsvEU3iN0K9EwbdAm9LtbES57kjp5
-         ZrHVuk6wyGHOs4LT9J0ADzfZGfAyELHIWcOl/tmwBZ5P7ivlaHvRghJxdrOWgchPD6MO
-         wpdzjD/0wXdjXMRvTR8m16KkxE416q9EbvBr5+9WK7S6i3HjugTguLaBfhfApWNG1Crv
-         10yFs6axVa02IeD0z7M+afqhLW/GkyHyNFJ2+VFtGAPyYy89iTyANFV90RgG3hojnIS4
-         /ac3AVFjFyrnDx+rT0Fxq35McwxI2rS2xaV6CYD+7syjq2Lg3yl2VQb9jh/NPDz7jByY
-         FNlA==
-X-Forwarded-Encrypted: i=1; AJvYcCUhRYcPLfPQnRyu4C2AhDoDs/CWibKG2riNpm0LrUXiMvW+d4atEaL5AEOsBsXaUz1JATBfjAhBEGgu@vger.kernel.org, AJvYcCV37QvoGybm0XwUaYcOtWsqUZLPcYbwpAeGwdGqCLAp5sEHvdnhDEixUaiJ01hFUG8M3G8jK5H9Ryevyq4G9Od9u9U=@vger.kernel.org, AJvYcCWe2dhStzsH9KAtQD2T4fP/Z1fvG7kXiPKvScTvhpf3fV1NEzRuUdlnADyBPHLIgEE8+dwMD9bACEmBv2Id@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzj9RXdIwL5SAMrk7IviWvckjnhvZZQs9esGlNg1FBAMeVF7Kma
-	jSO5RX14k4cUlYVMvhLr+j7vzKO8dWMctw72ualElMR2riGt+zRIjDXhCA==
-X-Google-Smtp-Source: AGHT+IHLKLaCyBdWJkVQ/RWROmiZmQC/XbMI9u2WV+co1SXbpQize0ns7wnFfIKxX37ujJwAkGHsww==
-X-Received: by 2002:a17:907:7203:b0:a90:c411:24fd with SMTP id a640c23a62f3a-a991bd052ddmr266321266b.10.1728045435142;
-        Fri, 04 Oct 2024 05:37:15 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9910285ad0sm221601166b.34.2024.10.04.05.37.13
+        d=1e100.net; s=20230601; t=1728046029; x=1728650829;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ihg4pApurv/9QiOH9PKnVypV3KdqAXrF75Gx9rMVrc4=;
+        b=Petmhe2G3xLFgEXOOLpNpoQgL5b9SVqmAAslgfaIOZlZPLcDzKf4lu6XfyBtTO00QO
+         Iotdh8M3jqTJOCsGI+GYKuv/mxpVgXEvYJdl93XmYp6qT846Km7Gp+s4/wBl01216VDZ
+         nDZ7WcwR7q343zJTxYDhrtUzXRVCduPpVMRjuvncgim/Hw4BYG9/ZYq15mye/J9DeLFS
+         xYMQlmobB7r/gKUZrH0Cb+uyDQtFcCTQ8su4vV+DJx2sGNtfTJLCwxYR9J0+t8EadzVw
+         CvJIGpVBl1U6J9twc16v+8ps1T94lgw1p754hapwzID/dRCGXC/chm5J7mbkRyS3C0ac
+         jEEw==
+X-Forwarded-Encrypted: i=1; AJvYcCVYlsJEx2xPr1yLUKyEp6z+l7jd4x5uO7NMear4LIF9XzuXHuoOGAd8bVLxas5l3Cewb0LsSdkIEahvjN477OmuAA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzokKATXpIvM2zEtpx/VGk4zH7FoBwskl9/1nWsx8otcGJ0Zwz7
+	xkLnq1xmpHTvH8tDlEBumegd6LolkMqwD5OcqE3V8fdXy/Hw7knfQowdUz2Pc3E=
+X-Google-Smtp-Source: AGHT+IHw5OL6aWlKerVdXesc8DNMCsK4I0j59/2VIZC5lLt+vP5Gw/EU7fPESgWG9X+4R8TXDNt5uw==
+X-Received: by 2002:a17:907:7e82:b0:a8d:4c83:d85d with SMTP id a640c23a62f3a-a990a04e25bmr678199666b.12.1728046028595;
+        Fri, 04 Oct 2024 05:47:08 -0700 (PDT)
+Received: from localhost (p5dc68d3d.dip0.t-ipconnect.de. [93.198.141.61])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99102a6553sm223316166b.82.2024.10.04.05.47.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Oct 2024 05:37:14 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: devicetree@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 3/3] pinctrl: renesas: rzg2l: Add support for configuring schmitt-trigger
-Date: Fri,  4 Oct 2024 13:36:58 +0100
-Message-ID: <20241004123658.764557-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241004123658.764557-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20241004123658.764557-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Fri, 04 Oct 2024 05:47:08 -0700 (PDT)
+Date: Fri, 4 Oct 2024 14:47:06 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	"linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	"biju.das.au" <biju.das.au@gmail.com>
+Subject: Re: [PATCH v21 3/4] pwm: Add support for RZ/G2L GPT
+Message-ID: <thfymed6o42wcascazgpvgq6zcqrjxloz3nt5h2pwypqgs4fra@zeyh36lcphia>
+References: <20240808131626.87748-1-biju.das.jz@bp.renesas.com>
+ <20240808131626.87748-4-biju.das.jz@bp.renesas.com>
+ <slpywmbmamr4kw4jg2vyydheop44ioladvvm52aocnojgjkcsy@3eoztwsej5mn>
+ <TYCPR01MB113320CDF49DB0564A958241A86722@TYCPR01MB11332.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="s2ajehwltv5lgpne"
+Content-Disposition: inline
+In-Reply-To: <TYCPR01MB113320CDF49DB0564A958241A86722@TYCPR01MB11332.jpnprd01.prod.outlook.com>
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Add support for configuring the multiplexed pins as schmitt-trigger
-inputs.
+--s2ajehwltv5lgpne
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v1->v2
-- Included RB tag
----
- drivers/pinctrl/renesas/pinctrl-rzg2l.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+Hello Biju,
 
-diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-index 8d576cc74003..13708c71f938 100644
---- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-@@ -140,6 +140,7 @@
- #define PUPD(off)		(0x1C00 + (off) * 8)
- #define ISEL(off)		(0x2C00 + (off) * 8)
- #define NOD(off)		(0x3000 + (off) * 8)
-+#define SMT(off)		(0x3400 + (off) * 8)
- #define SD_CH(off, ch)		((off) + (ch) * 4)
- #define ETH_POC(off, ch)	((off) + (ch) * 4)
- #define QSPI			(0x3008)
-@@ -162,6 +163,7 @@
- #define SR_MASK			0x01
- #define PUPD_MASK		0x03
- #define NOD_MASK		0x01
-+#define SMT_MASK		0x01
- 
- #define PM_INPUT		0x1
- #define PM_OUTPUT		0x2
-@@ -1351,6 +1353,15 @@ static int rzg2l_pinctrl_pinconf_get(struct pinctrl_dev *pctldev,
- 			return -EINVAL;
- 		break;
- 
-+	case PIN_CONFIG_INPUT_SCHMITT_ENABLE:
-+		if (!(cfg & PIN_CFG_SMT))
-+			return -EINVAL;
-+
-+		arg = rzg2l_read_pin_config(pctrl, SMT(off), bit, SMT_MASK);
-+		if (!arg)
-+			return -EINVAL;
-+		break;
-+
- 	case RENESAS_RZV2H_PIN_CONFIG_OUTPUT_IMPEDANCE:
- 		if (!(cfg & PIN_CFG_IOLH_RZV2H))
- 			return -EINVAL;
-@@ -1489,6 +1500,13 @@ static int rzg2l_pinctrl_pinconf_set(struct pinctrl_dev *pctldev,
- 					     param == PIN_CONFIG_DRIVE_OPEN_DRAIN ? 1 : 0);
- 			break;
- 
-+		case PIN_CONFIG_INPUT_SCHMITT_ENABLE:
-+			if (!(cfg & PIN_CFG_SMT))
-+				return -EINVAL;
-+
-+			rzg2l_rmw_pin_config(pctrl, SMT(off), bit, SMT_MASK, arg);
-+			break;
-+
- 		case RENESAS_RZV2H_PIN_CONFIG_OUTPUT_IMPEDANCE:
- 			if (!(cfg & PIN_CFG_IOLH_RZV2H))
- 				return -EINVAL;
--- 
-2.43.0
+On Fri, Oct 04, 2024 at 09:53:08AM +0000, Biju Das wrote:
+> On Wed, Sep 25, Uwe Kleine-K=F6nig wrote:
+> > On Thu, Aug 08, 2024 at 02:16:19PM +0100, Biju Das wrote:
+> > > +static int rzg2l_gpt_request(struct pwm_chip *chip, struct pwm_device
+> > > +*pwm) {
+> > > +	struct rzg2l_gpt_chip *rzg2l_gpt =3D to_rzg2l_gpt_chip(chip);
+> > > +	u32 ch =3D RZG2L_GET_CH(pwm->hwpwm);
+> > > +
+> > > +	mutex_lock(&rzg2l_gpt->lock);
+> > > +	rzg2l_gpt->user_count[ch]++;
+> > > +	mutex_unlock(&rzg2l_gpt->lock);
+> >=20
+> > Please consider using guard(mutex)(&rzg2l_gpt->lock);
+>=20
+> Agreed. expect rzg2l_gpt_apply() as it will cause
+> deadlock as rzg2l_gpt_enable acquires same lock.
 
+Note there is scoped_guard() if you don't want to hold the lock for the
+whole function but only for a block. Regarding rzg2l_gpt_apply() calling
+rzg2l_gpt_enable(): It might make sense to shift the semantic of
+rzg2l_gpt_enable() to expect the caller to hold the lock already. This
+way you won't release the lock just to allow a called function to retake
+it. This is usually also safer, consider someone manages to grab the
+lock in between.
+=20
+> > > +	 * clearing the flag will avoid errors during unbind.
+> > > +	 */
+> > > +	if (enabled && rzg2l_gpt->bootloader_enabled_channels[pwm->hwpwm])
+> > > +		rzg2l_gpt->bootloader_enabled_channels[pwm->hwpwm] =3D false;
+> >=20
+> > Hmm, not 100% sure, but I think if rzg2l_gpt_config() below fails, clea=
+ning this flag is wrong.
+> >=20
+> > Does rzg2l_gpt->bootloader_enabled_channels[pwm->hwpwm] =3D=3D true imp=
+ly enabled =3D=3D true? If so, the if
+> > condition can be simplified to just the right hand side of the &&. Then=
+ even an unconditional
+> > assignment works, because
+> >=20
+> > 	rzg2l_gpt->bootloader_enabled_channels[pwm->hwpwm] =3D false;
+> >=20
+> > is a nop if the flag is already false.
+>=20
+> I am planning to drop "bootloader_enabled_channels" based on your comment=
+ in probe()
+> which simplifies the driver.
+
+If by saying "drop" you mean that you remove bootloader_enabled_channels
+completely from the driver, that is the wrong conclusion.
+
+Best regards
+Uwe
+
+--s2ajehwltv5lgpne
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmb/48gACgkQj4D7WH0S
+/k6NaggAiQi3Y76HgjjED3RCzql93qWlJLrzWhShgwCXJDxAol/sYWCNZ3uKFoA7
+lg84/KRGSKi+FAnh4ljqZkMCUHgggKttBxewS5PdEBgABPtmHf6QvFlbC6o3hX0G
+BoPeruYCePjnj6EvtwMNF+3me0rQvja6KLPAxlz2dLEhYKyO0p7kAUOfabYyX64M
+EUOJdxlQUiI3OZJMXUYejzIZlwmGCnWjlJxHfxYsBtz6QlX0VUzLG60JvG0bPTPH
+2OsNQFKbjGMR6+qWBJqBx6YOO0VKEDdmu2TafXQgfmRbRNJrP7EiaBS8c4kyt3qa
+IvXmgDDX46VvBnne6S/pn+031HL5qQ==
+=FXoC
+-----END PGP SIGNATURE-----
+
+--s2ajehwltv5lgpne--
 
