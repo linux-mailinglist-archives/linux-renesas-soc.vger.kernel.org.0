@@ -1,122 +1,103 @@
-Return-Path: <linux-renesas-soc+bounces-9460-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9461-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C120299101E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 22:18:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AAC999102A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 22:19:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D1BBA1C2390A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 20:18:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CC8B0280401
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 20:19:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 243291B4F10;
-	Fri,  4 Oct 2024 19:57:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF8001ADFE4;
+	Fri,  4 Oct 2024 20:03:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="HhH41Rjl"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="hpNw6klj"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FBBB1B4F07
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Oct 2024 19:57:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 110951C831A
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Oct 2024 20:03:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728071835; cv=none; b=cFph/IaJERDe7dF3YPwJOUZ2ZHN35GUzPp1+aff7INI4zdvCepI7gT8Yzdv8Zb5XCTvy0bnPWqhp3A1VsXMTJQIUTUdQCIScI0fQ0dF3rFDNB19iKzQjsaas0jJVvdtl9ycm2PUj0i4fl5m8GeKyfrT3vMLQtQVuNpKq1ea2bG0=
+	t=1728072211; cv=none; b=Ck1g+t/QxkcI35SnWXA95n4EakgH4c6WFYS7nEWkOcRl8eO8EHofOu9BVVMRchWhMKe9P9wpear+Mu8I8ZqQ/IJyMQrmb7qRlcCpnsnEHVruCFTK8ryEFyiiLGrR2wYni1wwYKgynM4Bbzjlz4gT2GNSYlRlAfeL+QHPvahN/Rs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728071835; c=relaxed/simple;
-	bh=tuZdaM6k7xcdutbgqOBpf9eONqukoJH+gjRNrPBBPQU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=brmTb9komZym0bm5Dhcw/InHOL0Fnm/zcknugkrDUMEes+0IZ3GS4b1JMymUiLhrpT4cohnnZf5z6ay1jWESReKJNR0azpvuvpARAbaNChoY/rbiU9Xyif7ILcUQgt5BKCCIGgc7FZtcjPXBEYQuKoanbbkxUAB8mwOTjwv4Qxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=HhH41Rjl; arc=none smtp.client-ip=194.117.254.33
+	s=arc-20240116; t=1728072211; c=relaxed/simple;
+	bh=al6r3J1XvWz+qtQauqxukHeMJBUFZaCsGtAxq/emG+Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=e2oQWq30ApsgBKEnNmSwzVlfrHtKllnLYwEkj1Y5iAjlYuD+HqvqMxrgslHf5IAOEIiWlOIbxns/T+bw4Zlw1uhF7U9bUKB/O9scYleol3GtyvZy2AEkP0y2v7aH18oP0Q8v1nDEGyJ6dM7WMHaQyMVdCOL4n+ZegEtz9wRNrEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=hpNw6klj; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=LfCK
-	kge/wEDD3UXgRoQ+Td6gx6yeuCKZLVVi1Nt+M30=; b=HhH41RjlNjEpd9b0bf35
-	KOHtPTb7Rb5J32AHoRfPxE5JOCJEhPVxvSONDm+R8Ak7iNBhuGIL+HBgPvvpIYdJ
-	bYa0AlWnkZQXkBgZrLO+5qyLAFW+vOh0M0BWlOQejfo4mWUi2F7d+NKhBUj623IW
-	+bflP8DBauAIir5MIkMW+i84RhKrJnA9x9El76liBeQpV8mwObjdww/FnEtACPyx
-	kNVC0bSXuY9vqAMtcYZrl8cq3CquTrnWFaNu0QBQZ8J5/HvdbnJFHMr5mAxj1qx4
-	z8bglH1o74t2ivY0AWoFRT4NY0ugsA1a5pVbSxnJnTb8jZ31MfIjC8HS890GsN0C
-	Kg==
-Received: (qmail 3545290 invoked from network); 4 Oct 2024 21:57:10 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Oct 2024 21:57:10 +0200
-X-UD-Smtp-Session: l3s3148p1@/UKCE6wjfMtQvCeD
-Date: Fri, 4 Oct 2024 21:57:07 +0200
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=oxFvBwHLQIyYtq
+	XIRO1kguuDD0F+GEZfx9tyLIEoAb8=; b=hpNw6kljb1v1clVoTIr4WT8kJxQT04
+	r14NDklqofNuVRFfCG2bF5D87lDflWpt4J3czlNOfbcUmsPS7LPfM6ZbDLytgVAZ
+	0o1Xdt2obQbCi49GQatRsvJs7iAng/sOtOmmecC0If/oTQRVV9ondrfpxCBTRDZ/
+	CCfUhRuvFOjRz0LJWL+Le6g3Phc+JFhZhaxjdT02Sja6Art07SfCoDV1a93PUmgN
+	VMM8eJQcCTalPA7rGvFZ3dkrU6xPNzUZi3sCwNkWznq6LVYH08BMix11/eAFIcPs
+	Nhc7AHYrr4kH3ALgmfpK+Sl+2SmRXz5ORqS3Gc/0l4bYc88qOK/QAI9A==
+Received: (qmail 3546497 invoked from network); 4 Oct 2024 22:03:27 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Oct 2024 22:03:27 +0200
+X-UD-Smtp-Session: l3s3148p1@68cTKqwjTtdQvCeD
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, dmaengine@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] dt-bindings: dma: rz-dmac: Document RZ/A1H SoC
-Message-ID: <ZwBIk0DZ6on8eEIm@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, dmaengine@vger.kernel.org,
-	devicetree@vger.kernel.org
-References: <20241001124310.2336-1-wsa+renesas@sang-engineering.com>
- <20241001124310.2336-3-wsa+renesas@sang-engineering.com>
- <qifp4hpndfhe6jlmzjmngr7uolfzvj663donhjg5x7kmeb4ey3@a2a66w5l35zf>
- <ZvzqPkUPmurHf-fu@ninjato>
- <CAMuHMdXzCYBn+MPz-tdcP7wJRkdQspU0ZmszMv4Uj7VWpTYR4A@mail.gmail.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jean-Marie Verdun <verdun@hpe.com>,
+	linux-watchdog@vger.kernel.org,
+	Michael Walle <mwalle@kernel.org>,
+	Nick Hawkins <nick.hawkins@hpe.com>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>
+Subject: [RFC PATCH 0/9] watchdog: don't print out if registering watchdog fails
+Date: Fri,  4 Oct 2024 22:03:03 +0200
+Message-ID: <20241004200314.5459-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="O8B4C+fNCDZcsqip"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXzCYBn+MPz-tdcP7wJRkdQspU0ZmszMv4Uj7VWpTYR4A@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+
+While working with the rza-driver, I noticed that the watchdog core does
+not always print out errors when registering a watchdog fails. Only most
+of the time. With a simple refactoring, it will always print out. We can
+remove similar printouts then from drivers. This series does exactly
+that. Not sure about the core change, thus still RFC. There are two more
+drivers outside the 'watchdog' dir which could benefit from this change,
+but I left them out for now until I know this path is acceptable.
+
+Looking forward to comments...
 
 
---O8B4C+fNCDZcsqip
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Wolfram Sang (9):
+  watchdog: always print when registering watchdog fails
+  watchdog: da9055_wdt: don't print out if registering watchdog fails
+  watchdog: hpe-wdt: don't print out if registering watchdog fails
+  watchdog: iTCO_wdt: don't print out if registering watchdog fails
+  watchdog: it87_wdt: don't print out if registering watchdog fails
+  watchdog: octeon-wdt: don't print out if registering watchdog fails
+  watchdog: rti_wdt: don't print out if registering watchdog fails
+  watchdog: rza_wdt: don't print out if registering watchdog fails
+  watchdog: sl28cpld_wdt: don't print out if registering watchdog fails
 
+ drivers/watchdog/da9055_wdt.c      |  7 +------
+ drivers/watchdog/gxp-wdt.c         |  4 +---
+ drivers/watchdog/iTCO_wdt.c        |  4 +---
+ drivers/watchdog/it87_wdt.c        |  4 +---
+ drivers/watchdog/octeon-wdt-main.c |  4 +---
+ drivers/watchdog/rti_wdt.c         |  4 +---
+ drivers/watchdog/rza_wdt.c         |  7 +------
+ drivers/watchdog/sl28cpld_wdt.c    |  4 +---
+ drivers/watchdog/watchdog_core.c   | 26 +++++++++++++++++---------
+ 9 files changed, 25 insertions(+), 39 deletions(-)
 
-> According to the documentation, there is no bit in a Standby Control
-> Register to control the DMAC clock.  The driver doesn't care about the
-> clock or its rate, so you can use P0 if you want.
+-- 
+2.45.2
 
-Would you prefer using 'p0' or leaving this patch as is?
-
-
---O8B4C+fNCDZcsqip
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmcASJMACgkQFA3kzBSg
-KbZqRBAAgQfnCN9Vc93RrFEElQ254cl843BNIUVN5ZFFPLiKIaLRYs6Ff+S6EN5J
-8iZj+0kXsDikQec8WsqYrMInRZ1RMMpzApWDmPH6S30P83C79yaAzi8zaykh3e7f
-M0/IFuY3MCFIBLl6DWfG2C2UQ07PAvohbbcMkEtlK0kzwUscMFrJgWuCbZAxsZTV
-wXWuEsZWKauT6hW2NLOAY9a9RZANzi7/z53WXA5dUuO2Dzhw8FDBKXrbvxbUQW9H
-yEovhSmyJ8/Kh/Urgicr0ptiBRKDW+nwn9ZcFdbb/NhS3U+ywFx11dsD/fgTNLqf
-r3yHQ5XuTHmBlmJ2E5TyQ6uisKbM30ZQZUFXONFMS+XY+MohaEwLu8Ax/APxg3aT
-8gyIeUh887wW7nPMRd4XyWoORnROAHREd0oFSxgXHMGWuJV8dehwDwslqExdXd2k
-5LXbp7eiqw4As5opmJh7EUQnH0TBwAxmXxRHwCJ8Rt+Zyesj8XvnAnDdQT/Ibo2F
-r1Dzb7J/6SWSOH7sIRPzu0uon8amdaZCOVI0CHH87igYYBmhDTirRg1cAYrBjGVP
-mzpG1cvHXZaC8Iw/SY4gqnzjeNaIZ0BK3N5L3bnAc/QaGDYt73CeALTdvk6GA/bA
-VdiQu7tubYyCpYwmjan5TYg7Jy6DUjAooc27Cb/FRxNqHd/ZPJQ=
-=K+fC
------END PGP SIGNATURE-----
-
---O8B4C+fNCDZcsqip--
 
