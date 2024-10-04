@@ -1,128 +1,102 @@
-Return-Path: <linux-renesas-soc+bounces-9372-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9373-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 303CF98FDB9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 09:20:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB7EB98FDBE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 09:23:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5701D1C21017
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 07:20:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D67E51C2188C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2024 07:23:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8054132106;
-	Fri,  4 Oct 2024 07:20:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDC1012FF72;
+	Fri,  4 Oct 2024 07:23:14 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA778C1A;
-	Fri,  4 Oct 2024 07:20:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25476139579;
+	Fri,  4 Oct 2024 07:23:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728026435; cv=none; b=er/2UbtcMb7UCLwQPVK6JcNoid2gpKrtI9hh8U43kydWmkzmDu0AwGe0UnE8Ao4ClBkoOg6fbWeWs8AuaHk3F6bBkngck5yBvrXaDVAT50XMLhGehf0Pn3imuKNr9F2DiAIBv3kWZhb16FbSuD1m6umrURP0RsZz/XtZVu5FSZI=
+	t=1728026594; cv=none; b=SPrNkiBTRuw5KbU8lnRq9ZRf1JYG/UAGThYJ1eLnbJObqKjmUvL/UHMKmY8dTOJipJ+RnhG0AQZTbbCxse5uk/LHYct1U0VNusFK6y2OLRhaKe8H0eFKfKCUqwGtbOrRLKi4Dy3+Nuh4XlWUwIZcd8/iXh1KjPnzGBUDjakLmWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728026435; c=relaxed/simple;
-	bh=ZPpLghnA01MTgfFDexYWWVjyGzrkLlPJ69F1OK9MCcE=;
+	s=arc-20240116; t=1728026594; c=relaxed/simple;
+	bh=Hl4u0Th43hF2MbsKtw/2elvkoII+rYvDW85vcCaOIag=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HbDJ3vs6ycSNrEtIEbiYKilMg6PNoXK5TJ1T3xCAoiyz8M8WTSAMb1sjHmeGNClamRXu9XyWQ98hFUh905bQfdxaCet411FcYiC+CspPJe8/JOuoWIGo+EeB47vWnx9whGXc+lHKFOdD1n1920T0ol0zIXAAnXxWy9BvCxvbxpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.176
+	 To:Cc:Content-Type; b=NOVGaxmW7M43kYIAUZU6/ULeNtcoM5AnB4yBxlQsh/krfT1TXKEBcNuTzBlF3xwmprZduVQsaIt8GhVGprFN/pg6B5SYMSeKsdtKDsPV6wx1p2Lq2XWl9bdCpigTDs9oAjk8V/ImLpRcsNZE6jZVbYYGUZJ7GHOtX0t6tUKA6/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e262e36df27so2308907276.0;
-        Fri, 04 Oct 2024 00:20:33 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-6e2772f7df9so14879827b3.2;
+        Fri, 04 Oct 2024 00:23:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728026432; x=1728631232;
+        d=1e100.net; s=20230601; t=1728026589; x=1728631389;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RdsZwn8Yihn3uqxJRqJVW5QvdEPiHc3q0eV7E8r1KgY=;
-        b=IDHn8azfcfn2pvT2tSlccUIg/B6bKUf0PNZyDpCxhh63LK1t0yUMJx41RtnnAxBOj5
-         7ntf7zkD46LeukFpKD9nkKWkdmaLyOviGeiCOvn+3rg+i87QPXGOoZi2aKwLBAF2RllY
-         y81TveSD9GLgZPQlRpv1bOzbcwtdRQvVJyE2PsyqPYj/U3daeNQarKYFG1V2nP7frYBa
-         3mbGsdp1kqbEVnWAUC/qMFJJuKG3U8ubDnOSPLx4bh0vVwRr4yDzNNuYOhEtmZ23wc8x
-         rXfYaJzNYUJTGLHbkYFUtxAPE/9nq/UBlZ+J/gM7G6YuI0uj5X8ahyMOYcfG1Vxaq3uZ
-         N8xw==
-X-Forwarded-Encrypted: i=1; AJvYcCVgAzmiQkA1mgOgkKkI75iM1maE9G41lNLvz/e3jM3ZWMIvQg0fOtKGE6wBCRwIt095yF5SR5cFhd+iVzuh/j+ax0w=@vger.kernel.org, AJvYcCXi6nfMk/Ry9Mf/A6kU3hQ7EuqKEUAPfTa/jQ050jU7vd7qWe3Cb9az/E2Q/3ovFO8bGhTcQjpYMwH8@vger.kernel.org
-X-Gm-Message-State: AOJu0YyoTgJtu4LfOLdfcFYSjw7dihLdokqHOT14unhzY5cIRULm+2Rd
-	A4aifdLNHGRzf5ZtMrF4C43rqRdBKdo6JiVgq5fcAcvfdyyYR59+kZA4YR+rUTc=
-X-Google-Smtp-Source: AGHT+IGRxLNWXjCtIhiuHyPDaqXY0EgwkeAWFK/OF3Q9oeEu53IQa2xql74Jtgv7lv1z2e3xN0GdPA==
-X-Received: by 2002:a05:6902:102d:b0:e1d:9f6d:2eab with SMTP id 3f1490d57ef6-e289306b2bbmr1044504276.26.1728026431240;
-        Fri, 04 Oct 2024 00:20:31 -0700 (PDT)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e2885eb2137sm512013276.48.2024.10.04.00.20.30
+        bh=BitaU0i3Fe9ELNWORBY7TZc2nikkKIP92O3aWDApq7k=;
+        b=qmBxy2AJHYsDaw5FfHRPoj2eEmZhDpiG4H4GvArd9DzhBTC85RJUwngGxmyjSo8VDA
+         dtI9itjiL42eI2uOaV785a/JjR6BJn1Gb9iIEojmiunouFP+Ua9HJTs28ImXtYt2/nHi
+         emnb5Dw6irmmmNesbb6gQN8t5b0AhTkHqtXoYvmuhYiZUZ5D84LFo3Jy8q1ofqDA49UL
+         7Hf4obY4XfeJB+BsmopoDSC5y7h3I7i6LI+jfP0nh5lSAZXyGbCICODDQd1Y5aeWkjaJ
+         DLUoIy3rH5nEM6TEklwvZsKFQ6V6GON4dAp7MRZnreCmmX1qDakRvZ7sxlhJtNcajuTD
+         0FiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVkmrc6kP71LbSI/JBSamELRCjBNGiPLuGPMXX1NPnLBA1WBzr7xlQmdFrnwCXL97HpuMxBqmscfd2A@vger.kernel.org, AJvYcCWEAoWk8x5uvGdw5lGBYftoIRj0fdgVdUWrooOzuKvs86s7patdWzRkv3ZCKmofxUUb24d03HRhQMvLca2YMhn8ngQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjQ5YNTbhwYTr5JceelyAlPUBKtOwF3S0Hg5ITXrVO0FKOinF5
+	seIJ31e7gP7eVgWBziB6wnvFlJFQMPlzrXkb7r1ODE73YhfyP9UMVJ0kvp1v9Ro=
+X-Google-Smtp-Source: AGHT+IHWujPZqKnPiK6jLCeYYfd56y9UeSskyRivin/TgddIk9UbxXcr7e5Ofjt059cJr47kHq4ASw==
+X-Received: by 2002:a05:690c:6610:b0:6e2:a962:d80f with SMTP id 00721157ae682-6e2c6fcb63emr14919347b3.8.1728026588753;
+        Fri, 04 Oct 2024 00:23:08 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e2bbead375sm5561537b3.51.2024.10.04.00.23.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Oct 2024 00:20:30 -0700 (PDT)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-6e255b5e0deso14764657b3.0;
-        Fri, 04 Oct 2024 00:20:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVLIuPL16su0eei0UGlVcjBbOHO1ixmOWpG3RlOpHi/CtdVteFQ33lejs2sWw1cSHpxNyTZbLK0xxpFf4GXg92jAW8=@vger.kernel.org, AJvYcCWwBuXBwyMfgzP7F2efOBHBMkr9rzG/ON4LX2W6BqUTUn/22Bc1mNdm/Ef/9rQCPcV/9lBQt4zpnPy+@vger.kernel.org
-X-Received: by 2002:a05:690c:6a07:b0:6e2:2e8e:7a20 with SMTP id
- 00721157ae682-6e2b5367f0cmr44382007b3.13.1728026430467; Fri, 04 Oct 2024
- 00:20:30 -0700 (PDT)
+        Fri, 04 Oct 2024 00:23:08 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-6e2b9e945b9so12857137b3.0;
+        Fri, 04 Oct 2024 00:23:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWeQ9vMsyIM7cEML3zSDbIe9/FtaXc1hACjKFAqvdZA9BYcDMHvBJsYYjgR4xAHPUQyGrvYOJP6ZZhh@vger.kernel.org, AJvYcCWzAZbHaCRwxRNBESGLCH+3uSmYI8KxdQukQnmsEfM59a0gBEbj2V4knH4ki2Z0jQtOaB4COxLLr+Nv8SPsWj/+w+c=@vger.kernel.org
+X-Received: by 2002:a05:690c:500a:b0:6e2:c3e9:dab5 with SMTP id
+ 00721157ae682-6e2c7036f5cmr13488957b3.23.1728026587795; Fri, 04 Oct 2024
+ 00:23:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240901183422.31600-1-biju.das.jz@bp.renesas.com> <20240901183422.31600-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20240901183422.31600-3-biju.das.jz@bp.renesas.com>
+References: <20241003082550.33341-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20241003082550.33341-1-biju.das.jz@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 4 Oct 2024 09:20:18 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVWHr6zxpPHWxLe2sgBpTsyk6RTEvwFQHisU+xXq42VWQ@mail.gmail.com>
-Message-ID: <CAMuHMdVWHr6zxpPHWxLe2sgBpTsyk6RTEvwFQHisU+xXq42VWQ@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] arm64: dts: renesas: rz{g2l,g2lc}-smarc-som:
- Update partition table for spi-nor flash
+Date: Fri, 4 Oct 2024 09:22:56 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW4hL8P+LFtvNC6b_hUKekXhWuTXsaz5sqvGyGcB_gdfA@mail.gmail.com>
+Message-ID: <CAMuHMdW4hL8P+LFtvNC6b_hUKekXhWuTXsaz5sqvGyGcB_gdfA@mail.gmail.com>
+Subject: Re: [PATCH v2] pinctrl: renesas: rzg2l: Fix missing return statement
 To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, linux-renesas-soc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Biju,
-
-On Sun, Sep 1, 2024 at 8:34=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.com=
-> wrote:
-> Update partition table for spi-nor flash, so that we can flash bootloader=
-s
-> in Linux by executing the below commands:
-> flash_erase /dev/mtd0  0 0
-> flash_erase /dev/mtd1  0 0
-> mtd_debug write /dev/mtd0 0 ${BL2_FILE_SIZE} ${BL2_IMAGE}
-> mtd_debug write /dev/mtd1 512 ${FIP_FILE_SIZE} ${FIP_IMAGE}
+On Thu, Oct 3, 2024 at 10:26=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
+> Fix the missing return statement on the error path for
+> rzg2l_pinctrl_register().
 >
+> Fixes: f73f63b24491 ("pinctrl: renesas: rzg2l: Use dev_err_probe()")
+> Reported-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+> Closes: https://lore.kernel.org/all/OS0PR01MB638837327E5487B71D88A7039271=
+2@OS0PR01MB6388.jpnprd01.prod.outlook.com/
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
-> v4:
->  * New patch.
+> v1->v2:
+>  * Fixed mail id of Nobuhiro Iwamatsu in Reported-by tag
+>  * Replaced tab with space charater after return statement
 
-Thanks for your patch!
-
-> --- a/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
-> @@ -341,11 +341,18 @@ partitions {
->                         #address-cells =3D <1>;
->                         #size-cells =3D <1>;
->
-> -                       boot@0 {
-> -                               reg =3D <0x00000000 0x2000000>;
-> -                               read-only;
-> +                       partition@0 {
-> +                               label =3D "bl2";
-> +                               reg =3D <0x00000000 0x0001c000>;
->                         };
-> -                       user@2000000 {
-> +
-> +                       partition@1d000 { /* fip is at offset 0x200 */
-
-Is this 4 KiB gap between the two partitions intentional?
-If yes, I think it deserves a comment.
-Same comment for rzg2lc-smarc-som.dtsi.
-
-The rest LGTM.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-pinctrl for v6.13.
 
 Gr{oetje,eeting}s,
 
