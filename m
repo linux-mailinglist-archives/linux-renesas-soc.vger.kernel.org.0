@@ -1,103 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-9480-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9481-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 854569913D5
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Oct 2024 03:53:54 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15A21991470
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Oct 2024 07:23:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 342931F23A61
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Oct 2024 01:53:54 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0CD67B2100B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Oct 2024 05:23:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66412231C83;
-	Sat,  5 Oct 2024 01:53:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5B0D38DFC;
+	Sat,  5 Oct 2024 05:23:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oEUG79+q"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="lJoY6Zn8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B37D1BC2A;
-	Sat,  5 Oct 2024 01:53:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D06322B
+	for <linux-renesas-soc@vger.kernel.org>; Sat,  5 Oct 2024 05:23:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728093227; cv=none; b=rkL/Ii0f02ks4ssgmAVTUmCuCViSHsAtwLWAnc4BVU77JFr/hHdSS0wn6uMA7jYB3kBkBQGma80YwKC6G2tW9LwBpPsJXSuCzRswwoaSTqpiUxmXxPv9xjd8cVudtuDM0H0CGdQN1DuK/TUTXIKfdCcyOlSEuuNtPisVE/FcxfI=
+	t=1728105812; cv=none; b=UNHSm5hbWt1EXk1AhAtog1xRaWhg3uzrQCHKpzImpeA1KmZqn5KEsT63MFu0nuWRakzWBbRL+i5pgRccRx7qmLpBPxHc+cg8eln4VQDGXR0ZvXWofOe8PIKbIgeamCHrTkblMBWv862IhFy2dqcSn9T2hBU6sEgb3UdEYYW749Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728093227; c=relaxed/simple;
-	bh=xZ8767UXpTwyZFY7SSMD3py13ytUyf5XQQJ9eNUQqKU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=sXAM7ycECKZjaotmYn+2DcozGiy8Lln448pTvciLROYnNoep1i7wfCHYxQ9Zcb7LXVUTAmfufdRqlOk345ER8YmvBsZAhGl1QoUJopH2MmY17weJLXx1kDKweJcYrqVblyuQ/dX6TAgsKD7tMJauvAQVvbiQZxE3kRSLDBbS6kQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oEUG79+q; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26880C4CEC6;
-	Sat,  5 Oct 2024 01:53:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728093226;
-	bh=xZ8767UXpTwyZFY7SSMD3py13ytUyf5XQQJ9eNUQqKU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=oEUG79+qCJGiUIVWtVpvxCfm2MEi9Qkzv4oTw7dyuOf9BximSAzgKYhogKkZH/rC/
-	 eeTwQ1zo343LVRLa9nuKnAeMwnuoNKozPBGfwxMrsjyRMEqiaDytxBPWpP0uFA05Ga
-	 7nBHBtJiTrJTjs9sQLISjKQDXXe4q/tfq4BidPlhR8CXw8303rIo4EVxEcII0M+9aU
-	 2aLfbOuaifO74aDhsn/PwiQT0Gn52nZOTtzw1oUVcR+LGF6ugfKBw4qCQ121YJsgIj
-	 0uhp2FXLHOjDcCVvG6+AUojz0Va9wBq8n87QX/Z/HaUAE713pusanFp+MSwFMp6o74
-	 8crGCOWIPneTg==
-From: Mark Brown <broonie@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh@kernel.org>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
- linux-sound@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, 
- Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org, 
- Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-In-Reply-To: <20241003081140.31332-1-biju.das.jz@bp.renesas.com>
-References: <20241003081140.31332-1-biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH] ASoC: sh: rz-ssi: Use SSIFCR_FIFO_RST macro
-Message-Id: <172809322387.807456.16909484510083610400.b4-ty@kernel.org>
-Date: Sat, 05 Oct 2024 02:53:43 +0100
+	s=arc-20240116; t=1728105812; c=relaxed/simple;
+	bh=X+ta/FjiQIn6B3rd5Toivd0nVfLbmtxqSlFZCe82hqI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M/7xDW5tDkpj7WfAY6GtfAE2vHyv0y17DcixyoyxHCqGn6yxqqQMkFpBl+Ymqhlkmi6an/krwX10WF0Ybt/TNXcxCEA6Z1SpwmYySMmjSlIjSwlJ36WMxgEB/0k9JRNWhTfHRYMl5tLl8POtt7z9lXTPk29nHHd+t1MlK0SMXW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=lJoY6Zn8; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=i/G/
+	nfWcYVPe+IQeC4sULDvoPUYhTOwvzFh1cg28cXo=; b=lJoY6Zn8mvkA4E2TEd3R
+	Cl40TRFnOP08274eSaiJj7DITCsoJH7N5QLTx8lInfxLPuiePUFkiwlA97KurWyP
+	hiCocp/9W0RsySdM9mqSqLLijxpvxXFOp/QxvsBkSVSQxpkHMlAROVm7CwJwqBta
+	tIUBKwoxT+lE4ZgXPC7a6U7X5qlqtpT8uyY9NRyJV+34CH31Xb+pa4ChLQ3Sg+Hs
+	QpCpXu/Lnu8SzSgJ5/Zxvu1CzNfalkXZLyOipUJvu1sCPADOf/mEFfyOdoPk8mqy
+	sJtboSxEq3gCEqXvnK/p1hvmmzjQPFdPUENQQlF32UyuBAS820iZVM7GdR6Z24a7
+	cQ==
+Received: (qmail 3672784 invoked from network); 5 Oct 2024 07:23:24 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Oct 2024 07:23:24 +0200
+X-UD-Smtp-Session: l3s3148p1@GK2c/LMj3KpQvCeD
+Date: Sat, 5 Oct 2024 07:23:19 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Jerry Hoemann <jerry.hoemann@hpe.com>
+Cc: linux-renesas-soc@vger.kernel.org, Jean-Marie Verdun <verdun@hpe.com>,
+	Nick Hawkins <nick.hawkins@hpe.com>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>, linux-watchdog@vger.kernel.org
+Subject: Re: [RFC PATCH 3/9] watchdog: hpe-wdt: don't print out if
+ registering watchdog fails
+Message-ID: <ZwDNR29rqWcLYlRZ@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Jerry Hoemann <jerry.hoemann@hpe.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Jean-Marie Verdun <verdun@hpe.com>,
+	Nick Hawkins <nick.hawkins@hpe.com>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>, linux-watchdog@vger.kernel.org
+References: <20241004200314.5459-1-wsa+renesas@sang-engineering.com>
+ <20241004200314.5459-4-wsa+renesas@sang-engineering.com>
+ <ZwBeJUXqm3Tf0th_@anatevka.ftc.rdlabs.hpecorp.net>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-9b746
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="AXghRCVBWp2XDeJH"
+Content-Disposition: inline
+In-Reply-To: <ZwBeJUXqm3Tf0th_@anatevka.ftc.rdlabs.hpecorp.net>
 
-On Thu, 03 Oct 2024 09:11:38 +0100, Biju Das wrote:
-> Use SSIFCR_FIFO_RST macro to make the line shorter.
-> 
-> 
 
-Applied to
+--AXghRCVBWp2XDeJH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Fri, Oct 04, 2024 at 03:29:09PM -0600, Jerry Hoemann wrote:
+> On Fri, Oct 04, 2024 at 10:03:06PM +0200, Wolfram Sang wrote:
+> > The core will do this already.
+> >=20
+> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> > ---
+> >  drivers/watchdog/gxp-wdt.c | 4 +---
+> >  1 file changed, 1 insertion(+), 3 deletions(-)
+>=20
+> Question:  should email have been titled
+> 	"watchdog: gxp-wdt: ..."
+> instead of
+> 	"watchdog: hpe-wdt: ..."
+>=20
+> to match the module name as the email title gets put into
+> the git log for the file?
 
-Thanks!
+No objection, we can do that. I check git-log for the prefixes and found
+there the following:
 
-[1/1] ASoC: sh: rz-ssi: Use SSIFCR_FIFO_RST macro
-      commit: 64207f8024899938f8e13c4649a060a19f18bff3
+6b47441bed49 ("watchdog: hpe-wdt: Introduce HPE GXP Watchdog")
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+I am fine with both.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+--AXghRCVBWp2XDeJH
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+-----BEGIN PGP SIGNATURE-----
 
-Thanks,
-Mark
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmcAzTwACgkQFA3kzBSg
+KbYivhAAsYGJiUz4EJue7VM/zt9VeJp7omXpYipxpqBIA74GYGjfXx0no7tm8Hck
+P7+tWV07GVuHt+PrMQPpdkbmmWg6EBzqTiARlDDfzNiyVkEDeX7BV6qT8XyhUjG9
+gT90thBKUGH9LEeomP1eNar2IlxVTJgpVGBi1QGLz+aczYvKNzyqLJkn7BlFYGCn
+HYTgWoYIpk2yyjveK9pdkGSmeAS345XRdIfh+ZDqZ7N8wQ5zSJXi1v3sDHObt8/d
+MzpI+gDZD+UYS4/B4zZltAumwzgQig2XkhIKF53y60pP6x3SL6F/OyWyaHkqS1fn
++16Ofy84XrX5GP3atpBEjXBlqaHlZGT9S+xb7uLnsU5Nzy46T3mugeRAlRw+MDWe
+xdGw24AFury3bNkfC1GnjzDNraROH2Tal0n1/t90jW+62UGrUaIYYgaajC5x4Alb
+KLUB/yrYTrYPszPgGilFEa1WpM+xFQuVaNMr4V0JcSspbWvCCxmuh9Dg2ahDgYSQ
+NBgPppmFYw4o1FHwuxiGWdIokX67fWu8U27R4ElRna9LG1NS9VUSeZPF393YggX2
+mNXeF6546xPSq7SBUu0Tk45OMk3V5uRsMJhFCi2NdyG64apPWfByGy1q44Bh6Y8f
+Y7N1lfGTzuBtFXGTbgiWQE1tt9c/XFWfobPk8gqGzAOrd2SJMXg=
+=slor
+-----END PGP SIGNATURE-----
 
+--AXghRCVBWp2XDeJH--
 
