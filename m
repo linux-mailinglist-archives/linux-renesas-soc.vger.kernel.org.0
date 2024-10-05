@@ -1,116 +1,123 @@
-Return-Path: <linux-renesas-soc+bounces-9482-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9483-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC1A7991528
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Oct 2024 09:55:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B2399158F
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Oct 2024 11:50:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8D73F1F2397E
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Oct 2024 07:55:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1ACCC1F22A7E
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Oct 2024 09:50:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD29112F5B1;
-	Sat,  5 Oct 2024 07:55:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73B7613AA53;
+	Sat,  5 Oct 2024 09:50:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="PeREvLyh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GaVYUAhI"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA4DD481B7
-	for <linux-renesas-soc@vger.kernel.org>; Sat,  5 Oct 2024 07:55:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CDAA17C77;
+	Sat,  5 Oct 2024 09:50:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728114911; cv=none; b=J0hwJZjD5vSJgAqcQGkqKn3KJBSm2+kAzSt6HYjG80viggSAniG5aQP1qbZjQ6fYpCzEQ0pJju7QC/KRIh3o8GYdswfpevKQbrt1+JVhPH3jOXgX76Ebx+pthUytDj0SL/casSnQv+H/kh8ZSNkIZtLL23V5hRSPafVly8gCs6k=
+	t=1728121841; cv=none; b=jkOH6ULsgIoc5fljLpsGUDn4WsaLvHEiwQH752g6MiZp9ktrfkChTWDBJnCiGIVlEtYMwshnCModG35wd+EV7rl13XGpJ3NuBn/3SOYG8S+q1Ib5dIfmkgb7v4JzDNu5zrOgZLtbhZwbIZvm6N6FHomAOA6fyJe5Ev5AWZqu/mY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728114911; c=relaxed/simple;
-	bh=q2fTjTZMdNeB/Bl/u6R+mkRCrCApXv+vc5BSiPY/Rgs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WxGNjNIzkU5L9nF9jvd4cXZWDqvI1yveJjb4nFlZgFTGPG3iXGzqvlr5d4sdvLeUnqsklaGF9BEJiFjZihaHNDyKNTlFFUAXqRCjJMucV7NFwZlHStVx89OfxpFTmh7jqznd7V3NT+R7zDz9EGkgCufM1GBgi6HkzQyAbKYMdew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=PeREvLyh; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=q2fT
-	jTZMdNeB/Bl/u6R+mkRCrCApXv+vc5BSiPY/Rgs=; b=PeREvLyh2tx4019yWvvF
-	rU8SGV0VaWzECKX66lGccDu3qCkEsSrxfdwJGNopw0h6blGBYoOvlbXHtOH6vz0J
-	/WTH9/RazGHmzxg7SaReHTr+6A1ABAnhB8LhsAPBx/+hLzvXd7sorLbO3pcQGKFM
-	j0pbjdMbgl2dDyBt4gc5mJ6XNB+B1x3V9qbA/LnjUHwUNXZl2OhhvEcrXiTRlmgU
-	76LJKptXWWYhzsDZxSbwsXIXd8JjcgBqGuaw6j1H1fz4mB3kivX+nqKfQciJa91Q
-	p4v/4lS/5XJo3D1/+ZCOXqGD2PUIOIknbw83e9l3Bp0Rmqtrdxyjr+6NEM2A449S
-	XQ==
-Received: (qmail 3700107 invoked from network); 5 Oct 2024 09:55:04 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Oct 2024 09:55:04 +0200
-X-UD-Smtp-Session: l3s3148p1@xCL9GrYjGoVtKDK1
-Date: Sat, 5 Oct 2024 09:55:03 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] ARM: dts: renesas: r8a7778: rename 'bsc' to 'lbsc'
-Message-ID: <ZwDw1xFbrPdjNpAi@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-References: <20240926103340.16909-4-wsa+renesas@sang-engineering.com>
- <20240926103340.16909-6-wsa+renesas@sang-engineering.com>
- <CAMuHMdWNa-5tE7CCEypD-7rN60euGEphGmmBxQeixannP4+HXw@mail.gmail.com>
+	s=arc-20240116; t=1728121841; c=relaxed/simple;
+	bh=wUQjLZzpHEAHwW5NYCB95sIsPmmiGfq1M5ccwnjqYcc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=tzST+ztKh1FnDz2TAMHZdpoVfuf0WhOyxEW9yQs8tRhg1SmoTrBxrhDz9aGO2vSkizxoGxwb3INNnnjn9TwSTpqijjA7vk2AVpDDoI2NoZeANlpsVWZPY6Fjeon6ZCmAUNb7Kcn9A5wdbAOSVrK+T4Q3zzEYgxdeIa5NGLPRumY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GaVYUAhI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9972FC4CEC2;
+	Sat,  5 Oct 2024 09:50:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728121840;
+	bh=wUQjLZzpHEAHwW5NYCB95sIsPmmiGfq1M5ccwnjqYcc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=GaVYUAhI+bKnmfCoaBMuc8M05yXqaDC4sXcuvXuJDBS5yOdV/CKkEcHImislnzgF4
+	 vOu2dKkr+K+Qf5BfAy0uoYVbsB8YsuNKMCajV3BaBbhydc6U4nqU2xkDEnXt8WcpEE
+	 QVrgnKeiE2MVo6oIxc8nsI+X+yb7eNl4IXHUgBEWHvRWvziK17GLEM/iIWmbls/x1M
+	 dT6+WkQ8/530Fnu6I8UqjbPjG4vL/oUVg+cvAIVpATPKjtfQqQgqxZVVm9FlCK0F5g
+	 nP+Xm9Voqi5gxgd+jnAytypKLyveK3mFYN2OfA6oas06qEknaatVi7gMI0tRoe++D9
+	 KfiqWSRpw+CDQ==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Lubomir Rintel <lkundrak@v3.sk>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Magnus Damm <magnus.damm@gmail.com>, 
+ Heiko Stuebner <heiko@sntech.de>, 
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Paul Cercueil <paul@crapouillou.net>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+ Nicolin Chen <nicoleotsuka@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Adrien Grassein <adrien.grassein@gmail.com>, Adam Ford <aford173@gmail.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, 
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-mips@vger.kernel.org, alsa-devel@alsa-project.org, 
+ linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
+In-Reply-To: <cover.1727438777.git.geert+renesas@glider.be>
+References: <cover.1727438777.git.geert+renesas@glider.be>
+Subject: Re: (subset) [PATCH treewide 00/11] ASoC: Clean up
+ {hp,mic}-det-gpio handling
+Message-Id: <172812183435.891737.5699490340500862525.b4-ty@kernel.org>
+Date: Sat, 05 Oct 2024 10:50:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ee4ySyMCdol0Mpmi"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWNa-5tE7CCEypD-7rN60euGEphGmmBxQeixannP4+HXw@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-9b746
 
+On Fri, 27 Sep 2024 14:42:15 +0200, Geert Uytterhoeven wrote:
+> 	Hi all,
+> 
+> The "gpio" suffix for GPIO consumers was deprecated a while ago, in
+> favor of the "gpios" suffix.  However, there are still several users of
+> the "hp-det-gpio" and "mic-det-gpio" properties, in DT bindings,
+> drivers, and DT source files.
+> 
+> [...]
 
---ee4ySyMCdol0Mpmi
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-On Fri, Oct 04, 2024 at 03:57:01PM +0200, Geert Uytterhoeven wrote:
-> On Thu, Sep 26, 2024 at 12:33=E2=80=AFPM Wolfram Sang
-> <wsa+renesas@sang-engineering.com> wrote:
-> > R-Car Gen1 has an LBSC which has quite a different register set from the
-> > former BSC. To match H1 with M1, rename the nodes to LBSC.
->=20
-> M1 with H1?
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Yes. Argh, M1 numbering (7778) is before H1 (7779), grmbl...
+Thanks!
 
+[01/11] ASoC: fsl-asoc-card: Add missing handling of {hp,mic}-dt-gpios
+        commit: cfd1054c65eefec30972416a83eb62920bc1ff8d
+[02/11] ASoC: dt-bindings: Deprecate {hp,mic}-det-gpio
+        commit: e58b3914ab8303a2783ec1873c17b7a83dd515f7
 
---ee4ySyMCdol0Mpmi
-Content-Type: application/pgp-signature; name="signature.asc"
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
------BEGIN PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmcA8NcACgkQFA3kzBSg
-KbYUXQ/8DNfdnrqHKiJjQyLI4KmfdzvGJ2DpxKS8MZoQw/z91aaEm552c6cSxlP7
-8+Z7yT/Vb8VbEgB1Oj33tvPtntkwG5oGDqfaS2z/NFzWWnTuEYc2kzX2JUnUdtbc
-OwW402CHPjGhfg9DV31duiNBQkXplTE9Ep+dAHw3DA+uCcT27+SOl8RMyU+xBkNk
-0+6MoBaxTjSPQno1xq1yO6buMeqxWaQBPCojVx0ExTZJGuIJ0aDHvne0X6aWQxMj
-0j4q2zLZ9CE4MAI6I7BpxlmjPwPG1kSA4ATY+EpEWJ2B8GlJEJ8Ijg2auruQEPk1
-VKpWj1Js68ukQMfvv76XaDoC91F78iHJSuHypzwO6PlYzpFCuexxpy98s193a5MQ
-CWBmGrrCMeKA0sk1FDld7uF8jxGAuEHqc2Zb27KnnnEHu3GYbY0AohJzSlFf9V9b
-gc3cIVUdx4owzD/Sz2O+k5+yI25N2dah7AtPMgd64YW5WWciZmL3a6amvm+CSzHY
-OT6PWmifpr9nN4PbI/mUpzu8vL/8XbDQFE4VpHN1+gyfHi4pwliqANLlHcCq/TJX
-2XvmTz+HutjhO0bDAUE2jhDTOwUn8lnaikphuFq4QVdwr0uzUMMVXj+HbtYOsQqo
-JlgahypdKggJG6j95wrpcotsA6q3C7thC7XaDo2yrhmOWDS1lcQ=
-=itIQ
------END PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
---ee4ySyMCdol0Mpmi--
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
 
