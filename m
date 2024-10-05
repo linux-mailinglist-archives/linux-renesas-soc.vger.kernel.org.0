@@ -1,61 +1,64 @@
-Return-Path: <linux-renesas-soc+bounces-9494-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9495-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EBA9991909
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Oct 2024 19:52:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ECBB9919A7
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Oct 2024 20:46:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7F0791C210CD
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Oct 2024 17:52:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A0FD21C21571
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Oct 2024 18:46:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4E87158D96;
-	Sat,  5 Oct 2024 17:52:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2674C15D5B8;
+	Sat,  5 Oct 2024 18:46:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ci6/48ZI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qazhTj17"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8BA6158851;
-	Sat,  5 Oct 2024 17:52:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC3ED52F88;
+	Sat,  5 Oct 2024 18:45:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728150760; cv=none; b=AFouZ76qxOkUZQGlJa2xCVKkTX318A5CykZC0CFBuIMftIEsbcME1lFcTjOf+7ATdOrxRlj6hsmA4604mpyyMnth0YJJtDqv8CTW2c1Ys9ODNBPT+szQqjr57Lnbem6BfaRPukuqG2hnqS0KdGGAnn8gOVDcyTDjIAnveAGwoOU=
+	t=1728153961; cv=none; b=EXv5ENwb7TE6D45GRBpiPRDOgVHxX0E7yRO6KRsKkkqTwysawI5ki7wZfIpvh+7C4hLEzctgWCC1Z+1mbDiw4y0e7nwFfFx5o81TqJxLw7gohAwQ9cUQKE44yNBh9wDF4fiIne+iD2kYTyVVrWFDmV1GEW8x72+fWaNMlbJrisw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728150760; c=relaxed/simple;
-	bh=NRH8Ou1I4pXNYd/XvsLjH7QogNBos/PfhsW1jQJokGM=;
+	s=arc-20240116; t=1728153961; c=relaxed/simple;
+	bh=yXGJWhJIbS2W6DokaVQR9XbZQBgCt4aNCxyXpH/4rYY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NPXeAR+24qVnIXewc60mQoddMQK+Wn9AaFZHzwv5wN0OeLk9UtuiGd30TvSIAuhhr7TflJPMoD8+dQpoyVC4kbOFx5+DQzMsEb8UgM9iEHQPVCDQ1sUlzBvQVitWCOkw5Ki78Ff+Ckz0OQo28nwCJsiWGIBOqQc4r2JoxJi0j28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ci6/48ZI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15879C4CEC7;
-	Sat,  5 Oct 2024 17:52:40 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=SgxPnYC066eWdAIApxFePIjIoLjN6lQgWU/iYoB/674ErmgxWmMjiQxqkWoSIwVj/Oa4PriAE45g9bLU4EdIZSytE0QyMTJsF9x5KWH3HfyyK+igcpVQP4wX9zBX3KzH3YMRtzmEC8It5cPsSVO9hSw9Q0LX7cgwillQSej4spI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qazhTj17; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 638EBC4CEC2;
+	Sat,  5 Oct 2024 18:45:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728150760;
-	bh=NRH8Ou1I4pXNYd/XvsLjH7QogNBos/PfhsW1jQJokGM=;
+	s=k20201202; t=1728153959;
+	bh=yXGJWhJIbS2W6DokaVQR9XbZQBgCt4aNCxyXpH/4rYY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ci6/48ZINkwNrzvXZUVpG2h6fl2XWyIAhjvOXzPy/gxDndcJa7xit9adjPpb/wdpe
-	 hOQKfXKOe21FcoPbMYUKMrtOEX9b82ES4QNB8/CeCGOziQwmlaraDLhcrudZHqDYoV
-	 ABuEBzMLZWCpeNkRhvhVSbtoJphhFfIbBKN6v+t/JAROhR0qqvBK4X7iTJ/KBUWbGn
-	 K8xKao6kcK8ch5M7DjfHN/ar6lFsVQtnh2mptSsCEcfppZeU5CvTfsxnilmN/LRspj
-	 JC9py23io0s6cCUIsM/0nhRkl5jj2/BOBBIaXRu0CzgY1eF9kgI5sASnveEJBBImyv
-	 Or4lTFgHYmaCQ==
-Date: Sat, 5 Oct 2024 12:52:39 -0500
+	b=qazhTj178cug128FmSIXJa/pVwHNBGmLk5jyuew0WSKwl4Oz3Z7F8Q+o3ad4StCka
+	 OarImiVGPklnMlTvYrjjLZDOjULeqHwMmyCI7OsPzBO7isUX6xP3OVwEHWJD5yKiJB
+	 K6eLV4Edq9hnmbdcPmWowf7tr5P++EEI7UULo8AvqnTZB1e5rHysuJ6q7cIERVoHQ5
+	 HTjKkih4FP7869+bOODQCCgOiQ1xK6ghTkYS6l8TQZXf4FDZtoQD3O4mH1a7wfn/xc
+	 2JYnz2otus77eKvt7/ACCSQjcTIN/kZ/jrRbEAHInAGx/cJ0temKw8Thl4qVfT7FKi
+	 4neAFKTmQIYVg==
+Date: Sat, 5 Oct 2024 13:45:58 -0500
 From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Magnus Damm <magnus.damm@gmail.com>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>
-Subject: Re: [PATCH v3 resend 1/7] dt-bindings: fuse: Move
- renesas,rcar-{efuse,otp} to nvmem
-Message-ID: <172815075836.447282.5004726072565136518.robh@kernel.org>
-References: <cover.1727963347.git.geert+renesas@glider.be>
- <425648901d724b3db81329f98988d0532257eb89.1727963347.git.geert+renesas@glider.be>
+	Magnus Damm <magnus.damm@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Biju Das <biju.das.jz@bp.renesas.com>, linux-kernel@vger.kernel.org,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] dt-bindings: pinctrl: renesas,rzg2l-pinctrl:
+ Allow schmitt and open drain properties
+Message-ID: <172815395809.519434.8305860321156601948.robh@kernel.org>
+References: <20241004123658.764557-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20241004123658.764557-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -64,33 +67,31 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <425648901d724b3db81329f98988d0532257eb89.1727963347.git.geert+renesas@glider.be>
+In-Reply-To: <20241004123658.764557-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 
-On Thu, 03 Oct 2024 16:04:25 +0200, Geert Uytterhoeven wrote:
-> The R-Car E-FUSE blocks can be modelled better using the nvmem
-> framework.
+On Fri, 04 Oct 2024 13:36:56 +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> Replace the R-Car V3U example by an R-Car S4-8 ES1.2 example, to show
-> the definition of nvmem cells.  While at it, drop unneeded labels from
-> the examples, and fix indentation.
+> On the RZ/V2H(P) SoC we can configure the 'input-schmitt-{enable,disable}'
+> , 'drive-open-drain' and 'drive-push-pull' of multiplexed pins. Update the
+> binding documentation to include these properties.
 > 
-> Add an entry to the MAINTAINERS file.
-> 
-> Reported-by: Arnd Bergmann <arnd@arndb.de>
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
-> v3:
->   - New.
+> Hi Rob,
+> I have dropped your Ack from v1 as I have updated the commit message and
+> included `drive-push-pull` property in v2.
+> 
+> Cheers, Prabhakar
+> 
+> v1->v2
+> - Added `drive-push-pull` property
 > ---
->  .../{fuse => nvmem}/renesas,rcar-efuse.yaml   | 35 +++++++++++++------
->  .../{fuse => nvmem}/renesas,rcar-otp.yaml     | 17 +++++----
->  MAINTAINERS                                   |  1 +
->  3 files changed, 36 insertions(+), 17 deletions(-)
->  rename Documentation/devicetree/bindings/{fuse => nvmem}/renesas,rcar-efuse.yaml (54%)
->  rename Documentation/devicetree/bindings/{fuse => nvmem}/renesas,rcar-otp.yaml (60%)
+>  .../devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml    | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
 
