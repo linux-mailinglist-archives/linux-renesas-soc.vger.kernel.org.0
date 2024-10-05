@@ -1,69 +1,69 @@
-Return-Path: <linux-renesas-soc+bounces-9481-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9482-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15A21991470
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Oct 2024 07:23:40 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC1A7991528
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Oct 2024 09:55:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0CD67B2100B
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Oct 2024 05:23:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8D73F1F2397E
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Oct 2024 07:55:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5B0D38DFC;
-	Sat,  5 Oct 2024 05:23:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD29112F5B1;
+	Sat,  5 Oct 2024 07:55:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="lJoY6Zn8"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="PeREvLyh"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D06322B
-	for <linux-renesas-soc@vger.kernel.org>; Sat,  5 Oct 2024 05:23:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA4DD481B7
+	for <linux-renesas-soc@vger.kernel.org>; Sat,  5 Oct 2024 07:55:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728105812; cv=none; b=UNHSm5hbWt1EXk1AhAtog1xRaWhg3uzrQCHKpzImpeA1KmZqn5KEsT63MFu0nuWRakzWBbRL+i5pgRccRx7qmLpBPxHc+cg8eln4VQDGXR0ZvXWofOe8PIKbIgeamCHrTkblMBWv862IhFy2dqcSn9T2hBU6sEgb3UdEYYW749Q=
+	t=1728114911; cv=none; b=J0hwJZjD5vSJgAqcQGkqKn3KJBSm2+kAzSt6HYjG80viggSAniG5aQP1qbZjQ6fYpCzEQ0pJju7QC/KRIh3o8GYdswfpevKQbrt1+JVhPH3jOXgX76Ebx+pthUytDj0SL/casSnQv+H/kh8ZSNkIZtLL23V5hRSPafVly8gCs6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728105812; c=relaxed/simple;
-	bh=X+ta/FjiQIn6B3rd5Toivd0nVfLbmtxqSlFZCe82hqI=;
+	s=arc-20240116; t=1728114911; c=relaxed/simple;
+	bh=q2fTjTZMdNeB/Bl/u6R+mkRCrCApXv+vc5BSiPY/Rgs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M/7xDW5tDkpj7WfAY6GtfAE2vHyv0y17DcixyoyxHCqGn6yxqqQMkFpBl+Ymqhlkmi6an/krwX10WF0Ybt/TNXcxCEA6Z1SpwmYySMmjSlIjSwlJ36WMxgEB/0k9JRNWhTfHRYMl5tLl8POtt7z9lXTPk29nHHd+t1MlK0SMXW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=lJoY6Zn8; arc=none smtp.client-ip=194.117.254.33
+	 Content-Type:Content-Disposition:In-Reply-To; b=WxGNjNIzkU5L9nF9jvd4cXZWDqvI1yveJjb4nFlZgFTGPG3iXGzqvlr5d4sdvLeUnqsklaGF9BEJiFjZihaHNDyKNTlFFUAXqRCjJMucV7NFwZlHStVx89OfxpFTmh7jqznd7V3NT+R7zDz9EGkgCufM1GBgi6HkzQyAbKYMdew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=PeREvLyh; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=i/G/
-	nfWcYVPe+IQeC4sULDvoPUYhTOwvzFh1cg28cXo=; b=lJoY6Zn8mvkA4E2TEd3R
-	Cl40TRFnOP08274eSaiJj7DITCsoJH7N5QLTx8lInfxLPuiePUFkiwlA97KurWyP
-	hiCocp/9W0RsySdM9mqSqLLijxpvxXFOp/QxvsBkSVSQxpkHMlAROVm7CwJwqBta
-	tIUBKwoxT+lE4ZgXPC7a6U7X5qlqtpT8uyY9NRyJV+34CH31Xb+pa4ChLQ3Sg+Hs
-	QpCpXu/Lnu8SzSgJ5/Zxvu1CzNfalkXZLyOipUJvu1sCPADOf/mEFfyOdoPk8mqy
-	sJtboSxEq3gCEqXvnK/p1hvmmzjQPFdPUENQQlF32UyuBAS820iZVM7GdR6Z24a7
-	cQ==
-Received: (qmail 3672784 invoked from network); 5 Oct 2024 07:23:24 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Oct 2024 07:23:24 +0200
-X-UD-Smtp-Session: l3s3148p1@GK2c/LMj3KpQvCeD
-Date: Sat, 5 Oct 2024 07:23:19 +0200
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=q2fT
+	jTZMdNeB/Bl/u6R+mkRCrCApXv+vc5BSiPY/Rgs=; b=PeREvLyh2tx4019yWvvF
+	rU8SGV0VaWzECKX66lGccDu3qCkEsSrxfdwJGNopw0h6blGBYoOvlbXHtOH6vz0J
+	/WTH9/RazGHmzxg7SaReHTr+6A1ABAnhB8LhsAPBx/+hLzvXd7sorLbO3pcQGKFM
+	j0pbjdMbgl2dDyBt4gc5mJ6XNB+B1x3V9qbA/LnjUHwUNXZl2OhhvEcrXiTRlmgU
+	76LJKptXWWYhzsDZxSbwsXIXd8JjcgBqGuaw6j1H1fz4mB3kivX+nqKfQciJa91Q
+	p4v/4lS/5XJo3D1/+ZCOXqGD2PUIOIknbw83e9l3Bp0Rmqtrdxyjr+6NEM2A449S
+	XQ==
+Received: (qmail 3700107 invoked from network); 5 Oct 2024 09:55:04 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Oct 2024 09:55:04 +0200
+X-UD-Smtp-Session: l3s3148p1@xCL9GrYjGoVtKDK1
+Date: Sat, 5 Oct 2024 09:55:03 +0200
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Jerry Hoemann <jerry.hoemann@hpe.com>
-Cc: linux-renesas-soc@vger.kernel.org, Jean-Marie Verdun <verdun@hpe.com>,
-	Nick Hawkins <nick.hawkins@hpe.com>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>, linux-watchdog@vger.kernel.org
-Subject: Re: [RFC PATCH 3/9] watchdog: hpe-wdt: don't print out if
- registering watchdog fails
-Message-ID: <ZwDNR29rqWcLYlRZ@shikoro>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] ARM: dts: renesas: r8a7778: rename 'bsc' to 'lbsc'
+Message-ID: <ZwDw1xFbrPdjNpAi@shikoro>
 Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Jerry Hoemann <jerry.hoemann@hpe.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
 	linux-renesas-soc@vger.kernel.org,
-	Jean-Marie Verdun <verdun@hpe.com>,
-	Nick Hawkins <nick.hawkins@hpe.com>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>, linux-watchdog@vger.kernel.org
-References: <20241004200314.5459-1-wsa+renesas@sang-engineering.com>
- <20241004200314.5459-4-wsa+renesas@sang-engineering.com>
- <ZwBeJUXqm3Tf0th_@anatevka.ftc.rdlabs.hpecorp.net>
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
+References: <20240926103340.16909-4-wsa+renesas@sang-engineering.com>
+ <20240926103340.16909-6-wsa+renesas@sang-engineering.com>
+ <CAMuHMdWNa-5tE7CCEypD-7rN60euGEphGmmBxQeixannP4+HXw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -71,60 +71,46 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="AXghRCVBWp2XDeJH"
+	protocol="application/pgp-signature"; boundary="ee4ySyMCdol0Mpmi"
 Content-Disposition: inline
-In-Reply-To: <ZwBeJUXqm3Tf0th_@anatevka.ftc.rdlabs.hpecorp.net>
+In-Reply-To: <CAMuHMdWNa-5tE7CCEypD-7rN60euGEphGmmBxQeixannP4+HXw@mail.gmail.com>
 
 
---AXghRCVBWp2XDeJH
-Content-Type: text/plain; charset=us-ascii
+--ee4ySyMCdol0Mpmi
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 04, 2024 at 03:29:09PM -0600, Jerry Hoemann wrote:
-> On Fri, Oct 04, 2024 at 10:03:06PM +0200, Wolfram Sang wrote:
-> > The core will do this already.
-> >=20
-> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> > ---
-> >  drivers/watchdog/gxp-wdt.c | 4 +---
-> >  1 file changed, 1 insertion(+), 3 deletions(-)
+On Fri, Oct 04, 2024 at 03:57:01PM +0200, Geert Uytterhoeven wrote:
+> On Thu, Sep 26, 2024 at 12:33=E2=80=AFPM Wolfram Sang
+> <wsa+renesas@sang-engineering.com> wrote:
+> > R-Car Gen1 has an LBSC which has quite a different register set from the
+> > former BSC. To match H1 with M1, rename the nodes to LBSC.
 >=20
-> Question:  should email have been titled
-> 	"watchdog: gxp-wdt: ..."
-> instead of
-> 	"watchdog: hpe-wdt: ..."
->=20
-> to match the module name as the email title gets put into
-> the git log for the file?
+> M1 with H1?
 
-No objection, we can do that. I check git-log for the prefixes and found
-there the following:
-
-6b47441bed49 ("watchdog: hpe-wdt: Introduce HPE GXP Watchdog")
-
-I am fine with both.
+Yes. Argh, M1 numbering (7778) is before H1 (7779), grmbl...
 
 
---AXghRCVBWp2XDeJH
+--ee4ySyMCdol0Mpmi
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmcAzTwACgkQFA3kzBSg
-KbYivhAAsYGJiUz4EJue7VM/zt9VeJp7omXpYipxpqBIA74GYGjfXx0no7tm8Hck
-P7+tWV07GVuHt+PrMQPpdkbmmWg6EBzqTiARlDDfzNiyVkEDeX7BV6qT8XyhUjG9
-gT90thBKUGH9LEeomP1eNar2IlxVTJgpVGBi1QGLz+aczYvKNzyqLJkn7BlFYGCn
-HYTgWoYIpk2yyjveK9pdkGSmeAS345XRdIfh+ZDqZ7N8wQ5zSJXi1v3sDHObt8/d
-MzpI+gDZD+UYS4/B4zZltAumwzgQig2XkhIKF53y60pP6x3SL6F/OyWyaHkqS1fn
-+16Ofy84XrX5GP3atpBEjXBlqaHlZGT9S+xb7uLnsU5Nzy46T3mugeRAlRw+MDWe
-xdGw24AFury3bNkfC1GnjzDNraROH2Tal0n1/t90jW+62UGrUaIYYgaajC5x4Alb
-KLUB/yrYTrYPszPgGilFEa1WpM+xFQuVaNMr4V0JcSspbWvCCxmuh9Dg2ahDgYSQ
-NBgPppmFYw4o1FHwuxiGWdIokX67fWu8U27R4ElRna9LG1NS9VUSeZPF393YggX2
-mNXeF6546xPSq7SBUu0Tk45OMk3V5uRsMJhFCi2NdyG64apPWfByGy1q44Bh6Y8f
-Y7N1lfGTzuBtFXGTbgiWQE1tt9c/XFWfobPk8gqGzAOrd2SJMXg=
-=slor
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmcA8NcACgkQFA3kzBSg
+KbYUXQ/8DNfdnrqHKiJjQyLI4KmfdzvGJ2DpxKS8MZoQw/z91aaEm552c6cSxlP7
+8+Z7yT/Vb8VbEgB1Oj33tvPtntkwG5oGDqfaS2z/NFzWWnTuEYc2kzX2JUnUdtbc
+OwW402CHPjGhfg9DV31duiNBQkXplTE9Ep+dAHw3DA+uCcT27+SOl8RMyU+xBkNk
+0+6MoBaxTjSPQno1xq1yO6buMeqxWaQBPCojVx0ExTZJGuIJ0aDHvne0X6aWQxMj
+0j4q2zLZ9CE4MAI6I7BpxlmjPwPG1kSA4ATY+EpEWJ2B8GlJEJ8Ijg2auruQEPk1
+VKpWj1Js68ukQMfvv76XaDoC91F78iHJSuHypzwO6PlYzpFCuexxpy98s193a5MQ
+CWBmGrrCMeKA0sk1FDld7uF8jxGAuEHqc2Zb27KnnnEHu3GYbY0AohJzSlFf9V9b
+gc3cIVUdx4owzD/Sz2O+k5+yI25N2dah7AtPMgd64YW5WWciZmL3a6amvm+CSzHY
+OT6PWmifpr9nN4PbI/mUpzu8vL/8XbDQFE4VpHN1+gyfHi4pwliqANLlHcCq/TJX
+2XvmTz+HutjhO0bDAUE2jhDTOwUn8lnaikphuFq4QVdwr0uzUMMVXj+HbtYOsQqo
+JlgahypdKggJG6j95wrpcotsA6q3C7thC7XaDo2yrhmOWDS1lcQ=
+=itIQ
 -----END PGP SIGNATURE-----
 
---AXghRCVBWp2XDeJH--
+--ee4ySyMCdol0Mpmi--
 
