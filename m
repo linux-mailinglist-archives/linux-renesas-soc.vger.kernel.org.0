@@ -1,165 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-9497-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9498-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B20F991F81
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  6 Oct 2024 17:53:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21D53991F8E
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  6 Oct 2024 18:11:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 92DB7B2139F
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  6 Oct 2024 15:53:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 50F441C2178B
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  6 Oct 2024 16:11:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D6EE189537;
-	Sun,  6 Oct 2024 15:53:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F8FA1F94A;
+	Sun,  6 Oct 2024 16:11:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rJ3bmzvT"
+	dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b="foqTwVDq"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com [148.163.147.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74DFE166F39;
-	Sun,  6 Oct 2024 15:53:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB6F2AE6A;
+	Sun,  6 Oct 2024 16:10:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.147.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728230025; cv=none; b=Kr5xsxVyxwsrmWxROtJV7aQtLkKpPc799YM2xQGxfGRF9Z9wEfFtqH67RLjD9qkO9dI7Xd6pI8Kprdp7ndRmTsdJwtnx0MvAbrNZz2t+dAtwhBqSwfP869H0FPo5YbqeQrHvMlAXpPlU8k0jkIMEKJIF3W0omCQEhqnamKEeNho=
+	t=1728231061; cv=none; b=ryFUTp7FF3oBudND421565g2Tf4dFXGDETl3ioIWBsC6xuneQ6/bBZLN0dGyZeLMt6BlgdavLY+hEmTFdq5Il1kq2rLtq24+d0q+OzGxmVf/Yjt4muB/mUv/CP4dFxgaNGjdo8IUuK177QVa33JUZSRv3/COWV9bIpZXQBR7xK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728230025; c=relaxed/simple;
-	bh=vo0ma4ptxCvY6yxU5DR1FiiRD2juX28g/eluGxAZNuI=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qfbL4KYTNaNwx7dQ4FMSGmXiPSMg3IH/RnsEK7+u0PDXQhnBMdoGCKnL+Mey7eTNXPhSUmD5jt5QY0yD4/IwTS9XUFzZE3L9ixR07lNDi0M1Z98czcdfYBp9E8+U50czSZxRM2amkshdkNGYLnWrMq31XMI9n58vPu5szovH6A8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rJ3bmzvT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECBBBC4CEC5;
-	Sun,  6 Oct 2024 15:53:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728230025;
-	bh=vo0ma4ptxCvY6yxU5DR1FiiRD2juX28g/eluGxAZNuI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=rJ3bmzvTOe1HGdSymAaItg/QpNOEcr2N7XzMMErjodQWo4/k8bKx8SGEeoUAIhKKU
-	 xFjCNOUJ43/CH4lDnja1Q0Rw5DOe7M7ZRBhzmZEpfc4ng6nlPPRvIS74JFDxiQBGZK
-	 1M/m5SHZDYPhnGeUVn8xbZCBwcPhQMYq+hOLvAnorombFqjub2Zidt3ue0dSlrJIE6
-	 Az5QzdI7bH+qgf7Y2AjlWfo9tHALGZoygXqZvrHThgJBxpeKy+xqDPCRWsFCvtotaV
-	 Fx2HACQq/GnXuFKcayr+eOrEZryc0Nc7Agjr2hiWvjC1lRUkVXI8EbkeOqMLWS9NdS
-	 tEAZSHeFa8PRA==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1sxTZm-000o7I-PJ;
-	Sun, 06 Oct 2024 16:53:42 +0100
-Date: Sun, 06 Oct 2024 16:53:42 +0100
-Message-ID: <861q0t6xdl.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>,
-	Geert Uytterhoeven
-	<geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>,
-	Chris Paterson <Chris.Paterson2@renesas.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	"linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] irqchip/renesas-rzg2l: Fix missing put_device
-In-Reply-To: <TYCPR01MB120935A52A777BF62344B05C3C2772@TYCPR01MB12093.jpnprd01.prod.outlook.com>
-References: <20240930145539.357573-1-fabrizio.castro.jz@renesas.com>
-	<87ldz9uomz.wl-maz@kernel.org>
-	<TYCPR01MB12093A2984117267AC18D679CC2762@TYCPR01MB12093.jpnprd01.prod.outlook.com>
-	<86frph6jir.wl-maz@kernel.org>
-	<TYCPR01MB120935A52A777BF62344B05C3C2772@TYCPR01MB12093.jpnprd01.prod.outlook.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	s=arc-20240116; t=1728231061; c=relaxed/simple;
+	bh=lS4hS9Lxo/EZBYEoIcBXy5P3XLmzfIRiV9kgabYPYOY=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uevFS7dHbxS+q5YkRV17wF562UBRr095d0b/DWSAjsYjRkYoz1WHuFzI1Sc4smdqyZ74aoCl1hkA53/hZSDrZbZs6NQPWprfBiJTDPkoCrzhEQthAb8KNZbLbLnh6weW6fbaCB6aTRMMMc5/2XK+SoN+J8nbfidQ1UBeUdM7Nxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com; spf=pass smtp.mailfrom=hpe.com; dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b=foqTwVDq; arc=none smtp.client-ip=148.163.147.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hpe.com
+Received: from pps.filterd (m0134422.ppops.net [127.0.0.1])
+	by mx0b-002e3701.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49652P22010821;
+	Sun, 6 Oct 2024 16:10:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=
+	content-type:date:from:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:to; s=pps0720; bh=+EGG7YeHCw7UnDmHb
+	ZJl0ONFq1STmw1DKfwJZvZMc8Q=; b=foqTwVDqNHLMhbXOOqLQy/GQl5ryKO0z0
+	zForU5kj7Xe9ufHT1U23a0/OPwvXrlCcSVjkHaXb8ooHnC/G7RrevX2y4lfvYf/U
+	R/i5ezWtQtDqv0O1ZR+6AvK90jgoWgJb+wK0wM69r51YqjGnxNNVS5Ke1L6n/rO8
+	Wai/y4qQqE8AFRQUC/ceY4pTBjOK84Mt1z+IwAWEVbru8OdT6kBoauuNaDxJGDat
+	DaDg980cOk2ASMU6x8S+EsYQnrrWS0LWnM73CeK5LV8Hn1zzuczzw1lvH3a+YZiC
+	ag/aN9WzNLMAMYqA8e+26rqhdfUulDrhrCvI/ElVw8mcYoZlab2Jw==
+Received: from p1lg14881.it.hpe.com ([16.230.97.202])
+	by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 422ywhe7n1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 06 Oct 2024 16:10:31 +0000 (GMT)
+Received: from p1lg14886.dc01.its.hpecorp.net (unknown [10.119.18.237])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by p1lg14881.it.hpe.com (Postfix) with ESMTPS id B91F2806B2F;
+	Sun,  6 Oct 2024 16:10:30 +0000 (UTC)
+Received: from anatevka.ftc.rdlabs.hpecorp.net (unknown [16.231.227.36])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by p1lg14886.dc01.its.hpecorp.net (Postfix) with ESMTPS id 3C42980977B;
+	Sun,  6 Oct 2024 16:10:28 +0000 (UTC)
+Date: Sun, 6 Oct 2024 10:10:27 -0600
+From: Jerry Hoemann <jerry.hoemann@hpe.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-renesas-soc@vger.kernel.org, Jean-Marie Verdun <verdun@hpe.com>,
+        Nick Hawkins <nick.hawkins@hpe.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>, linux-watchdog@vger.kernel.org
+Subject: Re: [RFC PATCH 3/9] watchdog: hpe-wdt: don't print out if
+ registering watchdog fails
+Message-ID: <ZwK2c9Bx7P3OyVYc@anatevka.ftc.rdlabs.hpecorp.net>
+Reply-To: Jerry.Hoemann@hpe.com
+References: <20241004200314.5459-1-wsa+renesas@sang-engineering.com>
+ <20241004200314.5459-4-wsa+renesas@sang-engineering.com>
+ <ZwBeJUXqm3Tf0th_@anatevka.ftc.rdlabs.hpecorp.net>
+ <ZwDNR29rqWcLYlRZ@shikoro>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: fabrizio.castro.jz@renesas.com, tglx@linutronix.de, geert+renesas@glider.be, prabhakar.mahadev-lad.rj@bp.renesas.com, linux-kernel@vger.kernel.org, Chris.Paterson2@renesas.com, biju.das.jz@bp.renesas.com, linux-renesas-soc@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZwDNR29rqWcLYlRZ@shikoro>
+X-Proofpoint-ORIG-GUID: LF_wrfm_cvMR5LCSisR7l2RkT_Jlue8A
+X-Proofpoint-GUID: LF_wrfm_cvMR5LCSisR7l2RkT_Jlue8A
+X-HPE-SCL: -1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-05_03,2024-10-04_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ adultscore=0 mlxscore=0 malwarescore=0 impostorscore=0 phishscore=0
+ clxscore=1015 bulkscore=0 spamscore=0 lowpriorityscore=0 mlxlogscore=845
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410060117
 
-On Tue, 01 Oct 2024 12:54:30 +0100,
-Fabrizio Castro <fabrizio.castro.jz@renesas.com> wrote:
+On Sat, Oct 05, 2024 at 07:23:19AM +0200, Wolfram Sang wrote:
+> On Fri, Oct 04, 2024 at 03:29:09PM -0600, Jerry Hoemann wrote:
+> > On Fri, Oct 04, 2024 at 10:03:06PM +0200, Wolfram Sang wrote:
+> > > The core will do this already.
+> > > 
+> > > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> > > ---
+> > >  drivers/watchdog/gxp-wdt.c | 4 +---
+> > >  1 file changed, 1 insertion(+), 3 deletions(-)
+> > 
+> > Question:  should email have been titled
+> > 	"watchdog: gxp-wdt: ..."
+> > instead of
+> > 	"watchdog: hpe-wdt: ..."
+> > 
+> > to match the module name as the email title gets put into
+> > the git log for the file?
 > 
-> Hi Marc,
+> No objection, we can do that. I check git-log for the prefixes and found
+> there the following:
 > 
-> thank you for your reply.
+> 6b47441bed49 ("watchdog: hpe-wdt: Introduce HPE GXP Watchdog")
+
+That is somewhat unfortunate as it will can lead to confusion with
+the long standing hpwdt.  These are different watchdogs.
+
+Jerry
 > 
-> > From: Marc Zyngier <maz@kernel.org>
-> > Sent: Monday, September 30, 2024 8:15 PM
-> > To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > Subject: Re: [PATCH] irqchip/renesas-rzg2l: Fix missing put_device
-> > 
-> > On Mon, 30 Sep 2024 17:36:20 +0100,
-> > Fabrizio Castro <fabrizio.castro.jz@renesas.com> wrote:
-> > >
-> > > Hi Marc,
-> > >
-> > > Thanks for your feedback.
-> > >
-> > > > From: Marc Zyngier <maz@kernel.org>
-> > > > Sent: Monday, September 30, 2024 4:50 PM
-> > > > To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > > > Subject: Re: [PATCH] irqchip/renesas-rzg2l: Fix missing put_device
-> > > >
-> > > > On Mon, 30 Sep 2024 15:55:39 +0100,
-> > > > Fabrizio Castro <fabrizio.castro.jz@renesas.com> wrote:
-> > > > >
-> > > > > rzg2l_irqc_common_init calls of_find_device_by_node, but the
-> > > > > corresponding put_device call is missing.
-> > > > >
-> > > > > Make sure we call put_device both when failing and when succeeding.
-> > > >
-> > > > What sort of lifetime are you trying to enforce?
-> > >
-> > > Function rzg2l_irqc_common_init uses pdev->dev until its very end.
-> > > My understanding is that we should decrement the reference counter
-> > > once we are fully done with it. Is my understanding correct?
-> > 
-> > "done with it" is what scares me. Specially when I see code like this:
-> > 
-> > 	rzg2l_irqc_data = devm_kzalloc(&pdev->dev, sizeof(*rzg2l_irqc_data), GFP_KERNEL);
-> > 	if (!rzg2l_irqc_data)
-> > 		return -ENOMEM;
-> > 
-> > 	rzg2l_irqc_data->irqchip = irq_chip;
-> > 
-> > 	rzg2l_irqc_data->base = devm_of_iomap(&pdev->dev, pdev->dev.of_node, 0, NULL);
-> > 	if (IS_ERR(rzg2l_irqc_data->base))
-> > 		return PTR_ERR(rzg2l_irqc_data->base);
-> > 
-> > If you drop the reference on the device, you are allowing it to be
-> > removed, and everything the driver cares about to disappear behind
-> > its back.
+> I am fine with both.
 > 
-> Thanks for the explanation. I think this means that we don't need to
-> put the device on the successful path, but we still need to put the
-> device on the error path.
 
-That I would agree.
 
-> If I take out the put_device for the successful path, and I run make
-> coccicheck, I get the below:
-> drivers/irqchip/irq-renesas-rzg2l.c:601:1-7: ERROR: missing
-> put_device; call of_find_device_by_node on line 538, but without a
-> corresponding object release within this function.
-> 
-> Can I just ignore it?
-
-My general approach is that these scripts are not a substitute for
-reasoning, and in this instance, the advise seems pretty misplaced.
-
-I would suggest you add a comment to keep the next script kiddie at
-bay.
-
-	M.
 
 -- 
-Without deviation from the norm, progress is not possible.
+
+-----------------------------------------------------------------------------
+Jerry Hoemann                  Software Engineer   Hewlett Packard Enterprise
+-----------------------------------------------------------------------------
 
