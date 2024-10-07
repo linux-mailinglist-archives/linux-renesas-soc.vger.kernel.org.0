@@ -1,364 +1,225 @@
-Return-Path: <linux-renesas-soc+bounces-9569-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9570-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 231E4993819
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 22:21:51 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C3CD9939E7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Oct 2024 00:12:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D9A8B2849E6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 20:21:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 062B0B20D0A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 22:12:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3A811DE4D1;
-	Mon,  7 Oct 2024 20:21:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9428418C033;
+	Mon,  7 Oct 2024 22:12:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YygHHYdA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nKpNDMyA"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9CF31DE4D3;
-	Mon,  7 Oct 2024 20:21:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C478318A6DC
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Oct 2024 22:12:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728332505; cv=none; b=iRK1tOdw7YhkCNgzcq1XpkKmLwyNXyeggWaYgIt1AbN+id8jGSwbk53dGbEkQSiF/tuzUT26/SslXuUNRILA5vbiBHUv3JmO722rKpmTfnq8ePAXpKwl+WoNpLLFXYSyNLsEz3MVJzcGkTVuOiHna3+g7/9+Dmw1d7g64UFteOI=
+	t=1728339141; cv=none; b=pyrJOLt0V+e8kIrj5yzJOwehT4PoMaeEFr5hT/pTa8021eIaJheFoqKaTyKL/5WP+9tfc+d7HtFP/XDTNO9qwAuT5bSfk6EBoh0h2D02qZS0X8NY+NrDPe7WSk3Lt+UtG3BmwLTukuyTsjv0qXJB8eesFcUtmCzAgAcZXYRdDkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728332505; c=relaxed/simple;
-	bh=Ob+W0OpfiPXT/RLK3EV+M7HNJhR1KOSyXwZB67F02yw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OWzA5chi0l5YohgUvz7VCLgmIUMwKkb1kS2ON7fNP//ODdzyBSecPXb6nc9g99dp12FHW4PrvMS1yJ+vkkbs+wRDW9SrAQym81+HtQH7N5ucDKt8GKyBJIGReccgl6IxDnNMI4yGwHFTe0qMYh7UtouQayIdwQFu6yx8E9b0ngM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YygHHYdA; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (unknown [132.205.230.14])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 07CEA2EC;
-	Mon,  7 Oct 2024 22:20:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1728332406;
-	bh=Ob+W0OpfiPXT/RLK3EV+M7HNJhR1KOSyXwZB67F02yw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YygHHYdAOxRYls13j+pBckd7M16lZRMOa5QPkVmENQh7iFvM6izYmWYc56161c8xZ
-	 mQ5qAjrufx7/bgMJtvtR5wP78YCHl2QeuTj8EziRUgEEQYlLqTfQTds2TdxrWcRfPd
-	 dv7iDbY+Z6HSQ52E+3CUJ9k9p0ginNbEAPT02e7U=
-Date: Mon, 7 Oct 2024 23:21:37 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v4 10/17] media: rzg2l-cru: Simplify handling of
- supported formats
-Message-ID: <20241007202137.GK14766@pendragon.ideasonboard.com>
-References: <20241007184839.190519-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20241007184839.190519-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1728339141; c=relaxed/simple;
+	bh=7NtH2B17VlgnY6yQ+OmiFvwYqMwPqkg4w53C4NqU5Qo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=LUcZCHBkubbXjkVIUMpHJ7dckOD4jHtJxva8TAdQuvgW5/yVGHXnLPPZzYwC/Y5iTBuCzP4eqx4qzOiFP7HSL2IC1BO4wWnaSO9gF7wpTip5RE6zNtjTMwC1MNTDPVj+4bgDZ94jzIHi2p2+GZ3XYSVWWTcVCnl09qioZquwyTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nKpNDMyA; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728339140; x=1759875140;
+  h=date:from:to:cc:subject:message-id;
+  bh=7NtH2B17VlgnY6yQ+OmiFvwYqMwPqkg4w53C4NqU5Qo=;
+  b=nKpNDMyAsMmTuXtOsc6xLuK8HOGoyuzHvyx+pZ2HFROhsFu5OzvB+m9U
+   +hoYsNtoApw8vSMBsLtCAakREdCGRypbw2NqgY11tMvDpuAXt4FTbAe+W
+   oH5W4dE57bBMZ/BtfDM4aQ9EfdrT7XADGjVH3S7UgPX77GUu9tz0fMS8m
+   dHl8PubAMuevVcV5/2yMp8VWz44KdUpfWe+n8t+mnW6bib2WzhWMbNaDj
+   ILtwzoMFCCvkMd9hEtCZWG8dfTfOnqT1Eqv7FPgtzJW+Z+9tg53lDuDGM
+   WVzQL7BkELpOr+RfVkizVfOwz+DCPtPKdSC2wqUpZa70ksEqSPfwg0UcL
+   g==;
+X-CSE-ConnectionGUID: EPZdrEmQTiaTylxWPb7tFg==
+X-CSE-MsgGUID: dR8wKv2eQruW2DWcxYbZlQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="38074461"
+X-IronPort-AV: E=Sophos;i="6.11,185,1725346800"; 
+   d="scan'208";a="38074461"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 15:12:20 -0700
+X-CSE-ConnectionGUID: 5BVoXtrbS26WXEiFU6krWw==
+X-CSE-MsgGUID: Pat2Toa0RMq+g3BbUvIt+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,185,1725346800"; 
+   d="scan'208";a="75456307"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 07 Oct 2024 15:12:18 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sxvxg-0005aw-1F;
+	Mon, 07 Oct 2024 22:12:16 +0000
+Date: Tue, 08 Oct 2024 06:11:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:renesas-clk] BUILD SUCCESS
+ 44d13e198cbf031fdb8cb20b6bbbe82adcb951ca
+Message-ID: <202410080604.H0F4IBPi-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241007184839.190519-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hi Prabhakar,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk
+branch HEAD: 44d13e198cbf031fdb8cb20b6bbbe82adcb951ca  clk: renesas: r9a09g057: Add clock and reset entries for ICU
 
-Thank you for the patch.
+elapsed time: 740m
 
-On Mon, Oct 07, 2024 at 07:48:32PM +0100, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> Refactor the handling of supported formats in the RZ/G2L CRU driver by
-> moving the `rzg2l_cru_ip_format` struct to the common header to allow
-> reuse across multiple files and adding pixelformat and bpp members to it.
-> This change centralizes format handling, making it easier to manage and
-> extend.
-> 
-> - Moved the `rzg2l_cru_ip_format` struct to `rzg2l-cru.h` for better
->   accessibility.
-> - Added format, datatype and bpp members to `rzg2l_cru_ip_format` struct
-> - Dropped rzg2l_cru_formats
-> - Introduced helper functions `rzg2l_cru_ip_code_to_fmt()`,
->   `rzg2l_cru_ip_format_to_fmt()`, and
->   `rzg2l_cru_ip_index_to_fmt()` to streamline format lookups.
-> - Refactored the `rzg2l_cru_csi2_setup` and format alignment functions
->   to utilize the new helpers.
+configs tested: 132
+configs skipped: 3
 
-The general rule is once change, one patch. Bundling multiple changes
-together makes review more difficult. A bullet list of changes in a
-commit message is a sign you're bundling too many changed together.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-You can still group related changes together when it makes sensor. For
-instance moving rzg2l_cru_ip_format to rzg2l-cru.h and adding the
-rzg2l_cru_ip_code_to_fmt() & co helper functions can be one patch.
+tested configs:
+alpha                             allnoconfig    gcc-14.1.0
+alpha                            allyesconfig    clang-20
+alpha                               defconfig    gcc-14.1.0
+arc                              allmodconfig    clang-20
+arc                               allnoconfig    gcc-14.1.0
+arc                              allyesconfig    clang-20
+arc                                 defconfig    gcc-14.1.0
+arc                   randconfig-001-20241008    gcc-14.1.0
+arc                   randconfig-002-20241008    gcc-14.1.0
+arm                              allmodconfig    clang-20
+arm                               allnoconfig    gcc-14.1.0
+arm                              allyesconfig    clang-20
+arm                                 defconfig    gcc-14.1.0
+arm                   randconfig-001-20241008    gcc-14.1.0
+arm                   randconfig-002-20241008    gcc-14.1.0
+arm                   randconfig-003-20241008    gcc-14.1.0
+arm                   randconfig-004-20241008    gcc-14.1.0
+arm64                            allmodconfig    clang-20
+arm64                             allnoconfig    gcc-14.1.0
+arm64                               defconfig    gcc-14.1.0
+arm64                 randconfig-001-20241008    gcc-14.1.0
+arm64                 randconfig-002-20241008    gcc-14.1.0
+arm64                 randconfig-003-20241008    gcc-14.1.0
+arm64                 randconfig-004-20241008    gcc-14.1.0
+csky                              allnoconfig    gcc-14.1.0
+csky                                defconfig    gcc-14.1.0
+csky                  randconfig-001-20241008    gcc-14.1.0
+csky                  randconfig-002-20241008    gcc-14.1.0
+hexagon                          allmodconfig    clang-20
+hexagon                           allnoconfig    gcc-14.1.0
+hexagon                          allyesconfig    clang-20
+hexagon                             defconfig    gcc-14.1.0
+hexagon               randconfig-001-20241008    gcc-14.1.0
+hexagon               randconfig-002-20241008    gcc-14.1.0
+i386                             allmodconfig    clang-18
+i386                              allnoconfig    clang-18
+i386                             allyesconfig    clang-18
+i386        buildonly-randconfig-001-20241008    clang-18
+i386        buildonly-randconfig-002-20241008    clang-18
+i386        buildonly-randconfig-003-20241008    clang-18
+i386        buildonly-randconfig-004-20241008    clang-18
+i386        buildonly-randconfig-005-20241008    clang-18
+i386        buildonly-randconfig-006-20241008    clang-18
+i386                                defconfig    clang-18
+i386                  randconfig-001-20241008    clang-18
+i386                  randconfig-002-20241008    clang-18
+i386                  randconfig-003-20241008    clang-18
+i386                  randconfig-004-20241008    clang-18
+i386                  randconfig-005-20241008    clang-18
+i386                  randconfig-006-20241008    clang-18
+i386                  randconfig-011-20241008    clang-18
+i386                  randconfig-012-20241008    clang-18
+i386                  randconfig-013-20241008    clang-18
+i386                  randconfig-014-20241008    clang-18
+i386                  randconfig-015-20241008    clang-18
+i386                  randconfig-016-20241008    clang-18
+loongarch                        allmodconfig    gcc-14.1.0
+loongarch                         allnoconfig    gcc-14.1.0
+loongarch                           defconfig    gcc-14.1.0
+loongarch             randconfig-001-20241008    gcc-14.1.0
+loongarch             randconfig-002-20241008    gcc-14.1.0
+m68k                             allmodconfig    gcc-14.1.0
+m68k                              allnoconfig    gcc-14.1.0
+m68k                             allyesconfig    gcc-14.1.0
+m68k                                defconfig    gcc-14.1.0
+microblaze                       allmodconfig    gcc-14.1.0
+microblaze                        allnoconfig    gcc-14.1.0
+microblaze                       allyesconfig    gcc-14.1.0
+microblaze                          defconfig    gcc-14.1.0
+mips                              allnoconfig    gcc-14.1.0
+nios2                             allnoconfig    gcc-14.1.0
+nios2                               defconfig    gcc-14.1.0
+nios2                 randconfig-001-20241008    gcc-14.1.0
+nios2                 randconfig-002-20241008    gcc-14.1.0
+openrisc                          allnoconfig    gcc-14.1.0
+openrisc                         allyesconfig    gcc-14.1.0
+openrisc                            defconfig    gcc-12
+parisc                           allmodconfig    gcc-14.1.0
+parisc                            allnoconfig    gcc-14.1.0
+parisc                           allyesconfig    gcc-14.1.0
+parisc                              defconfig    gcc-12
+parisc                randconfig-001-20241008    gcc-14.1.0
+parisc                randconfig-002-20241008    gcc-14.1.0
+parisc64                            defconfig    gcc-14.1.0
+powerpc                          allmodconfig    gcc-14.1.0
+powerpc                           allnoconfig    gcc-14.1.0
+powerpc                          allyesconfig    gcc-14.1.0
+powerpc               randconfig-001-20241008    gcc-14.1.0
+powerpc               randconfig-002-20241008    gcc-14.1.0
+powerpc               randconfig-003-20241008    gcc-14.1.0
+powerpc64             randconfig-001-20241008    gcc-14.1.0
+powerpc64             randconfig-002-20241008    gcc-14.1.0
+powerpc64             randconfig-003-20241008    gcc-14.1.0
+riscv                            allmodconfig    gcc-14.1.0
+riscv                             allnoconfig    gcc-14.1.0
+riscv                            allyesconfig    gcc-14.1.0
+riscv                               defconfig    gcc-12
+riscv                 randconfig-001-20241008    gcc-14.1.0
+riscv                 randconfig-002-20241008    gcc-14.1.0
+s390                             allmodconfig    gcc-14.1.0
+s390                              allnoconfig    clang-20
+s390                             allyesconfig    gcc-14.1.0
+s390                                defconfig    gcc-12
+s390                  randconfig-001-20241008    gcc-14.1.0
+s390                  randconfig-002-20241008    gcc-14.1.0
+sh                               allmodconfig    gcc-14.1.0
+sh                                allnoconfig    gcc-14.1.0
+sh                               allyesconfig    gcc-14.1.0
+sh                                  defconfig    gcc-12
+sh                    randconfig-001-20241008    gcc-14.1.0
+sh                    randconfig-002-20241008    gcc-14.1.0
+sparc                            allmodconfig    gcc-14.1.0
+sparc64                             defconfig    gcc-12
+sparc64               randconfig-001-20241008    gcc-14.1.0
+sparc64               randconfig-002-20241008    gcc-14.1.0
+um                               allmodconfig    clang-20
+um                                allnoconfig    clang-17
+um                               allyesconfig    clang-20
+um                                  defconfig    gcc-12
+um                             i386_defconfig    gcc-12
+um                    randconfig-001-20241008    gcc-14.1.0
+um                    randconfig-002-20241008    gcc-14.1.0
+um                           x86_64_defconfig    gcc-12
+x86_64                            allnoconfig    clang-18
+x86_64                           allyesconfig    clang-18
+x86_64                              defconfig    clang-18
+x86_64                                  kexec    gcc-12
+x86_64                               rhel-8.3    gcc-12
+x86_64                          rhel-8.3-rust    clang-18
+xtensa                            allnoconfig    gcc-14.1.0
+xtensa                randconfig-001-20241008    gcc-14.1.0
+xtensa                randconfig-002-20241008    gcc-14.1.0
 
-> Suggested-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  .../platform/renesas/rzg2l-cru/rzg2l-cru.h    | 20 +++++-
->  .../platform/renesas/rzg2l-cru/rzg2l-ip.c     | 36 ++++++++--
->  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 67 ++++++-------------
->  3 files changed, 69 insertions(+), 54 deletions(-)
-> 
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> index 4fe24bdde5b2..39296a59b3da 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> @@ -62,6 +62,20 @@ struct rzg2l_cru_ip {
->  	struct v4l2_subdev *remote;
->  };
->  
-> +/**
-> + * struct rzg2l_cru_ip_format - CRU IP format
-> + * @code: Media bus code
-> + * @format: 4CC format identifier (V4L2_PIX_FMT_*)
-> + * @datatype: MIPI CSI2 data type
-> + * @bpp: bytes per pixel
-> + */
-> +struct rzg2l_cru_ip_format {
-> +	u32 code;
-> +	u32 format;
-> +	u32 datatype;
-> +	u8 bpp;
-> +};
-> +
->  /**
->   * struct rzg2l_cru_dev - Renesas CRU device structure
->   * @dev:		(OF) device
-> @@ -144,10 +158,12 @@ int rzg2l_cru_video_register(struct rzg2l_cru_dev *cru);
->  void rzg2l_cru_video_unregister(struct rzg2l_cru_dev *cru);
->  irqreturn_t rzg2l_cru_irq(int irq, void *data);
->  
-> -const struct v4l2_format_info *rzg2l_cru_format_from_pixel(u32 format);
-> -
->  int rzg2l_cru_ip_subdev_register(struct rzg2l_cru_dev *cru);
->  void rzg2l_cru_ip_subdev_unregister(struct rzg2l_cru_dev *cru);
->  struct v4l2_mbus_framefmt *rzg2l_cru_ip_get_src_fmt(struct rzg2l_cru_dev *cru);
->  
-> +const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned int code);
-> +const struct rzg2l_cru_ip_format *rzg2l_cru_ip_format_to_fmt(u32 format);
-> +const struct rzg2l_cru_ip_format *rzg2l_cru_ip_index_to_fmt(u32 index);
-> +
->  #endif
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-> index 7b006a0bfaae..fde6f4781cfb 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-> @@ -6,17 +6,21 @@
->   */
->  
->  #include <linux/delay.h>
-> -#include "rzg2l-cru.h"
->  
-> -struct rzg2l_cru_ip_format {
-> -	u32 code;
-> -};
-> +#include <media/mipi-csi2.h>
-> +
-> +#include "rzg2l-cru.h"
->  
->  static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
-> -	{ .code = MEDIA_BUS_FMT_UYVY8_1X16, },
-> +	{
-> +		.code = MEDIA_BUS_FMT_UYVY8_1X16,
-> +		.format = V4L2_PIX_FMT_UYVY,
-> +		.datatype = MIPI_CSI2_DT_YUV422_8B,
-> +		.bpp = 2,
-> +	},
->  };
->  
-> -static const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned int code)
-> +const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned int code)
->  {
->  	unsigned int i;
->  
-> @@ -27,6 +31,26 @@ static const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned int c
->  	return NULL;
->  }
->  
-> +const struct rzg2l_cru_ip_format *rzg2l_cru_ip_format_to_fmt(u32 format)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(rzg2l_cru_ip_formats); i++) {
-> +		if (rzg2l_cru_ip_formats[i].format == format)
-> +			return &rzg2l_cru_ip_formats[i];
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +const struct rzg2l_cru_ip_format *rzg2l_cru_ip_index_to_fmt(u32 index)
-> +{
-> +	if (index >= ARRAY_SIZE(rzg2l_cru_ip_formats))
-> +		return NULL;
-> +
-> +	return &rzg2l_cru_ip_formats[index];
-> +}
-> +
->  struct v4l2_mbus_framefmt *rzg2l_cru_ip_get_src_fmt(struct rzg2l_cru_dev *cru)
->  {
->  	struct v4l2_subdev_state *state;
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> index de88c0fab961..ceb9012c9d70 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> @@ -300,21 +300,10 @@ static void rzg2l_cru_initialize_axi(struct rzg2l_cru_dev *cru)
->  	rzg2l_cru_write(cru, AMnAXIATTR, amnaxiattr);
->  }
->  
-> -static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru, bool *input_is_yuv,
-> -				 struct v4l2_mbus_framefmt *ip_sd_fmt, u8 csi_vc)
-> +static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru, u8 csi_vc,
-> +				 u32 csi2_datatype)
-
-I would pass the rzg2l_cru_ip_format pointer (make it const) to this
-function instead of csi2_datatype.
-
->  {
-> -	u32 icnmc;
-> -
-> -	switch (ip_sd_fmt->code) {
-> -	case MEDIA_BUS_FMT_UYVY8_1X16:
-> -		icnmc = ICnMC_INF(MIPI_CSI2_DT_YUV422_8B);
-> -		*input_is_yuv = true;
-> -		break;
-> -	default:
-> -		*input_is_yuv = false;
-> -		icnmc = ICnMC_INF(MIPI_CSI2_DT_USER_DEFINED(0));
-> -		break;
-> -	}
-> +	u32 icnmc = ICnMC_INF(csi2_datatype);
->  
->  	icnmc |= (rzg2l_cru_read(cru, ICnMC) & ~ICnMC_INF_MASK);
->  
-> @@ -328,17 +317,20 @@ static int rzg2l_cru_initialize_image_conv(struct rzg2l_cru_dev *cru,
->  					   struct v4l2_mbus_framefmt *ip_sd_fmt,
->  					   u8 csi_vc)
->  {
-> -	bool output_is_yuv = false;
-> -	bool input_is_yuv = false;
-> +	const struct v4l2_format_info *src_finfo, *dst_finfo;
-> +	const struct rzg2l_cru_ip_format *cru_ip_fmt;
->  	u32 icndmr;
->  
-> -	rzg2l_cru_csi2_setup(cru, &input_is_yuv, ip_sd_fmt, csi_vc);
-> +	cru_ip_fmt = rzg2l_cru_ip_code_to_fmt(ip_sd_fmt->code);
-> +	rzg2l_cru_csi2_setup(cru, csi_vc, cru_ip_fmt->datatype);
-> +
-> +	src_finfo = v4l2_format_info(cru_ip_fmt->format);
-> +	dst_finfo = v4l2_format_info(cru->format.pixelformat);
->  
->  	/* Output format */
->  	switch (cru->format.pixelformat) {
->  	case V4L2_PIX_FMT_UYVY:
->  		icndmr = ICnDMR_YCMODE_UYVY;
-> -		output_is_yuv = true;
->  		break;
->  	default:
->  		dev_err(cru->dev, "Invalid pixelformat (0x%x)\n",
-> @@ -347,7 +339,7 @@ static int rzg2l_cru_initialize_image_conv(struct rzg2l_cru_dev *cru,
->  	}
->  
->  	/* If input and output use same colorspace, do bypass mode */
-> -	if (output_is_yuv == input_is_yuv)
-> +	if (v4l2_is_format_yuv(src_finfo) && v4l2_is_format_yuv(dst_finfo))
-
-I think this should be
-
-	if (v4l2_is_format_yuv(src_finfo) == v4l2_is_format_yuv(dst_finfo))
-
->  		rzg2l_cru_write(cru, ICnMC,
->  				rzg2l_cru_read(cru, ICnMC) | ICnMC_CSCTHR);
->  	else
-> @@ -810,35 +802,15 @@ int rzg2l_cru_dma_register(struct rzg2l_cru_dev *cru)
->  /* -----------------------------------------------------------------------------
->   * V4L2 stuff
->   */
-> -
-> -static const struct v4l2_format_info rzg2l_cru_formats[] = {
-> -	{
-> -		.format = V4L2_PIX_FMT_UYVY,
-> -		.bpp[0] = 2,
-> -	},
-> -};
-> -
-> -const struct v4l2_format_info *rzg2l_cru_format_from_pixel(u32 format)
-> -{
-> -	unsigned int i;
-> -
-> -	for (i = 0; i < ARRAY_SIZE(rzg2l_cru_formats); i++)
-> -		if (rzg2l_cru_formats[i].format == format)
-> -			return rzg2l_cru_formats + i;
-> -
-> -	return NULL;
-> -}
-> -
->  static u32 rzg2l_cru_format_bytesperline(struct v4l2_pix_format *pix)
->  {
-> -	const struct v4l2_format_info *fmt;
-> -
-> -	fmt = rzg2l_cru_format_from_pixel(pix->pixelformat);
-> +	const struct rzg2l_cru_ip_format *fmt;
->  
-> +	fmt = rzg2l_cru_ip_format_to_fmt(pix->pixelformat);
->  	if (WARN_ON(!fmt))
-> -		return -EINVAL;
-> +		return 0;
-
-This change isn't described in the commit message. 
-
->  
-> -	return pix->width * fmt->bpp[0];
-> +	return pix->width * fmt->bpp;
->  }
->  
->  static u32 rzg2l_cru_format_sizeimage(struct v4l2_pix_format *pix)
-> @@ -849,7 +821,7 @@ static u32 rzg2l_cru_format_sizeimage(struct v4l2_pix_format *pix)
->  static void rzg2l_cru_format_align(struct rzg2l_cru_dev *cru,
->  				   struct v4l2_pix_format *pix)
->  {
-> -	if (!rzg2l_cru_format_from_pixel(pix->pixelformat))
-> +	if (!rzg2l_cru_ip_format_to_fmt(pix->pixelformat))
-
-Here you're calling rzg2l_cru_ip_format_to_fmt(), and just below the
-function calls rzg2l_cru_format_bytesperline(), which calls
-rzg2l_cru_format_from_pixel() again. Store the pointer here, drop the
-rzg2l_cru_format_bytesperline() function, and just write
-
-	pix->bytesperline = pix->width * fmt->bpp;
-
-below. I would also inline rzg2l_cru_format_sizeimage() in this function
-as there's a single caller.
-
->  		pix->pixelformat = RZG2L_CRU_DEFAULT_FORMAT;
->  
->  	switch (pix->field) {
-> @@ -941,10 +913,13 @@ static int rzg2l_cru_g_fmt_vid_cap(struct file *file, void *priv,
->  static int rzg2l_cru_enum_fmt_vid_cap(struct file *file, void *priv,
->  				      struct v4l2_fmtdesc *f)
->  {
-> -	if (f->index >= ARRAY_SIZE(rzg2l_cru_formats))
-> +	const struct rzg2l_cru_ip_format *fmt;
-> +
-> +	fmt = rzg2l_cru_ip_index_to_fmt(f->index);
-> +	if (!fmt)
->  		return -EINVAL;
->  
-> -	f->pixelformat = rzg2l_cru_formats[f->index].format;
-> +	f->pixelformat = fmt->format;
->  
->  	return 0;
->  }
-
--- 
-Regards,
-
-Laurent Pinchart
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
