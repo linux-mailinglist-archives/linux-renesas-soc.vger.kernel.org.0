@@ -1,83 +1,82 @@
-Return-Path: <linux-renesas-soc+bounces-9528-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9529-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 073F1993461
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 19:05:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D94BE993473
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 19:08:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8CAD31F23B01
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 17:05:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 68BEC1F246D7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 17:08:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 023391DC1A9;
-	Mon,  7 Oct 2024 17:05:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 908FF1DCB00;
+	Mon,  7 Oct 2024 17:08:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FSgYwj5a"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ym2/dKnC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E7B01D9691;
-	Mon,  7 Oct 2024 17:05:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C95751D9661;
+	Mon,  7 Oct 2024 17:08:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728320743; cv=none; b=coNiETBSxgr6tv8FUj1FSO1DmKAgbGnW5PI+uLoTuAtKUO/w8AZto66oUIN4W7uV4j5/nIIpJt7/OtqY4+/GMdiuUScnHBNivY3odIIICVmFTmenqxjLdoc4u3GDOGQ19ONZ5z9LqhIee4qG3EgF2whpjL/sqER8jcxDsKs5rHo=
+	t=1728320931; cv=none; b=Vy/V35iw9OSuHptR8zE72wHf2jo9h1yCk0JhbgYbVC/TnvncMKmGUQi9nGDMubt7OcOYO9jnLqubrQ/Kqp/pQZTOi03uVWyEsEzTGIU3j5O9PQjc4TpPx1s/XcfNNwq6AqJBQEBGCc/ixr3CBF7CdY7ViD3NUQ0KtO2OrttcRR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728320743; c=relaxed/simple;
-	bh=b75tF/sPphEK/zpg06RywlUOnVKTAmeu5F/2mvJMWD8=;
+	s=arc-20240116; t=1728320931; c=relaxed/simple;
+	bh=WPFB0BclOC8+PoWBq+niIaY/H18Tt//G3VWNYaahDAA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T4lhjVZyFYNAn+OLgyyn24417GWlzsoiGIMiItIFB1mUIpZ5h6nev//qinJrWw1ZtAyLBrwYh+EgRyBlOF4op9d0syhV7YwGGSjCFDu+InbZi+pDpz3bJhzjA91nbAArlJCspjFCm4fxxo9pyEy0nwxNkyBfBrtmaXWGN2lVENc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FSgYwj5a; arc=none smtp.client-ip=209.85.210.44
+	 To:Cc:Content-Type; b=rNFTicOquMbyj0Dhvs5iSgrEugEs14tbOEf2LTB76U/w2nMJMIodpkuArw207q6DwZAO7od7YRhJzZVXTPFV3ZRqJRUNRHlVXpJ5Ws6jyNgtIrvyK0k2PYhFYS/rLMUmBWyRbQ2gSC0qUc56pjxPjrhfc5Bx+bk1D0ux/Q2TlJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ym2/dKnC; arc=none smtp.client-ip=209.85.222.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-710f0415ac8so2184480a34.1;
-        Mon, 07 Oct 2024 10:05:42 -0700 (PDT)
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-84ea36b65cfso957245241.0;
+        Mon, 07 Oct 2024 10:08:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728320741; x=1728925541; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1728320929; x=1728925729; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fo5VaJYp/8ouRC39yR7JLozJj6c3krO2R/Jl4vYSUfI=;
-        b=FSgYwj5ajuGFtJGIlr849QFeGPks+F7pdKGqwc9MpcP/mmrB8FhFkXdh8XW+p4wOfY
-         bA/D+AYH+3JZnI7SVP9pzR4k3ieo2g+mhiQBCxruRS/v5QeazxyC9ZQYwJNhXnn23wln
-         gfcsQIV2FPvdt9RmxuSmYofWT7QiehFvbmeKCJHXGwNvjxtg+jd1GMUfpChXdu5VTBRK
-         5l3h3023j6KqopbhdYSAsjPjyuWn4i87kOEaLjRLQI9MAZmNAHARxOiVof+VJIO4CZtV
-         CQBzGbGd8wmUC27E5EHaMehixPtturP+/xkXETshBo1d63bG8kRRvejcXFUy6Se/pZrw
-         75HA==
+        bh=Rwbps6RsUG2AAMnqoCxgAxF4PbCn55xedoPWXypL4bQ=;
+        b=Ym2/dKnCx41dkFeye9d+z3VxQ9sYAA6m3vrcnq1Y/zeF3I4RfhYFspL9Wh1TFCHT8F
+         ti+4np9D43R0Bd/ZUJfuEkzD4PHcPmvsTk1We4HjwJMgX3AlKAipaXrgix1DWbF4kYdi
+         gdiKpCe1ajXQBNoCGQzhtPI/FGvRO+P3SuGVUZ9j3Y6GfZ70TM2dV5W9JJwPnfx/dKaH
+         t8lmvGS6VsUiZB0U0TKKDfeGvUnAaNNpAuHWdJtIbg2sij47mcfM1ZT/cwobTAGJR74w
+         43ckZkoJNXIsAlwzPI1UiKK7C158TYnf8TpBVDpw4OvRLJSozSJMpmKsYYtB8iP8jZhh
+         vc7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728320741; x=1728925541;
+        d=1e100.net; s=20230601; t=1728320929; x=1728925729;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fo5VaJYp/8ouRC39yR7JLozJj6c3krO2R/Jl4vYSUfI=;
-        b=Tf+2u+V3FU5dmWhXriVfVkitiQ+nOjsR7qh8OJE5Y8/64AToWnPsT7LpJjilg2IFas
-         1EYzKv7nYm/grICSis9aSym4hgGi5KZZV5lT7F9rXD+91d7qhZBwtXM+sObsDsmeEXnH
-         /skJpOOhrDu9K5RDvnFu9jx2Z9sawKSf+5VEl+lwAm+LiL+rfRmElu8LxG3l/gOSbv1Y
-         VHiceK50BlEzncuWyM8FUGeHyAzwxZOkCaghWOYG4HsjWi2c8x5rbYJXndZaxb8ZeE0l
-         6hJmTAA5dIQf1GICJo3dctth2U2wxr/HqjX3OyVMWbPl8GTqY76U2emFYk9WUdyI1BYC
-         YcKg==
-X-Forwarded-Encrypted: i=1; AJvYcCUv+eLuGsJCHzRfzjqlWooiChYPqpCHsJ9+OAiaJAvumizxBvKqFQaML22MtIazM5HE4rQez63D1NKOG3rDCYjOa6o=@vger.kernel.org, AJvYcCVkd8RP09NMVXtlwhTgiyQlxFTsQ89Q9qLEWeYZ9M3y47uvIEA+BpBUjD+0t829DIHjx2vI2JKL1gPC@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfRunhir0RfgsMkXk8bvcehO6deGVnkvs0YxRPa+MPCuex73b0
-	R4sT4yd5xH71YoOx8u8Y0MgARZnnenwS/+uQF5Qgi/M6/ubQ6VUux+MrklDgTx8ZN3pNxkci4h1
-	dqkWy8MEz3KyzdYz3nKgZYL1pTFc=
-X-Google-Smtp-Source: AGHT+IETU0ZxwiebjeN3vsC82cDLDyg4zBlTpnnWDXRcrq10Q18NDcb5TFin6KLrQGgFJD2JFa7X1pBSgk1pUT599fA=
-X-Received: by 2002:a05:6358:7e06:b0:1bc:d1b9:90e6 with SMTP id
- e5c5f4694b2df-1c2b83af4f0mr442316055d.28.1728320741244; Mon, 07 Oct 2024
- 10:05:41 -0700 (PDT)
+        bh=Rwbps6RsUG2AAMnqoCxgAxF4PbCn55xedoPWXypL4bQ=;
+        b=iJG6HMWLydpJThyZjfSUIWpEzGhg1UcVMIrbMPN1467WgGucGDWQfeMAcDrmTJSVRE
+         //YsmZThutuzqmjo3+HhCUBHS589i7ytqPmPCgznBusu30O2XM2J4WN1XeRpIYYec1Bw
+         ID7k9VW6OoMH1FeH2B/o/9i8T6x2ESjg4AWWQwukcDms5o3BUfWo5kZ1t8dTOq5exU5F
+         XAMH7Ff8/RMTbXb1KorJBaLuAB0VDstm2atdYrPeE7Q8qrKaZAWoTZIMbC5ENt2a8ANd
+         uZL5wxZ1dDFeRlwrOxAKg0zm39mRbtYGS0rdqQQoJZWyluFxrI+xlZjVvZpdb41neduI
+         Caew==
+X-Forwarded-Encrypted: i=1; AJvYcCUMaK/BJudakCqWD6mMbl5mcjAGFuK2aycjtVu8dpunLQTkeKpZYo+IcoGIA90B1AGXeQx+IYKsqYvim2aUCrbDUSM=@vger.kernel.org, AJvYcCVnKpM2LvL/gFwqJuqyKLkd4i5A1sAflt6igzbiCl63D5YFj8FAnuWPAOgAOsI+oNO+H3is+IF15Omd@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzw08YdWXUwpIzBJwUQjrhfCTGeLqdhaO8bZWsLIgqgTwiR+HcQ
+	KmWvTDoZNsK+OlPLJWynNwhFn2sdmvT99REQD07qmscqYwU8Bzi8sH6zkpMokL6u2twdGjU1qZj
+	ynUdDRasxgICHRbj6SL2J806MmiAkt4RE
+X-Google-Smtp-Source: AGHT+IFmVJstvr2S91RPGjOnI4XdwsSNv29uPUaqGyRWQGgIjCrgJSNs7CkcYL1dDuq9udWyFVEcrRUg5pswIBcgIi8=
+X-Received: by 2002:a05:6122:2007:b0:50a:b728:5199 with SMTP id
+ 71dfb90a1353d-50c854bdfbemr6933669e0c.7.1728320928575; Mon, 07 Oct 2024
+ 10:08:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1728045620.git.geert+renesas@glider.be> <f51de53cb003f850751e13fdbddea64ad942ee7b.1728045620.git.geert+renesas@glider.be>
-In-Reply-To: <f51de53cb003f850751e13fdbddea64ad942ee7b.1728045620.git.geert+renesas@glider.be>
+References: <cover.1728045620.git.geert+renesas@glider.be> <934b9b9992dacd72dbad0f5433728aac292a3cfc.1728045620.git.geert+renesas@glider.be>
+In-Reply-To: <934b9b9992dacd72dbad0f5433728aac292a3cfc.1728045620.git.geert+renesas@glider.be>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 7 Oct 2024 18:05:15 +0100
-Message-ID: <CA+V-a8uwtN9gortwYHWs_PJ6BjGzLTU4jy_Wt-WbKmHeh1Kyvw@mail.gmail.com>
-Subject: Re: [PATCH 01/20] ARM: dts: renesas: Use interrupts-extended for
- Ethernet MACs
+Date: Mon, 7 Oct 2024 18:08:22 +0100
+Message-ID: <CA+V-a8u=qpR17Pyhw_Z=8zjjbia2fX7XBJSowp1NwMVkX9yjtA@mail.gmail.com>
+Subject: Re: [PATCH 04/20] ARM: dts: renesas: Use interrupts-extended for PMICs
 To: Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: Magnus Damm <magnus.damm@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
 	linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
@@ -93,14 +92,15 @@ On Fri, Oct 4, 2024 at 2:30=E2=80=AFPM Geert Uytterhoeven
 >
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  arch/arm/boot/dts/renesas/emev2-kzm9d.dts     | 3 +--
->  arch/arm/boot/dts/renesas/r8a73a4-ape6evm.dts | 3 +--
->  arch/arm/boot/dts/renesas/r8a7778-bockw.dts   | 3 +--
->  arch/arm/boot/dts/renesas/r8a7779-marzen.dts  | 3 +--
+>  arch/arm/boot/dts/renesas/r8a7790-lager.dts   | 6 ++----
+>  arch/arm/boot/dts/renesas/r8a7790-stout.dts   | 9 +++------
+>  arch/arm/boot/dts/renesas/r8a7791-koelsch.dts | 6 ++----
+>  arch/arm/boot/dts/renesas/r8a7791-porter.dts  | 6 ++----
 >  arch/arm/boot/dts/renesas/r8a7792-blanche.dts | 3 +--
->  arch/arm/boot/dts/renesas/r8a7792-wheat.dts   | 3 +--
->  arch/arm/boot/dts/renesas/sh73a0-kzm9g.dts    | 3 +--
->  7 files changed, 7 insertions(+), 14 deletions(-)
+>  arch/arm/boot/dts/renesas/r8a7793-gose.dts    | 6 ++----
+>  arch/arm/boot/dts/renesas/r8a7794-alt.dts     | 3 +--
+>  arch/arm/boot/dts/renesas/r8a7794-silk.dts    | 3 +--
+>  8 files changed, 14 insertions(+), 28 deletions(-)
 >
 
 Reviewed-by:  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -108,114 +108,188 @@ Reviewed-by:  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cheers,
 Prabhakar
 
-> diff --git a/arch/arm/boot/dts/renesas/emev2-kzm9d.dts b/arch/arm/boot/dt=
-s/renesas/emev2-kzm9d.dts
-> index 89495dd373585e94..c624fd61578b3b72 100644
-> --- a/arch/arm/boot/dts/renesas/emev2-kzm9d.dts
-> +++ b/arch/arm/boot/dts/renesas/emev2-kzm9d.dts
-> @@ -83,8 +83,7 @@ ethernet@20000000 {
->                 compatible =3D "smsc,lan9221", "smsc,lan9115";
->                 reg =3D <0x20000000 0x10000>;
->                 phy-mode =3D "mii";
-> -               interrupt-parent =3D <&gpio0>;
-> -               interrupts =3D <1 IRQ_TYPE_EDGE_RISING>;
-> +               interrupts-extended =3D <&gpio0 1 IRQ_TYPE_EDGE_RISING>;
->                 reg-io-width =3D <4>;
->                 smsc,irq-active-high;
->                 smsc,irq-push-pull;
-> diff --git a/arch/arm/boot/dts/renesas/r8a73a4-ape6evm.dts b/arch/arm/boo=
-t/dts/renesas/r8a73a4-ape6evm.dts
-> index ae656ee27124c745..94a39ffc4297b788 100644
-> --- a/arch/arm/boot/dts/renesas/r8a73a4-ape6evm.dts
-> +++ b/arch/arm/boot/dts/renesas/r8a73a4-ape6evm.dts
-> @@ -207,8 +207,7 @@ partition@80000 {
->         ethernet@8000000 {
->                 compatible =3D "smsc,lan9220", "smsc,lan9115";
->                 reg =3D <0x08000000 0x1000>;
-> -               interrupt-parent =3D <&irqc1>;
-> -               interrupts =3D <8 IRQ_TYPE_LEVEL_HIGH>;
-> +               interrupts-extended =3D <&irqc1 8 IRQ_TYPE_LEVEL_HIGH>;
->                 phy-mode =3D "mii";
->                 reg-io-width =3D <4>;
->                 smsc,irq-active-high;
-> diff --git a/arch/arm/boot/dts/renesas/r8a7778-bockw.dts b/arch/arm/boot/=
-dts/renesas/r8a7778-bockw.dts
-> index a3f9d74e8877b72b..e27d7dd8c869bb2d 100644
-> --- a/arch/arm/boot/dts/renesas/r8a7778-bockw.dts
-> +++ b/arch/arm/boot/dts/renesas/r8a7778-bockw.dts
-> @@ -96,8 +96,7 @@ ethernet@18300000 {
->                 reg =3D <0x18300000 0x1000>;
+> diff --git a/arch/arm/boot/dts/renesas/r8a7790-lager.dts b/arch/arm/boot/=
+dts/renesas/r8a7790-lager.dts
+> index 5ef87f8088c4c81c..47ffa278a0dfd79e 100644
+> --- a/arch/arm/boot/dts/renesas/r8a7790-lager.dts
+> +++ b/arch/arm/boot/dts/renesas/r8a7790-lager.dts
+> @@ -443,8 +443,7 @@ i2cpwr: i2c-mux4 {
+>                 pmic@58 {
+>                         compatible =3D "dlg,da9063";
+>                         reg =3D <0x58>;
+> -                       interrupt-parent =3D <&irqc0>;
+> -                       interrupts =3D <2 IRQ_TYPE_LEVEL_LOW>;
+> +                       interrupts-extended =3D <&irqc0 2 IRQ_TYPE_LEVEL_=
+LOW>;
+>                         interrupt-controller;
+>                         #interrupt-cells =3D <2>;
 >
->                 phy-mode =3D "mii";
-> -               interrupt-parent =3D <&irqpin>;
-> -               interrupts =3D <0 IRQ_TYPE_EDGE_FALLING>;
-> +               interrupts-extended =3D <&irqpin 0 IRQ_TYPE_EDGE_FALLING>=
-;
->                 reg-io-width =3D <4>;
->                 vddvario-supply =3D <&fixedregulator3v3>;
->                 vdd33a-supply =3D <&fixedregulator3v3>;
-> diff --git a/arch/arm/boot/dts/renesas/r8a7779-marzen.dts b/arch/arm/boot=
-/dts/renesas/r8a7779-marzen.dts
-> index fec08562d12c1813..9793d8781d6e9425 100644
-> --- a/arch/arm/boot/dts/renesas/r8a7779-marzen.dts
-> +++ b/arch/arm/boot/dts/renesas/r8a7779-marzen.dts
-> @@ -261,8 +261,7 @@ ethernet@18000000 {
->                 pinctrl-names =3D "default";
+> @@ -460,8 +459,7 @@ watchdog {
+>                 vdd_dvfs: regulator@68 {
+>                         compatible =3D "dlg,da9210";
+>                         reg =3D <0x68>;
+> -                       interrupt-parent =3D <&irqc0>;
+> -                       interrupts =3D <2 IRQ_TYPE_LEVEL_LOW>;
+> +                       interrupts-extended =3D <&irqc0 2 IRQ_TYPE_LEVEL_=
+LOW>;
 >
->                 phy-mode =3D "mii";
-> -               interrupt-parent =3D <&irqpin0>;
-> -               interrupts =3D <1 IRQ_TYPE_EDGE_FALLING>;
-> +               interrupts-extended =3D <&irqpin0 1 IRQ_TYPE_EDGE_FALLING=
->;
->                 smsc,irq-push-pull;
->                 reg-io-width =3D <4>;
->                 vddvario-supply =3D <&fixedregulator3v3>;
+>                         regulator-min-microvolt =3D <1000000>;
+>                         regulator-max-microvolt =3D <1000000>;
+> diff --git a/arch/arm/boot/dts/renesas/r8a7790-stout.dts b/arch/arm/boot/=
+dts/renesas/r8a7790-stout.dts
+> index 9287724187ef3b69..d7c0a9574ce83144 100644
+> --- a/arch/arm/boot/dts/renesas/r8a7790-stout.dts
+> +++ b/arch/arm/boot/dts/renesas/r8a7790-stout.dts
+> @@ -342,8 +342,7 @@ &iic3 {
+>         pmic@58 {
+>                 compatible =3D "dlg,da9063";
+>                 reg =3D <0x58>;
+> -               interrupt-parent =3D <&irqc0>;
+> -               interrupts =3D <2 IRQ_TYPE_LEVEL_LOW>;
+> +               interrupts-extended =3D <&irqc0 2 IRQ_TYPE_LEVEL_LOW>;
+>                 interrupt-controller;
+>                 #interrupt-cells =3D <2>;
+>
+> @@ -363,8 +362,7 @@ watchdog {
+>         vdd_dvfs: regulator@68 {
+>                 compatible =3D "dlg,da9210";
+>                 reg =3D <0x68>;
+> -               interrupt-parent =3D <&irqc0>;
+> -               interrupts =3D <2 IRQ_TYPE_LEVEL_LOW>;
+> +               interrupts-extended =3D <&irqc0 2 IRQ_TYPE_LEVEL_LOW>;
+>
+>                 regulator-min-microvolt =3D <1000000>;
+>                 regulator-max-microvolt =3D <1000000>;
+> @@ -375,8 +373,7 @@ vdd_dvfs: regulator@68 {
+>         vdd: regulator@70 {
+>                 compatible =3D "dlg,da9210";
+>                 reg =3D <0x70>;
+> -               interrupt-parent =3D <&irqc0>;
+> -               interrupts =3D <2 IRQ_TYPE_LEVEL_LOW>;
+> +               interrupts-extended =3D <&irqc0 2 IRQ_TYPE_LEVEL_LOW>;
+>
+>                 regulator-min-microvolt =3D <1000000>;
+>                 regulator-max-microvolt =3D <1000000>;
+> diff --git a/arch/arm/boot/dts/renesas/r8a7791-koelsch.dts b/arch/arm/boo=
+t/dts/renesas/r8a7791-koelsch.dts
+> index bce93db4c9df5e18..1a0d2c6ed0e83ce7 100644
+> --- a/arch/arm/boot/dts/renesas/r8a7791-koelsch.dts
+> +++ b/arch/arm/boot/dts/renesas/r8a7791-koelsch.dts
+> @@ -814,8 +814,7 @@ &i2c6 {
+>         pmic@58 {
+>                 compatible =3D "dlg,da9063";
+>                 reg =3D <0x58>;
+> -               interrupt-parent =3D <&irqc0>;
+> -               interrupts =3D <2 IRQ_TYPE_LEVEL_LOW>;
+> +               interrupts-extended =3D <&irqc0 2 IRQ_TYPE_LEVEL_LOW>;
+>                 interrupt-controller;
+>                 #interrupt-cells =3D <2>;
+>
+> @@ -831,8 +830,7 @@ watchdog {
+>         vdd_dvfs: regulator@68 {
+>                 compatible =3D "dlg,da9210";
+>                 reg =3D <0x68>;
+> -               interrupt-parent =3D <&irqc0>;
+> -               interrupts =3D <2 IRQ_TYPE_LEVEL_LOW>;
+> +               interrupts-extended =3D <&irqc0 2 IRQ_TYPE_LEVEL_LOW>;
+>
+>                 regulator-min-microvolt =3D <1000000>;
+>                 regulator-max-microvolt =3D <1000000>;
+> diff --git a/arch/arm/boot/dts/renesas/r8a7791-porter.dts b/arch/arm/boot=
+/dts/renesas/r8a7791-porter.dts
+> index 92b54e043795ba08..08381498350aacde 100644
+> --- a/arch/arm/boot/dts/renesas/r8a7791-porter.dts
+> +++ b/arch/arm/boot/dts/renesas/r8a7791-porter.dts
+> @@ -408,8 +408,7 @@ &i2c6 {
+>         pmic@5a {
+>                 compatible =3D "dlg,da9063l";
+>                 reg =3D <0x5a>;
+> -               interrupt-parent =3D <&irqc0>;
+> -               interrupts =3D <2 IRQ_TYPE_LEVEL_LOW>;
+> +               interrupts-extended =3D <&irqc0 2 IRQ_TYPE_LEVEL_LOW>;
+>                 interrupt-controller;
+>                 #interrupt-cells =3D <2>;
+>
+> @@ -421,8 +420,7 @@ watchdog {
+>         vdd_dvfs: regulator@68 {
+>                 compatible =3D "dlg,da9210";
+>                 reg =3D <0x68>;
+> -               interrupt-parent =3D <&irqc0>;
+> -               interrupts =3D <2 IRQ_TYPE_LEVEL_LOW>;
+> +               interrupts-extended =3D <&irqc0 2 IRQ_TYPE_LEVEL_LOW>;
+>
+>                 regulator-min-microvolt =3D <1000000>;
+>                 regulator-max-microvolt =3D <1000000>;
 > diff --git a/arch/arm/boot/dts/renesas/r8a7792-blanche.dts b/arch/arm/boo=
 t/dts/renesas/r8a7792-blanche.dts
-> index 540a9ad28f28ac1a..7eefa227d65514a9 100644
+> index 69009535814406fe..a3986076d8e3e993 100644
 > --- a/arch/arm/boot/dts/renesas/r8a7792-blanche.dts
 > +++ b/arch/arm/boot/dts/renesas/r8a7792-blanche.dts
-> @@ -224,8 +224,7 @@ ethernet@18000000 {
->                 compatible =3D "smsc,lan89218", "smsc,lan9115";
->                 reg =3D <0x18000000 0x100>;
->                 phy-mode =3D "mii";
+> @@ -376,8 +376,7 @@ pmic@58 {
+>                 reg =3D <0x58>;
+>                 pinctrl-names =3D "default";
+>                 pinctrl-0 =3D <&pmic_irq_pins>;
 > -               interrupt-parent =3D <&irqc>;
-> -               interrupts =3D <0 IRQ_TYPE_EDGE_FALLING>;
-> +               interrupts-extended =3D <&irqc 0 IRQ_TYPE_EDGE_FALLING>;
->                 smsc,irq-push-pull;
->                 reg-io-width =3D <4>;
->                 vddvario-supply =3D <&d3_3v>;
-> diff --git a/arch/arm/boot/dts/renesas/r8a7792-wheat.dts b/arch/arm/boot/=
-dts/renesas/r8a7792-wheat.dts
-> index 000f21a2a8630a8e..bfc780f7e396b408 100644
-> --- a/arch/arm/boot/dts/renesas/r8a7792-wheat.dts
-> +++ b/arch/arm/boot/dts/renesas/r8a7792-wheat.dts
-> @@ -115,8 +115,7 @@ ethernet@18000000 {
->                 compatible =3D "smsc,lan89218", "smsc,lan9115";
->                 reg =3D <0x18000000 0x100>;
->                 phy-mode =3D "mii";
-> -               interrupt-parent =3D <&irqc>;
-> -               interrupts =3D <0 IRQ_TYPE_EDGE_FALLING>;
-> +               interrupts-extended =3D <&irqc 0 IRQ_TYPE_EDGE_FALLING>;
->                 smsc,irq-push-pull;
->                 smsc,save-mac-address;
->                 reg-io-width =3D <4>;
-> diff --git a/arch/arm/boot/dts/renesas/sh73a0-kzm9g.dts b/arch/arm/boot/d=
-ts/renesas/sh73a0-kzm9g.dts
-> index 98897f710063a91b..15d89c20618a16b7 100644
-> --- a/arch/arm/boot/dts/renesas/sh73a0-kzm9g.dts
-> +++ b/arch/arm/boot/dts/renesas/sh73a0-kzm9g.dts
-> @@ -172,8 +172,7 @@ ethernet@10000000 {
->                 compatible =3D "smsc,lan9221", "smsc,lan9115";
->                 reg =3D <0x10000000 0x100>;
->                 phy-mode =3D "mii";
-> -               interrupt-parent =3D <&irqpin0>;
-> -               interrupts =3D <3 IRQ_TYPE_EDGE_FALLING>;
-> +               interrupts-extended =3D <&irqpin0 3 IRQ_TYPE_EDGE_FALLING=
->;
->                 reg-io-width =3D <4>;
->                 smsc,irq-push-pull;
->                 smsc,save-mac-address;
+> -               interrupts =3D <2 IRQ_TYPE_LEVEL_LOW>;
+> +               interrupts-extended =3D <&irqc 2 IRQ_TYPE_LEVEL_LOW>;
+>                 interrupt-controller;
+>                 #interrupt-cells =3D <2>;
+>
+> diff --git a/arch/arm/boot/dts/renesas/r8a7793-gose.dts b/arch/arm/boot/d=
+ts/renesas/r8a7793-gose.dts
+> index 45ef1d1900245a11..5334af25c10111c8 100644
+> --- a/arch/arm/boot/dts/renesas/r8a7793-gose.dts
+> +++ b/arch/arm/boot/dts/renesas/r8a7793-gose.dts
+> @@ -754,8 +754,7 @@ &i2c6 {
+>         pmic@58 {
+>                 compatible =3D "dlg,da9063";
+>                 reg =3D <0x58>;
+> -               interrupt-parent =3D <&irqc0>;
+> -               interrupts =3D <2 IRQ_TYPE_LEVEL_LOW>;
+> +               interrupts-extended =3D <&irqc0 2 IRQ_TYPE_LEVEL_LOW>;
+>                 interrupt-controller;
+>                 #interrupt-cells =3D <2>;
+>
+> @@ -771,8 +770,7 @@ watchdog {
+>         vdd_dvfs: regulator@68 {
+>                 compatible =3D "dlg,da9210";
+>                 reg =3D <0x68>;
+> -               interrupt-parent =3D <&irqc0>;
+> -               interrupts =3D <2 IRQ_TYPE_LEVEL_LOW>;
+> +               interrupts-extended =3D <&irqc0 2 IRQ_TYPE_LEVEL_LOW>;
+>
+>                 regulator-min-microvolt =3D <1000000>;
+>                 regulator-max-microvolt =3D <1000000>;
+> diff --git a/arch/arm/boot/dts/renesas/r8a7794-alt.dts b/arch/arm/boot/dt=
+s/renesas/r8a7794-alt.dts
+> index 1e04b8630ef3f3ca..882644cd7c1875c1 100644
+> --- a/arch/arm/boot/dts/renesas/r8a7794-alt.dts
+> +++ b/arch/arm/boot/dts/renesas/r8a7794-alt.dts
+> @@ -449,8 +449,7 @@ &i2c7 {
+>         pmic@58 {
+>                 compatible =3D "dlg,da9063";
+>                 reg =3D <0x58>;
+> -               interrupt-parent =3D <&gpio3>;
+> -               interrupts =3D <31 IRQ_TYPE_LEVEL_LOW>;
+> +               interrupts-extended =3D <&gpio3 31 IRQ_TYPE_LEVEL_LOW>;
+>                 interrupt-controller;
+>                 #interrupt-cells =3D <2>;
+>
+> diff --git a/arch/arm/boot/dts/renesas/r8a7794-silk.dts b/arch/arm/boot/d=
+ts/renesas/r8a7794-silk.dts
+> index 5ed5b426f9639775..2a0819311a3c4ef3 100644
+> --- a/arch/arm/boot/dts/renesas/r8a7794-silk.dts
+> +++ b/arch/arm/boot/dts/renesas/r8a7794-silk.dts
+> @@ -434,8 +434,7 @@ &i2c7 {
+>         pmic@58 {
+>                 compatible =3D "dlg,da9063";
+>                 reg =3D <0x58>;
+> -               interrupt-parent =3D <&gpio3>;
+> -               interrupts =3D <31 IRQ_TYPE_LEVEL_LOW>;
+> +               interrupts-extended =3D <&gpio3 31 IRQ_TYPE_LEVEL_LOW>;
+>                 interrupt-controller;
+>                 #interrupt-cells =3D <2>;
+>
 > --
 > 2.34.1
 >
