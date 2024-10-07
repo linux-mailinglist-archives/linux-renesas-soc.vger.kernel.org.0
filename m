@@ -1,158 +1,232 @@
-Return-Path: <linux-renesas-soc+bounces-9567-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9568-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 640839936F3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 21:05:34 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 246389937E5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 22:06:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 883861C2143F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 19:05:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 651B9B21080
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 20:06:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 394B51D90CB;
-	Mon,  7 Oct 2024 19:05:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 792751DE3DC;
+	Mon,  7 Oct 2024 20:06:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jPNHNFFf"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC1C22098;
-	Mon,  7 Oct 2024 19:05:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B52FC1DE2D3;
+	Mon,  7 Oct 2024 20:06:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728327931; cv=none; b=MvQ3rA0jEJZB6hcJxWkOtTZxvMAnqRGeUITuuhGlnPFHK/XL3VlwX6GC5mAkbFsDVfPOPRZJVmc3jfAQJ7rVFdgEBLw+S2AUY6UCoaZIuO7bsohdn93dLgxWkoRpwghrvXUFvNDIpMFxDQTZksaLG+1oBf/Dmm/N1hyp0jU387I=
+	t=1728331572; cv=none; b=fqhdmEVUz0TiOqIjbVrA2b3ekLwnTPxR2C+5PLXC+yYpskH0+EwSRKccpSfLg0t6g2uqQ7MVhkmcJIrYYtl6HWlDqjh/OhZ23A/YXaBC2iSWD4t8EHK46RLZNEumI+Ks12WfbRNs5ah4FPnYLuhTuAJ6w3w67Hv+KYnkACxo3BQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728327931; c=relaxed/simple;
-	bh=5C8FnDYbKcBoRPSYMx5j7pldvPgXbkOVg9Ey6mLyces=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=nveqElak30gV5xrIEjSEL2EBwbzqJvMg6YMVylWC1qplBtCYeV0dnUXPPFf5VsB3MKBvE8sI4EjZmmQuCleSGvRG0CQel4LxXw2ZqjniA2WbJo6Kyr/2zlmIM2eSdKBsIfu5s5TOr1RWHcW9ry+z64mtB03J91mTJptCRH4MLuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.2.100] (213.87.153.120) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Mon, 7 Oct
- 2024 22:05:08 +0300
-Message-ID: <a733e3df-1fc3-41a1-9025-0eb02c5ffd0a@omp.ru>
-Date: Mon, 7 Oct 2024 22:05:08 +0300
+	s=arc-20240116; t=1728331572; c=relaxed/simple;
+	bh=fF+pVLgA3Hex/Fn5K86ObxcJMLlJ2PovFtoJ6BAxvAA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D8aBFNZ+wcKTxJF1NBtXDrFprIEapEwZWqpXlhmWWnIsNP1lh1rFOnpkqq3bROyWsQ69zZ10f77SpxkvtxANhac4PMEoa5wIVfY3YPc0QQqL3ru1weHpnHVBnRO543171a7OVg6afD59SVlkvrwHaFc8z3AijdYagV5ez3SSrrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jPNHNFFf; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (unknown [132.205.230.14])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8ECA12EC;
+	Mon,  7 Oct 2024 22:04:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1728331473;
+	bh=fF+pVLgA3Hex/Fn5K86ObxcJMLlJ2PovFtoJ6BAxvAA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jPNHNFFf5BM8Wsl91oB26SQm5Su22Wwpm4oybF58QnZciWdUYMIWHwajndpk/TH6D
+	 2EE9N5Ub9jKATh2jmfDbMSrlUAViTK8eHwWYJ+63SNqh2PK4ZdIOaz1qkWxr86UydF
+	 uAH6hAeeFiQw6RDz/IuAlIiPVmOgGsNkDjVeF0X8=
+Date: Mon, 7 Oct 2024 23:06:03 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v4 13/17] media: rzg2l-cru: video: Implement
+ .link_validate() callback
+Message-ID: <20241007200603.GA28812@pendragon.ideasonboard.com>
+References: <20241007184839.190519-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20241007184839.190519-14-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [net-next] net: ravb: Only advertise Rx/Tx timestamps if hardware
- supports it
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Claudiu
- Beznea <claudiu.beznea.uj@bp.renesas.com>, Paul Barker
-	<paul.barker.ct@bp.renesas.com>, Biju Das <biju.das.jz@bp.renesas.com>, Lad
- Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, <netdev@vger.kernel.org>
-CC: <linux-renesas-soc@vger.kernel.org>
-References: <20241005121411.583121-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Language: en-US
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-In-Reply-To: <20241005121411.583121-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 10/07/2024 18:47:22
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 19
-X-KSE-AntiSpam-Info: Lua profiles 188276 [Oct 07 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.0.4
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 39 0.3.39
- e168d0b3ce73b485ab2648dd465313add1404cce
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info:
-	127.0.0.199:7.1.2;omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;213.87.153.120:7.1.2
-X-KSE-AntiSpam-Info: FromAlignment: s
-X-KSE-AntiSpam-Info: ApMailHostAddress: 213.87.153.120
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 19
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 10/07/2024 18:51:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 10/7/2024 5:10:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241007184839.190519-14-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On 10/5/24 15:14, Niklas Söderlund wrote:
+Hi Prabhakar,
 
-> Recent work moving the reporting of Rx software timestamps to the core
-> [1] highlighted an issue where hardware time stamping where advertised
-> for the platforms where it is not supported.
+Thank you for the patch.
+
+On Mon, Oct 07, 2024 at 07:48:35PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> Fix this by covering advertising support for hardware timestamps only if
-> the hardware supports it. Due to the Tx implementation in RAVB software
-> Tx timestamping is also only considered if the hardware supports
-> hardware timestamps. This should be addressed in future, but this fix
-> only reflects what the driver currently implements.
+> Implement the `.link_validate()` callback for the video node and move the
+> format checking into this function. This change allows the removal of
+> `rzg2l_cru_mc_validate_format()`.
 > 
-> 1. Commit 277901ee3a26 ("ravb: Remove setting of RX software timestamp")
+> Suggested-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 91 ++++++++++---------
+>  1 file changed, 47 insertions(+), 44 deletions(-)
 > 
-> Fixes: 7e09a052dc4e ("ravb: Exclude gPTP feature support for RZ/G2L")
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-[...]
-
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index d2a6518532f3..907af4651c55 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -1750,20 +1750,19 @@ static int ravb_get_ts_info(struct net_device *ndev,
->  	struct ravb_private *priv = netdev_priv(ndev);
->  	const struct ravb_hw_info *hw_info = priv->info;
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> index ceb9012c9d70..385b4242db2f 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> @@ -189,46 +189,6 @@ static void rzg2l_cru_buffer_queue(struct vb2_buffer *vb)
+>  	spin_unlock_irqrestore(&cru->qlock, flags);
+>  }
 >  
-> -	info->so_timestamping =
-> -		SOF_TIMESTAMPING_TX_SOFTWARE |
-> -		SOF_TIMESTAMPING_TX_HARDWARE |
-> -		SOF_TIMESTAMPING_RX_HARDWARE |
-> -		SOF_TIMESTAMPING_RAW_HARDWARE;
-> -	info->tx_types = (1 << HWTSTAMP_TX_OFF) | (1 << HWTSTAMP_TX_ON);
-> -	info->rx_filters =
-> -		(1 << HWTSTAMP_FILTER_NONE) |
-> -		(1 << HWTSTAMP_FILTER_PTP_V2_L2_EVENT) |
-> -		(1 << HWTSTAMP_FILTER_ALL);
-> -	if (hw_info->gptp || hw_info->ccc_gac)
-> +	if (hw_info->gptp || hw_info->ccc_gac) {
-> +		info->so_timestamping =
-> +			SOF_TIMESTAMPING_TX_SOFTWARE |
-> +			SOF_TIMESTAMPING_TX_HARDWARE |
-> +			SOF_TIMESTAMPING_RX_HARDWARE |
-> +			SOF_TIMESTAMPING_RAW_HARDWARE;
-> +		info->tx_types = (1 << HWTSTAMP_TX_OFF) | (1 << HWTSTAMP_TX_ON);
-> +		info->rx_filters =
-> +			(1 << HWTSTAMP_FILTER_NONE) |
-> +			(1 << HWTSTAMP_FILTER_PTP_V2_L2_EVENT) |
-> +			(1 << HWTSTAMP_FILTER_ALL);
->  		info->phc_index = ptp_clock_index(priv->ptp.clock);
-> -	else
-> -		info->phc_index = 0;
+> -static int rzg2l_cru_mc_validate_format(struct rzg2l_cru_dev *cru,
+> -					struct v4l2_subdev *sd,
+> -					struct media_pad *pad)
+> -{
+> -	struct v4l2_subdev_format fmt = {
+> -		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+> -	};
+> -
+> -	fmt.pad = pad->index;
+> -	if (v4l2_subdev_call_state_active(sd, pad, get_fmt, &fmt))
+> -		return -EPIPE;
+> -
+> -	switch (fmt.format.code) {
+> -	case MEDIA_BUS_FMT_UYVY8_1X16:
+> -		break;
+> -	default:
+> -		return -EPIPE;
+> -	}
+> -
+> -	switch (fmt.format.field) {
+> -	case V4L2_FIELD_TOP:
+> -	case V4L2_FIELD_BOTTOM:
+> -	case V4L2_FIELD_NONE:
+> -	case V4L2_FIELD_INTERLACED_TB:
+> -	case V4L2_FIELD_INTERLACED_BT:
+> -	case V4L2_FIELD_INTERLACED:
+> -	case V4L2_FIELD_SEQ_TB:
+> -	case V4L2_FIELD_SEQ_BT:
+> -		break;
+> -	default:
+> -		return -EPIPE;
+> -	}
+> -
+> -	if (fmt.format.width != cru->format.width ||
+> -	    fmt.format.height != cru->format.height)
+> -		return -EPIPE;
+> -
+> -	return 0;
+> -}
+> -
+>  static void rzg2l_cru_set_slot_addr(struct rzg2l_cru_dev *cru,
+>  				    int slot, dma_addr_t addr)
+>  {
+> @@ -531,10 +491,6 @@ static int rzg2l_cru_set_stream(struct rzg2l_cru_dev *cru, int on)
+>  		return stream_off_ret;
+>  	}
+>  
+> -	ret = rzg2l_cru_mc_validate_format(cru, sd, pad);
+> -	if (ret)
+> -		return ret;
+> -
+>  	pipe = media_entity_pipeline(&sd->entity) ? : &cru->vdev.pipe;
+>  	ret = video_device_pipeline_start(&cru->vdev, pipe);
+>  	if (ret)
+> @@ -995,6 +951,52 @@ static const struct v4l2_file_operations rzg2l_cru_fops = {
+>  	.read		= vb2_fop_read,
+>  };
+>  
+> +/* -----------------------------------------------------------------------------
+> + * Media entity operations
+> + */
+> +
+> +static int rzg2l_cru_video_link_validate(struct media_link *link)
+> +{
+> +	struct v4l2_subdev_format fmt = {
+> +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+> +	};
+> +	const struct rzg2l_cru_ip_format *video_fmt;
+> +	const struct rzg2l_cru_ip_format *ip_fmt;
+> +	struct v4l2_subdev *subdev;
+> +	struct rzg2l_cru_dev *cru;
+> +	struct media_pad *remote;
+> +	int ret;
+> +
+> +	remote = link->source;
+> +	subdev = media_entity_to_v4l2_subdev(remote->entity);
+> +	fmt.pad = remote->index;
 
-   Is it OK to remove this line?
+	subdev = media_entity_to_v4l2_subdev(link->source->entity);
+	fmt.pad = link->source->index;
 
-> +	}
-[...]
+and drop the remote variable. Or, if you prefer keeping it, rename it to
+source.
 
-MBR, Sergey
+> +	ret = v4l2_subdev_call(subdev, pad, get_fmt, NULL, &fmt);
+> +	if (ret < 0)
+> +		return ret == -ENOIOCTLCMD ? -EINVAL : ret;
+> +
+> +	cru = container_of(media_entity_to_video_device(link->sink->entity),
+> +			   struct rzg2l_cru_dev, vdev);
+> +	video_fmt = rzg2l_cru_ip_format_to_fmt(cru->format.pixelformat);
+> +	if (!video_fmt)
+> +		return -EPIPE;
 
+Can this happen, doesn't the s_fmt handler on the video device ensure
+that pixelformat is always valid.
+
+> +	ip_fmt = rzg2l_cru_ip_code_to_fmt(fmt.format.code);
+> +	if (!ip_fmt)
+> +		return -EPIPE;
+
+Same question here.
+
+> +
+> +	if (fmt.format.width != cru->format.width ||
+> +	    fmt.format.height != cru->format.height ||
+> +	    fmt.format.field != cru->format.field ||
+> +	    video_fmt->code != fmt.format.code ||
+> +	    ip_fmt->format != cru->format.pixelformat)
+
+The last two line seem to implement the same check.
+
+> +		return -EPIPE;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct media_entity_operations rzg2l_cru_video_media_ops = {
+> +	.link_validate = rzg2l_cru_video_link_validate,
+> +};
+> +
+>  static void rzg2l_cru_v4l2_init(struct rzg2l_cru_dev *cru)
+>  {
+>  	struct video_device *vdev = &cru->vdev;
+> @@ -1006,6 +1008,7 @@ static void rzg2l_cru_v4l2_init(struct rzg2l_cru_dev *cru)
+>  	vdev->lock = &cru->lock;
+>  	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
+>  	vdev->device_caps |= V4L2_CAP_IO_MC;
+> +	vdev->entity.ops = &rzg2l_cru_video_media_ops;
+>  	vdev->fops = &rzg2l_cru_fops;
+>  	vdev->ioctl_ops = &rzg2l_cru_ioctl_ops;
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
 
