@@ -1,120 +1,124 @@
-Return-Path: <linux-renesas-soc+bounces-9500-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9501-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37DEF992621
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 09:34:29 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB8EA992697
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 10:06:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DBB781F23C03
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 07:34:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7815D1F22947
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 08:06:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F40FB17D896;
-	Mon,  7 Oct 2024 07:34:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12C7A187855;
+	Mon,  7 Oct 2024 08:05:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="G/k1s40U"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5569E1474D3;
-	Mon,  7 Oct 2024 07:34:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C04849C;
+	Mon,  7 Oct 2024 08:05:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728286463; cv=none; b=mGcNaRtNZ4QAVaLIeIjNFxPRO40F+C3EW12iw2gI/cAdI1qP9MgzuLk05qS2TIq0VD3Ur/vEsBuFZU2eJ90X76ZGuuoDoURYytTcoWVoX2RkwPoPBJJ2zyEAQfRSw3fiWR2xGLYmLa30WLd7WyUNCl6sPLbe/azb4A1457Bs1w4=
+	t=1728288358; cv=none; b=lNPJWLCBUFYZKKhEWOrRelLFI+pGbwh7a8cwMBOywrxjBcXoCKNyMlURhuO2VKjNc0lsBOqqcT8SU0jYflJ7TPQmzldKLXcBxRxc6IiOk6S+dCWKHKpu3WbScAuEV2G5MO7pbA/Zs6lAPFxn0F10Vr75ocPF8YJd7O2tLgTMu/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728286463; c=relaxed/simple;
-	bh=ings//53iSPok57627iEVA5z/RnFfqIespIGuRGEl74=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Jzr8J6r/tEFQWlZ6wsEZAtGFE4+2ioRqxWs+BWMdo3u51/NHTzk317QGBXDliKrhGURUWACEMw7MjWzsZRFJiGAwza+/4xbDVTKumGm/h7/0GIx6JgarBQbQgBxSlb+bT6iwg7Swsw3K3w+DhoD9ZrxY+PrLWX6NlNAuqLkibAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-6e2d2447181so16453247b3.1;
-        Mon, 07 Oct 2024 00:34:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728286461; x=1728891261;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FOF4rJdnfIcVDZg9EVo9p2L3jHN7dhzA7HQIUAeLxSs=;
-        b=pmckgXzyAN2lnH+0rzjSGinJ9jgyH1G20V08rXLL7lzm3G+HDLsg5jQXkLfA1N87w1
-         bHsl7AOxpuzID34kRhCt1VZ/IYYdINnCWKZ2LDI7oziYWPbtZ5p/oWhkiQ1d5+Twgdwg
-         BgWFYuZZjgp3pDItNUM3+No+Cv7t7quN5Hyk1reUzpD7iR8EvSJrQ69EYDM5HT9oe24c
-         6BSYXdQvluqPaWpRGDiZkQg1GJ9kE2/CnT/Ja7B2G0T9v0K1GPDpEac+9KYRXodigOw5
-         8Gp1bttcLWyWet6a5r6nFh4oC2uYppd1AW1zaun4YAXbss2opFNhLiZLPymj3DXJlGM6
-         59Qw==
-X-Forwarded-Encrypted: i=1; AJvYcCVkemC/kegPrMZLPDa67Z/pCz55R6oPtvvldHb4zvlueaqCcY6zep0tNg+3Ts5A/bPhJYjoBTN1uwQlvh/rrhvs5UU=@vger.kernel.org, AJvYcCWtFGV1uX80TKF5woQ6r6e2RJ5H595/FynSD6doCXkoDyaMersdAqOrRJHGWD5a4EdJMifMUB0qJjrB@vger.kernel.org, AJvYcCXcYFvaTPUKtMAh1xespQuUkYdJHd/OmGiOVRKZgS4Ewr70UTsC+rJrGK+TPEmb+tsUj5aY9Gy+hEFw@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9DR8lxu1RulD7v50GY7fjX/8tJ0hq6X9ZKBO8wCiuNrD7jhI9
-	NpuaXBJF69TlEFRknA/8XGfr3OFjMaLV+sMT1Em3HjsdfEsx2ohLP1g5dXyA
-X-Google-Smtp-Source: AGHT+IFfcMRngHYlBWJZge/qaYPmaABNqjdPxv8UYsSG7/sEfmE78uZkwV/Ny8kbvVFdccSUczAzqA==
-X-Received: by 2002:a05:690c:60c7:b0:6de:1e2:d66a with SMTP id 00721157ae682-6e2c6fc803cmr83813817b3.2.1728286460646;
-        Mon, 07 Oct 2024 00:34:20 -0700 (PDT)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e2d9280254sm9492147b3.46.2024.10.07.00.34.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Oct 2024 00:34:20 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6e2e508bd28so8345887b3.2;
-        Mon, 07 Oct 2024 00:34:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWuHWGJKj0L5yoXEH7bDJKn34ABhu2QsVvGmIjudPxooIBpxWoT0zgSAnTkU+oH8tssLzXlMSVPGmaa@vger.kernel.org, AJvYcCXY1n6vmn8sJ+PuGXT4cXcnXajwlUyonW8I1gwxjsK21LX5nKlT2il75OcDZsrh6xiEKTTu+86hffau@vger.kernel.org, AJvYcCXqHaqCxN/bODIeEEnYxoMQlI4Awmf4PzRcCbsWnR1UoMB2vGjdKq4IHC+Mo5duKBnlv3oICUb/n99ifFNGqJVFNlo=@vger.kernel.org
-X-Received: by 2002:a05:690c:60c7:b0:6de:1e2:d66a with SMTP id
- 00721157ae682-6e2c6fc803cmr83813567b3.2.1728286459996; Mon, 07 Oct 2024
- 00:34:19 -0700 (PDT)
+	s=arc-20240116; t=1728288358; c=relaxed/simple;
+	bh=waUV4a7mutxzrLnl05aUF1spDLiYo3LFIffRAYq+buw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LpzGJoqBdIAPSHDR5DcEVwCADHgXiitG3yZ/fBrW0V3X0PS9Kt9AqURzDkf85gibLSE49KpboL/SA59QnT2tUTBQ5RRjZZDLeDL4t/L+eD+eiMxDL22gGoE+yL6+B3zI9g3gf1NUSSBOGzDU1RyeRg8+WmCOs/zjN3CWoUsp0tI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=G/k1s40U; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=ZkOxRoRypHAVQgVjyqb7heF/q9DLPK8SmPxFVAuphQI=; b=G/k1s40Ulb10wWe2CvPP9H8zku
+	QyoRAgzReOYMUcvY1lT5FklGPJb9trwS8HWM5iKC2m2ws7E5TBIouShElZ6rUqd7aL1NY7tFFpVKE
+	wqInKhrzG35pjz7jHf4OdIyFp3xZtpyrQXwDcYsiY6x/GxEZc2Jw5mZA5rcEBBcKbM2WHNg1Fdfs2
+	kNbk1NVQV/19IsFaacmsHaoCamjIA1H2jsOPU65USw0roLxH03+ZCKnQBXaVtJ7nLQr2BB8WSp9q/
+	pK0Qc7UupO3XNZW14pv9HT2V5bQRXcSXjTwLYdsqnGept/bPGsRtLZYkPMGkRaEsXJw7YIF5kf8hC
+	Rg1jWntw==;
+Received: from i5e860d18.versanet.de ([94.134.13.24] helo=phil.lan)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1sxik7-0004Pv-F9; Mon, 07 Oct 2024 10:05:23 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Adam Ford <aford173@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Xiubo Li <Xiubo.Lee@gmail.com>,
+	Adrien Grassein <adrien.grassein@gmail.com>,
+	Lubomir Rintel <lkundrak@v3.sk>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Mark Brown <broonie@kernel.org>
+Cc: Heiko Stuebner <heiko@sntech.de>,
+	linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	linux-kernel@vger.kernel.org,
+	linux-mips@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	imx@lists.linux.dev,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org
+Subject: Re: (subset) [PATCH treewide 00/11] ASoC: Clean up {hp,mic}-det-gpio handling
+Date: Mon,  7 Oct 2024 10:05:20 +0200
+Message-ID: <172814935870.2376693.17979672250689687487.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1727438777.git.geert+renesas@glider.be>
+References: <cover.1727438777.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241001124310.2336-1-wsa+renesas@sang-engineering.com>
- <20241001124310.2336-3-wsa+renesas@sang-engineering.com> <qifp4hpndfhe6jlmzjmngr7uolfzvj663donhjg5x7kmeb4ey3@a2a66w5l35zf>
- <ZvzqPkUPmurHf-fu@ninjato> <CAMuHMdXzCYBn+MPz-tdcP7wJRkdQspU0ZmszMv4Uj7VWpTYR4A@mail.gmail.com>
- <ZwBIk0DZ6on8eEIm@shikoro> <CAMuHMdXOtJrnbytGp65+kxB1Wf_rjA=dzGXHXREO3Xfd8igvtw@mail.gmail.com>
-In-Reply-To: <CAMuHMdXOtJrnbytGp65+kxB1Wf_rjA=dzGXHXREO3Xfd8igvtw@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 7 Oct 2024 09:34:08 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUQpHCpM7fYL6t9vgm4HYd0aaNCJwm5rt1LMft78m223A@mail.gmail.com>
-Message-ID: <CAMuHMdUQpHCpM7fYL6t9vgm4HYd0aaNCJwm5rt1LMft78m223A@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] dt-bindings: dma: rz-dmac: Document RZ/A1H SoC
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, Vinod Koul <vkoul@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, dmaengine@vger.kernel.org, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Wolfram,
+On Fri, 27 Sep 2024 14:42:15 +0200, Geert Uytterhoeven wrote:
+> 	Hi all,
+> 
+> The "gpio" suffix for GPIO consumers was deprecated a while ago, in
+> favor of the "gpios" suffix.  However, there are still several users of
+> the "hp-det-gpio" and "mic-det-gpio" properties, in DT bindings,
+> drivers, and DT source files.
+> 
+> [...]
 
-On Mon, Oct 7, 2024 at 9:30=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68k=
-.org> wrote:
-> On Fri, Oct 4, 2024 at 9:57=E2=80=AFPM Wolfram Sang
-> <wsa+renesas@sang-engineering.com> wrote:
-> > > According to the documentation, there is no bit in a Standby Control
-> > > Register to control the DMAC clock.  The driver doesn't care about th=
-e
-> > > clock or its rate, so you can use P0 if you want.
-> >
-> > Would you prefer using 'p0' or leaving this patch as is?
->
-> Leaving the patch as-is is fine for me.
+Applied, thanks!
 
-Upon second thought: the clock would only be used by the PM Domain
-code.  So without a clocks property, "power-domains =3D <&cpg_clocks>"
-would not make any sense, and the power-domains property should be
-made optional.  The pinctrl and irqc also don't have it.
+[06/11] arm64: dts: rockchip: Switch to simple-audio-card,hp-det-gpios
+        commit: 7ac5c0a592f73fdc52393f6469ce8211ff3e771f
+[07/11] arm64: dts: rockchip: Switch to hp-det-gpios
+        commit: 3ca743f8a5b568dc5e5d5f1bab0298a4a43c2360
 
-Gr{oetje,eeting}s,
+after the binding change from patch 02 got merged into the sound tree
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Best regards,
+-- 
+Heiko Stuebner <heiko@sntech.de>
 
