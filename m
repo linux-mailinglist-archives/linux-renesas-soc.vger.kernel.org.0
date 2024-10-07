@@ -1,177 +1,212 @@
-Return-Path: <linux-renesas-soc+bounces-9544-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9545-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2273B993620
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 20:25:22 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0291993649
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 20:34:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D16DD282768
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 18:25:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3E66EB20E90
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 18:34:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 949C51DDC36;
-	Mon,  7 Oct 2024 18:25:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DE421D7E52;
+	Mon,  7 Oct 2024 18:34:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XCyyi/UW"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jY9AcaH/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE8C1DDC0C;
-	Mon,  7 Oct 2024 18:25:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4FB1DD52D
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Oct 2024 18:34:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728325508; cv=none; b=azp4sSUPmMSBj5xlU06EA0lCmK3JyVhDlmLp5RY5r77NJwhAX7pgkx/zBF8xAnreSwuUZWZVev+enyxGhNJ+H8WCSngvJ0aQlmfe1zE07jgjXPLhXQVqj/93VWh4ES7efINiK4DO6Ap4bR0wePOEqqmi6y9lptsZ/EzJv9S69XU=
+	t=1728326082; cv=none; b=HzJC9j53izkFKjc/MiA0oyCIoODP10z+DbGZSEiYX9nd87UACYmheZ0tRfuHmTR7gP/I6kLiYHGOsOY/QGT4nu636Aw5wYiis0oZ2e2GymeWD6EmsSIOHKpCTzy0ZxgwwNJVH+vgQ/s5AQkCnaWm2Ss1kbJvyyP+bhstBhV+wiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728325508; c=relaxed/simple;
-	bh=I1laxIx6uj2eMvTU6YxrqrxVj8tbVyjB/oXOOYwD9kM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=H/PooK9X4yQVdPc7H4OJyYguszvIDeGUe2Ng1BRlWPCoEeYRMHL2DHOZJup9FjSTos8oKmW2U7yLTPWTF6Y16x8aiwKPapVq3nRuWdluZS5z6/zGjoUXWmcJ3G8lRWzSfYzzMf7pXf2iaTkTW62oyEGvKdCyFT8Pfta0MEVqnRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XCyyi/UW; arc=none smtp.client-ip=209.85.221.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-50792ed3ad9so1342186e0c.3;
-        Mon, 07 Oct 2024 11:25:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728325506; x=1728930306; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b+i+MfgMNbb6REMbZ9LEKkQ4cTCE2FPAazrxAKZ/Ogk=;
-        b=XCyyi/UWqf8uygrVzy/xnJz4sXr9xCSZYSDTz7fuRhHmoBENSaxZuA1I2iaLPiF76S
-         aPb5zXuVwubbYQJWIp6iOQqT7ytQt2B222N6Gkv0MqEBDgDQjw43gOu6+4O6kFcYlIdQ
-         7TAbYWRZ+4YN4eDh9VhkOHJH+oQFkU669Ov8WrLNUAaFxm7yWX46P8lInvVjxNxcP/+Z
-         LDTDrtd6VsryaY+vGlZjISgg9iIO/U25tyvDX+qQtoIduiD8vG7vv41K3psxU/gE7P0/
-         icUKkTVkTr6Z7fP87LClOcWSuLJ1s7/VoQyhw7PY5HGhnGT7dKcjNO3O8tGw7v5SFHHx
-         ICfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728325506; x=1728930306;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=b+i+MfgMNbb6REMbZ9LEKkQ4cTCE2FPAazrxAKZ/Ogk=;
-        b=gAWRIiv95mPfIF2xfRoLkkaZ5j7sL/kGv3JAn4bBiYaHwL7k5SN6Be/HLjiQWk23wA
-         +bHSsRvT7hYIFcVwMfNeZ5UdaOeqM2custjpV5RiAyMKlL9vF5P3MqfXzWHe0TmJmbAp
-         DZFyKp4cQv/erHY8btrQ/PFhoF+irR2v+042HJGsxvxCmyMSvRkmSkBtoJlP+hvNEPk9
-         y8/1dvBY8qpp9VKxmq/geDByN8AOYLd7k0x+HaPaNTf0WxyTIXCmfhqzg4JDwLrkLERh
-         zqyN5DgvNeu7UJ0jjzk5qUBxjO2PO5dkTyiQ9eaPgAp7fEYKNZchaj1+mCUbmlbAzXKZ
-         DAkw==
-X-Forwarded-Encrypted: i=1; AJvYcCWX1q5K1Z2AS/gPHCeeis1mFtVrU+VzY0QdcQ3sv9kw1UXZeBnJH9OMarVUEQef8WZ4tn66f1H4F9Bw@vger.kernel.org, AJvYcCWy2GuotWSfbGURLnT3JTOn3mlf7+Fvch0h5asDuqU0kQhonNNHfswTBfTOughs86qDwVOfuVywG6j1SQGzodVkpp8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIHyYhW2B55NtMIWrtVqcoefWZtJOAiUxH2ZObOl9Md2UvfuGc
-	QrA94iHBy3H/5lrvPgZzlToz7JM+OTJ7bCRi8z7NKAbldI+O7gwXwtY4kYhLmkIVd7RN3bmszFb
-	WzWtiJbwp2ko7R+Se0k2PVj4nb0M=
-X-Google-Smtp-Source: AGHT+IHZFB+sY5pDHcjuevdTp0+pB+9v3eTbcqOZ7GOuIwMO8dOBjpFyTrQxrDe7UT2luQSZnElAHn+Nbf275OjZxK4=
-X-Received: by 2002:a05:6122:1822:b0:509:197b:3e2 with SMTP id
- 71dfb90a1353d-50c85594bbemr8691164e0c.11.1728325505854; Mon, 07 Oct 2024
- 11:25:05 -0700 (PDT)
+	s=arc-20240116; t=1728326082; c=relaxed/simple;
+	bh=q5D66AwD7t/MDxnLc31Tb4jBA2nqUWIbHJSQpklINi4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oKzMnLi3MOFl619pJW6ZLRpToecUA+wRuhE4jxnfOyadXcgB7BTccyr/7d7jjpaNc5LqXaHhA/+9rODAnXnn0t5LKzXIxWXOc9t6K1Je/WfPpb1lqeOj2Yps7+UphjO7GzEQOkJF53+nDgFve02bGoANoLw8mQtJ6jcfIzwzQ5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jY9AcaH/; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (unknown [132.205.230.14])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A362AD49;
+	Mon,  7 Oct 2024 20:33:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1728325983;
+	bh=q5D66AwD7t/MDxnLc31Tb4jBA2nqUWIbHJSQpklINi4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jY9AcaH/pV+T/arx8r0RJDeLeQX7CoF1BKXKBUHIQ0aJpznqKB2Sm24yk2YZZPEZm
+	 YAyqoaqZJIHHfO0sy6UlgluOtS/cPTK9VfR4/NnahCR+sXcdxqfE7FN1yfFLYQAgT9
+	 OvS/qXnzUKl0OuA1tb2KU0WGkK/hK5+yRlc0YwFk=
+Date: Mon, 7 Oct 2024 21:34:33 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: Re: [PATCH] drm: renesas: rz-du: rzg2l_du_crtc: Fix max dot clock
+ for DPI
+Message-ID: <20241007183433.GE14766@pendragon.ideasonboard.com>
+References: <20241005153733.109607-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1728045620.git.geert+renesas@glider.be> <4ee2e3e1e0e174782bd4d2af44bb6150d24af551.1728045620.git.geert+renesas@glider.be>
-In-Reply-To: <4ee2e3e1e0e174782bd4d2af44bb6150d24af551.1728045620.git.geert+renesas@glider.be>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 7 Oct 2024 19:24:39 +0100
-Message-ID: <CA+V-a8tFwER5yEnDPqi1Uv3yHJtqQkb7DQEwYAXjRHzEiMwC6Q@mail.gmail.com>
-Subject: Re: [PATCH 17/20] arm64: dts: renesas: Use interrupts-extended for
- video decoders
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241005153733.109607-1-biju.das.jz@bp.renesas.com>
 
-On Fri, Oct 4, 2024 at 2:27=E2=80=AFPM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
-> Use the more concise interrupts-extended property to fully describe the
-> interrupts.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Hi Biju,
+
+Thank you for the patch.
+
+On Sat, Oct 05, 2024 at 04:37:31PM +0100, Biju Das wrote:
+> As per the RZ/G2UL hardware manual Table 33.4 Clock List, the maximum
+> dot clock for the DPI interface is 83.5 MHz. Add mode_valid callback
+> to reject modes greater than 83.5 MHz.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
->  arch/arm64/boot/dts/renesas/ebisu.dtsi                     | 5 ++---
->  .../dts/renesas/r8a77970-eagle-function-expansion.dtso     | 7 +++----
->  arch/arm64/boot/dts/renesas/salvator-common.dtsi           | 5 ++---
->  3 files changed, 7 insertions(+), 10 deletions(-)
->
-Reviewed-by:  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Before applying the patch:
+> root@smarc-rzg2ul:~# modetest -M rzg2l-du
+> Encoders:
+> id      crtc    type    possible crtcs  possible clones
+> 37      36      none    0x00000001      0x00000001
+> 
+> Connectors:
+> id      encoder status          name            size (mm)       modes   encoders
+> 38      37      connected       HDMI-A-1        520x320         30      37
+>   modes:
+>         index name refresh (Hz) hdisp hss hse htot vdisp vss vse vtot)
+>   #0 1920x1080 59.72 1920 1968 2000 2080 1080 1082 1087 1111 138000 flags: phsync, nvsync; type: preferred, driver
+>   #1 1920x1080 60.00 1920 2008 2052 2200 1080 1084 1089 1125 148500 flags: phsync, pvsync; type: driver
+>   #2 1920x1080 59.94 1920 2008 2052 2200 1080 1084 1089 1125 148352 flags: phsync, pvsync; type: driver
+>   #3 1920x1080 59.94 1920 2008 2052 2200 1080 1084 1089 1125 148352 flags: phsync, pvsync; type: driver
+>   #4 1280x1024 75.02 1280 1296 1440 1688 1024 1025 1028 1066 135000 flags: phsync, pvsync; type: driver
+>   #5 1280x1024 60.02 1280 1328 1440 1688 1024 1025 1028 1066 108000 flags: phsync, pvsync; type: driver
+>   #6 1152x864 75.00 1152 1216 1344 1600 864 865 868 900 108000 flags: phsync, pvsync; type: driver
+>   #7 1280x720 60.00 1280 1390 1430 1650 720 725 730 750 74250 flags: phsync, pvsync; type: userdef, driver
+>   #8 1280x720 59.94 1280 1390 1430 1650 720 725 730 750 74176 flags: phsync, pvsync; type: driver
+>   #9 1280x720 50.00 1280 1720 1760 1980 720 725 730 750 74250 flags: phsync, pvsync; type: driver
+>   ...
+> After applying the patch:
+> root@smarc-rzg2ul:~# modetest -M rzg2l-du
+> Encoders:
+> id      crtc    type    possible crtcs  possible clones
+> 37      36      none    0x00000001      0x00000001
+> 
+> Connectors:
+> id      encoder status          name            size (mm)       modes   encoders
+> 38      37      connected       HDMI-A-1        520x320         23      37
+>   modes:
+>         index name refresh (Hz) hdisp hss hse htot vdisp vss vse vtot)
+>   #0 1280x720 60.00 1280 1390 1430 1650 720 725 730 750 74250 flags: phsync, pvsync; type: driver
+>   #1 1280x720 59.94 1280 1390 1430 1650 720 725 730 750 74176 flags: phsync, pvsync; type: driver
+>   #2 1280x720 50.00 1280 1720 1760 1980 720 725 730 750 74250 flags: phsync, pvsync; type: driver
+>   #3 1280x720 50.00 1280 1720 1760 1980 720 725 730 750 74250 flags: phsync, pvsync; type: driver
+>   #4 1024x768 75.03 1024 1040 1136 1312 768 769 772 800 78750 flags: phsync, pvsync; type: driver
+>   #5 1024x768 70.07 1024 1048 1184 1328 768 771 777 806 75000 flags: nhsync, nvsync; type: driver
+>   #6 1024x768 60.00 1024 1048 1184 1344 768 771 777 806 65000 flags: nhsync, nvsync; type: driver
+>   #7 1080x607 59.97 1080 1120 1232 1384 607 608 611 629 52210 flags: nhsync, pvsync; type:
+>   #8 832x624 74.55 832 864 928 1152 624 625 628 667 57284 flags: nhsync, nvsync; type: driver
+>   #9 800x600 75.00 800 816 896 1056 600 601 604 625 49500 flags: phsync, pvsync; type: driver
+>   ...
+> ---
+>  drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c | 43 +++++++++++++++++++
+>  1 file changed, 43 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
+> index 6e7aac6219be..650a2e40caf5 100644
+> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
+> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
+> @@ -248,6 +248,32 @@ static void rzg2l_du_crtc_stop(struct rzg2l_du_crtc *rcrtc)
+>   * CRTC Functions
+>   */
+>  
+> +static int rzg2l_du_crtc_atomic_check(struct drm_crtc *crtc,
+> +				      struct drm_atomic_state *state)
+> +{
+> +	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
+> +									  crtc);
+> +	struct rzg2l_du_crtc_state *rstate = to_rzg2l_crtc_state(crtc_state);
+> +	struct drm_encoder *encoder;
+> +
+> +	/* Store the routes from the CRTC output to the DU outputs. */
+> +	rstate->outputs = 0;
+> +
+> +	drm_for_each_encoder_mask(encoder, crtc->dev,
+> +				  crtc_state->encoder_mask) {
+> +		struct rzg2l_du_encoder *renc;
+> +
+> +		/* Skip the writeback encoder. */
+> +		if (encoder->encoder_type == DRM_MODE_ENCODER_VIRTUAL)
+> +			continue;
+> +
+> +		renc = to_rzg2l_encoder(encoder);
+> +		rstate->outputs |= BIT(renc->output);
+> +	}
+> +
+> +	return 0;
+> +}
 
-Cheers,
-Prabhakar
+rstate->outputs is used in rzg2l_du_start_stop() but is never
+initialized. It looks like adding this function is a bug fix by itself,
+I'd split it to a separate patch.
 
-> diff --git a/arch/arm64/boot/dts/renesas/ebisu.dtsi b/arch/arm64/boot/dts=
-/renesas/ebisu.dtsi
-> index b4e0347d3617a83e..ab8283656660059a 100644
-> --- a/arch/arm64/boot/dts/renesas/ebisu.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/ebisu.dtsi
-> @@ -434,10 +434,9 @@ video-receiver@70 {
->                 compatible =3D "adi,adv7482";
->                 reg =3D <0x70>;
->
-> -               interrupt-parent =3D <&gpio0>;
-> +               interrupts-extended =3D <&gpio0 7 IRQ_TYPE_LEVEL_LOW>,
-> +                                     <&gpio0 17 IRQ_TYPE_LEVEL_LOW>;
->                 interrupt-names =3D "intrq1", "intrq2";
-> -               interrupts =3D <7 IRQ_TYPE_LEVEL_LOW>,
-> -                            <17 IRQ_TYPE_LEVEL_LOW>;
->
->                 ports {
->                         #address-cells =3D <1>;
-> diff --git a/arch/arm64/boot/dts/renesas/r8a77970-eagle-function-expansio=
-n.dtso b/arch/arm64/boot/dts/renesas/r8a77970-eagle-function-expansion.dtso
-> index 3aa243c5f04c8022..9450d8ac94cbe977 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a77970-eagle-function-expansion.dtso
-> +++ b/arch/arm64/boot/dts/renesas/r8a77970-eagle-function-expansion.dtso
-> @@ -82,8 +82,7 @@ hdmi-decoder@4c {
->                 compatible =3D "adi,adv7612";
->                 reg =3D <0x4c>, <0x50>, <0x52>, <0x54>, <0x56>, <0x58>;
->                 reg-names =3D "main", "afe", "rep", "edid", "hdmi", "cp";
-> -               interrupt-parent =3D <&gpio3>;
-> -               interrupts =3D <2 IRQ_TYPE_LEVEL_LOW>;
-> +               interrupts-extended =3D <&gpio3 2 IRQ_TYPE_LEVEL_LOW>;
->                 default-input =3D <0>;
->
->                 ports {
-> @@ -114,8 +113,8 @@ video-receiver@70 {
->                        0x60 0x61 0x62 0x63 0x64 0x65>;
->                 reg-names =3D "main", "dpll", "cp", "hdmi", "edid", "repe=
-ater",
->                             "infoframe", "cbus", "cec", "sdp", "txa", "tx=
-b" ;
-> -               interrupt-parent =3D <&gpio3>;
-> -               interrupts =3D <03 IRQ_TYPE_LEVEL_LOW>, <04 IRQ_TYPE_LEVE=
-L_LOW>;
-> +               interrupts-extended =3D <&gpio3 3 IRQ_TYPE_LEVEL_LOW>,
-> +                                     <&gpio3 4 IRQ_TYPE_LEVEL_LOW>;
->                 interrupt-names =3D "intrq1", "intrq2";
->
->                 ports {
-> diff --git a/arch/arm64/boot/dts/renesas/salvator-common.dtsi b/arch/arm6=
-4/boot/dts/renesas/salvator-common.dtsi
-> index 08f4e35c414ebbcf..269cda6fae21de70 100644
-> --- a/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-> @@ -544,10 +544,9 @@ video-receiver@70 {
->                 reg-names =3D "main", "dpll", "cp", "hdmi", "edid", "repe=
-ater",
->                             "infoframe", "cbus", "cec", "sdp", "txa", "tx=
-b" ;
->
-> -               interrupt-parent =3D <&gpio6>;
-> +               interrupts-extended =3D <&gpio6 30 IRQ_TYPE_LEVEL_LOW>,
-> +                                     <&gpio6 31 IRQ_TYPE_LEVEL_LOW>;
->                 interrupt-names =3D "intrq1", "intrq2";
-> -               interrupts =3D <30 IRQ_TYPE_LEVEL_LOW>,
-> -                            <31 IRQ_TYPE_LEVEL_LOW>;
->
->                 ports {
->                         #address-cells =3D <1>;
-> --
-> 2.34.1
->
->
+> +
+>  static void rzg2l_du_crtc_atomic_enable(struct drm_crtc *crtc,
+>  					struct drm_atomic_state *state)
+>  {
+> @@ -295,10 +321,27 @@ static void rzg2l_du_crtc_atomic_flush(struct drm_crtc *crtc,
+>  	rzg2l_du_vsp_atomic_flush(rcrtc);
+>  }
+>  
+> +static enum drm_mode_status
+> +rzg2l_du_crtc_mode_valid(struct drm_crtc *crtc,
+> +			 const struct drm_display_mode *mode)
+> +{
+> +	struct rzg2l_du_crtc *rcrtc = to_rzg2l_crtc(crtc);
+> +	struct rzg2l_du_crtc_state *rstate =
+> +					to_rzg2l_crtc_state(rcrtc->crtc.state);
+
+I'm not sure that's the right state. When .move_valid() is called from
+mode_valid_path(), the state you need is I believe the new state, not
+the current state. The issue is that you don't have access to the new
+state here.
+
+Wouldn't it be simpler to implement the .mode_valid() function of
+drm_encoder ? Then you could check renc->output, you wouldn't have to
+deal with the state.
+
+> +
+> +	if ((rstate->outputs & BIT(RZG2L_DU_OUTPUT_DPAD0)) &&
+> +	    mode->clock > 83500)
+> +		return MODE_CLOCK_HIGH;
+> +
+> +	return MODE_OK;
+> +}
+> +
+>  static const struct drm_crtc_helper_funcs crtc_helper_funcs = {
+> +	.atomic_check = rzg2l_du_crtc_atomic_check,
+>  	.atomic_flush = rzg2l_du_crtc_atomic_flush,
+>  	.atomic_enable = rzg2l_du_crtc_atomic_enable,
+>  	.atomic_disable = rzg2l_du_crtc_atomic_disable,
+> +	.mode_valid = rzg2l_du_crtc_mode_valid,
+>  };
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
 
