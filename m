@@ -1,95 +1,85 @@
-Return-Path: <linux-renesas-soc+bounces-9501-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9502-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB8EA992697
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 10:06:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CCA29927B0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 10:59:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7815D1F22947
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 08:06:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7F88F1C20292
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 08:59:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12C7A187855;
-	Mon,  7 Oct 2024 08:05:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A51E18BB99;
+	Mon,  7 Oct 2024 08:59:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="G/k1s40U"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FY0NUkdW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C04849C;
-	Mon,  7 Oct 2024 08:05:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2C422087
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Oct 2024 08:59:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728288358; cv=none; b=lNPJWLCBUFYZKKhEWOrRelLFI+pGbwh7a8cwMBOywrxjBcXoCKNyMlURhuO2VKjNc0lsBOqqcT8SU0jYflJ7TPQmzldKLXcBxRxc6IiOk6S+dCWKHKpu3WbScAuEV2G5MO7pbA/Zs6lAPFxn0F10Vr75ocPF8YJd7O2tLgTMu/o=
+	t=1728291552; cv=none; b=BBlnt7H/Ba+P4Qe691x0tf4zDGo6HEcrWdgHuWN+sn3GqPR4m6EpVjSXGksX5HBBBcI2viFmw0r5cIoeJ1ShheU60vpPBEsYC6ZdHpGcYvL4WLt/hWNiS3p0Wiu+/qaXuf8Dlw96P+bbglosMWjI+zOnqLPMFtxQuhT0IYwi5z0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728288358; c=relaxed/simple;
-	bh=waUV4a7mutxzrLnl05aUF1spDLiYo3LFIffRAYq+buw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LpzGJoqBdIAPSHDR5DcEVwCADHgXiitG3yZ/fBrW0V3X0PS9Kt9AqURzDkf85gibLSE49KpboL/SA59QnT2tUTBQ5RRjZZDLeDL4t/L+eD+eiMxDL22gGoE+yL6+B3zI9g3gf1NUSSBOGzDU1RyeRg8+WmCOs/zjN3CWoUsp0tI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=G/k1s40U; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=ZkOxRoRypHAVQgVjyqb7heF/q9DLPK8SmPxFVAuphQI=; b=G/k1s40Ulb10wWe2CvPP9H8zku
-	QyoRAgzReOYMUcvY1lT5FklGPJb9trwS8HWM5iKC2m2ws7E5TBIouShElZ6rUqd7aL1NY7tFFpVKE
-	wqInKhrzG35pjz7jHf4OdIyFp3xZtpyrQXwDcYsiY6x/GxEZc2Jw5mZA5rcEBBcKbM2WHNg1Fdfs2
-	kNbk1NVQV/19IsFaacmsHaoCamjIA1H2jsOPU65USw0roLxH03+ZCKnQBXaVtJ7nLQr2BB8WSp9q/
-	pK0Qc7UupO3XNZW14pv9HT2V5bQRXcSXjTwLYdsqnGept/bPGsRtLZYkPMGkRaEsXJw7YIF5kf8hC
-	Rg1jWntw==;
-Received: from i5e860d18.versanet.de ([94.134.13.24] helo=phil.lan)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1sxik7-0004Pv-F9; Mon, 07 Oct 2024 10:05:23 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Adam Ford <aford173@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Adrien Grassein <adrien.grassein@gmail.com>,
-	Lubomir Rintel <lkundrak@v3.sk>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Mark Brown <broonie@kernel.org>
-Cc: Heiko Stuebner <heiko@sntech.de>,
-	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	linux-kernel@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	imx@lists.linux.dev,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: Re: (subset) [PATCH treewide 00/11] ASoC: Clean up {hp,mic}-det-gpio handling
-Date: Mon,  7 Oct 2024 10:05:20 +0200
-Message-ID: <172814935870.2376693.17979672250689687487.b4-ty@sntech.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1727438777.git.geert+renesas@glider.be>
-References: <cover.1727438777.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1728291552; c=relaxed/simple;
+	bh=vhhuZVVwnO9dfXwZL4BPPOq+7WM0qmen7HXYMzh80ho=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=e2zjuy99cELq+f4Oum7NCaI+KUAs0n7FZmrx7tqITHIvFAPerDN1blWe6qHWrRITthnvJvEELGMTEVSiTi8/RNt3sQahYQ/B/CM2uQjwGrp04CDjove9l/tjGMrga8QAuLL2czSnzbzQm1UHa7LQEuCP2HaxUQvcNLz9PcvthX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FY0NUkdW; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5c40aea5c40so8134819a12.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Oct 2024 01:59:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728291549; x=1728896349; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IEo25s673HAsL8MUxp/tEnXdM7P0s/y6pLj2SqPSQGU=;
+        b=FY0NUkdW9VsHnx0Tuzc3AaS01od3tHucAsfABmrWbC1O4tMBInkaTdLyYnckyowz0h
+         trOM1jDSipimBbaNmGqoD983WUMfY2Yp6WF6tNBZ0uHg0mC2UwnJP22cycNVNPmihmep
+         yxswevz8hbyC1+X6ZMjlvxuDWzC39rMRE+qc/Do2m9J+FQFfLEDXPoywO6nirI7Ik4HN
+         eBpSyVLN+rEMj1PF4pgsaW3LMiEKi/j0kbbjxLXXJSw0eJ2v/d0Sma/N4x+GhM5MxriI
+         aoabbrFN/7bJY59qVaPq6o1E9eRbr7mnLaa+UG8i1449OT/ALrRTWaxOJN/Vaye8DsWM
+         GXrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728291549; x=1728896349;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IEo25s673HAsL8MUxp/tEnXdM7P0s/y6pLj2SqPSQGU=;
+        b=rmA7xtp6N6G1uUBG1jTqytA35WJxuioPtRSFOAWRZcj4xE9aRocjcgfsfsPBjBJRs6
+         M1NavZ69HEqpdSlxpDkAfQ45wvt60p91Z2hbwhvFFKvk19tCQI83Y+B6qVooA7yb4JTB
+         YIuKlQqps8j/lPB47w/tREmchqISo6eEb4uhRzR4B+sOq376Jevtcm9H6IyJHQsFla+D
+         XjmYF52rXKA2xFSfacdYvQmpueZbTDzqT5g8d+PCO+nB4YYHxArb9O4ik8IDb5hXOc+U
+         GGTv3zPHCwpmUcLp+Nf7R7KA4zfidbxlRC/OwAkQzmRDWFnAEOWWGQk1dtm1IrCBEU4Q
+         mT6g==
+X-Forwarded-Encrypted: i=1; AJvYcCWoJlv0u2ID9TzeJq6gC0H2MSY0GifEElvGcoMBWufYDpt6Gcgiu1xeosfi6griUlV2DrRu8/2PAseAtCbAD9b45A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzg/Hb79c/295y5vhWmPis5h0DSwMMO7Q2tCo2oJrnwdOZK9WhQ
+	S7RpKxE5PwkhGoKH8yJr2bs5umo8taZ2DiuxqLCbzVRORsy+gb9lNVp9j7HkrpU=
+X-Google-Smtp-Source: AGHT+IFU35Uj2Uq4VSqbgLsUfMd1Mq0DfRI0CmQV3Jy3ET9jvkDSaLfTKu2e8F8U7CjKUALIfZjH3Q==
+X-Received: by 2002:a50:cbc7:0:b0:5c8:d9b8:9325 with SMTP id 4fb4d7f45d1cf-5c8d9b89425mr8000657a12.5.1728291549092;
+        Mon, 07 Oct 2024 01:59:09 -0700 (PDT)
+Received: from [192.168.68.111] ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c8e05945c3sm2947257a12.18.2024.10.07.01.59.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Oct 2024 01:59:08 -0700 (PDT)
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <cover.1727963347.git.geert+renesas@glider.be>
+References: <cover.1727963347.git.geert+renesas@glider.be>
+Subject: Re: (subset) [PATCH v3 resend 0/7] Add Renesas R-Car Gen4 E-FUSE
+ support
+Message-Id: <172829154816.179131.15672013040030058967.b4-ty@linaro.org>
+Date: Mon, 07 Oct 2024 09:59:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -97,28 +87,36 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.2
 
-On Fri, 27 Sep 2024 14:42:15 +0200, Geert Uytterhoeven wrote:
+
+On Thu, 03 Oct 2024 16:04:24 +0200, Geert Uytterhoeven wrote:
 > 	Hi all,
 > 
-> The "gpio" suffix for GPIO consumers was deprecated a while ago, in
-> favor of the "gpios" suffix.  However, there are still several users of
-> the "hp-det-gpio" and "mic-det-gpio" properties, in DT bindings,
-> drivers, and DT source files.
+> (another rc1, so time for a resend)
+> 
+> R-Car Gen3/Gen4 SoCs contain fuses indicating hardware support or
+> hardware parameters.  Unfortunately the various SoCs require different
+> mechanisms to read the state of the fuses:
+>   - On R-Car Gen3, the fuse monitor registers are in the middle of the
+>     Pin Function Controller (PFC) register block,
+>   - On R-Car V3U and S4-8, the E-FUSE non-volatile memory is accessible
+>     through a separate register block in the PFC,
+>   - On R-Car V4H and V4M, the E-FUSE non-volatile memory is accessible
+>     through the second register block of OTP_MEM.
 > 
 > [...]
 
 Applied, thanks!
 
-[06/11] arm64: dts: rockchip: Switch to simple-audio-card,hp-det-gpios
-        commit: 7ac5c0a592f73fdc52393f6469ce8211ff3e771f
-[07/11] arm64: dts: rockchip: Switch to hp-det-gpios
-        commit: 3ca743f8a5b568dc5e5d5f1bab0298a4a43c2360
-
-after the binding change from patch 02 got merged into the sound tree
+[1/7] dt-bindings: fuse: Move renesas,rcar-{efuse,otp} to nvmem
+      commit: 149e83f1b385661cae3a60cf27271e6ee53ea6e3
+[2/7] nvmem: Add R-Car E-FUSE driver
+      commit: 5ac5933d4e06647b83f6b971b18bc894903a83f2
 
 Best regards,
 -- 
-Heiko Stuebner <heiko@sntech.de>
+Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+
 
