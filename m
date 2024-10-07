@@ -1,150 +1,167 @@
-Return-Path: <linux-renesas-soc+bounces-9548-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9549-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2EE399365F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 20:39:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A33199368E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 20:49:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 956A11F2479C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 18:39:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5149328093B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 18:48:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 690ED1DDC3E;
-	Mon,  7 Oct 2024 18:38:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1E051DD9AD;
+	Mon,  7 Oct 2024 18:48:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MFIL+8Sj"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e8iiwJuI"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40C91DD549;
-	Mon,  7 Oct 2024 18:38:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B82D320F;
+	Mon,  7 Oct 2024 18:48:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728326336; cv=none; b=QsaUwcwtkaB1dzdAKciKgM6T6vvxNCVWJpXPfh22/3khMMAPPkn7e5+qPCuR50glYoFh4O3x3KUfZa7vmOOvaWPFEaLX1kYA/OjzfDN7Jy3UgvybVixMqty3WnBjWCWraT4lq3Ep2GQpWqrMkaa2HsD5eFZqweBJQtiJJf/c1uA=
+	t=1728326930; cv=none; b=XDHe+eN95Ls18uemJEZtMbGKJASqTzgHWajMNX9IAuyj8VZqpv6yiJFfMLZtavC4j1eeA39D7xpcsop/BoVxsp6rmWeSsmqKrOn8fwBjge5DKTrkUjOnfnDMrzNHf4M+shAMpoOYKFLUGm6HUXofYI+bLO+y29flfdj6ScBb7cc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728326336; c=relaxed/simple;
-	bh=WIRBrxbsoQ5r2D/903oeAriBOoYLj0hfWzhR3klC5UY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CF3gDyu/j+w4D354Xt6PELy4EHTV8DKxLKWBZ3ycpVAzR38BJ0DXUv7eB9+ZC3iOhGTnzHQf4JkSi0mbhUbADhh4yNJqBjxw7VxZWyInQdgZ/ec/Sj87t+B+pFEn3tA4Qj2rtlXvsuseHuxYjj8FjGuu2JlmDN1Dwg5JgLPun4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MFIL+8Sj; arc=none smtp.client-ip=209.85.221.180
+	s=arc-20240116; t=1728326930; c=relaxed/simple;
+	bh=njJJkeqdaAV652jJ0Jt7eQ9LNCzFRBRnnrx+2dFV3eE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XeVqNUbg+FbOVrtwo2L3+aJHkyg6E2GsosMc+U6sOFfY6PRYK98NM1PyOB7PIh5aoAHIqC8CgU0QiQ85BwH+E1+5s6ct52mM/MTALzWBJEvJcdXF/tx1mVCENUIiKFTbviIzFOipvVOGXY2XASrW2QelEgDeFm/GD1v92sdWr20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e8iiwJuI; arc=none smtp.client-ip=209.85.218.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-50792ed3b0bso1389780e0c.1;
-        Mon, 07 Oct 2024 11:38:54 -0700 (PDT)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a9932aa108cso397552966b.2;
+        Mon, 07 Oct 2024 11:48:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728326334; x=1728931134; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y3UVdzXWA8Tey/If7hJVlHOn/BvVYJ6mjPuuKEJYy8s=;
-        b=MFIL+8SjXbFVfNEEZ9+RiN/PeGUMwVQvuMds43GDPAvPRv8tBF4kxoZH8E8CGKo9zd
-         uDBvL48t9t1honAkB3MQZLEs/uATGD+ce6dKOjekc8QWUF+PPvPyxL01uo851/9n+3X2
-         iFpuumTCTdNOo409qcZiuBoIAZMV6tK5wIuz0QzHmG2TIRKAaafROLzbud6wxa5ijM/5
-         kPof6hPnacGZgMzB/tt5qy3q7gau9O8aloNdYxgaEgjyL5//Az8JuS6cCorz+nQ//uOp
-         kXTg1VVC63lOlKsuc6do0B7xZ8NqP7dAFdAsaTjmrXwR15TXoULICYSSj11Pa51J643w
-         U/sQ==
+        d=gmail.com; s=20230601; t=1728326927; x=1728931727; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EYUrN451FB7o3qKFIAmiroE8Q5bO7IF8luYbym8ajnE=;
+        b=e8iiwJuIfCSkJde8g9kL9ToWjXRqlCbWiUyX9bEDr7fQdHig89nOgN4SYUEMLtC0jm
+         jM870CqFTN/pHtjOv9G/h2mV7I6311FhPtrkCBQpLIEvIAPBVLztikR1Ry6c2NBNNVFG
+         nGWMJoYvH6tknd/ktcG5GpGaGQ0vWqez8YeP+sLriYDkUrM+Pgyp1FjtLJjV4rfvoSig
+         EX9tSJ+o0rKnh6v0FFaboeiVmUBMFq9aG+KZqswWEja5rdqWXQLrgYhB1ePreC/7ddlO
+         qSojsRYMs5zJtSeXzFv+TwLhATuOS3M3LnSoevO1AYiaIopDBYt21qotnRq5Isoj+p+m
+         Wd6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728326334; x=1728931134;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=y3UVdzXWA8Tey/If7hJVlHOn/BvVYJ6mjPuuKEJYy8s=;
-        b=AV2XEPNnClwYVdHVGYw5zyZhm9qZ9CNpb2savnfPVMhxmGKHEoONSAPk0Ya/AinQXv
-         mR958mKZBd+XC0FDJFD8NGjpSSEoSQ95MeDUz9kEd4LxcRDJ9XSrGW5J/E+N3l8Mc/9j
-         cpuKbsl02rs4L/peGUHaxbl36Fx/bTv2Fq19Llvqm3hEwwgn/2qf1XTmpz+nee2oMFHp
-         X0FxRKWkiiRJIHd1xvg80ZcjM1qW4S5us/tSMxe845tVvxRcUTCm3bn3R9bEMUlLX/8S
-         d7BvGmvKEv9l5+lNAtOd4XEjNzNsFbR+G+W4FgQMxet/hkJBRA+pLznb7eUHo/hG/9QK
-         YM7g==
-X-Forwarded-Encrypted: i=1; AJvYcCX0UVwd9BJvBYyz0TU+em1ZmHpeJMk3GY2PZeFzJ4T59QUArwbiCWz7JIU0GNrJsfngtXItgcvMQWTYYe9PzQOTmO8=@vger.kernel.org, AJvYcCXu5lUwaJfb6s1el1+FwdurYzSg5Wra5oRvIMtCrvXO2imSTtKqVWcD1LEsCR2+ILmBBmYBcW3b3OEQ@vger.kernel.org
-X-Gm-Message-State: AOJu0YwP1AEzZ6VMxrrvQTnPrt58jc+tOr3A23ciuCeS1Uuq1NYmiAYq
-	fSqryxQZ+xHWcRWXTwCpV1MM3GPUQhx0pbgrAg+GR2/hvy5Ty955MdhTEJQCksCvhnEutkvvIlF
-	00/qfGnjq6H+r6APd35XC8p0h2Jw=
-X-Google-Smtp-Source: AGHT+IEkXmQx2cAmrXa3gjtHSBRA5SbtJxWCEmCX1K4S478mzK9IXJbAJ1zb/WJmjG1j0Q+RRJHig+DDTMP2RAbKQDg=
-X-Received: by 2002:a05:6122:489a:b0:50c:9834:57b3 with SMTP id
- 71dfb90a1353d-50c98345856mr6565153e0c.4.1728326333637; Mon, 07 Oct 2024
- 11:38:53 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728326927; x=1728931727;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EYUrN451FB7o3qKFIAmiroE8Q5bO7IF8luYbym8ajnE=;
+        b=a+Tq7bQTtASeyrcBrksBLlIzDWKCmyxaOYW8dbYOkGeiMJg4lG5TV3bA8O7dYUZMb4
+         Zfx+CHtOYLbPx6NVI3hpfwR/mZFpQ4/Zc0AEOKMXtzIBSbdKVirm4msAwbxfn8jjp/ul
+         uevMZQBoENjTJXL4hy44gkk4UGlYrwuwrCh3p1KIPGQwuM9bzd5tX2AZDltXyRLVAmu3
+         HM9Cc+sfMh9dI15sZlCYPY0E1v/TqOqODUUqVZc/zSXS3w3Jm2kthADyZVzqsPi7YIs9
+         mNQLGMFKjEXyRGr7r3Af/+/bNZzW1KCMNOEqrfbJsuWq9HylsavBGLhyfIKf0UfA2iTc
+         dt1A==
+X-Forwarded-Encrypted: i=1; AJvYcCUdcFrmf/sUDFuzeQAyE/8OQz8dcJbgv3HlU70+NCZ/0yQobAXu+ilEjkdqjFlgqkOohiZyUQV9gtWLgUAzU7UjKMM=@vger.kernel.org, AJvYcCVxEUca7IuTn0yt3fSd8kT27emTt57/hpJ6r1CaAbwvONewyF0BfhCHmy/hfPEWFn+tiEHaImrYsfSkDMo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy4SU7r19ARk+5Sht9TJ0DfZzqxs4/p0qUZL1ql3KY/kxbG36dz
+	jbltH0GGJoiBPPbrfpxmHavgRVA/Lbr8kfA65paeY1Ep3TBK38suHGxJrA==
+X-Google-Smtp-Source: AGHT+IG9qC+7nCFxm13RMAyWp/QkdPHCf9Ae051LfTtJcKLU7ok52thmGgaX1YUWoCTgHWNBfaFTJQ==
+X-Received: by 2002:a17:907:25c1:b0:a93:c1dd:7952 with SMTP id a640c23a62f3a-a991c02203amr1524769766b.56.1728326927043;
+        Mon, 07 Oct 2024 11:48:47 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2500:a01:f429:642d:d66a:1085])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9953d48594sm180102766b.176.2024.10.07.11.48.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Oct 2024 11:48:46 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v4 00/17] media: platform: rzg2l-cru: CSI-2 and CRU enhancements
+Date: Mon,  7 Oct 2024 19:48:22 +0100
+Message-ID: <20241007184839.190519-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1728045620.git.geert+renesas@glider.be> <6214cd8ed068e3fc60a7b972093e4d99cdc0be1a.1728045620.git.geert+renesas@glider.be>
-In-Reply-To: <6214cd8ed068e3fc60a7b972093e4d99cdc0be1a.1728045620.git.geert+renesas@glider.be>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 7 Oct 2024 19:38:27 +0100
-Message-ID: <CA+V-a8vbWo+28e+rj4ocbJtK29YT-g_dcKTN-5e_U3YxL4_E8w@mail.gmail.com>
-Subject: Re: [PATCH 20/20] arm64: dts: renesas: rzg3s-smarc: Use
- interrupts-extended for gpio-keys
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 4, 2024 at 2:30=E2=80=AFPM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
-> Use the more concise interrupts-extended property to fully describe the
-> interrupts.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
->
-Reviewed-by:  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+Hi All,
+
+This patch series aims to add the below:
+- Retrieve virtual channel from remote subdev
+- Support to capture 8bit Bayer formats.
+
+v3->v4
+- Added {} in rzg2l_cru_ip_format_to_fmt() for the for loop (in patch 10/17)
+- Added checks for formats in .link_validate callback (in patch 13/17)
+- Got rid of icndmr local variable in rzg2l_cru_initialize_image_conv()
+ (in patch 15/17)
+- Moved macro ICnDMR_YCMODE_UYVY to rzg2l-cru-regs.h
+- Included RB tags from Laurent for patches 15 and 17
+
+v2->v3
+- Added MUST_CONNECT flag for source pads
+- Used ARRAY_SIZE() instead of NR_OF_RZG2L_CSI2_PAD
+- Implemented rzg2l_cru_ip_format_to_fmt() and rzg2l_cru_ip_index_to_fmt()
+- Dropped checking fmt in rzg2l_cru_initialize_image_conv()
+- Dropped fse->index checks
+- Implemented link_validate for video node
+- Re-used rzg2l_cru_ip_format_to_fmt() to fetch icndmr details
+- Moved register definitions to separate header file
+- Updated subject lines and commit messages
+- Collected RB tag
+
+v1->v2
+- Fixed retrieving VC from subdev
+- Fixed review comments pointed by Laurent
+  * Refactored supported CRU formats
+  * Added MUST_CONNECT flag wherever required
+  * Dropped `channel` member from `struct
+
+v1:
+Link: https://lore.kernel.org/all/20240906173947.282402-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
 Cheers,
 Prabhakar
 
-> diff --git a/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi b/arch/arm64/bo=
-ot/dts/renesas/rzg3s-smarc.dtsi
-> index 7945d44e6ee159f4..4509151344c430de 100644
-> --- a/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
-> @@ -20,8 +20,7 @@ keys {
->                 compatible =3D "gpio-keys";
->
->                 key-1 {
-> -                       interrupts =3D <RZG2L_GPIO(18, 0) IRQ_TYPE_EDGE_F=
-ALLING>;
-> -                       interrupt-parent =3D <&pinctrl>;
-> +                       interrupts-extended =3D <&pinctrl RZG2L_GPIO(18, =
-0) IRQ_TYPE_EDGE_FALLING>;
->                         linux,code =3D <KEY_1>;
->                         label =3D "USER_SW1";
->                         wakeup-source;
-> @@ -29,8 +28,7 @@ key-1 {
->                 };
->
->                 key-2 {
-> -                       interrupts =3D <RZG2L_GPIO(0, 1) IRQ_TYPE_EDGE_FA=
-LLING>;
-> -                       interrupt-parent =3D <&pinctrl>;
-> +                       interrupts-extended =3D <&pinctrl RZG2L_GPIO(0, 1=
-) IRQ_TYPE_EDGE_FALLING>;
->                         linux,code =3D <KEY_2>;
->                         label =3D "USER_SW2";
->                         wakeup-source;
-> @@ -38,8 +36,7 @@ key-2 {
->                 };
->
->                 key-3 {
-> -                       interrupts =3D <RZG2L_GPIO(0, 3) IRQ_TYPE_EDGE_FA=
-LLING>;
-> -                       interrupt-parent =3D <&pinctrl>;
-> +                       interrupts-extended =3D <&pinctrl RZG2L_GPIO(0, 3=
-) IRQ_TYPE_EDGE_FALLING>;
->                         linux,code =3D <KEY_3>;
->                         label =3D "USER_SW3";
->                         wakeup-source;
-> --
-> 2.34.1
->
->
+Lad Prabhakar (17):
+  media: rzg2l-cru: Use RZG2L_CRU_IP_SINK/SOURCE enum entries
+  media: rzg2l-cru: Mark sink and source pad with MUST_CONNECT flag
+  media: rzg2l-cru: csi2: Mark sink and source pad with MUST_CONNECT
+    flag
+  media: rzg2l-cru: csi2: Use ARRAY_SIZE() in media_entity_pads_init()
+  media: rzg2l-cru: csi2: Implement .get_frame_desc()
+  media: rzg2l-cru: Retrieve virtual channel information
+  media: rzg2l-cru: Remove `channel` member from `struct rzg2l_cru_csi`
+  media: rzg2l-cru: Use MIPI CSI-2 data types for ICnMC_INF definitions
+  media: rzg2l-cru: Remove unused fields from rzg2l_cru_ip_format struct
+  media: rzg2l-cru: Simplify handling of supported formats
+  media: rzg2l-cru: Use `rzg2l_cru_ip_formats` array in enum_frame_size
+  media: rzg2l-cru: csi2: Remove unused field from rzg2l_csi2_format
+  media: rzg2l-cru: video: Implement .link_validate() callback
+  media: rzg2l-cru: csi2: Use rzg2l_csi2_formats array in
+    enum_frame_size
+  media: rzg2l-cru: Refactor ICnDMR register configuration
+  media: rzg2l-cru: Add support to capture 8bit raw sRGB
+  media: rzg2l-cru: Move register definitions to a separate file
+
+ .../platform/renesas/rzg2l-cru/rzg2l-core.c   |   3 +-
+ .../renesas/rzg2l-cru/rzg2l-cru-regs.h        |  80 +++++
+ .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  28 +-
+ .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   |  39 ++-
+ .../platform/renesas/rzg2l-cru/rzg2l-ip.c     |  81 ++++-
+ .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 283 +++++++-----------
+ 6 files changed, 318 insertions(+), 196 deletions(-)
+ create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h
+
+-- 
+2.43.0
+
 
