@@ -1,57 +1,49 @@
-Return-Path: <linux-renesas-soc+bounces-9504-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9505-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1799A99283F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 11:35:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA54A9928AA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 12:04:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C8A41F2352C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 09:35:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6EE711F24534
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 10:04:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B355018C013;
-	Mon,  7 Oct 2024 09:35:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84F531D89F7;
+	Mon,  7 Oct 2024 09:50:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="gq/JQ/WT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UvPLdlxM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C32B18E776
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Oct 2024 09:34:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618881D8A00
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Oct 2024 09:50:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728293705; cv=none; b=ZdiKdHle/TCYR4cWpWNmcIvYBgClRrxczHq5zTz+N7eq460Zt1GF/S1zuLWOjg6empJutbPk+T7JrPEk1UIJABMPhuAfcAC3v+VnagCdOVrb+tEiEUcqNXW/w7GP5goo1y4p+zUUaX4flyQxMK0BySd7oNHSL5uQAPPElwmqt5Q=
+	t=1728294654; cv=none; b=nqyD58+qydzRO8gSVBK1t5xONrIyOjPOH8ikMstJ6M7O5/imijqJ/1neLMcoEM+hHUgBALs/Owx8kGpMWfpUvDpNlFXpT/7GckF7OiDy5ROFNXQtUEpJXSgq4Z14FLDvJRazkBtdL4qIZT9/YJum5jtTYM2ciyT54afRCSYoaY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728293705; c=relaxed/simple;
-	bh=zQa76wpiXIsouesGr7IaCgvgkc2npLW+g6Olkm8nps8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PZUOR/Z+cmOg11rEy1mj41Ux5i9AHE4Ugl1mcn6eZiGKntoAytu6jzFmqmbwSdn5suA2Ovz3Qn1YSt2Fh4W6JRLY/nl4UQ3eVSyeOAF/UAoM6vedwviZFyYF/U7U3XZUf22UAZY7M2a9gK0J9poarDey4rszatbZkQaWBdxL0os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=gq/JQ/WT; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=PKyGBesbdIV5AX
-	SvReZxuT8cszHR5cidgM6bBQIweHA=; b=gq/JQ/WThhcmPjAWSODh155nQpGuhx
-	TAZhisT0NvuFt0S0zYLeo6RHvSSHBTH3c7U3m5m18x6lQQzVFo8+WRxxfcMPR7Zw
-	EmhRmJsa4F2T1ZB6cRiNoVxw5wx/GiSayF+drIbVQyMo+LnqkQlGgDazubV6ZxRr
-	oWi5I4hIvG6dFCS2RsUvYVbjBwLcPNCPtny5GOqHbnVaJGPPXBHRuA2GZKfgZD9I
-	X/wTFuMPmcIkLmsA9aVc9hq7WvYpXGyh3ExZrkT0e11mfAg+mpLhMxWGfp8ORkBc
-	7yJG+qxTWfaYxFYtN51GukCPCVaqNO76OUeNnReBEQ/10k+zBp+UwrzA==
-Received: (qmail 73395 invoked from network); 7 Oct 2024 11:34:52 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 7 Oct 2024 11:34:52 +0200
-X-UD-Smtp-Session: l3s3148p1@oTmVu98juscgAwDPXxi/APzxl2QXB/xr
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	linux-mmc@vger.kernel.org
-Subject: [RFC PATCH] mmc: suspend MMC also when unbinding
-Date: Mon,  7 Oct 2024 11:31:09 +0200
-Message-ID: <20241007093447.33084-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.45.2
+	s=arc-20240116; t=1728294654; c=relaxed/simple;
+	bh=dSqzcqXMYkI0tJ/fkDn8KjmUCBiosiUemk9jJon0VWc=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=k4tF3lvi0Bosgfq/kDiLEpoN3UTZcm6tLkHyXtsJ0kjAK2+J3ucgVMq5A6RrPtTvdP/fKsN9eTLQfkEezxACR44mIkJ+Ot4TYyxBvASzGP608BRG0OMFPAkqUk73Igu+SVMSo3P8AKVcmT+b1m23KYXDwammO71aFodGyQjnYL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UvPLdlxM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D383C4CECD
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Oct 2024 09:50:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728294654;
+	bh=dSqzcqXMYkI0tJ/fkDn8KjmUCBiosiUemk9jJon0VWc=;
+	h=Subject:From:Date:To:From;
+	b=UvPLdlxM+ErenUd4We4hHZwps+BILHbHPLXE8zI2bqfdLrlXmCio/5nkcV/OcZjS6
+	 FZLVsqkEL3L7HjGInbsSB0IO+8wtrwWQNiQxFnoOBDO2kPMMhxiNIrdHul9wi1raRu
+	 y2BdWdy14jpJKVgCwy/65oh00YZN2GD/VW8Wzt/Mu1Blte+7aiB9+MKOSub0LGlmeZ
+	 T3MLZLZtFdjlY9W8ZjjaripkpZex+n/krfUATa5ZkeKuzP1bqR7zGMtWM5ZVlV63NQ
+	 ndZHaPPwyYJwUdY5Z49qJ3yP6K9sFAelU8Eq1zZjma35KSUHZoU0jPtCQCDs4TGEsu
+	 r28xmpYC2UFIg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3821539E54C7
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Oct 2024 09:50:59 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -59,131 +51,72 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From: patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: 
+ <172829465767.3959652.7539087838918204704.git-patchwork-summary@kernel.org>
+Date: Mon, 07 Oct 2024 09:50:57 +0000
+To: linux-renesas-soc@vger.kernel.org
 
-When unbinding a MMC host, the card should be suspended. Otherwise,
-problems may arise. E.g. the card still expects power-off notifications
-but there is no host to send them anymore. Shimoda-san tried disabling
-notifications only, but there were issues with his approaches [1] [2].
+Hello:
 
-Here is my take on it, based on the review comments:
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-a) 'In principle we would like to run the similar operations at "remove"
-    as during "system suspend"' [1]
-b) 'We want to support a graceful power off sequence or the card...' [2]
+Series: ARM: dts: renesas: fix BSC nodes
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=893099
+  Lore link: https://lore.kernel.org/r/20240926103340.16909-4-wsa+renesas@sang-engineering.com
+    Patches: [v2,1/2] ARM: dts: renesas: add proper node names to (L)BSC devices
+             [v2,2/2] ARM: dts: renesas: r8a7778: rename 'bsc' to 'lbsc'
 
-So, _mmc_suspend gets extended to recognize another reason of being
-called, namely when unbinding happens. The logic of sending a
-notification or sending the card to sleep gets updated to handle this
-new reason. Controllers able to do full power cycles will still do that.
-Controllers which can only do power cycles in suspend, will send the
-card to sleep. Finally, mmc_remove() calls _mmc_suspend now with the new
-reason 'unbind'.
+Series: ARM: dts: renesas: use proper node names for keys
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=893120
+  Lore link: https://lore.kernel.org/r/20240926110718.20519-5-wsa+renesas@sang-engineering.com
+    Patches: [1/3] ARM: dts: renesas: lager: use proper node names for keys
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Series: ASoC: Clean up {hp,mic}-det-gpio handling
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=893457
+  Lore link: https://lore.kernel.org/r/cover.1727438777.git.geert+renesas@glider.be
+    Patches: [treewide,01/11] ASoC: fsl-asoc-card: Add missing handling of {hp,mic}-dt-gpios
+             [treewide,05/11] arm64: dts: renesas: beacon-renesom: Switch to mic-det-gpios
 
-[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/1602581312-23607-1-git-send-email-yoshihiro.shimoda.uh@renesas.com/
-[2] https://patchwork.kernel.org/project/linux-mmc/patch/1605005330-7178-1-git-send-email-yoshihiro.shimoda.uh@renesas.com/
----
+Patch: gpiolib: Fix potential NULL pointer dereference in gpiod_get_label()
+  Submitter: Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=895189
+  Lore link: https://lore.kernel.org/r/20241003131351.472015-1-prabhakar.mahadev-lad.rj@bp.renesas.com
 
-RFC to see if the direction is proper. Obvious improvements are removing
-the debug printout and check if the forward declaration can be avoided.
-This was lightly tested on a Renesas Salvator board. Accessing the eMMC
-after unbind/bind and suspend/resume showed no regressions.
+Patch: ASoC: dt-bindings: renesas,rsnd: correct reg-names for R-Car Gen1
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Mark Brown <broonie@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=893129
+  Lore link: https://lore.kernel.org/r/20240926113241.24060-2-wsa+renesas@sang-engineering.com
 
- drivers/mmc/core/mmc.c | 29 +++++++++++++++++++++--------
- 1 file changed, 21 insertions(+), 8 deletions(-)
+Series: ARM: dts: renesas: genmai: enable SDHI and MMCIF
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=893604
+  Lore link: https://lore.kernel.org/r/20240928092953.2982-5-wsa+renesas@sang-engineering.com
+    Patches: [v2,1/3] ARM: dts: renesas: genmai: enable SDHI0
+             [v2,2/3] ARM: dts: renesas: r7s72100: 'bus-width' is a board property
 
-diff --git a/drivers/mmc/core/mmc.c b/drivers/mmc/core/mmc.c
-index 6a23be214543..bd4381fa182f 100644
---- a/drivers/mmc/core/mmc.c
-+++ b/drivers/mmc/core/mmc.c
-@@ -32,6 +32,12 @@
- #define MIN_CACHE_EN_TIMEOUT_MS 1600
- #define CACHE_FLUSH_TIMEOUT_MS 30000 /* 30s */
- 
-+enum mmc_pm_reason {
-+	MMC_PM_REASON_SHUTDOWN,
-+	MMC_PM_REASON_SUSPEND,
-+	MMC_PM_REASON_UNBIND,
-+};
-+
- static const unsigned int tran_exp[] = {
- 	10000,		100000,		1000000,	10000000,
- 	0,		0,		0,		0
-@@ -2032,11 +2038,13 @@ static int mmc_poweroff_notify(struct mmc_card *card, unsigned int notify_type)
- 	return err;
- }
- 
-+static int _mmc_suspend(struct mmc_host *host, enum mmc_pm_reason reason);
- /*
-  * Host is being removed. Free up the current card.
-  */
- static void mmc_remove(struct mmc_host *host)
- {
-+	_mmc_suspend(host, MMC_PM_REASON_UNBIND);
- 	mmc_remove_card(host->card);
- 	host->card = NULL;
- }
-@@ -2104,11 +2112,16 @@ static int _mmc_flush_cache(struct mmc_host *host)
- 	return err;
- }
- 
--static int _mmc_suspend(struct mmc_host *host, bool is_suspend)
-+static int _mmc_suspend(struct mmc_host *host, enum mmc_pm_reason reason)
- {
- 	int err = 0;
--	unsigned int notify_type = is_suspend ? EXT_CSD_POWER_OFF_SHORT :
--					EXT_CSD_POWER_OFF_LONG;
-+	unsigned int notify_type = reason == MMC_PM_REASON_SUSPEND ?
-+				   EXT_CSD_POWER_OFF_SHORT : EXT_CSD_POWER_OFF_LONG;
-+	bool can_pwr_cycle_now = (host->caps2 & MMC_CAP2_FULL_PWR_CYCLE) ||
-+				  ((host->caps2 & MMC_CAP2_FULL_PWR_CYCLE_IN_SUSPEND) &&
-+				    reason == MMC_PM_REASON_SUSPEND);
-+
-+pr_info("%s: suspend reason %d, can pwr cycle %d\n", mmc_hostname(host), reason, can_pwr_cycle_now);
- 
- 	mmc_claim_host(host);
- 
-@@ -2119,9 +2132,9 @@ static int _mmc_suspend(struct mmc_host *host, bool is_suspend)
- 	if (err)
- 		goto out;
- 
-+	/* Notify if pwr_cycle is possible or power gets cut because of shutdown */
- 	if (mmc_can_poweroff_notify(host->card) &&
--	    ((host->caps2 & MMC_CAP2_FULL_PWR_CYCLE) || !is_suspend ||
--	     (host->caps2 & MMC_CAP2_FULL_PWR_CYCLE_IN_SUSPEND)))
-+	    (reason == MMC_PM_REASON_SHUTDOWN || can_pwr_cycle_now))
- 		err = mmc_poweroff_notify(host->card, notify_type);
- 	else if (mmc_can_sleep(host->card))
- 		err = mmc_sleep(host);
-@@ -2144,7 +2157,7 @@ static int mmc_suspend(struct mmc_host *host)
- {
- 	int err;
- 
--	err = _mmc_suspend(host, true);
-+	err = _mmc_suspend(host, MMC_PM_REASON_SUSPEND);
- 	if (!err) {
- 		pm_runtime_disable(&host->card->dev);
- 		pm_runtime_set_suspended(&host->card->dev);
-@@ -2191,7 +2204,7 @@ static int mmc_shutdown(struct mmc_host *host)
- 		err = _mmc_resume(host);
- 
- 	if (!err)
--		err = _mmc_suspend(host, false);
-+		err = _mmc_suspend(host, MMC_PM_REASON_SHUTDOWN);
- 
- 	return err;
- }
-@@ -2215,7 +2228,7 @@ static int mmc_runtime_suspend(struct mmc_host *host)
- 	if (!(host->caps & MMC_CAP_AGGRESSIVE_PM))
- 		return 0;
- 
--	err = _mmc_suspend(host, true);
-+	err = _mmc_suspend(host, MMC_PM_REASON_SUSPEND);
- 	if (err)
- 		pr_err("%s: error %d doing aggressive suspend\n",
- 			mmc_hostname(host), err);
+Series: usb: renesas_usbhs: Deprecate renesas,enable-gpio
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=894741
+  Lore link: https://lore.kernel.org/r/cover.1727853953.git.geert+renesas@glider.be
+    Patches: [1/2] dt-bindings: usb: renesas,usbhs: Deprecate renesas,enable-gpio
+             [2/2] ARM: dts: renesas: rcar-gen2: Switch HS-USB to renesas,enable-gpios
+
+
+Total patches: 11
+
 -- 
-2.45.2
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
 
