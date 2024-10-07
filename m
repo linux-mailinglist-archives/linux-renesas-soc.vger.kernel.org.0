@@ -1,234 +1,189 @@
-Return-Path: <linux-renesas-soc+bounces-9503-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9504-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAC6C9927FF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 11:24:22 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1799A99283F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 11:35:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0DD651C22418
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 09:24:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C8A41F2352C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 09:35:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 844C318BC24;
-	Mon,  7 Oct 2024 09:24:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B355018C013;
+	Mon,  7 Oct 2024 09:35:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="gq/JQ/WT"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E84E4433CB;
-	Mon,  7 Oct 2024 09:24:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C32B18E776
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Oct 2024 09:34:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728293060; cv=none; b=SynHDGnXcHqpZln/bLYNnUY9Yc7GFhlWUgEi/EUvELdA7DHtU92Rm9kvk7Mp/34QBdyrhuglX5KDIVX8aRwYOy9goUUf0uU+Ncr9uZnZ3sIo+eo967bhn8SLSYwbFc9x96eCXL1fnB3LUjGHhFNHTTZyL7+3WEu/A+537SBeaJs=
+	t=1728293705; cv=none; b=ZdiKdHle/TCYR4cWpWNmcIvYBgClRrxczHq5zTz+N7eq460Zt1GF/S1zuLWOjg6empJutbPk+T7JrPEk1UIJABMPhuAfcAC3v+VnagCdOVrb+tEiEUcqNXW/w7GP5goo1y4p+zUUaX4flyQxMK0BySd7oNHSL5uQAPPElwmqt5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728293060; c=relaxed/simple;
-	bh=UunpeI6pCS52qPflWPDIvacgKlxPb6ktVEwk6N9EPgk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tfGqIcdypAIXCYGyx5aKsGU8hpgG50h8+B5XxdHv6QFBRRx0eW5+IwWcFW4dCRGVRBJNDIpxahhiHrhWi4Rl9UhQxEIM5n/uTosY/ergJM576PEZ5hCOXQu72LCmo8bpdcIdfac9hW3NWxS4EKmB1K1iTKv3Lp1mipezRlfItWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.11,183,1725289200"; 
-   d="asc'?scan'208";a="221185978"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 07 Oct 2024 18:24:10 +0900
-Received: from [10.226.93.180] (unknown [10.226.93.180])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 387C541AE25C;
-	Mon,  7 Oct 2024 18:23:57 +0900 (JST)
-Message-ID: <f95330ea-323e-4d41-a236-4e29aab0071b@bp.renesas.com>
-Date: Mon, 7 Oct 2024 10:23:56 +0100
+	s=arc-20240116; t=1728293705; c=relaxed/simple;
+	bh=zQa76wpiXIsouesGr7IaCgvgkc2npLW+g6Olkm8nps8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PZUOR/Z+cmOg11rEy1mj41Ux5i9AHE4Ugl1mcn6eZiGKntoAytu6jzFmqmbwSdn5suA2Ovz3Qn1YSt2Fh4W6JRLY/nl4UQ3eVSyeOAF/UAoM6vedwviZFyYF/U7U3XZUf22UAZY7M2a9gK0J9poarDey4rszatbZkQaWBdxL0os=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=gq/JQ/WT; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=PKyGBesbdIV5AX
+	SvReZxuT8cszHR5cidgM6bBQIweHA=; b=gq/JQ/WThhcmPjAWSODh155nQpGuhx
+	TAZhisT0NvuFt0S0zYLeo6RHvSSHBTH3c7U3m5m18x6lQQzVFo8+WRxxfcMPR7Zw
+	EmhRmJsa4F2T1ZB6cRiNoVxw5wx/GiSayF+drIbVQyMo+LnqkQlGgDazubV6ZxRr
+	oWi5I4hIvG6dFCS2RsUvYVbjBwLcPNCPtny5GOqHbnVaJGPPXBHRuA2GZKfgZD9I
+	X/wTFuMPmcIkLmsA9aVc9hq7WvYpXGyh3ExZrkT0e11mfAg+mpLhMxWGfp8ORkBc
+	7yJG+qxTWfaYxFYtN51GukCPCVaqNO76OUeNnReBEQ/10k+zBp+UwrzA==
+Received: (qmail 73395 invoked from network); 7 Oct 2024 11:34:52 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 7 Oct 2024 11:34:52 +0200
+X-UD-Smtp-Session: l3s3148p1@oTmVu98juscgAwDPXxi/APzxl2QXB/xr
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	linux-mmc@vger.kernel.org
+Subject: [RFC PATCH] mmc: suspend MMC also when unbinding
+Date: Mon,  7 Oct 2024 11:31:09 +0200
+Message-ID: <20241007093447.33084-2-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [net-next] net: ravb: Only advertise Rx/Tx timestamps if hardware
- supports it
-Content-Language: en-GB
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>, Sergey Shtylyov
- <s.shtylyov@omp.ru>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- netdev@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
-References: <20241005121411.583121-1-niklas.soderlund+renesas@ragnatech.se>
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-In-Reply-To: <20241005121411.583121-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------0W6E3D1tUmKleQzT0NewUxCl"
+Content-Transfer-Encoding: 8bit
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------0W6E3D1tUmKleQzT0NewUxCl
-Content-Type: multipart/mixed; boundary="------------0HVi0SExF90pyJFpcf3HECey";
- protected-headers="v1"
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>, Sergey Shtylyov
- <s.shtylyov@omp.ru>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- netdev@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
-Message-ID: <f95330ea-323e-4d41-a236-4e29aab0071b@bp.renesas.com>
-Subject: Re: [net-next] net: ravb: Only advertise Rx/Tx timestamps if hardware
- supports it
-References: <20241005121411.583121-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20241005121411.583121-1-niklas.soderlund+renesas@ragnatech.se>
+When unbinding a MMC host, the card should be suspended. Otherwise,
+problems may arise. E.g. the card still expects power-off notifications
+but there is no host to send them anymore. Shimoda-san tried disabling
+notifications only, but there were issues with his approaches [1] [2].
 
---------------0HVi0SExF90pyJFpcf3HECey
-Content-Type: multipart/mixed; boundary="------------z0ZcIsymi7DwQ6F0fQlb4BBp"
+Here is my take on it, based on the review comments:
 
---------------z0ZcIsymi7DwQ6F0fQlb4BBp
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+a) 'In principle we would like to run the similar operations at "remove"
+    as during "system suspend"' [1]
+b) 'We want to support a graceful power off sequence or the card...' [2]
 
-On 05/10/2024 13:14, Niklas S=C3=B6derlund wrote:
-> Recent work moving the reporting of Rx software timestamps to the core
-> [1] highlighted an issue where hardware time stamping where advertised
-> for the platforms where it is not supported.
->=20
-> Fix this by covering advertising support for hardware timestamps only i=
-f
-> the hardware supports it. Due to the Tx implementation in RAVB software=
+So, _mmc_suspend gets extended to recognize another reason of being
+called, namely when unbinding happens. The logic of sending a
+notification or sending the card to sleep gets updated to handle this
+new reason. Controllers able to do full power cycles will still do that.
+Controllers which can only do power cycles in suspend, will send the
+card to sleep. Finally, mmc_remove() calls _mmc_suspend now with the new
+reason 'unbind'.
 
-> Tx timestamping is also only considered if the hardware supports
-> hardware timestamps. This should be addressed in future, but this fix
-> only reflects what the driver currently implements.
->=20
-> 1. Commit 277901ee3a26 ("ravb: Remove setting of RX software timestamp"=
-)
->=20
-> Fixes: 7e09a052dc4e ("ravb: Exclude gPTP feature support for RZ/G2L")
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatec=
-h.se>
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-On RZ/G2UL, which doesn't support HW timestamping, before this patch:
+[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/1602581312-23607-1-git-send-email-yoshihiro.shimoda.uh@renesas.com/
+[2] https://patchwork.kernel.org/project/linux-mmc/patch/1605005330-7178-1-git-send-email-yoshihiro.shimoda.uh@renesas.com/
+---
 
-    $ ethtool -T eth0
-    Time stamping parameters for eth0:
-    Capabilities:
-            hardware-transmit
-            software-transmit
-            hardware-receive
-            software-receive
-            software-system-clock
-            hardware-raw-clock
-    PTP Hardware Clock: 0
-    Hardware Transmit Timestamp Modes:
-            off
-            on
-    Hardware Receive Filter Modes:
-            none
-            all
-            ptpv2-l2-event
+RFC to see if the direction is proper. Obvious improvements are removing
+the debug printout and check if the forward declaration can be avoided.
+This was lightly tested on a Renesas Salvator board. Accessing the eMMC
+after unbind/bind and suspend/resume showed no regressions.
 
-After this patch:
+ drivers/mmc/core/mmc.c | 29 +++++++++++++++++++++--------
+ 1 file changed, 21 insertions(+), 8 deletions(-)
 
-    $ ethtool -T eth0
-    Time stamping parameters for eth0:
-    Capabilities:
-            software-receive
-            software-system-clock
-    PTP Hardware Clock: none
-    Hardware Transmit Timestamp Modes: none
-    Hardware Receive Filter Modes: none
+diff --git a/drivers/mmc/core/mmc.c b/drivers/mmc/core/mmc.c
+index 6a23be214543..bd4381fa182f 100644
+--- a/drivers/mmc/core/mmc.c
++++ b/drivers/mmc/core/mmc.c
+@@ -32,6 +32,12 @@
+ #define MIN_CACHE_EN_TIMEOUT_MS 1600
+ #define CACHE_FLUSH_TIMEOUT_MS 30000 /* 30s */
+ 
++enum mmc_pm_reason {
++	MMC_PM_REASON_SHUTDOWN,
++	MMC_PM_REASON_SUSPEND,
++	MMC_PM_REASON_UNBIND,
++};
++
+ static const unsigned int tran_exp[] = {
+ 	10000,		100000,		1000000,	10000000,
+ 	0,		0,		0,		0
+@@ -2032,11 +2038,13 @@ static int mmc_poweroff_notify(struct mmc_card *card, unsigned int notify_type)
+ 	return err;
+ }
+ 
++static int _mmc_suspend(struct mmc_host *host, enum mmc_pm_reason reason);
+ /*
+  * Host is being removed. Free up the current card.
+  */
+ static void mmc_remove(struct mmc_host *host)
+ {
++	_mmc_suspend(host, MMC_PM_REASON_UNBIND);
+ 	mmc_remove_card(host->card);
+ 	host->card = NULL;
+ }
+@@ -2104,11 +2112,16 @@ static int _mmc_flush_cache(struct mmc_host *host)
+ 	return err;
+ }
+ 
+-static int _mmc_suspend(struct mmc_host *host, bool is_suspend)
++static int _mmc_suspend(struct mmc_host *host, enum mmc_pm_reason reason)
+ {
+ 	int err = 0;
+-	unsigned int notify_type = is_suspend ? EXT_CSD_POWER_OFF_SHORT :
+-					EXT_CSD_POWER_OFF_LONG;
++	unsigned int notify_type = reason == MMC_PM_REASON_SUSPEND ?
++				   EXT_CSD_POWER_OFF_SHORT : EXT_CSD_POWER_OFF_LONG;
++	bool can_pwr_cycle_now = (host->caps2 & MMC_CAP2_FULL_PWR_CYCLE) ||
++				  ((host->caps2 & MMC_CAP2_FULL_PWR_CYCLE_IN_SUSPEND) &&
++				    reason == MMC_PM_REASON_SUSPEND);
++
++pr_info("%s: suspend reason %d, can pwr cycle %d\n", mmc_hostname(host), reason, can_pwr_cycle_now);
+ 
+ 	mmc_claim_host(host);
+ 
+@@ -2119,9 +2132,9 @@ static int _mmc_suspend(struct mmc_host *host, bool is_suspend)
+ 	if (err)
+ 		goto out;
+ 
++	/* Notify if pwr_cycle is possible or power gets cut because of shutdown */
+ 	if (mmc_can_poweroff_notify(host->card) &&
+-	    ((host->caps2 & MMC_CAP2_FULL_PWR_CYCLE) || !is_suspend ||
+-	     (host->caps2 & MMC_CAP2_FULL_PWR_CYCLE_IN_SUSPEND)))
++	    (reason == MMC_PM_REASON_SHUTDOWN || can_pwr_cycle_now))
+ 		err = mmc_poweroff_notify(host->card, notify_type);
+ 	else if (mmc_can_sleep(host->card))
+ 		err = mmc_sleep(host);
+@@ -2144,7 +2157,7 @@ static int mmc_suspend(struct mmc_host *host)
+ {
+ 	int err;
+ 
+-	err = _mmc_suspend(host, true);
++	err = _mmc_suspend(host, MMC_PM_REASON_SUSPEND);
+ 	if (!err) {
+ 		pm_runtime_disable(&host->card->dev);
+ 		pm_runtime_set_suspended(&host->card->dev);
+@@ -2191,7 +2204,7 @@ static int mmc_shutdown(struct mmc_host *host)
+ 		err = _mmc_resume(host);
+ 
+ 	if (!err)
+-		err = _mmc_suspend(host, false);
++		err = _mmc_suspend(host, MMC_PM_REASON_SHUTDOWN);
+ 
+ 	return err;
+ }
+@@ -2215,7 +2228,7 @@ static int mmc_runtime_suspend(struct mmc_host *host)
+ 	if (!(host->caps & MMC_CAP_AGGRESSIVE_PM))
+ 		return 0;
+ 
+-	err = _mmc_suspend(host, true);
++	err = _mmc_suspend(host, MMC_PM_REASON_SUSPEND);
+ 	if (err)
+ 		pr_err("%s: error %d doing aggressive suspend\n",
+ 			mmc_hostname(host), err);
+-- 
+2.45.2
 
-Thanks Niklas!
-
-Reviewed-by: Paul Barker <paul.barker.ct@bp.renesas.com>
-Tested-by: Paul Barker <paul.barker.ct@bp.renesas.com>
-
---=20
-Paul Barker
---------------z0ZcIsymi7DwQ6F0fQlb4BBp
-Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-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3D
-=3DsIIN
------END PGP PUBLIC KEY BLOCK-----
-
---------------z0ZcIsymi7DwQ6F0fQlb4BBp--
-
---------------0HVi0SExF90pyJFpcf3HECey--
-
---------------0W6E3D1tUmKleQzT0NewUxCl
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZwOorAUDAAAAAAAKCRDbaV4Vf/JGveCv
-AQC82TF5/4RRmzNMV0a6RuoPFfmZkUR8+GyWvAqQdBS7ygEAsu8U150sxU89AdMh4Kc72rwIgrRI
-SPPwKeQdospvZgE=
-=j6Zl
------END PGP SIGNATURE-----
-
---------------0W6E3D1tUmKleQzT0NewUxCl--
 
