@@ -1,83 +1,83 @@
-Return-Path: <linux-renesas-soc+bounces-9539-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9540-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 076629935E4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 20:18:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20F229935F4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 20:21:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6A795B20B28
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 18:18:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C8701286B2B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2024 18:21:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA7931DDC0C;
-	Mon,  7 Oct 2024 18:17:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 068EB1DD53C;
+	Mon,  7 Oct 2024 18:21:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h99Ls9c6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PLfVoCnX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89AC51C173C;
-	Mon,  7 Oct 2024 18:17:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E15F1369A8;
+	Mon,  7 Oct 2024 18:21:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728325077; cv=none; b=bbpotZVE4CEyC4oSrZSeITsWyFLmMKbpS1eq1nnrTs3fvM1Uljq1ZP4gV3o2Veu/PItFZ2at/4ZEzI4DfKfvnwcHCj1NnQbdVrT/8AA/nIylVX57aQBJw4rRc8btbYOqKZBMkh+AUx89nn3F0mrobw0MB0WPUkCJJmHMB9MgxpQ=
+	t=1728325280; cv=none; b=WZmR6SbWkb5jfMAyX5RL+0pzx9j/tmZ8B2RHpo84eiZOcvBIi1pgyt0OhUBBMqJRteH8TXVDz5Pp7wov2dSfhZXIMJpRU/JJrJsaETlQAgE22g6Vsp7KbxR9X2x1y+ccbN1FrqxNpWBSwI0j8mfKf51TiseiBJZ4NK6G8/6Z5QA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728325077; c=relaxed/simple;
-	bh=W7MsFP52SYudjwIHbNJ9uL6JkA7QEjPPMLkrYVK1Dxo=;
+	s=arc-20240116; t=1728325280; c=relaxed/simple;
+	bh=1aHoOLF7K/c4cxBWxEZJoj9WWqYUgd0CIInHwSx5CS8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IhHf49zXYZGOh3vS9TxdlHV2WFaWfaSaANSshv2zURAmpTtDFatTBWP5WtokZ+BQCnHXbZLiTdVGOKqK74tYctwrGsDyE8YdKNtE/kJF17FAZLMw4cD3KsrK0/7Q2gp3V9zZMNHYNoSCC0sdtKSDwyxiCa2CgOm6BZYILLanwCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h99Ls9c6; arc=none smtp.client-ip=209.85.221.180
+	 To:Cc:Content-Type; b=e3BoUOcZPpifsV/BNj/z7k85o3wT2fDJJdGL6mlwfuYLeR9oEuf49gIlc9a2xhEqjFCnA5nGVArmkYMKyKaJajYIdHcOzV0GZdCnmATdbjpCaQli5Wa5YnonVWz2/C37sZ7fziMNOO9z/X8v2D9xo96P2Qg1yhzNqUhCJTdwP2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PLfVoCnX; arc=none smtp.client-ip=209.85.221.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-50c8330c69fso2044221e0c.0;
-        Mon, 07 Oct 2024 11:17:55 -0700 (PDT)
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-50c582d8009so1322727e0c.0;
+        Mon, 07 Oct 2024 11:21:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728325074; x=1728929874; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1728325278; x=1728930078; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0Mwbm1YLlOMLHbIU8mojlBkZ0PSQEH2kJZX+92MdmP4=;
-        b=h99Ls9c6FNZ7JmSqO+VrO5CIpufYz8zUK5JXUxJTcSo39YEqSREzQBAqDVSBE1VKW8
-         ScKyJMw+O6JBbcynLOnmI8HgfLByZBG+JR+BDkmmBwYTQZ6AQNW3oYf+hOow6pfi11AW
-         6SueXGuhnBtbgGWADyMtFFtaHvvTGB8DoqIAU04ivrhmTH1cguPgE+ijuUcp7W3W2UEw
-         lb9XWMQc4yqaKbkHY92k58Q6b3htfQaAPRJlPCCGbOAykDiFhzPV/0gbtxr1U0BBYec6
-         Hk73YpcKMKqvITlqsu8ZAInBTQSe0smgZjN+3Jhlp+mIrMXmjmfrtnRpUg74F/c/68lK
-         ExmA==
+        bh=G5fHDQcIFWyYjoK42e2GqKx9JgP6ByqJ0aneTh9KwSI=;
+        b=PLfVoCnXXeuX4zUCnI/I+TQyDe48eqIA2wCV+Qglw/PoLXOeo3ECeqfyqJjfI0DDTH
+         Igbc5AaIFmZxpQTElfqPBJQ5osrYQP17bZPF1dqc5WgQhPk3w9NJrDP4BdQr+BqVuyWp
+         OA8uAECan26ZM3yBMEmkAPxN3e7OdLl+glJUiR4dyFfsvbjrspcmL0/kK5YuXba7oxao
+         FeJNoAJW1kWN8m+hZsE6p8MyVt+GQ7pjpWPR8nmkc4/mEk9isAKRx718LgG992TtXePr
+         z4D0VVoI21N1baS29VPYv+18d7EuirQYGuA3bPbpqcwcj+/bN585bhTToopDBEO84oAV
+         HmYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728325074; x=1728929874;
+        d=1e100.net; s=20230601; t=1728325278; x=1728930078;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0Mwbm1YLlOMLHbIU8mojlBkZ0PSQEH2kJZX+92MdmP4=;
-        b=Wttk0Lfz4Vfdqkckx55hyYjqB42LxpsKyv/xy83NNYzLnAKvK3++nOXO662a1E3Qb1
-         PIuqYX+aFdsUVouhH+HZ3ogoMXboJ61xuhw/KC0+RZu8CSIYBknNnvLT5czu7FEDDkD6
-         sPDMBhUXY41uWxO8cllD1cNoWwjLSOwmAXN5xJ9fEnPPY9zAhLGhi46WhMRSKT7/lgBL
-         8cBg/3xbMpNlI1naUkBbUlo1jXca0DGl6RAlNKD/vmAcF+nXrWtsfy7dNFepmpQ5g0rT
-         /o0bAKywuzkxqA3drNs/fcPgWYFlQmSYMAMniA3/lGtr5KTxCo8xgL+f8woj3THVypKz
-         V8Hg==
-X-Forwarded-Encrypted: i=1; AJvYcCUyEYg+lYFJg7FhONcpWW6Xeoi+79o2AQ7p1NTIXdgzGAiGeUDBeB+1qIxewqFQPOw/T+vi8p97zaPw@vger.kernel.org, AJvYcCWY/vEcMGA0Q2WNwjEa1uXRMLTLlPEbsOzeqv1iNK7lkOdbd/h9jMXagPahHwHZpY/3PCux2L0iS3WeboJn+zy8eJo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMFBZLA8wgzlk1poWqtsbwsyCkWKbS0ssj3BOpS2MlyUZYefPr
-	Kj0FJGAXBX/282laEYmlv4D7I0MP+OaJ3/sbj0Mt1py+7Wh3WnaCl+PDeZGLFU6K3UQPC2FiUGL
-	JNhjmEjKU25fe9kj25ET0/1Jb7M4=
-X-Google-Smtp-Source: AGHT+IFWtPsPdhc/uO2wgEkRb9dWEd3oQq3w8L/YXpRWnGErsvqqqV0H3TcLcE4Mhz/Cmo/hjQf7C0QpfimvBDiIN7E=
-X-Received: by 2002:a05:6122:3b02:b0:50c:8c43:8743 with SMTP id
- 71dfb90a1353d-50cd823e82dmr630072e0c.7.1728325074109; Mon, 07 Oct 2024
- 11:17:54 -0700 (PDT)
+        bh=G5fHDQcIFWyYjoK42e2GqKx9JgP6ByqJ0aneTh9KwSI=;
+        b=WY4N26cFu3zLLJPdnBLcy1t7MT9loQTCA5zCf1xwoCwE6LkD2UBypKbWvYeWs6TjXd
+         rxE2aDemj2qzDMfKBl6y6a29SRz/L69HdwG+qSRc8GK3t3a3zWOmLWVdmTRugQJ42JJM
+         Boy1UVKvgOZH2dUINVr4M/g/SoQ1E9MaVmT/D12hbsVr5xQce2kl+7LxuVmxd0iPfbsM
+         KhxZWQo30DDX2ys7IWlmSsl7OLXQ6OIXKcyYFDfe042AgLcJBEYDluLY+0BvcYczl65F
+         qAlIGHl+Eg/sZ+lVPrzkUTLjGlfa0nmNjXTdWIWby6Ffmz2ZbZQ9w1IIDIkCEne3rJbX
+         f9gA==
+X-Forwarded-Encrypted: i=1; AJvYcCWv1SchZ3tZ74AQxW/DXMGSJsNTiFdH23/nDenvJdeqVFTAfHAt9ohj40yOwkRbeAvFTATFKBGfebPx@vger.kernel.org, AJvYcCWwN2dd8yU/TLOVww+F2ww2/jvKhMOcs6yyBXpYI39nPfFvteBw2tbPXG96oauJmCAiJqzLoCd7Te/NnRsHKcFMBSw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVENOqgf5sXh9BXMrSLJCCe6239/6r/ZD8Zxn2O1+vhjNRGUTi
+	wDePa/GEmTTtDDSI8+yoAV6ESNICkl4Ugm0Q3xW4oNThyA/41Km6KBx/R7B0fItXqF0s0k2Hu29
+	0oOFWxL+UVSDfEoyNBMM3uMAYdv8=
+X-Google-Smtp-Source: AGHT+IGBNA8KljjPEkPIe4fbzSG6yIe8+fSzcGmwMgTK+eL1CIIncYR03zfkRLtEkQuMtXNCFaKYcR9H9l2Q4Bc92+E=
+X-Received: by 2002:a05:6122:218e:b0:4ec:f7d0:e71c with SMTP id
+ 71dfb90a1353d-50c85479ccdmr8429017e0c.4.1728325278153; Mon, 07 Oct 2024
+ 11:21:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1728045620.git.geert+renesas@glider.be> <e9db8758d275ec63b0d6ce086ac3d0ea62966865.1728045620.git.geert+renesas@glider.be>
-In-Reply-To: <e9db8758d275ec63b0d6ce086ac3d0ea62966865.1728045620.git.geert+renesas@glider.be>
+References: <cover.1728045620.git.geert+renesas@glider.be> <7aabc9085f9206a9824d52f306df870e7f3eed3c.1728045620.git.geert+renesas@glider.be>
+In-Reply-To: <7aabc9085f9206a9824d52f306df870e7f3eed3c.1728045620.git.geert+renesas@glider.be>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 7 Oct 2024 19:17:28 +0100
-Message-ID: <CA+V-a8tEQg7WNCYvYRz4_ypf_UrAeM2CJQnk5EWHG=sch7Y3Kg@mail.gmail.com>
-Subject: Re: [PATCH 12/20] arm64: dts: renesas: Use interrupts-extended for
- Ethernet PHYs
+Date: Mon, 7 Oct 2024 19:20:52 +0100
+Message-ID: <CA+V-a8sfnwqE0gTyWXqK3XCoTDh_BzgZ8T-SzuHYyRiLuX6+aQ@mail.gmail.com>
+Subject: Re: [PATCH 13/20] arm64: dts: renesas: Use interrupts-extended for
+ HDMI bridges
 To: Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: Magnus Damm <magnus.damm@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
 	linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
@@ -93,464 +93,178 @@ On Fri, Oct 4, 2024 at 2:27=E2=80=AFPM Geert Uytterhoeven
 >
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi      | 3 +--
->  arch/arm64/boot/dts/renesas/cat875.dtsi                  | 3 +--
->  arch/arm64/boot/dts/renesas/condor-common.dtsi           | 3 +--
->  arch/arm64/boot/dts/renesas/draak.dtsi                   | 3 +--
->  arch/arm64/boot/dts/renesas/ebisu.dtsi                   | 3 +--
->  arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi          | 3 +--
->  arch/arm64/boot/dts/renesas/r8a77970-eagle.dts           | 3 +--
->  arch/arm64/boot/dts/renesas/r8a77970-v3msk.dts           | 3 +--
->  arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dts           | 3 +--
->  arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts          | 3 +--
->  .../arm64/boot/dts/renesas/r8a779f0-spider-ethernet.dtsi | 9 +++------
->  arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts            | 6 ++----
->  .../boot/dts/renesas/r8a779g2-white-hawk-single.dts      | 3 +--
->  .../arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts | 3 +--
->  arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi         | 6 ++----
->  arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi        | 3 +--
->  arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi        | 6 ++----
->  arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi         | 6 ++----
->  arch/arm64/boot/dts/renesas/salvator-common.dtsi         | 3 +--
->  arch/arm64/boot/dts/renesas/ulcb.dtsi                    | 3 +--
->  arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi   | 3 +--
->  arch/arm64/boot/dts/renesas/white-hawk-ethernet.dtsi     | 6 ++----
->  22 files changed, 29 insertions(+), 58 deletions(-)
+>  arch/arm64/boot/dts/renesas/condor-common.dtsi  | 3 +--
+>  arch/arm64/boot/dts/renesas/draak.dtsi          | 3 +--
+>  arch/arm64/boot/dts/renesas/ebisu.dtsi          | 3 +--
+>  arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts | 3 +--
+>  arch/arm64/boot/dts/renesas/r8a77970-eagle.dts  | 3 +--
+>  arch/arm64/boot/dts/renesas/r8a77970-v3msk.dts  | 3 +--
+>  arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dts  | 3 +--
+>  arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi    | 3 +--
+>  arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi   | 3 +--
+>  arch/arm64/boot/dts/renesas/ulcb-kf.dtsi        | 3 +--
+>  10 files changed, 10 insertions(+), 20 deletions(-)
 >
 
 Reviewed-by:  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> #
-G2L family and G3S
+Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> # On G2L
 
 Cheers,
 Prabhakar
 
-> diff --git a/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi b/arch/a=
-rm64/boot/dts/renesas/beacon-renesom-som.dtsi
-> index 68b04e56ae56232e..5a15a956702a6be8 100644
-> --- a/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
-> @@ -62,8 +62,7 @@ phy0: ethernet-phy@0 {
->                 compatible =3D "ethernet-phy-id0022.1640",
->                              "ethernet-phy-ieee802.3-c22";
->                 reg =3D <0>;
-> -               interrupt-parent =3D <&gpio2>;
-> -               interrupts =3D <11 IRQ_TYPE_LEVEL_LOW>;
-> +               interrupts-extended =3D <&gpio2 11 IRQ_TYPE_LEVEL_LOW>;
->                 reset-gpios =3D <&gpio2 10 GPIO_ACTIVE_LOW>;
->         };
->  };
-> diff --git a/arch/arm64/boot/dts/renesas/cat875.dtsi b/arch/arm64/boot/dt=
-s/renesas/cat875.dtsi
-> index 8c9da8b4bd60bf32..191b051ecfd458ef 100644
-> --- a/arch/arm64/boot/dts/renesas/cat875.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/cat875.dtsi
-> @@ -25,8 +25,7 @@ phy0: ethernet-phy@0 {
->                 compatible =3D "ethernet-phy-id001c.c915",
->                              "ethernet-phy-ieee802.3-c22";
->                 reg =3D <0>;
-> -               interrupt-parent =3D <&gpio2>;
-> -               interrupts =3D <21 IRQ_TYPE_LEVEL_LOW>;
-> +               interrupts-extended =3D <&gpio2 21 IRQ_TYPE_LEVEL_LOW>;
->                 reset-gpios =3D <&gpio1 20 GPIO_ACTIVE_LOW>;
->         };
->  };
 > diff --git a/arch/arm64/boot/dts/renesas/condor-common.dtsi b/arch/arm64/=
 boot/dts/renesas/condor-common.dtsi
-> index 8b7c0c34eadce5cb..b2d99dfaa0cdf19d 100644
+> index b2d99dfaa0cdf19d..375a56b20f267bf0 100644
 > --- a/arch/arm64/boot/dts/renesas/condor-common.dtsi
 > +++ b/arch/arm64/boot/dts/renesas/condor-common.dtsi
-> @@ -166,8 +166,7 @@ phy0: ethernet-phy@0 {
->                              "ethernet-phy-ieee802.3-c22";
->                 rxc-skew-ps =3D <1500>;
->                 reg =3D <0>;
-> -               interrupt-parent =3D <&gpio4>;
-> -               interrupts =3D <23 IRQ_TYPE_LEVEL_LOW>;
-> +               interrupts-extended =3D <&gpio4 23 IRQ_TYPE_LEVEL_LOW>;
->                 reset-gpios =3D <&gpio4 22 GPIO_ACTIVE_LOW>;
->         };
->  };
+> @@ -195,8 +195,7 @@ io_expander1: gpio@21 {
+>         hdmi@39 {
+>                 compatible =3D "adi,adv7511w";
+>                 reg =3D <0x39>;
+> -               interrupt-parent =3D <&gpio1>;
+> -               interrupts =3D <20 IRQ_TYPE_LEVEL_LOW>;
+> +               interrupts-extended =3D <&gpio1 20 IRQ_TYPE_LEVEL_LOW>;
+>                 avdd-supply =3D <&d1_8v>;
+>                 dvdd-supply =3D <&d1_8v>;
+>                 pvdd-supply =3D <&d1_8v>;
 > diff --git a/arch/arm64/boot/dts/renesas/draak.dtsi b/arch/arm64/boot/dts=
 /renesas/draak.dtsi
-> index 6f133f54ded54efb..402112a37d75a8c5 100644
+> index 402112a37d75a8c5..05712cd96d28bbdf 100644
 > --- a/arch/arm64/boot/dts/renesas/draak.dtsi
 > +++ b/arch/arm64/boot/dts/renesas/draak.dtsi
-> @@ -247,8 +247,7 @@ phy0: ethernet-phy@0 {
->                              "ethernet-phy-ieee802.3-c22";
->                 rxc-skew-ps =3D <1500>;
->                 reg =3D <0>;
-> -               interrupt-parent =3D <&gpio5>;
-> -               interrupts =3D <19 IRQ_TYPE_LEVEL_LOW>;
-> +               interrupts-extended =3D <&gpio5 19 IRQ_TYPE_LEVEL_LOW>;
->                 reset-gpios =3D <&gpio5 18 GPIO_ACTIVE_LOW>;
->                 /*
->                  * TX clock internal delay mode is required for reliable
+> @@ -367,8 +367,7 @@ hdmi-encoder@39 {
+>                 compatible =3D "adi,adv7511w";
+>                 reg =3D <0x39>, <0x3f>, <0x3c>, <0x38>;
+>                 reg-names =3D "main", "edid", "cec", "packet";
+> -               interrupt-parent =3D <&gpio1>;
+> -               interrupts =3D <28 IRQ_TYPE_LEVEL_LOW>;
+> +               interrupts-extended =3D <&gpio1 28 IRQ_TYPE_LEVEL_LOW>;
+>
+>                 avdd-supply =3D <&reg_1p8v>;
+>                 dvdd-supply =3D <&reg_1p8v>;
 > diff --git a/arch/arm64/boot/dts/renesas/ebisu.dtsi b/arch/arm64/boot/dts=
 /renesas/ebisu.dtsi
-> index cba2fde9dd3688b3..1aedd093fb41bf44 100644
+> index 1aedd093fb41bf44..4d16b8f0eae5474b 100644
 > --- a/arch/arm64/boot/dts/renesas/ebisu.dtsi
 > +++ b/arch/arm64/boot/dts/renesas/ebisu.dtsi
-> @@ -314,8 +314,7 @@ phy0: ethernet-phy@0 {
->                              "ethernet-phy-ieee802.3-c22";
->                 rxc-skew-ps =3D <1500>;
->                 reg =3D <0>;
-> -               interrupt-parent =3D <&gpio2>;
-> -               interrupts =3D <21 IRQ_TYPE_LEVEL_LOW>;
-> +               interrupts-extended =3D <&gpio2 21 IRQ_TYPE_LEVEL_LOW>;
->                 reset-gpios =3D <&gpio1 20 GPIO_ACTIVE_LOW>;
->                 /*
->                  * TX clock internal delay mode is required for reliable
-> diff --git a/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi b/arch/arm64=
-/boot/dts/renesas/hihope-rzg2-ex.dtsi
-> index ad898c6db4e62df6..4113710d55226d6d 100644
-> --- a/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
-> @@ -27,8 +27,7 @@ phy0: ethernet-phy@0 {
->                 compatible =3D "ethernet-phy-id001c.c915",
->                              "ethernet-phy-ieee802.3-c22";
->                 reg =3D <0>;
-> -               interrupt-parent =3D <&gpio2>;
-> -               interrupts =3D <11 IRQ_TYPE_LEVEL_LOW>;
-> +               interrupts-extended =3D <&gpio2 11 IRQ_TYPE_LEVEL_LOW>;
->                 reset-gpios =3D <&gpio2 10 GPIO_ACTIVE_LOW>;
->         };
->  };
+> @@ -399,8 +399,7 @@ io_expander: gpio@20 {
+>         hdmi-encoder@39 {
+>                 compatible =3D "adi,adv7511w";
+>                 reg =3D <0x39>;
+> -               interrupt-parent =3D <&gpio1>;
+> -               interrupts =3D <1 IRQ_TYPE_LEVEL_LOW>;
+> +               interrupts-extended =3D <&gpio1 1 IRQ_TYPE_LEVEL_LOW>;
+>
+>                 avdd-supply =3D <&reg_1p8v>;
+>                 dvdd-supply =3D <&reg_1p8v>;
+> diff --git a/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts b/arch/arm64=
+/boot/dts/renesas/r8a774c0-cat874.dts
+> index d42e24d9c09b9162..486688b789b8cd58 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts
+> +++ b/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts
+> @@ -232,8 +232,7 @@ hd3ss3220_out_ep: endpoint {
+>         tda19988: tda19988@70 {
+>                 compatible =3D "nxp,tda998x";
+>                 reg =3D <0x70>;
+> -               interrupt-parent =3D <&gpio1>;
+> -               interrupts =3D <1 IRQ_TYPE_LEVEL_LOW>;
+> +               interrupts-extended =3D <&gpio1 1 IRQ_TYPE_LEVEL_LOW>;
+>
+>                 video-ports =3D <0x234501>;
+>
 > diff --git a/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts b/arch/arm64/=
 boot/dts/renesas/r8a77970-eagle.dts
-> index 0608dce92e405935..7dd9e13cf0074442 100644
+> index 7dd9e13cf0074442..32f07aa2731678a5 100644
 > --- a/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
 > +++ b/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
-> @@ -111,8 +111,7 @@ phy0: ethernet-phy@0 {
->                              "ethernet-phy-ieee802.3-c22";
->                 rxc-skew-ps =3D <1500>;
->                 reg =3D <0>;
+> @@ -171,8 +171,7 @@ io_expander: gpio@20 {
+>         hdmi@39 {
+>                 compatible =3D "adi,adv7511w";
+>                 reg =3D <0x39>;
 > -               interrupt-parent =3D <&gpio1>;
-> -               interrupts =3D <17 IRQ_TYPE_LEVEL_LOW>;
-> +               interrupts-extended =3D <&gpio1 17 IRQ_TYPE_LEVEL_LOW>;
->                 reset-gpios =3D <&gpio1 16 GPIO_ACTIVE_LOW>;
->         };
->  };
+> -               interrupts =3D <20 IRQ_TYPE_LEVEL_LOW>;
+> +               interrupts-extended =3D <&gpio1 20 IRQ_TYPE_LEVEL_LOW>;
+>
+>                 avdd-supply =3D <&d1p8>;
+>                 dvdd-supply =3D <&d1p8>;
 > diff --git a/arch/arm64/boot/dts/renesas/r8a77970-v3msk.dts b/arch/arm64/=
 boot/dts/renesas/r8a77970-v3msk.dts
-> index e36999e91af53326..0a103f93b14d71ad 100644
+> index 0a103f93b14d71ad..118e77f4477e389c 100644
 > --- a/arch/arm64/boot/dts/renesas/r8a77970-v3msk.dts
 > +++ b/arch/arm64/boot/dts/renesas/r8a77970-v3msk.dts
-> @@ -117,8 +117,7 @@ phy0: ethernet-phy@0 {
->                              "ethernet-phy-ieee802.3-c22";
->                 rxc-skew-ps =3D <1500>;
->                 reg =3D <0>;
+> @@ -148,8 +148,7 @@ hdmi@39 {
+>                 compatible =3D "adi,adv7511w";
+>                 #sound-dai-cells =3D <0>;
+>                 reg =3D <0x39>;
 > -               interrupt-parent =3D <&gpio1>;
-> -               interrupts =3D <17 IRQ_TYPE_LEVEL_LOW>;
-> +               interrupts-extended =3D <&gpio1 17 IRQ_TYPE_LEVEL_LOW>;
->                 reset-gpios =3D <&gpio1 16 GPIO_ACTIVE_LOW>;
->         };
->  };
+> -               interrupts =3D <20 IRQ_TYPE_LEVEL_LOW>;
+> +               interrupts-extended =3D <&gpio1 20 IRQ_TYPE_LEVEL_LOW>;
+>                 avdd-supply =3D <&vcc_d1_8v>;
+>                 dvdd-supply =3D <&vcc_d1_8v>;
+>                 pvdd-supply =3D <&vcc_d1_8v>;
 > diff --git a/arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dts b/arch/arm64/=
 boot/dts/renesas/r8a77980-v3hsk.dts
-> index 77d22df25fffac6d..a8a20c748ffcd1ed 100644
+> index a8a20c748ffcd1ed..b409a8d1737e629c 100644
 > --- a/arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dts
 > +++ b/arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dts
-> @@ -124,8 +124,7 @@ phy0: ethernet-phy@0 {
->                              "ethernet-phy-ieee802.3-c22";
->                 rxc-skew-ps =3D <1500>;
->                 reg =3D <0>;
-> -               interrupt-parent =3D <&gpio4>;
-> -               interrupts =3D <23 IRQ_TYPE_LEVEL_LOW>;
-> +               interrupts-extended =3D <&gpio4 23 IRQ_TYPE_LEVEL_LOW>;
->                 reset-gpios =3D <&gpio4 22 GPIO_ACTIVE_LOW>;
->         };
->  };
-> diff --git a/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts b/arch/arm64=
-/boot/dts/renesas/r8a779a0-falcon.dts
-> index 63db822e5f4662b6..6bd580737f25d3cc 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
-> +++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
-> @@ -31,8 +31,7 @@ phy0: ethernet-phy@0 {
->                              "ethernet-phy-ieee802.3-c22";
->                 rxc-skew-ps =3D <1500>;
->                 reg =3D <0>;
-> -               interrupt-parent =3D <&gpio4>;
-> -               interrupts =3D <16 IRQ_TYPE_LEVEL_LOW>;
-> +               interrupts-extended =3D <&gpio4 16 IRQ_TYPE_LEVEL_LOW>;
->                 reset-gpios =3D <&gpio4 15 GPIO_ACTIVE_LOW>;
->         };
->  };
-> diff --git a/arch/arm64/boot/dts/renesas/r8a779f0-spider-ethernet.dtsi b/=
-arch/arm64/boot/dts/renesas/r8a779f0-spider-ethernet.dtsi
-> index 33c1015e9ab38e97..5d38669ed1ec3440 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a779f0-spider-ethernet.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider-ethernet.dtsi
-> @@ -60,8 +60,7 @@ mdio {
->                                 u101: ethernet-phy@1 {
->                                         reg =3D <1>;
->                                         compatible =3D "ethernet-phy-ieee=
-802.3-c45";
-> -                                       interrupt-parent =3D <&gpio3>;
-> -                                       interrupts =3D <10 IRQ_TYPE_LEVEL=
-_LOW>;
-> +                                       interrupts-extended =3D <&gpio3 1=
-0 IRQ_TYPE_LEVEL_LOW>;
->                                 };
->                         };
->                 };
-> @@ -78,8 +77,7 @@ mdio {
->                                 u201: ethernet-phy@2 {
->                                         reg =3D <2>;
->                                         compatible =3D "ethernet-phy-ieee=
-802.3-c45";
-> -                                       interrupt-parent =3D <&gpio3>;
-> -                                       interrupts =3D <11 IRQ_TYPE_LEVEL=
-_LOW>;
-> +                                       interrupts-extended =3D <&gpio3 1=
-1 IRQ_TYPE_LEVEL_LOW>;
->                                 };
->                         };
->                 };
-> @@ -96,8 +94,7 @@ mdio {
->                                 u301: ethernet-phy@3 {
->                                         reg =3D <3>;
->                                         compatible =3D "ethernet-phy-ieee=
-802.3-c45";
-> -                                       interrupt-parent =3D <&gpio3>;
-> -                                       interrupts =3D <9 IRQ_TYPE_LEVEL_=
-LOW>;
-> +                                       interrupts-extended =3D <&gpio3 9=
- IRQ_TYPE_LEVEL_LOW>;
->                                 };
->                         };
->                 };
-> diff --git a/arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts b/arch/arm64/b=
-oot/dts/renesas/r8a779f4-s4sk.dts
-> index fa910b85859e99df..5d71d52f9c654783 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts
-> +++ b/arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts
-> @@ -197,8 +197,7 @@ mdio {
->                                 ic99: ethernet-phy@1 {
->                                         reg =3D <1>;
->                                         compatible =3D "ethernet-phy-ieee=
-802.3-c45";
-> -                                       interrupt-parent =3D <&gpio3>;
-> -                                       interrupts =3D <10 IRQ_TYPE_LEVEL=
-_LOW>;
-> +                                       interrupts-extended =3D <&gpio3 1=
-0 IRQ_TYPE_LEVEL_LOW>;
->                                 };
->                         };
->                 };
-> @@ -216,8 +215,7 @@ mdio {
->                                 ic102: ethernet-phy@2 {
->                                         reg =3D <2>;
->                                         compatible =3D "ethernet-phy-ieee=
-802.3-c45";
-> -                                       interrupt-parent =3D <&gpio3>;
-> -                                       interrupts =3D <11 IRQ_TYPE_LEVEL=
-_LOW>;
-> +                                       interrupts-extended =3D <&gpio3 1=
-1 IRQ_TYPE_LEVEL_LOW>;
->                                 };
->                         };
->                 };
-> diff --git a/arch/arm64/boot/dts/renesas/r8a779g2-white-hawk-single.dts b=
-/arch/arm64/boot/dts/renesas/r8a779g2-white-hawk-single.dts
-> index 50a428572d9bd933..0062362b0ba06885 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a779g2-white-hawk-single.dts
-> +++ b/arch/arm64/boot/dts/renesas/r8a779g2-white-hawk-single.dts
-> @@ -70,8 +70,7 @@ phy3: ethernet-phy@0 {
->                         compatible =3D "ethernet-phy-id002b.0980",
->                                      "ethernet-phy-ieee802.3-c22";
->                         reg =3D <0>;
-> -                       interrupt-parent =3D <&gpio4>;
-> -                       interrupts =3D <3 IRQ_TYPE_LEVEL_LOW>;
-> +                       interrupts-extended =3D <&gpio4 3 IRQ_TYPE_LEVEL_=
-LOW>;
->                 };
->         };
->  };
-> diff --git a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts b/=
-arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-> index 72e1ffe98585447f..b1d035ca4d97a51a 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-> +++ b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-> @@ -181,8 +181,7 @@ phy0: ethernet-phy@0 {
->                              "ethernet-phy-ieee802.3-c22";
->                 rxc-skew-ps =3D <1500>;
->                 reg =3D <0>;
-> -               interrupt-parent =3D <&gpio7>;
-> -               interrupts =3D <5 IRQ_TYPE_LEVEL_LOW>;
-> +               interrupts-extended =3D <&gpio7 5 IRQ_TYPE_LEVEL_LOW>;
->                 reset-gpios =3D <&gpio7 10 GPIO_ACTIVE_LOW>;
->         };
->  };
-> diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi b/arch/arm6=
-4/boot/dts/renesas/rzg2l-smarc-som.dtsi
-> index 83f5642d0d35c244..502d9f17bf16d017 100644
-> --- a/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
-> @@ -102,8 +102,7 @@ phy0: ethernet-phy@7 {
->                 compatible =3D "ethernet-phy-id0022.1640",
->                              "ethernet-phy-ieee802.3-c22";
->                 reg =3D <7>;
-> -               interrupt-parent =3D <&irqc>;
-> -               interrupts =3D <RZG2L_IRQ2 IRQ_TYPE_LEVEL_LOW>;
-> +               interrupts-extended =3D <&irqc RZG2L_IRQ2 IRQ_TYPE_LEVEL_=
-LOW>;
->                 rxc-skew-psec =3D <2400>;
->                 txc-skew-psec =3D <2400>;
->                 rxdv-skew-psec =3D <0>;
-> @@ -130,8 +129,7 @@ phy1: ethernet-phy@7 {
->                 compatible =3D "ethernet-phy-id0022.1640",
->                              "ethernet-phy-ieee802.3-c22";
->                 reg =3D <7>;
-> -               interrupt-parent =3D <&irqc>;
-> -               interrupts =3D <RZG2L_IRQ3 IRQ_TYPE_LEVEL_LOW>;
-> +               interrupts-extended =3D <&irqc RZG2L_IRQ3 IRQ_TYPE_LEVEL_=
-LOW>;
->                 rxc-skew-psec =3D <2400>;
->                 txc-skew-psec =3D <2400>;
->                 rxdv-skew-psec =3D <0>;
-> diff --git a/arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi b/arch/arm=
-64/boot/dts/renesas/rzg2lc-smarc-som.dtsi
-> index b4ef5ea8a9e3457a..de39311a77dc2a5a 100644
-> --- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi
-> @@ -82,8 +82,7 @@ phy0: ethernet-phy@7 {
->                 compatible =3D "ethernet-phy-id0022.1640",
->                              "ethernet-phy-ieee802.3-c22";
->                 reg =3D <7>;
-> -               interrupt-parent =3D <&irqc>;
-> -               interrupts =3D <RZG2L_IRQ0 IRQ_TYPE_LEVEL_LOW>;
-> +               interrupts-extended =3D <&irqc RZG2L_IRQ0 IRQ_TYPE_LEVEL_=
-LOW>;
->                 rxc-skew-psec =3D <2400>;
->                 txc-skew-psec =3D <2400>;
->                 rxdv-skew-psec =3D <0>;
-> diff --git a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi b/arch/arm=
-64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-> index 79443fb3f5810304..1a6fd58bd3682a56 100644
-> --- a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-> @@ -78,8 +78,7 @@ phy0: ethernet-phy@7 {
->                 compatible =3D "ethernet-phy-id0022.1640",
->                              "ethernet-phy-ieee802.3-c22";
->                 reg =3D <7>;
-> -               interrupt-parent =3D <&irqc>;
-> -               interrupts =3D <RZG2L_IRQ2 IRQ_TYPE_LEVEL_LOW>;
-> +               interrupts-extended =3D <&irqc RZG2L_IRQ2 IRQ_TYPE_LEVEL_=
-LOW>;
->                 rxc-skew-psec =3D <2400>;
->                 txc-skew-psec =3D <2400>;
->                 rxdv-skew-psec =3D <0>;
-> @@ -107,8 +106,7 @@ phy1: ethernet-phy@7 {
->                 compatible =3D "ethernet-phy-id0022.1640",
->                              "ethernet-phy-ieee802.3-c22";
->                 reg =3D <7>;
-> -               interrupt-parent =3D <&irqc>;
-> -               interrupts =3D <RZG2L_IRQ7 IRQ_TYPE_LEVEL_LOW>;
-> +               interrupts-extended =3D <&irqc RZG2L_IRQ7 IRQ_TYPE_LEVEL_=
-LOW>;
->                 rxc-skew-psec =3D <2400>;
->                 txc-skew-psec =3D <2400>;
->                 rxdv-skew-psec =3D <0>;
-> diff --git a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi b/arch/arm6=
-4/boot/dts/renesas/rzg3s-smarc-som.dtsi
-> index 21bfa4e03972ffe2..71424e69939ee56b 100644
-> --- a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-> @@ -103,8 +103,7 @@ &eth0 {
+> @@ -140,8 +140,7 @@ hdmi@39 {
+>                 compatible =3D "adi,adv7511w";
+>                 #sound-dai-cells =3D <0>;
+>                 reg =3D <0x39>;
+> -               interrupt-parent =3D <&gpio1>;
+> -               interrupts =3D <20 IRQ_TYPE_LEVEL_LOW>;
+> +               interrupts-extended =3D <&gpio1 20 IRQ_TYPE_LEVEL_LOW>;
+>                 avdd-supply =3D <&vcc1v8_d4>;
+>                 dvdd-supply =3D <&vcc1v8_d4>;
+>                 pvdd-supply =3D <&vcc1v8_d4>;
+> diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi b/arch/arm64/bo=
+ot/dts/renesas/rzg2l-smarc.dtsi
+> index ee3d96fdb6168b56..789f7b0b5ebcadc7 100644
+> --- a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+> @@ -64,8 +64,7 @@ adv7535: hdmi@3d {
+>                 compatible =3D "adi,adv7535";
+>                 reg =3D <0x3d>;
 >
->         phy0: ethernet-phy@7 {
->                 reg =3D <7>;
 > -               interrupt-parent =3D <&pinctrl>;
-> -               interrupts =3D <RZG2L_GPIO(12, 0) IRQ_TYPE_EDGE_FALLING>;
-> +               interrupts-extended =3D <&pinctrl RZG2L_GPIO(12, 0) IRQ_T=
-YPE_EDGE_FALLING>;
->                 rxc-skew-psec =3D <0>;
->                 txc-skew-psec =3D <0>;
->                 rxdv-skew-psec =3D <0>;
-> @@ -129,8 +128,7 @@ &eth1 {
+> -               interrupts =3D <RZG2L_GPIO(2, 1) IRQ_TYPE_EDGE_FALLING>;
+> +               interrupts-extended =3D <&pinctrl RZG2L_GPIO(2, 1) IRQ_TY=
+PE_EDGE_FALLING>;
+>                 clocks =3D <&osc1>;
+>                 clock-names =3D "cec";
+>                 avdd-supply =3D <&reg_1p8v>;
+> diff --git a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi b/arch/arm64/b=
+oot/dts/renesas/rzg2lc-smarc.dtsi
+> index 377849cbb462eae9..345b779e4f6015da 100644
+> --- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
+> @@ -86,8 +86,7 @@ adv7535: hdmi@3d {
+>                 compatible =3D "adi,adv7535";
+>                 reg =3D <0x3d>;
 >
->         phy1: ethernet-phy@7 {
->                 reg =3D <7>;
 > -               interrupt-parent =3D <&pinctrl>;
-> -               interrupts =3D <RZG2L_GPIO(12, 1) IRQ_TYPE_EDGE_FALLING>;
-> +               interrupts-extended =3D <&pinctrl RZG2L_GPIO(12, 1) IRQ_T=
+> -               interrupts =3D <RZG2L_GPIO(43, 1) IRQ_TYPE_EDGE_FALLING>;
+> +               interrupts-extended =3D <&pinctrl RZG2L_GPIO(43, 1) IRQ_T=
 YPE_EDGE_FALLING>;
->                 rxc-skew-psec =3D <0>;
->                 txc-skew-psec =3D <0>;
->                 rxdv-skew-psec =3D <0>;
-> diff --git a/arch/arm64/boot/dts/renesas/salvator-common.dtsi b/arch/arm6=
-4/boot/dts/renesas/salvator-common.dtsi
-> index 3f8ce62488213bbe..ca0b5c070ae57dce 100644
-> --- a/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-> @@ -367,8 +367,7 @@ phy0: ethernet-phy@0 {
->                              "ethernet-phy-ieee802.3-c22";
->                 rxc-skew-ps =3D <1500>;
->                 reg =3D <0>;
-> -               interrupt-parent =3D <&gpio2>;
-> -               interrupts =3D <11 IRQ_TYPE_LEVEL_LOW>;
-> +               interrupts-extended =3D <&gpio2 11 IRQ_TYPE_LEVEL_LOW>;
->                 reset-gpios =3D <&gpio2 10 GPIO_ACTIVE_LOW>;
->         };
->  };
-> diff --git a/arch/arm64/boot/dts/renesas/ulcb.dtsi b/arch/arm64/boot/dts/=
-renesas/ulcb.dtsi
-> index a2f66f916048496e..4cf141a701c0625a 100644
-> --- a/arch/arm64/boot/dts/renesas/ulcb.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/ulcb.dtsi
-> @@ -150,8 +150,7 @@ phy0: ethernet-phy@0 {
->                              "ethernet-phy-ieee802.3-c22";
->                 rxc-skew-ps =3D <1500>;
->                 reg =3D <0>;
-> -               interrupt-parent =3D <&gpio2>;
-> -               interrupts =3D <11 IRQ_TYPE_LEVEL_LOW>;
-> +               interrupts-extended =3D <&gpio2 11 IRQ_TYPE_LEVEL_LOW>;
->                 reset-gpios =3D <&gpio2 10 GPIO_ACTIVE_LOW>;
->         };
->  };
-> diff --git a/arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi b/arc=
-h/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi
-> index 36f5deb7f24afc2e..209cba75adec6d6c 100644
-> --- a/arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi
-> @@ -167,8 +167,7 @@ avb0_phy: ethernet-phy@0 {
->                                      "ethernet-phy-ieee802.3-c22";
->                         rxc-skew-ps =3D <1500>;
->                         reg =3D <0>;
-> -                       interrupt-parent =3D <&gpio7>;
-> -                       interrupts =3D <5 IRQ_TYPE_LEVEL_LOW>;
-> +                       interrupts-extended =3D <&gpio7 5 IRQ_TYPE_LEVEL_=
-LOW>;
->                         reset-gpios =3D <&gpio7 10 GPIO_ACTIVE_LOW>;
->                 };
->         };
-> diff --git a/arch/arm64/boot/dts/renesas/white-hawk-ethernet.dtsi b/arch/=
-arm64/boot/dts/renesas/white-hawk-ethernet.dtsi
-> index 595ec4ff4cdd0190..ad94bf3f5e6c426f 100644
-> --- a/arch/arm64/boot/dts/renesas/white-hawk-ethernet.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/white-hawk-ethernet.dtsi
-> @@ -29,8 +29,7 @@ mdio {
->                 avb1_phy: ethernet-phy@0 {
->                         compatible =3D "ethernet-phy-ieee802.3-c45";
->                         reg =3D <0>;
-> -                       interrupt-parent =3D <&gpio6>;
-> -                       interrupts =3D <3 IRQ_TYPE_LEVEL_LOW>;
-> +                       interrupts-extended =3D <&gpio6 3 IRQ_TYPE_LEVEL_=
-LOW>;
->                 };
->         };
->  };
-> @@ -51,8 +50,7 @@ mdio {
->                 avb2_phy: ethernet-phy@0 {
->                         compatible =3D "ethernet-phy-ieee802.3-c45";
->                         reg =3D <0>;
-> -                       interrupt-parent =3D <&gpio5>;
-> -                       interrupts =3D <4 IRQ_TYPE_LEVEL_LOW>;
-> +                       interrupts-extended =3D <&gpio5 4 IRQ_TYPE_LEVEL_=
-LOW>;
->                 };
->         };
->  };
+>                 clocks =3D <&osc1>;
+>                 clock-names =3D "cec";
+>                 avdd-supply =3D <&reg_1p8v>;
+> diff --git a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi b/arch/arm64/boot/d=
+ts/renesas/ulcb-kf.dtsi
+> index 431b37bf566192d2..5a5dd5ecb75e0e7c 100644
+> --- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
+> @@ -150,8 +150,7 @@ hdmi@3d {
+>                                 pinctrl-0 =3D <&hdmi1_pins>;
+>                                 pinctrl-names =3D "default";
+>
+> -                               interrupt-parent =3D <&gpio2>;
+> -                               interrupts =3D <14 IRQ_TYPE_LEVEL_LOW>;
+> +                               interrupts-extended =3D <&gpio2 14 IRQ_TY=
+PE_LEVEL_LOW>;
+>
+>                                 clocks =3D <&cs2000>;
+>                                 clock-names =3D "cec";
 > --
 > 2.34.1
 >
