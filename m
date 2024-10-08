@@ -1,100 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-9589-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9590-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC49B994F84
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Oct 2024 15:28:25 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 387829950C2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Oct 2024 15:55:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 94F55285BBC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Oct 2024 13:28:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 81EF1B26B6F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Oct 2024 13:55:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 338AE1E04A1;
-	Tue,  8 Oct 2024 13:25:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5FFC1DF97A;
+	Tue,  8 Oct 2024 13:54:49 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9778D18C333;
-	Tue,  8 Oct 2024 13:25:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02A911DF74E;
+	Tue,  8 Oct 2024 13:54:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728393942; cv=none; b=SGcy/pcwocfY6OJ1God1V9nfj+SUYfjytPGkuDmk8HEQrGh9mB4pB0WUrt8SmzGDWpJu/cpXyUzYidkaIjX9Dsi7G/o0zAh0RW/wKdnM6dyIPVRCGKpynPEE23Ixqq9l+J1NJW4UKXrMke4ujHzLeDQWWcdsN4ZilZemN8xQTrM=
+	t=1728395689; cv=none; b=kt50DEBEwPGgQDLEEA2sVr9AtY9ybeSk//ol6k93d/0yWsA8vaHVL8nsjFCsTu+Iix6IwQFvu7V2sLPbgPu+Kdxb0Ykv1mAMoHqp73mV5Xbn5VYILKiv3J45vE5L6gfLG7WIV7WfZiofBfObH1PFRtq4mHgJn9zuFgx3bxIPO9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728393942; c=relaxed/simple;
-	bh=jIPXc0s49GXJD3Fk1pEhomcMlbPTHXFr9HosdN5ZLrE=;
+	s=arc-20240116; t=1728395689; c=relaxed/simple;
+	bh=LO8a+sxjyviC62YLXvVJ3sekmoTsrJ17qcMmxdMKoGQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nW6R0H6mj8Bsyt5uueeMGvFXpCd7CeyglE0DMeXgRMWUVf+/izNoCaSAv3KTtOYLm+57AmhMIcQ5kfWI1KdFG9S1fRBhPA20xRUAqSLzofYLhlaJLym/5eXFRlVamxDaFB72p+SDp79zgZ2BtBt4tqzdoRqsOfZGMfJo1e02lpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.176
+	 To:Cc:Content-Type; b=rjdVKurlN+8rIjcSJ/pOYIHh5XAhvYTovoiMmAvEHHfg3JhqL/QCNWB5kiWKnzPapf2dp6KwSf/MJPazH4NnioD5VC/zaZOU2vc+MboKJr6SLF/vL3s/swZhq6nRiyXz/QgPDce/z1DnSbYbBDITH4Uno5/UoKlR3FxhvRCksbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-6e2e424ab49so23048077b3.3;
-        Tue, 08 Oct 2024 06:25:40 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6e25f3748e0so57073367b3.0;
+        Tue, 08 Oct 2024 06:54:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728393937; x=1728998737;
+        d=1e100.net; s=20230601; t=1728395686; x=1729000486;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1eTUczWLqVNXasZJjw/6MkuEU30oFDIHMIf/C0sqcKE=;
-        b=JUQ4GTT6HrJvmrTa05KK/6Re7nCOzJAcFutSLYI4HpDTD4IwoCPG3Zk7oVHHAEpvBk
-         5M7NPz6NW1MEQfWBmjDkl/h9v2n+Bm/xWkfex6mCj83dX19Vgq2vPgKY+F5iP3MIlj1D
-         rk9ORJ1yV3L2QNPaobAbr1lzgpazXktS+yTOvVLGn01sTrkUTjzaR+u5xRGIb2IFZa7X
-         8sqRx0pHVWaBKFGLAQRC32hRBiAVo2lvUUeicZDXHwA7XWw2Gmjfgi6FaewzoH1LGHbL
-         AdSARM9jOQxZPUhgO3b5eKLp5FCK3rOv0tZdr3qFKksvFlgTe+EZi8Z4H+613PXc/Ngh
-         fC+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCULw+kKZKoLgXzQiaqO+0eCwCfQStkZCDuTOd+sbv7IMfgCO0w63KCcvxVPG7kne+AZ2bshbvrmujOqvQbUTkaXp0U=@vger.kernel.org, AJvYcCUQCE7xWgVUHoezz/OlbGdDxdeIm33Pu/DSXKtuFI7GQ3XfGhQ3zC+m14YhjHWfftsOIYuDY3zlOkjk@vger.kernel.org, AJvYcCVaV0aJJssTbhoAq67Qr4s3e4Yb/Z0w+f5wm9gOVNRvqgbpQrnrcgCzQ/ykVdS237jR6jy28JZ8gii7@vger.kernel.org, AJvYcCWhnBGmQm7n4+iJLX285Z+qzI0ltuiJpyJZHff8qryQgbFHpyFS4K1jOCjF5MsCQKbNJAmsBAMfX7g=@vger.kernel.org, AJvYcCWr0DZqb+UiFzyK241dP91mJF4Q35Laq0YWE4k9e6S6JlS3/6qNcCR5F32AuIrmqz7skm1I5zlSApQiRO9V@vger.kernel.org, AJvYcCX5RrQ6rfIjfzk/k7e3t3Vdh72ewCoPiQOfNLJtEQwu0qsHH0X9Ek1cDURuipNOzgdQVh0mXeZf9mjP@vger.kernel.org
-X-Gm-Message-State: AOJu0YzvJVBkvfLI8ymDam1ZVJB2qIsnTgwZ8iBUDMz0KC+AVIvJb5Ty
-	0aZd1o3Zk54YFg3V7gTGkqxDUGtU4TI918ozxsCGWJ5h7gjdP72mnj8nYOM/
-X-Google-Smtp-Source: AGHT+IEEBjIipgqa+07AuaD3+ns2D4X26JxK2+5zN8T7JGXjgQqTN6m+Yp4FRBV3KVowffIH4XBOcA==
-X-Received: by 2002:a05:690c:2fc9:b0:6e3:e1f:2434 with SMTP id 00721157ae682-6e30e1f272bmr21566837b3.12.1728393937366;
-        Tue, 08 Oct 2024 06:25:37 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e2d93e2d0bsm14285267b3.112.2024.10.08.06.25.33
+        bh=L3uCZskBH2tXjyYuhmNFj34NCuiW42SvvJ2N3l6bLtk=;
+        b=dhsCwCrXWFhQe5q72vZTUVYdVTTC4m/LIpg98PL1c+B/458IzGVMF5ghJsgbwnYc/l
+         /lkx4ppZ8U9T11I1P261RLXrKl7BM8iSEbynD0Tiq6P9LwsUIkoR7CXKGYUaIhS5/yqu
+         gNg0i/3Mkyidy7j+57WPhHSEVDwKokrodkgBvQ45aqj92DxDOMbPSpMqTTizwXNm5lCm
+         nTe1iELkxtKjo/4LJtqId+/n6ckQ6F2SsVBjo4bm+kQriFur7z++N7JkC8XhrtiXwG9J
+         iZwj2QAZ+3JqG300F938PsBx2iZKete5GyYHFlwXlktq4ivK2X/d2J9ELXbMUjzvEMpd
+         Sr1A==
+X-Forwarded-Encrypted: i=1; AJvYcCUmtC63cvYYW9ULbFy8Vbg97pQzCjr0iaFGAJuqfmuV347ee23TAscIO9cm73WT1U+glMMHBqPUfjk=@vger.kernel.org, AJvYcCVV1y/li12E9yXlftnPCXIORwREOZ4/40cWNPSo7iJt0NYmyKflHm3NZtKfLp8sFNCvh78NTwG2NHvb@vger.kernel.org, AJvYcCWK+a4ZOTc8WkXjzOJB9ikfKdKZH5ie39Ln33pWNh2kl3JkzGo+03JxaRL+BsvzhOc2pjmxARAM9ryu8iwVFI1wdCc=@vger.kernel.org, AJvYcCWZkVsUE7aJcuMJ/A2bxom8o89p1Xea12PFU8sveQWEYHZvppUrUeY/yLaJofHp1ZCxSSe2HfDAqA+X@vger.kernel.org, AJvYcCWn4gFLkWXZUq0EyCOyd5vuwwZToZ0tefo8Hu1aeESWC7KPsPi72nsvbZ4upQfhsmul0C2D6qQsOfFbFh96@vger.kernel.org, AJvYcCX+luNUrVoFUAUgbTldFLgs95jAyI+Y7SboqRuvMTrzGficVGtX5Ii0k4wKHo12m5zuI+ViYMwsMKw+@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOgPPDHFnzBpwwqykHZ+5+Jy4+tyRRMeFB35rH/YmXjaCM8Wz5
+	3d/u/dJhu3onBlSrMZDVRsQO2pQduiVPU6W89n7jqRO5WfK2Z4OkTQ/yMkrU
+X-Google-Smtp-Source: AGHT+IE3dMwOza+AVSqH1LE/rEHn4F9GIOTC8H1byRwwn11XsFIJT227xStdSmI67pYeyiuzj8Cr9g==
+X-Received: by 2002:a05:690c:700a:b0:6b1:2825:a3cd with SMTP id 00721157ae682-6e2c728aa03mr120194077b3.35.1728395686643;
+        Tue, 08 Oct 2024 06:54:46 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e2d937c4d9sm14337007b3.56.2024.10.08.06.54.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Oct 2024 06:25:35 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6e2d2447181so30052097b3.1;
-        Tue, 08 Oct 2024 06:25:33 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUlmJPvoxGfFdf0fy6+IcuV867nIa4h3HWgiRca1w5ndoicX4rU50WfAP1pW2iJMP5sM1RqAZfeeemUruLS@vger.kernel.org, AJvYcCUzs2QAYZ0Sx7d8hsLIdnCeFLwLSfIuK174Vdgb0ih2UKqrJBD7Awd8fuNMF5Hrs92plbgJkw2sLEa8@vger.kernel.org, AJvYcCVkBjxFrJrb/K7E8TOPBuNykn43/UiBGvMnVKzFaoT4oBCth6siNlFW7ZDMiVIdmGuEXe2qwyzDm/7L@vger.kernel.org, AJvYcCXR6XBEwA3LiELVDuD4sSMBrLlL9qFXjPIQZkhn14QRf9mN37qPM1bR5XHGfnvnQRlOjVqooG7u7FFO@vger.kernel.org, AJvYcCXhTyoGjFnvn+9xaj8pJq+EiF8oGSdWd2XYHCDbDEe+L7PzAKBLPiwQXF7z3a1pQn1OezKX2Af866UJqxbsvZTbZkU=@vger.kernel.org, AJvYcCXty+ZmMFlbBz6MsIYD9clavA6dzI5irrZLTyElYQ6teFZW5HEMqHWm1m1VABtfcvTF3UbgiJ1wtW8=@vger.kernel.org
-X-Received: by 2002:a05:690c:2e0d:b0:6db:db7b:891c with SMTP id
- 00721157ae682-6e2c6ff8368mr89381207b3.14.1728393933660; Tue, 08 Oct 2024
- 06:25:33 -0700 (PDT)
+        Tue, 08 Oct 2024 06:54:46 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-6e2e424ab49so23420847b3.3;
+        Tue, 08 Oct 2024 06:54:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCURNkZhtyAHS52ACMW77Q6JjbJ2VhIJbZ/ipS1srnisTmEnEppfi+mfuH7rr2GOJl4jce2zcConKNvc@vger.kernel.org, AJvYcCUW5c8rXd5UQDeC1cbvMN/sm1OOi+g7Ffg90C4xF/sUes7n1FMrTTbbRDBHaNs5/VGEoz3BDIClNpuky/5L@vger.kernel.org, AJvYcCUgJOZsrl+gAZrOy02V6O8GOG6nfvjDrTaHeVkdk5uwQZouUnzMcF4gEgp3pN7UfHiryZ4G18Ve4boW@vger.kernel.org, AJvYcCUpKOf4yHncJwcVMOXCtL+YIH621e1/qIUM0zHQn4Lyk2WQtyucf8khqg4WztWQGD7sXMs+q2m0QpGYy3x/TE4z9cQ=@vger.kernel.org, AJvYcCVp2acOyRMm45Hycpv8bXaMU4iwilb6Mqgo6UqyjZ+D/xUDrMKQPlToiSW7frGOalYIxYhoswlMjQjV@vger.kernel.org, AJvYcCVpoOEzYcyugh1nrHUCcEcdqlnEVwHGbFn7nh4TLl7/PtGSr4WUmqaRI/zF3IzmM/PJ85Kjv3EwrRI=@vger.kernel.org
+X-Received: by 2002:a05:690c:6ac8:b0:6de:a3:a7ca with SMTP id
+ 00721157ae682-6e2c728a25fmr119511907b3.32.1728395685683; Tue, 08 Oct 2024
+ 06:54:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com> <20240822152801.602318-4-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20240822152801.602318-4-claudiu.beznea.uj@bp.renesas.com>
+References: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240822152801.602318-5-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdVQsHx0nC3xwQWVRWyWMnbXd1=RokNn8rkJv3bfG_0p-A@mail.gmail.com> <23531a70-cf50-4b32-a9fd-81e6cfcbcf9d@tuxon.dev>
+In-Reply-To: <23531a70-cf50-4b32-a9fd-81e6cfcbcf9d@tuxon.dev>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 8 Oct 2024 15:25:21 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW+OoOghaRdSgxY0cA7eeE1+N+CUetQXx1Rnt9d0wyd9g@mail.gmail.com>
-Message-ID: <CAMuHMdW+OoOghaRdSgxY0cA7eeE1+N+CUetQXx1Rnt9d0wyd9g@mail.gmail.com>
-Subject: Re: [PATCH 03/16] dt-bindings: reset: renesas,r9a08g045-sysc: Add
- reset IDs for RZ/G3S SYSC reset
-To: Claudiu <claudiu.beznea@tuxon.dev>
+Date: Tue, 8 Oct 2024 15:54:33 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWakggcbrBetKht+JHB5F+fxoi9U-oJMMq=ythUOqtYkA@mail.gmail.com>
+Message-ID: <CAMuHMdWakggcbrBetKht+JHB5F+fxoi9U-oJMMq=ythUOqtYkA@mail.gmail.com>
+Subject: Re: [PATCH 04/16] soc: renesas: Add SYSC driver for Renesas RZ/G3S
+To: claudiu beznea <claudiu.beznea@tuxon.dev>
 Cc: vkoul@kernel.org, kishon@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, p.zabel@pengutronix.de, magnus.damm@gmail.com, 
-	gregkh@linuxfoundation.org, mturquette@baylibre.com, sboyd@kernel.org, 
-	yoshihiro.shimoda.uh@renesas.com, biju.das.jz@bp.renesas.com, 
-	ulf.hansson@linaro.org, linux-phy@lists.infradead.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
-	linux-pm@vger.kernel.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+	conor+dt@kernel.org, p.zabel@pengutronix.de, geert+renesas@glider.be, 
+	magnus.damm@gmail.com, gregkh@linuxfoundation.org, mturquette@baylibre.com, 
+	sboyd@kernel.org, yoshihiro.shimoda.uh@renesas.com, 
+	biju.das.jz@bp.renesas.com, ulf.hansson@linaro.org, 
+	linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 22, 2024 at 5:28=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
-wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> Add reset IDs for the Renesas RZ/G3S SYSC reset controller driver.
->
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Hi Claudiu,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Wed, Sep 25, 2024 at 9:50=E2=80=AFAM claudiu beznea <claudiu.beznea@tuxo=
+n.dev> wrote:
+> On 24.09.2024 14:32, Geert Uytterhoeven wrote:
+> > On Thu, Aug 22, 2024 at 5:28=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.d=
+ev> wrote:
+> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >>
+> >> The RZ/G3S SYS Controller has 2 registers (one for PCIE one for USB) t=
+hat
+> >> need to be configured before/after powering off/on the PCI or USB
+> >> ares. The bits in these registers control signals to PCIE and USB that
+> >> need to be de-asserted/asserted after/before power on/off event. For t=
+his
+> >> add SYSC controller driver that registers a reset controller driver on
+> >> auxiliary bus which allows USB, PCIE drivers to control these signals.
+> >>
+> >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >
+> > Thanks for your patch!
+> >
+> >> --- /dev/null
+> >> +++ b/drivers/reset/reset-rzg3s-sysc.c
+> >> @@ -0,0 +1,140 @@
+> >> +// SPDX-License-Identifier: GPL-2.0
+> >> +/*
+> >> + * Renesas RZ/G3S SYSC reset driver
+> >> + *
+> >> + * Copyright (C) 2024 Renesas Electronics Corp.
+> >> + */
+> >> +
+> >> +#include <linux/auxiliary_bus.h>
+> >
+> > Using the Auxiliary Bus requires selecting AUXILIARY_BUS.
+>
+> Thank you for pointing it. I'll adjust it in the next version, if it will
+> be one.
+
+Thanks, the rest LGTM.
 
 Gr{oetje,eeting}s,
 
