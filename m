@@ -1,103 +1,126 @@
-Return-Path: <linux-renesas-soc+bounces-9576-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9577-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01F4D9942BA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Oct 2024 10:51:11 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D513C994347
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Oct 2024 11:02:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 97B6628813D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Oct 2024 08:51:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F3A7E1C23727
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Oct 2024 09:02:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C70F1E0489;
-	Tue,  8 Oct 2024 08:25:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Z78DEJJP"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3B51183CD4;
+	Tue,  8 Oct 2024 08:59:31 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C40F1E0483
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Oct 2024 08:25:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58EC18308A
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Oct 2024 08:59:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728375957; cv=none; b=ia/UM7k70vTJ2RljAN8hjEUCtKkJtoVLLvMnD6wJnRCM2LdQoSdyYdOZpj2AJ4owTxRzsQ7LdaRS1xqAtKJCqJhqoX2c+pagOcHoMhT+ryqzLFE3NjpseIdOCTFx1wdn/m7CUUHrejl0DDCyXo8Oa2w8RpChqMNANznlAAcz75Q=
+	t=1728377971; cv=none; b=KwMWA8y834sNONUITZm+st92s0kemzLG87THU8X1U8ctuIrXweRnz1IARM/zkuxnszf0kDuTNig3jiHM1vRbaHfqVauE/hVFEVZel+rUxbFxn6B3y7tL8A/alyHei8gQE5kumu/IKbkB34CqTSGSl8eGuKakQYOfyWYwCtUupX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728375957; c=relaxed/simple;
-	bh=uOmKQ7nUzDGkx7pfIi6OXG6RrYigBkVLaKWzecRpq4M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UBKccWdjzd/O+X6OhI/CCim9AymRQKND706n84jJERWcNstjpOT+KC2TfzYCjR+1V48h3F0Nvb8rrSKnbYJVMQyC9XT6mssVAMcxGlpICZtc1eIZOg+p7Hk/EzUsOggv8Ld+oI4wqUzGapSrBvn4d/hRqmtl2OMAkFJ8zirjj/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Z78DEJJP; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=uOmK
-	Q7nUzDGkx7pfIi6OXG6RrYigBkVLaKWzecRpq4M=; b=Z78DEJJPb2nCXXXnAM7c
-	TO9CbEzDuRMnZRrkFvW2UtczkJlfuue1gIr6AMdEiEhnOeT5nhE0wHSfnsTRcXtC
-	1+QElCUfxT4vdavOlaCJMRAUPWGlHiGSXNU9/kiJ1ydoXc5Zt0zYQSNtIpzY2AVE
-	we/YL2JeZ1xFF/Sp+atQ1K4Mp0D2nyldcS5Fnqrp4E11fsG2b6WI4EXeUQcjkTOh
-	EnqOAxcw3zfMOb2cm4dwm6cSMsqxnz3NYWqNNyGPgECksuvM0pzDB6hpEwIVQPI2
-	Kt9HrAXDAyFDqz59rRQCwl6WBHyMyukDd71CXEOLPPuHSTXTsxSS0OpOjPuZ6hxU
-	GQ==
-Received: (qmail 400174 invoked from network); 8 Oct 2024 10:25:52 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 8 Oct 2024 10:25:52 +0200
-X-UD-Smtp-Session: l3s3148p1@M+yj4vIjWHNtKPHJ
-Date: Tue, 8 Oct 2024 10:25:51 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: linux-i2c@vger.kernel.org
-Subject: Re: [PATCH] i2c: support gpio-binding for SMBAlerts
-Message-ID: <ZwTsj_GG6F1UZL6t@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org
-References: <20240909110430.28665-2-wsa+renesas@sang-engineering.com>
+	s=arc-20240116; t=1728377971; c=relaxed/simple;
+	bh=24CJ/UOc9KNzJisZZSa4q/pwTaUJlPLKc8ycY+1UsDk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=TU26x6nHxuDqh+CS+HMD5+I/dDPgvRVlmJjlK5kzungh6EHjNfxEBiDH/mDSZbrxWpsjo0iAcUK6kM5VxbrlY1kR7Ymxf/S/DIBaSdXsRgE8kUCiZPv3ULa8Cli1zO4uwd194A4WlsL8bMs8zsNf6HjiXbctYhGEYTDcQ3jCSMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:af78:ce2e:2b4b:9f2a])
+	by albert.telenet-ops.be with cmsmtp
+	id MkzL2D00F0Eqs9l06kzLLs; Tue, 08 Oct 2024 10:59:21 +0200
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1sy63i-003RXW-0h;
+	Tue, 08 Oct 2024 10:59:20 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1sy63s-00D27I-Dk;
+	Tue, 08 Oct 2024 10:59:20 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] clk: renesas: r8a779h0: Drop CLK_PLL2_DIV2 to clarify ZCn clocks
+Date: Tue,  8 Oct 2024 10:59:17 +0200
+Message-Id: <0d2789cac2bf306145fe0bbf269c2da5942bb68f.1728377724.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="9NVCBK0mdUb9gLPa"
-Content-Disposition: inline
-In-Reply-To: <20240909110430.28665-2-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Early revisions of the R-Car V4M Series Hardware User’s Manual
+contained an incorrect formula for the CPU core clocks:
 
---9NVCBK0mdUb9gLPa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+    ZCnφ = (PLL2VCO x 1/2) x mult/32
 
-On Mon, Sep 09, 2024 at 01:02:56PM +0200, Wolfram Sang wrote:
-> Most I2C controllers do not have a dedicated pin for SMBus Alerts. Allow
-> them to define a GPIO as a side-channel.
->=20
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Dang-san fixed this by using CLK_PLL2_DIV2 instead of CLK_PLL2 as the
+parent clock.
 
-DT-Schema dependency is upstream now. So, applied to for-next.
+In Rev.0.70 of the documentation, the formula was corrected to:
 
+    ZCnφ = (PLL2VCO x 1/4) x mult/32
 
---9NVCBK0mdUb9gLPa
-Content-Type: application/pgp-signature; name="signature.asc"
+As the CPG Block Diagram now shows a separate 1/4 post-divider for PLL2,
+the use of CLK_PLL2_DIV2 is a recurring source of confusion.  Hence get
+rid of CLK_PLL2_DIV2, and include the proper 1/4 post-divider in the
+invocation of the DEF_GEN4_Z() macro, like is done on other R-Car Gen4
+(and Gen3) SoCs.
 
------BEGIN PGP SIGNATURE-----
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be queued in renesas-clk for v6.13.
+---
+ drivers/clk/renesas/r8a779h0-cpg-mssr.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmcE7I8ACgkQFA3kzBSg
-KbYRtQ/+OYw8JWfZCgsHHmmSFfMKb7cC6+wdF2ZIGbe12D0Z81Dl0XWWW2NnafEC
-g3BdcllaexiZMEroJM09K3bzb29Hz+MKi5L6xA9kqONL5e8X9qunPu3fWs3fiWqZ
-2TRPxPwmBWSVh/0gnWbAKpfqIWHhpTEYLBsxL2eDut6xw1JXjfVhcRKjo4P5dfP/
-en6ZPgdyqLBaz/jE/zNPurVUeRRWDyzAO7bE1QYaIkS/iuWTcJJlZPCrwFQjwrKF
-GlOMO6GjHQHPtCdlBl+xtkwRYugFSjTuB8QVCLYkTBTh4xjtZufI5NqulDymGzpc
-VXnNiEQN5Psh4aOXTPdZ+yG4h/iS4JsCaotRcqlCY0Qtle/M8tWLrl+eKU04er4T
-31R9uCmSZjQxBn8m1QiGbGCC0Reiktw2KeM7M9jfNQ4nfev642MrgaN0mDVWDMcx
-vv7oWTq9vxFB7qyhjv0zlpZm4i4DG3RChrNZabU4sS/xZNlvOAv300Um2q3dP5N6
-loJSSpjTXxTOVCyI+V1jiwve/mibP414YoNkWs9fJKz6xT8XEEHkUTnbn+4MUwEz
-74zWKR5KIzTSApzriab0Xr8YHufHWUJNfTqdwouwBehc877Uy0Tdd2wE4lbAynXh
-elu4dQO8RfghcKbNyHU5AGaxYG8r91krjld8qr+h14o9KeNHQOo=
-=OosC
------END PGP SIGNATURE-----
+diff --git a/drivers/clk/renesas/r8a779h0-cpg-mssr.c b/drivers/clk/renesas/r8a779h0-cpg-mssr.c
+index e20c048bfa9be142..9067e407cbc69f00 100644
+--- a/drivers/clk/renesas/r8a779h0-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a779h0-cpg-mssr.c
+@@ -37,7 +37,6 @@ enum clk_ids {
+ 	CLK_PLL5,
+ 	CLK_PLL6,
+ 	CLK_PLL1_DIV2,
+-	CLK_PLL2_DIV2,
+ 	CLK_PLL3_DIV2,
+ 	CLK_PLL4_DIV2,
+ 	CLK_PLL4_DIV5,
+@@ -78,7 +77,6 @@ static const struct cpg_core_clk r8a779h0_core_clks[] __initconst = {
+ 	DEF_GEN4_PLL_V8_25(".pll6", 6,	CLK_PLL6,		CLK_MAIN),
+ 
+ 	DEF_FIXED(".pll1_div2",	CLK_PLL1_DIV2,	CLK_PLL1,	2, 1),
+-	DEF_FIXED(".pll2_div2",	CLK_PLL2_DIV2,	CLK_PLL2,	2, 1),
+ 	DEF_FIXED(".pll3_div2",	CLK_PLL3_DIV2,	CLK_PLL3,	2, 1),
+ 	DEF_FIXED(".pll4_div2",	CLK_PLL4_DIV2,	CLK_PLL4,	2, 1),
+ 	DEF_FIXED(".pll4_div5",	CLK_PLL4_DIV5,	CLK_PLL4,	5, 1),
+@@ -101,10 +99,10 @@ static const struct cpg_core_clk r8a779h0_core_clks[] __initconst = {
+ 	DEF_RATE(".oco",	CLK_OCO,	32768),
+ 
+ 	/* Core Clock Outputs */
+-	DEF_GEN4_Z("zc0",	R8A779H0_CLK_ZC0,	CLK_TYPE_GEN4_Z,	CLK_PLL2_DIV2,	2, 0),
+-	DEF_GEN4_Z("zc1",	R8A779H0_CLK_ZC1,	CLK_TYPE_GEN4_Z,	CLK_PLL2_DIV2,	2, 8),
+-	DEF_GEN4_Z("zc2",	R8A779H0_CLK_ZC2,	CLK_TYPE_GEN4_Z,	CLK_PLL2_DIV2,	2, 32),
+-	DEF_GEN4_Z("zc3",	R8A779H0_CLK_ZC3,	CLK_TYPE_GEN4_Z,	CLK_PLL2_DIV2,	2, 40),
++	DEF_GEN4_Z("zc0",	R8A779H0_CLK_ZC0,	CLK_TYPE_GEN4_Z,	CLK_PLL2,	4, 0),
++	DEF_GEN4_Z("zc1",	R8A779H0_CLK_ZC1,	CLK_TYPE_GEN4_Z,	CLK_PLL2,	4, 8),
++	DEF_GEN4_Z("zc2",	R8A779H0_CLK_ZC2,	CLK_TYPE_GEN4_Z,	CLK_PLL2,	4, 32),
++	DEF_GEN4_Z("zc3",	R8A779H0_CLK_ZC3,	CLK_TYPE_GEN4_Z,	CLK_PLL2,	4, 40),
+ 	DEF_FIXED("s0d2",	R8A779H0_CLK_S0D2,	CLK_S0,		2, 1),
+ 	DEF_FIXED("s0d3",	R8A779H0_CLK_S0D3,	CLK_S0,		3, 1),
+ 	DEF_FIXED("s0d4",	R8A779H0_CLK_S0D4,	CLK_S0,		4, 1),
+-- 
+2.34.1
 
---9NVCBK0mdUb9gLPa--
 
