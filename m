@@ -1,130 +1,147 @@
-Return-Path: <linux-renesas-soc+bounces-9582-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9583-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A99D994472
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Oct 2024 11:38:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 698A0994516
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Oct 2024 12:08:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C8BB81F25605
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Oct 2024 09:38:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 838E81C2261B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Oct 2024 10:08:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF9FA184551;
-	Tue,  8 Oct 2024 09:38:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C37B18DF65;
+	Tue,  8 Oct 2024 10:08:28 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF7E842A9F;
-	Tue,  8 Oct 2024 09:38:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387A778276;
+	Tue,  8 Oct 2024 10:08:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728380288; cv=none; b=g9jHWxIfnt37Gm0/FOXIYvmUAiurWKkCzzChi/FyXEojPzhzVgaUIg57SCWdqzeIOAcINNwYy+ugIMZ6vaCTjts00NdRRH5EPnsiaE217CBnADFzzRI0cpLjL1OIhMnaScWbxfaf/ZmGxq8dsC+Kh/h5EhpPaZy8aFfHBPT8a/4=
+	t=1728382108; cv=none; b=g+cjGgcPQNoz15H5fcUwMUkzdiWqfVrEImwMrK5XUp6vy/CT8InURYjF3gtlOYKBNMTo2wFDWubXbauIJVkf2MS47U/hOO5SJCUAe2YSHvgg8a8RxCWpvdOvpVGSlBBybUkOnKBX9r0znj53qpJUBuIxdnuHXhiXYy0CN55IqSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728380288; c=relaxed/simple;
-	bh=VDfSHUBnR4JM/dSLLvi2ecdeTE5LK1dl9tRDC+jjD+8=;
+	s=arc-20240116; t=1728382108; c=relaxed/simple;
+	bh=kmCNfHjWXdftj3Q1U37B1UQ/6HSiMQJPwXH7I/NxWgQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Hb0zBdQ9fIU2XDeQikXjMzYk1yyGuqflIRHUtP9cF8TAqKZanAq2mw8xtHmD1ngBAcWWWeh/2gG5XRHSR5VcDBBVaRMnVnBgQWfTmQjCUnVYZ5z91dByHzB44m2MYBCl5tOHCZl1rgygWZ4aO+T+A64AM9wQo3y/GMboFiPgQK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.182
+	 To:Cc:Content-Type; b=mwf1yWBCiE95mudF8bxrXOZ9sZ4x0yfH29W0nA4raLtvJOnRC9lVRMFUc+ICOrId3B16PVsU/Pg2+Udt+ymFhQtznVQveuaWPwUWe7Z7Gdz8WgfBnDXTS82tjgP8xOfBzFSpK3pKehgbkmMu4Z0OECTCSxjAQaCC2DILjnxIeCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6db836c6bd7so50729777b3.3;
-        Tue, 08 Oct 2024 02:38:06 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-6dbc9a60480so45930787b3.0;
+        Tue, 08 Oct 2024 03:08:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728380285; x=1728985085;
+        d=1e100.net; s=20230601; t=1728382105; x=1728986905;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=amLheK7FGC0Xs86wdxaUhSr4nQtNCziEIoueb643aqc=;
-        b=BLAHLjt+gFF5vDZI6D6bfXF1GnhueCjYmJmeik/G2yzNpoTSzNXUB1wmgggbGjWdFV
-         Yak+ly5JKQgPSHlgAGc6YJJIbLtdLQTbdDTQGrNSk0l+oLns9xfo1Dd9AD3S0mC69cDx
-         D6Ugk3cZ+FweegO47F2lBV/JgzHixScqXsns2laXNyukzPXrF6gQT0LZozkGHA7uEXun
-         gn2NmaeaiI+OOZvCQbzgSHgy/XPYOiATCqq92cLjWJFPv/DIarpU4UUJU+RF8BrOwwky
-         /LY4Gk7wx/F/tkeusMtid53XijkcxB7e6/HOkFwm4RosK/J3UdLQVp03qoi9DseLHVw9
-         ZC0A==
-X-Forwarded-Encrypted: i=1; AJvYcCWuLLxKOkD9ceyjzvdPZVVoDvfzzwoSOkc0yi/3e86u55z6Kn1kOAr0MtPc0jdN9cm8SFcHc2Wb4C0RFWmdsuaAS2c=@vger.kernel.org, AJvYcCXKuapoTgObCD5kd8BLJxT51u9X83Tc4DP93j6vdi9zgtsdjN0PM/udb8fvuW9hmuD/AC7M6VfePKM=@vger.kernel.org, AJvYcCXj+YUuu5hiFFzPgknMXb38io2WG1TEYIZssY/umxlzrfyoHsKZeAGmzHSpgE3eCE85QQVKjcrtGSK2@vger.kernel.org
-X-Gm-Message-State: AOJu0YxlbhgUPK93TcKviyXt/cIFUNagxfftruaNDRFFWpTKUGlaln+9
-	G6yGv7+EOR8Defzge2ssP1N5So/t5uPtteSR47UCpM2N9R2i47uhzXPN+FtR
-X-Google-Smtp-Source: AGHT+IFHHwU11wIPKGAWdpJmn2TN8RmZeVtoydI0Cb2R2NGasKfAv+IBiuRry314o28LpXaLZXBJDQ==
-X-Received: by 2002:a05:690c:2510:b0:6e3:fb4:9333 with SMTP id 00721157ae682-6e30fb49398mr11738227b3.28.1728380285454;
-        Tue, 08 Oct 2024 02:38:05 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e2d927f546sm13683537b3.40.2024.10.08.02.38.05
+        bh=eofPis0FPAdLt8MucuiPgt80mBBI69FxYuGtMj8mdn0=;
+        b=pcOAbrCwBakVO6dthbF1B7ZM4d2idBlDzFrNdNeKenfBbhPIQE9GB9UAte611Obh9d
+         I9/3og6qzrllT9qZ/TS/0es43yvaq0XOTxVFq+dEhBdJTi9Gqw44oPDCVBjJ6Lb9G8Gn
+         pxuzK8W1/k/u8w7ZRNT95P9kfKFZdcBRzNAIvuAkzv6l0Wiu/gLKu2T81t1y3rrQyOAa
+         sJuUaf2gVcVwIS5J06vrJz5IVLWtn/RsvQ1vvErNzaUdkXWpjy/MelfcXN6+Yo0nq2Nn
+         2FMN7PWNm7kwO5zTOrKO3AnUt2tDZzzoCpS2+T2lCVWReSCwfiENg72AKytZLHA9DNV5
+         VnjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUD9HVqB4jdkJHZD/E35HR4loPnhHNyawUEJPcMFNcJgh8ZACgq55vm6zZ1ANWZrZNUiMh+scbeoGFcbUn305oyflc=@vger.kernel.org, AJvYcCVq3G6IBKHDUqeiqquN2eU2KwzrvYQuxVD6mNuDvm5cbdwYaJkfBXkM9DaSZC7NWPE4UmqVYSxxcoTxCKsJ@vger.kernel.org, AJvYcCX5XXPDViEqPbF4zmQtPXYOVU1CjCjfh4i7jFbpTtBpzCdlySp9gNQG6xwOomRK6W/XXjrxo6t13qLT@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5venrTDdVN3w0l+Gh+Q4rMxAqoemfTsxJXp42496hPh3ZDpKp
+	GUXXX0yaiXe7YfaTY4HWe9mtfIkk7V4alcpFXkpkd6GB2hpTGtZ36qjosGCb
+X-Google-Smtp-Source: AGHT+IHGa0DD6v0k5cgNLFSAW51Hkuu1o74aAvKlpN2Ra7Tvx489n+9O/ZfZgaOl8ri1DliLjED8zQ==
+X-Received: by 2002:a05:690c:f8f:b0:6dd:cdd7:ce5a with SMTP id 00721157ae682-6e2c7036ae1mr126498757b3.18.1728382104614;
+        Tue, 08 Oct 2024 03:08:24 -0700 (PDT)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e2d93e271fsm13591067b3.105.2024.10.08.03.08.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Oct 2024 02:38:05 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6e305c2987bso14870817b3.0;
-        Tue, 08 Oct 2024 02:38:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUdC22imHNac1D885N+c+c5Yg1B5s4duPFILAQfAwCGf3zVMm1ewy2o49jkirv51wG9vR64tmBdM6s92adotGLgj5s=@vger.kernel.org, AJvYcCVL+qObIGmrOOBHSk4NO3WaOG/PVI56TnP0etaDYWgR/0Wg7jiZuNTA3cEBekxVORIXBhaSs0WQOj6m@vger.kernel.org, AJvYcCVmXZxDl0C2xoXlI+UDJ9suqwoARljvkW+aNp7EEXLo563ojCCdzTmHa6M6Af3IFF/BIU7SgkuqB5U=@vger.kernel.org
-X-Received: by 2002:a05:690c:eca:b0:6e2:ad08:4914 with SMTP id
- 00721157ae682-6e2c6fc3638mr135606787b3.9.1728380284911; Tue, 08 Oct 2024
- 02:38:04 -0700 (PDT)
+        Tue, 08 Oct 2024 03:08:24 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6e2f4c1f79bso19004607b3.1;
+        Tue, 08 Oct 2024 03:08:23 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUQUcEGpvvYkekSrpXUKbEaU+udJ/OkXaYEc3GaTfO9O7MukfHkkFNvQmPQrKAKdrOIuzV0+uGlvK/xFLDlgKzE/TI=@vger.kernel.org, AJvYcCVCQ+/B2UKPm0QsD+AJ9dyxuT+9vayPtZeH7cDHrKfmUjTcwQJHBoWR5x3oe86sA4JzbpOUYDCGvSl1fG0+@vger.kernel.org, AJvYcCXOoQq0wSRw5y5ktFUSEnuDHC+yfuuLTZPPoGJUaXPIs4QzZwYFbYXkdWsqTzPt2zeWP6e05/t8ZjVF@vger.kernel.org
+X-Received: by 2002:a05:690c:eca:b0:6b3:a6ff:7676 with SMTP id
+ 00721157ae682-6e2c6fcbc5fmr128552717b3.3.1728382103697; Tue, 08 Oct 2024
+ 03:08:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1728377971.git.geert+renesas@glider.be> <TY3PR01MB113460E688CC3689D94C85F6E867E2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY3PR01MB113460E688CC3689D94C85F6E867E2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20241004133108.779934-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20241004133108.779934-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 8 Oct 2024 11:37:53 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUVyRcjzaxTB=LqPFtt3Jn5Afrkpp67a5HWThPEXNy47A@mail.gmail.com>
-Message-ID: <CAMuHMdUVyRcjzaxTB=LqPFtt3Jn5Afrkpp67a5HWThPEXNy47A@mail.gmail.com>
-Subject: Re: [PATCH/RFC 0/2] arm64: dts: renesas: Re-add voltages to OPP tables
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Lukasz Luba <lukasz.luba@arm.com>, Magnus Damm <magnus.damm@gmail.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Date: Tue, 8 Oct 2024 12:08:11 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXDc55KO-d0i0_ag0udh7sGCjFfJ78aw8o1-9zaHS15+A@mail.gmail.com>
+Message-ID: <CAMuHMdXDc55KO-d0i0_ag0udh7sGCjFfJ78aw8o1-9zaHS15+A@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r9a09g057: Add OPP table
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Biju,
+Hi Prabhakar,
 
-On Tue, Oct 8, 2024 at 11:30=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.co=
+On Fri, Oct 4, 2024 at 3:31=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.co=
 m> wrote:
-> > -----Original Message-----
-> > From: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Subject: [PATCH/RFC 0/2] arm64: dts: renesas: Re-add voltages to OPP ta=
-bles
-> >
-> > When CONFIG_ENERGY_MODEL=3Dy, an error is printed on RZ/G2E and R-Car E=
-3:
-> >
-> >     cpu cpu0: EM: invalid perf. state: -22
-> >
-> > This happens because the Operating Points Parameters tables do not list=
- voltages, as they are all
-> > identical.  Previously, it was assumed they were optional, and unused, =
-when none of the CPU nodes is
-> > tied to a regulator using the "cpu-supply" property.  This assumption t=
-urned out to be incorrect,
-> > causing the reported error message.
-> >
-> > This RFC patch series fixes this by adding the missing voltages.
-> >
-> > Note that the Energy Model calculates energy efficiency by dividing the
-> > (estimated) CPU power consumption by CPU core clock frequency.  When al=
-l voltages have the same value,
-> > the former is proportional to clock frequency, and energy efficiency be=
-comes a constant.  Hence all
-> > operating points are considered to have the same efficiency, and the En=
-ergy Model always picks the one
-> > with the highest clock rate (see also [1]).
-> >
-> > Alternatively, the Energy Model could be changed to silently ignore OPP=
- tables with missing
-> > frequencies.  IMHO this is not an unusual case.
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> I guess cooling uses OPP table for frequency down scaling at higher temp.=
- So, we need
-> OPP tables for thermal governors??
+> Add OPP table for RZ/V2H(P) SoC.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Yes, you still need OPP tables for thermal governance.
-But the Energy Model cannot really use it when the voltages are identical.
+Thanks for your patch!
+
+> --- a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
+> @@ -20,6 +20,39 @@ audio_extal_clk: audio-clk {
+>                 clock-frequency =3D <0>;
+>         };
+>
+> +       /*
+> +        * The default cluster table is based on the assumption that the =
+PLLCA55 clock
+> +        * frequency is set to 1.7GHz. The PLLCA55 clock frequency can be=
+ set to
+> +        * 1.7/1.6/1.5/1.1 GHz based on the BOOTPLLCA_0/1 pins (and addit=
+ionally can be
+> +        * clocked to 1.8GHz as well). The table below should be overridd=
+en in the board
+> +        * DTS based on the PLLCA55 clock frequency.
+> +        */
+> +       cluster0_opp: opp-table-0 {
+> +               compatible =3D "operating-points-v2";
+> +
+> +               opp-1700000000 {
+> +                       opp-hz =3D /bits/ 64 <1700000000>;
+> +                       opp-microvolt =3D <900000>;
+> +                       clock-latency-ns =3D <300000>;
+> +               };
+> +               opp-850000000 {
+> +                       opp-hz =3D /bits/ 64 <850000000>;
+> +                       opp-microvolt =3D <900000>;
+
+According to Table 10.1-2 ("Recommended Operating Range"), this should
+be 800000 for this and all operating points below.
+
+> +                       clock-latency-ns =3D <300000>;
+> +               };
+> +               opp-425000000 {
+> +                       opp-hz =3D /bits/ 64 <425000000>;
+> +                       opp-microvolt =3D <900000>;
+> +                       clock-latency-ns =3D <300000>;
+> +               };
+> +               opp-212500000 {
+> +                       opp-hz =3D /bits/ 64 <212500000>;
+> +                       opp-microvolt =3D <900000>;
+> +                       clock-latency-ns =3D <300000>;
+> +                       opp-suspend;
+> +               };
+> +       };
+
+The rest LGTM.
 
 Gr{oetje,eeting}s,
 
