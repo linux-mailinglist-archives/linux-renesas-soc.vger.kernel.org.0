@@ -1,70 +1,70 @@
-Return-Path: <linux-renesas-soc+bounces-9584-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9585-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A72E199463A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Oct 2024 13:10:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 523B0994784
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Oct 2024 13:43:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2A8C01F29045
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Oct 2024 11:10:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D60861F212B3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Oct 2024 11:43:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41C351D26F2;
-	Tue,  8 Oct 2024 11:06:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 621EB1DE2D8;
+	Tue,  8 Oct 2024 11:43:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HbWkX+cb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZptZMtV2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C6DD16FF2A;
-	Tue,  8 Oct 2024 11:06:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E38D1D1757;
+	Tue,  8 Oct 2024 11:43:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728385574; cv=none; b=i9SEC3//fEYk3GGLhtBHqDef6DA9d/lFDwwRRGsuIG8iJSoff/hG5HNoJvu+Yrtb6ElKbwIihU93CjLR6+06k5myYq9p7ekmplxBEutDZYdMTqV6vr3aq9DLDfWZwcb9q7YfrQnVIIILLbFmNW5sH5yWxN6ORH/ioJXUuuOdotU=
+	t=1728387784; cv=none; b=rDixLAKNg/ZS7xxMLUzQ+jFaZnr7TbX2ykkwncPoN0cycnD+DMpgSCXbJjoMAqvJD/sqApt+PH+MCmKrBxG4CZ65w5QDxT/1J1U5L5F2Ffpru0/IL7iZVtIKVFtboFbfUctdVgCFtbqWI0AuEFDEk0JSQJ8iwZifAQ/31fn3loI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728385574; c=relaxed/simple;
-	bh=RPO7jVFt26dwjcYzMBn1wdOFCuV+0MtqoPac+9csBtQ=;
+	s=arc-20240116; t=1728387784; c=relaxed/simple;
+	bh=0elVgKqRhFsVKBsPu9083FGtCApHiUaSuzP/nHJLHRQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TBJFPqPmySbmFtP5WSxHBqsWqvzw+yHVHZuyrfsYYRsv4w4g116c5rFQBouCfear0phY2tes9UPajcU6huR0EL6n8CyD43nmrVMoOEddsMTFiNb9cS3Tovh5DdgN0eWBWcPKaR7QRpfzMTU0PWISEy/icJq7HNj+Do4cyRGNbG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HbWkX+cb; arc=none smtp.client-ip=209.85.221.169
+	 To:Cc:Content-Type; b=ubrTGeAiHlAGr9I067O2+ggJFJO67atEpNY+99w2eVeKLMGBjN2ZtnVWFfzamXav+tOOUe4v9qv4Kb9On7dmcx843kh+WBWMIHc9smHtym0Se9rAF/rJDH3UV7SxGEEnBEnRPuY1ZC7deYaxnNdfDXelwYT0TtOFxzNU8Yo/5co=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZptZMtV2; arc=none smtp.client-ip=209.85.221.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-50c937b92d9so1042700e0c.2;
-        Tue, 08 Oct 2024 04:06:12 -0700 (PDT)
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-50792ed3ad9so1640035e0c.3;
+        Tue, 08 Oct 2024 04:43:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728385571; x=1728990371; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1728387781; x=1728992581; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZtOVjbyAjG2zU29QqMkTWldiGOO5NXXvaEbwHvDFhJM=;
-        b=HbWkX+cbghBgU8gf4awvDtehIQZh3KdkYPLABg8gxZuzbSPdq5hZ67WmrgIcfVW+O9
-         ewcOwO5Ws/h4Zq9kBPe3IEN6VJVAE4IAXiLvID6o/dOwNN1I2l9y8IUmpHtlEvpIw4Kw
-         jo5hydjvI+cV1EcUvjDiVXtUJEHIS+HakGzzxP+w3heH1VWIRQJn5wfSzDIdb7FoOsld
-         6Xci6jB8uBjYcSOANDB+Nyj136AuHrfzAigEELd39vqbLrEeIShKyFFChUagBLOsfJG2
-         VfD7aIrRtloZD5hf9dStLld6UW7rCxaPNq1IgLpAJzaV0OIHORqTirtlm74gCtQyDFhH
-         el9A==
+        bh=HDuZQevw0MOR5xTDiOihfOGLpC9wy/PdUZmugq87unA=;
+        b=ZptZMtV2iiSs+NLQ7zX+CkU+xAbLWe5I2ImwMj4E5tySTa7nbyoloTTWy/eO0smE+H
+         pP4yKs5il8aX9cEz7nK245x/bJ9Z6Zezm6orFyydEGwFGU0oLmVff/nR7jmFKEN30bDw
+         EHdbDT3GVvY8kPo9eCv0R1k7KFf+butLSK+WoJ5a6TNkxpBRHxJ+gCtUoHeFS8HwCUv9
+         g5wRU6pg5JCBxelnPxtf/3YV5gNTvidYh+o/YBSyAaUY23w9iA6Sh27VPxKgXCz34S2B
+         wReNrZQLEcr0+aToX7ZvlRBkzBmCE3H9+2fpDXlUWUJJ/Dg37vFfkJbXYeBYY7M24gSh
+         3c7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728385571; x=1728990371;
+        d=1e100.net; s=20230601; t=1728387781; x=1728992581;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZtOVjbyAjG2zU29QqMkTWldiGOO5NXXvaEbwHvDFhJM=;
-        b=rVkImMUJXNRUmo3h1C2fASNh/O62PaZSg4co7Cbb5/473OQZlS0ZCXu9spQugebE0I
-         NMzjzxxSIiV4chIJhEjfLjancAeL5aHqNwKkWZ9ivyWcYMAufCepoWMxBvUK4T+hoG5D
-         +sXCcx9SiWbf8+QBZZSi2tK46tDtJXuqq3TNiEWh0ITsYfbvQT0mPbpxVx2I6Vv3e6lJ
-         Fq7ijiXCTQYXjY5gt9XDLEc89koudUlGo5pDPMZVSKOKbQjY6SPlB9C0GF+kDpusJulf
-         HCI8h8Wyay/PnLUMDi86ws3P2hnvGFqAUfgfCBwFSh9vrnrda1itbGIUmtU852xbgh0F
-         Fb1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUKrk2XC3/J0r/VfQtR2E806IQf2qnk00h7Ia5JedD/T3+xVRe+uPixZ/jjAgwVVokhBWxwmqmFZSLlT6g=@vger.kernel.org, AJvYcCWVpmr/TRFLMXOGSgN/O/fVI2G+9cLK2HFQ64S2nyxyMmmEnLCtNypN7sQ4XNste1ICuxq3+GXUMWPFDbM=@vger.kernel.org, AJvYcCXVJ+5AKChnDvHmUhGBvxWoyM3OBH8CuinVJzSgjCZH5ybsBZSqIv92aSBdMYgehYXZHEJSpWbrYTyXYINUvCITg5Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwdCmZeXzj/3ncsgPbmpUK/kDZs8wnqZn/nqzkBGy2aHLn5AFVL
-	3pzjsypIu7G0dlapMAiqCocOzmaw/2AfpLfT6uMtrt8sf2p0Ik5SzRptjN2QBwymrCnuKGLG3Rb
-	TwXhlX1qioJ5Be59En6/uCHBjWCk=
-X-Google-Smtp-Source: AGHT+IFAhzzWfREFDTRHEadMk6vgR1uvY0/FlJpPVHoW3gADi57xjaNCLMzf+BqKhf1eKVX42naNkJ6b4ixltvpeAQ0=
-X-Received: by 2002:a05:6122:1688:b0:50a:b604:2b9e with SMTP id
- 71dfb90a1353d-50c854b95fdmr11984777e0c.7.1728385571161; Tue, 08 Oct 2024
- 04:06:11 -0700 (PDT)
+        bh=HDuZQevw0MOR5xTDiOihfOGLpC9wy/PdUZmugq87unA=;
+        b=wi4xvfaYsW9nqC3HB47sQ3HCdTm/4Ni3s5/tOHPoA37H3joyum/qjAh0CE5dQ1af4J
+         vn1H6/xdfjXm6VpE3Z/BJiEk1NJp7CLfuKvIsctQSVyfX78BqzLGwtonv2N6w9NK4zPt
+         THdxKYzuACxVXL7O9EeoUUhCiJYksHgsw73cJ5RSBQXrNeZCr0XE1xmHxwMG+5IC8xIA
+         tWHWon4bX02Tp6vrsqW3wWILtOoYt1oT9FQDH5KQCKecp4OZwU290uF5R8GfJqc/qYFI
+         eYB77MfJw5BNAXwsMN2jLbsI9dmHIbDePkHi4hKOql6JwtT5mJ94v995bv1f6uhmRDb2
+         kCdA==
+X-Forwarded-Encrypted: i=1; AJvYcCUWer28u534Fef7TvI+Mnu/6bpewRUEs72d/GNivR8Mez7HEy+uVIUFJxHgRHtBqA4ighIJgV9EFZry6wQ=@vger.kernel.org, AJvYcCUYjB07N3K7T8k+5Rtpy9JqA1/0Gq3CvJP1ohy8vBD5BrUssktBtctuo8LMmnOQkYL486AZI29zpMC3skQ=@vger.kernel.org, AJvYcCWuk+sBNmWSzzoVaBbsEcu0ih4siMrIcpe/NjTHJIGWEZwHERPLr3zUwPyc5ILpOUmQC9RYbXzNmJR9kfbjC3S/csg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBGXg4SjiaiskETSesBYyYhe7hI/hmmWF2hqwKsLhremNAzWNQ
+	84SHOhEUVOaID8Ef2YcobeGYIYzZH+JBSgktRxu838/Ny3unLBSDqZ7zqJekQODBRQT55KHEpFy
+	VF6WIC6x043hhEeIghejqjFMJ7jGyvw==
+X-Google-Smtp-Source: AGHT+IGiM+QZ1IzvpkH+Ft3l9J1hattVJoqEA+6OoPB9OiGqLtsnDU7az/RMhuTpegkyGf0sWYOxFycY8PG7SXsP3RU=
+X-Received: by 2002:a05:6122:3198:b0:4f2:ea44:fd2b with SMTP id
+ 71dfb90a1353d-50c852eef61mr10804054e0c.0.1728387780987; Tue, 08 Oct 2024
+ 04:43:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -72,13 +72,12 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20241007184839.190519-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20241007184839.190519-14-prabhakar.mahadev-lad.rj@bp.renesas.com> <20241007200603.GA28812@pendragon.ideasonboard.com>
-In-Reply-To: <20241007200603.GA28812@pendragon.ideasonboard.com>
+ <20241007184839.190519-11-prabhakar.mahadev-lad.rj@bp.renesas.com> <20241007202137.GK14766@pendragon.ideasonboard.com>
+In-Reply-To: <20241007202137.GK14766@pendragon.ideasonboard.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 8 Oct 2024 12:05:44 +0100
-Message-ID: <CA+V-a8s_hweyJ37U9VWoohMAZJOGLPZ+Wf6BX-2-3U0DPj3=Fg@mail.gmail.com>
-Subject: Re: [PATCH v4 13/17] media: rzg2l-cru: video: Implement
- .link_validate() callback
+Date: Tue, 8 Oct 2024 12:42:34 +0100
+Message-ID: <CA+V-a8trD-td-zRGvMtfxry+VZ3fAVM9464aqSiBpkNiuBz_EQ@mail.gmail.com>
+Subject: Re: [PATCH v4 10/17] media: rzg2l-cru: Simplify handling of supported formats
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
@@ -91,165 +90,323 @@ Content-Transfer-Encoding: quoted-printable
 
 Hi Laurent,
 
-Thank you for the quick review.
+Thank you for the review.
 
-On Mon, Oct 7, 2024 at 9:06=E2=80=AFPM Laurent Pinchart
+On Mon, Oct 7, 2024 at 9:21=E2=80=AFPM Laurent Pinchart
 <laurent.pinchart@ideasonboard.com> wrote:
 >
 > Hi Prabhakar,
 >
 > Thank you for the patch.
 >
-> On Mon, Oct 07, 2024 at 07:48:35PM +0100, Prabhakar wrote:
+> On Mon, Oct 07, 2024 at 07:48:32PM +0100, Prabhakar wrote:
 > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > Implement the `.link_validate()` callback for the video node and move t=
-he
-> > format checking into this function. This change allows the removal of
-> > `rzg2l_cru_mc_validate_format()`.
+> > Refactor the handling of supported formats in the RZ/G2L CRU driver by
+> > moving the `rzg2l_cru_ip_format` struct to the common header to allow
+> > reuse across multiple files and adding pixelformat and bpp members to i=
+t.
+> > This change centralizes format handling, making it easier to manage and
+> > extend.
 > >
+> > - Moved the `rzg2l_cru_ip_format` struct to `rzg2l-cru.h` for better
+> >   accessibility.
+> > - Added format, datatype and bpp members to `rzg2l_cru_ip_format` struc=
+t
+> > - Dropped rzg2l_cru_formats
+> > - Introduced helper functions `rzg2l_cru_ip_code_to_fmt()`,
+> >   `rzg2l_cru_ip_format_to_fmt()`, and
+> >   `rzg2l_cru_ip_index_to_fmt()` to streamline format lookups.
+> > - Refactored the `rzg2l_cru_csi2_setup` and format alignment functions
+> >   to utilize the new helpers.
+>
+> The general rule is once change, one patch. Bundling multiple changes
+> together makes review more difficult. A bullet list of changes in a
+> commit message is a sign you're bundling too many changed together.
+>
+Agreed, I will henceforth take care.
+
+> You can still group related changes together when it makes sensor. For
+> instance moving rzg2l_cru_ip_format to rzg2l-cru.h and adding the
+> rzg2l_cru_ip_code_to_fmt() & co helper functions can be one patch.
+>
+Agreed, I will split this up.
+
 > > Suggested-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.c=
 om>
 > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > > ---
-> >  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 91 ++++++++++---------
-> >  1 file changed, 47 insertions(+), 44 deletions(-)
+> >  .../platform/renesas/rzg2l-cru/rzg2l-cru.h    | 20 +++++-
+> >  .../platform/renesas/rzg2l-cru/rzg2l-ip.c     | 36 ++++++++--
+> >  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 67 ++++++-------------
+> >  3 files changed, 69 insertions(+), 54 deletions(-)
 > >
-> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/d=
-rivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > index ceb9012c9d70..385b4242db2f 100644
-> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > @@ -189,46 +189,6 @@ static void rzg2l_cru_buffer_queue(struct vb2_buff=
-er *vb)
-> >       spin_unlock_irqrestore(&cru->qlock, flags);
-> >  }
-> >
-> > -static int rzg2l_cru_mc_validate_format(struct rzg2l_cru_dev *cru,
-> > -                                     struct v4l2_subdev *sd,
-> > -                                     struct media_pad *pad)
-> > -{
-> > -     struct v4l2_subdev_format fmt =3D {
-> > -             .which =3D V4L2_SUBDEV_FORMAT_ACTIVE,
-> > -     };
-> > -
-> > -     fmt.pad =3D pad->index;
-> > -     if (v4l2_subdev_call_state_active(sd, pad, get_fmt, &fmt))
-> > -             return -EPIPE;
-> > -
-> > -     switch (fmt.format.code) {
-> > -     case MEDIA_BUS_FMT_UYVY8_1X16:
-> > -             break;
-> > -     default:
-> > -             return -EPIPE;
-> > -     }
-> > -
-> > -     switch (fmt.format.field) {
-> > -     case V4L2_FIELD_TOP:
-> > -     case V4L2_FIELD_BOTTOM:
-> > -     case V4L2_FIELD_NONE:
-> > -     case V4L2_FIELD_INTERLACED_TB:
-> > -     case V4L2_FIELD_INTERLACED_BT:
-> > -     case V4L2_FIELD_INTERLACED:
-> > -     case V4L2_FIELD_SEQ_TB:
-> > -     case V4L2_FIELD_SEQ_BT:
-> > -             break;
-> > -     default:
-> > -             return -EPIPE;
-> > -     }
-> > -
-> > -     if (fmt.format.width !=3D cru->format.width ||
-> > -         fmt.format.height !=3D cru->format.height)
-> > -             return -EPIPE;
-> > -
-> > -     return 0;
-> > -}
-> > -
-> >  static void rzg2l_cru_set_slot_addr(struct rzg2l_cru_dev *cru,
-> >                                   int slot, dma_addr_t addr)
-> >  {
-> > @@ -531,10 +491,6 @@ static int rzg2l_cru_set_stream(struct rzg2l_cru_d=
-ev *cru, int on)
-> >               return stream_off_ret;
-> >       }
-> >
-> > -     ret =3D rzg2l_cru_mc_validate_format(cru, sd, pad);
-> > -     if (ret)
-> > -             return ret;
-> > -
-> >       pipe =3D media_entity_pipeline(&sd->entity) ? : &cru->vdev.pipe;
-> >       ret =3D video_device_pipeline_start(&cru->vdev, pipe);
-> >       if (ret)
-> > @@ -995,6 +951,52 @@ static const struct v4l2_file_operations rzg2l_cru=
-_fops =3D {
-> >       .read           =3D vb2_fop_read,
+> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/dri=
+vers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> > index 4fe24bdde5b2..39296a59b3da 100644
+> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> > @@ -62,6 +62,20 @@ struct rzg2l_cru_ip {
+> >       struct v4l2_subdev *remote;
 > >  };
 > >
-> > +/* -------------------------------------------------------------------=
-----------
-> > + * Media entity operations
+> > +/**
+> > + * struct rzg2l_cru_ip_format - CRU IP format
+> > + * @code: Media bus code
+> > + * @format: 4CC format identifier (V4L2_PIX_FMT_*)
+> > + * @datatype: MIPI CSI2 data type
+> > + * @bpp: bytes per pixel
 > > + */
+> > +struct rzg2l_cru_ip_format {
+> > +     u32 code;
+> > +     u32 format;
+> > +     u32 datatype;
+> > +     u8 bpp;
+> > +};
 > > +
-> > +static int rzg2l_cru_video_link_validate(struct media_link *link)
-> > +{
-> > +     struct v4l2_subdev_format fmt =3D {
-> > +             .which =3D V4L2_SUBDEV_FORMAT_ACTIVE,
-> > +     };
-> > +     const struct rzg2l_cru_ip_format *video_fmt;
-> > +     const struct rzg2l_cru_ip_format *ip_fmt;
-> > +     struct v4l2_subdev *subdev;
-> > +     struct rzg2l_cru_dev *cru;
-> > +     struct media_pad *remote;
-> > +     int ret;
-> > +
-> > +     remote =3D link->source;
-> > +     subdev =3D media_entity_to_v4l2_subdev(remote->entity);
-> > +     fmt.pad =3D remote->index;
->
->         subdev =3D media_entity_to_v4l2_subdev(link->source->entity);
->         fmt.pad =3D link->source->index;
->
-> and drop the remote variable. Or, if you prefer keeping it, rename it to
-> source.
->
-OK, I will drop the local variable.
-
-> > +     ret =3D v4l2_subdev_call(subdev, pad, get_fmt, NULL, &fmt);
-> > +     if (ret < 0)
-> > +             return ret =3D=3D -ENOIOCTLCMD ? -EINVAL : ret;
-> > +
-> > +     cru =3D container_of(media_entity_to_video_device(link->sink->ent=
-ity),
-> > +                        struct rzg2l_cru_dev, vdev);
-> > +     video_fmt =3D rzg2l_cru_ip_format_to_fmt(cru->format.pixelformat)=
+> >  /**
+> >   * struct rzg2l_cru_dev - Renesas CRU device structure
+> >   * @dev:             (OF) device
+> > @@ -144,10 +158,12 @@ int rzg2l_cru_video_register(struct rzg2l_cru_dev=
+ *cru);
+> >  void rzg2l_cru_video_unregister(struct rzg2l_cru_dev *cru);
+> >  irqreturn_t rzg2l_cru_irq(int irq, void *data);
+> >
+> > -const struct v4l2_format_info *rzg2l_cru_format_from_pixel(u32 format)=
 ;
-> > +     if (!video_fmt)
-> > +             return -EPIPE;
->
-> Can this happen, doesn't the s_fmt handler on the video device ensure
-> that pixelformat is always valid.
->
-Agreed, this won't happen. I'll drop this check.
-
-> > +     ip_fmt =3D rzg2l_cru_ip_code_to_fmt(fmt.format.code);
-> > +     if (!ip_fmt)
-> > +             return -EPIPE;
->
-> Same question here.
->
-This won't happen, so I will drop the check. Actually as you mentioned
-below we can drop one check so I'll get rid of fetching ip_fmt.
-
+> > -
+> >  int rzg2l_cru_ip_subdev_register(struct rzg2l_cru_dev *cru);
+> >  void rzg2l_cru_ip_subdev_unregister(struct rzg2l_cru_dev *cru);
+> >  struct v4l2_mbus_framefmt *rzg2l_cru_ip_get_src_fmt(struct rzg2l_cru_d=
+ev *cru);
+> >
+> > +const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned in=
+t code);
+> > +const struct rzg2l_cru_ip_format *rzg2l_cru_ip_format_to_fmt(u32 forma=
+t);
+> > +const struct rzg2l_cru_ip_format *rzg2l_cru_ip_index_to_fmt(u32 index)=
+;
 > > +
-> > +     if (fmt.format.width !=3D cru->format.width ||
-> > +         fmt.format.height !=3D cru->format.height ||
-> > +         fmt.format.field !=3D cru->format.field ||
-> > +         video_fmt->code !=3D fmt.format.code ||
-> > +         ip_fmt->format !=3D cru->format.pixelformat)
+> >  #endif
+> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c b/driv=
+ers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
+> > index 7b006a0bfaae..fde6f4781cfb 100644
+> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
+> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
+> > @@ -6,17 +6,21 @@
+> >   */
+> >
+> >  #include <linux/delay.h>
+> > -#include "rzg2l-cru.h"
+> >
+> > -struct rzg2l_cru_ip_format {
+> > -     u32 code;
+> > -};
+> > +#include <media/mipi-csi2.h>
+> > +
+> > +#include "rzg2l-cru.h"
+> >
+> >  static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] =3D {
+> > -     { .code =3D MEDIA_BUS_FMT_UYVY8_1X16, },
+> > +     {
+> > +             .code =3D MEDIA_BUS_FMT_UYVY8_1X16,
+> > +             .format =3D V4L2_PIX_FMT_UYVY,
+> > +             .datatype =3D MIPI_CSI2_DT_YUV422_8B,
+> > +             .bpp =3D 2,
+> > +     },
+> >  };
+> >
+> > -static const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsi=
+gned int code)
+> > +const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned in=
+t code)
+> >  {
+> >       unsigned int i;
+> >
+> > @@ -27,6 +31,26 @@ static const struct rzg2l_cru_ip_format *rzg2l_cru_i=
+p_code_to_fmt(unsigned int c
+> >       return NULL;
+> >  }
+> >
+> > +const struct rzg2l_cru_ip_format *rzg2l_cru_ip_format_to_fmt(u32 forma=
+t)
+> > +{
+> > +     unsigned int i;
+> > +
+> > +     for (i =3D 0; i < ARRAY_SIZE(rzg2l_cru_ip_formats); i++) {
+> > +             if (rzg2l_cru_ip_formats[i].format =3D=3D format)
+> > +                     return &rzg2l_cru_ip_formats[i];
+> > +     }
+> > +
+> > +     return NULL;
+> > +}
+> > +
+> > +const struct rzg2l_cru_ip_format *rzg2l_cru_ip_index_to_fmt(u32 index)
+> > +{
+> > +     if (index >=3D ARRAY_SIZE(rzg2l_cru_ip_formats))
+> > +             return NULL;
+> > +
+> > +     return &rzg2l_cru_ip_formats[index];
+> > +}
+> > +
+> >  struct v4l2_mbus_framefmt *rzg2l_cru_ip_get_src_fmt(struct rzg2l_cru_d=
+ev *cru)
+> >  {
+> >       struct v4l2_subdev_state *state;
+> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/d=
+rivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > index de88c0fab961..ceb9012c9d70 100644
+> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > @@ -300,21 +300,10 @@ static void rzg2l_cru_initialize_axi(struct rzg2l=
+_cru_dev *cru)
+> >       rzg2l_cru_write(cru, AMnAXIATTR, amnaxiattr);
+> >  }
+> >
+> > -static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru, bool *inpu=
+t_is_yuv,
+> > -                              struct v4l2_mbus_framefmt *ip_sd_fmt, u8=
+ csi_vc)
+> > +static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru, u8 csi_vc,
+> > +                              u32 csi2_datatype)
 >
-> The last two line seem to implement the same check.
+> I would pass the rzg2l_cru_ip_format pointer (make it const) to this
+> function instead of csi2_datatype.
 >
-OK, I will drop the pixelformat check and keep the code check.
+OK.
+
+> >  {
+> > -     u32 icnmc;
+> > -
+> > -     switch (ip_sd_fmt->code) {
+> > -     case MEDIA_BUS_FMT_UYVY8_1X16:
+> > -             icnmc =3D ICnMC_INF(MIPI_CSI2_DT_YUV422_8B);
+> > -             *input_is_yuv =3D true;
+> > -             break;
+> > -     default:
+> > -             *input_is_yuv =3D false;
+> > -             icnmc =3D ICnMC_INF(MIPI_CSI2_DT_USER_DEFINED(0));
+> > -             break;
+> > -     }
+> > +     u32 icnmc =3D ICnMC_INF(csi2_datatype);
+> >
+> >       icnmc |=3D (rzg2l_cru_read(cru, ICnMC) & ~ICnMC_INF_MASK);
+> >
+> > @@ -328,17 +317,20 @@ static int rzg2l_cru_initialize_image_conv(struct=
+ rzg2l_cru_dev *cru,
+> >                                          struct v4l2_mbus_framefmt *ip_=
+sd_fmt,
+> >                                          u8 csi_vc)
+> >  {
+> > -     bool output_is_yuv =3D false;
+> > -     bool input_is_yuv =3D false;
+> > +     const struct v4l2_format_info *src_finfo, *dst_finfo;
+> > +     const struct rzg2l_cru_ip_format *cru_ip_fmt;
+> >       u32 icndmr;
+> >
+> > -     rzg2l_cru_csi2_setup(cru, &input_is_yuv, ip_sd_fmt, csi_vc);
+> > +     cru_ip_fmt =3D rzg2l_cru_ip_code_to_fmt(ip_sd_fmt->code);
+> > +     rzg2l_cru_csi2_setup(cru, csi_vc, cru_ip_fmt->datatype);
+> > +
+> > +     src_finfo =3D v4l2_format_info(cru_ip_fmt->format);
+> > +     dst_finfo =3D v4l2_format_info(cru->format.pixelformat);
+> >
+> >       /* Output format */
+> >       switch (cru->format.pixelformat) {
+> >       case V4L2_PIX_FMT_UYVY:
+> >               icndmr =3D ICnDMR_YCMODE_UYVY;
+> > -             output_is_yuv =3D true;
+> >               break;
+> >       default:
+> >               dev_err(cru->dev, "Invalid pixelformat (0x%x)\n",
+> > @@ -347,7 +339,7 @@ static int rzg2l_cru_initialize_image_conv(struct r=
+zg2l_cru_dev *cru,
+> >       }
+> >
+> >       /* If input and output use same colorspace, do bypass mode */
+> > -     if (output_is_yuv =3D=3D input_is_yuv)
+> > +     if (v4l2_is_format_yuv(src_finfo) && v4l2_is_format_yuv(dst_finfo=
+))
+>
+> I think this should be
+>
+>         if (v4l2_is_format_yuv(src_finfo) =3D=3D v4l2_is_format_yuv(dst_f=
+info))
+>
+Agreed.
+
+> >               rzg2l_cru_write(cru, ICnMC,
+> >                               rzg2l_cru_read(cru, ICnMC) | ICnMC_CSCTHR=
+);
+> >       else
+> > @@ -810,35 +802,15 @@ int rzg2l_cru_dma_register(struct rzg2l_cru_dev *=
+cru)
+> >  /* -------------------------------------------------------------------=
+----------
+> >   * V4L2 stuff
+> >   */
+> > -
+> > -static const struct v4l2_format_info rzg2l_cru_formats[] =3D {
+> > -     {
+> > -             .format =3D V4L2_PIX_FMT_UYVY,
+> > -             .bpp[0] =3D 2,
+> > -     },
+> > -};
+> > -
+> > -const struct v4l2_format_info *rzg2l_cru_format_from_pixel(u32 format)
+> > -{
+> > -     unsigned int i;
+> > -
+> > -     for (i =3D 0; i < ARRAY_SIZE(rzg2l_cru_formats); i++)
+> > -             if (rzg2l_cru_formats[i].format =3D=3D format)
+> > -                     return rzg2l_cru_formats + i;
+> > -
+> > -     return NULL;
+> > -}
+> > -
+> >  static u32 rzg2l_cru_format_bytesperline(struct v4l2_pix_format *pix)
+> >  {
+> > -     const struct v4l2_format_info *fmt;
+> > -
+> > -     fmt =3D rzg2l_cru_format_from_pixel(pix->pixelformat);
+> > +     const struct rzg2l_cru_ip_format *fmt;
+> >
+> > +     fmt =3D rzg2l_cru_ip_format_to_fmt(pix->pixelformat);
+> >       if (WARN_ON(!fmt))
+> > -             return -EINVAL;
+> > +             return 0;
+>
+> This change isn't described in the commit message.
+>
+I'll make this as a separate patch.
+
+> >
+> > -     return pix->width * fmt->bpp[0];
+> > +     return pix->width * fmt->bpp;
+> >  }
+> >
+> >  static u32 rzg2l_cru_format_sizeimage(struct v4l2_pix_format *pix)
+> > @@ -849,7 +821,7 @@ static u32 rzg2l_cru_format_sizeimage(struct v4l2_p=
+ix_format *pix)
+> >  static void rzg2l_cru_format_align(struct rzg2l_cru_dev *cru,
+> >                                  struct v4l2_pix_format *pix)
+> >  {
+> > -     if (!rzg2l_cru_format_from_pixel(pix->pixelformat))
+> > +     if (!rzg2l_cru_ip_format_to_fmt(pix->pixelformat))
+>
+> Here you're calling rzg2l_cru_ip_format_to_fmt(), and just below the
+> function calls rzg2l_cru_format_bytesperline(), which calls
+> rzg2l_cru_format_from_pixel() again. Store the pointer here, drop the
+> rzg2l_cru_format_bytesperline() function, and just write
+>
+>         pix->bytesperline =3D pix->width * fmt->bpp;
+>
+Agreed, I'll update it as mentioned above.
+
+> below. I would also inline rzg2l_cru_format_sizeimage() in this function
+> as there's a single caller.
+>
+OK, I'll update it as above.
 
 Cheers,
 Prabhakar
