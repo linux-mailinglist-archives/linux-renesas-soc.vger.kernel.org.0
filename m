@@ -1,159 +1,256 @@
-Return-Path: <linux-renesas-soc+bounces-9583-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9584-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 698A0994516
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Oct 2024 12:08:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A72E199463A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Oct 2024 13:10:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 838E81C2261B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Oct 2024 10:08:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2A8C01F29045
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Oct 2024 11:10:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C37B18DF65;
-	Tue,  8 Oct 2024 10:08:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41C351D26F2;
+	Tue,  8 Oct 2024 11:06:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HbWkX+cb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387A778276;
-	Tue,  8 Oct 2024 10:08:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C6DD16FF2A;
+	Tue,  8 Oct 2024 11:06:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728382108; cv=none; b=g+cjGgcPQNoz15H5fcUwMUkzdiWqfVrEImwMrK5XUp6vy/CT8InURYjF3gtlOYKBNMTo2wFDWubXbauIJVkf2MS47U/hOO5SJCUAe2YSHvgg8a8RxCWpvdOvpVGSlBBybUkOnKBX9r0znj53qpJUBuIxdnuHXhiXYy0CN55IqSE=
+	t=1728385574; cv=none; b=i9SEC3//fEYk3GGLhtBHqDef6DA9d/lFDwwRRGsuIG8iJSoff/hG5HNoJvu+Yrtb6ElKbwIihU93CjLR6+06k5myYq9p7ekmplxBEutDZYdMTqV6vr3aq9DLDfWZwcb9q7YfrQnVIIILLbFmNW5sH5yWxN6ORH/ioJXUuuOdotU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728382108; c=relaxed/simple;
-	bh=kmCNfHjWXdftj3Q1U37B1UQ/6HSiMQJPwXH7I/NxWgQ=;
+	s=arc-20240116; t=1728385574; c=relaxed/simple;
+	bh=RPO7jVFt26dwjcYzMBn1wdOFCuV+0MtqoPac+9csBtQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mwf1yWBCiE95mudF8bxrXOZ9sZ4x0yfH29W0nA4raLtvJOnRC9lVRMFUc+ICOrId3B16PVsU/Pg2+Udt+ymFhQtznVQveuaWPwUWe7Z7Gdz8WgfBnDXTS82tjgP8xOfBzFSpK3pKehgbkmMu4Z0OECTCSxjAQaCC2DILjnxIeCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=TBJFPqPmySbmFtP5WSxHBqsWqvzw+yHVHZuyrfsYYRsv4w4g116c5rFQBouCfear0phY2tes9UPajcU6huR0EL6n8CyD43nmrVMoOEddsMTFiNb9cS3Tovh5DdgN0eWBWcPKaR7QRpfzMTU0PWISEy/icJq7HNj+Do4cyRGNbG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HbWkX+cb; arc=none smtp.client-ip=209.85.221.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-6dbc9a60480so45930787b3.0;
-        Tue, 08 Oct 2024 03:08:25 -0700 (PDT)
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-50c937b92d9so1042700e0c.2;
+        Tue, 08 Oct 2024 04:06:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728385571; x=1728990371; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZtOVjbyAjG2zU29QqMkTWldiGOO5NXXvaEbwHvDFhJM=;
+        b=HbWkX+cbghBgU8gf4awvDtehIQZh3KdkYPLABg8gxZuzbSPdq5hZ67WmrgIcfVW+O9
+         ewcOwO5Ws/h4Zq9kBPe3IEN6VJVAE4IAXiLvID6o/dOwNN1I2l9y8IUmpHtlEvpIw4Kw
+         jo5hydjvI+cV1EcUvjDiVXtUJEHIS+HakGzzxP+w3heH1VWIRQJn5wfSzDIdb7FoOsld
+         6Xci6jB8uBjYcSOANDB+Nyj136AuHrfzAigEELd39vqbLrEeIShKyFFChUagBLOsfJG2
+         VfD7aIrRtloZD5hf9dStLld6UW7rCxaPNq1IgLpAJzaV0OIHORqTirtlm74gCtQyDFhH
+         el9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728382105; x=1728986905;
+        d=1e100.net; s=20230601; t=1728385571; x=1728990371;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eofPis0FPAdLt8MucuiPgt80mBBI69FxYuGtMj8mdn0=;
-        b=pcOAbrCwBakVO6dthbF1B7ZM4d2idBlDzFrNdNeKenfBbhPIQE9GB9UAte611Obh9d
-         I9/3og6qzrllT9qZ/TS/0es43yvaq0XOTxVFq+dEhBdJTi9Gqw44oPDCVBjJ6Lb9G8Gn
-         pxuzK8W1/k/u8w7ZRNT95P9kfKFZdcBRzNAIvuAkzv6l0Wiu/gLKu2T81t1y3rrQyOAa
-         sJuUaf2gVcVwIS5J06vrJz5IVLWtn/RsvQ1vvErNzaUdkXWpjy/MelfcXN6+Yo0nq2Nn
-         2FMN7PWNm7kwO5zTOrKO3AnUt2tDZzzoCpS2+T2lCVWReSCwfiENg72AKytZLHA9DNV5
-         VnjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUD9HVqB4jdkJHZD/E35HR4loPnhHNyawUEJPcMFNcJgh8ZACgq55vm6zZ1ANWZrZNUiMh+scbeoGFcbUn305oyflc=@vger.kernel.org, AJvYcCVq3G6IBKHDUqeiqquN2eU2KwzrvYQuxVD6mNuDvm5cbdwYaJkfBXkM9DaSZC7NWPE4UmqVYSxxcoTxCKsJ@vger.kernel.org, AJvYcCX5XXPDViEqPbF4zmQtPXYOVU1CjCjfh4i7jFbpTtBpzCdlySp9gNQG6xwOomRK6W/XXjrxo6t13qLT@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5venrTDdVN3w0l+Gh+Q4rMxAqoemfTsxJXp42496hPh3ZDpKp
-	GUXXX0yaiXe7YfaTY4HWe9mtfIkk7V4alcpFXkpkd6GB2hpTGtZ36qjosGCb
-X-Google-Smtp-Source: AGHT+IHGa0DD6v0k5cgNLFSAW51Hkuu1o74aAvKlpN2Ra7Tvx489n+9O/ZfZgaOl8ri1DliLjED8zQ==
-X-Received: by 2002:a05:690c:f8f:b0:6dd:cdd7:ce5a with SMTP id 00721157ae682-6e2c7036ae1mr126498757b3.18.1728382104614;
-        Tue, 08 Oct 2024 03:08:24 -0700 (PDT)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e2d93e271fsm13591067b3.105.2024.10.08.03.08.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Oct 2024 03:08:24 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6e2f4c1f79bso19004607b3.1;
-        Tue, 08 Oct 2024 03:08:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUQUcEGpvvYkekSrpXUKbEaU+udJ/OkXaYEc3GaTfO9O7MukfHkkFNvQmPQrKAKdrOIuzV0+uGlvK/xFLDlgKzE/TI=@vger.kernel.org, AJvYcCVCQ+/B2UKPm0QsD+AJ9dyxuT+9vayPtZeH7cDHrKfmUjTcwQJHBoWR5x3oe86sA4JzbpOUYDCGvSl1fG0+@vger.kernel.org, AJvYcCXOoQq0wSRw5y5ktFUSEnuDHC+yfuuLTZPPoGJUaXPIs4QzZwYFbYXkdWsqTzPt2zeWP6e05/t8ZjVF@vger.kernel.org
-X-Received: by 2002:a05:690c:eca:b0:6b3:a6ff:7676 with SMTP id
- 00721157ae682-6e2c6fcbc5fmr128552717b3.3.1728382103697; Tue, 08 Oct 2024
- 03:08:23 -0700 (PDT)
+        bh=ZtOVjbyAjG2zU29QqMkTWldiGOO5NXXvaEbwHvDFhJM=;
+        b=rVkImMUJXNRUmo3h1C2fASNh/O62PaZSg4co7Cbb5/473OQZlS0ZCXu9spQugebE0I
+         NMzjzxxSIiV4chIJhEjfLjancAeL5aHqNwKkWZ9ivyWcYMAufCepoWMxBvUK4T+hoG5D
+         +sXCcx9SiWbf8+QBZZSi2tK46tDtJXuqq3TNiEWh0ITsYfbvQT0mPbpxVx2I6Vv3e6lJ
+         Fq7ijiXCTQYXjY5gt9XDLEc89koudUlGo5pDPMZVSKOKbQjY6SPlB9C0GF+kDpusJulf
+         HCI8h8Wyay/PnLUMDi86ws3P2hnvGFqAUfgfCBwFSh9vrnrda1itbGIUmtU852xbgh0F
+         Fb1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUKrk2XC3/J0r/VfQtR2E806IQf2qnk00h7Ia5JedD/T3+xVRe+uPixZ/jjAgwVVokhBWxwmqmFZSLlT6g=@vger.kernel.org, AJvYcCWVpmr/TRFLMXOGSgN/O/fVI2G+9cLK2HFQ64S2nyxyMmmEnLCtNypN7sQ4XNste1ICuxq3+GXUMWPFDbM=@vger.kernel.org, AJvYcCXVJ+5AKChnDvHmUhGBvxWoyM3OBH8CuinVJzSgjCZH5ybsBZSqIv92aSBdMYgehYXZHEJSpWbrYTyXYINUvCITg5Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwdCmZeXzj/3ncsgPbmpUK/kDZs8wnqZn/nqzkBGy2aHLn5AFVL
+	3pzjsypIu7G0dlapMAiqCocOzmaw/2AfpLfT6uMtrt8sf2p0Ik5SzRptjN2QBwymrCnuKGLG3Rb
+	TwXhlX1qioJ5Be59En6/uCHBjWCk=
+X-Google-Smtp-Source: AGHT+IFAhzzWfREFDTRHEadMk6vgR1uvY0/FlJpPVHoW3gADi57xjaNCLMzf+BqKhf1eKVX42naNkJ6b4ixltvpeAQ0=
+X-Received: by 2002:a05:6122:1688:b0:50a:b604:2b9e with SMTP id
+ 71dfb90a1353d-50c854b95fdmr11984777e0c.7.1728385571161; Tue, 08 Oct 2024
+ 04:06:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241004133108.779934-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20241004133108.779934-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 8 Oct 2024 12:08:11 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXDc55KO-d0i0_ag0udh7sGCjFfJ78aw8o1-9zaHS15+A@mail.gmail.com>
-Message-ID: <CAMuHMdXDc55KO-d0i0_ag0udh7sGCjFfJ78aw8o1-9zaHS15+A@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r9a09g057: Add OPP table
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
+References: <20241007184839.190519-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20241007184839.190519-14-prabhakar.mahadev-lad.rj@bp.renesas.com> <20241007200603.GA28812@pendragon.ideasonboard.com>
+In-Reply-To: <20241007200603.GA28812@pendragon.ideasonboard.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Tue, 8 Oct 2024 12:05:44 +0100
+Message-ID: <CA+V-a8s_hweyJ37U9VWoohMAZJOGLPZ+Wf6BX-2-3U0DPj3=Fg@mail.gmail.com>
+Subject: Re: [PATCH v4 13/17] media: rzg2l-cru: video: Implement
+ .link_validate() callback
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Prabhakar,
+Hi Laurent,
 
-On Fri, Oct 4, 2024 at 3:31=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.co=
-m> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Thank you for the quick review.
+
+On Mon, Oct 7, 2024 at 9:06=E2=80=AFPM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> Add OPP table for RZ/V2H(P) SoC.
+> Hi Prabhakar,
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Thanks for your patch!
-
-> --- a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-> @@ -20,6 +20,39 @@ audio_extal_clk: audio-clk {
->                 clock-frequency =3D <0>;
->         };
+> Thank you for the patch.
 >
-> +       /*
-> +        * The default cluster table is based on the assumption that the =
-PLLCA55 clock
-> +        * frequency is set to 1.7GHz. The PLLCA55 clock frequency can be=
- set to
-> +        * 1.7/1.6/1.5/1.1 GHz based on the BOOTPLLCA_0/1 pins (and addit=
-ionally can be
-> +        * clocked to 1.8GHz as well). The table below should be overridd=
-en in the board
-> +        * DTS based on the PLLCA55 clock frequency.
-> +        */
-> +       cluster0_opp: opp-table-0 {
-> +               compatible =3D "operating-points-v2";
-> +
-> +               opp-1700000000 {
-> +                       opp-hz =3D /bits/ 64 <1700000000>;
-> +                       opp-microvolt =3D <900000>;
-> +                       clock-latency-ns =3D <300000>;
-> +               };
-> +               opp-850000000 {
-> +                       opp-hz =3D /bits/ 64 <850000000>;
-> +                       opp-microvolt =3D <900000>;
+> On Mon, Oct 07, 2024 at 07:48:35PM +0100, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Implement the `.link_validate()` callback for the video node and move t=
+he
+> > format checking into this function. This change allows the removal of
+> > `rzg2l_cru_mc_validate_format()`.
+> >
+> > Suggested-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.c=
+om>
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 91 ++++++++++---------
+> >  1 file changed, 47 insertions(+), 44 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/d=
+rivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > index ceb9012c9d70..385b4242db2f 100644
+> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > @@ -189,46 +189,6 @@ static void rzg2l_cru_buffer_queue(struct vb2_buff=
+er *vb)
+> >       spin_unlock_irqrestore(&cru->qlock, flags);
+> >  }
+> >
+> > -static int rzg2l_cru_mc_validate_format(struct rzg2l_cru_dev *cru,
+> > -                                     struct v4l2_subdev *sd,
+> > -                                     struct media_pad *pad)
+> > -{
+> > -     struct v4l2_subdev_format fmt =3D {
+> > -             .which =3D V4L2_SUBDEV_FORMAT_ACTIVE,
+> > -     };
+> > -
+> > -     fmt.pad =3D pad->index;
+> > -     if (v4l2_subdev_call_state_active(sd, pad, get_fmt, &fmt))
+> > -             return -EPIPE;
+> > -
+> > -     switch (fmt.format.code) {
+> > -     case MEDIA_BUS_FMT_UYVY8_1X16:
+> > -             break;
+> > -     default:
+> > -             return -EPIPE;
+> > -     }
+> > -
+> > -     switch (fmt.format.field) {
+> > -     case V4L2_FIELD_TOP:
+> > -     case V4L2_FIELD_BOTTOM:
+> > -     case V4L2_FIELD_NONE:
+> > -     case V4L2_FIELD_INTERLACED_TB:
+> > -     case V4L2_FIELD_INTERLACED_BT:
+> > -     case V4L2_FIELD_INTERLACED:
+> > -     case V4L2_FIELD_SEQ_TB:
+> > -     case V4L2_FIELD_SEQ_BT:
+> > -             break;
+> > -     default:
+> > -             return -EPIPE;
+> > -     }
+> > -
+> > -     if (fmt.format.width !=3D cru->format.width ||
+> > -         fmt.format.height !=3D cru->format.height)
+> > -             return -EPIPE;
+> > -
+> > -     return 0;
+> > -}
+> > -
+> >  static void rzg2l_cru_set_slot_addr(struct rzg2l_cru_dev *cru,
+> >                                   int slot, dma_addr_t addr)
+> >  {
+> > @@ -531,10 +491,6 @@ static int rzg2l_cru_set_stream(struct rzg2l_cru_d=
+ev *cru, int on)
+> >               return stream_off_ret;
+> >       }
+> >
+> > -     ret =3D rzg2l_cru_mc_validate_format(cru, sd, pad);
+> > -     if (ret)
+> > -             return ret;
+> > -
+> >       pipe =3D media_entity_pipeline(&sd->entity) ? : &cru->vdev.pipe;
+> >       ret =3D video_device_pipeline_start(&cru->vdev, pipe);
+> >       if (ret)
+> > @@ -995,6 +951,52 @@ static const struct v4l2_file_operations rzg2l_cru=
+_fops =3D {
+> >       .read           =3D vb2_fop_read,
+> >  };
+> >
+> > +/* -------------------------------------------------------------------=
+----------
+> > + * Media entity operations
+> > + */
+> > +
+> > +static int rzg2l_cru_video_link_validate(struct media_link *link)
+> > +{
+> > +     struct v4l2_subdev_format fmt =3D {
+> > +             .which =3D V4L2_SUBDEV_FORMAT_ACTIVE,
+> > +     };
+> > +     const struct rzg2l_cru_ip_format *video_fmt;
+> > +     const struct rzg2l_cru_ip_format *ip_fmt;
+> > +     struct v4l2_subdev *subdev;
+> > +     struct rzg2l_cru_dev *cru;
+> > +     struct media_pad *remote;
+> > +     int ret;
+> > +
+> > +     remote =3D link->source;
+> > +     subdev =3D media_entity_to_v4l2_subdev(remote->entity);
+> > +     fmt.pad =3D remote->index;
+>
+>         subdev =3D media_entity_to_v4l2_subdev(link->source->entity);
+>         fmt.pad =3D link->source->index;
+>
+> and drop the remote variable. Or, if you prefer keeping it, rename it to
+> source.
+>
+OK, I will drop the local variable.
 
-According to Table 10.1-2 ("Recommended Operating Range"), this should
-be 800000 for this and all operating points below.
+> > +     ret =3D v4l2_subdev_call(subdev, pad, get_fmt, NULL, &fmt);
+> > +     if (ret < 0)
+> > +             return ret =3D=3D -ENOIOCTLCMD ? -EINVAL : ret;
+> > +
+> > +     cru =3D container_of(media_entity_to_video_device(link->sink->ent=
+ity),
+> > +                        struct rzg2l_cru_dev, vdev);
+> > +     video_fmt =3D rzg2l_cru_ip_format_to_fmt(cru->format.pixelformat)=
+;
+> > +     if (!video_fmt)
+> > +             return -EPIPE;
+>
+> Can this happen, doesn't the s_fmt handler on the video device ensure
+> that pixelformat is always valid.
+>
+Agreed, this won't happen. I'll drop this check.
 
-> +                       clock-latency-ns =3D <300000>;
-> +               };
-> +               opp-425000000 {
-> +                       opp-hz =3D /bits/ 64 <425000000>;
-> +                       opp-microvolt =3D <900000>;
-> +                       clock-latency-ns =3D <300000>;
-> +               };
-> +               opp-212500000 {
-> +                       opp-hz =3D /bits/ 64 <212500000>;
-> +                       opp-microvolt =3D <900000>;
-> +                       clock-latency-ns =3D <300000>;
-> +                       opp-suspend;
-> +               };
-> +       };
+> > +     ip_fmt =3D rzg2l_cru_ip_code_to_fmt(fmt.format.code);
+> > +     if (!ip_fmt)
+> > +             return -EPIPE;
+>
+> Same question here.
+>
+This won't happen, so I will drop the check. Actually as you mentioned
+below we can drop one check so I'll get rid of fetching ip_fmt.
 
-The rest LGTM.
+> > +
+> > +     if (fmt.format.width !=3D cru->format.width ||
+> > +         fmt.format.height !=3D cru->format.height ||
+> > +         fmt.format.field !=3D cru->format.field ||
+> > +         video_fmt->code !=3D fmt.format.code ||
+> > +         ip_fmt->format !=3D cru->format.pixelformat)
+>
+> The last two line seem to implement the same check.
+>
+OK, I will drop the pixelformat check and keep the code check.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
 
