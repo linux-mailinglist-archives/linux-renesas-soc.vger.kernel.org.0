@@ -1,74 +1,74 @@
-Return-Path: <linux-renesas-soc+bounces-9622-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9623-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 099D59962EC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2024 10:36:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 807AD996394
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2024 10:48:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BD9D0282BAF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2024 08:36:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2BB851F2292D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2024 08:48:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D736188737;
-	Wed,  9 Oct 2024 08:31:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C972218C91B;
+	Wed,  9 Oct 2024 08:42:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="q7ymvLdY"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="N3MsA3xX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF85817E019
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  9 Oct 2024 08:31:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7C4188CC4
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  9 Oct 2024 08:42:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728462681; cv=none; b=gEHIs3Rf4AGno9whbHwm4bWzp5POPuoqkkS8Lt9+j1ordlAlrGBsmMOwRFiBHAILEBGjSiWQmiUoquJBaEqW5gbDNNcbI6Ysm380YmdE7+vZIg2pFKurMaKe7+xPuS0y0e0csKg11HkqByLUR3VL1M0ihJoO8uuY6gKDETC2nig=
+	t=1728463367; cv=none; b=FD9cFfex2eWBP6t4G0ym/n6QEHa7Estg4XXeRARDqCG09z2Zt6/iduPprRthigjP241cGtZfXExhbWbU/1L7wLkLdOH/6h1K6CNJxTK4Vtz/k5EsPuNfGdRZ4yLt2opo8+X5GQJawcB3ER1jzDngnMsTQTBKXiom+74Wy8ZQ8J4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728462681; c=relaxed/simple;
-	bh=tHh+8iRxabcjy7f2g9Qi9EomfTANr7JqKHvbEx5+UI8=;
+	s=arc-20240116; t=1728463367; c=relaxed/simple;
+	bh=XhJiHPGo1+eCnZwKrwKtZoj+qGtS2ActqBF7GqOTjZQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C4wSoT+PN/NtDHnac+34A0xQGbLBycQNA1/X80TNWqA1ntEIAVIxtSs7ZXOCFLZG3plCcdLuZFs8/CyQv8HJmp4DW87/1AVMZyaCSX4WpKjr9cuwhDEvYX5j3ApE+H102RgS0RBmVzNu+hwGWQSJX+OGH5C3EOzr+v11lnoKst4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=q7ymvLdY; arc=none smtp.client-ip=209.85.167.53
+	 In-Reply-To:Content-Type; b=s9kqCj3HsH9nkRHQX45VOTdav2N5MUs4FRDYNt49VdilzKgtCa0Vf5/dszF026JKvB4Or76iCcUDQR4h6nRtuEXSkqtGV+l39TGpyQ1XoVBZiPWGeYZzylAwj6cOy5e81AaD3YfBvzFSTDrl+wNJPN//WtdtQcCRDSV010D6Lz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=N3MsA3xX; arc=none smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-53993564cb1so7284268e87.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 09 Oct 2024 01:31:19 -0700 (PDT)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a99650da839so298583966b.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 09 Oct 2024 01:42:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1728462678; x=1729067478; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1728463363; x=1729068163; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=qaO6OZB9LNJ3CfL5hJwIDOwEl1I05oLk0c+YGhPFN5E=;
-        b=q7ymvLdYOiKOfW6utcEO5U4mvI9ozvNh29DIKVE8LFgQ9pfdX/EO3rf+Q3TQt2ZgXC
-         mvBcjvZM+rAAykYj2oD9lDlHtmauvKFFOQZG1pL7RwppWlTH0Bzh1wI2020X2uy0vCc9
-         jHVLjQYiJhgsiPjn/K39ChgGXud6nzzVWqRQ3mDMZpd290qoJ8cI2X6aM3/9gTnCzTaI
-         fvLe0L+zykhT/rd1/kdM/0P2gGmf0p4wRvrp4ATP8VOhb4n9p1uqMcssDXGVjJGOmKHt
-         u7S0tvAqk5UQQF4UQ9o6NspzYgi6Hf4hx6eTRlM0Y8mpULW2uUGqdoBPBGucwL/SLi5q
-         hOkw==
+        bh=NCo1GlPGMO9qRjYk6NqblAPH+ivDBMcmdikYhCEoAX0=;
+        b=N3MsA3xXYhA8BGicfckJzTKfIILQJylZFKBHAuYRpUMZCEwA/MGo1xlfMjbYrppwMZ
+         1ABbNIaLsfWy+n8Jmcp8wGFMp3p0uj+e1t3wYhI4qL9QNlpICl5LZX23lNnVkMmbaHBv
+         DEp/Ve+HON0bMnYDM8TZ1DjHpQ9m3QPEuyubq4S6VFwJ1cWDVuFZc2s02I1dWMgjGU0D
+         i6gu7v4tWYpiAjOym8BXENecX5/8vPT46O4acX3v8gMjc51e0O2rc5avmUq9JgCtisGp
+         lrggl7V+vqye8HtVY5xMd67EFvelC/sNNaMhrfo/TW+jzqv8cJhyNmH606Mqlv595Z+q
+         xSGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728462678; x=1729067478;
+        d=1e100.net; s=20230601; t=1728463363; x=1729068163;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qaO6OZB9LNJ3CfL5hJwIDOwEl1I05oLk0c+YGhPFN5E=;
-        b=UCnRatgg+ts2fa1MiDmAi15kDg3wPvxu1sLwQFWc4SDAUc6Y2QyOcZePfkUKSir2iz
-         8BOqqBOe7pEMyeAERmiLuAXhkWnfAYjHDLPicYhyLcX91X3UB9tXMZ2bYaQHmsYCUbkK
-         8oz3QQm2A9YSAvwop0MRaJcL5Jgpnjme8J3mQqRqK43GE3smZhrcfQwS1Vyw9hlEUt1E
-         3j9nK/TGVIRUz2QF2NT4ju85FPDnjcwuP1MZns17oRiud7xkA/bTkY6gGORzKKwwI9PV
-         Wbq4ARPyFlNyEczua5usvmHmE7TwfQYho9PbqYRytXiuyfAnaM66K1+bB9VU3IfmmlkU
-         6LDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX7a3XJrcQ1jj9fUbGughgZ7RbXcotD3xOjXPrDSmtJ7th/GwBWREFI0oU9tFqQcYFvC9MtYw1R2lSAeao9308DRA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzhem+6HdKv0bPN78ixx1cbSZtG2VYrn1qGGgbpd2k6Z2r16S5K
-	VUgLXXXVayc9IEKnRoltUpHkk/OHXgwTY8wspXo8e4Tmi5eRnJEuUOYXZO1mT6Q=
-X-Google-Smtp-Source: AGHT+IF3Q2wQGloa2V2XDPn7TmJqK0nuOUzhIW/QGvZ0irAUv57avGXp68LqGJgfaKW8c/fHZTF7TA==
-X-Received: by 2002:a05:6512:68f:b0:539:9f52:9e6 with SMTP id 2adb3069b0e04-539c49728d1mr835853e87.54.1728462677850;
-        Wed, 09 Oct 2024 01:31:17 -0700 (PDT)
+        bh=NCo1GlPGMO9qRjYk6NqblAPH+ivDBMcmdikYhCEoAX0=;
+        b=aaQYVakgDmkz9G6Fj9a7JdfE1q5ZXjCjZIwjz8XnYhDRWxq1hdvBmQIz52zUyBvR/F
+         9ux6GVhU/fbsZV+DWeefEHnMHyfWPD7lWUKFKYVSl6JS87yPGOIyJJHh9KUwQiNGNk1d
+         63dzaFUgs+H8l+A4cwX2WaMvtXq6mxo4ZApXTGasZEksDmb9t22G1ogxHJWEFickX1lS
+         UdfxxLGNxwMIsPaf2nFizEIlrA855BgcGXPgtCktIneSrQE+c2UbxT22O19+Rz0Qce7J
+         mQ1h9r1GHc41JVWxmLhfm8KL2RYlNdgGiBnlYi0msjuoXUOd6k433kwh/ENdzDjM4i0H
+         Rvlw==
+X-Forwarded-Encrypted: i=1; AJvYcCW7bJI5RveF28hciqqab8UqddYoGBeJhyyJHVLhkv2np5eUzvuGdU619DVRmio2wZDnIn3zBe1ey3MbOlvLQ342hg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyz58j95fQLnvgy4Y8k1rKwE8xmc9Kyy4vCAWHIF5myzREJjQgN
+	leSRjzUa3GFRgV89t1wh3g5sZ7Qm6ljkeCKfaiRGO5zHU3XjBUv8uyk8Xq6GQoI=
+X-Google-Smtp-Source: AGHT+IH65Py6ZoVFXJXAzrfoxCpg11Zu8PXx18r+jrhrvKhS9cBYCLJYMJJAgnToJzsiU/Uro8/0AA==
+X-Received: by 2002:a17:906:6a05:b0:a77:c95e:9b1c with SMTP id a640c23a62f3a-a998d1f6694mr148213966b.27.1728463363024;
+        Wed, 09 Oct 2024 01:42:43 -0700 (PDT)
 Received: from [192.168.50.4] ([82.78.167.23])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a992e664fb9sm627251866b.88.2024.10.09.01.31.15
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9957c683d1sm365002866b.203.2024.10.09.01.42.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Oct 2024 01:31:17 -0700 (PDT)
-Message-ID: <229582da-270d-4188-a202-50e41493c7cb@tuxon.dev>
-Date: Wed, 9 Oct 2024 11:31:15 +0300
+        Wed, 09 Oct 2024 01:42:42 -0700 (PDT)
+Message-ID: <cbb9d3ab-ed61-43f6-aca1-8d35316c4ff6@tuxon.dev>
+Date: Wed, 9 Oct 2024 11:42:40 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -76,156 +76,68 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/16] phy: renesas: rcar-gen3-usb2: Add support to
- initialize the bus
+Subject: Re: [PATCH 15/16] arm64: dts: renesas: rzg3s-smarc: Enable USB
+ support
 Content-Language: en-US
 To: Geert Uytterhoeven <geert@linux-m68k.org>
 Cc: vkoul@kernel.org, kishon@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, p.zabel@pengutronix.de, geert+renesas@glider.be,
- magnus.damm@gmail.com, gregkh@linuxfoundation.org, mturquette@baylibre.com,
- sboyd@kernel.org, yoshihiro.shimoda.uh@renesas.com,
- biju.das.jz@bp.renesas.com, ulf.hansson@linaro.org,
- linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+ conor+dt@kernel.org, p.zabel@pengutronix.de, magnus.damm@gmail.com,
+ gregkh@linuxfoundation.org, mturquette@baylibre.com, sboyd@kernel.org,
+ yoshihiro.shimoda.uh@renesas.com, biju.das.jz@bp.renesas.com,
+ ulf.hansson@linaro.org, linux-phy@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-pm@vger.kernel.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 References: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com>
- <20240822152801.602318-11-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdX1b5ZZaO+G1h=E8uv+WV7oS8xg8Hx=_+uORO7Qu33eNw@mail.gmail.com>
+ <20240822152801.602318-16-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdXbNRO--0ZGO4owi3At5n1dTMMWo4PTaubyNWEkVnPFFA@mail.gmail.com>
 From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <CAMuHMdX1b5ZZaO+G1h=E8uv+WV7oS8xg8Hx=_+uORO7Qu33eNw@mail.gmail.com>
+In-Reply-To: <CAMuHMdXbNRO--0ZGO4owi3At5n1dTMMWo4PTaubyNWEkVnPFFA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Hi, Geert,
 
-On 08.10.2024 17:57, Geert Uytterhoeven wrote:
+On 08.10.2024 18:16, Geert Uytterhoeven wrote:
 > Hi Claudiu,
 > 
 > On Thu, Aug 22, 2024 at 5:28 PM Claudiu <claudiu.beznea@tuxon.dev> wrote:
->>
 >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >>
->> The Renesas RZ/G3S need to initialize the USB BUS before transferring data
->> due to hardware limitation. As the register that need to be touched for
->> this is in the address space of the USB PHY, and the UBS PHY need to be
->> initialized before any other USB drivers handling data transfer, add
->> support to initialize the USB BUS.
->>
->> As the USB PHY is probed before any other USB drivers that enables
->> clocks and de-assert the reset signals and the BUS initialization is done
->> in the probe phase, we need to add code to de-assert reset signal and
->> runtime resume the device (which enables its clocks) before accessing
->> the registers.
->>
->> As the reset signals are not required by the USB PHY driver for the other
->> USB PHY hardware variants, the reset signals and runtime PM was handled
->> only in the function that initialize the USB BUS.
->>
->> The PHY initialization was done right after runtime PM enable to have
->> all in place when the PHYs are registered.
+>> Enable USB support (host, device, USB PHYs and sysc).
 >>
 >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 > 
-> Thanks for your patch, which is now commit 4eae16375357a2a7 ("phy:
-> renesas: rcar-gen3-usb2: Add support to initialize the bus") in
-> v6.12-rc1.
+> Thanks for your patch!
 > 
->> --- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
->> +++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
->> @@ -650,6 +658,35 @@ static enum usb_dr_mode rcar_gen3_get_dr_mode(struct device_node *np)
->>         return candidate;
->>  }
->>
->> +static int rcar_gen3_phy_usb2_init_bus(struct rcar_gen3_chan *channel)
->> +{
->> +       struct device *dev = channel->dev;
->> +       int ret;
->> +       u32 val;
+>> --- a/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
+>> +++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
+>> @@ -144,3 +188,20 @@ &sdhi1 {
+>>         max-frequency = <125000000>;
+>>         status = "okay";
+>>  };
 >> +
->> +       channel->rstc = devm_reset_control_array_get_shared(dev);
->> +       if (IS_ERR(channel->rstc))
->> +               return PTR_ERR(channel->rstc);
+>> +&sysc {
+>> +       status = "okay";
+>> +};
 >> +
->> +       ret = pm_runtime_resume_and_get(dev);
->> +       if (ret)
->> +               return ret;
->> +
->> +       ret = reset_control_deassert(channel->rstc);
->> +       if (ret)
->> +               goto rpm_put;
->> +
->> +       val = readl(channel->base + USB2_AHB_BUS_CTR);
->> +       val &= ~USB2_AHB_BUS_CTR_MBL_MASK;
->> +       val |= USB2_AHB_BUS_CTR_MBL_INCR4;
->> +       writel(val, channel->base + USB2_AHB_BUS_CTR);
->> +
->> +rpm_put:
->> +       pm_runtime_put(dev);
->> +
->> +       return ret;
->> +}
->> +
->>  static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
->>  {
->>         const struct rcar_gen3_phy_drv_data *phy_data;
->> @@ -703,6 +740,15 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
->>                 goto error;
->>         }
->>
->> +       platform_set_drvdata(pdev, channel);
->> +       channel->dev = dev;
 > 
-> Unrelated change?
+> To avoid regressions (/sys/devices/soc0/ disappearing), enabling sysc
+> is a dependency for "[PATCH 05/16] soc: renesas: sysc: Move RZ/G3S
+> SoC detection on SYSC driver", so I think it makes sense to change
+> its status to "okay" in r9a08g045.dtsi instead, and spin that off into
+> its own patch. 
 
-That's a leftover from the removal of the suspend to RAM support from the
-initial work (internal only) of this series. I'll keep it in mid to remove
-it on the following patches, if needed.
-
-> 
->> +
->> +       if (phy_data->init_bus) {
->> +               ret = rcar_gen3_phy_usb2_init_bus(channel);
->> +               if (ret)
->> +                       goto error;
->> +       }
->> +
->>         channel->soc_no_adp_ctrl = phy_data->no_adp_ctrl;
->>         if (phy_data->no_adp_ctrl)
->>                 channel->obint_enable_bits = USB2_OBINT_IDCHG_EN;
->> @@ -733,9 +779,6 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
->>                 channel->vbus = NULL;
->>         }
->>
->> -       platform_set_drvdata(pdev, channel);
->> -       channel->dev = dev;
->> -
->>         provider = devm_of_phy_provider_register(dev, rcar_gen3_phy_usb2_xlate);
->>         if (IS_ERR(provider)) {
->>                 dev_err(dev, "Failed to register PHY provider\n");
-> 
-> The reset is not asserted in the error path, only in .remove().
-> 
-> Oh, Christophe already sent a fix for that...
-> "[PATCH v3] phy: renesas: rcar-gen3-usb2: Fix an error handling path
-> in rcar_gen3_phy_usb2_probe()"
-> https://lore.kernel.org/all/290b25827e3f0742808940719455ff0c5cb9d01d.1726329925.git.christophe.jaillet@wanadoo.fr
-
-Yes, I messed this when removing the suspend to RAM from my initial work on
-this (internal only). Thanks Christophe for handling it.
+Good point! I'll add the dtsi changes into "[PATCH 05/16] soc: renesas:
+sysc: Move RZ/G3S SoC detection on SYSC driver".
 
 Thank you,
 Claudiu Beznea
 
-> 
->> @@ -762,6 +805,7 @@ static void rcar_gen3_phy_usb2_remove(struct platform_device *pdev)
->>         if (channel->is_otg_channel)
->>                 device_remove_file(&pdev->dev, &dev_attr_role);
->>
->> +       reset_control_assert(channel->rstc);
->>         pm_runtime_disable(&pdev->dev);
->>  };
+ I am not super-worried, so doing the driver and DTS
+> changes in separate patches should be fine, as long as they meet each
+> other in next or upstream.
 > 
 > The rest LGTM.
 > 
