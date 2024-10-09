@@ -1,148 +1,188 @@
-Return-Path: <linux-renesas-soc+bounces-9623-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9624-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 807AD996394
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2024 10:48:16 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66CA999654F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2024 11:28:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2BB851F2292D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2024 08:48:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 22E052817FE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2024 09:28:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C972218C91B;
-	Wed,  9 Oct 2024 08:42:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="N3MsA3xX"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8379018A92D;
+	Wed,  9 Oct 2024 09:28:22 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7C4188CC4
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  9 Oct 2024 08:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42937189B9D;
+	Wed,  9 Oct 2024 09:28:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728463367; cv=none; b=FD9cFfex2eWBP6t4G0ym/n6QEHa7Estg4XXeRARDqCG09z2Zt6/iduPprRthigjP241cGtZfXExhbWbU/1L7wLkLdOH/6h1K6CNJxTK4Vtz/k5EsPuNfGdRZ4yLt2opo8+X5GQJawcB3ER1jzDngnMsTQTBKXiom+74Wy8ZQ8J4=
+	t=1728466102; cv=none; b=ZZdOr/Iq/NcenjkClGjjH8FRmYtD3r63uV2aUvW/A8yNX2vzHq8tSmfmWkqTai8rcyLG+BtrJNrM0a/CGquNOH0fpcqI4CtQMP905YoQWBUYLZD3Pj6AXHBbl2Y5MUkSsyvSSKkon/j3y0TRlTfzfUCv/pVUm6jKM/5wPV6STzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728463367; c=relaxed/simple;
-	bh=XhJiHPGo1+eCnZwKrwKtZoj+qGtS2ActqBF7GqOTjZQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s9kqCj3HsH9nkRHQX45VOTdav2N5MUs4FRDYNt49VdilzKgtCa0Vf5/dszF026JKvB4Or76iCcUDQR4h6nRtuEXSkqtGV+l39TGpyQ1XoVBZiPWGeYZzylAwj6cOy5e81AaD3YfBvzFSTDrl+wNJPN//WtdtQcCRDSV010D6Lz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=N3MsA3xX; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a99650da839so298583966b.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 09 Oct 2024 01:42:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1728463363; x=1729068163; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NCo1GlPGMO9qRjYk6NqblAPH+ivDBMcmdikYhCEoAX0=;
-        b=N3MsA3xXYhA8BGicfckJzTKfIILQJylZFKBHAuYRpUMZCEwA/MGo1xlfMjbYrppwMZ
-         1ABbNIaLsfWy+n8Jmcp8wGFMp3p0uj+e1t3wYhI4qL9QNlpICl5LZX23lNnVkMmbaHBv
-         DEp/Ve+HON0bMnYDM8TZ1DjHpQ9m3QPEuyubq4S6VFwJ1cWDVuFZc2s02I1dWMgjGU0D
-         i6gu7v4tWYpiAjOym8BXENecX5/8vPT46O4acX3v8gMjc51e0O2rc5avmUq9JgCtisGp
-         lrggl7V+vqye8HtVY5xMd67EFvelC/sNNaMhrfo/TW+jzqv8cJhyNmH606Mqlv595Z+q
-         xSGg==
+	s=arc-20240116; t=1728466102; c=relaxed/simple;
+	bh=3uH0VHQ5FbfEU6U+DIwCrLir1cI06f1Nwd6HjQO06xc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VWb+d93DL7KPfsnat6A9MDzoy9eyV/7OZeG2zdljBUFWoSfJtrEEL1C3a7QK0EQKQni0xkqnOOX7k1LUkOWSxyOtdj96S6R03qm1yGGZTpK7V5f7HhhkJEnaucLDNy+1vcvG7afdB80MvATerALetNZVYfB2wxZl8LFOtg2sr38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-6dde476d3dfso53403027b3.3;
+        Wed, 09 Oct 2024 02:28:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728463363; x=1729068163;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NCo1GlPGMO9qRjYk6NqblAPH+ivDBMcmdikYhCEoAX0=;
-        b=aaQYVakgDmkz9G6Fj9a7JdfE1q5ZXjCjZIwjz8XnYhDRWxq1hdvBmQIz52zUyBvR/F
-         9ux6GVhU/fbsZV+DWeefEHnMHyfWPD7lWUKFKYVSl6JS87yPGOIyJJHh9KUwQiNGNk1d
-         63dzaFUgs+H8l+A4cwX2WaMvtXq6mxo4ZApXTGasZEksDmb9t22G1ogxHJWEFickX1lS
-         UdfxxLGNxwMIsPaf2nFizEIlrA855BgcGXPgtCktIneSrQE+c2UbxT22O19+Rz0Qce7J
-         mQ1h9r1GHc41JVWxmLhfm8KL2RYlNdgGiBnlYi0msjuoXUOd6k433kwh/ENdzDjM4i0H
-         Rvlw==
-X-Forwarded-Encrypted: i=1; AJvYcCW7bJI5RveF28hciqqab8UqddYoGBeJhyyJHVLhkv2np5eUzvuGdU619DVRmio2wZDnIn3zBe1ey3MbOlvLQ342hg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyz58j95fQLnvgy4Y8k1rKwE8xmc9Kyy4vCAWHIF5myzREJjQgN
-	leSRjzUa3GFRgV89t1wh3g5sZ7Qm6ljkeCKfaiRGO5zHU3XjBUv8uyk8Xq6GQoI=
-X-Google-Smtp-Source: AGHT+IH65Py6ZoVFXJXAzrfoxCpg11Zu8PXx18r+jrhrvKhS9cBYCLJYMJJAgnToJzsiU/Uro8/0AA==
-X-Received: by 2002:a17:906:6a05:b0:a77:c95e:9b1c with SMTP id a640c23a62f3a-a998d1f6694mr148213966b.27.1728463363024;
-        Wed, 09 Oct 2024 01:42:43 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.23])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9957c683d1sm365002866b.203.2024.10.09.01.42.41
+        d=1e100.net; s=20230601; t=1728466098; x=1729070898;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=K2aKKIBJN+fcgMd4SG9SyuTgYPFz3/hZQ2vaXaYBN9Y=;
+        b=AusfVUV6i4vaAArcHqJsYBY3mvtB+2+3x+P8zLNVT8TilslC4xS5cC0n2XBV+SFQ2T
+         EdYgD+gSUqtSuZxpG6Kx8SLCK9RLmJ7knezp/iruZNY3D8QBGoEm0MbZGE0hMB9izT1e
+         Hgfa+bEDXnckbPMQiW6VvUsny1GJPwKqWxK8j0e7EWPVsWCkYMBH5FggGUml/d4ltbPm
+         Kpmmo/ISo1ChiH6XtJSBViQxtY0A2DRslX31BxuYebTIB1eah5k9fc6f6pbKp/MvSbKN
+         WRyzIGzcB433lUlx8SLgzyteHb0GpkN5SjXjnMOBktU2FPhBmqWMlAYxljFwEhNoB/wE
+         r2JA==
+X-Forwarded-Encrypted: i=1; AJvYcCU3IMA5JzjA+DnK7XTv46blvBWOzmdBRrqd1MmPUA3F2pxtI9ug+9ByjeVs7NnINi6Adf7tyTcRgp7l@vger.kernel.org, AJvYcCVY3A8M+zI5tVEO/2PQxT3VkdCJDaAPCuEDyLI7uHzz2CUIHC/C4wic3KUpBdkh8JbqCD582TlD17KUXImLcUyeXVM=@vger.kernel.org, AJvYcCXlfMRQHl+aRqnPZiK9TIL+UsXACrycCebOKmXMs9jCVA7lnal/J4cnoO9T84ObVR5dolg99e6IfpQlLCR5@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4jkyblgKuTSwsAZlm0oXRAeWXUWyxH7dF+KLCUFrCjXDkPoJx
+	GKp/Pn0m+vqcLj9hqijCrSGXAzCT9msmjexjaFcCG4KleGbulk2XJ1YDfUHm
+X-Google-Smtp-Source: AGHT+IGwIN0KgjdXBRIUnow8+1heDS02mBfKjHKUuLUK/UOv5Zme7olUq6bkJ0wI+qmPgqskmxft5A==
+X-Received: by 2002:a05:690c:399:b0:6e2:71b:150 with SMTP id 00721157ae682-6e3221a1695mr15829927b3.29.1728466098234;
+        Wed, 09 Oct 2024 02:28:18 -0700 (PDT)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e32b55ad9dsm266297b3.98.2024.10.09.02.28.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Oct 2024 01:42:42 -0700 (PDT)
-Message-ID: <cbb9d3ab-ed61-43f6-aca1-8d35316c4ff6@tuxon.dev>
-Date: Wed, 9 Oct 2024 11:42:40 +0300
+        Wed, 09 Oct 2024 02:28:17 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-6dde476d3dfso53402747b3.3;
+        Wed, 09 Oct 2024 02:28:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWTRq62LQzK82rHDL3z7M7ZXZ5sbLU+KYURtqU0Evh+iOJAu6Dooxjq6r5fcCVI7PrpHYXoLCGVkGOkZY/Va0ely2M=@vger.kernel.org, AJvYcCWoYhm7IbHwSkTrjwuOWb1kHO9LzeJFCxpeRQWMUbbTD2kfGUWTvupQizKHHbaeCS65SIlVV/thZ1m5Ip0e@vger.kernel.org, AJvYcCWs24KcHeMCk2LHo2vr/th014Vbsktt++vlekDwUS+US3QFyiFF6T6Htl42otzu4kD1rlW4KqBM+XVt@vger.kernel.org
+X-Received: by 2002:a05:690c:f06:b0:6e3:1f02:4069 with SMTP id
+ 00721157ae682-6e322133df8mr20738077b3.7.1728466097482; Wed, 09 Oct 2024
+ 02:28:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 15/16] arm64: dts: renesas: rzg3s-smarc: Enable USB
- support
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: vkoul@kernel.org, kishon@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, p.zabel@pengutronix.de, magnus.damm@gmail.com,
- gregkh@linuxfoundation.org, mturquette@baylibre.com, sboyd@kernel.org,
- yoshihiro.shimoda.uh@renesas.com, biju.das.jz@bp.renesas.com,
- ulf.hansson@linaro.org, linux-phy@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-pm@vger.kernel.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com>
- <20240822152801.602318-16-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdXbNRO--0ZGO4owi3At5n1dTMMWo4PTaubyNWEkVnPFFA@mail.gmail.com>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <CAMuHMdXbNRO--0ZGO4owi3At5n1dTMMWo4PTaubyNWEkVnPFFA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20241008164935.335043-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <TY3PR01MB11346A1726BCE1687C6AFF519867E2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <TY3PR01MB113469ABB6393E0A6451034A4867E2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <CA+V-a8vWpUmq9esgcnjWVcPb-jUaLuKvhJF2VwiWrCx5_nOtww@mail.gmail.com>
+In-Reply-To: <CA+V-a8vWpUmq9esgcnjWVcPb-jUaLuKvhJF2VwiWrCx5_nOtww@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 9 Oct 2024 11:28:04 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdULuCWd1V0Az=NWHhSb7voDKbTo9rp3Excntp7qvTbbuQ@mail.gmail.com>
+Message-ID: <CAMuHMdULuCWd1V0Az=NWHhSb7voDKbTo9rp3Excntp7qvTbbuQ@mail.gmail.com>
+Subject: Re: [PATCH v2] arm64: dts: renesas: r9a09g057: Add OPP table
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, Magnus Damm <magnus.damm@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi, Geert,
+Hi Prabhakar,
 
-On 08.10.2024 18:16, Geert Uytterhoeven wrote:
-> Hi Claudiu,
-> 
-> On Thu, Aug 22, 2024 at 5:28 PM Claudiu <claudiu.beznea@tuxon.dev> wrote:
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> Enable USB support (host, device, USB PHYs and sysc).
->>
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> Thanks for your patch!
-> 
->> --- a/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
->> +++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
->> @@ -144,3 +188,20 @@ &sdhi1 {
->>         max-frequency = <125000000>;
->>         status = "okay";
->>  };
->> +
->> +&sysc {
->> +       status = "okay";
->> +};
->> +
-> 
-> To avoid regressions (/sys/devices/soc0/ disappearing), enabling sysc
-> is a dependency for "[PATCH 05/16] soc: renesas: sysc: Move RZ/G3S
-> SoC detection on SYSC driver", so I think it makes sense to change
-> its status to "okay" in r9a08g045.dtsi instead, and spin that off into
-> its own patch. 
+On Tue, Oct 8, 2024 at 10:10=E2=80=AFPM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> On Tue, Oct 8, 2024 at 6:33=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.c=
+om> wrote:
+> > > From: Biju Das <biju.das.jz@bp.renesas.com>
+> > > > From: Prabhakar <prabhakar.csengg@gmail.com>
+> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > >
+> > > > Add OPP table for RZ/V2H(P) SoC.
+> > > >
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.c=
+om>
+> > > > ---
+> > > > v1->v2
+> > > > - Set opp-microvolt to 800000 for frequencies below 1.1GHz
+> > > > ---
+> > > >  arch/arm64/boot/dts/renesas/r9a09g057.dtsi | 41 ++++++++++++++++++=
+++++
+> > > >  1 file changed, 41 insertions(+)
+> > > >
+> > > > diff --git a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi b/arch/arm6=
+4/boot/dts/renesas/r9a09g057.dtsi
+> > > > index 1ad5a1b6917f..4bbe75b81f54 100644
+> > > > --- a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
+> > > > +++ b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
+> > > > @@ -20,6 +20,39 @@ audio_extal_clk: audio-clk {
+> > > >             clock-frequency =3D <0>;
+> > > >     };
+> > > >
+> > > > +   /*
+> > > > +    * The default cluster table is based on the assumption that th=
+e PLLCA55 clock
+> > > > +    * frequency is set to 1.7GHz. The PLLCA55 clock frequency can =
+be set to
+> > > > +    * 1.7/1.6/1.5/1.1 GHz based on the BOOTPLLCA_0/1 pins (and add=
+itionally can be
+> > > > +    * clocked to 1.8GHz as well). The table below should be overri=
+dden in the board
+> > > > +    * DTS based on the PLLCA55 clock frequency.
+> > > > +    */
+> > > > +   cluster0_opp: opp-table-0 {
+> > > > +           compatible =3D "operating-points-v2";
+> > > > +
+> > > > +           opp-1700000000 {
+> > > > +                   opp-hz =3D /bits/ 64 <1700000000>;
+> > > > +                   opp-microvolt =3D <900000>;
+> > >
+> > > Not sure CA-55 can change voltage from 800mV to 900mV??
+> > > Based on Power Domain Control, it needs to be in AWO mode for changin=
+g the PD_CA55 voltage.
+> > >
+> > > The manual says OD voltage is 0.9V and ND voltage is 0.8V.
+> > >
+> > > Is 1.7GHZ is ND or OD?
+> >
+> > {1.7,1.6,1.5 GHz} is enabled when VDD09_CA55 is at 0.9 V
+> > and for 1.1 GHz it is 0.8V.
+> >
+> > Maybe when you do /2, /4, /8 using dividers, the voltage may be still
+> > the same??
+> >
+> I think you are right when BOOTPLLCA[1:0] pins are set to 1.7GHz the
+> VDD09_CA55 is at 0.9 V, further dividing the clock shouldnt affect the
+> voltage levels at the PMIC output.
+>
+> Geert, please let me know if my understanding is incorrect.
 
-Good point! I'll add the dtsi changes into "[PATCH 05/16] soc: renesas:
-sysc: Move RZ/G3S SoC detection on SYSC driver".
+The actual VDD09_CA55 voltage is controlled by the external PMIC
+(RAA215300).  It is the responsibility of the system designer to make
+sure VDD09_CA55 is at 0.9V when BOOTPLLCA[1:0] is strapped for OD,
+as CPU core clock rates higher than 1.1 GHz need a higher core voltage.
+I don't think it hurts to supply the higher core voltage while
+running the CPU core at low core frequencies, except for extra power
+consumption.
 
-Thank you,
-Claudiu Beznea
+To control VDD09_CA55 dynamically, the CPU cores should have cpu-supply
+properties pointing to the regulator controlling it (raa215300).
+I haven't checked how Linux behaves when no cpu-supply property is
+present, or when it points to a fixed regulator.
 
- I am not super-worried, so doing the driver and DTS
-> changes in separate patches should be fine, as long as they meet each
-> other in next or upstream.
-> 
-> The rest LGTM.
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
+I am also wondering if other opps (1.1/1.5/1.6/1.8 GHz) should be
+added, too?  And probably any opp above 1.1GHz opp should be tagged with
+"turbo-mode"?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
