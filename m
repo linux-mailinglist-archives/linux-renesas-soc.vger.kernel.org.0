@@ -1,159 +1,112 @@
-Return-Path: <linux-renesas-soc+bounces-9664-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9665-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51B99998DB0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Oct 2024 18:42:17 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C49D998F06
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Oct 2024 19:57:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F2A811F24759
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Oct 2024 16:42:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 073BDB2ADB1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Oct 2024 17:55:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B5C1197A93;
-	Thu, 10 Oct 2024 16:42:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8030B1CEACA;
+	Thu, 10 Oct 2024 17:53:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="o8G/lQSb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E332C1957E4;
-	Thu, 10 Oct 2024 16:42:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from mout.web.de (mout.web.de [217.72.192.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A9919ABC4;
+	Thu, 10 Oct 2024 17:53:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728578533; cv=none; b=FQOUlD+wAYulWkuGQhVktxHsjWRj1ccNSSXoyt9bJGpVEaQQUHf5PZlHihCiRjciJz4H0hqIKtORu66BDzg2Y3UkOEhQs79ktH3ZLiJQ91ftpbPgXocgYjr5lWe/QSfE6XRfYVkskR1jNm9yiOObTcoqT7ju6JtYaNwyLg4ngfo=
+	t=1728582830; cv=none; b=JbGwCneGWv/SV4EUTw8KpLwc6011NQ97sNyWkTrqkpFPmIF+f0aOts2o/5kgFSIYBuFVN0LvcC/sNgjpcehB82uuZISqFMfyEU6eSCApp0NWmpG7zgSZ/al0oOAq3U5isGNWqLGfpmfdUqWBUxJ72BYgkUjMWgIx1iO3HanMmQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728578533; c=relaxed/simple;
-	bh=Dmshi+PkdsB3yfDD62dAlBPBe+ZQIBgl8Rq8tKU7WZg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=F1yEPeRNMBNUy/SzCWfAJGf3WKYtgB1OI+DjnncIjnsnfZEl9h9wb7ma3rMzFNikxRPz00ZILrzLyNwJ0njsXQ1E44bMsU7/AxiEn04pEKHuPuLazTSdDFbfM4C2qfLfgeJA/rHdZKjPnLn5PWjCU419h4H0hCI51a+XKDEfjMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-IronPort-AV: E=Sophos;i="6.11,193,1725289200"; 
-   d="scan'208";a="221574508"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 11 Oct 2024 01:42:09 +0900
-Received: from mulinux.home (unknown [10.226.92.34])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id BCA844025507;
-	Fri, 11 Oct 2024 01:41:57 +0900 (JST)
-From: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-To: Thomas Gleixner <tglx@linutronix.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Marc Zyngier <maz@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	linux-kernel@vger.kernel.org,
-	Chris Paterson <Chris.Paterson2@renesas.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3] irqchip/renesas-rzg2l: Fix missing put_device
-Date: Thu, 10 Oct 2024 17:41:55 +0100
-Message-Id: <20241010164155.808931-1-fabrizio.castro.jz@renesas.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1728582830; c=relaxed/simple;
+	bh=0X0YxQOa1OiKz8GaWTAGs9aM+4QyEcL7l+GVc39WZ90=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=lMjWB3FtF8QtdPJmczRVJhoXwadHx858oIhaMfC+g4w1VyOHKtO6I6TbgVVLUAtZ7gwZRuRuItOggJ5O3hGOAneDbwywh3i1N7iWLJa0LYBeqDxom1MuuM6c1EVfah/1eN2SrWme6lnWxMAfX02Nu7/qbYWFnZ6egHNSHazOXio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=o8G/lQSb; arc=none smtp.client-ip=217.72.192.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1728582798; x=1729187598; i=markus.elfring@web.de;
+	bh=0X0YxQOa1OiKz8GaWTAGs9aM+4QyEcL7l+GVc39WZ90=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=o8G/lQSby+kI/KFQK+a4EatTl5yyCISPQqaIsLREOJlU06RZqWasBhATU6Itec8k
+	 w3q1j6njrvqKU58xdSspUWhSTWF9rq04VKVhw6llSvTnFzt/Lssoxm78McCSa3P8h
+	 Fn4hBVsC0zCNNGZ3LWoZZRFbuDLTdfuKU/UDSXhRFRfjh+hqgBiA4ZmuTxAZc2vyx
+	 YiyL8YeUWHYrccQ4YrhcffUctPIiBGLcZpGu9gIURlwWQTtmL1+yuCkrLrTxxDNtT
+	 US8v5HAXP1L5h/uhmFZmKY2etVWrzRIYFW7kRmsqchHiRl1umDqIDijVOEgUg7pPj
+	 BZJAZadvK58uZZ4p/Q==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.81.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1Mo6Nt-1tk90n1Y55-00nwpD; Thu, 10
+ Oct 2024 19:53:18 +0200
+Message-ID: <2e9bf925-8fcd-4e0b-bc3b-996fffc84681@web.de>
+Date: Thu, 10 Oct 2024 19:53:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ linux-renesas-soc@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Thomas Gleixner <tglx@linutronix.de>
+Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org,
+ Chris Paterson <Chris.Paterson2@renesas.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Marc Zyngier <maz@kernel.org>
+References: <20241010164155.808931-1-fabrizio.castro.jz@renesas.com>
+Subject: Re: [PATCH v3] irqchip/renesas-rzg2l: Fix missing put_device
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20241010164155.808931-1-fabrizio.castro.jz@renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:s+TRnpRKUTP3hwfWpBXDjBOmuWLFr19ZgrbHGsfejHIjDC69MFg
+ TU/aRWZaxMclBMEPw4FjVcW8cmW5PBZBFpxXV7FBYv7cgH8Gl/qxfXCoI88M+9o9eEgUmf6
+ ndLwLKIWe/nD9Vdrx+bgQcas9oOmlfWM2QwRjh910aEayH6BDRNMaeajPaaoFB/LBvK+uP3
+ ur90hvX8gP2dfeg38cQFg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:gzhvEgWo+Lc=;VjKUM2vSEQaVYzkPO9vwP1PWP4O
+ mZdBbCdTJpf7yTuBfBll/Ir6FX/jgdDGyP0lJ57JlqTRauoTqK3sKCx5hoWUVaI2b9Zn2UULE
+ CzPnvzqYc0ZrUuBscLOsk/2PMpm9AEhBhCLQ51OtF1QrZr15gyLV0jVWuDXAUiziFa84QCXr0
+ r5QYoisM0zhTPRzX6th0k3BbR4IZQZC/Y8zOSSJe2VJOw8qW9G01+ccggVSe0g7vajWUaHRil
+ Jl8/kgFO+++C9Zl8MsQpU5Yko+JUNWq42jBmOdeqllMumbYFIPaz4qxHRkpRVsr/4VNs5bUCo
+ W15TMDqk4a/retiXz1LDjUif3djkean8dEBGM9S665XogUIc+C949vj//cIr8s1//5B3dOtwz
+ QzCO8aU3AvkjM1labH1no6fE3jvzY1k3FTpUH+OIrzvpXmb8Bm5O7Ikzz/dLvcGk1hrWeTux/
+ bh+oJtr8Hh3Bo69/dNOfe94//LXbNda2Qqqf3FTKW8WYXzHD4dlKFl/J9eKUKRqR0oNG+SXOc
+ vs2MpBqUVqDR6I6RmzF/KoGS367kz+br5TJgkpS6MP6fv9PKUzuOE5hsl+Uw5qNpy/YY4iqbT
+ OUOTlNxWDnGWf76l6gPCIxVRWbcKUB/Oqmq+/2FFsV0Iv3HNAqKFUfNlL3ZHZoI2Ljh+7JoTn
+ X+3rYQE2mmLAJyfCSumCj7RTl6qMS6YM1ek+hLR2kd33Q3MhQD6hcuhBBf5LQM8RAQ0dV9P+5
+ HByEaCmaF3rDfE0hafpJs5Nqdi0xB5eJsC819k2Oz5i0d4yZOOFi4nYlEgw+GqWTy1/xGQgKd
+ 1xtIO5LvFaWjg6Rs/fBKlymg==
 
-rzg2l_irqc_common_init calls of_find_device_by_node, but the
-corresponding put_device call is missing.
+> rzg2l_irqc_common_init calls of_find_device_by_node, but the
+> corresponding put_device call is missing.
+>
+> Make sure we call put_device when failing.
+>
+> "make coccicheck" will complain about a missing put_device before
+> successfully returning from rzg2l_irqc_common_init, however, that's
+> a false positive.
+>
+> Fixes: 3fed09559cd8 ("irqchip: Add RZ/G2L IA55 Interrupt Controller driv=
+er")
 
-Make sure we call put_device when failing.
+Might the application of scope-based resource management become more
+interesting accordingly?
 
-"make coccicheck" will complain about a missing put_device before
-successfully returning from rzg2l_irqc_common_init, however, that's
-a false positive.
-
-Fixes: 3fed09559cd8 ("irqchip: Add RZ/G2L IA55 Interrupt Controller driver")
-Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
----
-
-v2->v3:
-* Fixed typo in commit log (rzv2h_icu_init replaced with rzg2l_irqc_common_init).
-
-v1->v2:
-* Dropped put_device from the successful path, and added a comment to prevent
-  others from acting upon make coccicheck output.
-
- drivers/irqchip/irq-renesas-rzg2l.c | 32 +++++++++++++++++++++--------
- 1 file changed, 23 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/irqchip/irq-renesas-rzg2l.c b/drivers/irqchip/irq-renesas-rzg2l.c
-index 693ff285ca2c..040463e3b39c 100644
---- a/drivers/irqchip/irq-renesas-rzg2l.c
-+++ b/drivers/irqchip/irq-renesas-rzg2l.c
-@@ -542,33 +542,40 @@ static int rzg2l_irqc_common_init(struct device_node *node, struct device_node *
- 	parent_domain = irq_find_host(parent);
- 	if (!parent_domain) {
- 		dev_err(&pdev->dev, "cannot find parent domain\n");
--		return -ENODEV;
-+		ret = -ENODEV;
-+		goto put_dev;
- 	}
- 
- 	rzg2l_irqc_data = devm_kzalloc(&pdev->dev, sizeof(*rzg2l_irqc_data), GFP_KERNEL);
--	if (!rzg2l_irqc_data)
--		return -ENOMEM;
-+	if (!rzg2l_irqc_data) {
-+		ret = -ENOMEM;
-+		goto put_dev;
-+	}
- 
- 	rzg2l_irqc_data->irqchip = irq_chip;
- 
- 	rzg2l_irqc_data->base = devm_of_iomap(&pdev->dev, pdev->dev.of_node, 0, NULL);
--	if (IS_ERR(rzg2l_irqc_data->base))
--		return PTR_ERR(rzg2l_irqc_data->base);
-+	if (IS_ERR(rzg2l_irqc_data->base)) {
-+		ret = PTR_ERR(rzg2l_irqc_data->base);
-+		goto put_dev;
-+	}
- 
- 	ret = rzg2l_irqc_parse_interrupts(rzg2l_irqc_data, node);
- 	if (ret) {
- 		dev_err(&pdev->dev, "cannot parse interrupts: %d\n", ret);
--		return ret;
-+		goto put_dev;
- 	}
- 
- 	resetn = devm_reset_control_get_exclusive(&pdev->dev, NULL);
--	if (IS_ERR(resetn))
--		return PTR_ERR(resetn);
-+	if (IS_ERR(resetn)) {
-+		ret = PTR_ERR(resetn);
-+		goto put_dev;
-+	}
- 
- 	ret = reset_control_deassert(resetn);
- 	if (ret) {
- 		dev_err(&pdev->dev, "failed to deassert resetn pin, %d\n", ret);
--		return ret;
-+		goto put_dev;
- 	}
- 
- 	pm_runtime_enable(&pdev->dev);
-@@ -591,6 +598,10 @@ static int rzg2l_irqc_common_init(struct device_node *node, struct device_node *
- 
- 	register_syscore_ops(&rzg2l_irqc_syscore_ops);
- 
-+	/*
-+	 * coccicheck complains about a missing put_device call before returning, but it's a false
-+	 * positive. We still need &pdev->dev after successfully returning from this function.
-+	 */
- 	return 0;
- 
- pm_put:
-@@ -598,6 +609,9 @@ static int rzg2l_irqc_common_init(struct device_node *node, struct device_node *
- pm_disable:
- 	pm_runtime_disable(&pdev->dev);
- 	reset_control_assert(resetn);
-+put_dev:
-+	put_device(&pdev->dev);
-+
- 	return ret;
- }
- 
--- 
-2.34.1
-
+Regards,
+Markus
 
