@@ -1,77 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-9657-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9658-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F320998C53
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Oct 2024 17:50:48 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93833998B4B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Oct 2024 17:22:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 97D76B31EAA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Oct 2024 15:17:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B56591C24897
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Oct 2024 15:22:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9A151CBEB5;
-	Thu, 10 Oct 2024 15:17:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 184181CC886;
+	Thu, 10 Oct 2024 15:22:26 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1821CB312;
-	Thu, 10 Oct 2024 15:17:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D2801CC147;
+	Thu, 10 Oct 2024 15:22:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728573450; cv=none; b=Kc6XVjoTUaQrx7J81CPuavoYt7s00U6xq9qhcW2G6IR+eDJWxCy5hXCtyNb+hHNtmmBBgr4IsZ2jZAjTf+jPhMO08K6ME2AtkcvXPslzrKhNupxS0EwBxd8P+v92J9L53kBeUlLKwG8YJr/3/pNdHMHydEV8Jsyvr95IZPeSs5k=
+	t=1728573746; cv=none; b=YvWLsvzZJHGULe6z2TFLJloG9EkgwjBytEJd+mxGKf8TIABWjqgwxgs+P6GEaQSr9hBU7n8pf4BFJ2loK9xpvMyZ+QqOWb01KKVO6sgXCslCM+P2+j6wsQy4IQbPx4STFJg0xgjGp1c+yt7k/VydMrmcvCwTp8+T7wQki04Thpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728573450; c=relaxed/simple;
-	bh=kAelzetrqpcRN5dm4O6YQ1TH+k97O3PeD6wil9BatBc=;
+	s=arc-20240116; t=1728573746; c=relaxed/simple;
+	bh=s+8oKw9lYbGlfDOOh5Vzq21tMDHsDkvtvta/qIpwP5g=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lcN3tbCsCOQBd97kIOVVut1UrgkAi/f5AORNyge9T5dQiykDA6YKkZod1KcF2wlNdClswzo8JxGqjRyDFK3eaK2Ay4xukkT7g0EovHD4RnrRPmq9425KKun2uvDMrOWGGDMl4FKEXzLkE8qbAjMKTnajAzoO3fKjHmL7rz9H1K4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.180
+	 To:Cc:Content-Type; b=nLJCgu2OmFUHsMq0xj8xSzSDZi9/1bYycDr52Ae5rzwlbvzKJvvtgcuM3akjQyD6q63M09P2VhuvzSCyK3kfXjqYKtycklS1x0b/fEougP1RpgFPE4W8BDnhLqF2jNKW18L8R4Vf+jfE9WQqUR1qgg70kGgc/lQQpwDxdQlwnpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-6e2e4237da4so10363437b3.1;
-        Thu, 10 Oct 2024 08:17:28 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-6e25f3748e0so12423947b3.0;
+        Thu, 10 Oct 2024 08:22:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728573445; x=1729178245;
+        d=1e100.net; s=20230601; t=1728573742; x=1729178542;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=w+Dll4htdUB23BCtM34CclguCZewJgpq4mv0+9yv+gs=;
-        b=GScR9ECKDf7vlokr5bVKCnNAlXbEgFYVlKKq+Ynv2E2rnX1yyCdv8COS6gNyev4H6D
-         ZLX9ISBl+5yLGwjbrnrQV4oov7XKoMVl6GuwoY2ihUZpcWZWWAbCM3+n4YPLuMtae9R+
-         NzUXJ76puhSrVBixE6RnotUbjE81g6DohIhEGDS5y4BboQgyjnkvfpU5DO0LAz44y+95
-         A33CFBT9J+VOgjqDOlb4brpD6MfaEfFvuOg9AGpkTvsGCbcq9twFePZwgG/sELpjn435
-         Rq7ZV0OsLGCjywZseeXHHV0SrByYreVu8n0RjurkLET4SysNGiZm6H4ibAnxKcjkMnAB
-         dxCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUqlrJjLgQDfJm159kmHf6RlUxucicsmjQzMvP0Sx5Q3q3vsGN2ZjXYmvMYl5NYUNL0G78mEE2uZz7V@vger.kernel.org, AJvYcCVcc6unLiQ5Tt7v2oR8CO5RfYPfgeZVM5zLs15iLagXUg0CUt8CHy2sEevNgd86Xnpj1tWtu6hzx3v/@vger.kernel.org, AJvYcCVg8MpXM+l0pzwnvaMhNl9K5XtNHsOgO/XFFEg7+E6T4tJDgyKeY/+P0S1wZAXMIn7EF3VUNclhBEdw@vger.kernel.org, AJvYcCWDBZ9iYUiguHwz2hwttAPrW1sgI9RYAm4Azlk98uft5vG2vDcfG6Mx7MbPMraQhkeyO/8ByRelyRHX7zgFjjTK3Mk=@vger.kernel.org, AJvYcCXhcQI6k07fGMOqG0W76nXg4Q0dW0iBq49M/Hyt7lhYicrDedKmHWvDZM/GmfbvjI2pQe8odoLjCg3aaOiL@vger.kernel.org
-X-Gm-Message-State: AOJu0YxaOqdtXW4jZRPugAvczkwTNDKh384B9/W39cVcMBYOO4OUSwVR
-	6Q7c/EGnVVl/RlqjNXV4mjM0g6Zh5jf6MIrax2ymR7VnjCdPL4ImkLxnU4Bq
-X-Google-Smtp-Source: AGHT+IH91kgKmCZOzY7Bbhg6gRS3DlpUaEddKN7XcqQDDxdpnNqSvn0tZplJ0LLJGUJs+c23XET1wg==
-X-Received: by 2002:a05:690c:3007:b0:6af:6762:eba1 with SMTP id 00721157ae682-6e32e20e20bmr31969927b3.20.1728573444918;
-        Thu, 10 Oct 2024 08:17:24 -0700 (PDT)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e332bad8afsm2394907b3.59.2024.10.10.08.17.24
+        bh=Jao0Svc0n55kg/+w0la34Wpf1syzLSX8vW8f7gdO0JU=;
+        b=l1fGS1cwmCbUX0GNduwyHZaUEhPoKZvCu9wYU0yI6xtHTDr/zueWN/UqXFAPAALRyg
+         T4B/uXfLIJG/YmmmBA6Tav9HiYcfsOMdkQ7lxYIo396Ptr7WJ1jct3NLWOixwmnZ/Xgt
+         XFAyvUeDmFzEVb7ReVU+BPZCC7cCu7AmXxDvXxP/9c3TBWMfY7uuRxIqWbFKWacwBSfO
+         AkHd0oQ3rFHUwUed13SF7lCIpjwyHh6h8xBigoSNyA5uBCroX+MFvuW8LJ2+2b/KNVph
+         YvybPAhSUHuJkQRm/fvr3fG41E9e4iAFQLpUsk2rUuq2BTo4M4849+t6C4VhPZUmeWeh
+         Mcow==
+X-Forwarded-Encrypted: i=1; AJvYcCV1Jq13xRcGDXWT6FfkGxG05A0dfsNF5T0JzzK1gL5Qo5rJMnTYUiexvK78Cs8OlUBpk8Nvdybb2TAJ@vger.kernel.org, AJvYcCWCTZcQMTbkmvMZJ6cBQAnbSKZBkfjWCFL/RGIk4RNUJoW0Hz3GxUSOOEnSZDcSWayQ9gdvk6borXaKlFxA@vger.kernel.org, AJvYcCXil3BNsaGChils0SOQSr3IRiW43VLx3tl5BN6eymiXWR0/vjmF0wQwvDaFlVnLKQWKM0QVykVKrB8s@vger.kernel.org, AJvYcCXnxjcMPbPpzy8hgkjYVo7PV7JqqE9dCZjReJhC4+aiupUKnCb+w0GhGMZtSO4ubsOJczs4jCtC9bDA@vger.kernel.org, AJvYcCXsiPulz2UWDoBhWSKUGa+vhx0drRTrcJo8KuH4OrU2mvgnxYip3rMvEhnxfikVIv71CW6wuvDa+qBmdAIVSciqYLA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqjW3LGSEQ2RDZf5ORXyuLLK/wsqMLVODbeA/BHiCTNHwW42Er
+	HdmCUJMJX9kCj5kkpP7o4i6xiQBUQ2uGbeBxrV6//TwBsTxCs+zuL7IU48Z/
+X-Google-Smtp-Source: AGHT+IGi2lqjdHiYuBMfImEnw66tasFC/37QTnDnra998ZrrgJyc4jpTeigb0L62IUL4na2Ugq+7Pw==
+X-Received: by 2002:a05:690c:85:b0:6e2:1a26:2974 with SMTP id 00721157ae682-6e3224ed762mr58939827b3.39.1728573742141;
+        Thu, 10 Oct 2024 08:22:22 -0700 (PDT)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e332b618b7sm2439047b3.3.2024.10.10.08.22.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Oct 2024 08:17:24 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-6e305c2987bso10215917b3.0;
-        Thu, 10 Oct 2024 08:17:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVCVicTQBCo/ydHilSvQudrLjFBlS7XIOFQ4Nh3jW1jjVeQDl2iRzYenvXRC9lu6XlkdOvfTzBdxEsZLkKfH8+UyXU=@vger.kernel.org, AJvYcCVmZd4YDU0x56o3Wciw97cbU48auevTPraKHGzRnC4hctKbavZVdQq59GtTrNrMZU/bWHjcwInKQub8@vger.kernel.org, AJvYcCW10ujH9qKHEgwDYzqYbwYuW7jEBGfBza5fGW3kYkbMumwz4OewBXTvxfD9T7+0wYerQ6MVHRL32cx5TC6o@vger.kernel.org, AJvYcCWC3K424Md3KaHoCUqWejEA7MNiWE92jvYGzec1Tc85MePjT2M7ZD+KBqhMGhghzhWfKKK0x68IpaJ0@vger.kernel.org, AJvYcCWzmP47cNYBwBhU7bKFYTftMI7pLeL5m6FLevwS/bLAjBnoCkEN40WZx/YsmffLdr7fasAcPCgsSQx1@vger.kernel.org
-X-Received: by 2002:a05:690c:5605:b0:6e2:b263:105b with SMTP id
- 00721157ae682-6e32e445686mr46318437b3.41.1728573443947; Thu, 10 Oct 2024
- 08:17:23 -0700 (PDT)
+        Thu, 10 Oct 2024 08:22:21 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-e2908e8d45eso912241276.2;
+        Thu, 10 Oct 2024 08:22:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVOIeH+NZooRpc/cZi8MJnhrk4KUmQvYvoBJFexrG6Byost/j9BTs8fuzgF6cLshI4Uj15Ro6Ga7VTF@vger.kernel.org, AJvYcCVqaAADrQzkxESdzFb9WZqg6+qrnfD7LFHqHL55Ke3F8K+CYMXppYwiVEx7nnbGWBKVqs/RQ03q5LKF@vger.kernel.org, AJvYcCW2HZXxd4e5YEvMbUQQSu8Lrq0laA80C+WHNx8JJzDXUXT0BBV0k28UwTZVMj0tcHKN6ConpuLmK9s7@vger.kernel.org, AJvYcCW8+N/lsgwe536TMgYPwVLVBzkw+i7HNYvjunQcAuEgqTaQ756IAdCKUVNiatIUn/KpaKUUFPtNZBFHIdk7fJtPhwE=@vger.kernel.org, AJvYcCWvYIbIvqw7XR6u6ws606IUiLvRHdFxr9uQdiGETsiepj/SzZrz8vfcmBialrLx/wTcFkPmTWWf6i//AqZp@vger.kernel.org
+X-Received: by 2002:a05:690c:47c1:b0:6e3:1837:4860 with SMTP id
+ 00721157ae682-6e3221c2589mr45632497b3.13.1728573741351; Thu, 10 Oct 2024
+ 08:22:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240830130218.3377060-1-claudiu.beznea.uj@bp.renesas.com> <20240830130218.3377060-8-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20240830130218.3377060-8-claudiu.beznea.uj@bp.renesas.com>
+References: <20240830130218.3377060-1-claudiu.beznea.uj@bp.renesas.com> <20240830130218.3377060-9-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20240830130218.3377060-9-claudiu.beznea.uj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 10 Oct 2024 17:17:11 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXVOZ22N6KXFdHgPQQnqs0ujBbmQR+CQ4-ekdpQCzFUHA@mail.gmail.com>
-Message-ID: <CAMuHMdXVOZ22N6KXFdHgPQQnqs0ujBbmQR+CQ4-ekdpQCzFUHA@mail.gmail.com>
-Subject: Re: [PATCH v3 07/12] arm64: dts: renesas: r9a08g045: Add VBATTB node
+Date: Thu, 10 Oct 2024 17:22:09 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVqno3vO9T0FtHnNL2afWP4abSE4vmf8vkLRRndg=ws7A@mail.gmail.com>
+Message-ID: <CAMuHMdVqno3vO9T0FtHnNL2afWP4abSE4vmf8vkLRRndg=ws7A@mail.gmail.com>
+Subject: Re: [PATCH v3 08/12] arm64: dts: renesas: r9a08g045: Add RTC node
 To: Claudiu <claudiu.beznea@tuxon.dev>
 Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org, 
 	krzk+dt@kernel.org, conor+dt@kernel.org, alexandre.belloni@bootlin.com, 
@@ -89,47 +89,56 @@ On Fri, Aug 30, 2024 at 3:02=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
 wrote:
 > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >
-> Add the DT node for the VBATTB IP along with DT bindings for the clock
-> it provides.
+> Add the DT node for the RTC IP available on the Renesas RZ/G3S SoC.
 >
 > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 > ---
 >
 > Changes in v3:
-> - dropped the child nodes of vbattb; along with this dropped ranges,
->   interrupt-names, #address-cells, #size-cells
-> - added vbattb_xtal as input clock for vbattb
+> - added CPG clock, power domain, reset
+> - and assigned-clocks, assigned-clock-parents to configure the
+>   VBATTCLK
+> - included dt-bindings/clock/r9a08g045-vbattb.h
 
-Thanks for the update!
+Thanks for your patch!
 
 > --- a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
 > +++ b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-> @@ -160,6 +160,18 @@ i2c3: i2c@10090c00 {
+> @@ -160,6 +161,22 @@ i2c3: i2c@10090c00 {
 >                         status =3D "disabled";
 >                 };
 >
-> +               vbattb: vbattb@1005c000 {
+> +               rtc: rtc@1004ec00 {
 
 Please insert this after serial@1004b800, to preserve sort order.
 
-> +                       compatible =3D "renesas,r9a08g045-vbattb";
-> +                       reg =3D <0 0x1005c000 0 0x1000>;
-> +                       interrupts =3D <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
+> +                       compatible =3D "renesas,r9a08g045-rtca3", "renesa=
+s,rz-rtca3";
+> +                       reg =3D <0 0x1004ec00 0 0x400>;
+> +                       interrupts =3D <GIC_SPI 315 IRQ_TYPE_LEVEL_HIGH>,
+> +                                    <GIC_SPI 316 IRQ_TYPE_LEVEL_HIGH>,
+> +                                    <GIC_SPI 317 IRQ_TYPE_LEVEL_HIGH>;
+> +                       interrupt-names =3D "alarm", "period", "carry";
 > +                       clocks =3D <&cpg CPG_MOD R9A08G045_VBAT_BCLK>, <&=
-vbattb_xtal>;
-> +                       clock-names =3D "bclk", "rtx";
-> +                       #clock-cells =3D <1>;
+vbattb VBATTB_VBATTCLK>;
+> +                       clock-names =3D "bus", "counter";
+> +                       assigned-clocks =3D <&vbattb VBATTB_MUX>;
+> +                       assigned-clock-parents =3D <&vbattb VBATTB_XC>;
+
+Don't the assigned-clock* properties belong in the board DTS?
+In addition, I think they should be documented in the DT bindings,
+and be made required, so board developers don't forget about them.
+
 > +                       power-domains =3D <&cpg>;
 > +                       resets =3D <&cpg R9A08G045_VBAT_BRESETN>;
 > +                       status =3D "disabled";
 > +               };
 > +
->                 cpg: clock-controller@11010000 {
->                         compatible =3D "renesas,r9a08g045-cpg";
->                         reg =3D <0 0x11010000 0 0x10000>;
+>                 vbattb: vbattb@1005c000 {
+>                         compatible =3D "renesas,r9a08g045-vbattb";
+>                         reg =3D <0 0x1005c000 0 0x1000>;
 
-The rest LGTM, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+The rest LGTM.
 
 Gr{oetje,eeting}s,
 
