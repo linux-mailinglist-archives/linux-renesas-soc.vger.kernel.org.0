@@ -1,112 +1,125 @@
-Return-Path: <linux-renesas-soc+bounces-9665-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9666-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C49D998F06
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Oct 2024 19:57:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BCBB998F0A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Oct 2024 19:57:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 073BDB2ADB1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Oct 2024 17:55:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 44C721F25D18
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Oct 2024 17:57:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8030B1CEACA;
-	Thu, 10 Oct 2024 17:53:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="o8G/lQSb"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FE171CB33E;
+	Thu, 10 Oct 2024 17:57:37 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout.web.de (mout.web.de [217.72.192.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A9919ABC4;
-	Thu, 10 Oct 2024 17:53:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D74A19D88F;
+	Thu, 10 Oct 2024 17:57:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728582830; cv=none; b=JbGwCneGWv/SV4EUTw8KpLwc6011NQ97sNyWkTrqkpFPmIF+f0aOts2o/5kgFSIYBuFVN0LvcC/sNgjpcehB82uuZISqFMfyEU6eSCApp0NWmpG7zgSZ/al0oOAq3U5isGNWqLGfpmfdUqWBUxJ72BYgkUjMWgIx1iO3HanMmQs=
+	t=1728583057; cv=none; b=qOZRltbWdfFXnTh8dfEzqY0BLN1sdP32ozq/5Ph9UtGSRChrZA5V6eiETrUb9DYe8wkRqAP+JfayvZBs0HAGEq2wJPeXcTjkBSFBu9lufDf+Pcf3FeZ+Q3/MWXyIKsyyfJ42xQrTSze7IXckyLbjLvE0LcEdbXItVy5rrHziGic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728582830; c=relaxed/simple;
-	bh=0X0YxQOa1OiKz8GaWTAGs9aM+4QyEcL7l+GVc39WZ90=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=lMjWB3FtF8QtdPJmczRVJhoXwadHx858oIhaMfC+g4w1VyOHKtO6I6TbgVVLUAtZ7gwZRuRuItOggJ5O3hGOAneDbwywh3i1N7iWLJa0LYBeqDxom1MuuM6c1EVfah/1eN2SrWme6lnWxMAfX02Nu7/qbYWFnZ6egHNSHazOXio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=o8G/lQSb; arc=none smtp.client-ip=217.72.192.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1728582798; x=1729187598; i=markus.elfring@web.de;
-	bh=0X0YxQOa1OiKz8GaWTAGs9aM+4QyEcL7l+GVc39WZ90=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=o8G/lQSby+kI/KFQK+a4EatTl5yyCISPQqaIsLREOJlU06RZqWasBhATU6Itec8k
-	 w3q1j6njrvqKU58xdSspUWhSTWF9rq04VKVhw6llSvTnFzt/Lssoxm78McCSa3P8h
-	 Fn4hBVsC0zCNNGZ3LWoZZRFbuDLTdfuKU/UDSXhRFRfjh+hqgBiA4ZmuTxAZc2vyx
-	 YiyL8YeUWHYrccQ4YrhcffUctPIiBGLcZpGu9gIURlwWQTtmL1+yuCkrLrTxxDNtT
-	 US8v5HAXP1L5h/uhmFZmKY2etVWrzRIYFW7kRmsqchHiRl1umDqIDijVOEgUg7pPj
-	 BZJAZadvK58uZZ4p/Q==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.81.95]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1Mo6Nt-1tk90n1Y55-00nwpD; Thu, 10
- Oct 2024 19:53:18 +0200
-Message-ID: <2e9bf925-8fcd-4e0b-bc3b-996fffc84681@web.de>
-Date: Thu, 10 Oct 2024 19:53:07 +0200
+	s=arc-20240116; t=1728583057; c=relaxed/simple;
+	bh=ZjDn5Fbn7btLzGQIJ8RjdoCOKXeRv15aDBCmCy04A/s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UyOMZTdaeT5Kt/PaHr+njLoVPzxufKVtu/djM9/I2chFxO1WV0OTc7zcTNNj+zSGdzwObtUY49ogmtMzqLVYsSouNLTzThWAy4k8FuDEDDhfPCOB+FYjYoTQdTabDVZPoi/3uVa6DVlwDSZhEO1YnViL2MFFsO6mz8UcnEZVjIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5398e3f43f3so1432573e87.2;
+        Thu, 10 Oct 2024 10:57:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728583050; x=1729187850;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RUQ8WQ4jeEKOJ8GygBSqWu/2JMxlgxdbild12IpsiMo=;
+        b=qt+XjSTYM4AThRcFKRCWiuHMnRrKGYh+rpc72Q5xX7C6Wt0wqED0fYoDIzjejztmEX
+         LcWAeGcQs10DuFw2b1o/oVTuYWIF7MMftEx5kFilCGPgj302DkHeaOfHzBGsLSxk1cHP
+         8XjFzVoxV7YwZWpnG/7ezn84eG3aqCGAT37CS3Rng99kj/+OmZXkZ8nnpsCM5lUCrFGX
+         xQoCl4e2x6dYyZxoGdvySCyNOSpzpkQYjI18im/RUmuIt7f01H2fNFBKTceB8j6lzMV6
+         8yPbNF0Q7YAYmd4TtIzYbDKSh/w9CN3A5hlkoODUplwSz1s70pkueHNOGXunf8Fr4txv
+         YP8w==
+X-Forwarded-Encrypted: i=1; AJvYcCVKmSi/Yf90NbadA8Si/NG+LpF7+CjdueWqx/ifsFgurtlfFOPTEIEIu/V6gQvaAftcC9LKczO6So/K//xt/7A=@vger.kernel.org, AJvYcCWDIHGxVp4e49vbvyb2BTrA7WpnVRbws7wzCL7wOzEFYyIhR4CQ7DYXL+dWRsMTq5YBVtg0pOo/pqdaH9DyZOMC17A=@vger.kernel.org, AJvYcCXCGDZOTpM5fhar7o+tIEy7COC3ah1ZMNIW1bjJ9vGmIkudwFzIXMsPwzT/5Qk3GVq4g4fx8UqTz3q0gkDg@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+tm6cqPPHwToW0HzgnGKjwE9nVacjqmIjNULx4YqqAxXN+47W
+	alrvWYhw+HIMe7dRqaybQu19hGNCy1DUrNjpj2fvkx/8q2nUv6z1llIPHckWmjw=
+X-Google-Smtp-Source: AGHT+IHycR7lzd+QH9PQusnaFsb882tODyKwq08rZRqhR0fLblC/Ve3+/tFzs445j6mqmZQUCjWc6A==
+X-Received: by 2002:a05:6512:6cd:b0:539:d3db:3a7d with SMTP id 2adb3069b0e04-539d49bcf98mr254508e87.5.1728583050124;
+        Thu, 10 Oct 2024 10:57:30 -0700 (PDT)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539cb8d7eaasm333328e87.176.2024.10.10.10.57.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Oct 2024 10:57:29 -0700 (PDT)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-539973829e7so1286741e87.0;
+        Thu, 10 Oct 2024 10:57:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWIbOVGHdAhXFIiwfJoKqBIHMXYMp2r9uy8lN9nIAzHAQrGmwSoHpqlCJ6a0XNKRt35e8gBGVoAAM+0tE4B@vger.kernel.org, AJvYcCWQV25FnAZZrj7JC5wUHbimXXxhji+EYLy1dJstwQ3BaurQyPAhhd2muoXsJfDXvrLKaJUi68zlI6uMZDybclGLzis=@vger.kernel.org, AJvYcCX/61XZX9fZp2fsoO4ztcC2Je0j78Y1D5omuQ2ZQwtm6h08Ah4FtHk9eaRv/UaCpbNGAxKAU8vBsMCh6ZgVOrE=@vger.kernel.org
+X-Received: by 2002:a05:6512:3a91:b0:52c:e326:f4cf with SMTP id
+ 2adb3069b0e04-539d49bcfd5mr240762e87.3.1728583049223; Thu, 10 Oct 2024
+ 10:57:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- linux-renesas-soc@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Thomas Gleixner <tglx@linutronix.de>
-Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org,
- Chris Paterson <Chris.Paterson2@renesas.com>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Marc Zyngier <maz@kernel.org>
-References: <20241010164155.808931-1-fabrizio.castro.jz@renesas.com>
+References: <20241010164155.808931-1-fabrizio.castro.jz@renesas.com> <2e9bf925-8fcd-4e0b-bc3b-996fffc84681@web.de>
+In-Reply-To: <2e9bf925-8fcd-4e0b-bc3b-996fffc84681@web.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 10 Oct 2024 19:57:14 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWURj8YzXKbt74KqgEX5fc1ivg_4ctMxUy3QdJGipLuZA@mail.gmail.com>
+Message-ID: <CAMuHMdWURj8YzXKbt74KqgEX5fc1ivg_4ctMxUy3QdJGipLuZA@mail.gmail.com>
 Subject: Re: [PATCH v3] irqchip/renesas-rzg2l: Fix missing put_device
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20241010164155.808931-1-fabrizio.castro.jz@renesas.com>
-Content-Type: text/plain; charset=UTF-8
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>, linux-renesas-soc@vger.kernel.org, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Thomas Gleixner <tglx@linutronix.de>, 
+	LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org, 
+	Chris Paterson <Chris.Paterson2@renesas.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Marc Zyngier <maz@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:s+TRnpRKUTP3hwfWpBXDjBOmuWLFr19ZgrbHGsfejHIjDC69MFg
- TU/aRWZaxMclBMEPw4FjVcW8cmW5PBZBFpxXV7FBYv7cgH8Gl/qxfXCoI88M+9o9eEgUmf6
- ndLwLKIWe/nD9Vdrx+bgQcas9oOmlfWM2QwRjh910aEayH6BDRNMaeajPaaoFB/LBvK+uP3
- ur90hvX8gP2dfeg38cQFg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:gzhvEgWo+Lc=;VjKUM2vSEQaVYzkPO9vwP1PWP4O
- mZdBbCdTJpf7yTuBfBll/Ir6FX/jgdDGyP0lJ57JlqTRauoTqK3sKCx5hoWUVaI2b9Zn2UULE
- CzPnvzqYc0ZrUuBscLOsk/2PMpm9AEhBhCLQ51OtF1QrZr15gyLV0jVWuDXAUiziFa84QCXr0
- r5QYoisM0zhTPRzX6th0k3BbR4IZQZC/Y8zOSSJe2VJOw8qW9G01+ccggVSe0g7vajWUaHRil
- Jl8/kgFO+++C9Zl8MsQpU5Yko+JUNWq42jBmOdeqllMumbYFIPaz4qxHRkpRVsr/4VNs5bUCo
- W15TMDqk4a/retiXz1LDjUif3djkean8dEBGM9S665XogUIc+C949vj//cIr8s1//5B3dOtwz
- QzCO8aU3AvkjM1labH1no6fE3jvzY1k3FTpUH+OIrzvpXmb8Bm5O7Ikzz/dLvcGk1hrWeTux/
- bh+oJtr8Hh3Bo69/dNOfe94//LXbNda2Qqqf3FTKW8WYXzHD4dlKFl/J9eKUKRqR0oNG+SXOc
- vs2MpBqUVqDR6I6RmzF/KoGS367kz+br5TJgkpS6MP6fv9PKUzuOE5hsl+Uw5qNpy/YY4iqbT
- OUOTlNxWDnGWf76l6gPCIxVRWbcKUB/Oqmq+/2FFsV0Iv3HNAqKFUfNlL3ZHZoI2Ljh+7JoTn
- X+3rYQE2mmLAJyfCSumCj7RTl6qMS6YM1ek+hLR2kd33Q3MhQD6hcuhBBf5LQM8RAQ0dV9P+5
- HByEaCmaF3rDfE0hafpJs5Nqdi0xB5eJsC819k2Oz5i0d4yZOOFi4nYlEgw+GqWTy1/xGQgKd
- 1xtIO5LvFaWjg6Rs/fBKlymg==
 
-> rzg2l_irqc_common_init calls of_find_device_by_node, but the
-> corresponding put_device call is missing.
->
-> Make sure we call put_device when failing.
->
-> "make coccicheck" will complain about a missing put_device before
-> successfully returning from rzg2l_irqc_common_init, however, that's
-> a false positive.
->
-> Fixes: 3fed09559cd8 ("irqchip: Add RZ/G2L IA55 Interrupt Controller driv=
-er")
+Hi Markus,
 
-Might the application of scope-based resource management become more
-interesting accordingly?
+On Thu, Oct 10, 2024 at 7:53=E2=80=AFPM Markus Elfring <Markus.Elfring@web.=
+de> wrote:
+> > rzg2l_irqc_common_init calls of_find_device_by_node, but the
+> > corresponding put_device call is missing.
+> >
+> > Make sure we call put_device when failing.
+> >
+> > "make coccicheck" will complain about a missing put_device before
+> > successfully returning from rzg2l_irqc_common_init, however, that's
+> > a false positive.
+> >
+> > Fixes: 3fed09559cd8 ("irqchip: Add RZ/G2L IA55 Interrupt Controller dri=
+ver")
+>
+> Might the application of scope-based resource management become more
+> interesting accordingly?
 
-Regards,
-Markus
+No, as explained in the comments:
+
+> > +       /*
+> > +        * coccicheck complains about a missing put_device call before =
+returning, but it's a false
+> > +        * positive. We still need &pdev->dev after successfully return=
+ing from this function.
+> > +        */
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
