@@ -1,108 +1,113 @@
-Return-Path: <linux-renesas-soc+bounces-9684-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9685-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5646799A519
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Oct 2024 15:32:02 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE09E99A54F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Oct 2024 15:45:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F2ABB1F240B8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Oct 2024 13:32:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 091A51C214D0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Oct 2024 13:45:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DDE8219CB2;
-	Fri, 11 Oct 2024 13:31:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pMBBgT9R"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6CFB218D91;
+	Fri, 11 Oct 2024 13:45:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71F512194B0;
-	Fri, 11 Oct 2024 13:31:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4FD8215F78;
+	Fri, 11 Oct 2024 13:45:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728653483; cv=none; b=mgURLhrjg5tDga+G+QMIpL8EPnw00xtWTB4afOFYFGf3oMMbsqs3bcmOIyuMhyQJ5Ka6LW69evhTz0xqthdnFipy7+/lx9ca7wtw7BMhs9a5yBctUB9RFRyLiSyuZEdLVQVbrpvESpDmDmxpPuiucWiBY7WHTWvSqKDLayrrd2U=
+	t=1728654309; cv=none; b=FFmmk8AV3fwy4rlXrNdG4+XzRH4wvM3kl4H/2cQLvtWNBbUg7ucoL+LaMEoQNpRHR6JwjubgWniLXe2/zYE2DLsYWs7f4MXvWwvOdghZc6MMUPXwylRVM1oTmyhmjRtjFR13Z0TeQXEMJYQmnPhRyrYsNZKEup7zxvtA4p0BOR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728653483; c=relaxed/simple;
-	bh=nH00S/Q8Vah7DG0quBNmK+fo/KImimfuMbNiWCmaMXU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=DM3X6Ip8djHSu+vg5qZ7EoigWRfzp6EsQKIJ/G9yn+Fke+6uLTDMq4PdtOd3OTpFWdSteWafM27id6/Ih6Wlsc0fXtv27iounAFY3nnbGuwIEzgoWupZLugFIzYmAVHqn2V5cZ3zZnRsPJXt/71skP7hNIRM3QUighcZkAK/mCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pMBBgT9R; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A46AC4CEC3;
-	Fri, 11 Oct 2024 13:31:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728653483;
-	bh=nH00S/Q8Vah7DG0quBNmK+fo/KImimfuMbNiWCmaMXU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=pMBBgT9RKEnJep8yxzzucfKuGmuBtKpnLQLIQ7oiykhjLIeMzLYTGvX02kpSA7Rlc
-	 SJTyaSeIvfWrf0Zv1AALM9mZbyKENxRIxuDDVaoGvrZB2gDRW4o5a0neT6/YsGf0J7
-	 83v96psJCLJKBsh2zgKkIATuA1XyzOgzvg7wSyaYAVS1N/TIFZJZK2pQGOY/xrenwJ
-	 b44TWvsQxVQLW+3kLDumyUwgxsxWpGRo5rg+7sWsLixtjYGaX7ShnnEU5ED3C2qzdn
-	 DUBcO/K9NJU18sWlcxg13cD48BhjyiQJ1RvDiEdm/XbANpIYYJ2rov8nnGz/XeSvOJ
-	 hbk5qwpe+jWSQ==
-From: Mark Brown <broonie@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Prabhakar <prabhakar.csengg@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20241010141432.716868-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20241010141432.716868-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH] ASoC: rsnd: Fix probe failure on HiHope boards due to
- endpoint parsing
-Message-Id: <172865347988.3898502.18262403511737546227.b4-ty@kernel.org>
-Date: Fri, 11 Oct 2024 14:31:19 +0100
+	s=arc-20240116; t=1728654309; c=relaxed/simple;
+	bh=XRloh0YdR1F+oj3RMXyKeTDAWB5+0WV7BckTR8Fyyu4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OEiTSmZy6OaV/0m0DjqyTcCDKT+5nk3TWlRNnI3CyHC0WuK6+JYc6SBhAdUQtJopcuBWCXX9b4EQmjdNtinugVGe/BvP1V4YoO1jNXBcthC1Vupz2VNK8hJ+xRU4BAwCag7xeB7DccwHrrY1r3n4eQRZGl1+SdAi4ZdLJ4ozao4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-6e232e260c2so18808657b3.0;
+        Fri, 11 Oct 2024 06:45:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728654306; x=1729259106;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=a9rv2uTZbpfulvFnPEK/huLdd2uWYJjM+4u6GaXf6VM=;
+        b=q7rHhDqpTaO3j0srmBTGj3JOhiRxFFdy91NFarPQ6fIcFwlw/Ay4cYP4aWzqDL3v2t
+         4mQsTkgksoFTNDkcU8PcnuVrWMZzSwQXen5cWZt9v1DIhZtTqOYzY3uE1Q2HDNhnGWnu
+         yhyB1LEIYzofLOIVGe5GdNXxpZ57hYl+ROQn9jg/+kT4TsnErOontpU810+tLOhipz8o
+         5YP9OIahsMVGIgbePWg7u4bjwVxhlYgrUD6yN4ZMGH8O/jFFT20EtMxz9f8w17E2+XLE
+         ZkTpLuupk80ohSEVhxW1B/T47L9sVckCPehmjGC9Ys8L0DF4vixvLUC+9ArvWSr8Y7Ui
+         YvHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUElxWNZoRwkOJN0tFcuMdAy0yRryKnHC1ion6sPufPZWF8FV5QaZA76djd2BqMU90U6s3PHbB3kMB2WL/V@vger.kernel.org, AJvYcCUV32W2pUXMb8o5xl821S3Tmu18WkaXAfxz34l3oke+S7OM0brTgm8PbAuZfp0w5LUNCy0yg5G2P1lI9m3MPRR+bbc=@vger.kernel.org, AJvYcCVURXsfGu13r/T4BpM3uRCZsfMDd2bdnpa0hpzpmacKlCs3hjjoUePh7SjWsVl7g/vfAMwjaiScQEoU@vger.kernel.org
+X-Gm-Message-State: AOJu0YyLaY18t/A3078B/5t8H+K6cH8WEOftwyJGB8Z4smpePMG5H1Rq
+	ITR/I5kFXhHVDHMGhqFcVP3PQ/AXY2Zm4ITc7tsfcjp0h40aNHA2dxSvNi86eA8=
+X-Google-Smtp-Source: AGHT+IGqxYgkRoYxhP4532KDTMxeJ7UDYZz42JasWqC89x3vKvt3gnKfbG+BQ03Gb0+2eFkmnaVVhQ==
+X-Received: by 2002:a05:690c:7:b0:6e3:3227:ec64 with SMTP id 00721157ae682-6e347c4e532mr19004477b3.35.1728654306004;
+        Fri, 11 Oct 2024 06:45:06 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e332b89c71sm6018757b3.44.2024.10.11.06.45.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Oct 2024 06:45:05 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6e31413a196so17939507b3.3;
+        Fri, 11 Oct 2024 06:45:05 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU2xl0A77EI6g5sxeqvUIX6i0xoR6gTFRIxNo61sTLwJmnnDW+BGpXu4EOZiT1Kurrlr0HT6uIkbZJz@vger.kernel.org, AJvYcCUV5NzDnSU9/VACnJtLMOLMB+LWAMQ0vlcM2MCc1+BE1b/BC/ILP65uvjCOmyRMOF4AZzuAHTQq4+AfAqxT@vger.kernel.org, AJvYcCWDpUDnETTVjcbygOqQHVJS+RaS4gH4vW8A1/MKC2Nxkr4xrjjEzXkq66Q/NlIwvwT5wnvkj51+utdjl+UkDHPAzAE=@vger.kernel.org
+X-Received: by 2002:a05:690c:4e01:b0:6e3:39ed:f029 with SMTP id
+ 00721157ae682-6e347c84073mr13905837b3.44.1728654305204; Fri, 11 Oct 2024
+ 06:45:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-99b12
+References: <20241010132726.702658-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20241010132726.702658-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 11 Oct 2024 15:44:53 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXGG0+J_SP4=bs_Q1PTfWCq4DuefiuQpoVRRF+hD0RW0w@mail.gmail.com>
+Message-ID: <CAMuHMdXGG0+J_SP4=bs_Q1PTfWCq4DuefiuQpoVRRF+hD0RW0w@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: renesas: Select PINCTRL_RZG2L for RZ/V2H(P) SoC
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 10 Oct 2024 15:14:32 +0100, Prabhakar wrote:
-> On the HiHope boards, we have a single port with a single endpoint defined
-> as below:
-> ....
->         rsnd_port: port {
->                 rsnd_endpoint: endpoint {
->                         remote-endpoint = <&dw_hdmi0_snd_in>;
-> 
-> [...]
+On Thu, Oct 10, 2024 at 3:27=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.c=
+om> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Add explicit selection of the PINCTRL_RZG2L config option for the
+> RZ/V2H(P) (R9A09G057) SoC, ensuring pin control driver is enabled
+> for this SoC.
+>
+> Fixes: 9bd95ac86e70 ("pinctrl: renesas: rzg2l: Add support for RZ/V2H SoC=
+")
+> Reported-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Applied to
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-pinctrl for v6.13.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Gr{oetje,eeting}s,
 
-Thanks!
+                        Geert
 
-[1/1] ASoC: rsnd: Fix probe failure on HiHope boards due to endpoint parsing
-      commit: 9b064d200aa8fee9d1d7ced05d8a617e45966715
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
