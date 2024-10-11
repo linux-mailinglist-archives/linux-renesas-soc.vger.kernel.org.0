@@ -1,113 +1,103 @@
-Return-Path: <linux-renesas-soc+bounces-9685-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9686-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE09E99A54F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Oct 2024 15:45:18 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB44599A554
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Oct 2024 15:46:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 091A51C214D0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Oct 2024 13:45:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 69DB6B220F4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Oct 2024 13:46:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6CFB218D91;
-	Fri, 11 Oct 2024 13:45:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 733FD213EC9;
+	Fri, 11 Oct 2024 13:46:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lr1REumd"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4FD8215F78;
-	Fri, 11 Oct 2024 13:45:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C3D8F5E;
+	Fri, 11 Oct 2024 13:46:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728654309; cv=none; b=FFmmk8AV3fwy4rlXrNdG4+XzRH4wvM3kl4H/2cQLvtWNBbUg7ucoL+LaMEoQNpRHR6JwjubgWniLXe2/zYE2DLsYWs7f4MXvWwvOdghZc6MMUPXwylRVM1oTmyhmjRtjFR13Z0TeQXEMJYQmnPhRyrYsNZKEup7zxvtA4p0BOR8=
+	t=1728654368; cv=none; b=tpnPvN3UJVla2HZvqBY744XPyFiPyMG2UeMX9XCqR9bsnt+WwLxgkVInyzcQEv25TuxaO97f5+4v0+94NqrRf51nw6mLewJdj5ZyIu564Z34zxBfXWsySUxA0IyqGZ9wmCx/BFoh8rYInsprvVhr7LjShJh6ecIsXQdYoeE/Y2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728654309; c=relaxed/simple;
-	bh=XRloh0YdR1F+oj3RMXyKeTDAWB5+0WV7BckTR8Fyyu4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OEiTSmZy6OaV/0m0DjqyTcCDKT+5nk3TWlRNnI3CyHC0WuK6+JYc6SBhAdUQtJopcuBWCXX9b4EQmjdNtinugVGe/BvP1V4YoO1jNXBcthC1Vupz2VNK8hJ+xRU4BAwCag7xeB7DccwHrrY1r3n4eQRZGl1+SdAi4ZdLJ4ozao4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-6e232e260c2so18808657b3.0;
-        Fri, 11 Oct 2024 06:45:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728654306; x=1729259106;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a9rv2uTZbpfulvFnPEK/huLdd2uWYJjM+4u6GaXf6VM=;
-        b=q7rHhDqpTaO3j0srmBTGj3JOhiRxFFdy91NFarPQ6fIcFwlw/Ay4cYP4aWzqDL3v2t
-         4mQsTkgksoFTNDkcU8PcnuVrWMZzSwQXen5cWZt9v1DIhZtTqOYzY3uE1Q2HDNhnGWnu
-         yhyB1LEIYzofLOIVGe5GdNXxpZ57hYl+ROQn9jg/+kT4TsnErOontpU810+tLOhipz8o
-         5YP9OIahsMVGIgbePWg7u4bjwVxhlYgrUD6yN4ZMGH8O/jFFT20EtMxz9f8w17E2+XLE
-         ZkTpLuupk80ohSEVhxW1B/T47L9sVckCPehmjGC9Ys8L0DF4vixvLUC+9ArvWSr8Y7Ui
-         YvHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUElxWNZoRwkOJN0tFcuMdAy0yRryKnHC1ion6sPufPZWF8FV5QaZA76djd2BqMU90U6s3PHbB3kMB2WL/V@vger.kernel.org, AJvYcCUV32W2pUXMb8o5xl821S3Tmu18WkaXAfxz34l3oke+S7OM0brTgm8PbAuZfp0w5LUNCy0yg5G2P1lI9m3MPRR+bbc=@vger.kernel.org, AJvYcCVURXsfGu13r/T4BpM3uRCZsfMDd2bdnpa0hpzpmacKlCs3hjjoUePh7SjWsVl7g/vfAMwjaiScQEoU@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLaY18t/A3078B/5t8H+K6cH8WEOftwyJGB8Z4smpePMG5H1Rq
-	ITR/I5kFXhHVDHMGhqFcVP3PQ/AXY2Zm4ITc7tsfcjp0h40aNHA2dxSvNi86eA8=
-X-Google-Smtp-Source: AGHT+IGqxYgkRoYxhP4532KDTMxeJ7UDYZz42JasWqC89x3vKvt3gnKfbG+BQ03Gb0+2eFkmnaVVhQ==
-X-Received: by 2002:a05:690c:7:b0:6e3:3227:ec64 with SMTP id 00721157ae682-6e347c4e532mr19004477b3.35.1728654306004;
-        Fri, 11 Oct 2024 06:45:06 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e332b89c71sm6018757b3.44.2024.10.11.06.45.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Oct 2024 06:45:05 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6e31413a196so17939507b3.3;
-        Fri, 11 Oct 2024 06:45:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU2xl0A77EI6g5sxeqvUIX6i0xoR6gTFRIxNo61sTLwJmnnDW+BGpXu4EOZiT1Kurrlr0HT6uIkbZJz@vger.kernel.org, AJvYcCUV5NzDnSU9/VACnJtLMOLMB+LWAMQ0vlcM2MCc1+BE1b/BC/ILP65uvjCOmyRMOF4AZzuAHTQq4+AfAqxT@vger.kernel.org, AJvYcCWDpUDnETTVjcbygOqQHVJS+RaS4gH4vW8A1/MKC2Nxkr4xrjjEzXkq66Q/NlIwvwT5wnvkj51+utdjl+UkDHPAzAE=@vger.kernel.org
-X-Received: by 2002:a05:690c:4e01:b0:6e3:39ed:f029 with SMTP id
- 00721157ae682-6e347c84073mr13905837b3.44.1728654305204; Fri, 11 Oct 2024
- 06:45:05 -0700 (PDT)
+	s=arc-20240116; t=1728654368; c=relaxed/simple;
+	bh=PeA1DuQ281RfQFh8p/Deg3cigg0H0QZuJUgspSGFUKw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pIa7p5Vob/tMQbFw7Byv03qrS3cx2X3Ys7bBw2502kv2b8ZXdT/xQzmBouwN8zA9quBcHGR8Hk3/hMTD1LGDIUQ5EX/bL0FbnmwyTLuJQXbr8Xt8lbhVxZkpXx7MS1weFnF+WbgkhfdMhGIFpj3ZweN9D89ikK4Vs3EXMkby1AY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lr1REumd; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4A99C4CEC3;
+	Fri, 11 Oct 2024 13:46:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728654368;
+	bh=PeA1DuQ281RfQFh8p/Deg3cigg0H0QZuJUgspSGFUKw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lr1REumdrFqPaHpLeuY8eDnsYmNdHm/9GM7V3eC1PjV7wVT/O6R1orxwtsKRjAJMs
+	 ovcbY0omJNLwyFDX6H4mIQlKO21792cHT6hdmbCF2CO77e6CiZcZbjQMYVeaVBLenA
+	 JUNThxSzLIS9astCWhI0LrVa/5Yr+b/9AMKrgDxkdQKYs6g5KsVFPZ9pd7y+ZbYAU9
+	 wvsKzwXAYIUqxXoSfKUImqHcziHt+fhcgAdDRZsUbAD6jV87UghXlgEm2M7fswbH+n
+	 Wolcdguki8/6V3zx75WTrCYZ+qCsyJPJiiBi8zebCaVBbIDsQPdBBMdFrP2rkne3Zo
+	 sWu1oZ6vR2iRw==
+Date: Fri, 11 Oct 2024 14:46:05 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2] ASoC: rsnd: Fix probe failure on HiHope boards due to
+ endpoint parsing
+Message-ID: <ZwksHY1OWGPhYm0Y@finisterre.sirena.org.uk>
+References: <20241011131040.1059130-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241010132726.702658-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20241010132726.702658-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 11 Oct 2024 15:44:53 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXGG0+J_SP4=bs_Q1PTfWCq4DuefiuQpoVRRF+hD0RW0w@mail.gmail.com>
-Message-ID: <CAMuHMdXGG0+J_SP4=bs_Q1PTfWCq4DuefiuQpoVRRF+hD0RW0w@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: renesas: Select PINCTRL_RZG2L for RZ/V2H(P) SoC
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="CjnFq6uRnj8HW9tS"
+Content-Disposition: inline
+In-Reply-To: <20241011131040.1059130-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Cookie: Editing is a rewording activity.
 
-On Thu, Oct 10, 2024 at 3:27=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.c=
-om> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Add explicit selection of the PINCTRL_RZG2L config option for the
-> RZ/V2H(P) (R9A09G057) SoC, ensuring pin control driver is enabled
-> for this SoC.
->
-> Fixes: 9bd95ac86e70 ("pinctrl: renesas: rzg2l: Add support for RZ/V2H SoC=
-")
-> Reported-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-pinctrl for v6.13.
+--CjnFq6uRnj8HW9tS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Gr{oetje,eeting}s,
+On Fri, Oct 11, 2024 at 02:10:40PM +0100, Prabhakar wrote:
 
-                        Geert
+> v1->v2
+> - Added a helper function rsnd_pick_endpoint_node_for_ports()
+> - Updated commit message
+> - Dropped ACK from Morimoto-san
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+v1 was already applied, can you please send an incremental patch
+instead?
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+--CjnFq6uRnj8HW9tS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcJLBwACgkQJNaLcl1U
+h9Cfzwf/SpyphgqVV7pFUy9Zj6JSl/QwAu+LGHFXW5vAnaOos3QQqYU2CsGhhD6B
+5frE9hj0o3VDObghDWfrWo0qUOjhgwiS1ikzNfV9ysv1DDNDhXFRPQL4cAZj2k98
+LU7zSwVS/sClkcn/6cNR57iuMCRn7uGTZW4jOniBKM3i0K4zsUbBlnf3DMz4k3SG
+n0UmdQd5/k6i+PqYxWsWdzafbPwl0drw5C+qxvowFA8t6tRIrTLVXxEx+XpPUJIE
+u68E/sGlvBlLMKN4uJThHTjZX3rmBhd6l8UhBNXVY4qVhSItg38s1rAMZgcQf/uM
+tYiN/acn35VUS5AGPt0qCQNR0cpcow==
+=q4NE
+-----END PGP SIGNATURE-----
+
+--CjnFq6uRnj8HW9tS--
 
