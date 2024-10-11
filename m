@@ -1,182 +1,177 @@
-Return-Path: <linux-renesas-soc+bounces-9673-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9674-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4C0999CDC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Oct 2024 08:43:10 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AB02999DDE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Oct 2024 09:26:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7160AB20FCC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Oct 2024 06:43:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9142B1C21599
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Oct 2024 07:26:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3528D20966C;
-	Fri, 11 Oct 2024 06:42:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30A16209670;
+	Fri, 11 Oct 2024 07:26:31 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52456209677;
-	Fri, 11 Oct 2024 06:42:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA8A31CDA19
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Oct 2024 07:26:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728628973; cv=none; b=KpFbnUpTm3t8J9+xYovg9CPMQIVtv5Kf8yuDGkLsmywhi0/g85iYrvuzoVYbM1YU4fnGNW/9HcSZxAV9vrJGdggKeL+TxOpUyCy/6nTYN/ku1QdR9AnrzvY5XfCWlv4Ger7T4B9QsP/epPumStpx2XPhRW+QiPLPBvkzjy1iXlE=
+	t=1728631591; cv=none; b=Q8R5bXTSmzsTotlFsoJK2tRgmnqROPPYYe9d+DmpawYjxansnPjBnE+K3PtoVW9/amANlZjRf2SpI/eawvPurrG+YL+/Fjg2+tJcBMpOUe3rphvbueg4QuY04ZGPxUF8+Nh368tcpwRYqn6xcZXAI4dASp+BoJH7USaukFZCasE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728628973; c=relaxed/simple;
-	bh=B5BF9AElxlSzgaYbHLUSKNWQRSL07hjT8G2UPti00ZY=;
+	s=arc-20240116; t=1728631591; c=relaxed/simple;
+	bh=uFiwRxs6CtwvVV4iG6JqilAz/Wh+2a4T3YWGPyqxuPM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qIhzlqrMa9ar7UQrsc45TCRkRh3z8clAFN2cLvliDtOLobWR3xsQUDJH8ndcouqbf1WGsn6/6+ckEVLw/YIzyVnvaWiCd8Qg0kcfaS8IxjAuYoUNXD2EpohmPHWD/RAzVVCbuo3be3G6C8KtCeMglW1EZ3ZxqQJk5y9KQbRETfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.182
+	 To:Cc:Content-Type; b=MpIvLGs9JMDWhGSLlWgfj/E5szxqM3CBwjnd/BzDjoC38AM0EPcjb//xK4xi8aE0XCADJtbr1aYgMSYA7XXqPk/LS3lVJxiXzLAIUy3WTLptziacAob/bxOkzyLYuaEYCILOpdVlU3Q2u+ToZLWoJaVSksoc7z9BJ+ix9QCPTLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-e2915f00c12so816216276.0;
-        Thu, 10 Oct 2024 23:42:51 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-6e2ef9af517so14179047b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Oct 2024 00:26:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728628969; x=1729233769;
+        d=1e100.net; s=20230601; t=1728631586; x=1729236386;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OI3b4NKCZIobgXcfPVHuehiSSfOdHQS+7R2fmQSiyY4=;
-        b=C9s6wN0TjEiEAOdv7W6ce2j16muiIoL7rr/e6932g9CqFMGEMfsFWXT60W9JEUvCAl
-         wT5Q/XxJTYVDP+crLTXPnAUAc+ngHk4LM146RgECiRmxU7GzJF2OP6H8jNCjhyUqgczQ
-         vkUxeh704M+uk7QKMrnyHlTyR1UBR2JpdZfsm0KHi4f9HfYKPx8ZyDYFnv1osR/Uvt79
-         r5X9TEhgQQHoEezzPAWtFklFB/m+mIw9+M3s9BI0ITzFoAj1ViMpDsE2m1EwatErG1Si
-         QSv+TyWNKdG4ibwtbAwgULwCdGrNJbQbMLHGLpFgvnOPnZdne49op1V6ck3cxi9lcsoa
-         Ky2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUWMDqururERYMxghd271SzJForvCkzzBPaseDRQfuWddAktm+a6MBvvZCI/esxTR+TlPJa/hDlGdk4YQ0=@vger.kernel.org, AJvYcCVM06Ad08OmrCNDacn5ox0wHDpOL3Kkt6N6pqeFFqIX2VQ8WWjYe4In+0uPTBNcRSUKaVj6gH2gXg0f9qQjSuP1lUw=@vger.kernel.org, AJvYcCXPdIcYQMQ3EPRtX2LGxf9o2ShikTMuukTAMIyxCFzJEGnxVbwYEc+D43SLEyLo6gDZnvKhk9vq2LMYC5o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUwWkZNI8iUfC6JBBr63+MqauE7BUoF136I3+FP/0A/WtIHbNm
-	UO5bv7DLVT0hjBWO4/AsbGHZH6YrWOoqbOSj9EZrKAGm3DnsKh4v1LI36aMagRA=
-X-Google-Smtp-Source: AGHT+IHXY1XciuPiTc59piqKVwCaeZpufnOETwPeTkOM5/Dn6toJa0pELv6q1Pf3Jt6m6l6yinwJTw==
-X-Received: by 2002:a05:6902:240f:b0:e28:f3e7:d92b with SMTP id 3f1490d57ef6-e2919da1176mr1061686276.24.1728628969322;
-        Thu, 10 Oct 2024 23:42:49 -0700 (PDT)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e290edff990sm680866276.15.2024.10.10.23.42.48
+        bh=WQQ1VEp/hWCoHnkuuRaXbGE5WhacSoFckCw5LF0pLDA=;
+        b=L4I620ucIq3qQCt6c4O4v8PdOgS9/9ant09Y57UaGVXJjFMSf/x1cFL6bgoEK19agf
+         ZZMRRjXlw8skmUa1VY9XpnHNgmlX7zIbc7A0b9TiV7I0s0Ak1NmjV4PL50kTwSn4amTi
+         RvyWbFjCiqTVEm7j3v11+hrA5EDm4Y5ceXAtp0XxEtoKxaDRdiiRVed2j4RvcaJmQ561
+         i7ZkpKBgDMDFvpI+c+QfWManmpr8KiM+3319vE3XvcF2KQ1s4OiPfzHzsWxW0pGQe1pN
+         SA2SPFk5ATz/bsG1gpfzPi60xxgUXp9nPKLYGgrDisf9gUXBjq8+x7OrDrsZbxB/fW3K
+         zABA==
+X-Forwarded-Encrypted: i=1; AJvYcCX2kLGTULcbLfcWdzU9qSisrTPq4aVoeqFemTtUftPwgFU0V/P79OtqcP4GofgCvawyvLFIenZS+UqLEfmnc3dIng==@vger.kernel.org
+X-Gm-Message-State: AOJu0YybGeiduJZqhivBp64cjTGaEBa1FuMMZ0d6fYkbzQvWb65l3ifK
+	rtlD573pnzquAEFx6xQFyUatcW1Yj/kxF4hGoTyboCFZdySiPhjm0hoTKnZ5zJM=
+X-Google-Smtp-Source: AGHT+IGKyOQgmj9hVQyC8bX8zTr7MHgivLo/wLNcjRJhACXQdEpanI9GDE4P/zUx+mqT5nJg9TTDCg==
+X-Received: by 2002:a05:690c:718d:b0:6e3:23a4:9cde with SMTP id 00721157ae682-6e347c8fc3dmr8334427b3.42.1728631585954;
+        Fri, 11 Oct 2024 00:26:25 -0700 (PDT)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e332c6de60sm4821607b3.108.2024.10.11.00.26.25
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Oct 2024 23:42:48 -0700 (PDT)
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e2915f00c12so816184276.0;
-        Thu, 10 Oct 2024 23:42:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU7xkVl8WNSf+LMCrD5nAoRRYDKG9Gj/MHsFHk8nF7E58SFUDe+MjBhMugZnvX6rAWn4wcwvXASnr2g7l0=@vger.kernel.org, AJvYcCU8tvdpZ+JFxrhvAsvPKTxdDNlVqzLVUPL0RvkA18jzcFkDo3wDsuaURxhSrywxmv3QmN98tfJ/MD1UPKrW2WVSIN4=@vger.kernel.org, AJvYcCUOdZ+Xc4CSIWlnSRbCysKTyc2hEb1RjX7K3k8M/HdUk607ubtK5vPqJ+PK7Uao1i9ZW7/9ooS3dJ1HsLA=@vger.kernel.org
-X-Received: by 2002:a05:6902:200d:b0:e28:fa58:15c0 with SMTP id
- 3f1490d57ef6-e2919d840dcmr1008730276.23.1728628968337; Thu, 10 Oct 2024
- 23:42:48 -0700 (PDT)
+        Fri, 11 Oct 2024 00:26:25 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-6db20e22c85so14375857b3.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Oct 2024 00:26:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUPPCIWhUBrcmJ0BXtdtQtTPiCMqF7mF76D8IiEZUt2+j0blAsnKfCvSLIarSMg/OkIpqxGmw39OOYdSR4qQQpjmg==@vger.kernel.org
+X-Received: by 2002:a05:690c:7686:b0:6dd:ba22:d946 with SMTP id
+ 00721157ae682-6e3479b9566mr12010507b3.13.1728631585096; Fri, 11 Oct 2024
+ 00:26:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241010141432.716868-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20241010141432.716868-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <0923c114886cbbb322a9802543177c29cedbdbc1.1727958898.git.geert+renesas@glider.be>
+ <CA+V-a8sdmGs6h6iUMozgcRG8u8o3dueqY28U37k2weDLDkBEbw@mail.gmail.com>
+In-Reply-To: <CA+V-a8sdmGs6h6iUMozgcRG8u8o3dueqY28U37k2weDLDkBEbw@mail.gmail.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 11 Oct 2024 08:42:36 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV=EMnPFGJn5J85x5AtE4fYHChLVLOfk6zMR1rrJzS85g@mail.gmail.com>
-Message-ID: <CAMuHMdV=EMnPFGJn5J85x5AtE4fYHChLVLOfk6zMR1rrJzS85g@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: rsnd: Fix probe failure on HiHope boards due to
- endpoint parsing
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date: Fri, 11 Oct 2024 09:26:12 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVUuu=au0mWfBGPTXbBgyFdHwqRd93subnYX51Hyg0BAg@mail.gmail.com>
+Message-ID: <CAMuHMdVUuu=au0mWfBGPTXbBgyFdHwqRd93subnYX51Hyg0BAg@mail.gmail.com>
+Subject: Re: [PATCH LOCAL/RFC] riscv: defconfig: Add rzfive_defconfig
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Hi Prabhakar,
 
-On Thu, Oct 10, 2024 at 4:15=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.c=
-om> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Fri, Oct 11, 2024 at 12:19=E2=80=AFAM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> On Thu, Oct 3, 2024 at 1:36=E2=80=AFPM Geert Uytterhoeven
+> <geert+renesas@glider.be> wrote:
+> > RZ/Five cannot be supported by the standard RISC-V defconfig due to its
+> > dependency on NONPORTABLE.  Hence add a separate defconfig for Renesas
+> > RZ/Five boards.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> > Not intended for upstream integration.
+> > To be applied to my topic/renesas-defconfig branch, which already has
+> > arch/arm64/configs/renesas_defconfig.
+> >
+> > Tested with OpenEmbedded nodistro.0 smarc-rzfive (eMMC and nfsroot).
+> >
+> > Any other options that should be enabled/disabled?
 >
-> On the HiHope boards, we have a single port with a single endpoint define=
-d
-> as below:
-> ....
->         rsnd_port: port {
->                 rsnd_endpoint: endpoint {
->                         remote-endpoint =3D <&dw_hdmi0_snd_in>;
+> diff --git a/arch/riscv/configs/rzfive_defconfig
+> b/arch/riscv/configs/rzfive_defconfig
+> index 31483a1d520c..82709dd712e5 100644
+> --- a/arch/riscv/configs/rzfive_defconfig
+> +++ b/arch/riscv/configs/rzfive_defconfig
+> @@ -3,6 +3,7 @@ CONFIG_POSIX_MQUEUE=3Dy
+>  CONFIG_NO_HZ_IDLE=3Dy
+>  CONFIG_HIGH_RES_TIMERS=3Dy
+>  CONFIG_BPF_SYSCALL=3Dy
+> +CONFIG_PREEMPT=3Dy
+>  CONFIG_IKCONFIG=3Dy
+>  CONFIG_IKCONFIG_PROC=3Dy
+>  CONFIG_CGROUPS=3Dy
+> @@ -57,11 +58,7 @@ CONFIG_CAN=3Dy
+>  CONFIG_NET_9P=3Dy
+>  CONFIG_NET_9P_VIRTIO=3Dy
+>  CONFIG_PAGE_POOL_STATS=3Dy
+> -CONFIG_PCI=3Dy
+> -CONFIG_PCIEPORTBUS=3Dy
+> -CONFIG_PCI_HOST_GENERIC=3Dy
+> -CONFIG_PCIE_XILINX=3Dy
+> -CONFIG_PCIE_MICROCHIP_HOST=3Dy
+> +# CONFIG_PCI is not set
+
+Disabling CONFIG_PCI explicitly is not needed.
+
+>  CONFIG_DEVTMPFS=3Dy
+>  CONFIG_DEVTMPFS_MOUNT=3Dy
+>  CONFIG_MTD=3Dy
+> @@ -124,6 +121,7 @@ CONFIG_MFD_DA9062=3Dy
+>  CONFIG_RZ_MTU3=3Dy
+>  CONFIG_REGULATOR=3Dy
+>  CONFIG_REGULATOR_FIXED_VOLTAGE=3Dy
+> +CONFIG_REGULATOR_GPIO=3Dy
+>  CONFIG_BACKLIGHT_CLASS_DEVICE=3Dy
+>  CONFIG_SOUND=3Dy
+>  CONFIG_SND=3Dy
+> @@ -141,8 +139,7 @@ CONFIG_SND_SOC_WM8978=3Dy
+>  CONFIG_SND_SIMPLE_CARD=3Dy
+>  CONFIG_USB=3Dy
+>  CONFIG_USB_OTG=3Dy
+> -CONFIG_USB_XHCI_HCD=3Dy
+> -CONFIG_USB_XHCI_PLATFORM=3Dy
+> +# CONFIG_USB_XHCI_HCD is not set
+
+Disabling CONFIG_USB_XHCI_HCD explicitly is not needed.
+
+Did you run "make savedefconfig"?
+Some more options disappeared after disabling PCI.
+
+>  CONFIG_USB_EHCI_HCD=3Dy
+>  CONFIG_USB_EHCI_HCD_PLATFORM=3Dy
+>  CONFIG_USB_OHCI_HCD=3Dy
+> @@ -210,6 +207,7 @@ CONFIG_DEBUG_MEMORY_INIT=3Dy
+>  CONFIG_SOFTLOCKUP_DETECTOR=3Dy
+>  CONFIG_WQ_WATCHDOG=3Dy
+>  CONFIG_WQ_CPU_INTENSIVE_REPORT=3Dy
+> +# CONFIG_SCHED_DEBUG is not set
+>  CONFIG_DEBUG_TIMEKEEPING=3Dy
+>  CONFIG_DEBUG_RT_MUTEXES=3Dy
+>  CONFIG_DEBUG_SPINLOCK=3Dy
 >
->                         dai-format =3D "i2s";
->                         bitclock-master =3D <&rsnd_endpoint>;
->                         frame-master =3D <&rsnd_endpoint>;
->
->                         playback =3D <&ssi2>;
->                 };
->         };
-> ....
->
-> With commit 547b02f74e4a ("ASoC: rsnd: enable multi Component support for
-> Audio Graph Card/Card2"), support for multiple ports was added. This caus=
-ed
-> probe failures on HiHope boards, as the endpoint could not be retrieved d=
-ue
-> to incorrect device node pointers being used.
->
-> This patch fixes the issue by updating the `rsnd_dai_of_node()` and
-> `rsnd_dai_probe()` functions to use the correct device node pointers base=
-d
-> on the port names ('port' or 'ports'). It ensures that the endpoint is
-> properly parsed for both single and multi-port configurations, restoring
-> compatibility with HiHope boards.
->
-> Fixes: 547b02f74e4a ("ASoC: rsnd: enable multi Component support for Audi=
-o Graph Card/Card2")
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> For some reason when CONFIG_SCHED_DEBUG is enabled, the USB host on
+> CN1 isn't working!
 
-Thanks for your patch!
+Strange...
 
-> --- a/sound/soc/sh/rcar/core.c
-> +++ b/sound/soc/sh/rcar/core.c
-> @@ -1281,7 +1281,9 @@ static int rsnd_dai_of_node(struct rsnd_priv *priv,=
- int *is_graph)
->                 if (!of_node_name_eq(ports, "ports") &&
->                     !of_node_name_eq(ports, "port"))
->                         continue;
-> -               priv->component_dais[i] =3D of_graph_get_endpoint_count(p=
-orts);
-> +               priv->component_dais[i] =3D
-> +                       of_graph_get_endpoint_count(of_node_name_eq(ports=
-, "ports") ?
-> +                                                   ports : np);
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-As of_node_name_eq() is not inline or __pure, of_node_name_eq(ports,
-"ports") will be called twice. So it may make sense to add a helper,
-combining the selection with the validation above:
-
-    const struct device_node *pick_endpoint_node_for_ports(const
-struct device_node *np,
-                const struct device_node *e_ports, const struct
-device_node *e_port)
-    {
-            if (of_node_name_eq(ports, "ports"))
-                    return e_ports;
-            if (of_node_name_eq(ports, "port"))
-                    return e_port;
-            return NULL;
-    }
-
->                 nr +=3D priv->component_dais[i];
->                 i++;
->                 if (i >=3D RSND_MAX_COMPONENT) {
-> @@ -1493,7 +1495,8 @@ static int rsnd_dai_probe(struct rsnd_priv *priv)
->                         if (!of_node_name_eq(ports, "ports") &&
->                             !of_node_name_eq(ports, "port"))
->                                 continue;
-> -                       for_each_endpoint_of_node(ports, dai_np) {
-> +                       for_each_endpoint_of_node(of_node_name_eq(ports, =
-"ports") ?
-> +                                                 ports : np, dai_np) {
-
-Likewise.
-
->                                 __rsnd_dai_probe(priv, dai_np, dai_np, 0,=
- dai_i);
->                                 if (!rsnd_is_gen1(priv) && !rsnd_is_gen2(=
-priv)) {
->                                         rdai =3D rsnd_rdai_get(priv, dai_=
-i);
+Thanks.
 
 Gr{oetje,eeting}s,
 
