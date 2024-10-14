@@ -1,92 +1,151 @@
-Return-Path: <linux-renesas-soc+bounces-9728-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9729-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5FE499D68B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Oct 2024 20:32:53 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF9C899D883
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Oct 2024 22:50:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 62FE7B21494
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Oct 2024 18:32:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 64F001F21A3D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Oct 2024 20:50:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CAA419E7ED;
-	Mon, 14 Oct 2024 18:32:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE6D21C8FD3;
+	Mon, 14 Oct 2024 20:50:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tczVN0SF"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Qn7p/5u8";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="oiklqbPy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10AEF231C95;
-	Mon, 14 Oct 2024 18:32:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A49A14D439;
+	Mon, 14 Oct 2024 20:50:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728930769; cv=none; b=NhkDvvW6vuIXHO1v6HfVrzHMaKtjL87AizQojG9l1Eq1fRgdH3AZOJn8scY7qHj9DmEi2rKglMogEV9B3B8fQdpzbnaPDK6UFXUGK5eMkq6gBfyhplQUq2kp3ruwYzBhcBUb/NxKGXD5qL1cO91VzCEqpkpA8U1+l+EFaVo1Mvo=
+	t=1728939053; cv=none; b=O05AMU2dUSJ+OT2qNicAnGLF5kv6RG5jJ7NKGDS09CxcH2/wvF0lKA3nA5Jum5gkCrKryRy17OH7V1yrHmDtm+ycvecs5Ue1TMaDRl2UmURmo6SRZPA8LNTREARL7Dlh/hM3Yhk5wm1IFHoFnT/hC5m8Z+EwYjgUxp01/fGMaqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728930769; c=relaxed/simple;
-	bh=n8ZMvS/2ok2yXjgPkVXG7Bv0NljpUEjTR3zlA+cgQpU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ucKS54Dj/+rUO11+fscmXGv5R5ARV59o3rkrzJ7S8zBguKTLogDfoT4aw3lOQ9vTqAbPB4siks2UagTkGD6qQiKpeFGiPFUHfAZOU5KK62NZrdxbwjbQA1NppVJEyyKjDaFMFB/PQ95AsL4gVXo2i/twFeoS0UWWJplkTdw3PZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tczVN0SF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 754E5C4CEC3;
-	Mon, 14 Oct 2024 18:32:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728930768;
-	bh=n8ZMvS/2ok2yXjgPkVXG7Bv0NljpUEjTR3zlA+cgQpU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=tczVN0SFQH3apRhdIisJsXKrMBAh+0wSv+5NyRh+WBUo2rc0sVcb3OQhwRG0bzSv4
-	 KhzDE1vgXqGoKLL55AzyTM7dNGPG0LFU85YQYnBKmAwa/NV01ap+HUbOFUqkqZe54Y
-	 AihB4Tj0ss+Sozz4zqIieg+RjEX3yetCMKJ6Bti7AZadHHWWU3tMSX+rmhwSRlFTvn
-	 pxiAZBvP3uGmaNSV7hjeQkGxzi8ha67fN4vdgrZQfD67dMdbqpIdaH/SWeXHwRr0hZ
-	 ccaN53SNI/lwyjkz+0rDCIamHGK9+z2IirUCfbndTw2QTdTvU3nhQT9DJhbtnNby4+
-	 IJdHZp5vVtv+Q==
-From: Vinod Koul <vkoul@kernel.org>
-To: linux-renesas-soc@vger.kernel.org, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>, 
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
- dmaengine@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Rob Herring <robh@kernel.org>
-In-Reply-To: <20241007110200.43166-5-wsa+renesas@sang-engineering.com>
-References: <20241007110200.43166-5-wsa+renesas@sang-engineering.com>
-Subject: Re: (subset) [PATCH v3 0/3] dmaengine: sh: rz-dmac: add r7s72100
- support
-Message-Id: <172893076506.76035.11771160122611042922.b4-ty@kernel.org>
-Date: Tue, 15 Oct 2024 00:02:45 +0530
+	s=arc-20240116; t=1728939053; c=relaxed/simple;
+	bh=MFSqcmv5mo5wth8zzxQu2vIn2rZtGDVYxVmiNss7a4w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JNkdiRAOwt4WOACKY0dg5LQ+ocLRKILnUUbCxgC0YvXVcfZW77AX84/8lWrfmr+yZxTYTMC+ZNY/RtJCk0DMH8joWvVp5QGBR+2Oa8ZvKzEFZKAOgPq4O62CCj5b+0ajvXlwgfpXc3L1nBCjkv8QG+STXURrP/dkm3HOu+ppu64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Qn7p/5u8; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=oiklqbPy; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
+	by mailfout.phl.internal (Postfix) with ESMTP id 24E2513805E7;
+	Mon, 14 Oct 2024 16:50:49 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-07.internal (MEProxy); Mon, 14 Oct 2024 16:50:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1728939049;
+	 x=1729025449; bh=w9YMR57cvzUfCNAMCQSKbu+O9RIDGvbwoJsod76P/6o=; b=
+	Qn7p/5u82udD6Vho/E5Bw5pGIzCfKjT4u5PgCtLFlIa/VfJW7TanYFbslPUbcgOE
+	dg00kBNKQ57dC0JgkYfPXSM7KYf2y6dJqoBZ8FXbxNbz4zobF+5cSjt6hDcn5RPv
+	tbpwWDniNj6Zk2T+MQh2xAVGtS1khUftAvONRIwrqTmX+UTBM92AZWz7V4nlMYcl
+	0+sWD2NAi/l2dED5iiDZdl0jk6wdISzmkhGHPwpPY2rmYdXi7ilFUW7mpuE8y1r8
+	5zfSq79Kr4u8XylGIO5yoM1E0mCFEG/s0vWgf4/TeRV/K9854im+MQ7OHHIjQbSQ
+	IamBYGgn5/bPEuUQVhjR9g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1728939049; x=
+	1729025449; bh=w9YMR57cvzUfCNAMCQSKbu+O9RIDGvbwoJsod76P/6o=; b=o
+	iklqbPyYUuGFmnF66gT+kn0T/eOQFBHXbYOAgJUPLsRQZecn3JiEFeX/+iRnNFMi
+	M93AXyytyYv5jGiRKJNe76W7NZkjz825A+G7ihF1E+B+uvrHlIWeYTtgYWmqAvFd
+	klTGZZMPjb3xdzTrct5gKxxcGPSc+JTCXdDM+uhNqCeIYPpyt8DdL8aLgMnAunQF
+	j3XoURI2uNy6QIb3EsdYh3Saq/T5T/cEebu8kOIMoRsepAoPuCl4IgKkkPegooJH
+	5M4TRdNn5u8lIYbpAKmTl+pEZkItrHSmFQIhJ5XgqxEyvob9AYsEY6n5tufoLBFK
+	sVAW7hmhEXMAmwfAPLKUA==
+X-ME-Sender: <xms:KIQNZ2dp0tdQCfkBIiaUNkxgmkyYhQacsODc6bnioiOF2lwLVpDQHA>
+    <xme:KIQNZwOHM7TB8IB9JSzaaWCWK-2ilPECc5rH6Tk9EVrSsbmMXcJz2qN7Alcd1pBda
+    ealWEbgfKMaBU7ztN8>
+X-ME-Received: <xmr:KIQNZ3iGYQ3p8xzmLgQpnt4CcDxGYmf8xuq5uaQuOGNHOek_tiBcIJ3M3NxND785yzHpueuQsDv-egITr_ia5MGvXxzmd1XoPg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdeghedgudehgecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddt
+    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
+    guvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepveet
+    gedtvddvhfdtkeeghfeffeehteehkeekgeefjeduieduueelgedtheekkeetnecuvehluh
+    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhs
+    ohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepuddtpd
+    hmohguvgepshhmthhpohhuthdprhgtphhtthhopeifrghnghhhrghifeeksehhuhgrfigv
+    ihdrtghomhdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtg
+    hpthhtohepvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehkuhgs
+    rgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgrsggvnhhisehrvgguhhgrthdrtg
+    homhdprhgtphhtthhopegrnhgurhgvfieslhhunhhnrdgthhdprhgtphhtthhopeiihhgr
+    nhhggihirghogihuheeshhhurgifvghirdgtohhmpdhrtghpthhtohepnhgvthguvghvse
+    hvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgr
+    shdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:KIQNZz992ZzhrgjfNQee3HA-x7A5AmtfWameHw8vOp55Q80xan3Zzw>
+    <xmx:KIQNZyuyeIO1E1ARyiAVouK9KDcQaL3x-BwqbqsPwItQ2w_SKLi8IA>
+    <xmx:KIQNZ6EaAXUu07uB8cvPK6XfmBToFhkHMRXs78Dl9EpySkcdQw9cwQ>
+    <xmx:KIQNZxOObmy05iQ9HF_ej1MxwOPRiUD0q7OWUPQFLxAGX6bPKzPOHw>
+    <xmx:KYQNZzkl7L6rPihQn6DowucmgiiN8bVNmhTfXlyBHrtHGzBiTF3_EGqE>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 14 Oct 2024 16:50:47 -0400 (EDT)
+Date: Mon, 14 Oct 2024 22:50:44 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Wang Hai <wanghai38@huawei.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, andrew@lunn.ch, zhangxiaoxu5@huawei.com,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net] net: ethernet: rtsn: fix potential memory leak in
+ rtsn_start_xmit()
+Message-ID: <20241014205044.GA2838422@ragnatech.se>
+References: <20241014144250.38802-1-wanghai38@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241014144250.38802-1-wanghai38@huawei.com>
 
+Hello Wang,
 
-On Mon, 07 Oct 2024 13:02:00 +0200, Wolfram Sang wrote:
-> Changes since v2:
-> * added tags to patches 1 and 3
-> * reword commit message 2 to make clear 'clocks' are not needed
-> * 'power-domains' is also not required for RZA1
+Thanks for finding this.
+
+On 2024-10-14 22:42:50 +0800, Wang Hai wrote:
+> The rtsn_start_xmit() returns NETDEV_TX_OK without freeing skb
+> in case of skb->len being too long, add dev_kfree_skb_any() to fix it.
 > 
-> Thanks to Geert for the tags and for the input!
+> Fixes: b0d3969d2b4d ("net: ethernet: rtsn: Add support for Renesas Ethernet-TSN")
+> Signed-off-by: Wang Hai <wanghai38@huawei.com>
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+> ---
+>  drivers/net/ethernet/renesas/rtsn.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> [...]
+> diff --git a/drivers/net/ethernet/renesas/rtsn.c b/drivers/net/ethernet/renesas/rtsn.c
+> index f9f63c61d792..6b3f7fca8d15 100644
+> --- a/drivers/net/ethernet/renesas/rtsn.c
+> +++ b/drivers/net/ethernet/renesas/rtsn.c
+> @@ -1057,6 +1057,7 @@ static netdev_tx_t rtsn_start_xmit(struct sk_buff *skb, struct net_device *ndev)
+>  	if (skb->len >= TX_DS) {
+>  		priv->stats.tx_dropped++;
+>  		priv->stats.tx_errors++;
+> +		dev_kfree_skb_any(skb);
+>  		goto out;
+>  	}
+>  
+> -- 
+> 2.17.1
+> 
 
-Applied, thanks!
-
-[2/3] dt-bindings: dma: rz-dmac: Document RZ/A1H SoC
-      commit: 209efec19c4c0cea17ff01d67c8fbd75a90fb854
-[3/3] dmaengine: sh: rz-dmac: add r7s72100 support
-      commit: 32172b3e3265833a367e41842fa8b7eaa0acae96
-
-Best regards,
 -- 
-~Vinod
-
-
+Kind Regards,
+Niklas Söderlund
 
