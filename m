@@ -1,113 +1,166 @@
-Return-Path: <linux-renesas-soc+bounces-9764-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9765-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13AD199F1F4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Oct 2024 17:50:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5F1D99F293
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Oct 2024 18:21:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A3EE9B20FD9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Oct 2024 15:50:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 093F81C21E48
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Oct 2024 16:21:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 322191D9580;
-	Tue, 15 Oct 2024 15:50:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4B951B392A;
+	Tue, 15 Oct 2024 16:21:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hOX+3JVU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE17213BAF1;
-	Tue, 15 Oct 2024 15:50:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E8D1714BE;
+	Tue, 15 Oct 2024 16:21:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729007429; cv=none; b=s8D5brgbhRxu/LGvbEbfHSvkbOsixGDa2zx8flR/jU4iMg7ib7FEZYSCPV4fEwJJLS6GXI/lY0F10uQ2WcAAxPASZHRedt66mOmzCyNSKD+hT647LGkE1qk7igP6FZx+RXJIK2EMwfLswKrbdJruV/YWwQm2zx9UdUwZFBLCbmo=
+	t=1729009285; cv=none; b=KTw6okwYVssVWdP0A3ehbxTq5GIwEct0406Q2FGEkhISoTjULbGTrOtxbCbph9IMta5bMnFE9o+gRkZ7QPaR7gmmhQGjYaHO/yI30SaIl9Fs66eD/8Bfllj5cNPlS1qCniZ1mTNlwG0X+omwj3aS0zwYt4cpAs1ktWA3r3Jb0qc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729007429; c=relaxed/simple;
-	bh=oUsbSUICe3/nBJ5J+xcAuUpm7fUVHMrXhvImeGPyq+M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=JCK24MuHylgqmOCztmFiAF+yNfvCF0KD8+3ehrAkV2sWYO7pbw5aZVmEszspcSg9SQRvOCmk8O0KOcRISHd/Ud9ossQP4n3xdLvpQBvSteMZbLE+GO5Kw/1/XiOfkCZSfaP/innsTgcRdQ5WsAHTCjJB10bt7k/QGksYrBnAw7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.2.101] (213.87.149.77) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Tue, 15 Oct
- 2024 18:50:17 +0300
-Message-ID: <73c56768-e188-4e4f-940e-01a8fcb93755@omp.ru>
-Date: Tue, 15 Oct 2024 18:50:16 +0300
+	s=arc-20240116; t=1729009285; c=relaxed/simple;
+	bh=6NEO3vbuN+t5fT74F3+Wb2C+YHLJ0N/rpcZ6snYcpbU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uGiEaJKVInozAO+639VMmkRbHDG5TqlaNW6eatVW8HWn1CBizRNm7PPHqZRvFbJFPh4Y3vEmlxrp/VR25eiMquTPr3g8sjYd1xpexKBxvmov9n9k1XG0G0l+eDyCtV0K8G/5e1im2QjmJ6PsVkYRbohVVvopMJbCYwe8kSSxs+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hOX+3JVU; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-539983beb19so5968051e87.3;
+        Tue, 15 Oct 2024 09:21:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729009282; x=1729614082; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LAWUM9s5lyGhWTb1ehJ6NHCU3ChMEB/laYBZwYTZb00=;
+        b=hOX+3JVUmocfB5aSVim+WZQnuoYrAYO4qY1eFS0S/kWgRty3NRrRj47z/naehLhCcj
+         9yG+FzKGyWG8AWwxkWlK21N+aBHs7qg6oepqFXKWNogrGSkj5mRuFekhna4R16gPRAE8
+         33GuqleRiJZP2a4RJ0Y8kLQ31WMONLCl87jXQBwB1FHJ9X0/x9tEQyKnN8StXAcp7Gsn
+         DnM5kQjENf95XZjuPY0tPvwS3E43LUYlqnOAvL2S0WVuBc15kpsv3DCzIGAtr7S7k0XJ
+         mi7v2vSwdSTmUCsYSRYMfoutE4bXiydIRFbvqRR4azuv9v1UZhTP2t8GN8QamFnmIcMe
+         wcNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729009282; x=1729614082;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LAWUM9s5lyGhWTb1ehJ6NHCU3ChMEB/laYBZwYTZb00=;
+        b=qYQiFgVy1gkiXqOBRhrm36/kJrjcI6V3hnkVGAEY+/+YGNILP1T1vGHBLYuO4dRpHb
+         J26ra2fmV5hqukEjXpOHUoPXCb0aHZND+vP2Dz6QQBST0QAEZjKA3qNJEfG//lmRK0cq
+         VkWtMyTqZDXtf93xhkw8oTNPrtQUczj/VE9omBuRyrvuJjHvC6Q9aVTWtKbwMqxBZOZs
+         kCr6VsT9DdLAa4f+zN8OyvgAjDSNmJ6/FD7viTlVFgLwGOtdA1x9PsF5CobuxNMKYstY
+         8YUCEaLjpdMXk7Sn0woemI4fZ/k7vumOSZZZgr9jJUcIrUN9pojCj+2X7GahDajjBc7L
+         WjCw==
+X-Forwarded-Encrypted: i=1; AJvYcCVHkwt1QvMV440MbSnCwvt0wmpeTa9eT1ZdCK4FTEclz8ve9GYjDDx8rN4EEFIZaa3jP99W0Vsnv1OO@vger.kernel.org, AJvYcCXlbxB/dF8NopZ8E0DCZbq50Q9CIa09svZuSqlfPHaZtOrxqaa6nEgRDcyeVDnyQKq+SX8GLUTyQcTuh545ty+iZoY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxXOB5WaPS/qGR3miQ5nTrj6U/DKqk9UX+a5XUgi3TIYJsPTy4k
+	zFHvBbwp8hB+dTrMPT/DOl5DPTo1Hyazj++Y3Zrb+r8m4KNHDUrD
+X-Google-Smtp-Source: AGHT+IFal2H6gY5olqIuu6+pF6H3H9Cp0rg+2bZLSTyU8liwGiN2tKc7WP1k4NKaLVIwTtSUr+VchA==
+X-Received: by 2002:ac2:4c53:0:b0:539:9720:99d4 with SMTP id 2adb3069b0e04-539da4e2598mr7779312e87.28.1729009281639;
+        Tue, 15 Oct 2024 09:21:21 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4313f56eab2sm22288325e9.26.2024.10.15.09.21.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Oct 2024 09:21:20 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [RFC PATCH] pinctrl: pinmux: Introduce API to check if a pin is requested
+Date: Tue, 15 Oct 2024 17:20:43 +0100
+Message-ID: <20241015162043.254517-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [net-next PATCH v2 10/10] net: ravb: Add VLAN checksum support
-To: Paul Barker <paul.barker.ct@bp.renesas.com>, "David S . Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>,
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Biju Das <biju.das.jz@bp.renesas.com>, Claudiu Beznea
-	<claudiu.beznea.uj@bp.renesas.com>, <netdev@vger.kernel.org>,
-	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20241015133634.193-1-paul.barker.ct@bp.renesas.com>
- <20241015133634.193-11-paul.barker.ct@bp.renesas.com>
-Content-Language: en-US
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-In-Reply-To: <20241015133634.193-11-paul.barker.ct@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 10/15/2024 15:32:09
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 19
-X-KSE-AntiSpam-Info: Lua profiles 188455 [Oct 15 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.0.4
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 39 0.3.39
- e168d0b3ce73b485ab2648dd465313add1404cce
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 213.87.149.77 in (user)
- dbl.spamhaus.org}
-X-KSE-AntiSpam-Info:
-	d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1;127.0.0.199:7.1.2
-X-KSE-AntiSpam-Info: FromAlignment: s
-X-KSE-AntiSpam-Info: ApMailHostAddress: 213.87.149.77
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 19
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 10/15/2024 15:36:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 10/15/2024 12:59:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+Content-Transfer-Encoding: 8bit
 
-On 10/15/24 4:36 PM, Paul Barker wrote:
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-> The GbEth IP supports offloading checksum calculation for VLAN-tagged
-> packets, provided that the EtherType is 0x8100 and only one VLAN tag is
-> present.
-> 
-> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+Introduce `pin_requestesd` API to check if a pin is currently requested.
+This API allows pinctrl drivers to verify whether a pin is requested or
+not by checking if the pin is owned by either `gpio_owner` or `mux_owner`.
 
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+GPIO pins used as interrupts through the `interrupts` DT property do not
+follow the usual `gpio_request`/`pin_request` path, unlike GPIO pins used
+as interrupts via the `gpios` property. As a result, such pins were
+reported as `UNCLAIMED` in the `pinmux-pins` sysfs file, even though they
+were in use as interrupts.
 
-[...]
-MBR, Sergey
+With the newly introduced API, pinctrl drivers can check if a pin is
+already requested by the pinctrl core and ensure that pin is requested
+during when using as irq. This helps to ensure that the `pinmux-pins`
+sysfs file reflects the correct status of the pin.
+
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ drivers/pinctrl/pinmux.c | 14 ++++++++++++++
+ drivers/pinctrl/pinmux.h |  5 +++++
+ 2 files changed, 19 insertions(+)
+
+diff --git a/drivers/pinctrl/pinmux.c b/drivers/pinctrl/pinmux.c
+index 02033ea1c643..19c68e174c36 100644
+--- a/drivers/pinctrl/pinmux.c
++++ b/drivers/pinctrl/pinmux.c
+@@ -99,6 +99,20 @@ bool pinmux_can_be_used_for_gpio(struct pinctrl_dev *pctldev, unsigned int pin)
+ 	return !(ops->strict && !!desc->gpio_owner);
+ }
+ 
++bool pin_requestesd(struct pinctrl_dev *pctldev, int pin)
++{
++	struct pin_desc *desc;
++
++	desc = pin_desc_get(pctldev, pin);
++	if (!desc)
++		return false;
++
++	if (!desc->gpio_owner && !desc->mux_owner)
++		return false;
++
++	return true;
++}
++
+ /**
+  * pin_request() - request a single pin to be muxed in, typically for GPIO
+  * @pctldev: the associated pin controller device
+diff --git a/drivers/pinctrl/pinmux.h b/drivers/pinctrl/pinmux.h
+index 2965ec20b77f..550cb3b4c068 100644
+--- a/drivers/pinctrl/pinmux.h
++++ b/drivers/pinctrl/pinmux.h
+@@ -42,6 +42,7 @@ int pinmux_map_to_setting(const struct pinctrl_map *map,
+ void pinmux_free_setting(const struct pinctrl_setting *setting);
+ int pinmux_enable_setting(const struct pinctrl_setting *setting);
+ void pinmux_disable_setting(const struct pinctrl_setting *setting);
++bool pin_requestesd(struct pinctrl_dev *pctldev, int pin);
+ 
+ #else
+ 
+@@ -100,6 +101,10 @@ static inline void pinmux_disable_setting(const struct pinctrl_setting *setting)
+ {
+ }
+ 
++bool pin_requestesd(struct pinctrl_dev *pctldev, int pin)
++{
++	return false;
++}
+ #endif
+ 
+ #if defined(CONFIG_PINMUX) && defined(CONFIG_DEBUG_FS)
+-- 
+2.43.0
 
 
