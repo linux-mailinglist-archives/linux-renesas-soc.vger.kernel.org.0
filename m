@@ -1,72 +1,72 @@
-Return-Path: <linux-renesas-soc+bounces-9782-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9783-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C1EC99F7CA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Oct 2024 22:04:06 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57AF299F7CC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Oct 2024 22:04:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 501022854E7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Oct 2024 20:04:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7B1FF1C231EE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Oct 2024 20:04:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 420981FE10C;
-	Tue, 15 Oct 2024 20:02:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F98E1FF034;
+	Tue, 15 Oct 2024 20:02:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="emz5YJnd"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jaBs2570"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75611FE0E8;
-	Tue, 15 Oct 2024 20:02:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B37711F5859;
+	Tue, 15 Oct 2024 20:02:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729022558; cv=none; b=n45E7bnOxNvHf93w/yRctOehCL3TR59i4BQsWzDKPdrEToglZxu/sMf7gwf53ba/25OAQXNOgR02PgR1SqCYTleDK3c8+5kMWyJ8IAbcYLbxRXJVaionTU30xtw4mb7aTrKYNmUXIDgJPP6/UDhwMjFBl4boX22mfnAe8nw+Rfs=
+	t=1729022560; cv=none; b=PoeI4OoKN1gJks9z/hoWepC5S2L0mQ+IGmzZHOKB/uq7gzscqF7fgjj1I6qmxWH7kqVGxnqzH1LxFFXuHMsUuftpm3NG4DNURTIYo1AL09aLuIj93fGxd8jYzRDqpFPd75gg7RzH7FvgDNwqvqB21Hffh9/eTtOs7BUOuWfl4mU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729022558; c=relaxed/simple;
-	bh=MxcjwNRsJEkibeU9qt9Ob1eMqP5pSgwTyK6ABqwj2lE=;
+	s=arc-20240116; t=1729022560; c=relaxed/simple;
+	bh=1cY2g8wmG1oo6pAhaNxYqbKxrPxrt5V9OGrm5OzdG8Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=afSF1QKkVEyg7shI9R+xU2y3vdAwFO/esPI8Uvmfi+vaIUi4L2IkFmK5GYTouttHVCesU0z2I38f/BHQyV5eN7YrAMx5uSJIvtGLWCL1kec81Q/PGY61GUuNIb8gkVA+oRCIJoYreYN9wlhfJJ8njyoLhRu6LTUKbuPUAlQwp90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=emz5YJnd; arc=none smtp.client-ip=209.85.210.176
+	 MIME-Version; b=SC2kGa1Kp3tZR+qYvFEJe/9PrDMHk+S1lrcrQ+mNhr18YLIRXuGE4KRmgVgGbRnlx8m5jCxM+eKssrwyX4zMcWppeBILBPS9XcH1+wRYLDA68lt1WD75q9g4vWFUpPUIzs8tpXp+rz/+TqMuX4v9eHYz0LAPCnuBwWFQdUnk/Qk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jaBs2570; arc=none smtp.client-ip=209.85.210.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-71e5ae69880so2355705b3a.2;
-        Tue, 15 Oct 2024 13:02:36 -0700 (PDT)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-71e483c83dbso3809674b3a.3;
+        Tue, 15 Oct 2024 13:02:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729022556; x=1729627356; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1729022558; x=1729627358; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZQoU6YjRXNNAK08rrFMt8U2srpp4T9KT027SMoMKFg8=;
-        b=emz5YJndoO6GuCdB3eZCSvMYU+TbGtE+D71NMcuJITL5XWfrJXTliUnWXFibx1f3dx
-         5LtMng9RzhNyKNsPDEHOgMwHDnxHqQJQ3nrrNzJjmuyJgqOMBQhr9mYXelWi/yURhleR
-         U2LPk0neTgVtj/YydQ0zpI4I4uPECnOROmqUdpyHwTzva/kzIk5uOctxU1oxrC0vY3s0
-         9XRzvYBiWCTAgbA3M1+ChpymAxhXPAkyBqj/xq6iskZrLmLo2K2ZrHwOZnrkY+7UK06w
-         kHf04g0y4uUYP5UMnbsBSs4cywua0d5IbYAgBPBr0ltYkeUtgFz4hrxirsnYcN5XFloi
-         CLYA==
+        bh=xg/AWmjc7rpXKjOckhX6UccKQoP1O8ZQP4gdZCQ8byU=;
+        b=jaBs25704FedjHpT2wv5scFIbTLyxihsN0lghzy4R7oEZ3cTd540zhVoqXVDKClFQM
+         aM/g2ZNcTE1nysf57merQCJF/KsLNxFrfmkFbB8rRf8h0PAvKdAWVRQLp4LuPbhDEEMF
+         GuteCNMThiIclNU9Npd8n83nHpOsELi0MDQgg2LLMjbBI/YfFOKFYBDj+DCz+If5xaGj
+         oToU8VbqvyKUBRh7Lpfq9LTpHAXnXfdHFeBxvuemeEF2WTNvhMdk2mQJcIP/Kr04TMxe
+         AefKNqsWsN4SJk3h7roDJh9YkC+0/5RaEAMN8mabYjE0XQvk+XE1N+jngI18bL1zXqAw
+         s0TA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729022556; x=1729627356;
+        d=1e100.net; s=20230601; t=1729022558; x=1729627358;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZQoU6YjRXNNAK08rrFMt8U2srpp4T9KT027SMoMKFg8=;
-        b=uKkB/Y5tuql4AvIHyktpHvvO6V77WArqQfCIv5EZwQJM7YynfkLcQvlYYEDQYtzpQ3
-         WprHwN+v4WSkE0YljFnTennYvTuanQfSX/v14Z2bfaM3a9vAhCA1c49jKnrKuPa5Hc15
-         C3FUtjRqWsM5wMJdPS1hd0f6olidkDm0EKLDLkgktlr7S3N7oFgEO78L6FPx8GCnAyQJ
-         rK1NikT+l0nHnDdve8mqnea2p/IcdWUrLlVQdo0w6ZYt9OqQOye4rSE9tXo84eDfgdBh
-         TogZ3b0+6zBTeL0dyKBo+Qk0tkqprrHcGsWkQaipM4068ZIDA6l6+me3DGXTUCvj/eQJ
-         rydA==
-X-Forwarded-Encrypted: i=1; AJvYcCVi7vlq9GTQhAXNT+1bHQmdC//SdhBbDNsje3l3VkqQ3zk+DZwYp2/l1kbx/N8elswGMzMQRDfuPs5bbB/Quv6bhxQ=@vger.kernel.org, AJvYcCWryy4GQ6njJnzYPcaZ6cOu7Ux8cSUGuYrO+DNfNeu5O0tlK89jklRNi0afKOCK2Aa6vd5FNERWdxE+Sik=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywohu4Qf1bBimBbzgiabI67GKPgUy4LMwANYoU5IAO2i2SsA+RM
-	2lWj/xicoJhcadEiDoi+9oYY23Qfh4iVAgACWVrVsrV0jxXDbyIBPp4KG73E
-X-Google-Smtp-Source: AGHT+IEywEDsjqBaxDmLL/0uOwFhMks8HPSdKV76o0jiRzfmJgSM44EjZk2oiS/fIAzSoL7OLmtQSA==
-X-Received: by 2002:a05:6a00:4f8e:b0:71e:634e:fe0d with SMTP id d2e1a72fcca58-71e634eff2dmr12688917b3a.12.1729022555712;
-        Tue, 15 Oct 2024 13:02:35 -0700 (PDT)
+        bh=xg/AWmjc7rpXKjOckhX6UccKQoP1O8ZQP4gdZCQ8byU=;
+        b=qlwnf2u7gbzk1eDlXM8nz0hcLFFQW+ECldSYV3KZFy1zK10FvxlZjZGWUfTuVUOeRw
+         Imlj9AEwIxqA+6yR8XewjLU0umIRoBSEMJvWp7gJxN3ZWFBbxp6U15LcO8VBVuzO+L6v
+         FqavWP840qifA5+FK4J1NXDh/ieaCpBVlIcQa8HZrJSbgZjXbqIfvBKyRoMx6oGKYDjk
+         ctwvuhWNaxAqon+J70UEO0HRcOAWImq/S0369pjkhK0YtzyCbpBlw0Zkw7c52sNlg9I+
+         dfk2DEQ0EZiRAabQZTkAsfO/FDQdUxagWUMdQJ+BcRN62WQmtDNEE4Ol0YOUbNy2198b
+         quXA==
+X-Forwarded-Encrypted: i=1; AJvYcCVCZNYPCgLS2+rO1Y4sjCDV4GIdN8ZQpjNenOO6uUf/r7i+/Gb90cwI7CPwlv7IAx+N2ce7wqPwfAv6WbUEEsKz840=@vger.kernel.org, AJvYcCXxwDsF4M+yo+8S4ZcdQ59jcyVLu7Udpc1nG6X4KwWFBc65A+xQSuXPWLHral15h2vu1MhA1CLhqaQLhF4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgSYJcMWtUW/SOzzaj0omQPNWXjaw7hRlEMnCCkz+4Rofw5Uun
+	toi00vmXRGfMnnRQZd5c6u4meUKRGmUK09ElQK6+lsxYLSDp+xH+UWTgYf6s
+X-Google-Smtp-Source: AGHT+IHNDj6pz4SyLoJL5Rvt1Brm/2XJh5cX6NKapT51Fcpng6PQCjYAl6SfOsMq5VKgB7QOvN5R7w==
+X-Received: by 2002:a05:6a20:d818:b0:1cf:2a35:6d21 with SMTP id adf61e73a8af0-1d905f69115mr1898016637.45.1729022557723;
+        Tue, 15 Oct 2024 13:02:37 -0700 (PDT)
 Received: from ryzen.lan ([2601:644:8200:dab8::a86])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71e77518a1csm1690163b3a.187.2024.10.15.13.02.33
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71e77518a1csm1690163b3a.187.2024.10.15.13.02.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2024 13:02:35 -0700 (PDT)
+        Tue, 15 Oct 2024 13:02:37 -0700 (PDT)
 From: Rosen Penev <rosenp@gmail.com>
 To: netdev@vger.kernel.org
 Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
@@ -89,9 +89,9 @@ Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
 	Breno Leitao <leitao@debian.org>,
 	linux-kernel@vger.kernel.org (open list),
 	linux-renesas-soc@vger.kernel.org (open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER)
-Subject: [PATCHv7 net-next 4/6] net: ibm: emac: use platform_get_irq
-Date: Tue, 15 Oct 2024 13:02:19 -0700
-Message-ID: <20241015200222.12452-6-rosenp@gmail.com>
+Subject: [PATCHv7 net-next 5/6] net: ibm: emac: use devm for mutex_init
+Date: Tue, 15 Oct 2024 13:02:20 -0700
+Message-ID: <20241015200222.12452-7-rosenp@gmail.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241015200222.12452-1-rosenp@gmail.com>
 References: <20241015200222.12452-1-rosenp@gmail.com>
@@ -103,35 +103,36 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-No need for irq_of_parse_and_map since we have platform_device.
+It seems since inception that mutex_destroy was never called for these
+in _remove. Instead of handling this manually, just use devm for
+simplicity.
 
 Signed-off-by: Rosen Penev <rosenp@gmail.com>
-Reviewed-by: Simon Horman <horms@kernel.org>
 ---
- drivers/net/ethernet/ibm/emac/core.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+ drivers/net/ethernet/ibm/emac/core.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/net/ethernet/ibm/emac/core.c b/drivers/net/ethernet/ibm/emac/core.c
-index 438b08e8e956..f8478f0026af 100644
+index f8478f0026af..3bea10624291 100644
 --- a/drivers/net/ethernet/ibm/emac/core.c
 +++ b/drivers/net/ethernet/ibm/emac/core.c
-@@ -3031,15 +3031,8 @@ static int emac_probe(struct platform_device *ofdev)
- 	if (err)
- 		goto err_gone;
+@@ -3021,8 +3021,14 @@ static int emac_probe(struct platform_device *ofdev)
+ 	SET_NETDEV_DEV(ndev, &ofdev->dev);
  
--	/* Get interrupts. EMAC irq is mandatory */
--	dev->emac_irq = irq_of_parse_and_map(np, 0);
--	if (!dev->emac_irq) {
--		printk(KERN_ERR "%pOF: Can't map main interrupt\n", np);
--		err = -ENODEV;
--		goto err_gone;
--	}
--
- 	/* Setup error IRQ handler */
-+	dev->emac_irq = platform_get_irq(ofdev, 0);
- 	err = devm_request_irq(&ofdev->dev, dev->emac_irq, emac_irq, 0, "EMAC",
- 			       dev);
- 	if (err) {
+ 	/* Initialize some embedded data structures */
+-	mutex_init(&dev->mdio_lock);
+-	mutex_init(&dev->link_lock);
++	err = devm_mutex_init(&ofdev->dev, &dev->mdio_lock);
++	if (err)
++		goto err_gone;
++
++	err = devm_mutex_init(&ofdev->dev, &dev->link_lock);
++	if (err)
++		goto err_gone;
++
+ 	spin_lock_init(&dev->lock);
+ 	INIT_WORK(&dev->reset_work, emac_reset_work);
+ 
 -- 
 2.47.0
 
