@@ -1,99 +1,116 @@
-Return-Path: <linux-renesas-soc+bounces-9795-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9796-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1364499FE7D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Oct 2024 03:50:59 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5173E9A047A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Oct 2024 10:40:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CB79A284FC9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Oct 2024 01:50:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7BC891C20311
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Oct 2024 08:40:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E894C156225;
-	Wed, 16 Oct 2024 01:50:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XxEqZUPj"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09C751F80DD;
+	Wed, 16 Oct 2024 08:40:31 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2264149C6A;
-	Wed, 16 Oct 2024 01:50:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE5811D8E05
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Oct 2024 08:40:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729043428; cv=none; b=BHoC2ZlkFAGwh4E68LUaU4pDCvWfuhljDzsfY2Ym9bdfXAJCD7rJRlzyoaXHNHuNghZ9bAlngaaCydEhTBGk4HswOclEDdbDStD10okK2ogHwQXHnTv9cBHt+OPUSmtz68zwoSssB+dpVYQTjcKsTZ+lhpgvEphybOR0/tH/6xo=
+	t=1729068030; cv=none; b=XOLjr1q7DRz3Yjf7yQD3Mlo+/1sZ1vt22TcQhm+fwHuEFfihejkh6K7Ti9DXFRHnZl0Sq2xq0OFN2JeAUK2lDoGYGVV3vc5PNkNtiW0kN54ZZADFwCC6S6HfBw/NZB05A07hT/V27JhzFGTiKae9dXEFQqvM31SA14JRfPjwv44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729043428; c=relaxed/simple;
-	bh=tCHzduriARMpDN7nm8uWez7oaq6V4Hu8l9AZv2isKZw=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=KJ0svJ8tJMVoiYquIPc/Zmf/i+Yg3n193Anq+TROs6LdHIt1ubI+SqCruau+AmtCPPHgFEdjOMhlP2jpOy2OZsupNP9n3wxMg4eziwT1pYo3mwg11PltBdAsW2+PnzY6wj63Bp5vAqpvW0u0vuZ+d9tyZjf1ga1PmQZj1aeD9SQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XxEqZUPj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44590C4CED1;
-	Wed, 16 Oct 2024 01:50:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729043426;
-	bh=tCHzduriARMpDN7nm8uWez7oaq6V4Hu8l9AZv2isKZw=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=XxEqZUPjR+9cy/S8L4+kG9HCtOwbcZVl0T/vS8SsjisD2lXt49An2XCqoS8dxUhc9
-	 K0QGBba71WKTrzxy3RiDh3Gu2Q2ATCB7OUrXqz32ITGuW5Updtjf3dxwngmvM6ko/n
-	 1RiMBZCcbWeTgR99otAnIQF3qkYrD962T8fTbpwx6NGO2HGA2HINX1+dutu0AhZdIJ
-	 yKVoraRbouHQtbLk6iq3oLA1t9Y/uqHSnVugUVz348TMRt/DschfHP2lV6/uwwqzVn
-	 k/pizfXgWeXZcutRdxaDXYmSpBjnEPvarCzJORgnWDXbqxn8oV+h9dXemvxUZIjb66
-	 K7qET0TFPLfYw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AE0C33809A8A;
-	Wed, 16 Oct 2024 01:50:32 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1729068030; c=relaxed/simple;
+	bh=7RrvENSETZVWuEsL5G/guQ89yb/DTkWr6OtRMNLimP4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=Ea2Ogx82gd5LXUc7CvK6qfRbioU6G7+UToSACWWcemriPSgpE/WzLREvDRKjhRbhv00uQPtaD/+G3T/sWHyl8BU7bPuVttnhZYKWybCTsDIOLnYq7a/MjcdwyNBk7QrUDrEdUd7sdQ90B4OBobr08U6rbBPgcCIcsbqtb9NW09I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-6e3cdbc25a0so13887947b3.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Oct 2024 01:40:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729068026; x=1729672826;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=E39YYXDCimWu7YLGSw9SvTygd7bW9UQ/ZLEgV1R/YMY=;
+        b=IaaUTwSVv/34kGv9ZQtU4FOamScADQEWRJJ5sk0uo5pKZWF2d+xkUNeN72HpDNtrTL
+         lspdOPkZNXi3ched2Re8Zv92EJLXSg8ni0sMwti+Mq+tdwpadyRbv/us63Pv6qOrP/NL
+         lDJ8PXf5S1yGlsYsrD+GDFEN9PVoTyx5kqevbmDKFz3XH88MNNAGytbL8o3CWl4tdGJ8
+         1cflKTXL+/+fuWZGjEl84IIcEgqIi9g3ShFI53BpexV61ew2+o+rnBTTZmIrMqt6p9/X
+         5EWBBXos8p1tVvCjIFBdYQnZ5SjLgyptB6/T7mtlTtgpj4QW815CfrFUZYT/hZSVanaT
+         fUXg==
+X-Gm-Message-State: AOJu0Ywa5A3EgGc2BZkdhN9h1MeIP2TwU1q7iokllklyILU4rSsgfrEz
+	I12LYorAVx5L0EKsoUUoBJrAGaUljTNBR6bkEo26vbGMViqHboUPTUruhugG
+X-Google-Smtp-Source: AGHT+IGbw9qc0ZGp46h1dmqWfMfzThEA64llvwLL/KAD7ktYxCr0QZM3SxOrmvs/MYeD43Uv63f2VA==
+X-Received: by 2002:a05:690c:a9d:b0:6e3:2608:d5af with SMTP id 00721157ae682-6e36434f351mr127458507b3.26.1729068026564;
+        Wed, 16 Oct 2024 01:40:26 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e3c5cb7015sm6071007b3.101.2024.10.16.01.40.25
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Oct 2024 01:40:26 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-6e3b7b3e9acso19345007b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Oct 2024 01:40:25 -0700 (PDT)
+X-Received: by 2002:a05:690c:d1e:b0:6e3:153a:ff62 with SMTP id
+ 00721157ae682-6e36434ef60mr129288807b3.23.1729068025690; Wed, 16 Oct 2024
+ 01:40:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [net-next,v2] net: ravb: Only advertise Rx/Tx timestamps if hardware
- supports it
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <172904343125.1354363.4977835681788298756.git-patchwork-notify@kernel.org>
-Date: Wed, 16 Oct 2024 01:50:31 +0000
-References: <20241014124343.3875285-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20241014124343.3875285-1-niklas.soderlund+renesas@ragnatech.se>
-To: =?utf-8?q?Niklas_S=C3=B6derlund_=3Cniklas=2Esoderlund+renesas=40ragnatech=2E?=@codeaurora.org,
-	=?utf-8?q?se=3E?=@codeaurora.org
-Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, claudiu.beznea.uj@bp.renesas.com,
- paul.barker.ct@bp.renesas.com, biju.das.jz@bp.renesas.com,
- prabhakar.mahadev-lad.rj@bp.renesas.com, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
+References: <CAMuHMdWXPesKV7XE_QwLrM6pZ1z6GFC-SjJ1ceFTs4o=hv71Zg@mail.gmail.com>
+ <CAMuHMdX8HtWOAK6MDdN8F8V0aer0hTHzeAcnCGMycpS70hesNQ@mail.gmail.com>
+ <CAMuHMdUjse9v=U8=oZHDJx0Oh9uVzxVWYU+C9jaP_23UOBVMaw@mail.gmail.com>
+ <CAMuHMdVGnDg=zkjOSmCWAjEnjfSN9rhOCG-ubzeTf3mvjTEavw@mail.gmail.com>
+ <CAMuHMdXkdD0dN93zsQnjCzFo6ijS2xDzbh+GPGe6--_FuuRbHQ@mail.gmail.com>
+ <CAMuHMdV0KWN2nHDGT28ysTPwBTrachBSsGWf0hHqrci-d0U33A@mail.gmail.com>
+ <CAMuHMdUWt+h7=rF+Z5sjQ_=xvoK8FeDGk9OnL=2KJ+gFdTnp3A@mail.gmail.com>
+ <CAMuHMdXi1Ev3uKBVnrE5HO8=m+kkaXLc+5b92txFpB8rLUGrcw@mail.gmail.com>
+ <CAMuHMdVd=6eTSddjyr1TLeu6akVp6QMmz89JCb5e_oT2XjY2mw@mail.gmail.com>
+ <CAMuHMdU+Q=k3XnYUOytN4tOh_u=JyRr97XwX=vmV0V5ht8U6uA@mail.gmail.com> <CAMuHMdXbJvFC9n=LTW=fXhGBRgrDzQG2LUDTbZZruyovU5OsQw@mail.gmail.com>
+In-Reply-To: <CAMuHMdXbJvFC9n=LTW=fXhGBRgrDzQG2LUDTbZZruyovU5OsQw@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 16 Oct 2024 10:40:13 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXPg6dBhvdgKwKVVDHP+7qJDKTfRzKGhXkUTb=gX833Ag@mail.gmail.com>
+Message-ID: <CAMuHMdXPg6dBhvdgKwKVVDHP+7qJDKTfRzKGhXkUTb=gX833Ag@mail.gmail.com>
+Subject: Re: Future renesas-drivers releases
+To: Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello:
+On Tue, Jul 30, 2024 at 3:47=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+>   - renesas-drivers-2024-09-17-v6.11-rc8 or final,
+>   - renesas-drivers-2024-09-24-v6.11 (TBD).
 
-This patch was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+This became renesas-drivers-2024-09-17-v6.11, followed by:
 
-On Mon, 14 Oct 2024 14:43:43 +0200 you wrote:
-> Recent work moving the reporting of Rx software timestamps to the core
-> [1] highlighted an issue where hardware time stamping was advertised
-> for the platforms where it is not supported.
-> 
-> Fix this by covering advertising support for hardware timestamps only if
-> the hardware supports it. Due to the Tx implementation in RAVB software
-> Tx timestamping is also only considered if the hardware supports
-> hardware timestamps. This should be addressed in future, but this fix
-> only reflects what the driver currently implements.
-> 
-> [...]
+  - renesas-drivers-2024-10-01-v6.12-rc1,
+  - renesas-drivers-2024-10-15-v6.12-rc3.
 
-Here is the summary with links:
-  - [net-next,v2] net: ravb: Only advertise Rx/Tx timestamps if hardware supports it
-    https://git.kernel.org/netdev/net/c/126e799602f4
+Next planned releases, if all goes well:
+  - renesas-drivers-2024-10-29-v6.12-rc5,
+  - renesas-drivers-2024-11-12-v6.12-rc7,
+  - renesas-drivers-2024-11-19-v6.12 (TBD),
+  - renesas-drivers-2024-11-26-v6.12 (TBD).
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Gr{oetje,eeting}s,
 
+                        Geert
 
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
