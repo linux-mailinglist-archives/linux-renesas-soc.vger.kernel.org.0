@@ -1,210 +1,183 @@
-Return-Path: <linux-renesas-soc+bounces-9826-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9827-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 690F19A213C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2024 13:41:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C3FE9A2220
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2024 14:22:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EFB96289010
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2024 11:41:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DE423B25366
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2024 12:22:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 223B31DDC3E;
-	Thu, 17 Oct 2024 11:40:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71D2A1DCB3F;
+	Thu, 17 Oct 2024 12:22:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OQw89USm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OLLqppYJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60971DD89A;
-	Thu, 17 Oct 2024 11:39:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 643961DA0E3;
+	Thu, 17 Oct 2024 12:22:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729165203; cv=none; b=OIiUnkJSi8udQ74yUtcNqKOL+JRKl0VQpq3VlogKAu6IEs854oHu5u3OSy7D8nrtoTvCuWgB8Rw2+PYlJrmz4owpRisJ/Cuee8wutMlPIWRhM/BSGRDWJOrVct2M1Ei7saTvzhmmE8n8uN4Dwkc3zbqxQOsBLYsz7tC5xBCOWwQ=
+	t=1729167736; cv=none; b=SDMzDwXiqSq77Es8DTUMECfHoV9HRr1RJOo07A6f5vRHHV9f1n52KRMr719mAEHzJIu76gI7dgeazwWbFWnxQE1lQPhklXbNjY6abEVwQi6gP3wRd9zn4Ct83FILP6gSxIXrN9lyjx9j1WS3wbpnnnl0SICvAdrWSj0hCoskjPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729165203; c=relaxed/simple;
-	bh=9njdWl4KiF2908asDzC3d88euVBuYFIlMgsO2B/Qb9w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pKwQeEoLCuT8Hw2htqgQB77JEzcpyPY4I6pkkDuvBMTdL4HV2IKZeGkicASAU7tN4cGFk7t5QohJtAnSYPSErPJsX3l5UcVAD3yAq8D8V6gTbwtxRSmW7Je44Pf2yxJxhKfaFpB2L2z80hCnC1IPA12Px8+cTXV6EuIlTNBV4Wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OQw89USm; arc=none smtp.client-ip=209.85.221.41
+	s=arc-20240116; t=1729167736; c=relaxed/simple;
+	bh=vrUFbMC3z5MCMTTxxHNZMsBU1wNMvowtG2Ijv0C2hLE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iWJFila2yORQL4a7ajP2+kiD7e32TtCbb/G3MeMh2DxneCHXXWUIWs5KwRobzRW1ZtPAuegnX6bPS6a/hSYeEp2hgmjmCKvoUdSsilmhhT5WdtO36pFghgBCmt1iMD0Jin+EELf49NM74XsBzmOqdE3IEzXqXZOT8skKBfberC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OLLqppYJ; arc=none smtp.client-ip=209.85.221.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-37d4a5ecc44so619632f8f.2;
-        Thu, 17 Oct 2024 04:39:58 -0700 (PDT)
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-50d4a6ef70aso312932e0c.3;
+        Thu, 17 Oct 2024 05:22:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729165197; x=1729769997; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1729167732; x=1729772532; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6lmoNfsxcZwf01tMx6JvZqR05+RGQ7eUoqDoQfJoNOQ=;
-        b=OQw89USmof/72znmGiTp+QyjjMR0m178j2dG0ZaFU5AxXIkrOhTDq3FF2bMJ2M6zpe
-         HS9z0XNOJWCOzVByvc+zfKnMwBmMbL/xKTk2qIimqbVeXixoRZRnblMpK3oGLZoGzjBv
-         TFYcj26i3oHvC7HzDhwUdKwpAEiLj71n9HLDngOTlSiCOlJzZVKwXXTPe/JeXR4xv/sV
-         OghpSNOudaDfFCTVy14PjpJAsSp16oxi2stMZBr0mu3csUplpED43t8gg5L9WlUrN/0I
-         rURRK1KCVYth/08mpl3KhBfKwFGpxoAIN9UM9NiZAGucoI6/LvIp/6LHfK59nfaQ7BuC
-         UUYA==
+        bh=xij87LKX+Nlu3IEGLAYU+Sy+Vc3xK5ztqxOSAfKKhBs=;
+        b=OLLqppYJxmkrkEM6qr7pgBmNulo4B4U/DHJBRBZfSl9kuBqIJz90ZCuIomfUIcrGn6
+         XQRw63mddYLWLJtb77VP7Gic8W4k6rSzNxpoJfDPZN4ewNYuLuwpJhZa6StSScO4szys
+         FH1wwa0CTHbe0kt8QCEtSXHqR5P6glDuBO4s9mi7/8oQq6XFJAioQlyGryC7dydT9/xz
+         +DVN4TiQfwjpnly0xf49M3D0NaLXq0q3AV3WTuiJFL9EPGkOqJNcBsrCjkVqOjP57yr2
+         8qjyi3jt9H2yezcrgYt4nN3RDuJMLDr1RvVPj7NQj4aPo7r22gKjiJqP9xn8al+D3Qym
+         +kgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729165197; x=1729769997;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1729167732; x=1729772532;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6lmoNfsxcZwf01tMx6JvZqR05+RGQ7eUoqDoQfJoNOQ=;
-        b=t5YztX/mFjfxS8xkI7g3AlmrllNBuGfFBCfoZJQWUeCA2sDoZz1bPa9MpGU7nVnPi4
-         mN/DhV/qibSUCA8em3R4CYgW/rWOdLEEwQlr4Mcbd8lzQzyAUwjT6FgeG6d9wUbhdGrN
-         vpE9p2sQW2mQj/E/xESbS8uppygCPup0tby6KQ1/IstGebQRvLQmeMPPxTQpZ/wKlzIo
-         xItrSOb7qPDbD70Fp4ln6GD+Kgf3M9MjoJ8rBWOC+xzafFmyTZ0f5egqqzJW18DTHbk7
-         d4BFWPGLgJSfJMkCsZ1RGcDuq+o62Lry4VSPyOTRr9MQIUwZ/VWA9lBE+uf01+Z7YChq
-         Z7iQ==
-X-Forwarded-Encrypted: i=1; AJvYcCULBrLamKg84dcwE2zT+kpyak0vj9wymK4Mfyqq0K7Opc7KyiXIhx/pHi6wYPV4wnHB36CiiCoWTlSH@vger.kernel.org, AJvYcCVOUuXCwkY/myKYGxdJFEBa2QNt//PreVaFYld6sBJu1Q6TqQUnzmIltJqxjhaDbF8/055FtkkzWh1LEstQsP/XOJE=@vger.kernel.org, AJvYcCX4MXI4Yg/2RIBo2OQoWBQFT9CkaAz/u4GrN6NpeJvFaTI3F/crEdQvdsI3KiFeaCMkqItOyMj9W7L0Cw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwguJM89eH+gTyv3fexZzmiupcD/MvkctLuL2uJcP60WG7xsTD4
-	iaZdXuhGgrJhG+rlNljAUWJ3ghHSHQnWVbpP/kRoWb2rl3SC5Jix
-X-Google-Smtp-Source: AGHT+IH7+WIcxBN1TpQTtJy6P8oj3ID4uCpRAEVwBcvXJXugvSNuZGVbMUJcytLMV0YU4x2E4q9J+g==
-X-Received: by 2002:adf:f803:0:b0:37d:43f1:57fc with SMTP id ffacd0b85a97d-37d86d84f81mr4052151f8f.58.1729165196951;
-        Thu, 17 Oct 2024 04:39:56 -0700 (PDT)
-Received: from prasmi.Home ([2a02:c7c:e309:f400:f6f5:4306:392d:908d])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d7fbf82b1sm7060399f8f.72.2024.10.17.04.39.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2024 04:39:56 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Linus Walleij <linus.walleij@linaro.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 7/7] pinctrl: renesas: pinctrl-rzg2l: Override irq_request/release_resources
-Date: Thu, 17 Oct 2024 12:39:42 +0100
-Message-ID: <20241017113942.139712-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241017113942.139712-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20241017113942.139712-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        bh=xij87LKX+Nlu3IEGLAYU+Sy+Vc3xK5ztqxOSAfKKhBs=;
+        b=Shj7O6Wta//wt4QPwGvhMi0M+JOxL6JzREuCKzbc+jzPUvbRwwTX4/5UrNidZhEmXM
+         D+Fmq0iOZOJ4yQqm3+WU6vAi5gErXb8ahsAzqm075guEXfdBi7csibo+95j7Z9YPDG9U
+         fE/MYUxOkMiNXDGINlHHhP+pYyQ6ac1f0Z11Na4ZKXpzgCEGn+4FGVNlcHTWnB5fb8/9
+         CAkdp0wbrBM9upDbuwBeBrqCaGz++aUXik1RNw35rx8mcgy0atbNXgk7exg4valaUsQ7
+         lFq90aTGw9UFK985ZSwQb2PXth7JD8aDU9VTZOz0Ch48FV2QeUNADlweD7VsCm7zuT7f
+         GDdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVlmPNBVGV+67AgL6vUyD3q0nubwvcUZPIVMtfEKbzSYGcJp9ALzGmzUDw1RTAi/3fLjnBV8ndv8bNEXnA/7f67+Ps=@vger.kernel.org, AJvYcCXSV3cX7rgzefdHmWuEFXLjpe4veAHAyn5fe+3tM59Fn4PMcWWmDXggTe0ClyxdpUwbAg39zneTK3YUsYk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyI1CCb5xH6JfLmuhecDCvLvkM8lJuLhvVh8s9YuqGkQepOrf/6
+	Jb2/T0AuKVM9Xwl7hhZfGm1Wzc9qq++D8jbChNRBEZ5var3CNSu1Er2cWwiVge2FuuNC63tEv2z
+	2p4x3YJzmsKI2O15fj0ySeYr3etxMLjNvcOs=
+X-Google-Smtp-Source: AGHT+IHz0Jc/pt/PjMyrtgxu69/Z3sfXFnrSDaJoXLMpXJTpl2ZljpnpXIgfBoYQ9HgB3jysjEMyVSu7rmpTHqeAo3M=
+X-Received: by 2002:a05:6122:291a:b0:50a:b604:2bb2 with SMTP id
+ 71dfb90a1353d-50d37742226mr10725752e0c.11.1729167732210; Thu, 17 Oct 2024
+ 05:22:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241011172003.1242841-1-fabrizio.castro.jz@renesas.com>
+In-Reply-To: <20241011172003.1242841-1-fabrizio.castro.jz@renesas.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 17 Oct 2024 13:21:46 +0100
+Message-ID: <CA+V-a8tfBftutbXCuAjTXJ3H65enOENtSdTWXATfa1VZN+LTfA@mail.gmail.com>
+Subject: Re: [PATCH v4] irqchip/renesas-rzg2l: Fix missing put_device
+To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Markus Elfring <elfring@users.sourceforge.net>, 
+	Markus Elfring <Markus.Elfring@web.de>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Marc Zyngier <maz@kernel.org>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	linux-kernel@vger.kernel.org, Chris Paterson <Chris.Paterson2@renesas.com>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Fri, Oct 11, 2024 at 6:20=E2=80=AFPM Fabrizio Castro
+<fabrizio.castro.jz@renesas.com> wrote:
+>
+> rzg2l_irqc_common_init calls of_find_device_by_node, but the
+> corresponding put_device call is missing.
+> This also gets reported by make coccicheck.
+>
+> Make use of the cleanup interfaces from cleanup.h to call into
+> __free_put_device (which in turn calls into put_device) when
+> leaving function rzg2l_irqc_common_init and variable "dev" goes
+> out of scope.
+>
+> Mind that we don't want to "put" "dev" when rzg2l_irqc_common_init
+> completes successfully, therefore assign NULL to "dev" to prevent
+> __free_put_device from calling into put_device within the successful
+> path.
+>
+> "make coccicheck" will still complain about missing put_device calls,
+> but those are false positives now.
+>
+> Fixes: 3fed09559cd8 ("irqchip: Add RZ/G2L IA55 Interrupt Controller drive=
+r")
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> ---
+>
+> v3->v4:
+>  * switched to using the cleanup interfaces as an alternative to using
+>    goto chains
+>
+>  drivers/irqchip/irq-renesas-rzg2l.c | 16 ++++++++++++++--
+>  1 file changed, 14 insertions(+), 2 deletions(-)
+>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Override the default `irq_request_resources` and `irq_release_resources`
-functions with `rzg2l_gpio_irq_request_resources` and
-`rzg2l_gpio_irq_release_resources` in the RZ/G2L pinctrl driver.
+Cheers,
+Prabhakar
 
-The `rzg2l_gpio_irq_request_resources()` function now ensures that the pin
-is requested by the pinctrl core before locking the GPIO as an IRQ. This
-ensures that the `pinmux-pins` file in sysfs correctly reports the pin as
-claimed. Additionally, the `rzg2l_gpio_direction_input()` call is moved
-into the `rzg2l_gpio_irq_request_resources()` callback, as it makes sense
-to configure the GPIO pin as an input after it has been requested.
-
-The `rzg2l_gpio_irq_release_resources()` function unlocks the GPIO as an
-IRQ and then frees the GPIO, ensuring proper cleanup when the IRQ is no
-longer needed. This guarantees that the `pinmux-pins` file in sysfs
-correctly reports the pin as unclaimed.
-
-Also add a `pin_requested()` check in `rzg2l_gpio_free()` to return early
-if the pin is already released.
-
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/pinctrl/renesas/pinctrl-rzg2l.c | 41 +++++++++++++++++++++----
- 1 file changed, 35 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-index b9a8bf43a92a..47b3e296d094 100644
---- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-@@ -1772,8 +1772,12 @@ static int rzg2l_gpio_get(struct gpio_chip *chip, unsigned int offset)
- 
- static void rzg2l_gpio_free(struct gpio_chip *chip, unsigned int offset)
- {
-+	struct rzg2l_pinctrl *pctrl = gpiochip_get_data(chip);
- 	unsigned int virq;
- 
-+	if (!pin_requested(pctrl->pctl, offset))
-+		return;
-+
- 	virq = irq_find_mapping(chip->irq.domain, offset);
- 	if (virq)
- 		irq_dispose_mapping(virq);
-@@ -2357,6 +2361,35 @@ static int rzg2l_gpio_irq_set_wake(struct irq_data *data, unsigned int on)
- 	return 0;
- }
- 
-+static int rzg2l_gpio_irq_request_resources(struct irq_data *d)
-+{
-+	struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
-+	struct rzg2l_pinctrl *pctrl = container_of(gc, struct rzg2l_pinctrl, gpio_chip);
-+	unsigned int child = irqd_to_hwirq(d);
-+	int ret;
-+
-+	if (!pin_requested(pctrl->pctl, child)) {
-+		ret = rzg2l_gpio_request(gc, child);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	ret = rzg2l_gpio_direction_input(gc, child);
-+	if (ret)
-+		return ret;
-+
-+	return gpiochip_irq_reqres(d);
-+}
-+
-+static void rzg2l_gpio_irq_release_resources(struct irq_data *d)
-+{
-+	struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
-+	unsigned int child = irqd_to_hwirq(d);
-+
-+	gpiochip_irq_relres(d);
-+	rzg2l_gpio_free(gc, child);
-+}
-+
- static const struct irq_chip rzg2l_gpio_irqchip = {
- 	.name = "rzg2l-gpio",
- 	.irq_disable = rzg2l_gpio_irq_disable,
-@@ -2368,8 +2401,9 @@ static const struct irq_chip rzg2l_gpio_irqchip = {
- 	.irq_print_chip = rzg2l_gpio_irq_print_chip,
- 	.irq_set_affinity = irq_chip_set_affinity_parent,
- 	.irq_set_wake = rzg2l_gpio_irq_set_wake,
-+	.irq_request_resources = rzg2l_gpio_irq_request_resources,
-+	.irq_release_resources = rzg2l_gpio_irq_release_resources,
- 	.flags = IRQCHIP_IMMUTABLE,
--	GPIOCHIP_IRQ_RESOURCE_HELPERS,
- };
- 
- static int rzg2l_gpio_child_to_parent_hwirq(struct gpio_chip *gc,
-@@ -2381,16 +2415,11 @@ static int rzg2l_gpio_child_to_parent_hwirq(struct gpio_chip *gc,
- 	struct rzg2l_pinctrl *pctrl = gpiochip_get_data(gc);
- 	unsigned long flags;
- 	int gpioint, irq;
--	int ret;
- 
- 	gpioint = rzg2l_gpio_get_gpioint(child, pctrl);
- 	if (gpioint < 0)
- 		return gpioint;
- 
--	ret = rzg2l_gpio_direction_input(gc, child);
--	if (ret)
--		return ret;
--
- 	spin_lock_irqsave(&pctrl->bitmap_lock, flags);
- 	irq = bitmap_find_free_region(pctrl->tint_slot, RZG2L_TINT_MAX_INTERRUPT, get_order(1));
- 	spin_unlock_irqrestore(&pctrl->bitmap_lock, flags);
--- 
-2.43.0
-
+> diff --git a/drivers/irqchip/irq-renesas-rzg2l.c b/drivers/irqchip/irq-re=
+nesas-rzg2l.c
+> index 693ff285ca2c..99e27e01b0b1 100644
+> --- a/drivers/irqchip/irq-renesas-rzg2l.c
+> +++ b/drivers/irqchip/irq-renesas-rzg2l.c
+> @@ -8,6 +8,7 @@
+>   */
+>
+>  #include <linux/bitfield.h>
+> +#include <linux/cleanup.h>
+>  #include <linux/clk.h>
+>  #include <linux/err.h>
+>  #include <linux/io.h>
+> @@ -530,12 +531,12 @@ static int rzg2l_irqc_parse_interrupts(struct rzg2l=
+_irqc_priv *priv,
+>  static int rzg2l_irqc_common_init(struct device_node *node, struct devic=
+e_node *parent,
+>                                   const struct irq_chip *irq_chip)
+>  {
+> +       struct platform_device *pdev =3D of_find_device_by_node(node);
+> +       struct device *dev __free(put_device) =3D pdev ? &pdev->dev : NUL=
+L;
+>         struct irq_domain *irq_domain, *parent_domain;
+> -       struct platform_device *pdev;
+>         struct reset_control *resetn;
+>         int ret;
+>
+> -       pdev =3D of_find_device_by_node(node);
+>         if (!pdev)
+>                 return -ENODEV;
+>
+> @@ -591,6 +592,17 @@ static int rzg2l_irqc_common_init(struct device_node=
+ *node, struct device_node *
+>
+>         register_syscore_ops(&rzg2l_irqc_syscore_ops);
+>
+> +       /*
+> +        * Prevent the cleanup function from invoking put_device by assig=
+ning
+> +        * NULL to dev.
+> +        *
+> +        * make coccicheck will complain about missing put_device calls, =
+but
+> +        * those are false positives, as dev will be automatically "put" =
+via
+> +        * __free_put_device on the failing path.
+> +        * On the successful path we don't actually want to "put" dev.
+> +        */
+> +       dev =3D NULL;
+> +
+>         return 0;
+>
+>  pm_put:
+> --
+> 2.34.1
+>
+>
 
