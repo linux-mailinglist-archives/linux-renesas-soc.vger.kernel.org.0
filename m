@@ -1,128 +1,114 @@
-Return-Path: <linux-renesas-soc+bounces-9811-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9812-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 062CE9A1D84
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2024 10:48:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D4CE9A1D89
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2024 10:49:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B09EB1F24540
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2024 08:48:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D8EF61F279F4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2024 08:49:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 299611C2447;
-	Thu, 17 Oct 2024 08:48:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA8571D1724;
+	Thu, 17 Oct 2024 08:49:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="clhXxSLH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F1jQSif/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DB9E154454;
-	Thu, 17 Oct 2024 08:47:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930F61C07C7;
+	Thu, 17 Oct 2024 08:48:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729154883; cv=none; b=tHcuQNzP0B/wmzelAmSnHAnguaTLgKEQt9bC4zkb/1I2JFbSbqZt+QznV+GZEOp31z+1q7EWuGAshspzEM0wSYWfO4t9HjzJzjIRvBRXpNIsYL9sW941un8PQyPW0KHcaTXsvJFzGE9TmAIWITg9pmeaNtz8ibuwiPuIgjRv8/g=
+	t=1729154941; cv=none; b=KFxZgnvGzQ/8J5WyOFmf6oyKg3Hk1Ira4xr6E0rV7o7I/lALqZRSWj2rD+826eSpucdsidyiDd1mRRF4cJvAr5fwkbjmekWCAO2t1+4ZwZTHegDoh8Uur2ijmGnp4/YeCJVW918vvvJF3RTkMnuZ9ws3kOk34oV/dQ068uKAkrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729154883; c=relaxed/simple;
-	bh=s+MeVg3x7m57UDOxjqm6LcVJBnNVn1ki+uW1xlYsqTg=;
+	s=arc-20240116; t=1729154941; c=relaxed/simple;
+	bh=z3rc0arNo6EoJheplPvlJnqac7TJz2LgVFDCyu24lb0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sUOrUd2PShTmLLwgLkDyJmgW3df6l+RWDtDKJgjjKMYtWjV00qZRy5aPkYf+Gza7tNwQCzkBXaZ67+GG5uuL8JtWUogz4iDtk4LswvjPRV+kr6s+yHv83GTmUlQbQbeAsUwW3oVUZD5evNWfV1P7gjxpYpBiJUlD0w8GqgXc5uQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=clhXxSLH; arc=none smtp.client-ip=209.85.221.173
+	 To:Cc:Content-Type; b=bz+3Rmqwu4hfny1BGGgWB35BrCOj0qNfVEVe8x/EJxB166pcA51kMLAoLVGNDcs5G4hmwIRsCqjsAUDWI2a0Mqs0dZQn1SrJgtS9AGe07JWfauj9wgLdMDgEp+Gq0BTDYN+j8Od+ZP3eQgnhaZrmM/IWl9K6vvvwgIgjro2rFcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F1jQSif/; arc=none smtp.client-ip=209.85.221.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-50d2d300718so239980e0c.1;
-        Thu, 17 Oct 2024 01:47:59 -0700 (PDT)
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-50d479aef64so262496e0c.0;
+        Thu, 17 Oct 2024 01:48:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729154879; x=1729759679; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1729154937; x=1729759737; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=s+MeVg3x7m57UDOxjqm6LcVJBnNVn1ki+uW1xlYsqTg=;
-        b=clhXxSLHR5yirp2a8nko38GU5fmVYmPqFXngQz15cq/DNXq8ig4PGIolV1lSxUR6r+
-         uyTyApsyjLXZ9BKq7CKEQN7dmPDAai73N9sM2lQm3EIAH1cmNCI1OkaiTKkF+I6tW/9u
-         hhgzEXncifWxpIfWO897Ek/2BkG6kFkvKfyAGSOpN6U48QxNq5sOIRmhaB8lXG5NVdwT
-         U6zkaAN2+n8HbrpvGcHLX7QBXbDX66Y+Gm9D08GCmV5QKvJ2SNhEyzlenLAUhE/aXyl/
-         kBSlvw9Gb3msoN59aqtQ6nH9O8XlFTNWhzc5iZ9sPZQy55MBCe7px/cpj12HYfwsBCO9
-         HjAA==
+        bh=z3rc0arNo6EoJheplPvlJnqac7TJz2LgVFDCyu24lb0=;
+        b=F1jQSif/PorVcM8qz8W3jEj9OSCqxRrxRbIDgkdlfWTJ9K1rivuL5CdqZoV2OgfqGD
+         puHXVFBCH3aO7Pd0dX/eXFLqzHR32Erkpclb3mcpCVupuVel+wqwuVskPwBujtc2IlI6
+         5zjsY7DHxxn1kqAGkBdqkF6cCVFjkTAEqxHEX3j+moO/TVHVe4BNHelMfxkx0dnGul4J
+         tSSt1bI+2ekuAKm8J90fN0IyxMqXql22nA8Kcz+vwStSxtLRaNonRvcbkOgHZM5VNerf
+         Kq/fOVvLT98l1/DDYoZ8tv4XCkznFRhYuuNx6gddvmbCigV2nJ8Ux6YjWrl4BIeDFlUt
+         Bv7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729154879; x=1729759679;
+        d=1e100.net; s=20230601; t=1729154937; x=1729759737;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=s+MeVg3x7m57UDOxjqm6LcVJBnNVn1ki+uW1xlYsqTg=;
-        b=Uj20Yh2ZdmyKeIRyXN/GWPPHBwUqAOe/Ujaj21GWYrGur1hFeioUoekPm3Ao89P9PM
-         oQaHhlqBwMvxsjiUbWxuoW0uqpKuUOgeMEzJ3zb52ZURg6w/MMpV8XmwLUaYfqbLFu0v
-         e+Mlza9tCGX6dc5Dxmrw9kE9pgcjvnQl6nZMfu2eb/5dqAJQOwsBdyNzu+TUJmwwvb2O
-         4/fwoz700uQh1rzuLcvakpX7uNiQRQbAIJjhr6jZx8FMJNIFte5iuzDaudQKTdDp38SG
-         YgrKw3MTnmSyf3vzaJuwIO40bRrWOGYcJkJk7KHZYZM8UnbB6fvr0Sf+Hx6o5uQ3Usd+
-         SYLA==
-X-Forwarded-Encrypted: i=1; AJvYcCUYLNvTnk4HI3Lds9UdIKkOv6R98Xn32hS498FgdiTdPupqNitXmkJiQEXpOMxFkaToa4O91WLe/bQ2@vger.kernel.org, AJvYcCVPTb7K44GSIOLGu1dmeLrMWE54EkNiLn88h83IPRTiSIEiUt+bCg6RBlVBtgpmnj8OCE4MidHig5zqExd5@vger.kernel.org, AJvYcCWatKarmYiGo1jmr36IhyLNLxC4L7gjQowE9uEMWHT1uECN5n3TLj8uf6tTwKhXneCh++nP+IJVUAOlt8gUxoA9P7M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzU7b91SYqlCg71OqJIDjunS2DYn01P9mfdCW8ywp4hylA6tf7d
-	uMKUbXN22OE+sD1LsZS4JdPkUl7ulftOU7S5hpm8GbfA/fL7ggXF2aOu7zXofQqvwF8JKjzxOw5
-	Ge6bPEnYvs4R+XFUJV9RNYLvVNnnsc7Jo
-X-Google-Smtp-Source: AGHT+IE7p4vBxhyKhMfPj9Zsu9KwmHOroZ9yg96PlQ/mdug1V3xaxP/4CYVU2s8CSkR7fJa+NSkXTslvVMVpxYnDbLc=
-X-Received: by 2002:a05:6122:32c3:b0:50a:36ab:c788 with SMTP id
- 71dfb90a1353d-50d374a2d79mr11483661e0c.3.1729154878732; Thu, 17 Oct 2024
- 01:47:58 -0700 (PDT)
+        bh=z3rc0arNo6EoJheplPvlJnqac7TJz2LgVFDCyu24lb0=;
+        b=HwvfkP+mN5r1/9WrTard+YjzruLU1af+2nLyIo77oiUWt8Z5MCIVseZHUz1lY89xUy
+         Ot2EYm/lB8r/wHDQxsgtZjA3gEsQa0HjQVIePADizI187BREvkjBzcG7B2578L/AjREm
+         feTexumLwodqhF0JXR4GbClo1qBBjDwOBxVYSSXHoDfrwNH5qajhhfBk63dXR3dfB5sX
+         /d/SujnticjuGsjephGnp243FqLGwRImRNQT2U6/9kW5/hIr83ok98SJELFK3Dx1Bau9
+         xUcQeU5oTIkoPdfuxZmT+m2eVZiDFEo13OkGgIz17AZL9rdoPHFApB2WEST19suBrSKE
+         cqcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUfSBL+rhGievsL/dDJ0sgYNsY/XUIRBFeMROJTwD0rtcnFmD5/46+YHNJYg2q80qbosLDWnQ9OooqQN+o=@vger.kernel.org, AJvYcCUsEoNJqmmM7G0y5Qn2FOj5EFln5TjsLxzOvO+K+Clg8aodzybZgnDvkTUYjFKptrXnGv+qR9rHcXwB+MuNTED8jYc=@vger.kernel.org, AJvYcCXe5zSFZtGu7iSD0qYD7yF/jOST0Py9QGNgc0FgU330Wfzvz74L1/DPAxSdCgHQ6UhH1oKTcTE/h6a1MSM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywy/lc5c4j0KORWCKVS64t9bN7qb+AAgrKiV7+0ECSuyURlN66+
+	JaGOQOMMpGTWmpgtWowf0WPCwe1zJ1RzUMujYbBueA5RVFjhLEXkkY+DX6pTyuKTzLvPeRCw9g3
+	Zw+FfXyEV4kJiiLW+4lO4bNN6LHc=
+X-Google-Smtp-Source: AGHT+IFtyKrJSCNfwFStA5EwcEd8+DtS1sM+dWFb+sLU4WBReDHJuaCxlsmX327ZyihKEI7heGUwyhJteVcUDG0S0PE=
+X-Received: by 2002:a05:6122:caa:b0:50d:bfd3:c834 with SMTP id
+ 71dfb90a1353d-50dbfd3d605mr506422e0c.4.1729154937443; Thu, 17 Oct 2024
+ 01:48:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241015162043.254517-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CACRpkdbYF5WCy7yc3t6VSU8CK-MKpxQnVWmRE-YCSKJ1hJDkug@mail.gmail.com>
-In-Reply-To: <CACRpkdbYF5WCy7yc3t6VSU8CK-MKpxQnVWmRE-YCSKJ1hJDkug@mail.gmail.com>
+References: <20241015113757.152548-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CA+V-a8u8bkCjL-YSyMOiKOtfZC8upBwGzhrJ0o+EmZ9S3z5hGA@mail.gmail.com>
+ <87h69cevrt.wl-kuninori.morimoto.gx@renesas.com> <242a31a6-8a0c-4db9-97a5-8a9c9f5c29b4@sirena.org.uk>
+ <87r08fshm6.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87r08fshm6.wl-kuninori.morimoto.gx@renesas.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 17 Oct 2024 09:47:32 +0100
-Message-ID: <CA+V-a8vQYJKqxKkGtduFuT9865jscn61gTw-iQHcyfh9O_9UzA@mail.gmail.com>
-Subject: Re: [RFC PATCH] pinctrl: pinmux: Introduce API to check if a pin is requested
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Geert Uytterhoeven <geert+renesas@glider.be>, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
+Date: Thu, 17 Oct 2024 09:48:31 +0100
+Message-ID: <CA+V-a8vTprj8qRVzJBHHF3_D2XbKBOJpVp=3n2Ke1FX+Rgyggg@mail.gmail.com>
+Subject: Re: [PATCH 0/3] ASoC: Rename "sh" to "renesas"
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Linus,
+Hi Morimoto-san,
 
-Thank you for the review.
-
-On Tue, Oct 15, 2024 at 10:43=E2=80=AFPM Linus Walleij <linus.walleij@linar=
-o.org> wrote:
->
-> Hi Prabhakar,
->
-> thanks for your patch!
->
-> On Tue, Oct 15, 2024 at 6:21=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail=
-.com> wrote:
+On Thu, Oct 17, 2024 at 1:22=E2=80=AFAM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
 >
 >
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Hi Mark, Prabhakar
+>
+> > > I can review / comment for Renesas driver, but can you agree that
+> > > you continue to pick the patch instead of sending request-pull from m=
+e ?
 > >
-> > Introduce `pin_requestesd` API to check if a pin is currently requested=
-.
+> > Yes, there's no need to send pull requests.
 >
-> What kind of function name is this?
+> Thanks
 >
-> Do you mean
+> Prabhakar, could you please continue for Renesas Audio Driver ?
 >
-> pin_requested()?
->
-Ouch, I will fix that.
-
-> > This API allows pinctrl drivers to verify whether a pin is requested or
-> > not by checking if the pin is owned by either `gpio_owner` or `mux_owne=
-r`.
->
-> There is nothing wrong with the patch as such, but it needs to be
-> illustrated by submitting it together with the first intended user
-> and show how it is used, we don't add upfront APIs.
->
-Sure, I will post the patches.
+Sure, I will do that.
 
 Cheers,
 Prabhakar
