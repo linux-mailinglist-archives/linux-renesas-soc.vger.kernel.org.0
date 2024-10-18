@@ -1,138 +1,190 @@
-Return-Path: <linux-renesas-soc+bounces-9893-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9894-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07DE29A483D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 22:39:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFCD09A48B4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 23:08:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A34E21F21F09
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 20:39:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 42AE51F256F1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 21:08:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8335820694A;
-	Fri, 18 Oct 2024 20:39:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 042AD18E341;
+	Fri, 18 Oct 2024 21:08:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ga4kn+CN"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iuy0Ywur"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA5618801F;
-	Fri, 18 Oct 2024 20:39:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00B6213541B;
+	Fri, 18 Oct 2024 21:08:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729283947; cv=none; b=YXwVarFbG24qmJFPLjk3ffnMB86e3po0WjmZ5UpR0t+nSApCxBOz6VnunkXTR5eVA0iXu+g0EKoxke4JeDXbbcDTyLCRUZndoIm21/8bCJKthu/herIff4bu8j6UyH0XbB9xJzfo8BNXCnbVc/pxXhTKn7G+lh+JIeOZj9ZiDOA=
+	t=1729285718; cv=none; b=gFv1Z1sXqMq3cr3maWqbQT1o4In6L8LFH9woHz4Hv+VcXb/lbJTXjTwTNP2M2rExlZvgDcuDEYqN/+Px6xwBeBUPp4Izy2/jbRkv/bUftb7O7OpYQMvvM2li5Pb334nqR10NhE47XKnkN8wy+19BYD2NVNLm+ZhV2M8OrMbM7Oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729283947; c=relaxed/simple;
-	bh=UFgY7nQ/+9Kk9FAvomP/z0BzB/J5FmyIv+Qtu5xS03g=;
+	s=arc-20240116; t=1729285718; c=relaxed/simple;
+	bh=SvKt67n2zji81Um2vUUrt/85YdAkt079QTWL93keV8g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tko4zFAGDMwDyhE5t9Uuc5sT1W8uVBgzhvjkbyIE0Z9HXDsMHggJZUe/rCIAYXI96xy2wKJncax9E7Yhs2PD2CMRfo3dqtqVBhyKQDnXGgxnV5m5oyw35U20/Tjurs8vZuAixZRv0PWu35t1HeKkpHKanHaKHu78FUyHLdLJs54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ga4kn+CN; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729283946; x=1760819946;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UFgY7nQ/+9Kk9FAvomP/z0BzB/J5FmyIv+Qtu5xS03g=;
-  b=Ga4kn+CNWq49SAIVIA4wcapxm8Vsj+41BFYuq9bKZ3iOh1MsHFt4xFYO
-   6LNiO8F7j/YRfXq8KhH2XzhqsTySh/zHCsAngyXj1Z768lFCnI7JjJ5Ba
-   98iIUFdFXSM3NR/YdOvOysNdtPwMxa+b0kJIJ4kFxYSrD8AZT3XGRR0kD
-   EgDWwN2y8Q8qv7AhUFcoTVB5I6li3SJ3AYSWwIlORb4Wlm4QVf0HO0Pjb
-   81SohH223t6bU0ZRIgbI7a2HatHcC/W4QGQRhZvsdrDRWtQM+ZCg6m3cF
-   3Qe1CJ7DLtCyoYtDL/LFLL0GSH2S+Lb+383SGGrxYrqM6f1nHyt8q2NFq
-   g==;
-X-CSE-ConnectionGUID: /H5wU2VTT3mi/GERzY4zMw==
-X-CSE-MsgGUID: O+IVOup9Q3ulmRK/oTXeAw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="32515118"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="32515118"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 13:39:05 -0700
-X-CSE-ConnectionGUID: rAB6xkV6RViK06qQGjQlrg==
-X-CSE-MsgGUID: XZBQz+AGRmuplNxQnYCQxw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
-   d="scan'208";a="109796431"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 18 Oct 2024 13:39:02 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t1tkR-000OI1-11;
-	Fri, 18 Oct 2024 20:38:59 +0000
-Date: Sat, 19 Oct 2024 04:38:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
+	 Content-Type:Content-Disposition:In-Reply-To; b=MBBOygSw3eU2VO4lCBqqPPOQLqZLfoN2VK8ITdbVjZfbpwDZ1NOk9V5sqV0Uy6Eb6w/iqqWouQqIuJXbzC8+Ycp6dP4Mro22bYhjbv8bEsliVXIvoA6YHjiBlTUyAyL4MtoUAgiUIKQMfUeS6Ks+spIuhluI0bhbyrtKoO9bQM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iuy0Ywur; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2339C268;
+	Fri, 18 Oct 2024 23:06:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1729285610;
+	bh=SvKt67n2zji81Um2vUUrt/85YdAkt079QTWL93keV8g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iuy0YwurjR5qcNZlG8GYF/Z2J8r36u0HLZ6aJx7471/9BDVtLCjcqjgzEeAxXVy+b
+	 6o8gQ6u9za+23VrEjsPYHkCY0rRHrVIwi/kXXi1Ew2EBfP4vkD/Slf5f7ymXcXZKMa
+	 53SLTdf7ijbex049MP94tKIjJqshO9A17kWCSVNw=
+Date: Sat, 19 Oct 2024 00:08:28 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 6/7] pinctrl: pinmux: Introduce API to check if a pin is
- requested
-Message-ID: <202410190448.yDDAKyxt-lkp@intel.com>
-References: <20241017113942.139712-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v6 23/23] media: renesas: rzg2l-cru: Add 'yuv' flag to IP
+ format structure
+Message-ID: <20241018210828.GA13357@pendragon.ideasonboard.com>
+References: <20241018133446.223516-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20241018133446.223516-24-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241017113942.139712-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20241018133446.223516-24-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Hi Prabhakar,
 
-kernel test robot noticed the following build warnings:
+Thank you for the patch.
 
-[auto build test WARNING on geert-renesas-drivers/renesas-pinctrl]
-[also build test WARNING on linusw-pinctrl/devel linusw-pinctrl/for-next geert-renesas-devel/next linus/master v6.12-rc3 next-20241018]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On Fri, Oct 18, 2024 at 02:34:46PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> Add a 'yuv' flag to the `rzg2l_cru_ip_format` structure to indicate
+> whether a given format is YUV-based and update the `rzg2l_cru_ip_formats`
+> array with this flag appropriately. This change enables a more efficient
+> way to check if the input and output formats use the same colorspace.
+> 
+> With this change, we can eliminate the use of `v4l2_format_info()` in
+> `rzg2l_cru_initialize_image_conv()` as the necessary details for the source
+> and destination formats are already available through the `yuv` flag.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Prabhakar/arm64-dts-renesas-rzg3s-smarc-Drop-hogging-of-GPIO-pins/20241017-194200
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl
-patch link:    https://lore.kernel.org/r/20241017113942.139712-7-prabhakar.mahadev-lad.rj%40bp.renesas.com
-patch subject: [PATCH 6/7] pinctrl: pinmux: Introduce API to check if a pin is requested
-config: arm-pxa3xx_defconfig (https://download.01.org/0day-ci/archive/20241019/202410190448.yDDAKyxt-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410190448.yDDAKyxt-lkp@intel.com/reproduce)
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410190448.yDDAKyxt-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/pinctrl/core.c:38:
->> drivers/pinctrl/pinmux.h:104:6: warning: no previous prototype for 'pin_requested' [-Wmissing-prototypes]
-     104 | bool pin_requested(struct pinctrl_dev *pctldev, int pin)
-         |      ^~~~~~~~~~~~~
-
-
-vim +/pin_requested +104 drivers/pinctrl/pinmux.h
-
-   103	
- > 104	bool pin_requested(struct pinctrl_dev *pctldev, int pin)
-   105	{
-   106		return false;
-   107	}
-   108	#endif
-   109	
+> ---
+>  drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h   | 2 ++
+>  drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c    | 5 +++++
+>  drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 6 +-----
+>  3 files changed, 8 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> index a83e78d9b0be..8b898ce05b84 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> @@ -69,6 +69,7 @@ struct rzg2l_cru_ip {
+>   * @format: 4CC format identifier (V4L2_PIX_FMT_*)
+>   * @icndmr: ICnDMR register value
+>   * @bpp: bytes per pixel
+> + * @yuv: Flag to indicate whether the format is YUV-based.
+>   */
+>  struct rzg2l_cru_ip_format {
+>  	u32 code;
+> @@ -76,6 +77,7 @@ struct rzg2l_cru_ip_format {
+>  	u32 format;
+>  	u32 icndmr;
+>  	u8 bpp;
+> +	bool yuv;
+>  };
+>  
+>  /**
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
+> index d935d981f9d3..76a2b451f1da 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
+> @@ -18,6 +18,7 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
+>  		.format = V4L2_PIX_FMT_UYVY,
+>  		.bpp = 2,
+>  		.icndmr = ICnDMR_YCMODE_UYVY,
+> +		.yuv = true,
+>  	},
+>  	{
+>  		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
+> @@ -25,6 +26,7 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
+>  		.datatype = MIPI_CSI2_DT_RAW8,
+>  		.bpp = 1,
+>  		.icndmr = 0,
+> +		.yuv = false,
+>  	},
+>  	{
+>  		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
+> @@ -32,6 +34,7 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
+>  		.datatype = MIPI_CSI2_DT_RAW8,
+>  		.bpp = 1,
+>  		.icndmr = 0,
+> +		.yuv = false,
+>  	},
+>  	{
+>  		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
+> @@ -39,6 +42,7 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
+>  		.datatype = MIPI_CSI2_DT_RAW8,
+>  		.bpp = 1,
+>  		.icndmr = 0,
+> +		.yuv = false,
+>  	},
+>  	{
+>  		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
+> @@ -46,6 +50,7 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
+>  		.datatype = MIPI_CSI2_DT_RAW8,
+>  		.bpp = 1,
+>  		.icndmr = 0,
+> +		.yuv = false,
+>  	},
+>  };
+>  
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> index a4dc3689599c..e980afc32504 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> @@ -210,7 +210,6 @@ static int rzg2l_cru_initialize_image_conv(struct rzg2l_cru_dev *cru,
+>  					   struct v4l2_mbus_framefmt *ip_sd_fmt,
+>  					   u8 csi_vc)
+>  {
+> -	const struct v4l2_format_info *src_finfo, *dst_finfo;
+>  	const struct rzg2l_cru_ip_format *cru_video_fmt;
+>  	const struct rzg2l_cru_ip_format *cru_ip_fmt;
+>  
+> @@ -225,11 +224,8 @@ static int rzg2l_cru_initialize_image_conv(struct rzg2l_cru_dev *cru,
+>  		return -EINVAL;
+>  	}
+>  
+> -	src_finfo = v4l2_format_info(cru_ip_fmt->format);
+> -	dst_finfo = v4l2_format_info(cru->format.pixelformat);
+> -
+>  	/* If input and output use same colorspace, do bypass mode */
+> -	if (v4l2_is_format_yuv(src_finfo) == v4l2_is_format_yuv(dst_finfo))
+> +	if (cru_ip_fmt->yuv == cru_video_fmt->yuv)
+>  		rzg2l_cru_write(cru, ICnMC,
+>  				rzg2l_cru_read(cru, ICnMC) | ICnMC_CSCTHR);
+>  	else
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+
+Laurent Pinchart
 
