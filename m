@@ -1,167 +1,104 @@
-Return-Path: <linux-renesas-soc+bounces-9890-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9891-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B2209A428D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 17:35:33 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 609289A4333
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 18:06:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AF7DF1F21787
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 15:35:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D75F9B22A59
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 16:06:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19BA0204F69;
-	Fri, 18 Oct 2024 15:33:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JOfe1ilD"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D21C420262C;
+	Fri, 18 Oct 2024 16:06:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBFAC204929;
-	Fri, 18 Oct 2024 15:33:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574E1202640;
+	Fri, 18 Oct 2024 16:06:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729265588; cv=none; b=aB43ZV7HBqnSCH71lZUAW3JuqpZPcM1lhyBSB5avBXX68IYHh3jIQJU19YsJ2sdeFtizKmOCd27C5cpwnStZIPOKIt4OEcqC/whTOcLMMbVWl3rf7mFm2RQInkK930KZftuqD/6Q/dtam7y4j+2dfquVGA0J52C5kuWWjfsDSfM=
+	t=1729267569; cv=none; b=smdPg3cUR6xHJJdu6yRW0c3QFMU0p6kdn5teJ93oc80JHSsYeBX610/g1ZqST7dbH2X/LVZ1blBQqZ4CkZAqK7vCvQEPNo8Dktd81yLaAg8FY2DFIKx3dxLEcBr4jVLRoKZH7hm+f5Sqsx0i2Qo0f8KSIjzOPXoovRTx7iFHHZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729265588; c=relaxed/simple;
-	bh=/39PZzhUFUXGXcWBZ6h5fK8GuTPvzbFlt6OJFHeCprc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TtB3omD6FGTN2AQMEXBo1ivaOrU+PNPYyqi3quzoCfPEcET/ym0g54xGNYFEHVvT3dDztaDUYTGcq9z88GXIHt+/haBtSWCrhciSBEwSXG+Z7VsNaJ9NwZuAQJjnqeeFnakqMfzDWHqT05CUNAWyrrLiBdDw6eWjivu4AFYBvfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JOfe1ilD; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1729267569; c=relaxed/simple;
+	bh=77kt/9AU1XQ43TjwFtNw9fpgJrebjcu25+nLpEMYUPE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qOr6mniUf7DiFCwCFXNjBSQDCF7t/o+LHlBxLP+laJw++39zTwod2IKKIj0FWV6M+3nK2DHt0XzSL8mjURHVhzQGvGdfXJGdjsy/+eKwBLUmzeSKFqGjwAV/b1UVGwQ+WGBvwKeur+fqho8t9al23Ki/mO8/aLm2P5Os9VRmmNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4314fa33a35so22329975e9.1;
-        Fri, 18 Oct 2024 08:33:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729265584; x=1729870384; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tFaIbW6B+dFqX+0A24vaHWZkiCBtG8ZbwWb93ENLcYU=;
-        b=JOfe1ilDBdtAIhZTBr6V714wDpP9blmLN5nZXlDwFCULh3ZdLZq0L3O2swYC8YcQ5x
-         iEexdrwVMG8HzQTdnnrlkJDohJESGEOVU+3VbEZ2t6vew8pbUkQ7EdWhdOoH/Wwkae7W
-         gv295/hiJ5S03J0ZObZLISkfcDcPuz6YJi7iKSDlOWyNrfLKHPPJEAS9OvpWsMxy68e7
-         b1ZTICbEjaa94KUVhdD6k4/W1JTaWu8FtkGV4onKMj8K5RE86/3S79TgFl8gLcgLM5uk
-         E6IE/fW7NcBFLySpLR4kves3g7uazsp4sP+rhNWTmR/LDF41hEZFuFnegE5SLFAoGMww
-         llng==
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-6e390d9ad1dso24219267b3.3;
+        Fri, 18 Oct 2024 09:06:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729265584; x=1729870384;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1729267566; x=1729872366;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tFaIbW6B+dFqX+0A24vaHWZkiCBtG8ZbwWb93ENLcYU=;
-        b=jjQvCKl7VoRYp0qQcK0X35FoQg0LAeHFykWmhIHOmf+N3FTnItkoGG9PVYcYVeS9uZ
-         sUoRXSQMBB/h1Rzcv/opPDLmf9E+wuM9+VbPLZ/Yx5++WwqoozFo+AALxt4rluxZluit
-         c6FqxO8jvxOYbwdU0TPzIsQtpihPWhRgKcwhhkcHfbSStMGkmya9wlYACDVA++jQeOWh
-         qFXwWAJWzc9BLGbZK/9+ew24mwXdOY4fcJIPgXNDG+/1m24bG2wyhR+xpHzzGHxL22xf
-         lJls8CLwibhMDCQejUNNVemfYZl2WweHZnzBH6TL7PacMT7uz1ZtiUGJGWtcuB8aMVgD
-         b29w==
-X-Forwarded-Encrypted: i=1; AJvYcCUa4O8fXrIIYcfeHrjJhREPGHzUSfRP5NWvMjrKfXYhPf5OL3LLuTyz/aDDg7ueiRgoyzVrd1mGjGzwCcw=@vger.kernel.org, AJvYcCX7zS0gvRTaVpN6D6c6iuuJKkSNEwppFaI1v2sTQ/4gzegHvDLOAUvYLZl6TsBdyWjXZtkoUSAhE9ADZrlqcx5etag=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwfC11XJAV2DlELizPBfsLTJwDI70THKoXHN9sv25Hn/XkT6B0p
-	sSvDUNPeuobBU9C3Us3aEvjZZKcO/e3I0bGVK9u++t+QkWYIao3K
-X-Google-Smtp-Source: AGHT+IHnf9H7IkRBUJQ5zbtHrEOepqN6/GqDQeX5fLd4HStYst1/K8gFC1EFQ3eaOYD/AnKdawZ+3w==
-X-Received: by 2002:a05:600c:1c9b:b0:431:5632:4497 with SMTP id 5b1f17b1804b1-4316168f1fbmr24091595e9.26.1729265583949;
-        Fri, 18 Oct 2024 08:33:03 -0700 (PDT)
-Received: from localhost.localdomain ([2a06:5906:61b:2d00:d416:f456:3869:adaf])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4316067e7b9sm30615595e9.6.2024.10.18.08.33.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Oct 2024 08:33:03 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v3 10/10] media: i2c: ov5645: Report internal routes to userspace
-Date: Fri, 18 Oct 2024 16:32:30 +0100
-Message-ID: <20241018153230.235647-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241018153230.235647-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20241018153230.235647-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        bh=yS2zcJjmH/OYE5G4adj1rUyL7Ifvoy7udN6X13AHaEU=;
+        b=pCvhsjOxp7GnZwhw0G3HKvFczU/V68sC74FgVfX6f7huPkI+cS5wCwsZLlpPRR8hKX
+         iLBjVSw+Ov6+UZ8XcP2EnjENM2RsDaGvENy8X1Ya6N7DQOr7uq0PBB7fY8qspH+pNcpf
+         hRB6Tc15yNDYO6U9Q5vzfFK2Cwu5fySThxpEPqr70Z2wsfytp6CdgKEfNjOnVbomBlTk
+         oZ8ejeXaF66XQCVMzGFGe9M6RezNZC/irQCbHVo+C2klzSxL576hJjSXMnt83C9R9xHP
+         wIn7fG4q+4EONygBybJxZc/pemXS8nXvZb0h1VYQongAZb5vIl2GuEszRz69G3g7RfWI
+         J2iA==
+X-Forwarded-Encrypted: i=1; AJvYcCXxxyBPaDmAf3/iEH6pmVyyXcZcDPkYpHLk6SWRI1mv8hRbFBhQSaKFrAmT0cQhW8j+fs+dEKV+4SJNWQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyLPgQIW60oq6pO37wNZG5N9MwAdh+EsYnXJJyQa0nC4J/A+88U
+	NTMkxCEZgEQEN+UUrdXof29JZyiUJNEANH6Eimo1e/Fg7zoMGsoRoaX3c1dB
+X-Google-Smtp-Source: AGHT+IHGaKFQLEttXlGpH6gjfKKzRe749AB7aRr+N7qgrqB1WtVyORRdg9RUFVMrZhGworjpl0VwAg==
+X-Received: by 2002:a05:690c:4d4a:b0:6dd:d5b7:f35d with SMTP id 00721157ae682-6e5bfc16b86mr35528667b3.30.1729267564264;
+        Fri, 18 Oct 2024 09:06:04 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e5c024c36dsm3508037b3.113.2024.10.18.09.06.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Oct 2024 09:06:04 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-6e5cec98cceso5199667b3.2;
+        Fri, 18 Oct 2024 09:06:04 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUoNNecjHsoBSEVhydhUZgBz5TlAsUACrbm2h+RRu8JUAt0lLOilDBXPBl7QahQmHnr3V8mFRzKGqoXUw==@vger.kernel.org
+X-Received: by 2002:a05:690c:ecd:b0:6b3:a6ff:7676 with SMTP id
+ 00721157ae682-6e5bf72c0eemr33701737b3.3.1729267563876; Fri, 18 Oct 2024
+ 09:06:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1729240989.git.geert+renesas@glider.be>
+In-Reply-To: <cover.1729240989.git.geert+renesas@glider.be>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 18 Oct 2024 18:05:51 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVNcC-qRw5AHNR9F_uJrDBt=rVhg3X_KHDvgxwyxMGCdA@mail.gmail.com>
+Message-ID: <CAMuHMdVNcC-qRw5AHNR9F_uJrDBt=rVhg3X_KHDvgxwyxMGCdA@mail.gmail.com>
+Subject: Re: [PATCH/RFC 0/1] arm64: dts: renesas: white-hawk: Add mini-DP
+ output support
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-renesas-soc@vger.kernel.org, 
+	Linux Fbdev development list <linux-fbdev@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Fri, Oct 18, 2024 at 11:32=E2=80=AFAM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>       - fbtest test002 crashes with SEGV in 2560x1440.
 
-Usage of internal pads creates a route internal to the subdev, and the
-V4L2 camera sensor API requires such routes to be reported to userspace.
-Create the route in the .init_state() operation.
+This is a bug in fbtest: 32-bit arithmetic no longer flies for drawing
+ellipses on very large displays...
 
-Internal routing support requires stream support, so set the
-V4L2_SUBDEV_FL_HAS_STREAMS flag and switch formats and selection
-rectangles access from pads to streams. As the route is immutable,
-there's no need to implement the .set_routing() operation, and we can
-hardcode the sink and source stream IDs to 0.
+Gr{oetje,eeting}s,
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/media/i2c/ov5645.c | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
+                        Geert
 
-diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-index a3353992594b..da6adb7134cf 100644
---- a/drivers/media/i2c/ov5645.c
-+++ b/drivers/media/i2c/ov5645.c
-@@ -971,15 +971,36 @@ static int ov5645_set_format(struct v4l2_subdev *sd,
- static int ov5645_init_state(struct v4l2_subdev *subdev,
- 			     struct v4l2_subdev_state *sd_state)
- {
-+	struct v4l2_subdev_route routes[1] = {
-+		{
-+			.sink_pad = OV5645_PAD_IMAGE,
-+			.sink_stream = 0,
-+			.source_pad = OV5645_PAD_SOURCE,
-+			.source_stream = 0,
-+			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE |
-+				 V4L2_SUBDEV_ROUTE_FL_IMMUTABLE,
-+		},
-+	};
-+	struct v4l2_subdev_krouting routing = {
-+		.len_routes = ARRAY_SIZE(routes),
-+		.num_routes = ARRAY_SIZE(routes),
-+		.routes = routes,
-+	};
- 	struct v4l2_subdev_format fmt = {
- 		.which = V4L2_SUBDEV_FORMAT_TRY,
- 		.pad = OV5645_PAD_SOURCE,
-+		.stream = 0,
- 		.format = {
- 			.code = MEDIA_BUS_FMT_UYVY8_1X16,
- 			.width = ov5645_mode_info_data[1].width,
- 			.height = ov5645_mode_info_data[1].height,
- 		},
- 	};
-+	int ret;
-+
-+	ret = v4l2_subdev_set_routing(subdev, sd_state, &routing);
-+	if (ret)
-+		return ret;
- 
- 	ov5645_set_format(subdev, sd_state, &fmt);
- 
-@@ -1206,7 +1227,7 @@ static int ov5645_probe(struct i2c_client *client)
- 	v4l2_i2c_subdev_init(&ov5645->sd, client, &ov5645_subdev_ops);
- 	ov5645->sd.internal_ops = &ov5645_internal_ops;
- 	ov5645->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
--			    V4L2_SUBDEV_FL_HAS_EVENTS;
-+			    V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_STREAMS;
- 	ov5645->pads[OV5645_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
- 	ov5645->pads[OV5645_PAD_IMAGE].flags = MEDIA_PAD_FL_SINK |
- 					       MEDIA_PAD_FL_INTERNAL;
--- 
-2.43.0
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
