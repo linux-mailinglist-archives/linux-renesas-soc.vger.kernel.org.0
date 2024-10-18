@@ -1,113 +1,114 @@
-Return-Path: <linux-renesas-soc+bounces-9833-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9834-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F6B79A309B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 00:23:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44C7A9A32DD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 04:30:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DF8F0B219CF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2024 22:23:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 770201C21819
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 02:30:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 563481D7E37;
-	Thu, 17 Oct 2024 22:23:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3406E13D890;
+	Fri, 18 Oct 2024 02:30:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VeSe/Jxf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PyJ3Jmly"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4128B1D61AF;
-	Thu, 17 Oct 2024 22:23:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09AD6558BA;
+	Fri, 18 Oct 2024 02:30:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729203798; cv=none; b=BQ2/ttcKwAVP7GFsefCvm7ffCugWpp+Pg0Qpe1175njL/+DgPS0R1TuIPoDUwxiwsp/PtgKFGXRek0f2Z+7XprUMTzmu/oyIU8c6qvAwx6b4PNTCGS7/vyixd0GblCluGsy2cV2+lvlPPweXPmeUoltwkfFjiF26hNIqVJULXvs=
+	t=1729218629; cv=none; b=GPbmjIF59xCvY51bAi6/pm/GxC50hpoj13ei8ZzUylT6JK9msdOajH0vlpBcH1aF4IHrzkkenhlRIvJd1uZsl7ig5HNM8H2JX9w+g1O4gE8dHliZYMkbnDv7ITSkXZj2F5c5mOHyjIdQxpXZ7qmleD1xm+Fq3lvK+fU6yCD7EUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729203798; c=relaxed/simple;
-	bh=QYhmAmLP2nPzlbUsoASoKDmHWKjUctENSTsKZahkwFk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tM37o7o3Ran1yEEVwl0Qc9ae3rK2JX1aGgX1UxE/uIc5+sZfOEKO4d6/VnzKEVf7OWZizI3fVKwpoDkUURb7KuNomMsugYu9i3uNVPdX3eL6BPOc6oWjVNcvRJsyZt/9PRq8bkDEz8oXTUmX7n/L/+rq+mklyVcDTVyqaJtsg08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VeSe/Jxf; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-71e983487a1so736407b3a.2;
-        Thu, 17 Oct 2024 15:23:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729203792; x=1729808592; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Z1qrbLXwNBIakYwgTs8RIOIeir05sW7FvJD9Nk1kl0I=;
-        b=VeSe/Jxfc+ZLuOI/emF3UNV5lgbKcL4YLkjWa6aBXOgXcVen9E5M3Whia8bCJSsetX
-         WoP5Vm2AJF3/yH7Ejpoh3X83EBm25TYcWUw9AlMkmuIDGyauqCjKJ7XwsgCN3lE0P0BB
-         V+G3GaWKCDcdts7IXUwZ1VTVNgaJCmlqGlF8L01WxJMxA9s5QPqJPdA/6O50XLoJqtEo
-         PqOGkxC84SEi3L+46JTx7zEturuDiVbAdtmiq6UWqpCLSY/PocjbNEpRifnBUY9C3Y28
-         7osvCsBRA8W1WosPme+4jr3Xc9QfcJ5jeXuuKoRfyK0gHYbAMIr8Y6rJCd72QIr/PfVQ
-         Qcpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729203792; x=1729808592;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z1qrbLXwNBIakYwgTs8RIOIeir05sW7FvJD9Nk1kl0I=;
-        b=et9KmT3imvntin78DEEUxPMGUGqtjQGxgJOJ1KKrSg6penhnWVCLa3ykSOSBb3M9Cd
-         uxaxkpUBC5cgbIqK9FVHga4+2sk5dWLoL9X4NPvqMgSRqQ6W2QXQtOvixCAWuIUJqPzp
-         arFo96EQgC80dOTihOvRNBKixL2Q0Stfs/XxeS0FEvYdZw1B9hVtr0CKMK0nNhu5hh6N
-         KbXQewpS8Oiu1ED+0b+97zkrSEIGDfhZVSux+PtvAYDXfvYpxDb6fRuYyJFVg2IKs83K
-         0M3qjeXTbtVIj+2Y09FKqKJjZTsh6VC/XhyubkWDuESHgb/+23RsarMa50n+m/lYc3J+
-         tB8w==
-X-Forwarded-Encrypted: i=1; AJvYcCUx+2cJdXzX1z1ZJRFAogTj04ky1LXoVSBNMSOYvjUA2kthYMdYo0hg3LEFVXVAh3hClGmamRRd/zDT@vger.kernel.org, AJvYcCVcxsJx7Iu9QnznIktn7OsK0452bRpM60oipCRt5hETpUxvEcLxpH8votKiaJR9ex+eHEuTxSamt3K0xlIX@vger.kernel.org, AJvYcCVgSEh1DhEWLgGOp7PUPMNKnqtlgtn7loX1gKrCvqECmODy11Sj93llO/DlwkMLxZb/QeeuPFjgNYkAuQ8=@vger.kernel.org, AJvYcCW3TPNPr+xSYCeK+kVu4RVi6X7TVAi8czX3sV3sgFfN+QVoV7ODp92+fKzjiEYbrRAkgdHJwUytcIdx@vger.kernel.org, AJvYcCWaijxzsPNZu3muO+eOE6ZK/vEj+J4/RNHj2E77xc/VqQoK0viGE+5/VTSxKyAOMUAyzB63yVzcd1l85D4iH7LBhPk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3waNSX4pwZ4elN5r6CmmYVPmyjruDV1RLA1iCDeeIl4/Nmf1K
-	JRoSprRnD6E69d/4DiWYeQo26IcGuc3gjklmo2MUf5DP44PeYOg6
-X-Google-Smtp-Source: AGHT+IEACbmCkP4uPX7tIuqeK5pwHkpGEuKMQNoS5Rs2gqNlMpwudEdjicf8cxKS21s2VavzC72BzQ==
-X-Received: by 2002:a05:6a00:1913:b0:71e:4c01:b3da with SMTP id d2e1a72fcca58-71ea31d28dfmr587637b3a.5.1729203792405;
-        Thu, 17 Oct 2024 15:23:12 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71ea34a7fa8sm155263b3a.184.2024.10.17.15.23.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2024 15:23:11 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Thu, 17 Oct 2024 15:23:10 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>
-Cc: patrick@stwcx.xyz, Jean Delvare <jdelvare@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Carsten =?iso-8859-1?Q?Spie=DF?= <mail@carsten-spiess.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v8 2/2] hwmon: (isl28022) new driver for ISL28022 power
- monitor
-Message-ID: <099949db-2436-4479-8ccd-bbabcd174c7d@roeck-us.net>
-References: <20241002081133.13123-1-yikai.tsai.wiwynn@gmail.com>
- <20241002081133.13123-3-yikai.tsai.wiwynn@gmail.com>
+	s=arc-20240116; t=1729218629; c=relaxed/simple;
+	bh=CKe5O12E+humFBuot3Y+NbiGJaEHz5Dd8obSMaCzwqs=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=XR+zBHguz+ivEzrT2ktlxBWy+eL26B+W4iPoeFg3FrW6n8Kmgh285hZQ1xXmMKHvMrZ3sIH526Ee9S5h50iP070B0f0glljbNgiUb9sVPY0PMfathtkZGZmsncyZpVJDv/7Wb0Yzh/Mi2sYwFYp18vVxTodcgt1OElJWLMh1qOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PyJ3Jmly; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72097C4CECD;
+	Fri, 18 Oct 2024 02:30:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729218628;
+	bh=CKe5O12E+humFBuot3Y+NbiGJaEHz5Dd8obSMaCzwqs=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=PyJ3Jmly5PnCTONLmmk4tAfS+c0H+t12KYVT1b13rzVOD/fskZsic9Lpi5xfRozRq
+	 bvN85LnqQz+M2ggaWnQ849XOw/X1YbygVEN/B2cE2jKLEnTEI78wO0eyAdr3dkt51D
+	 TuikhmRt70Nyd4ozVOxO/g6iA8Bn2E5aITqk3N4nQaExYUf3Hft6UGB7/l68p+yUkb
+	 Md5at39W5IeEljKeCX/M7RIp2sht1eJK8FESpP2EdbvkBF6CamqTELaSPBVsIuKz1Y
+	 8G6FsHwmap2rCsRnleNGcRbKMm8Q69+orT5mCRxoX2x+pI9Inhr/Lceg86nxeedQIb
+	 s7B7269yOFP2g==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33CFF3809A8A;
+	Fri, 18 Oct 2024 02:30:35 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241002081133.13123-3-yikai.tsai.wiwynn@gmail.com>
+Subject: Re: [net-next PATCH v2 00/10] Extend GbEth checksum offload support to
+ VLAN/IPv6 packets
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <172921863374.2663866.18249824814360801095.git-patchwork-notify@kernel.org>
+Date: Fri, 18 Oct 2024 02:30:33 +0000
+References: <20241015133634.193-1-paul.barker.ct@bp.renesas.com>
+In-Reply-To: <20241015133634.193-1-paul.barker.ct@bp.renesas.com>
+To: Paul Barker <paul.barker.ct@bp.renesas.com>
+Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, geert+renesas@glider.be,
+ niklas.soderlund+renesas@ragnatech.se, biju.das.jz@bp.renesas.com,
+ claudiu.beznea.uj@bp.renesas.com, netdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
 
-On Wed, Oct 02, 2024 at 04:11:30PM +0800, Yikai Tsai wrote:
-> Driver for Renesas ISL28022 power monitor with I2C interface.
-> The device monitors voltage, current via shunt resistor
-> and calculated power.
+Hello:
+
+This series was applied to netdev/net-next.git (main)
+by Andrew Lunn <andrew@lunn.ch>:
+
+On Tue, 15 Oct 2024 14:36:24 +0100 you wrote:
+> The GbEth IP found in Renesas RZ/G2L, RZ/G3S and related SoCs supports
+> hardware checksum offload for packets in the following cases:
 > 
-> Signed-off-by: Carsten Spieﬂ <mail@carsten-spiess.de>
-> Signed-off-by: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>
+>  - there are zero or one VLAN headers with TPID=0x8100
+>  - the network protocol is IPv4 or IPv6
+>  - the transport protocol is TCP, UDP or ICMP
+>  - the packet is not fragmented
+> 
+> [...]
 
-There are several alignment issues. I fixed those up, no need to resend.
+Here is the summary with links:
+  - [net-next,v2,01/10] net: ravb: Factor out checksum offload enable bits
+    https://git.kernel.org/netdev/net-next/c/8e3037924a36
+  - [net-next,v2,02/10] net: ravb: Disable IP header RX checksum offloading
+    https://git.kernel.org/netdev/net-next/c/c4e347a02b14
+  - [net-next,v2,03/10] net: ravb: Drop IP protocol check from RX csum verification
+    https://git.kernel.org/netdev/net-next/c/8d2109c1a515
+  - [net-next,v2,04/10] net: ravb: Combine if conditions in RX csum validation
+    https://git.kernel.org/netdev/net-next/c/5a2d973e3606
+  - [net-next,v2,05/10] net: ravb: Simplify types in RX csum validation
+    https://git.kernel.org/netdev/net-next/c/faacdbba0180
+  - [net-next,v2,06/10] net: ravb: Disable IP header TX checksum offloading
+    https://git.kernel.org/netdev/net-next/c/4574ba5b711d
+  - [net-next,v2,07/10] net: ravb: Simplify UDP TX checksum offload
+    https://git.kernel.org/netdev/net-next/c/e63b5fd02a00
+  - [net-next,v2,08/10] net: ravb: Enable IPv6 RX checksum offloading for GbEth
+    https://git.kernel.org/netdev/net-next/c/59cceae40c67
+  - [net-next,v2,09/10] net: ravb: Enable IPv6 TX checksum offload for GbEth
+    https://git.kernel.org/netdev/net-next/c/85c171509821
+  - [net-next,v2,10/10] net: ravb: Add VLAN checksum support
+    https://git.kernel.org/netdev/net-next/c/546875ccba93
 
-Applied.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Thanks,
-Guenter
+
 
