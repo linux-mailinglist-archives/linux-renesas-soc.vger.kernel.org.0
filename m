@@ -1,114 +1,172 @@
-Return-Path: <linux-renesas-soc+bounces-9834-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9835-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44C7A9A32DD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 04:30:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C49A79A3872
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 10:24:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 770201C21819
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 02:30:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EB7171C204FC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 08:24:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3406E13D890;
-	Fri, 18 Oct 2024 02:30:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PyJ3Jmly"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ECAF18C937;
+	Fri, 18 Oct 2024 08:24:20 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09AD6558BA;
-	Fri, 18 Oct 2024 02:30:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1BEC18DF90
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Oct 2024 08:24:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729218629; cv=none; b=GPbmjIF59xCvY51bAi6/pm/GxC50hpoj13ei8ZzUylT6JK9msdOajH0vlpBcH1aF4IHrzkkenhlRIvJd1uZsl7ig5HNM8H2JX9w+g1O4gE8dHliZYMkbnDv7ITSkXZj2F5c5mOHyjIdQxpXZ7qmleD1xm+Fq3lvK+fU6yCD7EUw=
+	t=1729239860; cv=none; b=sRnht1GNsORQj/KQ1+CZ5MJbqUCfnzQf6fnkQ32u8BIlenT7wYZQqWe6joTvVHC5NGrcSOs76PPwxy2kqiDdN80aupx16oNsbAs65tnA2zo9T2YRs6OHkVy2ypRxbC1WPdfpMpz8Z3vJp10GhueF1b445gyXAh/YVuVo5OZ2Udg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729218629; c=relaxed/simple;
-	bh=CKe5O12E+humFBuot3Y+NbiGJaEHz5Dd8obSMaCzwqs=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=XR+zBHguz+ivEzrT2ktlxBWy+eL26B+W4iPoeFg3FrW6n8Kmgh285hZQ1xXmMKHvMrZ3sIH526Ee9S5h50iP070B0f0glljbNgiUb9sVPY0PMfathtkZGZmsncyZpVJDv/7Wb0Yzh/Mi2sYwFYp18vVxTodcgt1OElJWLMh1qOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PyJ3Jmly; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72097C4CECD;
-	Fri, 18 Oct 2024 02:30:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729218628;
-	bh=CKe5O12E+humFBuot3Y+NbiGJaEHz5Dd8obSMaCzwqs=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=PyJ3Jmly5PnCTONLmmk4tAfS+c0H+t12KYVT1b13rzVOD/fskZsic9Lpi5xfRozRq
-	 bvN85LnqQz+M2ggaWnQ849XOw/X1YbygVEN/B2cE2jKLEnTEI78wO0eyAdr3dkt51D
-	 TuikhmRt70Nyd4ozVOxO/g6iA8Bn2E5aITqk3N4nQaExYUf3Hft6UGB7/l68p+yUkb
-	 Md5at39W5IeEljKeCX/M7RIp2sht1eJK8FESpP2EdbvkBF6CamqTELaSPBVsIuKz1Y
-	 8G6FsHwmap2rCsRnleNGcRbKMm8Q69+orT5mCRxoX2x+pI9Inhr/Lceg86nxeedQIb
-	 s7B7269yOFP2g==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33CFF3809A8A;
-	Fri, 18 Oct 2024 02:30:35 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1729239860; c=relaxed/simple;
+	bh=R5cU84TPT7r1VaOViovx6defGvz0a3fCLbklI+vGE5k=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=NiyIDT2OPgdH/TaEPRf5yFA9tekEU/FPUg5DwaA6uZWCZTmQAaWUQUEORMNlJGNV4mSBkZpgoOswt+JFXudVDWnTM9RaDkzZdiqqK4zllGf+55RPfp2/7mVKD0LKoBQNMLro1yupqJ849ujiA7B30jCjjVTFXqgUe77jAkuOeAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:9a0:3f16:2bd7:49ca])
+	by baptiste.telenet-ops.be with cmsmtp
+	id RkQ32D00D1MdCM201kQ38B; Fri, 18 Oct 2024 10:24:10 +0200
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1t1iGy-003z14-3v;
+	Fri, 18 Oct 2024 10:24:03 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1t1hgJ-005rH0-4Y;
+	Fri, 18 Oct 2024 09:45:55 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Douglas Anderson <dianders@chromium.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] drm/bridge: ti-sn65dsi86: Fix multiple instances
+Date: Fri, 18 Oct 2024 09:45:52 +0200
+Message-Id: <8c2df6a903f87d4932586b25f1d3bd548fe8e6d1.1729180470.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Subject: Re: [net-next PATCH v2 00/10] Extend GbEth checksum offload support to
- VLAN/IPv6 packets
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <172921863374.2663866.18249824814360801095.git-patchwork-notify@kernel.org>
-Date: Fri, 18 Oct 2024 02:30:33 +0000
-References: <20241015133634.193-1-paul.barker.ct@bp.renesas.com>
-In-Reply-To: <20241015133634.193-1-paul.barker.ct@bp.renesas.com>
-To: Paul Barker <paul.barker.ct@bp.renesas.com>
-Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, geert+renesas@glider.be,
- niklas.soderlund+renesas@ragnatech.se, biju.das.jz@bp.renesas.com,
- claudiu.beznea.uj@bp.renesas.com, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
 
-Hello:
+Each bridge instance creates up to four auxiliary devices with different
+names.  However, their IDs are always zero, causing duplicate filename
+errors when a system has multiple bridges:
 
-This series was applied to netdev/net-next.git (main)
-by Andrew Lunn <andrew@lunn.ch>:
+    sysfs: cannot create duplicate filename '/bus/auxiliary/devices/ti_sn65dsi86.gpio.0'
 
-On Tue, 15 Oct 2024 14:36:24 +0100 you wrote:
-> The GbEth IP found in Renesas RZ/G2L, RZ/G3S and related SoCs supports
-> hardware checksum offload for packets in the following cases:
-> 
->  - there are zero or one VLAN headers with TPID=0x8100
->  - the network protocol is IPv4 or IPv6
->  - the transport protocol is TCP, UDP or ICMP
->  - the packet is not fragmented
-> 
-> [...]
+Fix this by using a unique instance ID per bridge instance.
 
-Here is the summary with links:
-  - [net-next,v2,01/10] net: ravb: Factor out checksum offload enable bits
-    https://git.kernel.org/netdev/net-next/c/8e3037924a36
-  - [net-next,v2,02/10] net: ravb: Disable IP header RX checksum offloading
-    https://git.kernel.org/netdev/net-next/c/c4e347a02b14
-  - [net-next,v2,03/10] net: ravb: Drop IP protocol check from RX csum verification
-    https://git.kernel.org/netdev/net-next/c/8d2109c1a515
-  - [net-next,v2,04/10] net: ravb: Combine if conditions in RX csum validation
-    https://git.kernel.org/netdev/net-next/c/5a2d973e3606
-  - [net-next,v2,05/10] net: ravb: Simplify types in RX csum validation
-    https://git.kernel.org/netdev/net-next/c/faacdbba0180
-  - [net-next,v2,06/10] net: ravb: Disable IP header TX checksum offloading
-    https://git.kernel.org/netdev/net-next/c/4574ba5b711d
-  - [net-next,v2,07/10] net: ravb: Simplify UDP TX checksum offload
-    https://git.kernel.org/netdev/net-next/c/e63b5fd02a00
-  - [net-next,v2,08/10] net: ravb: Enable IPv6 RX checksum offloading for GbEth
-    https://git.kernel.org/netdev/net-next/c/59cceae40c67
-  - [net-next,v2,09/10] net: ravb: Enable IPv6 TX checksum offload for GbEth
-    https://git.kernel.org/netdev/net-next/c/85c171509821
-  - [net-next,v2,10/10] net: ravb: Add VLAN checksum support
-    https://git.kernel.org/netdev/net-next/c/546875ccba93
+Fixes: bf73537f411b0d4f ("drm/bridge: ti-sn65dsi86: Break GPIO and MIPI-to-eDP bridge into sub-drivers")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+/sys/bus/auxiliary/devices
+├── ti_sn65dsi86.gpio.0
+├── ti_sn65dsi86.pwm.0
+├── ti_sn65dsi86.aux.0
+├── ti_sn65dsi86.bridge.0
+├── ti_sn65dsi86.gpio.1
+├── ti_sn65dsi86.pwm.1
+├── ti_sn65dsi86.aux.1
+└── ti_sn65dsi86.bridge.1
+---
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-You are awesome, thank you!
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+index 9e31f750fd889745..8f6ac48aefdb70b3 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+@@ -13,6 +13,7 @@
+ #include <linux/gpio/consumer.h>
+ #include <linux/gpio/driver.h>
+ #include <linux/i2c.h>
++#include <linux/idr.h>
+ #include <linux/iopoll.h>
+ #include <linux/module.h>
+ #include <linux/of_graph.h>
+@@ -168,6 +169,7 @@
+  * @pwm_enabled:  Used to track if the PWM signal is currently enabled.
+  * @pwm_pin_busy: Track if GPIO4 is currently requested for GPIO or PWM.
+  * @pwm_refclk_freq: Cache for the reference clock input to the PWM.
++ * @id:           Unique instance ID
+  */
+ struct ti_sn65dsi86 {
+ 	struct auxiliary_device		*bridge_aux;
+@@ -202,8 +204,11 @@ struct ti_sn65dsi86 {
+ 	atomic_t			pwm_pin_busy;
+ #endif
+ 	unsigned int			pwm_refclk_freq;
++	int				id;
+ };
+ 
++static DEFINE_IDA(ti_sn65dsi86_ida);
++
+ static const struct regmap_range ti_sn65dsi86_volatile_ranges[] = {
+ 	{ .range_min = 0, .range_max = 0xFF },
+ };
+@@ -488,6 +493,7 @@ static int ti_sn65dsi86_add_aux_device(struct ti_sn65dsi86 *pdata,
+ 		return -ENOMEM;
+ 
+ 	aux->name = name;
++	aux->id = pdata->id;
+ 	aux->dev.parent = dev;
+ 	aux->dev.release = ti_sn65dsi86_aux_device_release;
+ 	device_set_of_node_from_dev(&aux->dev, dev);
+@@ -1889,6 +1895,13 @@ static int ti_sn65dsi86_parse_regulators(struct ti_sn65dsi86 *pdata)
+ 				       pdata->supplies);
+ }
+ 
++static void ti_sn65dsi86_devm_ida_free(void *data)
++{
++	struct ti_sn65dsi86 *pdata = data;
++
++	ida_free(&ti_sn65dsi86_ida, pdata->id);
++}
++
+ static int ti_sn65dsi86_probe(struct i2c_client *client)
+ {
+ 	struct device *dev = &client->dev;
+@@ -1903,6 +1916,17 @@ static int ti_sn65dsi86_probe(struct i2c_client *client)
+ 	pdata = devm_kzalloc(dev, sizeof(struct ti_sn65dsi86), GFP_KERNEL);
+ 	if (!pdata)
+ 		return -ENOMEM;
++
++	ret = ida_alloc(&ti_sn65dsi86_ida, GFP_KERNEL);
++	if (ret < 0)
++		return ret;
++
++	pdata->id = ret;
++
++	ret = devm_add_action_or_reset(dev, ti_sn65dsi86_devm_ida_free, pdata);
++	if (ret)
++		return ret;
++
+ 	dev_set_drvdata(dev, pdata);
+ 	pdata->dev = dev;
+ 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.34.1
 
 
