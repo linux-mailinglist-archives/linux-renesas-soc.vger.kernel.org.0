@@ -1,246 +1,182 @@
-Return-Path: <linux-renesas-soc+bounces-9850-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9851-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B15FA9A3F0D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 15:01:22 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 973D69A3F35
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 15:10:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6D758286FFA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 13:01:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 39913B2417B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 13:10:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F8E81BC49;
-	Fri, 18 Oct 2024 13:01:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 180901CD2B;
+	Fri, 18 Oct 2024 13:10:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="RTNCoAWW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F4131E49F;
-	Fri, 18 Oct 2024 13:01:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0A41D5CC7
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Oct 2024 13:10:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729256481; cv=none; b=gYwdoj4VEm85LPojfCudLwUYJ2KRewmeB5OEhMVR4ix/+lNwiUV8KrNS0Yi8uYmSyWAeMlJGXiye1uOD8qZlicD0UV9PgA0Z69hzhjGumnuT9TFXxD2sVG0JqliMkKg5/QFdnsfRBamhJx36rO9EGuo49jy7Ph3ceF4tH6xHmLE=
+	t=1729257045; cv=none; b=LeETmai0F+dZ0c+cmLXjDYHpAn/9MhUtAAo0yHhM9aX6YdxNKB42tpxpn5W0LPnTFLZLD5cOClOzO8GJqwSlWqugn4uEskoJ9IBX7Ozng2DTT+qmH1QZujpFXMrlh2WA2WvbGgSqwVao4408G9ijN9mYNQGG2oe+nU0U0ui7kOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729256481; c=relaxed/simple;
-	bh=8hWi7CLR6jN5yFoEHmsNWIn4PVKp9GQasgTCYWfT9jg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=haF2JNLGE2JWlMHORHLRoaPNX9KWsfHwihhfMbTsA596k7HbDVWXxdQJ+i4R/0CUciiS2QCpAs2Teh9lPE8mp2nsaw0/Ap7Jr/zYwVjyYdYVL1ed0M/Mte69h/bU3X4020dRK/Ltclx9DDw810vYONUZURQ0Fi55kXuOH9LJTSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.11,213,1725289200"; 
-   d="scan'208";a="222337160"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 18 Oct 2024 22:01:18 +0900
-Received: from localhost.localdomain (unknown [10.226.93.163])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 8F5F54009A2F;
-	Fri, 18 Oct 2024 22:01:08 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-pwm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v22 4/4] pwm: rzg2l-gpt: Add support for gpt linking with poeg
-Date: Fri, 18 Oct 2024 14:00:45 +0100
-Message-ID: <20241018130049.138775-5-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241018130049.138775-1-biju.das.jz@bp.renesas.com>
-References: <20241018130049.138775-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1729257045; c=relaxed/simple;
+	bh=1vTBt3XGnJR90JCL6rOhjfoYCG2YNW38fXFpkdEspTI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X4RIH3HdiliyCkQExxHNYo2qmmuW8IKMKmKToql+zrqjVCTtG5m4Ab/zOhOxtzYccLgi70DXY7GwDyiJwOnXHDf8T5f2Io8wgjspysMXqdMRItUuXSn2adT3p4lnxSD20rKb7YxMsCRuosQhmpUkAFKpT6RapHIoCI6xEO/+AwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=RTNCoAWW; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B809721C;
+	Fri, 18 Oct 2024 15:08:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1729256936;
+	bh=1vTBt3XGnJR90JCL6rOhjfoYCG2YNW38fXFpkdEspTI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RTNCoAWWuVD/LIR9YrhL4tfBMddRa18ORKRI0DqReHsJ/JM4+2t3KCR6USRx507GP
+	 Zj/ZImJGRrU2OYlOqCsPBmx+NjUKT+x7aV4Fjs/TfIZRar4/cmgYDR56V7iuirQD7L
+	 lr6mWgQ0+TrAhQ/3gay9Y5iXfs11co/ZigChstQ0=
+Date: Fri, 18 Oct 2024 16:10:35 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Douglas Anderson <dianders@chromium.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Fix multiple instances
+Message-ID: <20241018131035.GA20602@pendragon.ideasonboard.com>
+References: <8c2df6a903f87d4932586b25f1d3bd548fe8e6d1.1729180470.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <8c2df6a903f87d4932586b25f1d3bd548fe8e6d1.1729180470.git.geert+renesas@glider.be>
 
-The General PWM Timer (GPT) is capable of detecting "dead time error
-and short-circuits between output pins" and send Output disable
-request to poeg(Port Output Enable for GPT).
+Hi Geert,
 
-Add support for linking poeg group with gpt, so that
-gpt can control the output disable function.
+Thank you for the patch.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v21>v22:
- * No change
-v20->21:
- * Dropped local variable offs for calculating RZG2L_GTINTAD channel register
-   and instead using the macro RZG2L_GTINTAD(ch).
-v19->v20:
- * No change
-v18->v19:
- * No change
-v17->v18:
- * Moved bitpos near to the user.
-v16->v17:
- * No change
-v15->v16:
- * No change.
-v14->v15:
- * Updated commit description by replacing "This patch add"-> "Add".
-v3->v14:
- * Removed the parenthesis for RZG2L_MAX_POEG_GROUPS.
- * Renamed rzg2l_gpt_parse_properties()->rzg2l_gpt_poeg_init() as it not only parse
-   the properties but also implements the needed register writes.
- * Added acomment here about the purpose of the function rzg2l_gpt_poeg_init()
- * Removed magic numbers from rzg2l_gpt_poeg_init()
- * Fixed resource leak in rzg2l_gpt_poeg_init().
- * Moved the patch from series[1] to here
- [1] https://lore.kernel.org/linux-renesas-soc/20221215205843.4074504-1-biju.das.jz@bp.renesas.com/T/#t
-v2->v3:
- * Updated commit header and description
- * Added check for poeg group in rzg2l_gpt_parse_properties().
-v1->v2:
- * Replaced id->poeg-id as per poeg bindings.
-This patch depend upon [1]
-[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20221214132232.2835828-3-biju.das.jz@bp.renesas.com/
----
- drivers/pwm/pwm-rzg2l-gpt.c | 80 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
+On Fri, Oct 18, 2024 at 09:45:52AM +0200, Geert Uytterhoeven wrote:
+> Each bridge instance creates up to four auxiliary devices with different
+> names.  However, their IDs are always zero, causing duplicate filename
+> errors when a system has multiple bridges:
+> 
+>     sysfs: cannot create duplicate filename '/bus/auxiliary/devices/ti_sn65dsi86.gpio.0'
+> 
+> Fix this by using a unique instance ID per bridge instance.
 
-diff --git a/drivers/pwm/pwm-rzg2l-gpt.c b/drivers/pwm/pwm-rzg2l-gpt.c
-index 28ed39eecb93..957fc03f9db2 100644
---- a/drivers/pwm/pwm-rzg2l-gpt.c
-+++ b/drivers/pwm/pwm-rzg2l-gpt.c
-@@ -37,6 +37,7 @@
- #define RZG2L_GTCR(ch)		(0x2c + RZG2L_GET_CH_OFFS(ch))
- #define RZG2L_GTUDDTYC(ch)	(0x30 + RZG2L_GET_CH_OFFS(ch))
- #define RZG2L_GTIOR(ch)		(0x34 + RZG2L_GET_CH_OFFS(ch))
-+#define RZG2L_GTINTAD(ch)	(0x38 + RZG2L_GET_CH_OFFS(ch))
- #define RZG2L_GTBER(ch)		(0x40 + RZG2L_GET_CH_OFFS(ch))
- #define RZG2L_GTCNT(ch)		(0x48 + RZG2L_GET_CH_OFFS(ch))
- #define RZG2L_GTCCR(ch, sub_ch)	(0x4c + RZG2L_GET_CH_OFFS(ch) + 4 * (sub_ch))
-@@ -53,11 +54,17 @@
- #define RZG2L_GTUDDTYC_UP_COUNTING	(RZG2L_GTUDDTYC_UP | RZG2L_GTUDDTYC_UDF)
- 
- #define RZG2L_GTIOR_GTIOA	GENMASK(4, 0)
-+#define RZG2L_GTIOR_OADF	GENMASK(10, 9)
- #define RZG2L_GTIOR_GTIOB	GENMASK(20, 16)
- #define RZG2L_GTIOR_GTIOx(a)	((a) ? RZG2L_GTIOR_GTIOB : RZG2L_GTIOR_GTIOA)
-+#define RZG2L_GTIOR_OBDF	GENMASK(26, 25)
- #define RZG2L_GTIOR_OAE		BIT(8)
- #define RZG2L_GTIOR_OBE		BIT(24)
- #define RZG2L_GTIOR_OxE(a)	((a) ? RZG2L_GTIOR_OBE : RZG2L_GTIOR_OAE)
-+#define RZG2L_GTIOR_OADF_HIGH_IMP_ON_OUT_DISABLE	BIT(9)
-+#define RZG2L_GTIOR_OBDF_HIGH_IMP_ON_OUT_DISABLE	BIT(25)
-+#define RZG2L_GTIOR_PIN_DISABLE_SETTING \
-+	(RZG2L_GTIOR_OADF_HIGH_IMP_ON_OUT_DISABLE | RZG2L_GTIOR_OBDF_HIGH_IMP_ON_OUT_DISABLE)
- 
- #define RZG2L_INIT_OUT_HI_OUT_HI_END_TOGGLE	0x1b
- #define RZG2L_GTIOR_GTIOA_OUT_HI_END_TOGGLE_CMP_MATCH \
-@@ -69,12 +76,17 @@
- 	((a) ? RZG2L_GTIOR_GTIOB_OUT_HI_END_TOGGLE_CMP_MATCH : \
- 	 RZG2L_GTIOR_GTIOA_OUT_HI_END_TOGGLE_CMP_MATCH)
- 
-+#define RZG2L_GTINTAD_GRP_MASK	GENMASK(25, 24)
-+
- #define RZG2L_MAX_HW_CHANNELS	8
- #define RZG2L_CHANNELS_PER_IO	2
- #define RZG2L_MAX_PWM_CHANNELS	(RZG2L_MAX_HW_CHANNELS * RZG2L_CHANNELS_PER_IO)
- #define RZG2L_MAX_SCALE_FACTOR	1024
- #define RZG2L_MAX_TICKS ((u64)U32_MAX * RZG2L_MAX_SCALE_FACTOR)
- 
-+#define RZG2L_MAX_POEG_GROUPS	4
-+#define RZG2L_LAST_POEG_GROUP	3
-+
- struct rzg2l_gpt_chip {
- 	void __iomem *mmio;
- 	struct mutex lock; /* lock to protect shared channel resources */
-@@ -82,6 +94,7 @@ struct rzg2l_gpt_chip {
- 	u32 period_ticks[RZG2L_MAX_HW_CHANNELS];
- 	u32 user_count[RZG2L_MAX_HW_CHANNELS];
- 	u32 enable_count[RZG2L_MAX_HW_CHANNELS];
-+	DECLARE_BITMAP(poeg_gpt_link, RZG2L_MAX_POEG_GROUPS * RZG2L_MAX_HW_CHANNELS);
- };
- 
- static inline struct rzg2l_gpt_chip *to_rzg2l_gpt_chip(struct pwm_chip *chip)
-@@ -364,6 +377,72 @@ static void rzg2l_gpt_reset_assert(void *data)
- 	reset_control_assert(data);
- }
- 
-+/*
-+ * This function links a poeg group{A,B,C,D} with a gpt channel{0..7} and
-+ * configure the pin for output disable.
-+ */
-+static void rzg2l_gpt_poeg_init(struct platform_device *pdev,
-+				struct rzg2l_gpt_chip *rzg2l_gpt)
-+{
-+	struct of_phandle_args of_args;
-+	unsigned int i;
-+	u32 poeg_grp;
-+	u32 bitpos;
-+	int cells;
-+	int ret;
-+
-+	cells = of_property_count_u32_elems(pdev->dev.of_node, "renesas,poegs");
-+	if (cells == -EINVAL)
-+		return;
-+
-+	cells >>= 1;
-+	for (i = 0; i < cells; i++) {
-+		ret = of_parse_phandle_with_fixed_args(pdev->dev.of_node,
-+						       "renesas,poegs", 1, i,
-+						       &of_args);
-+		if (ret) {
-+			dev_err(&pdev->dev,
-+				"Failed to parse 'renesas,poegs' property\n");
-+			return;
-+		}
-+
-+		if (of_args.args[0] >= RZG2L_MAX_HW_CHANNELS) {
-+			dev_err(&pdev->dev, "Invalid channel %d >= %d\n",
-+				of_args.args[0], RZG2L_MAX_HW_CHANNELS);
-+			of_node_put(of_args.np);
-+			return;
-+		}
-+
-+		if (!of_device_is_available(of_args.np)) {
-+			/* It's fine to have a phandle to a non-enabled poeg. */
-+			of_node_put(of_args.np);
-+			continue;
-+		}
-+
-+		if (!of_property_read_u32(of_args.np, "renesas,poeg-id", &poeg_grp)) {
-+			if (poeg_grp > RZG2L_LAST_POEG_GROUP) {
-+				dev_err(&pdev->dev, "Invalid poeg group %d > %d\n",
-+					poeg_grp, RZG2L_LAST_POEG_GROUP);
-+				of_node_put(of_args.np);
-+				return;
-+			}
-+
-+			bitpos = of_args.args[0] + poeg_grp * RZG2L_MAX_HW_CHANNELS;
-+			set_bit(bitpos, rzg2l_gpt->poeg_gpt_link);
-+
-+			rzg2l_gpt_modify(rzg2l_gpt, RZG2L_GTINTAD(of_args.args[0]),
-+					 RZG2L_GTINTAD_GRP_MASK,
-+					 poeg_grp << 24);
-+
-+			rzg2l_gpt_modify(rzg2l_gpt, RZG2L_GTIOR(of_args.args[0]),
-+					 RZG2L_GTIOR_OBDF | RZG2L_GTIOR_OADF,
-+					 RZG2L_GTIOR_PIN_DISABLE_SETTING);
-+		}
-+
-+		of_node_put(of_args.np);
-+	}
-+}
-+
- static int rzg2l_gpt_probe(struct platform_device *pdev)
- {
- 	struct rzg2l_gpt_chip *rzg2l_gpt;
-@@ -443,6 +522,7 @@ static int rzg2l_gpt_probe(struct platform_device *pdev)
- 		}
- 	}
- 
-+	rzg2l_gpt_poeg_init(pdev, rzg2l_gpt);
- 	mutex_init(&rzg2l_gpt->lock);
- 
- 	chip->ops = &rzg2l_gpt_ops;
+Isn't this something that should be handled by the AUX core ? The code
+below would otherwise need to be duplicated by all drivers, which seems
+a burden we should avoid.
+
+> Fixes: bf73537f411b0d4f ("drm/bridge: ti-sn65dsi86: Break GPIO and MIPI-to-eDP bridge into sub-drivers")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> /sys/bus/auxiliary/devices
+> ├── ti_sn65dsi86.gpio.0
+> ├── ti_sn65dsi86.pwm.0
+> ├── ti_sn65dsi86.aux.0
+> ├── ti_sn65dsi86.bridge.0
+> ├── ti_sn65dsi86.gpio.1
+> ├── ti_sn65dsi86.pwm.1
+> ├── ti_sn65dsi86.aux.1
+> └── ti_sn65dsi86.bridge.1
+> ---
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> index 9e31f750fd889745..8f6ac48aefdb70b3 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> @@ -13,6 +13,7 @@
+>  #include <linux/gpio/consumer.h>
+>  #include <linux/gpio/driver.h>
+>  #include <linux/i2c.h>
+> +#include <linux/idr.h>
+>  #include <linux/iopoll.h>
+>  #include <linux/module.h>
+>  #include <linux/of_graph.h>
+> @@ -168,6 +169,7 @@
+>   * @pwm_enabled:  Used to track if the PWM signal is currently enabled.
+>   * @pwm_pin_busy: Track if GPIO4 is currently requested for GPIO or PWM.
+>   * @pwm_refclk_freq: Cache for the reference clock input to the PWM.
+> + * @id:           Unique instance ID
+>   */
+>  struct ti_sn65dsi86 {
+>  	struct auxiliary_device		*bridge_aux;
+> @@ -202,8 +204,11 @@ struct ti_sn65dsi86 {
+>  	atomic_t			pwm_pin_busy;
+>  #endif
+>  	unsigned int			pwm_refclk_freq;
+> +	int				id;
+>  };
+>  
+> +static DEFINE_IDA(ti_sn65dsi86_ida);
+> +
+>  static const struct regmap_range ti_sn65dsi86_volatile_ranges[] = {
+>  	{ .range_min = 0, .range_max = 0xFF },
+>  };
+> @@ -488,6 +493,7 @@ static int ti_sn65dsi86_add_aux_device(struct ti_sn65dsi86 *pdata,
+>  		return -ENOMEM;
+>  
+>  	aux->name = name;
+> +	aux->id = pdata->id;
+>  	aux->dev.parent = dev;
+>  	aux->dev.release = ti_sn65dsi86_aux_device_release;
+>  	device_set_of_node_from_dev(&aux->dev, dev);
+> @@ -1889,6 +1895,13 @@ static int ti_sn65dsi86_parse_regulators(struct ti_sn65dsi86 *pdata)
+>  				       pdata->supplies);
+>  }
+>  
+> +static void ti_sn65dsi86_devm_ida_free(void *data)
+> +{
+> +	struct ti_sn65dsi86 *pdata = data;
+> +
+> +	ida_free(&ti_sn65dsi86_ida, pdata->id);
+> +}
+> +
+>  static int ti_sn65dsi86_probe(struct i2c_client *client)
+>  {
+>  	struct device *dev = &client->dev;
+> @@ -1903,6 +1916,17 @@ static int ti_sn65dsi86_probe(struct i2c_client *client)
+>  	pdata = devm_kzalloc(dev, sizeof(struct ti_sn65dsi86), GFP_KERNEL);
+>  	if (!pdata)
+>  		return -ENOMEM;
+> +
+> +	ret = ida_alloc(&ti_sn65dsi86_ida, GFP_KERNEL);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	pdata->id = ret;
+> +
+> +	ret = devm_add_action_or_reset(dev, ti_sn65dsi86_devm_ida_free, pdata);
+> +	if (ret)
+> +		return ret;
+> +
+>  	dev_set_drvdata(dev, pdata);
+>  	pdata->dev = dev;
+>  
+
 -- 
-2.43.0
+Regards,
 
+Laurent Pinchart
 
