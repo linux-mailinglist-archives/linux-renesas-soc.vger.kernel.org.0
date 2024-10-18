@@ -1,202 +1,202 @@
-Return-Path: <linux-renesas-soc+bounces-9839-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9840-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1164A9A3A46
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 11:42:17 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C6819A3D79
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 13:47:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 816F3B259B2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 09:42:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6D9E21C23ED8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 11:47:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77EFC1FF5FC;
-	Fri, 18 Oct 2024 09:42:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 232B38F6B;
+	Fri, 18 Oct 2024 11:46:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M59FOIaN"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from riemann.telenet-ops.be (riemann.telenet-ops.be [195.130.137.80])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 896E518CBF1
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Oct 2024 09:42:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 718A49476;
+	Fri, 18 Oct 2024 11:46:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729244522; cv=none; b=qpv/CcyWWrEpbOUBk1/CACvJZGArc85GkaJUkCt3eLvuzc+vYAsKb6KcBNoOpUm5gA8LyUfGlpAnxRYh6si7UO/PUGGyV3WsDoMLjb67OGI/gOwVbh7HqkG89jQtI7EmxAYje3VkaBT5lLaCaFAO7S8+HPc33T93MtXQ22jjvEE=
+	t=1729251966; cv=none; b=ho6zA7c4BoDs/KO0V9R7gI3AR7NPp0hQ3TxrYOhcD31WyiZ9tzGYjH3PEIBsWuwsqPYgjcLhDvj2VuBNOFd21QmORKx6s/pyrpwhRCp3P7XZipIDSMHixnL6OL1uUK/GTSSCyN3UFLP9v99U41jVIIFjVUTdxVQkLmlrryvzK8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729244522; c=relaxed/simple;
-	bh=lyOv1ki7+se3TbFk1LnoQxQWU9C0UdL6b8iT0shbMKM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Az+4VlU88lQ5P+50z4CG9iDyjuQI8j2oTL0/PuO1gUtVUagIWfAkUKwsFI5s7MiupbIWSzFCNvacgVNgSXCqvGUZGC5/e4teZIwORpdT2bbjdCmaPhXTFjXuXhHQKAcO5N2WHVs9z4HFouoAIQ5gM59ospxdgMPcV8lMcX4zmmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-	by riemann.telenet-ops.be (Postfix) with ESMTPS id 4XVKJ33cdCz4x4Wh
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Oct 2024 11:33:07 +0200 (CEST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:9a0:3f16:2bd7:49ca])
-	by xavier.telenet-ops.be with cmsmtp
-	id RlYz2D00K1MdCM201lYz4t; Fri, 18 Oct 2024 11:32:59 +0200
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1t1jLg-003zIK-F5;
-	Fri, 18 Oct 2024 11:32:59 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1t1jLv-005rrh-Er;
-	Fri, 18 Oct 2024 11:32:59 +0200
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH/RFC 1/1] arm64: dts: renesas: white-hawk: Add mini-DP output support
-Date: Fri, 18 Oct 2024 11:32:50 +0200
-Message-Id: <05e43f61321b4191d5f97dec2349facd4b56c899.1729240989.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1729240989.git.geert+renesas@glider.be>
-References: <cover.1729240989.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1729251966; c=relaxed/simple;
+	bh=W0srQg2wqI85CNHH0gsvNkb6VWnma1Bw0s1E3KVJNgA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AdTFRdiyGc179Ftff2nUGkldsfp6mIvlVfu+f97483L0yHtNpR2Xs6cTjm57A9nx7jz3qfglqVQKOvo4Vv4hFYAjgz7bRWYmQF38E7FIBSmMyUkPA9YoZU9cEMo+TvWMk9MJs8R221NxrOfuJdOXyDjrNCTplpVLFwarVSs3Bpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M59FOIaN; arc=none smtp.client-ip=209.85.221.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-50d3365c29cso1610190e0c.0;
+        Fri, 18 Oct 2024 04:46:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729251963; x=1729856763; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+05Uobe0HKnShTKGIax79/dC/4ByIKxrjDbK/LdwyzQ=;
+        b=M59FOIaNwecCwkNftos45eEaEZ236azNPiTQiouyERnRwBumc0t6J3SbW3+Efo7/D8
+         kXsfnKIf7IDro16IkKci95HJeGTe6Tk8JHxgJvIGxaUk5EnodaSTmpsV+4QaqeWyi6Bf
+         zgdpGZJ4B9/nFoZ/SaF8exvKjqS2UW+0eSf4UVij8C63FPfIinODAvTfceAr6OSiXoig
+         HAqgXdhXHpBrdIt2fLuxAQOcaOKkVvlKYvTNPcYESVy5KvmJxdHBabT7Fq76DisgGGaW
+         1lyUM+nywVqyJnrKNE+opsXUYi4wbxpJVkIHQqo9DFFcfpgTTV6edp5JfGVJGw+if4zh
+         K7Qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729251963; x=1729856763;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+05Uobe0HKnShTKGIax79/dC/4ByIKxrjDbK/LdwyzQ=;
+        b=spU4NlKHqxAOSl9orwGSm2n0rMPDnvQMmV8okjpnhReXrZYjbqOsvaoIkx5tjMnHYz
+         jHVWw7M7yx+lvYyhzlcWAdl/wPW17j3qx+bXO8nxfjnNNrsdI0DNXjTxoOQTxsDucoP4
+         dmjqLkzdpuvAhjxZLNnYiHbnHT9JbZMvpeEIQgD6N3tohUkkQyx/LeKC3v/qjh8JLeYI
+         mlCSwPkzWP2aFPyvd6gGJqFK5sHTNen2pfbDvwJJYkclGMT7F1idQzI+hoVmbz2fcdAc
+         NqhNMKVot5ycCKPqcXOgp5pOtZHmxy3F9gP4zJqsvsxYWYFPtRLOjGiy5EJZPzGe6Gj/
+         5a6g==
+X-Forwarded-Encrypted: i=1; AJvYcCVTzcWmo8XJYcg/P6bHZaSFG1Cvz36wHXq6ak5sV9JsCsXqzfintXBFDV82RXuOgSmoVEsgS50oWa73O2w=@vger.kernel.org, AJvYcCVY+QivjmKEoKNMq9ROcMWXfTsALboqMbBJvMn2kTQRsLHveyH2Mb/tcfRLLJvq8glZKJgZpiIOaEijjhrr7BX66Ag=@vger.kernel.org, AJvYcCWa/IxkIVfcKHqK2uBbLi+hN5g21AFAv1bDbTVeBhC5f8WKQOZvbCThvEi7dN+T28YxucfelCrDcDu6uG8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzw1ySA4kfKOARKsbzGHfecgEjOJ0aMw+ncjIslu+b0NxJDBRvd
+	nzcqgn5RXl1W1CntxZFiK2nN41oVB0Dy7gGyb9ega5nrMhjgwU+D7e8z2I9ZzWhCv2dvLIEbe4S
+	dUpsYmUmZUxpipRxa3oBc0AJpWWA=
+X-Google-Smtp-Source: AGHT+IEo8YLnFXl+Uzg93E4p7I2M2mVyh0u6fqbv186EzXZpaSYlDXpLn49v7VVQsi5krgfiW3cIa/eRya9AdiHk+jo=
+X-Received: by 2002:a05:6122:250f:b0:50d:4b8d:6750 with SMTP id
+ 71dfb90a1353d-50dd9bf705fmr823403e0c.1.1729251963130; Fri, 18 Oct 2024
+ 04:46:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241011173052.1088341-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20241011173052.1088341-16-prabhakar.mahadev-lad.rj@bp.renesas.com> <20241015103317.GJ5682@pendragon.ideasonboard.com>
+In-Reply-To: <20241015103317.GJ5682@pendragon.ideasonboard.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Fri, 18 Oct 2024 12:45:36 +0100
+Message-ID: <CA+V-a8tRDhDBFZsMEyxPTbW0juZMpAcJ=bj4rA3Nbsku8y4PxA@mail.gmail.com>
+Subject: Re: [PATCH v5 15/22] media: rzg2l-cru: Make use of v4l2_format_info() helpers
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add support for the mini-DisplayPort connector on the White Hawk
-BreakOut board.  This port is driven by a TI SN65DSI86 DSI to eDP
-bridge, which in turn gets the pixel data from the second DSI channel on
-the R-Car V4H SoC.  Note that this port is not present on the White Hawk
-Single development board.
+Hi Laurent,
 
-Based on the work by Tomi Valkeinen for the mini-DP port on the White
-Hawk CPU board, and by a patch in the BSP by LUU HOAI.
+Thank you for the review.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-This has a hard dependency on "[PATCH] drm/bridge: ti-sn65dsi86: Fix
-multiple instances"[1], as the rcar-du driver fails to probe when any of
-the encoders failed to initialize:
+On Tue, Oct 15, 2024 at 11:33=E2=80=AFAM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Prabhakar,
+>
+> Thank you for the patch.
+>
+> On Fri, Oct 11, 2024 at 06:30:45PM +0100, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Make use of v4l2_format_info() helpers to determine the input and
+> > output formats.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 22 ++++++-------------
+> >  1 file changed, 7 insertions(+), 15 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/d=
+rivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > index 8932fab7c656..0cc69a7440bf 100644
+> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > @@ -300,21 +300,12 @@ static void rzg2l_cru_initialize_axi(struct rzg2l=
+_cru_dev *cru)
+> >       rzg2l_cru_write(cru, AMnAXIATTR, amnaxiattr);
+> >  }
+> >
+> > -static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru, bool *inpu=
+t_is_yuv,
+> > +static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru,
+> >                                const struct rzg2l_cru_ip_format *ip_fmt=
+,
+> >                                u8 csi_vc)
+> >  {
+> >       u32 icnmc =3D ICnMC_INF(ip_fmt->datatype);
+> >
+> > -     switch (ip_fmt->code) {
+> > -     case MEDIA_BUS_FMT_UYVY8_1X16:
+> > -             *input_is_yuv =3D true;
+> > -             break;
+> > -     default:
+> > -             *input_is_yuv =3D false;
+> > -             break;
+> > -     }
+> > -
+> >       icnmc |=3D (rzg2l_cru_read(cru, ICnMC) & ~ICnMC_INF_MASK);
+> >
+> >       /* Set virtual channel CSI2 */
+> > @@ -327,19 +318,17 @@ static int rzg2l_cru_initialize_image_conv(struct=
+ rzg2l_cru_dev *cru,
+> >                                          struct v4l2_mbus_framefmt *ip_=
+sd_fmt,
+> >                                          u8 csi_vc)
+> >  {
+> > +     const struct v4l2_format_info *src_finfo, *dst_finfo;
+> >       const struct rzg2l_cru_ip_format *cru_ip_fmt;
+> > -     bool output_is_yuv =3D false;
+> > -     bool input_is_yuv =3D false;
+> >       u32 icndmr;
+> >
+> >       cru_ip_fmt =3D rzg2l_cru_ip_code_to_fmt(ip_sd_fmt->code);
+> > -     rzg2l_cru_csi2_setup(cru, &input_is_yuv, cru_ip_fmt, csi_vc);
+> > +     rzg2l_cru_csi2_setup(cru, cru_ip_fmt, csi_vc);
+> >
+> >       /* Output format */
+> >       switch (cru->format.pixelformat) {
+> >       case V4L2_PIX_FMT_UYVY:
+> >               icndmr =3D ICnDMR_YCMODE_UYVY;
+> > -             output_is_yuv =3D true;
+> >               break;
+> >       default:
+> >               dev_err(cru->dev, "Invalid pixelformat (0x%x)\n",
+> > @@ -347,8 +336,11 @@ static int rzg2l_cru_initialize_image_conv(struct =
+rzg2l_cru_dev *cru,
+> >               return -EINVAL;
+> >       }
+> >
+> > +     src_finfo =3D v4l2_format_info(cru_ip_fmt->format);
+> > +     dst_finfo =3D v4l2_format_info(cru->format.pixelformat);
+>
+> It would be a bit more efficient to add a yuv boolean field to the
+> rzg2l_cru_ip_format structure, as you already have looked up cru_ip_fmt
+> for the IP subdev format.
+>
+I will consider this change, when adding support for the RZ/V2H SoC,
+hope that's OK for you.
 
-    platform feb00000.display: deferred probe pending: rcar-du: failed to initialize encoders
+Cheers,
+Prabhakar
 
-Does not work:
-  - Display resolution is detected correctly (1920x1080 or 2560x1440),
-  - Black screen, displays say no signal detected,
-  - "modetest -M rcar-du -s 88:1920x1080@XR24" triggers:
-
-	rcar-mipi-dsi fed90000.dsi-encoder: Failed to disable video transmission
-	vsp1 fea20000.vsp: Underrun occurred at WPF0 (total underruns 2)
-
-    Note that fea20000.vsp is vspd0, not vspd1. I do have a few similar
-    messages for fea28000.vsp in my logs, so this may be a red herring.
-
-[1] https://lore.kernel.org/8c2df6a903f87d4932586b25f1d3bd548fe8e6d1.1729180470.git.geert+renesas@glider.be/
----
- .../boot/dts/renesas/r8a779g0-white-hawk.dts  | 90 +++++++++++++++++++
- 1 file changed, 90 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dts b/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dts
-index 784d4e8b204ce85a..cb84fe5e9eea1f2f 100644
---- a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dts
-@@ -12,4 +12,94 @@
- / {
- 	model = "Renesas White Hawk CPU and Breakout boards based on r8a779g0";
- 	compatible = "renesas,white-hawk-breakout", "renesas,white-hawk-cpu", "renesas,r8a779g0";
-+
-+	sn65dsi86_refclk2: clk-x16 {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <38400000>;
-+	};
-+
-+	mini-dp-con2 {
-+		compatible = "dp-connector";
-+		label = "CN15";
-+		type = "mini";
-+
-+		port {
-+			mini_dp_con_in2: endpoint {
-+				remote-endpoint = <&sn65dsi86_out2>;
-+			};
-+		};
-+	};
-+};
-+
-+&dsi1 {
-+	status = "okay";
-+
-+	ports {
-+		port@1 {
-+			dsi1_out: endpoint {
-+				remote-endpoint = <&sn65dsi86_in2>;
-+				data-lanes = <1 2 3 4>;
-+			};
-+		};
-+	};
-+};
-+
-+&i2c4 {
-+	pinctrl-0 = <&i2c4_pins>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+	clock-frequency = <400000>;
-+
-+	bridge@2c {
-+		pinctrl-0 = <&irq1_pins>;
-+		pinctrl-names = "default";
-+
-+		compatible = "ti,sn65dsi86";
-+		reg = <0x2c>;
-+
-+		clocks = <&sn65dsi86_refclk2>;
-+		clock-names = "refclk";
-+
-+		interrupts-extended = <&intc_ex 1 IRQ_TYPE_LEVEL_HIGH>;
-+
-+		enable-gpios = <&gpio1 27 GPIO_ACTIVE_HIGH>;
-+
-+		vccio-supply = <&reg_1p8v>;
-+		vpll-supply = <&reg_1p8v>;
-+		vcca-supply = <&reg_1p2v>;
-+		vcc-supply = <&reg_1p2v>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+				sn65dsi86_in2: endpoint {
-+					remote-endpoint = <&dsi1_out>;
-+				};
-+			};
-+
-+			port@1 {
-+				reg = <1>;
-+				sn65dsi86_out2: endpoint {
-+					remote-endpoint = <&mini_dp_con_in2>;
-+				};
-+			};
-+		};
-+	};
-+};
-+
-+&pfc {
-+	i2c4_pins: i2c4 {
-+		groups = "i2c4";
-+		function = "i2c4";
-+	};
-+
-+	irq1_pins: irq1 {
-+		groups = "intc_ex_irq1_a";
-+		function = "intc_ex";
-+	};
- };
--- 
-2.34.1
-
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>
+> > +
+> >       /* If input and output use same colorspace, do bypass mode */
+> > -     if (output_is_yuv =3D=3D input_is_yuv)
+> > +     if (v4l2_is_format_yuv(src_finfo) =3D=3D v4l2_is_format_yuv(dst_f=
+info))
+> >               rzg2l_cru_write(cru, ICnMC,
+> >                               rzg2l_cru_read(cru, ICnMC) | ICnMC_CSCTHR=
+);
+> >       else
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
