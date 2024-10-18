@@ -1,193 +1,435 @@
-Return-Path: <linux-renesas-soc+bounces-9845-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9846-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD8489A3E9C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 14:41:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BE359A3F03
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 15:01:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3CDE4B20F25
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 12:41:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B50B41F23B3A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 13:01:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 060A326AD9;
-	Fri, 18 Oct 2024 12:41:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hO0bFFQk"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C239B1E49F;
+	Fri, 18 Oct 2024 13:01:07 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F37E8F6B;
-	Fri, 18 Oct 2024 12:41:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA7C91BC49;
+	Fri, 18 Oct 2024 13:01:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729255277; cv=none; b=VzKnbGuk90+86TL02BwEs8I1yLKkvuO8dUET4GKmCdKjEXAmgORjh1qmFc/HFo9DSCyaxWbvucM/JKQmBmcwvxh6RrKD9wJJ5sFjD76sR5zg/b5ml1N9vW5jwHCs4CKtlSOulupcyFcjs6KPlyx+8KY/CvUt9/DwEWsOXfZOamQ=
+	t=1729256467; cv=none; b=OldedcfSLgAB/fJSoJFNTy5n5ZcHTnCXelLtbLI9/NJ09zkzd340wiPSlyoMxl+t0kWXCC37cU3ksZQdrJ2O4FM+gKoABvMkWZ56IV8M6hutt3d28SnwuyWNUPD8Fiq/t2I3ssZLFJwI+7f0HrK1Wm+KhbXxMDfTNpDtUklqtyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729255277; c=relaxed/simple;
-	bh=MdE/vlwuaIy+l1DVfCSNRGdPx+i97TVjXEXo4j8dxz0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=S2k8iPFpVC5sTqwT3wsqmao3/isAeooZgYkHwDlNLuTI0tsbBs9mMVnq6pdADKvGGbX5+XW1XNLbu6tUOYyPwCbm8165uBML6ezuGkLPk8LS7FftJ/mZCiAfBWXRdIlC9i21kQq8nqjxMlaGHB7609gpSHKe+3zFSJE3ZPatrS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hO0bFFQk; arc=none smtp.client-ip=209.85.221.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-50d2d300718so585713e0c.1;
-        Fri, 18 Oct 2024 05:41:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729255275; x=1729860075; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+l+LdwuWPPQPyQbdGsPd0DvVg4iTYvTYWs9TNNMBdzQ=;
-        b=hO0bFFQk9Afb3EmbqRjfr6g50iqzPhfGihm8mGXR+PbjmoCTQuYbxze8JlazxDsIID
-         6MVdBVoDz3zpCleHTErO2skHEww8Ama3kKPN2iKa0pB6sOOZlC5svBkM27r+eC83Nt/X
-         AMSed+4DlR/0jRD36HXO4/P6p7fYQFcMuj7yc3wwIWImIqT9M627PGwyvVpW165hyJyu
-         h42C43sBkC3i+D2/upoLKrEeOBtQHxTt9/btt9hQO50vzZEoHWhrXFRVR7xzomgE117L
-         mmJ+EoY+OBMwfsQBCwtALeapiDhnF4qKpEmZAXN3DJArzVRkM0czpVdjPSapeJjzCK/b
-         LZLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729255275; x=1729860075;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+l+LdwuWPPQPyQbdGsPd0DvVg4iTYvTYWs9TNNMBdzQ=;
-        b=hZKHAP9yZ7tNzX88CqHu1uQC+mma00IbCFSxRoX/yIyupA1yZXLJo8mDUuSJNqTTT0
-         xi9BL5GaD3pD19V/glk3D8FfL/xv/7M4nY9VB4iGB7dSQoLb5MLrUZr7fmnF3SPv1fQj
-         h0TIneZNmUGcjLdR1avHJOaXji8y+/oBuoVTGATWdB3hlWS/pkTQ/qob5lOuhv3a1enN
-         km8p1ocUp7ZYDuvPCr3nGZzHsRmu4uusjpsaCMz26qDWWA1JjYsN7+z89DaLC6gmRv3P
-         qKXUm6520qtJD1Bl9lRi56wizNnb2SghGqbskIgQOd/py4od0LNDWEhxfF0IFLLsVdCt
-         bRbw==
-X-Forwarded-Encrypted: i=1; AJvYcCVMiVruJtBsOn9z64SEtYGHMoG85s6RRZk7VOgzs+aGZoHdKWRnZdstZvOtbDdLSBEpLAqyyefgSY+c19I=@vger.kernel.org, AJvYcCVh/tyyMgeANEzv32Q+v99YT1iTcDucZfOcAV9twsQt2ZKKYXu6TxsRUEe6WdUQvXDhNrUpz8mkqwLzovWP/Q4zZko=@vger.kernel.org, AJvYcCXX2jNdDzeuLVIdo4PNqSGcBXrbWrvcZ426GU88Jx6TEsv/zXdoS94vBcMGGnCUi7KkGn22bFmkaVFClWQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4r/zbZK28w5YCnlZAGMW2byFi2QcloIYW0bRKj4Pkngs5VsC3
-	3fLJHdfhR/adERfAq4gNA2ula7ZKi62pQntrzoyL3wH4nqA9ANMjWKKiz7k0R6+L/HlB9OhE5Ta
-	9B7qA/mGzhv+Nis6x8+DzkH63jsE=
-X-Google-Smtp-Source: AGHT+IES5LVfGLX428NF36lgQkwm5gmSds6SXoQbN8pEfFwBt2PslW0w2y0YaQTTE0RFslwpeT/TM9xcqmqha+Hwya4=
-X-Received: by 2002:a05:6122:1da6:b0:507:81f0:f952 with SMTP id
- 71dfb90a1353d-50dda35f9d8mr1384356e0c.9.1729255275033; Fri, 18 Oct 2024
- 05:41:15 -0700 (PDT)
+	s=arc-20240116; t=1729256467; c=relaxed/simple;
+	bh=T8dNw4HRpUG8QI5yMlIJ/BPf9H+BE+xZb88T/B5s82E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I8D0dzCNjH0y34dZlyv0aJWNK4dpQBgFURcSca0xKpvJrVwGn3XAh3RNfE2ecRkBZtS5he6+1f5fFKowLT+Ie/WDuDaE+mll5YBgPFPtNevWlGYtvdgc1Gw2XnEiObKvQO32MmbogbsYQwFAEDnxKZWkEzVtvIdNsLT24sBIw2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.11,213,1725289200"; 
+   d="scan'208";a="222337123"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 18 Oct 2024 22:00:56 +0900
+Received: from localhost.localdomain (unknown [10.226.93.163])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id B65EF4009A3E;
+	Fri, 18 Oct 2024 22:00:52 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v22 0/4] Add support for RZ/G2L GPT
+Date: Fri, 18 Oct 2024 14:00:41 +0100
+Message-ID: <20241018130049.138775-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241011173052.1088341-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20241011173052.1088341-16-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20241015103317.GJ5682@pendragon.ideasonboard.com> <CA+V-a8tRDhDBFZsMEyxPTbW0juZMpAcJ=bj4rA3Nbsku8y4PxA@mail.gmail.com>
- <20241018122611.GN30496@pendragon.ideasonboard.com>
-In-Reply-To: <20241018122611.GN30496@pendragon.ideasonboard.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 18 Oct 2024 13:40:48 +0100
-Message-ID: <CA+V-a8uXrO8iPxhQEKb+HtVqXctQS5O4NAfFTr2Cfrci9Qd_UQ@mail.gmail.com>
-Subject: Re: [PATCH v5 15/22] media: rzg2l-cru: Make use of v4l2_format_info() helpers
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Laurent,
+RZ/G2L General PWM Timer (GPT) composed of 8 channels with 32-bit timer
+(GPT32E). It supports the following functions
+ * 32 bits x 8 channels
+ * Up-counting or down-counting (saw waves) or up/down-counting
+   (triangle waves) for each counter.
+ * Clock sources independently selectable for each channel
+ * Two I/O pins per channel
+ * Two output compare/input capture registers per channel
+ * For the two output compare/input capture registers of each channel,
+   four registers are provided as buffer registers and are capable of
+   operating as comparison registers when buffering is not in use.
+ * In output compare operation, buffer switching can be at crests or
+   troughs, enabling the generation of laterally asymmetric PWM waveforms.
+ * Registers for setting up frame cycles in each channel (with capability
+   for generating interrupts at overflow or underflow)
+ * Generation of dead times in PWM operation
+ * Synchronous starting, stopping and clearing counters for arbitrary
+   channels
+ * Starting, stopping, clearing and up/down counters in response to input
+   level comparison
+ * Starting, clearing, stopping and up/down counters in response to a
+   maximum of four external triggers
+ * Output pin disable function by dead time error and detected
+   short-circuits between output pins
+ * A/D converter start triggers can be generated (GPT32E0 to GPT32E3)
+ * Enables the noise filter for input capture and external trigger
+   operation
 
-On Fri, Oct 18, 2024 at 1:26=E2=80=AFPM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Fri, Oct 18, 2024 at 12:45:36PM +0100, Lad, Prabhakar wrote:
-> > On Tue, Oct 15, 2024 at 11:33=E2=80=AFAM Laurent Pinchart wrote:
-> > > On Fri, Oct 11, 2024 at 06:30:45PM +0100, Prabhakar wrote:
-> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > >
-> > > > Make use of v4l2_format_info() helpers to determine the input and
-> > > > output formats.
-> > > >
-> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.c=
-om>
-> > > > ---
-> > > >  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 22 ++++++---------=
-----
-> > > >  1 file changed, 7 insertions(+), 15 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c=
- b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > > index 8932fab7c656..0cc69a7440bf 100644
-> > > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > > @@ -300,21 +300,12 @@ static void rzg2l_cru_initialize_axi(struct r=
-zg2l_cru_dev *cru)
-> > > >       rzg2l_cru_write(cru, AMnAXIATTR, amnaxiattr);
-> > > >  }
-> > > >
-> > > > -static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru, bool *=
-input_is_yuv,
-> > > > +static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru,
-> > > >                                const struct rzg2l_cru_ip_format *ip=
-_fmt,
-> > > >                                u8 csi_vc)
-> > > >  {
-> > > >       u32 icnmc =3D ICnMC_INF(ip_fmt->datatype);
-> > > >
-> > > > -     switch (ip_fmt->code) {
-> > > > -     case MEDIA_BUS_FMT_UYVY8_1X16:
-> > > > -             *input_is_yuv =3D true;
-> > > > -             break;
-> > > > -     default:
-> > > > -             *input_is_yuv =3D false;
-> > > > -             break;
-> > > > -     }
-> > > > -
-> > > >       icnmc |=3D (rzg2l_cru_read(cru, ICnMC) & ~ICnMC_INF_MASK);
-> > > >
-> > > >       /* Set virtual channel CSI2 */
-> > > > @@ -327,19 +318,17 @@ static int rzg2l_cru_initialize_image_conv(st=
-ruct rzg2l_cru_dev *cru,
-> > > >                                          struct v4l2_mbus_framefmt =
-*ip_sd_fmt,
-> > > >                                          u8 csi_vc)
-> > > >  {
-> > > > +     const struct v4l2_format_info *src_finfo, *dst_finfo;
-> > > >       const struct rzg2l_cru_ip_format *cru_ip_fmt;
-> > > > -     bool output_is_yuv =3D false;
-> > > > -     bool input_is_yuv =3D false;
-> > > >       u32 icndmr;
-> > > >
-> > > >       cru_ip_fmt =3D rzg2l_cru_ip_code_to_fmt(ip_sd_fmt->code);
-> > > > -     rzg2l_cru_csi2_setup(cru, &input_is_yuv, cru_ip_fmt, csi_vc);
-> > > > +     rzg2l_cru_csi2_setup(cru, cru_ip_fmt, csi_vc);
-> > > >
-> > > >       /* Output format */
-> > > >       switch (cru->format.pixelformat) {
-> > > >       case V4L2_PIX_FMT_UYVY:
-> > > >               icndmr =3D ICnDMR_YCMODE_UYVY;
-> > > > -             output_is_yuv =3D true;
-> > > >               break;
-> > > >       default:
-> > > >               dev_err(cru->dev, "Invalid pixelformat (0x%x)\n",
-> > > > @@ -347,8 +336,11 @@ static int rzg2l_cru_initialize_image_conv(str=
-uct rzg2l_cru_dev *cru,
-> > > >               return -EINVAL;
-> > > >       }
-> > > >
-> > > > +     src_finfo =3D v4l2_format_info(cru_ip_fmt->format);
-> > > > +     dst_finfo =3D v4l2_format_info(cru->format.pixelformat);
-> > >
-> > > It would be a bit more efficient to add a yuv boolean field to the
-> > > rzg2l_cru_ip_format structure, as you already have looked up cru_ip_f=
-mt
-> > > for the IP subdev format.
-> >
-> > I will consider this change, when adding support for the RZ/V2H SoC,
-> > hope that's OK for you.
->
-> It's not a blocker, it can be done on top indeed. If you end up
-> submitting a v6 you could add a patch on top already, but otherwise
-> later is fine too.
->
-I was intending to send a v6 anyway with the updated commit messages,
-so I will add a new patch on top.
+This patch series aims to add basic pwm support for RZ/G2L GPT driver
+by creating separate logical channels for each IOs.
 
-Cheers,
-Prabhakar
+v21->v22:
+ * Started using guard(mutex)calls.
+ * Replaced round up->down operation in rzg2l_gpt_calculate_pv_or_dc() as
+   it converts a nanosecond value to a register value.
+ * Replaced devm_clk_get->devm_clk_get_enabled() to make clock on during
+   the lifetime of driver and get rid of bootloader_enabled_channels
+   variable. Also dropped rzg2l_gpt_rpm_put(), pm_runtime.h header and
+   pm runtime calls, that simplified the probe() and other functions.
+ * Replaced return type of the rzg2l_gpt_enable() as void as it is not
+   returning any error.
+ * Dropped lock from enable() and disable() as caller is holding the lock.
+   this way we won't release the lock just to allow a called function to retake
+   it.
+v20->v21:
+ * Added documentation about the relation between channels and outputs and
+   subchannels.
+ * Dropped using the local variable offs for calculating channel regs and
+   instead start using macros.
+ * Replaced u8->bool for the  bootloader_enabled_channels variable in
+   struct rzg2l_gpt_chip
+ * Replaced duty_cycles->duty_ticks and period_cycles->period_ticks as it
+   represent hw ticks.
+ * Introduced RZG2L_MAX_TICKS macro for max hw ticks and dropped the
+   variable max_val from struct rzg2l_gpt_chip.
+ * Updated comment related to 64-bit overflow calculation in
+   calculate_period_or_duty().
+ * Simplified handling of bootloader_enabled_channels[pwm->hwpwm] == true
+   in a single place in rzg2l_gpt_apply()
+ * For config error case, don't call pm_runtime_put_sync() and with
+   enable()->acquire pm_runtime reference and disable()-->release the
+   pm_runtime reference
+ * Split the cleanups into two. One for reset_control_deassert() earlier
+   in .probe() and dropped rstc variable from struct rzg2l_gpt_chip.
+ * Added warn_once() message in probe() for bootloader setting wrong
+   prescale values.
+v19->v20:
+ * Added locks for rmw operations in rzg2l_gpt_{en,dis}able().
+ * Dropped decremeng enable_count based ch_en_bits in rzg2l_gpt_disable().
+ * Added a comment in calculate_period_or_duty() related to overflow.
+ * Replaced ch_en_bits->bootloader_enabled_channels and used this variable
+   in probe(), apply() and remove() for simplification
+ * Replaced pm_runtime_enable()->devm_pm_runtime_enable()
+v18->v19:
+ * Replaced RZG2L_UP_COUNTING->RZG2L_GTUDDTYC_UP_COUNTING macro.
+ * Aligned RZG2L_GET_CH and RZG2L_GET_CH_OFFS macro
+ * Dropped chip and clk from struct rzg2l_gpt_chip as started using
+   devm_pwmchip_alloc() and devm_clk_rate_exclusive_get() to replace it.
+ * Replaced rate->rate_khz in struct rzg2l_gpt_chip and added a check in
+   probe() to make sure rate is multiple of 1000.
+ * Replaced container_of->pwmchip_get_drvdata() to get device data.
+ * Added a check in rzg2l_gpt_disable() not to decrement enable_count if
+   ch_en_bits is set by the probe.
+ * Dropped rzg2l_gpt_mul_u64_u64_div_u64()
+ * Simplified calculate_period_or_duty() using rate_khz
+ * Simplified rzg2l_gpt_config() using min macro for calculating period
+   and duty_cycle.
+ * Added checks in rzg2l_gpt_config() to prevent second channel setting
+   shared register.
+ * Updated error handling rzg2l_gpt_apply()
+ * Added local variable dev for &pdev->dev in probe()
+ * Added local varibles rate, chip and clk in probe()
+ * Dropped err_clk_rate_put label as started using
+   devm_clk_rate_exclusive_get()
+ * Replaced rzg2l_gpt->chip as data for devm_add_action_or_reset().
+ * Added error message for rate > 1GHz in probe.
+v17->v18:
+ * Added units.h for KILO macro.
+ * Replaced RZG2L_GTCCR{A,B}->RZG2L_GTCCR(i)
+ * Introduced macros RZG2L_GTIOR_{GTIOx,OxE} to handle subchannels.
+ * Replaced RZG2L_IS_IOB()->rzg2l_gpt_subchannel()
+ * Replaced the cache period->period_cycles.
+ * Updated rzg2l_gpt_is_ch_enabled() to return early if counter is not
+   running.
+ * Updated calculate_period_or_duty() for avoiding overflows.
+ * Updated rzg2l_gpt_calculate_pv_or_dc() with simplified calculation for
+   DIV64_U64_ROUND_UP() and dropped the cast for U32_MAX in min_t.
+ * Replaced mul_u64_u32_div->rzg2l_gpt_mul_u64_u64_div_u64() helper.
+ * Dropped pm pointer from struct rzg2l_gpt_driver() and simplified clk
+   handling in probe().
+ * Updated copyright from 2023->2024.
+ * Moved bitpos near to the user in patch#4.
+v16->v17:
+ * Added ret = dev_err_probe() to avoid return success in probe().
+ * Dropped unneeded MODULE_ALIAS().
+ * Dropped .owner from struct rzg2l_gpt_ops.
+ * Fixed build issue reported by kernel test robot <lkp@intel.com> by
+   replacing DIV_ROUND_UP()->DIV64_U64_ROUND_UP() in
+   rzg2l_gpt_calculate_pv_or_dc().
+ * Added max_val to struct rzg2l_gpt_chip to compute maximum period
+   supported by the HW in probe() and limit its value in apply() to
+   avoid 64-bit overflow with computation.
+ * Added helper function calculate_period_or_duty() to avoid losing
+   precision for smaller period/duty cycle values
+   ((2^32 * 10^9 << 2) < 2^64), by not processing the rounded values.
+ * Replaced mul_u64_u64_div_u64()->mul_u64_u32_div() as the former is
+   giving warnings with CONFIG_PWM_DEBUG enabled for very high values. 
+v15->v16:
+ * Replaced the macro DIV_ROUND_UP_ULL->DIV64_U64_ROUND_UP
+ * Added DIV_ROUND_UP in rzg2l_gpt_calculate_pv_or_dc() to avoid loss of
+   precision.
+ * Replaced min->min_t() in rzg2l_gpt_calculate_pv_or_dc().
+ * Added a comment for rzg2l_gpt_config()
+ * Replaced mul_u64_u32_div()->mul_u64_u64_div_u64() in rzg2l_gpt_config()
+ * Fixed the logical condition related to counter stop in
+   rzg2l_gpt_config().
+ * Dropped pm_runtime_resume_*() from rzg2l_gpt_config() as it is managed
+   by rzg2l_gpt_apply().
+ * Moved pm_runtime_resume_*() from rzg2l_gpt_{en,dis}able() to
+   rzg2l_gpt_apply().
+v14->v15:
+ * Added enable_count and ch_en_bits variables to struct rzg2l_gpt_chip
+   based on feedback for pwm_mtu3 driver.
+ * Updated copyright header and commit description by replacing "This patch
+   adds"-> "Add"
+ * Replaced macro RZG2L_GET_CH_INDEX->RZG2L_GET_CH and replaced ch_index->ch
+   throughout
+ * rzg2l_gpt_{enable,disable}() enables/disables PWM based on the
+   enable_count.
+ * Replaced pm_runtime_get_sync->pm_runtime_resume_and_get and propogated
+   the error in rzg2l_gpt_get_state() and rzg2l_gpt_config()
+ * Reduced variable scope in rzg2l_gpt_get_state() by moving most of
+   variables inside the if statement.
+ * Updated rzg2l_gpt_get_state() by moving duty > period check
+   inside the top if block.
+ * Added helper functions rzg2l_gpt_calculate_pv_or_dc()to simplify config. 
+   Also Improved the logic in rzg2l_gpt_calculate_pv_or_dc() by using
+   min(period_or_duty_cycle >> (2 * prescale), (u64)U32_MAX);
+ * Updated rzg2l_gpt_get_state() by moving duty > period check
+   inside the top if block.
+ * Simplified rzg2l_gpt_config() for updating registers
+ * Dropped pm_runtime_get_sync() and used bitmap variable "ch_en_bits"
+   to make balanced PM usage count in rzg2l_gpt_reset_assert_pm_disable()
+   For case were unbind is called before apply where pwm is enabled by
+   bootloader.
+ * Added error check for clk_rate_exclusive_get() and clk_get_rate() in
+   probe().
+ * Dropped prescale from struct rzg2l_gpt_chip.
+ * Replaced of_match_ptr(rzg2l_gpt_of_table)->rzg2l_gpt_of_table in struct
+   rzg2l_gpt_driver
+ * Updated commit description of patch#4 by replacing "This patch add"->
+   "Add".
+v13->v14:
+ * Moved the patch from series[1] to here.
+ [1] https://lore.kernel.org/linux-renesas-soc/20221215205843.4074504-1-biju.das.jz@bp.renesas.com/T/#t
+ * Add Rb tag from Rob for patch#2
+ * Removed parenthesis for RZG2L_MAX_HW_CHANNELS and RZG2L_CHANNELS_PER_IO
+ * Removed duty_cycle variable from struct rzg2l_gpt_chip and added comment
+   for cache for prescale variable.
+ * Fixed a bug in rzg2l_gpt_cntr_need_stop().
+ * Reordered rzg2l_gpt_config() just above apply()
+ * Replaced pwm_is_enabled()->pwm->state.enabled in config
+ * Replaced pm_runtime_resume_and_get with unconditional
+   pm_runtime_get_sync() in config().
+ * Restored duty_cycle > period check in rzg2l_gpt_get_state().
+ * Added error check for clk_prepare_enable() in probe() and propagating
+   error to the caller for pm_runtime_resume()
+ * clk_get_rate() is called after enabling the clock and
+   clk_rate_exclusive_get()
+ * Simplified rzg2l_gpt_probe() by removing bitmap variables.
+ * Added pm_runtime_idle() to suspend the device during probe.
+ * Moved overflow condition check from config->probe().
+ * Simplified rzg2l_gpt_reset_assert_pm_disable().
+ * Removed the parenthesis for RZG2L_MAX_POEG_GROUPS.
+ * Renamed rzg2l_gpt_parse_properties()->rzg2l_gpt_poeg_init() as it
+   not only parse the properties but also implements the needed register
+   writes.
+ * Added acomment here about the purpose of the function
+   rzg2l_gpt_poeg_init()
+ * Removed magic numbers from rzg2l_gpt_poeg_init()
+ * Fixed resource leak in rzg2l_gpt_poeg_init().
+v12->v13:
+ * Added test logs in [1] below
+ * Replaced Kconfig dependency from ARCH_RENESAS->ARCH_RZG2L
+ * Sorted #include <linux/limits.h> alphabetically
+ * Added a comment for mutex_lock to fix check patch warning
+ * Replaced data type of duty_cycle from unsigned int->u32 as
+   the maximum value stored is U32_MAX.
+ * Improved rzg2l_gpt_config() by removing unwanted duty_cycle related
+   code.
+ * Improved rzg2l_gpt_get_state() by setting
+  "val = rzg2l_gpt->duty_cycle[pwm->hwpwm];",  and factor
+  "tmp = NSEC_PER_SEC * (u64)val;" out of the if-statement.
+ * Started using DEFINE_RUNTIME_DEV_PM_OPS(), and dropped __maybe_unused
+   from the callbacks.
+v11->v12:
+ * Added return code for get_state()
+ * Cache duty cycle/prescale as the driver cannot read the current duty
+   cycle/prescale from the hardware if the hardware is disabled. Cache the
+   last programmed duty cycle/prescale value to return in that case.
+ * Updated rzg2l_gpt_enable to enable the clocks.
+ * Updated rzg2l_gpt_disable to disable the clocks.
+ * Updated rzg2l_gpt_config() to cache duty cucle/prescale value
+ * Updated rzg2l_gpt_get_state to use cached value of duty cycle/prescale,
+   If the PWM is disabled.
+ * Simplified rzg2l_gpt_apply()
+ * Added comments in rzg2l_gpt_reset_assert_pm_disable()
+v10->v11:
+ * Used bitmap_zero for initializing bitmap varable.
+ * Fixed clock imbalance during remove for the case bootloader turning
+   on PWM and module unload is called just after the boot.
+ * Fixed over flow condition in get_state() for a prescale value of
+   2 & more.
+ * Improved rzg2l_gpt_cntr_need_stop() based on prescale as it is the
+   only runtime variable.
+ * Added array for Cache variables state_period and prescale
+ * Probe caches the prescale value set by the bootloader.
+ * Updated rzg2l_gpt_config() to make use of array variables.
+v9->v10:
+ * Updated the example gpt4: pwm@10048400-> gpt: pwm@10048000
+ * Keep Rb tag from Rob as the above change is trivial one.
+ * Updated the error handling in probe(), clk_disable_unprepare called
+   on the error path.
+ * Removed ch_en array and started using bitmask instead.
+v8->v9:
+ * Added Rb tag from Rob.
+ * deassert after devm_clk_get() to avoid reset stays deasserted,in case
+   clk_get() fails.
+ * Removed ch_offs from struct rzg2l_gpt_chip and use macro instead.
+ * Updated error handling in probe()
+v7->v8:
+ * Removed Rb tags from Rob and Geert as it modelled as single GPT
+   device handling multiple channels.
+ * Updated description
+ * Updated interrupts and interrupt-names properties
+ * Updated binding example
+ * Modelled as single PWM device handling multiple channels
+ * Replaced shared reset->devm_reset_control_get_exclusive()
+ * Added PM runtime callbacks
+ * Updated PM handling and removed "pwm_enabled_by_bootloader" variable
+ * Replaced iowrite32->writel and ioread32->readl
+ * Updated prescale calculation
+ * Introduced rzg2l_gpt_is_ch_enabled for checking enable status on both
+   IO's
+ * Moved enable/disable output pins from config->enable/disable.
+ * Added rzg2l_gpt_cntr_need_stop() for caching prescalar/mode values.
+v6->v7:
+ * Added the comment for cacheing rzg2l_gpt->state_period.
+ * Fixed boundary values for pv and dc.
+ * Added comment for modifying mode, prescaler, timer counter and buffer
+   enable registers.
+ * Fixed buffer overflow in get_state()
+ * Removed unnecessary assignment of state->period value in get_state().
+ * Fixed state->duty_cycle value in get_state().
+ * Added a limitation for disabling the channels, when both channels used
+v5->v6:
+ * Updated macros RZG2L_GTIOR_GTIOB_OUT_HI_END_TOGGLE_CMP_MATCH and
+   RZG2L_GTIOR_GTIOB_OUT_LO_END_TOGGLE_CMP_MATCH with computation
+   involving FIELD_PREP macro.
+ * Removed struct rzg2l_gpt_phase and started using RZG2L_GTCCR macro
+   for duty_offset.
+ * replaced misnomer real_period->state_period.
+ * Added handling for values >= (1024 << 32) for both period
+   and duty cycle.
+ * Added comments for pwm {en,dis}abled by bootloader during probe.
+v4->v5:
+ * Added Hardware manual details
+ * Replaced the comment GTCNT->Counter
+ * Removed the macros RZG2L_GPT_IO_PER_CHANNEL and chip.npwm directly
+   used in probe.
+ * Removed the unsed macro RZG2L_GTPR_MAX_VALUE
+ * Added driver prefix for the type name and the variable.
+ * Initialization of per_channel data moved from request->probe.
+ * Updated clr parameter for rzg2l_gpt_modify for Start count.
+ * Started using mutex and usage_count for handling shared
+   period and prescalar for the 2 channels.
+ * Updated the comment cycle->period.
+ * Removed clk_disable from rzg2l_gpt_reset_assert_pm_disable()
+ * Replaced pc->rzg2l_gpt.
+ * Updated prescale calculation.
+ * Moved pm_runtime_{get_sync,put} from {request,free}->{enable,disable}
+ * Removed platform_set_drvdata as it is unused
+ * Removed the variable pwm_enabled_by_bootloader 
+ * Added dev_err_probe in various probe error path.
+ * Added an error message, if devm_pwmchip_add fails.
+v3->v4:
+ * Changed the local variable type i from u16->u8 and prescaled_period_
+   cycles from u64->u32 in calculate_prescale().
+ * Replaced mul_u64_u64_div_u64()->mul_u64_u32_div()
+ * Dropped the comma after the sentinel.
+ * Add a variable to track pwm enabled by bootloader and added comments
+   in probe().
+ * Removed unnecessary rzg2l_gpt_reset_assert_pm_disable() from probe.
+ * Replaced devm_clk_get()->devm_clk_get_prepared()
+ * Removed devm_clk_get_optional_enabled()
+v2->v3:
+ * Added Rb tag from Rob for the bindings.
+ * Updated limitation section
+ * Added prefix "RZG2L_" for all macros
+ * Modified prescale calculation
+ * Removed pwm_set_chip_data
+ * Updated comment related to modifying Mode and Prescaler
+ * Updated setting of prescale value in rzg2l_gpt_config()
+ * Removed else branch from rzg2l_gpt_get_state()
+ * removed the err label from rzg2l_gpt_apply()
+ * Added devm_clk_get_optional_enabled() to retain clk on status,
+   in case bootloader turns on the clk of pwm.
+ * Replaced devm_reset_control_get_exclusive->devm_reset_control_get_shared
+   as single reset shared between 8 channels.
+v1->v2:
+ * Added '|' after 'description:' to preserve formatting.
+ * Removed description for pwm_cells as it is common property.
+ * Changed the reg size in example from 0xa4->0x100
+ * Added Rb tag from Geert for bindings.
+ * Added Limitations section
+ * dropped "_MASK" from the define names.
+ * used named initializer for struct phase
+ * Added gpt_pwm_device into a flexible array member in rzg2l_gpt_chip
+ * Revised the logic for prescale
+ * Added .get_state callback
+ * Improved error handling in rzg2l_gpt_apply
+ * Removed .remove callback
+ * Tested the driver with PWM_DEBUG enabled.
+
+RFC->v1:
+ * Added Description in binding patch
+ * Removed comments from reg and clock
+ * replaced rzg2l_gpt_write_mask()->rzg2l_gpt_modify()
+ * Added rzg2l_gpt_read() and updated macros
+ * Removed dtsi patches, will send it separately
+
+RFC:
+ * https://lore.kernel.org/linux-renesas-soc/20220430075915.5036-1-biju.das.jz@bp.renesas.com/T/#t
+
+Biju Das (4):
+  dt-bindings: pwm: Add RZ/G2L GPT binding
+  dt-bindings: pwm: rzg2l-gpt: Document renesas,poegs property
+  pwm: Add support for RZ/G2L GPT
+  pwm: rzg2l-gpt: Add support for gpt linking with poeg
+
+ .../bindings/pwm/renesas,rzg2l-gpt.yaml       | 401 +++++++++++++
+ drivers/pwm/Kconfig                           |  11 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-rzg2l-gpt.c                   | 553 ++++++++++++++++++
+ 4 files changed, 966 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/pwm/renesas,rzg2l-gpt.yaml
+ create mode 100644 drivers/pwm/pwm-rzg2l-gpt.c
+
+
+base-commit: 4f6938e6ed2ee8fffb5ca36d4984beac3c9763a0
+-- 
+2.43.0
+
 
