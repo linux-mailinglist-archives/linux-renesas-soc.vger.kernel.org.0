@@ -1,111 +1,138 @@
-Return-Path: <linux-renesas-soc+bounces-9892-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9893-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8D579A452E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 19:44:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07DE29A483D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 22:39:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8B43B286573
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 17:44:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A34E21F21F09
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2024 20:39:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DBA1205122;
-	Fri, 18 Oct 2024 17:43:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8335820694A;
+	Fri, 18 Oct 2024 20:39:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o1T8IUrJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ga4kn+CN"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9E36204080;
-	Fri, 18 Oct 2024 17:43:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA5618801F;
+	Fri, 18 Oct 2024 20:39:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729273429; cv=none; b=ZGgN3ZbFp3NbQSvcWGKWQK2b2N9VmS2gJNWBGUmaol76I0v6mac3+i7PVgtM/wymdEXTzg493kv+O764gu6CR4HhY4kt9nALN9UpSD9bZjWsiwvirWsNcTzDLrBsBLuRvgTblxbisG9byia0gJ1PgKIZfUbFYhPAc5fZEfhwTpk=
+	t=1729283947; cv=none; b=YXwVarFbG24qmJFPLjk3ffnMB86e3po0WjmZ5UpR0t+nSApCxBOz6VnunkXTR5eVA0iXu+g0EKoxke4JeDXbbcDTyLCRUZndoIm21/8bCJKthu/herIff4bu8j6UyH0XbB9xJzfo8BNXCnbVc/pxXhTKn7G+lh+JIeOZj9ZiDOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729273429; c=relaxed/simple;
-	bh=2p5IF+ZWqEFOVQII1ShdYMBDiQsd1dQKUutWOu5irWY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=qIyBSQQdFkpp2ic1houiZaKFMAgGPubkEJcEJiLx+dco/i1wntBv9CwI0dJrhR1cDywYyRty2+wxRLAeof8Zm4IlprzVUQFvDeyLNZLwHNzcrUws8Ty7ibcT1g9PdG3vR+B8gdZpCSHPJoPHII9wdhs7r6QdBHSeXWInszArGx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o1T8IUrJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E0B7C4CED3;
-	Fri, 18 Oct 2024 17:43:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729273428;
-	bh=2p5IF+ZWqEFOVQII1ShdYMBDiQsd1dQKUutWOu5irWY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=o1T8IUrJUhY5KGJNL+zwwNnfzbqqkscpjyP1e1H/qp48L0poiB3hHP97ti/3u7KRr
-	 puJMukpI4FgMxM8KpYzEBEbqURtEgn78kk2G6hpr6Bvk40PJL0PIgXfgD0CgF0BgKC
-	 fb1HyiIzdlIlrjqP+aZTi0JRmEC7B28QTvduYJYZqMx0/RLJhgW+YtLmmA3ycPPUy9
-	 GdGGzVtu3yE8aWWAyxutle0lRO4zKMTZQ+Oji8iHiLK95OVaKPT/1xoC8AR9YNOTu5
-	 Umx7DwgT2dNy/UADghqExqnKIDTIUQdTXIaaEqHEfaU6loMwoguqoPtcmrWNOGcPgU
-	 QwOeWHA822dFQ==
-From: Mark Brown <broonie@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Prabhakar <prabhakar.csengg@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20241011175346.1093649-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20241011175346.1093649-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH] ASoC: rsnd: Refactor port handling with helper for
- endpoint node selection
-Message-Id: <172927342605.163659.12231131431088875442.b4-ty@kernel.org>
-Date: Fri, 18 Oct 2024 18:43:46 +0100
+	s=arc-20240116; t=1729283947; c=relaxed/simple;
+	bh=UFgY7nQ/+9Kk9FAvomP/z0BzB/J5FmyIv+Qtu5xS03g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tko4zFAGDMwDyhE5t9Uuc5sT1W8uVBgzhvjkbyIE0Z9HXDsMHggJZUe/rCIAYXI96xy2wKJncax9E7Yhs2PD2CMRfo3dqtqVBhyKQDnXGgxnV5m5oyw35U20/Tjurs8vZuAixZRv0PWu35t1HeKkpHKanHaKHu78FUyHLdLJs54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ga4kn+CN; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729283946; x=1760819946;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UFgY7nQ/+9Kk9FAvomP/z0BzB/J5FmyIv+Qtu5xS03g=;
+  b=Ga4kn+CNWq49SAIVIA4wcapxm8Vsj+41BFYuq9bKZ3iOh1MsHFt4xFYO
+   6LNiO8F7j/YRfXq8KhH2XzhqsTySh/zHCsAngyXj1Z768lFCnI7JjJ5Ba
+   98iIUFdFXSM3NR/YdOvOysNdtPwMxa+b0kJIJ4kFxYSrD8AZT3XGRR0kD
+   EgDWwN2y8Q8qv7AhUFcoTVB5I6li3SJ3AYSWwIlORb4Wlm4QVf0HO0Pjb
+   81SohH223t6bU0ZRIgbI7a2HatHcC/W4QGQRhZvsdrDRWtQM+ZCg6m3cF
+   3Qe1CJ7DLtCyoYtDL/LFLL0GSH2S+Lb+383SGGrxYrqM6f1nHyt8q2NFq
+   g==;
+X-CSE-ConnectionGUID: /H5wU2VTT3mi/GERzY4zMw==
+X-CSE-MsgGUID: O+IVOup9Q3ulmRK/oTXeAw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="32515118"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="32515118"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 13:39:05 -0700
+X-CSE-ConnectionGUID: rAB6xkV6RViK06qQGjQlrg==
+X-CSE-MsgGUID: XZBQz+AGRmuplNxQnYCQxw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
+   d="scan'208";a="109796431"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 18 Oct 2024 13:39:02 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t1tkR-000OI1-11;
+	Fri, 18 Oct 2024 20:38:59 +0000
+Date: Sat, 19 Oct 2024 04:38:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 6/7] pinctrl: pinmux: Introduce API to check if a pin is
+ requested
+Message-ID: <202410190448.yDDAKyxt-lkp@intel.com>
+References: <20241017113942.139712-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-9b746
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241017113942.139712-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Fri, 11 Oct 2024 18:53:46 +0100, Prabhakar wrote:
-> Refactor the code responsible for selecting the correct device node for
-> audio endpoint parsing in the rsnd driver. A new helper function
-> `rsnd_pick_endpoint_node_for_ports()` is introduced to handle the
-> selection of the endpoint node by checking whether the port is named
-> 'port' or 'ports'.
-> 
-> This change simplifies the logic in both `rsnd_dai_of_node()` and
-> `rsnd_dai_probe()` functions by replacing repetitive condition checks
-> with the new helper.
-> 
-> [...]
+Hi Prabhakar,
 
-Applied to
+kernel test robot noticed the following build warnings:
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+[auto build test WARNING on geert-renesas-drivers/renesas-pinctrl]
+[also build test WARNING on linusw-pinctrl/devel linusw-pinctrl/for-next geert-renesas-devel/next linus/master v6.12-rc3 next-20241018]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks!
+url:    https://github.com/intel-lab-lkp/linux/commits/Prabhakar/arm64-dts-renesas-rzg3s-smarc-Drop-hogging-of-GPIO-pins/20241017-194200
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl
+patch link:    https://lore.kernel.org/r/20241017113942.139712-7-prabhakar.mahadev-lad.rj%40bp.renesas.com
+patch subject: [PATCH 6/7] pinctrl: pinmux: Introduce API to check if a pin is requested
+config: arm-pxa3xx_defconfig (https://download.01.org/0day-ci/archive/20241019/202410190448.yDDAKyxt-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410190448.yDDAKyxt-lkp@intel.com/reproduce)
 
-[1/1] ASoC: rsnd: Refactor port handling with helper for endpoint node selection
-      commit: daf5e3c68144bdb7e605f46853febc7bb257d44d
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410190448.yDDAKyxt-lkp@intel.com/
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+All warnings (new ones prefixed by >>):
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+   In file included from drivers/pinctrl/core.c:38:
+>> drivers/pinctrl/pinmux.h:104:6: warning: no previous prototype for 'pin_requested' [-Wmissing-prototypes]
+     104 | bool pin_requested(struct pinctrl_dev *pctldev, int pin)
+         |      ^~~~~~~~~~~~~
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+vim +/pin_requested +104 drivers/pinctrl/pinmux.h
 
-Thanks,
-Mark
+   103	
+ > 104	bool pin_requested(struct pinctrl_dev *pctldev, int pin)
+   105	{
+   106		return false;
+   107	}
+   108	#endif
+   109	
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
