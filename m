@@ -1,121 +1,197 @@
-Return-Path: <linux-renesas-soc+bounces-9945-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9946-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D12D29A6BDD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Oct 2024 16:15:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C62F79A6D99
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Oct 2024 17:05:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2CC34B21F48
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Oct 2024 14:11:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E47961C21D40
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Oct 2024 15:05:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 745DA1F4715;
-	Mon, 21 Oct 2024 14:10:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D86AA1FAC21;
+	Mon, 21 Oct 2024 15:04:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cv3o7Rbd"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="n/xWsOaU";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gfwwMOiL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C1D31E9088;
-	Mon, 21 Oct 2024 14:10:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 386121F471B;
+	Mon, 21 Oct 2024 15:04:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729519857; cv=none; b=WjLVTPkcycL1fJwqMVVRGTE20qWoaJz64XcVBOEh9Tj2V9bQsP/zXPsOQV7GG2EKMfwZ7all8RfZkCFz/sHRoaL/p4uX1Gjud1AIVi092l515JiXETD5zW3COzrsxGaEAnZ5YiysUo+TdASuTDwdqoTkw2w+iHwv8RcpUwqq0Mk=
+	t=1729523096; cv=none; b=mDTMezP+7nyQp9Tf18pDRbT+52GJaLmlbz/JIdI6hA6JNeQV5bkE1lfUhGY3+Nx5PwsMoZ74ZzH4TQV2hZ/NBhxUjdT2BQEItCCekkRinlud8STmS4MbglpFE2TIR19F4CzLZ71jj/EekKH78HjdNVPjkwOMTSEn46kLBkZrUKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729519857; c=relaxed/simple;
-	bh=ywPxwrQ3WMCAWOXBI+Iovk6vz3ND8BMHXIVu/d9A7Nc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u7Re8NRnRCfHRU6GMvIZXNF4X46Q7KahvBGOQC2RefPZcbczkEUJpmEb3U19CR89qNhdORzj6eCGXqPA+9WvQanC5sq9j8PCwRlX8NeKsW5afO6ADMeF7J5lWp4dzWcr87Hg7JFElglX2o2U/AiwX2Va9EFNTvIRvPoxmIG7svY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cv3o7Rbd; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-539e6c754bdso4335403e87.2;
-        Mon, 21 Oct 2024 07:10:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729519853; x=1730124653; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Iv9JIm7M2nlW6QHznXyOtj86osaLzEdLfgINuaCED0o=;
-        b=cv3o7RbdH5RamjQSxmccQ9VdbDjoRkyieO5jbrtd9HTHmB2EASE9YMyh0afkNFSz9Q
-         WYG4bt2SaAkI5XG8BAVtvyjG0laeycsSZE7FUJFieQRfoe9tzaxoEz+7c+CKZ82lE24h
-         vrvIFpQbWj/9BWp6Gv4oLxZyQVopJ4Qc9nxVjcCNsvzyh714cGGcWHoYpCyIEdqKoEna
-         DY+5M8QjvYNE/UvL9oEbb8ROl5JN5qtCgCOVEWxYcmBTIgiN4A1/Jzf/S4AJFgigzaPc
-         J8yzce4wOQw76JNzYnmoPX1LwQ9akDxb3azTOK4YlTuKhl10daw2jaOPde5NMZiC1sty
-         EcpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729519853; x=1730124653;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Iv9JIm7M2nlW6QHznXyOtj86osaLzEdLfgINuaCED0o=;
-        b=GZlfcne2Nb7d0ZLlB2UHATUa9zD8vUeGFcZcfXyfotkdrBjBmyyy03s/RGPtX+hxw2
-         isQ5pC30sNhFSZbhPXDrErZt4DFJup1A0zs+GeyIaq/TvafrGY6HKHamkpehnIC7/5qr
-         lQt4tX8gMn5Y7RDCZn133Kbhc0IGJ4aNbaGf1NDgxapSNU0/XDP+ObHhzOVmOrUaAqLx
-         KCI3e/iQBf6zEJeXE1XCCglimcYrkDllft/JzvPextA0nqPxy+kKvsryF+2u8gNjoMAS
-         kBGp8mpCy6GVl+pxl65uJxL0KGgVZ41tY4zL71aLkFS/is3CgwiTPbhJXWgF7ryxZTqp
-         XGxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUdHO52kcite4XfYz4sheUke/pKgLLtr8cJhEBGbL8X255adis8RRPJB/mkDx1a8DjCk8BccBHNmNoFiILa@vger.kernel.org, AJvYcCVACTx7gv2fgi7zAZcMISDCJBoR2DGdVxy18m8MscwyokacfPoOoBHHrn34cLZXNJPwUstgyWZbm1k=@vger.kernel.org, AJvYcCWgG1wgA/t92I2/ka0Wycf8F940b31f2QiSNRtdhq6aaafReugWzQo1f7VuNL4Z6AHjAkdl36KFJHo=@vger.kernel.org, AJvYcCXr4efLNuv52a66uCIxyrYNda1zAE6S2bAQWnqH/9mqiebgsH39XwicHF2WOzm/DtHl9TGl2Mxk@vger.kernel.org
-X-Gm-Message-State: AOJu0YyoEBVEBFDwK/UD0xRcilqi9CP4F9ekbL8smNzaTJCcBZPE9M7k
-	XfpDQLIgd8trjW1ElfN8bRB000gSXbzu1TBbEsLenXLd6jHhNZ2/
-X-Google-Smtp-Source: AGHT+IFbMOYW8mIYZdgTyVvEF4hCBFDSD2rXlBWz4xlZGRwXWxzGa7WFqQ1JnKXCjVtq6ut+LZDx9Q==
-X-Received: by 2002:a05:6512:39cd:b0:535:699b:b076 with SMTP id 2adb3069b0e04-53a15467b88mr6259027e87.16.1729519853059;
-        Mon, 21 Oct 2024 07:10:53 -0700 (PDT)
-Received: from ?IPV6:2a00:1fa0:4321:8ef5:e514:855b:c891:f732? ([2a00:1fa0:4321:8ef5:e514:855b:c891:f732])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53a223f0007sm491492e87.91.2024.10.21.07.10.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Oct 2024 07:10:51 -0700 (PDT)
-Message-ID: <45ec2815-274f-4da6-8257-290fa7a4a642@gmail.com>
-Date: Mon, 21 Oct 2024 17:10:49 +0300
+	s=arc-20240116; t=1729523096; c=relaxed/simple;
+	bh=iQfDtg2p5AMivEvH8CrFMlmxSZNZUVXwuwIjk3mYFyM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FF4JDYfUDkfWvwd3faxWZeXvHjkFpx1c6wEEZyADO9GXMWBnGb+MGoxYFZCSH6w9m69wvpvuQw+cZsF4Hhst9s7AqHsz0UcUjfp/JZXvIPpICENJY5Bi9PZGT+QakWGgujMK6v4uDhu81jafsM1WzGdWIVqTVFu9nX/qC/eQr10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=n/xWsOaU; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gfwwMOiL; arc=none smtp.client-ip=202.12.124.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
+	by mailfout.stl.internal (Postfix) with ESMTP id 0642C11400D2;
+	Mon, 21 Oct 2024 11:04:51 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Mon, 21 Oct 2024 11:04:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1729523091;
+	 x=1729609491; bh=8CAPBjyRnLmuZKLSE6H2/t3gLJQuCsE4bcXXKOoW3qE=; b=
+	n/xWsOaUVOqBxSxURFQx7JkbX8dUdqe0xnvYLW3/GHTnpTWdWWTOORq9kiYywIXi
+	vaoqG4N8/UqhYJUOjihYFopjt+rigx37hpwemQyNMvWVpen+pmnLzzkVFkPkFhIu
+	WyqVeDJfFWmuU/RQbJROjavNBLjH2kd9oGi4nvcS5H23vRzvWfajfv0aJVichOEi
+	+X2v6R0FQw1UEqA3qfwgnQABUOoJaiXb6iMm1ugdXGoBJT0APMjKYIEa3KtaDoSm
+	fpAJXPqwSrF6NMQO8Cek6HY7WEGuDyYsx4mn8paQe7cdGdtQhrztkmhaZ637jeiD
+	9wiEz00B/hxVSoBUe18TjA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1729523091; x=
+	1729609491; bh=8CAPBjyRnLmuZKLSE6H2/t3gLJQuCsE4bcXXKOoW3qE=; b=g
+	fwwMOiLj/7PIHm15oVum/qkM/Y69+4iF5sJX0iiuNRTLSOrZura7ZlhKU8i6HlMP
+	rmPUZouZ0eoWmqWU0uaaTRqIut39gpibGFPqU2O4aIXXFbUFxfILGuIicO5IMH9U
+	sBwcqFSRffSclS0pgDYTH15Vgctk+QSv/hLjCrvPnmwmQroKc672SnzU8ieHQC4N
+	EKzNGNS351hwn3K2ZmvCs0MG/XfGOXD0ZHDOX/YO93XrIrhGA1BOljP1GojJhLm5
+	RqQjnlyCjPNFKqTOZM2H2uj8lcH4c8+Xq0QxZM5Yvx/mgJXpM1F25ide6YSjKt0q
+	Gno7Mym4QwFY1VYYtboCQ==
+X-ME-Sender: <xms:km0WZ2pV9M6Eh51WhzfCGsMTrpEHlrNiLA4NftGolXZ4sBblyqf_GA>
+    <xme:km0WZ0q2c5Q-O_rqE-gIDlN2ltFnDjgBK_bspTIKoNOD7SbnfALlzZzUr9zQcrv7r
+    ROWCym-G2gqHxtDxD8>
+X-ME-Received: <xmr:km0WZ7Nxo1q4MbklRdvzqB65GbI4ubctIp0f8E4kvSeAGdoFj5Ryz1F6fLoeTcN9fKbL_r0JzSExZyMVrEkcdZVwqVb5vOqztg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdehledgkeegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
+    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
+    gvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrght
+    thgvrhhnpeefhfellefhffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvd
+    elieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehn
+    ihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrsh
+    gvpdhnsggprhgtphhtthhopedutddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohep
+    ghgvvghrthdorhgvnhgvshgrshesghhlihguvghrrdgsvgdprhgtphhtthhopehgrhgvgh
+    hkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopegtlhgruhgu
+    ihhurdgsvgiinhgvrgdruhhjsegsphdrrhgvnhgvshgrshdrtghomhdprhgtphhtthhope
+    hprghulhdrsggrrhhkvghrrdgtthessghprdhrvghnvghsrghsrdgtohhmpdhrtghpthht
+    ohephihoshhhihhhihhrohdrshhhihhmohgurgdruhhhsehrvghnvghsrghsrdgtohhmpd
+    hrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgv
+    lhdrohhrghdprhgtphhtthhopehnvghtuggvvhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+    dprhgtphhtthhopehlihhnuhigqdhiuggvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
+    tghpthhtoheplhhinhhugidqshhhsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:km0WZ16npb8c9tj51zfs0I7ofSlxi1gSQdM6qWCzw7VGnUsG6Tt35w>
+    <xmx:km0WZ1570njkw9o0y2U4gz1HBSKL-ytFPPnhcwvB4dVU5ESBVWYRVA>
+    <xmx:km0WZ1iXA0yUFwWjMBm7teeehH91sW25vTO6sEcRQHiw2rAwXgV7fw>
+    <xmx:km0WZ_4RPt_2jKnZ2InZ0ZITOY8cZEvm49Q_P4bncc7-Uiw3Rtawiw>
+    <xmx:k20WZyyhZgkX8E3aoPGS4nBFSJE-PwMa79KfupL-sGe1sQiyZO5-u7V_>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 21 Oct 2024 11:04:50 -0400 (EDT)
+Date: Mon, 21 Oct 2024 17:04:47 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Paul Barker <paul.barker.ct@bp.renesas.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+	linux-ide@vger.kernel.org, linux-sh@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH/RFC] MAINTAINERS: Re-add cancelled Renesas driver sections
+Message-ID: <20241021150447.GC4176464@ragnatech.se>
+References: <0a189e2c4090a1b308e18005d2552e335bac354f.1729511337.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH/RFC] MAINTAINERS: Re-add cancelled Renesas driver sections
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- Paul Barker <paul.barker.ct@bp.renesas.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <0a189e2c4090a1b308e18005d2552e335bac354f.1729511337.git.geert+renesas@glider.be>
-Content-Language: en-US
-From: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <0a189e2c4090a1b308e18005d2552e335bac354f.1729511337.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 10/21/24 2:56 PM, Geert Uytterhoeven wrote:
+Hello Geert,
 
+On 2024-10-21 13:56:51 +0200, Geert Uytterhoeven wrote:
 > Removing full driver sections also removed mailing list entries, causing
 > submitters of future patches to forget CCing these mailing lists.
 > 
 > Fixes: 6e90b675cf942e50 ("MAINTAINERS: Remove some entries due to various compliance requirements.")
-
-   It looks like nobody had seen this one before merging... :-/
-
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-   Thank you for informing me of the situation and fixing up Greg's patch!
-
 > ---
 > Anyone who wants to take over maintenance for these drivers?
 
-   I could use my Gmail address again (I did use it back in 2020 for some time)
-but looking at the removed Baikal entries, this probably is not going to fly...
-   BTW, OMP is not interested in the Renesas drivers or the PATA drivers
-themselves; they were interested in hiring an official maintainer/reviewer
-like me... :-)
+In case Sergei is not interested to keep looking after the RAVB and/or 
+SUPERH Ethernet drivers I would be happy to do so.
 
-[...]
-MBR, Sergey
+In either case should not the maintainer entry in the bindings documents
+also be updated?
 
+> Thanks in advance!
+> ---
+>  MAINTAINERS | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f04cba42a59301fa..97a23cea2729942e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -19521,6 +19521,14 @@ S:	Supported
+>  F:	Documentation/devicetree/bindings/i2c/renesas,iic-emev2.yaml
+>  F:	drivers/i2c/busses/i2c-emev2.c
+>  
+> +RENESAS ETHERNET AVB DRIVER
+> +L:	netdev@vger.kernel.org
+> +L:	linux-renesas-soc@vger.kernel.org
+> +F:	Documentation/devicetree/bindings/net/renesas,etheravb.yaml
+> +F:	drivers/net/ethernet/renesas/Kconfig
+> +F:	drivers/net/ethernet/renesas/Makefile
+> +F:	drivers/net/ethernet/renesas/ravb*
+> +
+>  RENESAS ETHERNET SWITCH DRIVER
+>  R:	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+>  L:	netdev@vger.kernel.org
+> @@ -19570,6 +19578,13 @@ F:	Documentation/devicetree/bindings/i2c/renesas,rmobile-iic.yaml
+>  F:	drivers/i2c/busses/i2c-rcar.c
+>  F:	drivers/i2c/busses/i2c-sh_mobile.c
+>  
+> +RENESAS R-CAR SATA DRIVER
+> +L:	linux-ide@vger.kernel.org
+> +L:	linux-renesas-soc@vger.kernel.org
+> +S:	Supported
+> +F:	Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml
+> +F:	drivers/ata/sata_rcar.c
+> +
+>  RENESAS R-CAR THERMAL DRIVERS
+>  M:	Niklas Söderlund <niklas.soderlund@ragnatech.se>
+>  L:	linux-renesas-soc@vger.kernel.org
+> @@ -19645,6 +19660,15 @@ S:	Supported
+>  F:	Documentation/devicetree/bindings/i2c/renesas,rzv2m.yaml
+>  F:	drivers/i2c/busses/i2c-rzv2m.c
+>  
+> +RENESAS SUPERH ETHERNET DRIVER
+> +L:	netdev@vger.kernel.org
+> +L:	linux-renesas-soc@vger.kernel.org
+> +F:	Documentation/devicetree/bindings/net/renesas,ether.yaml
+> +F:	drivers/net/ethernet/renesas/Kconfig
+> +F:	drivers/net/ethernet/renesas/Makefile
+> +F:	drivers/net/ethernet/renesas/sh_eth*
+> +F:	include/linux/sh_eth.h
+> +
+>  RENESAS USB PHY DRIVER
+>  M:	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+>  L:	linux-renesas-soc@vger.kernel.org
+> -- 
+> 2.34.1
+> 
+
+-- 
+Kind Regards,
+Niklas Söderlund
 
