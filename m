@@ -1,155 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-9920-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9921-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 063729A5C24
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Oct 2024 09:13:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D08659A5C69
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Oct 2024 09:17:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B659E281235
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Oct 2024 07:13:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 919D8282CFF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Oct 2024 07:17:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64B911D0E3F;
-	Mon, 21 Oct 2024 07:13:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E2491D0F74;
+	Mon, 21 Oct 2024 07:16:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cAoWKM4f"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3162F1940A2;
-	Mon, 21 Oct 2024 07:13:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 433561CF5E0;
+	Mon, 21 Oct 2024 07:16:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729494832; cv=none; b=Xvm1SHkXSJHU0h8jiesJqTK+lT4klkr/9f7MnUveq07k6DjL4rYkNBXKYQkyz3CJDt6qOOY+jeZJgKfyL7L7MHvb1YGa4JdonHouWyX0n5vqVWpVWEDFYaW6r3+/ltuNSNGbZVVJv+etWl5kY5d8zmvu8qzjI7G9MBR9TkIbdvc=
+	t=1729495018; cv=none; b=ExdEV32aGowEhl7Iprjhnf50kB0IW7+lYywygBG7vMVV7rYLNzuLYbOkzCzeEuNBeldtLvrImenQfw1bIKyB3BvVFsLq5vkrWX9d8HQBbMHZ9fHwuNUBVaG3oSLEjvNl17iPKd2l4LrJmTtecBu0+nE5sSGwCaOdXNTDORbQPyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729494832; c=relaxed/simple;
-	bh=hFqLmHdpdtEEQjvDUF7FDux/+cwKxEKF5WctPF3sivM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Tk6a0pQ2UcOV56uzL2dLRYRrH8ydmZdfh3wbJbJ/EeWI9UEtUK1OUTqgi0Qwji/A+I+vnq91RejLHRjCSPu3Z/E3Z4I0dvlxeM0SeXQrwyfqFu2fngAyuYL8yOnOnd2OBrLRfctp+JRPnZuUI8e9Cseb9Q/u3CPorCDp1bEQ/lo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1729495018; c=relaxed/simple;
+	bh=xCyoWaLU81vOfCP4OIoPVPC3LdTR5f+9uwMxu666v+k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hjn1e60W60Itijs8gAjZBV2LNpBn/ks8RhmL83CcM9jjPS50a24FfJhLVvziTEnsRk7oiBFef8dqCmpBcRR7Ru29pD+7wW8D8s6qlT2xqg7ILeLXTuldhK08IkCWForfV4HqeLeOxAJiDSihivsdQ78Kbz5RCabxtq68wr3Z9i0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cAoWKM4f; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e29327636f3so3813245276.2;
-        Mon, 21 Oct 2024 00:13:49 -0700 (PDT)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5cb15b84544so1558265a12.2;
+        Mon, 21 Oct 2024 00:16:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729495014; x=1730099814; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JJj4G5/EKvTSyQRauSEPmLSCKD5A3cq9wZquVufYhRg=;
+        b=cAoWKM4f/sQArf03S6/v79C294K93/d8F/oOKoDAS3Bj9b+USRSuJytbV0OE5PJTfU
+         ClcCP8piQbdQnPrXmaeJH/r0sG3a8LjnhCBWtFrtISDfqCZmZ5KDTcW0Kmho2hkLKl7x
+         Oglgy5tIoqkfjOupcHIjy5vS+zaplDpZpWYjUSuR0q59NNTgycfs2rCeVx4sY1cUNJn/
+         n35167HXCJZhHIQ7jpzfcOXO30Nd+hdF5jXpj4f3oJR7D8idZNYY5BWoQD/jkwlABRI3
+         g8QJZ/SBEQ1WhUMfsKoYaAkTrrT8x9KFi6+FAHBpSZDk0MEXixhT4Go0T5ww81y9kJU+
+         zsRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729494829; x=1730099629;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qhhC9On5seuboltYxSaYFtbhHrfoO84l8jkKrTdFswo=;
-        b=p4wQlobtnzqizFoXpgzkhnZe3twjN85FHiRTKpM+WOpy6DH5bN/lSbdn48caqZjXpc
-         qMpPOrbiuaJBjNOretfeRl1uGy3r3E663cgrpEt6BV4l+CmGgmCI+msH2cbFRFfjl04F
-         E9kTIQwd9gbifNpXe6GRbgvpt8V4hUjGRGa6wHSHgBa629w1ybvOCZk5vXDKE7QI/40K
-         tNy5jMr8Xw2G9PL2ik9N1JIGUNtK0shtjBOEcXS4sgGhIF8LGM842C/yUm/LTLLcYGV3
-         xGj5sCHGEuiwzVpOcjrjgWQP+yZhEHCnHAGIGH6f3UtNMPrmUnIpWZIjqgLOsOqglZdF
-         VQmA==
-X-Forwarded-Encrypted: i=1; AJvYcCWCqHroYAr9EahNEhsCOzX5wn2ur9qRma2bwWIRy+xC603iTigzzpbKU2fGCh9I0f0dF7///zSK1oQJ@vger.kernel.org, AJvYcCXe97LL4KpOo9bCaEBnEom+fzWXvAWg+WXYwO/LQ1xFh6I6U+66f4WqpZiZH5OzqIJlTxSbmKq7Uv+iCbn2ZkAUdD8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxmuUvLACcErSUVqCWuM8MLmUzzqz40BlK83xlzRKO8qZvNk2DL
-	Np9mBOhDPVSfCLVotHXAhi2S3uPq8VK9wUDaxkczCCaAJR7zzEvw5QFDVIjS
-X-Google-Smtp-Source: AGHT+IFlZwI5zR7UKkg/JlgTR9dlKF3dyxQZVJj85e2FCN0/YRLJ6EMNIjaeuQa3pmHTE0wAOSnpfw==
-X-Received: by 2002:a05:6902:200f:b0:e1d:194a:51ee with SMTP id 3f1490d57ef6-e2bb11c5b22mr8630384276.12.1729494828776;
-        Mon, 21 Oct 2024 00:13:48 -0700 (PDT)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e2bdcb02b5csm604440276.53.2024.10.21.00.13.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Oct 2024 00:13:48 -0700 (PDT)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-6e377e4aea3so36992787b3.3;
-        Mon, 21 Oct 2024 00:13:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUDuSWjoF2Srj5w7sAkzyD9ZH0kr4HV3iiWLHKN8p6lJFghlILlgiKRb2wyFSHggGaYbZA+4VVXVrW3@vger.kernel.org, AJvYcCXk/zfO/SqqlIGWNhickAH4an9Lr3nIoBq0RIrLVSlX+D2yBmwAKpPwgsWO0w71ow+ijrQlpvI1ue1XPl1KEHTrEUM=@vger.kernel.org
-X-Received: by 2002:a05:690c:d:b0:6b2:6cd4:7f95 with SMTP id
- 00721157ae682-6e5bfee6c09mr94775557b3.38.1729494828336; Mon, 21 Oct 2024
- 00:13:48 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729495014; x=1730099814;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JJj4G5/EKvTSyQRauSEPmLSCKD5A3cq9wZquVufYhRg=;
+        b=enJw4mCf1M572V6BYQ7IpeCfT4kknjGn0Nzb4u9PVAEllyzcOav/LfFjAqwRuZjwaH
+         IwHBUYFvUVoTLLUDkgaKqTn07+/0nzaze90hAWLGoCXy2L+XhDKwbm59ORdRcnwQs+yk
+         NGHtR6QghHiw7/rJFC0aI9DlXJeZo/vRfuzN2Lrh5wqubz1YxRI86kh5VBo9l0hkgm3d
+         JBnrm7lQ1v6S6F+8AXy9+AyE2PWKBBu+YiKuzz1mZIaU4xXZ0tiK8XdAxGF9vJgZeTFB
+         7JWtMo0P7dhYyR2Ob9euIODaJ0pUd5MxAaMWrgzpQho/54DsEZ+GYO6nR7lwWz/SWdbA
+         lJ4A==
+X-Forwarded-Encrypted: i=1; AJvYcCV3LS1YAlWW+8Wnh4Q2kjB4uGgCrfr5RG30hIhPOJSgTJGVPXZ9jPayqZ5iJ5uvPFQbwydaurEdUGl1CSM=@vger.kernel.org, AJvYcCWidO7IFlFpUO+ImGMym4nyKlPoyzodSQuAo//De72aPEvmk4TLEcVSKvLUtkHCc2UIsElfZCIliogMUPA=@vger.kernel.org, AJvYcCX0x6axa5MYsYkRNi78XpeRi3gBJdvBRRfN2ZyqsytjGxHEWQzK9+HZ27vgTEvUSxxPT2i7kW2wT9CqRv5oqGtNtJk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx317iML7H1T9G2pM5lYNBZQzz0gdqi9G3CkYV334aTD1nBuRVD
+	m0tPqzAygfoy15/kmVVBws1iCfLNSRagL53T+3rVo2DaG5TaiMHv
+X-Google-Smtp-Source: AGHT+IFwxnvCeZMsWBbxvjLa/0N3yW930DRY0OP76c4vln7t3sigu4eT3LuuDVP2FhQG7AWlm3wBhQ==
+X-Received: by 2002:a05:6402:34d5:b0:5cb:6792:8e44 with SMTP id 4fb4d7f45d1cf-5cb67928e73mr3156110a12.36.1729495014306;
+        Mon, 21 Oct 2024 00:16:54 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-51-176.cust.vodafonedsl.it. [188.217.51.176])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cb6696b53bsm1602149a12.17.2024.10.21.00.16.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Oct 2024 00:16:53 -0700 (PDT)
+Date: Mon, 21 Oct 2024 09:16:51 +0200
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v3 02/10] media: i2c: ov5645: Use local `dev` pointer for
+ subdev device assignment
+Message-ID: <ZxX/4+rOjqao1hB1@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20241018153230.235647-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20241018153230.235647-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240704152610.1345709-1-niklas.soderlund+renesas@ragnatech.se>
- <CAMuHMdUZAVAkPVus2T_O3sWT7f1PciRYjxm6ecLy0QUyh50OEw@mail.gmail.com>
- <d1b36858-da21-4e2a-bc54-175524a7d3b4@denx.de> <CAMuHMdXRhUr1My-w0+hoAhQKgOq9iwecjow4iZTh82ED5DEfdA@mail.gmail.com>
- <50b37c36-643c-4307-9d4e-ad49b306ba8a@denx.de> <20241015144810.GD2838422@ragnatech.se>
- <825e3b22-340c-4618-8d80-5d1b004fc0e4@denx.de>
-In-Reply-To: <825e3b22-340c-4618-8d80-5d1b004fc0e4@denx.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 21 Oct 2024 09:13:35 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV9XoJHHUM42YFwackdM+oRgP4k-SwZOTwqg0RJGETViw@mail.gmail.com>
-Message-ID: <CAMuHMdV9XoJHHUM42YFwackdM+oRgP4k-SwZOTwqg0RJGETViw@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: white-hawk-cpu: Move avb0 reset gpio
- to mdio node
-To: Marek Vasut <marex@denx.de>
-Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241018153230.235647-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hi Marek,
+Hi Prabhakar,
 
-On Mon, Oct 21, 2024 at 2:13=E2=80=AFAM Marek Vasut <marex@denx.de> wrote:
-> On 10/15/24 4:48 PM, Niklas S=C3=B6derlund wrote:
-> >>> However, the reset signal may be in asserted state when the PHY is
-> >>> probed (e.g. after unbind from the Ethernet driver, or during kexec).
-> >>> Identifying the PHY by reading the ID register requires deasserting
-> >>> the reset first.
-> >> That may not be the entire precondition. For example the SMSC LAN87xx =
-PHYs
-> >> also require PHY clock to be enabled before the reset is toggled, but =
-such
-> >> information is available only to the specific PHY driver.
-> >>
-> >> The MDIO-level reset GPIO handling, as far as I understand it, applies=
- in
-> >> case there are more PHYs on the MDIO bus which share the same reset GP=
-IO
-> >> line.
-> >>
-> >> In this case there is only one PHY on the MDIO bus, so the only bit wh=
-ich
-> >> applies is the potential PHY-specific reset requirement handling. If t=
-he PHY
-> >> driver ever gets extended with such a thing in the future, then having=
- the
-> >> reset-gpios in the PHY node is beneficial over having it in MDIO node.
-> >>
-> >> It will always be a compromise between the above and best-effort PHY
-> >> auto-detection though.
-> >
-> > I agree this is not needed if the PHY is identified by the compatible
-> > string, but might be if it is not. In this case it works and the reason
-> > for this patch was just to align the style used here.
-> >
-> > I'm happy to drop this patch, or send a rebased version that applies
-> > since the context changed ;-) Marek, Geert what is your view? I'm happy
-> > with either option.
->
-> I was hoping Geert would comment on this first, but seems like maybe no.
-> I think, since the PHY node does have a compatible string AND the reset
-> is connected to the PHY, I would keep the reset property in the PHY
-> node. Sorry.
+On Fri, Oct 18, 2024 at 04:32:22PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> While assigning the subdev device pointer, use the local `dev` pointer
+> which is already extracted from the `i2c_client` pointer.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  drivers/media/i2c/ov5645.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
+> index bcbf3239d3ea..d344d3447a95 100644
+> --- a/drivers/media/i2c/ov5645.c
+> +++ b/drivers/media/i2c/ov5645.c
+> @@ -1188,7 +1188,7 @@ static int ov5645_probe(struct i2c_client *client)
+>  	ov5645->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
+>  			    V4L2_SUBDEV_FL_HAS_EVENTS;
+>  	ov5645->pad.flags = MEDIA_PAD_FL_SOURCE;
+> -	ov5645->sd.dev = &client->dev;
+> +	ov5645->sd.dev = dev;
+>  	ov5645->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+>  
+>  	ret = media_entity_pads_init(&ov5645->sd.entity, 1, &ov5645->pad);
+> -- 
+> 2.43.0
+> 
+> 
 
-You are inverting the reasoning ;-) The compatible strings were added
-because otherwise the PHY core can not identify the PHY when the
-reset is asserted (e.g. after kexec). If possible, I'd rather remove
-the compatible strings again, as different PHYs may be mounted on
-different PHY revisions, causing a headache for DTB management.
+Looks good to me.
 
-So, what would you suggest when the PHY nodes would not have compatible
-strings?
+Reviewed-by: Tommaso Merciai <tomm.merciai@gmail.com>
+Tested-by: Tommaso Merciai <tomm.merciai@gmail.com>
 
-Thanks!
+Thanks & Regards,
+Tommaso
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
