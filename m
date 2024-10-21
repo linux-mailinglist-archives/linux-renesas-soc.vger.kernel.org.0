@@ -1,136 +1,194 @@
-Return-Path: <linux-renesas-soc+bounces-9921-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9922-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D08659A5C69
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Oct 2024 09:17:04 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E1399A5CFA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Oct 2024 09:28:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 919D8282CFF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Oct 2024 07:17:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5F915B24A0B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Oct 2024 07:28:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E2491D0F74;
-	Mon, 21 Oct 2024 07:16:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E5B71DF977;
+	Mon, 21 Oct 2024 07:27:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cAoWKM4f"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YFCkvB/N"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 433561CF5E0;
-	Mon, 21 Oct 2024 07:16:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5EC41DF754
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Oct 2024 07:27:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729495018; cv=none; b=ExdEV32aGowEhl7Iprjhnf50kB0IW7+lYywygBG7vMVV7rYLNzuLYbOkzCzeEuNBeldtLvrImenQfw1bIKyB3BvVFsLq5vkrWX9d8HQBbMHZ9fHwuNUBVaG3oSLEjvNl17iPKd2l4LrJmTtecBu0+nE5sSGwCaOdXNTDORbQPyE=
+	t=1729495646; cv=none; b=lJzmopIr1UvIWalvjv2seSCufJcvFVv7168MGUUTNzZ7kAbWMK1rjZeV8eP8ZWvCj2duBuQ3rGXN/pqXWWuvOj9hmRActK9nLu3ktjydPGtOlVWrh667k1ZRGm4JCH66Tr/HbG/NDsVWR5qG5n8Ck46cNZmYzaw2LZMnITQ5yi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729495018; c=relaxed/simple;
-	bh=xCyoWaLU81vOfCP4OIoPVPC3LdTR5f+9uwMxu666v+k=;
+	s=arc-20240116; t=1729495646; c=relaxed/simple;
+	bh=8gbvNBoq0YOFSLaXw89qvXDkB77fF5WP+E/aFeUjZ+Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hjn1e60W60Itijs8gAjZBV2LNpBn/ks8RhmL83CcM9jjPS50a24FfJhLVvziTEnsRk7oiBFef8dqCmpBcRR7Ru29pD+7wW8D8s6qlT2xqg7ILeLXTuldhK08IkCWForfV4HqeLeOxAJiDSihivsdQ78Kbz5RCabxtq68wr3Z9i0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cAoWKM4f; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5cb15b84544so1558265a12.2;
-        Mon, 21 Oct 2024 00:16:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729495014; x=1730099814; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JJj4G5/EKvTSyQRauSEPmLSCKD5A3cq9wZquVufYhRg=;
-        b=cAoWKM4f/sQArf03S6/v79C294K93/d8F/oOKoDAS3Bj9b+USRSuJytbV0OE5PJTfU
-         ClcCP8piQbdQnPrXmaeJH/r0sG3a8LjnhCBWtFrtISDfqCZmZ5KDTcW0Kmho2hkLKl7x
-         Oglgy5tIoqkfjOupcHIjy5vS+zaplDpZpWYjUSuR0q59NNTgycfs2rCeVx4sY1cUNJn/
-         n35167HXCJZhHIQ7jpzfcOXO30Nd+hdF5jXpj4f3oJR7D8idZNYY5BWoQD/jkwlABRI3
-         g8QJZ/SBEQ1WhUMfsKoYaAkTrrT8x9KFi6+FAHBpSZDk0MEXixhT4Go0T5ww81y9kJU+
-         zsRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729495014; x=1730099814;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JJj4G5/EKvTSyQRauSEPmLSCKD5A3cq9wZquVufYhRg=;
-        b=enJw4mCf1M572V6BYQ7IpeCfT4kknjGn0Nzb4u9PVAEllyzcOav/LfFjAqwRuZjwaH
-         IwHBUYFvUVoTLLUDkgaKqTn07+/0nzaze90hAWLGoCXy2L+XhDKwbm59ORdRcnwQs+yk
-         NGHtR6QghHiw7/rJFC0aI9DlXJeZo/vRfuzN2Lrh5wqubz1YxRI86kh5VBo9l0hkgm3d
-         JBnrm7lQ1v6S6F+8AXy9+AyE2PWKBBu+YiKuzz1mZIaU4xXZ0tiK8XdAxGF9vJgZeTFB
-         7JWtMo0P7dhYyR2Ob9euIODaJ0pUd5MxAaMWrgzpQho/54DsEZ+GYO6nR7lwWz/SWdbA
-         lJ4A==
-X-Forwarded-Encrypted: i=1; AJvYcCV3LS1YAlWW+8Wnh4Q2kjB4uGgCrfr5RG30hIhPOJSgTJGVPXZ9jPayqZ5iJ5uvPFQbwydaurEdUGl1CSM=@vger.kernel.org, AJvYcCWidO7IFlFpUO+ImGMym4nyKlPoyzodSQuAo//De72aPEvmk4TLEcVSKvLUtkHCc2UIsElfZCIliogMUPA=@vger.kernel.org, AJvYcCX0x6axa5MYsYkRNi78XpeRi3gBJdvBRRfN2ZyqsytjGxHEWQzK9+HZ27vgTEvUSxxPT2i7kW2wT9CqRv5oqGtNtJk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx317iML7H1T9G2pM5lYNBZQzz0gdqi9G3CkYV334aTD1nBuRVD
-	m0tPqzAygfoy15/kmVVBws1iCfLNSRagL53T+3rVo2DaG5TaiMHv
-X-Google-Smtp-Source: AGHT+IFwxnvCeZMsWBbxvjLa/0N3yW930DRY0OP76c4vln7t3sigu4eT3LuuDVP2FhQG7AWlm3wBhQ==
-X-Received: by 2002:a05:6402:34d5:b0:5cb:6792:8e44 with SMTP id 4fb4d7f45d1cf-5cb67928e73mr3156110a12.36.1729495014306;
-        Mon, 21 Oct 2024 00:16:54 -0700 (PDT)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-51-176.cust.vodafonedsl.it. [188.217.51.176])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cb6696b53bsm1602149a12.17.2024.10.21.00.16.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Oct 2024 00:16:53 -0700 (PDT)
-Date: Mon, 21 Oct 2024 09:16:51 +0200
-From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v3 02/10] media: i2c: ov5645: Use local `dev` pointer for
- subdev device assignment
-Message-ID: <ZxX/4+rOjqao1hB1@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <20241018153230.235647-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20241018153230.235647-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=QSGVlwXVjcnHQGr6p8+cPVLR1NvxPIsoZLqHaAjoXXWGDqmek+z2yfD/bfhO69IP3gE1d5PFRexF0OHShqunG3jDfLajrI5QiDMRyfZDBbfRqG1swA6T9bfqPyTBZW5Bhtt1QDRnX2EIw+blD6BcTj4maIw9wHWl6rVoBdEFEDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YFCkvB/N; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0691C4CEE6;
+	Mon, 21 Oct 2024 07:27:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1729495646;
+	bh=8gbvNBoq0YOFSLaXw89qvXDkB77fF5WP+E/aFeUjZ+Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YFCkvB/NaP/Ql74hjhEBHjZWR1nVlg6oPvuAidP6dz3h3T0gQEW7eJF+bkkd/wMat
+	 YJueG8X9SxBmEdYI4bozpqiQreIVS+rEMxt08TdtcQ8ZniWt8iuFC/xT0s27s/2CS/
+	 m2WeLAsz6pZ9suMGirvP8pM3fgnZntRTL+akNyvQ=
+Date: Mon, 21 Oct 2024 09:27:23 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Douglas Anderson <dianders@chromium.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Fix multiple instances
+Message-ID: <2024102137-repost-visiting-323d@gregkh>
+References: <8c2df6a903f87d4932586b25f1d3bd548fe8e6d1.1729180470.git.geert+renesas@glider.be>
+ <20241018131035.GA20602@pendragon.ideasonboard.com>
+ <CAMuHMdVrahM9GYDX4FBZ31YBUZWm67-KoG-EBTDL8LU9bv2qsg@mail.gmail.com>
+ <2024101855-judo-tattered-bc3c@gregkh>
+ <20241018142522.GA28934@pendragon.ideasonboard.com>
+ <2024101837-crushed-emphasis-b496@gregkh>
+ <20241020143629.GC28934@pendragon.ideasonboard.com>
+ <2024102119-oversweet-labored-aa07@gregkh>
+ <CAMuHMdUWAQKRy6F-zyCK6efhSYDRo2Go-f-=t2kRnPQoNdw0og@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241018153230.235647-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdUWAQKRy6F-zyCK6efhSYDRo2Go-f-=t2kRnPQoNdw0og@mail.gmail.com>
 
-Hi Prabhakar,
-
-On Fri, Oct 18, 2024 at 04:32:22PM +0100, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Mon, Oct 21, 2024 at 08:58:30AM +0200, Geert Uytterhoeven wrote:
+> Hi Greg,
 > 
-> While assigning the subdev device pointer, use the local `dev` pointer
-> which is already extracted from the `i2c_client` pointer.
+> On Mon, Oct 21, 2024 at 8:39 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+> > On Sun, Oct 20, 2024 at 05:36:29PM +0300, Laurent Pinchart wrote:
+> > > On Fri, Oct 18, 2024 at 04:31:21PM +0200, Greg KH wrote:
+> > > > On Fri, Oct 18, 2024 at 05:25:22PM +0300, Laurent Pinchart wrote:
+> > > > > On Fri, Oct 18, 2024 at 04:09:26PM +0200, Greg KH wrote:
+> > > > > > On Fri, Oct 18, 2024 at 03:36:48PM +0200, Geert Uytterhoeven wrote:
+> > > > > > > On Fri, Oct 18, 2024 at 3:10 PM Laurent Pinchart wrote:
+> > > > > > > > On Fri, Oct 18, 2024 at 09:45:52AM +0200, Geert Uytterhoeven wrote:
+> > > > > > > > > Each bridge instance creates up to four auxiliary devices with different
+> > > > > > > > > names.  However, their IDs are always zero, causing duplicate filename
+> > > > > > > > > errors when a system has multiple bridges:
+> > > > > > > > >
+> > > > > > > > >     sysfs: cannot create duplicate filename '/bus/auxiliary/devices/ti_sn65dsi86.gpio.0'
+> > > > > > > > >
+> > > > > > > > > Fix this by using a unique instance ID per bridge instance.
+> > > > > > > >
+> > > > > > > > Isn't this something that should be handled by the AUX core ? The code
+> > > > > > > > below would otherwise need to be duplicated by all drivers, which seems
+> > > > > > > > a burden we should avoid.
+> > > > > > >
+> > > > > > > According to the documentation, this is the responsibility of the caller
+> > > > > > > https://elixir.bootlin.com/linux/v6.11.4/source/include/linux/auxiliary_bus.h#L81
+> > > > > > > I believe this is the same for platform devices.
+> > > > > > > See also the example at
+> > > > > > > https://elixir.bootlin.com/linux/v6.11.4/source/include/linux/auxiliary_bus.h#L116
+> > > > > > >
+> > > > > > > Note: the platform bus supports PLATFORM_DEVID_AUTO, but the auxiliary
+> > > > > > > bus does not.
+> > > > > >
+> > > > > > Yes, it does not as it's up to the caller to create a unique name, like
+> > > > > > your patch here does.  I'd argue that platform should also not do
+> > > > > > automatic device ids, but that's a different argument :)
+> > > > >
+> > > > > __auxiliary_device_add() creates the device name with
+> > > > >
+> > > > >   dev_set_name(dev, "%s.%s.%d", modname, auxdev->name, auxdev->id);
+> > > > >
+> > > > > I'm not calling for a PLATFORM_DEVID_AUTO-like feature here, but
+> > > > > shouldn't the first component of the device name use the parent's name
+> > > > > instead of the module name ?
+> > > >
+> > > > Why would the parent's name not be the module name?  That name is
+> > > > guaranteed unique in the system.  If you want "uniqueness" within the
+> > > > driver/module, use the name and id field please.
+> > > >
+> > > > That's worked well so far, but to be fair, aux devices are pretty new.
+> > > > What problem is this naming scheme causing?
+> > >
+> > > Auxiliary devices are created as children of a parent device. When
+> > > multiple instances of the same parent type exist, this will be reflected
+> > > in the /sys/devices/ devices tree hierarchy without any issue. The
+> > > problem comes from the fact the the auxiliary devices need a unique name
+> > > for /sys/bus/auxialiary/devices/, where we somehow have to differenciate
+> > > devices of identical types.
+> > >
+> > > Essentially, we're trying to summarize a whole hierarchy (path in
+> > > /sys/devices/) into a single string. There are different ways to solve
+> > > this. For platform devices, we use a device ID. For I2C devices, we use
+> > > the parent's bus number. Other buses use different schemes.
+> > >
+> > > Geert's patch implements a mechanism in the ti-sn65dsi86 driver to
+> > > handle this, and assign an id managed by the parent. In a sense we could
+> > > consider this to be similar to what is done for I2C, where the bus
+> > > number is also a property of the parent. However, the big difference is
+> > > that the I2C bus number is managed by the I2C subsystem, while here the
+> > > id is managed by the ti-sn65dsi86 driver, not by the auxiliary device
+> > > core. This would require duplicating the same mechanism in every single
+> > > driver creating auxiliary devices. This strikes me as a fairly bad idea.
+> > > The problem should be solved by the core, not by individual drivers.
+> >
+> > The "id" is just a unique number, it is "managed" by the thing that is
+> > creating the devices themselves, not the aux core code.  I don't see why
+> > the i2c bus number has to match the same number that the ti driver
+> > creates, it could be anything, as long as it doesn't match anything else
+> > currently created by that driver.
 > 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  drivers/media/i2c/ov5645.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Laurent does not say it has to match the i2c bus number.
+> He does think the auxilliary bus should provide a mechanism to
+> allocate these IDs (e.g. usin g AUX_DEVID_AUTO?).
+
+As this is the first subsystem to ask for such a thing, I didn't think
+it was needed, but the aux subsystem is new :)
+
+> However, using i2c_client->adapter->nr instead of ida_alloc()
+> in the TI driver does sound like a good idea to me...
+
+Great!
+
+> > If we had the aux core code create the id, it would just use a unique
+> > counter, and that would not reflect any mapping to anything, so I don't
+> > see how that is any different here.
 > 
-> diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-> index bcbf3239d3ea..d344d3447a95 100644
-> --- a/drivers/media/i2c/ov5645.c
-> +++ b/drivers/media/i2c/ov5645.c
-> @@ -1188,7 +1188,7 @@ static int ov5645_probe(struct i2c_client *client)
->  	ov5645->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
->  			    V4L2_SUBDEV_FL_HAS_EVENTS;
->  	ov5645->pad.flags = MEDIA_PAD_FL_SOURCE;
-> -	ov5645->sd.dev = &client->dev;
-> +	ov5645->sd.dev = dev;
->  	ov5645->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
->  
->  	ret = media_entity_pads_init(&ov5645->sd.entity, 1, &ov5645->pad);
-> -- 
-> 2.43.0
+> And then we would get something like:
 > 
+> /sys/bus/auxiliary/devices
+> ├── ti_sn65dsi86.gpio.0
+> ├── ti_sn65dsi86.pwm.1
+> ├── ti_sn65dsi86.aux.2
+> ├── ti_sn65dsi86.bridge.3
+> ├── ti_sn65dsi86.gpio.4
+> ├── ti_sn65dsi86.pwm.5
+> ├── ti_sn65dsi86.aux.6
+> └── ti_sn65dsi86.bridge.7
 > 
+> Which is similar to the first approach I tried (calling ida_alloc() in
+> ti_sn65dsi86_add_aux_device() instead of ti_sn65dsi86_probe()).
 
-Looks good to me.
+That id scheme looks really odd, don't you think?  Try using the
+adapter->nr instead like other aux subsystems already do.
 
-Reviewed-by: Tommaso Merciai <tomm.merciai@gmail.com>
-Tested-by: Tommaso Merciai <tomm.merciai@gmail.com>
+thanks,
 
-Thanks & Regards,
-Tommaso
-
+greg k-h
 
