@@ -1,282 +1,281 @@
-Return-Path: <linux-renesas-soc+bounces-9930-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9931-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00D979A5E38
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Oct 2024 10:10:26 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F1AC9A5E8E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Oct 2024 10:23:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 78C3C1F20EDA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Oct 2024 08:10:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DC0AAB24C18
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Oct 2024 08:23:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2237D1D14E2;
-	Mon, 21 Oct 2024 08:10:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bX8X8nQh"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0D411E1C10;
+	Mon, 21 Oct 2024 08:23:43 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31DA4C70;
-	Mon, 21 Oct 2024 08:10:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3DBE1E1C15
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Oct 2024 08:23:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729498223; cv=none; b=Hbzin0pRJDuf+DAjJWxvidoBII7oAjO9k9YdkKE8UIHXQKIvSDkRHHSE91ghJB5exdrMLcYfqnceQBmF5tlU1Wlc7xFD46ZfypIbU4y/gyN4+RpzLpMnzXU47zSxQwboCvG2QRrEs6lFoQg5KAl2QX7KUqUrQSkmCg0VTngHtgI=
+	t=1729499023; cv=none; b=qS4NyrK8agCeE55XTpEmJwHn+eTsIGYf7YNedytKy/oejGS9vUfGPXbq9B7iI4xV7KOGUOJNZ14lWPYGMkfX4LF51EQ00Ou8e07vWgwqH1xkm4svUjAQyV/arNhv1ZOUw0TRMX767wxz/Zl0pIkb7w5cPd9rd3a4bM3yedUDpSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729498223; c=relaxed/simple;
-	bh=B2baQL7Yao/qvFETd2xzbvbIt8o56EyJ0yLR6QW70jc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fbmGQP3ceOXiVMVQOZWZyojvxVorGgPvd881GmTRQdLumZ1mmu58SgftdC+wa/Dt8Fbfu5MiF3psD+FP3aCD9t1eP+P/xrijqjMi5LwTO9ZQcEjSvUwaAWigBKumPgxSI5TwoDdS2+x3GdxDDaqUdsdBjxL4HcQA44mdNVcEQ3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bX8X8nQh; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1729499023; c=relaxed/simple;
+	bh=0F1nJf7vylZ0OPsaaqurYu/woIkvh6X/39ztWgFmzrc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=p6lY6W6o5BtVGDGvwas7e8jDI6ZDZ7X9peYiAbFLVt5m924tdVfZOF+poIqTOCweMvZTwORtoM7w7qDzz5IsmQdqm5k/sIzEMbyPzsEjaDNeBXjeQKKO0wW2S5rM/0A7dOBNeLCdY1GLz8s83XXjCZx44h6xkbNcePcThQFRjDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a9a0cee600aso526755266b.1;
-        Mon, 21 Oct 2024 01:10:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729498219; x=1730103019; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pV0wxru8ZTmJJ3DXaiDgnoaMc7aIZtWQq4UscqIJZ5w=;
-        b=bX8X8nQhOLBAVfmQfTBH/pbyOCXxlJ+380liChbiG5M7xycDFLnb67t8d9M9nPBp0D
-         AfnYqxO4TPDtnHiTBuog6tIXJaLLc9xQN2iW30nzvqnPpodvFW5kLtD4RhZjGfTPjvZ7
-         uNE1N9jwjWTt+Ulvj/UBmGsfZERLZiFjyqcLGMVTnBf6zqyDwmzNpjQfQXCub/5TwssO
-         4T4MktZjPSmOxTpR3DjwDAUjl1ePO8/UGPsgnqTEEsQcUczxsDQJTYYf6mxr1S/6RIk2
-         KllHDJqiQufhzcnMzAcVkwm+fyd7p7OJFfudZkSUPP/vpMrx77r/d5cMzXMnLTcWRYim
-         Gkzw==
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-6e33c65d104so36253087b3.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Oct 2024 01:23:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729498219; x=1730103019;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pV0wxru8ZTmJJ3DXaiDgnoaMc7aIZtWQq4UscqIJZ5w=;
-        b=p6R1s3C0YmfK1r5WOGF5Qhebx1QF4n8vNlNbF0uAp///MZTqmnfsRz6o8PMJBwlC2R
-         aeNphe/kl6UrxVoWRvfKCbgWlYqYXqol6avC93WxpRMGoCUCz82JoysdS7e9+WCVe9u8
-         VPQVa7l0ViX0NNYnKHnZjvExpYofAIjgwLxdGrAeXwNr5PwIt+uLFxLRCLg5okFh0N6a
-         /gmv2MdpyBGvq2PpYKeq2tG8gDRZ2lrZci6+5F0z4KDTnVF7n5iMDXs1uAn2H9EsMMEC
-         iMbr6QXvSBmVwAwwhLnSZxGAwBkvBkjeeVnJ6/BxeLIyyflR7ZDQHFVZWrW92uuLYri3
-         glJw==
-X-Forwarded-Encrypted: i=1; AJvYcCU6Efm2TvXOg+ROeji0MItNzard2H741WXwvObKGzXviFAM1pLpobJUNFGzX3l8OeRC+8p9/2aRcCMwvBMdtyJXTiU=@vger.kernel.org, AJvYcCUNN5OiL8dB7x3iDnIzPbEwaOYqidk2tvp1puJhcdgN2X9iEVTt0tgA4fseQNSmzzLbBduB3VNS2XRbc9w=@vger.kernel.org, AJvYcCUZW3KPtKfBcGHRirCs5IL+3R1dESyUCXia5kc5tmwqoPQiFKZnLrRhkxxzz+/qYSmC6ZFHSf+KK5nKxlE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4cQnB80Jx/hSV5PjkZ+wc2vmsyKTcEXu6NGfPt687nKTf93dq
-	f2PjFVjQNyavemqdbZHd0UObIk8IdIZI+9TVwau7fD+ga+zPyLXK
-X-Google-Smtp-Source: AGHT+IEFpqonq7tJjXCKr2XitZpRbFziVX/A1hcSmKlgEAUVLOrekq2iccign6jqCBqyoSDqmvje2w==
-X-Received: by 2002:a17:907:6e92:b0:a99:f977:70c2 with SMTP id a640c23a62f3a-a9a69c98b2dmr1001775466b.48.1729498218839;
-        Mon, 21 Oct 2024 01:10:18 -0700 (PDT)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-51-176.cust.vodafonedsl.it. [188.217.51.176])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a912ee0f5sm173371666b.66.2024.10.21.01.10.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Oct 2024 01:10:18 -0700 (PDT)
-Date: Mon, 21 Oct 2024 10:10:16 +0200
-From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v3 00/10] media: ov5645: Add support for streams
-Message-ID: <ZxYMaGhTDLWsUPOm@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <20241018153230.235647-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        d=1e100.net; s=20230601; t=1729499020; x=1730103820;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RwE+/VkLg6tsBqfPJ9uMLaCmwut336NDYQKe6YqlJhQ=;
+        b=mvd523AqijQ8wxRCGb+8eZecAnRcau+H27yusiKa67Dzn7TSIFogmLZAH2XlXetVza
+         VMfdvSpCyjQGNXk2va1e+BdWUVyN0ZYZ+pCmSslsqjzR1AbHZv7b8xgiUzmvcFcOXPrB
+         Bd/L/qzdIedWUajFcTJaWfN7wc/eRP2nuGfGa41o/RV/yXrfSng6mtCOGjeOK9zj0ntV
+         I1Bt19uDrffyaV0XU9cywv3E7SV6G08JkXeASPi+kO6vGQo5kf1A4VjRKQw1zGxZ6MCh
+         B1mAroFnZ6BNTWcrL/amQsEtWE+62MFpvrQRlz7WPxy8nmZ/2AqyZm3032/qjsyLi5OY
+         I13w==
+X-Forwarded-Encrypted: i=1; AJvYcCXq3G+G07BPiBgloINadCnWGwDInXugdNwB/rVwE/D04eBzL/PJFHGUz/buthwfEpkvNAjWtKngBRje0Z+y3fEj5A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlQB9ogEN3RuZqUgommxtLBUISonHhCnT9snPseBIu4GkaBemm
+	SFdtkI4mXpPhX5dna0yRF87IHCax5vvlyluYf0dSbsJ46QyGquFWqHtrdDwX
+X-Google-Smtp-Source: AGHT+IHdIQenn4kE67X2/dK1uU+tKZfb+LVw3Myja+QfW6NH0S6LIcDTqVoEaGI02Edndmo3Z5ZjGA==
+X-Received: by 2002:a05:690c:67c8:b0:6e3:410e:bb84 with SMTP id 00721157ae682-6e5bfc73352mr84369837b3.20.1729499019949;
+        Mon, 21 Oct 2024 01:23:39 -0700 (PDT)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e5f5a4d35fsm5900307b3.45.2024.10.21.01.23.39
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Oct 2024 01:23:39 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6e33c65d104so36252967b3.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Oct 2024 01:23:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWn0BrOWtfjvSEB2+wnelX2h9lxHYRkoGdb0QLuMyteXlFft0iCtveb+9Uy1ZIZaA0L1Q+KWTs+HSUvFGLf7mUwLw==@vger.kernel.org
+X-Received: by 2002:a05:690c:6101:b0:6de:a3:a7ca with SMTP id
+ 00721157ae682-6e5bfd5420cmr105098217b3.32.1729499019285; Mon, 21 Oct 2024
+ 01:23:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241018153230.235647-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <8c2df6a903f87d4932586b25f1d3bd548fe8e6d1.1729180470.git.geert+renesas@glider.be>
+ <20241018131035.GA20602@pendragon.ideasonboard.com> <CAMuHMdVrahM9GYDX4FBZ31YBUZWm67-KoG-EBTDL8LU9bv2qsg@mail.gmail.com>
+ <2024101855-judo-tattered-bc3c@gregkh> <20241018142522.GA28934@pendragon.ideasonboard.com>
+ <2024101837-crushed-emphasis-b496@gregkh> <20241020143629.GC28934@pendragon.ideasonboard.com>
+ <2024102119-oversweet-labored-aa07@gregkh> <CAMuHMdUWAQKRy6F-zyCK6efhSYDRo2Go-f-=t2kRnPQoNdw0og@mail.gmail.com>
+ <2024102137-repost-visiting-323d@gregkh>
+In-Reply-To: <2024102137-repost-visiting-323d@gregkh>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 21 Oct 2024 10:23:26 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWOLD13hzERAgaH5zg5FsVZZZnQoFdkRzv+E6r6BTAixA@mail.gmail.com>
+Message-ID: <CAMuHMdWOLD13hzERAgaH5zg5FsVZZZnQoFdkRzv+E6r6BTAixA@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Fix multiple instances
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Douglas Anderson <dianders@chromium.org>, Linus Walleij <linus.walleij@linaro.org>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Prabhakar,
-Thanks this series.
+Hi Greg,
 
-On Fri, Oct 18, 2024 at 04:32:20PM +0100, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> Hi All,
-> 
-> This patch series aims to add the below features,
-> - Support subdev active state
-> - Support for streams
-> - Support for virtual channel
-> - Code cleanup
-> 
-> Note, these patches are dependent on below:
-> 1] https://patchwork.kernel.org/project/linux-media/patch/20240416193319.778192-27-sakari.ailus@linux.intel.com/
-> 2] https://patchwork.kernel.org/project/linux-media/patch/20240416193319.778192-26-sakari.ailus@linux.intel.com/
+On Mon, Oct 21, 2024 at 9:27=E2=80=AFAM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
+> On Mon, Oct 21, 2024 at 08:58:30AM +0200, Geert Uytterhoeven wrote:
+> > On Mon, Oct 21, 2024 at 8:39=E2=80=AFAM Greg KH <gregkh@linuxfoundation=
+.org> wrote:
+> > > On Sun, Oct 20, 2024 at 05:36:29PM +0300, Laurent Pinchart wrote:
+> > > > On Fri, Oct 18, 2024 at 04:31:21PM +0200, Greg KH wrote:
+> > > > > On Fri, Oct 18, 2024 at 05:25:22PM +0300, Laurent Pinchart wrote:
+> > > > > > On Fri, Oct 18, 2024 at 04:09:26PM +0200, Greg KH wrote:
+> > > > > > > On Fri, Oct 18, 2024 at 03:36:48PM +0200, Geert Uytterhoeven =
+wrote:
+> > > > > > > > On Fri, Oct 18, 2024 at 3:10=E2=80=AFPM Laurent Pinchart wr=
+ote:
+> > > > > > > > > On Fri, Oct 18, 2024 at 09:45:52AM +0200, Geert Uytterhoe=
+ven wrote:
+> > > > > > > > > > Each bridge instance creates up to four auxiliary devic=
+es with different
+> > > > > > > > > > names.  However, their IDs are always zero, causing dup=
+licate filename
+> > > > > > > > > > errors when a system has multiple bridges:
+> > > > > > > > > >
+> > > > > > > > > >     sysfs: cannot create duplicate filename '/bus/auxil=
+iary/devices/ti_sn65dsi86.gpio.0'
+> > > > > > > > > >
+> > > > > > > > > > Fix this by using a unique instance ID per bridge insta=
+nce.
+> > > > > > > > >
+> > > > > > > > > Isn't this something that should be handled by the AUX co=
+re ? The code
+> > > > > > > > > below would otherwise need to be duplicated by all driver=
+s, which seems
+> > > > > > > > > a burden we should avoid.
+> > > > > > > >
+> > > > > > > > According to the documentation, this is the responsibility =
+of the caller
+> > > > > > > > https://elixir.bootlin.com/linux/v6.11.4/source/include/lin=
+ux/auxiliary_bus.h#L81
+> > > > > > > > I believe this is the same for platform devices.
+> > > > > > > > See also the example at
+> > > > > > > > https://elixir.bootlin.com/linux/v6.11.4/source/include/lin=
+ux/auxiliary_bus.h#L116
+> > > > > > > >
+> > > > > > > > Note: the platform bus supports PLATFORM_DEVID_AUTO, but th=
+e auxiliary
+> > > > > > > > bus does not.
+> > > > > > >
+> > > > > > > Yes, it does not as it's up to the caller to create a unique =
+name, like
+> > > > > > > your patch here does.  I'd argue that platform should also no=
+t do
+> > > > > > > automatic device ids, but that's a different argument :)
+> > > > > >
+> > > > > > __auxiliary_device_add() creates the device name with
+> > > > > >
+> > > > > >   dev_set_name(dev, "%s.%s.%d", modname, auxdev->name, auxdev->=
+id);
+> > > > > >
+> > > > > > I'm not calling for a PLATFORM_DEVID_AUTO-like feature here, bu=
+t
+> > > > > > shouldn't the first component of the device name use the parent=
+'s name
+> > > > > > instead of the module name ?
+> > > > >
+> > > > > Why would the parent's name not be the module name?  That name is
+> > > > > guaranteed unique in the system.  If you want "uniqueness" within=
+ the
+> > > > > driver/module, use the name and id field please.
+> > > > >
+> > > > > That's worked well so far, but to be fair, aux devices are pretty=
+ new.
+> > > > > What problem is this naming scheme causing?
+> > > >
+> > > > Auxiliary devices are created as children of a parent device. When
+> > > > multiple instances of the same parent type exist, this will be refl=
+ected
+> > > > in the /sys/devices/ devices tree hierarchy without any issue. The
+> > > > problem comes from the fact the the auxiliary devices need a unique=
+ name
+> > > > for /sys/bus/auxialiary/devices/, where we somehow have to differen=
+ciate
+> > > > devices of identical types.
+> > > >
+> > > > Essentially, we're trying to summarize a whole hierarchy (path in
+> > > > /sys/devices/) into a single string. There are different ways to so=
+lve
+> > > > this. For platform devices, we use a device ID. For I2C devices, we=
+ use
+> > > > the parent's bus number. Other buses use different schemes.
+> > > >
+> > > > Geert's patch implements a mechanism in the ti-sn65dsi86 driver to
+> > > > handle this, and assign an id managed by the parent. In a sense we =
+could
+> > > > consider this to be similar to what is done for I2C, where the bus
+> > > > number is also a property of the parent. However, the big differenc=
+e is
+> > > > that the I2C bus number is managed by the I2C subsystem, while here=
+ the
+> > > > id is managed by the ti-sn65dsi86 driver, not by the auxiliary devi=
+ce
+> > > > core. This would require duplicating the same mechanism in every si=
+ngle
+> > > > driver creating auxiliary devices. This strikes me as a fairly bad =
+idea.
+> > > > The problem should be solved by the core, not by individual drivers=
+.
+> > >
+> > > The "id" is just a unique number, it is "managed" by the thing that i=
+s
+> > > creating the devices themselves, not the aux core code.  I don't see =
+why
+> > > the i2c bus number has to match the same number that the ti driver
+> > > creates, it could be anything, as long as it doesn't match anything e=
+lse
+> > > currently created by that driver.
+> >
+> > Laurent does not say it has to match the i2c bus number.
+> > He does think the auxilliary bus should provide a mechanism to
+> > allocate these IDs (e.g. usin g AUX_DEVID_AUTO?).
+>
+> As this is the first subsystem to ask for such a thing, I didn't think
+> it was needed, but the aux subsystem is new :)
+>
+> > However, using i2c_client->adapter->nr instead of ida_alloc()
+> > in the TI driver does sound like a good idea to me...
+>
+> Great!
+>
+> > > If we had the aux core code create the id, it would just use a unique
+> > > counter, and that would not reflect any mapping to anything, so I don=
+'t
+> > > see how that is any different here.
+> >
+> > And then we would get something like:
+> >
+> > /sys/bus/auxiliary/devices
+> > =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.gpio.0
+> > =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.pwm.1
+> > =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.aux.2
+> > =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.bridge.3
+> > =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.gpio.4
+> > =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.pwm.5
+> > =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.aux.6
+> > =E2=94=94=E2=94=80=E2=94=80 ti_sn65dsi86.bridge.7
+> >
+> > Which is similar to the first approach I tried (calling ida_alloc() in
+> > ti_sn65dsi86_add_aux_device() instead of ti_sn65dsi86_probe()).
+>
+> That id scheme looks really odd, don't you think?  Try using the
 
-I thinks also:
- 3] https://patchwork.kernel.org/project/linux-media/patch/20240416193319.778192-45-sakari.ailus@linux.intel.com/
+Yes, that's what happens if you let an external entity come up
+with the unique IDs.
 
-> 
-> v2->v3
-> - Fixed review commments from Laurent
-> - Included RB tags from Laurent
-> - Dropped patch "media: i2c: ov5645: Enable runtime PM after v4l2_async_register_subdev()"
-> - Fixed checkpatch issues (ie used --max-line-length=80)
-> 
-> RFC->v2
-> - Dropped setting of VC using routes
-> - Defaulted the native format to MEDIA_BUS_FMT_SBGGR8_1X8
-> - Fixed ov5645_enum_frame_size and ov5645_enum_mbus_code
->   for internal image pad
-> 
-> RFC patch,
-> Link: https://lore.kernel.org/all/20240904210719.52466-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
-> 
-> Test logs:
-> ====================================
-> root@smarc-rzg2l:~# media-ctl -p
-> ......
-> - entity 4: ov5645 0-003c (2 pads, 1 link, 1 route)
->       type V4L2 subdev subtype Sensor flags 0
->       device node name /dev/v4l-subdev1
->     routes:
->         1/0 -> 0/0 [ACTIVE]
->     pad0: SOURCE
->         [stream:0 fmt:UYVY8_1X16/1280x960 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:lim-range
->         crop:(0,0)/1280x960]
->         -> "csi-10830400.csi2":0 [ENABLED,IMMUTABLE]
->     pad1: SINK,0x8
->         [stream:0 fmt:SBGGR8_1X8/2592x1944 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:lim-range
->         crop:(0,0)/1280x960]
-> ......
-> 
-> root@smarc-rzg2l:~# v4l2-ctl --device /dev/v4l-subdev1 --list-subdev-mbus-codes pad=0
-> ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=0,stream=0)
->     0x200f: MEDIA_BUS_FMT_UYVY8_1X16
-> root@smarc-rzg2l:~# v4l2-ctl --device /dev/v4l-subdev1 --list-subdev-mbus-codes pad=1
-> ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=1,stream=0)
->     0x3001: MEDIA_BUS_FMT_SBGGR8_1X8
-> root@smarc-rzg2l:~# v4l2-ctl --device /dev/v4l-subdev1 --list-subdev-framesizes pad=1,code=0x3001
-> ioctl: VIDIOC_SUBDEV_ENUM_FRAME_SIZE (pad=1,stream=0)
->     Size Range: 2592x1944 - 2592x1944
-> root@smarc-rzg2l:~# v4l2-ctl --device /dev/v4l-subdev1 --list-subdev-framesizes pad=0,code=0x200f
-> ioctl: VIDIOC_SUBDEV_ENUM_FRAME_SIZE (pad=0,stream=0)
->     Size Range: 1280x960 - 1280x960
->     Size Range: 1920x1080 - 1920x1080
->     Size Range: 2592x1944 - 2592x1944
-> root@smarc-rzg2l:~# v4l2-compliance -u /dev/v4l-subdev1
-> v4l2-compliance 1.28.1-5233, 64 bits, 64-bit time_t
-> v4l2-compliance SHA: fc15e229d9d3 2024-07-23 19:22:15
-> 
-> Compliance test for device /dev/v4l-subdev1:
-> 
-> Driver Info:
->     Driver version  : 6.12.0
->     Capabilities   : 0x00000002
->         Streams Support
->     Client Capabilities: 0x00000[ 2429.125325] ov5645 0-003c: ================= START STATUS =================
-> 00000000003
-> streams int[ 2429.134589] ov5645 0-003c: ================== END STATUS ==================
-> erval-uses-which
-> Required ioctls:
->     test VIDIOC_SUDBEV_QUERYCAP: OK
->     test invalid ioctls: OK
-> 
-> Allow for multiple opens:
->     test second /dev/v4l-subdev1 open: OK
->     test VIDIOC_SUBDEV_QUERYCAP: OK
->     test for unlimited opens: OK
-> 
-> Debug ioctls:
->     test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
->     test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->     test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->     test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->     test VIDIOC_ENUMAUDIO: OK (Not Supported)
->     test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
->     test VIDIOC_G/S_AUDIO: OK (Not Supported)
->     Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
->     test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->     test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->     test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->     test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->     test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->     Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
->     test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->     test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->     test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->     test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Sub-Device routing ioctls:
->     test Try VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING: OK
->     test Active VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING: OK
-> 
-> Control ioctls:
->     test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->     test VIDIOC_QUERYCTRL: OK
->     test VIDIOC_G/S_CTRL: OK
->     test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->     test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->     test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->     Standard Controls: 12 Private Controls: 0
-> 
-> Format ioctls:
->     test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
->     test VIDIOC_G/S_PARM: OK (Not Supported)
->     test VIDIOC_G_FBUF: OK (Not Supported)
->     test VIDIOC_G_FMT: OK (Not Supported)
->     test VIDIOC_TRY_FMT: OK (Not Supported)
->     test VIDIOC_S_FMT: OK (Not Supported)
->     test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->     test Cropping: OK (Not Supported)
->     test Composing: OK (Not Supported)
->     test Scaling: OK (Not Supported)
-> 
-> Codec ioctls:
->     test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->     test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->     test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls:
->     test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
->     test CREATE_BUFS maximum buffers: OK
->     test VIDIOC_REMOVE_BUFS: OK
->     test VIDIOC_EXPBUF: OK (Not Supported)
->     test Requests: OK (Not Supported)
-> 
-> Total for device /dev/v4l-subdev1: 47, Succeeded: 47, Failed: 0, Warnings: 0
-> ------------------------------------------------------------
-> 
-> Lad Prabhakar (10):
->   media: i2c: ov5645: Add V4L2_SUBDEV_FL_HAS_EVENTS and subscribe hooks
->   media: i2c: ov5645: Use local `dev` pointer for subdev device
->     assignment
->   media: i2c: ov5645: Replace dev_err with dev_err_probe in probe
->     function
->   media: i2c: ov5645: Use v4l2_async_register_subdev_sensor()
->   media: i2c: ov5645: Drop `power_lock` mutex
->   media: i2c: ov5645: Use subdev active state
->   media: i2c: ov5645: Switch to {enable,disable}_streams
->   media: i2c: ov5645: Report streams using frame descriptors
->   media: i2c: ov5645: Add internal image sink pad
->   media: i2c: ov5645: Report internal routes to userspace
-> 
->  drivers/media/i2c/ov5645.c | 435 +++++++++++++++++++++----------------
->  1 file changed, 246 insertions(+), 189 deletions(-)
-> 
-> -- 
-> 2.43.0
-> 
-> 
+With the I2C adapter numbers, that becomes:
 
-Same result here.
-Tested on rzg2l-smarc evk.
+    /sys/bus/auxiliary/devices
+    =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.gpio.1
+    =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.pwm.1
+    =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.aux.1
+    =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.bridge.1
+    =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.gpio.4
+    =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.pwm.4
+    =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.aux.4
+    =E2=94=94=E2=94=80=E2=94=80 ti_sn65dsi86.bridge.4
 
-Tested-by: Tommaso Merciai <tomm.merciai@gmail.com>
+> adapter->nr instead like other aux subsystems already do.
 
+FTR, according to "git grep "adapter->nr" -- $(git grep -l
+auxiliary_device_init)",
+no existing driver uses this mechanism yet.
 
-Thanks & Regards,
-Tommaso
+"git grep ida_alloc -- $(git grep -l auxiliary_device_init)" does show
+several hits.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
