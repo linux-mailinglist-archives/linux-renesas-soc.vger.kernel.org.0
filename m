@@ -1,127 +1,137 @@
-Return-Path: <linux-renesas-soc+bounces-9965-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9966-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D46969A9C5B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Oct 2024 10:25:11 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C59429A9C8D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Oct 2024 10:29:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8C0A81F2355E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Oct 2024 08:25:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F3BCC1C23B7C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Oct 2024 08:29:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A747158D7B;
-	Tue, 22 Oct 2024 08:25:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 234F016F85E;
+	Tue, 22 Oct 2024 08:29:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1j4v1zMl";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="8MCYbWCx"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45DCD1714BA
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Oct 2024 08:25:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA0E1487F6;
+	Tue, 22 Oct 2024 08:29:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729585507; cv=none; b=DZswMcqJ/LeX/02ULfiuif4N+b5AIV6caekV1GzCAem6sRriH4BeZ2PxXW6h5n6txFX8aKMJE6fg+U5zI/pozzBKe/G364D8hq8osOcfUpo7ODn0DDpqdUJULgwpdAdSaZGcJ+ldwQ+eZ08muxUYNAXd2MA+K6a2SMib2J4Vp1s=
+	t=1729585764; cv=none; b=dD9K1jUKBMa5TdsiIfVDSEoDpInTmYqnfc9LDy1u8PYQLL6exRumgmCxzq21Ybo1NaFM6ocWqunZiEsb++qs72RYhFI1hmpOz9XFplOttOBFfTI6rHhkZV4e1SwlnKdzOwhy5iFD0GE4jPJtBqK8ew8FBEX3Pb0pDBBEwyYPX+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729585507; c=relaxed/simple;
-	bh=V1++dtSoJmL+8x4dywEDnzZKPGeqBOuWIvuux/U42YE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CeHG1kjvEO+bisgzTPJHd8o8d+tr9T0JlrbrwybWXpZQQY4btXjNODkpb1Io/EIe+GISgqsNkrUoJtPPgfAwaKr19/k2y5MppnaxfQCqLWSeKvWyZdn8W3N/skpJb6+kyi9b3vpCKWEBmGRBger9FqwFovyWEZwl63B0R6zGJc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.11,222,1725289200"; 
-   d="scan'208";a="222639851"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 22 Oct 2024 17:25:03 +0900
-Received: from localhost.localdomain (unknown [10.226.92.236])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id EB336400754D;
-	Tue, 22 Oct 2024 17:24:44 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v2 2/2] drm: renesas: rz-du: rzg2l_du_encoder: Fix max dot clock for DPI
-Date: Tue, 22 Oct 2024 09:24:24 +0100
-Message-ID: <20241022082433.32513-3-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241022082433.32513-1-biju.das.jz@bp.renesas.com>
-References: <20241022082433.32513-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1729585764; c=relaxed/simple;
+	bh=HFosTYhyKr+C+KLkXWCYor4oOAgCwvU/aasxydfeY9s=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=LtLHt2rELx6ZxnIVo0nUy08R+4+xD11Iu858xXD0X4FIwioM8EiVuw85eF5nb4qZHI1wZpFUvthWvVq6Jd5RcgbiOvgdJwAhFY0sEFykS2oV+gICdyFKdh9QZaM9XwLR/8SvNNjDzw+lJBZ+2ZjG6g099I6/Xn2Jg9qQxM5QrtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1j4v1zMl; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=8MCYbWCx; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+From: Kurt Kanzenbach <kurt@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1729585758;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FUaoNmgtEABq6PFpi80zajqfsG/YF1uho79gaK6YFOE=;
+	b=1j4v1zMluN5LxCrABzknAZ3WGgIW/x1m3aAL97biAdN48M/0sabhTnAZXCjt3IpxkOhzOZ
+	4lRU9tWP2x27tLz5YfAfx2njUEcwbnASQc9wylOKqRV8GT0E+4KiSEkNXukU7NXhfnMG11
+	gQs4Zmm9zM7vZtUxJmlPl5C7W3mydpBz9+wQt2G7rFs/1gEcSykHdfGCSyH99swiO317mK
+	TnEAgJLC6wv823Ol9aNMx+oYF80sHWNAgIZWBZrXjatZMRRfgwb9qSreXTCOdb289NVBVm
+	6seMvF5dADRFOUPvr1gALXcjE8vjQbzK1pJ8qNJtbxyRso5PdzvbG6aM9SZQMg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1729585758;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FUaoNmgtEABq6PFpi80zajqfsG/YF1uho79gaK6YFOE=;
+	b=8MCYbWCxL1cLd2QpHH58FCEptlpHqIc4p8X11Ooh2WgYVaigyykOxThbxJ8trr1jwf0nNq
+	+6sbJGkBhWTVoECA==
+To: Rosen Penev <rosenp@gmail.com>, netdev@vger.kernel.org
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Andrew Lunn
+ <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Woojung Huh
+ <woojung.huh@microchip.com>, "maintainer:MICROCHIP KSZ SERIES ETHERNET
+ SWITCH DRIVER" <UNGLinuxDriver@microchip.com>, =?utf-8?Q?Cl=C3=A9ment_L?=
+ =?utf-8?Q?=C3=A9ger?=
+ <clement.leger@bootlin.com>, George McCollister
+ <george.mccollister@gmail.com>, Simon Horman <horms@kernel.org>, open list
+ <linux-kernel@vger.kernel.org>, "open list:RENESAS RZ/N1 A5PSW SWITCH
+ DRIVER" <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH net-next] net: dsa: use ethtool string helpers
+In-Reply-To: <20241021235535.603253-1-rosenp@gmail.com>
+References: <20241021235535.603253-1-rosenp@gmail.com>
+Date: Tue, 22 Oct 2024 10:29:16 +0200
+Message-ID: <87bjzcmtgj.fsf@kurt.kurt.home>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
 
-As per the RZ/G2UL hardware manual Table 33.4 Clock List, the maximum
-dot clock for the DPI interface is 83.5 MHz. Add mode_valid callback
-to reject modes greater than 83.5 MHz.
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Suggested-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-Changes in v2:
- * Moved .mode_valid from crtc to encoder as the new state is not
-   available in crtc and instead, we could check renc->output for
-   .mode_valid() function of drm_encoder.
- * Dropped rzg2l_du_crtc_atomic_check().
----
- .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.c   | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+On Mon Oct 21 2024, Rosen Penev wrote:
+> These are the preferred way to copy ethtool strings.
+>
+> Avoids incrementing pointers all over the place.
+>
+> Signed-off-by: Rosen Penev <rosenp@gmail.com>
 
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
-index 339cbaaea0b5..564ab4cb3d37 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
-@@ -10,6 +10,7 @@
- #include <linux/export.h>
- #include <linux/of.h>
- 
-+#include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_bridge_connector.h>
- #include <drm/drm_panel.h>
-@@ -24,6 +25,22 @@
- static const struct drm_encoder_funcs rzg2l_du_encoder_funcs = {
- };
- 
-+static enum drm_mode_status
-+rzg2l_du_encoder_mode_valid(struct drm_encoder *encoder,
-+			    const struct drm_display_mode *mode)
-+{
-+	struct rzg2l_du_encoder *renc = to_rzg2l_encoder(encoder);
-+
-+	if (renc->output == RZG2L_DU_OUTPUT_DPAD0 && mode->clock > 83500)
-+		return MODE_CLOCK_HIGH;
-+
-+	return MODE_OK;
-+}
-+
-+static const struct drm_encoder_helper_funcs rzg2l_du_encoder_helper_funcs = {
-+	.mode_valid = rzg2l_du_encoder_mode_valid,
-+};
-+
- int rzg2l_du_encoder_init(struct rzg2l_du_device  *rcdu,
- 			  enum rzg2l_du_output output,
- 			  struct device_node *enc_node)
-@@ -48,6 +65,7 @@ int rzg2l_du_encoder_init(struct rzg2l_du_device  *rcdu,
- 		return PTR_ERR(renc);
- 
- 	renc->output = output;
-+	drm_encoder_helper_add(&renc->base, &rzg2l_du_encoder_helper_funcs);
- 
- 	/* Attach the bridge to the encoder. */
- 	ret = drm_bridge_attach(&renc->base, bridge, NULL,
--- 
-2.43.0
+[...]
 
+> diff --git a/drivers/net/dsa/hirschmann/hellcreek.c b/drivers/net/dsa/hir=
+schmann/hellcreek.c
+> index d798f17cf7ea..283ec5a6e23c 100644
+> --- a/drivers/net/dsa/hirschmann/hellcreek.c
+> +++ b/drivers/net/dsa/hirschmann/hellcreek.c
+> @@ -294,12 +294,8 @@ static void hellcreek_get_strings(struct dsa_switch =
+*ds, int port,
+>  {
+>  	int i;
+>=20=20
+> -	for (i =3D 0; i < ARRAY_SIZE(hellcreek_counter); ++i) {
+> -		const struct hellcreek_counter *counter =3D &hellcreek_counter[i];
+> -
+> -		strscpy(data + i * ETH_GSTRING_LEN,
+> -			counter->name, ETH_GSTRING_LEN);
+> -	}
+> +	for (i =3D 0; i < ARRAY_SIZE(hellcreek_counter); ++i)
+> +		ethtool_puts(&data, hellcreek_counter[i].name);
+>  }
+
+Reviewed-by: Kurt Kanzenbach <kurt@linutronix.de> # hellcreek
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJHBAEBCgAxFiEEvLm/ssjDfdPf21mSwZPR8qpGc4IFAmcXYlwTHGt1cnRAbGlu
+dXRyb25peC5kZQAKCRDBk9HyqkZzghZPD/94PqWHwk/0A8LkS9wnc6YHwk7itehK
+omHBEh+6eyV66ftKXbI3rdf2t/KZBPicy9mQynZNh1tMMwWKJBgM4q7abIlCm6vk
+M3fdYHYoPz2OLq7j2T+Ca0jFYDrILPDivDUYKpPBK7iTd+8bx/83yUoS+vYOumZf
+Q6JyvpAvHPnDfI9cKfT2Y7C0ksU/+seSBmq+zg6lxJ9m8uO+OvJzsyrmRjHEO0Dh
+644kSWN1MuovY7goQBvMkoW0WnfOunXMsLD8qzPz2EakmCkQMAAwxN4I+tFoL62D
+3FGq4bmCBINav0MGUAFK8hEW+dmhWhzRQmGEYr9fEyhYunVDfNJY/hC/owDnjvx6
+nQahMIapVpTturT4huLYcWdeT0HgP9hqOv/PFva0Ir/auQziTSVxEqp9GbG++yh0
+3LWQJAeUQwZYPHDiApicAI13RJIc876AvICBGhCNZeHC0U4iLokHpQTV+mBiU/32
+MX7x3p8Gxs8i+G3NQEOgx04gUmNbh2bLh3rJhFc3PJIg4nlzh0kYPk3UKbqQDJp4
+3b5biLD6aQPPMDyOsAK/BoXoN3Rs/8+lsSra6knn1OBXtJWvVw0NKbAiZFQXY8aS
+J4F9rJtZ0M9bk2xktt0/P9nvjbeHcY4fxXjerO+OLQdKvax8g8o1JKdVy7BJBAPp
+sXzABhmEtcUdFg==
+=biYy
+-----END PGP SIGNATURE-----
+--=-=-=--
 
