@@ -1,70 +1,70 @@
-Return-Path: <linux-renesas-soc+bounces-9971-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9972-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17B859AB61E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Oct 2024 20:48:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A7049AB621
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Oct 2024 20:48:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 390241C23FC4
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D8C9A281EB5
 	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Oct 2024 18:48:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 656481C9EDD;
-	Tue, 22 Oct 2024 18:48:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B5721CB30C;
+	Tue, 22 Oct 2024 18:48:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="XpfEhzLh";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OapGIPXW"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="mjtPG1HX";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eK6xKs6F"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3541C9B8A;
-	Tue, 22 Oct 2024 18:48:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C701CACDC;
+	Tue, 22 Oct 2024 18:48:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729622917; cv=none; b=LG4C0iUT3vTEP1+tWvMxNVh1SiIeCQZWfD9ybdVCFIPFbhHvq7YQZbdRYZ04+gr5NWGu7EKxfGvg40q2eEPyxQj+fLxgAu0JLrOIxK0+4XxbOhdF/s2NGLaTogkTmgOhycWE/aAV8abohiAsZAxrbDK1ODjk+fcxhgQYpuMJdU8=
+	t=1729622919; cv=none; b=BeyLQ95vOYydTz5P8udteQ9LnjDR9N5E462Gj/a1lDMaRgSjOjCzdvjSrPSz72eOaOxRRtORbt0Qsli9tZyi+geu9siBCac+p8UXc3FBbYkVMGmIl2VSbSeQAcdenpzoqOQ0o9Pv5zoNA0x0x14hnOEfkEBPQ8TtdB4ky9XyVoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729622917; c=relaxed/simple;
-	bh=2FodRWZGCETmaQUpK+d1GhrWy3k2AnmUSs91pizIT8M=;
+	s=arc-20240116; t=1729622919; c=relaxed/simple;
+	bh=iWGvkvwckNv4iL7lDGpOk2gdfRB19NB+MVYJpt9wXRw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HG2+ez9sG7tv0bv/KGQ4Oj2u4+fGCfpINOZ8sRC8k+SDYyLmRmSZd+JUeLi6w1KKgzv7ZZltERztuMkRESfnveFyCvxkzUHO0R7m8y+XuUqCpryL/UD4f+T/AG2MxWMaZWSlrgA8m/FA68L56FQNeCxKNa9ENotSeHoGzmLpZck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=XpfEhzLh; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OapGIPXW; arc=none smtp.client-ip=103.168.172.153
+	 MIME-Version:Content-Type; b=fIOZcVhuvTUu8c3AZMLtYxkgjG83pHS7v5UpjBSIOsBFVTt6TAdwyWM6dUV8vCZ+l6bEG5ejWLDSTl3qG0nY41MMpzlyEoF9IbVP1KeUHQlumrM3oWfYKkvzrhLhkIHSc81S7r3v3pQ5/N6K256Ca9zF9xy9tAJoYmSth46p/DI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=mjtPG1HX; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eK6xKs6F; arc=none smtp.client-ip=103.168.172.153
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 9CD6211400DA;
-	Tue, 22 Oct 2024 14:48:33 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Tue, 22 Oct 2024 14:48:33 -0400
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id CB5F31140133;
+	Tue, 22 Oct 2024 14:48:36 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Tue, 22 Oct 2024 14:48:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1729622913;
-	 x=1729709313; bh=aZY/YI9ZC9vMzH8Y/uHW2mlUaONrkgq6SgSZz+J7X7g=; b=
-	XpfEhzLhXEIGz9Y+q/x8OjVmbZZpSDF3Hfh+bCTXmyOwjCX6ilDJ9h3pbainm3fV
-	f5d/GEaxCYNJOm+hrODtOmf7PBBXgWHUWXVz0wO73Wsc9ZZLucMMycJPGPloBoot
-	8mAli67fs40Ix3KYK8EyDPA32nzWxOGM25V1l3z1oahBQ4ov9kkxo7K9iaWOjRdq
-	xUNKZcn19iMu4wFb4a0Puop55i+bK61vQKaSFfYEE4upkxg05tg8JdHbFMQ68R5O
-	507xOs2/dKpQyWFvPNxxOqIDOf0R5CJLK6GPmNRDEvAMcHS6mN3WCTkg0sWM5Wpu
-	J284oRTfKFEBCil2+OWJkw==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1729622916;
+	 x=1729709316; bh=sY9wpFcrQ0ME1mJCfcRLz1nr6ZaYLlor9JtT9j/g4LQ=; b=
+	mjtPG1HXdlP+lUlYu5YnA8kzBgZf2RG7UA+Ax2QBlZ552r3eccJ8e+HfiCqFULNj
+	opHH14Qg6m8IaLs3UFK0rWZK8htCCHLMOO6EbKOGKHTkX+fXUhVydbldMevEenMi
+	x+yQ0dAd+ZpsbTSS69qkL8Ef9NJ15xvCa/hTxEN4Zdg9/fLV93kiHrx8IWvIheig
+	HQQn88EUxFzsBLlVY6q/NPKzMWHC2Ey6/liC3E7so/IknYiSgEPKZN3AVK5ZQVbS
+	3SZT4BmLUyz1qWfLsdG/IVVd5djHOBWDxqvmvy5pg5SsF75e/zpFMpEVuCS6esx1
+	xZF/MNs5euQtC5L0me92SQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1729622913; x=
-	1729709313; bh=aZY/YI9ZC9vMzH8Y/uHW2mlUaONrkgq6SgSZz+J7X7g=; b=O
-	apGIPXWDFroGPUQ1FWGixnDjvy2jDztde2Ri3sf4ticRzCooQKnvsLCiID443Acg
-	8ZozW5qrksOX7xy3d1xZsQmCpn3nptyttN8LaWoMThzjAQpU0oOJdqJMjZkvOp/t
-	w6TQdtQsW/mvYFhQyr711Oj+TuPyI2qBFILEM5UO0faQqcpNF71ZfYHkpt/gmNa5
-	ZjvWErKl3SDEjotpob5i05d4qsBd847TMlmdWPUPAObGxlLxfA2svdxtkRghtVx5
-	hwbI8zdFf4oP9lZteU0i7NG8rXVfwNUQMxrgTAhxuhpgrjJAVDfc8kwNTedvFX1J
-	CNOolVli0mO4gh82+0Ffg==
-X-ME-Sender: <xms:gfMXZ4VavLRTy_wF2ZKoEtelXxANxnrZzF95oD208jqxHUBb980odg>
-    <xme:gfMXZ8kkGD5NM3BKthXLlKymKBsXfgInTDGNOPZude_-vTK6HLPiztqdxEF_WKDzH
-    jAIDrleqWpqG0TJSQY>
-X-ME-Received: <xmr:gfMXZ8aXAFAuiSuUB8FdHUzyynyrCQvHPPujaQCbeGXJN89G-S_2CnzSlEdocqpLT5oly4Ciw6x6RLeYO3yBtvtCeg>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1729622916; x=
+	1729709316; bh=sY9wpFcrQ0ME1mJCfcRLz1nr6ZaYLlor9JtT9j/g4LQ=; b=e
+	K6xKs6FyDuG1lBLRjFs2vgkDt5HTyzjsIldy+YXSxCgom6FHDixN9wBdQ/p1J/Th
+	Kk95l/hD36/kX18CoAjnueliAmRSjzdWNPHq8Dy5cJS98cs7GjCSK2KPsNXX+j0l
+	xowvbadVjm8vX5eX0/uW9i67xCx10aOlCcQ3YiJt6SYnNULZpRZ/RQWcY4kuw1Ig
+	Swr+Z4Z264qBpHlDpww7I/5x3uRBRkfiD5QidpgxmnSkhWFNS4A95/MlJRB1Ua+h
+	3ZsfXHyU07MiDTpsFvxwCw6NsjzZ7hk1K5dXpcsGtIVfzxAiuFZa5cumwe0zn/vp
+	WERGA0cz0kRnF7Jqugecw==
+X-ME-Sender: <xms:hPMXZyGAupFXLUG2HELorIxtJfhcS1xhw0GIo0Vzo4RgdZCllUOiig>
+    <xme:hPMXZzVQ6J96RzZO2TdOgv14s_m5gDUGTfhtNfD6nftBdapIJfsPy1gRNGczRHdVk
+    qSBUgfZzssn9k-jWOc>
+X-ME-Received: <xmr:hPMXZ8IcNqwBp52kWIW2FVOECaMZO681we2Muzs9_OGFxJP7K1kl7IE8rxrgVjWyiHusx4HLX4jGO0op184P6qfCuQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdeihedguddvlecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
     uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
@@ -82,14 +82,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdeihedguddvlecutefuodetgg
     uggvvhhitggvthhrvggvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnh
     hikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhs
     vg
-X-ME-Proxy: <xmx:gfMXZ3XvB3yx0ht8QIkcEgML4sSp031ZUaHgY_DJ6E9W4QJqLqp6UA>
-    <xmx:gfMXZynXo2KMZCnITmPfwx4Yk3SnzLWriW8eUo_I-CG1xREnmrbbTQ>
-    <xmx:gfMXZ8cOxJtMyrw8yLIeeB5TjaOJwp-l8zasP3ymklWijqWQBIYC6w>
-    <xmx:gfMXZ0Gm0hvw1zl18TG6shrLDRtGLNHtZ6XYnwkpOCWDmBGp1hRWLA>
-    <xmx:gfMXZ0Vz6PFhQPqcsit44yQ481fs1kbOU2W4NibT_jQi1Bex7GsDn8lv>
+X-ME-Proxy: <xmx:hPMXZ8H2m_SquREpS0TUysGWI1DtIGFZ0yTisCxW24TUspw3f9sDVA>
+    <xmx:hPMXZ4U6SVqDsZkBIc8beciueJmq7Eq44jWhvrafzUQidsTLDdZ10Q>
+    <xmx:hPMXZ_MERAXEgIEf0Z5E1wrp4xvhrnAy5Fa3qozWnh0_L3V9Kqd1-g>
+    <xmx:hPMXZ_3-CRcfGSe4H86rzu5TURyNVTST1_nzP100ZvEB_AGqPfLa5g>
+    <xmx:hPMXZ7FRCpVQ0zQLiNtWpp5nJIT4xTJrgGOlniv5WTdEB_rluzlh7pu1>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 22 Oct 2024 14:48:33 -0400 (EDT)
+ 22 Oct 2024 14:48:35 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
 	Rob Herring <robh@kernel.org>,
@@ -98,9 +98,9 @@ To: Geert Uytterhoeven <geert+renesas@glider.be>,
 	linux-renesas-soc@vger.kernel.org,
 	devicetree@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 1/2] arm64: dts: renesas: r8a779a0: Remove address- and size-cells from AVB[1-5]
-Date: Tue, 22 Oct 2024 20:47:26 +0200
-Message-ID: <20241022184727.3206180-2-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 2/2] arm64: dts: renesas: falcon: ethernet: Describe PHYs connected on the breakout board
+Date: Tue, 22 Oct 2024 20:47:27 +0200
+Message-ID: <20241022184727.3206180-3-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.46.2
 In-Reply-To: <20241022184727.3206180-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20241022184727.3206180-1-niklas.soderlund+renesas@ragnatech.se>
@@ -113,66 +113,277 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-When describing the PHYs on the Falcon Ethernet breakout board mdio
-nodes will be needed to describe the connections, and each mdio node
-will need to contain these two properties instead. This will make the
-address-cells and size-cells described in the base SoC include file
-redundant and they will produce warnings, remove them.
+Describe and connect the five Marvell 88Q2110 PHYs present on the Falcon
+Ethernet breakout board.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 10 ----------
- 1 file changed, 10 deletions(-)
+ .../dts/renesas/r8a779a0-falcon-ethernet.dtsi | 248 ++++++++++++++++++
+ 1 file changed, 248 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-index 7156b1a542e8..fe6d97859e4a 100644
---- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-@@ -765,8 +765,6 @@ avb1: ethernet@e6810000 {
- 			rx-internal-delay-ps = <0>;
- 			tx-internal-delay-ps = <0>;
- 			iommus = <&ipmmu_ds1 1>;
--			#address-cells = <1>;
--			#size-cells = <0>;
- 			status = "disabled";
- 		};
+diff --git a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-ethernet.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-ethernet.dtsi
+index e11bf9ace776..69c3c5589da9 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-ethernet.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-ethernet.dtsi
+@@ -5,6 +5,127 @@
+  * Copyright (C) 2021 Glider bv
+  */
  
-@@ -814,8 +812,6 @@ avb2: ethernet@e6820000 {
- 			rx-internal-delay-ps = <0>;
- 			tx-internal-delay-ps = <0>;
- 			iommus = <&ipmmu_ds1 2>;
--			#address-cells = <1>;
--			#size-cells = <0>;
- 			status = "disabled";
- 		};
- 
-@@ -863,8 +859,6 @@ avb3: ethernet@e6830000 {
- 			rx-internal-delay-ps = <0>;
- 			tx-internal-delay-ps = <0>;
- 			iommus = <&ipmmu_ds1 3>;
--			#address-cells = <1>;
--			#size-cells = <0>;
- 			status = "disabled";
- 		};
- 
-@@ -912,8 +906,6 @@ avb4: ethernet@e6840000 {
- 			rx-internal-delay-ps = <0>;
- 			tx-internal-delay-ps = <0>;
- 			iommus = <&ipmmu_ds1 4>;
--			#address-cells = <1>;
--			#size-cells = <0>;
- 			status = "disabled";
- 		};
- 
-@@ -961,8 +953,6 @@ avb5: ethernet@e6850000 {
- 			rx-internal-delay-ps = <0>;
- 			tx-internal-delay-ps = <0>;
- 			iommus = <&ipmmu_ds1 11>;
--			#address-cells = <1>;
--			#size-cells = <0>;
- 			status = "disabled";
- 		};
- 
++/ {
++	aliases {
++		ethernet1 = &avb1;
++		ethernet2 = &avb2;
++		ethernet3 = &avb3;
++		ethernet4 = &avb4;
++		ethernet5 = &avb5;
++	};
++};
++
++&avb1 {
++	pinctrl-0 = <&avb1_pins>;
++	pinctrl-names = "default";
++	phy-handle = <&avb1_phy>;
++	status = "okay";
++
++	mdio {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		reset-gpios = <&gpio5 15 GPIO_ACTIVE_LOW>;
++		reset-post-delay-us = <4000>;
++
++		avb1_phy: ethernet-phy@7 {
++			compatible = "ethernet-phy-id002b.0980",
++				     "ethernet-phy-ieee802.3-c45";
++			reg = <7>;
++			interrupts-extended = <&gpio5 16 IRQ_TYPE_LEVEL_LOW>;
++		};
++	};
++};
++
++&avb2 {
++	pinctrl-0 = <&avb2_pins>;
++	pinctrl-names = "default";
++	phy-handle = <&avb2_phy>;
++	status = "okay";
++
++	mdio {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		reset-gpios = <&gpio6 15 GPIO_ACTIVE_LOW>;
++		reset-post-delay-us = <4000>;
++
++		avb2_phy: ethernet-phy@7 {
++			compatible = "ethernet-phy-id002b.0980",
++				     "ethernet-phy-ieee802.3-c45";
++			reg = <7>;
++			interrupts-extended = <&gpio6 16 IRQ_TYPE_LEVEL_LOW>;
++		};
++	};
++};
++
++&avb3 {
++	pinctrl-0 = <&avb3_pins>;
++	pinctrl-names = "default";
++	phy-handle = <&avb3_phy>;
++	status = "okay";
++
++	mdio {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		reset-gpios = <&gpio7 15 GPIO_ACTIVE_LOW>;
++		reset-post-delay-us = <4000>;
++
++		avb3_phy: ethernet-phy@7 {
++			compatible = "ethernet-phy-id002b.0980",
++				     "ethernet-phy-ieee802.3-c45";
++			reg = <7>;
++			interrupts-extended = <&gpio7 16 IRQ_TYPE_LEVEL_LOW>;
++		};
++	};
++};
++
++&avb4 {
++	pinctrl-0 = <&avb4_pins>;
++	pinctrl-names = "default";
++	phy-handle = <&avb4_phy>;
++	status = "okay";
++
++	mdio {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		reset-gpios = <&gpio8 15 GPIO_ACTIVE_LOW>;
++		reset-post-delay-us = <4000>;
++
++		avb4_phy: ethernet-phy@7 {
++			compatible = "ethernet-phy-id002b.0980",
++				     "ethernet-phy-ieee802.3-c45";
++			reg = <7>;
++			interrupts-extended = <&gpio8 16 IRQ_TYPE_LEVEL_LOW>;
++		};
++	};
++};
++
++&avb5 {
++	pinctrl-0 = <&avb5_pins>;
++	pinctrl-names = "default";
++	phy-handle = <&avb5_phy>;
++	status = "okay";
++
++	mdio {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		reset-gpios = <&gpio9 15 GPIO_ACTIVE_LOW>;
++		reset-post-delay-us = <4000>;
++
++		avb5_phy: ethernet-phy@7 {
++			compatible = "ethernet-phy-id002b.0980",
++				     "ethernet-phy-ieee802.3-c45";
++			reg = <7>;
++			interrupts-extended = <&gpio9 16 IRQ_TYPE_LEVEL_LOW>;
++		};
++	};
++};
++
++
+ &i2c0 {
+ 	eeprom@53 {
+ 		compatible = "rohm,br24g01", "atmel,24c01";
+@@ -13,3 +134,130 @@ eeprom@53 {
+ 		pagesize = <8>;
+ 	};
+ };
++
++&pfc {
++	avb1_pins: avb1 {
++		mux {
++			groups = "avb1_link", "avb1_mdio", "avb1_rgmii",
++				 "avb1_txcrefclk";
++			function = "avb1";
++		};
++
++		link {
++			groups = "avb1_link";
++			bias-disable;
++		};
++
++		mdio {
++			groups = "avb1_mdio";
++			drive-strength = <24>;
++			bias-disable;
++		};
++
++		rgmii {
++			groups = "avb1_rgmii";
++			drive-strength = <24>;
++			bias-disable;
++		};
++	};
++
++	avb2_pins: avb2 {
++		mux {
++			groups = "avb2_link", "avb2_mdio", "avb2_rgmii",
++				 "avb2_txcrefclk";
++			function = "avb2";
++		};
++
++		link {
++			groups = "avb2_link";
++			bias-disable;
++		};
++
++		mdio {
++			groups = "avb2_mdio";
++			drive-strength = <24>;
++			bias-disable;
++		};
++
++		rgmii {
++			groups = "avb2_rgmii";
++			drive-strength = <24>;
++			bias-disable;
++		};
++	};
++
++	avb3_pins: avb3 {
++		mux {
++			groups = "avb3_link", "avb3_mdio", "avb3_rgmii",
++				 "avb3_txcrefclk";
++			function = "avb3";
++		};
++
++		link {
++			groups = "avb3_link";
++			bias-disable;
++		};
++
++		mdio {
++			groups = "avb3_mdio";
++			drive-strength = <24>;
++			bias-disable;
++		};
++
++		rgmii {
++			groups = "avb3_rgmii";
++			drive-strength = <24>;
++			bias-disable;
++		};
++	};
++
++	avb4_pins: avb4 {
++		mux {
++			groups = "avb4_link", "avb4_mdio", "avb4_rgmii",
++				 "avb4_txcrefclk";
++			function = "avb4";
++		};
++
++		link {
++			groups = "avb4_link";
++			bias-disable;
++		};
++
++		mdio {
++			groups = "avb4_mdio";
++			drive-strength = <24>;
++			bias-disable;
++		};
++
++		rgmii {
++			groups = "avb4_rgmii";
++			drive-strength = <24>;
++			bias-disable;
++		};
++	};
++
++	avb5_pins: avb5 {
++		mux {
++			groups = "avb5_link", "avb5_mdio", "avb5_rgmii",
++				 "avb5_txcrefclk";
++			function = "avb5";
++		};
++
++		link {
++			groups = "avb5_link";
++			bias-disable;
++		};
++
++		mdio {
++			groups = "avb5_mdio";
++			drive-strength = <24>;
++			bias-disable;
++		};
++
++		rgmii {
++			groups = "avb5_rgmii";
++			drive-strength = <24>;
++			bias-disable;
++		};
++	};
++};
 -- 
 2.46.2
 
