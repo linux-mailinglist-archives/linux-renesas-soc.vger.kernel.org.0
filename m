@@ -1,137 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-9966-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9967-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C59429A9C8D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Oct 2024 10:29:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0271A9AA34E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Oct 2024 15:37:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F3BCC1C23B7C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Oct 2024 08:29:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 283181C21FB5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Oct 2024 13:37:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 234F016F85E;
-	Tue, 22 Oct 2024 08:29:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1j4v1zMl";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="8MCYbWCx"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6785619DF60;
+	Tue, 22 Oct 2024 13:37:15 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA0E1487F6;
-	Tue, 22 Oct 2024 08:29:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B9219CC08;
+	Tue, 22 Oct 2024 13:37:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729585764; cv=none; b=dD9K1jUKBMa5TdsiIfVDSEoDpInTmYqnfc9LDy1u8PYQLL6exRumgmCxzq21Ybo1NaFM6ocWqunZiEsb++qs72RYhFI1hmpOz9XFplOttOBFfTI6rHhkZV4e1SwlnKdzOwhy5iFD0GE4jPJtBqK8ew8FBEX3Pb0pDBBEwyYPX+w=
+	t=1729604235; cv=none; b=taOGGwvAO7ForU/yHUUrFOJJOax2cDZKxACC8R8C2p9imh5THFNrfJLz5SsFeNU2iAFSzvM6YDoYaTbg7AGRH0mUoAISi3qColne4qZ/gTzmvAdpI4jpjdZeYj0et1f8nVp+qJEzZXEGa8vQ0/hXIFzINZ5W9K1gHL7XOf4srqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729585764; c=relaxed/simple;
-	bh=HFosTYhyKr+C+KLkXWCYor4oOAgCwvU/aasxydfeY9s=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=LtLHt2rELx6ZxnIVo0nUy08R+4+xD11Iu858xXD0X4FIwioM8EiVuw85eF5nb4qZHI1wZpFUvthWvVq6Jd5RcgbiOvgdJwAhFY0sEFykS2oV+gICdyFKdh9QZaM9XwLR/8SvNNjDzw+lJBZ+2ZjG6g099I6/Xn2Jg9qQxM5QrtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1j4v1zMl; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=8MCYbWCx; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: Kurt Kanzenbach <kurt@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1729585758;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FUaoNmgtEABq6PFpi80zajqfsG/YF1uho79gaK6YFOE=;
-	b=1j4v1zMluN5LxCrABzknAZ3WGgIW/x1m3aAL97biAdN48M/0sabhTnAZXCjt3IpxkOhzOZ
-	4lRU9tWP2x27tLz5YfAfx2njUEcwbnASQc9wylOKqRV8GT0E+4KiSEkNXukU7NXhfnMG11
-	gQs4Zmm9zM7vZtUxJmlPl5C7W3mydpBz9+wQt2G7rFs/1gEcSykHdfGCSyH99swiO317mK
-	TnEAgJLC6wv823Ol9aNMx+oYF80sHWNAgIZWBZrXjatZMRRfgwb9qSreXTCOdb289NVBVm
-	6seMvF5dADRFOUPvr1gALXcjE8vjQbzK1pJ8qNJtbxyRso5PdzvbG6aM9SZQMg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1729585758;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FUaoNmgtEABq6PFpi80zajqfsG/YF1uho79gaK6YFOE=;
-	b=8MCYbWCxL1cLd2QpHH58FCEptlpHqIc4p8X11Ooh2WgYVaigyykOxThbxJ8trr1jwf0nNq
-	+6sbJGkBhWTVoECA==
-To: Rosen Penev <rosenp@gmail.com>, netdev@vger.kernel.org
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Andrew Lunn
- <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Woojung Huh
- <woojung.huh@microchip.com>, "maintainer:MICROCHIP KSZ SERIES ETHERNET
- SWITCH DRIVER" <UNGLinuxDriver@microchip.com>, =?utf-8?Q?Cl=C3=A9ment_L?=
- =?utf-8?Q?=C3=A9ger?=
- <clement.leger@bootlin.com>, George McCollister
- <george.mccollister@gmail.com>, Simon Horman <horms@kernel.org>, open list
- <linux-kernel@vger.kernel.org>, "open list:RENESAS RZ/N1 A5PSW SWITCH
- DRIVER" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH net-next] net: dsa: use ethtool string helpers
-In-Reply-To: <20241021235535.603253-1-rosenp@gmail.com>
-References: <20241021235535.603253-1-rosenp@gmail.com>
-Date: Tue, 22 Oct 2024 10:29:16 +0200
-Message-ID: <87bjzcmtgj.fsf@kurt.kurt.home>
+	s=arc-20240116; t=1729604235; c=relaxed/simple;
+	bh=jS021KBDHtA4UtpuC4paBAK9ONTM1F/OrzYnjmfKhf8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=B9DZGAPu6tq69gnQ7gKvJR64nr6LXgOpbAFkP7k+jRWUeSmLCiPX0Wen/LIXV4Ns6OUX1rKU7vmqJSy9JU6DOA5N2D7hstl04Mlv/r1Bo60smq8RkCJQiQZnYqy4Z6U5Nti6f9bqGvF5n0/ulGb7wTc+8efe7Pvq8hZc5PQHnoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-6e2e3e4f65dso61876417b3.3;
+        Tue, 22 Oct 2024 06:37:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729604232; x=1730209032;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7fMGLBYZUh1hjtAZF9PX3JxjrqOky9g79+ieIgquWyM=;
+        b=p5UCkYLDOhvIIQgmX2AhyLH5T/gypXq8D4o9WZ71ttZ3N640mavj4Uku4QMsDZI3yj
+         b0LQJm2uLvcE1P/Us+JzNV1GVocBDGk/uXWp+2w2AnMlim9kUWyurKprdsUJMFXgQqje
+         wy37lc/WtGojn839rdE8uJIeXJUsyWh0X4xF3z1ei+tHTQc3OLeRjR82s5xkese2UhJl
+         nVQwff8knCYULBuHRQjtw5H7vbcQNV3GRCeHgJHTi/2Z/ky7+Xvtr4A16FjDY/XQSraQ
+         9rdkRw4YYbJXkYKUN81EDknhqk3+xhQZmkVmJ0bUikOOx/gYs3oLh/hPF10WrInDqgFO
+         TcbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVWDqFOp6k2GfEpPUL+mDV+LB4BrvBzNA7Hn5LL27ui+srOLV/x0Xv4PJKbsb798RaEreWFt8LguJU=@vger.kernel.org, AJvYcCWQU3GB4NA7TF/9xX8jEqDuSuXKmtdEzFU0ccs2jbrsBfg/zCj94JqnbLStOF92SrEkhHeGx6hc9af6@vger.kernel.org, AJvYcCXiPKli/Hh6B0VVCVx9RRt6dzT3czimJdapLgJSRpeQxiCnGPJZcUnS14oDJwgmAUTG33HKsk8kdT5IRtZCgCgDXfA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8oagSWCd1zJvhmD6nwI1SlCqYsch58mX9kqO+KMY9pJyrI7Xj
+	me7TKT0ZBZYpV59I9xm8bP/q3ZLGhTkYKrkTJDd8Q8BV1R0HSU2JiCTa+tNT
+X-Google-Smtp-Source: AGHT+IE1+k6M7ePwACV4piOIz4z0K/q06SnxJYYZIMv3hryVSKCX/Q1R8NUVaoblp3Xmw8yw8YGrJg==
+X-Received: by 2002:a05:690c:4c0f:b0:6dd:d119:58dd with SMTP id 00721157ae682-6e5bfc3c1bbmr152980637b3.16.1729604231880;
+        Tue, 22 Oct 2024 06:37:11 -0700 (PDT)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e5f5ccb6b3sm10822407b3.93.2024.10.22.06.37.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Oct 2024 06:37:11 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6e35f08e23eso51878597b3.2;
+        Tue, 22 Oct 2024 06:37:11 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUZkQZZuAhZjpCoOVY0myfHtJoFu1keR+sKkbCKVRM/9C5WIZQ8TtvYYNBI9R3WV6QWaUMym5yDSpI=@vger.kernel.org, AJvYcCWTtMNNveRfdGFN9kyGE7iYki/3oMNGiSzFaAx5+eli+ZN3zHUMPzuXqaU4SRGc27ejBY16rWFDW414@vger.kernel.org, AJvYcCWZWXo73dDnTEAyf2nCcxWWf54caQRFQehydB/A5sguXBYqUVSBIEtEkOjm4yE27TQLSYcUyVZKcPQM9pti4mQeDu8=@vger.kernel.org
+X-Received: by 2002:a05:690c:f05:b0:6e2:1527:446b with SMTP id
+ 00721157ae682-6e5bfbed07amr127148667b3.3.1729604231577; Tue, 22 Oct 2024
+ 06:37:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha512; protocol="application/pgp-signature"
-
---=-=-=
-Content-Type: text/plain
+References: <cover.1728377971.git.geert+renesas@glider.be>
+In-Reply-To: <cover.1728377971.git.geert+renesas@glider.be>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 22 Oct 2024 15:36:59 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXsmAqQL+2+D_y+u1z4nn8JO+xF-mq6wWJ0pAH58n5Wiw@mail.gmail.com>
+Message-ID: <CAMuHMdXsmAqQL+2+D_y+u1z4nn8JO+xF-mq6wWJ0pAH58n5Wiw@mail.gmail.com>
+Subject: Re: [PATCH/RFC 0/2] arm64: dts: renesas: Re-add voltages to OPP tables
+To: Lukasz Luba <lukasz.luba@arm.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-pm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon Oct 21 2024, Rosen Penev wrote:
-> These are the preferred way to copy ethtool strings.
+On Tue, Oct 8, 2024 at 11:14=E2=80=AFAM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+> When CONFIG_ENERGY_MODEL=3Dy, an error is printed on RZ/G2E and R-Car E3:
 >
-> Avoids incrementing pointers all over the place.
+>     cpu cpu0: EM: invalid perf. state: -22
 >
-> Signed-off-by: Rosen Penev <rosenp@gmail.com>
+> This happens because the Operating Points Parameters tables do not list
+> voltages, as they are all identical.  Previously, it was assumed they
+> were optional, and unused, when none of the CPU nodes is tied to a
+> regulator using the "cpu-supply" property.  This assumption turned out
+> to be incorrect, causing the reported error message.
+>
+> This RFC patch series fixes this by adding the missing voltages.
+>
+> Note that the Energy Model calculates energy efficiency by dividing the
+> (estimated) CPU power consumption by CPU core clock frequency.  When all
+> voltages have the same value, the former is proportional to clock
+> frequency, and energy efficiency becomes a constant.  Hence all
+> operating points are considered to have the same efficiency, and the
+> Energy Model always picks the one with the highest clock rate (see also
+> [1]).
+>
+> Alternatively, the Energy Model could be changed to silently ignore OPP
+> tables with missing frequencies.  IMHO this is not an unusual case.
+>
+> Which approach should be taken?
+> Thanks for your comments!
 
-[...]
+Any comments from the Energy Model and PM people?
+Thanks!
 
-> diff --git a/drivers/net/dsa/hirschmann/hellcreek.c b/drivers/net/dsa/hir=
-schmann/hellcreek.c
-> index d798f17cf7ea..283ec5a6e23c 100644
-> --- a/drivers/net/dsa/hirschmann/hellcreek.c
-> +++ b/drivers/net/dsa/hirschmann/hellcreek.c
-> @@ -294,12 +294,8 @@ static void hellcreek_get_strings(struct dsa_switch =
-*ds, int port,
->  {
->  	int i;
->=20=20
-> -	for (i =3D 0; i < ARRAY_SIZE(hellcreek_counter); ++i) {
-> -		const struct hellcreek_counter *counter =3D &hellcreek_counter[i];
-> -
-> -		strscpy(data + i * ETH_GSTRING_LEN,
-> -			counter->name, ETH_GSTRING_LEN);
-> -	}
-> +	for (i =3D 0; i < ARRAY_SIZE(hellcreek_counter); ++i)
-> +		ethtool_puts(&data, hellcreek_counter[i].name);
->  }
+> [1] "PM: EM: Question Potential Issue with EM and OPP Table in cpufreq
+>      ondemand Governor"
+>     https://lore.kernel.org/all/a2ca883e-122e-43a1-b377-c43956b5b3be@arm.=
+com
+>
+> Geert Uytterhoeven (2):
+>   arm64: dts: renesas: r8a774c0: Re-add voltages to OPP table
+>   arm64: dts: renesas: r8a77990: Re-add voltages to OPP table
 
-Reviewed-by: Kurt Kanzenbach <kurt@linutronix.de> # hellcreek
+Gr{oetje,eeting}s,
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+                        Geert
 
------BEGIN PGP SIGNATURE-----
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-iQJHBAEBCgAxFiEEvLm/ssjDfdPf21mSwZPR8qpGc4IFAmcXYlwTHGt1cnRAbGlu
-dXRyb25peC5kZQAKCRDBk9HyqkZzghZPD/94PqWHwk/0A8LkS9wnc6YHwk7itehK
-omHBEh+6eyV66ftKXbI3rdf2t/KZBPicy9mQynZNh1tMMwWKJBgM4q7abIlCm6vk
-M3fdYHYoPz2OLq7j2T+Ca0jFYDrILPDivDUYKpPBK7iTd+8bx/83yUoS+vYOumZf
-Q6JyvpAvHPnDfI9cKfT2Y7C0ksU/+seSBmq+zg6lxJ9m8uO+OvJzsyrmRjHEO0Dh
-644kSWN1MuovY7goQBvMkoW0WnfOunXMsLD8qzPz2EakmCkQMAAwxN4I+tFoL62D
-3FGq4bmCBINav0MGUAFK8hEW+dmhWhzRQmGEYr9fEyhYunVDfNJY/hC/owDnjvx6
-nQahMIapVpTturT4huLYcWdeT0HgP9hqOv/PFva0Ir/auQziTSVxEqp9GbG++yh0
-3LWQJAeUQwZYPHDiApicAI13RJIc876AvICBGhCNZeHC0U4iLokHpQTV+mBiU/32
-MX7x3p8Gxs8i+G3NQEOgx04gUmNbh2bLh3rJhFc3PJIg4nlzh0kYPk3UKbqQDJp4
-3b5biLD6aQPPMDyOsAK/BoXoN3Rs/8+lsSra6knn1OBXtJWvVw0NKbAiZFQXY8aS
-J4F9rJtZ0M9bk2xktt0/P9nvjbeHcY4fxXjerO+OLQdKvax8g8o1JKdVy7BJBAPp
-sXzABhmEtcUdFg==
-=biYy
------END PGP SIGNATURE-----
---=-=-=--
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
