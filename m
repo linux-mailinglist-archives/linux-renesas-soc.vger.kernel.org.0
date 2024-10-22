@@ -1,110 +1,158 @@
-Return-Path: <linux-renesas-soc+bounces-9969-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9970-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FC799AB601
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Oct 2024 20:34:07 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3503C9AB620
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Oct 2024 20:48:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DEAC91F23716
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Oct 2024 18:34:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8343BB219A6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Oct 2024 18:48:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A7941C9B82;
-	Tue, 22 Oct 2024 18:34:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F5481C9EBC;
+	Tue, 22 Oct 2024 18:48:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qXtviMvC"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="W0vTNcg+";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PFRguorf"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D73B17C98;
-	Tue, 22 Oct 2024 18:34:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B1A13AD26;
+	Tue, 22 Oct 2024 18:48:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729622044; cv=none; b=fEYGbDishphSrLF3JkJuLQEiBlVF4Ccb6mKdI4S5WfXKTuHcRe1s/+xJRmLRUP9IzorZq2Tn0s8x3skEhpXfNv0vK2FLM9JY7FAsD5iieCosbEpE/uRP1u7vALKHj5hYyHuRvRtq+Ozwdkx6pWVDcAtciYrWHaoOjCIYUgG93Tc=
+	t=1729622916; cv=none; b=DHUFcS9LhTmGG4CxZWNUGyRYrfvCzteDyncY4Evu6/bRdFNvT5nqGJRiRmrCXERZRBjlfex/YKuxpYPIGZ/ft7Ftf/r3PrHIyRncaxp4c3LEjbvY5xgiF2dx6WlJxdPnLWGHAa7Jf+7xWHoTkwL1VjXg/J8wruJA9Y5LcMKRYEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729622044; c=relaxed/simple;
-	bh=jymZ8mZZBmUiMRuUIT5vaWlFr6Yop4ipakjRyd+PLIM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GqDx51N337ooNcJl6bwrX+gTDbPcECaPZ7gj10CGPlQnnKtXAWzc7hz/4h2dVudlcexnMYX0g0PfgCmVZ9ugnHJ8IP/Gjebd7fL38dSjLmEPAa8qKkEQ/v7kGKivlRJJKFZHqcdAYH6uzAYv5df9w1qcEaulRgawr0/yYPTtnnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qXtviMvC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3239FC4CEC3;
-	Tue, 22 Oct 2024 18:34:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729622043;
-	bh=jymZ8mZZBmUiMRuUIT5vaWlFr6Yop4ipakjRyd+PLIM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qXtviMvCFaT5/PChSo+3WepnYzsjRVrl6YTyDFGgVE+NvLw1MAmWFoURDuedLjvyp
-	 N9/V/UVV9nqfUK/cAB+Rp9wO3wHumbcWKC1i71oVqvcs8jam8cp5GdzMI86EuVvL8X
-	 UKGs4Rp0RdR3cOYnzFcV0WuGS1yFky0SIC5y5oAajwrWArcyLfRiFoEjVS9jCfkNrx
-	 6sQ7TqY1QQYr90TL6upCfo+1TeMd8kx7K3O0LYShctpBhWkNaQ/HyiXocqXVUOTn7z
-	 U1pXFzkbMNYzbdgWt2nf92bfuQNwDAp44fG0uHs9f1gjiNxcT2iyLcpHRKigzFqE6S
-	 Lz3pkp2gqwmIA==
-Date: Tue, 22 Oct 2024 19:33:58 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	s=arc-20240116; t=1729622916; c=relaxed/simple;
+	bh=/tpHn874q5GbBFhkawH2P49IEacQQAE+dBctshCLDrE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WLUItGjNZAtTQhMmBLmKb4mPQsqs4R6JEgrugTqnZAnHwPML+SoZ6tRLIOAzFOBC+P6EXVFcCitYTe9gdfOowZJVmVxv5wexAXnReoPp+AcvH4gWqk7KZVObCJfnfGuvhwg4e49Xt6QkBtxR6Knm5OP7G5Bofv1uWteDy5IpYr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=W0vTNcg+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PFRguorf; arc=none smtp.client-ip=103.168.172.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
+	by mailfout.phl.internal (Postfix) with ESMTP id B23651380261;
+	Tue, 22 Oct 2024 14:48:31 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Tue, 22 Oct 2024 14:48:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm2; t=1729622911; x=1729709311; bh=Ll
+	6nRLfZ/hi7tKt/PUpw+qyzDdvK8VVh4Cs42gjOPE0=; b=W0vTNcg+wx918o0xVt
+	9Z8zGhGUVhtt2Ch1qp03AMW5RcrAbENbq/z2XnH7g1zkzEJhOR4Tl6fyt0i+XWUk
+	VLjOsMWNCTXlVn4QQeajSzd2k6ZRDduQ/FNAN30ffA5Jnc9GWJ9pB14vtjTgsY8h
+	bEqWrAoxW7cKKGOq7p83ZI7nOo+RSeM9xv9kYj1MgaZRtgO6qAFC4HJ/34rJBDr8
+	r67WyMSQPu/edVS+92SepD05H/I+LT6kjqX4307t/kkUjoDe+2QwL5LF7rT/h+pi
+	UfG++YubKsVrQTdVVMZ7aBwksPzOoX0xsEq6ifJ0GgIlZ0CGqyPyDuM44fRDxD53
+	TTXQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1729622911; x=1729709311; bh=Ll6nRLfZ/hi7t
+	Kt/PUpw+qyzDdvK8VVh4Cs42gjOPE0=; b=PFRguorfh1R/hYvPlnE/Op5wyJoDS
+	7B60m+tOYRx01o4CU62UosXj2vxhdCFf/fF5YPV1k5GaGZX37p7lzRyDvUSgkohV
+	MP1Zslwo2R2hjTQ88b0uFmJ2IwSOGYxUCeQSB3LV/DdBukXxQt2BQIEmIfoOXsnc
+	XrF3ibY2LhcC85aGuGPTWr13ibJIG+mWnmvVFBLcXN5oAGR4/QSDo4JoAD7u9qha
+	cd4mFHPoL7wBrh6n8iJyTpIF0gpaeqFkGgs/1GyD65KbZDtzUuYgQDwW2A0JqXTA
+	zc5f76ebFNHQYVrUvBf1KEDbVzF/cCCG/o42qlsIpkzcQuZfCERCsxPvg==
+X-ME-Sender: <xms:f_MXZ2UTKljBgh7hs6F-OFRPjk397KIcc1P7ZjJrq3nf-rv0Gab8ig>
+    <xme:f_MXZykcaRbCNEMj5aQRoFjBw80oDSPR5sWCTX3jpaVJP8S7clxjML_bM1kSJP8tj
+    RO9MpDYKDijFmB9VU4>
+X-ME-Received: <xmr:f_MXZ6YrOnVyLWSH5vOhP00wFMgGcLr1xRpKQBF-tpQ9vK8OeR6PydH5mCOvRz43gHu6Ea4pjNjiD5OYiX1aU-15mQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdeihedguddvlecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeen
+    ucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvg
+    hrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthht
+    vghrnhepheduleetteekgffffedufeeuvdejiedvkefhveeifeegffehledtvdevhfefte
+    egnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhi
+    khhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpth
+    htohepjedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepghgvvghrthdorhgvnhgv
+    shgrshesghhlihguvghrrdgsvgdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohep
+    tghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvg
+    hnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggv
+    vhhitggvthhrvggvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhhikh
+    hlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
+X-ME-Proxy: <xmx:f_MXZ9Ul56KZt6KR846Rx1YGqEb2z3Q2iuLJ9wbPbBLutPeD7fBQ4Q>
+    <xmx:f_MXZwk-CNuBU1vpjhxi5MD_TSmXdsFGlcRC6fGSsRE_ChXz10FWcw>
+    <xmx:f_MXZycccSnPflCyy419196wag2XQ-wMr0-cv5asrVdH-7gZypgV0g>
+    <xmx:f_MXZyGYBX0zKdtv4WPMUTOc2vI436XIuaQWiMT0Y0xB_ZVrvJoi-w>
+    <xmx:f_MXZ6UC5pdDhoqLePRRQDFKueud0CuCXh2vKGtRFyqGzMPZuvOyF9SU>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 22 Oct 2024 14:48:30 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2 4/4] MAINTAINERS: Add entry for Renesas ASoC drivers
-Message-ID: <95acabb5-38c4-4c4e-93de-36d5e51a43d4@sirena.org.uk>
-References: <20241021201349.395022-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20241021201349.395022-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	devicetree@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 0/2] arm64: dts: renesas: falcon: Wire-up Ethernet breakout board
+Date: Tue, 22 Oct 2024 20:47:25 +0200
+Message-ID: <20241022184727.3206180-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.46.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="RyxPpZV1wbMIWijA"
-Content-Disposition: inline
-In-Reply-To: <20241021201349.395022-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Cookie: Surprise due today.  Also the rent.
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Hi Geert,
 
---RyxPpZV1wbMIWijA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This small series wires up the Marvell 88Q2110 PHYs found on the Falcon 
+Ethernet breakout board. With this applied all five PHYs are probed 
+correctly.
 
-On Mon, Oct 21, 2024 at 09:13:49PM +0100, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->=20
-> Add a new entry to the MAINTAINERS file for Renesas ASoC drivers. This
-> entry covers the Renesas R-Car, SH7760 and Migo-R audio drivers, including
-> the device tree bindings.
->=20
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  MAINTAINERS | 9 +++++++++
->  1 file changed, 9 insertions(+)
+    mv88q2110 e6810000.ethernet-ffffffff:07: attached PHY driver (mii_bus:phy_addr=e6810000.ethernet-ffffffff:07, irq=POLL)
+    mv88q2110 e6820000.ethernet-ffffffff:07: attached PHY driver (mii_bus:phy_addr=e6820000.ethernet-ffffffff:07, irq=POLL)
+    mv88q2110 e6830000.ethernet-ffffffff:07: attached PHY driver (mii_bus:phy_addr=e6830000.ethernet-ffffffff:07, irq=POLL)
+    mv88q2110 e6840000.ethernet-ffffffff:07: attached PHY driver (mii_bus:phy_addr=e6840000.ethernet-ffffffff:07, irq=POLL)
+    mv88q2110 e6850000.ethernet-ffffffff:07: attached PHY driver (mii_bus:phy_addr=e6850000.ethernet-ffffffff:07, irq=POLL)
 
-Morimoto-san, are you OK with this?  You acked the other changes in the
-series but not this one and since you're the one being volunteered as
-maintainer it seems best to confirm!
+They can be auto detected with just the compatible 
+"ethernet-phy-ieee802.3-c45", but to keep the style currently used I 
+have added the specific compatible for the 88Q2110 as done for other 
+SoCs.
 
---RyxPpZV1wbMIWijA
-Content-Type: application/pgp-signature; name="signature.asc"
+The primary issue we had with this in the past was due to an incorrect  
+PHY address. After studying the schematics (v100) I found the PHYs 
+address pins are wired differently on Falcon compared to other Gen4 
+boards. On Falcon they are pulled-down, while on other Gen4 boards they 
+are left unconnected and subjected to the PHYs internal pull-ups. This 
+gives the PHY an address where the lower 3 bits of the address is 
+inverted for Falcon.
 
------BEGIN PGP SIGNATURE-----
+Patch 1/2 is a simple preparation patch removing properties that should 
+not be set in the base SoC include and will produce warnings once the 
+mdio node is added. Patch 2/2 wires up the PHYs.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcX8BUACgkQJNaLcl1U
-h9DzuQf/Tqh1sDCW6fpA6sNF/GKbknWi9w3YFhxWPFsFgEfa1qP4ZGmZdqtEwAla
-J0dwFlFx3l2FWPepg7dnGoVggARHjjLgzhjInRdSevKY0DBbSXScxH1YldI/oOEv
-dQmYJx6CsqUgcllEdHDT7wnX4OaDGb+beQMm+/XYdaQxFxMBvghRSVS8MrToKtCN
-hTYXm7DSMHiAOeK0qjBZQioB/G0PKA/yvGoCPnsZ5jfg4smI2osdOiIs2MKxe1TY
-40+FeNOtH73h9x2oYj6JzJ6glc83QsovL4FyTtXZNtPwFGB1C5jtqGWqGLoNhvAG
-UYpb31d7AuDYbqGayc/G99Kb4PNEPQ==
-=ddFG
------END PGP SIGNATURE-----
+Most likely the change in 1/2 should be applied to AVB0 also, but 
+pending our discussion in a different patch about where to place the 
+reset-gpio property for mdio nodes that don't strictly need it I left 
+AVB0 as is.
 
---RyxPpZV1wbMIWijA--
+Niklas Söderlund (2):
+  arm64: dts: renesas: r8a779a0: Remove address- and size-cells from
+    AVB[1-5]
+  arm64: dts: renesas: falcon: ethernet: Describe PHYs connected on the
+    breakout board
+
+ .../dts/renesas/r8a779a0-falcon-ethernet.dtsi | 248 ++++++++++++++++++
+ arch/arm64/boot/dts/renesas/r8a779a0.dtsi     |  10 -
+ 2 files changed, 248 insertions(+), 10 deletions(-)
+
+-- 
+2.46.2
+
 
