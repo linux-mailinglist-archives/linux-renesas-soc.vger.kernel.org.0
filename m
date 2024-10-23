@@ -1,131 +1,158 @@
-Return-Path: <linux-renesas-soc+bounces-10002-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10003-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D052B9ACE39
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Oct 2024 17:09:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E52E9ACF4B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Oct 2024 17:49:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D9F941F22214
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Oct 2024 15:09:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D23851F25547
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Oct 2024 15:49:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 397431CF5CE;
-	Wed, 23 Oct 2024 15:05:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07B391CB506;
+	Wed, 23 Oct 2024 15:47:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WW9uF7V8"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Rq7UGLhI";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fQPLC3q/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC6C1CF286;
-	Wed, 23 Oct 2024 15:05:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84D01459F6;
+	Wed, 23 Oct 2024 15:46:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729695902; cv=none; b=bbsVxNWxVeuI4nUIejsaHY25ZorvJ5+jl+sRMmP5l/YnkAh2IHEPuq/WFAqiqWNHrwN2GV1KjENSiEfab5ioa8nl+oDq/GGi+uBbUNsuRrMN2RSEbX4oIqWy96qCTMpTbLP/bHcXEXW18In8ooOnYmcTZqNnbuziKLV2V7MXsGA=
+	t=1729698422; cv=none; b=L1t1UpjOsP6Aau8jCTgjYLzkxjBqBY2bUt0kYx13DmGM3IPbLCkyfol3uEtuKSEu3qwTGO+1G5Q+zWe8rKui+Hjevsn7DjchMQsITu3/2czI99PutKS+Mhj0PfHYcONT83+wS/l6ZoGNK8n5/J+veksB1RmvwqUR/MHCXF27Lew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729695902; c=relaxed/simple;
-	bh=zwm0YdUlkRPFpLJprNcgJfyNzN4ksSJVM/GonbtuotI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=B4nKH951SOgw2LxHV9nUZLe/y3fCjeGQb30eAyo+Y6hN7tma6l5zj/M0CXIRtXZw+GgcLTXjUT3sLwKQPMxTpnQ11mno6WXeT9/7m25Oy3Hfl0T11WZhIG/9L2HdyIz6pTwwQ1RwHzFIKwv4/gH0+nyMjjY3DZHi0KiC/+nzwU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WW9uF7V8; arc=none smtp.client-ip=209.85.161.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5ebbfcab9f4so2041685eaf.2;
-        Wed, 23 Oct 2024 08:05:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729695899; x=1730300699; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9tuzyAe8JQhERe3dQ6ji28tLfp5niGHH7P19VuAauSs=;
-        b=WW9uF7V8tmXesaCGZnesnoi8sJxpCYv8w7Rs+nL+0kh6VN5IrpuWKgDLeK51Swisex
-         P9DKU7ybKTwQ09+N7GQlaLzTMxxCnXmBh0Sz2KgoiQ0Uk7//DFNETZ344ojsxdJUW1B3
-         yMx1xSQTP5pLLaFX3WzFESE5OSUpLvmtNW4kBw+NmbIWWmGLXiY8kPbA0nqrba9WhZtg
-         gIBbsEbGnbrW4mdrb0fZWzjILcJbqR9doLDatJoWf7iKlj7SoSkkHAGCih/NrBqFycvT
-         jXgqMVU8Yrll9xzhigueU9n3hKEJ6G8nP2RjhXPkSaEaSxqeap1+Y5k+K3Tb8ykFFuDU
-         jUZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729695899; x=1730300699;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9tuzyAe8JQhERe3dQ6ji28tLfp5niGHH7P19VuAauSs=;
-        b=oqvLKG+vZUOcmTSO6ROEogwrYNBJHZ5vS8f/9jYNAxXGrkEI8g6ktBZJ5e4spYZSSV
-         vfqe4SmOVzkm+SF4n/VUAPOflBkFwS4fo6oLgyLFSUyZLDsczYKArXI40yIBWZZRcfyh
-         DMf/LBBuWX2IMdq7YooaH15d4KzzA0g3qjMgrK2V+tONfKzj+QFktrKZ/cEcTg8OCbxX
-         jS0kB92QMT9G97v4OPDmx9pdHGnNirvu+o1aPcxCAHS3jwus83BZcAS2CsCjVZcuDawc
-         H3IYKH0cOw7yiL8huNNQlxXvCdOx56GQdYM6ZGl/oVWl38ewfq+Ab/jE6KSyYPUKVpVY
-         pl0A==
-X-Forwarded-Encrypted: i=1; AJvYcCU3x7oKjlrcKFjlyrNE1aXvVo4GArJW+5gaeDKWtG7V3cIXzoMEpp0HnFTyLE3/z1mYThf0n0zfy4W/95A8DCva/5c=@vger.kernel.org, AJvYcCU8vQKboALyPkskm2GDSb01J1psM8WyASfn4EzWhDpfZypsNFgw3UFBMblZ27ADvujpFIKfn92Fgb/0aQ==@vger.kernel.org, AJvYcCUDK+6AkgaDbeRT9mtDeU3gtnqvfMOEYH3XxYtNevqns1Gdji3yqkM2SLCSk6/p+6MyVna4pbXO@vger.kernel.org, AJvYcCUDfgZwTJsVuxbPEu4gX1z/O2uhWRVYKHnoIlIvyi1yOUqW53jvQc2euSEwPxVtJDGJI71BoZFijZhnV2Q=@vger.kernel.org, AJvYcCUEE4/soKyMGv/IF4TszPMBbP5Vd0qqotohWn+595wgIaQzGRFFOrTx+1HtOUtvlxfm+jB2bFL/Z9fP@vger.kernel.org, AJvYcCUfMnfTypX5M9n3/gVEyTNOeMFdlXw7IfMSlF/JiMqtpthpUAnRvxVX1YZ/myezMYqR9abtKa5GknHQ7gY=@vger.kernel.org, AJvYcCVXRHfOabrIemErhB6K8fzyrd/NqoA+7JR0LrrlTN8JBsLUISBi53i3Hwrfo5UzVZjUklqLzpoNFAc=@vger.kernel.org, AJvYcCVcGu4lIuNPT1/b2yN0WCslhl2Vw4OeHiObsagZMxVVBtwBv+LTeBjhq26UUIsUTC0a3rm7APyPnf61h9o=@vger.kernel.org, AJvYcCVu35EKlp7t1qt9Jg6wee1ld0bsYYO+uKKreS7bl87S8bBM++3eNLQxCi7K5XUGN8sL/ZaHyz5lEQurtg==@vger.kernel.org, AJvYcCWMsq0QDUEPml/6lpFk
- fZNfhcGPXvuTmoMF+KdGS9zclsML5Vz6SwKOboYRjyHCPVxnQvwGBbe0J7Af8g==@vger.kernel.org, AJvYcCWY2GnqWstdNQRz9d4XWc0/xDewkHEa7K5f2h1uUHV1D4FrWha5Xz4js9H9bFw+2inwrcMQN88WrmBZ@vger.kernel.org, AJvYcCWuyWuk73ol2+eNM28lWk88ailytiSZKRVJBwWdnr/IgSevo+DJElh3P+VSqy7S8oeab/TRFWEMdL/j@vger.kernel.org
-X-Gm-Message-State: AOJu0YwkSuq5m82TioeBpLIbH4EU7QldioEUdBwoi8kTSbY2mutnhVgs
-	H7dtkkc9DtRIC6voGWO85uTRuWlzHVyTbqBvQXnqNW1TcZ9xCJRhophqWcZzvUZMmMeQQBkLZVD
-	EiQlUeaM3la3rjbHmey2w/fhch20=
-X-Google-Smtp-Source: AGHT+IELnyS+e/TN/dMdHzvAA3dedAZFpyyaBekY76IOdFg+Te4WZUxhJCCdMsqShzs8WjVE+pUlBhArE6QTMefHWi4=
-X-Received: by 2002:a05:6820:1c9a:b0:5e5:7086:ebe8 with SMTP id
- 006d021491bc7-5ebee308838mr2092425eaf.0.1729695899332; Wed, 23 Oct 2024
- 08:04:59 -0700 (PDT)
+	s=arc-20240116; t=1729698422; c=relaxed/simple;
+	bh=ZZwU4NFC91wMgN4c7lkp6TocHvXTpLhtn1odQHi+ipU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=kKABil70/FWmfrJ9+MBa7hfib2Qbk0NYeuxWGOE0z1Thd5ABuHfZCZlZOHsKUkXkdb+PMPGppaqwNGFXkK5TGs+BUomZMfbHOFCkYthTl5GMA5aP+RzL1kPR1E2WnTpv9H2JDpGKeQ0BXKzBUlqQDcYTHbNWAwpBb9UUB1Es/KI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Rq7UGLhI; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fQPLC3q/; arc=none smtp.client-ip=202.12.124.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 9C97C2540109;
+	Wed, 23 Oct 2024 11:46:58 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-11.internal (MEProxy); Wed, 23 Oct 2024 11:46:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm2; t=1729698418; x=1729784818; bh=IG
+	T5U0hFJ5zQwBJxWSQZ5zevqrZ00gLykqZ8O2zCm20=; b=Rq7UGLhI2quFopPwHu
+	PWEgqc0k1UvRsYZMwWjTv153zux7sYUyGT64gjXF3YwRtDlXCIEQiEbwXWmQFYdq
+	6wG9W900qx35j842BhOAzFDV2BCJTFzjsK7eeEASKlNHQz91Ahl8C/HGZUIgjYlE
+	9eNisy0fTAVtfUugH1unkeMx7vBxw0nYzQjkadBywhOQZtc22KWsOAfPYNGBLhRK
+	dDFhZWwx45Umztd7B0zZbOcNGcNZIBdxcOAQtz5w/vDiAXxGZrmjxVEtuILgqbaH
+	ak3xyQvF3s0KmKhteu8ETPvdTCcch4lKW3cGGtzeXkT4MRZhYF9NQWvwKDnN1J+m
+	GskA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1729698418; x=1729784818; bh=IGT5U0hFJ5zQw
+	BJxWSQZ5zevqrZ00gLykqZ8O2zCm20=; b=fQPLC3q/gdU9VJNddKPGCABkja1Tx
+	cPuM1ZdqNWKi7q3F+JQXsuxsLAmA0a0AcuQ8d3cZn87IPTaZA+VGUx7939RZRFCF
+	f2KRzOQ8LIFhtOaT52WYQk3wmxTAoVIMMhpU9n/IE98sjilQ2KUnk6EF0ybqQZi7
+	TTdwejVCsRowMYtl7c9cXV0k3EQF0W4hGMJfqP9eb1KgBgVagGcIJpzG5bFTGciw
+	k8rTTjhyOKIDezFbClo1nE0aRgXYyXEUW1uuX2+C0floN7c55GW9byWJ6sgAU2Fg
+	M4nHEUR4IHCwHwiBRIDYxx4HzHEhRiiAMlHCxyC0oS+S+p8Hz2u+/iE3w==
+X-ME-Sender: <xms:choZZ80cEVfsHrHe8eUNWIAaABjzbEB5c8i0YIk1kmyHl-u8YvjEDQ>
+    <xme:choZZ3GNGw2kFFqHRR2Cw5o_VmPet99y6S6RJDesyUZcQXfAUK6mGdzPig65O_vvf
+    9YhLLR_jl5Hw7gS7As>
+X-ME-Received: <xmr:choZZ04XW68NVL3923zlFcdQHfgDPWWwRrQdfq2Z2L8hx3bzh0EQPnTsuQP4-srxFCBGZ5p2jbghSF3SEh6Ph19CLg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdeijedgleduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecu
+    hfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrh
+    hluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgv
+    rhhnpeehudelteetkefgffefudefuedvjeeivdekhfevieefgeffheeltddvvefhfeetge
+    enucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhk
+    lhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtth
+    hopeejpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehgvggvrhhtodhrvghnvghs
+    rghssehglhhiuggvrhdrsggvpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrgh
+    dprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegt
+    ohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnh
+    gvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopeguvghv
+    ihgtvghtrhgvvgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehnihhklh
+    grshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:choZZ11shOUT36kmwJVSHFlmWKFYMn05dgF_BcpjXRNjOM958q283w>
+    <xmx:choZZ_F1vXoI7kPRN6zSCSp_nS3SiWb_NjejQ6HGdoZs4jBK3NH5-g>
+    <xmx:choZZ-9ZtLNMB9IkglJdyPTYRPDkVcvVa0BT52k8w-0F4byAvOTGYA>
+    <xmx:choZZ0mWiCnblRRmEVmqcz92skskrjlHkftA01u7Dr6wXdmQAVeAng>
+    <xmx:choZZ-1Vt_QQFkjOa0mgz6blVP4s3SoUfEMxEiqXPaSKRExPfp7ngCzH>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 23 Oct 2024 11:46:57 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2 0/2] arm64: dts: renesas: falcon: Wire-up Ethernet breakout board
+Date: Wed, 23 Oct 2024 17:46:41 +0200
+Message-ID: <20241023154643.4025941-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.46.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <a08dc31ab773604d8f206ba005dc4c7a@aosc.io> <20241023080935.2945-2-kexybiscuit@aosc.io>
-In-Reply-To: <20241023080935.2945-2-kexybiscuit@aosc.io>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Wed, 23 Oct 2024 17:04:47 +0200
-Message-ID: <CAMhs-H_2tnpeynm2m9KNGL1GVU9m+odSnTk6F-WKLruMfEjXUg@mail.gmail.com>
-Subject: Re: [PATCH] Revert "MAINTAINERS: Remove some entries due to various
- compliance requirements."
-To: Kexy Biscuit <kexybiscuit@aosc.io>
-Cc: jeffbai@aosc.io, gregkh@linuxfoundation.org, wangyuli@uniontech.com, 
-	torvalds@linux-foundation.org, aospan@netup.ru, conor.dooley@microchip.com, 
-	ddrokosov@sberdevices.ru, dmaengine@vger.kernel.org, dushistov@mail.ru, 
-	fancer.lancer@gmail.com, geert@linux-m68k.org, hoan@os.amperecomputing.com, 
-	ink@jurassic.park.msu.ru, linux-alpha@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-fpga@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org, 
-	linux-ide@vger.kernel.org, linux-iio@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-mips@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-spi@vger.kernel.org, 
-	manivannan.sadhasivam@linaro.org, mattst88@gmail.com, netdev@vger.kernel.org, 
-	nikita@trvn.ru, ntb@lists.linux.dev, patches@lists.linux.dev, 
-	richard.henderson@linaro.org, s.shtylyov@omp.ru, serjk@netup.ru, 
-	shc_work@mail.ru, tsbogend@alpha.franken.de, v.georgiev@metrotek.ru, 
-	wsa+renesas@sang-engineering.com, xeb@mail.ru
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 23, 2024 at 10:20=E2=80=AFAM Kexy Biscuit <kexybiscuit@aosc.io>=
- wrote:
->
-> This reverts commit 6e90b675cf942e50c70e8394dfb5862975c3b3b2.
->
-> An absolutely no-one-ever-reviewed patch, not even by the maintainers who
-> got removed themselves - at least not on the mailing list. Then the patch
-> just got slipped into an unrelated subsystem pull request, and got pulled
-> by Torvalds with not even a comment.
->
-> What about the next time? Who next would be removed from the MAINTAINERS
-> file, the kernel.org infrastructure? What if the compliance requires
-> another XZ backdoor to be developed without further explanation? Is the
-> kernel development process still done in public?
->
-> Are the "compliance requirements" documented on docs.kernel.org? Who are
-> responsible for them? Are all that are responsible employees of
-> The Linux Foundation, which is regulated by the U.S. legislature?
->
-> Fixes: 6e90b675cf94 ("MAINTAINERS: Remove some entries due to various com=
-pliance requirements.")
-> Signed-off-by: Kexy Biscuit <kexybiscuit@aosc.io>
-> ---
+Hi Geert,
 
-Unbelievable...
+This small series wires up the Marvell 88Q2110 PHYs found on the Falcon
+Ethernet breakout board. With this applied all five PHYs are probed
+correctly.
 
-Acked-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+    mv88q2110 e6810000.ethernet-ffffffff:07: attached PHY driver (mii_bus:phy_addr=e6810000.ethernet-ffffffff:07, irq=POLL)
+    mv88q2110 e6820000.ethernet-ffffffff:07: attached PHY driver (mii_bus:phy_addr=e6820000.ethernet-ffffffff:07, irq=POLL)
+    mv88q2110 e6830000.ethernet-ffffffff:07: attached PHY driver (mii_bus:phy_addr=e6830000.ethernet-ffffffff:07, irq=POLL)
+    mv88q2110 e6840000.ethernet-ffffffff:07: attached PHY driver (mii_bus:phy_addr=e6840000.ethernet-ffffffff:07, irq=POLL)
+    mv88q2110 e6850000.ethernet-ffffffff:07: attached PHY driver (mii_bus:phy_addr=e6850000.ethernet-ffffffff:07, irq=POLL)
 
-Thanks,
-    Sergio Paracuellos
+The wire-up works fine with unbind/bind cycles of the device and the PHY 
+can properly be probed again.
+
+The primary issue we had with this in the past was due to an incorrect
+PHY address. After studying the schematics (v100) I found the PHYs
+address pins are wired differently on Falcon compared to other Gen4
+boards. On Falcon they are pulled-down, while on other Gen4 boards they
+are left unconnected and subjected to the PHYs internal pull-ups. This
+gives the PHY an address where the lower 3 bits of the address is
+inverted for Falcon.
+
+Patch 1/2 is a simple preparation patch removing properties that should
+not be set in the base SoC include and will produce warnings once the
+mdio node is added. Patch 2/2 wires up the PHYs.
+
+Most likely the change in 1/2 should be applied to AVB0 also, but
+pending our discussion in a different patch about where to place the
+reset-gpio property for mdio nodes that don't strictly need it I left
+AVB0 as is.
+
+See individual patches for changelog.
+
+Niklas Söderlund (2):
+  arm64: dts: renesas: r8a779a0: Remove address- and size-cells from
+    AVB[1-5]
+  arm64: dts: renesas: falcon: ethernet: Describe PHYs connected on the
+    breakout board
+
+ .../dts/renesas/r8a779a0-falcon-ethernet.dtsi | 242 ++++++++++++++++++
+ arch/arm64/boot/dts/renesas/r8a779a0.dtsi     |  10 -
+ 2 files changed, 242 insertions(+), 10 deletions(-)
+
+-- 
+2.46.2
+
 
