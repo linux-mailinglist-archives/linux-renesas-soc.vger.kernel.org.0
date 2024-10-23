@@ -1,152 +1,150 @@
-Return-Path: <linux-renesas-soc+bounces-9978-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9979-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 049229ABFE3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Oct 2024 09:13:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E829AC054
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Oct 2024 09:33:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 79C46B23ADF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Oct 2024 07:13:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4024D1F24122
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Oct 2024 07:33:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D02214C5BF;
-	Wed, 23 Oct 2024 07:13:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2447B155301;
+	Wed, 23 Oct 2024 07:33:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b="SvSqZDdq"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.248.207])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF62814C5BD;
-	Wed, 23 Oct 2024 07:13:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707CC154BEC;
+	Wed, 23 Oct 2024 07:33:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.100.248.207
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729667608; cv=none; b=RY1vtnx0nY7wXwPgGea2Ko6/+tyIo+6ekGCpK+Ie7uucBRnZTyE5FMLHCgIWxbQH0/xYDGK0G9yRdK/B1zvlFyW/Slp9G8ljsFsTipIMX4eFaOg59oLwhF+rfiuh4gacKfsM8+P61qrFOoJICh1PV3gL716HfmeUUXrmLut5S2k=
+	t=1729668790; cv=none; b=myYjNxo6ZwvDoLSBVIKFz9/LTLpi/665O5AldBLMM+rVsMQ67XxUbwv2/3JFcbm3CPZx0DuX8DkHtyT4ElU285gSemaJEQCcSqLptKZfXirdl7DucEKvRmx0nHn2X3K3ETuph+RX3+npPTe373iJNR2e4QpH6GkJIz3iC7ixJaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729667608; c=relaxed/simple;
-	bh=g3fRDGBRXtuoJU+m52RH4KA7qu6/emCxqoWPgTrgyD8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j+Ysh+ICrTQi0c1RtqcoNcVq1ip9LcsUQz3CJlJ5GnP/iRZKccda75sMEgPzpAzUI5Fc8qvKyVjx/pZ/xOQgvqNTgSBJTUw9WL/n8eYP011j9x1TKkV7p2bg9LuO/m1DQMJp41vHu4NmWkXlwX0Qk9MYhnzVnPFWgdaaAqBNDYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-6e5b7cd1ef5so50243427b3.1;
-        Wed, 23 Oct 2024 00:13:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729667604; x=1730272404;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=buZmOWPffpNhw64jjqBJYO5lR7bm4nckM7nvoDMsE34=;
-        b=axl4j0Qpajl3zEpIc6ZSlnbvthjw0N2C6TTk4LuoVjH2HxNqeNHOY5wBaKLdtObM0+
-         y7YMuKr6CGvhVTS8SrjJQ2FdpcHa+nGd8gp2HMGJdHkBexTjZxffVvBWgMfw1pyVfHx4
-         HLVvBJqLCnTaz4Sts+lriydK+96GQJ05EI8ekNjUf+t8uHykGQYdyAuqNL2kyP3lhaCU
-         yJzRxhWEg+3dnZww31lMKW1yPCt3ahKhhz+yrEC9oaFWHQTZaKVg68V0GMoQetrQzAnF
-         Dp9rpZHRkG+THgvO/LrcpM1dUHNivMfgEE0Dn5nGoqIIFFOUuXpBGztYXpbH5qPO6mt5
-         M0nA==
-X-Forwarded-Encrypted: i=1; AJvYcCUVaMD2TNkoyMz7WphzNaGFA7SAVLxnxBXjhCvj16aNrY5fJIrt0a4QDb0NGS24EvV2m7udTvGqut8c@vger.kernel.org, AJvYcCXA9KakZBd2IjLJMOZrQk2l2Gfsc/6uHjKTZOQf4ETVlwbc37VLPGyPMS5YAU5WGu6s9fTeZAjoSrEpEoadHKxE+Yg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4FOLLXQTr65tnvZnO+p3s8cVo1/PH/0jefPB+fN9CoiRTgRfV
-	cR/pTFlar/VoLXs4uMrH4SsYiPdZu46TattCvC+0mX1jr0H91/W4yCrH0tX6
-X-Google-Smtp-Source: AGHT+IGJUqEzlBUhXPO5VUFya8bBkDyavJlzT5PzYG+5CcoWFMJSgomiOcSyUtcjTNw3ex0djSh+kA==
-X-Received: by 2002:a05:690c:350f:b0:6e3:32e2:ecbf with SMTP id 00721157ae682-6e7f0e66042mr17250187b3.24.1729667604376;
-        Wed, 23 Oct 2024 00:13:24 -0700 (PDT)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e5f5ccb428sm14323037b3.78.2024.10.23.00.13.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Oct 2024 00:13:23 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6e38ebcc0abso71967747b3.2;
-        Wed, 23 Oct 2024 00:13:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVwnOsIfKZ37S28GzxwhK7usA3UWOo4PXcN/3KSXTn7lTMKo481j++spJQh2OFAITxxS+81sRajyz9UIfJ5j1oEAMs=@vger.kernel.org, AJvYcCWvqcGvR6F5MOmH75AM+rc81MDXeP9++Rvuab0uInUVbRJo+oTybt0l2vqGhYCyY2oQ7WzlmiNvS8yq@vger.kernel.org
-X-Received: by 2002:a05:690c:4087:b0:6e2:1467:17c0 with SMTP id
- 00721157ae682-6e7f0db9866mr13547347b3.8.1729667603177; Wed, 23 Oct 2024
- 00:13:23 -0700 (PDT)
+	s=arc-20240116; t=1729668790; c=relaxed/simple;
+	bh=xEo0swbVCdrGjVdei/ZvZa4U5Cg1mfinNBvemiRZC+8=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=Wdl4/A3S1BPrftLGY3W44hPwg3meYg/fQAtQkoUX5/baLV58koXx87wOwXZniApTP+vbVo206zKGSA1d7K4+7vB9WUvKqlIgX8NqbhfFcmOUUUuafJTZo1KYq398PnbOeHoZtyASl9hgdnQ1mziT9yHIy4ymCpfU0PBQ/Ul6Zsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io; spf=pass smtp.mailfrom=aosc.io; dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b=SvSqZDdq; arc=none smtp.client-ip=159.100.248.207
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aosc.io
+Received: from relay1.mymailcheap.com (relay1.mymailcheap.com [144.217.248.100])
+	by relay5.mymailcheap.com (Postfix) with ESMTPS id 4DC6A26761;
+	Wed, 23 Oct 2024 07:33:01 +0000 (UTC)
+Received: from nf2.mymailcheap.com (nf2.mymailcheap.com [54.39.180.165])
+	by relay1.mymailcheap.com (Postfix) with ESMTPS id 4B4033E9D6;
+	Wed, 23 Oct 2024 07:32:53 +0000 (UTC)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+	by nf2.mymailcheap.com (Postfix) with ESMTPSA id F1FA140071;
+	Wed, 23 Oct 2024 07:32:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
+	t=1729668771; bh=xEo0swbVCdrGjVdei/ZvZa4U5Cg1mfinNBvemiRZC+8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=SvSqZDdqa/ICtW2R15erWVPbVyfE4hGMXwFYFIIFJULUy5Gsz/e9Obz0kKMRpZuuP
+	 qWt7ccWb2aX9Jr1l6fU1NnihUmbwmhhq3BEauxQRazcsa4UFnWWMyVWO4yVj3b5/HO
+	 +QksPHbpOl9qNeYXOjk0WVaL2Xvcd3NvmI8bkKZM=
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail20.mymailcheap.com (Postfix) with ESMTPSA id 457BE407D9;
+	Wed, 23 Oct 2024 07:32:51 +0000 (UTC)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241022184727.3206180-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20241022184727.3206180-1-niklas.soderlund+renesas@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 23 Oct 2024 09:13:11 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV+4PdxnRCzr7fnHnGYiuypem1hYMbXLac+x2db7yfpkA@mail.gmail.com>
-Message-ID: <CAMuHMdV+4PdxnRCzr7fnHnGYiuypem1hYMbXLac+x2db7yfpkA@mail.gmail.com>
-Subject: Re: [PATCH 0/2] arm64: dts: renesas: falcon: Wire-up Ethernet
- breakout board
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Wed, 23 Oct 2024 15:32:50 +0800
+From: Mingcong Bai <jeffbai@aosc.io>
+To: WangYuli <wangyuli@uniontech.com>
+Cc: gregkh@linuxfoundation.org, patches@lists.linux.dev, nikita@trvn.ru,
+ ink@jurassic.park.msu.ru, shc_work@mail.ru, richard.henderson@linaro.org,
+ mattst88@gmail.com, linux-alpha@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, fancer.lancer@gmail.com,
+ linux-hwmon@vger.kernel.org, dmaengine@vger.kernel.org, xeb@mail.ru,
+ netdev@vger.kernel.org, s.shtylyov@omp.ru, linux-ide@vger.kernel.org,
+ serjk@netup.ru, aospan@netup.ru, linux-media@vger.kernel.org,
+ ddrokosov@sberdevices.ru, linux-iio@vger.kernel.org, v.georgiev@metrotek.ru,
+ linux-mips@vger.kernel.org, ntb@lists.linux.dev,
+ linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-spi@vger.kernel.org, dushistov@mail.ru,
+ manivannan.sadhasivam@linaro.org, conor.dooley@microchip.com,
+ linux-fpga@vger.kernel.org, tsbogend@alpha.franken.de,
+ hoan@os.amperecomputing.com, geert@linux-m68k.org,
+ wsa+renesas@sang-engineering.com
+Subject: Re: [PATCH] MAINTAINERS: Remove some entries due to various
+ compliance requirements.
+In-Reply-To: <A74519B4332040FA+20241023063058.223139-1-wangyuli@uniontech.com>
+References: <2024101835-tiptop-blip-09ed@gregkh>
+ <A74519B4332040FA+20241023063058.223139-1-wangyuli@uniontech.com>
+Message-ID: <a08dc31ab773604d8f206ba005dc4c7a@aosc.io>
+X-Sender: jeffbai@aosc.io
+Organization: Anthon Open Source Community
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Server: nf2.mymailcheap.com
+X-Rspamd-Queue-Id: F1FA140071
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [1.40 / 10.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MIME_GOOD(-0.10)[text/plain];
+	ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_ONE(0.00)[1];
+	RCPT_COUNT_TWELVE(0.00)[36];
+	TAGGED_RCPT(0.00)[renesas];
+	MID_RHS_MATCH_FROM(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,mail.ru];
+	FREEMAIL_CC(0.00)[linuxfoundation.org,lists.linux.dev,trvn.ru,jurassic.park.msu.ru,mail.ru,linaro.org,gmail.com,vger.kernel.org,lists.infradead.org,omp.ru,netup.ru,sberdevices.ru,metrotek.ru,microchip.com,alpha.franken.de,os.amperecomputing.com,linux-m68k.org,sang-engineering.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MISSING_XM_UA(0.00)[]
 
-Hi Niklas,
+Greetings all,
 
-Thanks for your series!
+在 2024-10-23 14:30，WangYuli 写道：
+> Although this commit has been merged, it's still important to know the 
+> specific reason (or even an example) that triggered this change for 
+> everyone here, right?
+> 
+> And those maintainers who have been removed should be notified.
 
-On Tue, Oct 22, 2024 at 8:48=E2=80=AFPM Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> This small series wires up the Marvell 88Q2110 PHYs found on the Falcon
-> Ethernet breakout board. With this applied all five PHYs are probed
-> correctly.
->
->     mv88q2110 e6810000.ethernet-ffffffff:07: attached PHY driver (mii_bus=
-:phy_addr=3De6810000.ethernet-ffffffff:07, irq=3DPOLL)
->     mv88q2110 e6820000.ethernet-ffffffff:07: attached PHY driver (mii_bus=
-:phy_addr=3De6820000.ethernet-ffffffff:07, irq=3DPOLL)
->     mv88q2110 e6830000.ethernet-ffffffff:07: attached PHY driver (mii_bus=
-:phy_addr=3De6830000.ethernet-ffffffff:07, irq=3DPOLL)
->     mv88q2110 e6840000.ethernet-ffffffff:07: attached PHY driver (mii_bus=
-:phy_addr=3De6840000.ethernet-ffffffff:07, irq=3DPOLL)
->     mv88q2110 e6850000.ethernet-ffffffff:07: attached PHY driver (mii_bus=
-:phy_addr=3De6850000.ethernet-ffffffff:07, irq=3DPOLL)
->
-> They can be auto detected with just the compatible
-> "ethernet-phy-ieee802.3-c45", but to keep the style currently used I
-> have added the specific compatible for the 88Q2110 as done for other
-> SoCs.
+Seconded.
 
-If the specific compatible values are not needed, I prefer not to add
-them, as DT should describe only what cannot be auto-detected[1].
-Have you tried kexec and/or unbinding/rebinding the AVB driver
-(the latter is probably easiest)?
+> It should be CC'd everyone who might need to be aware of this change, 
+> including the removed maintainers, other maintainers on the subsystem, 
+> and the subsystem's mailing list.
+> 
+> To ensure transparency.
 
-> The primary issue we had with this in the past was due to an incorrect
-> PHY address. After studying the schematics (v100) I found the PHYs
-> address pins are wired differently on Falcon compared to other Gen4
-> boards. On Falcon they are pulled-down, while on other Gen4 boards they
-> are left unconnected and subjected to the PHYs internal pull-ups. This
-> gives the PHY an address where the lower 3 bits of the address is
-> inverted for Falcon.
+This patch is one such instance where we find ourselves questioning the 
+legitimacy and indeed, the feasibility, of an international, open, and 
+open source project. Vagueness breeds distrust.
 
-This was changed in v102 of the schematics (REV0043c vs. REV0043b of
-the schematics for the Ethernet sub board): See "Changed Strap pin
-settings =3D=3D> PHYAD=3D[0,0,0], pull-down removed" on page 1, and the
-various PHY configuration notes...
-Moreover, this might be different in other board revisions, as the
-BSP uses PHY address 1 for RAVB1, address 2 for RAVB2, and so on...
+It's not difficult to deduce what the "various compliance requirements" 
+are and I'm sure Greg is aware of this. The Linux Foundation, if 
+interested in continuing their governance role over the Linux kernel, 
+should be ready to explain themselves over this decision. Greg and 
+Linus, I'm not sure if I'm ready to believe that this is supposed to be 
+a political show - but if this is the case, please leave the ground for 
+the Foundation - they should be the one responsible and receiving the 
+scrutiny (or insult, as I'm sure many - myself included - find this 
+patch insulting).
 
-As I only had remote access to Falcon, I never knew the actual board
-revision I was using.
+So I repeat - call the decision-makers out and ask for their 
+explanation.
 
-How to handle this (yet another DTS file)?
-Are non-v100 variants widespread?
-
-[1] In theory, we could drop all SoC- and family-specific compatible
-    values, and just look at the Product Register. I do not suggest
-    going that way ;-)
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Best Regards,
+Mingcong Bai
 
