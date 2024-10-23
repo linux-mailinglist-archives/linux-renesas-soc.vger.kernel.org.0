@@ -1,150 +1,110 @@
-Return-Path: <linux-renesas-soc+bounces-9979-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-9980-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8E829AC054
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Oct 2024 09:33:21 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B5119AC069
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Oct 2024 09:35:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4024D1F24122
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Oct 2024 07:33:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 12DB4B249E0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Oct 2024 07:35:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2447B155301;
-	Wed, 23 Oct 2024 07:33:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BD31153838;
+	Wed, 23 Oct 2024 07:35:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b="SvSqZDdq"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="De5s9PI1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.248.207])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707CC154BEC;
-	Wed, 23 Oct 2024 07:33:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.100.248.207
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33804154435
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Oct 2024 07:35:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729668790; cv=none; b=myYjNxo6ZwvDoLSBVIKFz9/LTLpi/665O5AldBLMM+rVsMQ67XxUbwv2/3JFcbm3CPZx0DuX8DkHtyT4ElU285gSemaJEQCcSqLptKZfXirdl7DucEKvRmx0nHn2X3K3ETuph+RX3+npPTe373iJNR2e4QpH6GkJIz3iC7ixJaU=
+	t=1729668929; cv=none; b=X/60S/QblMR2K4rraxQM/JoUgTyVgu5g010GgULVTfevosdAhDz/hhPYjrRANJEXAJq8GWKa3YIkny0ogAbfb+WjjzqGQxbndexQdxEVx4TaT+CDUP5cSziXJrK4HymL6TaNiKgroHK1+pGg91pj5oCs7gJiHc+RoiBy0n6t/Po=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729668790; c=relaxed/simple;
-	bh=xEo0swbVCdrGjVdei/ZvZa4U5Cg1mfinNBvemiRZC+8=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=Wdl4/A3S1BPrftLGY3W44hPwg3meYg/fQAtQkoUX5/baLV58koXx87wOwXZniApTP+vbVo206zKGSA1d7K4+7vB9WUvKqlIgX8NqbhfFcmOUUUuafJTZo1KYq398PnbOeHoZtyASl9hgdnQ1mziT9yHIy4ymCpfU0PBQ/Ul6Zsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io; spf=pass smtp.mailfrom=aosc.io; dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b=SvSqZDdq; arc=none smtp.client-ip=159.100.248.207
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aosc.io
-Received: from relay1.mymailcheap.com (relay1.mymailcheap.com [144.217.248.100])
-	by relay5.mymailcheap.com (Postfix) with ESMTPS id 4DC6A26761;
-	Wed, 23 Oct 2024 07:33:01 +0000 (UTC)
-Received: from nf2.mymailcheap.com (nf2.mymailcheap.com [54.39.180.165])
-	by relay1.mymailcheap.com (Postfix) with ESMTPS id 4B4033E9D6;
-	Wed, 23 Oct 2024 07:32:53 +0000 (UTC)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-	by nf2.mymailcheap.com (Postfix) with ESMTPSA id F1FA140071;
-	Wed, 23 Oct 2024 07:32:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
-	t=1729668771; bh=xEo0swbVCdrGjVdei/ZvZa4U5Cg1mfinNBvemiRZC+8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=SvSqZDdqa/ICtW2R15erWVPbVyfE4hGMXwFYFIIFJULUy5Gsz/e9Obz0kKMRpZuuP
-	 qWt7ccWb2aX9Jr1l6fU1NnihUmbwmhhq3BEauxQRazcsa4UFnWWMyVWO4yVj3b5/HO
-	 +QksPHbpOl9qNeYXOjk0WVaL2Xvcd3NvmI8bkKZM=
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail20.mymailcheap.com (Postfix) with ESMTPSA id 457BE407D9;
-	Wed, 23 Oct 2024 07:32:51 +0000 (UTC)
+	s=arc-20240116; t=1729668929; c=relaxed/simple;
+	bh=CJVCsjtmqlolvP8T95op5e8Bp0jgk8PygP4uV0ofk9o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GGCOABPeJHjvderZ+9CH69pw3F/TvwQ3XAYDW8QpMQYX2RzigIcHH/eqNE4W11fCcE8wqBk/tmBnnQH+GuHGuHAFLA6NO2uG4dEvUg/XmYqfwJitw4ZhDxRIWU+ijsij+OfAf8ZI6f2gVS8DM51FOiMcX+ol+i9+gPRTg7Wqr0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=De5s9PI1; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=CJVC
+	sjtmqlolvP8T95op5e8Bp0jgk8PygP4uV0ofk9o=; b=De5s9PI1MT4+HbEb3x1x
+	7fUrYa/xRp5xH5M21z2/j1Xo1gpCeoHWKUTKOPcXqi47hB+AJ+WV5tphSK3G4Qiy
+	jm6JVpL2rWDIO+Oalc7ClQgJ142N4mCbI1+m+tKzjzP00L/KVmvJkDSEw+e2jPwR
+	VfDsJFNYX8bL3X8zhcKi0TQpeWDXeE7eC6yoy/VfcGTq37DzAsXQSZhiL3prnUOv
+	IAgxgaR/BPLmsN/b9kr1/7Q/5fnnli6RlJXPEaQ/kdfxeAEEbKQnwWElhtvIoNmh
+	4iN6KLsd4QQT62oHu57N/DRKGXeZcGOikWQx8rw2474KPNYRZO7iInlYDz01ZTqI
+	jA==
+Received: (qmail 799147 invoked from network); 23 Oct 2024 09:35:16 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 Oct 2024 09:35:16 +0200
+X-UD-Smtp-Session: l3s3148p1@5vFW7R8lojRdtTDE
+Date: Wed, 23 Oct 2024 09:35:16 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 0/2] arm64: dts: renesas: falcon: Wire-up Ethernet
+ breakout board
+Message-ID: <ZxinNLKFW6Ijuyc7@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+References: <20241022184727.3206180-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdV+4PdxnRCzr7fnHnGYiuypem1hYMbXLac+x2db7yfpkA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 23 Oct 2024 15:32:50 +0800
-From: Mingcong Bai <jeffbai@aosc.io>
-To: WangYuli <wangyuli@uniontech.com>
-Cc: gregkh@linuxfoundation.org, patches@lists.linux.dev, nikita@trvn.ru,
- ink@jurassic.park.msu.ru, shc_work@mail.ru, richard.henderson@linaro.org,
- mattst88@gmail.com, linux-alpha@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, fancer.lancer@gmail.com,
- linux-hwmon@vger.kernel.org, dmaengine@vger.kernel.org, xeb@mail.ru,
- netdev@vger.kernel.org, s.shtylyov@omp.ru, linux-ide@vger.kernel.org,
- serjk@netup.ru, aospan@netup.ru, linux-media@vger.kernel.org,
- ddrokosov@sberdevices.ru, linux-iio@vger.kernel.org, v.georgiev@metrotek.ru,
- linux-mips@vger.kernel.org, ntb@lists.linux.dev,
- linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-spi@vger.kernel.org, dushistov@mail.ru,
- manivannan.sadhasivam@linaro.org, conor.dooley@microchip.com,
- linux-fpga@vger.kernel.org, tsbogend@alpha.franken.de,
- hoan@os.amperecomputing.com, geert@linux-m68k.org,
- wsa+renesas@sang-engineering.com
-Subject: Re: [PATCH] MAINTAINERS: Remove some entries due to various
- compliance requirements.
-In-Reply-To: <A74519B4332040FA+20241023063058.223139-1-wangyuli@uniontech.com>
-References: <2024101835-tiptop-blip-09ed@gregkh>
- <A74519B4332040FA+20241023063058.223139-1-wangyuli@uniontech.com>
-Message-ID: <a08dc31ab773604d8f206ba005dc4c7a@aosc.io>
-X-Sender: jeffbai@aosc.io
-Organization: Anthon Open Source Community
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: nf2.mymailcheap.com
-X-Rspamd-Queue-Id: F1FA140071
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.40 / 10.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MIME_GOOD(-0.10)[text/plain];
-	ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_ONE(0.00)[1];
-	RCPT_COUNT_TWELVE(0.00)[36];
-	TAGGED_RCPT(0.00)[renesas];
-	MID_RHS_MATCH_FROM(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,mail.ru];
-	FREEMAIL_CC(0.00)[linuxfoundation.org,lists.linux.dev,trvn.ru,jurassic.park.msu.ru,mail.ru,linaro.org,gmail.com,vger.kernel.org,lists.infradead.org,omp.ru,netup.ru,sberdevices.ru,metrotek.ru,microchip.com,alpha.franken.de,os.amperecomputing.com,linux-m68k.org,sang-engineering.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MISSING_XM_UA(0.00)[]
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="38Q41HeGmQ6GBwDM"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdV+4PdxnRCzr7fnHnGYiuypem1hYMbXLac+x2db7yfpkA@mail.gmail.com>
 
-Greetings all,
 
-在 2024-10-23 14:30，WangYuli 写道：
-> Although this commit has been merged, it's still important to know the 
-> specific reason (or even an example) that triggered this change for 
-> everyone here, right?
-> 
-> And those maintainers who have been removed should be notified.
+--38Q41HeGmQ6GBwDM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Seconded.
 
-> It should be CC'd everyone who might need to be aware of this change, 
-> including the removed maintainers, other maintainers on the subsystem, 
-> and the subsystem's mailing list.
-> 
-> To ensure transparency.
+> Are non-v100 variants widespread?
 
-This patch is one such instance where we find ourselves questioning the 
-legitimacy and indeed, the feasibility, of an international, open, and 
-open source project. Vagueness breeds distrust.
+I'd say nothing related to the Falcon could be called "widespread"...
 
-It's not difficult to deduce what the "various compliance requirements" 
-are and I'm sure Greg is aware of this. The Linux Foundation, if 
-interested in continuing their governance role over the Linux kernel, 
-should be ready to explain themselves over this decision. Greg and 
-Linus, I'm not sure if I'm ready to believe that this is supposed to be 
-a political show - but if this is the case, please leave the ground for 
-the Foundation - they should be the one responsible and receiving the 
-scrutiny (or insult, as I'm sure many - myself included - find this 
-patch insulting).
 
-So I repeat - call the decision-makers out and ask for their 
-explanation.
+--38Q41HeGmQ6GBwDM
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Best Regards,
-Mingcong Bai
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmcYpzQACgkQFA3kzBSg
+KbZMDg/6Aw4oPvWH4LikPufRbfzwrvo7zCwQ/4NGd3utm4Owpwed/SmmAfYrfZ3O
+aXw028EmBc5u69/dH6p26nQVaMWXkzNQg9KLwcjBScFr0ArL8tVMRAHFaErpVA6v
+ymI9dYHlSXZpSUfkjjem1e4le2W7dgzVARqBkFZdRl251O0XCpIp6Wz6fmwNfovT
+KEWKKxTzhJ5Eho0zSNwM5OWDcaxRnFXuK62sygNwik4zJ2OiwR42Pj10YsVbw4mZ
+5o5VabGZ620vSzxvjs3fw5g78Yq+DfBKr1T0myAd+ssidItxIR8KeYIWlGxwkatM
+kZyUyTnz+FPgQvpiw/tllZN+a12Yq4nxuodN6M/rb99jMT96r19gnuZc6qm/W0JC
+Anm29WSSUoM5NkXOmeYxs6cfjnDvPMoWfRWm9PUsZPmKUHM0VKf1SNSIH2VH4K/E
+S0NhHj4qwn5MSb5+gIjTf6nnloXnZ83JMkfl9UGPgpzX31rEXA9Woi/bSfq3DEEX
+PRoxndpt+xAjlGCKlmL7sqTHUkxM7FEwHxJc2iOZUrYNqz5Zx4CMsTsjZrIzGgbt
+jwNmfKkA+POh74P5E2pE7jmqz5FjrQ2RpxbdpbMHS/u1sB310nrd+rm8x0p5J/sj
+vwBoBCCAfMuOaDfM6d3S9aX+H5HfgZwXP1OMNIUkoIVbpNNk5Co=
+=jSvi
+-----END PGP SIGNATURE-----
+
+--38Q41HeGmQ6GBwDM--
 
