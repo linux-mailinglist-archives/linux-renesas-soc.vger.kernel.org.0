@@ -1,281 +1,190 @@
-Return-Path: <linux-renesas-soc+bounces-10020-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10023-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 954909ADF5F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Oct 2024 10:43:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0FC69AE1E3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Oct 2024 12:01:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0DD21B213EC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Oct 2024 08:43:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A59C1280F1E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Oct 2024 10:01:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E64616C6A1;
-	Thu, 24 Oct 2024 08:43:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBFE41C07DF;
+	Thu, 24 Oct 2024 10:01:26 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8733223CB;
-	Thu, 24 Oct 2024 08:43:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
+Received: from vmicros1.altlinux.org (vmicros1.altlinux.org [194.107.17.57])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5C151ABEB1;
+	Thu, 24 Oct 2024 10:01:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.57
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729759419; cv=none; b=AyEnYKxHQ991ijFw0HV41Fw4shZcaMt5Zj5DfRE5KLCgRA+YQn8jYl+eD96kLooe8BGSkrDBJ0SGCJ7ELv+tu/Sqo/aXKgFk/UK2gX3z7IYi+SvsPEu9/GjcmfsoqQfVj3OfSu4egX/bB2FNETEv6hM67CBKrFHrxVD8b/QEr3I=
+	t=1729764086; cv=none; b=c3deY2buR/TSUyOa2t+z9mU9JLLPZIMrq1XN1xyYuedlJyjIVi72doWTLbvpHmLdr7yr7qeUwuLtnN5whFMafUrDGjoucrug+3uWFVkGhwRT099uMV7vYrYM7N29guP3Qvd9btpnrzFm19SeH9vRtdF/Q2nUW9+95M7KURrDULU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729759419; c=relaxed/simple;
-	bh=jQ83AzUv/DC8tU0P+N4GjoXN80FxENOn+WqCZHMMxiI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PvePStFpB7rgIPl5G8eKzwfNhiLX/3hAICbzzPPc2YIR6ovhy2g08H6DhooS7VkFlc8chdobsZwUDL4kpv00R5mZM3ggqAoMXJwLzejJgKr25B0x0TVNHuoeSBqy19LSzXoQ3zCZXLNoo0e1mNFCUTch9dc59WgzTHK70Z0IZhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e28fd83b5bbso732867276.0;
-        Thu, 24 Oct 2024 01:43:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729759414; x=1730364214;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0EdHvJaPlIyM5TMupEvLhPEXXyn9Awd20txGlqEPek4=;
-        b=p4rYbYJ0HppQrdoy48eabnCxis+QUcFRlte7PYLUV9XVY9nODLtNEzgUYyhiThAp71
-         hWa9g3W7/AsLwrButUhDVQjHXIMOc57IA4/U9VuxefmFO6PWjGoFsmr3p4CYOqn9EFqG
-         AIFWI5ywMkPwhMLwQB6IVMPAZWmjpXfVQR1pc+K6d2l0srwYiLp/m0DEqob1o7Bn2CMf
-         YcBN417zFvhV/iTXzsRbslm2T7+jnkd1HQGOxQwZSYiIXcwvj60HCS5XPISvjx1ml159
-         MG7CRlgGWHDN9fSTY+q5kcTU50cSxRIGKL+mxW4AtTLxx5XKQWe8vnWc05CbWGjPMEkl
-         M+uQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV8kUFaQ+eZClcbOdjRSnfWA6hi0KzHHSPiJvz+mCuqKH6DKjiqqAhO4MXKCFrzMuKqhTYvaUFTIT6uqLA=@vger.kernel.org, AJvYcCXpFmQwWhAZO0XkbH72iTgMEAKamqCthd4m8j96hkpzMLbmm5qZoNLPn+bjb1Wo6SLDyeoR/7MoDTLvc1zE9Ou8Qlk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyyBW6mFITu+U24dCC1HY4rWSB73tSmp8hpnKWVBbt9Y/l6BfOd
-	25mRoJanQQAlGq4k4Qh18FDF3taa5tWzpqEg8oM5BbSyILkKEk0lnjhmkHN4
-X-Google-Smtp-Source: AGHT+IHH44HVf6UumnATwUziyNnkrEDuGYM5rVTEwjkef/+ZrLRxhEOYgNuQO8l7ifjtPP56m+oQRw==
-X-Received: by 2002:a05:690c:e21:b0:6e2:a129:1623 with SMTP id 00721157ae682-6e7f0fc11dfmr58907447b3.38.1729759414131;
-        Thu, 24 Oct 2024 01:43:34 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e5f5ad18adsm18807107b3.67.2024.10.24.01.43.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Oct 2024 01:43:32 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6e38fc62b9fso5970047b3.2;
-        Thu, 24 Oct 2024 01:43:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUgrSrWKpYLWEqA8W1ioal7NmYlDfMHiAZlU1a1/c5jmCpwEemcjlm+iDQsLE6upkl+P7S6PXISQ7181J0=@vger.kernel.org, AJvYcCXaZmw639uKFm8/AQPEKjxXvxZkOVivOD7CO4Vq/1d72l4YyQTcIQUzpHuZoUjW6BQ8Y1S4fwuxglBeicOneLW25Hg=@vger.kernel.org
-X-Received: by 2002:a05:690c:30e:b0:6c7:a120:e0ec with SMTP id
- 00721157ae682-6e7f0e445acmr58794887b3.22.1729759412579; Thu, 24 Oct 2024
- 01:43:32 -0700 (PDT)
+	s=arc-20240116; t=1729764086; c=relaxed/simple;
+	bh=iY1/51zaPHjVqosPGel6QiZiJ04KavIR7kHi6cy2EJM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jTaKuz3oDPCtoPxNuNPdqYHLrKrAOfCXTX5JrKe1cc7lkXNuYKlwJzdamKZalD3Yh6gDIkF4qOYzX7XDoUuJ913lQ0/1JtNZdZXjNNDMC/sJ2AAohunhP9moollVU0cThI3Vsx1khdA+v5bFKpbt6k/CWOJYB421niKwoeW2v+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.ru; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
+Received: from imap.altlinux.org (imap.altlinux.org [194.107.17.38])
+	by vmicros1.altlinux.org (Postfix) with ESMTP id 3854C72C8F5;
+	Thu, 24 Oct 2024 12:53:39 +0300 (MSK)
+Received: by imap.altlinux.org (Postfix, from userid 705)
+	id 336F236D070D; Thu, 24 Oct 2024 12:53:39 +0300 (MSK)
+Date: Thu, 24 Oct 2024 12:53:39 +0300
+From: Michael Shigorin <mike@altlinux.ru>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Tor Vic <torvic9@mailbox.org>, Kexy Biscuit <kexybiscuit@aosc.io>,
+	jeffbai@aosc.io, gregkh@linuxfoundation.org, wangyuli@uniontech.com,
+	aospan@netup.ru, conor.dooley@microchip.com,
+	ddrokosov@sberdevices.ru, dmaengine@vger.kernel.org,
+	dushistov@mail.ru, fancer.lancer@gmail.com, geert@linux-m68k.org,
+	hoan@os.amperecomputing.com, ink@jurassic.park.msu.ru,
+	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-fpga@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-ide@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-spi@vger.kernel.org, manivannan.sadhasivam@linaro.org,
+	mattst88@gmail.com, netdev@vger.kernel.org, nikita@trvn.ru,
+	ntb@lists.linux.dev, patches@lists.linux.dev,
+	richard.henderson@linaro.org, s.shtylyov@omp.ru, serjk@netup.ru,
+	shc_work@mail.ru, tsbogend@alpha.franken.de, v.georgiev@metrotek.ru,
+	wsa+renesas@sang-engineering.com, xeb@mail.ru
+Subject: what about CoC? (was: [PATCH] Revert "MAINTAINERS: Remove some
+ entries due to various compliance requirements.")
+Message-ID: <20241024095339.GA32487@imap.altlinux.org>
+References: <a08dc31ab773604d8f206ba005dc4c7a@aosc.io>
+ <20241023080935.2945-2-kexybiscuit@aosc.io>
+ <124c1b03-24c9-4f19-99a9-6eb2241406c2@mailbox.org>
+ <CAHk-=whNGNVnYHHSXUAsWds_MoZ-iEgRMQMxZZ0z-jY4uHT+Gg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241009230817.798582-1-fabrizio.castro.jz@renesas.com> <20241009230817.798582-3-fabrizio.castro.jz@renesas.com>
-In-Reply-To: <20241009230817.798582-3-fabrizio.castro.jz@renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 24 Oct 2024 10:43:20 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXxJhQ2Ra+PiR-UUv1HhL69Zpva2b-N9KygSMKUApHdwQ@mail.gmail.com>
-Message-ID: <CAMuHMdXxJhQ2Ra+PiR-UUv1HhL69Zpva2b-N9KygSMKUApHdwQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] irqchip: Add RZ/V2H(P) Interrupt Control Unit
- (ICU) driver
-To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, 
-	Chris Paterson <Chris.Paterson2@renesas.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=koi8-r
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHk-=whNGNVnYHHSXUAsWds_MoZ-iEgRMQMxZZ0z-jY4uHT+Gg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-Hi Fabrizio,
-
-On Thu, Oct 10, 2024 at 1:08=E2=80=AFAM Fabrizio Castro
-<fabrizio.castro.jz@renesas.com> wrote:
-> Add driver for the Renesas RZ/V2H(P) Interrupt Control Unit (ICU).
->
-> This driver supports the external interrupts NMI, IRQn, and TINTn.
->
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> ---
->
-> v2->v3:
-> * Reworked line breaks
-> * Improved performance of rzv2h_icu_eoi
-> * Replaced raw_spin_lock with guards
-> * Improved the style of rzv2h_icu_domain_ops
-> * Removed put_device from the successful path of rzv2h_icu_init
-
-Thanks for the update!
-
-> --- /dev/null
-> +++ b/drivers/irqchip/irq-renesas-rzv2h.c
-
-> +static void rzv2h_clear_irq_int(struct rzv2h_icu_priv *priv, unsigned in=
-t hwirq)
-> +{
-> +       unsigned int irq_nr =3D hwirq - ICU_IRQ_START;
-> +       u32 isctr, iitsr, iitsel;
-> +       u32 bit =3D BIT(irq_nr);
-> +
-> +       isctr =3D readl_relaxed(priv->base + ICU_ISCTR);
-> +       iitsr =3D readl_relaxed(priv->base + ICU_IITSR);
-> +       iitsel =3D ICU_IITSR_IITSEL_GET(iitsr, irq_nr);
-> +
-> +       /*
-> +        * When level sensing is used, the interrupt flag gets automatica=
-lly cleared when the
-> +        * interrupt signal is de-asserted by the source of the interrupt=
- request, therefore clear
-> +        * the interrupt only for edge triggered interrupts.
-> +        */
-> +       if ((isctr & bit) && (iitsel !=3D ICU_IRQ_LEVEL_LOW))
-> +               writel_relaxed(bit, priv->base + ICU_ISCLR);
-> +}
-
-Given you already manually inlined one call of this function in this v2,
-I am not sure it's worthwhile to keep this helper.  Manually inlining the
-single remaining call would drop some boilerplate.
-
-> +
-> +static int rzv2h_irq_set_type(struct irq_data *d, unsigned int type)
-> +{
-> +       struct rzv2h_icu_priv *priv =3D irq_data_to_priv(d);
-> +       unsigned int hwirq =3D irqd_to_hwirq(d);
-> +       u32 irq_nr =3D hwirq - ICU_IRQ_START;
-> +       u32 iitsr, sense;
-> +
-> +       switch (type & IRQ_TYPE_SENSE_MASK) {
-> +       case IRQ_TYPE_LEVEL_LOW:
-> +               sense =3D ICU_IRQ_LEVEL_LOW;
-> +               break;
-> +
-> +       case IRQ_TYPE_EDGE_FALLING:
-> +               sense =3D ICU_IRQ_EDGE_FALLING;
-> +               break;
-> +
-> +       case IRQ_TYPE_EDGE_RISING:
-> +               sense =3D ICU_IRQ_EDGE_RISING;
-> +               break;
-> +
-> +       case IRQ_TYPE_EDGE_BOTH:
-> +               sense =3D ICU_IRQ_EDGE_BOTH;
-> +               break;
-> +
-> +       default:
-> +               return -EINVAL;
-> +       }
-> +
-> +       guard(raw_spinlock)(&priv->lock);
-> +       iitsr =3D readl_relaxed(priv->base + ICU_IITSR);
-> +       iitsr &=3D ~ICU_IITSR_IITSEL_MASK(irq_nr);
-> +       iitsr |=3D ICU_IITSR_IITSEL_PREP(sense, irq_nr);
-> +       rzv2h_clear_irq_int(priv, hwirq);
-> +       writel_relaxed(iitsr, priv->base + ICU_IITSR);
-> +
-> +       return 0;
-> +}
-> +
-> +static void rzv2h_clear_tint_int(struct rzv2h_icu_priv *priv, unsigned i=
-nt hwirq)
-> +{
-> +       unsigned int tint_nr =3D hwirq - ICU_TINT_START;
-> +       int titsel_n =3D ICU_TITSR_TITSEL_N(tint_nr);
-> +       u32 tsctr, titsr, titsel;
-> +       u32 bit =3D BIT(tint_nr);
-> +       int k =3D tint_nr / 16;
-> +
-> +       tsctr =3D readl_relaxed(priv->base + ICU_TSCTR);
-> +       titsr =3D readl_relaxed(priv->base + ICU_TITSR(k));
-> +       titsel =3D ICU_TITSR_TITSEL_GET(titsr, titsel_n);
-> +
-> +       /*
-> +        * Writing 1 to the corresponding flag from register ICU_TSCTR on=
-ly has effect if
-> +        * TSTATn =3D 1b and if it's a rising edge or a falling edge inte=
-rrupt.
-> +        */
-> +       if ((tsctr & bit) && ((titsel =3D=3D ICU_TINT_EDGE_RISING) ||
-> +                             (titsel =3D=3D ICU_TINT_EDGE_FALLING)))
-> +               writel_relaxed(bit, priv->base + ICU_TSCLR);
-> +}
-
-Likewise.
-
-> +
-> +static int rzv2h_tint_set_type(struct irq_data *d, unsigned int type)
-> +{
-> +       u32 titsr, titsr_k, titsel_n, tien;
-> +       struct rzv2h_icu_priv *priv;
-> +       u32 tssr, tssr_k, tssel_n;
-> +       unsigned int hwirq;
-> +       u32 tint, sense;
-> +       int tint_nr;
-> +
-> +       switch (type & IRQ_TYPE_SENSE_MASK) {
-> +       case IRQ_TYPE_LEVEL_LOW:
-> +               sense =3D ICU_TINT_LEVEL_LOW;
-> +               break;
-> +
-> +       case IRQ_TYPE_LEVEL_HIGH:
-> +               sense =3D ICU_TINT_LEVEL_HIGH;
-> +               break;
-> +
-> +       case IRQ_TYPE_EDGE_RISING:
-> +               sense =3D ICU_TINT_EDGE_RISING;
-> +               break;
-> +
-> +       case IRQ_TYPE_EDGE_FALLING:
-> +               sense =3D ICU_TINT_EDGE_FALLING;
-> +               break;
-> +
-> +       default:
-> +               return -EINVAL;
-> +       }
-> +
-> +       tint =3D (u32)(uintptr_t)irq_data_get_irq_chip_data(d);
-> +       if (tint > ICU_PB5_TINT)
-> +               return -EINVAL;
-> +
-> +       priv =3D irq_data_to_priv(d);
-> +       hwirq =3D irqd_to_hwirq(d);
-> +
-> +       tint_nr =3D hwirq - ICU_TINT_START;
-> +
-> +       tssr_k =3D ICU_TSSR_K(tint_nr);
-> +       tssel_n =3D ICU_TSSR_TSSEL_N(tint_nr);
-> +
-> +       titsr_k =3D ICU_TITSR_K(tint_nr);
-> +       titsel_n =3D ICU_TITSR_TITSEL_N(tint_nr);
-> +       tien =3D ICU_TSSR_TIEN(titsel_n);
-> +
-> +       guard(raw_spinlock)(&priv->lock);
-> +
-> +       tssr =3D readl_relaxed(priv->base + ICU_TSSR(tssr_k));
-> +       tssr &=3D ~(ICU_TSSR_TSSEL_MASK(tssel_n) | tien);
-> +       tssr |=3D ICU_TSSR_TSSEL_PREP(tint, tssel_n);
-> +
-> +       writel_relaxed(tssr, priv->base + ICU_TSSR(tssr_k));
-> +
-> +       titsr =3D readl_relaxed(priv->base + ICU_TITSR(titsr_k));
-> +       titsr &=3D ~ICU_TITSR_TITSEL_MASK(titsel_n);
-> +       titsr |=3D ICU_TITSR_TITSEL_PREP(sense, titsel_n);
-> +
-> +       writel_relaxed(titsr, priv->base + ICU_TITSR(titsr_k));
-> +
-> +       rzv2h_clear_tint_int(priv, hwirq);
-> +
-> +       writel_relaxed(tssr | tien, priv->base + ICU_TSSR(tssr_k));
-> +
-> +       return 0;
-> +}
+как хорошо, что по-русски можно писать то, что думаешь
 
 
-Gr{oetje,eeting}s,
+On Wed, Oct 23, 2024 at 10:45:47AM -0700, Linus Torvalds wrote:
+> It's entirely clear why the change was done
 
-                        Geert
+Might seem so to you, but apparently not to those wondering.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+> And FYI for the actual innocent bystanders who aren't troll
+> farm accounts - the "various compliance requirements" are not
+> just a US thing.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+US is just another victim of those trotzkist slugs --
+you can ask your father, he must know better *why*
+those have been expelled even by their own ilk
+a century ago here in Russia.
+
+> If you haven't heard of Russian sanctions yet, you should try
+> to read the news some day.  And by "news", I don't mean Russian
+> state-sponsored spam.
+
+Linus, those "news" have cost your family a child already,
+and Elon has paid a similar tax.  You have been limited in
+your right to tell what you think right here in linux-kernel@
+(unless you speak hate against *all* of the Russians, yeah).
+
+You've agreed that black is white and vice versa.  It is not.
+
+> As to sending me a revert patch - please use whatever mush
+> you call brains.
+
+It's not about the patch but rather about the attitude;
+Documentation/process/code-of-conduct-interpretation.rst:
+
+"regardless of ... ethnicity, ... nationality, ... race"
+"Focusing on what is best for the community"
+
+"Examples of unacceptable behavior ... insulting/derogatory
+comments ... Public or private harassment"
+
+Get back to single-standard integrity for yor own's sake.
+
+> I'm Finnish. Did you think I'd be *supporting* Russian
+> aggression?
+
+Have you heard of casus belli?  Do you think these were one?
+
+http://nypost.com/2022/02/21/russia-kills-5-ukrainian-saboteurs-allegedly-trying-to-breach-border/
+http://reuters.com/world/europe/russias-fsb-says-shell-ukrainian-territory-destroys-russian-border-guard-post-2022-02-21/
+
+That's February 21, 2022.  If I yelled all over the place
+about "Finnish invasion" after Russian IFVs have rovered
+Finland *first* for no good reason, would I be right?
+
+Feel free to ask, I actually grew up in Kiev and e.g.
+this bug fix was done there as well:
+
+http://bugzilla.kernel.org/show_bug.cgi?id=15658
+http://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=c9e2fbd909c20b165b2b9ffb59f8b674cf0a55b0
+
+Please do revert it too then.
+
+Drop Linux network stack while at that, that "roomful
+of Russian mathematicians" is now declared untermensch.
+
+> Apparently it's not just lack of real news,
+> it's lack of history knowledge too.
+
+On your side, Linus.
+On your side.
+
+Hope you're still Finnish, not a Finnish nazi
+(swap "Russians" with "Jews" in your email and
+re-read it; it's my homegrown "nazi test" --
+if this change suddenly makes a text "nazist",
+it was).
+
+It is the US that has pushed Finland towards NATO,
+basically to follow the grim destiny that the former
+Ukraine currently harvests, and that was prepared
+for Georgia (that evades it), Moldavia (that rishes
+full speed towards destruction), Poland, the three
+Baltic states, and now your homeland.
+
+There is no regulation that can force your own heart.
+Listen to it.  Not to emotions, but to the deep truth
+that never cries aloud.
+
+You bow to the jerks who are *afraid* of opposition,
+because there is no truth in their father.
+
+Remember those who yelled "Assad must go"?
+How many of them are still around?
+Those siding with them perish with them.
+
+
+PS: last time I've seen RMS in Moscow, he declared
+his support "to the Moscow protesters"; I've asked him
+whether he knows that the initial issue was that the
+dead people were identified en masse as those "voting"
+for "democratic" candidates in 2019 elections, and he
+stared at me and answered, "nonsense".  I've emailed
+him after BLM affairs to ask if what he sees makes
+sense but never seen a reply this time -- and dead
+voters turned out to be not a purely export-only
+"technology" a bit later (pretty cosmopolitan).
+
+
+Господи, спаси и сохрани раба Твоего заблуждшего
+Линуса и ближних его во веки веков; аминь!
+
+-- 
+Michael Shigorin
+(whose first book on programming was
+Hyvonen and Seppanen's one on LISP)
+http://t.me/anna_news
 
