@@ -1,420 +1,281 @@
-Return-Path: <linux-renesas-soc+bounces-10019-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10020-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E95D9ADDB5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Oct 2024 09:33:13 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 954909ADF5F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Oct 2024 10:43:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF8B42829D8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Oct 2024 07:33:11 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0DD21B213EC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Oct 2024 08:43:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67B921AB534;
-	Thu, 24 Oct 2024 07:33:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Oi1uo4NJ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E64616C6A1;
+	Thu, 24 Oct 2024 08:43:39 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C03291AAE0D
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Oct 2024 07:32:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8733223CB;
+	Thu, 24 Oct 2024 08:43:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729755181; cv=none; b=q9EjtMHMabxfMglg+gsg+Q1g5uk61w5WHI/AkaATDYIADmQNwF1kwYK+CJHDXB1A+T2a2ZO0LRkeYuO3peuNkkoxu8msRcSyFlV+wrScM55uPtrrZDktSBYiHFgyc0Jd2gAhI+ZD7/QpMQf00Luk669flsX6LvAbcz18wy7eeOY=
+	t=1729759419; cv=none; b=AyEnYKxHQ991ijFw0HV41Fw4shZcaMt5Zj5DfRE5KLCgRA+YQn8jYl+eD96kLooe8BGSkrDBJ0SGCJ7ELv+tu/Sqo/aXKgFk/UK2gX3z7IYi+SvsPEu9/GjcmfsoqQfVj3OfSu4egX/bB2FNETEv6hM67CBKrFHrxVD8b/QEr3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729755181; c=relaxed/simple;
-	bh=xJk9DEO+3X/GcCNVC4idOyP3Q8DzjJsvWHkQBNNuUiI=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=FxyATZYeyeaEBn5pJ8Axo2MVElU8R108xut13Y6cx1dZkSnv3czi8uCxVfRgF/czd4dRQuk3f4fNVLj3/YuDxWz63GvDYP/RdBtqAMIINpj8Fnmi8q2dyQGulv/eDTgCCAdxBOSsRrSBsxZ0Y0hgQKC9n/ldJw8xmbeuw1agI0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Oi1uo4NJ; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1729755176;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6QtnlkYe/1PnWLS5Ii6raZ83O0JHoz7C7QG5MqJpjr0=;
-	b=Oi1uo4NJVgPAke74xYV5ZNcgZS1nM0t8s8O3wVpe/7axFgijsHzM44r1ExfYuGKTmZf3mq
-	TalJIZbhNNczQWJ46aIcTN+VwIEL0KN39hml5FHFCaPIN3xu8wGxsn60g//4ky6LvUYl5B
-	fQlb6CoA4r9pI/dYb2ZPHYx3tMgIhBo=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-99-mGR5ZB3TNLqfOwGepAZPfA-1; Thu, 24 Oct 2024 03:32:55 -0400
-X-MC-Unique: mGR5ZB3TNLqfOwGepAZPfA-1
-Received: by mail-yw1-f200.google.com with SMTP id 00721157ae682-6e38562155bso10080317b3.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Oct 2024 00:32:55 -0700 (PDT)
+	s=arc-20240116; t=1729759419; c=relaxed/simple;
+	bh=jQ83AzUv/DC8tU0P+N4GjoXN80FxENOn+WqCZHMMxiI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PvePStFpB7rgIPl5G8eKzwfNhiLX/3hAICbzzPPc2YIR6ovhy2g08H6DhooS7VkFlc8chdobsZwUDL4kpv00R5mZM3ggqAoMXJwLzejJgKr25B0x0TVNHuoeSBqy19LSzXoQ3zCZXLNoo0e1mNFCUTch9dc59WgzTHK70Z0IZhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e28fd83b5bbso732867276.0;
+        Thu, 24 Oct 2024 01:43:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729755174; x=1730359974;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6QtnlkYe/1PnWLS5Ii6raZ83O0JHoz7C7QG5MqJpjr0=;
-        b=BXdl9afSQquCJ68HAiBsGIXRHpRmfixNvHPIAJ3Uf8GJwg6t0sjmTxbZxwfYViczB6
-         piFDmU3mNiKs72FFV9MLrEZAlbFa4IdtGgebc1vzZTYzlcUxI7EzgNJSn0wONKEqGZjU
-         VCEebA3g9FsBo5zObkj/27mymTBB1jOnRsJOzOUs/TvbZQPgcjzF4fV7x7xYQ14DywV3
-         zhmnXiaFwS4tz3CpEa7qT8Wi6tK8vD10ygNyBMWY0iWpL/sCyEecIQG8KwAezho8ZFoz
-         U0tT+hhdEpxkStvJmCfu/ZdqKcNWGo0hbzFliHCsNBRT12EMuzL2fdm7bgcFQGiLy31X
-         l51w==
-X-Forwarded-Encrypted: i=1; AJvYcCW0OCID90l83pzbxBimPhFp4Xh6LANuWQSCAfNjYVb66jbrATiR+FFD2SO+ColeJyhx/NQBD4iU2DUiL9TJXOGGPg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnUZMCjSQn558pGQbGgsmC03thtXQm4YyHVMp3V01prOyFEQkk
-	K5G/1ub4IgzZzy/uivHTwW2R5yWQhrJ1pYB/10zegDLrXnJB26a9APwbIAzRbNkaUASrcyzWF0z
-	UtWF+V8XdYCRfJGCS3Zw7RiPqWMAsqAzCLsU2vhJm7BvSpG/sXDIXmoMNXolHfStIIlUi
-X-Received: by 2002:a05:690c:6e03:b0:6db:cf6c:a7c4 with SMTP id 00721157ae682-6e866331c20mr10690597b3.45.1729755174553;
-        Thu, 24 Oct 2024 00:32:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFwjzENxysw+j7YRfDKeQxYY43g6inqzMz9Yd8c7a5bPrsRFqYGaOrxa6Un2MKjvPM7S1dLyw==
-X-Received: by 2002:a05:690c:6e03:b0:6db:cf6c:a7c4 with SMTP id 00721157ae682-6e866331c20mr10690047b3.45.1729755174061;
-        Thu, 24 Oct 2024 00:32:54 -0700 (PDT)
-Received: from dhcp-64-16.muc.redhat.com (nat-pool-muc-t.redhat.com. [149.14.88.26])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6ce008ac8f1sm47141046d6.26.2024.10.24.00.32.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2024 00:32:53 -0700 (PDT)
-Message-ID: <7be870fc2b2fa01b89708208c78cc041029252aa.camel@redhat.com>
-Subject: Re: linux: Goodbye from a Linux community volunteer
-From: Philipp Stanner <pstanner@redhat.com>
-To: Serge Semin <fancer.lancer@gmail.com>, Jon Mason <jdmason@kudzu.us>, 
- Dave Jiang <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>,
- ntb@lists.linux.dev, Andy Shevchenko <andy@kernel.org>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Kory Maincent
- <kory.maincent@bootlin.com>, Cai Huoqing <cai.huoqing@linux.dev>, 
- dmaengine@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
- linux-spi@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>, 
- linux-ide@vger.kernel.org, Paul Burton <paulburton@kernel.org>, Thomas
- Bogendoerfer <tsbogend@alpha.franken.de>, Arnd Bergmann <arnd@arndb.de>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,  linux-mips@vger.kernel.org, Bjorn
- Helgaas <bhelgaas@google.com>, Manivannan Sadhasivam
- <manivannan.sadhasivam@linaro.org>, Yoshihiro Shimoda
- <yoshihiro.shimoda.uh@renesas.com>,  linux-pci@vger.kernel.org, "David S.
- Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Andrew Lunn <andrew@lunn.ch>, Russell King
- <linux@armlinux.org.uk>, Vladimir Oltean <olteanv@gmail.com>, Keguang Zhang
- <keguang.zhang@gmail.com>, Yanteng Si <siyanteng@loongson.cn>, 
- netdev@vger.kernel.org, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk@kernel.org>, Guenter Roeck <linux@roeck-us.net>, 
- linux-hwmon@vger.kernel.org, Borislav Petkov <bp@alien8.de>, 
- linux-edac@vger.kernel.org, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,  linux-serial@vger.kernel.org
-Cc: Andrew Halaney <ajhalaney@gmail.com>, Nikita Travkin <nikita@trvn.ru>, 
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Alexander Shiyan
- <shc_work@mail.ru>, Dmitry Kozlov <xeb@mail.ru>,  Sergey Shtylyov
- <s.shtylyov@omp.ru>, Evgeniy Dushistov <dushistov@mail.ru>, Geert
- Uytterhoeven <geert@linux-m68k.org>, Sergio Paracuellos
- <sergio.paracuellos@gmail.com>,  Nikita Shubin <nikita.shubin@maquefel.me>,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Thu, 24 Oct 2024 09:32:46 +0200
-In-Reply-To: <2m53bmuzemamzc4jzk2bj7tli22ruaaqqe34a2shtdtqrd52hp@alifh66en3rj>
-References: 
-	<2m53bmuzemamzc4jzk2bj7tli22ruaaqqe34a2shtdtqrd52hp@alifh66en3rj>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
+        d=1e100.net; s=20230601; t=1729759414; x=1730364214;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0EdHvJaPlIyM5TMupEvLhPEXXyn9Awd20txGlqEPek4=;
+        b=p4rYbYJ0HppQrdoy48eabnCxis+QUcFRlte7PYLUV9XVY9nODLtNEzgUYyhiThAp71
+         hWa9g3W7/AsLwrButUhDVQjHXIMOc57IA4/U9VuxefmFO6PWjGoFsmr3p4CYOqn9EFqG
+         AIFWI5ywMkPwhMLwQB6IVMPAZWmjpXfVQR1pc+K6d2l0srwYiLp/m0DEqob1o7Bn2CMf
+         YcBN417zFvhV/iTXzsRbslm2T7+jnkd1HQGOxQwZSYiIXcwvj60HCS5XPISvjx1ml159
+         MG7CRlgGWHDN9fSTY+q5kcTU50cSxRIGKL+mxW4AtTLxx5XKQWe8vnWc05CbWGjPMEkl
+         M+uQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV8kUFaQ+eZClcbOdjRSnfWA6hi0KzHHSPiJvz+mCuqKH6DKjiqqAhO4MXKCFrzMuKqhTYvaUFTIT6uqLA=@vger.kernel.org, AJvYcCXpFmQwWhAZO0XkbH72iTgMEAKamqCthd4m8j96hkpzMLbmm5qZoNLPn+bjb1Wo6SLDyeoR/7MoDTLvc1zE9Ou8Qlk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyyBW6mFITu+U24dCC1HY4rWSB73tSmp8hpnKWVBbt9Y/l6BfOd
+	25mRoJanQQAlGq4k4Qh18FDF3taa5tWzpqEg8oM5BbSyILkKEk0lnjhmkHN4
+X-Google-Smtp-Source: AGHT+IHH44HVf6UumnATwUziyNnkrEDuGYM5rVTEwjkef/+ZrLRxhEOYgNuQO8l7ifjtPP56m+oQRw==
+X-Received: by 2002:a05:690c:e21:b0:6e2:a129:1623 with SMTP id 00721157ae682-6e7f0fc11dfmr58907447b3.38.1729759414131;
+        Thu, 24 Oct 2024 01:43:34 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e5f5ad18adsm18807107b3.67.2024.10.24.01.43.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Oct 2024 01:43:32 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6e38fc62b9fso5970047b3.2;
+        Thu, 24 Oct 2024 01:43:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUgrSrWKpYLWEqA8W1ioal7NmYlDfMHiAZlU1a1/c5jmCpwEemcjlm+iDQsLE6upkl+P7S6PXISQ7181J0=@vger.kernel.org, AJvYcCXaZmw639uKFm8/AQPEKjxXvxZkOVivOD7CO4Vq/1d72l4YyQTcIQUzpHuZoUjW6BQ8Y1S4fwuxglBeicOneLW25Hg=@vger.kernel.org
+X-Received: by 2002:a05:690c:30e:b0:6c7:a120:e0ec with SMTP id
+ 00721157ae682-6e7f0e445acmr58794887b3.22.1729759412579; Thu, 24 Oct 2024
+ 01:43:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20241009230817.798582-1-fabrizio.castro.jz@renesas.com> <20241009230817.798582-3-fabrizio.castro.jz@renesas.com>
+In-Reply-To: <20241009230817.798582-3-fabrizio.castro.jz@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 24 Oct 2024 10:43:20 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXxJhQ2Ra+PiR-UUv1HhL69Zpva2b-N9KygSMKUApHdwQ@mail.gmail.com>
+Message-ID: <CAMuHMdXxJhQ2Ra+PiR-UUv1HhL69Zpva2b-N9KygSMKUApHdwQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] irqchip: Add RZ/V2H(P) Interrupt Control Unit
+ (ICU) driver
+To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, 
+	Chris Paterson <Chris.Paterson2@renesas.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2024-10-24 at 07:27 +0300, Serge Semin wrote:
-> Hello Linux-kernel community,
->=20
-> I am sure you have already heard the news caused by the recent Greg'
-> commit
-> 6e90b675cf942e ("MAINTAINERS: Remove some entries due to various
-> compliance
-> requirements."). As you may have noticed the change concerned some of
-> the
-> Ru-related developers removal from the list of the official kernel
-> maintainers,
-> including me.
->=20
-> The community members rightly noted that the _quite_ short commit log
-> contained
-> very vague terms with no explicit change justification. No matter how
-> hard I
-> tried to get more details about the reason, alas the senior
-> maintainer I was
-> discussing the matter with haven't given an explanation to what
-> compliance
-> requirements that was. I won't cite the exact emails text since it
-> was a private
-> messaging, but the key words are "sanctions", "sorry", "nothing I can
-> do", "talk
-> to your (company) lawyer"... I can't say for all the guys affected by
-> the
-> change, but my work for the community has been purely _volunteer_ for
-> more than
-> a year now (and less than half of it had been payable before that).
-> For that
-> reason I have no any (company) lawyer to talk to, and honestly after
-> the way the
-> patch has been merged in I don't really want to now. Silently, behind
-> everyone's
-> back, _bypassing_ the standard patch-review process, with no affected
-> developers/subsystem notified - it's indeed the worse way to do what
-> has been
-> done. No gratitude, no credits to the developers for all these years
-> of the
-> devoted work for the community. No matter the reason of the situation
-> but
-> haven't we deserved more than that? Adding to the GREDITS file at
-> least, no?..
->=20
-> I can't believe the kernel senior maintainers didn't consider that
-> the patch
-> wouldn't go unnoticed, and the situation might get out of control
-> with
-> unpredictable results for the community, if not straight away then in
-> the middle
-> or long term perspective. I am sure there have been plenty ways to
-> solve the
-> problem less harmfully, but they decided to take the easiest path.
-> Alas what's
-> done is done. A bifurcation point slightly initiated a year ago has
-> just been
-> fully implemented. The reason of the situation is obviously in the
-> political
-> ground which in this case surely shatters a basement the community
-> has been built
-> on in the first place. If so then God knows what might be next (who
-> else might
-> be sanctioned...), but the implemented move clearly sends a bad
-> signal to the
-> Linux community new comers, to the already working volunteers and
-> hobbyists like
-> me.
+Hi Fabrizio,
 
-I'm also quite shocked and even baffled about how this has been
-handled. This is not how leaders should communicate difficult or big
-decisions. It's the most disappointing event I have witnessed in the
-project.
+On Thu, Oct 10, 2024 at 1:08=E2=80=AFAM Fabrizio Castro
+<fabrizio.castro.jz@renesas.com> wrote:
+> Add driver for the Renesas RZ/V2H(P) Interrupt Control Unit (ICU).
+>
+> This driver supports the external interrupts NMI, IRQn, and TINTn.
+>
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> ---
+>
+> v2->v3:
+> * Reworked line breaks
+> * Improved performance of rzv2h_icu_eoi
+> * Replaced raw_spin_lock with guards
+> * Improved the style of rzv2h_icu_domain_ops
+> * Removed put_device from the successful path of rzv2h_icu_init
 
-There is the form and there is the content =E2=80=93 about the content one
-cannot do much, when the state he or his organization resides in gives
-an order.
+Thanks for the update!
 
-But about the form one can indeed do much. No "Thank you!", no "I hope
-we can work together again once the world has become sane(r)"... srsly,
-what the hell.
+> --- /dev/null
+> +++ b/drivers/irqchip/irq-renesas-rzv2h.c
 
-No idea why they felt the need to do it that way, but it certainly is
-not the open source way, neither is it decent or honorable.
+> +static void rzv2h_clear_irq_int(struct rzv2h_icu_priv *priv, unsigned in=
+t hwirq)
+> +{
+> +       unsigned int irq_nr =3D hwirq - ICU_IRQ_START;
+> +       u32 isctr, iitsr, iitsel;
+> +       u32 bit =3D BIT(irq_nr);
+> +
+> +       isctr =3D readl_relaxed(priv->base + ICU_ISCTR);
+> +       iitsr =3D readl_relaxed(priv->base + ICU_IITSR);
+> +       iitsel =3D ICU_IITSR_IITSEL_GET(iitsr, irq_nr);
+> +
+> +       /*
+> +        * When level sensing is used, the interrupt flag gets automatica=
+lly cleared when the
+> +        * interrupt signal is de-asserted by the source of the interrupt=
+ request, therefore clear
+> +        * the interrupt only for edge triggered interrupts.
+> +        */
+> +       if ((isctr & bit) && (iitsel !=3D ICU_IRQ_LEVEL_LOW))
+> +               writel_relaxed(bit, priv->base + ICU_ISCLR);
+> +}
+
+Given you already manually inlined one call of this function in this v2,
+I am not sure it's worthwhile to keep this helper.  Manually inlining the
+single remaining call would drop some boilerplate.
+
+> +
+> +static int rzv2h_irq_set_type(struct irq_data *d, unsigned int type)
+> +{
+> +       struct rzv2h_icu_priv *priv =3D irq_data_to_priv(d);
+> +       unsigned int hwirq =3D irqd_to_hwirq(d);
+> +       u32 irq_nr =3D hwirq - ICU_IRQ_START;
+> +       u32 iitsr, sense;
+> +
+> +       switch (type & IRQ_TYPE_SENSE_MASK) {
+> +       case IRQ_TYPE_LEVEL_LOW:
+> +               sense =3D ICU_IRQ_LEVEL_LOW;
+> +               break;
+> +
+> +       case IRQ_TYPE_EDGE_FALLING:
+> +               sense =3D ICU_IRQ_EDGE_FALLING;
+> +               break;
+> +
+> +       case IRQ_TYPE_EDGE_RISING:
+> +               sense =3D ICU_IRQ_EDGE_RISING;
+> +               break;
+> +
+> +       case IRQ_TYPE_EDGE_BOTH:
+> +               sense =3D ICU_IRQ_EDGE_BOTH;
+> +               break;
+> +
+> +       default:
+> +               return -EINVAL;
+> +       }
+> +
+> +       guard(raw_spinlock)(&priv->lock);
+> +       iitsr =3D readl_relaxed(priv->base + ICU_IITSR);
+> +       iitsr &=3D ~ICU_IITSR_IITSEL_MASK(irq_nr);
+> +       iitsr |=3D ICU_IITSR_IITSEL_PREP(sense, irq_nr);
+> +       rzv2h_clear_irq_int(priv, hwirq);
+> +       writel_relaxed(iitsr, priv->base + ICU_IITSR);
+> +
+> +       return 0;
+> +}
+> +
+> +static void rzv2h_clear_tint_int(struct rzv2h_icu_priv *priv, unsigned i=
+nt hwirq)
+> +{
+> +       unsigned int tint_nr =3D hwirq - ICU_TINT_START;
+> +       int titsel_n =3D ICU_TITSR_TITSEL_N(tint_nr);
+> +       u32 tsctr, titsr, titsel;
+> +       u32 bit =3D BIT(tint_nr);
+> +       int k =3D tint_nr / 16;
+> +
+> +       tsctr =3D readl_relaxed(priv->base + ICU_TSCTR);
+> +       titsr =3D readl_relaxed(priv->base + ICU_TITSR(k));
+> +       titsel =3D ICU_TITSR_TITSEL_GET(titsr, titsel_n);
+> +
+> +       /*
+> +        * Writing 1 to the corresponding flag from register ICU_TSCTR on=
+ly has effect if
+> +        * TSTATn =3D 1b and if it's a rising edge or a falling edge inte=
+rrupt.
+> +        */
+> +       if ((tsctr & bit) && ((titsel =3D=3D ICU_TINT_EDGE_RISING) ||
+> +                             (titsel =3D=3D ICU_TINT_EDGE_FALLING)))
+> +               writel_relaxed(bit, priv->base + ICU_TSCLR);
+> +}
+
+Likewise.
+
+> +
+> +static int rzv2h_tint_set_type(struct irq_data *d, unsigned int type)
+> +{
+> +       u32 titsr, titsr_k, titsel_n, tien;
+> +       struct rzv2h_icu_priv *priv;
+> +       u32 tssr, tssr_k, tssel_n;
+> +       unsigned int hwirq;
+> +       u32 tint, sense;
+> +       int tint_nr;
+> +
+> +       switch (type & IRQ_TYPE_SENSE_MASK) {
+> +       case IRQ_TYPE_LEVEL_LOW:
+> +               sense =3D ICU_TINT_LEVEL_LOW;
+> +               break;
+> +
+> +       case IRQ_TYPE_LEVEL_HIGH:
+> +               sense =3D ICU_TINT_LEVEL_HIGH;
+> +               break;
+> +
+> +       case IRQ_TYPE_EDGE_RISING:
+> +               sense =3D ICU_TINT_EDGE_RISING;
+> +               break;
+> +
+> +       case IRQ_TYPE_EDGE_FALLING:
+> +               sense =3D ICU_TINT_EDGE_FALLING;
+> +               break;
+> +
+> +       default:
+> +               return -EINVAL;
+> +       }
+> +
+> +       tint =3D (u32)(uintptr_t)irq_data_get_irq_chip_data(d);
+> +       if (tint > ICU_PB5_TINT)
+> +               return -EINVAL;
+> +
+> +       priv =3D irq_data_to_priv(d);
+> +       hwirq =3D irqd_to_hwirq(d);
+> +
+> +       tint_nr =3D hwirq - ICU_TINT_START;
+> +
+> +       tssr_k =3D ICU_TSSR_K(tint_nr);
+> +       tssel_n =3D ICU_TSSR_TSSEL_N(tint_nr);
+> +
+> +       titsr_k =3D ICU_TITSR_K(tint_nr);
+> +       titsel_n =3D ICU_TITSR_TITSEL_N(tint_nr);
+> +       tien =3D ICU_TSSR_TIEN(titsel_n);
+> +
+> +       guard(raw_spinlock)(&priv->lock);
+> +
+> +       tssr =3D readl_relaxed(priv->base + ICU_TSSR(tssr_k));
+> +       tssr &=3D ~(ICU_TSSR_TSSEL_MASK(tssel_n) | tien);
+> +       tssr |=3D ICU_TSSR_TSSEL_PREP(tint, tssel_n);
+> +
+> +       writel_relaxed(tssr, priv->base + ICU_TSSR(tssr_k));
+> +
+> +       titsr =3D readl_relaxed(priv->base + ICU_TITSR(titsr_k));
+> +       titsr &=3D ~ICU_TITSR_TITSEL_MASK(titsel_n);
+> +       titsr |=3D ICU_TITSR_TITSEL_PREP(sense, titsel_n);
+> +
+> +       writel_relaxed(titsr, priv->base + ICU_TITSR(titsr_k));
+> +
+> +       rzv2h_clear_tint_int(priv, hwirq);
+> +
+> +       writel_relaxed(tssr | tien, priv->base + ICU_TSSR(tssr_k));
+> +
+> +       return 0;
+> +}
 
 
-That said, thank you for all your work, Serge!
+Gr{oetje,eeting}s,
 
-I believe that nothing that has been accomplished with a candid mindset
-and decent intentions is ever done for nothing, although it often pays
-off way differently than expected.
-So I hope this will be the case for you, too.
+                        Geert
 
-Take care,
-Philipp
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-
->=20
-> Thus even if it was still possible for me to send patches or perform
-> some
-> reviews, after what has been done my motivation to do that as a
-> volunteer has
-> simply vanished. (I might be doing a commercial upstreaming in future
-> though).
-> But before saying goodbye I'd like to express my gratitude to all the
-> community
-> members I have been lucky to work with during all these years.
-> Specifically:
->=20
-> NTB-folks, Jon, Dave, Allen. NTB was my starting point in the kernel
-> upstream
-> work. Thanks for the initial advices and despite of very-very-very
-> tough reviews
-> with several complete patchset refactorings, I learned a lot back
-> then. That
-> experience helped me afterwards. Thanks a lot for that. BTW since
-> then I've got
-> several thank-you letters for the IDT NTB and IDT EEPROM drivers. If
-> not for you
-> it wouldn't have been possible.
->=20
-> Andy, it's hard to remember who else would have given me more on my
-> Linux kernel
-> journey as you have. We first met in the I2C subsystem review of my
-> DW I2C
-> driver patches. Afterwards we've got to be frequently meeting here
-> and there -
-> GPIO, SPI, TTY, DMA, NET, etc, clean/fixes/features patch(set)s.
-> Quite heat
-> discussions in your first reviews drove me crazy really. But all the
-> time we
-> managed to come up with some consensus somehow. And you never quit
-> the
-> discussions calmly explaining your point over and over. You never
-> refused to
-> provide more detailed justification to your requests/comments even
-> though you
-> didn't have to. Thanks to that I learned how to be patient to
-> reviewers
-> and reviewees. And of course thank you for the Linux-kernel
-> knowledges and all
-> the tips and tricks you shared.
->=20
-> * Andy, please note due to the situation I am not going to work on my
-> DW DMAC
-> fixes patchset anymore. So if you ever wish to have DW UART stably
-> working with the
-> DW DMA-engine driver, then feel free to pick the series up:
-> Link:
-> https://lore.kernel.org/dmaengine/20240911184710.4207-1-fancer.lancer@gma=
-il.com/
->=20
-> Linus (Walleij), after you merged one of my pretty much heavy
-> patchset in you
-> suggested to me to continue the DW APB GPIO driver maintaining. It
-> was a first
-> time I was asked to maintain a not-my driver. Thank you for the
-> trust. I'll
-> never forget that.
->=20
-> Mark, thank you very much for entrusting the DW APB SSI driver
-> maintenance to
-> me. I've put a lot of efforts into making it more generic and less
-> errors-prune,
-> especially when it comes working under a DMA-engine control or
-> working in the
-> mem-ops mode. I am sure the results have been beneficial to a lot of
-> DW
-> SPI-controller users since then.
->=20
-> Damien, our first and last meeting was at my generic AHCI-platform
-> and DW AHCI
-> SATA driver patches review. You didn't make it a quick and easy path.
-> But still
-> all the reviews comments were purely on the technical basis, and the
-> patches
-> were eventually merged in. Thank you for your time and experience
-> I've got from
-> the reviews.
->=20
-> Paul, Thomas, Arnd, Jiaxun, we met several times in the mailing list
-> during my
-> MIPS P5600 patches and just generic MIPS patches review. It was
-> always a
-> pleasure to discuss the matters with such brilliant experts in the
-> field. Alas
-> I've spent too much time working on the patches for another
-> subsystems and
-> failed to submit all the MIPS-related bits. Sorry I didn't keep my
-> promise, but
-> as you can see the circumstances have suddenly drawn its own
-> deadline.
->=20
-> Bjorn, Mani, we were working quite a lot with you in the framework of
-> the DW
-> PCIe RC drivers. You reviewed my patches. I helped you to review
-> another patches
-> for some time. Despite of some arguing it was always a pleasure to
-> work with
-> you.=C2=A0 Mani, special thanks for the cooperative DW eDMA driver
-> maintenance. I
-> think we were doing a great work together.
->=20
-> Paolo, Jakub, David, Andrew, Vladimir, Russell. The network subsystem
-> and
-> particularly the STMMAC driver (no doubt the driver sucks) have
-> turned to be a
-> kind of obstacle on which my current Linux-kernel activity has
-> stopped. I really
-> hope that at least in some way my help with the incoming STMMAC and
-> DW XPCS
-> patches reviews lightened up your maintainance duty. I know Russell
-> might
-> disagree, but I honestly think that all our discussions were useful
-> after all,
-> at least for me. I also think we did a great work working together
-> with Russell
-> on the DW GMAC/QoS ETH PCS patches. Hopefully you'll find a time to
-> finish it up
-> after all.=20
->=20
-> Rob, Krzysztof, from your reviews I've learned a lot about the most
-> hardwary part
-> of the kernel - DT sources and DT-bindings. All your comments have
-> been laconic
-> and straight to the point. That made reviews quick and easy. Thank
-> you very
-> much for that.
->=20
-> Guenter, special thanks for reviewing and accepting my patches to the
-> hwmon and
-> watchdog subsystems. It was pleasure to be working with you.
->=20
-> Borislav, we disagreed and argued a lot. So my DW uMCTL2 DDRC EDAC
-> patches even
-> got stuck in limbo for quite a long time. Anyway thank you for the
-> time
-> you spent reviewing my patches and trying to explain your point.
->=20
-> * Borislav, it looks like I won't be able to work on my Synopsys EDAC
-> patchsets
-> anymore. If you or somebody else could pick them up and finish up the
-> work it
-> would be great (you can find it in the lore archive). The patches
-> convert the
-> mainly Zynq(MP)-specific Synopsys EDAC driver to supporting the
-> generic DW
-> uMCTL2 DDRC. It would be very beneficial for each platform based on
-> that
-> controller.
->=20
-> Greg, we met several times in the mailing lists. You reviewed my
-> patches sent
-> for the USB and TTY subsystems, and all the time the process was
-> straight,
-> highly professional, and simpler than in the most of my other case.
-> Thank you very much for that.
->=20
-> Yoshihiro, Keguang, Yanteng, Kory, Cai and everybody I was lucky to
-> meet in the
-> kernel mailing lists, but forgot to mention here. Thank you for the
-> time spent
-> for our cooperative work on making the Linux kernel better. It was a
-> pleasure to
-> meet you here.
->=20
-> I also wish to say huge thanks to the community members trying to
-> defend the kicked off maintainers and for support you expressed in
-> these days. It means a lot.
->=20
-> A little bit statics of my kernel-work at the end:
->=20
-> Signed-off patches:		518
-> Reviewed and Acked patches:	253
-> Tested patches:			80
->=20
-> You might say not the greatest achievement for seven years comparing
-> to some
-> other developers. Perhaps. But I meant each of these tags, be sure.
->=20
-> I guess that's it. If you ever need some info or consultation
-> regarding the
-> drivers I used to maintain or the respective hardware or the Synopsys
-> IP-cores
-> (about which I've got quite comprehensive knowledge by this time),
-> feel free to
-> reach me out via this email. I am always willing to help to the
-> community
-> members.
->=20
-> Hope we'll meet someday in more pleasant circumstances and drink a
-> couple or more beers together. But now it's time to say good bye.
-> Sorry for a long-read text. I wish good luck on your Linux-way.
->=20
-> Best Regards,
-> -Serge(y)
->=20
-
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
