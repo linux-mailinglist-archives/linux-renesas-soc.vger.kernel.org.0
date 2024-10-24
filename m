@@ -1,140 +1,283 @@
-Return-Path: <linux-renesas-soc+bounces-10027-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10028-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8AA19AE22C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Oct 2024 12:12:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41AE99AE341
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Oct 2024 13:02:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5F0321F23549
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Oct 2024 10:12:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BDC951F23692
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Oct 2024 11:02:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A32DF1BFE0D;
-	Thu, 24 Oct 2024 10:12:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18D331CB51E;
+	Thu, 24 Oct 2024 11:02:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b="NAfqEWAK";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="O3d7xXuA"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-a1-smtp.messagingengine.com (flow-a1-smtp.messagingengine.com [103.168.172.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6E11AF0DA;
-	Thu, 24 Oct 2024 10:12:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0F01CACD9;
+	Thu, 24 Oct 2024 11:02:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729764764; cv=none; b=ml2Kk6lHHZ8EqTHjJKKdvSfGOcKHiMTcK2zLDBDpWAR/8Kl4V8Ev13v1adwBhS2qfuwS4T4EQ4QwGqmIUl5yFP2D44Is4kuT9vrkMgwWdDGASntm64EQBwj7jEOZ0z56jUfZPUwS3r0RD5Tbk38X5LVXV/DuheaNHEqYYjDXq4E=
+	t=1729767745; cv=none; b=JeGJmXbhlGq94sCScckEHr63wd0btpec6m4dHSa/LU0M36Cx9mP8cIHVR/DLBWDy4K92/5BmRgwfbJMtBXhSTWibkNckr1Tj7cR3E9/sD7Bvb2OxucvIEws4MqGNWfC3xoQM0aOiGbtlrpnoMejxPNEe7CMcIyMGF9tsNVGeoqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729764764; c=relaxed/simple;
-	bh=MGOf7ZMyi95QFP31KZrV4c/ynaQc4Pken5UbVPfGmeQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Fe9OMWDnygTRHMyckcijfOuEri8DSVo5axIHzhiMt3+57YNrtdSjvSl8Qm2hT8FwbdwL0LrW2rs/mW7rMsJe+vsce8VE7uI5k/rARvaPt2erw2D92DyHubBnEcKeohXmiMlb3HLhzAZSwAWHnDHOtYI5kZq+BrsYY1U0RdyH0vo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e29047bec8fso1522680276.0;
-        Thu, 24 Oct 2024 03:12:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729764761; x=1730369561;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jNrlohlRDru7xpuT59x3QjydCvV40I8c/+c4YvwuOb0=;
-        b=q2BWr7sEYwEnrU4U8SR2Cg7t6DI6K1lIdi6pqHayWHX8Lv5wuXDIbgOXaIJPXXYe/b
-         BnEmQlyCE1jS937b0R5QWxm/WpTcyxRN26WrWScSe0EpRk2ilS1NYm1bfnucZX6XEBdQ
-         yAtdAgd3485h2I96HIY0FQpJ7Ji2SdlRqVvle5tTEgxUml3bYNKZ5Qwq7phtmHTNPsim
-         BrJHLXIuJSdF6tpcrMqPJlRJ7RnJ6ds1Gt6/0WQaJhE1ceApqAZRB7/DcGqvOkCXdB80
-         RThp18wexnMNirQGMQIglTapA3lFYlS4ajkXs/Cl+awuK5gBjPqVI4DZsEdcZ5VQr0NT
-         V27Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXIpAbYJ89KCG4/yS1teqrYoEjOfBDYmW09cfbw5UWyYQBJmJ8Dp+WG+uMFR4IoJX1SZLALeMF74jXwQY1/E8S2Jpk=@vger.kernel.org, AJvYcCXP6fHOof6dtaSgs7jqsC7pVChy6TXmx1FWl0cf9i5ty1PhQByE/9k/ZVLXyI3ytlR2HHwRZ69tSpo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyX1t1lvCKM2pGR3NjsPBy+ilQyZf4Apy38y4ZQcU8Ikdnrdbx9
-	hQYqNQCq+an+sjll5Ecg/zMk9R6nM83fnUO+QjycQo2+7Pq3y1XEUXpu0irz
-X-Google-Smtp-Source: AGHT+IEEQRkA08o4IQAySlmaX1A2lXWd2j1v9lAyUvvLh8Pqkntbve61SKt7GwyWFXBo84Nldcd1Hw==
-X-Received: by 2002:a05:690c:74c5:b0:6e2:1eaa:1c90 with SMTP id 00721157ae682-6e857fe6e2cmr10052157b3.18.1729764760660;
-        Thu, 24 Oct 2024 03:12:40 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e5f59f592asm19343467b3.9.2024.10.24.03.12.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Oct 2024 03:12:39 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-6e314136467so7154087b3.0;
-        Thu, 24 Oct 2024 03:12:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUI8Dat6nrAV5qv+icLwUfswfAN/LSdOTvZg0A5dnV6lQQXlLbMPd2cy0n+kTWsb0q01WmyFtX8B9o=@vger.kernel.org, AJvYcCVU2z5qfBnJguMxXl28PJdwwOF/EkqlNPcGeCXSW8iIDvIahwgq9oNXTmZ4JXRLu1SHHGDEqFYCwnAEgT9lklqv2wc=@vger.kernel.org
-X-Received: by 2002:a05:690c:6e05:b0:64b:1eb2:3dd4 with SMTP id
- 00721157ae682-6e84dec1a66mr10607027b3.8.1729764759423; Thu, 24 Oct 2024
- 03:12:39 -0700 (PDT)
+	s=arc-20240116; t=1729767745; c=relaxed/simple;
+	bh=jojXZXqVAoeJiiE0qE5SBA6J6/tjFaOx8MsDaM22Qhc=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=XnyAIMdSAf+0KL0jwLP/VWelEsixZ6Y+TDX3mGcnVwYvB6Hf1Kgf/kAvNjdlWXvJR6nn4EiVnBhghn+lUBLRrNHNL4Q+coNLcNO5Oy/JwrOgDV/jEnD9eBHc3VG3DzAO4bm19j8jkt56wC2PmFJUB0Gvdch5g7B8pFF7PyjyL8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com; spf=pass smtp.mailfrom=flygoat.com; dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b=NAfqEWAK; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=O3d7xXuA; arc=none smtp.client-ip=103.168.172.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flygoat.com
+Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
+	by mailflow.phl.internal (Postfix) with ESMTP id 3DA85200607;
+	Thu, 24 Oct 2024 07:02:22 -0400 (EDT)
+Received: from phl-imap-12 ([10.202.2.86])
+  by phl-compute-09.internal (MEProxy); Thu, 24 Oct 2024 07:02:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1729767742;
+	 x=1729774942; bh=jojXZXqVAoeJiiE0qE5SBA6J6/tjFaOx8MsDaM22Qhc=; b=
+	NAfqEWAKIIe52yRfX7BmL+rSCi0zqiR+TgnnHwC1N8q93OMieX98UnaMAVraMlR4
+	8ufe1aSSqRfQPzNfzQLUrovEvVS4BcQFyEY0UnmyscqiBgapfQwy5d5eGivdXwI7
+	n8sqzwkjiAvwBiBv9NwvBFH4zbO15+7HuWAyIvAt0ECVRARLVaC5hzw7+1h2Fr63
+	jawANEqLswUuFq4TJdqz+Om9LHA4m5QrQOwNXVZp37e3YDpmbnpNl7cscQ5GIP1p
+	c8RSWyflqZL90OOX9pBAAMq/Blpx3Ai/VuP/pXtr8eo5MewFiihRKKCBFYz/YrGZ
+	kED4xVVbZ9wel+ihRjjgAA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1729767742; x=
+	1729774942; bh=jojXZXqVAoeJiiE0qE5SBA6J6/tjFaOx8MsDaM22Qhc=; b=O
+	3d7xXuAcvW0Qq/z6uywgXUts/ZXFt6318f0LHPYz5cBPgPA+82Wx547UOlgt4mt6
+	4DSL+xVIueXLuw7Ey65M4gG8bdWRTR5xowgfKCkp2v0BOIg21IiIwB7GmlhDynmh
+	/ONUMoP7I0aMf5mKFo9ypnv8J1d2K2sOi/zVhnFbUP4mnztZCQE/bHzHY41AZqff
+	cZ926wUOUv21aliWRb967/qQ4cO7CIFXmM3GEBpMbE9D4gxiI6j4JEZ8l7ao1JgL
+	zoTbIh8ioEYl0NE+fHP19UZ79Tq0IHULvoopAdWu9vU+c/yDP6hz0L7bCM5jYfWd
+	7N11mKTS5cPl4DQk+qq5Q==
+X-ME-Sender: <xms:OSkaZwYi6qXucuYIwiY1qmXzfR6nKepL2fFWERUO0a3uqWdlAUZj7A>
+    <xme:OSkaZ7b8v9hm6WHgyzWLQqRUA2Gu0cdf3gtBG8rDBHIbr2vpCnZo-YpT_paU0f-et
+    TnC_Nooxz13smP1Y0w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdejtddgtdelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdej
+    necuhfhrohhmpedflfhirgiguhhnucgjrghnghdfuceojhhirgiguhhnrdihrghnghesfh
+    hlhihgohgrthdrtghomheqnecuggftrfgrthhtvghrnhepjeehfeduvddtgffgvdffkeet
+    hefhlefgvdevvdekuefffeekheehgeevhfevteejnecuvehluhhsthgvrhfuihiivgeptd
+    enucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgr
+    thdrtghomhdpnhgspghrtghpthhtohephedtpdhmohguvgepshhmthhpohhuthdprhgtph
+    htthhopegsphesrghlihgvnhekrdguvgdprhgtphhtthhopehtshgsohhgvghnugesrghl
+    phhhrgdrfhhrrghnkhgvnhdruggvpdhrtghpthhtoheplhhinhhugiesrghrmhhlihhnuh
+    igrdhorhhgrdhukhdprhgtphhtthhopegrrhhnugesrghrnhgusgdruggvpdhrtghpthht
+    ohepkhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomhdprhgtphhtthhope
+    gurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtghpthhtoheprghjhhgrlhgrnhgv
+    hiesghhmrghilhdrtghomhdprhgtphhtthhopegrlhhlvghnsghhsehgmhgrihhlrdgtoh
+    hmpdhrtghpthhtohepfhgrnhgtvghrrdhlrghntggvrhesghhmrghilhdrtghomh
+X-ME-Proxy: <xmx:OSkaZ6918ok4nCWtaeypNr0jCqJgoYdwdkZ-H8UVF8SBnGah4cPDOA>
+    <xmx:OSkaZ6rBLhZ96gJ0NqiVC3l5MgBdKbGrZfVFlg2s3lrL4XfLDDL19Q>
+    <xmx:OSkaZ7r14qQsA_4HawOnccrLNqSwfIm2GuPkVdJ6rQg4ocIRKzO6Xw>
+    <xmx:OSkaZ4RYxnFS-ltvfOenDmyuK6PudNl-AhqQXTzm73JaU2a-20QK8g>
+    <xmx:PikaZ57_I6E1pak3ObJRl0Rdo0XYuS48ftEpMkv0g2LwNeE6gbr05mCr>
+Feedback-ID: ifd894703:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id B60F31C20066; Thu, 24 Oct 2024 07:02:17 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241016101513.39984-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20241016101513.39984-1-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 24 Oct 2024 12:12:27 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXwxWAm=XiGFw_j+L8ebmAvJx7r8oQ_Bhon6tsWX47yXA@mail.gmail.com>
-Message-ID: <CAMuHMdXwxWAm=XiGFw_j+L8ebmAvJx7r8oQ_Bhon6tsWX47yXA@mail.gmail.com>
-Subject: Re: [PATCH v3] clk: renesas: rzg2l: Fix FOUTPOSTDIV clk
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
-	Hien Huynh <hien.huynh.px@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Date: Thu, 24 Oct 2024 12:01:36 +0100
+From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
+To: "Serge Semin" <fancer.lancer@gmail.com>, "Jon Mason" <jdmason@kudzu.us>,
+ "Dave Jiang" <dave.jiang@intel.com>, "Allen Hubbe" <allenbh@gmail.com>,
+ ntb@lists.linux.dev, "Andy Shevchenko" <andy@kernel.org>,
+ "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>,
+ "Kory Maincent" <kory.maincent@bootlin.com>,
+ "Cai Huoqing" <cai.huoqing@linux.dev>, dmaengine@vger.kernel.org,
+ "Mark Brown" <broonie@kernel.org>, linux-spi@vger.kernel.org,
+ "Damien Le Moal" <dlemoal@kernel.org>, linux-ide@vger.kernel.org,
+ "paulburton@kernel.org" <paulburton@kernel.org>,
+ "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
+ "Arnd Bergmann" <arnd@arndb.de>,
+ "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+ "Bjorn Helgaas" <bhelgaas@google.com>,
+ "Manivannan Sadhasivam" <manivannan.sadhasivam@linaro.org>,
+ "Yoshihiro Shimoda" <yoshihiro.shimoda.uh@renesas.com>,
+ linux-pci <linux-pci@vger.kernel.org>,
+ "David S . Miller" <davem@davemloft.net>,
+ "Jakub Kicinski" <kuba@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>,
+ "Andrew Lunn" <andrew@lunn.ch>, "Russell King" <linux@armlinux.org.uk>,
+ "Vladimir Oltean" <olteanv@gmail.com>,
+ "Kelvin Cheung" <keguang.zhang@gmail.com>,
+ "Yanteng Si" <siyanteng@loongson.cn>, netdev@vger.kernel.org,
+ "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk@kernel.org>,
+ "Guenter Roeck" <linux@roeck-us.net>, linux-hwmon@vger.kernel.org,
+ "Borislav Petkov" <bp@alien8.de>, linux-edac@vger.kernel.org,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ linux-serial@vger.kernel.org
+Cc: "Andrew Halaney" <ajhalaney@gmail.com>, "Nikita Travkin" <nikita@trvn.ru>,
+ "Ivan Kokshaysky" <ink@jurassic.park.msu.ru>,
+ "Alexander Shiyan" <shc_work@mail.ru>, "Dmitry Kozlov" <xeb@mail.ru>,
+ "Sergey Shtylyov" <s.shtylyov@omp.ru>,
+ "Evgeniy Dushistov" <dushistov@mail.ru>,
+ "Geert Uytterhoeven" <geert@linux-m68k.org>,
+ "Sergio Paracuellos" <sergio.paracuellos@gmail.com>,
+ "Nikita Shubin" <nikita.shubin@maquefel.me>,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-Id: <91609bd7-da45-4fea-9e23-91e5f85b3c05@app.fastmail.com>
+In-Reply-To: 
+ <2m53bmuzemamzc4jzk2bj7tli22ruaaqqe34a2shtdtqrd52hp@alifh66en3rj>
+References: <2m53bmuzemamzc4jzk2bj7tli22ruaaqqe34a2shtdtqrd52hp@alifh66en3rj>
+Subject: Re: linux: Goodbye from a Linux community volunteer
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi Biju,
 
-On Wed, Oct 16, 2024 at 12:15=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.c=
-om> wrote:
-> While computing foutpostdiv_rate, the value of params->pl5_fracin
-> is discarded, which results in the wrong refresh rate. Fix the formula
-> for computing foutpostdiv_rate.
+
+=E5=9C=A82024=E5=B9=B410=E6=9C=8824=E6=97=A5=E5=8D=81=E6=9C=88 =E4=B8=8A=
+=E5=8D=885:27=EF=BC=8CSerge Semin=E5=86=99=E9=81=93=EF=BC=9A
+> Hello Linux-kernel community,
 >
-> Fixes: 1561380ee72f ("clk: renesas: rzg2l: Add FOUTPOSTDIV clk support")
-> Signed-off-by: Hien Huynh <hien.huynh.px@renesas.com>
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v2->v3:
->  * Used mul_u32_u32() for 32-bit multiplication.
-
-Thanks for the update!
-
-> --- a/drivers/clk/renesas/rzg2l-cpg.c
-> +++ b/drivers/clk/renesas/rzg2l-cpg.c
-> @@ -557,10 +557,10 @@ rzg2l_cpg_get_foutpostdiv_rate(struct rzg2l_pll5_pa=
-ram *params,
->         params->pl5_postdiv2 =3D 1;
->         params->pl5_spread =3D 0x16;
+> I am sure you have already heard the news caused by the recent Greg' c=
+ommit
+> 6e90b675cf942e ("MAINTAINERS: Remove some entries due to various compl=
+iance
+> requirements."). As you may have noticed the change concerned some of =
+the
+> Ru-related developers removal from the list of the official kernel mai=
+ntainers,
+> including me.
 >
-> -       foutpostdiv_rate =3D
-> -               EXTAL_FREQ_IN_MEGA_HZ * MEGA / params->pl5_refdiv *
-> -               ((((params->pl5_intin << 24) + params->pl5_fracin)) >> 24=
-) /
-> -               (params->pl5_postdiv1 * params->pl5_postdiv2);
-> +       foutvco_rate =3D mul_u32_u32(EXTAL_FREQ_IN_MEGA_HZ * MEGA, (param=
-s->pl5_intin << 24) +
-> +                                  params->pl5_fracin) / params->pl5_refd=
-iv >> 24;
-
-The division is a 64-by-32 division, so it should use the div_u64() helper.
-
-> +       foutpostdiv_rate =3D DIV_ROUND_CLOSEST_ULL(foutvco_rate,
-> +                                                params->pl5_postdiv1 * p=
-arams->pl5_postdiv2);
+> The community members rightly noted that the _quite_ short commit log =
+contained
+> very vague terms with no explicit change justification. No matter how =
+hard I
+> tried to get more details about the reason, alas the senior maintainer=
+ I was
+> discussing the matter with haven't given an explanation to what compli=
+ance
+> requirements that was. I won't cite the exact emails text since it was=
+ a private
+> messaging, but the key words are "sanctions", "sorry", "nothing I can =
+do", "talk
+> to your (company) lawyer"... I can't say for all the guys affected by =
+the
+> change, but my work for the community has been purely _volunteer_ for =
+more than
+> a year now (and less than half of it had been payable before that). Fo=
+r that
+> reason I have no any (company) lawyer to talk to, and honestly after t=
+he way the
+> patch has been merged in I don't really want to now. Silently, behind =
+everyone's
+> back, _bypassing_ the standard patch-review process, with no affected
+> developers/subsystem notified - it's indeed the worse way to do what h=
+as been
+> done. No gratitude, no credits to the developers for all these years o=
+f the
+> devoted work for the community. No matter the reason of the situation =
+but
+> haven't we deserved more than that? Adding to the GREDITS file at leas=
+t, no?..
 >
->         return foutpostdiv_rate;
->  }
+> I can't believe the kernel senior maintainers didn't consider that the=20
+> patch
+> wouldn't go unnoticed, and the situation might get out of control with
+> unpredictable results for the community, if not straight away then in=20
+> the middle
+> or long term perspective. I am sure there have been plenty ways to=20
+> solve the
+> problem less harmfully, but they decided to take the easiest path. Ala=
+s=20
+> what's
+> done is done. A bifurcation point slightly initiated a year ago has=20
+> just been
+> fully implemented. The reason of the situation is obviously in the=20
+> political
+> ground which in this case surely shatters a basement the community has=20
+> been built
+> on in the first place. If so then God knows what might be next (who=20
+> else might
+> be sanctioned...), but the implemented move clearly sends a bad signal=20
+> to the
+> Linux community new comers, to the already working volunteers and=20
+> hobbyists like
+> me.
 
-Gr{oetje,eeting}s,
+Hi Serge,
 
-                        Geert
+I was shocked by the way senior maintainers handle that patch when peopl=
+e put it
+under my radar. Then I scroll down it and see all those familiar names i=
+ncluding
+Sergey Shtylyov and you...
+
+This is certainly not the way things should be done. Even if legal requi=
+rements
+necessitate the action, there are far better ways to handle it. Instead,=
+ the most
+absurd and shameful option has been chosen.
+
+It's deeply disappointing to me that, when doubts were raised about the =
+process,
+Linus resorted to personal attacks rather than addressing our concerns. =
+As a hobbyist
+driven by the ideals of free software, with Linus as a role model, I now=
+ find myself
+questioning my own beliefs.
+
+Where are we going? Where should we go?
+
+>
+[...]
+>
+> Paul, Thomas, Arnd, Jiaxun, we met several times in the mailing list d=
+uring my
+> MIPS P5600 patches and just generic MIPS patches review. It was always=
+ a
+> pleasure to discuss the matters with such brilliant experts in the fie=
+ld. Alas
+> I've spent too much time working on the patches for another subsystems=
+ and
+> failed to submit all the MIPS-related bits. Sorry I didn't keep my pro=
+mise, but
+> as you can see the circumstances have suddenly drawn its own deadline.
+
+Thank you, Serge. It's always a pleasure working with you. Your professi=
+onalism has
+been truly impressive, and our discussions were consistently constructiv=
+e. I
+especially appreciate how your bug reports and review comments are alway=
+s backed by
+detailed reasoning, it really stood out to me.
+
+You'll be missed. I'll see what I can do here for your work on MIPS.
+
+>
+[...]
+>
+> Hope we'll meet someday in more pleasant circumstances and drink a
+> couple or more beers together. But now it's time to say good bye.
+> Sorry for a long-read text. I wish good luck on your Linux-way.
+
+I'm happy to have a pint with you if we can meet someday.
+
+For now, take care.
+
+Thanks
+>
+> Best Regards,
+> -Serge(y)
 
 --=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+- Jiaxun
 
