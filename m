@@ -1,136 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-10022-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10024-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF7589AE1B1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Oct 2024 11:58:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D5B09AE1F5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Oct 2024 12:03:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A65041F232D3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Oct 2024 09:58:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5CBE3280DBC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Oct 2024 10:03:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5075B1C4A0D;
-	Thu, 24 Oct 2024 09:57:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kiEVDmY6"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A79D11B6CE7;
+	Thu, 24 Oct 2024 10:03:05 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076701C07CE;
-	Thu, 24 Oct 2024 09:57:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4301ABEB1;
+	Thu, 24 Oct 2024 10:03:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729763846; cv=none; b=sykOIQQpno/Q5XS7/7/zeKNpkHROZISVLnQ/FCcFaZDr1gGUjEOpQ4kzloluq8fLZIw5UF0xw69+8knmSSWioOvcPQjxj9K5zT27NmO7XE+YtJCSjuRes7hQzJYleX20JSoEuiLQFM7J4efE5jnMyRYzz0hk260oE64HpaEb2So=
+	t=1729764185; cv=none; b=D1AWUU41zg4J84C81kFUQ/nz+9zvSPBc3K3xKRXykJpfSU/Bsu40iSwTDW8iMMROucjmGUDzGdYLIXXpjD5QkKfWXyTe7Z696WMsC6hjHEhBoyAKkm0DvsPglKlN2xdYr5L+eY/PrnHWQHfmEumYyGDfvf2T2zO8khGkV62C+fI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729763846; c=relaxed/simple;
-	bh=PVT4x+5HpkJQPwdJsjK0MwsWAxzsoTXRtb4fDO7mWLM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IOAtxiazhUUH/3Dy2nRkZL+lQ/+ha/CKEe44PyksJRpGI6be3jbG1teBSZcOzS4hMiwYLUvoJVfTg2dDhC0BHGFBP+4ZLXHKkglewEZGqRRZmCcu8GB/7XWV/ieW/uHofxbA7oj1CtDUAycsu7s/1GVVveNYNnzlft3SqSL+cXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kiEVDmY6; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1729764185; c=relaxed/simple;
+	bh=J+rigs84cEOrSeUP5HUWVUqYvxRgBWl/JIbGBFrI0LA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XIyVaTfPa3xtPg/O+G6lBAjjPvtjkkqCM0yU1KeG/Wu0JdQas36zSU91i+a1s+k8QvXNmAZWcpXm3U6OPx1BLEUR9cA4rPu/K/oQ7anf1JMiLB2KPD9nFoNh4OEGPgPX7UCPMtAiKzaXBKfIsgQ7NG9uoNyfqLkYsLPyx8DMxS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-539f4d8ef66so1006001e87.1;
-        Thu, 24 Oct 2024 02:57:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729763842; x=1730368642; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PVT4x+5HpkJQPwdJsjK0MwsWAxzsoTXRtb4fDO7mWLM=;
-        b=kiEVDmY6XwsBp4SdramVG5Th1OvRnaXVUgKmqzCQsKn0ZaVjpW3uYA85GjTZVXdKCL
-         uXv/CdtBzqL3alJbx4gthkNesguWFBqAvlr+Ol97gYsZgfN9qTvJoIvK0QNOwxyI55Kd
-         2TcXW+9Hx3NFbqtW33m7J9IuqxF4CW/BOKje+WQKdjmnZNgGPk1UaWjhDFdsqJ502nsi
-         f4j2YwdFqnKytKE4J0nXSYhzuCvtSkXhd54UChyEBNr34+T1+pT9BZ9DpUyHA+WylOng
-         mjuz9HfsJswMjL2BH8WzeFr8XyF5pmM6yEs0bYRXKR2cvSpzYizxPlcriLdPOGG7OCxU
-         UCfA==
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e2915f00c12so844810276.0;
+        Thu, 24 Oct 2024 03:03:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729763842; x=1730368642;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1729764180; x=1730368980;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PVT4x+5HpkJQPwdJsjK0MwsWAxzsoTXRtb4fDO7mWLM=;
-        b=Eg5pjiEc0RTnc7HzOPMSnRfRRlgkXZn1zRCSFG/wyeaYNqiXatKDMc6Py9ZGqcGYRw
-         4rP78hF9r6jXD/SGXx+8zNlWNBMH9vpZ4UpBGIXgnH03uQMaC96GqpVxEXERbAKoxDmh
-         DlgnZ/l8nHh2kuayRJ0jmtjovbxm01aR2U7FbRKuPT5tC/JmgF8adrcoSDoBDDD+8eVW
-         O17RIRoEZdBCsXmnq3rCLs3eHyumRAWN5fZPv/s7E6pUq/ibcQMNQVnvSNGnZxTOJeJ1
-         s37W3fOh3elpG2k8AAU0lYXKXL2ZQ3PFKWuWX7as6hHzintnEHOq1H0Bzi+Es4sEoG1K
-         bxNA==
-X-Forwarded-Encrypted: i=1; AJvYcCUGYC9InPkHAvaXufWjeNdewiSgDU9boM/nO6J9jmFxnwC4A4YpPK3bxJfkaHXHkApLumJXj+TzP7S0Cg==@vger.kernel.org, AJvYcCUGwTwutEURS/rtqsP3eige9/cIZvi+Jub6S+tiyM2jCCIx1XN4uEf9GgAbmVthp6CsODWfTcvUE1DRFATTNFk0BYw=@vger.kernel.org, AJvYcCUuGRRLiNmRivBMQ1iapEmPH1/0TECfvOQZx3Z1s7aG+bYPRopDMFR5lBfCdylhzaVc5Yh+dYcjKLRzZV0=@vger.kernel.org, AJvYcCUvHagB4/WE74kMNSef7k6sXlexU9xIND7/IeV5fr55I+7lttFWG9m7RhAQYww29l16MmLFMC6kUNP4@vger.kernel.org, AJvYcCVAKhmyY4yGYrHF5P9gq0OezEgQOohwerl7/bma2hL0V0FeIe4brXSgo5h+A8/kaPWNbnn5xKXZ09dI0Ws=@vger.kernel.org, AJvYcCVdCTMV4dn4rt+YdRGkOyXnH06BfL3IOjVZPVpgT0Mt93MQD+t/jNRePYMTuhO2tsWvACNb87L0@vger.kernel.org, AJvYcCW/j4zPkninzLUtjBRVVVZz0EW64As+HWMz7bLlIerYHJeUK6zcdGDniXPlqEK2UMyiRCt7YigLESoJ@vger.kernel.org, AJvYcCWIZMPVe74T39UINNqXt8EyhmgTIvDu+zjs328fB3sQ41eqMsSFZe6qrbv3lz/vpjZ0PIQ/0ArbkW/WO64=@vger.kernel.org, AJvYcCX773FGbdp1eh1jExBQ9ifvuKPPpaGDyBAzq4uqpPfx8WOuh1YIMAwT5aXpzgZw2OEuLUkEFMYOgNsS@vger.kernel.org, AJvYcCXgfxG2ReNMukzGxN9RmIL4
- etyU5WQzpkqccC5AtgmOVQOIXOEmHtzmSCpiDlLMUf9n4NgCLe84wBqmEw==@vger.kernel.org, AJvYcCXoGXwayp1M4glgDYsE4ouGnCjw3c5LUZZmKeBZGuUuTCCRG03jhjBJMxfS02+Awbkz26DytktLmfY=@vger.kernel.org, AJvYcCXrXl/bzhyIoVi4dQs6GGNqzINaNFQQeG/Mzl2XUzlIu/MHvnZx9vLcKpw1dk3/PDjU7tVgPhPezeAtmA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEad1I3k8G+8sGAnXgVyrZJd5cwed3cBkiyv/hOQuKCkniYtM3
-	76Ab2GVcJ6o24xhEiYBD/oC1tMY4O40KcAn0GtsGxc53e9ai1Oxf
-X-Google-Smtp-Source: AGHT+IEoo2Czcs+RGUiJMg6LdY8jxuXv0lNt1Zx6z+DI1lmpOeNWP3pCK2fVmcYSte0wULTaokncdw==
-X-Received: by 2002:a05:6512:a90:b0:539:e97c:cb10 with SMTP id 2adb3069b0e04-53b23e857f8mr904316e87.40.1729763841812;
-        Thu, 24 Oct 2024 02:57:21 -0700 (PDT)
-Received: from seven-swords.. ([2a03:d000:2:9006:4eed:fbff:fe72:e806])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53a223e5988sm1310862e87.2.2024.10.24.02.57.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2024 02:57:19 -0700 (PDT)
-From: Ivan Epifanov <isage.dna@gmail.com>
-To: torvalds@linux-foundation.org
-Cc: aospan@netup.ru,
-	conor.dooley@microchip.com,
-	ddrokosov@sberdevices.ru,
-	dmaengine@vger.kernel.org,
-	dushistov@mail.ru,
-	fancer.lancer@gmail.com,
-	geert@linux-m68k.org,
-	gregkh@linuxfoundation.org,
-	hoan@os.amperecomputing.com,
-	ink@jurassic.park.msu.ru,
-	jeffbai@aosc.io,
-	kexybiscuit@aosc.io,
-	linux-alpha@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-fpga@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-ide@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	manivannan.sadhasivam@linaro.org,
-	mattst88@gmail.com,
-	netdev@vger.kernel.org,
-	nikita@trvn.ru,
-	ntb@lists.linux.dev,
-	patches@lists.linux.dev,
-	richard.henderson@linaro.org,
-	s.shtylyov@omp.ru,
-	serjk@netup.ru,
-	shc_work@mail.ru,
-	torvic9@mailbox.org,
-	tsbogend@alpha.franken.de,
-	v.georgiev@metrotek.ru,
-	wangyuli@uniontech.com,
-	wsa+renesas@sang-engineering.com,
-	xeb@mail.ru
-Subject: Re: [PATCH] Revert "MAINTAINERS: Remove some entries due to various compliance requirements."
-Date: Thu, 24 Oct 2024 12:57:08 +0300
-Message-ID: <20241024095708.189649-1-isage.dna@gmail.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <CAHk-=whNGNVnYHHSXUAsWds_MoZ-iEgRMQMxZZ0z-jY4uHT+Gg@mail.gmail.com>
-References: <CAHk-=whNGNVnYHHSXUAsWds_MoZ-iEgRMQMxZZ0z-jY4uHT+Gg@mail.gmail.com>
+        bh=4wR+ReAFqlw5wQ/dQbssFh1mp4/XMUn5+HZryu+kjyw=;
+        b=dBdFjwIn4ineaapRnLelfINegvCUmzWgdiL4+HU4k55SlBiOySCZxVJ59m+xJ0frAI
+         Si3vK2iR8RJlvZAKSYS65C3AT6rbmXcoL9OVRFjMeGuKkn+fVCprbWREX5TJ4FKPJZOG
+         Q24oI1zDBjBqEg2UHe2/b7NklQ4EWGMGejzIR3MSW8SMC0kx3CpLIjGDVSbMBXFp0fKU
+         IbdLPg+mY63SaSu+AKVKz2hoxHt7E9XZ7HBNtzEmbNLCZ2dRXr5ZDOapyJfusgiIIMq8
+         ytHnWYmJWZO4W0dpwY0TnQuE7PfJtbX6jvFsFEeUgMe7Kg4cBn7hlz877Iqt0q0wVeT3
+         4a4w==
+X-Forwarded-Encrypted: i=1; AJvYcCUbJv8rZdnnjubmGvRtsU1yH9mfYYZkm0O+3MKQ5TO2yLs1NCsxCLzu5AQRnBSzupWV9fxkFyO4DMg=@vger.kernel.org, AJvYcCUwST+vgqHA/x5scy6Jkcsp7V0SwyK0JbYiQGfvH2EIlui+93IUzxP7LJNyyqhzzRQKe/KN12h3ge3bpX75@vger.kernel.org, AJvYcCV1R/CD6Gyhhu6Ut8clFICZPXjyKy6KhBQRPJcY5QHxNCUh/KDGEMW28LqbKGWS53uOzDqMTQReloTLbTCzRUo61kA=@vger.kernel.org, AJvYcCWfrfx31F3QeDdDfJh2Bil4pgUpCet/TBZNL7hR9xY/TH2PTOTO9UBvFoiRu9if+8+L2OrEB5rJ6Ug=@vger.kernel.org, AJvYcCWuM8/Sa1Yx3+U33uLBZ0fPbLNVMYi6n6DigKRMZ5FOzz4Op+Xwr7v94GOAbQzlBjENpAhEfT8U1odugqlD1QE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCDGHrcmWhpsT++3Ej548wRYtlhhRr3ElEy6/w0sKtUe3HgP4J
+	ksa+v8tIKUThwZJT1zWwc6YF9w286QzgWHbSCFoJeCcfbY1AXvoCFNPnlU2v
+X-Google-Smtp-Source: AGHT+IGCdRm3Qn/TkTQsKsjqIDjfTnwpGIqyLAkXY/btY333yUZ7vnUHD9x1hW2a0LTe4+/lyOzaUQ==
+X-Received: by 2002:a05:6902:2209:b0:e28:f558:ae4c with SMTP id 3f1490d57ef6-e2f22f1ece3mr1135291276.1.1729764179074;
+        Thu, 24 Oct 2024 03:02:59 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e2bdc96b309sm1810198276.7.2024.10.24.03.02.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Oct 2024 03:02:58 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-6e33c65d104so6501137b3.3;
+        Thu, 24 Oct 2024 03:02:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUquUITd+aa+p1LokdQMV7bNusqdqKjSmi3hCexXYHX7mN6rvG/8TxDE9BiDl8RhDyky2pZMtmG/iDuycZs7MM=@vger.kernel.org, AJvYcCUsFiXb1OEqa9qZ/Fj9Bg9i7dbH9D9IfePOi1dLpZ6b6DjDkx9BsEHo2YSxM6JW1gx8gF1pYyEZq2A=@vger.kernel.org, AJvYcCVCR/xVrJY5Ljlum2uu1kfgUuc8wHpe7HNzCooi6zaLF1XumK2dfj8IKSsfD+AOnOYCmooZPLgDDtQ9oFL25vO8Zy8=@vger.kernel.org, AJvYcCXkrIUeDy4YDeCJrOyCtxEZgkomE2RFozwdT9p5ur7rhTwnM+o7DmnC5C9aHobgz3GhXcrsK0J5q2PJ0HzS@vger.kernel.org, AJvYcCXnet0DXH/Pj/3Bv53DaszhrVnRnPaQ1/hTWnknGhrdmBLMSEJDbcPXS0XRBx5R7Lonpqf4yNFdo/g=@vger.kernel.org
+X-Received: by 2002:a05:690c:6f85:b0:6de:a3:a7ca with SMTP id
+ 00721157ae682-6e866324961mr16610797b3.32.1729764178161; Thu, 24 Oct 2024
+ 03:02:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241015164732.4085249-1-claudiu.beznea.uj@bp.renesas.com> <20241015164732.4085249-2-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20241015164732.4085249-2-claudiu.beznea.uj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 24 Oct 2024 12:02:45 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWKSDDvOciYTMdH=ZU2j9G3nyrXdSmf6UpqkBP31vV=VA@mail.gmail.com>
+Message-ID: <CAMuHMdWKSDDvOciYTMdH=ZU2j9G3nyrXdSmf6UpqkBP31vV=VA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/4] clk: renesas: rzg2l-cpg: Move PM domain power on
+ in rzg2l_cpg_pd_setup()
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: mturquette@baylibre.com, sboyd@kernel.org, wim@linux-watchdog.org, 
+	linux@roeck-us.net, ulf.hansson@linaro.org, linux-renesas-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-watchdog@vger.kernel.org, linux-pm@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Oct 15, 2024 at 6:48=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
+wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>
+> Move the PM domain power on in rzg2l_cpg_pd_setup(). With this the
+> previously always-on power domains got
+> struct generic_pm_domain::{power_on, power_off} populated (and
+> registered with simple_qos_governor if #power-domain-cells =3D <1> and
+> with pm_domain_always_on_gov if #power-domain-cells =3D <0>). The values =
+for
+> struct generic_pm_domain::{power_on, power_off} are now populated for
+> all registered domains but used by core only for the domains that can
+> use them (the PM domain should be non always-on and registered with
+> simple_qos_governor). Moreover, the power on/off functions check if the
+> mstop support is valid. The mstop is populated only by the RZ/G3S
+> initialization code at the moment.
+>
+> This approach was chosen to keep the code simple and use the same code
+> across different implementations. There should be no issues with this
+> approach as the always on domains are registered with GENPD_FLAG_ALWAYS_O=
+N
+> and the PM domain core takes care of it.
+>
+> This approach allows doing further cleanups on the rzg2l_cpg power domain
+> registering code that will be handled by the next commit.
+>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> ---
+>
+> Changes in v4:
+> - call rzg2l_cpg_power_on() unconditionally
+> - drop the governor parameter of rzg2l_cpg_pd_setup() and decide the
+>   governor based on always_on flag
+> - collected tags
 
-> I'm Finnish. Did you think I'd be *supporting* Russian
-> aggression? Apparently it's not just lack of real news, it's lack of
-> history knowledge too.
+Thanks, will queue in renesas-clk for v6.13.
 
-As an avid history lover, you've seem to forgot, that Finland fought on Nazi side.
-So yeah, we're well aware you don't like Russians, unless they're in concentration camps.
-Which is exactly what you do now: segragate, based on nationality. Strip of credits and names.
-Once a nazi - always a nazi. So, fuck you.
+Gr{oetje,eeting}s,
 
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
