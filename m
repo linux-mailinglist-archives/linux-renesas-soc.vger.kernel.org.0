@@ -1,145 +1,256 @@
-Return-Path: <linux-renesas-soc+bounces-10135-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10137-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12F029B00A2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Oct 2024 12:55:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 275529B019B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Oct 2024 13:49:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4252F1C22A14
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Oct 2024 10:55:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ACE011F2397B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Oct 2024 11:49:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 432A11F76B9;
-	Fri, 25 Oct 2024 10:55:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10F0A20103C;
+	Fri, 25 Oct 2024 11:49:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iSnTm1sq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jifi16ij"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EDA71DAC96;
-	Fri, 25 Oct 2024 10:55:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BC911E1308;
+	Fri, 25 Oct 2024 11:49:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729853714; cv=none; b=OFoD7EUuUOadoy7Z4al5kK4ylPMw7aAG+aqz0FUu0N7rkEAl09ZaoyW3OrIMDtuKSnyyb1h16em1wYyLphLXtWbgHV/gADZ2pkTCDUhQh/lmEpdaq2mqJ4eO79AHk8bf8KwYCkKnuL29vQIqsqapLGNDfHjz8Vynlkf9pbS5Y9E=
+	t=1729856970; cv=none; b=Kf/PmnpxPElpaHIe0v0IPkf5xHqYzqvJSq2G0xFJvPodQUa7xFQo2ZGQqiHJTqdB2yfjZV8vM/Syxr5nzFiuYjvA/mJpI52T2DcBlbRfOFBTi7U6ZSpku5yrdX1fEngdFLpOoozTQtjyCpS2KGmNYg7sMxXzFG4s55JZ2gdMwQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729853714; c=relaxed/simple;
-	bh=fteB5fd02DTrwVquMKLch1Bp7NZwLBbZXfo65lYzTfI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=H+kfUBQ3BUh79D4PdDzodm1gV8XfbfNBShkhYg1fYCuJoes8SsYajbTTOEfYxy5a15qJ76HUV2Wv6Jq9oMaxyvdFLgy4qx8CrdIH996HosXwmjf2HvEYe9Dw+KNuOiAOCtfk/Ssnh5xmTbzAdenCsCHNZTvTJih/1ClQ3hNL7cw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iSnTm1sq; arc=none smtp.client-ip=209.85.221.174
+	s=arc-20240116; t=1729856970; c=relaxed/simple;
+	bh=gAprTFK9+Tmj2YO6m7G+00ZIVA2pIo8sWYL5jWrfpRU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UYQxvrUj+wPHAiGmTD7nD03jJvxtD4tm6ybQrpJprA/22JiRqAvkHMoAFIQ9zsUWybW1WYbwrM8LuUGD6lwX2OVJqa28nrW9kaXgOvqhoks/V4U71KEuX0ZeaA9V2k9gtzHtrCmQ/b7RosC5uVPeMtAjr0s8VbOrpKAXgB4SLkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jifi16ij; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-50d3d2d0775so606814e0c.3;
-        Fri, 25 Oct 2024 03:55:11 -0700 (PDT)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4315df7b43fso20159515e9.0;
+        Fri, 25 Oct 2024 04:49:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729853711; x=1730458511; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fteB5fd02DTrwVquMKLch1Bp7NZwLBbZXfo65lYzTfI=;
-        b=iSnTm1sq0mG3G/hbLAiUxoe2ElE1e01Ep0nVB2sdT62Br0njGm1wPM4Px6CvsB01eJ
-         XNvxeu4Vloy9qunoyTLxIsX/Uc5ix9tlQud0YafQDeAYvuU5QNF34f97FkDoTHzDXZMe
-         tg0dFs06WerjT/hCSwYbupikzxWPjQ0dRidt3OyMmOAXRgb1gdcLqFM/og1q3zVFPS6V
-         R8/twbSpFg1wNXwavpoLq/WLWuuw9WCkk4pk602pEPg9ecAK7xgOctDD86i1PccMR/t1
-         qD29tqce8/a0zjtAhG45o+TmhjDNNo3qCBKvpZOTwXgCuOmrS/yv9gbsH0tSieMvLAe2
-         F2VQ==
+        d=gmail.com; s=20230601; t=1729856966; x=1730461766; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=t/+0cq1AmfD29vJ6pg6sn+jqBOLIF+yOLxRj2vex8NU=;
+        b=Jifi16ijD9bUDrFpNtxu34E0QSpZj3BKXL1m/3DyafYUNIYxGbP4jQ/N2e6BEUoTuM
+         FPxxWnnvlIrIx0ZdKAUFeX7nu8vmzwF2l06l83wGB6UsKQpfH4gb6OnqZEmV+GscWsEu
+         2LW5kNm/yuDqIkzH/zqzOvYx2BiV6Xag9dApSGm7Un62J2NBvWWz9NdMKwSkk206GsP/
+         nmHdAosSQAe86+oJ/knSrarP4AYAYRInRsxs3pUgNJNKzc7JdU5V9hsWIBQzVaWzg4Rt
+         nVO3VzD0wE3ZuexoXn0xCZBPIhPYo8vsTzBkVdu5Awoi5+23Cx+t2L2I/S2t96wPEC5D
+         6VsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729853711; x=1730458511;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fteB5fd02DTrwVquMKLch1Bp7NZwLBbZXfo65lYzTfI=;
-        b=ukC2UYkThpcWciKWaqHsvLK8OpdbrdZ9BzgDgpiYiUeIfQQVURQaLvG0WINqZLr/3J
-         K2DmlOHnKXSg0XzVH1ylVEOsS7Eeh7ASVob4ZTN1+5wMwtH2+vCE7gdcJUBLuSV7NRfA
-         xCAQAhUP2LPPQCI3SPbpoDmQfyeeXLsHyvdzna3P2k0QhkX3EVRmbFqG4xfqTRP3/s9N
-         L6C1/t8kRdakt22FOmfmHjk2JwMmKqLENlzI5ajJJs6mOT6AOfFMKkFeLhmwE5pqNYfv
-         9vFNUNlsUhXFhO7C0M0xS0Y1k+6ZAikG9KbVfYgO7HLnx8C3Z/+Hhsd+RkdIhSVKR7v9
-         VckQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUtJlmgaUTJjAKKvwN40tYq+awrSZQADLWRh7dUC6QzqIOI8x82uKyoWO9RYJwZYvx2AFKL8jV1zb6VxEyaM5OubWQ=@vger.kernel.org, AJvYcCVKivpC8ptqTJVd+kZohCSDsDm3o3lUpwVs/nw+kvBA+GwNds87ZsJdCF/OC0802koLSOxZNoGgv+zcVyE=@vger.kernel.org, AJvYcCXn30K3mrsC2yPEvK1TKy1xN4g2o88i6hcvdVrkOmLBtyFI0NZ9Wr/k1t4EQYoHC6fn1b5PdlaJ+zEmXCw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxhWRrwDGxzpPSWtJFlzh5PoW1YgJNDTNKG9tlKnG/UPPC0gzhx
-	divKXfcOvBh5l3J0VjOr0SawTEG7awH11GNcq1KQpzzNcLJjOsQu+OYXgGsZHS5cbZr2bpOWp2O
-	SBjHuxJLG8wHrgTA1Nx20Rn4BQyw=
-X-Google-Smtp-Source: AGHT+IGoKGgY4b0rukcVpFW9K/joa+2hDKDXrG/8Oi6I6HOnAZ7rva20VvYXS2swchtaX6IUVYqG08WKfFfrVQi7oVg=
-X-Received: by 2002:a05:6122:902:b0:50d:4cb8:5b10 with SMTP id
- 71dfb90a1353d-50fd020eb9fmr10566674e0c.4.1729853711069; Fri, 25 Oct 2024
- 03:55:11 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729856966; x=1730461766;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=t/+0cq1AmfD29vJ6pg6sn+jqBOLIF+yOLxRj2vex8NU=;
+        b=OEM6gu6Dcm6cj9USB5V4Nk2WMKE7OUGuBOmkB0vRJJdk+iZ7EMnijNOvmByaS6U+bo
+         Mkv1A3lM7LyOTrSvTie7S+lgvfF6B6kmtMWgNW5GHKi/EX8GWO8jrrYa9WJKNdVgN3jx
+         oD4MqdRQpwNA4NSkdIQF27GTUAMX0HzSDXTjN7KyI1fqJu98L+psXd4fl7kMCBcyrtby
+         ULjOcJ9xDUD8xTwHVBGJKS1vV1GbW42ydCFDcSuKYU0HrnwlaUG5nD+yERwn+dphyYQV
+         MXCQ/JLPk9HXnGsaRHSf6Sa0d5Pimih7ne4y+ggey5C8QKt3xI6BWs7qLAdnuilivvgK
+         rATQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUC27kcr2GA4f+69loRrx1Ak1gKMNmZTnbWzoHVNvHeZWSc2imJZQt4AphMh5EIBRFZoagjOw+YyCCZDQ==@vger.kernel.org, AJvYcCVS6DXLY7AlY5eeMg3X0X5UP0jtF2ptJaZiFzVYiRGBjJQcyKg3XoIx/r3F/zbu3PV69PZ/2QsXKy01TqKa@vger.kernel.org, AJvYcCWV/jPmAM6xOsyZRJ53qmQWvGubaveLR4VLr503no6ycvB+Yf9WgZu5pVqbvONfR/Zfcri05clH7R0p@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSgd9Uv9Zu8rvTE6o6Vy9/AIswBBb493v52ihGP7KRXvReTg0H
+	WVf7JpH9uSQxnaCiElSSGz3JmS6JzH47el/bqUYJ3yKQNMLS1Fog
+X-Google-Smtp-Source: AGHT+IHTqq7YnSl+xRbzFqKq5+7jqo3OlcXKW/J0CunlfduDkl9WcVSM8Ust//QixapZHkQkx4ZkAg==
+X-Received: by 2002:a05:600c:1c01:b0:431:5a0e:fa2e with SMTP id 5b1f17b1804b1-4318c715cc0mr46948345e9.21.1729856965704;
+        Fri, 25 Oct 2024 04:49:25 -0700 (PDT)
+Received: from prasmi.Home ([2a06:5906:61b:2d00:1044:9cc9:b89d:54cd])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4318b56741fsm45109785e9.22.2024.10.25.04.49.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Oct 2024 04:49:25 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 0/6] pinctrl: rzg2l: Fix releasing of IRQ and status reported in pinmux-pins
+Date: Fri, 25 Oct 2024 12:49:08 +0100
+Message-ID: <20241025114914.714597-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241021201349.395022-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20241021201349.395022-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <877c9zybbc.wl-kuninori.morimoto.gx@renesas.com> <TY3PR01MB113461595CD0E51F2F0C9CA51864D2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY3PR01MB113461595CD0E51F2F0C9CA51864D2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 25 Oct 2024 11:54:45 +0100
-Message-ID: <CA+V-a8sqHeEtt-T8fH0qEp-BM8hZCSeUgVe_L67v-UdFPoCjsg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] MAINTAINERS: Add entry for Renesas ASoC drivers
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Biju,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Wed, Oct 23, 2024 at 7:57=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
->
-> Hi Prabhakar,
->
-> > -----Original Message-----
-> > From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> > Sent: Wednesday, October 23, 2024 12:20 AM
-> > Subject: Re: [PATCH v2 4/4] MAINTAINERS: Add entry for Renesas ASoC dri=
-vers
-> >
-> >
-> > Hi Prabhakar
-> >
-> > Thank you for your patch
-> >
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > Add a new entry to the MAINTAINERS file for Renesas ASoC drivers. Thi=
-s
-> > > entry covers the Renesas R-Car, SH7760 and Migo-R audio drivers,
-> > > including the device tree bindings.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
->
-> > > ---
-> > (snip)
-> > > +RENESAS AUDIO (ASoC) DRIVERS
-> > > +M: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> > > +L: linux-sound@vger.kernel.org
-> > > +L: linux-renesas-soc@vger.kernel.org
-> > > +S: Supported
-> > > +F: Documentation/devicetree/bindings/sound/renesas,rsnd.*
-> > > +F: sound/soc/renesas/
-> > > +X: sound/soc/renesas/rz-ssi.c
-> >
-> > Unfortunately, I can handle is "fsi" and "rcar"
->
-> Prabhakar, Maybe create separate Maintainers entries for SSI driver,
-> I don't mind you as a Maintainer or myself ?
->
-> 1)Documentation/devicetree/bindings/sound/renesas,rz-ssi.yaml
-> 2)sound/soc/renesas/rz-ssi.c
->
-Ok I'll create an additional patch for this and add yourself and me as
-supporters.
+Hi All,
+
+This patch series aims to fix the reporting of pin status in the
+`pinmux-pins` file and properly free up the IRQ line when using a GPIO
+pin as an interrupt via the `interrupts`/`interrupts-extended` property.
+
+Testing on SMARC RZ/G2L:
+------------------------
+	keys {
+		compatible = "gpio-keys";
+
+		key-1 {
+			interrupt-parent = <&pinctrl>;
+			gpios = <&pinctrl RZG2L_GPIO(41, 0) GPIO_ACTIVE_HIGH>;
+			linux,code = <KEY_1>;
+			label = "USER_SW1";
+			wakeup-source;
+			debounce-interval = <20>;
+		};
+
+		key-3 {
+			interrupts-extended = <&pinctrl RZG2L_GPIO(43, 1) IRQ_TYPE_EDGE_RISING>;
+			linux,code = <KEY_3>;
+			label = "USER_SW3";
+			wakeup-source;
+			debounce-interval = <20>;
+		};
+	};
+
+Before this patch series, the pin status was incorrectly reported in the
+`pinmux-pins` file, and the IRQ was not released. As seen below, `P43_1` is
+reported as `UNCLAIMED`, and after unloading the `gpio_keys` module, the
+IRQ is not released, unlike `P41_0`, which was used via the `gpios` property.
+---------------------------------------------------------------------------------
+root@smarc-rzg2l:~# cat /proc/interrupts | grep pinctrl
+ 78:          1          0 11030000.pinctrl  17 Edge      1-003d
+ 91:          0          0 11030000.pinctrl 345 Edge      USER_SW3
+ 92:          0          0 11030000.pinctrl 328 Edge      USER_SW1
+root@smarc-rzg2l:~# cat /sys/kernel/debug/gpio | grep 41_0
+ gpio-840 (P41_0               |USER_SW1            ) in  lo IRQ
+root@smarc-rzg2l:~# cat /sys/kernel/debug/gpio | grep 43_1
+ gpio-857 (P43_1               |interrupt           ) in  lo IRQ
+root@smarc-rzg2l:~# cat /sys/kernel/debug/pinctrl/11030000.pinctrl-pinctrl-rzg2l/pinmux-pins | grep 43_1
+pin 345 (P43_1): UNCLAIMED
+root@smarc-rzg2l:~# cat /sys/kernel/debug/pinctrl/11030000.pinctrl-pinctrl-rzg2l/pinmux-pins | grep 41_0
+pin 328 (P41_0): GPIO 11030000.pinctrl:840
+root@smarc-rzg2l:~#
+root@smarc-rzg2l:~# ls /sys/kernel/debug/irq/irqs/91
+/sys/kernel/debug/irq/irqs/91
+root@smarc-rzg2l:~# ls /sys/kernel/debug/irq/irqs/92
+/sys/kernel/debug/irq/irqs/92
+root@smarc-rzg2l:~#
+root@smarc-rzg2l:~# lsmod
+Module                  Size  Used by
+gpio_keys              20480  0
+root@smarc-rzg2l:~#
+root@smarc-rzg2l:~# modprobe -r gpio_keys
+root@smarc-rzg2l:~#
+root@smarc-rzg2l:~# cat /proc/interrupts | grep pinctrl
+ 78:          1          0 11030000.pinctrl  17 Edge      1-003d
+root@smarc-rzg2l:~# cat /sys/kernel/debug/gpio | grep 41_0
+ gpio-840 (P41_0               )
+root@smarc-rzg2l:~# cat /sys/kernel/debug/gpio | grep 43_1
+ gpio-857 (P43_1               )
+root@smarc-rzg2l:~#
+root@smarc-rzg2l:~# cat /sys/kernel/debug/pinctrl/11030000.pinctrl-pinctrl-rzg2l/pinmux-pins | grep 41_0
+pin 328 (P41_0): UNCLAIMED
+root@smarc-rzg2l:~# cat /sys/kernel/debug/pinctrl/11030000.pinctrl-pinctrl-rzg2l/pinmux-pins | grep 43_1
+pin 345 (P43_1): UNCLAIMED
+root@smarc-rzg2l:~#
+root@smarc-rzg2l:~# ls /sys/kernel/debug/irq/irqs/91
+/sys/kernel/debug/irq/irqs/91
+root@smarc-rzg2l:~# ls /sys/kernel/debug/irq/irqs/92
+ls: /sys/kernel/debug/irq/irqs/92: No such file or directory
+root@smarc-rzg2l:~#
+root@smarc-rzg2l:~#
+
+
+After applying this patch series, the pin status is correctly reported in
+the `pinmux-pins` file, and the IRQ is properly released. As shown below,
+the status for pin `P43_1` is now reported correctly, and the IRQ is now
+released, unlike in the previous logs above.
+---------------------------------------------------------------------------
+root@smarc-rzg2l:~# cat /proc/interrupts | grep pinctrl
+ 78:          1          0 11030000.pinctrl  17 Edge      1-003d
+ 91:          0          0 11030000.pinctrl 345 Edge      USER_SW3
+ 92:          0          0 11030000.pinctrl 328 Edge      USER_SW1
+root@smarc-rzg2l:~# cat /sys/kernel/debug/gpio | grep 41_0
+ gpio-840 (P41_0               |USER_SW1            ) in  lo IRQ
+root@smarc-rzg2l:~# cat /sys/kernel/debug/gpio | grep 43_1
+ gpio-857 (P43_1               |interrupt           ) in  lo IRQ
+root@smarc-rzg2l:~# cat /sys/kernel/debug/pinctrl/11030000.pinctrl-pinctrl-rzg2l/pinmux-pins | grep P43_1
+pin 345 (P43_1): GPIO 11030000.pinctrl:857
+root@smarc-rzg2l:~# cat /sys/kernel/debug/pinctrl/11030000.pinctrl-pinctrl-rzg2l/pinmux-pins | grep P41_0
+pin 328 (P41_0): GPIO 11030000.pinctrl:840
+root@smarc-rzg2l:~#
+root@smarc-rzg2l:~# ls /sys/kernel/debug/irq/irqs/91
+/sys/kernel/debug/irq/irqs/91
+root@smarc-rzg2l:~# ls /sys/kernel/debug/irq/irqs/92
+/sys/kernel/debug/irq/irqs/92
+root@smarc-rzg2l:~# lsmod
+Module                  Size  Used by
+gpio_keys              20480  0
+root@smarc-rzg2l:~# modprobe -r gpio_keys
+root@smarc-rzg2l:~# cat /proc/interrupts | grep pinctrl
+ 78:          1          0 11030000.pinctrl  17 Edge      1-003d
+root@smarc-rzg2l:~#
+root@smarc-rzg2l:~# cat /sys/kernel/debug/gpio | grep P43_1
+ gpio-857 (P43_1               )
+root@smarc-rzg2l:~# cat /sys/kernel/debug/gpio | grep P41_0
+ gpio-840 (P41_0               )
+root@smarc-rzg2l:~# cat /sys/kernel/debug/pinctrl/11030000.pinctrl-pinctrl-rzg2l/pinmux-pins | grep P43_1
+pin 345 (P43_1): UNCLAIMED
+root@smarc-rzg2l:~# cat /sys/kernel/debug/pinctrl/11030000.pinctrl-pinctrl-rzg2l/pinmux-pins | grep P41_0
+pin 328 (P41_0): UNCLAIMED
+root@smarc-rzg2l:~# ls /sys/kernel/debug/irq/irqs/91
+ls: /sys/kernel/debug/irq/irqs/91: No such file or directory
+root@smarc-rzg2l:~# ls /sys/kernel/debug/irq/irqs/92
+ls: /sys/kernel/debug/irq/irqs/92: No such file or directory
+root@smarc-rzg2l:~#
+
+Note:
+- On RZ/G3S SMARC, prior to this patch series, we hogged the GPIO pins as
+  inputs before using them as GPIO interrupts via the
+  `interrupts`/`interrupts-extended` property. These patches do not break
+  older DTBs, i.e., functionality remains the same. However, after
+  unloading the `gpio_keys` module, the `pinmux-pins` file in sysfs
+  reports the pin as UNCLAIMED.
+
+v1->v2
+- Fixed build warning
+- Collected RB tag from Linus fr patch 5/6
+- Dropped patch 2/7 from v1 series
+
+v1: https://lore.kernel.org/all/20241017113942.139712-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
 Cheers,
 Prabhakar
+
+Lad Prabhakar (6):
+  arm64: dts: renesas: rzg3s-smarc: Drop hogging of GPIO pins
+  pinctrl: renesas: rzg2l: Release all the virq's in free callback
+  pinctrl: renesas: rzg2l: Reorder function call in rzg2l_gpio_free()
+  pinctrl: renesas: rzg2l: Drop calling rzg2l_gpio_request()
+  pinctrl: pinmux: Introduce API to check if a pin is requested
+  pinctrl: renesas: pinctrl-rzg2l: Override
+    irq_request/release_resources
+
+ .../boot/dts/renesas/rzg3s-smarc-som.dtsi     |  18 ---
+ arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi  |  21 ----
+ drivers/pinctrl/pinmux.c                      |  14 +++
+ drivers/pinctrl/pinmux.h                      |   6 +
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c       | 111 ++++++++++--------
+ 5 files changed, 79 insertions(+), 91 deletions(-)
+
+-- 
+2.43.0
+
 
