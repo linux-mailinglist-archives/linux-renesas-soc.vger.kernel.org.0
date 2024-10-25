@@ -1,121 +1,176 @@
-Return-Path: <linux-renesas-soc+bounces-10144-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10145-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B43B9B03D3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Oct 2024 15:19:52 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 098169B052A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Oct 2024 16:10:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5C39EB2205B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Oct 2024 13:19:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6CE7BB2287F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Oct 2024 14:10:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5594D212180;
-	Fri, 25 Oct 2024 13:19:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C4731F7552;
+	Fri, 25 Oct 2024 14:10:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QI3j/BnC"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Kp6SyCOK"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E200452F76;
-	Fri, 25 Oct 2024 13:19:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D41A1D435C
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 25 Oct 2024 14:10:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729862384; cv=none; b=iYRDfiwzqQsXaU5jkkKxhz7tGDNhu7bHLD29V6cAb9gWsYCjfXTBXXTIkZ4zWyvypel8wdIAHV5fAi96X9gM0AGc/yGb37AQzR1I2Cv03VHpSiRYHybgbGqtVcrLXbLgmg887mn3YfPTwhdsVcfyermS6pn72cBVXAVH4CcyX2M=
+	t=1729865409; cv=none; b=m02afD2EACeARrvDpHAEgekQMSi9r1Zuzi28SlDyOoLF5BvxCxV9SQ1Sh6UxXaf5GVTAXAZ2wMTHvoygTO0vosn2V5i1FwfdascQB2rOEVjz4SfDb2g9RIocBxVONVmOMDilw+tOffSsUQEk0O4kbQrfzwWGh0EoYWSuMVgFblk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729862384; c=relaxed/simple;
-	bh=V1sOFV4W/vYmfHOo/YccbeoVgUSseDX9b1vcA4AQoKM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=upFX3+12YziKHGC9VS9BwK1FMODYS3Ve2/+uBUR8XupRoSgQ8ibI72SpnBviiupnp3dqmSmFcZtF9w+byXDxNEX8dMOii0S9pglWGq7DvFEaQC7rAPDysM7RPm0oeewXzM1k/JBSfWCc8D4UWZjyiJCEmx2C/Ci8YW2E3uZyxkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QI3j/BnC; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729862382; x=1761398382;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=V1sOFV4W/vYmfHOo/YccbeoVgUSseDX9b1vcA4AQoKM=;
-  b=QI3j/BnCYIGI0MU9Q+TJ17TcwbEVYW5m0WvLVTaBueYUkrOBkW6nyP4M
-   n+2e7lnp6t797f0K6W8zSkMqPU7WtQQQa9/0mFF5KLVn6F/DPjQbNWxTN
-   dnwLLRzgKnpC3NxxWbVXtYss84DzZdLAPhX7WS/qJVs5guaNjp4c1Dr0M
-   nUqbY/FJWUP6BQ5w06gX48p/NdBkfmEi2g67T+HK8jVjEhvIeGAkAvnqw
-   pPdf7nhl2Of4ekcyFOU8yuQn5Uybw3HjyjJeQTJ1LK1nLnQgdbd14Gro1
-   kQgG4jj+ii1abvGuLibXr1oyFJGJ4UmhBd+2HoZMS7XCcU05ZrBDySIhv
-   Q==;
-X-CSE-ConnectionGUID: OLNuQvDyRlmR41UclrXNrA==
-X-CSE-MsgGUID: CgICE2zCQxC4K5iaf8DH9g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11236"; a="40145735"
-X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="40145735"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 06:19:24 -0700
-X-CSE-ConnectionGUID: Bl0XnzdTSbukqiK0fd1Znw==
-X-CSE-MsgGUID: f6sOCNSFReipYddQD8BK3w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="80931768"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 06:19:14 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1t4KDd-00000006vFW-1Hxw;
-	Fri, 25 Oct 2024 16:19:09 +0300
-Date: Fri, 25 Oct 2024 16:19:09 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Oleksiy Protas <elfy.ua@gmail.com>
-Cc: d.milivojevic@gmail.com, ajhalaney@gmail.com, allenbh@gmail.com,
-	andrew@lunn.ch, arnd@arndb.de, bhelgaas@google.com, bp@alien8.de,
-	broonie@kernel.org, cai.huoqing@linux.dev, dave.jiang@intel.com,
-	davem@davemloft.net, dlemoal@kernel.org, dmaengine@vger.kernel.org,
-	dushistov@mail.ru, fancer.lancer@gmail.com, geert@linux-m68k.org,
-	gregkh@linuxfoundation.org, ink@jurassic.park.msu.ru,
-	jdmason@kudzu.us, jiaxun.yang@flygoat.com, keguang.zhang@gmail.com,
-	kory.maincent@bootlin.com, krzk@kernel.org, kuba@kernel.org,
-	linux-edac@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mips@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-serial@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux@armlinux.org.uk,
-	linux@roeck-us.net, manivannan.sadhasivam@linaro.org,
-	netdev@vger.kernel.org, nikita.shubin@maquefel.me, nikita@trvn.ru,
-	ntb@lists.linux.dev, olteanv@gmail.com, pabeni@redhat.com,
-	paulburton@kernel.org, robh@kernel.org, s.shtylyov@omp.ru,
-	sergio.paracuellos@gmail.com, shc_work@mail.ru,
-	siyanteng@loongson.cn, tsbogend@alpha.franken.de, xeb@mail.ru,
-	yoshihiro.shimoda.uh@renesas.com
-Subject: Re: linux: Goodbye from a Linux community volunteer
-Message-ID: <ZxuazYt5GMJWJ8xP@smile.fi.intel.com>
-References: <CALtW_ahkg9W0wm09cxkJxiSQCH=42smeK=fqh5cQ9sRSNsjeXA@mail.gmail.com>
- <20241025030102.319485-1-elfy.ua@gmail.com>
+	s=arc-20240116; t=1729865409; c=relaxed/simple;
+	bh=wT0Fbjlo0iRz0o3dwX6TmjVAJpH3/ey4pQYSoadWd70=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iD8xnpZQUDMjhB2lt26Kf7nXCRFFax6lL/ZdLLO6eSaLhvY9d4RrIHr1V/TNK9oLNB/vTG9NR4BEGilFqPxCOfrxyRyn8a6nJ17cQ86m6Z0qwnTMcgzlzq/KPFJrfMnX2pBNNQOExB8OA4QCSjKRRG+n0qUFUvF+la85XIkykng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Kp6SyCOK; arc=none smtp.client-ip=209.85.128.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6e305c2987bso20642497b3.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 25 Oct 2024 07:10:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1729865406; x=1730470206; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=6bqKUbbzLPafKXYYn/Pz2qYPWwSJiFRgsqP78w1dQVs=;
+        b=Kp6SyCOKuz7Am6P1VI8VqWpqD9EBLoP9u3T9WKR5hv4pZa30TVuFeVnLFz/j64gcXD
+         UZ8ic4QbQh3P15a7ibP9cq+eABNJUbdh029V4xV1nyLOUKol93G09fZvDfbrjqDzx6tB
+         H1PDjSJrG3cqijz31iSyTRt9CfML+0m7VCl35Q699AyF+kIK+R/rZ6q6CMom6MzurtOu
+         xmw2G5yf2PMdNJ6c6tFEiywmhMQGl7WhW1JPRyd1gwvGDURjDs3h0i456kWvmohE1wxT
+         jdx5n7Frt8WYRQUxxZlX4eQhQFSBibdW/jzg+Lja7lmAEBGizMpjpssh/aznKXBwhpMO
+         OCEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729865406; x=1730470206;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6bqKUbbzLPafKXYYn/Pz2qYPWwSJiFRgsqP78w1dQVs=;
+        b=IdxWoRsAS1U4En8Bzxf1gN5WM5e3NoqY90vKaQI6CFF8MC6pi05k7om9m0Fyh3NVnj
+         6u6N4VJvd3mLkWXz6/5gx/q8IR4nVaxilI1Cl6mwGI1rSFY+qPCTpN4rYKg7CTJCU6gI
+         qQ9KzcwQb9ugPGgif1MVPZPbFTafAVs+6j678+ibdRIlNXneMYYhvF0En3pxcA/ydQJQ
+         184GhO42I+WyJA2TpGrr8e96mQ02Vj0tBUBr/drvnUjSLxII/jIkndY4embtf3uBCdNx
+         v/M8+tI/KRf3P5iljyqiz0ehCN0oYIRSIr/LZ+IiXzftE79DzeU57pnOTuoFVQPlBPeW
+         q3BA==
+X-Gm-Message-State: AOJu0YzoyUa4SQ/Lg+MyNiRm80viDMCI3Yeji1t5YouAMAwqvtoY4Zgz
+	+0NF3E3A25KFj0NS3b0Tup0AeJ6VfYQEaxW2/FQShEZ6hrIhudiIB5PoJQvN3gYOeFc2Zcb0K9m
+	HhazOmUcqKy6E9ogfCTkxcLPM8LQAYisd332JTOFWB8764jKo
+X-Google-Smtp-Source: AGHT+IHg7iSwppC+kZAh48MyBJONx09dWpBYPtV3TbMJB797/l/XJxCpPx9qo53hB9THHkONolJyhHI5tyxUncLSWRI=
+X-Received: by 2002:a05:690c:6c11:b0:6e5:a78c:5795 with SMTP id
+ 00721157ae682-6e7f0fdb89emr110602867b3.43.1729865405714; Fri, 25 Oct 2024
+ 07:10:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241025030102.319485-1-elfy.ua@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20241007093447.33084-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20241007093447.33084-2-wsa+renesas@sang-engineering.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Fri, 25 Oct 2024 16:09:29 +0200
+Message-ID: <CAPDyKFqfSgmPJtjLyf+dU6uz15EerOYPTp9Pr9KYt1RpCzRDMg@mail.gmail.com>
+Subject: Re: [RFC PATCH] mmc: suspend MMC also when unbinding
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, linux-mmc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Oct 25, 2024 at 06:01:02AM +0300, Oleksiy Protas wrote:
-> Brate Dragane,
-> 
-> I was not aware of the fact that either Raytheon or Boeing are directly supplying the Russian invasion. That would be a concerning development indeed.
-> 
-> If you possess any information of that being the case, I urge you to contact GUR anonymously at their official whistleblowing email: gur_official@proton.me
-> 
-> Thank you for your diligence, only together we can stop the war.
+On Mon, 7 Oct 2024 at 11:34, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+> When unbinding a MMC host, the card should be suspended. Otherwise,
+> problems may arise. E.g. the card still expects power-off notifications
+> but there is no host to send them anymore. Shimoda-san tried disabling
+> notifications only, but there were issues with his approaches [1] [2].
+>
+> Here is my take on it, based on the review comments:
+>
+> a) 'In principle we would like to run the similar operations at "remove"
+>     as during "system suspend"' [1]
+> b) 'We want to support a graceful power off sequence or the card...' [2]
+>
+> So, _mmc_suspend gets extended to recognize another reason of being
+> called, namely when unbinding happens. The logic of sending a
+> notification or sending the card to sleep gets updated to handle this
+> new reason. Controllers able to do full power cycles will still do that.
+> Controllers which can only do power cycles in suspend, will send the
+> card to sleep. Finally, mmc_remove() calls _mmc_suspend now with the new
+> reason 'unbind'.
 
-Bravo!
+From a principle point of view this makes perfect sense, but
+unfortunately it's not that easy. See below.
 
-P.S. "Don't feed the trolls".
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+>
+> [1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/1602581312-23607-1-git-send-email-yoshihiro.shimoda.uh@renesas.com/
+> [2] https://patchwork.kernel.org/project/linux-mmc/patch/1605005330-7178-1-git-send-email-yoshihiro.shimoda.uh@renesas.com/
+> ---
+>
+> RFC to see if the direction is proper. Obvious improvements are removing
+> the debug printout and check if the forward declaration can be avoided.
+> This was lightly tested on a Renesas Salvator board. Accessing the eMMC
+> after unbind/bind and suspend/resume showed no regressions.
+>
+>  drivers/mmc/core/mmc.c | 29 +++++++++++++++++++++--------
+>  1 file changed, 21 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/mmc/core/mmc.c b/drivers/mmc/core/mmc.c
+> index 6a23be214543..bd4381fa182f 100644
+> --- a/drivers/mmc/core/mmc.c
+> +++ b/drivers/mmc/core/mmc.c
+> @@ -32,6 +32,12 @@
+>  #define MIN_CACHE_EN_TIMEOUT_MS 1600
+>  #define CACHE_FLUSH_TIMEOUT_MS 30000 /* 30s */
+>
+> +enum mmc_pm_reason {
+> +       MMC_PM_REASON_SHUTDOWN,
+> +       MMC_PM_REASON_SUSPEND,
+> +       MMC_PM_REASON_UNBIND,
+> +};
+> +
+>  static const unsigned int tran_exp[] = {
+>         10000,          100000,         1000000,        10000000,
+>         0,              0,              0,              0
+> @@ -2032,11 +2038,13 @@ static int mmc_poweroff_notify(struct mmc_card *card, unsigned int notify_type)
+>         return err;
+>  }
+>
+> +static int _mmc_suspend(struct mmc_host *host, enum mmc_pm_reason reason);
+>  /*
+>   * Host is being removed. Free up the current card.
+>   */
+>  static void mmc_remove(struct mmc_host *host)
+>  {
+> +       _mmc_suspend(host, MMC_PM_REASON_UNBIND);
 
--- 
-With Best Regards,
-Andy Shevchenko
+Calling _mmc_suspend() here, will put the mmc card into
+sleep/power-off state and the card will also be powered-off.
 
+During this period, we may receive I/O requests in the mmc-blk-queue,
+which then the mmc block device driver tries to serve. This may lead
+to that we call the host driver's ops, with the state MMC_POWER_OFF
+and asking it to serve requests. This doesn't work and will hang some
+of the host HW/drivers.
 
+To be able to put the mmc card into sleep/power-off state, we first
+need to prevent the mmc-blk-queue from serving any additional I/O
+requests, which is what mmc_remove_card() does. :-)
+
+Although, we can't call _mmc_suspend() after mmc_remove_card() as the
+mmc_card may have been freed by then. Hmm...
+
+>         mmc_remove_card(host->card);
+>         host->card = NULL;
+>  }
+
+[...]
+
+Kind regards
+Uffe
 
