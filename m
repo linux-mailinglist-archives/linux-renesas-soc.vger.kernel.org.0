@@ -1,213 +1,138 @@
-Return-Path: <linux-renesas-soc+bounces-10142-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10143-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D80729B01B0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Oct 2024 13:50:39 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E2F69B0383
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Oct 2024 15:13:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 69F1B1F2164D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Oct 2024 11:50:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5B45C286696
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Oct 2024 13:13:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5C9D205150;
-	Fri, 25 Oct 2024 11:49:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZUTYcpVL"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59B881F755D;
+	Fri, 25 Oct 2024 13:12:29 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C65204095;
-	Fri, 25 Oct 2024 11:49:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473291E7660;
+	Fri, 25 Oct 2024 13:12:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729856976; cv=none; b=LYQ9Y6wI0sfKR39jMN+P7o6HnWn//0V+pin3FHQVuxcil6UoGSB5xBIr2GxdBc8DZjwyi2vm+p0IGJpFvyDtMcvMZHC3dwoCM8ObWVQjDoWLLkjBODxwrxaLZ3zc8tumk1NvayHjgz+Uh4EBktwnklnICfvO1yS26JmqxweGGWs=
+	t=1729861949; cv=none; b=Ffk2EfF+aBWfD1t8jNRigw6xRLySGBFZobA4pB5fW9y3jtQmETZT94jzOKHmXDdFjMr/7J2K8+gfRtlZDJZhQGRs3dBdv5sqV2rbUFlsbGkaT/pR7qrO1RDi91goSPZgRF0ktJIaSjQrfwRUSP7kRtBROeeLrl1ugLZNoAeSSoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729856976; c=relaxed/simple;
-	bh=2zpW30oJJ0gzFLA0Df0Xi9Xx6SwsPHwfQ29ZKgha3VA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rxx87dwy8//p2HTy+Nei+LRrgI8TKsCazP5yZI9O1rIBV0lkI2w+3bn+4MAMLHZvkYfaiP6zNw3RpHVgFfOl5ySv+SiJfl/MMTMcDXnvGdGvyzIol6rLAmLMvrVJTBKwkwbrzcbn5tBP6BqmaBLfo/GK/ueDuw70Hu2GVuuwLHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZUTYcpVL; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43163667f0eso19344135e9.0;
-        Fri, 25 Oct 2024 04:49:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729856972; x=1730461772; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CElfZLNsSgILS/BsLAAu+iVhhIWO8y3BRkrHAx+d6KM=;
-        b=ZUTYcpVLE1+XQQy/h2kZn5lBpAo47yKPwLuokZhTvrIOACcpTic8hOnx+VBnXHzo1c
-         0BRp03NcAaFhMJ3YHCzgFQqEI1BwoLEWzb1qyXr3uxtWowHyDyiYpa7eA3ibpWFtQndb
-         RsmA47GGEAU+vUF5/Xx9RgCMWi0SBuqBb0lyXka70eQdbhwXvxvGwKPn2bFZkcYphbtZ
-         jZCior2GgP1NSuJQZRNsWGnitTbu8/fY5iEp72sqKgIw8P64IZS5tpcCFNuBUFEO4Fe0
-         3n1sUnHsfGcnXYFAMDiVRvwOfNWD/A5A9fkHs/h1mjyJn7AycZHOwkq1yCdqiirwiVGI
-         LDww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729856972; x=1730461772;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CElfZLNsSgILS/BsLAAu+iVhhIWO8y3BRkrHAx+d6KM=;
-        b=Ej9NeWD+euylyz0/MmRzQpOWVhw5XpBxkEs7QmRQekc73ZQe/3MSMObO5eD1ucV6GL
-         MqCROo0KYQUg+V1FVnwJRdcmRA2GFF1o79bBKbHeIKPZ1BoP15Sv7l2bwRGdn6DqAq7I
-         T44XY3rc/oonluJUpDpV8xyze89PNUrP+W+xYM9Pf+hjH224KlkoEWIHteJe9cYszPUk
-         plpyzpTz7NnLESB57cADVpM9GQRw3qoRU+otkuPJ28MUsZWdQrk7cN8e9Y2uEayZ+AYU
-         v9NcAPKVP6VCxhRNtxJjlEcPPvVlHfWdHQZEIXtFhzv1o+FJ/l5VYtPLu2ZO/a6/h/Xl
-         bW/g==
-X-Forwarded-Encrypted: i=1; AJvYcCUOgm5+zQNi2dAaAM+PzSk3OEokVzksbiwMb2arl8Qha9XlIRKh/u8gomFjlNc1I5hfmaCV06l6gs3blkkx@vger.kernel.org, AJvYcCXDL3lnYM8XHhbT21SCHDBehyBuZKzHMf33XjtOYMsI91I0oGzvY099twNYJ9qCSZe7UQwGoFdnsAC0TA==@vger.kernel.org, AJvYcCXxiLYDms/rP1XIAp8lUg3RPXzWwF2wyTirHSygkje0lcDGuujJWSty2lotKGA5k0N9gV/fD7fqXWTC@vger.kernel.org
-X-Gm-Message-State: AOJu0YxY022OgUc1cQ5w9+kKNDUTIMRq9EeYxEjqFmK3awgK79zHz2oi
-	nZBG3C9qpE8rXbpHlrYPFNL8mpdCvT7HB230YEsKMyGSwKPNofvXu4xlEQ==
-X-Google-Smtp-Source: AGHT+IHvR8cjRlQraeVOLsO2IR4h8i4KWB13AVDra+R2EV+LjSCTCS/+FbWsmbtTC7LwJHE31x5Llg==
-X-Received: by 2002:a05:600c:1e29:b0:431:51c0:c90f with SMTP id 5b1f17b1804b1-4318420a152mr82683295e9.21.1729856972511;
-        Fri, 25 Oct 2024 04:49:32 -0700 (PDT)
-Received: from prasmi.Home ([2a06:5906:61b:2d00:1044:9cc9:b89d:54cd])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4318b56741fsm45109785e9.22.2024.10.25.04.49.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Oct 2024 04:49:31 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
+	s=arc-20240116; t=1729861949; c=relaxed/simple;
+	bh=DyZekcekX3RtD9pX7NDF9lTJOHreJBPcOIWwl++T12A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pvf/bJ3wygRBqbWdvTMehUBMFoREG4pRNgX762FD/uylbyWIGk1XIVlOxuKXi0NOl8UkV1j5qj3H3YqF7ZhSWGcKhP7dSF531Dg9T3aVT2o99XIOPnQX3G4w8Y+Bqe1eyN1eqfIpNaUC0vWf/B4Wd89+hwegrUMUAbi5/S+Bvw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
+X-CSE-ConnectionGUID: +MippmjcS7GiCHxfKD/FPQ==
+X-CSE-MsgGUID: YqiQFwgNQ2urN4bdSLfTEg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29474401"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="29474401"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 06:12:27 -0700
+X-CSE-ConnectionGUID: YBODLHiKRmKI4N2x3UePrA==
+X-CSE-MsgGUID: ORNpoHttQRiMH14+J3yUxg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
+   d="scan'208";a="81073104"
+Received: from smile.fi.intel.com ([10.237.72.154])
+  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 06:12:15 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andy@kernel.org>)
+	id 1t4K6r-00000006v8Q-1Pfa;
+	Fri, 25 Oct 2024 16:12:09 +0300
+Date: Fri, 25 Oct 2024 16:12:09 +0300
+From: Andy Shevchenko <andy@kernel.org>
+To: Dragan =?utf-8?Q?Milivojevi=C4=87?= <d.milivojevic@gmail.com>
+Cc: Peter Cai <peter@typeblog.net>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	Serge Semin <fancer.lancer@gmail.com>, Jon Mason <jdmason@kudzu.us>,
+	Dave Jiang <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>,
+	ntb@lists.linux.dev, Kory Maincent <kory.maincent@bootlin.com>,
+	Cai Huoqing <cai.huoqing@linux.dev>, dmaengine@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>, linux-spi@vger.kernel.org,
+	Damien Le Moal <dlemoal@kernel.org>, linux-ide@vger.kernel.org,
+	Paul Burton <paulburton@kernel.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>, linux-mips@vger.kernel.org,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	linux-pci@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew@lunn.ch>, Russell King <linux@armlinux.org.uk>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Keguang Zhang <keguang.zhang@gmail.com>,
+	Yanteng Si <siyanteng@loongson.cn>, netdev@vger.kernel.org,
 	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 6/6] pinctrl: renesas: pinctrl-rzg2l: Override irq_request/release_resources
-Date: Fri, 25 Oct 2024 12:49:14 +0100
-Message-ID: <20241025114914.714597-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241025114914.714597-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20241025114914.714597-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Guenter Roeck <linux@roeck-us.net>, linux-hwmon@vger.kernel.org,
+	Borislav Petkov <bp@alien8.de>, linux-edac@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-serial@vger.kernel.org, Andrew Halaney <ajhalaney@gmail.com>,
+	Nikita Travkin <nikita@trvn.ru>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Alexander Shiyan <shc_work@mail.ru>, Dmitry Kozlov <xeb@mail.ru>,
+	Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Evgeniy Dushistov <dushistov@mail.ru>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+	Nikita Shubin <nikita.shubin@maquefel.me>,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Kexy Biscuit <kexybiscuit@aosc.io>, jeffbai@aosc.io,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: linux: Goodbye from a Linux community volunteer
+Message-ID: <ZxuZKcTafSVXLcIe@smile.fi.intel.com>
+References: <2m53bmuzemamzc4jzk2bj7tli22ruaaqqe34a2shtdtqrd52hp@alifh66en3rj>
+ <e7d548a7fc835f9f3c9cb2e5ed97dfdfa164813f.camel@HansenPartnership.com>
+ <6beb4070-1946-4387-bd0e-34608a76b19e@typeblog.net>
+ <CALtW_agj1rurb3DRrPd9o2mkfku5fq_M3CEKY5sW+Zz7shKYHA@mail.gmail.com>
+ <ZxqK75WdFBod0rZ9@smile.fi.intel.com>
+ <CALtW_ajKAYYwYVGnEArPWz_XaCkEiMFwpoCtzeiO1OLbAk77Sw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALtW_ajKAYYwYVGnEArPWz_XaCkEiMFwpoCtzeiO1OLbAk77Sw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Thu, Oct 24, 2024 at 09:46:58PM +0200, Dragan Milivojević wrote:
+> > Yeah, with my hat of the person whose home town is under (Russian) attack for
+> > the 10+ years (don't be surprised, please, the war lasts more than a decade
+> > already) on I am fully understand Linus' arguments about history and being not
+> > very friendly about Russians.
+> 
+> How about your hat off to the people in the Donbas,
+> ~12K of them that had died from Ukrainian artillery fire,
+> that were under imminent threat of being overrun by
+> the Ukrainian forces in February 2022? Are you going
+> to scream about Russian propaganda when I link
+> the OSCE reports about a 10 fold increase in attacks
+> at that same time?
 
-Override the default `irq_request_resources` and `irq_release_resources`
-functions with `rzg2l_gpio_irq_request_resources` and
-`rzg2l_gpio_irq_release_resources` in the RZ/G2L pinctrl driver.
+Yeah, yeah, no point to discuss with you "Russian state-sponsored spam".
+Btw, are you from Serbia?
 
-The `rzg2l_gpio_irq_request_resources()` function now ensures that the pin
-is requested by the pinctrl core before locking the GPIO as an IRQ. This
-ensures that the `pinmux-pins` file in sysfs correctly reports the pin as
-claimed. Additionally, the `rzg2l_gpio_direction_input()` call is moved
-into the `rzg2l_gpio_irq_request_resources()` callback, as it makes sense
-to configure the GPIO pin as an input after it has been requested.
+> BTW can I be racist towards Germans and Croats since
+> their ancestors exterminated my kin in their death camps?
 
-The `rzg2l_gpio_irq_release_resources()` function unlocks the GPIO as an
-IRQ and then frees the GPIO, ensuring proper cleanup when the IRQ is no
-longer needed. This guarantees that the `pinmux-pins` file in sysfs
-correctly reports the pin as unclaimed.
+You should answer your question yourself.
 
-Also add a `pin_requested()` check in `rzg2l_gpio_free()` to return early
-if the pin is already released.
-
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v1->v2
-- No change
----
- drivers/pinctrl/renesas/pinctrl-rzg2l.c | 41 +++++++++++++++++++++----
- 1 file changed, 35 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-index b9a8bf43a92a..47b3e296d094 100644
---- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-@@ -1772,8 +1772,12 @@ static int rzg2l_gpio_get(struct gpio_chip *chip, unsigned int offset)
- 
- static void rzg2l_gpio_free(struct gpio_chip *chip, unsigned int offset)
- {
-+	struct rzg2l_pinctrl *pctrl = gpiochip_get_data(chip);
- 	unsigned int virq;
- 
-+	if (!pin_requested(pctrl->pctl, offset))
-+		return;
-+
- 	virq = irq_find_mapping(chip->irq.domain, offset);
- 	if (virq)
- 		irq_dispose_mapping(virq);
-@@ -2357,6 +2361,35 @@ static int rzg2l_gpio_irq_set_wake(struct irq_data *data, unsigned int on)
- 	return 0;
- }
- 
-+static int rzg2l_gpio_irq_request_resources(struct irq_data *d)
-+{
-+	struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
-+	struct rzg2l_pinctrl *pctrl = container_of(gc, struct rzg2l_pinctrl, gpio_chip);
-+	unsigned int child = irqd_to_hwirq(d);
-+	int ret;
-+
-+	if (!pin_requested(pctrl->pctl, child)) {
-+		ret = rzg2l_gpio_request(gc, child);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	ret = rzg2l_gpio_direction_input(gc, child);
-+	if (ret)
-+		return ret;
-+
-+	return gpiochip_irq_reqres(d);
-+}
-+
-+static void rzg2l_gpio_irq_release_resources(struct irq_data *d)
-+{
-+	struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
-+	unsigned int child = irqd_to_hwirq(d);
-+
-+	gpiochip_irq_relres(d);
-+	rzg2l_gpio_free(gc, child);
-+}
-+
- static const struct irq_chip rzg2l_gpio_irqchip = {
- 	.name = "rzg2l-gpio",
- 	.irq_disable = rzg2l_gpio_irq_disable,
-@@ -2368,8 +2401,9 @@ static const struct irq_chip rzg2l_gpio_irqchip = {
- 	.irq_print_chip = rzg2l_gpio_irq_print_chip,
- 	.irq_set_affinity = irq_chip_set_affinity_parent,
- 	.irq_set_wake = rzg2l_gpio_irq_set_wake,
-+	.irq_request_resources = rzg2l_gpio_irq_request_resources,
-+	.irq_release_resources = rzg2l_gpio_irq_release_resources,
- 	.flags = IRQCHIP_IMMUTABLE,
--	GPIOCHIP_IRQ_RESOURCE_HELPERS,
- };
- 
- static int rzg2l_gpio_child_to_parent_hwirq(struct gpio_chip *gc,
-@@ -2381,16 +2415,11 @@ static int rzg2l_gpio_child_to_parent_hwirq(struct gpio_chip *gc,
- 	struct rzg2l_pinctrl *pctrl = gpiochip_get_data(gc);
- 	unsigned long flags;
- 	int gpioint, irq;
--	int ret;
- 
- 	gpioint = rzg2l_gpio_get_gpioint(child, pctrl);
- 	if (gpioint < 0)
- 		return gpioint;
- 
--	ret = rzg2l_gpio_direction_input(gc, child);
--	if (ret)
--		return ret;
--
- 	spin_lock_irqsave(&pctrl->bitmap_lock, flags);
- 	irq = bitmap_find_free_region(pctrl->tint_slot, RZG2L_TINT_MAX_INTERRUPT, get_order(1));
- 	spin_unlock_irqrestore(&pctrl->bitmap_lock, flags);
 -- 
-2.43.0
+With Best Regards,
+Andy Shevchenko
+
 
 
