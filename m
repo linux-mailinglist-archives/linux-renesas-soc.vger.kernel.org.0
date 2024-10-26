@@ -1,445 +1,263 @@
-Return-Path: <linux-renesas-soc+bounces-10168-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10169-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B71B9B1417
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 26 Oct 2024 03:52:35 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11A379B143D
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 26 Oct 2024 04:49:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EFB7E1F22647
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 26 Oct 2024 01:52:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 587C9B2179F
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 26 Oct 2024 02:49:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BF7E2AE69;
-	Sat, 26 Oct 2024 01:52:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AD2A2AEF5;
+	Sat, 26 Oct 2024 02:49:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WW1qsBvm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D+kdDe+9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 763915661;
-	Sat, 26 Oct 2024 01:52:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48CE98BEE
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 26 Oct 2024 02:49:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729907552; cv=none; b=Tl5a61Nv0VNUj9EcYSsFlUWMJHeJmdiiz8BsbtOToWxmMWOstUU1xmg80Caxw+dqnJttQMDoyDf7ps9jLUif46scIssKod9K8Q+LvipQ5ThveYOj2qnalmm7D6C4siBSPgn4JEyVo83IWPS3iGE6MLMB4OEbSwu/q9Tsby6ExWk=
+	t=1729910987; cv=none; b=Paw+dFMQ7Z/1Zs/ypWmawOE9CDqDEU6xV9MlXDPq1J5qW++toyN8xFC2lHaE6s1U+NuQ8epXyNPIwlEnupKjsmu6ej73XAUjIOIQmmvUKgAHbZlb/Pp4JflVmBp4C4ZvJQtHjcmSG4V1oq2dlemR09WV4sixIfDIbnDIHt5RYsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729907552; c=relaxed/simple;
-	bh=BRLoB4ccTxc30spY7o9xX354eoGpld1pft/++XkXXSM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JsJJm7EUI/5Kn6L3VHattqCbPj/Vma/NfQz4DczQP2WP/zZoZwxwrVsaspVWt5mUm6nazgKFUCWLCBUJ/rnBJBAW8BAsygwXoMHDGBbkJ8EDIXUg4urQarMzwMXM8jlugaYXqkd+gWmSrDVWtzOwqclJPAZR8y4MsE+VpO4BkU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WW1qsBvm; arc=none smtp.client-ip=209.85.128.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-6e34339d41bso25833847b3.0;
-        Fri, 25 Oct 2024 18:52:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729907548; x=1730512348; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ooATJTLtFzZb8pHEQaf62by8viD3blquhXGIqDYDJoU=;
-        b=WW1qsBvmAJPqLqH6PQ5feC1Kn+jYTw5blKqoErh/MBdo0Am7kIoeSiiDDklk0HXsZA
-         SfT5Ktwo7TzQB2LAVNl4yDj2fIvJ1Gqr5zIlFd8xIMkG5oqVk6p+2Qtakz9YQpoPqfKX
-         Kjgz5cjRW49PkgPGMS0Qy+sQxBCw9Au9oiRyq9q30EBvbIkDut6SBnF3aoQpy1jrJtfn
-         8sMCiQgXszDeyMNyCOzKI+PEoqTSZlchJIRkWSz6xje/z6Y8C80EmCxT8PKMQ9MRf+Fc
-         +GEqj2pp8ib52UeJ9tRLNek4dRyVg2/AhVaTO4gMbylPpyqS2UgvhePdl4GVu1W3qnCE
-         SPVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729907548; x=1730512348;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ooATJTLtFzZb8pHEQaf62by8viD3blquhXGIqDYDJoU=;
-        b=ZmLk8vewPiXYuZJQ5qLaHh/yrdOHH6Yc+cA3rzehQsOxL7g+YZjxb/YRtj9KwTzUY0
-         RGK5CDe3KWI3lhwZ6U4XY6PNleJo/LXW0kGdX21xuVKBQNaMb101u/+Gb50CGUzP8rf2
-         L9b/a2IRQy61r0Zxgp/C/HELAU6F993buFIWyiOlTntv69EMEPS+V2D3P4nD7A5Ly+6x
-         XoER6XUjd6K/TavoQghyI+66Yeic9rB4cy+sp33adn5zWYLeUjWW9T3M4QLrO7JmmeHG
-         qg12QISerLX61CgjocJS3R/JFu8VZ/mv9mFng4cZc1rCSF1NrI0dBSnM0KG692ijAlPe
-         FJfw==
-X-Forwarded-Encrypted: i=1; AJvYcCU/6SaXsXWVKZaANPmJwtVBJKTm6HOeNx5wR/T4bsVRyUZZRc32++9Fahy0yRZYaoKTY0t0rAwyuDkAU/g=@vger.kernel.org, AJvYcCW4E8dsQNAcghAoXQSdyptH3pL+EmS6VQ2y0mcJTz2np+ep4Dxgmgs0XDd+8T22gyWLKHN3NOnYpf12PEx7sJKGhRY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxsrKXfacYwUL/g97lTFHBKQtN+Lie4SmrVZvZmTq4Fnw2iW1YQ
-	ROes6JNi8gAVCr0nGwdIXJHmf6KVdB1+i6Zqm0tVYl17XgHj2qrvGN4VuC74EhALsThVfYsRp15
-	+r+Fw4Y1HTjQ510u2aXrmDRNpNJpFmtZv
-X-Google-Smtp-Source: AGHT+IGSe9j4Qu68RZ9usd4K6Q6K6o8yVcTMnFdp5GrmhtYjSCL2k2kQRJq7l6th9QvRQ2hSdTQHcLqFk+CD4lfRAZo=
-X-Received: by 2002:a05:690c:f15:b0:6e2:aceb:fb34 with SMTP id
- 00721157ae682-6e9d88ea2b9mr16432367b3.1.1729907548095; Fri, 25 Oct 2024
- 18:52:28 -0700 (PDT)
+	s=arc-20240116; t=1729910987; c=relaxed/simple;
+	bh=dUrpru/Yn6mRtoUXKGrNdefD3zaSjzwK689GbKSGAAs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=oBGcqE55da862TcFUQ4OE9PhR+lL2X/D7UyTz2WonxneqhbhUoF6ysEYAGXGgTRECiLjKxXZYCGD1cfaKjv+wlLPzgFkxOJTQUzwM1rpCY0Zbr7/WXpP9F247i1hE7PLZGEpIvMrM7hrb7Ca2tnNYn3wE+Sl2LJui2ISATyiQQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D+kdDe+9; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729910985; x=1761446985;
+  h=date:from:to:cc:subject:message-id;
+  bh=dUrpru/Yn6mRtoUXKGrNdefD3zaSjzwK689GbKSGAAs=;
+  b=D+kdDe+9o8hHLeHdQx0SHQErgxAm/9AfWBiziv4PaAclRkavJ2wZJYM+
+   ZVSsUBiwHysD0Ubg2UYqeFhNCaVlMBu6vDQ8Z6OuZIJpyKaVG5xSpWtVq
+   8As1AGtHHgsUaC1kjZ7ShGcVaqrGM1pMuzEZC1Y2pFQE21jP3mx8Ic1Bs
+   YqXECdoP5gb6FOaGMNFMmDBLNPKPDul389r9SHDizpMKU14gynr9NkLN3
+   cKNcneSy8qJ+gfCUASUe36GRm84Lr85TOI5qAFtYYqlyFeivypQoNuXZz
+   cS6CF6nGM3LMW37vmaxvY69qtwqsYHc1SOIWnE50qdYicl7s/ZRDPGk6T
+   A==;
+X-CSE-ConnectionGUID: rcZJR5BJRfy07iRST1+C7A==
+X-CSE-MsgGUID: GjFTENNpTYGd3GDP66VF3Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11236"; a="29807840"
+X-IronPort-AV: E=Sophos;i="6.11,233,1725346800"; 
+   d="scan'208";a="29807840"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 19:49:45 -0700
+X-CSE-ConnectionGUID: OlkRVvxeRYC99e9HWDG2WQ==
+X-CSE-MsgGUID: gzmTKjjOTxCMo2BUabYrrg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,233,1725346800"; 
+   d="scan'208";a="86205495"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 25 Oct 2024 19:49:43 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t4Ws1-000ZCS-0i;
+	Sat, 26 Oct 2024 02:49:41 +0000
+Date: Sat, 26 Oct 2024 10:49:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:renesas-r9a08g045-dt-binding-defs]
+ BUILD SUCCESS 49991cca67d584a59cb10d48825cce3d11f7d843
+Message-ID: <202410261021.lES1fDyb-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20241025200807.189223-1-rosenp@gmail.com>
-In-Reply-To: <20241025200807.189223-1-rosenp@gmail.com>
-From: Rosen Penev <rosenp@gmail.com>
-Date: Fri, 25 Oct 2024 18:52:17 -0700
-Message-ID: <CAKxU2N98gcuaqosXWh3m2Eoyo1V03WE66scnTzn3sb8L8z=Kwg@mail.gmail.com>
-Subject: Re: [PATCHv4 net-next] net: dsa: use ethtool string helpers
-To: netdev@vger.kernel.org
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Andrew Lunn <andrew@lunn.ch>, 
-	Vladimir Oltean <olteanv@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Kurt Kanzenbach <kurt@linutronix.de>, Woojung Huh <woojung.huh@microchip.com>, 
-	"maintainer:MICROCHIP KSZ SERIES ETHERNET SWITCH DRIVER" <UNGLinuxDriver@microchip.com>, 
-	=?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>, 
-	George McCollister <george.mccollister@gmail.com>, Simon Horman <horms@kernel.org>, 
-	open list <linux-kernel@vger.kernel.org>, 
-	"open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 25, 2024 at 1:08=E2=80=AFPM Rosen Penev <rosenp@gmail.com> wrot=
-e:
->
-> These are the preferred way to copy ethtool strings.
->
-> Avoids incrementing pointers all over the place.
->
-> Signed-off-by: Rosen Penev <rosenp@gmail.com>
-> (for hellcreek driver)
-> Reviewed-by: Kurt Kanzenbach <kurt@linutronix.de>
-> ---
->  v4: add back pointer math for b53_get_strings. Needed as prototype
->  can't be change to double pointer.
->  v3: remove curly braces from ksz_common.c
->  v2: remove curly braces from rzn1_a5psw.c
->  drivers/net/dsa/b53/b53_common.c          |  3 +--
->  drivers/net/dsa/bcm_sf2.c                 |  4 ++--
->  drivers/net/dsa/bcm_sf2.h                 |  2 +-
->  drivers/net/dsa/bcm_sf2_cfp.c             | 20 ++++++--------------
->  drivers/net/dsa/dsa_loop.c                |  3 +--
->  drivers/net/dsa/hirschmann/hellcreek.c    |  8 ++------
->  drivers/net/dsa/microchip/ksz_common.c    |  6 ++----
->  drivers/net/dsa/mv88e6xxx/chip.c          | 17 ++---------------
->  drivers/net/dsa/mv88e6xxx/serdes.c        |  6 ++----
->  drivers/net/dsa/rzn1_a5psw.c              |  6 ++----
->  drivers/net/dsa/sja1105/sja1105_ethtool.c |  7 ++-----
->  drivers/net/dsa/xrs700x/xrs700x.c         |  6 ++----
->  net/dsa/user.c                            | 13 +++++--------
->  13 files changed, 30 insertions(+), 71 deletions(-)
->
-> diff --git a/drivers/net/dsa/b53/b53_common.c b/drivers/net/dsa/b53/b53_c=
-ommon.c
-> index c39cb119e760..285785c942b0 100644
-> --- a/drivers/net/dsa/b53/b53_common.c
-> +++ b/drivers/net/dsa/b53/b53_common.c
-> @@ -989,8 +989,7 @@ void b53_get_strings(struct dsa_switch *ds, int port,=
- u32 stringset,
->
->         if (stringset =3D=3D ETH_SS_STATS) {
->                 for (i =3D 0; i < mib_size; i++)
-> -                       strscpy(data + i * ETH_GSTRING_LEN,
-> -                               mibs[i].name, ETH_GSTRING_LEN);
-> +                       ethtool_puts(&data, mibs[i].name);
->         } else if (stringset =3D=3D ETH_SS_PHY_STATS) {
->                 phydev =3D b53_get_phy_device(ds, port);
->                 if (!phydev)
-> diff --git a/drivers/net/dsa/bcm_sf2.c b/drivers/net/dsa/bcm_sf2.c
-> index 9201f07839ad..43bde1f583ff 100644
-> --- a/drivers/net/dsa/bcm_sf2.c
-> +++ b/drivers/net/dsa/bcm_sf2.c
-> @@ -1183,8 +1183,8 @@ static void bcm_sf2_sw_get_strings(struct dsa_switc=
-h *ds, int port,
->         int cnt =3D b53_get_sset_count(ds, port, stringset);
->
->         b53_get_strings(ds, port, stringset, data);
-> -       bcm_sf2_cfp_get_strings(ds, port, stringset,
-> -                               data + cnt * ETH_GSTRING_LEN);
-> +       data +=3D cnt * ETH_GSTRING_LEN;
-> +       bcm_sf2_cfp_get_strings(ds, port, stringset, &data);
->  }
->
->  static void bcm_sf2_sw_get_ethtool_stats(struct dsa_switch *ds, int port=
-,
-> diff --git a/drivers/net/dsa/bcm_sf2.h b/drivers/net/dsa/bcm_sf2.h
-> index 4fda075a3449..e61e3bf688ff 100644
-> --- a/drivers/net/dsa/bcm_sf2.h
-> +++ b/drivers/net/dsa/bcm_sf2.h
-> @@ -229,7 +229,7 @@ int bcm_sf2_cfp_rst(struct bcm_sf2_priv *priv);
->  void bcm_sf2_cfp_exit(struct dsa_switch *ds);
->  int bcm_sf2_cfp_resume(struct dsa_switch *ds);
->  void bcm_sf2_cfp_get_strings(struct dsa_switch *ds, int port,
-> -                            u32 stringset, uint8_t *data);
-> +                            u32 stringset, uint8_t **data);
->  void bcm_sf2_cfp_get_ethtool_stats(struct dsa_switch *ds, int port,
->                                    uint64_t *data);
->  int bcm_sf2_cfp_get_sset_count(struct dsa_switch *ds, int port, int sset=
-);
-> diff --git a/drivers/net/dsa/bcm_sf2_cfp.c b/drivers/net/dsa/bcm_sf2_cfp.=
-c
-> index c88ee3dd4299..95991334561e 100644
-> --- a/drivers/net/dsa/bcm_sf2_cfp.c
-> +++ b/drivers/net/dsa/bcm_sf2_cfp.c
-> @@ -1280,26 +1280,18 @@ static const struct bcm_sf2_cfp_stat {
->  };
->
->  void bcm_sf2_cfp_get_strings(struct dsa_switch *ds, int port,
-> -                            u32 stringset, uint8_t *data)
-> +                            u32 stringset, uint8_t **data)
->  {
->         struct bcm_sf2_priv *priv =3D bcm_sf2_to_priv(ds);
-> -       unsigned int s =3D ARRAY_SIZE(bcm_sf2_cfp_stats);
-> -       char buf[ETH_GSTRING_LEN];
-> -       unsigned int i, j, iter;
-> +       unsigned int i, j;
->
->         if (stringset !=3D ETH_SS_STATS)
->                 return;
->
-> -       for (i =3D 1; i < priv->num_cfp_rules; i++) {
-> -               for (j =3D 0; j < s; j++) {
-> -                       snprintf(buf, sizeof(buf),
-> -                                "CFP%03d_%sCntr",
-> -                                i, bcm_sf2_cfp_stats[j].name);
-> -                       iter =3D (i - 1) * s + j;
-> -                       strscpy(data + iter * ETH_GSTRING_LEN,
-> -                               buf, ETH_GSTRING_LEN);
-> -               }
-> -       }
-> +       for (i =3D 1; i < priv->num_cfp_rules; i++)
-> +               for (j =3D 0; j < ARRAY_SIZE(bcm_sf2_cfp_stats); j++)
-> +                       ethtool_sprintf(data, "CFP%03d_%sCntr", i,
-> +                                       bcm_sf2_cfp_stats[j].name);
->  }
->
->  void bcm_sf2_cfp_get_ethtool_stats(struct dsa_switch *ds, int port,
-> diff --git a/drivers/net/dsa/dsa_loop.c b/drivers/net/dsa/dsa_loop.c
-> index c70ed67cc188..adbab544c60f 100644
-> --- a/drivers/net/dsa/dsa_loop.c
-> +++ b/drivers/net/dsa/dsa_loop.c
-> @@ -121,8 +121,7 @@ static void dsa_loop_get_strings(struct dsa_switch *d=
-s, int port,
->                 return;
->
->         for (i =3D 0; i < __DSA_LOOP_CNT_MAX; i++)
-> -               memcpy(data + i * ETH_GSTRING_LEN,
-> -                      ps->ports[port].mib[i].name, ETH_GSTRING_LEN);
-> +               ethtool_puts(&data, ps->ports[port].mib[i].name);
->  }
->
->  static void dsa_loop_get_ethtool_stats(struct dsa_switch *ds, int port,
-> diff --git a/drivers/net/dsa/hirschmann/hellcreek.c b/drivers/net/dsa/hir=
-schmann/hellcreek.c
-> index d798f17cf7ea..283ec5a6e23c 100644
-> --- a/drivers/net/dsa/hirschmann/hellcreek.c
-> +++ b/drivers/net/dsa/hirschmann/hellcreek.c
-> @@ -294,12 +294,8 @@ static void hellcreek_get_strings(struct dsa_switch =
-*ds, int port,
->  {
->         int i;
->
-> -       for (i =3D 0; i < ARRAY_SIZE(hellcreek_counter); ++i) {
-> -               const struct hellcreek_counter *counter =3D &hellcreek_co=
-unter[i];
-> -
-> -               strscpy(data + i * ETH_GSTRING_LEN,
-> -                       counter->name, ETH_GSTRING_LEN);
-> -       }
-> +       for (i =3D 0; i < ARRAY_SIZE(hellcreek_counter); ++i)
-> +               ethtool_puts(&data, hellcreek_counter[i].name);
->  }
->
->  static int hellcreek_get_sset_count(struct dsa_switch *ds, int port, int=
- sset)
-> diff --git a/drivers/net/dsa/microchip/ksz_common.c b/drivers/net/dsa/mic=
-rochip/ksz_common.c
-> index 5290f5ad98f3..f73833e24622 100644
-> --- a/drivers/net/dsa/microchip/ksz_common.c
-> +++ b/drivers/net/dsa/microchip/ksz_common.c
-> @@ -2112,10 +2112,8 @@ static void ksz_get_strings(struct dsa_switch *ds,=
- int port,
->         if (stringset !=3D ETH_SS_STATS)
->                 return;
->
-> -       for (i =3D 0; i < dev->info->mib_cnt; i++) {
-> -               memcpy(buf + i * ETH_GSTRING_LEN,
-> -                      dev->info->mib_names[i].string, ETH_GSTRING_LEN);
-> -       }
-> +       for (i =3D 0; i < dev->info->mib_cnt; i++)
-> +               ethtool_puts(&buf, dev->info->mib_names[i].string);
->  }
->
->  /**
-> diff --git a/drivers/net/dsa/mv88e6xxx/chip.c b/drivers/net/dsa/mv88e6xxx=
-/chip.c
-> index 4f5193d86e65..1893fed00467 100644
-> --- a/drivers/net/dsa/mv88e6xxx/chip.c
-> +++ b/drivers/net/dsa/mv88e6xxx/chip.c
-> @@ -1162,8 +1162,7 @@ static int mv88e6xxx_stats_get_strings(struct mv88e=
-6xxx_chip *chip,
->         for (i =3D 0, j =3D 0; i < ARRAY_SIZE(mv88e6xxx_hw_stats); i++) {
->                 stat =3D &mv88e6xxx_hw_stats[i];
->                 if (stat->type & types) {
-> -                       memcpy(data + j * ETH_GSTRING_LEN, stat->string,
-> -                              ETH_GSTRING_LEN);
-> +                       ethtool_puts(&data, stat->string);
->                         j++;
->                 }
->         }
-> @@ -1204,31 +1203,19 @@ static void mv88e6xxx_atu_vtu_get_strings(uint8_t=
- *data)
->         unsigned int i;
->
->         for (i =3D 0; i < ARRAY_SIZE(mv88e6xxx_atu_vtu_stats_strings); i+=
-+)
-> -               strscpy(data + i * ETH_GSTRING_LEN,
-> -                       mv88e6xxx_atu_vtu_stats_strings[i],
-> -                       ETH_GSTRING_LEN);
-> +               ethtool_puts(&data, mv88e6xxx_atu_vtu_stats_strings[i]);
->  }
->
->  static void mv88e6xxx_get_strings(struct dsa_switch *ds, int port,
->                                   u32 stringset, uint8_t *data)
->  {
->         struct mv88e6xxx_chip *chip =3D ds->priv;
-> -       int count =3D 0;
->
->         if (stringset !=3D ETH_SS_STATS)
->                 return;
->
->         mv88e6xxx_reg_lock(chip);
->
-> -       if (chip->info->ops->stats_get_strings)
-> -               count =3D chip->info->ops->stats_get_strings(chip, data);
-> -
-> -       if (chip->info->ops->serdes_get_strings) {
-> -               data +=3D count * ETH_GSTRING_LEN;
-> -               count =3D chip->info->ops->serdes_get_strings(chip, port,=
- data);
-> -       }
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-r9a08g045-dt-binding-defs
+branch HEAD: 49991cca67d584a59cb10d48825cce3d11f7d843  dt-bindings: clock: r9a08g045-cpg: Add power domain ID for RTC
 
-Removal of these function calls looks wrong. To get rid of pointer
-arithmetic here, I think they need to be changed to u8**.
+elapsed time: 984m
 
-> -
-> -       data +=3D count * ETH_GSTRING_LEN;
->         mv88e6xxx_atu_vtu_get_strings(data);
->
->         mv88e6xxx_reg_unlock(chip);
-> diff --git a/drivers/net/dsa/mv88e6xxx/serdes.c b/drivers/net/dsa/mv88e6x=
-xx/serdes.c
-> index 01ea53940786..327831d2b547 100644
-> --- a/drivers/net/dsa/mv88e6xxx/serdes.c
-> +++ b/drivers/net/dsa/mv88e6xxx/serdes.c
-> @@ -144,8 +144,7 @@ int mv88e6352_serdes_get_strings(struct mv88e6xxx_chi=
-p *chip,
->
->         for (i =3D 0; i < ARRAY_SIZE(mv88e6352_serdes_hw_stats); i++) {
->                 stat =3D &mv88e6352_serdes_hw_stats[i];
-> -               memcpy(data + i * ETH_GSTRING_LEN, stat->string,
-> -                      ETH_GSTRING_LEN);
-> +               ethtool_puts(&data, stat->string);
->         }
->         return ARRAY_SIZE(mv88e6352_serdes_hw_stats);
->  }
-> @@ -405,8 +404,7 @@ int mv88e6390_serdes_get_strings(struct mv88e6xxx_chi=
-p *chip,
->
->         for (i =3D 0; i < ARRAY_SIZE(mv88e6390_serdes_hw_stats); i++) {
->                 stat =3D &mv88e6390_serdes_hw_stats[i];
-> -               memcpy(data + i * ETH_GSTRING_LEN, stat->string,
-> -                      ETH_GSTRING_LEN);
-> +               ethtool_puts(&data, stat->string);
->         }
->         return ARRAY_SIZE(mv88e6390_serdes_hw_stats);
->  }
-> diff --git a/drivers/net/dsa/rzn1_a5psw.c b/drivers/net/dsa/rzn1_a5psw.c
-> index 1135a32e4b7e..66974379334a 100644
-> --- a/drivers/net/dsa/rzn1_a5psw.c
-> +++ b/drivers/net/dsa/rzn1_a5psw.c
-> @@ -802,10 +802,8 @@ static void a5psw_get_strings(struct dsa_switch *ds,=
- int port, u32 stringset,
->         if (stringset !=3D ETH_SS_STATS)
->                 return;
->
-> -       for (u =3D 0; u < ARRAY_SIZE(a5psw_stats); u++) {
-> -               memcpy(data + u * ETH_GSTRING_LEN, a5psw_stats[u].name,
-> -                      ETH_GSTRING_LEN);
-> -       }
-> +       for (u =3D 0; u < ARRAY_SIZE(a5psw_stats); u++)
-> +               ethtool_puts(&data, a5psw_stats[u].name);
->  }
->
->  static void a5psw_get_ethtool_stats(struct dsa_switch *ds, int port,
-> diff --git a/drivers/net/dsa/sja1105/sja1105_ethtool.c b/drivers/net/dsa/=
-sja1105/sja1105_ethtool.c
-> index decc6c931dc1..2ea64b1d026d 100644
-> --- a/drivers/net/dsa/sja1105/sja1105_ethtool.c
-> +++ b/drivers/net/dsa/sja1105/sja1105_ethtool.c
-> @@ -586,7 +586,6 @@ void sja1105_get_strings(struct dsa_switch *ds, int p=
-ort,
->  {
->         struct sja1105_private *priv =3D ds->priv;
->         enum sja1105_counter_index max_ctr, i;
-> -       char *p =3D data;
->
->         if (stringset !=3D ETH_SS_STATS)
->                 return;
-> @@ -597,10 +596,8 @@ void sja1105_get_strings(struct dsa_switch *ds, int =
-port,
->         else
->                 max_ctr =3D __MAX_SJA1105PQRS_PORT_COUNTER;
->
-> -       for (i =3D 0; i < max_ctr; i++) {
-> -               strscpy(p, sja1105_port_counters[i].name, ETH_GSTRING_LEN=
-);
-> -               p +=3D ETH_GSTRING_LEN;
-> -       }
-> +       for (i =3D 0; i < max_ctr; i++)
-> +               ethtool_puts(&data, sja1105_port_counters[i].name);
->  }
->
->  int sja1105_get_sset_count(struct dsa_switch *ds, int port, int sset)
-> diff --git a/drivers/net/dsa/xrs700x/xrs700x.c b/drivers/net/dsa/xrs700x/=
-xrs700x.c
-> index de3b768f2ff9..4dbcc49a9e52 100644
-> --- a/drivers/net/dsa/xrs700x/xrs700x.c
-> +++ b/drivers/net/dsa/xrs700x/xrs700x.c
-> @@ -91,10 +91,8 @@ static void xrs700x_get_strings(struct dsa_switch *ds,=
- int port,
->         if (stringset !=3D ETH_SS_STATS)
->                 return;
->
-> -       for (i =3D 0; i < ARRAY_SIZE(xrs700x_mibs); i++) {
-> -               strscpy(data, xrs700x_mibs[i].name, ETH_GSTRING_LEN);
-> -               data +=3D ETH_GSTRING_LEN;
-> -       }
-> +       for (i =3D 0; i < ARRAY_SIZE(xrs700x_mibs); i++)
-> +               ethtool_puts(&data, xrs700x_mibs[i].name);
->  }
->
->  static int xrs700x_get_sset_count(struct dsa_switch *ds, int port, int s=
-set)
-> diff --git a/net/dsa/user.c b/net/dsa/user.c
-> index 91a1fa5f8ab0..f7b0630dd2b6 100644
-> --- a/net/dsa/user.c
-> +++ b/net/dsa/user.c
-> @@ -1042,15 +1042,12 @@ static void dsa_user_get_strings(struct net_devic=
-e *dev,
->         struct dsa_switch *ds =3D dp->ds;
->
->         if (stringset =3D=3D ETH_SS_STATS) {
-> -               int len =3D ETH_GSTRING_LEN;
-> -
-> -               strscpy_pad(data, "tx_packets", len);
-> -               strscpy_pad(data + len, "tx_bytes", len);
-> -               strscpy_pad(data + 2 * len, "rx_packets", len);
-> -               strscpy_pad(data + 3 * len, "rx_bytes", len);
-> +               ethtool_puts(&data, "tx_packets");
-> +               ethtool_puts(&data, "tx_bytes");
-> +               ethtool_puts(&data, "rx_packets");
-> +               ethtool_puts(&data, "rx_bytes");
->                 if (ds->ops->get_strings)
-> -                       ds->ops->get_strings(ds, dp->index, stringset,
-> -                                            data + 4 * len);
-> +                       ds->ops->get_strings(ds, dp->index, stringset, da=
-ta);
->         } else if (stringset =3D=3D  ETH_SS_TEST) {
->                 net_selftest_get_strings(data);
->         }
-> --
-> 2.47.0
->
+configs tested: 170
+configs skipped: 6
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig    gcc-14.1.0
+alpha                            allyesconfig    clang-20
+alpha                               defconfig    gcc-14.1.0
+arc                              alldefconfig    clang-17
+arc                              allmodconfig    clang-20
+arc                               allnoconfig    gcc-14.1.0
+arc                              allyesconfig    clang-20
+arc                      axs103_smp_defconfig    clang-20
+arc                                 defconfig    gcc-14.1.0
+arc                 nsimosci_hs_smp_defconfig    clang-17
+arc                 nsimosci_hs_smp_defconfig    clang-20
+arc                   randconfig-001-20241026    gcc-14.1.0
+arc                   randconfig-002-20241026    gcc-14.1.0
+arm                              allmodconfig    clang-20
+arm                               allnoconfig    gcc-14.1.0
+arm                              allyesconfig    clang-20
+arm                                 defconfig    gcc-14.1.0
+arm                       imx_v4_v5_defconfig    clang-17
+arm                             mxs_defconfig    clang-20
+arm                   randconfig-001-20241026    gcc-14.1.0
+arm                   randconfig-002-20241026    gcc-14.1.0
+arm                   randconfig-003-20241026    gcc-14.1.0
+arm                   randconfig-004-20241026    gcc-14.1.0
+arm                       versatile_defconfig    clang-20
+arm                         vf610m4_defconfig    clang-20
+arm64                            allmodconfig    clang-20
+arm64                             allnoconfig    gcc-14.1.0
+arm64                               defconfig    gcc-14.1.0
+arm64                 randconfig-001-20241026    gcc-14.1.0
+arm64                 randconfig-002-20241026    gcc-14.1.0
+arm64                 randconfig-003-20241026    gcc-14.1.0
+arm64                 randconfig-004-20241026    gcc-14.1.0
+csky                              allnoconfig    gcc-14.1.0
+csky                                defconfig    gcc-14.1.0
+csky                  randconfig-001-20241026    gcc-14.1.0
+csky                  randconfig-002-20241026    gcc-14.1.0
+hexagon                          allmodconfig    clang-20
+hexagon                           allnoconfig    gcc-14.1.0
+hexagon                          allyesconfig    clang-20
+hexagon                             defconfig    gcc-14.1.0
+hexagon               randconfig-001-20241026    gcc-14.1.0
+hexagon               randconfig-002-20241026    gcc-14.1.0
+i386                             allmodconfig    clang-19
+i386                              allnoconfig    clang-19
+i386                             allyesconfig    clang-19
+i386        buildonly-randconfig-001-20241026    gcc-12
+i386        buildonly-randconfig-002-20241026    gcc-12
+i386        buildonly-randconfig-003-20241026    gcc-12
+i386        buildonly-randconfig-004-20241026    gcc-12
+i386        buildonly-randconfig-005-20241026    gcc-12
+i386        buildonly-randconfig-006-20241026    gcc-12
+i386                                defconfig    clang-19
+i386                  randconfig-001-20241026    gcc-12
+i386                  randconfig-002-20241026    gcc-12
+i386                  randconfig-003-20241026    gcc-12
+i386                  randconfig-004-20241026    gcc-12
+i386                  randconfig-005-20241026    gcc-12
+i386                  randconfig-006-20241026    gcc-12
+i386                  randconfig-011-20241026    gcc-12
+i386                  randconfig-012-20241026    gcc-12
+i386                  randconfig-013-20241026    gcc-12
+i386                  randconfig-014-20241026    gcc-12
+i386                  randconfig-015-20241026    gcc-12
+i386                  randconfig-016-20241026    gcc-12
+loongarch                        allmodconfig    gcc-14.1.0
+loongarch                         allnoconfig    gcc-14.1.0
+loongarch                           defconfig    gcc-14.1.0
+loongarch             randconfig-001-20241026    gcc-14.1.0
+loongarch             randconfig-002-20241026    gcc-14.1.0
+m68k                             allmodconfig    gcc-14.1.0
+m68k                              allnoconfig    gcc-14.1.0
+m68k                             allyesconfig    gcc-14.1.0
+m68k                          atari_defconfig    clang-17
+m68k                                defconfig    gcc-14.1.0
+m68k                          multi_defconfig    clang-20
+microblaze                       allmodconfig    gcc-14.1.0
+microblaze                        allnoconfig    gcc-14.1.0
+microblaze                       allyesconfig    gcc-14.1.0
+microblaze                          defconfig    gcc-14.1.0
+mips                              allnoconfig    gcc-14.1.0
+mips                           ci20_defconfig    clang-17
+mips                           ci20_defconfig    clang-20
+mips                           ip30_defconfig    clang-20
+mips                        qi_lb60_defconfig    clang-20
+nios2                             allnoconfig    gcc-14.1.0
+nios2                               defconfig    gcc-14.1.0
+nios2                 randconfig-001-20241026    gcc-14.1.0
+nios2                 randconfig-002-20241026    gcc-14.1.0
+openrisc                          allnoconfig    clang-20
+openrisc                          allnoconfig    gcc-14.1.0
+openrisc                         allyesconfig    gcc-14.1.0
+openrisc                            defconfig    gcc-12
+openrisc                 simple_smp_defconfig    clang-20
+parisc                           allmodconfig    gcc-14.1.0
+parisc                            allnoconfig    clang-20
+parisc                            allnoconfig    gcc-14.1.0
+parisc                           allyesconfig    gcc-14.1.0
+parisc                              defconfig    gcc-12
+parisc                randconfig-001-20241026    gcc-14.1.0
+parisc                randconfig-002-20241026    gcc-14.1.0
+parisc64                            defconfig    gcc-14.1.0
+powerpc                          allmodconfig    gcc-14.1.0
+powerpc                           allnoconfig    clang-20
+powerpc                           allnoconfig    gcc-14.1.0
+powerpc                          allyesconfig    gcc-14.1.0
+powerpc                     asp8347_defconfig    clang-17
+powerpc                        icon_defconfig    clang-17
+powerpc                      katmai_defconfig    clang-20
+powerpc                 mpc8313_rdb_defconfig    clang-17
+powerpc                      ppc64e_defconfig    clang-17
+powerpc                      ppc6xx_defconfig    clang-17
+powerpc               randconfig-001-20241026    gcc-14.1.0
+powerpc               randconfig-002-20241026    gcc-14.1.0
+powerpc               randconfig-003-20241026    gcc-14.1.0
+powerpc64             randconfig-001-20241026    gcc-14.1.0
+powerpc64             randconfig-002-20241026    gcc-14.1.0
+powerpc64             randconfig-003-20241026    gcc-14.1.0
+riscv                            allmodconfig    gcc-14.1.0
+riscv                             allnoconfig    clang-20
+riscv                             allnoconfig    gcc-14.1.0
+riscv                            allyesconfig    gcc-14.1.0
+riscv                               defconfig    gcc-12
+riscv                 randconfig-001-20241026    gcc-14.1.0
+riscv                 randconfig-002-20241026    gcc-14.1.0
+s390                             allmodconfig    gcc-14.1.0
+s390                              allnoconfig    clang-20
+s390                             allyesconfig    gcc-14.1.0
+s390                          debug_defconfig    clang-20
+s390                                defconfig    gcc-12
+s390                  randconfig-001-20241026    gcc-14.1.0
+s390                  randconfig-002-20241026    gcc-14.1.0
+sh                               allmodconfig    gcc-14.1.0
+sh                                allnoconfig    gcc-14.1.0
+sh                               allyesconfig    gcc-14.1.0
+sh                                  defconfig    gcc-12
+sh                               j2_defconfig    clang-20
+sh                          r7780mp_defconfig    clang-17
+sh                    randconfig-001-20241026    gcc-14.1.0
+sh                    randconfig-002-20241026    gcc-14.1.0
+sh                   rts7751r2dplus_defconfig    clang-17
+sh                           se7721_defconfig    clang-17
+sh                   sh7724_generic_defconfig    clang-17
+sparc                            allmodconfig    gcc-14.1.0
+sparc64                             defconfig    gcc-12
+sparc64               randconfig-001-20241026    gcc-14.1.0
+sparc64               randconfig-002-20241026    gcc-14.1.0
+um                               allmodconfig    clang-20
+um                                allnoconfig    clang-17
+um                                allnoconfig    clang-20
+um                               allyesconfig    clang-20
+um                                  defconfig    gcc-12
+um                             i386_defconfig    clang-20
+um                             i386_defconfig    gcc-12
+um                    randconfig-001-20241026    gcc-14.1.0
+um                    randconfig-002-20241026    gcc-14.1.0
+um                           x86_64_defconfig    gcc-12
+x86_64                            allnoconfig    clang-19
+x86_64                           allyesconfig    clang-19
+x86_64                              defconfig    clang-19
+x86_64                                  kexec    clang-19
+x86_64                                  kexec    gcc-12
+x86_64                               rhel-8.3    gcc-12
+x86_64                           rhel-8.3-bpf    clang-19
+x86_64                         rhel-8.3-kunit    clang-19
+x86_64                           rhel-8.3-ltp    clang-19
+x86_64                          rhel-8.3-rust    clang-19
+xtensa                            allnoconfig    gcc-14.1.0
+xtensa                randconfig-001-20241026    gcc-14.1.0
+xtensa                randconfig-002-20241026    gcc-14.1.0
+xtensa                         virt_defconfig    clang-20
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
