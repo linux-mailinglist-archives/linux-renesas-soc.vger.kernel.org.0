@@ -1,130 +1,122 @@
-Return-Path: <linux-renesas-soc+bounces-10182-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10183-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A7E79B39D0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Oct 2024 19:59:07 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F77C9B3CAA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Oct 2024 22:29:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9D6CFB21433
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Oct 2024 18:59:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D071DB21EC0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Oct 2024 21:29:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 394331D8E16;
-	Mon, 28 Oct 2024 18:59:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 653D71E2301;
+	Mon, 28 Oct 2024 21:29:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="ptkJApp2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HRuY81L4"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD28D155A52;
-	Mon, 28 Oct 2024 18:58:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21CC01E1325;
+	Mon, 28 Oct 2024 21:29:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730141941; cv=none; b=YlDll3Nbs2vW0weDbf+1FK4aAhjYIPLbTxCq+aiY9zpZjnwFllFaLQX6LmJrTTggGqs8LITG4Mg7D1haBuYJaLm2sQsK9YX4jGUkGcHo25v1CtOaecNYEi8TcRAGP5A8XuGln7Yto66Af4waYRyLZWPEhR4K8S490HHWst0AlvM=
+	t=1730150963; cv=none; b=Q7UI2qFBf1hbE/4cDLCgY//qRNn9TVCte+hiop91SwwFpUXfjmhKibLih5OYGO5bjJTk06Xq2ceiqpL1e0obL75fcb+KBPvL0ElnUytbjYo13/BLNFsDdNN1gZ+BOcjVsJBVfDnYKh5mPU62LdTB2SLTwhO2wL+vtvSNmo/Nuhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730141941; c=relaxed/simple;
-	bh=IHbyLhkCtNTuR+x6GPSqHsMn/QWFSVYk2YCENClOhJk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IPOdjZRudkVOTZ10cu/w72qRqurkdsi7HoxPmMkxYrdVaSQfeKExqjIF3u7yyRLt14zvrphImjo8C1k7cLLZmfGdbkLd/ZSoE8ovViJCFN+UhdvUXdv9hfLxB66t41tTzzjQwlyaVjJBNMzqOYqAlbTLqed0n2qkwOdwhSZPVRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=ptkJApp2; arc=none smtp.client-ip=85.214.62.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 4E6C3890F6;
-	Mon, 28 Oct 2024 19:58:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1730141930;
-	bh=NlgNP6cg/A4M6No0PkF2AHlBLOKMxjV9Z0JaeWFDKHQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ptkJApp2qXE3ryESPPZcb0dcF0YKALRxzhGobEhMuXKqJPESuNKWfK4bmGhthDfv3
-	 KwoeGq+I+FvrbmQ7WtUZtjuKibqM+Fx2AQn5aNd+p3ojbqoRjHX9RPOQD/9jLxEUqN
-	 YtGWKS3RQRsr5FhFadHwRuZRhYyWDToo70ONSCpds7ZtSHe4qfNNDmpEjBQ+aSNd7v
-	 hK6cI9Wz2mgQpJ861GsM40UiqN+tXGnrLVFwmj2I2aPKdvMsAdT7RCTVma2GMUpn4v
-	 Qb9XlaNgYX3OCHWDnQ9HcdqFcc36yrrBnJSuS67rHZlz7KioU5kVfQP8syWpATXNW1
-	 AZ4b+dBUedr4A==
-Message-ID: <4d7d6a7d-cbe8-4cbf-9fb1-2cdec0f11ce2@denx.de>
-Date: Mon, 28 Oct 2024 19:18:41 +0100
+	s=arc-20240116; t=1730150963; c=relaxed/simple;
+	bh=KezIDZ9i66O1meSze2SMz72nMUYzJDcX1903Z6S3nNE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pyZunsk7/aoHKkzQjbrMJYYxONCw0DndUT15OPqBYfhQ7YkkitBwbjfKJvp5JmzowagP+L4ZJLh88yUTXTlTHAypqk14m5FrEolm14+pEpUKFOZvz99/g0PUTMwRjsrE+vR//X0LQ5bUyDgv5ruvnvQ0jQPx0TykwYNQnOXH+mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HRuY81L4; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-37d4b0943c7so3237562f8f.1;
+        Mon, 28 Oct 2024 14:29:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730150959; x=1730755759; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+22KUD/WDhl94ZsUNKpRglL2tk6jvU5AyElWfNP5+f8=;
+        b=HRuY81L4lw4Zi9ZZNmvzAEjpEQc6O8nZhz72NXK6ehZEgzsOuU9f3KAkPyB3mE53fz
+         1ftb7UFtXowDs23gTU/YODGYs44Y2yey5A/rtFNLSBm6SSUkv2cC3U6viQlwatziy+Mo
+         D5AA7Psmg53EgD6MRXKbPhNFuFu3WXZ1Zs+lLBCETQHcsmzs2I8FH5mWtneXt4uaWjf4
+         EmK+Buyd9ioNXBwbqOFqQJsdrBMvUbePI6ND8jlGxjsrC4mWKw4e5OgpHbj6CMpI7exo
+         lVw28I6zNTcINpU1lBtyZdNDgTFy0OPcMSV0bRHPgxCDwfJacIrDDbWP0qMOmtxu3sZF
+         ESOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730150959; x=1730755759;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+22KUD/WDhl94ZsUNKpRglL2tk6jvU5AyElWfNP5+f8=;
+        b=Ak+urfKtPDc23WMEWynf84pXjt3uW12myaWa1OPBLrN/Gt7ziBq6sdQzN+J/kAeYF0
+         OBO2flhLjHmEPPoTYBUedoJhvUhptJCwuUDW2rjz45y+XkgFsE4Vwr370+zHNoL3ctrz
+         QblgAdv6ilSm/jWefGTYlXuHYyW6xnUicK1/nOv859Uwnc6KYwrOm/KPCeN9+TLV8OVf
+         4QI+QTs1LV+VPOKO5escbTsEkXTe2yJK2KtbMjX5F4LOsQhrjGT53EccaqXZdmOM2hpS
+         aVvOoXwaBlob27MBxXRnO7TJYUwdz5NGmnrrFej35bw14qJcXXyMKOVYcLDyAlzIowPE
+         a5bA==
+X-Forwarded-Encrypted: i=1; AJvYcCUA+HYOpz0qqIwoKgmrdiENpT1I3iC4D4QOJz6OA6c3Hi2C3tsZdzi0Gh4hfr313tf0vVy3NEd5D8k=@vger.kernel.org, AJvYcCX4FjCKLs8Tg7TIRv7kitNMMzdDy0F6hwmu0gOXITnR8WSLiclTbJ7nWYukm4DRLI/3ddEZhoyUpy5J2zNT@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCgnqlsJW+db3uBHY9Ri6KBl8Xt/7mY8IqzhV5BxZr0YfoKJkO
+	XC3PWi31NjQh50iZjlhAJAGnPxwzmoHRh+ytFKU2CnHLe7QQ05eu
+X-Google-Smtp-Source: AGHT+IFp4WngF6IoigUjlDv+USPVsSl4O1Zt8HaMsq65XejiEmJpUgKxtw6k18mPFR+QNrJabzVxPw==
+X-Received: by 2002:a5d:52c1:0:b0:37d:529f:ac1e with SMTP id ffacd0b85a97d-3806120087bmr7289244f8f.53.1730150959143;
+        Mon, 28 Oct 2024 14:29:19 -0700 (PDT)
+Received: from prasmi.Home ([2a06:5906:61b:2d00:495c:4d71:e99d:a7d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431935a3edasm124360725e9.22.2024.10.28.14.29.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Oct 2024 14:29:18 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/2] clk: renesas: rzv2h-cpg: Add CRU and CSI clocks
+Date: Mon, 28 Oct 2024 21:29:12 +0000
+Message-ID: <20241028212914.1057715-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] arm64: dts: renesas: white-hawk-cpu: Move avb0 reset gpio
- to mdio node
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20240704152610.1345709-1-niklas.soderlund+renesas@ragnatech.se>
- <CAMuHMdUZAVAkPVus2T_O3sWT7f1PciRYjxm6ecLy0QUyh50OEw@mail.gmail.com>
- <d1b36858-da21-4e2a-bc54-175524a7d3b4@denx.de>
- <CAMuHMdXRhUr1My-w0+hoAhQKgOq9iwecjow4iZTh82ED5DEfdA@mail.gmail.com>
- <50b37c36-643c-4307-9d4e-ad49b306ba8a@denx.de>
- <20241015144810.GD2838422@ragnatech.se>
- <825e3b22-340c-4618-8d80-5d1b004fc0e4@denx.de>
- <CAMuHMdV9XoJHHUM42YFwackdM+oRgP4k-SwZOTwqg0RJGETViw@mail.gmail.com>
- <d6b35a1b-3f42-4071-99c1-dc87999c5cce@denx.de>
- <CAMuHMdXW332YZahLw=vzfB6fZwc_9jL8uY-Uxj=Qyfov5vYQFw@mail.gmail.com>
- <2f9df6fa-2474-4f35-af29-a1c280d5fe6f@denx.de>
- <CAMuHMdUH32upHwwY7dXqk085LDWzkOz9cBv83FezVUbi27Ygpw@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAMuHMdUH32upHwwY7dXqk085LDWzkOz9cBv83FezVUbi27Ygpw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
 
-On 10/28/24 11:13 AM, Geert Uytterhoeven wrote:
-> Hi Marek,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hello Geert,
+Hi All,
 
->>>>> So, what would you suggest when the PHY nodes would not have compatible
->>>>> strings?
->>>> I would suggest keep the PHY compatible strings, because that is the
->>>> most accurate method to describe the hardware and fulfill the PHY bring
->>>> up requirements. If the PHY changes on this hardware in some future
->>>
->>> That issue is moot for KSZ9031.
->>
->> If the PHY won't change, then we can keep the compatible strings ?
-> 
-> Sorry for being unclear. I should have written "the PHY bring-up
-> requirements are moot for KSZ9031".
+This patch series aims to add CRU/CSI clock and reset entries to the
+RZ/V2H(P) clock driver.
 
-Perhaps, (*) but odd erratas do show up every once in a while, so unless 
-you can surely say no such errata will show up for the KSZ9031, can you 
-really dismiss the bring up requirements ?
+1] patch#1:
+ Allows exclusion of specific RZ/V2H(P) clocks, such as those in the CRU
+ block, from Runtime PM using a new no_pm flag and helper function.
+2] patch#2
+  Extends the r9a09g057 driver to include PLLVDO, its related CRU clocks
+  (CRU0-CRU3), and corresponding reset entries.
 
->>>> revision, we can revisit this discussion ? Maybe bootloader-applied DTOs
->>>> could work then ?
->>>
->>> So, what would you suggest when the PHY nodes would not have compatible
->>> strings?
->> I hope I already answered that question before.
-> 
-> Sorry, I may have missed that?
-> 
-> I really prefer not having the PHY compatible strings, as DT should
-> describe only what cannot be auto-detected.
-See paragraph above (*). My take on this is the exact opposite, better 
-describe the PHY in DT fully, including compatible strings, so that if 
-the PHY driver needs to do some sort of bring up tweak/fix/errata 
-workaround/... , it can do so by matching on the compatible string 
-without trying to bring the PHY up in some generic and potentially 
-problematic way.
+Cheers,
+Prabhakar
 
-The MDIO bus is not discoverable the same way as PCIe or USB is, so I 
-don't think the "DT should describe only what cannot be detected" is 
-really applicable to MDIO bus the same way it applies to PCIe or USB.
+Lad Prabhakar (2):
+  clk: renesas: rzv2h-cpg: Add support for clocks without PM
+  clk: renesas: r9a09g057-cpg: Add support for PLLVDO, CRU clocks, and
+    resets
+
+ drivers/clk/renesas/r9a09g057-cpg.c | 45 +++++++++++++++++++++++++++++
+ drivers/clk/renesas/rzv2h-cpg.c     | 37 ++++++++++++++++++++++++
+ drivers/clk/renesas/rzv2h-cpg.h     | 18 ++++++++++--
+ 3 files changed, 97 insertions(+), 3 deletions(-)
+
+-- 
+2.43.0
+
 
