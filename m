@@ -1,223 +1,156 @@
-Return-Path: <linux-renesas-soc+bounces-10191-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10192-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EE359B439A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Oct 2024 08:56:58 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 877C49B442F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Oct 2024 09:26:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D2CE3B20B7C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Oct 2024 07:56:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B69BAB2107F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Oct 2024 08:26:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90FD82022DC;
-	Tue, 29 Oct 2024 07:56:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fWDkLlbL"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFB61202F85;
+	Tue, 29 Oct 2024 08:26:34 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 446BC1DE3C5
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 29 Oct 2024 07:56:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADAF6202F73;
+	Tue, 29 Oct 2024 08:26:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730188612; cv=none; b=J5ozPVG2yDxudhq6lFQJJlICTZMgj2ttMJ3WJNsa3dxqZBUzB4V4h8i4U/GMKozebFcK93z3+EgITE4eZ5FRnMyO9FxTkZrZOBaFiGjTim7FL3V3Tz2uI/Q/WZqshyW3Gx4cYtv6s7rt1lbgrq7QwZz8v6djw+GE3GQeuoraAIY=
+	t=1730190394; cv=none; b=mFLkBNEP6hnNd72ihzGIoBFj6aynSYh+1zdAIOZOtowfoFA0QYwP3zuLUnw581ZZW2Smiwg/7KwSatal9QFVYT1k4vySFdX2YxOog3k1z9ugsqqIE3cKz6eaL2qjaHLRAC2wudzT5d0FKg3lZA7Q/I6ha1h3DSRr/fDXfCcg/rI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730188612; c=relaxed/simple;
-	bh=QK2dwQmnjJagfc+QLFRm/Ns28NZJ1n/vCv4ygCMOha8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cF9hDjLg10DgHC3vp8MxxDKbYLLeMTCOTAKJ95ob1KnsTw3ryWvglaHxeBB/kpkrT7iE2HoobVfdc+UdpgfYtwMUWCtDC2mKtk+4WkGrocouJSpV9HgQc82SaepzndHfhkWQHoJWxxhHg+EqEE7tCKEDr9Tx6ydoLHx0StTkZj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fWDkLlbL; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730188610; x=1761724610;
-  h=date:from:to:cc:subject:message-id;
-  bh=QK2dwQmnjJagfc+QLFRm/Ns28NZJ1n/vCv4ygCMOha8=;
-  b=fWDkLlbL/5n5x+S6Hbe7oQp6pIpNpnmb2RPlfXs6VOA0kmQXX/nCbK49
-   b1ReDalaEaq33AeqZo9ARv3aw+/OiBkZPo+HyMPnP3zvb6DJ07oNQZzag
-   5hYym897Gmd8wk8MesEZ5XvW9fpdsijHjNks/0kg/iiJP39T6Wly95W6B
-   mc7o2s1dqMhwFMRoRmERAqEhZexWOvcpWNNb9rMvX3iUTFk5vamx+UkYv
-   MrrsHEruj4tkItp4wXr8fnklh0NOMF5ToOIoAyCiVi6zNBji24TDhBGOx
-   b0OpL9XR4dHdO56qDzROTVMieHTVS4/6PonzxdziV+a1H0z7pAmKt2mli
-   Q==;
-X-CSE-ConnectionGUID: 6P9hIuuSSUe6E8HnPz09hQ==
-X-CSE-MsgGUID: fX76mlIsRdSz1LftRkvjBQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40910505"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="40910505"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 00:56:49 -0700
-X-CSE-ConnectionGUID: gdWb8Q5JQK2l+wcSm2BW2Q==
-X-CSE-MsgGUID: AjWxIC96TV+tLNCAbKpNFw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="87012628"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 29 Oct 2024 00:56:49 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t5h5q-000dP6-1i;
-	Tue, 29 Oct 2024 07:56:46 +0000
-Date: Tue, 29 Oct 2024 15:56:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:topic/overlays] BUILD SUCCESS
- 967b48e9b27402b0e22b73edbdf735cccad3a6e0
-Message-ID: <202410291520.lr8t0PcZ-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1730190394; c=relaxed/simple;
+	bh=RnC4qfgRFE/VGLW4zf6D5NU7aKDjGz1UsagAG8PysoM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rrZeHX8L5i2/ouWMww6rdA56m6KRbp5Ykx0vB5Yd04yZ6NbJorZwiFN5cfxb1UKR1P+gUqFASNoT3Rs2RQ3/s6LWjiJYidDeJ20OoCWea/OkwyOvgc9qLgnUlf9hR328xo/TBRhQpGWcc8BPxUTm6JAJH914GPlg/QlzjpscuNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-6ea0b25695dso14396987b3.2;
+        Tue, 29 Oct 2024 01:26:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730190391; x=1730795191;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pcn+xCFrCB1z2Eqed9r9UGtyl6NqPSUyL74P3CcxFOI=;
+        b=a4loAd8kYXHVb8pewHNkwtfqVAZ/emQ8dHJ+Ge+XMUYS6pazjgEzy43Y9Jq42pcvRS
+         gV1Ucj+bafLbKUp0I7ye8QcXcdTReuoIJrD4v76WtdCDWf7Lg3MGQjUmbpoDLFPpZFzv
+         mjX/eGRw8/bCZgJdUSaw+yyg96ZHBe5WqNvVRuLS9TEavsgZHr0N6x5v9//H/r9nFsic
+         SCVMOxGwkC0j/XheLpvDGtAyiqt2Q/0xD3v2JsnjyyTvs31Y9xmcnf/CLqVEa7sTuJgX
+         a+cGtkFN9ePw/PaS0JggTBQihzX2kkfv4WTb2io8Bd6u3aIeO3TW7snsgyYgWEgYNGOY
+         aCCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU++B5SYoqUBJWYGbMzO5hxcFp+9o2i/LLB+oPjJIabC2jef9H51rh2t/qKkF6pOWqHl6ihn+w6/Pu7Ae3OJtS16Rc=@vger.kernel.org, AJvYcCU3SgQ2AR/yPw1FkbxHhN8/PS3S9eX9aAQLi4uLJiNTqPNeKlIVAiOYbddDw0J/biq1mnOOICeuzGG7@vger.kernel.org
+X-Gm-Message-State: AOJu0YzO4ilAvBpbTLSo3EGXacO+WqOVt9hpdSz38RDM6maNWlcLiHJn
+	cDhB3iiZBjOoFK+1CUdI+Ki3hhNkwLz5xxtnL0N7Do7c1BXTd7whPPryghpl
+X-Google-Smtp-Source: AGHT+IF6RjD78W5A2jVyi4z9PpUu+bQMfvBwcKvtxr0spcKPjOepXQt17y1cNHOhZZHQ6XuZP0ZmVw==
+X-Received: by 2002:a05:690c:60c2:b0:6de:1e2:d66a with SMTP id 00721157ae682-6e9d88ee00emr116022087b3.2.1730190390723;
+        Tue, 29 Oct 2024 01:26:30 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e9c6bde218sm18560777b3.53.2024.10.29.01.26.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Oct 2024 01:26:30 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6ea0b25695dso14396857b3.2;
+        Tue, 29 Oct 2024 01:26:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUS3yPdOAHgs2ZCoJJbSyV6Zlo4SiE8228KbkhG1hPERINwh5sW+vl+MRwTpDA0IlQEjcRNL8bz/uKl@vger.kernel.org, AJvYcCXGl4vH9xbEcdorgsgqHhdsNyvYOdCTeym6zR2Q/0YHtGO0tub+QGz1H0Ebtrp1slYdgdaHE/x1AfyGgyIoq2zeOLo=@vger.kernel.org
+X-Received: by 2002:a05:690c:6c0e:b0:6e7:fb87:7097 with SMTP id
+ 00721157ae682-6e9d88ee7afmr118796467b3.8.1730190390244; Tue, 29 Oct 2024
+ 01:26:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20240704152610.1345709-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdUZAVAkPVus2T_O3sWT7f1PciRYjxm6ecLy0QUyh50OEw@mail.gmail.com>
+ <d1b36858-da21-4e2a-bc54-175524a7d3b4@denx.de> <CAMuHMdXRhUr1My-w0+hoAhQKgOq9iwecjow4iZTh82ED5DEfdA@mail.gmail.com>
+ <50b37c36-643c-4307-9d4e-ad49b306ba8a@denx.de> <20241015144810.GD2838422@ragnatech.se>
+ <825e3b22-340c-4618-8d80-5d1b004fc0e4@denx.de> <CAMuHMdV9XoJHHUM42YFwackdM+oRgP4k-SwZOTwqg0RJGETViw@mail.gmail.com>
+ <d6b35a1b-3f42-4071-99c1-dc87999c5cce@denx.de> <CAMuHMdXW332YZahLw=vzfB6fZwc_9jL8uY-Uxj=Qyfov5vYQFw@mail.gmail.com>
+ <2f9df6fa-2474-4f35-af29-a1c280d5fe6f@denx.de> <CAMuHMdUH32upHwwY7dXqk085LDWzkOz9cBv83FezVUbi27Ygpw@mail.gmail.com>
+ <4d7d6a7d-cbe8-4cbf-9fb1-2cdec0f11ce2@denx.de>
+In-Reply-To: <4d7d6a7d-cbe8-4cbf-9fb1-2cdec0f11ce2@denx.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 29 Oct 2024 09:26:17 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVnJPMLx=39=f+7S4vdRAC-0q0hKS6Ww=ELYEaLBx+gZw@mail.gmail.com>
+Message-ID: <CAMuHMdVnJPMLx=39=f+7S4vdRAC-0q0hKS6Ww=ELYEaLBx+gZw@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: white-hawk-cpu: Move avb0 reset gpio
+ to mdio node
+To: Marek Vasut <marex@denx.de>
+Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/overlays
-branch HEAD: 967b48e9b27402b0e22b73edbdf735cccad3a6e0  kbuild: Enable DT symbols when CONFIG_OF_OVERLAY is used
+On Mon, Oct 28, 2024 at 7:58=E2=80=AFPM Marek Vasut <marex@denx.de> wrote:
+> On 10/28/24 11:13 AM, Geert Uytterhoeven wrote:
+> >>>>> So, what would you suggest when the PHY nodes would not have compat=
+ible
+> >>>>> strings?
+> >>>> I would suggest keep the PHY compatible strings, because that is the
+> >>>> most accurate method to describe the hardware and fulfill the PHY br=
+ing
+> >>>> up requirements. If the PHY changes on this hardware in some future
+> >>>
+> >>> That issue is moot for KSZ9031.
+> >>
+> >> If the PHY won't change, then we can keep the compatible strings ?
+> >
+> > Sorry for being unclear. I should have written "the PHY bring-up
+> > requirements are moot for KSZ9031".
+>
+> Perhaps, (*) but odd erratas do show up every once in a while, so unless
+> you can surely say no such errata will show up for the KSZ9031, can you
+> really dismiss the bring up requirements ?
+>
+> >>>> revision, we can revisit this discussion ? Maybe bootloader-applied =
+DTOs
+> >>>> could work then ?
+> >>>
+> >>> So, what would you suggest when the PHY nodes would not have compatib=
+le
+> >>> strings?
+> >> I hope I already answered that question before.
+> >
+> > Sorry, I may have missed that?
+> >
+> > I really prefer not having the PHY compatible strings, as DT should
+> > describe only what cannot be auto-detected.
+> See paragraph above (*). My take on this is the exact opposite, better
+> describe the PHY in DT fully, including compatible strings, so that if
+> the PHY driver needs to do some sort of bring up tweak/fix/errata
+> workaround/... , it can do so by matching on the compatible string
+> without trying to bring the PHY up in some generic and potentially
+> problematic way.
+>
+> The MDIO bus is not discoverable the same way as PCIe or USB is, so I
+> don't think the "DT should describe only what cannot be detected" is
+> really applicable to MDIO bus the same way it applies to PCIe or USB.
 
-elapsed time: 869m
+So you think this is similar to SPI NOR, where most FLASHes can be
+discovered with the JEDEC READ ID opcode?  See commit 4b0cb4e7ab2f777c
+("dt-bindings: mtd: spi-nor: clarify the need for spi-nor compatibles"),
+which clarified why no new compatible values are accepted.
 
-configs tested: 130
-configs skipped: 10
+Any guidance/opinion from the DT people?
+Thanks!
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Gr{oetje,eeting}s,
 
-tested configs:
-alpha                             allnoconfig    gcc-14.1.0
-alpha                            allyesconfig    clang-20
-alpha                               defconfig    gcc-14.1.0
-arc                              allmodconfig    clang-20
-arc                               allnoconfig    gcc-14.1.0
-arc                              allyesconfig    clang-20
-arc                                 defconfig    gcc-14.1.0
-arc                         haps_hs_defconfig    gcc-14.1.0
-arm                              allmodconfig    clang-20
-arm                               allnoconfig    gcc-14.1.0
-arm                              allyesconfig    clang-20
-arm                         assabet_defconfig    gcc-14.1.0
-arm                                 defconfig    gcc-14.1.0
-arm                            hisi_defconfig    gcc-14.1.0
-arm                          moxart_defconfig    clang-14
-arm                       netwinder_defconfig    gcc-14.1.0
-arm                           omap1_defconfig    clang-14
-arm                         vf610m4_defconfig    gcc-14.1.0
-arm64                            allmodconfig    clang-20
-arm64                             allnoconfig    gcc-14.1.0
-arm64                               defconfig    gcc-14.1.0
-csky                              allnoconfig    gcc-14.1.0
-csky                                defconfig    gcc-14.1.0
-hexagon                          allmodconfig    clang-20
-hexagon                           allnoconfig    gcc-14.1.0
-hexagon                          allyesconfig    clang-20
-hexagon                             defconfig    gcc-14.1.0
-i386                             allmodconfig    clang-19
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    clang-19
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    clang-19
-i386                             allyesconfig    gcc-12
-i386                                defconfig    clang-19
-loongarch                        allmodconfig    gcc-14.1.0
-loongarch                         allnoconfig    gcc-14.1.0
-loongarch                           defconfig    gcc-14.1.0
-m68k                             allmodconfig    gcc-14.1.0
-m68k                              allnoconfig    gcc-14.1.0
-m68k                             allyesconfig    gcc-14.1.0
-m68k                                defconfig    gcc-14.1.0
-microblaze                       allmodconfig    gcc-14.1.0
-microblaze                        allnoconfig    gcc-14.1.0
-microblaze                       allyesconfig    gcc-14.1.0
-microblaze                          defconfig    gcc-14.1.0
-mips                              allnoconfig    gcc-14.1.0
-mips                      maltaaprp_defconfig    clang-14
-mips                        omega2p_defconfig    gcc-14.1.0
-nios2                             allnoconfig    gcc-14.1.0
-nios2                               defconfig    gcc-14.1.0
-openrisc                          allnoconfig    clang-20
-openrisc                         allyesconfig    gcc-14.1.0
-openrisc                            defconfig    gcc-12
-openrisc                  or1klitex_defconfig    gcc-14.1.0
-parisc                           allmodconfig    gcc-14.1.0
-parisc                            allnoconfig    clang-20
-parisc                           allyesconfig    gcc-14.1.0
-parisc                              defconfig    gcc-12
-parisc64                            defconfig    gcc-14.1.0
-powerpc                    adder875_defconfig    gcc-14.1.0
-powerpc                          allmodconfig    gcc-14.1.0
-powerpc                           allnoconfig    clang-20
-powerpc                          allyesconfig    gcc-14.1.0
-powerpc                        cell_defconfig    gcc-14.1.0
-powerpc                       holly_defconfig    clang-14
-powerpc                       maple_defconfig    clang-14
-powerpc                  mpc866_ads_defconfig    gcc-14.1.0
-powerpc                  mpc885_ads_defconfig    clang-14
-powerpc                       ppc64_defconfig    gcc-14.1.0
-riscv                            allmodconfig    gcc-14.1.0
-riscv                             allnoconfig    clang-20
-riscv                            allyesconfig    gcc-14.1.0
-riscv                               defconfig    gcc-12
-s390                             allmodconfig    gcc-14.1.0
-s390                              allnoconfig    clang-20
-s390                             allyesconfig    gcc-14.1.0
-s390                          debug_defconfig    clang-14
-s390                                defconfig    gcc-12
-s390                                defconfig    gcc-14.1.0
-s390                       zfcpdump_defconfig    clang-14
-sh                               allmodconfig    gcc-14.1.0
-sh                                allnoconfig    gcc-14.1.0
-sh                               allyesconfig    gcc-14.1.0
-sh                                  defconfig    gcc-12
-sh                 kfr2r09-romimage_defconfig    clang-14
-sh                             sh03_defconfig    clang-14
-sparc                            allmodconfig    gcc-14.1.0
-sparc64                             defconfig    gcc-12
-um                               alldefconfig    clang-14
-um                               allmodconfig    clang-20
-um                                allnoconfig    clang-20
-um                               allyesconfig    clang-20
-um                                  defconfig    gcc-12
-um                             i386_defconfig    gcc-12
-um                           x86_64_defconfig    gcc-12
-x86_64                            allnoconfig    clang-19
-x86_64                           allyesconfig    clang-19
-x86_64      buildonly-randconfig-001-20241029    clang-19
-x86_64      buildonly-randconfig-002-20241029    clang-19
-x86_64      buildonly-randconfig-003-20241029    clang-19
-x86_64      buildonly-randconfig-004-20241029    clang-19
-x86_64      buildonly-randconfig-005-20241029    clang-19
-x86_64      buildonly-randconfig-006-20241029    clang-19
-x86_64                              defconfig    clang-19
-x86_64                              defconfig    gcc-11
-x86_64                                  kexec    clang-19
-x86_64                                  kexec    gcc-12
-x86_64                randconfig-001-20241029    clang-19
-x86_64                randconfig-002-20241029    clang-19
-x86_64                randconfig-003-20241029    clang-19
-x86_64                randconfig-004-20241029    clang-19
-x86_64                randconfig-005-20241029    clang-19
-x86_64                randconfig-006-20241029    clang-19
-x86_64                randconfig-011-20241029    clang-19
-x86_64                randconfig-012-20241029    clang-19
-x86_64                randconfig-013-20241029    clang-19
-x86_64                randconfig-014-20241029    clang-19
-x86_64                randconfig-015-20241029    clang-19
-x86_64                randconfig-016-20241029    clang-19
-x86_64                randconfig-071-20241029    clang-19
-x86_64                randconfig-072-20241029    clang-19
-x86_64                randconfig-073-20241029    clang-19
-x86_64                randconfig-074-20241029    clang-19
-x86_64                randconfig-075-20241029    clang-19
-x86_64                randconfig-076-20241029    clang-19
-x86_64                               rhel-8.3    gcc-12
-xtensa                            allnoconfig    gcc-14.1.0
-xtensa                  audio_kc705_defconfig    gcc-14.1.0
-xtensa                       common_defconfig    clang-14
-xtensa                    xip_kc705_defconfig    clang-14
+                        Geert
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
