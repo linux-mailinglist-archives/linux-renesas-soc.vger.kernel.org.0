@@ -1,115 +1,110 @@
-Return-Path: <linux-renesas-soc+bounces-10225-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10226-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6E449B6A2C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Oct 2024 18:06:49 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2283A9B6B0C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Oct 2024 18:33:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 505DC282843
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Oct 2024 17:06:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CCB841F2194B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Oct 2024 17:33:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F41B7218935;
-	Wed, 30 Oct 2024 16:57:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0482A196C86;
+	Wed, 30 Oct 2024 17:33:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kKEv3+go"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3177214412;
-	Wed, 30 Oct 2024 16:57:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDBA51BD9FE;
+	Wed, 30 Oct 2024 17:33:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730307439; cv=none; b=mpJHr/8nLS73nAk8xmBmtJ7xjqH0c2VyQl9VxmX9pYq0USsLlrlTcY8I9I2/b6tYFeWvufjzPSVDz5hPTbDCjspdXH0lc4/m+m6Vwr2MYw/dzk6JinzzVeQwd66TrpFFe0KLt1y2XOyBxoPC4SNeMElanw6wiXhpI3U01RPFO9s=
+	t=1730309608; cv=none; b=tcjB3Zag07AfaC8oupybPcCnPf/th5D3oq5sPIJFNrc0JCNrGFnPtKrrZM1DRDzuZoe7Wz985XvwCZMCJYFc4AhOAyF/3IFuGy092WuPz+aKzKomqIUkpkgsJbijIZftZD1PneRvEb75luRg8eFUQUMpZSRg3FlQ+U64Jo+4N10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730307439; c=relaxed/simple;
-	bh=bxSIYU3CBSBTCzQ7GKtuaj8AvdhX0CI7uWOSk5ymYng=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=F8Rqm9Q9h/0bEXxxtwKEfh/x4tgvgdVvdaqEPXlmBx7+Yeub8CCXrOOqJmhb9ZNEN41C1XizW4GERPgedQoWIiu9GMUNX3ua/xxZNjug07gZPHQu0826RXwgGixwenMiOhGSb/ce+uDOhwRGIxTMGr0blhQTNx8blgyaVOOci4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6ea50585bf2so3720647b3.3;
-        Wed, 30 Oct 2024 09:57:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730307436; x=1730912236;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1XE3FgSu9XcTnXklfZocWE4Oupj9j+OgThQsMBCOqNI=;
-        b=E6XnyN6v072RJLWv9wc0Oi7xGcrO/Zvqo36xamoifkzrSlZpaiuXkzfMfDkoKyHSNb
-         i0U0CeuhLKj4/bEUFbH6QZQSgNmpunMqVVNNd6Dxh7WVDw1mcUQN8OrHapDaa88z0gPA
-         plitVNR5cL+HQaFRStEZXEpPln+k26nLj3gdENoNvzLIlWMUCfMnZTMmBNgmrCGdnQMJ
-         d/c/hfJfZ0h843ZqlWzBNJ1MOW0XFbAFi35+ZOcaglk/BHR16pQPT9nOBchPnC6ymkCB
-         QVPZ0+XamDUPmeXN4UbmEp39dkoYyh09gl1FS+uv+2G9hgHpS176pgaAiXZFMH+cOkxu
-         pi/A==
-X-Forwarded-Encrypted: i=1; AJvYcCVWWjhURs2ZfKmd3QjyixriqNx9CUCjrHKuqmpNfUX1HACZd2ddYa4aBymGE7UQVW8lMckMMbsHDyE=@vger.kernel.org, AJvYcCWKsKquq4XZ78BRVF+Lj4R/3s1GCNhCVzv1nqFVXoD6yZwDQgcuAxm6mua1bHEUySSolOc5yC4W63ZT4KZB@vger.kernel.org, AJvYcCWsT5Nd8JR4DyevxrNW40G+NorhdxwYvfjJ0VGQwnsP7VFR7T0FjWijFvSweqREWoV7HjOX0HSQxrvK23GMDW28OPU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJXR8l2EMMyFyVhi9IiYI+lIf6GA7cCZo3qCoPisr1A5SiIvFP
-	VpTyifUsbRkT3qjVKj2hAWgUeoAp/d2TASCYfA0c1K2fBWgkxewhewMLfG2G
-X-Google-Smtp-Source: AGHT+IHNXb0KvYiTpVRX8c1BtYoXZiTENpcCLNWUST78az/lH2rR6dwnyb6/3YGUhQ1m/WXAXUXLXg==
-X-Received: by 2002:a05:690c:3506:b0:6dd:c474:9cd8 with SMTP id 00721157ae682-6e9d8a1e730mr176243267b3.18.1730307435745;
-        Wed, 30 Oct 2024 09:57:15 -0700 (PDT)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e9c6c1965asm25301817b3.72.2024.10.30.09.57.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Oct 2024 09:57:14 -0700 (PDT)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-6e2e41bd08bso83437627b3.2;
-        Wed, 30 Oct 2024 09:57:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU4ZrMe0Koz/y0hOsTwqSDJHKiiaKN9kLDsgPHXTO6FB1dCygLqs8JflL+8N6jkv/WWaYt7G0JwtLQ=@vger.kernel.org, AJvYcCVq0Fn1cVOf88onIkA7lsGbmavIG2iGIqq3+/vrPjVa3Tx78tsyba19DjWeK5UKb8087+LdjSC2DQpLoqoK@vger.kernel.org, AJvYcCWLckINPAMKQsqVf8RhU1CiXw5jhViIKlCBKvyJ7vupZTP6PSMyZq56QzPHJ8s7fk5W1odXT4caemaMMXBBliVU1JE=@vger.kernel.org
-X-Received: by 2002:a05:690c:61c9:b0:6e3:34b9:961d with SMTP id
- 00721157ae682-6e9d8b8964cmr176430387b3.38.1730307434060; Wed, 30 Oct 2024
- 09:57:14 -0700 (PDT)
+	s=arc-20240116; t=1730309608; c=relaxed/simple;
+	bh=E9S/71MirN4Ep5daxial7MdVtjN9O1iMQukaePnlYbg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=SUtDZeIUoqltwtLcBdeEbGrdPZ04tn+KkZBA03MGm3jWhH8/rCGShLNNsy/k4REecLgzpThR1iZ8A6K2c1viUn1/RKZJvJcSHmWRMEQh0AU5MkaO1qtjb3ZWQalH2gtA+UWCcgv9dhduPjkK/DZUKl+CpKWtYS5saa3IDjFKB3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kKEv3+go; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 069A5C4CECE;
+	Wed, 30 Oct 2024 17:33:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730309608;
+	bh=E9S/71MirN4Ep5daxial7MdVtjN9O1iMQukaePnlYbg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=kKEv3+goxeYyTwKFqRPioAO9kv9/7RXFDh2aqsqXNE6XqygoLhn3qwyVUFugWEK97
+	 cYhdyLM2FHLqC40B8rh5Gs4yOgcKRNPFVxDe2D8b0DaUAqev2NalKfyPN47CyI/R+L
+	 YqDomEv1eJv+cA+Fl6o1Ki2MW7M/fAjjLfvVKeKcp1DyUhHK3NO1Lhglb+V71MD7WI
+	 FH4QoQV/o2mYYqoFXka4X+FivmhoUZ3vLEX2mZpj44g7LMiS9uT6+4iKnD7Le/ddi5
+	 8CRO/aLt7Kqgql4GAPdHLimJmw7+koWffdEkj59IxdxCb78TA+WAATwEXKK6oG5bLW
+	 H3njCI7xW/CHw==
+From: Mark Brown <broonie@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Prabhakar <prabhakar.csengg@gmail.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20241021201349.395022-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20241021201349.395022-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: (subset) [PATCH v2 0/4] ASoC: Rename "sh" to "renesas"
+Message-Id: <173030960575.47565.8642908842032187075.b4-ty@kernel.org>
+Date: Wed, 30 Oct 2024 17:33:25 +0000
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241028212914.1057715-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20241028212914.1057715-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20241028212914.1057715-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 30 Oct 2024 17:57:01 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX5z5APK7JWtnqBBmtPpFYx_G1d_k9yxbv8vnvyuTsEWA@mail.gmail.com>
-Message-ID: <CAMuHMdX5z5APK7JWtnqBBmtPpFYx_G1d_k9yxbv8vnvyuTsEWA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] clk: renesas: r9a09g057-cpg: Add support for PLLVDO,
- CRU clocks, and resets
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-9b746
 
-s/r9a09g057-cpg/r9a09g057/
+On Mon, 21 Oct 2024 21:13:45 +0100, Prabhakar wrote:
+> This patch series aims to rename "sh" to "renesas", along with this
+> the references to this path have been updated.
+> 
+> Note,
+> - This patch series applies on top of [0] + [1]
+> - This change was agrreed based on the discussion [2]
+> 
+> [...]
 
-On Mon, Oct 28, 2024 at 10:29=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.=
-com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Add support for the PLLVDO clock and its related CRU clocks and reset
-> entries in the r9a09g057 CPG driver. Introduce `CLK_PLLVDO` and associate=
-d
-> clocks like `CLK_PLLVDO_CRU0`, `CLK_PLLVDO_CRU1`, `CLK_PLLVDO_CRU2`, and
-> `CLK_PLLVDO_CRU3`, along with their corresponding dividers.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Applied to
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Gr{oetje,eeting}s,
+Thanks!
 
-                        Geert
+[1/4] ASoC: Rename "sh" to "renesas"
+      commit: c0aba02cdc1afde6c2349db95ad36b9532b42a37
+[2/4] ASoC: renesas, rsnd: Update file path
+      commit: 94c0a8a10f05782a4426a67343e3081601ad3f1a
+[3/4] ASoC: audio-graph-card2: Update comment with renamed file path
+      commit: 1b3130e9e77e4286a2e495b4b3c3efcf54848633
 
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
 
