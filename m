@@ -1,153 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-10228-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10229-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C56569B6C39
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Oct 2024 19:34:27 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D19D69B6C5B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Oct 2024 19:57:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2E446B22498
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Oct 2024 18:34:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8911E1F2233A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Oct 2024 18:57:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA1761CC15C;
-	Wed, 30 Oct 2024 18:34:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AC341CDFDA;
+	Wed, 30 Oct 2024 18:57:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=metux@gmx.de header.b="PxEy5NXZ"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="lUebFpWw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B3301C8FD6;
-	Wed, 30 Oct 2024 18:34:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F14371C460A;
+	Wed, 30 Oct 2024 18:56:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730313257; cv=none; b=B0KTBEc4E62GdwM7/Up6MXTpJoc1AU4/ArAVkSaWzlR6F2pua3xnNXQSJZVvX4uUnkK0a8IEhs6gCOjX/MJpzrCoipq6OcF2GXl8dfXoi3/MDDz6/xok48hyUBEYRP1xo6o9jLp24oLIZyHZ4z7DxWaiymeHtxc5S2iSEo65xEk=
+	t=1730314622; cv=none; b=HoMTM/rLmVUcdlMC54HZQluwYgumsXRtT47mfVlmL+ubrtGJyutCD+lTDNZ3zeP1/HT96bpDnZV8GcAth59vMiBj5ElYuwxpSF3UoLLkWvGOtvIU/AzCDNsL4k6QZPTcu9FZBopZG3pz7WF3CL1xjZ336bEZTBtY0OKNZ4BQT9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730313257; c=relaxed/simple;
-	bh=qVSlmDSlEDWcfpve3SDrSeg/8UVEvUP9GHMSIPm116o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pUgiykXD8ZYfHcNKWjA03W96/5PVfA1CbEW4W/CmMvBKPAQuowXgHTTjKYT620nVQN2XXyxrMmc2667x27n9GX47FU3S7/E+9GzaTIucjPxq9qh9AwFRL0WDBYb9uQEEd0uvHGI2CahOPapHrUAGwor3MY6mXKESB7shde+IHMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=metux@gmx.de header.b=PxEy5NXZ; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1730313146; x=1730917946; i=metux@gmx.de;
-	bh=qVSlmDSlEDWcfpve3SDrSeg/8UVEvUP9GHMSIPm116o=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=PxEy5NXZPnL/khf+ZM27BR9NEpxVSB3HZ/B8yIFsHo+4hMZE6ntqAJmMaxw7Xseo
-	 gaIIZIwwVO9VT8D2ZAyDVhi2PZiaScE1eknfpKrAKCIAemHMxOAxaoyTqpoE6Jeu7
-	 2U5iwP9MNWVVH34yc3A/eCCC2GfvO3KMgzMKRz4LtjlKhERpzpOUHDIyJEVFIhMaJ
-	 3r3mGdjZDZfdrTPKDAPGxgg+EXB4TEBE4sp9lE0/MkWyfyC3o93hE/PEShWUOIUZS
-	 sq3039eZOOaH0CEL5pPa8D+gdQAgjz3j5h71lTqlNcOunuwf9c5sdbaOcoAZ/KV7z
-	 GdU/W9tMEPE+WiJERw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.178] ([77.2.112.201]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mr9Bk-1tbeU32akI-00j5Eb; Wed, 30
- Oct 2024 19:32:25 +0100
-Message-ID: <2cf94b06-fbaf-4c04-941a-4de052a5c484@gmx.de>
-Date: Wed, 30 Oct 2024 19:32:59 +0100
+	s=arc-20240116; t=1730314622; c=relaxed/simple;
+	bh=M2a6h53NauRwweWqJhmomgrB2HPYYLMaW/NVf9W7CI8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MOlJtfmtYTxQGdf4lys6OiGskI1jSKbaDtcjo68PvrYGD7CWr0gb80DYHhHLoIMMgaga98ZQAXQ51cp+2s06kdXZTQd/GdXgtokUQbjkV0/zP30UB+9RToi89Bhrlzp1qchhAAME6hzIiGqgOQgBh9PP86yvoZN/n6RUNoGfdRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=lUebFpWw; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 13520C0006;
+	Wed, 30 Oct 2024 18:56:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1730314617;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FzkcjRxagUY36d1VDj7H15a6opD55PTVefEIMiGCuaU=;
+	b=lUebFpWwx1tewUnpH2diNVSx+7wBPUQD5JnQhUsryh4AKx7xfoLVUZUvG54jmuF71U8P7W
+	C/Kyzn4GgW7cSpODleV0fKNh1/czzOwAH6XMC3Kmp03nS5dsOZ2ffhsc+MNpeJe/k2/Ozc
+	g+Z6C/BVZe4hUsg5W42CdU3uVG9QGOjr7mcV3YWn2o3I67YyYAe8yjQRmJh6V8tnNv2SR1
+	G/zNZ1ZOUq/oZrqgoAro60YpBuqspb4nLwt6uUUME3hO+vPeO2stab7xN7jMxURRlRBk3J
+	eijp4Tnz4BDf1xkgXVtJCx+1GLwybFyx3QKw/iLTHYJsyQMY9NCzrsYXfYO47g==
+Date: Wed, 30 Oct 2024 19:56:55 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: mturquette@baylibre.com, sboyd@kernel.org,
+	Claudiu <claudiu.beznea@tuxon.dev>, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, magnus.damm@gmail.com,
+	p.zabel@pengutronix.de, linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH v5 00/10] Add RTC support for the Renesas RZ/G3S SoC
+Message-ID: <20241030185655bfd883a8@mail.local>
+References: <20241030110120.332802-1-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdUwW98riCJ0VfZMzf59Lb4-gRm740z7mnSDQDTfQSJzWw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Kernel maintainer *CENSORED* on LKML [WAS: linux: Goodbye from a
- Linux community volunteer]
-To: =?UTF-8?Q?Dragan_Milivojevi=C4=87?= <d.milivojevic@gmail.com>,
- metux <metux@gmx.de>
-Cc: "Enrico Weigelt, metux IT consult" <info@metux.net>,
- Peter Cai <peter@typeblog.net>, phoronix@phoronix.com, Goran
- <g@odyss3us.net>, James Bottomley <James.Bottomley@hansenpartnership.com>,
- Serge Semin <fancer.lancer@gmail.com>, Jon Mason <jdmason@kudzu.us>,
- Dave Jiang <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>,
- ntb@lists.linux.dev, Andy Shevchenko <andy@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Kory Maincent <kory.maincent@bootlin.com>,
- Cai Huoqing <cai.huoqing@linux.dev>, dmaengine@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, linux-spi@vger.kernel.org,
- Damien Le Moal <dlemoal@kernel.org>, linux-ide@vger.kernel.org,
- Paul Burton <paulburton@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Arnd Bergmann <arnd@arndb.de>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- linux-mips@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- linux-pci@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Andrew Lunn <andrew@lunn.ch>, Russell King <linux@armlinux.org.uk>,
- Vladimir Oltean <olteanv@gmail.com>, Keguang Zhang
- <keguang.zhang@gmail.com>, Yanteng Si <siyanteng@loongson.cn>,
- netdev@vger.kernel.org, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
- linux-hwmon@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrew Halaney <ajhalaney@gmail.com>, Nikita Travkin <nikita@trvn.ru>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Alexander Shiyan <shc_work@mail.ru>, Dmitry Kozlov <xeb@mail.ru>,
- Sergey Shtylyov <s.shtylyov@omp.ru>, Evgeniy Dushistov <dushistov@mail.ru>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Sergio Paracuellos <sergio.paracuellos@gmail.com>,
- Nikita Shubin <nikita.shubin@maquefel.me>,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Kexy Biscuit <kexybiscuit@aosc.io>, jeffbai@aosc.io,
- Linus Torvalds <torvalds@linux-foundation.org>, "[DNG]"
- <dng@lists.dyne.org>, redaktion@golem.de, dev mail list <dev@suckless.org>
-References: <2m53bmuzemamzc4jzk2bj7tli22ruaaqqe34a2shtdtqrd52hp@alifh66en3rj>
- <e7d548a7fc835f9f3c9cb2e5ed97dfdfa164813f.camel@HansenPartnership.com>
- <6beb4070-1946-4387-bd0e-34608a76b19e@typeblog.net>
- <CALtW_agj1rurb3DRrPd9o2mkfku5fq_M3CEKY5sW+Zz7shKYHA@mail.gmail.com>
- <6d37175d-1b0b-4b82-80f0-c5b4e61badbf@metux.net>
- <2f12ee89-af9f-4af1-8ec8-ede1d5256592@metux.net>
- <CALtW_agiJyX3sTaBKgwPF7X920=+fFrRgXMPt4x_GCDOMfZy_w@mail.gmail.com>
- <CALtW_aimN531aZKSSG4hVLeQDk6bUoujopkhCh57xsaxfJrYgA@mail.gmail.com>
- <b410a7fb-58c0-4d17-b818-54ec3476833a@gmx.de>
- <CALtW_ah07h7h6eNHHGNNeKzVkNi7hVOG3q4Pv9DNacpXgve5Sw@mail.gmail.com>
-Content-Language: tl
-From: metux <metux@gmx.de>
-In-Reply-To: <CALtW_ah07h7h6eNHHGNNeKzVkNi7hVOG3q4Pv9DNacpXgve5Sw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:RwtMXzTkBDRWvHmp0Kk6XRNw8KkUfi9Grj7L3bmCj6cM8b4QBRJ
- nNQyNDflw/d6PbexIox9ShCoDZ/pcYmmDaszMMRbbihXY91rMPHcT/ve1uP86sxKdRx1g1E
- LMIpkJ9atodTw+nhg14XzBrSVxLSAAYObFblsohBrRQc7SmScMKCDm1cN4U3B+pQtjnpw4U
- MI13I3wb6wItEr6vDq2pA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Ui1bpSsuH8A=;dfPECkdyGYjzvQovpk1mLrv2yHW
- Y6UHJ1D/kuELphaY3MXcMXRxjPPUeT4qliBwr9JiO9sSSiMATtjINoXzJwb//1wKiimLswgG4
- KDUFZoy+92BvMG+CVaIbYt4kN50oREhek7P4SWst1Gq32A+C0vNGj1E/0w6PCHq9Io9ZJfO1Q
- bDgdGgHMkRQP4TDh16fgjvk9XLm73lW1IiLywMwb+NAnzND/V6i9u73hcpclC4sKmB42YfOUP
- 3TDY4n8NPogsIMw+oAxoN3FAdnXbRgR+hiZfdYQdFrgyZNt69oCItyIphSgp9NNsaLpsDQbcd
- sOt72shhxR7lF3e8Pmsrc0osdQVDieXS1+Tf0Tf6tFeVvczmApP8pGBIXdDZe7KHQ0TaIDrSS
- hIa9kkTXO+J03hOC2vgze0XupDmJLEo6lzAXydh63tJyp4+B4Wvw11KH8YG5b09K/aeEMFNIA
- kbjVNCObPDtDfmcW8DVNFkVRzOGX3NgE2DGCtMdkjDXXTlE7C8gwDxeTiHZpfTyRh/ze0/wSh
- 43GBM3VR3f7DfeMf3FYyeUtAIjiLAbpeFjFvY0+0jcuf9YT8kiq6D3OEOkdMZWuirHh11f0Im
- EFP4HsracvNPaXIJAhWnNfwipO+FqRgiOoN5QRpQ/7JREIE5DlZC5k0p5HvwJlNjZpn1En4nH
- rgh9PWpEFZO48or7kZK4TJ4pUAje+KBL4bUX6rqdeVCJI1LGKwf5v9Kcw3fs56EuwMx/T6UBv
- hwxLAiR8QA7f+DL5wb9rPG+vvGcKkAh12qDvjGHGPER7zTudE+IvVxJamN3IX2COy9jQrLqUN
- Z0+GnYzHGDOFp8mvjBuCZmEA==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdUwW98riCJ0VfZMzf59Lb4-gRm740z7mnSDQDTfQSJzWw@mail.gmail.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 
-On 30.10.24 14:57, Dragan Milivojevi=C4=87 wrote:
-> On Wed, 30 Oct 2024 at 14:48, metux <metux@gmx.de> wrote:
->
->> Do you have some evidence that Devuan's mail server is really blocking
->> us ?
->>
->> If so, I'd be exceptionally surprised.
->
-> Well it's blocking me that's for sure. Reject message attached.
+On 30/10/2024 16:50:43+0100, Geert Uytterhoeven wrote:
+> Hi Mike, Stephen, Alexander,
+> 
+> On Wed, Oct 30, 2024 at 12:01 PM Claudiu <claudiu.beznea@tuxon.dev> wrote:
+> > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> > On the Renesas RZ/G3S SoC the RTC clock is provided by the VBATTB
+> > IP. A 32 KHz crystall oscillator could be connected to the VBATTB
+> > input pins. The logic to control this clock (and pass it to RTC)
+> > is inside the VBATTB IP. For this, the clk-vbattb driver was added
+> > (patches 01-03/12).
+> >
+> > Patches:
+> > - 01-03/10: add VBATTB support that provides the RTC clock
+> > - 04-05/10: add the RTC driver
+> > - 06-09/10: update the device trees with proper nodes to enable RTC
+> > -    10/10: enable proper config flags for RTC to work on RZ/G3S SoC
+> >
+> > Merge strategy, if any:
+> > - clock patches (01-03/10) need to go though the same tree because of
+> >   patch 03/10 using the devm_clk_hw_register_gate_parent_hw() introduced
+> >   in patch 02/12
+> 
+> Once Mike/Stephen are happy with 02, I can queue patches 01-03 in
+> renesas-clk.
+> 
+> > - RTC patches (04-05/10) can go though RTC tree
+> > - DTS and defconfig patches can go though Renesas tree
+> 
+> Patches 06 and 08 I can queue in renesas-devel soon.
+> For 07 and 09, I am waiting for feedback from Alexandre on the RTC
+> DT bindings.
 
-Are you subscribed to this list ?
+I'll take 4 and 5 this cycle.
 
-I recall something like it's subscribers-only (once fell into the trap
-and tried to post w/ wrong address).
+> 
+> Thanks!
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
 
-
-=2D-mtx
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
