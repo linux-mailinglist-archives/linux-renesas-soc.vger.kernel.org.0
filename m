@@ -1,71 +1,71 @@
-Return-Path: <linux-renesas-soc+bounces-10204-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10205-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDD889B60C5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Oct 2024 12:01:59 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E13D9B60CC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Oct 2024 12:02:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 959001F239C4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Oct 2024 11:01:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1DAD8B22C7F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Oct 2024 11:02:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACFE61E47D7;
-	Wed, 30 Oct 2024 11:01:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE7271E571F;
+	Wed, 30 Oct 2024 11:01:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="nLl/cCke"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="U6YqpcKC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0570A1E4106
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Oct 2024 11:01:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE45C1E47BD
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Oct 2024 11:01:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730286104; cv=none; b=Er4gSuRu++l14YIdo8Xm8oiMxz0jd3cuxvs+LqUpKgypYQJx4GGWdfQWcPGzqeQ+m3k8smtATixnAsIn1MEkTpZ+JiTYpLJ3mtmviaMxyu8lYIsODrzCLEal4teIoiXCtv+jN4KFXNZJ3C+fA0Ty+klDDdZdaBAYed1Vxe8Iphw=
+	t=1730286106; cv=none; b=o+cbxNG01gl3y+1NfYwQ9Sq3wbwd0ZS1tWBpdsRyyeZu5YL5/gqG6MtOcwOtAdqmvAnTWW11NAJpnfnUIg3vlNZlM9IbTF0MEmCc3ChU5jFeYfavJ0+muUHaoIi3lN967hHJBUeqXcGimuapCPsuX9zryjEi/EXuycE1SqhBUvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730286104; c=relaxed/simple;
-	bh=BmdIaibnqlMskUSKL0DNaHvY6ItL8yLeys+bv/Ts46I=;
+	s=arc-20240116; t=1730286106; c=relaxed/simple;
+	bh=XV/Qlyw5O0x2GBrEZ1EKh9SbkIyZCTJ3iMTVDkj+CCY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=rtXF66jRAizMj0Unp5W4SEFXQ0c7OL1t3PPYGbk4yYwt9zh5XMhNBU30WM5MKyD13rBkizM/HtFW8Kiy+OZbq/5rjynC+o5HZv6CDjJlfGRs+qbg+x6xCufvmrrcqIET/IzNctUuEcFU7px0edzG6ODq2v/JE3f0kLLjXtTfmLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=nLl/cCke; arc=none smtp.client-ip=209.85.128.51
+	 MIME-Version; b=V7ZkFDcKMNQRIG45cdAlXO8LZb4qkQevmwrEiU2pNcZJZllV5Q7jGTppPWFxUxF6Ng8VQcjWuL53oppOKXqCw0whXJK8/w7PL8yOWfcLb41bSOEBNgTWp0WQomaJPduiwZnqNIUJqZtWp46Aw57c2cfA/QTJAjbBiSXtJjHWVwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=U6YqpcKC; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-431481433bdso62047285e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Oct 2024 04:01:41 -0700 (PDT)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43161c0068bso59997605e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Oct 2024 04:01:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1730286100; x=1730890900; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1730286102; x=1730890902; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4zIqqwXla8XXFQks2xCDUhtmqZI6NDOV+FlaKIa//Ps=;
-        b=nLl/cCkeuXU+yKlPGRjfPx4/s4488pBItGx5FAtD9mqGZiiWOmvOMi9XEbMmBzwOF7
-         njfJGAWDt1f1x4va8++DcRRr0qUzdpeLaozyqHtys1yNclkaPUJDON11m7wtyco9zpPJ
-         iHoKPtxh96iozsimKQ1Q1WSTieVPvMn7VdEavPKjmrAEMAr86pTrhCUg7SgBC48FEz+I
-         wrXceotnDLYlIezgOUSSTWNWhrGtEATLe9PucDX+ByLPqrPLBCD/fDizQ19/VS4hB7uh
-         y0B/bUVD+mUReUm2PskngAO/Ycp44UPSsaex3j/nKCdLGeQ/auOGtpZX0gBJOkBCgZu9
-         rI1Q==
+        bh=Q5jMJgoG95XOAacDcXbjb/TlnRn6Yww+ugS+rzM6glY=;
+        b=U6YqpcKCDffc7cpo0dXE6U0Syton5VMfFqRfyH4LdlN2/fTlBDQjoRWKRtmlTLXEIt
+         Cj/9IWh4tDl5lf6DSaKUv4ngoqiATu7EenazlJmEFLixM8ym7nzClWf4yDo/vZZeuwre
+         csTY8uYfIwhpEILfLWhNRTS0s3d3ecJnHuZB/fFZoL0nT1Q3Xdw/1rRxF8PakUcsVa7+
+         anqUmu4AfmdiRaF+M1myBCSIVtF3rV0Ksi/9YcLwVk34aPBZMSwjgDswb1TodQaqbw2p
+         gMvYaGaKqKG3IwM0yA1tiX3lewlG0aq62np7Ka3aQ76AonMReWxxlRbSqCM81+2tl3On
+         w18Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730286100; x=1730890900;
+        d=1e100.net; s=20230601; t=1730286102; x=1730890902;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4zIqqwXla8XXFQks2xCDUhtmqZI6NDOV+FlaKIa//Ps=;
-        b=u/KO8o8/V4ZZWm/wfQ7u35Vfr/sj19LEZaqgzwBFWrrpcUfTYdtUPDqaKU92ZCclLb
-         OGnTf8hlWmfIcKTQBqYxzq/DQyjURTPVU1BhrI2GfKGp7gtu86LI71Hp9E2Stzixic6/
-         SIZRsOEZI3CiJ199F6EiSDQ43SksjtwRcaNQamqGKN7uE9QupqWHYpZJl+6y3LcY5HJS
-         6ucRXd0YPIt1Q4O+8jqyhLaBddXVfZgP9+Tr/fFsV1HF6+Pfs+hbFtGOqN/NdiVKG/jh
-         v45DMuEriDI/EmfpSP3Ogo6hTu9VdRQvzLSQ89Rxgw7ZYsBWvM5JoP9Wx7UjwyLeZPXc
-         DDyw==
-X-Gm-Message-State: AOJu0Yz8xqzG6s0Y8vRfNo3/rtlnVHc9FuiFZsEBsL7lDOyax6uz9mde
-	D1CJslQLP0AwHAEKzpX+GZnN60GihRmVUPqzrTwU53ad5WoPujyUFH1FcjXSS7k=
-X-Google-Smtp-Source: AGHT+IEzFYp8eHXbfgCK6D2romhGEawaY5yFHitwbM0KqZrPl9MhxCwPdoh5AirYsRT0AM+eT9M2fw==
-X-Received: by 2002:a05:600c:3b16:b0:431:58bc:ad5e with SMTP id 5b1f17b1804b1-4319ad0b8a9mr120556035e9.28.1730286100253;
-        Wed, 30 Oct 2024 04:01:40 -0700 (PDT)
+        bh=Q5jMJgoG95XOAacDcXbjb/TlnRn6Yww+ugS+rzM6glY=;
+        b=qf7YRzhIqXvHYdRn0P95te95oXuiGBwXW2umsi87Wp3YcrgcdTrBIdKNQy+kMX7yjc
+         UvW7aH2eKFgMiCpt2lWH7t6qLVCCJKsELN3bX7CitFFQaHMjpQuKOdK7/O2iy5kq4bYj
+         fkld2HBHxkEoe0g8UFdgHuO1OARywy/kvhIoYHsr3wqM0edpYsjqYpXG8xhuRiAZaDup
+         PoglwR6x0ArLjpm9bQaO5Dte6L69ISqU/kBgBT0wRmI0mJ/dVM1pN95bc74PHskkRFN7
+         fguzW0TwrXEnjNG0zPVtz2Ve4eivx79/LeFfd94G1wWaj507muOZbCZEFG12l59GO2wr
+         +HzQ==
+X-Gm-Message-State: AOJu0YwMx6a2ufSMTDoBc2lkKzy/4PxZPdo6g8nhPkRwT2PZUY9gNSNX
+	56T84Odh623iofHAjAMGheGffbfe6okaoWYjUgS5/9ryvWZq6J9U/RLQztcCkHE=
+X-Google-Smtp-Source: AGHT+IFmFwJJ0ufsoUOu1khJaP/6/a9dAYPQCY28++3H8CGwqztdgu3NntxDTlQgRgR/516shIZFpA==
+X-Received: by 2002:a05:600c:35d3:b0:42c:c401:6d8b with SMTP id 5b1f17b1804b1-4319ac7832dmr131351465e9.7.1730286101965;
+        Wed, 30 Oct 2024 04:01:41 -0700 (PDT)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.190])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431bd99edebsm17956935e9.45.2024.10.30.04.01.38
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431bd99edebsm17956935e9.45.2024.10.30.04.01.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Oct 2024 04:01:39 -0700 (PDT)
+        Wed, 30 Oct 2024 04:01:41 -0700 (PDT)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: geert+renesas@glider.be,
@@ -85,9 +85,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	claudiu.beznea@tuxon.dev,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v5 02/10] clk: linux/clk-provider.h: Add devm_clk_hw_register_gate_parent_hw()
-Date: Wed, 30 Oct 2024 13:01:12 +0200
-Message-Id: <20241030110120.332802-3-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v5 03/10] clk: renesas: clk-vbattb: Add VBATTB clock driver
+Date: Wed, 30 Oct 2024 13:01:13 +0200
+Message-Id: <20241030110120.332802-4-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20241030110120.332802-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20241030110120.332802-1-claudiu.beznea.uj@bp.renesas.com>
@@ -101,54 +101,325 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Add devm_clk_hw_register_gate_parent_hw() macro to allow registering
-devres managed gate clocks providing struct clk_hw object as parent.
+The VBATTB IP of the Renesas RZ/G3S SoC controls the clock that is used
+by the RTC. The input to the VBATTB could be a 32KHz crystal
+or an external clock device.
+
+The HW block diagram for the clock generator is as follows:
+
+           +----------+ XC   `\
+RTXIN  --->|          |----->| \       +----+  VBATTCLK
+           | 32K clock|      |  |----->|gate|----------->
+           | osc      | XBYP |  |      +----+
+RTXOUT --->|          |----->| /
+           +----------+      ,
+
+After discussions w/ Stephen Boyd the clock tree associated with this
+hardware block was exported in Linux as:
+
+vbattb-xtal
+   xbyp
+   xc
+      mux
+         vbattbclk
+
+where:
+- input-xtal is the input clock (connected to RTXIN, RTXOUT pins)
+- xc, xbyp are mux inputs
+- mux is the internal mux
+- vbattclk is the gate clock that feeds in the end the RTC
+
+to allow selecting the input of the MUX though assigned-clock DT
+properties, using the already existing clock drivers and avoid adding
+other DT properties. If the crystal is connected on RTXIN,
+RTXOUT pins the XC will be selected as mux input. If an external clock
+device is connected on RTXIN, RTXOUT pins the XBYP will be selected as
+mux input.
+
+The load capacitance of the internal crystal can be configured
+with renesas,vbattb-load-nanofarads DT property.
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
 
 Changes in v5:
-- none
-
-Changes in v4:
 - collected tags
 
+Changes in v4:
+- dropped oscillator from patch description
+- s/on-board/internal in patch description
+- updated dt-binding included file name in the driver as it has been
+  renamed to include/dt-bindings/clock/renesas,r9a08g045-vbattb.h
+- dropped the "_BIT" from driver macros
+- used "quartz-load-femtofarads" dt property instead of adding a new one
+- register the "vbattclk" as critical clock as this feeds the RTC counter
+  logic and it needs to stay on from the moment the RTC is configured;
+  along with it, added a comment to express this.
+
 Changes in v3:
-- none; this patch is new
+- updated patch description
+- dropped dependency on MFD_RENESAS_VBATTB as now there is no
+  driver built under this flag
+- dropped include/clk.h
+- added pm_runtime and reset control support
+- updated register offsets
+- registered 4 clocks: xc, xbyp, mux, vbattclk using generic
+  clock drivers
+- added MODULE_DEVICE_TABLE()
 
- include/linux/clk-provider.h | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+Changes in v2:
+- updated patch description
+- added vendor name in Kconfig flag
+- used cleanup.h lock helpers
+- dropped the MFD code
+- updated registers offsets
+- added vbattb_clk_update_bits() and used it where possible
+- added vbattb_clk_need_bypass() to detect the bypass setup necessity
+- changed the compatible and driver names
 
-diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
-index 75444e250a78..a49859ef3304 100644
---- a/include/linux/clk-provider.h
-+++ b/include/linux/clk-provider.h
-@@ -622,6 +622,24 @@ struct clk *clk_register_gate(struct device *dev, const char *name,
- 	__devm_clk_hw_register_gate((dev), NULL, (name), (parent_name), NULL, \
- 			       NULL, (flags), (reg), (bit_idx),		      \
- 			       (clk_gate_flags), (lock))
-+/**
-+ * devm_clk_hw_register_gate_parent_hw - register a gate clock with the clock
-+ * framework
-+ * @dev: device that is registering this clock
-+ * @name: name of this clock
-+ * @parent_hw: pointer to parent clk
-+ * @flags: framework-specific flags for this clock
-+ * @reg: register address to control gating of this clock
-+ * @bit_idx: which bit in the register controls gating of this clock
-+ * @clk_gate_flags: gate-specific flags for this clock
-+ * @lock: shared register lock for this clock
+
+ drivers/clk/renesas/Kconfig      |   4 +
+ drivers/clk/renesas/Makefile     |   1 +
+ drivers/clk/renesas/clk-vbattb.c | 205 +++++++++++++++++++++++++++++++
+ 3 files changed, 210 insertions(+)
+ create mode 100644 drivers/clk/renesas/clk-vbattb.c
+
+diff --git a/drivers/clk/renesas/Kconfig b/drivers/clk/renesas/Kconfig
+index 76791a1c50ac..4e835a3f1ab4 100644
+--- a/drivers/clk/renesas/Kconfig
++++ b/drivers/clk/renesas/Kconfig
+@@ -237,6 +237,10 @@ config CLK_RZV2H
+ 	bool "RZ/V2H(P) family clock support" if COMPILE_TEST
+ 	select RESET_CONTROLLER
+ 
++config CLK_RENESAS_VBATTB
++	bool "Renesas VBATTB clock controller"
++	select RESET_CONTROLLER
++
+ # Generic
+ config CLK_RENESAS_CPG_MSSR
+ 	bool "CPG/MSSR clock support" if COMPILE_TEST
+diff --git a/drivers/clk/renesas/Makefile b/drivers/clk/renesas/Makefile
+index 23d2e26051c8..82efaa835ac7 100644
+--- a/drivers/clk/renesas/Makefile
++++ b/drivers/clk/renesas/Makefile
+@@ -53,3 +53,4 @@ obj-$(CONFIG_CLK_RZV2H)			+= rzv2h-cpg.o
+ obj-$(CONFIG_CLK_RENESAS_CPG_MSSR)	+= renesas-cpg-mssr.o
+ obj-$(CONFIG_CLK_RENESAS_CPG_MSTP)	+= clk-mstp.o
+ obj-$(CONFIG_CLK_RENESAS_DIV6)		+= clk-div6.o
++obj-$(CONFIG_CLK_RENESAS_VBATTB)	+= clk-vbattb.o
+diff --git a/drivers/clk/renesas/clk-vbattb.c b/drivers/clk/renesas/clk-vbattb.c
+new file mode 100644
+index 000000000000..ff9d1ead455c
+--- /dev/null
++++ b/drivers/clk/renesas/clk-vbattb.c
+@@ -0,0 +1,205 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * VBATTB clock driver
++ *
++ * Copyright (C) 2024 Renesas Electronics Corp.
 + */
-+#define devm_clk_hw_register_gate_parent_hw(dev, name, parent_hw, flags,      \
-+					    reg, bit_idx, clk_gate_flags,     \
-+					    lock)			      \
-+	__devm_clk_hw_register_gate((dev), NULL, (name), NULL, (parent_hw),   \
-+				    NULL, (flags), (reg), (bit_idx),	      \
-+				    (clk_gate_flags), (lock))
- /**
-  * devm_clk_hw_register_gate_parent_data - register a gate clock with the
-  * clock framework
++
++#include <linux/cleanup.h>
++#include <linux/clk-provider.h>
++#include <linux/device.h>
++#include <linux/io.h>
++#include <linux/mod_devicetable.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
++#include <linux/reset.h>
++
++#include <dt-bindings/clock/renesas,r9a08g045-vbattb.h>
++
++#define VBATTB_BKSCCR			0x1c
++#define VBATTB_BKSCCR_SOSEL		6
++#define VBATTB_SOSCCR2			0x24
++#define VBATTB_SOSCCR2_SOSTP2		0
++#define VBATTB_XOSCCR			0x30
++#define VBATTB_XOSCCR_OUTEN		16
++#define VBATTB_XOSCCR_XSEL		GENMASK(1, 0)
++#define VBATTB_XOSCCR_XSEL_4_PF		0x0
++#define VBATTB_XOSCCR_XSEL_7_PF		0x1
++#define VBATTB_XOSCCR_XSEL_9_PF		0x2
++#define VBATTB_XOSCCR_XSEL_12_5_PF	0x3
++
++/**
++ * struct vbattb_clk - VBATTB clock data structure
++ * @base: base address
++ * @lock: lock
++ */
++struct vbattb_clk {
++	void __iomem *base;
++	spinlock_t lock;
++};
++
++static int vbattb_clk_validate_load_capacitance(u32 *reg_lc, u32 of_lc)
++{
++	switch (of_lc) {
++	case 4000:
++		*reg_lc = VBATTB_XOSCCR_XSEL_4_PF;
++		break;
++	case 7000:
++		*reg_lc = VBATTB_XOSCCR_XSEL_7_PF;
++		break;
++	case 9000:
++		*reg_lc = VBATTB_XOSCCR_XSEL_9_PF;
++		break;
++	case 12500:
++		*reg_lc = VBATTB_XOSCCR_XSEL_12_5_PF;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static void vbattb_clk_action(void *data)
++{
++	struct device *dev = data;
++	struct reset_control *rstc = dev_get_drvdata(dev);
++	int ret;
++
++	ret = reset_control_assert(rstc);
++	if (ret)
++		dev_err(dev, "Failed to de-assert reset!");
++
++	ret = pm_runtime_put_sync(dev);
++	if (ret < 0)
++		dev_err(dev, "Failed to runtime suspend!");
++
++	of_clk_del_provider(dev->of_node);
++}
++
++static int vbattb_clk_probe(struct platform_device *pdev)
++{
++	struct device_node *np = pdev->dev.of_node;
++	struct clk_parent_data parent_data = {};
++	struct clk_hw_onecell_data *clk_data;
++	const struct clk_hw *parent_hws[2];
++	struct device *dev = &pdev->dev;
++	struct reset_control *rstc;
++	struct vbattb_clk *vbclk;
++	u32 of_lc, reg_lc;
++	struct clk_hw *hw;
++	/* 4 clocks are exported: VBATTB_XC, VBATTB_XBYP, VBATTB_MUX, VBATTB_VBATTCLK. */
++	u8 num_clks = 4;
++	int ret;
++
++	/* Default to 4pF as this is not needed if external clock device is connected. */
++	of_lc = 4000;
++	of_property_read_u32(np, "quartz-load-femtofarads", &of_lc);
++
++	ret = vbattb_clk_validate_load_capacitance(&reg_lc, of_lc);
++	if (ret)
++		return ret;
++
++	vbclk = devm_kzalloc(dev, sizeof(*vbclk), GFP_KERNEL);
++	if (!vbclk)
++		return -ENOMEM;
++
++	clk_data = devm_kzalloc(dev, struct_size(clk_data, hws, num_clks), GFP_KERNEL);
++	if (!clk_data)
++		return -ENOMEM;
++	clk_data->num = num_clks;
++
++	vbclk->base = devm_platform_ioremap_resource(pdev, 0);
++	if (IS_ERR(vbclk->base))
++		return PTR_ERR(vbclk->base);
++
++	ret = devm_pm_runtime_enable(dev);
++	if (ret)
++		return ret;
++
++	rstc = devm_reset_control_get_shared(dev, NULL);
++	if (IS_ERR(rstc))
++		return PTR_ERR(rstc);
++
++	ret = pm_runtime_resume_and_get(dev);
++	if (ret)
++		return ret;
++
++	ret = reset_control_deassert(rstc);
++	if (ret) {
++		pm_runtime_put_sync(dev);
++		return ret;
++	}
++
++	dev_set_drvdata(dev, rstc);
++	ret = devm_add_action_or_reset(dev, vbattb_clk_action, dev);
++	if (ret)
++		return ret;
++
++	spin_lock_init(&vbclk->lock);
++
++	parent_data.fw_name = "rtx";
++	hw = devm_clk_hw_register_gate_parent_data(dev, "xc", &parent_data, 0,
++						   vbclk->base + VBATTB_SOSCCR2,
++						   VBATTB_SOSCCR2_SOSTP2,
++						   CLK_GATE_SET_TO_DISABLE, &vbclk->lock);
++	if (IS_ERR(hw))
++		return PTR_ERR(hw);
++	clk_data->hws[VBATTB_XC] = hw;
++
++	hw = devm_clk_hw_register_fixed_factor_fwname(dev, np, "xbyp", "rtx", 0, 1, 1);
++	if (IS_ERR(hw))
++		return PTR_ERR(hw);
++	clk_data->hws[VBATTB_XBYP] = hw;
++
++	parent_hws[0] = clk_data->hws[VBATTB_XC];
++	parent_hws[1] = clk_data->hws[VBATTB_XBYP];
++	hw = devm_clk_hw_register_mux_parent_hws(dev, "mux", parent_hws, 2, 0,
++						 vbclk->base + VBATTB_BKSCCR,
++						 VBATTB_BKSCCR_SOSEL,
++						 1, 0, &vbclk->lock);
++	if (IS_ERR(hw))
++		return PTR_ERR(hw);
++	clk_data->hws[VBATTB_MUX] = hw;
++
++	/* Set load capacitance before registering the VBATTCLK clock. */
++	scoped_guard(spinlock, &vbclk->lock) {
++		u32 val = readl_relaxed(vbclk->base + VBATTB_XOSCCR);
++
++		val &= ~VBATTB_XOSCCR_XSEL;
++		val |= reg_lc;
++		writel_relaxed(val, vbclk->base + VBATTB_XOSCCR);
++	}
++
++	/* This feeds the RTC counter clock and it needs to stay on. */
++	hw = devm_clk_hw_register_gate_parent_hw(dev, "vbattclk", hw, CLK_IS_CRITICAL,
++						 vbclk->base + VBATTB_XOSCCR,
++						 VBATTB_XOSCCR_OUTEN, 0,
++						 &vbclk->lock);
++
++	if (IS_ERR(hw))
++		return PTR_ERR(hw);
++	clk_data->hws[VBATTB_VBATTCLK] = hw;
++
++	return of_clk_add_hw_provider(np, of_clk_hw_onecell_get, clk_data);
++}
++
++static const struct of_device_id vbattb_clk_match[] = {
++	{ .compatible = "renesas,r9a08g045-vbattb" },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, vbattb_clk_match);
++
++static struct platform_driver vbattb_clk_driver = {
++	.driver		= {
++		.name	= "renesas-vbattb-clk",
++		.of_match_table = vbattb_clk_match,
++	},
++	.probe = vbattb_clk_probe,
++};
++module_platform_driver(vbattb_clk_driver);
++
++MODULE_DESCRIPTION("Renesas VBATTB Clock Driver");
++MODULE_AUTHOR("Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>");
++MODULE_LICENSE("GPL");
 -- 
 2.39.2
 
