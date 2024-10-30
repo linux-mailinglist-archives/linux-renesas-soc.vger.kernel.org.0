@@ -1,114 +1,153 @@
-Return-Path: <linux-renesas-soc+bounces-10227-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10228-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96DCA9B6B0E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Oct 2024 18:33:46 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C56569B6C39
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Oct 2024 19:34:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4BCE41F21C30
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Oct 2024 17:33:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2E446B22498
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Oct 2024 18:34:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9A78213137;
-	Wed, 30 Oct 2024 17:33:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA1761CC15C;
+	Wed, 30 Oct 2024 18:34:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X+MkZl0E"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=metux@gmx.de header.b="PxEy5NXZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2FE205AC7;
-	Wed, 30 Oct 2024 17:33:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B3301C8FD6;
+	Wed, 30 Oct 2024 18:34:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730309611; cv=none; b=g055mYlsm7pXbcptS4a4zqlku3DaztcHt1UH4OyAWF6mOjuM0mXyTjAl1ND+krrH8Ea0usl0H1ZE/LAmrkyCvETd4+WKfbhuJCCoqsyAr07pFAMcg0HzlCpq2+DPjM0j7rOvVa6iQSKPm45Z82hgpcohgXEHW/vOuYXh7+FBA30=
+	t=1730313257; cv=none; b=B0KTBEc4E62GdwM7/Up6MXTpJoc1AU4/ArAVkSaWzlR6F2pua3xnNXQSJZVvX4uUnkK0a8IEhs6gCOjX/MJpzrCoipq6OcF2GXl8dfXoi3/MDDz6/xok48hyUBEYRP1xo6o9jLp24oLIZyHZ4z7DxWaiymeHtxc5S2iSEo65xEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730309611; c=relaxed/simple;
-	bh=ZIyf7WCrqLwhcnOvg/DJm8/zI0IqGS0JY8JDkkt68nk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Nq7IKjOhXB3KqCfG1DHjICS4lnRKr3YHGsxmE/qEHbnmp6W8gjIdeU7hCXgbAsGPqNKJa0KKPioY30HxaaBGUcFkc2WRFiD3UjiJvW9QI8n5IC1jzv5q+FizHQaLlQgZp4RLLfy3aB8JtzN9wUZBBysLsvXfAxxkJ61djyNlwhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X+MkZl0E; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8FCEC4CED1;
-	Wed, 30 Oct 2024 17:33:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730309611;
-	bh=ZIyf7WCrqLwhcnOvg/DJm8/zI0IqGS0JY8JDkkt68nk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=X+MkZl0EmcuWbZVAmvWMQBuR/l5xWvFURXxBGDDCKNDbS+6zxzkVPOMwCEGYQm45B
-	 iQ3+5/m8DqcFkmu/5wMKie9w6FvqoPW9j/csm5uPQ0k5eK6et/CkWsY2KRloOxMEUZ
-	 XAd6P44bw3jQnqrT01nePngeTdV9eCfBpmRx0YflKXi5OCnVn82u0lpv3OKCM7fWXT
-	 L/FQ3NmEcDB2NPxoHtoEoJNUO5NhHyhTQEiv3MnewiqjbOUrHJh7t9nC+w2xyE3Zgr
-	 Sk1KJegpYBQPxR3FXBQ6CmEheIVWE+7i1vcPrIQYgjt45t8iidhpWAitSS2hznmAsB
-	 foiEB55OgDC/A==
-From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Prabhakar <prabhakar.csengg@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20241025150511.722040-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20241025150511.722040-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v3 0/5] ASoC: Rename "sh" to "renesas"
-Message-Id: <173030960849.47565.15749613189750530919.b4-ty@kernel.org>
-Date: Wed, 30 Oct 2024 17:33:28 +0000
+	s=arc-20240116; t=1730313257; c=relaxed/simple;
+	bh=qVSlmDSlEDWcfpve3SDrSeg/8UVEvUP9GHMSIPm116o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pUgiykXD8ZYfHcNKWjA03W96/5PVfA1CbEW4W/CmMvBKPAQuowXgHTTjKYT620nVQN2XXyxrMmc2667x27n9GX47FU3S7/E+9GzaTIucjPxq9qh9AwFRL0WDBYb9uQEEd0uvHGI2CahOPapHrUAGwor3MY6mXKESB7shde+IHMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=metux@gmx.de header.b=PxEy5NXZ; arc=none smtp.client-ip=212.227.15.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1730313146; x=1730917946; i=metux@gmx.de;
+	bh=qVSlmDSlEDWcfpve3SDrSeg/8UVEvUP9GHMSIPm116o=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=PxEy5NXZPnL/khf+ZM27BR9NEpxVSB3HZ/B8yIFsHo+4hMZE6ntqAJmMaxw7Xseo
+	 gaIIZIwwVO9VT8D2ZAyDVhi2PZiaScE1eknfpKrAKCIAemHMxOAxaoyTqpoE6Jeu7
+	 2U5iwP9MNWVVH34yc3A/eCCC2GfvO3KMgzMKRz4LtjlKhERpzpOUHDIyJEVFIhMaJ
+	 3r3mGdjZDZfdrTPKDAPGxgg+EXB4TEBE4sp9lE0/MkWyfyC3o93hE/PEShWUOIUZS
+	 sq3039eZOOaH0CEL5pPa8D+gdQAgjz3j5h71lTqlNcOunuwf9c5sdbaOcoAZ/KV7z
+	 GdU/W9tMEPE+WiJERw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.178] ([77.2.112.201]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mr9Bk-1tbeU32akI-00j5Eb; Wed, 30
+ Oct 2024 19:32:25 +0100
+Message-ID: <2cf94b06-fbaf-4c04-941a-4de052a5c484@gmx.de>
+Date: Wed, 30 Oct 2024 19:32:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-9b746
+User-Agent: Mozilla Thunderbird
+Subject: Re: Kernel maintainer *CENSORED* on LKML [WAS: linux: Goodbye from a
+ Linux community volunteer]
+To: =?UTF-8?Q?Dragan_Milivojevi=C4=87?= <d.milivojevic@gmail.com>,
+ metux <metux@gmx.de>
+Cc: "Enrico Weigelt, metux IT consult" <info@metux.net>,
+ Peter Cai <peter@typeblog.net>, phoronix@phoronix.com, Goran
+ <g@odyss3us.net>, James Bottomley <James.Bottomley@hansenpartnership.com>,
+ Serge Semin <fancer.lancer@gmail.com>, Jon Mason <jdmason@kudzu.us>,
+ Dave Jiang <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>,
+ ntb@lists.linux.dev, Andy Shevchenko <andy@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Kory Maincent <kory.maincent@bootlin.com>,
+ Cai Huoqing <cai.huoqing@linux.dev>, dmaengine@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, linux-spi@vger.kernel.org,
+ Damien Le Moal <dlemoal@kernel.org>, linux-ide@vger.kernel.org,
+ Paul Burton <paulburton@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Arnd Bergmann <arnd@arndb.de>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ linux-mips@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ linux-pci@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Andrew Lunn <andrew@lunn.ch>, Russell King <linux@armlinux.org.uk>,
+ Vladimir Oltean <olteanv@gmail.com>, Keguang Zhang
+ <keguang.zhang@gmail.com>, Yanteng Si <siyanteng@loongson.cn>,
+ netdev@vger.kernel.org, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
+ linux-hwmon@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andrew Halaney <ajhalaney@gmail.com>, Nikita Travkin <nikita@trvn.ru>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Alexander Shiyan <shc_work@mail.ru>, Dmitry Kozlov <xeb@mail.ru>,
+ Sergey Shtylyov <s.shtylyov@omp.ru>, Evgeniy Dushistov <dushistov@mail.ru>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+ Nikita Shubin <nikita.shubin@maquefel.me>,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Kexy Biscuit <kexybiscuit@aosc.io>, jeffbai@aosc.io,
+ Linus Torvalds <torvalds@linux-foundation.org>, "[DNG]"
+ <dng@lists.dyne.org>, redaktion@golem.de, dev mail list <dev@suckless.org>
+References: <2m53bmuzemamzc4jzk2bj7tli22ruaaqqe34a2shtdtqrd52hp@alifh66en3rj>
+ <e7d548a7fc835f9f3c9cb2e5ed97dfdfa164813f.camel@HansenPartnership.com>
+ <6beb4070-1946-4387-bd0e-34608a76b19e@typeblog.net>
+ <CALtW_agj1rurb3DRrPd9o2mkfku5fq_M3CEKY5sW+Zz7shKYHA@mail.gmail.com>
+ <6d37175d-1b0b-4b82-80f0-c5b4e61badbf@metux.net>
+ <2f12ee89-af9f-4af1-8ec8-ede1d5256592@metux.net>
+ <CALtW_agiJyX3sTaBKgwPF7X920=+fFrRgXMPt4x_GCDOMfZy_w@mail.gmail.com>
+ <CALtW_aimN531aZKSSG4hVLeQDk6bUoujopkhCh57xsaxfJrYgA@mail.gmail.com>
+ <b410a7fb-58c0-4d17-b818-54ec3476833a@gmx.de>
+ <CALtW_ah07h7h6eNHHGNNeKzVkNi7hVOG3q4Pv9DNacpXgve5Sw@mail.gmail.com>
+Content-Language: tl
+From: metux <metux@gmx.de>
+In-Reply-To: <CALtW_ah07h7h6eNHHGNNeKzVkNi7hVOG3q4Pv9DNacpXgve5Sw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:RwtMXzTkBDRWvHmp0Kk6XRNw8KkUfi9Grj7L3bmCj6cM8b4QBRJ
+ nNQyNDflw/d6PbexIox9ShCoDZ/pcYmmDaszMMRbbihXY91rMPHcT/ve1uP86sxKdRx1g1E
+ LMIpkJ9atodTw+nhg14XzBrSVxLSAAYObFblsohBrRQc7SmScMKCDm1cN4U3B+pQtjnpw4U
+ MI13I3wb6wItEr6vDq2pA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Ui1bpSsuH8A=;dfPECkdyGYjzvQovpk1mLrv2yHW
+ Y6UHJ1D/kuELphaY3MXcMXRxjPPUeT4qliBwr9JiO9sSSiMATtjINoXzJwb//1wKiimLswgG4
+ KDUFZoy+92BvMG+CVaIbYt4kN50oREhek7P4SWst1Gq32A+C0vNGj1E/0w6PCHq9Io9ZJfO1Q
+ bDgdGgHMkRQP4TDh16fgjvk9XLm73lW1IiLywMwb+NAnzND/V6i9u73hcpclC4sKmB42YfOUP
+ 3TDY4n8NPogsIMw+oAxoN3FAdnXbRgR+hiZfdYQdFrgyZNt69oCItyIphSgp9NNsaLpsDQbcd
+ sOt72shhxR7lF3e8Pmsrc0osdQVDieXS1+Tf0Tf6tFeVvczmApP8pGBIXdDZe7KHQ0TaIDrSS
+ hIa9kkTXO+J03hOC2vgze0XupDmJLEo6lzAXydh63tJyp4+B4Wvw11KH8YG5b09K/aeEMFNIA
+ kbjVNCObPDtDfmcW8DVNFkVRzOGX3NgE2DGCtMdkjDXXTlE7C8gwDxeTiHZpfTyRh/ze0/wSh
+ 43GBM3VR3f7DfeMf3FYyeUtAIjiLAbpeFjFvY0+0jcuf9YT8kiq6D3OEOkdMZWuirHh11f0Im
+ EFP4HsracvNPaXIJAhWnNfwipO+FqRgiOoN5QRpQ/7JREIE5DlZC5k0p5HvwJlNjZpn1En4nH
+ rgh9PWpEFZO48or7kZK4TJ4pUAje+KBL4bUX6rqdeVCJI1LGKwf5v9Kcw3fs56EuwMx/T6UBv
+ hwxLAiR8QA7f+DL5wb9rPG+vvGcKkAh12qDvjGHGPER7zTudE+IvVxJamN3IX2COy9jQrLqUN
+ Z0+GnYzHGDOFp8mvjBuCZmEA==
 
-On Fri, 25 Oct 2024 16:05:06 +0100, Prabhakar wrote:
-> This patch series aims to rename "sh" to "renesas", along with this
-> the references to this path have been updated.
-> 
-> Note,
-> - This patch series applies on top of [0]
-> - This change was agrreed based on the discussion [1]
-> 
-> [...]
+On 30.10.24 14:57, Dragan Milivojevi=C4=87 wrote:
+> On Wed, 30 Oct 2024 at 14:48, metux <metux@gmx.de> wrote:
+>
+>> Do you have some evidence that Devuan's mail server is really blocking
+>> us ?
+>>
+>> If so, I'd be exceptionally surprised.
+>
+> Well it's blocking me that's for sure. Reject message attached.
 
-Applied to
+Are you subscribed to this list ?
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+I recall something like it's subscribers-only (once fell into the trap
+and tried to post w/ wrong address).
 
-Thanks!
 
-[1/5] ASoC: Rename "sh" to "renesas"
-      commit: c0aba02cdc1afde6c2349db95ad36b9532b42a37
-[2/5] ASoC: renesas, rsnd: Update file path
-      commit: 94c0a8a10f05782a4426a67343e3081601ad3f1a
-[3/5] ASoC: audio-graph-card2: Update comment with renamed file path
-      commit: 1b3130e9e77e4286a2e495b4b3c3efcf54848633
-[4/5] MAINTAINERS: Add entry for Renesas R-Car and FSI ASoC drivers
-      commit: 3dc2c89473a43b1ab83a7f0196e41eb3145844d6
-[5/5] MAINTAINERS: Add entry for Renesas RZ ASoC driver
-      commit: 8fc6907ee343336dc5ae75665883fdbf7e012d26
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+=2D-mtx
 
