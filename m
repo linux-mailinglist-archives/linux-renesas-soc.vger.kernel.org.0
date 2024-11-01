@@ -1,98 +1,190 @@
-Return-Path: <linux-renesas-soc+bounces-10246-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10247-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A0FC9B86E4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Nov 2024 00:17:41 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40BAC9B8D54
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Nov 2024 09:53:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9AE0E1C214DE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Oct 2024 23:17:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A1718B235A4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Nov 2024 08:53:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1C1D1E1A12;
-	Thu, 31 Oct 2024 23:17:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4F8115687D;
+	Fri,  1 Nov 2024 08:53:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bn2fG+8+"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="TB+PxxVa"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41CC1CC8B7;
-	Thu, 31 Oct 2024 23:17:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E245114264A
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Nov 2024 08:53:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730416658; cv=none; b=DR/A2L1EedYNlL/eei+LkJuN/ifjJuLnbgphEvyfuikPuO13BI8/VOXK7dqxZlK2rgMqWFAWam0o9O5CIp0gwQyJLp/ytRhhfnsIM4kBMuqEhJ6y3FJs/s8dDzz4JGoMP3LL653XirTiIJYLRbGLv9uzGBoNPKwa/WndlMr1diI=
+	t=1730451199; cv=none; b=cK2T8W5CuF8A5d42cZIMwsq4zY5FmcuALpWdy1r0QCgzIhk8AON3RFeZCcsKHrl6XP39u9if9vKtRreAC2Oua52N4AxqspAPovR4EeowIl5XqAxpDzJIyZ85vmcXLMBZAI3+UC/NTDhyinx/62aj7rd62nLsgYRsbuWrVmW9gck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730416658; c=relaxed/simple;
-	bh=guKQZ269YoJkWNOHN8n+zpW1sLw/rcZPJRVDIFG7ssQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IcRUiFMJJrI9Onyh7j/raIVjbloR6cdzrFBSwhFT34ri8UarMq1XOSP45o9BuMjh9HlXPdH/iH5FyJ6f5QGCBD5ouBYb3eNbFIOKEtPQ0v3ykaMKgtX8HH8QED3sZXVYemQ2B+4LvYMhNebuuNgSVm6mgLF6fNFaaSdAp/b0eXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=bn2fG+8+; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 038AE20002;
-	Thu, 31 Oct 2024 23:17:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1730416650;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q2N3NKmH49hjRiqnrVgcxvKSV4bVv8lUQzTG26S2d3Y=;
-	b=bn2fG+8+pXP2OIG5T46ZntHVHumfx4xU2hVMnhQuJ0sX3uPBQlHbiUl8Tr+WHUjbwvYqPP
-	sx+mKsfBDuoCjVzFeyumLm7B+ttWP5/ZzPeTO9f1D3KWdkJ1RehsIGLwytozpfoGFnZZ8j
-	atWicNRrYbfkVY+jje2eoTo3oSby7g4dOgJnU6LBHvhPIm5awdpcj0Gl9c4erLIIj4VrK1
-	gQMvCk0NZ3DZ4+aE98JcxX5+5ws5Pju+ox4zxRNI62UNW/chM/4iKZPCBV+rjfO3M5UVAd
-	4qaWLxpxrLJY/c+Cx95/wPVuJbFtPjnCbrlpcCJwCS1k05muZTYVjEiST3utQg==
-Date: Fri, 1 Nov 2024 00:17:28 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	magnus.damm@gmail.com, p.zabel@pengutronix.de,
-	Claudiu <claudiu.beznea@tuxon.dev>
-Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: (subset) [PATCH v5 00/10] Add RTC support for the Renesas RZ/G3S
- SoC
-Message-ID: <173041660392.2394403.11154347678487291985.b4-ty@bootlin.com>
-References: <20241030110120.332802-1-claudiu.beznea.uj@bp.renesas.com>
+	s=arc-20240116; t=1730451199; c=relaxed/simple;
+	bh=kstV2gF0zr5kBHLp1ywmO2z5iBJT5icL+Gz+lQBY48o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KlizY+od+sh+njflSVcE87fAtXg9hxOjjlA3FqY7cR6rQC/CAbu25oL6+d4k+Eb9kvnhjeUAjtKR1WSnabUMAYg2MtEyLN3sS/qCtX/OTBCUF6EI1eqL6UI4XuKuUQMvrrf5gQsXgN8m5QHettXtHGaz8BIVeqkvsrdKj2h8nFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=TB+PxxVa; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a99f1fd20c4so226334966b.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 01 Nov 2024 01:53:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1730451195; x=1731055995; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=n/lzYU0FpFCkrz0oZB5hrlorKli7TkTBu5tvutCnhvA=;
+        b=TB+PxxVaG3g9uidZOe+9BsacVZTjeOgDM3qyml0cXwNvuZeZvjkrZkX46szS0bJI7+
+         JlvTk/vQrtt9Pdga2TyDGUlXNRJoYcVDQ7A78RRymSuxLXOc5Ep/wcM8spFZkKnyMj3X
+         fz0J71IYv+PVdvljBv4tkdWkWZDbCWSOsnByMyJsZwvQemy7lEZnjFBNuxnu9VdZPEqO
+         a37RZsMZrLA3D6cVG9IAukHBeOIWI+SED/XfLcIgUo0MNNkrbJG+HCdf20oYqxS1fD54
+         MByGixlGRD1atfKD9qAxi5/66U4UvdTd2ngVjRFvcEq9RzXv1jht20puqmnWegLI9IlC
+         8yqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730451195; x=1731055995;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=n/lzYU0FpFCkrz0oZB5hrlorKli7TkTBu5tvutCnhvA=;
+        b=JZgBNei2rykWjzkQleHQp4IiLhnECBZ5gpH9J+5ifT9qAW8IAUwW1u56BFDSRsXDOx
+         Yo6nzOBH5VTN1JnBBshM9JExc+QzbrbEvK4pbCxHe7AOyySs4kNMdOwfDYVP9HpFpV9Z
+         dE0jaxm7ymdTYUuz8hwzrTYZgAcHj4NxEP2t63uu3k6nqXTgcmbExduxAzsdw23czdVL
+         LcssSyAjXWg4gvagBQGBcb5r1C5o99TPlVPHhwXnyXEwSv3Fwtw7hxBxcFlrrTFs+Cts
+         cPWjobpeAWBziDlvbVhYXpna6C1AQTwNkI0J+lZ16eCBkkTMBxT1J7PS2tnDn/a7E5ZZ
+         D56g==
+X-Forwarded-Encrypted: i=1; AJvYcCV2jyT+yQPfAsnlaoWwdEgfyiXq8p9r9kUlWnRxofSf89s+rLroZ1idaYtg+oHZRewAIjmdKmUm8d0wpyTG7/d1jQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxdyji4JP3j6WL/OQxrcqrOGH1nxfPesjZQI1A4I+QhHxJCberq
+	3KWpjflrzhDUDfLV2deGh5h1lMQbu+jhM9zDb26VXriICBnAaDvtTVvc81Bq42o=
+X-Google-Smtp-Source: AGHT+IEj3KxbXi2bqvHFQc5tuBqv3rzxtxnuw/COMIJuYYxNFOMzNrLwH0maLO3jY5NZdwEHAAxYkw==
+X-Received: by 2002:a17:906:c113:b0:a9a:533b:56e3 with SMTP id a640c23a62f3a-a9e5092a4b5mr640607366b.26.1730451195054;
+        Fri, 01 Nov 2024 01:53:15 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.190])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9e564e96a9sm156826066b.97.2024.11.01.01.53.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 Nov 2024 01:53:14 -0700 (PDT)
+Message-ID: <fa63898a-33f2-44ad-88ae-bd125e48b71e@tuxon.dev>
+Date: Fri, 1 Nov 2024 10:53:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241030110120.332802-1-claudiu.beznea.uj@bp.renesas.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 03/10] clk: renesas: clk-vbattb: Add VBATTB clock
+ driver
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, alexandre.belloni@bootlin.com,
+ magnus.damm@gmail.com, p.zabel@pengutronix.de,
+ linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20241030110120.332802-1-claudiu.beznea.uj@bp.renesas.com>
+ <20241030110120.332802-4-claudiu.beznea.uj@bp.renesas.com>
+ <mg2ugyg65ke3tngzqyyixfkawf4iop4o373dc6fosy7bfydbe5@pm43dhkd7asu>
+ <CAMuHMdUcw_UHAZRVGt=Tr0jv3NOPDibtPy1E-46Pq74YKFZxWg@mail.gmail.com>
+ <ee94a802-97ec-4a9b-9ca4-5c14e0eba116@tuxon.dev>
+ <bcc49824-b350-45d0-af84-8458a28d5eef@kernel.org>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <bcc49824-b350-45d0-af84-8458a28d5eef@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 30 Oct 2024 13:01:10 +0200, Claudiu wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+
+
+On 31.10.2024 11:46, Krzysztof Kozlowski wrote:
+> On 31/10/2024 10:26, Claudiu Beznea wrote:
+>> Hi, Geert, Krzysztof,
+>>
+>> On 31.10.2024 10:43, Geert Uytterhoeven wrote:
+>>> Hi Krzysztof,
+>>>
+>>> On Thu, Oct 31, 2024 at 8:48 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>>> On Wed, Oct 30, 2024 at 01:01:13PM +0200, Claudiu wrote:
+>>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>>>
+>>>>> The VBATTB IP of the Renesas RZ/G3S SoC controls the clock that is used
+>>>>> by the RTC. The input to the VBATTB could be a 32KHz crystal
+>>>>> or an external clock device.
+>>>>>
+>>>>> The HW block diagram for the clock generator is as follows:
+>>>>>
+>>>>>            +----------+ XC   `\
+>>>>> RTXIN  --->|          |----->| \       +----+  VBATTCLK
+>>>>>            | 32K clock|      |  |----->|gate|----------->
+>>>>>            | osc      | XBYP |  |      +----+
+>>>>> RTXOUT --->|          |----->| /
+>>>>>            +----------+      ,
+>>>>>
+>>>>> After discussions w/ Stephen Boyd the clock tree associated with this
+>>>>> hardware block was exported in Linux as:
+>>>>>
+>>>>> vbattb-xtal
+>>>>>    xbyp
+>>>>>    xc
+>>>>>       mux
+>>>>>          vbattbclk
+>>>>>
+>>>>> where:
+>>>>> - input-xtal is the input clock (connected to RTXIN, RTXOUT pins)
+>>>>> - xc, xbyp are mux inputs
+>>>>> - mux is the internal mux
+>>>>> - vbattclk is the gate clock that feeds in the end the RTC
+>>>>>
+>>>>> to allow selecting the input of the MUX though assigned-clock DT
+>>>>> properties, using the already existing clock drivers and avoid adding
+>>>>> other DT properties. If the crystal is connected on RTXIN,
+>>>>> RTXOUT pins the XC will be selected as mux input. If an external clock
+>>>>> device is connected on RTXIN, RTXOUT pins the XBYP will be selected as
+>>>>> mux input.
+>>>>>
+>>>>> The load capacitance of the internal crystal can be configured
+>>>>> with renesas,vbattb-load-nanofarads DT property.
+>>>>>
+>>>>> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>>>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>
+>>>>> --- a/drivers/clk/renesas/Kconfig
+>>>>> +++ b/drivers/clk/renesas/Kconfig
+>>>>> @@ -237,6 +237,10 @@ config CLK_RZV2H
+>>>>>       bool "RZ/V2H(P) family clock support" if COMPILE_TEST
+>>>>>       select RESET_CONTROLLER
+>>>>>
+>>>>> +config CLK_RENESAS_VBATTB
+>>>>> +     bool "Renesas VBATTB clock controller"
+>>>>
+>>>> tristate
+>>>
+>>> Good point.
+>>> However, does it work as a module, or would that break the RTC?
+>>
+>> On RZ/G3S the RTC counter needs the clock provided by VBATTB.
+>>
+>> I'll try with this as a module.
 > 
-> Hi,
+> So it will defer, why would this be a problem? This does not look like
+
+No problems with it. I wrongly phrased it. That being said, I'll set
+CLK_RENESAS_VBATTB as module along with RTC and do the proper adjustments
+in drivers/clk/renesas/Kconfig.
+
+Thank you,
+Claudiu
+
+
+> critical core component, which would halt the system probe (and even
+> then systems like Android put everything as modules).
 > 
-> On the Renesas RZ/G3S SoC the RTC clock is provided by the VBATTB
-> IP. A 32 KHz crystall oscillator could be connected to the VBATTB
-> input pins. The logic to control this clock (and pass it to RTC)
-> is inside the VBATTB IP. For this, the clk-vbattb driver was added
-> (patches 01-03/12).
+> Best regards,
+> Krzysztof
 > 
-> [...]
-
-Applied, thanks!
-
-[04/10] dt-bindings: rtc: renesas,rzg3s-rtc: Document the Renesas RTCA-3 IP
-        https://git.kernel.org/abelloni/c/71c61a45c951
-[05/10] rtc: renesas-rtca3: Add driver for RTCA-3 available on Renesas RZ/G3S SoC
-        https://git.kernel.org/abelloni/c/d4488377609e
-
-Best regards,
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
