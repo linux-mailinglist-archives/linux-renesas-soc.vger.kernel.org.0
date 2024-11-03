@@ -1,86 +1,125 @@
-Return-Path: <linux-renesas-soc+bounces-10260-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10261-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABEFA9BA553
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Nov 2024 12:50:24 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 451449BA560
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Nov 2024 13:03:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 691B22819F0
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Nov 2024 11:50:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AD863B21551
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Nov 2024 12:03:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BDB81632CC;
-	Sun,  3 Nov 2024 11:50:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G4V6SLAA"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B75C6170A16;
+	Sun,  3 Nov 2024 12:02:56 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34AA82572
-	for <linux-renesas-soc@vger.kernel.org>; Sun,  3 Nov 2024 11:50:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B56B013635B;
+	Sun,  3 Nov 2024 12:02:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730634621; cv=none; b=RY02QW2MyH4fwWZ7yuW6mFyTJodf6UCOKcLUThLOMJ0Q80+7EF+LbN8b5yoo13ufb7szLm7Gwq0G8VNRNtJM17OTItNyVS3ZZ2Xy3G/fxUEhb6HTqwNSN/sr//RadNBCemFzao2PGEJ3jlL3NAuKh33yqkohaYs0uszobfND1i0=
+	t=1730635376; cv=none; b=GRG5BfLLFl2PiNSxJeQm3eJHX3301pW4ZdvDFZS786ZDeVbg7KnCbBOSNN5WJ51JDSQU7CHyF3eTRdm1/JLi59p+wBI0Vp/254MYTA+MM6AL3y5hoQdpwtuv4ZfzLF/kLzg46oO5SMRVV17/kvdACv1wEHhoV1jqMdhnsk7W/KI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730634621; c=relaxed/simple;
-	bh=xTZblqovj8rSuT4KL1FjTv1Dir7/ZDAk4nZ6OvcIkNg=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=X6fo5hrndtNxjKL6MH34P4dJnUQDYx3vvdZVuDsuvN1UR03m0+EdF/m6aAi4njiLkN3uCfTpcWNumIRODkejwFblUcLMO8hR6th/pCsMLj5MUBguZMGpZXu0Vb1pu9FB/25v5aS2nd1aYL767u5DP0OZwaKXnMkPqRaBYaM82r4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G4V6SLAA; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3126C4CECD
-	for <linux-renesas-soc@vger.kernel.org>; Sun,  3 Nov 2024 11:50:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730634620;
-	bh=xTZblqovj8rSuT4KL1FjTv1Dir7/ZDAk4nZ6OvcIkNg=;
-	h=Subject:From:Date:To:From;
-	b=G4V6SLAAs/2uvRug1yMAGMa2krVLex6+YKTuRkp1CRiDKyoBpl1599+NoUDdURTBd
-	 1si/FAcVSpKqQCAJrNtq40Y+AyXvbWqk2HRU+91roDhL72M22mAffoO2hujo5NSqLy
-	 6NDoJh8BQKH7JYdBIyGHRpFIB4IVAwP6mfU+vBkH7S8lsEGqcrzwYASOfR7pc0cJK/
-	 gthsmXmUYfk90s10jeX2aEqNIaewFaW9igjNyVvcBngj8PutAxpGbTekS0lG4Mhrdj
-	 +jzDEvBWV0uyVeSjuaL5DxcWEYgfsbglyCisE41YcU5Iqljp3jBAKVskGJ8VdQkaeU
-	 YvM+EoWNJZsZw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 373E238363C3
-	for <linux-renesas-soc@vger.kernel.org>; Sun,  3 Nov 2024 11:50:30 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1730635376; c=relaxed/simple;
+	bh=hzqa0J6A/W1DpFzA4bzSC2epR0PHH34jRlxVwGV8E9I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=X7cOs2IGsoLKyj6qHkJ+17MGoz41ej8Y4uAB5TkkURkMrn/zlHkqN7sZ9LoPeUam++LPKhjsIx/TyswFbZ0nytNLvaMBdGXRGbcbgkDmapr1pxXImXVEczvZRGR9j7uE5oW7cRBk0OeW4bYO/5IwjHBF5giTmS6TmqIPfy/XSRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-6e5cec98cceso27058457b3.2;
+        Sun, 03 Nov 2024 04:02:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730635373; x=1731240173;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cd3kIe56QXQQam1qx/3dD2gryf9hu9/6h0hqv8KkgSA=;
+        b=tEUVCmoYOXsE8rGhftAE5LO/2NSVmd57DtJVwKxX8AZBK6wiUPsZNJXp82uqFkjYT+
+         W7ibOy28Ee5f+hCxiQb8MSE3IZYd6urvJmlPJqJZnIoD7dHRzN+aQPmBt84myNXZbQNu
+         ZpECVmH/H3ibNZM3Iy+8yxbysNWiFNmrh78jwOdvQGbBC87UHYZ0uQkmLKyFcsQm+Fzm
+         sr63a9j+n76hyBhycK6pDcn1Gp/o+GG2qRkW7cGiqugIluEmKcTD5ZdHJ6TiU+xO1LM6
+         DPfyM5mDIynoA/CfQ8Q3l6m0O2GgD9CUtn9JaA9nkatL/pD4VxOh14I/nDGXqys7ZakJ
+         2yLg==
+X-Forwarded-Encrypted: i=1; AJvYcCUC62jFXDwEO427ZJ3cDLWZh+aD9gmBDrfi7++KW9JTCZc+sEqKGYPCBD+D9dQt98fX8CKfkT8wy0nh@vger.kernel.org, AJvYcCVHt6dlOWrTf/EiOqHqJk+nGNQjTp93CiYqvdgygqWJoyMiIGS4MV3iVLcLHzLA1pYwVGkhuG4ar8qb8Ir3lIx2TLg=@vger.kernel.org, AJvYcCVRS7sR+blIoEYi2WhNhvTuRvlMAUazZXIbMDhL4cPMuIfpazcmSfIIubYwfJ2nMeBY3tjYfeu2jQSW++8x@vger.kernel.org, AJvYcCXQOXcuNejt22yXSs/122wiFZFTQHqSekZk/VkrDy26TjaoC+R1IEX07Te3FkFUhDXAXPaZpf3cJ6wv@vger.kernel.org, AJvYcCXuAO9bs45eWprnTU1rSYOjSGB+Dn28lVeDbHTsSCW79jEmbGjXq3D90fXiJmjh9lypDtX7Mye76y7v@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0wfOL7oW09OkO3O+3k6Rr8oSkZ6GK8JmvVeznAFDg+YigRhKJ
+	jhf6f4TYHyPJnXZgkyhCdXTbarF05nVkvqBRXGxjbBxqWT6LCZKQi7RThvyL
+X-Google-Smtp-Source: AGHT+IGZd5/u1HXwT3unSGA8s1xPCdRRiXT1hDISOsnllf0+AaCkCcd1WF0FFA4ZiZupNSfroB3TFQ==
+X-Received: by 2002:a05:690c:7445:b0:6e2:4c7b:e379 with SMTP id 00721157ae682-6ea523d1ae7mr133923337b3.19.1730635371977;
+        Sun, 03 Nov 2024 04:02:51 -0800 (PST)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6ea55c48b6esm14083157b3.103.2024.11.03.04.02.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 03 Nov 2024 04:02:50 -0800 (PST)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e2bd7d8aaf8so2942175276.3;
+        Sun, 03 Nov 2024 04:02:49 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVgJq46aoh1RID9RO5WqW01mBdwvdtMjn2+QBhaInA/KkoGqpEFkQob79FWVYgOZ0LhkY3rqrcVak6B@vger.kernel.org, AJvYcCW8abytacKPTJNy7g11RGecAAj4UxbLLecpoWuf2J1HNolGlDvzkrquAi+eZUkWH8E6BjxexoZpFRnS6XrArePaR8A=@vger.kernel.org, AJvYcCW9SqFV21fQWjniDykd3jbAyPQX6ERjTlCeK9A0PNfdWA7NEEcYblsxKrMN58vCY3KWudUv4SNZrI5S@vger.kernel.org, AJvYcCWL7P0SSS5Ssl07wFlWnDAAR8brORPWLwis3g1F6w1cFf9+8rsLsOp1bHZL+N6r0A89xwr2JAJXJcbb@vger.kernel.org, AJvYcCWNJkLx7HDOYGKPd/T2T4xhPey1XwWtSJVsi81CA/30QjsgkW8N3rNiWOUS3t+mqvvRwHwLFtYzHHTjfEVx@vger.kernel.org
+X-Received: by 2002:a05:690c:600c:b0:6e3:21fa:e50f with SMTP id
+ 00721157ae682-6ea523742dcmr121048567b3.13.1730635369662; Sun, 03 Nov 2024
+ 04:02:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From: patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: 
- <173063462887.3169702.8418893833534360361.git-patchwork-summary@kernel.org>
-Date: Sun, 03 Nov 2024 11:50:28 +0000
-To: linux-renesas-soc@vger.kernel.org
+References: <20241101095720.2247815-1-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20241101095720.2247815-1-claudiu.beznea.uj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Sun, 3 Nov 2024 13:02:37 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWJ7XSvE4AS67-Xwo9sRayyoFxkjFeffSA0y6242g6thw@mail.gmail.com>
+Message-ID: <CAMuHMdWJ7XSvE4AS67-Xwo9sRayyoFxkjFeffSA0y6242g6thw@mail.gmail.com>
+Subject: Re: [PATCH v6 0/9] Add RTC support for the Renesas RZ/G3S SoC
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, alexandre.belloni@bootlin.com, 
+	magnus.damm@gmail.com, p.zabel@pengutronix.de, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello:
+Hi Claudiu,
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+On Fri, Nov 1, 2024 at 10:57=E2=80=AFAM Claudiu <claudiu.beznea@tuxon.dev> =
+wrote:
+> On the Renesas RZ/G3S SoC the RTC clock is provided by the VBATTB
+> IP. A 32 KHz crystall oscillator could be connected to the VBATTB
+> input pins. The logic to control this clock (and pass it to RTC)
+> is inside the VBATTB IP. For this, the clk-vbattb driver was added
+> (patches 01-03/09).
+>
+> Patches:
+> - 01-03/09: add VBATTB support that provides the RTC clock
+> -    04/09: fixes compilation error for RTCA3 when building for RISC-V
+> - 05-08/09: update the device trees with proper nodes to enable RTC
+> -    09/09: enable proper config flags for RTC to work on RZ/G3S SoC
+>
+> Merge strategy, if any:
+> - clock patches (01-03/09) need to go though the same tree because of
+>   patch 03/09 using the devm_clk_hw_register_gate_parent_hw() introduced
+>   in patch 02/09
+> - RTC patch can go though RTC tree
+> - DTS and defconfig patches can go though Renesas tree
 
-Series: Add RTC support for the Renesas RZ/G3S SoC
-  Submitter: Claudiu <claudiu.beznea@tuxon.dev>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=905332
-  Lore link: https://lore.kernel.org/r/20241101095720.2247815-1-claudiu.beznea.uj@bp.renesas.com
-    Patches: [v6,1/9] dt-bindings: clock: renesas,r9a08g045-vbattb: Document VBATTB
-             [v6,5/9] arm64: dts: renesas: r9a08g045: Add VBATTB node
-             [v6,6/9] arm64: dts: renesas: r9a08g045: Add RTC node
-             [v6,7/9] arm64: dts: renesas: rzg3s-smarc-som: Enable VBATTB
-             [v6,8/9] arm64: dts: renesas: rzg3s-smarc-som: Enable RTC
-             [v6,9/9] arm64: defconfig: Enable VBATTB clock and Renesas RTCA-3 flags
+Thank you! I have queued 01-03 and 05-09 in renesas-clk resp. renesas-devel=
+.
 
+Gr{oetje,eeting}s,
 
-Total patches: 6
+                        Geert
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
