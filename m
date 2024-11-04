@@ -1,197 +1,252 @@
-Return-Path: <linux-renesas-soc+bounces-10284-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10285-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0A489BB6C4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Nov 2024 14:53:00 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F1F49BB8BA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Nov 2024 16:15:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C50361C2349E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Nov 2024 13:52:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 51A45B2280F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Nov 2024 15:15:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7816242AB1;
-	Mon,  4 Nov 2024 13:52:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="WK1qZUBl";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="N3mxGdu7"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38F0D1BD018;
+	Mon,  4 Nov 2024 15:15:23 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590B88BEE;
-	Mon,  4 Nov 2024 13:52:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C841607AB;
+	Mon,  4 Nov 2024 15:15:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730728361; cv=none; b=TIYkhlEziDW+bRhVTZXFkHNChkScaEXbtAiWMyupb3zrtxD8Zc385xOAX8J9ArIMYkV3t3BHNbuPHzDvVwCBfdLhB9Ca3Wjz3ybQn+bQVhnEKi0nrcxdS9F0ScO/itc9TjRgfFgXxJhU8gImNgkIoxKLW6tNtkT/rrEtC76lDwM=
+	t=1730733323; cv=none; b=WYEK2u4x2ZvOo//I7yTea68x8uuTPG2XEHC9vpBa4NDyTUOBwjRasoljPe/sY4EeXOvSrFvj8bfKk6SfKC0dsgyU5SenCrWD8VraKsMceN5nFkiaMgKKC+yd2n9/091FJO40dz9qpfm2mqjMZxMLKmDU0H7e46Bya0Avpt9AWSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730728361; c=relaxed/simple;
-	bh=J22m2dLEM2JGyWrp4WebPPffap8OOMB8riKgDP5fgac=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hiWMUe81NojejeUGgwKxMmVod8+OVGaMkqC2ZOCYNQGVasfqOZrX2pIHEmg1v5iL6MV0s3okAtQ0eIrUABNb2y9VpsZNhZ8UPJmD8gCG0CPcs4ufDeyOwUQYkggxdoo0e9vY3Yb7gmWVyJqIzgv2FAskxBnfVogdAIzPB3Sz3+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=WK1qZUBl; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=N3mxGdu7; arc=none smtp.client-ip=202.12.124.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id D37E72540128;
-	Mon,  4 Nov 2024 08:52:36 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Mon, 04 Nov 2024 08:52:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1730728356;
-	 x=1730814756; bh=t3hv5FyYoK/FoE76EWjkfZ5QNQpmqNitzCQSghPf7Po=; b=
-	WK1qZUBleEqrByBVM2YO0riZGuhv+1GED5ZkKXYTREoXL+g43LbiiS6/N0Rek1eK
-	lFSuIGmdmsVbRbSqbE8/+kv/uH0rLfNyuGU8Vwl21B6PMhxsM2OLYQyT6V3GSAI/
-	ZDputWGo4CqLvuSqMSP/spsg1n2gH9ETVO2pliw6z9MPGwWop3vrvlE5hDFn3RRs
-	aNeJqn6R5XMbUQMUdqdnpcy9a+m/YCarhc6GZHMdYysTAG+QWLWk1JvqhtSgXi/G
-	i3lm05S24HQ/SNaGd5UtYcvOULYJimcCei2n7rlUU4Jyw7bFGHqosyRB2qVFLiVN
-	u4MJYnOUJVm8im08of8wIA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1730728356; x=
-	1730814756; bh=t3hv5FyYoK/FoE76EWjkfZ5QNQpmqNitzCQSghPf7Po=; b=N
-	3mxGdu7IQMmiAbUQXBUHYOXWTNHqk3OqKkWWKEZgwMtYUdWcf3GEpantFguCx7Vp
-	fZzdshJLWwnM1Hz1It9DwAR/gr+iUEw90pB51UvDYyVBTGMTn2YVaKRKcNthYfuR
-	RtAKdGaYezcfzZAnKpuBo0EQQDDtaLfvJSgjFd6trjKPt9urm4OnAynggKbaMZTF
-	VGAsKtBabRelp9oCYUfU1kRcFng6eFfYhApZDYQDFqGxQV0p64Hnq3h4IsaxhmkC
-	TXBJEe5XBmwcskT0uS1YZbN0Xl7g9198f29dRhfBzqKm8TS4jYpI+I9tLtEMjqP5
-	Daq+Ix4NEQAUo390egWtg==
-X-ME-Sender: <xms:o9EoZzzojBFRkjS0Z5uTvL7liO38I1TTH8axlDIt75ONdtDTe_PfBQ>
-    <xme:o9EoZ7Tl6ni9am858tfZEkDnAHXY2zFnecTXSAPASX82kFsUcsCPR9QDU8O_PrgKc
-    8LqwBKr89OvFAXlfhA>
-X-ME-Received: <xmr:o9EoZ9Xds1dc2b20h0Enl1ulrS1N2VQhTeiU5vf3m4Ugcq2AfMDHDcMEO81AedBKobRWiWmvyuMDMMzX-2t80XjK7QRew_jf7Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdeliedgheeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
-    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
-    gvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrght
-    thgvrhhnpeefhfellefhffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvd
-    elieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehn
-    ihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrsh
-    gvpdhnsggprhgtphhtthhopeduhedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohep
-    ghgvvghrtheslhhinhhugidqmheikehkrdhorhhgpdhrtghpthhtohepghhrvghgkhhhse
-    hlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepphgruhhlrdgsrghr
-    khgvrhdrtghtsegsphdrrhgvnhgvshgrshdrtghomhdprhgtphhtthhopegtlhgruhguih
-    hurdgsvgiinhgvrgdruhhjsegsphdrrhgvnhgvshgrshdrtghomhdprhgtphhtthhopeih
-    ohhshhhihhhirhhordhshhhimhhouggrrdhuhhesrhgvnhgvshgrshdrtghomhdprhgtph
-    htthhopehjrghmvghsrdgsohhtthhomhhlvgihsehhrghnshgvnhhprghrthhnvghrshhh
-    ihhprdgtohhmpdhrtghpthhtoheprghrnhgusegrrhhnuggsrdguvgdprhgtphhtthhope
-    hsvghrghgvihdrshhhthihlhihohhvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhi
-    nhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:o9EoZ9g9Imy5zpkaamTBldUakMTK9wCE6gASpAUZ_fXyxRsybZ5eLQ>
-    <xmx:o9EoZ1ApiF35blTJnIZoLcnBj_c3EPYAPAXThN8yGfcnew1hhQ77bA>
-    <xmx:o9EoZ2ITvh6v8O-2-cESy9qn_KOFWKllHtuY2ny9bee8wu792-DLIg>
-    <xmx:o9EoZ0DeTSmHvNTkWJwuxgfP9LkcEhaPxEYD13hh6kyDcGB3_Z0tTw>
-    <xmx:pNEoZ_T-8K6bRs6tP-ccbwflyo9rJ3qmfyRmmQQG73je8WJcvre1J90T>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 4 Nov 2024 08:52:35 -0500 (EST)
-Date: Mon, 4 Nov 2024 14:52:33 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Paul Barker <paul.barker.ct@bp.renesas.com>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
-	linux-ide@vger.kernel.org, linux-sh@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Simon Horman <horms@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>
-Subject: Re: [PATCH/RFC v2] MAINTAINERS: Re-add cancelled Renesas driver
- sections
-Message-ID: <20241104135232.GB1412590@ragnatech.se>
-References: <90447fa332b6f73bffcb486ccfe2515c59546253.1730717649.git.geert+renesas@glider.be>
- <20241104114007.GA1412590@ragnatech.se>
- <CAMuHMdW49dFp=-HDC4w8peQA+8phbJOsJZLE1OJtJ6tpTmAuLA@mail.gmail.com>
+	s=arc-20240116; t=1730733323; c=relaxed/simple;
+	bh=7MDgdNcgeM0JW++D9IN9F54sKWG6uhg/1ucBF0jsyZk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KAxPxK2wwdKA94mROl/yRKvwGSlV2Dgd4/l8RKu2dO9IZnWMedBGkVRdEmIulqo9+WuKLATl+zLjJQCUdBcKp9Vpim1K0/HN8FFAD84NR2KZuZMIRsyUhe/DAVZy2Qc+2tLilBZqrW5uori0da/iFKdRD+DacNKnRma9UGZd9pA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-e2974743675so3590336276.1;
+        Mon, 04 Nov 2024 07:15:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730733316; x=1731338116;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bjUBGXA+dTgYIQmg8Ha4hBZ5iFdRXgWCy64IbL+d1MA=;
+        b=ZMwO7IaitCYthCESSxr7AwAPGQ65pCOQ1AhPyZ5ezTBIvlUpSu4r8o2zcCZXdXI7vp
+         zltRrYoKODUa9FDNQI+7bZIF2DFYxlosb/iqxa0GW+ZyRxu6vczRGnfjG/7a0PWzo/qU
+         NdKZNfWMB+eUT8A4/iRhNpuAPLsXtc2BNvyJ96J92vkFC7/BsK9gIlbhmafZthRyc7/J
+         sHDi4SPBykPgp3CcGBmABzBo6RRaoxRC1pfv27xt73q8D02WKSysjH41jfDPoVuiQfcR
+         KyFeq1LbZ/lb4Nj0z7tXwV+wCXd+Wzk3GjNDhXcIIVNHj05ZBQRsBsOejfPnXERYsjLv
+         WcMw==
+X-Forwarded-Encrypted: i=1; AJvYcCUKeoJqQ4pCd73JdLUbGyFp29nTMg8fwpEqKND9fxBHBY1JBL+RHT3SgjxwdlCPGsnnii3i0ytHPRHP@vger.kernel.org, AJvYcCUxQJXAfkxI88z/+ZorPPddOTIx6MZCBKABHPFxRGx5gwWHLG74yGLphOLVkY79mairW2O2jN4y7aLgwJQkFRON7M8=@vger.kernel.org, AJvYcCVt1AnnoktMS3G6XhxGTWAC6TitxkxFkeyn5ku0kUsQSnEdI289SzhpPL/tsSkGZUFrQBX4856syPg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyXdtuq8x4EZdFGiPmCnI3KR2ZHwY+3lMWRat+sIXYnBMSgRGzV
+	w2EHifMoC6bxoZ05QRFrxCc6ixTlaw2mTGmbLcNbIojmmc2flkEng9hQBt3P
+X-Google-Smtp-Source: AGHT+IE9xqZfvmks6ZpsVYt+gZIXFsimr6euXdmoF6blTkWwKxNeELn/xCannjlEO93D3rki1WsOZQ==
+X-Received: by 2002:a05:6902:2b10:b0:e33:16fe:ddd0 with SMTP id 3f1490d57ef6-e3316fede72mr5734671276.47.1730733316244;
+        Mon, 04 Nov 2024 07:15:16 -0800 (PST)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e30e8a63368sm1966048276.4.2024.11.04.07.15.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Nov 2024 07:15:15 -0800 (PST)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-6ea15a72087so33626197b3.1;
+        Mon, 04 Nov 2024 07:15:15 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVHQFa+M6uz/FZbTBf1GOkHlu/CnLATMkmn/65MNRUd6wo0VVI5vy9b0oWTQGFDbCprt0viN35ATxo1@vger.kernel.org, AJvYcCVfoc3zWsWhG6oXzJ5h6fK7Wyl4S1/p653SFdod6DKk6pi+Bo3tkINAik4GGDPyPHUND/S5yeosfmM=@vger.kernel.org, AJvYcCXIsNWyZjHJDxRM4tAYCzAIMREGsdKIy8Uvb8RtS/Hgc8G9qD8DdC8LleV1Pdo9XEOWmgws5hQxcTMLwnuwr5uD5ZY=@vger.kernel.org
+X-Received: by 2002:a05:690c:6910:b0:6e2:1090:af31 with SMTP id
+ 00721157ae682-6ea52323524mr154829247b3.3.1730733315562; Mon, 04 Nov 2024
+ 07:15:15 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdW49dFp=-HDC4w8peQA+8phbJOsJZLE1OJtJ6tpTmAuLA@mail.gmail.com>
+References: <cover.1728377971.git.geert+renesas@glider.be> <CAMuHMdXsmAqQL+2+D_y+u1z4nn8JO+xF-mq6wWJ0pAH58n5Wiw@mail.gmail.com>
+ <b273599f-8653-4e98-ac64-09c91b0a1592@arm.com> <CAMuHMdUYnTRDHRdWYHBdJ3hNBKOXBtRMOsu1NiJFET7P-+zc4g@mail.gmail.com>
+ <96d1f356-b36b-4c14-bdd5-c38836bac418@arm.com>
+In-Reply-To: <96d1f356-b36b-4c14-bdd5-c38836bac418@arm.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 4 Nov 2024 16:15:03 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW25MC-RoCw72_EJ22e4Ae36N1CM8a-r=r7e=kA2-AgHA@mail.gmail.com>
+Message-ID: <CAMuHMdW25MC-RoCw72_EJ22e4Ae36N1CM8a-r=r7e=kA2-AgHA@mail.gmail.com>
+Subject: Re: [PATCH/RFC 0/2] arm64: dts: renesas: Re-add voltages to OPP tables
+To: Lukasz Luba <lukasz.luba@arm.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-pm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
+Hi Lukasz,
 
-On 2024-11-04 14:33:59 +0100, Geert Uytterhoeven wrote:
-> Hi Niklas,
-> 
-> On Mon, Nov 4, 2024 at 12:40 PM Niklas Söderlund
-> <niklas.soderlund+renesas@ragnatech.se> wrote:
-> > On 2024-11-04 12:05:07 +0100, Geert Uytterhoeven wrote:
-> > > Removing full driver sections also removed mailing list entries, causing
-> > > submitters of future patches to forget CCing these mailing lists.
-> > >
-> > > Hence re-add the sections for the Renesas Ethernet AVB, R-Car SATA, and
-> > > SuperH Ethernet drivers.  Add people who volunteered to maintain these
-> > > drivers (thanks a lot!).
-> > >
-> > > Fixes: 6e90b675cf942e50 ("MAINTAINERS: Remove some entries due to various compliance requirements.")
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > Reviewed-by: Simon Horman <horms@kernel.org>
-> > > Acked-by: Niklas Cassel <cassel@kernel.org>
-> > > ---
-> > > To be applied to renesas-fixes for v6.12 after v6.12-rc7, unless a
-> > > better solution is found.
-> > >
-> > > v2:
-> > >   - Add Acked-by, Reviewed-by,
-> > >   - Add M:-entries.
-> > > ---
-> > >  MAINTAINERS | 28 ++++++++++++++++++++++++++++
-> > >  1 file changed, 28 insertions(+)
-> > >
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index 13f4c23281f89332..b04d678240e80ec9 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -19578,6 +19578,16 @@ S:   Supported
-> > >  F:   Documentation/devicetree/bindings/i2c/renesas,iic-emev2.yaml
-> > >  F:   drivers/i2c/busses/i2c-emev2.c
-> > >
-> > > +RENESAS ETHERNET AVB DRIVER
-> > > +M:   Paul Barker <paul.barker.ct@bp.renesas.com>
-> > > +M:   Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+On Mon, Oct 28, 2024 at 2:41=E2=80=AFPM Lukasz Luba <lukasz.luba@arm.com> w=
+rote:
+> On 10/28/24 11:34, Geert Uytterhoeven wrote:
+> > On Fri, Oct 25, 2024 at 5:40=E2=80=AFPM Lukasz Luba <lukasz.luba@arm.co=
+m> wrote:
+> >> On 10/22/24 14:36, Geert Uytterhoeven wrote:
+> >>> On Tue, Oct 8, 2024 at 11:14=E2=80=AFAM Geert Uytterhoeven
+> >>> <geert+renesas@glider.be> wrote:
+> >>>> When CONFIG_ENERGY_MODEL=3Dy, an error is printed on RZ/G2E and R-Ca=
+r E3:
+> >>>>
+> >>>>       cpu cpu0: EM: invalid perf. state: -22
+> >>>>
+> >>>> This happens because the Operating Points Parameters tables do not l=
+ist
+> >>>> voltages, as they are all identical.  Previously, it was assumed the=
+y
+> >>>> were optional, and unused, when none of the CPU nodes is tied to a
+> >>>> regulator using the "cpu-supply" property.  This assumption turned o=
+ut
+> >>>> to be incorrect, causing the reported error message.
+> >>>>
+> >>>> This RFC patch series fixes this by adding the missing voltages.
+> >>>>
+> >>>> Note that the Energy Model calculates energy efficiency by dividing =
+the
+> >>>> (estimated) CPU power consumption by CPU core clock frequency.  When=
+ all
+> >>>> voltages have the same value, the former is proportional to clock
+> >>>> frequency, and energy efficiency becomes a constant.  Hence all
+> >>>> operating points are considered to have the same efficiency, and the
+> >>>> Energy Model always picks the one with the highest clock rate (see a=
+lso
+> >>>> [1]).
+> >>>>
+> >>>> Alternatively, the Energy Model could be changed to silently ignore =
+OPP
+> >>>> tables with missing frequencies.  IMHO this is not an unusual case.
+> >>>>
+> >>>> Which approach should be taken?
+> >>>> Thanks for your comments!
+> >>>
+> >>> Any comments from the Energy Model and PM people?
+> >>
+> >> My apologies for delay.
+> >>
+> >> So you had issue with bogus Voltage values and removed them.
+> >>
+> >> There is another way to setup EM properly, via DT:
+> >> "opp-microwatt" [1].
+> >>
+> >> That micro watt value won't confuse other subsystems, like
+> >> your regulator fwk. It will only be used by the EM fwk.
+> >>
+> >> This would be an alternative to your voltage values.
+> >> Sounds better to you?
 > >
-> > I'm happy to look after the RAVB driver together with Paul. However
-> > please don't add my +renesas tag email for new entries in the
-> > MAINTAINERS file.
+> > For opp-microwatt, I do need to know the actual power consumption
+> > of the core, right?
+>
+> Correct. You can try to derived that in a way you did and put below.
+> Although, Dhrystone is a synthetic micro-benchmark with small
+> impact to data caches, so it will not use much power.
+
+Do you have a suggestion for a better load test? stress-ng?
+
+> > Full system power consumption while running the in-kernel
+> > Dhrystones benchmark:
 > >
-> > With this fixed for RAVB and SUPERH ETHERNET,
+> > 800 MHz: avg 4972,55 mW, stdef 20,474 mW
+> > 1000 MHz: avg 5025,93 mW, stdef 18,644 mW
+> > 1200 MHz: avg 5059,63 mW, stdef 15,425 mW
+>
+> Right. From those power values can be try to derive the
+> 'CPU only power' values - assuming only one core was
+> running the test.
+>
+> AFAIU you don't have proper DVFS due to missing voltage scaling.
+
+Indeed.
+
+> Therefore...
+> Out of that I got these CPU power values:
+> 800MHz -> 174mW
+
+=3D> 217.5 =C2=B5W/MHz
+
+> 1000MHz -> 212mW
+
+=3D> 212 =C2=B5W/MHz
+
+> 1200MHz -> 261mW
+
+=3D> 217.5 =C2=B5W/MHz.
+
+So 1000 MHz seems to be the most power-efficient.
+
+> > The system also has test points across a 0.005 Ohm sense resistor in
+> > the DVFS power supply line, but no on-board measurement sensor (like
+> > the MAX9611 on Salvator-X(S)), so I haven't measured anything
+> > there yet.
+
+I'll try to do some measurements at these test points.
+
+> >> Do you know from /sys/kernel/debug/energy_model/
+> >> the current power values?
 > >
-> > Acked-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> 
-> Thank you, I will make that change.
-> Are you OK with marking both entries "S: Supported"?
+> > With this series applied:
+> >
+> > root@ebisu:~# grep -r . /sys/kernel/debug/energy_model/
+> > /sys/kernel/debug/energy_model/cpu0/ps:1200000/inefficient:0
+> > /sys/kernel/debug/energy_model/cpu0/ps:1200000/performance:1024
+> > /sys/kernel/debug/energy_model/cpu0/ps:1200000/cost:3443
+> > /sys/kernel/debug/energy_model/cpu0/ps:1200000/power:352643
+> > /sys/kernel/debug/energy_model/cpu0/ps:1200000/frequency:1200000
+> > /sys/kernel/debug/energy_model/cpu0/ps:1000000/inefficient:1
+> > /sys/kernel/debug/energy_model/cpu0/ps:1000000/performance:853
+> > /sys/kernel/debug/energy_model/cpu0/ps:1000000/cost:3445
+> > /sys/kernel/debug/energy_model/cpu0/ps:1000000/power:293869
+> > /sys/kernel/debug/energy_model/cpu0/ps:1000000/frequency:1000000
+> > /sys/kernel/debug/energy_model/cpu0/ps:800000/inefficient:1
+> > /sys/kernel/debug/energy_model/cpu0/ps:800000/performance:682
+> > /sys/kernel/debug/energy_model/cpu0/ps:800000/cost:3447
+> > /sys/kernel/debug/energy_model/cpu0/ps:800000/power:235095
+> > /sys/kernel/debug/energy_model/cpu0/ps:800000/frequency:800000
+> > /sys/kernel/debug/energy_model/cpu0/flags:0x3
+> > /sys/kernel/debug/energy_model/cpu0/cpus:0-1
+>
+> Those power values listed above look a bit higher, but they
+> could be more related to a benchmark which utilized caches
+> and more parts of the CPU. I don't know if you had chance to
+> see some of my presentations on Linux conferences, where
+> I show how much power can vary in different scenarios at
+> the same frequency...
 
-Sure, no problem.
+Thanks, I will have a look...
 
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+> TLDR; it can be even 1.8x comparing to Dhrystone.
+>
+> So would say it's OK for you to put either your Dhrystone
+> power results, or these one from EM dump (probably from
+> some more heavy benchmark then set into DT coefficient
+> to derive them in OPP fwk).
 
--- 
-Kind Regards,
-Niklas Söderlund
+Given the figures above (212 =C2=B5W/MHz vs. 217.5 =C2=B5W/MHz) using rathe=
+r
+coarse measurements are already close or identical, they might end up
+being identical, and then we're back at square zero, where EM cannot
+do anything?
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
