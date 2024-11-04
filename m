@@ -1,54 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-10281-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10282-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 238689BB60F
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66D4A9BB610
 	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Nov 2024 14:28:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 53BC71C21C38
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 98BF11C21D60
 	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Nov 2024 13:28:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDC80AD24;
-	Mon,  4 Nov 2024 13:27:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A3C7171D2;
+	Mon,  4 Nov 2024 13:27:07 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [195.130.137.88])
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03FCC1CD02
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Nov 2024 13:27:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E6A72E40B
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Nov 2024 13:27:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730726826; cv=none; b=uh+yeNHy07VKB3rdTs9vKp6ygTHOPisL1wUPwSVa4bmMnktvRoVwS8sOvDfy8dbwkuJfLSSKD3TPJDL1tWmR2PfZT8O76uEQ5YdvHlbUmjYw5SDmHGCnfcYDL1lxQ03PyQWlcXBhlCqBSgC1RaCGGd62cxcqwg2jts/RyyI/5Dk=
+	t=1730726827; cv=none; b=hcsQwB+c4DbfvhGtEyCaMRHreqNqcZsvhJN9U+bvh8PNilyeAld+Ax4K73Xs+m1/LVozvQs6fI0lSDp+ZedRDrIJSzBPk633tNP2p4f9v51uBB7/mNNQmtPIZZf2gW3YTfvBcRN1GGBBOeBE9HK5RUI+vg0J4Uwfvxrx3goKFc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730726826; c=relaxed/simple;
-	bh=DDkxjMZFE6+6sIC6I+6+uLPBbfdCRk4DyjDRJpgWxgg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=vBbyeaW0YGNDJQdfYczbHp/14mtbQ8Q1BU5gW9NjC9pzCieu1vQg47aQEegjiH/eJg0ZEsuoPLPO5tmGDzyOCJcdoypK91EAoa1/ZycwjY75h/XJnzazrQiqAxJxBAtYi/UHyy8H4MocyR3P1R0YTK1RQQEG1hE5I5qjKVtt1Kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.88
+	s=arc-20240116; t=1730726827; c=relaxed/simple;
+	bh=nlTx58DFDlY1Av3yU/9Yhpsqo9wyJPyQG/0BFfWnKWI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YuRCq5jebBzpi+ivJGTbYTuAYiszKY04j/jRMamLCfQVP5kG930pEo21m7zUaMFaHiAK4WpsMi56FTSX4fKmlBsr88uGuY1k47tceqs0Q5ywFEBPgThgLQ1UECjEoFWkQTol02Ky2IIVrekIlKVWvaYkmoBz4PquNYtp1IodLNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:ae0d:26ef:36dd:9be1])
-	by michel.telenet-ops.be with cmsmtp
-	id YdSv2D00V31l0Qj06dSvXN; Mon, 04 Nov 2024 14:26:55 +0100
+	by albert.telenet-ops.be with cmsmtp
+	id YdT32D00C31l0Qj06dT3rD; Mon, 04 Nov 2024 14:27:03 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1t7x6J-006FvZ-PY;
-	Mon, 04 Nov 2024 14:26:55 +0100
+	id 1t7x6R-006Fve-K7;
+	Mon, 04 Nov 2024 14:27:03 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1t7x6d-000BKp-G7;
-	Mon, 04 Nov 2024 14:26:55 +0100
+	id 1t7x6l-000BLL-AT;
+	Mon, 04 Nov 2024 14:27:03 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org,
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-gpio@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] clk: renesas: Updates for v6.13 (take two)
-Date: Mon,  4 Nov 2024 14:26:54 +0100
-Message-Id: <cover.1730726251.git.geert+renesas@glider.be>
+Subject: [GIT PULL] pinctrl: renesas: Updates for v6.13 (take two)
+Date: Mon,  4 Nov 2024 14:27:02 +0100
+Message-Id: <cover.1730726328.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -58,65 +57,33 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-	Hi Mike, Stephen,
+	Hi Linus,
 
-The following changes since commit 92850bed9d4d334ee502a035ed5750285faccbea:
+The following changes since commit 5dcde519a067ac5c85c273e550dde1873e2199bf:
 
-  clk: renesas: r8a779h0: Drop CLK_PLL2_DIV2 to clarify ZCn clocks (2024-10-14 10:04:31 +0200)
+  pinctrl: renesas: Select PINCTRL_RZG2L for RZ/V2H(P) SoC (2024-10-14 10:02:13 +0200)
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-clk-for-v6.13-tag2
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v6.13-tag2
 
-for you to fetch changes up to be20a73e03e19005cfa5c1c4d6158af1ba02f056:
+for you to fetch changes up to f407af78c8d3b6035f81152b15ad67063f42514e:
 
-  clk: renesas: vbattb: Add VBATTB clock driver (2024-11-03 12:25:16 +0100)
+  pinctrl: renesas: rzg2l: Use gpiochip_populate_parent_fwspec_twocell helper (2024-10-25 10:43:18 +0200)
 
 ----------------------------------------------------------------
-clk: renesas: Updates for v6.13 (take two)
+pinctrl: renesas: Updates for v6.13 (take two)
 
-  - Add RTC power domain and Battery Backup Function (VBATTB) clock
-    support for the RZ/G3S SoC,
-  - Add the devm_clk_hw_register_gate_parent_hw() helper,
-  - Miscellaneous fixes and improvements.
-
-Note that this includes DT binding updates for the RZ/G3S SoC, which are
-shared by the clock driver and DT source files.
+  - Use the gpiochip_populate_parent_fwspec_twocell() helper.
 
 Thanks for pulling!
 
 ----------------------------------------------------------------
-Biju Das (1):
-      clk: renesas: rzg2l: Fix FOUTPOSTDIV clk
+Lad Prabhakar (1):
+      pinctrl: renesas: rzg2l: Use gpiochip_populate_parent_fwspec_twocell helper
 
-Claudiu Beznea (8):
-      dt-bindings: clock: r9a08g045-cpg: Add power domain ID for RTC
-      clk: renesas: rzg2l-cpg: Move PM domain power on in rzg2l_cpg_pd_setup()
-      clk: renesas: rzg2l-cpg: Use GENPD_FLAG_* flags instead of local ones
-      clk: renesas: r9a08g045: Mark the watchdog and always-on PM domains as IRQ safe
-      clk: renesas: r9a08g045: Add power domain for RTC
-      dt-bindings: clock: renesas,r9a08g045-vbattb: Document VBATTB
-      clk: linux/clk-provider.h: Add devm_clk_hw_register_gate_parent_hw()
-      clk: renesas: vbattb: Add VBATTB clock driver
-
-Geert Uytterhoeven (2):
-      Merge tag 'renesas-r9a08g045-dt-binding-defs-tag2' into renesas-clk-for-v6.13
-      Merge tag 'renesas-r9a08g045-dt-binding-defs-tag3' into renesas-clk-for-v6.13
-
- .../bindings/clock/renesas,r9a08g045-vbattb.yaml   |  84 +++++++++
- drivers/clk/renesas/Kconfig                        |   5 +
- drivers/clk/renesas/Makefile                       |   1 +
- drivers/clk/renesas/clk-vbattb.c                   | 205 +++++++++++++++++++++
- drivers/clk/renesas/r9a08g045-cpg.c                |  54 +++---
- drivers/clk/renesas/rzg2l-cpg.c                    |  52 +++---
- drivers/clk/renesas/rzg2l-cpg.h                    |  10 +-
- include/dt-bindings/clock/r9a08g045-cpg.h          |   1 +
- .../dt-bindings/clock/renesas,r9a08g045-vbattb.h   |  13 ++
- include/linux/clk-provider.h                       |  18 ++
- 10 files changed, 380 insertions(+), 63 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/clock/renesas,r9a08g045-vbattb.yaml
- create mode 100644 drivers/clk/renesas/clk-vbattb.c
- create mode 100644 include/dt-bindings/clock/renesas,r9a08g045-vbattb.h
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c | 17 +----------------
+ 1 file changed, 1 insertion(+), 16 deletions(-)
 
 Gr{oetje,eeting}s,
 
