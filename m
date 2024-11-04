@@ -1,199 +1,152 @@
-Return-Path: <linux-renesas-soc+bounces-10271-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10272-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28D499BAF7D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Nov 2024 10:22:33 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3EEE9BB2E0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Nov 2024 12:18:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8C9442812AA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Nov 2024 09:22:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 35D85B20BF2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Nov 2024 11:18:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 314971925B0;
-	Mon,  4 Nov 2024 09:22:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="eSBZnrV9"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4569B1D0E34;
+	Mon,  4 Nov 2024 11:05:33 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE48E1632DD
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Nov 2024 09:22:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4CA11C1AB4
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Nov 2024 11:05:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730712147; cv=none; b=BZxWOAkDNAieVDq9acTxmccn13wla5uM7sqUMT1eyUzO1w7LkBA8NAFhVVUwQ3pGPaZ04glLlqFCTCTs7VtBZX0Ig+i2+GQ3FsjV4fMK0X2TqA/SzhUfG/aluRs4bnfJ/fVAh06ClhrckslP3lr/+hO7tAGIAloDMZcMcGC319o=
+	t=1730718333; cv=none; b=K73pwQ6y0xjKSGQeCqNbFZtjdlSj4fGY05BL9qTcJ8OJ5Q3yOXbwxBQ3B4J/rPzPVvcbCFo9ePZtaCr0NKDDjetHWng2UW74QUE1m6MPvnIKOgwGuuTtpl3qljRn+Ev+iZL+1FFYParmf5qKglYhAYw6KkhO3xlAiVg2xot/Fcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730712147; c=relaxed/simple;
-	bh=oYozuXtt5Z6JeaX0RlqqKPM9/MUDkhOMD8Gopuv+7rI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DHt2FKFyhF6jWxpD37rAqlhRVGUrAX3SIlu4GjOPzMFi5OLQ6zGbPknB300JGZxMluflcIfUSj4Gv0gogOk1wXcmcvSZnq9N+qza/xXVSBMRU0PXPrkYwpQ0zpMMp/9iAPDq1aac/itDZ+hEgpr/G0wA9vjpVtMgjNC+XWeELbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=eSBZnrV9; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=x9c7Uglnj8/t49
-	OIveEXApQV0J7ESUNlFMNmSWSa7E0=; b=eSBZnrV9iipdLIVWdUS8udF/TjMK3j
-	nnmMcFB95Q/hX7G/fwwFFhP5zwzo4k0/uxDWq0015bELWSh6RJp5KVJhHPtRbzf+
-	+IZXf9hnOm44Hn7RcsO4hAD/wzFnbzVAMKjBCoCF18u6GiTx6ya0OQuClzLChi2i
-	MX0qJN88sHE4gpwSsvzaEBOrBQmLAZwaqjZVwpA9Ja707MaKruOb+ChCiISp2MYm
-	Kcn/NQDhwxOJobE4OaQsPtk8aRbYagkTMo68xFqFcwjgwjjlg2VRH+yivgPkW8xD
-	ZvCVs2hgts4EIlHnUwGEL4YQZzKY7CgG7FyV9ZcKIR3WoGFY54xqcE7A==
-Received: (qmail 319331 invoked from network); 4 Nov 2024 10:22:21 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Nov 2024 10:22:21 +0100
-X-UD-Smtp-Session: l3s3148p1@H75k0hIm9r7VHA60
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	linux-mmc@vger.kernel.org
-Subject: [RFC PATCH v2] mmc: suspend MMC also when unbinding
-Date: Mon,  4 Nov 2024 11:18:42 +0200
-Message-ID: <20241104092215.20946-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.45.2
+	s=arc-20240116; t=1730718333; c=relaxed/simple;
+	bh=hPLn67jJGh8npK+Nrh+oowlYDEbl4/LjLbYe7hgNHvE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=KJcmjQ7jYKXhcgPhdGWi7wqMYUZZp0MLp2Zecx0oijvgHtzvsV6/M4xeV9UgJlDKcSQdbiYYa/0X2xT8310RNBEHnC7IFTMSiAHlNKkDVN8sLWhnCE2LAvLIY/jsWpZGEPujeJiy6klBwEDZJaz3OIfMCvU6VcXEYlkbl4zR20U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:cff2:a4e4:667a:351c])
+	by albert.telenet-ops.be with cmsmtp
+	id Yb5F2D0012b9NYg06b5FEf; Mon, 04 Nov 2024 12:05:22 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1t7utD-006FYY-3n;
+	Mon, 04 Nov 2024 12:05:14 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1t7utW-00E1Vx-Pi;
+	Mon, 04 Nov 2024 12:05:14 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Paul Barker <paul.barker.ct@bp.renesas.com>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-ide@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Simon Horman <horms@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>
+Subject: [PATCH/RFC v2] MAINTAINERS: Re-add cancelled Renesas driver sections
+Date: Mon,  4 Nov 2024 12:05:07 +0100
+Message-Id: <90447fa332b6f73bffcb486ccfe2515c59546253.1730717649.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-When unbinding a MMC host, the card should be suspended. Otherwise,
-problems may arise. E.g. the card still expects power-off notifications
-but there is no host to send them anymore. Shimoda-san tried disabling
-notifications only, but there were issues with his approaches [1] [2].
+Removing full driver sections also removed mailing list entries, causing
+submitters of future patches to forget CCing these mailing lists.
 
-Here is my take on it, based on the review comments:
+Hence re-add the sections for the Renesas Ethernet AVB, R-Car SATA, and
+SuperH Ethernet drivers.  Add people who volunteered to maintain these
+drivers (thanks a lot!).
 
-a) 'In principle we would like to run the similar operations at "remove"
-    as during "system suspend"' [1]
-b) 'We want to support a graceful power off sequence or the card...' [2]
-
-So, first, mmc_remove_card() gets improved to mark the card as "not
-present" and to call the bus specific suspend() handler.
-
-Then, _mmc_suspend gets extended to recognize another reason of being
-called, namely when a card removal happens. Building upon the now
-updated mmc_remove_card(), this is the case when the card is flagged as
-"not present".
-
-The logic of either sending a notification or sending the card to sleep
-gets updated to handle this new reason. Controllers able to do full
-power cycles will still do a full power cycle. Controllers which can
-only do power cycles in suspend, will send the card to sleep.
-
-All this is for MMC. SD/SDIO are unaffected because they are not using
-the 'card present' flag.
-
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/1602581312-23607-1-git-send-email-yoshihiro.shimoda.uh@renesas.com/
-[2] https://patchwork.kernel.org/project/linux-mmc/patch/1605005330-7178-1-git-send-email-yoshihiro.shimoda.uh@renesas.com/
+Fixes: 6e90b675cf942e50 ("MAINTAINERS: Remove some entries due to various compliance requirements.")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Reviewed-by: Simon Horman <horms@kernel.org>
+Acked-by: Niklas Cassel <cassel@kernel.org>
 ---
+To be applied to renesas-fixes for v6.12 after v6.12-rc7, unless a
+better solution is found.
 
-Lightly tested with a Renesas R-Car S4 Spider board. It bascially works
-as expected. Serious testing postponed until the generic direction of
-this is approved :)
+v2:
+  - Add Acked-by, Reviewed-by,
+  - Add M:-entries.
+---
+ MAINTAINERS | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
- drivers/mmc/core/bus.c |  3 +++
- drivers/mmc/core/mmc.c | 29 +++++++++++++++++++++--------
- 2 files changed, 24 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/mmc/core/bus.c b/drivers/mmc/core/bus.c
-index 0ddaee0eae54..52704d39c6d5 100644
---- a/drivers/mmc/core/bus.c
-+++ b/drivers/mmc/core/bus.c
-@@ -403,5 +403,8 @@ void mmc_remove_card(struct mmc_card *card)
- 		host->cqe_enabled = false;
- 	}
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 13f4c23281f89332..b04d678240e80ec9 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -19578,6 +19578,16 @@ S:	Supported
+ F:	Documentation/devicetree/bindings/i2c/renesas,iic-emev2.yaml
+ F:	drivers/i2c/busses/i2c-emev2.c
  
-+	card->state &= ~MMC_STATE_PRESENT; // TBD: mmc_card_clear_present()
-+	host->bus_ops->suspend(host);
++RENESAS ETHERNET AVB DRIVER
++M:	Paul Barker <paul.barker.ct@bp.renesas.com>
++M:	Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
++L:	netdev@vger.kernel.org
++L:	linux-renesas-soc@vger.kernel.org
++F:	Documentation/devicetree/bindings/net/renesas,etheravb.yaml
++F:	drivers/net/ethernet/renesas/Kconfig
++F:	drivers/net/ethernet/renesas/Makefile
++F:	drivers/net/ethernet/renesas/ravb*
 +
- 	put_device(&card->dev);
- }
-diff --git a/drivers/mmc/core/mmc.c b/drivers/mmc/core/mmc.c
-index 6a23be214543..2bcf9ee0caa8 100644
---- a/drivers/mmc/core/mmc.c
-+++ b/drivers/mmc/core/mmc.c
-@@ -32,6 +32,12 @@
- #define MIN_CACHE_EN_TIMEOUT_MS 1600
- #define CACHE_FLUSH_TIMEOUT_MS 30000 /* 30s */
+ RENESAS ETHERNET SWITCH DRIVER
+ R:	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+ L:	netdev@vger.kernel.org
+@@ -19627,6 +19637,14 @@ F:	Documentation/devicetree/bindings/i2c/renesas,rmobile-iic.yaml
+ F:	drivers/i2c/busses/i2c-rcar.c
+ F:	drivers/i2c/busses/i2c-sh_mobile.c
  
-+enum mmc_pm_reason {
-+	MMC_PM_REASON_SHUTDOWN,
-+	MMC_PM_REASON_SUSPEND,
-+	MMC_PM_REASON_REMOVAL,
-+};
++RENESAS R-CAR SATA DRIVER
++M:	Geert Uytterhoeven <geert+renesas@glider.be>
++L:	linux-ide@vger.kernel.org
++L:	linux-renesas-soc@vger.kernel.org
++S:	Supported
++F:	Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml
++F:	drivers/ata/sata_rcar.c
 +
- static const unsigned int tran_exp[] = {
- 	10000,		100000,		1000000,	10000000,
- 	0,		0,		0,		0
-@@ -2104,11 +2110,16 @@ static int _mmc_flush_cache(struct mmc_host *host)
- 	return err;
- }
+ RENESAS R-CAR THERMAL DRIVERS
+ M:	Niklas Söderlund <niklas.soderlund@ragnatech.se>
+ L:	linux-renesas-soc@vger.kernel.org
+@@ -19702,6 +19720,16 @@ S:	Supported
+ F:	Documentation/devicetree/bindings/i2c/renesas,rzv2m.yaml
+ F:	drivers/i2c/busses/i2c-rzv2m.c
  
--static int _mmc_suspend(struct mmc_host *host, bool is_suspend)
-+static int _mmc_suspend(struct mmc_host *host, enum mmc_pm_reason reason)
- {
- 	int err = 0;
--	unsigned int notify_type = is_suspend ? EXT_CSD_POWER_OFF_SHORT :
--					EXT_CSD_POWER_OFF_LONG;
-+	unsigned int notify_type = reason == MMC_PM_REASON_SUSPEND ?
-+				   EXT_CSD_POWER_OFF_SHORT : EXT_CSD_POWER_OFF_LONG;
-+	bool can_pwr_cycle_now = (host->caps2 & MMC_CAP2_FULL_PWR_CYCLE) ||
-+				  ((host->caps2 & MMC_CAP2_FULL_PWR_CYCLE_IN_SUSPEND) &&
-+				    reason == MMC_PM_REASON_SUSPEND);
++RENESAS SUPERH ETHERNET DRIVER
++M:	Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
++L:	netdev@vger.kernel.org
++L:	linux-renesas-soc@vger.kernel.org
++F:	Documentation/devicetree/bindings/net/renesas,ether.yaml
++F:	drivers/net/ethernet/renesas/Kconfig
++F:	drivers/net/ethernet/renesas/Makefile
++F:	drivers/net/ethernet/renesas/sh_eth*
++F:	include/linux/sh_eth.h
 +
-+	pr_info("%s: suspend reason %d, can pwr cycle %d\n", mmc_hostname(host), reason, can_pwr_cycle_now);
- 
- 	mmc_claim_host(host);
- 
-@@ -2119,9 +2130,9 @@ static int _mmc_suspend(struct mmc_host *host, bool is_suspend)
- 	if (err)
- 		goto out;
- 
-+	/* Notify if pwr_cycle is possible or power gets cut because of shutdown */
- 	if (mmc_can_poweroff_notify(host->card) &&
--	    ((host->caps2 & MMC_CAP2_FULL_PWR_CYCLE) || !is_suspend ||
--	     (host->caps2 & MMC_CAP2_FULL_PWR_CYCLE_IN_SUSPEND)))
-+	    (can_pwr_cycle_now || reason == MMC_PM_REASON_SHUTDOWN))
- 		err = mmc_poweroff_notify(host->card, notify_type);
- 	else if (mmc_can_sleep(host->card))
- 		err = mmc_sleep(host);
-@@ -2142,9 +2153,11 @@ static int _mmc_suspend(struct mmc_host *host, bool is_suspend)
-  */
- static int mmc_suspend(struct mmc_host *host)
- {
-+	enum mmc_pm_reason reason = mmc_card_present(host->card) ?
-+				    MMC_PM_REASON_SUSPEND : MMC_PM_REASON_REMOVAL;
- 	int err;
- 
--	err = _mmc_suspend(host, true);
-+	err = _mmc_suspend(host, reason);
- 	if (!err) {
- 		pm_runtime_disable(&host->card->dev);
- 		pm_runtime_set_suspended(&host->card->dev);
-@@ -2191,7 +2204,7 @@ static int mmc_shutdown(struct mmc_host *host)
- 		err = _mmc_resume(host);
- 
- 	if (!err)
--		err = _mmc_suspend(host, false);
-+		err = _mmc_suspend(host, MMC_PM_REASON_SHUTDOWN);
- 
- 	return err;
- }
-@@ -2215,7 +2228,7 @@ static int mmc_runtime_suspend(struct mmc_host *host)
- 	if (!(host->caps & MMC_CAP_AGGRESSIVE_PM))
- 		return 0;
- 
--	err = _mmc_suspend(host, true);
-+	err = _mmc_suspend(host, MMC_PM_REASON_SUSPEND);
- 	if (err)
- 		pr_err("%s: error %d doing aggressive suspend\n",
- 			mmc_hostname(host), err);
+ RENESAS USB PHY DRIVER
+ M:	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+ L:	linux-renesas-soc@vger.kernel.org
 -- 
-2.45.2
+2.34.1
 
 
