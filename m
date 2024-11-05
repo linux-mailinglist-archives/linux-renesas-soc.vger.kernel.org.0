@@ -1,100 +1,135 @@
-Return-Path: <linux-renesas-soc+bounces-10303-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10304-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5C269BCC56
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Nov 2024 13:07:29 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 826D59BCE1A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Nov 2024 14:39:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 69B3A28302B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Nov 2024 12:07:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 12D24B21F27
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Nov 2024 13:39:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B1341D47BB;
-	Tue,  5 Nov 2024 12:07:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4EFC1D63D7;
+	Tue,  5 Nov 2024 13:39:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j51gBfj+"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="lFcqKKdi";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AhjAeOcT"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758C91420A8;
-	Tue,  5 Nov 2024 12:07:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A6F11D5176;
+	Tue,  5 Nov 2024 13:39:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730808444; cv=none; b=pNVRtop0dCqx2xOhUrlWugIM0Fpe00eObbmI3u5+vedMWqPFnwtvlj+m+UgHHZKCZI5QEH39hll1DKUTsod+Lpfp0MlDOE47QfS5PYwux6LmEGGA/FS/dHo9/Zg7tJHoWh9er13Fz6wE2uo3C1BDLwlPwQlB5JZrobtOhaOUs5w=
+	t=1730813960; cv=none; b=oNbZhx6Uhj/1Z+VP1ensztqh+Xc5cIFPM1poD18oA5HtPt4ehVsQnAEEkKykI+WilQVCXPpmWb7F1ap/KWSRgpY6Tq1jYj8clGiKTwdtooI01BI1gu0wtYMfZ+65oZiS3wv0lhCMQ4QzzKp3hqRpzqdM4JOeU0NlfhhUGOirNws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730808444; c=relaxed/simple;
-	bh=on3mcO94tt7KilM9d2YbIAEw+E9ZgvnJ6HbM8d0j6x0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HleYdMZNn/WDQTumKJBdvq29XzMnk+P0YUOJfPigQTJX7M/nkm6OiBqrpKM7A+qoDBsNvzjAWrXbb7VMGJt3eCFmlRe8Al0txm1XXBo3zhdQCfeNZwreZyNmBATXLzyUQ2BxILD4K+Zja8/ua3gvG/sXh4xlOrgYXg3DuOFrSj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j51gBfj+; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730808443; x=1762344443;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=on3mcO94tt7KilM9d2YbIAEw+E9ZgvnJ6HbM8d0j6x0=;
-  b=j51gBfj+uFDxsHZe/Yw8paQi5eHDple5mrQHG/S0vCdF/auAVb6tievJ
-   E9ntXjDnRqlei/gpVQ2s9Nvr64ZII0ZDOpBySTfHYts9WpDaydfKfyHF5
-   DDWFbMLBi/m6tnwjh735A6CdTWsQ118sE+JBSykmH530eBYdeDcjfscqi
-   4R1tq8bdBYJ1nYMQXOR1WXcOtZZBx226RPZFSBcYrfhz0qHLIUVVu0CtJ
-   7qpKV86qF/rLPlBxqTm5qdqjLN9ZSSxWfd6iSCtWRzeAkLQf8b9tLBh4v
-   sFmwWtUYAh1qGBh9wMZOnZTM0Nu5jqlqsxmfBgJg+seZAI8iSDkVB+6cq
-   w==;
-X-CSE-ConnectionGUID: EFZCiLkfSaC44NxDaMsE+w==
-X-CSE-MsgGUID: ok+wK4EkS2qGzHF755MKxw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="30773613"
-X-IronPort-AV: E=Sophos;i="6.11,260,1725346800"; 
-   d="scan'208";a="30773613"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 04:07:22 -0800
-X-CSE-ConnectionGUID: izD8ZC3LRC+jy9k7Ch1Tsw==
-X-CSE-MsgGUID: kme8k7LyQwy7LStBLSdT+w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,260,1725346800"; 
-   d="scan'208";a="89130796"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 04:07:19 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 1EC6D11F9C3;
-	Tue,  5 Nov 2024 14:07:16 +0200 (EET)
-Date: Tue, 5 Nov 2024 12:07:16 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	s=arc-20240116; t=1730813960; c=relaxed/simple;
+	bh=2UuFLZVFr0KQaPKzzpf546l104yrOgfjF/fsIXj9oGs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SfY0fQcVtiQfqE1w3/rP9EeS5vsL9Hb0/TXJVaVDg0NAoKw43/MqTkdpAlNNO7/kM/EODmxU/CrakeCNDH2eHn+DCLjOb0en1TQvLNBXSQJ8D7VJM9+3fSSsaoGP4HXHDa2IjgXKzbfn8u17fe+LSdqWNYbdj9iUv8vWv5YkRgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=lFcqKKdi; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AhjAeOcT; arc=none smtp.client-ip=103.168.172.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 6617811401DF;
+	Tue,  5 Nov 2024 08:39:17 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Tue, 05 Nov 2024 08:39:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm2; t=1730813957; x=1730900357; bh=tv
+	G6gD7gC0Pgt6fxO6W0SvAD0vbyJtNou8zuvjw8qRI=; b=lFcqKKdignAnl0x/eN
+	zdRp+qyrF/gT1OtNDO6XUqgd0ATGz0v+ktLnmiOjrunhXlClu/anQ3b0+HatVM5O
+	nlpyBTuNoE3av/Oe4BTL7eOuJhIRl0DzFGU10rHw1mAA13vOlwntVb0Mcl1sdt0J
+	lgQRCM8JheMcqGNFsEI96aSbWEt+F0OkSVAlQIGkQ3Gw5GELdnN5KnBJMmcGXtGL
+	YEFdDOtmn2ac42+BaEpkcfAeYYQHhZPgbYerLvFoQXIC3vGIkXz/HYgijNjhIECL
+	3fOie5vlER3U7EuegaSOaFh5C6rkyldlgqVrOUtXzohmEfv5grEev5t+p29KHvxy
+	2Tpw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1730813957; x=1730900357; bh=tvG6gD7gC0Pgt6fxO6W0SvAD0vby
+	JtNou8zuvjw8qRI=; b=AhjAeOcTeq70nzuxSoORZZKWZUy6IFaTVH0cF4zfKqiM
+	XVEt5Z4lNOV9qh7yOf+3QJjRix073FMk5QoK4Mu8uDMHSyvMwfPTQafT/FJGAK4H
+	1l5aEawhvYxB0gLZjOuXLURsd2cODnwcn+K/LVE3Kr+BG+ddOUbMmujqsBAMv3jO
+	/8ISfyLukdTMmhVDGQE+wV+pAw3gr+SQzT3XrO/cN6Y0gzRFGynfVIWEmEEb19WS
+	qlqbyEnoaO60Wb6I/TVCJoKKbGuJubr0XU4fUQtKFJxK3ORtVVs6dOZ7r5M6lUPr
+	Np5KnTA3M2lHZtdmWYf22aInJpox9w4/RbFS5F51jA==
+X-ME-Sender: <xms:BCAqZ6nnF_-_OTASNUMK9zfw2LRZG_vLZSQOT8LiRXWhfBV9RsxBEA>
+    <xme:BCAqZx2VEX1QqZAs1e3Dju2sLuZJFkgeA_rJygW2u_VZ1bslaPV1F8P_HLKd07sc-
+    -1MnVpn7BGCwcIVDO8>
+X-ME-Received: <xmr:BCAqZ4rjkKAGUEay-rMzlXT9821wcRzhs18irEEjrL4UaaaMqPMe3UOhYWEFIuvaOWdQ32xqIBJD26CEVzERoPCYhw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrtddtgddviecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
+    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
+    hsucdlqddutddtmdenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeenucfh
+    rhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlh
+    hunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghr
+    nhepveekheeghfekgeegfffhkeduhfegjeffgfekgfdtjeelheekvdfhtdffueekledtne
+    cuffhomhgrihhnpeguthhsrdhinhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgr
+    mhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvg
+    gthhdrshgvpdhnsggprhgtphhtthhopeejpdhmohguvgepshhmthhpohhuthdprhgtphht
+    thhopehgvggvrhhtodhrvghnvghsrghssehglhhiuggvrhdrsggvpdhrtghpthhtoheprh
+    hosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgv
+    lhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdr
+    ohhrghdprhgtphhtthhopeguvghvihgtvghtrhgvvgesvhhgvghrrdhkvghrnhgvlhdroh
+    hrghdprhgtphhtthhopehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshes
+    rhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:BCAqZ-lJOj7IYDErsHt7QDz6EdjzkV8muyywkkr14lQPADIys_N2AQ>
+    <xmx:BCAqZ42SSErfa8SiggDa-1-CnzE3wpjliune_ufBYDeugoGyBV881w>
+    <xmx:BCAqZ1uwc7XDduC0jomR9EaX4rIfvqrGjjPIvyiFseE_93xB7xr4SQ>
+    <xmx:BCAqZ0VqNSPnGNyNjNguh5avIS5KwIC6KcPNZ15a92WizUlzeE-QSA>
+    <xmx:BSAqZ5mgLkjYfhWYeBZ4MXhZliWxLjO8YeG--A52FO2rRko0mxgp7ssf>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 5 Nov 2024 08:39:16 -0500 (EST)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v3 08/10] media: i2c: ov5645: Report streams using frame
- descriptors
-Message-ID: <ZyoKdCFLo2yeK9S4@kekkonen.localdomain>
-References: <20241018153230.235647-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20241018153230.235647-9-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	devicetree@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2 0/2] arm64: dts: renesas: gray-hawk: Wire up MAX96724
+Date: Tue,  5 Nov 2024 14:38:22 +0100
+Message-ID: <20241105133824.788688-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241018153230.235647-9-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Prabhakar,
+Hi Geert,
 
-On Fri, Oct 18, 2024 at 04:32:28PM +0100, Prabhakar wrote:
-> +	code = v4l2_subdev_state_get_format(state, OV5645_PAD_SOURCE, 0)->code;
+This series wires up the MAX96724 on Gray-Hawk. All dependencies in 
+bindings and drivers are now in the media next tree.
 
-This doesn't compile. I've dropped the patch for now.
+This targets the single board schematics but I opted to keep this in a 
+separate DTSI file as we do have a ID eeprom similar to what we have 
+setups where multiple boards. If you truly dislike this I can move it 
+into the 8a779h0-gray-hawk-single.dts. In that case would you prefers me 
+to drop the ID eeprom?
+
+Niklas Söderlund (2):
+  arm64: dts: renesas: gray-hawk: Create separate CSI/DSI sub-board
+  arm64: dts: renesas: gray-hawk-csi-dsi: Add and connect MAX96724
+
+ .../boot/dts/renesas/gray-hawk-csi-dsi.dtsi   | 201 ++++++++++++++++++
+ .../dts/renesas/r8a779h0-gray-hawk-single.dts |   8 +-
+ 2 files changed, 202 insertions(+), 7 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/renesas/gray-hawk-csi-dsi.dtsi
 
 -- 
-Sakari Ailus
+2.47.0
+
 
