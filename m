@@ -1,71 +1,71 @@
-Return-Path: <linux-renesas-soc+bounces-10339-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10340-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C7769BE0C6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Nov 2024 09:26:01 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCA819BE0CA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Nov 2024 09:26:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A9B211F2230D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Nov 2024 08:26:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 30A68B23859
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Nov 2024 08:26:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 297881DF991;
-	Wed,  6 Nov 2024 08:20:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33C311DFE0E;
+	Wed,  6 Nov 2024 08:20:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="Mi/RVTyo"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="lpYJSIL5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D23871DF98E
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Nov 2024 08:20:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 200261DFD90
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Nov 2024 08:20:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730881216; cv=none; b=esgMWrVoUB5jMxyLY20cD2buPMyk0mFqYmda/Hej6/Y2/5B/fGLJ7FPhNJnyAZUjY6ORNvLHVUKeTrKXHtaI6fRau+x1E68NT2QRmTDf4ELW5BGXOclO6p4fm6h6aY6JoviNBpWLwDDYplw7D6fQs1UUZXOowlxM/DFbhAxu4Q0=
+	t=1730881218; cv=none; b=nk/w0oWiXQ9yqmWlfSNpsPFofeIV1CSuT4HiMiW/lIG2G9XlGWJw+JMpKh+9bVM1Og0LyNw8peyMWUSeuth8Efr7cwAuuBYv8DApYJfYPJa/9TaQ7d24eaVZIDQ2nlQtpQN9tOCqa9M1aa4N5L+RPZb1HwJdXvClyAboIHbttZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730881216; c=relaxed/simple;
-	bh=EW5QvHdzBq+RJllof00TNGgCEYMdaEbYmP7Eh277mvo=;
+	s=arc-20240116; t=1730881218; c=relaxed/simple;
+	bh=LpIbzPFjwsAuKikvHGjeyiUJeiUOA++o8NTMXkHmCp8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=B7uZG3aFe1oYtTWIvq+0OgW1PUBZrL3dvFCfM9CyKeVtABdaTlAklyyqPpqAIGsw7xfvqIcWF74i8MihAkR5Z07N7lBe/1GaqIbTQ3xiu3dz3bAHbOHGQmUjHitWnTS/+tp5d4L7/7kngv8impIiOmIDGwcrSBGlt+AeewOMfoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=Mi/RVTyo; arc=none smtp.client-ip=209.85.218.44
+	 MIME-Version; b=CkZ5dzrudBJy0v6LjQXebADy8hNeD0v7q9r9OgSCHYEzV719mwLLg83fVvmZGNeR/ucqMbSyYaBUbCFvWRnyQPXURNGimU5+GBnhW23buhFuqlqeIbAQuXmB7CEjETgKH+Bmk0OV0OTaCcT9m4/zHfUeIKNnwnc1PdSqbKA1aC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=lpYJSIL5; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a9eb3794a04so232381466b.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 06 Nov 2024 00:20:13 -0800 (PST)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a9e8522c10bso97364366b.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 06 Nov 2024 00:20:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1730881212; x=1731486012; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1730881214; x=1731486014; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0PrH1MFyoXl7Ri4q0AfVSrjUgxkxxuAGcs0c90GGV4A=;
-        b=Mi/RVTyoho3WeSeeF79dMKak/2HZuy780wjD7GhEtvNLBC2gFH3uimgVsR3j834M7v
-         ICCVspKsAJxuzDtiOHwmQDHBOXwns11hQId3alJw5w39kHNi0gzc1ryDTiy2IYd0IT2z
-         mqQ6S9YjlUrIA6W1Wcs46ckbzvlyql05TNwZNwvIneEZKGAD0bGhb2sIjjO55MA54ulK
-         n7fnMA3chityOVkI1j5Qi+XGKwGKv9Sf3ipfy6Bbo1w4ouMaiRfnV9GtpJD0hCTeTrI3
-         lLX5IV9HBo9hmBgj4hZfFHwWKoL3yT2JsC0wjc7MQnvU46OEDyyh3AMTMeVJcTp3RVwh
-         oMMQ==
+        bh=k96qqoiSoAJXSyNkvAC1mj0FJdsWESn2VXmJGjv0jRM=;
+        b=lpYJSIL5ULoVKQoBTye+7k3hrMwOuGiQQMWxgJLqMfl6JsiVEkc2Uy2ASSV3YrwaIc
+         6i9SInFyWAOGc1SYipW0ugDeFdHqG/G45YG9AjJouJGGMHFBRv11+QlPDhQ8nxb5TNvj
+         NVwHiAo2YO/959bEKbX1Gga6p9vCo/PRO6LtiGJZBUxyoAVw9RCNJPt3TCAt+PBbWC5N
+         TU1pKsOJyWANp2+xY3g52o2YHACGnI/ZjXR1qIYjtuLcz0JZIzQPfbEVMHosyIpzg+8B
+         DYbBAVW7sw0q9PdapCP7qzPOnMoQ0ZFpfc/kLNo9hGIg/qG7xkBhuVX7Wr8cWrwp0pyi
+         0kOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730881212; x=1731486012;
+        d=1e100.net; s=20230601; t=1730881214; x=1731486014;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0PrH1MFyoXl7Ri4q0AfVSrjUgxkxxuAGcs0c90GGV4A=;
-        b=bWrcPaBBiywx18vkYCg3N5IqtU88iiiulgnLOvvRZbN/TFj5d1rQ1/lFNRHRXGAqfI
-         5Q1lPBZ2WiZZ2GtQ6fdWl8fQF6VBfQIyxrQp4lUfkBdg9KnayYVSwKJztSCjx3lKrZGa
-         Ol3q4IznYNgSy7m1msJigRCiGK/8qhbzuQS+UKOHZS9BL6dRUAOTSRRXfJy0Ey8voWDU
-         CMbZaasfBvjrPWMhSwmvA/ublD2jbDAhmp5druBTnjAqE3O6hZ8mr9LZNNCWrTR+wISS
-         tAZmlPJUJJAKC6nL8nYwPNbZDZwvqBzGO6OyNtLyLRiLFCpVImX+8IHK+CiC1CyPrqY9
-         e+sQ==
-X-Gm-Message-State: AOJu0YwBjBFNYcK+dB2B1MNID36krlWCDl7Pc5MYANw/zNdIdO2I2weY
-	7XTxUWDy+b79O/icxZ4YC/Ry045+SnICJOgwed3cszCA+nucGpWBOQS4pbc9oTE=
-X-Google-Smtp-Source: AGHT+IHNzJYoMyHuxe07aYkCHl9dPgMv+Bm3g4ThxLARQaU1LFW3c9JXQqf0XMx8bTGv4A4aJ+XhnQ==
-X-Received: by 2002:a17:907:2d26:b0:a9e:b610:409c with SMTP id a640c23a62f3a-a9eb61043f7mr517178366b.48.1730881212201;
-        Wed, 06 Nov 2024 00:20:12 -0800 (PST)
+        bh=k96qqoiSoAJXSyNkvAC1mj0FJdsWESn2VXmJGjv0jRM=;
+        b=R/Z8mqiXa+L+z4bWJxCGlUrlSZoyU/6JR+bNIx2nExWfWaCym/wrKvcoyCimiyaihQ
+         w86zr0yfsreWLJV4Yv6Rm/M+REvTI3OJjbjz2dh35Mw6GMqde2V4WcGO2C5yUsZirsi7
+         rTQ4MQ18soBtqGwQ241cwD2YRVK46C0v5hJ+UQYuEtcmqEwddMF3FhdfqpnBw+s/UIz/
+         yPbZ3oSkEXXYjrT0wR8TQsB3qCxBPpKt4+k7Nz6jjS8AH0TEir3XQyRs7652d3S30Qc/
+         tGi+bywkk+cUVQdkwMk+cm2RMqQc0zx5S3dHwy3u8h3aH8u55th3hTiIpZ6+mSw+cb19
+         uQaA==
+X-Gm-Message-State: AOJu0YyP0OuYgNkjady1LQSDiCAOQh2Tv8c5ZTkliTt3BVxGjEHzOnxM
+	I4jEo5ri5JZ+k4BW+GvxitdZvrckcxTf5ZvA3UEHKsL3cuSSOUTD6fjo6B6Xz9o=
+X-Google-Smtp-Source: AGHT+IFejo83GtgXEStBFHu6ymQkjBmABkbjKG9E9Yg9klCKSbOtKr0rxTFD4KQNYRvY76euAWDCxQ==
+X-Received: by 2002:a17:906:eec3:b0:a9e:c266:4e82 with SMTP id a640c23a62f3a-a9ec65d07b0mr182988666b.6.1730881214452;
+        Wed, 06 Nov 2024 00:20:14 -0800 (PST)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.28])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb16a2dbcsm241369766b.40.2024.11.06.00.20.10
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb16a2dbcsm241369766b.40.2024.11.06.00.20.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2024 00:20:11 -0800 (PST)
+        Wed, 06 Nov 2024 00:20:13 -0800 (PST)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: geert+renesas@glider.be,
@@ -91,11 +91,10 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-gpio@vger.kernel.org,
-	Hao Bui <hao.bui.yg@renesas.com>,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH 26/31] ASoC: da7213: Extend support for the MCK in range [2, 50] MHz
-Date: Wed,  6 Nov 2024 10:18:21 +0200
-Message-Id: <20241106081826.1211088-27-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH 27/31] arm64: dts: renesas: r9a08g045: Add SSI nodes
+Date: Wed,  6 Nov 2024 10:18:22 +0200
+Message-Id: <20241106081826.1211088-28-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20241106081826.1211088-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20241106081826.1211088-1-claudiu.beznea.uj@bp.renesas.com>
@@ -107,94 +106,131 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Hao Bui <hao.bui.yg@renesas.com>
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-According to DA7212 HW manual, the codec's PLL input divider can operate
-with MCLK range from 2MHz to 50MHz but current driver only set the
-minimum supported MCLK frequency to 5MHz. That cause 11.025kHz audio
-which is corresponding to MCLK of 2.8224MHz (11.025kHz * 256) unable to
-play in case audio-simple-card is used.
+Add DT nodes for the SSI IPs available on the Renesas RZ/G3S SoC. Along
+with it external audio clocks were added. Board device tree could use it
+and update the frequencies.
 
-Signed-off-by: Hao Bui <hao.bui.yg@renesas.com>
-Co-developed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
- sound/soc/codecs/da7213.c | 18 +++++++++++++-----
- sound/soc/codecs/da7213.h |  1 +
- 2 files changed, 14 insertions(+), 5 deletions(-)
+ arch/arm64/boot/dts/renesas/r9a08g045.dtsi | 96 ++++++++++++++++++++++
+ 1 file changed, 96 insertions(+)
 
-diff --git a/sound/soc/codecs/da7213.c b/sound/soc/codecs/da7213.c
-index af38b2b5e174..ca4cc954efa8 100644
---- a/sound/soc/codecs/da7213.c
-+++ b/sound/soc/codecs/da7213.c
-@@ -20,6 +20,7 @@
- #include <sound/pcm.h>
- #include <sound/pcm_params.h>
- #include <linux/pm_runtime.h>
-+#include <linux/units.h>
- #include <sound/soc.h>
- #include <sound/initval.h>
- #include <sound/tlv.h>
-@@ -1559,7 +1560,7 @@ static int da7213_set_component_sysclk(struct snd_soc_component *component,
- 	if (freq == 0)
- 		return 0;
+diff --git a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
+index be8a0a768c65..24c6388cd0d5 100644
+--- a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
+@@ -14,6 +14,22 @@ / {
+ 	#address-cells = <2>;
+ 	#size-cells = <2>;
  
--	if (((freq < 5000000) && (freq != 32768)) || (freq > 54000000)) {
-+	if (((freq < da7213->fin_min_rate) && (freq != 32768)) || (freq > 54000000)) {
- 		dev_err(component->dev, "Unsupported MCLK value %d\n",
- 			freq);
- 		return -EINVAL;
-@@ -1858,11 +1859,14 @@ static int da7213_set_bias_level(struct snd_soc_component *component,
- 	return 0;
- }
- 
-+#define DA7213_FIN_MIN_RATE	(5 * MEGA)
-+#define DA7212_FIN_MIN_RATE	(2 * MEGA)
++	audio_clk1: audio-clk1 {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		/* This value must be overridden by boards that provide it. */
++		clock-frequency = <0>;
++		status = "disabled";
++	};
 +
- #if defined(CONFIG_OF)
- /* DT */
- static const struct of_device_id da7213_of_match[] = {
--	{ .compatible = "dlg,da7212", },
--	{ .compatible = "dlg,da7213", },
-+	{ .compatible = "dlg,da7212", .data = (void *)DA7212_FIN_MIN_RATE },
-+	{ .compatible = "dlg,da7213", .data = (void *)DA7213_FIN_MIN_RATE },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, da7213_of_match);
-@@ -1870,8 +1874,8 @@ MODULE_DEVICE_TABLE(of, da7213_of_match);
- 
- #ifdef CONFIG_ACPI
- static const struct acpi_device_id da7213_acpi_match[] = {
--	{ "DLGS7212", 0},
--	{ "DLGS7213", 0},
-+	{ "DLGS7212", DA7212_FIN_MIN_RATE },
-+	{ "DLGS7213", DA7213_FIN_MIN_RATE },
- 	{ },
- };
- MODULE_DEVICE_TABLE(acpi, da7213_acpi_match);
-@@ -2167,6 +2171,10 @@ static int da7213_i2c_probe(struct i2c_client *i2c)
- 	if (!da7213)
- 		return -ENOMEM;
- 
-+	da7213->fin_min_rate = (uintptr_t)i2c_get_match_data(i2c);
-+	if (!da7213->fin_min_rate)
-+		return -EINVAL;
++	audio_clk2: audio-clk2 {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		/* This value must be overridden by boards that provide it. */
++		clock-frequency = <0>;
++		status = "disabled";
++	};
 +
- 	i2c_set_clientdata(i2c, da7213);
+ 	cpus {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+@@ -187,6 +203,86 @@ i2c3: i2c@10090c00 {
+ 			status = "disabled";
+ 		};
  
- 	/* Get required supplies */
-diff --git a/sound/soc/codecs/da7213.h b/sound/soc/codecs/da7213.h
-index 505b731c0adb..b9ab791d6b88 100644
---- a/sound/soc/codecs/da7213.h
-+++ b/sound/soc/codecs/da7213.h
-@@ -600,6 +600,7 @@ struct da7213_priv {
- 	struct clk *mclk;
- 	unsigned int mclk_rate;
- 	unsigned int out_rate;
-+	unsigned int fin_min_rate;
- 	int clk_src;
- 	bool master;
- 	bool alc_calib_auto;
++		ssi0: ssi@100a8000 {
++			compatible = "renesas,r9a08g045-ssi",
++				     "renesas,rz-ssi";
++			reg = <0 0x100a8000 0 0x400>;
++			interrupts = <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 241 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 242 IRQ_TYPE_EDGE_RISING>;
++			interrupt-names = "int_req", "dma_rx", "dma_tx";
++			clocks = <&cpg CPG_MOD R9A08G045_SSI0_PCLK2>,
++				 <&cpg CPG_MOD R9A08G045_SSI0_PCLK_SFR>,
++				 <&audio_clk1>, <&audio_clk2>;
++			clock-names = "ssi", "ssi_sfr", "audio_clk1", "audio_clk2";
++			resets = <&cpg R9A08G045_SSI0_RST_M2_REG>;
++			dmas = <&dmac 0x2665>, <&dmac 0x2666>;
++			dma-names = "tx", "rx";
++			power-domains = <&cpg>;
++			#sound-dai-cells = <0>;
++			status = "disabled";
++		};
++
++		ssi1: ssi@100a8400 {
++			compatible = "renesas,r9a08g045-ssi",
++				     "renesas,rz-ssi";
++			reg = <0 0x100a8400 0 0x400>;
++			interrupts = <GIC_SPI 243 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 244 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 245 IRQ_TYPE_EDGE_RISING>;
++			interrupt-names = "int_req", "dma_rx", "dma_tx";
++			clocks = <&cpg CPG_MOD R9A08G045_SSI1_PCLK2>,
++				 <&cpg CPG_MOD R9A08G045_SSI1_PCLK_SFR>,
++				 <&audio_clk1>, <&audio_clk2>;
++			clock-names = "ssi", "ssi_sfr", "audio_clk1", "audio_clk2";
++			resets = <&cpg R9A08G045_SSI1_RST_M2_REG>;
++			dmas = <&dmac 0x2669>, <&dmac 0x266a>;
++			dma-names = "tx", "rx";
++			power-domains = <&cpg>;
++			#sound-dai-cells = <0>;
++			status = "disabled";
++		};
++
++		ssi2: ssi@100a8800 {
++			compatible = "renesas,r9a08g045-ssi",
++				     "renesas,rz-ssi";
++			reg = <0 0x100a8800 0 0x400>;
++			interrupts = <GIC_SPI 246 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 247 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 248 IRQ_TYPE_EDGE_RISING>;
++			interrupt-names = "int_req", "dma_rx", "dma_tx";
++			clocks = <&cpg CPG_MOD R9A08G045_SSI2_PCLK2>,
++				 <&cpg CPG_MOD R9A08G045_SSI2_PCLK_SFR>,
++				 <&audio_clk1>, <&audio_clk2>;
++			clock-names = "ssi", "ssi_sfr", "audio_clk1", "audio_clk2";
++			resets = <&cpg R9A08G045_SSI2_RST_M2_REG>;
++			dmas = <&dmac 0x266d>, <&dmac 0x266e>;
++			dma-names = "tx", "rx";
++			power-domains = <&cpg>;
++			#sound-dai-cells = <0>;
++			status = "disabled";
++		};
++
++		ssi3: ssi@100a8c00 {
++			compatible = "renesas,r9a08g045-ssi",
++				     "renesas,rz-ssi";
++			reg = <0 0x100a8c00 0 0x400>;
++			interrupts = <GIC_SPI 249 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 250 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 251 IRQ_TYPE_EDGE_RISING>;
++			interrupt-names = "int_req", "dma_rx", "dma_tx";
++			clocks = <&cpg CPG_MOD R9A08G045_SSI3_PCLK2>,
++				 <&cpg CPG_MOD R9A08G045_SSI3_PCLK_SFR>,
++				 <&audio_clk1>, <&audio_clk2>;
++			clock-names = "ssi", "ssi_sfr", "audio_clk1", "audio_clk2";
++			resets = <&cpg R9A08G045_SSI3_RST_M2_REG>;
++			dmas = <&dmac 0x2671>, <&dmac 0x2672>;
++			dma-names = "tx", "rx";
++			power-domains = <&cpg>;
++			#sound-dai-cells = <0>;
++			status = "disabled";
++		};
++
+ 		cpg: clock-controller@11010000 {
+ 			compatible = "renesas,r9a08g045-cpg";
+ 			reg = <0 0x11010000 0 0x10000>;
 -- 
 2.39.2
 
