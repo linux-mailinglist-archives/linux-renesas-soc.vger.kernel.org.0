@@ -1,126 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-10372-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10373-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E11E79BF611
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Nov 2024 20:07:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C24A9BF66A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Nov 2024 20:25:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1F28F1C21C0C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Nov 2024 19:07:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 143581F237B3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Nov 2024 19:25:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A0BF2076DB;
-	Wed,  6 Nov 2024 19:07:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAD2A20968E;
+	Wed,  6 Nov 2024 19:24:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XchAZfD/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F46C20607C;
-	Wed,  6 Nov 2024 19:07:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B0020969E;
+	Wed,  6 Nov 2024 19:24:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730920022; cv=none; b=f5zu21tp48gh8KmOp389p7RGNXCr+lzboVEUXb1uE1K0H+DvhhizOuSIVFvUWnf/dY7CRbltmUYjRZ1F+3nKli5y/5L59PHFKqA12unXhQ7uoih+Zipe/rlQrax9l0r4kexnYNr/wwNCr7x956OHnwci7SY/0+qUZN+TpL/6QNw=
+	t=1730921088; cv=none; b=PMvM90KmwKvpbKbfLZHxW/2faBR3f/duxAPWINp12q7HsV+Ttx7zg9O4p14Mr8UUj/gILDbm4eaNKO+oMMbOPM8hgNZmVrv3V9wkauOPo0915wQr/G4FwMF98jMrmIUwaCAZUcu58Qt7z2j+8zu7VZ1QwxpicV3Xt3JrYlAVKRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730920022; c=relaxed/simple;
-	bh=SOvFmyhUwT3CpaRLxO/rqdt+udzR2qrH+lXIuEhlosk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Jbi1lHrOXAaGfCgftJpJm0blcvF9B3FLmnVxaHihMQGMAN1JwdjOFr62I53DjDAF5DrNFelodoD4ZTggN2KxZfN01ABPS8rEVHfiC/fhG3uS2LHBN8SJ7FUlZCLdjfWQYzz1OBaYAkaDSqojPIJZF3eLQTHFkQAzSL5Amq75pnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-5ebc9bda8c8so78828eaf.0;
-        Wed, 06 Nov 2024 11:07:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730920018; x=1731524818;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1ZfJuo7pugYHJJaS8IJNytNUoBp8GBDpjZKB6B7LHdk=;
-        b=nZE/KSC51WmpvS1VpsHwhb4b/RhLW0tc1M1oNWRC8SvZS1wT4KolhG44lFG/R0FANM
-         t5o+21LCMxvqSxDtfuPeWfwxZtyH2lZo2ykiyqLvOSdRIZqnsSnqfxt2X9Z48LQhuRSX
-         mopr2CiRXbYqBC4FJr6mdETsTZItI0wOXVjRGDeUJtxbD8lLxrykABH3pJPqq8p4Ruqc
-         HqPhpHG0Zhq06driSP9ij+BEMIR2obtrBwhMFSLyD9tyrVcRIDL97TAWPc4vxbx/FUCf
-         c3Svc1HpK1KwXBcTTpkzXXHfCpX6T0Hf2vAHo3nm92dy1UbnW1lky/wVaqkVXV0B8hI8
-         ajEA==
-X-Forwarded-Encrypted: i=1; AJvYcCUZ+Bw8H4OdbyFT8kyPFrzqwdIVNjY/MamXm3pGdRAQqikqqUOzSclWNHpCYD/o2WIKVQTqNWOwEAkCB7ibn5WfFfo=@vger.kernel.org, AJvYcCWHRrh5SffVSjh2E7oPwGCX2HvkcdPzestH4vphtLK1VwsO6RySalx5fDV+1RRG8p16bvSVPLyO@vger.kernel.org, AJvYcCXnOTO7jmtooda4KnV1NT2svI1xT1Y49/p66L/ITe1jBfS4bJWDbEVgXPLveM3HA6N8tUFe/Y572yuc@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3/J1LKeS3B4PAfvC4heR16UE7Faut0+8C7LfutSGlLJFnmU8y
-	QSjJXbMBp0icP8Nj3kqCvQO3hOkzemScD1XKC24LFknEVzxTLtXIHZkeLDWm
-X-Google-Smtp-Source: AGHT+IHOEKCdklXPOl9FK7PNCQOwBwNPkJRFUa4nk8dyhp2q68r95bIX0/1hMezbxb68roOqu09ZvA==
-X-Received: by 2002:a05:6820:54c:b0:5eb:6a67:6255 with SMTP id 006d021491bc7-5ede6317636mr14450108eaf.1.1730920017834;
-        Wed, 06 Nov 2024 11:06:57 -0800 (PST)
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com. [209.85.167.179])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5ec704e4af4sm2766469eaf.16.2024.11.06.11.06.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Nov 2024 11:06:55 -0800 (PST)
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3e6075cba82so143020b6e.0;
-        Wed, 06 Nov 2024 11:06:55 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVMsgfsaaHQS+dTd+GZsPhSQwW81VFHMAMCMXDk/bfC8+zIA762c1hVOI9B40QpyVbvW1Utq6Y8NkMr@vger.kernel.org, AJvYcCWtKW3L0Qd+Q9Q9akWIIpNX4mfKqwpoLgb+jubjJOVWlvzNxztHboqhtS8cmD9gb3/uo9JqITB9@vger.kernel.org, AJvYcCWwrzaxrWC+UNO1xyH3Y6ZOzuOKB2tNPG04vwR599UWx/MkRJxj+Y+fW//2Z8Ff6V93QO53HgSyzuLS5GBTdofJRhs=@vger.kernel.org
-X-Received: by 2002:a05:6808:130a:b0:3e3:a99a:433f with SMTP id
- 5614622812f47-3e758c5a52bmr17620319b6e.13.1730920015121; Wed, 06 Nov 2024
- 11:06:55 -0800 (PST)
+	s=arc-20240116; t=1730921088; c=relaxed/simple;
+	bh=gN1WBAeIRYyA3wcA9u8mu17uJqkcrBC8yalU/0GVTmo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fEv8F4DLUjLHT8xvmVe5Asb0T4cEKnyWoKFR2BKtcvFn9EJ62aizNYtgzXs7vIxSFKZKXN2uT6tuFxTzfw93zBZ+WxHrKD0vhlAstq8EkNf3onwxsWXLGCOEUzPq0CsA/E02KRkFXW5vl2ryEyjC5nts/AJcI238YwpIWpe5Nas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XchAZfD/; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 670FF670;
+	Wed,  6 Nov 2024 20:24:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1730921076;
+	bh=gN1WBAeIRYyA3wcA9u8mu17uJqkcrBC8yalU/0GVTmo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XchAZfD/j01QCYbfeuDW3PN1jkTYMvcY6Tmu9vhl4Znhul4EiTkzwJpF5Ngdelj3g
+	 AaJQ9GTKIPBeXS2Fk6BsAwhkjc96ZnKAFb3+Wr/zhD6iReCbrv7Z+DCR5b/AFk7b5N
+	 GuiWkD1hTniQ1l+6hnadgCL3HErjhPSpAJradydg=
+Date: Wed, 6 Nov 2024 21:24:38 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	dri-devel@lists.freedesktop.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org,
+	Hien Huynh <hien.huynh.px@renesas.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] drm: adv7511: Drop dsi single lane support
+Message-ID: <20241106192438.GA21454@pendragon.ideasonboard.com>
+References: <20241106184935.294513-1-biju.das.jz@bp.renesas.com>
+ <20241106184935.294513-4-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241106184935.294513-1-biju.das.jz@bp.renesas.com> <20241106184935.294513-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20241106184935.294513-3-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 6 Nov 2024 20:06:43 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWwf4iqUsOA+XajoAcN081GG95muA3m_ZxRp-BemSmajQ@mail.gmail.com>
-Message-ID: <CAMuHMdWwf4iqUsOA+XajoAcN081GG95muA3m_ZxRp-BemSmajQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] dt-bindings: display: adi,adv7533: Drop single
- lane support
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org, 
-	devicetree@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241106184935.294513-4-biju.das.jz@bp.renesas.com>
 
 Hi Biju,
 
-On Wed, Nov 6, 2024 at 7:49=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.com=
-> wrote:
+Thank you for the patch.
+
+On Wed, Nov 06, 2024 at 06:49:30PM +0000, Biju Das wrote:
 > As per [1], ADV7535/7533 support only 2-, 3-, or 4-lane. Drop
-> unsupported 1-lane from bindings.
->
+> unsupported 1-lane.
+> 
 > [1]
-> https://www.analog.com/media/en/technical-documentation/data-sheets/ADV75=
-35.pdf
+> https://www.analog.com/media/en/technical-documentation/data-sheets/ADV7535.pdf
 
-The above is for ADV7535. Fortunately
-https://www.analog.com/media/en/technical-documentation/data-sheets/ADV7533=
-.pdf
-agrees ;-)
+No need for a line break, this should be
 
+[1] https://www.analog.com/media/en/technical-documentation/data-sheets/ADV7535.pdf
+
+> 
 > Fixes: 1e4d58cd7f88 ("drm/bridge: adv7533: Create a MIPI DSI device")
+> Reported-by: Hien Huynh <hien.huynh.px@renesas.com>
+
+Reported-by is supposed to be immediately followed by a Closes: tag.
+
+With those fixed,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> Changes in v3:
+>  - Updated commit header and description
+>  - Updated fixes tag
+>  - Dropped single lane support
+> Changes in v2:
+>  - Added the tag "Cc: stable@vger.kernel.org" in the sign-off area.
+>  - Dropped Archit Taneja invalid Mail address
+> ---
+>  drivers/gpu/drm/bridge/adv7511/adv7533.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> index de55d687245a..ec360f8b7509 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> @@ -173,7 +173,7 @@ int adv7533_parse_dt(struct device_node *np, struct adv7511 *adv)
+>  
+>  	of_property_read_u32(np, "adi,dsi-lanes", &num_lanes);
+>  
+> -	if (num_lanes < 1 || num_lanes > 4)
+> +	if (num_lanes < 2 || num_lanes > 4)
+>  		return -EINVAL;
+>  
+>  	adv->num_dsi_lanes = num_lanes;
 
-With the description updated:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+-- 
+Regards,
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Laurent Pinchart
 
