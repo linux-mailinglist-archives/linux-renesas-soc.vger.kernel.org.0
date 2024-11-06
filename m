@@ -1,85 +1,87 @@
-Return-Path: <linux-renesas-soc+bounces-10371-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10372-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7F59BF600
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Nov 2024 20:04:38 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E11E79BF611
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Nov 2024 20:07:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F260D1C21B07
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Nov 2024 19:04:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1F28F1C21C0C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Nov 2024 19:07:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68479201106;
-	Wed,  6 Nov 2024 19:04:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A0BF2076DB;
+	Wed,  6 Nov 2024 19:07:02 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85597646;
-	Wed,  6 Nov 2024 19:04:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F46C20607C;
+	Wed,  6 Nov 2024 19:07:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730919875; cv=none; b=CsHRua0PxZzCNkyvs0IMigkKKze7tWe6/dzTSo/Ke821jEHimIezEd2LuayBeqUAt+Bknf2gEfrjNN/v2lJXxuQFQQ9Otel6L7KnoG2dBY2kQyuqp/qu797aBh8/Mpv0Ixw/UNqtaj4NNqfPYi1T3RYK2OQYeVhuXLG80IDs4Cc=
+	t=1730920022; cv=none; b=f5zu21tp48gh8KmOp389p7RGNXCr+lzboVEUXb1uE1K0H+DvhhizOuSIVFvUWnf/dY7CRbltmUYjRZ1F+3nKli5y/5L59PHFKqA12unXhQ7uoih+Zipe/rlQrax9l0r4kexnYNr/wwNCr7x956OHnwci7SY/0+qUZN+TpL/6QNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730919875; c=relaxed/simple;
-	bh=mJZ5TO0smo2hNqp5yf+D/aMpfYGpzraLcz1Q8zSEumQ=;
+	s=arc-20240116; t=1730920022; c=relaxed/simple;
+	bh=SOvFmyhUwT3CpaRLxO/rqdt+udzR2qrH+lXIuEhlosk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gtPJKLEjy7zyBr2Wuc6Oyu8TSsRQ0HfI/qALT7xp2QyxdvWNEuYdhcpv9ytTF+TUB7mYf7dklQCnqYjZR3tvd5WX2rZlOr8s6NAwjUpD1fTU51Q8xJN85dBtBzPwK2ZQiLzrtGq3orQa1TEA8ZtmUSMPwxb6DAFebICHwFOxj38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.175
+	 To:Cc:Content-Type; b=Jbi1lHrOXAaGfCgftJpJm0blcvF9B3FLmnVxaHihMQGMAN1JwdjOFr62I53DjDAF5DrNFelodoD4ZTggN2KxZfN01ABPS8rEVHfiC/fhG3uS2LHBN8SJ7FUlZCLdjfWQYzz1OBaYAkaDSqojPIJZF3eLQTHFkQAzSL5Amq75pnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-6ea5f68e17aso989087b3.3;
-        Wed, 06 Nov 2024 11:04:33 -0800 (PST)
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-5ebc9bda8c8so78828eaf.0;
+        Wed, 06 Nov 2024 11:07:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730919872; x=1731524672;
+        d=1e100.net; s=20230601; t=1730920018; x=1731524818;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=H4e1o9gH37JUKKkKM3MHF++tZxAk2RGqLpVN0xBxsA0=;
-        b=fLA0DmsrAQcqb5hcfAwDG0mymn4wtoVKmY06o2gARMsytckqmZyZB4YNnE0L/goN5w
-         nLbicpkb/f7Pql3P/nkhFI36HdULU0g+xTxgIIz6wz9VyZrfvnI1XP2FJawyK2XOLMc7
-         liL5D5Ir2bV7Ii9MqNSUAj0QxpICJ4L8MWMHqrv3yfsJf6s/n6dEKQaQitfmwTdt3IIH
-         Bt6JuFI3c5ONA/IsT04I9+2/2pRprLyySAKm5fkt+XRNwNG7JExccImSIen24U1qfiyL
-         EVty3J4D736uDEVWphfazXwInNbjZKHTFJkaJJ/6zZzVfIt+CqIOnAaaiNvju9xIEmRc
-         yY9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV+Y80+MpVXHgaYFz8NUAG5koskfKJauc0svWRb2dmBy5IDkK+B1EoTtMfQ6Qo8229WaeYnvqeYiTNkMCGDIdEqBw==@vger.kernel.org, AJvYcCVtPuAy8K5TgZQDHXlEyavetw6UV83yAH4NSVfKUJJwrxsYH38JNe6NJFt4gtwgEb3SKvK5Iafx@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAmLj6JlebFZbvN65Cx3G1zMHna5du0ROG0cy2omKdOi4eX1TF
-	8gF+3We64taJH3/6eFgOXXsTtQKQKewoTbHp/OKJZTahKgHEYd1z3Gf3oEdz
-X-Google-Smtp-Source: AGHT+IGzU8iQY9H6rrVp8FVNSmSUbkYBlyXtdJnFPvI1mKpOYENSv2vGn18GTlLQXg8WR2qRV1N03A==
-X-Received: by 2002:a05:690c:e:b0:6e2:70e:e82a with SMTP id 00721157ae682-6e9d8aa4100mr397379317b3.31.1730919872047;
-        Wed, 06 Nov 2024 11:04:32 -0800 (PST)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6ea55c85514sm28635517b3.117.2024.11.06.11.04.28
+        bh=1ZfJuo7pugYHJJaS8IJNytNUoBp8GBDpjZKB6B7LHdk=;
+        b=nZE/KSC51WmpvS1VpsHwhb4b/RhLW0tc1M1oNWRC8SvZS1wT4KolhG44lFG/R0FANM
+         t5o+21LCMxvqSxDtfuPeWfwxZtyH2lZo2ykiyqLvOSdRIZqnsSnqfxt2X9Z48LQhuRSX
+         mopr2CiRXbYqBC4FJr6mdETsTZItI0wOXVjRGDeUJtxbD8lLxrykABH3pJPqq8p4Ruqc
+         HqPhpHG0Zhq06driSP9ij+BEMIR2obtrBwhMFSLyD9tyrVcRIDL97TAWPc4vxbx/FUCf
+         c3Svc1HpK1KwXBcTTpkzXXHfCpX6T0Hf2vAHo3nm92dy1UbnW1lky/wVaqkVXV0B8hI8
+         ajEA==
+X-Forwarded-Encrypted: i=1; AJvYcCUZ+Bw8H4OdbyFT8kyPFrzqwdIVNjY/MamXm3pGdRAQqikqqUOzSclWNHpCYD/o2WIKVQTqNWOwEAkCB7ibn5WfFfo=@vger.kernel.org, AJvYcCWHRrh5SffVSjh2E7oPwGCX2HvkcdPzestH4vphtLK1VwsO6RySalx5fDV+1RRG8p16bvSVPLyO@vger.kernel.org, AJvYcCXnOTO7jmtooda4KnV1NT2svI1xT1Y49/p66L/ITe1jBfS4bJWDbEVgXPLveM3HA6N8tUFe/Y572yuc@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3/J1LKeS3B4PAfvC4heR16UE7Faut0+8C7LfutSGlLJFnmU8y
+	QSjJXbMBp0icP8Nj3kqCvQO3hOkzemScD1XKC24LFknEVzxTLtXIHZkeLDWm
+X-Google-Smtp-Source: AGHT+IHOEKCdklXPOl9FK7PNCQOwBwNPkJRFUa4nk8dyhp2q68r95bIX0/1hMezbxb68roOqu09ZvA==
+X-Received: by 2002:a05:6820:54c:b0:5eb:6a67:6255 with SMTP id 006d021491bc7-5ede6317636mr14450108eaf.1.1730920017834;
+        Wed, 06 Nov 2024 11:06:57 -0800 (PST)
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com. [209.85.167.179])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5ec704e4af4sm2766469eaf.16.2024.11.06.11.06.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Nov 2024 11:04:28 -0800 (PST)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6e9f8dec3daso816347b3.0;
-        Wed, 06 Nov 2024 11:04:28 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVew9HfZfqdJyTUUts2T5i23iEI/9fDikYmre2HLgQcInepx9/3IMYdcM1l+LaG56vvupA21babBYC7x7tjzPlZKw==@vger.kernel.org, AJvYcCXxbLEpjuodDEWM++LQv7oJqUERy1EnaghZlnVe3Hlqwsfr6CECTzNSTYAeJ0neSpLnAAgR4yCf@vger.kernel.org
-X-Received: by 2002:a05:690c:6ac6:b0:6e2:43ea:552 with SMTP id
- 00721157ae682-6e9d8939598mr463312207b3.16.1730919868139; Wed, 06 Nov 2024
- 11:04:28 -0800 (PST)
+        Wed, 06 Nov 2024 11:06:55 -0800 (PST)
+Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3e6075cba82so143020b6e.0;
+        Wed, 06 Nov 2024 11:06:55 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVMsgfsaaHQS+dTd+GZsPhSQwW81VFHMAMCMXDk/bfC8+zIA762c1hVOI9B40QpyVbvW1Utq6Y8NkMr@vger.kernel.org, AJvYcCWtKW3L0Qd+Q9Q9akWIIpNX4mfKqwpoLgb+jubjJOVWlvzNxztHboqhtS8cmD9gb3/uo9JqITB9@vger.kernel.org, AJvYcCWwrzaxrWC+UNO1xyH3Y6ZOzuOKB2tNPG04vwR599UWx/MkRJxj+Y+fW//2Z8Ff6V93QO53HgSyzuLS5GBTdofJRhs=@vger.kernel.org
+X-Received: by 2002:a05:6808:130a:b0:3e3:a99a:433f with SMTP id
+ 5614622812f47-3e758c5a52bmr17620319b6e.13.1730920015121; Wed, 06 Nov 2024
+ 11:06:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241106184935.294513-1-biju.das.jz@bp.renesas.com> <20241106184935.294513-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20241106184935.294513-2-biju.das.jz@bp.renesas.com>
+References: <20241106184935.294513-1-biju.das.jz@bp.renesas.com> <20241106184935.294513-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20241106184935.294513-3-biju.das.jz@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 6 Nov 2024 20:04:16 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUgPax3B2nYfp5BN90uc4SFKND=fgHw3CaSsYab1K7WYw@mail.gmail.com>
-Message-ID: <CAMuHMdUgPax3B2nYfp5BN90uc4SFKND=fgHw3CaSsYab1K7WYw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] drm: adv7511: Fix use-after-free in adv7533_attach_dsi()
+Date: Wed, 6 Nov 2024 20:06:43 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWwf4iqUsOA+XajoAcN081GG95muA3m_ZxRp-BemSmajQ@mail.gmail.com>
+Message-ID: <CAMuHMdWwf4iqUsOA+XajoAcN081GG95muA3m_ZxRp-BemSmajQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] dt-bindings: display: adi,adv7533: Drop single
+ lane support
 To: Biju Das <biju.das.jz@bp.renesas.com>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Robert Foss <rfoss@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
 	Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, 
+	devicetree@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, 
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
 	linux-renesas-soc@vger.kernel.org, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
@@ -89,67 +91,24 @@ Hi Biju,
 
 On Wed, Nov 6, 2024 at 7:49=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.com=
 > wrote:
-> The host_node pointer assigned and freed in adv7533_parse_dt()
-> and later adv7533_attach_dsi() uses the same. Fix this issue
-> by freeing the host_node in adv7533_attach_dsi() instead of
-> adv7533_parse_dt().
+> As per [1], ADV7535/7533 support only 2-, 3-, or 4-lane. Drop
+> unsupported 1-lane from bindings.
 >
+> [1]
+> https://www.analog.com/media/en/technical-documentation/data-sheets/ADV75=
+35.pdf
+
+The above is for ADV7535. Fortunately
+https://www.analog.com/media/en/technical-documentation/data-sheets/ADV7533=
+.pdf
+agrees ;-)
+
 > Fixes: 1e4d58cd7f88 ("drm/bridge: adv7533: Create a MIPI DSI device")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> Changes in v3:
->  - Replace __free construct with readable of_node_put().
-> Changes in v2:
->  - Added the tag "Cc: stable@vger.kernel.org" in the sign-off area.
->  - Dropped Archit Taneja invalid Mail address
 
-Thanks for the update!
-
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> @@ -143,6 +143,7 @@ int adv7533_attach_dsi(struct adv7511 *adv)
->                                                  };
->
->         host =3D of_find_mipi_dsi_host_by_node(adv->host_node);
-> +       of_node_put(adv->host_node);
-
-This still looks fragile to me, as afterwards a pointer to a freed
-node is left in struct adv7511.host_node. It would be safer to also
-clear adv->host_node here.
-
-However, taking a look from a distance, the code looks like:
-
-    static int adv7511_probe(struct i2c_client *i2c)
-    {
-            ...
-            adv7533_parse_dt(dev->of_node, adv7511);
-            ...
-            if (adv7511->info->has_dsi)
-                    ret =3D adv7533_attach_dsi(adv7511);
-            ...
-    }
-
-The only reason adv7511.host_node exists is to pass it from
-adv7533_parse_dt() to adv7533_attach_dsi().
-So what about making this explicit?
-  1. Let adv7533_parse_dt() return the host_node or an error pointer,
-  2. Pass the host_node as a parameter to adv7533_attach_dsi(),
-  3. Call of_node_put() in adv7511_probe() after use.
-
->         if (!host)
->                 return dev_err_probe(dev, -EPROBE_DEFER,
->                                      "failed to find dsi host\n");
-> @@ -181,8 +182,6 @@ int adv7533_parse_dt(struct device_node *np, struct a=
-dv7511 *adv)
->         if (!adv->host_node)
->                 return -ENODEV;
->
-> -       of_node_put(adv->host_node);
-> -
->         adv->use_timing_gen =3D !of_property_read_bool(np,
->                                                 "adi,disable-timing-gener=
-ator");
+With the description updated:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
