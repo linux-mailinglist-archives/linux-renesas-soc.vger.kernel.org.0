@@ -1,156 +1,115 @@
-Return-Path: <linux-renesas-soc+bounces-10356-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10357-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 557069BEE7B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Nov 2024 14:18:04 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1389E9BEF55
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Nov 2024 14:43:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 879D31C2219C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Nov 2024 13:18:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AADC9B23B16
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Nov 2024 13:43:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A4831CC89D;
-	Wed,  6 Nov 2024 13:17:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E16451F9EB3;
+	Wed,  6 Nov 2024 13:43:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YpcLQYW9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qfRrOfXm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF7E21E22E2
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Nov 2024 13:17:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4D991F9EAB;
+	Wed,  6 Nov 2024 13:43:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730899061; cv=none; b=p66qXsr63+vq6GEbus8W6tvWqYmA0jzaKH1stcHUeLESC/QhHIDS9tq0OvjsH/YiA6OA2QSVRkxPfWL09uBuS5dr9+2x8c2b3e/PRShvSQLM1v9hsreEcnLLpMN1HLm43fTCVvxW477NglhGzkOA3gonAmlrdrVpwTWxZM7GYV4=
+	t=1730900621; cv=none; b=Ba8EaKXXmZ21ZuZz100zAMfnCptiIGeW0/BfV8Qt0xKuUxNr9h5JPdr/JIFjYNPzd64MJR+Sytziyt8nhBn7LAYhvMKIsxLqGT5qJMDTk9sdtE3UfzT8XaJjKuVRMRjeO1C5PRLN50tfIesTxt+SjTnqAMRnDfZp6QSjKh7j9IY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730899061; c=relaxed/simple;
-	bh=WYVykGgIGWOZakRTXDQpTktNipc2LJjx08BB+EWVg18=;
+	s=arc-20240116; t=1730900621; c=relaxed/simple;
+	bh=AvHJghciWDhD/x8KUXSpLz7qHkc2aFQiPOOMs5V1Fv0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eA9jR0F3AoV8K6YrUQtyrFL+9Vq7ZIgkO3kcHCI+zIKUW+nB8q7on8AQSHRBjXT3WZLYWM/401k/mG1BKUcJzeYTjKIfr5UCho1NBH0VeDXTpRJegIlEXdAR0UyQu4YZFBDjWL2gqXOD2mosw8U/eivW+9PTkdnmL8F9wV3KJGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YpcLQYW9; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 93DAA475;
-	Wed,  6 Nov 2024 14:17:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1730899049;
-	bh=WYVykGgIGWOZakRTXDQpTktNipc2LJjx08BB+EWVg18=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=F4dcQivjX19G5DWDcUjkdb8fqqx7RE9J0/tq1kHBzu18VGS4rwEJlHbUjyGsrTRBcUYq7v489Gwgh0OEz8BhUulzg3GA92Kl08em1JTTkFjOOYui2oEe8s1Fg9JZLNJvKbo9krA51SHgVRtYgy8AK3iGwB02UCc0NzSbkpNSwaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qfRrOfXm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69956C4CECD;
+	Wed,  6 Nov 2024 13:43:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730900621;
+	bh=AvHJghciWDhD/x8KUXSpLz7qHkc2aFQiPOOMs5V1Fv0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YpcLQYW9ZGo2RrRHelMkVOI0dVW0NEdHFn7+fSkfhem+XpEQVQ1PPtsF2pmCmbLvJ
-	 NGANXu00iNoF3Zu+bPWuWtXugx41qCAfQMfVCFbXxWxEu7MPHY1MkcVaXaJIeiw8QI
-	 gLM3t9nzYcFpgMYonmEPmxJfHllv1yqa6B/QR8/Q=
-Date: Wed, 6 Nov 2024 15:17:31 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Archit Taneja <architt@codeaurora.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"biju.das.au" <biju.das.au@gmail.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	Hien Huynh <hien.huynh.px@renesas.com>
-Subject: Re: [PATCH v2 2/2] drm: adv7511: Fix out-of-bounds array in
- clock_div_by_lanes
-Message-ID: <20241106131731.GG9369@pendragon.ideasonboard.com>
-References: <20241105111228.112813-1-biju.das.jz@bp.renesas.com>
- <20241105111228.112813-3-biju.das.jz@bp.renesas.com>
- <20241105160612.GC6317@pendragon.ideasonboard.com>
- <TY3PR01MB1134619B30EB1894710AB669D86532@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	b=qfRrOfXmESwZyDQhPNkDJgGi8YWbap+zQSnnKTjNRq0K9d9rKEeLHS6ISBOc0j2kr
+	 T0QHzq7K9ZnLcN6d6mrBJQs6WBeU6BUvOvI/eGFXtWd9TAftn+cVheqed+TaW5m+CV
+	 +4GOrYK3gQL5KFhzalL9L/zI3KX4CE9yoQE/PygkdsjA1rOozplLuj2atjLsNY74RU
+	 BymKoASK8FGh9ttmyKOwg/REy7cughmQAKD0hJ1tXZl19CBJPWndXjjJ9UDHX3Ogy2
+	 GIxlLPsQIpKQyIWgT71PrAPTYYG03xd8zkC8uFT4SjN9JjkOjnwZVM8KoDdGea14Ou
+	 9k0LUcU284nkw==
+Date: Wed, 6 Nov 2024 13:43:33 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+	lgirdwood@gmail.com, magnus.damm@gmail.com,
+	linus.walleij@linaro.org, support.opensource@diasemi.com,
+	perex@perex.cz, tiwai@suse.com, p.zabel@pengutronix.de,
+	Adam.Thomson.Opensource@diasemi.com,
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 22/31] ASoC: da7213: Populate max_register to
+ regmap_config
+Message-ID: <d3c28a8b-878c-4894-aa23-5b360153b85d@sirena.org.uk>
+References: <20241106081826.1211088-1-claudiu.beznea.uj@bp.renesas.com>
+ <20241106081826.1211088-23-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="qgBjwTwv0FsyKsIO"
 Content-Disposition: inline
-In-Reply-To: <TY3PR01MB1134619B30EB1894710AB669D86532@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <20241106081826.1211088-23-claudiu.beznea.uj@bp.renesas.com>
+X-Cookie: Include me out.
 
-On Wed, Nov 06, 2024 at 10:20:43AM +0000, Biju Das wrote:
-> Hi Laurent Pinchart,
-> 
-> Thanks for the feedback.
-> 
-> > -----Original Message-----
-> > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Sent: 05 November 2024 16:06
-> > Subject: Re: [PATCH v2 2/2] drm: adv7511: Fix out-of-bounds array in clock_div_by_lanes
-> > 
-> > Hi Biju,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Tue, Nov 05, 2024 at 11:12:19AM +0000, Biju Das wrote:
-> > > Fix out-of-bounds array in adv7511_dsi_config_timing_gen(), when dsi
-> > > lanes = 1.
-> > 
-> > Does the hardware support using the internal timing generator with a single lane ? If so
-> 
-> As per the binding documentation [1], ADV7535 supports single lane.
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml?h=next-20241106
-> 
-> > adv7511_dsi_config_timing_gen() should be fixed, otherwise that should be explained in the commit
-> 
-> On RZ/G2L SMARC EVK platform, lanes=2,3,4 works ok, But with setting lanes=1, video is unstable
-> by trying with clock_divider as 6,7 and 8 by updating the array and also disabling internal timing generator.
 
-Is that an issue specific to that board, or to the chip in general ? If
-it's specific to the board, disabling 1 lane usage for everybody in the
-driver isn't the right option.
+--qgBjwTwv0FsyKsIO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > message, and mentioned with a comment in adv7533_parse_dt(). I would also print an error message in
-> > that case.
-> 
-> OK, this can be done.
-> 
-> > If the internal timing generator can't be used with a single lane, the DT bindings should also be
-> > updated to document that.
-> 
-> Even single lane with or without internal timing generator does not work on RZ/G2L.
-> 
-> So, any users of ADV 7535 tested single lane??
-> 
-> > > Fixes: 78fa479d703c ("drm/bridge: adv7533: Use internal timing
-> > > generator")
-> > > Reported-by: Hien Huynh <hien.huynh.px@renesas.com>
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > > Changes in v2:
-> > >  - Added the tag "Cc: stable@vger.kernel.org" in the sign-off area.
-> > >  - Dropped Archit Taneja invalid Mail address
-> > > ---
-> > >  drivers/gpu/drm/bridge/adv7511/adv7533.c | 3 +++
-> > >  1 file changed, 3 insertions(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> > > b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> > > index 3e57ba838e5e..0c2236e53af5 100644
-> > > --- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> > > +++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> > > @@ -185,6 +185,9 @@ int adv7533_parse_dt(struct device_node *np, struct adv7511 *adv)
-> > >  	adv->use_timing_gen = !of_property_read_bool(np,
-> > >  						"adi,disable-timing-generator");
-> > >
-> > > +	if (adv->use_timing_gen && num_lanes == 1)
-> > > +		return -EINVAL;
-> > > +
-> > >  	/* TODO: Check if these need to be parsed by DT or not */
-> > >  	adv->rgb = true;
-> > >  	adv->embedded_sync = false;
+On Wed, Nov 06, 2024 at 10:18:17AM +0200, Claudiu wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>=20
+> On the Renesas RZ/G3S SMARC Carrier II board having a DA7212 codec (using
+> da7213 driver) connected to one SSIF-2 available on the Renesas RZ/G3S SoC
+> it has been discovered that using the runtime PM API for suspend/resume
+> (as will be proposed in the following commits) leads to the codec not
+> being propertly initialized after resume. This is because w/o
+> max_register populated to regmap_config the regcache_rbtree_sync()
+> breaks on base_reg > max condition and the regcache_sync_block() call is
+> skipped.
+>=20
+> Fixes: ef5c2eba2412 ("ASoC: codecs: Add da7213 codec")
+> Cc: stable@vger.kernel.org
 
--- 
-Regards,
+Why is this a stable fix when it only enables further work?
 
-Laurent Pinchart
+--qgBjwTwv0FsyKsIO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcrcoQACgkQJNaLcl1U
+h9B+uAf/T9UHiIXHURIt+YX7P9zWTkwxOYzQrVtIxV9Uz16GFNImxUT3T7ZkDJPm
+Erxp7p9mSMTejwQKY8qPBDBgFh00UE8ZNhdcb1PmRZTJ4DeK1mOmjl2SulAB/EM9
+v5g+3Cv95GmCpE0FfpsEwuhtz+wPWdJU3lqpG1rVtjMyXzuPqH5Ie4viG/I2pGO5
+RNoUFDOHu2pc7f3i3WzmmywjEDJIhOHXv/rQRy8ZG8TZyvNDDX0sP/+y0ElBUBsB
+81GcYxUjx+0h5uiE0XlXcfdemDG3L73XccwdWEJZ0xh+XKmrVLm1jFoJqLAiY7gM
+jGFGeURWY9VEnaDqJCf33O0nhkmAGQ==
+=RpAB
+-----END PGP SIGNATURE-----
+
+--qgBjwTwv0FsyKsIO--
 
