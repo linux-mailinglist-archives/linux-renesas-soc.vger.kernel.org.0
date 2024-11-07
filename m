@@ -1,305 +1,154 @@
-Return-Path: <linux-renesas-soc+bounces-10390-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10391-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD1C39C0B95
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2024 17:28:07 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 231AE9C0EFF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2024 20:34:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DFA521C22DA7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2024 16:28:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CD5331F231B9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2024 19:34:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4432E216E0C;
-	Thu,  7 Nov 2024 16:22:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E4D6217465;
+	Thu,  7 Nov 2024 19:32:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="i5nLyb+v"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 535F0216DE3
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Nov 2024 16:22:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0988321733F
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Nov 2024 19:32:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730996575; cv=none; b=XvXrlKJwH/EVL4FKJe2KiBHmaZmapwXdUd4aLUkrp0awrd+hhnhJQMh865tb8dz3TRM+zMZHMTNX71ef1EJV+8K6bYGHHyc4GaYdgmmElQDldDG6/YP1DjnLTxN7Zl1Sq/b8cs+DL5CZfT6zhh3mBQ0eb5eyyC471ywYNtFHHc8=
+	t=1731007933; cv=none; b=MDhpkYIbIPXwdHlo9bAcZEx0Vonizd9/Gzwj6Sh+btbjR3UgilYP1s8lmLljZxKwyxi/6SvUJGT3VOwjWQkbee325ZliETmqRVr0E3yh9I2zagwpeDW0IXFxXZsgv4Vfu4Cn1e7y6Z7ui1Elu24gQCQn/qWARKbTaFGdLW/LAVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730996575; c=relaxed/simple;
-	bh=2/bRKqcIgv50s+uci/nHRLio45G6bn5b9DhmqYan3Sg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=b7Rns1UfX9dtr0CPwBwTJ7Y1U8vei4/zqNxy7HBBUlbONTq5/g6zruu375R7hmQIv2cz6k+f2m3ZphI4jD2zpwcrMG0tjYP7fXp42BMw9fswZgznZ1lep3fHWrO5NwTXT+GV60IoIjJXxp3o13SAOKRfQcHeRg+P8APpoPB7URo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1t95H5-0001Ei-FD; Thu, 07 Nov 2024 17:22:23 +0100
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1t95H3-002UGY-2S;
-	Thu, 07 Nov 2024 17:22:21 +0100
-Received: from pza by lupine with local (Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1t95H3-000Ci2-28;
-	Thu, 07 Nov 2024 17:22:21 +0100
-Message-ID: <7a9bf4649ea1cb89cb6478833ab84dc480065308.camel@pengutronix.de>
-Subject: Re: [PATCH 00/16] Add initial USB support for the Renesas RZ/G3S SoC
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>, Biju Das
-	 <biju.das.jz@bp.renesas.com>, Ulf Hansson <ulf.hansson@linaro.org>
-Cc: "vkoul@kernel.org" <vkoul@kernel.org>, "kishon@kernel.org"
- <kishon@kernel.org>, "robh@kernel.org" <robh@kernel.org>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>, "conor+dt@kernel.org"
- <conor+dt@kernel.org>,  "geert+renesas@glider.be"
- <geert+renesas@glider.be>, "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
-  "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "mturquette@baylibre.com" <mturquette@baylibre.com>, "sboyd@kernel.org"
- <sboyd@kernel.org>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-clk@vger.kernel.org"
- <linux-clk@vger.kernel.org>, "linux-pm@vger.kernel.org"
- <linux-pm@vger.kernel.org>, Claudiu Beznea
- <claudiu.beznea.uj@bp.renesas.com>
-Date: Thu, 07 Nov 2024 17:22:21 +0100
-In-Reply-To: <91916297-8156-44d9-b56f-9a67e651a9a4@tuxon.dev>
-References: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com>
-	 <35dc7414-f5bd-4ed4-bfa1-f723f4f0078c@tuxon.dev>
-	 <TY3PR01MB11346A4814F83FE296A1DED8886922@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-	 <TY3PR01MB1134648BF51F1B52BFE34DD6D86932@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-	 <fbfa9179-2f52-429f-8b69-f7f4064e796b@tuxon.dev>
-	 <TYCPR01MB11332EF1A8D064C491D8F261286932@TYCPR01MB11332.jpnprd01.prod.outlook.com>
-	 <f7c57e76-b890-491f-880d-62d060b7b31e@tuxon.dev>
-	 <TYCPR01MB11332BE2EDB318950B9C7B54C86932@TYCPR01MB11332.jpnprd01.prod.outlook.com>
-	 <TY3PR01MB113469FC8A9F49D9B1FA432FD86932@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-	 <0b73544b-0253-43b9-b631-6578b48eaca8@tuxon.dev>
-	 <TY3PR01MB1134689573A785E91A9041E1886932@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-	 <5bcdc677-e61e-4312-a19b-57b4600685d3@tuxon.dev>
-	 <TY3PR01MB1134690F9D37E3BB4814D864386932@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-	 <d64243fe-48ea-4cb5-b6d6-e9f820e1b8a3@tuxon.dev>
-	 <91916297-8156-44d9-b56f-9a67e651a9a4@tuxon.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	s=arc-20240116; t=1731007933; c=relaxed/simple;
+	bh=OintD9rFSVvs2q5JufWD72f6dtsaNkW+4o5Hy5URNmc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tJ1FXaSFFq+fIxxodCB4YzM8APeg9lv/21H3jSPVbXNDFLizSZ8Swa8CJKcb+z0KK4hf0O3IlN+9lHKinarc3Rt+/2/dormfOVHZ4diR/dhPXOXrHOxWS6XOsGvTdNt4pWupJkIy4/+Q1aoURex4tEag0MH+XA/YqQpeQq2QhBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=i5nLyb+v; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=wLnmGFI2D6XzO1
+	y7AoltGnzpl8EYzD12WYCHMPYPqDc=; b=i5nLyb+vZrdPi++9dkKKFRpJQ8daNZ
+	x8271k93VjXLhKz/d/Yp1QU4eztl68ZZK/rtRVLhMyZ9pbS0KmOgQuLoVorgJ4lT
+	N4FvTIT9EyNQquUGDfleJ3OLHepqbSL9wwHPdtZozN9Z+sqB2IxzFKJmRGXK68KJ
+	c/87DTQ3cXFnfpd7t7Mr7dI9D+QynCcfCOV1+RYhjQwi8erF4YiV1N0a1VQ6vVil
+	Vskha4dY1vP7SQ8ojZjuDOxRC2eBet9pCCpgxKQUGrx8SV1Qo6wsp8tfj7f130hu
+	nTFOLr0nAhbvAFUfhW4oVHKD66uXpAVAk9Maihz91MbU3Hj3zmBW6InQ==
+Received: (qmail 1046223 invoked from network); 7 Nov 2024 20:32:00 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 7 Nov 2024 20:32:00 +0100
+X-UD-Smtp-Session: l3s3148p1@PKEqsFcm0rhehhrW
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	linux-clk@vger.kernel.org
+Subject: [PATCH] clk: renesas: r9a06g032: add restart handler
+Date: Thu,  7 Nov 2024 20:31:44 +0100
+Message-Id: <20241107193145.20175-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 
-Hi Claudiu,
+The SYSCTRL module also does reset handling. Start supporting that by
+allowing software resets which can then be utilized by a restart
+handler. Finally 'reboot' will do something useful on RZ/N1D. Watchdog
+support to be added later. Use BIT() macro consistently while here.
 
-On Do, 2024-11-07 at 12:00 +0200, Claudiu Beznea wrote:
-> Hi, all,
->=20
-> On 03.09.2024 17:48, claudiu beznea wrote:
-> >=20
-> >=20
-> > On 03.09.2024 16:45, Biju Das wrote:
-> > > Hi Claudiu,
-> > >=20
-> > > > -----Original Message-----
-> > > > From: claudiu beznea <claudiu.beznea@tuxon.dev>
-> > > > Sent: Tuesday, September 3, 2024 1:57 PM
-> > > > Subject: Re: [PATCH 00/16] Add initial USB support for the Renesas =
-RZ/G3S SoC
-> > > >=20
-> > > >=20
-> > > >=20
-> > > > On 03.09.2024 15:37, Biju Das wrote:
-> > > > >=20
-> > > > >=20
-> > > > > > -----Original Message-----
-> > > > > > From: claudiu beznea <claudiu.beznea@tuxon.dev>
-> > > > > > Sent: Tuesday, September 3, 2024 1:26 PM
-> > > > > > To: Biju Das <biju.das.jz@bp.renesas.com>; Ulf Hansson
-> > > > > > <ulf.hansson@linaro.org>
-> > > > > > Cc: vkoul@kernel.org; kishon@kernel.org; robh@kernel.org;
-> > > > > > krzk+dt@kernel.org; conor+dt@kernel.org; p.zabel@pengutronix.de=
-;
-> > > > > > geert+renesas@glider.be; magnus.damm@gmail.com;
-> > > > > > gregkh@linuxfoundation.org; mturquette@baylibre.com;
-> > > > > > sboyd@kernel.org; Yoshihiro Shimoda
-> > > > > > <yoshihiro.shimoda.uh@renesas.com>;
-> > > > > > linux-phy@lists.infradead.org; devicetree@vger.kernel.org;
-> > > > > > linux-kernel@vger.kernel.org; linux- renesas-soc@vger.kernel.or=
-g;
-> > > > > > linux-usb@vger.kernel.org; linux-arm-kernel@lists.infradead.org=
-;
-> > > > > > linux- clk@vger.kernel.org; linux-pm@vger.kernel.org; Claudiu B=
-eznea
-> > > > > > <claudiu.beznea.uj@bp.renesas.com>
-> > > > > > Subject: Re: [PATCH 00/16] Add initial USB support for the Rene=
-sas
-> > > > > > RZ/G3S SoC
-> > > > > >=20
-> > > > > >=20
-> > > > > >=20
-> > > > > > On 03.09.2024 15:00, Biju Das wrote:
-> > > > > > >=20
-> > > > > > >=20
-> > > > > > > > -----Original Message-----
-> > > > > > > > From: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > > > > > Sent: Tuesday, September 3, 2024 12:07 PM
-> > > > > > > > To: Claudiu.Beznea <claudiu.beznea@tuxon.dev>; Ulf Hansson
-> > > > > > > > <ulf.hansson@linaro.org>
-> > > > > > > > Cc: vkoul@kernel.org; kishon@kernel.org; robh@kernel.org;
-> > > > > > > > krzk+dt@kernel.org; conor+dt@kernel.org; p.zabel@pengutroni=
-x.de;
-> > > > > > > > geert+renesas@glider.be; magnus.damm@gmail.com;
-> > > > > > > > gregkh@linuxfoundation.org; mturquette@baylibre.com;
-> > > > > > > > sboyd@kernel.org; Yoshihiro Shimoda
-> > > > > > > > <yoshihiro.shimoda.uh@renesas.com>;
-> > > > > > > > linux-phy@lists.infradead.org; devicetree@vger.kernel.org;
-> > > > > > > > linux-kernel@vger.kernel.org; linux- renesas-soc@vger.kerne=
-l.org;
-> > > > > > > > linux-usb@vger.kernel.org; linux-arm-kernel@lists.infradead=
-.org;
-> > > > > > > > linux- clk@vger.kernel.org; linux-pm@vger.kernel.org; Claud=
-iu
-> > > > > > > > Beznea <claudiu.beznea.uj@bp.renesas.com>
-> > > > > > > > Subject: RE: [PATCH 00/16] Add initial USB support for the =
-Renesas
-> > > > > > > > RZ/G3S SoC
-> > > > > > > >=20
-> > > > > > > > Hi Claudiu,
-> > > > > > > >=20
-> > > > > > > > > -----Original Message-----
-> > > > > > > > > From: claudiu beznea <claudiu.beznea@tuxon.dev>
-> > > > > > > > > Sent: Tuesday, September 3, 2024 12:00 PM
-> > > > > > > > > Subject: Re: [PATCH 00/16] Add initial USB support for th=
-e Renesas
-> > > > > > > > > RZ/G3S SoC
-> > > > > > > > >=20
-> > > > > > > > >=20
-> > > > > > > > >=20
-> > > > > > > > > On 03.09.2024 13:31, Biju Das wrote:
-> > > > > > > > > > > > During boot clr USB PWR READY signal in TF-A.
-> > > > > > > > > > > > STR case, suspend set USB PWR READY signal in TF-A.
-> > > > > > > > > > > > STR case, resume clr USB PWR READY signal in TF-A.
-> > > > > > > > > > > As I said previously, it can be done in different way=
-s. My point
-> > > > > > > > > > > was to let Linux set what it needs for all it's devic=
-es to work.
-> > > > > > > > > > > I think the way to go forward is a
-> > > > > > > > > maintainer decision.
-> > > > > > > > > >=20
-> > > > > > > > > > I agree, there can be n number of solution for a proble=
-m.
-> > > > > > > > > >=20
-> > > > > > > > > > Since you modelled system state signal (USB PWRRDY) as =
-reset
-> > > > > > > > > > control signal, it is reset/DT maintainer's decision to=
- say the
-> > > > > > > > > > final word whether this signal fits in reset
-> > > > > > > > > system framework or not?
-> > > > > > > > >=20
-> > > > > > > > > I was thinking:
-> > > > > > > > > 1/ Geert would be the best to say if he considers it OK t=
-o handle this
-> > > > > > > > >    in Linux
-> > > > > > > >=20
-> > > > > > > > I agree Geert is the right person for taking SYSTEM decisio=
-ns,
-> > > > > > > > since the signal is used only during state transitions (Tab=
-le
-> > > > > > > > 41.6.4 AWO to ALL_ON and 41.6.3 ALL_ON to AWO)
-> > > > > > >=20
-> > > > > > > One more info, as per [1], this USB PWRRDY signal setting to =
-be before Linux kernel boots.
-> > > > > >=20
-> > > > > > The "controlled by" column mentions CA-55 on PWRRDY signal cont=
-rol
-> > > > > > line and it is b/w steps "DDR exits from retention mode" and  "=
-clock
-> > > > > > start settings for system bus and peripheral modules". AFAICT, =
-after DDR exists retention mode
-> > > > Linux is ready to run.
-> > > > >=20
-> > > > > DDR retention exit happens in TF-A and it jumps into reset code w=
-here it executes BL2 in TF_A. Bl2
-> > > > checks for warm or cold reset.
-> > > > > If it is warm reset, it sets required minimal clocks/resets and p=
-ass
-> > > > > the control to linux by calling the SMC callback handler. Which i=
-n turn calls resume(step 11-->14)
-> > > > path.
-> > > >=20
-> > > > Is this from HW manual or some specific documentation? I'm referrin=
-g at "resume" =3D=3D "steps 11-->14"
-> > > >=20
-> > > > >=20
-> > > > > Step 8, Cortex-A55 Exit from DDR retention mode (when using) Sett=
-ing
-> > > > > for exiting form DDR retention mode Step 9, Cortex-A55 USB PHY PW=
-RRDY
-> > > > > signal control (if use USB) SYS_USB_PWRRDY Step 10, Cortex-A55 PC=
-Ie
-> > > > > RST_RSM_B signal control (if use PCIe) SYS_PCIE_RST_RSM_B
-> > > >=20
-> > > > Note *if use*: how does the TF-A know if USB/PCIe is used by Linux?=
- The documentation mention to set
-> > > > it *if use*. Same note is on ALL_ON to VBATT transition documentati=
-on (namely "if using USB", "if
-> > > > using PCIe"). If TF-A will do this it should set this signals uncon=
-ditionally. It will not be
-> > > > something wrong though. We don't know at the moment what this invol=
-ves in terms of power consumption,
-> > > > if it means something...
-> > >=20
-> > > IIUC,
-> > > The only information we have is,
-> > >=20
-> > > "SYS_USB_PWRRDY and SYS_PCIE_RST_RSM_B are used when transition from =
-ALL_ON to AWO (or from AWO to ALL_ON).
-> > > "When turning off USB PHY and PCIe PHY, if they are not controlled, P=
-HY may break"
-> > >=20
-> > > ALL_ON to AWO_MODE state transition:=20
-> > > USB/PCIe are part of PD_ISOVCC power domain and before turning PD_ISO=
-VCC to off,
-> > > we need to set USBPWRRDY signal.
-> > >=20
-> > > AWO_MODE to ALL_ON state transition:
-> > >=20
-> > > Turn on PD_ISOVCC first, then clr USBPWRRDY signal for USB usage in l=
-inux.
-> > >=20
-> > > Maybe we need to ask hw team, exact usage of USBPWRRDY signal other t=
-han state transition.
-> >=20
-> > As you may already know, this is open for quite some time and is ongoin=
-g.
->=20
-> I got more clarification about the USB PWRRDY signal from the HW team.
->=20
-> The conclusion is that the USB PWRRDY is a signal controlled by SYSC
-> controller that goes to the USB PHY and it tells the USB PHY if the power
-> supply is ready or not.
->=20
-> In the diagram at [1] the PWRRDY signal need to be asserted/de-asserted
-> before/after G6, G7, G8, G9, G10 signals.
->=20
-> Philipp,
->=20
-> Can you please confirm that you don't want this signal to be implemented =
-as
-> a reset signal to know clearly your input on it? I would like to start
-> looking for another approach in that case.
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-If this is not a reset signal I don't want it to be implemented as one.
+I got a RZ/N1D now. Before I start the real work, I need working
+'reboot' for fluent hacking :)
 
-regards
-Philipp
+ drivers/clk/renesas/r9a06g032-clocks.c | 33 +++++++++++++++++++++++++-
+ 1 file changed, 32 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/clk/renesas/r9a06g032-clocks.c b/drivers/clk/renesas/r9a06g032-clocks.c
+index c1348e2d450c..8451567579c2 100644
+--- a/drivers/clk/renesas/r9a06g032-clocks.c
++++ b/drivers/clk/renesas/r9a06g032-clocks.c
+@@ -20,15 +20,24 @@
+ #include <linux/platform_device.h>
+ #include <linux/pm_clock.h>
+ #include <linux/pm_domain.h>
++#include <linux/reboot.h>
+ #include <linux/slab.h>
+ #include <linux/soc/renesas/r9a06g032-sysctrl.h>
+ #include <linux/spinlock.h>
+ #include <dt-bindings/clock/r9a06g032-sysctrl.h>
+ 
+ #define R9A06G032_SYSCTRL_USB    0x00
+-#define R9A06G032_SYSCTRL_USB_H2MODE  (1<<1)
++#define R9A06G032_SYSCTRL_USB_H2MODE BIT(1)
+ #define R9A06G032_SYSCTRL_DMAMUX 0xA0
+ 
++#define R9A06G032_SYSCTRL_RSTEN 0x120
++#define R9A06G032_SYSCTRL_RSTEN_MRESET_EN BIT(0)
++#define R9A06G032_SYSCTRL_RSTCTRL 0x198
++/* These work for both reset registers */
++#define R9A06G032_SYSCTRL_SWRST BIT(6)
++#define R9A06G032_SYSCTRL_WDA7RST_1 BIT(2)
++#define R9A06G032_SYSCTRL_WDA7RST_0 BIT(1)
++
+ /**
+  * struct regbit - describe one bit in a register
+  * @reg: offset of register relative to base address,
+@@ -670,6 +679,7 @@ struct r9a06g032_priv {
+ 	struct clk_onecell_data data;
+ 	spinlock_t lock; /* protects concurrent access to gates */
+ 	void __iomem *reg;
++	struct notifier_block restart_nb;
+ };
+ 
+ static struct r9a06g032_priv *sysctrl_priv;
+@@ -1270,6 +1280,13 @@ static void r9a06g032_clocks_del_clk_provider(void *data)
+ 	of_clk_del_provider(data);
+ }
+ 
++static int r9a06g032_restart_notifier(struct notifier_block *nb,
++				      unsigned long action, void *data)
++{
++	writel(R9A06G032_SYSCTRL_SWRST, sysctrl_priv->reg + R9A06G032_SYSCTRL_RSTCTRL);
++	return NOTIFY_DONE;
++}
++
+ static void __init r9a06g032_init_h2mode(struct r9a06g032_priv *clocks)
+ {
+ 	struct device_node *usbf_np;
+@@ -1324,6 +1341,20 @@ static int __init r9a06g032_clocks_probe(struct platform_device *pdev)
+ 
+ 	r9a06g032_init_h2mode(clocks);
+ 
++	/* Clear potentially pending resets */
++	writel(R9A06G032_SYSCTRL_WDA7RST_0 | R9A06G032_SYSCTRL_WDA7RST_1,
++	       clocks->reg + R9A06G032_SYSCTRL_RSTCTRL);
++	/* Allow software reset */
++	writel(R9A06G032_SYSCTRL_SWRST | R9A06G032_SYSCTRL_RSTEN_MRESET_EN,
++	       clocks->reg + R9A06G032_SYSCTRL_RSTEN);
++
++	clocks->restart_nb.notifier_call = r9a06g032_restart_notifier;
++	clocks->restart_nb.priority = 192;
++
++	error = register_restart_handler(&clocks->restart_nb);
++	if (error)
++		dev_warn(dev, "couldn't register restart handler (%d)\n", error);
++
+ 	for (i = 0; i < ARRAY_SIZE(r9a06g032_clocks); ++i) {
+ 		const struct r9a06g032_clkdesc *d = &r9a06g032_clocks[i];
+ 		const char *parent_name = d->source ?
+-- 
+2.39.2
+
 
