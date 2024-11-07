@@ -1,74 +1,74 @@
-Return-Path: <linux-renesas-soc+bounces-10381-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10382-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20D09C01AE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2024 11:00:15 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9DFD9C01EA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2024 11:08:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A26BA284694
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2024 10:00:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8D32CB217C4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2024 10:08:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76D691DFE29;
-	Thu,  7 Nov 2024 10:00:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1896A1E907E;
+	Thu,  7 Nov 2024 10:08:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="YHkQTghs"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="B6oc96/Y"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D75E51E8856
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Nov 2024 10:00:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27D317A58F
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Nov 2024 10:08:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730973613; cv=none; b=Vaj9JNCrneqgI9mK+zGbIl43VddVz+E/wNbemkkeu2NDUy383gG2EUyosAVKcMQlgXx5ddA5aYL6vXhOcyJimocPVlsxr/ErSpw/uuOOuEqxs5tmCUrU9lvOx4Tm5wvsLMPpwD34vjXCr70vFO34xgoO7C8/B2RlnIOydpnUqU0=
+	t=1730974099; cv=none; b=FdiaxAkW4mbcdS8xpDnXW25ieyCGYwQX2eytRkdd6gaS9K4fOj8d0usdHsKsNy8UMnSjxEeZgsDrCr/nm2WXjWHQ9/Y81ckOeJawthRONkeJCjxZmC1xfRAPFZDokFqci5AiplzcNpV6qQ8iR1+rExAEP73Rb4nxiaFTl9etWLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730973613; c=relaxed/simple;
-	bh=TRanJs9ePaxX/riCnO0so01k5BCuXb4pkZrMsFxRULg=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=XXNSL/y7DZMyOLnoar6fVScEwFlfLsh4FeftdsfxYDHh6VZRhhRpkIKyzBzhnOhl/Pi/datAY2uPFymW7Up6GNheA6jw5+Q6BG5DoJeuHZgQ2qoStrxaYIWWZb++XcpFJKwwZiV6gET/rWGKfiDQCPHCGojzly/+bKB7SNzdulA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=YHkQTghs; arc=none smtp.client-ip=209.85.221.43
+	s=arc-20240116; t=1730974099; c=relaxed/simple;
+	bh=xXUQOBT01T3MRKyJrdapfNykchj8nZNKVHCLYH+d/Cs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fmnilt/ITmCX1JDN/E5Xu79D6ptxOc67Uzgewk0fs/YCMPR6iQhkXchCjKC3kOVAR/AGbSbmpNHWdtGHpWwCvGBYh05YXS5qNhbhcGUzuFy7wmgbR5ugS1ygqTz/r7vAKBEV+uOUPWF/Dk88CLWifZknF2hP2JTtiIiLqewycR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=B6oc96/Y; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-37d4ac91d97so657504f8f.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 07 Nov 2024 02:00:10 -0800 (PST)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-37d538fe5f2so530057f8f.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 07 Nov 2024 02:08:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1730973609; x=1731578409; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+        d=tuxon.dev; s=google; t=1730974094; x=1731578894; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=R02EDs+did3sWf/l/M/xZDeb+Ibpap6rP6djlTEoJvs=;
-        b=YHkQTghsBm8V784J7+Uy1a9e45npNlPTkNMHwKGvvccALUdtY7Y3DSgvLv6t2CoSR9
-         iDGQfJSo2WZQKzkCvec5xreljkCLVEiPkDsnoEP1cKWVrI3cWzIxkLtLSdgk7W4hMjb7
-         IHvXrPpdAGAWAg7dPI+TwdQcUS3trnVTbCARUyqv1KRGEniQnES5K5Xjo368fGR7V5X4
-         8d3KqDTQVT2kVteDXmwsmP4h2cl2BusSTE2ulxbkq/84qVBqaFpNc0kJ5Z064/n+0mLW
-         aaPiS+lYG1kk9yMak5DbiVrHlbIFM2nvmAOJi8lEhQH6bkNWeYgnISB6KgZ2kde9SCtE
-         +aUA==
+        bh=3aX9aU5kbUCffF9rM+ueXGTR+/RvfCfDMyT/aMZR86s=;
+        b=B6oc96/YAgpINz8oJmoArIRKtTbM1I/msINUpD3GOp2QDUCDmIVgtb2eYefgwYOmwv
+         /GEvgdGbKFIUq3zl1VJzKVUfONUAUrOOXyD4ZrKMvTPBYZftJHxVpUrbSfCDR1NqklLu
+         cGhP80CqcZ6idRjOY2ymYfAvDFifw7v0K0yozumbmS5t1Tj16Fwrp6TjIcfTSKf5Y2k9
+         pzrHj3CZ58diIepema7cQ8A0QshAVczkm9Z1ZyddGYwBuKaSBMrCrPcjKVeUMlptgtIH
+         J/1Fneyuw7nbqVaVbxi27c+DLG8pZiY2RftShSDO/jItH58VoD3nkSAw2I+iIy+emFSR
+         pcjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730973609; x=1731578409;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+        d=1e100.net; s=20230601; t=1730974094; x=1731578894;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=R02EDs+did3sWf/l/M/xZDeb+Ibpap6rP6djlTEoJvs=;
-        b=OYWGpFLIYcD4XJV5gyGaTI3gmpteaIdm1pwRqkhqp+xdiSD54zBvkCn0BZx8Quf0gs
-         qRzc0Gxj0FpZ5cJ7HYBVdj6rYKpxYMME196HPMQrhE8T5+cxOMf0PiTmOAxzEcwAfOsy
-         rgo/QgipBMnnKAZBwRmUCh7ojog4I61VoZTZzKfp5LQZZ0Lq5pm/qiN7Gy5scLSR9zqy
-         s0oRT0EzvfYK5lgQlkcdzD6cCuKdNRxBN5Imhm1kQxbKSlwYlicRk30h6zsXAf8216Mp
-         ipcjkN/DacTAHEvHcjo8/h2cIKizsTwVTODsHViRr5T7P/CUQqxMwyWGlGgpoUN9sPZ3
-         P9Hw==
-X-Forwarded-Encrypted: i=1; AJvYcCWlDV3H92+r19zWV67MErCx13EsZQt/grSkABtSyljJFqLk/4iWrxe3K8hCWA2QSn3vW5f7i7X3rSG0KAX4MVJBKQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxETCEhsCtwwLAFf52TsetkP2054NaVd0bl8sgW193CPiC7xWG+
-	wyhby5NQ0+XrrNgDHw2lcdq0FFlNd8PqvYcXKSAFGUqPM66lFmVQDIHpcSx8tCY=
-X-Google-Smtp-Source: AGHT+IEffb2xJDgmV6dLSuFyO1fmxJvqSnlcu1KUumgCd4EHyMTsYXx5V2d5rZ79w6rYl9OZ0LDdOw==
-X-Received: by 2002:a5d:47ac:0:b0:37d:48f2:e749 with SMTP id ffacd0b85a97d-381c7a4636cmr23082414f8f.10.1730973608986;
-        Thu, 07 Nov 2024 02:00:08 -0800 (PST)
+        bh=3aX9aU5kbUCffF9rM+ueXGTR+/RvfCfDMyT/aMZR86s=;
+        b=dLGS0LdJ3I6MY6yQVAPtKSwEPoaCUBejUxY6Vs4dLAcuYgghtYNb4Yhc5ZhVB2Zc2K
+         19D29CGTJigmrx6owX98ApMy8nGYAdt7jbgv9SlriVzmP1fpj5RsZtqXcI+veuh4TI8k
+         vhFGwjbxjmMhP2kc3bDUP5d7ar5/xUAV1abaJXTL4Om/yTdNzhNFze0NKv3BBgzyarJn
+         um8RR7oy4pBMwPOKm9XOTEmdjUfl1pN2ikSti1BjAupwY/H+1j7J8ufOq7VpyIMZAXuo
+         EKatvnc67Sm4Ph1QN8nHsQysTIcQnOGOqYzLOtkO+oOnWk/s6et5kVW9xaEikKuD0/Jj
+         ZaKw==
+X-Forwarded-Encrypted: i=1; AJvYcCXUdNs48a+gL7WHDyW6F4B611PU2tLCs/4966RComlkka3jYJG7xxlRQavWea94wLzjS40RllWJAzT6GzEmTN2TLQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJoF+c7+kU9SSoBceYc+M1J0wp5wQ3dI16yl0Ct1kmwnAg2Qxv
+	KVIh/rtVrvX9JQVT55Um1m18RRXMAjbkMMaYlHLiPRmoYgYwe0dLwxAnoQp3WDg=
+X-Google-Smtp-Source: AGHT+IGWGYFHOONG1Xs6QvgE6Y/vND7Lhs5RD0DMYTtylzW3x3ufq+tfvPgtCHz10wJS3sE+Pr8Zbg==
+X-Received: by 2002:a05:6000:1865:b0:37d:5129:f45e with SMTP id ffacd0b85a97d-381ef6ba599mr518574f8f.20.1730974093942;
+        Thu, 07 Nov 2024 02:08:13 -0800 (PST)
 Received: from [192.168.50.4] ([82.78.167.28])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432b05e5871sm17547405e9.37.2024.11.07.02.00.05
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381ed97ec9fsm1304952f8f.42.2024.11.07.02.08.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Nov 2024 02:00:07 -0800 (PST)
-Message-ID: <91916297-8156-44d9-b56f-9a67e651a9a4@tuxon.dev>
-Date: Thu, 7 Nov 2024 12:00:05 +0200
+        Thu, 07 Nov 2024 02:08:13 -0800 (PST)
+Message-ID: <26618787-7eb7-40a6-b849-33016956ef03@tuxon.dev>
+Date: Thu, 7 Nov 2024 12:08:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -76,214 +76,154 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/16] Add initial USB support for the Renesas RZ/G3S SoC
+Subject: Re: [PATCH 2/9] serial: sh-sci: Check if TX data was written to
+ device in .tx_empty()
 Content-Language: en-US
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: geert+renesas@glider.be, magnus.damm@gmail.com, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, mturquette@baylibre.com,
+ sboyd@kernel.org, jirislaby@kernel.org, p.zabel@pengutronix.de,
+ lethal@linux-sh.org, g.liakhovetski@gmx.de, ysato@users.sourceforge.jp,
+ ulrich.hecht+renesas@gmail.com, linux-renesas-soc@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-serial@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, stable@vger.kernel.org
+References: <20241106120118.1719888-1-claudiu.beznea.uj@bp.renesas.com>
+ <20241106120118.1719888-3-claudiu.beznea.uj@bp.renesas.com>
+ <2024110747-kite-pacemaker-6216@gregkh>
 From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-To: Biju Das <biju.das.jz@bp.renesas.com>,
- Ulf Hansson <ulf.hansson@linaro.org>, Philipp Zabel <p.zabel@pengutronix.de>
-Cc: "vkoul@kernel.org" <vkoul@kernel.org>,
- "kishon@kernel.org" <kishon@kernel.org>, "robh@kernel.org"
- <robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "geert+renesas@glider.be" <geert+renesas@glider.be>,
- "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "mturquette@baylibre.com" <mturquette@baylibre.com>,
- "sboyd@kernel.org" <sboyd@kernel.org>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
- "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240822152801.602318-1-claudiu.beznea.uj@bp.renesas.com>
- <35dc7414-f5bd-4ed4-bfa1-f723f4f0078c@tuxon.dev>
- <TY3PR01MB11346A4814F83FE296A1DED8886922@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <TY3PR01MB1134648BF51F1B52BFE34DD6D86932@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <fbfa9179-2f52-429f-8b69-f7f4064e796b@tuxon.dev>
- <TYCPR01MB11332EF1A8D064C491D8F261286932@TYCPR01MB11332.jpnprd01.prod.outlook.com>
- <f7c57e76-b890-491f-880d-62d060b7b31e@tuxon.dev>
- <TYCPR01MB11332BE2EDB318950B9C7B54C86932@TYCPR01MB11332.jpnprd01.prod.outlook.com>
- <TY3PR01MB113469FC8A9F49D9B1FA432FD86932@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <0b73544b-0253-43b9-b631-6578b48eaca8@tuxon.dev>
- <TY3PR01MB1134689573A785E91A9041E1886932@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <5bcdc677-e61e-4312-a19b-57b4600685d3@tuxon.dev>
- <TY3PR01MB1134690F9D37E3BB4814D864386932@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <d64243fe-48ea-4cb5-b6d6-e9f820e1b8a3@tuxon.dev>
-In-Reply-To: <d64243fe-48ea-4cb5-b6d6-e9f820e1b8a3@tuxon.dev>
+In-Reply-To: <2024110747-kite-pacemaker-6216@gregkh>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi, all,
+Hi, Greg,
 
-On 03.09.2024 17:48, claudiu beznea wrote:
+On 07.11.2024 10:47, Greg KH wrote:
+> On Wed, Nov 06, 2024 at 02:01:11PM +0200, Claudiu wrote:
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> On the Renesas RZ/G3S, when doing suspend to RAM, the uart_suspend_port()
+>> is called. The uart_suspend_port() calls 3 times the
+>> struct uart_port::ops::tx_empty() before shutting down the port.
+>>
+>> According to the documentation, the struct uart_port::ops::tx_empty()
+>> API tests whether the transmitter FIFO and shifter for the port is
+>> empty.
+>>
+>> The Renesas RZ/G3S SCIFA IP reports the number of data units stored in the
+>> transmit FIFO through the FDR (FIFO Data Count Register). The data units
+>> in the FIFOs are written in the shift register and transmitted from there.
+>> The TEND bit in the Serial Status Register reports if the data was
+>> transmitted from the shift register.
+>>
+>> In the previous code, in the tx_empty() API implemented by the sh-sci
+>> driver, it is considered that the TX is empty if the hardware reports the
+>> TEND bit set and the number of data units in the FIFO is zero.
+>>
+>> According to the HW manual, the TEND bit has the following meaning:
+>>
+>> 0: Transmission is in the waiting state or in progress.
+>> 1: Transmission is completed.
+>>
+>> It has been noticed that when opening the serial device w/o using it and
+>> then switch to a power saving mode, the tx_empty() call in the
+>> uart_port_suspend() function fails, leading to the "Unable to drain
+>> transmitter" message being printed on the console. This is because the
+>> TEND=0 if nothing has been transmitted and the FIFOs are empty. As the
+>> TEND=0 has double meaning (waiting state, in progress) we can't
+>> determined the scenario described above.
+>>
+>> Add a software workaround for this. This sets a variable if any data has
+>> been sent on the serial console (when using PIO) or if the DMA callback has
+>> been called (meaning something has been transmitted).
+>>
+>> Fixes: 73a19e4c0301 ("serial: sh-sci: Add DMA support.")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>> ---
+>>  drivers/tty/serial/sh-sci.c | 11 +++++++++++
+>>  1 file changed, 11 insertions(+)
+>>
+>> diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
+>> index df523c744423..8e2d534401fa 100644
+>> --- a/drivers/tty/serial/sh-sci.c
+>> +++ b/drivers/tty/serial/sh-sci.c
+>> @@ -153,6 +153,7 @@ struct sci_port {
+>>  	int				rx_trigger;
+>>  	struct timer_list		rx_fifo_timer;
+>>  	int				rx_fifo_timeout;
+>> +	atomic_t			first_time_tx;
+> 
+> Don't use an atomic variable for an informational thing like this, it is
+> racy and doesn't work properly.  Either use a real lock (because you
+> care about the locking stuff here), or just use a boolean and live with
+> any potential races.
+
+OK, I'll drop it and use a boolean.
+
 > 
 > 
-> On 03.09.2024 16:45, Biju Das wrote:
->> Hi Claudiu,
->>
->>> -----Original Message-----
->>> From: claudiu beznea <claudiu.beznea@tuxon.dev>
->>> Sent: Tuesday, September 3, 2024 1:57 PM
->>> Subject: Re: [PATCH 00/16] Add initial USB support for the Renesas RZ/G3S SoC
->>>
->>>
->>>
->>> On 03.09.2024 15:37, Biju Das wrote:
->>>>
->>>>
->>>>> -----Original Message-----
->>>>> From: claudiu beznea <claudiu.beznea@tuxon.dev>
->>>>> Sent: Tuesday, September 3, 2024 1:26 PM
->>>>> To: Biju Das <biju.das.jz@bp.renesas.com>; Ulf Hansson
->>>>> <ulf.hansson@linaro.org>
->>>>> Cc: vkoul@kernel.org; kishon@kernel.org; robh@kernel.org;
->>>>> krzk+dt@kernel.org; conor+dt@kernel.org; p.zabel@pengutronix.de;
->>>>> geert+renesas@glider.be; magnus.damm@gmail.com;
->>>>> gregkh@linuxfoundation.org; mturquette@baylibre.com;
->>>>> sboyd@kernel.org; Yoshihiro Shimoda
->>>>> <yoshihiro.shimoda.uh@renesas.com>;
->>>>> linux-phy@lists.infradead.org; devicetree@vger.kernel.org;
->>>>> linux-kernel@vger.kernel.org; linux- renesas-soc@vger.kernel.org;
->>>>> linux-usb@vger.kernel.org; linux-arm-kernel@lists.infradead.org;
->>>>> linux- clk@vger.kernel.org; linux-pm@vger.kernel.org; Claudiu Beznea
->>>>> <claudiu.beznea.uj@bp.renesas.com>
->>>>> Subject: Re: [PATCH 00/16] Add initial USB support for the Renesas
->>>>> RZ/G3S SoC
->>>>>
->>>>>
->>>>>
->>>>> On 03.09.2024 15:00, Biju Das wrote:
->>>>>>
->>>>>>
->>>>>>> -----Original Message-----
->>>>>>> From: Biju Das <biju.das.jz@bp.renesas.com>
->>>>>>> Sent: Tuesday, September 3, 2024 12:07 PM
->>>>>>> To: Claudiu.Beznea <claudiu.beznea@tuxon.dev>; Ulf Hansson
->>>>>>> <ulf.hansson@linaro.org>
->>>>>>> Cc: vkoul@kernel.org; kishon@kernel.org; robh@kernel.org;
->>>>>>> krzk+dt@kernel.org; conor+dt@kernel.org; p.zabel@pengutronix.de;
->>>>>>> geert+renesas@glider.be; magnus.damm@gmail.com;
->>>>>>> gregkh@linuxfoundation.org; mturquette@baylibre.com;
->>>>>>> sboyd@kernel.org; Yoshihiro Shimoda
->>>>>>> <yoshihiro.shimoda.uh@renesas.com>;
->>>>>>> linux-phy@lists.infradead.org; devicetree@vger.kernel.org;
->>>>>>> linux-kernel@vger.kernel.org; linux- renesas-soc@vger.kernel.org;
->>>>>>> linux-usb@vger.kernel.org; linux-arm-kernel@lists.infradead.org;
->>>>>>> linux- clk@vger.kernel.org; linux-pm@vger.kernel.org; Claudiu
->>>>>>> Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>>>> Subject: RE: [PATCH 00/16] Add initial USB support for the Renesas
->>>>>>> RZ/G3S SoC
->>>>>>>
->>>>>>> Hi Claudiu,
->>>>>>>
->>>>>>>> -----Original Message-----
->>>>>>>> From: claudiu beznea <claudiu.beznea@tuxon.dev>
->>>>>>>> Sent: Tuesday, September 3, 2024 12:00 PM
->>>>>>>> Subject: Re: [PATCH 00/16] Add initial USB support for the Renesas
->>>>>>>> RZ/G3S SoC
->>>>>>>>
->>>>>>>>
->>>>>>>>
->>>>>>>> On 03.09.2024 13:31, Biju Das wrote:
->>>>>>>>>>> During boot clr USB PWR READY signal in TF-A.
->>>>>>>>>>> STR case, suspend set USB PWR READY signal in TF-A.
->>>>>>>>>>> STR case, resume clr USB PWR READY signal in TF-A.
->>>>>>>>>> As I said previously, it can be done in different ways. My point
->>>>>>>>>> was to let Linux set what it needs for all it's devices to work.
->>>>>>>>>> I think the way to go forward is a
->>>>>>>> maintainer decision.
->>>>>>>>>
->>>>>>>>> I agree, there can be n number of solution for a problem.
->>>>>>>>>
->>>>>>>>> Since you modelled system state signal (USB PWRRDY) as reset
->>>>>>>>> control signal, it is reset/DT maintainer's decision to say the
->>>>>>>>> final word whether this signal fits in reset
->>>>>>>> system framework or not?
->>>>>>>>
->>>>>>>> I was thinking:
->>>>>>>> 1/ Geert would be the best to say if he considers it OK to handle this
->>>>>>>>    in Linux
->>>>>>>
->>>>>>> I agree Geert is the right person for taking SYSTEM decisions,
->>>>>>> since the signal is used only during state transitions (Table
->>>>>>> 41.6.4 AWO to ALL_ON and 41.6.3 ALL_ON to AWO)
->>>>>>
->>>>>> One more info, as per [1], this USB PWRRDY signal setting to be before Linux kernel boots.
->>>>>
->>>>> The "controlled by" column mentions CA-55 on PWRRDY signal control
->>>>> line and it is b/w steps "DDR exits from retention mode" and  "clock
->>>>> start settings for system bus and peripheral modules". AFAICT, after DDR exists retention mode
->>> Linux is ready to run.
->>>>
->>>> DDR retention exit happens in TF-A and it jumps into reset code where it executes BL2 in TF_A. Bl2
->>> checks for warm or cold reset.
->>>> If it is warm reset, it sets required minimal clocks/resets and pass
->>>> the control to linux by calling the SMC callback handler. Which in turn calls resume(step 11-->14)
->>> path.
->>>
->>> Is this from HW manual or some specific documentation? I'm referring at "resume" == "steps 11-->14"
->>>
->>>>
->>>> Step 8, Cortex-A55 Exit from DDR retention mode (when using) Setting
->>>> for exiting form DDR retention mode Step 9, Cortex-A55 USB PHY PWRRDY
->>>> signal control (if use USB) SYS_USB_PWRRDY Step 10, Cortex-A55 PCIe
->>>> RST_RSM_B signal control (if use PCIe) SYS_PCIE_RST_RSM_B
->>>
->>> Note *if use*: how does the TF-A know if USB/PCIe is used by Linux? The documentation mention to set
->>> it *if use*. Same note is on ALL_ON to VBATT transition documentation (namely "if using USB", "if
->>> using PCIe"). If TF-A will do this it should set this signals unconditionally. It will not be
->>> something wrong though. We don't know at the moment what this involves in terms of power consumption,
->>> if it means something...
->>
->> IIUC,
->> The only information we have is,
->>
->> "SYS_USB_PWRRDY and SYS_PCIE_RST_RSM_B are used when transition from ALL_ON to AWO (or from AWO to ALL_ON).
->> "When turning off USB PHY and PCIe PHY, if they are not controlled, PHY may break"
->>
->> ALL_ON to AWO_MODE state transition: 
->> USB/PCIe are part of PD_ISOVCC power domain and before turning PD_ISOVCC to off,
->> we need to set USBPWRRDY signal.
->>
->> AWO_MODE to ALL_ON state transition:
->>
->> Turn on PD_ISOVCC first, then clr USBPWRRDY signal for USB usage in linux.
->>
->> Maybe we need to ask hw team, exact usage of USBPWRRDY signal other than state transition.
 > 
-> As you may already know, this is open for quite some time and is ongoing.
+>>  	u16				hscif_tot;
+>>  
+>>  	bool has_rtscts;
+>> @@ -850,6 +851,7 @@ static void sci_transmit_chars(struct uart_port *port)
+>>  {
+>>  	struct tty_port *tport = &port->state->port;
+>>  	unsigned int stopped = uart_tx_stopped(port);
+>> +	struct sci_port *s = to_sci_port(port);
+>>  	unsigned short status;
+>>  	unsigned short ctrl;
+>>  	int count;
+>> @@ -885,6 +887,7 @@ static void sci_transmit_chars(struct uart_port *port)
+>>  		}
+>>  
+>>  		sci_serial_out(port, SCxTDR, c);
+>> +		atomic_set(&s->first_time_tx, 1);
+>>  
+>>  		port->icount.tx++;
+>>  	} while (--count > 0);
+>> @@ -1241,6 +1244,8 @@ static void sci_dma_tx_complete(void *arg)
+>>  	if (kfifo_len(&tport->xmit_fifo) < WAKEUP_CHARS)
+>>  		uart_write_wakeup(port);
+>>  
+>> +	atomic_set(&s->first_time_tx, 1);
+>> +
+>>  	if (!kfifo_is_empty(&tport->xmit_fifo)) {
+>>  		s->cookie_tx = 0;
+>>  		schedule_work(&s->work_tx);
+>> @@ -2076,6 +2081,10 @@ static unsigned int sci_tx_empty(struct uart_port *port)
+>>  {
+>>  	unsigned short status = sci_serial_in(port, SCxSR);
+>>  	unsigned short in_tx_fifo = sci_txfill(port);
+>> +	struct sci_port *s = to_sci_port(port);
+>> +
+>> +	if (!atomic_read(&s->first_time_tx))
+>> +		return TIOCSER_TEMT;
+> 
+> See, what happens here if the value changes right after you check it?
 
-I got more clarification about the USB PWRRDY signal from the HW team.
+I agree. I am aware if it.
 
-The conclusion is that the USB PWRRDY is a signal controlled by SYSC
-controller that goes to the USB PHY and it tells the USB PHY if the power
-supply is ready or not.
+I chose this approach (w/o locking) as I noticed (as of my code checking)
+that this function is called in kernel through uart_ioctl(),
+uart_wait_until_sent(), uart_suspend_port().
 
-In the diagram at [1] the PWRRDY signal need to be asserted/de-asserted
-before/after G6, G7, G8, G9, G10 signals.
+The uart_wait_until_sent(), uart_suspend_port() are implementing a multiple
+try approach when checking the ops::tx_timeout() return value.
 
-Philipp,
+I haven't checked any user space application but considered that it might
+work in a similar way.
 
-Can you please confirm that you don't want this signal to be implemented as
-a reset signal to know clearly your input on it? I would like to start
-looking for another approach in that case.
+I will switch to a boolean in the next version.
 
 Thank you,
 Claudiu Beznea
 
-[1] https://pasteboard.co/0a1zYBFZXZVb.png
 
+> Being an atomic doesn't mean anything :(
 > 
->>
->> Cheers,
->> Biju
->>
->>
+> thanks,
+> 
+> greg k-h
 
