@@ -1,98 +1,98 @@
-Return-Path: <linux-renesas-soc+bounces-10400-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10401-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14D039C19F8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Nov 2024 11:07:47 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A11D09C1B19
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Nov 2024 11:50:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 38CA71C226B1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Nov 2024 10:07:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0A245B24432
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Nov 2024 10:50:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F80C1E572A;
-	Fri,  8 Nov 2024 10:05:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 818551E284D;
+	Fri,  8 Nov 2024 10:50:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="QVKM/p8b"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="eHA/0RGe"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA411E4928
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  8 Nov 2024 10:05:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C9F1E32CE
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  8 Nov 2024 10:50:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731060346; cv=none; b=JFr8cxshKGQFDLMnvfPtapXGcdlnR2e5bwmd/W6HVSlH9pKD4ISuR5bA6rj91W4n9reuDstkkrDPjYamTu0iOOL6U+QB4soHgZssTM/hi6+cfJS0EzqWW4HcWZfcgjDytbaJbvUus+iADzicTOqo7uzQ52nL2plWyenwigfoOUw=
+	t=1731063011; cv=none; b=VHYi1Yf7M/u36jO+6frWeb+FEBupmgYjBMvVsRw44QI2u3NPEmcqo2qOXvQ0tU409aBRngkDjzDjknWCcI7VgozkSS94FVZrZLUHyhXMS/vaZB992Dbm/N2CHlSwpIIerTtEhhQ74CIim4bB2Nxe4qTyrn/Eu/O0SgQEAWKujLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731060346; c=relaxed/simple;
-	bh=Z2tb/vC/liM3lvGpdrdtmL0ddtGw6sNDFl2J3gl/M+M=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=oLI5BnklduFjSw22vNaUqmEQ+FYKIlYFxIrj0aN/mwcs0+pO7w840XU/o+KHbYVduzf0Ot2dg3hM7UkN2mY+4EU1CHsSdf9UJXhFCbYLVSdbhUVsiOWHIpcy+U0Sz99z4MzHyPqzHnYQwVAR6MBX1HH2FduoFUzvWYYhAnJ2OQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=QVKM/p8b; arc=none smtp.client-ip=209.85.218.43
+	s=arc-20240116; t=1731063011; c=relaxed/simple;
+	bh=PpgS7pghguQQqOaLBn/7h6GRo5W88qMATqga6s+AMZE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rmEv0IydNqlqTZr7eEc+jqiJ73/Wf/ss8078e0zeKqQSjQDPqYvy7NZU4nDozs/WwjUz01DikR8LNy32yKhCbdJ8TZXj3Voof52GGl1rgQAVHfiR25UQUnEiZ6WLvgxSWkAV1baf8maeyFHh6EViLC3/vAAS69V6qBvngEQorcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=eHA/0RGe; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a9ed0ec0e92so247811866b.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 08 Nov 2024 02:05:43 -0800 (PST)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a99f646ff1bso284259566b.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 08 Nov 2024 02:50:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1731060342; x=1731665142; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cKrZynwicqxo1yfu93+nsEDR+MRiX9ulp6Qb0mIB22s=;
-        b=QVKM/p8bJ+m7jDi8gjNVtytteNGzS/pOZ7SfpIrB4Rnihal69zeOkHdv5BKkyxYS70
-         tc9tbxpR6H4F2yTyb0HTmd3MWUVM02WzLDM3zopi5d+LlW9Qz6a0ayPQ8MLRF6GN0Px0
-         N/yIOjIWDbxtKnqjyC94kwaZCnvrvxAvYZmoqF3dWzItgaG4TGYrEVIC2S6COqZCJdo0
-         NPimLOWY22McXVA1nL7XC0yiycHihXXTg8y7xLomgMn87ryrFMnKrYeRMHscA4PZ/BT1
-         5bDz7Hn1nrkrrx1dxMCICkqzkmTooPcoWzP//ZpM4Qmb8Bbg2eJUdBne41+jr3eHEMyb
-         Cb4w==
+        d=tuxon.dev; s=google; t=1731063008; x=1731667808; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9HGjqJtVN8yse62LSp4lxH7xSh7mrFcmEyzm1hZzC2U=;
+        b=eHA/0RGe2PEYO6q4VzHM+lEPnNZccGZOzSIqDnYyEkRgQjTlvDSjQWQ88h3DenLN6O
+         zP0LW+Yt/h6XdhhtRGu0EAR0HZHhPb138mC6Hb1l4pkcPHz4tRjk0/p051Ucxa2qGNjH
+         Gm0TX8ukZ3zGZREKwqQl+WTjAQq/Ot4htqJqf0LftR8As8RmJEgsp+e+b/hSqkOaXOEn
+         Kskk28QzbQYm3dW41z3Ta1ZKFFAY7uTWdVLDLl5J3k8/1FIOQST2EUcdl/mxw91xj/Kn
+         yGCGUtuQPLLhcpGYLygDGWqdP7XDnppXn7jS30mzmFyTJoS/FIr9LvPB4QSZE0Ofs0dX
+         u99w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731060342; x=1731665142;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cKrZynwicqxo1yfu93+nsEDR+MRiX9ulp6Qb0mIB22s=;
-        b=SJsD9PrJsa7BODUzYjVhxJ5+2fN4bZKzfSpxuEdhT1M1t+1AX3rqh8XkpL7JEvuTcU
-         CvUaoc3zzSOtHgfqi7osYgzTgFvp/kKvuQyoTTI9ujyI3DakW7pSdg/e4W863WtQS9wf
-         eCHYjFnnCFhctYhqyOZjjHMiJQfHlIyNBze6Nr3bPFTGAgA/3NT++09cN7tP95MtxElD
-         UMx58HtCFGzLpl/5BfP8U0GHsSVLC2t7mLBOHVkwWuTgbCkmvxkS+jAiPHv5u3xjo2Fh
-         8OLUsSGFqYb8zcPE0oUPGPxOUQwoWpnKPzwtPlw/Vek1PZJqlMJi7QF9BhUaC3FWwK3u
-         sjNQ==
-X-Gm-Message-State: AOJu0YyRHSr/tp85dckzsHw6JQoJbUckZ3RcBxLhTqHoxT1u2CxwEh3w
-	1wXHBq64ngKwO/Pqm1c7XQ9Ueynx7e3JNQLahgEFtFko2FCRmkzDzco8Go+XSa0=
-X-Google-Smtp-Source: AGHT+IHv2DNDgVcjRFJGreV+5UAXbde6rObAUQ0eu7AfLIMiqBcc4T+3lub+OwQbaeVt96soMj8u/w==
-X-Received: by 2002:a17:906:db04:b0:a99:88ab:c7cb with SMTP id a640c23a62f3a-a9eeff3a983mr196643166b.33.1731060342322;
-        Fri, 08 Nov 2024 02:05:42 -0800 (PST)
+        d=1e100.net; s=20230601; t=1731063008; x=1731667808;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9HGjqJtVN8yse62LSp4lxH7xSh7mrFcmEyzm1hZzC2U=;
+        b=foWuZTREQXW14FXYqQrNZfsKbDZRliwmpBW2BekxU0o9LZ9LFOR3P87EL21iKn7DCE
+         6sDrDbZ9RXui/xE8TeIwNbDCsOkH1e3rOf3RgerAPYyE8WDAEsebPuoP6zhtX9vL9TIo
+         fUJDIzTh+bOW2ViJzfPfopJ2zRzb3O2FOU57c5Lh8R40XDpP6tCNHEYIG9Pjzmad0d5p
+         NsT4+pYbAyzbm4MNbags89QEsIOxhhIRBeQ1JynKztGYjafCIlElwVYETboo2clVF7Ka
+         rqwB3NBoCaqlhCYSRK5FRxDCKRABPFC5XnOAPTGjc+nigIe3vZ1ZdvgBUWQ25grFuYOp
+         EI2w==
+X-Gm-Message-State: AOJu0YwZn7G2Ee5oHLtI4gK1HxqO48DuquIX7OlmiScpkvxVS4z6GcxN
+	/Pm658zMKd92EYlkCR9vZQxDgaQO6imw+0xotYvXcXcgOwz0ofDmzBm7a5Hn7FM=
+X-Google-Smtp-Source: AGHT+IFrd1TDLAec9U58LF9s40xqazfiJUW3NmUcK/yIbfcJMdLkexaEXIhuu/tXhcUQIO/IrHqAbA==
+X-Received: by 2002:a17:907:3d90:b0:a9a:c691:dcbc with SMTP id a640c23a62f3a-a9eefebd066mr197835866b.12.1731063007655;
+        Fri, 08 Nov 2024 02:50:07 -0800 (PST)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.28])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cf03c4f0bdsm1775959a12.56.2024.11.08.02.05.40
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9ee0dc574dsm220464866b.101.2024.11.08.02.50.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Nov 2024 02:05:41 -0800 (PST)
+        Fri, 08 Nov 2024 02:50:07 -0800 (PST)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: geert+renesas@glider.be,
-	magnus.damm@gmail.com,
+	mturquette@baylibre.com,
+	sboyd@kernel.org,
 	robh@kernel.org,
 	krzk+dt@kernel.org,
 	conor+dt@kernel.org,
-	mturquette@baylibre.com,
-	sboyd@kernel.org,
-	gregkh@linuxfoundation.org,
-	jirislaby@kernel.org,
-	p.zabel@pengutronix.de,
-	g.liakhovetski@gmx.de,
-	lethal@linux-sh.org
+	biju.das.jz@bp.renesas.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	magnus.damm@gmail.com,
+	linus.walleij@linaro.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	p.zabel@pengutronix.de
 Cc: linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	linux-serial@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
 	claudiu.beznea@tuxon.dev,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v2 8/8] arm64: dts: renesas: r9a08g045s33-smarc-pmod: Add overlay for SCIF1
-Date: Fri,  8 Nov 2024 12:05:13 +0200
-Message-Id: <20241108100513.2814957-9-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v2 00/25] Add audio support for the Renesas RZ/G3S SoC
+Date: Fri,  8 Nov 2024 12:49:33 +0200
+Message-Id: <20241108104958.2931943-1-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20241108100513.2814957-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20241108100513.2814957-1-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -103,88 +103,78 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Add DT overlay for SCIF1 (of the Renesas RZ/G3S SoC) routed through the
-PMOD1_3A interface available on the Renesas RZ SMARC Carrier II board.
+Hi,
 
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
+Series enables the audio support for the Renesas RZ/G3S
+SoC along with runtime PM and suspend to RAM.
+
+Patches:
+-    01/25 - add clock, reset and power domain support
+- 02-04/25 - update versaclock3 clock generator driver to support the
+             5L35023 hardware variant; versaclock3 provides clocks for
+             the audio devices (SSIF, DA7212 codec)
+-    05/25 - add pin control support for audio
+- 06-20/25 - add SSIF support for the RZ/G3S SoC; fixes and cleanups
+             were also included
+- 21-25/25 - add device tree support
+
+Merge strategy, if any:
+- clock patches (01-04/25) can go through the Renesas tree
+- pinctrl patch (05/25) can go though the Renesas tree
+- audio patches (06-20/25) can go through the audio tree
+- device tree patches (21-25/25) can go through the Renesas tree
+
+Thank you,
+Claudiu Beznea
 
 Changes in v2:
-- none
+- fixed typos pointed out in the review process
+- dropped da7213 patches already applied
+- dropped patch "ASoC: sh: rz-ssi: Use a proper bitmask for clear bits"
+  as requested in the review process
 
- arch/arm64/boot/dts/renesas/Makefile          |  3 ++
- .../dts/renesas/r9a08g045s33-smarc-pmod.dtso  | 48 +++++++++++++++++++
- 2 files changed, 51 insertions(+)
- create mode 100644 arch/arm64/boot/dts/renesas/r9a08g045s33-smarc-pmod.dtso
 
-diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index 97228a3cb99c..7ad52630d350 100644
---- a/arch/arm64/boot/dts/renesas/Makefile
-+++ b/arch/arm64/boot/dts/renesas/Makefile
-@@ -137,6 +137,9 @@ r9a07g054l2-smarc-cru-csi-ov5645-dtbs := r9a07g054l2-smarc.dtb r9a07g054l2-smarc
- dtb-$(CONFIG_ARCH_R9A07G054) += r9a07g054l2-smarc-cru-csi-ov5645.dtb
- 
- dtb-$(CONFIG_ARCH_R9A08G045) += r9a08g045s33-smarc.dtb
-+dtb-$(CONFIG_ARCH_R9A07G043) += r9a08g045s33-smarc-pmod.dtbo
-+r9a08g045s33-smarc-pmod-dtbs := r9a08g045s33-smarc.dtb r9a08g045s33-smarc-pmod.dtbo
-+dtb-$(CONFIG_ARCH_R9A07G043) += r9a08g045s33-smarc-pmod.dtb
- 
- dtb-$(CONFIG_ARCH_R9A09G011) += r9a09g011-v2mevk2.dtb
- 
-diff --git a/arch/arm64/boot/dts/renesas/r9a08g045s33-smarc-pmod.dtso b/arch/arm64/boot/dts/renesas/r9a08g045s33-smarc-pmod.dtso
-new file mode 100644
-index 000000000000..7d637ab110e1
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r9a08g045s33-smarc-pmod.dtso
-@@ -0,0 +1,48 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Device Tree Source for the RZ/G3S SMARC Carrier II EVK PMOD parts
-+ *
-+ * Copyright (C) 2024 Renesas Electronics Corp.
-+ *
-+ *
-+ * [Connection]
-+ *
-+ * SMARC Carrier II EVK
-+ * +--------------------------------------------+
-+ * |PMOD1_3A (PMOD1 PIN HEADER)			|
-+ * |	SCIF1_CTS# (pin1)  (pin7)  PMOD1_GPIO10	|
-+ * |	SCIF1_TXD  (pin2)  (pin8)  PMOD1_GPIO11	|
-+ * |	SCIF1_RXD  (pin3)  (pin9)  PMOD1_GPIO12	|
-+ * |	SCIF1_RTS# (pin4)  (pin10) PMOD1_GPIO13	|
-+ * |	GND	   (pin5)  (pin11) GND		|
-+ * |	PWR_PMOD1  (pin6)  (pin12) GND		|
-+ * +--------------------------------------------+
-+ *
-+ */
-+
-+/dts-v1/;
-+/plugin/;
-+
-+#include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
-+
-+&{/} {
-+	aliases {
-+		serial0 = "/soc/serial@1004bc00";
-+	};
-+};
-+
-+&pinctrl {
-+	scif1_pins: scif1-pins {
-+		pinmux = <RZG2L_PORT_PINMUX(14, 0, 1)>, /* TXD */
-+			 <RZG2L_PORT_PINMUX(14, 1, 1)>, /* RXD */
-+			 <RZG2L_PORT_PINMUX(16, 0, 1)>, /* CTS */
-+			 <RZG2L_PORT_PINMUX(16, 1, 1)>; /* RTS */
-+	};
-+};
-+
-+&scif1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&scif1_pins>;
-+	uart-has-rtscts;
-+	status = "okay";
-+};
+Claudiu Beznea (25):
+  clk: renesas: r9a08g045-cpg: Add clocks, resets and power domains
+    support for SSI
+  clk: versaclock3: Prepare for the addition of 5L35023 device
+  dt-bindings: clock: versaclock3: Document 5L35023 Versa3 clock
+    generator
+  clk: versaclock3: Add support for the 5L35023 variant
+  pinctrl: renesas: rzg2l: Add audio clock pins
+  ASoC: sh: rz-ssi: Terminate all the DMA transactions
+  ASoC: sh: rz-ssi: Use only the proper amount of dividers
+  ASoC: sh: rz-ssi: Fix typo on SSI_RATES macro comment
+  ASoC: sh: rz-ssi: Remove pdev member of struct rz_ssi_priv
+  ASoC: sh: rz-ssi: Remove the rz_ssi_get_dai() function
+  ASoC: sh: rz-ssi: Remove the first argument of rz_ssi_stream_is_play()
+  ASoC: sh: rz-ssi: Use readl_poll_timeout_atomic()
+  ASoC: sh: rz-ssi: Use temporary variable for struct device
+  ASoC: sh: rz-ssi: Use goto label names that specify their actions
+  ASoC: sh: rz-ssi: Rely on the ASoC subsystem to runtime resume/suspend
+    the SSI
+  ASoC: sh: rz-ssi: Enable runtime PM autosuspend support
+  ASoC: sh: rz-ssi: Add runtime PM support
+  ASoC: sh: rz-ssi: Issue software reset in hw_params API
+  ASoC: sh: rz-ssi: Add suspend to RAM support
+  ASoC: dt-bindings: renesas,rz-ssi: Document the Renesas RZ/G3S SoC
+  arm64: dts: renesas: r9a08g045: Add SSI nodes
+  arm64: dts: renesas: rzg3s-smarc-som: Add versa3 clock generator node
+  arm64: dts: renesas: Add da7212 audio codec node
+  arm64: dts: renesas: rzg3s-smarc: Enable SSI3
+  arm64: dts: renesas: rzg3s-smarc: Add sound card
+
+ .../bindings/clock/renesas,5p35023.yaml       |   1 +
+ .../bindings/sound/renesas,rz-ssi.yaml        |   1 +
+ arch/arm64/boot/dts/renesas/r9a08g045.dtsi    |  96 ++++++++
+ .../boot/dts/renesas/rzg3s-smarc-som.dtsi     |  47 +++-
+ arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi  |  66 +++++
+ drivers/clk/clk-versaclock3.c                 |  67 ++++--
+ drivers/clk/renesas/r9a08g045-cpg.c           |  20 ++
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c       |   2 +
+ sound/soc/renesas/rz-ssi.c                    | 226 +++++++++++-------
+ 9 files changed, 415 insertions(+), 111 deletions(-)
+
 -- 
 2.39.2
 
