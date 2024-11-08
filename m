@@ -1,71 +1,71 @@
-Return-Path: <linux-renesas-soc+bounces-10393-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10394-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 553B49C19CE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Nov 2024 11:05:41 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3554E9C19D2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Nov 2024 11:05:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AE7BAB23C65
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Nov 2024 10:05:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E8254285ABA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Nov 2024 10:05:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CA011E25E0;
-	Fri,  8 Nov 2024 10:05:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5D2A1E284D;
+	Fri,  8 Nov 2024 10:05:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="CPylKTkC"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="ZPhnPxJ5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75FAE13A27D
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  8 Nov 2024 10:05:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955221E25F3
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  8 Nov 2024 10:05:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731060329; cv=none; b=Lk1QFdNHAApvaFG42Hm3Y45cIRrdrHv/sM4Ohbu406dvpqTO0bS4AouPiuqqJ3gDaAhw5wqkLYdnpAvP7+joCjfjZS43y6ZydKmcZ75vqvKt0HKmhrM7kT3S7sGfq/PEJSvCBPc1mzeoRMwo2UZeF7/ZfTd2gSbqKpy8N7DASIs=
+	t=1731060331; cv=none; b=swFc8epKd9ZuGKfwfXU9PHztxRtT3ntR0WoqjlRtkuIjDb/l17ZdV2FODnLFCvQynLuwX2Bo1yd3hfjXsPlve8i9x/nirJ/n4xud3gbUPrnyC5I4qoOSaxDSFioKAynOR+kyoXS1sGPe4z/zXhES5cqAyIrkz3UHlTQARuYHl/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731060329; c=relaxed/simple;
-	bh=a09TZjaJcli/9KjW2Y58bjHm/OHi7sfljFTEl8afyHU=;
+	s=arc-20240116; t=1731060331; c=relaxed/simple;
+	bh=BgOPSQ7c0J4d6ewxUtdYFmLo2T0PX3nx4z8vFiy0Dzk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Fga67yNnQka6pVi9TvJ/DAS9qtQGLj1AlzEIVIhISFZVPz6gEAJhEqgPFIDkrKovGyvD3X4OvtdQ06v6+xsC8oORSyqosbcWynB+jTlyJaiwJTorh4rVy0itA5YeiIWhaQKuqwH2A45XSGJNMgBSYFq+2tR/doBlaOcg638wz5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=CPylKTkC; arc=none smtp.client-ip=209.85.208.43
+	 MIME-Version; b=UIyHA0eRYSrpBboXRiWCXINq2iReFydauUHvfShdC7eg3zPdu6qvnLkGqz8ufvJsnc4m9z+F7CtNEjdYILelPX8xeSqDHbfwoD9YL6LsTj/wDE3GFAUkJYi7vOG4iJXqoE2TDm2LtooLvyTYY1yTCISMhdtjFpyVpkQHlddvDcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=ZPhnPxJ5; arc=none smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5ced377447bso2616741a12.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 08 Nov 2024 02:05:27 -0800 (PST)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5ced377447bso2616789a12.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 08 Nov 2024 02:05:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1731060326; x=1731665126; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1731060328; x=1731665128; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lYtY0OrBk7bZC9xeU2MrwDxPJ4Uy97W0JFgkjB2WAnY=;
-        b=CPylKTkCrCdWg1cOhzPX96pIbem9p2KrtWLfUi4d54SRHNnB/oWwlOZtLq+rdvpRyb
-         XYT6xS2U9W7xlrgDwfpEmXdRhgJ1vmxbo+knuJttG+WJoXXxvaAQ90LgLZdea6MZPLuO
-         gzbRrIOtV3eUDaCCqUnazsReR8QLOOX41MN7sInjun0JMbAsz7zzQ1QblWwTxFI8ApvJ
-         2FDS4cTSiegOfMdkweBJ8karEjORAO9k0pxQP1lNl77+b6n1zfN9gJwvx2uTYImxa0eg
-         ZGzVfOrlKujg0SqZs5smc6uUZ9S9vI7aoqybif9mkR1Ew6CGHtiSFR9K1Ry2jHc+f3Nb
-         PHzA==
+        bh=EUv28lbMsyBChqctRtrz1p3A2PKo+pEzM5ucEbUVEb8=;
+        b=ZPhnPxJ5wORAjRtCXyX08P/0Dr/AeDdyRw0e6/UYsCcyuIBkot8PrIoIqy8972+Wm8
+         msZAu3Wtmcn8fDA2DXEy/oHIw9FT+BMt/9N5Vd2l5ZFmE/BSXi+oA2P97tOxf5d7Uz3v
+         ++TIql+A80iLP7krOXN/dfGlUAw3FdhBqRmy3e856B84dA+xjgSRfqLP23jcaXxD5S7+
+         h9gIf6SI0PkP6krr/rLvfR7sry/TB25H7pznZXPEAUcCMS1VUyNvGNbmUgtl84xjM320
+         CHPGfygtY+ZL9kSsOb3ixMJdfzlD51MwpqkYq2j96l4y4F1S+/NkFFsgliS6QtdeFPGT
+         XMTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731060326; x=1731665126;
+        d=1e100.net; s=20230601; t=1731060328; x=1731665128;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lYtY0OrBk7bZC9xeU2MrwDxPJ4Uy97W0JFgkjB2WAnY=;
-        b=cFN5wIcDBXL6FRuO937l+qiVMGhRFykagI4R9BTZvmG0+95c9iqWF4PMa6s1gUpEL0
-         ZGqnrX7RJCGminHMgSAXkfpxGGWKc2jWV9JkNyTnDXJCdtfBFDSQCw/rf6SnrN4mF9LM
-         Cew3pkhdAbgaXntwuPyjmnaryZDT07S/FyN47a7Sa0jHTlOpRczZkI3ScZLjJwRhremT
-         1NZLTyEhuzspQVK6awQ786B/3sfQ5ISvoRINMYXWzExa3T7OswHlOIyMx339s58AHIm1
-         vijV65Tlf92a+m4T6vk3oVjXdjG1PxPEMbmqygGssctrSYaAdgjp3cV2DaEdmFymw2+U
-         8gqQ==
-X-Gm-Message-State: AOJu0YyaHsiyoaWnmAOXQjVWbnJ65tzVg9Bi4D88JPoTLYAsz0ziNxYH
-	qq2Iik0buu2kahZfoe8jFqiZXqEGQ3lwjIm+8NcYTgcrLPlzsaWyFWXJ3CsZejE=
-X-Google-Smtp-Source: AGHT+IGqaJPUNFmTSByl5fjdpcyTvHiAsDHzpLWJpILteDkcG+h1df3v5dSwPZt0Fhdmn53vA4DN6g==
-X-Received: by 2002:a05:6402:3547:b0:5ce:c9e0:aebc with SMTP id 4fb4d7f45d1cf-5cf0a30c5e7mr1433755a12.1.1731060325622;
-        Fri, 08 Nov 2024 02:05:25 -0800 (PST)
+        bh=EUv28lbMsyBChqctRtrz1p3A2PKo+pEzM5ucEbUVEb8=;
+        b=AsC1M1QAdLsIGUtHin0ty6HkEDPyLdil5UGedPkOk5kOmxyXvxpO/vZBnBQyf55qOG
+         M9I/3NQVfiQzRsz0V+JNueqhOnGGK55eLcfSMwM+62UsHWJNde21ozwTSf2FtZyTBF+y
+         iRUkJ/xhj3pLs1au/6i+tJlcsyKjNyv5fKRi4cr56nQB6Ag9pNmtDs6T1hCAL7xmzD/o
+         M8pbf7oPOJlLAJ9J868WKTNx824BWAPnrLzu5J5eBXJDszunwzGvvspQcgZwh8DIBoxE
+         rSNPaxnMb/qtGMnoIjylDiDHljy7PQ6m9O0yFvigidpHiKl9RaAsoGyVzADv2Ya4Vsv2
+         xx1w==
+X-Gm-Message-State: AOJu0YwVqM/xKSaAasjK+E3XAceJkew/Qv3kDij4MlvIt0/qP9hE5/e5
+	3U/KpMJJIwAv5d4gTiTL+8Z9NJ/rPSCutvNcaJyAYOhq8bBANOvb204Y94PTEpg=
+X-Google-Smtp-Source: AGHT+IF+h9p5JumX4emsZBdvGGEPis1TD0I5veqSjZLmqOsxOYeukhqk+3FKjeU7y12hCI0Mg88X5w==
+X-Received: by 2002:a05:6402:35cd:b0:5cb:7594:9ece with SMTP id 4fb4d7f45d1cf-5cf0a3261a4mr1638069a12.17.1731060327733;
+        Fri, 08 Nov 2024 02:05:27 -0800 (PST)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.28])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cf03c4f0bdsm1775959a12.56.2024.11.08.02.05.23
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cf03c4f0bdsm1775959a12.56.2024.11.08.02.05.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Nov 2024 02:05:25 -0800 (PST)
+        Fri, 08 Nov 2024 02:05:27 -0800 (PST)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: geert+renesas@glider.be,
@@ -86,10 +86,11 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	linux-clk@vger.kernel.org,
 	linux-serial@vger.kernel.org,
 	claudiu.beznea@tuxon.dev,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v2 1/8] clk: renesas: r9a08g045: Add clock, reset and power domain for the remaining SCIFs
-Date: Fri,  8 Nov 2024 12:05:06 +0200
-Message-Id: <20241108100513.2814957-2-claudiu.beznea.uj@bp.renesas.com>
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v2 2/8] serial: sh-sci: Check if TX data was written to device in .tx_empty()
+Date: Fri,  8 Nov 2024 12:05:07 +0200
+Message-Id: <20241108100513.2814957-3-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20241108100513.2814957-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20241108100513.2814957-1-claudiu.beznea.uj@bp.renesas.com>
@@ -103,64 +104,116 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-The Renesas RZ/G3S SoC has 6 SCIF interfaces. SCIF0 is used as debug
-console and is already enabled. Add the clock, reset and power domain
-support for the remaining ones.
+On the Renesas RZ/G3S, when doing suspend to RAM, the uart_suspend_port()
+is called. The uart_suspend_port() calls 3 times the
+struct uart_port::ops::tx_empty() before shutting down the port.
 
+According to the documentation, the struct uart_port::ops::tx_empty()
+API tests whether the transmitter FIFO and shifter for the port is
+empty.
+
+The Renesas RZ/G3S SCIFA IP reports the number of data units stored in the
+transmit FIFO through the FDR (FIFO Data Count Register). The data units
+in the FIFOs are written in the shift register and transmitted from there.
+The TEND bit in the Serial Status Register reports if the data was
+transmitted from the shift register.
+
+In the previous code, in the tx_empty() API implemented by the sh-sci
+driver, it is considered that the TX is empty if the hardware reports the
+TEND bit set and the number of data units in the FIFO is zero.
+
+According to the HW manual, the TEND bit has the following meaning:
+
+0: Transmission is in the waiting state or in progress.
+1: Transmission is completed.
+
+It has been noticed that when opening the serial device w/o using it and
+then switch to a power saving mode, the tx_empty() call in the
+uart_port_suspend() function fails, leading to the "Unable to drain
+transmitter" message being printed on the console. This is because the
+TEND=0 if nothing has been transmitted and the FIFOs are empty. As the
+TEND=0 has double meaning (waiting state, in progress) we can't
+determined the scenario described above.
+
+Add a software workaround for this. This sets a variable if any data has
+been sent on the serial console (when using PIO) or if the DMA callback has
+been called (meaning something has been transmitted).
+
+Fixes: 73a19e4c0301 ("serial: sh-sci: Add DMA support.")
+Cc: stable@vger.kernel.org
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
 
 Changes in v2:
-- none
+- use bool type instead of atomic_t
 
- drivers/clk/renesas/r9a08g045-cpg.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ drivers/tty/serial/sh-sci.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/clk/renesas/r9a08g045-cpg.c b/drivers/clk/renesas/r9a08g045-cpg.c
-index b2ae8cdc4723..da6dfffa089a 100644
---- a/drivers/clk/renesas/r9a08g045-cpg.c
-+++ b/drivers/clk/renesas/r9a08g045-cpg.c
-@@ -224,6 +224,11 @@ static const struct rzg2l_mod_clk r9a08g045_mod_clks[] = {
- 	DEF_MOD("i2c2_pclk",		R9A08G045_I2C2_PCLK, R9A08G045_CLK_P0, 0x580, 2),
- 	DEF_MOD("i2c3_pclk",		R9A08G045_I2C3_PCLK, R9A08G045_CLK_P0, 0x580, 3),
- 	DEF_MOD("scif0_clk_pck",	R9A08G045_SCIF0_CLK_PCK, R9A08G045_CLK_P0, 0x584, 0),
-+	DEF_MOD("scif1_clk_pck",	R9A08G045_SCIF1_CLK_PCK, R9A08G045_CLK_P0, 0x584, 1),
-+	DEF_MOD("scif2_clk_pck",	R9A08G045_SCIF2_CLK_PCK, R9A08G045_CLK_P0, 0x584, 2),
-+	DEF_MOD("scif3_clk_pck",	R9A08G045_SCIF3_CLK_PCK, R9A08G045_CLK_P0, 0x584, 3),
-+	DEF_MOD("scif4_clk_pck",	R9A08G045_SCIF4_CLK_PCK, R9A08G045_CLK_P0, 0x584, 4),
-+	DEF_MOD("scif5_clk_pck",	R9A08G045_SCIF5_CLK_PCK, R9A08G045_CLK_P0, 0x584, 5),
- 	DEF_MOD("gpio_hclk",		R9A08G045_GPIO_HCLK, R9A08G045_OSCCLK, 0x598, 0),
- 	DEF_MOD("vbat_bclk",		R9A08G045_VBAT_BCLK, R9A08G045_OSCCLK, 0x614, 0),
+diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
+index 136e0c257af1..65514d37bfe2 100644
+--- a/drivers/tty/serial/sh-sci.c
++++ b/drivers/tty/serial/sh-sci.c
+@@ -157,6 +157,7 @@ struct sci_port {
+ 
+ 	bool has_rtscts;
+ 	bool autorts;
++	bool first_time_tx;
  };
-@@ -249,6 +254,11 @@ static const struct rzg2l_reset r9a08g045_resets[] = {
- 	DEF_RST(R9A08G045_I2C2_MRST, 0x880, 2),
- 	DEF_RST(R9A08G045_I2C3_MRST, 0x880, 3),
- 	DEF_RST(R9A08G045_SCIF0_RST_SYSTEM_N, 0x884, 0),
-+	DEF_RST(R9A08G045_SCIF1_RST_SYSTEM_N, 0x884, 1),
-+	DEF_RST(R9A08G045_SCIF2_RST_SYSTEM_N, 0x884, 2),
-+	DEF_RST(R9A08G045_SCIF3_RST_SYSTEM_N, 0x884, 3),
-+	DEF_RST(R9A08G045_SCIF4_RST_SYSTEM_N, 0x884, 4),
-+	DEF_RST(R9A08G045_SCIF5_RST_SYSTEM_N, 0x884, 5),
- 	DEF_RST(R9A08G045_GPIO_RSTN, 0x898, 0),
- 	DEF_RST(R9A08G045_GPIO_PORT_RESETN, 0x898, 1),
- 	DEF_RST(R9A08G045_GPIO_SPARE_RESETN, 0x898, 2),
-@@ -306,6 +316,16 @@ static const struct rzg2l_cpg_pm_domain_init_data r9a08g045_pm_domains[] = {
- 				DEF_REG_CONF(CPG_BUS_MCPU2_MSTOP, BIT(13)), 0),
- 	DEF_PD("scif0",		R9A08G045_PD_SCIF0,
- 				DEF_REG_CONF(CPG_BUS_MCPU2_MSTOP, BIT(1)), 0),
-+	DEF_PD("scif1",		R9A08G045_PD_SCIF1,
-+				DEF_REG_CONF(CPG_BUS_MCPU2_MSTOP, BIT(2)), 0),
-+	DEF_PD("scif2",		R9A08G045_PD_SCIF2,
-+				DEF_REG_CONF(CPG_BUS_MCPU2_MSTOP, BIT(3)), 0),
-+	DEF_PD("scif3",		R9A08G045_PD_SCIF3,
-+				DEF_REG_CONF(CPG_BUS_MCPU2_MSTOP, BIT(4)), 0),
-+	DEF_PD("scif4",		R9A08G045_PD_SCIF4,
-+				DEF_REG_CONF(CPG_BUS_MCPU2_MSTOP, BIT(5)), 0),
-+	DEF_PD("scif5",		R9A08G045_PD_SCIF5,
-+				DEF_REG_CONF(CPG_BUS_MCPU3_MSTOP, BIT(4)), 0),
- 	DEF_PD("vbat",		R9A08G045_PD_VBAT,
- 				DEF_REG_CONF(CPG_BUS_MCPU3_MSTOP, BIT(8)),
- 				GENPD_FLAG_ALWAYS_ON),
+ 
+ #define SCI_NPORTS CONFIG_SERIAL_SH_SCI_NR_UARTS
+@@ -850,6 +851,7 @@ static void sci_transmit_chars(struct uart_port *port)
+ {
+ 	struct tty_port *tport = &port->state->port;
+ 	unsigned int stopped = uart_tx_stopped(port);
++	struct sci_port *s = to_sci_port(port);
+ 	unsigned short status;
+ 	unsigned short ctrl;
+ 	int count;
+@@ -885,6 +887,7 @@ static void sci_transmit_chars(struct uart_port *port)
+ 		}
+ 
+ 		sci_serial_out(port, SCxTDR, c);
++		s->first_time_tx = true;
+ 
+ 		port->icount.tx++;
+ 	} while (--count > 0);
+@@ -1241,6 +1244,8 @@ static void sci_dma_tx_complete(void *arg)
+ 	if (kfifo_len(&tport->xmit_fifo) < WAKEUP_CHARS)
+ 		uart_write_wakeup(port);
+ 
++	s->first_time_tx = true;
++
+ 	if (!kfifo_is_empty(&tport->xmit_fifo)) {
+ 		s->cookie_tx = 0;
+ 		schedule_work(&s->work_tx);
+@@ -2076,6 +2081,10 @@ static unsigned int sci_tx_empty(struct uart_port *port)
+ {
+ 	unsigned short status = sci_serial_in(port, SCxSR);
+ 	unsigned short in_tx_fifo = sci_txfill(port);
++	struct sci_port *s = to_sci_port(port);
++
++	if (!s->first_time_tx)
++		return TIOCSER_TEMT;
+ 
+ 	return (status & SCxSR_TEND(port)) && !in_tx_fifo ? TIOCSER_TEMT : 0;
+ }
+@@ -2247,6 +2256,7 @@ static int sci_startup(struct uart_port *port)
+ 
+ 	dev_dbg(port->dev, "%s(%d)\n", __func__, port->line);
+ 
++	s->first_time_tx = false;
+ 	sci_request_dma(port);
+ 
+ 	ret = sci_request_irq(s);
+@@ -2267,6 +2277,7 @@ static void sci_shutdown(struct uart_port *port)
+ 	dev_dbg(port->dev, "%s(%d)\n", __func__, port->line);
+ 
+ 	s->autorts = false;
++	s->first_time_tx = false;
+ 	mctrl_gpio_disable_ms(to_sci_port(port)->gpios);
+ 
+ 	uart_port_lock_irqsave(port, &flags);
 -- 
 2.39.2
 
