@@ -1,672 +1,232 @@
-Return-Path: <linux-renesas-soc+bounces-10429-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10430-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D278D9C3016
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 10 Nov 2024 00:36:52 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39D019C3140
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 10 Nov 2024 09:31:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E58611C20B55
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Nov 2024 23:36:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BECD71F2131C
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 10 Nov 2024 08:31:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D82731A00F8;
-	Sat,  9 Nov 2024 23:36:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5113C14C5AA;
+	Sun, 10 Nov 2024 08:31:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bHENmNV+"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="Fae4VLBo"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010016.outbound.protection.outlook.com [52.101.229.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFCC4233D62;
-	Sat,  9 Nov 2024 23:36:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731195407; cv=none; b=dODD2ymx5zBD27xHV+Ge1pw8cv/OBitxxnBiE5Kkg0kSCyzsZHhfgeR8HiHqP+iEA0A85zGQnx8cUMsgNSdTyyUxYKZkFAYXN2xlSceB+VQjECWVexKzAa7JTjSuS9g16Ht6pFo6LKiAJg6KtgsRB3QZkBNxeweW9wO39swd/pU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731195407; c=relaxed/simple;
-	bh=mPOuqQq+9THAiLvCKk/rvRJhw8yCY4OwSTAeuD7KJTY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ih3advyvkwqT13eHW4rFlbnz+M/C7YxmgBW9peuV7IH0dAw37QAFwoK7KBWWRfYNCmpAuH0+by+xMXyVsomjcNkWerUWDxZxFwJAvCdLV6v9ojv0hwwWxGRoZTIdt2wRUubQ/gPqGrpdiB3SllVjCkKU6yzNVyAKy1iERj1H9/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bHENmNV+; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-20c77459558so31740545ad.0;
-        Sat, 09 Nov 2024 15:36:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731195405; x=1731800205; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hOaFeGiDzVniauo8dB6dFQAm1ygSecAWPCXcoITqQCo=;
-        b=bHENmNV+2v1OUHak2kT6kJ44j9/grZ3pdYt86uumR0BZKatJRZQs5kvbL8uEN/D4zx
-         ldrYyLEX4AU7Z9y9a66rk0gvsCgpecj0Lm8XhG2LpsuE1fPb2COygEw1mv5dTRIvaXVb
-         UR+Kx7I4YX9/r9OuzO8YH6oT8j65HAzog6ojzaMClwm1Pwf95keisHCiwRf5XTXFOke/
-         vNv7DycGXgI6qVykK39BI6ahWUcyDmL1CbOqTp/itTGP61xEX54lUMqGl+IunG+QeJE2
-         b4X9EN+psQMF3efpwpRuM+N1RRpr/ln3BbQKOm6RWH1vrDWMo8SMbXHB0gbq9VYiudOF
-         OFGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731195405; x=1731800205;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hOaFeGiDzVniauo8dB6dFQAm1ygSecAWPCXcoITqQCo=;
-        b=UAdMW4xxjUCXsNtwDebrHOEG+QzNXi+J7CoJmAUV6k8bSvTphPlG0fIt2PKQL5GvRd
-         YmuZk93cHa3RjmalKDdtTMqWQcs14TdxHgROQQf2hVnJq+uDtPBy/PaPzeJu4Q/mEsRE
-         ium/2AvMiBakPFnU6lZcqhIB5hn04jupC3Kwz95jjOlTZ0ULOtvvpIxZ59VcnPBT3hYv
-         K3e/JNSQggETDcpqUo45FlZk5VJ08U97orTlbGpj07GpvKLtflG4TiSUMbq/sR23k4di
-         2g6rV7DiHseCKg4tfqSq8qEKRMXzudg9q3N5bvk7a2q4JmkbJwSij7DrY7/EEVBgnMx3
-         IL0A==
-X-Forwarded-Encrypted: i=1; AJvYcCUCf98XAJPZxoxJdVGanRmyhec6GyfGf3DcoV34hWWDuuv04e7TnfMJ0us6l8vhwn/Hzu9g4TdBNHPCbvaKrEnjQDE=@vger.kernel.org, AJvYcCV1UK25VeaYiEoo+p89f7I/AvHS0YA8YJL0k01FbTfzydo3y6dyCp+adhJPB4HxcBJkAUl4ZuWu1lkTbefD@vger.kernel.org, AJvYcCVoFlaWsoSLYxypE+mAfPELLBTwKqR4NYDfoxKvRMjXYKOi3GDl6KlD69ly+3rzH8KupmHIqsCxmGE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxBYLa+L5H9alL3rqJhWnIrOLCWizawa2u6WnYrchM396Scs5GX
-	tfbLS3jGCma3FZp0C4lCozr8AUkmLapT0hMbkr3/SZ0TnJWdJUII0x41aDop
-X-Google-Smtp-Source: AGHT+IGg2mDfUJq+jQqTWx1fKe6UaJcs9cM3BE20Y+PqItmmGE5VIagxtqONCvnZ8+2PzAlfEShMdw==
-X-Received: by 2002:a17:902:c407:b0:20c:bea0:8d10 with SMTP id d9443c01a7336-21183556853mr91704535ad.20.1731195404666;
-        Sat, 09 Nov 2024 15:36:44 -0800 (PST)
-Received: from ryzen.lan ([2601:644:8200:dab8::a86])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177e59dfesm51379375ad.181.2024.11.09.15.36.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Nov 2024 15:36:44 -0800 (PST)
-From: Rosen Penev <rosenp@gmail.com>
-To: netdev@vger.kernel.org
-Cc: Chandrasekar Ramakrishnan <rcsekar@samsung.com>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Kurt Kanzenbach <kurt@linutronix.de>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Chris Snook <chris.snook@gmail.com>,
-	Marcin Wojtas <marcin.s.wojtas@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	UNGLinuxDriver@microchip.com (maintainer:MICROCHIP LAN966X ETHERNET DRIVER),
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-	Doug Berger <opendmb@gmail.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	linux-can@vger.kernel.org (open list:MCAN MMIO DEVICE DRIVER),
-	linux-kernel@vger.kernel.org (open list),
-	linux-renesas-soc@vger.kernel.org (open list:RENESAS ETHERNET SWITCH DRIVER)
-Subject: [PATCH] net: modernize ioremap in probe
-Date: Sat,  9 Nov 2024 15:36:41 -0800
-Message-ID: <20241109233641.8313-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.47.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8763E43179;
+	Sun, 10 Nov 2024 08:31:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731227483; cv=fail; b=gL4i3NdbSHhdOfA4PIibMzpMlw2pBUXHpH1JtvVEroVHHx3c6dNSxk+RG0nuMRvwtyV/0Yyg9d1bp2QEtow7bptzaAqib1QtNurokWteirYHAt0sg4Llm7p/vd4FDV2A88zF4/595L3535vECkKpYgsjLoqp/IcxEzfruSNfIZs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731227483; c=relaxed/simple;
+	bh=FYVP1Al1HVzPVs6UkqiEj4KUzO4fUIgAYLdwpK8TUQw=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=pqGO4YCM9DuTcB3xwu4px0zjNBxMG8jSr4TWN2qXM7f9OemIO1CvCS7NTMGOo2D1bPDIY6C62eYGqeeD+73Rnq4z5NljUnl89CQCdTP1rj+faWoDHthsy5x3XX+SSnEzDiJNFXdEMiHlJuEIx9uvTnAWP0utorPBrk4WlOc52ls=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=Fae4VLBo; arc=fail smtp.client-ip=52.101.229.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HRzVyjtuh8cvtIKRvZSXEsxigHoLc+VUvKhEnhcFlm17fjTEQPhzuVvXsAYaMx25eStSa2hWP4gmfkXNN4HYcvlC39r5VMU67XwRC9L0tSRrqu+aAxoZPD2SbBmNlbg2hdyVvM52n2Pr84hLMOMtD7cmfIYjPiNBzEls2qKhdaydwKNXsKNv76BeGdOwnBrkDBGWGzBEcnurpKVIEOcoGhKePP4MGJHFKKNkmDuUZFClm/U1eg9iLPchZ/hM83EVp5LWpoLxqzNUrbA8haN+YKgyNF1BOuN7OYmjexTZ/vJahiwncnQEWrp+1spSC7cCERu+YjGxq4tg7bm6CjizHg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=t5KGQEEAWxMWbsQ4e6/ShGOA4x7bH87SIzfdPU7y3SQ=;
+ b=ExQbt/Fg6mHISRQ3/FygyUNeiVokpu8sTen+GoTnllHyPeAU0kAFXLAQvm7P2SMePP4CLKHWRu06RRm+ngcWv7viF9PXKhyOpihKxT04y2rfEwyILSOw0oZboTmZhqlGJOUg9V6sDslIq8EsAmJmgVvTK39Xn0vlXJZpfnDAfto80o8aLuPVS1+XoxkB/JfmH5pDG5jeuz+iEe4R5gfrIKLlilYWYEWxFUjP8yLR/6bE5cFFAYbJDby/a5Angsb38oru6PMndPniWsmlHH8aKZ0x2YRzihfUCSwtiNazYIQnWjqApYZdConEtvzeBGQjS2vXrLyQNWpliHGPfAQX3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t5KGQEEAWxMWbsQ4e6/ShGOA4x7bH87SIzfdPU7y3SQ=;
+ b=Fae4VLBosK8hz6ZoFJD51essA8pCzx7YwcQqFC8rlRSsrI70UnFE+ZEXKeyWqJJBjLINEfcKj5QQ5ZDWedg3Q1x4hrs33oh2iIKoh+qf1ORP/up92lfw5M/FraTNM5X1NbCD/41Z2W39QJvoJ6inOy5wMdsAkWNpFkQeQHp0ioo=
+Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com (2603:1096:400:3c0::7)
+ by TYWPR01MB8807.jpnprd01.prod.outlook.com (2603:1096:400:16c::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.27; Sun, 10 Nov
+ 2024 08:31:10 +0000
+Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com
+ ([fe80::7497:30af:3081:1479]) by TYCPR01MB11332.jpnprd01.prod.outlook.com
+ ([fe80::7497:30af:3081:1479%4]) with mapi id 15.20.8137.019; Sun, 10 Nov 2024
+ 08:31:03 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Claudiu.Beznea <claudiu.beznea@tuxon.dev>, "geert+renesas@glider.be"
+	<geert+renesas@glider.be>, "mturquette@baylibre.com"
+	<mturquette@baylibre.com>, "sboyd@kernel.org" <sboyd@kernel.org>,
+	"robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+	<krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, Prabhakar
+ Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, "lgirdwood@gmail.com"
+	<lgirdwood@gmail.com>, "broonie@kernel.org" <broonie@kernel.org>,
+	"magnus.damm@gmail.com" <magnus.damm@gmail.com>, "linus.walleij@linaro.org"
+	<linus.walleij@linaro.org>, "perex@perex.cz" <perex@perex.cz>,
+	"tiwai@suse.com" <tiwai@suse.com>, "p.zabel@pengutronix.de"
+	<p.zabel@pengutronix.de>
+CC: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, Claudiu.Beznea
+	<claudiu.beznea@tuxon.dev>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>, Krzysztof Kozlowski
+	<krzysztof.kozlowski@linaro.org>
+Subject: RE: [PATCH v2 03/25] dt-bindings: clock: versaclock3: Document
+ 5L35023 Versa3 clock generator
+Thread-Topic: [PATCH v2 03/25] dt-bindings: clock: versaclock3: Document
+ 5L35023 Versa3 clock generator
+Thread-Index: AQHbMcwB+XPh1w3XrUG9TQmlSunktrKwMfAQ
+Date: Sun, 10 Nov 2024 08:31:03 +0000
+Message-ID:
+ <TYCPR01MB113327EF54AE67BC77C25F476865F2@TYCPR01MB11332.jpnprd01.prod.outlook.com>
+References: <20241108104958.2931943-1-claudiu.beznea.uj@bp.renesas.com>
+ <20241108104958.2931943-4-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20241108104958.2931943-4-claudiu.beznea.uj@bp.renesas.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11332:EE_|TYWPR01MB8807:EE_
+x-ms-office365-filtering-correlation-id: d6e1004d-63bf-4f23-ffc6-08dd016203bf
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|376014|1800799024|7416014|921020|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?3ses++LHLYgly6K4pa08qvDH+0H5cJQhpdliBdVGxj7u4oCIclllG9glqNqr?=
+ =?us-ascii?Q?qjB7BL2HOy023HsqRCr3NVc/rnrVPSYNhls6/xEWp5Cq8SFA8ASP1DztTeTO?=
+ =?us-ascii?Q?GNdC8XStOXfP9I6tHgp+1/9ixiKk4ogI3UiRZjwxch14LLU/dp53yNy0jWf2?=
+ =?us-ascii?Q?HwyE7eCMmJYiafilXB1+Wh4RNSn+xBR+Q9bDMeuuSu9W/e+/w5LNkF1GFtKJ?=
+ =?us-ascii?Q?YOLB6TaP8CsLP9P1+l4vr3wX+mdbcxwrBmaen7N1jsIzpEqVgvGgP6HMVQai?=
+ =?us-ascii?Q?GQ2yHOYqeh2E5mT34E3iymEa37ouNV7fWja0rZpI4PZu26XiuqQioxzdhaHe?=
+ =?us-ascii?Q?KVDrX9+lAeQMOXTtCrjXEy0a7LVAzxvJ3Ut+ZpGPbPgx9ZPh0gYsv/xw7mTZ?=
+ =?us-ascii?Q?UpakuQVdpM0nQWfle2lzWmaoyZ3lrSNL/Up/Gpq6G6BQRTSQKOFVxl4lhhNR?=
+ =?us-ascii?Q?LEYDXs1JXLfajm3qfQBtmfzx+A84UjOqvMDXuFXc+zvpx7zGgeLk+ytzl8ey?=
+ =?us-ascii?Q?oK8RxnEmzbCxk0dVyALcDUrioq9R2lJ8+b3APqKwsSHsL3IRAqGYsyCtTRG6?=
+ =?us-ascii?Q?leiAE6rcuN6rnpmP6ytYG92GPaSGZIbwFQMDzZ8TYCf3qUl219rK+reH2Pir?=
+ =?us-ascii?Q?eu1wMAH0KDHOqEtbEJEzE0N026ZovoHaB4OioBg4IjjLQewGkplfbpVejZKg?=
+ =?us-ascii?Q?eIfU1zTavs/uaQD0b4lN/gpdOSmu0zv6MlU5EZqFwiXWSQIyM2awLr8lJzRO?=
+ =?us-ascii?Q?QTjwnbvxniVCOY0OfY6+9ps6ePLhvCzI9a+tk+HG/QC+RxAyHvQKoTJXJuTL?=
+ =?us-ascii?Q?igmylvf2zF1Qz53DaYlqcbKdrwi1zp5Nr8jCG4io4+/KGCBNe6v4slYInPv2?=
+ =?us-ascii?Q?ETaTPLX/k6Trc3iqRWBxg5OsvBAOeS+3s4WFzj2tGVP/RJgkCuACZMQsxOk2?=
+ =?us-ascii?Q?/+zf3Vw7cF02//JWYkV6uDl4g+QebhZpiUYo4VRzaHUEx0riecrFP6n1VxF4?=
+ =?us-ascii?Q?n8Ah+BmBVVbjEuq/TPMkbgR8FuC12D79Mnbzz0djOr3dOJADXf0WHmyB5UYH?=
+ =?us-ascii?Q?Wn/EehATfao6fAgpYUcL2TCo9kM5EBfqYi3zulMchRcifG8Mxtz6Kv/sL9bX?=
+ =?us-ascii?Q?XiT/z4Ejsd4IZZpf0aLbqcrc0q8/W7c3uTELd/OqAvTAKL8ZnYVSx3kPTCj5?=
+ =?us-ascii?Q?CqyIDERKzfhQul+Xas8MjjVIUKsrA83oafujfVWnQyoXDHCJM9ebWOuztgrt?=
+ =?us-ascii?Q?wzfwKf2K148Nvk5QpgeGqsuYUgIvUyC/cEcVqio8xqsVjjBpBoonf4g6HkrR?=
+ =?us-ascii?Q?z2lu/lEDAgzITvkW63amgNnHUX2Oh6ojybQIiKrwIeFoeeb6jr3q9ps1mQ4f?=
+ =?us-ascii?Q?2lAFtx/Tycg4H3EBwx2kXIQfLSQc?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11332.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014)(921020)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?A/+OmihZFZa20fyVYohTE6oXlYhweQZvWxvv79T80APOO21h3uteUYaXO6vu?=
+ =?us-ascii?Q?XHz6qc7oHZapQrt9bnxeK9kesiFQMXq1ilTNBaUA3EuN50uZT6Jp+nxa+Ppe?=
+ =?us-ascii?Q?JSGoiENlzQNiZ1uyJ4OPFCHPFfXXPxwluWRm85X15Ga1ugSvz6tmBxyta27/?=
+ =?us-ascii?Q?T8kfSnBxcQThIweLuDApvE91kcSwqKybjyH4eeha2qpo7nGiUyQWnJrU4No2?=
+ =?us-ascii?Q?QyocwWsJJT95549PQFyUccAbnLFw/XJLK8bkDCj/9Bd5U51cJOMpk6E0ggzD?=
+ =?us-ascii?Q?ZqO00uRVmXPi6hgQ3LupQrsPSNe1JghA6ME+MivIc/zpUvg98b8OqNHaSBaQ?=
+ =?us-ascii?Q?28hFH8LyAPoeJ/+o3K4d+Ex21JXaBz8lCnLQWUaew6GR3DUAgwB81jdGP5Jz?=
+ =?us-ascii?Q?S3aiLpGAyLR8QSHiO2Tulr4+g/0XbhH5T1eiMyH70p4U/gkc8SCnJgCvZope?=
+ =?us-ascii?Q?Oq1BQqLJ92baTQsB7vGwg2VGvecVn9XX9LaOuSvW6wv9WYNpF6fE42NwXeQz?=
+ =?us-ascii?Q?JoLDpERj3MGshGVnIQbBboWZkLbII5zjmUFQ440Rz4PjzD082bL4t1hz8XBB?=
+ =?us-ascii?Q?DPWrQ9QN0+cDHXoqZl9RCsH/H3fPCSWMgp8TqiIbv6zDp2Pj5I/CKcG5Zv63?=
+ =?us-ascii?Q?BLBrcTDdxnQfAx/K9OPxGoiz+83TzjfMuUdP+FvztW+Arf3jG1XSkWX64Kfg?=
+ =?us-ascii?Q?y/81cZGnGhQvbI0nOyxFYpF1RqDFTwPZVH9MhSQOknz85W56G0C3q/nnWsoT?=
+ =?us-ascii?Q?Q2bT+cYD+jXVhxRij3t5dvOHuTB14ea6XXtL1JUkOACgadT18fTb597vQV25?=
+ =?us-ascii?Q?3FpSzMa0m+w578zoVXmI81pVdf9v5H0QFsSR+C8BGzNsHcRau5mpvwV/dtWX?=
+ =?us-ascii?Q?/Bv2IWKcOY7NmUEVd02l6KFqTJbqguPP98xKehwG/I6xqVLIM0DiVT8MNHQs?=
+ =?us-ascii?Q?EPbQCvtbSeA781LveGWK2g0WLGHEB32eikJdWcK1MsmWK+olPTiCK54gUeLF?=
+ =?us-ascii?Q?2sgceZhBetf2U26S+Z3LcqkJuIa0IuHOiC7FUZUv/nojOWFK+4tUrrDiVn0g?=
+ =?us-ascii?Q?JXf9gJvdIdtRpk7/jX1Jrn7aTfHIbGFc5YnHgYZHaI9OtGnjFlih5+0qxRTK?=
+ =?us-ascii?Q?ldWzQIO5TBQXcLymuwNl7Naxm06g/5n9bZrmh6dQF49PHkRtXdutUT6ODu+2?=
+ =?us-ascii?Q?rND0qg7C37X7G7zedoLOytnNmNnzuVcCq/0cZ6EWCrDi1Rx6TlnrtqrDJxNl?=
+ =?us-ascii?Q?ZiEHkpVR+ogCv5raOvFEF2p1BIS8XXGDx1pW2f9wOwXwoz2x+cqne0gY4+FI?=
+ =?us-ascii?Q?jbD9p6sgvGWQvypTMhRlH7/OQr9NLducbzNijn34bOXRrcJ0yD+Fsb4mcQid?=
+ =?us-ascii?Q?H1pk74eqnIG6pmlhYUZQA0nsZOw7yr7C72aaqBEtMO1hWQx4v3i1DK8dIMph?=
+ =?us-ascii?Q?hG0LdKZ/embNJnvA2gOl8Oo3lTsPkBhDWQdXe5tmzQVu1auluMd3Ynripot2?=
+ =?us-ascii?Q?ORMRKt7A4VgLD26LHY42zEROoIIncNULhwosX+6yphHjuwrcTUdkUhCEpRG3?=
+ =?us-ascii?Q?Sytmqq3x5HwcneMmohMvthZ9jYEYHCA3VaKy1PzXuqk4Og0ozNNkUCpKBLCs?=
+ =?us-ascii?Q?lw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11332.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d6e1004d-63bf-4f23-ffc6-08dd016203bf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Nov 2024 08:31:03.7641
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Mu4l9y7ssxFdAl58HyIQQLQn0Wwai0SUqEG7pFNCZIKGrZVbGjfRf7FwOBejYL2xkIVpLkmPb70FMd8LZUxX6GNtgPpbUV66BUC+6btbGsE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB8807
 
-resource aquisition and ioremap can be performed in one step.
+Hi Claudiu,
 
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
----
- drivers/net/can/m_can/m_can_platform.c        | 13 +++-------
- drivers/net/can/sja1000/sja1000_platform.c    | 15 +++--------
- drivers/net/dsa/hirschmann/hellcreek.c        | 18 +++----------
- drivers/net/ethernet/atheros/ag71xx.c         | 13 ++++------
- drivers/net/ethernet/broadcom/bcm63xx_enet.c  |  6 ++---
- drivers/net/ethernet/freescale/xgmac_mdio.c   | 12 +++------
- drivers/net/ethernet/marvell/mvmdio.c         | 12 +++------
- .../net/ethernet/marvell/mvpp2/mvpp2_main.c   | 14 ++++-------
- .../ethernet/microchip/lan966x/lan966x_main.c | 16 +++---------
- drivers/net/ethernet/renesas/rswitch.c        |  9 +------
- drivers/net/ethernet/renesas/rtsn.c           | 10 ++------
- drivers/net/ethernet/renesas/sh_eth.c         | 25 +++----------------
- drivers/net/mdio/mdio-bcm-unimac.c            | 11 +++-----
- drivers/net/mdio/mdio-ipq4019.c               |  7 ++----
- drivers/net/mdio/mdio-ipq8064.c               |  6 +----
- drivers/net/mdio/mdio-mux-bcm6368.c           | 11 +++-----
- drivers/net/mdio/mdio-octeon.c                | 25 +++----------------
- 17 files changed, 50 insertions(+), 173 deletions(-)
+Thanks for the patch.
 
-diff --git a/drivers/net/can/m_can/m_can_platform.c b/drivers/net/can/m_can/m_can_platform.c
-index b832566efda0..dfc0d2834b50 100644
---- a/drivers/net/can/m_can/m_can_platform.c
-+++ b/drivers/net/can/m_can/m_can_platform.c
-@@ -79,7 +79,6 @@ static int m_can_plat_probe(struct platform_device *pdev)
- {
- 	struct m_can_classdev *mcan_class;
- 	struct m_can_plat_priv *priv;
--	struct resource *res;
- 	void __iomem *addr;
- 	void __iomem *mram_addr;
- 	struct phy *transceiver;
-@@ -112,15 +111,9 @@ static int m_can_plat_probe(struct platform_device *pdev)
- 	}
- 
- 	/* message ram could be shared */
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "message_ram");
--	if (!res) {
--		ret = -ENODEV;
--		goto probe_fail;
--	}
--
--	mram_addr = devm_ioremap(&pdev->dev, res->start, resource_size(res));
--	if (!mram_addr) {
--		ret = -ENOMEM;
-+	mram_addr = devm_platform_ioremap_resource_byname(pdev, "message_ram");
-+	if (IS_ERR(mram_addr)) {
-+		ret = PTR_ERR(mram_addr);
- 		goto probe_fail;
- 	}
- 
-diff --git a/drivers/net/can/sja1000/sja1000_platform.c b/drivers/net/can/sja1000/sja1000_platform.c
-index c42ebe9da55a..2d555f854008 100644
---- a/drivers/net/can/sja1000/sja1000_platform.c
-+++ b/drivers/net/can/sja1000/sja1000_platform.c
-@@ -230,18 +230,9 @@ static int sp_probe(struct platform_device *pdev)
- 		return -ENODEV;
- 	}
- 
--	res_mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	if (!res_mem)
--		return -ENODEV;
--
--	if (!devm_request_mem_region(&pdev->dev, res_mem->start,
--				     resource_size(res_mem), DRV_NAME))
--		return -EBUSY;
--
--	addr = devm_ioremap(&pdev->dev, res_mem->start,
--				    resource_size(res_mem));
--	if (!addr)
--		return -ENOMEM;
-+	addr = devm_platform_get_and_ioremap_resource(pdev, 0, &res_mem);
-+	if (IS_ERR(addr))
-+		return PTR_ERR(addr);
- 
- 	if (of) {
- 		irq = platform_get_irq(pdev, 0);
-diff --git a/drivers/net/dsa/hirschmann/hellcreek.c b/drivers/net/dsa/hirschmann/hellcreek.c
-index 283ec5a6e23c..940c4fa6a924 100644
---- a/drivers/net/dsa/hirschmann/hellcreek.c
-+++ b/drivers/net/dsa/hirschmann/hellcreek.c
-@@ -1932,7 +1932,6 @@ static int hellcreek_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct hellcreek *hellcreek;
--	struct resource *res;
- 	int ret, i;
- 
- 	hellcreek = devm_kzalloc(dev, sizeof(*hellcreek), GFP_KERNEL);
-@@ -1982,23 +1981,12 @@ static int hellcreek_probe(struct platform_device *pdev)
- 
- 	hellcreek->dev = dev;
- 
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "tsn");
--	if (!res) {
--		dev_err(dev, "No memory region provided!\n");
--		return -ENODEV;
--	}
--
--	hellcreek->base = devm_ioremap_resource(dev, res);
-+	hellcreek->base = devm_platform_ioremap_resource_byname(pdev, "tsn");
- 	if (IS_ERR(hellcreek->base))
- 		return PTR_ERR(hellcreek->base);
- 
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "ptp");
--	if (!res) {
--		dev_err(dev, "No PTP memory region provided!\n");
--		return -ENODEV;
--	}
--
--	hellcreek->ptp_base = devm_ioremap_resource(dev, res);
-+	hellcreek->ptp_base =
-+		devm_platform_ioremap_resource_byname(pdev, "ptp");
- 	if (IS_ERR(hellcreek->ptp_base))
- 		return PTR_ERR(hellcreek->ptp_base);
- 
-diff --git a/drivers/net/ethernet/atheros/ag71xx.c b/drivers/net/ethernet/atheros/ag71xx.c
-index 3d4c3d8698e2..928d27b51b2a 100644
---- a/drivers/net/ethernet/atheros/ag71xx.c
-+++ b/drivers/net/ethernet/atheros/ag71xx.c
-@@ -1798,15 +1798,16 @@ static int ag71xx_probe(struct platform_device *pdev)
- 	if (!ndev)
- 		return -ENOMEM;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	if (!res)
--		return -EINVAL;
--
- 	dcfg = of_device_get_match_data(&pdev->dev);
- 	if (!dcfg)
- 		return -EINVAL;
- 
- 	ag = netdev_priv(ndev);
-+
-+	ag->mac_base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-+	if (IS_ERR(ag->mac_base))
-+		return PTR_ERR(ag->mac_base);
-+
- 	ag->mac_idx = -1;
- 	for (i = 0; i < ARRAY_SIZE(ar71xx_addr_ar7100); i++) {
- 		if (ar71xx_addr_ar7100[i] == res->start)
-@@ -1836,10 +1837,6 @@ static int ag71xx_probe(struct platform_device *pdev)
- 		return dev_err_probe(&pdev->dev, PTR_ERR(ag->mac_reset),
- 				     "missing mac reset");
- 
--	ag->mac_base = devm_ioremap_resource(&pdev->dev, res);
--	if (IS_ERR(ag->mac_base))
--		return PTR_ERR(ag->mac_base);
--
- 	/* ensure that HW is in manual polling mode before interrupts are
- 	 * activated. Otherwise ag71xx_interrupt might call napi_schedule
- 	 * before it is initialized by netif_napi_add.
-diff --git a/drivers/net/ethernet/broadcom/bcm63xx_enet.c b/drivers/net/ethernet/broadcom/bcm63xx_enet.c
-index 65e3a0656a4c..420317abe3d2 100644
---- a/drivers/net/ethernet/broadcom/bcm63xx_enet.c
-+++ b/drivers/net/ethernet/broadcom/bcm63xx_enet.c
-@@ -2646,16 +2646,14 @@ static int bcm_enetsw_probe(struct platform_device *pdev)
- 	struct bcm_enet_priv *priv;
- 	struct net_device *dev;
- 	struct bcm63xx_enetsw_platform_data *pd;
--	struct resource *res_mem;
- 	int ret, irq_rx, irq_tx;
- 
- 	if (!bcm_enet_shared_base[0])
- 		return -EPROBE_DEFER;
- 
--	res_mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	irq_rx = platform_get_irq(pdev, 0);
- 	irq_tx = platform_get_irq(pdev, 1);
--	if (!res_mem || irq_rx < 0)
-+	if (irq_rx < 0)
- 		return -ENODEV;
- 
- 	dev = alloc_etherdev(sizeof(*priv));
-@@ -2688,7 +2686,7 @@ static int bcm_enetsw_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto out;
- 
--	priv->base = devm_ioremap_resource(&pdev->dev, res_mem);
-+	priv->base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(priv->base)) {
- 		ret = PTR_ERR(priv->base);
- 		goto out;
-diff --git a/drivers/net/ethernet/freescale/xgmac_mdio.c b/drivers/net/ethernet/freescale/xgmac_mdio.c
-index 65dc07d0df0f..688720e48396 100644
---- a/drivers/net/ethernet/freescale/xgmac_mdio.c
-+++ b/drivers/net/ethernet/freescale/xgmac_mdio.c
-@@ -381,11 +381,6 @@ static int xgmac_mdio_probe(struct platform_device *pdev)
- 	 * subdevice areas. Therefore, MDIO cannot claim exclusive access to
- 	 * this register area.
- 	 */
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	if (!res) {
--		dev_err(&pdev->dev, "could not obtain address\n");
--		return -EINVAL;
--	}
- 
- 	bus = devm_mdiobus_alloc_size(&pdev->dev, sizeof(struct mdio_fsl_priv));
- 	if (!bus)
-@@ -400,10 +395,9 @@ static int xgmac_mdio_probe(struct platform_device *pdev)
- 	snprintf(bus->id, MII_BUS_ID_SIZE, "%pa", &res->start);
- 
- 	priv = bus->priv;
--	priv->mdio_base = devm_ioremap(&pdev->dev, res->start,
--				       resource_size(res));
--	if (!priv->mdio_base)
--		return -ENOMEM;
-+	priv->mdio_base = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(priv->mdio_base))
-+		return PTR_ERR(priv->mdio_base);
- 
- 	/* For both ACPI and DT cases, endianness of MDIO controller
- 	 * needs to be specified using "little-endian" property.
-diff --git a/drivers/net/ethernet/marvell/mvmdio.c b/drivers/net/ethernet/marvell/mvmdio.c
-index 3f4447e68888..ad1dddfa6ea8 100644
---- a/drivers/net/ethernet/marvell/mvmdio.c
-+++ b/drivers/net/ethernet/marvell/mvmdio.c
-@@ -291,12 +291,6 @@ static int orion_mdio_probe(struct platform_device *pdev)
- 
- 	type = (uintptr_t)device_get_match_data(&pdev->dev);
- 
--	r = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	if (!r) {
--		dev_err(&pdev->dev, "No SMI register address given\n");
--		return -ENODEV;
--	}
--
- 	bus = devm_mdiobus_alloc_size(&pdev->dev,
- 				      sizeof(struct orion_mdio_dev));
- 	if (!bus)
-@@ -319,10 +313,10 @@ static int orion_mdio_probe(struct platform_device *pdev)
- 	bus->parent = &pdev->dev;
- 
- 	dev = bus->priv;
--	dev->regs = devm_ioremap(&pdev->dev, r->start, resource_size(r));
--	if (!dev->regs) {
-+	dev->regs = devm_platform_get_and_ioremap_resource(pdev, 0, &r);
-+	if (IS_ERR(dev->regs)) {
- 		dev_err(&pdev->dev, "Unable to remap SMI register\n");
--		return -ENODEV;
-+		return PTR_ERR(dev->regs);
- 	}
- 
- 	init_waitqueue_head(&dev->smi_busy_wait);
-diff --git a/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c b/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
-index 571631a30320..faf853edc0db 100644
---- a/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
-+++ b/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
-@@ -7425,21 +7425,17 @@ static int mvpp2_init(struct platform_device *pdev, struct mvpp2 *priv)
- static int mvpp2_get_sram(struct platform_device *pdev,
- 			  struct mvpp2 *priv)
- {
--	struct resource *res;
- 	void __iomem *base;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 2);
--	if (!res) {
-+	base = devm_platform_ioremap_resource(pdev, 2);
-+	if (IS_ERR(base)) {
- 		if (has_acpi_companion(&pdev->dev))
- 			dev_warn(&pdev->dev, "ACPI is too old, Flow control not supported\n");
- 		else
--			dev_warn(&pdev->dev, "DT is too old, Flow control not supported\n");
--		return 0;
--	}
--
--	base = devm_ioremap_resource(&pdev->dev, res);
--	if (IS_ERR(base))
-+			dev_warn(&pdev->dev,
-+				 "DT is too old, Flow control not supported\n");
- 		return PTR_ERR(base);
-+	}
- 
- 	priv->cm3_base = base;
- 	return 0;
-diff --git a/drivers/net/ethernet/microchip/lan966x/lan966x_main.c b/drivers/net/ethernet/microchip/lan966x/lan966x_main.c
-index 3234a960fcc3..375e9a68b9a9 100644
---- a/drivers/net/ethernet/microchip/lan966x/lan966x_main.c
-+++ b/drivers/net/ethernet/microchip/lan966x/lan966x_main.c
-@@ -77,20 +77,12 @@ static int lan966x_create_targets(struct platform_device *pdev,
- 	 * this.
- 	 */
- 	for (idx = 0; idx < IO_RANGES; idx++) {
--		iores[idx] = platform_get_resource(pdev, IORESOURCE_MEM,
--						   idx);
--		if (!iores[idx]) {
--			dev_err(&pdev->dev, "Invalid resource\n");
--			return -EINVAL;
--		}
--
--		begin[idx] = devm_ioremap(&pdev->dev,
--					  iores[idx]->start,
--					  resource_size(iores[idx]));
--		if (!begin[idx]) {
-+		begin[idx] = devm_platform_get_and_ioremap_resource(
-+			pdev, idx, &iores[idx]);
-+		if (IS_ERR(begin[idx])) {
- 			dev_err(&pdev->dev, "Unable to get registers: %s\n",
- 				iores[idx]->name);
--			return -ENOMEM;
-+			return PTR_ERR(begin[idx]);
- 		}
- 	}
- 
-diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
-index 8d18dae4d8fb..8ef52fc46a01 100644
---- a/drivers/net/ethernet/renesas/rswitch.c
-+++ b/drivers/net/ethernet/renesas/rswitch.c
-@@ -2046,15 +2046,8 @@ static int renesas_eth_sw_probe(struct platform_device *pdev)
- {
- 	const struct soc_device_attribute *attr;
- 	struct rswitch_private *priv;
--	struct resource *res;
- 	int ret;
- 
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "secure_base");
--	if (!res) {
--		dev_err(&pdev->dev, "invalid resource\n");
--		return -EINVAL;
--	}
--
- 	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
- 	if (!priv)
- 		return -ENOMEM;
-@@ -2074,7 +2067,7 @@ static int renesas_eth_sw_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, priv);
- 	priv->pdev = pdev;
--	priv->addr = devm_ioremap_resource(&pdev->dev, res);
-+	priv->addr = devm_platform_ioremap_resource_byname(pdev, "secure_base");
- 	if (IS_ERR(priv->addr))
- 		return PTR_ERR(priv->addr);
- 
-diff --git a/drivers/net/ethernet/renesas/rtsn.c b/drivers/net/ethernet/renesas/rtsn.c
-index 6b3f7fca8d15..bfe08facc707 100644
---- a/drivers/net/ethernet/renesas/rtsn.c
-+++ b/drivers/net/ethernet/renesas/rtsn.c
-@@ -1297,14 +1297,8 @@ static int rtsn_probe(struct platform_device *pdev)
- 	ndev->netdev_ops = &rtsn_netdev_ops;
- 	ndev->ethtool_ops = &rtsn_ethtool_ops;
- 
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "gptp");
--	if (!res) {
--		dev_err(&pdev->dev, "Can't find gptp resource\n");
--		ret = -EINVAL;
--		goto error_free;
--	}
--
--	priv->ptp_priv->addr = devm_ioremap_resource(&pdev->dev, res);
-+	priv->ptp_priv->addr =
-+		devm_platform_ioremap_resource_byname(pdev, "gptp");
- 	if (IS_ERR(priv->ptp_priv->addr)) {
- 		ret = PTR_ERR(priv->ptp_priv->addr);
- 		goto error_free;
-diff --git a/drivers/net/ethernet/renesas/sh_eth.c b/drivers/net/ethernet/renesas/sh_eth.c
-index 8887b8921009..d9a2cba60a11 100644
---- a/drivers/net/ethernet/renesas/sh_eth.c
-+++ b/drivers/net/ethernet/renesas/sh_eth.c
-@@ -3349,31 +3349,12 @@ static int sh_eth_drv_probe(struct platform_device *pdev)
- 
- 	if (mdp->cd->tsu) {
- 		int port = pdev->id < 0 ? 0 : pdev->id % 2;
--		struct resource *rtsu;
- 
--		rtsu = platform_get_resource(pdev, IORESOURCE_MEM, 1);
--		if (!rtsu) {
--			dev_err(&pdev->dev, "no TSU resource\n");
--			ret = -ENODEV;
--			goto out_release;
--		}
--		/* We can only request the  TSU region  for the first port
--		 * of the two  sharing this TSU for the probe to succeed...
--		 */
--		if (port == 0 &&
--		    !devm_request_mem_region(&pdev->dev, rtsu->start,
--					     resource_size(rtsu),
--					     dev_name(&pdev->dev))) {
--			dev_err(&pdev->dev, "can't request TSU resource.\n");
--			ret = -EBUSY;
--			goto out_release;
--		}
- 		/* ioremap the TSU registers */
--		mdp->tsu_addr = devm_ioremap(&pdev->dev, rtsu->start,
--					     resource_size(rtsu));
--		if (!mdp->tsu_addr) {
-+		mdp->tsu_addr = devm_platform_ioremap_resource(pdev, 1);
-+		if (IS_ERR(mdp->tsu_addr)) {
- 			dev_err(&pdev->dev, "TSU region ioremap() failed.\n");
--			ret = -ENOMEM;
-+			ret = PTR_ERR(mdp->tsu_addr);
- 			goto out_release;
- 		}
- 		mdp->port = port;
-diff --git a/drivers/net/mdio/mdio-bcm-unimac.c b/drivers/net/mdio/mdio-bcm-unimac.c
-index 074d96328f41..9796294d465a 100644
---- a/drivers/net/mdio/mdio-bcm-unimac.c
-+++ b/drivers/net/mdio/mdio-bcm-unimac.c
-@@ -239,7 +239,6 @@ static int unimac_mdio_probe(struct platform_device *pdev)
- 	struct unimac_mdio_priv *priv;
- 	struct device_node *np;
- 	struct mii_bus *bus;
--	struct resource *r;
- 	int ret;
- 
- 	np = pdev->dev.of_node;
-@@ -248,17 +247,13 @@ static int unimac_mdio_probe(struct platform_device *pdev)
- 	if (!priv)
- 		return -ENOMEM;
- 
--	r = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	if (!r)
--		return -EINVAL;
--
- 	/* Just ioremap, as this MDIO block is usually integrated into an
- 	 * Ethernet MAC controller register range
- 	 */
--	priv->base = devm_ioremap(&pdev->dev, r->start, resource_size(r));
--	if (!priv->base) {
-+	priv->base = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(priv->base)) {
- 		dev_err(&pdev->dev, "failed to remap register\n");
--		return -ENOMEM;
-+		return PTR_ERR(priv->base);
- 	}
- 
- 	if (of_property_read_u32(np, "clock-frequency", &priv->clk_freq))
-diff --git a/drivers/net/mdio/mdio-ipq4019.c b/drivers/net/mdio/mdio-ipq4019.c
-index dd3ed2d6430b..725e5c13d212 100644
---- a/drivers/net/mdio/mdio-ipq4019.c
-+++ b/drivers/net/mdio/mdio-ipq4019.c
-@@ -256,7 +256,7 @@ static int ipq_mdio_reset(struct mii_bus *bus)
- 	/* To indicate CMN_PLL that ethernet_ldo has been ready if platform resource 1
- 	 * is specified in the device tree.
- 	 */
--	if (priv->eth_ldo_rdy) {
-+	if (!IS_ERR(priv->eth_ldo_rdy)) {
- 		val = readl(priv->eth_ldo_rdy);
- 		val |= BIT(0);
- 		writel(val, priv->eth_ldo_rdy);
-@@ -327,7 +327,6 @@ static int ipq4019_mdio_probe(struct platform_device *pdev)
- {
- 	struct ipq4019_mdio_data *priv;
- 	struct mii_bus *bus;
--	struct resource *res;
- 	int ret;
- 
- 	bus = devm_mdiobus_alloc_size(&pdev->dev, sizeof(*priv));
-@@ -351,9 +350,7 @@ static int ipq4019_mdio_probe(struct platform_device *pdev)
- 
- 	/* The platform resource is provided on the chipset IPQ5018 */
- 	/* This resource is optional */
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
--	if (res)
--		priv->eth_ldo_rdy = devm_ioremap_resource(&pdev->dev, res);
-+	priv->eth_ldo_rdy = devm_platform_ioremap_resource(pdev, 1);
- 
- 	bus->name = "ipq4019_mdio";
- 	bus->read = ipq4019_mdio_read_c22;
-diff --git a/drivers/net/mdio/mdio-ipq8064.c b/drivers/net/mdio/mdio-ipq8064.c
-index 6253a9ab8b69..716b22e9b93c 100644
---- a/drivers/net/mdio/mdio-ipq8064.c
-+++ b/drivers/net/mdio/mdio-ipq8064.c
-@@ -111,15 +111,11 @@ ipq8064_mdio_probe(struct platform_device *pdev)
- {
- 	struct device_node *np = pdev->dev.of_node;
- 	struct ipq8064_mdio *priv;
--	struct resource res;
- 	struct mii_bus *bus;
- 	void __iomem *base;
- 	int ret;
- 
--	if (of_address_to_resource(np, 0, &res))
--		return -ENOMEM;
--
--	base = devm_ioremap(&pdev->dev, res.start, resource_size(&res));
-+	base = devm_platform_ioremap_resource(pdev, 0);
- 	if (!base)
- 		return -ENOMEM;
- 
-diff --git a/drivers/net/mdio/mdio-mux-bcm6368.c b/drivers/net/mdio/mdio-mux-bcm6368.c
-index 476f8b72d020..fa369ff7d45c 100644
---- a/drivers/net/mdio/mdio-mux-bcm6368.c
-+++ b/drivers/net/mdio/mdio-mux-bcm6368.c
-@@ -90,7 +90,6 @@ static int bcm6368_mdiomux_probe(struct platform_device *pdev)
- {
- 	struct bcm6368_mdiomux_desc *md;
- 	struct mii_bus *bus;
--	struct resource *res;
- 	int rc;
- 
- 	md = devm_kzalloc(&pdev->dev, sizeof(*md), GFP_KERNEL);
-@@ -98,18 +97,14 @@ static int bcm6368_mdiomux_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 	md->dev = &pdev->dev;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	if (!res)
--		return -EINVAL;
--
- 	/*
- 	 * Just ioremap, as this MDIO block is usually integrated into an
- 	 * Ethernet MAC controller register range
- 	 */
--	md->base = devm_ioremap(&pdev->dev, res->start, resource_size(res));
--	if (!md->base) {
-+	md->base = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(md->base)) {
- 		dev_err(&pdev->dev, "failed to ioremap register\n");
--		return -ENOMEM;
-+		return PTR_ERR(md->base);
- 	}
- 
- 	md->mii_bus = devm_mdiobus_alloc(&pdev->dev);
-diff --git a/drivers/net/mdio/mdio-octeon.c b/drivers/net/mdio/mdio-octeon.c
-index 2beb83154d39..cb53dccbde1a 100644
---- a/drivers/net/mdio/mdio-octeon.c
-+++ b/drivers/net/mdio/mdio-octeon.c
-@@ -17,37 +17,20 @@ static int octeon_mdiobus_probe(struct platform_device *pdev)
- {
- 	struct cavium_mdiobus *bus;
- 	struct mii_bus *mii_bus;
--	struct resource *res_mem;
--	resource_size_t mdio_phys;
--	resource_size_t regsize;
- 	union cvmx_smix_en smi_en;
--	int err = -ENOENT;
-+	int err;
- 
- 	mii_bus = devm_mdiobus_alloc_size(&pdev->dev, sizeof(*bus));
- 	if (!mii_bus)
- 		return -ENOMEM;
- 
--	res_mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	if (res_mem == NULL) {
--		dev_err(&pdev->dev, "found no memory resource\n");
--		return -ENXIO;
--	}
--
- 	bus = mii_bus->priv;
- 	bus->mii_bus = mii_bus;
--	mdio_phys = res_mem->start;
--	regsize = resource_size(res_mem);
- 
--	if (!devm_request_mem_region(&pdev->dev, mdio_phys, regsize,
--				     res_mem->name)) {
--		dev_err(&pdev->dev, "request_mem_region failed\n");
--		return -ENXIO;
--	}
--
--	bus->register_base = devm_ioremap(&pdev->dev, mdio_phys, regsize);
--	if (!bus->register_base) {
-+	bus->register_base = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(bus->register_base)) {
- 		dev_err(&pdev->dev, "dev_ioremap failed\n");
--		return -ENOMEM;
-+		return PTR_ERR(bus->register_base);
- 	}
- 
- 	smi_en.u64 = 0;
--- 
-2.47.0
+> -----Original Message-----
+> From: Claudiu <claudiu.beznea@tuxon.dev>
+> Sent: 08 November 2024 10:50
+> Subject: [PATCH v2 03/25] dt-bindings: clock: versaclock3: Document 5L350=
+23 Versa3 clock generator
+>=20
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>=20
+> There are some differences b/w 5L35023 and 5P35023 Versa3 clock generator=
+ variants but the same driver
+> could be used with minimal adjustments. The identified differences are PL=
+L2 Fvco, the clock sel bit
+> for SE2 clock and different default values for some registers.
+>=20
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+
+
+Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+
+Cheers,
+Biju
+
+> ---
+>=20
+> Changes in v2:
+> - collected tags
+>=20
+>  Documentation/devicetree/bindings/clock/renesas,5p35023.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/clock/renesas,5p35023.yaml
+> b/Documentation/devicetree/bindings/clock/renesas,5p35023.yaml
+> index 42b6f80613f3..162d38035188 100644
+> --- a/Documentation/devicetree/bindings/clock/renesas,5p35023.yaml
+> +++ b/Documentation/devicetree/bindings/clock/renesas,5p35023.yaml
+> @@ -31,6 +31,7 @@ description: |
+>  properties:
+>    compatible:
+>      enum:
+> +      - renesas,5l35023
+>        - renesas,5p35023
+>=20
+>    reg:
+> --
+> 2.39.2
 
 
