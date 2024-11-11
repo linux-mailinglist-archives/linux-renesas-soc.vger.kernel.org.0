@@ -1,132 +1,142 @@
-Return-Path: <linux-renesas-soc+bounces-10452-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10454-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFA7A9C4476
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Nov 2024 19:05:08 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C141E9C45FD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Nov 2024 20:37:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9C8CAB21160
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Nov 2024 17:49:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A59A6B272CF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Nov 2024 19:37:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EB321AA7B1;
-	Mon, 11 Nov 2024 17:48:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FB3D139597;
+	Mon, 11 Nov 2024 19:36:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c2yPXxfU"
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="fFFy4KSD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C79E71A76DA;
-	Mon, 11 Nov 2024 17:48:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9096C1A2653
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Nov 2024 19:36:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731347318; cv=none; b=dq6RjEa12aJQYZZmOSk22SOtpZmJuMyVhpOjo7JXvxM3E7U+D/N6ji8c5GeQySbL0vDAs7pfq17N9imsmyhwlU9fHHChbXeqLrH0MI19HRM3SL1Gfcil3NiYAjiSjygbMDxNe5RUaw267HZJt+Cx4/Ss5Zxm9/ocYvxlbGc1owE=
+	t=1731353816; cv=none; b=dwA7OG5Rd0pcTFJhBY2mHvLf0AYc/vMesTa2fP/Wqjd1RmH1B/L4vET3bh5t5qh0TuoOdYyHAjOv5fXY8PCmFkohAHxiAGw2HoKnjV//OoR0VuY/pPlzmBwcwvM6WPv0DYmF8xhr+nWxK340VlQRQMzdZHovCsRqXSco6TpV0Dw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731347318; c=relaxed/simple;
-	bh=9AGnp6ItSWGEIvcEPYHznGFKAqdl+UeCsmI5khCjdS4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CXOm7OIK919H1U/3CxP+PvgbIdgoMoBHnHaksop7VooWKgPluz8Vvri5vIyLbPeyFsQmLpCGGljF4NC7HXHAe4VZn2n6FeYurGOS5Ym1zEagT4ATiO8TsHGUSLaWBOYCWvq9TB/gPhkduZvriqGFKSaASCdk2PkLBRFxlNFZ4qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c2yPXxfU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7E462C4CED4;
-	Mon, 11 Nov 2024 17:48:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731347318;
-	bh=9AGnp6ItSWGEIvcEPYHznGFKAqdl+UeCsmI5khCjdS4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=c2yPXxfUHlgwnZrp7qGKCLwqQZc+L/+2ddJpo751E4RCy8EIs4Ij7Ka8P3CxN0rgM
-	 JV0JkMFh83ttQ4ajP/K3Q87yt+g5CZWBQOxj8AAE0SBeXg6T4NHcHE3Gb9bybL/smS
-	 uPpgH6DjmDqUljRvBXspip4Pc9w3ocTEseJn4X9indc3hcj/s/jdwoGWT+l5TruKrx
-	 sUzNvn3eLVILCLlS+ImDoqSZa5Iv7xX5k8Q78jUk5BhSGh3M0+tf2nozGfxZ+Y9CG0
-	 +2L/1YOD6Ul71mcvdcHaYeGyAHaIvVAiXaUYUzh7pA4PMa5wbuU40lwG1LL9h0ejxp
-	 +vxbc+hVknnBw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 745DCD3ABDC;
-	Mon, 11 Nov 2024 17:48:38 +0000 (UTC)
-From: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.linaro.org@kernel.org>
-Date: Mon, 11 Nov 2024 23:18:34 +0530
-Subject: [PATCH 5/5] scsi: ufs: pltfrm: Dellocate HBA during
- ufshcd_pltfrm_remove()
+	s=arc-20240116; t=1731353816; c=relaxed/simple;
+	bh=oEgoXaV9SHDIK0arnUJlgQYvhHcTcawOgy9PFacKRrA=;
+	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=c27hCEos/dFoeONSjIZGQbSNaZ2i8R41QXp2QJtq/9OUSuPxKidaUoCN5x4nzwYQY7gk3RZozSgK6H1VVa3KsVpq8ph7ISiZ1NduH6k7r+dOD3TxyDy4DlJuIt18efxPbqLVlA5BiJvQMC0uu2mZgTmXIqTCAxmV+6I03sIVVCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=fFFy4KSD; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-71e61b47c6cso4447607b3a.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Nov 2024 11:36:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1731353814; x=1731958614; darn=vger.kernel.org;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=imorSnWZ2UXtcUaxkjpVZ1rL+ydEcczfYiRzIbhVAQY=;
+        b=fFFy4KSD9Mx0+fz1TVj7RT/Mis2RldHAr1/MDp5SxWWL/jQwbwWo0XzrkS5qwMkQpn
+         qUa95EYk7lJySbUthXYaVeKdMLqcV0H2XxaC2PwKwVD0q1xTRVlfCZu3RxlBVT6KdcR9
+         Va0hp/NykJgrokyB8TJ9L4/t4gZNIz9Az1pgW6GPufch+Xl6hzo6IvrS1nBM1KVjvhQ3
+         lobg7BJitYv/bNx1HJFUuXmQBl2yazSlRZmwd8gmci9xXzI6NlHbNQ8lPFNLwClx7Gx5
+         75dI3UoPoAeIsOnzLwHv+S14WadU4fzVgMF/8nWIkJgqlok3Fp6NurPQQ4I3i8vpAHTb
+         jTrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731353814; x=1731958614;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=imorSnWZ2UXtcUaxkjpVZ1rL+ydEcczfYiRzIbhVAQY=;
+        b=SWOJtLHSk8/D8QNeg6bTW3fwIaXIIHUCX2TWxWj50v00VpFGumIdPjQemAR+3LXgYJ
+         Y01lJQaR5wzKByIgV2e8MESx4YXz+TaVUjQnLIpimC1O7lrLRQ4TJDCxSkeEAP1mzuro
+         y4KaT8ZuY3NYqF6dJfqQIddv26mD3qnWtpxKLgEgE+00SaBrzOKb91QOFUJrot8h8LD4
+         cM8oP00wK9Gb3gWIAZCia3ISYKiuzBmcdSYDd/f6TJMUkCXIOSC5MnBIb/Q6caFIiPfJ
+         LgrPAEioRvWBMeerS8FOL+4QiSLdKSYo6kdl6sUYOi80zLmwkkdIvx/bqzHUF6ER22/2
+         qsyw==
+X-Gm-Message-State: AOJu0YxSk6R1nrOeoYf4snGVoMOpDs5Ni65/pB4KduOhaHtdr9jVTg17
+	CvOgKYX50MvBCy0t59xP7RYcmGay6yQcRzjdqBHEKFQdgPRkj1sf2rTiEeYQ8aBRAdBrezDXg9v
+	8
+X-Google-Smtp-Source: AGHT+IGggVEJopAHOqgqWEOPVqq9+Qj9W1+enpW+UW3X+WXmZ3pppcwPkmHWPoX2iu6o7P6Aj6RdIQ==
+X-Received: by 2002:a05:6a20:918a:b0:1d6:fb3e:78cf with SMTP id adf61e73a8af0-1dc22b91c6amr20401643637.41.1731353813708;
+        Mon, 11 Nov 2024 11:36:53 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72407a18d8csm9872508b3a.149.2024.11.11.11.36.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Nov 2024 11:36:53 -0800 (PST)
+Message-ID: <67325cd5.050a0220.28e0a.76ba@mx.google.com>
+Date: Mon, 11 Nov 2024 11:36:53 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241111-ufs_bug_fix-v1-5-45ad8b62f02e@linaro.org>
-References: <20241111-ufs_bug_fix-v1-0-45ad8b62f02e@linaro.org>
-In-Reply-To: <20241111-ufs_bug_fix-v1-0-45ad8b62f02e@linaro.org>
-To: Alim Akhtar <alim.akhtar@samsung.com>, 
- Avri Altman <avri.altman@wdc.com>, Bart Van Assche <bvanassche@acm.org>, 
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>, 
- Mike Bi <mikebi@micron.com>, Bean Huo <beanhuo@micron.com>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- Luca Porzio <lporzio@micron.com>, Asutosh Das <quic_asutoshd@quicinc.com>, 
- Can Guo <quic_cang@quicinc.com>, Pedro Sousa <pedrom.sousa@synopsys.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Peter Wang <peter.wang@mediatek.com>, 
- Stanley Jhu <chu.stanley@gmail.com>, 
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
- Orson Zhai <orsonzhai@gmail.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Chunyan Zhang <zhang.lyra@gmail.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Santosh Y <santoshsy@gmail.com>, Namjae Jeon <linkinjeon@gmail.com>
-Cc: linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org, 
- linux-renesas-soc@vger.kernel.org, 
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
- stable@vger.kernel.org
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=858;
- i=manivannan.sadhasivam@linaro.org; h=from:subject:message-id;
- bh=Ni+UMeWf+BGon+9C+5L79ezS+b3LAVE2IIekW3iQ9ww=;
- b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBnMkNz9MkYBdX398GAmfAQsbBw3ppRcumSjtutx
- sOoQ3zoTZSJATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCZzJDcwAKCRBVnxHm/pHO
- 9VkjB/49ADTQJu1nV/d8/ynBuBn+ItayJXBzyHg85nSVkxMlnER5vFjUX6+uT2sZalqVXL/QI8o
- 3OX7c+Wq8TTYC69nVWpjgtcBWy0B/ppoGuhVdk62pN1guua37AURco5SSqzjrJCBheHwQJkTa+s
- uIoNZuFlJhQT/wAUu/f6zmX6aMToz3Cz4NLYPC3mkyhLlZQ2CMY7lvqpRmVpFkGb8EZVcOc1RP6
- q1BB36FdG4dvO5e3jqx/ALyfnfapbycjFzXYZHXu9CNyUlesnt/Eglfz9XvclcQIzpgusXtqRxW
- 3+zVfvcoGPZP1DfDfFedH8LuL2Ykimb6v6PRL7/ry3dN066b
-X-Developer-Key: i=manivannan.sadhasivam@linaro.org; a=openpgp;
- fpr=C668AEC3C3188E4C611465E7488550E901166008
-X-Endpoint-Received: by B4 Relay for
- manivannan.sadhasivam@linaro.org/default with auth_id=185
-X-Original-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Reply-To: manivannan.sadhasivam@linaro.org
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: test
+X-Kernelci-Kernel: renesas-devel-2024-11-11-v6.12-rc7
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+Subject: renesas/master baseline: 33 runs,
+ 1 regressions (renesas-devel-2024-11-11-v6.12-rc7)
+To: linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From: "kernelci.org bot" <bot@kernelci.org>
 
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+renesas/master baseline: 33 runs, 1 regressions (renesas-devel-2024-11-11-v=
+6.12-rc7)
 
-This will ensure that the scsi host is cleaned up properly using
-scsi_host_dev_release(). Otherwise, it may lead to memory leaks.
+Regressions Summary
+-------------------
 
-Cc: stable@vger.kernel.org # 4.4
-Fixes: 03b1781aa978 ("[SCSI] ufs: Add Platform glue driver for ufshcd")
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
- drivers/ufs/host/ufshcd-pltfrm.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/ufs/host/ufshcd-pltfrm.c b/drivers/ufs/host/ufshcd-pltfrm.c
-index b8dadd0a2f4c..505572d4fa87 100644
---- a/drivers/ufs/host/ufshcd-pltfrm.c
-+++ b/drivers/ufs/host/ufshcd-pltfrm.c
-@@ -534,6 +534,7 @@ void ufshcd_pltfrm_remove(struct platform_device *pdev)
- 
- 	pm_runtime_get_sync(&pdev->dev);
- 	ufshcd_remove(hba);
-+	ufshcd_dealloc_host(hba);
- 	pm_runtime_disable(&pdev->dev);
- 	pm_runtime_put_noidle(&pdev->dev);
- }
-
--- 
-2.25.1
+platform   | arch  | lab         | compiler | defconfig | regressions
+-----------+-------+-------------+----------+-----------+------------
+imx8mp-evk | arm64 | lab-broonie | gcc-12   | defconfig | 1          =
 
 
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2024-11-11-v6.12-rc7/plan/baseline/
+
+  Test:     baseline
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2024-11-11-v6.12-rc7
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      19db22ddf56f0a2c3593f072225c8f9b4a0cb26d =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform   | arch  | lab         | compiler | defconfig | regressions
+-----------+-------+-------------+----------+-----------+------------
+imx8mp-evk | arm64 | lab-broonie | gcc-12   | defconfig | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/67322cf8d25ffae602c8686c
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-12 (aarch64-linux-gnu-gcc (Debian 12.2.0-14) 12.2.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+024-11-11-v6.12-rc7/arm64/defconfig/gcc-12/lab-broonie/baseline-imx8mp-evk.=
+txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+024-11-11-v6.12-rc7/arm64/defconfig/gcc-12/lab-broonie/baseline-imx8mp-evk.=
+html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230703.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/67322cf8d25ffae602c86=
+86d
+        new failure (last pass: renesas-devel-2024-11-04-v6.12-rc6) =
+
+ =20
 
