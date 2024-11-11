@@ -1,53 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-10453-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10452-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E6ED9C441A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Nov 2024 18:49:11 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFA7A9C4476
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Nov 2024 19:05:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 43C402829FA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Nov 2024 17:49:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9C8CAB21160
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Nov 2024 17:49:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 253F11AA7AF;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EB321AA7B1;
 	Mon, 11 Nov 2024 17:48:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RhG6k+Ow"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c2yPXxfU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD78D1A9B37;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C79E71A76DA;
 	Mon, 11 Nov 2024 17:48:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731347318; cv=none; b=f2e5eSHKQIX78+mWn608UJs156vQKp75EU1MMqGxnFSjCMk/7OamtqJC/x1O64ohp663QqyO6go3IjxMLknrwBshtezdHWODQ9tjYD0xgaQd+x6NPUFOdw1HSWWOCes6ohffwT3m/PUB1tF6VYP0h0s5KHQrvIE0v7WcEVUIVJA=
+	t=1731347318; cv=none; b=dq6RjEa12aJQYZZmOSk22SOtpZmJuMyVhpOjo7JXvxM3E7U+D/N6ji8c5GeQySbL0vDAs7pfq17N9imsmyhwlU9fHHChbXeqLrH0MI19HRM3SL1Gfcil3NiYAjiSjygbMDxNe5RUaw267HZJt+Cx4/Ss5Zxm9/ocYvxlbGc1owE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1731347318; c=relaxed/simple;
-	bh=oDE7Z60Sda7MtMa9I9XNVVTr3fEGh1yrGGrVYaCcTKc=;
+	bh=9AGnp6ItSWGEIvcEPYHznGFKAqdl+UeCsmI5khCjdS4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kOmVPAFFbY/K9gPzjv005UEZZWdhMr5AX0Zj/iWzENLSS08cqAuWav/8fdMZeNv66K+XmUheYMdRwoaOdy5n0HPer+jDNMP5pBOkHsiGZxk1c5vKVWkyZtx5LDl/oulKeqz8M5D0I67KFuq7G5ULc032X3sOsmzlnZRhpSuZhPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RhG6k+Ow; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 643CFC4CEDB;
+	 In-Reply-To:To:Cc; b=CXOm7OIK919H1U/3CxP+PvgbIdgoMoBHnHaksop7VooWKgPluz8Vvri5vIyLbPeyFsQmLpCGGljF4NC7HXHAe4VZn2n6FeYurGOS5Ym1zEagT4ATiO8TsHGUSLaWBOYCWvq9TB/gPhkduZvriqGFKSaASCdk2PkLBRFxlNFZ4qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c2yPXxfU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7E462C4CED4;
 	Mon, 11 Nov 2024 17:48:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1731347318;
-	bh=oDE7Z60Sda7MtMa9I9XNVVTr3fEGh1yrGGrVYaCcTKc=;
+	bh=9AGnp6ItSWGEIvcEPYHznGFKAqdl+UeCsmI5khCjdS4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=RhG6k+OwUJC1t04TSz4zO7clZcsLk+DpR5jn7nvioxg06YPsK4iWc7sahrq8Nojv7
-	 9ntUEWatyace+HXfuyaax4YvyNZ7h26d07FlcWa+DuJBYdBMV5fOjmcMFzUIcfFkN4
-	 u25OJptbScTaVk0T7nIhXlm30rgVGG0UA1Oud0msyhRqH5oGHO3HsRJROFL/QCMFMo
-	 TJfRzl5Q8PtablDqvQiRMYA+L2C76O3PejEgJ1wn/1E/5ReqM23pkiLSolPd/IVopK
-	 nUcSl2xQMwNDRmcuIwOKAln0H2gkXy5k2Oa090ie7n7n1n0v5Fkv/CYL3IkMujzT2E
-	 cv1i0UIsWz9og==
+	b=c2yPXxfUHlgwnZrp7qGKCLwqQZc+L/+2ddJpo751E4RCy8EIs4Ij7Ka8P3CxN0rgM
+	 JV0JkMFh83ttQ4ajP/K3Q87yt+g5CZWBQOxj8AAE0SBeXg6T4NHcHE3Gb9bybL/smS
+	 uPpgH6DjmDqUljRvBXspip4Pc9w3ocTEseJn4X9indc3hcj/s/jdwoGWT+l5TruKrx
+	 sUzNvn3eLVILCLlS+ImDoqSZa5Iv7xX5k8Q78jUk5BhSGh3M0+tf2nozGfxZ+Y9CG0
+	 +2L/1YOD6Ul71mcvdcHaYeGyAHaIvVAiXaUYUzh7pA4PMa5wbuU40lwG1LL9h0ejxp
+	 +vxbc+hVknnBw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56F31D3ABD8;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 745DCD3ABDC;
 	Mon, 11 Nov 2024 17:48:38 +0000 (UTC)
 From: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.linaro.org@kernel.org>
-Date: Mon, 11 Nov 2024 23:18:33 +0530
-Subject: [PATCH 4/5] scsi: ufs: pltfrm: Drop PM runtime reference count
- after ufshcd_remove()
+Date: Mon, 11 Nov 2024 23:18:34 +0530
+Subject: [PATCH 5/5] scsi: ufs: pltfrm: Dellocate HBA during
+ ufshcd_pltfrm_remove()
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -56,7 +56,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241111-ufs_bug_fix-v1-4-45ad8b62f02e@linaro.org>
+Message-Id: <20241111-ufs_bug_fix-v1-5-45ad8b62f02e@linaro.org>
 References: <20241111-ufs_bug_fix-v1-0-45ad8b62f02e@linaro.org>
 In-Reply-To: <20241111-ufs_bug_fix-v1-0-45ad8b62f02e@linaro.org>
 To: Alim Akhtar <alim.akhtar@samsung.com>, 
@@ -83,16 +83,16 @@ Cc: linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
  Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
  stable@vger.kernel.org
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3829;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=858;
  i=manivannan.sadhasivam@linaro.org; h=from:subject:message-id;
- bh=A6udAVAOGCzcxAfO6FoxgGhhFbo2oCHyG4WxttE28E8=;
- b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBnMkNzOShxk1jlTg40JZj4jvQfsj5GfK53lnNIi
- ZOY7wXm8qWJATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCZzJDcwAKCRBVnxHm/pHO
- 9T/OB/4sbcr9eWAA6RiaVVP/+LULxj5QJg3KHy4v2BNhRXeZOONM48cElO2R0XYZjzS27ZonXgh
- kgHDoLaBxehlHMSnxjlYr62Qlmu2LuKcjRD+O23Eo6yxjhvXyggQK6ed9XJkMPNabDFJwbQ69Kq
- OW+2NT539Mc6iR4H8uKZx1oTvEdgHjMxeDwWLOl17vpqLu1Ox88OILTTHeEl4KGqDLnUmddrV79
- Zzya0F92nny+pVesqZD3ro8KyzXMco+GIc+k2YTwQmPgn9CvLInsQzVKjGW94stZ8bRWcOYUmUu
- uZUBJLAza5JxTRgweA1wVS23jdCS6EdWIApaMfCASCOl+LTJ
+ bh=Ni+UMeWf+BGon+9C+5L79ezS+b3LAVE2IIekW3iQ9ww=;
+ b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBnMkNz9MkYBdX398GAmfAQsbBw3ppRcumSjtutx
+ sOoQ3zoTZSJATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCZzJDcwAKCRBVnxHm/pHO
+ 9VkjB/49ADTQJu1nV/d8/ynBuBn+ItayJXBzyHg85nSVkxMlnER5vFjUX6+uT2sZalqVXL/QI8o
+ 3OX7c+Wq8TTYC69nVWpjgtcBWy0B/ppoGuhVdk62pN1guua37AURco5SSqzjrJCBheHwQJkTa+s
+ uIoNZuFlJhQT/wAUu/f6zmX6aMToz3Cz4NLYPC3mkyhLlZQ2CMY7lvqpRmVpFkGb8EZVcOc1RP6
+ q1BB36FdG4dvO5e3jqx/ALyfnfapbycjFzXYZHXu9CNyUlesnt/Eglfz9XvclcQIzpgusXtqRxW
+ 3+zVfvcoGPZP1DfDfFedH8LuL2Ykimb6v6PRL7/ry3dN066b
 X-Developer-Key: i=manivannan.sadhasivam@linaro.org; a=openpgp;
  fpr=C668AEC3C3188E4C611465E7488550E901166008
 X-Endpoint-Received: by B4 Relay for
@@ -102,102 +102,28 @@ Reply-To: manivannan.sadhasivam@linaro.org
 
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-During the remove stage of glue drivers, some of them are incrementing the
-reference count using pm_runtime_get_sync(), before removing the ufshcd
-using ufshcd_remove(). But they are not dropping that reference count after
-ufshcd_remove() to balance the refcount.
+This will ensure that the scsi host is cleaned up properly using
+scsi_host_dev_release(). Otherwise, it may lead to memory leaks.
 
-So drop the reference count by calling pm_runtime_put_noidle() after
-ufshcd_remove(). Since the behavior is applicable to all glue drivers, move
-the PM handling to ufshcd_pltfrm_remove().
-
-Cc: stable@vger.kernel.org # 3.12
-Fixes: 62694735ca95 ("[SCSI] ufs: Add runtime PM support for UFS host controller driver")
+Cc: stable@vger.kernel.org # 4.4
+Fixes: 03b1781aa978 ("[SCSI] ufs: Add Platform glue driver for ufshcd")
 Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 ---
- drivers/ufs/host/tc-dwc-g210-pltfrm.c | 1 -
- drivers/ufs/host/ufs-exynos.c         | 1 -
- drivers/ufs/host/ufs-mediatek.c       | 1 -
- drivers/ufs/host/ufs-qcom.c           | 1 -
- drivers/ufs/host/ufs-sprd.c           | 1 -
- drivers/ufs/host/ufshcd-pltfrm.c      | 2 ++
- 6 files changed, 2 insertions(+), 5 deletions(-)
+ drivers/ufs/host/ufshcd-pltfrm.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/ufs/host/tc-dwc-g210-pltfrm.c b/drivers/ufs/host/tc-dwc-g210-pltfrm.c
-index 113e0ef7b2cf..c6f8565ede21 100644
---- a/drivers/ufs/host/tc-dwc-g210-pltfrm.c
-+++ b/drivers/ufs/host/tc-dwc-g210-pltfrm.c
-@@ -76,7 +76,6 @@ static int tc_dwc_g210_pltfm_probe(struct platform_device *pdev)
-  */
- static void tc_dwc_g210_pltfm_remove(struct platform_device *pdev)
- {
--	pm_runtime_get_sync(&(pdev)->dev);
- 	ufshcd_pltfrm_remove(pdev);
- }
- 
-diff --git a/drivers/ufs/host/ufs-exynos.c b/drivers/ufs/host/ufs-exynos.c
-index 953103b69e2c..6dedcc8b22b4 100644
---- a/drivers/ufs/host/ufs-exynos.c
-+++ b/drivers/ufs/host/ufs-exynos.c
-@@ -1960,7 +1960,6 @@ static void exynos_ufs_remove(struct platform_device *pdev)
- 	struct ufs_hba *hba =  platform_get_drvdata(pdev);
- 	struct exynos_ufs *ufs = ufshcd_get_variant(hba);
- 
--	pm_runtime_get_sync(&(pdev)->dev);
- 	ufshcd_pltfrm_remove(pdev);
- 
- 	phy_power_off(ufs->phy);
-diff --git a/drivers/ufs/host/ufs-mediatek.c b/drivers/ufs/host/ufs-mediatek.c
-index 512b4e43787c..c834d38921b6 100644
---- a/drivers/ufs/host/ufs-mediatek.c
-+++ b/drivers/ufs/host/ufs-mediatek.c
-@@ -1869,7 +1869,6 @@ static int ufs_mtk_probe(struct platform_device *pdev)
-  */
- static void ufs_mtk_remove(struct platform_device *pdev)
- {
--	pm_runtime_get_sync(&(pdev)->dev);
- 	ufshcd_pltfrm_remove(pdev);
- }
- 
-diff --git a/drivers/ufs/host/ufs-qcom.c b/drivers/ufs/host/ufs-qcom.c
-index 38732dd48331..91127fb17186 100644
---- a/drivers/ufs/host/ufs-qcom.c
-+++ b/drivers/ufs/host/ufs-qcom.c
-@@ -1845,7 +1845,6 @@ static void ufs_qcom_remove(struct platform_device *pdev)
- 	struct ufs_hba *hba =  platform_get_drvdata(pdev);
- 	struct ufs_qcom_host *host = ufshcd_get_variant(hba);
- 
--	pm_runtime_get_sync(&(pdev)->dev);
- 	ufshcd_pltfrm_remove(pdev);
- 	if (host->esi_enabled)
- 		platform_device_msi_free_irqs_all(hba->dev);
-diff --git a/drivers/ufs/host/ufs-sprd.c b/drivers/ufs/host/ufs-sprd.c
-index e455890cf7d4..d220978c2d8c 100644
---- a/drivers/ufs/host/ufs-sprd.c
-+++ b/drivers/ufs/host/ufs-sprd.c
-@@ -427,7 +427,6 @@ static int ufs_sprd_probe(struct platform_device *pdev)
- 
- static void ufs_sprd_remove(struct platform_device *pdev)
- {
--	pm_runtime_get_sync(&(pdev)->dev);
- 	ufshcd_pltfrm_remove(pdev);
- }
- 
 diff --git a/drivers/ufs/host/ufshcd-pltfrm.c b/drivers/ufs/host/ufshcd-pltfrm.c
-index bad5b1303eb6..b8dadd0a2f4c 100644
+index b8dadd0a2f4c..505572d4fa87 100644
 --- a/drivers/ufs/host/ufshcd-pltfrm.c
 +++ b/drivers/ufs/host/ufshcd-pltfrm.c
-@@ -532,8 +532,10 @@ void ufshcd_pltfrm_remove(struct platform_device *pdev)
- {
- 	struct ufs_hba *hba =  platform_get_drvdata(pdev);
+@@ -534,6 +534,7 @@ void ufshcd_pltfrm_remove(struct platform_device *pdev)
  
-+	pm_runtime_get_sync(&pdev->dev);
+ 	pm_runtime_get_sync(&pdev->dev);
  	ufshcd_remove(hba);
++	ufshcd_dealloc_host(hba);
  	pm_runtime_disable(&pdev->dev);
-+	pm_runtime_put_noidle(&pdev->dev);
+ 	pm_runtime_put_noidle(&pdev->dev);
  }
- EXPORT_SYMBOL_GPL(ufshcd_pltfrm_remove);
- 
 
 -- 
 2.25.1
