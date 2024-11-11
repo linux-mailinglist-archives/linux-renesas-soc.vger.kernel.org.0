@@ -1,203 +1,204 @@
-Return-Path: <linux-renesas-soc+bounces-10440-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10441-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D66069C356A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Nov 2024 01:45:48 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB41F9C3B0F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Nov 2024 10:40:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 72422B214EC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Nov 2024 00:45:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E2A90B22984
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Nov 2024 09:40:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF642749C;
-	Mon, 11 Nov 2024 00:45:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5493615C15B;
+	Mon, 11 Nov 2024 09:40:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="pokUsHUz"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CboJN/wZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011026.outbound.protection.outlook.com [40.107.74.26])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9733C3C;
-	Mon, 11 Nov 2024 00:45:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.26
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731285928; cv=fail; b=kzyvEAnHxl9aB1WCm9CPQv29WZ5p7EfUJk0oWjTTYHsbexFKjSLuFIuXKhSU2ar3kWvuHLDaemafjjL0pjlPjdXaT3V/9XtmYgnbR6mzvFTFxFa+fFVPgI3WqeqOvDmyQEe5fhU/XiBZ6rgjPj1J+gRAXcz05F4vF4MzJ/mjyeY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731285928; c=relaxed/simple;
-	bh=cytEW5X7p8suQdQsaLELUd2Vsq5gVa4v6BbGP3stHX8=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=R+q7IewADn67xVU1AjLbUqrw0cTzynQo/Okjdc2HmehZzBXTHeeJMQdOF3hkKX8VgMecDqBLXc3Cl21QSzhO6ZIPIYMPMhpAfR+ojHTo+HA+p0wkb/cf33b4Gh1x2bm70OomWJDPzXNcYtFvufGWdSoXb6evQhzcyBFXLrUQpbY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=pokUsHUz; arc=fail smtp.client-ip=40.107.74.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ayL5SM1Q7/dmDuKdyi3i0cQHQySj2juAxB+3hc4RxGhjVctUbAdp5dugARVE5BjCrInI74nRU+bdkP6WUQn7pqJvxlcSE6Menzoa0e4ltGLk7wQ9BuJFqrNxazj1yG1b0nPiwQbipwkMyw3gEC48YmuF9AdqFwSBlEjewgAiyZaO2F/Ksw0dXRV92DHCx1dmi4hzdTQkpuw2M20eNpYJr0Os2NGmXCNv/jBPxCk+uQZGp6WCGj312j2T0623zX3MGrxLdHiMMOVsRbJydTEhEmm7Ob6rrMFdQ6d4rtVxeBXnS4lMhxVhJh/mNS6M/fXDR5fKpI7zQ25AC1MSL/TG1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8iR7sY77vQXFybYrv14UQDzA0jJ1/lzVWtYd5ZuB5AE=;
- b=YYpEosCd7YaRLDDczAYUn8lpJXnEDbO4mwmkumLKthb4CheI5YxN26BmwUBFeKiKeaA+xC8kzBw89eZjeBxf99DfIKgmzT5LsatWdg7wrOcqdpVy1jDyitBegUC4XTf1ryKE4BXVheY4/Yi60GBLw3bsSyfISDEb+WiqL8pqNEbc7m5ONKokf9E0W9BItHJUgoQB9FV0gePTrlwi4k1I9M54OBGyNlSiP3DndheIBKAw0uFhK+E4/Acoqg1WHLhL+6zd3HWes6LQUg/KgwCAA1FmqKHlO5FdRWZ66CW5Hgq7qS+OjWb7hj915LEHMVwas4jSNP/p6wfJZeUvizDTXQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8iR7sY77vQXFybYrv14UQDzA0jJ1/lzVWtYd5ZuB5AE=;
- b=pokUsHUzIPR2bglkD2rjlgE5xPtAxtww85NXuW/cOVXoqjW9XfQDaxm7ccnjPH2JLCreyMQ5AJHIdqry5k1LFfHAzWN69SgvftxLijncT9c5A+GNGaiCzSUmG9e1oMm89WrJI4+jPFVaAU/uFW9G9ru+Qnp17S5BTTa2ujU+NIw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by OS9PR01MB13148.jpnprd01.prod.outlook.com
- (2603:1096:604:30f::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.27; Mon, 11 Nov
- 2024 00:45:20 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%7]) with mapi id 15.20.8137.027; Mon, 11 Nov 2024
- 00:45:20 +0000
-Message-ID: <87ldxqmwdc.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: geert+renesas@glider.be,
-	mturquette@baylibre.com,
-	sboyd@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	biju.das.jz@bp.renesas.com,
-	prabhakar.mahadev-lad.rj@bp.renesas.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	magnus.damm@gmail.com,
-	linus.walleij@linaro.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	p.zabel@pengutronix.de,
-	linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2 06/25] ASoC: sh: rz-ssi: Terminate all the DMA transactions
-In-Reply-To: <20241108104958.2931943-7-claudiu.beznea.uj@bp.renesas.com>
-References: <20241108104958.2931943-1-claudiu.beznea.uj@bp.renesas.com>
-	<20241108104958.2931943-7-claudiu.beznea.uj@bp.renesas.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Mon, 11 Nov 2024 00:45:20 +0000
-X-ClientProxiedBy: TYCP301CA0022.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:400:381::7) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05256166F3A
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Nov 2024 09:40:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731318010; cv=none; b=WkgQ51/lDcBvcgRh7kXsnVHfqzmaChTovx6GUn/+ejvnTgHGThiXULLCIDbdR5KZBMEk53z4GOt2BTFxpWtWPszHV165NDNfJzIeChYcu1RvDac/UhPFZECV0iTQc2lpouNTsPu4pv/IwNHytKv5yuvL9j+dyN3uf4rATDlEtZ4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731318010; c=relaxed/simple;
+	bh=eVbFQ8eRmgwQjhyZDrpzmXZtLQtDVQOa42qdW6+BPsA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=AbbYaycjUqkrObLEt357W9j4vBMHvrqPB+XpCOs9Dlo74XWsZU49/rgeLeuKsL2RTBx1KYVbssupIG2rlEFO3qTACj+qEe3ET2xx1FMAphhr+Tes9c1SaSe6t2D9+FQ1zvDmId0jCXsPBQzd8YCYaXxnaT+VrmrGT6w38H812ZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CboJN/wZ; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5cec7cde922so5958421a12.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Nov 2024 01:40:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1731318006; x=1731922806; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RL5ouNz62J4rP7Vb2EwmgbN1hwLbAAvQeLoAfZ/ypHo=;
+        b=CboJN/wZx/s0KPqzs5G8KiJdfT0nBRV1sPV3gNT/W+zJdhJrw6Ekl046AJLjx+m36W
+         JCFXCqlXKsJhQvvp15uZ3D6sYVZtA+1OKF3CXm7stUxm4Mph/m9SxDFstILaKP39j21y
+         kFpxhWlNTS0YlWrN553BD8+1xJChy4fB/5A+N/GvxQXIv6Ylh8MLewPkJ59velzXeoKA
+         qV6XpSkBGjwbt38JYE/cjsCJ2gsCNzvBSb+klUeijdN928zdeS2TFDg9Gm03XaKpE/cw
+         ZSE9xQ1bBzouj/h6OspbtBm3VzxE12MJwo8hNQlvjoGKxoJgmkx6lilFVOdIjHa2Pc2m
+         IJOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731318006; x=1731922806;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RL5ouNz62J4rP7Vb2EwmgbN1hwLbAAvQeLoAfZ/ypHo=;
+        b=h/gewP5CglMFwXJWZaj/Pfb9vqb0qQ93ZrgABsFO12SUcvjsokCTMPICP92ZzE94T1
+         88nWTCVtujhRo+1y8AjC+P1kH6SmzHJR8zViCB1ezrhZlDixI0wk4PCs6oua8W1Bnacz
+         y8CkB2lq4eRRQ06MDNiTbGcvfLaBHw47UnA+JBrwNTQf9O/OmDf0JjlgPkHpm4sAG1yZ
+         LXBDoYlic9Gx+p4wGvdO8j5/0o+C9e2+1SAyYqkXAAG5NibsCh7JLLXdoFoBqs3hSEiD
+         buDb2qCXEsmZMBiUTWdtcf9wYP4Xq3mg9SFoKBrS+8qAcOwvhE9WGsS/qQqdYf4dS0fm
+         CO/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWnhHAXLeIGUzcvJrydA1agsjQZYj+hqtCtj1w8U0QZ5GSjL/vI55AXGsTHaO+QTk86j3wmk18w3CSWbeKQbr+9Yw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwR86S0ECa9rbunKuknvxHcgTjaQAUFDwt+QYeKoAjAhNjBICgN
+	uu5VZuNyHfdrrzzCGrq8PPyqCq5jaWd2mKCrediCJFwZFAjRytqiMXPa3xQk/ac=
+X-Google-Smtp-Source: AGHT+IF/p+575+YNR2OJr4WYmzHEumA5ro2KoQ7Lo/HcKAeV1re5jL3XLj3j1AdmsGeHCshinHqVXw==
+X-Received: by 2002:a05:6402:13ce:b0:5ce:ddd4:7c2f with SMTP id 4fb4d7f45d1cf-5cf0a30c5dcmr10678581a12.7.1731318006331;
+        Mon, 11 Nov 2024 01:40:06 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cf0f369037sm3560713a12.12.2024.11.11.01.40.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Nov 2024 01:40:06 -0800 (PST)
+Date: Mon, 11 Nov 2024 12:38:50 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Rosen Penev <rosenp@gmail.com>,
+	netdev@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Chandrasekar Ramakrishnan <rcsekar@samsung.com>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Kurt Kanzenbach <kurt@linutronix.de>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Chris Snook <chris.snook@gmail.com>,
+	Marcin Wojtas <marcin.s.wojtas@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Horatiu Vultur <horatiu.vultur@microchip.com>,
+	UNGLinuxDriver@microchip.com,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Doug Berger <opendmb@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	linux-can@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] net: modernize ioremap in probe
+Message-ID: <0460e9ea-3d2b-425b-9e97-c69afe138670@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS9PR01MB13148:EE_
-X-MS-Office365-Filtering-Correlation-Id: 397bb311-0d97-4bd3-3d38-08dd01ea1e94
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|52116014|7416014|376014|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?6a7IGhtZ6naqXP076TUfeNvF48jHOLO9Lh1xEZjG7tHWtu+UTwopC1/m8Ve0?=
- =?us-ascii?Q?b7+z1OssbGy3cQUPrq1V7PeeIPSccTTgR96GU5wPKYU61Z8t5GQIz8YQNlb/?=
- =?us-ascii?Q?OuEW3Hf0YeZwGjlgR9ZIf9ERuCnsXWB3z2DZ8+P8UmKKfdvAv3ou+Cjmn6n+?=
- =?us-ascii?Q?7gPuglXryvuUuY6ERlmauV3DlvxWvju84YoShb7kbKVgNqXkzo2vcYqIP2sp?=
- =?us-ascii?Q?1JxHz/lhSJTP4zvxut5jInqyM09AlDhUMqDhtMLS+wxbE6TLjiVJVk9Q6Xfu?=
- =?us-ascii?Q?aQ2NHJGyQlwX+nJdNrQKkaIDoiyFKrOGT+lsoqOpVIdckFyD1MPZIGebe/Kv?=
- =?us-ascii?Q?qE8S9qUQ5HmCdQx5cP/cSmpH9Nl/EZwAwU1qgHNtgOT39lbyKlqj0tc/vxQl?=
- =?us-ascii?Q?52eceOPn3oRuzU5+q3l/V39rWwTV+9T5a4ck1n1JMRh17VGY0KIAhwcJMrYA?=
- =?us-ascii?Q?BdDDwMIc8hwiAG547ytMsCCn4v58RFtf3AO7JvE84/lWh75znKrgQi5EPa7j?=
- =?us-ascii?Q?z4rDj7RnQWUoOHTqV47ziEVZHjzNgjNjIoYio756AHTgTT5O+KXNk5EfUNio?=
- =?us-ascii?Q?u0k+uH1gL/+NaupbNUTIWVK6UQ/+1pkY+hc5ndaboRQwSh92Q+PHv+t69FYp?=
- =?us-ascii?Q?e15t67P21HV10vmcvm30n8DWw1SJ7N1z8MZww4yFk4Sht1opR5O59L2pgDXd?=
- =?us-ascii?Q?wejsshbpOA/TRThbspDc9WYaWcpSeCtX0Oi1ngikRBwYrhUW/7JSM2LKfdPf?=
- =?us-ascii?Q?4u69O2qJohmnuTVx3gLjcXOVpx4Z/D7tr1x2bk60urqe9gTChiG3238TLnOS?=
- =?us-ascii?Q?r+Og1MbIyPex5Mi/hQB+2t/JzeRHKBHIghSVsW2nrJrGayMdlNTowidFgl9g?=
- =?us-ascii?Q?OHi5Fhk82XZk7/Yn77jT20pIFvGd6hrbPYdZs+se9540j1fujv9fygrpYI3d?=
- =?us-ascii?Q?26oWsAFE03FdLJsFlENsaob2y5lWJpXJJxdN/cTPVDFOtXa4f2Slwr47Qr8K?=
- =?us-ascii?Q?bkCJzi+pM+nqoHUC0ZLmq/oWeBF2j1ocDFl14ZbVe2/mDuPnMMhu1IA40S2i?=
- =?us-ascii?Q?miWSIg4t9ggXh73z38qQVYITyvNLGHjY1D+bogeqmw/uE8IYsLi/BZwflo0E?=
- =?us-ascii?Q?qEuwIKmQy+k1tMIi/vyjRF4XX5b2YwVt6k7sqonQLspx6FGorYp3K1Pl2seq?=
- =?us-ascii?Q?4YqI+b2XVDWyPUc/KtCeccnim6UOWaywZDGreQxYczyb09P/ZxC6zKExmXN4?=
- =?us-ascii?Q?pXUAaiQPVDeKm7prQtHo9ORuNbgwOzU4cugysoa8eUp/yDHBrkplugQs+SjH?=
- =?us-ascii?Q?TF3cC7CUDpybghTFGP4VdDq5AlZD+jJIyNDmdWcHaAFXVjM8mNljxh3ad01M?=
- =?us-ascii?Q?RJfB1JA=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(7416014)(376014)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?v9je/Ck3mxaXLWg12jpYW1hiZiGxEEP+LcG4hU4XPzQyIFUGicP4SDYa2UZE?=
- =?us-ascii?Q?a73ecW5wHV8iknEug2KOqigIQRmiiap8M8AS4c2j03jLJ4Xme6JTzBoUwz0l?=
- =?us-ascii?Q?Stvnoc7HBqpRDcUm5pHvXxO3mtpOaXJzdyKp6eo2Ee47qBqKg75gnRuU2nHI?=
- =?us-ascii?Q?ftduyJ4NGb/Rm1HmeJmf04qrkUrirIL0y8f85XKAIbbSMxTcxDjuYxwmk8+O?=
- =?us-ascii?Q?0lGisirt0VHxN/WDhSLqcumPixFydkXLe/mieAcSOc8Y2Ci2z4bRYEX9i9Af?=
- =?us-ascii?Q?E4N5ktdTBGQUmY/nTIHzKtTLDj/WNnMgcgOoYCJbbcEN2kskNls35+b1cAUo?=
- =?us-ascii?Q?+U+NhLVaYL5vISTQ1adhxJ0cw/1EuQkqFpn8FyERD7aLMd651zUlSxtD1rq4?=
- =?us-ascii?Q?CzgccdLG5pt/Idml/F2BtS83CN63Iz54KqWUMqgQIW2k6Gma1XFbCKpQhpZh?=
- =?us-ascii?Q?ARZW5VsI9LlM3AGM10BYo4xBCsvrC4qf8XW/bfQoy0gXYaRqTlWp9NNd90lg?=
- =?us-ascii?Q?0jZOSlbGLXzZPLUScuSVWftxpCuo0ACt10e3mYN9BGHXZQYkOQ/STkNQN1dK?=
- =?us-ascii?Q?vN9APDiiiJdoee1Y2VR3npOch+VcfDd517V3QMayWDyJBQcODZxz13VdH5XQ?=
- =?us-ascii?Q?uxy1K+TCkxFKVxxk2kssDPT3E91emRhkpbdzJ9RUDZrrZBs2B7IB3x6J0aUn?=
- =?us-ascii?Q?o1421Ec9vGGM5CdcSMJrrclh6GGdwLFLzEa9ymG8nR5Wi12CM/Fuk+9w/oIj?=
- =?us-ascii?Q?yeLY0E9kFL2jGxZV2l1Mn55Yz1QSm5/1Ue+mrJUxx9nh77Jvx8vPAVPyVMpy?=
- =?us-ascii?Q?kbzdz3GAAZkzGDXJNO5zCdytt/80ifWJnQ2matASPox0pR0qYOgTeIeJFdcC?=
- =?us-ascii?Q?d/D30BfNer4ZUJpvU3VEP/o4/5vf1PT5GuixvMGgdE10ZIr+bTVlNAvWOiA5?=
- =?us-ascii?Q?wpMt9tV0Cp6NGnSd816VH/qr6LbIiXpSz56gGaz5XClg2tpczo4Sf+z/j9bU?=
- =?us-ascii?Q?kfhen4DwftQ101e2riYUm6/LtB4ns9WnctxjTfuksjT4K11HbiI4XZ5ZIoeW?=
- =?us-ascii?Q?JHkq17EwLlauyP5cgTpJLkAbmSxhkkvqiU2viqi6UJSdUa7j8eQj397vJ6mg?=
- =?us-ascii?Q?4kOPhId4JJxDYShzYNjN6OuH3jemsjJHW7HfxSLVl24QuBtV8mMcksvlfCsz?=
- =?us-ascii?Q?w4B612KLKSsfvM3xASJZb2X2MXFDawhG6tMTBGk8Xa4QW6K5MBsmUBOW/y2X?=
- =?us-ascii?Q?QpJwPFdFn7vMIz1UaLJXjvbBBCVisth+5g6JnLrJLuaMijopN6AGpNDR9BQd?=
- =?us-ascii?Q?5xMZSDnOQBzy5+8bdZTIVnbVcpfx8AOmck7sSEFmv01CP0UqNlDFBwZu7FyU?=
- =?us-ascii?Q?5tfhX0+aagh56rwVAgmdhee1T5PXBC6LtgAaHmDOETK3DdCniS2TIQgj9nK7?=
- =?us-ascii?Q?p7anzaJUp9V3Bhb7odIfWNSbSmfNg57fG49InTjE2tSnGA2wj8AfxPDHcJjx?=
- =?us-ascii?Q?I15tNpBgeHl4Nzicee6SkAdebQIWNJrpljXLU/7FIATRi7xC0VUTAeTNMZDL?=
- =?us-ascii?Q?BogXQ8Uj5vbL9KOBnhMD4hp68Ij3abYITIegMjwozOQuld7CcborlfwN9unK?=
- =?us-ascii?Q?7tqpWCLSziBteCg3IUzA9j4=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 397bb311-0d97-4bd3-3d38-08dd01ea1e94
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2024 00:45:20.5654
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zXphKXnu4KfVnJUMxFW0+kmZB+M1e9xEugwQRGo008KhQdW+1N6lM3P8CNqs03E/OGJ9ahwrh233Kk0G2DpHhRwZTXPkXV0VD8Zhr2zezfWmi/AjnelZZ0F6gcP/nCPQ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB13148
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241109233641.8313-1-rosenp@gmail.com>
 
+Hi Rosen,
 
-Hi Claudiu
+kernel test robot noticed the following build warnings:
 
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> In case of full duplex the 1st closed stream doesn't benefit from the
-> dmaengine_terminate_async(). Call it after the companion stream is
-> closed.
-> 
-> Fixes: 26ac471c5354 ("ASoC: sh: rz-ssi: Add SSI DMAC support")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-(snip)
->  sound/soc/renesas/rz-ssi.c | 8 ++++++--
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-We are now using "renesas" dir, so, you want to use "ASoC: renesas:"
-instead of "ASoC: sh:" in Subject ?
+url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/net-modernize-ioremap-in-probe/20241110-073751
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241109233641.8313-1-rosenp%40gmail.com
+patch subject: [PATCH] net: modernize ioremap in probe
+config: arm-randconfig-r071-20241110 (https://download.01.org/0day-ci/archive/20241111/202411110835.tTxOya6U-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202411110835.tTxOya6U-lkp@intel.com/
 
-Thank you for your help !!
+smatch warnings:
+drivers/net/ethernet/freescale/xgmac_mdio.c:395 xgmac_mdio_probe() error: uninitialized symbol 'res'.
 
-Best regards
----
-Kuninori Morimoto
+vim +/res +395 drivers/net/ethernet/freescale/xgmac_mdio.c
+
+33897cc869eef8 Bill Pemberton    2012-12-03  371  static int xgmac_mdio_probe(struct platform_device *pdev)
+9f35a7342cff0b Timur Tabi        2012-08-20  372  {
+ac53c26433b51f Marcin Wojtas     2021-06-25  373  	struct fwnode_handle *fwnode;
+73ee5442978b2d Shaohui Xie       2015-03-16  374  	struct mdio_fsl_priv *priv;
+15e7064e879335 Calvin Johnson    2021-06-11  375  	struct resource *res;
+15e7064e879335 Calvin Johnson    2021-06-11  376  	struct mii_bus *bus;
+9f35a7342cff0b Timur Tabi        2012-08-20  377  	int ret;
+9f35a7342cff0b Timur Tabi        2012-08-20  378  
+229f4bb47512ec Calvin Johnson    2020-06-22  379  	/* In DPAA-1, MDIO is one of the many FMan sub-devices. The FMan
+229f4bb47512ec Calvin Johnson    2020-06-22  380  	 * defines a register space that spans a large area, covering all the
+229f4bb47512ec Calvin Johnson    2020-06-22  381  	 * subdevice areas. Therefore, MDIO cannot claim exclusive access to
+229f4bb47512ec Calvin Johnson    2020-06-22  382  	 * this register area.
+229f4bb47512ec Calvin Johnson    2020-06-22  383  	 */
+9f35a7342cff0b Timur Tabi        2012-08-20  384  
+1d14eb15dc2c39 Tobias Waldekranz 2022-01-26  385  	bus = devm_mdiobus_alloc_size(&pdev->dev, sizeof(struct mdio_fsl_priv));
+9f35a7342cff0b Timur Tabi        2012-08-20  386  	if (!bus)
+9f35a7342cff0b Timur Tabi        2012-08-20  387  		return -ENOMEM;
+9f35a7342cff0b Timur Tabi        2012-08-20  388  
+9f35a7342cff0b Timur Tabi        2012-08-20  389  	bus->name = "Freescale XGMAC MDIO Bus";
+c0fc8e6dcee40c Andrew Lunn       2023-01-09  390  	bus->read = xgmac_mdio_read_c22;
+c0fc8e6dcee40c Andrew Lunn       2023-01-09  391  	bus->write = xgmac_mdio_write_c22;
+c0fc8e6dcee40c Andrew Lunn       2023-01-09  392  	bus->read_c45 = xgmac_mdio_read_c45;
+c0fc8e6dcee40c Andrew Lunn       2023-01-09  393  	bus->write_c45 = xgmac_mdio_write_c45;
+9f35a7342cff0b Timur Tabi        2012-08-20  394  	bus->parent = &pdev->dev;
+229f4bb47512ec Calvin Johnson    2020-06-22 @395  	snprintf(bus->id, MII_BUS_ID_SIZE, "%pa", &res->start);
+                                                                                                   ^^^
+res isn't initialized.
+
+9f35a7342cff0b Timur Tabi        2012-08-20  396  
+73ee5442978b2d Shaohui Xie       2015-03-16  397  	priv = bus->priv;
+865bbb2945a161 Rosen Penev       2024-11-09  398  	priv->mdio_base = devm_platform_ioremap_resource(pdev, 0);
+865bbb2945a161 Rosen Penev       2024-11-09  399  	if (IS_ERR(priv->mdio_base))
+865bbb2945a161 Rosen Penev       2024-11-09  400  		return PTR_ERR(priv->mdio_base);
+9f35a7342cff0b Timur Tabi        2012-08-20  401  
+15e7064e879335 Calvin Johnson    2021-06-11  402  	/* For both ACPI and DT cases, endianness of MDIO controller
+15e7064e879335 Calvin Johnson    2021-06-11  403  	 * needs to be specified using "little-endian" property.
+15e7064e879335 Calvin Johnson    2021-06-11  404  	 */
+229f4bb47512ec Calvin Johnson    2020-06-22  405  	priv->is_little_endian = device_property_read_bool(&pdev->dev,
+07bf2e11ad0586 Julia Lawall      2016-08-05  406  							   "little-endian");
+73ee5442978b2d Shaohui Xie       2015-03-16  407  
+6198c722019774 Tobias Waldekranz 2022-01-18  408  	priv->has_a009885 = device_property_read_bool(&pdev->dev,
+6198c722019774 Tobias Waldekranz 2022-01-18  409  						      "fsl,erratum-a009885");
+229f4bb47512ec Calvin Johnson    2020-06-22  410  	priv->has_a011043 = device_property_read_bool(&pdev->dev,
+1d3ca681b9d957 Madalin Bucur     2020-01-22  411  						      "fsl,erratum-a011043");
+1d3ca681b9d957 Madalin Bucur     2020-01-22  412  
+909bea73485fab Tobias Waldekranz 2022-01-26  413  	xgmac_mdio_set_suppress_preamble(bus);
+909bea73485fab Tobias Waldekranz 2022-01-26  414  
+dd8f467eda72cd Tobias Waldekranz 2022-01-26  415  	ret = xgmac_mdio_set_mdc_freq(bus);
+dd8f467eda72cd Tobias Waldekranz 2022-01-26  416  	if (ret)
+dd8f467eda72cd Tobias Waldekranz 2022-01-26  417  		return ret;
+dd8f467eda72cd Tobias Waldekranz 2022-01-26  418  
+105b0468d7b2e6 zhaoxiao          2022-08-18  419  	fwnode = dev_fwnode(&pdev->dev);
+ac53c26433b51f Marcin Wojtas     2021-06-25  420  	if (is_of_node(fwnode))
+ac53c26433b51f Marcin Wojtas     2021-06-25  421  		ret = of_mdiobus_register(bus, to_of_node(fwnode));
+ac53c26433b51f Marcin Wojtas     2021-06-25  422  	else if (is_acpi_node(fwnode))
+ac53c26433b51f Marcin Wojtas     2021-06-25  423  		ret = acpi_mdiobus_register(bus, fwnode);
+ac53c26433b51f Marcin Wojtas     2021-06-25  424  	else
+ac53c26433b51f Marcin Wojtas     2021-06-25  425  		ret = -EINVAL;
+9f35a7342cff0b Timur Tabi        2012-08-20  426  	if (ret) {
+9f35a7342cff0b Timur Tabi        2012-08-20  427  		dev_err(&pdev->dev, "cannot register MDIO bus\n");
+9f35a7342cff0b Timur Tabi        2012-08-20  428  		return ret;
+9f35a7342cff0b Timur Tabi        2012-08-20  429  	}
+9f35a7342cff0b Timur Tabi        2012-08-20  430  
+1d14eb15dc2c39 Tobias Waldekranz 2022-01-26  431  	platform_set_drvdata(pdev, bus);
+9f35a7342cff0b Timur Tabi        2012-08-20  432  
+9f35a7342cff0b Timur Tabi        2012-08-20  433  	return 0;
+9f35a7342cff0b Timur Tabi        2012-08-20  434  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
 
