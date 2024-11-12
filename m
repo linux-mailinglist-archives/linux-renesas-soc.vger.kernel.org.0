@@ -1,73 +1,73 @@
-Return-Path: <linux-renesas-soc+bounces-10465-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10466-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EBEC9C50A9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Nov 2024 09:31:57 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 040B29C50FA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Nov 2024 09:42:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EE68B1F21355
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Nov 2024 08:31:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B3E21B28958
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Nov 2024 08:35:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6200620BB36;
-	Tue, 12 Nov 2024 08:31:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FB5B20BB21;
+	Tue, 12 Nov 2024 08:35:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="LB4TeJ2r"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="kEn/K0Rj"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC59920B1E8
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Nov 2024 08:31:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98A820BB48
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Nov 2024 08:35:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731400292; cv=none; b=OODtYexesMjIPA1YcbjOnX5y5jKFV3FISOuvHx2iJRodKj796wKgl3xyViS1jm/EBHBjgkaAByLuvJODgkJ3EttCf/ULG3FswNDTNlgWqXhCBnvD4rt24nJRK+pYZzxB5Az+AM54+GFOhoG3OgnUxnpQmI2JPxUqEe1BAl6eQOU=
+	t=1731400520; cv=none; b=ByOdgmy6bW5gotIhJhdGRSY5yzS9q2On23pip6Ru7rjGx3lw4LHCVZSlI2s99M57YJNq/q37HwC/55dxqdghwNKS1c1p8fmRcMqO/Xme+vBLVwUyDV4I1kGen2Ur+0MA6ZyYx16pLENS1ntpQnlDV1YakItkkUNS0igvqfewtHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731400292; c=relaxed/simple;
-	bh=xXCEJcHrEMjxlrj3J5Wc7ZCHF18/8gNCnF+VCp09UQk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AQV7UpIeqZvCZSJk9hLF1CmSvgVCGXB2/LsUBXbKihxxwShOb68xN9LAXIT+9Y3X0j02XAZHXQSm7lx98efN8T+4xSAsRcg3xa9UhEq0tAJN3H4IEJ8jZ7Ry0qrxE7bhseouvAs073YROyF4cL23sF5woujuRzY55Cnotm/HyQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=LB4TeJ2r; arc=none smtp.client-ip=209.85.208.180
+	s=arc-20240116; t=1731400520; c=relaxed/simple;
+	bh=q1kY2sQYlq+hOddVsv3T5fQZjCOWNt9cci/DeyYLwq0=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=cPjjE0Z6Yex0+l/L3G8RZrmmwsg6tlDQNQR7Fg9e2mXmqT5C2XYKqFZoVt5JbabTyAYhf3o7kflCMVZIAS+ufiIv4OKWb9fYPXiQ6oRXsbvuoSASFWej4VIluNenHX0PbZ8PIpof945t+lT5RaEIJhQ5IBR+L3V4e/l7KBZj+c8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=kEn/K0Rj; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2fb5fa911aaso68785021fa.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Nov 2024 00:31:28 -0800 (PST)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-37d63a79bb6so3566118f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Nov 2024 00:35:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1731400287; x=1732005087; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        d=tuxon.dev; s=google; t=1731400517; x=1732005317; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=rAnhdJuivGo9yNtQ2A0g972HDr7huhPiocLItX4d5N8=;
-        b=LB4TeJ2r6klLgmNGmftgm1CuicnjPfWdd6l/EXobEKoPRyzjXSXGerHrh3sJ7v/YeK
-         w5//cC/6j4qzo0PkYHSXV7xDhpjKsClqS29urublNc1CbZavPcVFF1VPkg9KbiYsM4gF
-         T5wkH1fwX5ep9xaxCPY/plyduJ6y2V4tK9CyIq+cLaT/avR6cHX6Qxrq5f1yXsY7YmEd
-         Rg1WDtcKMAtSrs77zCAHh9Clq18x4rV6EOQdSfQgVsiomFQsHZOKSmRS4rq4yjXlBNf6
-         lggXOVe39da3in3+QET69WVVmHw9mSDJboSmt5i31FIANOo33XQ9PEunwzXDEjIulTUw
-         0SgQ==
+        bh=PL5GeOh28TysV9Lqq7NP7GxRHBqQLXUN1hL7aKNKaMk=;
+        b=kEn/K0RjlE+vo2+wilIXoOGshXRTmUj5jJzpPKaziwXLy3w2vpPI9jRqIfliqu78wX
+         /lbqNpiWnJ29DWxcxBxMd2XNBmqipUIucxkPUhxHzvM58sSX2ytJefViUYzoJwiZknQl
+         d0wB8Oahp9BIlG/SG3uAe3JSf7fvhKlKlg4AHhFyXA/D4gKHztN0fTwoCpRsTDtr0nlN
+         HCBmTd40S6uF3I+kVj2DMtycdJ22GZwWuDDVDp43PGBmbfddimWTbaEvtWXL10jWaqAQ
+         6hJDTAAC49PPP8JNYV7rMZEtdVY8Amat8VbGKYCscxRW4sRVn7PKRQlv8mVAzeTutznf
+         QV2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731400287; x=1732005087;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        d=1e100.net; s=20230601; t=1731400517; x=1732005317;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rAnhdJuivGo9yNtQ2A0g972HDr7huhPiocLItX4d5N8=;
-        b=DOBN6xpFCyOBXgn2OP8Dd9kSOKrZkS27efS6VD8NRfwcKkAAU9OQLnRyOLn1Ie/eRI
-         qvgonnJF4cbQ5sL0mpvf8v0aZUJOZ+WMzD8zeAi486tK809TdF6uL353LPXdTJ0NHwo0
-         Q4TrPfTN8JJJ1bue41FgQt4FLPNJallS1aIsIKnOwQdGfcvhvl2wcfRSS0Zy34lqNVSf
-         +zIPnZiALWwvjeF6izLnNxHaLmQ8UfX86mQ7Zo0ZD299CZRjuMNNsRuyJcv1Lmefyyzv
-         nT917IVgxnLr66nIpBdOIXbRsj/UdWoeBimiNDxSJhYg4RTPTIE+XSzIUyQc4zqKvviE
-         chHQ==
-X-Gm-Message-State: AOJu0YzLE7qg1VcPh8gZ451tVJ9BjSWHdzVvBt3lBJGke1TmXmao0Yde
-	4Rj1Uab9I1mXxgj4bRLQ07ATPIlQoFEMGfEmYtg03Ezhq7AsdSh03g3B9J7aH6Q=
-X-Google-Smtp-Source: AGHT+IErWU2LiF5Ga+iyyaA3F58LkgbkpQmJW54uHLJyzIyElx/+t9OewFq3ElClX5zbBzsEIKDxIg==
-X-Received: by 2002:a2e:9a0a:0:b0:2f0:27da:6864 with SMTP id 38308e7fff4ca-2ff201bc4a3mr91446101fa.17.1731400286863;
-        Tue, 12 Nov 2024 00:31:26 -0800 (PST)
+        bh=PL5GeOh28TysV9Lqq7NP7GxRHBqQLXUN1hL7aKNKaMk=;
+        b=U7bt/MHDVm5q1r97UVnV0XJsuv5XOtqNXUMrTecW0RUIXXktLhPpG1knyrqmECM2Ee
+         Ztt7vjI8asMmT29/jybHV8iMXRYPLI6Rf8pet+s1LaVyUkkYP7pl5V72qVIhFWX1guiG
+         ED/a7++IpmUOHU6oBKK9UGjSNZyWSmmoGyUjywJkJOnZFT10SwTRH83By3CioWIH1peT
+         U/nx2upZq7WLQ0r+f538OxH0v3W/JmsLdOBm+ywU+RuTXzdYdVlIDQDwMhvx8gzFStXC
+         ZCwHyofBQkVFEC8iCE7rbsnYz0Bxzz/7pp5Ti4bKfUFlwDuGCjKgoy/aQRCri+zy9ADt
+         NnAA==
+X-Gm-Message-State: AOJu0YzEF+X+ycxWOC8ch6hLEYcmP/GvcU0VLjZO5lvVlI3QQdbsPPKv
+	peAM8pDhDq990tFkP4W9vXFhExBdm4OrSSvdDUg87WQYqMY2aaa8yqfNjQNvHgw=
+X-Google-Smtp-Source: AGHT+IFa1LixkOeiL8eI5oMGEu2ThX65XIYTJoURm9f8rPbRKT4O56MDA08ZH8xosIwK+pODYwTchA==
+X-Received: by 2002:a05:6000:178d:b0:368:37ac:3f95 with SMTP id ffacd0b85a97d-381f17255b9mr12724481f8f.31.1731400516852;
+        Tue, 12 Nov 2024 00:35:16 -0800 (PST)
 Received: from [192.168.50.4] ([82.78.167.28])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9ee0def7e1sm689117266b.148.2024.11.12.00.31.23
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381ed97f544sm14918813f8f.40.2024.11.12.00.35.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Nov 2024 00:31:26 -0800 (PST)
-Message-ID: <ce074521-7d4b-4514-9b2b-59b246686210@tuxon.dev>
-Date: Tue, 12 Nov 2024 10:31:22 +0200
+        Tue, 12 Nov 2024 00:35:16 -0800 (PST)
+Message-ID: <d19d12e7-aabb-460c-a37c-6cbd3fe4e459@tuxon.dev>
+Date: Tue, 12 Nov 2024 10:35:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -75,216 +75,72 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 24/25] arm64: dts: renesas: rzg3s-smarc: Enable SSI3
+Subject: Re: [PATCH v2 2/8] serial: sh-sci: Check if TX data was written to
+ device in .tx_empty()
 Content-Language: en-US
-To: Biju Das <biju.das.jz@bp.renesas.com>,
- "geert+renesas@glider.be" <geert+renesas@glider.be>,
- "mturquette@baylibre.com" <mturquette@baylibre.com>,
- "sboyd@kernel.org" <sboyd@kernel.org>, "robh@kernel.org" <robh@kernel.org>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
- "broonie@kernel.org" <broonie@kernel.org>,
- "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
- "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
- "perex@perex.cz" <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>
-Cc: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20241108104958.2931943-1-claudiu.beznea.uj@bp.renesas.com>
- <20241108104958.2931943-25-claudiu.beznea.uj@bp.renesas.com>
- <TYCPR01MB113329FE5E9E610BEF45DC001865F2@TYCPR01MB11332.jpnprd01.prod.outlook.com>
- <c15bb621-6cd9-4be3-beec-20fecd411547@tuxon.dev>
- <TY3PR01MB1134600DEBF0096A67950441086582@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <TY3PR01MB1134600DEBF0096A67950441086582@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+To: Jiri Slaby <jirislaby@kernel.org>, geert+renesas@glider.be,
+ magnus.damm@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org,
+ gregkh@linuxfoundation.org, p.zabel@pengutronix.de, g.liakhovetski@gmx.de,
+ lethal@linux-sh.org
+Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-serial@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, stable@vger.kernel.org
+References: <20241108100513.2814957-1-claudiu.beznea.uj@bp.renesas.com>
+ <20241108100513.2814957-3-claudiu.beznea.uj@bp.renesas.com>
+ <530f4a8e-b71a-4db1-a2cc-df1fcfa132ec@kernel.org>
+ <3711546e-a551-4cc9-a378-17aab5b426ef@tuxon.dev>
+In-Reply-To: <3711546e-a551-4cc9-a378-17aab5b426ef@tuxon.dev>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi, Biju,
+Hi, Jiri,
 
-On 11.11.2024 13:30, Biju Das wrote:
-> Hi Claudiu,
+On 08.11.2024 14:19, Claudiu Beznea wrote:
+>>> @@ -885,6 +887,7 @@ static void sci_transmit_chars(struct uart_port *port)
+>>>           }
+>>>             sci_serial_out(port, SCxTDR, c);
+>>> +        s->first_time_tx = true;
+>>>             port->icount.tx++;
+>>>       } while (--count > 0);
+>>> @@ -1241,6 +1244,8 @@ static void sci_dma_tx_complete(void *arg)
+>>>       if (kfifo_len(&tport->xmit_fifo) < WAKEUP_CHARS)
+>>>           uart_write_wakeup(port);
+>>>   +    s->first_time_tx = true;
+>> This is too late IMO. The first in-flight dma won't be accounted in
+>> sci_tx_empty(). From DMA submit up to now.
+> If it's in-flight we can't determine it's status anyway with one variable.
+> We can set this variable later but it wouldn't tell the truth as the TX
+> might be in progress anyway or may have been finished?
 > 
->> -----Original Message-----
->> From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
->> Sent: 11 November 2024 11:20
->> Subject: Re: [PATCH v2 24/25] arm64: dts: renesas: rzg3s-smarc: Enable SSI3
->>
->> Hi, Biju,
->>
->> On 10.11.2024 10:54, Biju Das wrote:
->>> Hi Claudiu,
->>>
->>> Thanks for the patch.
->>>
->>>
->>>> -----Original Message-----
->>>> From: Claudiu <claudiu.beznea@tuxon.dev>
->>>> Sent: 08 November 2024 10:50
->>>> Subject: [PATCH v2 24/25] arm64: dts: renesas: rzg3s-smarc: Enable
->>>> SSI3
->>>>
->>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>
->>>> Enable SSI3.
->>>>
->>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>> ---
->>>>
->>>> Changes in v2:
->>>> - none
->>>>
->>>>  arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi | 26
->>>> ++++++++++++++++++++
->>>>  1 file changed, 26 insertions(+)
->>>>
->>>> diff --git a/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
->>>> b/arch/arm64/boot/dts/renesas/rzg3s-
->>>> smarc.dtsi
->>>> index 4aa99814b808..6dd439e68bd4 100644
->>>> --- a/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
->>>> +++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
->>>> @@ -64,6 +64,11 @@ vccq_sdhi1: regulator-vccq-sdhi1 {
->>>>  	};
->>>>  };
->>>>
->>>
->>> &audio_clk1 {
->>>        assigned-clocks = <&versa3 xx>;
->>>        clock-frequency = <11289600>;
->>> };
->>
->> audio_clk1 node is in the RZ/G3S dtsi to keep the compilation happy.
->>
->> For this board the audio clock1 for the SSI 3 is from <&versa3 2>.
->>
->> If we fill in the audio_clk1 here it will be useless, there will be no consumers for it and it is not
->> available on board.
+> The hardware might help with this though the TEND bit. According to the HW
+> manual, the TEND bit has the following meaning:
 > 
-> As per SSI IP needs external clks AUDIO_CLK1 and AUDIO_CLK2. 
+> 0: Transmission is in the waiting state or in progress.
+> 1: Transmission is completed.
 > 
-> AUDIO_CLK1 is provided by versa3 generator and
-> AUDIO_CLK2 is provided by Crystal.
+> But the problem, from my point of view, is that the 0 has double meaning.
 > 
-> Currently AUDIO_CLK2 it reports a frequency of 12288000 which is a multiple of 48kHz
-> whereas for AUDIO_CLK1, it reports a frequency of 0. 
-
-Why? You mentioned above that "AUDIO_CLK1 is provided by versa3 generator".
-It will report the frequency provided by the versa3 clock generator, isn't it?
-
-> By defining the node, it will report as the value as
-> 11289600 which is a multiple of 44.1kHZ.
-
-Defining the node as you proposed have no meaning as it will be anyway
-disabled (see the dtsi) and will appear nowhere as no driver will be probed
-for it.
-
-Defining it's frequency and enabling will have no meaning either for the
-SSI3, as the SSI3 is connected to <&versa3 2> (as of the binding proposed
-in this patch).
-
+> I noticed the tx_empty() is called in kernel multiple times before
+> declaring TX is empty or not. E.g., uart_suspend_port() call it 3 times,
+> uart_wait_until_sent() call it in a while () look with a timeout. There is
+> the uart_ioctl() which calls it though uart_get_lsr_info() only one time
+> but I presumed the user space might implement the same multiple trials
+> approach before declaring it empty.
 > 
-> From the schematic we know that versa 3 is providing this clock and the audio_clk1 has
-> a frequency of "11289600".
+> Because of this I considered it wouldn't be harmful for the scenario you
+> described "The first in-flight dma won't be accounted in sci_tx_empty()"
+> as the user may try again later to check the status. For this reason I also
+> chose to have no extra locking around this variable.
+> 
+> Please let me know if you consider otherwise.
 
-<&versa3 2> connected to AUDIO_CLK1 pin is configured at 11.2896MHz in this
-series. See patch 22/25:
-
-+	versa3: clock-generator@68 {
-+		compatible = "renesas,5l35023";
-+		reg = <0x68>;
-+		clocks = <&x3_clk>;
-+		#clock-cells = <1>;
-+		assigned-clocks = <&versa3 0>,
-+				  <&versa3 1>,
-+				  *<&versa3 2>*,
-+				  <&versa3 3>,
-+				  <&versa3 4>,
-+				  <&versa3 5>;
-+		assigned-clock-rates = <24000000>,
-+				       <12288000>,
-+				       *<11289600>*,
-+				       <25000000>,
-+				       <100000000>,
-+				       <100000000>;
-+		renesas,settings = [
-+		  80 00 11 19 4c 42 dc 2f 06 7d 20 1a 5f 1e f2 27
-+		  00 40 00 00 00 00 00 00 06 0c 19 02 3f f0 90 86
-+		  a0 80 30 30 9c
-+		];
-+	};
+With the above explanation, can you please let me know if you still
+consider I should change the approach for this patch?
 
 Thank you,
 Claudiu Beznea
 
-> 
-> Cheers,
-> Biju
-> 
-> 
->>
->> Thank you,
->> Claudiu Beznea
->>
->>>
->>> Maybe add audio_clk1, so that it described properly in clock tree??
->>>
->>> Cheers,
->>> Biju
->>>
->>>> +&audio_clk2 {
->>>> +	clock-frequency = <12288000>;
->>>> +	status = "okay";
->>>> +};
->>>> +
->>>>  &i2c0 {
->>>>  	status = "okay";
->>>>
->>>> @@ -94,6 +99,11 @@ da7212: codec@1a {  };
->>>>
->>>>  &pinctrl {
->>>> +	audio_clock_pins: audio-clock {
->>>> +		pins = "AUDIO_CLK1", "AUDIO_CLK2";
->>>> +		input-enable;
->>>> +	};
->>>> +
->>>>  	key-1-gpio-hog {
->>>>  		gpio-hog;
->>>>  		gpios = <RZG2L_GPIO(18, 0) GPIO_ACTIVE_LOW>; @@ -151,6 +161,13 @@ cd {
->>>>  			pinmux = <RZG2L_PORT_PINMUX(0, 2, 1)>; /* SD1_CD */
->>>>  		};
->>>>  	};
->>>> +
->>>> +	ssi3_pins: ssi3 {
->>>> +		pinmux = <RZG2L_PORT_PINMUX(18, 2, 8)>, /* BCK */
->>>> +			 <RZG2L_PORT_PINMUX(18, 3, 8)>, /* RCK */
->>>> +			 <RZG2L_PORT_PINMUX(18, 4, 8)>, /* TXD */
->>>> +			 <RZG2L_PORT_PINMUX(18, 5, 8)>; /* RXD */
->>>> +	};
->>>>  };
->>>>
->>>>  &scif0 {
->>>> @@ -171,3 +188,12 @@ &sdhi1 {
->>>>  	max-frequency = <125000000>;
->>>>  	status = "okay";
->>>>  };
->>>> +
->>>> +&ssi3 {
->>>> +	clocks = <&cpg CPG_MOD R9A08G045_SSI3_PCLK2>,
->>>> +		 <&cpg CPG_MOD R9A08G045_SSI3_PCLK_SFR>,
->>>> +		 <&versa3 2>, <&audio_clk2>;
->>>> +	pinctrl-names = "default";
->>>> +	pinctrl-0 = <&ssi3_pins>, <&audio_clock_pins>;
->>>> +	status = "okay";
->>>> +};
->>>> --
->>>> 2.39.2
->>>
 
