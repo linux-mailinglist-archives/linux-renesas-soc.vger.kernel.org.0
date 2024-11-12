@@ -1,146 +1,268 @@
-Return-Path: <linux-renesas-soc+bounces-10466-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10467-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040B29C50FA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Nov 2024 09:42:31 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0014E9C50CB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Nov 2024 09:37:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B3E21B28958
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Nov 2024 08:35:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 72F311F22F7A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Nov 2024 08:37:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FB5B20BB21;
-	Tue, 12 Nov 2024 08:35:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D851920B808;
+	Tue, 12 Nov 2024 08:36:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="kEn/K0Rj"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="MCZI6DmB"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98A820BB48
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Nov 2024 08:35:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBE0C20D507
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Nov 2024 08:35:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731400520; cv=none; b=ByOdgmy6bW5gotIhJhdGRSY5yzS9q2On23pip6Ru7rjGx3lw4LHCVZSlI2s99M57YJNq/q37HwC/55dxqdghwNKS1c1p8fmRcMqO/Xme+vBLVwUyDV4I1kGen2Ur+0MA6ZyYx16pLENS1ntpQnlDV1YakItkkUNS0igvqfewtHY=
+	t=1731400560; cv=none; b=HjylcEKWQh1P7T3b7BdDfZMwWrdVsUE7urnoRmzQLiTiJk1+myRDbM98izT1xjrnfghIXWwmsYDNilQYGRcRtINvGUZphyJDiC88YonUCDs+WHzxgaCNMjlzfpvyPsednBCNYhDczlVuiuqzVNi6QSsY6tgvT4Xvyq+m+K0G1j8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731400520; c=relaxed/simple;
-	bh=q1kY2sQYlq+hOddVsv3T5fQZjCOWNt9cci/DeyYLwq0=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=cPjjE0Z6Yex0+l/L3G8RZrmmwsg6tlDQNQR7Fg9e2mXmqT5C2XYKqFZoVt5JbabTyAYhf3o7kflCMVZIAS+ufiIv4OKWb9fYPXiQ6oRXsbvuoSASFWej4VIluNenHX0PbZ8PIpof945t+lT5RaEIJhQ5IBR+L3V4e/l7KBZj+c8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=kEn/K0Rj; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-37d63a79bb6so3566118f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Nov 2024 00:35:18 -0800 (PST)
+	s=arc-20240116; t=1731400560; c=relaxed/simple;
+	bh=Ogd04ibt1boR9D5geKyDS0rBfBdR3YmD0RQ58WcqbMs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hbL+kRaY0vhVIPywopOrH1g8MsRMtBCIKq6V+FwhSg1rlRerawjQnhL4BrY55XrAkfhNJBYfWsecYpTnJou6Y+RV5d7EwpjkpNW/FoSSOqzA+CpLFg8na/X4YjwbXzNE9c14EAZWv+6XCT43vkezg2jRfZZdMb1Tn14bsBDOgUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=MCZI6DmB; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-431ac30d379so46528195e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Nov 2024 00:35:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1731400517; x=1732005317; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PL5GeOh28TysV9Lqq7NP7GxRHBqQLXUN1hL7aKNKaMk=;
-        b=kEn/K0RjlE+vo2+wilIXoOGshXRTmUj5jJzpPKaziwXLy3w2vpPI9jRqIfliqu78wX
-         /lbqNpiWnJ29DWxcxBxMd2XNBmqipUIucxkPUhxHzvM58sSX2ytJefViUYzoJwiZknQl
-         d0wB8Oahp9BIlG/SG3uAe3JSf7fvhKlKlg4AHhFyXA/D4gKHztN0fTwoCpRsTDtr0nlN
-         HCBmTd40S6uF3I+kVj2DMtycdJ22GZwWuDDVDp43PGBmbfddimWTbaEvtWXL10jWaqAQ
-         6hJDTAAC49PPP8JNYV7rMZEtdVY8Amat8VbGKYCscxRW4sRVn7PKRQlv8mVAzeTutznf
-         QV2A==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1731400557; x=1732005357; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vzBUP4IjhpgilYzc3QP5HxQ10f2Yq/2yZCvHZ4g8xvA=;
+        b=MCZI6DmBCZWPXvq7fTh79CivdABB55wD4dEx9UxKtsQ+wxq9OGHt2y27+DDsQK6Qrh
+         LcigIQ/zHZdHNp9f5tj0jx8xQyd1iO1YIhEAp3356ujYtYQxcyUo4bXsycDscxaU7zkK
+         JN1T4Wyd0GGlcFjY0jitbCRNom5QX6LM8GjpRheg5O3i8AMRp/pfx78CeFMfBijWx/Z+
+         FPrTYrI9SAl3MTQswO6KzxHyNVTkJZ9OrhrygmcLWl65uMrxtaWVkFJJ+NRt9JNEmLXb
+         A8k08PUCC4d1cCtgUaDhZeuClKgBuSE7/Jz5IvkKL3ZzL863AAsL2PmewMPcz1kCythp
+         bx/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731400517; x=1732005317;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PL5GeOh28TysV9Lqq7NP7GxRHBqQLXUN1hL7aKNKaMk=;
-        b=U7bt/MHDVm5q1r97UVnV0XJsuv5XOtqNXUMrTecW0RUIXXktLhPpG1knyrqmECM2Ee
-         Ztt7vjI8asMmT29/jybHV8iMXRYPLI6Rf8pet+s1LaVyUkkYP7pl5V72qVIhFWX1guiG
-         ED/a7++IpmUOHU6oBKK9UGjSNZyWSmmoGyUjywJkJOnZFT10SwTRH83By3CioWIH1peT
-         U/nx2upZq7WLQ0r+f538OxH0v3W/JmsLdOBm+ywU+RuTXzdYdVlIDQDwMhvx8gzFStXC
-         ZCwHyofBQkVFEC8iCE7rbsnYz0Bxzz/7pp5Ti4bKfUFlwDuGCjKgoy/aQRCri+zy9ADt
-         NnAA==
-X-Gm-Message-State: AOJu0YzEF+X+ycxWOC8ch6hLEYcmP/GvcU0VLjZO5lvVlI3QQdbsPPKv
-	peAM8pDhDq990tFkP4W9vXFhExBdm4OrSSvdDUg87WQYqMY2aaa8yqfNjQNvHgw=
-X-Google-Smtp-Source: AGHT+IFa1LixkOeiL8eI5oMGEu2ThX65XIYTJoURm9f8rPbRKT4O56MDA08ZH8xosIwK+pODYwTchA==
-X-Received: by 2002:a05:6000:178d:b0:368:37ac:3f95 with SMTP id ffacd0b85a97d-381f17255b9mr12724481f8f.31.1731400516852;
-        Tue, 12 Nov 2024 00:35:16 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.28])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381ed97f544sm14918813f8f.40.2024.11.12.00.35.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Nov 2024 00:35:16 -0800 (PST)
-Message-ID: <d19d12e7-aabb-460c-a37c-6cbd3fe4e459@tuxon.dev>
-Date: Tue, 12 Nov 2024 10:35:13 +0200
+        d=1e100.net; s=20230601; t=1731400557; x=1732005357;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vzBUP4IjhpgilYzc3QP5HxQ10f2Yq/2yZCvHZ4g8xvA=;
+        b=lmiedKQo0zUhEh4VTVKZB4UAZaIX6Lv8geMa4F19m0VpjeybPvKGHQ0Qd7C487BQKf
+         Sm0yTYpcxmCePSNbpidGhmsk3pYkbzlzKJO3wda/SpN6csOekj2cRqofOWKZEMTQazpV
+         qr01HLv+QhwGhv2E0FgyuF+GyYh5dPiiahi3f5kwH5zOTnNtp6BrpF6CkNbwA8VMh8S1
+         yOW0iFnosSfQ1XxZNaszKsZX9mN3cpWXqJJCDNHtwnl3SWk+XIpIci+1Scz60FAdVCXd
+         UurPuYR3gWHX+5vhmMhbK5vQOMUg7Rcxw3k/W4hIn+fVLxgl+8qaT+3qUTXZKqTAAEbL
+         e2mg==
+X-Forwarded-Encrypted: i=1; AJvYcCVzEZV/PEYbXbRPtfKkay2aKikE9rSPJ1m5VySNQIDKVjVpx41RG6QVI6ZcncbHV2s/aeOyAPRmuSoCOH52SpGC5g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyfrehIeO4jvCCi3sDMhlj5Bd24S/72m6LmXc8IbTqBU72xZYxL
+	THsz4I13StVdC9W/Q2bHZBE679R5GDOEnFNZo6IBhKLw0fPsR5x+ZyxFUQD48O4=
+X-Google-Smtp-Source: AGHT+IHJ9ujCbbhIsj7TrIvtnmafDAChYmP23T6s6gb+JxDcqoE9J2hSsnZv1j2TrI4f4DKJmqsWhA==
+X-Received: by 2002:a05:600c:19c8:b0:42f:7ed4:4c26 with SMTP id 5b1f17b1804b1-432b75002b7mr138902825e9.12.1731400557221;
+        Tue, 12 Nov 2024 00:35:57 -0800 (PST)
+Received: from localhost (p509159f1.dip0.t-ipconnect.de. [80.145.89.241])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432aa709ec7sm242209895e9.35.2024.11.12.00.35.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Nov 2024 00:35:56 -0800 (PST)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	patches@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] regulator: Switch back to struct platform_driver::remove()
+Date: Tue, 12 Nov 2024 09:35:21 +0100
+Message-ID:  <ab85510f83fa901e44d5d563fe6e768054229bfe.1731398433.git.u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/8] serial: sh-sci: Check if TX data was written to
- device in .tx_empty()
-Content-Language: en-US
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-To: Jiri Slaby <jirislaby@kernel.org>, geert+renesas@glider.be,
- magnus.damm@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org,
- gregkh@linuxfoundation.org, p.zabel@pengutronix.de, g.liakhovetski@gmx.de,
- lethal@linux-sh.org
-Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-serial@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, stable@vger.kernel.org
-References: <20241108100513.2814957-1-claudiu.beznea.uj@bp.renesas.com>
- <20241108100513.2814957-3-claudiu.beznea.uj@bp.renesas.com>
- <530f4a8e-b71a-4db1-a2cc-df1fcfa132ec@kernel.org>
- <3711546e-a551-4cc9-a378-17aab5b426ef@tuxon.dev>
-In-Reply-To: <3711546e-a551-4cc9-a378-17aab5b426ef@tuxon.dev>
 Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6809; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=Ogd04ibt1boR9D5geKyDS0rBfBdR3YmD0RQ58WcqbMs=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBnMxNbdHLjDOnU3k+1ISOuzbFCoPl7yMqU5CS7W aALrvuQhoSJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZzMTWwAKCRCPgPtYfRL+ TsWYCACaD+qvsw1AJCAzT6ixsV4Mxdp3Z0Vy/Ye08kXC/NvejBKyAgZBh98uiHT1XNztZrRFSX6 1B3710YaALWB7SDDlHxXhY6E0HIVGrMAu3PkdmaxX0N6bUeGyn9qQVp9w6YD2oruut0akzt+V0W gssa5Pa9C3jwsgkHkKR82GkbeTVxK9Zk213tc9cvE5VQYu+tcxArPAHFZVgo2VZe8yLgPa/klLz /mbHEuK6R4IWJdHy+vMBAFPrOtPGDrR0UjkCiVqKQiHH/5CpHP6IiGunLTrHaXNtQfKMnQGm+CJ rMJj77T1fadlyr5CUG1HN7ZIaOnSPd0ErA1wUiZT18D1wohr
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 
-Hi, Jiri,
+After commit 0edb555a65d1 ("platform: Make platform_driver::remove()
+return void") .remove() is (again) the right callback to implement for
+platform drivers.
 
-On 08.11.2024 14:19, Claudiu Beznea wrote:
->>> @@ -885,6 +887,7 @@ static void sci_transmit_chars(struct uart_port *port)
->>>           }
->>>             sci_serial_out(port, SCxTDR, c);
->>> +        s->first_time_tx = true;
->>>             port->icount.tx++;
->>>       } while (--count > 0);
->>> @@ -1241,6 +1244,8 @@ static void sci_dma_tx_complete(void *arg)
->>>       if (kfifo_len(&tport->xmit_fifo) < WAKEUP_CHARS)
->>>           uart_write_wakeup(port);
->>>   +    s->first_time_tx = true;
->> This is too late IMO. The first in-flight dma won't be accounted in
->> sci_tx_empty(). From DMA submit up to now.
-> If it's in-flight we can't determine it's status anyway with one variable.
-> We can set this variable later but it wouldn't tell the truth as the TX
-> might be in progress anyway or may have been finished?
-> 
-> The hardware might help with this though the TEND bit. According to the HW
-> manual, the TEND bit has the following meaning:
-> 
-> 0: Transmission is in the waiting state or in progress.
-> 1: Transmission is completed.
-> 
-> But the problem, from my point of view, is that the 0 has double meaning.
-> 
-> I noticed the tx_empty() is called in kernel multiple times before
-> declaring TX is empty or not. E.g., uart_suspend_port() call it 3 times,
-> uart_wait_until_sent() call it in a while () look with a timeout. There is
-> the uart_ioctl() which calls it though uart_get_lsr_info() only one time
-> but I presumed the user space might implement the same multiple trials
-> approach before declaring it empty.
-> 
-> Because of this I considered it wouldn't be harmful for the scenario you
-> described "The first in-flight dma won't be accounted in sci_tx_empty()"
-> as the user may try again later to check the status. For this reason I also
-> chose to have no extra locking around this variable.
-> 
-> Please let me know if you consider otherwise.
+Convert all platform drivers below drivers/regulator to use .remove(),
+with the eventual goal to drop struct platform_driver::remove_new(). As
+.remove() and .remove_new() have the same prototypes, conversion is done
+by just changing the structure member name in the driver initializer.
 
-With the above explanation, can you please let me know if you still
-consider I should change the approach for this patch?
+A few whitespace changes are done en passant to make indention
+consistent.
 
-Thank you,
-Claudiu Beznea
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+---
+Hello,
+
+I did a single patch for all of drivers/regulator. While I usually
+prefer to do one logical change per patch, this seems to be
+overengineering here as the individual changes are really trivial and
+shouldn't be much in the way for stable backports. But I'll happily
+split the patch if you prefer it split. Also if you object the
+indentation stuff, I can rework that.
+
+This is based on yesterday's next, if conflicts arise when you apply it
+at some later time and don't want to resolve them, feel free to just
+drop the changes to the conflicting files. I'll notice and followup at a
+later time then. Or ask me for a fixed resend. (Having said that, I
+recommend b4 am -3 + git am -3 which should resolve most conflicts just
+fine.)
+
+Best regards
+Uwe
+
+ drivers/regulator/arizona-ldo1.c        | 12 ++++++------
+ drivers/regulator/bd9571mwv-regulator.c |  2 +-
+ drivers/regulator/db8500-prcmu.c        |  2 +-
+ drivers/regulator/stm32-vrefbuf.c       |  2 +-
+ drivers/regulator/uniphier-regulator.c  |  2 +-
+ drivers/regulator/userspace-consumer.c  |  2 +-
+ drivers/regulator/virtual.c             |  2 +-
+ drivers/regulator/wm8350-regulator.c    |  6 +++---
+ 8 files changed, 15 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/regulator/arizona-ldo1.c b/drivers/regulator/arizona-ldo1.c
+index 4b54068d4f59..501843996faa 100644
+--- a/drivers/regulator/arizona-ldo1.c
++++ b/drivers/regulator/arizona-ldo1.c
+@@ -375,18 +375,18 @@ static int madera_ldo1_probe(struct platform_device *pdev)
+ 
+ static struct platform_driver arizona_ldo1_driver = {
+ 	.probe = arizona_ldo1_probe,
+-	.remove_new = arizona_ldo1_remove,
+-	.driver		= {
+-		.name	= "arizona-ldo1",
++	.remove = arizona_ldo1_remove,
++	.driver = {
++		.name = "arizona-ldo1",
+ 		.probe_type = PROBE_FORCE_SYNCHRONOUS,
+ 	},
+ };
+ 
+ static struct platform_driver madera_ldo1_driver = {
+ 	.probe = madera_ldo1_probe,
+-	.remove_new = arizona_ldo1_remove,
+-	.driver		= {
+-		.name	= "madera-ldo1",
++	.remove = arizona_ldo1_remove,
++	.driver = {
++		.name = "madera-ldo1",
+ 		.probe_type = PROBE_FORCE_SYNCHRONOUS,
+ 	},
+ };
+diff --git a/drivers/regulator/bd9571mwv-regulator.c b/drivers/regulator/bd9571mwv-regulator.c
+index c7ceba56e7dc..209beabb5c37 100644
+--- a/drivers/regulator/bd9571mwv-regulator.c
++++ b/drivers/regulator/bd9571mwv-regulator.c
+@@ -356,7 +356,7 @@ static struct platform_driver bd9571mwv_regulator_driver = {
+ 		.pm = DEV_PM_OPS,
+ 	},
+ 	.probe = bd9571mwv_regulator_probe,
+-	.remove_new = bd9571mwv_regulator_remove,
++	.remove = bd9571mwv_regulator_remove,
+ 	.id_table = bd9571mwv_regulator_id_table,
+ };
+ module_platform_driver(bd9571mwv_regulator_driver);
+diff --git a/drivers/regulator/db8500-prcmu.c b/drivers/regulator/db8500-prcmu.c
+index 1e2d54da1b9a..1ec2e1348891 100644
+--- a/drivers/regulator/db8500-prcmu.c
++++ b/drivers/regulator/db8500-prcmu.c
+@@ -480,7 +480,7 @@ static struct platform_driver db8500_regulator_driver = {
+ 		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+ 	},
+ 	.probe = db8500_regulator_probe,
+-	.remove_new = db8500_regulator_remove,
++	.remove = db8500_regulator_remove,
+ };
+ 
+ static int __init db8500_regulator_init(void)
+diff --git a/drivers/regulator/stm32-vrefbuf.c b/drivers/regulator/stm32-vrefbuf.c
+index 40855105dd33..a85ea94f0673 100644
+--- a/drivers/regulator/stm32-vrefbuf.c
++++ b/drivers/regulator/stm32-vrefbuf.c
+@@ -280,7 +280,7 @@ MODULE_DEVICE_TABLE(of, stm32_vrefbuf_of_match);
+ 
+ static struct platform_driver stm32_vrefbuf_driver = {
+ 	.probe = stm32_vrefbuf_probe,
+-	.remove_new = stm32_vrefbuf_remove,
++	.remove = stm32_vrefbuf_remove,
+ 	.driver = {
+ 		.name  = "stm32-vrefbuf",
+ 		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+diff --git a/drivers/regulator/uniphier-regulator.c b/drivers/regulator/uniphier-regulator.c
+index 5f868042392f..74939b7fcd81 100644
+--- a/drivers/regulator/uniphier-regulator.c
++++ b/drivers/regulator/uniphier-regulator.c
+@@ -207,7 +207,7 @@ MODULE_DEVICE_TABLE(of, uniphier_regulator_match);
+ 
+ static struct platform_driver uniphier_regulator_driver = {
+ 	.probe = uniphier_regulator_probe,
+-	.remove_new = uniphier_regulator_remove,
++	.remove = uniphier_regulator_remove,
+ 	.driver = {
+ 		.name  = "uniphier-regulator",
+ 		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+diff --git a/drivers/regulator/userspace-consumer.c b/drivers/regulator/userspace-consumer.c
+index 6153d0295b6d..72bb5ffb49a8 100644
+--- a/drivers/regulator/userspace-consumer.c
++++ b/drivers/regulator/userspace-consumer.c
+@@ -210,7 +210,7 @@ MODULE_DEVICE_TABLE(of, regulator_userspace_consumer_of_match);
+ 
+ static struct platform_driver regulator_userspace_consumer_driver = {
+ 	.probe		= regulator_userspace_consumer_probe,
+-	.remove_new	= regulator_userspace_consumer_remove,
++	.remove		= regulator_userspace_consumer_remove,
+ 	.driver		= {
+ 		.name		= "reg-userspace-consumer",
+ 		.probe_type	= PROBE_PREFER_ASYNCHRONOUS,
+diff --git a/drivers/regulator/virtual.c b/drivers/regulator/virtual.c
+index 0a0ee186c6af..218a0d66a152 100644
+--- a/drivers/regulator/virtual.c
++++ b/drivers/regulator/virtual.c
+@@ -357,7 +357,7 @@ static void regulator_virtual_remove(struct platform_device *pdev)
+ 
+ static struct platform_driver regulator_virtual_consumer_driver = {
+ 	.probe		= regulator_virtual_probe,
+-	.remove_new	= regulator_virtual_remove,
++	.remove		= regulator_virtual_remove,
+ 	.driver		= {
+ 		.name		= "reg-virt-consumer",
+ 		.probe_type	= PROBE_PREFER_ASYNCHRONOUS,
+diff --git a/drivers/regulator/wm8350-regulator.c b/drivers/regulator/wm8350-regulator.c
+index 9939a5d2cbec..d09864bae5ef 100644
+--- a/drivers/regulator/wm8350-regulator.c
++++ b/drivers/regulator/wm8350-regulator.c
+@@ -1304,9 +1304,9 @@ EXPORT_SYMBOL_GPL(wm8350_register_led);
+ 
+ static struct platform_driver wm8350_regulator_driver = {
+ 	.probe = wm8350_regulator_probe,
+-	.remove_new = wm8350_regulator_remove,
+-	.driver		= {
+-		.name	= "wm8350-regulator",
++	.remove = wm8350_regulator_remove,
++	.driver = {
++		.name = "wm8350-regulator",
+ 		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+ 	},
+ };
+
+base-commit: 6d59cab07b8d74d0f0422b750038123334f6ecc2
+-- 
+2.45.2
 
 
