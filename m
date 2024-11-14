@@ -1,65 +1,65 @@
-Return-Path: <linux-renesas-soc+bounces-10521-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10522-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F0AC9C887D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Nov 2024 12:10:14 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 356EF9C8B1D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Nov 2024 13:52:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 62B7F282596
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Nov 2024 11:10:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 419ABB25D6F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Nov 2024 12:50:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C63221F8908;
-	Thu, 14 Nov 2024 11:10:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C98E71FA851;
+	Thu, 14 Nov 2024 12:50:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="ua63s7Ns"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="CYwFkk7M"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 441211F81A7;
-	Thu, 14 Nov 2024 11:10:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF0AF1E883F;
+	Thu, 14 Nov 2024 12:50:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731582612; cv=none; b=GP9CzTZQHkaNl3Gg90syb/ZBtPOnAez012CDqH4wYy1WekSfoPy46FXUcIZc5xMtDYzZB1erMLojqgxMv9nH8F135VSvgPpnBRh6hZzrDOKhS1qJCkX3WrcO7bW0q3wDT7ZJJdz4vrmvJtW62ncxEDCccnL5R9NHRJV9i+v4KNw=
+	t=1731588639; cv=none; b=EUArDRk1MhSYu4WBiiZG5k9GWWqteFHDuOI/e783TLK43mT/Dj3iZSBroNFXZ2ysDnM//cim7P2plfhf7deMHdfM7XmvshvIxSmA+3xqt4o+jgVFN3PxQaWP1QFt+iJEbV6X5WtBeIzxfdqVQ4901Rc2SoZww3mrMNanu6WZM4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731582612; c=relaxed/simple;
-	bh=tkzHrrJXOXS7vOUYq3tWDArhR/nWqxSRsKMsB3s0zw4=;
+	s=arc-20240116; t=1731588639; c=relaxed/simple;
+	bh=30EemVlxXVCzIcM8CElgaclSsg05Fk11b5D/AnIKsZ4=;
 	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uXoNVKXKvg9udUpcqiWK/RiEskFfcdjZ96f+J6gv3pB+MGBieyIuAEheIMvE9ckEGHaeQgkVOOCUXVSnaVN+nvoqsZpMkDycBxjNTwCEJUm5pIV1+yQhyhXr7qFSaeDK7+VKubd6swOt+Ms7nB/MxPWneItenItetc0qd0duWvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=ua63s7Ns; arc=none smtp.client-ip=68.232.153.233
+	 Content-Type:Content-Disposition:In-Reply-To; b=hfWv+qa0niIDQGWrkK6ZgLMTExuZvOexCZDqRYD6XjdbwVewPopc80N53z466WjNx62opn/7tbJGQ3aOOXl3cB5licst39HVVKDwuOmU/07rKS/iADiKhMwtRtWuHgCziEUodiTDEOYugywTMzb7duCE14mM7rh6I/LB5d0zjUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=CYwFkk7M; arc=none smtp.client-ip=68.232.154.123
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1731582610; x=1763118610;
+  t=1731588637; x=1763124637;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=tkzHrrJXOXS7vOUYq3tWDArhR/nWqxSRsKMsB3s0zw4=;
-  b=ua63s7NslMf4M2K98kN+TCvZjLAUb119+pcsp7o18ZPmEvowXy88W9uj
-   z0Hv7Izk5Hfr2RLQpE6/bvIXIPdhnXevawFMACSPJKyIU0QbFVlQo3tQa
-   YquAXZPSLoZ/9sg/wJFhta52z8W2JxF01ia/vZVinLOsKydtkQYKQNxUq
-   ZTj1cDIdMBXV6CBFyvPMXweXEzxWbyzAhjVOLQHCSTO20cncHYsuKJX3y
-   jDXktTZeaHSXpGsqemKzwJZnk5uVqdKY3SHD1BlBfp8EZ/7GT2gyczork
-   ex+R15BmnWrsMDYo9Kq7cBejuHqsBCwQzhbyzm5SvKMV3O20xhh7VKqvl
-   Q==;
-X-CSE-ConnectionGUID: p4ZQJMZoSBKRif35c8c9jg==
-X-CSE-MsgGUID: mfgf0lngSeqcO77umlAhyg==
-X-IronPort-AV: E=Sophos;i="6.12,153,1728975600"; 
-   d="scan'208";a="34308229"
+  bh=30EemVlxXVCzIcM8CElgaclSsg05Fk11b5D/AnIKsZ4=;
+  b=CYwFkk7MfqRdAi6EzXhh7uSH2ZaYMtixGzHJuO5i40ru5HwAXW8U1nsq
+   bFEuok/mZ1oox8kPaD38G5OzLp5dtbx1p5ZsHY7nRIkQQVFXbfSxyRjfX
+   rTz7LUpdlhbO3ntqqRGk/HxJBBqDASDH4WKRzUvT/MvCqJHlfxvtJ1DDd
+   8irgCHHXZg3mzBo6T6gNDsDT6ruujf3gxeCGMny2Py0h88R1/EC997RlS
+   vUq3UamIOJ+UOZjw735qsAzLb9bArDg/HX1EVZavFsEg4KVyXOKmfson1
+   lfoZ/iuO9AvyyvpJRVBUi7N7Jm5kskms2W8oCsTgfUlByyt/dcPQeZe60
+   A==;
+X-CSE-ConnectionGUID: dprYk6rmQCadJdxyql8mEA==
+X-CSE-MsgGUID: b6rLs88DS46y5i09HfzQkw==
+X-IronPort-AV: E=Sophos;i="6.12,154,1728975600"; 
+   d="scan'208";a="201749152"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 14 Nov 2024 04:10:09 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
+  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 14 Nov 2024 05:50:36 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
  chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 14 Nov 2024 04:09:28 -0700
-Received: from localhost (10.10.85.11) by chn-vm-ex02.mchp-main.com
- (10.10.85.144) with Microsoft SMTP Server id 15.1.2507.35 via Frontend
- Transport; Thu, 14 Nov 2024 04:09:28 -0700
-Date: Thu, 14 Nov 2024 12:07:45 +0100
-From: Horatiu Vultur <horatiu.vultur@microchip.com>
+ 15.1.2507.35; Thu, 14 Nov 2024 05:50:05 -0700
+Received: from DEN-DL-M70577 (10.10.85.11) by chn-vm-ex03.mchp-main.com
+ (10.10.85.151) with Microsoft SMTP Server id 15.1.2507.35 via Frontend
+ Transport; Thu, 14 Nov 2024 05:50:01 -0700
+Date: Thu, 14 Nov 2024 12:50:01 +0000
+From: Daniel Machon <daniel.machon@microchip.com>
 To: Rosen Penev <rosenp@gmail.com>
 CC: <netdev@vger.kernel.org>, Chandrasekar Ramakrishnan <rcsekar@samsung.com>,
 	Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol
@@ -68,7 +68,8 @@ CC: <netdev@vger.kernel.org>, Chandrasekar Ramakrishnan <rcsekar@samsung.com>,
  Kicinski" <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Kurt Kanzenbach
 	<kurt@linutronix.de>, Vladimir Oltean <olteanv@gmail.com>, Chris Snook
 	<chris.snook@gmail.com>, Marcin Wojtas <marcin.s.wojtas@gmail.com>, "Russell
- King" <linux@armlinux.org.uk>, "maintainer:MICROCHIP LAN966X ETHERNET DRIVER"
+ King" <linux@armlinux.org.uk>, Horatiu Vultur <horatiu.vultur@microchip.com>,
+	"maintainer:MICROCHIP LAN966X ETHERNET DRIVER"
 	<UNGLinuxDriver@microchip.com>, Yoshihiro Shimoda
 	<yoshihiro.shimoda.uh@renesas.com>, Niklas =?utf-8?Q?S=C3=B6derlund?=
 	<niklas.soderlund@ragnatech.se>, Doug Berger <opendmb@gmail.com>, "Florian
@@ -79,7 +80,7 @@ CC: <netdev@vger.kernel.org>, Chandrasekar Ramakrishnan <rcsekar@samsung.com>,
 	<linux-kernel@vger.kernel.org>, "open list:RENESAS ETHERNET SWITCH DRIVER"
 	<linux-renesas-soc@vger.kernel.org>
 Subject: Re: [PATCHv2 net-next] net: modernize ioremap in probe
-Message-ID: <20241114110745.h6luzb72zkahyr5j@DEN-DL-M31836.microchip.com>
+Message-ID: <20241114125001.3hykb6dnzmt7bkti@DEN-DL-M70577>
 References: <20241111200212.5907-1-rosenp@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -87,11 +88,9 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
 In-Reply-To: <20241111200212.5907-1-rosenp@gmail.com>
-
-The 11/11/2024 12:02, Rosen Penev wrote:
 
 Hi Rosen,
 
@@ -116,6 +115,17 @@ Hi Rosen,
 > -               if (!begin[idx]) {
 > +               begin[idx] = devm_platform_get_and_ioremap_resource(
 > +                       pdev, idx, &iores[idx]);
+
+Seems like this causes some trouble in the lan969x (see Horatius
+comment). While at it, maybe reformat this line - checkpatch is
+complaining:
+
+CHECK: Lines should not end with a '('
+#314: FILE: drivers/net/ethernet/microchip/lan966x/lan966x_main.c:80:
++		begin[idx] = devm_platform_get_and_ioremap_resource(
+
+/Daniel
+
 > +               if (IS_ERR(begin[idx])) {
 >                         dev_err(&pdev->dev, "Unable to get registers: %s\n",
 >                                 iores[idx]->name);
@@ -125,13 +135,4 @@ Hi Rosen,
 >         }
 > 
 
-Unfortunately, this breaks the lan966x probe. With this change I get the
-following errors:
-[    1.705315] lan966x-switch e0000000.switch: can't request region for resource [mem 0xe0000000-0xe00fffff]
-[    1.714911] lan966x-switch e0000000.switch: Unable to get registers: cpu
-[    1.721607] lan966x-switch e0000000.switch: error -EBUSY: Failed to create targets
-[    1.729173] lan966x-switch: probe of e0000000.switch failed with error -16
-
--- 
-/Horatiu
 
