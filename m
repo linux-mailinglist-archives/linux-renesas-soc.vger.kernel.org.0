@@ -1,138 +1,96 @@
-Return-Path: <linux-renesas-soc+bounces-10522-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10523-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 356EF9C8B1D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Nov 2024 13:52:41 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A7A59C9273
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Nov 2024 20:35:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 419ABB25D6F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Nov 2024 12:50:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D3FE3282800
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Nov 2024 19:35:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C98E71FA851;
-	Thu, 14 Nov 2024 12:50:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72E28199FD3;
+	Thu, 14 Nov 2024 19:35:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="CYwFkk7M"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="G1JLclJR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF0AF1E883F;
-	Thu, 14 Nov 2024 12:50:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23CC944375
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Nov 2024 19:35:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731588639; cv=none; b=EUArDRk1MhSYu4WBiiZG5k9GWWqteFHDuOI/e783TLK43mT/Dj3iZSBroNFXZ2ysDnM//cim7P2plfhf7deMHdfM7XmvshvIxSmA+3xqt4o+jgVFN3PxQaWP1QFt+iJEbV6X5WtBeIzxfdqVQ4901Rc2SoZww3mrMNanu6WZM4o=
+	t=1731612906; cv=none; b=JiFu+uC2eOUYIM01dycYYGjjBQ6gCreky/vXOFm2u9bmHgp5qTrmKLUiN5nNYRy/o5I4M/eeydw9+ML4obw9BtIAKwA7nGHKst37MSbxnZUFnSTrQ1DBKCghDVUHFViz2/NORhh+quB4pmmeeMtKrSStwP+8+QeQbYee2S/x7N0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731588639; c=relaxed/simple;
-	bh=30EemVlxXVCzIcM8CElgaclSsg05Fk11b5D/AnIKsZ4=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hfWv+qa0niIDQGWrkK6ZgLMTExuZvOexCZDqRYD6XjdbwVewPopc80N53z466WjNx62opn/7tbJGQ3aOOXl3cB5licst39HVVKDwuOmU/07rKS/iADiKhMwtRtWuHgCziEUodiTDEOYugywTMzb7duCE14mM7rh6I/LB5d0zjUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=CYwFkk7M; arc=none smtp.client-ip=68.232.154.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1731588637; x=1763124637;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=30EemVlxXVCzIcM8CElgaclSsg05Fk11b5D/AnIKsZ4=;
-  b=CYwFkk7MfqRdAi6EzXhh7uSH2ZaYMtixGzHJuO5i40ru5HwAXW8U1nsq
-   bFEuok/mZ1oox8kPaD38G5OzLp5dtbx1p5ZsHY7nRIkQQVFXbfSxyRjfX
-   rTz7LUpdlhbO3ntqqRGk/HxJBBqDASDH4WKRzUvT/MvCqJHlfxvtJ1DDd
-   8irgCHHXZg3mzBo6T6gNDsDT6ruujf3gxeCGMny2Py0h88R1/EC997RlS
-   vUq3UamIOJ+UOZjw735qsAzLb9bArDg/HX1EVZavFsEg4KVyXOKmfson1
-   lfoZ/iuO9AvyyvpJRVBUi7N7Jm5kskms2W8oCsTgfUlByyt/dcPQeZe60
-   A==;
-X-CSE-ConnectionGUID: dprYk6rmQCadJdxyql8mEA==
-X-CSE-MsgGUID: b6rLs88DS46y5i09HfzQkw==
-X-IronPort-AV: E=Sophos;i="6.12,154,1728975600"; 
-   d="scan'208";a="201749152"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 14 Nov 2024 05:50:36 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 14 Nov 2024 05:50:05 -0700
-Received: from DEN-DL-M70577 (10.10.85.11) by chn-vm-ex03.mchp-main.com
- (10.10.85.151) with Microsoft SMTP Server id 15.1.2507.35 via Frontend
- Transport; Thu, 14 Nov 2024 05:50:01 -0700
-Date: Thu, 14 Nov 2024 12:50:01 +0000
-From: Daniel Machon <daniel.machon@microchip.com>
-To: Rosen Penev <rosenp@gmail.com>
-CC: <netdev@vger.kernel.org>, Chandrasekar Ramakrishnan <rcsekar@samsung.com>,
-	Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol
-	<mailhol.vincent@wanadoo.fr>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, "Jakub
- Kicinski" <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Kurt Kanzenbach
-	<kurt@linutronix.de>, Vladimir Oltean <olteanv@gmail.com>, Chris Snook
-	<chris.snook@gmail.com>, Marcin Wojtas <marcin.s.wojtas@gmail.com>, "Russell
- King" <linux@armlinux.org.uk>, Horatiu Vultur <horatiu.vultur@microchip.com>,
-	"maintainer:MICROCHIP LAN966X ETHERNET DRIVER"
-	<UNGLinuxDriver@microchip.com>, Yoshihiro Shimoda
-	<yoshihiro.shimoda.uh@renesas.com>, Niklas =?utf-8?Q?S=C3=B6derlund?=
-	<niklas.soderlund@ragnatech.se>, Doug Berger <opendmb@gmail.com>, "Florian
- Fainelli" <florian.fainelli@broadcom.com>, "Broadcom internal kernel review
- list" <bcm-kernel-feedback-list@broadcom.com>, Heiner Kallweit
-	<hkallweit1@gmail.com>, Richard Cochran <richardcochran@gmail.com>, "open
- list:MCAN MMIO DEVICE DRIVER" <linux-can@vger.kernel.org>, open list
-	<linux-kernel@vger.kernel.org>, "open list:RENESAS ETHERNET SWITCH DRIVER"
-	<linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCHv2 net-next] net: modernize ioremap in probe
-Message-ID: <20241114125001.3hykb6dnzmt7bkti@DEN-DL-M70577>
-References: <20241111200212.5907-1-rosenp@gmail.com>
+	s=arc-20240116; t=1731612906; c=relaxed/simple;
+	bh=BZ52REcQef9Kfnn4nGj0tNB300R1Ja5A4ClLycRKIKM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=H5zhR416O5+vAQ+8zzd92bam2HI91xSbMh17IgLWG2WDGQuYxNIIxKCcuXZ2u2Ohl+3d95Sq96MQHsQalQh8iweKF5DmEVeMCwuQb7KWcCXgDjvTRT2RsbKaGxwVI1jaKH6NEwNcNx4peEEwLRxX+ASLrwBntMboAK4JGq04e5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=G1JLclJR; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=lYfl1ZTYCOg3I1
+	PCMQ70h6iFDEg6TVrq3lsSEBYEMV8=; b=G1JLclJRYSiKTBWAnf1XL9ln17ZXqG
+	YQetrAbB+YsfbECXQVtjex22ooCVICCX1tc1k1XCadItmD6w/a6nEpENtegIYJEm
+	M82OUZYkSeHrYHDYSF/LSxR+nXkeo7f0Mk/9monpLhkixHQ86qyUeYdXRuy1mCHt
+	sQvvHvUru4TY7a3y+prYRJuTIfucaXAGIeE8JxNNHg2nahMkzmRWErUwKw6fLale
+	dtDIzW6dwYtL9QDJhofnD5C/YhSBAy1fYtoV4BeU4w3RmgUnvdKkrmIMHr1FzJVT
+	Vivj8Vs5hVAGvSuMWvw3ssj3znPTS28jmrPfFKMLuetT/np8M18KA4sg==
+Received: (qmail 3266310 invoked from network); 14 Nov 2024 20:34:57 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Nov 2024 20:34:57 +0100
+X-UD-Smtp-Session: l3s3148p1@zB2oi+QmCuhehhtH
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Michel Pollet <buserror@gmail.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-rtc@vger.kernel.org
+Subject: [PATCH] rtc: rzn1: update Michel's email
+Date: Thu, 14 Nov 2024 20:34:50 +0100
+Message-Id: <20241114193450.13982-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20241111200212.5907-1-rosenp@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Rosen,
+The Renesas address bounces, use the alternative one.
 
-> diff --git a/drivers/net/ethernet/microchip/lan966x/lan966x_main.c b/drivers/net/ethernet/microchip/lan966x/lan966x_main.c
-> index 3234a960fcc3..375e9a68b9a9 100644
-> --- a/drivers/net/ethernet/microchip/lan966x/lan966x_main.c
-> +++ b/drivers/net/ethernet/microchip/lan966x/lan966x_main.c
-> @@ -77,20 +77,12 @@ static int lan966x_create_targets(struct platform_device *pdev,
->          * this.
->          */
->         for (idx = 0; idx < IO_RANGES; idx++) {
-> -               iores[idx] = platform_get_resource(pdev, IORESOURCE_MEM,
-> -                                                  idx);
-> -               if (!iores[idx]) {
-> -                       dev_err(&pdev->dev, "Invalid resource\n");
-> -                       return -EINVAL;
-> -               }
-> -
-> -               begin[idx] = devm_ioremap(&pdev->dev,
-> -                                         iores[idx]->start,
-> -                                         resource_size(iores[idx]));
-> -               if (!begin[idx]) {
-> +               begin[idx] = devm_platform_get_and_ioremap_resource(
-> +                       pdev, idx, &iores[idx]);
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ drivers/rtc/rtc-rzn1.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Seems like this causes some trouble in the lan969x (see Horatius
-comment). While at it, maybe reformat this line - checkpatch is
-complaining:
-
-CHECK: Lines should not end with a '('
-#314: FILE: drivers/net/ethernet/microchip/lan966x/lan966x_main.c:80:
-+		begin[idx] = devm_platform_get_and_ioremap_resource(
-
-/Daniel
-
-> +               if (IS_ERR(begin[idx])) {
->                         dev_err(&pdev->dev, "Unable to get registers: %s\n",
->                                 iores[idx]->name);
-> -                       return -ENOMEM;
-> +                       return PTR_ERR(begin[idx]);
->                 }
->         }
-> 
+diff --git a/drivers/rtc/rtc-rzn1.c b/drivers/rtc/rtc-rzn1.c
+index 8570c8e63d70..b3f85368dd62 100644
+--- a/drivers/rtc/rtc-rzn1.c
++++ b/drivers/rtc/rtc-rzn1.c
+@@ -7,7 +7,7 @@
+  * - 2022 Schneider Electric
+  *
+  * Authors:
+- * - Michel Pollet <michel.pollet@bp.renesas.com>, <buserror@gmail.com>
++ * - Michel Pollet <buserror@gmail.com>
+  * - Miquel Raynal <miquel.raynal@bootlin.com>
+  */
+ 
+@@ -413,7 +413,7 @@ static struct platform_driver rzn1_rtc_driver = {
+ };
+ module_platform_driver(rzn1_rtc_driver);
+ 
+-MODULE_AUTHOR("Michel Pollet <Michel.Pollet@bp.renesas.com");
++MODULE_AUTHOR("Michel Pollet <buserror@gmail.com>");
+ MODULE_AUTHOR("Miquel Raynal <miquel.raynal@bootlin.com");
+ MODULE_DESCRIPTION("RZ/N1 RTC driver");
+ MODULE_LICENSE("GPL");
+-- 
+2.39.2
 
 
