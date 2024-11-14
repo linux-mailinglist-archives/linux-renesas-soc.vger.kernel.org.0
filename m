@@ -1,96 +1,156 @@
-Return-Path: <linux-renesas-soc+bounces-10525-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10526-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 958C19C92B7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Nov 2024 20:58:16 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A95779C949B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Nov 2024 22:37:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 30B08B28551
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Nov 2024 19:58:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 359DB1F2378F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Nov 2024 21:37:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABF581A9B3A;
-	Thu, 14 Nov 2024 19:57:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B5C51AD418;
+	Thu, 14 Nov 2024 21:37:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hc+h5jCQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Im9JKNkz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A981A76C7;
-	Thu, 14 Nov 2024 19:57:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0A282905;
+	Thu, 14 Nov 2024 21:37:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731614277; cv=none; b=lVr1RZofw/awu4vLbozI+xpcBnwvfoBBa78YrpOSb8vN4oh0UD+vUgbkVm3BKfzywRK89C1ulFeXwQtO76GwOBtUgE0DCysIuoEB7y5inNDKuWJ0TyeWT4f+k2edzmdsS1/RutlsiOLiluoPOiijtmZLWLZlplsmmbHhk2Q1RSM=
+	t=1731620262; cv=none; b=NjVl/7XEb3p1Mo66FtxOx6FQNmOCF4S/sn9c7sdyalDjFvF0gpb8z2MUcfCvYe8P8ChZgPeuivY9kEz+UbFesfevw42PEafmqOKIVJdir+RsghQ+TuWHfgPiLGjliNpyFow3FxKdsHWpcN+UO6j+XUgBGOqNA1Cx6H121xNwNUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731614277; c=relaxed/simple;
-	bh=vmB6hvxyWgBDQfNuZdsI2IQbUBYy8dvD9SF1XBieQSU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HANNLpnUq5wpu6F/k5VBoLdWtrwA6CQ8RMatyKO7wPeBkB0PgTchoT309yhEJ3wsHZ9AQAVG3SQoQ8hooaJylw3F1e4prcmse1q06OvG8ukVYt2O34hx5AcRqrZlTPtizwRz07G7bYSrlLZp0G4Tw+nzI65QKFjzyhDjEp4zhJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hc+h5jCQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52B5FC4CECD;
-	Thu, 14 Nov 2024 19:57:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731614277;
-	bh=vmB6hvxyWgBDQfNuZdsI2IQbUBYy8dvD9SF1XBieQSU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Hc+h5jCQx4O7/mnaqkoIZOrK1hGYhJX5mx7LaA2RpMOxcAV+paooz6g6ykYGjR5dc
-	 BE/3wbQ30ywPGcM1BDObyRR5j5BVQpO98bWAkun/av5+v+3qFz5k7tZJeYlfq8/sT/
-	 LMBuj1NF/quicl/DAhutSakXo82UfGZ0PqgErcz4H6M6oo8IH5zuBoQDw3eAhZENKm
-	 nlaz24lOD9o//LhKcIkWyeIAcqtvImotC5dDvTm3VMv10RNoiDNsawlQyxcEsrUlq7
-	 gTUoF8bjDEdhY8CLiDU3dd3vTK9VJho4t8p4DhpW23jFMiO0tJoTvfCQmgOKk/CAyz
-	 THhx1zqD07QEQ==
-Date: Thu, 14 Nov 2024 19:57:52 +0000
-From: Conor Dooley <conor@kernel.org>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Sergey Shtylyov <s.shtylyov@omp.ru>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Sergei Shtylyov <sergei.shtylyov@gmail.com>, netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next] dt-bindings: net: renesas,ether: Drop
- undocumented "micrel,led-mode"
-Message-ID: <20241114-same-hydrated-fa006e6d2991@spud>
-References: <20241113225742.1784723-2-robh@kernel.org>
+	s=arc-20240116; t=1731620262; c=relaxed/simple;
+	bh=9l7vFoEaDohyshh1ZdsoPPTLdeVwWUPMY+VXG9RZlZk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pgBG7Yh/4R/8eMIorcAmMCfCUiv8ys+xS41jTvtgZeA72xM73s88z+upT2/gTHof3yu9DFpyMIVTF6P7EFOral+kMt5EljLKOsP8MwnTL8lMxL9c+9vBVG7xY2UA75ZW9omIJIA3312BpzaD8dLhv8GPOP8SMT4cMPj1rKF5iac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Im9JKNkz; arc=none smtp.client-ip=209.85.219.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e381638b61fso1004090276.0;
+        Thu, 14 Nov 2024 13:37:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731620260; x=1732225060; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8HDQDZl5XK73PdEK03DrAUphRsdHCJGw/Puu2rwoRqo=;
+        b=Im9JKNkzfueazw+suLAqIyN/aQnzaB50ySOsr9PlzXNZfq2UwCzpwEhdzRNqDfztHA
+         wY2yq9P/B2EKDXFHegwiJilbH5F8kMejZr6y1tcsQvL4iVPeATsOLtKnsoWE4oit/cSe
+         qrMqND4GjCMNyZ3EShFeDQoq+5yWyyy9ybCqCV+25lX0zgRrDrdPiOI7sDnFtc56PqCM
+         KcVJdbzZtRwy3ErmAt1ZjY+kD295jHV0+phmO5XdzxGFrGvOPKNT+jTrQ95f/xMq+8Ay
+         ze/AHN/cSXVZQFtb6GvKXwfKXrTUV+H05ig6pv7LC3eW6ESxkiBEQ+OZY3eoKqFhrzGc
+         +m/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731620260; x=1732225060;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8HDQDZl5XK73PdEK03DrAUphRsdHCJGw/Puu2rwoRqo=;
+        b=n3/bVOSVk+l1DDylpgpkTLEXNchj7KwlxhcXwVSfCGcPO+ucjHslmuaA7kw3Zp1SAP
+         3jNo3e2ONAwFRrC9LEMLM18YLOH2AOJkUuF6rNSD91neXdQo5Svm/gDj/k0e7Bt1Nut7
+         Doj/k8/f9KywtWEFc5q7B2Au22a47n0l1NORG8P534SXLcgZdIjC+QVWHUmWoFKSlUrp
+         WRaWECRNKYmADdKKdtQO1hxzvSvL7cWhhftxwnmIGvUiYgnWtjsuFtxQ0YGkwYL4pvlE
+         hxg1NvgsdYVttzBLaS2cDw71eM/FVjBk/9nqCKLWGLw+ZGlOMp37b02Hfd1byAEWIJB7
+         Wt9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWPeAmiuEqb3YZRj3RlWfQDG7FFkCjpfxu6J4etBwJDoWLdrPrgvE/CsA8+u3pIZwRmnW+jLwuG80Q=@vger.kernel.org, AJvYcCWwjph0PwxfBi1Xl4HNwmrKeueR5w9utcUf3M0PEa9oB+8gcf4nPFBO4sgSYJm86UBsChx5lvNkGlUQL7IyqH03HpQ=@vger.kernel.org, AJvYcCXZeNLvofx7uaTVcT5LaENX+ytD/j+c1Nyux8c7NDLjZQFKueN+bYPB2j2CFPvDuTpayK9MVrUQ4nUPmA2P@vger.kernel.org
+X-Gm-Message-State: AOJu0YwbwKd64lnsyXCREgJYzvD7/ysLvrzpPn82XRhkwU7ug44u3Npf
+	B63i3LYMnKIzv9scOQGId2gIuqAJjgjCfN0ev/dJzh3ceuf1PoIQLe6cOGG/0ZU9XjdGzbx1lqF
+	NzXCobxYiGI9c/t5ln9Cn1M/rOOA=
+X-Google-Smtp-Source: AGHT+IHmxKbrSWeNFNu3gSJW7/OVf6TAEd7ZES/6OudmTDW3jTbNwCmAw0PQX7uPWCMR0Z6u2Q8yItH7rzkZaXpSLAY=
+X-Received: by 2002:a05:690c:7407:b0:6de:c0e:20ef with SMTP id
+ 00721157ae682-6ee55bbae5cmr6021867b3.7.1731620259669; Thu, 14 Nov 2024
+ 13:37:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="iAK1enMsNU2XmYYa"
-Content-Disposition: inline
-In-Reply-To: <20241113225742.1784723-2-robh@kernel.org>
+References: <20241111200212.5907-1-rosenp@gmail.com> <20241114110745.h6luzb72zkahyr5j@DEN-DL-M31836.microchip.com>
+In-Reply-To: <20241114110745.h6luzb72zkahyr5j@DEN-DL-M31836.microchip.com>
+From: Rosen Penev <rosenp@gmail.com>
+Date: Thu, 14 Nov 2024 13:37:28 -0800
+Message-ID: <CAKxU2N9ssJS_1KApvXKFq67yw8uSkKVAD1erKPT05Wg172mnbA@mail.gmail.com>
+Subject: Re: [PATCHv2 net-next] net: modernize ioremap in probe
+To: Horatiu Vultur <horatiu.vultur@microchip.com>
+Cc: netdev@vger.kernel.org, Chandrasekar Ramakrishnan <rcsekar@samsung.com>, 
+	Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Kurt Kanzenbach <kurt@linutronix.de>, Vladimir Oltean <olteanv@gmail.com>, 
+	Chris Snook <chris.snook@gmail.com>, Marcin Wojtas <marcin.s.wojtas@gmail.com>, 
+	Russell King <linux@armlinux.org.uk>, 
+	"maintainer:MICROCHIP LAN966X ETHERNET DRIVER" <UNGLinuxDriver@microchip.com>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+	Doug Berger <opendmb@gmail.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Richard Cochran <richardcochran@gmail.com>, 
+	"open list:MCAN MMIO DEVICE DRIVER" <linux-can@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
+	"open list:RENESAS ETHERNET SWITCH DRIVER" <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Nov 14, 2024 at 3:10=E2=80=AFAM Horatiu Vultur
+<horatiu.vultur@microchip.com> wrote:
+>
+> The 11/11/2024 12:02, Rosen Penev wrote:
+>
+> Hi Rosen,
+>
+> > diff --git a/drivers/net/ethernet/microchip/lan966x/lan966x_main.c b/dr=
+ivers/net/ethernet/microchip/lan966x/lan966x_main.c
+> > index 3234a960fcc3..375e9a68b9a9 100644
+> > --- a/drivers/net/ethernet/microchip/lan966x/lan966x_main.c
+> > +++ b/drivers/net/ethernet/microchip/lan966x/lan966x_main.c
+> > @@ -77,20 +77,12 @@ static int lan966x_create_targets(struct platform_d=
+evice *pdev,
+> >          * this.
+> >          */
+> >         for (idx =3D 0; idx < IO_RANGES; idx++) {
+> > -               iores[idx] =3D platform_get_resource(pdev, IORESOURCE_M=
+EM,
+> > -                                                  idx);
+> > -               if (!iores[idx]) {
+> > -                       dev_err(&pdev->dev, "Invalid resource\n");
+> > -                       return -EINVAL;
+> > -               }
+> > -
+> > -               begin[idx] =3D devm_ioremap(&pdev->dev,
+> > -                                         iores[idx]->start,
+> > -                                         resource_size(iores[idx]));
+> > -               if (!begin[idx]) {
+> > +               begin[idx] =3D devm_platform_get_and_ioremap_resource(
+> > +                       pdev, idx, &iores[idx]);
+> > +               if (IS_ERR(begin[idx])) {
+> >                         dev_err(&pdev->dev, "Unable to get registers: %=
+s\n",
+> >                                 iores[idx]->name);
+> > -                       return -ENOMEM;
+> > +                       return PTR_ERR(begin[idx]);
+> >                 }
+> >         }
+> >
+>
+> Unfortunately, this breaks the lan966x probe. With this change I get the
+> following errors:
+> [    1.705315] lan966x-switch e0000000.switch: can't request region for r=
+esource [mem 0xe0000000-0xe00fffff]
+> [    1.714911] lan966x-switch e0000000.switch: Unable to get registers: c=
+pu
+> [    1.721607] lan966x-switch e0000000.switch: error -EBUSY: Failed to cr=
+eate targets
+> [    1.729173] lan966x-switch: probe of e0000000.switch failed with error=
+ -16
+>
+Yes, also causes problems with another platform.
 
---iAK1enMsNU2XmYYa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Wed, Nov 13, 2024 at 04:57:42PM -0600, Rob Herring (Arm) wrote:
-> "micrel,led-mode" is not yet documented by a schema. It's irrelevant to
-> the example, so just drop it.
-
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
---iAK1enMsNU2XmYYa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZzZWQAAKCRB4tDGHoIJi
-0iTnAQCzKORcNjYixRmpzMut3cWD8oS8TjyrULKpc6GlS9vLbgEAkzWT6aKWyW5P
-ArHiO7xD4VWE9Hmgf+A5p8G5rwTuawA=
-=AMjb
------END PGP SIGNATURE-----
-
---iAK1enMsNU2XmYYa--
+This commit should be abandoned.
+> --
+> /Horatiu
 
