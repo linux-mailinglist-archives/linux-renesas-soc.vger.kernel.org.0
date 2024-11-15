@@ -1,122 +1,87 @@
-Return-Path: <linux-renesas-soc+bounces-10542-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10543-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80C449CF267
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Nov 2024 18:09:03 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C25319CF501
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Nov 2024 20:38:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 384AD1F21262
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Nov 2024 17:09:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 99502B27994
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Nov 2024 19:36:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C77961D516D;
-	Fri, 15 Nov 2024 17:08:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 286801D79A5;
+	Fri, 15 Nov 2024 19:36:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Eyr50KZ1"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="J7QM98w/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 962E51BD4FD
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Nov 2024 17:08:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96ADE1D460E;
+	Fri, 15 Nov 2024 19:36:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731690539; cv=none; b=Ev+gwjx+YOfCJHKXCxQPPTF+HwCnYx7VfYJSIJTleUp8PYBjwGTo5nNzuP4SEPCGJYWcT+Cu/pObBTtfvfmFJNQC9PX7dwlaTAGbo+RBprCaVltnpA7a/Xiu3ZMKf65NtZdJSyX33OqmRo2evmSSs6o/VJc5gBtJ/KQGLShVad0=
+	t=1731699372; cv=none; b=RaBN+uGc76Y5E6WGGBQmdk5ydMEwFQzKieSTBS2ptRbawfBdOL5AT5H2s1AOz80Rmgv+NqtRjy6UuKpyPIaazdQcb4XSnQakae47FB2kBQFzWcYCiO/s07Vt2Ay+Ux83rZeaF5o6NpbmTedXAb9eKt001bt2tg11BltT1HNnPv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731690539; c=relaxed/simple;
-	bh=gXheXom3MTvMR7dRmavCkGXyuj5o+8DezuAbzhc2XQ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RXbmkoXwi/IRtbDLcPrl8MLracdUSB6AMwE1UvX9cgrzCoNFSr1S63Tk10KaBAqbv9mn9e6oeVcSWqAQSh0R4ImRgQB+W4N+h6e21WemujZPzO2evVSiSSyGEbkQi8BPlgMUYiNZyhYuc/ozoTKSa6obqD8Jb4y+og3shJW7tUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Eyr50KZ1; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=fs0U
-	diqmqoDl0sN2GiNwSsP7adCI+uMwSrUXF0IDfzs=; b=Eyr50KZ1P6dzmj5eebaV
-	Yl/EJbYP38WxEUQeA74gpAiE/AA55vyqI1Pm4sCcIiNacn0JHTbv6rhSh7kpQaph
-	7gYQF7zdMT0Cg4jcOBo8vIXgECB0Vin0XwxuR74tqAhKUGhyA8PG6djc2HesG7Wp
-	0D80FbO2+kI6YB/DiLJmcXhFI1+S8zWZVxYBVMvgBJoTfJO1ctBswcFkcAR6Pn0k
-	DmMfHeVCtkZXBl5xn+Z3VGgBaFVw1Y9tX+CQ+eQJDbW3WdEvJXKziNmqO3vcplVY
-	1QSBLV+Gwclwdvxl7qd5ghCvjNEXTP6ZkFyGcdmJf7w9iAjalOf6O27wqkwpIgL0
-	EA==
-Received: (qmail 3569722 invoked from network); 15 Nov 2024 18:08:49 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Nov 2024 18:08:49 +0100
-X-UD-Smtp-Session: l3s3148p1@13fjnvYmSo9ehhtH
-Date: Fri, 15 Nov 2024 18:08:49 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	dmaengine@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Rob Herring <robh@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-	Linux MMC List <linux-mmc@vger.kernel.org>
-Subject: Re: [PATCH v2 0/3] dmaengine: sh: rz-dmac: add r7s72100 support
-Message-ID: <ZzeAIQe1zdoNYkyO@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	dmaengine@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Rob Herring <robh@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-	Linux MMC List <linux-mmc@vger.kernel.org>
-References: <20241001124310.2336-1-wsa+renesas@sang-engineering.com>
- <CAMuHMdW5PhRT0B+ua=MyTeTZF+BOFEzQ8XyWtBGOiU+YKbathg@mail.gmail.com>
+	s=arc-20240116; t=1731699372; c=relaxed/simple;
+	bh=cz/A7iUedMEu2NWll2rSLDlSAl+o8O16VpSMVDD5nkE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=mp4qgA+JAeb65bA58lDnHIimf491cupZAXbO+oLD91740eg3KKEESC93yNP+71k5OQvJzKWQdaUlNMI8iB5fOi1y3l6y+KHHeWyicP/oz5NZWff81MNNdT9kq1P1mQ8bcVxx1W/URRTvY4IGkrW8G27kOugFIHj70I9gQe1qwjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=J7QM98w/; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0DCD5C0002;
+	Fri, 15 Nov 2024 19:36:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1731699366;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cz/A7iUedMEu2NWll2rSLDlSAl+o8O16VpSMVDD5nkE=;
+	b=J7QM98w/25F4MtlKNtxLsQPI4u5vENlBdvckAoKwFQrL2PZJlGmCcOtGbVBTSCj/A82CG1
+	HxO/JOnfnRpENTPVFaqi+b43kGDWXlWNTGADaSmFI73vJImNcY9tgYvRuQP9jUBdSZHMlP
+	iFI6CyTyWTysLUGenHJomJGkoYkyntXM95IMr8rqqSlbEOlWFwmoUSMQqwqfJ61A0tQpKM
+	3HUs7Prueutsl1UKDPcZdGeMJ5FeD9OcN6lphSF0VVQ41p/iIXtJB1U90X4QRkC1kkrrFe
+	+tU3mr6VSpdbUaJoiOPWAz70T3nTZLNj9O80xarxKT5TOSkt1lYzPTKgeeBpIA==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org,  Alexandre Belloni
+ <alexandre.belloni@bootlin.com>,  Michel Pollet
+ <michel.pollet@bp.renesas.com>,  linux-rtc@vger.kernel.org
+Subject: Re: [PATCH] rtc: rzn1: fix BCD to rtc_time conversion errors
+In-Reply-To: <20241113113032.27409-1-wsa+renesas@sang-engineering.com>
+	(Wolfram Sang's message of "Wed, 13 Nov 2024 12:30:32 +0100")
+References: <20241113113032.27409-1-wsa+renesas@sang-engineering.com>
+User-Agent: mu4e 1.12.1; emacs 29.4
+Date: Fri, 15 Nov 2024 20:36:05 +0100
+Message-ID: <87o72gnvbu.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="NUj8klQLcYeDFea7"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdW5PhRT0B+ua=MyTeTZF+BOFEzQ8XyWtBGOiU+YKbathg@mail.gmail.com>
-
-
---NUj8klQLcYeDFea7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 
+Hello Wolfram,
 
-> I am not sure if the SDHI driver or the RZ-DMAC driver (or virt-dma)
-> should be fixed, as the documentation[1] states:
->=20
->      Note that callbacks will always be invoked from the DMA
->      engines tasklet, never from interrupt context.
+On 13/11/2024 at 12:30:32 +01, Wolfram Sang <wsa+renesas@sang-engineering.c=
+om> wrote:
 
-Back then, I had the impression that we can rework the SDHI SYSDMAC part
-to not use a completion like the internal DMAC version does. But it has
-been a while and I got completely side-tracked meanwhile.
+> tm_mon describes months from 0 to 11, but the register contains BCD from
+> 1 to 12. tm_year contains years since 1900, but the BCD contains 20XX.
+> Apply the offsets when converting these numbers.
+>
+> Fixes: deeb4b5393e1 ("rtc: rzn1: Add new RTC driver")
 
+Should probably be Cc'd to stable?
 
---NUj8klQLcYeDFea7
-Content-Type: application/pgp-signature; name="signature.asc"
+Reviewed-by: Miquel Raynal <miquel.raynal@bootlin.com>
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmc3gB4ACgkQFA3kzBSg
-KbZYaRAAgONEcRq91VrdR3VgzobqOiHsEOIQmPZ7pHtK3vS8EsSlPw+R94rm9oSs
-IYz4PLJ/R4Px56+2ALFomogLQGTBcHivFXDrdIB3su6BEbStcqFu+SvfiFj1UxkT
-DOdelDfLr5HmwInis2zzLHY8Xik99IMKd6Q0955UE9A6wGuPdOaUuhK1Cg2oAxZV
-CUy8V3a/AJRDYoVqYvb1us6pDGTvzypB7FVDUu8Cj8A24tVrNf1Br5XbnDTE16pW
-qaZQFxtKDp4aRR6lQaj0JsPPh/1UHxl0czRpnCAm7fDGPfZEEyi/F5XU+N3CFFZT
-yIuYytLltEIuXBUwZlVfzSUMdnpRi/StVwZQoqLFyCVhIcZNFUjPkXxhbj/P/GaM
-GjmoPNkO/EAx6d7WlTUXFyt8x4a8mdM2nFv5I6OiXFh/Hef+JPMp/3/v3DE2qyM/
-MSeMa73n6JA9E+74iyuS6bUM3Th61vfOREBngSaDrcXAuZO/+Ehw0tcxs5dr+Ou4
-wJjJav01NIPjep0KCTW4PDTytkT2A2iP7Vqz1ob6KtBs81EBAbK7mkzwWHLvkxOg
-tcbUf3+m8ISi3P+B2uAAeTEvOHV+i1nBGrTspL5AzYLF2AJ9CMciRXxv4WaNshfA
-E4hzI8WhlmtfXS1QeTxMSZ0VorR9Do2pzNCV7D9MPVc+k+sczGw=
-=IqKm
------END PGP SIGNATURE-----
-
---NUj8klQLcYeDFea7--
+Thanks,
+Miqu=C3=A8l
 
