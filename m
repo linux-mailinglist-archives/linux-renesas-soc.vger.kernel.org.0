@@ -1,236 +1,237 @@
-Return-Path: <linux-renesas-soc+bounces-10540-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10541-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 624CA9CEBAF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Nov 2024 16:13:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 320DD9CF091
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Nov 2024 16:47:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F40ECB3656B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Nov 2024 15:02:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D1F481F2A58C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Nov 2024 15:47:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE6791D5166;
-	Fri, 15 Nov 2024 15:02:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NODpiI57"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D0221D63DE;
+	Fri, 15 Nov 2024 15:41:11 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B02FE1D5161;
-	Fri, 15 Nov 2024 15:02:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E66D1DA23
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Nov 2024 15:41:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731682932; cv=none; b=u9XjBdHbgBtvj279MZzr6Px7a+UGY2l8ZHM9r/nEGsBv+hjV2xcjf/zvUxkWeAsJtSMrz5pLVyuCyOmF2CXm57rT+p92C2tAu8YoWajkLre7D+llufaWdORNT9k5dG6jmbEOOLbw8MC9Et/N8b6+zxk73cdquJdyE7cZXabKMvs=
+	t=1731685271; cv=none; b=Bu4THrUKoB/E1cYqwpc1qieUlOwoiMD1sCWAfP4N//sSs+RgbrWU92hhP0YQHHD3bvI5tcP2G14cOEUrFyCbPBmpiX/PLXsyCN4BkEnV40gCd8u3EKHTEVz9K958N30leA0iHrKlOSK2jrUKGtWCtKcKymzJb6wlmHPUu76KDKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731682932; c=relaxed/simple;
-	bh=RC7dHsUpzDmhpG2Rds2L44gcmJcCyTz4v8LUuaz9vbM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FsLxy34n+++myf/7ncAvui9+djgRvU0YtogKN69NgH8JbqhWSPTCCrJWdFuo3zYUtuUhwCZhlBjBUmE0Ho6JgkuiA170W5nYx5LDPrSqL//fWf9S4mKDJlgfYwtc+XHdHUd/T0FvwGP3Kk1za5T696j1YQgbjk0e4E1+551J7sA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NODpiI57; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10589C4CECF;
-	Fri, 15 Nov 2024 15:02:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731682932;
-	bh=RC7dHsUpzDmhpG2Rds2L44gcmJcCyTz4v8LUuaz9vbM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NODpiI57VDFfacvTlhxVqkf8jwPxzY6fiOgg3gq2JZGvdMF9+kkP830N/IR5m2EZ2
-	 JjhF3wpmjNF3rKJ+eaDiW8zej6RYSDOI9nq2zOKYlteBJLRhXbv9ttPs73k9G4pE1K
-	 +NX4ZvGgfs2U7GRIGYTh7KJcKqch/WyTTklvrxTh3euqNY33pYrTp4ZFvYG2z0AR9o
-	 rlOcYKq3rFeMQKr2stq28536T9adoMjR4ecbo3Hmn3iuEvOWCA4Zk6jtTRhcCBCLrI
-	 SPRsxungJhdM9ixRljBnRLmKTkO0tDPzyUAYeyF+ZYU/OEu8/Uig0Itf1oHHazPaWq
-	 RsELFu6TkoJhw==
-Date: Fri, 15 Nov 2024 09:02:10 -0600
-From: Rob Herring <robh@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Ben Dooks <ben.dooks@codethink.co.uk>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] [RFC] dt-bindings: net: micrel: Convert to json-schema
-Message-ID: <20241115150210.GA2680735-robh@kernel.org>
-References: <943cb31d01d0da3a63911326e24fbf9b328f7206.1731580776.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1731685271; c=relaxed/simple;
+	bh=IwcWL9noBhnrXNkKWPZEX0fe61sz3sYzX7u7aAfB4GU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Pk9C3Imf6P99x5YoPtin3yqwuAWzvTNNNwqBR9FcfC12IlauYrx1BYPz2UT7ip33/i3Jpg1CKdHryVTjBQWSAiC0/ljXwCiTs9yEB18mVJZfbKbDgEK54fEIFQbicetwqOoE2R3r+k+mv7g2+V2Oh5FEtaWkvsWu0SWdZAPSQnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1tByR6-00052q-GD; Fri, 15 Nov 2024 16:40:40 +0100
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1tByR5-000vi2-1A;
+	Fri, 15 Nov 2024 16:40:39 +0100
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1tByR5-0008Oe-0r;
+	Fri, 15 Nov 2024 16:40:39 +0100
+Message-ID: <81e131554a34c7b2f795a904f2b561f3c86e0baf.camel@pengutronix.de>
+Subject: Re: [PATCH v3 3/8] serial: sh-sci: Update the suspend/resume support
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Claudiu <claudiu.beznea@tuxon.dev>, geert+renesas@glider.be, 
+ magnus.damm@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org,  mturquette@baylibre.com, sboyd@kernel.org,
+ gregkh@linuxfoundation.org,  jirislaby@kernel.org, lethal@linux-sh.org,
+ g.liakhovetski@gmx.de
+Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
+ linux-serial@vger.kernel.org, Claudiu Beznea
+ <claudiu.beznea.uj@bp.renesas.com>
+Date: Fri, 15 Nov 2024 16:40:39 +0100
+In-Reply-To: <20241115134401.3893008-4-claudiu.beznea.uj@bp.renesas.com>
+References: <20241115134401.3893008-1-claudiu.beznea.uj@bp.renesas.com>
+	 <20241115134401.3893008-4-claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <943cb31d01d0da3a63911326e24fbf9b328f7206.1731580776.git.geert+renesas@glider.be>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
-On Thu, Nov 14, 2024 at 11:42:50AM +0100, Geert Uytterhoeven wrote:
-> Convert the Micrel PHY Device Tree binding documentation to json-schema.
-> 
-> Add a simple example.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Fr, 2024-11-15 at 15:43 +0200, Claudiu wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>=20
+> The Renesas RZ/G3S supports a power saving mode where power to most of th=
+e
+> SoC components is turned off. When returning from this power saving mode,
+> SoC components need to be re-configured.
+>=20
+> The SCIFs on the Renesas RZ/G3S need to be re-configured as well when
+> returning from this power saving mode. The sh-sci code already configures
+> the SCIF clocks, power domain and registers by calling uart_resume_port()
+> in sci_resume(). On suspend path the SCIF UART ports are suspended
+> accordingly (by calling uart_suspend_port() in sci_suspend()). The only
+> missing setting is the reset signal. For this assert/de-assert the reset
+> signal on driver suspend/resume.
+>=20
+> In case the no_console_suspend is specified by the user, the registers ne=
+ed
+> to be saved on suspend path and restore on resume path. To do this the
+> sci_console_setup() function was added. There is no need to cache/restore
+> the status or FIFO registers. Only the control registers. To differentiat=
+e
+> b/w these, the struct sci_port_params::regs was updated with a new member
+> that specifies if the register needs to be chached on suspend. Only the
+> RZ_SCIFA instances were updated with this new support as the hardware for
+> the rest of variants was missing for testing.
+>=20
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 > ---
-> Notes:
->   1. I specified Ben Dooks as the maintainer, as he wrote the original
->      bindings. Ben, are you OK with that?
->   2. This schema is never applied, as there is no compatible value or
->      select statement. Adding
-> 
-> 	select:
-> 	  properties:
-> 	    $nodename:
-> 	      pattern: "^ethernet-phy(@[a-f0-9]+)?$"
-> 
-> 	  required:
-> 	    - $nodename
-> 
->      and changing
-> 
-> 	-unevaluatedProperties: false
-> 	+additionalProperties: true
-> 
->      would fix that, and is mostly harmless, except for possible
->      conflicts with other Ethernet PHYs having more than one clock, or
->      using different clock-names.
->      Documentation/devicetree/bindings/net/qca,ar803x.yaml has the same
->      issue.
->      Is there a proper way to handle this?  Are there other options than
->      mandating specific compatible values for Ethernet PHYs?
+>=20
+> Changes in v3:
+> - none
+>=20
+> Changes in v2:
+> - rebased on top of the update version of patch 2/8 from
+>   this series
+>=20
+>  drivers/tty/serial/sh-sci.c | 53 ++++++++++++++++++++++++++++++-------
+>  1 file changed, 44 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
+> index ade151ff39d2..e53496d2708e 100644
+> --- a/drivers/tty/serial/sh-sci.c
+> +++ b/drivers/tty/serial/sh-sci.c
+> @@ -101,7 +101,7 @@ enum SCI_CLKS {
+>  		if ((_port)->sampling_rate_mask & SCI_SR((_sr)))
+> =20
+>  struct plat_sci_reg {
+> -	u8 offset, size;
+> +	u8 offset, size, suspend_cacheable;
+>  };
+> =20
+>  struct sci_port_params {
+> @@ -134,6 +134,8 @@ struct sci_port {
+>  	struct dma_chan			*chan_tx;
+>  	struct dma_chan			*chan_rx;
+> =20
+> +	struct reset_control		*rstc;
+> +
+>  #ifdef CONFIG_SERIAL_SH_SCI_DMA
+>  	struct dma_chan			*chan_tx_saved;
+>  	struct dma_chan			*chan_rx_saved;
+> @@ -153,6 +155,7 @@ struct sci_port {
+>  	int				rx_trigger;
+>  	struct timer_list		rx_fifo_timer;
+>  	int				rx_fifo_timeout;
+> +	unsigned int			console_cached_regs[SCIx_NR_REGS];
+>  	u16				hscif_tot;
+> =20
+>  	bool has_rtscts;
+> @@ -298,17 +301,17 @@ static const struct sci_port_params sci_port_params=
+[SCIx_NR_REGTYPES] =3D {
+>  	 */
+>  	[SCIx_RZ_SCIFA_REGTYPE] =3D {
+>  		.regs =3D {
+> -			[SCSMR]		=3D { 0x00, 16 },
+> -			[SCBRR]		=3D { 0x02,  8 },
+> -			[SCSCR]		=3D { 0x04, 16 },
+> +			[SCSMR]		=3D { 0x00, 16, 1 },
+> +			[SCBRR]		=3D { 0x02,  8, 1 },
+> +			[SCSCR]		=3D { 0x04, 16, 1 },
+>  			[SCxTDR]	=3D { 0x06,  8 },
+>  			[SCxSR]		=3D { 0x08, 16 },
+>  			[SCxRDR]	=3D { 0x0A,  8 },
+> -			[SCFCR]		=3D { 0x0C, 16 },
+> +			[SCFCR]		=3D { 0x0C, 16, 1 },
+>  			[SCFDR]		=3D { 0x0E, 16 },
+> -			[SCSPTR]	=3D { 0x10, 16 },
+> +			[SCSPTR]	=3D { 0x10, 16, 1 },
+>  			[SCLSR]		=3D { 0x12, 16 },
+> -			[SEMR]		=3D { 0x14, 8 },
+> +			[SEMR]		=3D { 0x14, 8, 1 },
+>  		},
+>  		.fifosize =3D 16,
+>  		.overrun_reg =3D SCLSR,
+> @@ -3380,6 +3383,7 @@ static struct plat_sci_port *sci_parse_dt(struct pl=
+atform_device *pdev,
+>  	}
+> =20
+>  	sp =3D &sci_ports[id];
+> +	sp->rstc =3D rstc;
+>  	*dev_id =3D id;
+> =20
+>  	p->type =3D SCI_OF_TYPE(data);
+> @@ -3507,13 +3511,34 @@ static int sci_probe(struct platform_device *dev)
+>  	return 0;
+>  }
+> =20
+> +static void sci_console_setup(struct sci_port *s, bool save)
+> +{
+> +	for (u16 i =3D 0; i < SCIx_NR_REGS; i++) {
+> +		struct uart_port *port =3D &s->port;
+> +
+> +		if (!s->params->regs[i].suspend_cacheable)
+> +			continue;
+> +
+> +		if (save)
+> +			s->console_cached_regs[i] =3D sci_serial_in(port, i);
+> +		else
+> +			sci_serial_out(port, i, s->console_cached_regs[i]);
+> +	}
+> +}
+> +
+>  static __maybe_unused int sci_suspend(struct device *dev)
+>  {
+>  	struct sci_port *sport =3D dev_get_drvdata(dev);
+> =20
+> -	if (sport)
+> +	if (sport) {
+>  		uart_suspend_port(&sci_uart_driver, &sport->port);
+> =20
+> +		if (!console_suspend_enabled && uart_console(&sport->port))
+> +			sci_console_setup(sport, true);
+> +		else
+> +			return reset_control_assert(sport->rstc);
+> +	}
+> +
+>  	return 0;
+>  }
+> =20
+> @@ -3521,8 +3546,18 @@ static __maybe_unused int sci_resume(struct device=
+ *dev)
+>  {
+>  	struct sci_port *sport =3D dev_get_drvdata(dev);
+> =20
+> -	if (sport)
+> +	if (sport) {
+> +		if (!console_suspend_enabled && uart_console(&sport->port)) {
+> +			sci_console_setup(sport, false);
+> +		} else {
+> +			int ret =3D reset_control_deassert(sport->rstc);
 
-The proper way is simply, if you need to describe your phy in DT, it 
-needs a compatible string. MDIO phys are not special.
+With this, is the reset_control_deassert() in sci_parse_dt() still
+needed?
 
-We really need to split ethernet-phy.yaml into common properties and a 
-specific schema for the compatibles it contains so that we can change 
-'additionalProperties: true'. That's one reason why all these properties 
-and typos didn't get flagged.
+Likewise, does the reset_control_assert() in sci_suspend() remove the
+need for the sci_reset_control_assert() devm action?
 
-If you don't want to retro-actively add a compatible, you can also do 
-something like this:
-
-select:
-  anyOf:
-    - required: ['micrel,led-mode']
-    - required: ['micrel,rmii-reference-clock-select-25-mhz']
-    - required: ['micrel,fiber-mode']
-    - required: ['coma-mode-gpios']
-
-That doesn't catch every case nor if you have a typo in the property 
-names.
-
-> Thanks for your comments!
-> ---
->  .../devicetree/bindings/net/micrel,phy.yaml   | 93 +++++++++++++++++++
->  .../devicetree/bindings/net/micrel.txt        | 57 ------------
->  2 files changed, 93 insertions(+), 57 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/net/micrel,phy.yaml
->  delete mode 100644 Documentation/devicetree/bindings/net/micrel.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/net/micrel,phy.yaml b/Documentation/devicetree/bindings/net/micrel,phy.yaml
-> new file mode 100644
-> index 0000000000000000..609bbd9729efe516
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/net/micrel,phy.yaml
-> @@ -0,0 +1,93 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/net/micrel,phy.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Micrel PHY properties
-> +
-> +maintainers:
-> +  - Ben Dooks <ben.dooks@codethink.co.uk>
-> +
-> +properties:
-> +  micrel,led-mode:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [ 0, 1, 2, 3 ]
-> +    description: |
-> +      LED mode value to set for PHYs with configurable LEDs.
-> +
-> +      Configure the LED mode with single value. The list of PHYs and the
-> +      bits that are currently supported:
-> +
-> +      KSZ8001: register 0x1e, bits 15..14
-> +      KSZ8041: register 0x1e, bits 15..14
-> +      KSZ8021: register 0x1f, bits 5..4
-> +      KSZ8031: register 0x1f, bits 5..4
-> +      KSZ8051: register 0x1f, bits 5..4
-> +      KSZ8081: register 0x1f, bits 5..4
-> +      KSZ8091: register 0x1f, bits 5..4
-> +      LAN8814: register EP5.0, bit 6
-> +
-> +      See the respective PHY datasheet for the mode values.
-> +
-> +  micrel,rmii-reference-clock-select-25-mhz:
-> +    description: |
-> +      RMII Reference Clock Select bit selects 25 MHz mode
-> +
-> +      Setting the RMII Reference Clock Select bit enables 25 MHz rather
-> +      than 50 MHz clock mode.
-> +
-> +      Note that this option in only needed for certain PHY revisions with a
-> +      non-standard, inverted function of this configuration bit.
-> +      Specifically, a clock reference ("rmii-ref" below) is always needed to
-> +      actually select a mode.
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    const: rmii-ref
-> +    description: |
-> +      supported clocks:
-> +        - KSZ8021, KSZ8031, KSZ8081, KSZ8091: "rmii-ref": The RMII reference
-> +          input clock. Used to determine the XI input clock.
-
-Don't repeat the clock name in the description.
-
-> +
-> +  micrel,fiber-mode:
-> +    type: boolean
-> +    description: |
-> +      If present the PHY is configured to operate in fiber mode.
-> +
-> +      Some PHYs, such as the KSZ8041FTL variant, support fiber mode, enabled
-> +      by the FXEN boot strapping pin. It can't be determined from the PHY
-> +      registers whether the PHY is in fiber mode, so this boolean device tree
-> +      property can be used to describe it.
-> +
-> +      In fiber mode, auto-negotiation is disabled and the PHY can only work in
-> +      100base-fx (full and half duplex) modes.
-> +
-> +  coma-mode-gpios:
-> +    description: |
-> +      If present the given gpio will be deasserted when the PHY is probed.
-> +
-> +      Some PHYs have a COMA mode input pin which puts the PHY into
-> +      isolate and power-down mode. On some boards this input is connected
-> +      to a GPIO of the SoC.
-> +
-> +      Supported on the LAN8814.
-
-Another reason to add compatible. You have per device properties.
-
-> +
-> +dependencies:
-> +  micrel,rmii-reference-clock-select-25-mhz: [ clock-names ]
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    ethernet {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        ethernet-phy@1 {
-> +            reg = <1>;
-> +            micrel,led-mode = <1>;
-> +        };
-> +    };
+regards
+Philipp
 
