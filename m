@@ -1,172 +1,164 @@
-Return-Path: <linux-renesas-soc+bounces-10529-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10530-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA83F9CDE0F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Nov 2024 13:11:33 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A37B9CE0A7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Nov 2024 14:51:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8C28F283599
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Nov 2024 12:11:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 42A66B2BCD7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Nov 2024 13:47:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C7091B6D0A;
-	Fri, 15 Nov 2024 12:11:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F9181CDA0E;
+	Fri, 15 Nov 2024 13:44:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="BdbMhenO"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="cZ6QPHRw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2311A18FDB1
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Nov 2024 12:11:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F355F1CD204
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Nov 2024 13:44:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731672684; cv=none; b=GrUfcFZn9XcVuSGbR0qFPYkQFnWpnUnbmUrDvQCG0djS6P9KfvlG0nqMh8UOmCSTvhhB2EOdBYowcE2QmphoSqSY4NkBtqgCs7fhDc4Tsx3JZ4JTkXl7JMxq9tjoDEUj1WkB9Nfm+wKc/1AAQjzx5Wz2Q8CcemJ5eEsb5c2n2lc=
+	t=1731678253; cv=none; b=YDK0zjR6NVUODrhrBnityVp8P2qDSYn22BLE3pTPIPYmxPd1DjoGOeTEkWbwkPDpBPXL4mw8KOw1zNt14NNdIczapfF3VuJElMwUP5uup7ZSIOkoNqkf4zK7LGdlrGdhDgIJRcKoeMgtOckKi7NLKRy2DB0rgZXbvnUXfATnMhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731672684; c=relaxed/simple;
-	bh=FaSLZA5wMvzyJDHBkqPnRryv+JsqVtjFtEN9K1XiMn8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r8W5UgKtkwcUxfRkbhECiZ3gsPJKHqCD1I54RaYqXRHlWAFtnm/XglKAj3efRAAWu0+7fqkB3h2n7/rvCKIC4QpmGKhwkVV+IdJq7z1vzf8pDzccNopy950e8Ap7+KCWQUNCG0AFv1ogSZMUyQCEvqel7Be0uhQRAwkSKxr0ZI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=BdbMhenO; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-539fb49c64aso2800325e87.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Nov 2024 04:11:21 -0800 (PST)
+	s=arc-20240116; t=1731678253; c=relaxed/simple;
+	bh=sc9CTLdGF8akXnnEYKS+FLO0ZLiAdZAgjw2Zn2YLkZY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qro+dLxpPOu7CtHszLayvMaxBMw5CtX4gi61KBdoUPsIyc3sTx46H8bwP6lHX/q9AD84ECW0r1MPGITR38DX87Yieiaq/jx7OO9Bw/T1okXFt5ElLhOmJ4F0U73ZIeB+vGAJv6Aa8OfFHWkDCAMFf3T2o6o+jPyBJTIt8AoSRag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=cZ6QPHRw; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-37d447de11dso548913f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Nov 2024 05:44:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1731672680; x=1732277480; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XQ+AdD1yknk1kRQgfBx7Kwn6AzJEYVnpkDhWcnwpCyw=;
-        b=BdbMhenOPPQueifMq8F4CjeKN+NoUIOIIjWz04dqAMF68yWBQv//o0MWyn7F93+ted
-         x1SiMakKlghKvYVVXxg3+QXo9PJQ4fFiBzeWYFoRDSRwREmFqafYegT/CbaWsc55J1Vq
-         Ysty57mT/etTcS2dphxYegvs7oowqtOV+KVKcbhzmJbT461dk0uynVUdZC2G5E4KZJyD
-         RBTYPNGju64q+BNFE5UQM7N+IAy2BqjlBMDkqRFCwvoIsbXxyIH9XoIIchUJyqcGmHUM
-         jSnQxMe3LS5uFo7BsjF3TgEMx2VtnGzewbHfYXyt7g9Gor3AGzun1a4O5AqfeViKC/r6
-         9wTQ==
+        d=tuxon.dev; s=google; t=1731678250; x=1732283050; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=I5y0VsPSk08U7p2tqXaJQIjq2ov8qkIzEO02XgcshlA=;
+        b=cZ6QPHRw2v9fRpfq/O9//sWF/iUaj9Tg7mO9Ecb7J6ul5a5b+RXxskLp/OOidKjuxh
+         lZnx4zRwmLEW8veeZ2koSbUbiP+PeGOVEWLSCT4wTUG+e4SJyy1IWTtJUA9AazGQvDnD
+         qdfKQdU+iqrAaSsg4KljC+3bO2tyOFObyOMGEhbqjQNwssbumBtqa8YFi4U8Wovo7F8x
+         EL5jhNDWgI06viNMpnXDvl2uXsAu2/bpUpyB884NPC2EAg1y7RYfTRHwNiaJf/ZiIAwn
+         247fP8Ewh/Ehb+4p3noMczXFuwPmHPTsYhLVYuL4L9hQUvFNOZHVJoB8j2BeUFZsE1PX
+         NyZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731672680; x=1732277480;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XQ+AdD1yknk1kRQgfBx7Kwn6AzJEYVnpkDhWcnwpCyw=;
-        b=hFGMlcJLnrALADrNE8JTUHUjE1hR3puGTKT5dcS+6naf2KcpZ796IPm5nBxz8uasga
-         QtpduIEPNbnzccLc6ECagBQvA17Ich+aQT7j5iPSG15Fqfo7F8c/4qQO7qFeRrIvJ6a9
-         1xoHRbqtEbFFQ1pGwQlq0ZJPAdPE5lMcMnplSAI4BC2rENA1Tp+uQCwF/fUGB3odYIB/
-         gD0nZs8zScGVM0IUyKQbbtnNI1lFS0Zfo6o9MoYK+LHbbIc1zZTsi0+xzTLBFsM5ojZM
-         ogDCZmZgP93GVMLBtvlWNzz6O8EX2fPOdomibqvRBvplW6RDpZ0/BSolgDk/Di6mVr6w
-         Ln8w==
-X-Forwarded-Encrypted: i=1; AJvYcCV2Mo0n3rmqz2s1sXFxHzR953i8unHGokOwVX2pp5TfsPsF03vQ1Fv9gvx8t6RUE7/XNtQM9ECGEKTW/K5hv9XUZw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxApZtU/Phw69ya92npg953UaF2L513EB70bHKtJ8iUtrAUZowC
-	ks+fIYnngApV7fLvxb5TrQJx1+1na8bMdXIfTf3YorHPeCNCZIUWi6UhfrhWkyY=
-X-Google-Smtp-Source: AGHT+IEumWSW2u3xlYJBaOGTCxOD92+UWLxyLa8a3IDnjbv/tYMlWpFgTL/S3Vntc2APqXqwBNhTaA==
-X-Received: by 2002:a05:6512:1294:b0:53b:1fd1:df34 with SMTP id 2adb3069b0e04-53dab3b16c1mr2002910e87.45.1731672679939;
-        Fri, 15 Nov 2024 04:11:19 -0800 (PST)
-Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa20df1c53asm173250366b.15.2024.11.15.04.11.19
+        d=1e100.net; s=20230601; t=1731678250; x=1732283050;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=I5y0VsPSk08U7p2tqXaJQIjq2ov8qkIzEO02XgcshlA=;
+        b=L6mJKuFwsSWGkgSyYkkieskW0cA7d61b5Gmsh+ZPcZSW3SqnLd20tydcVZGfZggYPQ
+         HVsvnd70FxCuubNM1AM4D62aCCuL4Lzkm52nNqJNJHyFJTPs/N8M6ltPC+ef3o+bIuR4
+         SMVfo5JvNnytrBtu6toKd/DqvDTAsLx4zFhckgmwKMeghNwtmGYGxrIgV11jnxLHpDQo
+         WEM6vFhDw4ynAVI4nDnxBL16hEXXhtoTHVt20WzHEYKfENSsJ2tDi1i5aYRyJ0fgDlOv
+         jtd+aCxo0RVD66SGszdDKF9ViXzBnyrdJPdi2D5OcTl+OC5jOa9HHsmenqe0B2Col9rr
+         PT5Q==
+X-Gm-Message-State: AOJu0Yyt1/5btcibWY6ClnDsUr4SSe4PPCubgqIuFe1d0BHBOl8YYFey
+	fP/ZF6klgE/QAkQyWPKb+gZaI0kKUl0TwYieJ38ZEWK99bzoJKzAk1JJiKpB2kI=
+X-Google-Smtp-Source: AGHT+IGiHMG9rqSM5bsbyK7EYOKL8gBTuBz9Z6IzT33QoBCun/jgIVK6Zf54KY6LeEKMlhUGRk6A4g==
+X-Received: by 2002:a05:6000:1866:b0:37d:4f1b:35a with SMTP id ffacd0b85a97d-382259020f2mr2182114f8f.3.1731678249494;
+        Fri, 15 Nov 2024 05:44:09 -0800 (PST)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.28])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3821ada3fc9sm4378016f8f.20.2024.11.15.05.44.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Nov 2024 04:11:19 -0800 (PST)
-Date: Fri, 15 Nov 2024 13:11:18 +0100
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Kan Liang <kan.liang@linux.intel.com>, 
-	Colton Lewis <coltonlewis@google.com>, Oliver Upton <oliver.upton@linux.dev>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	Prabhakar <prabhakar.csengg@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Chris Paterson <Chris.Paterson2@renesas.com>
-Subject: Re: [PATCH] riscv: perf: Drop defining `perf_instruction_pointer()`
- and `perf_misc_flags()`
-Message-ID: <20241115-829a0b75f783dad6dac037a5@orel>
-References: <20241115111345.17750-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Fri, 15 Nov 2024 05:44:09 -0800 (PST)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	mturquette@baylibre.com,
+	sboyd@kernel.org,
+	gregkh@linuxfoundation.org,
+	jirislaby@kernel.org,
+	p.zabel@pengutronix.de,
+	lethal@linux-sh.org,
+	g.liakhovetski@gmx.de
+Cc: linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	claudiu.beznea@tuxon.dev,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v3 0/8] Add support for the rest of Renesas RZ/G3S serial interfaces
+Date: Fri, 15 Nov 2024 15:43:53 +0200
+Message-Id: <20241115134401.3893008-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241115111345.17750-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 15, 2024 at 11:13:45AM +0000, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> With commit 2c47e7a74f44 ("perf/core: Correct perf sampling with guest
-> VMs"), the perf core now handles the functionality previously requiring
-> arch-specific definitions of `perf_instruction_pointer()` and
-> `perf_misc_flags()`. As these definitions are no longer necessary for
-> RISC-V, this patch removes their implementation and declarations.
-> 
-> This cleanup aligns the RISC-V architecture with the updated perf core
-> mechanism, reducing code redundancy and improving maintainability.
-> 
-> Fixes: 2c47e7a74f44 ("perf/core: Correct perf sampling with guest VMs")
-> Reported-by: Chris Paterson <Chris.Paterson2@renesas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  arch/riscv/include/asm/perf_event.h |  3 ---
->  arch/riscv/kernel/perf_callchain.c  | 28 ----------------------------
->  2 files changed, 31 deletions(-)
-> 
-> diff --git a/arch/riscv/include/asm/perf_event.h b/arch/riscv/include/asm/perf_event.h
-> index 38926b4a902d..bcc928fd3785 100644
-> --- a/arch/riscv/include/asm/perf_event.h
-> +++ b/arch/riscv/include/asm/perf_event.h
-> @@ -10,9 +10,6 @@
->  
->  #ifdef CONFIG_PERF_EVENTS
->  #include <linux/perf_event.h>
-> -extern unsigned long perf_instruction_pointer(struct pt_regs *regs);
-> -extern unsigned long perf_misc_flags(struct pt_regs *regs);
-> -#define perf_misc_flags(regs) perf_misc_flags(regs)
->  #define perf_arch_bpf_user_pt_regs(regs) (struct user_regs_struct *)regs
->  
->  #define perf_arch_fetch_caller_regs(regs, __ip) { \
-> diff --git a/arch/riscv/kernel/perf_callchain.c b/arch/riscv/kernel/perf_callchain.c
-> index c2c81a80f816..b465bc9eb870 100644
-> --- a/arch/riscv/kernel/perf_callchain.c
-> +++ b/arch/riscv/kernel/perf_callchain.c
-> @@ -46,31 +46,3 @@ void perf_callchain_kernel(struct perf_callchain_entry_ctx *entry,
->  
->  	walk_stackframe(NULL, regs, fill_callchain, entry);
->  }
-> -
-> -unsigned long perf_instruction_pointer(struct pt_regs *regs)
-> -{
-> -	if (perf_guest_state())
-> -		return perf_guest_get_ip();
-> -
-> -	return instruction_pointer(regs);
-> -}
-> -
-> -unsigned long perf_misc_flags(struct pt_regs *regs)
-> -{
-> -	unsigned int guest_state = perf_guest_state();
-> -	unsigned long misc = 0;
-> -
-> -	if (guest_state) {
-> -		if (guest_state & PERF_GUEST_USER)
-> -			misc |= PERF_RECORD_MISC_GUEST_USER;
-> -		else
-> -			misc |= PERF_RECORD_MISC_GUEST_KERNEL;
-> -	} else {
-> -		if (user_mode(regs))
-> -			misc |= PERF_RECORD_MISC_USER;
-> -		else
-> -			misc |= PERF_RECORD_MISC_KERNEL;
-> -	}
-> -
-> -	return misc;
-> -}
-> -- 
-> 2.25.1
->
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+Hi,
+
+The Renesas RZ/G3S SoC has 6 serial interfaces. One of them is used
+as debug console (and it is already enabled in the current code base).
+Series adds support for the remaining ones.
+
+Patches:
+-    01/08 - adds clock, reset and power domain support for the serial
+             interfaces
+-    02/08 - serial driver fix patch identified while adding RZ/G3S
+             support
+-    03/08 - extends suspend to RAM support on the serial driver for
+             the RZ/G3S SoC
+- 04-08/08 - add device tree support
+
+Merge strategy, if any:
+- patch 01/08 can go through Renesas tree
+- patches 02-03/08 can go through serial tree
+- patches 04-08/08 can go through Renesas tree
+
+Thank you,
+Claudiu Beznea
+
+Changes in v3:
+- in patch "serial: sh-sci: Check if TX data was written to device in
+  .tx_empty()":
+-- check the status of the DMA transaction in tx_empty()
+-- changed the variable name that tracks if TX occurred
+
+Changes in v2:
+- drop patch "serial: sh-sci: Clean sci_ports[0] after at earlycon exit"
+  from v1 as it was already applied
+- used bool instead of atomic_t in patch
+  "serial: sh-sci: Check if TX data was written to device in .tx_empty()"
+
+Claudiu Beznea (8):
+  clk: renesas: r9a08g045: Add clock, reset and power domain for the
+    remaining SCIFs
+  serial: sh-sci: Check if TX data was written to device in .tx_empty()
+  serial: sh-sci: Update the suspend/resume support
+  arm64: dts: renesas: r9a08g045: Add the remaining SCIF interfaces
+  arm64: dts: renesas: rzg3s-smarc: Fix the debug serial alias
+  arm64: dts: renesas: rzg3s-smarc-switches: Add a header to describe
+    different switches
+  arm64: dts: renesas: rzg3s-smarc: Enable SCIF3
+  arm64: dts: renesas: r9a08g045s33-smarc-pmod: Add overlay for SCIF1
+
+ arch/arm64/boot/dts/renesas/Makefile          |  3 +
+ arch/arm64/boot/dts/renesas/r9a08g045.dtsi    | 90 +++++++++++++++++++
+ .../dts/renesas/r9a08g045s33-smarc-pmod.dtso  | 48 ++++++++++
+ .../boot/dts/renesas/rzg3s-smarc-som.dtsi     | 25 +-----
+ .../boot/dts/renesas/rzg3s-smarc-switches.h   | 32 +++++++
+ arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi  | 25 +++++-
+ drivers/clk/renesas/r9a08g045-cpg.c           | 20 +++++
+ drivers/tty/serial/sh-sci.c                   | 79 ++++++++++++++--
+ 8 files changed, 288 insertions(+), 34 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a08g045s33-smarc-pmod.dtso
+ create mode 100644 arch/arm64/boot/dts/renesas/rzg3s-smarc-switches.h
+
+-- 
+2.39.2
+
 
