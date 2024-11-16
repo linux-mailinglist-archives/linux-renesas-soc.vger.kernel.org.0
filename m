@@ -1,87 +1,99 @@
-Return-Path: <linux-renesas-soc+bounces-10543-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10544-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C25319CF501
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Nov 2024 20:38:14 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E2619CFEE4
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Nov 2024 13:54:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 99502B27994
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Nov 2024 19:36:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 442C3287954
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Nov 2024 12:54:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 286801D79A5;
-	Fri, 15 Nov 2024 19:36:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="J7QM98w/"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C0F216631C;
+	Sat, 16 Nov 2024 12:54:34 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96ADE1D460E;
-	Fri, 15 Nov 2024 19:36:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DCD913D297
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 16 Nov 2024 12:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731699372; cv=none; b=RaBN+uGc76Y5E6WGGBQmdk5ydMEwFQzKieSTBS2ptRbawfBdOL5AT5H2s1AOz80Rmgv+NqtRjy6UuKpyPIaazdQcb4XSnQakae47FB2kBQFzWcYCiO/s07Vt2Ay+Ux83rZeaF5o6NpbmTedXAb9eKt001bt2tg11BltT1HNnPv0=
+	t=1731761674; cv=none; b=M0hrjhKpkyMCAJ1/5DMLWhnm+oJHvL8w1GzJq8+bggct7PEZiY9RhaSDsbAn5PTrV/x179xdspfYcql5e1GtaLjNKgLuOjS1Qoji1kwC/x0Ysr/3ZYpIyw1IJeNsIrK3moRFK2V2FYjv397fURZfmr9mQJ56+mkLQWmbBPwl5FE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731699372; c=relaxed/simple;
-	bh=cz/A7iUedMEu2NWll2rSLDlSAl+o8O16VpSMVDD5nkE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=mp4qgA+JAeb65bA58lDnHIimf491cupZAXbO+oLD91740eg3KKEESC93yNP+71k5OQvJzKWQdaUlNMI8iB5fOi1y3l6y+KHHeWyicP/oz5NZWff81MNNdT9kq1P1mQ8bcVxx1W/URRTvY4IGkrW8G27kOugFIHj70I9gQe1qwjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=J7QM98w/; arc=none smtp.client-ip=217.70.183.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0DCD5C0002;
-	Fri, 15 Nov 2024 19:36:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1731699366;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cz/A7iUedMEu2NWll2rSLDlSAl+o8O16VpSMVDD5nkE=;
-	b=J7QM98w/25F4MtlKNtxLsQPI4u5vENlBdvckAoKwFQrL2PZJlGmCcOtGbVBTSCj/A82CG1
-	HxO/JOnfnRpENTPVFaqi+b43kGDWXlWNTGADaSmFI73vJImNcY9tgYvRuQP9jUBdSZHMlP
-	iFI6CyTyWTysLUGenHJomJGkoYkyntXM95IMr8rqqSlbEOlWFwmoUSMQqwqfJ61A0tQpKM
-	3HUs7Prueutsl1UKDPcZdGeMJ5FeD9OcN6lphSF0VVQ41p/iIXtJB1U90X4QRkC1kkrrFe
-	+tU3mr6VSpdbUaJoiOPWAz70T3nTZLNj9O80xarxKT5TOSkt1lYzPTKgeeBpIA==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org,  Alexandre Belloni
- <alexandre.belloni@bootlin.com>,  Michel Pollet
- <michel.pollet@bp.renesas.com>,  linux-rtc@vger.kernel.org
-Subject: Re: [PATCH] rtc: rzn1: fix BCD to rtc_time conversion errors
-In-Reply-To: <20241113113032.27409-1-wsa+renesas@sang-engineering.com>
-	(Wolfram Sang's message of "Wed, 13 Nov 2024 12:30:32 +0100")
-References: <20241113113032.27409-1-wsa+renesas@sang-engineering.com>
-User-Agent: mu4e 1.12.1; emacs 29.4
-Date: Fri, 15 Nov 2024 20:36:05 +0100
-Message-ID: <87o72gnvbu.fsf@bootlin.com>
+	s=arc-20240116; t=1731761674; c=relaxed/simple;
+	bh=GHKDUC0JJsqzP2wpJ4CeYe+XcIRaLZvyq253na+4CX4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sjmo96yJipWExYu7oo6nJtsrkUiAzgkAGye0JC5JZIL/aDWHcZuapP8BgyGhy2BNY4mglY4L1vpZJIBBDgZ6dLAOuuhDZ1H+RUOHBgrH3a60sMh6QFAY2+uAn2iXBDBsVMOO165M6yz4wxhaMHwc+kjxOE8vAtofim4hb53UDB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.12,159,1728918000"; 
+   d="scan'208";a="229020473"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 16 Nov 2024 21:54:24 +0900
+Received: from localhost.localdomain (unknown [10.226.92.53])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 4548D40065CD;
+	Sat, 16 Nov 2024 21:54:18 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	dri-devel@lists.freedesktop.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v4 0/3] drm: adv7511: ADV7535 fixes
+Date: Sat, 16 Nov 2024 12:54:09 +0000
+Message-ID: <20241116125415.30799-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+Content-Transfer-Encoding: 8bit
 
-Hello Wolfram,
+This patch series aims to fix 2 bugs in the ADV7535 driver
 
-On 13/11/2024 at 12:30:32 +01, Wolfram Sang <wsa+renesas@sang-engineering.c=
-om> wrote:
+1) use-after-free bug in adv7533_attach_dsi()
+2) Drop unsupported single lane.
 
-> tm_mon describes months from 0 to 11, but the register contains BCD from
-> 1 to 12. tm_year contains years since 1900, but the BCD contains 20XX.
-> Apply the offsets when converting these numbers.
->
-> Fixes: deeb4b5393e1 ("rtc: rzn1: Add new RTC driver")
+Changes in v4:
+ - Updated commit description for patch#1.
+ - Dropped host_node from struct adv7511 and instead used a local pointer
+   in probe(). Also freeing of host_node pointer after use is done in
+   probe().
+ - Added link to ADV7533 data sheet.
+ - Collected tags
+Changes in v3:
+ - Replace __free construct with readable of_node_put().
+ - Dropped single lane support from bindings and driver.
+changes in v2:
+ - Added the tag "Cc: stable@vger.kernel.org" in the sign-off area.
+ - Dropped invalid Mail address Archit Taneja <architt@codeaurora.org>.
 
-Should probably be Cc'd to stable?
+Biju Das (3):
+  drm: adv7511: Fix use-after-free in adv7533_attach_dsi()
+  dt-bindings: display: adi,adv7533: Drop single lane support
+  drm: adv7511: Drop dsi single lane support
 
-Reviewed-by: Miquel Raynal <miquel.raynal@bootlin.com>
+ .../bindings/display/bridge/adi,adv7533.yaml  |  2 +-
+ drivers/gpu/drm/bridge/adv7511/adv7511.h      |  6 ++---
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c  | 22 ++++++++++++++-----
+ drivers/gpu/drm/bridge/adv7511/adv7533.c      | 22 +++++++++----------
+ 4 files changed, 31 insertions(+), 21 deletions(-)
 
-Thanks,
-Miqu=C3=A8l
+-- 
+2.43.0
+
 
