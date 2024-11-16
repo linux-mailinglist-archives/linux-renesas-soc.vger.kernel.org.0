@@ -1,67 +1,63 @@
-Return-Path: <linux-renesas-soc+bounces-10545-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10547-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF6329CFEE8
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Nov 2024 13:54:40 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC91F9CFEF2
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Nov 2024 13:59:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 97AC11F21F00
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Nov 2024 12:54:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7AF141F229E1
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Nov 2024 12:59:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 169211922C6;
-	Sat, 16 Nov 2024 12:54:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73414191F77;
+	Sat, 16 Nov 2024 12:59:50 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0001813D297;
-	Sat, 16 Nov 2024 12:54:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3416BA47;
+	Sat, 16 Nov 2024 12:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731761678; cv=none; b=lCgCo+YOU6FtxWeO6y9RDHoYwFL5uPIVeNhrVT8xEyS3dXuA7T0V73rbcQbFVkKP8OE8dpRcjVPw2ekZNnyOE7l7JINE2RgkTwt+SPLBt7aFxhbfQnwcM0KPIy3QQyzxPo6GFAFQWKJZD3EXuNyNK7+Qls3vtxFyfoW4cX6hkNg=
+	t=1731761990; cv=none; b=L8/9JuimwhnuBf5qZ58cYmsG6CH+3PiRCG3bYp1/gVBTqF5yM0sYPdyC3JdkaQiSh6DAnjboSsyM0EJsJeAeeljKK3eTzOgtakEAp+Tw5GFoQK8htiAWkWE/FhhN66FQSiW1lDhQm3GRo7Bmwp49RV1eCzje+e+cItmsrClk07A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731761678; c=relaxed/simple;
-	bh=PpJHAODY4ioWo+gkv8tE+1ctqgG9dNp62VHGK64gGDg=;
+	s=arc-20240116; t=1731761990; c=relaxed/simple;
+	bh=JDxl1KCthDGbEtSRq8k2hqZqo9b5GOkmzcbdHO4VwaI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=olx8juhUogmjjPT+PdWPTeg4j3xxhy2B8aaAOAeCJgCPFDuD2gJFLjfAQNNb/t/Q/aZLut7qB+3g0cBegBK71J9nQBKCY1+CxSkFu2KXVMwqb+PhRwdK8FrpLHsk0nnncMn8IiVh28rEGPi1K2X23dMeQxO1lKLcONJkaGsdRfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+	 MIME-Version; b=b12q5yCEnyT8SlRfWclwUx7Op6vc29Tpbrbnp1zp++jPrQS/Nef88xa1x9JTpQlwPEFadCfJ673TcqU+ikbk9mPh8YAbMbrczXO+VIFkevWp4SlBmYXCryJ32RhRmI4a/eiafNxf7BFRXVawaIP0BYVpYPwrPkVqhVMWStxZGZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 X-IronPort-AV: E=Sophos;i="6.12,159,1728918000"; 
-   d="scan'208";a="229020477"
+   d="scan'208";a="225033480"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 16 Nov 2024 21:54:35 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 16 Nov 2024 21:54:45 +0900
 Received: from localhost.localdomain (unknown [10.226.92.53])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 13E6640065CD;
-	Sat, 16 Nov 2024 21:54:28 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 2A5C140065CD;
+	Sat, 16 Nov 2024 21:54:35 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
 	Neil Armstrong <neil.armstrong@linaro.org>,
 	Robert Foss <rfoss@kernel.org>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
 	Jonas Karlman <jonas@kwiboo.se>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>,
 	linux-renesas-soc@vger.kernel.org,
+	Hien Huynh <hien.huynh.px@renesas.com>,
 	stable@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
 	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: [PATCH v4 2/3] dt-bindings: display: adi,adv7533: Drop single lane support
-Date: Sat, 16 Nov 2024 12:54:11 +0000
-Message-ID: <20241116125415.30799-3-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v4 3/3] drm: adv7511: Drop dsi single lane support
+Date: Sat, 16 Nov 2024 12:54:12 +0000
+Message-ID: <20241116125415.30799-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241116125415.30799-1-biju.das.jz@bp.renesas.com>
 References: <20241116125415.30799-1-biju.das.jz@bp.renesas.com>
@@ -74,40 +70,44 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 As per [1] and [2], ADV7535/7533 supports only 2-, 3-, or 4-lane. Drop
-unsupported 1-lane from bindings.
+unsupported 1-lane.
 
 [1] https://www.analog.com/media/en/technical-documentation/data-sheets/ADV7535.pdf
 [2] https://www.analog.com/media/en/technical-documentation/data-sheets/ADV7533.pdf
 
 Fixes: 1e4d58cd7f88 ("drm/bridge: adv7533: Create a MIPI DSI device")
+Reported-by: Hien Huynh <hien.huynh.px@renesas.com>
 Cc: stable@vger.kernel.org
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
-v3->v4:
- * Added link to ADV7533 data sheet.
- * Collected tags.
-v3:
- * New patch.
+Changes in v4:
+ - Added link to ADV7533 data sheet.
+ - Collected tags
+Changes in v3:
+ - Updated commit header and description
+ - Updated fixes tag
+ - Dropped single lane support
+Changes in v2:
+ - Added the tag "Cc: stable@vger.kernel.org" in the sign-off area.
+ - Dropped Archit Taneja invalid Mail address
 ---
- .../devicetree/bindings/display/bridge/adi,adv7533.yaml         | 2 +-
+ drivers/gpu/drm/bridge/adv7511/adv7533.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml b/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml
-index df20a3c9c744..ec89115c74e4 100644
---- a/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml
-@@ -90,7 +90,7 @@ properties:
-   adi,dsi-lanes:
-     description: Number of DSI data lanes connected to the DSI host.
-     $ref: /schemas/types.yaml#/definitions/uint32
--    enum: [ 1, 2, 3, 4 ]
-+    enum: [ 2, 3, 4 ]
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+index 5d0e55ef4028..51ddd935b568 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+@@ -174,7 +174,7 @@ struct device_node *adv7533_parse_dt(struct device_node *np,
  
-   "#sound-dai-cells":
-     const: 0
+ 	of_property_read_u32(np, "adi,dsi-lanes", &num_lanes);
+ 
+-	if (num_lanes < 1 || num_lanes > 4)
++	if (num_lanes < 2 || num_lanes > 4)
+ 		return ERR_PTR(-EINVAL);
+ 
+ 	adv->num_dsi_lanes = num_lanes;
 -- 
 2.43.0
 
