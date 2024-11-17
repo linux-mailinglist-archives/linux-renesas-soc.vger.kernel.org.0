@@ -1,75 +1,75 @@
-Return-Path: <linux-renesas-soc+bounces-10556-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10557-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 523F89D04D9
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Nov 2024 18:37:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 826D09D04EC
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Nov 2024 18:59:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C0DD51F21ED4
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Nov 2024 17:37:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 145701F218D7
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Nov 2024 17:59:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31FFD17C200;
-	Sun, 17 Nov 2024 17:37:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8580E1DA313;
+	Sun, 17 Nov 2024 17:59:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HLD67UOQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c6mF8prQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7DE15C0;
-	Sun, 17 Nov 2024 17:37:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B92335B5;
+	Sun, 17 Nov 2024 17:59:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731865066; cv=none; b=h2oewcGgZo2O/mYdmCZD91YgaVV8eu+SGfZYV3DHY7x4uoWmRMS2PtEROTW0wcPbw8chQMERQFCVRn/SyiU1BmIKyanT5WatB/z2cMFlu1oD1/LU421b0OqQ0TlOFAwV29zatvz0pARdo2ruaJIGfXn887n09DHE32yofhlnQJ8=
+	t=1731866382; cv=none; b=uc4pk8UeUYMG+vc46hFs2yGCX46DfiSFA7lJaZ4lphiOHCqsAwiMvdKEn6+IBsTK2OiN3WED6fZQ690U7ZSuPgdc1EEo8Fm68PkT7k2k6itCbSybRXQ8v8gP8jBXE7JTSg9PbSQB18Uxltl+bleSqllag0w3TVTcMsa5yTRDGrg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731865066; c=relaxed/simple;
-	bh=1L0XnKz/Bgs59CaVEtu2B7ERAAzylQiFjbdPs2G3uUA=;
+	s=arc-20240116; t=1731866382; c=relaxed/simple;
+	bh=XU3f8iOzysWsUXprwUt22rCfRKOt8VzIxFdJ24lS6Ew=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=lmM3gNKCbOnV/2pc177UT4FsVhFQKMC99Ld09l64WGk46QPybl4jxmEiJ5jwWzlKkoFZhsRTneyyOBZqzUDbRPxnNToFPEqmO6zr85EVzbTtYEus12/SdaoKlCcJi9BOTTgQTC8WhTTWA2h/QljopnOa5O2yR/t5oJ5Kml89gdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HLD67UOQ; arc=none smtp.client-ip=209.85.221.43
+	 Content-Type:MIME-Version; b=RJnVQgzMNIqTTNVhaSjDv5ppffD/OfLpqdvJ9X/UKIImTPecnsHQ3I1MVminStIhHssDr+xOHNNlhNPTI7Iucn5MzDBrUmzPUegM/789L6Og9tNtJl+JiZKUBpnY175m8i/2+uvCQUW6DS72ndppwbVJU7z7NcJaa1c9ZoNvss8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c6mF8prQ; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3822ba3cdbcso1332333f8f.0;
-        Sun, 17 Nov 2024 09:37:44 -0800 (PST)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-38230ed9baeso1148642f8f.1;
+        Sun, 17 Nov 2024 09:59:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731865063; x=1732469863; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1731866379; x=1732471179; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=1L0XnKz/Bgs59CaVEtu2B7ERAAzylQiFjbdPs2G3uUA=;
-        b=HLD67UOQPgx2zAjS5tMI4m9TAifnFXrzNFlmqBf10BgtsDjaFmg6+up6J2Z6PUJ+69
-         LSyXk3FT/S05eYtVZR5E84NaELh/96TKb47Pkf64JBQUVARcMT6ui3meI3Jq8uFpRwjz
-         4TsFuSvfrlH0/CxyRN5qgk7SkjlCFFdcLv23Sj31MNtTRGv4rL/iJi2hHY+khaWfSjtc
-         6MRjDR8idgFv5eEsKulnBV5aJ0sJ+S29yBMT664emGvOKRrtO4dZFiMmLCQnu659GyQu
-         VFq2dDsv+hIYkBl1Xyw/jd2oc3+unsbIwwsibU0FIz1DQM8umOUMN156PQ6WqxSSwie6
-         Icqw==
+        bh=XU3f8iOzysWsUXprwUt22rCfRKOt8VzIxFdJ24lS6Ew=;
+        b=c6mF8prQVJxyhMtg7ExPwAc1LAs5scaC/zW4OqFFswv51UfefwxH4L5NnLenLwuR5N
+         bMn/Bb/MHk8rmqH6nPsniualcfnlk0ZrHAPMXObrLszxmmhsqemuYTjcZ4o+pTmSRVnu
+         9zTNleOFJ+vxwcCwrxgyhIJzSZ/QPIE5qEyx4xZEA90neta0X5VijNE2m5pZpf1elyTF
+         Z/viGVS2TKuhJscy1pNKLGKS1WfocoCHvt96S9/5LSwKs4mprE2YlQcMHLq2heNYlAia
+         Q4ELii9KGWMKbZuU8tExOxQc+obkIIYy7Ru1WXJ0DRPit38H5XYcuPkikP2aEVpQQRzT
+         Xyag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731865063; x=1732469863;
+        d=1e100.net; s=20230601; t=1731866379; x=1732471179;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=1L0XnKz/Bgs59CaVEtu2B7ERAAzylQiFjbdPs2G3uUA=;
-        b=dwGdGPJZwm25YNE8QtgEk2aGiDQSADx97s0OyDsOQLOnqqAnd4gKviCjOaVmrJwfsf
-         Ta/WLIgRxFh3eYvrk5Eq+kXhMcN89Fihi648G82a6tATKKzRhzEjqAJbXUrVK8fdU/SZ
-         l/K4ri/D1WaDThPEXYAiBBpc5G4SWqRWyHObKtpmV/HWLSwoQ5PC3PYjVLfTjttvNM5I
-         K9K57g9fEXpja/sgf8KDg/CHaB4s+jdqJFTVomGq/w6/FiC3um1D+Z9n8pQDdkO/LnPZ
-         opRA83+XKMqlO6fC6QZaDeQ5X8lGcZ3KMOxKCDqrS9525OjuVFs+ZoV/oPEcYLgAeUqK
-         T+9g==
-X-Forwarded-Encrypted: i=1; AJvYcCV1AJ174LomjRjgFjIypGDyi6ou0P57mkpXhacEIJn0yMHaNDo6N/qAQxc18JemfRHTTnnWAfFp@vger.kernel.org, AJvYcCVvKGnBpQe3TU+oH3A5JrvqdU1MFWAjTSb4HAWqaRg1Ibupdldtjv1VTy+HAmwBf7+8ujaVE1TSYD6CsnAcEhJ82Bs=@vger.kernel.org, AJvYcCW3UePuEdNa3ts0Y5YM/9cJ0nVMSKFMKKQi7im/bEQ1mHLMyfudK32Q9k6gE4i46NbhM34erVnXOtGPvqYF@vger.kernel.org, AJvYcCWw+d6yNv5ubeFBKe3rP7Dv2nqwJ9u7P6tM6gqoVFpvgyThCO1BZex8ygMDWQyBu+N3HgnLxKnhDYamuAeGOnunD6g=@vger.kernel.org, AJvYcCX6tfS0ARVk+F5o+9ysNh/A88uIc+kYFH7gzF5j6iYB+RDKqxmIPDUaT6KhdMlqK15dhxAQjIE3vywF7GmE@vger.kernel.org
-X-Gm-Message-State: AOJu0YxA5PWTbPhk2LsuP4deMThuja0TfOx8J5s+UKj6C1Pg9zSEqR2A
-	VmQb0SdEhcvStllHVv8DpWDl7L9zsvVNFfHZL6TcYXBlivICk1xk
-X-Google-Smtp-Source: AGHT+IE/XAQXxkHFy6KvWJLP0RKL+rq45e6J5Y+YNFyBIw8NtuYv2A6BeGdBO5NUD9ysHPfwh/qb3g==
-X-Received: by 2002:a5d:598c:0:b0:382:22d7:b87 with SMTP id ffacd0b85a97d-38225aafdbdmr6163594f8f.58.1731865062450;
-        Sun, 17 Nov 2024 09:37:42 -0800 (PST)
+        bh=XU3f8iOzysWsUXprwUt22rCfRKOt8VzIxFdJ24lS6Ew=;
+        b=m04BeNMJauHT+F8Bs3O1erfRJvKJrpbA8DU5kd8o/WtmNXkJmcZ6zR0daEGxes8ZYh
+         LIGdKSfy4lrc3nVOCicxAaN9WcXMgEhHvN9quxat4RsXpZkMAamv1Tb+nuyWSNL39Uc4
+         ZrWf46uNtgXYhX54YdJn+RcAFua3kd1SHN4No+glGnNPcsWtLd8Jfrj8FfBbfUk3iipJ
+         83v/EGY7N3affDUxp8gDfaHBna6/f2vGau3SLcXh9JfPHOPB64oyMIzFS68OkLEYYzTG
+         yaXxj8H1OTEjuHZPDhFnV04U1s2tR86SNLL0RS8qLt/GHoUD1tjTiEgx0fbcd034SWn8
+         1uxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUbim2VE57h/hph03FEpEhzqZf+xP0veftl2fWTrve+9fn7IzE3r1x8BCmMP5vY584bIcpL8Dm5FjF1BSWUYOWxA6E=@vger.kernel.org, AJvYcCWzAC3j4fXeqmo4/tpifdj5TBNyvxW5OPQGtpnlS0TE31UqClGaOb4f8WtZ5NAJjLzlj1xTRclczxyq59Wb@vger.kernel.org, AJvYcCX/UmF95vXiGVL8nv6dZXK0dZ+5+M7TZtRHxXiFXl7xUMVV39V2UwYk+PcrCa3GpjhUlW2/HZUanbLOS+4LrO3zNk8=@vger.kernel.org, AJvYcCX3FudyzHT8hnZCWn31ZIpA3YarXl7pU4bJzvHWVrEVk/af2KB8HEfNG5cNOpf79gdI0KesxGI6@vger.kernel.org, AJvYcCXcVg+B2wSvAYGEJhqcl1U5ssUkjx4D0ZGEOAgj+Ia0mAz3blvlTk1PCaxQY8JbnZfJ9VgJvvI12ZfHsa8l@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEl2cUg7hs9mkYg7TjVQfCKl+u5OCICcyz06UeO9/Nzq2rQUff
+	GfQYIofsltuvNPGWDdwqyuZz+daqiVmxy4S2I5G9QOAjFXBsExp6
+X-Google-Smtp-Source: AGHT+IHqbrlLtaP5Yd3T+27nHAETyVBfr+n6kx9rmAYJRbEsnbFwXaqkEA83aORA115kLsYVwdaKWw==
+X-Received: by 2002:a05:6000:2a7:b0:382:4485:2db2 with SMTP id ffacd0b85a97d-38244852eacmr1792870f8f.1.1731866377467;
+        Sun, 17 Nov 2024 09:59:37 -0800 (PST)
 Received: from p200300c58705a8eb1a556f9921c6cbbb.dip0.t-ipconnect.de (p200300c58705a8eb1a556f9921c6cbbb.dip0.t-ipconnect.de. [2003:c5:8705:a8eb:1a55:6f99:21c6:cbbb])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-382417f33b8sm2435994f8f.45.2024.11.17.09.37.40
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3823e0c910asm3389235f8f.39.2024.11.17.09.59.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Nov 2024 09:37:41 -0800 (PST)
-Message-ID: <3bc8ab6266c7a1c54bbc0d6eca53019734029cbb.camel@gmail.com>
-Subject: Re: [PATCH 2/5] scsi: ufs: qcom: Only free platform MSIs when ESI
- is enabled
+        Sun, 17 Nov 2024 09:59:37 -0800 (PST)
+Message-ID: <e96fe03c6515e65f91c2524181ffc48815c2831f.camel@gmail.com>
+Subject: Re: [PATCH 3/5] scsi: ufs: pltfrm: Disable runtime PM during
+ removal of glue drivers
 From: Bean Huo <huobean@gmail.com>
 To: manivannan.sadhasivam@linaro.org, Alim Akhtar <alim.akhtar@samsung.com>,
   Avri Altman <avri.altman@wdc.com>, Bart Van Assche <bvanassche@acm.org>,
@@ -89,12 +89,12 @@ Cc: linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
 	linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org, 
 	linux-renesas-soc@vger.kernel.org, stable@vger.kernel.org
-Date: Sun, 17 Nov 2024 18:37:40 +0100
-In-Reply-To: <20241111-ufs_bug_fix-v1-2-45ad8b62f02e@linaro.org>
+Date: Sun, 17 Nov 2024 18:59:33 +0100
+In-Reply-To: <20241111-ufs_bug_fix-v1-3-45ad8b62f02e@linaro.org>
 References: <20241111-ufs_bug_fix-v1-0-45ad8b62f02e@linaro.org>
-	 <20241111-ufs_bug_fix-v1-2-45ad8b62f02e@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	 <20241111-ufs_bug_fix-v1-3-45ad8b62f02e@linaro.org>
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -103,37 +103,6 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Mon, 2024-11-11 at 23:18 +0530, Manivannan Sadhasivam via B4 Relay
-wrote:
-> Otherwise, it will result in a NULL pointer dereference as below:
->=20
-> Unable to handle kernel NULL pointer dereference at virtual address
-> 0000000000000008
-> Call trace:
-> =C2=A0mutex_lock+0xc/0x54
-> =C2=A0platform_device_msi_free_irqs_all+0x14/0x20
-> =C2=A0ufs_qcom_remove+0x34/0x48 [ufs_qcom]
-> =C2=A0platform_remove+0x28/0x44
-> =C2=A0device_remove+0x4c/0x80
-> =C2=A0device_release_driver_internal+0xd8/0x178
-> =C2=A0driver_detach+0x50/0x9c
-> =C2=A0bus_remove_driver+0x6c/0xbc
-> =C2=A0driver_unregister+0x30/0x60
-> =C2=A0platform_driver_unregister+0x14/0x20
-> =C2=A0ufs_qcom_pltform_exit+0x18/0xb94 [ufs_qcom]
-> =C2=A0__arm64_sys_delete_module+0x180/0x260
-> =C2=A0invoke_syscall+0x44/0x100
-> =C2=A0el0_svc_common.constprop.0+0xc0/0xe0
-> =C2=A0do_el0_svc+0x1c/0x28
-> =C2=A0el0_svc+0x34/0xdc
-> =C2=A0el0t_64_sync_handler+0xc0/0xc4
-> =C2=A0el0t_64_sync+0x190/0x194
->=20
-> Cc: stable@vger.kernel.org=C2=A0# 6.3
-> Fixes: 519b6274a777 ("scsi: ufs: qcom: Add MCQ ESI config vendor
-> specific ops")
-> Signed-off-by: Manivannan Sadhasivam
-> <manivannan.sadhasivam@linaro.org>
 
 Reviewed-by: Bean Huo <beanhuo@micron.com>
 
