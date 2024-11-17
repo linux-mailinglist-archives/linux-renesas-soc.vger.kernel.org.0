@@ -1,320 +1,361 @@
-Return-Path: <linux-renesas-soc+bounces-10553-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10554-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 420A49D01DF
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Nov 2024 03:11:07 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E7829D04C3
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Nov 2024 18:14:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9A0CD2850A8
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Nov 2024 02:11:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D60B01F21EB5
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Nov 2024 17:14:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38937B674;
-	Sun, 17 Nov 2024 02:11:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DJP9a1Kq"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CFDF1DA631;
+	Sun, 17 Nov 2024 17:14:27 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C042322E;
-	Sun, 17 Nov 2024 02:11:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.18
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731809463; cv=fail; b=or3XLBcwOBkk/mzj/vvHS5dIUb/v/axkbs4h1G7EMM0buTAvN/MH1zcsYTRSDQP5Se5wTHhkIzDtWjp0x3dvr/qPGCVZfLoAEoYgF18D4fm7VeclbqDsoT0HJCQHnjwFFJWhH9NC3PO43ikYLyqq6d+NxmSEY4b0ZQDyneTV4+A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731809463; c=relaxed/simple;
-	bh=YOVqplRLCirHE9xfK38lBnhKsf7xbWXu+Eln4RGkkco=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=oCs4FoayCLmy3ZXkR0W6W0Fz0eSiIDrzwQ5L/28cm/Aek8TpLLpJPjMR6umRRtrFjKv72dExAUmMv8Okmwz8+y2OvM1hfwmYZLdo9tEelRLZidAPWSrFWeSSeJ475cGK/DFsLgGDsovhQGRg3U2myiUWdmjb1sDJNBWcSEA1jUQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DJP9a1Kq; arc=fail smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731809461; x=1763345461;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=YOVqplRLCirHE9xfK38lBnhKsf7xbWXu+Eln4RGkkco=;
-  b=DJP9a1KqsoNhTYFUIKiF86r7S0YfiP+41KEE39GTt2QEFAzNR6Zs7lg7
-   PUZDV1eMbD8Bk27B9pMfRUQY3DaFDobvOYxNZmfK74om2ULB7AB7sGYQT
-   fGfv4DlIxemM/jQCJd9gQULuhtC9YP7NyIZbiZl0Mevn5LcmGOUPqDLD6
-   OKFkezmnX2RMdYJQLg2TZKGdD62qiZLmMemzUswmLjhPtSzJQP3Rm5+2M
-   iB2FACAm2wPqjRaxsPCJY7CF/XKAHw9/xSYJ6+CRlP+9Drhjd0kFTXvbP
-   1Ey9FHgNB2brIPoqydIupT+9h2J17s9EWVZjKOeHsGk0g8HSjnds7iI1i
-   w==;
-X-CSE-ConnectionGUID: ow0W+Dp3T32XDaD8IQPUxg==
-X-CSE-MsgGUID: 8LzJ4crESuyd5kjPsrTWNg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="31171307"
-X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="31171307"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 18:11:00 -0800
-X-CSE-ConnectionGUID: hkJl/Bk9T6G//HrQOT1u6A==
-X-CSE-MsgGUID: Y+QwqCO2To2MSj10ylxlWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="93358508"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 16 Nov 2024 18:11:00 -0800
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Sat, 16 Nov 2024 18:10:59 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Sat, 16 Nov 2024 18:10:59 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.43) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Sat, 16 Nov 2024 18:10:59 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aZEUrCLqgnc9e1DYeT4endq9Xr8XjhZAEa/i/WV+Z6fC/DcFkpuSjcufEYv9Td4J+t7LD2scUDYIr/jviNY5X7lmazHWvdqmnyZ28ThWOPa+SMt9j6aEk/U6Gtb2w/me2nTyTPHoT3AyXCsEKDMJT0FygSuDQxgPG3wc5ODZfE/Z6JG91do2JN01xN9mH4y5e4wGd75AO29Jlg/ZOef84+Vj9u38yyw0/Qx49lOLdQCV33YqFfzZQdf+g6mR1roLbgHPjkEefi0OaikACHNAT+AbiJkG0O8/HcWAPTZZz/l0BxrQc3NTj/6sGHSiqWgjEyJm+d/j/PamG9X5mlkZhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Yj8xQyh0ULkwjWmVXvDi1iaIk7wllww3Y7faqqYVs8A=;
- b=ogjeA0Six0+4caPvBXXblk52hcp6OSSixNxWPJ6kH0nbLVYKgvnojeGljstONBeWSuBxGDLPvnsDRC1hXAv6Jcn6MdMvRYBg9XlTtoGNLNLdju7+qkt8ZC31NXha0Hkek2Dvj6KyG0ZrQPl4ATErJXUpsSV87fGPSxnBYIs+tYAt8BWcTJXx7SN9Z+8vmx2M9kENOaXxsAdXxprXxuh/6ci1ceG1Jkxd43g7BwTEGSZVWt1gFz6HEnpyVBqxSIqxdxQdWRTvSPPJkK7VALcLFObdANsGUVb5BGdqNKmOdSpsHRshW7hr+ZOFzuVthSAHhMD3f/LUN8X1CPlonRN5wg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
- by DS0PR11MB6400.namprd11.prod.outlook.com (2603:10b6:8:c7::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8158.19; Sun, 17 Nov 2024 02:10:51 +0000
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e%7]) with mapi id 15.20.8137.027; Sun, 17 Nov 2024
- 02:10:51 +0000
-Date: Sun, 17 Nov 2024 10:10:43 +0800
-From: Philip Li <philip.li@intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-CC: kernel test robot <lkp@intel.com>, <linux-renesas-soc@vger.kernel.org>,
-	Nobuhiro Iwamatsu <iwamatsu.nobuhiro@renesas.com>,
-	<oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, Helge Deller
-	<deller@gmx.de>
-Subject: Re: drivers/video/fbdev/sh7760fb.c:363:31: sparse: sparse: incorrect
- type in argument 3 (different address spaces)
-Message-ID: <ZzlQo3KpJ9wYn6WX@rli9-mobl>
-References: <202411082014.qSQ9A5ho-lkp@intel.com>
- <66ab2ee4-bef3-4969-a14e-7804b62dca78@infradead.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <66ab2ee4-bef3-4969-a14e-7804b62dca78@infradead.org>
-X-ClientProxiedBy: SG2PR04CA0160.apcprd04.prod.outlook.com (2603:1096:4::22)
- To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B113A1CD;
+	Sun, 17 Nov 2024 17:14:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731863667; cv=none; b=In9AHkg8E1wxhUTpOzPOlWDPPWBskET5IvuD5LuqDx8KIfpa02WtrAA1QpkUJzhr1gnsnUquWGyh8FXbGCcVnXpbB08PreMJY/3MKyGgWnEtBKj+7kvA79W92hesbt05BHRU5wGdkvPSGppjS7+JJu93jBRTReLNhzZwuYGEmKY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731863667; c=relaxed/simple;
+	bh=a8GyKpn0jcOgx76uziTiiFRmYGPv9um3ohgxcewyRkg=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
+	 In-Reply-To:Content-Type; b=YqiDNXagsl7FfXVvLD7sJ5TJkN9P3jB9ex8H8yEhFZ5swg8GZWTHovAz0dVgQL5QeqMXdaVY4UyPr680Fdcm8DmXJrMpMFsAov0hx64bksy1pDVBmJPB6r9L3E4gstEoCcKgJw0X88Ek5orZRyHVEzNcL4rBc1oVoMfoJvj3UGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.2.102] (213.87.152.88) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Sun, 17 Nov
+ 2024 20:14:12 +0300
+Message-ID: <c847e042-cc66-462e-a857-d1d9e500a081@omp.ru>
+Date: Sun, 17 Nov 2024 20:14:11 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|DS0PR11MB6400:EE_
-X-MS-Office365-Filtering-Correlation-Id: 589a6c7a-6d1d-45ea-6736-08dd06ad0eec
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?eSr2noNatwdbOl0tBJD0tA05PRSwfr7eHKwVZ8UNLStEZwLul00mdGwvL2eE?=
- =?us-ascii?Q?U2qLTee4olK01QC1DSaiu6BWRLhPzopCpXe8KlweWU7mfwhLlDo2yII+O7fw?=
- =?us-ascii?Q?s47Hgb/4HfFGNH+vanefNNHZWaGVlHLYC6q+3Dr8ajYqaxiZC+h2vksjcDiH?=
- =?us-ascii?Q?kyFRBfocuRsu2ufKcRI0gyOGzW/wmG/+M2yRgpf1sj68FRcJ4IbVCk8ksLxY?=
- =?us-ascii?Q?hKsZT5OijzBd/z5fdaIhneYEhCbmf/+daTbCiAEE2vUG/LC3gplJRDbU2NgF?=
- =?us-ascii?Q?fpsucKn/E79xUYtM88JlLag6vKHbQNhjAd3lxa3cBR3yJD6RBItYT7IBgtMl?=
- =?us-ascii?Q?i7stHeL+XV2/G8dg4A2qrM+y9fHYdA1CbSdqIDdDl7vRSetW0I7KjZR6XlcS?=
- =?us-ascii?Q?wkVXUrEdt3CaUe1JMwkmD6j5g96DpLQ1F7DmQ52YAsuBqALBukANnnSAoM9X?=
- =?us-ascii?Q?ksN0Glt213GwxMRiUU4vC2x7gBo/nF92IiTVNLgexyP/hMRCsI6n7iIy+Ng3?=
- =?us-ascii?Q?21LNCrO1YCMrdefSg53ANS4PgGPootHNLC/TaVm3bm8GbkTYcBOFlssVnxkV?=
- =?us-ascii?Q?djI1L0X/AygPIv+iLtIYhqGx3GGZGhK2zo+J3hbGKFZt8H1Br6buZ1V6e7MO?=
- =?us-ascii?Q?l0C9F/KuaPH4WrzNCcTijx072onxB7hkzVo9qpHK6DpHhI+hRoGn1ExUPVWD?=
- =?us-ascii?Q?oU+SQ9SykKoruUMnJ7m5w8w6HtVSqCrxWFtR9cquHa5czuRl9nhbR5WXfC56?=
- =?us-ascii?Q?aY2zdB4BjuMtWoChFrvSNeDjvg4vJdbXbIl+r/Ql5CWv6ePh6nG4VwGOWq7A?=
- =?us-ascii?Q?hWMKMw+L6IfRoKu723M8JkW8IGKQJyUA2gyiVuo5C0Lzl+htRWtidsrPkCii?=
- =?us-ascii?Q?e63VztlphNgWA1Z8qDLu9RR6I6eenO/zKLstKaWf40hD2yROROU8iPVdlJR5?=
- =?us-ascii?Q?HIr3UN1Pv1tvrMf3zqS/ZYFjeoLo5ji32Rf0nYHu2a8AKSWMQQ0X6IXiw8tE?=
- =?us-ascii?Q?W5DgfoZeZjBBVFG60pOWE28Ln8jBHgrmGi/u4ZrHDFbUMidUS8lsLetYNsPE?=
- =?us-ascii?Q?CTp1F1qSxsXIqJ6Cjp6ZngkCpHudloiZ7Z7arN/xTh3ocU8RIcbv+J5iMWRd?=
- =?us-ascii?Q?cNhvZD2MTMvp/3KHBsaGcJo8wgqqUT9rNkTALineG5ER52pQewp6oI0DceTQ?=
- =?us-ascii?Q?4emoBgWj1cjlXIE1Br/anam9ksWq7q7F1SXL3nfGz1s+I9q1JarZVhlh/E4c?=
- =?us-ascii?Q?ikzOgfrfnI/JLVB8qJrx+VB5LmX+pZAG4TYl2cbf7A=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pCSB4JMSZwc3nFxENeYnVH1d3IdYCFexoprlpYpO4/a/myeohn8jnFPPDJmU?=
- =?us-ascii?Q?QgFQe3LFCMNqNJgBVsP3O/5S/5gkF0AYR7dZBKQ8VyZDBlC9etA/Sx9MfXMq?=
- =?us-ascii?Q?od2YmV4P6/+s8jgV8ci4gakqFjfUguyXdjcVighftfbJr9rivVCILRrEQa9h?=
- =?us-ascii?Q?buLRUu8WI0Vfg8adBoo0kMbzTZ8ReePNbfOvYhi/bmeyt9TLHjFFIm0t6vTW?=
- =?us-ascii?Q?PbHgbe8DZsxzSshOldRHM23LTZ2BAhUu41FrWgipazOaQZLYq1nhvkOkqpvU?=
- =?us-ascii?Q?XC6GYXAUiR0w5Jt9C0JUO43/kXvIY7g2r4HeaSF4BcrgQDLydKpnkQIlcxY4?=
- =?us-ascii?Q?3zuDeoSQY5RTYzjHvOQtq4dF/31LcVhnNRqZ7s+EqIxOP3sdrgYlb7j25rBR?=
- =?us-ascii?Q?MdnIoyD8jXkl7uzZ+ObRN+Xl42LPzxyYOB6eYBGgCnkearLRU475cP5N4whE?=
- =?us-ascii?Q?76QF4gmBxJLvnPihyPX/j33MjydXLny+U15dzmCdKW6vIoX6XFjmqeK4yNmS?=
- =?us-ascii?Q?9/WWUCiql0m/laqQ0FPYZ7/uUrK1f1KUkTuax/h2GRtmrTDSYdrN4ntaWtYf?=
- =?us-ascii?Q?M27wmZQtmBR6AuVNenk0mbL+CgXFcXTUCwZRukhJlOQexQY62ZdHoMrC+o8Z?=
- =?us-ascii?Q?iMjSjoKt0nrjHLhjWcueterWYjH5A0B/vR2iLLQeJCSIrEEfgdlrGnqdccH0?=
- =?us-ascii?Q?N0IxCBfy81eK20Ps9J0vx9Cudc0y6PRE06jTU1E/3N8JP1gSD0NRY/9vwNSU?=
- =?us-ascii?Q?cJREpdC9Z9HEOQwrmD3EJM7ynSpxgt1HYQpvm3UaxQTavgKv3hKcYEBpQxwT?=
- =?us-ascii?Q?lCih5OKvhMUn5Y7lHrmP2N8BAq5Y73a1pjHKYfmDFWSDDaWrq8MAYgDNJA3Z?=
- =?us-ascii?Q?NHswXxMV131HDYqPsg41LYT+FK+KsJ9XUnqyN3dHJ75pf8lgqfRe2xd+Y4Ld?=
- =?us-ascii?Q?WxfqlpOzZ7W+LaeS1b+xGKYKeZaF+Bf/pbGyn8mgagDlJgr2QGgHHBK6qBTg?=
- =?us-ascii?Q?qEm1KIip7dRNOS1cIvUuBKVzp9tfIg7/h1F+uzvvw4b/UM6UtqRpIqwCU1DT?=
- =?us-ascii?Q?lvLAopJredDvwxrKFV23wCxKM2/gEYqjwmdugSYD3T3i8mPcgaujdwKnWW4e?=
- =?us-ascii?Q?Wr7U6I1X38+5VlVIXA5qqPN3ZLf9H5UUJSawoj4y73lwmFP7zUzj7f/Z67Ag?=
- =?us-ascii?Q?OGGYGEMbXL/FqZX8Ym543SrdB48AGeNEf/0cX+AgI/lGgVgioXWzh/CXgXJu?=
- =?us-ascii?Q?9EYWQ2ewHdfFVN6HdFGKCHaU/+V1vuF0J4s8y2d5yZJKj53JKg7hvSubNV8w?=
- =?us-ascii?Q?8qVzi1gcAoQrYatqS0L+rpBn2N1InXqPENSng7tqZCD0rqFFZEIUsvzvgo2F?=
- =?us-ascii?Q?7MlPzV1jPwNAZfSqVV4z84/ayfSgjW4qjhtdIUWByQrEB26iEK7h8OfIMGBP?=
- =?us-ascii?Q?LUmSEdkhhr++vjHuKKlIBg7qUCIIuTU7nFtXoiUbuWXB330ZP3SBfM9HznbQ?=
- =?us-ascii?Q?fuPnAYEAD6OzT8EH4juiJ9M6J44fMC3jlvyIW5ogoU4HqGNwIpILyqRjD9gx?=
- =?us-ascii?Q?hlIIOZs1mKKZkeHuDHsXy5jKfuvUXYiu/kTLzsrP?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 589a6c7a-6d1d-45ea-6736-08dd06ad0eec
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2024 02:10:51.4020
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dFTg2WRIB39vdEAxmVcvQq8IUqD2cHyCbyLYQwVdTbrmn9U5ktNz9oC79QnB/Y4Udi/ZXqDlnyn20m14mL9f6g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6400
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Subject: Re: [PATCHv2 net-next] net: modernize ioremap in probe
+To: Rosen Penev <rosenp@gmail.com>, <netdev@vger.kernel.org>
+CC: Chandrasekar Ramakrishnan <rcsekar@samsung.com>, Marc Kleine-Budde
+	<mkl@pengutronix.de>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, Andrew
+ Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Kurt Kanzenbach <kurt@linutronix.de>, Vladimir Oltean
+	<olteanv@gmail.com>, Chris Snook <chris.snook@gmail.com>, Marcin Wojtas
+	<marcin.s.wojtas@gmail.com>, Russell King <linux@armlinux.org.uk>, Horatiu
+ Vultur <horatiu.vultur@microchip.com>, "maintainer:MICROCHIP LAN966X ETHERNET
+ DRIVER" <UNGLinuxDriver@microchip.com>, Yoshihiro Shimoda
+	<yoshihiro.shimoda.uh@renesas.com>, =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+	<niklas.soderlund@ragnatech.se>, Doug Berger <opendmb@gmail.com>, Florian
+ Fainelli <florian.fainelli@broadcom.com>, Broadcom internal kernel review
+ list <bcm-kernel-feedback-list@broadcom.com>, Heiner Kallweit
+	<hkallweit1@gmail.com>, Richard Cochran <richardcochran@gmail.com>, "open
+ list:MCAN MMIO DEVICE DRIVER" <linux-can@vger.kernel.org>, open list
+	<linux-kernel@vger.kernel.org>, "open list:RENESAS ETHERNET SWITCH DRIVER"
+	<linux-renesas-soc@vger.kernel.org>
+References: <20241111200212.5907-1-rosenp@gmail.com>
+Content-Language: en-US
+Organization: Open Mobile Platform
+In-Reply-To: <20241111200212.5907-1-rosenp@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.1, Database issued on: 11/17/2024 17:00:21
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 19
+X-KSE-AntiSpam-Info: Lua profiles 189220 [Nov 17 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.1.7
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 41 0.3.41
+ 623e98d5198769c015c72f45fabbb9f77bdb702b
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info:
+	127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
+X-KSE-AntiSpam-Info: FromAlignment: s
+X-KSE-AntiSpam-Info: ApMailHostAddress: 213.87.152.88
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 19
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 11/17/2024 17:04:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 11/17/2024 3:00:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-On Thu, Nov 14, 2024 at 08:04:40PM -0800, Randy Dunlap wrote:
-> Hi robot,
-> 
-> On 11/8/24 4:27 AM, kernel test robot wrote:
-> > Hi Randy,
-> > 
-> > First bad commit (maybe != root cause):
-> > 
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   906bd684e4b1e517dd424a354744c5b0aebef8af
-> > commit: 51084f89d687e14d96278241e5200cde4b0985c7 fbdev: sh7760fb: allow modular build
-> 
-> The same warnings happen without this patch applied, so I suggest that you
-> backtrack to the commit that is listed near the end of your email. Thanks so much. :)
+On 11/11/24 11:02 PM, Rosen Penev wrote:
 
-Got it, thanks for the info. We will ignore this commit to avoid false report
-and adjust bisect process to capture the actual one.
+> I changed resource acquisition to be performed in a single step. Possible
+> because devm is used here.
 
-Thanks
+   Have you tested it? Asking because switching to devm_platform_ioremap_resource_byname()
+and devm_platform_get_and_ioremap_resource() seems to add devm_request_mem_region() call
+into the picture...
+   I'm also not sure the single patch per drivers/net/ would be enough, but that's for the
+maintainers to decide...
 
-> 
-> > date:   7 months ago
-> > config: sh-randconfig-r132-20241108 (https://download.01.org/0day-ci/archive/20241108/202411082014.qSQ9A5ho-lkp@intel.com/config)
-> > compiler: sh4-linux-gcc (GCC) 14.2.0
-> > reproduce: (https://download.01.org/0day-ci/archive/20241108/202411082014.qSQ9A5ho-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202411082014.qSQ9A5ho-lkp@intel.com/
-> > 
-> > sparse warnings: (new ones prefixed by >>)
-> >>> drivers/video/fbdev/sh7760fb.c:363:31: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *cpu_addr @@     got char [noderef] __iomem *screen_base @@
-> >    drivers/video/fbdev/sh7760fb.c:363:31: sparse:     expected void *cpu_addr
-> >    drivers/video/fbdev/sh7760fb.c:363:31: sparse:     got char [noderef] __iomem *screen_base
-> >>> drivers/video/fbdev/sh7760fb.c:423:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char [noderef] __iomem *screen_base @@     got void *[assigned] fbmem @@
-> >    drivers/video/fbdev/sh7760fb.c:423:27: sparse:     expected char [noderef] __iomem *screen_base
-> >    drivers/video/fbdev/sh7760fb.c:423:27: sparse:     got void *[assigned] fbmem
-> >    drivers/video/fbdev/sh7760fb.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-> >    include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
-> >    include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
-> > 
-> > vim +363 drivers/video/fbdev/sh7760fb.c
-> > 
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  354  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  355  static void sh7760fb_free_mem(struct fb_info *info)
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  356  {
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  357  	struct sh7760fb_par *par = info->par;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  358  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  359  	if (!info->screen_base)
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  360  		return;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  361  
-> > 8404e56f4bc1d1 drivers/video/fbdev/sh7760fb.c Thomas Zimmermann 2023-06-13  362  	dma_free_coherent(info->device, info->screen_size,
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23 @363  			  info->screen_base, par->fbdma);
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  364  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  365  	par->fbdma = 0;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  366  	info->screen_base = NULL;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  367  	info->screen_size = 0;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  368  }
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  369  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  370  /* allocate the framebuffer memory. This memory must be in Area3,
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  371   * (dictated by the DMA engine) and contiguous, at a 512 byte boundary.
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  372   */
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  373  static int sh7760fb_alloc_mem(struct fb_info *info)
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  374  {
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  375  	struct sh7760fb_par *par = info->par;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  376  	void *fbmem;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  377  	unsigned long vram;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  378  	int ret, bpp;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  379  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  380  	if (info->screen_base)
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  381  		return 0;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  382  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  383  	/* get color info from register value */
-> > f08c6c53b8e157 drivers/video/fbdev/sh7760fb.c Thomas Zimmermann 2023-06-13  384  	ret = sh7760fb_get_color_info(info, par->pd->lddfr, &bpp, NULL);
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  385  	if (ret) {
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  386  		printk(KERN_ERR "colinfo\n");
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  387  		return ret;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  388  	}
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  389  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  390  	/* min VRAM: xres_min = 16, yres_min = 1, bpp = 1: 2byte -> 1 page
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  391  	   max VRAM: xres_max = 1024, yres_max = 1024, bpp = 16: 2MB */
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  392  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  393  	vram = info->var.xres * info->var.yres;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  394  	if (info->var.grayscale) {
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  395  		if (bpp == 1)
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  396  			vram >>= 3;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  397  		else if (bpp == 2)
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  398  			vram >>= 2;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  399  		else if (bpp == 4)
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  400  			vram >>= 1;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  401  	} else if (bpp > 8)
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  402  		vram *= 2;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  403  	if ((vram < 1) || (vram > 1024 * 2048)) {
-> > 46d86f3b3b1d22 drivers/video/fbdev/sh7760fb.c Thomas Zimmermann 2023-06-13  404  		fb_dbg(info, "too much VRAM required. Check settings\n");
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  405  		return -ENODEV;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  406  	}
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  407  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  408  	if (vram < PAGE_SIZE)
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  409  		vram = PAGE_SIZE;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  410  
-> > 8404e56f4bc1d1 drivers/video/fbdev/sh7760fb.c Thomas Zimmermann 2023-06-13  411  	fbmem = dma_alloc_coherent(info->device, vram, &par->fbdma, GFP_KERNEL);
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  412  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  413  	if (!fbmem)
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  414  		return -ENOMEM;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  415  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  416  	if ((par->fbdma & SH7760FB_DMA_MASK) != SH7760FB_DMA_MASK) {
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  417  		sh7760fb_free_mem(info);
-> > 8404e56f4bc1d1 drivers/video/fbdev/sh7760fb.c Thomas Zimmermann 2023-06-13  418  		dev_err(info->device, "kernel gave me memory at 0x%08lx, which is"
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  419  			"unusable for the LCDC\n", (unsigned long)par->fbdma);
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  420  		return -ENOMEM;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  421  	}
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  422  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23 @423  	info->screen_base = fbmem;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  424  	info->screen_size = vram;
-> > 537a1bf059fa31 drivers/video/sh7760fb.c       Krzysztof Helt    2009-06-30  425  	info->fix.smem_start = (unsigned long)info->screen_base;
-> > 537a1bf059fa31 drivers/video/sh7760fb.c       Krzysztof Helt    2009-06-30  426  	info->fix.smem_len = info->screen_size;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  427  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  428  	return 0;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  429  }
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  430  
-> > 
-> > :::::: The code at line 363 was first introduced by commit
-> > :::::: 4a25e41831ee851c1365d8b41decc22493b18e6d video: sh7760fb: SH7760/SH7763 LCDC framebuffer driver
-> 
-> This one ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > 
-> > :::::: TO: Nobuhiro Iwamatsu <iwamatsu.nobuhiro@renesas.com>
-> > :::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
-> > 
-> 
-> -- 
-> ~Randy
-> 
-> 
+> Signed-off-by: Rosen Penev <rosenp@gmail.com>
+[...]
+
+> diff --git a/drivers/net/dsa/hirschmann/hellcreek.c b/drivers/net/dsa/hirschmann/hellcreek.c
+> index 283ec5a6e23c..940c4fa6a924 100644
+> --- a/drivers/net/dsa/hirschmann/hellcreek.c
+> +++ b/drivers/net/dsa/hirschmann/hellcreek.c
+[...]
+> @@ -1982,23 +1981,12 @@ static int hellcreek_probe(struct platform_device *pdev)
+>  
+>  	hellcreek->dev = dev;
+>  
+> -	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "tsn");
+> -	if (!res) {
+> -		dev_err(dev, "No memory region provided!\n");
+> -		return -ENODEV;
+> -	}
+> -
+> -	hellcreek->base = devm_ioremap_resource(dev, res);
+> +	hellcreek->base = devm_platform_ioremap_resource_byname(pdev, "tsn");
+
+   The new code here should behave equivalently to the old, so seems OK.
+
+>  	if (IS_ERR(hellcreek->base))
+>  		return PTR_ERR(hellcreek->base);
+>  
+> -	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "ptp");
+> -	if (!res) {
+> -		dev_err(dev, "No PTP memory region provided!\n");
+> -		return -ENODEV;
+> -	}
+> -
+> -	hellcreek->ptp_base = devm_ioremap_resource(dev, res);
+> +	hellcreek->ptp_base =
+> +		devm_platform_ioremap_resource_byname(pdev, "ptp");
+
+   Here as well...
+
+[...]
+> diff --git a/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c b/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
+> index 571631a30320..faf853edc0db 100644
+> --- a/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
+> +++ b/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
+> @@ -7425,21 +7425,17 @@ static int mvpp2_init(struct platform_device *pdev, struct mvpp2 *priv)
+>  static int mvpp2_get_sram(struct platform_device *pdev,
+>  			  struct mvpp2 *priv)
+>  {
+> -	struct resource *res;
+>  	void __iomem *base;
+>  
+> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 2);
+> -	if (!res) {
+> +	base = devm_platform_ioremap_resource(pdev, 2);
+> +	if (IS_ERR(base)) {
+>  		if (has_acpi_companion(&pdev->dev))
+>  			dev_warn(&pdev->dev, "ACPI is too old, Flow control not supported\n");
+>  		else
+> -			dev_warn(&pdev->dev, "DT is too old, Flow control not supported\n");
+> -		return 0;
+> -	}
+> -
+> -	base = devm_ioremap_resource(&pdev->dev, res);
+> -	if (IS_ERR(base))
+> +			dev_warn(&pdev->dev,
+> +				 "DT is too old, Flow control not supported\n");
+>  		return PTR_ERR(base);
+> +	}
+>  
+>  	priv->cm3_base = base;
+>  	return 0;
+
+   This change also seems to look sane...
+
+[...]
+> diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
+> index 8d18dae4d8fb..8ef52fc46a01 100644
+> --- a/drivers/net/ethernet/renesas/rswitch.c
+> +++ b/drivers/net/ethernet/renesas/rswitch.c
+[...]
+> @@ -2074,7 +2067,7 @@ static int renesas_eth_sw_probe(struct platform_device *pdev)
+>  
+>  	platform_set_drvdata(pdev, priv);
+>  	priv->pdev = pdev;
+> -	priv->addr = devm_ioremap_resource(&pdev->dev, res);
+> +	priv->addr = devm_platform_ioremap_resource_byname(pdev, "secure_base");
+>  	if (IS_ERR(priv->addr))
+>  		return PTR_ERR(priv->addr);
+>  
+
+   This one looks OKish too...
+
+> diff --git a/drivers/net/ethernet/renesas/rtsn.c b/drivers/net/ethernet/renesas/rtsn.c
+> index 6b3f7fca8d15..bfe08facc707 100644
+> --- a/drivers/net/ethernet/renesas/rtsn.c
+> +++ b/drivers/net/ethernet/renesas/rtsn.c
+> @@ -1297,14 +1297,8 @@ static int rtsn_probe(struct platform_device *pdev)
+>  	ndev->netdev_ops = &rtsn_netdev_ops;
+>  	ndev->ethtool_ops = &rtsn_ethtool_ops;
+>  
+> -	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "gptp");
+> -	if (!res) {
+> -		dev_err(&pdev->dev, "Can't find gptp resource\n");
+> -		ret = -EINVAL;
+> -		goto error_free;
+> -	}
+> -
+> -	priv->ptp_priv->addr = devm_ioremap_resource(&pdev->dev, res);
+> +	priv->ptp_priv->addr =
+> +		devm_platform_ioremap_resource_byname(pdev, "gptp");
+>  	if (IS_ERR(priv->ptp_priv->addr)) {
+>  		ret = PTR_ERR(priv->ptp_priv->addr);
+>  		goto error_free;
+
+   Looks OKish too...
+
+> diff --git a/drivers/net/ethernet/renesas/sh_eth.c b/drivers/net/ethernet/renesas/sh_eth.c
+> index d072f394eecb..07d1f1504a97 100644
+> --- a/drivers/net/ethernet/renesas/sh_eth.c
+> +++ b/drivers/net/ethernet/renesas/sh_eth.c
+> @@ -3351,31 +3351,12 @@ static int sh_eth_drv_probe(struct platform_device *pdev)
+>  
+>  	if (mdp->cd->tsu) {
+>  		int port = pdev->id < 0 ? 0 : pdev->id % 2;
+> -		struct resource *rtsu;
+>  
+> -		rtsu = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+> -		if (!rtsu) {
+> -			dev_err(&pdev->dev, "no TSU resource\n");
+> -			ret = -ENODEV;
+> -			goto out_release;
+> -		}
+> -		/* We can only request the  TSU region  for the first port
+> -		 * of the two  sharing this TSU for the probe to succeed...
+> -		 */
+> -		if (port == 0 &&
+> -		    !devm_request_mem_region(&pdev->dev, rtsu->start,
+> -					     resource_size(rtsu),
+> -					     dev_name(&pdev->dev))) {
+> -			dev_err(&pdev->dev, "can't request TSU resource.\n");
+> -			ret = -EBUSY;
+> -			goto out_release;
+> -		}
+>  		/* ioremap the TSU registers */
+> -		mdp->tsu_addr = devm_ioremap(&pdev->dev, rtsu->start,
+> -					     resource_size(rtsu));
+> -		if (!mdp->tsu_addr) {
+> +		mdp->tsu_addr = devm_platform_ioremap_resource(pdev, 1);
+> +		if (IS_ERR(mdp->tsu_addr)) {
+>  			dev_err(&pdev->dev, "TSU region ioremap() failed.\n");
+> -			ret = -ENOMEM;
+> +			ret = PTR_ERR(mdp->tsu_addr);
+>  			goto out_release;
+>  		}
+>  		mdp->port = port;
+
+   No, this one won't fly since you're removing the port == 0 check... :-/
+This code looks so strange on purpose... :-)
+
+[...]
+> diff --git a/drivers/net/mdio/mdio-ipq4019.c b/drivers/net/mdio/mdio-ipq4019.c
+> index dd3ed2d6430b..725e5c13d212 100644
+> --- a/drivers/net/mdio/mdio-ipq4019.c
+> +++ b/drivers/net/mdio/mdio-ipq4019.c
+> @@ -256,7 +256,7 @@ static int ipq_mdio_reset(struct mii_bus *bus)
+>  	/* To indicate CMN_PLL that ethernet_ldo has been ready if platform resource 1
+>  	 * is specified in the device tree.
+>  	 */
+> -	if (priv->eth_ldo_rdy) {
+> +	if (!IS_ERR(priv->eth_ldo_rdy)) {
+
+   What's that? :-/
+   Ah, devm_ioremap_resource() returns error ptr too, so this looks like a fix for
+the existing code?
+
+>  		val = readl(priv->eth_ldo_rdy);
+>  		val |= BIT(0);
+>  		writel(val, priv->eth_ldo_rdy);
+[...]
+> @@ -351,9 +350,7 @@ static int ipq4019_mdio_probe(struct platform_device *pdev)
+>  
+>  	/* The platform resource is provided on the chipset IPQ5018 */
+>  	/* This resource is optional */
+> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+> -	if (res)
+> -		priv->eth_ldo_rdy = devm_ioremap_resource(&pdev->dev, res);
+> +	priv->eth_ldo_rdy = devm_platform_ioremap_resource(pdev, 1);
+>  
+>  	bus->name = "ipq4019_mdio";
+>  	bus->read = ipq4019_mdio_read_c22;
+
+   Other than that looks OKish...
+
+[...]
+> diff --git a/drivers/net/mdio/mdio-octeon.c b/drivers/net/mdio/mdio-octeon.c
+> index 2beb83154d39..cb53dccbde1a 100644
+> --- a/drivers/net/mdio/mdio-octeon.c
+> +++ b/drivers/net/mdio/mdio-octeon.c
+> @@ -17,37 +17,20 @@ static int octeon_mdiobus_probe(struct platform_device *pdev)
+>  {
+>  	struct cavium_mdiobus *bus;
+>  	struct mii_bus *mii_bus;
+> -	struct resource *res_mem;
+> -	resource_size_t mdio_phys;
+> -	resource_size_t regsize;
+>  	union cvmx_smix_en smi_en;
+> -	int err = -ENOENT;
+> +	int err;
+>  
+>  	mii_bus = devm_mdiobus_alloc_size(&pdev->dev, sizeof(*bus));
+>  	if (!mii_bus)
+>  		return -ENOMEM;
+>  
+> -	res_mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> -	if (res_mem == NULL) {
+> -		dev_err(&pdev->dev, "found no memory resource\n");
+> -		return -ENXIO;
+> -	}
+> -
+>  	bus = mii_bus->priv;
+>  	bus->mii_bus = mii_bus;
+> -	mdio_phys = res_mem->start;
+> -	regsize = resource_size(res_mem);
+>  
+> -	if (!devm_request_mem_region(&pdev->dev, mdio_phys, regsize,
+> -				     res_mem->name)) {
+> -		dev_err(&pdev->dev, "request_mem_region failed\n");
+> -		return -ENXIO;
+> -	}
+> -
+> -	bus->register_base = devm_ioremap(&pdev->dev, mdio_phys, regsize);
+> -	if (!bus->register_base) {
+> +	bus->register_base = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(bus->register_base)) {
+>  		dev_err(&pdev->dev, "dev_ioremap failed\n");
+> -		return -ENOMEM;
+> +		return PTR_ERR(bus->register_base);
+>  	}
+>  
+>  	smi_en.u64 = 0;
+
+   Seems OKish too...
+
+MBR, Sergey
 
