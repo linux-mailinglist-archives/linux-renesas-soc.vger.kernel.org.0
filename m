@@ -1,139 +1,121 @@
-Return-Path: <linux-renesas-soc+bounces-10562-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10563-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EF669D06EF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Nov 2024 00:08:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EEAB9D0BB6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Nov 2024 10:30:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C659BB21481
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Nov 2024 23:08:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BFD7CB24745
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Nov 2024 09:30:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3BE01DDC02;
-	Sun, 17 Nov 2024 23:08:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8272214A4F9;
+	Mon, 18 Nov 2024 09:30:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HhzEg9ak"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Ax4cwR+I"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6A11D89E5;
-	Sun, 17 Nov 2024 23:08:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2093313DBBE
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Nov 2024 09:30:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731884887; cv=none; b=ZXVok24hhifN/k28bKqX9Ae9eVUGLBWPjQ/4ScFAApFN30fNphW2t4tt0a9K9C+ycY2soFFbPvXIJSzrWttRs8+RSx8SSIze/AiZxD+3jnleSH+3dUAyWMHV3hh8MQWEWsX0O9XX5CdTK+RySvTqWa8D+phQR7XREb0p91so1T4=
+	t=1731922249; cv=none; b=H18FP7PSceiXmYLaZ4+/wH350GGkTTmNVbzE5u8/voE0eb6Ijj+6vpDOhEE9FdiFZsclS+5FO06bCYuHvPcbvYdqLgNcTeWPLzm+lTP3KJDgzBHJW62jxOodNQ/dbgDoyjiXhZJ/yUe2JSpHUdvQPkNtwaZRpu0lafQ94s8pSkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731884887; c=relaxed/simple;
-	bh=1X/8HfLV4Pk7UniYVWhK6RRymNOkD/WLoHIafDrtilk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qVHtnNnnb5pk/Wd6RvwNIFqsZ9yveQjTRnWuR60qvtTusu+gTaNDln32yaM7KA/rVBwzOEfk3Jb7EfLi1j8BK5wzALMqa6ZKM9KxONAk126sjbTp+4GJ06LiGWdKsThFbMnZ0j4fzRWl2CT7b1DkK7feXmoY5+gw4xRb9+fbhcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HhzEg9ak; arc=none smtp.client-ip=209.85.128.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6ea339a41f1so20072027b3.2;
-        Sun, 17 Nov 2024 15:08:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731884884; x=1732489684; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LEZyWH2yk1juDD0j0bMycJzhP5/ewJCEwodH/GfxYu0=;
-        b=HhzEg9ak8OhWWTJCbQuuxW7yzWSeTQA539HOhPWpEF4mk5OyiW6Py6yZwrAGwe8w/s
-         8YLg0iL3+Ft2RMAzi07F/eek+b0jyngWSAsvksrd6HU64Dsl6h+s05J9E7+RdmnHghAt
-         MrsLkj3fe3e9cN8PfGrwECRPMCoeHB5VUZbeFalx05w+juf0nm2Clzkd6dPaN2+9vwyu
-         kUA3WVzaLafMflH2kfGIyq2l7feV9EVVZGN4ygWKlmKDSFLdR9GMqpxpu/T1v34jYTYa
-         SXzoHmASkeX9ZBQMVWZOdjZ46c2mCJf4ucQtfKHiT0A2HUUmBHSJsaUtxTkO4089pw/g
-         3nhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731884884; x=1732489684;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LEZyWH2yk1juDD0j0bMycJzhP5/ewJCEwodH/GfxYu0=;
-        b=XpTvIazocujw/wnV070RxQszQGhM76RB/Q0HgZO9ilAzWgwm+suhPprj09DFr19pTN
-         mF15b4x4BSwXUYKz2nf64jpVL3j4oUvGoon/runqXkdYD8qVlX/lAnolRMaWHCCVlZ6P
-         uAO9aLGR83/aOs2IY7ME8aO1evIDc1tIHdveoG4hxx6VwXowuaLD5yKBwNdP7FiGCetT
-         3yLjSsQz9SHjse/RmKJjB+LBXcYue4nx25gtAEbCVQy88CQPzIt+70G5pIVIYjx81XXC
-         bzQ+KxZGtkG/AOsP5GaLqpnRQ+1gOcFXE88vZ67nX/MFJ+Pj1zm2kMbPGgg/Jb3x4LM6
-         Jfqg==
-X-Forwarded-Encrypted: i=1; AJvYcCUfP2bmrFRTf+oVa4tQ/gcmeGryPZVsaSRVmJIwnhWLnKNms6qUg8/WeoeippQaBuQBsFRbBxI4fcUm5TY=@vger.kernel.org, AJvYcCWOCReeK+nsAwUzkFlkC5NJXvds6g2RIe76ZaToeDPbSk5KIYJCgA/Z72muM8psfMTJsUSgZ+lpP/ZjDZPt2ujD5TA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIVKtS2f9U1mK05G/IAkVg/NCZyOpE2ahINLOM/8qiPi9CwWXd
-	KRcfIAcKW5iRrOjpAKpqVh+JN/uQLYw+yNLetlCozhEn1i1KSy9WJFF/AaseLdcnbO21zKVr+IY
-	aQGotDcqhv4Z4OmYhQfvUjxKBli4=
-X-Google-Smtp-Source: AGHT+IHDy73B3Eu2odcBEz4FMGMBOLQSAs2ZC8I2RAiMOO8YuCHjJGZQlXeuZPTyuNA9Gg1xDRkSzM+BpdoUgb1b1Kk=
-X-Received: by 2002:a05:690c:7246:b0:6e3:34b9:960a with SMTP id
- 00721157ae682-6ee55b7e645mr89326377b3.17.1731884884631; Sun, 17 Nov 2024
- 15:08:04 -0800 (PST)
+	s=arc-20240116; t=1731922249; c=relaxed/simple;
+	bh=2/SSQCIWp0jn+AzJ3aQpGVAwcg7O9xTedyS9eaS+CDs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gVHF3DoqVXtKkkT9REwoeB4NrPMtDRjLhmpAPWedl1mn0Yc6FG1cUJG+4nDihEF3Hyw4FN36Qq9eLGK2ZczHULMilggq4Ctn7tsrF0J9WdZl7WapFLAIro0VRkx5mmNOu5g8SkflEkK2C/4+jixDMBPF30M38x6CxnzaUaXOmJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Ax4cwR+I; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=2/SS
+	QCIWp0jn+AzJ3aQpGVAwcg7O9xTedyS9eaS+CDs=; b=Ax4cwR+IYg51YKTFRFsi
+	qYrQskNECKMf0IVvKlkpL6QMOJdqUDGs1c3y7INn600a4esxb47PsM2qiofKqU55
+	ML5B3Q4zfgfbehcI6tIbJYvk7GngwVV8RxvK7DqbvJoDxo463tGIJBpXiRNerrRb
+	7uUia0VJwvCX9fCqZPvoeHeckOc0k6vXTKzwR8PwcKSUaQM76KKOzCat7NjjMabN
+	38jj/Iw3n7aZebnwSg1t7CCxu/W/mDeWD33pXSafty/oLhPPZcTnkL9UxifG4DT9
+	HkvNxirQxJe7V13BHPbtXDq7KYrge4/i4a2OGjhNvZ+mckSDWokVH4HCt4RD/Yr7
+	Dw==
+Received: (qmail 151026 invoked from network); 18 Nov 2024 10:30:41 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Nov 2024 10:30:41 +0100
+X-UD-Smtp-Session: l3s3148p1@nin3kSwnyqAujntT
+Date: Mon, 18 Nov 2024 10:30:40 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Michel Pollet <michel.pollet@bp.renesas.com>,
+	linux-rtc@vger.kernel.org
+Subject: Re: [PATCH] rtc: rzn1: fix BCD to rtc_time conversion errors
+Message-ID: <ZzsJQO80dmhce_Mp@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Michel Pollet <michel.pollet@bp.renesas.com>,
+	linux-rtc@vger.kernel.org
+References: <20241113113032.27409-1-wsa+renesas@sang-engineering.com>
+ <87o72gnvbu.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241117212711.13612-1-rosenp@gmail.com> <20241117223850.GK5315@ragnatech.se>
-In-Reply-To: <20241117223850.GK5315@ragnatech.se>
-From: Rosen Penev <rosenp@gmail.com>
-Date: Sun, 17 Nov 2024 15:07:53 -0800
-Message-ID: <CAKxU2N_VMSEo30u-C1VK4+jBSUBTo6QT1vgd14RQSS=P+g9w+w@mail.gmail.com>
-Subject: Re: [PATCHv3 net-next] net: modernize ioremap in probe
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: netdev@vger.kernel.org, Kurt Kanzenbach <kurt@linutronix.de>, 
-	Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Chris Snook <chris.snook@gmail.com>, 
-	Marcin Wojtas <marcin.s.wojtas@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Heiner Kallweit <hkallweit1@gmail.com>, 
-	Richard Cochran <richardcochran@gmail.com>, open list <linux-kernel@vger.kernel.org>, 
-	"open list:RENESAS ETHERNET SWITCH DRIVER" <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="YcEKBR0cMNJUghX+"
+Content-Disposition: inline
+In-Reply-To: <87o72gnvbu.fsf@bootlin.com>
+
+
+--YcEKBR0cMNJUghX+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Nov 17, 2024 at 2:38=E2=80=AFPM Niklas S=C3=B6derlund
-<niklas.soderlund@ragnatech.se> wrote:
->
-> Hello Rosen,
->
-> Thanks for your work.
->
-> On 2024-11-17 13:27:11 -0800, Rosen Penev wrote:
->
-> > diff --git a/drivers/net/ethernet/renesas/rtsn.c
-> > b/drivers/net/ethernet/renesas/rtsn.c
-> > index 6b3f7fca8d15..bfe08facc707 100644
-> > --- a/drivers/net/ethernet/renesas/rtsn.c
-> > +++ b/drivers/net/ethernet/renesas/rtsn.c
-> > @@ -1297,14 +1297,8 @@ static int rtsn_probe(struct platform_device *pd=
-ev)
-> >       ndev->netdev_ops =3D &rtsn_netdev_ops;
-> >       ndev->ethtool_ops =3D &rtsn_ethtool_ops;
+On Fri, Nov 15, 2024 at 08:36:05PM +0100, Miquel Raynal wrote:
+> Hello Wolfram,
+>=20
+> On 13/11/2024 at 12:30:32 +01, Wolfram Sang <wsa+renesas@sang-engineering=
+=2Ecom> wrote:
+>=20
+> > tm_mon describes months from 0 to 11, but the register contains BCD from
+> > 1 to 12. tm_year contains years since 1900, but the BCD contains 20XX.
+> > Apply the offsets when converting these numbers.
 > >
-> > -     res =3D platform_get_resource_byname(pdev, IORESOURCE_MEM, "gptp"=
-);
-> > -     if (!res) {
-> > -             dev_err(&pdev->dev, "Can't find gptp resource\n");
-> > -             ret =3D -EINVAL;
-> > -             goto error_free;
-> > -     }
-> > -
-> > -     priv->ptp_priv->addr =3D devm_ioremap_resource(&pdev->dev, res);
-> > +     priv->ptp_priv->addr =3D
-> > +             devm_platform_ioremap_resource_byname(pdev, "gptp");
-> >       if (IS_ERR(priv->ptp_priv->addr)) {
-> >               ret =3D PTR_ERR(priv->ptp_priv->addr);
-> >               goto error_free;
->
-> You have a similar construct using platform_get_resource_byname() a few
-> lines above this one. Please convert both uses, or none, mixing them is
-> just confusing IMHO.
-that cannot be converted.
+> > Fixes: deeb4b5393e1 ("rtc: rzn1: Add new RTC driver")
+>=20
+> Should probably be Cc'd to stable?
+>=20
+> Reviewed-by: Miquel Raynal <miquel.raynal@bootlin.com>
 
-devm_platform_ioremap_resource_byname has no res parameter, which is a
-problem as there's this lovely line below it.
+Thanks, Alexandre do you want me to resend CCing stable?
 
-ndev->base_addr =3D res->start;
->
-> --
-> Kind Regards,
-> Niklas S=C3=B6derlund
+
+--YcEKBR0cMNJUghX+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmc7CT0ACgkQFA3kzBSg
+KbYb7BAAlcEIr7Uyhx+kb1B+3nrSDsw427owSqxy4mrsC7zMzNhQcks4ERdPMO4b
+hsuwNJNPUdn4+a22nNcad1cds3ath+tJzIRkg5qyC6xn7dVQO+IQXm38Mwpsq7o/
+W2qjA5EIvmvheD5PygN84U7TNvSfn/EZ2fdhSF5DAnif4yhqziQOngLQJ0RUinM+
+RcsBy4LksqUVA+YqsiV7kx7hgufftV5j0z3ZhA5OXFUEx4PzGxYN7HMFl8ZinkIW
+7CwwoYt9pyQ5MzRTbjQChLqU82M33DIOpL4hGeLNKkdBTpUEwZ6vIRdWCArSBGLj
+q+JCDqAxUw719YIFqGdgse+W7MTYkqv6J8mGWi45gGPSTMX/Jrk344sTIXeFmc+Z
+UEsgTqTSh/67z9XuBoibUtDsqkWiH9LaAKEoJntcmiaCg18ctM+jZHXlD6YPG1lc
+LZ2BVdzPGys90pK+/kEX0iAHsdQtLRd0WgIPwppsKdAhy3R42GLy4sCDb3/T4DSS
+/iiy+6ndcJ8PirCQudAkG5UNEZ0gikONEoI+fA4w65RusRFdSH6hx8N4NS+Aza7E
+mb0RdPBbQvVX0JLoPWKFHBRgWBl5nHM41r6CRhDpFnmd/TNqamaLz68ZAhncXy50
+uRsOKazpbOcOO+H4gRHSn3madNGQK6D4H0OAhNDCgEunNuNJ88M=
+=/Nay
+-----END PGP SIGNATURE-----
+
+--YcEKBR0cMNJUghX+--
 
