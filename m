@@ -1,117 +1,118 @@
-Return-Path: <linux-renesas-soc+bounces-10607-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10608-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A00019D30E7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Nov 2024 00:26:33 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60CDC9D3108
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Nov 2024 00:40:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 523F31F233EA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Nov 2024 23:26:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DE1D1B23C39
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Nov 2024 23:40:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B3FA1D357A;
-	Tue, 19 Nov 2024 23:26:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DBB71D318C;
+	Tue, 19 Nov 2024 23:40:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MwdPBwdp"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="zZCgAI4O"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48E6C43179;
-	Tue, 19 Nov 2024 23:26:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60811BD9F3;
+	Tue, 19 Nov 2024 23:40:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732058787; cv=none; b=Xbk7OIS01aud++hlWQBZeTj6IS/5JVN2SWCBJbHhdfIEL7lZ7r+WoQ5h8UlCKMcchxeme4tqaFChbUOsuSe5JBgNO5TrOcq+hFedNa/P94l6u0Flod/HuEoS+Q3SagBxZXESna6BDFcOLEw5LJ2iW77SKwDOykmXW9ClO7gfsz4=
+	t=1732059632; cv=none; b=NYIqo7S7Kyi4kRbivGcGYNePcC2MIGN6I+P3vREdwT/0FvOlAGhmT5ieN3UdGqwzaMWiNEwMH2NF+xVBfm1sqtRAZRScjnrBsj/0BcY56sQkYESH7Lyi3ukBGOKQ2mrJdwtGjNMVaMgRDbJR5pLNQ01JyJNz46K5BgoFGxikdRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732058787; c=relaxed/simple;
-	bh=uNfJjSH3SK7iQhtrkaw65zIURoaJHd/KtAptueGMi2k=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=BGfrCzlz1byI6qmpXfnP/Svp3GKUX0wFKwBAG9fbFiovtXUginsShJp0kX3Giy5mGcoNNAudmBP85gngD2TEe1uadfqnqKl00NmMqCPB7jwCbhEu09Fh21miAL3rMZ6ZjZWxvDA2DZTHawryg1eczuuytYoLbSThAyc5QOmP8hM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MwdPBwdp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89028C4CECF;
-	Tue, 19 Nov 2024 23:26:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732058786;
-	bh=uNfJjSH3SK7iQhtrkaw65zIURoaJHd/KtAptueGMi2k=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=MwdPBwdpthf9evSQNkJEdFV+PS/y4//vtyi1L31F5VrRxVQU2Tg2Z+AA+n5kwcTA1
-	 eOEvg3GvR0L2c7+JXd2UIjiQF+zNJAtx4gvTxSNIzDNz2y0sb33D83TqZqmgBoLEby
-	 KAWotQ0DTbMP+WnyeiU7xeWGzNIrNpPzqCMVDH3MlAD+yYO0D9zE9cwnzOrEp19/+I
-	 QjsQ1FGBszLGjHtQJeOESQfNnCgP4gz1KwC43EUY4X/PNjuZ1IXzVypd9TrnMZkeWf
-	 lNUcFnf13qEqLFiQ13YN79rcKK/WYSKe/bdkppw9rwwr6+TGeC1QemEsCcX9dsYEnu
-	 lEGRcwyXpu7rg==
-Date: Tue, 19 Nov 2024 17:26:24 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1732059632; c=relaxed/simple;
+	bh=vJVKu8SybG0lkuiGLlri3v9gCW+VrWbeJymGrMs7p5U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OHR2wKYhgxOCmMFGfFdD6Jkadw65mTY/RVy+211NXc+VBhN/u1tqtszPkN7K80oF3iFt05g4pRBEMSqrB4uWyHaXv+fSl6993dWMtkHZmjHFt/EiYLVCmm+jH+3MqniNHn0UsywinnZhn/eOGi9ZYOxUH0ONsAXH2IMl/1X9jYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=zZCgAI4O; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=AlHTVEQepeuGReBeEvUZVoo3TC49/XqTeLtHLo3eaKc=; b=zZCgAI4OjQ6kjZImAkeBsfK7Pc
+	lziXnskTXYnMSi8KtFrrbz/2d1FyYUG+m6UJso/kJsujM1nNnW8BLp38QiF0Xcun6/a1SHMCnTq59
+	Z/242e2GjTcFiuOymQL4cZ87xqw7po+h82bE6npAAEyF1AdDNsptTRJMJ/mwmkj3fB0yqS1AlEzzM
+	zyPOJRp9fPtDN00xGLjbuQqktTmI+j1ynIHsSaqVY2AusBFcNIx6K0iyOuRTaqFb9JtE70+bPTyUr
+	al1btfcBrWFrADZiMBe4EF0dVDGgIObaKE0hRQSri6fIYTSeq/iRKlHi5BYn9M7kM1e9XAL1ktgQt
+	/UEaa3Fg==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:38632)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1tDXpW-0004ZP-0u;
+	Tue, 19 Nov 2024 23:40:22 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1tDXpT-0006Tg-02;
+	Tue, 19 Nov 2024 23:40:19 +0000
+Date: Tue, 19 Nov 2024 23:40:18 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>
+Cc: Rosen Penev <rosenp@gmail.com>, netdev@vger.kernel.org,
+	Kurt Kanzenbach <kurt@linutronix.de>, Andrew Lunn <andrew@lunn.ch>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Chris Snook <chris.snook@gmail.com>,
+	Marcin Wojtas <marcin.s.wojtas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:RENESAS ETHERNET SWITCH DRIVER" <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCHv3 net-next] net: modernize ioremap in probe
+Message-ID: <Zz0h4pMXn6KzRViL@shell.armlinux.org.uk>
+References: <20241117212711.13612-1-rosenp@gmail.com>
+ <20241117223850.GK5315@ragnatech.se>
+ <CAKxU2N_VMSEo30u-C1VK4+jBSUBTo6QT1vgd14RQSS=P+g9w+w@mail.gmail.com>
+ <20241119203916.GP5315@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- linux-renesas-soc@vger.kernel.org, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-media@vger.kernel.org, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, devicetree@vger.kernel.org, 
- Conor Dooley <conor+dt@kernel.org>
-To: =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20241119221249.539610-2-niklas.soderlund+renesas@ragnatech.se>
-References: <20241119221249.539610-1-niklas.soderlund+renesas@ragnatech.se>
- <20241119221249.539610-2-niklas.soderlund+renesas@ragnatech.se>
-Message-Id: <173205878479.2722151.12372233165574961370.robh@kernel.org>
-Subject: Re: [PATCH 1/4] media: dt-bindings: Add property to describe CSI-2
- C-PHY line orders
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241119203916.GP5315@ragnatech.se>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-
-On Tue, 19 Nov 2024 23:12:46 +0100, Niklas Söderlund wrote:
-> Each data lane on a CSI-2 C-PHY bus uses three phase encoding and is
-> constructed from three physical wires. The wires are referred to as A, B
-> and C and their default order is ABC. However to ease hardware design
-> the specification allows for the wires to be switched in any order.
+On Tue, Nov 19, 2024 at 09:39:16PM +0100, Niklas S�derlund wrote:
+> On 2024-11-17 15:07:53 -0800, Rosen Penev wrote:
+> > devm_platform_ioremap_resource_byname has no res parameter, which is a
+> > problem as there's this lovely line below it.
+> > 
+> > ndev->base_addr = res->start;
 > 
-> Add a vendor neutral property to describe the line order used. The
-> property name 'line-orders', the possible values it can be assigned and
-> there names are taken from the MIPI Discovery and Configuration (DisCo)
-> Specification for Imaging.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->  .../bindings/media/video-interfaces.yaml      | 20 +++++++++++++++++++
->  include/dt-bindings/media/video-interfaces.h  |  7 +++++++
->  2 files changed, 27 insertions(+)
-> 
+> I see, maybe we can refactor that too? I see not all drivers set 
+> base_addr, and some even set it to the remapped memory returned by 
+> devm_platform_ioremap_resource_byname() or such.
 
-My bot found errors running 'make dt_binding_check' on your patch:
+base_addr carries with it an issue that setting it on every driver is
+likely not a good idea.
 
-yamllint warnings/errors:
+Namely, that it's "unsigned long", it's reported to userspace, and
+on PAE systems, unsigned long is 32-bit but the device address may
+be >32-bit.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/video-interfaces.yaml: properties:line-orders: 'enum' should not be valid under {'enum': ['const', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'minimum', 'maximum', 'multipleOf', 'pattern']}
-	hint: Scalar and array keywords cannot be mixed
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/video-interfaces.yaml: properties:line-orders: 'enum' should not be valid under {'enum': ['const', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'minimum', 'maximum', 'multipleOf', 'pattern']}
-	hint: Scalar and array keywords cannot be mixed
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+I haven't checked the user APIs, whether that restricts it to 32-bit
+on 32-bit systems.
 
-doc reference errors (make refcheckdocs):
+In any case, whether base_addr is set or not is probably best left
+as-is and not have some "we must always / never set base_addr" rule
+applied to it.
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20241119221249.539610-2-niklas.soderlund+renesas@ragnatech.se
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
