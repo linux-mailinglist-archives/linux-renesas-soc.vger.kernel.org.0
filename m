@@ -1,94 +1,138 @@
-Return-Path: <linux-renesas-soc+bounces-10574-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10575-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B4689D1E6E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Nov 2024 03:50:53 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A830E9D2101
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Nov 2024 08:52:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 50571282557
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Nov 2024 02:50:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 38F1A1F2158E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Nov 2024 07:52:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7FB714600F;
-	Tue, 19 Nov 2024 02:50:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 016B315535A;
+	Tue, 19 Nov 2024 07:52:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Emp8av/E"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rqZ6dX5g"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76DEB145A09;
-	Tue, 19 Nov 2024 02:50:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CADC66E2BE;
+	Tue, 19 Nov 2024 07:52:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731984634; cv=none; b=i5jB3QVloMCPz7EPWkustI9uuoFNoYC8VbjGj7vGj/yA0N0Vwn/j3CBG9Uedc4F7o/LQqM3a+1RG+KC4n0MrE0rZURT69LouvfcY+TJopiyF/I9ViUu4YZgVAUJ60srz2Lf+kqessCpQ9jSUwBAskKlLiLdgDDXsv3wCWkiJ0DA=
+	t=1732002757; cv=none; b=fGkECWCvx1uQlhH5IvYqDqPe9w0nj4pkvuBskLbkHosgIDGfelwqhOqXiKiwWoY3SNhk+ADkTTngJN+iYNCQ1VJS0XEKvzuaRcZ6J16tOIvaqskilOLoaztrUuuq/VIym8YKBretKrNzR11vZ4/dLfWS9YfHGDhWdARwVuHaJUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731984634; c=relaxed/simple;
-	bh=M3fYILgUzXtiT5uDZ8DGwwy3CEaH6jcV/j5fu0aDaeA=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=pvQawvm/8tXfkt/DJ99vzVyiOBLBn1quLYTaATpH9PthUhOaTpV8Q7o+KPJjVUoFaEFF4X0u0SgPKO2Xg8WEaENT71k/b7BcYehwnrtjwmjktI5s06gSBrh2nZomZSeMHgWgR/gi/0ZNAc3vNkuB1R3iniFswUFPzC2eEKc3qfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Emp8av/E; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46449C4CED9;
-	Tue, 19 Nov 2024 02:50:34 +0000 (UTC)
+	s=arc-20240116; t=1732002757; c=relaxed/simple;
+	bh=vlZ6V0V0suamT+C0dm+LdFJZxlVSNDnx0CqzO+SIykI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ozj2XgiBCGxLQORBfimjr9cqyTsx/DYBHD81g0xQjbHAhjQN526jUE20y36e9XGQVyQpZyB2/lRrlKFJ84VBWpuSVgho2IdK4bE/gpmVKDNo4Z+v4eblUGsLqEh2yyAX+yRTDfIaPW4RKPt+v5onzmTKa3/s0fD56Krl46UtOM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rqZ6dX5g; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54108C4CECF;
+	Tue, 19 Nov 2024 07:52:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731984634;
-	bh=M3fYILgUzXtiT5uDZ8DGwwy3CEaH6jcV/j5fu0aDaeA=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=Emp8av/EWyHDx9FV9kgfUZtQsP9ubjNv7OvgAGv54wGxzXif+x7WEwWGQnqR/RKZc
-	 j2Ninuo53DFxg6CJN1QLNMIvu/gfjPGHE6bl4B4J4K0gBpcuyQ5ikKqNetKfl1Aa55
-	 EKY7UkwlUYPZHl/SG1JvM1rkA7x0OmCKMEmSIKzKb1WVvp3Qh0wI/hShKoIYRoTmCW
-	 D3Eb912EEfj+o5ucZXLZXo0iH6rkm31F1rbFr8/STwnFT7lCoYOpU4sMLPG6/ls0Xm
-	 0+YUOzs67Ms2CzzYAxNrBP7HFOWT44SyYmpap/36+RYudRU5FKKAtoiViXIW0JIzB9
-	 DrOwp4H2XpFSg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EAEA93809A80;
-	Tue, 19 Nov 2024 02:50:46 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1732002757;
+	bh=vlZ6V0V0suamT+C0dm+LdFJZxlVSNDnx0CqzO+SIykI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rqZ6dX5gFPX/Q9wBUHBCxPwNDF8hBrC7yohbLFN694Y8yOp0J16HR4DvqRdPsJmTO
+	 Tt9hQaBPUaC60HRBogF3C2ZF+mZLocCIKI01joVKoGJcAH0QYQUDI8EV8kKoVzIrEB
+	 DDuSR9i3ZVPw2ec1cpBGu746sT83Q95DHm8vq1bBY7x3yDeja74ifyK8SwZ1+WXwUk
+	 cAuqABOaawUEn6y65UT9GmAEpoYqW7iZ7O3LLRcQB1cBhAxONb7hLOV3Q/tvU2VIZ/
+	 viFPEbtxbVIH3nq/0Gl5BiPd5BRomosE5KlDWWHlrvd/avZEucK327ZS9NoK+Avrh9
+	 djOEH0D1gLM0g==
+Date: Tue, 19 Nov 2024 08:52:28 +0100
+From: Ingo Molnar <mingo@kernel.org>
+To: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Quan Zhou <zhouquan@iscas.ac.cn>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Anup Patel <anup@brainfault.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	"Liang, Kan" <kan.liang@linux.intel.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Colton Lewis <coltonlewis@google.com>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Chris Paterson <Chris.Paterson2@renesas.com>,
+	Andrew Jones <ajones@ventanamicro.com>
+Subject: Re: [PATCH v2] riscv: perf: Drop defining
+ `perf_instruction_pointer()` and `perf_misc_flags()`
+Message-ID: <ZzxDvLKGz1ouWzgX@gmail.com>
+References: <20241116160506.5324-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next] dt-bindings: net: renesas,ether: Drop undocumented
- "micrel,led-mode"
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <173198464577.82509.11524804173445644255.git-patchwork-notify@kernel.org>
-Date: Tue, 19 Nov 2024 02:50:45 +0000
-References: <20241113225742.1784723-2-robh@kernel.org>
-In-Reply-To: <20241113225742.1784723-2-robh@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, krzk+dt@kernel.org, conor+dt@kernel.org,
- geert+renesas@glider.be, magnus.damm@gmail.com, sergei.shtylyov@gmail.com,
- netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241116160506.5324-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hello:
 
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+* Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
 
-On Wed, 13 Nov 2024 16:57:42 -0600 you wrote:
-> "micrel,led-mode" is not yet documented by a schema. It's irrelevant to
-> the example, so just drop it.
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
->  Documentation/devicetree/bindings/net/renesas,ether.yaml | 1 -
->  1 file changed, 1 deletion(-)
+> With commit 2c47e7a74f44 ("perf/core: Correct perf sampling with guest
+> VMs"), the perf core now handles the functionality previously requiring
+> arch-specific definitions of `perf_instruction_pointer()` and
+> `perf_misc_flags()`. As these definitions are no longer necessary for
+> RISC-V, this patch removes their implementation and declarations.
+> 
+> This change also fixes the following build issue on RISC-V:
+> 
+>     ./include/linux/perf_event.h:1679:84: error: macro "perf_misc_flags" passed 2 arguments, but takes just 1
+>     ./include/linux/perf_event.h:1679:22: error: 'perf_misc_flags' redeclared as different kind of symbol
+>     ./include/linux/perf_event.h:1680:22: error: conflicting types for 'perf_instruction_pointer'; have 'long unsigned int(struct perf_event *, struct pt_regs *)'
+> 
+> The above errors arise from conflicts between the core definitions in
+> `linux/perf_event.h` and the RISC-V-specific definitions in
+> `arch/riscv/include/asm/perf_event.h`. Removing the RISC-V-specific
+> definitions resolves these issues and aligns the architecture with the
+> updated perf core.
+> 
+> Fixes: 2c47e7a74f44 ("perf/core: Correct perf sampling with guest VMs")
 
-Here is the summary with links:
-  - [net-next] dt-bindings: net: renesas,ether: Drop undocumented "micrel,led-mode"
-    https://git.kernel.org/netdev/net-next/c/5bf99baefb3e
+Yeah, so the Fixes tag is wrong - this is not a build bug
+with that commit, and your patch does not even apply to
+the perf events tree.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+This is a semantic merge conflict that arises in linux-next - the
+riscv version of perf_instruction_pointer() function doesn't even
+exist in the perf tree...
 
+AFAICS the problem is that the riscv tree applied this commit:
 
+  5bb5ccb3e8d8 ("riscv: perf: add guest vs host distinction")
+
+While the perf tree solved this in a more generic fashion:
+
+  2c47e7a74f44 perf/core: Correct perf sampling with guest VMs
+  baff01f3d75f perf/x86: Refactor misc flag assignments
+  3e807cf07d96 perf/powerpc: Use perf_arch_instruction_pointer()
+  04782e63917d perf/core: Hoist perf_instruction_pointer() and perf_misc_flags()
+  e33ed362cf9e perf/arm: Drop unused functions
+
+So I believe, assuming the perf version works fine on riscv
+(I haven't tested it), that the solution is to revert
+5bb5ccb3e8d8 either in the riscv tree, or upon merging it.
+
+Thanks,
+
+	Ingo
 
