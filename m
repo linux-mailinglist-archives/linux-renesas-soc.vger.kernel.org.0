@@ -1,166 +1,173 @@
-Return-Path: <linux-renesas-soc+bounces-10599-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10600-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A53DF9D2F38
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Nov 2024 21:03:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id F05C19D2F75
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Nov 2024 21:31:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4DBAB1F22FB4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Nov 2024 20:03:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 815F41F23A5F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Nov 2024 20:31:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80031192D77;
-	Tue, 19 Nov 2024 20:03:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2413C1D5CD4;
+	Tue, 19 Nov 2024 20:30:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="YGlaPcf7";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="aSDRFLvY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698BB145B00;
-	Tue, 19 Nov 2024 20:02:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1EA1D359E;
+	Tue, 19 Nov 2024 20:30:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732046581; cv=none; b=JfhGFeqC2jCla+36PaHPrbp/MyMXrEjguJLXhHNWWtibViLmkiV3hkEKVf0FvB+HpEUl0cDqMbDV5BPFDTBNVqxucxg5Qaonzs5tbUUJdkUosVX8oALQ+pRUvXGeGFyBS985CoX+9wy8vuSB2HLZw9yLfk7GuyzgopgYq/fpSsg=
+	t=1732048256; cv=none; b=eorwivCbnlfLVTY49H5EenLgURISZjXgbke5Qu6BzQhvLMg0kuJlWIH2zorzemSbJ2R21rD4hLIXoDOyha+kPU8fUAR2j8J+4dH9yC07gTq1g+PFyTvST9KHYO+oEeeBcfm7k9VCA/qZTNx5p/LVEApyNxn4sU4abSB+OUuOAtc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732046581; c=relaxed/simple;
-	bh=oyrP4rEhqW2swy9d4IavgjUCNO+af0YxVMiwwPcePOs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=hrVFQpZHjC07ZFBYl+g89eYUrlpcAeQikiiNjs3tGWToY+5/h1M3LmxiZlESzE+vloIgRh5ZqEjzcqZU+W5LrR5QTLKjkcOEXAvrgwmLDSoMvVzyrjBuykrzJ0KHiuRO7RTDyRMCkBItt0/4M3JbawSGNtfz8la7hk35uebdiDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.2.102] (213.87.150.95) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Tue, 19 Nov
- 2024 23:02:34 +0300
-Message-ID: <26a1dd4d-80b1-411a-abb5-92e20f5751e7@omp.ru>
-Date: Tue, 19 Nov 2024 23:02:33 +0300
+	s=arc-20240116; t=1732048256; c=relaxed/simple;
+	bh=56ArrsIDQV4Mcl9L7IRi7dVYZAeRnuAyV4eq90yHuNE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gcaeOQAkR/ztqlrz6IEuqTKhXcHsPuSGHju15tFexhaj+FF3dPoZwRTtgqHqdsAHSQZ3ZXZNFermyDTlwgKDlSwznC06J02zET0IKRWNIREtGoIETdDKo5GKWNzwLYhZM8ZqukjkzEwDHGSKS6SG+iudvV7aj7/Evhak2u7DQSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=YGlaPcf7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=aSDRFLvY; arc=none smtp.client-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-08.internal (phl-compute-08.phl.internal [10.202.2.48])
+	by mailfout.phl.internal (Postfix) with ESMTP id DF390138075F;
+	Tue, 19 Nov 2024 15:30:51 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-08.internal (MEProxy); Tue, 19 Nov 2024 15:30:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1732048251;
+	 x=1732134651; bh=7+eJYpd6GRbgJjpSCYGLsGStpmlpnCcU8XzwnJegeJM=; b=
+	YGlaPcf7aEARn0feYng7f0geZm+xcu28wAVVZ3NIZeFt+Nmwi7d8b6HXA9wYBUQy
+	Xg9UZuLS1QtRGFuHMQbm6VQCATOH0FvuXOiBEb1o3cDmxOn8cArnSu+TMa7V/Y7Q
+	pgEoBo2uozsswGVHrx0i0+/EvNrX6Aq3O5ZZY8mhieW1iFFWrU/PQMDp6DpxWfv0
+	kzgC8Upjn+vCHdxULJqgktngqUFnMVd6r8PTrJAG8zDUaI09vPQm1nU1+TSZVTmd
+	HsDMXtwxZprYIQN0PgiX8aZQkSZjjb9hW4O4bErOr57/KDZrJz+MlLxOF6s8BG7y
+	SgFUu3xe0BKnCuGdQ0KrXA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1732048251; x=
+	1732134651; bh=7+eJYpd6GRbgJjpSCYGLsGStpmlpnCcU8XzwnJegeJM=; b=a
+	SDRFLvYvTtgTORgtQgKdM4xqxUm9Zr3ehppm8ljJLviEqKWRfJT4lTyMOvmFW8Aa
+	ttpjZamyFyh2flnJnkSKp/stBoBqoKkhFMLp7AvppAtNiV0xuw3wxPz+gwt4hPCi
+	lH9H3pisADc1RFMWE+IfK9vWR4jsfEf7I8ymiW5Rg54StnzUN2i0/ww3I+t0FDZ2
+	3/PtfStL/U0aTbRUevfBm+TfmMBaVfiXjV4U9X42Ct8Mcza2rIrVp6Vwhgj9BySE
+	tAG6M4XA/5b3Un13nA+K7TxvaNcoGKGm46ROQ4Ng7VFSZB303FN3M4gDoDhCupF5
+	WBhp8xXDYhsFIXgfi7SMQ==
+X-ME-Sender: <xms:e_U8Z2_LHy6tvzx0UonpTcBOcFJ-SHxkDHmoNO9xuYwvmVWBjeyUZg>
+    <xme:e_U8Z2t0mUgPk-Xo8HKRK-PFJTgQP1eZ5oyMLPiGjRwLG8cAUzEICcuEEwOrRvu5Y
+    Ft6Hv2ZUsKlQeEv3mg>
+X-ME-Received: <xmr:e_U8Z8AL89uVDKL8sxnoIerQq8uKKR-bdVIu6hOqJSGF_W-000uoIXjC2BWXL0WSZ8kAkxAmC0raRRc07p6I3L6rbOabxOcKJw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrfedvgddufeehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
+    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
+    gvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrght
+    thgvrhhnpeefhfellefhffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvd
+    elieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehn
+    ihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrsh
+    gvpdhnsggprhgtphhtthhopeejpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehg
+    vggvrhhtsehlihhnuhigqdhmieekkhdrohhrghdprhgtphhtthhopehrrghfrggvlheskh
+    gvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrnhhivghlrdhlvgiitggrnhhosehlihhn
+    rghrohdrohhrghdprhgtphhtthhopehruhhirdiihhgrnhhgsehinhhtvghlrdgtohhmpd
+    hrtghpthhtoheplhhukhgrshiirdhluhgsrgesrghrmhdrtghomhdprhgtphhtthhopehl
+    ihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtoheplhhinhhugidqphhmsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:e_U8Z-fs7Zw1PJveQCyFjc9-Bg2dXNkpoql3H_0gIRBT7EnlNimtBQ>
+    <xmx:e_U8Z7MsXYcNBg9sYZ6REXv_cjJ1eC_llibEA31Q1npVapVRCGR8DA>
+    <xmx:e_U8Z4l2v0g4tyWbaUaKFhNrba-I3TJ59dcScZSed52CRJY0JQIzrQ>
+    <xmx:e_U8Z9sf7oRdr9Uz_xVJz0Svuim-0QHoFuXfUZk11E3IqkbvS93Jmw>
+    <xmx:e_U8Z2fvxHTrgOmLfAePS0-czLd8eAQpkOuJvqelBkHDrVwwk2ML65-7>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 19 Nov 2024 15:30:51 -0500 (EST)
+Date: Tue, 19 Nov 2024 21:30:49 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH 1/2] thermal: rcar_gen3: Use lowercase hex constants
+Message-ID: <20241119203049.GN5315@ragnatech.se>
+References: <20241116172934.1829676-1-niklas.soderlund+renesas@ragnatech.se>
+ <20241116172934.1829676-2-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdXvvD9+2=GvH+AtZUvKx2dhMEtR3e5oXQBF8FgBOVL7eQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv3 net-next] net: modernize ioremap in probe
-To: Rosen Penev <rosenp@gmail.com>, <netdev@vger.kernel.org>
-CC: Kurt Kanzenbach <kurt@linutronix.de>, Andrew Lunn <andrew@lunn.ch>,
-	Vladimir Oltean <olteanv@gmail.com>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Chris Snook <chris.snook@gmail.com>, Marcin Wojtas
-	<marcin.s.wojtas@gmail.com>, Russell King <linux@armlinux.org.uk>, Yoshihiro
- Shimoda <yoshihiro.shimoda.uh@renesas.com>, =?UTF-8?Q?Niklas_S=C3=B6derlund?=
-	<niklas.soderlund@ragnatech.se>, Heiner Kallweit <hkallweit1@gmail.com>,
-	Richard Cochran <richardcochran@gmail.com>, open list
-	<linux-kernel@vger.kernel.org>, "open list:RENESAS ETHERNET SWITCH DRIVER"
-	<linux-renesas-soc@vger.kernel.org>
-References: <20241117212711.13612-1-rosenp@gmail.com>
-Content-Language: en-US
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-In-Reply-To: <20241117212711.13612-1-rosenp@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.1, Database issued on: 11/19/2024 19:48:47
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 19
-X-KSE-AntiSpam-Info: Lua profiles 189278 [Nov 19 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.1.7
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 41 0.3.41
- 623e98d5198769c015c72f45fabbb9f77bdb702b
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 213.87.150.95 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info:
-	omp.ru:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
-X-KSE-AntiSpam-Info: FromAlignment: s
-X-KSE-AntiSpam-Info: ApMailHostAddress: 213.87.150.95
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 19
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 11/19/2024 19:51:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 11/19/2024 7:05:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdXvvD9+2=GvH+AtZUvKx2dhMEtR3e5oXQBF8FgBOVL7eQ@mail.gmail.com>
 
-On 11/18/24 12:27 AM, Rosen Penev wrote:
+Hi Geert,
 
-> Convert platform_get_resource_bynam + devm_ioremap_resource to
-> devm_platform_ioremap_resource_byname.
+On 2024-11-18 11:30:17 +0100, Geert Uytterhoeven wrote:
+> Hi Niklas,
 > 
-> Convert platform_get_resource + devm_ioremap_resource to
-> devm_platform_ioremap_resource.
+> On Sat, Nov 16, 2024 at 6:30 PM Niklas Söderlund
+> <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > The style of the driver is to use lowercase hex constants, correct the
+> > few outlines.
+> >
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > 
-> resource aquisition and ioremap can be performed in one step.
+> Thanks for your patch!
 > 
-> Signed-off-by: Rosen Penev <rosenp@gmail.com>
-> ---
->  v3: reworded commit message again. Also removed devm_ioremap
->  conversions. Even though they use normal resource, they are not
->  the same.
->  v2: fixed compilation errors on PPC and reworded commit message
->  drivers/net/dsa/hirschmann/hellcreek.c         | 18 +++---------------
->  drivers/net/ethernet/atheros/ag71xx.c          | 13 +++++--------
->  drivers/net/ethernet/broadcom/bcm63xx_enet.c   |  6 ++----
->  .../net/ethernet/marvell/mvpp2/mvpp2_main.c    | 14 +++++---------
->  drivers/net/ethernet/renesas/rswitch.c         |  9 +--------
->  drivers/net/ethernet/renesas/rtsn.c            | 10 ++--------
->  drivers/net/mdio/mdio-ipq4019.c                |  5 +----
->  7 files changed, 19 insertions(+), 56 deletions(-)
+> > --- a/drivers/thermal/renesas/rcar_gen3_thermal.c
+> > +++ b/drivers/thermal/renesas/rcar_gen3_thermal.c
+> > @@ -57,11 +57,11 @@
+> >  /* THSCP bits */
+> >  #define THSCP_COR_PARA_VLD     (BIT(15) | BIT(14))
+> >
+> > -#define CTEMP_MASK     0xFFF
+> > +#define CTEMP_MASK     0xfff
+> >
+> >  #define MCELSIUS(temp) ((temp) * 1000)
+> > -#define GEN3_FUSE_MASK 0xFFF
+> > -#define GEN4_FUSE_MASK 0xFFF
+> > +#define GEN3_FUSE_MASK 0xfff
+> > +#define GEN4_FUSE_MASK 0xfff
+> >
+> >  #define TSC_MAX_NUM    5
 > 
-> diff --git a/drivers/net/dsa/hirschmann/hellcreek.c b/drivers/net/dsa/hirschmann/hellcreek.c
-> index 283ec5a6e23c..940c4fa6a924 100644
-> --- a/drivers/net/dsa/hirschmann/hellcreek.c
-> +++ b/drivers/net/dsa/hirschmann/hellcreek.c
-[...]
-> @@ -1982,23 +1981,12 @@ static int hellcreek_probe(struct platform_device *pdev)
->  
->  	hellcreek->dev = dev;
->  
-> -	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "tsn");
-> -	if (!res) {
-> -		dev_err(dev, "No memory region provided!\n");
-> -		return -ENODEV;
-> -	}
-> -
-> -	hellcreek->base = devm_ioremap_resource(dev, res);
-> +	hellcreek->base = devm_platform_ioremap_resource_byname(pdev, "tsn");
->  	if (IS_ERR(hellcreek->base))
->  		return PTR_ERR(hellcreek->base);
->  
-> -	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "ptp");
-> -	if (!res) {
-> -		dev_err(dev, "No PTP memory region provided!\n");
-> -		return -ENODEV;
-> -	}
-> -
-> -	hellcreek->ptp_base = devm_ioremap_resource(dev, res);
-> +	hellcreek->ptp_base = 
-> +		devm_platform_ioremap_resource_byname(pdev, "ptp");
+> LGTM, but you missed a few:
+> 
+> $ git grep "\<0x.*[A-Z]" -- drivers/thermal/renesas/rcar_gen3_thermal.c
+> drivers/thermal/renesas/rcar_gen3_thermal.c:#define REG_GEN3_IRQCTL
+>          0x0C
+> drivers/thermal/renesas/rcar_gen3_thermal.c:#define REG_GEN3_IRQTEMP3   0x1C
+> drivers/thermal/renesas/rcar_gen3_thermal.c:#define REG_GEN4_THSFMON15  0x1BC
+> drivers/thermal/renesas/rcar_gen3_thermal.c:#define REG_GEN4_THSFMON16  0x1C0
+> drivers/thermal/renesas/rcar_gen3_thermal.c:#define REG_GEN4_THSFMON17  0x1C4
 
-   You have full 100 columns now, so doing this with 2 lines doesn't seem necessary --
-checkpatch.pl shouldn't complain...
+d00h, I just checked manually for things around the fuses, will fix.
 
-[...]
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> -- 
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
 
-   Other than that, looks saner now... :-)
-
-MBR, Sergey
-
+-- 
+Kind Regards,
+Niklas Söderlund
 
