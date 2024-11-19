@@ -1,124 +1,135 @@
-Return-Path: <linux-renesas-soc+bounces-10597-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10598-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2F7B9D2EC3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Nov 2024 20:21:20 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C81B99D2F32
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Nov 2024 20:58:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 84A541F23B3B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Nov 2024 19:21:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 39060B2E024
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Nov 2024 19:56:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 741961448F2;
-	Tue, 19 Nov 2024 19:21:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6ED701D0F68;
+	Tue, 19 Nov 2024 19:55:50 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E81643179;
-	Tue, 19 Nov 2024 19:21:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from gauss.telenet-ops.be (gauss.telenet-ops.be [195.130.132.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 178DF1CF7B7
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Nov 2024 19:55:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732044077; cv=none; b=VuytPQ+M6SgO+w0xH2H/5TZc3c3wt4U2RABIraA5vNQz92OYy3Kx9dnW3aAV9pQTdbrDUDYFZ2n5vOfcPcdw6HwUO4UKAD1xB8WmwsM9Xs36A3aUBjmayQSWE0lQB/Q8WeJ1irrlvIfCuumM5hnp6v9pBdQu9Y6Fl4tdUlmUgCg=
+	t=1732046150; cv=none; b=rHdp0MQnpicjdD9ZfquH9M16CL8DYvweioE0Ds1kasbCJ9qa9ZKM4TloVziOgaax82UgqJsJ24MH5yRQsTUA4xgFK6Mn42pVn8+k1ZUzbXzIb1WIpofXNmubdHMK7/ZtItRf28EyM2nD0yQlX90JQl9tSV73DZRRhwRQCs0kCGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732044077; c=relaxed/simple;
-	bh=uv4aWfkwFmdYx7bzUX1VtZHF15n9wvk7hDHDxDmM44Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=m0SMum9tsS6B+t9Qt3Hh8NqVmrc0EEfL3O7Pk/EiyKaQqfBSPGMG5HwyOIu1bxnRrDgNQ9f81+s1cvb5d2Hy83kf/OH6IMiE9tAIa4zQnMSdqBotM2sbrmWqiS8N35NYwkHqdXrY1xaZlT0fhUSLYaX6Yb+dtQyQKMUmHUg63PU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: joydJ8ZTSF+XecEXKn0teg==
-X-CSE-MsgGUID: bvI4R+qHSMGsiQIrTkbomg==
-X-IronPort-AV: E=Sophos;i="6.12,166,1728918000"; 
-   d="scan'208";a="225336233"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 20 Nov 2024 04:21:13 +0900
-Received: from localhost.localdomain (unknown [10.226.92.216])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 83BE640503A1;
-	Wed, 20 Nov 2024 04:21:00 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	dri-devel@lists.freedesktop.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org,
-	Hien Huynh <hien.huynh.px@renesas.com>,
-	stable@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Adam Ford <aford173@gmail.com>
-Subject: [PATCH v7 3/3] drm: adv7511: Drop dsi single lane support
-Date: Tue, 19 Nov 2024 19:20:31 +0000
-Message-ID: <20241119192040.152657-4-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241119192040.152657-1-biju.das.jz@bp.renesas.com>
-References: <20241119192040.152657-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1732046150; c=relaxed/simple;
+	bh=NG2rRXBIaMtEGXf5JAB9c42rp4PnYusJq1F6K1WGV6Q=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=NWYkx6GwvK3G2NmNabgOY9jhAijmWDjqbEWeX72+8Bkb7Cz4Xyb41rMiM+QBamK5SaZl7uQxVbZfzqtbFbGoxwdL0kjZMvsLHNQf5zmIFKDU4QBBDLhpU6rv/1caEmOM6Z3YdjguRBvBFcc70RJ6ap9KDANYbFQZmq9FjnSsVl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+	by gauss.telenet-ops.be (Postfix) with ESMTPS id 4XtFbZ6tKVz4x4q7
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Nov 2024 20:55:38 +0100 (CET)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:90:c2fd:9e4:224c])
+	by xavier.telenet-ops.be with cmsmtp
+	id ejvW2D0073aMPyX01jvW9F; Tue, 19 Nov 2024 20:55:30 +0100
+Received: from geert (helo=localhost)
+	by ramsan.of.borg with local-esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tDUJu-007Z2L-5s;
+	Tue, 19 Nov 2024 20:55:30 +0100
+Date: Tue, 19 Nov 2024 20:55:30 +0100 (CET)
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+To: David Wang <00107082@163.com>
+cc: tglx@linutronix.de, linux-kernel@vger.kernel.org, 
+    linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 01/13] kernel/irq/proc: use seq_put_decimal_ull_width()
+ for decimal values
+In-Reply-To: <20241108160717.9547-1-00107082@163.com>
+Message-ID: <4ce18851-6e9f-bbe-8319-cc5e69fb45c@linux-m68k.org>
+References: <20241108160717.9547-1-00107082@163.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 
-As per [1] and [2], ADV7535/7533 supports only 2-, 3-, or 4-lane. Drop
-unsupported 1-lane.
+ 	Hi David,
 
-[1] https://www.analog.com/media/en/technical-documentation/data-sheets/ADV7535.pdf
-[2] https://www.analog.com/media/en/technical-documentation/data-sheets/ADV7533.pdf
+On Sat, 9 Nov 2024, David Wang wrote:
+> seq_printf() is costy, on a system with m interrupts and n CPUs, there
+> would be m*n decimal values yield via seq_printf() when reading
+> /proc/interrupts, the cost parsing format strings grows with number of
+> CPU. Profiling on a x86 8-core system indicates seq_printf() takes ~47%
+> samples of show_interrupts(), and replace seq_printf() with
+> seq_put_decimal_ull_width() could have near 30% performance gain.
+>
+> The improvement has pratical significance, considering many monitoring
+> tools would read /proc/interrupts periodically.
+>
+> Signed-off-by: David Wang <00107082@163.com>
 
-Fixes: 1e4d58cd7f88 ("drm/bridge: adv7533: Create a MIPI DSI device")
-Reported-by: Hien Huynh <hien.huynh.px@renesas.com>
-Cc: stable@vger.kernel.org
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Adam Ford <aford173@gmail.com>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-Changes in v7:
- - No change.
-Changes in v6:
- - Added Rb tag from Adam.
-Changes in v5:
- - No change.
-Changes in v4:
- - Added link to ADV7533 data sheet.
- - Collected tags
-Changes in v3:
- - Updated commit header and description
- - Updated fixes tag
- - Dropped single lane support
-Changes in v2:
- - Added the tag "Cc: stable@vger.kernel.org" in the sign-off area.
- - Dropped Archit Taneja invalid Mail address
----
- drivers/gpu/drm/bridge/adv7511/adv7533.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks for your patch, which is now commit f9ed1f7c2e26fcd1
+("genirq/proc: Use seq_put_decimal_ull_width() for decimal values")
+in irqchip/irq/core.
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-index 5f195e91b3e6..122ad91e8a32 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-@@ -172,7 +172,7 @@ int adv7533_parse_dt(struct device_node *np, struct adv7511 *adv)
- 
- 	of_property_read_u32(np, "adi,dsi-lanes", &num_lanes);
- 
--	if (num_lanes < 1 || num_lanes > 4)
-+	if (num_lanes < 2 || num_lanes > 4)
- 		return -EINVAL;
- 
- 	adv->num_dsi_lanes = num_lanes;
--- 
-2.43.0
+This removes a space after the last CPU column, causing the values in
+this column to be concatenated to the values in the next column.
 
+E.g. on Koelsch (R-Car M-W), the output changes from:
+
+ 	       CPU0       CPU1
+      27:       1871       2017 GIC-0  27 Level     arch_timer
+      29:        646          0 GIC-0 205 Level     e60b0000.i2c
+      30:          0          0 GIC-0 174 Level     ffca0000.timer
+      31:          0          0 GIC-0  36 Level     e6050000.gpio
+      32:          0          0 GIC-0  37 Level     e6051000.gpio
+      [...]
+
+to
+
+ 	       CPU0       CPU1
+      27:       1966       1900GIC-0  27 Level     arch_timer
+      29:        580          0GIC-0 205 Level     e60b0000.i2c
+      30:          0          0GIC-0 174 Level     ffca0000.timer
+      31:          0          0GIC-0  36 Level     e6050000.gpio
+      32:          0          0GIC-0  37 Level     e6051000.gpio
+      [...]
+
+making the output hard to read, and probably breaking scripts that parse
+its contents.
+
+Reverting the commit fixes the issue for me.
+
+> --- a/kernel/irq/proc.c
+> +++ b/kernel/irq/proc.c
+> @@ -494,9 +494,11 @@ int show_interrupts(struct seq_file *p, void *v)
+> 	if (!desc->action || irq_desc_is_chained(desc) || !desc->kstat_irqs)
+> 		goto outsparse;
+>
+> -	seq_printf(p, "%*d: ", prec, i);
+> +	seq_printf(p, "%*d:", prec, i);
+> 	for_each_online_cpu(j)
+> -		seq_printf(p, "%10u ", desc->kstat_irqs ? per_cpu(desc->kstat_irqs->cnt, j) : 0);
+> +		seq_put_decimal_ull_width(p, " ",
+> +					  desc->kstat_irqs ? per_cpu(desc->kstat_irqs->cnt, j) : 0,
+> +					  10);
+>
+> 	raw_spin_lock_irqsave(&desc->lock, flags);
+> 	if (desc->irq_data.chip) {
+
+Gr{oetje,eeting}s,
+
+ 						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+ 							    -- Linus Torvalds
 
