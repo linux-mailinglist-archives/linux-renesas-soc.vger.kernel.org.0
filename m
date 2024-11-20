@@ -1,139 +1,139 @@
-Return-Path: <linux-renesas-soc+bounces-10635-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10636-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADBAF9D3864
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Nov 2024 11:31:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75D7F9D3A2C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Nov 2024 13:04:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 41970B21946
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Nov 2024 10:31:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3B73E282B5D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Nov 2024 12:04:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CCA9199E94;
-	Wed, 20 Nov 2024 10:30:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D178D19F13F;
+	Wed, 20 Nov 2024 12:04:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="A4iSzali";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="YLsoikh7"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [195.130.137.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEBE6156669
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Nov 2024 10:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CFCE15CD41;
+	Wed, 20 Nov 2024 12:04:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732098658; cv=none; b=L7FnA9cbOjCGI/luP0KQR/9Nnxnig/aNvSPHpBzXBVJwCEIMZAv/r5yjoZJ90NL0LVwyXuchSe1AtIFCgbcLamk6CfBoBab8dR7HSJuxnzHHRXbt+zDP2mrDlWlD+qAzAPJV82POEpdlejiM7tA/dkDHl7ERNvtPsEYGBQF7kCM=
+	t=1732104246; cv=none; b=XHnhqLtHl87kMpksaKN3UdBQY4LsOviFBXHiw5b3GSXTaex+ok766pEJpiecZZT7oSu2qsN48ZeLqDDW40i8m4mXG973XcZ99nxHVzy3X/NdLpOsEGMpLlGDuUApB17rc3QNLDdmBNSnmh2XiE1nyB9Y5IpbPESZ7FGyyKI4Lic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732098658; c=relaxed/simple;
-	bh=gQX5Y5VtwYzDgJZysAQCpuO0Sdmwez6CqZ2bCZbHUNA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=f8GY3D+udixsp6AqEb5auDj8qiiOKyWaP2oW4hSUAu/GTZ+6fAEXJsEAOpxQWI386vnIo+Hcyg2Dc4K8yhgUYO4bSvEpIlcuHZxeVj8AFhlpbOvZ0ZMXC8U4S5UW6ilYhEG+aUF2cwTy4xBqcJF1vTm6bRUmeKHwPtyyypnncsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:35da:ab43:467b:7991])
-	by michel.telenet-ops.be with cmsmtp
-	id eyWn2D00f3gUftr06yWnEw; Wed, 20 Nov 2024 11:30:48 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1tDhya-007bk2-8e;
-	Wed, 20 Nov 2024 11:30:47 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1tDhyx-005W42-Hn;
-	Wed, 20 Nov 2024 11:30:47 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Chris Brandt <chris.brandt@renesas.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] ARM: dts: renesas: r7s72100: Add DMA support to RSPI
-Date: Wed, 20 Nov 2024 11:30:46 +0100
-Message-Id: <dfafc16b840630f20e75292d419479294558e173.1732098491.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1732104246; c=relaxed/simple;
+	bh=A/uzbKJFBRgJE2ZNVlRRZtvMMz+uzLzfhYTOZ82jqdo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=bR7CWD9m4j0AK8Kohd+puhuz2QlR+4n7SONA2PMZfNNsCrkEqY+CkdjdrIQ6r3ko6xYtApS+7RWOc6kXqklbB1eoBSq5cyl81gIchMGAeq77DHod3TjDaZjRs1spr6fnKNVVwBpkoKpmQRIw4lI3Oxhsh+fBqPxbs8OxBuDUaeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=A4iSzali; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=YLsoikh7; arc=none smtp.client-ip=103.168.172.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
+	by mailfout.phl.internal (Postfix) with ESMTP id 95C591380092;
+	Wed, 20 Nov 2024 07:04:03 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-09.internal (MEProxy); Wed, 20 Nov 2024 07:04:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1732104243; x=1732190643; bh=c7
+	qXe0UTcQteZArnBIGzuADDt5cjD4JOTvgbSmJQcFc=; b=A4iSzaliYotfUucBl0
+	HWWE/TkwCqn69FnjXnsfTOApqXZP8Vh9CQszzq4JEMA4TuyM1tjK+FIXprqeOcZB
+	Ax043L2Op+Fo1WfDNsVSkvl5W492HYTP4BfrTwFVJhFyJELaSt3EK25Hymwcy9Md
+	SWKKKfsr95Piq1FqK+8xjOX7pJjpeCsIB01pFlcTzTH3Z4MXGxnDCyEchv732b6P
+	qPCIRUyh0cAelmLECjFydpGQUzVATYMHGpHAMjpdJ9QxkIMvcG4KVPDNX1TO57nR
+	sJIDOy/HjmY/YQAfFvmnfdlVVOSUi4tD7DpPws/2pDEcHErNy5dqaJYYpSPj04iq
+	IrwQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1732104243; x=1732190643; bh=c7qXe0UTcQteZArnBIGzuADDt5cj
+	D4JOTvgbSmJQcFc=; b=YLsoikh7lvPAdLy7L0VICGxmFWlPyefAvBkXhDr7cuiU
+	2DIwfqPpeJcXprwmyuj+GOhOCxu03/SfhZvmqARBwgycsooGwJcyRk9ezF/QfU5i
+	Y4siZguQqdzTHeTVtv1Sqc9pzEO+gg2lWInk0czC6gL0sRdAqwZ/vmTTIhzcDEVu
+	ythiuxksi+RKBYrf7C22e0eAH/T8PUg+U8KNXVgEkmRfszTlHpYu7UrleMs5myih
+	7YwbXw8ocQ/6O3NsTts59oqAj4w/Erjbq5phe7t0AbC6wpoDDIvA9WCRiLkb9tdI
+	iYT82iWc3ghEfCS3S+IqygjAEmk+mzKYbEXu47nszw==
+X-ME-Sender: <xms:M9A9Z3GoimZ6dBJhODH-E_kyvuZGEB5hJBYj1Csap5LFXb2SxmY2zA>
+    <xme:M9A9Z0VagcpLZ-ck8csH0TofIAJkXdCmx5dBR3X94VccmxSo7pUE-5XWBBmpVSBbH
+    79PEW8iH57CplrVVXc>
+X-ME-Received: <xmr:M9A9Z5LFKXXuTxDjL0iTN2_QC3bdI63_uomEbiWc1zgid-aL8raVInB87jgpa7DF6t3F239WOSlMgY-fwaJIzl0XFw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrfeeggdefiecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
+    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
+    hsucdlqddutddtmdenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeenucfh
+    rhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlh
+    hunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghr
+    nhepheduleetteekgffffedufeeuvdejiedvkefhveeifeegffehledtvdevhfefteegne
+    cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhl
+    rghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtoh
+    epjedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprhgrfhgrvghlsehkvghrnhgv
+    lhdrohhrghdprhgtphhtthhopegurghnihgvlhdrlhgviigtrghnoheslhhinhgrrhhord
+    horhhgpdhrtghpthhtoheprhhuihdriihhrghnghesihhnthgvlhdrtghomhdprhgtphht
+    thhopehluhhkrghsiidrlhhusggrsegrrhhmrdgtohhmpdhrtghpthhtoheplhhinhhugi
+    dqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthho
+    pehlihhnuhigqdhpmhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehnih
+    hklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:M9A9Z1G3xW39FnplPiSHlBLt-EC5Y5qcP1AohKL5wILUC4T9cUf26Q>
+    <xmx:M9A9Z9WX0dh1hnFtup6sXN4jtwAWQMu--PcjrUtq0aNc3gsnyJ9-7A>
+    <xmx:M9A9ZwOg6c7b1T5odH6O6UKMlVhmRCGHpMSoxnmFrnTELM61tQ4tWw>
+    <xmx:M9A9Z81knY7jQugxvfFBS_8jdoQ7gPXshVQz-L3i8D7bzKTu5gWnRg>
+    <xmx:M9A9Z8H_OSfOctCq2aQmhuysKutqdqE1E6v1VBPa_vWyB6l5_oX39Ova>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 20 Nov 2024 07:04:02 -0500 (EST)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2 0/2] thermal: rcar_gen3: Improve reading calibration fuses
+Date: Wed, 20 Nov 2024 13:03:34 +0100
+Message-ID: <20241120120336.1063979-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add DMA properties to the device nodes for Renesas Serial Peripheral
-Interfaces.
+Hello,
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-To be queued in renesas-devel for v6.14.
+This small series aims to remove the code duplication that was added
+when adding support for Gen4 devices. The logic to read the calibration
+fuses are identical for Gen3 and Gen4, but the registers are at
+different offsets.
 
-Tested on RSK+RZA1 with Renesas YRSK-LCD-PMOD (Okaya 1.44" 128x128 Color
-TFT LCD) expansion on PMOD2, using r7s72100-rskrza1-pmod-spi.dtso and
-r7s72100-rskrza1-pmod2-lcd.dtso from my renesas-overlays branch[1].
+Patch 1/2 is a small drive-by patch which fixes a style issue of the
+constants found when working on the fuses code. While patch 2/2 is the
+real work removing the code duplication.
 
-Without DMA:
-  - Screen refresh is visible and takes ca. 1s,
-  - "modetest -s" causes 163930 interrupts,
-  - workqueue: drm_fb_helper_damage_work hogged CPU for >50000us 19
-    times, consider switching to WQ_UNBOUND.
+It is tested on both Gen3 and Gen4 boards, but as not all boards have
+the fused calibration values and the driver fallback to hardcoded values
+only Gen4 have really been tested as I don't have access to a Gen3 board
+with fused calibration values.
 
-With DMA:
-  - Screen refresh is instantaneous,
-  - "modetest -s" causes 100 RSPI and 14 DMAC interrupts.
+See individual patches for changelog.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/log/?h=topic/renesas-overlays
----
- arch/arm/boot/dts/renesas/r7s72100.dtsi | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Niklas Söderlund (2):
+  thermal: rcar_gen3: Use lowercase hex constants
+  thermal: rcar_gen3: Reuse logic to read fuses on Gen3 and Gen4
 
-diff --git a/arch/arm/boot/dts/renesas/r7s72100.dtsi b/arch/arm/boot/dts/renesas/r7s72100.dtsi
-index b831bbc431efb93e..1a866dbaf5e93423 100644
---- a/arch/arm/boot/dts/renesas/r7s72100.dtsi
-+++ b/arch/arm/boot/dts/renesas/r7s72100.dtsi
-@@ -238,6 +238,8 @@ spi0: spi@e800c800 {
- 				     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>;
- 			interrupt-names = "error", "rx", "tx";
- 			clocks = <&mstp10_clks R7S72100_CLK_SPI0>;
-+			dmas = <&dmac 0x2d21>, <&dmac 0x2d22>;
-+			dma-names = "tx", "rx";
- 			power-domains = <&cpg_clocks>;
- 			num-cs = <1>;
- 			#address-cells = <1>;
-@@ -253,6 +255,8 @@ spi1: spi@e800d000 {
- 				     <GIC_SPI 243 IRQ_TYPE_LEVEL_HIGH>;
- 			interrupt-names = "error", "rx", "tx";
- 			clocks = <&mstp10_clks R7S72100_CLK_SPI1>;
-+			dmas = <&dmac 0x2d25>, <&dmac 0x2d26>;
-+			dma-names = "tx", "rx";
- 			power-domains = <&cpg_clocks>;
- 			num-cs = <1>;
- 			#address-cells = <1>;
-@@ -268,6 +272,8 @@ spi2: spi@e800d800 {
- 				     <GIC_SPI 246 IRQ_TYPE_LEVEL_HIGH>;
- 			interrupt-names = "error", "rx", "tx";
- 			clocks = <&mstp10_clks R7S72100_CLK_SPI2>;
-+			dmas = <&dmac 0x2d29>, <&dmac 0x2d2a>;
-+			dma-names = "tx", "rx";
- 			power-domains = <&cpg_clocks>;
- 			num-cs = <1>;
- 			#address-cells = <1>;
-@@ -283,6 +289,8 @@ spi3: spi@e800e000 {
- 				     <GIC_SPI 249 IRQ_TYPE_LEVEL_HIGH>;
- 			interrupt-names = "error", "rx", "tx";
- 			clocks = <&mstp10_clks R7S72100_CLK_SPI3>;
-+			dmas = <&dmac 0x2d2d>, <&dmac 0x2d2e>;
-+			dma-names = "tx", "rx";
- 			power-domains = <&cpg_clocks>;
- 			num-cs = <1>;
- 			#address-cells = <1>;
-@@ -298,6 +306,8 @@ spi4: spi@e800e800 {
- 				     <GIC_SPI 252 IRQ_TYPE_LEVEL_HIGH>;
- 			interrupt-names = "error", "rx", "tx";
- 			clocks = <&mstp10_clks R7S72100_CLK_SPI4>;
-+			dmas = <&dmac 0x2d31>, <&dmac 0x2d32>;
-+			dma-names = "tx", "rx";
- 			power-domains = <&cpg_clocks>;
- 			num-cs = <1>;
- 			#address-cells = <1>;
+ drivers/thermal/renesas/rcar_gen3_thermal.c | 95 +++++++++------------
+ 1 file changed, 39 insertions(+), 56 deletions(-)
+
 -- 
-2.34.1
+2.47.0
 
 
