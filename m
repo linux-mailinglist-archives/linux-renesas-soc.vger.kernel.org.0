@@ -1,110 +1,222 @@
-Return-Path: <linux-renesas-soc+bounces-10628-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10629-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17B489D371F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Nov 2024 10:36:50 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B8369D3759
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Nov 2024 10:47:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C5CD31F21B80
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Nov 2024 09:36:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 04B851F226CD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Nov 2024 09:47:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42B3C22318;
-	Wed, 20 Nov 2024 09:36:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4A95199943;
+	Wed, 20 Nov 2024 09:47:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="Tmgdm04a"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="alaojDzS";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PsAOIOEQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B1EF19C566;
-	Wed, 20 Nov 2024 09:36:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ADFD15C15F;
+	Wed, 20 Nov 2024 09:47:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732095400; cv=none; b=Vu+zhtT2g5hhjXRcqODdg6n75O9bft5eHRbRUYM7M7ZV+4V25HxzRFgG9L84hweu/im4f2rcXnFM5bnTH25wloniXtk5keLrMJM7FHgwzqudBr1TYnysegTINZC9TYUnyNqTZTIoCA7h228KPTuJQKRct6eIHnBQdTUsC0Vuoqs=
+	t=1732096068; cv=none; b=MbAfggHWUvwnWBu4E8Gj34UWeA46yAwqFws+fW+SMA9MZ3OELV2LssHDwuQxl3UZaepdnZyHyGrxCHnV+4xibwv+K7dGYxtWfqXwd6ZMoKAEgvFDRsjhIL/7cu9jSkkQONQ3WmJRtz7DFtbE8HbLMS6LtS3PvxOerj1OHa8GUpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732095400; c=relaxed/simple;
-	bh=eQ13oS8w+zZiWpZalLdQZ2HHV6dErXU/FvIyOzGR0ic=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=gDA240uTW/+E1sp4Wn1I9IO7AlBpylcabw04MQpE8/CcoGHs1fEeoDF1TnCACYvCYWjM5K0CT7tXAmpnsdRL3qIckPRzz3X5CeMGXnAdY6nQlTichhRNyU2k9Zxszckmj1VZaGrKTbsVEqZlgamIeXrDBgkP4PqhzvWSaPeDRVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=Tmgdm04a reason="signature verification failed"; arc=none smtp.client-ip=117.135.210.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=QxX7+bW8i9Cke6vXm2kkHQcRThBprao3lkeSccNlKgI=; b=T
-	mgdm04aZTvpl3MmZZuCRJ4Ne2VSMy4ny30IGUUYVcBaSIl3eGAd6wIULrjNNFgrW
-	8MdWUa1lqWT7Wv7xjqOrAWPRlcOFY2+cTAhvmPhjDyapy4M/tW7LDwJpKyuDEV1s
-	YGSeqlAp8CxfBSJE3Y4KtQCHgtWhjBPamrDtRWYJdE=
-Received: from 00107082$163.com ( [111.35.191.191] ) by
- ajax-webmail-wmsvr-40-130 (Coremail) ; Wed, 20 Nov 2024 17:36:22 +0800
- (CST)
-Date: Wed, 20 Nov 2024 17:36:22 +0800 (CST)
-From: "David Wang" <00107082@163.com>
-To: "Geert Uytterhoeven" <geert@linux-m68k.org>
-Cc: tglx@linutronix.de, linux-kernel@vger.kernel.org, 
+	s=arc-20240116; t=1732096068; c=relaxed/simple;
+	bh=5ZyhF4+JpDSOAiJy1FlB8lD77wwk3IteGZEMtzByJrs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z24qn84HitI7+VE7CP6Y9YX4gSlFcs2nBkkwHgd7ScQgVTCQc4Kw79ScfxAE5581IkgvcJ+UmgB+XlKQqTyrJC+cYtUpxroptAO4hQ+uy8jTV9kLdGQU7pGO9U5yoTaCy27fEaByrQ740AfECtEW6PDszlQOyXvXZONpkUMVaaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=alaojDzS; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PsAOIOEQ; arc=none smtp.client-ip=202.12.124.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id E05C025401A6;
+	Wed, 20 Nov 2024 04:47:43 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Wed, 20 Nov 2024 04:47:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1732096063;
+	 x=1732182463; bh=cLmLgK8o79bQ1+bKApcLpo+mE3WZa2SFq/bNwaTW+hs=; b=
+	alaojDzSIYLLYUhjmRqlCLysoXUeqBwM8bTxHBDHujyQ338Ch/IDjmPFU9tybWi3
+	rwtKcdeqO+5kWMGEGLhIE8uCSQMrK08e3BooZT8dFiXjBicOSZgUMYr5OaB7KZcz
+	Jwf78B49oMQ/nvboj0w41/jNgEFkrs/uGb7zYULyxmtZ2VWKtWCXMT9C0tfSq5hl
+	My21KoXksh7cGG5GqdkZlkO/Gd3e4sWhCaDixb9z9wVcQVMMZXcAjqHdXlWKGlk6
+	lF+55vnayAhU5OWoUOlwdZ/Yvd+xt5A2zNNM7iNV2Nh3qh1XRDR6v8pQyeghrs8q
+	gZOoMuHYppfKOX+Cm6ENvQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1732096063; x=
+	1732182463; bh=cLmLgK8o79bQ1+bKApcLpo+mE3WZa2SFq/bNwaTW+hs=; b=P
+	sAOIOEQOZEZaZ1smGA8X1owI1cg2dTeH6lmPVVOBha1UFVKGEkeaIDJyxlPe575D
+	mzpSvxCyd5npacMU1UWA/8HPfvazIKvyXiDKJ7J1qRS11iy3gL5Ms7VFbESYezx+
+	P0dNnHLIP4KpuAiwvQ1oG8U/80RrOIqpgozmymIlNHY3L/iLxSjFHEK1J9pNCwYq
+	5zjoViWrjpK2G8/lBVZZ5fpYe8XSNJ17EeSuqRzBSE9thRL+0UPt5MBkULlwGg8M
+	YlUu7CqLaIa9RUN+ei6et4wyLIZX6hatkOO9FOTUqOckuUpSLLy3c/csOoP4Hrkh
+	/e9ukaqwfe3ADg2ddwFsg==
+X-ME-Sender: <xms:PrA9Z1J9SsNr0mkilJ3zfbfd5V32mxiO8sYkRRn-QpCKvtI7PBqBog>
+    <xme:PrA9ZxIk3f7dMq-_KhxYgGVxU49xiyv_5KupkZQt-D4Nv__1UbPyaGv4AUZAjdgyt
+    rXPVpxMbHN4w4X3q0Y>
+X-ME-Received: <xmr:PrA9Z9vfiAY8GSCO5qVUfRHzi-URfulxpoHkfKAmk5HtEhhcYcqvCaOAWAux_ZR3MG8CrP6RnCAvpLWiNIlXP4TM0OWb-gvpLg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrfeeggddtkecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
+    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
+    hsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeen
+    ucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvg
+    hrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthht
+    vghrnhepfefhleelhfffjefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftddvle
+    einecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhi
+    khhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
+    dpnhgspghrtghpthhtohepuddtpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehs
+    rghkrghrihdrrghilhhusheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhope
+    hmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhn
+    vghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgvggv
+    rhhtodhrvghnvghsrghssehglhhiuggvrhdrsggvpdhrtghpthhtoheplhgruhhrvghnth
+    drphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehl
+    ihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepug
+    gvvhhitggvthhrvggvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:P7A9Z2Z-LU6h39Ved_VkIkyX17Gdw1uEimmOtti0TxZxepXx9B6xIw>
+    <xmx:P7A9Z8Y5Ol9H3BO6YDU3IZ87wJqQ_9c_uN0EWswG83r1RXh37RpOkA>
+    <xmx:P7A9Z6AZIVNfEaL8vKsQGV2m2ZHKY6tUTr_HQLGjxXBys6EWwYbngQ>
+    <xmx:P7A9Z6Y6O_QwmrHukppB0CtO-Yids6CQ0UuxALycV_M7AathYEOeaA>
+    <xmx:P7A9Z5TJWqCtphDe9RUU8Yjf7QboitSSKIS0RVYiRFurYKP9-ZOuynyv>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 20 Nov 2024 04:47:42 -0500 (EST)
+Date: Wed, 20 Nov 2024 10:47:41 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 01/13] kernel/irq/proc: use seq_put_decimal_ull_width()
- for decimal values
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <CAMuHMdUGt-8onJqKbai9Uc+Vb-YHXKx_ggMqyURJp5btuf1v_A@mail.gmail.com>
-References: <20241108160717.9547-1-00107082@163.com>
- <4ce18851-6e9f-bbe-8319-cc5e69fb45c@linux-m68k.org>
- <5ed0a36f.1698.1934737447d.Coremail.00107082@163.com>
- <710d6832.1f29.19347541394.Coremail.00107082@163.com>
- <CAMuHMdUGt-8onJqKbai9Uc+Vb-YHXKx_ggMqyURJp5btuf1v_A@mail.gmail.com>
-X-NTES-SC: AL_Qu2YAPySuksj5CeeZ+kXn0oTju85XMCzuv8j3YJeN500mCXf9xIAbG5BDXrs9fmmJyqmoQmcXD1VwcJXdoVBfJOCImjoGNg9beLqXWcsE0iW
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+Subject: Re: [PATCH 1/4] media: dt-bindings: Add property to describe CSI-2
+ C-PHY line orders
+Message-ID: <20241120094741.GS5315@ragnatech.se>
+References: <20241119221249.539610-1-niklas.soderlund+renesas@ragnatech.se>
+ <20241119221249.539610-2-niklas.soderlund+renesas@ragnatech.se>
+ <Zz2YjNHk-ZTlXztw@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <613460f0.9d25.19348ee14f1.Coremail.00107082@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:gigvCgD3n3qXrT1n6fgrAA--.57131W
-X-CM-SenderInfo: qqqrilqqysqiywtou0bp/xtbB0gudqmc9pPWIMAAGsb
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Zz2YjNHk-ZTlXztw@kekkonen.localdomain>
 
-CkF0IDIwMjQtMTEtMjAgMTc6MDA6MzgsICJHZWVydCBVeXR0ZXJob2V2ZW4iIDxnZWVydEBsaW51
-eC1tNjhrLm9yZz4gd3JvdGU6Cj5IaSBEYXZpZCwKPgoKPj4KPj4gU2V2ZXJhbCBkcml2ZXJzIHVz
-ZSBkZXZfbmFtZSBhcyBmb3JtYXQgc3RyaW5nIGZvciBzZXFfcHJpbnRmLCAgd291bGQgdGhpcyBy
-YWlzZSBzZWN1cml0eSBjb25jZXJucz8KPj4KPj4gICAgICAgIGRyaXZlcnMvZ3Bpby9ncGlvLXhn
-cy1pcHJvYy5jOiAgIHNlcV9wcmludGYocCwgZGV2X25hbWUoY2hpcC0+ZGV2KSk7Cj4+ICAgICAg
-ICAgZHJpdmVycy9ncGlvL2dwaW8tbWx4YmYyLmM6ICAgICBzZXFfcHJpbnRmKHAsIGRldl9uYW1l
-KGdzLT5kZXYpKTsKPj4gICAgICAgICBkcml2ZXJzL2dwaW8vZ3Bpby1vbWFwLmM6ICAgICAgIHNl
-cV9wcmludGYocCwgZGV2X25hbWUoYmFuay0+ZGV2KSk7Cj4+ICAgICAgICAgZHJpdmVycy9ncGlv
-L2dwaW8taGx3ZC5jOiAgICAgICBzZXFfcHJpbnRmKHAsIGRldl9uYW1lKGhsd2QtPmRldikpOwo+
-PiAgICAgICAgIGRyaXZlcnMvZ3Bpby9ncGlvLWFzcGVlZC5jOiAgICAgc2VxX3ByaW50ZihwLCBk
-ZXZfbmFtZShncGlvLT5kZXYpKTsKPj4gICAgICAgICBkcml2ZXJzL2dwaW8vZ3Bpby1wY2E5NTN4
-LmM6ICAgIHNlcV9wcmludGYocCwgZGV2X25hbWUoZ2MtPnBhcmVudCkpOwo+PiAgICAgICAgIGRy
-aXZlcnMvZ3Bpby9ncGlvLXRlZ3JhMTg2LmM6ICAgc2VxX3ByaW50ZihwLCBkZXZfbmFtZShnYy0+
-cGFyZW50KSk7Cj4+ICAgICAgICAgZHJpdmVycy9ncGlvL2dwaW8tdGVncmEuYzogICAgICBzZXFf
-cHJpbnRmKHMsIGRldl9uYW1lKGNoaXAtPnBhcmVudCkpOwo+PiAgICAgICAgIGRyaXZlcnMvZ3Bp
-by9ncGlvLWVwOTN4eC5jOiAgICAgc2VxX3ByaW50ZihwLCBkZXZfbmFtZShnYy0+cGFyZW50KSk7
-Cj4+ICAgICAgICAgZHJpdmVycy9ncGlvL2dwaW8tYXNwZWVkLXNncGlvLmM6ICAgICAgIHNlcV9w
-cmludGYocCwgZGV2X25hbWUoZ3Bpby0+ZGV2KSk7Cj4+ICAgICAgICAgZHJpdmVycy9ncGlvL2dw
-aW8tcGwwNjEuYzogICAgICBzZXFfcHJpbnRmKHAsIGRldl9uYW1lKGdjLT5wYXJlbnQpKTsKPj4g
-ICAgICAgICBkcml2ZXJzL2dwaW8vZ3Bpby12aXNjb250aS5jOiAgIHNlcV9wcmludGYocCwgZGV2
-X25hbWUocHJpdi0+ZGV2KSk7Cj4KPkluIHRoZW9yeSwgeWVzLiBCdXQgSSBndWVzcyBpdCdzIGhh
-cmQgdG8gc25lYWsgYSBwZXJjZW50IHNpZ24gaW4gdGhlc2UKPmRldmljZSBuYW1lcy4KClllcywg
-aXQgaXMganVzdCB0aGVvcmV0aWNhbC4uLiAoV291bGQgYmUgYSB3b25kZXJmdWwgc3RvcnkgaWYg
-c29tZW9uZSBtYW5hZ2UgaXQgc29tZWhvdyA6KSApCkFueXdheSwgSSBzZW5kIG91dCBhbm90aGVy
-IHBhdGNoIGZvciBmdXJ0aGVyIGRpc2N1c3Npb24uCgo+Cj5CdXQgZ2l2ZW4gdGhlIGFib3ZlLCBh
-bGwgb2YgdGhlbSBzaG91bGQgcHJvYmFibHkgYmUgdXBkYXRlZCB0byBwcmludAo+YW4gaW5pdGlh
-bCBzcGFjZT8KPgpPaCwgbm8sIEkgZGlkIG5vdCBtZWFuIHRvIGFkZGluZyBsZWFkaW5nIHNwYWNl
-IGZvciB0aG9zZSBpbiBpcnFfcHJpbnRfY2hpcCgpCkkgbWVudGlvbmVkIHRob3NlIGp1c3QgYmVj
-YXVzZSBvZiB0aGUgZm9ybWF0IHN0cmluZyB0aGluZy4KCkFkZCBsZWFkaW5nIHNwYWNlIGluIHRo
-b3NlIGlycV9wcmludF9jaGlwKCkgaXMga2luZCBvZiBzdHJhbmdlLi4uCldpdGggVGhvbWFzJ3Mg
-cGF0Y2gsIGlycV9wcmludF9jaGlwKCkgbmVlZHMgbm90IHdvcnJ5IGFib3V0IHRoZSBsZWFkaW5n
-IHNwYWNlIGlzc3VlLiAKCgo+R3J7b2V0amUsZWV0aW5nfXMsCj4KPiAgICAgICAgICAgICAgICAg
-ICAgICAgIEdlZXJ0Cj4KPi0tIAo+R2VlcnQgVXl0dGVyaG9ldmVuIC0tIFRoZXJlJ3MgbG90cyBv
-ZiBMaW51eCBiZXlvbmQgaWEzMiAtLSBnZWVydEBsaW51eC1tNjhrLm9yZwo+Cj5JbiBwZXJzb25h
-bCBjb252ZXJzYXRpb25zIHdpdGggdGVjaG5pY2FsIHBlb3BsZSwgSSBjYWxsIG15c2VsZiBhIGhh
-Y2tlci4gQnV0Cj53aGVuIEknbSB0YWxraW5nIHRvIGpvdXJuYWxpc3RzIEkganVzdCBzYXkgInBy
-b2dyYW1tZXIiIG9yIHNvbWV0aGluZyBsaWtlIHRoYXQuCj4gICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIC0tIExpbnVzIFRvcnZhbGRzCgoKVGhhbmtzfgpEYXZpZA==
+Hi Sakari,
+
+Tack för din feedback!
+
+On 2024-11-20 08:06:36 +0000, Sakari Ailus wrote:
+> Hejssan, Niklas!
+> 
+> Tack för de här lapparna!
+> 
+> On Tue, Nov 19, 2024 at 11:12:46PM +0100, Niklas Söderlund wrote:
+> > Each data lane on a CSI-2 C-PHY bus uses three phase encoding and is
+> > constructed from three physical wires. The wires are referred to as A, B
+> > and C and their default order is ABC. However to ease hardware design
+> > the specification allows for the wires to be switched in any order.
+> > 
+> > Add a vendor neutral property to describe the line order used. The
+> > property name 'line-orders', the possible values it can be assigned and
+> > there names are taken from the MIPI Discovery and Configuration (DisCo)
+> > Specification for Imaging.
+> > 
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > ---
+> >  .../bindings/media/video-interfaces.yaml      | 20 +++++++++++++++++++
+> >  include/dt-bindings/media/video-interfaces.h  |  7 +++++++
+> >  2 files changed, 27 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/video-interfaces.yaml b/Documentation/devicetree/bindings/media/video-interfaces.yaml
+> > index 26e3e7d7c67b..95491e5779ba 100644
+> > --- a/Documentation/devicetree/bindings/media/video-interfaces.yaml
+> > +++ b/Documentation/devicetree/bindings/media/video-interfaces.yaml
+> > @@ -210,6 +210,26 @@ properties:
+> >        lane-polarities property is omitted, the value must be interpreted as 0
+> >        (normal). This property is valid for serial busses only.
+> >  
+> > +  line-orders:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> > +    minItems: 1
+> > +    maxItems: 8
+> > +    enum:
+> > +      - 0 # ABC
+> > +      - 1 # ACB
+> > +      - 2 # BAC
+> > +      - 3 # BCA
+> > +      - 4 # CAB
+> > +      - 5 # CBA
+> 
+> Do you know hardware documentation using lettes for the lines? I do agree
+> it seems less confusing but I've seen only numbers being used.
+
+Yes the R-Car IP core documentation and schematics uses the ABC naming 
+for the lines. Unfortunately the documentation is not public.
+
+> 
+> > +    description:
+> > +      An array of line orders of the CSI-2 C-PHY data lanes. The order of the
+> > +      lanes are the same as in data-lanes property. Valid values are 0-5 as
+> > +      defined in the MIPI Discovery and Configuration (DisCo) Specification for
+> > +      Imaging. The length of the array should be the same length as the
+> 
+> s/should/must/
+> 
+> As this is a requirement for DTS authors in particular.
+> 
+> > +      data-lanes property. If the line-orders property is omitted, the value
+> > +      must be interpreted as 0 (ABC). This property is valid for CSI-2 C-PHY
+> 
+> I would:
+> 
+> s/must/shall/
+> 
+> > +      busses only.
+> > +
+> >    strobe:
+> >      $ref: /schemas/types.yaml#/definitions/uint32
+> >      enum: [ 0, 1 ]
+> > diff --git a/include/dt-bindings/media/video-interfaces.h b/include/dt-bindings/media/video-interfaces.h
+> > index 68ac4e05e37f..88b9d05d8075 100644
+> > --- a/include/dt-bindings/media/video-interfaces.h
+> > +++ b/include/dt-bindings/media/video-interfaces.h
+> > @@ -13,4 +13,11 @@
+> >  #define MEDIA_BUS_TYPE_PARALLEL			5
+> >  #define MEDIA_BUS_TYPE_BT656			6
+> >  
+> > +#define MEDIA_BUS_CSI2_CPHY_LINE_ORDER_ABC	0
+> > +#define MEDIA_BUS_CSI2_CPHY_LINE_ORDER_ACB	1
+> > +#define MEDIA_BUS_CSI2_CPHY_LINE_ORDER_BAC	2
+> > +#define MEDIA_BUS_CSI2_CPHY_LINE_ORDER_BCA	3
+> > +#define MEDIA_BUS_CSI2_CPHY_LINE_ORDER_CAB	4
+> > +#define MEDIA_BUS_CSI2_CPHY_LINE_ORDER_CBA	5
+> > +
+> >  #endif /* __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__ */
+> 
+> -- 
+> Med vänliga hälsningar,
+> 
+> Sakari Ailus
+
+-- 
+Kind Regards,
+Niklas Söderlund
 
