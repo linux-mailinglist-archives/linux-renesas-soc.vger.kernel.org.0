@@ -1,109 +1,146 @@
-Return-Path: <linux-renesas-soc+bounces-10620-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10621-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E5819D35FB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Nov 2024 09:54:09 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B02179D360E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Nov 2024 09:57:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1FB74B214F6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Nov 2024 08:54:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2E30AB247B0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Nov 2024 08:57:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFEEE176FB6;
-	Wed, 20 Nov 2024 08:54:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="HPXwIyP+"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C166318872D;
+	Wed, 20 Nov 2024 08:57:15 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7800172BA9
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Nov 2024 08:54:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F01C176AC7;
+	Wed, 20 Nov 2024 08:57:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732092843; cv=none; b=SvcbAY1j2GhnMfSFoXOxPzbGMJZp8lVNN1zNJ3e5RuZ/rV9ekw41qMzeubjt+w1CU5jz3Zoo6KkaOeJ1jqWxIxHRGAxpKYuISd97I8ws6z1+ljoKj0hfc7l4W2fDqapseetuIQoGBODpdx1oBnu306X+BZuOCEQV6JbfP89CFWY=
+	t=1732093035; cv=none; b=SkJZ55xZgfj7qXg2BzclfcLrUjmSZzOq4IlgV0cvBtBvhgHhB9fqPGzG5m+ozLK2VZWZaRZJ5Xae0FnMUE1Mg5F89vvxm9li4kCVDVkYMC/lI3Ahkt12lrHRhP3F4up+tBRHWHOVzK8+jBQ0vNtmhbefcx9YKsRWpo4Bju4OtYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732092843; c=relaxed/simple;
-	bh=51UQGBmULonluEbQpgbhVHYS6EalistYtOLeMb1RpE8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TJulWs069VVIkCn2C7MnFcskn7OZWmSIK2ZvFV0hV2h3a6kkepaGnVSp8Cg8crPfCgRk+y2XbDZOHCUb4yBd4n5c042J50JeanoTXGCQBqF0IXB09FRSxq7jeR4VI6ezqptKOguIeJZ0iyRy7NVdtRVQwjUdRs38kkAyxJH/WT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=HPXwIyP+; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=9bTMNp9DbYwBHM
-	G/d5lcJpQICn9C3Vzzzug+gmRkH44=; b=HPXwIyP+XddsG160fafKfED5+lu8Hv
-	PbPTLj7unW6wqsJZ7NLHSHudjz4c3bOKT6nP4h//ydazg1h+oYrIu2BAfuhfB+f4
-	YoZl7f5+uIVeWOiBZA2ELuvG7oOftB3bBqDZZiAccExtACx7T1MUgVvIQzFGrG97
-	ZUZQLUaL/v2A01yhj0bChkGFpbc2YVQuD6eBLhkCGQFg4rjknW5x4oY6F5OEt5Fl
-	HISmOpvXHXKBVF9VGvakMHTW5jnAZ0F+jGWh4CkJgdKGJ4hm3knl86pzcubLsYO9
-	8dbZiTJXZkhkgDjh3SihXI5t0ziTxM+tVzYtx5oQrmrm/TON5M+V2dpA==
-Received: (qmail 838038 invoked from network); 20 Nov 2024 09:53:59 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Nov 2024 09:53:59 +0100
-X-UD-Smtp-Session: l3s3148p1@RftrSlQnot4gAwDPXxznANR4Jedc6XSv
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org
-Subject: [PATCH] arm64: dts: renesas: rzg3s-smarc: Enable I2C1 and connected power monitor
-Date: Wed, 20 Nov 2024 09:49:59 +0100
-Message-ID: <20241120085345.24638-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.45.2
+	s=arc-20240116; t=1732093035; c=relaxed/simple;
+	bh=B0dDHI/2v9sTO457km8+xaCTu24NvfYHRd2EM73SBKE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hqQ0570LYak3xJmZtnbXaTnmF7wXKqxgYqL18WimH72pbrihv5i+8fS5/iYDCHAFm0h2qXdiFpEYaf4HSGvuX7MV0aDtT/k1a6cue/rpQzs9lO5QXKotrntrbb6E6obZ/3j2qRNhQkcIKzvkwKuQyeyVT3s08QlmIaOrzrExHpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6eb0c2dda3cso19856087b3.1;
+        Wed, 20 Nov 2024 00:57:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732093032; x=1732697832;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yqejtgreyPze9wekE77oPp4PWzW/3GGPPe0NT9h9J2s=;
+        b=gY5fJtH4D6RJOPLyfVAKe8s4r53ImKUNtxCOqaNIkZDneuJKaR/bBwoE7oGkROjOCd
+         vHJE94+tmdCdh6lSUzB5XMCbFhEFcebm0/fqhQ2k5WaIVBYvk/ksUAnq1sQtpWjB7KEP
+         PjiIPYVf1EsmR3yJYBhLl/exS/woNhcKphzgXb4gtPlZRGhkdBoEFH8BY6vzmCYlNuMB
+         vvU6r2ruas/l7RChmHfJwChYHUDW33cjQYFrChlAmIgcKwiStrCQ+o1TictLDD5gbBkk
+         UZP73A92JEvnvcdiY8Ce5x1/zFyybl4p2d67EHxq7jI4igFJxrxT4973Y8uWcWkk2cFv
+         zYvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVMUNZz/Ly8ASxEfOtZabpMV9MYxm7X8mqPawWdKevu9TYD1EMtZCjibOR6kiDPScW/x2JubezIVVF/dFM=@vger.kernel.org, AJvYcCW2WxxqzX+oeVzSeibzs5cCYEIi/3pWKEaR1Batv6zuaCQEDHHf5Y2YOlQR3virivNG6p2Nr/F0AMtIpj7GrqRVzog=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyx7CeN4UDf1RLpz1ov66NCVUJUnAwL7RKe3kSewyKsSxVmYwQc
+	AGkExjYMg5nLixNPZdMeMFggw09QOzrHtfmqk0CZX979KCZ710A1aycwJIx0
+X-Google-Smtp-Source: AGHT+IEF/Zz9sPYJ5pq6Xtg2dMy9vZpCVkt0KStzHwI7nNqeTb+C0h94Xal1vSApRI8ir9uRepTB6A==
+X-Received: by 2002:a05:690c:9987:b0:6ea:87dc:49b1 with SMTP id 00721157ae682-6eebd0f4f42mr21468077b3.10.1732093032000;
+        Wed, 20 Nov 2024 00:57:12 -0800 (PST)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6ee712cbf46sm21267097b3.67.2024.11.20.00.57.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Nov 2024 00:57:11 -0800 (PST)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6ee805c96dbso20481837b3.2;
+        Wed, 20 Nov 2024 00:57:11 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVSEU/DmKGPdVDjl3vTYxeUjAIG6kGi77yaI7rkK6umOI9at196+GDf7FiT53V63OPkBcXDkHKVS5EcHGAyaYFkWWE=@vger.kernel.org, AJvYcCXp7AHgSkwwQL5wPR9bZYxFreoTDwdWOQPnH4mJZxgnDCqZe2exNeVCGC9WtnEeEMdIUZg+w6Ug6LtgtrQ=@vger.kernel.org
+X-Received: by 2002:a05:690c:620f:b0:6ea:90b6:ab49 with SMTP id
+ 00721157ae682-6eebd0d4c0emr19457607b3.5.1732093031323; Wed, 20 Nov 2024
+ 00:57:11 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241108160717.9547-1-00107082@163.com> <4ce18851-6e9f-bbe-8319-cc5e69fb45c@linux-m68k.org>
+ <87ed36zon8.ffs@tglx>
+In-Reply-To: <87ed36zon8.ffs@tglx>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 20 Nov 2024 09:56:59 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVrHy58pGft0tsFF2Npy4=rE-JCeEEDqVHMDabyVLXhPQ@mail.gmail.com>
+Message-ID: <CAMuHMdVrHy58pGft0tsFF2Npy4=rE-JCeEEDqVHMDabyVLXhPQ@mail.gmail.com>
+Subject: Re: [PATCH 01/13] kernel/irq/proc: use seq_put_decimal_ull_width()
+ for decimal values
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: David Wang <00107082@163.com>, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Enable I2C1 for the carrier board and the connected power monitor
-ISL28022. Limit the bus speed to the maximum the power monitor supports.
+Hi Thomas,
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+On Wed, Nov 20, 2024 at 2:21=E2=80=AFAM Thomas Gleixner <tglx@linutronix.de=
+> wrote:
+> On Tue, Nov 19 2024 at 20:55, Geert Uytterhoeven wrote:
+> > E.g. on Koelsch (R-Car M-W), the output changes from:
+> >
+> >              CPU0       CPU1
+> >       27:       1871       2017 GIC-0  27 Level     arch_timer
+> >       29:        646          0 GIC-0 205 Level     e60b0000.i2c
+> >       30:          0          0 GIC-0 174 Level     ffca0000.timer
+> >       31:          0          0 GIC-0  36 Level     e6050000.gpio
+> >       32:          0          0 GIC-0  37 Level     e6051000.gpio
+> >       [...]
+> >
+> > to
+> >
+> >              CPU0       CPU1
+> >       27:       1966       1900GIC-0  27 Level     arch_timer
+> >       29:        580          0GIC-0 205 Level     e60b0000.i2c
+> >       30:          0          0GIC-0 174 Level     ffca0000.timer
+> >       31:          0          0GIC-0  36 Level     e6050000.gpio
+> >       32:          0          0GIC-0  37 Level     e6051000.gpio
+> >       [...]
+> >
+> > making the output hard to read, and probably breaking scripts that pars=
+e
+> > its contents.
+> >
+> > Reverting the commit fixes the issue for me.
+>
+> Interestingly enough the generic version and quite some of the chip
+> specific print functions have a leading space, but GIC does not.
+>
+> The below should restore the original state.
 
-i2c1 gets enabled in the current SoM-DTSI as well, but to be safe
-regarding other SoM DTSIs to come, I opted for explicitly enabling it in
-the carrier board as well.
+> --- a/kernel/irq/proc.c
+> +++ b/kernel/irq/proc.c
+> @@ -501,6 +501,7 @@ int show_interrupts(struct seq_file *p, void *v)
+>
+>                 seq_put_decimal_ull_width(p, " ", cnt, 10);
+>         }
+> +       seq_putc(p, ' ');
+>
+>         raw_spin_lock_irqsave(&desc->lock, flags);
+>         if (desc->irq_data.chip) {
 
-I picked the 'average-samples' value using my gut feeling. If someone
-has a reason to pick a better one, I am all for it.
+Thanks, that does the trick!
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
- arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Gr{oetje,eeting}s,
 
-diff --git a/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
-index 7945d44e6ee1..5e4bfaeafd20 100644
---- a/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
-@@ -73,6 +73,19 @@ &i2c0 {
- 	clock-frequency = <1000000>;
- };
- 
-+&i2c1 {
-+	status = "okay";
-+
-+	clock-frequency = <400000>;
-+
-+	power-monitor@44 {
-+		compatible = "renesas,isl28022";
-+		reg = <0x44>;
-+		shunt-resistor-micro-ohms = <8000>;
-+		renesas,average-samples = <32>;
-+	};
-+};
-+
- &pinctrl {
- 	key-1-gpio-hog {
- 		gpio-hog;
--- 
-2.45.2
+                        Geert
 
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
