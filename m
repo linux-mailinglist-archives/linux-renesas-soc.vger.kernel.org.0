@@ -1,53 +1,54 @@
-Return-Path: <linux-renesas-soc+bounces-10671-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10669-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43A3D9D5F28
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Nov 2024 13:47:39 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B32969D5F24
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Nov 2024 13:47:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BEDD41F227C1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Nov 2024 12:47:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 448971F237FF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Nov 2024 12:47:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3D041DF73B;
-	Fri, 22 Nov 2024 12:46:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA2BB1DF72D;
+	Fri, 22 Nov 2024 12:46:44 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D85A1DE2B8;
-	Fri, 22 Nov 2024 12:46:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34F951E492;
+	Fri, 22 Nov 2024 12:46:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732279605; cv=none; b=QihinaWyPSn2dPYYJx+98njUfuLfpP8dKVTzFbI+Au3+3So7hW70/6NFd1VUPgOrZzayfY3sF75XMhAxeksCC3HxCLSKqkEFzJlhb8DzeNqBjzK0RFWbE4N5ZqouMl3uE3MpNYKDUovzJPfFy63SOG5u2J+82xDhqTdl3Yka3lg=
+	t=1732279604; cv=none; b=O+liqkKp+ipDZg4UIlkxrSM2Q6+B0c2n0cXoyUP6idUXXdSGWzTYVCCpLEbmSO9RLYDrMFHVS6R8kxTl8tyVxoaPFYX+jAgtv3ioe2783w4m30wiDN93oyluNmM/zTaLyrLAg2qVhIyqivhYGauhGEbqb8PMdZZH/VvddeThvyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732279605; c=relaxed/simple;
-	bh=PSM+eb0At7c1zzK0lFVdIDx/aza4kEcrXtZbPZK5V5A=;
+	s=arc-20240116; t=1732279604; c=relaxed/simple;
+	bh=uu3PU+wMTreO1z6MMk0kSHVcWt55jq9HItHOLvU9r5E=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MpRbxJ2bIC317QjCA99QxVnAhHP9EPRffdMkDDpXX5pV31EXQITQjX8YuxvPQ4TXA8zNIOod25X43AWzuLm6uEperN/wxcOGM9HGvTytQlbWWD76vEeXyp8RWKXa1S7KkK369D1MfeMBdIB0egt0tQQ/IC8SLxz9ayQRddd7/Kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+	 MIME-Version; b=ph0iKBlOnKC3Xk07YaMUoZS2NnnwBCi4KcrHIfMivWeSUYqljf6AJQeB5AeEOKiWEBSWmg1WyHQJL6ug6UktZukxGrrQ/iQ723xrQCCbWM5BLmqgWuDXna3NRO3ct2DIqip0xYowC/U8LzALPTRtNmBAjd3OyXCx0rWuSb4M0Fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: te8TqId9RP2mQuVCsrTBDQ==
-X-CSE-MsgGUID: 8pSRWh+TTs+Cg0L2GChCEw==
+X-CSE-ConnectionGUID: qDOONRtTRkaZYyHUbd28Jw==
+X-CSE-MsgGUID: KBYi+kAmTaOBR7r7Zpqhjw==
 X-IronPort-AV: E=Sophos;i="6.12,175,1728918000"; 
-   d="scan'208";a="225786448"
+   d="scan'208";a="229765871"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 22 Nov 2024 21:46:41 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 22 Nov 2024 21:46:41 +0900
 Received: from localhost.localdomain (unknown [10.226.92.254])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 0FBAC423A74B;
-	Fri, 22 Nov 2024 21:46:23 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 415C2423A753;
+	Fri, 22 Nov 2024 21:46:27 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
 	linux-renesas-soc@vger.kernel.org,
 	linux-clk@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH 06/12] clk: renesas: Add support for RZ/G3E SoC
-Date: Fri, 22 Nov 2024 12:45:42 +0000
-Message-ID: <20241122124558.149827-7-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 07/12] clk: renesas: rzv2h-cpg: Add MSTOP support
+Date: Fri, 22 Nov 2024 12:45:43 +0000
+Message-ID: <20241122124558.149827-8-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241122124558.149827-1-biju.das.jz@bp.renesas.com>
 References: <20241122124558.149827-1-biju.das.jz@bp.renesas.com>
@@ -59,200 +60,387 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The clock structure for RZ/G3E is almost identical to RZ/V2H SoC with
-more IP blocks compared to RZ/V2H. For eg: VSPI, LVDS, DPI and LCDC1
-are present only on the RZ/G3E SoC.
-
-Add minimal clock and reset entries required to boot the Renesas RZ/G3E
-SMARC EVK and binds it with the RZ/V2H CPG core driver.
+Add bus MSTOP support for RZ/{V2H, G3E}. For some module clocks, there
+are no MSTOP bits and the sequence ordering for mstop and clock on
+is different compared to the RZ/G2L family.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/clk/renesas/Kconfig         |  7 ++-
- drivers/clk/renesas/Makefile        |  1 +
- drivers/clk/renesas/r9a09g047-cpg.c | 98 +++++++++++++++++++++++++++++
- drivers/clk/renesas/rzv2h-cpg.c     |  6 ++
- drivers/clk/renesas/rzv2h-cpg.h     |  1 +
- 5 files changed, 112 insertions(+), 1 deletion(-)
- create mode 100644 drivers/clk/renesas/r9a09g047-cpg.c
+ drivers/clk/renesas/r9a09g047-cpg.c |   6 +-
+ drivers/clk/renesas/r9a09g057-cpg.c | 117 ++++++++++++++++++----------
+ drivers/clk/renesas/rzv2h-cpg.c     |  92 +++++++++++++++++++++-
+ drivers/clk/renesas/rzv2h-cpg.h     |  22 ++++--
+ 4 files changed, 188 insertions(+), 49 deletions(-)
 
-diff --git a/drivers/clk/renesas/Kconfig b/drivers/clk/renesas/Kconfig
-index ff01f5f0ed20..5a4bc3f94d49 100644
---- a/drivers/clk/renesas/Kconfig
-+++ b/drivers/clk/renesas/Kconfig
-@@ -40,6 +40,7 @@ config CLK_RENESAS
- 	select CLK_R9A07G054 if ARCH_R9A07G054
- 	select CLK_R9A08G045 if ARCH_R9A08G045
- 	select CLK_R9A09G011 if ARCH_R9A09G011
-+	select CLK_R9A09G047 if ARCH_R9A09G047
- 	select CLK_R9A09G057 if ARCH_R9A09G057
- 	select CLK_SH73A0 if ARCH_SH73A0
- 
-@@ -194,6 +195,10 @@ config CLK_R9A09G011
- 	bool "RZ/V2M clock support" if COMPILE_TEST
- 	select CLK_RZG2L
- 
-+config CLK_R9A09G047
-+       bool "RZ/G3E clock support" if COMPILE_TEST
-+       select CLK_RZV2H
-+
- config CLK_R9A09G057
-        bool "RZ/V2H(P) clock support" if COMPILE_TEST
-        select CLK_RZV2H
-@@ -234,7 +239,7 @@ config CLK_RZG2L
- 	select RESET_CONTROLLER
- 
- config CLK_RZV2H
--	bool "RZ/V2H(P) family clock support" if COMPILE_TEST
-+	bool "RZ/{G3E,V2H(P)} family clock support" if COMPILE_TEST
- 	select RESET_CONTROLLER
- 
- config CLK_RENESAS_VBATTB
-diff --git a/drivers/clk/renesas/Makefile b/drivers/clk/renesas/Makefile
-index 82efaa835ac7..2d6e746939c4 100644
---- a/drivers/clk/renesas/Makefile
-+++ b/drivers/clk/renesas/Makefile
-@@ -37,6 +37,7 @@ obj-$(CONFIG_CLK_R9A07G044)		+= r9a07g044-cpg.o
- obj-$(CONFIG_CLK_R9A07G054)		+= r9a07g044-cpg.o
- obj-$(CONFIG_CLK_R9A08G045)		+= r9a08g045-cpg.o
- obj-$(CONFIG_CLK_R9A09G011)		+= r9a09g011-cpg.o
-+obj-$(CONFIG_CLK_R9A09G047)		+= r9a09g047-cpg.o
- obj-$(CONFIG_CLK_R9A09G057)		+= r9a09g057-cpg.o
- obj-$(CONFIG_CLK_SH73A0)		+= clk-sh73a0.o
- 
 diff --git a/drivers/clk/renesas/r9a09g047-cpg.c b/drivers/clk/renesas/r9a09g047-cpg.c
-new file mode 100644
-index 000000000000..5d7611cee9bc
---- /dev/null
+index 5d7611cee9bc..ab63a7e7e480 100644
+--- a/drivers/clk/renesas/r9a09g047-cpg.c
 +++ b/drivers/clk/renesas/r9a09g047-cpg.c
-@@ -0,0 +1,98 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Renesas RZ/G3E CPG driver
-+ *
-+ * Copyright (C) 2024 Renesas Electronics Corp.
-+ */
-+
-+#include <linux/clk-provider.h>
-+#include <linux/device.h>
-+#include <linux/init.h>
-+#include <linux/kernel.h>
-+
-+#include <dt-bindings/clock/renesas,r9a09g047-cpg.h>
-+
-+#include "rzv2h-cpg.h"
-+
-+enum clk_ids {
-+	/* Core Clock Outputs exported to DT */
-+	LAST_DT_CORE_CLK = R9A09G047_IOTOP_0_SHCLK,
-+
-+	/* External Input Clocks */
-+	CLK_AUDIO_EXTAL,
-+	CLK_RTXIN,
-+	CLK_QEXTAL,
-+
-+	/* PLL Clocks */
-+	CLK_PLLCM33,
-+	CLK_PLLDTY,
-+	CLK_PLLCA55,
-+
-+	/* Internal Core Clocks */
-+	CLK_PLLCM33_DIV16,
-+	CLK_PLLDTY_ACPU,
-+	CLK_PLLDTY_ACPU_DIV4,
-+
-+	/* Module Clocks */
-+	MOD_CLK_BASE,
-+};
-+
-+static const struct clk_div_table dtable_2_64[] = {
-+	{0, 2},
-+	{1, 4},
-+	{2, 8},
-+	{3, 16},
-+	{4, 64},
-+	{0, 0},
-+};
-+
-+static const struct cpg_core_clk r9a09g047_core_clks[] __initconst = {
-+	/* External Clock Inputs */
-+	DEF_INPUT("audio_extal", CLK_AUDIO_EXTAL),
-+	DEF_INPUT("rtxin", CLK_RTXIN),
-+	DEF_INPUT("qextal", CLK_QEXTAL),
-+
-+	/* PLL Clocks */
-+	DEF_FIXED(".pllcm33", CLK_PLLCM33, CLK_QEXTAL, 200, 3),
-+	DEF_FIXED(".plldty", CLK_PLLDTY, CLK_QEXTAL, 200, 3),
-+	DEF_PLL(".pllca55", CLK_PLLCA55, CLK_QEXTAL, PLL_CONF(0x64)),
-+
-+	/* Internal Core Clocks */
-+	DEF_FIXED(".pllcm33_div16", CLK_PLLCM33_DIV16, CLK_PLLCM33, 1, 16),
-+
-+	DEF_DDIV(".plldty_acpu", CLK_PLLDTY_ACPU, CLK_PLLDTY, CDDIV0_DIVCTL2, dtable_2_64),
-+	DEF_FIXED(".plldty_acpu_div4", CLK_PLLDTY_ACPU_DIV4, CLK_PLLDTY_ACPU, 1, 4),
-+
-+	/* Core Clocks */
-+	DEF_FIXED("sys_0_pclk", R9A09G047_SYS_0_PCLK, CLK_QEXTAL, 1, 1),
-+	DEF_FIXED("iotop_0_shclk", R9A09G047_IOTOP_0_SHCLK, CLK_PLLCM33_DIV16, 1, 1),
-+};
-+
-+static const struct rzv2h_mod_clk r9a09g047_mod_clks[] __initconst = {
-+	DEF_MOD_CRITICAL("gic_0_gicclk",	CLK_PLLDTY_ACPU_DIV4, 1, 3, 0, 19),
-+	DEF_MOD("scif_0_clk_pck",		CLK_PLLCM33_DIV16, 8, 15, 4, 15),
-+};
-+
-+static const struct rzv2h_reset r9a09g047_resets[] __initconst = {
-+	DEF_RST(3, 0, 1, 1),		/* SYS_0_PRESETN */
-+	DEF_RST(3, 8, 1, 9),		/* GIC_0_GICRESET_N */
-+	DEF_RST(3, 9, 1, 10),		/* GIC_0_DBG_GICRESET_N */
-+	DEF_RST(9, 5, 4, 6),		/* SCIF_0_RST_SYSTEM_N */
-+};
-+
-+const struct rzv2h_cpg_info r9a09g047_cpg_info __initconst = {
-+	/* Core Clocks */
-+	.core_clks = r9a09g047_core_clks,
-+	.num_core_clks = ARRAY_SIZE(r9a09g047_core_clks),
-+	.last_dt_core_clk = LAST_DT_CORE_CLK,
-+	.num_total_core_clks = MOD_CLK_BASE,
-+
-+	/* Module Clocks */
-+	.mod_clks = r9a09g047_mod_clks,
-+	.num_mod_clks = ARRAY_SIZE(r9a09g047_mod_clks),
-+	.num_hw_mod_clks = 28 * 16,
-+
-+	/* Resets */
-+	.resets = r9a09g047_resets,
-+	.num_resets = ARRAY_SIZE(r9a09g047_resets),
-+};
+@@ -69,8 +69,10 @@ static const struct cpg_core_clk r9a09g047_core_clks[] __initconst = {
+ };
+ 
+ static const struct rzv2h_mod_clk r9a09g047_mod_clks[] __initconst = {
+-	DEF_MOD_CRITICAL("gic_0_gicclk",	CLK_PLLDTY_ACPU_DIV4, 1, 3, 0, 19),
+-	DEF_MOD("scif_0_clk_pck",		CLK_PLLCM33_DIV16, 8, 15, 4, 15),
++	DEF_MOD_CRITICAL("gic_0_gicclk",	CLK_PLLDTY_ACPU_DIV4, 1, 3, 0, 19,
++						BUS_MSTOP(3, BIT(5))),
++	DEF_MOD("scif_0_clk_pck",		CLK_PLLCM33_DIV16, 8, 15, 4, 15,
++						BUS_MSTOP(3, BIT(14))),
+ };
+ 
+ static const struct rzv2h_reset r9a09g047_resets[] __initconst = {
+diff --git a/drivers/clk/renesas/r9a09g057-cpg.c b/drivers/clk/renesas/r9a09g057-cpg.c
+index 7c4507fd34e6..6abc5104972c 100644
+--- a/drivers/clk/renesas/r9a09g057-cpg.c
++++ b/drivers/clk/renesas/r9a09g057-cpg.c
+@@ -94,45 +94,84 @@ static const struct cpg_core_clk r9a09g057_core_clks[] __initconst = {
+ };
+ 
+ static const struct rzv2h_mod_clk r9a09g057_mod_clks[] __initconst = {
+-	DEF_MOD_CRITICAL("icu_0_pclk_i",	CLK_PLLCM33_DIV16, 0, 5, 0, 5),
+-	DEF_MOD("gtm_0_pclk",			CLK_PLLCM33_DIV16, 4, 3, 2, 3),
+-	DEF_MOD("gtm_1_pclk",			CLK_PLLCM33_DIV16, 4, 4, 2, 4),
+-	DEF_MOD("gtm_2_pclk",			CLK_PLLCLN_DIV16, 4, 5, 2, 5),
+-	DEF_MOD("gtm_3_pclk",			CLK_PLLCLN_DIV16, 4, 6, 2, 6),
+-	DEF_MOD("gtm_4_pclk",			CLK_PLLCLN_DIV16, 4, 7, 2, 7),
+-	DEF_MOD("gtm_5_pclk",			CLK_PLLCLN_DIV16, 4, 8, 2, 8),
+-	DEF_MOD("gtm_6_pclk",			CLK_PLLCLN_DIV16, 4, 9, 2, 9),
+-	DEF_MOD("gtm_7_pclk",			CLK_PLLCLN_DIV16, 4, 10, 2, 10),
+-	DEF_MOD("wdt_0_clkp",			CLK_PLLCM33_DIV16, 4, 11, 2, 11),
+-	DEF_MOD("wdt_0_clk_loco",		CLK_QEXTAL, 4, 12, 2, 12),
+-	DEF_MOD("wdt_1_clkp",			CLK_PLLCLN_DIV16, 4, 13, 2, 13),
+-	DEF_MOD("wdt_1_clk_loco",		CLK_QEXTAL, 4, 14, 2, 14),
+-	DEF_MOD("wdt_2_clkp",			CLK_PLLCLN_DIV16, 4, 15, 2, 15),
+-	DEF_MOD("wdt_2_clk_loco",		CLK_QEXTAL, 5, 0, 2, 16),
+-	DEF_MOD("wdt_3_clkp",			CLK_PLLCLN_DIV16, 5, 1, 2, 17),
+-	DEF_MOD("wdt_3_clk_loco",		CLK_QEXTAL, 5, 2, 2, 18),
+-	DEF_MOD("scif_0_clk_pck",		CLK_PLLCM33_DIV16, 8, 15, 4, 15),
+-	DEF_MOD("riic_8_ckm",			CLK_PLLCM33_DIV16, 9, 3, 4, 19),
+-	DEF_MOD("riic_0_ckm",			CLK_PLLCLN_DIV16, 9, 4, 4, 20),
+-	DEF_MOD("riic_1_ckm",			CLK_PLLCLN_DIV16, 9, 5, 4, 21),
+-	DEF_MOD("riic_2_ckm",			CLK_PLLCLN_DIV16, 9, 6, 4, 22),
+-	DEF_MOD("riic_3_ckm",			CLK_PLLCLN_DIV16, 9, 7, 4, 23),
+-	DEF_MOD("riic_4_ckm",			CLK_PLLCLN_DIV16, 9, 8, 4, 24),
+-	DEF_MOD("riic_5_ckm",			CLK_PLLCLN_DIV16, 9, 9, 4, 25),
+-	DEF_MOD("riic_6_ckm",			CLK_PLLCLN_DIV16, 9, 10, 4, 26),
+-	DEF_MOD("riic_7_ckm",			CLK_PLLCLN_DIV16, 9, 11, 4, 27),
+-	DEF_MOD("sdhi_0_imclk",			CLK_PLLCLN_DIV8, 10, 3, 5, 3),
+-	DEF_MOD("sdhi_0_imclk2",		CLK_PLLCLN_DIV8, 10, 4, 5, 4),
+-	DEF_MOD("sdhi_0_clk_hs",		CLK_PLLCLN_DIV2, 10, 5, 5, 5),
+-	DEF_MOD("sdhi_0_aclk",			CLK_PLLDTY_ACPU_DIV4, 10, 6, 5, 6),
+-	DEF_MOD("sdhi_1_imclk",			CLK_PLLCLN_DIV8, 10, 7, 5, 7),
+-	DEF_MOD("sdhi_1_imclk2",		CLK_PLLCLN_DIV8, 10, 8, 5, 8),
+-	DEF_MOD("sdhi_1_clk_hs",		CLK_PLLCLN_DIV2, 10, 9, 5, 9),
+-	DEF_MOD("sdhi_1_aclk",			CLK_PLLDTY_ACPU_DIV4, 10, 10, 5, 10),
+-	DEF_MOD("sdhi_2_imclk",			CLK_PLLCLN_DIV8, 10, 11, 5, 11),
+-	DEF_MOD("sdhi_2_imclk2",		CLK_PLLCLN_DIV8, 10, 12, 5, 12),
+-	DEF_MOD("sdhi_2_clk_hs",		CLK_PLLCLN_DIV2, 10, 13, 5, 13),
+-	DEF_MOD("sdhi_2_aclk",			CLK_PLLDTY_ACPU_DIV4, 10, 14, 5, 14),
++	DEF_MOD_CRITICAL("icu_0_pclk_i",	CLK_PLLCM33_DIV16, 0, 5, 0, 5,
++						BUS_MSTOP_NO_DATA),
++	DEF_MOD("gtm_0_pclk",			CLK_PLLCM33_DIV16, 4, 3, 2, 3,
++						BUS_MSTOP(5, BIT(10))),
++	DEF_MOD("gtm_1_pclk",			CLK_PLLCM33_DIV16, 4, 4, 2, 4,
++						BUS_MSTOP(5, BIT(11))),
++	DEF_MOD("gtm_2_pclk",			CLK_PLLCLN_DIV16, 4, 5, 2, 5,
++						BUS_MSTOP(2, BIT(13))),
++	DEF_MOD("gtm_3_pclk",			CLK_PLLCLN_DIV16, 4, 6, 2, 6,
++						BUS_MSTOP(2, BIT(14))),
++	DEF_MOD("gtm_4_pclk",			CLK_PLLCLN_DIV16, 4, 7, 2, 7,
++						BUS_MSTOP(11, BIT(13))),
++	DEF_MOD("gtm_5_pclk",			CLK_PLLCLN_DIV16, 4, 8, 2, 8,
++						BUS_MSTOP(11, BIT(14))),
++	DEF_MOD("gtm_6_pclk",			CLK_PLLCLN_DIV16, 4, 9, 2, 9,
++						BUS_MSTOP(11, BIT(15))),
++	DEF_MOD("gtm_7_pclk",			CLK_PLLCLN_DIV16, 4, 10, 2, 10,
++						BUS_MSTOP(12, BIT(0))),
++	DEF_MOD("wdt_0_clkp",			CLK_PLLCM33_DIV16, 4, 11, 2, 11,
++						BUS_MSTOP(3, BIT(10))),
++	DEF_MOD("wdt_0_clk_loco",		CLK_QEXTAL, 4, 12, 2, 12,
++						BUS_MSTOP(3, BIT(10))),
++	DEF_MOD("wdt_1_clkp",			CLK_PLLCLN_DIV16, 4, 13, 2, 13,
++						BUS_MSTOP(1, BIT(0))),
++	DEF_MOD("wdt_1_clk_loco",		CLK_QEXTAL, 4, 14, 2, 14,
++						BUS_MSTOP(1, BIT(0))),
++	DEF_MOD("wdt_2_clkp",			CLK_PLLCLN_DIV16, 4, 15, 2, 15,
++						BUS_MSTOP(5, BIT(12))),
++	DEF_MOD("wdt_2_clk_loco",		CLK_QEXTAL, 5, 0, 2, 16,
++						BUS_MSTOP(5, BIT(12))),
++	DEF_MOD("wdt_3_clkp",			CLK_PLLCLN_DIV16, 5, 1, 2, 17,
++						BUS_MSTOP(5, BIT(13))),
++	DEF_MOD("wdt_3_clk_loco",		CLK_QEXTAL, 5, 2, 2, 18,
++						BUS_MSTOP(5, BIT(13))),
++	DEF_MOD("scif_0_clk_pck",		CLK_PLLCM33_DIV16, 8, 15, 4, 15,
++						BUS_MSTOP(3, BIT(14))),
++	DEF_MOD("riic_8_ckm",			CLK_PLLCM33_DIV16, 9, 3, 4, 19,
++						BUS_MSTOP(3, BIT(13))),
++	DEF_MOD("riic_0_ckm",			CLK_PLLCLN_DIV16, 9, 4, 4, 20,
++						BUS_MSTOP(1, BIT(1))),
++	DEF_MOD("riic_1_ckm",			CLK_PLLCLN_DIV16, 9, 5, 4, 21,
++						BUS_MSTOP(1, BIT(2))),
++	DEF_MOD("riic_2_ckm",			CLK_PLLCLN_DIV16, 9, 6, 4, 22,
++						BUS_MSTOP(1, BIT(3))),
++	DEF_MOD("riic_3_ckm",			CLK_PLLCLN_DIV16, 9, 7, 4, 23,
++						BUS_MSTOP(1, BIT(4))),
++	DEF_MOD("riic_4_ckm",			CLK_PLLCLN_DIV16, 9, 8, 4, 24,
++						BUS_MSTOP(1, BIT(5))),
++	DEF_MOD("riic_5_ckm",			CLK_PLLCLN_DIV16, 9, 9, 4, 25,
++						BUS_MSTOP(1, BIT(6))),
++	DEF_MOD("riic_6_ckm",			CLK_PLLCLN_DIV16, 9, 10, 4, 26,
++						BUS_MSTOP(1, BIT(7))),
++	DEF_MOD("riic_7_ckm",			CLK_PLLCLN_DIV16, 9, 11, 4, 27,
++						BUS_MSTOP(1, BIT(8))),
++	DEF_MOD("sdhi_0_imclk",			CLK_PLLCLN_DIV8, 10, 3, 5, 3,
++						BUS_MSTOP_NO_DATA),
++	DEF_MOD("sdhi_0_imclk2",		CLK_PLLCLN_DIV8, 10, 4, 5, 4,
++						BUS_MSTOP_NO_DATA),
++	DEF_MOD("sdhi_0_clk_hs",		CLK_PLLCLN_DIV2, 10, 5, 5, 5,
++						BUS_MSTOP_NO_DATA),
++	DEF_MOD("sdhi_0_aclk",			CLK_PLLDTY_ACPU_DIV4, 10, 6, 5, 6,
++						BUS_MSTOP_NO_DATA),
++	DEF_MOD("sdhi_1_imclk",			CLK_PLLCLN_DIV8, 10, 7, 5, 7,
++						BUS_MSTOP_NO_DATA),
++	DEF_MOD("sdhi_1_imclk2",		CLK_PLLCLN_DIV8, 10, 8, 5, 8,
++						BUS_MSTOP_NO_DATA),
++	DEF_MOD("sdhi_1_clk_hs",		CLK_PLLCLN_DIV2, 10, 9, 5, 9,
++						BUS_MSTOP_NO_DATA),
++	DEF_MOD("sdhi_1_aclk",			CLK_PLLDTY_ACPU_DIV4, 10, 10, 5, 10,
++						BUS_MSTOP_NO_DATA),
++	DEF_MOD("sdhi_2_imclk",			CLK_PLLCLN_DIV8, 10, 11, 5, 11,
++						BUS_MSTOP_NO_DATA),
++	DEF_MOD("sdhi_2_imclk2",		CLK_PLLCLN_DIV8, 10, 12, 5, 12,
++						BUS_MSTOP_NO_DATA),
++	DEF_MOD("sdhi_2_clk_hs",		CLK_PLLCLN_DIV2, 10, 13, 5, 13,
++						BUS_MSTOP_NO_DATA),
++	DEF_MOD("sdhi_2_aclk",			CLK_PLLDTY_ACPU_DIV4, 10, 14, 5, 14,
++						BUS_MSTOP_NO_DATA),
+ };
+ 
+ static const struct rzv2h_reset r9a09g057_resets[] __initconst = {
 diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2h-cpg.c
-index b524a9d33610..af961808f735 100644
+index af961808f735..8f4fa155bc54 100644
 --- a/drivers/clk/renesas/rzv2h-cpg.c
 +++ b/drivers/clk/renesas/rzv2h-cpg.c
-@@ -832,6 +832,12 @@ static const struct of_device_id rzv2h_cpg_match[] = {
- 		.compatible = "renesas,r9a09g057-cpg",
- 		.data = &r9a09g057_cpg_info,
- 	},
-+#endif
-+#ifdef CONFIG_CLK_R9A09G047
-+	{
-+		.compatible = "renesas,r9a09g047-cpg",
-+		.data = &r9a09g047_cpg_info,
-+	},
- #endif
- 	{ /* sentinel */ }
+@@ -23,6 +23,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/pm_clock.h>
+ #include <linux/pm_domain.h>
++#include <linux/refcount.h>
+ #include <linux/reset-controller.h>
+ 
+ #include <dt-bindings/clock/renesas-cpg-mssr.h>
+@@ -83,6 +84,11 @@ struct rzv2h_cpg_priv {
+ 
+ #define rcdev_to_priv(x)	container_of(x, struct rzv2h_cpg_priv, rcdev)
+ 
++struct rzv2h_mstop {
++	u32 data;
++	refcount_t ref_cnt;
++};
++
+ struct pll_clk {
+ 	struct rzv2h_cpg_priv *priv;
+ 	void __iomem *base;
+@@ -97,6 +103,7 @@ struct pll_clk {
+  * struct mod_clock - Module clock
+  *
+  * @priv: CPG private data
++ * @mstop: handle to cpg bus mstop data
+  * @hw: handle between common and hardware-specific interfaces
+  * @on_index: register offset
+  * @on_bit: ON/MON bit
+@@ -105,6 +112,7 @@ struct pll_clk {
+  */
+ struct mod_clock {
+ 	struct rzv2h_cpg_priv *priv;
++	struct rzv2h_mstop *mstop;
+ 	struct clk_hw hw;
+ 	u8 on_index;
+ 	u8 on_bit;
+@@ -431,6 +439,38 @@ rzv2h_cpg_register_core_clk(const struct cpg_core_clk *core,
+ 		core->name, PTR_ERR(clk));
+ }
+ 
++static void rzv2h_mod_clock_mstop_enable(struct rzv2h_cpg_priv *priv,
++					 struct mod_clock *clock)
++{
++	unsigned long flags;
++	u32 val;
++
++	spin_lock_irqsave(&priv->rmw_lock, flags);
++	if (!refcount_read(&clock->mstop->ref_cnt)) {
++		val = BUS_MSTOP_VAL(clock->mstop->data) << 16;
++		writel(val, priv->base + BUS_MSTOP_OFF(clock->mstop->data));
++		refcount_set(&clock->mstop->ref_cnt, 1);
++	} else {
++		refcount_inc(&clock->mstop->ref_cnt);
++	}
++	spin_unlock_irqrestore(&priv->rmw_lock, flags);
++}
++
++static void rzv2h_mod_clock_mstop_disable(struct rzv2h_cpg_priv *priv,
++					  struct mod_clock *clock)
++{
++	unsigned long flags;
++	u32 val;
++
++	spin_lock_irqsave(&priv->rmw_lock, flags);
++	if (refcount_dec_and_test(&clock->mstop->ref_cnt)) {
++		val = BUS_MSTOP_VAL(clock->mstop->data) << 16 |
++			BUS_MSTOP_VAL(clock->mstop->data);
++		writel(val, priv->base + BUS_MSTOP_OFF(clock->mstop->data));
++	}
++	spin_unlock_irqrestore(&priv->rmw_lock, flags);
++}
++
+ static int rzv2h_mod_clock_endisable(struct clk_hw *hw, bool enable)
+ {
+ 	struct mod_clock *clock = to_mod_clock(hw);
+@@ -445,10 +485,16 @@ static int rzv2h_mod_clock_endisable(struct clk_hw *hw, bool enable)
+ 		enable ? "ON" : "OFF");
+ 
+ 	value = bitmask << 16;
+-	if (enable)
++	if (enable) {
+ 		value |= bitmask;
+-
+-	writel(value, priv->base + reg);
++		writel(value, priv->base + reg);
++		if (clock->mstop)
++			rzv2h_mod_clock_mstop_enable(priv, clock);
++	} else {
++		if (clock->mstop)
++			rzv2h_mod_clock_mstop_disable(priv, clock);
++		writel(value, priv->base + reg);
++	}
+ 
+ 	if (!enable || clock->mon_index < 0)
+ 		return 0;
+@@ -498,6 +544,38 @@ static const struct clk_ops rzv2h_mod_clock_ops = {
+ 	.is_enabled = rzv2h_mod_clock_is_enabled,
  };
+ 
++static struct rzv2h_mstop
++*rzv2h_cpg_get_mstop(struct rzv2h_cpg_priv *priv, u32 mstop_data)
++{
++	struct rzv2h_mstop *mstop;
++	unsigned int i;
++
++	for (i = 0; i < priv->num_mod_clks; i++) {
++		struct mod_clock *clk;
++		struct clk_hw *hw;
++
++		if (priv->clks[priv->num_core_clks + i] == ERR_PTR(-ENOENT))
++			continue;
++
++		hw = __clk_get_hw(priv->clks[priv->num_core_clks + i]);
++		clk = to_mod_clock(hw);
++		if (!clk->mstop)
++			continue;
++
++		if (clk->mstop->data == mstop_data)
++			return clk->mstop;
++	}
++
++	mstop = devm_kzalloc(priv->dev, sizeof(*mstop), GFP_KERNEL);
++	if (!mstop)
++		return NULL;
++
++	mstop->data = mstop_data;
++	refcount_set(&mstop->ref_cnt, 0);
++
++	return mstop;
++}
++
+ static void __init
+ rzv2h_cpg_register_mod_clk(const struct rzv2h_mod_clk *mod,
+ 			   struct rzv2h_cpg_priv *priv)
+@@ -552,6 +630,14 @@ rzv2h_cpg_register_mod_clk(const struct rzv2h_mod_clk *mod,
+ 
+ 	priv->clks[id] = clock->hw.clk;
+ 
++	if (mod->mstop_data != BUS_MSTOP_NO_DATA) {
++		clock->mstop = rzv2h_cpg_get_mstop(priv, mod->mstop_data);
++		if (!clock->mstop) {
++			clock = ERR_PTR(-ENOMEM);
++			goto fail;
++		}
++	}
++
+ 	return;
+ 
+ fail:
 diff --git a/drivers/clk/renesas/rzv2h-cpg.h b/drivers/clk/renesas/rzv2h-cpg.h
-index 819029c81904..8a676813f7bb 100644
+index 8a676813f7bb..c75f98861165 100644
 --- a/drivers/clk/renesas/rzv2h-cpg.h
 +++ b/drivers/clk/renesas/rzv2h-cpg.h
-@@ -190,6 +190,7 @@ struct rzv2h_cpg_info {
- 	unsigned int num_resets;
+@@ -33,6 +33,7 @@ struct ddiv {
+ 
+ #define CPG_CDDIV0		(0x400)
+ #define CPG_CDDIV1		(0x404)
++#define CPG_BUS_1_MSTOP		(0xd00)
+ 
+ #define CDDIV0_DIVCTL2	DDIV_PACK(CPG_CDDIV0, 8, 3, 2)
+ #define CDDIV1_DIVCTL0	DDIV_PACK(CPG_CDDIV1, 0, 2, 4)
+@@ -40,6 +41,14 @@ struct ddiv {
+ #define CDDIV1_DIVCTL2	DDIV_PACK(CPG_CDDIV1, 8, 2, 6)
+ #define CDDIV1_DIVCTL3	DDIV_PACK(CPG_CDDIV1, 12, 2, 7)
+ 
++#define CPG_BUS_MSTOP_START	(CPG_BUS_1_MSTOP - 4)
++#define CPG_BUS_MSTOP(x)	(CPG_BUS_MSTOP_START + (x) * 4)
++
++#define BUS_MSTOP(index, mask)	((CPG_BUS_MSTOP(index) & 0xffff) << 16 | (mask))
++#define BUS_MSTOP_OFF(val)	(((val) >> 16) & 0xffff)
++#define BUS_MSTOP_VAL(val)	((val) & 0xffff)
++#define BUS_MSTOP_NO_DATA	GENMASK(31, 0)
++
+ /**
+  * Definitions of CPG Core Clocks
+  *
+@@ -98,6 +107,7 @@ enum clk_types {
+  * struct rzv2h_mod_clk - Module Clocks definitions
+  *
+  * @name: handle between common and hardware-specific interfaces
++ * @mstop_data: packed data mstop register offset and mask
+  * @parent: id of parent clock
+  * @critical: flag to indicate the clock is critical
+  * @on_index: control register index
+@@ -107,6 +117,7 @@ enum clk_types {
+  */
+ struct rzv2h_mod_clk {
+ 	const char *name;
++	u32 mstop_data;
+ 	u16 parent;
+ 	bool critical;
+ 	u8 on_index;
+@@ -115,9 +126,10 @@ struct rzv2h_mod_clk {
+ 	u8 mon_bit;
  };
  
-+extern const struct rzv2h_cpg_info r9a09g047_cpg_info;
- extern const struct rzv2h_cpg_info r9a09g057_cpg_info;
+-#define DEF_MOD_BASE(_name, _parent, _critical, _onindex, _onbit, _monindex, _monbit) \
++#define DEF_MOD_BASE(_name, _mstop, _parent, _critical, _onindex, _onbit, _monindex, _monbit) \
+ 	{ \
+ 		.name = (_name), \
++		.mstop_data = (_mstop), \
+ 		.parent = (_parent), \
+ 		.critical = (_critical), \
+ 		.on_index = (_onindex), \
+@@ -126,11 +138,11 @@ struct rzv2h_mod_clk {
+ 		.mon_bit = (_monbit), \
+ 	}
  
- #endif	/* __RENESAS_RZV2H_CPG_H__ */
+-#define DEF_MOD(_name, _parent, _onindex, _onbit, _monindex, _monbit)		\
+-	DEF_MOD_BASE(_name, _parent, false, _onindex, _onbit, _monindex, _monbit)
++#define DEF_MOD(_name, _parent, _onindex, _onbit, _monindex, _monbit, _mstop) \
++	DEF_MOD_BASE(_name, _mstop, _parent, false, _onindex, _onbit, _monindex, _monbit)
+ 
+-#define DEF_MOD_CRITICAL(_name, _parent, _onindex, _onbit, _monindex, _monbit)	\
+-	DEF_MOD_BASE(_name, _parent, true, _onindex, _onbit, _monindex, _monbit)
++#define DEF_MOD_CRITICAL(_name, _parent, _onindex, _onbit, _monindex, _monbit, _mstop) \
++	DEF_MOD_BASE(_name, _mstop, _parent, true, _onindex, _onbit, _monindex, _monbit)
+ 
+ /**
+  * struct rzv2h_reset - Reset definitions
 -- 
 2.43.0
 
