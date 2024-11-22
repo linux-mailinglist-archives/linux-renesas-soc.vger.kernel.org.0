@@ -1,91 +1,207 @@
-Return-Path: <linux-renesas-soc+bounces-10662-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10664-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 400269D5D68
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Nov 2024 11:39:40 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6A0E9D5F18
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Nov 2024 13:47:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0507B2835CF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Nov 2024 10:39:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 67BEF1F22580
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Nov 2024 12:47:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EEB41D9688;
-	Fri, 22 Nov 2024 10:39:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="M27819ws"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE7501DF26A;
+	Fri, 22 Nov 2024 12:46:23 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D45418133F;
-	Fri, 22 Nov 2024 10:39:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F32F01E492;
+	Fri, 22 Nov 2024 12:46:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732271975; cv=none; b=A6Q03AmeE0oLXrcr+BPe7LZX/JMtpwqzrESl5hn/5b7UlZsRuSpQIbdGLFKKOQSzyzJZUQPdtP93P4E0RcyijBdu3hfR17XEtzQq/WjNFs3KVCBMJ7cUd7nRCbjtJyzz2EItr7wLs+NShqiH4zbvxnJuahQFL7YzYUdJbQBp4/I=
+	t=1732279583; cv=none; b=IrDmCZHMeZ34+IZEOanrIWgOxr+n2k78eP7nmTdPH0aesakQ4xrxFZLn8G7UWjLlJ9qgQeSwgP9Kjv4bl/T3zkGNvbC/5O9JGeIH6RW8l60msZreb6dLiXH8JfH1SGjU8U34FrO7ElNu3aUdX4X9fwUY3NfwHHo1c+tTT681VKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732271975; c=relaxed/simple;
-	bh=8fifDnFSA75+FxWf9yIkSc1x6x+Sy3nBrkjwA4JtshY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=uZ2B+knlnKUViqXu6Z8eT52/70CD5AleE0GOQL76RKcOtmCFDolsJTIERcPLgxRY1bgy0umTU3I75qKkEFQC5iVxuMM6bKUAouPeVx2ts3G+f/o0Itigo1x42TL+VH47Fgf27dkkzYfR9MoxvRTXS9u7PoNam3X3Dc2l2Myadzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=M27819ws; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B24F5FF805;
-	Fri, 22 Nov 2024 10:39:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1732271971;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8fifDnFSA75+FxWf9yIkSc1x6x+Sy3nBrkjwA4JtshY=;
-	b=M27819wsY9gEoZOw/7ha/XJQuehzhz4cflnAySZO8M4w901/iL4IqGHPjr5AdwAUENo5PJ
-	c6rGVNYrNR0k+XhDZNozF5g+JCzxO6kCHDP2RvxgFk0BSG/Q68UYz4sXZ9WBbE/gW28Z32
-	7cV7QVBYW/G+AOijAV3FrR3aPJvDjhdue/EmwIxVjgctGey8KyMOcEWUX9aJ2a3n5mLjht
-	OGlI0e+WxNd1HNrmYnB1+zvbjbFiGuQ9D4qT+ksPvGdnIOgYPuqLrx4wnoE2EuQnVOhnd2
-	PJqEmCP3Ty0q7o43dA/3GXiIzDWRJMQgEyzAR7DHXEoJEDDF1uC5z30kQHGHDQ==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org,  Alexandre Belloni
- <alexandre.belloni@bootlin.com>,  linux-rtc@vger.kernel.org
-Subject: Re: [RFC PATCH 2/2] rtc: rzn1: reduce register access
-In-Reply-To: <20241122101448.4374-3-wsa+renesas@sang-engineering.com> (Wolfram
-	Sang's message of "Fri, 22 Nov 2024 11:14:48 +0100")
-References: <20241122101448.4374-1-wsa+renesas@sang-engineering.com>
-	<20241122101448.4374-3-wsa+renesas@sang-engineering.com>
-User-Agent: mu4e 1.12.7; emacs 29.4
-Date: Fri, 22 Nov 2024 11:39:29 +0100
-Message-ID: <87frnjpn6m.fsf@bootlin.com>
+	s=arc-20240116; t=1732279583; c=relaxed/simple;
+	bh=c/+zyr/Rn0EdyLB92wzKAsULxtS5gCAfuDJk2DOJZFU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KsHO0PIgnrPvuSvB4DYYzLl/hqmzJcC5Mh2b0xJB8D6YnFcPkQebw1+abUpbytprDN/DBXHeaoV2sgINwPWto2drjiUshqls/ZAxpVbGJDaUkIiGnTBRX116Z5+DxPE4wo+5Ff3cgIP6Fz2nX122q8R8oYyvjOgcAfcQJPlf8oU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-CSE-ConnectionGUID: 6zuj4mPHTTKVRI/FMovSYA==
+X-CSE-MsgGUID: 3JsKBUaPSiWZ4kE3BdRuUw==
+X-IronPort-AV: E=Sophos;i="6.12,175,1728918000"; 
+   d="scan'208";a="225786430"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 22 Nov 2024 21:46:14 +0900
+Received: from localhost.localdomain (unknown [10.226.92.254])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5402F4237D3A;
+	Fri, 22 Nov 2024 21:46:01 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-serial@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH 00/12] Add support for Renesas RZ/G3E SoC and SMARC-EVK platform
+Date: Fri, 22 Nov 2024 12:45:36 +0000
+Message-ID: <20241122124558.149827-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+Content-Transfer-Encoding: 8bit
 
-On 22/11/2024 at 11:14:48 +01, Wolfram Sang <wsa+renesas@sang-engineering.c=
-om> wrote:
+Hi all,
 
-> This RTC has special 32bit registers which return multiple of the same
-> 8bit registers at once. Use these to minimize register access. Also, do
-> the to/from BCD conversions right away, so 'tm' always contains values
-> as described in time.h.
+This patch series adds initial support for the Renesas RZ/G3E SoC and
+RZ/G3E SMARC EVK platform. The RZ/G3E device is a general-purpose
+microprocessor with a quad-core CA-55, single core CM-33, Ethos-U55 NPU
+, Mali-G52 3-D Graphics and other peripherals.
 
-IIRC it was easier to write the other way, but it is probably more optimized
-like that, so
+Support for below list of blocks added on SoC DTSI (r9a09g047.dtsi):
+ - EXT CLKs
+ - 4X CA55
+ - SCIF
+ - CPG
+ - GIC
+ - ARMv8 Timer
 
-Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
+This adds also support for the RZ/G3E SMARC EVK board
+(r9a09g047e57-smarc.dts) and enable the following peripheral:
+ - SCIF
+ 
+Note:
+ This patch series gives a boot console with serial driver support.
+Later there is a plan to add support for SoC Identification using
+SYSC driver and pin controller support were also added.
+ 
+Test logs:
+/ # uname -r
+6.12.0-next-20241122-12513-g189628626a52
 
-However I don't feel comfortable commenting on patch 1, I'll let Alex check.
+/ # cat /proc/cpuinfo
+processor       : 0
+BogoMIPS        : 48.00
+Features        : fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp
+CPU implementer : 0x41
+CPU architecture: 8
+CPU variant     : 0x2
+CPU part        : 0xd05
+CPU revision    : 0
 
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
+processor       : 1
+BogoMIPS        : 48.00
+Features        : fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp
+CPU implementer : 0x41
+CPU architecture: 8
+CPU variant     : 0x2
+CPU part        : 0xd05
+CPU revision    : 0
 
-Thanks,
-Miqu=C3=A8l
+processor       : 2
+BogoMIPS        : 48.00
+Features        : fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp
+CPU implementer : 0x41
+CPU architecture: 8
+CPU variant     : 0x2
+CPU part        : 0xd05
+CPU revision    : 0
+
+processor       : 3
+BogoMIPS        : 48.00
+Features        : fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp
+CPU implementer : 0x41
+CPU architecture: 8
+CPU variant     : 0x2
+CPU part        : 0xd05
+CPU revision    : 0
+
+/ #
+
+/ # cat /proc/interrupts
+           CPU0       CPU1       CPU2       CPU3
+ 11:        436        539        467        446    GICv3  27 Level     arch_timer
+ 14:          0          0          0          0    GICv3 561 Level     11c01400.serial:rx err
+ 15:          0          0          0          0    GICv3 564 Level     11c01400.serial:rx full
+ 16:        391          0          0          0    GICv3 565 Level     11c01400.serial:tx empty
+ 17:          0          0          0          0    GICv3 562 Level     11c01400.serial:break
+ 18:         67          0          0          0    GICv3 566 Level     11c01400.serial:rx ready
+ 19:          0          0          0          0    GICv3 563 Level     11c01400.serial:tx end
+IPI0:         3         12         12         25       Rescheduling interrupts
+IPI1:       299        276        347         82       Function call interrupts
+IPI2:         0          0          0          0       CPU stop interrupts
+IPI3:         0          0          0          0       CPU stop NMIs
+IPI4:         0          0          0          0       Timer broadcast interrupts
+IPI5:         0          0          0          0       IRQ work interrupts
+IPI6:         0          0          0          0       CPU backtrace interrupts
+IPI7:         0          0          0          0       KGDB roundup interrupts
+Err:          0
+/ #
+
+/ # cat /proc/meminfo
+MemTotal:        3882652 kB
+MemFree:         3846048 kB
+MemAvailable:    3775780 kB
+
+Biju Das (12):
+  dt-bindings: serial: renesas: Document RZ/G3E (r9a09g047) scif
+  dt-bindings: soc: renesas: Document Renesas RZ/G3E SoC variants
+  dt-bindings: soc: renesas: Document RZ/G3E SMARC SoM and Carrier-II
+    EVK
+  dt-bindings: clock: renesas: Document RZ/G3E SoC CPG
+  soc: renesas: Add RZ/G3E (R9A09G047) config option
+  clk: renesas: Add support for RZ/G3E SoC
+  clk: renesas: rzv2h-cpg: Add MSTOP support
+  arm64: dts: renesas: Add initial DTSI for RZ/G3E SoC
+  arm64: dts: renesas: Add initial support for RZ/G3E SMARC SoM
+  arm64: dts: renesas: Add initial device tree for RZ/G3E SMARC EVK
+    board
+  arm64: defconfig: Enable R9A09G047 SoC
+  HACK-DO-NOT-APPLY-defconfig: Enable INIT RAMFS
+
+ .../bindings/clock/renesas,rzv2h-cpg.yaml     |  15 +-
+ .../bindings/serial/renesas,scif.yaml         |   5 +
+ .../bindings/soc/renesas/renesas.yaml         |  17 +++
+ arch/arm64/boot/dts/renesas/Makefile          |   2 +
+ arch/arm64/boot/dts/renesas/r9a09g047.dtsi    | 144 ++++++++++++++++++
+ arch/arm64/boot/dts/renesas/r9a09g047e37.dtsi |  18 +++
+ .../boot/dts/renesas/r9a09g047e57-smarc.dts   |  18 +++
+ arch/arm64/boot/dts/renesas/r9a09g047e57.dtsi |  13 ++
+ .../boot/dts/renesas/renesas-smarc2.dtsi      |  24 +++
+ .../boot/dts/renesas/rzg3e-smarc-som.dtsi     |  28 ++++
+ arch/arm64/configs/defconfig                  |   2 +
+ drivers/clk/renesas/Kconfig                   |   7 +-
+ drivers/clk/renesas/Makefile                  |   1 +
+ drivers/clk/renesas/r9a09g047-cpg.c           | 100 ++++++++++++
+ drivers/clk/renesas/r9a09g057-cpg.c           | 117 +++++++++-----
+ drivers/clk/renesas/rzv2h-cpg.c               |  98 +++++++++++-
+ drivers/clk/renesas/rzv2h-cpg.h               |  23 ++-
+ drivers/soc/renesas/Kconfig                   |   5 +
+ .../dt-bindings/clock/renesas,r9a09g047-cpg.h |  21 +++
+ 19 files changed, 604 insertions(+), 54 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g047.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g047e37.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g047e57.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/rzg3e-smarc-som.dtsi
+ create mode 100644 drivers/clk/renesas/r9a09g047-cpg.c
+ create mode 100644 include/dt-bindings/clock/renesas,r9a09g047-cpg.h
+
+-- 
+2.43.0
+
 
