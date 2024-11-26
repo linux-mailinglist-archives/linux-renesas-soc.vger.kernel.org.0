@@ -1,106 +1,99 @@
-Return-Path: <linux-renesas-soc+bounces-10713-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10714-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30DF79D9CBB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Nov 2024 18:41:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ECA19D9CFB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Nov 2024 18:56:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7DA09B22E5B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Nov 2024 17:40:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 25AA1B29B72
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Nov 2024 17:53:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD9471D6DA1;
-	Tue, 26 Nov 2024 17:40:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AECC11DBB32;
+	Tue, 26 Nov 2024 17:53:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="cWkskz1Z";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="LxakA44t"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aorIiGYt"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F67C1CEE9B;
-	Tue, 26 Nov 2024 17:40:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E961182BC;
+	Tue, 26 Nov 2024 17:53:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732642833; cv=none; b=HEok6JdSMkJGk7WBek1hqc0nRu4NGjGiYyKIHeUPyBQ498ybTxgUok4qHZCWsuFTeX2WsrXTmJbzlO8dTOtgcgAFtYHMIH6828wyJb8l2sVbxq62Y852Cno6A8Bk+U+0y8oLFfktFA370XENUuPlM5Kx5gUqQZcbL4RLii4lkZY=
+	t=1732643590; cv=none; b=Pm35xLZtyHEEig5GT5rmPrvCmSndq7nLtkb5/GCrOHeNgfrZUjYT4A4MMioCgNkRX8ctcmsZFSZM059B1ZErWsoiuRR99xvJymI9eHowS6X39/rqw/QEY7fbgYs1i0DG6PkuOSudZ4fKkcBxjymVEs8BScklEdZ6ANnHQXOvdKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732642833; c=relaxed/simple;
-	bh=qt3lSk1Z0sFvkcccN2T638/oOpezlfEGW01kL5PatzE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=tATRdBWAl0z2JH1JimjDMbL1rwtp5ZQsO459GK4Pa65RkeBep9To2hnJZ4Hl7Kxpg8lvFNImlls+Jd3xIB7XerL5xTUgmbs/+xrQdERhYV4IDI3CgCsc9u4quXQxHjTprkWok0JiWuCr8IJUsaDfhUT02HEFRJh1sH/3iHQGRTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=cWkskz1Z; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=LxakA44t; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1732642830;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=f8nVuLKwPdVsdciR71/j+DZiHZoBHMBIVygTw9pRkQU=;
-	b=cWkskz1Zmh1KcTMZwKU29z5enJOPM/LtE1d8dnQg07MPeTWopJ5xmOxGDsS+jc7puWhuQw
-	RtShBvu+JFPUxmfF0Qprwx3rkAAA2GxrFkg2is4khcYkuk3zRhhnkcb3VLo1Yytdn92H5R
-	98jtlNSxbW9Z3VYLyiy/1++GW/ag8TnUncatSSbp4hrBMl9HNe6KGI4BpcJsEijwxSjr6A
-	Dr5kj1SWtuBOOr2c1vDc81CTFunOWkKqIFz9+CIyddppy3GoXEQGkM9V7BaJoq9Tuy+RU2
-	rIunM2psdQC5eDJuFJlq8Ye7s1dxNgxXexiNl5QTXwRxpgG2peueoJBXyYpUrg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1732642830;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=f8nVuLKwPdVsdciR71/j+DZiHZoBHMBIVygTw9pRkQU=;
-	b=LxakA44t7rtVvjFdlqslyEWAqHPE0AMMVDMqsY/qhdD1OFzx2YQwmQLVLAkvm/GIr7SWq1
-	+xSYId5+5pP+AjAg==
-To: David Wang <00107082@163.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 01/13] kernel/irq/proc: use seq_put_decimal_ull_width()
- for decimal values
-In-Reply-To: <25ddb2c9.4b0e.19347d04c05.Coremail.00107082@163.com>
-References: <20241108160717.9547-1-00107082@163.com>
- <4ce18851-6e9f-bbe-8319-cc5e69fb45c@linux-m68k.org> <87ed36zon8.ffs@tglx>
- <25ddb2c9.4b0e.19347d04c05.Coremail.00107082@163.com>
-Date: Tue, 26 Nov 2024 18:40:29 +0100
-Message-ID: <875xo9zyeq.ffs@tglx>
+	s=arc-20240116; t=1732643590; c=relaxed/simple;
+	bh=NehC+ymsbPFPPJe4qVuy3PA7quIwdBzhzboTVNy83O8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VYHvSLCybB/saRwjdMf6xgUX4tBDtStA6CAmO3K9ImC4H9CYmtxnEI2z8MSknSlkHRzYLhE4fopOYlZrjt5Xo0u/Wc4XXcxnsb6iPvSK++46zLX7h9MbVB7jgSuQ9pq/pyw8Q0VedALyQJ14//vadjVPZrfSDZHAA0INLjkessk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aorIiGYt; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF56AC4CED0;
+	Tue, 26 Nov 2024 17:53:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732643590;
+	bh=NehC+ymsbPFPPJe4qVuy3PA7quIwdBzhzboTVNy83O8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aorIiGYth73xyfIGQblyPd2La7YxQE6w8xxfLLyL59BAoU/09Ue8aNqiI+RhuuZb4
+	 LLFwb0RO0PxqYflMp98eVEWpLcc/zq1zs//jTzLbVwFm2XogBwXaU6T+w6zgGPYdbd
+	 YDci2mxHI6BY6ave/gBGKANsUioNT17f7S8b6pPevqvwtGg8L3UkHQdgOr7kFhGF8b
+	 fVv2AjDm103zy/65GNzymBKNgGlL60pJ1SHTPQmSkVuBTURgu7yQ+UbtBo0WpG4nMs
+	 Zt2mW6OvtpJqVn2eNOLtmAk/j7Xkq2cwLmhtEGkOc8tAkw7ovCAwuoR9cNu6p6bx5O
+	 sA4ukR+wCkzVQ==
+Date: Tue, 26 Nov 2024 17:53:04 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: vkoul@kernel.org, kishon@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, p.zabel@pengutronix.de,
+	geert+renesas@glider.be, magnus.damm@gmail.com,
+	gregkh@linuxfoundation.org, yoshihiro.shimoda.uh@renesas.com,
+	christophe.jaillet@wanadoo.fr, linux-phy@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-usb@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH v2 11/15] dt-bindings: reset: renesas,rzg2l-usbphy-ctrl:
+ Document RZ/G3S support
+Message-ID: <20241126-algorithm-wiring-b4339a222536@spud>
+References: <20241126092050.1825607-1-claudiu.beznea.uj@bp.renesas.com>
+ <20241126092050.1825607-12-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="/lz60/Ptmbm26ZvV"
+Content-Disposition: inline
+In-Reply-To: <20241126092050.1825607-12-claudiu.beznea.uj@bp.renesas.com>
 
-On Wed, Nov 20 2024 at 12:24, David Wang wrote:
-> At 2024-11-20 09:20:59, "Thomas Gleixner" <tglx@linutronix.de> wrote:
->>diff --git a/kernel/irq/proc.c b/kernel/irq/proc.c
->>index f36c33bd2da4..9b715ce8cf2e 100644
->>--- a/kernel/irq/proc.c
->>+++ b/kernel/irq/proc.c
->>@@ -501,6 +501,7 @@ int show_interrupts(struct seq_file *p, void *v)
->> 
->> 		seq_put_decimal_ull_width(p, " ", cnt, 10);
->> 	}
->>+	seq_putc(p, ' ');
->> 
->> 	raw_spin_lock_irqsave(&desc->lock, flags);
->> 	if (desc->irq_data.chip) {
->
-> On second thought,   considering other paths have already had a leading space, 
-> maybe it is more clean to just add a leading space before irq_print_chip:
->
->         raw_spin_lock_irqsave(&desc->lock, flags);
->         if (desc->irq_data.chip) {
-> -               if (desc->irq_data.chip->irq_print_chip)
-> +               if (desc->irq_data.chip->irq_print_chip) {
-> +                       seq_putc(p, ' ');
->                         desc->irq_data.chip->irq_print_chip(&desc->irq_data, p);
-> -               else if (desc->irq_data.chip->name)
-> +               } else if (desc->irq_data.chip->name)
->                         seq_printf(p, " %8s", desc->irq_data.chip->name);
->                 else
->                         seq_printf(p, " %8s", "-");
 
-I rather keep the seq_putc() and remove the trailing space from the
-other prints.
+--/lz60/Ptmbm26ZvV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Nov 26, 2024 at 11:20:46AM +0200, Claudiu wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>=20
+> The Renesas RZ/G3S USB PHY control block is similar with the one found on
+> the Renesas RZ/G2L. Add documentation for it.
+>=20
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+
+--/lz60/Ptmbm26ZvV
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ0YLAAAKCRB4tDGHoIJi
+0prBAQDBbakfQEYNvZfj558SOgCPRr+erB7IDZqbZqJxAKQx7AEA3xTKW2+0Eruc
+7HuLCJAmCAFoNyfoAYEo0UE8SD80MA8=
+=CybG
+-----END PGP SIGNATURE-----
+
+--/lz60/Ptmbm26ZvV--
 
