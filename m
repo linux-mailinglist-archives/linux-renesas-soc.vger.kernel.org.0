@@ -1,165 +1,106 @@
-Return-Path: <linux-renesas-soc+bounces-10712-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10713-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C24289D9B72
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Nov 2024 17:29:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30DF79D9CBB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Nov 2024 18:41:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 01017B22405
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Nov 2024 16:27:58 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7DA09B22E5B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Nov 2024 17:40:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 480201D63FD;
-	Tue, 26 Nov 2024 16:27:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD9471D6DA1;
+	Tue, 26 Nov 2024 17:40:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="cWkskz1Z";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="LxakA44t"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B647BBE46
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Nov 2024 16:27:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F67C1CEE9B;
+	Tue, 26 Nov 2024 17:40:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732638475; cv=none; b=N4TQwsaNLOQDFq82ZQdxLq3Bxy8l1NbpSSgZNt0NdMzOydFZjexoZprCXBj+4vhZihuoiDP7aT6/RClwhiMDPC3lIFT+mTEm9XcMm+sXkYPYJ35hYV2XgL+QuNl3Xk1UEM81va1m42vAj3ujW9EbeqBOFVfuLXEBAWqJjU0n1ho=
+	t=1732642833; cv=none; b=HEok6JdSMkJGk7WBek1hqc0nRu4NGjGiYyKIHeUPyBQ498ybTxgUok4qHZCWsuFTeX2WsrXTmJbzlO8dTOtgcgAFtYHMIH6828wyJb8l2sVbxq62Y852Cno6A8Bk+U+0y8oLFfktFA370XENUuPlM5Kx5gUqQZcbL4RLii4lkZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732638475; c=relaxed/simple;
-	bh=Xc3C4EIWnUIg36OVKlPum6OLz1OHNu3RilSm0BWvTmg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HudKtlSvw3bVyYjgFdScJDEoTeknKGfVJaVBTqSvsycr3kua0YBQOmPGlzXoYvzyLHr3N2mKbAR7SmfaoVKMUfa9X0lsshruUBlGOA+TC5H9sHB9ozBebaJpVH/WH9Q290ToesTE5phbk+m5HSNM0vW4q+PpvFk+L5e4dXWcAe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6eed41d2b12so44743417b3.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Nov 2024 08:27:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732638471; x=1733243271;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2+5DDq0nPYaDZ7/iDkRHOSxBIvXFA41dAtcmb4ui1Fw=;
-        b=ucDCloTPVYLNCx75LLyDqrnitHQsyI6Ij0WiXkjymThT1m7JqobPNC1d+V1ztNp/Wa
-         YQlKqzFOtgFSQoE4d8BSafQm5xmPO8fBQGEOgsvRk6OOSmkZnG35yKPXyX2R2L4n4/qe
-         mz2zXZyFIQgXWVyhhSfb1VrbEkLI1Q6es89bVBiXstwptdg4cy67T61+rAY7oZvboh3e
-         1jOTZZ6PjfskjFaBsZGTEHaFb4CO1QcBX7Tk70vSdMxtsvnrd3zoX9ankTPPeeGtAgXQ
-         fcxKmRkWKFieS8jZ2oryr46gNYRSpgLUMf2FaX4r7Ov8RFnT7HBZbM5tKlDJpnJb+Fs3
-         YyBw==
-X-Forwarded-Encrypted: i=1; AJvYcCWdTUZfjyutQul+0hXK2DP0R/ITYnzkUWw0FBaFf1lsyAjZy2KSlwHqUokDbyjxvjX+1jGoukPepYXU6zrddjz0ZQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyEOJlTkeeTQU++LXG7s2Kfq/KHAOliBbf1HiHvih+7zKNRmNRy
-	p2+jDvVFmKU+031YdmpWQZ4xsxlLxWAjX3YguTBs1uYjfu5ujWnBlEZfmzBT
-X-Gm-Gg: ASbGncsyPQZJJFJAJRKNlJmuY46brEOxr/tbBKHWUiGUKeE7Af2/ObdTjsrvfopJYMc
-	2X9ghkgaCdC0WSD6E7mQvRCS2ARv/tYTtuc1vY2rAQ9gtf42IQdLXJj0TisnARPHjDGjGcmsRSn
-	u5TCMU6+tg1zv8e7MrRSxbtEzEJOuJD703BdeF1cvQYe2rdroQxKk1Ilb6ivwqMy5OgKaWeWkBQ
-	Sssd/pbU24fp4WJ2XUrTwDpnQnBhOS4s28NdVijlpPyk1gqOtk6YWV1KddYT1OdQSOjtdY6goCU
-	duo2NDuAF9d9EjCL
-X-Google-Smtp-Source: AGHT+IHj3zoYPQ26SCXm+GZIJuq6ssdMzCZmKcv70HKfrYB+ETOVqYHwOegxJP9s/Hd/QCnOle02Tg==
-X-Received: by 2002:a05:690c:700a:b0:6bf:1ca2:f6ce with SMTP id 00721157ae682-6ef23dc58ffmr36347357b3.11.1732638471273;
-        Tue, 26 Nov 2024 08:27:51 -0800 (PST)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6eedfe2ccbasm23631337b3.47.2024.11.26.08.27.51
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Nov 2024 08:27:51 -0800 (PST)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6ee79e82361so57113137b3.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Nov 2024 08:27:51 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX78wW1LSlNBjnYW+0XEcNHzKPJQc/vY/XwnsiqiyLKlSH6SCbZPjoCw8Gb7Z4+mWn6XxXKv46ZZ3uQ2qSoK6vdiA==@vger.kernel.org
-X-Received: by 2002:a05:690c:670a:b0:6ee:8088:831d with SMTP id
- 00721157ae682-6ef23d80cf8mr37132617b3.3.1732638470834; Tue, 26 Nov 2024
- 08:27:50 -0800 (PST)
+	s=arc-20240116; t=1732642833; c=relaxed/simple;
+	bh=qt3lSk1Z0sFvkcccN2T638/oOpezlfEGW01kL5PatzE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=tATRdBWAl0z2JH1JimjDMbL1rwtp5ZQsO459GK4Pa65RkeBep9To2hnJZ4Hl7Kxpg8lvFNImlls+Jd3xIB7XerL5xTUgmbs/+xrQdERhYV4IDI3CgCsc9u4quXQxHjTprkWok0JiWuCr8IJUsaDfhUT02HEFRJh1sH/3iHQGRTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=cWkskz1Z; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=LxakA44t; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1732642830;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f8nVuLKwPdVsdciR71/j+DZiHZoBHMBIVygTw9pRkQU=;
+	b=cWkskz1Zmh1KcTMZwKU29z5enJOPM/LtE1d8dnQg07MPeTWopJ5xmOxGDsS+jc7puWhuQw
+	RtShBvu+JFPUxmfF0Qprwx3rkAAA2GxrFkg2is4khcYkuk3zRhhnkcb3VLo1Yytdn92H5R
+	98jtlNSxbW9Z3VYLyiy/1++GW/ag8TnUncatSSbp4hrBMl9HNe6KGI4BpcJsEijwxSjr6A
+	Dr5kj1SWtuBOOr2c1vDc81CTFunOWkKqIFz9+CIyddppy3GoXEQGkM9V7BaJoq9Tuy+RU2
+	rIunM2psdQC5eDJuFJlq8Ye7s1dxNgxXexiNl5QTXwRxpgG2peueoJBXyYpUrg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1732642830;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f8nVuLKwPdVsdciR71/j+DZiHZoBHMBIVygTw9pRkQU=;
+	b=LxakA44t7rtVvjFdlqslyEWAqHPE0AMMVDMqsY/qhdD1OFzx2YQwmQLVLAkvm/GIr7SWq1
+	+xSYId5+5pP+AjAg==
+To: David Wang <00107082@163.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 01/13] kernel/irq/proc: use seq_put_decimal_ull_width()
+ for decimal values
+In-Reply-To: <25ddb2c9.4b0e.19347d04c05.Coremail.00107082@163.com>
+References: <20241108160717.9547-1-00107082@163.com>
+ <4ce18851-6e9f-bbe-8319-cc5e69fb45c@linux-m68k.org> <87ed36zon8.ffs@tglx>
+ <25ddb2c9.4b0e.19347d04c05.Coremail.00107082@163.com>
+Date: Tue, 26 Nov 2024 18:40:29 +0100
+Message-ID: <875xo9zyeq.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1729240989.git.geert+renesas@glider.be> <8fe8294a-b785-449e-850a-db334211deba@ideasonboard.com>
-In-Reply-To: <8fe8294a-b785-449e-850a-db334211deba@ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 26 Nov 2024 17:27:38 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU8e6m2CJuEL2HAZV69gWPD0nVG33_O1c9Gbmdkj8Qwkg@mail.gmail.com>
-Message-ID: <CAMuHMdU8e6m2CJuEL2HAZV69gWPD0nVG33_O1c9Gbmdkj8Qwkg@mail.gmail.com>
-Subject: Re: [PATCH/RFC 0/1] arm64: dts: renesas: white-hawk: Add mini-DP
- output support
-To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Hi Tomi,
-
-On Tue, Nov 26, 2024 at 4:58=E2=80=AFPM Tomi Valkeinen
-<tomi.valkeinen+renesas@ideasonboard.com> wrote:
-> On 18/10/2024 12:32, Geert Uytterhoeven wrote:
-> > As I had to test Tomi's WIP patches to add mini-DP output support to
-> > Gray Hawk Single, I moved my (old and new) DisplayPort gear to my board
-> > farm, and thought this was a good opportunity to test mini-DP output on
-> > White Hawk as a baseline (CN5), and add support for the second mini-DP
-> > output on the White Hawk BreakOut board (CN15).
-> >
-> > For testing, I used the following hardware:
-> >    (A) BenQ BL2420PT desktop display (2560x1440),
-> >    (B) Joy-It Joy-View 15 portable display (1920x1080),
-> >    (C) Lindy DisplayPort to 2 Port HDMI MST Hub,
-> >    (D) Passive mini-DP to HDMI cable,
-> >    (E) LogiLink Mini DisplayPort to VGA Converter.
-> >
-> > (A)-(C) are known to work with my Intel desktop.
-> > (D)-(E) are known to work with an old Dell XPS13.
-> >
-> > Software-wise, I used the frame buffer text console, "modetest -M
-> > rcar-du -s 86:1920x1080@XR24" or "modetest -M rcar-du -s
-> > 86:2560x1440@XR24", and fbtest.
-> >
-> > White Hawk CN5
-> > --------------
-
-> >    1. Mini-DP to (A) DP:
-> >         - 2560x1440 works but flickers (flickering shifts image
-> >        horizontally; perhaps a cable issue, as 2 below does work?)
+On Wed, Nov 20 2024 at 12:24, David Wang wrote:
+> At 2024-11-20 09:20:59, "Thomas Gleixner" <tglx@linutronix.de> wrote:
+>>diff --git a/kernel/irq/proc.c b/kernel/irq/proc.c
+>>index f36c33bd2da4..9b715ce8cf2e 100644
+>>--- a/kernel/irq/proc.c
+>>+++ b/kernel/irq/proc.c
+>>@@ -501,6 +501,7 @@ int show_interrupts(struct seq_file *p, void *v)
+>> 
+>> 		seq_put_decimal_ull_width(p, " ", cnt, 10);
+>> 	}
+>>+	seq_putc(p, ' ');
+>> 
+>> 	raw_spin_lock_irqsave(&desc->lock, flags);
+>> 	if (desc->irq_data.chip) {
 >
-> I get a stable picture with my old-ish Dell monitor:
+> On second thought,   considering other paths have already had a leading space, 
+> maybe it is more clean to just add a leading space before irq_print_chip:
 >
-> # kmstest
-> Connector 0/@86: DP-1
->    Crtc 0/@83: 2560x1440@59.95 241.500 2560/48/32/80/+ 1440/3/5/33/- 60
-> (59.95) P|D
->    Plane 0/@33: 0,0-2560x1440
->      Fb 97 2560x1440-XR24
-> press enter to exit
+>         raw_spin_lock_irqsave(&desc->lock, flags);
+>         if (desc->irq_data.chip) {
+> -               if (desc->irq_data.chip->irq_print_chip)
+> +               if (desc->irq_data.chip->irq_print_chip) {
+> +                       seq_putc(p, ' ');
+>                         desc->irq_data.chip->irq_print_chip(&desc->irq_data, p);
+> -               else if (desc->irq_data.chip->name)
+> +               } else if (desc->irq_data.chip->name)
+>                         seq_printf(p, " %8s", desc->irq_data.chip->name);
+>                 else
+>                         seq_printf(p, " %8s", "-");
 
-Good to know!  I'll see if I can try with a different cable (the
-current one claims to do 8K, though).
-
-> >    5. Mini-DP to (E) to (A) HDMI:
-> >         - SN65DSI86 behaves as if no cable is connected.
-> >           Expected, as TI SN65DSI86 does not support Dual-Mode/DP++.
-> >
-> >    6. Mini-DP to (D) to (A) VGA:
-> >         - Detected 1920x1080, black screen / no signal.
-> >           Perhaps this adapter relies on DP++, too?
->
-> Hmm, are these two mixed up? 5. should have (D), and 6 should have (E)?
-
-Yes they are. Sorry for that.
-
-> No, the vga is an active one, but does it have external power source? If
-> not, it relies on the power from the DP connector, and I'm not sure if
-> we're providing any/enough.
-
-The VGA adapter does not have an external power source.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+I rather keep the seq_putc() and remove the trailing space from the
+other prints.
 
