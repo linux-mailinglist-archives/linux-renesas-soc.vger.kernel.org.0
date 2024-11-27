@@ -1,106 +1,208 @@
-Return-Path: <linux-renesas-soc+bounces-10737-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10738-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 558389DAA1E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Nov 2024 15:48:52 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 766ED9DABCF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Nov 2024 17:30:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1B22D2824BD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Nov 2024 14:48:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CB482B24DA7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Nov 2024 16:30:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD8751FCFEC;
-	Wed, 27 Nov 2024 14:48:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41A63202F72;
+	Wed, 27 Nov 2024 16:29:00 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51FBF1DFD1;
-	Wed, 27 Nov 2024 14:48:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED8D201269;
+	Wed, 27 Nov 2024 16:28:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732718927; cv=none; b=gLxakX8tMpm5vJh0EaNMfdE0grIKcaGS0S1lmsCYRFKE4gCh9d2138CQvEVN1VRNpm25S88IJ0vOTtEkajXJxxh9s0IwC/1ZHh0jdoH60ieDo9bGcj2c26cBY4dQKbWXKa7GA3QPbAP1eHa553q/oFjCq8s36XnSdoaFFbnEQYM=
+	t=1732724940; cv=none; b=puJOr0XbPlnS0EVD4NBBhY9ZSFcjxPqOtj4zObrYXxFqVeysPafdLzn/D7XjnAm5OuC7InJRQbdEwTMH8CluO0tFKQBFrXpGPyAqX8tB6BeHy78tWfFimbeqHWnywsRRFKN8fJeKiVII9Cvc8YOLWiWRac0y9cWIUqVEQGFIPME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732718927; c=relaxed/simple;
-	bh=uv9gi5K2udyOY+gnkMFC54S1hyXaWOdi0CE7kSr0vQ0=;
+	s=arc-20240116; t=1732724940; c=relaxed/simple;
+	bh=K0+UzOqrZ522gdt8O1euYjxEX1JtMraCjuxBRFmOd1I=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hjZgMQP0UoSr6j/hS4QbjexwtcSskuv1PW18SuAP0RzwjS7kiht3edoB/G7y7l9Lix/FeGlGrna1WFEJCWg913fvRRvrZncIg8muuzKGilLHxT2vWzkSESCMrvPEo7Cs2ebIdNWHK7bx2IFS0Lw2njJ1tE6PUskmh13veOGBqjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.45
+	 To:Cc:Content-Type; b=Rw+75Bb0sZz3PKJhkLXuBL9/1OZX/PcPSQrOEOo6HLW73gFqgpms6fEtBMx89tAdq95C69hRfac3V4AmAuVNKuNsQ+6ARCkojkPK/6Q/o8SAhVos5Cu+4qm6sHUL/F9L+QBArDBKmCEZB86Fp7tRcVVZvMmgatTtuk9OhHbUly8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-71d4c462ab1so1523454a34.0;
-        Wed, 27 Nov 2024 06:48:46 -0800 (PST)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-aa51bf95ce1so858959566b.3;
+        Wed, 27 Nov 2024 08:28:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732718925; x=1733323725;
+        d=1e100.net; s=20230601; t=1732724931; x=1733329731;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+GshtkU0YrM2h6xqH7al70LL9TIOM+spMMwxpgis0eA=;
-        b=AxYvX/Xp2LRAVNlOT33hJpB9Ve3a7lVyy5cBZmT6QqTCjG2WPsubGZBO/3wY73Ee/o
-         LABQQQvKeIM2kgcWSXGbyTaat8tFSa8PTMSYjphqu1I1AKbTCaPnAu5XCSuDmp+ewNAb
-         q+NK0YJUzlGojAAXKZuvuMCWAol5PiVsrO0nguz/TRtLZNvTYyuRRgEGOsTdRrwN99TH
-         rW4yVmuAQhAn9y4BKP3o7CzXsdFVvtzI/zxFv5A62/6Ud1wXF/tyTXcbe/BcJrtn0yX0
-         Xd2/4FruOK0T0sv9e8nVTbtBYmGVhlciB+pG+5IwEry9Qs//mCj1JJpsEPyJe70ANSXQ
-         4uhg==
-X-Forwarded-Encrypted: i=1; AJvYcCUETmOPhTKUvfju7+6MatHzoEDABgj7UOCpwRdpm4ajy7GT0bHoaJjw49kaE5qee5mJzyDQa5f1K8hHmWTR@vger.kernel.org, AJvYcCUGgNh5oUaxXjbC1HZNRgDYZBtD9aGflAPnqOLNFuYJe/jB8Se5Ohn1IQZrQ9kWvEdP7LGqHMIwGxCM+KL/@vger.kernel.org, AJvYcCVv5ylfw/A54zKZV31ctlUD353VjCSfK5bAAqCyMeZBHBb607b79dEMWIgQzZuG8mVhxekl13JF5O6L@vger.kernel.org, AJvYcCX1JgRpg9qTYSK/fq2fj6e3r3SSS0vMhYvwEjhIZNVkS0/dfzZ5Gy205XIgsd19uzcpvRFNSNZbpafV@vger.kernel.org, AJvYcCXb9j/7DaK1LogAMtWh3RQTmrgxh6AXV7U5kW0T891q58zHhlRuiKwTcXzs3eqFgFSwm0a+TZf/dRUe7RUFgbMpW+4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6xZ3hZNvf7ZjUbtKPugoDsJGHRYj9AvhEYSojbrxFKKRP2ims
-	hhwheswv8y/O8n6VKWHW56IzMLDyeUWmvwY6pSyKY91iezW79hXAf2JKstxDo3g=
-X-Gm-Gg: ASbGnctiOXe9jY8eH1h9eJLBgFniwgjKIy6PoHU3vfwd2YnlaX8/7b/YBoXJlsFJ+3p
-	j8CdxSbybPl89BP/NAi8nUj58QXI9dPDaCeBsVEZItNHO8MGTGeKfk3bt8rYoBSxYme4b7sdKeE
-	zXXgRniGsH1WuFP7GFGIGlFmPIPbo8q/e7GRnMDCACdqx+IQy5XQnf1Dx/99hJnWigNE5lsAbs7
-	5zF2XJOodQo1ij6pp7SqYWUUjribT/nAdgL/AiFPrGXURMPCUKOjWao7sTTkQflNY2PJYjAgwxt
-	ioYQneqs42Su
-X-Google-Smtp-Source: AGHT+IHl7GWJsOmKi9JTX5tfvoD84LU31MSquH3cM9Qn3lJUgqkekRNRF8KGoHcP5w8wFKwQrCGi1Q==
-X-Received: by 2002:a05:6830:730a:b0:71d:596d:7deb with SMTP id 46e09a7af769-71d65c740b7mr3681838a34.3.1732718924983;
-        Wed, 27 Nov 2024 06:48:44 -0800 (PST)
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com. [209.85.161.47])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-71d524e70d1sm1878647a34.22.2024.11.27.06.48.44
+        bh=zhoGox/Y/qnISFpTctTC7YmzCxPu9xjctDpPDiZ/MzE=;
+        b=NweY8kcYWuLLdcWN1igvf7uuHR09R/d9FPFOup+4RVUWWtABVm0/+6x+/ksAO64hg1
+         6RayDtO3HtvFTnNycXOglV4NUuk+QWGobRji8gNC0YGf45p9C9/Xh67neweSl/FsRhc0
+         PVQVW+pj+vmnCDJIiZMd0Xc2U2K/BGEaTlKWnxs1cuIoRotduWozkvnXkSJtprqs/mk2
+         NDRzeeNOrleEBaegfotdEliNdxxgLcpCaFIRw5pc/x34iC9CfinEirQZ3M92gHjBeug9
+         upV4/XXLayPv2p3OadgZZ9mgCV1X4u95p1zGpTc40LhnAZ4ekdkm+/EX98s/2IUqF97R
+         q0TA==
+X-Forwarded-Encrypted: i=1; AJvYcCULT48LIBnG0wa82Xk7qdwRg1tloPedGbKMXIdeP/wn4wYvAx+DbUU4y+ZuFxb5ZeYbp2WP02/6UAjE@vger.kernel.org, AJvYcCURf/nwEvJ4bGLs/6azzWF7x83HRp7/O0ked5fxLEN24p6eCqyu8pfL0XsKqdWiv2e2L7gyzBe6dVVKeT548r0lya0=@vger.kernel.org, AJvYcCWPATFtrxtFn0Mq075CLU8Vjhk3mRhH6us60aT8laifUekR0PoG8c+a4fmflh/ZEXkYbrH2WQW9+i6eTjzh@vger.kernel.org, AJvYcCWeu5yoV8x2Ialnt8ZQ4azUiSRkdOFAqTVhIHnAvyxAAelO9WC8vpi1xiAtmz/0INTb5PA2fNyc@vger.kernel.org, AJvYcCXYyFpDpGPyRQr/qqJKGqdhy8ETj9PwoCxj+o3MTK76Cs1YSm6Vm4pJfR0xTu7/sL67fORorAoMvY3qoMq0@vger.kernel.org, AJvYcCXwYmvMSUkwz37z10TXQV1JTDMeCIQITZSXUwVvKpM8OVb5uO82DVtM70MTmUceA3ZYaZqw3lhIuVWb@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIouEuMeN0KGcy2GgmGxmUDRiWrMez/Gzf9w2uIkecQemZFTJ0
+	z82jis5JQnLo4is4Mq5mihdG+4cjkV5jiJiVv+ueNIVpclKbdhywy0q8XeUN5rs=
+X-Gm-Gg: ASbGncsT7+x4CiXIV2akd/RJwQ2LzRTy0nHSFlBDtSP80Q/TLzC56E3fC6MFn2c2bUc
+	Y4842axrbeXRhrqsDJM7/gYaDRK0t5c4jFr++ejcWAuLF+ICZH7135UD6waxq4wQLnfmupi/POH
+	HOH5G0jqWdsflZJO4srbi86ArduREBrEbn1NsfHcU49MTBl6JKlbec4DtfzC/2UbXgEdOOwlux9
+	IcTBmeLHv8bkp8zqW6vB7PLAi+8TiplQ4vhyjLcPeSXTkS+nRxfQeInGK7C+8TTZTBfl1v2XNdj
+	F0kaQyFTbx+r
+X-Google-Smtp-Source: AGHT+IE+pjw5J8OCDMAGZEuyAcL74rbOEwKc8VL/2+CUBSPN+EkT698DKtPyKyyXST33D24HsM7PFA==
+X-Received: by 2002:a17:906:32c2:b0:aa5:2bfb:2ec5 with SMTP id a640c23a62f3a-aa580edf6f4mr388193766b.5.1732724931360;
+        Wed, 27 Nov 2024 08:28:51 -0800 (PST)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com. [209.85.208.52])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa50b28f719sm718718166b.12.2024.11.27.08.28.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Nov 2024 06:48:44 -0800 (PST)
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5f1d1fdb328so1711714eaf.3;
-        Wed, 27 Nov 2024 06:48:44 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU3+R7CVOYSQxcQlpNN4XnUAqcdIMtzJjGqEfs1FTX1RxWmd5h0gLpX8I26q3rw/dMjq2Xi5sJiwD+udvDd@vger.kernel.org, AJvYcCUJs0WV3w76pMiSFYFNN+ad3KR2o//h+NKM55t8iBprQIznZjliu+M81bYk4vN6e1oJeToHZp4oLopcr6WZ@vger.kernel.org, AJvYcCWBPD6XMIwagm0YPVUK0ddTsVAYWWHHgB88gxQifxaEnyynugnvFi7bCdWFcUG52lebOyM8/amEqHWK@vger.kernel.org, AJvYcCWv28Hv06ayGUAOGWAgqSl56Kwu6/dcRGp3IGZkGz/C6a9DZUyjk0djW7I7Nnxd8jDRLbm4x8v5WrFG+CGMo1hE0ak=@vger.kernel.org, AJvYcCXz7oEJKjXnEfaO4f+kJnGfUH/v3DIGRg2sLaSP65tc4Sif3f8eISeZxckiG0pwd8DFsyezMB1QpyBA@vger.kernel.org
-X-Received: by 2002:a05:6358:5295:b0:1ca:961d:ca10 with SMTP id
- e5c5f4694b2df-1cab1688a38mr202812555d.21.1732718924133; Wed, 27 Nov 2024
- 06:48:44 -0800 (PST)
+        Wed, 27 Nov 2024 08:28:50 -0800 (PST)
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5ced377447bso9486350a12.1;
+        Wed, 27 Nov 2024 08:28:49 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU11r/WqvZLXxubdR9QL6aipC1rG3sug4/d/TGzPi7DOOWTovIRXMDXsX2PahFWkxcqkrvi4XeXLv+u@vger.kernel.org, AJvYcCU5e4JoV3OhNHRZrufuPK5uExxklLsWmOUqP8V7Q51NQtFgxfMvxwr3QG4/U13NtyEFhPXQJD4ej/iLdPvZ@vger.kernel.org, AJvYcCV7KXYFcipGuu9anCdXBeuysaG+faZQBAlUwfzn3fwAsR2+S3cEjYA9X1Nb3qajjPbd2WaIZFsBqDKfaq01sQxH6xc=@vger.kernel.org, AJvYcCWuP0hD89ddKnSAvXioOkdwtI4rr5/FxfF85Ntlc7up5R4Oc0X2R9AG3WAu1QLlzMlW5ffO5mzxyW2h+WlC@vger.kernel.org, AJvYcCX2ly4alxBAgAYg7FTydS91tWz7BkB9EhtVGVIDtWRqKIiywOdLlD9wGv9byBIF497zsCiRVhv49E45@vger.kernel.org, AJvYcCXtx9KFM42ZCRJzDGFy4iKaiS+qg3hdr262Kg72HmKZdqJDDatx20pr/S4+KUKnpqa7YqHd+eD5@vger.kernel.org
+X-Received: by 2002:a17:906:4c1:b0:aa5:2f8a:b94f with SMTP id
+ a640c23a62f3a-aa581076afbmr296034666b.54.1732724929585; Wed, 27 Nov 2024
+ 08:28:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241115134401.3893008-1-claudiu.beznea.uj@bp.renesas.com> <20241115134401.3893008-2-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20241115134401.3893008-2-claudiu.beznea.uj@bp.renesas.com>
+References: <20241106120118.1719888-1-claudiu.beznea.uj@bp.renesas.com> <20241106120118.1719888-4-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20241106120118.1719888-4-claudiu.beznea.uj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 27 Nov 2024 15:48:32 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUQd6AJe4b7hM_vqfW=NbVmv=zF9yr4bNBjJx05OXnEAA@mail.gmail.com>
-Message-ID: <CAMuHMdUQd6AJe4b7hM_vqfW=NbVmv=zF9yr4bNBjJx05OXnEAA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/8] clk: renesas: r9a08g045: Add clock, reset and
- power domain for the remaining SCIFs
+Date: Wed, 27 Nov 2024 17:28:34 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX57_AEYC_6CbrJn-+B+ivU8oFiXR0FXF7Lrqv5dWZWYA@mail.gmail.com>
+Message-ID: <CAMuHMdX57_AEYC_6CbrJn-+B+ivU8oFiXR0FXF7Lrqv5dWZWYA@mail.gmail.com>
+Subject: Re: [PATCH 3/9] serial: sh-sci: Clean sci_ports[0] after at earlycon exit
 To: Claudiu <claudiu.beznea@tuxon.dev>
 Cc: magnus.damm@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
 	conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org, 
 	gregkh@linuxfoundation.org, jirislaby@kernel.org, p.zabel@pengutronix.de, 
-	lethal@linux-sh.org, g.liakhovetski@gmx.de, linux-renesas-soc@vger.kernel.org, 
+	lethal@linux-sh.org, g.liakhovetski@gmx.de, ysato@users.sourceforge.jp, 
+	ulrich.hecht+renesas@gmail.com, linux-renesas-soc@vger.kernel.org, 
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-clk@vger.kernel.org, linux-serial@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, stable@vger.kernel.org, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 15, 2024 at 2:56=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
-wrote:
+Hi Claudiu,
+
+Thanks for your patch, which is now commit 3791ea69a4858b81 ("serial:
+sh-sci: Clean sci_ports[0] after at earlycon exit") in tty/tty-next.
+
+On Wed, Nov 6, 2024 at 1:02=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> w=
+rote:
 > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >
-> The Renesas RZ/G3S SoC has 6 SCIF interfaces. SCIF0 is used as debug
-> console and is already enabled. Add the clock, reset and power domain
-> support for the remaining ones.
+> The early_console_setup() function initializes the sci_ports[0].port with
+> an object of type struct uart_port obtained from the object of type
+> struct earlycon_device received as argument by the early_console_setup().
 >
+> It may happen that later, when the rest of the serial ports are probed,
+> the serial port that was used as earlycon (e.g., port A) to be mapped to =
+a
+> different position in sci_ports[] and the slot 0 to be used by a differen=
+t
+> serial port (e.g., port B), as follows:
+>
+> sci_ports[0] =3D port A
+> sci_ports[X] =3D port B
+
+Haven't you mixed A and B?
+
+> In this case, the new port mapped at index zero will have associated data
+> that was used for earlycon.
+
+Oops, do you have a simple reproducer for this?
+
+> In case this happens, after Linux boot, any access to the serial port tha=
+t
+> maps on sci_ports[0] (port A) will block the serial port that was used as
+> earlycon (port B).
+
+Again, A <-> B?
+
+> To fix this, add early_console_exit() that clean the sci_ports[0] at
+> earlycon exit time.
+>
+> Fixes: 0b0cced19ab1 ("serial: sh-sci: Add CONFIG_SERIAL_EARLYCON support"=
+)
+> Cc: stable@vger.kernel.org
 > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk for v6.14.
+This causes a crash (lock-up without any output) when
+CONFIG_DEBUG_SPINLOCK=3Dy (e.g. CONFIG_PROVE_LOCKING=3Dy).
+
+> --- a/drivers/tty/serial/sh-sci.c
+> +++ b/drivers/tty/serial/sh-sci.c
+> @@ -3546,6 +3546,32 @@ sh_early_platform_init_buffer("earlyprintk", &sci_=
+driver,
+>  #ifdef CONFIG_SERIAL_SH_SCI_EARLYCON
+>  static struct plat_sci_port port_cfg __initdata;
+>
+> +static int early_console_exit(struct console *co)
+> +{
+> +       struct sci_port *sci_port =3D &sci_ports[0];
+> +       struct uart_port *port =3D &sci_port->port;
+> +       unsigned long flags;
+> +       int locked =3D 1;
+> +
+> +       if (port->sysrq)
+> +               locked =3D 0;
+> +       else if (oops_in_progress)
+> +               locked =3D uart_port_trylock_irqsave(port, &flags);
+> +       else
+> +               uart_port_lock_irqsave(port, &flags);
+> +
+> +       /*
+> +        * Clean the slot used by earlycon. A new SCI device might
+> +        * map to this slot.
+> +        */
+> +       memset(sci_ports, 0, sizeof(*sci_port));
+
+Nit: I'd rather use "*sci_port" instead of "sci_ports".
+
+> +
+> +       if (locked)
+> +               uart_port_unlock_irqrestore(port, flags);
+
+"BUG: spinlock bad magic", as you've just cleared the port, including
+the spinlock.
+
+I guess we can just remove all locking from this function to fix this?
+
+However, could it happen that the new device taking slot 0 is probed
+before the early console is terminated?  In that case, its active
+sci_ports[] entry would be cleared when early_console_exit() is called.
+
+Also, what happens if "earlycon keep_bootcon" is passed on the kernel
+command line, and the new device takes slot 0?
+
+Thanks!
+
+> +
+> +       return 0;
+> +}
+> +
+>  static int __init early_console_setup(struct earlycon_device *device,
+>                                       int type)
+>  {
+> @@ -3562,6 +3588,8 @@ static int __init early_console_setup(struct earlyc=
+on_device *device,
+>                        SCSCR_RE | SCSCR_TE | port_cfg.scscr);
+>
+>         device->con->write =3D serial_console_write;
+> +       device->con->exit =3D early_console_exit;
+> +
+>         return 0;
+>  }
+>  static int __init sci_early_console_setup(struct earlycon_device *device=
+,
 
 Gr{oetje,eeting}s,
 
