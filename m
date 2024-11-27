@@ -1,234 +1,145 @@
-Return-Path: <linux-renesas-soc+bounces-10719-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10720-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 328339DA533
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Nov 2024 10:54:10 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26AF59DA53D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Nov 2024 10:59:25 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 71A0DB24CA5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Nov 2024 09:54:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C8BD81656F5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Nov 2024 09:59:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15924194A63;
-	Wed, 27 Nov 2024 09:54:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60510194141;
+	Wed, 27 Nov 2024 09:59:22 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59FE818FC81;
-	Wed, 27 Nov 2024 09:54:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 802796A8D2
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Nov 2024 09:59:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732701246; cv=none; b=jrlc/WGceXz3MqWZtkNZTfE5CTGfaUlS4qGNWvvYQbiGPMcizTgzMdv+21vnDPF/P227szWwVl6gSturseOZF5pr9XMSLcXJzlbCaX6QJBt/WnzENEwVWlF1D/3Zc0KZhh9fdfRtmiq8/TnKOT/mFg8DF8LKDwBJ6QvIDmNyOSA=
+	t=1732701562; cv=none; b=YSmmhL/yURslF5Kdj5UuZBHtDi4lgXUXWEKlBILGarT5s6mn8wBxkfoCDeAyQkuUi3bYxB9BOvFROUoGiaVyISZSntxbRC/W8LrgHhWkfilAP7iVT2oZA1oCImW1wQ8tqMwjn4LaZh4zpvpqxL4pqVTTgHubi1gW+y+9sqWoh7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732701246; c=relaxed/simple;
-	bh=xgynu+dnij/Ap4H8Z6VToiH02SriDSYtiIh9IuHQf6w=;
+	s=arc-20240116; t=1732701562; c=relaxed/simple;
+	bh=CJBHFfqONtAx+0EDHxyyMWLICwKjfZVbVkiPG0oW1Pc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ICHbOfVuAtnu0y81LcW/dhDH/qYEUkFLkBqsyd5/YUlS6lCX95xtyx7KwS6w5IbtH2Xex/AWmGPJNeBAzWzSz7IyHQrTh1kJsv4XG+GmUoEYsRjslrTmbPAMnGmyDWLC8xEU+PPistfxw11fNWYzY3EBnbY/rOXZ34XSyIHhaNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.50
+	 To:Cc:Content-Type; b=FglSNTsjSkeuHrLI24SjiFcrp1yzh0Bm8QsTO+uT6ZvL+HP+vIiyQtqFSnie0WxxjB8HilMvnxa7ECrx05VnKJyAeI9SZzavEMV/DRn8oG2btddpfAUrwlBbY+VmTdRxnXfRaRmWuxviduwUwC1+MKSAxyfOL6/4OAlgmRm++s4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5cfd3a7e377so8421681a12.2;
-        Wed, 27 Nov 2024 01:54:03 -0800 (PST)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-aa503cced42so797996266b.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Nov 2024 01:59:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732701241; x=1733306041;
+        d=1e100.net; s=20230601; t=1732701557; x=1733306357;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nFNxczP+b5V8JKJ5O2vCYbJjZZHSVrsWR+o7WcAs32s=;
-        b=oDc7FnlUqG3bexzIgW3O/GKsPqgDb7e+rOSakbZjxeikmihRiXjfbT4Od/mRGpi3an
-         D09IQo9Dy4DsJGWhjdiLQF7x44KGJaFLeVQSGc5buSKQpz8ov1yk+88RVzRqzJkJElOf
-         fFSaDQraZex2KLvkYNM4gsbTiCjheQALDK6KKcFeY3Tq4UaNqS/i16JzG390W8+eepwS
-         ZfqYGq5BuZUiQYImY2nqg0PpzYxvys2fOC9cr5IF3eE6Nir59s/ELDFaSqCCGCqad+HO
-         omuXfX+3QHXfCsyx8IugTdUy/sK4kFh8ngI4m+Q17hslC3aAjaelORLchw+spF8wjlES
-         0hvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUh3RLN6+BUf0+3UWj0gTMWH6cEtkg3ItTQBUhD1qYa4Nejs4Vtuo3ZrrvAwZ1pUmC36Dn8LdlyTyMvQ9erynvAHr8=@vger.kernel.org, AJvYcCVXAO9L/yUa8X7BAPFD1RDK5HGQ8QHmKM3D6WG3HB8+3rsc266EWV7KnIYINQyRbqBO3MQozPnmySc=@vger.kernel.org, AJvYcCW3XsFmXukRR9FxgGIoC7cFaUW8akZSssFYa8Kql9wVjtWI616/mciD6DYAY/H7BT+6vIPDchvLhNsYGqla@vger.kernel.org
-X-Gm-Message-State: AOJu0YxFF6/cQwbnXSXVZJy1RrxXJXHsBbSm1sRCIJs/FYP5EzDAU4CD
-	TDHk5EBP677WzPz5mQ6DABqnxKp+80zCB+F+WNA+KHYy2ngXs7GVDkJkLUH7yHo=
-X-Gm-Gg: ASbGncu7ca8xDYNoxMPHCebKh5XlTVVy1xot2c0UoS0GnUEHkxUMc69urVuQZr516wm
-	HiqiyOzab4wsBSGsBuBpCkq8qp66kBBc6ntFxhUmmiRil9LWwsnrxrUp1HjB9H2eHDHssFBE4yA
-	Ye6A0UJfS5wWpzuWIcLUWnCIaIBeDjf2z3ytSTbaBQBRNiLw4MSKNYcVjgNOuEhYr0guyarl0X0
-	7qVTbOXmIn25AqSBY0p9viHowdSIRvIE/fjJZdAxda1i+4pc9/HP/QCH3QnVa9GcJ09VViXCY8f
-	UKH8FvnL0Jzt
-X-Google-Smtp-Source: AGHT+IHmH3ImqJXE6O3fZkkabRKi4GRR/5G27AvOFYyipk2/zPz9Vt/gKSDyxRiTPadJTEJfFyCNlA==
-X-Received: by 2002:a17:906:328d:b0:aa5:1d08:dad0 with SMTP id a640c23a62f3a-aa580ede47cmr164258366b.1.1732701240895;
-        Wed, 27 Nov 2024 01:54:00 -0800 (PST)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com. [209.85.218.47])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa50b57bf82sm688603866b.147.2024.11.27.01.54.00
+        bh=OOiMr84A3GB1hUmBWPgvlaH2hHjmbQ2GRHgnQtxORGY=;
+        b=DVeyrR6pugTDOgl5QipYuDKfuj2c9e8UiqM87H4GV6s+en8E0P5zLK8lKpZWdEpeA6
+         0pGHocz0ugd0sIUXv7A0kywPP2RNNNh/FFP6ES6LFVfbItvnieqK27t07RmsJA77OOJE
+         3z2oofw4sAU8uofrdp818yohYzVlh8DtKTedV+eYUkJ6It5H5oQjapDoGhxa6PesKF7j
+         rbB7RiMupVfAB8HBOKrdf2Ad8gBQzlfTOueFZHrvYgdZQoUcUEWa+I+OONTV/ne+24Qs
+         19mWr37rxiRVuYYWamd4HDAQoJwf9a/Bq7kovuujLargn5fI9ECmdkFVrvvNevNHHKNL
+         Dylg==
+X-Forwarded-Encrypted: i=1; AJvYcCWCX64c8ENAVcbhAeRg2aNVSIWUE4MoS+m8oBqYoAY37/V2rLZPft84IfHb6bQZSCs9ZksG6ABR4KDEQ6SWuxL46Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOMfuF9q3yplbWepqd6hAawiANDFIfW8WP5nKbFL4Na0CkaPN4
+	/WIYwypYQoBgQ5mSGosfbh+mP9Qc6IG5q1U0D95Z1W3RkabRxga6JYQUryMgNzw=
+X-Gm-Gg: ASbGncuY0NmKTf0L5565D3sAN7d3m1tuIE/UQPUQut7z6Jq/uW5FMD15r8CFUDoUUgg
+	PFNYjTuMxbX0KTSAiPbjHVSfHGdnfPoz8Dc+k6EteRBy8I/UmggvOhx/XXeKBEWh9QJpcsIzKv3
+	FLpP3pgFYzIGzg7uFl1+Sv+WGY+NM0KDWFG4BDyHWmsVZH4WBXQuwWkaoeCd39GVnJehB4HvEhy
+	ZaaGOQut/izjN8DDRYBWrZfoTgmkNR0vPbu8gaj1ohjGyp6wa+Z+NPoTIasNiZ/8XOV7EBZd8Kq
+	iCbrUlXSYNrq
+X-Google-Smtp-Source: AGHT+IEqNhlqLAlytZesjV5/YG7Yq7DtEwyhriYw6TeKRAhQlrbldXU4wUWwdDyPYgo3u4aSbg2UUQ==
+X-Received: by 2002:a17:906:31d2:b0:aa5:47f8:b91c with SMTP id a640c23a62f3a-aa580f4e2a7mr167264766b.25.1732701556843;
+        Wed, 27 Nov 2024 01:59:16 -0800 (PST)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com. [209.85.218.46])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa530e6f654sm562827566b.101.2024.11.27.01.59.16
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Nov 2024 01:54:00 -0800 (PST)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a9f1c590ecdso1055061866b.1;
-        Wed, 27 Nov 2024 01:54:00 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUA4hz8j2X4DQxTbw2gfla42wKVeO0I6xLeMEYTq3+1GGN+GfzoK27+suC/H52fx8d6vVp2KsVeGNalcMnf/RWh910=@vger.kernel.org, AJvYcCXi1N7YGPxVPQWx+0fI6ouce1qMY3lh6zvuN/gkvRf26pPAR2139DSORPxAn5E6iokwSKyX7o7FvU5NYlT4@vger.kernel.org, AJvYcCXzVz3Z2r215lFtN+PjTHWG2THt2BYvU2MIhMVsxcmsskEp2lSrA064qveiZ4CUapofOhsjU7WMX5Y=@vger.kernel.org
-X-Received: by 2002:a17:907:7616:b0:a9a:f0e:cd4 with SMTP id
- a640c23a62f3a-aa581066bb2mr149567166b.55.1732701239952; Wed, 27 Nov 2024
- 01:53:59 -0800 (PST)
+        Wed, 27 Nov 2024 01:59:16 -0800 (PST)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-aa5302a0901so540133666b.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Nov 2024 01:59:16 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCW2Yp6h8G/kHHAUgZImhykcpljJWWCAtfZ0riYjVLwqzsMJFBJCXFuMGYIeLep43VmDiGnDYS+XB+r6ie3TgymoDQ==@vger.kernel.org
+X-Received: by 2002:a17:906:2181:b0:a9a:bbcf:a3a2 with SMTP id
+ a640c23a62f3a-aa580f57adcmr130255766b.34.1732701556314; Wed, 27 Nov 2024
+ 01:59:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241104232401.290423-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20241104232401.290423-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20241104232401.290423-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <cover.1729240989.git.geert+renesas@glider.be> <30ccdcf0-1937-4351-b91f-d35d86aae6f3@ideasonboard.com>
+In-Reply-To: <30ccdcf0-1937-4351-b91f-d35d86aae6f3@ideasonboard.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 27 Nov 2024 10:53:46 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX0p4KhTNpNKMfZBjrCDxsyGO7sSwcJZWxBgxoHBZy9jQ@mail.gmail.com>
-Message-ID: <CAMuHMdX0p4KhTNpNKMfZBjrCDxsyGO7sSwcJZWxBgxoHBZy9jQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] clk: renesas: rzv2h-cpg: Add selective Runtime PM
- support for clocks
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date: Wed, 27 Nov 2024 10:59:03 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXd-S8iDJaWN4NJxGP8y7zDPW+0a4PhWo0JPF9AW1-Y-Q@mail.gmail.com>
+Message-ID: <CAMuHMdXd-S8iDJaWN4NJxGP8y7zDPW+0a4PhWo0JPF9AW1-Y-Q@mail.gmail.com>
+Subject: Re: [PATCH/RFC 0/1] arm64: dts: renesas: white-hawk: Add mini-DP
+ output support
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Prabhakar,
+Hi Tomi,
 
-Thanks for your patch!
-
-s/rzv2h-cpg/rzv2h/
-
-On Tue, Nov 5, 2024 at 12:24=E2=80=AFAM Prabhakar <prabhakar.csengg@gmail.c=
-om> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Wed, Nov 27, 2024 at 10:28=E2=80=AFAM Tomi Valkeinen
+<tomi.valkeinen+renesas@ideasonboard.com> wrote:
+> On 18/10/2024 12:32, Geert Uytterhoeven wrote:
 >
-> Update `rzv2h_cpg_attach_dev` to prevent external clocks not tied to the
-> power domain from being managed by Runtime PM. This ensures that only
-> clocks originating from the domain are controlled, thereby avoiding
-> unintended handling of external clocks.
+> > White Hawk CN15
+> > ---------------
+> >
+> > Does not work:
+> >    - Display resolution is detected correctly (1920x1080 or 2560x1440),
+> >    - Black screen, displays say no signal detected,
+> >    - "modetest -M rcar-du -s 88:1920x1080@XR24" triggers:
+> >
+> >       rcar-mipi-dsi fed90000.dsi-encoder: Failed to disable video trans=
+mission
+> >       vsp1 fea20000.vsp: Underrun occurred at WPF0 (total underruns 2)
+> >
+> >      Note that fea20000.vsp is vspd0, not vspd1. I do have a few simila=
+r
+> >      messages for fea28000.vsp in my logs, so this may be a red herring=
+.
 >
-> Additionally, introduce a `no_pm` flag in `mod_clock` and `rzv2h_mod_clk`
-> structures to exclude specific clocks from Runtime PM when needed. Some
-> clocks, such as those in the CRU block, require unique enable/disable
-> sequences that are incompatible with standard Runtime PM. For example,
-> the CSI-2 D-PHY clock initialization requires toggling individual clocks,
-> making Runtime PM unsuitable.
+> I had a try with this. The first issue I hit was that ti-sn65dsi86
+> driver doesn't work if there are two sn65dsi86 devices: Creating aux
+> devices try to create sysfs files with the same names for both devices,
+> thus failing. I take you didn't see this?
+
+I did, cfr. my comment in [PATCH/RFC 1/1][2]:
+
+    This has a hard dependency on "[PATCH] drm/bridge: ti-sn65dsi86: Fix
+    multiple instances"[1]
+
+> I brute forced my way through that by doing "aux->id =3D s_foo++;" in
+> ti_sn65dsi86_add_aux_device().
 >
-> The helper function `rzv2h_cpg_is_pm_clk()` checks whether a clock should
-> be managed by Runtime PM based on this `no_pm` flag. New macros, such as
-> `DEF_MOD_NO_PM`, allow straightforward declaration of clocks that bypass
-> PM.
+> After that, I was in the same situation as you, black screen. The
+> ti-sn65dsi86 does detect the monitor, though, and reads the edid just
+> fine, so I think it unlikely that the issue is on ti-sn65dsi86 side. I'm
+> not sure if the second DSI output has ever been tested, maybe the issue
+> is around there.
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v1->v2
-> - Updated code to skip external clocks to be controlled from runtime PM
-> - Updated id range check
-> - Updated commit message
-
-Thanks for the update!
-
-> --- a/drivers/clk/renesas/rzv2h-cpg.c
-> +++ b/drivers/clk/renesas/rzv2h-cpg.c
-> @@ -668,8 +671,38 @@ struct rzv2h_cpg_pd {
->         struct generic_pm_domain genpd;
->  };
+> I did not see the errors you saw. Random underflows are know to happen,
+> though, but it's odd if you see them for the display path that's
+> (supposedly) not in use...
 >
-> +static bool rzv2h_cpg_is_pm_clk(struct rzv2h_cpg_pd *pd,
-> +                               const struct of_phandle_args *clkspec)
-> +{
-> +       if (clkspec->np !=3D pd->genpd.dev.of_node || clkspec->args_count=
- !=3D 2)
-> +               return false;
-> +
-> +       switch (clkspec->args[0]) {
-> +       case CPG_MOD: {
-> +               struct rzv2h_cpg_priv *priv =3D pd->priv;
-> +               unsigned int id =3D clkspec->args[1];
-> +               struct mod_clock *clock;
-> +
-> +               if (id >=3D priv->num_mod_clks)
-> +                       return true;
-> +
-> +               if (priv->clks[priv->num_core_clks + id] =3D=3D ERR_PTR(-=
-ENOENT))
-> +                       return true;
+> The fps looks fine, so the pclk and timings are probably ok:
 
-Shouldn't this return false for the two invalid cases above?
+Thanks! So it probably is an issue with the routing in the DU or
+DSI driver...
 
-> +
-> +               clock =3D to_mod_clock(__clk_get_hw(priv->clks[priv->num_=
-core_clks + id]));
-> +
-> +               return !clock->no_pm;
-> +       }
-> +
-> +       case CPG_CORE:
-> +       default:
-> +               return true;
-
-False? (I know the code treated it is a PM clock before)
-
-> +       }
-> +}
-> +
->  static int rzv2h_cpg_attach_dev(struct generic_pm_domain *domain, struct=
- device *dev)
->  {
-> +       struct rzv2h_cpg_pd *pd =3D container_of(domain, struct rzv2h_cpg=
-_pd, genpd);
->         struct device_node *np =3D dev->of_node;
->         struct of_phandle_args clkspec;
->         bool once =3D true;
-> @@ -679,6 +712,12 @@ static int rzv2h_cpg_attach_dev(struct generic_pm_do=
-main *domain, struct device
->
->         while (!of_parse_phandle_with_args(np, "clocks", "#clock-cells", =
-i,
->                                            &clkspec)) {
-> +               if (!rzv2h_cpg_is_pm_clk(pd, &clkspec)) {
-> +                       of_node_put(clkspec.np);
-> +                       i++;
-> +                       continue;
-
-This loop may start to loop nicer using
-"for (i =3D 0; !of_parse_phandle_with_args(...); i++)".
-
-> +               }
-> +
->                 if (once) {
->                         once =3D false;
->                         error =3D pm_clk_create(dev);
-> diff --git a/drivers/clk/renesas/rzv2h-cpg.h b/drivers/clk/renesas/rzv2h-=
-cpg.h
-> index 819029c81904..0723df4c1134 100644
-> --- a/drivers/clk/renesas/rzv2h-cpg.h
-> +++ b/drivers/clk/renesas/rzv2h-cpg.h
-> @@ -100,6 +100,7 @@ enum clk_types {
->   * @name: handle between common and hardware-specific interfaces
->   * @parent: id of parent clock
->   * @critical: flag to indicate the clock is critical
-> + * @no_pm: flag to indicate PM is not supported
->   * @on_index: control register index
->   * @on_bit: ON bit
->   * @mon_index: monitor register index
-> @@ -109,17 +110,19 @@ struct rzv2h_mod_clk {
->         const char *name;
->         u16 parent;
->         bool critical;
-> +       bool no_pm;
->         u8 on_index;
->         u8 on_bit;
->         s8 mon_index;
->         u8 mon_bit;
->  };
->
-> -#define DEF_MOD_BASE(_name, _parent, _critical, _onindex, _onbit, _monin=
-dex, _monbit) \
-> +#define DEF_MOD_BASE(_name, _parent, _critical, _no_pm, _onindex, _onbit=
-, _monindex, _monbit) \
-
-Note that this series conflicts with "[PATCH 00/12] Add support for
-Renesas RZ/G3E SoC and SMARC-EVK platform", which you are probably
-already aware of.
-
-[1] https://lore.kernel.org/all/20241122124558.149827-1-biju.das.jz@bp.rene=
-sas.com/
+[1] https://lore.kernel.org/8c2df6a903f87d4932586b25f1d3bd548fe8e6d1.172918=
+0470.git.geert+renesas@glider.be/
+[2] https://lore.kernel.org/all/05e43f61321b4191d5f97dec2349facd4b56c899.17=
+29240989.git.geert+renesas@glider.be/
 
 Gr{oetje,eeting}s,
 
