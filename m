@@ -1,119 +1,183 @@
-Return-Path: <linux-renesas-soc+bounces-10752-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10753-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 062879DB51D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Nov 2024 10:54:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0CF69DBA19
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Nov 2024 16:08:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AFEBF167D39
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Nov 2024 09:54:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3D0661612A2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Nov 2024 15:07:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3E4F157469;
-	Thu, 28 Nov 2024 09:54:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE69E1B5ED1;
+	Thu, 28 Nov 2024 15:07:48 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0403155C83;
-	Thu, 28 Nov 2024 09:54:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BFF819EEB4;
+	Thu, 28 Nov 2024 15:07:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732787652; cv=none; b=tKYIUBX7zY35kx2BaDETTE4WdWUdNmImXzn8pkykhg3FxtoB53e4TnMx7SKBZqSo9RJGHY/5ODAeV6N1frPLO7SCYGGFQUZfGd7mbFNQlZJ7EK7cnStDYA/eDWpeCAKXKgAdGe2BsokiejS129MnOMGbgbVO1sywOqxOhDLRxJo=
+	t=1732806468; cv=none; b=Hq3WIqxWwu4BkKQbl3u7FP97MrtYp22gJOoWR8x1eED2aKnYksr7mKjXbhCr1obVlyH9MHu5b6ANYPccLeuwdbJ7OXiAa1t8y6Z3280syDsKHMRo/dZaei1jUD3zc5H1V5jQWC4xnU/FUhCBnZiTMmLQKd825WWN2KktF3qJm5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732787652; c=relaxed/simple;
-	bh=7u1W1NV/6pSQKjhccIEKGxfWEa2O5YmGGjGlnGQ9/H0=;
+	s=arc-20240116; t=1732806468; c=relaxed/simple;
+	bh=19hCZy47BZ11Q7nKv1e07bp32BgPu4KZ5y+PdAk5t6M=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IDSrcqZIhTEj6oi3/XXfc+Zua/0iUFheoIt3QWstE02OYkYDFA4vJ08RN5AMWzD96qk0z3OST+9tEdUmspg1p4JdDiYhqGpS3ODOeVGz5Tw6/HpHU7Wda6+ioDwAhNf6+bRA2mC6XmDx6zNTaonFAMWa8I6jie21Itl1T9/qTg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.169
+	 To:Cc:Content-Type; b=NrgtKUofI0pUdrDaHTbdGeRQwzSlyDJNhdjNpDCpOdt7EWaQZuMKMZcknNn9OV+xKuAhDejBl0jzIXOqgCSHw7OMYDhIwf7gRPyJeqtwsxYFMFSBIFGiv5K0kKd50HIHNJxihaanAsTdWbZrRMPibkNXUr8ogCMJSRAG8kTeULY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-5152685aa0dso197301e0c.0;
-        Thu, 28 Nov 2024 01:54:10 -0800 (PST)
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-29678315c06so504933fac.1;
+        Thu, 28 Nov 2024 07:07:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732787648; x=1733392448;
+        d=1e100.net; s=20230601; t=1732806464; x=1733411264;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wcVG07Z3nPkY15vWPWh2ijL/dM63xYTNYAZpP6vQUfk=;
-        b=ola4eEytgm7RtyDYjcM6FLFKSMdFWu/6vnHDrQAzKX8YILTTaHW8pkxhavyHtoitJw
-         L7xxteR1KxQ16pnp3b/3qr01t72twxMXP8+0eFd466A0zZOTmh03OKo4W9/8zVB4FBx9
-         hVdVFtkxp+AeZT9k45pF+CI24allDjSqRXvOJAxKfZ5ZCmFcOzfd+ceFAhr+U+TQkNDW
-         VXAKOo+E5PNaqaOSvEVCFYEpOKQ5ISf9ZQRk9FEvKEU1j/4NCkgew8LAllpKMBITjwP9
-         kv2yMZJXLe+22ivIryNe1gk7d5Oi10JmAm+7WfvVLswfjqyuKSVmt8+RHeEs2uJPbn5I
-         0vMg==
-X-Forwarded-Encrypted: i=1; AJvYcCUUg3n003a7lQBmCPWj/VB6lnogFOMf72MNY2lPEPKN1P+uRSiV9VQRphBSlL2MjL3DPQH+6vJEm8VT@vger.kernel.org, AJvYcCX5ZYQCTKAkDcTcS4jnxi1PUKruDXVwhW2AlvOP/ByCG7GLvvLynEaDCjVY30+3lhOYuzCGUEbu1dg9hFAQkKXFOuQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxWBY827GLmWcU6fIJodhrQn8Ed62dI+GWT9hQk1xxxrGJnac2H
-	UzQbJliEQuF3XJz6jwXq2CCpmfkJEoFAoLxZAf0wmpPDw/JWhr4ECcfBQtNqRQg=
-X-Gm-Gg: ASbGncunHtFwt+uAqhGlJhF1Rjs+Zkn+OfXBfwHZf47u7Z9Tvtd/t8ctC8FriPx87u4
-	Z0QwlRR3m1N/C2m5E/ulcj7cmYn1vDSzrbqeWdlmbfUQ8mQfzcB+SpwaDOGVbNv7T7Db20RT06I
-	RCQM0g2TuA9uTzYqvyl9EmZmyMfsw1uiSbkQcK1silm3/sOnwoUGBU2Iwqifn3PSQ0vnDuBHJdA
-	U93sa+YieahQn0FqvAx2XArZHQQPBDGvjWn058+adfsc5+9eFOtOdmg0ZNexCF7N7xIJrzuiY1R
-	KDyrMUaHIbgg
-X-Google-Smtp-Source: AGHT+IHhRwe1I7H2cMuky9YeUmjmU1njht/3tplSQTVfXNptB5htAgiOzHPs94gBrFRNXCtMOyCkbg==
-X-Received: by 2002:a05:6122:169f:b0:50c:99da:4f70 with SMTP id 71dfb90a1353d-515569aa0f0mr7850347e0c.2.1732787648465;
-        Thu, 28 Nov 2024 01:54:08 -0800 (PST)
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com. [209.85.217.47])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5156d0f8bf7sm102118e0c.52.2024.11.28.01.54.08
+        bh=/yzWTFKVKmP/Yu30XBr6QDu1Y/pRbzSvABTgewzd4OE=;
+        b=PTubygY6wDn8ye/wiBytZlpyop04c4MKtSv174bCt7t1jxNHtasNxuQr4oozCYkIKW
+         a9D+usxbfmwHTDgfCY2pbSqJ+d1D+5OV5nMluNDl9O8HgC8OwlPRRSeLysGfmtpJCurM
+         GYFzovNmr/cNH85Xsq3gSEx98e7lVWy08/84iCOUfQhBU6+J+VGotyOGZXwng+jU4/N/
+         2MYIoOBZRtyMn3AR4tD1wWUm70bUz77Y3Lr05f6T2O1xRbjIinlVT2SjmCbpX7P40L8v
+         RhmlCjPCdgMWSB41GbmepuCJreBQxPN0Pyh5/4ZLecrP+rINxBxug4YkJb9FwguQIbFZ
+         SOvg==
+X-Forwarded-Encrypted: i=1; AJvYcCUMz9HjgQWq+JJuKUtQkp24KuUPojszkI7aum7Rt5WdXJawOK6Q+ygKIIe1B7ayPaPyZNgnS5+i0UUhgAFs@vger.kernel.org, AJvYcCWmpCVvgxdJWvUy1PgtF5zAkqERca91FljahjY5mS7se+dOJDdI9y9/g0lVCNLON53Kq8Csm/trxSaE2vZKG6i9KxI=@vger.kernel.org, AJvYcCXOu4/lW0YfnqJ8JkfGMHnOKKLQCf2cMJVRk9Q3YL15Lfa8GUJ4FZ9XkKP065GQ1hg0ey9byDB2ksha@vger.kernel.org, AJvYcCXSM+Mds+NvQwuzjEwy7IZGASvJbj6i1SsmoaWju0cMXWvo5yUZmUK/JoWxP7kN+p+Mc/gYtJjeXAmQ@vger.kernel.org
+X-Gm-Message-State: AOJu0YyelgVfWDykcN0dcBFSE3JvC2hSMdQ7OiR6DKwS7frcdmYWE9g6
+	ERS3HY29AHfLqpUBXeSBBxPaMOCsCl03ZAK0ypfimx7na1ul1gXSksKoPa88XO0=
+X-Gm-Gg: ASbGncuB9QXNoC7UM6Mxy5e8fbnt0Fpcbp5fOUKpt9DHL4lGZ5sBoW/QjY8NRR8Yyy2
+	blyQmHMYpmm5j/hD5rznTgD4LpRzaR5XRbapG9+uaTEwxbZr/anRP/ej5U/oflH/sO0bA7+Za9o
+	nf6u3cDnpMO/Wx7xPXh9pspXb+A+s7wYR3KWrXN0a/Eiki/UYsXWVmO0Oe9buvme8naatdQN89B
+	V5or2fJFBAYQXR342pvhvJ0lkZD5tTZI4FjjfwVY/KdT8fKXDTDq3N4eaDEDp1ver64h2bNO2R1
+	Oj7pkupBgxwr
+X-Google-Smtp-Source: AGHT+IH3kQM9ucqvl/kj3LRxe3lckJI19K1fVxuJrKn7VJtSp3gfO4j1XUpUqmtGfbGvduhjqe9QMg==
+X-Received: by 2002:a05:6870:9d9a:b0:297:286c:f106 with SMTP id 586e51a60fabf-29dc42ead8fmr7328181fac.29.1732806463818;
+        Thu, 28 Nov 2024 07:07:43 -0800 (PST)
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com. [209.85.160.44])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-29de9946016sm448334fac.33.2024.11.28.07.07.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Nov 2024 01:54:08 -0800 (PST)
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-4af4575ec4cso238807137.2;
-        Thu, 28 Nov 2024 01:54:08 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVXGHHcHPWfvY3hu5D85WGnRThD/0/ncYyDG7nk9iuBar3ZSkdaX0XPBH/W+HNKcgdE6yM3dzoj+ZF4iLWizJsHywM=@vger.kernel.org, AJvYcCWnlG2dJowDK6zGQxTSX2ewwgYoph2B5iei25Lt3A0ExiMTr7cMt6YWbjEyLstYfJjg63hJXUxlmIA2@vger.kernel.org
-X-Received: by 2002:a05:6102:1899:b0:4af:469b:d3b8 with SMTP id
- ada2fe7eead31-4af469bd4d8mr5405240137.25.1732787647989; Thu, 28 Nov 2024
- 01:54:07 -0800 (PST)
+        Thu, 28 Nov 2024 07:07:42 -0800 (PST)
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-288fa5ce8f0so402012fac.3;
+        Thu, 28 Nov 2024 07:07:42 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVATJljL+uFSZu53Pv4t3gcJl8lP/V8ajmFbIBLvvpghz/jjBhYkginbh14AQlWi1NUpjUaqxwp90yhcp03@vger.kernel.org, AJvYcCWgdi4oR+SNBTGeD6IilEf7mviIrTG0f9lnFh9E+DmfpaIt8rZazSDiWeCA8K1+x98wn8joODCZ6/3P@vger.kernel.org, AJvYcCWshKdbzprDwFUNNbvMvjVLKFPhijqCdHtJkBEpmf/ynnA8iPZBekZ+R3dHJ3Q3F3FG4zvd1B5FbJNmgbZCmGnfMyQ=@vger.kernel.org, AJvYcCX2fq5Q6nav2/3jXEI9TKu0/x2TOG7f/N/oj+mEw/Y2fBAct9Ux1bzfyD3moFeQ2g8W1eXsIeedZMqK@vger.kernel.org
+X-Received: by 2002:a05:6358:d39c:b0:1ca:9660:67db with SMTP id
+ e5c5f4694b2df-1cab1692c19mr572203255d.23.1732806462023; Thu, 28 Nov 2024
+ 07:07:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241105133824.788688-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20241105133824.788688-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20241126092050.1825607-1-claudiu.beznea.uj@bp.renesas.com> <20241126092050.1825607-11-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20241126092050.1825607-11-claudiu.beznea.uj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 28 Nov 2024 10:53:56 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUKiZUszBwJq_o_RpbgicGgAUDFg9j8zyHmiWYmNCncrQ@mail.gmail.com>
-Message-ID: <CAMuHMdUKiZUszBwJq_o_RpbgicGgAUDFg9j8zyHmiWYmNCncrQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] arm64: dts: renesas: gray-hawk: Wire up MAX96724
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org
+Date: Thu, 28 Nov 2024 16:07:30 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX9ZB5ec4g+Gs37U+oH4XPDv8DLoA63oxh4o8gj-N+sNw@mail.gmail.com>
+Message-ID: <CAMuHMdX9ZB5ec4g+Gs37U+oH4XPDv8DLoA63oxh4o8gj-N+sNw@mail.gmail.com>
+Subject: Re: [PATCH v2 10/15] phy: renesas: rcar-gen3-usb2: Add support for PWRRDY
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: vkoul@kernel.org, kishon@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, p.zabel@pengutronix.de, geert+renesas@glider.be, 
+	magnus.damm@gmail.com, gregkh@linuxfoundation.org, 
+	yoshihiro.shimoda.uh@renesas.com, christophe.jaillet@wanadoo.fr, 
+	linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-usb@vger.kernel.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Niklas,
+Hi Claudiu,
 
-On Tue, Nov 5, 2024 at 2:39=E2=80=AFPM Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> This series wires up the MAX96724 on Gray-Hawk. All dependencies in
-> bindings and drivers are now in the media next tree.
+On Tue, Nov 26, 2024 at 10:21=E2=80=AFAM Claudiu <claudiu.beznea@tuxon.dev>=
+ wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >
-> This targets the single board schematics but I opted to keep this in a
-> separate DTSI file as we do have a ID eeprom similar to what we have
-> setups where multiple boards. If you truly dislike this I can move it
-> into the 8a779h0-gray-hawk-single.dts. In that case would you prefers me
-> to drop the ID eeprom?
+> On the Renesas RZ/G3S SoC, the USB PHY has an input signal called PWRRDY.
+> This signal is managed by the system controller and must be de-asserted
+> after powering on the area where USB PHY resides and asserted before
+> powering it off.
+>
+> The connection b/w the system controller and the USB PHY is implemented
+> through the renesas,sysc-signal device tree property. This property
+> specifies the register offset and the bitmask required to control the
+> signal. The system controller exports the syscon regmap, and the read/wri=
+te
+> access to the memory area of the PWRRDY signal is reference-counted, as t=
+he
+> same system controller signal is connected to both RZ/G3S USB PHYs.
+>
+> Add support for the PWRRDY signal control.
+>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-I would say only use a separate file if you can (eventually) merge\
-the White and Gray Hawk CSI/DSI .dtsi files.  But given White Hawk
-uses MAX96712s and C-PHYs, while Gray Hawk uses MAX9724s and D-PHYs,
-I guess that is no longer an option to consider?
+Thanks for your patch!
 
-Differences:
-  - C vs. D-PHY,
-  - data-lanes,
-  - remote-endpoint (could be handled by using the same name),
-  - compatible value,
-  - (multiple unit-addresses) and reg values.
-which is a bit too much to handle through #defines.
+> --- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+> +++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+> @@ -707,6 +718,55 @@ static int rcar_gen3_phy_usb2_init_bus(struct rcar_g=
+en3_chan *channel)
+>         return ret;
+>  }
+>
+> +static void rcar_gen3_phy_usb2_set_pwrrdy(struct rcar_gen3_chan *channel=
+, bool power_on)
+> +{
+> +       struct rcar_gen3_pwrrdy *pwrrdy =3D channel->pwrrdy;
+> +
+> +       /* N/A on this platform. */
+> +       if (!pwrrdy)
+> +               return;
 
-The ID EEPROM is present on both quad and single boards, so please
-keep it.
+This cannot happen?
 
-Does that make sense? Thanks!
+> +
+> +       regmap_update_bits(pwrrdy->regmap, pwrrdy->offset, pwrrdy->mask, =
+!power_on);
+> +}
+> +
+> +static void rcar_gen3_phy_usb2_pwrrdy_off(void *data)
+> +{
+> +       rcar_gen3_phy_usb2_set_pwrrdy(data, false);
+> +}
+> +
+> +static int rcar_gen3_phy_usb2_init_pwrrdy(struct rcar_gen3_chan *channel=
+)
+> +{
+> +       struct device *dev =3D channel->dev;
+> +       struct rcar_gen3_pwrrdy *pwrrdy;
+> +       struct of_phandle_args args;
+> +       int ret;
+> +
+> +       pwrrdy =3D devm_kzalloc(dev, sizeof(*pwrrdy), GFP_KERNEL);
+> +       if (!pwrrdy)
+> +               return -ENOMEM;
+> +
+> +       ret =3D of_parse_phandle_with_args(dev->of_node, "renesas,sysc-si=
+gnal",
+> +                                        "#renesas,sysc-signal-cells", 0,=
+ &args);
+> +       if (ret)
+> +               return ret;
+> +
+> +       pwrrdy->regmap =3D syscon_node_to_regmap(args.np);
+> +       pwrrdy->offset =3D args.args[0];
+> +       pwrrdy->mask =3D args.args[1];
+> +
+> +       of_node_put(args.np);
+> +
+> +       if (IS_ERR(pwrrdy->regmap))
+> +               return PTR_ERR(pwrrdy->regmap);
+> +
+> +       channel->pwrrdy =3D pwrrdy;
+> +
+> +       /* Power it ON. */
+> +       rcar_gen3_phy_usb2_set_pwrrdy(channel, true);
+> +
+> +       return devm_add_action_or_reset(dev, rcar_gen3_phy_usb2_pwrrdy_of=
+f, channel);
+> +}
 
 Gr{oetje,eeting}s,
 
