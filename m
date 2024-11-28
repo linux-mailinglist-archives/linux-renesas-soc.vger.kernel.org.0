@@ -1,82 +1,83 @@
-Return-Path: <linux-renesas-soc+bounces-10755-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10756-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9D7D9DBA73
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Nov 2024 16:24:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68E709DBACF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Nov 2024 16:46:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4DD00B206B2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Nov 2024 15:24:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 221A7281F2A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Nov 2024 15:46:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 087111B85D3;
-	Thu, 28 Nov 2024 15:24:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D420E1A9B28;
+	Thu, 28 Nov 2024 15:46:22 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D52A0847B;
-	Thu, 28 Nov 2024 15:24:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01B864204E;
+	Thu, 28 Nov 2024 15:46:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732807486; cv=none; b=ipZzucYIS0r6A+2ztT9sF12DL5rTDL5U7DrNgVB1HMuaFG6ii8RLucncmTp+4N1d2hGMldGXVEfPIH4nmEEFf+iDPskC8yquRj1o62CJO0WPzIXNgbMGLqtVPEs1gdWP+BF+PlNeUCQxj7fpLmtCL2i8G84XQf+JwbT3QDJho0Y=
+	t=1732808782; cv=none; b=Y0/Ah28HzenDc9XX8O8Nm1iJUVtzWZWw8txVwc8AbWCbIm30A/T+40rVHO7Q+aasZbr2hX0XNQw7svf3hItZEgmeGBU+YIfvs4MbJxz5WWmzOC3qzbolUQzaHb6SLeCyV8+sZccNzwlHPkLHnI5xB3Kr41k/0m4npn1qEdLwEJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732807486; c=relaxed/simple;
-	bh=3ovcNO+H467fYtG/ZtWHRJGoNwJiT3rEW9Ri3EM4jZs=;
+	s=arc-20240116; t=1732808782; c=relaxed/simple;
+	bh=mD01r/aB7enLSRRFcLlOuUNHuLyHhKDmXn8q67mMQ2k=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=arqXsufc4yoahuB1ktZVJBiNzaEiQbS14L80aIKRnFl/NL/XXXOd2hLaR9Q9nv3YWClLDwiD/BiIwZWIuPO1qhC0LJeyMPTnQzJ+076iTc3tj8m8IMAjLbh0Ex68DLfu6EdcF0O4sGW6/0lyunCfQWY76rkZ1UnS8MwqU7LtwcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.181
+	 To:Cc:Content-Type; b=Ua2QoSjnPGP28l7wJFs2c0Kjq7aJPLSr5cexpFP/NPftathqPb0yYlGggnrovQdNwR3ED1WeREMfIExDzqE1Ipt/KalbWU9T1tBbZXAKjNvmm6l0bRjUGb42lbCfNTrZFGk2IUl+NI8uD1FRAx7/iLiyVvU1vCL0KbtgB4RKx+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6eebae6f013so10867537b3.0;
-        Thu, 28 Nov 2024 07:24:44 -0800 (PST)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6ee676b4e20so11557977b3.3;
+        Thu, 28 Nov 2024 07:46:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732807483; x=1733412283;
+        d=1e100.net; s=20230601; t=1732808779; x=1733413579;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eMC+Y9JuRtxGshUE5GtedzEOjkDfE7uG8aVt6EbRvFg=;
-        b=A/xtmfvt+VCIBrxg00YIUb/Ar7F8Nwi63W6iGZXRHF3r73jRqArksaqDS+hX24N3Hx
-         xnMMcmKfZif55RtpHBcByS4MSkWgcU+Bl8ofbGe8vbLXMHPLGR6a0k3Bz+cCSsXpIEpJ
-         ZKfnyPFmbLo+vBMRwzovLexK9g/aaZrL+5HusXHq4V33g0GCCAgMWcEpkYgql3+Zmyoa
-         oDxXl+moev1wJqqIXJLW/lFWwPU7fH429gUog0YpNVR8cUcxhY6e90j3f2assMtw2TU9
-         Y6bKNNCL3SYGvnd96kLexk4P7y1xkzf9Pb+765sZ242HMeV9zvIa1LzGRtP3blLqd71P
-         R0vQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU8clRKX88pGxxhTERn9SwAbfsXNHn0lXpaIwwqHEECzGuP3rCnB59vbRQsdxXI2tDsRVe+zd+zeMwF@vger.kernel.org, AJvYcCUAW0/Dwej7cx8JuvtyLe4fsPRSk+vJEbTy1Lke7RcYxTAryg1nbR/DWt5F/c8L7KNdd9HgZA76x4OE@vger.kernel.org, AJvYcCV12nDMaPV097faGgKX8PJb33iYfFjdWdqyPuL/E57u+DTg61rF15pRGE4n5FBFlO8nZ5abpMvTuFq94S7X@vger.kernel.org, AJvYcCVi3kJfB21IYsMsUy+G3XAl9XtB308ri3yBuARK4OTHF+5xa4Wbp1jeM828R0m9UOlPeV8iU+4eTaewO+XGgdfJJTU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+xxfwYsbRBIJhRZl8XokoQ5K4zGYIcbl9grCW7ylXDMoxray2
-	tw2LrfVoT1m2OtSxVEK2JtqrdBhF090NN+Y2S4C2Rn+a1UtNPgeAuTwGMM/tOiY=
-X-Gm-Gg: ASbGnctws7IXftpdT1Y11y6c38cpU+wcsdySjT7Hb4FmKYRJoXwJHatDI7AY8SOIJ+A
-	jz6LhgBCZKUK4ang5bXx7W1iq/DZr6ab0mpk3QZ1I667osS+Xvbdl6E69S3MFL6HihUS0jl+5mu
-	AMTDYlxRZqx2U7vZJn6unWK8CVOrxL/otga6P7IotjVWqOIxkbA3tnB1WBifTpP+nrJP1OtFbnn
-	U3RgNppFU7tmap92uHv8TvXH6m5eeGjuvKwy9mEpsfUMaD/ESCzufAj06mQ1lFs5xfMAfy5Y6Dm
-	iOGSS7MqeBcT9CVM
-X-Google-Smtp-Source: AGHT+IHw9ux3A4LTveT7mp5991xdeQG6HxSL0UA0rEOPMjP0qdMJBk0bM/ufcVfa3aIbgDi+HhaZpw==
-X-Received: by 2002:a05:690c:6084:b0:6e3:323f:d8fb with SMTP id 00721157ae682-6ef371fc30amr87312637b3.14.1732807482843;
-        Thu, 28 Nov 2024 07:24:42 -0800 (PST)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6ef4ddb64d9sm3525227b3.105.2024.11.28.07.24.38
+        bh=wUf/S6ywNh8XAsdHlQGFt6ui0KSpcttBMmgIqMsNTKY=;
+        b=q38Ao2adXnIzXW8zuPIl1sjGT+GQV02PUXrmOuJ/HwDqBaveP8nJK2XWgW6+gP0xVi
+         MSisozWqBC8eLIqfL7IanN3MMsSK/PH836NWQpp4yYLuly0BrbGiu6r9szlww48QPfc7
+         gTwrc8IwMd5ea99lOtpdqz9o24jr1yf5F57a5rJ6CeyDLMTwOf1OQMYZz/kDle+613kK
+         NaRRL3hG2itYYdckr86Mj6rsVAFPeBHzNKIy2wtfDdApYvHusqeLIYzxxM6VLqCV2K10
+         n5Urw+7q1C0YRIe9FJUmEP9k98XquqwxnKiryfGNlLoU4RjR4RK36BshhrULYJH/eXbq
+         dm+w==
+X-Forwarded-Encrypted: i=1; AJvYcCW1cpDre1xeRvx/0qM4tXJ8w+3TLkyEE+eE+xcod+JVSJJwqkAUSHTtVST6bVS64GcQwTGdRdY5CymztgEv@vger.kernel.org, AJvYcCWLLLrkIZwYjjOqfU/nuzDPl7frZJxrVBAiljrS5AG/WebTOw3vcMRZNAecZJPENB3b2Ik9CbK3BhtzeCKHQJdHwO4=@vger.kernel.org, AJvYcCX0pXLlCe2cWGTyjWkh8tAbtuoZy9faNieshXfXlxLYNv8w+cN15V+mdMZlt8r36A5+zwB24oygKeMU@vger.kernel.org, AJvYcCXqSqZonsSnlropZwJjr/Q/kEww/3KuTmLcZBWzPr48LR/yp50+ERyDcovizl5d1kAa8ey8XBPNq5Ql@vger.kernel.org
+X-Gm-Message-State: AOJu0YwBpfRVg/EAdb8JrOvoHUZdbLL/cGvXziLuG+1fViICVWHdqGA2
+	yO1FohAkTVgYU4DDEAwJUI3vMMifZyhz8sEemXU8aURUYsl2jxNtgfPepsJPZFQ=
+X-Gm-Gg: ASbGncsgxDpaR1t/25lnhXpfQiviouKthUm3eivvBeOdW3Ln5CNA4k8iG6CVfKgP45w
+	gqzBo3cM+z9KYxtAFavVgOrERrE/8IlgTVWdkD7iJeIllsHDfqaKX2xrkTu/oD7UW/qHJB3zD+V
+	SQ9pbggXStNJL7h7o4H2lhYSu4t7nz73kHH2pEoLr/dlVfxEbDH/8MeH0uqlMXzlhi/6ssTGSbA
+	8WMeyw0Xx5phd3my6V2McRlnKoMvq+G9nVjKZqSCE71lOYihUlV7sZebkx/8O2EyGtlMqpoBAGs
+	J2fjtTiJ04CTULzT
+X-Google-Smtp-Source: AGHT+IHIPj15bB88efUDPhIepuR9qA5LQ1W4xHde82s4MVua4bX2gKggZut31y+/x91vdjzjd5MNpw==
+X-Received: by 2002:a05:690c:a8b:b0:6ea:e967:81da with SMTP id 00721157ae682-6ef3720d0a7mr78206207b3.11.1732808779467;
+        Thu, 28 Nov 2024 07:46:19 -0800 (PST)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6ef4dd77220sm3567897b3.74.2024.11.28.07.46.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Nov 2024 07:24:39 -0800 (PST)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-6eeca160f14so10384157b3.2;
-        Thu, 28 Nov 2024 07:24:38 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWG6FV7e9oUjOMfL06zrBEvjAVeOFs+m5LfI03pbCLTWRjr73gJ2lixU7ulznRJRO0MK+yffWPwNr1xVa93A4Km61A=@vger.kernel.org, AJvYcCWR+ijSIVe85odahagMCbXIP9DqSYtDMYxbT+aU9ZDthY55IwRwVhP3C/+jB8geOntj8nYeBSDjxMJY@vger.kernel.org, AJvYcCXVEvcV5nrbIP8ToM83rzg8HII7MkT2/ZvHMOtdaR4mpgWOnPF9mPVndvgyFcpqXe3QRWpcfVcFAo2P@vger.kernel.org, AJvYcCXgep1lS/ag6fninzB9hz4bhLyliC6hJztDnVhExCwCdb1Zg6Q7DH31hRqDSeUxprPP4SGsUm4zsmCffLnc@vger.kernel.org
-X-Received: by 2002:a05:690c:4c0f:b0:6ee:b5ea:5fe8 with SMTP id
- 00721157ae682-6ef37274a4amr87747517b3.30.1732807478236; Thu, 28 Nov 2024
- 07:24:38 -0800 (PST)
+        Thu, 28 Nov 2024 07:46:18 -0800 (PST)
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e388503c0d7so733214276.0;
+        Thu, 28 Nov 2024 07:46:18 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU4OLCA0KJvcUdmCxV1aGvVXE5b6bf/ZFGJmqnhXlsumeFh0XuHOzcYtkBjIapKmsy5xtNL07gAICwN@vger.kernel.org, AJvYcCV/cGMf/QjlijXvzkh1U7fmS2jfm/pjGCtaO4AU+WuX9Tp2HItKmF39G07fiNUKIFYWKGMds8am1bVw@vger.kernel.org, AJvYcCWSvZh/Ei5g5q4v3MEc4lfJJb+MjRrQlbrVJsgAn8k0K8M0b2aZvAyw74jVkWQMK98pWAwkxUxbFXkyAjtZ@vger.kernel.org, AJvYcCWeVJhEex7qpHCBld21BcJDwJIUf2DDiex2x0QS0o+zowJfqy9EEMGPiA7uEyuW7EgqsC3Gyr1Z7+Q/6ProhSURhp0=@vger.kernel.org
+X-Received: by 2002:a05:6902:154b:b0:e33:14fa:2273 with SMTP id
+ 3f1490d57ef6-e395b887e90mr6783539276.5.1732808778278; Thu, 28 Nov 2024
+ 07:46:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241126092050.1825607-1-claudiu.beznea.uj@bp.renesas.com> <20241126092050.1825607-3-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20241126092050.1825607-3-claudiu.beznea.uj@bp.renesas.com>
+References: <20241126092050.1825607-1-claudiu.beznea.uj@bp.renesas.com> <20241126092050.1825607-2-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20241126092050.1825607-2-claudiu.beznea.uj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 28 Nov 2024 16:24:26 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUvmTQeQXxhsXtj23-OS=aL3UgsyOtnawdmnusrEJ2JQw@mail.gmail.com>
-Message-ID: <CAMuHMdUvmTQeQXxhsXtj23-OS=aL3UgsyOtnawdmnusrEJ2JQw@mail.gmail.com>
-Subject: Re: [PATCH v2 02/15] soc: renesas: Add SYSC driver for Renesas RZ family
+Date: Thu, 28 Nov 2024 16:46:05 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWjzR6vgbr_CfR7r-h1FqWxs1nY0hm274kxFmoHjCtRAA@mail.gmail.com>
+Message-ID: <CAMuHMdWjzR6vgbr_CfR7r-h1FqWxs1nY0hm274kxFmoHjCtRAA@mail.gmail.com>
+Subject: Re: [PATCH v2 01/15] dt-bindings: soc: renesas: renesas,rzg2l-sysc:
+ Add #renesas,sysc-signal-cells
 To: Claudiu <claudiu.beznea@tuxon.dev>
 Cc: vkoul@kernel.org, kishon@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
 	conor+dt@kernel.org, p.zabel@pengutronix.de, magnus.damm@gmail.com, 
@@ -84,11 +85,13 @@ Cc: vkoul@kernel.org, kishon@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
 	christophe.jaillet@wanadoo.fr, linux-phy@lists.infradead.org, 
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-renesas-soc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, Ulf Hansson <ulf.hansson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Hi Claudiu,
+
+CC Ulf
 
 Thanks for your patch!
 
@@ -96,27 +99,15 @@ On Tue, Nov 26, 2024 at 10:21=E2=80=AFAM Claudiu <claudiu.beznea@tuxon.dev>=
  wrote:
 > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >
-> The RZ/G3S system controller (SYSC) has various registers that control
-> signals specific to individual IPs. IP drivers must control these signals
-> at different configuration phases.
+> The RZ/G3S system controller (SYSC) has registers to control signals that
+> are routed to various IPs. These signals must be controlled during
+> configuration of the respective IPs. One such signal is the USB PWRRDY,
+> which connects the SYSC and the USB PHY. This signal must to be controlle=
+d
+> before and after the power to the USB PHY is turned off/on.
 >
-> Add SYSC driver that allows individual SYSC consumers to control these
-> signals. The SYSC driver exports a syscon regmap enabling IP drivers to
-> use a specific SYSC offset and mask from the device tree, which can then =
-be
-> accessed through regmap_update_bits().
->
-> Currently, the SYSC driver provides control to the USB PWRRDY signal, whi=
-ch
-> is routed to the USB PHY. This signal needs to be managed before or after
-> powering the USB PHY off or on.
->
-> Other SYSC signals candidates (as exposed in the the hardware manual of t=
-he
-
-s/the the/the/
-
-> RZ/G3S SoC) include:
+> Other similar signals include the following (according to the RZ/G3S
+> hardware manual):
 >
 > * PCIe:
 > - ALLOW_ENTER_L1 signal controlled through the SYS_PCIE_CFG register
@@ -137,326 +128,54 @@ s/the the/the/
 > - FEC_GIGA_ENABLE Ethernet signals controlled through SYS_GETHx_CFG
 >   registers (x=3D0..1)
 >
-> As different Renesas RZ SoC shares most of the SYSC functionalities
-> available on the RZ/G3S SoC, the driver if formed of a SYSC core
-> part and a SoC specific part allowing individual SYSC SoC to provide
-> functionalities to the SYSC core.
+> Add #renesas,sysc-signal-cells DT property to allow different SYSC signal=
+s
+> consumers to manage these signals.
+>
+> The goal is to enable consumers to specify the required access data for
+> these signals (through device tree) and let their respective drivers
+> control these signals via the syscon regmap provided by the system
+> controller driver. For example, the USB PHY will describe this relation
+> using the following DT property:
+>
+> usb2_phy1: usb-phy@11e30200 {
+>         // ...
+>         renesas,sysc-signal =3D <&sysc 0xd70 0x1>;
+>         // ...
+> };
+
+IIUIC, the consumer driver will  appear to control the SYSC bits
+directly, but due to the use of custom validating regmap accessors
+and reference counting in the SYSC driver, this is safe?
+The extra safety requires duplicating the register bits in both DT
+and the SYSC driver.
+Both usb-phy nodes on RZG3S use the same renesas,sysc-signal, so the
+reference counting is indeed needed.  They are in different power
+domains, could that be an issue w.r.t. ordering?
+
+I am not a big fan of describing register bits in DT, but for the other
+SYSC users you list above, syscon+regmap seems to be a valid solution.
+For USB and PCIe control, the situation is different. I more liked the
+approach with "reset IDs" you had in v1, as it abstracts the DT
+description from the register bits, and the USB and PCIe reset bits use
+a different polarity (on RZ/G3S). If future SoC integration changes
+the polarity, you have to handle that in the consumer (USB or PCIe)
+driver, too.  Unfortunately such "reset IDs" are only suitable for
+use with the reset or pmdomain frameworks, which didn't survive the
+earlier discussions.
+
+One other option would be to let SYSC expose regulators?
+While that would work for USB and PCIe control, we would still need
+syscon+regmap for the other bits.
+
+So the more I think about it, the more I like your (clever) solution...
+
+> Along with it, add the syscon to the compatible list as it will be
+> requested by the consumer drivers. The syscon was added to the rest of
+> system controller variants as these are similar with RZ/G3S and can
+> benefit from the implementation proposed in this series.
 >
 > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-
-> --- /dev/null
-> +++ b/drivers/soc/renesas/r9a08g045-sysc.c
-> @@ -0,0 +1,31 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * RZ/G3S System controller driver
-> + *
-> + * Copyright (C) 2024 Renesas Electronics Corp.
-> + */
-> +
-> +#include <linux/array_size.h>
-> +#include <linux/bits.h>
-> +#include <linux/init.h>
-> +
-> +#include "rz-sysc.h"
-> +
-> +#define SYS_USB_PWRRDY         0xd70
-> +#define SYS_USB_PWRRDY_PWRRDY_N        BIT(0)
-> +#define SYS_MAX_REG            0xe20
-> +
-> +static const struct rz_sysc_signal_init_data rzg3s_sysc_signals_init_dat=
-a[] __initconst =3D {
-
-This is marked __initconst...
-
-> +       {
-> +               .name =3D "usb-pwrrdy",
-> +               .offset =3D SYS_USB_PWRRDY,
-> +               .mask =3D SYS_USB_PWRRDY_PWRRDY_N,
-> +               .refcnt_incr_val =3D 0
-> +       }
-> +};
-> +
-> +const struct rz_sysc_init_data rzg3s_sysc_init_data =3D {
-
-... but this is not __init, causing a section mismatch.
-
-> +       .signals_init_data =3D rzg3s_sysc_signals_init_data,
-> +       .num_signals =3D ARRAY_SIZE(rzg3s_sysc_signals_init_data),
-> +       .max_register_offset =3D SYS_MAX_REG,
-> +};
-
-> --- /dev/null
-> +++ b/drivers/soc/renesas/rz-sysc.c
-
-> +/**
-> + * struct rz_sysc - RZ SYSC private data structure
-> + * @base: SYSC base address
-> + * @dev: SYSC device pointer
-> + * @signals: SYSC signals
-> + * @num_signals: number of SYSC signals
-> + */
-> +struct rz_sysc {
-> +       void __iomem *base;
-> +       struct device *dev;
-> +       struct rz_sysc_signal *signals;
-> +       u8 num_signals;
-
-You could change signals to a flexible array at the end, tag it with
-__counted_by(num_signals), and allocate space for both struct rz_sysc
-and the signals array using struct_size(), reducing the number of
-allocations.
-
-> +};
-
-> +static struct rz_sysc_signal *rz_sysc_off_to_signal(struct rz_sysc *sysc=
-, unsigned int offset,
-> +                                                   unsigned int mask)
-> +{
-> +       struct rz_sysc_signal *signals =3D sysc->signals;
-> +
-> +       for (u32 i =3D 0; i < sysc->num_signals; i++) {
-
-s/u32/unsigned int/
-
-> +               if (signals[i].init_data->offset !=3D offset)
-> +                       continue;
-> +
-> +               /*
-> +                * In case mask =3D=3D 0 we just return the signal data w=
-/o checking the mask.
-> +                * This is useful when calling through rz_sysc_reg_write(=
-) to check
-> +                * if the requested setting is for a mapped signal or not=
-.
-> +                */
-> +               if (mask) {
-> +                       if (signals[i].init_data->mask =3D=3D mask)
-> +                               return &signals[i];
-> +               } else {
-> +                       return &signals[i];
-> +               }
-
-if (!mask || signals[i].init_data->mask =3D=3D mask)
-        return &signals[i];
-
-> +       }
-> +
-> +       return NULL;
-> +}
-> +
-> +static int rz_sysc_reg_update_bits(void *context, unsigned int off,
-> +                                  unsigned int mask, unsigned int val)
-> +{
-> +       struct rz_sysc *sysc =3D context;
-> +       struct rz_sysc_signal *signal;
-> +       bool update =3D false;
-> +
-> +       signal =3D rz_sysc_off_to_signal(sysc, off, mask);
-> +       if (signal) {
-> +               if (signal->init_data->refcnt_incr_val =3D=3D val) {
-> +                       if (!refcount_read(&signal->refcnt)) {
-> +                               refcount_set(&signal->refcnt, 1);
-> +                               update =3D true;
-> +                       } else {
-> +                               refcount_inc(&signal->refcnt);
-> +                       }
-> +               } else {
-> +                       update =3D refcount_dec_and_test(&signal->refcnt)=
-;
-> +               }
-> +       } else {
-> +               update =3D true;
-> +       }
-
-You could reduce indentation/number of lines by reordering the logic:
-
-    if (!signal) {
-            update =3D true;
-    } else if (signal->init_data->refcnt_incr_val !=3D val) {
-            update =3D refcount_dec_and_test(&signal->refcnt);
-    } else if (!refcount_read(&signal->refcnt)) {
-            refcount_set(&signal->refcnt, 1);
-            update =3D true;
-    } else {
-            refcount_inc(&signal->refcnt);
-    }
-
-> +
-> +       if (update) {
-> +               u32 tmp;
-> +
-> +               tmp =3D readl(sysc->base + off);
-> +               tmp &=3D ~mask;
-> +               tmp |=3D val & mask;
-> +               writel(tmp, sysc->base + off);
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static int rz_sysc_reg_write(void *context, unsigned int off, unsigned i=
-nt val)
-> +{
-> +       struct rz_sysc *sysc =3D context;
-> +       struct rz_sysc_signal *signal;
-> +
-> +       /*
-> +        * Force using regmap_update_bits() for signals to have reference=
- counter
-> +        * per individual signal in case there are multiple signals contr=
-olled
-> +        * through the same register.
-> +        */
-> +       signal =3D rz_sysc_off_to_signal(sysc, off, 0);
-> +       if (signal) {
-> +               dev_err(sysc->dev,
-> +                       "regmap_write() not allowed on register controlli=
-ng a signal. Use regmap_update_bits()!");
-> +               return -EOPNOTSUPP;
-> +       }
-> +
-
-Can you ever get here, given rz_sysc_writeable_reg() below would have
-returned false? If not, is there any point in having this function?
-
-> +       writel(val, sysc->base + off);
-> +
-> +       return 0;
-> +}
-> +
-> +static bool rz_sysc_writeable_reg(struct device *dev, unsigned int off)
-> +{
-> +       struct rz_sysc *sysc =3D dev_get_drvdata(dev);
-> +       struct rz_sysc_signal *signal;
-> +
-> +       /* Any register containing a signal is writeable. */
-> +       signal =3D rz_sysc_off_to_signal(sysc, off, 0);
-> +       if (signal)
-> +               return true;
-> +
-> +       return false;
-> +}
-
-> +static int rz_sysc_signals_show(struct seq_file *s, void *what)
-> +{
-> +       struct rz_sysc *sysc =3D s->private;
-> +
-> +       seq_printf(s, "%-20s Enable count\n", "Signal");
-> +       seq_printf(s, "%-20s ------------\n", "--------------------");
-> +
-> +       for (u8 i =3D 0; i < sysc->num_signals; i++) {
-> +               seq_printf(s, "%-20s %d\n", sysc->signals[i].init_data->n=
-ame,
-> +                          refcount_read(&sysc->signals[i].refcnt));
-> +       }
-> +
-> +       return 0;
-> +}
-> +DEFINE_SHOW_ATTRIBUTE(rz_sysc_signals);
-
-What is the use-case for this? Just (initial) debugging?
-
-> +
-> +static void rz_sysc_debugfs_remove(void *data)
-> +{
-> +       debugfs_remove_recursive(data);
-> +}
-> +
-> +static int rz_sysc_signals_init(struct rz_sysc *sysc,
-> +                               const struct rz_sysc_signal_init_data *in=
-it_data,
-> +                               u32 num_signals)
-> +{
-> +       struct dentry *root;
-> +       int ret;
-> +
-> +       sysc->signals =3D devm_kcalloc(sysc->dev, num_signals, sizeof(*sy=
-sc->signals),
-> +                                    GFP_KERNEL);
-> +       if (!sysc->signals)
-> +               return -ENOMEM;
-> +
-> +       for (u32 i =3D 0; i < num_signals; i++) {
-
-unsigned int
-
-> +               struct rz_sysc_signal_init_data *id;
-> +
-> +               id =3D devm_kzalloc(sysc->dev, sizeof(*id), GFP_KERNEL);
-> +               if (!id)
-> +                       return -ENOMEM;
-> +
-> +               id->name =3D devm_kstrdup(sysc->dev, init_data->name, GFP=
-_KERNEL);
-> +               if (!id->name)
-> +                       return -ENOMEM;
-> +
-> +               id->offset =3D init_data->offset;
-> +               id->mask =3D init_data->mask;
-> +               id->refcnt_incr_val =3D init_data->refcnt_incr_val;
-> +
-> +               sysc->signals[i].init_data =3D id;
-> +               refcount_set(&sysc->signals[i].refcnt, 0);
-> +       }
-> +
-> +       sysc->num_signals =3D num_signals;
-> +
-> +       root =3D debugfs_create_dir("renesas-rz-sysc", NULL);
-> +       ret =3D devm_add_action_or_reset(sysc->dev, rz_sysc_debugfs_remov=
-e, root);
-> +       if (ret)
-> +               return ret;
-> +       debugfs_create_file("signals", 0444, root, sysc, &rz_sysc_signals=
-_fops);
-> +
-> +       return 0;
-> +}
-
-> --- /dev/null
-> +++ b/drivers/soc/renesas/rz-sysc.h
-> @@ -0,0 +1,52 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Renesas RZ System Controller
-> + *
-> + * Copyright (C) 2024 Renesas Electronics Corp.
-> + */
-> +
-> +#ifndef __SOC_RENESAS_RZ_SYSC_H__
-> +#define __SOC_RENESAS_RZ_SYSC_H__
-> +
-> +#include <linux/refcount.h>
-> +#include <linux/types.h>
-> +
-> +/**
-> + * struct rz_sysc_signal_init_data - RZ SYSC signals init data
-> + * @name: signal name
-> + * @offset: register offset controling this signal
-> + * @mask: bitmask in register specific to this signal
-> + * @refcnt_incr_val: increment refcnt when setting this value
-> + */
-> +struct rz_sysc_signal_init_data {
-> +       const char *name;
-> +       u32 offset;
-> +       u32 mask;
-> +       u32 refcnt_incr_val;
-> +};
-> +
-> +/**
-> + * struct rz_sysc_signal - RZ SYSC signals
-> + * @init_data: signals initialization data
-> + * @refcnt: reference counter
-> + */
-> +struct rz_sysc_signal {
-> +       const struct rz_sysc_signal_init_data *init_data;
-
-Can't you just embed struct rz_sysc_signal_init_data?
-That way you could allocate the rz_sysc_signal and
-rz_sysc_signal_init_data structures in a single allocation.
-
-> +       refcount_t refcnt;
-> +};
 
 Gr{oetje,eeting}s,
 
