@@ -1,76 +1,76 @@
-Return-Path: <linux-renesas-soc+bounces-10774-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10775-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FA899E03FD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Dec 2024 14:50:03 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F28249E0400
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Dec 2024 14:50:27 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E87AC282460
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Dec 2024 13:50:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8A103167638
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Dec 2024 13:50:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 279FD20370A;
-	Mon,  2 Dec 2024 13:49:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE90D2040A7;
+	Mon,  2 Dec 2024 13:49:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b="Hq3T9o5Z"
+	dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b="F8/07/rg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C630202F68
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Dec 2024 13:49:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21DBB203707
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Dec 2024 13:49:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733147372; cv=none; b=REqgrAgDevlcYLvOAK/C/O35myytHDaU4wlqazZRDTWs6wy/cUHyxbk+MKl1iIXJvsM7oQEGGBIRP4kHybGu01bc2jBtuHz1goeKFnukJuEl7KppEKC7AqJxCiY7gcYyLJAeX+XKYdK7fwKJoyLMqPMZ7RY4lNSYe5vcbyo7z5A=
+	t=1733147373; cv=none; b=Z5Fdy756e/v83M/sCQvu6Q0IewWzgOLa/zwhyP+AvgD9YWEnmpVLluvjVYiUAChnCw4Ihn9HBPAecIu7mNgvIWW/LXy1jH+fMRNMULlxpcuBYOvZtZlm2E2/SaXmXRJK+OpanQUCVlbFEAYWVUq602V5qv825jFKIknDK5ctrog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733147372; c=relaxed/simple;
-	bh=ikLggKYh0Un8afUAvMUCGvNq/h+HGVzb6q6YC7Oxa3A=;
+	s=arc-20240116; t=1733147373; c=relaxed/simple;
+	bh=CiFizkoZC96MbaXexVr7inWPwfe5IbT1lj8DVa6YGI4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=RUHPMr0CeYqdXtXRvpbaD1tAK3qsgYCL83LX89sqKZHByS82lxzzJXoCuKZBrtma4Jpk4Zs4vniKgjN8sRWhqUxDqwT0wrR6rg/DU+0EdWOItnjBf/rvePSzSXhM6UE+ZwLQW5UjBA3PJa4Sgf4osVQ4k2g2opi5nKF0e0cgfOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com; spf=pass smtp.mailfrom=cogentembedded.com; dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b=Hq3T9o5Z; arc=none smtp.client-ip=209.85.208.170
+	 MIME-Version; b=XJXqMG/RLyuRGZHkHmjjLGovqcsMFirDkC6bHxuzZqh/AMIF2AXD11pes4S7LugDgsV8ZHAAioaTWWw/q4kz7h2ORaa9DVxGolOyOYHnSQcmMev3w7mwh2DSnQLB2/JEhDF16WiaKihrp8Y/6WOY9uZKFeYqE4ojUcT7EfQ28zA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com; spf=pass smtp.mailfrom=cogentembedded.com; dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b=F8/07/rg; arc=none smtp.client-ip=209.85.208.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cogentembedded.com
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2ffdf564190so48404661fa.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 02 Dec 2024 05:49:30 -0800 (PST)
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2ffbea0acc2so45146151fa.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 02 Dec 2024 05:49:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20230601.gappssmtp.com; s=20230601; t=1733147368; x=1733752168; darn=vger.kernel.org;
+        d=cogentembedded-com.20230601.gappssmtp.com; s=20230601; t=1733147370; x=1733752170; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=P4PkmDMX0LCsciSdEuZzJRFJdqj1nfUT/bpDSGbr0kc=;
-        b=Hq3T9o5ZO8J/XNIYur/Mmrju6aQ+W7TP1s6nkkl+uuMQYSvzGImfNbnr4pyur+Z7TB
-         2Tfacnc3UObebZLIykraVC8fROTkMBbk0WxpSPlXDF9vqggZx/NAYHXGijxWQf2mfFqB
-         y51TLTKjsOUUdln0rF453qR0OU9A82yjTuH2MbmHIujPOZ5Os9YPDT/7TIZSNs7uhXrl
-         GQyRg0zfdONLZNjWMiO+wNAl51t23mFnZ8K6Onj1Ixhx1p/nK00fYGi10hgCOZoGtFWF
-         AyuqD5Whz1QqtORL+i/dNpZY4bEMA+pAm5qVckSJn7RNiyIpcoNDp6Js4cInKNajIGOx
-         b9mg==
+        bh=/CpslHNkV2YabLsAqY6bUT0+pw/mS+82i2gGXOOdRhQ=;
+        b=F8/07/rgvh5Yl/27rrroF8u/2iOYFCZMyru4a3SKjcp1W1fxnVUvuXZv8nlmFawmKc
+         3PV45IGE9CLf7FNXbmJkE5RU1gapus+p6u118pS2ff9cCx+wH213UUP6Ffjy+k/AVAFh
+         nY6aX+Ite08eSMNj2quAobcza8eVZcOAP+tEduBb/2KBZnwNQq5RIsCQC9kwEbneo2Gy
+         lyBIvFExwk+h6rGqrLWxTEDwnlaSMfB/vy/GQGG4QMgNe/1h3EnGnaTbmyrckHoyfbFx
+         XCQUij99dAUkujTg9O8M2Ku0pK5CytyOy8TAc9NkIxYKm4s6lzdclyfCRdkfctGBDksH
+         dglw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733147368; x=1733752168;
+        d=1e100.net; s=20230601; t=1733147370; x=1733752170;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=P4PkmDMX0LCsciSdEuZzJRFJdqj1nfUT/bpDSGbr0kc=;
-        b=R8jeeQ7sMJ32idVPsZLK9+TSDx9WFbFweqwfsNg/Yhly53kFLyaLEws7ZB+cAiyhbY
-         0F+6zBQ6t3r2x9IrwmOX282bZmW8d43M0bGYXn1R3MHBhK8PVEz7geDQrAQxD/EIv2N3
-         l4R2xY7DucDJT6G1SupcwwgDCGSy3FFzhoRGUr9Jm1DMXAlvAKRDQFs692rusxLs+Jeg
-         N7UAefA4U0mhsBAA8MrxpZLTfSf5i4LhsnVYbVV5lg+hKhDurUgvv0AQrfyYU7SpyL6M
-         DqkRNUT1bFyKPYv7hpFnnEHLXL4HZq4xD+qnkrjUMQEF1KSoAsAjmqT61t7Yacsqwab+
-         vY8A==
-X-Forwarded-Encrypted: i=1; AJvYcCVGR0+QHUuY6tjM8WkxFJp/Al8hbK4B1aotxBJc+TLA5IKS0V7qAKOugwaQL2DHXQ0ckzD2I096taqRN2Mt7f1yig==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDWSi7lvuaTcaX50F1KJQ3f864/lGrvyrQpUIDFgrApustbcHU
-	j5TFppvQxWBbt0pK+UAo/64/hnyx40TgyiFxpETFCHvsnL5iaXJb1pCrswkkOOA=
-X-Gm-Gg: ASbGnctauI7a0mrI2EeMY8kLAYLGAWyAxuWD2/52M/gSZaYSv75SWda63hq8ZiZ437U
-	x+xiw+/Zjr44uK5Ey5nTyd4E0DwApEyAQDKEBA6XAYC+I5ICNNFyGCUdyYJ5gP0kPlZYxrwGgRQ
-	HdriCK9j79WLAfOeFrIRR/FXV30PQSl1YMU+p1xfOY/rhAS7hti4hboPR8EY8NrmsQfe8AVfNzY
-	ctc1Gqfi5IaAwRRpIUI44GlxYS/oSzq94BDmKKU0j4IAHhu9QEsQDWmrpAZNF2a
-X-Google-Smtp-Source: AGHT+IEsaH+gdxnFkWmsXqpHCD1Zei6m+iH0fYiLGHgbg3pVjQplVpLyAye27YVe8QxL4WzDTSyj7w==
-X-Received: by 2002:a05:651c:2207:b0:2ff:566e:b583 with SMTP id 38308e7fff4ca-2ffd5fff0cemr104563321fa.11.1733147368492;
-        Mon, 02 Dec 2024 05:49:28 -0800 (PST)
+        bh=/CpslHNkV2YabLsAqY6bUT0+pw/mS+82i2gGXOOdRhQ=;
+        b=AGYX0itZiVUmBUJ1waLJjJcoKTAXuV3e/sO7uMScBttceUAtczoFWsAKwheeTEjIQ2
+         XLbdKkC40XWKTf/MF+3NhtVJWZ3FCC/2JEwu5TiwliuWymhOoKNcWd/rjxT01/QVsEE2
+         /rYgQNegtAd0Ddc9ZFi+wNCpvVnCSz9BCsGaJtNCrtpR5NzRxhmKs93CE9nOS2QQpKid
+         JGAlJZoByN9PtP7cmEvbVvv1K2fxBc8g2PH5cxp9vKRdgCkXywZ99tToFGk9PoQ8JhNr
+         aARKv6k78cruOZ0+uGoUJEDvmMC55A2GItokR+tlM+nzeN/GOEOS13oxMkLFlQcnYs70
+         9xKw==
+X-Forwarded-Encrypted: i=1; AJvYcCURi9Oz69yw2GQthvfRuJsbCkTUm0x+oIG7sQ/G8zbt4RinYwB5zS3Lab9AvZ3KTpju/szzfiTRS0zAc7gkz+kY1A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIrIaKUX4crsZbm0EzZqmAMAMZQ35K915tEBEfKxOX0eZs5pS9
+	87CgSsjbTMN5i2r4Fan64CjSj5sw35Iu3GlN8PbnKJcJSDlhJ5zHG3QdROh5VB4=
+X-Gm-Gg: ASbGncvIJOKMcqThoGDlOB3r3EZc4Y7oWZ1bvmZFYVSSZDibYiFCzP5s5Xm+we6jYaI
+	UzUsXSomwbVGsxkGAnDBlAS7sSjD7EJkmow/lUwSb3Np2LTMEfzEjgRuB/N6FjiS9p8r/cl5LSH
+	0D/lg7nQp1zvFQYJ6Xs3rIIk6uduC/YmXwOUbSUZ9s+pUgygHVpNGVQWgOmMIKuicu5D1wB6NCg
+	eAXDk8p6KX0+l9mqpf8l0VzWZEVVdHqGduhsLemKU/TZDeRr0+qcsfavgLoZmyk
+X-Google-Smtp-Source: AGHT+IGOSgW0kQ/hZQdxpAEuxf3UJ+J6ThcTY+XhOdDP1TnARSGU6yBkX5H1G3ekAl2LQYW/fupQTQ==
+X-Received: by 2002:a05:651c:2225:b0:2fb:45cf:5eef with SMTP id 38308e7fff4ca-2ffd6120fa0mr125832051fa.30.1733147370261;
+        Mon, 02 Dec 2024 05:49:30 -0800 (PST)
 Received: from cobook.home ([91.198.101.25])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ffdfbb8f2csm12972661fa.15.2024.12.02.05.49.26
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ffdfbb8f2csm12972661fa.15.2024.12.02.05.49.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Dec 2024 05:49:28 -0800 (PST)
+        Mon, 02 Dec 2024 05:49:30 -0800 (PST)
 From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
 To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 	Andrew Lunn <andrew@lunn.ch>,
@@ -86,9 +86,9 @@ Cc: netdev@vger.kernel.org,
 	Christian Mardmoeller <christian.mardmoeller@renesas.com>,
 	Dennis Ostermann <dennis.ostermann@renesas.com>,
 	Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Subject: [PATCH 2/5] net: renesas: rswitch: fix leaked pointer on error path
-Date: Mon,  2 Dec 2024 18:49:01 +0500
-Message-Id: <20241202134904.3882317-3-nikita.yoush@cogentembedded.com>
+Subject: [PATCH 3/5] net: renesas: rswitch: avoid use-after-put for a device tree node
+Date: Mon,  2 Dec 2024 18:49:02 +0500
+Message-Id: <20241202134904.3882317-4-nikita.yoush@cogentembedded.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241202134904.3882317-1-nikita.yoush@cogentembedded.com>
 References: <20241202134904.3882317-1-nikita.yoush@cogentembedded.com>
@@ -100,34 +100,46 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If error path is taken while filling descriptor for a frame, skb
-pointer is left in the entry. Later, on the ring entry reuse, the
-same entry could be used as a part of a multi-descriptor frame,
-and skb for that new frame could be stored in a different entry.
+The device tree node saved in the rswitch_device structure is used at
+several driver locations. So passing this node to of_node_put() after
+the first use is wrong.
 
-Then, the stale pointer will reach the completion routine, and passed
-to the release operation.
+Move of_node_put() for this node to exit paths.
 
-Fix that by clearing the saved skb pointer at the error path.
-
-Fixes: d2c96b9d5f83 ("net: rswitch: Add jumbo frames handling for TX")
+Fixes: b46f1e579329 ("net: renesas: rswitch: Simplify struct phy * handling")
 Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
 ---
- drivers/net/ethernet/renesas/rswitch.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/net/ethernet/renesas/rswitch.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
-index 32b32aa7e01f..3ad5858d3cdd 100644
+index 3ad5858d3cdd..779c05b8e05f 100644
 --- a/drivers/net/ethernet/renesas/rswitch.c
 +++ b/drivers/net/ethernet/renesas/rswitch.c
-@@ -1703,6 +1703,7 @@ static netdev_tx_t rswitch_start_xmit(struct sk_buff *skb, struct net_device *nd
- 	return ret;
+@@ -1891,7 +1891,6 @@ static int rswitch_device_alloc(struct rswitch_private *priv, unsigned int index
+ 	rdev->np_port = rswitch_get_port_node(rdev);
+ 	rdev->disabled = !rdev->np_port;
+ 	err = of_get_ethdev_address(rdev->np_port, ndev);
+-	of_node_put(rdev->np_port);
+ 	if (err) {
+ 		if (is_valid_ether_addr(rdev->etha->mac_addr))
+ 			eth_hw_addr_set(ndev, rdev->etha->mac_addr);
+@@ -1921,6 +1920,7 @@ static int rswitch_device_alloc(struct rswitch_private *priv, unsigned int index
  
- err_unmap:
-+	gq->skbs[(gq->cur + nr_desc - 1) % gq->ring_size] = NULL;
- 	dma_unmap_single(ndev->dev.parent, dma_addr_orig, skb->len, DMA_TO_DEVICE);
+ out_rxdmac:
+ out_get_params:
++	of_node_put(rdev->np_port);
+ 	netif_napi_del(&rdev->napi);
+ 	free_netdev(ndev);
  
- err_kfree:
+@@ -1934,6 +1934,7 @@ static void rswitch_device_free(struct rswitch_private *priv, unsigned int index
+ 
+ 	rswitch_txdmac_free(ndev);
+ 	rswitch_rxdmac_free(ndev);
++	of_node_put(rdev->np_port);
+ 	netif_napi_del(&rdev->napi);
+ 	free_netdev(ndev);
+ }
 -- 
 2.39.5
 
