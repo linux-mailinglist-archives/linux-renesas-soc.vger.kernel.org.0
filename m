@@ -1,137 +1,220 @@
-Return-Path: <linux-renesas-soc+bounces-10769-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10770-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 046EE9DEB2F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Nov 2024 17:40:02 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67BDC9DFE0C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Dec 2024 11:03:49 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B3FA7160E8B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Nov 2024 16:39:58 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CD55BB249B7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Dec 2024 10:03:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FB5E14A0A3;
-	Fri, 29 Nov 2024 16:39:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A42911FA15A;
+	Mon,  2 Dec 2024 10:03:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T+hITyal"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TdZixu1D"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F1A44C77;
-	Fri, 29 Nov 2024 16:39:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EA3618AEA
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Dec 2024 10:03:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732898398; cv=none; b=DVb+iA1Op/37SZkLcdfQ666PSKEP5dAf+Pwavj2x5fBpTLwFYTSRGD2L2Ha4sL4LK5alj6UfILsler/mMjpvNaHIUwl/cK66CgtPfnSgbop1+5iNVpr+m63Va4n2WWEJp7CS3M9ZI14Qwm43A25KzRfqiIEYW8lC63CQgkvikto=
+	t=1733133818; cv=none; b=eDypOuaMA8+jpuX4Babh9btNe2HnDnsjGFRP3aqxmTifojvz0cv4VjiGc5eoqsQFEKH7FDp6TAEwtCB7dksKnKYjj0QbwcDZJ9SHHLbuD2xTZhazwcx/Pd/6273Fj3AJG+OJM00TY/zYtUHDF+x8iZee7SdC9J8ZQLcv8zdkAII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732898398; c=relaxed/simple;
-	bh=o/XHuQjqUCNdCnp0GPnthWhFOFHb1KDgppZGdAgrSfY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jA/D9ZvqsUY1RVChqfe2kAPkIvkBl38YHSpjGvgwQIwK95t6CdQs5KYM1gymvTDVnKM74L8sekg5l8sRjPoUGx6CdWPtEIWa0VMvDEnLY+WdFXiQg5XnVmG6Ws1EXvEaw/0wfW41r8K16UEDRWtjNUvFlpC+q1kQovaumjMjNiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T+hITyal; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6EFFC4CECF;
-	Fri, 29 Nov 2024 16:39:55 +0000 (UTC)
+	s=arc-20240116; t=1733133818; c=relaxed/simple;
+	bh=fVRziINejjrmbw4Va+SuQ0C6qC5L/1bvzfXuE8mkWe0=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=bPp8Pkat5aOSBRxakimuT275HSdkY0EXH8fh6q5Bs5ZHRsXBA8Gv9oLGJvsdwlA4ekZRON7ALPOlF1qkWcKvd0+zU+LCKW6jv4hKc4Evl+Jcpm/0/q/Ab8sTWXNbYSvaAFZCRa+6jV6ylDG2iNFlvgE0/ewyWULYjHpYDc5+PWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TdZixu1D; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54AAAC4CED1
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Dec 2024 10:03:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732898396;
-	bh=o/XHuQjqUCNdCnp0GPnthWhFOFHb1KDgppZGdAgrSfY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=T+hITyalUhRVwvksgWjIiXjVT9QMUfhYekEFMFKiWHT4ko4UpNOEzC+pXIFBWvusq
-	 AgjhxsmsDZ+bKH0MEBoKxyx8JUrGrhwCcplCgKVIPi/J/2QhosFG6p5bBUCjWRu/80
-	 KDK+uLU+gBLUGG5hmIdvGMvOhNLAvYdqptdodsP/oJodCZe/HtHX+jTigMS2REW9Yu
-	 OUNiekS1po0aU2md+sQVC3xLN8+a7ArWymqPWBhfwxkeMJGaJbwUoTnYUE8U6se7IG
-	 LWyZs1SY65VXeqtAMLrSYFNvWCQzxW47BamfNeeJTNPuynCygWrMxG6sE+xpSa4wcF
-	 e8fJbFwYAbxPA==
-Date: Fri, 29 Nov 2024 17:39:52 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	"linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	"biju.das.au" <biju.das.au@gmail.com>
-Subject: Re: [PATCH v22 1/4] dt-bindings: pwm: Add RZ/G2L GPT binding
-Message-ID: <oyfqxmjce2edq6jgyzrjzubfwf6m5dt5s5ojhmuycquktrcutf@n7uqufaxmyrz>
-References: <20241018130049.138775-1-biju.das.jz@bp.renesas.com>
- <20241018130049.138775-2-biju.das.jz@bp.renesas.com>
- <7r7euw7h5fln3y5hy3zkrm4n4fafh5ww3ydxnwcpcjhbpb5vza@fleninlwsaqb>
- <TY3PR01MB113469F250419F13DCBB9A95D862A2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	s=k20201202; t=1733133818;
+	bh=fVRziINejjrmbw4Va+SuQ0C6qC5L/1bvzfXuE8mkWe0=;
+	h=Subject:From:Date:To:From;
+	b=TdZixu1DH3qRh5aoitlr9fMo9M5RArWYjqh8yLLWQAH5X7kbbd9pcd4UIdIeHmS9g
+	 OdVTrRSrdYEPWhukVTsjABf7XgzQ7sv108fOcBfAYXE4I+V4jzw9dTd6QnUn7GiUak
+	 whCGYZxzBZIUpRH2X+ISS6X6a+LWLpL3tqY478R5ANm4ohb1Bc3raBXEt2jwVeq6TD
+	 zfC2edxq7R8Bbt5xq1r/X1xEQ3yJDu2bLptR35xEXxQmabRDnRziaddOZidWho4L0S
+	 K7Ast27IzgkhXuw9gWOCh3IGVMiwxMp62hqtU1OnerlsJJFxsItSB1Bm7HVBGURcMT
+	 So+5W78AgBTDw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 74E3C3806656
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Dec 2024 10:03:53 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6gwoa7j7cfo44lzf"
-Content-Disposition: inline
-In-Reply-To: <TY3PR01MB113469F250419F13DCBB9A95D862A2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From: patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: 
+ <173313383194.3453119.15823044973226442010.git-patchwork-summary@kernel.org>
+Date: Mon, 02 Dec 2024 10:03:51 +0000
+To: linux-renesas-soc@vger.kernel.org
+
+Hello:
+
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
+
+Patch: [v2] v4l2-subdev: Return -EOPNOTSUPP for unsupported pad type in call_get_frame_desc()
+  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=896197
+  Lore link: https://lore.kernel.org/r/20241007123809.89281-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+
+Patch: rtc: rzn1: fix BCD to rtc_time conversion errors
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Alexandre Belloni <alexandre.belloni@bootlin.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=909249
+  Lore link: https://lore.kernel.org/r/20241113113032.27409-1-wsa+renesas@sang-engineering.com
+
+Series: media: platform: rzg2l-cru: CSI-2 and CRU enhancements
+  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Hans Verkuil <hverkuil@xs4all.nl>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=900725
+  Lore link: https://lore.kernel.org/r/20241018133446.223516-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+    Patches: [v6,01/23] media: rzg2l-cru: Use RZG2L_CRU_IP_SINK/SOURCE enum entries
+             [v6,02/23] media: rzg2l-cru: Mark sink and source pad with MUST_CONNECT flag
+             [v6,03/23] media: rzg2l-cru: csi2: Mark sink and source pad with MUST_CONNECT flag
+             [v6,04/23] media: rzg2l-cru: csi2: Use ARRAY_SIZE() in media_entity_pads_init()
+             [v6,05/23] media: rzg2l-cru: csi2: Implement .get_frame_desc()
+             [v6,06/23] media: rzg2l-cru: Retrieve virtual channel information
+             [v6,07/23] media: rzg2l-cru: Remove `channel` member from `struct rzg2l_cru_csi`
+             [v6,08/23] media: rzg2l-cru: Use MIPI CSI-2 data types for ICnMC_INF definitions
+             [v6,09/23] media: rzg2l-cru: Remove unused fields from rzg2l_cru_ip_format struct
+             [v6,10/23] media: rzg2l-cru: Remove unnecessary WARN_ON check in format func
+             [v6,11/23] media: rzg2l-cru: Simplify configuring input format for image processing
+             [v6,12/23] media: rzg2l-cru: Inline calculating image size
+             [v6,13/23] media: rzg2l-cru: Simplify handling of supported formats
+             [v6,14/23] media: rzg2l-cru: Inline calculating bytesperline
+             [v6,15/23] media: rzg2l-cru: Make use of v4l2_format_info() helpers
+             [v6,16/23] media: rzg2l-cru: Use `rzg2l_cru_ip_formats` array in enum_frame_size
+             [v6,17/23] media: rzg2l-cru: csi2: Remove unused field from rzg2l_csi2_format
+             [v6,18/23] media: rzg2l-cru: video: Implement .link_validate() callback
+             [v6,19/23] media: rzg2l-cru: csi2: Use rzg2l_csi2_formats array in enum_frame_size
+             [v6,20/23] media: rzg2l-cru: Refactor ICnDMR register configuration
+             [v6,21/23] media: rzg2l-cru: Add support to capture 8bit raw sRGB
+             [v6,22/23] media: rzg2l-cru: Move register definitions to a separate file
+             [v6,23/23] media: renesas: rzg2l-cru: Add 'yuv' flag to IP format structure
+
+Series: rcar-isp: Add support for R-Car V4M
+  Submitter: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+  Committer: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=894788
+  Lore link: https://lore.kernel.org/r/20241002103318.24289-1-niklas.soderlund+renesas@ragnatech.se
+    Patches: [v3,1/3] dt-bindings: media: renesas,isp: Add Gen4 family fallback
+             [v3,2/3] media: rcar-isp: Add family compatible for R-Car Gen4 family
+             [v3,3/3] dt-bindings: media: renesas,isp: Add binding for V4M
+
+Patch: drm: renesas: shmobile: Add drm_panic support
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Maxime Ripard <mripard@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=856178
+  Lore link: https://lore.kernel.org/r/292638fde9aef8b00e984245f43dc02a818cf322.1716816827.git.geert+renesas@glider.be
+
+Patch: drm: renesas: rcar-du: Add drm_panic support for non-vsp
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Maxime Ripard <mripard@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=856179
+  Lore link: https://lore.kernel.org/r/b633568d2e3f405b21debdd60854fe39780254d6.1716816897.git.geert+renesas@glider.be
+
+Patch: [v1] usb: gadget: udc: fix typo in the comment
+  Submitter: Yan Zhen <yanzhen@vivo.com>
+  Committer: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=891644
+  Lore link: https://lore.kernel.org/r/20240920084708.1967059-1-yanzhen@vivo.com
+
+Series: media: rcar-csi2: Add support for V4M
+  Submitter: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+  Committer: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=885353
+  Lore link: https://lore.kernel.org/r/20240830203104.3479124-1-niklas.soderlund+renesas@ragnatech.se
+    Patches: [v2,1/8] dt-bindings: media: renesas,csi2: Add binding for V4M
+             [v2,2/8] media: rcar-csi2: Correct field size for PHTW writes
+             [v2,3/8] media: rcar-csi2: Allow writing any code and data value to PHTW
+             [v2,4/8] media: rcar-csi2: Abstract PHTW and PHYPLL register offsets
+             [v2,5/8] media: rcar-csi2: Add helper to lookup mbps settings
+             [v2,6/8] media: rcar-csi2: Move PHTW write helpers
+             [v2,7/8] media: rcar-csi2: Add documentation for PHY_EN and PHY_MODE registers
+             [v2,8/8] media: rcar-csi2: Add support for R-Car V4M
+
+Patch: ASoC: rsnd: Refactor port handling with helper for endpoint node selection
+  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Mark Brown <broonie@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=898316
+  Lore link: https://lore.kernel.org/r/20241011175346.1093649-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+
+Series: media: ov5645: Add support for streams
+  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=900788
+  Lore link: https://lore.kernel.org/r/20241018153230.235647-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+    Patches: [v3,01/10] media: i2c: ov5645: Add V4L2_SUBDEV_FL_HAS_EVENTS and subscribe hooks
+             [v3,03/10] media: i2c: ov5645: Replace dev_err with dev_err_probe in probe function
+             [v3,04/10] media: i2c: ov5645: Use v4l2_async_register_subdev_sensor()
+             [v3,05/10] media: i2c: ov5645: Drop `power_lock` mutex
+             [v3,06/10] media: i2c: ov5645: Use subdev active state
+
+Series: usb: renesas_usbhs: Deprecate renesas,enable-gpio
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=894741
+  Lore link: https://lore.kernel.org/r/cover.1727853953.git.geert+renesas@glider.be
+    Patches: [1/2] dt-bindings: usb: renesas,usbhs: Deprecate renesas,enable-gpio
+
+Patch: dma-mapping: Save base/size instead of pointer to shared DMA pool
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Christoph Hellwig <hch@lst.de>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=908994
+  Lore link: https://lore.kernel.org/r/f8cef6845a6141f0277e31a71fe153612daae776.1731436631.git.geert+renesas@glider.be
+
+Patch: [v2] media: rcar-vin: Add support for RAW10
+  Submitter: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+  Committer: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=886876
+  Lore link: https://lore.kernel.org/r/20240904150656.1495705-1-niklas.soderlund+renesas@ragnatech.se
+
+Series: media: staging: max96712: Add support for MAX96724
+  Submitter: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+  Committer: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=894768
+  Lore link: https://lore.kernel.org/r/20241002092331.4135906-1-niklas.soderlund+renesas@ragnatech.se
+    Patches: [v4,1/5] dt-bindings: i2c: maxim,max96712: Add compatible for MAX96724
+             [v4,2/5] media: staging: max96712: Remove device id check
+             [v4,3/5] media: staging: max96712: Move link frequency setting to device struct
+             [v4,4/5] media: staging: max96712: Document the DEBUG_EXTRA register
+             [v4,5/5] media: staging: max96712: Add support for MAX96724
+
+Patch: [PATCHv4,net-next] net: dsa: use ethtool string helpers
+  Submitter: Rosen Penev <rosenp@gmail.com>
+  Committer: Jakub Kicinski <kuba@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=903640
+  Lore link: https://lore.kernel.org/r/20241028044828.1639668-1-rosenp@gmail.com
+
+Patch: i2c: testunit: improve error handling for GPIO
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=888368
+  Lore link: https://lore.kernel.org/r/20240909101449.22956-2-wsa+renesas@sang-engineering.com
+
+Patch: regulator: Switch back to struct platform_driver::remove()
+  Submitter: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+  Committer: Mark Brown <broonie@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=908733
+  Lore link: https://lore.kernel.org/r/ab85510f83fa901e44d5d563fe6e768054229bfe.1731398433.git.u.kleine-koenig@baylibre.com
 
 
---6gwoa7j7cfo44lzf
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v22 1/4] dt-bindings: pwm: Add RZ/G2L GPT binding
-MIME-Version: 1.0
+Total patches: 56
 
-Hello Biju,
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-On Fri, Nov 29, 2024 at 09:10:02AM +0000, Biju Das wrote:
-> > -----Original Message-----
-> > From: Uwe Kleine-K=F6nig <ukleinek@kernel.org>
-> > Sent: 29 November 2024 08:51
-> > To: Biju Das <biju.das.jz@bp.renesas.com>
-> > Subject: Re: [PATCH v22 1/4] dt-bindings: pwm: Add RZ/G2L GPT binding
-> >=20
-> > On Fri, Oct 18, 2024 at 02:00:42PM +0100, Biju Das wrote:
-> > >  .../bindings/pwm/renesas,rzg2l-gpt.yaml       | 378 ++++++++++++++++=
-++
-> > >  1 file changed, 378 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/pwm/renesas,rzg=
-2l-gpt.yaml
-> >=20
-> > Wow, quite a big binding. An astonishing amount of irqs.
-> >=20
-> > > [...]
-> > > +  '#pwm-cells':
-> > > +    const: 2
-> >=20
-> > Please make this 3. Otherwise no objections.
->=20
-> The hardware supports both polarities. Currently I have added support for=
- normal polarity.
-> Subsequent patch will enable inverse polarity.=20
->=20
-> Am I missing something here? Please let me know.
->=20
-> Or
->=20
-> since it is optional, there is no harm in making it to 3 to take care
-> of any future additions in pwm.h flags.
 
-3 is the value to use for new drivers. Then you don't need a binding
-update when you later add support for inversed polarity. For now it's
-only possible to pass 0 as flags, but this is fine for the sake of
-consistence among the pwm bindings.
-
-Best regards
-Uwe
-
---6gwoa7j7cfo44lzf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmdJ7lYACgkQj4D7WH0S
-/k7vbggAivZAdIVyZFC1byIC4sdT8h2gEk4ldIZQrgxAsmETgAotUCWM+HRVd2jy
-/ZBFacDbpBf/hsL0sFzaASKNvnPwRFlHzQCQU9dAX1o1OZEBugwsH2DPjQm1Pvf/
-AjdjkJ04qhQRwP2QmK2xL9VHvM/zT10tJ74Gi14/ei3+iKyuS4VdLb8oVunY3LXa
-Wqy7j2gE4ORlXpO4k1TAr5jRVBoAFus4xkvUIdNa5e18cihjL43ZHmLxkwY8HO8W
-ZK48uHa43jcX+s3gE4PcvZm81Qe5q1YlwVNqP9UpkHdO9Be3LXOooXO+ysgMJA3A
-+Znigdi8epacsfifdf77JwV+1OIz7Q==
-=FLvT
------END PGP SIGNATURE-----
-
---6gwoa7j7cfo44lzf--
 
