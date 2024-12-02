@@ -1,214 +1,145 @@
-Return-Path: <linux-renesas-soc+bounces-10771-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10773-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D36D19DFE6B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Dec 2024 11:12:55 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6AEB9E03FA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Dec 2024 14:49:45 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C1FFB163584
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Dec 2024 10:12:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6810E2823F1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Dec 2024 13:49:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0F3A1FCCFD;
-	Mon,  2 Dec 2024 10:11:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69A36202F7B;
+	Mon,  2 Dec 2024 13:49:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="itzXzNIS"
+	dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b="qTVpSCx6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084C41FC10E
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Dec 2024 10:11:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7658A200BB7
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Dec 2024 13:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733134271; cv=none; b=kOj3wJx+KjrXoVEbG6nm0eeIv6RNsVTW0UONV8VFqkAtLKDfRypYq2ghj1TbrVIZGEDNHQhNEcXMTX3HZEfheSKP/bQB8R72EBgBKC30ShI4oC6yev57UhwUUxRyUUiyX9fzowygTKHROSDb/QP40AS8N70OncknWl5aohQaHbw=
+	t=1733147370; cv=none; b=sXmuWgy68GZaUx0eWi5Bz2LtkX37G4NQmE2sSxvC1b7yZiBN4aR4kToeCfxSY5YUnh9yRQZYEN4bL+Bjoxhjn323Eb/BcUmKfcYj6DQsV8ldeh657/po41AAH6LfEiyPNJyd5SEx4hbNdsO4ueJdYKX4fTrEk6Hwkyzx4yZDAQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733134271; c=relaxed/simple;
-	bh=VhG3rq+iTy9Ea+5rk5iSMoBYCrjEGHdVkuGWSFpQ38w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZiQLnm7zKmm+2Tc1j0MU5vh6uHZNAoRSzFbAXDsQl9kw5RO4t7UaaXduTFj4VWVVUtOphIOyJxsfcIAFaB9Py0GolwSEqKT7dmEgQq4wNz1DYq5yYsc3uNv5wl2f2Nw+vIHbu1OXHq+scgf1n8Hor/0n9N2pRj1ib9P6tAisWy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=itzXzNIS; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-434aabd688fso24797605e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 02 Dec 2024 02:11:09 -0800 (PST)
+	s=arc-20240116; t=1733147370; c=relaxed/simple;
+	bh=SI27lQ6ouPyc6VSvj6mijRBvLjbpSdfHHV2X5cxHAlw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=SklG54h4bsPggluJuhTcuS+TQJzWuMFE/XWVBSROdYOVBxYa8/X+7tgn+drFCXhnmTctYnG8C8WFg3u6dYQ59AJSuWDi0qq1VAccGeIMLUzz4Fj9ItTVyzxps2Oz5c+4QOpRynwwups269NLjP5YysFyfDIZdJtWqWmojqeGz0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com; spf=pass smtp.mailfrom=cogentembedded.com; dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b=qTVpSCx6; arc=none smtp.client-ip=209.85.208.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cogentembedded.com
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2ffd6882dcbso33554721fa.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 02 Dec 2024 05:49:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1733134268; x=1733739068; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uALrewd2bf6VCEyNjbilrOuFF8ofT7dZTVrBfsuxsiI=;
-        b=itzXzNISgbYOjPSzFg0Gt8afHHqlFeLge8D3lBCW8mtp7QpPJGtRN4DbeAHRutZzsj
-         IGn/9hcfed0uKvIYLEH0xwfahU/PCCXyAhSMJtwXJI9D9QiML6YDplME0h0pH2ybChrI
-         nkni2avrsu5WtzD+05Tw23tUZgpJWXgqR7PrmeD/M7H1XyZMzCvVTOV0tSrb0PDUmfqq
-         wRhIVOl5qIyzJPVssqvPZl+DYnOwG6J3X/xMwYlG1w2b4iQU9WEDMedgtwEQHotb+dhx
-         6B/xCyLuPibLxC4073IsOBao6LVMV75zOgI8/S+ACq/9dl4JDsUTb3pCObRf1hMGlYPO
-         vs+g==
+        d=cogentembedded-com.20230601.gappssmtp.com; s=20230601; t=1733147367; x=1733752167; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cynV8pOJrKJvNaQFqaJO/JMUBstzgBuJjjWcaNQed4I=;
+        b=qTVpSCx6nDrSBxfGPmm8KRQIza1xs8O+P2CMhuBLjzwZ+1/K+LOyRjrwf31ALA5B0Z
+         fV2pN9Ro5NwmhF5Ow5oK5q78qT5YOkCWs5luj5egPC6fSomWZikC8qxVI/LpP/ZCF5Kn
+         k+gvMiMkYG0LQqzPY5oWD6UwwQ9tUJDbQ40mo59KN/zFeQhqSYurkShbpQ4FoLUnwXSn
+         RCFtJnFymsFKpwyiqbuYVmbKnwjra+6Ycq2QoME9r6li75Gnw697/b+XV3vF0yPw5oTF
+         2qogEYnGPaZZjvQaBh1CEtzVtD9dujafXPdnZmV1O3e8srVM79RcprWWHpvGJIKb6tmK
+         122w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733134268; x=1733739068;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uALrewd2bf6VCEyNjbilrOuFF8ofT7dZTVrBfsuxsiI=;
-        b=bvN00YFU1Y/HvX4MU3uGxZEH034bYR63qJM/N7ewKA0bllhjjLYB6hBZsdh5qnY4kV
-         Gdkg255zYniU6IftsRbvrWn1cG3KQPDVBfCYLf0CkF449HHnGP+84OJ84/0sQgi5ednm
-         vBh73mYP+Vr5MCRnkBqyWgtajR7vySa51/p8gjSoBEwXLrxr/G6MlH/ZcEE7MMXvC6VS
-         sFGmHQUYf3sED5bkcNwlcX4p1dXpwTTmgfeoJOLI5JDVsy939lr2WFEQoOckx4mSFPlW
-         DwXLd1n60AOtfLY0+/zZRWFCfOClPuVupbz0Ezlgx8lQf64PiSxDdNZM6hrprv9GLCMQ
-         WU2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWtHrbk0JymDrXNvk7Z8n6xQispIgFKo1hkX/XK0Lrb9DhhSdtJeIN0vJwUCZDypUn8Chd05kdhgmDWkjMFabqKoQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyax/PDIP12c1uS7ZC6Rqd9iMn9zxUCmHVOvoMNEiX62FgnBpez
-	cU6hXRQV103t9B3K3U2pTIWwpUfM0vLFyHmlbrDQoy5imXRsLoai5sTP09w6XrI=
-X-Gm-Gg: ASbGncvfyfbTeuAuRZp2fcP6Njt3aJ2NB8bMd2GeRzTIz86rbdm2yA8s9RUXe6yUCH9
-	7XC7iXElspS5gsmGoVIgyXqNZDj3AfzRnm8/3AsI4NH/Y8iQ0w1RRHWcl7T6fJJGds/VqJl5Pfb
-	ercjC1raWwfnLVM9HL4wESK+D++ttRaH+Vu0XCKeWHoGvEHLsK2quF8RgcMlCcDVmyjLH3PcXp4
-	D2YNHutxRjN2s+MFUDFhAJLkQGgmbzg1f1Bbt0v0ZFcaNVIxPAjJo0Y9w==
-X-Google-Smtp-Source: AGHT+IErBHQMNcCywMPgGeLil++jgNC3MB2USHxqD4fnoD5fhsRnNjP8lRK2LV8oHmVsxpRvL8auCQ==
-X-Received: by 2002:a05:600c:314a:b0:434:9e63:fb15 with SMTP id 5b1f17b1804b1-434a9dbb864mr173023505e9.1.1733134268229;
-        Mon, 02 Dec 2024 02:11:08 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.46])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434aa78c202sm177567155e9.26.2024.12.02.02.11.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Dec 2024 02:11:07 -0800 (PST)
-Message-ID: <014a8db6-adcc-4755-8ab5-a15afa1d3f44@tuxon.dev>
-Date: Mon, 2 Dec 2024 12:11:05 +0200
+        d=1e100.net; s=20230601; t=1733147367; x=1733752167;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cynV8pOJrKJvNaQFqaJO/JMUBstzgBuJjjWcaNQed4I=;
+        b=n3//j/ehhquqJ3Wf+Gdh/38IT5g6RGJdFgg6SHaFQwI4iGgschROwIkp780/PNRXF3
+         WwE1z5IiP87aPT42A9IPDb898BR9/RRp5sy8U+ffOCAV7oDdI9Q3ouakQHoTmHbBMl40
+         WLVZjtELzwiK1TGLKULGulZl7pONYGjkV9ggPEIBqe9E8jaIT0mX07ev3zQSYZ6bjFqG
+         Mz6HC4zhVmas9wKERoImQcIEuBpDlvuV+g0EWhPhT15rtY5zNfylFd6w6cxG58NHp7iD
+         e7iFgIAbTG5nMIAMAHvbJNmJdZEh/uMakhfwMh5meR+oPbwY/3Zid+xehtzWUYYve1sX
+         HtvA==
+X-Forwarded-Encrypted: i=1; AJvYcCVuvcSG7EpZtEgshn2hnsvyAEASMadZsIDsODR2Fv4fSN6iu3xw2Gcx/LnaT6ASNea7OyxielKkKaLijZ0tGBGRyQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzUG/+GwrbMVV7B6UVd0BhWPgXkQzNqmQPuFjEpB5xSbGQ+C2dL
+	llz51tZW//ePQPdkHdSLcvvPZMGwW1pWsa5Lu4OJmEqwOvplQdisLvDxOy9Ij0A=
+X-Gm-Gg: ASbGncshyKwNHFats9FIGRuMCZMd7xHw9mARm2c+Df5xNVIm39QDrGFupiGMiSOVI8H
+	0lSG6taM57r7gnFcUH760IdyQwVj2AQpSexemfISypcpqkQCzVVitJ17AxfcOPWMzfT3MBiNowr
+	W7oT5tdoWG4fI69pLQfpr62ruNu3bPNDEpxXKS5zBGYBF0NF8qC117xP3RohGeaJCcTFztBwrZ5
+	1ulF5LIqS2uuX66dY4lKRCtLcOYMdWzZsr+wag3Y9RlKplPHXNXDXvaSL7L1avt
+X-Google-Smtp-Source: AGHT+IGMSwQqN8YQrvqohBJn4xVh/kPUa6r3akG6CJKNWLEOJ8q9gtd0peH+hJ9kwJ7mo6G0r5fDTQ==
+X-Received: by 2002:a05:651c:1547:b0:2ff:8f5f:1adf with SMTP id 38308e7fff4ca-2ffd5fcc1bemr59514231fa.5.1733147366620;
+        Mon, 02 Dec 2024 05:49:26 -0800 (PST)
+Received: from cobook.home ([91.198.101.25])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ffdfbb8f2csm12972661fa.15.2024.12.02.05.49.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Dec 2024 05:49:26 -0800 (PST)
+From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Michael Dege <michael.dege@renesas.com>,
+	Christian Mardmoeller <christian.mardmoeller@renesas.com>,
+	Dennis Ostermann <dennis.ostermann@renesas.com>,
+	Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Subject: [PATCH 1/5] net: renesas: rswitch: fix possible early skb release
+Date: Mon,  2 Dec 2024 18:49:00 +0500
+Message-Id: <20241202134904.3882317-2-nikita.yoush@cogentembedded.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20241202134904.3882317-1-nikita.yoush@cogentembedded.com>
+References: <20241202134904.3882317-1-nikita.yoush@cogentembedded.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/15] dt-bindings: soc: renesas: renesas,rzg2l-sysc:
- Add #renesas,sysc-signal-cells
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: vkoul@kernel.org, kishon@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, p.zabel@pengutronix.de, magnus.damm@gmail.com,
- gregkh@linuxfoundation.org, yoshihiro.shimoda.uh@renesas.com,
- christophe.jaillet@wanadoo.fr, linux-phy@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-usb@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- Ulf Hansson <ulf.hansson@linaro.org>
-References: <20241126092050.1825607-1-claudiu.beznea.uj@bp.renesas.com>
- <20241126092050.1825607-2-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdWjzR6vgbr_CfR7r-h1FqWxs1nY0hm274kxFmoHjCtRAA@mail.gmail.com>
- <0bb9f461-c7a2-4db0-9492-c04cc298504d@tuxon.dev>
- <CAMuHMdUuRSJu1c2zJvOc8EGrZy1uYcN0aiUG6T7WShawPmCNJg@mail.gmail.com>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <CAMuHMdUuRSJu1c2zJvOc8EGrZy1uYcN0aiUG6T7WShawPmCNJg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi, Geert,
+When sending frame split into multiple descriptors, hardware processes
+descriptors one by one, including writing back DT values. The first
+descriptor could be already marked as completed when processing of
+next descriptors for the same frame is still in progress.
 
-On 29.11.2024 10:38, Geert Uytterhoeven wrote:
-> Hi Claudiu,
-> 
-> On Fri, Nov 29, 2024 at 9:21 AM Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
->> On 28.11.2024 17:46, Geert Uytterhoeven wrote:
->>> On Tue, Nov 26, 2024 at 10:21 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
->>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>
->>>> The RZ/G3S system controller (SYSC) has registers to control signals that
->>>> are routed to various IPs. These signals must be controlled during
->>>> configuration of the respective IPs. One such signal is the USB PWRRDY,
->>>> which connects the SYSC and the USB PHY. This signal must to be controlled
->>>> before and after the power to the USB PHY is turned off/on.
->>>>
->>>> Other similar signals include the following (according to the RZ/G3S
->>>> hardware manual):
->>>>
->>>> * PCIe:
->>>> - ALLOW_ENTER_L1 signal controlled through the SYS_PCIE_CFG register
->>>> - PCIE_RST_RSM_B signal controlled through the SYS_PCIE_RST_RSM_B
->>>>   register
->>>> - MODE_RXTERMINATION signal controlled through SYS_PCIE_PHY register
->>>>
->>>> * SPI:
->>>> - SEL_SPI_OCTA signal controlled through SYS_IPCONT_SEL_SPI_OCTA
->>>>   register
->>>>
->>>> * I2C/I3C:
->>>> - af_bypass I2C signals controlled through SYS_I2Cx_CFG registers
->>>>   (x=0..3)
->>>> - af_bypass I3C signal controlled through SYS_I3C_CFG register
->>>>
->>>> * Ethernet:
->>>> - FEC_GIGA_ENABLE Ethernet signals controlled through SYS_GETHx_CFG
->>>>   registers (x=0..1)
->>>>
->>>> Add #renesas,sysc-signal-cells DT property to allow different SYSC signals
->>>> consumers to manage these signals.
->>>>
->>>> The goal is to enable consumers to specify the required access data for
->>>> these signals (through device tree) and let their respective drivers
->>>> control these signals via the syscon regmap provided by the system
->>>> controller driver. For example, the USB PHY will describe this relation
->>>> using the following DT property:
->>>>
->>>> usb2_phy1: usb-phy@11e30200 {
->>>>         // ...
->>>>         renesas,sysc-signal = <&sysc 0xd70 0x1>;
->>>>         // ...
->>>> };
->>>
->>> IIUIC, the consumer driver will  appear to control the SYSC bits
->>> directly, but due to the use of custom validating regmap accessors
->>> and reference counting in the SYSC driver, this is safe?
->>
->> I'm not sure I fully understand the safety concern.
-> 
-> Sorry for my bad expression, this was more like a rhetorical question.
-> I meant that it is safe because:
->   1. Consumers cannot perform arbitrary register accesses,
->   2. The reference counting guarantees correct operation, despite
->       both usb-phy nodes using the same renesas,sysc-signal.
-> 
-> So everything is fine.
-> 
->>> The extra safety requires duplicating the register bits in both DT
->>> and the SYSC driver.
->>
->> One other option I saw was to have common defines for registers that could
->> have been shared b/w driver and DTSes. But it looked better to me the way
->> it has been presented in this series.
->>
->>> Both usb-phy nodes on RZG3S use the same renesas,sysc-signal, so the
->>> reference counting is indeed needed.  They are in different power
->>> domains, could that be an issue w.r.t. ordering?
->>
->> In chapter "32.4.2.1 USB/PHY related pins", section "When either Port1 or
->> Port2 is unused" of the RZ/G3S HW manual it is mentioned "Since USB_VDD18 /
->> USB_VDD33 are common to 2 Port PHY, it is necessary to supply power even
->> when one of the
->>  ports is not in use".
-> 
-> Does that mean you have to power the other PHY on through the
-> CPG_BUS_PERI_COM_MSTOP register, too?
+Although only the last descriptor is configured to generate interrupt,
+completion of the first descriptor could be noticed by the driver when
+handling interrupt for the previous frame.
 
-I don't know at the moment if there is hard requirement b/w USB PWRRDY and
-the USB PHY CPG MSTOP bit. I'll have to ask further internally.
+Currently, driver stores skb in the entry that corresponds to the first
+descriptor. This results into skb could be unmapped and freed when
+hardware did not complete the send yet. This opens a window for
+corrupting the data being sent.
 
-Thank you,
-Claudiu
+Fix this by saving skb in the entry that corresponds to the last
+descriptor used to send the frame.
 
-> (I know you haven't added R9A08G045_PD_USBx to the USB nodes yet,
->  as #power-domain-cells is still 0).
-> 
->> (From the discussions w/ the internal HW team) The PWRRDY is an (software
->> controlled) indicator to the USB PHY that power supply is ready.
->>
->> From that and [1] I get that both PHYs are powered by the same regulators
->> (USB_VDD18/USB_VDD33) and the USB PWRRDY signal need to be set before/after
->> the USB PHY power off/on. Because of this I consider the order doesn't matter.
->>
->> [1] https://gcdnb.pbrd.co/images/0a1zYBFZXZVb.png
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
+Fixes: d2c96b9d5f83 ("net: rswitch: Add jumbo frames handling for TX")
+Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+---
+ drivers/net/ethernet/renesas/rswitch.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
+index b80aa27a7214..32b32aa7e01f 100644
+--- a/drivers/net/ethernet/renesas/rswitch.c
++++ b/drivers/net/ethernet/renesas/rswitch.c
+@@ -1681,8 +1681,9 @@ static netdev_tx_t rswitch_start_xmit(struct sk_buff *skb, struct net_device *nd
+ 	if (dma_mapping_error(ndev->dev.parent, dma_addr_orig))
+ 		goto err_kfree;
+ 
+-	gq->skbs[gq->cur] = skb;
+-	gq->unmap_addrs[gq->cur] = dma_addr_orig;
++	/* Stored the skb at the last descriptor to avoid skb free before hardware completes send */
++	gq->skbs[(gq->cur + nr_desc - 1) % gq->ring_size] = skb;
++	gq->unmap_addrs[(gq->cur + nr_desc - 1) % gq->ring_size] = dma_addr_orig;
+ 
+ 	/* DT_FSTART should be set at last. So, this is reverse order. */
+ 	for (i = nr_desc; i-- > 0; ) {
+-- 
+2.39.5
+
 
