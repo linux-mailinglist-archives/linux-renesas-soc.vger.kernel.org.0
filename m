@@ -1,247 +1,218 @@
-Return-Path: <linux-renesas-soc+bounces-10801-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10802-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 680FD9E158F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2024 09:24:05 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4FD9E1549
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2024 09:11:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DF9DBB25066
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2024 08:08:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7C02E28556A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2024 08:11:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A87191E2600;
-	Tue,  3 Dec 2024 08:03:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uZ52XROu"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9013B1DB922;
+	Tue,  3 Dec 2024 08:05:39 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D87821E25E4;
-	Tue,  3 Dec 2024 08:02:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DED701DB37B
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  3 Dec 2024 08:05:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733212981; cv=none; b=iwY4enbjBQTjZBBBX4pUg2oaj2Wr2bFUn8LBh/r+jzzfc8RMuG0Zhh9vSfL66FwxTrx1lpqDLwBrd54oYyd+g2+0T6K3Ds+qCNM4smLwwFXs+ou6C/aehyRNjgFGIJVZVvDWcT+YI+Bazjm2THF3MiJjAn9Ne8lmMqSkHayXI34=
+	t=1733213139; cv=none; b=btmekXUClcFr2hoxC1LVnddOmNHosNatvM6dD9w7YX3JR4SMNzMIDNEvAx0plhbVG1myjZwkh/wMt9nbULbqkRdkRVkHNbKOk/QD+/jhVA71j88MRK/TmuyWc0Up4GUezOrclQboa3Qh6JbIIxA4mQkJsXlWoEyn3ssjGFhO6kA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733212981; c=relaxed/simple;
-	bh=Mc3akC/5Bf4EvpUpWHmUdecQDz7QPKV1NnLKxJl83cw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Tk0GcVmjgbZPd3PeRka3uG0GKi8OTDJUc8wJqteTjeTfBlDUizOKt9jF6hQeaVGHolMaOxFvQVrcaHFsA2xn/zWhCIDXY4NbPdOrCMgCEFEBIbkDnaw1EmWhecF0sMPdGmGTW/Da5JpgI4k0p4N6voWbQsQgq+3URSlLqSV5tWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uZ52XROu; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [127.0.1.1] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 634CD1624;
-	Tue,  3 Dec 2024 09:02:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1733212949;
-	bh=Mc3akC/5Bf4EvpUpWHmUdecQDz7QPKV1NnLKxJl83cw=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=uZ52XROu3OO9WWfYNPWlNzcPuUZJSaSaPMK4uoAqw8yMia5EZCHPYAdkTPfiSlhB+
-	 GQiM8mYUbnGMl44+abXPR2RM3vmr5Du9eZkxz9oeO6D8NxK5x0/vDgLnpBd+wyBcoY
-	 3VSvsCEL9IWOEXo/fBgKSbQI5vdWD+u/2Xyt0W1o=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Tue, 03 Dec 2024 10:01:43 +0200
-Subject: [PATCH 9/9] arm64: dts: renesas: gray-hawk-single: Add DisplayPort
- support
+	s=arc-20240116; t=1733213139; c=relaxed/simple;
+	bh=Q7urY8lA7TMhqxkSe7Sh8w9aPfriZgBnj4d5edj28PY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qFbTxZ+XUbcmwL0dwKP/7pbdpmpLE5oCx9ndFAZl4PvIrVTbtt7hc9gLGlxHVEzH53zpXF7R80+x4MpWB70RkeevzxolmQaRukJVYuz1nAJv6Fc2PrZR6vKE7upQnFxMHv7sXnykbV3hU7YGyhk7ZumjHJ/O3yKUxNF+2iF6Yo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-85b0a934a17so2674320241.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Dec 2024 00:05:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733213135; x=1733817935;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cBn79w4x83Sxn7N1tfhbMVj69kOIEGZ3+lkyFTQeQu4=;
+        b=AdJAvYNNM7gwflh0AxyatyFxKgtSJ86gM81Gp5CchWGb+XEjxzPsmASWV5Llaz825D
+         ahavbLvWamGbo4H9hJPCj/1Ozllu9bkgMdY/qaREcxd6oGwqt3QzzMq2SiOgAdXTW5Ll
+         buzLVnN2kYQiO5YIOpMMhkU4IkCMy7Rz0FzZLkdfMY137Z+8qv0U803ABCD0Ji8J/1nt
+         mbujGJROQOtlFBdrSBAb2FJjMpEefCAbuH7GlQUwNw9LcFbNxedGsWbUUpwrBnkNZFZC
+         sFupuencEKyA6xt3KPP3NznN2zPhu9Tb7J+SpxubK2amUshbmPWvoy0ccxWoA1m+Uq1v
+         HYUA==
+X-Forwarded-Encrypted: i=1; AJvYcCX77YVD2Vlo7frZ73+PuodINyficxbAJB3ihsSs9Wx64JWBon7gTy2fBjGg5NWH2QPhVYJBTI+j9u/rXF6xXpww7Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YykY3qdiireOivlKwIaTFDD+6T8E34nBnVwf0URIpieoUodkg3d
+	StI1sKmSEY4wn91Kmtz5br26xjbqNn6Xr/r5w9x5EKnc1TDMBC0UhREGASAj
+X-Gm-Gg: ASbGncvf+n9hEMdfUMM5TvxSqV3NQYkmbFgWAZwbWufwGgWPVgyqd2K2j75IWxwphou
+	zXZzM+vtA/VbMyThlZcykXwhdol4keLbgLSsWPY3ERZ5uBv8E4j4n0bI0veHHHWtlwTBbwxCHV0
+	F4p+TcKyvNKvVjETZHy90Y2Y4bOblanYwc4h3Utqqp1+074mSVWrcPprn2xVk59WRaaiolppVn0
+	rBoaGXz90wFAYlSAM3T869KZxK1mHE+w1JmzIvlzbeaB78jXb9fc6tUDoLfeV1IltEtHWOmB4Og
+	lwjsqYvwq+Xe
+X-Google-Smtp-Source: AGHT+IFhwWL2RXlZ2pPllDJ4f/cZ0wSzER2ZmtpdAQ4Ul2d8rRIpa/6222vbwjPSA9ZYhf6lP+pbtg==
+X-Received: by 2002:a67:fa4e:0:b0:4af:9d7d:8bbf with SMTP id ada2fe7eead31-4af9d7d8d11mr78082137.12.1733213135564;
+        Tue, 03 Dec 2024 00:05:35 -0800 (PST)
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com. [209.85.217.53])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4af592352b8sm2047648137.27.2024.12.03.00.05.35
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Dec 2024 00:05:35 -0800 (PST)
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-4af6031095bso1711050137.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Dec 2024 00:05:35 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXm/Vef5HClW3jGBMGZr413bMEQt+r/gVMsxUZ/EKP/Hjiy3QdppVJrW0He4MVp0Gg1jyquqmSf2eZynYqn2XUFlg==@vger.kernel.org
+X-Received: by 2002:a05:6102:3748:b0:4af:14e6:a45f with SMTP id
+ ada2fe7eead31-4af556c3502mr25638940137.9.1733213134933; Tue, 03 Dec 2024
+ 00:05:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241203-rcar-gh-dsi-v1-9-738ae1a95d2a@ideasonboard.com>
-References: <20241203-rcar-gh-dsi-v1-0-738ae1a95d2a@ideasonboard.com>
-In-Reply-To: <20241203-rcar-gh-dsi-v1-0-738ae1a95d2a@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- linux-clk@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2975;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=zqkFHIbOVDDcC1NRxKnJ6UxWmD0e5V/71JMpsEHP56Q=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnTrsfD+7K/0Xel1r9eBekv76IuS1YQuyCnEW2E
- hUYb8m1pBKJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ067HwAKCRD6PaqMvJYe
- 9WyLD/9y3oW9hXKUDP8jTvEV+yP2+S18vbQ9f930ZsKEN3wxkMa18VRisgjVfw7ylFq3gwZx3F9
- pPGjb0wLqbG7HSnNL+gaIVVzweC5srmU8XNpANL3iXsmJ7mi9JVGPJl4r3DeO8V0MW2A3tMW30O
- GxTVGpZ3S4jLqbpUaRHsTHbFEXOgIBWMSGP6gXDYMYGGQZCgE209X2gZnn66+WZPFk/BIQvkmox
- tvzkQQz3nYiAFWjPh+S4HXdd2sAlkBjYkWSg5uA5aGy9wmQ83vwLk3P24kidXnC74Ys5crdniRQ
- UH3Kz5G88aVjSS9oHQgDDaHocIMUXinHASjrob1VSKJkBRk61IM8iPi6l7eZrymZsl5bEi/PC72
- 6gcD7tgnEGkVojK+SP6CMCd1XOrPc8pitp1obqstg25tADZXHK21gKdIXrreQ4BTjRhhBWQiDxS
- KbvoBUPr8UUS+RWtgG71Jvii+NyhSrBWFCUFifL2VI1UuF/lA2rh3o7oI/5+MJIRzCyBzPaY/e5
- CheAQBWW4OYzTLFgJFXE6+vVIwywL9HL3hMIuKjKJbMp8wILyrYVivCoQeL10tuSxt/dDkzpZOK
- 7EVJVpzfCkBU1MkCsh90z9MAw2m+HLkEE3KSBwdIkkO4eS682BTtdNVdksKIIuFB9O0mQYeBI3s
- a6b5KmGhMbsJeGA==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
+References: <cover.1729240989.git.geert+renesas@glider.be> <CAMuHMdXok5W7d5XBOCrUY3gqd5_xKXrOmqOC33re0-OiZjOH6w@mail.gmail.com>
+ <4ae5fa1a-27b9-451c-978e-6e92aff5bebc@ideasonboard.com>
+In-Reply-To: <4ae5fa1a-27b9-451c-978e-6e92aff5bebc@ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 3 Dec 2024 09:05:22 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUaoTkpn4r0hvNauYm_CRU=V+z1e7K_SNd4sDzCn=Akdg@mail.gmail.com>
+Message-ID: <CAMuHMdUaoTkpn4r0hvNauYm_CRU=V+z1e7K_SNd4sDzCn=Akdg@mail.gmail.com>
+Subject: Re: [PATCH/RFC 0/1] arm64: dts: renesas: white-hawk: Add mini-DP
+ output support
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-renesas-soc@vger.kernel.org, 
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Hi Tomi,
 
-Add support for the mini DP output on the Gray Hawk board.
+On Tue, Dec 3, 2024 at 8:33=E2=80=AFAM Tomi Valkeinen
+<tomi.valkeinen+renesas@ideasonboard.com> wrote:
+> On 02/12/2024 17:49, Geert Uytterhoeven wrote:
+> > On Fri, Oct 18, 2024 at 11:32=E2=80=AFAM Geert Uytterhoeven
+> > <geert+renesas@glider.be> wrote:
+> >> As I had to test Tomi's WIP patches to add mini-DP output support to
+> >> Gray Hawk Single, I moved my (old and new) DisplayPort gear to my boar=
+d
+> >> farm, and thought this was a good opportunity to test mini-DP output o=
+n
+> >> White Hawk as a baseline (CN5), and add support for the second mini-DP
+> >> output on the White Hawk BreakOut board (CN15).
+> >>
+> >> For testing, I used the following hardware:
+> >>    (A) BenQ BL2420PT desktop display (2560x1440),
+> >>    (B) Joy-It Joy-View 15 portable display (1920x1080),
+> >>    (C) Lindy DisplayPort to 2 Port HDMI MST Hub,
+> >>    (D) Passive mini-DP to HDMI cable,
+> >>    (E) LogiLink Mini DisplayPort to VGA Converter.
+> >>
+> >> (A)-(C) are known to work with my Intel desktop.
+> >> (D)-(E) are known to work with an old Dell XPS13.
+> >>
+> >> Software-wise, I used the frame buffer text console, "modetest -M
+> >> rcar-du -s 86:1920x1080@XR24" or "modetest -M rcar-du -s
+> >> 86:2560x1440@XR24", and fbtest.
+> >>
+> >> White Hawk CN5
+> >> --------------
+> >>
+> >>    1. Mini-DP to (A) DP:
+> >>         - 2560x1440 works but flickers (flickering shifts image
+> >>           horizontally; perhaps a cable issue, as 2 below does work?)
+> >>         - 1920x1080 is stable
+> >
+> > While I don't have a second Mini-DP-to-DP-M cable, I tried a few
+> > other combos (now on Gray Hawk Single):
+> >    7. (D) + HDMI-F-F adapter + passive HDMI-F-to-DP-cable to (A) DP,
+>
+> D is passive DP->HDMI, it won't work. Are you saying it works, and the
+> result matches the test case 1.?
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
----
- .../boot/dts/renesas/r8a779h0-gray-hawk-single.dts | 95 ++++++++++++++++++++++
- 1 file changed, 95 insertions(+)
+It doesn't. I had hoped combining the two passive adapters would
+provide a valid galvanical DP conduit...
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-index 057f959d67b3..7cdf07b6dde6 100644
---- a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-@@ -59,6 +59,12 @@ chosen {
- 		stdout-path = "serial0:921600n8";
- 	};
- 
-+	sn65dsi86_refclk: clk-x6 {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <38400000>;
-+	};
-+
- 	keys {
- 		compatible = "gpio-keys";
- 
-@@ -126,6 +132,27 @@ memory@480000000 {
- 		reg = <0x4 0x80000000 0x1 0x80000000>;
- 	};
- 
-+	mini-dp-con {
-+		compatible = "dp-connector";
-+		label = "CN5";
-+		type = "mini";
-+
-+		port {
-+			mini_dp_con_in: endpoint {
-+				remote-endpoint = <&sn65dsi86_out0>;
-+			};
-+		};
-+	};
-+
-+	reg_1p2v: regulator-1p2v {
-+		compatible = "regulator-fixed";
-+		regulator-name = "fixed-1.2V";
-+		regulator-min-microvolt = <1200000>;
-+		regulator-max-microvolt = <1200000>;
-+		regulator-boot-on;
-+		regulator-always-on;
-+	};
-+
- 	reg_1p8v: regulator-1p8v {
- 		compatible = "regulator-fixed";
- 		regulator-name = "fixed-1.8V";
-@@ -200,6 +227,24 @@ channel1 {
- 	};
- };
- 
-+&dsi0 {
-+	status = "okay";
-+
-+	ports {
-+		port@1 {
-+			reg = <1>;
-+			dsi0_out: endpoint {
-+				remote-endpoint = <&sn65dsi86_in0>;
-+				data-lanes = <1 2 3 4>;
-+			};
-+		};
-+	};
-+};
-+
-+&du {
-+	status = "okay";
-+};
-+
- &extal_clk {
- 	clock-frequency = <16666666>;
- };
-@@ -269,6 +314,51 @@ eeprom@53 {
- 	};
- };
- 
-+&i2c1 {
-+	pinctrl-0 = <&i2c1_pins>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+	clock-frequency = <400000>;
-+
-+	bridge@2c {
-+		compatible = "ti,sn65dsi86";
-+		reg = <0x2c>;
-+
-+		clocks = <&sn65dsi86_refclk>;
-+		clock-names = "refclk";
-+
-+		interrupt-parent = <&intc_ex>;
-+		interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
-+
-+		enable-gpios = <&gpio1 26 GPIO_ACTIVE_HIGH>;
-+
-+		vccio-supply = <&reg_1p8v>;
-+		vpll-supply = <&reg_1p8v>;
-+		vcca-supply = <&reg_1p2v>;
-+		vcc-supply = <&reg_1p2v>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+				sn65dsi86_in0: endpoint {
-+					remote-endpoint = <&dsi0_out>;
-+				};
-+			};
-+
-+			port@1 {
-+				reg = <1>;
-+				sn65dsi86_out0: endpoint {
-+					remote-endpoint = <&mini_dp_con_in>;
-+				};
-+			};
-+		};
-+	};
-+};
-+
- &i2c3 {
- 	pinctrl-0 = <&i2c3_pins>;
- 	pinctrl-names = "default";
-@@ -361,6 +451,11 @@ i2c0_pins: i2c0 {
- 		function = "i2c0";
- 	};
- 
-+	i2c1_pins: i2c1 {
-+		groups = "i2c1";
-+		function = "i2c1";
-+	};
-+
- 	i2c3_pins: i2c3 {
- 		groups = "i2c3";
- 		function = "i2c3";
+>
+> >    8. Mini-DP-to-DP-F cable (=3DX) + plain DP cable (=3DY) to (A) DP,
+> > unfortunately with the same results.  Note that (X) is the same cable
+>
+> "same results" means same as in 1.?
 
--- 
-2.43.0
+Oops, IIRC both 7 and 8 didn't work at all (monitor not detected).
 
+> > as used in scenario 2 below, and (Y) works fine with my Intel desktop.
+> >
+> > However, the maximum cable length for eDP seems to be 30 cm, so that
+>
+> Where did you read that? I don't think there's such a thing as "eDP
+
+https://www.lv-tron.com/edp-made-simple-quick-start-guide-with-experts-tips=
+/
+
+> cable". In laptops etc. eDP is connected to the panel via custom made
+> cables, and the cable design affects how long it can be. eDP and DP are
+
+i.e. an eDP cable ;-)
+
+> identical wrt. signaling, so using a DP cable with eDP or DP should
+> behave the same.
+>
+> That said, I don't think the eDP->DP connector designs we see in these
+> development boards are really made to match what one would expect from a
+> consumer device with a DP output.
+
+Indeed. And using a (too) long cable probably breaks this.
+
+> > may explain why 2 below is the only wiring that works at 2560x1440
+> > (despite cable (X) being 1m, i.e. still too long)?
+> >
+> >>    2. Mini-DP to (C) to (A) HDMI:
+> >>         - 2560x1440 OK
+> >>         - 1920x1080 OK
+>
+> My guess is that this works, because there's an active component there
+> which decodes the DP input and re-encodes it to HDMI output, probably
+> with different timings (read, more standard). So the (C) is more
+> tolerant on not-so-standard DP input than (A) is.
+
+Yes, it has an active component, and a shorter cable.
+
+> The eDP chip is limited in its capabilities, e.g. back porch registers
+> are 8-bit, so they max out at 255. While those are checked in the
+> driver, I wouldn't be surprised if some other limitations are not (the
+> driver has clearly been written for eDP panels).
+>
+> You could try different custom timings with kmstest, to find if there's
+> something obvious that makes the case 1. work. For example, if the issue
+> is indeed the cable, probably lowering the pixel clock would fix it. So
+> using the same timings but dropping the pclk in half might get a stable
+> picture (then again, lowering pclk might fix many other kinds of issues
+> too...).
+
+The modes reported by modetest differ slightly between (1) and (2).
+(1) contains one additional 1920x1080 mode, but all other modes are
+the same.
+
+> Can you send your monitor's edid blob? I don't have a board up here, but
+> it should be available from somewhere in sysfs. On my desktop it's:
+>
+> /sys/devices/pci0000:00/0000:00:02.0/drm/card1/card1-DP-2/edid
+
+And in the modetest output. I'll send these by PM.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
