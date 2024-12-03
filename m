@@ -1,148 +1,139 @@
-Return-Path: <linux-renesas-soc+bounces-10863-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10864-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4C0B9E2B0A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2024 19:37:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AB869E2B10
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2024 19:39:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8798FB27EC8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2024 17:37:11 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E7458B3BED6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2024 18:07:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 233531F8AD2;
-	Tue,  3 Dec 2024 17:37:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x/sPXwUL"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 979611FBEB4;
+	Tue,  3 Dec 2024 18:07:40 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB951F9F7C
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  3 Dec 2024 17:37:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9A31E868;
+	Tue,  3 Dec 2024 18:07:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733247429; cv=none; b=CvxiwnL9FnLjosjMZXEB7TqoMFflgX9Ow3EWNKG/L6UlNRvfr4F8Dr8e0MKwk1Qp/Z40CtVQDeHchFdzSIfjzNCl46CAWYYd7YgbOkXcrumykNvoY1YfQ6F5sJuq12yAN6Tmpn8VD8+6QAl64J8loikJdsxClpxv1mrtaYs3LcM=
+	t=1733249260; cv=none; b=rfYZZk+CgQLa6ars5mZW9yoS+TrIqkeWV9IKsXWHXst1qfl5WU+36DWYFQ3Rq5j8dmNDZAM/yuzmuZN5NRiKCAr0jBKUZJdlb7Y3+9aejoPArk+8GdKKWkmQL+drmBgQeambvgbsGeRTYk1mcxvmoZsvpVuBnKmGBb4G7XWmRjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733247429; c=relaxed/simple;
-	bh=w7mAofiWzyf8juvu3AM7qcBAsuCXIoSz/RIAPv7U6Pk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fFEVXG1UrKgblRTsj4LNFPxoQkdOu0+QXX+lK9LdQzZAMHP6c57DzIiUAdk05tgRPBKgCgvhbhRN/fUHKR6TBBZM21wWxIoAKyNH8lPbo0v4iv8tpBtTtQC3qasFATAU4NU4iBqw5h/XHtFI65x5wcFs/QRZHYUFR58Gyxq8WH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=x/sPXwUL; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-53de6b7da14so5726676e87.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Dec 2024 09:37:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733247425; x=1733852225; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y0ycjfZzwnPcCeUDtH0/9f2OzsKqNdVBQ5imE6kMpyI=;
-        b=x/sPXwULTNWCfUD4BW5jgLYSrIZ6+OdFZtGYXGnRn2fLCahYRYcd5k33zw+vCeXYbj
-         WtbmQU2kTOaxlpZyP658E6K/dQ2vbEFmzXc2cw9mQ4HSLUU0g6Blw8FZUY0qZipUJEls
-         wLNuZyyUvrhNFIEyKjJGwBWntbQY4ndCyzOJfPqQaB1FBp873QVJlBg0y1xoEcM82LGp
-         8GGNfWZP2kErSJhcpzcepeIFjtGpDLozGc16jgC5ZwTLzZ31xCE20eHo/oiuVuX64/pn
-         oVvq9dpktinPArRUUBaQRsgKY36krj2q1t9TG+r5fgI0OTTKjFMrGRewnhtUXO8fvbbq
-         jBeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733247425; x=1733852225;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y0ycjfZzwnPcCeUDtH0/9f2OzsKqNdVBQ5imE6kMpyI=;
-        b=miGwMKMPDw5qo2RWSqdzU96mh6Z8pTM2xswkQ/On/AiSEdVVFjoD4xNJ7nvSoJKttQ
-         mQH96sYawuud+3/iBpvbbAEckn/JXdTsgcIUH00pQjaPGEYG+OxHCV6xmN+0ScW7vaeX
-         KTFrcSSDJUrL/4x4e1JuqLot81Rtg+tUNG2GZGGl3zGJ1kSjyC53WuP8KgP0UlUPxG2n
-         IzdqD7uBaWLLpVNnK3YCRqaJXE0IYcdXqRknegQZipbJF4xlDsyLmwHAl2WS3DgjbmKt
-         1bpyZOi7qM8OVie0TSHwG+u5Kp/7JTZFGe6lSgcdiWpueJa9zss2AAXGSZ7iN8Ooo1SG
-         /lqg==
-X-Gm-Message-State: AOJu0YwDc2gUuhphWhtgj5wfbHkTtweeSMr14k8AcpmxbbYqDQpD/7Eh
-	fDA94JSLgtKQNOjj2+BI8mDdYh5ZKSqaQ66JP56UiiB3XfnJ3OnnWcrhbo1G7fc=
-X-Gm-Gg: ASbGncsrf5sb4A0lBD9hpDYGFt2yess9m22rrwtwMwb91ZL50jfwQRBczvDIqULJZYv
-	HvH7PSDAGZiaIWevxh0/A0wf1sosok37yhpJPo8D+q6u/ROMYKbILw9nzWx28zHR/p9i6VaKq1k
-	z/op7DzezxnCoQ0FnXAe95xYQlvBtR9eaOaDJSYA+9bKkJz/LMffP+FWYTjQOTWcqUw3RCnPhYI
-	6ddh0q75JHyNEVcH/AnaNiNOWYUcentCj449voKOE2oX1IbbCs7+HJmnvH4vpRuOol8icViKwFf
-	upq02XpS/uF/oQlYbNoZlZ4KKCSevQ==
-X-Google-Smtp-Source: AGHT+IE+iThB2rDkPXhvDwKDCV995m9FRY0n6NLKd/YWSdF2FKr6uqn66k8o0X2h8rNCUXaQsEfXfg==
-X-Received: by 2002:a05:6512:4028:b0:53d:ec9a:4e6d with SMTP id 2adb3069b0e04-53e1b8b6f05mr505370e87.46.1733247425267;
-        Tue, 03 Dec 2024 09:37:05 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53df6443385sm1916238e87.95.2024.12.03.09.37.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Dec 2024 09:37:04 -0800 (PST)
-Date: Tue, 3 Dec 2024 19:37:03 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: tomm.merciai@gmail.com
-Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	biju.das.jz@bp.renesas.com, Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
-	Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/bridge: ite-it6263: Support VESA input format
-Message-ID: <hd2kom5acz47c3mkjuauxhauahkt7vq2qoilppwn34iidldhos@rb5ydcayhtlj>
-References: <20241203172129.778123-1-tommaso.merciai.xr@bp.renesas.com>
+	s=arc-20240116; t=1733249260; c=relaxed/simple;
+	bh=dqztknOIkm8ntS9wy+GQNN8ohu1VudzQqaeaZ2cvWb4=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=i/nkJ0re27qWWXI8a3nA+wfSjtn3tZ1H7D07A0Xerp94J6nPisPT4YsiJ4ABAJY3I4t0lyC5KBFcBNK9q75c9nLIjCPyXCNtIFzaMtv2kZQQI1TAPXQE98Uh7O869qHDCjz0w1ZFZP7drIsDjTckoLxRYKYm7dw0AqD4C1EXfFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Y2pR80KFJz6K6XW;
+	Wed,  4 Dec 2024 02:03:00 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id D7E5F140B63;
+	Wed,  4 Dec 2024 02:07:12 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 3 Dec
+ 2024 19:07:12 +0100
+Date: Tue, 3 Dec 2024 18:07:10 +0000
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Paul Barker <paul.barker.ct@bp.renesas.com>
+CC: Claudiu <claudiu.beznea@tuxon.dev>,
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>, <jic23@kernel.org>,
+	<lars@metafoo.de>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+	<conor+dt@kernel.org>, <geert+renesas@glider.be>, <magnus.damm@gmail.com>,
+	<mturquette@baylibre.com>, <sboyd@kernel.org>, <p.zabel@pengutronix.de>,
+	<linux-iio@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-clk@vger.kernel.org>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH 06/14] iio: adc: rzg2l_adc: Simplify the locking scheme
+ in rzg2l_adc_read_raw()
+Message-ID: <20241203180710.0000204d@huawei.com>
+In-Reply-To: <6f627195-6c55-4687-b6b6-7fb791d13819@bp.renesas.com>
+References: <20241203111314.2420473-1-claudiu.beznea.uj@bp.renesas.com>
+	<20241203111314.2420473-7-claudiu.beznea.uj@bp.renesas.com>
+	<6f627195-6c55-4687-b6b6-7fb791d13819@bp.renesas.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241203172129.778123-1-tommaso.merciai.xr@bp.renesas.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500009.china.huawei.com (7.191.174.84) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-On Tue, Dec 03, 2024 at 06:21:29PM +0100, tomm.merciai@gmail.com wrote:
-> From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+On Tue, 3 Dec 2024 13:03:29 +0000
+Paul Barker <paul.barker.ct@bp.renesas.com> wrote:
+
+> Hi Claudiu,
 > 
-> Introduce it6263_is_input_bus_fmt_valid() and refactor the
-> it6263_bridge_atomic_get_input_bus_fmts() function to support VESA
-> format by selecting the LVDS input format based on the LVDS data mapping
-> and thereby support both JEIDA and VESA input formats.
-
-For the patch itself,
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-A more generic question: is the bridge limited to 4 lanes or does it
-support 3-lane or 5-lane configurations?
-
+> On 03/12/2024 11:13, Claudiu wrote:
+> > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> > 
+> > Simplify the locking scheme in rzg2l_adc_read_raw() by saving the converted
+> > value only if the rzg2l_adc_conversion() returns success. The approach
+> > simplifies the addition of thermal sensor support (that will be done in the
+> > next commits). The downside is that the ret variable need to be checked
+> > twice.
+> > 
+> > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> > ---
+> >  drivers/iio/adc/rzg2l_adc.c | 9 +++------
+> >  1 file changed, 3 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/iio/adc/rzg2l_adc.c b/drivers/iio/adc/rzg2l_adc.c
+> > index 62932f9295b6..eed2944bd98d 100644
+> > --- a/drivers/iio/adc/rzg2l_adc.c
+> > +++ b/drivers/iio/adc/rzg2l_adc.c
+> > @@ -227,14 +227,11 @@ static int rzg2l_adc_read_raw(struct iio_dev *indio_dev,
+> >  		mutex_lock(&adc->lock);
+> >  		ch = chan->channel & RZG2L_ADC_CHN_MASK;
+> >  		ret = rzg2l_adc_conversion(indio_dev, adc, ch);
+> > -		if (ret) {
+> > -			mutex_unlock(&adc->lock);
+> > -			return ret;
+> > -		}
+> > -		*val = adc->last_val[ch];
+> > +		if (!ret)
+> > +			*val = adc->last_val[ch];
+> >  		mutex_unlock(&adc->lock);
+> >  
+> > -		return IIO_VAL_INT;
+> > +		return ret ? ret : IIO_VAL_INT;  
 > 
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> ---
->  drivers/gpu/drm/bridge/ite-it6263.c | 25 ++++++++++++++++++++++---
->  1 file changed, 22 insertions(+), 3 deletions(-)
+> It would be maybe slightly neater to use:
 > 
-> diff --git a/drivers/gpu/drm/bridge/ite-it6263.c b/drivers/gpu/drm/bridge/ite-it6263.c
-> index cbabd4e20d3e..83d1db29157a 100644
-> --- a/drivers/gpu/drm/bridge/ite-it6263.c
-> +++ b/drivers/gpu/drm/bridge/ite-it6263.c
-> @@ -48,6 +48,7 @@
->  #define  REG_COL_DEP			GENMASK(1, 0)
->  #define  BIT8				FIELD_PREP(REG_COL_DEP, 1)
->  #define  OUT_MAP			BIT(4)
-> +#define  VESA				BIT(4)
->  #define  JEIDA				0
->  #define  REG_DESSC_ENB			BIT(6)
->  #define  DMODE				BIT(7)
-> @@ -428,12 +429,30 @@ static inline void it6263_lvds_reset(struct it6263 *it)
->  	fsleep(10000);
->  }
->  
-> +static bool it6263_is_input_bus_fmt_valid(u32 input_fmt)
-> +{
-> +	switch (input_fmt) {
-> +	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
-> +	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
-> +		return true;
-> +	}
-> +	return false;
-> +}
-> +
+> 	if (!ret) {
+> 		*val = adc->last_val[ch];
+> 		ret = IIO_VAL_INT;
+> 	}
+> 	mutex_unlock(&adc->lock);
+> 
+> 	return ret;
+> 
+Better I think to use {} for scope and
+guard(mutex)()
+...
+if (ret)
+	return ret;
 
--- 
-With best wishes
-Dmitry
+*val = adc->last_val[ch];
+
+Where possible keeping the error path as the out of line element is
+easier to follow on basis that is most common pattern so what a reviewers
+eye is 'trained' to see.
+
+Jonathan
+
+> Thanks,
+> 
+
 
