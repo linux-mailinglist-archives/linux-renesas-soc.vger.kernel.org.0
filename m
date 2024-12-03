@@ -1,43 +1,43 @@
-Return-Path: <linux-renesas-soc+bounces-10850-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10851-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CAE49E1C90
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2024 13:45:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 022799E1DBB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2024 14:37:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6F559B25F6A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2024 11:29:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9D597B24C9D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2024 12:53:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 089A61E3DCE;
-	Tue,  3 Dec 2024 11:29:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A503E1EBFFF;
+	Tue,  3 Dec 2024 12:53:35 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46BBD1E2613;
-	Tue,  3 Dec 2024 11:28:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF79C1EBA04;
+	Tue,  3 Dec 2024 12:53:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733225342; cv=none; b=FpE7Up6nQ/XDuv40cesRCZxPvVAmAadwMqWiZ0BKltfjxtzYsF5w4ubyzyLoQ3y+RMJPQ2WUVIstsBPchXWGrkrJ+nDuf7v4mfzVVcHOhWjjnJyCFMP/7KI1cBhbSPLrVnfkcLo+7csC2ohq/nvL5QiyLoEb/NyXzWjqGg7HbvI=
+	t=1733230415; cv=none; b=BsD2QP0/2AlFwEagnryw+8lU0j/50V4C6t48vCiMO4TZFK86+RXPBsYJmzVLI0gLYconcjUG1yTsWWk5HL1wSUAmoFcgefUrT3mgY/SF1tLJLZeYke6ILfEV/EN9ZP7ZYT8Bj9JkUKk3Agw9ia4cpYJfQaNPTpx/WTUA1/tx9o8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733225342; c=relaxed/simple;
-	bh=Mmmfi9emc2ZCiCKpp6c/jE4hKHEXQPrDfNjUcutIvfU=;
+	s=arc-20240116; t=1733230415; c=relaxed/simple;
+	bh=cNmkxzapUO7QczoDwL+xVGi9yBG+fPmNhU/lvd+cUvs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rD6pASHdDYyt9adTzsgmVW+XgMqhl2hSWOO6bEh9nOJznlxweCU9AYI4zNh9VGlFsFfK5wAw3dwu6ZPeRVwzvLaE79NiB1bqG2XIhsCd40CpPQ8DEuwzi0Mp1WOGk5Y99oTqT8WsrXcPAdP98VhycGnVtpqA7zZaV+DoVSTfRK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+	 In-Reply-To:Content-Type; b=a9nj/H4gCHfSqw8wYg/iWEDP7MtcQx1xpehxTDZYP9+KTybSZJ6rm07exHRbMQH4Qoj1rPmhkfgrYHnmXHR7IrJkLtwiB1WIgL03XFEC8RKUP8Vg2RUIX0vT64p2pMi8hN3fFJQ2C2UfxgIUwfqJNZwp5Budk0wNV4lkEQtEMgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: 6IkAKoiTSN+RQR6YlpXlmQ==
-X-CSE-MsgGUID: YplDmrKtTBqdFpFSmElrrA==
+X-CSE-ConnectionGUID: NZ2Q9QJrS8etHAiLa1x1gg==
+X-CSE-MsgGUID: JtmiqDwnS4m1caDtvBSMNA==
 X-IronPort-AV: E=Sophos;i="6.12,205,1728918000"; 
-   d="asc'?scan'208";a="230756713"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 03 Dec 2024 20:28:58 +0900
+   d="asc'?scan'208";a="226786275"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 03 Dec 2024 21:53:30 +0900
 Received: from [10.226.93.8] (unknown [10.226.93.8])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id EA27A41EF63C;
-	Tue,  3 Dec 2024 20:28:55 +0900 (JST)
-Message-ID: <d48371f8-fdb8-48c7-95e2-5cccc017feaa@bp.renesas.com>
-Date: Tue, 3 Dec 2024 11:28:54 +0000
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 161DC4002623;
+	Tue,  3 Dec 2024 21:53:24 +0900 (JST)
+Message-ID: <9fbf057c-164b-4451-85a8-cf4d5807b4c1@bp.renesas.com>
+Date: Tue, 3 Dec 2024 12:53:23 +0000
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -45,92 +45,132 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 11/13] arm64: dts: renesas: Add initial support for
- RZ/G3E SMARC SoM
-To: Biju Das <biju.das.jz@bp.renesas.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Biju Das <biju.das.au@gmail.com>
-References: <20241203105005.103927-1-biju.das.jz@bp.renesas.com>
- <20241203105005.103927-12-biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH 03/14] iio: adc: rzg2l_adc: Simplify the runtime PM code
 Content-Language: en-GB
+To: Claudiu <claudiu.beznea@tuxon.dev>,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, jic23@kernel.org, lars@metafoo.de,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ geert+renesas@glider.be, magnus.damm@gmail.com, mturquette@baylibre.com,
+ sboyd@kernel.org, p.zabel@pengutronix.de
+Cc: linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20241203111314.2420473-1-claudiu.beznea.uj@bp.renesas.com>
+ <20241203111314.2420473-4-claudiu.beznea.uj@bp.renesas.com>
 From: Paul Barker <paul.barker.ct@bp.renesas.com>
-In-Reply-To: <20241203105005.103927-12-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20241203111314.2420473-4-claudiu.beznea.uj@bp.renesas.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------rObfrWISRhRFgNhAjPtx6A80"
+ boundary="------------ejkQ6uLn0GaiFSlClZC0XSqf"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------rObfrWISRhRFgNhAjPtx6A80
-Content-Type: multipart/mixed; boundary="------------zqvN6yhRCToex5npPk9qGgqB";
+--------------ejkQ6uLn0GaiFSlClZC0XSqf
+Content-Type: multipart/mixed; boundary="------------dmg0AGwwVL6W8RXA0ox4qbMm";
  protected-headers="v1"
 From: Paul Barker <paul.barker.ct@bp.renesas.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Biju Das <biju.das.au@gmail.com>
-Message-ID: <d48371f8-fdb8-48c7-95e2-5cccc017feaa@bp.renesas.com>
-Subject: Re: [PATCH v2 11/13] arm64: dts: renesas: Add initial support for
- RZ/G3E SMARC SoM
-References: <20241203105005.103927-1-biju.das.jz@bp.renesas.com>
- <20241203105005.103927-12-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20241203105005.103927-12-biju.das.jz@bp.renesas.com>
+To: Claudiu <claudiu.beznea@tuxon.dev>,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, jic23@kernel.org, lars@metafoo.de,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ geert+renesas@glider.be, magnus.damm@gmail.com, mturquette@baylibre.com,
+ sboyd@kernel.org, p.zabel@pengutronix.de
+Cc: linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Message-ID: <9fbf057c-164b-4451-85a8-cf4d5807b4c1@bp.renesas.com>
+Subject: Re: [PATCH 03/14] iio: adc: rzg2l_adc: Simplify the runtime PM code
+References: <20241203111314.2420473-1-claudiu.beznea.uj@bp.renesas.com>
+ <20241203111314.2420473-4-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20241203111314.2420473-4-claudiu.beznea.uj@bp.renesas.com>
 
---------------zqvN6yhRCToex5npPk9qGgqB
-Content-Type: multipart/mixed; boundary="------------kzEH00sZXEuUqETPzD0Tal0G"
+--------------dmg0AGwwVL6W8RXA0ox4qbMm
+Content-Type: multipart/mixed; boundary="------------u8Ideiazs4hCjoXAckzRyQhI"
 
---------------kzEH00sZXEuUqETPzD0Tal0G
+--------------u8Ideiazs4hCjoXAckzRyQhI
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi Biju,
+Hi Claudiu,
 
-On 03/12/2024 10:49, Biju Das wrote:
-> Add initial support for the RZ/G3E SMARC SoM with 4GB memory,
-> audio_extal, qextal and rtxin clks.
+On 03/12/2024 11:13, Claudiu wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v1->v2:
->  * No change.
-> ---
->  .../boot/dts/renesas/rzg3e-smarc-som.dtsi     | 28 +++++++++++++++++++=
-
->  1 file changed, 28 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/renesas/rzg3e-smarc-som.dtsi
+> All Renesas SoCs using the rzg2l_adc driver manage ADC clocks through P=
+M
+> domains. Calling pm_runtime_{resume_and_get, put_sync}() implicitly set=
+s
+> the state of the clocks. As a result, the code in the rzg2l_adc driver =
+that
+> explicitly manages ADC clocks can be removed, leading to simpler and
+> cleaner implementation.
 >=20
-> diff --git a/arch/arm64/boot/dts/renesas/rzg3e-smarc-som.dtsi b/arch/ar=
-m64/boot/dts/renesas/rzg3e-smarc-som.dtsi
-> new file mode 100644
-> index 000000000000..c8cf61545a5f
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/rzg3e-smarc-som.dtsi
-> @@ -0,0 +1,28 @@
-> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +/*
-> + * Device Tree Source for the R9A09G047E57 SMARC SoM board.
-> + *
-> + * Copyright (C) 2024 Renesas Electronics Corp.
-> + */
-> +
-> +/ {
-> +	compatible =3D "renesas,rzg3e-smarc", "renesas,r9a09g047e57", "renesa=
-s,r9a09g047";
+> Additionally, replace the use of rzg2l_adc_set_power() with direct PM
+> runtime API calls to further simplify and clean up the code.
+>=20
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> ---
+>  drivers/iio/adc/rzg2l_adc.c | 100 ++++++++----------------------------=
 
-Should the first entry here be "renesas,rzg3e-smarcm" (with 'm' at the
-end) to match the binding in patch 3/13?
+>  1 file changed, 20 insertions(+), 80 deletions(-)
+>=20
+> diff --git a/drivers/iio/adc/rzg2l_adc.c b/drivers/iio/adc/rzg2l_adc.c
+> index 7039949a7554..a17690ecbdc3 100644
+> --- a/drivers/iio/adc/rzg2l_adc.c
+> +++ b/drivers/iio/adc/rzg2l_adc.c
+> @@ -8,7 +8,6 @@
+>   */
+> =20
+>  #include <linux/bitfield.h>
+> -#include <linux/clk.h>
+>  #include <linux/completion.h>
+>  #include <linux/delay.h>
+>  #include <linux/iio/iio.h>
+> @@ -69,8 +68,6 @@ struct rzg2l_adc_data {
+> =20
+>  struct rzg2l_adc {
+>  	void __iomem *base;
+> -	struct clk *pclk;
+> -	struct clk *adclk;
+>  	struct reset_control *presetn;
+>  	struct reset_control *adrstn;
+>  	struct completion completion;
+> @@ -188,29 +185,18 @@ static int rzg2l_adc_conversion_setup(struct rzg2=
+l_adc *adc, u8 ch)
+>  	return 0;
+>  }
+> =20
+> -static int rzg2l_adc_set_power(struct iio_dev *indio_dev, bool on)
+> -{
+> -	struct device *dev =3D indio_dev->dev.parent;
+> -
+> -	if (on)
+> -		return pm_runtime_resume_and_get(dev);
+> -
+> -	return pm_runtime_put_sync(dev);
+> -}
+> -
+>  static int rzg2l_adc_conversion(struct iio_dev *indio_dev, struct rzg2=
+l_adc *adc, u8 ch)
+>  {
+> +	struct device *dev =3D indio_dev->dev.parent;
+>  	int ret;
+> =20
+> -	ret =3D rzg2l_adc_set_power(indio_dev, true);
+> +	ret =3D pm_runtime_resume_and_get(dev);
+>  	if (ret)
+>  		return ret;
+
+Should we check (ret < 0) here instead of just (ret)? According to the
+docs [1], pm_runtime_resume_and_get() can return 1 if the device is
+already active.
+
+[1]: https://docs.kernel.org/power/runtime_pm.html#runtime-pm-device-help=
+er-functions
 
 Thanks,
 
 --=20
 Paul Barker
---------------kzEH00sZXEuUqETPzD0Tal0G
+--------------u8Ideiazs4hCjoXAckzRyQhI
 Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
 Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
 Content-Description: OpenPGP public key
@@ -194,22 +234,22 @@ ZyZGVsEsOuGCLkekUMF/5dwOhEDXrY42VR/ZxdDTY99dznQkwTt4o7FOmkY=3D
 =3DsIIN
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------kzEH00sZXEuUqETPzD0Tal0G--
+--------------u8Ideiazs4hCjoXAckzRyQhI--
 
---------------zqvN6yhRCToex5npPk9qGgqB--
+--------------dmg0AGwwVL6W8RXA0ox4qbMm--
 
---------------rObfrWISRhRFgNhAjPtx6A80
+--------------ejkQ6uLn0GaiFSlClZC0XSqf
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZ07rdgUDAAAAAAAKCRDbaV4Vf/JGvVoR
-AQDxW7+XtXF8d/uIKKlUjDL1OkiXIYCEzwvwnbbvUNPsnQD+IctuEEVY9yDyoQ27qDzDVT4XPxSG
-jAbA/wSuJk5xTAw=
-=Gph7
+wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZ07/QwUDAAAAAAAKCRDbaV4Vf/JGvVOM
+AQCiRexXepiHi421Gc03OVPh445YisuIwwomitYof6QldgEAujvSzuyZroUMHy7zZTCeAHqe4H/E
+Z+DS14dFXJTVyQU=
+=hrD+
 -----END PGP SIGNATURE-----
 
---------------rObfrWISRhRFgNhAjPtx6A80--
+--------------ejkQ6uLn0GaiFSlClZC0XSqf--
 
