@@ -1,148 +1,243 @@
-Return-Path: <linux-renesas-soc+bounces-10824-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10816-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0EB49E19E4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2024 11:51:01 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 851AC9E1C4F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2024 13:37:33 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9570016699D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2024 10:50:58 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8FC01B47D25
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2024 10:42:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 554FD1E2610;
-	Tue,  3 Dec 2024 10:50:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E26B1E3768;
+	Tue,  3 Dec 2024 10:40:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SUMpr5Pq"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D2141E25EE;
-	Tue,  3 Dec 2024 10:50:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29FAF1E2605;
+	Tue,  3 Dec 2024 10:40:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733223059; cv=none; b=WnpL1rGqBVPGgrWIO3vTaLwJeenyp57kJFMR6QVzkEbYSzKEX5ia+SrEUfdfCIN6jvUIzAUUslevjNaMOXBAdSSyrV0jzQezdyiCbSMi7zbVAR52YMs7mXq9qcYzvsXQBKJ0fN+aHgTXDF3MvI9DzUZV/GTRmBX2e9bBhC2Gmp4=
+	t=1733222424; cv=none; b=J81/xUHA4KyGzQjtO0nP4J9hrrDYGk5KVXHgsbNaxW/DNtSRjmcV7ZPlio4SIQqFtHqhDRhtUaBTLdA66Z+102ZHotWBYkRfUZEfWxQga5mqZGzxrSqDhXhrv06nX1DPbpeFPuZA7nBOtnGYzdaulRKnHNR5CGsSgcc4C68hWVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733223059; c=relaxed/simple;
-	bh=5aJZWQLjQySciuqeTRJaWpCd00N91lfD1GyA0/Tmxxg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FzdbN1yg3AZl6L4nYTSeNEgH2eec6KDvsj+28WW+JC+VzBOGla+8LU5TPe11VxktdGgMWAENTYNG+89m5SlCuKqGH9sW35rxbPp4EP/0mM5NGRzTtpPKwyu1LmXlyYSmhgblzr8ovBVhzv+54E6wn4IBLTMGaK0SeGRHWzpealY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: 1QC8HeuNTl2sooijPKcPQw==
-X-CSE-MsgGUID: Kp7I2tsyTgScQWgut/ZCLw==
-X-IronPort-AV: E=Sophos;i="6.12,204,1728918000"; 
-   d="scan'208";a="230754431"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 03 Dec 2024 19:50:55 +0900
-Received: from localhost.localdomain (unknown [10.226.93.2])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 10168400753A;
-	Tue,  3 Dec 2024 19:50:50 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Rob Herring <robh@kernel.org>,
+	s=arc-20240116; t=1733222424; c=relaxed/simple;
+	bh=AgD4sUxGspGjnJqKj6uE5BA2J1nTqX8g/zDM10q08B0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WvwTwm5g8CBryfC9t55twLB1ElSjPGFkG+anaQJyOyHcHqJ4z8CkHF4tM8itoiCm2pQeatMbigpFnmy1Sjo8whwqLfL7Qi3ty1JetaidGaNcfAX4iJIaWCab92+jQ4BnmU8zlnCnFIp1eYt0PRUUHfQ48dCliZWFEHUiEEuOGds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SUMpr5Pq; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E67808DB;
+	Tue,  3 Dec 2024 11:39:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1733222391;
+	bh=AgD4sUxGspGjnJqKj6uE5BA2J1nTqX8g/zDM10q08B0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SUMpr5Pqiart36e+UnmS+68J5xy25ZrQyWErnK4XJLIgVtNJU4/SAhaAfipIiBgmP
+	 CE0aC+w9ZivDv7e+1tHUXYv/ImhqMj3wOGDRlILD9yzvBosAuEvZpxSxdiqfY9VSH/
+	 pyfYwBSmifXlB+eymmPgl5Dthvo+lh0rNjiB9nVo=
+Date: Tue, 3 Dec 2024 12:40:06 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v2 12/13] arm64: dts: renesas: Add initial device tree for RZ/G3E SMARC EVK board
-Date: Tue,  3 Dec 2024 10:49:39 +0000
-Message-ID: <20241203105005.103927-13-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241203105005.103927-1-biju.das.jz@bp.renesas.com>
-References: <20241203105005.103927-1-biju.das.jz@bp.renesas.com>
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Sam Ravnborg <sam@ravnborg.org>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: Re: [PATCH 9/9] arm64: dts: renesas: gray-hawk-single: Add
+ DisplayPort support
+Message-ID: <20241203104006.GM10736@pendragon.ideasonboard.com>
+References: <20241203-rcar-gh-dsi-v1-0-738ae1a95d2a@ideasonboard.com>
+ <20241203-rcar-gh-dsi-v1-9-738ae1a95d2a@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241203-rcar-gh-dsi-v1-9-738ae1a95d2a@ideasonboard.com>
 
-Add the initial device tree for the Renesas RZ/G3E SMARC EVK board.
+Hi Tomi,
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * No change.
----
- arch/arm64/boot/dts/renesas/Makefile          |  2 ++
- .../boot/dts/renesas/r9a09g047e57-smarc.dts   | 18 ++++++++++++++
- .../boot/dts/renesas/renesas-smarc2.dtsi      | 24 +++++++++++++++++++
- 3 files changed, 44 insertions(+)
- create mode 100644 arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
- create mode 100644 arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
+Thank you for the patch.
 
-diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index 97228a3cb99c..bf5b49f47ce8 100644
---- a/arch/arm64/boot/dts/renesas/Makefile
-+++ b/arch/arm64/boot/dts/renesas/Makefile
-@@ -140,6 +140,8 @@ dtb-$(CONFIG_ARCH_R9A08G045) += r9a08g045s33-smarc.dtb
- 
- dtb-$(CONFIG_ARCH_R9A09G011) += r9a09g011-v2mevk2.dtb
- 
-+dtb-$(CONFIG_ARCH_R9A09G047) += r9a09g047e57-smarc.dtb
-+
- dtb-$(CONFIG_ARCH_R9A09G057) += r9a09g057h44-rzv2h-evk.dtb
- 
- dtb-$(CONFIG_ARCH_RCAR_GEN3) += draak-ebisu-panel-aa104xd12.dtbo
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts b/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
-new file mode 100644
-index 000000000000..d4d61bd03969
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
-@@ -0,0 +1,18 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+/*
-+ * Device Tree Source for the RZ/G3E SMARC EVK board
-+ *
-+ * Copyright (C) 2024 Renesas Electronics Corp.
-+ */
-+
-+/dts-v1/;
-+
-+#include "r9a09g047e57.dtsi"
-+#include "rzg3e-smarc-som.dtsi"
-+#include "renesas-smarc2.dtsi"
-+
-+/ {
-+	model = "Renesas SMARC EVK version 2 based on r9a09g047e57";
-+	compatible = "renesas,smarc2-evk", "renesas,rzg3e-smarcm",
-+		     "renesas,r9a09g047e57", "renesas,r9a09g047";
-+};
-diff --git a/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi b/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
-new file mode 100644
-index 000000000000..e378d55e6e9b
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
-@@ -0,0 +1,24 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+/*
-+ * Device Tree Source for the RZ SMARC Carrier-II Board.
-+ *
-+ * Copyright (C) 2024 Renesas Electronics Corp.
-+ */
-+
-+/ {
-+	model = "Renesas RZ SMARC Carrier-II Board";
-+	compatible = "renesas,smarc2-evk";
-+
-+	chosen {
-+		bootargs = "ignore_loglevel";
-+		stdout-path = "serial3:115200n8";
-+	};
-+
-+	aliases {
-+		serial3 = &scif0;
-+	};
-+};
-+
-+&scif0 {
-+	status = "okay";
-+};
+On Tue, Dec 03, 2024 at 10:01:43AM +0200, Tomi Valkeinen wrote:
+> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> 
+> Add support for the mini DP output on the Gray Hawk board.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+
+Assuming this has passed the DT checks,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> ---
+>  .../boot/dts/renesas/r8a779h0-gray-hawk-single.dts | 95 ++++++++++++++++++++++
+>  1 file changed, 95 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
+> index 057f959d67b3..7cdf07b6dde6 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
+> +++ b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
+> @@ -59,6 +59,12 @@ chosen {
+>  		stdout-path = "serial0:921600n8";
+>  	};
+>  
+> +	sn65dsi86_refclk: clk-x6 {
+> +		compatible = "fixed-clock";
+> +		#clock-cells = <0>;
+> +		clock-frequency = <38400000>;
+> +	};
+> +
+>  	keys {
+>  		compatible = "gpio-keys";
+>  
+> @@ -126,6 +132,27 @@ memory@480000000 {
+>  		reg = <0x4 0x80000000 0x1 0x80000000>;
+>  	};
+>  
+> +	mini-dp-con {
+> +		compatible = "dp-connector";
+> +		label = "CN5";
+> +		type = "mini";
+> +
+> +		port {
+> +			mini_dp_con_in: endpoint {
+> +				remote-endpoint = <&sn65dsi86_out0>;
+> +			};
+> +		};
+> +	};
+> +
+> +	reg_1p2v: regulator-1p2v {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "fixed-1.2V";
+> +		regulator-min-microvolt = <1200000>;
+> +		regulator-max-microvolt = <1200000>;
+> +		regulator-boot-on;
+> +		regulator-always-on;
+> +	};
+> +
+>  	reg_1p8v: regulator-1p8v {
+>  		compatible = "regulator-fixed";
+>  		regulator-name = "fixed-1.8V";
+> @@ -200,6 +227,24 @@ channel1 {
+>  	};
+>  };
+>  
+> +&dsi0 {
+> +	status = "okay";
+> +
+> +	ports {
+> +		port@1 {
+> +			reg = <1>;
+> +			dsi0_out: endpoint {
+> +				remote-endpoint = <&sn65dsi86_in0>;
+> +				data-lanes = <1 2 3 4>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&du {
+> +	status = "okay";
+> +};
+> +
+>  &extal_clk {
+>  	clock-frequency = <16666666>;
+>  };
+> @@ -269,6 +314,51 @@ eeprom@53 {
+>  	};
+>  };
+>  
+> +&i2c1 {
+> +	pinctrl-0 = <&i2c1_pins>;
+> +	pinctrl-names = "default";
+> +
+> +	status = "okay";
+> +	clock-frequency = <400000>;
+> +
+> +	bridge@2c {
+> +		compatible = "ti,sn65dsi86";
+> +		reg = <0x2c>;
+> +
+> +		clocks = <&sn65dsi86_refclk>;
+> +		clock-names = "refclk";
+> +
+> +		interrupt-parent = <&intc_ex>;
+> +		interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
+> +
+> +		enable-gpios = <&gpio1 26 GPIO_ACTIVE_HIGH>;
+> +
+> +		vccio-supply = <&reg_1p8v>;
+> +		vpll-supply = <&reg_1p8v>;
+> +		vcca-supply = <&reg_1p2v>;
+> +		vcc-supply = <&reg_1p2v>;
+> +
+> +		ports {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			port@0 {
+> +				reg = <0>;
+> +				sn65dsi86_in0: endpoint {
+> +					remote-endpoint = <&dsi0_out>;
+> +				};
+> +			};
+> +
+> +			port@1 {
+> +				reg = <1>;
+> +				sn65dsi86_out0: endpoint {
+> +					remote-endpoint = <&mini_dp_con_in>;
+> +				};
+> +			};
+> +		};
+> +	};
+> +};
+> +
+>  &i2c3 {
+>  	pinctrl-0 = <&i2c3_pins>;
+>  	pinctrl-names = "default";
+> @@ -361,6 +451,11 @@ i2c0_pins: i2c0 {
+>  		function = "i2c0";
+>  	};
+>  
+> +	i2c1_pins: i2c1 {
+> +		groups = "i2c1";
+> +		function = "i2c1";
+> +	};
+> +
+>  	i2c3_pins: i2c3 {
+>  		groups = "i2c3";
+>  		function = "i2c3";
+
 -- 
-2.43.0
+Regards,
 
+Laurent Pinchart
 
