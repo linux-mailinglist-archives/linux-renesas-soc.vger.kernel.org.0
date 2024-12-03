@@ -1,50 +1,50 @@
-Return-Path: <linux-renesas-soc+bounces-10793-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10792-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF92C9E1511
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2024 09:06:19 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A935A9E1533
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2024 09:09:49 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A292E16493D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2024 08:06:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8C595B2EDAB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2024 08:06:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31E5E1DE3AC;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3193B1DE3A7;
 	Tue,  3 Dec 2024 08:02:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ltH9PsDj"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="F+uz8bI1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56D519259E;
-	Tue,  3 Dec 2024 08:02:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84FCD19CCF9;
+	Tue,  3 Dec 2024 08:02:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733212968; cv=none; b=ZlIa9ekT0Ic2koS0EqTnhEVqsX7EhYFblzy8FrR7fS4Oa92Ffr5vekPWoI7zYk3JaXwocxEiXNjly7I/PB5LVFYkQthutvxbdocX2iEk7igoG/k2JtWbA7ukqF3zsvd45vTYWy9WPtLRUMlRFHBvZ/pO8CCw+q9y1dwyx6wuYzc=
+	t=1733212968; cv=none; b=D7VMdut2aSZDD/yWv7AIxzrOQkCFscJwE3o42e4F/D6UeVhqAObmZh3nKxTG/vhqLdUqMsUbGOqUgcNuHLni2GSekmUOBsAQ6Cpel8xnfz+FpyfQtzzQb8dfJZQBA4OJVMNDn4OuSQpg+qmTWyNmgNV/fKWuJD0lJ3wQKeSqHWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1733212968; c=relaxed/simple;
-	bh=2TFDLtiJ4hb6STWGz3swnMyQWEhR/dMEt/9LcY5CwGg=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=MJ9mIlQ+qKvzxs/XTTnwlj1AwlyPjI3AdWoKNLX1EiGLiwnVhjxjvr0IFjzABtwrW4VIe8JnSi1ykljbW9NQkkDFqJtw8C3eFZWpBod6E0gNFsEo07Oe+gthG4dQReM57v172+cH8Er13y1CgP5XWa6jtnU/jQzLZJPdzd/pI/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ltH9PsDj; arc=none smtp.client-ip=213.167.242.64
+	bh=QsfXonZPBZ28vJOb/xAkTrjot6SfqgiJkoww35O2YrA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=LRjnpbHVxx2oDO8rJLj5cm8U2pVH7Ui8qjI4B2Fgmjd6zNVvTGPLRrr6yDfy92IIevY37Sx9dPbkOgPSTch3Ek0Elj8qhBRbAHfKliLBLibQQE7UFvlZbYk+2rRB+zaBcsrkxr0Ldh/lxncdzJD4wgH9csNR4XnZwoqwlIH37kM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=F+uz8bI1; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [127.0.1.1] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 233F58DB;
-	Tue,  3 Dec 2024 09:02:13 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D5A39B2B;
+	Tue,  3 Dec 2024 09:02:14 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1733212934;
-	bh=2TFDLtiJ4hb6STWGz3swnMyQWEhR/dMEt/9LcY5CwGg=;
-	h=From:Subject:Date:To:Cc:From;
-	b=ltH9PsDjxi/U3Z9FuCbpPicUA4UnFEIR9tKi/IostMWm7GaC9GUd8NCo3Xdalz63z
-	 rsg4Cxf5HecWV+B1lJGaP2rMlu4+EXgzjyLWumQcgRy+CFLjh8lOxDgoN93hVlilWh
-	 gg+Shkpi4A0mnc1PC1it4Ukb2j6v3q3TsS9IRCl0=
+	s=mail; t=1733212936;
+	bh=QsfXonZPBZ28vJOb/xAkTrjot6SfqgiJkoww35O2YrA=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=F+uz8bI1O4av+DCzVERDs8frPTYO0aMRPw+d/+SoQWqf0bzxyAtZqy1ZkRFygJciE
+	 B4/ck0lddhqlGOqPRcR+wdAgS3Mit+MbPKSYgJ/dzAN7+BL9McBwnG3BXQmg7DUKKR
+	 xY256ezGRrkErnemmctOnY6diljF5UlkAg+CI8Ac=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH 0/9] drm: Add DSI/DP support for Renesas r8a779h0 V4M and
- grey-hawk board
-Date: Tue, 03 Dec 2024 10:01:34 +0200
-Message-Id: <20241203-rcar-gh-dsi-v1-0-738ae1a95d2a@ideasonboard.com>
+Date: Tue, 03 Dec 2024 10:01:35 +0200
+Subject: [PATCH 1/9] dt-bindings: display: bridge: renesas,dsi-csi2-tx: Add
+ r8a779h0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -53,9 +53,9 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAN+6TmcC/x3MQQqAIBBA0avErBtQKbCuEi1ER52NxQgRiHdPW
- r7F/w0qCVOFfWog9HDlqwzoeQKfXUmEHIbBKLNopSyKd4IpY6iMm1c6roHIeQujuIUiv//tOHv
- /AI68YgpdAAAA
+Message-Id: <20241203-rcar-gh-dsi-v1-1-738ae1a95d2a@ideasonboard.com>
+References: <20241203-rcar-gh-dsi-v1-0-738ae1a95d2a@ideasonboard.com>
+In-Reply-To: <20241203-rcar-gh-dsi-v1-0-738ae1a95d2a@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
  Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -79,61 +79,47 @@ Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  linux-clk@vger.kernel.org, 
  Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1756;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=877;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=2TFDLtiJ4hb6STWGz3swnMyQWEhR/dMEt/9LcY5CwGg=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnTrsZsJFsSZ2bMQz3u7xv61IffeVxcmu+570Uu
- L0vlHfSVoiJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ067GQAKCRD6PaqMvJYe
- 9YjZD/0er445JS4GlFu3tZ77ccTjHZddPJ4N9MKYx0zSoK+a3GQPJnbPcF0fU54R2jOah5UY1su
- T0NNXVkoRwHgXcuEetU5f03pPSX78wfXspJEgbBFvmuVGdt9NAtM4vYUJHbamZdHoJtdzD0gPJv
- H+muHkdmF4bUQYd7C1dUsJjJomZ+t9AFIVIzG59hdS32yJ57aeVdo0m9LxDz4rLnUj2KHhSEje4
- ZoOt4x57rZTN3FmVjyFBN7jc1HVUc3tpsFvQM1iJLhBKEoqandNrI7NnpC+DwBpVKOKkIfu4s1D
- ho6SNhcOzrDAOydQSloaOLIP/kYorpRX64fzo8Keplg1ZBXIRse3j9R6qFPJsgk4Hq4uhP2atKQ
- ec6s0AN+9ICJ7/5Ke4ZBUbo1Wb4DdMxZ5KQTJ9nYZeFfIhCjEYFN/JJTH/Fmi+JcCb5VvNqemEp
- 37dY3S/IIk2eAdXrfgvc3+HC+SDcS7mYMbXvTgoU/PK43e86Pb5MzGr+COCIY9Fvcdsmpow6+Jp
- rHRAlbFofmJjbbgUP7xsKVX9uPSVDwKl8c12fyWGdHwECDyPumYq5Pu8VRHo+bvY3n7WTL0rqr7
- BJpRu4MmErhX73H/hwqhU34n5fGDfgpbWSSN2RhmdMpP/2FqciPrJJEnKQj8mS58laK8Q4rYMs+
- 5KVWq033AHp6GEQ==
+ bh=ks/0AZ9jnTIxLCPYxabqyUoJw04LWekyUTIAUkDsAUA=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnTrscd8+PrTK1ivuGRSLgFCZmTznqU+FyBEU0m
+ 9uQzNoTmziJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ067HAAKCRD6PaqMvJYe
+ 9dIOEACbU+Q8C5upqrW/FEHfTLqVy4XaqmQHWkACwXwf8f+LntmL6tEDY1SZ5FGL65pnzHZJmm3
+ cddS+AGbBbPF7MdhUq9Lz1VNhWlis4VKwD95OEeyl4A7myvJPzgAY9r3H8WlA8E5AWImKzCTR2D
+ n+f7pRkrsSwVRcEU7/r/SWe6yzwOuWeq5bF3DtkxF3JyRGF94Z6nLcS958aZl9saLO1/AEofDJa
+ Ev1U7z+VuhEGNs27cypCnVq14JxwCy0/fy9Mz/+RnBTQgHUs7Pz0fBDEQcKv0nGJBphIOBBM9Ro
+ bszbtA3ZIaQrUq0S91jEyI1cNmen0Yf4+97WXL64VTEBmh4cpmiDG787YeLqnfA4OW27iWWIwwM
+ YpVVLo1HWwLh4WoN649aO89XFjzJL2YryDp2IQAvP2CFdOJzytJxxWZBair0j8aqXSiXLkE16HJ
+ EIcW55+xa/yjeKUtL5agsmd/dt0pY4ilO/nqPN02fvhh2IuG9b3tY2/gr8JjY1k6EF4VC7oknHX
+ MaDy8e6gq8Olexaly1UtD7tjUuxDAh23AjetcucRK7pxYPBcJJ8ZtjKBkaaPATTIQt1FB4q7c7G
+ 4NuvDFcPw56cRJF+lz/H0lcRQwI3pQt4Gq+VqzjW09B2BjCe15NqVetIVhz8YQfnJqtbJRH0W+i
+ snzDAg8bfKRkquQ==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-Add everything needed to support the DSI output on Renesas r8a779h0
-(V4M) SoC, and the DP output (via sn65dsi86 DSI to DP bridge) on the
-Renesas grey-hawk board.
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-Overall the DSI and the board design is almost identical to Renesas
-r8a779g0 and white-hawk board.
+Extend the Renesas DSI display bindings to support the r8a779h0 V4M.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 ---
-Tomi Valkeinen (9):
-      dt-bindings: display: bridge: renesas,dsi-csi2-tx: Add r8a779h0
-      dt-bindings: display: renesas,du: Add r8a779h0
-      clk: renesas: r8a779h0: Add display clocks
-      drm/rcar-du: dsi: Fix PHY lock bit check
-      drm/rcar-du: dsi: Add r8a779h0 support
-      drm/rcar-du: Add support for r8a779h0
-      arm64: dts: renesas: gray-hawk-single: Fix indentation
-      arm64: dts: renesas: r8a779h0: Add display support
-      arm64: dts: renesas: gray-hawk-single: Add DisplayPort support
+ .../devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml          | 1 +
+ 1 file changed, 1 insertion(+)
 
- .../display/bridge/renesas,dsi-csi2-tx.yaml        |   1 +
- .../devicetree/bindings/display/renesas,du.yaml    |   1 +
- .../boot/dts/renesas/r8a779h0-gray-hawk-single.dts | 119 ++++++++++++++++++---
- arch/arm64/boot/dts/renesas/r8a779h0.dtsi          |  77 +++++++++++++
- drivers/clk/renesas/r8a779h0-cpg-mssr.c            |   4 +
- drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c      |  19 ++++
- drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h      |   1 +
- drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c    |  16 +--
- drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c    |   4 +-
- .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h   |   1 -
- 10 files changed, 223 insertions(+), 20 deletions(-)
----
-base-commit: adc218676eef25575469234709c2d87185ca223a
-change-id: 20241008-rcar-gh-dsi-9c01f5deeac8
+diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+index d33026f85e19..c167795c63f6 100644
+--- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+@@ -19,6 +19,7 @@ properties:
+     enum:
+       - renesas,r8a779a0-dsi-csi2-tx    # for V3U
+       - renesas,r8a779g0-dsi-csi2-tx    # for V4H
++      - renesas,r8a779h0-dsi-csi2-tx    # for V4M
+ 
+   reg:
+     maxItems: 1
 
-Best regards,
 -- 
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+2.43.0
 
 
