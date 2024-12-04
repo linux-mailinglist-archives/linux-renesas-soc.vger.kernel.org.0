@@ -1,130 +1,143 @@
-Return-Path: <linux-renesas-soc+bounces-10899-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10900-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70D899E38CA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2024 12:29:17 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64F359E394B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2024 12:53:55 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4E87416519C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2024 11:29:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2AAE3284FD5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2024 11:53:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D84F1AE00E;
-	Wed,  4 Dec 2024 11:29:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8630F1B3945;
+	Wed,  4 Dec 2024 11:53:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WPTOt9fP"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EoNpC49i"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73AC51AC884;
-	Wed,  4 Dec 2024 11:29:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D1131ABEDC
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Dec 2024 11:53:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733311753; cv=none; b=EFH+9tnq+/TC4it/IvxQXASr37SUfiCpz59a7yZpFt0WyLvGYKsEw3WqNfc6nlZvWXaWT3o84L5dF7z7ObVXllRiE/ouGBtKvPDxqly5Xw/O3qymZTRv2pD7meWDvRhJ6unIOq2Lhr6Gu8KI9cJ5JmR4hDj9tBgmEGdvVMhTTAk=
+	t=1733313231; cv=none; b=CjEVE33sn9jhFcrS35/UAj03qA1smgrUxEJVvD8LVCGWcsCaiM0lojdl2IQusb/c2snk5sLZdbl4XwOHXdXU5rFDgxhABVjmyPGjybDfuHEML1jMPbUnS7qMfK9BBf537qi7Z9kmae7GuLp7M5xMagv5w9VCbMNiCYj4XRL2vLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733311753; c=relaxed/simple;
-	bh=PRPtD/jr5FDFTXKUKEQDeDZuaw4j04cDJnkroXR06Ng=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JeR2QHkppgI/wnUo7TmO4dsWZAlGLpUJkBJRISqXisGq8W4vvQtU//bavs7VSbHhzq2uPg/PhhNd4ku16h0c6Xy1MzN09I0rxeUgmz/rqs1E66uB1XZFgonV1HMF6jgCwMyJoewVrRhsovA7L3r6zVwrz9QgQs1VH7//z3NWIHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WPTOt9fP; arc=none smtp.client-ip=209.85.221.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-51530758f9eso1735896e0c.1;
-        Wed, 04 Dec 2024 03:29:12 -0800 (PST)
+	s=arc-20240116; t=1733313231; c=relaxed/simple;
+	bh=luDqbcuOQVMj4DwFN6l1Fqfcu47I6KAT3+S2xLDmE7I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZF0vffy8Oj26J1O11UjyWHBU2E1rxN3GphcBzj+B3GPy5Btb393KsW5EqMUMlzOmzIcCiT3CSx1ckhFui9VZxrzObbaM7e7msvTLfRfKwvjsyCPO3AL/XIHLHFGSZvbuZ3mMwSqrPcO9aIPDG4ErEijiikeunC+JJXEav0sZojg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EoNpC49i; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-53df63230d0so8048699e87.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Dec 2024 03:53:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733311751; x=1733916551; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cfpBFjF/TwkhQK2gM5/A5l3l5wHKSXh+Nldfgg5r75A=;
-        b=WPTOt9fPNBAN3qzujSdZKz6xU0fAHUj74jlCkIhRhQnPlXRmOnfnF5FpBa9PSyipS9
-         p2/pSse4lhVc8M1xOtLplLbhqXtgLukOyzj7/ITk58qEM6eDP8x5I/KhHoGGwKY0zVwi
-         FiKMbM/Bq+f8pVO18B0mYh09+UuNGRMwT0YEJ/k0ZXUGo9n6F/tHP6Zp0n+Jnr++Do4x
-         ICNbuZd8ARcLJExKf2UTvm9IM9WoxHzHeXRoobR2RMFf3TKNgdobqbMhrIsOSwrZkqtP
-         E7t6YmHVdtg0bUyWH+WQPdnQuaU6BA3DpsQ/TjolG1b3pcsX+pjcwHTujI3+RZvP9vLy
-         Uc0w==
+        d=linaro.org; s=google; t=1733313227; x=1733918027; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=eZi0lek4MKOQiatQagp7Ze6cVrkfo3z9JDWmy9BvIl4=;
+        b=EoNpC49iqnSXxy3g+/iJc5sXKcNUj8nRt65VVncMNqVOq6Z8LGi0UzVL4bMot0l4s1
+         Gg1pehfMd0zBFaEbbHM9NlYAJ5pY4pumIzJ8OSwdxKrLJp9ONWbZzLq0i0cEsoChIenL
+         LV/0Q884SC6XlLmoVXKnJhDrPtXbaiHnN8QpeJUZBkgGqCEdBOq/luxQhh7B4cy669N9
+         jtXq+vKMW5to27Uunpsw5hW8Mor3A4D7d6FnPJxFYGbBnjJoRXoCYBi7+gnhf2eeTHc+
+         7hDgTKNiTOgcj+jpcOYFW4p/hCkAFwGyQ9PZr92h/UHnSuQmep47WJ/IW5+0YfA7uzeT
+         BhLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733311751; x=1733916551;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cfpBFjF/TwkhQK2gM5/A5l3l5wHKSXh+Nldfgg5r75A=;
-        b=ipmcc+0y4I/2TXzlBTxWEahpgCGs33KJ7VeZv9G0SV1oiS3FnOsrb13jT+mOEibhOZ
-         QHfi73w0JV1uSJl6VYMzXBQwbiDfQcrVcoDoijpnel0BLYGsS50pZi2SSgxt1IEDINPv
-         LP0/R1CapQyCPv6/M0Ce/ucUMef73OJAf4roOyOAVUwaNtEPUsTGgsYu8VGNvnLSZoNf
-         bWNR72g1rSotlvouTu6NhjqDahSKkdW8HwmvIuKCqwFE8RK0ym6R1aWD6F8JnZb3OYMf
-         Ouo4/8cberDPNiI4pO8DBkg9La7lAGyrf9P0ZYO6ycQOk8hEAF+60weGmzAEQvgwuT4D
-         ORGw==
-X-Forwarded-Encrypted: i=1; AJvYcCUV1n4XCe6XB2OtDupPfnjf90dYQVqQsPkcRoVja+1p3gWUw0U5yBTRDP0XaEw6Yw32zTaCwYVEwrga3aSe@vger.kernel.org, AJvYcCVG7ckAQH29lWtf2hLdsQXQaLUGHoBL5g/uiN+bJTMdTKgK4q1XlNcDrzdv69+9GqcUpvXk/bfCG3Fe22LFNwnBxQ==@vger.kernel.org, AJvYcCWoay/JoeqRNw2mJUqYNK5oD6+4pnmPgDYAMKRtsYZiKfhDi/tj79UrZDl4I/EboGK6rvFNl7pvikA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzjvwsWi0SUy8p8hgMkh6qzZ7pKZIUS+zAvwhW/cgDWHIsb5J43
-	DKfCggNr6T9YpqEMdKd+9ItUGl9hZfUIhjr3BUd02JHIlHDJtSdFZtJE82nIAMUpbg2/E4WoCAi
-	k3JDLB9yTsfFJtue/E97xVIqvgGn0rSbT
-X-Gm-Gg: ASbGncvSpPPRe+z+arG/sMmE/0IZ2SyIS2MNeibjwfbG3eQuA0rHEaUe0UW8A6yFLyT
-	GSVXimXWy+rO4DixRs5tu0/29SjeuyDVQ
-X-Google-Smtp-Source: AGHT+IHHaW5QaBAVEehM24UabIxuHEshiAhyE0iLkgfBFJ/yaB943uJTFiV5ga+bj9flpDgJXv64mGLM+ulQU3nQgZw=
-X-Received: by 2002:a05:6122:925:b0:50d:5a12:9436 with SMTP id
- 71dfb90a1353d-515bf39dbc2mr8442373e0c.3.1733311751353; Wed, 04 Dec 2024
- 03:29:11 -0800 (PST)
+        d=1e100.net; s=20230601; t=1733313227; x=1733918027;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eZi0lek4MKOQiatQagp7Ze6cVrkfo3z9JDWmy9BvIl4=;
+        b=VSkUZsLvwmD2mk7LhvZNp3PrXbo5FvwKNq5VLIxps3zes2BewgFCYQLlMccbgn0MZB
+         QGVmGZngScpmhdhTNbwCBLF5lmlIXx2teiNYHXi2+C7PxJ3SEMHh3aHJWRkHA6UxLAl0
+         wk/fsnRa77ZqtGNe/vUQPYBCvnVnIzsbelYWoqJIO+gGseQ5sYvwZlwImdZv+2na/UbE
+         57iyM/9ovg9O1OnzIQ+GEFsmX8dAUJ2esKqcvAWXrg64tyjsGgomVTGKuQ0Dm/sNvnMJ
+         ukqThcPzG3HSvUTPkaW9SBtd71Ml3wfiEo01xsb1yUaThhj6hjhsxmjJIa/gtJhJDljJ
+         VtNA==
+X-Forwarded-Encrypted: i=1; AJvYcCWiTau8ZFRewHnmuI9Ophb7P8VpWkZjHxVGp1BRGW4f+BW1QIT436lFQi0fj7Pz6k73TpWCTPCo+6Bg6NpuxiLkmw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGj9BhK1fAd91kt0D4kSci+xNvUuuS2bm8ZLDajplOjCOhVKrw
+	4TM+dIpDmHIKUYkOtSlDT/2n5U3rAMNpa3wAaaUUV6u/gm3Qx8rKSUnmj4R6zSA=
+X-Gm-Gg: ASbGncun/Zws/tkhfz6Pjd1CBVylnIQUvPuvqlRp82GiW7UztuvoF+2Gy0lVQ1+8NNV
+	oKqb0vpyQpxA5Fv19SzoU4f6ilXgTk05ZYF4h0sQl44dda8yKzhP8+A4le2gEJJEHNKk6/0EQrG
+	/b1TWNWFSKCifn2EZ810f7ZcaNlOGMoo3XqU/w2IWmVMi30fSExG/K77GwsThgrzskRjGkTJG18
+	t33ZjCLBYWppvut1awQZb7TbHPARjGdjMTvSoOlpNMRvXBZeb0uTp/Ukf1BRBHA31QVhltJB279
+	Cv0xatCaVoJlkAVkoKg9KoNOnM/rRw==
+X-Google-Smtp-Source: AGHT+IFnxylvsEOR+9iXG9XQGFOsLGLuTUnH2Iuu/xJxK8JDRP9Lh4DwH23FiU4cCFdLCw17KMc73g==
+X-Received: by 2002:a05:6512:b85:b0:53d:ee75:1581 with SMTP id 2adb3069b0e04-53e12a35260mr2697093e87.50.1733313227235;
+        Wed, 04 Dec 2024 03:53:47 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53e1356906esm554232e87.15.2024.12.04.03.53.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Dec 2024 03:53:46 -0800 (PST)
+Date: Wed, 4 Dec 2024 13:53:44 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Tommaso Merciai <tomm.merciai@gmail.com>
+Cc: Liu Ying <victor.liu@nxp.com>, linux-renesas-soc@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, biju.das.jz@bp.renesas.com, 
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/bridge: ite-it6263: Support VESA input format
+Message-ID: <cnauwpk7myky6zbfcqg5335dqif4vmggzxlq554ye2bykb5iwh@ng4oxd2c5md3>
+References: <20241203172129.778123-1-tommaso.merciai.xr@bp.renesas.com>
+ <834a2690-ca06-4a8b-9a81-c4981074f95c@nxp.com>
+ <Z1Aw0WafGmYDrr8K@tom-desktop>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <e097e5c11afe5bd4c01135779c9a40e707ef6374.1733243287.git.geert+renesas@glider.be>
-In-Reply-To: <e097e5c11afe5bd4c01135779c9a40e707ef6374.1733243287.git.geert+renesas@glider.be>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 4 Dec 2024 11:28:45 +0000
-Message-ID: <CA+V-a8vWbQ2RQ2WJ8E8JMoK-2ZhMimS7cYzdT-7LmAFWWNr4Xg@mail.gmail.com>
-Subject: Re: [PATCH] serial: sh-sci: Use plain struct copy in early_console_setup()
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-serial@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-sh@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z1Aw0WafGmYDrr8K@tom-desktop>
 
-On Tue, Dec 3, 2024 at 4:30=E2=80=AFPM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
-> Using memcpy() prevents the compiler from doing any checking on the
-> types of the passed pointer parameters.  Copy the structure using struct
-> assignment instead, to increase type-safety.
->
-> No change in generated code on all relevant architectures
-> (arm/arm64/riscv/sh).
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  drivers/tty/serial/sh-sci.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Wed, Dec 04, 2024 at 11:37:05AM +0100, Tommaso Merciai wrote:
+> Hi Liu Ying,
+> Thanks for your review.
+> 
+> On Wed, Dec 04, 2024 at 11:34:23AM +0800, Liu Ying wrote:
+> > On 12/04/2024, tomm.merciai@gmail.com wrote:
+> > > From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> > > 
+> > > Introduce it6263_is_input_bus_fmt_valid() and refactor the
+> > > it6263_bridge_atomic_get_input_bus_fmts() function to support VESA
+> > > format by selecting the LVDS input format based on the LVDS data mapping
+> > > and thereby support both JEIDA and VESA input formats.
+> > 
+> > ite,it6263.yaml says IT6263 supports vesa-24 and vesa-30, while
+> > this patch actually only adds vesa-24 support.  So, to be more
+> > specific, the patch subject and commit message should reflect
+> > this rather than claim "Support VESA input format".
+> 
+> Fully agree, thanks.
+> I will fix that in v2 specifying vesa-24 like you suggest.
+> 
+> > 
+> > > 
+> > > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> > 
+> > Can you please send this patch with your Renesas email address
+> > instead of Gmail email address?
+> > Otherwise, add a Signed-off-by tag with your Gmail email address.
+> 
+> Thanks, for the point.
+> What about adding Acked-by: from my renesas email address?
 
-Cheers,
-Prabhakar
+Acked-by has a different meaning. I'd say that generally it's okay to
+have this light mismatch, see [1] or any of the emails that B4 generates
+for web-based submission.
 
-> diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-> index df523c7444230836..1ed13ce2c2952547 100644
-> --- a/drivers/tty/serial/sh-sci.c
-> +++ b/drivers/tty/serial/sh-sci.c
-> @@ -3542,7 +3542,7 @@ static int __init early_console_setup(struct earlyc=
-on_device *device,
->                 return -ENODEV;
->
->         device->port.type =3D type;
-> -       memcpy(&sci_ports[0].port, &device->port, sizeof(struct uart_port=
-));
-> +       sci_ports[0].port =3D device->port;
->         port_cfg.type =3D type;
->         sci_ports[0].cfg =3D &port_cfg;
->         sci_ports[0].params =3D sci_probe_regmap(&port_cfg);
-> --
-> 2.34.1
->
->
+[1] https://lore.kernel.org/dri-devel/20241121164858.457921-1-robdclark@gmail.com/
+
+> 
+
+-- 
+With best wishes
+Dmitry
 
