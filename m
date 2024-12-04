@@ -1,52 +1,52 @@
-Return-Path: <linux-renesas-soc+bounces-10907-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10908-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF349E3C7A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2024 15:17:04 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 524239E3C1B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2024 15:06:47 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0BAC2B39AAA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2024 14:04:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5C877166C05
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2024 14:06:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4436C1F7082;
-	Wed,  4 Dec 2024 14:04:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E762A1F7589;
+	Wed,  4 Dec 2024 14:05:52 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [195.130.132.52])
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4BC71E570E
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Dec 2024 14:03:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A30A61F7063
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Dec 2024 14:05:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733321040; cv=none; b=VgOwUQX0lklcOIbhXE+lrP2zDLxlEcpk/TgO7tPfKooF9to2PU/KaaKnL8vKskhQEVOXODc/rCzVNtt2nUSEEI9ejZqlpDUwz9jjwtcBR7mNPItDngnkBmoUyMhHBLF4ixi5+FnDi1XAFGTAR0iXbGuOE0cCZyw7y08iJPGAA5w=
+	t=1733321152; cv=none; b=aDgBT7B0PKcqdLxs3vNKwC5zWAe7VTFb83yoXUP/bNU2MlPLw0UtU3aoXW/72uvERleaEMKggTpiG05fKq/PQC0Uf6brDkooguPAtEUhvSpNHHDLvXtP5m1Ztf8R5Ok+MAsljGSrhhnk9E3gfvx6VB+YVG9e9nDCjZ92KDDF7mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733321040; c=relaxed/simple;
-	bh=v3JTuHYTHEgRfDJoAIrKFMf3V6Ys164Axxr4QPurcmA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eT1JO8xyGrVuKyImcyQkcRWjAc4AcWO/sJD73y6deWvtD6gZw82UGCZIQtfql0cHVNx+h5CiLFE0j1iDv9fC1WvEPH7XGxTD0dKdokCu9ha5+pF6lUrWybahXNzxYuPgVsYoSNumh+8FfuMb7gK++5//YAZd0HVur35WZmkqV7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.52
+	s=arc-20240116; t=1733321152; c=relaxed/simple;
+	bh=rzDkZhnNZDnr5nIpDSvDJlHH89L+/UoaIO9p5VdcsiE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WW2EYM7eNIvm8gvfvUF1fgkVlnPZuEviEItXCXpbzcv1NVYqrxoBiS4uiDxlalMzDpXFD3bWdTooKixUPhPI5b6FlHyO2V04uA5qFXi3KbW9AWz65PoJyNyXX6mELm0MuiGid79bhGZjDFoMLoP5wcsvLcVXb7Yx07VhWNZli9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:8249:563a:8153:89fa])
-	by xavier.telenet-ops.be with cmsmtp
-	id ke3p2D00K1ljHKM01e3pxJ; Wed, 04 Dec 2024 15:03:50 +0100
+	by albert.telenet-ops.be with cmsmtp
+	id ke5h2D00S1ljHKM06e5hos; Wed, 04 Dec 2024 15:05:41 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1tIpyn-000HEM-1z;
-	Wed, 04 Dec 2024 15:03:49 +0100
+	id 1tIq0a-000HEa-Nl;
+	Wed, 04 Dec 2024 15:05:41 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1tIpyn-00DJeY-O2;
-	Wed, 04 Dec 2024 15:03:49 +0100
+	id 1tIq0b-00DJfP-Dp;
+	Wed, 04 Dec 2024 15:05:41 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Magnus Damm <magnus.damm@gmail.com>
 Cc: linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH/LOCAL] arm64: renesas: defconfig: Refresh for v6.13-rc1
-Date: Wed,  4 Dec 2024 15:03:48 +0100
-Message-Id: <6c2212abecd41e99b0acff3620a0b11f76a7e942.1733320915.git.geert+renesas@glider.be>
+Subject: [PATCH/LOCAL] riscv: rzfive: defconfig: Refresh for v6.13-rc1
+Date: Wed,  4 Dec 2024 15:05:39 +0100
+Message-Id: <907bc1b1ac5cc5840da47f6d8204fd1213164644.1733321043.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -56,83 +56,50 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Refresh the defconfig for Renesas ARM64 systems:
-  - Disable HiSilicon Hip09 162100801 erratum support (not applicable),
-  - Drop CONFIG_ARM64_SME=n (marked broken in commit 81235ae0c846e1fb
-    ("arm64: Kconfig: Make SME depend on BROKEN for now")),
-  - Disable Hardware managed Access Flag for Table descriptors Feature
-    (FEAT_HAFT) support (Renesas SoCs do not have ARMv8.9 or ARMv9.4 CPU
-    cores,
-  - Disable Guarded Control Stack (GCS) support (Renesas SoCs do not
-    have ARMv9.4 CPU cores),
-  - Enable Renesas ISL28022 power monitor support, as used on the RZ/G3S
-    SMARC development board,
-  - Disable Chrome hardware platform support (not applicable),
-  - Enable RZ/G3S VBATTB clock controller support, as used on the RZ/G3S
-    SMARC SoM,
-  - Enable R-Car Gen4 E-FUSE support, as used on the Spider development
-    board.
+Refresh the defconfig for Renesas RZ/Five systems:
+  - Disable support for pointer masking in userspace (Supm) (RZ/Five
+    does not support the Supm extension),
+  - Disable RISC-V IOMMU Support (RZ/Five does not support the RISC-V
+    IOMMU architecture),
+  - Drop CONFIG_DEBUG_TIMEKEEPING=y (removed in commit d44d26987bb3df6d
+    ("timekeeping: Remove CONFIG_DEBUG_TIMEKEEPING")).
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 Not intended for upstream merge.
 To be applied to the topic/renesas-defconfig branch.
 
- arch/arm64/configs/renesas_defconfig | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ arch/riscv/configs/rzfive_defconfig | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/configs/renesas_defconfig b/arch/arm64/configs/renesas_defconfig
-index 24be37b05197b266..b6713b6f4b023b78 100644
---- a/arch/arm64/configs/renesas_defconfig
-+++ b/arch/arm64/configs/renesas_defconfig
-@@ -45,6 +45,7 @@ CONFIG_ARCH_RENESAS=y
- # CONFIG_CAVIUM_TX2_ERRATUM_219 is not set
- # CONFIG_FUJITSU_ERRATUM_010001 is not set
- # CONFIG_HISILICON_ERRATUM_161600802 is not set
-+# CONFIG_HISILICON_ERRATUM_162100801 is not set
- # CONFIG_QCOM_FALKOR_ERRATUM_1003 is not set
- # CONFIG_QCOM_FALKOR_ERRATUM_1009 is not set
- # CONFIG_QCOM_QDF2400_ERRATUM_0065 is not set
-@@ -66,7 +67,8 @@ CONFIG_COMPAT=y
- # CONFIG_ARM64_MTE is not set
- # CONFIG_ARM64_EPAN is not set
- # CONFIG_ARM64_POE is not set
--# CONFIG_ARM64_SME is not set
-+# CONFIG_ARM64_HAFT is not set
-+# CONFIG_ARM64_GCS is not set
- CONFIG_HIBERNATION=y
- CONFIG_WQ_POWER_EFFICIENT_DEFAULT=y
- CONFIG_CPU_IDLE=y
-@@ -193,6 +195,7 @@ CONFIG_PINCTRL_SINGLE=y
- CONFIG_GPIO_RCAR=y
- CONFIG_GPIO_PCA953X=y
- CONFIG_GPIO_BD9571MWV=y
-+CONFIG_SENSORS_ISL28022=y
- CONFIG_THERMAL=y
- CONFIG_CPU_THERMAL=y
- CONFIG_THERMAL_EMULATION=y
-@@ -366,12 +369,12 @@ CONFIG_VIRTIO_MMIO=y
- CONFIG_STAGING=y
- CONFIG_STAGING_MEDIA=y
- CONFIG_VIDEO_MAX96712=y
--CONFIG_CHROME_PLATFORMS=y
- CONFIG_COMMON_CLK_CS2000_CP=y
- CONFIG_COMMON_CLK_PWM=y
+diff --git a/arch/riscv/configs/rzfive_defconfig b/arch/riscv/configs/rzfive_defconfig
+index 1757d97e65c8f1bc..fe44f9cdc724c2ba 100644
+--- a/arch/riscv/configs/rzfive_defconfig
++++ b/arch/riscv/configs/rzfive_defconfig
+@@ -29,6 +29,7 @@ CONFIG_PROFILING=y
+ CONFIG_ARCH_RENESAS=y
+ CONFIG_ERRATA_SIFIVE=y
+ CONFIG_NONPORTABLE=y
++# CONFIG_RISCV_ISA_SUPM is not set
+ # CONFIG_RISCV_ISA_ZICBOM is not set
+ # CONFIG_EFI is not set
+ CONFIG_PM_AUTOSLEEP=y
+@@ -153,6 +154,7 @@ CONFIG_SYNC_FILE=y
  CONFIG_COMMON_CLK_VC3=y
- CONFIG_COMMON_CLK_VC5=y
- CONFIG_CLK_RCAR_USB2_CLOCK_SEL=y
-+CONFIG_CLK_RENESAS_VBATTB=y
- CONFIG_HWSPINLOCK=y
- # CONFIG_FSL_ERRATUM_A008585 is not set
- # CONFIG_HISILICON_ERRATUM_161010101 is not set
-@@ -416,6 +419,7 @@ CONFIG_PHY_R8A779F0_ETHERNET_SERDES=y
- CONFIG_PHY_RCAR_GEN3_PCIE=y
- CONFIG_PHY_RCAR_GEN3_USB2=y
- CONFIG_PHY_RCAR_GEN3_USB3=y
-+CONFIG_NVMEM_RCAR_EFUSE=y
- CONFIG_TEE=y
- CONFIG_OPTEE=y
- CONFIG_COUNTER=y
+ CONFIG_RENESAS_OSTM=y
+ CONFIG_MAILBOX=y
++# CONFIG_RISCV_IOMMU is not set
+ CONFIG_RPMSG_CHAR=y
+ CONFIG_RPMSG_CTRL=y
+ CONFIG_RPMSG_VIRTIO=y
+@@ -202,7 +204,6 @@ CONFIG_SOFTLOCKUP_DETECTOR=y
+ CONFIG_WQ_WATCHDOG=y
+ CONFIG_WQ_CPU_INTENSIVE_REPORT=y
+ # CONFIG_SCHED_DEBUG is not set
+-CONFIG_DEBUG_TIMEKEEPING=y
+ CONFIG_DEBUG_RT_MUTEXES=y
+ CONFIG_DEBUG_SPINLOCK=y
+ CONFIG_DEBUG_MUTEXES=y
 -- 
 2.34.1
 
