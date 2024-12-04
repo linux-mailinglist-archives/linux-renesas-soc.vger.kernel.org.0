@@ -1,77 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-10916-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10917-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AB5A9E3F08
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2024 17:02:23 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11B859E4001
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2024 17:44:45 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 63190166318
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2024 16:01:57 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2A916B2EDA1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2024 16:02:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1CF52144CF;
-	Wed,  4 Dec 2024 15:58:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C78821019B;
+	Wed,  4 Dec 2024 15:58:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="ESSoFeqg"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="jsPFp6Cw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D9E12144B5
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Dec 2024 15:58:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9BDC2144C3
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Dec 2024 15:58:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733327900; cv=none; b=UHSK0qJyT2qi5oIYZgcovQdRmER/6QDF82a7qsnDVDN9vTCBLLfWyc+ATVOXnPkn7zrC9AfNk5WfJLxeilKT1AFsLK1ytwalDrulcGtc6deT8QMMAvrUAJ07y4B5uClHwV97VaRDnaw5/gd6rzhwHub2QXgrzQEs57a1TtBFXjY=
+	t=1733327902; cv=none; b=plUaczS5Hq9dLLnlKuUktT8IxSKSTOhAH8Vw3jFuKh3rQp8O0u/UGUTOdxj1l+7TeMV5IyHzqizT5hFcT+V4gU18g9ImWFNWRusMbsvr/WFN3+np75NGGM76LDnL4F+gdLAHFxxNGFn/a6nvWL2Nr2+fKgwtzW+U9xrAh0V2QLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733327900; c=relaxed/simple;
-	bh=vd24ELPUpzIEthODLFQ5qLWi9e3qKvukCK4lkf0j1CA=;
+	s=arc-20240116; t=1733327902; c=relaxed/simple;
+	bh=ZT/xdjFLeWNNlsrj3Ue+9kz2Tfvcw+jWnO0VG76SBPI=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=pyPgbRS5rLyCH5k0CiM3Wwv0WU9lEClalWPxD3a74Z98ZHmU7ME2NTtYvW9PMP+uEalFCRdVR52Tlh57qaHTPGJNKoRtN805IusW47Z1WfuT5gMKBgmB8Ticr6WIMALZkX5JyYsPrBXP8DXYItQngfrmHrOXjpz6fM3bQf8ovzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=ESSoFeqg; arc=none smtp.client-ip=209.85.128.54
+	 MIME-Version; b=BP+jIvP5UKOuxp6JR5lZ9E5NqFj6Pfk+vu6Fc+z5dC9q2I3thO+eiTpR46wktJvx5lJYUaM6/cFjAlhYCNTGkYJy48S9kvOFk6iFLOjr9ImcI8ed8mkFoN4iecVw4JBJPMJLMsPrCuxaKHiwV4D+8iR2tBmDUJjERZoklec55Ds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=jsPFp6Cw; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-434a2f3bae4so64774135e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Dec 2024 07:58:18 -0800 (PST)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-434a45f05feso85299485e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Dec 2024 07:58:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1733327897; x=1733932697; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1733327899; x=1733932699; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YI/FcgkOifwXXzXlvk8zo5YFKecagbmROLu06ZFniA0=;
-        b=ESSoFeqgAkRcjblLHxccnALnvO5s38lf9FD0kZkU+b5gom6Rt3ekj1uZHNpyf1eJUn
-         ycfokj0PQ9TKic9L7JNu9vIZWevcIxJe6L2XHCzvBJtxTk+3XNBERDmrRObL9rAVKyK3
-         jqdRsmJ/cOuXrn2QlwpHPZnvKnlYzwMNhbL0ysUOBtIn2sFZAtn9KaLzNtmyO30ERFqU
-         Ma1rM/JWZkL6XgY+ocSkMMdeXFzmkIiibxO1JUT1bvetJaczP8jw0Dr7e2zWmge8IpmY
-         W8PG0t4FaV81W/RwsZUHVv1HoExjum8ND+0Qx3shNXKhTGNK/tBQLacc6szeTRwMqP1R
-         R9EQ==
+        bh=iw97V1HkeTfD3TObMHDloJkcKAuf8zzJLrBo8Fp9hAs=;
+        b=jsPFp6CwqnKs6uCZj8RfZB4mh0xEeb//7c9XjOdsA1BDzN9VodpgLMN2ZosSzFum0/
+         Zh/lGILkVfTCf8WCcNyqAlTQRsUJjQVbkCcpVhQCfNwudGaX3SE+7ux+3iICm8I6YkyD
+         60U9RE/5CsWtjqsN0xQH+vevlKffzMMRlww0M47K0rdI4CVaT/erh/imD7V7XhqjqZci
+         XKXSPM995v3aVclBenxpH88qx9REPXjU3UI5o/WKYMDQBMWl2uL+l5nRQKoO8IeCYocl
+         bOUGPLtPDr5KC8pF2TPZXcK8VLeOzczMMfpO5AwuIvPzr49Y5tOVuVx2smAp99f4vKIG
+         lEHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733327897; x=1733932697;
+        d=1e100.net; s=20230601; t=1733327899; x=1733932699;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YI/FcgkOifwXXzXlvk8zo5YFKecagbmROLu06ZFniA0=;
-        b=aMx4zD4L+xAv/hEPtlZYZ/p77JCoCtmb52cYmFg8NnXOF5d7sWvLBMx5PFJBIPrnj5
-         yqVHnBAI4FC7hVMPNfrQHpgaDVPaCirl4o0IknA9lqU3fLBV3NuIghNOc2xbgNPPcsBQ
-         mysP2/srq4y/Cpkv8oluLnYPUsO2ZtvLHejieoTDpmVXbGp6DHzpXLfEfu9NKtuVyMh6
-         yRzWyr2cgJOQDtUd+haveo9+qbu7zmzkhb7Eg4wxbC5cmvrh8CanCjZlEAk5HF5wZi6e
-         6yMDkkH2j7tGNZdNMUymaEsK4ROMSxRKeaS2iT8KwiEYAIzlIzZ6TMz7xw35fufzTDtT
-         T4vw==
-X-Forwarded-Encrypted: i=1; AJvYcCXuJC5YVuW4hddIf6Qse4gbdB4tscHrV5oPkWAwuk8cMS8/liJ4IYXkjkeCkompjlF03bu/za5E346yJR5ii7mehw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0BgZ9977SNmZzeSdJDf/0v+f6LeL2qBBTINXCOVW5u760q9MN
-	TPHuYYvgoOnYLEUBDKRCIUVbCjF6HnxpA2GtUA9UdhgVjJ03cypN8v63k6Jbci0=
-X-Gm-Gg: ASbGncsZ12rMYgXRNVOnXf330sI6pFUMG1D5uJoGFK1gjSX29JUEzlMpCGpVXDTNTj6
-	vLhSVe8UWOlnSTr10aP50T/SjMpINB83vwwyptJdLxtGpJkJL8hdITwuW1DTFwajuErdbmX5f/r
-	IQrT4E4eaGdVN+duCIM5IA0bcA9r4dxNLhRjBHllUVyvsHQl6ZFjJyFkNK1p/hklvGwwHO5sxzH
-	5m75cb9O22rnE5h4avw7zGs0b587s3LF7uLUGM4sCSQmcRZeHWc1lBcYGkV7vbytHHDO7wlqp11
-	AnV2
-X-Google-Smtp-Source: AGHT+IGPLwKQh57Ead8RRrh1gxEVt29W9QxQJZdC/e01yLZTzadTaRF9r6H13On42Alm4HnNGJ6b+A==
-X-Received: by 2002:a05:600c:19d1:b0:434:a765:7f9c with SMTP id 5b1f17b1804b1-434d09acf91mr62725955e9.6.1733327897506;
-        Wed, 04 Dec 2024 07:58:17 -0800 (PST)
+        bh=iw97V1HkeTfD3TObMHDloJkcKAuf8zzJLrBo8Fp9hAs=;
+        b=SmjCsq3NLywkLHFGkQd4tpJNxo6ZvQ3XPxeVg4qnE6aWWlmQFgTSlOebDFBetFFDBO
+         hD0cFVAdaD531TyoG0eKI3hGBMeUpobHUUrNP5HY9TILrQoubHmxE3F2LuB2VpuHCOuo
+         uzPgyUDgsBO+vlslCpN7k1ug5Ckbhvo1M1FX8E+WppMOfES4qVjGWmtaJGimSbE0scSN
+         0t3nFYnWzpMX95laLj1G037Krk8Yj4vhkzeesvtuyia+Q9qwa9kCgnBU2YIMncKXYcz6
+         NCqQqfqPb2PD8cn8Qi6h+ydieozCm7pyGBzRKeLiW/VCccb1CzGCHYcjvt4s62JTRFmk
+         KImg==
+X-Forwarded-Encrypted: i=1; AJvYcCVqDJK4LPe1BB1FYTelgZ74ISwWEgMtsPOc1v9DBCtIE+DuoADa+s+3USL+LW+rAhDHdkX46mGseo+ZfRyxV5PWtQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGozZzjC/1uUICsgc0p6ZKDX0FzZ1+H66cNul7f2hHs/Ib3PS5
+	LTVST6EjxwAYJOJZASiYSjZtXHjtbrANzANq6K+90gcoKrk7JccOE+Xb06rEwxk=
+X-Gm-Gg: ASbGncvGT4vQQHgs3wleRJHwf/CHi9oQgOZS9i5AlPNb3SpxaQ+BMnQMTAMM+4mq8HJ
+	JQSOfJSi7WEHfqlXc3VRaoyA4IgLqnxpeRpECXVL/PXydW3Lr32vojvNeWDyGFx+gjv0LrSdta0
+	aSZuWf5QUiO701+JRrvfazhHnQWCrz4pTIB/myqtLyEomvoJsaEPYfb3iMVm0gfDsE8Ox9NEmMn
+	5laxAlqUcjJ+8qof7w9gYRK09De2lXB9+xxLe+16FErVxCECZOsBtmhTm2B0RQ55CQBCiF3qYa4
+	Hz0v
+X-Google-Smtp-Source: AGHT+IEdO01rXNTKKymFk0tOKPPstS1yxCCBYj396aNVH1MZSrtaciEZJPkmPj7/r7/fpuguB+UslA==
+X-Received: by 2002:a05:600c:4593:b0:434:9ec0:9e4e with SMTP id 5b1f17b1804b1-434d0a28531mr77312675e9.30.1733327899104;
+        Wed, 04 Dec 2024 07:58:19 -0800 (PST)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.161])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434d52b5677sm29043695e9.37.2024.12.04.07.58.16
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434d52b5677sm29043695e9.37.2024.12.04.07.58.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 07:58:16 -0800 (PST)
+        Wed, 04 Dec 2024 07:58:18 -0800 (PST)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: gregkh@linuxfoundation.org,
@@ -89,11 +89,10 @@ Cc: claudiu.beznea@tuxon.dev,
 	linux-kernel@vger.kernel.org,
 	linux-serial@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	stable@vger.kernel.org
-Subject: [PATCH RFT 2/6] serial: sh-sci: Drop __initdata macro for port_cfg
-Date: Wed,  4 Dec 2024 17:58:02 +0200
-Message-Id: <20241204155806.3781200-3-claudiu.beznea.uj@bp.renesas.com>
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH RFT 3/6] serial: sh-sci: Move runtime PM enable to sci_probe_single()
+Date: Wed,  4 Dec 2024 17:58:03 +0200
+Message-Id: <20241204155806.3781200-4-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20241204155806.3781200-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20241204155806.3781200-1-claudiu.beznea.uj@bp.renesas.com>
@@ -107,32 +106,75 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-The port_cfg object is used by serial_console_write(), which serves as
-the write function for the earlycon device. Marking port_cfg as __initdata
-causes it to be freed after kernel initialization, resulting in earlycon
-becoming unavailable thereafter. Remove the __initdata macro from port_cfg
-to resolve this issue.
+Relocate the runtime PM enable operation to sci_probe_single(). This change
+prepares the codebase for upcoming fixes.
 
-Fixes: dd076cffb8cd ("serial: sh-sci: Fix init data attribute for struct 'port_cfg'")
-Cc: stable@vger.kernel.org
+While at it, replace the existing logic with a direct call to
+devm_pm_runtime_enable() and remove sci_cleanup_single(). The
+devm_pm_runtime_enable() function automatically handles disabling runtime
+PM during driver removal.
+
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
- drivers/tty/serial/sh-sci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/tty/serial/sh-sci.c | 17 +++++------------
+ 1 file changed, 5 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-index 924b803af440..4f5da3254420 100644
+index 4f5da3254420..373195995d3b 100644
 --- a/drivers/tty/serial/sh-sci.c
 +++ b/drivers/tty/serial/sh-sci.c
-@@ -3562,7 +3562,7 @@ sh_early_platform_init_buffer("earlyprintk", &sci_driver,
- 			   early_serial_buf, ARRAY_SIZE(early_serial_buf));
- #endif
- #ifdef CONFIG_SERIAL_SH_SCI_EARLYCON
--static struct plat_sci_port port_cfg __initdata;
-+static struct plat_sci_port port_cfg;
+@@ -3056,10 +3056,6 @@ static int sci_init_single(struct platform_device *dev,
+ 		ret = sci_init_clocks(sci_port, &dev->dev);
+ 		if (ret < 0)
+ 			return ret;
+-
+-		port->dev = &dev->dev;
+-
+-		pm_runtime_enable(&dev->dev);
+ 	}
  
- static int __init early_console_setup(struct earlycon_device *device,
- 				      int type)
+ 	port->type		= p->type;
+@@ -3086,11 +3082,6 @@ static int sci_init_single(struct platform_device *dev,
+ 	return 0;
+ }
+ 
+-static void sci_cleanup_single(struct sci_port *port)
+-{
+-	pm_runtime_disable(port->port.dev);
+-}
+-
+ #if defined(CONFIG_SERIAL_SH_SCI_CONSOLE) || \
+     defined(CONFIG_SERIAL_SH_SCI_EARLYCON)
+ static void serial_console_putchar(struct uart_port *port, unsigned char ch)
+@@ -3260,8 +3251,6 @@ static void sci_remove(struct platform_device *dev)
+ 	sci_ports_in_use &= ~BIT(port->port.line);
+ 	uart_remove_one_port(&sci_uart_driver, &port->port);
+ 
+-	sci_cleanup_single(port);
+-
+ 	if (port->port.fifosize > 1)
+ 		device_remove_file(&dev->dev, &dev_attr_rx_fifo_trigger);
+ 	if (type == PORT_SCIFA || type == PORT_SCIFB || type == PORT_HSCIF)
+@@ -3425,6 +3414,11 @@ static int sci_probe_single(struct platform_device *dev,
+ 	if (ret)
+ 		return ret;
+ 
++	sciport->port.dev = &dev->dev;
++	ret = devm_pm_runtime_enable(&dev->dev);
++	if (ret)
++		return ret;
++
+ 	sciport->gpios = mctrl_gpio_init(&sciport->port, 0);
+ 	if (IS_ERR(sciport->gpios))
+ 		return PTR_ERR(sciport->gpios);
+@@ -3440,7 +3434,6 @@ static int sci_probe_single(struct platform_device *dev,
+ 
+ 	ret = uart_add_one_port(&sci_uart_driver, &sciport->port);
+ 	if (ret) {
+-		sci_cleanup_single(sciport);
+ 		return ret;
+ 	}
+ 
 -- 
 2.39.2
 
