@@ -1,150 +1,198 @@
-Return-Path: <linux-renesas-soc+bounces-10922-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-10925-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFE8D9E3F60
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2024 17:12:58 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A27B29E40BA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2024 18:10:41 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B597416331C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2024 17:10:27 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA9AA202C4F;
+	Wed,  4 Dec 2024 17:00:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ni5wsxV7"
+X-Original-To: linux-renesas-soc@vger.kernel.org
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6B76F281189
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2024 16:12:57 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 821C02941C;
-	Wed,  4 Dec 2024 16:12:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="WBedOOG/"
-X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C95015B10D
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Dec 2024 16:12:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A14A202C44;
+	Wed,  4 Dec 2024 17:00:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733328775; cv=none; b=YaiGmxcHbll3ZZ3cEHw1NMdhyxSkuNw34TXBC8xVtCFY2ewXVTzG7GDQP6pB0Jdop6IBcvnYUrM5JAkhtgvPIhpGyAs8d/z7MWP/LQ//p3Bgt5T2FPgdXtohHW+IB3evnWEgnMcRQYCornJCm5javXN3IBb3JAlGOaF4QGRIyMw=
+	t=1733331615; cv=none; b=BhoPZ6DNJWf+o5t2lEVN9EYpNkfT7bMkHaSz60eRCtrrRJJabJlBwzt5Wchp0f8KkoRMopPe5dSR/X/2LmLRvSGmFg0v6Nl6dhNlihw85omNT84CFNMMhfIdEmsDWlAoQsbaKLM3pudsVy/1C6pcy2YSZFIch0tBBSZ1uE+JVT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733328775; c=relaxed/simple;
-	bh=WMotf16BNP2hl+VFEpZRiKSDivn8XEcTtqQ7ghZ/DsY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EJuQ/VNeIymygFVqiv7f8x6M8UeyAk/xlxb49fflTnol/hpSM5fuhYGYPWvzY5pl0aKAmrd0G3xIeYRS5K8xvPTS0Mmg9mhSnSl2Nacu9MTZJz1ttRXJPqiEhBWV7YXtghsXYn9YuY5olOyF1G0Ua7ZwVZhZZ3GY3YVsoP4Z8Sc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=WBedOOG/; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-434a2f3bae4so64936815e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Dec 2024 08:12:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1733328771; x=1733933571; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hQTQKeCKhE7MCIO8rjYyScRAwZVqxhfCtHNY0N/EVfU=;
-        b=WBedOOG/+cUqDyNvxcPeikjnyJG+pPqA8DckCC0q0CIKPZWjBx5842PCKtvmVNA9Di
-         d5CtgrbUrbJCWw6VBQodsnNaQxYilSxj/l5C+PGyQs+Meih5jpzZ7ZmqPXQU6MkwAkWm
-         Dr7lbIirLOZxq8XN4sFN3LpBvGL+afxcw51SYWc6hud4nrDpkgO2CJ5mtkojNoLH7C4z
-         nQqJEcquknH3baW1JWspGUPPFcCMSH8DCMWPGneTwfcMoq7ASaMlGVdimQcvrlEsIZS8
-         zGHX1/eGn2nRAgQw8zgQoV2bcgabENqChk9FKLWKqQfFpy4XctzjZtWQN3/9ejOSEuC0
-         BDoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733328771; x=1733933571;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hQTQKeCKhE7MCIO8rjYyScRAwZVqxhfCtHNY0N/EVfU=;
-        b=fT6ay/rjU8JInArHziK8ggCTI9E5mceoIDuev9zWi19C6SHA6p8HHYt8Vzdk+pruqM
-         CfuplpQEaKzhMmQChMxie4vw2ZwviM57MdQa+W1RXOsq0O7cn52zYHTc3wBUA+t5CE6W
-         mj82bexOCHjrzNJfljyix5PXqQV7aYYSh60I/pkdDZxA3cjTcY9mIfNsZ2OBvZRj5JWZ
-         7I/0U8ZIszcFZiEaYGtX5Da9fi4Fj7tQ4zlPmAFwjOnbpyAHLcod1EvEiVSg4aycTf7T
-         me77xH1ZCA/gQO+pheb832m38X7tg6sI41OCRF26XrVCkFAb+b5VdKqG4JRg8CILj/zs
-         Al+A==
-X-Forwarded-Encrypted: i=1; AJvYcCVyeJ4ZRe+XAvBL2l7hEHe1qq+jWwHMywkfsRJK8qQ7yCdHpSG7sSitesC40pG77p1teM206gE1DlzOu/V8cugxFQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJq/SKk7kp3Ncu5Q0jx4leikhabXiRWJUZuOpSzgJTfWIOLbSJ
-	qexMPpVKQGIJQ+jERveOILDgLPrX0dHInuk5XcQ9cdy6cbWJ9Xk5TNIJkqkmB+4=
-X-Gm-Gg: ASbGncsYVhBvmax91SlwiCQ05oOKXIvJe6ewD3hnYofbCv7bK4cFzHcbiNuS66sUZui
-	WLy3JtQ4LxujC4ApavHoVnnFo38iisigz92JvQiqHBZUcFQrTBWZ1F3c2wYi+wG4wZWIW5UkZZ2
-	nG4oLGfuMkoyhfJ9PoR9oqvhIoPyQdDztv2U3VIbMfYK9WXRFo/k8Vpf9RzKDqeogTJQsrJF/1X
-	FZG8cdMi7T3xfp3YqFFhF4ECNzcBN6Y7AakfWs2nv/a0QVAlARmNd47w44=
-X-Google-Smtp-Source: AGHT+IHSduioKZEL8oXnhOPYaiOLYjsifTz/WCnsJQmND2DTXtSP9onkHLbSag5wfD9W0f7uppzcdg==
-X-Received: by 2002:a05:600c:3550:b0:434:a781:f5d5 with SMTP id 5b1f17b1804b1-434d0a15047mr70591065e9.30.1733328770818;
-        Wed, 04 Dec 2024 08:12:50 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.161])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385e3b99249sm13430700f8f.88.2024.12.04.08.12.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Dec 2024 08:12:50 -0800 (PST)
-Message-ID: <ae80262c-82c6-466f-bbcf-90ba3551dabc@tuxon.dev>
-Date: Wed, 4 Dec 2024 18:12:49 +0200
+	s=arc-20240116; t=1733331615; c=relaxed/simple;
+	bh=PrS5dMApRuvYtyE1/G9FbY88WGrmssJalLtkRCLFrXg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=d1d2JEFUdnumBHs8krHiYsG93NuPtpjiffTpn/xGYdttH81BiiCrVJVuk+OujbP6N6wwtqW48eyHdpFQxCxRP5BPaBjUo6S8fJS135EhhO+O/d2LUjkZXOtXWEq+Uo4ljfzFvGQhwPhJO/H8GQ0EBkhFATbvANGK2eOPsX8REk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ni5wsxV7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9C56C4CECD;
+	Wed,  4 Dec 2024 17:00:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733331615;
+	bh=PrS5dMApRuvYtyE1/G9FbY88WGrmssJalLtkRCLFrXg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Ni5wsxV7DiLLTobBia7tM2LkD/0vkHhNBmNQrL8U+FSNr8LHr23Xt1NsQUE5VRvxg
+	 D3Jf7PAo9vR2IvNiodpwx0T0zLRBX8193m9BGijJTGeiJzjwQbY8puCi9D7Qpg4YTi
+	 L7RHgp9HK3wiXcHui7VD80Xz6BJtJt7d7F99O7kqEK+H3QbUngbq54x98PRvXdsA0/
+	 5VqwMUdADkZ7J4gIGrknoWX/MGanqWbawSIFiQ/jWuJEjwY5ZjvlR4Ejo+/MDkV9ln
+	 ty5ZNs/p4DRkveCOMp7z+COn3QLLc+rJpDcSDcK+ebNCSsRvwf9N3A4qoMj83B5tNQ
+	 13S3Y7GvlYEoA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Bart Van Assche <bvanassche@acm.org>,
+	Avri Altman <Avri.Altman@wdc.com>,
+	Peter Wang <peter.wang@mediatek.com>,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	Sasha Levin <sashal@kernel.org>,
+	James.Bottomley@HansenPartnership.com,
+	yoshihiro.shimoda.uh@renesas.com,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com,
+	avri.altman@wdc.com,
+	manivannan.sadhasivam@linaro.org,
+	ahalaney@redhat.com,
+	beanhuo@micron.com,
+	quic_mnaresh@quicinc.com,
+	ebiggers@google.com,
+	minwoo.im@samsung.com,
+	linux-scsi@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.11 13/33] scsi: ufs: core: Make DMA mask configuration more flexible
+Date: Wed,  4 Dec 2024 10:47:26 -0500
+Message-ID: <20241204154817.2212455-13-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241204154817.2212455-1-sashal@kernel.org>
+References: <20241204154817.2212455-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] serial: sh-sci: Use plain struct copy in
- early_console_setup()
-Content-Language: en-US
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc: linux-serial@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-sh@vger.kernel.org
-References: <e097e5c11afe5bd4c01135779c9a40e707ef6374.1733243287.git.geert+renesas@glider.be>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <e097e5c11afe5bd4c01135779c9a40e707ef6374.1733243287.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.11.10
+Content-Transfer-Encoding: 8bit
 
-Hi, Geert,
+From: Bart Van Assche <bvanassche@acm.org>
 
-On 03.12.2024 18:30, Geert Uytterhoeven wrote:
-> Using memcpy() prevents the compiler from doing any checking on the
-> types of the passed pointer parameters.  Copy the structure using struct
-> assignment instead, to increase type-safety.
-> 
-> No change in generated code on all relevant architectures
-> (arm/arm64/riscv/sh).
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+[ Upstream commit 78bc671bd1501e2f6c571e063301a4fdc5db53b2 ]
 
-I've tested this on RZ/G3S on top of series at [1] and device tree + clock
-patches from [2], with renesas_defconfig and with upstream config, in the
-following scenarios:
+Replace UFSHCD_QUIRK_BROKEN_64BIT_ADDRESS with
+ufs_hba_variant_ops::set_dma_mask.  Update the Renesas driver
+accordingly.  This patch enables supporting other configurations than
+32-bit or 64-bit DMA addresses, e.g. 36-bit DMA addresses.
 
-1/ "earlycon keep_bootcon" in bootargs
-2/ "earlycon" in bootargs
-3/ none of the "earlycon keep_bootcon", "earlycon" in bootargs
+Signed-off-by: Bart Van Assche <bvanassche@acm.org>
+Link: https://lore.kernel.org/r/20241018194753.775074-1-bvanassche@acm.org
+Reviewed-by: Avri Altman <Avri.Altman@wdc.com>
+Reviewed-by: Peter Wang <peter.wang@mediatek.com>
+Signed-off-by: Martin K. Petersen <martin.petersen@oracle.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/ufs/core/ufshcd.c      | 4 ++--
+ drivers/ufs/host/ufs-renesas.c | 9 ++++++++-
+ include/ufs/ufshcd.h           | 9 +++------
+ 3 files changed, 13 insertions(+), 9 deletions(-)
 
-All good!
+diff --git a/drivers/ufs/core/ufshcd.c b/drivers/ufs/core/ufshcd.c
+index 03490f062d63a..5c64ef7334546 100644
+--- a/drivers/ufs/core/ufshcd.c
++++ b/drivers/ufs/core/ufshcd.c
+@@ -2398,8 +2398,6 @@ static inline int ufshcd_hba_capabilities(struct ufs_hba *hba)
+ 	int err;
+ 
+ 	hba->capabilities = ufshcd_readl(hba, REG_CONTROLLER_CAPABILITIES);
+-	if (hba->quirks & UFSHCD_QUIRK_BROKEN_64BIT_ADDRESS)
+-		hba->capabilities &= ~MASK_64_ADDRESSING_SUPPORT;
+ 
+ 	/* nutrs and nutmrs are 0 based values */
+ 	hba->nutrs = (hba->capabilities & MASK_TRANSFER_REQUESTS_SLOTS_SDB) + 1;
+@@ -10314,6 +10312,8 @@ EXPORT_SYMBOL_GPL(ufshcd_dealloc_host);
+  */
+ static int ufshcd_set_dma_mask(struct ufs_hba *hba)
+ {
++	if (hba->vops && hba->vops->set_dma_mask)
++		return hba->vops->set_dma_mask(hba);
+ 	if (hba->capabilities & MASK_64_ADDRESSING_SUPPORT) {
+ 		if (!dma_set_mask_and_coherent(hba->dev, DMA_BIT_MASK(64)))
+ 			return 0;
+diff --git a/drivers/ufs/host/ufs-renesas.c b/drivers/ufs/host/ufs-renesas.c
+index 8711e5cbc9680..3ff97112e1f6d 100644
+--- a/drivers/ufs/host/ufs-renesas.c
++++ b/drivers/ufs/host/ufs-renesas.c
+@@ -7,6 +7,7 @@
+ 
+ #include <linux/clk.h>
+ #include <linux/delay.h>
++#include <linux/dma-mapping.h>
+ #include <linux/err.h>
+ #include <linux/iopoll.h>
+ #include <linux/kernel.h>
+@@ -364,14 +365,20 @@ static int ufs_renesas_init(struct ufs_hba *hba)
+ 		return -ENOMEM;
+ 	ufshcd_set_variant(hba, priv);
+ 
+-	hba->quirks |= UFSHCD_QUIRK_BROKEN_64BIT_ADDRESS | UFSHCD_QUIRK_HIBERN_FASTAUTO;
++	hba->quirks |= UFSHCD_QUIRK_HIBERN_FASTAUTO;
+ 
+ 	return 0;
+ }
+ 
++static int ufs_renesas_set_dma_mask(struct ufs_hba *hba)
++{
++	return dma_set_mask_and_coherent(hba->dev, DMA_BIT_MASK(32));
++}
++
+ static const struct ufs_hba_variant_ops ufs_renesas_vops = {
+ 	.name		= "renesas",
+ 	.init		= ufs_renesas_init,
++	.set_dma_mask	= ufs_renesas_set_dma_mask,
+ 	.setup_clocks	= ufs_renesas_setup_clocks,
+ 	.hce_enable_notify = ufs_renesas_hce_enable_notify,
+ 	.dbg_register_dump = ufs_renesas_dbg_register_dump,
+diff --git a/include/ufs/ufshcd.h b/include/ufs/ufshcd.h
+index 0fd2aebac7286..3fee38029bfee 100644
+--- a/include/ufs/ufshcd.h
++++ b/include/ufs/ufshcd.h
+@@ -298,6 +298,8 @@ struct ufs_pwr_mode_info {
+  * @max_num_rtt: maximum RTT supported by the host
+  * @init: called when the driver is initialized
+  * @exit: called to cleanup everything done in init
++ * @set_dma_mask: For setting another DMA mask than indicated by the 64AS
++ *	capability bit.
+  * @get_ufs_hci_version: called to get UFS HCI version
+  * @clk_scale_notify: notifies that clks are scaled up/down
+  * @setup_clocks: called before touching any of the controller registers
+@@ -340,6 +342,7 @@ struct ufs_hba_variant_ops {
+ 	int	(*init)(struct ufs_hba *);
+ 	void    (*exit)(struct ufs_hba *);
+ 	u32	(*get_ufs_hci_version)(struct ufs_hba *);
++	int	(*set_dma_mask)(struct ufs_hba *);
+ 	int	(*clk_scale_notify)(struct ufs_hba *, bool,
+ 				    enum ufs_notify_change_status);
+ 	int	(*setup_clocks)(struct ufs_hba *, bool,
+@@ -622,12 +625,6 @@ enum ufshcd_quirks {
+ 	 */
+ 	UFSHCD_QUIRK_SKIP_PH_CONFIGURATION		= 1 << 16,
+ 
+-	/*
+-	 * This quirk needs to be enabled if the host controller has
+-	 * 64-bit addressing supported capability but it doesn't work.
+-	 */
+-	UFSHCD_QUIRK_BROKEN_64BIT_ADDRESS		= 1 << 17,
+-
+ 	/*
+ 	 * This quirk needs to be enabled if the host controller has
+ 	 * auto-hibernate capability but it's FASTAUTO only.
+-- 
+2.43.0
 
-Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-
-Thank you,
-Claudiu
-
-[1]
-https://lore.kernel.org/all/20241204155806.3781200-1-claudiu.beznea.uj@bp.renesas.com/
-[2]
-https://lore.kernel.org/all/20241115134401.3893008-1-claudiu.beznea.uj@bp.renesas.com/
-
-> ---
->  drivers/tty/serial/sh-sci.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-> index df523c7444230836..1ed13ce2c2952547 100644
-> --- a/drivers/tty/serial/sh-sci.c
-> +++ b/drivers/tty/serial/sh-sci.c
-> @@ -3542,7 +3542,7 @@ static int __init early_console_setup(struct earlycon_device *device,
->  		return -ENODEV;
->  
->  	device->port.type = type;
-> -	memcpy(&sci_ports[0].port, &device->port, sizeof(struct uart_port));
-> +	sci_ports[0].port = device->port;
->  	port_cfg.type = type;
->  	sci_ports[0].cfg = &port_cfg;
->  	sci_ports[0].params = sci_probe_regmap(&port_cfg);
 
